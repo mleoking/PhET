@@ -25,8 +25,10 @@ public class ResourceDeployServer implements IProguardKeepClass {
     private String resourceDestination;
     private String[] sims;
     private File backupDir;
+    private String mode;
     private boolean onlyAllJARs;
     private boolean generateJARs;
+    private boolean copySWFs;
     private File testDir;
 
     public ResourceDeployServer( String jarCommand, File buildLocalProperties, File resourceDir ) {
@@ -36,7 +38,7 @@ public class ResourceDeployServer implements IProguardKeepClass {
 
         BuildLocalProperties.initFromPropertiesFile( buildLocalProperties );
 
-        File propertiesFile = new File( resourceDir, "resource/resource.properties" );
+        File propertiesFile = ResourceDeployUtils.getResourceProperties( resourceDir );
         Properties properties = new Properties();
 
         try {
@@ -49,7 +51,7 @@ public class ResourceDeployServer implements IProguardKeepClass {
         }
 
         String resourceFilename = properties.getProperty( "resourceFile" );
-        resourceFile = new File( resourceDir, "resource/" + resourceFilename );
+        resourceFile = new File( ResourceDeployUtils.getResourceSubDir( resourceDir ), resourceFilename );
 
         if ( !resourceFile.exists() ) {
             System.out.println( "Cannot locate resource file, aborting" );
@@ -60,8 +62,22 @@ public class ResourceDeployServer implements IProguardKeepClass {
         if ( resourceDestination.startsWith( "/" ) ) {
             resourceDestination = resourceDestination.substring( 1 );
         }
-        onlyAllJARs = properties.getProperty( "onlyAllJARs" ).equals( "true" );
-        generateJARs = properties.getProperty( "generateJARs" ).equals( "true" );
+
+        mode = properties.getProperty( "mode" );
+        if ( mode.equals( "java" ) ) {
+            onlyAllJARs = true;
+            generateJARs = true;
+            copySWFs = false;
+        }
+        else if ( mode.equals( "flash" ) ) {
+            onlyAllJARs = false;
+            generateJARs = false;
+            copySWFs = true;
+        }
+
+        // unused, replaced with mode (see above)
+        //onlyAllJARs = properties.getProperty( "onlyAllJARs" ).equals( "true" );
+        //generateJARs = properties.getProperty( "generateJARs" ).equals( "true" );
 
         String simsString = properties.getProperty( "sims" );
         sims = simsString.split( "," );
@@ -92,6 +108,10 @@ public class ResourceDeployServer implements IProguardKeepClass {
 
             System.out.println( "*** Copying extra files" );
             copyExtras();
+
+            if ( copySWFs ) {
+                copyFlashSWFs();
+            }
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -141,7 +161,7 @@ public class ResourceDeployServer implements IProguardKeepClass {
     }
 
     private void copyTestJARs() throws IOException, InterruptedException {
-        testDir = new File( resourceDir, "test" );
+        testDir = ResourceDeployUtils.getTestDir( resourceDir );
         testDir.mkdir();
 
         for ( int i = 0; i < sims.length; i++ ) {
@@ -228,7 +248,7 @@ public class ResourceDeployServer implements IProguardKeepClass {
 
     private void backupExtras() throws IOException {
         File liveDir = getLiveSimsDir();
-        File extrasDir = new File( resourceDir, "extras" );
+        File extrasDir = ResourceDeployUtils.getExtrasDir( resourceDir );
         if ( !extrasDir.exists() ) {
             return;
         }
@@ -261,7 +281,7 @@ public class ResourceDeployServer implements IProguardKeepClass {
     }
 
     private void copyExtras() throws IOException {
-        File extrasDir = new File( resourceDir, "extras" );
+        File extrasDir = ResourceDeployUtils.getExtrasDir( resourceDir );
         if ( !extrasDir.exists() ) {
             return;
         }
@@ -283,6 +303,32 @@ public class ResourceDeployServer implements IProguardKeepClass {
 
                 FileUtils.copyToDir( extraFile, testExtraDir );
             }
+        }
+    }
+
+    private void copyFlashSWFs() throws IOException {
+        File[] testSimDirs = testDir.listFiles();
+
+        for ( int i = 0; i < testSimDirs.length; i++ ) {
+            File testSimDir = testSimDirs[i];
+            String sim = testSimDir.getName();
+            File backupSimDir = new File( backupDir, sim );
+            backupSimDir.mkdirs();
+            File liveSimDir = new File( ResourceDeployUtils.getLiveSimsDir( resourceDir ), sim );
+
+            File swfFile = new File( liveSimDir, sim + ".swf" );
+
+            if ( !swfFile.exists() ) {
+                System.out.println( "WARNING: sim SWF doesn't exist: " + sim + "/" + swfFile.getName() + " at expected location " + swfFile.getAbsolutePath() );
+                continue;
+            }
+
+            // copy the SWF to the test dir so that we can test the new generated HTMLs
+            FileUtils.copyToDir( swfFile, testSimDir );
+
+            // copy the SWF to the backup sim dir so that we will have them for posterity (and a warning won't be seen
+            // if the user reverts)
+            FileUtils.copyToDir( swfFile, backupSimDir );
         }
     }
 

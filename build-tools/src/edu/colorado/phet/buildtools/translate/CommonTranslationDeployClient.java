@@ -1,7 +1,6 @@
 package edu.colorado.phet.buildtools.translate;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.io.IOException;
 import java.util.Locale;
 
@@ -48,14 +47,16 @@ public class CommonTranslationDeployClient {
                 // TODO: properties should be constants somewhere
                 propertiesString += "sims=" + getJavaSimNames() + "\n";
                 propertiesString += "resourceDestination=/phetcommon/localization/\n";
-                propertiesString += "onlyAllJARs=true\n";
-                propertiesString += "generateJARs=true\n";
+                //propertiesString += "onlyAllJARs=true\n";
+                //propertiesString += "generateJARs=true\n";
+                propertiesString += "mode=java\n";
             }
             else if ( type == Translation.TRANSLATION_FLASH ) {
                 propertiesString += "sims=" + getFlashSimNames() + "\n";
                 propertiesString += "resourceDestination=/\n";
-                propertiesString += "onlyAllJARs=false\n";
-                propertiesString += "generateJARs=false\n";
+                //propertiesString += "onlyAllJARs=false\n";
+                //propertiesString += "generateJARs=false\n";
+                propertiesString += "mode=flash\n";
             }
             FileUtils.writeString( propertiesFile, propertiesString );
 
@@ -69,9 +70,6 @@ public class CommonTranslationDeployClient {
             if ( type == Translation.TRANSLATION_FLASH ) {
                 uploadFlashHTMLs();
             }
-
-            System.out.println();
-            System.out.println( "****** Executing resource deploy server" );
 
             client.executeResourceDeployServer( trunk );
 
@@ -92,13 +90,7 @@ public class CommonTranslationDeployClient {
         System.out.println();
         System.out.println( "****** Building and sending Flash HTMLs" );
 
-        File simsDir = new File( trunk, "simulations-flash/simulations" );
-
-        File[] simDirs = simsDir.listFiles( new FileFilter() {
-            public boolean accept( File file ) {
-                return file.isDirectory() && !file.getName().startsWith( "." );
-            }
-        } );
+        File[] simDirs = getFlashSimulationDirs();
 
         for ( int i = 0; i < simDirs.length; i++ ) {
             File simDir = simDirs[i];
@@ -156,12 +148,62 @@ public class CommonTranslationDeployClient {
 
     // comma-separated list of sim names
     public String getJavaSimNames() {
-        return "test-project";
+        return getDirNameList( getJavaSimulationDirs() );
     }
 
     // comma-separated list of sim names
     public String getFlashSimNames() {
-        return "test-flash-project";
+        return getDirNameList( getFlashSimulationDirs() );
+    }
+
+    public File[] getJavaSimulationDirs() {
+        return new File[]{new File( trunk, "simulations-java/simulations/test-project" )};
+        /* TODO: switch to this after testing is done
+        File simsDir = new File( trunk, "simulations-java/simulations" );
+
+        File[] simDirs = simsDir.listFiles( new FileFilter() {
+            public boolean accept( File file ) {
+                return file.isDirectory() && !file.getName().startsWith( "." );
+            }
+        } );
+
+        return simDirs;
+        */
+    }
+
+    public File[] getFlashSimulationDirs() {
+        return new File[]{new File( trunk, "simulations-flash/simulations/test-flash-project" )};
+        /* TODO: switch to this after testing is done
+        File simsDir = new File( trunk, "simulations-flash/simulations" );
+
+        File[] simDirs = simsDir.listFiles( new FileFilter() {
+            public boolean accept( File file ) {
+                return file.isDirectory() && !file.getName().startsWith( "." );
+            }
+        } );
+
+        return simDirs;
+        */
+    }
+
+    public String getDirNameList( File[] dirs ) {
+        String ret = "";
+
+        if ( dirs.length == 0 ) {
+            return ret;
+        }
+
+        for ( int i = 0; i < dirs.length; i++ ) {
+            File dir = dirs[i];
+
+            if ( i != 0 ) {
+                ret += ",";
+            }
+
+            ret += dir.getName();
+        }
+
+        return ret;
     }
 
 
