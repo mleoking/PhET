@@ -83,6 +83,7 @@ public abstract class AbstractConcentrationGraphNode extends PNode {
     //----------------------------------------------------------------------------
     
     private final PDimension outlineSize;
+    private final PPath graphOutlineNode;
     private final ConcentrationBarNode[] barNodes;
     private final ValueNode[] valueNodes;
     private final IconNode[] iconNodes;
@@ -104,7 +105,7 @@ public abstract class AbstractConcentrationGraphNode extends PNode {
         // graphOutlineNode is not instance data because we do NOT want to use its bounds for calculations.
         // It's stroke width will cause calculation errors.  Use _graphOutlineSize instead.
         Rectangle2D r = new Rectangle2D.Double( 0, 0, outlineSize.getWidth(), outlineSize.getHeight() );
-        PPath graphOutlineNode = new PPath( r );
+        graphOutlineNode = new PPath( r );
         graphOutlineNode.setStroke( OUTLINE_STROKE );
         graphOutlineNode.setStrokePaint( OUTLINE_STROKE_COLOR );
         graphOutlineNode.setPaint( OUTLINE_FILL_COLOR );
@@ -168,42 +169,17 @@ public abstract class AbstractConcentrationGraphNode extends PNode {
             barNodes[i].setOffset( xOffset, yOffset );
         }
         // values, horizontally centered in bars
-        assert( valueNodes.length == barNodes.length );
         for ( int i = 0; i < valueNodes.length; i++ ) {
             double xOffset = barNodes[i].getXOffset() + ( ( barNodes[i].getFullBoundsReference().getWidth() - valueNodes[i].getFullBoundsReference().getWidth() ) / 2 ) - ( BAR_WIDTH / 2 );
             double yOffset = gob.getMaxY() - valueNodes[i].getFullBoundsReference().getHeight() - VALUE_Y_MARGIN;
             valueNodes[i].setOffset( xOffset, yOffset );
         }
-        // icons, centered below bars
-        assert( iconNodes.length == barNodes.length );
-        double maxIconHeight = 0;
-        for ( int i = 0; i < iconNodes.length; i++ ) {
-            maxIconHeight = Math.max( maxIconHeight, iconNodes[i].getFullBoundsReference().getHeight() );
-        }
-        for ( int i = 0; i < iconNodes.length; i++ ) {
-            double xOffset = barNodes[i].getXOffset() - ( iconNodes[i].getFullBoundsReference().getWidth() / 2 );
-            double yOffset = gob.getMaxY() + ( ( maxIconHeight - iconNodes[i].getFullBoundsReference().getHeight() ) / 2 ) + 10;
-            iconNodes[i].setOffset( xOffset, yOffset );
-        }
-        // labels, centered below icons
-        assert( labelNodes.length == iconNodes.length );
-        for ( int i = 0; i < labelNodes.length; i++ ) {
-            double xOffset = iconNodes[i].getXOffset() + ( iconNodes[i].getFullBoundsReference().getWidth() - labelNodes[i].getFullBoundsReference().getWidth() ) / 2;
-            double yOffset = iconNodes[i].getFullBoundsReference().getMaxY() + 5;
-            labelNodes[i].setOffset( xOffset, yOffset );
-        }
+        // layout of icons and labels will be handled when they are set
 
         setMolecule( H3O_INDEX, ABSImages.H3O_PLUS_MOLECULE, ABSSymbols.H3O_PLUS, ABSConstants.H3O_COLOR );
         setMolecule( OH_INDEX, ABSImages.OH_MINUS_MOLECULE, ABSSymbols.OH_MINUS, ABSConstants.OH_COLOR );
         setMolecule( H2O_INDEX, ABSImages.H2O_MOLECULE, ABSSymbols.H2O, ABSConstants.H2O_COLOR );
         setFormat( H2O_INDEX, H2O_FORMAT );
-        
-        //XXX remove this
-        setConcentration( 0, 1E1 );
-        setConcentration( 1, 1E0 );
-        setConcentration( 2, 1E-1 );
-        setConcentration( 3, 1E-2 );
-        setConcentration( 4, 1E-3 );
     }
 
     //----------------------------------------------------------------------------
@@ -230,6 +206,18 @@ public abstract class AbstractConcentrationGraphNode extends PNode {
         iconNodes[index].setImage( image );
         labelNodes[index].setText( text );
         barNodes[index].setPaint( barColor );
+        updateMoleculeLayout( index );
+    }
+    
+    private void updateMoleculeLayout( int index ) {
+        // icon, centered below bar
+        double xOffset = barNodes[index].getFullBoundsReference().getCenterX() - ( iconNodes[index].getFullBoundsReference().getWidth() / 2 );
+        double yOffset = graphOutlineNode.getFullBoundsReference().getMaxY() + 10;
+        iconNodes[index].setOffset( xOffset, yOffset );
+        // label, centered below icon
+        xOffset = iconNodes[index].getFullBoundsReference().getCenterX() - ( labelNodes[index].getFullBoundsReference().getWidth() / 2 );
+        yOffset = iconNodes[index].getFullBoundsReference().getMaxY() + 5;
+        labelNodes[index].setOffset( xOffset, yOffset );
     }
     
     protected void setConcentration( int index, double value ) {

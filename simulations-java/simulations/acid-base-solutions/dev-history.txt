@@ -3,7 +3,6 @@
 ==================================================================================
 
 TODO:
-- fix layout of concentration graph
 - connect equilibrium expressions to model
 - connect reaction equations to model
 - connect beaker view controls to model (ratio check box labels)
@@ -20,6 +19,7 @@ TODO:
 - redo layout of molecule counts, Swing layout strategy isn't working well
 
 DONE:
+5/19/09 fix layout of concentration graph icons and labels
 5/18/09 connect concentration graph to model
 5/18/09 refactor and repackage molecule counts class hierarchy
 5/18/09 class hierachy for concentration graphs
