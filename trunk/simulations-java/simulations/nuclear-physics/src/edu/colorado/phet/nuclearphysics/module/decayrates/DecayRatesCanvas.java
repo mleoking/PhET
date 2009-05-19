@@ -320,7 +320,9 @@ public class DecayRatesCanvas extends PhetPCanvas {
     			}
     			else {
     			    PNode child = _particleLayer.removeChild( nucleusNode );
-    			    System.err.println(this.getClass().getName() + ": Error - Could not remove nucleus from canvas.");
+    			    if (child == null){
+    			    	System.err.println(this.getClass().getName() + ": Error - Could not remove nucleus from canvas.");
+    			    }
     			}
     		}
     		_mapNucleiToNodes.remove( modelElement );
