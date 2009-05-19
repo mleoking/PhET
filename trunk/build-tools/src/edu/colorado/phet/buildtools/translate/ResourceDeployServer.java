@@ -34,6 +34,8 @@ public class ResourceDeployServer implements IProguardKeepClass {
         this.buildLocalProperties = buildLocalProperties;
         this.resourceDir = resourceDir;
 
+        BuildLocalProperties.initFromPropertiesFile( buildLocalProperties );
+
         File propertiesFile = new File( resourceDir, "resource/resource.properties" );
         Properties properties = new Properties();
 
@@ -204,7 +206,7 @@ public class ResourceDeployServer implements IProguardKeepClass {
     }
 
     private void signJAR( File jarFile ) {
-        PhetJarSigner phetJarSigner = new PhetJarSigner( BuildLocalProperties.initFromPropertiesFile( buildLocalProperties ) );
+        PhetJarSigner phetJarSigner = new PhetJarSigner( BuildLocalProperties.getInstance() );
         phetJarSigner.signJar( jarFile );
     }
 
