@@ -21,6 +21,7 @@ import com.jme.scene.state.LightState;
 import com.jme.scene.state.MaterialState;
 import com.jme.scene.state.TextureState;
 import com.jme.system.DisplaySystem;
+import com.jme.util.Java2dOverlay;
 import com.jme.util.TextureManager;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
@@ -51,6 +52,7 @@ public class DensityCanvasImpl extends BasicCanvasImpl implements WaterSurface.W
     private PickData picked = null;
     private Point2D pickPt;
     private WaterSurface waterSurface;
+    private Java2dOverlay overlay;
 
     public DensityCanvasImpl(int width, int height, DisplaySystem display, Component component, DensityModel model) {
         super(width, height, display, component);
@@ -65,7 +67,7 @@ public class DensityCanvasImpl extends BasicCanvasImpl implements WaterSurface.W
 //        waterSurface = new WaterSurface.RippleSurface(model, this);
 
         //for use with camera steering, see below
-        Vector3f location=new Vector3f(4.2810082f,7.02f,10.8f), direction=new Vector3f(0.0f,-0.19007912f,-0.9817688f), up=new Vector3f(0.0f,0.975561f,-0.21972877f);
+        Vector3f location = new Vector3f(4.2810082f, 7.02f, 10.8f), direction = new Vector3f(0.0f, -0.19007912f, -0.9817688f), up = new Vector3f(0.0f, 0.975561f, -0.21972877f);
         cam.setLocation(location);
         cam.setDirection(direction);
         cam.setUp(up);
@@ -113,13 +115,49 @@ public class DensityCanvasImpl extends BasicCanvasImpl implements WaterSurface.W
         setupLight();
 
         addMouseHandling();
+
+        addJava2DOverlay();
     }
 
+    private static class MyOverlay extends Java2dOverlay {
+
+        private int animationX = 0;
+        private int speed = 5;
+
+        public MyOverlay() {
+            super(0, 600 - 64, 512, 64);
+        }
+
+        @Override
+        public void paint(Graphics2D g2) {
+            g2.setColor(Color.RED);
+            g2.fillRect(animationX, 10, 50, 50);
+
+            animationX += speed;
+            if (animationX <= 0 || animationX >= getWidth() - 50) {
+                speed = -speed;
+            }
+        }
+    }
+
+    private void addJava2DOverlay() {
+        overlay = new MyOverlay();
+        overlay.setUpdateTime(0.04f); // Update with around 25 fps
+        rootNode.attachChild(overlay.getQuad());
+        overlay.start();
+    }
 
     public void simpleUpdate() {
         super.simpleUpdate();    //To change body of overridden methods use File | Settings | File Templates.
         waterSurface.simpleUpdate(tpf);
+        overlay.requestUpdate(0.04f);
 //        System.out.println("location=" + toSource(cam.getLocation()) + ", direction=" + toSource(cam.getDirection()) + ", up=" + toSource(cam.getUp()));
+    }
+
+    @Override
+    public void simpleRender() {
+        super.simpleRender();
+        overlay.requestRender();
     }
 
     private String toSource(Vector3f a) {
