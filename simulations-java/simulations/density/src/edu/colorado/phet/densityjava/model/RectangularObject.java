@@ -9,11 +9,11 @@ import java.util.ArrayList;
 
 /**
  * Created by IntelliJ IDEA.
-* User: Owner
-* Date: May 18, 2009
-* Time: 8:51:36 AM
-* To change this template use File | Settings | File Templates.
-*/
+ * User: Owner
+ * Date: May 18, 2009
+ * Time: 8:51:36 AM
+ * To change this template use File | Settings | File Templates.
+ */
 public class RectangularObject {
     private String name;
     private double x;
@@ -176,7 +176,7 @@ public class RectangularObject {
         notifyListeners();
     }
 
-    public double getDistanceY(Block block) {
+    public double getDistanceY(RectangularObject block) {
         return getVerticalRange().distanceTo(block.getVerticalRange());
     }
 
