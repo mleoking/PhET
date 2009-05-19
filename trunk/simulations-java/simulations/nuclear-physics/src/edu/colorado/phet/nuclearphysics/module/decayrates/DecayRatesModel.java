@@ -39,7 +39,7 @@ public class DecayRatesModel extends MultiNucleusDecayModel {
 	
 	// Define the position in model space of the "holding area", where nuclei
 	// are kept while inactive.
-	private static final Rectangle2D HOLDING_AREA_RECT = new Rectangle2D.Double(220, 50, 150, 100);
+	private static final Rectangle2D HOLDING_AREA_RECT = new Rectangle2D.Double(220, 35, 175, 150);
 	
     //------------------------------------------------------------------------
     // Instance data
@@ -77,7 +77,9 @@ public class DecayRatesModel extends MultiNucleusDecayModel {
      * are not active (i.e. moving towards decay).
      */
     public Rectangle2D getHoldingAreaRect(){
-    	return HOLDING_AREA_RECT;
+    	Rectangle2D.Double rect = new Rectangle2D.Double();
+    	rect.setRect(HOLDING_AREA_RECT);
+    	return rect;
     }
     
     /**
@@ -153,8 +155,9 @@ public class DecayRatesModel extends MultiNucleusDecayModel {
             pointAvailable = true;
             for (int j = 0; (j < _atomicNuclei.size()) && (pointAvailable == true); j++){
             	AbstractDecayNucleus nucleus = (AbstractDecayNucleus)_atomicNuclei.get(j);
-                if (openLocation.distance( nucleus.getPositionReference()) < minInterNucleusDistance){
-                    // This point is taken.
+                if (openLocation.distance(nucleus.getPositionReference()) < minInterNucleusDistance ||
+                	HOLDING_AREA_RECT.contains(openLocation)){
+                    // This point is not available.
                     pointAvailable = false;
                 }
             }
@@ -175,8 +178,9 @@ public class DecayRatesModel extends MultiNucleusDecayModel {
                 pointAvailable = true;
                 for (int j = 0; (j < _atomicNuclei.size()) && (pointAvailable == true); j++){
                 	AbstractDecayNucleus nucleus = (AbstractDecayNucleus)_atomicNuclei.get(j);
-                    if (openLocation.distance( nucleus.getPositionReference()) < minInterNucleusDistance){
-                        // This point is taken.
+                    if (openLocation.distance( nucleus.getPositionReference()) < minInterNucleusDistance ||
+                    	HOLDING_AREA_RECT.contains(openLocation)){
+                        // This point is not available.
                         pointAvailable = false;
                     }
                 }
