@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.*;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -97,6 +98,10 @@ public class ConcentrationControlNode extends PNode {
         xOffset = sliderNode.getFullBoundsReference().getMaxX() + X_SPACING;
         yOffset = sliderNode.getFullBoundsReference().getCenterY() - ( panelWrapper.getFullBoundsReference().getHeight() / 2 );
         panelWrapper.setOffset( xOffset, yOffset );
+    }
+    
+    public static NumberFormat getFormat() {
+        return TEXTFIELD_FORMAT;
     }
     
     public void setValue( double value ) {
