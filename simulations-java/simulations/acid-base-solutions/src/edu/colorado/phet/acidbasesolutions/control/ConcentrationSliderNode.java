@@ -1,15 +1,16 @@
 
 package edu.colorado.phet.acidbasesolutions.control;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Stroke;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -19,7 +20,6 @@ import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
@@ -391,26 +391,5 @@ public class ConcentrationSliderNode extends PhetPNode {
             
             sliderNode.setValue( value );
         }
-    }
-    
-    // test
-    public static void main( String[] args ) {
-        
-        Dimension canvasSize = new Dimension( 600, 300 );
-        PhetPCanvas canvas = new PhetPCanvas();
-        canvas.setPreferredSize( canvasSize );
-        
-        ConcentrationSliderNode sliderNode = new ConcentrationSliderNode( ABSConstants.CONCENTRATION_RANGE );
-        canvas.getLayer().addChild( sliderNode );
-        sliderNode.setOffset( 100, 100 );
-        
-        JPanel panel = new JPanel( new BorderLayout() );
-        panel.add( canvas, BorderLayout.CENTER );
-        
-        JFrame frame = new JFrame();
-        frame.setContentPane( panel );
-        frame.pack();
-        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        frame.setVisible( true );
     }
 }

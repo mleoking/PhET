@@ -1,6 +1,9 @@
 package edu.colorado.phet.acidbasesolutions.control;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Stroke;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.geom.Line2D;
@@ -8,8 +11,6 @@ import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -23,7 +24,6 @@ import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.SolutionListene
 import edu.colorado.phet.acidbasesolutions.model.Solute.ICustomSolute;
 import edu.colorado.phet.acidbasesolutions.util.PNodeUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -323,26 +323,5 @@ public class SolutionControlsNode extends PhetPNode {
             solutionControls.setStrength( solution.getSolute().getStrength() );
         }
         
-    }
-    
-    // test
-    public static void main( String[] args ) {
-
-        Dimension canvasSize = new Dimension( 600, 300 );
-        PhetPCanvas canvas = new PhetPCanvas();
-        canvas.setPreferredSize( canvasSize );
-
-        SolutionControlsNode controlsNode = new SolutionControlsNode();
-        canvas.getLayer().addChild( controlsNode );
-        controlsNode.setOffset( 50, 50 );
-
-        JPanel panel = new JPanel( new BorderLayout() );
-        panel.add( canvas, BorderLayout.CENTER );
-
-        JFrame frame = new JFrame();
-        frame.setContentPane( panel );
-        frame.pack();
-        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        frame.setVisible( true );
     }
 }
