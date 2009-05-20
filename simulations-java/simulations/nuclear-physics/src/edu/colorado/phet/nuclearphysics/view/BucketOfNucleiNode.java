@@ -395,8 +395,8 @@ public class BucketOfNucleiNode extends PNode {
     	// If the slider doesn't exist yet, create it.
     	if (_sliderNode == null && enabled){
         	_slider = new NormalizedSlider();
-        	_slider.setPreferredSize(new Dimension((int)(_bucketWidth * 0.8),(int)(_bucketHeight * 0.3)));
-        	_slider.setBackground(_baseColor);
+        	_slider.setPreferredSize(new Dimension((int)(_bucketWidth * 0.8),(int)(_bucketHeight * 0.4)));
+        	_slider.setBackground(darkenColor(_baseColor));
         	_slider.setForeground(Color.GREEN);
         	
         	// Wrap the slider in a PSwing so that it can be used in the play area.
