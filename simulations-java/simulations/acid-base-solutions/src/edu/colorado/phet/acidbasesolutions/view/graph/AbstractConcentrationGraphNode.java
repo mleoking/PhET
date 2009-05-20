@@ -12,12 +12,12 @@ import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.ABSImages;
 import edu.colorado.phet.acidbasesolutions.ABSSymbols;
 import edu.colorado.phet.acidbasesolutions.util.PNodeUtils;
+import edu.colorado.phet.acidbasesolutions.view.NegligibleValueNode;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.util.TimesTenNumberFormat;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.nodes.FormattedNumberNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -52,9 +52,7 @@ public abstract class AbstractConcentrationGraphNode extends PComposite {
     private static final Color DEFAULT_BAR_COLOR = Color.GRAY;
     
     // numeric values
-    private static final Font VALUE_FONT = new PhetFont( Font.BOLD, 18 );
-    private static final Color VALUE_COLOR = Color.BLACK;
-    private static final double VALUE_Y_MARGIN = 10;
+    private static final Font VALUE_FONT = new PhetFont( Font.PLAIN, 18 );
     private static final TimesTenNumberFormat DEFAULT_VALUE_FORMAT = new TimesTenNumberFormat( "0.00" );
     private static final DecimalFormat H2O_FORMAT = new DefaultDecimalFormat( "#0" );
     
@@ -170,7 +168,7 @@ public abstract class AbstractConcentrationGraphNode extends PComposite {
         // values, horizontally centered in bars
         for ( int i = 0; i < valueNodes.length; i++ ) {
             double xOffset = barNodes[i].getXOffset() + ( ( barNodes[i].getFullBoundsReference().getWidth() - valueNodes[i].getFullBoundsReference().getWidth() ) / 2 ) - ( BAR_WIDTH / 2 );
-            double yOffset = gob.getMaxY() - valueNodes[i].getFullBoundsReference().getHeight() - VALUE_Y_MARGIN;
+            double yOffset = gob.getMaxY() - 10;
             valueNodes[i].setOffset( xOffset, yOffset );
         }
         // layout of icons and labels will be handled when they are set
@@ -243,6 +241,10 @@ public abstract class AbstractConcentrationGraphNode extends PComposite {
         valueNodes[index].setFormat( format );
     }
     
+    protected void setNegligibleEnabled( int index, boolean enabled, double threshold ) {
+        valueNodes[index].setNegligibleEnabled( enabled, threshold );
+    }
+    
     /*
      * Calculates a bar height in view coordinates, given a model value.
      */
@@ -261,12 +263,10 @@ public abstract class AbstractConcentrationGraphNode extends PComposite {
     /*
      * Values displayed on the bars.
      */
-    private static class ValueNode extends FormattedNumberNode {
-
-        private static final double DEFAULT_VALUE = 0;
-
+    private static class ValueNode extends NegligibleValueNode {
         public ValueNode( NumberFormat format ) {
-            super( format, DEFAULT_VALUE, VALUE_FONT, VALUE_COLOR );
+            super( 0, DEFAULT_VALUE_FORMAT );
+            setFont( VALUE_FONT );
             rotate( -Math.PI / 2 );
         }
     }

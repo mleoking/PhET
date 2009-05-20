@@ -6,19 +6,16 @@ import java.awt.*;
 import java.text.NumberFormat;
 
 import edu.colorado.phet.acidbasesolutions.ABSImages;
-import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.ABSSymbols;
+import edu.colorado.phet.acidbasesolutions.view.NegligibleValueNode;
 import edu.colorado.phet.common.phetcommon.util.ConstantPowerOfTenNumberFormat;
 import edu.colorado.phet.common.phetcommon.util.TimesTenNumberFormat;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.nodes.FormattedNumberNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.RectangularBackgroundNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.PinnedLayoutNode;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
-import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 public abstract class AbstractMoleculeCountsNode extends PinnedLayoutNode {
@@ -29,13 +26,11 @@ public abstract class AbstractMoleculeCountsNode extends PinnedLayoutNode {
     private static final int OH_ROW = 3;
     private static final int H2O_ROW = 4;
     
-    private static final Font NEGLIGIBLE_FONT = new PhetFont( Font.PLAIN, 16 );
-    private static final Font VALUE_FONT = new PhetFont( Font.PLAIN, 16 );
-    private static final Color VALUE_COLOR = Color.BLACK;
+    private static final TimesTenNumberFormat VALUE_FORMAT_DEFAULT = new TimesTenNumberFormat( "0.00" );
+    private static final ConstantPowerOfTenNumberFormat VALUE_FORMAT_H2O = new ConstantPowerOfTenNumberFormat( "0.0", 25 );
     private static final Color VALUE_BACKGROUND_COLOR = new Color( 255, 255, 255, 128 ); // translucent white
     private static final Insets VALUE_INSETS = new Insets( 4, 4, 4, 4 ); // top, left, bottom, right
-    private static final TimesTenNumberFormat VALUE_FORMAT_DEFAULT = new TimesTenNumberFormat( "0.00" );
-    static final ConstantPowerOfTenNumberFormat VALUE_FORMAT_H2O = new ConstantPowerOfTenNumberFormat( "0.0", 25 );
+    
     private static final Font LABEL_FONT = new PhetFont( Font.PLAIN, 16 );
     private static final Color LABEL_COLOR = Color.BLACK;
     private static final double ICON_SCALE = 0.25; //TODO: scale image files so that this is 1.0
@@ -207,72 +202,27 @@ public abstract class AbstractMoleculeCountsNode extends PinnedLayoutNode {
     }
 
     /*
-     * Displays a formatted number on a background.
-     * If that number drops below some threshold, then "NEGLIGIBLE" is displayed.
-     * This behavior can also be disabled.
+     * Decorates a value with a rectangular background.
      */
-    static class ValueNode extends PComposite {
-
-        private final FormattedNumberNode numberNode;
-        private final PNode numberBackgroundNode;
-        private final PNode negligibleBackground;
-        private boolean negligibleEnabled;
-        private double negligibleThreshold;
+    static class ValueNode extends RectangularBackgroundNode {
+        
+        private final NegligibleValueNode numberNode;
         
         public ValueNode() {
-            this( 0, VALUE_FORMAT_DEFAULT );
+            super( new NegligibleValueNode( 0, VALUE_FORMAT_DEFAULT ), VALUE_INSETS, VALUE_BACKGROUND_COLOR );
+            numberNode = (NegligibleValueNode) getForegroundNode();
         }
         
-        public ValueNode( double value ) {
-            this( value, VALUE_FORMAT_DEFAULT );
-        }
-
-        public ValueNode( double value, NumberFormat format ) {
-            // displays the count
-            numberNode = new FormattedNumberNode( format, value, VALUE_FONT, VALUE_COLOR );
-            numberBackgroundNode = new RectangularBackgroundNode( numberNode, VALUE_INSETS, VALUE_BACKGROUND_COLOR );
-            addChild( numberBackgroundNode );
-            // displays "NEGLIGIBLE"
-            PText textNode = new PText( ABSStrings.VALUE_NEGLIGIBLE );
-            textNode.setFont( NEGLIGIBLE_FONT );
-            negligibleBackground = new RectangularBackgroundNode( textNode, VALUE_INSETS, VALUE_BACKGROUND_COLOR );
-            addChild( negligibleBackground );
-            // negligible mode is off by default
-            negligibleEnabled = false;
-            negligibleThreshold = 0;
+        public void setValue( double value ) {
+            numberNode.setValue( value );
         }
         
         public void setFormat( NumberFormat format ) {
             numberNode.setFormat( format );
         }
-
-        public double getValue() {
-            return numberNode.getValue();
-        }
         
-        public void setValue( double value ) {
-            numberNode.setValue( value );
-            updateVisibility();
-        }
-
         public void setNegligibleEnabled( boolean enabled, double threshold ) {
-            if ( enabled != negligibleEnabled || threshold != negligibleThreshold ) {
-                negligibleEnabled = enabled;
-                negligibleThreshold = threshold;
-                updateVisibility();
-            }
-        }
-
-        private void updateVisibility() {
-            if ( negligibleEnabled ) {
-                final double value = numberNode.getValue();
-                numberBackgroundNode.setVisible( value > negligibleThreshold );
-                negligibleBackground.setVisible( value <= negligibleThreshold );
-            }
-            else {
-                numberBackgroundNode.setVisible( true );
-                negligibleBackground.setVisible( false );
-            }
+            numberNode.setNegligibleEnabled( enabled, threshold );
         }
     }
 }
