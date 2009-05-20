@@ -6,6 +6,7 @@ import com.jme.system.canvas.JMECanvas;
 import com.jme.system.lwjgl.LWJGLSystemProvider;
 import com.jmex.awt.input.AWTMouseInput;
 import com.jmex.awt.lwjgl.LWJGLAWTCanvasConstructor;
+import edu.colorado.phet.densityjava.ModelComponents;
 import edu.colorado.phet.densityjava.model.DensityModel;
 import edu.colorado.phet.densityjava.model.MassVolumeModel;
 import edu.colorado.phet.densityjava.view.DensityControlPanel;
@@ -25,8 +26,7 @@ public class DensityJMECanvas extends JPanel {
     private JDialog d2;
     private JDialog d3;
 
-    // Construct the frame
-    public DensityJMECanvas(JFrame parent, DensityModel model, MassVolumeModel massVolumeModel) {
+    public DensityJMECanvas(JFrame parent, DensityModel model, MassVolumeModel massVolumeModel, ModelComponents.DisplayDimensions displayDimensions) {
         setLayout(new BorderLayout());
 
         JPanel mainPanel = new JPanel();
@@ -107,7 +107,7 @@ public class DensityJMECanvas extends JPanel {
 
         d3 = new JDialog(parent, false);
         d3.setUndecorated(true);
-        d3.setContentPane(new DensityControlPanel(model.getUnits()));
+        d3.setContentPane(new DensityControlPanel(model.getUnits(),displayDimensions));
         d3.pack();
         d3.setVisible(true);
 
