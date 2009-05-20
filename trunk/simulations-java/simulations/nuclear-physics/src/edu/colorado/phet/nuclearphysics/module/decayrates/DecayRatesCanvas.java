@@ -26,16 +26,13 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
-import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.common.model.AbstractDecayNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.NuclearDecayControl;
 import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusImageNode;
 import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusImageType;
 import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusNode;
-import edu.colorado.phet.nuclearphysics.model.Carbon14Nucleus;
 import edu.colorado.phet.nuclearphysics.model.NuclearDecayListenerAdapter;
-import edu.colorado.phet.nuclearphysics.model.Uranium238Nucleus;
 import edu.colorado.phet.nuclearphysics.view.BucketOfNucleiNode;
 import edu.colorado.phet.nuclearphysics.view.NuclearDecayProportionChart;
 import edu.umd.cs.piccolo.PNode;
@@ -67,6 +64,9 @@ public class DecayRatesCanvas extends PhetPCanvas {
     
     // Constants that control the appearance of the canvas.
     private static final Color BUCKET_AND_BUTTON_COLOR = new Color(90, 180, 225);
+    
+    // TODO: For prototyping, remove once final decision is made.
+    private static final boolean USE_BUTTON_INSTEAD_OF_SLIDER = false;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -120,58 +120,77 @@ public class DecayRatesCanvas extends PhetPCanvas {
         // Create and add the node the represents the bucket from which nuclei
         // can be extracted and added to the play area.
         Rectangle2D bucketRect = _model.getHoldingAreaRect();
-        // Use part of the holding area for the bucket and part for the button.  TODO - JPB - if
-        // we end up keeping the button instead of the slider, this should be cleaned up and
-        // the button should probably become part of the bucket node itself.
-        // Also, make the bucket a little smaller than the holding are so that we don't
-        // end up with particles really close to it.
-        bucketRect.setRect(bucketRect.getX() + 0.1 * bucketRect.getWidth(),
-        		bucketRect.getY() + 0.1 * bucketRect.getHeight(), 
-        		bucketRect.getWidth() * 0.8, bucketRect.getHeight() * 0.66);
-        _bucketNode = new BucketOfNucleiNode( bucketRect.getWidth(), bucketRect.getHeight(), Math.PI/12, 
-        		BUCKET_AND_BUTTON_COLOR );
-        _particleLayer.addChild(_bucketNode);
-        _bucketNode.setShowLabel(false);
-        _bucketNode.setShowRadiationSymbol(false);
-        _bucketNode.setSliderEnabled(true);
-        _bucketNode.getSlider().addChangeListener(new ChangeListener(){
-			public void stateChanged(ChangeEvent e) {
-				setProportionOfNucleiOutsideHoldingArea(_bucketNode.getSlider().getNormalizedReading());
-			}
-        });
-        _bucketNode.getSlider().addMouseListener(new MouseAdapter(){
-        	
-        	public void mousePressed(MouseEvent me){
-        		_model.resetActiveAndDecayedNuclei();
-        		_proportionsChart.clear();
-        		_model.setPaused(true);
-        	}
-        	public void mouseReleased(MouseEvent me){
-        		_model.setPaused(false);
-        	}
-        });
         
-        _bucketNode.setOffset( bucketRect.getX(), bucketRect.getY() );
+        if (USE_BUTTON_INSTEAD_OF_SLIDER){
+            // Use part of the holding area for the bucket and part for the button.  TODO - JPB - if
+            // we end up keeping the button instead of the slider, this should be cleaned up and
+            // the button should probably become part of the bucket node itself.
+            // Also, make the bucket a little smaller than the holding are so that we don't
+            // end up with particles really close to it.
+            bucketRect.setRect(bucketRect.getX() + 0.1 * bucketRect.getWidth(),
+            		bucketRect.getY() + 0.1 * bucketRect.getHeight(), 
+            		bucketRect.getWidth() * 0.8, bucketRect.getHeight() * 0.66);
+            _bucketNode = new BucketOfNucleiNode( bucketRect.getWidth(), bucketRect.getHeight(), Math.PI/12, 
+            		BUCKET_AND_BUTTON_COLOR );
+            _particleLayer.addChild(_bucketNode);
+            _bucketNode.setShowLabel(false);
+            _bucketNode.setShowRadiationSymbol(false);
+            _bucketNode.setOffset( bucketRect.getX(), bucketRect.getY() );
 
-        // Add the button that allows the user to add multiple nuclei at once.
-        // Position it just under the bucket and scale it so that its size is
-        // proportionate to the bucket.
-        // TODO: Make the string a resource if this button is kept.
-        _addMultipleNucleiButtonNode = new GradientButtonNode("Add 50", 12, BUCKET_AND_BUTTON_COLOR);
-        double addButtonScale = (bucketRect.getWidth() / _addMultipleNucleiButtonNode.getFullBoundsReference().width) * 0.5;
-        _addMultipleNucleiButtonNode.scale(addButtonScale);
-        _addMultipleNucleiButtonNode.setOffset(bucketRect.getCenterX() - _addMultipleNucleiButtonNode.getFullBoundsReference().width / 2, 
-        		bucketRect.getMaxY());
-        _particleLayer.addChild(_addMultipleNucleiButtonNode);
-        
-        // Register to receive button pushes.
-        _addMultipleNucleiButtonNode.addActionListener( new ActionListener(){
-            public void actionPerformed(ActionEvent event){
-            	moveNucleiFromBucket( 50 );
-            	_model.resetActiveAndDecayedNuclei();
-            	_proportionsChart.clear();
-            }
-        });
+            // Add the button that allows the user to add multiple nuclei at once.
+            // Position it just under the bucket and scale it so that its size is
+            // proportionate to the bucket.
+            // TODO: Make the string a resource if this button is kept.
+            _addMultipleNucleiButtonNode = new GradientButtonNode("Add 50", 12, BUCKET_AND_BUTTON_COLOR);
+            double addButtonScale = (bucketRect.getWidth() / _addMultipleNucleiButtonNode.getFullBoundsReference().width) * 0.5;
+            _addMultipleNucleiButtonNode.scale(addButtonScale);
+            _addMultipleNucleiButtonNode.setOffset(bucketRect.getCenterX() - _addMultipleNucleiButtonNode.getFullBoundsReference().width / 2, 
+            		bucketRect.getMaxY());
+            _particleLayer.addChild(_addMultipleNucleiButtonNode);
+            
+            // Register to receive button pushes.
+            _addMultipleNucleiButtonNode.addActionListener( new ActionListener(){
+                public void actionPerformed(ActionEvent event){
+                	moveNucleiFromBucket( 50 );
+                	_model.resetActiveAndDecayedNuclei();
+                	_proportionsChart.clear();
+                }
+            });
+        }
+        else{
+            // Use part of the holding area for the bucket and part for the button.  TODO - JPB - if
+            // we end up keeping the button instead of the slider, this should be cleaned up and
+            // the button should probably become part of the bucket node itself.
+            // Also, make the bucket a little smaller than the holding are so that we don't
+            // end up with particles really close to it.
+            bucketRect.setRect(bucketRect.getX() + 0.1 * bucketRect.getWidth(),
+            		bucketRect.getY() + 0.1 * bucketRect.getHeight(), 
+            		bucketRect.getWidth() * 0.8, bucketRect.getHeight() * 0.9);
+            _bucketNode = new BucketOfNucleiNode( bucketRect.getWidth(), bucketRect.getHeight(), Math.PI/12, 
+            		BUCKET_AND_BUTTON_COLOR );
+            _particleLayer.addChild(_bucketNode);
+            _bucketNode.setShowLabel(false);
+            _bucketNode.setShowRadiationSymbol(false);
+            _bucketNode.setSliderEnabled(true);
+            _bucketNode.getSlider().addChangeListener(new ChangeListener(){
+    			public void stateChanged(ChangeEvent e) {
+    				setProportionOfNucleiOutsideHoldingArea(_bucketNode.getSlider().getNormalizedReading());
+    			}
+            });
+            _bucketNode.getSlider().addMouseListener(new MouseAdapter(){
+            	
+            	public void mousePressed(MouseEvent me){
+            		_model.resetActiveAndDecayedNuclei();
+            		_proportionsChart.clear();
+            		_model.setPaused(true);
+            	}
+            	public void mouseReleased(MouseEvent me){
+            		_model.setPaused(false);
+            	}
+            });
+            
+            _bucketNode.setOffset( bucketRect.getX(), bucketRect.getY() );
+        }
         
         // Add the diagram that will depict the relative concentration of
         // pre- and post-decay nuclei.
