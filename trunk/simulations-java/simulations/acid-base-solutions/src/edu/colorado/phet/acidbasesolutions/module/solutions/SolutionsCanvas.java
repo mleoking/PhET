@@ -45,7 +45,7 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
     private final BeakerLabelNode beakerLabelNode;
     
     // Control
-    private final SolutionControlsNode solutionsControlsNode;
+    private final SolutionControlsNode solutionControlsNode;
     private final BeakerControls beakerControls;
     private final PSwing beakerControlsWrapper;
     private final MiscControls miscControls;
@@ -73,8 +73,8 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         
         beakerLabelNode = new BeakerLabelNode( ABSConstants.MIN_BEAKER_LABEL_SIZE, solution );
         
-        solutionsControlsNode = new SolutionControlsNode( solution );
-        solutionsControlsNode.scale( ABSConstants.PSWING_SCALE );
+        solutionControlsNode = new SolutionControlsNode( solution );
+        solutionControlsNode.scale( ABSConstants.PSWING_SCALE );
         
         beakerControls = new BeakerControls( moleculeCountsNode, beakerLabelNode );
         beakerControls.setBackground( getBackground() );
@@ -87,7 +87,7 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         miscControlsWrapper.scale( ABSConstants.PSWING_SCALE );
         
         // rendering order
-        addNode( solutionsControlsNode );
+        addNode( solutionControlsNode );
         addNode( beakerControlsWrapper );
         addNode( miscControlsWrapper );
         addNode( solutionNode );
@@ -96,6 +96,22 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         addNode( concentrationGraphNode );
         addNode( moleculeCountsNode );
         addNode( beakerLabelNode );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Setters and getters
+    //----------------------------------------------------------------------------
+    
+    public SolutionControlsNode getSolutionControlsNode() {
+        return solutionControlsNode;
+    }
+    
+    public BeakerControls getBeakerControls() {
+        return beakerControls;
+    }
+    
+    public MiscControls getMiscControls() {
+        return miscControls;
     }
     
     //----------------------------------------------------------------------------
@@ -120,13 +136,13 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         PBounds b1;
         
         // solution controls in upper left
-        xOffset = solutionsControlsNode.getXOffset() - solutionsControlsNode.getFullBoundsReference().getX() + 15;
-        yOffset = solutionsControlsNode.getYOffset() - solutionsControlsNode.getFullBoundsReference().getY() + 15;
-        solutionsControlsNode.setOffset( xOffset, yOffset );
+        xOffset = solutionControlsNode.getXOffset() - solutionControlsNode.getFullBoundsReference().getX() + 15;
+        yOffset = solutionControlsNode.getYOffset() - solutionControlsNode.getFullBoundsReference().getY() + 15;
+        solutionControlsNode.setOffset( xOffset, yOffset );
         
         // beaker below solution controls
-        xOffset = solutionsControlsNode.getFullBoundsReference().getMinX() - PNodeUtils.getOriginXOffset( beakerNode );
-        yOffset = solutionsControlsNode.getFullBoundsReference().getMaxY() + ( probeNode.getFullBoundsReference().getHeight() - beakerNode.getFullBoundsReference().getHeight() ) - PNodeUtils.getOriginYOffset( beakerNode ) + 20;
+        xOffset = solutionControlsNode.getFullBoundsReference().getMinX() - PNodeUtils.getOriginXOffset( beakerNode );
+        yOffset = solutionControlsNode.getFullBoundsReference().getMaxY() + ( probeNode.getFullBoundsReference().getHeight() - beakerNode.getFullBoundsReference().getHeight() ) - PNodeUtils.getOriginYOffset( beakerNode ) + 20;
         beakerNode.setOffset( xOffset, yOffset );
         
         // solution inside the beaker

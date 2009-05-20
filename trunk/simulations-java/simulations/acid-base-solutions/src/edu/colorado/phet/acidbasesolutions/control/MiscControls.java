@@ -30,6 +30,8 @@ public class MiscControls extends JPanel {
     
     private final Frame parentFrame;
     
+    private final PNode concentrationGraphNode;
+    
     private final JCheckBox concentrationGraphCheckBox;
     private final JCheckBox symbolLegendCheckBox;
     private final JCheckBox equilibriumExpressionsCheckBox;
@@ -44,6 +46,9 @@ public class MiscControls extends JPanel {
     
     public MiscControls( final PNode concentrationGraphNode ) {
         super();
+        
+        this.concentrationGraphNode = concentrationGraphNode;
+         
         parentFrame = PhetApplication.getInstance().getPhetFrame();
         
         // border
@@ -62,36 +67,21 @@ public class MiscControls extends JPanel {
         symbolLegendCheckBox = new JCheckBox( ABSStrings.CHECK_BOX_SYMBOL_LEGEND );
         symbolLegendCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                if ( symbolLegendCheckBox.isSelected() ) {
-                    openSymbolLegendDialog();
-                }
-                else {
-                    closeSymbolLegendDialog();
-                }
+                updateSymbolLegendDialog();
             }
         });
         
         equilibriumExpressionsCheckBox = new JCheckBox( ABSStrings.CHECK_BOX_EQUILIBRIUM_EXPRESSIONS );
         equilibriumExpressionsCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                if ( equilibriumExpressionsCheckBox.isSelected() ) {
-                    openEquilibriumExpressionsDialog();
-                }
-                else {
-                    closeEquilibriumExpressionsDialog();
-                }
+                updateEquilibriumExpressionsDialog();
             }
         });
         
         reactionEquationsCheckBox = new JCheckBox( ABSStrings.CHECK_BOX_REACTION_EQUATIONS );
         reactionEquationsCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                if ( reactionEquationsCheckBox.isSelected() ) {
-                    openReactionEquationsDialog();
-                }
-                else {
-                    closeReactionEquationsDialog();
-                }
+                updateReactionEquationsDialog();
             }
         });
         
@@ -106,6 +96,51 @@ public class MiscControls extends JPanel {
         column++;
         layout.addComponent( equilibriumExpressionsCheckBox, row++, column );
         layout.addComponent( reactionEquationsCheckBox, row++, column );
+    }
+    
+    public void setConcentrationGraphSelected( boolean b ) {
+        concentrationGraphCheckBox.setSelected( b );
+        concentrationGraphNode.setVisible( b );
+    }
+    
+    public boolean isConcentrationGraphSelected() {
+        return concentrationGraphCheckBox.isSelected();
+    }
+    
+    public void setSymbolLegendSelected( boolean b ) {
+        symbolLegendCheckBox.setSelected( b );
+        updateSymbolLegendDialog();
+    }
+    
+    public boolean isSymbolLegendSelected() {
+        return symbolLegendCheckBox.isSelected();
+    }
+    
+    public void setEquilibriumExpressionsSelected( boolean b ) {
+        equilibriumExpressionsCheckBox.setSelected( b );
+        updateEquilibriumExpressionsDialog();
+    }
+    
+    public boolean isEquilibriumExpressionsSelected() {
+        return equilibriumExpressionsCheckBox.isSelected();
+    }
+    
+    public void setReactionRatesSelected( boolean b ) {
+        reactionEquationsCheckBox.setSelected( b );
+        updateReactionEquationsDialog();
+    }
+    
+    public boolean isReactionRatesSelected() {
+        return reactionEquationsCheckBox.isSelected();
+    }
+    
+    private void updateSymbolLegendDialog() {
+        if ( symbolLegendCheckBox.isSelected() ) {
+            openSymbolLegendDialog();
+        }
+        else {
+            closeSymbolLegendDialog();
+        }
     }
     
     private void openSymbolLegendDialog() {
@@ -139,6 +174,15 @@ public class MiscControls extends JPanel {
         symbolLegendDialog = null;
     }
     
+    private void updateEquilibriumExpressionsDialog() {
+        if ( equilibriumExpressionsCheckBox.isSelected() ) {
+            openEquilibriumExpressionsDialog();
+        }
+        else {
+            closeEquilibriumExpressionsDialog();
+        }
+    }
+    
     private void openEquilibriumExpressionsDialog() {
         
         equilibriumExpressionsDialog = new EquilibriumExpressionsDialog( parentFrame );
@@ -168,6 +212,15 @@ public class MiscControls extends JPanel {
     private void closeEquilibriumExpressionsDialog() {
         equilibriumExpressionsDialogLocation = closeDialog( equilibriumExpressionsDialog );
         equilibriumExpressionsDialog = null;
+    }
+    
+    private void updateReactionEquationsDialog() {
+        if ( reactionEquationsCheckBox.isSelected() ) {
+            openReactionEquationsDialog();
+        }
+        else {
+            closeReactionEquationsDialog();
+        }
     }
     
     private void openReactionEquationsDialog() {
@@ -201,6 +254,9 @@ public class MiscControls extends JPanel {
         reactionEquationsDialog = null;
     }
     
+    /*
+     * Closes a dialog and returns its position.
+     */
     private static Point closeDialog( JDialog dialog ) {
         Point location = null;
         if ( dialog != null ) {

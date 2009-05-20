@@ -6,9 +6,12 @@ import java.awt.Frame;
 
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.AcidBaseSolutionsApplication;
+import edu.colorado.phet.acidbasesolutions.control.BeakerControls;
+import edu.colorado.phet.acidbasesolutions.control.MiscControls;
+import edu.colorado.phet.acidbasesolutions.control.SolutionControlsNode;
 import edu.colorado.phet.acidbasesolutions.model.ABSClock;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
-import edu.colorado.phet.acidbasesolutions.model.Acid.CustomAcid;
+import edu.colorado.phet.acidbasesolutions.model.Solute.ICustomSolute;
 import edu.colorado.phet.acidbasesolutions.module.ABSAbstractModule;
 import edu.colorado.phet.acidbasesolutions.persistence.SolutionsConfig;
 
@@ -71,7 +74,28 @@ public class SolutionsModule extends ABSAbstractModule {
      * Resets the module.
      */
     public void reset() {
-        model.getSolution().setSolute( new CustomAcid() );
+
+        // solution controls
+        SolutionControlsNode solutionControlsNode = canvas.getSolutionControlsNode();
+        solutionControlsNode.setSolute( SolutionsDefaults.SOLUTE );
+        if ( solutionControlsNode.getSolute() instanceof ICustomSolute ) {
+            solutionControlsNode.setConcentration( SolutionsDefaults.CONCENTRATION );
+            solutionControlsNode.setStrength( SolutionsDefaults.STRENGTH );
+        }
+
+        // beaker controls
+        BeakerControls beakerControls = canvas.getBeakerControls();
+        beakerControls.setDissociatedComponentsRatioSelected( SolutionsDefaults.DISASSOCIATED_COMPONENTS_RATIO_VISIBLE );
+        beakerControls.setHydroniumHydroxideRatioSelected( SolutionsDefaults.HYDRONIUM_HYDROXIDE_RATIO_VISIBLE );
+        beakerControls.setMoleculeCountsSelected( SolutionsDefaults.MOLECULE_COUNTS_VISIBLE );
+        beakerControls.setBeakerLabelSelected( SolutionsDefaults.BEAKER_LABEL_VISIBLE );
+
+        // misc controls
+        MiscControls miscControls = canvas.getMiscControls();
+        miscControls.setConcentrationGraphSelected( SolutionsDefaults.CONCENTRATION_GRAPH_VISIBLE );
+        miscControls.setSymbolLegendSelected( SolutionsDefaults.SYMBOL_LEGEND_VISIBLE );
+        miscControls.setEquilibriumExpressionsSelected( SolutionsDefaults.EQUILIBRIUM_EXPRESSIONS_VISIBLE );
+        miscControls.setReactionRatesSelected( SolutionsDefaults.REACTION_EQUATIONS_VISIBLE );
     }
     
     //----------------------------------------------------------------------------

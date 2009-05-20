@@ -6,7 +6,6 @@ TODO:
 - connect equilibrium expressions to model
 - connect reaction equations to model
 - connect beaker view controls to model (ratio check box labels)
-- Reset All
 - ratio views
 - H2O should not be scalable in Reaction Equations, should change to Color.BLACK when scaling is enabled
 - revisit implementation of Reaction Equations and Equilibrium Expressions
@@ -25,6 +24,7 @@ ISSUES:
 - move Reset All button to top center to avoid i18n layout issues with View controls? 
 
 DONE:
+5/20/09 implement Reset All for first module
 5/20/09 delete some test mains for controls
 5/20/09 increase precision of concentration text field
 5/19/09 rotate molecule labels that exceed max width
