@@ -5,9 +5,10 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Stroke;
 import java.awt.geom.Rectangle2D;
-import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
+import edu.colorado.phet.acidbasesolutions.control.ConcentrationControlNode;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.model.NoSolute;
 import edu.colorado.phet.acidbasesolutions.model.Solute;
@@ -36,7 +37,7 @@ public class BeakerLabelNode extends PNode {
     
     private static final double MARGIN = 10;
     
-    private static final DecimalFormat CONCENTRATION_FORMAT = new DecimalFormat( "0.000" );
+    private static final NumberFormat CONCENTRATION_FORMAT = ConcentrationControlNode.getFormat();
     
     private final PPath backgroundNode;
     private final HTMLNode htmlNode;
