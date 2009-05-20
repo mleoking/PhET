@@ -15,12 +15,17 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * 
- * Demonstrates a layout problem with HTML check boxes that have dynamic labels.
+ * Demonstrates a layout problem with check boxes that have dynamic HTML labels.
  * Click the radio buttons in the control panel a few times to see the issue.
  * The panel in the play area will become wider to accommodate the wider label,
  * but the label will be wrapped to the panel's previous width.
  * 
- * Observed on Mac OS 10.5.6 with Java 1.5.0_16, untested on Windows.
+ * Not sure if this is a problem with Swing layout managers, HTML, JCheckBox, PSwing, or some combination.
+ * 
+ * Observed on:
+ * Mac OS 10.5.6 + Java 1.5.0_16.
+ * Windows XP + Java 1.5.0_17.
+ * Untested on other platforms.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
