@@ -264,6 +264,10 @@ public class RadiometricDatingMeterNode extends PNode {
 	public double getMeterBodyWidth(){
 		return _meterBody.getFullBounds().width;
 	}
+
+    //------------------------------------------------------------------------
+    // Inner Classes
+    //------------------------------------------------------------------------
 	
 	/**
 	 * This class represents a node that visually depicts the cable or cord that
@@ -342,10 +346,6 @@ public class RadiometricDatingMeterNode extends PNode {
 	    }
 	}
 	
-    //------------------------------------------------------------------------
-    // Inner Classes
-    //------------------------------------------------------------------------
-	
 	private class ElementSelectionPanel extends VerticalLayoutPanel {
 		
 		private JRadioButton _carbon14RadioButton;
@@ -374,12 +374,15 @@ public class RadiometricDatingMeterNode extends PNode {
             _carbon14RadioButton = new JRadioButton("Carbon 14");
             _carbon14RadioButton.setBackground(BODY_COLOR);
             _carbon14RadioButton.setForeground(Color.WHITE);
+            _carbon14RadioButton.setFont(new PhetFont(18));
             _uranium238RadioButton = new JRadioButton("Uranium 238");
             _uranium238RadioButton.setBackground(BODY_COLOR);
             _uranium238RadioButton.setForeground(Color.WHITE);
+            _uranium238RadioButton.setFont(new PhetFont(18));
             _customNucleusRadioButton = new JRadioButton("Custom");
             _customNucleusRadioButton.setBackground(BODY_COLOR);
             _customNucleusRadioButton.setForeground(Color.WHITE);
+            _customNucleusRadioButton.setFont(new PhetFont(18));
             
             ButtonGroup buttonGroup = new ButtonGroup();
             buttonGroup.add( _carbon14RadioButton );
