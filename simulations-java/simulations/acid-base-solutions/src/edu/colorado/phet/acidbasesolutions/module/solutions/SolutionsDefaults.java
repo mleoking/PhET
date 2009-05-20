@@ -15,7 +15,6 @@ public class SolutionsDefaults {
     
     // default sizes
     public static final PDimension BEAKER_SIZE = new PDimension( 400, 400 );
-    public static final double PH_PROBE_HEIGHT = BEAKER_SIZE.getHeight() + 55;
     public static final PDimension CONCENTRATION_GRAPH_OUTLINE_SIZE = new PDimension( 400, 500 );
     
     private static SolutionsDefaults INSTANCE = new SolutionsDefaults();

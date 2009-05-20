@@ -26,7 +26,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BeakerLabelNode extends PNode {
+class BeakerLabelNode extends PNode {
     
     private static final Color BACKGROUND_COLOR = new Color( 255, 250, 219, 215 );
     private static final Stroke BACKGROUND_STROKE = new BasicStroke( 2f );

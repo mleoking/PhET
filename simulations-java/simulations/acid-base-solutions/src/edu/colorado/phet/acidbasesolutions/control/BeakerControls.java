@@ -13,29 +13,27 @@ import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.ABSSymbols;
+import edu.colorado.phet.acidbasesolutions.view.beaker.BeakerNode;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.umd.cs.piccolo.PNode;
 
 
 public class BeakerControls extends JPanel {
     
     private static final String RATIO_PATTERN = HTMLUtils.toHTMLString( ABSStrings.CHECK_BOX_RATIO );
     
-    private final PNode moleculeCountsNode;
-    private final PNode beakerLabelNode;
+    private final BeakerNode beakerNode;
     
     private final JCheckBox dissociatedComponentsRatioCheckBox;
     private final JCheckBox hyroniumHydroxideRatioCheckBox;
     private final JCheckBox moleculeCountsCheckBox;
     private final JCheckBox beakerLabelCheckBox;
     
-    public BeakerControls( final PNode moleculeCountsNode, final PNode beakerLabelNode ) {
+    public BeakerControls( final BeakerNode beakerNode ) {
         super();
         
-        this.moleculeCountsNode = moleculeCountsNode;
-        this.beakerLabelNode = beakerLabelNode;
+        this.beakerNode = beakerNode;
         
         // border
         TitledBorder border = new TitledBorder( new LineBorder( Color.BLACK, 1 ), ABSStrings.TITLE_BEAKER_CONTROLS );
@@ -44,24 +42,36 @@ public class BeakerControls extends JPanel {
         
         dissociatedComponentsRatioCheckBox = new JCheckBox();
         setDissociatedComponents( "?", "?" );
+        dissociatedComponentsRatioCheckBox.setSelected( beakerNode.isDisassociatedRatioComponentsVisible() );
+        dissociatedComponentsRatioCheckBox.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                beakerNode.setDisassociatedRatioComponentsVisible( dissociatedComponentsRatioCheckBox.isSelected() );
+            }
+        });
         
         Object[] args = { ABSSymbols.H3O_PLUS, ABSSymbols.OH_MINUS };
         String text = MessageFormat.format( RATIO_PATTERN, args );
         hyroniumHydroxideRatioCheckBox = new JCheckBox( text );
+        hyroniumHydroxideRatioCheckBox.setSelected( beakerNode.istHydroniumHydroxideRatioVisible() );
+        hyroniumHydroxideRatioCheckBox.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                beakerNode.setHydroniumHydroxideRatioVisible( hyroniumHydroxideRatioCheckBox.isSelected() );
+            }
+        });
         
         moleculeCountsCheckBox = new JCheckBox( ABSStrings.CHECK_BOX_MOLECULE_COUNTS );
-        moleculeCountsCheckBox.setSelected( moleculeCountsNode.getVisible() );
+        moleculeCountsCheckBox.setSelected( beakerNode.isMoleculeCountsVisible() );
         moleculeCountsCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                moleculeCountsNode.setVisible( moleculeCountsCheckBox.isSelected() );
+                beakerNode.setMoleculeCountsVisible( moleculeCountsCheckBox.isSelected() );
             }
         });
         
         beakerLabelCheckBox = new JCheckBox( ABSStrings.CHECK_BOX_BEAKER_LABEL );
-        beakerLabelCheckBox.setSelected( beakerLabelNode.getVisible() );
+        beakerLabelCheckBox.setSelected( beakerNode.isBeakerLabelVisible() );
         beakerLabelCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                beakerLabelNode.setVisible( beakerLabelCheckBox.isSelected() );
+                beakerNode.setBeakerLabelVisible( beakerLabelCheckBox.isSelected() );
             }
         });
 
@@ -84,7 +94,7 @@ public class BeakerControls extends JPanel {
     
     public void setDissociatedComponentsRatioSelected( boolean b ) {
         dissociatedComponentsRatioCheckBox.setSelected( b );
-        //XXX node.setVisible( b );
+        beakerNode.setDisassociatedRatioComponentsVisible( b );
     }
     
     public boolean isDissociatedComponentsRatioSelected() {
@@ -93,7 +103,7 @@ public class BeakerControls extends JPanel {
     
     public void setHydroniumHydroxideRatioSelected( boolean b ) {
         hyroniumHydroxideRatioCheckBox.setSelected( b );
-        //XXX node.setVisible( b );
+        beakerNode.setHydroniumHydroxideRatioVisible( b );
     }
     
     public boolean isHydroniumHydroxideRatioSelected() {
@@ -102,7 +112,7 @@ public class BeakerControls extends JPanel {
     
     public void setMoleculeCountsSelected( boolean b ) {
         moleculeCountsCheckBox.setSelected( b );
-        moleculeCountsNode.setVisible( b );
+        beakerNode.setMoleculeCountsVisible( b );
     }
     
     public boolean isMoleculeCountsSelected() {
@@ -111,7 +121,7 @@ public class BeakerControls extends JPanel {
     
     public void setBeakerLabelSelected( boolean b ) {
         beakerLabelCheckBox.setSelected( b );
-        beakerLabelNode.setVisible( b );
+        beakerNode.setBeakerLabelVisible( b );
     }
     
     public boolean isBeakerLabelSelected() {

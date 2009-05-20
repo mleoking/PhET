@@ -21,7 +21,7 @@ import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 
-public class PHProbeNode extends PComposite {
+class PHProbeNode extends PComposite {
     
     //----------------------------------------------------------------------------
     // Class data
