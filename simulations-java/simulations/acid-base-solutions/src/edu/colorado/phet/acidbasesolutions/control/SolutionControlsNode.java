@@ -140,10 +140,6 @@ public class SolutionControlsNode extends PhetPNode {
         addChild( 0, backgroundNode );
     }
     
-    public void setConcentration( double concentration ) {
-        concentrationControlNode.setValue( concentration );
-    }
-    
     public void setSolute( Solute solute ) {
         soluteComboBox.setSolute( solute );
         
@@ -172,6 +168,10 @@ public class SolutionControlsNode extends PhetPNode {
     
     public Solute getSolute() {
         return SoluteFactory.createSolute( soluteComboBox.getSoluteName() );
+    }
+    
+    public void setConcentration( double concentration ) {
+        concentrationControlNode.setValue( concentration );
     }
     
     public double getConcentration() {
