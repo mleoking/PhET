@@ -243,12 +243,14 @@ public class DecayRatesCanvas extends PhetPCanvas {
     		int numNucleiToMove = numNucleiOutOfHoldingArea - (int)Math.round(targetProportion * totalNumNuclei);
     		moveNucleiToBucket(numNucleiToMove);
     		_model.resetActiveAndDecayedNuclei();
+    		_proportionsChart.clear();
     	}
     	else if (currentProportion < targetProportion){
     		// We need to move some nuclei from the bucket into the main canvas area.
     		int numNucleiToMove = (int)Math.round(targetProportion * totalNumNuclei) - numNucleiOutOfHoldingArea;
     		moveNucleiFromBucket(numNucleiToMove);
     		_model.resetActiveAndDecayedNuclei();
+    		_proportionsChart.clear();
     	}
 	}
 
