@@ -31,6 +31,8 @@ import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.densityjava.ModelComponents;
+import edu.colorado.phet.densityjava.common.Unit;
 import edu.colorado.phet.densityjava.model.Block;
 import edu.colorado.phet.densityjava.model.DensityModel;
 import edu.colorado.phet.densityjava.model.RectangularObject;
@@ -54,16 +56,18 @@ public class DensityCanvasImpl extends BasicCanvasImpl implements WaterSurface.W
     private DensityModel model;
     private DisplaySystem display;
     private Component component;
+    private final ModelComponents.DisplayDimensions displayDimensions;
     private PickData picked = null;
     private Point2D pickPt;
     private WaterSurface waterSurface;
     private Java2dOverlay overlay;
 
-    public DensityCanvasImpl(int width, int height, DisplaySystem display, Component component, DensityModel model) {
+    public DensityCanvasImpl(int width, int height, DisplaySystem display, Component component, DensityModel model,ModelComponents.DisplayDimensions displayDimensions) {
         super(width, height, display, component);
         this.model = model;
         this.display = display;
         this.component = component;
+        this.displayDimensions = displayDimensions;
     }
 
     public void simpleSetup() {
@@ -103,7 +107,7 @@ public class DensityCanvasImpl extends BasicCanvasImpl implements WaterSurface.W
 
         rootNode.attachChild(new CutawayEarthNode(model));
         rootNode.attachChild(new GrassNode(model));
-        rootNode.attachChild(new VolumeReadout(model));
+        rootNode.attachChild(new VolumeReadout(model,displayDimensions));
 
 
         //For debugging locations
@@ -564,7 +568,16 @@ public class DensityCanvasImpl extends BasicCanvasImpl implements WaterSurface.W
     }
 
     private class VolumeReadout extends Node {
-        public VolumeReadout(DensityModel model) {
+        private ModelComponents.DisplayDimensions displayDimensions;
+        private PiccoloNode element;
+
+        public VolumeReadout(DensityModel model, final ModelComponents.DisplayDimensions displayDimensions) {
+            this.displayDimensions = displayDimensions;
+            displayDimensions.addListener(new Unit() {
+                public void update() {
+                    updateVisible();
+                }
+            });
             PNode node = new PNode();
             final HTMLNode text = new HTMLNode(model.getWaterVolumeHTML());
             text.setFont(new PhetFont(15, true));
@@ -580,14 +593,23 @@ public class DensityCanvasImpl extends BasicCanvasImpl implements WaterSurface.W
             PNode container = new PNode();
             container.addChild(background);
             container.addChild(node);
-            PiccoloNode element = new PiccoloNode("readout", container);
+            element = new PiccoloNode("readout", container);
 
-
-            attachChild(element);
             float localScale = 2.2f;
             setLocalScale(localScale);
             setLocalTranslation((float) model.getSwimmingPool().getMaxX() - localScale / 2.0f, (float) model.getWater().getMaxY(), (float) (model.getWater().getZ() + 1E-3));
 
+            updateVisible();
+        }
+
+        private void updateVisible() {
+            if (displayDimensions.isDisplay() && !hasChild(element)) {
+                attachChild(element);
+            } else {
+                if (hasChild(element)) {
+                    detachChild(element);
+                }
+            }
         }
     }
 

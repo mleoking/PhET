@@ -35,7 +35,7 @@ public class DensityApplication extends PiccoloPhetApplication {
 
         public DensityModule(JFrame frame) {
             super("density", new ConstantDtClock(30, 30 / 1000.0));
-            panel = new DensityJMECanvas(frame, model, massVolumeModel,displayDimensions);
+            panel = new DensityJMECanvas(frame, model, massVolumeModel, displayDimensions);
             setSimulationPanel(panel);
             getClock().addClockListener(new ClockAdapter() {
                 public void simulationTimeChanged(ClockEvent clockEvent) {
@@ -55,7 +55,7 @@ public class DensityApplication extends PiccoloPhetApplication {
         }
 
         public void activate() {
-            super.activate();    //To change body of overridden methods use File | Settings | File Templates.
+            super.activate();
             SwingUtilities.invokeLater(new Runnable() {
                 public void run() {
                     panel.getCanvas().requestFocus();
