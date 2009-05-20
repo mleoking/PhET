@@ -24,9 +24,10 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 
-public class MiscControls extends JPanel {
+public class MiscControlsNode extends PNode {
     
     private final Frame parentFrame;
     
@@ -44,17 +45,12 @@ public class MiscControls extends JPanel {
     private JDialog reactionEquationsDialog;
     private Point reactionEquationsDialogLocation;
     
-    public MiscControls( final PNode concentrationGraphNode ) {
+    public MiscControlsNode( final PNode concentrationGraphNode, Color background ) {
         super();
         
         this.concentrationGraphNode = concentrationGraphNode;
          
         parentFrame = PhetApplication.getInstance().getPhetFrame();
-        
-        // border
-        TitledBorder border = new TitledBorder( new LineBorder( Color.BLACK, 1 ), ABSStrings.TITLE_MISC_CONTROLS );
-        border.setTitleFont( new PhetFont( Font.BOLD, 16 ) );
-        setBorder( border );
         
         concentrationGraphCheckBox = new JCheckBox( ABSStrings.CHECK_BOX_CONCENTRATIONS_GRAPH );
         concentrationGraphCheckBox.setSelected( concentrationGraphNode.getVisible() );
@@ -85,9 +81,16 @@ public class MiscControls extends JPanel {
             }
         });
         
+        // border
+        JPanel panel = new JPanel();
+        panel.setBackground( background );
+        TitledBorder border = new TitledBorder( new LineBorder( Color.BLACK, 1 ), ABSStrings.TITLE_MISC_CONTROLS );
+        border.setTitleFont( new PhetFont( Font.BOLD, 16 ) );
+        panel.setBorder( border );
+        
         // layout
-        EasyGridBagLayout layout = new EasyGridBagLayout( this );
-        this.setLayout( layout );
+        EasyGridBagLayout layout = new EasyGridBagLayout( panel );
+        panel.setLayout( layout );
         int row = 0;
         int column = 0;
         layout.addComponent( concentrationGraphCheckBox, row++, column );
@@ -96,6 +99,8 @@ public class MiscControls extends JPanel {
         column++;
         layout.addComponent( equilibriumExpressionsCheckBox, row++, column );
         layout.addComponent( reactionEquationsCheckBox, row++, column );
+        
+        addChild( new PSwing( panel ) );
     }
     
     public void setConcentrationGraphSelected( boolean b ) {

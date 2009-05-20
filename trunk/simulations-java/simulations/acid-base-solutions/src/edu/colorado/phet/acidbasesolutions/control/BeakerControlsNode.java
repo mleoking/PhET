@@ -17,9 +17,11 @@ import edu.colorado.phet.acidbasesolutions.view.beaker.BeakerNode;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 
-public class BeakerControls extends JPanel {
+public class BeakerControlsNode extends PNode {
     
     private static final String RATIO_PATTERN = HTMLUtils.toHTMLString( ABSStrings.CHECK_BOX_RATIO );
     
@@ -30,15 +32,10 @@ public class BeakerControls extends JPanel {
     private final JCheckBox moleculeCountsCheckBox;
     private final JCheckBox beakerLabelCheckBox;
     
-    public BeakerControls( final BeakerNode beakerNode ) {
+    public BeakerControlsNode( final BeakerNode beakerNode, Color background ) {
         super();
         
         this.beakerNode = beakerNode;
-        
-        // border
-        TitledBorder border = new TitledBorder( new LineBorder( Color.BLACK, 1 ), ABSStrings.TITLE_BEAKER_CONTROLS );
-        border.setTitleFont( new PhetFont( Font.BOLD, 16 ) );
-        setBorder( border );
         
         dissociatedComponentsRatioCheckBox = new JCheckBox();
         setDissociatedComponents( "?", "?" );
@@ -75,15 +72,24 @@ public class BeakerControls extends JPanel {
             }
         });
 
+        // border
+        JPanel panel = new JPanel();
+        panel.setBackground( background );
+        TitledBorder border = new TitledBorder( new LineBorder( Color.BLACK, 1 ), ABSStrings.TITLE_BEAKER_CONTROLS );
+        border.setTitleFont( new PhetFont( Font.BOLD, 16 ) );
+        panel.setBorder( border );
+        
         // layout
-        EasyGridBagLayout layout = new EasyGridBagLayout( this );
-        this.setLayout( layout );
+        EasyGridBagLayout layout = new EasyGridBagLayout( panel );
+        panel.setLayout( layout );
         int row = 0;
         int column = 0;
         layout.addComponent( dissociatedComponentsRatioCheckBox, row++, column );
         layout.addComponent( hyroniumHydroxideRatioCheckBox, row++, column );
         layout.addComponent( moleculeCountsCheckBox, row++, column );
         layout.addComponent( beakerLabelCheckBox, row++, column );
+        
+        addChild( new PSwing( panel ) );
     }
     
     public void setDissociatedComponents( String component1, String component2 ) {

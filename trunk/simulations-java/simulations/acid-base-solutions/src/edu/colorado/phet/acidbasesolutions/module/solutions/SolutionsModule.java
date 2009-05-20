@@ -6,8 +6,8 @@ import java.awt.Frame;
 
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.AcidBaseSolutionsApplication;
-import edu.colorado.phet.acidbasesolutions.control.BeakerControls;
-import edu.colorado.phet.acidbasesolutions.control.MiscControls;
+import edu.colorado.phet.acidbasesolutions.control.BeakerControlsNode;
+import edu.colorado.phet.acidbasesolutions.control.MiscControlsNode;
 import edu.colorado.phet.acidbasesolutions.control.SolutionControlsNode;
 import edu.colorado.phet.acidbasesolutions.model.ABSClock;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
@@ -94,13 +94,13 @@ public class SolutionsModule extends ABSAbstractModule {
         config.setConcentration( solutionControlsNode.getConcentration() );
         config.setStrength( solutionControlsNode.getStrength() );
         
-        BeakerControls beakerControls = canvas.getBeakerControls();
+        BeakerControlsNode beakerControls = canvas.getBeakerControlsNode();
         config.setDisassociatedComponentsRatioVisible( beakerControls.isDissociatedComponentsRatioSelected() );
         config.setHydroniumHydroxideRatioVisible( beakerControls.isHydroniumHydroxideRatioSelected() );
         config.setMoleculeCountsVisible( beakerControls.isMoleculeCountsSelected() );
         config.setBeakerLabelVisible( beakerControls.isBeakerLabelSelected() );
         
-        MiscControls miscControls = canvas.getMiscControls();
+        MiscControlsNode miscControls = canvas.getMiscControlsNode();
         config.setConcentrationGraphVisible( miscControls.isConcentrationGraphSelected() );
         config.setSymbolLegendVisible( miscControls.isSymbolLegendSelected() );
         config.setEquilibriumExpressionsVisible( miscControls.isEquilibriumExpressionsSelected() );
@@ -125,14 +125,14 @@ public class SolutionsModule extends ABSAbstractModule {
         }
 
         // beaker controls
-        BeakerControls beakerControls = canvas.getBeakerControls();
+        BeakerControlsNode beakerControls = canvas.getBeakerControlsNode();
         beakerControls.setDissociatedComponentsRatioSelected( config.isDisassociatedComponentsRatioVisible() );
         beakerControls.setHydroniumHydroxideRatioSelected( config.isHydroniumHydroxideRatioVisible() );
         beakerControls.setMoleculeCountsSelected( config.isMoleculeCountsVisible() );
         beakerControls.setBeakerLabelSelected( config.isBeakerLabelVisible() );
 
         // misc controls
-        MiscControls miscControls = canvas.getMiscControls();
+        MiscControlsNode miscControls = canvas.getMiscControlsNode();
         miscControls.setConcentrationGraphSelected( config.isConcentrationGraphVisible() );
         miscControls.setSymbolLegendSelected( config.isSymbolLegendVisible() );
         miscControls.setEquilibriumExpressionsSelected( config.isEquilibriumExpressionsVisible() );
