@@ -3,7 +3,7 @@
 ==================================================================================
 
 TODO:
-- Save/Load
+- move ProbeNode, SolutionNode, etc. to children of BeakerNode
 - connect equilibrium expressions to model
 - connect reaction equations to model
 - connect beaker view controls to model (ratio check box labels)
@@ -11,7 +11,6 @@ TODO:
 - H2O should not be scalable in Reaction Equations, should change to Color.BLACK when scaling is enabled
 - revisit implementation of Reaction Equations and Equilibrium Expressions
 - particle views
-- "Negligible" in Concentrations graph 
 - scale image files
 - redo layout of molecule counts, Swing layout strategy isn't working well
 
@@ -28,6 +27,8 @@ ISSUES:
 - better pattern for model, less use of instanceof
 
 DONE:
+5/20/09 "negligible" for strong acid strength=0 in Concentrations graph
+5/20/09 factor out NegligibleValueNode
 5/20/09 reimplement Reset All using Load
 5/20/09 implement Save/Load for first module
 5/20/09 implement Reset All for first module

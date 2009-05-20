@@ -15,6 +15,7 @@ public class AcidConcentrationGraphNode extends AbstractConcentrationGraphNode {
         super( outlineSize );
         setMolecule( ACID_INDEX, ABSImages.HA_MOLECULE, ABSSymbols.HA, ABSConstants.HA_COLOR );
         setMolecule( BASE_INDEX, ABSImages.A_MINUS_MOLECULE, ABSSymbols.A_MINUS, ABSConstants.A_COLOR );
+        setNegligibleEnabled( ACID_INDEX, true, 0 /* negligibleThreshold */ );
     }
     
     public void setAcidConcentration( double concentration ) {

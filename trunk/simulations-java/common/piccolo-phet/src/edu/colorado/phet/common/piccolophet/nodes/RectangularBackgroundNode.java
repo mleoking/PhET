@@ -75,6 +75,11 @@ public class RectangularBackgroundNode extends PNode {
         update();
     }
     
+    
+    public PNode getForegroundNode() {
+        return _foregroundNode;
+    }
+    
     /*
      * Adjusts the background to fit the foreground node.
      */
