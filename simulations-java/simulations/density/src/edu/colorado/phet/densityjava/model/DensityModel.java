@@ -75,7 +75,11 @@ public class DensityModel {
     }
 
     public String getWaterVolumeHTML() {
-        return "<html>"+new DecimalFormat("0.00").format(waterVolume)+" m<font size=\"-1\"><sup>3</sup></font></html>";
+        return "<html>" + new DecimalFormat("0.00").format(waterVolume) + " m<font size=\"-1\"><sup>3</sup></font></html>";
+    }
+
+    public String getWaterHeightText() {
+        return new DecimalFormat("0.00").format(water.getHeight())+" m";
     }
 
     public class ObjectElement extends MatrixDynamics.Element {

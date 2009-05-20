@@ -27,31 +27,18 @@ import java.nio.FloatBuffer;
  * Java 2D painting thread.
  *
  * @author Dennis Bijlsma
- *         modified by Sam Reid
+ * @author Sam Reid
  */
 
-public abstract class Java2DQuad extends Quad implements Runnable {
+public abstract class Java2DQuad extends Quad {
 
     private int width;
     private int height;
 
     private BufferedImage image;
-    private ImageStatus status;
-    private boolean render;
-    private float updateTime;
-    private float currentTime;
-
-    private TextureState state;
     private Image teximg;
     private ByteBuffer buffer;
-
-    private enum ImageStatus {
-        DIRTY,
-        PAINTING,
-        AVAILABLE,
-        RENDERING,
-        STOPPED
-    }
+    private TextureState state;
 
     /**
      * Creates a new overlay with the specified dimensions. Note that the Y
@@ -69,18 +56,8 @@ public abstract class Java2DQuad extends Quad implements Runnable {
         this.height = height;
 
         image = new BufferedImage(width, height, BufferedImage.TYPE_4BYTE_ABGR);
-        status = ImageStatus.DIRTY;
-        render = false;
-        updateTime = 0f;
-        currentTime = 0f;
-
-        // Create the quad
-
-//        quad = new Quad("Java2dOverlay", width, height);
-//        setRenderQueueMode(Renderer.QUEUE_ORTHO);
         setCullHint(Spatial.CullHint.Never);
         setLightCombineMode(Spatial.LightCombineMode.Off);
-//        setLocalTranslation(width / 2f, height / 2f, 0f);
         updateRenderState();
 
         // Use the BufferedImage as texture
@@ -120,38 +97,7 @@ public abstract class Java2DQuad extends Quad implements Runnable {
         setRenderState(bs);
         updateRenderState();
 
-        paint();
-        render();
-    }
-
-    /**
-     * Requests an update of the overlay as soon as possible. Whether the update
-     * is actually done depends on the current state of the overlay.
-     */
-
-    public void requestUpdate(float dt) {
-
-        if (currentTime >= updateTime) {
-            render = true;
-            currentTime = 0f;
-        } else {
-            render = false;
-            currentTime += dt;
-        }
-    }
-
-    /**
-     * Requests a render of the overlay as soon as possible. Whether the render
-     * is done depends if the overlay's contents have changed since the last one.
-     */
-
-    public void requestRender() {
-
-        if ((render) && (status == ImageStatus.AVAILABLE)) {
-            setStatus(ImageStatus.RENDERING);
-            render();
-            setStatus(ImageStatus.DIRTY);
-        }
+        repaint();
     }
 
     /**
@@ -180,85 +126,26 @@ public abstract class Java2DQuad extends Quad implements Runnable {
      * from the game thread.
      */
 
-    public abstract void paint(Graphics2D g2);
+    protected abstract void paint(Graphics2D g2);
 
     /**
      * Updates the quad's texture with the contents of the BufferedImage.
      */
 
-    private void render() {
-
-        byte[] data = (byte[]) image.getRaster().getDataElements(0, 0,
-                image.getWidth(), image.getHeight(), null);
+    public void repaint() {
+        paint();
+        byte[] data = (byte[]) image.getRaster().getDataElements(0, 0, image.getWidth(), image.getHeight(), null);
         buffer.clear();
         buffer.put(data, 0, data.length);
         buffer.rewind();
 
         teximg.setData(buffer);
-        state.deleteAll();
-    }
-
-    /**
-     * Sets the update interval of this overlay. This interval can be different
-     * from that of the rest of the game. A value of 0 indicates that the overlay
-     * will be updated every frame.
-     */
-
-    public void setUpdateTime(float updateTime) {
-        this.updateTime = updateTime;
-        this.currentTime = 0f;
-    }
-
-    /**
-     * Returns the update interval of this overlay. This interval can be different
-     * from that of the rest of the game. A value of 0 indicates that the overlay
-     * will be updated every frame.
-     */
-
-    public float getUpdateTime() {
-        return updateTime;
-    }
-
-    /**
-     * Changes the paint status to the specified value.
-     */
-
-    private synchronized void setStatus(ImageStatus newStatus) {
-        status = newStatus;
-    }
-
-    /**
-     * Starts the internal thread that will paint this overlay.
-     */
-
-    public void start() {
-        Thread t = new Thread(this, "jMonkeyEngine-Java2dOverlay");
-        t.start();
-    }
-
-    /**
-     * Stops the internal thread that will paint this overlay.
-     */
-
-    public void stop() {
-        setStatus(ImageStatus.STOPPED);
-    }
-
-    /**
-     * Animation loop that repaints the images. This method will run until it
-     * is manually stopped using {@code #stop()}.
-     */
-
-    public void run() {
-
-        while (status != ImageStatus.STOPPED) {
-            if (status == ImageStatus.DIRTY) {
-                setStatus(ImageStatus.PAINTING);
-                paint();
-                setStatus(ImageStatus.AVAILABLE);
-            }
-
-            Thread.yield();
+        //TODO: why was state.deleteAll() here?  It was causing null pointer exceptions
+        try {
+            state.deleteAll();
+        } catch (NullPointerException npe) {
+            //TODO: state.deleteAll() throws NPE, but seems necessary in order to make sure texture updates
+//            System.out.println("npe = " + npe);
         }
     }
 

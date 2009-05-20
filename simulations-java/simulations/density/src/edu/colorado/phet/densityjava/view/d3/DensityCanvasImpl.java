@@ -29,7 +29,6 @@ import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
-import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.densityjava.ModelComponents;
 import edu.colorado.phet.densityjava.common.Unit;
@@ -62,7 +61,7 @@ public class DensityCanvasImpl extends BasicCanvasImpl implements WaterSurface.W
     private WaterSurface waterSurface;
     private Java2dOverlay overlay;
 
-    public DensityCanvasImpl(int width, int height, DisplaySystem display, Component component, DensityModel model,ModelComponents.DisplayDimensions displayDimensions) {
+    public DensityCanvasImpl(int width, int height, DisplaySystem display, Component component, DensityModel model, ModelComponents.DisplayDimensions displayDimensions) {
         super(width, height, display, component);
         this.model = model;
         this.display = display;
@@ -107,7 +106,7 @@ public class DensityCanvasImpl extends BasicCanvasImpl implements WaterSurface.W
 
         rootNode.attachChild(new CutawayEarthNode(model));
         rootNode.attachChild(new GrassNode(model));
-        rootNode.attachChild(new VolumeReadout(model,displayDimensions));
+        rootNode.attachChild(new VolumeReadout(model, displayDimensions));
 
 
         //For debugging locations
@@ -570,6 +569,8 @@ public class DensityCanvasImpl extends BasicCanvasImpl implements WaterSurface.W
     private class VolumeReadout extends Node {
         private ModelComponents.DisplayDimensions displayDimensions;
         private PiccoloNode element;
+        private float localScale = 2.2f;
+        private PText text;
 
         public VolumeReadout(DensityModel model, final ModelComponents.DisplayDimensions displayDimensions) {
             this.displayDimensions = displayDimensions;
@@ -579,13 +580,13 @@ public class DensityCanvasImpl extends BasicCanvasImpl implements WaterSurface.W
                 }
             });
             PNode node = new PNode();
-            final HTMLNode text = new HTMLNode(model.getWaterVolumeHTML());
+            text = new PText(model.getWaterHeightText());
             text.setFont(new PhetFont(15, true));
 
             node.addChild(text);
             final ArrowNode arrowNode = new ArrowNode(new Point2D.Double(0, 0), new Point2D.Double(35, 0), 15, 15, 7);
             arrowNode.setPaint(Color.blue);
-            arrowNode.setOffset(text.getFullBounds().getMaxX() + 2, text.getFullBounds().getCenterY() - arrowNode.getFullBounds().getHeight() / 2);
+            arrowNode.setOffset(text.getFullBounds().getMaxX() + 2, text.getFullBounds().getCenterY() - arrowNode.getFullBounds().getHeight() / 2 - arrowNode.getFullBounds().getY());
             node.addChild(arrowNode);
 
             final Rectangle2D expanded = RectangleUtils.expand(node.getFullBounds(), 5, 5);
@@ -595,11 +596,24 @@ public class DensityCanvasImpl extends BasicCanvasImpl implements WaterSurface.W
             container.addChild(node);
             element = new PiccoloNode("readout", container);
 
-            float localScale = 2.2f;
             setLocalScale(localScale);
-            setLocalTranslation((float) model.getSwimmingPool().getMaxX() - localScale / 2.0f, (float) model.getWater().getMaxY(), (float) (model.getWater().getZ() + 1E-3));
+            updateLocation();
+
+            model.getWater().addListener(new RectangularObject.Adapter() {
+                public void modelChanged() {
+                    updateLocation();
+                }
+            });
 
             updateVisible();
+        }
+
+        private void updateLocation() {
+            setLocalTranslation((float) model.getSwimmingPool().getMaxX() - localScale / 2.0f, (float) model.getWater().getMaxY(), (float) (model.getWater().getZ() + 1E-3));
+            if (!text.getText().equals(model.getWaterHeightText())) {
+                text.setText(model.getWaterHeightText());
+                element.repaint();
+            }
         }
 
         private void updateVisible() {
@@ -614,18 +628,23 @@ public class DensityCanvasImpl extends BasicCanvasImpl implements WaterSurface.W
     }
 
     public static class PiccoloNode extends Node {
+        private Java2DQuad java2DQuad;
+
         public PiccoloNode(String name, final PNode node) {
-            Java2DQuad java2DQuad = new Java2DQuad(name + ".java2dquad", (int) node.getFullBounds().width, (int) node.getFullBounds().height) {
-                public void paint(Graphics2D g2) {
+            java2DQuad = new Java2DQuad(name + ".java2dquad", (int) node.getFullBounds().width, (int) node.getFullBounds().height) {
+                protected void paint(Graphics2D g2) {
                     g2.translate(-node.getFullBounds().x, -node.getFullBounds().y);
                     node.fullPaint(new PPaintContext(g2));
                 }
             };
             setLocalScale((float) (1.0 / node.getFullBounds().width));
-            java2DQuad.start();
             java2DQuad.setRenderQueueMode(Renderer.QUEUE_TRANSPARENT);
             java2DQuad.updateRenderState();
             attachChild(java2DQuad);
+        }
+
+        public void repaint() {
+            java2DQuad.repaint();
         }
     }
 }
