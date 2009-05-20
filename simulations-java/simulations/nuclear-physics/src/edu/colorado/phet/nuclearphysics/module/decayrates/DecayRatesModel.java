@@ -99,7 +99,7 @@ public class DecayRatesModel extends MultiNucleusDecayModel {
     public int getNumNucleiInHoldingArea(){
     	int numNucleiInHoldingArea = 0;
     	for (AtomicNucleus nucleus : _atomicNuclei){
-    		if (HOLDING_AREA_RECT.contains(nucleus.getPositionReference())){
+    		if (isNucleusInHoldingArea(nucleus)){
     			numNucleiInHoldingArea++;
     		}
     	}
