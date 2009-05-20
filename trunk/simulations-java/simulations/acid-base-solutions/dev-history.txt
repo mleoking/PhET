@@ -7,6 +7,7 @@ TODO:
 - connect reaction equations to model
 - connect beaker view controls to model (ratio check box labels)
 - Reset All
+- ratio views
 - H2O should not be scalable in Reaction Equations, should change to Color.BLACK when scaling is enabled
 - revisit implementation of Reaction Equations and Equilibrium Expressions
 - particle views
@@ -16,7 +17,13 @@ TODO:
 - smooth, curved lip on beaker
 - redo layout of molecule counts, Swing layout strategy isn't working well
 
+ISSUES:
+- how should layout be adjusted when main frame is resized?
+- precision of concentration text field
+
 DONE:
+5/20/09 increase precision of concentration text field
+5/19/09 rotate molecule labels that exceed max width
 5/19/09 support arrow keys in concentration text field
 5/19/09 rewrite SolutionsCanvas.updateLayout
 5/19/09 bigger beaker

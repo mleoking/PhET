@@ -36,12 +36,12 @@ public class ConcentrationControlNode extends PNode {
     private static final double X_SPACING = 3;
     
     private static final Font TEXTFIELD_FONT = new PhetFont( 14 );
-    private static final String TEXTFIELD_PATTERN = "0.000";
-    private static final double DELTA = 0.001;
+    private static final String TEXTFIELD_PATTERN = "0.0000";
+    private static final double DELTA = 0.0001;
     private static final DecimalFormat TEXTFIELD_FORMAT = new DecimalFormat( TEXTFIELD_PATTERN );
-    private static final int TEXTFIELD_COLUMNS = TEXTFIELD_PATTERN.length();
+    private static final int TEXTFIELD_COLUMNS = TEXTFIELD_PATTERN.length() - 1;
     
-    private static final Font UNITS_FONT = new PhetFont( 14 );
+    private static final Font UNITS_FONT = new PhetFont( 12 );
     
     //----------------------------------------------------------------------------
     // Instance data
