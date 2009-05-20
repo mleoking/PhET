@@ -125,12 +125,12 @@ public class MiscControls extends JPanel {
         return equilibriumExpressionsCheckBox.isSelected();
     }
     
-    public void setReactionRatesSelected( boolean b ) {
+    public void setReactionEquationsSelected( boolean b ) {
         reactionEquationsCheckBox.setSelected( b );
         updateReactionEquationsDialog();
     }
     
-    public boolean isReactionRatesSelected() {
+    public boolean isReactionEquationsSelected() {
         return reactionEquationsCheckBox.isSelected();
     }
     
