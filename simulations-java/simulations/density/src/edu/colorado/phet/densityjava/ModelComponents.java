@@ -1,9 +1,9 @@
 package edu.colorado.phet.densityjava;
 
-import edu.colorado.phet.densityjava.common.MyRadioButton;
+import edu.colorado.phet.densityjava.common.SimpleModel;
 
 public class ModelComponents {
-    public static class Units extends MyRadioButton.SimpleModel {
+    public static class Units extends SimpleModel {
         private boolean isMetric = true;
 
         public boolean isMetric() {
@@ -23,6 +23,21 @@ public class ModelComponents {
 
         public void setEnglish(boolean b) {
             setMetric(!b);
+        }
+    }
+
+    public static class DisplayDimensions extends SimpleModel {
+        private boolean display = false;
+
+        public boolean isDisplay() {
+            return display;
+        }
+
+        public void setDisplay(boolean display) {
+            if (this.display != display) {
+                this.display = display;
+                notifyListeners();
+            }
         }
     }
 }

@@ -1,6 +1,7 @@
 package edu.colorado.phet.densityjava.model;
 
-import edu.colorado.phet.densityjava.common.MyRadioButton;
+import edu.colorado.phet.densityjava.common.Unit;
+import edu.colorado.phet.densityjava.common.Model;
 
 import java.util.ArrayList;
 
@@ -11,16 +12,16 @@ import java.util.ArrayList;
  * Time: 1:35:04 PM
  * To change this template use File | Settings | File Templates.
  */
-public class MassVolumeModel implements MyRadioButton.Model {
+public class MassVolumeModel implements Model {
 
-    private ArrayList<MyRadioButton.Unit> listeners = new ArrayList<MyRadioButton.Unit>();
+    private ArrayList<Unit> listeners = new ArrayList<Unit>();
     private boolean sameMass = false;
 
     public void setSameMass(boolean aBoolean) {
         if (aBoolean != sameMass) {
             sameMass = aBoolean;
             System.out.println("sameMass = " + sameMass);
-            for (MyRadioButton.Unit listener : listeners) {
+            for (Unit listener : listeners) {
                 listener.update();
             }
         }
@@ -38,7 +39,7 @@ public class MassVolumeModel implements MyRadioButton.Model {
         setSameMass(!aBoolean);
     }
 
-    public void addListener(MyRadioButton.Unit unit) {
+    public void addListener(Unit unit) {
         listeners.add(unit);
     }
 }

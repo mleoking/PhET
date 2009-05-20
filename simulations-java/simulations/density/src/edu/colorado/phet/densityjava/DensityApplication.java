@@ -7,11 +7,11 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
-import edu.colorado.phet.densityjava.common.MyRadioButton;
+import edu.colorado.phet.densityjava.common.Unit;
 import edu.colorado.phet.densityjava.model.DensityModel;
 import edu.colorado.phet.densityjava.model.MassVolumeModel;
-import edu.colorado.phet.densityjava.view.d3.DensityJMECanvas;
 import edu.colorado.phet.densityjava.util.DensityUtils;
+import edu.colorado.phet.densityjava.view.d3.DensityJMECanvas;
 
 import javax.swing.*;
 import java.io.File;
@@ -30,18 +30,19 @@ public class DensityApplication extends PiccoloPhetApplication {
     class DensityModule extends Module {
         private final DensityModel model = new DensityModel();
         private final MassVolumeModel massVolumeModel = new MassVolumeModel();
+        private final ModelComponents.DisplayDimensions displayDimensions = new ModelComponents.DisplayDimensions();
         private final DensityJMECanvas panel;
 
         public DensityModule(JFrame frame) {
             super("density", new ConstantDtClock(30, 30 / 1000.0));
-            panel = new DensityJMECanvas(frame, model,massVolumeModel);
+            panel = new DensityJMECanvas(frame, model, massVolumeModel,displayDimensions);
             setSimulationPanel(panel);
             getClock().addClockListener(new ClockAdapter() {
                 public void simulationTimeChanged(ClockEvent clockEvent) {
                     model.stepInTime(clockEvent.getSimulationTimeChange());
                 }
             });
-            massVolumeModel.addListener(new MyRadioButton.Unit() {
+            massVolumeModel.addListener(new Unit() {
                 public void update() {
                     System.out.println("DensityApplication$DensityModule.update");
                     if (massVolumeModel.isSameMass()) {

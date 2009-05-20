@@ -2,6 +2,8 @@ package edu.colorado.phet.densityjava.view;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.densityjava.common.MyRadioButton;
+import edu.colorado.phet.densityjava.common.Getter;
+import edu.colorado.phet.densityjava.common.Setter;
 import edu.colorado.phet.densityjava.model.MassVolumeModel;
 
 import javax.swing.*;
@@ -15,20 +17,20 @@ import javax.swing.*;
  */
 public class MassVolumeChooser extends VerticalLayoutPanel {
     public MassVolumeChooser(final MassVolumeModel massVolumeModel) {
-        JRadioButton sameMass = new MyRadioButton("Objects of same mass", massVolumeModel, new MyRadioButton.Getter<Boolean>() {
+        JRadioButton sameMass = new MyRadioButton("Objects of same mass", massVolumeModel, new Getter<Boolean>() {
             public Boolean getValue() {
                 return massVolumeModel.isSameMass();
             }
-        }, new MyRadioButton.Setter<Boolean>() {
+        }, new Setter<Boolean>() {
             public void setValue(Boolean aBoolean) {
                 massVolumeModel.setSameMass(aBoolean);
             }
         });
-        JRadioButton sameVolume = new MyRadioButton("Objects of same volume", massVolumeModel, new MyRadioButton.Getter<Boolean>() {
+        JRadioButton sameVolume = new MyRadioButton("Objects of same volume", massVolumeModel, new Getter<Boolean>() {
             public Boolean getValue() {
                 return massVolumeModel.isSameVolume();
             }
-        }, new MyRadioButton.Setter<Boolean>() {
+        }, new Setter<Boolean>() {
             public void setValue(Boolean aBoolean) {
                 massVolumeModel.setSameVolume(aBoolean);
             }
