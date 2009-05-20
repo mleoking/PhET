@@ -1,3 +1,5 @@
+# 0.00.11 (31957) May 19, 2009
+5/19/09 Improve control panel
 # 0.00.10 (31839) May 18, 2009
 5/18/09 Improve dynamics
 # 0.00.09 (31800) May 17, 2009
