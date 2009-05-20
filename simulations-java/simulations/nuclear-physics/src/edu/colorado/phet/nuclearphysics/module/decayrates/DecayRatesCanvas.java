@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -137,6 +139,18 @@ public class DecayRatesCanvas extends PhetPCanvas {
 				setProportionOfNucleiOutsideHoldingArea(_bucketNode.getSlider().getNormalizedReading());
 			}
         });
+        _bucketNode.getSlider().addMouseListener(new MouseAdapter(){
+        	
+        	public void mousePressed(MouseEvent me){
+        		_model.resetActiveAndDecayedNuclei();
+        		_proportionsChart.clear();
+        		_model.setPaused(true);
+        	}
+        	public void mouseReleased(MouseEvent me){
+        		_model.setPaused(false);
+        	}
+        });
+        
         _bucketNode.setOffset( bucketRect.getX(), bucketRect.getY() );
 
         // Add the button that allows the user to add multiple nuclei at once.
@@ -242,15 +256,11 @@ public class DecayRatesCanvas extends PhetPCanvas {
     		// We need to move some nuclei into the bucket.
     		int numNucleiToMove = numNucleiOutOfHoldingArea - (int)Math.round(targetProportion * totalNumNuclei);
     		moveNucleiToBucket(numNucleiToMove);
-    		_model.resetActiveAndDecayedNuclei();
-    		_proportionsChart.clear();
     	}
     	else if (currentProportion < targetProportion){
     		// We need to move some nuclei from the bucket into the main canvas area.
     		int numNucleiToMove = (int)Math.round(targetProportion * totalNumNuclei) - numNucleiOutOfHoldingArea;
     		moveNucleiFromBucket(numNucleiToMove);
-    		_model.resetActiveAndDecayedNuclei();
-    		_proportionsChart.clear();
     	}
 	}
 
