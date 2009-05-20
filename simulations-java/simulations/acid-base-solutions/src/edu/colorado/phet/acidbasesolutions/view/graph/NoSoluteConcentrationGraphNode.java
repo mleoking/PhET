@@ -4,7 +4,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 
 
-public class NoSoluteConcentrationGraphNode extends AbstractConcentrationGraphNode {
+class NoSoluteConcentrationGraphNode extends AbstractConcentrationGraphNode {
     
     public NoSoluteConcentrationGraphNode( PDimension outlineSize ) {
         super( outlineSize );

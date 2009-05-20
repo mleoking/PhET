@@ -18,7 +18,12 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.PinnedLayoutNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
-public abstract class AbstractMoleculeCountsNode extends PinnedLayoutNode {
+/**
+ * Base class for all molecule counts.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
+abstract class AbstractMoleculeCountsNode extends PinnedLayoutNode {
     
     private static final int ROWS = 5;
 

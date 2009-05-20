@@ -4,7 +4,7 @@ package edu.colorado.phet.acidbasesolutions.view.moleculecounts;
 import edu.colorado.phet.acidbasesolutions.ABSImages;
 import edu.colorado.phet.acidbasesolutions.ABSSymbols;
 
-public class AcidMoleculeCountsNode extends AbstractMoleculeCountsNode {
+class AcidMoleculeCountsNode extends AbstractMoleculeCountsNode {
     
     private static int ACID_ROW = 0;
     private static int BASE_ROW = 1;

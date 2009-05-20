@@ -2,7 +2,7 @@
 package edu.colorado.phet.acidbasesolutions.view.moleculecounts;
 
 
-public class NoSoluteMoleculeCountsNode extends AbstractMoleculeCountsNode {
+class NoSoluteMoleculeCountsNode extends AbstractMoleculeCountsNode {
 
     public NoSoluteMoleculeCountsNode() {
         super();

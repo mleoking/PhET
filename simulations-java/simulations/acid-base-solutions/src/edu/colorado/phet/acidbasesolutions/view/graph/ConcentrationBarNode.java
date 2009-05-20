@@ -16,7 +16,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ConcentrationBarNode extends PPath {
+class ConcentrationBarNode extends PPath {
     
     //----------------------------------------------------------------------------
     // Class data
