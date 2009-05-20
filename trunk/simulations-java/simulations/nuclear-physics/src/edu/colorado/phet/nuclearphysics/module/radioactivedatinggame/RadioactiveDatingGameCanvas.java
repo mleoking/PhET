@@ -42,7 +42,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     
     // Constants for positioning/size some of the nodes.
     private final double PROPORTIONS_CHART_WIDTH_FRACTION = 0.6; // Fraction of canvas width for proportions chart.
-    private final double PROPORTIONS_METER_WIDTH_FRACTION = 0.20; // Fraction of canvas width for proportions chart.
+    private final double PROPORTIONS_METER_WIDTH_FRACTION = 0.23; // Fraction of canvas width for proportions chart.
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -135,7 +135,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         		INITIAL_INTERMEDIATE_COORD_WIDTH * PROPORTIONS_METER_WIDTH_FRACTION,
         		(INITIAL_INTERMEDIATE_COORD_HEIGHT - _mvt.modelToViewYDouble(_model.getBottomOfStrata())) * 0.95, _mvt );
         _meter.setMeterBodyOffset(
-        		_proportionsChart.getFullBoundsReference().getMinX() - (_meter.getMeterBodyWidth() * 1.1),
+        		_proportionsChart.getFullBoundsReference().getMinX() - (_meter.getMeterBodyWidth() * 1.05),
         		_mvt.modelToViewYDouble(_model.getBottomOfStrata()) + 4);
         addWorldChild( _meter );
         
