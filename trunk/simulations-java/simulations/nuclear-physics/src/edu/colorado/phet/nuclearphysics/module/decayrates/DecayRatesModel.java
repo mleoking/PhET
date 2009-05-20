@@ -93,6 +93,43 @@ public class DecayRatesModel extends MultiNucleusDecayModel {
     }
     
     /**
+    /**
+     * Get the number of nuclei that are currently in the holding area.
+     */
+    public int getNumNucleiInHoldingArea(){
+    	int numNucleiInHoldingArea = 0;
+    	for (AtomicNucleus nucleus : _atomicNuclei){
+    		if (HOLDING_AREA_RECT.contains(nucleus.getPositionReference())){
+    			numNucleiInHoldingArea++;
+    		}
+    	}
+    	return numNucleiInHoldingArea;
+    }
+    
+    public void moveNucleusToHoldingArea(AtomicNucleus nucleus){
+    	if (!_atomicNuclei.contains(nucleus)){
+    		throw new IllegalArgumentException("Specified nucleus is not part of model.");
+    	}
+    	nucleus.setPosition(HOLDING_AREA_RECT.getCenterX(), HOLDING_AREA_RECT.getCenterY());
+    }
+    
+    /**
+     * Return any nucleus that this not currently in the holding area.
+     * Returns null if no such nuclei are present.
+     * @return
+     */
+    public AtomicNucleus getAnyNonHeldNucleus(){
+    	AtomicNucleus freeNucleus = null;
+    	for (AtomicNucleus nucleus : _atomicNuclei){
+    		if (!isNucleusInHoldingArea(nucleus)){
+    			freeNucleus = nucleus;
+    			break;
+    		}
+    	}
+    	return freeNucleus;
+    }
+    
+    /**
      * Determine whether or not the given nucleus is in the holding area. Note
      * that we don't verify that the supplied nucleus is actually contained by
      * the model - that is assumed.

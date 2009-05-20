@@ -48,7 +48,7 @@ public class MultiNucleusDecayModel implements NucleusTypeControl {
 	
 	protected NuclearPhysicsClock _clock;
 	ArrayList _listeners = new ArrayList();
-	protected ArrayList _atomicNuclei;
+	protected ArrayList<AtomicNucleus> _atomicNuclei;
 	protected int _currentNucleusType;
 	protected int _initialNucleusType;
 	protected AtomicNucleus.Adapter _nucleusListener;

@@ -9,15 +9,12 @@ import java.awt.GradientPaint;
 import java.awt.Stroke;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.QuadCurve2D;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.Timer;
 
@@ -29,7 +26,6 @@ import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusNode;
-import edu.colorado.phet.nuclearphysics.model.Carbon14Nucleus;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusAlphaDecayCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -84,6 +80,7 @@ public class BucketOfNucleiNode extends PNode {
 	private boolean _showRadiationSymbol = true;   // Icon is shown by default.
 	private Color _baseColor;
 	private PSwing _sliderNode = null;
+	private NormalizedSlider _slider;
 	
     //------------------------------------------------------------------------
     // Constructor(s)
@@ -385,13 +382,13 @@ public class BucketOfNucleiNode extends PNode {
     	
     	// If the slider doesn't exist yet, create it.
     	if (_sliderNode == null && enabled){
-        	JSlider slider = new JSlider(JSlider.HORIZONTAL, 0, 1000, 0);
-        	slider.setPreferredSize(new Dimension((int)(_bucketWidth * 0.8),(int)(_bucketHeight * 0.3)));
-        	slider.setBackground(_baseColor);
-        	slider.setForeground(Color.GREEN);
+        	_slider = new NormalizedSlider();
+        	_slider.setPreferredSize(new Dimension((int)(_bucketWidth * 0.8),(int)(_bucketHeight * 0.3)));
+        	_slider.setBackground(_baseColor);
+        	_slider.setForeground(Color.GREEN);
         	
         	// Wrap the slider in a PSwing so that it can be used in the play area.
-        	PSwing sliderNode = new PSwing(slider);
+        	PSwing sliderNode = new PSwing(_slider);
         	sliderNode.setOffset(_bucketWidth / 2 - sliderNode.getFullBounds().width / 2,
         			_bucketHeight / 2 - sliderNode.getFullBounds().height / 2);
         	
@@ -400,6 +397,14 @@ public class BucketOfNucleiNode extends PNode {
     	else{
     		_sliderNode.setVisible(enabled);
     	}
+    }
+    
+    /**
+     * Get the slider control that may be part of the bucket.  Note that this
+     * may return null if the slider has never been enabled.
+     */
+    public NormalizedSlider getSlider(){
+    	return _slider;
     }
 
     //------------------------------------------------------------------------
@@ -525,6 +530,48 @@ public class BucketOfNucleiNode extends PNode {
 		// Set the visibility.
 		_bucketLabel.setVisible(_showLabel);
 	}
+
+	private Color lightenColor( Color originalColor ){
+    	
+    	Color lighterColor;
+    	
+   		int red = originalColor.getRed() + ((255 - originalColor.getRed()) * 3 / 4);
+   		int green = originalColor.getGreen() + ((255 - originalColor.getGreen()) * 3 / 4);
+   		int blue = originalColor.getBlue() + ((255 - originalColor.getBlue()) * 3 / 4);
+   		lighterColor = new Color( red, green, blue );
+    	
+    	return lighterColor;
+    }
+
+    private Color darkenColor( Color originalColor ){
+    	
+    	Color darkerColor;
+    	
+   		int red = originalColor.getRed() - (originalColor.getRed() / 2);
+   		int green = originalColor.getGreen() - (originalColor.getGreen() / 2);
+   		int blue = originalColor.getBlue() - (originalColor.getBlue() / 2);
+   		darkerColor = new Color( red, green, blue );
+    	
+    	return darkerColor;
+    }
+    
+    /**
+     * Main routine for stand alone testing.
+     * 
+     * @param args
+     */
+    public static void main(String [] args){
+    	
+        final BucketOfNucleiNode bucket = new BucketOfNucleiNode(300, 200, Math.PI/6, Color.GREEN); 
+
+        JFrame frame = new JFrame();
+        PhetPCanvas canvas = new PhetPCanvas();
+        frame.setContentPane( canvas );
+        canvas.addScreenChild( bucket );
+        bucket.setOffset(50, 50);
+        frame.setSize( 800, 400 );
+        frame.setVisible( true );
+    }
 	
     //------------------------------------------------------------------------
     // Inner Classes and Interfaces
@@ -538,6 +585,19 @@ public class BucketOfNucleiNode extends PNode {
          * @param _nucleusNode - nucleus that was moved into the play area.
          */
         public void nucleusExtracted(PNode nucleus);
+    }
+    
+    public static class NormalizedSlider extends JSlider{
+    	
+    	private static final int MAX_SLIDER_VALUE = 1000;
+    	
+		public NormalizedSlider(){
+    		super(JSlider.HORIZONTAL, 0, MAX_SLIDER_VALUE, 0);
+    	}
+    	
+		public double getNormalizedReading(){
+			return ((double)getValue() / (double)MAX_SLIDER_VALUE);
+		}
     }
 
     /**
@@ -594,47 +654,5 @@ public class BucketOfNucleiNode extends PNode {
 			stop();  // Make sure that the time is stopped.
 			_shrinkingNode = null;
 		}
-    }
-    
-    private Color lightenColor( Color originalColor ){
-        	
-    	Color lighterColor;
-    	
-   		int red = originalColor.getRed() + ((255 - originalColor.getRed()) * 3 / 4);
-   		int green = originalColor.getGreen() + ((255 - originalColor.getGreen()) * 3 / 4);
-   		int blue = originalColor.getBlue() + ((255 - originalColor.getBlue()) * 3 / 4);
-   		lighterColor = new Color( red, green, blue );
-    	
-    	return lighterColor;
-    }
-
-    private Color darkenColor( Color originalColor ){
-    	
-    	Color darkerColor;
-    	
-   		int red = originalColor.getRed() - (originalColor.getRed() / 2);
-   		int green = originalColor.getGreen() - (originalColor.getGreen() / 2);
-   		int blue = originalColor.getBlue() - (originalColor.getBlue() / 2);
-   		darkerColor = new Color( red, green, blue );
-    	
-    	return darkerColor;
-    }
-    
-    /**
-     * Main routine for stand alone testing.
-     * 
-     * @param args
-     */
-    public static void main(String [] args){
-    	
-        final BucketOfNucleiNode bucket = new BucketOfNucleiNode(300, 200, Math.PI/6, Color.GREEN); 
-
-        JFrame frame = new JFrame();
-        PhetPCanvas canvas = new PhetPCanvas();
-        frame.setContentPane( canvas );
-        canvas.addScreenChild( bucket );
-        bucket.setOffset(50, 50);
-        frame.setSize( 800, 400 );
-        frame.setVisible( true );
     }
 }
