@@ -58,7 +58,7 @@ public class DensityJMECanvas extends JPanel {
         AWTMouseInput.setup((Canvas) canvas, false);
 
         // Important! Here is where we add the guts to the panel:
-        impl = new DensityCanvasImpl(width, height, display, (Component) canvas, model);
+        impl = new DensityCanvasImpl(width, height, display, (Component) canvas, model, displayDimensions);
         canvas.setImplementor(impl);
 
         // -----------END OF GL STUFF-------------
