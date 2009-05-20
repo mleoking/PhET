@@ -39,7 +39,7 @@ public class DecayRatesModel extends MultiNucleusDecayModel {
 	
 	// Define the position in model space of the "holding area", where nuclei
 	// are kept while inactive.
-	private static final Rectangle2D HOLDING_AREA_RECT = new Rectangle2D.Double(220, 35, 175, 150);
+	private static final Rectangle2D HOLDING_AREA_RECT = new Rectangle2D.Double(220, 35, 190, 120);
 	
     //------------------------------------------------------------------------
     // Instance data
