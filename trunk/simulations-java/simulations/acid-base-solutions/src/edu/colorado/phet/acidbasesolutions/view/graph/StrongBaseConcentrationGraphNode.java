@@ -6,7 +6,7 @@ import edu.colorado.phet.acidbasesolutions.ABSSymbols;
 import edu.umd.cs.piccolo.util.PDimension;
 
 
-public class StrongBaseConcentrationGraphNode extends AbstractConcentrationGraphNode{
+class StrongBaseConcentrationGraphNode extends AbstractConcentrationGraphNode{
 
     private static final int BASE_INDEX = 0;
     private static final int METAL_INDEX = 1;
