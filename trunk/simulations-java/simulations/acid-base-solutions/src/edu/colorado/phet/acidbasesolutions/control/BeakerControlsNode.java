@@ -13,6 +13,14 @@ import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.ABSSymbols;
+import edu.colorado.phet.acidbasesolutions.model.Acid;
+import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
+import edu.colorado.phet.acidbasesolutions.model.NoSolute;
+import edu.colorado.phet.acidbasesolutions.model.Solute;
+import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.SolutionAdapter;
+import edu.colorado.phet.acidbasesolutions.model.Base.CustomBase;
+import edu.colorado.phet.acidbasesolutions.model.Base.StrongBase;
+import edu.colorado.phet.acidbasesolutions.model.Base.WeakBase;
 import edu.colorado.phet.acidbasesolutions.view.beaker.BeakerNode;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
@@ -23,22 +31,27 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 public class BeakerControlsNode extends PNode {
     
-    private static final String RATIO_PATTERN = HTMLUtils.toHTMLString( ABSStrings.CHECK_BOX_RATIO );
+    private static final String RATIO_PATTERN = ABSStrings.CHECK_BOX_RATIO;
     
     private final BeakerNode beakerNode;
     
+    private final JPanel panel;
     private final JCheckBox dissociatedComponentsRatioCheckBox;
     private final JCheckBox hyroniumHydroxideRatioCheckBox;
     private final JCheckBox moleculeCountsCheckBox;
     private final JCheckBox beakerLabelCheckBox;
     
-    public BeakerControlsNode( final BeakerNode beakerNode, Color background ) {
+    public BeakerControlsNode( final BeakerNode beakerNode, Color background, AqueousSolution solution ) {
+        this( beakerNode, background );
+        solution.addSolutionListener( new ModelViewController( solution, this ) );
+    }
+    
+    private BeakerControlsNode( final BeakerNode beakerNode, Color background ) {
         super();
         
         this.beakerNode = beakerNode;
         
-        dissociatedComponentsRatioCheckBox = new JCheckBox();
-        setDissociatedComponents( "?", "?" );
+        dissociatedComponentsRatioCheckBox = new JCheckBox( "?" );
         dissociatedComponentsRatioCheckBox.setSelected( beakerNode.isDisassociatedRatioComponentsVisible() );
         dissociatedComponentsRatioCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -47,8 +60,8 @@ public class BeakerControlsNode extends PNode {
         });
         
         Object[] args = { ABSSymbols.H3O_PLUS, ABSSymbols.OH_MINUS };
-        String text = MessageFormat.format( RATIO_PATTERN, args );
-        hyroniumHydroxideRatioCheckBox = new JCheckBox( text );
+        String html = HTMLUtils.toHTMLString( MessageFormat.format( RATIO_PATTERN, args ) );
+        hyroniumHydroxideRatioCheckBox = new JCheckBox( html );
         hyroniumHydroxideRatioCheckBox.setSelected( beakerNode.istHydroniumHydroxideRatioVisible() );
         hyroniumHydroxideRatioCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -73,7 +86,7 @@ public class BeakerControlsNode extends PNode {
         });
 
         // border
-        JPanel panel = new JPanel();
+        panel = new JPanel();
         panel.setBackground( background );
         TitledBorder border = new TitledBorder( new LineBorder( Color.BLACK, 1 ), ABSStrings.TITLE_BEAKER_CONTROLS );
         border.setTitleFont( new PhetFont( Font.BOLD, 16 ) );
@@ -92,10 +105,16 @@ public class BeakerControlsNode extends PNode {
         addChild( new PSwing( panel ) );
     }
     
-    public void setDissociatedComponents( String component1, String component2 ) {
+    protected void setDissociatedComponents( String component1, String component2 ) {
         Object[] args = { component1, component2 };
-        String text = MessageFormat.format( RATIO_PATTERN, args );
-        dissociatedComponentsRatioCheckBox.setText( text );
+        String html = HTMLUtils.toHTMLString( MessageFormat.format( RATIO_PATTERN, args ) );
+        dissociatedComponentsRatioCheckBox.setText( html );
+        panel.invalidate();
+        invalidateFullBounds();
+    }
+    
+    protected void setDissociatedComponentsCheckBoxVisible( boolean visible ) {
+        dissociatedComponentsRatioCheckBox.setVisible( visible );
     }
     
     public void setDissociatedComponentsRatioSelected( boolean b ) {
@@ -132,5 +151,49 @@ public class BeakerControlsNode extends PNode {
     
     public boolean isBeakerLabelSelected() {
         return beakerLabelCheckBox.isSelected();
+    }
+    
+    private static class ModelViewController extends SolutionAdapter {
+        
+        private final AqueousSolution solution;
+        private final BeakerControlsNode beakerControlsNode; 
+
+        public ModelViewController( AqueousSolution solution, BeakerControlsNode beakerControlsNode ) {
+            this.solution = solution;
+            this.beakerControlsNode = beakerControlsNode;
+        }
+        public void soluteChanged() {
+            updateRatioLabels();
+        }
+        
+        public void strengthChanged() {
+            updateRatioLabels();
+        }
+        
+        private void updateRatioLabels() {
+            Solute solute = solution.getSolute();
+            beakerControlsNode.setDissociatedComponentsCheckBoxVisible( !(solute instanceof NoSolute ) );
+            if ( solute instanceof Acid ) {
+                Acid acid = (Acid) solute;
+                beakerControlsNode.setDissociatedComponents( acid.getSymbol(), acid.getConjugateSymbol() );
+            }
+            else if ( solute instanceof WeakBase ) {
+                WeakBase base = (WeakBase) solute;
+                beakerControlsNode.setDissociatedComponents( base.getSymbol(), base.getConjugateSymbol() );
+            }
+            else if ( solute instanceof StrongBase ) {
+                StrongBase base = (StrongBase) solute;
+                beakerControlsNode.setDissociatedComponents( base.getSymbol(), base.getMetalSymbol() );
+            }
+            else if ( solute instanceof CustomBase ) {
+                CustomBase base = (CustomBase) solute;
+                if ( base.isStrong() ) {
+                    beakerControlsNode.setDissociatedComponents( base.getSymbol(), base.getMetalSymbol() );
+                }
+                else {
+                    beakerControlsNode.setDissociatedComponents( base.getSymbol(), base.getConjugateSymbol() );
+                }
+            }
+        }
     }
 }
