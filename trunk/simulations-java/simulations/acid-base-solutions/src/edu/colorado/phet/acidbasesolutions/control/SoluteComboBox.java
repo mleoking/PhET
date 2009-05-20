@@ -1,11 +1,7 @@
 
 package edu.colorado.phet.acidbasesolutions.control;
 
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 
 import edu.colorado.phet.acidbasesolutions.model.Solute;
 import edu.colorado.phet.acidbasesolutions.model.SoluteFactory;
@@ -84,21 +80,5 @@ public class SoluteComboBox extends JComboBox {
      */
     public String getSoluteName() {
         return ( (Choice) getSelectedItem() ).getName();
-    }
-    
-    public static void main( String[] args ) {
-        JFrame frame = new JFrame();
-        final SoluteComboBox comboBox = new SoluteComboBox();
-        comboBox.addItemListener( new ItemListener() {
-            public void itemStateChanged( ItemEvent e ) {
-                if ( e.getStateChange() == ItemEvent.SELECTED ) {
-                System.out.println( "selection=" + comboBox.getSoluteName() );
-                }
-            }
-        });
-        frame.setContentPane( comboBox );
-        frame.pack();
-        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        frame.setVisible( true );
     }
 }

@@ -1,7 +1,5 @@
 package edu.colorado.phet.acidbasesolutions.control;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.*;
@@ -10,14 +8,16 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import javax.swing.*;
+import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -225,31 +225,5 @@ public class ConcentrationControlNode extends PNode {
                 revertTextField();
             }
         }
-    }
-
-    // test
-    public static void main( String[] args ) {
-
-        Dimension canvasSize = new Dimension( 600, 300 );
-        PhetPCanvas canvas = new PhetPCanvas();
-        canvas.setPreferredSize( canvasSize );
-
-        final ConcentrationControlNode controlNode = new ConcentrationControlNode( 1E-3, 1 );
-        canvas.getLayer().addChild( controlNode );
-        controlNode.setOffset( 100, 100 );
-        controlNode.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                System.out.println( "stateChanged value=" + controlNode.getValue() );
-            }
-        });
-
-        JPanel panel = new JPanel( new BorderLayout() );
-        panel.add( canvas, BorderLayout.CENTER );
-
-        JFrame frame = new JFrame();
-        frame.setContentPane( panel );
-        frame.pack();
-        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        frame.setVisible( true );
     }
 }
