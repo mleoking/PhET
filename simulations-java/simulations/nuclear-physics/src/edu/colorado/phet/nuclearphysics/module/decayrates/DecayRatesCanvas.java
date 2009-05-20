@@ -15,6 +15,9 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -129,6 +132,11 @@ public class DecayRatesCanvas extends PhetPCanvas {
         _bucketNode.setShowLabel(false);
         _bucketNode.setShowRadiationSymbol(false);
         _bucketNode.setSliderEnabled(true);
+        _bucketNode.getSlider().addChangeListener(new ChangeListener(){
+			public void stateChanged(ChangeEvent e) {
+				setProportionOfNucleiOutsideHoldingArea(_bucketNode.getSlider().getNormalizedReading());
+			}
+        });
         _bucketNode.setOffset( bucketRect.getX(), bucketRect.getY() );
 
         // Add the button that allows the user to add multiple nuclei at once.
@@ -145,7 +153,7 @@ public class DecayRatesCanvas extends PhetPCanvas {
         // Register to receive button pushes.
         _addMultipleNucleiButtonNode.addActionListener( new ActionListener(){
             public void actionPerformed(ActionEvent event){
-            	addMultipleNucleiFromBucket( 50 );
+            	moveNucleiFromBucket( 50 );
             	_model.resetActiveAndDecayedNuclei();
             	_proportionsChart.clear();
             }
@@ -216,6 +224,35 @@ public class DecayRatesCanvas extends PhetPCanvas {
     }
 
     /**
+     * Highly specialized function that can be used to move nuclei into or out
+     * of the holding area (a.k.a. the bucket) based on the ratio of nuclei
+     * outside to total nuclei.
+     */
+    private void setProportionOfNucleiOutsideHoldingArea( double targetProportion ) {
+
+    	// Set up some variables that will make calculations more straightforward.
+    	int totalNumNuclei = _model.getNumNuclei();
+    	int numNucleiInHoldingArea = _model.getNumNucleiInHoldingArea();
+    	int numNucleiOutOfHoldingArea = totalNumNuclei - numNucleiInHoldingArea;
+
+    	// Calculate the current proportion of nuclei outside the bucket.
+    	double currentProportion = (double)numNucleiInHoldingArea / (double)totalNumNuclei;
+    	
+    	if (currentProportion > targetProportion){
+    		// We need to move some nuclei into the bucket.
+    		int numNucleiToMove = numNucleiOutOfHoldingArea - (int)Math.round(targetProportion * totalNumNuclei);
+    		moveNucleiToBucket(numNucleiToMove);
+    		_model.resetActiveAndDecayedNuclei();
+    	}
+    	else if (targetProportion < currentProportion){
+    		// We need to move some nuclei from the bucket into the main canvas area.
+    		int numNucleiToMove = (int)Math.round(targetProportion * totalNumNuclei) - numNucleiOutOfHoldingArea;
+    		moveNucleiFromBucket(numNucleiToMove);
+    		_model.resetActiveAndDecayedNuclei();
+    	}
+	}
+
+	/**
      * Update the layout on the canvas.
      */
 	public void update() {
@@ -232,13 +269,13 @@ public class DecayRatesCanvas extends PhetPCanvas {
      * on the canvas.  If there aren't enough in the bucket, add as many as
      * possible.
      * 
-     * @param numNucleiToAdd - Number of nuclei to add.
-     * @return - Number of nuclei actually added.
+     * @param numNucleiToMove - Number of nuclei to move.
+     * @return - Number of nuclei actually moved.
      */
-    private int addMultipleNucleiFromBucket(int numNucleiToAdd){
+    private int moveNucleiFromBucket(int numNucleiToMove){
     	
     	int numberOfNucleiObtained;
-    	for (numberOfNucleiObtained = 0; numberOfNucleiObtained < numNucleiToAdd; numberOfNucleiObtained++){
+    	for (numberOfNucleiObtained = 0; numberOfNucleiObtained < numNucleiToMove; numberOfNucleiObtained++){
     		AtomicNucleusNode nucleusNode = _bucketNode.extractAnyNucleusFromBucket();
     		if (nucleusNode == null){
     			// The bucket must be empty, so there is nothing more to do.
@@ -261,6 +298,41 @@ public class DecayRatesCanvas extends PhetPCanvas {
     	}
     	
     	return numberOfNucleiObtained;
+    }
+
+    /**
+     * Move the specified number of nuclei from the canvas to the bucket.  If
+     * there aren't enough to meet the request, move as many as possible.
+     * 
+     * @param numNucleiToMove - Number of nuclei to move.
+     * @return - Number of nuclei actually moved.
+     */
+    private int moveNucleiToBucket(int numNucleiToMove){
+    	
+    	int numberOfNucleiMoved;
+    	for (numberOfNucleiMoved = 0; numberOfNucleiMoved < numNucleiToMove; numberOfNucleiMoved++){
+    		
+    		// Get an arbitrary nucleus that is not in the holding area.
+    		AtomicNucleus nucleus = _model.getAnyNonHeldNucleus();
+    		
+    		if (nucleus == null){
+    			// The play area must be empty, so there is nothing more to do.
+    			break;
+    		}
+    		else{
+    			// Move the nucleus to the holding area.
+    			nucleus.reset();
+    			_model.moveNucleusToHoldingArea(nucleus);
+    			
+    			// Find the node associated with this nucleus.
+    			AtomicNucleusNode nucleusNode = (AtomicNucleusNode)_mapNucleiToNodes.get(nucleus);
+    			
+    			// Add this node to the bucket.
+    			_bucketNode.addNucleus(nucleusNode);
+    		}
+    	}
+    	
+    	return numberOfNucleiMoved;
     }
     
 	private void handleModelElementAdded(Object modelElement) {
