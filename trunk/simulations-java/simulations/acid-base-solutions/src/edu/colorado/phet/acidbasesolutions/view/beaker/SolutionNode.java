@@ -15,7 +15,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class SolutionNode extends PComposite {
+class SolutionNode extends PComposite {
     
     //----------------------------------------------------------------------------
     // Class data

@@ -3,7 +3,6 @@
 ==================================================================================
 
 TODO:
-- move ProbeNode, SolutionNode, etc. to children of BeakerNode
 - connect equilibrium expressions to model
 - connect reaction equations to model
 - connect beaker view controls to model (ratio check box labels)
@@ -27,6 +26,8 @@ ISSUES:
 - better pattern for model, less use of instanceof
 
 DONE:
+5/20/09 move probe, molecule counts, etc. to children of BeakerNode, to encapsulate layout
+5/20/09 make many classes package private
 5/20/09 "negligible" for strong acid strength=0 in Concentrations graph
 5/20/09 factor out NegligibleValueNode
 5/20/09 reimplement Reset All using Load
