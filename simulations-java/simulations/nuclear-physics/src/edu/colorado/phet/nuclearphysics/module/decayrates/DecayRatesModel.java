@@ -216,42 +216,16 @@ public class DecayRatesModel extends MultiNucleusDecayModel {
         }
         
         if ( !pointAvailable ){
-        	// The random algorithm failed to find an open location, so try a
-        	// more methodical algorithm that starts from the current random spot.
+        	// The random algorithm failed to find an open location, so pick a
+        	// random location that is outside of the holding area.
 
-            for (int i = 0; i < PLACEMENT_LOCATION_SEARCH_COUNT; i++){
-                
-                // Check if this point is available.
-                pointAvailable = true;
-                for (int j = 0; (j < _atomicNuclei.size()) && (pointAvailable == true); j++){
-                	AbstractDecayNucleus nucleus = (AbstractDecayNucleus)_atomicNuclei.get(j);
-                    if (openLocation.distance( nucleus.getPositionReference()) < minInterNucleusDistance ||
-                    	HOLDING_AREA_RECT.contains(openLocation)){
-                        // This point is not available.
-                        pointAvailable = false;
-                    }
-                }
-                
-                if (pointAvailable == true){
-                    // We have found a usable location.
-                    break;
-                }
-                else{
-                	double newX = openLocation.getX() + minInterNucleusDistance;
-                	double newY = openLocation.getY();
-                	if (newX > _worldSizeX / 2){
-                		newX = -_worldSizeX / 2;
-                		newY += minInterNucleusDistance;
-                		if (newY > _worldSizeY / 2){
-                			newY = -_worldSizeY / 2;
-                		}
-                	}
-                	openLocation.setLocation(newX, newY);
-                }
-            }
-        }
-        
-        if (!pointAvailable){
+        	do{
+	            double xPos = _worldSizeX * (_rand.nextDouble() - 0.5);
+	            double yPos = _worldSizeY * (_rand.nextDouble() - 0.5);
+	            openLocation = new Point2D.Double(xPos, yPos);
+        	}
+            while (HOLDING_AREA_RECT.contains(openLocation));
+        	
         	// TODO: Remove the debug statement below once it is being seen infrequently enough.
         	System.out.println("Warning: Didn't find open location, choosing one arbitrarily.");
         }
