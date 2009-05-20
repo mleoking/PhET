@@ -5,6 +5,7 @@ package edu.colorado.phet.nuclearphysics.common.view;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -417,6 +418,10 @@ public class AtomicNucleusNode extends PNode {
                 _explosionCounter = EXPLOSION_COUNTER_RESET_VAL;
                 _explosion.setVisible( true );
                 _explosion.setPickable(false);
+    		}
+    		else{
+    			_explosion.setVisible(false);
+    			_explosion.setPathTo(new Ellipse2D.Double(0,0,0,0));
     		}
     	}
     	else {
