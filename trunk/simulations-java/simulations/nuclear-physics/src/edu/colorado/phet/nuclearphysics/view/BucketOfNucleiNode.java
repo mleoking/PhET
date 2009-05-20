@@ -11,7 +11,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
+import java.awt.geom.Point2D;
 import java.awt.geom.QuadCurve2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
@@ -29,6 +31,7 @@ import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusAlphaDecayCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -54,11 +57,16 @@ public class BucketOfNucleiNode extends PNode {
 	private static final double DEFAULT_ANGLE = Math.PI/6;
 	private static final double LOWER_TO_UPPER_ELLIPSE_HEIGHT_RATIO = 0.85;
 	
+	// Controls whether a rectangle that shows the size and position of the
+	// entire bucket is visible.  Primarily for debugging.
+	private static final boolean SHOW_BUCKET_RECT = false;
+	
     //------------------------------------------------------------------------
     // Instance Data
     //------------------------------------------------------------------------
 
     private ArrayList _listeners = new ArrayList();
+    private PPath _bucketRect;
     private PNode _backOfBucketLayer;
     private PNode _backInteriorLayer;
     private PNode _middleInteriorLayer;
@@ -103,6 +111,12 @@ public class BucketOfNucleiNode extends PNode {
 		_shrinkAnimationTimers = new ArrayList();
 		_nucleusType = NuclearPhysicsConstants.NUCLEUS_ID_POLONIUM;
 		_baseColor = baseColor;
+		
+		// Create and add the background rectangle.
+		_bucketRect = new PPath(new Rectangle2D.Double(0, 0, width, height));
+		_bucketRect.setPaint(Color.BLUE);
+		_bucketRect.setVisible(SHOW_BUCKET_RECT);
+		addChild(_bucketRect);
 		
 		// Create the illusion of tilt based on the supplied angle.
 		_ellipseVerticalSpan = height * tiltAngle * (2 / Math.PI);
@@ -162,7 +176,7 @@ public class BucketOfNucleiNode extends PNode {
         _radiationSymbolNode = NuclearPhysicsResources.getImageNode("RadiationSymbolWithPerspective.png");
         _radiationSymbolNode.scale( 0.28 * (_bucketHeight / _radiationSymbolNode.getWidth()));
         _radiationSymbolNode.setOffset(_bucketWidth * 0.75, _bucketHeight * 0.4);
-        addChild(_radiationSymbolNode);
+        _frontOfBucketLayer.addChild(_radiationSymbolNode);
 		
 		// Draw the handle.
 		PhetPPath bucketHandle = new PhetPPath( new QuadCurve2D.Double(width/2, _ellipseVerticalSpan, width * 1.6, 
@@ -227,14 +241,12 @@ public class BucketOfNucleiNode extends PNode {
 		}
 		
 		if (!openSpotFound){
-			// Move the node to be in the center of the bucket.
-			nucleusNode.getNucleusRef().setPosition(_bucketWidth / 2, _bucketHeight / 2);
+			// No open spot found amongst the the visible nuclei, so make this
+			// one invisible.
+			nucleusNode.setVisible(false);
 			
 			// Invisible nuclei are kept as children of the main node.
 			addChild(nucleusNode);
-			
-			// And finally, make sure the node is invisible.
-			nucleusNode.setVisible(false);
 		}
 	}
 	
@@ -407,6 +419,26 @@ public class BucketOfNucleiNode extends PNode {
     	return _slider;
     }
 
+    /**
+     * Set the offset of this node.  This has been overridden so that only the
+     * visible portions of the bucket will be moved, but the PNodes where the
+     * particles are maintained are NOT offset.  This allows the nuclei to be
+     * maintained in the model locations that correspond to the location of
+     * the bucket, so that the model coordinates don't have to be adjusted
+     * when nuclei are added/removed from the bucket.
+     */
+	@Override
+	public void setOffset(double x, double y) {
+		_bucketRect.setOffset(x, y);
+	    _backOfBucketLayer.setOffset(x, y);
+	    _frontOfBucketLayer.setOffset(x, y);
+	}
+
+	@Override
+	public void setOffset(Point2D point) {
+		setOffset(point.getX(), point.getY());
+	}
+
     //------------------------------------------------------------------------
     // Private Methods
     //------------------------------------------------------------------------
@@ -445,7 +477,8 @@ public class BucketOfNucleiNode extends PNode {
 		
 		// Position the nucleus within the model, which will then be sent as
 		// a position change event to the node.
-		nucleus.getNucleusRef().setPosition(xPos, yPos);
+		nucleus.getNucleusRef().setPosition(xPos + _bucketRect.getFullBounds().x, 
+				yPos + _bucketRect.getFullBounds().y);
 	}
 	
 	/**

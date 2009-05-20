@@ -417,12 +417,6 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
 
 		// Set the node back to full size.
 		node.setScale(1);
-		
-		// Adjust the node's position to account for the fact that it was
-		// in the bucket.
-		Point2D position = node.getNucleusRef().getPositionReference();
-		node.getNucleusRef().setPosition(_bucketRect.getX() + position.getX(), 
-				_bucketRect.getY() + position.getY());
 	}
 	
 	/**
