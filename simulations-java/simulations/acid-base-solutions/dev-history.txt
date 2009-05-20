@@ -3,6 +3,7 @@
 ==================================================================================
 
 TODO:
+- PSwing repaint problem with BeakerControlsNode?
 - connect equilibrium expressions to model
 - connect reaction equations to model
 - connect beaker view controls to model (ratio check box labels)
@@ -26,6 +27,7 @@ ISSUES:
 - better pattern for model, less use of instanceof
 
 DONE:
+5/20/09 update label on checkbox for disassociated components ratio
 5/20/09 move PSwing wrapper into control panels
 5/20/09 move probe, molecule counts, etc. to children of BeakerNode, to encapsulate layout
 5/20/09 make many classes package private
