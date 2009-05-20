@@ -4,6 +4,7 @@ package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.geom.Line2D;
@@ -15,8 +16,16 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
 
+import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.TitledBorder;
+
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -24,6 +33,7 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -31,6 +41,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * This class represents a node that the user can interact with in order to
@@ -40,17 +51,30 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class RadiometricDatingMeterNode extends PNode {
 
+    //------------------------------------------------------------------------
+    // Class Data
+    //------------------------------------------------------------------------
+
 	private static final Color BODY_COLOR = Color.DARK_GRAY;
 	private static final double READOUT_WIDTH_PROPORTION = 0.75;
 	private static final double READOUT_HEIGHT_PROPORTION = 0.2;
 	private static final double PROBE_SIZE_SCALE_FACTOR = 0.75;  // Adjust in order to change size of probe.
-	
+
+    //------------------------------------------------------------------------
+    // Instance Data
+    //------------------------------------------------------------------------
+
 	RadiometricDatingMeter _meterModel;
 	ModelViewTransform2D _mvt;
 	PNode _meterBody;
 	private ProbeNode _probeNode;
 	private PercentageDisplayNode _percentageDisplay;
+	private PNode _elementSelectionNode;
 	
+    //------------------------------------------------------------------------
+    // Constructor
+    //------------------------------------------------------------------------
+
 	public RadiometricDatingMeterNode(RadiometricDatingMeter meterModel, double width, double height, ModelViewTransform2D mvt) {
 		
 		_meterModel = meterModel;
@@ -71,6 +95,7 @@ public class RadiometricDatingMeterNode extends PNode {
 		mainBody.setPaint(BODY_COLOR);
 		_meterBody.addChild(mainBody);
 		
+		// Add the display.
 		_percentageDisplay = new PercentageDisplayNode(width * READOUT_WIDTH_PROPORTION,
 				height * READOUT_HEIGHT_PROPORTION);
 		_percentageDisplay.setOffset(mainBody.getFullBounds().width / 2 - _percentageDisplay.getFullBounds().width / 2,
@@ -78,14 +103,16 @@ public class RadiometricDatingMeterNode extends PNode {
 		_meterBody.addChild(_percentageDisplay);
 		_percentageDisplay.setPercentage(100);
 		
+		// Add the selection panel.
+		_elementSelectionNode = new PSwing(new ElementSelectionPanel((int)Math.round(width * 0.9), (int)Math.round(height * 0.66)));
+		_elementSelectionNode.setOffset( 
+				_meterBody.getFullBounds().width / 2 - _elementSelectionNode.getFullBounds().width / 2,
+				_percentageDisplay.getFullBounds().getMaxY());
+		_meterBody.addChild(_elementSelectionNode);
+		
+		// Add the probe.
 		_probeNode = new ProbeNode( _meterModel.getProbeModel(), _mvt );
 		addChild(_probeNode);
-		
-		_meterModel.getProbeModel().addListener( new RadiometricDatingMeter.ProbeModel.Listener(){
-			public void probeModelChanged() {
-				// TODO: Update the reading.
-			}
-		});
 		
 		// Create the cable that visually attaches the probe to the meter.
 		addChild(new ProbeCableNode(this));
@@ -94,6 +121,10 @@ public class RadiometricDatingMeterNode extends PNode {
 		updateMeterReading();
 	}
 	
+    //------------------------------------------------------------------------
+    // Methods
+    //------------------------------------------------------------------------
+
 	public Point2D getProbeTailLocation(){
 		return (_meterBody.localToParent(_probeNode.getTailLocation()));
 	}
@@ -309,5 +340,57 @@ public class RadiometricDatingMeterNode extends PNode {
 	    private void lineToDst( DoubleGeneralPath path, AbstractVector2D a, AbstractVector2D b, double segmentLength ) {
 	        path.lineToRelative( a.getInstanceOfMagnitude( segmentLength ) );
 	    }
+	}
+	
+    //------------------------------------------------------------------------
+    // Inner Classes
+    //------------------------------------------------------------------------
+	
+	private class ElementSelectionPanel extends VerticalLayoutPanel {
+		
+		private JRadioButton _carbon14RadioButton;
+		private JRadioButton _uranium238RadioButton;
+		private JRadioButton _customNucleusRadioButton;
+		
+		public ElementSelectionPanel(int width, int height){
+			
+			setPreferredSize(new Dimension(width, height));
+			setBackground(BODY_COLOR);
+			
+			// TODO - JPB TBD: Need to make strings into resources once finalized.
+			
+            // Add the border around the panel.
+            BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
+            TitledBorder titledBorder = BorderFactory.createTitledBorder( baseBorder,
+                    "Probe Type",
+                    TitledBorder.CENTER,
+                    TitledBorder.TOP,
+                    new PhetFont( Font.BOLD, 18 ),
+                    Color.WHITE );
+            
+            setBorder( titledBorder );
+            
+            // Create the radio buttons.
+            _carbon14RadioButton = new JRadioButton("Carbon 14");
+            _carbon14RadioButton.setBackground(BODY_COLOR);
+            _carbon14RadioButton.setForeground(Color.WHITE);
+            _uranium238RadioButton = new JRadioButton("Uranium 238");
+            _uranium238RadioButton.setBackground(BODY_COLOR);
+            _uranium238RadioButton.setForeground(Color.WHITE);
+            _customNucleusRadioButton = new JRadioButton("Custom");
+            _customNucleusRadioButton.setBackground(BODY_COLOR);
+            _customNucleusRadioButton.setForeground(Color.WHITE);
+            
+            ButtonGroup buttonGroup = new ButtonGroup();
+            buttonGroup.add( _carbon14RadioButton );
+            buttonGroup.add( _uranium238RadioButton );
+            buttonGroup.add( _customNucleusRadioButton );
+            _carbon14RadioButton.setSelected( true );
+            
+            // Add the buttons to the panel.
+            add(_carbon14RadioButton);
+            add(_uranium238RadioButton);
+            add(_customNucleusRadioButton);
+		}
 	}
 }
