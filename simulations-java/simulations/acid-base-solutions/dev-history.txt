@@ -26,6 +26,7 @@ ISSUES:
 - better pattern for model, less use of instanceof
 
 DONE:
+5/20/09 move PSwing wrapper into control panels
 5/20/09 move probe, molecule counts, etc. to children of BeakerNode, to encapsulate layout
 5/20/09 make many classes package private
 5/20/09 "negligible" for strong acid strength=0 in Concentrations graph
