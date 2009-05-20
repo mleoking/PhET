@@ -11,6 +11,7 @@ import java.text.NumberFormat;
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.ABSImages;
 import edu.colorado.phet.acidbasesolutions.ABSSymbols;
+import edu.colorado.phet.acidbasesolutions.util.PNodeUtils;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.util.TimesTenNumberFormat;
@@ -60,6 +61,8 @@ public abstract class AbstractConcentrationGraphNode extends PComposite {
     // molecule icons and labels
     private static final Font MOLECULE_LABEL_FONT = new PhetFont( 18 );
     private static final double MOLECULE_ICON_SCALE = 0.25; //TODO: scale image files so that this is 1.0
+    private static final double MAX_MOLECULE_LABEL_WIDTH = BAR_WIDTH * 1.25;
+    private static final double MOLECULE_LABEL_ROTATION_ANGLE = Math.PI / 4;
     
     // y ticks
     private static final double TICK_LENGTH = 6;
@@ -196,6 +199,7 @@ public abstract class AbstractConcentrationGraphNode extends PComposite {
     
     protected void setLabel( int index, String text ) {
         labelNodes[index].setText( text );
+        updateMoleculeLayout( index );
     }
     
     protected void setMolecule( int index, Image image, String text, Color barColor ) {
@@ -207,13 +211,20 @@ public abstract class AbstractConcentrationGraphNode extends PComposite {
     
     private void updateMoleculeLayout( int index ) {
         // icon, centered below bar
-        double xOffset = barNodes[index].getFullBoundsReference().getCenterX() - ( iconNodes[index].getFullBoundsReference().getWidth() / 2 );
+        IconNode iconNode = iconNodes[index];
+        double xOffset = barNodes[index].getXOffset() - ( iconNode.getFullBoundsReference().getWidth() / 2 ); // careful! bar may have zero dimensions.
         double yOffset = graphOutlineNode.getFullBoundsReference().getMaxY() + 10;
-        iconNodes[index].setOffset( xOffset, yOffset );
+        iconNode.setOffset( xOffset, yOffset );
         // label, centered below icon
-        xOffset = iconNodes[index].getFullBoundsReference().getCenterX() - ( labelNodes[index].getFullBoundsReference().getWidth() / 2 );
-        yOffset = iconNodes[index].getFullBoundsReference().getMaxY() + 5;
-        labelNodes[index].setOffset( xOffset, yOffset );
+        LabelNode labelNode = labelNodes[index];
+        labelNode.setRotation( 0 );
+        if ( labelNode.getFullBoundsReference().getWidth() > MAX_MOLECULE_LABEL_WIDTH ) {
+            // if the max width is exceeded, then rotate the label
+            labelNode.setRotation( MOLECULE_LABEL_ROTATION_ANGLE );
+        }
+        xOffset = iconNode.getFullBoundsReference().getCenterX() - ( labelNode.getFullBoundsReference().getWidth() / 2 ) - PNodeUtils.getOriginXOffset( labelNode );
+        yOffset = iconNode.getFullBoundsReference().getMaxY() + 5;
+        labelNode.setOffset( xOffset, yOffset );
     }
     
     protected void setConcentration( int index, double value ) {
@@ -263,23 +274,19 @@ public abstract class AbstractConcentrationGraphNode extends PComposite {
     /*
      * Labels for the molecules.
      */
-    private static class LabelNode extends PComposite {
-        
-        private HTMLNode htmlNode;
+    private static class LabelNode extends HTMLNode {
         
         public LabelNode() {
             this( "" );
         }
         
         public LabelNode( String text ) {
-            super();
-            htmlNode = new HTMLNode( HTMLUtils.toHTMLString( text ) );
-            htmlNode.setFont( MOLECULE_LABEL_FONT );
-            addChild( htmlNode );
+            super( HTMLUtils.toHTMLString( text ) );
+            setFont( MOLECULE_LABEL_FONT );
         }
         
         public void setText( String text ) {
-            htmlNode.setHTML( HTMLUtils.toHTMLString( text ) );
+            setHTML( HTMLUtils.toHTMLString( text ) );
         }
     }
     
