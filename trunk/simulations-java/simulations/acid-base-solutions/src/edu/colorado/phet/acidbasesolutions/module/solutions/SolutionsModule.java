@@ -11,6 +11,7 @@ import edu.colorado.phet.acidbasesolutions.control.MiscControls;
 import edu.colorado.phet.acidbasesolutions.control.SolutionControlsNode;
 import edu.colorado.phet.acidbasesolutions.model.ABSClock;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
+import edu.colorado.phet.acidbasesolutions.model.SoluteFactory;
 import edu.colorado.phet.acidbasesolutions.model.Solute.ICustomSolute;
 import edu.colorado.phet.acidbasesolutions.module.ABSAbstractModule;
 import edu.colorado.phet.acidbasesolutions.persistence.SolutionsConfig;
@@ -74,28 +75,7 @@ public class SolutionsModule extends ABSAbstractModule {
      * Resets the module.
      */
     public void reset() {
-
-        // solution controls
-        SolutionControlsNode solutionControlsNode = canvas.getSolutionControlsNode();
-        solutionControlsNode.setSolute( SolutionsDefaults.SOLUTE );
-        if ( solutionControlsNode.getSolute() instanceof ICustomSolute ) {
-            solutionControlsNode.setConcentration( SolutionsDefaults.CONCENTRATION );
-            solutionControlsNode.setStrength( SolutionsDefaults.STRENGTH );
-        }
-
-        // beaker controls
-        BeakerControls beakerControls = canvas.getBeakerControls();
-        beakerControls.setDissociatedComponentsRatioSelected( SolutionsDefaults.DISASSOCIATED_COMPONENTS_RATIO_VISIBLE );
-        beakerControls.setHydroniumHydroxideRatioSelected( SolutionsDefaults.HYDRONIUM_HYDROXIDE_RATIO_VISIBLE );
-        beakerControls.setMoleculeCountsSelected( SolutionsDefaults.MOLECULE_COUNTS_VISIBLE );
-        beakerControls.setBeakerLabelSelected( SolutionsDefaults.BEAKER_LABEL_VISIBLE );
-
-        // misc controls
-        MiscControls miscControls = canvas.getMiscControls();
-        miscControls.setConcentrationGraphSelected( SolutionsDefaults.CONCENTRATION_GRAPH_VISIBLE );
-        miscControls.setSymbolLegendSelected( SolutionsDefaults.SYMBOL_LEGEND_VISIBLE );
-        miscControls.setEquilibriumExpressionsSelected( SolutionsDefaults.EQUILIBRIUM_EXPRESSIONS_VISIBLE );
-        miscControls.setReactionRatesSelected( SolutionsDefaults.REACTION_EQUATIONS_VISIBLE );
+        load( SolutionsDefaults.getInstance().getConfig() );
     }
     
     //----------------------------------------------------------------------------
@@ -109,7 +89,22 @@ public class SolutionsModule extends ABSAbstractModule {
         // Module
         config.setActive( isActive() );
 
-        //XXX call config setters
+        SolutionControlsNode solutionControlsNode = canvas.getSolutionControlsNode();
+        config.setSoluteName( solutionControlsNode.getSolute().getName() );
+        config.setConcentration( solutionControlsNode.getConcentration() );
+        config.setStrength( solutionControlsNode.getStrength() );
+        
+        BeakerControls beakerControls = canvas.getBeakerControls();
+        config.setDisassociatedComponentsRatioVisible( beakerControls.isDissociatedComponentsRatioSelected() );
+        config.setHydroniumHydroxideRatioVisible( beakerControls.isHydroniumHydroxideRatioSelected() );
+        config.setMoleculeCountsVisible( beakerControls.isMoleculeCountsSelected() );
+        config.setBeakerLabelVisible( beakerControls.isBeakerLabelSelected() );
+        
+        MiscControls miscControls = canvas.getMiscControls();
+        config.setConcentrationGraphVisible( miscControls.isConcentrationGraphSelected() );
+        config.setSymbolLegendVisible( miscControls.isSymbolLegendSelected() );
+        config.setEquilibriumExpressionsVisible( miscControls.isEquilibriumExpressionsSelected() );
+        config.setReactionEquationsVisible( miscControls.isReactionEquationsSelected() );
         
         return config;
     }
@@ -121,6 +116,26 @@ public class SolutionsModule extends ABSAbstractModule {
             AcidBaseSolutionsApplication.getInstance().setActiveModule( this );
         }
 
-        //XXX call config getters
+        // solution controls
+        SolutionControlsNode solutionControlsNode = canvas.getSolutionControlsNode();
+        solutionControlsNode.setSolute( SoluteFactory.createSolute( config.getSoluteName() ) );
+        if ( solutionControlsNode.getSolute() instanceof ICustomSolute ) {
+            solutionControlsNode.setConcentration( config.getConcentration() );
+            solutionControlsNode.setStrength( config.getStrength() );
+        }
+
+        // beaker controls
+        BeakerControls beakerControls = canvas.getBeakerControls();
+        beakerControls.setDissociatedComponentsRatioSelected( config.isDisassociatedComponentsRatioVisible() );
+        beakerControls.setHydroniumHydroxideRatioSelected( config.isHydroniumHydroxideRatioVisible() );
+        beakerControls.setMoleculeCountsSelected( config.isMoleculeCountsVisible() );
+        beakerControls.setBeakerLabelSelected( config.isBeakerLabelVisible() );
+
+        // misc controls
+        MiscControls miscControls = canvas.getMiscControls();
+        miscControls.setConcentrationGraphSelected( config.isConcentrationGraphVisible() );
+        miscControls.setSymbolLegendSelected( config.isSymbolLegendVisible() );
+        miscControls.setEquilibriumExpressionsSelected( config.isEquilibriumExpressionsVisible() );
+        miscControls.setReactionEquationsSelected( config.isReactionEquationsVisible() );
     }
 }

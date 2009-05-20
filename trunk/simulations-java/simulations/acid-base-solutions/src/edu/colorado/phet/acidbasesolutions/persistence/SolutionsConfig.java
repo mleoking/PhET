@@ -14,7 +14,22 @@ public class SolutionsConfig extends AbstractModuleConfig {
     // Instance data
     //----------------------------------------------------------------------------
     
-    //XXX other stuff
+    // solution
+    private String soluteName;
+    private double concentration;
+    private double strength;
+    
+    // beaker view controls
+    private boolean disassociatedComponentsRatioVisible;
+    private boolean hydroniumHydroxideRatioVisible;
+    private boolean moleculeCountsVisible;
+    private boolean beakerLabelVisible;
+    
+    // misc view controls
+    private boolean concentrationGraphVisible;
+    private boolean symbolLegendVisible;
+    private boolean equilibriumExpressionsVisible;
+    private boolean reactionEquationsVisible;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -24,12 +39,117 @@ public class SolutionsConfig extends AbstractModuleConfig {
      * Zero-argument constructor for Java Bean compliance.
      */
     public SolutionsConfig() {}
-    
+
     //----------------------------------------------------------------------------
     // Setters and getters
     //----------------------------------------------------------------------------
     
-    //----------------------------------------------------------------------------
-    // Convenience methods
-    //----------------------------------------------------------------------------
+    public String getSoluteName() {
+        return soluteName;
+    }
+
+    
+    public void setSoluteName( String soluteName ) {
+        this.soluteName = soluteName;
+    }
+
+    
+    public double getConcentration() {
+        return concentration;
+    }
+
+    
+    public void setConcentration( double concentration ) {
+        this.concentration = concentration;
+    }
+
+    
+    public double getStrength() {
+        return strength;
+    }
+
+    
+    public void setStrength( double strength ) {
+        this.strength = strength;
+    }
+
+    
+    public boolean isDisassociatedComponentsRatioVisible() {
+        return disassociatedComponentsRatioVisible;
+    }
+
+    
+    public void setDisassociatedComponentsRatioVisible( boolean disassociatedComponentsRatioVisible ) {
+        this.disassociatedComponentsRatioVisible = disassociatedComponentsRatioVisible;
+    }
+
+    
+    public boolean isHydroniumHydroxideRatioVisible() {
+        return hydroniumHydroxideRatioVisible;
+    }
+
+    
+    public void setHydroniumHydroxideRatioVisible( boolean hydroniumHydroxideRatioVisible ) {
+        this.hydroniumHydroxideRatioVisible = hydroniumHydroxideRatioVisible;
+    }
+
+    
+    public boolean isMoleculeCountsVisible() {
+        return moleculeCountsVisible;
+    }
+
+    
+    public void setMoleculeCountsVisible( boolean moleculeCountsVisible ) {
+        this.moleculeCountsVisible = moleculeCountsVisible;
+    }
+
+    
+    public boolean isBeakerLabelVisible() {
+        return beakerLabelVisible;
+    }
+
+    
+    public void setBeakerLabelVisible( boolean beakerLabelVisible ) {
+        this.beakerLabelVisible = beakerLabelVisible;
+    }
+
+    
+    public boolean isConcentrationGraphVisible() {
+        return concentrationGraphVisible;
+    }
+
+    
+    public void setConcentrationGraphVisible( boolean concentrationGraphVisible ) {
+        this.concentrationGraphVisible = concentrationGraphVisible;
+    }
+
+    
+    public boolean isSymbolLegendVisible() {
+        return symbolLegendVisible;
+    }
+
+    
+    public void setSymbolLegendVisible( boolean symbolLegendVisible ) {
+        this.symbolLegendVisible = symbolLegendVisible;
+    }
+
+    
+    public boolean isEquilibriumExpressionsVisible() {
+        return equilibriumExpressionsVisible;
+    }
+
+    
+    public void setEquilibriumExpressionsVisible( boolean equilibriumExpressionsVisible ) {
+        this.equilibriumExpressionsVisible = equilibriumExpressionsVisible;
+    }
+
+    
+    public boolean isReactionEquationsVisible() {
+        return reactionEquationsVisible;
+    }
+
+    
+    public void setReactionEquationsVisible( boolean reactionEquationsVisible ) {
+        this.reactionEquationsVisible = reactionEquationsVisible;
+    }
 }

@@ -3,6 +3,7 @@
 ==================================================================================
 
 TODO:
+- Save/Load
 - connect equilibrium expressions to model
 - connect reaction equations to model
 - connect beaker view controls to model (ratio check box labels)
@@ -12,9 +13,11 @@ TODO:
 - particle views
 - "Negligible" in Concentrations graph 
 - scale image files
-- add ability to restrict Strength slider to one section of the range
-- smooth, curved lip on beaker
 - redo layout of molecule counts, Swing layout strategy isn't working well
+
+DEFER:
+- add ability to restrict Strength slider to one section of the range (only needed if we add "Custom Weak" acid/base)
+- smooth, curved lip on beaker (eye candy)
 
 ISSUES:
 - how should layout be adjusted when main frame is resized?
@@ -22,8 +25,11 @@ ISSUES:
 - vertical spacing of items in solute combo box
 - alignment of icons and labels in concentration graph
 - move Reset All button to top center to avoid i18n layout issues with View controls? 
+- better pattern for model, less use of instanceof
 
 DONE:
+5/20/09 reimplement Reset All using Load
+5/20/09 implement Save/Load for first module
 5/20/09 implement Reset All for first module
 5/20/09 delete some test mains for controls
 5/20/09 increase precision of concentration text field
