@@ -214,6 +214,7 @@ public class DecayRatesCanvas extends PhetPCanvas {
             public void nucleusTypeChanged(){
             	_proportionsChart.clear();
                 _proportionsChart.configureForNucleusType(_model.getNucleusType());
+                _bucketNode.resetSliderPosition();
             }
         });
         

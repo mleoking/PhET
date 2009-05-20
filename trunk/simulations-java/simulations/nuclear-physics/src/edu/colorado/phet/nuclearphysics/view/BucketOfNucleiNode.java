@@ -418,6 +418,12 @@ public class BucketOfNucleiNode extends PNode {
     public NormalizedSlider getSlider(){
     	return _slider;
     }
+    
+    public void resetSliderPosition(){
+    	if (_slider != null){
+    		_slider.setValue(0);
+    	}
+    }
 
     /**
      * Set the offset of this node.  This has been overridden so that only the
