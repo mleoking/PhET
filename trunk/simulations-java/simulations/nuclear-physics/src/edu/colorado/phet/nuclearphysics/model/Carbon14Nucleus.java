@@ -30,8 +30,9 @@ public class Carbon14Nucleus extends AbstractDecayNucleus {
     public static double HALF_LIFE = 1.81E14; // 5,730 years, converted into milliseconds.
     
     // Time scaling factor - scales the rate at which decay occurs so that we
-    // don't really have to wait around thousands of years.
-    private static double DECAY_TIME_SCALING_FACTOR = 2000 / HALF_LIFE;
+    // don't really have to wait around thousands of years.  Smaller values
+    // cause quicker decay.
+    private static double DECAY_TIME_SCALING_FACTOR = 1500 / HALF_LIFE;
     
     // Random number generator used for calculating decay time based on decay constant.
     private static final Random RAND = new Random();
