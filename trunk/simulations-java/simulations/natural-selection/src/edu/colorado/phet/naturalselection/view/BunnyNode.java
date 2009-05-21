@@ -88,9 +88,6 @@ public class BunnyNode extends NaturalSelectionSprite implements Bunny.Listener 
                 // TODO: refactor setSpriteLocation to Point3D?
                 setSpriteLocation( event.getPosition().getX(), event.getPosition().getY(), event.getPosition().getZ() );
                 break;
-            case Bunny.Event.TYPE_TARGETED_CHANGED:
-                displayBunnyNode.setTargeted( event.isTargeted() );
-                break;
         }
     }
 }

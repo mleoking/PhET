@@ -13,8 +13,6 @@ import edu.colorado.phet.naturalselection.model.Frenzy;
 import edu.colorado.phet.naturalselection.model.Wolf;
 import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
  * Handles all of the sprites on the simulation canvas (bunnies, wolves, trees, shrubs, etc.)
@@ -217,17 +215,6 @@ public class SpritesNode extends PNode implements NaturalSelectionModel.Listener
         addChildSprite( bunnyNode );
         bunny.addListener( bunnyNode );
         sprites.add( bunnyNode );
-
-        bunnyNode.addInputEventListener( new PBasicInputEventHandler() {
-            public void mousePressed( PInputEvent event ) {
-                super.mousePressed( event );
-                //System.out.println( "Bunny clicked: " + bunny.getId() );
-
-                if ( bunny.canBeTargeted() ) {
-                    bunny.setTargeted( true );
-                }
-            }
-        } );
     }
 
     /**

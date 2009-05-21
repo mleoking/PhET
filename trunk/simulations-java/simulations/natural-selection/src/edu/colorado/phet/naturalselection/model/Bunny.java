@@ -87,8 +87,6 @@ public class Bunny extends ClockAdapter {
 
     private boolean movingRight;
 
-    private boolean targeted = false;
-
     public static final int BETWEEN_HOP_TIME = 40;
     public static final int HOP_TIME = 10;
     public static final int HOP_HEIGHT = 50;
@@ -159,28 +157,6 @@ public class Bunny extends ClockAdapter {
         // bunny is set up, notify various things that the bunny has been created and is ready to use
         //notifyInit();
 
-    }
-
-
-    public boolean isTargeted() {
-        return targeted;
-    }
-
-    public void setTargeted( boolean targeted ) {
-        boolean changed = targeted != this.targeted;
-        this.targeted = targeted;
-
-        if ( changed ) {
-            notifyChangeTargeted();
-        }
-
-        if ( model.isDuringFrenzy() ) {
-            model.getFrenzy().addTargetBunny( this );
-        }
-    }
-
-    public boolean canBeTargeted() {
-        return ( isTargeted() == false && model.isDuringFrenzy() );
     }
 
     public boolean isMovingRight() {
@@ -563,12 +539,6 @@ public class Bunny extends ClockAdapter {
         notifyListenersOfEvent( event );
     }
 
-    private void notifyChangeTargeted() {
-        Event event = new Event( this, Event.TYPE_TARGETED_CHANGED );
-        event.setTargeted( targeted );
-        notifyListenersOfEvent( event );
-    }
-
     private void notifyListenersOfEvent( Event event ) {
         Iterator<Listener> iter = listeners.iterator();
         while ( iter.hasNext() ) {
@@ -604,7 +574,6 @@ public class Bunny extends ClockAdapter {
         public static final int TYPE_REPRODUCED = 2;
         public static final int TYPE_AGE_CHANGED = 3;
         public static final int TYPE_POSITION_CHANGED = 4;
-        public static final int TYPE_TARGETED_CHANGED = 5;
 
         public final int type;
         public final Bunny bunny;
