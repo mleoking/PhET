@@ -3,12 +3,11 @@
 ==================================================================================
 
 TODO:
+- rewrite model
 - PSwing repaint problem with BeakerControlsNode?
 - center everything in the play area
 - connect equilibrium expressions to model
 - connect reaction equations to model
-- connect beaker view controls to model (ratio check box labels)
-- ratio views
 - H2O should not be scalable in Reaction Equations, should change to Color.BLACK when scaling is enabled
 - revisit implementation of Reaction Equations and Equilibrium Expressions
 - particle views
