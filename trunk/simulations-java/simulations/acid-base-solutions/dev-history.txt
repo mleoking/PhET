@@ -24,7 +24,7 @@ ISSUES:
 - precision of concentration text field
 - vertical spacing of items in solute combo box
 - alignment of icons and labels in concentration graph
-- move Reset All button to top center to avoid i18n layout issues with View controls? 
+- resolve i18n layout issues with Reset All button and View controls
 - better pattern for model, less use of instanceof
 
 DONE:
