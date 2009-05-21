@@ -65,10 +65,10 @@ public class ABSConstants {
     public static final Color OH_COLOR = new Color( 102, 132, 242 );
     public static final Color HA_COLOR = new Color( 13, 176, 47 );
     public static final Color A_COLOR = new Color( 235, 145, 5 );
-    public static final Color B_COLOR = new Color( 136, 40, 99 );
-    public static final Color BH_COLOR = new Color( 169, 155, 23 );
-    public static final Color MOH_COLOR = new Color( 147, 44, 187 );
-    public static final Color M_COLOR = new Color( 236, 216, 42 );
+    public static final Color B_COLOR = new Color( 169, 51, 216 );
+    public static final Color BH_COLOR = new Color( 236, 216, 42 );
+    public static final Color MOH_COLOR = B_COLOR;
+    public static final Color M_COLOR = BH_COLOR;
     public static final Color K_COLOR = Color.GRAY;
     
     // particle colors may be tweaked so that they stand out better
