@@ -177,6 +177,10 @@ public class MultiNucleusDecayModel implements NucleusTypeControl {
 		_jitterOffsetCount = (_jitterOffsetCount + 1) % CLOCKS_PER_JITTER;
 	}
 	
+	static public double convertYearsToMs( double years ){
+		return years * 3.1556926E10;
+	}
+	
 	/**
 	 * Set up the object that will listen to notifications from the nuclei.
 	 * It will be common to override this is sub-classes which may need to

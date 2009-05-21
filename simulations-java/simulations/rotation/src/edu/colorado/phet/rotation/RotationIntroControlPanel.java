@@ -1,5 +1,6 @@
 package edu.colorado.phet.rotation;
 
+import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -37,31 +38,36 @@ public class RotationIntroControlPanel extends VerticalLayoutPanel {
         return d * Math.PI * 2 / 360;
     }
 
-    private LinearValueControl createAngleSlider( final RotationIntroModule introModule ) {
-        final LinearValueControl linearSlider = new LinearValueControl( radiansToDegrees( -Math.PI * 2 * 2 ), radiansToDegrees( Math.PI * 2 * 2 ), 0.0, RotationStrings.getString( "variable.angle" ), "0.00", RotationStrings.getString( "units.degrees" ) ) {
-            protected boolean isValueInRange( double value ) {
-                return true;
-            }
-        };
-        linearSlider.getTextField().setColumns( "1000.00".length() );
-        linearSlider.setSignifyOutOfBounds( false );
-        final ChangeListener listener = new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                introModule.getRotationModel().getRotationPlatform().setPositionDriven();
-                introModule.getRotationModel().getRotationPlatform().setPosition( degreesToRadians( linearSlider.getValue() ) );
-            }
-        };
-        linearSlider.addChangeListener( listener );
+//    private LinearValueControl createAngleSlider( final RotationIntroModule introModule ) {
+//        final LinearValueControl linearSlider = new LinearValueControl( radiansToDegrees( -Math.PI * 2 * 2 ), radiansToDegrees( Math.PI * 2 * 2 ), 0.0, RotationStrings.getString( "variable.angle" ), "0.00", RotationStrings.getString( "units.degrees" ) ) {
+//            protected boolean isValueInRange( double value ) {
+//                return true;
+//            }
+//        };
+//        linearSlider.getTextField().setColumns( "1000.00".length() );
+//        linearSlider.setSignifyOutOfBounds( false );
+//        final ChangeListener listener = new ChangeListener() {
+//            public void stateChanged( ChangeEvent e ) {
+//                introModule.getRotationModel().getRotationPlatform().setPositionDriven();
+//                introModule.getRotationModel().getRotationPlatform().setPosition( degreesToRadians( linearSlider.getValue() ) );
+//            }
+//        };
+//        linearSlider.addChangeListener( listener );
+//
+//        introModule.getRotationModel().getRotationPlatform().getPositionVariable().addListener( new IVariable.Listener() {
+//            public void valueChanged() {
+//                //set a value to the slider without sending notification, otherwise interpolated values for omega will cause problems
+//                linearSlider.removeChangeListener( listener );
+//                linearSlider.setValue( radiansToDegrees( introModule.getRotationModel().getRotationPlatform().getPositionVariable().getValue() ) );
+//                linearSlider.addChangeListener( listener );
+//            }
+//        } );
+//        return linearSlider;
+//    }
 
-        introModule.getRotationModel().getRotationPlatform().getPositionVariable().addListener( new IVariable.Listener() {
-            public void valueChanged() {
-                //set a value to the slider without sending notification, otherwise interpolated values for omega will cause problems
-                linearSlider.removeChangeListener( listener );
-                linearSlider.setValue( radiansToDegrees( introModule.getRotationModel().getRotationPlatform().getPositionVariable().getValue() ) );
-                linearSlider.addChangeListener( listener );
-            }
-        } );
-        return linearSlider;
+    private JSlider createAngleSlider( final RotationIntroModule introModule ) {
+        JSlider slider = new JSlider(JSlider.HORIZONTAL, (int)Math.round(radiansToDegrees( -Math.PI * 2 * 2 )), (int)Math.round(radiansToDegrees( Math.PI * 2 * 2 )), 0);
+        return slider;
     }
 
     private LinearValueControl createVelocitySlider( final RotationIntroModule introModule ) {

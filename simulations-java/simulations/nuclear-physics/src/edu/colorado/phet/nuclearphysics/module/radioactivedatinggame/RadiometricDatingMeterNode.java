@@ -7,24 +7,23 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Rectangle;
-import java.awt.geom.Line2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
-import java.awt.geom.Rectangle2D.Double;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
-import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
@@ -34,7 +33,7 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
-import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
+import edu.colorado.phet.nuclearphysics.module.radioactivedatinggame.ProbeTypeModel.ProbeType;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -76,7 +75,7 @@ public class RadiometricDatingMeterNode extends PNode {
     // Constructor
     //------------------------------------------------------------------------
 
-	public RadiometricDatingMeterNode(RadiometricDatingMeter meterModel, double width, double height, ModelViewTransform2D mvt) {
+	public RadiometricDatingMeterNode(RadiometricDatingMeter meterModel, ProbeTypeModel probeTypeModel, double width, double height, ModelViewTransform2D mvt) {
 		
 		_meterModel = meterModel;
 		_mvt = mvt;
@@ -105,7 +104,7 @@ public class RadiometricDatingMeterNode extends PNode {
 		_percentageDisplay.setPercentage(100);
 		
 		// Add the selection panel.
-		_elementSelectionPanel = new ElementSelectionPanel((int)Math.round(width * 0.9), (int)Math.round(height * 0.66));
+		_elementSelectionPanel = new ElementSelectionPanel((int)Math.round(width * 0.9), (int)Math.round(height * 0.66), probeTypeModel);
 		PSwing elementSelectionNode = new PSwing(_elementSelectionPanel);
 		elementSelectionNode.setOffset( 
 				_meterBody.getFullBounds().width / 2 - elementSelectionNode.getFullBounds().width / 2,
@@ -139,27 +138,6 @@ public class RadiometricDatingMeterNode extends PNode {
 		DatableObject datableItem = _meterModel.getItemBeingTouched();
 		if (datableItem == null){
 			_percentageDisplay.setBlank();
-		}
-		else{
-			switch (_elementSelectionPanel.getSelectedElement()){
-			case NuclearPhysicsConstants.NUCLEUS_ID_CARBON_14:
-				_percentageDisplay.setPercentage(datableItem.getPercentageCarbon14Remaining(datableItem));
-				break;
-				
-			case NuclearPhysicsConstants.NUCLEUS_ID_URANIUM_238:
-				_percentageDisplay.setPercentage(datableItem.getPercentageUranium238Remaining(datableItem));
-				break;
-			
-			case NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM:
-				// TODO: This is blank for now, but needs to be made to work
-				// once the UI supports dropdown for custom half life.
-				_percentageDisplay.setBlank();
-				break;
-				
-			default:
-				_percentageDisplay.setBlank();
-				break;
-			}
 		}
 	}
 
@@ -365,13 +343,9 @@ public class RadiometricDatingMeterNode extends PNode {
 	    }
 	}
 	
-	private class ElementSelectionPanel extends VerticalLayoutPanel {
+	private static class ElementSelectionPanel extends VerticalLayoutPanel {
 		
-		private JRadioButton _carbon14RadioButton;
-		private JRadioButton _uranium238RadioButton;
-		private JRadioButton _customNucleusRadioButton;
-		
-		public ElementSelectionPanel(int width, int height){
+		public ElementSelectionPanel(int width, int height, final ProbeTypeModel probeTypeModel){
 			
 			setPreferredSize(new Dimension(width, height));
 			setBackground(BODY_COLOR);
@@ -389,46 +363,25 @@ public class RadiometricDatingMeterNode extends PNode {
             
             setBorder( titledBorder );
             
-            // Create the radio buttons.
-            // TODO - JPB TBD - Make this a subclass or routine, since there
-            // is a lot of repetition here.
-            _carbon14RadioButton = new JRadioButton("Carbon 14");
-            _carbon14RadioButton.setBackground(BODY_COLOR);
-            _carbon14RadioButton.setForeground(Color.WHITE);
-            _carbon14RadioButton.setFont(new PhetFont(18));
-            _uranium238RadioButton = new JRadioButton("Uranium 238");
-            _uranium238RadioButton.setBackground(BODY_COLOR);
-            _uranium238RadioButton.setForeground(Color.WHITE);
-            _uranium238RadioButton.setFont(new PhetFont(18));
-            _customNucleusRadioButton = new JRadioButton("Custom");
-            _customNucleusRadioButton.setBackground(BODY_COLOR);
-            _customNucleusRadioButton.setForeground(Color.WHITE);
-            _customNucleusRadioButton.setFont(new PhetFont(18));
-            
-            ButtonGroup buttonGroup = new ButtonGroup();
-            buttonGroup.add( _carbon14RadioButton );
-            buttonGroup.add( _uranium238RadioButton );
-            buttonGroup.add( _customNucleusRadioButton );
-            _carbon14RadioButton.setSelected( true );
-            
-            // Add the buttons to the panel.
-            add(_carbon14RadioButton);
-            add(_uranium238RadioButton);
-            add(_customNucleusRadioButton);
-		}
-		
-		public int getSelectedElement(){
-			int selection = 0;
-			if (_carbon14RadioButton.isSelected()){
-				selection = NuclearPhysicsConstants.NUCLEUS_ID_CARBON_14;
-			}
-			else if (_uranium238RadioButton.isSelected()){
-				selection = NuclearPhysicsConstants.NUCLEUS_ID_URANIUM_238;
-			}
-			else if (_customNucleusRadioButton.isSelected()){
-				selection = NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM;
-			}
-			return selection;
-		}
+            // Create the radio buttons, one for each possible probe type.
+            for (final ProbeType probeType : ProbeTypeModel.POSSIBLE_PROBE_TYPES){
+                final JRadioButton radioButton = new JRadioButton(probeType.getName(), 
+                		probeTypeModel.getProbeType().equals(probeType));
+                radioButton.setBackground(BODY_COLOR);
+                radioButton.setForeground(Color.WHITE);
+                radioButton.setFont(new PhetFont(18));
+                radioButton.addActionListener(new ActionListener(){
+					public void actionPerformed(ActionEvent e) {
+						probeTypeModel.setProbeType(probeType);
+					}
+                });
+                add(radioButton);
+                probeTypeModel.addObserver(new SimpleObserver(){
+					public void update() {
+		                radioButton.setSelected( probeTypeModel.getProbeType().equals(probeType));
+					}
+                });
+            }
+		}		
 	}
 }
