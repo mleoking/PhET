@@ -29,7 +29,7 @@ public class DecayRatesModel extends MultiNucleusDecayModel {
     // Class data
     //------------------------------------------------------------------------
 	
-	private static final int MAX_NUCLEI = 500;
+	private static final int MAX_NUCLEI = 1000;
 	private static final int NUCLEUS_TYPE = NuclearPhysicsConstants.NUCLEUS_ID_CARBON_14;
 	private static final double INITIAL_WORLD_WIDTH = 800;  // Femtometers
 	private static final double INITIAL_WORLD_HEIGHT = INITIAL_WORLD_WIDTH * 0.4;  // Femtometers
