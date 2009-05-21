@@ -6,7 +6,7 @@ import edu.colorado.phet.acidbasesolutions.model.Water;
 
 
 
-public class IntermediateAcidConcentrationModel extends AcidConcentrationModel {
+public class IntermediateAcidConcentrationModel extends WeakAcidConcentrationModel {
 
     public IntermediateAcidConcentrationModel( Acid acid ) {
         super( acid );
