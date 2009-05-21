@@ -136,13 +136,19 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         _meter.setMeterBodyOffset(
         		_proportionsChart.getFullBoundsReference().getMinX() - (_meter.getMeterBodyWidth() * 1.05),
         		_mvt.modelToViewYDouble(_model.getBottomOfStrata()) + 4);
+        setUpComboBox();
         addWorldChild( _meter );
         
         // Add decay curve to chart.
         drawDecayCurveOnChart();
     }
 
-    //------------------------------------------------------------------------
+    //Workaround to get PComboBox to show popup in the right spot.
+    private void setUpComboBox() {
+		_meter.getComboBox().setEnvironment(_meter.getComboBoxPSwing(), this);
+	}
+
+	//------------------------------------------------------------------------
     // Methods
     //------------------------------------------------------------------------
 
