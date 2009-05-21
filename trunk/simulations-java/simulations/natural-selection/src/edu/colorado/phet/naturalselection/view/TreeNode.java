@@ -15,26 +15,54 @@ import edu.umd.cs.piccolo.nodes.PImage;
  */
 public class TreeNode extends NaturalSelectionSprite {
 
+    private final double backgroundX;
+    private final double backgroundY;
+    private final double baseScale;
+
+    private PImage treeImage;
+
     /**
      * Constructor. Creates a tree and the specified canvas location and scale, with the correct depth for bunnies
      * to be in front and behind the tree.
      *
-     * @param canvasX Canvas x-position (center of tree)
-     * @param canvasY Canvas y-position (bottom of tree)
-     * @param scale   Scale
+     * @param spriteHandler Spritesnode
+     * @param backgroundX   Canvas x-position (center of tree)
+     * @param backgroundY   Canvas y-position (bottom of tree)
+     * @param baseScale     Scale
      */
-    public TreeNode( double canvasX, double canvasY, double scale ) {
+    public TreeNode( SpriteHandler spriteHandler, double backgroundX, double backgroundY, double baseScale ) {
+        super( spriteHandler );
+
+        this.backgroundX = backgroundX;
+        this.backgroundY = backgroundY;
+        this.baseScale = baseScale;
+
         // load the image
-        PImage treeImage = NaturalSelectionResources.getImageNode( NaturalSelectionConstants.IMAGE_TREE );
+        treeImage = NaturalSelectionResources.getImageNode( NaturalSelectionConstants.IMAGE_TREE );
 
         // offset the image so that the visual base of the tree is where the base of the image would be
         Point2D offset = NaturalSelectionConstants.IMAGE_TREE_OFFSET;
         treeImage.setOffset( offset.getX(), offset.getY() );
 
         addChild( treeImage );
-        setSpriteLocation( canvasX, 0, getInverseGroundZDepth( canvasY ) );
-        setScale( scale );
-        setOffset( canvasX - scale * treeImage.getWidth() / 2, canvasY - treeImage.getHeight() * scale );
+
+        reposition();
     }
 
+    public void reposition() {
+
+
+        setSpriteLocation( backgroundX, 0, getInverseGroundZDepth( backgroundY ) );
+
+        double scale = baseScale * spriteHandler.getSpriteTransform().getScaleY();
+
+        setScale( scale );
+
+        Point2D location = new Point2D.Double( backgroundX, backgroundY );
+
+        spriteHandler.getSpriteTransform().transform( location, location );
+
+        setOffset( location.getX() - scale * treeImage.getWidth() / 2, location.getY() - treeImage.getHeight() * scale );
+
+    }
 }

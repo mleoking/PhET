@@ -475,7 +475,7 @@ public class NaturalSelectionModel extends ClockAdapter {
             prematureEndFrenzy();
         }
 
-        if( selectionFactor == SELECTION_FOOD ) {
+        if ( selectionFactor == SELECTION_FOOD ) {
             bunnyFamine();
         }
 
