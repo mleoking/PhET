@@ -2,19 +2,17 @@
 
 package edu.colorado.phet.naturalselection.dialog;
 
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
 import edu.colorado.phet.naturalselection.model.*;
 import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
-import edu.colorado.phet.naturalselection.view.GenerationCountNode;
 import edu.colorado.phet.naturalselection.view.MutationPendingNode;
 import edu.colorado.phet.naturalselection.view.pedigree.PedigreeNode;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * The piccolo canvas where the generation charts are drawn in. Allows changing between the charts
@@ -24,7 +22,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 public class GenerationChartCanvas extends PhetPCanvas {
 
     private NaturalSelectionModel model;
-    private PedigreeNode pedigreeNode;
+    public PedigreeNode pedigreeNode;
 
     private MutationPendingNode mutationPendingNode;
     private PNode rootNode;
@@ -33,6 +31,8 @@ public class GenerationChartCanvas extends PhetPCanvas {
     //public JButton statsButton;
 
     private static final double PEDIGREE_TOP_PADDING = 30.0;
+    //private PText title;
+    //private GenerationCountNode generationCount;
 
     /**
      * Constructor
@@ -40,8 +40,8 @@ public class GenerationChartCanvas extends PhetPCanvas {
      * @param model The natural selection model
      */
     public GenerationChartCanvas( NaturalSelectionModel model ) {
-        // TODO: allow the generation chart to change size
-        super( NaturalSelectionDefaults.GENERATION_CHART_SIZE );
+        super.setWorldTransformStrategy( new ConstantTransformStrategy( new AffineTransform() ) );
+
         setPreferredSize( NaturalSelectionDefaults.GENERATION_CHART_SIZE );
 
         this.model = model;
@@ -59,19 +59,16 @@ public class GenerationChartCanvas extends PhetPCanvas {
 
         pedigreeNode.setOffset( new Point2D.Double( 0, PEDIGREE_TOP_PADDING ) );
 
-        PText title = new PText( "Generation Chart" );
+        /*
+        title = new PText( "Generation Chart" );
         title.setFont( new PhetFont( 16, true ) );
         title.translate( ( getPreferredSize().getWidth() - title.getWidth() ) / 2, TOP_PADDING );
         rootNode.addChild( title );
 
-        GenerationCountNode generationCount = new GenerationCountNode( model );
+        generationCount = new GenerationCountNode( model );
         generationCount.translate( getPreferredSize().getWidth() - generationCount.getTextWidth() - 20, TOP_PADDING );
         rootNode.addChild( generationCount );
-
-        //statsButton = new JButton( "Bunny Stats" );
-        //PSwing statsHolder = new PSwing( statsButton );
-        //statsHolder.setOffset( 5, 5 );
-        //rootNode.addChild( statsHolder );
+        */
 
         mutationPendingNode = null;
 
@@ -81,8 +78,16 @@ public class GenerationChartCanvas extends PhetPCanvas {
 
     }
 
+    public void layoutNodes() {
+        double bounds = this.getRoot().computeFullBounds( null ).width;
+
+        // TODO: remove getSize() ?
+        //title.translate( ( getSize().getWidth() - title.getWidth() ) / 2, TOP_PADDING );
+        //generationCount.translate( getSize().getWidth() - generationCount.getTextWidth() - 20, TOP_PADDING );
+    }
+
     public void setCenterPoint( double x ) {
-        pedigreeNode.setOffset( new Point2D.Double( NaturalSelectionDefaults.GENERATION_CHART_SIZE.getWidth() / 2 - x, PEDIGREE_TOP_PADDING ) );
+        pedigreeNode.setOffset( new Point2D.Double( getWidth() / 2 - x, PEDIGREE_TOP_PADDING ) );
     }
 
     private void setupHandlers() {

@@ -4,6 +4,7 @@ import java.awt.*;
 
 import javax.swing.*;
 
+import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
 import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
 
 public class GenerationChartDialog extends JDialog {
@@ -14,7 +15,11 @@ public class GenerationChartDialog extends JDialog {
         super( frame );
 
         generationChartPanel = new GenerationChartPanel( model );
-        this.setContentPane( generationChartPanel );
+
+        Container container = this.getContentPane();
+        container.add( generationChartPanel );
+
+        setTitle( NaturalSelectionStrings.GENERATION_CHART );
 
         pack();
 
