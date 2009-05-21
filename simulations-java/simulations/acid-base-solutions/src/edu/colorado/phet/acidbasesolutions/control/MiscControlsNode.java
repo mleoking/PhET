@@ -17,6 +17,7 @@ import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.dialog.SymbolLegendDialog;
+import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.view.equilibriumexpressions.EquilibriumExpressionsDialog;
 import edu.colorado.phet.acidbasesolutions.view.reactionequations.ReactionEquationsDialog;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
@@ -30,6 +31,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 public class MiscControlsNode extends PNode {
     
     private final Frame parentFrame;
+    private final AqueousSolution solution;
     
     private final PNode concentrationGraphNode;
     
@@ -45,8 +47,10 @@ public class MiscControlsNode extends PNode {
     private JDialog reactionEquationsDialog;
     private Point reactionEquationsDialogLocation;
     
-    public MiscControlsNode( final PNode concentrationGraphNode, Color background ) {
+    public MiscControlsNode( final PNode concentrationGraphNode, Color background, AqueousSolution solution ) {
         super();
+        
+        this.solution = solution;
         
         this.concentrationGraphNode = concentrationGraphNode;
          
@@ -190,7 +194,7 @@ public class MiscControlsNode extends PNode {
     
     private void openEquilibriumExpressionsDialog() {
         
-        equilibriumExpressionsDialog = new EquilibriumExpressionsDialog( parentFrame );
+        equilibriumExpressionsDialog = new EquilibriumExpressionsDialog( parentFrame, solution );
         equilibriumExpressionsDialog.addWindowListener( new WindowAdapter() {
 
             // called when the close button in the dialog's window dressing is clicked

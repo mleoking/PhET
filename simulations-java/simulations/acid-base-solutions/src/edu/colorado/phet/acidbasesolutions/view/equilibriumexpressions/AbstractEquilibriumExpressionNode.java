@@ -9,7 +9,6 @@ import javax.swing.JPanel;
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.ABSSymbols;
-import edu.colorado.phet.acidbasesolutions.model.Water;
 import edu.colorado.phet.acidbasesolutions.util.PNodeUtils;
 import edu.colorado.phet.common.phetcommon.util.TimesTenNumberFormat;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
@@ -24,18 +23,17 @@ import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Base class for all acid/base/water equilibrium expressions.
+ * Base class for all equilibrium expressions.
  * Equilibrium expressions are composed of at most 3 terms, and have the form:
  * <code>
  * K = [term1][term2] / [term3] = value
  * </code>
- * K is Ka, Kb, or Kw for acid, base, and water respectively.
- * For strong acids and bases, value is displayed as "Large".
- * For water, the expression has no denominator.
+ * Value can be displayed as "Large".
+ * The denominator can be hidden.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class EquilibriumExpressionNode extends PComposite {
+abstract class AbstractEquilibriumExpressionNode extends PComposite {
     
     //----------------------------------------------------------------------------
     // Class data
@@ -77,7 +75,7 @@ public abstract class EquilibriumExpressionNode extends PComposite {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public EquilibriumExpressionNode() {
+    protected AbstractEquilibriumExpressionNode() {
         super();
         setPickable( false );
         setChildrenPickable( false );
@@ -109,27 +107,27 @@ public abstract class EquilibriumExpressionNode extends PComposite {
     // Setters and getters
     //----------------------------------------------------------------------------
     
-    /**
+    /*
      * Sets the scale for the left numerator.
      * @param scale
      */
-    public void setLeftNumeratorScale( double scale ) {
+    protected void setLeftNumeratorScale( double scale ) {
         setScaleAboutCenter( leftNumeratorNode, scale );
     }
     
-    /**
+    /*
      * Sets the scale of the right numerator.
      * @param scale
      */
-    public void setRightNumeratorScale( double scale ) {
+    protected void setRightNumeratorScale( double scale ) {
         setScaleAboutCenter( rightNumeratorNode, scale );
     }
     
-    /**
+    /*
      * Sets the scale for the denominator.
      * @param scale
      */
-    public void setDenominatorScale( double scale ) {
+    protected void setDenominatorScale( double scale ) {
         setScaleAboutCenter( denominatorNode, scale );
     }
     
@@ -166,10 +164,6 @@ public abstract class EquilibriumExpressionNode extends PComposite {
         largeValueNode.setVisible( b );
         valueNode.setVisible( !b );
     }
-    
-    //----------------------------------------------------------------------------
-    // Non-public interface
-    //----------------------------------------------------------------------------
     
     protected void setLeftNumeratorProperties( String text, Color color ) {
         setTermProperties( leftNumeratorNode, text, color );
@@ -292,6 +286,10 @@ public abstract class EquilibriumExpressionNode extends PComposite {
         setDenominatorScale( denominatorScale );
     }
     
+    //----------------------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------------------
+    
     /*
      * Symbol for K.
      */
@@ -307,10 +305,6 @@ public abstract class EquilibriumExpressionNode extends PComposite {
             super.setHTML( HTMLUtils.toHTMLString( text ) );
         }
     }
-    
-    //----------------------------------------------------------------------------
-    // Inner classes
-    //----------------------------------------------------------------------------
     
     /*
      * A symbol is the formula for a molecule.
@@ -448,114 +442,6 @@ public abstract class EquilibriumExpressionNode extends PComposite {
         }
     }
     
-    /**
-     * Water equilibrium expression: Kw = [H3O+][OH-] = 1.0 x 10^-14
-     */
-    public static class WaterEquilibriumExpressionNode extends EquilibriumExpressionNode {
-        
-        public WaterEquilibriumExpressionNode() {
-            super();
-            setKLabel( ABSSymbols.Kw );
-            setLeftNumeratorProperties( ABSSymbols.H3O_PLUS, ABSConstants.H3O_COLOR );
-            setRightNumeratorProperties( ABSSymbols.OH_MINUS, ABSConstants.OH_COLOR );
-            setDenominatorVisible( false );
-            setKValue( Water.getEquilibriumConstant() );
-        }
-    }
-    
-    /*
-     * Base class for acid equilibrium expressions.
-     */
-    public static class AbstractAcidEquilibriumExpressionNode extends EquilibriumExpressionNode {
-        
-        public AbstractAcidEquilibriumExpressionNode() {
-            this( ABSSymbols.A_MINUS, ABSSymbols.HA );
-        }
-        
-        public AbstractAcidEquilibriumExpressionNode( String rightNumerator, String denominator ) {
-            super();
-            setKLabel( ABSSymbols.Ka );
-            setLeftNumeratorProperties( ABSSymbols.H3O_PLUS, ABSConstants.H3O_COLOR );
-            setRightNumeratorProperties( rightNumerator, ABSConstants.A_COLOR );
-            setDenominatorProperties( denominator, ABSConstants.HA_COLOR );
-            setKValue( 0 );
-        }
-    }
-    
-    /**
-     * Weak acid equilibrium expression: Ka = [H3O+][A-] / [HA] = value
-     */
-    public static class WeakAcidEquilibriumExpressionNode extends AbstractAcidEquilibriumExpressionNode {
-        public WeakAcidEquilibriumExpressionNode() {
-            super();
-        }
-        
-        public WeakAcidEquilibriumExpressionNode( String rightNumerator, String denominator ) {
-            super( rightNumerator, denominator );
-        }
-    }
-    
-    /**
-     * Strong acid equilibrium expression: Ka = [H3O+][A-] / [HA] = Large
-     */
-    public static class StrongAcidEquilibriumExpressionNode extends AbstractAcidEquilibriumExpressionNode {
-        public StrongAcidEquilibriumExpressionNode() {
-            super();
-            setLargeValueVisible( true );
-        }
-        public StrongAcidEquilibriumExpressionNode( String rightNumerator, String denominator ) {
-            super( rightNumerator, denominator );
-            setLargeValueVisible( true );
-        }
-    }
-    
-    /*
-     * Base class for base equilibrium expressions.
-     */
-    public static class AbstractBaseEquilibriumExpressionNode extends EquilibriumExpressionNode {
-        public AbstractBaseEquilibriumExpressionNode() {
-            super();
-            setKLabel( ABSSymbols.Kb );
-            setKValue( 0 );
-        }
-    }
-    
-    /**
-     * Weak base equilibrium expression: Kb = [BH+][OH-] / [B] = value
-     */
-    public static class WeakBaseEquilibriumExpressionNode extends AbstractBaseEquilibriumExpressionNode {
-        
-        public WeakBaseEquilibriumExpressionNode() {
-            this( ABSSymbols.BH_PLUS, ABSSymbols.B );
-        }
-        
-        public WeakBaseEquilibriumExpressionNode( String leftNumerator, String denominator ) {
-            super();
-            setLeftNumeratorProperties( leftNumerator, ABSConstants.BH_COLOR );
-            setRightNumeratorProperties( ABSSymbols.OH_MINUS, ABSConstants.OH_COLOR );
-            setDenominatorProperties( denominator, ABSConstants.B_COLOR );
-        }
-    }
-    
-    /**
-     * Strong base equilibrium expression: Kb = [M+][OH-] / [MOH] = Large
-     */
-    public static class StrongBaseEquilibriumExpressionNode extends AbstractBaseEquilibriumExpressionNode {
-        
-        public StrongBaseEquilibriumExpressionNode() {
-            this( ABSSymbols.M_PLUS, ABSSymbols.MOH );
-        }
-        
-        public StrongBaseEquilibriumExpressionNode( String leftNumerator, String denominator ) {
-            super();
-            setLeftNumeratorProperties( leftNumerator, ABSConstants.M_COLOR );
-            setRightNumeratorProperties( ABSSymbols.OH_MINUS, ABSConstants.OH_COLOR );
-            setDenominatorProperties( denominator, ABSConstants.MOH_COLOR );
-            setLargeValueVisible( true );
-        }
-    }
-    
-    
     /* tests */
     public static void main( String[] args ) {
         
@@ -568,10 +454,10 @@ public abstract class EquilibriumExpressionNode extends PComposite {
                 // water
                 new WaterEquilibriumExpressionNode(),
                 // generics
-                new WeakAcidEquilibriumExpressionNode(),
-                new StrongAcidEquilibriumExpressionNode(),
-                new WeakBaseEquilibriumExpressionNode(),
-                new StrongBaseEquilibriumExpressionNode(),
+                new WeakAcidEquilibriumExpressionNode( ABSSymbols.HA, ABSSymbols.A_MINUS ),
+                new StrongAcidEquilibriumExpressionNode( ABSSymbols.HA, ABSSymbols.A_MINUS ),
+                new WeakBaseEquilibriumExpressionNode( ABSSymbols.B, ABSSymbols.BH_PLUS ),
+                new StrongBaseEquilibriumExpressionNode( ABSSymbols.MOH, ABSSymbols.M_PLUS ),
                 // specifics
                 new WeakAcidEquilibriumExpressionNode( "ClO<sub>2</sub><sup>-</sup>", "HClO<sub>2</sub>" ),
                 new StrongAcidEquilibriumExpressionNode( "Cl<sup>-</sup>", "HCl" ),

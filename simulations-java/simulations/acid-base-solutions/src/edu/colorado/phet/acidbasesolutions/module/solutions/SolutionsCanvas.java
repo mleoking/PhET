@@ -55,7 +55,7 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         beakerControlsNode = new BeakerControlsNode( beakerNode, getBackground(), solution );
         beakerControlsNode.scale( ABSConstants.PSWING_SCALE );
         
-        miscControlsNode = new MiscControlsNode( concentrationGraphNode, getBackground() );
+        miscControlsNode = new MiscControlsNode( concentrationGraphNode, getBackground(), solution );
         miscControlsNode.scale( ABSConstants.PSWING_SCALE );
         
         // rendering order

@@ -28,6 +28,7 @@ ISSUES:
 - better pattern for model, less use of instanceof
 
 DONE:
+5/21/09 equilibrium expression hierarchy
 5/20/09 update label on checkbox for disassociated components ratio
 5/20/09 move PSwing wrapper into control panels
 5/20/09 move probe, molecule counts, etc. to children of BeakerNode, to encapsulate layout
