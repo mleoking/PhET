@@ -20,8 +20,10 @@ public abstract class NaturalSelectionSprite extends PNode implements Comparable
     private double spriteY = 0;
     private double spriteZ = 0;
 
-    public NaturalSelectionSprite() {
+    protected SpriteHandler spriteHandler;
 
+    public NaturalSelectionSprite( SpriteHandler spriteHandler ) {
+        this.spriteHandler = spriteHandler;
     }
 
     //----------------------------------------------------------------------------
@@ -58,6 +60,8 @@ public abstract class NaturalSelectionSprite extends PNode implements Comparable
         setSpriteZ( z );
     }
 
+    public abstract void reposition();
+
     /**
      * Layout function to determine 2D position from the 3D coordinates
      *
@@ -66,7 +70,9 @@ public abstract class NaturalSelectionSprite extends PNode implements Comparable
     public Point2D getCanvasLocation() {
         // assuming for now that we are on a hill, so 0 y == on hill. spriteY will show above and below that
         double locationY = ( -NaturalSelectionDefaults.VIEW_SIZE.getHeight() + NaturalSelectionCanvas.HORIZON ) * ( 1 - ( spriteZ - 1 ) / 1.5 ) + spriteY;
-        return new Point2D.Double( spriteX, NaturalSelectionCanvas.HORIZON - ( locationY / spriteZ ) );
+        Point2D canvasLocation = new Point2D.Double( spriteX, NaturalSelectionCanvas.HORIZON - ( locationY / spriteZ ) );
+        Point2D ret = new Point2D.Double();
+        return spriteHandler.getSpriteTransform().transform( canvasLocation, ret );
     }
 
     /**

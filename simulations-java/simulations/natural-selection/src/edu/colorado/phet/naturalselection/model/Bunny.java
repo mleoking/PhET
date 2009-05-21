@@ -11,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
-import edu.colorado.phet.naturalselection.view.SpritesNode;
+import edu.colorado.phet.naturalselection.view.SpriteHandler;
 
 /**
  * Represents a bunny in the Natural Selection model
@@ -167,12 +167,12 @@ public class Bunny extends ClockAdapter {
      * Sets the initial bunny position (3d coordinates)
      */
     private void setInitialPosition() {
-        x = Math.random() * ( SpritesNode.MAX_X - SpritesNode.MIN_X ) + SpritesNode.MIN_X;
+        x = Math.random() * ( SpriteHandler.MAX_X - SpriteHandler.MIN_X ) + SpriteHandler.MIN_X;
 
         // start on the ground
-        y = SpritesNode.MIN_Y;
+        y = SpriteHandler.MIN_Y;
 
-        z = Math.random() * ( SpritesNode.MAX_Z - SpritesNode.MIN_Z ) + SpritesNode.MIN_Z;
+        z = Math.random() * ( SpriteHandler.MAX_Z - SpriteHandler.MIN_Z ) + SpriteHandler.MIN_Z;
     }
 
     public boolean isAlive() {
@@ -387,13 +387,13 @@ public class Bunny extends ClockAdapter {
 
             if ( movingRight ) {
                 setX( getX() + HOP_HORIZONTAL_STEP );
-                if ( getX() >= SpritesNode.MAX_X ) {
+                if ( getX() >= SpriteHandler.MAX_X ) {
                     movingRight = false;
                 }
             }
             else {
                 setX( getX() - HOP_HORIZONTAL_STEP );
-                if ( getX() <= SpritesNode.MIN_X ) {
+                if ( getX() <= SpriteHandler.MIN_X ) {
                     movingRight = true;
                 }
             }

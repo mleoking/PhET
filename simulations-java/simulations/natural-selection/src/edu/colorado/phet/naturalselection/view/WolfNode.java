@@ -14,7 +14,8 @@ public class WolfNode extends NaturalSelectionSprite implements Wolf.Listener {
     private boolean flipped = false;
     private PImage wolfImage;
 
-    public WolfNode( SpritesNode spritesNode ) {
+    public WolfNode( SpriteHandler spriteHandler ) {
+        super( spriteHandler );
 
         wolfGraphic = new PNode();
 

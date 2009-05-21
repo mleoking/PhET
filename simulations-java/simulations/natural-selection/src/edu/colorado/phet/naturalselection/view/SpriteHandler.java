@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.naturalselection.view;
 
+import java.awt.geom.AffineTransform;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -19,7 +20,7 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Jonathan Olson
  */
-public class SpritesNode extends PNode implements NaturalSelectionModel.Listener {
+public class SpriteHandler extends PNode implements NaturalSelectionModel.Listener {
 
     // display properties
     public static final double BUNNY_SIDE_SPACER = 25.0;
@@ -48,15 +49,18 @@ public class SpritesNode extends PNode implements NaturalSelectionModel.Listener
     // cached climate and selection factor
     private int oldClimate;
     private int oldSelection;
+    private AffineTransform backgroundTransform;
 
     /**
      * Constructor
      */
-    public SpritesNode() {
+    public SpriteHandler() {
         sprites = new LinkedList<NaturalSelectionSprite>();
         trees = new LinkedList<TreeNode>();
         shrubs = new LinkedList<ShrubNode>();
         wolves = new LinkedList<WolfNode>();
+
+        backgroundTransform = new AffineTransform();
 
         oldClimate = NaturalSelectionModel.CLIMATE_EQUATOR;
         oldSelection = NaturalSelectionModel.SELECTION_NONE;
@@ -64,32 +68,32 @@ public class SpritesNode extends PNode implements NaturalSelectionModel.Listener
 
         // create the trees (manually positioned and sized)
 
-        TreeNode bigTree = new TreeNode( 125, 138, 1 );
+        TreeNode bigTree = new TreeNode( this, 125, 138, 1 );
         addChildSprite( bigTree );
         trees.add( bigTree );
 
-        TreeNode mediumTree = new TreeNode( 917, 115, 0.7 );
+        TreeNode mediumTree = new TreeNode( this, 917, 115, 0.7 );
         addChildSprite( mediumTree );
         trees.add( mediumTree );
 
-        TreeNode smallTree = new TreeNode( 635, 90, 0.2 );
+        TreeNode smallTree = new TreeNode( this, 635, 90, 0.2 );
         addChildSprite( smallTree );
         trees.add( smallTree );
 
 
         // create the shrubs (manually positioned and sized)
 
-        ShrubNode shrubA = new ShrubNode( 80, 330, 1 );
+        ShrubNode shrubA = new ShrubNode( this, 80, 330, 1 );
         addChildSprite( shrubA );
         shrubs.add( shrubA );
         shrubA.setVisible( false );
 
-        ShrubNode shrubB = new ShrubNode( 750, 200, 0.8 );
+        ShrubNode shrubB = new ShrubNode( this, 750, 200, 0.8 );
         addChildSprite( shrubB );
         shrubs.add( shrubB );
         shrubB.setVisible( false );
 
-        ShrubNode shrubC = new ShrubNode( 320, 110, 0.6 );
+        ShrubNode shrubC = new ShrubNode( this, 320, 110, 0.6 );
         addChildSprite( shrubC );
         shrubs.add( shrubC );
         shrubC.setVisible( false );
@@ -227,7 +231,6 @@ public class SpritesNode extends PNode implements NaturalSelectionModel.Listener
         List displayList = getChildrenReference();
 
         if ( displayList.size() == 0 ) {
-            //displayList.add( sprite );
             addChild( sprite );
             return;
         }
@@ -239,8 +242,6 @@ public class SpritesNode extends PNode implements NaturalSelectionModel.Listener
             NaturalSelectionSprite nextSprite = (NaturalSelectionSprite) iter.next();
             if ( nextSprite.getSpriteZ() < sprite.getSpriteZ() ) {
                 addChild( iter.previousIndex(), sprite );
-                //iter.previous();
-                //iter.add( sprite );
                 return;
             }
         }
@@ -256,5 +257,28 @@ public class SpritesNode extends PNode implements NaturalSelectionModel.Listener
         removeChild( sprite );
     }
 
+    public void repositionAll() {
+        for ( NaturalSelectionSprite sprite : sprites ) {
+            sprite.reposition();
+        }
 
+        for ( ShrubNode shrub : shrubs ) {
+            shrub.reposition();
+        }
+
+        for ( TreeNode tree : trees ) {
+            tree.reposition();
+        }
+    }
+
+
+    public void setSpriteTransform( AffineTransform backgroundTransform ) {
+        this.backgroundTransform = backgroundTransform;
+
+        repositionAll();
+    }
+
+    public AffineTransform getSpriteTransform() {
+        return backgroundTransform;
+    }
 }

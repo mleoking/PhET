@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.naturalselection.view;
 
+import java.awt.geom.AffineTransform;
+
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionResources;
 import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
@@ -19,6 +21,9 @@ public class NaturalSelectionBackgroundNode extends PNode implements NaturalSele
     private PImage equatorImage;
     private PImage arcticImage;
 
+    private double baseWidth;
+    private double baseHeight;
+
     /**
      * Constructor
      *
@@ -28,6 +33,9 @@ public class NaturalSelectionBackgroundNode extends PNode implements NaturalSele
         // initialize images
         equatorImage = NaturalSelectionResources.getImageNode( NaturalSelectionConstants.IMAGE_BACKGROUND_EQUATOR );
         arcticImage = NaturalSelectionResources.getImageNode( NaturalSelectionConstants.IMAGE_BACKGROUND_ARCTIC );
+
+        baseWidth = equatorImage.getWidth();
+        baseHeight = equatorImage.getHeight();
 
         climate = initialClimate;
 
@@ -68,5 +76,13 @@ public class NaturalSelectionBackgroundNode extends PNode implements NaturalSele
         if ( event.getType() == NaturalSelectionModel.Event.TYPE_CLIMATE_CHANGE ) {
             setClimate( event.getNewClimate() );
         }
+    }
+
+    public AffineTransform getBackgroundTransform( int width, int height ) {
+        return new AffineTransform( (double) width / baseWidth, 0, 0, (double) height / baseHeight, 0, 0 );
+    }
+
+    public void updateLayout( int width, int height ) {
+        this.setTransform( getBackgroundTransform( width, height ) );
     }
 }

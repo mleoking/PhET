@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.naturalselection.module.naturalselection;
 
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -10,7 +11,7 @@ import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
 import edu.colorado.phet.naturalselection.view.AddFriendNode;
 import edu.colorado.phet.naturalselection.view.FrenzyNode;
 import edu.colorado.phet.naturalselection.view.NaturalSelectionBackgroundNode;
-import edu.colorado.phet.naturalselection.view.SpritesNode;
+import edu.colorado.phet.naturalselection.view.SpriteHandler;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -32,7 +33,7 @@ public class NaturalSelectionCanvas extends PhetPCanvas {
     /**
      * Holds the piccolo node that has all of the sprites (bunnies, trees, shrubs, wolves, etc.)
      */
-    public SpritesNode bunnies;
+    public SpriteHandler bunnies;
 
     /**
      * The background node (background images, part of the environment)
@@ -53,6 +54,51 @@ public class NaturalSelectionCanvas extends PhetPCanvas {
 
         super( NaturalSelectionDefaults.VIEW_SIZE );
 
+        //setWorldTransformStrategy( new CenterWidthScaleHeight( this, NaturalSelectionDefaults.VIEW_SIZE ) );
+
+        setWorldTransformStrategy( new TransformStrategy() {
+            public AffineTransform getTransform() {
+                /*
+                AffineTransform transform;
+
+                NaturalSelectionCanvas canvas = NaturalSelectionCanvas.this;
+                Dimension dim = NaturalSelectionDefaults.VIEW_SIZE;
+
+                double sizeRatio = ( (double) dim.getWidth() ) / ( (double) dim.getHeight() );
+                double canvasRatio = ( (double) canvas.getWidth() ) / ( (double) canvas.getHeight() );
+
+                if ( canvas.getWidth() > 0 && canvas.getHeight() > 0 ) {
+                    if ( canvasRatio > sizeRatio ) {
+                        // height-limited
+
+                        double xScale = (double) canvas.getHeight() / dim.getHeight();
+
+                        //transform = new AffineTransform( xScale, 0, 0, xScale, ( canvas.getWidth() - dim.getWidth() * xScale ) / 2, 0 );
+
+                        double yScale = (double) canvas.getWidth() / dim.getWidth();
+
+                        transform = new AffineTransform( yScale, 0, 0, xScale, 0, 0 );
+                    }
+                    else {
+                        // width-limited
+
+                        double yScale = (double) canvas.getWidth() / (double) dim.getWidth();
+
+                        transform = new AffineTransform( yScale, 0, 0, yScale, 0, ( canvas.getHeight() - dim.getHeight() * yScale ) / 2 );
+                    }
+                }
+                else {
+                    transform = new AffineTransform();
+                }
+
+                System.out.println( "Setting transform to : " + transform );
+
+                return transform;
+                */
+                return new AffineTransform();
+            }
+        } );
+
         this.model = model;
 
         setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
@@ -64,7 +110,7 @@ public class NaturalSelectionCanvas extends PhetPCanvas {
         backgroundNode = new NaturalSelectionBackgroundNode( this.model.getClimate() );
         rootNode.addChild( backgroundNode );
 
-        bunnies = new SpritesNode();
+        bunnies = new SpriteHandler();
         rootNode.addChild( bunnies );
 
         addFriendNode = new AddFriendNode( model );
@@ -90,6 +136,10 @@ public class NaturalSelectionCanvas extends PhetPCanvas {
             System.out.println( "NaturalSelectionCanvas.updateLayout worldSize=" + worldSize );//XXX
         }
 
-        //XXX lay out nodes
+        // layout everything
+
+        backgroundNode.updateLayout( getWidth(), getHeight() );
+
+        bunnies.setSpriteTransform( backgroundNode.getBackgroundTransform( getWidth(), getHeight() ) );
     }
 }

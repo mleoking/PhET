@@ -19,18 +19,18 @@ public class BunnyNode extends NaturalSelectionSprite implements Bunny.Listener 
      */
     private DisplayBunnyNode displayBunnyNode;
 
-    private SpritesNode handler;
-
     /**
      * Constructor
      *
      * @param colorPhenotype The color
      * @param teethPhenotype The teeth
      * @param tailPhenotype  The tail
-     * @param handler        The 3-D coordinates handler for this bunnynode
+     * @param spriteHandler  The 3-D coordinates handler for this bunnynode
      */
-    public BunnyNode( Allele colorPhenotype, Allele teethPhenotype, Allele tailPhenotype, SpritesNode handler ) {
-        this.handler = handler;
+    public BunnyNode( Allele colorPhenotype, Allele teethPhenotype, Allele tailPhenotype, SpriteHandler spriteHandler ) {
+        super( spriteHandler );
+
+        this.spriteHandler = spriteHandler;
         displayBunnyNode = new DisplayBunnyNode( colorPhenotype, teethPhenotype, tailPhenotype );
         addChild( displayBunnyNode );
         //displayBunnyNode.setTargeted( true );
@@ -82,7 +82,7 @@ public class BunnyNode extends NaturalSelectionSprite implements Bunny.Listener 
     public void onEvent( Bunny.Event event ) {
         switch( event.type ) {
             case Bunny.Event.TYPE_DIED:
-                handler.removeChildSprite( this );
+                spriteHandler.removeChildSprite( this );
                 break;
             case Bunny.Event.TYPE_POSITION_CHANGED:
                 // TODO: refactor setSpriteLocation to Point3D?
