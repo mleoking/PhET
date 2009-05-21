@@ -5,13 +5,11 @@ package edu.colorado.phet.naturalselection.view.pedigree;
 import java.awt.geom.Point2D;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
-import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
 import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
 import edu.umd.cs.piccolo.PNode;
-
-// TODO: create GenerationLayoutNode as superclass of this and GnerationChartNode, for shared behavior
 
 /**
  * Shows generations of bunnies in the classical hereditary format with a "family tree".
@@ -24,10 +22,7 @@ public class PedigreeNode extends PNode implements NaturalSelectionModel.Listene
     private NaturalSelectionModel model;
 
     // GenerationNode in order of display
-    private LinkedList generations;
-
-    // available horizontal width in the canvas area
-    public double AVAILABLE_WIDTH = NaturalSelectionDefaults.GENERATION_CHART_SIZE.getWidth();
+    private LinkedList<GenerationNode> generations;
 
     // vertical space between generations
     private static final double GENERATION_VERTICAL_SPACER = 15.0;
@@ -38,6 +33,8 @@ public class PedigreeNode extends PNode implements NaturalSelectionModel.Listene
     // incremented offset for positioning generations
     private double yoffset = INITIAL_Y_OFFSET;
 
+    public List<Listener> listeners;
+
     /**
      * Constructor
      *
@@ -46,7 +43,9 @@ public class PedigreeNode extends PNode implements NaturalSelectionModel.Listene
     public PedigreeNode( NaturalSelectionModel model ) {
         this.model = model;
 
-        generations = new LinkedList();
+        listeners = new LinkedList<Listener>();
+
+        generations = new LinkedList<GenerationNode>();
 
         int minGeneration = 0;
         int maxGeneration = model.getGeneration();
@@ -64,13 +63,13 @@ public class PedigreeNode extends PNode implements NaturalSelectionModel.Listene
     }
 
     public void reset() {
-        Iterator iter = generations.iterator();
+        Iterator<GenerationNode> iter = generations.iterator();
 
         while ( iter.hasNext() ) {
-            removeChild( (PNode) iter.next() );
+            removeChild( iter.next() );
         }
 
-        generations = new LinkedList();
+        generations = new LinkedList<GenerationNode>();
 
         yoffset = INITIAL_Y_OFFSET;
 
@@ -97,18 +96,20 @@ public class PedigreeNode extends PNode implements NaturalSelectionModel.Listene
 
         // if there is a generation above, draw the lines on it to show the genetic relationships
         if ( generations.size() != 0 ) {
-            ( (GenerationNode) generations.getLast() ).drawChildLines( gen );
+            ( generations.getLast() ).drawChildLines( gen );
         }
 
         // add this to the end of the generations list
         generations.add( gen );
+
+        notifyGenerationAdded();
     }
 
     /**
      * Gets rid of the oldest generation (visually), and moves the rest up vertically
      */
     public void popGeneration() {
-        PNode oldGen = (PNode) generations.get( 0 );
+        PNode oldGen = generations.get( 0 );
 
         generations.remove( 0 );
 
@@ -117,17 +118,17 @@ public class PedigreeNode extends PNode implements NaturalSelectionModel.Listene
         // TODO: run cleanup on all of oldGen's child nodes (for memory purposes)
 
         // the space to move the newer generations up
-        double space = ( (PNode) generations.get( 0 ) ).getOffset().getY();
+        double space = ( generations.get( 0 ) ).getOffset().getY();
 
         //System.out.println( "Space: " + space );
 
         yoffset -= space;
 
-        Iterator iter = generations.iterator();
+        Iterator<GenerationNode> iter = generations.iterator();
 
         // move all of the newer generations up
         while ( iter.hasNext() ) {
-            PNode gen = (PNode) iter.next();
+            PNode gen = iter.next();
             Point2D offset = gen.getOffset();
             gen.setOffset( offset.getX(), offset.getY() - space );
         }
@@ -157,6 +158,26 @@ public class PedigreeNode extends PNode implements NaturalSelectionModel.Listene
                 reset();
             }
         }
+    }
+
+
+    public void notifyGenerationAdded() {
+        for ( Listener listener : listeners ) {
+            listener.onGenerationAdded();
+        }
+    }
+
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public void removeListener( Listener listener ) {
+        listeners.remove( listener );
+    }
+
+    public static interface Listener {
+        public void onGenerationAdded();
     }
 
 }
