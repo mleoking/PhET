@@ -129,7 +129,7 @@ public class PhetFont extends Font {
                     Font font = fonts[k];
                     if ( font.getFontName().equals( preferredFontName ) ) {
                         preferredFont = font.deriveFont( style, size );
-//                        System.out.println( "PhetFont.getPreferredFont preferredFont=" + preferredFont );
+                        System.out.println( "PhetFont.getPreferredFont preferredFont=" + preferredFont );
                     }
                 }
             }

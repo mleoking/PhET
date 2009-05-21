@@ -61,7 +61,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     // Constructor
     //----------------------------------------------------------------------------
 
-    public RadioactiveDatingGameCanvas(RadioactiveDatingGameModel radioactiveDatingGameModel) {
+    public RadioactiveDatingGameCanvas(RadioactiveDatingGameModel radioactiveDatingGameModel, ProbeTypeModel probeTypeModel) {
 
     	_model = radioactiveDatingGameModel;
 
@@ -131,9 +131,8 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         		_mvt.modelToViewYDouble(_model.getBottomOfStrata()));
 
         // Create the radiometric measuring device.
-        _meter = new RadiometricDatingMeterNode(_model.getMeter(), 
-        		INITIAL_INTERMEDIATE_COORD_WIDTH * PROPORTIONS_METER_WIDTH_FRACTION,
-        		(INITIAL_INTERMEDIATE_COORD_HEIGHT - _mvt.modelToViewYDouble(_model.getBottomOfStrata())) * 0.95, _mvt );
+        _meter = new RadiometricDatingMeterNode(_model.getMeter(), probeTypeModel,
+        		INITIAL_INTERMEDIATE_COORD_WIDTH * PROPORTIONS_METER_WIDTH_FRACTION, (INITIAL_INTERMEDIATE_COORD_HEIGHT - _mvt.modelToViewYDouble(_model.getBottomOfStrata())) * 0.95, _mvt );
         _meter.setMeterBodyOffset(
         		_proportionsChart.getFullBoundsReference().getMinX() - (_meter.getMeterBodyWidth() * 1.05),
         		_mvt.modelToViewYDouble(_model.getBottomOfStrata()) + 4);
