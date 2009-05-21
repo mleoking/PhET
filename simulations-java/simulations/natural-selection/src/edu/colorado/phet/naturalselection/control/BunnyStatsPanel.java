@@ -7,6 +7,7 @@ import javax.swing.*;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.CategoryPlot;
@@ -28,10 +29,13 @@ public class BunnyStatsPanel extends JPanel {
     private int col = 0;
     private int delayCount = 0;
     private static final int MAX_DELAY_COUNT = 5;
+    private NaturalSelectionModel model;
 
     public BunnyStatsPanel( NaturalSelectionModel model ) {
 
         super( new GridLayout( 1, 1 ) );
+
+        this.model = model;
 
         setMaximumSize( NaturalSelectionDefaults.BUNNY_STATS_SIZE );
 
@@ -64,6 +68,8 @@ public class BunnyStatsPanel extends JPanel {
                 CategoryLabelPositions.createUpRotationLabelPositions( Math.PI / 4.0 )
         );
         */
+        CategoryItemRenderer render = plot.getRenderer();
+        render.setSeriesPaint( 6, Color.BLACK );
         chart.setBackgroundPaint( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
         //setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
 
@@ -114,6 +120,7 @@ public class BunnyStatsPanel extends JPanel {
         final String tailSecondary = TailGene.getInstance().getSecondaryAllele().getName();
         final String teethPrimary = TeethGene.getInstance().getPrimaryAllele().getName();
         final String teethSecondary = TeethGene.getInstance().getSecondaryAllele().getName();
+        final String total = "Total";
 
         data.addValue( ColorGene.getInstance().getPrimaryPhenotypeCount(), colorPrimary, String.valueOf( col ) );
         data.addValue( ColorGene.getInstance().getSecondaryPhenotypeCount(), colorSecondary, String.valueOf( col ) );
@@ -123,6 +130,8 @@ public class BunnyStatsPanel extends JPanel {
 
         data.addValue( TeethGene.getInstance().getPrimaryPhenotypeCount(), teethPrimary, String.valueOf( col ) );
         data.addValue( TeethGene.getInstance().getSecondaryPhenotypeCount(), teethSecondary, String.valueOf( col ) );
+
+        data.addValue( model.getPopulation(), total, String.valueOf( col ) );
 
         final int MAX_COL = 100;
 
