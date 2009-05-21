@@ -1,3 +1,5 @@
+# 0.01.11 (32000) May 21, 2009
+5/21/09 Generation chart, bunny stats and frenzy changes
 # 0.01.10 (31472) May 7, 2009
 5/7/09 Bunny stats and start of wolves
 # 0.01.09 (31442) May 7, 2009
