@@ -70,6 +70,7 @@ public class RadiometricDatingMeterNode extends PNode {
 	private ProbeNode _probeNode;
 	private PercentageDisplayNode _percentageDisplay;
 	private ElementSelectionPanel _elementSelectionPanel;
+	private ProbeTypeModel _probeTypeModel;
 	
     //------------------------------------------------------------------------
     // Constructor
@@ -79,10 +80,18 @@ public class RadiometricDatingMeterNode extends PNode {
 		
 		_meterModel = meterModel;
 		_mvt = mvt;
+		_probeTypeModel = probeTypeModel;
 		
 		// Register with the model to find out when something new is being touched.
 		_meterModel.addListener(new RadiometricDatingMeter.Listener(){
 			public void touchedItemChanged() {
+				updateMeterReading();
+			}
+		});
+		
+		// Register with probe to get notified when its setting changes.
+		probeTypeModel.addObserver(new SimpleObserver(){
+			public void update() {
 				updateMeterReading();
 			}
 		});
@@ -139,12 +148,15 @@ public class RadiometricDatingMeterNode extends PNode {
 		if (datableItem == null){
 			_percentageDisplay.setBlank();
 		}
+		else{
+			_percentageDisplay.setPercentage(_probeTypeModel.getPercentage(datableItem));
+		}
 	}
 
 	/**
      * Class that represents the percentage display readout.
      */
-    private class PercentageDisplayNode extends PNode{
+    private static class PercentageDisplayNode extends PNode{
     	
     	private final Color BACKGROUND_COLOR = new Color(255, 255, 255);
         private final Font  TIME_FONT = new PhetFont( Font.BOLD, 26 );
