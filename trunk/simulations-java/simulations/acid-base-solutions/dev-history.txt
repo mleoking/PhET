@@ -3,6 +3,7 @@
 ==================================================================================
 
 TODO:
+- AbstractMoleculeCounts.ValueNode puts a rectangle around union of value+negligible
 - rewrite model
 - PSwing repaint problem with BeakerControlsNode?
 - center everything in the play area
@@ -12,7 +13,6 @@ TODO:
 - revisit implementation of Reaction Equations and Equilibrium Expressions
 - particle views
 - scale image files
-- redo layout of molecule counts, Swing layout strategy isn't working well
 
 DEFER:
 - add ability to restrict Strength slider to one section of the range (only needed if we add "Custom Weak" acid/base)
@@ -27,6 +27,7 @@ ISSUES:
 - better pattern for model, less use of instanceof
 
 DONE:
+5/21/09 rewrite layout of molecule counts, Swing layout strategy isn't working well
 5/21/09 tweak base colors
 5/21/09 equilibrium expression hierarchy
 5/20/09 update label on checkbox for disassociated components ratio

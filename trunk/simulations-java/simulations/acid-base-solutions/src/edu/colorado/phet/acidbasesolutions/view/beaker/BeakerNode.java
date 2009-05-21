@@ -1,6 +1,7 @@
 package edu.colorado.phet.acidbasesolutions.view.beaker;
 
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
+import edu.colorado.phet.acidbasesolutions.util.PNodeUtils;
 import edu.colorado.phet.acidbasesolutions.view.moleculecounts.MoleculeCountsNode;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -39,8 +40,8 @@ public class BeakerNode extends PComposite {
         vesselNode.setOffset( 0, 0 );
         solutionNode.setOffset( vesselNode.getOffset() );
         // molecule counts inside the vessel
-        double xOffset = vesselNode.getXOffset() + 40;
-        double yOffset = vesselNode.getYOffset() + 20;
+        double xOffset = vesselNode.getXOffset() - PNodeUtils.getOriginXOffset( moleculeCountsNode ) + 40;
+        double yOffset = vesselNode.getYOffset() - PNodeUtils.getOriginYOffset( moleculeCountsNode ) + 20;
         moleculeCountsNode.setOffset( xOffset, yOffset );
         // label at bottom of vessel
         PBounds vfb = vesselNode.getFullBoundsReference();
