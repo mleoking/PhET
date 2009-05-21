@@ -19,7 +19,6 @@ DEFER:
 - smooth, curved lip on beaker (eye candy)
 
 ISSUES:
-- how should layout be adjusted when main frame is resized?
 - precision of concentration text field
 - vertical spacing of items in solute combo box
 - alignment of icons and labels in concentration graph
