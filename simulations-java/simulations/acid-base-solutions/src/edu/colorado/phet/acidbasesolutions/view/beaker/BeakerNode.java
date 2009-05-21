@@ -40,7 +40,7 @@ public class BeakerNode extends PComposite {
         vesselNode.setOffset( 0, 0 );
         solutionNode.setOffset( vesselNode.getOffset() );
         // molecule counts inside the vessel
-        double xOffset = vesselNode.getXOffset() - PNodeUtils.getOriginXOffset( moleculeCountsNode ) + 40;
+        double xOffset = vesselNode.getXOffset() - PNodeUtils.getOriginXOffset( moleculeCountsNode ) + 25;
         double yOffset = vesselNode.getYOffset() - PNodeUtils.getOriginYOffset( moleculeCountsNode ) + 20;
         moleculeCountsNode.setOffset( xOffset, yOffset );
         // label at bottom of vessel
