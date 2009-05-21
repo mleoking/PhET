@@ -84,11 +84,6 @@ public class Frenzy extends ClockAdapter {
 
         running = false;
 
-        Iterator<Bunny> bunnyIter = targetedBunnies.iterator();
-        while ( bunnyIter.hasNext() ) {
-            ( bunnyIter.next() ).setTargeted( false );
-        }
-
         for ( Iterator<Wolf> iterator = wolves.iterator(); iterator.hasNext(); ) {
             Wolf wolf = iterator.next();
             wolf.disable();
