@@ -4,6 +4,7 @@
 
 TODO:
 - PSwing repaint problem with BeakerControlsNode?
+- center everything in the play area
 - connect equilibrium expressions to model
 - connect reaction equations to model
 - connect beaker view controls to model (ratio check box labels)
