@@ -23,42 +23,42 @@ public class ConcentrationModelFactory {
     public static ConcentrationModel getModel( Solute solute ) {
         ConcentrationModel model = null;
         if ( solute instanceof NoSolute ) {
-            model = new PureWaterConcentrationModel( solute );
+            model = new PureWaterConcentrationModel( (NoSolute) solute );
         }
         else if ( solute instanceof StrongAcid ) {
-            model = new StrongAcidConcentrationModel( solute );
+            model = new StrongAcidConcentrationModel( (StrongAcid) solute );
         }
         else if ( solute instanceof WeakAcid ) {
-            model = new WeakAcidConcentrationModel( solute );
+            model = new WeakAcidConcentrationModel( (WeakAcid) solute );
         }
         else if ( solute instanceof StrongBase ) {
-            model = new StrongBaseConcentrationModel( solute );
+            model = new StrongBaseConcentrationModel( (StrongBase) solute );
         }
         else if ( solute instanceof WeakBase ) {
-            model = new WeakBaseConcentrationModel( (WeakBase)solute );
+            model = new WeakBaseConcentrationModel( (WeakBase) solute );
         }
         else if ( solute instanceof CustomAcid ) {
             CustomAcid acid = (CustomAcid) solute;
             if ( acid.isStrong() ) {
-                model = new StrongAcidConcentrationModel( solute );
+                model = new StrongAcidConcentrationModel( acid );
             }
             else if ( acid.isWeak() ) {
-                model = new WeakAcidConcentrationModel( solute );
+                model = new WeakAcidConcentrationModel( acid );
             }
             else if ( acid.isIntermediate() ) {
-                model = new IntermediateAcidConcentrationModel( solute );
+                model = new IntermediateAcidConcentrationModel( acid );
             }
         }
         else if ( solute instanceof CustomBase ) {
             CustomBase base = (CustomBase) solute;
             if ( base.isStrong() ) {
-                model = new StrongBaseConcentrationModel( solute );
+                model = new StrongBaseConcentrationModel( base );
             }
             else if ( base.isWeak() ) {
-                model = new WeakBaseConcentrationModel( solute );
+                model = new WeakBaseConcentrationModel( base );
             }
             else if ( base.isIntermediate() ) {
-                model = new IntermediateBaseConcentrationModel( solute );
+                model = new IntermediateBaseConcentrationModel( base );
             } 
         }
         else {
