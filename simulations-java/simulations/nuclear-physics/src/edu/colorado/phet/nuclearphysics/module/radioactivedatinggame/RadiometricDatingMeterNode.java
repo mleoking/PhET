@@ -10,6 +10,7 @@ import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -41,6 +42,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
+import edu.umd.cs.piccolox.pswing.PComboBox;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -71,6 +73,7 @@ public class RadiometricDatingMeterNode extends PNode {
 	private PercentageDisplayNode _percentageDisplay;
 	private ElementSelectionPanel _elementSelectionPanel;
 	private ProbeTypeModel _probeTypeModel;
+	private PSwing _elementSelectionNode;
 	
     //------------------------------------------------------------------------
     // Constructor
@@ -114,12 +117,12 @@ public class RadiometricDatingMeterNode extends PNode {
 		
 		// Add the selection panel.
 		_elementSelectionPanel = new ElementSelectionPanel((int)Math.round(width * 0.9), (int)Math.round(height * 0.66), probeTypeModel);
-		PSwing elementSelectionNode = new PSwing(_elementSelectionPanel);
-		elementSelectionNode.setOffset( 
-				_meterBody.getFullBounds().width / 2 - elementSelectionNode.getFullBounds().width / 2,
+		_elementSelectionNode = new PSwing(_elementSelectionPanel);
+		_elementSelectionNode.setOffset( 
+				_meterBody.getFullBounds().width / 2 - _elementSelectionNode.getFullBounds().width / 2,
 				_percentageDisplay.getFullBounds().getMaxY());
-		_meterBody.addChild(elementSelectionNode);
-		
+		_meterBody.addChild(_elementSelectionNode);
+				
 		// Add the probe.
 		_probeNode = new ProbeNode( _meterModel.getProbeModel(), _mvt );
 		addChild(_probeNode);
@@ -357,6 +360,8 @@ public class RadiometricDatingMeterNode extends PNode {
 	
 	private static class ElementSelectionPanel extends VerticalLayoutPanel {
 		
+		private final PComboBox comboBox;
+
 		public ElementSelectionPanel(int width, int height, final ProbeTypeModel probeTypeModel){
 			
 			setPreferredSize(new Dimension(width, height));
@@ -394,6 +399,21 @@ public class RadiometricDatingMeterNode extends PNode {
 					}
                 });
             }
-		}		
+            comboBox = new PComboBox(new Object[]{"100 ky","100 my"});
+            add(comboBox);
+		}
+
+		public PComboBox getComboBox() {
+			return comboBox;
+		}
+		
+	}
+
+	public PComboBox getComboBox() {
+		return _elementSelectionPanel.getComboBox();
+	}
+
+	public PSwing getComboBoxPSwing() {
+		return _elementSelectionNode;
 	}
 }
