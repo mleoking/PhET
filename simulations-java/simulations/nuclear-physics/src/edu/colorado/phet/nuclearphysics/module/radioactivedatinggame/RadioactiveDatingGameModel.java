@@ -5,6 +5,8 @@ package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
+import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusDecayModel;
+
 /**
  * This class defines a model (in the model-view-controller paradigm) that
  * defines a set a geological strata (or layers) containing objects that can
@@ -40,28 +42,28 @@ public class RadioactiveDatingGameModel {
 
         // Add the datable object.
         // Params:                             name, image file, location(x, y), size, age (ms), rotation angle
-        _datableObjects.add(new DatableObject("House", "house.png", new Point2D.Double(8, 4), 6.5, 0, 3.2E12));
-        _datableObjects.add(new DatableObject("Trilobyte", "trilobyte_fossil.png", new Point2D.Double(0, -11), 3.5, 0, 1.6E19));
-    	_datableObjects.add(new DatableObject("Animal Skull", "skull_animal.png", new Point2D.Double(-21, 2), 3, Math.PI/4, 6.3E11));
+        _datableObjects.add(new DatableObject("House", "house.png", new Point2D.Double(8, 4), 6.5, 0, MultiNucleusDecayModel.convertYearsToMs(75)));
+        _datableObjects.add(new DatableObject("Trilobyte", "trilobyte_fossil.png", new Point2D.Double(0, -11), 3.5, 0, MultiNucleusDecayModel.convertYearsToMs(500E6)));
+    	_datableObjects.add(new DatableObject("Animal Skull", "skull_animal.png", new Point2D.Double(-21, 2), 3, Math.PI/4, MultiNucleusDecayModel.convertYearsToMs(25)));
     	_datableObjects.add(new DatableObject("Living Tree", "tree_1.png", new Point2D.Double(-16, 7), 5.5, 0, 0));
     	_datableObjects.add(new DatableObject("Distant Living Tree", "tree_1.png", new Point2D.Double(0, 4.5), 2, 0, 0));
-    	_datableObjects.add(new DatableObject("Fish Fossil", "fish_fossil.png", new Point2D.Double(-15, -8), 7, 0, 3.2E18));
-    	_datableObjects.add(new DatableObject("Dead Tree", "dead_tree.png", new Point2D.Double(23, 3), 6, Math.PI/2, 1.6E12));
-    	_datableObjects.add(new DatableObject("Fish Bones", "fish_bones.png", new Point2D.Double(-20, -1.5), 5, 0, 3.2E13));
-    	_datableObjects.add(new DatableObject("Pottery", "pottery.png", new Point2D.Double(-10, -4.5), 3.8, Math.PI/2, 6.3E13));
-    	_datableObjects.add(new DatableObject("Rock 1", "rock.png", new Point2D.Double(-7.0, 4.5), 3, 0, 3.2E19));
-    	_datableObjects.add(new DatableObject("Rock 2", "rock.png", new Point2D.Double(-4, -1.5), 2, 0, 3.2E19));
-    	_datableObjects.add(new DatableObject("Rock 3", "rock.png", new Point2D.Double(-22, -15), 2.5, 0, 3.2E19));
-    	_datableObjects.add(new DatableObject("Rock 4", "rock.png", new Point2D.Double(-4, -15), 1.5, 0, 3.2E19));
-    	_datableObjects.add(new DatableObject("Rock 5", "rock.png", new Point2D.Double(6, -4.5), 2, 0, 6.4E19));
-    	_datableObjects.add(new DatableObject("Rock 6", "rock.png", new Point2D.Double(15, -7.5), 1.5, 0, 6.4E19));
-    	_datableObjects.add(new DatableObject("Rock 7", "rock.png", new Point2D.Double(12, -15), 2.5, 0, 3.2E20));
-    	_datableObjects.add(new DatableObject("Rock 8", "rock.png", new Point2D.Double(20, -11), 2, 0, 3.2E20));
-    	_datableObjects.add(new DatableObject("Animal Skull 2", "skull_animal_2.png", new Point2D.Double(-8, -15.2), 4.5, 0, 6.4E18));
-    	_datableObjects.add(new DatableObject("Human Skull", "skull_human.png", new Point2D.Double(13, -1.5), 2.4, 0, 1.5E14));
-    	_datableObjects.add(new DatableObject("Gold Star", "gold_star.png", new Point2D.Double(-2, -4.5), 2.5, 0, 3.2E14));
-    	_datableObjects.add(new DatableObject("Cup", "cup.png", new Point2D.Double(4, -2), 3.2,  -Math.PI / 3, 3.2E14));
-    	_datableObjects.add(new DatableObject("Bone", "bone.png", new Point2D.Double(4, -15), 4.5, 0, 3.2E14));
+    	_datableObjects.add(new DatableObject("Fish Fossil", "fish_fossil.png", new Point2D.Double(-15, -8), 7, 0, MultiNucleusDecayModel.convertYearsToMs(10E6)));
+    	_datableObjects.add(new DatableObject("Dead Tree", "dead_tree.png", new Point2D.Double(23, 3), 6, Math.PI/2, MultiNucleusDecayModel.convertYearsToMs(100)));
+    	_datableObjects.add(new DatableObject("Fish Bones", "fish_bones.png", new Point2D.Double(-20, -1.5), 5, 0, MultiNucleusDecayModel.convertYearsToMs(1000)));
+    	_datableObjects.add(new DatableObject("Pottery", "pottery.png", new Point2D.Double(-10, -4.5), 3.8, Math.PI/2, MultiNucleusDecayModel.convertYearsToMs(5000)));
+    	_datableObjects.add(new DatableObject("Rock 1", "rock.png", new Point2D.Double(-7.0, 4.5), 3, 0, MultiNucleusDecayModel.convertYearsToMs(1E9)));
+    	_datableObjects.add(new DatableObject("Rock 2", "rock.png", new Point2D.Double(-4, -1.5), 2, 0, MultiNucleusDecayModel.convertYearsToMs(1E9)));
+    	_datableObjects.add(new DatableObject("Rock 3", "rock.png", new Point2D.Double(-22, -15), 2.5, 0, MultiNucleusDecayModel.convertYearsToMs(2E9)));
+    	_datableObjects.add(new DatableObject("Rock 4", "rock.png", new Point2D.Double(-4, -15), 1.5, 0, MultiNucleusDecayModel.convertYearsToMs(2E9)));
+    	_datableObjects.add(new DatableObject("Rock 5", "rock.png", new Point2D.Double(6, -4.5), 2, 0, MultiNucleusDecayModel.convertYearsToMs(2E9)));
+    	_datableObjects.add(new DatableObject("Rock 6", "rock.png", new Point2D.Double(15, -7.5), 1.5, 0, MultiNucleusDecayModel.convertYearsToMs(3E9)));
+    	_datableObjects.add(new DatableObject("Rock 7", "rock.png", new Point2D.Double(12, -15), 2.5, 0, MultiNucleusDecayModel.convertYearsToMs(3E9)));
+    	_datableObjects.add(new DatableObject("Rock 8", "rock.png", new Point2D.Double(20, -11), 2, 0, MultiNucleusDecayModel.convertYearsToMs(3.5E9)));
+    	_datableObjects.add(new DatableObject("Animal Skull 2", "skull_animal_2.png", new Point2D.Double(-8, -15.2), 4.5, 0, MultiNucleusDecayModel.convertYearsToMs(220E6)));
+    	_datableObjects.add(new DatableObject("Human Skull", "skull_human.png", new Point2D.Double(13, -1.5), 2.4, 0, MultiNucleusDecayModel.convertYearsToMs(1000)));
+    	_datableObjects.add(new DatableObject("Gold Star", "gold_star.png", new Point2D.Double(-2, -4.5), 2.5, 0, MultiNucleusDecayModel.convertYearsToMs(3000)));
+    	_datableObjects.add(new DatableObject("Cup", "cup.png", new Point2D.Double(4, -2), 3.2,  -Math.PI / 3, MultiNucleusDecayModel.convertYearsToMs(1000)));
+    	_datableObjects.add(new DatableObject("Bone", "bone.png", new Point2D.Double(4, -15), 4.5, 0, MultiNucleusDecayModel.convertYearsToMs(220E6)));
 
     	_meter = new RadiometricDatingMeter( this );
     	
