@@ -894,11 +894,7 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
         	    	updateNucleiNumberText();
         	    	updatePieChartProportions();
         	    	
-        	    	// Update the nucleus image, since it may now be a different element.
-        	    	_nonPickableChartNode.removeChild(_nucleusNode);
-        	    	_nucleusNode = createNucleusNode();
-        	    	_nucleusNode.setScale((_nucleusNodeRadius * 2) / _nucleusNode.getFullBoundsReference().height);
-        	    	_nonPickableChartNode.addChild(_nucleusNode);
+        	    	updateNucleusImageNode();
 
     				// Calculate the final position where this nucleus should end
         			// up based how many other nuclei have already decayed at
@@ -934,6 +930,9 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
     			if (_nucleus.isDecayActive() && !_nucleus.hasDecayed()){
     				// The nucleus has been reset.
     				_internalState = STATE_PRE_DECAY;
+
+    				updateNucleusImageNode();
+
     				_fallCount = INITIAL_FALL_COUNT;
     				if (_decayBucket < NUM_HISTOGRAM_BUCKETS){
     					_decaysPerHistogramBucket[_decayBucket]--;
@@ -965,6 +964,18 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
     			break;
     		}
     	}
+
+    	/**
+    	 * Update the image node used to represent this nucleus.  This is
+    	 * generally done when it is suspected that the element type may be
+    	 * different due to a decay or reset event.
+    	 */
+		private void updateNucleusImageNode() {
+			_nonPickableChartNode.removeChild(_nucleusNode);
+			_nucleusNode = createNucleusNode();
+			_nucleusNode.setScale((_nucleusNodeRadius * 2) / _nucleusNode.getFullBoundsReference().height);
+			_nonPickableChartNode.addChild(_nucleusNode);
+		}
     	
     	/**
     	 * Remove this nucleus's node from the chart.
@@ -1072,26 +1083,26 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
         		
         	case 81:
         		// This is thallium, which we use as the post-decay custom nucleus.
-        		nucleusNode = new LabeledNucleusImageNode("Lead Nucleus Small.png",
-        				"", // No isotope number.
-                        NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL, 
-                        NuclearPhysicsConstants.DECAYED_CUSTOM_NUCLEUS_LABEL_COLOR );
+        		nucleusNode = new LabeledNucleusSphereNode( NuclearPhysicsConstants.CUSTOM_NUCLEUS_POST_DECAY_COLOR,
+                        "", // No isotope number.
+                        "   ", // No chemical symbol, but use spaces so the sphere has some size.
+                        NuclearPhysicsConstants.CUSTOM_NUCLEUS_LABEL_COLOR );
         		break;
         		
         	case 82:
         		// Create a labeled nucleus representing Lead.
         		nucleusNode = new LabeledNucleusSphereNode( NuclearPhysicsConstants.LEAD_206_COLOR,
-                        NuclearPhysicsStrings.LEAD_206_ISOTOPE_NUMBER, 
-                        NuclearPhysicsStrings.LEAD_206_CHEMICAL_SYMBOL, 
-                        NuclearPhysicsConstants.LEAD_206_COLOR );
+                        NuclearPhysicsStrings.LEAD_206_ISOTOPE_NUMBER,
+                        NuclearPhysicsStrings.LEAD_206_CHEMICAL_SYMBOL,
+                        NuclearPhysicsConstants.LEAD_LABEL_COLOR );
         		break;
         		
         	case 83:
         		// This nucleus is bismuth, which we use as the pre-decay custom
         		// nucleus.
-        		nucleusNode = new LabeledNucleusImageNode("Polonium Nucleus Small.png", 
-        				"", // No isotope number.
-                        NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL, 
+        		nucleusNode = new LabeledNucleusSphereNode( NuclearPhysicsConstants.CUSTOM_NUCLEUS_PRE_DECAY_COLOR,
+                        "", // No isotope number.
+                        "   ", // No chemical symbol, but use spaces so the sphere has some size.
                         NuclearPhysicsConstants.CUSTOM_NUCLEUS_LABEL_COLOR );
         		break;
         		
