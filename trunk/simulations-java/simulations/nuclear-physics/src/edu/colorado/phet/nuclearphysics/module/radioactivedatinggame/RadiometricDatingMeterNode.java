@@ -32,6 +32,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.umd.cs.piccolo.PNode;
@@ -69,7 +70,7 @@ public class RadiometricDatingMeterNode extends PNode {
 	PNode _meterBody;
 	private ProbeNode _probeNode;
 	private PercentageDisplayNode _percentageDisplay;
-	private PNode _elementSelectionNode;
+	private ElementSelectionPanel _elementSelectionPanel;
 	
     //------------------------------------------------------------------------
     // Constructor
@@ -104,11 +105,12 @@ public class RadiometricDatingMeterNode extends PNode {
 		_percentageDisplay.setPercentage(100);
 		
 		// Add the selection panel.
-		_elementSelectionNode = new PSwing(new ElementSelectionPanel((int)Math.round(width * 0.9), (int)Math.round(height * 0.66)));
-		_elementSelectionNode.setOffset( 
-				_meterBody.getFullBounds().width / 2 - _elementSelectionNode.getFullBounds().width / 2,
+		_elementSelectionPanel = new ElementSelectionPanel((int)Math.round(width * 0.9), (int)Math.round(height * 0.66));
+		PSwing elementSelectionNode = new PSwing(_elementSelectionPanel);
+		elementSelectionNode.setOffset( 
+				_meterBody.getFullBounds().width / 2 - elementSelectionNode.getFullBounds().width / 2,
 				_percentageDisplay.getFullBounds().getMaxY());
-		_meterBody.addChild(_elementSelectionNode);
+		_meterBody.addChild(elementSelectionNode);
 		
 		// Add the probe.
 		_probeNode = new ProbeNode( _meterModel.getProbeModel(), _mvt );
@@ -139,8 +141,25 @@ public class RadiometricDatingMeterNode extends PNode {
 			_percentageDisplay.setBlank();
 		}
 		else{
-			// TODO: Need to add code to handle different setting of radiometric material.
-			_percentageDisplay.setPercentage(datableItem.getPercentageCarbon14Remaining(datableItem));
+			switch (_elementSelectionPanel.getSelectedElement()){
+			case NuclearPhysicsConstants.NUCLEUS_ID_CARBON_14:
+				_percentageDisplay.setPercentage(datableItem.getPercentageCarbon14Remaining(datableItem));
+				break;
+				
+			case NuclearPhysicsConstants.NUCLEUS_ID_URANIUM_238:
+				_percentageDisplay.setPercentage(datableItem.getPercentageUranium238Remaining(datableItem));
+				break;
+			
+			case NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM:
+				// TODO: This is blank for now, but needs to be made to work
+				// once the UI supports dropdown for custom half life.
+				_percentageDisplay.setBlank();
+				break;
+				
+			default:
+				_percentageDisplay.setBlank();
+				break;
+			}
 		}
 	}
 
@@ -371,6 +390,8 @@ public class RadiometricDatingMeterNode extends PNode {
             setBorder( titledBorder );
             
             // Create the radio buttons.
+            // TODO - JPB TBD - Make this a subclass or routine, since there
+            // is a lot of repetition here.
             _carbon14RadioButton = new JRadioButton("Carbon 14");
             _carbon14RadioButton.setBackground(BODY_COLOR);
             _carbon14RadioButton.setForeground(Color.WHITE);
@@ -394,6 +415,20 @@ public class RadiometricDatingMeterNode extends PNode {
             add(_carbon14RadioButton);
             add(_uranium238RadioButton);
             add(_customNucleusRadioButton);
+		}
+		
+		public int getSelectedElement(){
+			int selection = 0;
+			if (_carbon14RadioButton.isSelected()){
+				selection = NuclearPhysicsConstants.NUCLEUS_ID_CARBON_14;
+			}
+			else if (_uranium238RadioButton.isSelected()){
+				selection = NuclearPhysicsConstants.NUCLEUS_ID_URANIUM_238;
+			}
+			else if (_customNucleusRadioButton.isSelected()){
+				selection = NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM;
+			}
+			return selection;
 		}
 	}
 }
