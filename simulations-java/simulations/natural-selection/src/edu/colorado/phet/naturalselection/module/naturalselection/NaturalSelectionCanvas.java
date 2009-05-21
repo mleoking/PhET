@@ -54,50 +54,7 @@ public class NaturalSelectionCanvas extends PhetPCanvas {
 
         super( NaturalSelectionDefaults.VIEW_SIZE );
 
-        //setWorldTransformStrategy( new CenterWidthScaleHeight( this, NaturalSelectionDefaults.VIEW_SIZE ) );
-
-        setWorldTransformStrategy( new TransformStrategy() {
-            public AffineTransform getTransform() {
-                /*
-                AffineTransform transform;
-
-                NaturalSelectionCanvas canvas = NaturalSelectionCanvas.this;
-                Dimension dim = NaturalSelectionDefaults.VIEW_SIZE;
-
-                double sizeRatio = ( (double) dim.getWidth() ) / ( (double) dim.getHeight() );
-                double canvasRatio = ( (double) canvas.getWidth() ) / ( (double) canvas.getHeight() );
-
-                if ( canvas.getWidth() > 0 && canvas.getHeight() > 0 ) {
-                    if ( canvasRatio > sizeRatio ) {
-                        // height-limited
-
-                        double xScale = (double) canvas.getHeight() / dim.getHeight();
-
-                        //transform = new AffineTransform( xScale, 0, 0, xScale, ( canvas.getWidth() - dim.getWidth() * xScale ) / 2, 0 );
-
-                        double yScale = (double) canvas.getWidth() / dim.getWidth();
-
-                        transform = new AffineTransform( yScale, 0, 0, xScale, 0, 0 );
-                    }
-                    else {
-                        // width-limited
-
-                        double yScale = (double) canvas.getWidth() / (double) dim.getWidth();
-
-                        transform = new AffineTransform( yScale, 0, 0, yScale, 0, ( canvas.getHeight() - dim.getHeight() * yScale ) / 2 );
-                    }
-                }
-                else {
-                    transform = new AffineTransform();
-                }
-
-                System.out.println( "Setting transform to : " + transform );
-
-                return transform;
-                */
-                return new AffineTransform();
-            }
-        } );
+        setWorldTransformStrategy( new ConstantTransformStrategy( new AffineTransform() ) );
 
         this.model = model;
 
