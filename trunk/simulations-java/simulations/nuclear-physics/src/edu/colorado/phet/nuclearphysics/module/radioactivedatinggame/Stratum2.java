@@ -66,10 +66,10 @@ public class Stratum2 {
     	
     	// Controls the maximum amount of squiggle.  For more squiggle,
     	// increase this value.
-    	private static final double MAX_CNTRL_POINT_DISTANCE = 3;
+    	private static final double MAX_CNTRL_POINT_DISTANCE = 1.5;
     	
     	// Default width of a layer line.
-    	private static final double DEFAULT_LAYER_LINE_WIDTH = 100;  // In meters.
+    	private static final double DEFAULT_LAYER_LINE_WIDTH = 200;  // In meters.
     	
     	// Random number generator.  Seed with a value so that the behavior
     	// is consistent each time the sim is run.
