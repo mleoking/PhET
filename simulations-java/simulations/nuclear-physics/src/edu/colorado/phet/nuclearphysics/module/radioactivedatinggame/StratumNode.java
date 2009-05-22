@@ -21,6 +21,7 @@ import edu.umd.cs.piccolo.PNode;
  * Time: 11:22:48 AM
  */
 public class StratumNode extends PNode {
+	
     public StratumNode( Shape topLine, Shape bottomLine, Color color ) {
 
         Point2D topLeft = new Point2D.Double( topLine.getBounds2D().getX(), topLine.getBounds2D().getY() );
