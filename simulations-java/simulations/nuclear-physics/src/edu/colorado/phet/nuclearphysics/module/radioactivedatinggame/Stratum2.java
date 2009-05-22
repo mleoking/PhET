@@ -66,14 +66,14 @@ public class Stratum2 {
     	
     	// Controls the maximum amount of squiggle.  For more squiggle,
     	// increase this value.
-    	private static final double MAX_CNTRL_POINT_DISTANCE = 1.5;
+    	private static final double MAX_CNTRL_POINT_DISTANCE = 2;
     	
     	// Default width of a layer line.
     	private static final double DEFAULT_LAYER_LINE_WIDTH = 200;  // In meters.
     	
     	// Random number generator.  Seed with a value so that the behavior
     	// is consistent each time the sim is run.
-    	private static final Random RAND = new Random(1234);
+    	private static final Random RAND = new Random(342);
     	
     	private final Point2D _leftmostPoint;
 		private final Point2D _rightmostPoint;
@@ -93,8 +93,16 @@ public class Stratum2 {
     		_rightmostPoint = new Point2D.Double( width / 2, -depth );
     		_controlPoint1 = new Point2D.Double( -width / 3, -depth + (RAND.nextDouble() - 0.5) * 2 
     				* MAX_CNTRL_POINT_DISTANCE );
-    		_controlPoint2 = new Point2D.Double( width / 3, -depth + (RAND.nextDouble() - 0.5) * 2 
-    				* MAX_CNTRL_POINT_DISTANCE );
+    		// Thing get a little too skewed if both control points are above
+    		// or below, so make sure we have one of each.
+    		if (_controlPoint1.getY() > -depth){
+	    		_controlPoint2 = new Point2D.Double( width / 3, 
+	    				-depth - RAND.nextDouble() * MAX_CNTRL_POINT_DISTANCE );
+    		}
+    		else{
+	    		_controlPoint2 = new Point2D.Double( width / 3, 
+	    				-depth + RAND.nextDouble() * MAX_CNTRL_POINT_DISTANCE );
+    		}
     		
     		setCurve(_leftmostPoint, _controlPoint1, _controlPoint2, _rightmostPoint);
     	}

@@ -66,9 +66,12 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     	_model = radioactiveDatingGameModel;
 
     	setWorldTransformStrategy(new PhetPCanvas.CenterWidthScaleHeight(this, INITIAL_INTERMEDIATE_DIMENSION));
-        _mvt = new ModelViewTransform2D(new Point2D.Double(0, 0), 
-        		new Point(INITIAL_INTERMEDIATE_COORD_WIDTH / 2, (int)Math.round(INITIAL_INTERMEDIATE_COORD_HEIGHT * 0.25)),
-        		20, true);
+        _mvt = new ModelViewTransform2D(
+        		new Point2D.Double(0, 0), 
+        		new Point(INITIAL_INTERMEDIATE_COORD_WIDTH / 2, 
+        				(int)Math.round(INITIAL_INTERMEDIATE_COORD_HEIGHT * 0.27)),
+        		20,
+        		true);
 
         // Add a reference node that will be used when positioning other nodes later.
         _referenceNode = new PNode();
@@ -88,6 +91,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         // Load the background image.
         BufferedImage bufferedImage = NuclearPhysicsResources.getImage( "green-hills-and-sky.png" );
         _backgroundImage = new PImage( bufferedImage );
+        _backgroundImage.scale(1.2);  // Empirically determined scaling factor, tweak as needed.
         _backgroundImage.setOffset(
         		INITIAL_INTERMEDIATE_COORD_WIDTH / 2 - _backgroundImage.getFullBoundsReference().width / 2, 0);
         _backgroundImageLayer.addChild( _backgroundImage );

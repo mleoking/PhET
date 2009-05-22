@@ -19,7 +19,7 @@ public class RadioactiveDatingGameModel {
     //------------------------------------------------------------------------
     // Class data
     //------------------------------------------------------------------------
-	private static final double TOTAL_DEPTH_OF_STRATA = 15;
+	private static final double TOTAL_DEPTH_OF_STRATA = 16;
 	private static final double NUMBER_OF_STRATA = 5;
 	private static final double NOMINAL_STRATUM_DEPTH = TOTAL_DEPTH_OF_STRATA / NUMBER_OF_STRATA; 
 	
