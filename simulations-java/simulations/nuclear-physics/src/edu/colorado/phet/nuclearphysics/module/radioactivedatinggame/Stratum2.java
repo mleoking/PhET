@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 
+import java.awt.Color;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.CubicCurve2D;
@@ -9,6 +10,8 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.util.Random;
+
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 
 /**
  * This class represents a "stratum" in the model, which means a layer of rock

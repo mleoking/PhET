@@ -56,6 +56,8 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     private NuclearDecayProportionChart _proportionsChart;
     private RadiometricDatingMeterNode _meter;
     private PNode _referenceNode; // For positioning other nodes.
+    private ArrayList<StratumNode2> _stratumNodes = new ArrayList<StratumNode2>();
+    private EdgeOfWorldNode _edgeOfWorld;
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -104,7 +106,9 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         colors.add( new Color( 153, 185, 216 ) );
         colors.add( new Color( 111, 131, 151 ) );
         for (int i=0;i<_model.getLayerCount();i++){
-            addWorldChild(new RadioactiveDatingGameLayerNode(_model.getLayer(i), _mvt, colors.get(i % colors.size())));
+        	StratumNode2 stratumNode = new StratumNode2( _model.getLayer(i), colors.get(i % colors.size()), _mvt );
+        	_stratumNodes.add(stratumNode);
+            addWorldChild(stratumNode);
         }
 
         // Add the nodes that represent the items on which the user can
@@ -119,6 +123,10 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
 //        			new BasicStroke( 2 ), Color.RED );
 //        	addWorldChild(boundingNode);
         }
+        
+        // Add the node the represents the edge of the world.
+        _edgeOfWorld = new EdgeOfWorldNode(_model, _mvt);
+        addWorldChild(_edgeOfWorld);
         
         // Create the chart that will display relative decay proportions.
         _proportionsChart = new NuclearDecayProportionChart(false);
@@ -158,26 +166,10 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
 
     protected void updateLayout(){
 
+    	System.out.println("Width = " + getWidth() + ", height = " + getHeight());
     	if ( getWidth() > 0 && getHeight() > 0){
-    		resizeAndPositionNodes( getWidth(), getHeight() );
+    		_model.setEdgeOfWorldXPos(_mvt.viewToModelX(getWidth() * 0.1));
     	}
-    }
-
-    /**
-     * Resize and position the nodes that need to have this done explicitly,
-     * as opposed to the nodes where the canvas takes care of it for us.
-     * 
-     * @param newWidth
-     * @param newHeight
-     */
-    private void resizeAndPositionNodes( double newWidth, double newHeight ){
-
-    	// TODO: I (jblanco) started down a path where some nodes were being
-    	// explicitly repositioned when the window was resized, but then
-    	// created a new transform in the canvas that seems (at least
-    	// initially) to do what is needed automatically.  So, this method
-    	// can probably go at some point, but keep it for a while just in case
-    	// the whole transform thing doesn't work out.
     }
 
     /**
