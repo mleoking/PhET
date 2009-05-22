@@ -2,7 +2,10 @@ package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.CubicCurve2D.Double;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -18,12 +21,27 @@ import edu.umd.cs.piccolo.PNode;
  * the view.
  */
 public class StratumNode2 extends PNode {
+
+	private ModelViewTransform2D _mvt;
+	private Stratum2 _stratum;
+	private PhetPPath _markingLine = new PhetPPath(Color.red);
 	
     public StratumNode2( Stratum2 stratum, Color color, ModelViewTransform2D mvt ) {
 
+    	_mvt = mvt;
+    	_stratum = stratum;
+    	
         PhetPPath path = new PhetPPath( mvt.createTransformedShape(stratum.getShape()), color, new BasicStroke( 2 ), 
         		Color.black );
         addChild( path );
+        
+        // Add the marking line.  TODO: This can be commented out or removed
+        // once the corner drawing is worked out.
+        _markingLine.setPathToRectangle(0, 0, 50, 50);
+        _markingLine.setPaint(Color.RED);
+        _markingLine.setStroke(new BasicStroke(2));
+        _markingLine.setStrokePaint(Color.red);
+        addChild(_markingLine);
     }
 
     static Random random = new Random();
@@ -59,5 +77,31 @@ public class StratumNode2 extends PNode {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         frame.setSize( 1200, 600 );
         frame.setVisible( true );
+    }
+    
+    /**
+     * Update the layout of this node based on size of the canvas.  This is
+     * needed in order to show the corner of the world, and thus make it 
+     * clearer to the user that they are seeing strata under the ground.  To
+     * keep the corner in the right place at the side of the canvas, we need
+     * to know how large the canvas is.
+     */
+    // TODO - JPB TBD: I'm thinking that this WON'T be used, and will be supplanted
+    // instead by a EdgeOfWorld node.  Delete this if I'm correct here.
+    public void updateLayout(double width, double height){
+    	Line2D verticalLine = new Line2D.Double(0, 0, 0, -_mvt.modelToViewDifferentialY(_stratum.getTopLine().getMinDepth() - _stratum.getBottomOfStratumY()));
+//    	Point2D topOfVerticalLine = new Point2D.Double(width * 0.8, 
+//    			_mvt.modelToViewYDouble(_stratum.getTopLine().getMinDepth()));
+//    	Point2D bottomOfVerticalLine = new Point2D.Double(width * 0.8, 
+//    			_mvt.modelToViewYDouble(_stratum.getTopLine().getMaxDepth()));
+//    	Point2D topOfVerticalLine = new Point2D.Double(10, 10);
+//    	Point2D bottomOfVerticalLine = new Point2D.Double(10, 20);
+//    	
+    	_markingLine.setPathTo(verticalLine);
+//    	_markingLine.setOffset(786/2, 10);  // Center of the world (horizontally)
+    	_markingLine.setOffset(width, 10);  // Starts above house, but moves as canvas resized.
+    	_markingLine.setOffset(1000 - width, 10);  // Moves slightly the wrong way
+    	_markingLine.setOffset(500 - width * 0.666, 10);  // Moves slightly the wrong way
+//    	_markingLine.setOffset(786/2 - width/2 + 10, 10);
     }
 }
