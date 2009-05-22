@@ -19,13 +19,16 @@ public class RadioactiveDatingGameModel {
     //------------------------------------------------------------------------
     // Class data
     //------------------------------------------------------------------------
+	private static final double TOTAL_DEPTH_OF_STRATA = 15;
+	private static final double NUMBER_OF_STRATA = 5;
+	private static final double NOMINAL_STRATUM_DEPTH = TOTAL_DEPTH_OF_STRATA / NUMBER_OF_STRATA; 
 	
     //------------------------------------------------------------------------
     // Instance data
     //------------------------------------------------------------------------
 
 	ArrayList<DatableObject> _datableObjects = new ArrayList<DatableObject>();
-	ArrayList<Stratum> _strata = new ArrayList<Stratum>();
+	ArrayList<Stratum2> _strata = new ArrayList<Stratum2>();
 	RadiometricDatingMeter _meter;
 
     //------------------------------------------------------------------------
@@ -34,11 +37,20 @@ public class RadioactiveDatingGameModel {
     
     public RadioactiveDatingGameModel()
     {
-        _strata.add( new Stratum( -3, 3 ) );
-        _strata.add( new Stratum( -6, 3 ) );
-        _strata.add( new Stratum( -9, 3 ) );
-        _strata.add( new Stratum( -13, 4 ) );
-        _strata.add( new Stratum( -17, 4 ) );
+    	// Add the strata to the model.
+    	
+    	Stratum2 stratum;
+        stratum = new Stratum2(new Stratum2.LayerLine(TOTAL_DEPTH_OF_STRATA - NOMINAL_STRATUM_DEPTH),
+        		new Stratum2.LayerLine(TOTAL_DEPTH_OF_STRATA));
+        _strata.add(stratum);
+        
+        for (int i = 1; i < NUMBER_OF_STRATA; i++){
+        	// Add the next stratum.
+            stratum = new Stratum2(new Stratum2.LayerLine(
+            		TOTAL_DEPTH_OF_STRATA - (i + 1) * NOMINAL_STRATUM_DEPTH),
+            		stratum.getTopLine() );
+            _strata.add( stratum );
+        }
 
         // Add the datable object.
         // Params:                             name, image file, location(x, y), size, age (ms), rotation angle
@@ -81,7 +93,7 @@ public class RadioactiveDatingGameModel {
     public Iterable<DatableObject> getItemIterable(){
     	return _datableObjects;
     }
-    public Iterable<Stratum> getLayerIterable(){
+    public Iterable<Stratum2> getLayerIterable(){
         return _strata;
     }
 
@@ -89,7 +101,7 @@ public class RadioactiveDatingGameModel {
         return _strata.size();
     }
 
-    public Stratum getLayer( int i ) {
+    public Stratum2 getLayer( int i ) {
         return _strata.get(i);
     }
     
@@ -105,7 +117,7 @@ public class RadioactiveDatingGameModel {
      */
     public double getBottomOfStrata(){
     	double bottom = 0;
-    	for ( Stratum stratum : _strata ){
+    	for ( Stratum2 stratum : _strata ){
     		if ( stratum.getBottomOfStratumY() < bottom ){
     			bottom = stratum.getBottomOfStratumY();
     		}

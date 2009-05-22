@@ -50,8 +50,8 @@ public class StratumNode2 extends PNode {
         
         for ( int i = 0; i < strata.size(); i++ ){
         	StratumNode2 stratumNode = new StratumNode2(strata.get(i), colors.get(i), 
-        			new ModelViewTransform2D(new Rectangle2D.Double(0, 0, 1, 1), new Rectangle2D.Double(0, 0, 10, 10)));
-        	stratumNode.setOffset(510, 10);
+        			new ModelViewTransform2D(new Rectangle2D.Double(0, 0, 1, 1), 
+        			new Rectangle2D.Double(0, 0, 10, 10)));
         	contentPane.addWorldChild( stratumNode );
         }
 

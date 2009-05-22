@@ -94,13 +94,13 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
 
         // Add the strata that will contain the datable items.
         ArrayList<Color> colors=new ArrayList<Color>( );
-        colors.add( new Color( 111, 131, 151 ) );
-        colors.add( new Color( 153, 185, 216 ) );
-        colors.add( new Color( 216, 175, 208 ) );
-        colors.add( new Color( 198, 218, 119 ) );
         colors.add( new Color( 179, 179, 179 ) );
+        colors.add( new Color( 198, 218, 119 ) );
+        colors.add( new Color( 216, 175, 208 ) );
+        colors.add( new Color( 153, 185, 216 ) );
+        colors.add( new Color( 111, 131, 151 ) );
         for (int i=0;i<_model.getLayerCount();i++){
-            addWorldChild(new RadioactiveDatingGameLayerNode(_model.getLayer(i), _mvt,colors.get(i % colors.size())));
+            addWorldChild(new RadioactiveDatingGameLayerNode(_model.getLayer(i), _mvt, colors.get(i % colors.size())));
         }
 
         // Add the nodes that represent the items on which the user can

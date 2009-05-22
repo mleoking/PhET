@@ -8,10 +8,10 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.umd.cs.piccolo.PNode;
 
 public class RadioactiveDatingGameLayerNode extends PNode {
-    private Stratum layer;
+    private Stratum2 layer;
     private ModelViewTransform2D mvt;
 
-    public RadioactiveDatingGameLayerNode( Stratum stratum, ModelViewTransform2D mvt, Color color ) {
+    public RadioactiveDatingGameLayerNode( Stratum2 stratum, ModelViewTransform2D mvt, Color color ) {
         this.layer = stratum;
         this.mvt = mvt;
         StratumNode layerNode = new StratumNode( mvt.createTransformedShape( stratum.getTopLine() ),
