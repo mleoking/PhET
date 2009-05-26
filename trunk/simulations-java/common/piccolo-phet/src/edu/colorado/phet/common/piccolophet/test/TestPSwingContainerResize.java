@@ -54,13 +54,6 @@ public class TestPSwingContainerResize extends JFrame {
         canvas.getLayer().addChild( wrapperNode );
         wrapperNode.setOffset( 100, 100 );
         
-        // test ComponentListener
-        playAreaPanel.addComponentListener( new ComponentAdapter() {
-            public void componentResized(ComponentEvent e) {
-                System.out.println( "componentResized" );
-            }
-        });
-        
         /*
          * Swing control panel outside of Piccolo.
          * The red check box will have it's label changed dynamically.
@@ -137,6 +130,19 @@ public class TestPSwingContainerResize extends JFrame {
             add( new JCheckBox( "red" ) );
             add( new JCheckBox( "blue" ) );
             add( new JCheckBox( "green" ) );
+            
+            
+            // test ComponentListener
+            this.addComponentListener( new ComponentAdapter() {
+                public void componentResized(ComponentEvent e) {
+                    System.out.println( "DynamicPanel.componentResized" );
+                }
+            });
+            dynamicButton.addComponentListener( new ComponentAdapter() {
+                public void componentResized(ComponentEvent e) {
+                    System.out.println( "JCheckBox.componentResized" );
+                }
+            });
         }
         
         public void setDynamicLabel( String text ) {
