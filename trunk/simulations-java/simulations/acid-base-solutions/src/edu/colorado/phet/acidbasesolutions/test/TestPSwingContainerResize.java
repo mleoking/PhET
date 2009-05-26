@@ -14,7 +14,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
- * Demonstrates a layout problem with check boxes that have dynamic HTML labels.
+ * Demonstrates a PSwing bounds problem with Containers.
  * See Unfuddle #1670.
  *
  * Click the radio buttons in the control panel a few times to see the issue.
@@ -35,11 +35,11 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class TestJComboBoxUpdate extends JFrame {
+public class TestPSwingContainerResize extends JFrame {
     
     private static final boolean WORKAROUND_ENABLED = true;
     
-    public TestJComboBoxUpdate() {
+    public TestPSwingContainerResize() {
         
         /*
          * Swing control panel embedded in a Piccolo canvas using PSwing.
@@ -136,7 +136,7 @@ public class TestJComboBoxUpdate extends JFrame {
     }
     
     public static void main( String[] args ) {
-        JFrame frame = new TestJComboBoxUpdate();
+        JFrame frame = new TestPSwingContainerResize();
         frame.setVisible( true );
     }
 
