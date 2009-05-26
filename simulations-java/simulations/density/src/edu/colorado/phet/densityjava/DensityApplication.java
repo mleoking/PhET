@@ -66,6 +66,7 @@ public class DensityApplication extends PiccoloPhetApplication {
     }
 
     public static void main(String[] args) throws IOException {
+        JPopupMenu.setDefaultLightWeightPopupEnabled(false);//use setDefaultLightWeightPopupEnabled to make menus appear over glcanvas
         //add natives to path
         File nativesDir = extractNatives();
         DensityUtils.addDir(nativesDir);

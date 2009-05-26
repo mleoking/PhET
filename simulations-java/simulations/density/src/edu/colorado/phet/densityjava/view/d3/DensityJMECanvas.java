@@ -23,7 +23,6 @@ public class DensityJMECanvas extends JPanel {
     private JMECanvas canvas = null;
     private DensityCanvasImpl impl;
     private JDialog d1;
-    private JDialog d2;
     private JDialog d3;
 
     public DensityJMECanvas(JFrame parent, DensityModel model, MassVolumeModel massVolumeModel, ModelComponents.DisplayDimensions displayDimensions) {
@@ -96,15 +95,6 @@ public class DensityJMECanvas extends JPanel {
             }
         });
 
-        //workaround for file menu lightweight mixing
-        d2 = new JDialog(parent, false);
-        d2.setUndecorated(true);
-        JPanel pane = new JPanel();
-        pane.setPreferredSize(new Dimension(100, 1));
-        d2.setContentPane(pane);
-        d2.pack();
-        d2.setVisible(true);
-
         d3 = new JDialog(parent, false);
         d3.setUndecorated(true);
         d3.setContentPane(new DensityControlPanel(model.getUnits(),displayDimensions));
@@ -119,10 +109,6 @@ public class DensityJMECanvas extends JPanel {
         Point pt = new Point(c.getWidth() - d1.getWidth() - 50, 50);
         SwingUtilities.convertPointToScreen(pt, c);
         d1.setLocation(pt);
-
-        Point p2 = new Point(0, 0);
-        SwingUtilities.convertPointToScreen(p2, c);
-        d2.setLocation(p2);
 
         Point p3 = new Point(0, c.getHeight() - d3.getHeight());
         SwingUtilities.convertPointToScreen(p3, c);
