@@ -11,6 +11,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.view.reactionequations.ReactionEquationNode.*;
 import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
@@ -78,6 +79,7 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
             }
         };
         topCanvas.setPreferredSize( TOP_CANVAS_SIZE );
+        topCanvas.setBackground( ABSConstants.REACTION_EQUATIONS_BACKGROUND );
         topCanvasSizeNode = new PText();
         topCanvasSizeNode.setOffset( 5, 5 );
         if ( dev ) {
@@ -91,6 +93,7 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
             }
         };
         bottomCanvas.setPreferredSize( BOTTOM_CANVAS_SIZE );
+        bottomCanvas.setBackground( ABSConstants.REACTION_EQUATIONS_BACKGROUND );
         bottomEquation = new WaterReactionEquationNode();
         bottomCanvas.getLayer().addChild( bottomEquation );
         bottomCanvasSizeNode = new PText();

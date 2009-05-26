@@ -60,6 +60,11 @@ public class ABSConstants {
     // Color of the "play area"
     public static final Color CANVAS_BACKGROUND = new Color( 230, 230, 230 );
     
+    // equation backgrounds
+    public static final Color REACTION_EQUATIONS_BACKGROUND = Color.WHITE;
+    public static final Color EQUILIBRIUM_EXPRESSIONS_BACKGROUND = REACTION_EQUATIONS_BACKGROUND;
+    
+    // molecule colors
     public static final Color H2O_COLOR = new Color( 193, 222, 227 );
     public static final Color H3O_COLOR = new Color( 242, 102, 101 );
     public static final Color OH_COLOR = new Color( 102, 132, 242 );
