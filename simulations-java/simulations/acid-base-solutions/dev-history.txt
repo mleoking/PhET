@@ -25,6 +25,7 @@ ISSUES:
 - better pattern for model, less use of instanceof
 
 DONE:
+5/26/09 remove workaround for #1670, fixed in PSwing
 5/26/09 workaround for PSwing bounds problem (#1670) in BeakerControlsNode
 5/26/09 workaround fullBounds calculation for NegligibleValueNode
 5/26/09 deep set of background color on check box control panels
