@@ -63,6 +63,9 @@ public class NuclearDecayProportionChart extends PNode {
     
     // Half life of primary (i.e. decaying) element.
 	private double _halfLife; // Half life of decaying element, in milliseconds.
+	
+	// Total number of nuclei represented by the chart.
+	private int _numNuclei = 1000;  // Can be set by user if desired.
 
 	// Variables that control chart appearance.
 	private String _preDecayElementLabel;
@@ -100,8 +103,9 @@ public class NuclearDecayProportionChart extends PNode {
     // Constructor
     //------------------------------------------------------------------------
 
-    public NuclearDecayProportionChart(boolean pieChartEnabled){
+    public NuclearDecayProportionChart(int numNuclei, boolean pieChartEnabled){
     	
+    	_numNuclei = numNuclei;
     	_pieChartEnabled = pieChartEnabled;
 
     	// Many of the following initializations are arbitrary, and the chart
@@ -144,7 +148,7 @@ public class NuclearDecayProportionChart extends PNode {
         
         // Add the pie chart (if enabled).
         if ( _pieChartEnabled ){
-        	_pieChart = new ProportionsPieChartNode();
+        	_pieChart = new ProportionsPieChartNode(this);
         	_nonPickableChartNode.addChild( _pieChart );
         }
     }
@@ -162,7 +166,7 @@ public class NuclearDecayProportionChart extends PNode {
 		_halfLife = life;
     	update();
 	}
-
+    
 	public void setPreDecayElementLabel(String decayElementLabel) {
 		_preDecayElementLabel = decayElementLabel;
     	update();
@@ -301,7 +305,7 @@ public class NuclearDecayProportionChart extends PNode {
         _decayEvents.clear();
         _graph.clearData();
         if ( _pieChart != null ){
-        	_pieChart.resetPie();
+        	_pieChart.reset();
         }
     }
     
@@ -339,24 +343,76 @@ public class NuclearDecayProportionChart extends PNode {
      * for the amount of pre-decay element and one for the amount of post-
      * decay.
      */
-    private class ProportionsPieChartNode extends PNode {
+    private static class ProportionsPieChartNode extends PNode {
 
+    	// Constants that control chart appearance and behavior.
     	private static final double INITIAL_OVERALL_WIDTH = 100;
     	private static final double PIE_CHART_WIDTH_PROPORTION = 0.9;
-    	private final int INITIAL_PIE_CHART_WIDTH = (int)(Math.round(INITIAL_OVERALL_WIDTH * PIE_CHART_WIDTH_PROPORTION));
+    	private static final int INITIAL_PIE_CHART_WIDTH = (int)(Math.round(INITIAL_OVERALL_WIDTH * PIE_CHART_WIDTH_PROPORTION));
+    	private static final Font LABEL_FONT = new PhetFont(14);
     	
+    	
+    	// The various elements of the chart.
     	private PieChartNode _pieChartNode;
+    	private NuclearDecayProportionChart _chart; // The chart upon which this node resides.
+    	private ShadowPText _preDecayLabel;
+    	private ShadowPText _postDecayLabel;
+    	private PText _numberPreDecayRemaining;
+    	private PText _numberPostDecayRemaining;
     	
-		public ProportionsPieChartNode() {
+    	/**
+    	 * Constructor.
+    	 * 
+    	 * @param chart
+    	 */
+		public ProportionsPieChartNode(NuclearDecayProportionChart chart) {
+			
+			_chart = chart;
+			
+			// Create and add the main chart.
 			PieChartNode.PieValue[] pieChartValues = new PieValue[]{
-	                new PieChartNode.PieValue( 100, _preDecayLabelColor ),
-	                new PieChartNode.PieValue( 0, _postDecayLabelColor )};
+	                new PieChartNode.PieValue( 100, _chart._preDecayLabelColor ),
+	                new PieChartNode.PieValue( 0, _chart._postDecayLabelColor )};
 	        _pieChartNode = new PieChartNode( pieChartValues, new Rectangle(INITIAL_PIE_CHART_WIDTH, INITIAL_PIE_CHART_WIDTH) );
 	        addChild( _pieChartNode );
+	        
+	        // Create and add the labels.
+	        PText dummySizingNode = new PText("9999");
+	        dummySizingNode.setFont(LABEL_FONT);
+	        
+	        _preDecayLabel = new ShadowPText();
+	        _preDecayLabel.setFont(LABEL_FONT);
+	        _preDecayLabel.setOffset(0, 0);
+	        addChild(_preDecayLabel);
+	        _postDecayLabel = new ShadowPText();
+	        _postDecayLabel.setFont(LABEL_FONT);
+	        _postDecayLabel.setOffset(0, _pieChartNode.getFullBoundsReference().getMaxY());
+	        addChild(_postDecayLabel);
+	        _numberPreDecayRemaining = new PText();
+	        _numberPreDecayRemaining.setFont(LABEL_FONT);
+	        _numberPreDecayRemaining.setOffset(
+	        		getFullBoundsReference().width - dummySizingNode.getFullBoundsReference().width,
+	        		0);
+	        addChild(_numberPreDecayRemaining);
+	        _numberPostDecayRemaining = new PText();
+	        _numberPostDecayRemaining.setFont(LABEL_FONT);
+	        _numberPreDecayRemaining.setOffset(
+	        		getFullBoundsReference().width - dummySizingNode.getFullBoundsReference().width,
+	        		getFullBoundsReference().height - dummySizingNode.getFullBoundsReference().height);
+	        addChild(_numberPostDecayRemaining);
+	        
+	        // TODO: temp for testing label placement.
+	        _preDecayLabel.setText("#14C");
+	        _postDecayLabel.setText("#14N");
+	        _numberPreDecayRemaining.setText("1000");
+	        _numberPostDecayRemaining.setText("0");
+	        
+	        // Reset the node.
+	        reset();
 		}
 	
 		/**
-		 * The the percentage of undecayed vs decayed nuclei.
+		 * The percentage of undecayed vs decayed nuclei.
 		 * 
 		 * @param percentageDecayed
 		 */
@@ -367,19 +423,24 @@ public class NuclearDecayProportionChart extends PNode {
 			}
 			
 			PieChartNode.PieValue[] pieChartValues = new PieValue[]{
-	                new PieChartNode.PieValue( 100 - percentageDecayed, _preDecayLabelColor ),
-	                new PieChartNode.PieValue( percentageDecayed, _postDecayLabelColor )};
+	                new PieChartNode.PieValue( 100 - percentageDecayed, _chart._preDecayLabelColor ),
+	                new PieChartNode.PieValue( percentageDecayed, _chart._postDecayLabelColor )};
 			
 			_pieChartNode.setPieValues(pieChartValues);
 		}
 		
+		public void update(){
+			
+		}
+		
 		/**
-		 * Reset the pie, meaning that it goes back to being 100% undecayed.
+		 * Reset this node, which will set the proportions back to 100% non-
+		 * decayed and will also reset the labels.
 		 */
-		public void resetPie(){
+		public void reset(){
 			PieChartNode.PieValue[] pieChartValues = new PieValue[]{
-	                new PieChartNode.PieValue( 100, _preDecayLabelColor ),
-	                new PieChartNode.PieValue( 0, _postDecayLabelColor )};
+	                new PieChartNode.PieValue( 100, _chart._preDecayLabelColor ),
+	                new PieChartNode.PieValue( 0, _chart._postDecayLabelColor )};
 			
 			_pieChartNode.setPieValues(pieChartValues);
 
@@ -770,7 +831,7 @@ public class NuclearDecayProportionChart extends PNode {
      */
     public static void main(String [] args){
     	
-        final NuclearDecayProportionChart proportionsChart = new NuclearDecayProportionChart(true); 
+        final NuclearDecayProportionChart proportionsChart = new NuclearDecayProportionChart(1000, true); 
 
         proportionsChart.setTimeSpan(Carbon14Nucleus.HALF_LIFE * 3.2);
         proportionsChart.setHalfLife(Carbon14Nucleus.HALF_LIFE);
