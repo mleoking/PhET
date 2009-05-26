@@ -34,7 +34,6 @@ public class RadioactiveDatingGameModel extends SimpleObservable {
 	private ArrayList<DatableObject> _datableObjects = new ArrayList<DatableObject>();
 	private ArrayList<Stratum2> _strata = new ArrayList<Stratum2>();
 	private RadiometricDatingMeter _meter;
-	private Line2D _edgeOfWorld;
 	private Rectangle2D _edgeOfWorldRect = new Rectangle2D.Double();
 
     //------------------------------------------------------------------------
@@ -83,10 +82,6 @@ public class RadioactiveDatingGameModel extends SimpleObservable {
     	_datableObjects.add(new DatableObject("Cup", "cup.png", new Point2D.Double(4, -2), 3.2,  -Math.PI / 3, MultiNucleusDecayModel.convertYearsToMs(1000)));
     	_datableObjects.add(new DatableObject("Bone", "bone.png", new Point2D.Double(4, -15), 4.5, 0, MultiNucleusDecayModel.convertYearsToMs(220E6)));
 
-    	// Add the edge of the world.  This should be positioned so that it is
-    	// not going to cover up any of the datable items.
-    	_edgeOfWorld = new Line2D.Double(-25, 0, -25, -TOTAL_DEPTH_OF_STRATA);
-    	
     	// Add the meter and register for user-initiated movements.
     	_meter = new RadiometricDatingMeter( this );
     	
@@ -118,19 +113,6 @@ public class RadioactiveDatingGameModel extends SimpleObservable {
     
     public RadiometricDatingMeter getMeter(){
     	return _meter;
-    }
-    
-    public Line2D getEdgeOfWorld() {
-    	return _edgeOfWorld;
-    }
-    
-    /**
-     * Set the position in the x (horizontal) dimension for the edge of the
-     * world.  The y position is determined by the position of the strata.
-     */
-    public void setEdgeOfWorldXPos(double xPos){
-    	_edgeOfWorld = new Line2D.Double(xPos, 0, xPos, -TOTAL_DEPTH_OF_STRATA);
-    	notifyObservers();
     }
     
     /**
