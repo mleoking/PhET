@@ -3,9 +3,7 @@ package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.CubicCurve2D.Double;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -20,13 +18,13 @@ import edu.umd.cs.piccolo.PNode;
  * Piccolo node that represents a stratum (i.e. a rock and sediment layer) in
  * the view.
  */
-public class StratumNode2 extends PNode {
+public class StratumNode extends PNode {
 
 	private ModelViewTransform2D _mvt;
-	private Stratum2 _stratum;
+	private Stratum _stratum;
 	private PhetPPath _markingLine = new PhetPPath(Color.red);
 	
-    public StratumNode2( Stratum2 stratum, Color color, ModelViewTransform2D mvt ) {
+    public StratumNode( Stratum stratum, Color color, ModelViewTransform2D mvt ) {
 
     	_mvt = mvt;
     	_stratum = stratum;
@@ -50,24 +48,24 @@ public class StratumNode2 extends PNode {
         JFrame frame = new JFrame();
         PhetPCanvas contentPane = new PhetPCanvas();
 
-        Stratum2 stratum;
-        ArrayList<Stratum2> strata = new ArrayList<Stratum2>();
+        Stratum stratum;
+        ArrayList<Stratum> strata = new ArrayList<Stratum>();
         ArrayList<Color> colors = new ArrayList<Color>();
-        stratum = new Stratum2(new Stratum2.LayerLine(15), new Stratum2.LayerLine(20));
+        stratum = new Stratum(new Stratum.LayerLine(15), new Stratum.LayerLine(20));
         strata.add( stratum );
         colors.add(Color.red);
-        stratum = new Stratum2(new Stratum2.LayerLine(10), stratum.getTopLine());
+        stratum = new Stratum(new Stratum.LayerLine(10), stratum.getTopLine());
         strata.add( stratum );
         colors.add(Color.green);
-        stratum = new Stratum2(new Stratum2.LayerLine(5), stratum.getTopLine());
+        stratum = new Stratum(new Stratum.LayerLine(5), stratum.getTopLine());
         strata.add( stratum );
         colors.add(Color.blue);
-        stratum = new Stratum2(new Stratum2.LayerLine(0), stratum.getTopLine());
+        stratum = new Stratum(new Stratum.LayerLine(0), stratum.getTopLine());
         strata.add( stratum );
         colors.add(Color.cyan);
         
         for ( int i = 0; i < strata.size(); i++ ){
-        	StratumNode2 stratumNode = new StratumNode2(strata.get(i), colors.get(i), 
+        	StratumNode stratumNode = new StratumNode(strata.get(i), colors.get(i), 
         			new ModelViewTransform2D(new Rectangle2D.Double(0, 0, 1, 1), 
         			new Rectangle2D.Double(0, 0, 10, 10)));
         	contentPane.addWorldChild( stratumNode );

@@ -32,7 +32,7 @@ public class RadioactiveDatingGameModel extends SimpleObservable {
     //------------------------------------------------------------------------
 
 	private ArrayList<DatableObject> _datableObjects = new ArrayList<DatableObject>();
-	private ArrayList<Stratum2> _strata = new ArrayList<Stratum2>();
+	private ArrayList<Stratum> _strata = new ArrayList<Stratum>();
 	private RadiometricDatingMeter _meter;
 	private Rectangle2D _edgeOfWorldRect = new Rectangle2D.Double();
 
@@ -44,14 +44,14 @@ public class RadioactiveDatingGameModel extends SimpleObservable {
     {
     	// Add the strata to the model.
     	
-    	Stratum2 stratum;
-        stratum = new Stratum2(new Stratum2.LayerLine(TOTAL_DEPTH_OF_STRATA - NOMINAL_STRATUM_DEPTH),
-        		new Stratum2.LayerLine(TOTAL_DEPTH_OF_STRATA));
+    	Stratum stratum;
+        stratum = new Stratum(new Stratum.LayerLine(TOTAL_DEPTH_OF_STRATA - NOMINAL_STRATUM_DEPTH),
+        		new Stratum.LayerLine(TOTAL_DEPTH_OF_STRATA));
         _strata.add(stratum);
         
         for (int i = 1; i < NUMBER_OF_STRATA; i++){
         	// Add the next stratum.
-            stratum = new Stratum2(new Stratum2.LayerLine(
+            stratum = new Stratum(new Stratum.LayerLine(
             		TOTAL_DEPTH_OF_STRATA - (i + 1) * NOMINAL_STRATUM_DEPTH),
             		stratum.getTopLine() );
             _strata.add( stratum );
@@ -99,7 +99,7 @@ public class RadioactiveDatingGameModel extends SimpleObservable {
     public Iterable<DatableObject> getItemIterable(){
     	return _datableObjects;
     }
-    public Iterable<Stratum2> getLayerIterable(){
+    public Iterable<Stratum> getLayerIterable(){
         return _strata;
     }
 
@@ -107,7 +107,7 @@ public class RadioactiveDatingGameModel extends SimpleObservable {
         return _strata.size();
     }
 
-    public Stratum2 getLayer( int i ) {
+    public Stratum getLayer( int i ) {
         return _strata.get(i);
     }
     
@@ -144,7 +144,7 @@ public class RadioactiveDatingGameModel extends SimpleObservable {
      */
     public double getBottomOfStrata(){
     	double bottom = 0;
-    	for ( Stratum2 stratum : _strata ){
+    	for ( Stratum stratum : _strata ){
     		if ( stratum.getBottomOfStratumY() < bottom ){
     			bottom = stratum.getBottomOfStratumY();
     		}
