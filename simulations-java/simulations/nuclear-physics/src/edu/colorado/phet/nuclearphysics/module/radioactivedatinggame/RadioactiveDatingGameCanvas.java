@@ -135,7 +135,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         addWorldChild(_edgeOfWorld);
         
         // Create the chart that will display relative decay proportions.
-        _proportionsChart = new NuclearDecayProportionChart(false);
+        _proportionsChart = new NuclearDecayProportionChart(1000, false);
         configureProportionsChart();
         addWorldChild(_proportionsChart);
         
