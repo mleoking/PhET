@@ -37,11 +37,11 @@ public class StratumNode2 extends PNode {
         
         // Add the marking line.  TODO: This can be commented out or removed
         // once the corner drawing is worked out.
-        _markingLine.setPathToRectangle(0, 0, 50, 50);
-        _markingLine.setPaint(Color.RED);
-        _markingLine.setStroke(new BasicStroke(2));
-        _markingLine.setStrokePaint(Color.red);
-        addChild(_markingLine);
+//        _markingLine.setPathToRectangle(0, 0, 50, 50);
+//        _markingLine.setPaint(Color.RED);
+//        _markingLine.setStroke(new BasicStroke(2));
+//        _markingLine.setStrokePaint(Color.red);
+//        addChild(_markingLine);
     }
 
     static Random random = new Random();
