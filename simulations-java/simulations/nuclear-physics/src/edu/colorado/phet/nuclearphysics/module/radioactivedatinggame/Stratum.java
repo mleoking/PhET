@@ -2,29 +2,25 @@
 
 package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 
-import java.awt.Color;
 import java.awt.Shape;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.CubicCurve2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.util.Random;
 
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-
 /**
  * This class represents a "stratum" in the model, which means a layer of rock
  * and/or soil with internally consistent characteristics that distinguishes 
  * it from contiguous layers (definition obtained from wikipedia).
  */
-public class Stratum2 {
+public class Stratum {
     private double bottomOfStratumY;
     private LayerLine _topLine;
     private LayerLine _bottomLine;
     private GeneralPath _path = new GeneralPath();
 
-    public Stratum2( LayerLine topLine, LayerLine bottomLine ){
+    public Stratum( LayerLine topLine, LayerLine bottomLine ){
     	
     	_topLine = topLine;
     	_bottomLine = bottomLine;

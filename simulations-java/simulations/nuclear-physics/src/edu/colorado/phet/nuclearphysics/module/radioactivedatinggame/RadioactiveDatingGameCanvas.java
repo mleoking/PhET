@@ -67,7 +67,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     private NuclearDecayProportionChart _proportionsChart;
     private RadiometricDatingMeterNode _meter;
     private PNode _referenceNode; // For positioning other nodes.
-    private ArrayList<StratumNode2> _stratumNodes = new ArrayList<StratumNode2>();
+    private ArrayList<StratumNode> _stratumNodes = new ArrayList<StratumNode>();
     private EdgeOfWorldNode _edgeOfWorld;
 
     //----------------------------------------------------------------------------
@@ -117,7 +117,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         colors.add( new Color( 153, 185, 216 ) );
         colors.add( new Color( 111, 131, 151 ) );
         for (int i=0;i<_model.getLayerCount();i++){
-        	StratumNode2 stratumNode = new StratumNode2( _model.getLayer(i), colors.get(i % colors.size()), _mvt );
+        	StratumNode stratumNode = new StratumNode( _model.getLayer(i), colors.get(i % colors.size()), _mvt );
         	_stratumNodes.add(stratumNode);
             addWorldChild(stratumNode);
         }
