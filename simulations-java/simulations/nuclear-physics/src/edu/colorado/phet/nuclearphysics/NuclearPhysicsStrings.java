@@ -151,8 +151,10 @@ public class NuclearPhysicsStrings {
 
     public static final String BUCKET_LABEL_POLONIUM= NuclearPhysicsResources.getString( "Bucket.Label.Polonium" );
     public static final String BUCKET_LABEL_ATOMS= NuclearPhysicsResources.getString( "Bucket.Label.Atoms" );
-    
+
+    public static final String TWENTY_FIVE_PER_CENT= NuclearPhysicsResources.getString( "DecayProprotionsChart.TwentyFivePercent" );
     public static final String FIFTY_PER_CENT= NuclearPhysicsResources.getString( "DecayProprotionsChart.FiftyPercent" );
+    public static final String SEVENTY_FIVE_PER_CENT= NuclearPhysicsResources.getString( "DecayProprotionsChart.SeventyFivePercent" );
     public static final String ONE_HUNDRED_PER_CENT= NuclearPhysicsResources.getString( "DecayProprotionsChart.OneHundredPercent" );
     public static final String DECAY_PROPORTIONS_TIME_UNITS_YEARS= NuclearPhysicsResources.getString( "DecayProportionsChart.Years" );
     public static final String DECAY_PROPORTIONS_TIME_UNITS_BILLION_YEARS= NuclearPhysicsResources.getString( "DecayProportionsChart.BillionYears" );
