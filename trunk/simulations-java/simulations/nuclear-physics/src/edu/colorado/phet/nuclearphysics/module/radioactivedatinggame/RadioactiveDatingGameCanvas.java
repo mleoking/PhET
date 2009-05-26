@@ -5,6 +5,8 @@ package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -41,8 +43,9 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     		INITIAL_INTERMEDIATE_COORD_HEIGHT );
     
     // Constants for positioning/size some of the nodes.
-    private final double PROPORTIONS_CHART_WIDTH_FRACTION = 0.6; // Fraction of canvas width for proportions chart.
+    private final double PROPORTIONS_CHART_WIDTH_FRACTION = 0.6;  // Fraction of canvas width for proportions chart.
     private final double PROPORTIONS_METER_WIDTH_FRACTION = 0.23; // Fraction of canvas width for proportions chart.
+    private final double EARTH_EDGE_WIDTH_PROPORTION = 0.07;       // Fraction of canvas width for edge of the earth.
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -117,14 +120,9 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         	PNode datableItemNode = new DatableItemNode(item, _mvt);
         	datableItemNode.setOffset(_mvt.modelToViewDouble(item.getCenter()));
         	addWorldChild(datableItemNode);
-        	
-        	// TODO: Temp for debug, should eventually be permanently removed.
-//        	PPath boundingNode = new PhetPPath( _mvt.createTransformedShape(item.getBoundingRect()), 
-//        			new BasicStroke( 2 ), Color.RED );
-//        	addWorldChild(boundingNode);
         }
-        
-        // Add the node the represents the edge of the world.
+        	
+        // Add the node that represents the edge of the world.
         _edgeOfWorld = new EdgeOfWorldNode(_model, _mvt);
         addWorldChild(_edgeOfWorld);
         
@@ -167,8 +165,25 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     protected void updateLayout(){
 
     	System.out.println("Width = " + getWidth() + ", height = " + getHeight());
+    	
+		// Set the edge of the earth in model coordinates by first
+		// transforming from screen coords to intermediate coords, then to
+		// model coords.
+    	AffineTransform intermediateToScreenTransform = getWorldTransformStrategy().getTransform();
+    	Point2D edgeOfEarthXInScreenCoords = new Point2D.Double(getWidth() * EARTH_EDGE_WIDTH_PROPORTION, 0);
+    	Point2D pt = new Point2D.Double();
+    	try {
+			intermediateToScreenTransform.inverseTransform(edgeOfEarthXInScreenCoords, pt);
+		} catch (NoninvertibleTransformException e) {
+			System.err.println("Error: Unable to invert transform.");
+			e.printStackTrace();
+			assert false;
+		}
+		
+		double edgeOfEarthXInIntermediateCoords = pt.getX(); 
+		
     	if ( getWidth() > 0 && getHeight() > 0){
-    		_model.setEdgeOfWorldXPos(_mvt.viewToModelX(getWidth() * 0.1));
+    		_model.setEdgeOfWorldXPos(_mvt.viewToModelX(edgeOfEarthXInIntermediateCoords));
     	}
     }
 
