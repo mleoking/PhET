@@ -57,7 +57,7 @@ import com.jcraft.jsch.JSchException;
  *     ex: copies to htdocs/sims/resources/1242706828232_common-strings-ar-xml/test/pendulum-lab/pendulum-lab_en.jar 
  * (4) pokes the resource file into all JARs in the test directories
  * (5) resigns all of those JARs
- * (6) if java mode, generates the offline JARs with JARGenerator (in the test directories)
+ * (6) if java mode, generates the offline JARs with JARGenerator (in the test directories); JARGenerator signs these jars when they are made
  * (7) if files exist in the extras directories, their counterparts in the live dir are backed up
  *     ex: htdocs/sims/pendulum-lab/pendulum-lab_ar.html backed up to
  *         htdocs/sims/resources/1242706828232_common-strings-ar-xml/backup/pendulum-lab/pendulum-lab_ar.html
