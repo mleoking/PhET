@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.border.EmptyBorder;
 
+import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.SolutionListener;
@@ -87,6 +88,7 @@ public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
             }
         };
         topCanvas.setPreferredSize( TOP_CANVAS_SIZE );
+        topCanvas.setBackground( ABSConstants.EQUILIBRIUM_EXPRESSIONS_BACKGROUND );
         topCanvasSizeNode = new PText();
         topCanvasSizeNode.setOffset( 5, 5 );
         if ( DEV ) {
@@ -100,6 +102,7 @@ public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
             }
         };
         bottomCanvas.setPreferredSize( BOTTOM_CANVAS_SIZE );
+        bottomCanvas.setBackground( ABSConstants.EQUILIBRIUM_EXPRESSIONS_BACKGROUND );
         waterExpression = new WaterEquilibriumExpressionNode();
         bottomCanvas.getLayer().addChild( waterExpression );
         bottomCanvasSizeNode = new PText();

@@ -10,6 +10,8 @@ TODO:
 - revisit implementation of Reaction Equations and Equilibrium Expressions
 - particle views
 - scale image files
+- resolve i18n layout issues
+- explicitly set canvas background color for reaction equations and equilibrium expressions
 
 DEFER:
 - add ability to restrict Strength slider to one section of the range (only needed if we add "Custom Weak" acid/base)
