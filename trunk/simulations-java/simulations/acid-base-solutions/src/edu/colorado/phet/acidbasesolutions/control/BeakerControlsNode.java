@@ -25,6 +25,7 @@ import edu.colorado.phet.acidbasesolutions.view.beaker.BeakerNode;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -87,7 +88,6 @@ public class BeakerControlsNode extends PNode {
 
         // border
         panel = new JPanel();
-        panel.setBackground( background );
         TitledBorder border = new TitledBorder( new LineBorder( Color.BLACK, 1 ), ABSStrings.TITLE_BEAKER_CONTROLS );
         border.setTitleFont( new PhetFont( Font.BOLD, 16 ) );
         panel.setBorder( border );
@@ -101,6 +101,8 @@ public class BeakerControlsNode extends PNode {
         layout.addComponent( hyroniumHydroxideRatioCheckBox, row++, column );
         layout.addComponent( moleculeCountsCheckBox, row++, column );
         layout.addComponent( beakerLabelCheckBox, row++, column );
+        
+        SwingUtils.setBackgroundDeep( panel, background );
         
         addChild( new PSwing( panel ) );
     }

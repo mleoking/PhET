@@ -103,8 +103,8 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         double xOffset, yOffset = 0;
         
         // solution controls in upper left
-        xOffset = solutionControlsNode.getXOffset() - solutionControlsNode.getFullBoundsReference().getX() + 15;
-        yOffset = solutionControlsNode.getYOffset() - solutionControlsNode.getFullBoundsReference().getY() + 15;
+        xOffset = solutionControlsNode.getXOffset() - solutionControlsNode.getFullBoundsReference().getX();
+        yOffset = solutionControlsNode.getYOffset() - solutionControlsNode.getFullBoundsReference().getY();
         solutionControlsNode.setOffset( xOffset, yOffset );
         
         // beaker below solution controls
@@ -117,14 +117,14 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         yOffset = beakerNode.getFullBoundsReference().getCenterY() - ( beakerControlsNode.getFullBoundsReference().getHeight() / 2 );
         beakerControlsNode.setOffset( xOffset, yOffset );
         
-        // concentration graph at upper right
-        xOffset = worldSize.getWidth() - concentrationGraphNode.getFullBoundsReference().getWidth() - PNodeUtils.getOriginXOffset( concentrationGraphNode ) - 20;
-        yOffset = 15;
+        // concentration graph to the right of beaker
+        xOffset = beakerControlsNode.getFullBoundsReference().getMaxX() - PNodeUtils.getOriginXOffset( concentrationGraphNode ) + 20;
+        yOffset = 0;
         concentrationGraphNode.setOffset( xOffset, yOffset );
         
         // misc controls at bottom right
-        xOffset = worldSize.getWidth() - miscControlsNode.getFullBoundsReference().getWidth() - 15;
-        yOffset = worldSize.getHeight() - miscControlsNode.getFullBoundsReference().getHeight() - 15;
+        xOffset = concentrationGraphNode.getFullBoundsReference().getMaxX() - miscControlsNode.getFullBoundsReference().getWidth();
+        yOffset = beakerNode.getFullBoundsReference().getMaxY() - miscControlsNode.getFullBoundsReference().getHeight();
         miscControlsNode.setOffset( xOffset, yOffset );
         
         // Reset All button to the right of misc controls
@@ -132,5 +132,7 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         xOffset = miscControlsNode.getFullBoundsReference().getMinX() - resetAllButton.getFullBoundsReference().getWidth() - 10;
         yOffset = miscControlsNode.getFullBoundsReference().getMaxY() - resetAllButton.getFullBounds().getHeight();
         resetAllButton.setOffset( xOffset , yOffset );
+        
+        centerRootNode();
     }
 }

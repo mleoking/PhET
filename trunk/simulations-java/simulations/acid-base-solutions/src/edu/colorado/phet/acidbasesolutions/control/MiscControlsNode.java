@@ -87,7 +87,6 @@ public class MiscControlsNode extends PNode {
         
         // border
         JPanel panel = new JPanel();
-        panel.setBackground( background );
         TitledBorder border = new TitledBorder( new LineBorder( Color.BLACK, 1 ), ABSStrings.TITLE_MISC_CONTROLS );
         border.setTitleFont( new PhetFont( Font.BOLD, 16 ) );
         panel.setBorder( border );
@@ -103,6 +102,8 @@ public class MiscControlsNode extends PNode {
         column++;
         layout.addComponent( equilibriumExpressionsCheckBox, row++, column );
         layout.addComponent( reactionEquationsCheckBox, row++, column );
+        
+        SwingUtils.setBackgroundDeep( panel, background );
         
         addChild( new PSwing( panel ) );
     }
