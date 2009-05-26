@@ -4,6 +4,7 @@ package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.geom.Line2D.Double;
 import java.util.ArrayList;
 
@@ -30,10 +31,11 @@ public class RadioactiveDatingGameModel extends SimpleObservable {
     // Instance data
     //------------------------------------------------------------------------
 
-	ArrayList<DatableObject> _datableObjects = new ArrayList<DatableObject>();
-	ArrayList<Stratum2> _strata = new ArrayList<Stratum2>();
-	RadiometricDatingMeter _meter;
+	private ArrayList<DatableObject> _datableObjects = new ArrayList<DatableObject>();
+	private ArrayList<Stratum2> _strata = new ArrayList<Stratum2>();
+	private RadiometricDatingMeter _meter;
 	private Line2D _edgeOfWorld;
+	private Rectangle2D _edgeOfWorldRect = new Rectangle2D.Double();
 
     //------------------------------------------------------------------------
     // Constructor
@@ -129,6 +131,27 @@ public class RadioactiveDatingGameModel extends SimpleObservable {
     public void setEdgeOfWorldXPos(double xPos){
     	_edgeOfWorld = new Line2D.Double(xPos, 0, xPos, -TOTAL_DEPTH_OF_STRATA);
     	notifyObservers();
+    }
+    
+    /**
+     * Set the rectangle that represents the position of the edge of the world.
+     * 
+     * @param edgeOfWorldRect
+     */
+    public void setEdgeOfWorldRect(Rectangle2D edgeOfWorldRect){
+    	_edgeOfWorldRect.setRect(edgeOfWorldRect);
+    	notifyObservers();
+    }
+    
+    /**
+     * Get the rectangle that represents the position of the edge of the world.
+     * 
+     * @param edgeOfWorldRect
+     */
+    public Rectangle2D getEdgeOfWorldRect(){
+    	Rectangle2D rect = new Rectangle2D.Double();
+    	rect.setRect(_edgeOfWorldRect);
+    	return rect;
     }
     
     /**

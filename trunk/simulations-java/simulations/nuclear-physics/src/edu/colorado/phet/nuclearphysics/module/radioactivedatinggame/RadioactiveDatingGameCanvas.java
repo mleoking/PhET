@@ -37,15 +37,23 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
 	// Initial size of the reference coordinates that are used when setting up
 	// the canvas transform strategy.  These were empirically determined to
 	// match the expected initial size of the canvas.
-    private final int INITIAL_INTERMEDIATE_COORD_WIDTH = 786;
-    private final int INITIAL_INTERMEDIATE_COORD_HEIGHT = 786;
-    private final Dimension INITIAL_INTERMEDIATE_DIMENSION = new Dimension( INITIAL_INTERMEDIATE_COORD_WIDTH,
+    private static final int INITIAL_INTERMEDIATE_COORD_WIDTH = 786;
+    private static final int INITIAL_INTERMEDIATE_COORD_HEIGHT = 786;
+    private static final Dimension INITIAL_INTERMEDIATE_DIMENSION = new Dimension( INITIAL_INTERMEDIATE_COORD_WIDTH,
     		INITIAL_INTERMEDIATE_COORD_HEIGHT );
     
-    // Constants for positioning/size some of the nodes.
-    private final double PROPORTIONS_CHART_WIDTH_FRACTION = 0.6;  // Fraction of canvas width for proportions chart.
-    private final double PROPORTIONS_METER_WIDTH_FRACTION = 0.23; // Fraction of canvas width for proportions chart.
-    private final double EARTH_EDGE_WIDTH_PROPORTION = 0.07;       // Fraction of canvas width for edge of the earth.
+    // Fraction of canvas width used for the proportions chart.
+    private static final double PROPORTIONS_CHART_WIDTH_FRACTION = 0.6;
+    
+    // Fraction of canvas width for the meter.
+    private static final double PROPORTIONS_METER_WIDTH_FRACTION = 0.23;
+    
+    // Fraction of canvas width used to portray the edge of the world.
+    private static final double WORLD_EDGE_WIDTH_PROPORTION = 0.07;       
+    
+    // Fraction of canvas height used for the additional height of the edge
+    // of the world ABOVE AND BEYOND the depth of the strata.
+    private static final double WORLD_EDGE_ADDITIONAL_HEIGHT_PROPORTION = 0.07;
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -162,28 +170,55 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     // Methods
     //------------------------------------------------------------------------
 
+    /**
+     * Update the layout of the nodes on this canvas.  This handles
+     * specialized node movement and resizing that can't be fully handled
+     * by the canvas transform strategy.
+     */
     protected void updateLayout(){
 
-    	System.out.println("Width = " + getWidth() + ", height = " + getHeight());
-    	
-		// Set the edge of the earth in model coordinates by first
-		// transforming from screen coords to intermediate coords, then to
-		// model coords.
-    	AffineTransform intermediateToScreenTransform = getWorldTransformStrategy().getTransform();
-    	Point2D edgeOfEarthXInScreenCoords = new Point2D.Double(getWidth() * EARTH_EDGE_WIDTH_PROPORTION, 0);
-    	Point2D pt = new Point2D.Double();
-    	try {
-			intermediateToScreenTransform.inverseTransform(edgeOfEarthXInScreenCoords, pt);
-		} catch (NoninvertibleTransformException e) {
-			System.err.println("Error: Unable to invert transform.");
-			e.printStackTrace();
-			assert false;
-		}
-		
-		double edgeOfEarthXInIntermediateCoords = pt.getX(); 
-		
     	if ( getWidth() > 0 && getHeight() > 0){
-    		_model.setEdgeOfWorldXPos(_mvt.viewToModelX(edgeOfEarthXInIntermediateCoords));
+	    	// Set the location of the edge of the world in the model.  This
+    		// is done here because the edge changes location and size based
+    		// on the size of the viewport into the world.  Changing it in
+    		// the model causes the information to be propagated to any nodes
+    		// that need to be aware of it.  IMPORTANT: Currently, this
+    		// positions the edge on the LEFT SIDE of the viewport.
+    		
+    		// The variables that must be assigned values in order to set the
+    		// edge rectangle in the model.
+    		double edgeOfWorldXModel, edgeOfWorldYModelY, edgeOfWorldWidthModel, edgeOfWorldHeightModel;
+    		
+    		// The Y values are relatively easy, so do them first.
+    		edgeOfWorldYModelY = _model.getBottomOfStrata();
+    		edgeOfWorldHeightModel = -(_model.getBottomOfStrata() * (1 + WORLD_EDGE_ADDITIONAL_HEIGHT_PROPORTION));
+    		
+    		// The x values must be transformed from screen to intermediate to
+    		// model coordinates.
+	    	AffineTransform intermediateToScreenTransform = getWorldTransformStrategy().getTransform();
+	    	Point2D innerEdgeOfWorldXScreen = new Point2D.Double(getWidth() * WORLD_EDGE_WIDTH_PROPORTION, 0);
+	    	Point2D innerEdgeOfWorldXIntermediate = new Point2D.Double();
+	    	Point2D outerEdgeOfWorldXScreen = new Point2D.Double(0, 0);
+	    	Point2D outerEdgeOfWorldXIntermediate = new Point2D.Double();
+	    	try {
+				intermediateToScreenTransform.inverseTransform(innerEdgeOfWorldXScreen,
+						innerEdgeOfWorldXIntermediate);
+				intermediateToScreenTransform.inverseTransform(outerEdgeOfWorldXScreen,
+						outerEdgeOfWorldXIntermediate);
+			} catch (NoninvertibleTransformException e) {
+				System.err.println("Error: Unable to invert transform.");
+				e.printStackTrace();
+				assert false;
+			}
+			
+			edgeOfWorldXModel = _mvt.viewToModelX(outerEdgeOfWorldXIntermediate.getX());
+			edgeOfWorldWidthModel = _mvt.viewToModelDifferentialX(innerEdgeOfWorldXIntermediate.getX() 
+					- outerEdgeOfWorldXIntermediate.getX());
+		
+    		_model.setEdgeOfWorldRect(new Rectangle2D.Double(edgeOfWorldXModel, edgeOfWorldYModelY, 
+    				edgeOfWorldWidthModel, edgeOfWorldHeightModel));
+//    		_model.setEdgeOfWorldRect(new Rectangle2D.Double(-25, _model.getBottomOfStrata(), 
+//    				5, 20));
     	}
     }
 
