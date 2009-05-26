@@ -259,7 +259,12 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
      * Ensures the bounds of the underlying component are accurate, and sets the bounds of this PNode.
      */
     void reshape() {
-        component.setBounds( 0, 0, component.getPreferredSize().width, component.getPreferredSize().height );
+        //Avoid setBounds if it is unnecessary
+        //TODO: should we make sure this is called at least once
+        //TODO: does this sometimes need to be called when size already equals preferred size, to relayout/update things?
+        if(component.getWidth()!=component.getPreferredSize().width||component.getHeight()!=component.getPreferredSize().height){
+            component.setBounds( 0, 0, component.getPreferredSize().width, component.getPreferredSize().height );
+        }
         setBounds( 0, 0, component.getPreferredSize().width, component.getPreferredSize().height );
     }
 
@@ -482,7 +487,7 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
         if( c instanceof JComponent ) {
             ( (JComponent)c ).setDoubleBuffered( false );
             c.addPropertyChangeListener( "font", this );
-            c.addPropertyChangeListener(AbstractButton.TEXT_CHANGED_PROPERTY,reshapeListener);
+            c.addPropertyChangeListener(reshapeListener);//Update shape when any property (such as text or font) changes.
             c.addComponentListener( new ComponentAdapter() {
                 public void componentResized( ComponentEvent e ) {
                     computeBounds();
