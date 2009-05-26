@@ -246,10 +246,10 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
     }
 
     /**
-     * Deprecated constructor for application code still depending on this signature. 
+     * Deprecated constructor for application code still depending on this signature.
      * @param pSwingCanvas
      * @param component
-     * @deprecated 
+     * @deprecated
      */
     public PSwing(PSwingCanvas pSwingCanvas, JComponent component) {
         this(component);
@@ -482,6 +482,7 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
         if( c instanceof JComponent ) {
             ( (JComponent)c ).setDoubleBuffered( false );
             c.addPropertyChangeListener( "font", this );
+            c.addPropertyChangeListener(AbstractButton.TEXT_CHANGED_PROPERTY,reshapeListener);
             c.addComponentListener( new ComponentAdapter() {
                 public void componentResized( ComponentEvent e ) {
                     computeBounds();
@@ -493,6 +494,12 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
             } );
         }
     }
+
+    PropertyChangeListener reshapeListener=new PropertyChangeListener() {
+        public void propertyChange(PropertyChangeEvent evt) {
+            computeBounds();
+        }
+    };
 
     /**
      * Listens for changes in font on components rooted at this PSwing
