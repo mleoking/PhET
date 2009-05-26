@@ -156,4 +156,5 @@ public class NuclearPhysicsStrings {
     public static final String ONE_HUNDRED_PER_CENT= NuclearPhysicsResources.getString( "DecayProprotionsChart.OneHundredPercent" );
     public static final String DECAY_PROPORTIONS_TIME_UNITS_YEARS= NuclearPhysicsResources.getString( "DecayProportionsChart.Years" );
     public static final String DECAY_PROPORTIONS_TIME_UNITS_BILLION_YEARS= NuclearPhysicsResources.getString( "DecayProportionsChart.BillionYears" );
+    public static final String DECAY_PROPORTIONS_Y_AXIS_LABEL= NuclearPhysicsResources.getString( "DecayProportionsChart.YAxisLabel" );
 }

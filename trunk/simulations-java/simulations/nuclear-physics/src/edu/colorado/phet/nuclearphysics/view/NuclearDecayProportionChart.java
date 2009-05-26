@@ -20,6 +20,7 @@ import javax.swing.JFrame;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PieChartNode;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.colorado.phet.common.piccolophet.nodes.PieChartNode.PieValue;
@@ -429,11 +430,10 @@ public class NuclearDecayProportionChart extends PNode {
         private final PPath _upperXAxisOfGraph;
         private final PPath _yAxisOfGraph;
         private ArrayList _xAxisTickMarks;
-        private ArrayList _xAxisTickMarkLabels;
+        private ArrayList<PText> _xAxisTickMarkLabels;
         private ArrayList _yAxisTickMarks;
-        private ArrayList _yAxisTickMarkLabels;
-        private final PText _yAxisLabel1;
-        private final PText _yAxisLabel2;
+        private ArrayList<PText> _yAxisTickMarkLabels = new ArrayList<PText>();
+        private final HTMLNode _yAxisLabel;
         private final PText _upperXAxisLabel;
         private final PNode _pickableGraphLayer;
         private final PNode _nonPickableGraphLayer;
@@ -499,13 +499,20 @@ public class NuclearDecayProportionChart extends PNode {
 	        _yAxisOfGraph.setPaint( AXES_LINE_COLOR );
 	        _nonPickableGraphLayer.addChild( _yAxisOfGraph );
 	        
-	        // Add the text for the Y axis.
-	        _yAxisLabel1 = new PText( NuclearPhysicsStrings.FIFTY_PER_CENT );
-	        _yAxisLabel1.setFont( SMALL_LABEL_FONT );
-	        _nonPickableGraphLayer.addChild( _yAxisLabel1 );
-	        _yAxisLabel2 = new PText( NuclearPhysicsStrings.ONE_HUNDRED_PER_CENT );
-	        _yAxisLabel2.setFont( SMALL_LABEL_FONT );
-	        _nonPickableGraphLayer.addChild( _yAxisLabel2 );
+	        // Add the text for the Y axis tick marks.
+	        PText tempText = new PText( NuclearPhysicsStrings.FIFTY_PER_CENT );
+	        tempText.setFont(SMALL_LABEL_FONT);
+	        _nonPickableGraphLayer.addChild(tempText);
+	        _yAxisTickMarkLabels.add(tempText);
+	        tempText = new PText( NuclearPhysicsStrings.ONE_HUNDRED_PER_CENT );
+	        tempText.setFont(SMALL_LABEL_FONT);
+	        _nonPickableGraphLayer.addChild(tempText);
+	        _yAxisTickMarkLabels.add(tempText);
+	        
+	        // Add the Y axis label.
+	        _yAxisLabel = new HTMLNode(NuclearPhysicsStrings.DECAY_PROPORTIONS_Y_AXIS_LABEL);
+	        _yAxisLabel.rotate(-Math.PI / 2);
+	        _nonPickableGraphLayer.addChild(_yAxisLabel);
 	        
 	        // Add the label for the upper X axis.
 	        _upperXAxisLabel = new PText( NuclearPhysicsStrings.HALF_LIVES_LABEL );
@@ -527,6 +534,8 @@ public class NuclearDecayProportionChart extends PNode {
 		 */
 		public void update( double newWidth, double newHeight ){
 			
+			double scale;
+	        double graphLabelHeight = newHeight * GRAPH_TEXT_HEIGHT_PROPORTION;
 			_sizingRect.setPathTo( new Rectangle2D.Double(0, 0, newWidth, newHeight ) );
 
 			// Set the needed vars that are based proportionately on the size
@@ -534,26 +543,40 @@ public class NuclearDecayProportionChart extends PNode {
 	        _dataCurveStroke = new BasicStroke( (float)(newHeight * DATA_CURVE_LINE_WIDTH_PROPORTION ),
 	        		BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
 
+	        // Position and size the Y axis label, since it will affect the
+	        // graph's origin.
+	        _yAxisLabel.setScale(1);
+	        scale = ((newHeight * 0.4) / _yAxisLabel.getFullBoundsReference().getHeight());
+	        _yAxisLabel.setScale(scale);
+
+	        _yAxisLabel.setOffset(0, newHeight / 2 - _yAxisLabel.getFullBoundsReference().width / 2);
+	        
 	        // Position and size labels for the Y axis, since they will affect
 			// the location of the graph's origin.
-	        double graphLabelHeight = newHeight * GRAPH_TEXT_HEIGHT_PROPORTION;
-	        _yAxisLabel1.setScale( 1 );
-	        _yAxisLabel2.setScale( 1 );
-	        double scale = graphLabelHeight / _yAxisLabel1.getFullBoundsReference().getHeight();
-	        _yAxisLabel1.setScale( scale );
-	        _yAxisLabel2.setScale( scale );
-	        double maxYAxisLabelWidth = Math.max(_yAxisLabel1.getFullBoundsReference().width,
-	        		_yAxisLabel2.getFullBoundsReference().width );
-	        _yAxisLabel1.setOffset( maxYAxisLabelWidth - _yAxisLabel1.getFullBoundsReference().width,
-	        		(newHeight / 2) - ( graphLabelHeight / 2 ) );
-	        _yAxisLabel2.setOffset( maxYAxisLabelWidth - _yAxisLabel2.getFullBoundsReference().width,
-	        		graphLabelHeight);
-	        
+	        double maxYAxisLabelWidth = 0;
+	        // First loop sets scale and determine largest label.
+	        for (PText yAxisTickMarkLabel : _yAxisTickMarkLabels){
+	        	yAxisTickMarkLabel.setScale(1);
+		        scale = graphLabelHeight / yAxisTickMarkLabel.getFullBoundsReference().getHeight();
+		        yAxisTickMarkLabel.setScale(scale);
+		        maxYAxisLabelWidth = Math.max(yAxisTickMarkLabel.getFullBoundsReference().width, maxYAxisLabelWidth);
+	        }
+	        // 2nd loop positions the tick marks.
+	        int yAxisTickMarkCount = 0;
+	        for (PText yAxisTickMarkLabel : _yAxisTickMarkLabels){
+	        	yAxisTickMarkLabel.setOffset(_yAxisLabel.getFullBoundsReference().height, 0);
+	        }
+
 	        // Create a rectangle that defines where the graph itself is,
 	        // excluding all labels and such.
 
 	        _graphRect.setRect(maxYAxisLabelWidth, graphLabelHeight, newWidth - maxYAxisLabelWidth,
 	        		newHeight - 3 * graphLabelHeight);
+	        
+	        // Reposition the Y axis label now that we know the vertical size
+	        // and position of the graph.
+	        _yAxisLabel.setOffset(_yAxisLabel.getOffset().getX(), 
+	        		_graphRect.getCenterY() + _yAxisLabel.getFullBoundsReference().height / 2);
 	        
 	        // Update the multiplier used for converting from pixels to
 	        // milliseconds.  Use the multiplier to tweak the span of the x axis.
