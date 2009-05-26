@@ -191,4 +191,18 @@ public class PhetPNode extends PNode {
         }
         this.childrenPickable = childrenPickable;
     }
+    
+    /**
+     * Workaround for Piccolo's broken implementation of removeChild.
+     * If we attempt to remove a node that is not a child, this method should
+     * return null.  Instead, Piccolo throws ArrayIndexOutOfBoundsException due
+     * to the internal data structure for managing children, 
+     */
+    public PNode removeChild( PNode child ) {
+        PNode removedNode = null;
+        if ( indexOfChild( child ) != -1 ) {
+            removedNode = super.removeChild( child );
+        }
+        return removedNode;
+    } 
 }
