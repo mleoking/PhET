@@ -1,4 +1,4 @@
-package edu.colorado.phet.acidbasesolutions.test;
+package edu.colorado.phet.common.piccolophet.test;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
