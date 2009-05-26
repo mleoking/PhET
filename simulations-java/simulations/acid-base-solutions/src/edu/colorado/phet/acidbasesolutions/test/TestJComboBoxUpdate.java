@@ -15,13 +15,18 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * Demonstrates a layout problem with check boxes that have dynamic HTML labels.
+ * See Unfuddle #1670.
+ *
  * Click the radio buttons in the control panel a few times to see the issue.
  * The panel outside the play area behaves correctly.
  * But the panel in the play area will become wider to accommodate the wider label,
  * but the label will be wrapped to the panel's previous width.
- * So is this a PSwing problem?...
  * This problem was observed with JCheckBox, JButton, JRadioButton.
  * If the text is not HTML, there is no problem.
+ * 
+ * This is definitely a PSwing problem, see Unfuddle #1670.
+ * Workaround is to call PSwing.computeBounds whenever you change anything 
+ * in the PSwing's component or its children.
  * 
  * Observed on:
  * Mac OS 10.5.6 + Java 1.5.0_16.
@@ -32,6 +37,8 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class TestJComboBoxUpdate extends JFrame {
     
+    private static final boolean WORKAROUND_ENABLED = true;
+    
     public TestJComboBoxUpdate() {
         
         /*
@@ -39,8 +46,8 @@ public class TestJComboBoxUpdate extends JFrame {
          * The red check box will have it's label changed dynamically.
          */
         final DynamicPanel playAreaPanel = new DynamicPanel();
-        PSwing wrapperNode = new PSwing( playAreaPanel );
-        PhetPCanvas canvas = new PhetPCanvas();
+        final PSwing wrapperNode = new PSwing( playAreaPanel );
+        final PhetPCanvas canvas = new PhetPCanvas();
         canvas.setPreferredSize( new Dimension( 600, 400 ) );
         canvas.getLayer().addChild( wrapperNode );
         wrapperNode.setOffset( 100, 100 );
@@ -68,6 +75,9 @@ public class TestJComboBoxUpdate extends JFrame {
                     if ( e.getSource() instanceof JRadioButton ) {
                         playAreaPanel.setDynamicLabel( ( (JRadioButton) e.getSource() ).getText() );
                         dynamicSwingPanel.setDynamicLabel( ( (JRadioButton) e.getSource() ).getText() );
+                        if ( WORKAROUND_ENABLED ) {
+                            wrapperNode.computeBounds();
+                        }
                     }
                 }
             };
