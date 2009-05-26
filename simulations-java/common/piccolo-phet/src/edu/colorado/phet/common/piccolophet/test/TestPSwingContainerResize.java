@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -51,6 +53,13 @@ public class TestPSwingContainerResize extends JFrame {
         canvas.setPreferredSize( new Dimension( 600, 400 ) );
         canvas.getLayer().addChild( wrapperNode );
         wrapperNode.setOffset( 100, 100 );
+        
+        // test ComponentListener
+        playAreaPanel.addComponentListener( new ComponentAdapter() {
+            public void componentResized(ComponentEvent e) {
+                System.out.println( "componentResized" );
+            }
+        });
         
         /*
          * Swing control panel outside of Piccolo.
