@@ -6,15 +6,15 @@ import java.text.NumberFormat;
 
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.FormattedNumberNode;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Displays a value as a formatted number on a background.
  * If that number drops below some threshold, then "NEGLIGIBLE" is displayed.
  */
-public class NegligibleValueNode extends PComposite {
+public class NegligibleValueNode extends PhetPNode {
     
     private static final Font VALUE_FONT = new PhetFont( Font.PLAIN, 16 );
     private static final Color VALUE_COLOR = Color.BLACK;
@@ -26,6 +26,9 @@ public class NegligibleValueNode extends PComposite {
     
     public NegligibleValueNode( double value, NumberFormat format, double negligibleThreshold ) {
         this( value, format );
+        // not interactive
+        setPickable( false );
+        setChildrenPickable( false );
         this.negligibleThreshold = negligibleThreshold;
         negligibleEnabled = true;
     }
@@ -70,26 +73,30 @@ public class NegligibleValueNode extends PComposite {
     
     public void setValue( double value ) {
         numberNode.setValue( value );
-        updateVisibility();
+        update();
     }
 
     public void setNegligibleEnabled( boolean enabled, double threshold ) {
         if ( enabled != negligibleEnabled || threshold != negligibleThreshold ) {
             negligibleEnabled = enabled;
             negligibleThreshold = threshold;
-            updateVisibility();
+            update();
         }
     }
 
-    private void updateVisibility() {
-        if ( negligibleEnabled ) {
-            final double value = numberNode.getValue();
-            numberNode.setVisible( value > negligibleThreshold );
-            negligibleNode.setVisible( value <= negligibleThreshold );
+    /*
+     * Use addChild/removeChild instead of setVisible so that fullBounds will be correct.
+     * Piccolo includes all children (visible and invisible) in its fullBounds calculations.
+     */
+    private void update() {
+        final double value = numberNode.getValue();
+        if ( value <= negligibleThreshold && negligibleEnabled ) {
+            addChild( negligibleNode );
+            removeChild( numberNode );
         }
         else {
-            numberNode.setVisible( true );
-            negligibleNode.setVisible( false );
+            addChild( numberNode );
+            removeChild( negligibleNode );
         }
     }
 }

@@ -3,7 +3,6 @@
 ==================================================================================
 
 TODO:
-- AbstractMoleculeCounts.ValueNode puts a rectangle around union of value+negligible
 - rewrite model
 - PSwing repaint problem with BeakerControlsNode?
 - connect equilibrium expressions to model
@@ -25,6 +24,7 @@ ISSUES:
 - better pattern for model, less use of instanceof
 
 DONE:
+5/26/09 workaround fullBounds calculation for NegligibleValueNode
 5/26/09 deep set of background color on check box control panels
 5/26/09 center everything in the play area
 5/21/09 rewrite layout of molecule counts, Swing layout strategy isn't working well
