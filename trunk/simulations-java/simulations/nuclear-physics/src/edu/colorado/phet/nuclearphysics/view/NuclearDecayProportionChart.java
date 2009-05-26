@@ -500,7 +500,15 @@ public class NuclearDecayProportionChart extends PNode {
 	        _nonPickableGraphLayer.addChild( _yAxisOfGraph );
 	        
 	        // Add the text for the Y axis tick marks.
-	        PText tempText = new PText( NuclearPhysicsStrings.FIFTY_PER_CENT );
+	        PText tempText = new PText( NuclearPhysicsStrings.TWENTY_FIVE_PER_CENT );
+	        tempText.setFont(SMALL_LABEL_FONT);
+	        _nonPickableGraphLayer.addChild(tempText);
+	        _yAxisTickMarkLabels.add(tempText);
+	        tempText = new PText( NuclearPhysicsStrings.FIFTY_PER_CENT );
+	        tempText.setFont(SMALL_LABEL_FONT);
+	        _nonPickableGraphLayer.addChild(tempText);
+	        _yAxisTickMarkLabels.add(tempText);
+	        tempText = new PText( NuclearPhysicsStrings.SEVENTY_FIVE_PER_CENT );
 	        tempText.setFont(SMALL_LABEL_FONT);
 	        _nonPickableGraphLayer.addChild(tempText);
 	        _yAxisTickMarkLabels.add(tempText);
@@ -544,33 +552,31 @@ public class NuclearDecayProportionChart extends PNode {
 	        		BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
 
 	        // Position and size the Y axis label, since it will affect the
-	        // graph's origin.
+	        // graph's origin.  There is a tweak factor in here that controls
+	        // the relative size of the label.
 	        _yAxisLabel.setScale(1);
 	        scale = ((newHeight * 0.4) / _yAxisLabel.getFullBoundsReference().getHeight());
 	        _yAxisLabel.setScale(scale);
 
 	        _yAxisLabel.setOffset(0, newHeight / 2 - _yAxisLabel.getFullBoundsReference().width / 2);
 	        
-	        // Position and size labels for the Y axis, since they will affect
-			// the location of the graph's origin.
+	        // Set the size of Y axis tick mark labels, since they will affect
+	        // the location of the graph's origin.
 	        double maxYAxisLabelWidth = 0;
-	        // First loop sets scale and determine largest label.
 	        for (PText yAxisTickMarkLabel : _yAxisTickMarkLabels){
 	        	yAxisTickMarkLabel.setScale(1);
 		        scale = graphLabelHeight / yAxisTickMarkLabel.getFullBoundsReference().getHeight();
 		        yAxisTickMarkLabel.setScale(scale);
 		        maxYAxisLabelWidth = Math.max(yAxisTickMarkLabel.getFullBoundsReference().width, maxYAxisLabelWidth);
 	        }
-	        // 2nd loop positions the tick marks.
-	        int yAxisTickMarkCount = 0;
-	        for (PText yAxisTickMarkLabel : _yAxisTickMarkLabels){
-	        	yAxisTickMarkLabel.setOffset(_yAxisLabel.getFullBoundsReference().height, 0);
-	        }
 
 	        // Create a rectangle that defines where the graph itself is,
 	        // excluding all labels and such.
 
-	        _graphRect.setRect(maxYAxisLabelWidth, graphLabelHeight, newWidth - maxYAxisLabelWidth,
+	        _graphRect.setRect(
+	        		_yAxisLabel.getFullBoundsReference().width + maxYAxisLabelWidth,
+	        		graphLabelHeight, 
+	        		newWidth - _yAxisLabel.getFullBoundsReference().getWidth() - maxYAxisLabelWidth,
 	        		newHeight - 3 * graphLabelHeight);
 	        
 	        // Reposition the Y axis label now that we know the vertical size
@@ -578,6 +584,20 @@ public class NuclearDecayProportionChart extends PNode {
 	        _yAxisLabel.setOffset(_yAxisLabel.getOffset().getX(), 
 	        		_graphRect.getCenterY() + _yAxisLabel.getFullBoundsReference().height / 2);
 	        
+	        // Position the y-axis tick mark labels now that we know the
+	        // vertical size of the graph.  Note that this assumes that there
+	        // is no label for zero and that the labels are in increasing order.
+	        int yAxisTickMarkCount = 1;
+	        double yAxisTickMarkSpacing = _graphRect.getHeight() / (_yAxisTickMarkLabels.size());
+	        for (PText yAxisTickMarkLabel : _yAxisTickMarkLabels){
+	        	yAxisTickMarkLabel.setOffset( 
+	        			_yAxisLabel.getFullBoundsReference().getWidth() + maxYAxisLabelWidth 
+	        				- yAxisTickMarkLabel.getFullBoundsReference().width - 3,
+	        			_graphRect.getMaxY() - yAxisTickMarkCount * yAxisTickMarkSpacing 
+	        				- yAxisTickMarkLabel.getFullBoundsReference().height / 2);
+	        	yAxisTickMarkCount++;
+	        }
+
 	        // Update the multiplier used for converting from pixels to
 	        // milliseconds.  Use the multiplier to tweak the span of the x axis.
 	        _msToPixelsFactor = _graphRect.getWidth() / _chart._timeSpan;	        
@@ -760,6 +780,7 @@ public class NuclearDecayProportionChart extends PNode {
         proportionsChart.setTimeMarkerLabelEnabled(false);
 
         JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         PhetPCanvas canvas = new PhetPCanvas();
         frame.setContentPane( canvas );
         canvas.addScreenChild( proportionsChart );
