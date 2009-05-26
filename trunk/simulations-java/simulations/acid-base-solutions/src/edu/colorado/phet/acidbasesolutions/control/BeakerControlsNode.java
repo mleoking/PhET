@@ -41,7 +41,6 @@ public class BeakerControlsNode extends PNode {
     private final JCheckBox hyroniumHydroxideRatioCheckBox;
     private final JCheckBox moleculeCountsCheckBox;
     private final JCheckBox beakerLabelCheckBox;
-    private final PSwing pswing;
     
     public BeakerControlsNode( final BeakerNode beakerNode, Color background, AqueousSolution solution ) {
         this( beakerNode, background );
@@ -105,15 +104,13 @@ public class BeakerControlsNode extends PNode {
         
         SwingUtils.setBackgroundDeep( panel, background );
         
-        pswing = new PSwing( panel );
-        addChild( pswing );
+        addChild( new PSwing( panel ) );
     }
     
     protected void setDissociatedComponents( String component1, String component2 ) {
         Object[] args = { component1, component2 };
         String html = HTMLUtils.toHTMLString( MessageFormat.format( RATIO_PATTERN, args ) );
         dissociatedComponentsRatioCheckBox.setText( html );
-        pswing.computeBounds(); // workaround for #1670
     }
     
     protected void setDissociatedComponentsCheckBoxVisible( boolean visible ) {
