@@ -53,7 +53,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     
     // Fraction of canvas height used for the additional height of the edge
     // of the world ABOVE AND BEYOND the depth of the strata.
-    private static final double WORLD_EDGE_ADDITIONAL_HEIGHT_PROPORTION = 0.07;
+    private static final double WORLD_EDGE_ADDITIONAL_HEIGHT_PROPORTION = 0.21;
 
     //----------------------------------------------------------------------------
     // Instance Data
