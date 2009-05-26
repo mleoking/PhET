@@ -27,6 +27,7 @@ import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.model.Carbon14Nucleus;
 import edu.colorado.phet.nuclearphysics.model.Uranium238Nucleus;
+import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusDecayModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -137,7 +138,7 @@ public class NuclearDecayProportionChart extends PNode {
         _nonPickableChartNode.addChild( _borderNode );
 
         // Create the graph.
-        _graph = new GraphNode();
+        _graph = new GraphNode( this );
         addChild( _graph );
         
         // Add the pie chart (if enabled).
@@ -389,7 +390,7 @@ public class NuclearDecayProportionChart extends PNode {
      * portion with the axes, data curves, etc.
      * 
      */
-    private class GraphNode extends PNode {
+    private static class GraphNode extends PNode {
 
     	// Constants that control the appearance of the graph.
         private static final float  THICK_AXIS_LINE_WIDTH = 2.5f;
@@ -416,11 +417,15 @@ public class NuclearDecayProportionChart extends PNode {
         
         // For enabling/disabling the sizing rectangle.
         private static final boolean SIZING_RECT_VISIBLE = false;
+        
+        // The chart on which this graph will be appearing.
+        NuclearDecayProportionChart _chart;
 
         // Various components that make up the graph.
     	private PPath _sizingRect;
         private ArrayList _halfLifeLines = new ArrayList();
         private final PPath _lowerXAxisOfGraph;
+        private final PText _lowerXAxisLabel;
         private final PPath _upperXAxisOfGraph;
         private final PPath _yAxisOfGraph;
         private ArrayList _xAxisTickMarks;
@@ -440,11 +445,14 @@ public class NuclearDecayProportionChart extends PNode {
         // Factor for converting milliseconds to pixels.
         double _msToPixelsFactor = 1; // Arbitrary init val, updated later.
 
-        // TODO: Fix this name when refactoring is complete.
-        private final Rectangle2D _graphRectFixThis = new Rectangle2D.Double();
+        // Rectangle that defines the size and position of the graph excluding
+        // all the labels and such.
+        private final Rectangle2D _graphRect = new Rectangle2D.Double();
 
-		public GraphNode() {
+		public GraphNode( NuclearDecayProportionChart parentChart ) {
 
+			_chart = parentChart;
+			
 			// Set up the layers (so to speak) for the graph.
 			
 			_nonPickableGraphLayer = new PNode();
@@ -478,8 +486,13 @@ public class NuclearDecayProportionChart extends PNode {
 	        _upperXAxisOfGraph.setStrokePaint( AXES_LINE_COLOR );
 	        _upperXAxisOfGraph.setPaint( AXES_LINE_COLOR );
 	        _nonPickableGraphLayer.addChild( _upperXAxisOfGraph );
+	        
+	        // Add the X axis label.
+	        _lowerXAxisLabel = new PText();
+	        _lowerXAxisLabel.setFont(new PhetFont());
+	        _nonPickableGraphLayer.addChild(_lowerXAxisLabel);
 
-	        // Create the x axis of the graph.
+	        // Create the y axis of the graph.
 	        _yAxisOfGraph = new PPath();
 	        _yAxisOfGraph.setStroke( THIN_AXIS_STROKE );
 	        _yAxisOfGraph.setStrokePaint( AXES_LINE_COLOR );
@@ -506,11 +519,17 @@ public class NuclearDecayProportionChart extends PNode {
 			_sizingRect.setVisible(SIZING_RECT_VISIBLE);
 		}
 		
+		/**
+		 * Update the layout of the graph based on the supplied dimensions.
+		 * 
+		 * @param newWidth
+		 * @param newHeight
+		 */
 		public void update( double newWidth, double newHeight ){
 			
 			_sizingRect.setPathTo( new Rectangle2D.Double(0, 0, newWidth, newHeight ) );
 
-			// Set the needed vars that are based proprotionately on the size
+			// Set the needed vars that are based proportionately on the size
 			// of the graph.
 	        _dataCurveStroke = new BasicStroke( (float)(newHeight * DATA_CURVE_LINE_WIDTH_PROPORTION ),
 	        		BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
@@ -533,30 +552,38 @@ public class NuclearDecayProportionChart extends PNode {
 	        // Create a rectangle that defines where the graph itself is,
 	        // excluding all labels and such.
 
-	        _graphRectFixThis.setRect(maxYAxisLabelWidth, graphLabelHeight, newWidth - maxYAxisLabelWidth,
+	        _graphRect.setRect(maxYAxisLabelWidth, graphLabelHeight, newWidth - maxYAxisLabelWidth,
 	        		newHeight - 3 * graphLabelHeight);
 	        
 	        // Update the multiplier used for converting from pixels to
 	        // milliseconds.  Use the multiplier to tweak the span of the x axis.
-	        _msToPixelsFactor = _graphRectFixThis.getWidth() / _timeSpan;	        
+	        _msToPixelsFactor = _graphRect.getWidth() / _chart._timeSpan;	        
 
 	        // Create the graph axes.
 	        
-			_lowerXAxisOfGraph.setPathTo( new Line2D.Double(_graphRectFixThis.getX(), _graphRectFixThis.getMaxY(), 
-					_graphRectFixThis.getMaxX(), _graphRectFixThis.getMaxY() ) );
+			_lowerXAxisOfGraph.setPathTo( new Line2D.Double(_graphRect.getX(), _graphRect.getMaxY(), 
+					_graphRect.getMaxX(), _graphRect.getMaxY() ) );
 	        
-	        _upperXAxisOfGraph.setPathTo( new Line2D.Double(_graphRectFixThis.getX(), _graphRectFixThis.getY(), 
-	        		_graphRectFixThis.getMaxX(), _graphRectFixThis.getY() ) );
+	        _upperXAxisOfGraph.setPathTo( new Line2D.Double(_graphRect.getX(), _graphRect.getY(), 
+	        		_graphRect.getMaxX(), _graphRect.getY() ) );
 	        
-	        _yAxisOfGraph.setPathTo( new Line2D.Double(_graphRectFixThis.getX(), _graphRectFixThis.getY(), 
-	        		_graphRectFixThis.getX(), _graphRectFixThis.getMaxY() ) ); 
+	        _yAxisOfGraph.setPathTo( new Line2D.Double(_graphRect.getX(), _graphRect.getY(), 
+	        		_graphRect.getX(), _graphRect.getMaxY() ) ); 
 
 	        // Position and size labels for the upper X axis.
 	        _upperXAxisLabel.setScale( 1 );
 	        scale = graphLabelHeight / _upperXAxisLabel.getFullBoundsReference().getHeight();
 	        _upperXAxisLabel.setScale(scale);
-	        _upperXAxisLabel.setOffset(_graphRectFixThis.getX() + 5, _graphRectFixThis.getY() - 
+	        _upperXAxisLabel.setOffset(_graphRect.getX() + 5, _graphRect.getY() - 
 	        		_upperXAxisLabel.getFullBoundsReference().height - 5 );
+	        
+	        // Position and size the label for the lower X axis.
+	        _lowerXAxisLabel.setText(getXAxisUnitsText());
+	        _lowerXAxisLabel.setScale( 1 );
+	        scale = graphLabelHeight / _lowerXAxisLabel.getFullBoundsReference().getHeight();
+	        _lowerXAxisLabel.setScale(scale);
+	        _lowerXAxisLabel.setOffset(_graphRect.getCenterX() - _lowerXAxisLabel.getFullBoundsReference().height / 2,
+	        		_graphRect.getMaxY() + _lowerXAxisLabel.getHeight() / 2);
 	        
 	        // Update the half life lines.
 	        updateHalfLifeLines();
@@ -589,7 +616,7 @@ public class NuclearDecayProportionChart extends PNode {
 	     */
 	    private void updateHalfLifeLines(){
 	    	
-	    	int numHalfLifeLines = (int)Math.floor( _timeSpan / _halfLife );
+	    	int numHalfLifeLines = (int)Math.floor( _chart._timeSpan / _chart._halfLife );
 	    	
 	    	if ( numHalfLifeLines != _halfLifeLines.size() ){
 	    		// Either this is the first time through, or something has changed
@@ -614,9 +641,9 @@ public class NuclearDecayProportionChart extends PNode {
 	    	// Set the size and location for each of the half life lines.
 			for ( int i = 0; i < _halfLifeLines.size(); i++ ){
 				PPath halfLifeLine = (PPath)_halfLifeLines.get(i);
-				halfLifeLine.setPathTo( new Line2D.Double(0, 0, 0, _graphRectFixThis.getHeight() ) );
-				halfLifeLine.setOffset( (i + 1) * _halfLife * _msToPixelsFactor + _graphRectFixThis.getX(), 
-						_graphRectFixThis.getY() );
+				halfLifeLine.setPathTo( new Line2D.Double(0, 0, 0, _graphRect.getHeight() ) );
+				halfLifeLine.setOffset( (i + 1) * _chart._halfLife * _msToPixelsFactor + _graphRect.getX(), 
+						_graphRect.getY() );
 			}
 	    }
 	    
@@ -628,7 +655,7 @@ public class NuclearDecayProportionChart extends PNode {
 	    	_postDecayProportionCurve = null;
 	    	
 	    	// Add new nodes in the correct positions.
-	    	for ( Iterator it = _decayEvents.iterator(); it.hasNext();){
+	    	for ( Iterator it = _chart._decayEvents.iterator(); it.hasNext();){
 	    		graphDecayEvent((Point2D)it.next());
 	    	}
 	    }
@@ -641,18 +668,18 @@ public class NuclearDecayProportionChart extends PNode {
 	     */
 	    private void graphDecayEvent( Point2D decayEventLocation ){
 	    	
-	    	float xPos = (float)(_msToPixelsFactor * decayEventLocation.getX() + _graphRectFixThis.getX());
-	    	float yPosPreDecay = (float)( _graphRectFixThis.getMaxY() - ( ( ( 100 - decayEventLocation.getY() ) / 100 ) 
-	    			* _graphRectFixThis.getHeight() ) );
-	    	float yPosPostDecay = (float)( _graphRectFixThis.getMaxY() - ( ( decayEventLocation.getY() / 100 ) 
-	    			* _graphRectFixThis.getHeight() ) );
+	    	float xPos = (float)(_msToPixelsFactor * decayEventLocation.getX() + _graphRect.getX());
+	    	float yPosPreDecay = (float)( _graphRect.getMaxY() - ( ( ( 100 - decayEventLocation.getY() ) / 100 ) 
+	    			* _graphRect.getHeight() ) );
+	    	float yPosPostDecay = (float)( _graphRect.getMaxY() - ( ( decayEventLocation.getY() / 100 ) 
+	    			* _graphRect.getHeight() ) );
 	    	
 	    	if ( _preDecayProportionCurve == null ){
 	    		// Curve doesn't exist - create it.
 	    		_preDecayProportionCurve = new PPath();
 	    		_preDecayProportionCurve.moveTo( xPos, yPosPreDecay );
 	    		_preDecayProportionCurve.setStroke( _dataCurveStroke );
-	    		_preDecayProportionCurve.setStrokePaint( _preDecayLabelColor );
+	    		_preDecayProportionCurve.setStrokePaint( _chart._preDecayLabelColor );
 	        	_dataPresentationLayer.addChild( _preDecayProportionCurve );
 	    	}
 	    	else{
@@ -665,14 +692,31 @@ public class NuclearDecayProportionChart extends PNode {
 	    		_postDecayProportionCurve = new PPath();
 	    		_postDecayProportionCurve.moveTo( xPos, yPosPostDecay );
 	    		_postDecayProportionCurve.setStroke( _dataCurveStroke );
-	    		_postDecayProportionCurve.setStrokePaint( _postDecayLabelColor );
+	    		_postDecayProportionCurve.setStrokePaint( _chart._postDecayLabelColor );
 	        	_dataPresentationLayer.addChild( _postDecayProportionCurve );
-	        	_postDecayProportionCurve.setVisible(_showPostDecayCurve);
+	        	_postDecayProportionCurve.setVisible(_chart._showPostDecayCurve);
 	    	}
 	    	else{
 	    		// Add the next segment to the curve.
 	    		_postDecayProportionCurve.lineTo(xPos, yPosPostDecay);
 	    	}
+	    }
+	    
+	    /**
+	     * Get the units string for the x axis label.  Note that this does not
+	     * handle all ranges of time.  Feel free to add new ranges as needed.
+	     */
+	    private String getXAxisUnitsText(){
+	    	
+	    	String unitsText;
+	    	if (_chart._timeSpan > MultiNucleusDecayModel.convertYearsToMs(100000)){
+	    		unitsText = NuclearPhysicsStrings.DECAY_PROPORTIONS_TIME_UNITS_BILLION_YEARS;
+	    	}
+	    	else{
+	    		unitsText = NuclearPhysicsStrings.DECAY_PROPORTIONS_TIME_UNITS_YEARS;
+	    	}
+	    	
+	    	return unitsText;
 	    }
     }
 
