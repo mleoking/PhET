@@ -4,7 +4,6 @@
 
 TODO:
 - rewrite model
-- PSwing repaint problem with BeakerControlsNode?
 - connect equilibrium expressions to model
 - connect reaction equations to model
 - H2O should not be scalable in Reaction Equations, should change to Color.BLACK when scaling is enabled
@@ -24,6 +23,7 @@ ISSUES:
 - better pattern for model, less use of instanceof
 
 DONE:
+5/26/09 workaround for PSwing bounds (#1670) problem in BeakerControlsNode
 5/26/09 workaround fullBounds calculation for NegligibleValueNode
 5/26/09 deep set of background color on check box control panels
 5/26/09 center everything in the play area
