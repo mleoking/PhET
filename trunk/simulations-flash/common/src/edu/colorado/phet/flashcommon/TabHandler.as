@@ -156,7 +156,7 @@ class edu.colorado.phet.flashcommon.TabHandler {
     }
 	
 	// remove a control from the tab order
-	public function removeControl(obj : Object) : Void {
+	public function removeControl(obj : Object) {
 		var idx : Number = findIndex( obj );
         if( idx == -1 ) {
             return;
@@ -267,6 +267,7 @@ class edu.colorado.phet.flashcommon.TabHandler {
 				// sanity check
 				if(lastHighlight._parent !== undefined) {
 					_level0.debug("WARNING: TabHandler addFocus encountered already existing lastHighlight\n");
+                    _level0.debug( "Depth: " + String(lastHighlight._depth) );
 					lastHighlight.removeMovieClip();
 					_level0.debug("!!!\n");
 				}
@@ -274,7 +275,11 @@ class edu.colorado.phet.flashcommon.TabHandler {
 				// global, so we create a movieclip on _root, storing it in 'lastHighlight'
 				// TODO: remove hack that overwrites locations randomly. AS2 to blame!
 				//lastHighlight = _root.createEmptyMovieClip("lastHighlight", 1000000 + Math.round(Math.random() * 5000));
-				lastHighlight = _root.createEmptyMovieClip("lastHighlight", _root.getNextHighestDepth());
+                var newDepth = _root.getNextHighestDepth();
+                if( newDepth > 50000 ) {
+                    newDepth -= 724;
+                }
+				lastHighlight = _root.createEmptyMovieClip("lastHighlight", newDepth );
 				
 				//if( !debugMain ) { throw new Error( "Boo" ); }
 				
