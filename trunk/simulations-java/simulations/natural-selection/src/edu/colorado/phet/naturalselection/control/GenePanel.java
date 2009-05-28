@@ -67,7 +67,7 @@ public class GenePanel extends JPanel {
         setLayout( new GridBagLayout() );
         GridBagConstraints c = new GridBagConstraints();
 
-        colorWhite = new ImagePanel( NaturalSelectionConstants.IMAGE_BUNNY_COLOR );
+        colorWhite = new ImagePanel( NaturalSelectionConstants.IMAGE_BUNNY_COLOR_WHITE );
         colorBrown = new ImagePanel( NaturalSelectionConstants.IMAGE_BUNNY_COLOR_BROWN );
         colorPD = createButton( true );
         colorPR = createButton( false );
@@ -75,15 +75,15 @@ public class GenePanel extends JPanel {
         colorSR = createButton( true );
         createFourGroup( ColorGene.getInstance(), colorPD, colorPR, colorSD, colorSR );
 
-        tailRegular = new ImagePanel( NaturalSelectionConstants.IMAGE_BUNNY_TAIL );
-        tailBig = new ImagePanel( NaturalSelectionConstants.IMAGE_BUNNY_TAIL_BIG );
+        tailRegular = new ImagePanel( NaturalSelectionConstants.IMAGE_BUNNY_TAIL_SHORT );
+        tailBig = new ImagePanel( NaturalSelectionConstants.IMAGE_BUNNY_TAIL_LONG );
         tailPD = createButton( true );
         tailPR = createButton( false );
         tailSD = createButton( false );
         tailSR = createButton( true );
         createFourGroup( TailGene.getInstance(), tailPD, tailPR, tailSD, tailSR );
 
-        teethRegular = new ImagePanel( NaturalSelectionConstants.IMAGE_BUNNY_TEETH );
+        teethRegular = new ImagePanel( NaturalSelectionConstants.IMAGE_BUNNY_TEETH_SHORT );
         teethLong = new ImagePanel( NaturalSelectionConstants.IMAGE_BUNNY_TEETH_LONG );
         teethPD = createButton( true );
         teethPR = createButton( false );
