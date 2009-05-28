@@ -1,5 +1,6 @@
 package edu.colorado.phet.acidbasesolutions.model;
 
+import java.awt.Color;
 import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -15,14 +16,16 @@ public abstract class Solute extends Molecule {
     
     private String conjugateSymbol;
     private Image conjugateIcon;
+    private Color conjugateColor;
     private double concentration; // initial concentration!
     private double strength;
     private final ArrayList<SoluteListener> listeners;
     
-    protected Solute( String name, String symbol, Image icon, String conjugateSymbol, Image conjugateIcon, double strength ) {
-        super( name, symbol, icon );
+    protected Solute( String name, String symbol, Image icon, Color color, String conjugateSymbol, Image conjugateIcon, Color conjugateColor, double strength ) {
+        super( name, symbol, icon, color );
         this.conjugateSymbol = conjugateSymbol;
         this.conjugateIcon = conjugateIcon;
+        this.conjugateColor = conjugateColor;
         if ( !isValidStrength( strength ) ) {
             throw new IllegalArgumentException( "strength is invalid: " + strength );
         }
@@ -49,6 +52,14 @@ public abstract class Solute extends Molecule {
     
     public Image getConjugateIcon() {
         return conjugateIcon;
+    }
+    
+    protected void setConjugateColor( Color conjugateColor ) {
+        this.conjugateColor = conjugateColor;
+    }
+    
+    public Color getConjugateColor() {
+        return conjugateColor;
     }
     
     protected void setStrength( double strength ) {

@@ -57,6 +57,7 @@ abstract class AbstractConcentrationGraphNode extends PComposite {
     private static final Font VALUE_FONT = new PhetFont( Font.PLAIN, 18 );
     private static final TimesTenNumberFormat DEFAULT_VALUE_FORMAT = new TimesTenNumberFormat( "0.00" );
     private static final DecimalFormat H2O_FORMAT = new DefaultDecimalFormat( "#0" );
+    private static final double NEGLIGIBLE_THRESHOLD = 0;
     
     // molecule icons and labels
     private static final Font MOLECULE_LABEL_FONT = new PhetFont( 18 );
@@ -175,9 +176,9 @@ abstract class AbstractConcentrationGraphNode extends PComposite {
         }
         // layout of icons and labels will be handled when they are set
 
-        setMolecule( H3O_INDEX, ABSImages.H3O_PLUS_MOLECULE, ABSSymbols.H3O_PLUS, ABSConstants.H3O_COLOR );
-        setMolecule( OH_INDEX, ABSImages.OH_MINUS_MOLECULE, ABSSymbols.OH_MINUS, ABSConstants.OH_COLOR );
-        setMolecule( H2O_INDEX, ABSImages.H2O_MOLECULE, ABSSymbols.H2O, ABSConstants.H2O_COLOR );
+        setMolecule( H3O_INDEX, ABSSymbols.H3O_PLUS, ABSImages.H3O_PLUS_MOLECULE, ABSConstants.H3O_COLOR );
+        setMolecule( OH_INDEX, ABSSymbols.OH_MINUS, ABSImages.OH_MINUS_MOLECULE, ABSConstants.OH_COLOR );
+        setMolecule( H2O_INDEX, ABSSymbols.H2O, ABSImages.H2O_MOLECULE, ABSConstants.H2O_COLOR );
         setFormat( H2O_INDEX, H2O_FORMAT );
     }
 
@@ -185,12 +186,13 @@ abstract class AbstractConcentrationGraphNode extends PComposite {
     // Setters and getters
     //----------------------------------------------------------------------------
     
-    protected static int getReactantIndex() {
-        return REACTANT_INDEX;
+
+    public void setReactantVisible( boolean visible ) {
+        setVisible( REACTANT_INDEX, visible );
     }
     
-    protected static int getProductIndex() {
-        return PRODUCT_INDEX;
+    public void setProductVisible( boolean visible ) {
+        setVisible( PRODUCT_INDEX, visible );
     }
     
     public void setReactantConcentration( double concentration ) {
@@ -221,14 +223,22 @@ abstract class AbstractConcentrationGraphNode extends PComposite {
         setLabel( PRODUCT_INDEX, text );
     }
     
-    protected void setLabel( int index, String text ) {
+    private void setLabel( int index, String text ) {
         labelNodes[index].setText( text );
         updateMoleculeLayout( index );
     }
     
-    protected void setMolecule( int index, Image image, String text, Color barColor ) {
-        iconNodes[index].setImage( image );
+    public void setReactantMolecule( String text, Image image, Color barColor ) {
+        setMolecule( REACTANT_INDEX, text, image, barColor );
+    }
+    
+    public void setProductMolecule( String text, Image image, Color barColor ) {
+        setMolecule( PRODUCT_INDEX, text, image, barColor );
+    }
+    
+    private void setMolecule( int index, String text, Image image, Color barColor ) {
         labelNodes[index].setText( text );
+        iconNodes[index].setImage( image );
         barNodes[index].setPaint( barColor );
         updateMoleculeLayout( index );
     }
@@ -251,23 +261,27 @@ abstract class AbstractConcentrationGraphNode extends PComposite {
         labelNode.setOffset( xOffset, yOffset );
     }
     
-    protected void setConcentration( int index, double value ) {
+    private void setConcentration( int index, double value ) {
         valueNodes[index].setValue( value );
         barNodes[index].setBarHeight( calculateBarHeight( value ) );
     }
     
-    protected void setVisible( int index, boolean visible ) {
+    private void setVisible( int index, boolean visible ) {
         barNodes[index].setVisible( visible );
         valueNodes[index].setVisible( visible );
         iconNodes[index].setVisible( visible );
         labelNodes[index].setVisible( visible );
     }
     
-    protected void setFormat( int index, NumberFormat format ) {
+    private void setFormat( int index, NumberFormat format ) {
         valueNodes[index].setFormat( format );
     }
     
-    protected void setNegligibleEnabled( int index, boolean enabled, double threshold ) {
+    public void setReactantNegligibleEnabled( boolean enabled ) {
+        setNegligibleEnabled( REACTANT_INDEX, enabled, NEGLIGIBLE_THRESHOLD );
+    }
+    
+    private void setNegligibleEnabled( int index, boolean enabled, double threshold ) {
         valueNodes[index].setNegligibleEnabled( enabled, threshold );
     }
     
