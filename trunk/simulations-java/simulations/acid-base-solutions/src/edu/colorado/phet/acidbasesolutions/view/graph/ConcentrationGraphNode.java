@@ -9,6 +9,7 @@ import edu.colorado.phet.acidbasesolutions.model.Base.CustomBase;
 import edu.colorado.phet.acidbasesolutions.model.Base.StrongBase;
 import edu.colorado.phet.acidbasesolutions.model.Base.WeakBase;
 import edu.colorado.phet.acidbasesolutions.model.concentration.*;
+import edu.colorado.phet.acidbasesolutions.model.equilibrium.*;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
