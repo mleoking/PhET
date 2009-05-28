@@ -18,6 +18,7 @@ ISSUES:
 - if A- icon shows a "hole" where proton was donated, why doesn't B icon show a hole where proton can be accepted?
 
 DONE:
+5/28/09 expand solute interface and make it more common across all acid and base types
 5/28/09 simplify molecule counts class hierarchy
 5/28/09 terminology change: concentration model -> equilibrium model
 5/28/09 ensure that View controls don't overlap beaker

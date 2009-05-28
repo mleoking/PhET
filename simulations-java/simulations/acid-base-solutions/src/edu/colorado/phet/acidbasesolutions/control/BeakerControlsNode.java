@@ -13,14 +13,10 @@ import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.ABSSymbols;
-import edu.colorado.phet.acidbasesolutions.model.Acid;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.model.NoSolute;
 import edu.colorado.phet.acidbasesolutions.model.Solute;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.SolutionAdapter;
-import edu.colorado.phet.acidbasesolutions.model.Base.CustomBase;
-import edu.colorado.phet.acidbasesolutions.model.Base.StrongBase;
-import edu.colorado.phet.acidbasesolutions.model.Base.WeakBase;
 import edu.colorado.phet.acidbasesolutions.view.beaker.BeakerNode;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
@@ -173,27 +169,7 @@ public class BeakerControlsNode extends PNode {
         private void updateRatioLabels() {
             Solute solute = solution.getSolute();
             beakerControlsNode.setDissociatedComponentsCheckBoxVisible( !(solute instanceof NoSolute ) );
-            if ( solute instanceof Acid ) {
-                Acid acid = (Acid) solute;
-                beakerControlsNode.setDissociatedComponents( acid.getSymbol(), acid.getConjugateSymbol() );
-            }
-            else if ( solute instanceof WeakBase ) {
-                WeakBase base = (WeakBase) solute;
-                beakerControlsNode.setDissociatedComponents( base.getSymbol(), base.getConjugateSymbol() );
-            }
-            else if ( solute instanceof StrongBase ) {
-                StrongBase base = (StrongBase) solute;
-                beakerControlsNode.setDissociatedComponents( base.getSymbol(), base.getMetalSymbol() );
-            }
-            else if ( solute instanceof CustomBase ) {
-                CustomBase base = (CustomBase) solute;
-                if ( base.isStrong() ) {
-                    beakerControlsNode.setDissociatedComponents( base.getSymbol(), base.getMetalSymbol() );
-                }
-                else {
-                    beakerControlsNode.setDissociatedComponents( base.getSymbol(), base.getConjugateSymbol() );
-                }
-            }
+            beakerControlsNode.setDissociatedComponents( solute.getSymbol(), solute.getConjugateSymbol() );
         }
     }
 }

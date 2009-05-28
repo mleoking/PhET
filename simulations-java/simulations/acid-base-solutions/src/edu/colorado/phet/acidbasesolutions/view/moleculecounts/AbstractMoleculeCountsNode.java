@@ -83,7 +83,7 @@ abstract class AbstractMoleculeCountsNode extends PComposite {
         setIconAndLabel( H3O_INDEX, ABSImages.H3O_PLUS_MOLECULE, ABSSymbols.H3O_PLUS );
         setIconAndLabel( OH_INDEX, ABSImages.OH_MINUS_MOLECULE, ABSSymbols.OH_MINUS );
         setIconAndLabel( H2O_INDEX, ABSImages.H2O_MOLECULE, ABSSymbols.H2O );
-        setFormat( H2O_INDEX, VALUE_FORMAT_H2O );
+        setCountFormat( H2O_INDEX, VALUE_FORMAT_H2O );
         
         updateLayout();
     }
@@ -162,12 +162,12 @@ abstract class AbstractMoleculeCountsNode extends PComposite {
         setCount( H2O_INDEX, count );
     }
 
-    protected void setCount( int row, double count ) {
+    private void setCount( int row, double count ) {
         countNodes[row].setValue( count );
         updateCountLayout( row );
     }
     
-    protected void setCountFormat( int row, NumberFormat format ) {
+    private void setCountFormat( int row, NumberFormat format ) {
         countNodes[row].setFormat( format );
         updateCountLayout( row );
     }
@@ -176,7 +176,7 @@ abstract class AbstractMoleculeCountsNode extends PComposite {
         setNegligibleEnabled( REACTANT_INDEX, enabled, NEGLIGIBLE_THRESHOLD );
     }
     
-    protected void setNegligibleEnabled( int row, boolean enabled, double negligibleThreshold ) {
+    private void setNegligibleEnabled( int row, boolean enabled, double negligibleThreshold ) {
         countNodes[row].setNegligibleEnabled( enabled, negligibleThreshold );
         updateCountLayout( row );
     }
@@ -189,7 +189,7 @@ abstract class AbstractMoleculeCountsNode extends PComposite {
         setIcon( PRODUCT_INDEX, image );
     }
     
-    protected void setIcon( int row, Image image ) {
+    private void setIcon( int row, Image image ) {
         iconNodes[row].setImage( image );
         updateLayout();
     }
@@ -202,24 +202,20 @@ abstract class AbstractMoleculeCountsNode extends PComposite {
         setLabel( PRODUCT_INDEX, text );
     }
     
-    protected void setLabel( int row, String text ) {
+    private void setLabel( int row, String text ) {
         labelNodes[row].setHTML( text );
         updateLabelLayout( row );
     }
     
-    protected void setIconAndLabel( int row, Image image, String text ) {
+    private void setIconAndLabel( int row, Image image, String text ) {
         setIcon( row, image );
         setLabel( row, text );
     }
     
-    protected void setVisible( int row, boolean visible ) {
+    private void setVisible( int row, boolean visible ) {
         countNodes[row].setVisible( visible );
         iconNodes[row].setVisible( visible );
         labelNodes[row].setVisible( visible );
-    }
-    
-    protected void setFormat( int row, NumberFormat format ) {
-        countNodes[row].setFormat( format );
     }
     
     //----------------------------------------------------------------------------

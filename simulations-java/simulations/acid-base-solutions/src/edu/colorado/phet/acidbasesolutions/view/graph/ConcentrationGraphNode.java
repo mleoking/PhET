@@ -152,10 +152,10 @@ public class ConcentrationGraphNode extends PComposite {
                 node.setReactantLabel( solution.getSolute().getSymbol() );
                 Solute solute = solution.getSolute();
                 if ( solute instanceof StrongBase ) {
-                    node.setProductLabel( ((StrongBase)solution.getSolute()).getMetalSymbol() );
+                    node.setProductLabel( ((StrongBase)solution.getSolute()).getConjugateSymbol() );
                 }
                 else if ( solute instanceof CustomBase ) {
-                    node.setProductLabel( ((CustomBase)solution.getSolute()).getMetalSymbol() );
+                    node.setProductLabel( ((CustomBase)solution.getSolute()).getConjugateSymbol() );
                 }
                 else {
                     throw new IllegalStateException( "unexpected solute type: " + solute.getClass().getName() );
