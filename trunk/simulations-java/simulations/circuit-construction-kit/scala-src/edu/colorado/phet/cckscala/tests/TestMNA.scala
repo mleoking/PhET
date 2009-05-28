@@ -64,17 +64,17 @@ object TestMNA {
     case class UnknownVoltage(node: Int) extends Unknown {
       def toTermName = "V" + node
     }
-    def getNodeAssignments(node: Int) = {
+    def getCurrentConservationAssignments(node: Int) = {
       val nodeAssignments = new ArrayBuffer[Assignment]
-      for (b <- batteries if b.node0 == node) nodeAssignments += new Assignment(1, new UnknownCurrent(b.node0, b.node1))
-      for (b <- batteries if b.node1 == node) nodeAssignments += new Assignment(-1, new UnknownCurrent(b.node0, b.node1))
+      for (b <- batteries if b.node0 == node) nodeAssignments += Assignment(1, UnknownCurrent(b.node0, b.node1))
+      for (b <- batteries if b.node1 == node) nodeAssignments += Assignment(-1, UnknownCurrent(b.node0, b.node1))
       for (r <- resistors if r.node0 == node) {
-        nodeAssignments += new Assignment(1 / r.resistance, new UnknownVoltage(r.node0))
-        nodeAssignments += new Assignment(1 / r.resistance, new UnknownVoltage(r.node1))
+        nodeAssignments += Assignment(1 / r.resistance, UnknownVoltage(r.node0))
+        nodeAssignments += Assignment(1 / r.resistance, UnknownVoltage(r.node1))
       }
       for (r <- resistors if r.node1 == node) {
-        nodeAssignments += new Assignment(-1 / r.resistance, new UnknownVoltage(r.node0))
-        nodeAssignments += new Assignment(-1 / r.resistance, new UnknownVoltage(r.node1))
+        nodeAssignments += Assignment(-1 / r.resistance, UnknownVoltage(r.node0))
+        nodeAssignments += Assignment(-1 / r.resistance, UnknownVoltage(r.node1))
       }
       nodeAssignments
     }
@@ -82,20 +82,20 @@ object TestMNA {
     def getEquations = {
       val list = new ArrayBuffer[Equation]
       println("nodeset=" + getNodeSet)
-      //reference node
-      list += new Equation(0, new Assignment(1, new UnknownVoltage(getNodeSet.toSeq(0))))
+      //reference node has a voltage of 0.0
+      list += new Equation(0, Assignment(1, UnknownVoltage(getNodeSet.toSeq(0))))
       //for each node, charge is conserved
-      for (node <- getNodeSet) list += new Equation(0, getNodeAssignments(node): _*) //see p. 155 scala book
+      for (node <- getNodeSet) list += new Equation(0, getCurrentConservationAssignments(node): _*) //see p. 155 scala book
       //for each battery, voltage drop is given
-      for (b <- batteries) list += new Equation(b.voltage, new Assignment(-1, new UnknownVoltage(b.node0)), new Assignment(1, new UnknownVoltage(b.node1)))
+      for (battery <- batteries) list += new Equation(battery.voltage, Assignment(-1, UnknownVoltage(battery.node0)), Assignment(1, UnknownVoltage(battery.node1)))
       list
     }
 
     def getUnknowns = {
       val list = new ArrayBuffer[Unknown]
       val ns = getNodeSet
-      for (n <- ns) list += new UnknownVoltage(n)
-      for (b <- batteries) list += new UnknownCurrent(b.node0, b.node1)
+      for (n <- ns) list += UnknownVoltage(n)
+      for (b <- batteries) list += UnknownCurrent(b.node0, b.node1)
       list
     }
 
