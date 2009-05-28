@@ -4,6 +4,7 @@ package edu.colorado.phet.nuclearphysics.module.decayrates;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
@@ -11,6 +12,7 @@ import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
 import edu.colorado.phet.nuclearphysics.common.model.AbstractDecayNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
+import edu.colorado.phet.nuclearphysics.common.model.NuclearDecayModelListener;
 import edu.colorado.phet.nuclearphysics.model.AdjustableHalfLifeNucleus;
 import edu.colorado.phet.nuclearphysics.model.Carbon14Nucleus;
 import edu.colorado.phet.nuclearphysics.model.Uranium238Nucleus;
@@ -31,8 +33,8 @@ public class DecayRatesModel extends MultiNucleusDecayModel {
 	
 	private static final int MAX_NUCLEI = 1000;
 	private static final int NUCLEUS_TYPE = NuclearPhysicsConstants.NUCLEUS_ID_CARBON_14;
-	private static final double INITIAL_WORLD_WIDTH = 800;  // Femtometers
-	private static final double INITIAL_WORLD_HEIGHT = INITIAL_WORLD_WIDTH * 0.4;  // Femtometers
+	private static final double INITIAL_WORLD_WIDTH = 800;  // In femtometers
+	private static final double INITIAL_WORLD_HEIGHT = INITIAL_WORLD_WIDTH * 0.4;  // In femtometers
 	
 	private static final int PLACEMENT_LOCATION_SEARCH_COUNT = 100;
 	private static final double DEFAULT_MIN_INTER_NUCLEUS_DISTANCE = 20;
@@ -48,6 +50,7 @@ public class DecayRatesModel extends MultiNucleusDecayModel {
 	private static final Random _rand = new Random();
 	private double _worldSizeX = INITIAL_WORLD_WIDTH;
 	private double _worldSizeY = INITIAL_WORLD_HEIGHT;
+	private int _numActiveNuclei = 0;
 
     //------------------------------------------------------------------------
     // Constructor(s)
@@ -58,6 +61,19 @@ public class DecayRatesModel extends MultiNucleusDecayModel {
      */
     public DecayRatesModel(NuclearPhysicsClock clock) {
     	super( clock, MAX_NUCLEI, NUCLEUS_TYPE );
+    	
+    	// Register with each nucleus so that we can keep track of their states.
+    	for (AbstractDecayNucleus nucleus : _atomicNuclei){
+    		nucleus.addListener(new AbstractDecayNucleus.Adapter(){
+    			public void activated(AtomicNucleus nucleus){
+    				handleNucleusActivated();
+    			}
+    			public void nucleusChangeEvent(AtomicNucleus atomicNucleus,
+    					int numProtons, int numNeutrons, ArrayList byProducts) {
+    				handleNucleusDecayed(atomicNucleus);
+    			};
+    		});
+    	}
     }
     
     //------------------------------------------------------------------------
@@ -235,5 +251,61 @@ public class DecayRatesModel extends MultiNucleusDecayModel {
         }
         
         return openLocation;
+    }
+    
+    /**
+     * Convert a value representing simulation time to the corresponding
+     * adjusted value according to the nucleus (which may be as much as
+     * billions of years).
+     * 
+     * @param simTime
+     */
+    public double convertSimTimeToAdjustedTime(double simTime){
+    	double conversionFactor = 1;
+    	if (_atomicNuclei.size() > 1){
+    		conversionFactor = _atomicNuclei.get(0).getDecayTimeScalingFactor();
+    	}
+    	else{
+    		System.err.println(this.getClass().getName() + "Warning: No nuclei available to provide conversion factor.");
+    		assert false;
+    	}
+    	return simTime / conversionFactor;
+    }
+    
+    private void handleNucleusActivated(){
+    	if (_numActiveNuclei == 0){
+    		notifyFirstNucleusActivated();
+    	}
+    	_numActiveNuclei++;
+    }
+    
+    private void handleNucleusDecayed(AtomicNucleus atomicNucleus){
+    	if (_numActiveNuclei > 0){
+    		_numActiveNuclei--;
+    	}
+    }
+    
+	protected void notifyFirstNucleusActivated() {
+	    for (int i = 0; i < _listeners.size(); i++){
+	        ((Listener)_listeners.get(i)).firstNucleusActivated();
+	    }
+	}
+    
+    public static interface Listener extends NuclearDecayModelListener{
+    	
+    	/**
+    	 * This method is used to inform any listeners that the first nucleus
+    	 * has been activated.  This is only sent when all nuclei have been
+    	 * reset and then one or more is activated.
+    	 */
+    	void firstNucleusActivated();
+    }
+    
+    public static class Adapter implements Listener {
+		public void firstNucleusActivated() { }
+		public void halfLifeChanged() { }
+		public void modelElementAdded(Object modelElement) { }
+		public void modelElementRemoved(Object modelElement) { }
+		public void nucleusTypeChanged() { }
     }
 }
