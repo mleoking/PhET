@@ -13,9 +13,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -40,8 +37,8 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
- * This class represents the canvas upon which the view of the radiometric
- * element model is displayed.
+ * This class represents the canvas that presents a view of many nuclei
+ * decaying.
  *
  * @author John Blanco
  */
@@ -382,6 +379,12 @@ public class DecayRatesCanvas extends PhetPCanvas {
     	return numberOfNucleiMoved;
     }
     
+    /**
+     * Handle a notification from the model that an element (generally a
+     * nucleus) was added.
+     * 
+     * @param modelElement
+     */
 	private void handleModelElementAdded(Object modelElement) {
 
     	if (modelElement instanceof AtomicNucleus){
@@ -452,8 +455,6 @@ public class DecayRatesCanvas extends PhetPCanvas {
 		if (_chartRefreshCounter % CHART_REFRESH_COUNT == 0){
 			_proportionsChart.addDataPoint(_model.convertSimTimeToAdjustedTime(clockEvent.getSimulationTime()),
 					_model.getNumActiveNuclei(), _model.getNumDecayedNuclei());
-			
-			System.out.println("---> " + _model.convertSimTimeToAdjustedTime(clockEvent.getSimulationTime()));
 		}
 	}
 }
