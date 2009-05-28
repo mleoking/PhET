@@ -15,7 +15,6 @@ import java.util.Random;
  * it from contiguous layers (definition obtained from wikipedia).
  */
 public class Stratum {
-    private double bottomOfStratumY;
     private LayerLine _topLine;
     private LayerLine _bottomLine;
     private GeneralPath _path = new GeneralPath();
@@ -30,8 +29,6 @@ public class Stratum {
     		throw new IllegalArgumentException("No portion of bottom line can be above top line.");
     	}
     	
-    	this.bottomOfStratumY = bottomLine.getMaxDepth();
-    	
     	// Create the shape that will represent this stratum.
     	_path.append(topLine, true);
     	_path.append(new Line2D.Double(_topLine.getRightmostPoint(), _bottomLine.getRightmostPoint()), true);
@@ -44,7 +41,7 @@ public class Stratum {
     }
     
     public double getBottomOfStratumY() {
-        return bottomOfStratumY;
+        return _bottomLine.getMaxDepth();
     }
 
     public LayerLine getTopLine() {
@@ -53,6 +50,64 @@ public class Stratum {
 
     public LayerLine getBottomLine() {
         return _bottomLine;
+    }
+    
+    /**
+     * Get the y location of the bottom of the stratum at the given horizontal
+     * location.
+     */
+    public double getBottomYGivenX( double xPos ){
+    	return getYForGivenX(xPos, _bottomLine);
+    }
+    
+    /**
+     * Get the y location of the top of the stratum at the given horizontal
+     * location.
+     */
+    public double getTopYGivenX( double xPos ){
+    	return getYForGivenX(xPos, _topLine);
+    }
+    
+    private double getYForGivenX( double xPos, CubicCurve2D layerLine ){
+    	// Validate arguments.
+    	if (xPos < layerLine.getP1().getX() || xPos > layerLine.getP2().getX()){
+    		System.err.println(this.getClass().getName() + ": Warning - given point outside stratum width.");
+    		assert false;
+    		return 0;
+    		
+    	}
+    	double proportion = (xPos - layerLine.getP1().getX()) / (layerLine.getP2().getX() - layerLine.getP1().getX());
+    	
+    	return evaluateCurve(layerLine, proportion).getY();
+    }
+    
+    /**
+     * Evaluate the curve in order to locate a point given a distance along
+     * the curve.  This uses the DeCasteljau algorithm.
+     * 
+     * @param curve - The CubicCurve2D that is being evaluated.
+     * @param t - proportional distance along the curve from the first control point, must be from 0 to 1.
+     * @return point corresponding to the location of the curve at the specified distance.
+     */
+    private Point2D evaluateCurve(CubicCurve2D curve, double t){
+        if ( t < 0 || t > 1 ) {
+            throw new IllegalArgumentException( "t is out of range: " + t );
+        }
+        Point2D ab = linearInterpolation(curve.getP1(), curve.getCtrlP1(), t);
+        Point2D bc = linearInterpolation(curve.getCtrlP1(), curve.getCtrlP2(), t);
+        Point2D cd = linearInterpolation(curve.getCtrlP2(), curve.getP2(), t);
+        Point2D abbc = linearInterpolation(ab, bc, t);
+        Point2D bccd = linearInterpolation(bc, cd, t);
+        
+        return linearInterpolation(abbc, bccd, t);
+
+    }
+    
+    /**
+     * Simple linear interpolation between two points.
+     */
+    private Point2D linearInterpolation(Point2D a, Point2D b, double t){
+    	return ( new Point2D.Double( a.getX() + (b.getX() - a.getX()) * t,  a.getY() + (b.getY() - a.getY()) * t));
     }
     
     /**
