@@ -58,7 +58,7 @@ public class RadioactiveDatingGameModel extends SimpleObservable {
         }
 
         // Add the datable objects.
-        // Params:                             name, image file, location(x, y), size, age (ms), rotation angle
+        // Params:                             name, image file, location(x, y), size, rotation angle (radians), age (ms)
         _datableObjects.add(new DatableObject("House", "house.png", new Point2D.Double(8, 4), 6.5, 0, MultiNucleusDecayModel.convertYearsToMs(75)));
         _datableObjects.add(new DatableObject("Trilobyte", "trilobyte_fossil.png", new Point2D.Double(0, -11), 3.5, 0, MultiNucleusDecayModel.convertYearsToMs(500E6)));
     	_datableObjects.add(new DatableObject("Animal Skull", "skull_animal.png", new Point2D.Double(-21, 2), 3, Math.PI/4, MultiNucleusDecayModel.convertYearsToMs(25)));

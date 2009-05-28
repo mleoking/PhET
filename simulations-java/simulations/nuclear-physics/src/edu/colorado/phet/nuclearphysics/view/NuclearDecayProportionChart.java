@@ -21,6 +21,7 @@ import javax.swing.JFrame;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PieChartNode;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.colorado.phet.common.piccolophet.nodes.PieChartNode.PieValue;
@@ -64,9 +65,6 @@ public class NuclearDecayProportionChart extends PNode {
     // Half life of primary (i.e. decaying) element.
 	private double _halfLife; // Half life of decaying element, in milliseconds.
 	
-	// Total number of nuclei represented by the chart.
-	private int _numNuclei = 1000;  // Can be set by user if desired.
-
 	// Variables that control chart appearance.
 	private String _preDecayElementLabel;
 	private Color _preDecayLabelColor;
@@ -78,11 +76,6 @@ public class NuclearDecayProportionChart extends PNode {
 
 	// References to the various components of the chart.
     private PPath _borderNode;
-    private ShadowPText _numUndecayedNucleiLabel;
-    private PText _numUndecayedNucleiText;
-    private ShadowPText _numDecayedNucleiLabel;
-    private PText _numDecayedNucleiText;
-    private PText _dummyNumberText;
     private ProportionsPieChartNode _pieChart;
     private GraphNode _graph;
 
@@ -103,9 +96,8 @@ public class NuclearDecayProportionChart extends PNode {
     // Constructor
     //------------------------------------------------------------------------
 
-    public NuclearDecayProportionChart(int numNuclei, boolean pieChartEnabled){
+    public NuclearDecayProportionChart(boolean pieChartEnabled){
     	
-    	_numNuclei = numNuclei;
     	_pieChartEnabled = pieChartEnabled;
 
     	// Many of the following initializations are arbitrary, and the chart
@@ -337,6 +329,13 @@ public class NuclearDecayProportionChart extends PNode {
 		}
     }
     
+    public void addDataPoint(double time, int numUndecayed, int numDecayed){
+		// Update the pie chart if it is present.
+		if ( _pieChart != null ){
+			_pieChart.setAmounts(numUndecayed, numDecayed);
+		}
+    }
+    
     /**
      * This class defines a node that consists of a pie chart and the various
      * labels needed for this chart.  It assumes only two sections exist, one
@@ -346,11 +345,12 @@ public class NuclearDecayProportionChart extends PNode {
     private static class ProportionsPieChartNode extends PNode {
 
     	// Constants that control chart appearance and behavior.
+    	private static final double INITIAL_ASPECT_RATIO = 0.75;
     	private static final double INITIAL_OVERALL_WIDTH = 100;
+    	private static final double INITIAL_OVERALL_HEIGHT = INITIAL_OVERALL_WIDTH / INITIAL_ASPECT_RATIO;
     	private static final double PIE_CHART_WIDTH_PROPORTION = 0.9;
     	private static final int INITIAL_PIE_CHART_WIDTH = (int)(Math.round(INITIAL_OVERALL_WIDTH * PIE_CHART_WIDTH_PROPORTION));
-    	private static final Font LABEL_FONT = new PhetFont(14);
-    	
+    	private static final Font LABEL_FONT = new PhetFont(18);
     	
     	// The various elements of the chart.
     	private PieChartNode _pieChartNode;
@@ -374,6 +374,8 @@ public class NuclearDecayProportionChart extends PNode {
 	                new PieChartNode.PieValue( 100, _chart._preDecayLabelColor ),
 	                new PieChartNode.PieValue( 0, _chart._postDecayLabelColor )};
 	        _pieChartNode = new PieChartNode( pieChartValues, new Rectangle(INITIAL_PIE_CHART_WIDTH, INITIAL_PIE_CHART_WIDTH) );
+	        _pieChartNode.setOffset(INITIAL_OVERALL_WIDTH / 2 - _pieChartNode.getFullBoundsReference().width / 2,
+	        		INITIAL_OVERALL_HEIGHT / 2 - _pieChartNode.getFullBounds().height / 2);
 	        addChild( _pieChartNode );
 	        
 	        // Create and add the labels.
@@ -386,19 +388,19 @@ public class NuclearDecayProportionChart extends PNode {
 	        addChild(_preDecayLabel);
 	        _postDecayLabel = new ShadowPText();
 	        _postDecayLabel.setFont(LABEL_FONT);
-	        _postDecayLabel.setOffset(0, _pieChartNode.getFullBoundsReference().getMaxY());
+	        _postDecayLabel.setOffset(0, INITIAL_OVERALL_HEIGHT - dummySizingNode.getFullBoundsReference().height);
 	        addChild(_postDecayLabel);
 	        _numberPreDecayRemaining = new PText();
 	        _numberPreDecayRemaining.setFont(LABEL_FONT);
 	        _numberPreDecayRemaining.setOffset(
-	        		getFullBoundsReference().width - dummySizingNode.getFullBoundsReference().width,
+	        		INITIAL_OVERALL_WIDTH - dummySizingNode.getFullBoundsReference().width,
 	        		0);
 	        addChild(_numberPreDecayRemaining);
 	        _numberPostDecayRemaining = new PText();
 	        _numberPostDecayRemaining.setFont(LABEL_FONT);
-	        _numberPreDecayRemaining.setOffset(
-	        		getFullBoundsReference().width - dummySizingNode.getFullBoundsReference().width,
-	        		getFullBoundsReference().height - dummySizingNode.getFullBoundsReference().height);
+	        _numberPostDecayRemaining.setOffset(
+	        		INITIAL_OVERALL_WIDTH - dummySizingNode.getFullBoundsReference().width,
+	        		INITIAL_OVERALL_HEIGHT - dummySizingNode.getFullBoundsReference().height);
 	        addChild(_numberPostDecayRemaining);
 	        
 	        // TODO: temp for testing label placement.
@@ -429,8 +431,24 @@ public class NuclearDecayProportionChart extends PNode {
 			_pieChartNode.setPieValues(pieChartValues);
 		}
 		
-		public void update(){
+		public void setAmounts(int numUndecayed, int numDecayed){
 			
+			// Set the text on the labels.
+			_numberPreDecayRemaining.setText(Integer.toString(numUndecayed));
+			_numberPostDecayRemaining.setText(Integer.toString(numDecayed));
+
+			if ((numUndecayed == 0) && (numDecayed == 0)){
+				// For the special case where both are zero, set undecayed to
+				// be one so that the pie chart is all one color.
+				numUndecayed = 1;
+			}
+			
+			// Set the proportions of the pie chart.
+			PieChartNode.PieValue[] pieChartValues = new PieValue[]{
+	                new PieChartNode.PieValue( numUndecayed, _chart._preDecayLabelColor ),
+	                new PieChartNode.PieValue( numDecayed, _chart._postDecayLabelColor )};
+			
+			_pieChartNode.setPieValues(pieChartValues);
 		}
 		
 		/**
@@ -438,44 +456,41 @@ public class NuclearDecayProportionChart extends PNode {
 		 * decayed and will also reset the labels.
 		 */
 		public void reset(){
-			PieChartNode.PieValue[] pieChartValues = new PieValue[]{
-	                new PieChartNode.PieValue( 100, _chart._preDecayLabelColor ),
-	                new PieChartNode.PieValue( 0, _chart._postDecayLabelColor )};
 			
-			_pieChartNode.setPieValues(pieChartValues);
-
+			setAmounts(0, 0);
+			
+			// Set the colors of the labels.
+			
+			_preDecayLabel.setTextPaint(_chart._preDecayLabelColor);
+			_postDecayLabel.setTextPaint(_chart._postDecayLabelColor);
 		}
     }
     
     /**
      * This class represents the graph portion of this chart, meaning the
      * portion with the axes, data curves, etc.
-     * 
      */
     private static class GraphNode extends PNode {
 
     	// Constants that control the appearance of the graph.
         private static final float  THICK_AXIS_LINE_WIDTH = 2.5f;
-        private final Stroke THICK_AXIS_STROKE = new BasicStroke( THICK_AXIS_LINE_WIDTH );
+        private static final Stroke THICK_AXIS_STROKE = new BasicStroke( THICK_AXIS_LINE_WIDTH );
         private static final float  THIN_AXIS_LINE_WIDTH = 0.75f;
-        private final Stroke THIN_AXIS_STROKE = new BasicStroke( THIN_AXIS_LINE_WIDTH );
-        private final  Color  AXES_LINE_COLOR = Color.BLACK;
+        private static final Stroke THIN_AXIS_STROKE = new BasicStroke( THIN_AXIS_LINE_WIDTH );
+        private static final  Color  AXES_LINE_COLOR = Color.BLACK;
         private static final double TICK_MARK_LENGTH = 3;
         private static final float  TICK_MARK_WIDTH = 2;
-        private final Stroke TICK_MARK_STROKE = new BasicStroke( TICK_MARK_WIDTH );
-        private final Font   TICK_MARK_LABEL_FONT = new PhetFont( Font.PLAIN, 12 );
-        private final Color  TICK_MARK_COLOR = AXES_LINE_COLOR;
-        private final Font   SMALL_LABEL_FONT = new PhetFont( Font.PLAIN, 14 );
-        private final Font   LARGE_LABEL_FONT = new PhetFont( Font.BOLD, 18 );
+        private static final Stroke TICK_MARK_STROKE = new BasicStroke( TICK_MARK_WIDTH );
+        private static final Color  TICK_MARK_COLOR = AXES_LINE_COLOR;
+        private static final Font   PLAIN_LABEL_FONT = new PhetFont( Font.PLAIN, 14 );
+        private static final Font   BOLD_LABEL_FONT = new PhetFont( Font.BOLD, 18 );
         private static final float  HALF_LIFE_LINE_STROKE_WIDTH = 2.0f;
-        private final Stroke HALF_LIFE_LINE_STROKE = new BasicStroke( HALF_LIFE_LINE_STROKE_WIDTH, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 3.0f, 3.0f }, 0 );
-        private final Color  HALF_LIFE_LINE_COLOR = new Color (238, 0, 0);
-        private final Color  HALF_LIFE_TEXT_COLOR = HALF_LIFE_LINE_COLOR;
-        private final Font   HALF_LIFE_FONT = new PhetFont( Font.BOLD, 16 );
+        private static final Stroke HALF_LIFE_LINE_STROKE = new BasicStroke( HALF_LIFE_LINE_STROKE_WIDTH, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 3.0f, 3.0f }, 0 );
+        private static final Color  HALF_LIFE_LINE_COLOR = new Color (238, 0, 0);
         private static final float  DATA_CURVE_LINE_WIDTH_PROPORTION = 0.02f;
 
         // Constants that control other proportionate aspects of the graph.
-        private static final double GRAPH_TEXT_HEIGHT_PROPORTION = 0.1;
+        private static final double GRAPH_TEXT_HEIGHT_PROPORTION = 0.07;
         
         // For enabling/disabling the sizing rectangle.
         private static final boolean SIZING_RECT_VISIBLE = false;
@@ -485,14 +500,15 @@ public class NuclearDecayProportionChart extends PNode {
 
         // Various components that make up the graph.
     	private PPath _sizingRect;
-        private ArrayList _halfLifeLines = new ArrayList();
+        private ArrayList<PPath> _halfLifeLines = new ArrayList<PPath>();
+        private ArrayList<PText> _halfLifeLineLabels = new ArrayList<PText>();
         private final PPath _lowerXAxisOfGraph;
         private final PText _lowerXAxisLabel;
         private final PPath _upperXAxisOfGraph;
         private final PPath _yAxisOfGraph;
-        private ArrayList _xAxisTickMarks;
-        private ArrayList<PText> _xAxisTickMarkLabels;
-        private ArrayList _yAxisTickMarks;
+        private ArrayList<PhetPPath> _xAxisTickMarks = new ArrayList<PhetPPath>();
+        private ArrayList<PText> _xAxisTickMarkLabels = new ArrayList<PText>();
+        private ArrayList _yAxisGridLines;
         private ArrayList<PText> _yAxisTickMarkLabels = new ArrayList<PText>();
         private final HTMLNode _yAxisLabel;
         private final PText _upperXAxisLabel;
@@ -509,7 +525,15 @@ public class NuclearDecayProportionChart extends PNode {
         // Rectangle that defines the size and position of the graph excluding
         // all the labels and such.
         private final Rectangle2D _graphRect = new Rectangle2D.Double();
+        
+        // Controls relative size of the labels.
+		private double _labelScalingFactor;
 
+		/**
+		 * Constructor
+		 * 
+		 * @param parentChart
+		 */
 		public GraphNode( NuclearDecayProportionChart parentChart ) {
 
 			_chart = parentChart;
@@ -550,7 +574,7 @@ public class NuclearDecayProportionChart extends PNode {
 	        
 	        // Add the X axis label.
 	        _lowerXAxisLabel = new PText();
-	        _lowerXAxisLabel.setFont(new PhetFont());
+	        _lowerXAxisLabel.setFont(BOLD_LABEL_FONT);
 	        _nonPickableGraphLayer.addChild(_lowerXAxisLabel);
 
 	        // Create the y axis of the graph.
@@ -562,19 +586,19 @@ public class NuclearDecayProportionChart extends PNode {
 	        
 	        // Add the text for the Y axis tick marks.
 	        PText tempText = new PText( NuclearPhysicsStrings.TWENTY_FIVE_PER_CENT );
-	        tempText.setFont(SMALL_LABEL_FONT);
+	        tempText.setFont(BOLD_LABEL_FONT);
 	        _nonPickableGraphLayer.addChild(tempText);
 	        _yAxisTickMarkLabels.add(tempText);
 	        tempText = new PText( NuclearPhysicsStrings.FIFTY_PER_CENT );
-	        tempText.setFont(SMALL_LABEL_FONT);
+	        tempText.setFont(BOLD_LABEL_FONT);
 	        _nonPickableGraphLayer.addChild(tempText);
 	        _yAxisTickMarkLabels.add(tempText);
 	        tempText = new PText( NuclearPhysicsStrings.SEVENTY_FIVE_PER_CENT );
-	        tempText.setFont(SMALL_LABEL_FONT);
+	        tempText.setFont(BOLD_LABEL_FONT);
 	        _nonPickableGraphLayer.addChild(tempText);
 	        _yAxisTickMarkLabels.add(tempText);
 	        tempText = new PText( NuclearPhysicsStrings.ONE_HUNDRED_PER_CENT );
-	        tempText.setFont(SMALL_LABEL_FONT);
+	        tempText.setFont(BOLD_LABEL_FONT);
 	        _nonPickableGraphLayer.addChild(tempText);
 	        _yAxisTickMarkLabels.add(tempText);
 	        
@@ -585,7 +609,7 @@ public class NuclearDecayProportionChart extends PNode {
 	        
 	        // Add the label for the upper X axis.
 	        _upperXAxisLabel = new PText( NuclearPhysicsStrings.HALF_LIVES_LABEL );
-	        _upperXAxisLabel.setFont( SMALL_LABEL_FONT );
+	        _upperXAxisLabel.setFont( BOLD_LABEL_FONT );
 	        _nonPickableGraphLayer.addChild( _upperXAxisLabel );
 	        
 			_sizingRect = new PPath();
@@ -605,6 +629,9 @@ public class NuclearDecayProportionChart extends PNode {
 			
 			double scale;
 	        double graphLabelHeight = newHeight * GRAPH_TEXT_HEIGHT_PROPORTION;
+	        PText dummyTextNode = new PText("Dummy");
+	        dummyTextNode.setFont(BOLD_LABEL_FONT);
+	        _labelScalingFactor = graphLabelHeight / dummyTextNode.getFullBoundsReference().height;
 			_sizingRect.setPathTo( new Rectangle2D.Double(0, 0, newWidth, newHeight ) );
 
 			// Set the needed vars that are based proportionately on the size
@@ -626,19 +653,20 @@ public class NuclearDecayProportionChart extends PNode {
 	        double maxYAxisLabelWidth = 0;
 	        for (PText yAxisTickMarkLabel : _yAxisTickMarkLabels){
 	        	yAxisTickMarkLabel.setScale(1);
-		        scale = graphLabelHeight / yAxisTickMarkLabel.getFullBoundsReference().getHeight();
-		        yAxisTickMarkLabel.setScale(scale);
+		        yAxisTickMarkLabel.setScale(_labelScalingFactor);
 		        maxYAxisLabelWidth = Math.max(yAxisTickMarkLabel.getFullBoundsReference().width, maxYAxisLabelWidth);
 	        }
 
 	        // Create a rectangle that defines where the graph itself is,
-	        // excluding all labels and such.
+	        // excluding all labels and such.  There are some "fudge factors"
+	        // in this calculation to account for the fact that there is often
+	        // some spacing between the labels and the graphs.
 
 	        _graphRect.setRect(
 	        		_yAxisLabel.getFullBoundsReference().width + maxYAxisLabelWidth,
-	        		graphLabelHeight, 
+	        		graphLabelHeight * 1.2, 
 	        		newWidth - _yAxisLabel.getFullBoundsReference().getWidth() - maxYAxisLabelWidth,
-	        		newHeight - 3 * graphLabelHeight);
+	        		newHeight - 3.6 * graphLabelHeight);
 	        
 	        // Reposition the Y axis label now that we know the vertical size
 	        // and position of the graph.
@@ -676,18 +704,13 @@ public class NuclearDecayProportionChart extends PNode {
 
 	        // Position and size labels for the upper X axis.
 	        _upperXAxisLabel.setScale( 1 );
-	        scale = graphLabelHeight / _upperXAxisLabel.getFullBoundsReference().getHeight();
-	        _upperXAxisLabel.setScale(scale);
+	        _upperXAxisLabel.setScale(_labelScalingFactor);
 	        _upperXAxisLabel.setOffset(_graphRect.getX() + 5, _graphRect.getY() - 
 	        		_upperXAxisLabel.getFullBoundsReference().height - 5 );
 	        
-	        // Position and size the label for the lower X axis.
-	        _lowerXAxisLabel.setText(getXAxisUnitsText());
-	        _lowerXAxisLabel.setScale( 1 );
-	        scale = graphLabelHeight / _lowerXAxisLabel.getFullBoundsReference().getHeight();
-	        _lowerXAxisLabel.setScale(scale);
-	        _lowerXAxisLabel.setOffset(_graphRect.getCenterX() - _lowerXAxisLabel.getFullBoundsReference().height / 2,
-	        		_graphRect.getMaxY() + _lowerXAxisLabel.getHeight() / 2);
+	        // Add the X axis tick marks and labels.  Note that this won't
+	        // handle all values of time span, so add more if needed.
+	        updateXAxisTickMarksAndLabels();
 	        
 	        // Update the half life lines.
 	        updateHalfLifeLines();
@@ -714,9 +737,10 @@ public class NuclearDecayProportionChart extends PNode {
 		}
 		
 	    /**
-	     * Add the vertical lines to the chart that represent a half life, one for
-	     * each half life duration.  This does some sanity testing to make sure
-	     * that there isn't a ridiculous number of half life lines on the graph.
+	     * Add the vertical lines and the labels that depict the half life
+	     * intervals to the chart.  This does some sanity testing to make sure
+	     * that there isn't a ridiculous number of half life lines on the
+	     * graph.
 	     */
 	    private void updateHalfLifeLines(){
 	    	
@@ -732,23 +756,122 @@ public class NuclearDecayProportionChart extends PNode {
 	    			it.remove();
 	    		}
 	    		
-	    		// Allocate the correct number of new lines.
+	    		// Remove the existing labels.
+	    		for ( Iterator it = _halfLifeLineLabels.iterator(); it.hasNext(); ){
+	    			PNode halfLifeLabel = (PNode)it.next();
+	    			_nonPickableGraphLayer.removeChild( halfLifeLabel );
+	    			it.remove();
+	    		}
+	    		
+	    		// Allocate the correct number of new lines and labels.
 	    		for ( int i = 0; i < numHalfLifeLines; i++ ){
 	    			PPath halfLifeLine = new PPath();
 	    			halfLifeLine.setStroke(HALF_LIFE_LINE_STROKE);
 	    			halfLifeLine.setStrokePaint(HALF_LIFE_LINE_COLOR);
 	    			_nonPickableGraphLayer.addChild( halfLifeLine );
 	    			_halfLifeLines.add( halfLifeLine );
+	    			PText halfLifeLabel = new PText(Integer.toString(i+1));
+	    			halfLifeLabel.setFont(BOLD_LABEL_FONT);
+	    			halfLifeLabel.setScale(_labelScalingFactor);
+	    			_halfLifeLineLabels.add( halfLifeLabel );
+	    			_nonPickableGraphLayer.addChild(halfLifeLabel);
 	    		}
 	    	}
 	    	
-	    	// Set the size and location for each of the half life lines.
+	    	// Set the size and location for each of lines and labels.
 			for ( int i = 0; i < _halfLifeLines.size(); i++ ){
 				PPath halfLifeLine = (PPath)_halfLifeLines.get(i);
 				halfLifeLine.setPathTo( new Line2D.Double(0, 0, 0, _graphRect.getHeight() ) );
-				halfLifeLine.setOffset( (i + 1) * _chart._halfLife * _msToPixelsFactor + _graphRect.getX(), 
-						_graphRect.getY() );
+				double xPos = (i + 1) * _chart._halfLife * _msToPixelsFactor + _graphRect.getX();
+				halfLifeLine.setOffset( xPos, _graphRect.getY() );
+				PText halfLifeLabel = (PText)_halfLifeLineLabels.get(i);
+				halfLifeLabel.setOffset(xPos - halfLifeLabel.getFullBoundsReference().width/2, 
+						_graphRect.getY() - halfLifeLabel.getFullBoundsReference().height);
 			}
+	    }
+	    
+	    /**
+	     * Add the tick marks and labels to the X axis, which represents time.
+	     * Note that this won't handle all time spans, so add more if needed.
+	     */
+	    private void updateXAxisTickMarksAndLabels(){
+	    	
+	    	// Remove the existing tick marks and labels.
+	    	for (PNode tickMark : _xAxisTickMarks){
+	    		_nonPickableGraphLayer.removeChild(tickMark);
+	    	}
+	    	for (PNode tickMarkLabel : _xAxisTickMarkLabels){
+	    		_nonPickableGraphLayer.removeChild(tickMarkLabel);
+	    	}
+	    	_xAxisTickMarks.clear();
+	    	_xAxisTickMarkLabels.clear();
+	    	
+	    	// Add the label for zero time.
+			PText tickMarkLabel = new PText();
+			tickMarkLabel.setText("0.0");  // Note: Not making this translatable since other labels aren't.
+			tickMarkLabel.setFont(BOLD_LABEL_FONT);
+			tickMarkLabel.setScale(_labelScalingFactor);
+			tickMarkLabel.setOffset(_graphRect.getX() - tickMarkLabel.getFullBoundsReference().width / 2,
+					_graphRect.getMaxY() + (tickMarkLabel.getFullBoundsReference().height * 0.1));
+			_nonPickableGraphLayer.addChild(tickMarkLabel);
+			_xAxisTickMarkLabels.add(tickMarkLabel);
+	    	
+	    	int numTickMarks = 0;
+	    	if (_chart._timeSpan < MultiNucleusDecayModel.convertYearsToMs(1E9)){
+	    		// Tick marks are 5000 yrs apart.  This is generally used for
+	    		// the Carbon 14 range.
+	    		numTickMarks = (int)(_chart._timeSpan / MultiNucleusDecayModel.convertYearsToMs(5000));
+	    		
+	    		for (int i = 0; i < numTickMarks; i++){
+	    			addXAxisTickMark((i + 1) * MultiNucleusDecayModel.convertYearsToMs(5000),
+	    					Integer.toString((i + 1) * 5000));
+	    		}
+	    	}
+	    	else{
+	    		// Space the tick marks four billion years apart.
+	    		numTickMarks = (int)(_chart._timeSpan / MultiNucleusDecayModel.convertYearsToMs(4E9));
+	    		
+	    		for (int i = 0; i < numTickMarks; i++){
+	    			addXAxisTickMark((i + 1) * MultiNucleusDecayModel.convertYearsToMs(4E9),
+	    					String.format("%.1f", (float)((i + 1) * 4)));
+	    		}
+	    	}
+	    	
+	        // Position and size the label for the lower X axis.
+	    	double unitsLabelYPos = _graphRect.getMaxY() + 5;
+	    	if (_xAxisTickMarkLabels.size() > 0){
+	    		unitsLabelYPos = _xAxisTickMarkLabels.get(0).getFullBoundsReference().getMaxY() + 5;
+	    	}
+	        _lowerXAxisLabel.setText(getXAxisUnitsText());
+	        _lowerXAxisLabel.setFont(BOLD_LABEL_FONT);
+	        _lowerXAxisLabel.setScale(1);
+	        _lowerXAxisLabel.setScale(_labelScalingFactor);
+	        _lowerXAxisLabel.setOffset(_graphRect.getCenterX() - _lowerXAxisLabel.getFullBoundsReference().height / 2,
+	        		unitsLabelYPos);
+	    }
+	    
+	    /**
+	     * Convenience method for adding tick marks and their labels.
+	     * 
+	     * @param time
+	     * @param label
+	     */
+	    private void addXAxisTickMark(double time, String label){
+			PhetPPath tickMark = new PhetPPath(TICK_MARK_COLOR);
+			tickMark.setPathTo(new Line2D.Double(0, 0, 0, -TICK_MARK_LENGTH));
+			tickMark.setStroke(TICK_MARK_STROKE);
+			tickMark.setOffset(_graphRect.getX() + (time * _msToPixelsFactor), _graphRect.getMaxY());
+			_nonPickableGraphLayer.addChild(tickMark);
+			_xAxisTickMarks.add(tickMark);
+			PText tickMarkLabel = new PText();
+			tickMarkLabel.setText(label);
+			tickMarkLabel.setFont(BOLD_LABEL_FONT);
+			tickMarkLabel.setScale(_labelScalingFactor);
+			tickMarkLabel.setOffset(
+					tickMark.getOffset().getX() - tickMarkLabel.getFullBoundsReference().width / 2,
+					_graphRect.getMaxY() + (tickMarkLabel.getFullBoundsReference().height * 0.1));
+			_nonPickableGraphLayer.addChild(tickMarkLabel);
+			_xAxisTickMarkLabels.add(tickMarkLabel);
 	    }
 	    
 	    private void updateDecayCurves(){
@@ -831,7 +954,7 @@ public class NuclearDecayProportionChart extends PNode {
      */
     public static void main(String [] args){
     	
-        final NuclearDecayProportionChart proportionsChart = new NuclearDecayProportionChart(1000, true); 
+        final NuclearDecayProportionChart proportionsChart = new NuclearDecayProportionChart(true); 
 
         proportionsChart.setTimeSpan(Carbon14Nucleus.HALF_LIFE * 3.2);
         proportionsChart.setHalfLife(Carbon14Nucleus.HALF_LIFE);
@@ -845,7 +968,7 @@ public class NuclearDecayProportionChart extends PNode {
         PhetPCanvas canvas = new PhetPCanvas();
         frame.setContentPane( canvas );
         canvas.addScreenChild( proportionsChart );
-        frame.setSize( 800, 400 );
+        frame.setSize( 1000, 600 );
         proportionsChart.componentResized(frame.getBounds());
         frame.setVisible( true );
         

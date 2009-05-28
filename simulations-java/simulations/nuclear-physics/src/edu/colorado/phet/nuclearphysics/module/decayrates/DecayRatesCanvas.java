@@ -65,7 +65,10 @@ public class DecayRatesCanvas extends PhetPCanvas {
     // Constants that control the appearance of the canvas.
     private static final Color BUCKET_AND_BUTTON_COLOR = new Color(90, 180, 225);
     
-    // TODO: For prototyping, remove once final decision is made.
+    // Constant that controls how often the chart is updated.
+	private static final int CHART_REFRESH_COUNT = 100;
+
+	// TODO: For prototyping, remove once final decision is made.
     private static final boolean USE_BUTTON_INSTEAD_OF_SLIDER = false;
     
     //----------------------------------------------------------------------------
@@ -80,8 +83,8 @@ public class DecayRatesCanvas extends PhetPCanvas {
     private PNode _graphLayer;
 	private BucketOfNucleiNode _bucketNode;
 	private GradientButtonNode _addMultipleNucleiButtonNode;
-	
 	private PPath _holdingAreaRect;
+	private int _chartRefreshCounter;
     
     //----------------------------------------------------------------------------
     // Builder + Constructor
@@ -194,7 +197,7 @@ public class DecayRatesCanvas extends PhetPCanvas {
         
         // Add the diagram that will depict the relative concentration of
         // pre- and post-decay nuclei.
-        _proportionsChart = new NuclearDecayProportionChart(_model.getNumNuclei(), true);
+        _proportionsChart = new NuclearDecayProportionChart(true);
         _proportionsChart.setShowPostDecayCurve(true);
         _proportionsChart.setTimeMarkerLabelEnabled(false);
         _proportionsChart.configureForNucleusType(_model.getNucleusType());
@@ -227,8 +230,10 @@ public class DecayRatesCanvas extends PhetPCanvas {
             		AbstractDecayNucleus nucleus = (AbstractDecayNucleus)atomicNucleus;
             		if (nucleus.hasDecayed()){
             			// This was a decay event.  Inform the chart.
-            			_proportionsChart.addDecayEvent(nucleus.getAdjustedActivatedTime(), 
-            					_model.getPercentageDecayed());
+            			_proportionsChart.addDataPoint(
+            					nucleus.getAdjustedActivatedTime(),
+            					_model.getNumActiveNuclei(),
+            					_model.getNumDecayedNuclei());
             		}
             	}
             }
@@ -265,7 +270,7 @@ public class DecayRatesCanvas extends PhetPCanvas {
     private void setProportionOfNucleiOutsideHoldingArea( double targetProportion ) {
 
     	// Set up some variables that will make calculations more straightforward.
-    	int totalNumNuclei = _model.getNumNuclei();
+    	int totalNumNuclei = _model.getTotalNumNuclei();
     	int numNucleiInHoldingArea = _model.getNumNucleiInHoldingArea();
     	int numNucleiOutOfHoldingArea = totalNumNuclei - numNucleiInHoldingArea;
 
@@ -429,6 +434,17 @@ public class DecayRatesCanvas extends PhetPCanvas {
     		_mapNucleiToNodes.remove( modelElement );
     	}
 	}
+
+    // TODO: Get rid of this if we don't end up using it.
+//	private void handleClockTicked(ClockEvent clockEvent) {
+//		// Add a data point to the chart, but don't do it every clock tick
+//		// or there will be far too many data points.
+//		_chartRefreshCounter++;
+//		if (_chartRefreshCounter % CHART_REFRESH_COUNT == 0){
+//			_proportionsChart.addDataPoint(time, _model.getNumActiveNuclei(), _model.getNumDecayedNuclei());
+//		}
+//	}
+
     
     /**
      * Reset all the nuclei back to their pre-decay state.
