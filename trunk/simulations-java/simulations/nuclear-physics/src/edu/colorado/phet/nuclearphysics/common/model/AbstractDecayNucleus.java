@@ -3,11 +3,9 @@
 package edu.colorado.phet.nuclearphysics.common.model;
 
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
-import edu.colorado.phet.nuclearphysics.model.AtomicNucleusConstituent;
 
 /**
  * Abstract base class for nuclei that will autonomously decay after some
@@ -113,10 +111,12 @@ public abstract class AbstractDecayNucleus extends AtomicNucleus implements Nucl
 	/**
 	 * This method starts the nucleus moving towards decay.
 	 */
-	public void activateDecay(){
-		notifyActivated();
-	}
+	public abstract void activateDecay();
 
+	/**
+	 * Returns a boolean value indicating whether the nucleus has decayed.
+	 * This will return false if the nucleus has not been activated.
+	 */
 	public abstract boolean hasDecayed();
 
 	/**
@@ -167,26 +167,4 @@ public abstract class AbstractDecayNucleus extends AtomicNucleus implements Nucl
 	    // Make sure we are not paused.
 		_paused = false;
 	}
-	
-    /**
-     * Notify all listeners that this nucleis has become active.
-     */
-    protected void notifyActivated(){
-        
-        for (int i = 0; i < _listeners.size(); i++){
-//            ((Listener)_listeners.get( i )).activated(this);
-        }
-    }
-	
-    public static interface Listener extends AtomicNucleus.Listener {
-    	public void activated(AtomicNucleus nucleus);
-    }
-    
-    public static class Adapter implements Listener {
-        public void positionChanged(){}
-        public void tunnelingRadiusChanged(){}
-		public void activated(AtomicNucleus nucleus) {}
-		public void nucleusChangeEvent(AtomicNucleus atomicNucleus,
-				int numProtons, int numNeutrons, ArrayList byProducts) {};
-    }
 }
