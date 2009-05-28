@@ -9,7 +9,7 @@ import edu.colorado.phet.acidbasesolutions.ABSSymbols;
 public abstract class Acid extends Solute {
     
     protected Acid( String name, String symbol, String conjugateSymbol, double strength  ) {
-        super( name, symbol, ABSImages.HA_MOLECULE, conjugateSymbol, ABSImages.A_MINUS_MOLECULE, strength );
+        super( name, symbol, ABSImages.HA_MOLECULE, ABSConstants.HA_COLOR, conjugateSymbol, ABSImages.A_MINUS_MOLECULE, ABSConstants.A_COLOR, strength );
     }
     
     //----------------------------------------------------------------------------
