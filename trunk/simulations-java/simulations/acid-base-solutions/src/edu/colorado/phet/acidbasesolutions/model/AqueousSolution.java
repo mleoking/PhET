@@ -55,6 +55,10 @@ public class AqueousSolution {
         return solute;
     }
     
+    public boolean isPureWater() {
+        return solute instanceof NoSolute;
+    }
+    
     public EquilibriumModel getEquilibriumModel() {
         return equilibriumModel;
     }

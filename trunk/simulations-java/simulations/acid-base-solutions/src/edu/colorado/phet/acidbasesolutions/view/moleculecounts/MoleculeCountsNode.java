@@ -68,9 +68,8 @@ public class MoleculeCountsNode extends AbstractMoleculeCountsNode {
             Solute solute = solution.getSolute();
             
             // hide reactant and product counts for pure water
-            boolean pureWater = solute instanceof NoSolute; //XXX get rid of this
-            countsNode.setReactantVisible( !pureWater );
-            countsNode.setProductVisible( !pureWater );
+            countsNode.setReactantVisible( !solution.isPureWater() );
+            countsNode.setProductVisible( !solution.isPureWater() );
             
             // icons
             //XXX get rid of this block
