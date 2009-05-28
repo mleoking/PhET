@@ -123,11 +123,6 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
     // Time span covered by this chart, in milliseconds.
     private double _timeSpan = DEFAULT_TIME_SPAN;
     
-    // Time adjustment factor - used to make elements move on the graph
-    // either faster or slower than real time.  A value of 1 indicates real
-    // wall time, above 1 is faster and below is slower.
-    private double _timeAdjustmentFactor = 1;
-    
     // Variables for tracking information about the nuclei.
     private HashMap _mapNucleiToNucleiData = new HashMap();
     private int _preDecayCount;
@@ -424,8 +419,6 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
     	_msToPixelsFactor = ((_usableWidth - _graphOriginX) * 0.98) / _timeSpan;
     	update();
     }
-    
-    
 
     /**
      * This method is called to re-scale the chart, which generally occurs
