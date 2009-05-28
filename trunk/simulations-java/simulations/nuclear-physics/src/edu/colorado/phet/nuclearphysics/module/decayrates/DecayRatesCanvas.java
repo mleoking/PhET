@@ -63,7 +63,7 @@ public class DecayRatesCanvas extends PhetPCanvas {
     private static final Color BUCKET_AND_BUTTON_COLOR = new Color(90, 180, 225);
     
     // Constant that controls how often the chart is updated.
-	private static final int CHART_REFRESH_COUNT = 5;
+	private static final int CHART_REFRESH_COUNT = 2;
 
 	// TODO: For prototyping, remove once final decision is made.
     private static final boolean USE_BUTTON_INSTEAD_OF_SLIDER = false;
@@ -74,7 +74,6 @@ public class DecayRatesCanvas extends PhetPCanvas {
     
     private DecayRatesModel _model;
     private HashMap _mapNucleiToNodes = new HashMap();
-    private AtomicNucleus.Listener _decayEventListener;
     private NuclearDecayProportionChart _proportionsChart;
     private PNode _particleLayer;
     private PNode _graphLayer;
@@ -227,24 +226,6 @@ public class DecayRatesCanvas extends PhetPCanvas {
                 _bucketNode.resetSliderPosition();
             }
         });
-        
-        // Create a listener for decay events so the chart can be informed.
-        _decayEventListener = new AtomicNucleus.Adapter(){
-            public void nucleusChangeEvent(AtomicNucleus atomicNucleus, int numProtons, int numNeutrons, 
-                    ArrayList byProducts){
-
-            	if (atomicNucleus instanceof AbstractDecayNucleus){
-            		AbstractDecayNucleus nucleus = (AbstractDecayNucleus)atomicNucleus;
-            		if (nucleus.hasDecayed()){
-            			// This was a decay event.  Inform the chart.
-            			_proportionsChart.addDataPoint(
-            					nucleus.getAdjustedActivatedTime(),
-            					_model.getNumActiveNuclei(),
-            					_model.getNumDecayedNuclei());
-            		}
-            	}
-            }
-        };
         
         // Add a listener for when the canvas is resized.
         addComponentListener( new ComponentAdapter() {
@@ -407,9 +388,6 @@ public class DecayRatesCanvas extends PhetPCanvas {
     			// directly to the appropriate layer.
     			_particleLayer.addChild( atomicNucleusNode );
     		}
-    		
-    		// Listen to the nucleus for decay events.
-    		((AtomicNucleus)modelElement).addListener(_decayEventListener);
     	}
     	else {
     		System.err.println("WARNING: Unrecognized model element added, unable to create node for canvas.");
@@ -431,8 +409,6 @@ public class DecayRatesCanvas extends PhetPCanvas {
     			System.err.println(this.getClass().getName() + ": Error - Could not find node for removed model element.");
     		}
     		else {
-    			((AtomicNucleus)modelElement).removeListener(_decayEventListener);
-    			
     			// Remove the node from the canvas or the bucket.
     			if  (_bucketNode.isNodeInBucket(nucleusNode)){
     				_bucketNode.removeNucleus(nucleusNode);
