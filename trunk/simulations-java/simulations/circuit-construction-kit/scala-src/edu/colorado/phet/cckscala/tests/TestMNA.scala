@@ -7,7 +7,17 @@ import org.scalatest.FunSuite
 
 import util.parsing.combinator.JavaTokenParsers
 
-case class Solution(nodeVoltages: HashMap[Int, Double], branchCurrents: HashMap[(Int, Int), Double])
+case class Solution(nodeVoltages: HashMap[Int, Double], branchCurrents: HashMap[(Int, Int), Double]) {
+  def approxEquals(s: Solution, delta: Double) = {
+    if (nodeVoltages.keySet != s.nodeVoltages.keySet || branchCurrents.keySet != s.branchCurrents.keySet)
+      false
+    else {
+      val sameVoltages = nodeVoltages.keySet.foldLeft(true)((b: Boolean, a: Int) => {b && Math.abs(nodeVoltages(a) - s.nodeVoltages(a)) < delta})
+      val sameCurrents = branchCurrents.keySet.foldLeft(true)((b: Boolean, a: (Int, Int)) => {b && Math.abs(branchCurrents(a) - s.branchCurrents(a)) < delta})
+      sameVoltages && sameCurrents
+    }
+  }
+}
 
 trait Element {
   def node0: Int
@@ -139,9 +149,17 @@ class Tester extends FunSuite {
   test("elem should have passed width") {
     assert(true)
   }
-  test("battery resistor circuit should have correct voltage") {
+  test("battery resistor circuit should have correct voltages and currents") {
     val netList = new NetList(Array(Battery(0, 1, 4.0)), Array(Resistor(1, 0, 4.0)))
     val solution = netList.solve
+    val voltages = new HashMap[Int, Double]
+    voltages(0) = 0.0
+    voltages(1) = 4.0
+    val currents = new HashMap[(Int, Int), Double]
+    currents((0, 1)) = 1.0
+    val desiredSolution = new Solution(voltages, currents)
     println(solution)
+    println(desiredSolution)
+    assert(solution.approxEquals(desiredSolution, 1E-6))
   }
 }
