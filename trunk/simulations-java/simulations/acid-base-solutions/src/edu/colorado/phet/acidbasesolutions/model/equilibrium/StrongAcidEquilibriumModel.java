@@ -3,19 +3,19 @@ package edu.colorado.phet.acidbasesolutions.model.equilibrium;
 import edu.colorado.phet.acidbasesolutions.model.Acid;
 import edu.colorado.phet.acidbasesolutions.model.Water;
 
-public class StrongAcidEquilibriumModel extends AcidEquilibriumModel {
+public class StrongAcidEquilibriumModel extends EquilibriumModel {
     
     protected StrongAcidEquilibriumModel( Acid acid ) {
         super( acid );
     }
     
     // [HA] = 0
-    public double getAcidConcentration() {
+    public double getReactantConcentration() {
         return 0;
     }
     
     // [A-] = c
-    public double getBaseConcentration() {
+    public double getProductConcentration() {
         return getSolute().getConcentration();
     }
     

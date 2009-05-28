@@ -13,6 +13,14 @@ public class PureWaterEquilibriumModel extends EquilibriumModel {
         super( solute );
     }
     
+    public double getReactantConcentration() {
+        return 0;
+    }
+    
+    public double getProductConcentration() {
+        return 0;
+    }
+    
     public double getH3OConcentration() {
         return H3O_CONCENTRATION;
     }

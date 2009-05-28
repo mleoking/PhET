@@ -14,7 +14,7 @@ public abstract class EquilibriumModel {
         this.solute = solute;
     }
     
-    public Solute getSolute() {
+    protected Solute getSolute() {
         return solute;
     }
 
@@ -22,11 +22,23 @@ public abstract class EquilibriumModel {
         return new PHValue( -MathUtil.log10( getH3OConcentration() ) );
     }
     
+    public abstract double getReactantConcentration();
+    
+    public abstract double getProductConcentration();
+    
     public abstract double getH3OConcentration();
     
     public abstract double getOHConcentration();
     
     public abstract double getH2OConcentration();
+    
+    public double getReactantMoleculeCount() {
+        return getMoleculeCount( getReactantConcentration() ); 
+    }
+    
+    public double getProductMoleculeCount() {
+        return getMoleculeCount( getProductConcentration() ); 
+    }
     
     public double getH3OMoleculeCount() {
         return getMoleculeCount( getH3OConcentration() ); 

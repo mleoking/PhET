@@ -5,19 +5,19 @@ import edu.colorado.phet.acidbasesolutions.model.Water;
 
 
 
-public class WeakAcidEquilibriumModel extends AcidEquilibriumModel {
+public class WeakAcidEquilibriumModel extends EquilibriumModel {
 
     protected WeakAcidEquilibriumModel( Acid acid ) {
         super( acid );
     }
     
     // [HA] = c - [A-]
-    public double getAcidConcentration() {
-        return getSolute().getConcentration() - getBaseConcentration();
+    public double getReactantConcentration() {
+        return getSolute().getConcentration() - getProductConcentration();
     }
     
     // [A-] = ( -Ka + sqrt( Ka*Ka + 4*Ka*c ) ) / 2 
-    public double getBaseConcentration() {
+    public double getProductConcentration() {
         final double Ka = getSolute().getStrength();
         final double c = getSolute().getConcentration();
         return ( -Ka + Math.sqrt( ( Ka * Ka ) + ( 4 * Ka * c ) ) ) / 2;
@@ -25,7 +25,7 @@ public class WeakAcidEquilibriumModel extends AcidEquilibriumModel {
     
     // [H3O+] = [A-]
     public double getH3OConcentration() {
-        return getBaseConcentration();
+        return getProductConcentration();
     }
     
     // [OH-] = Kw / [H3O+]
@@ -35,6 +35,6 @@ public class WeakAcidEquilibriumModel extends AcidEquilibriumModel {
     
     // [H2O] = W - [A-]
     public double getH2OConcentration() {
-        return Water.getConcentration() - getBaseConcentration();
+        return Water.getConcentration() - getProductConcentration();
     }
 }

@@ -4,19 +4,19 @@ import edu.colorado.phet.acidbasesolutions.model.Base;
 import edu.colorado.phet.acidbasesolutions.model.Water;
 
 
-public class StrongBaseEquilibriumModel extends BaseEquilibriumModel {
+public class StrongBaseEquilibriumModel extends EquilibriumModel {
     
     protected StrongBaseEquilibriumModel( Base base ) {
         super( base );
     }
     
     // [MOH] = 0
-    public double getBaseConcentration() {
+    public double getReactantConcentration() {
         return 0;
     }
     
     // [M+] = c
-    public double getMetalConcentration() {
+    public double getProductConcentration() {
         return getSolute().getConcentration();
     }
     
@@ -33,9 +33,5 @@ public class StrongBaseEquilibriumModel extends BaseEquilibriumModel {
     // [H2O] = W
     public double getH2OConcentration() {
         return Water.getConcentration();
-    }
-    
-    public double getMetalMoleculeCount() {
-        return getMoleculeCount( getMetalConcentration() );
     }
 }
