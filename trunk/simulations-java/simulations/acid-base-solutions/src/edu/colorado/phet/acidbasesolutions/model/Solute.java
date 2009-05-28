@@ -1,5 +1,6 @@
 package edu.colorado.phet.acidbasesolutions.model;
 
+import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -12,21 +13,43 @@ public abstract class Solute extends Molecule {
         public void setStrength( double strength );
     }
     
+    private String conjugateSymbol;
+    private Image conjugateIcon;
     private double concentration; // initial concentration!
     private double strength;
     private final ArrayList<SoluteListener> listeners;
     
-    protected Solute( String name, String symbol, double strength ) {
-        super( name, symbol );
-        this.concentration = ABSConstants.CONCENTRATION_RANGE.getMin();
+    protected Solute( String name, String symbol, Image icon, String conjugateSymbol, Image conjugateIcon, double strength ) {
+        super( name, symbol, icon );
+        this.conjugateSymbol = conjugateSymbol;
+        this.conjugateIcon = conjugateIcon;
         if ( !isValidStrength( strength ) ) {
             throw new IllegalArgumentException( "strength is invalid: " + strength );
         }
         this.strength = strength;
+        this.concentration = ABSConstants.CONCENTRATION_RANGE.getMin();
         listeners = new ArrayList<SoluteListener>();
     }
     
     protected abstract boolean isValidStrength( double strength );
+    
+    public abstract boolean isZeroNegligible();
+    
+    protected void setConjugateSymbol( String conjugateSymbol ) {
+        this.conjugateSymbol = conjugateSymbol;
+    }
+    
+    public String getConjugateSymbol() {
+        return conjugateSymbol;
+    }
+    
+    protected void setConjugateIcon( Image conjugateIcon ) {
+        this.conjugateIcon = conjugateIcon;
+    }
+    
+    public Image getConjugateIcon() {
+        return conjugateIcon;
+    }
     
     protected void setStrength( double strength ) {
         if ( !isValidStrength( strength ) ) {

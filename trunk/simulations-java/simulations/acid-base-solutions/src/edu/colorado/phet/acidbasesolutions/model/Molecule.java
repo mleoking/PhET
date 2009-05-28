@@ -1,15 +1,19 @@
 package edu.colorado.phet.acidbasesolutions.model;
 
+import java.awt.Image;
+
 
 
 public abstract class Molecule {
 
     private String name;
     private String symbol;
+    private Image icon;
     
-    protected Molecule( String name, String symbol ) {
+    protected Molecule( String name, String symbol, Image icon ) {
         this.name = name;
         this.symbol = symbol;
+        this.icon = icon;
     }
     
     protected void setName( String name ) {
@@ -26,5 +30,13 @@ public abstract class Molecule {
     
     public String getSymbol() {
         return symbol;
+    }
+    
+    public void setIcon( Image icon ) {
+        this.icon = icon;
+    }
+    
+    public Image getIcon() {
+        return icon;
     }
 }
