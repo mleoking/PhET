@@ -56,6 +56,12 @@ public class RadioactiveDatingGameModel extends SimpleObservable {
             		stratum.getTopLine() );
             _strata.add( stratum );
         }
+        
+        // TODO: Test code, delete when unit testing of this is complete.
+        for ( Stratum testStratum : _strata ){
+        	System.out.println("Top    ----> " + testStratum.getTopYGivenX(0));
+        	System.out.println("Bottom ----> " + testStratum.getBottomYGivenX(0));
+        }
 
         // Add the datable objects.
         // Params:                             name, image file, location(x, y), size, rotation angle (radians), age (ms)
