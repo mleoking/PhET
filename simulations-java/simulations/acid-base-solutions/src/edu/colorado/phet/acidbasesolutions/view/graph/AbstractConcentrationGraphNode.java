@@ -38,9 +38,11 @@ abstract class AbstractConcentrationGraphNode extends PComposite {
     
     private static final int NUMBER_OF_BARS = 5;
     
-    protected static final int H3O_INDEX = 2;
-    protected static final int OH_INDEX = 3;
-    protected static final int H2O_INDEX = 4;
+    private static final int REACTANT_INDEX = 0;
+    private static final int PRODUCT_INDEX = 1;
+    private static final int H3O_INDEX = 2;
+    private static final int OH_INDEX = 3;
+    private static final int H2O_INDEX = 4;
     
     // graph outline
     private static final Stroke OUTLINE_STROKE = new BasicStroke( 1f );
@@ -183,6 +185,22 @@ abstract class AbstractConcentrationGraphNode extends PComposite {
     // Setters and getters
     //----------------------------------------------------------------------------
     
+    protected static int getReactantIndex() {
+        return REACTANT_INDEX;
+    }
+    
+    protected static int getProductIndex() {
+        return PRODUCT_INDEX;
+    }
+    
+    public void setReactantConcentration( double concentration ) {
+        setConcentration( REACTANT_INDEX, concentration );
+    }
+    
+    public void setProductConcentration( double concentration ) {
+        setConcentration( PRODUCT_INDEX, concentration );
+    }
+    
     public void setH3OConcentration( double concentration ) {
         setConcentration( H3O_INDEX, concentration );
     }
@@ -193,6 +211,14 @@ abstract class AbstractConcentrationGraphNode extends PComposite {
     
     public void setH2OConcentration( double concentration ) {
         setConcentration( H2O_INDEX, concentration );
+    }
+    
+    public void setReactantLabel( String text ) {
+        setLabel( REACTANT_INDEX, text );
+    }
+    
+    public void setProductLabel( String text ) {
+        setLabel( PRODUCT_INDEX, text );
     }
     
     protected void setLabel( int index, String text ) {

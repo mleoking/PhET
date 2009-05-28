@@ -8,7 +8,7 @@ class NoSoluteConcentrationGraphNode extends AbstractConcentrationGraphNode {
     
     public NoSoluteConcentrationGraphNode( PDimension outlineSize ) {
         super( outlineSize );
-        setVisible( 0, false );
-        setVisible( 1, false );
+        setVisible( getReactantIndex(), false );
+        setVisible( getProductIndex(), false );
     }
 }
