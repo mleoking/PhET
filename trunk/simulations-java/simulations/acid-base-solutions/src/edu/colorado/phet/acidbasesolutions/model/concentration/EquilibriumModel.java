@@ -6,11 +6,11 @@ import edu.colorado.phet.acidbasesolutions.model.Solute;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 
 
-public abstract class ConcentrationModel {
+public abstract class EquilibriumModel {
     
     private final Solute solute;
     
-    protected ConcentrationModel( Solute solute ) {
+    protected EquilibriumModel( Solute solute ) {
         this.solute = solute;
     }
     

@@ -218,7 +218,7 @@ class PHProbeNode extends PComposite {
         }
         
         private void updateView() {
-            probeNode.setValue( solution.getConcentrationModel().getPH() );
+            probeNode.setValue( solution.getEquilibriumModel().getPH() );
         }
     }
 }

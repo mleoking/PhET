@@ -86,24 +86,24 @@ public class ConcentrationGraphNode extends PComposite {
         
         private void updateView() {
             
-            ConcentrationModel concentrationModel = solution.getConcentrationModel();
+            EquilibriumModel concentrationModel = solution.getEquilibriumModel();
             
             // visibility
-            countsNode.getWaterNode().setVisible( concentrationModel instanceof PureWaterConcentrationModel );
-            countsNode.getAcidNode().setVisible( concentrationModel instanceof AcidConcentrationModel );
-            countsNode.getWeakBaseNode().setVisible( concentrationModel instanceof WeakBaseConcentrationModel );
-            countsNode.getStrongBaseNode().setVisible( concentrationModel instanceof StrongBaseConcentrationModel );
+            countsNode.getWaterNode().setVisible( concentrationModel instanceof PureWaterEquilibriumModel );
+            countsNode.getAcidNode().setVisible( concentrationModel instanceof AcidEquilibriumModel );
+            countsNode.getWeakBaseNode().setVisible( concentrationModel instanceof WeakBaseEquilibriumModel );
+            countsNode.getStrongBaseNode().setVisible( concentrationModel instanceof StrongBaseEquilibriumModel );
             
             // counts & labels
-            if ( concentrationModel instanceof PureWaterConcentrationModel ) {
+            if ( concentrationModel instanceof PureWaterEquilibriumModel ) {
                 NoSoluteConcentrationGraphNode node = countsNode.getWaterNode();
                 node.setH3OConcentration( concentrationModel.getH3OConcentration() );
                 node.setOHConcentration( concentrationModel.getOHConcentration() );
                 node.setH2OConcentration( concentrationModel.getH2OConcentration() );
             }
-            else if ( concentrationModel instanceof AcidConcentrationModel ) {
+            else if ( concentrationModel instanceof AcidEquilibriumModel ) {
                 AcidConcentrationGraphNode node = countsNode.getAcidNode();
-                AcidConcentrationModel model = (AcidConcentrationModel) concentrationModel;
+                AcidEquilibriumModel model = (AcidEquilibriumModel) concentrationModel;
                 // counts
                 node.setAcidConcentration( model.getAcidConcentration() );
                 node.setBaseConcentration( model.getBaseConcentration() );
@@ -120,9 +120,9 @@ public class ConcentrationGraphNode extends PComposite {
                     throw new IllegalStateException( "unexpected solute type: " + solute.getClass().getName() );
                 }
             }
-            else if ( concentrationModel instanceof WeakBaseConcentrationModel ) {
+            else if ( concentrationModel instanceof WeakBaseEquilibriumModel ) {
                 WeakBaseConcentrationGraphNode node = countsNode.getWeakBaseNode();
-                WeakBaseConcentrationModel model = (WeakBaseConcentrationModel) concentrationModel;
+                WeakBaseEquilibriumModel model = (WeakBaseEquilibriumModel) concentrationModel;
                 // counts
                 node.setAcidConcentration( model.getAcidConcentration() );
                 node.setBaseConcentration( model.getBaseConcentration() );
@@ -142,9 +142,9 @@ public class ConcentrationGraphNode extends PComposite {
                     throw new IllegalStateException( "unexpected solute type: " + solute.getClass().getName() );
                 }
             }
-            else if ( concentrationModel instanceof StrongBaseConcentrationModel ) {
+            else if ( concentrationModel instanceof StrongBaseEquilibriumModel ) {
                 StrongBaseConcentrationGraphNode node = countsNode.getStrongBaseNode();
-                StrongBaseConcentrationModel model = (StrongBaseConcentrationModel) concentrationModel;
+                StrongBaseEquilibriumModel model = (StrongBaseEquilibriumModel) concentrationModel;
                 // counts
                 node.setBaseConcentration( model.getBaseConcentration() );
                 node.setMetalConcentration( model.getMetalConcentration() );
