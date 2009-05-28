@@ -21,6 +21,7 @@ ISSUES:
 - if A- icon shows a "hole" where proton was donated, why doesn't B icon show a hole where proton can be accepted?
 
 DONE:
+5/28/09 use PComboBox for solute selection (workaround for PSwing/JComboBox bug on Windows)
 5/26/09 explicitly set canvas background color for reaction equations and equilibrium expressions
 5/26/09 remove workaround for #1670, fixed in PSwing
 5/26/09 workaround for PSwing bounds problem (#1670) in BeakerControlsNode

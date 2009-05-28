@@ -1,14 +1,17 @@
 
 package edu.colorado.phet.acidbasesolutions.control;
 
-import javax.swing.JComboBox;
+import java.awt.Color;
+
+import javax.swing.BorderFactory;
 
 import edu.colorado.phet.acidbasesolutions.model.Solute;
 import edu.colorado.phet.acidbasesolutions.model.SoluteFactory;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
+import edu.umd.cs.piccolox.pswing.PComboBox;
 
 
-public class SoluteComboBox extends JComboBox {
+public class SoluteComboBox extends PComboBox {
     
     /*
      * Choices in the combo box.
@@ -41,6 +44,8 @@ public class SoluteComboBox extends JComboBox {
 
     public SoluteComboBox() {
         super();
+        setBorder( BorderFactory.createLineBorder( Color.BLACK, 1 ) ); // hack for PComboBox
+        setBackground( Color.WHITE ); // hack for PComboBox
         
         // items
         Solute[] solutes = SoluteFactory.getSolutes();

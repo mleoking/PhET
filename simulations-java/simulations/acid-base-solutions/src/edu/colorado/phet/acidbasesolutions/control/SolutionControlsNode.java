@@ -30,6 +30,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;
+import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 
 public class SolutionControlsNode extends PhetPNode {
@@ -53,13 +54,13 @@ public class SolutionControlsNode extends PhetPNode {
     private final StrengthSliderNode strengthSliderNode;
     private final ArrayList<SolutionControlsListener> listeners;
     
-    public SolutionControlsNode( AqueousSolution solution ) {
-        this();
+    public SolutionControlsNode( PSwingCanvas canvas, AqueousSolution solution ) {
+        this( canvas );
         solution.addSolutionListener( new ModelViewController( solution, this ) );
         this.addSolutionControlsListener( new ViewModelController( this, solution ) );
     }
 
-    private SolutionControlsNode() {
+    private SolutionControlsNode( PSwingCanvas canvas ) {
         super();
         
         listeners = new ArrayList<SolutionControlsListener>();
@@ -77,6 +78,7 @@ public class SolutionControlsNode extends PhetPNode {
         } );
         PSwing soluteComboBoxWrapper = new PSwing( soluteComboBox );
         addChild( soluteComboBoxWrapper );
+        soluteComboBox.setEnvironment( soluteComboBoxWrapper, canvas ); // hack required by PComboBox
         
         concentrationLabelNode = new LabelNode( ABSStrings.LABEL_CONCENTRATION );
         addChild( concentrationLabelNode );
