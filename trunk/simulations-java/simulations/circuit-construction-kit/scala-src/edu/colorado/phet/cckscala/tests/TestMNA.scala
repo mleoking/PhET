@@ -68,8 +68,14 @@ object TestMNA {
       val nodeAssignments = new ArrayBuffer[Assignment]
       for (b <- batteries if b.node0 == node) nodeAssignments += new Assignment(1, new UnknownCurrent(b.node0, b.node1))
       for (b <- batteries if b.node1 == node) nodeAssignments += new Assignment(-1, new UnknownCurrent(b.node0, b.node1))
-      for (r <- resistors if r.node0 == node) nodeAssignments += new Assignment(1/r.resistance, new UnknownVoltage(node))
-      for (r <- resistors if r.node1 == node) nodeAssignments += new Assignment(-1/r.resistance, new UnknownVoltage(node))
+      for (r <- resistors if r.node0 == node) {
+        nodeAssignments += new Assignment(1 / r.resistance, new UnknownVoltage(r.node0))
+        nodeAssignments += new Assignment(1 / r.resistance, new UnknownVoltage(r.node1))
+      }
+      for (r <- resistors if r.node1 == node) {
+        nodeAssignments += new Assignment(-1 / r.resistance, new UnknownVoltage(r.node0))
+        nodeAssignments += new Assignment(-1 / r.resistance, new UnknownVoltage(r.node1))
+      }
       nodeAssignments
     }
 
@@ -104,13 +110,14 @@ object TestMNA {
       A.print(4, 2)
       z.print(4, 2)
       val x = A.solve(z)
+      print("unknowns=\n" + unknowns.mkString("\n"))
       x.print(4, 2)
       new Solution(new ArrayBuffer[NodeVoltage], new ArrayBuffer[BranchCurrent])
     }
   }
   def main(args: Array[String]) {
     println("testing")
-    val netList = new NetList(Array(Battery(0, 1, 9.0)), Array(Resistor(1, 0, 9.0)))
+    val netList = new NetList(Array(Battery(0, 1, 4.0)), Array(Resistor(1, 0, 4.0)))
     val solution = netList.solve
     println(solution)
   }
