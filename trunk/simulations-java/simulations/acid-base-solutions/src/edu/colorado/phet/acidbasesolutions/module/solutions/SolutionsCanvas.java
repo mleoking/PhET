@@ -3,6 +3,8 @@
 package edu.colorado.phet.acidbasesolutions.module.solutions;
 
 import java.awt.geom.Dimension2D;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.control.BeakerControlsNode;
@@ -54,6 +56,13 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         
         beakerControlsNode = new BeakerControlsNode( beakerNode, getBackground(), solution );
         beakerControlsNode.scale( ABSConstants.PSWING_SCALE );
+        beakerControlsNode.addPropertyChangeListener( new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent evt ) {
+                if ( evt.getPropertyName().equals( PNode.PROPERTY_FULL_BOUNDS )) {
+                    updateLayout();
+                }
+            }
+        } );
         
         miscControlsNode = new MiscControlsNode( concentrationGraphNode, getBackground(), solution );
         miscControlsNode.scale( ABSConstants.PSWING_SCALE );
@@ -113,8 +122,8 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         beakerNode.setOffset( xOffset, yOffset );
         
         // beaker controls attached to right edge of beaker
-        xOffset = beakerNode.getFullBoundsReference().getMaxX() - 25;
-        yOffset = beakerNode.getFullBoundsReference().getCenterY() - ( beakerControlsNode.getFullBoundsReference().getHeight() / 2 );
+        xOffset = beakerNode.getXOffset() + SolutionsDefaults.BEAKER_SIZE.getWidth() - 1;
+        yOffset = beakerNode.getYOffset() + ( 0.1 * SolutionsDefaults.BEAKER_SIZE.getHeight() );
         beakerControlsNode.setOffset( xOffset, yOffset );
         
         // concentration graph to the right of beaker
@@ -122,15 +131,18 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         yOffset = 0;
         concentrationGraphNode.setOffset( xOffset, yOffset );
         
-        // misc controls at bottom right
+        // misc controls at bottom right, but don't overlap beaker
         xOffset = concentrationGraphNode.getFullBoundsReference().getMaxX() - miscControlsNode.getFullBoundsReference().getWidth();
+        if ( xOffset < beakerNode.getFullBoundsReference().getMaxX() ) {
+            xOffset = beakerNode.getFullBoundsReference().getMaxX();
+        }
         yOffset = beakerNode.getFullBoundsReference().getMaxY() - miscControlsNode.getFullBoundsReference().getHeight();
         miscControlsNode.setOffset( xOffset, yOffset );
         
-        // Reset All button to the right of misc controls
+        // Reset All button to the right of solute controls
         PNode resetAllButton = getResetAllButton();
-        xOffset = miscControlsNode.getFullBoundsReference().getMinX() - resetAllButton.getFullBoundsReference().getWidth() - 10;
-        yOffset = miscControlsNode.getFullBoundsReference().getMaxY() - resetAllButton.getFullBounds().getHeight();
+        xOffset = solutionControlsNode.getFullBoundsReference().getMaxX() + 10;
+        yOffset = solutionControlsNode.getFullBoundsReference().getY();
         resetAllButton.setOffset( xOffset , yOffset );
         
         centerRootNode();

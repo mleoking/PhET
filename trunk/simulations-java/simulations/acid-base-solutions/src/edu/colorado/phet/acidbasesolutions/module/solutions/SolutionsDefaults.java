@@ -15,7 +15,7 @@ public class SolutionsDefaults {
     
     // default sizes
     public static final PDimension BEAKER_SIZE = new PDimension( 400, 400 );
-    public static final PDimension CONCENTRATION_GRAPH_OUTLINE_SIZE = new PDimension( 400, 500 );
+    public static final PDimension CONCENTRATION_GRAPH_OUTLINE_SIZE = new PDimension( 360, 500 );
     
     private static SolutionsDefaults INSTANCE = new SolutionsDefaults();
     

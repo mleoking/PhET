@@ -8,7 +8,6 @@ TODO:
 - connect reaction equations to model
 - H2O should not be scalable in Reaction Equations, should change to Color.BLACK when scaling is enabled
 - particle views
-- resolve i18n layout issues
 - scale image files
 
 DEFER:
@@ -21,6 +20,10 @@ ISSUES:
 - if A- icon shows a "hole" where proton was donated, why doesn't B icon show a hole where proton can be accepted?
 
 DONE:
+5/28/09 ensure that View controls don't overlap beaker
+5/28/09 make concentrations graph narrower to accommodate long molecule equations in View controls
+5/28/09 make ratio checkbox labels multi-line to mitigate layout problems
+5/28/09 move Reset All button to top center to avoid i18n layout conflicts with View controls
 5/28/09 use PComboBox for solute selection (workaround for PSwing/JComboBox bug on Windows)
 5/26/09 explicitly set canvas background color for reaction equations and equilibrium expressions
 5/26/09 remove workaround for #1670, fixed in PSwing
