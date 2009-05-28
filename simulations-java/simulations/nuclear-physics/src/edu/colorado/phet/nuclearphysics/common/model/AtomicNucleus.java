@@ -30,7 +30,7 @@ public abstract class AtomicNucleus {
     protected NuclearPhysicsClock _clock;
     
     // List of registered listeners.
-    private ArrayList _listeners = new ArrayList();
+    protected ArrayList _listeners = new ArrayList();
     
     // Location in space of the center of this nucleus.
     protected Point2D _position = new Point2D.Double();

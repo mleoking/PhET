@@ -111,6 +111,8 @@ public class Uranium238Nucleus extends AbstractDecayNucleus {
      */
     public void activateDecay(){
     	
+    	super.activateDecay();
+    	
     	// Only allow activation if the nucleus hasn't already decayed.
     	if (_numNeutrons == ORIGINAL_NUM_NEUTRONS){
     		_decayTime = _clock.getSimulationTime() + (calcDecayTime() * _decayTimeScalingFactor);
