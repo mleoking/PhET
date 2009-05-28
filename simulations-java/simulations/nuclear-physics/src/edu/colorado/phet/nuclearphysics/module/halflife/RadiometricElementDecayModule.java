@@ -66,6 +66,7 @@ public class RadiometricElementDecayModule extends PiccoloModule {
 
         // Reset the clock, which ultimately resets the model too.
         _model.getClock().resetSimulationTime();
+        _model.reset();
         setClockRunningWhenActive( RadiometricDecayDefaults.CLOCK_RUNNING );
         
         // Reset the canvas and its sub-nodes.
