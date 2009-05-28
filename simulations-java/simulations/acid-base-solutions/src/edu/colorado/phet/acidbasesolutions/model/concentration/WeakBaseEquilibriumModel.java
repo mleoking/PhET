@@ -5,9 +5,9 @@ import edu.colorado.phet.acidbasesolutions.model.Water;
 
 
 
-public class WeakBaseConcentrationModel extends BaseConcentrationModel {
+public class WeakBaseEquilibriumModel extends BaseEquilibriumModel {
 
-    protected WeakBaseConcentrationModel( Base base ) {
+    protected WeakBaseEquilibriumModel( Base base ) {
         super( base );
     }
     

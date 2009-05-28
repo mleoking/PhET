@@ -4,12 +4,12 @@ import edu.colorado.phet.acidbasesolutions.model.NoSolute;
 import edu.colorado.phet.acidbasesolutions.model.Water;
 
 
-public class PureWaterConcentrationModel extends ConcentrationModel {
+public class PureWaterEquilibriumModel extends EquilibriumModel {
     
     private static final double H3O_CONCENTRATION = 1E-7;
     private static final double OH_CONCENTRATION = 1E-7;
 
-    public PureWaterConcentrationModel( NoSolute solute ) {
+    public PureWaterEquilibriumModel( NoSolute solute ) {
         super( solute );
     }
     

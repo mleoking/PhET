@@ -10,55 +10,55 @@ import edu.colorado.phet.acidbasesolutions.model.Base.StrongBase;
 import edu.colorado.phet.acidbasesolutions.model.Base.WeakBase;
 
 
-public class ConcentrationModelFactory {
+public class EquilibriumModelFactory {
     
     // not intended for instantiation
-    private ConcentrationModelFactory() {}
+    private EquilibriumModelFactory() {}
     
     /**
      * Gets a concentration model that's appropriate for the Solute type.
      * @param solute
      * @return ConcentrationModel
      */
-    public static ConcentrationModel getModel( Solute solute ) {
-        ConcentrationModel model = null;
+    public static EquilibriumModel getModel( Solute solute ) {
+        EquilibriumModel model = null;
         if ( solute instanceof NoSolute ) {
-            model = new PureWaterConcentrationModel( (NoSolute) solute );
+            model = new PureWaterEquilibriumModel( (NoSolute) solute );
         }
         else if ( solute instanceof StrongAcid ) {
-            model = new StrongAcidConcentrationModel( (StrongAcid) solute );
+            model = new StrongAcidEquilibriumModel( (StrongAcid) solute );
         }
         else if ( solute instanceof WeakAcid ) {
-            model = new WeakAcidConcentrationModel( (WeakAcid) solute );
+            model = new WeakAcidEquilibriumModel( (WeakAcid) solute );
         }
         else if ( solute instanceof StrongBase ) {
-            model = new StrongBaseConcentrationModel( (StrongBase) solute );
+            model = new StrongBaseEquilibriumModel( (StrongBase) solute );
         }
         else if ( solute instanceof WeakBase ) {
-            model = new WeakBaseConcentrationModel( (WeakBase) solute );
+            model = new WeakBaseEquilibriumModel( (WeakBase) solute );
         }
         else if ( solute instanceof CustomAcid ) {
             CustomAcid acid = (CustomAcid) solute;
             if ( acid.isStrong() ) {
-                model = new StrongAcidConcentrationModel( acid );
+                model = new StrongAcidEquilibriumModel( acid );
             }
             else if ( acid.isWeak() ) {
-                model = new WeakAcidConcentrationModel( acid );
+                model = new WeakAcidEquilibriumModel( acid );
             }
             else if ( acid.isIntermediate() ) {
-                model = new IntermediateAcidConcentrationModel( acid );
+                model = new IntermediateAcidEquilibriumModel( acid );
             }
         }
         else if ( solute instanceof CustomBase ) {
             CustomBase base = (CustomBase) solute;
             if ( base.isStrong() ) {
-                model = new StrongBaseConcentrationModel( base );
+                model = new StrongBaseEquilibriumModel( base );
             }
             else if ( base.isWeak() ) {
-                model = new WeakBaseConcentrationModel( base );
+                model = new WeakBaseEquilibriumModel( base );
             }
             else if ( base.isIntermediate() ) {
-                model = new IntermediateBaseConcentrationModel( base );
+                model = new IntermediateBaseEquilibriumModel( base );
             } 
         }
         else {

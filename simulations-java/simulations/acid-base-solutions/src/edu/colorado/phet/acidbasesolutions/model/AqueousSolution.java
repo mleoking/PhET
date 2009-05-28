@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import edu.colorado.phet.acidbasesolutions.model.Solute.SoluteListener;
-import edu.colorado.phet.acidbasesolutions.model.concentration.ConcentrationModel;
-import edu.colorado.phet.acidbasesolutions.model.concentration.ConcentrationModelFactory;
+import edu.colorado.phet.acidbasesolutions.model.concentration.EquilibriumModel;
+import edu.colorado.phet.acidbasesolutions.model.concentration.EquilibriumModelFactory;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 
 /**
@@ -18,7 +18,7 @@ import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 public class AqueousSolution {
 
     private Solute solute;
-    private ConcentrationModel concentrationModel;
+    private EquilibriumModel equilibriumModel;
     private final ArrayList<SolutionListener> listeners;
     private final SoluteListener soluteListener;
     
@@ -34,7 +34,7 @@ public class AqueousSolution {
             }
 
             public void strengthChanged() {
-                updateConcentrationModel();
+                updateEquilibriumModel();
                 notifyStrengthChanged();
             }
         };
@@ -47,7 +47,7 @@ public class AqueousSolution {
         }
         this.solute = solute;
         this.solute.addSoluteListener( soluteListener );
-        updateConcentrationModel();
+        updateEquilibriumModel();
         notifySoluteChanged();
     }
     
@@ -55,16 +55,16 @@ public class AqueousSolution {
         return solute;
     }
     
-    public ConcentrationModel getConcentrationModel() {
-        return concentrationModel;
+    public EquilibriumModel getEquilibriumModel() {
+        return equilibriumModel;
     }
     
-    private void updateConcentrationModel() {
-        concentrationModel = ConcentrationModelFactory.getModel( solute );
+    private void updateEquilibriumModel() {
+        equilibriumModel = EquilibriumModelFactory.getModel( solute );
     }
     
     public PHValue getPH() {
-        return concentrationModel.getPH();
+        return equilibriumModel.getPH();
     }
     
     public String toString() {

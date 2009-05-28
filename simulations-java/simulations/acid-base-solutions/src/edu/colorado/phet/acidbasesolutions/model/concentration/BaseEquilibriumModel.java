@@ -3,9 +3,9 @@ package edu.colorado.phet.acidbasesolutions.model.concentration;
 import edu.colorado.phet.acidbasesolutions.model.Base;
 
 
-public abstract class BaseConcentrationModel extends ConcentrationModel {
+public abstract class BaseEquilibriumModel extends EquilibriumModel {
 
-    protected BaseConcentrationModel( Base base ) {
+    protected BaseEquilibriumModel( Base base ) {
         super( base );
     }
 
