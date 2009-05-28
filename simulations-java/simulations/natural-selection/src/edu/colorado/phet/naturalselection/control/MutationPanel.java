@@ -34,10 +34,10 @@ public class MutationPanel extends JPanel {
         colorButton = new JButton( "Brown Fur", new ImageIcon( NaturalSelectionResources.getImage( NaturalSelectionConstants.IMAGE_BUNNY_COLOR_BROWN ) ) );
         colorButton.setHorizontalTextPosition( SwingConstants.LEFT );
 
-        tailButton = new JButton( "Fuzzy Tail", new ImageIcon( NaturalSelectionResources.getImage( NaturalSelectionConstants.IMAGE_BUNNY_TAIL ) ) );
+        tailButton = new JButton( "Fuzzy Tail", new ImageIcon( NaturalSelectionResources.getImage( NaturalSelectionConstants.IMAGE_BUNNY_TAIL_SHORT ) ) );
         tailButton.setHorizontalTextPosition( SwingConstants.LEFT );
 
-        teethButton = new JButton( "Long Teeth", new ImageIcon( NaturalSelectionResources.getImage( NaturalSelectionConstants.IMAGE_BUNNY_TEETH ) ) );
+        teethButton = new JButton( "Long Teeth", new ImageIcon( NaturalSelectionResources.getImage( NaturalSelectionConstants.IMAGE_BUNNY_TEETH_SHORT ) ) );
         teethButton.setHorizontalTextPosition( SwingConstants.LEFT );
 
         GridBagConstraints c = new GridBagConstraints();

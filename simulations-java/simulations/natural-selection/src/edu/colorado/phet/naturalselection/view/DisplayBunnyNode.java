@@ -25,7 +25,6 @@ public class DisplayBunnyNode extends PNode {
 
     // images
     private PImage image;
-    private PImage targetImage;
     private PImage mutatedImage;
 
     // red X
@@ -41,9 +40,6 @@ public class DisplayBunnyNode extends PNode {
 
     // whether we are flipped visually left-to-right
     private boolean flipped = false;
-
-    // whether the bunny looks targeted
-    private boolean targeted = false;
 
 
     /**
@@ -75,12 +71,9 @@ public class DisplayBunnyNode extends PNode {
             imageName += "_long_teeth";
         }
 
-        imageName += ".gif";
+        imageName += ".png";
 
         image = NaturalSelectionResources.getImageNode( imageName );
-
-        targetImage = NaturalSelectionResources.getImageNode( NaturalSelectionConstants.IMAGE_TARGET );
-        targetImage.translate( 40, 130 );
 
         addChild( image );
 
@@ -111,23 +104,6 @@ public class DisplayBunnyNode extends PNode {
     //----------------------------------------------------------------------------
     // Setters and getters
     //----------------------------------------------------------------------------
-
-    public boolean isTargeted() {
-        return targeted;
-    }
-
-    public void setTargeted( boolean targeted ) {
-        if ( targeted != this.targeted ) {
-            if ( targeted ) {
-                addChild( targetImage );
-            }
-            else {
-                removeChild( targetImage );
-            }
-        }
-
-        this.targeted = targeted;
-    }
 
     public void setMutated() {
         mutatedImage = NaturalSelectionResources.getImageNode( NaturalSelectionConstants.IMAGE_MUTATION_BUNNY );

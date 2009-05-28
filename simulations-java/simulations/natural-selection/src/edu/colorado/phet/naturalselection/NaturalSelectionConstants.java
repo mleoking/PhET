@@ -90,30 +90,30 @@ public class NaturalSelectionConstants {
 
     public static final String IMAGE_ARCTIC_ENVIRONMENT = "arctic-environment.png";
     public static final String IMAGE_BIG_VANILLA_BUNNY = "big_bunny.png";
-    public static final String IMAGE_BUNNY_COLOR = "bunny_color.png";
+    public static final String IMAGE_BUNNY_COLOR_WHITE = "bunny_color_white.png";
     public static final String IMAGE_BUNNY_COLOR_BROWN = "bunny_color_brown.png";
-    public static final String IMAGE_BUNNY_TEETH = "bunny_teeth.png";
-    public static final String IMAGE_BUNNY_TEETH_LONG = "bunny_teeth.png";
-    public static final String IMAGE_BUNNY_TAIL = "bunny_tail.png";
-    public static final String IMAGE_BUNNY_TAIL_BIG = "bunny_tail.png";
-    public static final String IMAGE_DISPLAY_BUNNY_WHITE = "bunny_white.gif";
+    public static final String IMAGE_BUNNY_TEETH_SHORT = "bunny_teeth_short.png";
+    public static final String IMAGE_BUNNY_TEETH_LONG = "bunny_teeth_long.png";
+    public static final String IMAGE_BUNNY_TAIL_SHORT = "bunny_tail_short.png";
+    public static final String IMAGE_BUNNY_TAIL_LONG = "bunny_tail_long.png";
 
-    public static final String IMAGE_DISPLAY_BUNNY_BROWN = "bunny_brown.gif";
-    public static final String IMAGE_DISPLAY_BUNNY_WHITE_BIG_TAIL = "bunny_white_big_tail.gif";
-    public static final String IMAGE_DISPLAY_BUNNY_BROWN_BIG_TAIL = "bunny_brown_big_tail.gif";
-    public static final String IMAGE_DISPLAY_BUNNY_WHITE_LONG_TEETH = "bunny_white_long_teeth.gif";
-    public static final String IMAGE_DISPLAY_BUNNY_BROWN_LONG_TEETH = "bunny_brown_long_teeth.gif";
-    public static final String IMAGE_DISPLAY_BUNNY_WHITE_BIG_TAIL_LONG_TEETH = "bunny_white_big_tail_long_teeth.gif";
-    public static final String IMAGE_DISPLAY_BUNNY_BROWN_BIG_TAIL_LONG_TEETH = "bunny_brown_big_tail_long_teeth.gif";
+    public static final String IMAGE_DISPLAY_BUNNY_WHITE = "bunny_white.png";
+    public static final String IMAGE_DISPLAY_BUNNY_WHITE_BIG_TAIL = "bunny_white_big_tail.png";
+    public static final String IMAGE_DISPLAY_BUNNY_WHITE_LONG_TEETH = "bunny_white_long_teeth.png";
+    public static final String IMAGE_DISPLAY_BUNNY_WHITE_BIG_TAIL_LONG_TEETH = "bunny_white_big_tail_long_teeth.png";
+    public static final String IMAGE_DISPLAY_BUNNY_BROWN = "bunny_brown.png";
+    public static final String IMAGE_DISPLAY_BUNNY_BROWN_BIG_TAIL = "bunny_brown_big_tail.png";
+    public static final String IMAGE_DISPLAY_BUNNY_BROWN_LONG_TEETH = "bunny_brown_long_teeth.png";
+    public static final String IMAGE_DISPLAY_BUNNY_BROWN_BIG_TAIL_LONG_TEETH = "bunny_brown_big_tail_long_teeth.png";
+
     public static final String IMAGE_BACKGROUND_EQUATOR = "natural_selection_background_equator_2.png";
-
     public static final String IMAGE_BACKGROUND_ARCTIC = "natural_selection_background_arctic_2.png";
     public static final String IMAGE_SHRUB = "shrub.png";
     public static final String IMAGE_TREE = "tree.png";
-    public static final String IMAGE_MUTATION_PANEL_LARGE = "mutation_large.png";
 
+    public static final String IMAGE_MUTATION_PANEL_LARGE = "mutation_large.png";
     public static final String IMAGE_MUTATION_PANEL_SMALL = "mutation_small.png";
-    public static final String IMAGE_MUTATION_BUNNY = "lightning_bolt.gif";
+    public static final String IMAGE_MUTATION_BUNNY = "mutation_very_large.png";
 
     public static final String IMAGE_WOLF = "wolf_2.png";
 

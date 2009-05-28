@@ -60,7 +60,7 @@ public class MutationPendingNode extends PNode {
             return NaturalSelectionConstants.IMAGE_BUNNY_COLOR_BROWN;
         }
         else if ( gene == TailGene.getInstance() ) {
-            return NaturalSelectionConstants.IMAGE_BUNNY_TAIL_BIG;
+            return NaturalSelectionConstants.IMAGE_BUNNY_TAIL_LONG;
         }
         else if ( gene == TeethGene.getInstance() ) {
             return NaturalSelectionConstants.IMAGE_BUNNY_TEETH_LONG;
