@@ -14,9 +14,7 @@ DEFER:
 - restrict Strength slider to one section of the range (only needed if we add "Custom Weak" acid/base)
 
 ISSUES:
-- precision of concentration text field
 - vertical spacing of items in solute combo box
-- i18n layout issues with Reset All button and View controls
 - if A- icon shows a "hole" where proton was donated, why doesn't B icon show a hole where proton can be accepted?
 
 DONE:
@@ -24,6 +22,8 @@ DONE:
 5/28/09 make concentrations graph narrower to accommodate long molecule equations in View controls
 5/28/09 make ratio checkbox labels multi-line to mitigate layout problems
 5/28/09 move Reset All button to top center to avoid i18n layout conflicts with View controls
+5/28/09 discuss i18n layout issues with Archie
+5/28/08 OK'ed precision of concentration (4 decimals) with Archie
 5/28/09 use PComboBox for solute selection (workaround for PSwing/JComboBox bug on Windows)
 5/26/09 explicitly set canvas background color for reaction equations and equilibrium expressions
 5/26/09 remove workaround for #1670, fixed in PSwing
