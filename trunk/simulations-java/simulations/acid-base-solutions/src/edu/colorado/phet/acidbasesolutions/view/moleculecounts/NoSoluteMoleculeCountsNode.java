@@ -6,7 +6,7 @@ class NoSoluteMoleculeCountsNode extends AbstractMoleculeCountsNode {
 
     public NoSoluteMoleculeCountsNode() {
         super();
-        setVisible( 0, false );
-        setVisible( 1, false );
+        setVisible( getReactantRow(), false );
+        setVisible( getProductRow(), false );
     }
 }

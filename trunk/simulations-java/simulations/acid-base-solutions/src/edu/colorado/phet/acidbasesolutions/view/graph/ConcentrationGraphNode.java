@@ -104,16 +104,16 @@ public class ConcentrationGraphNode extends PComposite {
             else if ( equilibriumModel instanceof WeakAcidEquilibriumModel || equilibriumModel instanceof IntermediateAcidEquilibriumModel || equilibriumModel instanceof StrongAcidEquilibriumModel ) {
                 AcidConcentrationGraphNode node = countsNode.getAcidNode();
                 // counts
-                node.setAcidConcentration( equilibriumModel.getReactantConcentration() );
-                node.setBaseConcentration( equilibriumModel.getProductConcentration() );
+                node.setReactantConcentration( equilibriumModel.getReactantConcentration() );
+                node.setProductConcentration( equilibriumModel.getProductConcentration() );
                 node.setH3OConcentration( equilibriumModel.getH3OConcentration() );
                 node.setOHConcentration( equilibriumModel.getOHConcentration() );
                 node.setH2OConcentration( equilibriumModel.getH2OConcentration() );
                 // labels
-                node.setAcidLabel( solution.getSolute().getSymbol() );
+                node.setReactantLabel( solution.getSolute().getSymbol() );
                 Solute solute = solution.getSolute();
                 if ( solute instanceof Acid ) {
-                    node.setBaseLabel( ((Acid)solution.getSolute()).getConjugateSymbol() );
+                    node.setProductLabel( ((Acid)solution.getSolute()).getConjugateSymbol() );
                 }
                 else {
                     throw new IllegalStateException( "unexpected solute type: " + solute.getClass().getName() );
@@ -122,19 +122,19 @@ public class ConcentrationGraphNode extends PComposite {
             else if ( equilibriumModel instanceof WeakBaseEquilibriumModel || equilibriumModel instanceof IntermediateBaseEquilibriumModel ) {
                 WeakBaseConcentrationGraphNode node = countsNode.getWeakBaseNode();
                 // counts
-                node.setBaseConcentration( equilibriumModel.getReactantConcentration() );
-                node.setAcidConcentration( equilibriumModel.getProductConcentration() );
+                node.setReactantConcentration( equilibriumModel.getReactantConcentration() );
+                node.setProductConcentration( equilibriumModel.getProductConcentration() );
                 node.setH3OConcentration( equilibriumModel.getH3OConcentration() );
                 node.setOHConcentration( equilibriumModel.getOHConcentration() );
                 node.setH2OConcentration( equilibriumModel.getH2OConcentration() );
                 // labels
-                node.setBaseLabel( solution.getSolute().getSymbol() );
+                node.setReactantLabel( solution.getSolute().getSymbol() );
                 Solute solute = solution.getSolute();
                 if ( solute instanceof WeakBase ) {
-                    node.setAcidLabel( ((WeakBase)solution.getSolute()).getConjugateSymbol() );
+                    node.setProductLabel( ((WeakBase)solution.getSolute()).getConjugateSymbol() );
                 }
                 else if ( solute instanceof CustomBase ) {
-                    node.setAcidLabel( ((CustomBase)solution.getSolute()).getConjugateSymbol() );
+                    node.setProductLabel( ((CustomBase)solution.getSolute()).getConjugateSymbol() );
                 }
                 else {
                     throw new IllegalStateException( "unexpected solute type: " + solute.getClass().getName() );
@@ -143,19 +143,19 @@ public class ConcentrationGraphNode extends PComposite {
             else if ( equilibriumModel instanceof StrongBaseEquilibriumModel ) {
                 StrongBaseConcentrationGraphNode node = countsNode.getStrongBaseNode();
                 // counts
-                node.setBaseConcentration( equilibriumModel.getReactantConcentration() );
-                node.setMetalConcentration( equilibriumModel.getProductConcentration() );
+                node.setReactantConcentration( equilibriumModel.getReactantConcentration() );
+                node.setProductConcentration( equilibriumModel.getProductConcentration() );
                 node.setH3OConcentration( equilibriumModel.getH3OConcentration() );
                 node.setOHConcentration( equilibriumModel.getOHConcentration() );
                 node.setH2OConcentration( equilibriumModel.getH2OConcentration() );
                 // labels
-                node.setBaseLabel( solution.getSolute().getSymbol() );
+                node.setReactantLabel( solution.getSolute().getSymbol() );
                 Solute solute = solution.getSolute();
                 if ( solute instanceof StrongBase ) {
-                    node.setMetalLabel( ((StrongBase)solution.getSolute()).getMetalSymbol() );
+                    node.setProductLabel( ((StrongBase)solution.getSolute()).getMetalSymbol() );
                 }
                 else if ( solute instanceof CustomBase ) {
-                    node.setMetalLabel( ((CustomBase)solution.getSolute()).getMetalSymbol() );
+                    node.setProductLabel( ((CustomBase)solution.getSolute()).getMetalSymbol() );
                 }
                 else {
                     throw new IllegalStateException( "unexpected solute type: " + solute.getClass().getName() );

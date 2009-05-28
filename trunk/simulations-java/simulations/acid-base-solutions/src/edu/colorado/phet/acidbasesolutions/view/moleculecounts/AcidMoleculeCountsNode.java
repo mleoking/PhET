@@ -6,29 +6,10 @@ import edu.colorado.phet.acidbasesolutions.ABSSymbols;
 
 class AcidMoleculeCountsNode extends AbstractMoleculeCountsNode {
     
-    private static int ACID_ROW = 0;
-    private static int BASE_ROW = 1;
-
     public AcidMoleculeCountsNode() {
         super();
-        setIconAndLabel( ACID_ROW, ABSImages.HA_MOLECULE, ABSSymbols.HA );
-        setIconAndLabel( BASE_ROW, ABSImages.A_MINUS_MOLECULE, ABSSymbols.A );
-        setNegligibleEnabled( ACID_ROW, true, 0 /* negligibleThreshold */ );
-    }
-    
-    public void setAcidLabel( String text ) {
-        setLabel( ACID_ROW, text );
-    }
-
-    public void setAcidCount( double count ) {
-        setCount( ACID_ROW, count );
-    }
-    
-    public void setBaseLabel( String text ) {
-        setLabel( BASE_ROW, text );
-    }
-
-    public void setBaseCount( double count ) {
-        setCount( BASE_ROW, count );
+        setIconAndLabel( getReactantRow(), ABSImages.HA_MOLECULE, ABSSymbols.HA );
+        setIconAndLabel( getProductRow(), ABSImages.A_MINUS_MOLECULE, ABSSymbols.A );
+        setNegligibleEnabled( getReactantRow(), true, 0 /* negligibleThreshold */ );
     }
 }

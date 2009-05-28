@@ -29,6 +29,8 @@ abstract class AbstractMoleculeCountsNode extends PComposite {
     
     private static final int ROWS = 5;
 
+    private static final int REACTANT_ROW = 0;
+    private static final int PRODUCT_ROW = 1;
     private static final int H3O_ROW = 2;
     private static final int OH_ROW = 3;
     private static final int H2O_ROW = 4;
@@ -48,6 +50,14 @@ abstract class AbstractMoleculeCountsNode extends PComposite {
     private final ValueNode[] countNodes;
     private final IconNode[] iconNodes;
     private final LabelNode[] labelNodes;
+    
+    protected static int getReactantRow() {
+        return REACTANT_ROW;
+    }
+    
+    protected static int getProductRow() {
+        return PRODUCT_ROW;
+    }
 
     public AbstractMoleculeCountsNode() {
         super();
@@ -131,6 +141,14 @@ abstract class AbstractMoleculeCountsNode extends PComposite {
         countNode.setOffset( xOffset, yOffset );
     }
     
+    public void setReactantCount( double count ) {
+        setCount( REACTANT_ROW, count );
+    }
+    
+    public void setProductCount( double count ) {
+        setCount( PRODUCT_ROW, count );
+    }
+
     public void setH3OCount( double count ) {
         setCount( H3O_ROW, count );
     }
@@ -161,6 +179,14 @@ abstract class AbstractMoleculeCountsNode extends PComposite {
     protected void setIcon( int row, Image image ) {
         iconNodes[row].setImage( image );
         updateLayout();
+    }
+    
+    public void setReactantLabel( String text ) {
+        setLabel( REACTANT_ROW, text );
+    }
+    
+    public void setProductLabel( String text ) {
+        setLabel( PRODUCT_ROW, text );
     }
     
     protected void setLabel( int row, String text ) {
