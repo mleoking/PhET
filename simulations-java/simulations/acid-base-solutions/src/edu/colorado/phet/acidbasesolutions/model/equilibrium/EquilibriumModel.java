@@ -1,4 +1,4 @@
-package edu.colorado.phet.acidbasesolutions.model.concentration;
+package edu.colorado.phet.acidbasesolutions.model.equilibrium;
 
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.model.PHValue;

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import edu.colorado.phet.acidbasesolutions.model.Solute.SoluteListener;
-import edu.colorado.phet.acidbasesolutions.model.concentration.EquilibriumModel;
-import edu.colorado.phet.acidbasesolutions.model.concentration.EquilibriumModelFactory;
+import edu.colorado.phet.acidbasesolutions.model.equilibrium.EquilibriumModel;
+import edu.colorado.phet.acidbasesolutions.model.equilibrium.EquilibriumModelFactory;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 
 /**
