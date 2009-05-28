@@ -18,6 +18,8 @@ ISSUES:
 - if A- icon shows a "hole" where proton was donated, why doesn't B icon show a hole where proton can be accepted?
 
 DONE:
+5/28/09 simplify molecule counts class hierarchy
+5/28/09 terminology change: concentration model -> equilibrium model
 5/28/09 ensure that View controls don't overlap beaker
 5/28/09 make concentrations graph narrower to accommodate long molecule equations in View controls
 5/28/09 make ratio checkbox labels multi-line to mitigate layout problems

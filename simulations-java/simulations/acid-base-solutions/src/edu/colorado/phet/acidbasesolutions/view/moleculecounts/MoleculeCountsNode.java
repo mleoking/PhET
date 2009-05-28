@@ -1,24 +1,22 @@
 
 package edu.colorado.phet.acidbasesolutions.view.moleculecounts;
 
+import edu.colorado.phet.acidbasesolutions.ABSImages;
 import edu.colorado.phet.acidbasesolutions.model.Acid;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
+import edu.colorado.phet.acidbasesolutions.model.NoSolute;
 import edu.colorado.phet.acidbasesolutions.model.Solute;
+import edu.colorado.phet.acidbasesolutions.model.Acid.CustomAcid;
+import edu.colorado.phet.acidbasesolutions.model.Acid.StrongAcid;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.SolutionListener;
 import edu.colorado.phet.acidbasesolutions.model.Base.CustomBase;
 import edu.colorado.phet.acidbasesolutions.model.Base.StrongBase;
 import edu.colorado.phet.acidbasesolutions.model.Base.WeakBase;
-import edu.colorado.phet.acidbasesolutions.model.equilibrium.*;
-import edu.umd.cs.piccolox.nodes.PComposite;
+import edu.colorado.phet.acidbasesolutions.model.equilibrium.EquilibriumModel;
 
 
-public class MoleculeCountsNode extends PComposite {
+public class MoleculeCountsNode extends AbstractMoleculeCountsNode {
 
-    private final NoSoluteMoleculeCountsNode waterNode;
-    private final AcidMoleculeCountsNode acidNode;
-    private final WeakBaseMoleculeCountsNode weakBaseNode;
-    private final StrongBaseMoleculeCountsNode strongBaseNode;
-    
     public MoleculeCountsNode( AqueousSolution solution ) {
         this();
         solution.addSolutionListener( new ModelViewController( solution, this ) );
@@ -29,34 +27,6 @@ public class MoleculeCountsNode extends PComposite {
         // not interactive
         setPickable( false );
         setChildrenPickable( false );
-        
-        waterNode = new NoSoluteMoleculeCountsNode();
-        addChild( waterNode );
-        
-        acidNode = new AcidMoleculeCountsNode();
-        addChild( acidNode );
-        
-        weakBaseNode = new WeakBaseMoleculeCountsNode();
-        addChild( weakBaseNode );
-        
-        strongBaseNode = new StrongBaseMoleculeCountsNode();
-        addChild( strongBaseNode );
-    }
-    
-    protected NoSoluteMoleculeCountsNode getWaterNode() {
-        return waterNode;
-    }
-    
-    protected AcidMoleculeCountsNode getAcidNode() {
-        return acidNode;
-    }
-    
-    protected WeakBaseMoleculeCountsNode getWeakBaseNode() {
-        return weakBaseNode;
-    }
-    
-    protected StrongBaseMoleculeCountsNode getStrongBaseNode() {
-        return strongBaseNode;
     }
     
     private static class ModelViewController implements SolutionListener {
@@ -67,102 +37,103 @@ public class MoleculeCountsNode extends PComposite {
         public ModelViewController( AqueousSolution solution, MoleculeCountsNode countsNode ) {
             this.solution = solution;
             this.countsNode = countsNode;
-            updateView();
+            updateIconsAndLabels();
+            updateCounts();
         }
         
         public void soluteChanged() {
-            updateView();
+            updateIconsAndLabels();
+            updateCounts();
         }
         
         public void concentrationChanged() {
-            updateView();
+            updateCounts();
         }
 
         public void strengthChanged() {
-            updateView();
+            updateCounts();
         }
         
-        private void updateView() {
-            
+        private void updateCounts() {
             EquilibriumModel equilibriumModel = solution.getEquilibriumModel();
+            countsNode.setReactantCount( equilibriumModel.getReactantMoleculeCount() );
+            countsNode.setProductCount( equilibriumModel.getProductMoleculeCount() );
+            countsNode.setH3OCount( equilibriumModel.getH3OMoleculeCount() );
+            countsNode.setOHCount( equilibriumModel.getOHMoleculeCount() );
+            countsNode.setH2OCount( equilibriumModel.getH2OMoleculeCount() );
+        }
+        
+        private void updateIconsAndLabels() {
             
-            // visibility
-            countsNode.getWaterNode().setVisible( equilibriumModel instanceof PureWaterEquilibriumModel );
-            countsNode.getAcidNode().setVisible( equilibriumModel instanceof WeakAcidEquilibriumModel || equilibriumModel instanceof IntermediateAcidEquilibriumModel || equilibriumModel instanceof StrongAcidEquilibriumModel );
-            countsNode.getWeakBaseNode().setVisible( equilibriumModel instanceof WeakBaseEquilibriumModel || equilibriumModel instanceof IntermediateBaseEquilibriumModel );
-            countsNode.getStrongBaseNode().setVisible( equilibriumModel instanceof StrongBaseEquilibriumModel );
+            Solute solute = solution.getSolute();
             
+            // hide reactant and product counts for pure water
+            boolean pureWater = solute instanceof NoSolute; //XXX get rid of this
+            countsNode.setReactantVisible( !pureWater );
+            countsNode.setProductVisible( !pureWater );
             
-            
-            // counts & labels
-            if ( equilibriumModel instanceof PureWaterEquilibriumModel ) {
-                NoSoluteMoleculeCountsNode node = countsNode.getWaterNode();
-                node.setH3OCount( equilibriumModel.getH3OMoleculeCount() );
-                node.setOHCount( equilibriumModel.getOHMoleculeCount() );
-                node.setH2OCount( equilibriumModel.getH2OMoleculeCount() );
+            // icons
+            //XXX get rid of this block
+            if ( solute instanceof NoSolute ) {
+                // do nothing, icons not visible
             }
-            else if ( equilibriumModel instanceof WeakAcidEquilibriumModel || equilibriumModel instanceof IntermediateAcidEquilibriumModel || equilibriumModel instanceof StrongAcidEquilibriumModel ) {
-                AcidMoleculeCountsNode node = countsNode.getAcidNode();
-                // counts
-                node.setReactantCount( equilibriumModel.getReactantMoleculeCount() );
-                node.setProductCount( equilibriumModel.getProductMoleculeCount() );
-                node.setH3OCount( equilibriumModel.getH3OMoleculeCount() );
-                node.setOHCount( equilibriumModel.getOHMoleculeCount() );
-                node.setH2OCount( equilibriumModel.getH2OMoleculeCount() );
-                // labels
-                node.setReactantLabel( solution.getSolute().getSymbol() );
-                Solute solute = solution.getSolute();
-                if ( solute instanceof Acid ) {
-                    node.setProductLabel( ((Acid)solution.getSolute()).getConjugateSymbol() );
+            else if ( solute instanceof Acid ) {
+                countsNode.setReactantIcon( ABSImages.HA_MOLECULE );
+                countsNode.setProductIcon( ABSImages.A_MINUS_MOLECULE );
+            }
+            else if ( solute instanceof WeakBase ) {
+                countsNode.setReactantIcon( ABSImages.B_MOLECULE );
+                countsNode.setProductIcon( ABSImages.BH_PLUS_MOLECULE );
+            }
+            else if ( solute instanceof StrongBase ) {
+                countsNode.setReactantIcon( ABSImages.MOH_MOLECULE );
+                countsNode.setProductIcon( ABSImages.M_PLUS_MOLECULE );
+            }
+            else if ( solute instanceof CustomBase ) {
+                CustomBase customBase = (CustomBase) solute;
+                if ( customBase.isStrong() ) {
+                    countsNode.setReactantIcon( ABSImages.MOH_MOLECULE );
+                    countsNode.setProductIcon( ABSImages.M_PLUS_MOLECULE );
                 }
                 else {
-                    throw new IllegalStateException( "unexpected solute type: " + solute.getClass().getName() );
+                    countsNode.setReactantIcon( ABSImages.B_MOLECULE );
+                    countsNode.setProductIcon( ABSImages.BH_PLUS_MOLECULE );
                 }
             }
-            else if ( equilibriumModel instanceof WeakBaseEquilibriumModel || equilibriumModel instanceof IntermediateBaseEquilibriumModel  ) {
-                WeakBaseMoleculeCountsNode node = countsNode.getWeakBaseNode();
-                // counts
-                node.setReactantCount( equilibriumModel.getReactantMoleculeCount() );
-                node.setProductCount( equilibriumModel.getProductMoleculeCount() );
-                node.setH3OCount( equilibriumModel.getH3OMoleculeCount() );
-                node.setOHCount( equilibriumModel.getOHMoleculeCount() );
-                node.setH2OCount( equilibriumModel.getH2OMoleculeCount() );
-                // labels
-                node.setReactantLabel( solution.getSolute().getSymbol() );
-                Solute solute = solution.getSolute();
-                if ( solute instanceof WeakBase ) {
-                    node.setProductLabel( ((WeakBase)solution.getSolute()).getConjugateSymbol() );
-                }
-                else if ( solute instanceof CustomBase ) {
-                    node.setProductLabel( ((CustomBase)solution.getSolute()).getConjugateSymbol() );
+            else {
+                throw new IllegalStateException( "unexpected solute type: " + solute.getClass().getName() );
+            }
+            
+            // "negligible" counts
+            boolean negligibleEnabled = ( solute instanceof StrongAcid || solute instanceof CustomAcid ); //XXX get rid of this
+            countsNode.setReactantNegligibleEnabled( negligibleEnabled );
+            
+            // labels
+            countsNode.setReactantLabel( solution.getSolute().getSymbol() );
+            //XXX get rid of this block
+            if ( solute instanceof NoSolute ) {
+                // do nothing, product not visible
+            }
+            else if ( solute instanceof Acid ) {
+                countsNode.setProductLabel( ((Acid)solution.getSolute()).getConjugateSymbol() );
+            }
+            else if ( solute instanceof WeakBase ) {
+                countsNode.setProductLabel( ((WeakBase)solution.getSolute()).getConjugateSymbol() );
+            }
+            else if ( solute instanceof StrongBase ) {
+                countsNode.setProductLabel( ((StrongBase)solution.getSolute()).getMetalSymbol() );
+            }
+            else if ( solute instanceof CustomBase ) {
+                CustomBase customBase = (CustomBase) solute;
+                if ( customBase.isStrong() ) {
+                    countsNode.setProductLabel( customBase.getMetalSymbol() );
                 }
                 else {
-                    throw new IllegalStateException( "unexpected solute type: " + solute.getClass().getName() );
+                    countsNode.setProductLabel( customBase.getConjugateSymbol() );
                 }
             }
-            else if ( equilibriumModel instanceof StrongBaseEquilibriumModel ) {
-                StrongBaseMoleculeCountsNode node = countsNode.getStrongBaseNode();
-                // counts
-                node.setReactantCount( equilibriumModel.getReactantMoleculeCount() );
-                node.setProductCount( equilibriumModel.getProductMoleculeCount() );
-                node.setH3OCount( equilibriumModel.getH3OMoleculeCount() );
-                node.setOHCount( equilibriumModel.getOHMoleculeCount() );
-                node.setH2OCount( equilibriumModel.getH2OMoleculeCount() );
-                // labels
-                node.setReactantLabel( solution.getSolute().getSymbol() );
-                Solute solute = solution.getSolute();
-                if ( solute instanceof StrongBase ) {
-                    node.setProductLabel( ((StrongBase)solution.getSolute()).getMetalSymbol() );
-                }
-                else if ( solute instanceof CustomBase ) {
-                    node.setProductLabel( ((CustomBase)solution.getSolute()).getMetalSymbol() );
-                }
-                else {
-                    throw new IllegalStateException( "unexpected solute type: " + solute.getClass().getName() );
-                }
-            }
-            else { 
-                throw new UnsupportedOperationException( "unsupported concentration model type: " + equilibriumModel.getClass().getName() );
+            else {
+                throw new IllegalStateException( "unexpected solute type: " + solute.getClass().getName() );
             }
         }
     }

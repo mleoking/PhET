@@ -21,7 +21,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Base class for all molecule counts.
+ * Base class for molecule counts, knows nothing about model or how to update itself.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -29,11 +29,11 @@ abstract class AbstractMoleculeCountsNode extends PComposite {
     
     private static final int ROWS = 5;
 
-    private static final int REACTANT_ROW = 0;
-    private static final int PRODUCT_ROW = 1;
-    private static final int H3O_ROW = 2;
-    private static final int OH_ROW = 3;
-    private static final int H2O_ROW = 4;
+    private static final int REACTANT_INDEX = 0;
+    private static final int PRODUCT_INDEX = 1;
+    private static final int H3O_INDEX = 2;
+    private static final int OH_INDEX = 3;
+    private static final int H2O_INDEX = 4;
     
     private static final double X_SPACING = 10;
     private static final double Y_SPACING = 20;
@@ -42,6 +42,7 @@ abstract class AbstractMoleculeCountsNode extends PComposite {
     private static final ConstantPowerOfTenNumberFormat VALUE_FORMAT_H2O = new ConstantPowerOfTenNumberFormat( "0.0", 25 );
     private static final Color VALUE_BACKGROUND_COLOR = new Color( 255, 255, 255, 128 ); // translucent white
     private static final Insets VALUE_INSETS = new Insets( 4, 4, 4, 4 ); // top, left, bottom, right
+    private static final double NEGLIGIBLE_THRESHOLD = 0;
     
     private static final Font LABEL_FONT = new PhetFont( Font.PLAIN, 18 );
     private static final Color LABEL_COLOR = Color.BLACK;
@@ -51,14 +52,6 @@ abstract class AbstractMoleculeCountsNode extends PComposite {
     private final IconNode[] iconNodes;
     private final LabelNode[] labelNodes;
     
-    protected static int getReactantRow() {
-        return REACTANT_ROW;
-    }
-    
-    protected static int getProductRow() {
-        return PRODUCT_ROW;
-    }
-
     public AbstractMoleculeCountsNode() {
         super();
 
@@ -87,10 +80,10 @@ abstract class AbstractMoleculeCountsNode extends PComposite {
             addChild( labelNodes[i] );
         }
         
-        setIconAndLabel( H3O_ROW, ABSImages.H3O_PLUS_MOLECULE, ABSSymbols.H3O_PLUS );
-        setIconAndLabel( OH_ROW, ABSImages.OH_MINUS_MOLECULE, ABSSymbols.OH_MINUS );
-        setIconAndLabel( H2O_ROW, ABSImages.H2O_MOLECULE, ABSSymbols.H2O );
-        setFormat( H2O_ROW, VALUE_FORMAT_H2O );
+        setIconAndLabel( H3O_INDEX, ABSImages.H3O_PLUS_MOLECULE, ABSSymbols.H3O_PLUS );
+        setIconAndLabel( OH_INDEX, ABSImages.OH_MINUS_MOLECULE, ABSSymbols.OH_MINUS );
+        setIconAndLabel( H2O_INDEX, ABSImages.H2O_MOLECULE, ABSSymbols.H2O );
+        setFormat( H2O_INDEX, VALUE_FORMAT_H2O );
         
         updateLayout();
     }
@@ -141,24 +134,32 @@ abstract class AbstractMoleculeCountsNode extends PComposite {
         countNode.setOffset( xOffset, yOffset );
     }
     
+    public void setReactantVisible( boolean visible ) {
+        setVisible( REACTANT_INDEX, visible );
+    }
+    
+    public void setProductVisible( boolean visible ) {
+        setVisible( PRODUCT_INDEX, visible );
+    }
+    
     public void setReactantCount( double count ) {
-        setCount( REACTANT_ROW, count );
+        setCount( REACTANT_INDEX, count );
     }
     
     public void setProductCount( double count ) {
-        setCount( PRODUCT_ROW, count );
+        setCount( PRODUCT_INDEX, count );
     }
 
     public void setH3OCount( double count ) {
-        setCount( H3O_ROW, count );
+        setCount( H3O_INDEX, count );
     }
     
     public void setOHCount( double count ) {
-        setCount( OH_ROW, count );
+        setCount( OH_INDEX, count );
     }
     
     public void setH2OCount( double count ) {
-        setCount( H2O_ROW, count );
+        setCount( H2O_INDEX, count );
     }
 
     protected void setCount( int row, double count ) {
@@ -171,9 +172,21 @@ abstract class AbstractMoleculeCountsNode extends PComposite {
         updateCountLayout( row );
     }
     
+    public void setReactantNegligibleEnabled( boolean enabled ) {
+        setNegligibleEnabled( REACTANT_INDEX, enabled, NEGLIGIBLE_THRESHOLD );
+    }
+    
     protected void setNegligibleEnabled( int row, boolean enabled, double negligibleThreshold ) {
         countNodes[row].setNegligibleEnabled( enabled, negligibleThreshold );
         updateCountLayout( row );
+    }
+    
+    public void setReactantIcon( Image image ) {
+        setIcon( REACTANT_INDEX, image );
+    }
+    
+    public void setProductIcon( Image image ) {
+        setIcon( PRODUCT_INDEX, image );
     }
     
     protected void setIcon( int row, Image image ) {
@@ -182,11 +195,11 @@ abstract class AbstractMoleculeCountsNode extends PComposite {
     }
     
     public void setReactantLabel( String text ) {
-        setLabel( REACTANT_ROW, text );
+        setLabel( REACTANT_INDEX, text );
     }
     
     public void setProductLabel( String text ) {
-        setLabel( PRODUCT_ROW, text );
+        setLabel( PRODUCT_INDEX, text );
     }
     
     protected void setLabel( int row, String text ) {
