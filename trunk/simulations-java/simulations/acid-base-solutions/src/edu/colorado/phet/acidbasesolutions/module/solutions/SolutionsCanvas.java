@@ -49,7 +49,7 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         
         concentrationGraphNode = new ConcentrationGraphNode( SolutionsDefaults.CONCENTRATION_GRAPH_OUTLINE_SIZE, solution );
         
-        solutionControlsNode = new SolutionControlsNode( solution );
+        solutionControlsNode = new SolutionControlsNode( this, solution );
         solutionControlsNode.scale( ABSConstants.PSWING_SCALE );
         
         beakerControlsNode = new BeakerControlsNode( beakerNode, getBackground(), solution );
