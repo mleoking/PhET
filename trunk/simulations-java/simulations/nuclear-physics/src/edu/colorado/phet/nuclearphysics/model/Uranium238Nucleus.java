@@ -116,7 +116,6 @@ public class Uranium238Nucleus extends AbstractDecayNucleus {
     	}
     }
 
-
 	protected void decay(ClockEvent clockEvent) {
 		
 		// Decay into Lead 206.
