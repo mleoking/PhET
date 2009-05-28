@@ -65,8 +65,9 @@ public class MultiNucleusAlphaDecayModule extends PiccoloModule {
      */
     public void reset() {
 
-        // Reset the clock, which ultimately resets the model too.
+        // Reset the clock and the model.
         _model.getClock().resetSimulationTime();
+        _model.reset();
         setClockRunningWhenActive( AlphaDecayDefaults.CLOCK_RUNNING );
         
         // Reset the canvas and its sub-nodes.

@@ -52,6 +52,10 @@ public abstract class AbstractDecayNucleus extends AtomicNucleus implements Nucl
 	public double getHalfLife() {
 	    return _halfLife;
 	}
+	
+	public double getDecayTimeScalingFactor() {
+		return _decayTimeScalingFactor;
+	}
 
 	/**
 	 * Set the half life for this nucleus.
@@ -116,7 +120,8 @@ public abstract class AbstractDecayNucleus extends AtomicNucleus implements Nucl
 	public abstract boolean hasDecayed();
 
 	/**
-	 * Return true if decay is currently active and false if not.
+	 * Return true if decay is currently active and false if not.  Note that
+	 * this will return false if the nucleus has already decayed.
 	 */
 	public boolean isDecayActive() {
 		if (_decayTime != 0){
@@ -169,7 +174,7 @@ public abstract class AbstractDecayNucleus extends AtomicNucleus implements Nucl
     protected void notifyActivated(){
         
         for (int i = 0; i < _listeners.size(); i++){
-            ((Listener)_listeners.get( i )).activated(this);
+//            ((Listener)_listeners.get( i )).activated(this);
         }
     }
 	

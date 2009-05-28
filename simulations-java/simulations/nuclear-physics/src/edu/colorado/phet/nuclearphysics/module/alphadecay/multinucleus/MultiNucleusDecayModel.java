@@ -47,7 +47,7 @@ public class MultiNucleusDecayModel implements NucleusTypeControl {
     //------------------------------------------------------------------------
 	
 	protected NuclearPhysicsClock _clock;
-	ArrayList _listeners = new ArrayList();
+	protected ArrayList _listeners = new ArrayList();
 	protected ArrayList<AbstractDecayNucleus> _atomicNuclei;
 	protected int _currentNucleusType;
 	protected int _initialNucleusType;
@@ -78,11 +78,6 @@ public class MultiNucleusDecayModel implements NucleusTypeControl {
              */
             public void clockTicked(ClockEvent clockEvent){
                 handleClockTicked(clockEvent);
-            }
-            
-            public void simulationTimeReset(ClockEvent clockEvent){
-                // Reset the model.
-            	reset();
             }
         });
         
@@ -192,7 +187,7 @@ public class MultiNucleusDecayModel implements NucleusTypeControl {
         _nucleusListener = new AtomicNucleus.Adapter();
 	}
 
-	protected void reset() {
+	public void reset() {
 		removeAllNuclei();
 		_currentNucleusType = _initialNucleusType;
 		addMaxNuclei();  // For now, this is the desired behavior of all subclasses.
@@ -366,5 +361,4 @@ public class MultiNucleusDecayModel implements NucleusTypeControl {
 		}
 		return activeCount;
 	}
-
 }

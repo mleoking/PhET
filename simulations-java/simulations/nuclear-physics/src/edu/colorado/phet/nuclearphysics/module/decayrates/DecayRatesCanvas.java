@@ -66,7 +66,7 @@ public class DecayRatesCanvas extends PhetPCanvas {
     private static final Color BUCKET_AND_BUTTON_COLOR = new Color(90, 180, 225);
     
     // Constant that controls how often the chart is updated.
-	private static final int CHART_REFRESH_COUNT = 100;
+	private static final int CHART_REFRESH_COUNT = 5;
 
 	// TODO: For prototyping, remove once final decision is made.
     private static final boolean USE_BUTTON_INSTEAD_OF_SLIDER = false;
@@ -93,6 +93,15 @@ public class DecayRatesCanvas extends PhetPCanvas {
     public DecayRatesCanvas( DecayRatesModel decayRatesModel ) {
 
     	_model = decayRatesModel;
+    	
+    	_model.getClock().addClockListener(new ClockAdapter(){
+    	    public void clockTicked( ClockEvent clockEvent ) {
+    	    	if (_model.getNumActiveNuclei() > 0){
+    	    		// Update the chart.
+    	    		updateChartData(clockEvent);
+    	    	}
+    	    }
+    	});
     	
         // Set the transform strategy in such a way that the center of the
         // visible canvas will be at 0,0.
@@ -183,12 +192,13 @@ public class DecayRatesCanvas extends PhetPCanvas {
             _bucketNode.getSlider().addMouseListener(new MouseAdapter(){
             	
             	public void mousePressed(MouseEvent me){
+            		_model.getClock().setPaused(true);
+            		_model.getClock().resetSimulationTime();
             		_model.resetActiveAndDecayedNuclei();
             		_proportionsChart.clear();
-            		_model.setPaused(true);
             	}
             	public void mouseReleased(MouseEvent me){
-            		_model.setPaused(false);
+            		_model.getClock().setPaused(false);
             	}
             });
             
@@ -435,33 +445,15 @@ public class DecayRatesCanvas extends PhetPCanvas {
     	}
 	}
 
-    // TODO: Get rid of this if we don't end up using it.
-//	private void handleClockTicked(ClockEvent clockEvent) {
-//		// Add a data point to the chart, but don't do it every clock tick
-//		// or there will be far too many data points.
-//		_chartRefreshCounter++;
-//		if (_chartRefreshCounter % CHART_REFRESH_COUNT == 0){
-//			_proportionsChart.addDataPoint(time, _model.getNumActiveNuclei(), _model.getNumDecayedNuclei());
-//		}
-//	}
-
-    
-    /**
-     * Reset all the nuclei back to their pre-decay state.
-     */
-    private void resetAllNuclei(){
-        Set entries = _mapNucleiToNodes.entrySet();
-        Iterator iterator = entries.iterator();
-        while (iterator.hasNext()) {
-            Map.Entry entry = (Map.Entry)iterator.next();
-            AtomicNucleus nucleus = (AtomicNucleus)entry.getKey();
-            nucleus.reset();
-        }
-    }
-    
-	/**
-     * Sets the view back to the original state when sim was first started.
-     */
-    public void reset(){
-    }
+	private void updateChartData(ClockEvent clockEvent) {
+		// Add a data point to the chart, but don't do it every clock tick
+		// or there will be too many data points.
+		_chartRefreshCounter++;
+		if (_chartRefreshCounter % CHART_REFRESH_COUNT == 0){
+			_proportionsChart.addDataPoint(_model.convertSimTimeToAdjustedTime(clockEvent.getSimulationTime()),
+					_model.getNumActiveNuclei(), _model.getNumDecayedNuclei());
+			
+			System.out.println("---> " + _model.convertSimTimeToAdjustedTime(clockEvent.getSimulationTime()));
+		}
+	}
 }

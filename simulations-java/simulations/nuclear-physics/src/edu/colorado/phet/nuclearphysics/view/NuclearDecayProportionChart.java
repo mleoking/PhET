@@ -334,6 +334,11 @@ public class NuclearDecayProportionChart extends PNode {
 		if ( _pieChart != null ){
 			_pieChart.setAmounts(numUndecayed, numDecayed);
 		}
+		
+		// Update the graph.
+    	Point2D decayEvent = new Point2D.Double( time, 100 * (double)numDecayed/(double)(numDecayed + numUndecayed));
+		_decayEvents.add( decayEvent );
+		_graph.graphDecayEvent( decayEvent );
     }
     
     /**
