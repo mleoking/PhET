@@ -48,7 +48,7 @@ public class MultiNucleusDecayModel implements NucleusTypeControl {
 	
 	protected NuclearPhysicsClock _clock;
 	ArrayList _listeners = new ArrayList();
-	protected ArrayList<AtomicNucleus> _atomicNuclei;
+	protected ArrayList<AbstractDecayNucleus> _atomicNuclei;
 	protected int _currentNucleusType;
 	protected int _initialNucleusType;
 	protected AtomicNucleus.Adapter _nucleusListener;
@@ -315,7 +315,7 @@ public class MultiNucleusDecayModel implements NucleusTypeControl {
 		
 		// Set the new half life value.
 		for (int i = 0; i < _atomicNuclei.size(); i++){
-			((AbstractDecayNucleus)_atomicNuclei.get(i)).setHalfLife(halfLife);
+			(_atomicNuclei.get(i)).setHalfLife(halfLife);
 		}
 		
 		// Inform any listeners of the change.
@@ -330,13 +330,41 @@ public class MultiNucleusDecayModel implements NucleusTypeControl {
 		
 		// Get the half life from the first nucleus in the list, and assume
 		// that all nuclei are the same.
-		return ((AbstractDecayNucleus)_atomicNuclei.get(0)).getHalfLife();
+		return (_atomicNuclei.get(0)).getHalfLife();
 	}
 	
 	/**
 	 * Get the current total number of nuclei in the model.
 	 */
-	public int getNumNuclei(){
+	public int getTotalNumNuclei(){
 		return _atomicNuclei.size();
 	}
+	
+	/**
+	 * Get the number of decayed nuclei in the model.
+	 */
+	public int getNumDecayedNuclei(){
+		int decayCount = 0;
+		for (AbstractDecayNucleus nucleus : _atomicNuclei){
+			if (nucleus.hasDecayed()){
+				decayCount++;
+			}
+		}
+		return decayCount;
+	}
+	
+	/**
+	 * Get the number of active nuclei, meaning nuclei that are being clocked
+	 * and are progressing towards decay.
+	 */
+	public int getNumActiveNuclei(){
+		int activeCount = 0;
+		for (AbstractDecayNucleus nucleus : _atomicNuclei){
+			if (nucleus.isDecayActive()){
+				activeCount++;
+			}
+		}
+		return activeCount;
+	}
+
 }

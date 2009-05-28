@@ -49,6 +49,10 @@ public class DecayRatesModel extends MultiNucleusDecayModel {
 	private double _worldSizeX = INITIAL_WORLD_WIDTH;
 	private double _worldSizeY = INITIAL_WORLD_HEIGHT;
 
+    //------------------------------------------------------------------------
+    // Constructor(s)
+    //------------------------------------------------------------------------
+    
     /**
      * @param clock
      */

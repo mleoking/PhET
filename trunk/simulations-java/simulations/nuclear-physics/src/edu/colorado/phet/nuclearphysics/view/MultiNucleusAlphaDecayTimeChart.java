@@ -329,7 +329,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         
         // Add the pie chart.
         _pieChartValues = new PieValue[]{
-                new PieChartNode.PieValue( _model.getNumNuclei(), NuclearPhysicsConstants.POLONIUM_LABEL_COLOR ),
+                new PieChartNode.PieValue( _model.getTotalNumNuclei(), NuclearPhysicsConstants.POLONIUM_LABEL_COLOR ),
                 new PieChartNode.PieValue( 0, NuclearPhysicsConstants.LEAD_LABEL_COLOR )};
         _pieChart = new PieChartNode(_pieChartValues, new Rectangle(20, 20));  // Arbitrary initial size, resized later.
         _nonPickableChartNode.addChild( _pieChart );
