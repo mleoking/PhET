@@ -86,24 +86,24 @@ public class ConcentrationGraphNode extends PComposite {
         
         private void updateView() {
             
-            EquilibriumModel concentrationModel = solution.getEquilibriumModel();
+            EquilibriumModel equilibriumModel = solution.getEquilibriumModel();
             
             // visibility
-            countsNode.getWaterNode().setVisible( concentrationModel instanceof PureWaterEquilibriumModel );
-            countsNode.getAcidNode().setVisible( concentrationModel instanceof AcidEquilibriumModel );
-            countsNode.getWeakBaseNode().setVisible( concentrationModel instanceof WeakBaseEquilibriumModel );
-            countsNode.getStrongBaseNode().setVisible( concentrationModel instanceof StrongBaseEquilibriumModel );
+            countsNode.getWaterNode().setVisible( equilibriumModel instanceof PureWaterEquilibriumModel );
+            countsNode.getAcidNode().setVisible( equilibriumModel instanceof AcidEquilibriumModel );
+            countsNode.getWeakBaseNode().setVisible( equilibriumModel instanceof WeakBaseEquilibriumModel );
+            countsNode.getStrongBaseNode().setVisible( equilibriumModel instanceof StrongBaseEquilibriumModel );
             
             // counts & labels
-            if ( concentrationModel instanceof PureWaterEquilibriumModel ) {
+            if ( equilibriumModel instanceof PureWaterEquilibriumModel ) {
                 NoSoluteConcentrationGraphNode node = countsNode.getWaterNode();
-                node.setH3OConcentration( concentrationModel.getH3OConcentration() );
-                node.setOHConcentration( concentrationModel.getOHConcentration() );
-                node.setH2OConcentration( concentrationModel.getH2OConcentration() );
+                node.setH3OConcentration( equilibriumModel.getH3OConcentration() );
+                node.setOHConcentration( equilibriumModel.getOHConcentration() );
+                node.setH2OConcentration( equilibriumModel.getH2OConcentration() );
             }
-            else if ( concentrationModel instanceof AcidEquilibriumModel ) {
+            else if ( equilibriumModel instanceof AcidEquilibriumModel ) {
                 AcidConcentrationGraphNode node = countsNode.getAcidNode();
-                AcidEquilibriumModel model = (AcidEquilibriumModel) concentrationModel;
+                AcidEquilibriumModel model = (AcidEquilibriumModel) equilibriumModel;
                 // counts
                 node.setAcidConcentration( model.getAcidConcentration() );
                 node.setBaseConcentration( model.getBaseConcentration() );
@@ -120,9 +120,9 @@ public class ConcentrationGraphNode extends PComposite {
                     throw new IllegalStateException( "unexpected solute type: " + solute.getClass().getName() );
                 }
             }
-            else if ( concentrationModel instanceof WeakBaseEquilibriumModel ) {
+            else if ( equilibriumModel instanceof WeakBaseEquilibriumModel ) {
                 WeakBaseConcentrationGraphNode node = countsNode.getWeakBaseNode();
-                WeakBaseEquilibriumModel model = (WeakBaseEquilibriumModel) concentrationModel;
+                WeakBaseEquilibriumModel model = (WeakBaseEquilibriumModel) equilibriumModel;
                 // counts
                 node.setAcidConcentration( model.getAcidConcentration() );
                 node.setBaseConcentration( model.getBaseConcentration() );
@@ -142,9 +142,9 @@ public class ConcentrationGraphNode extends PComposite {
                     throw new IllegalStateException( "unexpected solute type: " + solute.getClass().getName() );
                 }
             }
-            else if ( concentrationModel instanceof StrongBaseEquilibriumModel ) {
+            else if ( equilibriumModel instanceof StrongBaseEquilibriumModel ) {
                 StrongBaseConcentrationGraphNode node = countsNode.getStrongBaseNode();
-                StrongBaseEquilibriumModel model = (StrongBaseEquilibriumModel) concentrationModel;
+                StrongBaseEquilibriumModel model = (StrongBaseEquilibriumModel) equilibriumModel;
                 // counts
                 node.setBaseConcentration( model.getBaseConcentration() );
                 node.setMetalConcentration( model.getMetalConcentration() );
@@ -165,7 +165,7 @@ public class ConcentrationGraphNode extends PComposite {
                 }
             }
             else { 
-                throw new UnsupportedOperationException( "unsupported concentration model type: " + concentrationModel.getClass().getName() );
+                throw new UnsupportedOperationException( "unsupported concentration model type: " + equilibriumModel.getClass().getName() );
             }
         }
     }
