@@ -1,122 +1,145 @@
 package edu.colorado.phet.cckscala.tests
 
 
-import collection.mutable.{HashSet, ArrayBuffer}
+import collection.mutable.{HashMap, HashSet, ArrayBuffer}
 import Jama.Matrix
+import org.scalatest.FunSuite
+
 import util.parsing.combinator.JavaTokenParsers
 
-object TestMNA {
-  trait Element {
-    def node0: Int
+case class Solution(nodeVoltages: HashMap[Int, Double], branchCurrents: HashMap[(Int, Int), Double])
 
-    def node1: Int
-  }
-  case class Battery(node0: Int, node1: Int, voltage: Double) extends Element
-  case class Resistor(node0: Int, node1: Int, resistance: Double) extends Element
+trait Element {
+  def node0: Int
+
+  def node1: Int
+}
+case class Battery(node0: Int, node1: Int, voltage: Double) extends Element
+case class Resistor(node0: Int, node1: Int, resistance: Double) extends Element
+object TestMNA {
   class NodeVoltage {}
   class BranchCurrent {}
-  case class Solution(nodeVoltages: Seq[NodeVoltage], branchCurrents: Seq[BranchCurrent])
-  case class NetList(batteries: Seq[Battery], resistors: Seq[Resistor]) {
-    def getNodeSet = {
-      val set = new HashSet[Int]
-      for (b <- batteries) {
-        set += b.node0;
-        set += b.node1
-      }
-
-      for (r <- resistors) {
-        set += r.node0;
-        set += r.node1
-      }
-      set
-    }
-
-    def getNodeCount = getNodeSet.size
-
-    def getCurrentCount = batteries.length
-
-    def getNumVars = getNodeCount + getCurrentCount
-
-    case class Assignment(coefficient: Double, variable: Unknown) {
-      def toTermString = {
-        val prefix = if (coefficient == 1) "" else if (coefficient == -1) "-" else coefficient + "*"
-        prefix + variable.toTermName
-      }
-    }
-    class Equation(rhs: Double, assignments: Assignment*) {
-      def stamp(row: Int, A: Matrix, z: Matrix, indexMap: Unknown => Int) = {
-        z.set(row, 0, rhs)
-        for (a <- assignments) A.set(row, indexMap(a.variable), a.coefficient)
-      }
-
-      override def toString = {
-        val termList = for (a <- assignments) yield a.toTermString
-        val result = "" + termList.mkString("+") + "=" + rhs
-        result.replaceAll("\\+\\-", "\\-")
-      }
-    }
-    abstract class Unknown {
-      def toTermName: String
-    }
-    case class UnknownCurrent(startNode: Int, endNode: Int) extends Unknown {
-      def toTermName = "I" + startNode + "_" + endNode
-    }
-    case class UnknownVoltage(node: Int) extends Unknown {
-      def toTermName = "V" + node
-    }
-    def getCurrentConservationAssignments(node: Int) = {
-      val nodeAssignments = new ArrayBuffer[Assignment]
-      for (b <- batteries if b.node0 == node) nodeAssignments += Assignment(1, UnknownCurrent(b.node0, b.node1))
-      for (b <- batteries if b.node1 == node) nodeAssignments += Assignment(-1, UnknownCurrent(b.node0, b.node1))
-      for (r <- resistors if r.node0 == node) {
-        nodeAssignments += Assignment(1 / r.resistance, UnknownVoltage(r.node0))
-        nodeAssignments += Assignment(1 / r.resistance, UnknownVoltage(r.node1))
-      }
-      for (r <- resistors if r.node1 == node) {
-        nodeAssignments += Assignment(-1 / r.resistance, UnknownVoltage(r.node0))
-        nodeAssignments += Assignment(-1 / r.resistance, UnknownVoltage(r.node1))
-      }
-      nodeAssignments
-    }
-
-    def getEquations = {
-      val list = new ArrayBuffer[Equation]
-      println("nodeset=" + getNodeSet)
-      //reference node has a voltage of 0.0
-      list += new Equation(0, Assignment(1, UnknownVoltage(getNodeSet.toSeq(0))))
-      //for each node, charge is conserved
-      for (node <- getNodeSet) list += new Equation(0, getCurrentConservationAssignments(node): _*) //see p. 155 scala book
-      //for each battery, voltage drop is given
-      for (battery <- batteries) list += new Equation(battery.voltage, Assignment(-1, UnknownVoltage(battery.node0)), Assignment(1, UnknownVoltage(battery.node1)))
-      list
-    }
-
-    def getUnknowns = {
-      val list = new ArrayBuffer[Unknown]
-      val ns = getNodeSet
-      for (n <- ns) list += UnknownVoltage(n)
-      for (b <- batteries) list += UnknownCurrent(b.node0, b.node1)
-      list
-    }
-
-    def solve: Solution = {
-      var equations = getEquations
-      var unknowns = getUnknowns
-      println(equations.mkString("\n"))
-      val numVars = getNumVars
-      val A = new Matrix(equations.size, getNumVars)
-      val z = new Matrix(equations.size, 1)
-      for (i <- 0 until equations.size) equations(i).stamp(i, A, z, unknowns.indexOf(_)) //todo: how to handle indexing reverse voltages
-      A.print(4, 2)
-      z.print(4, 2)
-      val x = A.solve(z)
-      print("unknowns=\n" + unknowns.mkString("\n"))
-      x.print(4, 2)
-      new Solution(new ArrayBuffer[NodeVoltage], new ArrayBuffer[BranchCurrent])
-    }
-  }
   def main(args: Array[String]) {
     println("testing")
+    val netList = new NetList(Array(Battery(0, 1, 4.0)), Array(Resistor(1, 0, 4.0)))
+    val solution = netList.solve
+    println(solution)
+  }
+}
+case class NetList(batteries: Seq[Battery], resistors: Seq[Resistor]) {
+  def getNodeSet = {
+    val set = new HashSet[Int]
+    for (b <- batteries) {
+      set += b.node0;
+      set += b.node1
+    }
+
+    for (r <- resistors) {
+      set += r.node0;
+      set += r.node1
+    }
+    set
+  }
+
+  def getNodeCount = getNodeSet.size
+
+  def getCurrentCount = batteries.length
+
+  def getNumVars = getNodeCount + getCurrentCount
+
+  case class Assignment(coefficient: Double, variable: Unknown) {
+    def toTermString = {
+      val prefix = if (coefficient == 1) "" else if (coefficient == -1) "-" else coefficient + "*"
+      prefix + variable.toTermName
+    }
+  }
+  class Equation(rhs: Double, assignments: Assignment*) {
+    def stamp(row: Int, A: Matrix, z: Matrix, indexMap: Unknown => Int) = {
+      z.set(row, 0, rhs)
+      for (a <- assignments) A.set(row, indexMap(a.variable), a.coefficient)
+    }
+
+    override def toString = {
+      val termList = for (a <- assignments) yield a.toTermString
+      val result = "" + termList.mkString("+") + "=" + rhs
+      result.replaceAll("\\+\\-", "\\-")
+    }
+  }
+  abstract class Unknown {
+    def toTermName: String
+  }
+  case class UnknownCurrent(startNode: Int, endNode: Int) extends Unknown {
+    def toTermName = "I" + startNode + "_" + endNode
+  }
+  case class UnknownVoltage(node: Int) extends Unknown {
+    def toTermName = "V" + node
+  }
+  def getCurrentConservationAssignments(node: Int) = {
+    val nodeAssignments = new ArrayBuffer[Assignment]
+    for (b <- batteries if b.node0 == node) nodeAssignments += Assignment(1, UnknownCurrent(b.node0, b.node1))
+    for (b <- batteries if b.node1 == node) nodeAssignments += Assignment(-1, UnknownCurrent(b.node0, b.node1))
+    for (r <- resistors if r.node0 == node) {
+      nodeAssignments += Assignment(1 / r.resistance, UnknownVoltage(r.node0))
+      nodeAssignments += Assignment(1 / r.resistance, UnknownVoltage(r.node1))
+    }
+    for (r <- resistors if r.node1 == node) {
+      nodeAssignments += Assignment(-1 / r.resistance, UnknownVoltage(r.node0))
+      nodeAssignments += Assignment(-1 / r.resistance, UnknownVoltage(r.node1))
+    }
+    nodeAssignments
+  }
+
+  def getEquations = {
+    val list = new ArrayBuffer[Equation]
+    println("nodeset=" + getNodeSet)
+    //reference node has a voltage of 0.0
+    list += new Equation(0, Assignment(1, UnknownVoltage(getNodeSet.toSeq(0))))
+    //for each node, charge is conserved
+    for (node <- getNodeSet) list += new Equation(0, getCurrentConservationAssignments(node): _*) //see p. 155 scala book
+    //for each battery, voltage drop is given
+    for (battery <- batteries) list += new Equation(battery.voltage, Assignment(-1, UnknownVoltage(battery.node0)), Assignment(1, UnknownVoltage(battery.node1)))
+    list
+  }
+
+  def getUnknownVoltages = for (node <- getNodeSet) yield UnknownVoltage(node)
+
+  def getUnknownCurrents = for (battery <- batteries) yield UnknownCurrent(battery.node0, battery.node1)
+
+  def getUnknowns = { //todo: probably a way to do this in one line
+    val list = new ArrayBuffer[Unknown]
+    list ++= getUnknownVoltages
+    list ++= getUnknownCurrents
+    list
+  }
+
+  def solve = {
+    var equations = getEquations
+    println(equations.mkString("\n"))
+    val numVars = getNumVars
+    val A = new Matrix(equations.size, getNumVars)
+    val z = new Matrix(equations.size, 1)
+    for (i <- 0 until equations.size) equations(i).stamp(i, A, z, getUnknowns.indexOf(_)) //todo: how to handle indexing reverse voltages
+    A.print(4, 2)
+    z.print(4, 2)
+    val x = A.solve(z)
+    print("unknowns=\n" + getUnknowns.mkString("\n"))
+    x.print(4, 2)
+
+    val voltageMap = new HashMap[Int, Double]
+    for (nodeVoltage <- getUnknownVoltages) voltageMap(nodeVoltage.node) = x.get(getUnknowns.indexOf(nodeVoltage), 0)
+
+    val currentMap = new HashMap[(Int, Int), Double]
+    for (currentVar <- getUnknownCurrents) currentMap((currentVar.startNode, currentVar.endNode)) = x.get(getUnknowns.indexOf(currentVar), 0)
+
+    new Solution(voltageMap, currentMap)
+  }
+}
+
+class Tester extends FunSuite {
+  test("elem should have passed width") {
+    assert(true)
+  }
+  test("battery resistor circuit should have correct voltage") {
     val netList = new NetList(Array(Battery(0, 1, 4.0)), Array(Resistor(1, 0, 4.0)))
     val solution = netList.solve
     println(solution)
