@@ -145,9 +145,6 @@ case class NetList(batteries: Seq[Battery], resistors: Seq[Resistor]) {
 }
 
 class Tester extends FunSuite {
-  test("elem should have passed width") {
-    assert(true)
-  }
   test("battery resistor circuit should have correct voltages and currents for a simple circuit") {
     val netList = new NetList(Array(Battery(0, 1, 4.0)), Array(Resistor(1, 0, 4.0)))
     val solution = netList.solve
