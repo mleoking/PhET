@@ -199,15 +199,16 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
      * Set up the chart to show the appropriate decay curve.
      */
     private void drawDecayCurveOnChart(){
+    	final int numSamples = 500;
     	_proportionsChart.clear();
     	double timeSpan = Carbon14Nucleus.HALF_LIFE * 3;
-    	double timeIncrement = timeSpan / 500;
+    	double timeIncrement = timeSpan / numSamples;
     	double lambda = Math.log(2)/Carbon14Nucleus.HALF_LIFE;
     	for ( double time = 0; time < timeSpan; time += timeIncrement ){
     		// Calculate the proportion of carbon that should be decayed at this point in time.
-    		double percentageDecayed = 100 - (100 * Math.exp(-time*lambda));
-    		_proportionsChart.addDataPoint(time, (int)Math.round(100 - percentageDecayed), 
-    				(int)Math.round(percentageDecayed));
+    		double amountDecayed = numSamples - (numSamples * Math.exp(-time*lambda));
+    		_proportionsChart.addDataPoint(time, (int)Math.round(numSamples - amountDecayed), 
+    				(int)Math.round(amountDecayed));
     	}
     }
     
@@ -218,5 +219,6 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         _proportionsChart.setPreDecayLabelColor(NuclearPhysicsConstants.CARBON_COLOR);
         _proportionsChart.setShowPostDecayCurve(true);
         _proportionsChart.setTimeMarkerLabelEnabled(false);
+        _proportionsChart.setShowPostDecayCurve(false);
     }
 }
