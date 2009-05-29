@@ -193,13 +193,23 @@ public class RadiometricDatingMeterNode extends PNode {
     	 * Set the display to indicate that the meter is not probing anything.
     	 */
     	public void setBlank(){
-    		_percentageText.setText(" --- ");
+    		_percentageText.setText("-----");
     		scaleAndCenterText();
     	}
     	
     	private void scaleAndCenterText(){
+    		if (_percentageText.getFullBoundsReference().width == 0 || 
+    			_percentageText.getFullBoundsReference().height == 0) {
+    			
+    			// Avoid divide by 0 errors.
+    			return;
+    		}
+    		
     		_percentageText.setScale(1);
-    		_percentageText.setScale(_backgroundShape.getWidth() * 0.9 / _percentageText.getFullBoundsReference().width);
+    		double newScale = Math.min(
+    				_backgroundShape.getWidth() * 0.9 / _percentageText.getFullBoundsReference().width,
+    				_backgroundShape.getHeight() * 0.9 / _percentageText.getFullBoundsReference().height );
+    		_percentageText.setScale(newScale);
     		_percentageText.setOffset(
     			_background.getFullBoundsReference().width / 2 - _percentageText.getFullBoundsReference().width / 2,
     			_background.getFullBoundsReference().height / 2 - _percentageText.getFullBoundsReference().height / 2);
