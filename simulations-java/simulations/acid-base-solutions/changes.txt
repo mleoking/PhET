@@ -1,3 +1,5 @@
+# 0.01.06 (32113) May 29, 2009
+5/29/09 dev version for feedback on current status
 # 0.01.05 (31962) May 20, 2009
 5/20/09 dev version for discussion with Archie
 # 0.01.04 (31646) May 13, 2009
