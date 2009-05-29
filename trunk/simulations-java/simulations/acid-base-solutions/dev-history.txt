@@ -3,7 +3,7 @@
 ==================================================================================
 
 TODO:
-- rewrite model
+- implement scaling in equilibrium expressions using ConcentrationScaleModel
 - connect equilibrium expressions to model
 - connect reaction equations to model
 - H2O should not be scalable in Reaction Equations, should change to Color.BLACK when scaling is enabled
