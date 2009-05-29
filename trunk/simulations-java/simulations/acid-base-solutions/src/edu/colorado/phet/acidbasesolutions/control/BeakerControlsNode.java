@@ -101,9 +101,6 @@ public class BeakerControlsNode extends PNode {
         SwingUtils.setBackgroundDeep( panel, background );
         
         addChild( new PSwing( panel ) );
-        
-        dissociatedComponentsRatioCheckBox.setEnabled( false );
-        hyroniumHydroxideRatioCheckBox.setEnabled( false );
     }
     
     protected void setDissociatedComponents( String component1, String component2 ) {

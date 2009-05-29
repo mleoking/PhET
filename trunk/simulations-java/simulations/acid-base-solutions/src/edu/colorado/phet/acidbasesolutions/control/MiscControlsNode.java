@@ -106,9 +106,6 @@ public class MiscControlsNode extends PNode {
         SwingUtils.setBackgroundDeep( panel, background );
         
         addChild( new PSwing( panel ) );
-        
-        equilibriumExpressionsCheckBox.setEnabled( false );
-        reactionEquationsCheckBox.setEnabled( false );
     }
     
     public void setConcentrationGraphSelected( boolean b ) {
