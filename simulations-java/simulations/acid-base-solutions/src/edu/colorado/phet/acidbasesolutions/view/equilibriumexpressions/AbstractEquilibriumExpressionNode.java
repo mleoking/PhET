@@ -1,10 +1,10 @@
 package edu.colorado.phet.acidbasesolutions.view.equilibriumexpressions;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Stroke;
 import java.awt.geom.Line2D;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
@@ -15,7 +15,6 @@ import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.FormattedNumberNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
-import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -440,47 +439,5 @@ abstract class AbstractEquilibriumExpressionNode extends PComposite {
         public void setLength( double length ) {
             setPathTo( new Line2D.Double( 0, 0, length, 0 ) );
         }
-    }
-    
-    /* tests */
-    public static void main( String[] args ) {
-        
-        Dimension canvasSize = new Dimension( 1024, 768 );
-        PCanvas canvas = new PCanvas();
-        canvas.setPreferredSize( canvasSize );
-        
-        // one instance of each type
-        PNode[] expressions = {
-                // water
-                new WaterEquilibriumExpressionNode(),
-                // generics
-                new WeakAcidEquilibriumExpressionNode( ABSSymbols.HA, ABSSymbols.A_MINUS ),
-                new StrongAcidEquilibriumExpressionNode( ABSSymbols.HA, ABSSymbols.A_MINUS ),
-                new WeakBaseEquilibriumExpressionNode( ABSSymbols.B, ABSSymbols.BH_PLUS ),
-                new StrongBaseEquilibriumExpressionNode( ABSSymbols.MOH, ABSSymbols.M_PLUS ),
-                // specifics
-                new WeakAcidEquilibriumExpressionNode( "ClO<sub>2</sub><sup>-</sup>", "HClO<sub>2</sub>" ),
-                new StrongAcidEquilibriumExpressionNode( "Cl<sup>-</sup>", "HCl" ),
-                new WeakBaseEquilibriumExpressionNode( "NH<sub>4</sub><sup>+</sup>", "NH<sub>3</sub>" ),
-                new StrongBaseEquilibriumExpressionNode( "Na<sup>+</sup>", "NaOH" ),
-        };
-        
-        // layout in a left-justified column
-        double xOffset = 50;
-        double yOffset = 50;
-        for ( int i = 0; i < expressions.length; i++ ) {
-            canvas.getLayer().addChild( expressions[i] );
-            expressions[i].setOffset( xOffset, yOffset - PNodeUtils.getOriginYOffset( expressions[i] ) );
-            yOffset = expressions[i].getFullBoundsReference().getMaxY() + 10;
-        }
-        
-        JPanel panel = new JPanel( new BorderLayout() );
-        panel.add( canvas, BorderLayout.CENTER );
-        
-        JFrame frame = new JFrame();
-        frame.setContentPane( panel );
-        frame.pack();
-        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        frame.setVisible( true );
     }
 }

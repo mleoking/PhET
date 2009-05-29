@@ -12,7 +12,7 @@ import edu.colorado.phet.acidbasesolutions.ABSSymbols;
 public abstract class Base extends Solute {
     
     private Base( String name, String symbol, Image icon, Color color, String conjugateSymbol, Image conjugateIcon, Color conjugateColor, double strength ) {
-        super( name, symbol, icon, color, conjugateSymbol, conjugateIcon, conjugateColor, strength );
+        super( name, symbol, icon, color, conjugateSymbol, conjugateIcon, conjugateColor, ABSSymbols.Kb, strength );
     }
     
     public boolean isZeroNegligible() {
@@ -108,18 +108,6 @@ public abstract class Base extends Solute {
         
         protected boolean isValidStrength( double strength ) {
             return ABSConstants.CUSTOM_STRENGTH_RANGE.contains( strength );
-        }
-        
-        public boolean isWeak() {
-            return ABSConstants.WEAK_STRENGTH_RANGE.contains( getStrength() );
-        }
-        
-        public boolean isStrong() {
-            return ABSConstants.STRONG_STRENGTH_RANGE.contains( getStrength() );
-        }
-        
-        public boolean isIntermediate() {
-            return ABSConstants.INTERMEDIATE_STRENGTH_RANGE.containsExclusive( getStrength() );
         }
     }
 }

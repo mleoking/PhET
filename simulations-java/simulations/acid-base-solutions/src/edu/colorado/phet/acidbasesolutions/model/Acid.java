@@ -9,7 +9,7 @@ import edu.colorado.phet.acidbasesolutions.ABSSymbols;
 public abstract class Acid extends Solute {
     
     protected Acid( String name, String symbol, String conjugateSymbol, double strength  ) {
-        super( name, symbol, ABSImages.HA_MOLECULE, ABSConstants.HA_COLOR, conjugateSymbol, ABSImages.A_MINUS_MOLECULE, ABSConstants.A_COLOR, strength );
+        super( name, symbol, ABSImages.HA_MOLECULE, ABSConstants.HA_COLOR, conjugateSymbol, ABSImages.A_MINUS_MOLECULE, ABSConstants.A_COLOR, ABSSymbols.Ka, strength );
     }
     
     //----------------------------------------------------------------------------
@@ -109,20 +109,6 @@ public abstract class Acid extends Solute {
         
         protected boolean isValidStrength( double strength ) {
             return ABSConstants.CUSTOM_STRENGTH_RANGE.contains( strength );
-        }
-        
-        public boolean isStrong() {
-            return ABSConstants.STRONG_STRENGTH_RANGE.contains( getStrength() );
-        }
-        
-        //TODO delete this?
-        public boolean isWeak() {
-            return ABSConstants.WEAK_STRENGTH_RANGE.contains( getStrength() );
-        }
-        
-        //TODO delete this?
-        public boolean isIntermediate() {
-            return ABSConstants.INTERMEDIATE_STRENGTH_RANGE.containsExclusive( getStrength() );
         }
     }
 
