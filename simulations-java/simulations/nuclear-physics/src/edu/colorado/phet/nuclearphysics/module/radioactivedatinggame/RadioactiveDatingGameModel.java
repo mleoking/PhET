@@ -3,7 +3,6 @@
 package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
@@ -32,7 +31,6 @@ public class RadioactiveDatingGameModel extends SimpleObservable {
 	private ArrayList<DatableObject> _datableObjects = new ArrayList<DatableObject>();
 	private ArrayList<Stratum> _strata = new ArrayList<Stratum>();
 	private RadiometricDatingMeter _meter;
-	private Rectangle2D _edgeOfWorldRect = new Rectangle2D.Double();
 
     //------------------------------------------------------------------------
     // Constructor
@@ -110,27 +108,6 @@ public class RadioactiveDatingGameModel extends SimpleObservable {
     
     public RadiometricDatingMeter getMeter(){
     	return _meter;
-    }
-    
-    /**
-     * Set the rectangle that represents the position of the edge of the world.
-     * 
-     * @param edgeOfWorldRect
-     */
-    public void setEdgeOfWorldRect(Rectangle2D edgeOfWorldRect){
-    	_edgeOfWorldRect.setRect(edgeOfWorldRect);
-    	notifyObservers();
-    }
-    
-    /**
-     * Get the rectangle that represents the position of the edge of the world.
-     * 
-     * @param edgeOfWorldRect
-     */
-    public Rectangle2D getEdgeOfWorldRect(){
-    	Rectangle2D rect = new Rectangle2D.Double();
-    	rect.setRect(_edgeOfWorldRect);
-    	return rect;
     }
     
     /**

@@ -51,10 +51,6 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     // Fraction of canvas width used to portray the edge of the world.
     private static final double WORLD_EDGE_WIDTH_PROPORTION = 0.05;       
     
-    // Fraction of canvas height used for the additional height of the edge
-    // of the world ABOVE AND BEYOND the depth of the strata.
-    private static final double WORLD_EDGE_ADDITIONAL_HEIGHT_PROPORTION = 0.21;
-
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
@@ -174,48 +170,28 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     protected void updateLayout(){
 
     	if ( getWidth() > 0 && getHeight() > 0){
-	    	// Set the location of the edge of the world in the model.  This
-    		// is done here because the edge changes location and size based
-    		// on the size of the viewport into the world.  Changing it in
-    		// the model causes the information to be propagated to any nodes
-    		// that need to be aware of it.  IMPORTANT: Currently, this
+	    	// Set the location of the edge of the world.  This is done here
+    		// because the edge changes location and size based on the size
+    		// of the viewport into the world.  IMPORTANT: Currently, this
     		// positions the edge on the LEFT SIDE of the viewport.
     		
-    		// The variables that must be assigned values in order to set the
-    		// edge rectangle in the model.
-    		double edgeOfWorldXModel, edgeOfWorldYModelY, edgeOfWorldWidthModel, edgeOfWorldHeightModel;
-    		
-    		// The Y values are relatively easy, so do them first.
-    		edgeOfWorldYModelY = _model.getBottomOfStrata();
-    		edgeOfWorldHeightModel = -(_model.getBottomOfStrata() * (1 + WORLD_EDGE_ADDITIONAL_HEIGHT_PROPORTION));
-    		
-    		// The x values must be transformed from screen to intermediate to
-    		// model coordinates.
+   	    	Point2D innerEdgeOfWorldScreen = new Point2D.Double(getWidth() * WORLD_EDGE_WIDTH_PROPORTION, 0);
+	    	Point2D outerEdgeOfWorldScreen = new Point2D.Double(0, 0);
+	    	Point2D innerEdgeOfWorldIntermediate = new Point2D.Double();
+	    	Point2D outerEdgeOfWorldIntermediate = new Point2D.Double();
 	    	AffineTransform intermediateToScreenTransform = getWorldTransformStrategy().getTransform();
-	    	Point2D innerEdgeOfWorldXScreen = new Point2D.Double(getWidth() * WORLD_EDGE_WIDTH_PROPORTION, 0);
-	    	Point2D innerEdgeOfWorldXIntermediate = new Point2D.Double();
-	    	Point2D outerEdgeOfWorldXScreen = new Point2D.Double(0, 0);
-	    	Point2D outerEdgeOfWorldXIntermediate = new Point2D.Double();
 	    	try {
-				intermediateToScreenTransform.inverseTransform(innerEdgeOfWorldXScreen,
-						innerEdgeOfWorldXIntermediate);
-				intermediateToScreenTransform.inverseTransform(outerEdgeOfWorldXScreen,
-						outerEdgeOfWorldXIntermediate);
+				intermediateToScreenTransform.inverseTransform(innerEdgeOfWorldScreen,
+						innerEdgeOfWorldIntermediate);
+				intermediateToScreenTransform.inverseTransform(outerEdgeOfWorldScreen,
+						outerEdgeOfWorldIntermediate);
 			} catch (NoninvertibleTransformException e) {
 				System.err.println("Error: Unable to invert transform.");
 				e.printStackTrace();
 				assert false;
 			}
 			
-			edgeOfWorldXModel = _mvt.viewToModelX(outerEdgeOfWorldXIntermediate.getX());
-			edgeOfWorldWidthModel = _mvt.viewToModelDifferentialX(innerEdgeOfWorldXIntermediate.getX() 
-					- outerEdgeOfWorldXIntermediate.getX());
-		
-    		_model.setEdgeOfWorldRect(new Rectangle2D.Double(edgeOfWorldXModel, edgeOfWorldYModelY, 
-    				edgeOfWorldWidthModel, edgeOfWorldHeightModel));
-    		_edgeOfWorld.updateEdgeShape(innerEdgeOfWorldXIntermediate.getX(), outerEdgeOfWorldXIntermediate.getX());
-//    		_model.setEdgeOfWorldRect(new Rectangle2D.Double(-25, _model.getBottomOfStrata(), 
-//    				5, 20));
+    		_edgeOfWorld.updateEdgeShape(innerEdgeOfWorldIntermediate.getX(), outerEdgeOfWorldIntermediate.getX());
     	}
     }
 
