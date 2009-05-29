@@ -120,6 +120,15 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
         pack();
     }
     
+    public void setScalingEnabled( boolean enabled ) {
+        scaleOnRadioButton.setSelected( enabled );
+        updateScale();
+    }
+    
+    public boolean isScalingEnabled() {
+        return scaleOnRadioButton.isSelected();
+    }
+    
     private JComponent createDevControls() {
         
         // global scale slider

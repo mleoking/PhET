@@ -13,7 +13,6 @@ import javax.swing.border.EmptyBorder;
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
-import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.SolutionListener;
 import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -25,8 +24,6 @@ public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
     private static final Dimension TOP_CANVAS_SIZE = new Dimension( 500, 150 );
     private static final Dimension BOTTOM_CANVAS_SIZE = TOP_CANVAS_SIZE;
     
-    private final AqueousSolution solution;
-    private final SolutionListener solutionListener;
     private final JRadioButton scaleOnRadioButton, scaleOffRadioButton;
     private final PhetPCanvas topCanvas, bottomCanvas;
     private final EquilibriumExpressionNode topExpressionNode;
@@ -43,30 +40,11 @@ public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
         super( owner, ABSStrings.TITLE_EQUILIBRIUM_EXPRESSIONS );
         setResizable( dev );
         
-        solutionListener = new SolutionListener() {
-
-            public void soluteChanged() {
-                updateSolute();
-            }
-            
-            public void concentrationChanged() {
-                updateScales();
-            }
-
-            public void strengthChanged() {
-                updateStrength();
-                updateScales();
-            }
-        };
-        
-        this.solution = solution;
-        this.solution.addSolutionListener( solutionListener );
-        
         // scale on/off
         JLabel scaleOnOffLabel = new JLabel( ABSStrings.LABEL_EQUATION_SCALING );
         ActionListener scaleOnOffActionListener = new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                updateScales();
+                handleScaleEnable();
             }
         };
         scaleOnRadioButton = new JRadioButton( ABSStrings.RADIO_BUTTON_EQUATION_SCALING_ON );
@@ -76,7 +54,7 @@ public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
         ButtonGroup buttonGroup = new ButtonGroup();
         buttonGroup.add( scaleOffRadioButton );
         buttonGroup.add( scaleOnRadioButton );
-        scaleOnRadioButton.setSelected( true );
+        scaleOffRadioButton.setSelected( true );
         JPanel scaleOnOffPanel = new JPanel( new GridBagLayout() );
         scaleOnOffPanel.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
         GridBagConstraints constraints = new GridBagConstraints();
@@ -88,6 +66,7 @@ public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
         // top canvas
         topCanvas = new PhetPCanvas() {
             protected void updateLayout() {
+                super.updateLayout();
                 updateTopLayout();
             }
         };
@@ -104,12 +83,13 @@ public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
         // bottom canvas
         bottomCanvas = new PhetPCanvas() {
             protected void updateLayout() {
+                super.updateLayout();
                 updateBottomLayout();
             }
         };
         bottomCanvas.setPreferredSize( BOTTOM_CANVAS_SIZE );
         bottomCanvas.setBackground( ABSConstants.EQUILIBRIUM_EXPRESSIONS_BACKGROUND );
-        waterExpressionNode = new WaterEquilibriumExpressionNode();
+        waterExpressionNode = new WaterEquilibriumExpressionNode( solution );
         bottomCanvas.getLayer().addChild( waterExpressionNode );
         bottomCanvasSizeNode = new PText();
         bottomCanvasSizeNode.setOffset( 5, 5 );
@@ -129,13 +109,20 @@ public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
             
         getContentPane().add( mainPanel, BorderLayout.CENTER );
         pack();
-        updateSolute();
     }
     
-    private void updateSolute() {
-        updateTopLayout();
-        updateScales();
-        updateStrength();
+    public void setScalingEnabled( boolean enabled ) {
+        scaleOnRadioButton.setSelected( enabled );
+        handleScaleEnable();
+    }
+    
+    public boolean isScalingEnabled() {
+        return scaleOnRadioButton.isSelected();
+    }
+    
+    private void handleScaleEnable() {
+        topExpressionNode.setScaleEnabled( scaleOnRadioButton.isSelected() );
+        waterExpressionNode.setScaleEnabled( scaleOnRadioButton.isSelected() );
     }
     
     private void updateTopLayout() {
@@ -152,20 +139,5 @@ public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
         waterExpressionNode.setOffset( xOffset, yOffset );
         Dimension canvasSize = bottomCanvas.getSize();
         bottomCanvasSizeNode.setText( "canvas size: " + canvasSize.width + "x" + canvasSize.height );
-    }
-    
-    private void updateScales() {
-        final boolean enabled = scaleOnRadioButton.isSelected();
-        if ( enabled ) {
-            //TODO
-        }
-        else {
-            topExpressionNode.setScaleAll( 1 );
-            waterExpressionNode.setScaleAll( 1 );
-        }
-    }
-    
-    private void updateStrength() {
-        topExpressionNode.setKValue( solution.getSolute().getStrength() );
     }
 }

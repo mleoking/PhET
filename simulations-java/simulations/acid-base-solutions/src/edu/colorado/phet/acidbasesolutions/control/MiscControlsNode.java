@@ -42,10 +42,14 @@ public class MiscControlsNode extends PNode {
     
     private JDialog symbolLegendDialog;
     private Point symbolLegendDialogLocation;
-    private JDialog equilibriumExpressionsDialog;
+    
+    private EquilibriumExpressionsDialog equilibriumExpressionsDialog;
     private Point equilibriumExpressionsDialogLocation;
-    private JDialog reactionEquationsDialog;
+    private boolean equlibriumExpressionsScalingEnabled;
+    
+    private ReactionEquationsDialog reactionEquationsDialog;
     private Point reactionEquationsDialogLocation;
+    private boolean reactionEquationsScalingEnabled;
     
     public MiscControlsNode( final PNode concentrationGraphNode, Color background, AqueousSolution solution ) {
         super();
@@ -53,6 +57,8 @@ public class MiscControlsNode extends PNode {
         this.solution = solution;
         
         this.concentrationGraphNode = concentrationGraphNode;
+        this.equlibriumExpressionsScalingEnabled = false;
+        this.reactionEquationsScalingEnabled = false;
          
         parentFrame = PhetApplication.getInstance().getPhetFrame();
         
@@ -106,6 +112,32 @@ public class MiscControlsNode extends PNode {
         SwingUtils.setBackgroundDeep( panel, background );
         
         addChild( new PSwing( panel ) );
+    }
+    
+    public void setEquilibriumExpressionsScalingEnabled( boolean b ) {
+        if ( b != equlibriumExpressionsScalingEnabled ) {
+            equlibriumExpressionsScalingEnabled = b;
+            if ( equilibriumExpressionsDialog != null ) {
+                equilibriumExpressionsDialog.setScalingEnabled( b );
+            }
+        }
+    }
+    
+    public boolean isEquilibriumExpressionsScalingEnabled() {
+        return equlibriumExpressionsScalingEnabled;
+    }
+    
+    public void setReactionEquationsScalingEnabled( boolean b ) {
+        if ( b != reactionEquationsScalingEnabled ) {
+            reactionEquationsScalingEnabled = b;
+            if ( reactionEquationsDialog != null ) {
+                reactionEquationsDialog.setScalingEnabled( b );
+            }
+        }
+    }
+    
+    public boolean isReactionEquationsScalingEnabled() {
+        return reactionEquationsScalingEnabled;
     }
     
     public void setConcentrationGraphSelected( boolean b ) {
@@ -165,8 +197,7 @@ public class MiscControlsNode extends PNode {
 
             // called by JDialog.dispose
             public void windowClosed( WindowEvent e ) {
-                symbolLegendDialog = null;
-                symbolLegendCheckBox.setSelected( false );
+                closeSymbolLegendDialog();
             }
         } );
         
@@ -180,8 +211,12 @@ public class MiscControlsNode extends PNode {
     }
     
     private void closeSymbolLegendDialog() {
-        symbolLegendDialogLocation = closeDialog( symbolLegendDialog );
-        symbolLegendDialog = null;
+        if ( symbolLegendDialog != null ) {
+            symbolLegendDialogLocation = symbolLegendDialog.getLocation();
+            symbolLegendDialog.dispose();
+            symbolLegendDialog = null;
+            symbolLegendCheckBox.setSelected( false );
+        }
     }
     
     private void updateEquilibriumExpressionsDialog() {
@@ -196,6 +231,7 @@ public class MiscControlsNode extends PNode {
     private void openEquilibriumExpressionsDialog() {
         
         equilibriumExpressionsDialog = new EquilibriumExpressionsDialog( parentFrame, solution );
+        equilibriumExpressionsDialog.setScalingEnabled( equlibriumExpressionsScalingEnabled );
         equilibriumExpressionsDialog.addWindowListener( new WindowAdapter() {
 
             // called when the close button in the dialog's window dressing is clicked
@@ -205,8 +241,7 @@ public class MiscControlsNode extends PNode {
 
             // called by JDialog.dispose
             public void windowClosed( WindowEvent e ) {
-                equilibriumExpressionsDialog = null;
-                equilibriumExpressionsCheckBox.setSelected( false );
+                closeEquilibriumExpressionsDialog();
             }
         } );
         
@@ -220,8 +255,13 @@ public class MiscControlsNode extends PNode {
     }
     
     private void closeEquilibriumExpressionsDialog() {
-        equilibriumExpressionsDialogLocation = closeDialog( equilibriumExpressionsDialog );
-        equilibriumExpressionsDialog = null;
+        if ( equilibriumExpressionsDialog != null ) {
+            equlibriumExpressionsScalingEnabled = equilibriumExpressionsDialog.isScalingEnabled();
+            equilibriumExpressionsDialogLocation = equilibriumExpressionsDialog.getLocation();
+            equilibriumExpressionsDialog.dispose();
+            equilibriumExpressionsDialog = null;
+            equilibriumExpressionsCheckBox.setSelected( false );
+        }
     }
     
     private void updateReactionEquationsDialog() {
@@ -236,6 +276,7 @@ public class MiscControlsNode extends PNode {
     private void openReactionEquationsDialog() {
         
         reactionEquationsDialog = new ReactionEquationsDialog( parentFrame );
+        reactionEquationsDialog.setScalingEnabled( reactionEquationsScalingEnabled );
         reactionEquationsDialog.addWindowListener( new WindowAdapter() {
 
             // called when the close button in the dialog's window dressing is clicked
@@ -245,8 +286,7 @@ public class MiscControlsNode extends PNode {
 
             // called by JDialog.dispose
             public void windowClosed( WindowEvent e ) {
-                reactionEquationsDialog = null;
-                reactionEquationsCheckBox.setSelected( false );
+                closeReactionEquationsDialog();
             }
         } );
         
@@ -260,19 +300,12 @@ public class MiscControlsNode extends PNode {
     }
     
     private void closeReactionEquationsDialog() {
-        reactionEquationsDialogLocation = closeDialog( reactionEquationsDialog );
-        reactionEquationsDialog = null;
-    }
-    
-    /*
-     * Closes a dialog and returns its position.
-     */
-    private static Point closeDialog( JDialog dialog ) {
-        Point location = null;
-        if ( dialog != null ) {
-            location = dialog.getLocation();
-            dialog.dispose();
+        if ( reactionEquationsDialog != null ) {
+            reactionEquationsScalingEnabled = reactionEquationsDialog.isScalingEnabled();
+            reactionEquationsDialogLocation = reactionEquationsDialog.getLocation();
+            reactionEquationsDialog.dispose();
+            reactionEquationsDialog = null;
+            reactionEquationsCheckBox.setSelected( false );
         }
-        return location;
     }
 }

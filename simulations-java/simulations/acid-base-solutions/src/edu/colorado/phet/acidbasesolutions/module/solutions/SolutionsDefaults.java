@@ -42,6 +42,9 @@ public class SolutionsDefaults {
         config.setSymbolLegendVisible( false );
         config.setEquilibriumExpressionsVisible( false );
         config.setReactionEquationsVisible( false );
+        // dialog controls
+        config.setEquilibriumExpressionsScalingEnabled( false );
+        config.setReactionEquationsScalingEnabled( false );
     }
     
     public SolutionsConfig getConfig() {
