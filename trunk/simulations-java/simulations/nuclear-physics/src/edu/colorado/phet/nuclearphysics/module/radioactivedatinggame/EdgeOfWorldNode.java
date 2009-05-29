@@ -4,12 +4,8 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Stroke;
 import java.awt.geom.GeneralPath;
-import java.awt.geom.Line2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.CubicCurve2D.Double;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -30,7 +26,6 @@ public class EdgeOfWorldNode extends PNode {
 	
 	private RadioactiveDatingGameModel _model;
 	private ModelViewTransform2D _mvt;
-	private PhetPPath _testShape;
 	private PhetPPath _background;
 	private ArrayList<EdgeStratumNode> _edgeStratumNodes = new ArrayList<EdgeStratumNode>();
 
@@ -45,12 +40,13 @@ public class EdgeOfWorldNode extends PNode {
 		
 		_model = model;
 		_mvt = mvt;
+		
+		// Create the background that will sit behind the stratum edges.
 		_background = new PhetPPath(NuclearPhysicsConstants.CANVAS_BACKGROUND, new BasicStroke(2),
 				NuclearPhysicsConstants.CANVAS_BACKGROUND);
 		addChild( _background );
-		_testShape = new PhetPPath(Color.gray, new BasicStroke(2), Color.red);
-		addChild( _testShape );
 		
+		// 
 		Iterable<Stratum> strata = _model.getStratumIterable();
 		int stratumCount = 0;
 		for (Stratum stratum : strata){
@@ -61,38 +57,6 @@ public class EdgeOfWorldNode extends PNode {
 			addChild(edgeStratumNode);
 			stratumCount++;
 		}
-	}
-	
-	/**
-	 * Draw the 3D-ish edge of the world based on information obtained from
-	 * the model.
-	 * 
-	 * IMPORTANT NOTE: This assumes that the edge of the world is being shown
-	 * on the left side of the view port, and this would need to be changed or
-	 * generalized to make it appear on the right instead.
-	 */
-	private void updateEdgeShape(){
-		
-		// Set the shape of the edge.
-		GeneralPath edgeShapeModelCoords = new GeneralPath();
-		Rectangle2D edgeRect = _model.getEdgeOfWorldRect();
-		edgeShapeModelCoords.moveTo((float)(edgeRect.getX() + edgeRect.getWidth()), (float)edgeRect.getY());
-		edgeShapeModelCoords.lineTo((float)(edgeRect.getX() + edgeRect.getWidth()), 
-				(float)(edgeRect.getY() + -(_model.getBottomOfStrata())));
-		edgeShapeModelCoords.lineTo((float)(edgeRect.getX()), (float)(edgeRect.getY() + edgeRect.getHeight()));
-		edgeShapeModelCoords.lineTo((float)(edgeRect.getX()), 
-				(float)(edgeRect.getY() + edgeRect.getHeight() + _model.getBottomOfStrata()));
-
-		_testShape.setPathTo(_mvt.createTransformedShape(edgeShapeModelCoords));
-		
-		
-		
-		// Set the shape of the background.  The background is used to prevent
-		// nodes behind the edge node from being visible and thus ruining the
-		// 3D look.
-		Rectangle2D backgroundRect = new Rectangle2D.Double(edgeRect.getX(), edgeRect.getY(),
-				edgeRect.getWidth(), edgeRect.getHeight() / 2);
-		_background.setPathTo(_mvt.createTransformedShape(backgroundRect));
 	}
 	
 	/**
@@ -122,19 +86,6 @@ public class EdgeOfWorldNode extends PNode {
 				(float)_mvt.modelToViewY((_model.getBottomOfStrata() - _model.getTopOfStrata()) / 2), 
 				(float)(worldEdgeStartX - canvasEdgeX - STROKE_WIDTH),
 				(float)_mvt.modelToViewDifferentialY(((_model.getBottomOfStrata() - _model.getTopOfStrata()) / 2)));
-		
-//		double deltaY = -(Math.abs(canvasEdgeX - worldEdgeStartX) * Math.tan(EDGE_ANGLE));
-//		
-//		GeneralPath edgeShapeIntermediateCoords = new GeneralPath();
-//		edgeShapeIntermediateCoords.moveTo((float)worldEdgeStartX, (float)_mvt.modelToViewYDouble(topOfStrataY));
-//		edgeShapeIntermediateCoords.lineTo((float)worldEdgeStartX, (float)_mvt.modelToViewYDouble(bottomOfStrataY));
-//		edgeShapeIntermediateCoords.lineTo((float)canvasEdgeX, (float)(_mvt.modelToViewYDouble(bottomOfStrataY) + deltaY));
-//		edgeShapeIntermediateCoords.lineTo((float)canvasEdgeX, (float)(_mvt.modelToViewYDouble(topOfStrataY) + deltaY));
-//		edgeShapeIntermediateCoords.closePath();
-		
-//		_testShape.setPathTo(new Line2D.Double(worldEdgeStartX, _mvt.modelToViewYDouble(topOfStrataY),
-//				worldEdgeStartX, _mvt.modelToViewYDouble(bottomOfStrataY)));
-//		_testShape.setPathTo(edgeShapeIntermediateCoords);
 	}
 	
 	/**
