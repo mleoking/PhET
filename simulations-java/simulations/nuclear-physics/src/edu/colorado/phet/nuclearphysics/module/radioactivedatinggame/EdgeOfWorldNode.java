@@ -24,7 +24,7 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class EdgeOfWorldNode extends PNode {
 	
-	private static final double EDGE_ANGLE = Math.PI / 6;  // In radians.
+	private static final double EDGE_ANGLE = Math.PI * 0.23;  // In radians.
 	private static final float STROKE_WIDTH = 2;
 	private static final Stroke STROKE = new BasicStroke(STROKE_WIDTH);
 	
