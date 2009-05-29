@@ -20,6 +20,7 @@ import javax.swing.JFrame;
 import javax.swing.JSlider;
 import javax.swing.Timer;
 
+import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
@@ -123,8 +124,8 @@ public class BucketOfNucleiNode extends PNode {
 		
 		// Create the gradient paints that will be used to paint the bucket.
 		Color outerColorLight = baseColor;
-		Color outerColorDark = darkenColor( baseColor );
-		Color innerColorDark = darkenColor( outerColorDark );
+		Color outerColorDark = ColorUtils.darkenColor( baseColor );
+		Color innerColorDark = ColorUtils.darkenColor( outerColorDark );
 		Color innerColorLight = outerColorDark;
 		GradientPaint outerPaint = new GradientPaint(0, (float)height/2, outerColorDark, 
         		(float)width, (float)height/2, outerColorLight);
@@ -396,7 +397,7 @@ public class BucketOfNucleiNode extends PNode {
     	if (_sliderNode == null && enabled){
         	_slider = new NormalizedSlider();
         	_slider.setPreferredSize(new Dimension((int)(_bucketWidth * 0.8),(int)(_bucketHeight * 0.4)));
-        	_slider.setBackground(darkenColor(_baseColor));
+        	_slider.setBackground(ColorUtils.darkenColor(_baseColor));
         	_slider.setForeground(Color.GREEN);
         	
         	// Wrap the slider in a PSwing so that it can be used in the play area.
@@ -570,30 +571,6 @@ public class BucketOfNucleiNode extends PNode {
 		_bucketLabel.setVisible(_showLabel);
 	}
 
-	private Color lightenColor( Color originalColor ){
-    	
-    	Color lighterColor;
-    	
-   		int red = originalColor.getRed() + ((255 - originalColor.getRed()) * 3 / 4);
-   		int green = originalColor.getGreen() + ((255 - originalColor.getGreen()) * 3 / 4);
-   		int blue = originalColor.getBlue() + ((255 - originalColor.getBlue()) * 3 / 4);
-   		lighterColor = new Color( red, green, blue );
-    	
-    	return lighterColor;
-    }
-
-    private Color darkenColor( Color originalColor ){
-    	
-    	Color darkerColor;
-    	
-   		int red = originalColor.getRed() - (originalColor.getRed() / 2);
-   		int green = originalColor.getGreen() - (originalColor.getGreen() / 2);
-   		int blue = originalColor.getBlue() - (originalColor.getBlue() / 2);
-   		darkerColor = new Color( red, green, blue );
-    	
-    	return darkerColor;
-    }
-    
     /**
      * Main routine for stand alone testing.
      * 
