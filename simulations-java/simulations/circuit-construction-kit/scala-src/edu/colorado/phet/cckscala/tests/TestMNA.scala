@@ -1,13 +1,12 @@
 package edu.colorado.phet.cckscala.tests
 
-
 import collection.mutable.{HashMap, HashSet, ArrayBuffer}
 import Jama.Matrix
 import org.scalatest.FunSuite
 
 import util.parsing.combinator.JavaTokenParsers
 
-case class Solution(nodeVoltages: HashMap[Int, Double], branchCurrents: HashMap[(Int, Int), Double]) {
+case class Solution(nodeVoltages: collection.Map[Int, Double], branchCurrents: collection.Map[(Int, Int), Double]) {
   def approxEquals(s: Solution, delta: Double) = {
     if (nodeVoltages.keySet != s.nodeVoltages.keySet || branchCurrents.keySet != s.branchCurrents.keySet)
       false
@@ -152,11 +151,8 @@ class Tester extends FunSuite {
   test("battery resistor circuit should have correct voltages and currents") {
     val netList = new NetList(Array(Battery(0, 1, 4.0)), Array(Resistor(1, 0, 4.0)))
     val solution = netList.solve
-    val voltages = new HashMap[Int, Double]
-    voltages(0) = 0.0
-    voltages(1) = 4.0
-    val currents = new HashMap[(Int, Int), Double]
-    currents((0, 1)) = 1.0
+    val voltages = Map(0 -> 0.0, 1 -> 4.0)
+    val currents = Map((0, 1) -> 1.0)
     val desiredSolution = new Solution(voltages, currents)
     println(solution)
     println(desiredSolution)
