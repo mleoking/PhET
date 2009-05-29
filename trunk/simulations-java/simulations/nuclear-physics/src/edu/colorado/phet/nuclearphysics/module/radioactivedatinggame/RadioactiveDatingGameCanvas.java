@@ -49,7 +49,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     private static final double PROPORTIONS_METER_WIDTH_FRACTION = 0.23;
     
     // Fraction of canvas width used to portray the edge of the world.
-    private static final double WORLD_EDGE_WIDTH_PROPORTION = 0.07;       
+    private static final double WORLD_EDGE_WIDTH_PROPORTION = 0.05;       
     
     // Fraction of canvas height used for the additional height of the edge
     // of the world ABOVE AND BEYOND the depth of the strata.
