@@ -3,7 +3,9 @@
 ==================================================================================
 
 TODO:
-- connect reaction equations to model
+- move setScaleEnabled out of subclasses and into AbstractEquilibriumExpression
+- optimize space usage in canvas layout code of EquilibriumExpressionDialog
+- connect reaction equations to model (revisions similar to equilibrium expressions)
 - H2O should not be scalable in Reaction Equations, should change to Color.BLACK when scaling is enabled
 - particle views
 - scale image files
