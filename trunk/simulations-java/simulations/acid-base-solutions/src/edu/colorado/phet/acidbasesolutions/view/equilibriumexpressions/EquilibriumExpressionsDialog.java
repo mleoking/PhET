@@ -15,30 +15,33 @@ import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.SolutionListener;
 import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.nodes.PText;
 
 
 public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
     
-    private static final boolean DEV = true;//XXX delete this
-    
     private static final Dimension TOP_CANVAS_SIZE = new Dimension( 500, 150 );
     private static final Dimension BOTTOM_CANVAS_SIZE = TOP_CANVAS_SIZE;
     
-    private AqueousSolution solution;
+    private final AqueousSolution solution;
     private final SolutionListener solutionListener;
     private final JRadioButton scaleOnRadioButton, scaleOffRadioButton;
     private final PhetPCanvas topCanvas, bottomCanvas;
-    private AbstractEquilibriumExpressionNode topExpression;
-    private final WaterEquilibriumExpressionNode waterExpression;
+    private final EquilibriumExpressionNode topExpressionNode;
+    private final WaterEquilibriumExpressionNode waterExpressionNode;
     
     // dev controls
     private final PText topCanvasSizeNode, bottomCanvasSizeNode;
     
     public EquilibriumExpressionsDialog( Frame owner, AqueousSolution solution ) {
+        this( owner, solution, PhetApplication.getInstance().isDeveloperControlsEnabled() );
+    }
+    
+    public EquilibriumExpressionsDialog( Frame owner, AqueousSolution solution, boolean dev ) {
         super( owner, ABSStrings.TITLE_EQUILIBRIUM_EXPRESSIONS );
-        setResizable( true ); //XXX should be false
+        setResizable( dev );
         
         solutionListener = new SolutionListener() {
 
@@ -51,7 +54,8 @@ public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
             }
 
             public void strengthChanged() {
-                updateScale();
+                updateStrength();
+                updateScales();
             }
         };
         
@@ -62,7 +66,7 @@ public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
         JLabel scaleOnOffLabel = new JLabel( ABSStrings.LABEL_EQUATION_SCALING );
         ActionListener scaleOnOffActionListener = new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                updateScale();
+                updateScales();
             }
         };
         scaleOnRadioButton = new JRadioButton( ABSStrings.RADIO_BUTTON_EQUATION_SCALING_ON );
@@ -89,9 +93,11 @@ public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
         };
         topCanvas.setPreferredSize( TOP_CANVAS_SIZE );
         topCanvas.setBackground( ABSConstants.EQUILIBRIUM_EXPRESSIONS_BACKGROUND );
+        topExpressionNode = new EquilibriumExpressionNode( solution );
+        topCanvas.getLayer().addChild( topExpressionNode );
         topCanvasSizeNode = new PText();
         topCanvasSizeNode.setOffset( 5, 5 );
-        if ( DEV ) {
+        if ( dev ) {
             topCanvas.getLayer().addChild( topCanvasSizeNode );
         }
         
@@ -103,11 +109,11 @@ public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
         };
         bottomCanvas.setPreferredSize( BOTTOM_CANVAS_SIZE );
         bottomCanvas.setBackground( ABSConstants.EQUILIBRIUM_EXPRESSIONS_BACKGROUND );
-        waterExpression = new WaterEquilibriumExpressionNode();
-        bottomCanvas.getLayer().addChild( waterExpression );
+        waterExpressionNode = new WaterEquilibriumExpressionNode();
+        bottomCanvas.getLayer().addChild( waterExpressionNode );
         bottomCanvasSizeNode = new PText();
         bottomCanvasSizeNode.setOffset( 5, 5 );
-        if ( DEV ) {
+        if ( dev ) {
             bottomCanvas.getLayer().addChild( bottomCanvasSizeNode );
         }
         
@@ -127,43 +133,39 @@ public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
     }
     
     private void updateSolute() {
-        //TODO
         updateTopLayout();
         updateScales();
-    }
-    
-    private void updateScales() {
-        
+        updateStrength();
     }
     
     private void updateTopLayout() {
-        if ( topExpression != null ) {
-            double xOffset = ( topCanvas.getWidth() - topExpression.getFullBoundsReference().getWidth() ) / 2;
-            double yOffset = 20 + ( topCanvas.getHeight() - topExpression.getFullBoundsReference().getHeight() ) / 2;
-            topExpression.setOffset( xOffset, yOffset );
-            Dimension canvasSize = topCanvas.getSize();
-            topCanvasSizeNode.setText( "canvas size: " + canvasSize.width + "x" + canvasSize.height );
-        }
+        double xOffset = ( topCanvas.getWidth() - topExpressionNode.getFullBoundsReference().getWidth() ) / 2;
+        double yOffset = 20 + ( topCanvas.getHeight() - topExpressionNode.getFullBoundsReference().getHeight() ) / 2;
+        topExpressionNode.setOffset( xOffset, yOffset );
+        Dimension canvasSize = topCanvas.getSize();
+        topCanvasSizeNode.setText( "canvas size: " + canvasSize.width + "x" + canvasSize.height );
     }
     
     private void updateBottomLayout() {
-        double xOffset = ( bottomCanvas.getWidth() - waterExpression.getFullBoundsReference().getWidth() ) / 2;
-        double yOffset = 20 + ( bottomCanvas.getHeight() - waterExpression.getFullBoundsReference().getHeight() ) / 2;
-        waterExpression.setOffset( xOffset, yOffset );
+        double xOffset = ( bottomCanvas.getWidth() - waterExpressionNode.getFullBoundsReference().getWidth() ) / 2;
+        double yOffset = 20 + ( bottomCanvas.getHeight() - waterExpressionNode.getFullBoundsReference().getHeight() ) / 2;
+        waterExpressionNode.setOffset( xOffset, yOffset );
         Dimension canvasSize = bottomCanvas.getSize();
         bottomCanvasSizeNode.setText( "canvas size: " + canvasSize.width + "x" + canvasSize.height );
     }
     
-    private void updateScale() {
+    private void updateScales() {
         final boolean enabled = scaleOnRadioButton.isSelected();
         if ( enabled ) {
-           //TODO
+            //TODO
         }
         else {
-            if ( topExpression != null ) {
-                topExpression.setScaleAll( 1 );
-            }
-            waterExpression.setScaleAll( 1 );
+            topExpressionNode.setScaleAll( 1 );
+            waterExpressionNode.setScaleAll( 1 );
         }
+    }
+    
+    private void updateStrength() {
+        topExpressionNode.setKValue( solution.getSolute().getStrength() );
     }
 }
