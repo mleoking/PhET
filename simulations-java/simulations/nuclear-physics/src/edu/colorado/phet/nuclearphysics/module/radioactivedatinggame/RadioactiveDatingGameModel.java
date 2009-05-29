@@ -5,7 +5,6 @@ package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusDecayModel;
 
 /**
@@ -15,7 +14,7 @@ import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucl
  *
  * @author John Blanco
  */
-public class RadioactiveDatingGameModel extends SimpleObservable {
+public class RadioactiveDatingGameModel {
 
     //------------------------------------------------------------------------
     // Class data
@@ -72,7 +71,6 @@ public class RadioactiveDatingGameModel extends SimpleObservable {
     	_datableObjects.add(new DatableObject("Rock 8", "rock_8.png", new Point2D.Double(-13, -11), 2, 0, MultiNucleusDecayModel.convertYearsToMs(3.5E9)));
     	_datableObjects.add(new DatableObject("Animal Skull 2", "skull_animal_2.png", new Point2D.Double(-8, -14.5), 4.5, 0, MultiNucleusDecayModel.convertYearsToMs(220E6)));
     	_datableObjects.add(new DatableObject("Human Skull", "skull_human.png", new Point2D.Double(13, -1.5), 2.4, 0, MultiNucleusDecayModel.convertYearsToMs(1000)));
-    	_datableObjects.add(new DatableObject("Gold Star", "gold_star.png", new Point2D.Double(-2, -4.5), 2.5, 0, MultiNucleusDecayModel.convertYearsToMs(3000)));
     	_datableObjects.add(new DatableObject("Cup", "cup.png", new Point2D.Double(4, -2), 3.2,  -Math.PI / 3, MultiNucleusDecayModel.convertYearsToMs(1000)));
     	_datableObjects.add(new DatableObject("Bone", "bone.png", new Point2D.Double(7, -15), 4.5, 0, MultiNucleusDecayModel.convertYearsToMs(220E6)));
 
