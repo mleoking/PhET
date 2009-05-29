@@ -2,10 +2,8 @@
 
 package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 
-import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.Line2D.Double;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
@@ -105,7 +103,8 @@ public class RadioactiveDatingGameModel extends SimpleObservable {
     public Iterable<DatableObject> getItemIterable(){
     	return _datableObjects;
     }
-    public Iterable<Stratum> getLayerIterable(){
+    
+    public Iterable<Stratum> getStratumIterable(){
         return _strata;
     }
 

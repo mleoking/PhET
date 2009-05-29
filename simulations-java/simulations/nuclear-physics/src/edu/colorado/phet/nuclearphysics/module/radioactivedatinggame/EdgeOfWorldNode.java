@@ -69,6 +69,9 @@ public class EdgeOfWorldNode extends PNode {
 
 		_testShape.setPathTo(_mvt.createTransformedShape(edgeShapeModelCoords));
 		
+		Iterable<Stratum> strata = _model.getStratumIterable();
+		
+		
 		// Set the shape of the background.  The background is used to prevent
 		// nodes behind the edge node from being visible and thus ruining the
 		// 3D look.
