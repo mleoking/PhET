@@ -148,14 +148,17 @@ class Tester extends FunSuite {
   test("elem should have passed width") {
     assert(true)
   }
-  test("battery resistor circuit should have correct voltages and currents") {
+  test("battery resistor circuit should have correct voltages and currents for a simple circuit") {
     val netList = new NetList(Array(Battery(0, 1, 4.0)), Array(Resistor(1, 0, 4.0)))
     val solution = netList.solve
-    val voltages = Map(0 -> 0.0, 1 -> 4.0)
-    val currents = Map((0, 1) -> 1.0)
-    val desiredSolution = new Solution(voltages, currents)
+    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 4.0), Map((0, 1) -> 1.0))
     println(solution)
     println(desiredSolution)
     assert(solution.approxEquals(desiredSolution, 1E-6))
+  }
+  test("battery resistor circuit should have correct voltages and currents for a simple circuit ii") {
+    val netList = new NetList(Array(Battery(0, 1, 4.0)), Array(Resistor(1, 0, 2.0)))
+    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 4.0), Map((0, 1) -> 2.0))
+    assert(netList.solve.approxEquals(desiredSolution, 1E-6))
   }
 }
