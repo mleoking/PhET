@@ -44,6 +44,10 @@ public class Stratum {
         return _bottomLine.getMaxDepth();
     }
 
+    public double getTopOfStratumY() {
+        return _topLine.getMinDepth();
+    }
+
     public LayerLine getTopLine() {
         return _topLine;
     }

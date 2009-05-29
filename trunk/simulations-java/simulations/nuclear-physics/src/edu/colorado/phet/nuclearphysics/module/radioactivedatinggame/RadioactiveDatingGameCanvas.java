@@ -217,6 +217,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
 		
     		_model.setEdgeOfWorldRect(new Rectangle2D.Double(edgeOfWorldXModel, edgeOfWorldYModelY, 
     				edgeOfWorldWidthModel, edgeOfWorldHeightModel));
+    		_edgeOfWorld.updateEdgeShape(innerEdgeOfWorldXIntermediate.getX(), outerEdgeOfWorldXIntermediate.getX());
 //    		_model.setEdgeOfWorldRect(new Rectangle2D.Double(-25, _model.getBottomOfStrata(), 
 //    				5, 20));
     	}

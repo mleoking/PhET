@@ -157,6 +157,22 @@ public class RadioactiveDatingGameModel extends SimpleObservable {
     	return bottom;
     }
     
+    /**
+     * Get the highest point of the model for which a stratum (a.k.a. a layer
+     * of sediment) is found.
+     * 
+     * @return
+     */
+    public double getTopOfStrata(){
+    	double top = Double.NEGATIVE_INFINITY;
+    	for ( Stratum stratum : _strata ){
+    		if ( stratum.getTopOfStratumY() > top ){
+    			top = stratum.getTopOfStratumY();
+    		}
+    	}
+    	return top;
+    }
+    
     //------------------------------------------------------------------------
     // Other Methods
     //------------------------------------------------------------------------
