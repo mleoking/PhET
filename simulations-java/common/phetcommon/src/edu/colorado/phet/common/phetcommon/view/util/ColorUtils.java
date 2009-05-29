@@ -63,6 +63,45 @@ public class ColorUtils {
         assert ( distance >= 0 && distance <= 1 );
         return value1 + ( distance * ( value2 - value1 ) );
     }
+    
+    
+    /**
+     * Lighten a color in RGB space.  Useful when creating gradients from a
+     * single base color.
+     * 
+     * @param originalColor
+     * @return lighter (closer to white) version of the original color.
+     */
+	public static Color lightenColor( Color originalColor ){
+    	
+    	Color lighterColor;
+    	
+   		int red = originalColor.getRed() + ((255 - originalColor.getRed()) * 3 / 4);
+   		int green = originalColor.getGreen() + ((255 - originalColor.getGreen()) * 3 / 4);
+   		int blue = originalColor.getBlue() + ((255 - originalColor.getBlue()) * 3 / 4);
+   		lighterColor = new Color( red, green, blue );
+    	
+    	return lighterColor;
+    }
+
+    /**
+     * Darken a color in RGB space.  Useful when creating gradients from a
+     * single base color.
+     * 
+     * @param originalColor
+     * @return darker (closer to black) version of the original color.
+     */
+    public static Color darkenColor( Color originalColor ){
+    	
+    	Color darkerColor;
+    	
+   		int red = originalColor.getRed() - (originalColor.getRed() / 2);
+   		int green = originalColor.getGreen() - (originalColor.getGreen() / 2);
+   		int blue = originalColor.getBlue() - (originalColor.getBlue() / 2);
+   		darkerColor = new Color( red, green, blue );
+    	
+    	return darkerColor;
+    }
 
     /**
      * Is this a visible wavelength?
