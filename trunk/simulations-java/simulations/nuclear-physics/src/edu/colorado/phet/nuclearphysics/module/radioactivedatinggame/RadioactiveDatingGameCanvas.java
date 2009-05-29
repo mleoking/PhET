@@ -206,7 +206,8 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     	for ( double time = 0; time < timeSpan; time += timeIncrement ){
     		// Calculate the proportion of carbon that should be decayed at this point in time.
     		double percentageDecayed = 100 - (100 * Math.exp(-time*lambda));
-    		_proportionsChart.addDecayEvent(time, percentageDecayed);
+    		_proportionsChart.addDataPoint(time, (int)Math.round(100 - percentageDecayed), 
+    				(int)Math.round(percentageDecayed));
     	}
     }
     
