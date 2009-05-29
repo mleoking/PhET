@@ -302,33 +302,15 @@ public class NuclearDecayProportionChart extends PNode {
     }
     
     /**
-     * Add a decay event to the chart, which will be represented as a point
-     * on the proportion curve.  IMPORTANT: It is assumed that these events
-     * are added in order of increasing time.
+     * Add a data point to the chart by specifying the time and the number of
+     * decayed and undecayed elements.  Note that these points are connected,
+     * so the should be added in chronological order or the chart will end up
+     * looking weird.
      * 
-     * @param time - time that event occurred
-     * @param percentageDecayed - percentage of decayed nuclei existing 
-     * after this decay occurred.
+     * @param time
+     * @param numUndecayed
+     * @param numDecayed
      */
-    public void addDecayEvent( double time, double percentageDecayed ){
-    	
-    	// Validate arguments.
-    	if ((time < 0) || (percentageDecayed < 0) || (percentageDecayed > 100)){
-    		throw ( new IllegalArgumentException(this.getClass().getName() + 
-    				": Invalid argument for data point addition."));
-    	}
-    	
-    	// Graph this event.
-    	Point2D decayEvent = new Point2D.Double( time, percentageDecayed );
-		_decayEvents.add( decayEvent );
-		_graph.graphDecayEvent( decayEvent );
-		
-		// Update the pie chart if it is present.
-		if ( _pieChart != null ){
-			_pieChart.setDecayedPercentage(percentageDecayed);
-		}
-    }
-    
     public void addDataPoint(double time, int numUndecayed, int numDecayed){
 		// Update the pie chart if it is present.
 		if ( _pieChart != null ){
@@ -979,7 +961,7 @@ public class NuclearDecayProportionChart extends PNode {
         
         for (int i = 0; i < 5; i++){
         	// Put some data points on the chart to test its behavior.
-        	proportionsChart.addDecayEvent(Carbon14Nucleus.HALF_LIFE / 5 * i, i * 10);
+        	proportionsChart.addDataPoint((Carbon14Nucleus.HALF_LIFE / 10) * i, i, 5 - i);
         }
         
         canvas.addComponentListener( new ComponentListener(){
