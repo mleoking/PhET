@@ -30,12 +30,12 @@ object TestMNA {
   class BranchCurrent {}
   def main(args: Array[String]) {
     println("testing")
-    val netList = new NetList(Array(Battery(0, 1, 4.0)), Array(Resistor(1, 0, 4.0)))
+    val netList = new Circuit(Array(Battery(0, 1, 4.0)), Array(Resistor(1, 0, 4.0)))
     val solution = netList.solve
     println(solution)
   }
 }
-case class NetList(batteries: Seq[Battery], resistors: Seq[Resistor]) {
+case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor]) {
   def getNodeSet = {
     val set = new HashSet[Int]
     for (b <- batteries) {
@@ -100,7 +100,7 @@ case class NetList(batteries: Seq[Battery], resistors: Seq[Resistor]) {
 
   def getEquations = {
     val list = new ArrayBuffer[Equation]
-    println("nodeset=" + getNodeSet)
+//    println("nodeset=" + getNodeSet)
     //reference node has a voltage of 0.0
     list += new Equation(0, Assignment(1, UnknownVoltage(getNodeSet.toSeq(0))))
     //for each node, charge is conserved
@@ -123,16 +123,16 @@ case class NetList(batteries: Seq[Battery], resistors: Seq[Resistor]) {
 
   def solve = {
     var equations = getEquations
-    println(equations.mkString("\n"))
+//    println(equations.mkString("\n"))
     val numVars = getNumVars
     val A = new Matrix(equations.size, getNumVars)
     val z = new Matrix(equations.size, 1)
     for (i <- 0 until equations.size) equations(i).stamp(i, A, z, getUnknowns.indexOf(_)) //todo: how to handle indexing reverse voltages
-    A.print(4, 2)
-    z.print(4, 2)
+//    A.print(4, 2)
+//    z.print(4, 2)
     val x = A.solve(z)
-    print("unknowns=\n" + getUnknowns.mkString("\n"))
-    x.print(4, 2)
+//    print("unknowns=\n" + getUnknowns.mkString("\n"))
+//    x.print(4, 2)
 
     val voltageMap = new HashMap[Int, Double]
     for (nodeVoltage <- getUnknownVoltages) voltageMap(nodeVoltage.node) = x.get(getUnknowns.indexOf(nodeVoltage), 0)
@@ -146,16 +146,20 @@ case class NetList(batteries: Seq[Battery], resistors: Seq[Resistor]) {
 
 class Tester extends FunSuite {
   test("battery resistor circuit should have correct voltages and currents for a simple circuit") {
-    val netList = new NetList(Array(Battery(0, 1, 4.0)), Array(Resistor(1, 0, 4.0)))
-    val solution = netList.solve
+    val circuit = new Circuit(Array(Battery(0, 1, 4.0)), Array(Resistor(1, 0, 4.0)))
     val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 4.0), Map((0, 1) -> 1.0))
-    println(solution)
-    println(desiredSolution)
-    assert(solution.approxEquals(desiredSolution, 1E-6))
+    assert(circuit.solve.approxEquals(desiredSolution, 1E-6))
   }
   test("battery resistor circuit should have correct voltages and currents for a simple circuit ii") {
-    val netList = new NetList(Array(Battery(0, 1, 4.0)), Array(Resistor(1, 0, 2.0)))
+    val circuit = new Circuit(Array(Battery(0, 1, 4.0)), Array(Resistor(1, 0, 2.0)))
     val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 4.0), Map((0, 1) -> 2.0))
-    assert(netList.solve.approxEquals(desiredSolution, 1E-6))
+    assert(circuit.solve.approxEquals(desiredSolution, 1E-6))
+  }
+  test("current should be reversed when voltage is reversed") {
+    val circuit = new Circuit(Array(Battery(0, 1, -4.0)), Array(Resistor(1, 0, 2.0)))
+    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> -4.0), Map((0, 1) -> -2.0))
+    println("Actual Solution: " + circuit.solve)
+    println("Desired Solution: " + desiredSolution)
+    assert(circuit.solve.approxEquals(desiredSolution, 1E-6))
   }
 }
