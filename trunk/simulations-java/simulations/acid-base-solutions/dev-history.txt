@@ -3,12 +3,11 @@
 ==================================================================================
 
 TODO:
-- implement scaling in equilibrium expressions using ConcentrationScaleModel
-- connect equilibrium expressions to model
 - connect reaction equations to model
 - H2O should not be scalable in Reaction Equations, should change to Color.BLACK when scaling is enabled
 - particle views
 - scale image files
+- when switching from strong to weak base, MOH flashes briefly in denominator of equilibrium expression
 
 DEFER:
 - restrict Strength slider to one section of the range (only needed if we add "Custom Weak" acid/base)
@@ -18,6 +17,10 @@ ISSUES:
 - if A- icon shows a "hole" where proton was donated, why doesn't B icon show a hole where proton can be accepted?
 
 DONE:
+5/29/09 persistence of "scaling on/off" in equilibrium expressions and reaction equations dialogs
+5/29/09 implement scaling in equilibrium expressions 
+5/29/09 discuss text resize algorithm with Archie, tweak
+5/28/09 implement text resize algorithm for concentration scaling
 5/28/09 simplify concentration graphs type hierarchy
 5/28/09 expand solute interface and make it more common across all acid and base types
 5/28/09 simplify molecule counts class hierarchy

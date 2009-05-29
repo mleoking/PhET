@@ -105,6 +105,8 @@ public class SolutionsModule extends ABSAbstractModule {
         config.setSymbolLegendVisible( miscControls.isSymbolLegendSelected() );
         config.setEquilibriumExpressionsVisible( miscControls.isEquilibriumExpressionsSelected() );
         config.setReactionEquationsVisible( miscControls.isReactionEquationsSelected() );
+        config.setEquilibriumExpressionsScalingEnabled(  miscControls.isEquilibriumExpressionsScalingEnabled() );
+        config.setReactionEquationsScalingEnabled(  miscControls.isReactionEquationsScalingEnabled() );
         
         return config;
     }
@@ -137,5 +139,7 @@ public class SolutionsModule extends ABSAbstractModule {
         miscControls.setSymbolLegendSelected( config.isSymbolLegendVisible() );
         miscControls.setEquilibriumExpressionsSelected( config.isEquilibriumExpressionsVisible() );
         miscControls.setReactionEquationsSelected( config.isReactionEquationsVisible() );
+        miscControls.setEquilibriumExpressionsScalingEnabled( config.isEquilibriumExpressionsScalingEnabled() );
+        miscControls.setReactionEquationsScalingEnabled( config.isReactionEquationsScalingEnabled() );
     }
 }

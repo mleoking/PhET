@@ -31,6 +31,10 @@ public class SolutionsConfig extends AbstractModuleConfig {
     private boolean equilibriumExpressionsVisible;
     private boolean reactionEquationsVisible;
     
+    // dialogs
+    private boolean equilibriumExpressionsScalingEnabled;
+    private boolean reactionEquationsScalingEnabled;
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -151,5 +155,24 @@ public class SolutionsConfig extends AbstractModuleConfig {
     
     public void setReactionEquationsVisible( boolean reactionEquationsVisible ) {
         this.reactionEquationsVisible = reactionEquationsVisible;
+    }
+    
+    public boolean isEquilibriumExpressionsScalingEnabled() {
+        return equilibriumExpressionsScalingEnabled;
+    }
+
+    
+    public void setEquilibriumExpressionsScalingEnabled( boolean equilibriumExpressionsScalingEnabled ) {
+        this.equilibriumExpressionsScalingEnabled = equilibriumExpressionsScalingEnabled;
+    }
+
+    
+    public boolean isReactionEquationsScalingEnabled() {
+        return reactionEquationsScalingEnabled;
+    }
+
+    
+    public void setReactionEquationsScalingEnabled( boolean reactionEquationsScalingEnabled ) {
+        this.reactionEquationsScalingEnabled = reactionEquationsScalingEnabled;
     }
 }

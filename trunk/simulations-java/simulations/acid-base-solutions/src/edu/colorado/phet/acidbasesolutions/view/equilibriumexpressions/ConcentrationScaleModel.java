@@ -1,25 +1,44 @@
+
 package edu.colorado.phet.acidbasesolutions.view.equilibriumexpressions;
+
+
 
 
 public class ConcentrationScaleModel {
 
-    private static final double C0 = -16;
-    private static final double C1 = 4;
-    private static final double T0 = 1;
-    private static final double T1 = 72; 
-    private static final double dC = C1 - C0;
-    private static final double dT = T1 - T0;
-    private static final double m0 = 2; //XXX vestigial?
-    private static final double m1 = 4; //XXX vestigial?
+    // concentration log10 range
+    private static final double C_MIN = -16;
+    private static final double C_MAX = 2;
+    private static final double C_LENGTH = C_MAX - C_MIN;
+    
+    // font point size range
+    private static final double T_MIN = 3;
+    private static final double T_MAX = 72;
+    private static final double T_LENGTH = T_MAX - T_MIN;
     
     private ConcentrationScaleModel() {}
-    
+
+    /**
+     * Given a concentration in mol/L, get a font size in points.
+     */
     public static double getFontSize( double concentration ) {
-        final double C = Math.log10( concentration );
-        final double D = (dT - dC) / ( ( C1 * C1 ) - ( C0 * C0 ) - ( 2 * dC * C0) );
-        final double B = 1 - ( 2 * D * C0 );
-        final double A = T0 - ( B * C0 ) - ( D * C0 * C0 ); 
-        final double T = A +  ( B * C ) + ( D * C * C );
-        return T; //XXX units?
+        double T = T_MIN;
+        if ( concentration > 0 ) {
+            final double C = Math.log10( concentration );
+            final double D = ( T_LENGTH - C_LENGTH ) / ( ( C_MAX * C_MAX ) - ( C_MIN * C_MIN ) - ( 2 * C_LENGTH * C_MIN ) );
+            final double B = 1 - ( 2 * D * C_MIN );
+            final double A = T_MIN - ( B * C_MIN ) - ( D * C_MIN * C_MIN );
+            T = A + ( B * C ) + ( D * C * C );
+        }
+        return T;
+    }
+    
+    public static void main( String[] args ) {
+        double concentration = 0;
+        final double maxConcentration = Math.pow( 10, C_MAX );
+        while ( concentration <= maxConcentration ) {
+            System.out.println( concentration + " -> " + getFontSize( concentration ) );
+            concentration += 0.1;
+        }
     }
 }

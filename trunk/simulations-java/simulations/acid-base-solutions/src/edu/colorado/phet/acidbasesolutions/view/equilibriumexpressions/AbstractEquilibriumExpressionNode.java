@@ -106,46 +106,30 @@ abstract class AbstractEquilibriumExpressionNode extends PComposite {
     // Setters and getters
     //----------------------------------------------------------------------------
     
-    /*
-     * Sets the scale for the left numerator.
-     * @param scale
-     */
-    protected void setLeftNumeratorScale( double scale ) {
-        setScaleAboutCenter( leftNumeratorNode, scale );
+    protected void scaleLeftNumeratorToConcentration( double concentration ) {
+        scaleTermToConcentration( leftNumeratorNode, concentration );
     }
     
-    /*
-     * Sets the scale of the right numerator.
-     * @param scale
-     */
-    protected void setRightNumeratorScale( double scale ) {
-        setScaleAboutCenter( rightNumeratorNode, scale );
+    protected void scaleRightNumeratorToConcentration( double concentration ) {
+        scaleTermToConcentration( rightNumeratorNode, concentration );
     }
     
-    /*
-     * Sets the scale for the denominator.
-     * @param scale
-     */
-    protected void setDenominatorScale( double scale ) {
-        setScaleAboutCenter( denominatorNode, scale );
+    protected void scaleDenominatorToConcentration( double concentration ) {
+        scaleTermToConcentration( denominatorNode, concentration );
     }
     
-    /**
-     * Sets the scale for K.
-     * @param scale
-     */
-    public void setKScale( double scale ) {
-        setScaleAboutCenter( kNode, scale );
+    private void scaleTermToConcentration( PNode node, double concentration ) {
+        double scale = ConcentrationScaleModel.getFontSize( concentration ) / SYMBOL_FONT.getSize();
+        setScaleAboutCenter( node, scale );
     }
     
     /**
      * Sets all scalable nodes to have the same scale.
      */
     public void setScaleAll( double scale ) {
-        setKScale( scale );
-        setLeftNumeratorScale( scale );
-        setRightNumeratorScale( scale );
-        setDenominatorScale( scale );
+        setScaleAboutCenter( leftNumeratorNode, scale );
+        setScaleAboutCenter( rightNumeratorNode, scale );
+        setScaleAboutCenter( denominatorNode, scale );
     }
     
     /**
@@ -216,15 +200,11 @@ abstract class AbstractEquilibriumExpressionNode extends PComposite {
      */
     private void updateLayout() {
         // save scale values
-        final double kScale = kNode.getScale();
         final double leftNumeratorScale = leftNumeratorNode.getScale();
         final double rightNumeratorScale = rightNumeratorNode.getScale();
         final double denominatorScale = denominatorNode.getScale();
         // set all nodes to unity scale
-        kNode.setScale( 1 );
-        leftNumeratorNode.setScale( 1 );
-        rightNumeratorNode.setScale( 1 );
-        denominatorNode.setScale( 1 );
+        setScaleAll( 1 );
         // offsets
         double xOffset, yOffset;
         // K
@@ -279,10 +259,9 @@ abstract class AbstractEquilibriumExpressionNode extends PComposite {
         yOffset = rightEqualsNode.getFullBoundsReference().getCenterY() - ( largeValueNode.getFullBoundsReference().getHeight() / 2 ) - PNodeUtils.getOriginYOffset( largeValueNode );
         largeValueNode.setOffset( xOffset, yOffset );
         // restore scales
-        setKScale( kScale );
-        setLeftNumeratorScale( leftNumeratorScale );
-        setRightNumeratorScale( rightNumeratorScale );
-        setDenominatorScale( denominatorScale );
+        setScaleAboutCenter( leftNumeratorNode, leftNumeratorScale );
+        setScaleAboutCenter( rightNumeratorNode, rightNumeratorScale );
+        setScaleAboutCenter( denominatorNode, denominatorScale );
     }
     
     //----------------------------------------------------------------------------
