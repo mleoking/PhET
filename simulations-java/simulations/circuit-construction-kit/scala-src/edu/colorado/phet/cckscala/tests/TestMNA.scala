@@ -100,7 +100,7 @@ case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor]) {
 
   def getEquations = {
     val list = new ArrayBuffer[Equation]
-//    println("nodeset=" + getNodeSet)
+    //    println("nodeset=" + getNodeSet)
     //reference node has a voltage of 0.0
     list += new Equation(0, Assignment(1, UnknownVoltage(getNodeSet.toSeq(0))))
     //for each node, charge is conserved
@@ -123,16 +123,16 @@ case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor]) {
 
   def solve = {
     var equations = getEquations
-//    println(equations.mkString("\n"))
+    //    println(equations.mkString("\n"))
     val numVars = getNumVars
     val A = new Matrix(equations.size, getNumVars)
     val z = new Matrix(equations.size, 1)
     for (i <- 0 until equations.size) equations(i).stamp(i, A, z, getUnknowns.indexOf(_)) //todo: how to handle indexing reverse voltages
-//    A.print(4, 2)
-//    z.print(4, 2)
+    //    A.print(4, 2)
+    //    z.print(4, 2)
     val x = A.solve(z)
-//    print("unknowns=\n" + getUnknowns.mkString("\n"))
-//    x.print(4, 2)
+    //    print("unknowns=\n" + getUnknowns.mkString("\n"))
+    //    x.print(4, 2)
 
     val voltageMap = new HashMap[Int, Double]
     for (nodeVoltage <- getUnknownVoltages) voltageMap(nodeVoltage.node) = x.get(getUnknowns.indexOf(nodeVoltage), 0)
@@ -158,6 +158,21 @@ class Tester extends FunSuite {
   test("current should be reversed when voltage is reversed") {
     val circuit = new Circuit(Array(Battery(0, 1, -4.0)), Array(Resistor(1, 0, 2.0)))
     val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> -4.0), Map((0, 1) -> -2.0))
+    assert(circuit.solve.approxEquals(desiredSolution, 1E-6))
+  }
+  test("Two batteries in parallel should have voltage added") {
+    val circuit = new Circuit(Array(Battery(0, 1, -4.0), Battery(1, 2, -4.0)), Array(Resistor(2, 0, 2.0)))
+    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> -4.0, 2 -> -8.0), Map((0, 1) -> -4, (1, 2) -> -4))
+    assert(circuit.solve.approxEquals(desiredSolution, 1E-6))
+  }
+  test("Resistors in parallel should have harmonic mean of resistance") {
+    val V = 9.0
+    val R1 = 5.0
+    val R2 = 5.0
+    val Req = 1 / (1 / R1 + 1 / R2)
+    val circuit = new Circuit(Array(Battery(0, 1, V)), Array(Resistor(1, 0, R1), Resistor(1, 0, R2)))
+    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> V), Map((0, 1) -> V / Req))
+    println("V="+V+", R1="+R1+", R2="+R2+", Req="+Req)
     println("Actual Solution: " + circuit.solve)
     println("Desired Solution: " + desiredSolution)
     assert(circuit.solve.approxEquals(desiredSolution, 1E-6))
