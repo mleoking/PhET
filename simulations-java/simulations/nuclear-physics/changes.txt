@@ -1,3 +1,5 @@
+# 3.12.00 (32129) May 29, 2009
+5/29/09 Fixed an issue where the strings associated with the logarithmic time line were not translatable.
 # 3.11.01 (32109) May 29, 2009
 5/29/09 Includes fixes for problem where some strings were not translatable, see #1660
 # 3.11.00 (30729) Apr 21, 2009
