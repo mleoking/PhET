@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.umd.cs.piccolo.PNode;
@@ -51,10 +52,14 @@ public class EdgeOfWorldNode extends PNode {
 		addChild( _testShape );
 		
 		Iterable<Stratum> strata = _model.getStratumIterable();
+		int stratumCount = 0;
 		for (Stratum stratum : strata){
-			EdgeStratumNode edgeStratumNode = new EdgeStratumNode(stratum, Color.gray); 
+			Color stratmColor = NuclearPhysicsConstants.strataColors.get(stratumCount % NuclearPhysicsConstants.strataColors.size());
+			stratmColor = ColorUtils.darkenColor(stratmColor);
+			EdgeStratumNode edgeStratumNode = new EdgeStratumNode(stratum, stratmColor); 
 			_edgeStratumNodes.add(edgeStratumNode);
 			addChild(edgeStratumNode);
+			stratumCount++;
 		}
 	}
 	

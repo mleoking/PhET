@@ -40,27 +40,19 @@ public class RadioactiveDatingGameModel extends SimpleObservable {
     
     public RadioactiveDatingGameModel()
     {
-    	// Add the strata to the model.
+    	// Add the strata to the model.  Add the top layer first, then loop
+    	// through adding the rest.
     	
     	Stratum stratum;
-        stratum = new Stratum(new Stratum.LayerLine(TOTAL_DEPTH_OF_STRATA - NOMINAL_STRATUM_DEPTH),
-        		new Stratum.LayerLine(TOTAL_DEPTH_OF_STRATA));
+        stratum = new Stratum(new Stratum.LayerLine(0), new Stratum.LayerLine(NOMINAL_STRATUM_DEPTH));
         _strata.add(stratum);
         
         for (int i = 1; i < NUMBER_OF_STRATA; i++){
         	// Add the next stratum.
-            stratum = new Stratum(new Stratum.LayerLine(
-            		TOTAL_DEPTH_OF_STRATA - (i + 1) * NOMINAL_STRATUM_DEPTH),
-            		stratum.getTopLine() );
+            stratum = new Stratum( stratum.getBottomLine(), new Stratum.LayerLine((i+1) * NOMINAL_STRATUM_DEPTH ));
             _strata.add( stratum );
         }
         
-        // TODO: Test code, delete when unit testing of this is complete.
-        for ( Stratum testStratum : _strata ){
-        	System.out.println("Top    ----> " + testStratum.getTopYGivenX(0));
-        	System.out.println("Bottom ----> " + testStratum.getBottomYGivenX(0));
-        }
-
         // Add the datable objects.
         // Params:                             name, image file, location(x, y), size, rotation angle (radians), age (ms)
         _datableObjects.add(new DatableObject("House", "house.png", new Point2D.Double(8, 4), 6.5, 0, MultiNucleusDecayModel.convertYearsToMs(75)));

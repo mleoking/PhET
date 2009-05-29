@@ -8,6 +8,7 @@ import java.awt.Font;
 import java.awt.Paint;
 import java.awt.Stroke;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
@@ -135,6 +136,17 @@ public class NuclearPhysicsConstants {
 	
 	// Color of the reset button that appears on many of the canvases.
 	public static final Color CANVAS_RESET_BUTTON_COLOR = new Color(0xff9900);
+	
+	// Colors for the strata in the Radioactive Dating Game, assumed to go
+	// from top to bottom.
+	public static final ArrayList<Color> strataColors = new ArrayList<Color>();
+	static {
+		strataColors.add( new Color( 111, 131, 151 ) );
+		strataColors.add( new Color( 153, 185, 216 ) );
+		strataColors.add( new Color( 216, 175, 208 ) );
+		strataColors.add( new Color( 198, 218, 119 ) );
+		strataColors.add( new Color( 179, 179, 179 ) );
+	}
 
     //----------------------------------------------------------------------------
     // Images
