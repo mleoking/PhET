@@ -137,6 +137,7 @@ case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor]) {
     for (currentVar <- getUnknownCurrents) currentMap((currentVar.startNode, currentVar.endNode)) = x.get(getUnknowns.indexOf(currentVar), 0)
 
     if (debug) {
+      println("Debugging circuit: " + toString)
       println(equations.mkString("\n"))
       println("a=")
       A.print(4, 2)
