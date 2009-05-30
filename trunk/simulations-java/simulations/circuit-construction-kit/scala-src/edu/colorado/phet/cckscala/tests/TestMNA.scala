@@ -70,6 +70,8 @@ case class Inductor(node0: Int, node1: Int, inductance: Double, voltage: Double,
   def getCompanionModel(dt: Double, newNode: () => Int) = {
     //linear companion model for inductor, using trapezoidal approximation, under norton model, see http://dev.hypertriton.com/edacious/trunk/doc/lec.pdf
     val midNode = newNode()
+    val companionCurrent = current + dt * voltage / 2 / inductance
+//    println("companion current " + node0 + " to " + node1 + ":" + companionCurrent)
     new CompanionModel(Nil, new Resistor(node0, midNode, 0) //dummy resistor in series so we can easily compute current for the inductor
             :: new Resistor(midNode, node1, 2 * inductance / dt) :: Nil,
       new CurrentSource(midNode, node1, current + dt * voltage / 2 / inductance) :: Nil) {
@@ -96,13 +98,17 @@ case class InitialCondition(voltage: Double, current: Double)
 case class FullCircuit(batteries: Seq[Battery], resistors: Seq[Resistor], capacitors: Seq[Capacitor], inductors: Seq[Inductor]) extends AbstractCircuit {
   def stepInTime(dt: Double) = {
     val solution = solve(dt)
-    new FullCircuit(batteries, resistors, for (c <- capacitors) yield {
-      new Capacitor(c.node0, c.node1, c.capacitance, solution.getVoltage(c), solution.getCurrent(c))
-    }, Nil)
+    new FullCircuit(batteries, resistors,
+      for (c <- capacitors) yield {
+        new Capacitor(c.node0, c.node1, c.capacitance, solution.getVoltage(c), solution.getCurrent(c))
+      },
+      for (i <- inductors) yield {
+        new Inductor(i.node0, i.node1, i.inductance, solution.getVoltage(i), solution.getCurrent(i))
+      })
   }
 
   def getInitializedCircuit = {
-    val initConditions: InitialConditionResult = getInitialConditions
+    val initConditions: InitialConditionSet = getInitialConditions
     new FullCircuit(Battery(0, 1, 5.0) :: Nil, Resistor(1, 2, 10.0) :: Nil,
       for (c <- capacitors) yield {
         new Capacitor(c.node0, c.node1, c.capacitance, initConditions.capacitorMap(c).voltage, initConditions.capacitorMap(c).current)
@@ -143,9 +149,9 @@ case class FullCircuit(batteries: Seq[Battery], resistors: Seq[Resistor], capaci
     val inductorMap = new HashMap[Inductor, InitialCondition]
     for (i <- inductors) inductorMap += i -> new InitialCondition(solution.getVoltage(indToRes(i)), 0.0)
 
-    new InitialConditionResult(capacitorMap, inductorMap)
+    new InitialConditionSet(capacitorMap, inductorMap)
   }
-  case class InitialConditionResult(capacitorMap: HashMap[Capacitor, InitialCondition], inductorMap: HashMap[Inductor, InitialCondition])
+  case class InitialConditionSet(capacitorMap: HashMap[Capacitor, InitialCondition], inductorMap: HashMap[Inductor, InitialCondition])
 
   def getCompanionModel(dt: Double) = {
     val b = new ArrayBuffer[Battery]
@@ -166,7 +172,7 @@ case class FullCircuit(batteries: Seq[Battery], resistors: Seq[Resistor], capaci
       for (resistor <- cm.resistors) r += resistor
       for (currentSource <- cm.currentSources) cs += currentSource
     }
-    new BigCompanionModel(new Circuit(b, r, cs), companionMap)
+    new CompanionCircuit(new Circuit(b, r, cs), companionMap)
   }
 
   //Find the first node index that is unused in the node set or used indices, and update the used indices
@@ -199,22 +205,24 @@ case class FullCircuit(batteries: Seq[Battery], resistors: Seq[Resistor], capaci
   }
 }
 
-class BigCompanionModel(val circuit: Circuit, val elementMap: HashMap[HasCompanionModel, CompanionModel]) {
+case class CompanionCircuit(val circuit: Circuit, val elementMap: HashMap[HasCompanionModel, CompanionModel]) {
   def getCurrent(c: HasCompanionModel, solution: Solution) = elementMap(c).getCurrent(solution)
 }
 
-class CompanionSolution(fullCircuit: FullCircuit, companionModel: BigCompanionModel, solution: Solution)
+class CompanionSolution(fullCircuit: FullCircuit, companionModel: CompanionCircuit, solution: Solution)
         extends Solution(solution.nodeVoltages, solution.branchCurrents) { //todo: fix this, shouldn't be able to access these values...?
   override def getVoltage(e: Element): Double = {
     e match {
       case c: Capacitor => super.getVoltage(e) //this should work because original node indices are same
+      case i: Inductor => super.getVoltage(e)
       case _ => super.getVoltage(e)
     }
   }
 
   override def getCurrent(e: Element): Double = {
     e match {
-      case c: Capacitor => companionModel.getCurrent(c, solution);
+      case c: Capacitor => companionModel.getCurrent(c, solution)
+      case i: Inductor => companionModel.getCurrent(i, solution)
       case _ => super.getCurrent(e)
     }
   }
@@ -433,8 +441,12 @@ object TestRLCircuit {
     println("init circuit=" + dynamicCircuit)
     val v0 = dynamicCircuit.solve(dt).getVoltage(Resistor(1, 2, 10.0))
     println("voltage\tdesiredVoltage")
-    for (i <- 0 until 10000) { //takes 3 sec on my machine
+    for (i <- 0 until 1000) {
       val t = i * dt
+      val comp = dynamicCircuit.getCompanionModel(dt)
+//      println("companion=" + comp)
+      val compSol = comp.circuit.solve
+//      println("companion sol=" + compSol)
       val solution = dynamicCircuit.solve(dt)
       val voltage = solution.getVoltage(Resistor(1, 2, 10.0))
       val desiredVoltage = V * (1 - exp(-t * R / L)) //see http://en.wikipedia.org/wiki/Lr_circuit
@@ -536,21 +548,21 @@ class Tester extends FunSuite {
       dynamicCircuit = dynamicCircuit.stepInTime(dt)
     }
   }
-//  test("RL Circuit should have voltage exponentially decay with T=RC") {
-//    val L = 5
-//    val circuit = new FullCircuit(Battery(0, 1, 5.0) :: Nil, Resistor(1, 2, 10.0) :: Nil, Nil, Inductor(2, 0, L, 0, 0) :: Nil)
-//
-//    val dt = 1E-4
-//    var dynamicCircuit = circuit.getInitializedCircuit
-//    val v0 = dynamicCircuit.solve(dt).getVoltage(Resistor(1, 2, 10.0))
-//    for (i <- 0 until 10000) { //takes 3 sec on my machine
-//      val t = i * dt
-//      val solution = dynamicCircuit.solve(dt)
-//      val voltage = solution.getVoltage(Resistor(1, 2, 10.0))
-//      val desiredVoltage = v0 * exp(-t / 10.0 / 1.0E-2)
-//      val error = abs(voltage - desiredVoltage)
-//      assert(error < 1E-6) //sample run indicates largest error is 1.5328E-7, is this acceptable?  See TestRCCircuit
-//      dynamicCircuit = dynamicCircuit.stepInTime(dt)
-//    }
-//  }
+  //  test("RL Circuit should have voltage exponentially decay with T=RC") {
+  //    val L = 5
+  //    val circuit = new FullCircuit(Battery(0, 1, 5.0) :: Nil, Resistor(1, 2, 10.0) :: Nil, Nil, Inductor(2, 0, L, 0, 0) :: Nil)
+  //
+  //    val dt = 1E-4
+  //    var dynamicCircuit = circuit.getInitializedCircuit
+  //    val v0 = dynamicCircuit.solve(dt).getVoltage(Resistor(1, 2, 10.0))
+  //    for (i <- 0 until 10000) { //takes 3 sec on my machine
+  //      val t = i * dt
+  //      val solution = dynamicCircuit.solve(dt)
+  //      val voltage = solution.getVoltage(Resistor(1, 2, 10.0))
+  //      val desiredVoltage = v0 * exp(-t / 10.0 / 1.0E-2)
+  //      val error = abs(voltage - desiredVoltage)
+  //      assert(error < 1E-6) //sample run indicates largest error is 1.5328E-7, is this acceptable?  See TestRCCircuit
+  //      dynamicCircuit = dynamicCircuit.stepInTime(dt)
+  //    }
+  //  }
 }
