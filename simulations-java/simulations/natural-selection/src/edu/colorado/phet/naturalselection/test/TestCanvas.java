@@ -121,10 +121,10 @@ public class TestCanvas extends PhetPCanvas {
         chartNode.setOffset( x, y );
         chartNode.updateChartRenderingInfo();
 
-
         // Plot bounds
         ChartRenderingInfo chartInfo = chartNode.getChartRenderingInfo();
         PlotRenderingInfo plotInfo = chartInfo.getPlotInfo();
+
         // Careful! getDataArea returns a direct reference!
         Rectangle2D dataAreaRef = plotInfo.getDataArea();
         Rectangle2D localBounds = new Rectangle2D.Double();
@@ -143,10 +143,13 @@ public class TestCanvas extends PhetPCanvas {
 
     private int[] positions = new int[]{0, 5, 10, 15, 20, 25, 30};
 
-    public void addDataPoint() {
+    public synchronized void addDataPoint() {
+        // TODO: possibly move this up if we for sure don't need it
+        /*
         for ( int i = 0; i < NUM_SERIES; i++ ) {
             mainDataset.getSeries( i ).setNotify( false );
         }
+        */
 
         for ( int i = 0; i < positions.length; i++ ) {
             int y = positions[i];
@@ -154,23 +157,26 @@ public class TestCanvas extends PhetPCanvas {
             if ( y > MAX_Y ) { y = MAX_Y; }
             if ( y < MIN_Y ) { y = MIN_Y; }
             positions[i] = y;
-            mainDataset.getSeries( i ).add( pos, y );
+
+            // does not send the event to listeners
+            mainDataset.getSeries( i ).add( pos, y, false );
         }
 
         pos++;
 
         if ( pos >= RANGE + 1 ) {
-            //totalSeries.remove( 0 );
-            //whiteSeries.remove( 0 );
+            // TODO: possibly remove old data points?
             low++;
 
-            mainPlot.getDomainAxis().setRange( low, low + RANGE );
         }
+        mainPlot.getDomainAxis().setRange( low, low + RANGE );
 
+        /*
         for ( int i = 0; i < NUM_SERIES; i++ ) {
             // TODO: make sure this doesn't cause 7 redraws?
-            mainDataset.getSeries( i ).setNotify( true );
+            //mainDataset.getSeries( i ).setNotify( true );
         }
+        */
     }
 
 }
