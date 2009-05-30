@@ -40,9 +40,8 @@ case class Capacitor(node0: Int, node1: Int, capacitance: Double, voltage: Doubl
 case class Inductor(node0: Int, node1: Int, inductance: Double, voltage: Double, current: Double) extends Element {
   def getCompanionModel(dt: Double, newNode: () => Int) = {
     //linear companion model for inductor, using trapezoidal approximation, under norton model, see http://dev.hypertriton.com/edacious/trunk/doc/lec.pdf
-    //    val midNode = newNode()
-    new CompanionModel(Nil,
-      new Resistor(node0, node1, dt / 2 / inductance) :: Nil, new CurrentSource(node0, node1, current + dt * voltage / 2 / inductance) :: Nil)
+    new CompanionModel(Nil, new Resistor(node0, node1, dt / 2 / inductance) :: Nil,
+      new CurrentSource(node0, node1, current + dt * voltage / 2 / inductance) :: Nil)
   }
 }
 
