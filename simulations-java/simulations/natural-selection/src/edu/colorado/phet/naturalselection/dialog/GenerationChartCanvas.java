@@ -8,9 +8,7 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
-import edu.colorado.phet.naturalselection.model.*;
 import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
-import edu.colorado.phet.naturalselection.view.MutationPendingNode;
 import edu.colorado.phet.naturalselection.view.pedigree.PedigreeNode;
 import edu.umd.cs.piccolo.PNode;
 
@@ -24,7 +22,6 @@ public class GenerationChartCanvas extends PhetPCanvas {
     private NaturalSelectionModel model;
     public PedigreeNode pedigreeNode;
 
-    private MutationPendingNode mutationPendingNode;
     private PNode rootNode;
 
     private static final double TOP_PADDING = 5.0;
@@ -70,10 +67,6 @@ public class GenerationChartCanvas extends PhetPCanvas {
         rootNode.addChild( generationCount );
         */
 
-        mutationPendingNode = null;
-
-        setupHandlers();
-
         setCenterPoint( 0 );
 
     }
@@ -90,74 +83,8 @@ public class GenerationChartCanvas extends PhetPCanvas {
         pedigreeNode.setOffset( new Point2D.Double( getWidth() / 2 - x, PEDIGREE_TOP_PADDING ) );
     }
 
-    private void setupHandlers() {
-        // TODO: merge into one!!!
-        ColorGene.getInstance().addListener( new GeneListener() {
-            public void onChangeDominantAllele( Gene gene, boolean primary ) {
-
-            }
-
-            public void onChangeDistribution( Gene gene, int primary, int secondary ) {
-
-            }
-
-            public void onChangeMutatable( Gene gene, boolean mutatable ) {
-                handleMutationChange( ColorGene.getInstance(), mutatable );
-            }
-        } );
-
-        TailGene.getInstance().addListener( new GeneListener() {
-            public void onChangeDominantAllele( Gene gene, boolean primary ) {
-
-            }
-
-            public void onChangeDistribution( Gene gene, int primary, int secondary ) {
-
-            }
-
-            public void onChangeMutatable( Gene gene, boolean mutatable ) {
-                handleMutationChange( TailGene.getInstance(), mutatable );
-            }
-        } );
-
-        TeethGene.getInstance().addListener( new GeneListener() {
-            public void onChangeDominantAllele( Gene gene, boolean primary ) {
-
-            }
-
-            public void onChangeDistribution( Gene gene, int primary, int secondary ) {
-
-            }
-
-            public void onChangeMutatable( Gene gene, boolean mutatable ) {
-                handleMutationChange( TeethGene.getInstance(), mutatable );
-            }
-        } );
-    }
-
-    public void handleMutationChange( Gene gene, boolean mutatable ) {
-        if ( mutatable ) {
-            if ( mutationPendingNode != null ) {
-                throw new RuntimeException( "mutationPendingNode should be null!!!" );
-            }
-            mutationPendingNode = new MutationPendingNode( gene );
-            mutationPendingNode.translate( ( getPreferredSize().getWidth() - mutationPendingNode.getPlacementWidth() ) / 2, getPreferredSize().getHeight() - mutationPendingNode.getPlacementHeight() - 10 );
-            rootNode.addChild( mutationPendingNode );
-        }
-        else {
-            if ( mutationPendingNode != null ) {
-                rootNode.removeChild( mutationPendingNode );
-                mutationPendingNode = null;
-            }
-        }
-    }
-
     public void reset() {
         pedigreeNode.reset();
-        if ( mutationPendingNode != null ) {
-            rootNode.removeChild( mutationPendingNode );
-        }
-        mutationPendingNode = null;
     }
 
 }
