@@ -158,7 +158,7 @@ case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor]) extends Ab
 
   def getNodeCount = getNodeSet.size
 
-  def getCurrentCount = batteries.length
+  def getCurrentCount = batteries.length + resistors.filter(_.resistance == 0).size
 
   def getNumVars = getNodeCount + getCurrentCount
 
@@ -209,6 +209,8 @@ case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor]) extends Ab
     val nodeTerms = new ArrayBuffer[Term]
     for (b <- batteries if b.node1 == node)
       nodeTerms += Term(1, UnknownCurrent(b.node0, b.node1))
+    for (r <- resistors; if r.node1 == node; if r.resistance == 0)
+      nodeTerms += Term(1, UnknownCurrent(r.node0, r.node1))
     for (r <- resistors; if r.node1 == node; if r.resistance != 0) {
       nodeTerms += Term(-1 / r.resistance, UnknownVoltage(r.node1))
       nodeTerms += Term(1 / r.resistance, UnknownVoltage(r.node0))
@@ -221,6 +223,8 @@ case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor]) extends Ab
     val nodeTerms = new ArrayBuffer[Term]
     for (b <- batteries if b.node0 == node)
       nodeTerms += Term(-1, UnknownCurrent(b.node0, b.node1))
+    for (r <- resistors; if r.node0 == node; if r.resistance == 0)
+      nodeTerms += Term(-1, UnknownCurrent(r.node0, r.node1))
     for (r <- resistors; if r.node0 == node; if r.resistance != 0) {
       nodeTerms += Term(1 / r.resistance, UnknownVoltage(r.node1))
       nodeTerms += Term(-1 / r.resistance, UnknownVoltage(r.node0))
@@ -230,10 +234,8 @@ case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor]) extends Ab
 
   def getCurrentConservationTerms(node: Int) = {
     val nodeTerms = new ArrayBuffer[Term]
-    val incomingCurrents = getIncomingCurrentTerms(node)
-    val outgoingCurrents = getOutgoingCurrentTerms(node)
-    nodeTerms ++= incomingCurrents
-    nodeTerms ++= outgoingCurrents
+    nodeTerms ++= getIncomingCurrentTerms(node)
+    nodeTerms ++= getOutgoingCurrentTerms(node)
     nodeTerms
   }
 
@@ -255,13 +257,18 @@ case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor]) extends Ab
 
     //if resistor has no resistance, node0 and node1 should have same voltage
     for (resistor <- resistors if resistor.resistance == 0) list += new Equation(0, Term(1, UnknownVoltage(resistor.node0)), Term(-1, UnknownVoltage(resistor.node1)))
-    
+
     list
   }
 
   def getUnknownVoltages = for (node <- getNodeSet) yield UnknownVoltage(node)
 
-  def getUnknownCurrents = for (battery <- batteries) yield UnknownCurrent(battery.node0, battery.node1)
+  def getUnknownCurrents = {
+    val unknowns = new ArrayBuffer[UnknownCurrent]
+    for (battery <- batteries) unknowns += UnknownCurrent(battery.node0, battery.node1)
+    for (resistor <- resistors if resistor.resistance == 0) unknowns += UnknownCurrent(resistor.node0, resistor.node1)
+    unknowns
+  }
 
   def getUnknowns = { //todo: probably a way to do this in one line
     val list = new ArrayBuffer[Unknown]
@@ -273,10 +280,9 @@ case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor]) extends Ab
   def solve = {
     var equations = getEquations
 
-    val numVars = getNumVars
     val A = new Matrix(equations.size, getNumVars)
     val z = new Matrix(equations.size, 1)
-    for (i <- 0 until equations.size) equations(i).stamp(i, A, z, getUnknowns.indexOf(_)) //todo: how to handle indexing reverse voltages
+    for (i <- 0 until equations.size) equations(i).stamp(i, A, z, getUnknowns.indexOf(_)) //todo: how to handle indexing reverse voltages?  Perhaps just require that all voltages are forward (from node0 to node1)
     val x = A.solve(z)
 
     val voltageMap = new HashMap[Int, Double]
@@ -308,13 +314,14 @@ object TestMNA {
 
     //resistor with no resistance
     val circuit = new Circuit(Battery(0, 1, 5.0) :: Nil, Resistor(1, 2, 10.0) :: Resistor(2, 0, 0.0) :: Nil)
-    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 5.0, 2 -> 0.0), Map((0, 1) -> 5.0 / 10))
+    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 5.0, 2 -> 0.0), Map((0, 1) -> 5.0 / 10, (2, 0) -> 5.0 / 10))
     println("desired=" + desiredSolution)
     println("obtained=" + circuit.solve)
-    //    assert(circuit.solve.approxEquals(desiredSolution, 1E-6))
 
     circuit.debug = true
     circuit.solve
+
+    assert(circuit.solve.approxEquals(desiredSolution, 1E-6))
 
 
     //    val circuit = new Circuit(Battery(0, 1, 1.0) :: Nil, Resistor(1, 2, 10.0) :: Resistor(2, 0, 10.0) :: Nil)
@@ -377,6 +384,11 @@ class Tester extends FunSuite {
     val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 4.0, 2 -> 0.0), Map((0, 1) -> 1.0))
     assert(circuit.solve.approxEquals(desiredSolution, 1E-6))
   }
+  test("Should handle resistors with no resistance") {
+    val circuit = new Circuit(Battery(0, 1, 5.0) :: Nil, Resistor(1, 2, 10.0) :: Resistor(2, 0, 0.0) :: Nil)
+    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 5.0, 2 -> 0.0), Map((0, 1) -> 5.0 / 10, (2, 0) -> 5.0 / 10))
+    assert(circuit.solve.approxEquals(desiredSolution, 1E-6))
+  }
   test("Resistors in parallel should have harmonic mean of resistance") {
     val V = 9.0
     val R1 = 5.0
@@ -384,9 +396,6 @@ class Tester extends FunSuite {
     val Req = 1 / (1 / R1 + 1 / R2)
     val circuit = new Circuit(Array(Battery(0, 1, V)), Array(Resistor(1, 0, R1), Resistor(1, 0, R2)))
     val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> V), Map((0, 1) -> V / Req))
-    println("V=" + V + ", R1=" + R1 + ", R2=" + R2 + ", Req=" + Req)
-    println("Actual Solution: " + circuit.solve)
-    println("Desired Solution: " + desiredSolution)
     assert(circuit.solve.approxEquals(desiredSolution, 1E-6))
   }
 }
