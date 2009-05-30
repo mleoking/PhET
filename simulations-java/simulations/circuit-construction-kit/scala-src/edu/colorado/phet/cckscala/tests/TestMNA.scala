@@ -47,20 +47,20 @@ case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor]) {
 
   def getNumVars = getNodeCount + getCurrentCount
 
-  case class Assignment(coefficient: Double, variable: Unknown) {
+  case class Term(coefficient: Double, variable: Unknown) {
     def toTermString = {
       val prefix = if (coefficient == 1) "" else if (coefficient == -1) "-" else coefficient + "*"
       prefix + variable.toTermName
     }
   }
-  class Equation(rhs: Double, assignments: Assignment*) {
+  class Equation(rhs: Double, terms: Term*) {
     def stamp(row: Int, A: Matrix, z: Matrix, indexMap: Unknown => Int) = {
       z.set(row, 0, rhs)
-      for (a <- assignments) A.set(row, indexMap(a.variable), a.coefficient)
+      for (a <- terms) A.set(row, indexMap(a.variable), a.coefficient)
     }
 
     override def toString = {
-      val termList = for (a <- assignments) yield a.toTermString
+      val termList = for (a <- terms) yield a.toTermString
       val result = "" + termList.mkString("+") + "=" + rhs
       result.replaceAll("\\+\\-", "\\-")
     }
@@ -74,30 +74,30 @@ case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor]) {
   case class UnknownVoltage(node: Int) extends Unknown {
     def toTermName = "V" + node
   }
-  def getCurrentConservationAssignments(node: Int) = {
-    val nodeAssignments = new ArrayBuffer[Assignment]
-    for (b <- batteries if b.node0 == node) nodeAssignments += Assignment(1, UnknownCurrent(b.node0, b.node1))
-    for (b <- batteries if b.node1 == node) nodeAssignments += Assignment(-1, UnknownCurrent(b.node0, b.node1))
+  def getCurrentConservationTerms(node: Int) = {
+    val nodeTerms = new ArrayBuffer[Term]
+    for (b <- batteries if b.node0 == node) nodeTerms += Term(1, UnknownCurrent(b.node0, b.node1))
+    for (b <- batteries if b.node1 == node) nodeTerms += Term(-1, UnknownCurrent(b.node0, b.node1))
     for (r <- resistors if r.node0 == node) {
-      nodeAssignments += Assignment(1 / r.resistance, UnknownVoltage(r.node0))
-      nodeAssignments += Assignment(1 / r.resistance, UnknownVoltage(r.node1))
+      nodeTerms += Term(1 / r.resistance, UnknownVoltage(r.node0))
+      nodeTerms += Term(1 / r.resistance, UnknownVoltage(r.node1))
     }
     for (r <- resistors if r.node1 == node) {
-      nodeAssignments += Assignment(-1 / r.resistance, UnknownVoltage(r.node0))
-      nodeAssignments += Assignment(-1 / r.resistance, UnknownVoltage(r.node1))
+      nodeTerms += Term(-1 / r.resistance, UnknownVoltage(r.node0))
+      nodeTerms += Term(-1 / r.resistance, UnknownVoltage(r.node1))
     }
-    nodeAssignments
+    nodeTerms
   }
 
   def getEquations = {
     val list = new ArrayBuffer[Equation]
     //    println("nodeset=" + getNodeSet)
     //reference node has a voltage of 0.0
-    list += new Equation(0, Assignment(1, UnknownVoltage(getNodeSet.toSeq(0))))
+    list += new Equation(0, Term(1, UnknownVoltage(getNodeSet.toSeq(0))))
     //for each node, charge is conserved
-    for (node <- getNodeSet) list += new Equation(0, getCurrentConservationAssignments(node): _*) //see p. 155 scala book
+    for (node <- getNodeSet) list += new Equation(0, getCurrentConservationTerms(node): _*) //see p. 155 scala book
     //for each battery, voltage drop is given
-    for (battery <- batteries) list += new Equation(battery.voltage, Assignment(-1, UnknownVoltage(battery.node0)), Assignment(1, UnknownVoltage(battery.node1)))
+    for (battery <- batteries) list += new Equation(battery.voltage, Term(-1, UnknownVoltage(battery.node0)), Term(1, UnknownVoltage(battery.node1)))
     list
   }
 
