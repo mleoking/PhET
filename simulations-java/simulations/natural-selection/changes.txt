@@ -1,3 +1,5 @@
+# 0.01.12 (32161) May 30, 2009
+5/30/09 Changed mutation coming and heavy modifications to bunny stats
 # 0.01.11 (32000) May 21, 2009
 5/21/09 Generation chart, bunny stats and frenzy changes
 # 0.01.10 (31472) May 7, 2009
