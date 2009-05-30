@@ -402,7 +402,6 @@ object TestRCCircuit {
     println("time\tcurrent\tvoltage\tdesiredVoltage\terror")
     for (i <- 0 until 10000) {
       val t = i * dt
-      //      println("t=" + t + ": " + dynamicCircuit.solve(dt).getCurrent(Battery(0, 1, 5.0)))
       val solution = dynamicCircuit.solve(dt)
       val current = solution.getCurrent(Battery(0, 1, 5.0))
       val voltage = solution.getVoltage(Resistor(1, 2, 10.0))
@@ -460,13 +459,13 @@ class Tester extends FunSuite {
     val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> V), Map((0, 1) -> V / Req))
     assert(circuit.solve.approxEquals(desiredSolution, 1E-6))
   }
-  test("RC Circuit should have right temporal behavior") {
+  test("RC Circuit should have voltage exponentially decay with T=RC") {
     val circuit = new FullCircuit(Battery(0, 1, 5.0) :: Nil, Resistor(1, 2, 10.0) :: Nil, Capacitor(2, 0, 1.0E-2, 0.0, 0.0) :: Nil, Nil)
     val v0 = -5 //todo: make sure in sync with inited circuit
 
     val dt = 1E-4
     var dynamicCircuit = circuit.getInitializedCircuit
-    for (i <- 0 until 10000) {
+    for (i <- 0 until 10000) { //takes 3 sec on my machine
       val t = i * dt
       val solution = dynamicCircuit.solve(dt)
       val voltage = solution.getVoltage(Resistor(1, 2, 10.0))
