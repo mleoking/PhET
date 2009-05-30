@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import edu.colorado.phet.naturalselection.control.NaturalSelectionControlPanel;
+import edu.colorado.phet.naturalselection.model.*;
 
 /**
  * Wires up parts of the control panel, model and views
@@ -74,6 +75,48 @@ public class NaturalSelectionController {
         controlPanel.showGenerationChartButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent actionEvent ) {
                 module.showGenerationChart();
+            }
+        } );
+
+        ColorGene.getInstance().addListener( new GeneListener() {
+            public void onChangeDominantAllele( Gene gene, boolean primary ) {
+
+            }
+
+            public void onChangeDistribution( Gene gene, int primary, int secondary ) {
+
+            }
+
+            public void onChangeMutatable( Gene gene, boolean mutatable ) {
+                canvas.handleMutationChange( ColorGene.getInstance(), mutatable );
+            }
+        } );
+
+        TailGene.getInstance().addListener( new GeneListener() {
+            public void onChangeDominantAllele( Gene gene, boolean primary ) {
+
+            }
+
+            public void onChangeDistribution( Gene gene, int primary, int secondary ) {
+
+            }
+
+            public void onChangeMutatable( Gene gene, boolean mutatable ) {
+                canvas.handleMutationChange( TailGene.getInstance(), mutatable );
+            }
+        } );
+
+        TeethGene.getInstance().addListener( new GeneListener() {
+            public void onChangeDominantAllele( Gene gene, boolean primary ) {
+
+            }
+
+            public void onChangeDistribution( Gene gene, int primary, int secondary ) {
+
+            }
+
+            public void onChangeMutatable( Gene gene, boolean mutatable ) {
+                canvas.handleMutationChange( TeethGene.getInstance(), mutatable );
             }
         } );
     }

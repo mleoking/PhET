@@ -8,10 +8,8 @@ import java.awt.geom.Dimension2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
-import edu.colorado.phet.naturalselection.view.AddFriendNode;
-import edu.colorado.phet.naturalselection.view.FrenzyNode;
-import edu.colorado.phet.naturalselection.view.NaturalSelectionBackgroundNode;
-import edu.colorado.phet.naturalselection.view.SpriteHandler;
+import edu.colorado.phet.naturalselection.model.Gene;
+import edu.colorado.phet.naturalselection.view.*;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -40,6 +38,7 @@ public class NaturalSelectionCanvas extends PhetPCanvas {
      */
     public NaturalSelectionBackgroundNode backgroundNode;
 
+    private MutationPendingNode mutationPendingNode = null;
 
     private AddFriendNode addFriendNode;
 
@@ -80,6 +79,11 @@ public class NaturalSelectionCanvas extends PhetPCanvas {
         bunnies.reset();
         backgroundNode.reset();
         addFriendNode.setVisible( true );
+
+        if ( mutationPendingNode != null ) {
+            rootNode.removeChild( mutationPendingNode );
+        }
+        mutationPendingNode = null;
     }
 
     protected void updateLayout() {
@@ -98,5 +102,32 @@ public class NaturalSelectionCanvas extends PhetPCanvas {
         backgroundNode.updateLayout( getWidth(), getHeight() );
 
         bunnies.setSpriteTransform( backgroundNode.getBackgroundTransform( getWidth(), getHeight() ) );
+
+        positionMutationPending();
+    }
+
+
+    public void handleMutationChange( Gene gene, boolean mutatable ) {
+        if ( mutatable ) {
+            if ( mutationPendingNode != null ) {
+                throw new RuntimeException( "mutationPendingNode should be null!!!" );
+            }
+            mutationPendingNode = new MutationPendingNode( gene );
+            positionMutationPending();
+            rootNode.addChild( mutationPendingNode );
+        }
+        else {
+            if ( mutationPendingNode != null ) {
+                rootNode.removeChild( mutationPendingNode );
+                mutationPendingNode = null;
+            }
+        }
+    }
+
+    private void positionMutationPending() {
+        if ( mutationPendingNode == null ) {
+            return;
+        }
+        mutationPendingNode.setOffset( ( getWidth() - mutationPendingNode.getPlacementWidth() ) / 2, getHeight() - mutationPendingNode.getPlacementHeight() - 10 );
     }
 }
