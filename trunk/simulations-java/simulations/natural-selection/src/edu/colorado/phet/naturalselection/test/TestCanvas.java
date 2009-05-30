@@ -1,12 +1,14 @@
 package edu.colorado.phet.naturalselection.test;
 
+
 import java.awt.*;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
+import java.util.List;
+import java.util.LinkedList;
 
 import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.title.LegendTitle;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.PlotRenderingInfo;
@@ -24,11 +26,24 @@ import edu.umd.cs.piccolo.PNode;
 public class TestCanvas extends PhetPCanvas {
     private JFreeChartNode chartNode;
     private XYPlotNode plotNode;
+
     private XYSeries totalSeries;
     private XYSeries whiteSeries;
+
+    private List<XYSeries> mainSeriesList;
+    private List<XYSeries> emptySeriesList;
+
+    private XYPlot emptyPlot;
     private XYPlot mainPlot;
 
     private static final int RANGE = 300;
+    private static final int TOTAL_INDEX = 0;
+    private static final int FUR_WHITE_INDEX = 1;
+    private static final int FUR_BROWN_INDEX = 2;
+    private static final int TAIL_SHORT_INDEX = 3;
+    private static final int TAIL_LONG_INDEX = 4;
+    private static final int TEETH_SHORT_INDEX = 5;
+    private static final int TEETH_LONG_INDEX = 6;
 
     public TestCanvas( Dimension2D renderingSize ) {
         super( renderingSize );
@@ -36,7 +51,12 @@ public class TestCanvas extends PhetPCanvas {
         PNode root = new PNode();
         addScreenChild( root );
 
-        XYPlot emptyPlot = createPlot();
+        mainSeriesList = createSeriesList();
+        emptySeriesList = createSeriesList();
+
+        emptyPlot = createPlot( emptySeriesList );
+        mainPlot = createPlot( mainSeriesList );
+        
         JFreeChart chart = new JFreeChart( emptyPlot );
 
         chartNode = new JFreeChartNode( chart );
@@ -52,7 +72,6 @@ public class TestCanvas extends PhetPCanvas {
         XYSeriesCollection whiteDataset = new XYSeriesCollection();
         whiteDataset.addSeries( whiteSeries );
 
-        mainPlot = createPlot();
         mainPlot.setDataset( totalIndex, totalDataset );
         mainPlot.setDataset( whiteIndex, whiteDataset );
         XYItemRenderer totalRenderer = new StandardXYItemRenderer();
@@ -70,7 +89,21 @@ public class TestCanvas extends PhetPCanvas {
         updateLayout();
     }
 
-    private XYPlot createPlot() {
+    private List<XYSeries> createSeriesList() {
+        List<XYSeries> ret = new LinkedList<XYSeries>();
+
+        ret.add( new XYSeries( "Total" ) );
+        ret.add( new XYSeries( "White fur" ) );
+        ret.add( new XYSeries( "Brown fur" ) );
+        ret.add( new XYSeries( "Short tail" ) );
+        ret.add( new XYSeries( "Long tail" ) );
+        ret.add( new XYSeries( "Short teeth" ) );
+        ret.add( new XYSeries( "Long teeth" ) );
+
+        return ret;
+    }
+
+    private XYPlot createPlot( List<XYSeries> seriesList ) {
         XYPlot plot = new XYPlot();
 
         ValueAxis domainAxis = new NumberAxis( "Time" );
@@ -142,8 +175,8 @@ public class TestCanvas extends PhetPCanvas {
         pos++;
 
         if ( pos >= RANGE + 1 ) {
-            totalSeries.remove( 0 );
-            whiteSeries.remove( 0 );
+            //totalSeries.remove( 0 );
+            //whiteSeries.remove( 0 );
             low++;
 
             mainPlot.getDomainAxis().setRange( low, low + RANGE );
