@@ -56,7 +56,7 @@ case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor]) {
   class Equation(rhs: Double, terms: Term*) {
     def stamp(row: Int, A: Matrix, z: Matrix, indexMap: Unknown => Int) = {
       z.set(row, 0, rhs)
-      for (a <- terms) A.set(row, indexMap(a.variable), a.coefficient)
+      for (a <- terms) A.set(row, indexMap(a.variable), a.coefficient + A.get(row, indexMap(a.variable)))
     }
 
     override def toString = {
