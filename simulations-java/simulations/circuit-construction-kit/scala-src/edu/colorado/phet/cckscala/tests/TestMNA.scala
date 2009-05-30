@@ -170,7 +170,6 @@ case class FullCircuit(batteries: Seq[Battery], resistors: Seq[Resistor], capaci
 
     val usedIndices = new ArrayBuffer[Int]
 
-    //todo: get map for inductors as well
     val companionMap = new HashMap[HasCompanionModel, CompanionModel]
     val sourceElements: Seq[HasCompanionModel] = capacitors.toList ::: inductors.toList
     for (c <- sourceElements) {
@@ -275,19 +274,6 @@ case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor], currentSou
     }
   }
 
-  def getCurrent(node0: Int, node1: Int) = {
-    val solution = solve
-    //if the solution has a direct answer for this query, use it
-    if (solution.branchCurrents.contains((node0, node1))) {
-      solution.branchCurrents((node0, node1))
-    }
-    //otherwise, compute it from known values
-    else {
-      println("current not found")
-      0.0 //TODO compute voltage
-    }
-  }
-
   class Equation(rhs: Double, terms: Term*) {
     def stamp(row: Int, A: Matrix, z: Matrix, indexMap: Unknown => Int) = {
       z.set(row, 0, rhs)
@@ -385,13 +371,8 @@ case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor], currentSou
     unknowns
   }
 
-  def getUnknowns = { //todo: probably a way to do this in one line
-    val list = new ArrayBuffer[Unknown]
-    list ++= getUnknownVoltages
-    list ++= getUnknownCurrents
-    list
-  }
-
+  def getUnknowns =  getUnknownCurrents.toList ::: getUnknownVoltages.toList
+  
   def solve = {
     var equations = getEquations
 
