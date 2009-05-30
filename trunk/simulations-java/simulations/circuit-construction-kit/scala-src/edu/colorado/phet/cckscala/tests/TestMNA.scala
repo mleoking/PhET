@@ -16,6 +16,11 @@ case class Solution(nodeVoltages: collection.Map[Int, Double], branchCurrents: c
       sameVoltages && sameCurrents
     }
   }
+
+  //  def toFormattedString = {
+  //    val stringBuffer = new StringBuffer
+  //    stringBuffer.append("Solution(")
+  //  }
 }
 
 trait Element {
@@ -45,7 +50,38 @@ case class Inductor(node0: Int, node1: Int, inductance: Double, voltage: Double,
   }
 }
 
+case class InitialCondition(voltage: Double, current: Double)
 case class FullCircuit(batteries: Seq[Battery], resistors: Seq[Resistor], capacitors: Seq[Capacitor], inductors: Seq[Inductor]) extends AbstractCircuit {
+  //Create a circuit that has correct initial voltages and currents for capacitors and inductors
+  //This is done by:
+  // treating a capacitor as a R=0.0 resistor and computing the current through it
+  // treating an inductor as a R=INF resistor and computing the voltage drop across it
+  def initStorageUnits = {
+    val b = new ArrayBuffer[Battery]
+    b ++= batteries
+    val r = new ArrayBuffer[Resistor]
+    r ++= resistors
+    val cs = new ArrayBuffer[CurrentSource]
+
+    for (c <- capacitors) {
+      r += new Resistor(c.node0, c.node1, 0.0)
+    }
+    for (i <- inductors) {
+      r += new Resistor(i.node0, i.node1, 1E14)
+    }
+    val circuit = new Circuit(b, r)
+    //    val solution = circuit.solve
+    val capacitorMap = new HashMap[Capacitor, InitialCondition]
+    for (c <- capacitors) {
+      capacitorMap += c -> new InitialCondition(0, circuit.getCurrent(c.node0, c.node1)) //TODO: this repeats solve in each iteration
+    }
+    circuit.solve
+    //
+    //    for (i<inductors){
+    //      inductorMap
+    //    }
+  }
+
   def getCompanionCircuit(dt: Double) = {
     val b = new ArrayBuffer[Battery]
     b ++= batteries
@@ -132,6 +168,19 @@ case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor]) extends Ab
       prefix + variable.toTermName
     }
   }
+
+  def getCurrent(node0: Int, node1: Int) = {
+    val solution = solve
+    //if the solution has a direct answer for this query, use it
+    if (solution.branchCurrents.contains((node0, node1))) {
+      solution.branchCurrents((node0, node1))
+    }
+    //otherwise, compute it from known values
+    else {
+      0.0 //TODO compute voltage
+    }
+  }
+
   class Equation(rhs: Double, terms: Term*) {
     def stamp(row: Int, A: Matrix, z: Matrix, indexMap: Unknown => Int) = {
       z.set(row, 0, rhs)
@@ -153,18 +202,37 @@ case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor]) extends Ab
   case class UnknownVoltage(node: Int) extends Unknown {
     def toTermName = "V" + node
   }
+
+  //with a positive sign
+  def getIncomingCurrentTerms(node: Int) = {
+    val nodeTerms = new ArrayBuffer[Term]
+    for (b <- batteries if b.node1 == node)
+      nodeTerms += Term(1, UnknownCurrent(b.node0, b.node1))
+    for (r <- resistors if r.node1 == node) {
+      nodeTerms += Term(-1 / r.resistance, UnknownVoltage(r.node1))
+      nodeTerms += Term(1 / r.resistance, UnknownVoltage(r.node0))
+    }
+    nodeTerms
+  }
+
+  //outgoing currents are negative so that incoming + outgoing = 0
+  def getOutgoingCurrentTerms(node: Int) = {
+    val nodeTerms = new ArrayBuffer[Term]
+    for (b <- batteries if b.node0 == node)
+      nodeTerms += Term(-1, UnknownCurrent(b.node0, b.node1))
+    for (r <- resistors if r.node0 == node) {
+      nodeTerms += Term(1 / r.resistance, UnknownVoltage(r.node1))
+      nodeTerms += Term(-1 / r.resistance, UnknownVoltage(r.node0))
+    }
+    nodeTerms
+  }
+
   def getCurrentConservationTerms(node: Int) = {
     val nodeTerms = new ArrayBuffer[Term]
-    for (b <- batteries if b.node0 == node) nodeTerms += Term(1, UnknownCurrent(b.node0, b.node1))
-    for (b <- batteries if b.node1 == node) nodeTerms += Term(-1, UnknownCurrent(b.node0, b.node1))
-    for (r <- resistors if r.node0 == node) {
-      nodeTerms += Term(1 / r.resistance, UnknownVoltage(r.node0))
-      nodeTerms += Term(1 / r.resistance, UnknownVoltage(r.node1))
-    }
-    for (r <- resistors if r.node1 == node) {
-      nodeTerms += Term(-1 / r.resistance, UnknownVoltage(r.node0))
-      nodeTerms += Term(-1 / r.resistance, UnknownVoltage(r.node1))
-    }
+    val incomingCurrents = getIncomingCurrentTerms(node)
+    val outgoingCurrents = getOutgoingCurrentTerms(node)
+    nodeTerms ++= incomingCurrents
+    nodeTerms ++= outgoingCurrents
     nodeTerms
   }
 
@@ -230,25 +298,41 @@ case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor]) extends Ab
 
 object TestMNA {
   def main(args: Array[String]) {
-    val V = 9.0
-    val R1 = 5.0
-    val R2 = 5.0
-    val Req = 1 / (1 / R1 + 1 / R2)
-    //todo: need to compute the initial voltage and current across capacitor
-    //could pretend it is a resistor with no resistance, and compute voltage drop (0.0) and current
-    //similar for inductors
-    val circuit = new FullCircuit(Array(Battery(0, 1, V)), Array(Resistor(1, 2, R1)), Array(Capacitor(2, 0, 1.0, 0.0, 0.0)), Nil)
-    val companion = circuit.getCompanionCircuit(1E-4)
-    println("companion=" + companion)
-    val solution = circuit.solve
-    println("solution=" + solution)
-    //    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> V), Map((0, 1) -> V / Req))
-    //    println("V=" + V + ", R1=" + R1 + ", R2=" + R2 + ", Req=" + Req)
-    //    println("Actual Solution: " + circuit.solve)
-    //    println("Desired Solution: " + desiredSolution)
-    //    circuit.debug = true
-    //    circuit.solve
-    null
+
+    val circuit = new Circuit(Battery(0, 1, 5.0) :: Nil, Resistor(1, 2, 10.0) :: Resistor(2, 0, 10.0) :: Nil)
+    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 5.0, 2 -> 2.5), Map((0, 1) -> 5.0 / 20))
+    println("desired=" + desiredSolution)
+    println("obtained=" + circuit.solve)
+    assert(circuit.solve.approxEquals(desiredSolution, 1E-6))
+
+    circuit.debug = true
+    circuit.solve
+
+
+    //    val circuit = new Circuit(Battery(0, 1, 1.0) :: Nil, Resistor(1, 2, 10.0) :: Resistor(2, 0, 10.0) :: Nil)
+    //    val circuit = new Circuit(Battery(0, 1, 1.0) :: Nil, Resistor(1, 0, 10.0) :: Nil)
+    //    val solution = circuit.solve
+    //    println("solve=" + solution)
+    //    val V = 9.0
+    //    val R1 = 5.0
+    //    val R2 = 5.0
+    //    val Req = 1 / (1 / R1 + 1 / R2)
+    //    //todo: need to compute the initial voltage and current across capacitor
+    //    //could pretend it is a resistor with no resistance, and compute voltage drop (0.0) and current
+    //    //similar for inductors
+    //    val circuit = new FullCircuit(Array(Battery(0, 1, V)), Array(Resistor(1, 2, R1)), Array(Capacitor(2, 0, 1.0, 0.0, 0.0)), Nil)
+    //    val inited = circuit.initStorageUnits
+    //    val companion = circuit.getCompanionCircuit(1E-4)
+    //    println("companion=" + companion)
+    //    val solution = circuit.solve
+    //    println("solution=" + solution)
+    //    //    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> V), Map((0, 1) -> V / Req))
+    //    //    println("V=" + V + ", R1=" + R1 + ", R2=" + R2 + ", Req=" + Req)
+    //    //    println("Actual Solution: " + circuit.solve)
+    //    //    println("Desired Solution: " + desiredSolution)
+    //    //    circuit.debug = true
+    //    //    circuit.solve
+    //    null
   }
 }
 
@@ -268,14 +352,19 @@ class Tester extends FunSuite {
     val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> -4.0), Map((0, 1) -> -2.0))
     assert(circuit.solve.approxEquals(desiredSolution, 1E-6))
   }
-  test("Two batteries in parallel should have voltage added") {
+  test("Two batteries in series should have voltage added") {
     val circuit = new Circuit(Array(Battery(0, 1, -4.0), Battery(1, 2, -4.0)), Array(Resistor(2, 0, 2.0)))
     val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> -4.0, 2 -> -8.0), Map((0, 1) -> -4, (1, 2) -> -4))
     assert(circuit.solve.approxEquals(desiredSolution, 1E-6))
   }
+  test("Two resistors in series should have resistance added") {
+    val circuit = new Circuit(Battery(0, 1, 5.0) :: Nil, Resistor(1, 2, 10.0) :: Resistor(2, 0, 10.0) :: Nil)
+    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 5.0, 2 -> 2.5), Map((0, 1) -> 5.0 / 20))
+    assert(circuit.solve.approxEquals(desiredSolution, 1E-6))
+  }
   test("A resistor hanging off the edge shouldn't cause problems") {
     val circuit = new Circuit(Array(Battery(0, 1, 4.0)), Array(Resistor(1, 0, 4.0), Resistor(0, 2, 100.0)))
-    println("equations:\n" + circuit.getEquations.mkString("\n"))
+    //    println("equations:\n" + circuit.getEquations.mkString("\n"))
     val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 4.0, 2 -> 0.0), Map((0, 1) -> 1.0))
     assert(circuit.solve.approxEquals(desiredSolution, 1E-6))
   }
