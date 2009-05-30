@@ -4,8 +4,6 @@ package edu.colorado.phet.naturalselection.test;
 import java.awt.*;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
-import java.util.List;
-import java.util.LinkedList;
 
 import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.JFreeChart;
@@ -27,11 +25,11 @@ public class TestCanvas extends PhetPCanvas {
     private JFreeChartNode chartNode;
     private XYPlotNode plotNode;
 
-    private XYSeries totalSeries;
-    private XYSeries whiteSeries;
+    //private XYSeries totalSeries;
+    //private XYSeries whiteSeries;
 
-    private List<XYSeries> mainSeriesList;
-    private List<XYSeries> emptySeriesList;
+    private XYSeriesCollection mainDataset;
+    private XYSeriesCollection emptyDataset;
 
     private XYPlot emptyPlot;
     private XYPlot mainPlot;
@@ -45,43 +43,24 @@ public class TestCanvas extends PhetPCanvas {
     private static final int TEETH_SHORT_INDEX = 5;
     private static final int TEETH_LONG_INDEX = 6;
 
+    private static final int NUM_SERIES = 7;
+
     public TestCanvas( Dimension2D renderingSize ) {
         super( renderingSize );
 
         PNode root = new PNode();
         addScreenChild( root );
 
-        mainSeriesList = createSeriesList();
-        emptySeriesList = createSeriesList();
+        mainDataset = createDataset();
+        emptyDataset = createDataset();
 
-        emptyPlot = createPlot( emptySeriesList );
-        mainPlot = createPlot( mainSeriesList );
-        
+        emptyPlot = createPlot( emptyDataset );
+        mainPlot = createPlot( mainDataset );
+
         JFreeChart chart = new JFreeChart( emptyPlot );
 
         chartNode = new JFreeChartNode( chart );
         root.addChild( chartNode );
-
-        final int totalIndex = 0;
-        totalSeries = new XYSeries( "Total" );
-        XYSeriesCollection totalDataset = new XYSeriesCollection();
-        totalDataset.addSeries( totalSeries );
-
-        final int whiteIndex = 1;
-        whiteSeries = new XYSeries( "White Fur" );
-        XYSeriesCollection whiteDataset = new XYSeriesCollection();
-        whiteDataset.addSeries( whiteSeries );
-
-        mainPlot.setDataset( totalIndex, totalDataset );
-        mainPlot.setDataset( whiteIndex, whiteDataset );
-        XYItemRenderer totalRenderer = new StandardXYItemRenderer();
-        totalRenderer.setPaint( Color.RED );
-        totalRenderer.setStroke( new BasicStroke( 2f ) );
-        mainPlot.setRenderer( totalIndex, totalRenderer );
-        XYItemRenderer whiteRenderer = new StandardXYItemRenderer();
-        whiteRenderer.setPaint( Color.BLUE );
-        whiteRenderer.setStroke( new BasicStroke( 2f ) );
-        mainPlot.setRenderer( whiteIndex, whiteRenderer );
 
         plotNode = new XYPlotNode( mainPlot );
         root.addChild( plotNode );
@@ -89,21 +68,21 @@ public class TestCanvas extends PhetPCanvas {
         updateLayout();
     }
 
-    private List<XYSeries> createSeriesList() {
-        List<XYSeries> ret = new LinkedList<XYSeries>();
+    private XYSeriesCollection createDataset() {
+        XYSeriesCollection ret = new XYSeriesCollection();
 
-        ret.add( new XYSeries( "Total" ) );
-        ret.add( new XYSeries( "White fur" ) );
-        ret.add( new XYSeries( "Brown fur" ) );
-        ret.add( new XYSeries( "Short tail" ) );
-        ret.add( new XYSeries( "Long tail" ) );
-        ret.add( new XYSeries( "Short teeth" ) );
-        ret.add( new XYSeries( "Long teeth" ) );
+        ret.addSeries( new XYSeries( "Total" ) );
+        ret.addSeries( new XYSeries( "White fur" ) );
+        ret.addSeries( new XYSeries( "Brown fur" ) );
+        ret.addSeries( new XYSeries( "Short tail" ) );
+        ret.addSeries( new XYSeries( "Long tail" ) );
+        ret.addSeries( new XYSeries( "Short teeth" ) );
+        ret.addSeries( new XYSeries( "Long teeth" ) );
 
         return ret;
     }
 
-    private XYPlot createPlot( List<XYSeries> seriesList ) {
+    private XYPlot createPlot( XYSeriesCollection dataset ) {
         XYPlot plot = new XYPlot();
 
         ValueAxis domainAxis = new NumberAxis( "Time" );
@@ -117,6 +96,14 @@ public class TestCanvas extends PhetPCanvas {
         rangeAxis.setRange( 0, 50 );
 
         plot.setRenderer( new StandardXYItemRenderer() );
+
+        final int seriesIndex = 0;
+        plot.setDataset( seriesIndex, dataset );
+        XYItemRenderer renderer = new StandardXYItemRenderer(); // TODO: maybe use XYLineAndShapeRenderer?
+        renderer.setStroke( new BasicStroke( 2f ) );
+        renderer.setSeriesPaint( TOTAL_INDEX, Color.BLACK );
+        renderer.setSeriesPaint( FUR_WHITE_INDEX, Color.RED );
+        plot.setRenderer( seriesIndex, renderer );
 
         return plot;
     }
@@ -153,24 +140,22 @@ public class TestCanvas extends PhetPCanvas {
     private int low = 0;
     private int MIN_Y = 0;
     private int MAX_Y = 50;
-    private double lastTotalY = 25;
-    private double lastWhiteY = 20;
+
+    private int[] positions = new int[]{0, 5, 10, 15, 20, 25, 30};
 
     public void addDataPoint() {
-        totalSeries.setNotify( false );
-        whiteSeries.setNotify( false );
+        for ( int i = 0; i < NUM_SERIES; i++ ) {
+            mainDataset.getSeries( i ).setNotify( false );
+        }
 
-        lastTotalY += Math.random() * 4 - 2;
-        if ( lastTotalY > MAX_Y ) { lastTotalY = MAX_Y; }
-        if ( lastTotalY < MIN_Y ) { lastTotalY = MIN_Y; }
-
-        totalSeries.add( pos, lastTotalY );
-
-        lastWhiteY += Math.random() * 4 - 2;
-        if ( lastWhiteY > MAX_Y ) { lastWhiteY = MAX_Y; }
-        if ( lastWhiteY < MIN_Y ) { lastWhiteY = MIN_Y; }
-
-        whiteSeries.add( pos, lastWhiteY );
+        for ( int i = 0; i < positions.length; i++ ) {
+            int y = positions[i];
+            y += (int) ( Math.random() * 4 - 2 );
+            if ( y > MAX_Y ) { y = MAX_Y; }
+            if ( y < MIN_Y ) { y = MIN_Y; }
+            positions[i] = y;
+            mainDataset.getSeries( i ).add( pos, y );
+        }
 
         pos++;
 
@@ -182,8 +167,10 @@ public class TestCanvas extends PhetPCanvas {
             mainPlot.getDomainAxis().setRange( low, low + RANGE );
         }
 
-        totalSeries.setNotify( true );
-        whiteSeries.setNotify( true );
+        for ( int i = 0; i < NUM_SERIES; i++ ) {
+            // TODO: make sure this doesn't cause 7 redraws?
+            mainDataset.getSeries( i ).setNotify( true );
+        }
     }
 
 }
