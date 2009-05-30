@@ -2,8 +2,12 @@ package edu.colorado.phet.naturalselection.test;
 
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
+
+import javax.swing.*;
 
 import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.JFreeChart;
@@ -19,7 +23,10 @@ import org.jfree.data.xy.XYSeriesCollection;
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
 import edu.colorado.phet.common.jfreechartphet.piccolo.XYPlotNode;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
+import edu.colorado.phet.naturalselection.NaturalSelectionResources;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 public class TestCanvas extends PhetPCanvas {
     private JFreeChartNode chartNode;
@@ -44,6 +51,10 @@ public class TestCanvas extends PhetPCanvas {
     private static final int TEETH_LONG_INDEX = 6;
 
     private static final int NUM_SERIES = 7;
+    private PSwing zoomHolder;
+
+    private final int[] zoomBounds = new int[]{5, 15, 30, 50, 75, 100, 150, 200, 250, 350, 500, 1000, 2000, 3000, 5000};
+    private int zoomIndex = 3;
 
     public TestCanvas( Dimension2D renderingSize ) {
         super( renderingSize );
@@ -65,7 +76,42 @@ public class TestCanvas extends PhetPCanvas {
         plotNode = new XYPlotNode( mainPlot );
         root.addChild( plotNode );
 
+        JPanel zoomPanel = new JPanel( new FlowLayout() );
+        zoomPanel.setOpaque( false );
+
+        JButton zoomInButton = new JButton( new ImageIcon( NaturalSelectionResources.getImage( NaturalSelectionConstants.IMAGE_ZOOM_IN ) ) );
+        JButton zoomOutButton = new JButton( new ImageIcon( NaturalSelectionResources.getImage( NaturalSelectionConstants.IMAGE_ZOOM_OUT ) ) );
+
+        zoomInButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent actionEvent ) {
+                zoomIndex--;
+                updateZoom();
+            }
+        } );
+
+        zoomOutButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent actionEvent ) {
+                zoomIndex++;
+                updateZoom();
+            }
+        } );
+
+        zoomInButton.setOpaque( true );
+        zoomOutButton.setOpaque( true );
+
+        zoomInButton.setMargin( new Insets( 0, 0, 0, 0 ) );
+        zoomOutButton.setMargin( new Insets( 0, 0, 0, 0 ) );
+
+        zoomPanel.add( zoomInButton );
+        zoomPanel.add( zoomOutButton );
+
+        zoomHolder = new PSwing( zoomPanel );
+
+        root.addChild( zoomHolder );
+
         updateLayout();
+
+        updateZoom();
     }
 
     private XYSeriesCollection createDataset() {
@@ -134,6 +180,21 @@ public class TestCanvas extends PhetPCanvas {
         // Plot node
         plotNode.setOffset( 0, 0 );
         plotNode.setDataArea( plotBounds );
+
+        zoomHolder.setOffset( plotBounds.getX(), plotBounds.getY() );
+    }
+
+    private synchronized void updateZoom() {
+        if ( zoomIndex < 0 ) {
+            zoomIndex = 0;
+        }
+        if ( zoomIndex >= zoomBounds.length ) {
+            zoomIndex = zoomBounds.length - 1;
+        }
+        mainPlot.getRangeAxis().setRange( 0, zoomBounds[zoomIndex] );
+        emptyPlot.getRangeAxis().setRange( 0, zoomBounds[zoomIndex] );
+
+        updateLayout();
     }
 
     private int pos = 0;

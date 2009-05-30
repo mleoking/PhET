@@ -120,6 +120,9 @@ public class NaturalSelectionConstants {
     public static final String IMAGE_TARGET = "target.png";
     public static final String IMAGE_CROSSHAIR = "crosshair.png";
 
+    public static final String IMAGE_ZOOM_IN = "zoomIn.gif";
+    public static final String IMAGE_ZOOM_OUT = "zoomOut.gif";
+
     public static final Point2D IMAGE_SHRUB_OFFSET = new Point2D.Double( 0, 15 );
     public static final Point2D IMAGE_TREE_OFFSET = new Point2D.Double( 0, 20 );
 
