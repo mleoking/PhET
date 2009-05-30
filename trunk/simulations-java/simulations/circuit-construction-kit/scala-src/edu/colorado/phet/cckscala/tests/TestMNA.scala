@@ -66,9 +66,11 @@ case class Capacitor(node0: Int, node1: Int, capacitance: Double, voltage: Doubl
 case class Inductor(node0: Int, node1: Int, inductance: Double, voltage: Double, current: Double) extends Element {
   def getCompanionModel(dt: Double, newNode: () => Int) = {
     //linear companion model for inductor, using trapezoidal approximation, under norton model, see http://dev.hypertriton.com/edacious/trunk/doc/lec.pdf
-    new CompanionModel(Nil, new Resistor(node0, node1, dt / 2 / inductance) :: Nil,
-      new CurrentSource(node0, node1, current + dt * voltage / 2 / inductance) :: Nil) {
-      def getCurrent(solution: Solution) = solution.getCurrent(resistors(0)) //TODO: this is surely incorrect
+    val midNode = newNode()
+    new CompanionModel(Nil, new Resistor(node0, midNode, 0) //dummy resistor in series so we can easily compute current for the inductor 
+            :: new Resistor(midNode, node1, dt / 2 / inductance) :: Nil,
+      new CurrentSource(midNode, node1, current + dt * voltage / 2 / inductance) :: Nil) {
+      def getCurrent(solution: Solution) = solution.getCurrent(resistors(0))
     }
   }
 }
@@ -277,8 +279,8 @@ case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor], currentSou
 
   def getRHS(node: Int) = {
     var sum = 0.0
-    for (c <- currentSources if c.node1 == node) sum = sum + c.current //current is entering the node
-    for (c <- currentSources if c.node0 == node) sum = sum - c.current //current is going away
+    for (c <- currentSources if c.node1 == node) sum = sum - c.current //current is entering the node//TODO: these signs seem backwards, shouldn't incoming current add?
+    for (c <- currentSources if c.node0 == node) sum = sum + c.current //current is going away
     sum
   }
 
@@ -375,12 +377,39 @@ case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor], currentSou
 
 object TestMNA {
   def main(args: Array[String]) {
-    val circuit = new Circuit(Nil, Resistor(1, 0, 4.0) :: Nil, CurrentSource(0, 1, 10.0) :: Nil)
-    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 10.0 * 4.0), Map())
+    //    val circuit = new Circuit(Nil, Resistor(1, 0, 4.0) :: Nil, CurrentSource(0, 1, 10.0) :: Nil)
+    //    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 10.0 * 4.0), Map())
+    val circuit = new Circuit(Array(Battery(0, 1, 4.0)), Array(Resistor(1, 0, 4.0)))
+    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 4.0), Map((0, 1) -> 1.0))
     println("equations=" + circuit.getEquations.mkString("\n"))
     println("desired=" + desiredSolution)
     println("actual=" + circuit.solve)
     assert(circuit.solve.approxEquals(desiredSolution, 1E-6))
+  }
+}
+
+object TestRLCircuit {
+  def main(args: Array[String]) {
+    val L = 1
+    val R = 10
+    val V = 5.0
+    val circuit = new FullCircuit(Battery(0, 1, V) :: Nil, Resistor(1, 2, R) :: Nil, Nil, Inductor(2, 0, L, 0, 0) :: Nil)
+
+    val dt = 1E-4
+    var dynamicCircuit = circuit.getInitializedCircuit
+    println("init circuit="+dynamicCircuit)
+    val v0 = dynamicCircuit.solve(dt).getVoltage(Resistor(1, 2, 10.0))
+    println("voltage\tdesiredVoltage")
+    for (i <- 0 until 10000) { //takes 3 sec on my machine
+      val t = i * dt
+      val solution = dynamicCircuit.solve(dt)
+      val voltage = solution.getVoltage(Resistor(1, 2, 10.0))
+      val desiredVoltage = V * (1 - exp(-t * R / L))//see http://en.wikipedia.org/wiki/Lr_circuit
+      println(voltage + "\t" + desiredVoltage)
+      val error = abs(voltage - desiredVoltage)
+      //      assert(error < 1E-6) //sample run indicates largest error is 1.5328E-7, is this acceptable?  See TestRCCircuit
+      dynamicCircuit = dynamicCircuit.stepInTime(dt)
+    }
   }
 }
 
@@ -413,14 +442,14 @@ class Tester extends FunSuite {
     val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 4.0), Map((0, 1) -> 1.0))
     assert(circuit.solve.approxEquals(desiredSolution, 1E-6))
   }
-  test("current source should provide current") {
-    val circuit = new Circuit(Nil, Resistor(1, 0, 4.0) :: Nil, CurrentSource(0, 1, 10.0) :: Nil)
-    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 10.0 * 4.0), Map())
-    assert(circuit.solve.approxEquals(desiredSolution, 1E-6))
-  }
   test("battery resistor circuit should have correct voltages and currents for a simple circuit ii") {
     val circuit = new Circuit(Array(Battery(0, 1, 4.0)), Array(Resistor(1, 0, 2.0)))
     val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 4.0), Map((0, 1) -> 2.0))
+    assert(circuit.solve.approxEquals(desiredSolution, 1E-6))
+  }
+  test("current source should provide current") {
+    val circuit = new Circuit(Nil, Resistor(1, 0, 4.0) :: Nil, CurrentSource(0, 1, 10.0) :: Nil)
+    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 10.0 * 4.0), Map())
     assert(circuit.solve.approxEquals(desiredSolution, 1E-6))
   }
   test("current should be reversed when voltage is reversed") {
@@ -464,6 +493,23 @@ class Tester extends FunSuite {
 
     val dt = 1E-4
     var dynamicCircuit = circuit.getInitializedCircuit
+    for (i <- 0 until 10000) { //takes 3 sec on my machine
+      val t = i * dt
+      val solution = dynamicCircuit.solve(dt)
+      val voltage = solution.getVoltage(Resistor(1, 2, 10.0))
+      val desiredVoltage = v0 * exp(-t / 10.0 / 1.0E-2)
+      val error = abs(voltage - desiredVoltage)
+      assert(error < 1E-6) //sample run indicates largest error is 1.5328E-7, is this acceptable?  See TestRCCircuit
+      dynamicCircuit = dynamicCircuit.stepInTime(dt)
+    }
+  }
+  test("RL Circuit should have voltage exponentially decay with T=RC") {
+    val L = 5
+    val circuit = new FullCircuit(Battery(0, 1, 5.0) :: Nil, Resistor(1, 2, 10.0) :: Nil, Nil, Inductor(2, 0, L, 0, 0) :: Nil)
+
+    val dt = 1E-4
+    var dynamicCircuit = circuit.getInitializedCircuit
+    val v0 = dynamicCircuit.solve(dt).getVoltage(Resistor(1, 2, 10.0))
     for (i <- 0 until 10000) { //takes 3 sec on my machine
       val t = i * dt
       val solution = dynamicCircuit.solve(dt)
