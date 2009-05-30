@@ -3,6 +3,7 @@ package edu.colorado.phet.cckscala.tests
 import collection.mutable.{HashMap, HashSet, ArrayBuffer}
 import Jama.Matrix
 import org.scalatest.FunSuite
+import java.lang.Math._
 
 import util.parsing.combinator.JavaTokenParsers
 
@@ -47,14 +48,18 @@ trait Element {
 case class Battery(node0: Int, node1: Int, voltage: Double) extends Element
 case class Resistor(node0: Int, node1: Int, resistance: Double) extends Element
 case class CurrentSource(node0: Int, node1: Int, current: Double) extends Element
-case class CompanionModel(batteries: Seq[Battery], resistors: Seq[Resistor], currentSources: Seq[CurrentSource])
+abstract case class CompanionModel(batteries: Seq[Battery], resistors: Seq[Resistor], currentSources: Seq[CurrentSource]) {
+  def getCurrent(solution: Solution): Double
+}
 
 case class Capacitor(node0: Int, node1: Int, capacitance: Double, voltage: Double, current: Double) extends Element {
   def getCompanionModel(dt: Double, newNode: () => Int) = {
     //linear companion model for capacitor, using trapezoidal approximation, under thevenin model, see http://dev.hypertriton.com/edacious/trunk/doc/lec.pdf
     val midNode = newNode()
     new CompanionModel(new Battery(node0, midNode, voltage + dt * current / 2 / capacitance) :: Nil,
-      new Resistor(midNode, node1, dt / 2 / capacitance) :: Nil, Nil)
+      new Resistor(midNode, node1, dt / 2 / capacitance) :: Nil, Nil) {
+      def getCurrent(solution: Solution) = solution.getCurrent(resistors(0))
+    }
   }
 }
 
@@ -62,7 +67,9 @@ case class Inductor(node0: Int, node1: Int, inductance: Double, voltage: Double,
   def getCompanionModel(dt: Double, newNode: () => Int) = {
     //linear companion model for inductor, using trapezoidal approximation, under norton model, see http://dev.hypertriton.com/edacious/trunk/doc/lec.pdf
     new CompanionModel(Nil, new Resistor(node0, node1, dt / 2 / inductance) :: Nil,
-      new CurrentSource(node0, node1, current + dt * voltage / 2 / inductance) :: Nil)
+      new CurrentSource(node0, node1, current + dt * voltage / 2 / inductance) :: Nil) {
+      def getCurrent(solution: Solution) = solution.getCurrent(resistors(0)) //TODO: this is surely incorrect
+    }
   }
 }
 
@@ -158,7 +165,9 @@ case class FullCircuit(batteries: Seq[Battery], resistors: Seq[Resistor], capaci
   }
 }
 
-class BigCompanionModel(val circuit: Circuit, val capacitorMap: HashMap[Capacitor, CompanionModel])
+class BigCompanionModel(val circuit: Circuit, val capacitorMap: HashMap[Capacitor, CompanionModel]) {
+  def getCurrent(c: Capacitor, solution: Solution) = capacitorMap(c).getCurrent(solution)
+}
 
 class CompanionSolution(fullCircuit: FullCircuit, companionModel: BigCompanionModel, solution: Solution)
         extends Solution(solution.nodeVoltages, solution.branchCurrents) { //todo: fix this, shouldn't be able to access these values...?
@@ -171,7 +180,7 @@ class CompanionSolution(fullCircuit: FullCircuit, companionModel: BigCompanionMo
 
   override def getCurrent(e: Element): Double = {
     e match {
-      case c: Capacitor => super.getCurrent(companionModel.capacitorMap(c).batteries(0)) //todo: this requires too much knowledge of companion model
+      case c: Capacitor => companionModel.getCurrent(c, solution);
       case _ => super.getCurrent(e)
     }
   }
@@ -359,15 +368,47 @@ case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor]) extends Ab
 
 object TestMNA {
   def main(args: Array[String]) {
-    val circuit = new FullCircuit(Battery(0, 1, 5.0) :: Nil, Resistor(1, 2, 10.0) :: Nil, Capacitor(2, 0, 1.0E-6, 0.0, 0.0) :: Nil, Nil)
+    val circuit = new FullCircuit(Battery(0, 1, 5.0) :: Nil, Resistor(1, 2, 10.0) :: Nil, Capacitor(2, 0, 1.0E-2, 0.0, 0.0) :: Nil, Nil)
     val inited = circuit.getInitializedCircuit
+    val v0 = -5 //todo: make sure in sync with inited circuit
     println("inited=" + inited)
 
     val dt = 1E-4
     var dynamicCircuit = inited
-    for (i <- 0 until 1000) {
+    println("time\tcurrent\tvoltage\tdesiredVoltage\terror")
+    for (i <- 0 until 10000) {
       val t = i * dt
-      println("t=" + t + ": " + dynamicCircuit.solve(dt).getCurrent(Battery(0, 1, 5.0)))
+      //      println("t=" + t + ": " + dynamicCircuit.solve(dt).getCurrent(Battery(0, 1, 5.0)))
+      val solution = dynamicCircuit.solve(dt)
+      val current = solution.getCurrent(Battery(0, 1, 5.0))
+      val voltage = solution.getVoltage(Resistor(1, 2, 10.0))
+      val desiredVoltage = v0 * exp(-t / 10.0 / 1.0E-2)
+      val error = voltage - desiredVoltage
+      println(t + "\t" + current + "\t" + voltage + "\t" + desiredVoltage + "\t" + error)
+      dynamicCircuit = dynamicCircuit.stepInTime(dt)
+    }
+  }
+}
+
+object TestRCCircuit {
+  def main(args: Array[String]) {
+    val circuit = new FullCircuit(Battery(0, 1, 5.0) :: Nil, Resistor(1, 2, 10.0) :: Nil, Capacitor(2, 0, 1.0E-2, 0.0, 0.0) :: Nil, Nil)
+    val inited = circuit.getInitializedCircuit
+    val v0 = -5 //todo: make sure in sync with inited circuit
+    println("inited=" + inited)
+
+    val dt = 1E-4
+    var dynamicCircuit = inited
+    println("time\tcurrent\tvoltage\tdesiredVoltage\terror")
+    for (i <- 0 until 10000) {
+      val t = i * dt
+      //      println("t=" + t + ": " + dynamicCircuit.solve(dt).getCurrent(Battery(0, 1, 5.0)))
+      val solution = dynamicCircuit.solve(dt)
+      val current = solution.getCurrent(Battery(0, 1, 5.0))
+      val voltage = solution.getVoltage(Resistor(1, 2, 10.0))
+      val desiredVoltage = v0 * exp(-t / 10.0 / 1.0E-2)
+      val error = voltage - desiredVoltage
+      println(t + "\t" + current + "\t" + voltage + "\t" + desiredVoltage + "\t" + error)
       dynamicCircuit = dynamicCircuit.stepInTime(dt)
     }
   }
@@ -418,5 +459,21 @@ class Tester extends FunSuite {
     val circuit = new Circuit(Array(Battery(0, 1, V)), Array(Resistor(1, 0, R1), Resistor(1, 0, R2)))
     val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> V), Map((0, 1) -> V / Req))
     assert(circuit.solve.approxEquals(desiredSolution, 1E-6))
+  }
+  test("RC Circuit should have right temporal behavior") {
+    val circuit = new FullCircuit(Battery(0, 1, 5.0) :: Nil, Resistor(1, 2, 10.0) :: Nil, Capacitor(2, 0, 1.0E-2, 0.0, 0.0) :: Nil, Nil)
+    val v0 = -5 //todo: make sure in sync with inited circuit
+
+    val dt = 1E-4
+    var dynamicCircuit = circuit.getInitializedCircuit
+    for (i <- 0 until 10000) {
+      val t = i * dt
+      val solution = dynamicCircuit.solve(dt)
+      val voltage = solution.getVoltage(Resistor(1, 2, 10.0))
+      val desiredVoltage = v0 * exp(-t / 10.0 / 1.0E-2)
+      val error = abs(voltage - desiredVoltage)
+      assert(error < 1E-6) //sample run indicates largest error is 1.5328E-7, is this acceptable?  See TestRCCircuit
+      dynamicCircuit = dynamicCircuit.stepInTime(dt)
+    }
   }
 }
