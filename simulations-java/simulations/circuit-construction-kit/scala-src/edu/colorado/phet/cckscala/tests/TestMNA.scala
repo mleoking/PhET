@@ -209,7 +209,7 @@ case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor]) extends Ab
     val nodeTerms = new ArrayBuffer[Term]
     for (b <- batteries if b.node1 == node)
       nodeTerms += Term(1, UnknownCurrent(b.node0, b.node1))
-    for (r <- resistors; if r.node1 == node; if r.resistance == 0)
+    for (r <- resistors; if r.node1 == node; if r.resistance == 0)  //Treat resistors with R=0 as having unknown current and v1=v2
       nodeTerms += Term(1, UnknownCurrent(r.node0, r.node1))
     for (r <- resistors; if r.node1 == node; if r.resistance != 0) {
       nodeTerms += Term(-1 / r.resistance, UnknownVoltage(r.node1))
@@ -223,7 +223,7 @@ case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor]) extends Ab
     val nodeTerms = new ArrayBuffer[Term]
     for (b <- batteries if b.node0 == node)
       nodeTerms += Term(-1, UnknownCurrent(b.node0, b.node1))
-    for (r <- resistors; if r.node0 == node; if r.resistance == 0)
+    for (r <- resistors; if r.node0 == node; if r.resistance == 0) //Treat resistors with R=0 as having unknown current and v1=v2
       nodeTerms += Term(-1, UnknownCurrent(r.node0, r.node1))
     for (r <- resistors; if r.node0 == node; if r.resistance != 0) {
       nodeTerms += Term(1 / r.resistance, UnknownVoltage(r.node1))
@@ -248,8 +248,6 @@ case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor]) extends Ab
     list += new Equation(0, Term(1, UnknownVoltage(getNodeSet.toSeq(0))))
 
     //for each node, charge is conserved
-    //TODO: handle resistance=0 internally, or by creating supernode first so that all resistance !=0 ?
-    //TODO: or maybe treat resistance =0 as batteries with v=0 and solve for their currents?
     for (node <- getNodeSet) list += new Equation(0, getCurrentConservationTerms(node): _*) //see p. 155 scala book
 
     //for each battery, voltage drop is given
@@ -266,6 +264,8 @@ case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor]) extends Ab
   def getUnknownCurrents = {
     val unknowns = new ArrayBuffer[UnknownCurrent]
     for (battery <- batteries) unknowns += UnknownCurrent(battery.node0, battery.node1)
+
+    //Treat resistors with R=0 as having unknown current and v1=v2
     for (resistor <- resistors if resistor.resistance == 0) unknowns += UnknownCurrent(resistor.node0, resistor.node1)
     unknowns
   }
