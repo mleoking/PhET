@@ -235,7 +235,7 @@ public class BunnyStatsCanvas extends PhetPCanvas {
         final int seriesIndex = 0;
         plot.setDataset( seriesIndex, dataset );
         XYItemRenderer renderer = new StandardXYItemRenderer();
-        renderer.setStroke( new BasicStroke( 2f ) );
+        renderer.setStroke( new BasicStroke( 3f ) );
         renderer.setSeriesPaint( TOTAL_INDEX, Color.BLACK );
         renderer.setSeriesPaint( FUR_WHITE_INDEX, Color.RED );
         renderer.setSeriesPaint( FUR_BROWN_INDEX, Color.CYAN );
