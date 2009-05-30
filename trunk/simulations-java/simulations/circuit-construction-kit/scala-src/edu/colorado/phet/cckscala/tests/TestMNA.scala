@@ -25,20 +25,100 @@ trait Element {
 }
 case class Battery(node0: Int, node1: Int, voltage: Double) extends Element
 case class Resistor(node0: Int, node1: Int, resistance: Double) extends Element
+case class CurrentSource(node0: Int, node1: Int, current: Double) extends Element
+case class CompanionModel(batteries: Seq[Battery], resistors: Seq[Resistor], currentSources: Seq[CurrentSource])
 
-case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor]) {
+case class Capacitor(node0: Int, node1: Int, capacitance: Double, voltage: Double, current: Double) extends Element {
+  def getCompanionModel(dt: Double, newNode: () => Int) = {
+    //linear companion model for capacitor, using trapezoidal approximation, under thevenin model, see http://dev.hypertriton.com/edacious/trunk/doc/lec.pdf
+    val midNode = newNode()
+    new CompanionModel(new Battery(node0, midNode, voltage + dt * current / 2 / capacitance) :: Nil,
+      new Resistor(midNode, node1, dt / 2 / capacitance) :: Nil, Nil)
+  }
+}
+
+case class Inductor(node0: Int, node1: Int, inductance: Double, voltage: Double, current: Double) extends Element {
+  def getCompanionModel(dt: Double, newNode: () => Int) = {
+    //linear companion model for inductor, using trapezoidal approximation, under norton model, see http://dev.hypertriton.com/edacious/trunk/doc/lec.pdf
+    //    val midNode = newNode()
+    new CompanionModel(Nil,
+      new Resistor(node0, node1, dt / 2 / inductance) :: Nil, new CurrentSource(node0, node1, current + dt * voltage / 2 / inductance) :: Nil)
+  }
+}
+
+case class FullCircuit(batteries: Seq[Battery], resistors: Seq[Resistor], capacitors: Seq[Capacitor], inductors: Seq[Inductor]) extends AbstractCircuit {
+  def getCompanionCircuit(dt: Double) = {
+    val b = new ArrayBuffer[Battery]
+    b ++= batteries
+    val r = new ArrayBuffer[Resistor]
+    r ++= resistors
+    val cs = new ArrayBuffer[CurrentSource]
+
+    val usedIndices = new ArrayBuffer[Int]
+
+    for (c <- capacitors) {
+      val cm = c.getCompanionModel(dt, () => getFreshIndex(usedIndices))
+      for (battery <- cm.batteries) b += battery
+      for (resistor <- cm.resistors) r += resistor
+      for (currentSource <- cm.currentSources) cs += currentSource
+    }
+    new Circuit(b, r)
+  }
+
+  //Find the first node index that is unused in the node set or used indices, and update the used indices
+  def getFreshIndex(usedIndices: ArrayBuffer[Int]) = {
+    var selected = -1
+    var testIndex = 0
+    while (selected == -1) {
+      if (!getNodeSet.contains(testIndex) && !usedIndices.contains(testIndex)) {
+        selected = testIndex
+      }
+      testIndex = testIndex + 1
+    }
+    usedIndices += selected
+    selected
+  }
+
+  def getElements = {
+    val elm = new ArrayBuffer[Element]
+    elm ++= batteries
+    elm ++= resistors
+    elm ++= capacitors
+    elm ++= inductors
+    elm
+  }
+
+  def solve = {
+    val companionCircuit = getCompanionCircuit(1E-4)
+    val solution = companionCircuit.solve
+
+    //    val solution = getCompanionCircuit.solve
+    //todo: provide mapping
+    solution
+  }
+}
+
+trait AbstractCircuit {
   def getNodeSet = {
     val set = new HashSet[Int]
-    for (b <- batteries) {
-      set += b.node0;
-      set += b.node1
-    }
-
-    for (r <- resistors) {
-      set += r.node0;
-      set += r.node1
+    for (element <- getElements) {
+      set += element.node0
+      set += element.node1
     }
     set
+  }
+
+  def getElements: Seq[Element]
+}
+
+case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor]) extends AbstractCircuit {
+  //  def this(batteries: Seq[Battery], resistors: Seq[Resistor]) = this (batteries, resistors, Nil);
+
+  def getElements = {
+    val elements = new ArrayBuffer[Element]
+    elements ++= batteries
+    elements ++= resistors
+    elements
   }
 
   def getNodeCount = getNodeSet.size
@@ -92,10 +172,14 @@ case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor]) {
   def getEquations = {
     val list = new ArrayBuffer[Equation]
     //    println("nodeset=" + getNodeSet)
+
     //reference node has a voltage of 0.0
+    //todo: should have one zero node per strong component
     list += new Equation(0, Term(1, UnknownVoltage(getNodeSet.toSeq(0))))
+
     //for each node, charge is conserved
     for (node <- getNodeSet) list += new Equation(0, getCurrentConservationTerms(node): _*) //see p. 155 scala book
+
     //for each battery, voltage drop is given
     for (battery <- batteries) list += new Equation(battery.voltage, Term(-1, UnknownVoltage(battery.node0)), Term(1, UnknownVoltage(battery.node1)))
     list
@@ -151,13 +235,20 @@ object TestMNA {
     val R1 = 5.0
     val R2 = 5.0
     val Req = 1 / (1 / R1 + 1 / R2)
-    val circuit = new Circuit(Array(Battery(0, 1, V)), Array(Resistor(1, 0, R1), Resistor(1, 0, R2)))
-    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> V), Map((0, 1) -> V / Req))
-    println("V=" + V + ", R1=" + R1 + ", R2=" + R2 + ", Req=" + Req)
-    println("Actual Solution: " + circuit.solve)
-    println("Desired Solution: " + desiredSolution)
-    circuit.debug = true
-    circuit.solve
+    //todo: need to compute the initial voltage and current across capacitor
+    //could pretend it is a resistor with no resistance, and compute voltage drop (0.0) and current
+    //similar for inductors
+    val circuit = new FullCircuit(Array(Battery(0, 1, V)), Array(Resistor(1, 2, R1)), Array(Capacitor(2, 0, 1.0, 0.0, 0.0)), Nil)
+    val companion = circuit.getCompanionCircuit(1E-4)
+    println("companion=" + companion)
+    val solution = circuit.solve
+    println("solution=" + solution)
+    //    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> V), Map((0, 1) -> V / Req))
+    //    println("V=" + V + ", R1=" + R1 + ", R2=" + R2 + ", Req=" + Req)
+    //    println("Actual Solution: " + circuit.solve)
+    //    println("Desired Solution: " + desiredSolution)
+    //    circuit.debug = true
+    //    circuit.solve
     null
   }
 }
@@ -185,7 +276,7 @@ class Tester extends FunSuite {
   }
   test("A resistor hanging off the edge shouldn't cause problems") {
     val circuit = new Circuit(Array(Battery(0, 1, 4.0)), Array(Resistor(1, 0, 4.0), Resistor(0, 2, 100.0)))
-    println("equations:\n"+circuit.getEquations.mkString("\n"))
+    println("equations:\n" + circuit.getEquations.mkString("\n"))
     val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 4.0, 2 -> 0.0), Map((0, 1) -> 1.0))
     assert(circuit.solve.approxEquals(desiredSolution, 1E-6))
   }
