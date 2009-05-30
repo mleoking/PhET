@@ -6,6 +6,7 @@ import org.scalatest.FunSuite
 
 import util.parsing.combinator.JavaTokenParsers
 
+//sparse solution containing only the solved unknowns in MNA
 case class Solution(nodeVoltages: collection.Map[Int, Double], branchCurrents: collection.Map[(Int, Int), Double]) {
   def approxEquals(s: Solution, delta: Double) = {
     if (nodeVoltages.keySet != s.nodeVoltages.keySet || branchCurrents.keySet != s.branchCurrents.keySet)
@@ -21,6 +22,21 @@ case class Solution(nodeVoltages: collection.Map[Int, Double], branchCurrents: c
   //    val stringBuffer = new StringBuffer
   //    stringBuffer.append("Solution(")
   //  }
+
+  def getVoltage(e: Element) = nodeVoltages(e.node1) - nodeVoltages(e.node0)
+
+  def getCurrent(e: Element) = {
+    //if it was a battery or resistor (of R=0), look up the answer
+    if (branchCurrents.contains((e.node0, e.node1))) branchCurrents((e.node0, e.node1))
+    //else compute based on V=IR
+    //todo: how to handle various element types and companion models?
+    else {
+      e match {
+        case r: Resistor => getVoltage(r) / r.resistance
+        case _ => java.lang.Double.NaN
+      }
+    }
+  }
 }
 
 trait Element {
@@ -52,11 +68,24 @@ case class Inductor(node0: Int, node1: Int, inductance: Double, voltage: Double,
 
 case class InitialCondition(voltage: Double, current: Double)
 case class FullCircuit(batteries: Seq[Battery], resistors: Seq[Resistor], capacitors: Seq[Capacitor], inductors: Seq[Inductor]) extends AbstractCircuit {
+  def stepInTime(dt: Double) = {
+    val solution = solve(dt)
+    new FullCircuit(batteries, resistors, for (c <- capacitors) yield {
+      new Capacitor(c.node0, c.node1, c.capacitance, solution.getVoltage(c), solution.getCurrent(c))
+    }, Nil)
+  }
+
+  def getInitializedCircuit = {
+    val initConditions = getInitialConditions
+    new FullCircuit(Battery(0, 1, 5.0) :: Nil, Resistor(1, 2, 10.0) :: Nil, for (c <- capacitors) yield {
+      new Capacitor(c.node0, c.node1, c.capacitance, initConditions(c).voltage, initConditions(c).current)
+    }, Nil)
+  }
   //Create a circuit that has correct initial voltages and currents for capacitors and inductors
   //This is done by:
   // treating a capacitor as a R=0.0 resistor and computing the current through it
   // treating an inductor as a R=INF resistor and computing the voltage drop across it
-  def initStorageUnits = {
+  def getInitialConditions = {
     val b = new ArrayBuffer[Battery]
     b ++= batteries
     val r = new ArrayBuffer[Resistor]
@@ -67,22 +96,19 @@ case class FullCircuit(batteries: Seq[Battery], resistors: Seq[Resistor], capaci
       r += new Resistor(c.node0, c.node1, 0.0)
     }
     for (i <- inductors) {
-      r += new Resistor(i.node0, i.node1, 1E14)
+      r += new Resistor(i.node0, i.node1, 1E14) //todo: could make base model handle Infinity properly, via maths or via circuit architecture remapping
     }
     val circuit = new Circuit(b, r)
-    //    val solution = circuit.solve
+    val solution = circuit.solve
     val capacitorMap = new HashMap[Capacitor, InitialCondition]
     for (c <- capacitors) {
       capacitorMap += c -> new InitialCondition(0, circuit.getCurrent(c.node0, c.node1)) //TODO: this repeats solve in each iteration
     }
-    circuit.solve
-    //
-    //    for (i<inductors){
-    //      inductorMap
-    //    }
+    //todo: same for inductors
+    capacitorMap
   }
 
-  def getCompanionCircuit(dt: Double) = {
+  def getCompanionModel(dt: Double) = {
     val b = new ArrayBuffer[Battery]
     b ++= batteries
     val r = new ArrayBuffer[Resistor]
@@ -91,13 +117,15 @@ case class FullCircuit(batteries: Seq[Battery], resistors: Seq[Resistor], capaci
 
     val usedIndices = new ArrayBuffer[Int]
 
+    val capacitorMap = new HashMap[Capacitor, CompanionModel]
     for (c <- capacitors) {
       val cm = c.getCompanionModel(dt, () => getFreshIndex(usedIndices))
+      capacitorMap += c -> cm
       for (battery <- cm.batteries) b += battery
       for (resistor <- cm.resistors) r += resistor
       for (currentSource <- cm.currentSources) cs += currentSource
     }
-    new Circuit(b, r)
+    new BigCompanionModel(new Circuit(b, r), capacitorMap)
   }
 
   //Find the first node index that is unused in the node set or used indices, and update the used indices
@@ -123,14 +151,33 @@ case class FullCircuit(batteries: Seq[Battery], resistors: Seq[Resistor], capaci
     elm
   }
 
-  def solve = {
-    val companionCircuit = getCompanionCircuit(1E-4)
-    val solution = companionCircuit.solve
-
-    //    val solution = getCompanionCircuit.solve
-    //todo: provide mapping
-    solution
+  def solve(dt: Double) = {
+    val companionModel = getCompanionModel(dt)
+    val solution = companionModel.circuit.solve
+    new CompanionSolution(this, companionModel, solution)
   }
+}
+
+class BigCompanionModel(val circuit: Circuit, val capacitorMap: HashMap[Capacitor, CompanionModel])
+
+class CompanionSolution(fullCircuit: FullCircuit, companionModel: BigCompanionModel, solution: Solution)
+        extends Solution(solution.nodeVoltages, solution.branchCurrents) { //todo: fix this, shouldn't be able to access these values...?
+  override def getVoltage(e: Element): Double = {
+    e match {
+      case c: Capacitor => super.getVoltage(e) //this should work because original node indices are same
+      case _ => super.getVoltage(e)
+    }
+  }
+
+  override def getCurrent(e: Element): Double = {
+    e match {
+      case c: Capacitor => super.getCurrent(companionModel.capacitorMap(c).batteries(0)) //todo: this requires too much knowledge of companion model
+      case _ => super.getCurrent(e)
+    }
+  }
+
+  //todo: fix this
+  override def approxEquals(s: Solution, delta: Double) = super.approxEquals(s, delta)
 }
 
 trait AbstractCircuit {
@@ -177,6 +224,7 @@ case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor]) extends Ab
     }
     //otherwise, compute it from known values
     else {
+      println("current not found")
       0.0 //TODO compute voltage
     }
   }
@@ -209,7 +257,7 @@ case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor]) extends Ab
     val nodeTerms = new ArrayBuffer[Term]
     for (b <- batteries if b.node1 == node)
       nodeTerms += Term(1, UnknownCurrent(b.node0, b.node1))
-    for (r <- resistors; if r.node1 == node; if r.resistance == 0)  //Treat resistors with R=0 as having unknown current and v1=v2
+    for (r <- resistors; if r.node1 == node; if r.resistance == 0) //Treat resistors with R=0 as having unknown current and v1=v2
       nodeTerms += Term(1, UnknownCurrent(r.node0, r.node1))
     for (r <- resistors; if r.node1 == node; if r.resistance != 0) {
       nodeTerms += Term(-1 / r.resistance, UnknownVoltage(r.node1))
@@ -311,44 +359,17 @@ case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor]) extends Ab
 
 object TestMNA {
   def main(args: Array[String]) {
+    val circuit = new FullCircuit(Battery(0, 1, 5.0) :: Nil, Resistor(1, 2, 10.0) :: Nil, Capacitor(2, 0, 1.0E-6, 0.0, 0.0) :: Nil, Nil)
+    val inited = circuit.getInitializedCircuit
+    println("inited=" + inited)
 
-    //resistor with no resistance
-    val circuit = new Circuit(Battery(0, 1, 5.0) :: Nil, Resistor(1, 2, 10.0) :: Resistor(2, 0, 0.0) :: Nil)
-    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 5.0, 2 -> 0.0), Map((0, 1) -> 5.0 / 10, (2, 0) -> 5.0 / 10))
-    println("desired=" + desiredSolution)
-    println("obtained=" + circuit.solve)
-
-    circuit.debug = true
-    circuit.solve
-
-    assert(circuit.solve.approxEquals(desiredSolution, 1E-6))
-
-
-    //    val circuit = new Circuit(Battery(0, 1, 1.0) :: Nil, Resistor(1, 2, 10.0) :: Resistor(2, 0, 10.0) :: Nil)
-    //    val circuit = new Circuit(Battery(0, 1, 1.0) :: Nil, Resistor(1, 0, 10.0) :: Nil)
-    //    val solution = circuit.solve
-    //    println("solve=" + solution)
-    //    val V = 9.0
-    //    val R1 = 5.0
-    //    val R2 = 5.0
-    //    val Req = 1 / (1 / R1 + 1 / R2)
-    //    //todo: need to compute the initial voltage and current across capacitor
-    //    //could pretend it is a resistor with no resistance, and compute voltage drop (0.0) and current
-    //    //similar for inductors
-    //    val circuit = new FullCircuit(Battery(0, 1, 5.0) :: Nil, Resistor(1, 2, 10.0) :: Nil, Capacitor(2, 0, 1.0, 0.0, 0.0) :: Nil, Nil)
-    //    val inited = circuit.initStorageUnits
-    //    println("inited=" + inited)
-    //    val companion = circuit.getCompanionCircuit(1E-4)
-    //    println("companion=" + companion)
-    //    val solution = circuit.solve
-    //    println("solution=" + solution)
-    //    //    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> V), Map((0, 1) -> V / Req))
-    //    //    println("V=" + V + ", R1=" + R1 + ", R2=" + R2 + ", Req=" + Req)
-    //    //    println("Actual Solution: " + circuit.solve)
-    //    //    println("Desired Solution: " + desiredSolution)
-    //    //    circuit.debug = true
-    //    //    circuit.solve
-    //    null
+    val dt = 1E-4
+    var dynamicCircuit = inited
+    for (i <- 0 until 1000) {
+      val t = i * dt
+      println("t=" + t + ": " + dynamicCircuit.solve(dt).getCurrent(Battery(0, 1, 5.0)))
+      dynamicCircuit = dynamicCircuit.stepInTime(dt)
+    }
   }
 }
 
