@@ -10,6 +10,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.naturalselection.NaturalSelectionApplication;
+import edu.colorado.phet.naturalselection.control.BunnyStatsCanvas;
 import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
 import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModule;
 
@@ -39,6 +40,7 @@ public class DeveloperControlsDialog extends JDialog {
         _app = app;
 
         JPanel mainPanel = new JPanel( new FlowLayout() );
+
         JButton frenzyButton = new JButton( "Start Frenzy" );
         frenzyButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent actionEvent ) {
@@ -48,6 +50,15 @@ public class DeveloperControlsDialog extends JDialog {
             }
         } );
         mainPanel.add( frenzyButton );
+
+        JButton statsButton = new JButton( "Toggle bunny stats" );
+        statsButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent actionEvent ) {
+                BunnyStatsCanvas.allowUpdates = !BunnyStatsCanvas.allowUpdates;
+            }
+        } );
+        mainPanel.add( statsButton );
+
         setContentPane( mainPanel );
         pack();
         SwingUtils.centerDialogInParent( this );

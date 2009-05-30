@@ -1,10 +1,8 @@
-package edu.colorado.phet.naturalselection.test;
-
+package edu.colorado.phet.naturalselection.control;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.*;
@@ -22,14 +20,19 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
 import edu.colorado.phet.common.jfreechartphet.piccolo.XYPlotNode;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionResources;
+import edu.colorado.phet.naturalselection.model.ColorGene;
+import edu.colorado.phet.naturalselection.model.TailGene;
+import edu.colorado.phet.naturalselection.model.TeethGene;
+import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
-public class TestCanvas extends PhetPCanvas {
-
+public class BunnyStatsCanvas extends PhetPCanvas {
     private JFreeChartNode chartNode;
     private XYPlotNode plotNode;
 
@@ -52,10 +55,20 @@ public class TestCanvas extends PhetPCanvas {
     private PSwing zoomHolder;
 
     private final int[] zoomBounds = new int[]{5, 15, 30, 50, 75, 100, 150, 200, 250, 350, 500, 1000, 2000, 3000, 5000};
-    private int zoomIndex = 3;
+    private static final int DEFAULT_ZOOM_INDEX = 3;
+    private int zoomIndex = DEFAULT_ZOOM_INDEX;
 
-    public TestCanvas( Dimension2D renderingSize ) {
-        super( renderingSize );
+    private NaturalSelectionModel model;
+
+    public static boolean allowUpdates = true;
+
+
+    public BunnyStatsCanvas( NaturalSelectionModel model ) {
+        super( new Dimension( 300, 200 ) );
+
+        this.model = model;
+
+        setBorder( null );
 
         PNode root = new PNode();
         addScreenChild( root );
@@ -67,6 +80,9 @@ public class TestCanvas extends PhetPCanvas {
         mainPlot = createPlot( mainDataset );
 
         JFreeChart chart = new JFreeChart( emptyPlot );
+        chart.setBackgroundPaint( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
+
+        setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
 
         chartNode = new JFreeChartNode( chart );
         root.addChild( chartNode );
@@ -84,6 +100,7 @@ public class TestCanvas extends PhetPCanvas {
             public void actionPerformed( ActionEvent actionEvent ) {
                 zoomIndex--;
                 updateZoom();
+                updateLayout();
             }
         } );
 
@@ -91,6 +108,7 @@ public class TestCanvas extends PhetPCanvas {
             public void actionPerformed( ActionEvent actionEvent ) {
                 zoomIndex++;
                 updateZoom();
+                updateLayout();
             }
         } );
 
@@ -107,9 +125,65 @@ public class TestCanvas extends PhetPCanvas {
 
         root.addChild( zoomHolder );
 
+        updateZoom();
+
         updateLayout();
 
+        model.getClock().addClockListener( new ClockListener() {
+
+            int rot = 0;
+
+            public void clockTicked( ClockEvent clockEvent ) {
+
+            }
+
+            public void clockStarted( ClockEvent clockEvent ) {
+
+            }
+
+            public void clockPaused( ClockEvent clockEvent ) {
+
+            }
+
+            public void simulationTimeChanged( ClockEvent clockEvent ) {
+                if ( rot++ % 2 == 0 ) {
+                    addDataPoint();
+                }
+            }
+
+            public void simulationTimeReset( ClockEvent clockEvent ) {
+
+            }
+        } );
+
+        /*
+        chart.addChangeListener( new ChartChangeListener() {
+            public void chartChanged( ChartChangeEvent event ) {
+                System.out.println( "Chart changed" );
+            }
+        } );
+
+        mainPlot.addChangeListener( new PlotChangeListener() {
+            public void plotChanged( PlotChangeEvent event ) {
+                System.out.println( "Main plot changed" );
+            }
+        } );
+        */
+    }
+
+    public void reset() {
+        for ( int i = 0; i < NUM_SERIES; i++ ) {
+            mainDataset.getSeries( i ).clear();
+        }
+
+        pos = 0;
+        low = 0;
+
+        zoomIndex = DEFAULT_ZOOM_INDEX;
+
         updateZoom();
+        updateLayout();
+
     }
 
     private XYSeriesCollection createDataset() {
@@ -191,35 +265,32 @@ public class TestCanvas extends PhetPCanvas {
         }
         mainPlot.getRangeAxis().setRange( 0, zoomBounds[zoomIndex] );
         emptyPlot.getRangeAxis().setRange( 0, zoomBounds[zoomIndex] );
-
-        updateLayout();
     }
 
     private int pos = 0;
     private int low = 0;
-    private int MIN_Y = 0;
-    private int MAX_Y = 50;
-
-    private int[] positions = new int[]{0, 5, 10, 15, 20, 25, 30};
 
     public synchronized void addDataPoint() {
-        // TODO: possibly move this up if we for sure don't need it
-        /*
-        for ( int i = 0; i < NUM_SERIES; i++ ) {
-            mainDataset.getSeries( i ).setNotify( false );
+        if ( !allowUpdates ) {
+            return;
         }
-        */
+        //System.out.println( "Adding data point" );
 
-        for ( int i = 0; i < positions.length; i++ ) {
-            int y = positions[i];
-            y += (int) ( Math.random() * 4 - 2 );
-            if ( y > MAX_Y ) { y = MAX_Y; }
-            if ( y < MIN_Y ) { y = MIN_Y; }
-            positions[i] = y;
+        int total = model.getPopulation();
 
-            // does not send the event to listeners
-            mainDataset.getSeries( i ).add( pos, y, false );
-        }
+        mainDataset.getSeries( TOTAL_INDEX ).add( pos, total, false );
+
+        mainDataset.getSeries( FUR_WHITE_INDEX ).add( pos, ColorGene.getInstance().getPrimaryPhenotypeCount(), false );
+
+        mainDataset.getSeries( FUR_BROWN_INDEX ).add( pos, ColorGene.getInstance().getSecondaryPhenotypeCount(), false );
+
+        mainDataset.getSeries( TAIL_SHORT_INDEX ).add( pos, TailGene.getInstance().getPrimaryPhenotypeCount(), false );
+
+        mainDataset.getSeries( TAIL_LONG_INDEX ).add( pos, TailGene.getInstance().getSecondaryPhenotypeCount(), false );
+
+        mainDataset.getSeries( TEETH_SHORT_INDEX ).add( pos, TeethGene.getInstance().getPrimaryPhenotypeCount(), false );
+
+        mainDataset.getSeries( TEETH_LONG_INDEX ).add( pos, TeethGene.getInstance().getSecondaryPhenotypeCount(), false );
 
         pos++;
 
@@ -229,13 +300,5 @@ public class TestCanvas extends PhetPCanvas {
 
         }
         mainPlot.getDomainAxis().setRange( low, low + RANGE );
-
-        /*
-        for ( int i = 0; i < NUM_SERIES; i++ ) {
-            // TODO: make sure this doesn't cause 7 redraws?
-            //mainDataset.getSeries( i ).setNotify( true );
-        }
-        */
     }
-
 }
