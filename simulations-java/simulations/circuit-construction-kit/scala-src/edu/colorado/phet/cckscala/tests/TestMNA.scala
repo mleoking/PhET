@@ -85,10 +85,13 @@ case class FullCircuit(batteries: Seq[Battery], resistors: Seq[Resistor], capaci
   }
 
   def getInitializedCircuit = {
-    val initConditions = getInitialConditions
-    new FullCircuit(Battery(0, 1, 5.0) :: Nil, Resistor(1, 2, 10.0) :: Nil, for (c <- capacitors) yield {
-      new Capacitor(c.node0, c.node1, c.capacitance, initConditions(c).voltage, initConditions(c).current)
-    }, Nil)
+    val initConditions: InitialConditionResult = getInitialConditions
+    new FullCircuit(Battery(0, 1, 5.0) :: Nil, Resistor(1, 2, 10.0) :: Nil,
+      for (c <- capacitors) yield {
+        new Capacitor(c.node0, c.node1, c.capacitance, initConditions.capacitorMap(c).voltage, initConditions.capacitorMap(c).current)
+      }, for (i <- inductors) yield {
+        new Inductor(i.node0, i.node1, i.inductance, initConditions.inductorMap(i).voltage, initConditions.inductorMap(i).current)
+      })
   }
   //Create a circuit that has correct initial voltages and currents for capacitors and inductors
   //This is done by:
@@ -101,21 +104,31 @@ case class FullCircuit(batteries: Seq[Battery], resistors: Seq[Resistor], capaci
     r ++= resistors
     val cs = new ArrayBuffer[CurrentSource]
 
+    val capToRes = new HashMap[Capacitor, Resistor]
     for (c <- capacitors) {
-      r += new Resistor(c.node0, c.node1, 0.0)
+      val resistor = new Resistor(c.node0, c.node1, 0.0)
+      r += resistor
+      capToRes += c -> resistor
     }
+
+    val indToRes = new HashMap[Inductor, Resistor]
     for (i <- inductors) {
-      r += new Resistor(i.node0, i.node1, 1E14) //todo: could make base model handle Infinity properly, via maths or via circuit architecture remapping
+      val resistor = new Resistor(i.node0, i.node1, 1E14)
+      r += resistor //todo: could make base model handle Infinity properly, via maths or via circuit architecture remapping
+      indToRes += i -> resistor
     }
     val circuit = new Circuit(b, r)
     val solution = circuit.solve
+    
     val capacitorMap = new HashMap[Capacitor, InitialCondition]
-    for (c <- capacitors) {
-      capacitorMap += c -> new InitialCondition(0, circuit.getCurrent(c.node0, c.node1)) //TODO: this repeats solve in each iteration
-    }
-    //todo: same for inductors
-    capacitorMap
+    for (c <- capacitors) capacitorMap += c -> new InitialCondition(0, solution.getCurrent(capToRes(c)))
+
+    val inductorMap = new HashMap[Inductor, InitialCondition]
+    for (i <- inductors) inductorMap += i -> new InitialCondition(solution.getVoltage(indToRes(i)), 0.0)
+
+    new InitialConditionResult(capacitorMap, inductorMap)
   }
+  case class InitialConditionResult(capacitorMap: HashMap[Capacitor, InitialCondition], inductorMap: HashMap[Inductor, InitialCondition])
 
   def getCompanionModel(dt: Double) = {
     val b = new ArrayBuffer[Battery]
@@ -126,6 +139,7 @@ case class FullCircuit(batteries: Seq[Battery], resistors: Seq[Resistor], capaci
 
     val usedIndices = new ArrayBuffer[Int]
 
+    //todo: get map for inductors as well
     val capacitorMap = new HashMap[Capacitor, CompanionModel]
     for (c <- capacitors) {
       val cm = c.getCompanionModel(dt, () => getFreshIndex(usedIndices))
@@ -264,6 +278,7 @@ case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor], currentSou
 
   //with a positive sign
   //Todo: does this get the signs right in all cases?
+  //TODO: maybe signs here should depend on component orientation?
   def getIncomingCurrentTerms(node: Int) = {
     val nodeTerms = new ArrayBuffer[Term]
     for (b <- batteries if b.node1 == node)
@@ -397,14 +412,14 @@ object TestRLCircuit {
 
     val dt = 1E-4
     var dynamicCircuit = circuit.getInitializedCircuit
-    println("init circuit="+dynamicCircuit)
+    println("init circuit=" + dynamicCircuit)
     val v0 = dynamicCircuit.solve(dt).getVoltage(Resistor(1, 2, 10.0))
     println("voltage\tdesiredVoltage")
     for (i <- 0 until 10000) { //takes 3 sec on my machine
       val t = i * dt
       val solution = dynamicCircuit.solve(dt)
       val voltage = solution.getVoltage(Resistor(1, 2, 10.0))
-      val desiredVoltage = V * (1 - exp(-t * R / L))//see http://en.wikipedia.org/wiki/Lr_circuit
+      val desiredVoltage = V * (1 - exp(-t * R / L)) //see http://en.wikipedia.org/wiki/Lr_circuit
       println(voltage + "\t" + desiredVoltage)
       val error = abs(voltage - desiredVoltage)
       //      assert(error < 1E-6) //sample run indicates largest error is 1.5328E-7, is this acceptable?  See TestRCCircuit
