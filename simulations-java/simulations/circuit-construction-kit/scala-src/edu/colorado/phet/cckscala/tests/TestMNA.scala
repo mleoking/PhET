@@ -202,8 +202,8 @@ trait AbstractCircuit {
   def getElements: Seq[Element]
 }
 
-case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor]) extends AbstractCircuit {
-  //  def this(batteries: Seq[Battery], resistors: Seq[Resistor]) = this (batteries, resistors, Nil);
+case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor], currentSources: Seq[CurrentSource]) extends AbstractCircuit {
+  def this(batteries: Seq[Battery], resistors: Seq[Resistor]) = this (batteries, resistors, Nil);
 
   def getElements = {
     val elements = new ArrayBuffer[Element]
@@ -275,6 +275,13 @@ case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor]) extends Ab
     nodeTerms
   }
 
+  def getRHS(node: Int) = {
+    var sum = 0.0
+    for (c <- currentSources if c.node1 == node) sum = sum + c.current //current is entering the node
+    for (c <- currentSources if c.node0 == node) sum = sum - c.current //current is going away
+    sum
+  }
+
   //outgoing currents are negative so that incoming + outgoing = 0
   def getOutgoingCurrentTerms(node: Int) = {
     val nodeTerms = new ArrayBuffer[Term]
@@ -305,7 +312,7 @@ case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor]) extends Ab
     list += new Equation(0, Term(1, UnknownVoltage(getNodeSet.toSeq(0))))
 
     //for each node, charge is conserved
-    for (node <- getNodeSet) list += new Equation(0, getCurrentConservationTerms(node): _*) //see p. 155 scala book
+    for (node <- getNodeSet) list += new Equation(getRHS(node), getCurrentConservationTerms(node): _*) //see p. 155 scala book
 
     //for each battery, voltage drop is given
     for (battery <- batteries) list += new Equation(battery.voltage, Term(-1, UnknownVoltage(battery.node0)), Term(1, UnknownVoltage(battery.node1)))
@@ -368,25 +375,12 @@ case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor]) extends Ab
 
 object TestMNA {
   def main(args: Array[String]) {
-    val circuit = new FullCircuit(Battery(0, 1, 5.0) :: Nil, Resistor(1, 2, 10.0) :: Nil, Capacitor(2, 0, 1.0E-2, 0.0, 0.0) :: Nil, Nil)
-    val inited = circuit.getInitializedCircuit
-    val v0 = -5 //todo: make sure in sync with inited circuit
-    println("inited=" + inited)
-
-    val dt = 1E-4
-    var dynamicCircuit = inited
-    println("time\tcurrent\tvoltage\tdesiredVoltage\terror")
-    for (i <- 0 until 10000) {
-      val t = i * dt
-      //      println("t=" + t + ": " + dynamicCircuit.solve(dt).getCurrent(Battery(0, 1, 5.0)))
-      val solution = dynamicCircuit.solve(dt)
-      val current = solution.getCurrent(Battery(0, 1, 5.0))
-      val voltage = solution.getVoltage(Resistor(1, 2, 10.0))
-      val desiredVoltage = v0 * exp(-t / 10.0 / 1.0E-2)
-      val error = voltage - desiredVoltage
-      println(t + "\t" + current + "\t" + voltage + "\t" + desiredVoltage + "\t" + error)
-      dynamicCircuit = dynamicCircuit.stepInTime(dt)
-    }
+    val circuit = new Circuit(Nil, Resistor(1, 0, 4.0) :: Nil, CurrentSource(0, 1, 10.0) :: Nil)
+    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 10.0 * 4.0), Map())
+    println("equations=" + circuit.getEquations.mkString("\n"))
+    println("desired=" + desiredSolution)
+    println("actual=" + circuit.solve)
+    assert(circuit.solve.approxEquals(desiredSolution, 1E-6))
   }
 }
 
@@ -417,6 +411,11 @@ class Tester extends FunSuite {
   test("battery resistor circuit should have correct voltages and currents for a simple circuit") {
     val circuit = new Circuit(Array(Battery(0, 1, 4.0)), Array(Resistor(1, 0, 4.0)))
     val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 4.0), Map((0, 1) -> 1.0))
+    assert(circuit.solve.approxEquals(desiredSolution, 1E-6))
+  }
+  test("current source should provide current") {
+    val circuit = new Circuit(Nil, Resistor(1, 0, 4.0) :: Nil, CurrentSource(0, 1, 10.0) :: Nil)
+    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 10.0 * 4.0), Map())
     assert(circuit.solve.approxEquals(desiredSolution, 1E-6))
   }
   test("battery resistor circuit should have correct voltages and currents for a simple circuit ii") {
