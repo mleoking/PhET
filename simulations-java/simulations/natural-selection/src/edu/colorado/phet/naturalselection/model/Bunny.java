@@ -87,7 +87,7 @@ public class Bunny extends ClockAdapter {
 
     private boolean movingRight;
 
-    public static final int BETWEEN_HOP_TIME = 40;
+    public static final int BETWEEN_HOP_TIME = 70;
     public static final int HOP_TIME = 10;
     public static final int HOP_HEIGHT = 50;
     public static final double HOP_HORIZONTAL_STEP = 2.0;
