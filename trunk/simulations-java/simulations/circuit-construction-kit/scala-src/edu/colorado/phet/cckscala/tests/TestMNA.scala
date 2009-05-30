@@ -25,16 +25,7 @@ trait Element {
 }
 case class Battery(node0: Int, node1: Int, voltage: Double) extends Element
 case class Resistor(node0: Int, node1: Int, resistance: Double) extends Element
-object TestMNA {
-  class NodeVoltage {}
-  class BranchCurrent {}
-  def main(args: Array[String]) {
-    println("testing")
-    val netList = new Circuit(Array(Battery(0, 1, 4.0)), Array(Resistor(1, 0, 4.0)))
-    val solution = netList.solve
-    println(solution)
-  }
-}
+
 case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor]) {
   def getNodeSet = {
     val set = new HashSet[Int]
@@ -152,6 +143,23 @@ case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor]) {
   }
 
   var debug = false
+}
+
+object TestMNA {
+  def main(args: Array[String]) {
+    val V = 9.0
+    val R1 = 5.0
+    val R2 = 5.0
+    val Req = 1 / (1 / R1 + 1 / R2)
+    val circuit = new Circuit(Array(Battery(0, 1, V)), Array(Resistor(1, 0, R1), Resistor(1, 0, R2)))
+    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> V), Map((0, 1) -> V / Req))
+    println("V=" + V + ", R1=" + R1 + ", R2=" + R2 + ", Req=" + Req)
+    println("Actual Solution: " + circuit.solve)
+    println("Desired Solution: " + desiredSolution)
+    circuit.debug = true
+    circuit.solve
+    null
+  }
 }
 
 class Tester extends FunSuite {
