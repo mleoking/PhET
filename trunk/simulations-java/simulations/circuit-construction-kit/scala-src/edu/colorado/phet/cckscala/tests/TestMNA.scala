@@ -69,20 +69,28 @@ case class Capacitor(node0: Int, node1: Int, capacitance: Double, voltage: Doubl
 case class Inductor(node0: Int, node1: Int, inductance: Double, voltage: Double, current: Double) extends Element with HasCompanionModel {
   def getCompanionModel(dt: Double, newNode: () => Int) = {
     //linear companion model for inductor, using trapezoidal approximation, under norton model, see http://dev.hypertriton.com/edacious/trunk/doc/lec.pdf
+    //    val midNode = newNode()
+    //    val companionCurrent = current + dt * voltage / 2 / inductance
+    ////    println("companion current " + node0 + " to " + node1 + ":" + companionCurrent)
+    //    new CompanionModel(Nil, new Resistor(node0, midNode, 0) //dummy resistor in series so we can easily compute current for the inductor
+    //            :: new Resistor(midNode, node1, 2 * inductance / dt) :: Nil,
+    //      new CurrentSource(midNode, node1, current + dt * voltage / 2 / inductance) :: Nil) {
+    //      def getCurrent(solution: Solution) = solution.getCurrent(resistors(0))
+    //    }
+
+    //linear companion model for inductor, using backward euler approximation, under norton model, see http://dev.hypertriton.com/edacious/trunk/doc/lec.pdf
     val midNode = newNode()
-    val companionCurrent = current + dt * voltage / 2 / inductance
-//    println("companion current " + node0 + " to " + node1 + ":" + companionCurrent)
     new CompanionModel(Nil, new Resistor(node0, midNode, 0) //dummy resistor in series so we can easily compute current for the inductor
-            :: new Resistor(midNode, node1, 2 * inductance / dt) :: Nil,
-      new CurrentSource(midNode, node1, current + dt * voltage / 2 / inductance) :: Nil) {
+            :: new Resistor(midNode, node1, inductance / dt) :: Nil,
+      new CurrentSource(midNode, node1, current) :: Nil) {
       def getCurrent(solution: Solution) = solution.getCurrent(resistors(0))
     }
 
-    //linear companion model for inductor, using backward euler approximation, under norton model, see http://dev.hypertriton.com/edacious/trunk/doc/lec.pdf
+    //linear companion model for inductor, using forward euler approximation, under norton model, see http://dev.hypertriton.com/edacious/trunk/doc/lec.pdf
     //    val midNode = newNode()
     //    new CompanionModel(Nil, new Resistor(node0, midNode, 0) //dummy resistor in series so we can easily compute current for the inductor
-    //            :: new Resistor(midNode, node1, inductance / dt) :: Nil,
-    //      new CurrentSource(midNode, node1, current) :: Nil) {
+    //            :: new Resistor(midNode, node1, 0) :: Nil,
+    //      new CurrentSource(midNode, node1, current + dt / inductance * voltage) :: Nil) {
     //      def getCurrent(solution: Solution) = solution.getCurrent(resistors(0))
     //    }
 
@@ -444,12 +452,12 @@ object TestRLCircuit {
     for (i <- 0 until 1000) {
       val t = i * dt
       val comp = dynamicCircuit.getCompanionModel(dt)
-//      println("companion=" + comp)
+      //      println("companion=" + comp)
       val compSol = comp.circuit.solve
-//      println("companion sol=" + compSol)
+      //      println("companion sol=" + compSol)
       val solution = dynamicCircuit.solve(dt)
       val voltage = solution.getVoltage(Resistor(1, 2, 10.0))
-      val desiredVoltage = V * (1 - exp(-t * R / L)) //see http://en.wikipedia.org/wiki/Lr_circuit
+      val desiredVoltage = -V * (1 - exp(-t * R / L)) //see http://en.wikipedia.org/wiki/Lr_circuit
       println(voltage + "\t" + desiredVoltage)
       val error = abs(voltage - desiredVoltage)
       //      assert(error < 1E-6) //sample run indicates largest error is 1.5328E-7, is this acceptable?  See TestRCCircuit
