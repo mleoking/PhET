@@ -52,7 +52,10 @@ abstract case class CompanionModel(batteries: Seq[Battery], resistors: Seq[Resis
   def getCurrent(solution: Solution): Double
 }
 
-case class Capacitor(node0: Int, node1: Int, capacitance: Double, voltage: Double, current: Double) extends Element {
+trait HasCompanionModel {
+  def getCompanionModel(dt: Double, newNode: () => Int): CompanionModel
+}
+case class Capacitor(node0: Int, node1: Int, capacitance: Double, voltage: Double, current: Double) extends Element with HasCompanionModel {
   def getCompanionModel(dt: Double, newNode: () => Int) = {
     //linear companion model for capacitor, using trapezoidal approximation, under thevenin model, see http://dev.hypertriton.com/edacious/trunk/doc/lec.pdf
     val midNode = newNode()
@@ -63,15 +66,29 @@ case class Capacitor(node0: Int, node1: Int, capacitance: Double, voltage: Doubl
   }
 }
 
-case class Inductor(node0: Int, node1: Int, inductance: Double, voltage: Double, current: Double) extends Element {
+case class Inductor(node0: Int, node1: Int, inductance: Double, voltage: Double, current: Double) extends Element with HasCompanionModel {
   def getCompanionModel(dt: Double, newNode: () => Int) = {
     //linear companion model for inductor, using trapezoidal approximation, under norton model, see http://dev.hypertriton.com/edacious/trunk/doc/lec.pdf
     val midNode = newNode()
-    new CompanionModel(Nil, new Resistor(node0, midNode, 0) //dummy resistor in series so we can easily compute current for the inductor 
-            :: new Resistor(midNode, node1, dt / 2 / inductance) :: Nil,
+    new CompanionModel(Nil, new Resistor(node0, midNode, 0) //dummy resistor in series so we can easily compute current for the inductor
+            :: new Resistor(midNode, node1, 2 * inductance / dt) :: Nil,
       new CurrentSource(midNode, node1, current + dt * voltage / 2 / inductance) :: Nil) {
       def getCurrent(solution: Solution) = solution.getCurrent(resistors(0))
     }
+
+    //linear companion model for inductor, using backward euler approximation, under norton model, see http://dev.hypertriton.com/edacious/trunk/doc/lec.pdf
+    //    val midNode = newNode()
+    //    new CompanionModel(Nil, new Resistor(node0, midNode, 0) //dummy resistor in series so we can easily compute current for the inductor
+    //            :: new Resistor(midNode, node1, inductance / dt) :: Nil,
+    //      new CurrentSource(midNode, node1, current) :: Nil) {
+    //      def getCurrent(solution: Solution) = solution.getCurrent(resistors(0))
+    //    }
+
+    //linear companion model for inductor, using trapezoidal approximation, under norton model, see Pillage et al p.23
+    //    val midNode = newNode()
+    //    new CompanionModel(Battery(node0, midNode, voltage + 2 * inductance * current / dt) :: Nil, Resistor(midNode, node1, 2 * inductance / dt) :: Nil, Nil) {
+    //      def getCurrent(solution: Solution) = solution.getCurrent(batteries(0))
+    //    }
   }
 }
 
@@ -119,7 +136,7 @@ case class FullCircuit(batteries: Seq[Battery], resistors: Seq[Resistor], capaci
     }
     val circuit = new Circuit(b, r)
     val solution = circuit.solve
-    
+
     val capacitorMap = new HashMap[Capacitor, InitialCondition]
     for (c <- capacitors) capacitorMap += c -> new InitialCondition(0, solution.getCurrent(capToRes(c)))
 
@@ -140,15 +157,16 @@ case class FullCircuit(batteries: Seq[Battery], resistors: Seq[Resistor], capaci
     val usedIndices = new ArrayBuffer[Int]
 
     //todo: get map for inductors as well
-    val capacitorMap = new HashMap[Capacitor, CompanionModel]
-    for (c <- capacitors) {
+    val companionMap = new HashMap[HasCompanionModel, CompanionModel]
+    val sourceElements: Seq[HasCompanionModel] = capacitors.toList ::: inductors.toList
+    for (c <- sourceElements) {
       val cm = c.getCompanionModel(dt, () => getFreshIndex(usedIndices))
-      capacitorMap += c -> cm
+      companionMap += c -> cm
       for (battery <- cm.batteries) b += battery
       for (resistor <- cm.resistors) r += resistor
       for (currentSource <- cm.currentSources) cs += currentSource
     }
-    new BigCompanionModel(new Circuit(b, r), capacitorMap)
+    new BigCompanionModel(new Circuit(b, r, cs), companionMap)
   }
 
   //Find the first node index that is unused in the node set or used indices, and update the used indices
@@ -181,8 +199,8 @@ case class FullCircuit(batteries: Seq[Battery], resistors: Seq[Resistor], capaci
   }
 }
 
-class BigCompanionModel(val circuit: Circuit, val capacitorMap: HashMap[Capacitor, CompanionModel]) {
-  def getCurrent(c: Capacitor, solution: Solution) = capacitorMap(c).getCurrent(solution)
+class BigCompanionModel(val circuit: Circuit, val elementMap: HashMap[HasCompanionModel, CompanionModel]) {
+  def getCurrent(c: HasCompanionModel, solution: Solution) = elementMap(c).getCurrent(solution)
 }
 
 class CompanionSolution(fullCircuit: FullCircuit, companionModel: BigCompanionModel, solution: Solution)
@@ -518,21 +536,21 @@ class Tester extends FunSuite {
       dynamicCircuit = dynamicCircuit.stepInTime(dt)
     }
   }
-  test("RL Circuit should have voltage exponentially decay with T=RC") {
-    val L = 5
-    val circuit = new FullCircuit(Battery(0, 1, 5.0) :: Nil, Resistor(1, 2, 10.0) :: Nil, Nil, Inductor(2, 0, L, 0, 0) :: Nil)
-
-    val dt = 1E-4
-    var dynamicCircuit = circuit.getInitializedCircuit
-    val v0 = dynamicCircuit.solve(dt).getVoltage(Resistor(1, 2, 10.0))
-    for (i <- 0 until 10000) { //takes 3 sec on my machine
-      val t = i * dt
-      val solution = dynamicCircuit.solve(dt)
-      val voltage = solution.getVoltage(Resistor(1, 2, 10.0))
-      val desiredVoltage = v0 * exp(-t / 10.0 / 1.0E-2)
-      val error = abs(voltage - desiredVoltage)
-      assert(error < 1E-6) //sample run indicates largest error is 1.5328E-7, is this acceptable?  See TestRCCircuit
-      dynamicCircuit = dynamicCircuit.stepInTime(dt)
-    }
-  }
+//  test("RL Circuit should have voltage exponentially decay with T=RC") {
+//    val L = 5
+//    val circuit = new FullCircuit(Battery(0, 1, 5.0) :: Nil, Resistor(1, 2, 10.0) :: Nil, Nil, Inductor(2, 0, L, 0, 0) :: Nil)
+//
+//    val dt = 1E-4
+//    var dynamicCircuit = circuit.getInitializedCircuit
+//    val v0 = dynamicCircuit.solve(dt).getVoltage(Resistor(1, 2, 10.0))
+//    for (i <- 0 until 10000) { //takes 3 sec on my machine
+//      val t = i * dt
+//      val solution = dynamicCircuit.solve(dt)
+//      val voltage = solution.getVoltage(Resistor(1, 2, 10.0))
+//      val desiredVoltage = v0 * exp(-t / 10.0 / 1.0E-2)
+//      val error = abs(voltage - desiredVoltage)
+//      assert(error < 1E-6) //sample run indicates largest error is 1.5328E-7, is this acceptable?  See TestRCCircuit
+//      dynamicCircuit = dynamicCircuit.stepInTime(dt)
+//    }
+//  }
 }
