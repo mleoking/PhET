@@ -460,7 +460,6 @@ object TestRLCircuit {
       val desiredVoltage = -V * (1 - exp(-t * R / L)) //see http://en.wikipedia.org/wiki/Lr_circuit
       println(voltage + "\t" + desiredVoltage)
       val error = abs(voltage - desiredVoltage)
-      //      assert(error < 1E-6) //sample run indicates largest error is 1.5328E-7, is this acceptable?  See TestRCCircuit
       dynamicCircuit = dynamicCircuit.stepInTime(dt)
     }
   }
