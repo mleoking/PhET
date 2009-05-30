@@ -35,6 +35,10 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 public class BunnyStatsCanvas extends PhetPCanvas {
+
+    private static final boolean CHART_ANTIALIAS = false;
+    private static final boolean PLOT_ANTIALIAS = false;
+
     private JFreeChartNode chartNode;
     private XYPlotNode plotNode;
 
@@ -88,7 +92,7 @@ public class BunnyStatsCanvas extends PhetPCanvas {
 
         chart = new JFreeChart( emptyPlot );
         chart.setBackgroundPaint( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
-        chart.setAntiAlias( false );
+        chart.setAntiAlias( CHART_ANTIALIAS );
 
         setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
 
@@ -96,8 +100,10 @@ public class BunnyStatsCanvas extends PhetPCanvas {
         root.addChild( chartNode );
 
         plotNode = new XYPlotNode( mainPlot );
-        RenderingHints hints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF );
-        plotNode.setRenderingHints( hints );
+        if ( !PLOT_ANTIALIAS ) {
+            RenderingHints hints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF );
+            plotNode.setRenderingHints( hints );
+        }
         root.addChild( plotNode );
 
         JPanel zoomPanel = new JPanel( new FlowLayout() );
@@ -232,6 +238,11 @@ public class BunnyStatsCanvas extends PhetPCanvas {
         renderer.setStroke( new BasicStroke( 2f ) );
         renderer.setSeriesPaint( TOTAL_INDEX, Color.BLACK );
         renderer.setSeriesPaint( FUR_WHITE_INDEX, Color.RED );
+        renderer.setSeriesPaint( FUR_BROWN_INDEX, Color.CYAN );
+        renderer.setSeriesPaint( TAIL_SHORT_INDEX, Color.BLUE );
+        renderer.setSeriesPaint( TAIL_LONG_INDEX, Color.ORANGE );
+        renderer.setSeriesPaint( TEETH_SHORT_INDEX, Color.YELLOW.darker() );
+        renderer.setSeriesPaint( TEETH_LONG_INDEX, Color.MAGENTA );
         plot.setRenderer( seriesIndex, renderer );
 
         return plot;
@@ -281,6 +292,30 @@ public class BunnyStatsCanvas extends PhetPCanvas {
     private int pos = 0;
     private int low = 0;
 
+    private int[] cachedPositions = new int[]{2, 2, 2, 2, 2, 2, 2};
+    private boolean[] cachedValid = new boolean[]{false, false, false, false, false, false, false};
+
+    public void setDataAtIndex( int index, int value ) {
+        XYSeries series = mainDataset.getSeries( index );
+
+        if ( cachedPositions[index] == value ) {
+            if ( cachedValid[index] == true ) {
+                series.setNotify( false );
+                series.remove( series.getItemCount() - 1 );
+                series.setNotify( true );
+            }
+            else {
+                cachedValid[index] = true;
+            }
+        }
+        else {
+            cachedValid[index] = false;
+            cachedPositions[index] = value;
+        }
+
+        series.add( pos, value, false );
+    }
+
     public synchronized void addDataPoint() {
         if ( !allowUpdates ) {
             return;
@@ -288,19 +323,13 @@ public class BunnyStatsCanvas extends PhetPCanvas {
 
         int total = model.getPopulation();
 
-        mainDataset.getSeries( TOTAL_INDEX ).add( pos, total, false );
-
-        mainDataset.getSeries( FUR_WHITE_INDEX ).add( pos, ColorGene.getInstance().getPrimaryPhenotypeCount(), false );
-
-        mainDataset.getSeries( FUR_BROWN_INDEX ).add( pos, ColorGene.getInstance().getSecondaryPhenotypeCount(), false );
-
-        mainDataset.getSeries( TAIL_SHORT_INDEX ).add( pos, TailGene.getInstance().getPrimaryPhenotypeCount(), false );
-
-        mainDataset.getSeries( TAIL_LONG_INDEX ).add( pos, TailGene.getInstance().getSecondaryPhenotypeCount(), false );
-
-        mainDataset.getSeries( TEETH_SHORT_INDEX ).add( pos, TeethGene.getInstance().getPrimaryPhenotypeCount(), false );
-
-        mainDataset.getSeries( TEETH_LONG_INDEX ).add( pos, TeethGene.getInstance().getSecondaryPhenotypeCount(), false );
+        setDataAtIndex( TOTAL_INDEX, total );
+        setDataAtIndex( FUR_WHITE_INDEX, ColorGene.getInstance().getPrimaryPhenotypeCount() );
+        setDataAtIndex( FUR_BROWN_INDEX, ColorGene.getInstance().getSecondaryPhenotypeCount() );
+        setDataAtIndex( TAIL_SHORT_INDEX, TailGene.getInstance().getPrimaryPhenotypeCount() );
+        setDataAtIndex( TAIL_LONG_INDEX, TailGene.getInstance().getSecondaryPhenotypeCount() );
+        setDataAtIndex( TEETH_SHORT_INDEX, TeethGene.getInstance().getPrimaryPhenotypeCount() );
+        setDataAtIndex( TEETH_LONG_INDEX, TeethGene.getInstance().getSecondaryPhenotypeCount() );
 
         pos++;
 
