@@ -11,6 +11,8 @@ import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.ValueAxis;
+import org.jfree.chart.event.ChartChangeEvent;
+import org.jfree.chart.event.ChartChangeListener;
 import org.jfree.chart.plot.PlotRenderingInfo;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
@@ -52,6 +54,7 @@ public class BunnyStatsCanvas extends PhetPCanvas {
     private static final int TEETH_LONG_INDEX = 6;
 
     private static final int NUM_SERIES = 7;
+
     private PSwing zoomHolder;
 
     private final int[] zoomBounds = new int[]{5, 15, 30, 50, 75, 100, 150, 200, 250, 350, 500, 1000, 2000, 3000, 5000};
@@ -62,8 +65,12 @@ public class BunnyStatsCanvas extends PhetPCanvas {
 
     public static boolean allowUpdates = true;
 
+    private JFreeChart chart;
 
-    public BunnyStatsCanvas( NaturalSelectionModel model ) {
+    private int cachedPopulation = 0;
+
+
+    public BunnyStatsCanvas( final NaturalSelectionModel model ) {
         super( new Dimension( 300, 200 ) );
 
         this.model = model;
@@ -79,8 +86,9 @@ public class BunnyStatsCanvas extends PhetPCanvas {
         emptyPlot = createPlot( emptyDataset );
         mainPlot = createPlot( mainDataset );
 
-        JFreeChart chart = new JFreeChart( emptyPlot );
+        chart = new JFreeChart( emptyPlot );
         chart.setBackgroundPaint( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
+        chart.setAntiAlias( false );
 
         setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
 
@@ -88,15 +96,20 @@ public class BunnyStatsCanvas extends PhetPCanvas {
         root.addChild( chartNode );
 
         plotNode = new XYPlotNode( mainPlot );
+        RenderingHints hints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF );
+        plotNode.setRenderingHints( hints );
         root.addChild( plotNode );
 
         JPanel zoomPanel = new JPanel( new FlowLayout() );
         zoomPanel.setOpaque( false );
 
+
+        // zoom buttons
+
         JButton zoomInButton = new JButton( new ImageIcon( NaturalSelectionResources.getImage( NaturalSelectionConstants.IMAGE_ZOOM_IN ) ) );
         JButton zoomOutButton = new JButton( new ImageIcon( NaturalSelectionResources.getImage( NaturalSelectionConstants.IMAGE_ZOOM_OUT ) ) );
-
         zoomInButton.addActionListener( new ActionListener() {
+
             public void actionPerformed( ActionEvent actionEvent ) {
                 zoomIndex--;
                 updateZoom();
@@ -146,7 +159,11 @@ public class BunnyStatsCanvas extends PhetPCanvas {
             }
 
             public void simulationTimeChanged( ClockEvent clockEvent ) {
-                if ( rot++ % 2 == 0 ) {
+                if ( cachedPopulation != model.getPopulation() ) {
+                    cachedPopulation = model.getPopulation();
+                    addDataPoint();
+                }
+                else if ( rot++ % 3 == 0 ) {
                     addDataPoint();
                 }
             }
@@ -156,19 +173,13 @@ public class BunnyStatsCanvas extends PhetPCanvas {
             }
         } );
 
-        /*
+
         chart.addChangeListener( new ChartChangeListener() {
             public void chartChanged( ChartChangeEvent event ) {
                 System.out.println( "Chart changed" );
             }
         } );
 
-        mainPlot.addChangeListener( new PlotChangeListener() {
-            public void plotChanged( PlotChangeEvent event ) {
-                System.out.println( "Main plot changed" );
-            }
-        } );
-        */
     }
 
     public void reset() {
@@ -217,7 +228,7 @@ public class BunnyStatsCanvas extends PhetPCanvas {
 
         final int seriesIndex = 0;
         plot.setDataset( seriesIndex, dataset );
-        XYItemRenderer renderer = new StandardXYItemRenderer(); // TODO: maybe use XYLineAndShapeRenderer?
+        XYItemRenderer renderer = new StandardXYItemRenderer();
         renderer.setStroke( new BasicStroke( 2f ) );
         renderer.setSeriesPaint( TOTAL_INDEX, Color.BLACK );
         renderer.setSeriesPaint( FUR_WHITE_INDEX, Color.RED );
@@ -274,7 +285,6 @@ public class BunnyStatsCanvas extends PhetPCanvas {
         if ( !allowUpdates ) {
             return;
         }
-        //System.out.println( "Adding data point" );
 
         int total = model.getPopulation();
 
@@ -299,6 +309,8 @@ public class BunnyStatsCanvas extends PhetPCanvas {
             low++;
 
         }
+
+        // this will cause a redraw
         mainPlot.getDomainAxis().setRange( low, low + RANGE );
     }
 }
