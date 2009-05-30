@@ -183,6 +183,12 @@ class Tester extends FunSuite {
     val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> -4.0, 2 -> -8.0), Map((0, 1) -> -4, (1, 2) -> -4))
     assert(circuit.solve.approxEquals(desiredSolution, 1E-6))
   }
+  test("A resistor hanging off the edge shouldn't cause problems") {
+    val circuit = new Circuit(Array(Battery(0, 1, 4.0)), Array(Resistor(1, 0, 4.0), Resistor(0, 2, 100.0)))
+    println("equations:\n"+circuit.getEquations.mkString("\n"))
+    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 4.0, 2 -> 0.0), Map((0, 1) -> 1.0))
+    assert(circuit.solve.approxEquals(desiredSolution, 1E-6))
+  }
   test("Resistors in parallel should have harmonic mean of resistance") {
     val V = 9.0
     val R1 = 5.0
