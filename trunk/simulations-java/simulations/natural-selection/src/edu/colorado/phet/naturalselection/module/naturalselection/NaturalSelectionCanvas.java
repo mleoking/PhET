@@ -58,7 +58,7 @@ public class NaturalSelectionCanvas extends PhetPCanvas {
         this.model = model;
 
         setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
-        setBorder( null );
+        //setBorder( null );
 
         rootNode = new PNode();
         addWorldChild( rootNode );
