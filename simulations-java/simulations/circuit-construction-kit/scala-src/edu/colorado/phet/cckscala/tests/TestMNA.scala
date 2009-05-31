@@ -8,8 +8,17 @@ import java.lang.Math._
 import util.parsing.combinator.JavaTokenParsers
 import util.Sorting
 
+trait ISolution {
+  def getNodeVoltage(node: Int): Double
+
+  def getCurrent(element: Element): Double
+
+  def getVoltageDifference(node0: Int, node1: Int) = getNodeVoltage(node1) - getNodeVoltage(node0)
+}
 //sparse solution containing only the solved unknowns in MNA
-case class Solution(nodeVoltages: collection.Map[Int, Double], branchCurrents: collection.Map[(Int, Int), Double]) {
+class Solution(private val nodeVoltages: collection.Map[Int, Double], private val branchCurrents: collection.Map[(Int, Int), Double]) extends ISolution {
+  def getNodeVoltage(node: Int) = nodeVoltages(node)
+
   def approxEquals(s: Solution, delta: Double) = {
     if (nodeVoltages.keySet != s.nodeVoltages.keySet || branchCurrents.keySet != s.branchCurrents.keySet)
       false
@@ -222,26 +231,21 @@ case class CompanionCircuit(val circuit: Circuit, val elementMap: HashMap[HasCom
   def getCurrent(c: HasCompanionModel, solution: Solution) = elementMap(c).getCurrent(solution)
 }
 
-class CompanionSolution(fullCircuit: FullCircuit, companionModel: CompanionCircuit, solution: Solution)
-        extends Solution(solution.nodeVoltages, solution.branchCurrents) { //todo: fix this, shouldn't be able to access these values...?
-  override def getVoltage(e: Element): Double = {
-    e match {
-      case c: Capacitor => super.getVoltage(e) //this should work because original node indices are same
-      case i: Inductor => super.getVoltage(e)
-      case _ => super.getVoltage(e)
-    }
-  }
+class CompanionSolution(fullCircuit: FullCircuit, companionModel: CompanionCircuit, solution: Solution) extends ISolution {
+  def getNodeVoltage(node: Int) = solution.getNodeVoltage(node)
 
-  override def getCurrent(e: Element): Double = {
+  def getVoltage(e: Element): Double = solution.getVoltage(e) //this should work because original node names are same (i.e. only new node names are introduced for companions)
+
+  def getCurrent(e: Element): Double = {
     e match {
       case c: Capacitor => companionModel.getCurrent(c, solution)
       case i: Inductor => companionModel.getCurrent(i, solution)
-      case _ => super.getCurrent(e)
+      case _ => solution.getCurrent(e)
     }
   }
 
   //todo: fix this
-  override def approxEquals(s: Solution, delta: Double) = super.approxEquals(s, delta)
+  //  override def approxEquals(s: Solution, delta: Double) = super.approxEquals(s, delta)
 }
 
 trait AbstractCircuit {
