@@ -17,7 +17,7 @@ import edu.colorado.phet.naturalselection.view.SpriteHandler;
  *
  * @author Jonathan Olson
  */
-public class Bunny extends ClockAdapter {
+public class Bunny {
     // parents (although currently the gender of bunnies is ignored)
     private Bunny father;
     private Bunny mother;
@@ -70,7 +70,7 @@ public class Bunny extends ClockAdapter {
     public int bunnyId;
     public static int bunnyCount = 0;
 
-    // old genetic data. If the new data is different, listeners will be notified of the changes
+    // The phenotypes of the bunny. These now do not change once the bunny has been created (and possibly mutated)
     private Allele colorPhenotype;
     private Allele teethPhenotype;
     private Allele tailPhenotype;
@@ -92,6 +92,8 @@ public class Bunny extends ClockAdapter {
     public static final double HOP_HORIZONTAL_STEP = 2.0;
 
     private NaturalSelectionModel model;
+
+    private ClockAdapter clockListener;
 
     private ArrayList<Listener> listeners;
 
@@ -151,7 +153,14 @@ public class Bunny extends ClockAdapter {
 
         setInitialPosition();
 
-        model.getClock().addClockListener( this );
+        clockListener = new ClockAdapter() {
+            @Override
+            public void simulationTimeChanged( ClockEvent clockEvent ) {
+                Bunny.this.simulationTimeChanged( clockEvent );
+            }
+        };
+
+        model.getClock().addClockListener( clockListener );
 
         // bunny is set up, notify various things that the bunny has been created and is ready to use
         //notifyInit();
@@ -451,13 +460,13 @@ public class Bunny extends ClockAdapter {
     // Event handlers
     //----------------------------------------------------------------------------
 
-    public void simulationTimeChanged( ClockEvent clockEvent ) {
+    private void simulationTimeChanged( ClockEvent clockEvent ) {
         if ( isAlive() ) {
             moveAround();
         }
         else {
             // stop listening
-            clockEvent.getClock().removeClockListener( this );
+            model.getClock().removeClockListener( clockListener );
         }
     }
 
