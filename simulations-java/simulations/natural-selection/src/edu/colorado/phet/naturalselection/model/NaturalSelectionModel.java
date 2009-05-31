@@ -99,7 +99,6 @@ public class NaturalSelectionModel extends ClockAdapter {
         rootFather = new Bunny( this, null, null, 0 );
         rootFather.notifyInit();
         bunnies.add( rootFather );
-        clock.addClockListener( rootFather );
 
         this.clock.addClockListener( this );
     }
@@ -132,7 +131,6 @@ public class NaturalSelectionModel extends ClockAdapter {
         rootFather = new Bunny( this, null, null, 0 );
         rootFather.notifyInit();
         bunnies.add( rootFather );
-        clock.addClockListener( rootFather );
 
         clock.resetSimulationTime();
         clock.start();
@@ -153,7 +151,6 @@ public class NaturalSelectionModel extends ClockAdapter {
         rootFather.setPotentialMate( rootMother );
         rootMother.setPotentialMate( rootFather );
         bunnies.add( rootMother );
-        clock.addClockListener( rootMother );
         notifyNewBunny( rootMother );
     }
 
