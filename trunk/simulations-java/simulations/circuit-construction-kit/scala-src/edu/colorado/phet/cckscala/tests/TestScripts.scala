@@ -1,5 +1,6 @@
 package edu.colorado.phet.cckscala.tests
 
+import java.lang.Math._
 
 object TestRLCCircuit {
   def main(args: Array[String]) {
