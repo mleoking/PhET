@@ -1,6 +1,6 @@
 /* Copyright 2009, University of Colorado */
 
-package edu.colorado.phet.naturalselection.module.naturalselection;
+package edu.colorado.phet.naturalselection.module;
 
 import java.awt.*;
 import java.awt.event.WindowAdapter;
@@ -14,6 +14,8 @@ import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
 import edu.colorado.phet.naturalselection.dialog.GameOverDialog;
 import edu.colorado.phet.naturalselection.dialog.GenerationChartDialog;
 import edu.colorado.phet.naturalselection.model.NaturalSelectionClock;
+import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
+import edu.colorado.phet.naturalselection.view.NaturalSelectionCanvas;
 
 /**
  * The natural selection module

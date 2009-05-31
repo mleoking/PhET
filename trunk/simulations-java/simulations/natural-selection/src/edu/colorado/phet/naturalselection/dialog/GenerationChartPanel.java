@@ -8,7 +8,7 @@ import java.awt.event.ComponentListener;
 
 import javax.swing.*;
 
-import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
+import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
 import edu.colorado.phet.naturalselection.view.pedigree.PedigreeNode;
 
 public class GenerationChartPanel extends JPanel {

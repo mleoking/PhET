@@ -11,8 +11,8 @@ import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockContr
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
 import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
-import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
-import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModule;
+import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
+import edu.colorado.phet.naturalselection.module.NaturalSelectionModule;
 
 /**
  * Main control panel for Natural Selection

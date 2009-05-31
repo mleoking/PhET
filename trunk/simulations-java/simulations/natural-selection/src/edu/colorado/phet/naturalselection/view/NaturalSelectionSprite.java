@@ -5,7 +5,6 @@ package edu.colorado.phet.naturalselection.view;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
-import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionCanvas;
 import edu.umd.cs.piccolo.PNode;
 
 /**

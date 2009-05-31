@@ -1,13 +1,12 @@
 /* Copyright 2009, University of Colorado */
 
-package edu.colorado.phet.naturalselection.module.naturalselection;
+package edu.colorado.phet.naturalselection.model;
 
 import java.util.*;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
-import edu.colorado.phet.naturalselection.model.*;
 
 /**
  * The model itself for the Natural Selection simulation
@@ -528,13 +527,6 @@ public class NaturalSelectionModel extends ClockAdapter {
     //----------------------------------------------------------------------------
 
     public void simulationTimeChanged( ClockEvent event ) {
-        //if ( selectionFactor == SELECTION_FOOD ) {
-        //    bunnyFamine();
-        //}
-
-        //if ( selectionFactor == SELECTION_WOLVES ) {
-        //    invisibleWolfAttack();
-        //}
 
         while ( event.getSimulationTime() - lastYearTick > NaturalSelectionDefaults.TICKS_PER_YEAR ) {
             lastYearTick += NaturalSelectionDefaults.TICKS_PER_YEAR;

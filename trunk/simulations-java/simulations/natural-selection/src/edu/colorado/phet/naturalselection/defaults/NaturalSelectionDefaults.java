@@ -4,7 +4,7 @@ package edu.colorado.phet.naturalselection.defaults;
 
 import java.awt.*;
 
-import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
+import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
 
 /**
  * Defaults for the simulation

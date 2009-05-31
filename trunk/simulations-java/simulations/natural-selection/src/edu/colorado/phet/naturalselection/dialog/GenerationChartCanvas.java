@@ -8,7 +8,7 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
-import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
+import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
 import edu.colorado.phet.naturalselection.view.pedigree.PedigreeNode;
 import edu.umd.cs.piccolo.PNode;
 

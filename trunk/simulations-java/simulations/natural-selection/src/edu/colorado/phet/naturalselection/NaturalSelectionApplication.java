@@ -19,7 +19,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.naturalselection.developer.DeveloperMenu;
 import edu.colorado.phet.naturalselection.menu.OptionsMenu;
-import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModule;
+import edu.colorado.phet.naturalselection.module.NaturalSelectionModule;
 import edu.colorado.phet.naturalselection.persistence.ExampleConfig;
 import edu.colorado.phet.naturalselection.persistence.NaturalSelectionConfig;
 

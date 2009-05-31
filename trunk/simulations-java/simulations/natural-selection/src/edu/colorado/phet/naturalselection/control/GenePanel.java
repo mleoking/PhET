@@ -9,11 +9,7 @@ import javax.swing.border.EmptyBorder;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
-import edu.colorado.phet.naturalselection.model.ColorGene;
-import edu.colorado.phet.naturalselection.model.Gene;
-import edu.colorado.phet.naturalselection.model.TailGene;
-import edu.colorado.phet.naturalselection.model.TeethGene;
-import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
+import edu.colorado.phet.naturalselection.model.*;
 import edu.colorado.phet.naturalselection.util.ImagePanel;
 
 public class GenePanel extends JPanel {
