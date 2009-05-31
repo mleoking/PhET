@@ -6,24 +6,20 @@ import java.lang.Math._
 class MNAFunSuite extends FunSuite {
   test("battery resistor circuit should have correct voltages and currents for a simple circuit") {
     val battery = Battery(0, 1, 4.0)
-    val circuit = new Circuit(Array(battery), Array(Resistor(1, 0, 4.0)))
+    val circuit = new Circuit(battery :: Nil, Resistor(1, 0, 4.0) :: Nil)
     val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 4.0), Map(battery -> 1.0))
     assert(circuit.solve.approxEquals(desiredSolution, 1E-6))
   }
   test("battery resistor circuit should have correct voltages and currents for a simple circuit ii") {
     val battery = Battery(0, 1, 4.0)
-    val circuit = new Circuit(Array(battery), Array(Resistor(1, 0, 2.0)))
+    val circuit = new Circuit(battery :: Nil, Resistor(1, 0, 2.0) :: Nil)
     val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 4.0), Map(battery -> 2.0))
     assert(circuit.solve.approxEquals(desiredSolution, 1E-6))
   }
   test("should throw an exception when asking for current for unknown element") {
-    val battery = Battery(0, 1, 4.0)
-    val bogusbattery = Battery(4, 1, 999)
-    val circuit = new Circuit(battery :: Nil, Resistor(1, 0, 2.0) :: Nil)
-    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 4.0), Map(battery -> 2.0))
-    assert(abs(circuit.solve.getCurrent(battery) - 2.0) < 1E-6)
+    val circuit = new Circuit(Battery(0, 1, 4.0) :: Nil, Resistor(1, 0, 2.0) :: Nil)
     intercept(classOf[RuntimeException]) {
-      circuit.solve.getCurrent(bogusbattery)
+      circuit.solve.getCurrent(Battery(4, 1, 999))
     }
   }
   test("disjoint circuits should be solved independently") {
@@ -40,14 +36,14 @@ class MNAFunSuite extends FunSuite {
   }
   test("current should be reversed when voltage is reversed") {
     val battery = Battery(0, 1, -4.0)
-    val circuit = new Circuit(Array(battery), Array(Resistor(1, 0, 2.0)))
+    val circuit = new Circuit(battery :: Nil, Resistor(1, 0, 2.0) :: Nil)
     val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> -4.0), Map(battery -> -2.0))
     assert(circuit.solve.approxEquals(desiredSolution, 1E-6))
   }
   test("Two batteries in series should have voltage added") {
     val battery = Battery(0, 1, -4.0)
     val battery2 = Battery(1, 2, -4.0)
-    val circuit = new Circuit(Array(battery, battery2), Array(Resistor(2, 0, 2.0)))
+    val circuit = new Circuit(battery :: battery2 :: Nil, Resistor(2, 0, 2.0) :: Nil)
     val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> -4.0, 2 -> -8.0), Map(battery -> -4, battery2 -> -4))
     assert(circuit.solve.approxEquals(desiredSolution, 1E-6))
   }
@@ -59,7 +55,7 @@ class MNAFunSuite extends FunSuite {
   }
   test("A resistor hanging off the edge shouldn't cause problems") {
     val battery = Battery(0, 1, 4.0)
-    val circuit = new Circuit(Array(battery), Array(Resistor(1, 0, 4.0), Resistor(0, 2, 100.0)))
+    val circuit = new Circuit(battery :: Nil, Resistor(1, 0, 4.0) :: Resistor(0, 2, 100.0) :: Nil)
     //    println("equations:\n" + circuit.getEquations.mkString("\n"))
     val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 4.0, 2 -> 0.0), Map(battery -> 1.0))
     assert(circuit.solve.approxEquals(desiredSolution, 1E-6))
@@ -77,7 +73,7 @@ class MNAFunSuite extends FunSuite {
     val R2 = 5.0
     val Req = 1 / (1 / R1 + 1 / R2)
     val battery = Battery(0, 1, V)
-    val circuit = new Circuit(Array(battery), Array(Resistor(1, 0, R1), Resistor(1, 0, R2)))
+    val circuit = new Circuit(battery :: Nil, Resistor(1, 0, R1) :: Resistor(1, 0, R2) :: Nil)
     val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> V), Map(battery -> V / Req))
     assert(circuit.solve.approxEquals(desiredSolution, 1E-6))
   }
