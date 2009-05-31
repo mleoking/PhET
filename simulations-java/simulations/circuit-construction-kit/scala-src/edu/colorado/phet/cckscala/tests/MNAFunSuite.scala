@@ -1,5 +1,7 @@
 package edu.colorado.phet.cckscala.tests
 
+import org.scalatest.FunSuite
+import java.lang.Math._
 
 class MNAFunSuite extends FunSuite {
   test("battery resistor circuit should have correct voltages and currents for a simple circuit") {
