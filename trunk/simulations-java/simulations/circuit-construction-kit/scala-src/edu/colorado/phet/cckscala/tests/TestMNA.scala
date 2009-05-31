@@ -458,6 +458,27 @@ object TestMNA {
   }
 }
 
+object TestRLCCircuit {
+  def main(args: Array[String]) {
+    var dynamicCircuit = new FullCircuit(Nil, Resistor(0, 1, 5.0) :: Nil, Capacitor(1, 2, 5E-6, 0, 5) :: Nil, Inductor(2, 0, 1, 20, 5) :: Nil)
+
+    val dt = 1E-4
+    //    var dynamicCircuit = circuit.getInitializedCircuit
+    println("init circuit=" + dynamicCircuit)
+    val v0 = dynamicCircuit.solve(dt).getVoltage(Resistor(1, 2, 10.0))
+    println("voltage")
+    for (i <- 0 until 10000) {
+      val t = i * dt
+      val comp = dynamicCircuit.getCompanionModel(dt)
+      val compSol = comp.circuit.solve
+      val solution = dynamicCircuit.solve(dt)
+      val voltage = solution.getVoltage(Resistor(0, 1, 10.0))
+      println(voltage)
+      dynamicCircuit = dynamicCircuit.stepInTime(dt)
+    }
+  }
+}
+
 object TestRLCircuit {
   def main(args: Array[String]) {
     val L = 1
