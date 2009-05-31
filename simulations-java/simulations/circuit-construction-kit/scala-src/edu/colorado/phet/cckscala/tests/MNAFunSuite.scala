@@ -91,22 +91,33 @@ class MNAFunSuite extends FunSuite {
     val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> V), Map(battery -> V / Req))
     assert(circuit.solve.approxEquals(desiredSolution))
   }
-  test("RC Circuit should have voltage exponentially decay with T=RC") {
-    val circuit = new FullCircuit(Battery(0, 1, 5.0) :: Nil, Resistor(1, 2, 10.0) :: Nil, Capacitor(2, 0, 1.0E-2, 0.0, 0.0) :: Nil, Nil)
-    val v0 = -5 //todo: make sure in sync with inited circuit
+
+  def testVRCCircuit(v: Double, r: Double, c: Double) = {
+    val resistor = Resistor(1, 2, r)
+    val circuit = new FullCircuit(Battery(0, 1, v) :: Nil, resistor :: Nil, Capacitor(2, 0, c, 0.0, 0.0) :: Nil, Nil)
 
     val dt = 1E-4
     var dynamicCircuit = circuit.getInitializedCircuit
-    for (i <- 0 until 10000) { //takes 3 sec on my machine
+    for (i <- 0 until 1000) { //takes 3 sec on my machine
       val t = i * dt
       val solution = dynamicCircuit.solve(dt)
-      val voltage = solution.getVoltage(Resistor(1, 2, 10.0))
-      val desiredVoltage = v0 * exp(-t / 10.0 / 1.0E-2)
+      val voltage = solution.getVoltage(resistor)
+      val desiredVoltage = -v * exp(-t / r / c)
       val error = abs(voltage - desiredVoltage)
       assert(error < 1E-6) //sample run indicates largest error is 1.5328E-7, is this acceptable?  See TestRCCircuit
       dynamicCircuit = dynamicCircuit.stepInTime(dt)
     }
   }
+  test("RC Circuit should have voltage exponentially decay with T=RC for v=5, r=10, c=1E-2") {
+    testVRCCircuit(5.0, 10.0, 1.0E-2)
+  }
+  test("RC Circuit should have voltage exponentially decay with T=RC for v=10, r=10, c=1E-2") {
+    testVRCCircuit(10.0, 10.0, 1.0E-2)
+  }
+  test("RC Circuit should have voltage exponentially decay with T=RC for v=3, r=7, c=1E-1") {
+    testVRCCircuit(3, 7, 1E-1)
+  }
+
   //  test("RL Circuit should have voltage exponentially decay with T=RC") {
   //    val L = 5
   //    val circuit = new FullCircuit(Battery(0, 1, 5.0) :: Nil, Resistor(1, 2, 10.0) :: Nil, Nil, Inductor(2, 0, L, 0, 0) :: Nil)

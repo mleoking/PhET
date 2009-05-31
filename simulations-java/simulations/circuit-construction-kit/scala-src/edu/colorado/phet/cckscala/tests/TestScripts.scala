@@ -53,9 +53,11 @@ object TestRLCircuit {
 
 object TestRCCircuit {
   def main(args: Array[String]) {
-    val circuit = new FullCircuit(Battery(0, 1, 5.0) :: Nil, Resistor(1, 2, 10.0) :: Nil, Capacitor(2, 0, 1.0E-2, 0.0, 0.0) :: Nil, Nil)
+    val v=10
+    val battery = Battery(0, 1, v)
+    val resistor = Resistor(1, 2, 10.0)
+    val circuit = new FullCircuit(battery :: Nil, resistor :: Nil, Capacitor(2, 0, 1.0E-2, 0.0, 0.0) :: Nil, Nil)
     val inited = circuit.getInitializedCircuit
-    val v0 = -5 //todo: make sure in sync with inited circuit
     println("inited=" + inited)
 
     val dt = 1E-4
@@ -64,9 +66,9 @@ object TestRCCircuit {
     for (i <- 0 until 10000) {
       val t = i * dt
       val solution = dynamicCircuit.solve(dt)
-      val current = solution.getCurrent(Battery(0, 1, 5.0))
-      val voltage = solution.getVoltage(Resistor(1, 2, 10.0))
-      val desiredVoltage = v0 * exp(-t / 10.0 / 1.0E-2)
+      val current = solution.getCurrent(battery)
+      val voltage = solution.getVoltage(resistor)
+      val desiredVoltage = -v * exp(-t / 10.0 / 1.0E-2)
       val error = voltage - desiredVoltage
       println(t + "\t" + current + "\t" + voltage + "\t" + desiredVoltage + "\t" + error)
       dynamicCircuit = dynamicCircuit.stepInTime(dt)

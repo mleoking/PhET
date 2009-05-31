@@ -72,7 +72,7 @@ case class FullCircuit(batteries: Seq[Battery], resistors: Seq[Resistor], capaci
 
   def getInitializedCircuit = {
     val initConditions: InitialConditionSet = getInitialConditions
-    new FullCircuit(Battery(0, 1, 5.0) :: Nil, Resistor(1, 2, 10.0) :: Nil,
+    new FullCircuit(batteries, resistors,
       for (c <- capacitors) yield {
         new Capacitor(c.node0, c.node1, c.capacitance, initConditions.capacitorMap(c).voltage, initConditions.capacitorMap(c).current)
       }, for (i <- inductors) yield {
