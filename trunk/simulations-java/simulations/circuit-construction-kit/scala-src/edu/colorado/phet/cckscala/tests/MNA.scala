@@ -266,5 +266,13 @@ case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor], currentSou
 
 object TestMNA {
   def main(args: Array[String]) {
+    val battery = Battery(0, 1, 4.0)
+    val resistor = Resistor(1, 0, 2.0)
+    val circuit = new Circuit(battery :: Nil, resistor :: Nil)
+    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 4.0), Map(battery -> 2.0))
+    val current = circuit.solve.getCurrent(resistor)
+    println("resistor.current=" + current)
+    assert(abs(current - 2.0) < 1E-6)
+    assert(circuit.solve.approxEquals(desiredSolution))
   }
 }
