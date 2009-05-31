@@ -6,8 +6,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
-
 /**
  * Represents a Gene using Mendelian genetics that contains only two traits.
  * One of the traits is considered to be the primary one, and the other the secondary.

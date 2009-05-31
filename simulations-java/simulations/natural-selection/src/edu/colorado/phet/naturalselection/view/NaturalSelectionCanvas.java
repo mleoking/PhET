@@ -1,6 +1,6 @@
 /* Copyright 2009, University of Colorado */
 
-package edu.colorado.phet.naturalselection.module.naturalselection;
+package edu.colorado.phet.naturalselection.view;
 
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
@@ -9,7 +9,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
 import edu.colorado.phet.naturalselection.model.Gene;
-import edu.colorado.phet.naturalselection.view.*;
+import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
 import edu.umd.cs.piccolo.PNode;
 
 /**

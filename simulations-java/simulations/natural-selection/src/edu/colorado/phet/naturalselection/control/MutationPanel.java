@@ -9,7 +9,6 @@ import javax.swing.*;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionResources;
 import edu.colorado.phet.naturalselection.model.*;
-import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
 import edu.colorado.phet.naturalselection.util.ImagePanel;
 
 public class MutationPanel extends JPanel {

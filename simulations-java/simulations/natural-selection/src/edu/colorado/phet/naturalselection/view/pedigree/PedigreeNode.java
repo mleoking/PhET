@@ -8,7 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
-import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
+import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
 import edu.umd.cs.piccolo.PNode;
 
 /**

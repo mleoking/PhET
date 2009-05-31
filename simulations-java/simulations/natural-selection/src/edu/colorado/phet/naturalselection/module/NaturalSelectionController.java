@@ -1,12 +1,13 @@
 /* Copyright 2009, University of Colorado */
 
-package edu.colorado.phet.naturalselection.module.naturalselection;
+package edu.colorado.phet.naturalselection.module;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import edu.colorado.phet.naturalselection.control.NaturalSelectionControlPanel;
 import edu.colorado.phet.naturalselection.model.*;
+import edu.colorado.phet.naturalselection.view.NaturalSelectionCanvas;
 
 /**
  * Wires up parts of the control panel, model and views

@@ -5,7 +5,7 @@ import java.awt.*;
 import javax.swing.*;
 
 import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
-import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
+import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
 
 public class GenerationChartDialog extends JDialog {
 

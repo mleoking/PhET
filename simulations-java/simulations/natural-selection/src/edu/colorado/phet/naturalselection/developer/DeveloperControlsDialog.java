@@ -11,8 +11,8 @@ import javax.swing.*;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.naturalselection.NaturalSelectionApplication;
 import edu.colorado.phet.naturalselection.control.BunnyStatsCanvas;
-import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModel;
-import edu.colorado.phet.naturalselection.module.naturalselection.NaturalSelectionModule;
+import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
+import edu.colorado.phet.naturalselection.module.NaturalSelectionModule;
 
 /**
  * DeveloperControlsDialog is a dialog that contains "developer only" controls.
