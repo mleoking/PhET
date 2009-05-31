@@ -494,6 +494,10 @@ public class NaturalSelectionModel extends ClockAdapter {
         return friendAdded;
     }
 
+    public int getGenerationProgressPercent() {
+        return (int) ( 100 * ( clock.getSimulationTime() - lastYearTick ) / NaturalSelectionDefaults.TICKS_PER_YEAR );
+    }
+
     //----------------------------------------------------------------------------
     // Event handlers
     //----------------------------------------------------------------------------

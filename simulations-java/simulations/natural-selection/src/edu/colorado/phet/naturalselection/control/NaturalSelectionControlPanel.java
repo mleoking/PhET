@@ -60,6 +60,7 @@ public class NaturalSelectionControlPanel extends JPanel {
         // build all of the panels
         climatePanel = new ClimatePanel( this.model );
         PiccoloClockControlPanel clockControlPanel = new PiccoloClockControlPanel( this.module.getClock() );
+        clockControlPanel.addBetweenTimeDisplayAndButtons( new GenerationProgressPanel( model ) );
         createSelectionPanel();
         createRightPanel();
         leftPanel = new LeftPanel( this.model );
@@ -175,8 +176,12 @@ public class NaturalSelectionControlPanel extends JPanel {
         resetAllButton = new JButton( NaturalSelectionStrings.RESET_ALL );
         rightPanel.add( resetAllButton );
 
+        rightPanel.add( Box.createRigidArea( new Dimension( 0, 5 ) ) );
+
         showGenerationChartButton = new JButton( NaturalSelectionStrings.GENERATION_CHART );
         rightPanel.add( showGenerationChartButton );
+
+
     }
 
     public void reset() {
