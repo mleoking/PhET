@@ -16,6 +16,16 @@ class MNAFunSuite extends FunSuite {
     val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 4.0), Map(battery -> 2.0))
     assert(circuit.solve.approxEquals(desiredSolution, 1E-6))
   }
+  test("should throw an exception when asking for current for unknown element") {
+    val battery = Battery(0, 1, 4.0)
+    val bogusbattery = Battery(4, 1, 999)
+    val circuit = new Circuit(battery :: Nil, Resistor(1, 0, 2.0) :: Nil)
+    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 4.0), Map(battery -> 2.0))
+    assert(abs(circuit.solve.getCurrent(battery) - 2.0) < 1E-6)
+    intercept(classOf[RuntimeException]) {
+      circuit.solve.getCurrent(bogusbattery)
+    }
+  }
   test("disjoint circuits should be solved independently") {
     val battery = Battery(0, 1, 4)
     val battery2 = Battery(2, 3, 5)
