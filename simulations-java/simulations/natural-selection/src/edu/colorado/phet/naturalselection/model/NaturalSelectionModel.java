@@ -582,9 +582,8 @@ public class NaturalSelectionModel extends ClockAdapter {
     }
 
     private void notifyListenersOfEvent( Event event ) {
-        Iterator<Listener> iter = listeners.iterator();
-        while ( iter.hasNext() ) {
-            ( iter.next() ).onEvent( event );
+        for ( Listener listener : listeners ) {
+            listener.onEvent( event );
         }
     }
 
