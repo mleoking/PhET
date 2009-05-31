@@ -98,7 +98,7 @@ class MNAFunSuite extends FunSuite {
 
     val dt = 1E-4
     var dynamicCircuit = circuit.getInitializedCircuit
-    for (i <- 0 until 1000) { //takes 3 sec on my machine
+    for (i <- 0 until 1000) { //takes 0.3 sec on my machine
       val t = i * dt
       val solution = dynamicCircuit.solve(dt)
       val voltage = solution.getVoltage(resistor)
