@@ -62,7 +62,7 @@ class MNAFunSuite extends FunSuite {
   test("An unconnected resistor shouldn't cause problems") {
     val battery = Battery(0, 1, 4.0)
     val circuit = new Circuit(battery :: Nil, Resistor(1, 0, 4.0) :: Resistor(2, 3, 100.0) :: Nil)
-    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 4.0, 2 -> 0.0), Map(battery -> 1.0))
+    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 4.0, 2 -> 0.0, 3 -> 0.0), Map(battery -> 1.0))
     assert(circuit.solve.approxEquals(desiredSolution))
   }
   test("Should handle resistors with no resistance") {
