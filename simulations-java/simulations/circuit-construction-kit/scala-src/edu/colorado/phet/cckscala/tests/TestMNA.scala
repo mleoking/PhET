@@ -341,7 +341,7 @@ case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor], currentSou
     nodeTerms
   }
 
-  //obtain one node for each strong component to have the reference voltage of 0.0
+  //obtain one node for each connected component to have the reference voltage of 0.0
   def getReferenceNodes = {
     val nodeSet: HashSet[Int] = getNodeSet
     val remaining = new HashSet[Int]
@@ -382,7 +382,7 @@ case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor], currentSou
     val list = new ArrayBuffer[Equation]
     //    println("nodeset=" + getNodeSet)
 
-    //reference node in each strong component has a voltage of 0.0
+    //reference node in each connected component has a voltage of 0.0
     for (n <- getReferenceNodes) list += new Equation(0, Term(1, UnknownVoltage(n)))
 
     //for each node, charge is conserved
