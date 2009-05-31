@@ -19,9 +19,9 @@ trait ISolution {
 class Solution(private val nodeVoltages: collection.Map[Int, Double], private val branchCurrents: collection.Map[Element, Double]) extends ISolution {
   def getNodeVoltage(node: Int) = nodeVoltages(node)
 
-  def approxEquals(s: Solution) = approxEquals(s, 1E-6)
+  def approxEquals(s: Solution): Boolean = approxEquals(s, 1E-6)
 
-  def approxEquals(s: Solution, delta: Double) = {
+  def approxEquals(s: Solution, delta: Double): Boolean = {
     if (nodeVoltages.keySet != s.nodeVoltages.keySet || branchCurrents.keySet != s.branchCurrents.keySet)
       false
     else {
@@ -266,16 +266,5 @@ case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor], currentSou
 
 object TestMNA {
   def main(args: Array[String]) {
-    //    val circuit = new Circuit(Nil, Resistor(1, 0, 4.0) :: Nil, CurrentSource(0, 1, 10.0) :: Nil)
-    //    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 10.0 * 4.0), Map())
-    //    val circuit = new Circuit(Array(Battery(0, 1, 4.0)), Array(Resistor(1, 0, 4.0)))
-    //    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 4.0), Map((0, 1) -> 1.0))
-    //    println("equations=" + circuit.getEquations.mkString("\n"))
-    //    println("desired=" + desiredSolution)
-    //    println("actual=" + circuit.solve)
-    //    assert(circuit.solve.approxEquals(desiredSolution, 1E-6))
-    //    val circuit = new Circuit(Battery(0, 1, 4) :: Battery(2, 3, 5) :: Nil, Resistor(1, 0, 4.0) :: Resistor(3, 2, 2) :: Nil, Nil)
-    //    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 4, 2 -> 0.0, 3 -> 5), Map((0, 1) -> 1.0, (2, 3) -> 5.0 / 2.0))
-    //    assert(circuit.solve.approxEquals(desiredSolution, 1E-6))
   }
 }
