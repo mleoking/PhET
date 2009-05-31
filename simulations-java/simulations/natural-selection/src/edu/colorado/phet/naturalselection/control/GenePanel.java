@@ -431,6 +431,15 @@ public class GenePanel extends JPanel {
     }
 
     public void reset() {
+        // set dominance back to the primary traits on the panel
+        colorPD.setSelected( true );
+        colorSR.setSelected( true );
+        tailPD.setSelected( true );
+        tailSR.setSelected( true );
+        teethPD.setSelected( true );
+        teethSR.setSelected( true );
+
+        // disable (grey out) the gene panels
         setColorEnabled( false );
         setTailEnabled( false );
         setTeethEnabled( false );
