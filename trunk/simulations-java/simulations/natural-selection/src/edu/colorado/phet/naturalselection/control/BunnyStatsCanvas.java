@@ -196,6 +196,9 @@ public class BunnyStatsCanvas extends PhetPCanvas {
         pos = 0;
         low = 0;
 
+        cachedPositions = new int[]{2, 2, 2, 2, 2, 2, 2};
+        cachedValid = new boolean[]{false, false, false, false, false, false, false};
+
         zoomIndex = DEFAULT_ZOOM_INDEX;
 
         updateZoom();
