@@ -6,6 +6,7 @@ import org.scalatest.FunSuite
 import java.lang.Math._
 
 import util.parsing.combinator.JavaTokenParsers
+import util.Sorting
 
 //sparse solution containing only the solved unknowns in MNA
 case class Solution(nodeVoltages: collection.Map[Int, Double], branchCurrents: collection.Map[(Int, Int), Double]) {
@@ -44,7 +45,12 @@ trait Element {
   def node0: Int
 
   def node1: Int
+
+  def containsNode(n: Int) = n == node0 || n == node1
+
+  def getOpposite(n: Int): Int = if (n == node0) node1 else if (n == node1) node0 else throw new RuntimeException("error")
 }
+
 case class Battery(node0: Int, node1: Int, voltage: Double) extends Element
 case class Resistor(node0: Int, node1: Int, resistance: Double) extends Element
 case class CurrentSource(node0: Int, node1: Int, current: Double) extends Element
@@ -254,12 +260,7 @@ trait AbstractCircuit {
 case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor], currentSources: Seq[CurrentSource]) extends AbstractCircuit {
   def this(batteries: Seq[Battery], resistors: Seq[Resistor]) = this (batteries, resistors, Nil);
 
-  def getElements = {
-    val elements = new ArrayBuffer[Element]
-    elements ++= batteries
-    elements ++= resistors
-    elements
-  }
+  def getElements: Seq[Element] = batteries.toList ::: resistors.toList ::: currentSources.toList
 
   def getNodeCount = getNodeSet.size
 
@@ -340,13 +341,49 @@ case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor], currentSou
     nodeTerms
   }
 
+  //obtain one node for each strong component to have the reference voltage of 0.0
+  def getReferenceNodes = {
+    val nodeSet: HashSet[Int] = getNodeSet
+    val remaining = new HashSet[Int]
+    remaining ++= nodeSet
+    val referenceNodes = new HashSet[Int]
+    while (remaining.size > 0) {
+      val sorted: Array[Int] = Sorting.stableSort(remaining.toArray)
+      referenceNodes += sorted(0)
+      val connected = getConnectedNodes(sorted(0))
+      remaining --= connected
+    }
+    referenceNodes
+  }
+
+  def getConnectedNodes(node: Int): HashSet[Int] = {
+    val nodeSet = getNodeSet
+    val visited = new HashSet[Int]
+    val toVisit = new HashSet[Int]
+    toVisit += node
+    getConnectedNodes(visited, toVisit)
+    visited
+  }
+
+  private def getConnectedNodes(visited: HashSet[Int], toVisit: HashSet[Int]): Unit = {
+    while (toVisit.size > 0) {
+      val n = toVisit.toArray(0)
+      visited += n
+      for (e <- getElements) {
+        if (e.containsNode(n) && !visited.contains(e.getOpposite(n))) {
+          toVisit += e.getOpposite(n)
+        }
+      }
+      toVisit -= n
+    }
+  }
+
   def getEquations = {
     val list = new ArrayBuffer[Equation]
     //    println("nodeset=" + getNodeSet)
 
-    //reference node has a voltage of 0.0
-    //todo: should have one zero node per strong component
-    list += new Equation(0, Term(1, UnknownVoltage(getNodeSet.toSeq(0))))
+    //reference node in each strong component has a voltage of 0.0
+    for (n <- getReferenceNodes) list += new Equation(0, Term(1, UnknownVoltage(n)))
 
     //for each node, charge is conserved
     for (node <- getNodeSet) list += new Equation(getRHS(node), getCurrentConservationTerms(node): _*) //see p. 155 scala book
@@ -371,8 +408,8 @@ case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor], currentSou
     unknowns
   }
 
-  def getUnknowns =  getUnknownCurrents.toList ::: getUnknownVoltages.toList
-  
+  def getUnknowns = getUnknownCurrents.toList ::: getUnknownVoltages.toList
+
   def solve = {
     var equations = getEquations
 
@@ -409,11 +446,14 @@ object TestMNA {
   def main(args: Array[String]) {
     //    val circuit = new Circuit(Nil, Resistor(1, 0, 4.0) :: Nil, CurrentSource(0, 1, 10.0) :: Nil)
     //    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 10.0 * 4.0), Map())
-    val circuit = new Circuit(Array(Battery(0, 1, 4.0)), Array(Resistor(1, 0, 4.0)))
-    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 4.0), Map((0, 1) -> 1.0))
-    println("equations=" + circuit.getEquations.mkString("\n"))
-    println("desired=" + desiredSolution)
-    println("actual=" + circuit.solve)
+    //    val circuit = new Circuit(Array(Battery(0, 1, 4.0)), Array(Resistor(1, 0, 4.0)))
+    //    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 4.0), Map((0, 1) -> 1.0))
+    //    println("equations=" + circuit.getEquations.mkString("\n"))
+    //    println("desired=" + desiredSolution)
+    //    println("actual=" + circuit.solve)
+    //    assert(circuit.solve.approxEquals(desiredSolution, 1E-6))
+    val circuit = new Circuit(Battery(0, 1, 4) :: Battery(2, 3, 5) :: Nil, Resistor(1, 0, 4.0) :: Resistor(3, 2, 2) :: Nil, Nil)
+    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 4, 2 -> 0.0, 3 -> 5), Map((0, 1) -> 1.0, (2, 3) -> 5.0 / 2.0))
     assert(circuit.solve.approxEquals(desiredSolution, 1E-6))
   }
 }
@@ -478,6 +518,11 @@ class Tester extends FunSuite {
   test("battery resistor circuit should have correct voltages and currents for a simple circuit ii") {
     val circuit = new Circuit(Array(Battery(0, 1, 4.0)), Array(Resistor(1, 0, 2.0)))
     val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 4.0), Map((0, 1) -> 2.0))
+    assert(circuit.solve.approxEquals(desiredSolution, 1E-6))
+  }
+  test("disjoint circuits should be solved independently") {
+    val circuit = new Circuit(Battery(0, 1, 4) :: Battery(2, 3, 5) :: Nil, Resistor(1, 0, 4.0) :: Resistor(3, 2, 2) :: Nil, Nil)
+    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 4, 2 -> 0.0, 3 -> 5), Map((0, 1) -> 1.0, (2, 3) -> 5.0 / 2.0))
     assert(circuit.solve.approxEquals(desiredSolution, 1E-6))
   }
   test("current source should provide current") {
