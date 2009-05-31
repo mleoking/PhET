@@ -12,9 +12,18 @@ class MNAFunSuite extends FunSuite {
   }
   test("battery resistor circuit should have correct voltages and currents for a simple circuit ii") {
     val battery = Battery(0, 1, 4.0)
-    val circuit = new Circuit(battery :: Nil, Resistor(1, 0, 2.0) :: Nil)
+    val resistor = Resistor(1, 0, 2.0)
+    val circuit = new Circuit(battery :: Nil, resistor :: Nil)
     val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 4.0), Map(battery -> 2.0))
     assert(circuit.solve.approxEquals(desiredSolution))
+  }
+  test("Should be able to obtain current for a resistor") {
+    val battery = Battery(0, 1, 4.0)
+    val resistor = Resistor(1, 0, 2.0)
+    val circuit = new Circuit(battery :: Nil, resistor :: Nil)
+    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 4.0), Map(battery -> 2.0))
+    assert(circuit.solve.approxEquals(desiredSolution))
+    assert(abs(circuit.solve.getCurrent(resistor) - 2.0) < 1E-6)
   }
   test("should throw an exception when asking for current for unknown element") {
     val circuit = new Circuit(Battery(0, 1, 4.0) :: Nil, Resistor(1, 0, 2.0) :: Nil)
