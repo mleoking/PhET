@@ -19,6 +19,8 @@ trait ISolution {
 class Solution(private val nodeVoltages: collection.Map[Int, Double], private val branchCurrents: collection.Map[Element, Double]) extends ISolution {
   def getNodeVoltage(node: Int) = nodeVoltages(node)
 
+  def approxEquals(s: Solution) = approxEquals(s, 1E-6)
+
   def approxEquals(s: Solution, delta: Double) = {
     if (nodeVoltages.keySet != s.nodeVoltages.keySet || branchCurrents.keySet != s.branchCurrents.keySet)
       false
