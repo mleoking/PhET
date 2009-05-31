@@ -59,6 +59,14 @@ public class DeveloperControlsDialog extends JDialog {
         } );
         mainPanel.add( statsButton );
 
+        JButton killAllButton = new JButton( "Kill bunnies" );
+        killAllButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent actionEvent ) {
+                ( (NaturalSelectionModule) app.getActiveModule() ).getMyModel().killAllBunnies();
+            }
+        } );
+        mainPanel.add( killAllButton );
+
         setContentPane( mainPanel );
         pack();
         SwingUtils.centerDialogInParent( this );

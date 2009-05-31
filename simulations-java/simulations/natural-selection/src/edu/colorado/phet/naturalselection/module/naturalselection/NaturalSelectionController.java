@@ -119,6 +119,30 @@ public class NaturalSelectionController {
                 canvas.handleMutationChange( TeethGene.getInstance(), mutatable );
             }
         } );
+
+        model.addListener( new NaturalSelectionModel.Listener() {
+            public void onEvent( NaturalSelectionModel.Event event ) {
+                if ( event.getType() == NaturalSelectionModel.Event.TYPE_GAME_OVER ) {
+                    module.showGameOver();
+                }
+            }
+        } );
+
+        ColorGene.getInstance().addListener( new GeneListener() {
+            public void onChangeDominantAllele( Gene gene, boolean primary ) {
+
+            }
+
+            public void onChangeDistribution( Gene gene, int primary, int secondary ) {
+                if ( primary + secondary == 0 ) {
+                    model.endGame();
+                }
+            }
+
+            public void onChangeMutatable( Gene gene, boolean mutatable ) {
+
+            }
+        } );
     }
 
 }

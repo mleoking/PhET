@@ -11,6 +11,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
 import edu.colorado.phet.naturalselection.control.NaturalSelectionControlPanel;
 import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
+import edu.colorado.phet.naturalselection.dialog.GameOverDialog;
 import edu.colorado.phet.naturalselection.dialog.GenerationChartDialog;
 import edu.colorado.phet.naturalselection.model.NaturalSelectionClock;
 
@@ -25,6 +26,7 @@ public class NaturalSelectionModule extends PiccoloModule {
     private NaturalSelectionCanvas canvas;
     private NaturalSelectionControlPanel controlPanel;
     private GenerationChartDialog generationChartDialog;
+    private GameOverDialog gameOverDialog;
 
     private Frame parentFrame;
 
@@ -58,6 +60,7 @@ public class NaturalSelectionModule extends PiccoloModule {
         controlPanel.reset();
         canvas.reset();
         model.reset();
+        gameOverDialog = null;
     }
 
     /**
@@ -80,6 +83,26 @@ public class NaturalSelectionModule extends PiccoloModule {
                 }
             } );
             generationChartDialog.setVisible( true );
+        }
+    }
+
+    public void showGameOver() {
+        System.out.println( "Showing game over" );
+        if ( gameOverDialog == null ) {
+            gameOverDialog = new GameOverDialog( parentFrame, this );
+            SwingUtils.centerDialogInParent( gameOverDialog );
+            gameOverDialog.addWindowListener( new WindowAdapter() {
+                // called when the close button in the dialog's window dressing is clicked
+                public void windowClosing( WindowEvent e ) {
+                    gameOverDialog.dispose();
+                }
+
+                // called by JDialog.dispose
+                public void windowClosed( WindowEvent e ) {
+                    gameOverDialog = null;
+                }
+            } );
+            gameOverDialog.setVisible( true );
         }
     }
 

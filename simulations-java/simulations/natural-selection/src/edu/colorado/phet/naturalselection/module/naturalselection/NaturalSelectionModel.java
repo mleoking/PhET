@@ -165,8 +165,12 @@ public class NaturalSelectionModel extends ClockAdapter {
         ageBunnies();
 
         if ( !friendAdded ) {
-            System.out.println( "Nothing to do, friend has not been added" );
-
+            if ( getPopulation() == 0 ) {
+                endGame();
+            }
+            else {
+                System.out.println( "Nothing to do, friend has not been added" );
+            }
             return;
         }
 
@@ -179,6 +183,19 @@ public class NaturalSelectionModel extends ClockAdapter {
         ColorGene.getInstance().setMutatable( false );
         TailGene.getInstance().setMutatable( false );
         TeethGene.getInstance().setMutatable( false );
+
+        int pop = getPopulation();
+        if ( pop == 0 ) {
+            endGame();
+        }
+        else {
+            System.out.println( "Population: " + pop );
+        }
+    }
+
+    public void endGame() {
+        clock.pause();
+        notifyGameOver();
     }
 
     /**
@@ -257,6 +274,14 @@ public class NaturalSelectionModel extends ClockAdapter {
 
         mutant.mutateGene( gene, allele );
 
+    }
+
+    public void killAllBunnies() {
+        for ( Bunny bunny : bunnies ) {
+            if ( bunny.isAlive() ) {
+                bunny.die();
+            }
+        }
     }
 
     /**
@@ -571,6 +596,12 @@ public class NaturalSelectionModel extends ClockAdapter {
         }
     }
 
+    private void notifyGameOver() {
+        for ( Listener listener : listeners ) {
+            listener.onEvent( new Event( this, Event.TYPE_GAME_OVER ) );
+        }
+    }
+
     //----------------------------------------------------------------------------
     // Listeners
     //----------------------------------------------------------------------------
@@ -596,6 +627,7 @@ public class NaturalSelectionModel extends ClockAdapter {
         public static final int TYPE_CLIMATE_CHANGE = 2;
         public static final int TYPE_SELECTION_CHANGE = 3;
         public static final int TYPE_FRENZY_START = 4;
+        public static final int TYPE_GAME_OVER = 5;
 
         private NaturalSelectionModel model;
         private int type;
