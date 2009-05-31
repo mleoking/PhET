@@ -40,11 +40,10 @@ class Solution(private val nodeVoltages: collection.Map[Int, Double], private va
     //if it was a battery or resistor (of R=0), look up the answer
     if (branchCurrents.contains(e)) branchCurrents(e)
     //else compute based on V=IR
-    //todo: how to handle various element types and companion models?
     else {
       e match {
         case r: Resistor => getVoltage(r) / r.resistance
-        case _ => java.lang.Double.NaN
+        case _ => throw new RuntimeException("Solution does not contain current for element: " + e)
       }
     }
   }
@@ -111,7 +110,7 @@ case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor], currentSou
   abstract class Unknown {
     def toTermName: String
   }
-  case class UnknownCurrent(element:Element) extends Unknown {
+  case class UnknownCurrent(element: Element) extends Unknown {
     def toTermName = "I" + element.node0 + "_" + element.node1
   }
   case class UnknownVoltage(node: Int) extends Unknown {
@@ -273,8 +272,8 @@ object TestMNA {
     //    println("desired=" + desiredSolution)
     //    println("actual=" + circuit.solve)
     //    assert(circuit.solve.approxEquals(desiredSolution, 1E-6))
-//    val circuit = new Circuit(Battery(0, 1, 4) :: Battery(2, 3, 5) :: Nil, Resistor(1, 0, 4.0) :: Resistor(3, 2, 2) :: Nil, Nil)
-//    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 4, 2 -> 0.0, 3 -> 5), Map((0, 1) -> 1.0, (2, 3) -> 5.0 / 2.0))
-//    assert(circuit.solve.approxEquals(desiredSolution, 1E-6))
+    //    val circuit = new Circuit(Battery(0, 1, 4) :: Battery(2, 3, 5) :: Nil, Resistor(1, 0, 4.0) :: Resistor(3, 2, 2) :: Nil, Nil)
+    //    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 4, 2 -> 0.0, 3 -> 5), Map((0, 1) -> 1.0, (2, 3) -> 5.0 / 2.0))
+    //    assert(circuit.solve.approxEquals(desiredSolution, 1E-6))
   }
 }

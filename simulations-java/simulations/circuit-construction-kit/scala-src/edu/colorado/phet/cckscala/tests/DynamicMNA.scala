@@ -183,7 +183,4 @@ class CompanionSolution(fullCircuit: FullCircuit, companionModel: CompanionCircu
       case _ => solution.getCurrent(e)
     }
   }
-
-  //todo: fix this
-  //  override def approxEquals(s: Solution, delta: Double) = super.approxEquals(s, delta)
 }
