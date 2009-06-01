@@ -124,8 +124,8 @@ public class BucketOfNucleiNode extends PNode {
 		
 		// Create the gradient paints that will be used to paint the bucket.
 		Color outerColorLight = baseColor;
-		Color outerColorDark = ColorUtils.darkenColor( baseColor );
-		Color innerColorDark = ColorUtils.darkenColor( outerColorDark );
+		Color outerColorDark = ColorUtils.darkerColor( baseColor, 0.5 );
+		Color innerColorDark = ColorUtils.darkerColor( outerColorDark, 0.5 );
 		Color innerColorLight = outerColorDark;
 		GradientPaint outerPaint = new GradientPaint(0, (float)height/2, outerColorDark, 
         		(float)width, (float)height/2, outerColorLight);
@@ -397,7 +397,7 @@ public class BucketOfNucleiNode extends PNode {
     	if (_sliderNode == null && enabled){
         	_slider = new NormalizedSlider();
         	_slider.setPreferredSize(new Dimension((int)(_bucketWidth * 0.8),(int)(_bucketHeight * 0.4)));
-        	_slider.setBackground(ColorUtils.darkenColor(_baseColor));
+        	_slider.setBackground(ColorUtils.darkerColor(_baseColor,0.5));
         	_slider.setForeground(Color.GREEN);
         	
         	// Wrap the slider in a PSwing so that it can be used in the play area.
