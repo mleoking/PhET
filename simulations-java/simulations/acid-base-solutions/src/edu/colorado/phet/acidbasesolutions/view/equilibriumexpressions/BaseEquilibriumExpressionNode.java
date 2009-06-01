@@ -1,30 +1,32 @@
+
 package edu.colorado.phet.acidbasesolutions.view.equilibriumexpressions;
 
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.ABSSymbols;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
-import edu.colorado.phet.acidbasesolutions.model.Water;
+import edu.colorado.phet.acidbasesolutions.model.Solute;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.SolutionListener;
 import edu.colorado.phet.acidbasesolutions.model.equilibrium.EquilibriumModel;
 
 /**
- * Water equilibrium expression: Kw = [H3O+][OH-] = 1.0 x 10^-14
+ * Equilibrium expression bases: Kb = [BH+][OH-] / [B] = value
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class WaterEquilibriumExpressionNode extends AbstractEquilibriumExpressionNode {
-    
+public class BaseEquilibriumExpressionNode extends AbstractEquilibriumExpressionNode {
+
     private final AqueousSolution solution;
     private final SolutionListener solutionListener;
     private boolean scaleEnabled;
-    
-    public WaterEquilibriumExpressionNode( AqueousSolution solution ) {
-        super( false /* hasDenominator */ );
-        setKLabel( ABSSymbols.Kw );
-        setLeftNumeratorProperties( ABSSymbols.H3O_PLUS, ABSConstants.H3O_COLOR );
-        setRightNumeratorProperties( ABSSymbols.OH_MINUS, ABSConstants.OH_COLOR );
-        setKValue( Water.getEquilibriumConstant() );
+
+    public BaseEquilibriumExpressionNode( AqueousSolution solution ) {
+        super( true /* hasDenominator */ );
         
         this.solution = solution;
-        scaleEnabled = false;
+        this.scaleEnabled = false;
+        
+        setKLabel( ABSSymbols.Kb );
+        setRightNumeratorProperties( ABSSymbols.OH_MINUS, ABSConstants.OH_COLOR );
         
         solutionListener = new SolutionListener() {
 
@@ -41,14 +43,14 @@ class WaterEquilibriumExpressionNode extends AbstractEquilibriumExpressionNode {
             }
         };
         solution.addSolutionListener( solutionListener );
-        
+
         updateView();
     }
     
     public void cleanup() {
         solution.removeSolutionListener( solutionListener );
     }
-    
+
     public void setScaleEnabled( boolean enabled ) {
         if ( enabled != this.scaleEnabled ) {
             this.scaleEnabled = enabled;
@@ -61,13 +63,26 @@ class WaterEquilibriumExpressionNode extends AbstractEquilibriumExpressionNode {
     }
     
     private void updateView() {
-        if ( isScaleEnabled() ) {
+        
+        Solute solute = solution.getSolute();
+
+        // symbols and colors
+        setLeftNumeratorProperties( solute.getConjugateSymbol(), solute.getConjugateColor() );
+        setDenominatorProperties( solute.getSymbol(), solute.getColor() );
+
+        // K value
+        setKValue( solute.getStrength() );
+        setLargeValueVisible( solute.isStrong() );
+
+        // concentration scaling
+        if ( scaleEnabled ) {
             EquilibriumModel equilibriumModel = solution.getEquilibriumModel();
-            scaleLeftNumeratorToConcentration( equilibriumModel.getH3OConcentration() );
+            scaleLeftNumeratorToConcentration( equilibriumModel.getProductConcentration() );
             scaleRightNumeratorToConcentration( equilibriumModel.getOHConcentration() );
+            scaleDenominatorToConcentration( equilibriumModel.getReactantConcentration() );
         }
         else {
-            setScaleAll( 1.0 );
+            setScaleAll( 1 );
         }
     }
 }

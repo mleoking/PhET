@@ -8,7 +8,6 @@ import java.awt.geom.Line2D;
 
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
-import edu.colorado.phet.acidbasesolutions.ABSSymbols;
 import edu.colorado.phet.acidbasesolutions.util.PNodeUtils;
 import edu.colorado.phet.common.phetcommon.util.TimesTenNumberFormat;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
@@ -80,7 +79,7 @@ abstract class AbstractEquilibriumExpressionNode extends PComposite {
         setPickable( false );
         setChildrenPickable( false );
         
-        kNode = new KNode( ABSSymbols.Ka );
+        kNode = new KNode( "?" );
         addChild( kNode );
         
         leftNumeratorNode = new TermNode( "?" );
