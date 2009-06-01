@@ -1,3 +1,5 @@
+# 2.05.03 (32241) Jun 1, 2009
+6/1/09 Improvements for internationalization
 # 2.05.02 (31740) May 15, 2009
 5/15/09 another dev version for testing Arabic, this time with locale-specific JARs
 # 2.05.01 (31739) May 15, 2009
