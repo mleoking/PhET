@@ -45,7 +45,7 @@ object TestRLCircuit {
       val solution = dynamicCircuit.solve(dt)
       val voltage = solution.getVoltage(resistor)
       //see http://en.wikipedia.org/wiki/Lr_circuit
-      val desiredVoltage = -V * (1 - exp((-t ) * R / L)) //todo: why are off by dt? and why is negative sign here?
+      val desiredVoltage = -V * (1 - exp((-t ) * R / L)) //todo: why is negative sign here?
       val error = abs(voltage - desiredVoltage)
       println(voltage + "\t" + desiredVoltage + "\t" + error)
 
