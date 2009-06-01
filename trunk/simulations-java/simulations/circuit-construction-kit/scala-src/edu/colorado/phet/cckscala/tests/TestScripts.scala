@@ -28,12 +28,13 @@ object TestRLCircuit {
     val L = 1
     val R = 10
     val V = 5.0
-    val circuit = new FullCircuit(Battery(0, 1, V) :: Nil, Resistor(1, 2, R) :: Nil, Nil, Inductor(2, 0, L, 0, 0) :: Nil)
+    val resistor = Resistor(1, 2, R)
+    val circuit = new FullCircuit(Battery(0, 1, V) :: Nil, resistor :: Nil, Nil, Inductor(2, 0, L, 0, 0) :: Nil)
 
     val dt = 1E-4
     var dynamicCircuit = circuit.getInitializedCircuit
     println("init circuit=" + dynamicCircuit)
-//    val v0 = dynamicCircuit.solve(dt).getVoltage(Resistor(1, 2, 10.0))
+    //    val v0 = dynamicCircuit.solve(dt).getVoltage(resistor)
     println("voltage\tdesiredVoltage\terror")
     for (i <- 0 until 1000) {
       val t = i * dt
@@ -42,7 +43,7 @@ object TestRLCircuit {
       val compSol = comp.circuit.solve
       //      println("companion sol=" + compSol)
       val solution = dynamicCircuit.solve(dt)
-      val voltage = solution.getVoltage(Resistor(1, 2, 10.0))
+      val voltage = solution.getVoltage(resistor)
       val desiredVoltage = V * (1 - exp(-t * R / L)) //see http://en.wikipedia.org/wiki/Lr_circuit
       val error = abs(voltage - desiredVoltage)
       println(voltage + "\t" + desiredVoltage + "\t" + error)
