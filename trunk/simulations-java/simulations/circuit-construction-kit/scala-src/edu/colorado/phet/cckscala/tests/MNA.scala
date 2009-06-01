@@ -8,6 +8,10 @@ import java.lang.Math._
 import util.parsing.combinator.JavaTokenParsers
 import util.Sorting
 
+/**
+ * Conventions:
+ * Current is 'conventional current': in a battery positive current flows from the higher (+) potential
+ */
 trait ISolution {
   def getNodeVoltage(node: Int): Double
 
@@ -44,6 +48,7 @@ class Solution(private val nodeVoltages: collection.Map[Int, Double], private va
     //else compute based on V=IR
     else {
       e match {
+        //current flows from high to low potential in a component (except batteries) 
         case r: Resistor => getVoltage(r) / r.resistance
         case _ => throw new RuntimeException("Solution does not contain current for element: " + e)
       }
