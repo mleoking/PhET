@@ -144,9 +144,8 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
     
     private void updateVisibility() {
         Solute solute = solution.getSolute();
-        boolean pureWater = ( solute instanceof NoSolute );
-        acidNode.setVisible( !pureWater && ( solute instanceof Acid ) );
-        baseNode.setVisible( !pureWater && ( solute instanceof Base ) );
+        acidNode.setVisible( !solution.isPureWater() && ( solute instanceof Acid ) );
+        baseNode.setVisible( !solution.isPureWater() && ( solute instanceof Base ) );
     }
     
     private void updateTopLayout() {

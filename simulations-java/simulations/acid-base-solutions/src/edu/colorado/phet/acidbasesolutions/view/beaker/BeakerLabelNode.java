@@ -109,12 +109,12 @@ class BeakerLabelNode extends PNode {
         }
         
         private void updateLabel() {
-            Solute solute = solution.getSolute();
-            if ( solute instanceof NoSolute ) {
+            if ( solution.isPureWater() ) {
                 String text = ABSStrings.PURE_WATER + ", 0.00 " + ABSStrings.UNITS_MOLAR;
                 labelNode.setHTML( text );
             }
             else {
+                Solute solute = solution.getSolute();
                 String cString = CONCENTRATION_FORMAT.format( solute.getConcentration() );
                 String text = solute.getName() + ", " + cString + " " + ABSStrings.UNITS_MOLAR;
                 labelNode.setHTML( text );
