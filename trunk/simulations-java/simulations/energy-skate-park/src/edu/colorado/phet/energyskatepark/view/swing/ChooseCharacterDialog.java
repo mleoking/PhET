@@ -3,6 +3,7 @@ package edu.colorado.phet.energyskatepark.view.swing;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.energyskatepark.EnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.colorado.phet.energyskatepark.SkaterCharacter;
@@ -35,7 +36,7 @@ public class ChooseCharacterDialog extends JDialog {
 
         setContentPane( contentPanel );
 
-        JButton ok = new JButton( "Ok" );
+        JButton ok = new JButton( PhetCommonResources.getString("Common.choice.ok") );
         ok.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 dispose();
@@ -95,7 +96,7 @@ public class ChooseCharacterDialog extends JDialog {
             this.skaterCharacter = skaterCharacter;
             GridBagConstraints gridBagConstraints = new GridBagConstraints();
             try {
-                JLabel label = new JLabel( skaterCharacter.getName() + " (" + skaterCharacter.getMass() + " kg)",
+                JLabel label = new JLabel( skaterCharacter.getName() + " (" + skaterCharacter.getMass() + " "+EnergySkateParkStrings.getString("units.kg")+")",
                                            new ImageIcon( BufferedImageUtils.rescaleYMaintainAspectRatio(
                                                    ImageLoader.loadBufferedImage( skaterCharacter.getImageURL() ), (int)( skaterCharacter.getModelHeight() * 75 ) ) ), JLabel.TRAILING );
                 add( label, gridBagConstraints );
