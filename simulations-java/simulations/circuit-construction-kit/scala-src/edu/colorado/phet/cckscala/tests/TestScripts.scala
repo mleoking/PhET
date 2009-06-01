@@ -44,7 +44,8 @@ object TestRLCircuit {
       //      println("companion sol=" + compSol)
       val solution = dynamicCircuit.solve(dt)
       val voltage = solution.getVoltage(resistor)
-      val desiredVoltage = V * (1 - exp(-t * R / L)) //see http://en.wikipedia.org/wiki/Lr_circuit
+      //see http://en.wikipedia.org/wiki/Lr_circuit
+      val desiredVoltage = -V * (1 - exp((-t-dt) * R / L))//todo: why are off by dt? and why is negative sign here? 
       val error = abs(voltage - desiredVoltage)
       println(voltage + "\t" + desiredVoltage + "\t" + error)
 
