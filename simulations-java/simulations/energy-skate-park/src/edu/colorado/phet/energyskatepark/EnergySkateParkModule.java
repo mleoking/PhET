@@ -93,11 +93,11 @@ public class EnergySkateParkModule extends PiccoloModule {
         setLogoPanelVisible( Toolkit.getDefaultToolkit().getScreenSize().height > 768 );
         new WiggleMeInSpace( this ).start();
 
-        final HelpBalloon trackHelp = new HelpBalloon( getDefaultHelpPane(), "Grab a Track", HelpBalloon.TOP_CENTER, 20 );
+        final HelpBalloon trackHelp = new HelpBalloon( getDefaultHelpPane(), EnergySkateParkStrings.getString("help.grab-a-track"), HelpBalloon.TOP_CENTER, 20 );
         getDefaultHelpPane().add( trackHelp );
         trackHelp.pointAt( energySkateParkSimulationPanel.getRootNode().getSplineToolbox(), energySkateParkSimulationPanel );
 
-        final HelpBalloon skateHelp = new HelpBalloon( getDefaultHelpPane(), "Drag the Skater", HelpBalloon.RIGHT_CENTER, 20 ) {
+        final HelpBalloon skateHelp = new HelpBalloon( getDefaultHelpPane(), EnergySkateParkStrings.getString("help.drag-the-skater"), HelpBalloon.RIGHT_CENTER, 20 ) {
             public Point2D mapLocation( PNode node, PCanvas canvas ) {
                 if( node == null || node.getParent() == null ) {
                     return new Point2D.Double( 0, 0 );
@@ -117,7 +117,7 @@ public class EnergySkateParkModule extends PiccoloModule {
             }
         } );
 
-        final HelpBalloon trackClickHelp = new HelpBalloon( getDefaultHelpPane(), "Right Click for Options", HelpBalloon.BOTTOM_CENTER, 20 );
+        final HelpBalloon trackClickHelp = new HelpBalloon( getDefaultHelpPane(), EnergySkateParkStrings.getString("help.right-click-for-options"), HelpBalloon.BOTTOM_CENTER, 20 );
         getDefaultHelpPane().add( trackClickHelp );
         trackClickHelp.pointAt( 0, 0 );
         energyModel.addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {

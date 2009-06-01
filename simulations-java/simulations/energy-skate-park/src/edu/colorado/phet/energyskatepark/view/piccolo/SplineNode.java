@@ -462,7 +462,7 @@ public class SplineNode extends PNode {
         };
 
         public TrackPopupMenu( final EnergySkateParkSplineEnvironment splineEnvironment ) {
-            rollerCoasterMode = new JCheckBoxMenuItem( "Roller-Coaster Mode", spline.isRollerCoasterMode() );
+            rollerCoasterMode = new JCheckBoxMenuItem( EnergySkateParkStrings.getString("track.roller-coaster-mode"), spline.isRollerCoasterMode() );
             attachListeners( spline );
             rollerCoasterMode.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -478,7 +478,7 @@ public class SplineNode extends PNode {
                 }
             } );
 
-            JMenuItem colors = new JMenuItem( "Edit look" );
+            JMenuItem colors = new JMenuItem( EnergySkateParkStrings.getString("track.edit-look") );
             colors.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     showColorControls();
