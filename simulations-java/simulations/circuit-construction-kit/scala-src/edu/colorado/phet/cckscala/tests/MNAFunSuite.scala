@@ -118,6 +118,9 @@ class MNAFunSuite extends FunSuite {
   test("RC Circuit should have voltage exponentially decay with T=RC for v=3, r=7, c=1E-1") {
     testVRCCircuit(3, 7, 1E-1)
   }
+  test("RC Circuit should have voltage exponentially decay with T=RC for v=3, r=7, c=100") {
+    testVRCCircuit(3, 7, 100)
+  }
   test("RL Circuit should have correct behavior for V=5 R=10 L=1") {
     testVRLCircuit(5, 10, 1)
   }
