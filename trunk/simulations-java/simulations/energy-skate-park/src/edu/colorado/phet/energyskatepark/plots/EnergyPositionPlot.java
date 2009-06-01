@@ -227,8 +227,8 @@ public class EnergyPositionPlot extends BufferedPhetPCanvas {
 
     private static JFreeChart createChart( Range2D range, XYDataset dataset, String title ) {
         JFreeChart chart = ChartFactory.createScatterPlot( title,
-                                                           "Position", // x-axis label
-                                                           "Energy", // y-axis label
+                                                           EnergySkateParkStrings.getString("properties.position"), // x-axis label
+                                                           EnergySkateParkStrings.getString("energy.energy"), // y-axis label
                                                            dataset, PlotOrientation.VERTICAL, false, true, false );
         chart.setBackgroundPaint( EnergySkateParkLookAndFeel.backgroundColor );
 

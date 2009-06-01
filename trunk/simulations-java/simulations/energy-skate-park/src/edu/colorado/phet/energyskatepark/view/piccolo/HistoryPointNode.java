@@ -4,6 +4,7 @@ package edu.colorado.phet.energyskatepark.view.piccolo;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
 import edu.colorado.phet.energyskatepark.model.HistoryPoint;
+import edu.colorado.phet.energyskatepark.EnergySkateParkStrings;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -66,20 +67,26 @@ public class HistoryPointNode extends PNode {
         return formatter.format( pe );
     }
 
+    public static String str(String key){
+        return EnergySkateParkStrings.getString(key);
+    }
+
     private void update() {
         Point2D.Double pt = new Point2D.Double( historyPoint.getX(), historyPoint.getY() );
         rootNode.worldToScreen( pt );
         setOffset( pt );
 
-        String heatString = historyPoint.getThermalEnergy() != 0 ? "Thermal Energy=" + format( historyPoint.getThermalEnergy() ) + " J<br>" : "";
+        String J= str("units.joules.abbreviation");
+        String heatString = historyPoint.getThermalEnergy() != 0 ? str("energy.thermal.energy")+"=" + format( historyPoint.getThermalEnergy() ) + " "+J+"<br>" : "";
 //        String heightSpeedReadout="";
-        String heightSpeedReadout = "<br>Height=" + format( historyPoint.getHeightAboveZero() ) + " m<br>" +
-                                    "Speed=" + format( historyPoint.getSpeed() ) + " m/s";
+
+        String heightSpeedReadout = "<br>"+str("properties.height")+"=" + format( historyPoint.getHeightAboveZero() ) + " "+str("units.meters.abbreviation")+"<br>" +
+                                    str("properties.speed")+"=" + format( historyPoint.getSpeed() ) + " "+str("units.speed.abbreviation");
         String html = "<html>" +
-                      "Kinetic Energy=" + format( historyPoint.getKE() ) + " J<br>" +
-                      "Potential Energy=" + format( historyPoint.getPe() ) + " J<br>" +
+                      str("energy.kinetic.energy")+"=" + format( historyPoint.getKE() ) + " "+J+"<br>" +
+                      str("energy.potential.energy")+"=" + format( historyPoint.getPe() ) + " "+J+"<br>" +
                       heatString +
-                      "Total Energy=" + format( historyPoint.getTotalEnergy() ) + " J<br>" +
+                      str("energy.total.energy")+"=" + format( historyPoint.getTotalEnergy() ) + " "+J+"<br>" +
                       heightSpeedReadout + "<br>" +
                       "</html>";
         if( historyPoint.isReadoutVisible() ) {
