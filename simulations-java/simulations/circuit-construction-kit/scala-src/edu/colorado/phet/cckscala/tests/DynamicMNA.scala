@@ -178,8 +178,7 @@ class CompanionSolution(fullCircuit: FullCircuit, companionModel: CompanionCircu
 
   def getCurrent(e: Element): Double = {
     e match {
-      case c: Capacitor => companionModel.getCurrent(c, solution)
-      case i: Inductor => companionModel.getCurrent(i, solution)
+      case c: HasCompanionModel => companionModel.getCurrent(c, solution)
       case _ => solution.getCurrent(e)
     }
   }
