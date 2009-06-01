@@ -56,6 +56,7 @@ public class SplineNode extends PNode {
     private TrackNode centerPath;
     private SplineNode.TrackPopupMenu popupMenu;
     private EnergySkateParkSpline.Listener splineListener;
+    private boolean isDev=false;
 
     public SplineNode( JComponent parent, EnergySkateParkSpline energySkateParkSpline, EnergySkateParkSplineEnvironment splineEnvironment ) {
         this.parent = parent;
@@ -478,7 +479,7 @@ public class SplineNode extends PNode {
                 }
             } );
 
-            JMenuItem colors = new JMenuItem( EnergySkateParkStrings.getString("track.edit-look") );
+            JMenuItem colors = new JMenuItem( "Edit Look" );//dev control
             colors.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     showColorControls();
@@ -488,8 +489,11 @@ public class SplineNode extends PNode {
             add( rollerCoasterMode );
             addSeparator();
             add( delete );
-            addSeparator();
-            add( colors );
+
+            if (isDev){
+                addSeparator();
+                add( colors );
+            }
         }
 
         public void detachListeners() {
