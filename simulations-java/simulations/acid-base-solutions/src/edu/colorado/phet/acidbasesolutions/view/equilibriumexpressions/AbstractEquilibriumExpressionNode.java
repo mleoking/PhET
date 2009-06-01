@@ -133,7 +133,7 @@ abstract class AbstractEquilibriumExpressionNode extends PComposite {
     /**
      * Sets all scalable nodes to have the same scale.
      */
-    public void setScaleAll( double scale ) {
+    public void scaleAllTerms( double scale ) {
         setScaleAboutCenter( leftNumeratorNode, scale );
         setScaleAboutCenter( rightNumeratorNode, scale );
         setScaleAboutCenter( denominatorNode, scale );
@@ -201,7 +201,7 @@ abstract class AbstractEquilibriumExpressionNode extends PComposite {
         final double rightNumeratorScale = rightNumeratorNode.getScale();
         final double denominatorScale = denominatorNode.getScale();
         // set all nodes to unity scale
-        setScaleAll( 1 );
+        scaleAllTerms( 1 );
         // offsets
         double xOffset, yOffset;
         // K

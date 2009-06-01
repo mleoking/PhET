@@ -26,9 +26,9 @@ public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
     private final SolutionListener solutionListener;
     private final JRadioButton scaleOnRadioButton, scaleOffRadioButton;
     private final PhetPCanvas topCanvas, bottomCanvas;
-    private final AcidEquilibriumExpressionNode acidExpressionNode;
-    private final BaseEquilibriumExpressionNode baseExpressionNode;
-    private final WaterEquilibriumExpressionNode waterExpressionNode;
+    private final AcidEquilibriumExpressionNode acidNode;
+    private final BaseEquilibriumExpressionNode baseNode;
+    private final WaterEquilibriumExpressionNode waterNode;
     
     public EquilibriumExpressionsDialog( Frame owner, final AqueousSolution solution ) {
         super( owner );
@@ -78,12 +78,12 @@ public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
         topCanvas.setBackground( ABSConstants.EQUILIBRIUM_EXPRESSIONS_BACKGROUND );
         
         // acid expression
-        acidExpressionNode = new AcidEquilibriumExpressionNode( solution );
-        topCanvas.getLayer().addChild( acidExpressionNode );
+        acidNode = new AcidEquilibriumExpressionNode( solution );
+        topCanvas.getLayer().addChild( acidNode );
         
         // base expression
-        baseExpressionNode = new BaseEquilibriumExpressionNode( solution );
-        topCanvas.getLayer().addChild( baseExpressionNode );
+        baseNode = new BaseEquilibriumExpressionNode( solution );
+        topCanvas.getLayer().addChild( baseNode );
         
         // bottom canvas
         bottomCanvas = new PhetPCanvas() {
@@ -96,8 +96,8 @@ public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
         bottomCanvas.setBackground( ABSConstants.EQUILIBRIUM_EXPRESSIONS_BACKGROUND );
         
         // water expression
-        waterExpressionNode = new WaterEquilibriumExpressionNode( solution );
-        bottomCanvas.getLayer().addChild( waterExpressionNode );
+        waterNode = new WaterEquilibriumExpressionNode( solution );
+        bottomCanvas.getLayer().addChild( waterNode );
         
         // layout
         JPanel canvasPanel = new JPanel();
@@ -118,9 +118,9 @@ public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
     
     private void cleanup() {
         solution.removeSolutionListener( solutionListener );
-        acidExpressionNode.cleanup();
-        baseExpressionNode.cleanup();
-        waterExpressionNode.cleanup();
+        acidNode.cleanup();
+        baseNode.cleanup();
+        waterNode.cleanup();
     }
     
     public void dispose() {
@@ -138,16 +138,16 @@ public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
     }
     
     private void handleScaleEnable() {
-        acidExpressionNode.setScaleEnabled( isScalingEnabled() );
-        baseExpressionNode.setScaleEnabled( isScalingEnabled() );
-        waterExpressionNode.setScaleEnabled( isScalingEnabled() );
+        acidNode.setScaleEnabled( isScalingEnabled() );
+        baseNode.setScaleEnabled( isScalingEnabled() );
+        waterNode.setScaleEnabled( isScalingEnabled() );
     }
     
     private void updateVisibility() {
         Solute solute = solution.getSolute();
         boolean pureWater = ( solute instanceof NoSolute );
-        acidExpressionNode.setVisible( !pureWater && ( solute instanceof Acid ) );
-        baseExpressionNode.setVisible( !pureWater && ( solute instanceof Base ) );
+        acidNode.setVisible( !pureWater && ( solute instanceof Acid ) );
+        baseNode.setVisible( !pureWater && ( solute instanceof Base ) );
     }
     
     private void updateTopLayout() {
@@ -155,27 +155,27 @@ public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
         double xOffset, yOffset;
         
         // acid expression
-        acidExpressionNode.setScaleEnabled( false ); // do the layout with scaling off
-        xOffset = ( topCanvas.getWidth() - acidExpressionNode.getFullBoundsReference().getWidth() ) / 2;
-        yOffset = ( ( topCanvas.getHeight() - acidExpressionNode.getFullBoundsReference().getHeight() ) / 2 ) - PNodeUtils.getOriginYOffset( acidExpressionNode );
-        acidExpressionNode.setOffset( xOffset, yOffset );
-        acidExpressionNode.setScaleEnabled( isScalingEnabled() ); // restore scaling
+        acidNode.setScaleEnabled( false ); // do the layout with scaling off
+        xOffset = ( topCanvas.getWidth() - acidNode.getFullBoundsReference().getWidth() ) / 2;
+        yOffset = ( ( topCanvas.getHeight() - acidNode.getFullBoundsReference().getHeight() ) / 2 ) - PNodeUtils.getOriginYOffset( acidNode );
+        acidNode.setOffset( xOffset, yOffset );
+        acidNode.setScaleEnabled( isScalingEnabled() ); // restore scaling
         
         // base expression
-        baseExpressionNode.setScaleEnabled( false ); // do the layout with scaling off
-        xOffset = ( topCanvas.getWidth() - baseExpressionNode.getFullBoundsReference().getWidth() ) / 2;
-        yOffset = ( ( topCanvas.getHeight() - baseExpressionNode.getFullBoundsReference().getHeight() ) / 2 ) - PNodeUtils.getOriginYOffset( baseExpressionNode );
-        baseExpressionNode.setOffset( xOffset, yOffset );
-        baseExpressionNode.setScaleEnabled( isScalingEnabled() ); // restore scaling
+        baseNode.setScaleEnabled( false ); // do the layout with scaling off
+        xOffset = ( topCanvas.getWidth() - baseNode.getFullBoundsReference().getWidth() ) / 2;
+        yOffset = ( ( topCanvas.getHeight() - baseNode.getFullBoundsReference().getHeight() ) / 2 ) - PNodeUtils.getOriginYOffset( baseNode );
+        baseNode.setOffset( xOffset, yOffset );
+        baseNode.setScaleEnabled( isScalingEnabled() ); // restore scaling
     }
     
     private void updateBottomLayout() {
         
         // water expression
-        waterExpressionNode.setScaleEnabled( false ); // do the layout with scaling off
-        double xOffset = ( bottomCanvas.getWidth() - waterExpressionNode.getFullBoundsReference().getWidth() ) / 2;
-        double yOffset = ( ( bottomCanvas.getHeight() - waterExpressionNode.getFullBoundsReference().getHeight() ) / 2 ) - PNodeUtils.getOriginYOffset( waterExpressionNode );
-        waterExpressionNode.setOffset( xOffset, yOffset );
-        waterExpressionNode.setScaleEnabled( isScalingEnabled() ); // restore scaling
+        waterNode.setScaleEnabled( false ); // do the layout with scaling off
+        double xOffset = ( bottomCanvas.getWidth() - waterNode.getFullBoundsReference().getWidth() ) / 2;
+        double yOffset = ( ( bottomCanvas.getHeight() - waterNode.getFullBoundsReference().getHeight() ) / 2 ) - PNodeUtils.getOriginYOffset( waterNode );
+        waterNode.setOffset( xOffset, yOffset );
+        waterNode.setScaleEnabled( isScalingEnabled() ); // restore scaling
     }
 }

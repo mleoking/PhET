@@ -275,7 +275,7 @@ public class MiscControlsNode extends PNode {
     
     private void openReactionEquationsDialog() {
         
-        reactionEquationsDialog = new ReactionEquationsDialog( parentFrame );
+        reactionEquationsDialog = new ReactionEquationsDialog( parentFrame, solution );
         reactionEquationsDialog.setScalingEnabled( reactionEquationsScalingEnabled );
         reactionEquationsDialog.addWindowListener( new WindowAdapter() {
 

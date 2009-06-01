@@ -67,7 +67,7 @@ class WaterEquilibriumExpressionNode extends AbstractEquilibriumExpressionNode {
             scaleRightNumeratorToConcentration( equilibriumModel.getOHConcentration() );
         }
         else {
-            setScaleAll( 1.0 );
+            scaleAllTerms( 1.0 );
         }
     }
 }
