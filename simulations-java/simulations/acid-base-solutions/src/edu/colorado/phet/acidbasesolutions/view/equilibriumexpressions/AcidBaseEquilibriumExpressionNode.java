@@ -10,13 +10,17 @@ import edu.colorado.phet.acidbasesolutions.model.Solute;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.SolutionListener;
 import edu.colorado.phet.acidbasesolutions.model.equilibrium.EquilibriumModel;
 
-
-public class EquilibriumExpressionNode extends AbstractEquilibriumExpressionNode {
+/**
+ * Equilibrium expression for acids and bases.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
+public class AcidBaseEquilibriumExpressionNode extends AbstractEquilibriumExpressionNode {
 
     private final AqueousSolution solution;
     private boolean scaleEnabled;
 
-    public EquilibriumExpressionNode( AqueousSolution solution ) {
+    public AcidBaseEquilibriumExpressionNode( AqueousSolution solution ) {
         super( true /* hasDenominator */ );
         
         this.solution = solution;
