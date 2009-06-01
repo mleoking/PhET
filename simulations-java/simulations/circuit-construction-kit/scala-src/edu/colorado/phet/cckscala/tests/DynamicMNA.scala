@@ -5,6 +5,8 @@ import collection.mutable.{ArrayBuffer, HashMap}
 
 abstract case class CompanionModel(batteries: Seq[Battery], resistors: Seq[Resistor], currentSources: Seq[CurrentSource]) {
   def getCurrent(solution: Solution): Double
+
+  def getVoltage(solution: Solution): Double
 }
 
 trait HasCompanionModel {
@@ -18,6 +20,8 @@ case class Capacitor(node0: Int, node1: Int, capacitance: Double, voltage: Doubl
       new Resistor(midNode, node1, dt / 2 / capacitance) :: Nil, Nil) {
       //      def getCurrent(solution: Solution) = (solution.getCurrent(resistors(0))+current)/2.0//todo: why is this worse performance; according to link above, this should be trapezoidal approx for current
       def getCurrent(solution: Solution) = -solution.getCurrent(batteries(0)) //todo: why is a minus sign here?
+
+      def getVoltage(solution: Solution) = solution.getVoltage(batteries(0))//todo: fix this
     }
   }
 }
@@ -49,6 +53,8 @@ case class Inductor(node0: Int, node1: Int, inductance: Double, voltage: Double,
     new CompanionModel(Battery(node0, midNode, -voltage - 2 * inductance * current / dt) :: Nil,
       new Resistor(midNode, node1, 2 * inductance / dt) :: Nil, Nil) {
       def getCurrent(solution: Solution) = -solution.getCurrent(batteries(0))
+
+      def getVoltage(solution: Solution) = (getCurrent(solution)-current)*2*inductance/dt-voltage
     }
 
     //never got this one working; probably a sign error somewhere
@@ -179,14 +185,21 @@ case class FullCircuit(batteries: Seq[Battery], resistors: Seq[Resistor], capaci
 
 case class CompanionCircuit(val circuit: Circuit, val elementMap: HashMap[HasCompanionModel, CompanionModel]) {
   def getCurrent(c: HasCompanionModel, solution: Solution) = elementMap(c).getCurrent(solution)
+
+  def getVoltage(c: HasCompanionModel, solution: Solution) = elementMap(c).getVoltage(solution)
 }
 
 class CompanionSolution(fullCircuit: FullCircuit, companionModel: CompanionCircuit, solution: Solution) extends ISolution {
   def getNodeVoltage(node: Int) = solution.getNodeVoltage(node)
 
-  def getVoltage(e: Element): Double = solution.getVoltage(e) //this should work because original node names are same (i.e. only new node names are introduced for companions)
+  def getVoltage(e: Element) = {
+    e match {
+      case c: HasCompanionModel => companionModel.getVoltage(c, solution)
+      case _ => solution.getVoltage(e)
+    }
+  }
 
-  def getCurrent(e: Element): Double = {
+  def getCurrent(e: Element) = {
     e match {
       case c: HasCompanionModel => companionModel.getCurrent(c, solution)
       case _ => solution.getCurrent(e)
