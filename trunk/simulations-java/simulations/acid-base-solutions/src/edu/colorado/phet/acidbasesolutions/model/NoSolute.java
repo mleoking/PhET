@@ -6,7 +6,7 @@ import edu.colorado.phet.acidbasesolutions.ABSStrings;
 public class NoSolute extends Solute {
     
     public NoSolute() {
-        super( ABSStrings.NO_SOLUTE, "", null, null, "", null, null, "", 0 );
+        super( ABSStrings.NO_SOLUTE, "", null, null, "", null, null, 0 );
     }
     
     public boolean isZeroNegligible() {
