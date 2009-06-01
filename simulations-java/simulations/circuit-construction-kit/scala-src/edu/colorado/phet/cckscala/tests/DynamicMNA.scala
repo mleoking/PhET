@@ -28,27 +28,30 @@ case class Inductor(node0: Int, node1: Int, inductance: Double, voltage: Double,
     val companionCurrent = current + dt * voltage / 2 / inductance
     new CompanionModel(Nil, new Resistor(node0, node1, 2 * inductance / dt) :: Nil,
       new CurrentSource(node0, node1, companionCurrent) :: Nil) {
-      def getCurrent(solution: Solution) = -solution.getCurrent(resistors(0)) + companionCurrent//todo: why is minus sign here?
+      def getCurrent(solution: Solution) = {
+        val i2= -solution.getCurrent(resistors(0)) + companionCurrent//todo: why is minus sign here?
+        (i2+current)/2 //todo: shouldn't this be trapezoidal approximation?  It gives poor performance
+//        i2
+      }
     }
 
     //this model worked pretty well too
     //linear companion model for inductor, using backward euler approximation, under norton model, see http://dev.hypertriton.com/edacious/trunk/doc/lec.pdf
-    //    val midNode = newNode()
-    //    new CompanionModel(Nil, new Resistor(node0, midNode, 0) //dummy resistor in series so we can easily compute current for the inductor
-    //            :: new Resistor(midNode, node1, inductance / dt) :: Nil,
-    //      new CurrentSource(midNode, node1, current) :: Nil) {
-    //      def getCurrent(solution: Solution) = solution.getCurrent(resistors(0))
-    //    }
+//        val midNode = newNode()
+//        new CompanionModel(Nil, new Resistor(node0, midNode, 0) //dummy resistor in series so we can easily compute current for the inductor
+//                :: new Resistor(midNode, node1, inductance / dt) :: Nil,
+//          new CurrentSource(midNode, node1, current) :: Nil) {
+//          def getCurrent(solution: Solution) = solution.getCurrent(resistors(0))
+//        }
 
     //never got this one working; probably a sign error somewhere
     //linear companion model for inductor, using forward euler approximation, under norton model, see http://dev.hypertriton.com/edacious/trunk/doc/lec.pdf
-    //    val midNode = newNode()
-    //    new CompanionModel(Nil, new Resistor(node0, midNode, 0) //dummy resistor in series so we can easily compute current for the inductor
-    //            :: new Resistor(midNode, node1, 0) :: Nil,
-    //      new CurrentSource(midNode, node1, current + dt / inductance * voltage) :: Nil) {
-    //      def getCurrent(solution: Solution) = solution.getCurrent(resistors(0))
-    //    }
-
+//        val midNode = newNode()
+//    val companionCurrent = current - dt / inductance * voltage
+//    new CompanionModel(Nil, Nil, new CurrentSource(node0, node1, companionCurrent) :: Nil) {
+//          def getCurrent(solution: Solution) = companionCurrent
+//        }
+//
     //linear companion model for inductor, using trapezoidal approximation, under norton model, see Pillage et al p.23
     //    val midNode = newNode()
     //    new CompanionModel(Battery(node0, midNode, voltage + 2 * inductance * current / dt) :: Nil, Resistor(midNode, node1, 2 * inductance / dt) :: Nil, Nil) {
