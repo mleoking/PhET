@@ -20,7 +20,7 @@ import edu.umd.cs.piccolo.PNode;
 public class NaturalSelectionCanvas extends PhetPCanvas {
 
     /**
-     * The pixel-level from the top of the "horizon", where the 3d bunny positions would appear if inifinitely far away
+     * The pixel-level from the top of the "horizon", where the 3d bunny positions would appear if infinitely far away
      */
     public static final double HORIZON = 120.0;
 
