@@ -1,5 +1,7 @@
 package edu.colorado.phet.acidbasesolutions.view.reactionequations;
 
+import java.awt.Color;
+
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.ABSImages;
 import edu.colorado.phet.acidbasesolutions.ABSSymbols;
@@ -62,10 +64,14 @@ public class WaterReactionEquationNode extends AbstractReactionEquationNode {
     }
     
     private void updateView() {
+        
+        // H2O does not scale, use black text when scaling is enabled
+        Color waterColor = ( isScaleEnabled() ? Color.BLACK : ABSConstants.H2O_COLOR );
+        setTerm( 0, ABSSymbols.H2O, waterColor, ABSImages.H2O_STRUCTURE );
+        setTerm( 1, ABSSymbols.H2O, waterColor, ABSImages.H2O_STRUCTURE );
+        
         if ( isScaleEnabled() ) {
             EquilibriumModel equilibriumModel = solution.getEquilibriumModel();
-            scaleTermToConcentration( 0, equilibriumModel.getH2OConcentration() );
-            scaleTermToConcentration( 1, equilibriumModel.getH2OConcentration() );
             scaleTermToConcentration( 2, equilibriumModel.getH3OConcentration() );
             scaleTermToConcentration( 3, equilibriumModel.getOHConcentration() );
         }

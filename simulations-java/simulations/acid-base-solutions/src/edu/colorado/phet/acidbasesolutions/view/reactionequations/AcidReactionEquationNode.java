@@ -2,11 +2,15 @@
 
 package edu.colorado.phet.acidbasesolutions.view.reactionequations;
 
+import java.awt.Color;
+
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.ABSImages;
 import edu.colorado.phet.acidbasesolutions.ABSSymbols;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
+import edu.colorado.phet.acidbasesolutions.model.Solute;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.SolutionListener;
+import edu.colorado.phet.acidbasesolutions.model.equilibrium.EquilibriumModel;
 
 /**
  * Reaction equation for acids.
@@ -66,11 +70,29 @@ public class AcidReactionEquationNode extends AbstractReactionEquationNode {
     }
     
     private void updateView() {
+        
+        Solute solute = solution.getSolute();
+        
+        // symbols and colors
+        setTerm( 0, solute.getSymbol(), solute.getColor() );
+        setTerm( 3, solute.getConjugateSymbol(), solute.getConjugateColor() );
+        
+        // H2O does not scale, use black text when scaling is enabled
+        Color waterColor = ( isScaleEnabled() ? Color.BLACK : ABSConstants.H2O_COLOR );
+        setTerm( 1, ABSSymbols.H2O, waterColor, ABSImages.H2O_STRUCTURE );
+        
+        // strong vs weak acid
+        setBidirectional( !solution.getSolute().isStrong() );
+        
+        // concentration scaling
         if ( scaleEnabled) {
-            //XXX
+            EquilibriumModel equilibriumModel = solution.getEquilibriumModel();
+            scaleTermToConcentration( 0, equilibriumModel.getReactantConcentration() );
+            scaleTermToConcentration( 0, equilibriumModel.getH3OConcentration() );
+            scaleTermToConcentration( 0, equilibriumModel.getProductConcentration() );
         }
         else {
-            //XXX
+            scaleAllTerms( 1 );
         }
     }
 }
