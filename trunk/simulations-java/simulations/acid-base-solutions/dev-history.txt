@@ -3,7 +3,6 @@
 ==================================================================================
 
 TODO:
-- show Negligible for strong bases
 - move setScaleEnabled out of subclasses and into AbstractEquilibriumExpression
 - optimize space usage in canvas layout code of EquilibriumExpressionDialog
 - connect reaction equations to model (revisions similar to equilibrium expressions)
@@ -24,6 +23,7 @@ ISSUES:
 - Kathy doesn't like look of solute combo box
 
 DONE:
+6/1/09 show "negligible" for strong bases with count=0 or concentration=0
 5/29/09 persistence of "scaling on/off" in equilibrium expressions and reaction equations dialogs
 5/29/09 implement scaling in equilibrium expressions 
 5/29/09 discuss text resize algorithm with Archie, tweak
