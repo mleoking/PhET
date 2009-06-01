@@ -133,7 +133,6 @@ class MNAFunSuite extends FunSuite {
   def testVRLCircuit(V: Double, R: Double, L: Double) {
     val resistor = Resistor(1, 2, R)
     val circuit = new FullCircuit(Battery(0, 1, V) :: Nil, resistor :: Nil, Nil, Inductor(2, 0, L, 0, 0) :: Nil)
-
     val dt = 1E-4
     var dynamicCircuit = circuit.getInitializedCircuit
     for (i <- 0 until 1000) {
@@ -144,26 +143,7 @@ class MNAFunSuite extends FunSuite {
       val error = abs(voltage - desiredVoltage)
       //                  println(voltage + "\t" + desiredVoltage + "\t" + error)
       assert(error < 1E-6)
-
       dynamicCircuit = dynamicCircuit.stepInTime(dt)
     }
   }
-
-  //  test("RL Circuit should have voltage exponentially decay with T=RC") {
-  //    val L = 5
-  //    val circuit = new FullCircuit(Battery(0, 1, 5.0) :: Nil, Resistor(1, 2, 10.0) :: Nil, Nil, Inductor(2, 0, L, 0, 0) :: Nil)
-  //
-  //    val dt = 1E-4
-  //    var dynamicCircuit = circuit.getInitializedCircuit
-  //    val v0 = dynamicCircuit.solve(dt).getVoltage(Resistor(1, 2, 10.0))
-  //    for (i <- 0 until 10000) { //takes 3 sec on my machine
-  //      val t = i * dt
-  //      val solution = dynamicCircuit.solve(dt)
-  //      val voltage = solution.getVoltage(Resistor(1, 2, 10.0))
-  //      val desiredVoltage = v0 * exp(-t / 10.0 / 1.0E-2)
-  //      val error = abs(voltage - desiredVoltage)
-  //      assert(error < 1E-6) //sample run indicates largest error is 1.5328E-7, is this acceptable?  See TestRCCircuit
-  //      dynamicCircuit = dynamicCircuit.stepInTime(dt)
-  //    }
-  //  }
 }
