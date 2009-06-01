@@ -168,7 +168,7 @@ public class BeakerControlsNode extends PNode {
         
         private void updateRatioLabels() {
             Solute solute = solution.getSolute();
-            beakerControlsNode.setDissociatedComponentsCheckBoxVisible( !(solute instanceof NoSolute ) );
+            beakerControlsNode.setDissociatedComponentsCheckBoxVisible( !solution.isPureWater() );
             beakerControlsNode.setDissociatedComponents( solute.getSymbol(), solute.getConjugateSymbol() );
         }
     }
