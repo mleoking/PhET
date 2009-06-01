@@ -4,7 +4,7 @@
 
 TODO:
 - move setScaleEnabled out of subclasses and into AbstractEquilibriumExpression
-- optimize space usage in canvas layout code of EquilibriumExpressionDialog
+- invisible denominator in water equilibrium expression is included in full bounds calculation
 - connect reaction equations to model (revisions similar to equilibrium expressions)
 - H2O should not be scalable in Reaction Equations, should change to Color.BLACK when scaling is enabled
 - particle views
@@ -12,6 +12,7 @@ TODO:
 - when switching from strong to weak base, MOH flashes briefly in denominator of equilibrium expression
 - bug: B displayed when switching to Custom Base with strength=Strong
 - bug: is water molecule count is being actively calculated? when concentration goes from 56->55, count should go from 3.3E25->3.2E25
+- lots of issues with SolutionControlsNode
 
 DEFER:
 - restrict Strength slider to one section of the range (only needed if we add "Custom Weak" acid/base)
@@ -23,6 +24,7 @@ ISSUES:
 - Kathy doesn't like look of solute combo box
 
 DONE:
+6/1/09 optimize layout of equilibrium expression dialog, center expressions, use as little space as possible
 6/1/09 show "negligible" for strong bases with count=0 or concentration=0
 5/29/09 persistence of "scaling on/off" in equilibrium expressions and reaction equations dialogs
 5/29/09 implement scaling in equilibrium expressions 
