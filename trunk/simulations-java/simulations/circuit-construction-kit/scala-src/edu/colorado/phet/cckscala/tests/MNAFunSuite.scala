@@ -118,6 +118,36 @@ class MNAFunSuite extends FunSuite {
   test("RC Circuit should have voltage exponentially decay with T=RC for v=3, r=7, c=1E-1") {
     testVRCCircuit(3, 7, 1E-1)
   }
+  test("RL Circuit should have correct behavior for V=5 R=10 L=1") {
+    testVRLCircuit(5, 10, 1)
+  }
+  test("RL Circuit should have correct behavior for V=3 R=11 L=2.5") {
+    testVRLCircuit(3, 11, 2.5)
+  }
+  test("RL Circuit should have correct behavior for V=7 R=13 L=1E4") {
+    testVRLCircuit(7, 13, 1E4)
+  }
+  test("RL Circuit should have correct behavior for V=7 R=13 L=1E-4") {
+    testVRLCircuit(7, 13, 1E-4)
+  }
+  def testVRLCircuit(V: Double, R: Double, L: Double) {
+    val resistor = Resistor(1, 2, R)
+    val circuit = new FullCircuit(Battery(0, 1, V) :: Nil, resistor :: Nil, Nil, Inductor(2, 0, L, 0, 0) :: Nil)
+
+    val dt = 1E-4
+    var dynamicCircuit = circuit.getInitializedCircuit
+    for (i <- 0 until 1000) {
+      val t = i * dt
+      val solution = dynamicCircuit.solve(dt)
+      val voltage = solution.getVoltage(resistor)
+      val desiredVoltage = -V * (1 - exp(-t * R / L)) //todo: why is negative sign here?
+      val error = abs(voltage - desiredVoltage)
+      //                  println(voltage + "\t" + desiredVoltage + "\t" + error)
+      assert(error < 1E-6)
+
+      dynamicCircuit = dynamicCircuit.stepInTime(dt)
+    }
+  }
 
   //  test("RL Circuit should have voltage exponentially decay with T=RC") {
   //    val L = 5
