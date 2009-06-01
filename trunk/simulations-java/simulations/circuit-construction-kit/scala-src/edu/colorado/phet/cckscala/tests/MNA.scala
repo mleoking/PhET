@@ -124,7 +124,6 @@ case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor], currentSou
     def toTermName = "V" + node
   }
 
-  //with a positive sign
   //Todo: does this get the signs right in all cases?
   //TODO: maybe signs here should depend on component orientation?
   def getIncomingCurrentTerms(node: Int) = {
@@ -242,7 +241,7 @@ case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor], currentSou
 
     val A = new Matrix(equations.size, getNumVars)
     val z = new Matrix(equations.size, 1)
-    for (i <- 0 until equations.size) equations(i).stamp(i, A, z, getUnknowns.indexOf(_)) //todo: how to handle indexing reverse voltages?  Perhaps just require that all voltages are forward (from node0 to node1)
+    for (i <- 0 until equations.size) equations(i).stamp(i, A, z, getUnknowns.indexOf(_))
     val x = A.solve(z)
 
     val voltageMap = new HashMap[Int, Double]
