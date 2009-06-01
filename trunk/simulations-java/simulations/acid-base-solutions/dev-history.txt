@@ -24,6 +24,7 @@ ISSUES:
 - Kathy doesn't like look of solute combo box
 
 DONE:
+6/1/09 add bi-directionality of reaction to model
 6/1/09 remove strength symbol from model
 6/1/09 revise equilibrium expression class hierarchy
 6/1/09 optimize layout of equilibrium expression dialog, center expressions, use as little space as possible

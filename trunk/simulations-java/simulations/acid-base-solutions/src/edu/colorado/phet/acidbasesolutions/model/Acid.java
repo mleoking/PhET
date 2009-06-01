@@ -29,6 +29,10 @@ public abstract class Acid extends Solute {
         protected boolean isValidStrength( double strength ) {
             return ABSConstants.STRONG_STRENGTH_RANGE.contains( strength );
         }
+        
+        public boolean isReactionBidirectional() {
+            return false;
+        }
     }
     
     public static class HydrochloricAcid extends StrongAcid {
@@ -59,6 +63,10 @@ public abstract class Acid extends Solute {
         
         protected boolean isValidStrength( double strength ) {
             return ABSConstants.WEAK_STRENGTH_RANGE.contains( strength );
+        }
+        
+        public boolean isReactionBidirectional() {
+            return true;
         }
     }
     
@@ -109,6 +117,10 @@ public abstract class Acid extends Solute {
         
         protected boolean isValidStrength( double strength ) {
             return ABSConstants.CUSTOM_STRENGTH_RANGE.contains( strength );
+        }
+        
+        public boolean isReactionBidirectional() {
+            return !isStrong();
         }
     }
 
