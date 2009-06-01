@@ -3,6 +3,7 @@
 ==================================================================================
 
 TODO:
+- show Negligible for strong bases
 - move setScaleEnabled out of subclasses and into AbstractEquilibriumExpression
 - optimize space usage in canvas layout code of EquilibriumExpressionDialog
 - connect reaction equations to model (revisions similar to equilibrium expressions)
@@ -10,6 +11,8 @@ TODO:
 - particle views
 - scale image files
 - when switching from strong to weak base, MOH flashes briefly in denominator of equilibrium expression
+- bug: B displayed when switching to Custom Base with strength=Strong
+- bug: is water molecule count is being actively calculated? when concentration goes from 56->55, count should go from 3.3E25->3.2E25
 
 DEFER:
 - restrict Strength slider to one section of the range (only needed if we add "Custom Weak" acid/base)
@@ -17,6 +20,8 @@ DEFER:
 ISSUES:
 - vertical spacing of items in solute combo box
 - if A- icon shows a "hole" where proton was donated, why doesn't B icon show a hole where proton can be accepted?
+- PSwing buffering makes Swing text look lousy while dragging sliders
+- Kathy doesn't like look of solute combo box
 
 DONE:
 5/29/09 persistence of "scaling on/off" in equilibrium expressions and reaction equations dialogs
