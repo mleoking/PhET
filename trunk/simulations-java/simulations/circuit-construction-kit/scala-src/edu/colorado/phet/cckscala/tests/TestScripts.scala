@@ -39,13 +39,13 @@ object TestRLCircuit {
     for (i <- 0 until 1000) {
       val t = i * dt
       val comp = dynamicCircuit.getCompanionModel(dt)
-      //      println("companion=" + comp)
+//      println("companion=" + comp)
       val compSol = comp.circuit.solve
-      //      println("companion sol=" + compSol)
+//      println("companion sol=" + compSol)
       val solution = dynamicCircuit.solve(dt)
       val voltage = solution.getVoltage(resistor)
       //see http://en.wikipedia.org/wiki/Lr_circuit
-      val desiredVoltage = -V * (1 - exp((-t-dt) * R / L))//todo: why are off by dt? and why is negative sign here? 
+      val desiredVoltage = -V * (1 - exp((-t - dt) * R / L)) //todo: why are off by dt? and why is negative sign here?
       val error = abs(voltage - desiredVoltage)
       println(voltage + "\t" + desiredVoltage + "\t" + error)
 
