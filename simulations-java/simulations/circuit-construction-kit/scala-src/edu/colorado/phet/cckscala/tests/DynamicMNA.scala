@@ -50,9 +50,9 @@ case class Inductor(node0: Int, node1: Int, inductance: Double, voltage: Double,
 
     //Thevenin, Pillage p.23
     val midNode = newNode()
-    new CompanionModel(Battery(node0, midNode, -voltage - 2 * inductance * current / dt) :: Nil,
+    new CompanionModel(Battery(node0, midNode, voltage + 2 * inductance * current / dt) :: Nil,
       new Resistor(midNode, node1, 2 * inductance / dt) :: Nil, Nil) {
-      def getCurrent(solution: Solution) = -solution.getCurrent(batteries(0))
+      def getCurrent(solution: Solution) = solution.getCurrent(batteries(0))
 
       def getVoltage(solution: Solution) = (getCurrent(solution)-current)*2*inductance/dt-voltage
     }
