@@ -2,6 +2,7 @@ package edu.colorado.phet.naturalselection.model;
 
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.naturalselection.view.NaturalSelectionSprite;
+import edu.colorado.phet.naturalselection.view.SpriteHandler;
 
 public class Shrub {
 
@@ -22,7 +23,11 @@ public class Shrub {
 
         x = backgroundX;
         y = 0;
-        z = NaturalSelectionSprite.getInverseGroundZDepth( y );
+        z = NaturalSelectionSprite.getInverseGroundZDepth( backgroundY );
+
+        if ( z < SpriteHandler.MIN_Z || z > SpriteHandler.MAX_Z ) {
+            throw new RuntimeException( "Shrub z out of range: " + z );
+        }
 
         position = new Point3D.Double( x, y, z );
     }

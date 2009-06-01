@@ -107,7 +107,7 @@ public class NaturalSelectionModel extends ClockAdapter {
         shrubs = new LinkedList<Shrub>();
         shrubs.add( new Shrub( 80, 330, 1 ) );
         shrubs.add( new Shrub( 750, 200, 0.8 ) );
-        shrubs.add( new Shrub( 320, 110, 0.6 ) );
+        shrubs.add( new Shrub( 320, 130, 0.6 ) );
     }
 
     /**

@@ -49,6 +49,8 @@ public class ShrubNode extends NaturalSelectionSprite {
 
         addChild( shrubImage );
 
+        reposition();
+
     }
 
     public void reposition() {

@@ -50,6 +50,8 @@ public class SpriteHandler extends PNode implements NaturalSelectionModel.Listen
 
     /**
      * Constructor
+     *
+     * @param model The corresponding model
      */
     public SpriteHandler( NaturalSelectionModel model ) {
         sprites = new LinkedList<NaturalSelectionSprite>();
@@ -85,22 +87,6 @@ public class SpriteHandler extends PNode implements NaturalSelectionModel.Listen
             shrubs.add( shrubNode );
             shrubNode.setVisible( false );
         }
-        /*
-        ShrubNode shrubA = new ShrubNode( this, 80, 330, 1 );
-        addChildSprite( shrubA );
-        shrubs.add( shrubA );
-        shrubA.setVisible( false );
-
-        ShrubNode shrubB = new ShrubNode( this, 750, 200, 0.8 );
-        addChildSprite( shrubB );
-        shrubs.add( shrubB );
-        shrubB.setVisible( false );
-
-        ShrubNode shrubC = new ShrubNode( this, 320, 110, 0.6 );
-        addChildSprite( shrubC );
-        shrubs.add( shrubC );
-        shrubC.setVisible( false );
-        */
 
     }
 
