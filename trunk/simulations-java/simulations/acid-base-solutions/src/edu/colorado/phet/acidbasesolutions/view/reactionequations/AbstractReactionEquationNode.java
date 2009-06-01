@@ -1,18 +1,15 @@
 package edu.colorado.phet.acidbasesolutions.view.reactionequations;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-
-import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.ABSImages;
-import edu.colorado.phet.acidbasesolutions.ABSSymbols;
+import edu.colorado.phet.acidbasesolutions.view.equilibriumexpressions.ConcentrationScaleModel;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
-import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -59,7 +56,7 @@ public abstract class AbstractReactionEquationNode extends PComposite {
         plusRHS = new PlusNode();
         addChild( plusRHS );
         
-        arrow = new PImage( getArrowImage() );
+        arrow = new PImage();
         addChild( arrow );
         
         updateLayout();
@@ -69,8 +66,13 @@ public abstract class AbstractReactionEquationNode extends PComposite {
         return terms.length;
     }
     
+    protected void scaleTermToConcentration( int index, double concentration ) {
+        double scale = ConcentrationScaleModel.getFontSize( concentration ) / SYMBOL_FONT.getSize();
+        setTermScale( index, scale );
+    }
+    
     // scale about center
-    public void setTermScale( int index, double scale ) {
+    private void setTermScale( int index, double scale ) {
         SymbolNode symbolNode = terms[index].getSymbolNode();
         PBounds boundsBefore = symbolNode.getFullBounds();
         symbolNode.setScale( scale );
@@ -80,13 +82,24 @@ public abstract class AbstractReactionEquationNode extends PComposite {
         symbolNode.setOffset( xOffset, yOffset );
     }
     
-    public void setAllTermScale( double scale ) {
+    
+    /**
+     * Sets all scalable nodes to have the same scale.
+     */
+    protected void scaleAllTerms( double scale ) {
         for ( int i = 0; i < terms.length; i++ ) {
             setTermScale( i, scale );
         }
     }
-    
-    protected abstract BufferedImage getArrowImage();
+
+    protected void setBidirectional( boolean b ) {
+        if ( b ) {
+            arrow.setImage( ABSImages.ARROW_DOUBLE );
+        }
+        else {
+            arrow.setImage( ABSImages.ARROW_SINGLE );
+        }
+    }
     
     /*
      * Changes the visibility of term 1.
@@ -286,148 +299,5 @@ public abstract class AbstractReactionEquationNode extends PComposite {
             setFont( PLUS_FONT );
             setTextPaint( PLUS_COLOR );
         }
-    }
-    
-    protected static abstract class AbstractAcidReactionEquationNode extends AbstractReactionEquationNode {
-        
-        public AbstractAcidReactionEquationNode() {
-            setTerm( 0, ABSSymbols.HA, ABSConstants.HA_COLOR, ABSImages.HA_STRUCTURE );
-            setTerm( 1, ABSSymbols.H2O, ABSConstants.H2O_COLOR, ABSImages.H2O_STRUCTURE );
-            setTerm( 2, ABSSymbols.H3O_PLUS, ABSConstants.H3O_COLOR, ABSImages.H3O_PLUS_STRUCTURE );
-            setTerm( 3, ABSSymbols.A_MINUS, ABSConstants.A_COLOR, ABSImages.A_MINUS_STRUCTURE );
-        }
-        
-        public AbstractAcidReactionEquationNode( String symbolLHS, String symbolRHS ) {
-            setTerm( 0, symbolLHS, ABSConstants.HA_COLOR );
-            setTerm( 1, ABSSymbols.H2O, ABSConstants.H2O_COLOR );
-            setTerm( 2, ABSSymbols.H3O_PLUS, ABSConstants.H3O_COLOR );
-            setTerm( 3, symbolRHS, ABSConstants.A_COLOR );
-        }
-    }
-    
-    /**
-     * Weak acid reaction equation: HA + H2O <-> H3O+ + A-
-     */
-    public static class WeakAcidReactionEquationNode extends AbstractAcidReactionEquationNode {
-        
-        public WeakAcidReactionEquationNode() {
-            super();
-        }
-        
-        public WeakAcidReactionEquationNode( String symbolLHS, String symbolRHS ) {
-            super( symbolLHS, symbolRHS );
-        }
-        
-        protected BufferedImage getArrowImage() {
-            return ABSImages.ARROW_DOUBLE;
-        }
-    }
-    
-    /**
-     * Strong acid reaction equation: HA + H2O -> H3O+ + A-
-     */
-    public static class StrongAcidReactionEquationNode extends AbstractAcidReactionEquationNode {
-        
-        public StrongAcidReactionEquationNode() {
-            super();
-        }
-        
-        public StrongAcidReactionEquationNode( String symbolLHS, String symbolRHS ) {
-            super( symbolLHS, symbolRHS );
-        }
-        
-        protected BufferedImage getArrowImage() {
-            return ABSImages.ARROW_SINGLE;
-        }
-    }
-    
-    /**
-     * Weak base reaction equation: B + H2O <-> BH+ + OH-
-     */
-    public static class WeakBaseReactionEquationNode extends AbstractReactionEquationNode {
-        
-        public WeakBaseReactionEquationNode() {
-            setTerm( 0, ABSSymbols.B, ABSConstants.B_COLOR, ABSImages.B_STRUCTURE );
-            setTerm( 1, ABSSymbols.H2O, ABSConstants.H2O_COLOR, ABSImages.H2O_STRUCTURE );
-            setTerm( 2, ABSSymbols.BH_PLUS, ABSConstants.BH_COLOR, ABSImages.BH_PLUS_STRUCTURE );
-            setTerm( 3, ABSSymbols.OH_MINUS, ABSConstants.OH_COLOR, ABSImages.OH_MINUS_STRUCTURE );
-        }
-        
-        public WeakBaseReactionEquationNode( String symbolLHS, String symbolRHS ) {
-            setTerm( 0, symbolLHS, ABSConstants.B_COLOR );
-            setTerm( 1, ABSSymbols.H2O, ABSConstants.H2O_COLOR );
-            setTerm( 2, ABSSymbols.BH_PLUS, ABSConstants.BH_COLOR );
-            setTerm( 3, symbolRHS, ABSConstants.OH_COLOR );
-        }
-        
-        protected BufferedImage getArrowImage() {
-            return ABSImages.ARROW_DOUBLE;
-        }
-    }
-    
-    /**
-     * Strong base reaction equation: MOH <-> M+ + OH-
-     */
-    public static class StrongBaseReactionEquationNode extends AbstractReactionEquationNode {
-        
-        public StrongBaseReactionEquationNode() {
-            setTerm( 0, ABSSymbols.MOH, ABSConstants.MOH_COLOR, ABSImages.MOH_STRUCTURE );
-            setTerm1Visible( false );
-            setTerm( 2, ABSSymbols.M_PLUS, ABSConstants.M_COLOR, ABSImages.M_PLUS_STRUCTURE );
-            setTerm( 3, ABSSymbols.OH_MINUS, ABSConstants.OH_COLOR, ABSImages.OH_MINUS_STRUCTURE );
-        }
-        
-        public StrongBaseReactionEquationNode( String symbolLHS, String symbolRHS ) {
-            setTerm( 0, symbolLHS, ABSConstants.MOH_COLOR );
-            setTerm1Visible( false );
-            setTerm( 2, symbolRHS, ABSConstants.M_COLOR );
-            setTerm( 3, ABSSymbols.OH_MINUS, ABSConstants.OH_COLOR );
-        }
-        
-        protected BufferedImage getArrowImage() {
-            return ABSImages.ARROW_SINGLE;
-        }
-    }
-    
-    /* tests */
-    public static void main( String[] args ) {
-        
-        Dimension canvasSize = new Dimension( 1024, 768 );
-        PCanvas canvas = new PCanvas();
-        canvas.setPreferredSize( canvasSize );
-        
-        // one instance of each type
-        PNode[] equations = {
-                // water
-                new WaterReactionEquationNode(),
-                // generics
-                new WeakAcidReactionEquationNode(),
-                new StrongAcidReactionEquationNode(),
-                new WeakBaseReactionEquationNode(),
-                new StrongBaseReactionEquationNode(),
-                // specifics
-                new WeakAcidReactionEquationNode( "HClO<sub>2</sub>", "ClO<sub>2</sub><sup>-</sup>" ),
-                new StrongAcidReactionEquationNode( "HCl", "Cl<sup>-</sup>" ),
-                new WeakBaseReactionEquationNode( "NH<sub>3</sub>", "NH<sub>4</sub><sup>+</sup>" ),
-                new StrongBaseReactionEquationNode( "NaOH", "Na<sup>+</sup>" ),
-        };
-        
-        // layout in a left-justified column
-        double xOffset = 50;
-        double yOffset = 50;
-        for ( int i = 0; i < equations.length; i++ ) {
-            canvas.getLayer().addChild( equations[i] );
-            equations[i].setOffset( xOffset, yOffset );
-            yOffset = equations[i].getFullBoundsReference().getMaxY() + 40;
-        }
-        
-        JPanel panel = new JPanel( new BorderLayout() );
-        panel.add( canvas, BorderLayout.CENTER );
-        
-        JFrame frame = new JFrame();
-        frame.setContentPane( panel );
-        frame.pack();
-        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        frame.setVisible( true );
     }
 }

@@ -1,3 +1,5 @@
+/* Copyright 2009, University of Colorado */
+
 package edu.colorado.phet.acidbasesolutions.view.reactionequations;
 
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
@@ -5,28 +7,28 @@ import edu.colorado.phet.acidbasesolutions.ABSImages;
 import edu.colorado.phet.acidbasesolutions.ABSSymbols;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.SolutionListener;
-import edu.colorado.phet.acidbasesolutions.model.equilibrium.EquilibriumModel;
 
 /**
- * Water reaction equation: H2O + H2O <-> H3O+ + OH-
+ * Reaction equation for bases.
+ * 
+ * Weak base:  B + H2O <-> BH+ + OH-
+ * Strong base: MOH -> M+ + OH-
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class WaterReactionEquationNode extends AbstractReactionEquationNode {
+public class BaseReactionEquationNode extends AbstractReactionEquationNode {
     
     private final AqueousSolution solution;
     private final SolutionListener solutionListener;
     private boolean scaleEnabled;
     
-    public WaterReactionEquationNode( AqueousSolution solution ) {
+    public BaseReactionEquationNode( AqueousSolution solution ) {
         super();
         
-        setTerm( 0, ABSSymbols.H2O, ABSConstants.H2O_COLOR, ABSImages.H2O_STRUCTURE );
         setTerm( 1, ABSSymbols.H2O, ABSConstants.H2O_COLOR, ABSImages.H2O_STRUCTURE );
-        setTerm( 2, ABSSymbols.H3O_PLUS, ABSConstants.H3O_COLOR, ABSImages.H3O_PLUS_STRUCTURE );
         setTerm( 3, ABSSymbols.OH_MINUS, ABSConstants.OH_COLOR, ABSImages.OH_MINUS_STRUCTURE );
         
         this.solution = solution;
-        scaleEnabled = false;
-        
         solutionListener = new SolutionListener() {
 
             public void soluteChanged() {
@@ -42,14 +44,14 @@ public class WaterReactionEquationNode extends AbstractReactionEquationNode {
             }
         };
         solution.addSolutionListener( solutionListener );
-        
+
         updateView();
     }
     
     public void cleanup() {
         solution.removeSolutionListener( solutionListener );
     }
-    
+
     public void setScaleEnabled( boolean enabled ) {
         if ( enabled != this.scaleEnabled ) {
             this.scaleEnabled = enabled;
@@ -62,15 +64,11 @@ public class WaterReactionEquationNode extends AbstractReactionEquationNode {
     }
     
     private void updateView() {
-        if ( isScaleEnabled() ) {
-            EquilibriumModel equilibriumModel = solution.getEquilibriumModel();
-            scaleTermToConcentration( 0, equilibriumModel.getH2OConcentration() );
-            scaleTermToConcentration( 1, equilibriumModel.getH2OConcentration() );
-            scaleTermToConcentration( 2, equilibriumModel.getH3OConcentration() );
-            scaleTermToConcentration( 3, equilibriumModel.getOHConcentration() );
+        if ( scaleEnabled) {
+            //XXX
         }
         else {
-            scaleAllTerms( 1.0 );
+            //XXX
         }
     }
 }

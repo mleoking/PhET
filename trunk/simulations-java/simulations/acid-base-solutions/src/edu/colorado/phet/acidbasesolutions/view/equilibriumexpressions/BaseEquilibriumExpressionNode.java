@@ -82,7 +82,7 @@ public class BaseEquilibriumExpressionNode extends AbstractEquilibriumExpression
             scaleDenominatorToConcentration( equilibriumModel.getReactantConcentration() );
         }
         else {
-            setScaleAll( 1 );
+            scaleAllTerms( 1 );
         }
     }
 }
