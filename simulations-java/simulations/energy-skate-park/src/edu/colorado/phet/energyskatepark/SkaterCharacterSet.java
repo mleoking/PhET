@@ -11,14 +11,14 @@ public class SkaterCharacterSet {
 
     public SkaterCharacterSet() {
         addSkaterCharacter( getDefaultCharacter() );
-        addSkaterCharacter( new SkaterCharacter( "energy-skate-park/images/starskater2.gif", "Star Skater", 60.0, 1.5 ) );
-        addSkaterCharacter( new SkaterCharacter( "energy-skate-park/images/bulldog.png", "Bulldog", 20.0, 1.125 ) );
-        addSkaterCharacter( new SkaterCharacter( "energy-skate-park/images/bugboard.gif", "Bug", 0.2, 0.6 ) );
-        addSkaterCharacter( new SkaterCharacter( "energy-skate-park/images/red-ball.png", "Ball", 5.0, 0.3, 2.0 ) );
+        addSkaterCharacter( new SkaterCharacter( "energy-skate-park/images/starskater2.gif", EnergySkateParkStrings.getString("skater.star-skater"), 60.0, 1.5 ) );
+        addSkaterCharacter( new SkaterCharacter( "energy-skate-park/images/bulldog.png", EnergySkateParkStrings.getString("skater.bulldog"), 20.0, 1.125 ) );
+        addSkaterCharacter( new SkaterCharacter( "energy-skate-park/images/bugboard.gif", EnergySkateParkStrings.getString("skater.bug"), 0.2, 0.6 ) );
+        addSkaterCharacter( new SkaterCharacter( "energy-skate-park/images/red-ball.png", EnergySkateParkStrings.getString("skater.ball"), 5.0, 0.3, 2.0 ) );
     }
 
     public static SkaterCharacter getDefaultCharacter() {
-        return new SkaterCharacter( "energy-skate-park/images/skater3.png", "PhET Skater", 75.0, 1.8 );
+        return new SkaterCharacter( "energy-skate-park/images/skater3.png", EnergySkateParkStrings.getString("skater.phet-skater"), 75.0, 1.8 );
     }
 
     public SkaterCharacter[] getSkaterCharacters() {
