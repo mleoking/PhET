@@ -2,11 +2,15 @@
 
 package edu.colorado.phet.acidbasesolutions.view.reactionequations;
 
+import java.awt.Color;
+
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.ABSImages;
 import edu.colorado.phet.acidbasesolutions.ABSSymbols;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
+import edu.colorado.phet.acidbasesolutions.model.Solute;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.SolutionListener;
+import edu.colorado.phet.acidbasesolutions.model.equilibrium.EquilibriumModel;
 
 /**
  * Reaction equation for bases.
@@ -64,11 +68,32 @@ public class BaseReactionEquationNode extends AbstractReactionEquationNode {
     }
     
     private void updateView() {
-        if ( scaleEnabled) {
-            //XXX
+        
+        Solute solute = solution.getSolute();
+        
+        // symbols and colors
+        setTerm( 0, solute.getSymbol(), solute.getColor() );
+        setTerm( 2, solute.getConjugateSymbol(), solute.getConjugateColor() );
+        
+        // H2O does not scale, use black text when scaling is enabled
+        Color waterColor = ( isScaleEnabled() ? Color.BLACK : ABSConstants.H2O_COLOR );
+        setTerm( 1, ABSSymbols.H2O, waterColor, ABSImages.H2O_STRUCTURE );
+        
+        // strong vs weak base
+        final boolean isStrong = solution.getSolute().isStrong();
+        setBidirectional( !isStrong );
+        setTerm1Visible( !isStrong );
+        
+        // concentration scaling
+        if ( scaleEnabled ) {
+            EquilibriumModel equilibriumModel = solution.getEquilibriumModel();
+            scaleTermToConcentration( 0, equilibriumModel.getReactantConcentration() );
+            scaleTermToConcentration( 1, equilibriumModel.getH2OConcentration() );
+            scaleTermToConcentration( 2, equilibriumModel.getProductConcentration() );
+            scaleTermToConcentration( 3, equilibriumModel.getOHConcentration() );
         }
         else {
-            //XXX
+            scaleAllTerms( 1 );
         }
     }
 }

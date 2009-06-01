@@ -48,7 +48,7 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
         JLabel scaleOnOffLabel = new JLabel( ABSStrings.LABEL_EQUATION_SCALING );
         ActionListener scaleOnOffActionListener = new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                handleScaleEnable();
+                handleScalingEnabled();
             }
         };
         scaleOnRadioButton = new JRadioButton( ABSStrings.RADIO_BUTTON_EQUATION_SCALING_ON );
@@ -58,7 +58,7 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
         ButtonGroup buttonGroup = new ButtonGroup();
         buttonGroup.add( scaleOffRadioButton );
         buttonGroup.add( scaleOnRadioButton );
-        scaleOnRadioButton.setSelected( true );
+        scaleOffRadioButton.setSelected( true );
         JPanel scaleOnOffPanel = new JPanel( new GridBagLayout() );
         scaleOnOffPanel.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
         GridBagConstraints constraints = new GridBagConstraints();
@@ -129,14 +129,14 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
     
     public void setScalingEnabled( boolean enabled ) {
         scaleOnRadioButton.setSelected( enabled );
-        handleScaleEnable();
+        handleScalingEnabled();
     }
     
     public boolean isScalingEnabled() {
         return scaleOnRadioButton.isSelected();
     }
     
-    private void handleScaleEnable() {
+    private void handleScalingEnabled() {
         acidNode.setScaleEnabled( isScalingEnabled() );
         baseNode.setScaleEnabled( isScalingEnabled() );
         waterNode.setScaleEnabled( isScalingEnabled() );

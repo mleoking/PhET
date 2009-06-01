@@ -3,10 +3,11 @@
 ==================================================================================
 
 TODO:
+- fix layout of reaction equations
 - move equilibrium model into solute
 - stronger typing in equilibrium expressions and reaction equations constructors
 - move setScaleEnabled out of subclasses and into AbstractEquilibriumExpression
-- connect reaction equations to model (revisions similar to equilibrium expressions)
+- too much duplication in AbstractEquilibriumExpression and AbstractReactionEquation subclasses
 - H2O should not be scalable in Reaction Equations, should change to Color.BLACK when scaling is enabled
 - particle views
 - scale image files
@@ -27,6 +28,7 @@ ISSUES:
 - Kathy doesn't like look of solute combo box
 
 DONE:
+6/1/09 implement concentration scaling in reaction equations
 6/1/09 redo reaction equation hierachy, sort of broken
 6/1/09 add bi-directionality of reaction to model
 6/1/09 remove strength symbol from model
