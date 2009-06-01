@@ -26,7 +26,7 @@ public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
     private final SolutionListener solutionListener;
     private final JRadioButton scaleOnRadioButton, scaleOffRadioButton;
     private final PhetPCanvas topCanvas, bottomCanvas;
-    private final EquilibriumExpressionNode topExpressionNode;
+    private final AcidBaseEquilibriumExpressionNode topExpressionNode;
     private final WaterEquilibriumExpressionNode waterExpressionNode;
     
     public EquilibriumExpressionsDialog( Frame owner, AqueousSolution solution ) {
@@ -76,7 +76,7 @@ public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
         topCanvas.setBackground( ABSConstants.EQUILIBRIUM_EXPRESSIONS_BACKGROUND );
         
         // top expression
-        topExpressionNode = new EquilibriumExpressionNode( solution );
+        topExpressionNode = new AcidBaseEquilibriumExpressionNode( solution );
         topCanvas.getLayer().addChild( topExpressionNode );
         
         // bottom canvas
