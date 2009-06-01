@@ -16,7 +16,8 @@ case class Capacitor(node0: Int, node1: Int, capacitance: Double, voltage: Doubl
     val midNode = newNode()
     new CompanionModel(new Battery(node0, midNode, voltage + dt * current / 2 / capacitance) :: Nil,
       new Resistor(midNode, node1, dt / 2 / capacitance) :: Nil, Nil) {
-      def getCurrent(solution: Solution) = solution.getCurrent(resistors(0))
+//      def getCurrent(solution: Solution) = (solution.getCurrent(resistors(0))+current)/2.0//todo: why is this worse performance; according to link above, this should be trapezoidal approx for current
+      def getCurrent(solution: Solution) = -solution.getCurrent(batteries(0))//todo: why is a minus sign here?
     }
   }
 }
