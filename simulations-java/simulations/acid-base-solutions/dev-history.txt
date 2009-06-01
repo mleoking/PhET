@@ -8,7 +8,6 @@ TODO:
 - stronger typing in equilibrium expressions and reaction equations constructors
 - move setScaleEnabled out of subclasses and into AbstractEquilibriumExpression
 - too much duplication in AbstractEquilibriumExpression and AbstractReactionEquation subclasses
-- H2O should not be scalable in Reaction Equations, should change to Color.BLACK when scaling is enabled
 - particle views
 - scale image files
 - bug: when switching from strong to weak base, MOH flashes briefly in denominator of equilibrium expression
