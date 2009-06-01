@@ -21,7 +21,7 @@ public class WaveMeasuringTape extends MeasuringTape {
     private Point2D.Double initialDst;
 
     public WaveMeasuringTape( LatticeScreenCoordinates latticeScreenCoordinates, double physicalWidth, double physicalHeight ) {
-        super( new ModelViewTransform2D( new Rectangle( 50, 50 ), new Rectangle( 50, 50 ) ), new Point2D.Double() );
+        super( new ModelViewTransform2D( new Rectangle( 50, 50 ), new Rectangle( 50, 50 ) ), new Point2D.Double() ,"cm");
         this.latticeScreenCoordinates = latticeScreenCoordinates;
         latticeScreenCoordinates.addListener( new LatticeScreenCoordinates.Listener() {
             public void mappingChanged() {
@@ -29,7 +29,6 @@ public class WaveMeasuringTape extends MeasuringTape {
             }
         } );
         updateMapping();
-        setUnits( "cm" );
         setWaveAreaSize( physicalWidth, physicalHeight );
         Point2D.Double src = new Point2D.Double( physicalWidth / 2, physicalHeight / 2 );
         Point2D.Double dst = new Point2D.Double( physicalWidth * 0.75, physicalHeight / 2 );

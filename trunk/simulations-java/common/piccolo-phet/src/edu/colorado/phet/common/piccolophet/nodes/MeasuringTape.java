@@ -46,7 +46,11 @@ public class MeasuringTape extends PhetPNode {
     private EndGraphic endGraphic;
     private ReadoutGraphic readoutGraphic;
 
-    public MeasuringTape( ModelViewTransform2D modelViewTransform2D, Point2D.Double modelSrc ) {
+    public MeasuringTape(ModelViewTransform2D modelViewTransform2D, Point2D.Double modelSrc) {
+        this(modelViewTransform2D, modelSrc, "m");
+    }
+
+    public MeasuringTape( ModelViewTransform2D modelViewTransform2D, Point2D.Double modelSrc,String units ) {
         this.modelViewTransform2D = modelViewTransform2D;
         this.modelSrc = modelSrc;
         this.modelDst = new Point2D.Double( modelSrc.x + modelViewTransform2D.viewToModelDifferentialX( 100 ), modelSrc.y );
@@ -54,7 +58,7 @@ public class MeasuringTape extends PhetPNode {
         bodyGraphic = new BodyGraphic();
         tapeGraphic = new TapeGraphic();
         endGraphic = new EndGraphic();
-        readoutGraphic = new ReadoutGraphic( "m" );
+        readoutGraphic = new ReadoutGraphic( units );
 
         addChild( tapeGraphic );
         addChild( bodyGraphic );
