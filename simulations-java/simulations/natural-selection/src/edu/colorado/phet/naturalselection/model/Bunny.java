@@ -79,6 +79,7 @@ public class Bunny {
     private static final Random random = new Random( System.currentTimeMillis() );
 
     // 3d coordinates
+    // TODO: use Point3D
     private double x, y, z;
 
     // time since the last hop
@@ -86,7 +87,7 @@ public class Bunny {
 
     private boolean movingRight;
 
-    public static final int BETWEEN_HOP_TIME = 70;
+    public static final int BETWEEN_HOP_TIME = 50;
     public static final int HOP_TIME = 10;
     public static final int HOP_HEIGHT = 50;
     public static final double HOP_HORIZONTAL_STEP = 2.0;
@@ -320,6 +321,10 @@ public class Bunny {
         }
     }
 
+    public Point3D getPosition() {
+        return new Point3D.Double( x, y, z );
+    }
+
     public boolean isMutated() {
         return mutated;
     }
@@ -377,36 +382,85 @@ public class Bunny {
         notifyReproduces();
     }
 
+    private static final int HUNGER_THRESHOLD = 300;
+    private static final int MAX_HUNGER = 1000;
+    private static final double HUNGER_WALK_DISTANCE = 4.0;
+    private int hunger = random.nextInt( MAX_HUNGER );
+
     /**
      * Causes the bunny to move around physically
      */
     private void moveAround() {
-        // TODO: add randomness to inbetween-jumping time?
-        sinceHopTime++;
-        if ( sinceHopTime > BETWEEN_HOP_TIME + HOP_TIME ) {
-            sinceHopTime = 0;
+        hunger += random.nextInt( 3 );
+        if ( hunger > MAX_HUNGER ) {
+            hunger = MAX_HUNGER;
         }
-        if ( sinceHopTime > BETWEEN_HOP_TIME ) {
-            // move in the "hop"
-            int hopProgress = sinceHopTime - BETWEEN_HOP_TIME;
-            double hopFraction = ( (double) hopProgress ) / ( (double) HOP_TIME );
 
-            setY( HOP_HEIGHT * 2 * ( -hopFraction * hopFraction + hopFraction ) );
+        if ( hunger > HUNGER_THRESHOLD && model.getSelectionFactor() == NaturalSelectionModel.SELECTION_FOOD ) {
 
-            if ( movingRight ) {
-                setX( getX() + HOP_HORIZONTAL_STEP );
-                if ( getX() >= SpriteHandler.MAX_X ) {
-                    movingRight = false;
+            /*
+            List<Shrub> shrubs = model.getShrubs();
+
+            double bestDistance = Double.POSITIVE_INFINITY;
+            Point3D offset = null;
+
+            Point3D bunnyPosition = getPosition();
+
+            for ( Shrub shrub : shrubs ) {
+                Point3D shrubPosition = shrub.getPosition();
+                double xDist = shrubPosition.getX() - bunnyPosition.getX();
+                double zDist = ( shrubPosition.getZ() - bunnyPosition.getZ() ) * 200;
+                double distance = Math.sqrt( xDist * xDist + zDist * zDist );
+
+                if ( distance < bestDistance ) {
+                    bestDistance = distance;
+                    offset = new Point3D.Double( shrubPosition.getX() - bunnyPosition.getX(), shrubPosition.getY() - bunnyPosition.getY(), shrubPosition.getZ() - bunnyPosition.getZ() );
                 }
+            }
+
+            if ( offset == null ) {
+                throw new RuntimeException( "No shrubs?" );
+            }
+
+            if ( bestDistance > HUNGER_WALK_DISTANCE ) {
+                offset = new Point3D.Double( HUNGER_WALK_DISTANCE * offset.getX() / bestDistance, HUNGER_WALK_DISTANCE * offset.getY() / bestDistance, HUNGER_WALK_DISTANCE * offset.getX() / bestDistance );
             }
             else {
-                setX( getX() - HOP_HORIZONTAL_STEP );
-                if ( getX() <= SpriteHandler.MIN_X ) {
-                    movingRight = true;
+                hunger = 0;
+            }
+
+            setX( getX() + offset.getX() );
+            setZ( getZ() + offset.getZ() );
+            */
+
+        }
+        else {
+            // TODO: add randomness to inbetween-jumping time?
+            sinceHopTime++;
+            if ( sinceHopTime > BETWEEN_HOP_TIME + HOP_TIME ) {
+                sinceHopTime = 0;
+            }
+            if ( sinceHopTime > BETWEEN_HOP_TIME ) {
+                // move in the "hop"
+                int hopProgress = sinceHopTime - BETWEEN_HOP_TIME;
+                double hopFraction = ( (double) hopProgress ) / ( (double) HOP_TIME );
+
+                setY( HOP_HEIGHT * 2 * ( -hopFraction * hopFraction + hopFraction ) );
+
+                if ( movingRight ) {
+                    setX( getX() + HOP_HORIZONTAL_STEP );
+                    if ( getX() >= SpriteHandler.MAX_X ) {
+                        movingRight = false;
+                    }
+                }
+                else {
+                    setX( getX() - HOP_HORIZONTAL_STEP );
+                    if ( getX() <= SpriteHandler.MIN_X ) {
+                        movingRight = true;
+                    }
                 }
             }
         }
-
     }
 
 

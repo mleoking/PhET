@@ -66,7 +66,7 @@ public class NaturalSelectionCanvas extends PhetPCanvas {
         backgroundNode = new NaturalSelectionBackgroundNode( this.model.getClimate() );
         rootNode.addChild( backgroundNode );
 
-        bunnies = new SpriteHandler();
+        bunnies = new SpriteHandler( model );
         rootNode.addChild( bunnies );
 
         addFriendNode = new AddFriendNode( model );

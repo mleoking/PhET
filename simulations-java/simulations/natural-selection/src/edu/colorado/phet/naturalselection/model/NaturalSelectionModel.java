@@ -46,6 +46,8 @@ public class NaturalSelectionModel extends ClockAdapter {
 
     private Bunny rootMother;
 
+    private List<Shrub> shrubs;
+
     private ArrayList<Listener> listeners;
 
     /**
@@ -101,6 +103,11 @@ public class NaturalSelectionModel extends ClockAdapter {
         bunnies.add( rootFather );
 
         this.clock.addClockListener( this );
+
+        shrubs = new LinkedList<Shrub>();
+        shrubs.add( new Shrub( 80, 330, 1 ) );
+        shrubs.add( new Shrub( 750, 200, 0.8 ) );
+        shrubs.add( new Shrub( 320, 110, 0.6 ) );
     }
 
     /**
@@ -517,6 +524,10 @@ public class NaturalSelectionModel extends ClockAdapter {
 
     public int getGenerationProgressPercent() {
         return (int) ( 100 * ( clock.getSimulationTime() - lastYearTick ) / NaturalSelectionDefaults.TICKS_PER_YEAR );
+    }
+
+    public List<Shrub> getShrubs() {
+        return shrubs;
     }
 
     //----------------------------------------------------------------------------
