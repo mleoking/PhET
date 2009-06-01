@@ -24,8 +24,7 @@ class MNAFunSuite extends FunSuite {
     val circuit = new Circuit(battery :: Nil, resistor :: Nil)
     val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 4.0), Map(battery -> 2.0))
     assert(circuit.solve.approxEquals(desiredSolution))
-    println("obtained: "+circuit.solve.getCurrent(resistor))
-    assert(approxEquals(circuit.solve.getCurrent(resistor),2))//current through resistor should be 2.0 Amps, same magnitude as battery: positive because current flows from node 1 to 0
+    assert(approxEquals(circuit.solve.getCurrent(resistor), 2)) //current through resistor should be 2.0 Amps, same magnitude as battery: positive because current flows from node 1 to 0
   }
   test("should throw an exception when asking for current for unknown element") {
     val circuit = new Circuit(Battery(0, 1, 4.0) :: Nil, Resistor(1, 0, 2.0) :: Nil)

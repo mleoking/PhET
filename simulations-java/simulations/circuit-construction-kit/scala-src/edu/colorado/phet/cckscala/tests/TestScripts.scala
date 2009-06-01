@@ -33,8 +33,8 @@ object TestRLCircuit {
     val dt = 1E-4
     var dynamicCircuit = circuit.getInitializedCircuit
     println("init circuit=" + dynamicCircuit)
-    val v0 = dynamicCircuit.solve(dt).getVoltage(Resistor(1, 2, 10.0))
-    println("voltage\tdesiredVoltage")
+//    val v0 = dynamicCircuit.solve(dt).getVoltage(Resistor(1, 2, 10.0))
+    println("voltage\tdesiredVoltage\terror")
     for (i <- 0 until 1000) {
       val t = i * dt
       val comp = dynamicCircuit.getCompanionModel(dt)
@@ -43,9 +43,10 @@ object TestRLCircuit {
       //      println("companion sol=" + compSol)
       val solution = dynamicCircuit.solve(dt)
       val voltage = solution.getVoltage(Resistor(1, 2, 10.0))
-      val desiredVoltage = -V * (1 - exp(-t * R / L)) //see http://en.wikipedia.org/wiki/Lr_circuit
-      println(voltage + "\t" + desiredVoltage)
+      val desiredVoltage = V * (1 - exp(-t * R / L)) //see http://en.wikipedia.org/wiki/Lr_circuit
       val error = abs(voltage - desiredVoltage)
+      println(voltage + "\t" + desiredVoltage + "\t" + error)
+
       dynamicCircuit = dynamicCircuit.stepInTime(dt)
     }
   }
@@ -53,7 +54,7 @@ object TestRLCircuit {
 
 object TestRCCircuit {
   def main(args: Array[String]) {
-    val v=10
+    val v = 10
     val battery = Battery(0, 1, v)
     val resistor = Resistor(1, 2, 10.0)
     val circuit = new FullCircuit(battery :: Nil, resistor :: Nil, Capacitor(2, 0, 1.0E-2, 0.0, 0.0) :: Nil, Nil)
