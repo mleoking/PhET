@@ -15,6 +15,7 @@ trait HasCompanionModel {
 case class Capacitor(node0: Int, node1: Int, capacitance: Double, voltage: Double, current: Double) extends Element with HasCompanionModel {
   def getCompanionModel(dt: Double, newNode: () => Int) = {
     //linear companion model for capacitor, using trapezoidal approximation, under thevenin model, see http://dev.hypertriton.com/edacious/trunk/doc/lec.pdf
+    //and p.23 pillage
     val midNode = newNode()
     new CompanionModel(new Battery(node0, midNode, voltage + dt * current / 2 / capacitance) :: Nil,
       new Resistor(midNode, node1, dt / 2 / capacitance) :: Nil, Nil) {
@@ -33,8 +34,8 @@ case class Inductor(node0: Int, node1: Int, inductance: Double, voltage: Double,
     //    new CompanionModel(Nil, new Resistor(node0, node1, 2 * inductance / dt) :: Nil,
     //      new CurrentSource(node0, node1, companionCurrent) :: Nil) {
     //      def getCurrent(solution: Solution) = {
-    //        val i2= -solution.getCurrent(resistors(0)) + companionCurrent//todo: why is minus sign here?
-    ////        (i2+current)/2 //todo: shouldn't this be trapezoidal approximation?  It gives poor performance
+    //        val i2= -solution.getCurrent(resistors(0)) + companionCurrent//why is minus sign here?
+    ////        (i2+current)/2 //shouldn't this be trapezoidal approximation?  It gives poor performance
     //        i2
     //      }
     //    }
@@ -48,7 +49,7 @@ case class Inductor(node0: Int, node1: Int, inductance: Double, voltage: Double,
     //      def getCurrent(solution: Solution) = solution.getCurrent(resistors(0))
     //    }
 
-    //Thevenin, Pillage p.23
+    //Thevenin, Pillage p.23.  Pillage says this is the model used in Spice
     val midNode = newNode()
     new CompanionModel(Battery(node0, midNode, voltage + 2 * inductance * current / dt) :: Nil,
       new Resistor(midNode, node1, 2 * inductance / dt) :: Nil, Nil) {
