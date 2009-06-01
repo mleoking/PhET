@@ -19,36 +19,16 @@ case class Capacitor(node0: Int, node1: Int, capacitance: Double, voltage: Doubl
     val midNode = newNode()
     new CompanionModel(new Battery(node0, midNode, voltage + dt * current / 2 / capacitance) :: Nil,
       new Resistor(midNode, node1, dt / 2 / capacitance) :: Nil, Nil) {
-      //      def getCurrent(solution: Solution) = (solution.getCurrent(resistors(0))+current)/2.0//todo: why is this worse performance; according to link above, this should be trapezoidal approx for current
-      def getCurrent(solution: Solution) = -solution.getCurrent(batteries(0)) //todo: why is a minus sign here?
+      def getCurrent(solution: Solution) = -solution.getCurrent(batteries(0))//todo: why is minus sign here?
 
-      def getVoltage(solution: Solution) = solution.getVoltage(batteries(0))//todo: fix this
+      def getVoltage(solution: Solution) = voltage+dt/2/capacitance*(current+getCurrent(solution))//seems to have same behavior as line below
+//      def getVoltage(solution: Solution) = solution.getNodeVoltage(node1)-solution.getNodeVoltage(node0)
     }
   }
 }
 
 case class Inductor(node0: Int, node1: Int, inductance: Double, voltage: Double, current: Double) extends Element with HasCompanionModel {
   def getCompanionModel(dt: Double, newNode: () => Int) = {
-    //linear companion model for inductor, using trapezoidal approximation, under norton model, see http://dev.hypertriton.com/edacious/trunk/doc/lec.pdf
-    //    val companionCurrent = current - dt * voltage / 2 / inductance
-    //    new CompanionModel(Nil, new Resistor(node0, node1, 2 * inductance / dt) :: Nil,
-    //      new CurrentSource(node0, node1, companionCurrent) :: Nil) {
-    //      def getCurrent(solution: Solution) = {
-    //        val i2= -solution.getCurrent(resistors(0)) + companionCurrent//why is minus sign here?
-    ////        (i2+current)/2 //shouldn't this be trapezoidal approximation?  It gives poor performance
-    //        i2
-    //      }
-    //    }
-
-    //this model worked pretty well too
-    //linear companion model for inductor, using backward euler approximation, under norton model, see http://dev.hypertriton.com/edacious/trunk/doc/lec.pdf
-    //    val midNode = newNode()
-    //    new CompanionModel(Nil, new Resistor(node0, midNode, 0) //dummy resistor in series so we can easily compute current for the inductor
-    //            :: new Resistor(midNode, node1, inductance / dt) :: Nil,
-    //      new CurrentSource(midNode, node1, current) :: Nil) {
-    //      def getCurrent(solution: Solution) = solution.getCurrent(resistors(0))
-    //    }
-
     //Thevenin, Pillage p.23.  Pillage says this is the model used in Spice
     val midNode = newNode()
     new CompanionModel(Battery(node0, midNode, voltage + 2 * inductance * current / dt) :: Nil,
@@ -57,20 +37,6 @@ case class Inductor(node0: Int, node1: Int, inductance: Double, voltage: Double,
 
       def getVoltage(solution: Solution) = (getCurrent(solution)-current)*2*inductance/dt-voltage
     }
-
-    //never got this one working; probably a sign error somewhere
-    //linear companion model for inductor, using forward euler approximation, under norton model, see http://dev.hypertriton.com/edacious/trunk/doc/lec.pdf
-    //        val midNode = newNode()
-    //    val companionCurrent = current - dt / inductance * voltage
-    //    new CompanionModel(Nil, Nil, new CurrentSource(node0, node1, companionCurrent) :: Nil) {
-    //          def getCurrent(solution: Solution) = companionCurrent
-    //        }
-    //
-    //linear companion model for inductor, using trapezoidal approximation, under norton model, see Pillage et al p.23
-    //    val midNode = newNode()
-    //    new CompanionModel(Battery(node0, midNode, voltage + 2 * inductance * current / dt) :: Nil, Resistor(midNode, node1, 2 * inductance / dt) :: Nil, Nil) {
-    //      def getCurrent(solution: Solution) = solution.getCurrent(batteries(0))
-    //    }
   }
 }
 
