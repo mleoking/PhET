@@ -4,6 +4,7 @@ package edu.colorado.phet.naturalselection.model;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Point3D;
@@ -382,10 +383,71 @@ public class Bunny {
         notifyReproduces();
     }
 
-    private static final int HUNGER_THRESHOLD = 300;
+    private static final int HUNGER_THRESHOLD = 700;
     private static final int MAX_HUNGER = 1000;
-    private static final double HUNGER_WALK_DISTANCE = 4.0;
+    private static final double HUNGER_WALK_DISTANCE = 3.0;
+    private static final double Z_SCALE = 100.0;
     private int hunger = random.nextInt( MAX_HUNGER );
+
+    private Point3D hopDirection;
+
+    private Point3D getNewHopDirection() {
+        if ( false && hunger > HUNGER_THRESHOLD && model.getSelectionFactor() == NaturalSelectionModel.SELECTION_FOOD ) {
+
+            List<Shrub> shrubs = model.getShrubs();
+
+            double bestDistance = Double.POSITIVE_INFINITY;
+            Point3D bestShrubPosition = null;
+
+            Point3D bunnyPosition = getPosition();
+
+            for ( Shrub shrub : shrubs ) {
+                Point3D shrubPosition = shrub.getPosition();
+                double distance = Math.abs( shrubPosition.getX() - bunnyPosition.getX() );
+
+                if ( distance < bestDistance ) {
+                    bestDistance = distance;
+                    bestShrubPosition = shrubPosition;
+                }
+            }
+
+            if ( bestShrubPosition == null ) {
+                throw new RuntimeException( "No shrubs?" );
+            }
+
+            double diffX = bestShrubPosition.getX() - bunnyPosition.getX();
+            double diffZ = bestShrubPosition.getZ() - bunnyPosition.getZ();
+
+            movingRight = diffX >= 0;
+
+            double mag = Math.sqrt( diffX * diffX + diffZ * diffZ * Z_SCALE * Z_SCALE );
+            if ( mag > HUNGER_WALK_DISTANCE ) {
+                diffX *= HUNGER_WALK_DISTANCE / mag;
+                diffZ *= HUNGER_WALK_DISTANCE / mag;
+            }
+            else {
+                hunger = 0;
+                sinceHopTime = 0;
+                movingRight = random.nextInt( 2 ) == 0;
+            }
+
+            diffX *= 0.7;
+            diffZ *= 0.7;
+
+            //if( Math.abs( diffZ ) > 0.05 ) {
+            //    diffZ /= Math.abs( diffZ ) * 10;
+            //}
+
+            return new Point3D.Double( diffX, 0, diffZ );
+        }
+        else {
+            Point3D.Double ret = new Point3D.Double( HOP_HORIZONTAL_STEP, 0, ( Math.random() - 0.5 ) * 0.01 );
+            if ( !movingRight ) {
+                ret.setLocation( -ret.getX(), 0, ret.getZ() );
+            }
+            return ret;
+        }
+    }
 
     /**
      * Causes the bunny to move around physically
@@ -396,70 +458,44 @@ public class Bunny {
             hunger = MAX_HUNGER;
         }
 
-        if ( hunger > HUNGER_THRESHOLD && model.getSelectionFactor() == NaturalSelectionModel.SELECTION_FOOD ) {
+        // TODO: add randomness to inbetween-jumping time?
+        sinceHopTime++;
+        if ( sinceHopTime > BETWEEN_HOP_TIME + HOP_TIME ) {
+            sinceHopTime = 0;
+        }
+        if ( sinceHopTime == BETWEEN_HOP_TIME ) {
+            hopDirection = getNewHopDirection();
+        }
+        else if ( hopDirection == null ) {
+            hopDirection = getNewHopDirection();
+        }
+        if ( sinceHopTime > BETWEEN_HOP_TIME ) {
+            // move in the "hop"
+            int hopProgress = sinceHopTime - BETWEEN_HOP_TIME;
+            double hopFraction = ( (double) hopProgress ) / ( (double) HOP_TIME );
 
-            /*
-            List<Shrub> shrubs = model.getShrubs();
+            setY( HOP_HEIGHT * 2 * ( -hopFraction * hopFraction + hopFraction ) );
 
-            double bestDistance = Double.POSITIVE_INFINITY;
-            Point3D offset = null;
+            setX( getX() + hopDirection.getX() );
+            setZ( getZ() + hopDirection.getZ() );
 
-            Point3D bunnyPosition = getPosition();
-
-            for ( Shrub shrub : shrubs ) {
-                Point3D shrubPosition = shrub.getPosition();
-                double xDist = shrubPosition.getX() - bunnyPosition.getX();
-                double zDist = ( shrubPosition.getZ() - bunnyPosition.getZ() ) * 200;
-                double distance = Math.sqrt( xDist * xDist + zDist * zDist );
-
-                if ( distance < bestDistance ) {
-                    bestDistance = distance;
-                    offset = new Point3D.Double( shrubPosition.getX() - bunnyPosition.getX(), shrubPosition.getY() - bunnyPosition.getY(), shrubPosition.getZ() - bunnyPosition.getZ() );
+            if ( movingRight ) {
+                if ( getX() >= SpriteHandler.MAX_X ) {
+                    movingRight = false;
+                    hopDirection.setLocation( -hopDirection.getX(), 0, hopDirection.getZ() );
                 }
-            }
-
-            if ( offset == null ) {
-                throw new RuntimeException( "No shrubs?" );
-            }
-
-            if ( bestDistance > HUNGER_WALK_DISTANCE ) {
-                offset = new Point3D.Double( HUNGER_WALK_DISTANCE * offset.getX() / bestDistance, HUNGER_WALK_DISTANCE * offset.getY() / bestDistance, HUNGER_WALK_DISTANCE * offset.getX() / bestDistance );
             }
             else {
-                hunger = 0;
-            }
-
-            setX( getX() + offset.getX() );
-            setZ( getZ() + offset.getZ() );
-            */
-
-        }
-        else {
-            // TODO: add randomness to inbetween-jumping time?
-            sinceHopTime++;
-            if ( sinceHopTime > BETWEEN_HOP_TIME + HOP_TIME ) {
-                sinceHopTime = 0;
-            }
-            if ( sinceHopTime > BETWEEN_HOP_TIME ) {
-                // move in the "hop"
-                int hopProgress = sinceHopTime - BETWEEN_HOP_TIME;
-                double hopFraction = ( (double) hopProgress ) / ( (double) HOP_TIME );
-
-                setY( HOP_HEIGHT * 2 * ( -hopFraction * hopFraction + hopFraction ) );
-
-                if ( movingRight ) {
-                    setX( getX() + HOP_HORIZONTAL_STEP );
-                    if ( getX() >= SpriteHandler.MAX_X ) {
-                        movingRight = false;
-                    }
-                }
-                else {
-                    setX( getX() - HOP_HORIZONTAL_STEP );
-                    if ( getX() <= SpriteHandler.MIN_X ) {
-                        movingRight = true;
-                    }
+                if ( getX() <= SpriteHandler.MIN_X ) {
+                    movingRight = true;
+                    hopDirection.setLocation( -hopDirection.getX(), 0, hopDirection.getZ() );
                 }
             }
+
+            if ( getZ() >= SpriteHandler.MAX_Z || getZ() <= SpriteHandler.MIN_Z ) {
+                hopDirection.setLocation( hopDirection.getX(), 0, -hopDirection.getZ() );
+            }
+
         }
     }
 
