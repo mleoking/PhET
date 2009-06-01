@@ -51,7 +51,7 @@ public class EdgeOfWorldNode extends PNode {
 		int stratumCount = 0;
 		for (Stratum stratum : strata){
 			Color stratmColor = NuclearPhysicsConstants.strataColors.get(stratumCount % NuclearPhysicsConstants.strataColors.size());
-			stratmColor = ColorUtils.darkenColor(stratmColor);
+			stratmColor = ColorUtils.darkerColor(stratmColor,0.5);
 			EdgeStratumNode edgeStratumNode = new EdgeStratumNode(stratum, stratmColor); 
 			_edgeStratumNodes.add(edgeStratumNode);
 			addChild(edgeStratumNode);

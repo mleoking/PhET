@@ -66,41 +66,39 @@ public class ColorUtils {
     
     
     /**
-     * Lighten a color in RGB space.  Useful when creating gradients from a
-     * single base color.
+     * Brightens a color in RGB space.
+     * Useful when creating gradients from a single base color.
      * 
-     * @param originalColor
+     * @param color
+     * @param factor 0 (no change) to 1 (white)
      * @return lighter (closer to white) version of the original color.
      */
-	public static Color lightenColor( Color originalColor ){
-    	
-    	Color lighterColor;
-    	
-   		int red = originalColor.getRed() + ((255 - originalColor.getRed()) * 3 / 4);
-   		int green = originalColor.getGreen() + ((255 - originalColor.getGreen()) * 3 / 4);
-   		int blue = originalColor.getBlue() + ((255 - originalColor.getBlue()) * 3 / 4);
-   		lighterColor = new Color( red, green, blue );
-    	
-    	return lighterColor;
+    public static Color brighterColor( Color color, double factor ) {
+        if ( factor < 0 || factor > 1 ) {
+            throw new IllegalArgumentException( "factor must be between 0 and 1: " + factor );
+        }
+        int red = Math.min( 255, color.getRed() + (int) ( factor * ( 255 - color.getRed() ) ) );
+        int green =  Math.min( 255, color.getGreen() + (int) ( factor * ( 255 - color.getGreen() ) ) );
+        int blue = Math.min( 255, color.getBlue() + (int) ( factor * ( 255 - color.getBlue() ) ) );
+        return new Color( red, green, blue );
     }
 
     /**
-     * Darken a color in RGB space.  Useful when creating gradients from a
-     * single base color.
+     * Darken a color in RGB space.
+     * Useful when creating gradients from a single base color.
      * 
-     * @param originalColor
+     * @param color the original color
+     * @param factor 0 (no change) to 1 (black)
      * @return darker (closer to black) version of the original color.
      */
-    public static Color darkenColor( Color originalColor ){
-    	
-    	Color darkerColor;
-    	
-   		int red = originalColor.getRed() - (originalColor.getRed() / 2);
-   		int green = originalColor.getGreen() - (originalColor.getGreen() / 2);
-   		int blue = originalColor.getBlue() - (originalColor.getBlue() / 2);
-   		darkerColor = new Color( red, green, blue );
-    	
-    	return darkerColor;
+    public static Color darkerColor( Color color, double factor ) {
+        if ( factor < 0 || factor > 1 ) {
+            throw new IllegalArgumentException( "factor must be between 0 and 1: " + factor );
+        }
+        int red = Math.max( 0, color.getRed() - (int) ( factor * color.getRed() ) );
+        int green = Math.max( 0, color.getGreen() - (int) ( factor * color.getGreen() ) );
+        int blue = Math.max( 0, color.getBlue() - (int) ( factor * color.getBlue() ) );
+        return new Color( red, green, blue );
     }
 
     /**
