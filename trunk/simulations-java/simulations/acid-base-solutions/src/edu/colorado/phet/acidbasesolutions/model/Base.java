@@ -15,10 +15,6 @@ public abstract class Base extends Solute {
         super( name, symbol, icon, color, conjugateSymbol, conjugateIcon, conjugateColor, ABSSymbols.Kb, strength );
     }
     
-    public boolean isZeroNegligible() {
-        return false;
-    }
-    
     //----------------------------------------------------------------------------
     // Strong bases
     //----------------------------------------------------------------------------
@@ -27,6 +23,11 @@ public abstract class Base extends Solute {
         
         private StrongBase( String name, String symbol, String conjugateSymbol, double strength  ) {
             super( name, symbol, ABSImages.MOH_MOLECULE, ABSConstants.MOH_COLOR, conjugateSymbol, ABSImages.M_PLUS_MOLECULE, ABSConstants.M_COLOR, strength );
+        }
+        
+        
+        public boolean isZeroNegligible() {
+            return true;
         }
         
         protected boolean isValidStrength( double strength ) {
@@ -48,6 +49,11 @@ public abstract class Base extends Solute {
         
         private WeakBase( String name, String symbol, String conjugateSymbol, double strength ) {
             super( name, symbol, ABSImages.B_MOLECULE, ABSConstants.B_COLOR, conjugateSymbol, ABSImages.BH_PLUS_MOLECULE, ABSConstants.BH_COLOR, strength );
+        }
+        
+        
+        public boolean isZeroNegligible() {
+            return false;
         }
         
         protected boolean isValidStrength( double strength ) {
@@ -104,6 +110,11 @@ public abstract class Base extends Solute {
                 setConjugateIcon( ABSImages.BH_PLUS_MOLECULE );
                 setConjugateColor( ABSConstants.BH_COLOR );
             }
+        }
+        
+        
+        public boolean isZeroNegligible() {
+            return isStrong();
         }
         
         protected boolean isValidStrength( double strength ) {
