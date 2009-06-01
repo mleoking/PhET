@@ -17,17 +17,15 @@ public abstract class Solute extends Molecule {
     private String conjugateSymbol;
     private Image conjugateIcon;
     private Color conjugateColor;
-    private String strengthSymbol;
     private double strength;
     private double concentration; // initial concentration!
     private final ArrayList<SoluteListener> listeners;
     
-    protected Solute( String name, String symbol, Image icon, Color color, String conjugateSymbol, Image conjugateIcon, Color conjugateColor, String strengthSymbol, double strength ) {
+    protected Solute( String name, String symbol, Image icon, Color color, String conjugateSymbol, Image conjugateIcon, Color conjugateColor, double strength ) {
         super( name, symbol, icon, color );
         this.conjugateSymbol = conjugateSymbol;
         this.conjugateIcon = conjugateIcon;
         this.conjugateColor = conjugateColor;
-        this.strengthSymbol = strengthSymbol;
         if ( !isValidStrength( strength ) ) {
             throw new IllegalArgumentException( "strength is invalid: " + strength );
         }
@@ -88,14 +86,6 @@ public abstract class Solute extends Molecule {
     
     public double getStrength() {
         return strength;
-    }
-    
-    protected void setStrengthSymbol( String strengthSymbol ) {
-        this.strengthSymbol = strengthSymbol;
-    }
-    
-    public String getStrengthSymbol() {
-        return this.strengthSymbol;
     }
     
     // c

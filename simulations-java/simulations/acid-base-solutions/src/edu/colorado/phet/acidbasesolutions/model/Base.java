@@ -12,7 +12,7 @@ import edu.colorado.phet.acidbasesolutions.ABSSymbols;
 public abstract class Base extends Solute {
     
     private Base( String name, String symbol, Image icon, Color color, String conjugateSymbol, Image conjugateIcon, Color conjugateColor, double strength ) {
-        super( name, symbol, icon, color, conjugateSymbol, conjugateIcon, conjugateColor, ABSSymbols.Kb, strength );
+        super( name, symbol, icon, color, conjugateSymbol, conjugateIcon, conjugateColor, strength );
     }
     
     //----------------------------------------------------------------------------
