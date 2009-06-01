@@ -6,6 +6,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionResources;
+import edu.colorado.phet.naturalselection.model.Shrub;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
@@ -21,21 +22,23 @@ public class ShrubNode extends NaturalSelectionSprite {
 
     private PImage shrubImage;
 
+    private Shrub shrub;
+
     /**
      * Constructor. Creates a shrub at the specified canvas location with the specified scale, with the correct depth
      * so that bunnies display correctly in front and behind the shrub
      *
      * @param spriteHandler SpritesNode
-     * @param backgroundX   Canvas X location (center of shrub)
-     * @param backgroundY   Canvas y location (bottom of shrub)
-     * @param baseScale     Scale
+     * @param shrub         The corresponding shrub to view
      */
-    public ShrubNode( SpriteHandler spriteHandler, double backgroundX, double backgroundY, double baseScale ) {
+    public ShrubNode( SpriteHandler spriteHandler, Shrub shrub ) {
         super( spriteHandler );
 
-        this.backgroundX = backgroundX;
-        this.backgroundY = backgroundY;
-        this.baseScale = baseScale;
+        this.shrub = shrub;
+
+        backgroundX = shrub.getBackgroundX();
+        backgroundY = shrub.getBackgroundY();
+        baseScale = shrub.getBaseScale();
 
         // load the image
         shrubImage = NaturalSelectionResources.getImageNode( NaturalSelectionConstants.IMAGE_SHRUB );

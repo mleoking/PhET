@@ -9,10 +9,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
-import edu.colorado.phet.naturalselection.model.Bunny;
-import edu.colorado.phet.naturalselection.model.Frenzy;
-import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
-import edu.colorado.phet.naturalselection.model.Wolf;
+import edu.colorado.phet.naturalselection.model.*;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -54,7 +51,7 @@ public class SpriteHandler extends PNode implements NaturalSelectionModel.Listen
     /**
      * Constructor
      */
-    public SpriteHandler() {
+    public SpriteHandler( NaturalSelectionModel model ) {
         sprites = new LinkedList<NaturalSelectionSprite>();
         trees = new LinkedList<TreeNode>();
         shrubs = new LinkedList<ShrubNode>();
@@ -82,7 +79,13 @@ public class SpriteHandler extends PNode implements NaturalSelectionModel.Listen
 
 
         // create the shrubs (manually positioned and sized)
-
+        for ( Shrub shrub : model.getShrubs() ) {
+            ShrubNode shrubNode = new ShrubNode( this, shrub );
+            addChildSprite( shrubNode );
+            shrubs.add( shrubNode );
+            shrubNode.setVisible( false );
+        }
+        /*
         ShrubNode shrubA = new ShrubNode( this, 80, 330, 1 );
         addChildSprite( shrubA );
         shrubs.add( shrubA );
@@ -97,6 +100,7 @@ public class SpriteHandler extends PNode implements NaturalSelectionModel.Listen
         addChildSprite( shrubC );
         shrubs.add( shrubC );
         shrubC.setVisible( false );
+        */
 
     }
 

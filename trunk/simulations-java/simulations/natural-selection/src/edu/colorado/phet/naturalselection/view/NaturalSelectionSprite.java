@@ -14,6 +14,8 @@ import edu.umd.cs.piccolo.PNode;
  */
 public abstract class NaturalSelectionSprite extends PNode implements Comparable {
 
+    // TODO: use Point3D
+
     // position
     private double spriteX = 0;
     private double spriteY = 0;
@@ -80,7 +82,7 @@ public abstract class NaturalSelectionSprite extends PNode implements Comparable
      * @param y The canvas location y
      * @return The necessary spriteZ depth that with spriteY == 0 will return the canvas location y
      */
-    public double getInverseGroundZDepth( double y ) {
+    public static double getInverseGroundZDepth( double y ) {
         return ( ( 5 * NaturalSelectionCanvas.HORIZON - 5 * NaturalSelectionDefaults.VIEW_SIZE.getHeight() ) / ( -3 * y + 5 * NaturalSelectionCanvas.HORIZON - 2 * NaturalSelectionDefaults.VIEW_SIZE.getHeight() ) );
     }
 
