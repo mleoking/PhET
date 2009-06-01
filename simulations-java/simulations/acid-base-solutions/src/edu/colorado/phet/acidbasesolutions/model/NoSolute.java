@@ -20,4 +20,8 @@ public class NoSolute extends Solute {
     public String toString() {
         return getName();
     }
+    
+    public boolean isReactionBidirectional() {
+        return false;
+    }
 }

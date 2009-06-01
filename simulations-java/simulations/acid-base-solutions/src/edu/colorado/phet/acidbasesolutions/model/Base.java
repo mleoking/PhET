@@ -25,13 +25,16 @@ public abstract class Base extends Solute {
             super( name, symbol, ABSImages.MOH_MOLECULE, ABSConstants.MOH_COLOR, conjugateSymbol, ABSImages.M_PLUS_MOLECULE, ABSConstants.M_COLOR, strength );
         }
         
-        
         public boolean isZeroNegligible() {
             return true;
         }
         
         protected boolean isValidStrength( double strength ) {
             return ABSConstants.STRONG_STRENGTH_RANGE.contains( strength );
+        }
+        
+        public boolean isReactionBidirectional() {
+            return false;
         }
     }
     
@@ -51,13 +54,16 @@ public abstract class Base extends Solute {
             super( name, symbol, ABSImages.B_MOLECULE, ABSConstants.B_COLOR, conjugateSymbol, ABSImages.BH_PLUS_MOLECULE, ABSConstants.BH_COLOR, strength );
         }
         
-        
         public boolean isZeroNegligible() {
             return false;
         }
         
         protected boolean isValidStrength( double strength ) {
             return ABSConstants.WEAK_STRENGTH_RANGE.contains( strength );
+        }
+        
+        public boolean isReactionBidirectional() {
+            return true;
         }
     }
 
@@ -112,13 +118,16 @@ public abstract class Base extends Solute {
             }
         }
         
-        
         public boolean isZeroNegligible() {
             return isStrong();
         }
         
         protected boolean isValidStrength( double strength ) {
             return ABSConstants.CUSTOM_STRENGTH_RANGE.contains( strength );
+        }
+        
+        public boolean isReactionBidirectional() {
+            return !isStrong();
         }
     }
 }

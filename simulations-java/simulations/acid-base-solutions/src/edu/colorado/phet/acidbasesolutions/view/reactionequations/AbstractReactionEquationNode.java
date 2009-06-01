@@ -25,7 +25,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class ReactionEquationNode extends PComposite {
+public abstract class AbstractReactionEquationNode extends PComposite {
     
     private static final int MAX_TERMS = 4; // don't attempt to change this
     
@@ -44,7 +44,7 @@ public abstract class ReactionEquationNode extends PComposite {
      * Sets up a default reaction equation that looks like: S0 + S1 -> S2 + S3
      * and has no Lewis Structure diagrams.
      */
-    public ReactionEquationNode() {
+    public AbstractReactionEquationNode() {
         super();
         
         terms = new Term[MAX_TERMS];
@@ -288,23 +288,7 @@ public abstract class ReactionEquationNode extends PComposite {
         }
     }
     
-    /**
-     * Water reaction equation: H2O + H2O <-> H3O+ + OH-
-     */
-    public static class WaterReactionEquationNode extends ReactionEquationNode {
-        public WaterReactionEquationNode() {
-            setTerm( 0, ABSSymbols.H2O, ABSConstants.H2O_COLOR, ABSImages.H2O_STRUCTURE );
-            setTerm( 1, ABSSymbols.H2O, ABSConstants.H2O_COLOR, ABSImages.H2O_STRUCTURE );
-            setTerm( 2, ABSSymbols.H3O_PLUS, ABSConstants.H3O_COLOR, ABSImages.H3O_PLUS_STRUCTURE );
-            setTerm( 3, ABSSymbols.OH_MINUS, ABSConstants.OH_COLOR, ABSImages.OH_MINUS_STRUCTURE );
-        }
-        
-        protected BufferedImage getArrowImage() {
-            return ABSImages.ARROW_DOUBLE;
-        }
-    }
-    
-    protected static abstract class AbstractAcidReactionEquationNode extends ReactionEquationNode {
+    protected static abstract class AbstractAcidReactionEquationNode extends AbstractReactionEquationNode {
         
         public AbstractAcidReactionEquationNode() {
             setTerm( 0, ABSSymbols.HA, ABSConstants.HA_COLOR, ABSImages.HA_STRUCTURE );
@@ -360,7 +344,7 @@ public abstract class ReactionEquationNode extends PComposite {
     /**
      * Weak base reaction equation: B + H2O <-> BH+ + OH-
      */
-    public static class WeakBaseReactionEquationNode extends ReactionEquationNode {
+    public static class WeakBaseReactionEquationNode extends AbstractReactionEquationNode {
         
         public WeakBaseReactionEquationNode() {
             setTerm( 0, ABSSymbols.B, ABSConstants.B_COLOR, ABSImages.B_STRUCTURE );
@@ -384,7 +368,7 @@ public abstract class ReactionEquationNode extends PComposite {
     /**
      * Strong base reaction equation: MOH <-> M+ + OH-
      */
-    public static class StrongBaseReactionEquationNode extends ReactionEquationNode {
+    public static class StrongBaseReactionEquationNode extends AbstractReactionEquationNode {
         
         public StrongBaseReactionEquationNode() {
             setTerm( 0, ABSSymbols.MOH, ABSConstants.MOH_COLOR, ABSImages.MOH_STRUCTURE );
