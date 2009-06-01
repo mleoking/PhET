@@ -69,30 +69,38 @@ abstract class AbstractEquilibriumExpressionNode extends PComposite {
     private final DividedNode dividedNode;
     private final ValueNode valueNode;
     private final LargeValueNode largeValueNode;
+    private final boolean hasDenominator;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    protected AbstractEquilibriumExpressionNode() {
+    protected AbstractEquilibriumExpressionNode( boolean hasDenominator ) {
         super();
         setPickable( false );
         setChildrenPickable( false );
         
         kNode = new KNode( ABSSymbols.Ka );
         addChild( kNode );
+        
         leftNumeratorNode = new TermNode( "?" );
         addChild( leftNumeratorNode );
         rightNumeratorNode = new TermNode( "?" );
         addChild( rightNumeratorNode );
-        denominatorNode = new TermNode( "?" );
-        addChild( denominatorNode );
+        
         leftEqualsNode = new EqualsNode();
         addChild( leftEqualsNode );
         rightEqualsNode = new EqualsNode();
         addChild( rightEqualsNode );
+        
+        this.hasDenominator = hasDenominator;
+        denominatorNode = new TermNode( "?" );
         dividedNode = new DividedNode( 1 );
-        addChild( dividedNode );
+        if ( hasDenominator ) {
+            addChild( denominatorNode );
+            addChild( dividedNode );
+        }
+        
         valueNode = new ValueNode();
         addChild( valueNode );
         largeValueNode = new LargeValueNode();
@@ -166,16 +174,6 @@ abstract class AbstractEquilibriumExpressionNode extends PComposite {
     }
     
     /*
-     * Sets the visibility of the denominator, and the line that 
-     * separates the numerator and denominator.
-     */
-    protected void setDenominatorVisible( boolean visible ) {
-        denominatorNode.setVisible( visible );
-        dividedNode.setVisible( visible );
-        updateLayout();
-    }
-    
-    /*
      * Scales a node about its center.
      */
     private void setScaleAboutCenter( PNode node, double scale ) {
@@ -216,7 +214,7 @@ abstract class AbstractEquilibriumExpressionNode extends PComposite {
         yOffset = kNode.getFullBoundsReference().getCenterY() - ( leftEqualsNode.getFullBoundsReference().getHeight() / 2 ) - PNodeUtils.getOriginYOffset( leftEqualsNode );
         leftEqualsNode.setOffset( xOffset, yOffset );
         // terms
-        if ( denominatorNode.getVisible() ) {
+        if ( hasDenominator ) {
             // left numerator
             xOffset = leftEqualsNode.getFullBoundsReference().getMaxX() + X_SPACING - PNodeUtils.getOriginXOffset( leftNumeratorNode );
             yOffset = leftEqualsNode.getFullBoundsReference().getCenterY() - leftNumeratorNode.getFullBoundsReference().getHeight() - Y_SPACING - PNodeUtils.getOriginYOffset( leftNumeratorNode );

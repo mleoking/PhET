@@ -17,7 +17,7 @@ public class EquilibriumExpressionNode extends AbstractEquilibriumExpressionNode
     private boolean scaleEnabled;
 
     public EquilibriumExpressionNode( AqueousSolution solution ) {
-        super();
+        super( true /* hasDenominator */ );
         
         this.solution = solution;
         this.scaleEnabled = false;

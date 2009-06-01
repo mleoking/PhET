@@ -16,11 +16,10 @@ class WaterEquilibriumExpressionNode extends AbstractEquilibriumExpressionNode {
     private boolean scaleEnabled;
     
     public WaterEquilibriumExpressionNode( AqueousSolution solution ) {
-        super();
+        super( false /* hasDenominator */ );
         setKLabel( ABSSymbols.Kw );
         setLeftNumeratorProperties( ABSSymbols.H3O_PLUS, ABSConstants.H3O_COLOR );
         setRightNumeratorProperties( ABSSymbols.OH_MINUS, ABSConstants.OH_COLOR );
-        setDenominatorVisible( false );
         setKValue( Water.getEquilibriumConstant() );
         
         this.solution = solution;
