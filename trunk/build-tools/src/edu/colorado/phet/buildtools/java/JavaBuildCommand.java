@@ -7,6 +7,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.Jar;
@@ -99,26 +101,23 @@ public class JavaBuildCommand {
     }
 
     private void compile() {
-        compileJava();
         if ( project.containsScalaSource() ) {
             compileScala();
         }
+        compileJava();
     }
 
+    //Joint compilation for java/scala mixed projects
+    //see http://www.codecommit.com/blog/scala/joint-compilation-of-scala-and-java-sources
     private void compileScala() {
         Scalac scalac = new Scalac();
-        String s = null;
-        try {
-            s = new File( project.getProjectDir(), "../../build-tools/scala/scala-library.jar" ).getCanonicalPath();
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
-        System.out.println( "s = " + s );
         scalac.setClasspath( new Path( antTaskRunner.getProject(), toString( project.getAllJarFiles() ) +
-                " : " + project.getClassesDirectory().getAbsolutePath() + " : " + s ) );
-        scalac.setSrcdir( new Path( antTaskRunner.getProject(), toString( project.getAllScalaSourceRoots() ) ) );
-        scalac.setTarget( BuildToolsConstants.SIM_SCALA_VERSION );//see Scalac.Target
+                " : " + project.getClassesDirectory().getAbsolutePath() ) );
+        ArrayList all=new ArrayList(Arrays.asList(project.getAllScalaSourceRoots()));
+        all.addAll(Arrays.asList(project.getAllJavaSourceRoots()));
+        scalac.setSrcdir( new Path( antTaskRunner.getProject(), toString((File[]) all.toArray(new File[all.size()])) ) );
+        scalac.setIncludes("**/*.scala, **/*.java");
+        scalac.setTarget( BuildToolsConstants.SIM_SCALA_VERSION );//see Scalac.Target, allows targeting 1.4 jvm
         scalac.setDestdir( project.getClassesDirectory() );
         antTaskRunner.runTask( scalac );
         System.out.println( "Finished scala build." );
@@ -145,6 +144,14 @@ public class JavaBuildCommand {
         }
         javac.setSrcdir( new Path( antTaskRunner.getProject(), toString( src ) ) );
         javac.setDestdir( project.getClassesDirectory() );
+
+        //This block enables compilation of mixed java-scala sources by pointing the java compiler at the compiled scala source
+        // see http://www.codecommit.com/blog/scala/joint-compilation-of-scala-and-java-sources
+        if (project.containsScalaSource()){
+            ArrayList all=new ArrayList(Arrays.asList(classpath));
+            all.add(project.getClassesDirectory());
+            classpath= (File[]) all.toArray(new File[all.size()]);
+        }
         javac.setClasspath( new Path( antTaskRunner.getProject(), toString( classpath ) ) );
 
         //"lines,source" appears to be necessary to get line number debug info
