@@ -144,14 +144,7 @@ case class FullCircuit(batteries: Seq[Battery], resistors: Seq[Resistor], capaci
     selected
   }
 
-  def getElements = {
-    val elm = new ArrayBuffer[Element]
-    elm ++= batteries
-    elm ++= resistors
-    elm ++= capacitors
-    elm ++= inductors
-    elm
-  }
+  def getElements:Seq[Element] = batteries.toList ::: resistors.toList ::: capacitors.toList ::: inductors.toList
 
   def solve(dt: Double) = {
     val companionModel = getCompanionModel(dt)
