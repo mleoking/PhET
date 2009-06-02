@@ -23,9 +23,10 @@ DEFER:
 
 ISSUES:
 - vertical spacing of items in solute combo box
-- if A- icon shows a "hole" where proton was donated, why doesn't B icon show a hole where proton can be accepted?
+- people think the A- icon has something wrong with it
 - PSwing buffering makes Swing text look lousy while dragging sliders
 - Kathy doesn't like look of solute combo box
+- Laurie proposed that we hide the Lewis structures for strong bases
 
 DONE:
 6/1/09 implement concentration scaling in reaction equations
