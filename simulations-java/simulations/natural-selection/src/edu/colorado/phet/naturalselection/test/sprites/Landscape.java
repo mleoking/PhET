@@ -6,9 +6,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.Point3D;
-import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolox.nodes.PNodeCache;
 
-public class Landscape extends PNode implements Sprite.Listener {
+public class Landscape extends PNodeCache implements Sprite.Listener {
 
     public static final Dimension LANDSCAPE_SIZE = new Dimension( 640, 480 );
     public static final double LANDSCAPE_HORIZON = 100;
@@ -39,11 +39,11 @@ public class Landscape extends PNode implements Sprite.Listener {
         addSprite( new StaticSprite( this, bottomLeft, Color.BLUE ) );
         addSprite( new StaticSprite( this, bottomRight, Color.ORANGE ) );
 
-        for ( int i = 0; i < 100; i++ ) {
+        for ( int i = 0; i < 5; i++ ) {
             addSprite( new GroundSprite( this, getRandomGroundPosition() ) );
         }
 
-        for ( int i = 0; i < 300; i++ ) {
+        for ( int i = 0; i < 30; i++ ) {
             addSprite( new ActiveSprite( this, getRandomGroundPosition() ) );
         }
 
