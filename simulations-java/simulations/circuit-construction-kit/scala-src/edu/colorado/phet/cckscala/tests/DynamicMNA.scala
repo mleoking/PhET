@@ -44,7 +44,7 @@ object JavaUtil{
     def toSeq[T](javalist:ArrayList[T]):Seq[T]={
     val arrayBuffer=new ArrayBuffer[T]
     for (i <- 0 until javalist.size)
-      arrayBuffer+=javalist.get(i)
+      arrayBuffer+=javalist.get(i).asInstanceOf[T]
     arrayBuffer
   }
 }
