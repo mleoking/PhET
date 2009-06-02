@@ -107,7 +107,7 @@ public class CCKModel {
         //todo we can no longer have DT dynamic because it destroys smoothness of the plots
         if ( getCircuit().isDynamic() || modelChanged ) {
             getCircuit().stepInTime( dt );
-            int N=10;
+            int N=5;
             for (int i=0;i<N;i++){
                 circuitSolver.apply( getCircuit(),dt/N );
             }

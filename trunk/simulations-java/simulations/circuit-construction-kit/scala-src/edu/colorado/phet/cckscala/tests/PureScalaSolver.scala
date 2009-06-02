@@ -4,8 +4,10 @@ import circuitconstructionkit.model.analysis.CircuitSolver
 import circuitconstructionkit.model.components.{Branch, Wire, Inductor => CCKInductor, Capacitor => CCKCapacitor, Battery => CCKBattery, Resistor => CCKResistor, Filament, Switch, Bulb, SeriesAmmeter}
 import circuitconstructionkit.model.{Circuit => CCKCircuit}
 import collection.mutable.ArrayBuffer
+import common.phetcommon.util.IProguardKeepClass
 
-class PureScalaSolver extends CircuitSolver {
+class PureScalaSolver extends CircuitSolver
+        with IProguardKeepClass{//loaded with reflection, see CCKModel
   trait Adapter extends Element{
     def applySolution(sol: CompanionSolution) = {
       getComponent.setCurrent(sol.getCurrent(this))
@@ -25,8 +27,12 @@ class PureScalaSolver extends CircuitSolver {
   }
   class CapacitorAdapter(c: CCKCircuit, b: CCKCapacitor)
           extends Capacitor(c.indexOf(b.getStartJunction), c.indexOf(b.getEndJunction),
-            b.getCapacitance, b.getVoltageDrop, b.getCurrent) with Adapter {
+            b.getCapacitance, b.getVoltageDrop, -b.getCurrent) with Adapter {//todo: why is minus sign here too?
     def getComponent = b
+        override def applySolution(sol: CompanionSolution) = {
+      getComponent.setCurrent(-sol.getCurrent(this))//todo: why is current negative?
+      getComponent.setVoltageDrop(sol.getVoltage(this))
+    }
   }
   class InductorAdapter(c: CCKCircuit, b: CCKInductor)
           extends Inductor(c.indexOf(b.getStartJunction), c.indexOf(b.getEndJunction),
