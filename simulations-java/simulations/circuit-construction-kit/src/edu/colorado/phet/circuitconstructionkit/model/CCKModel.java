@@ -14,15 +14,13 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import edu.colorado.phet.circuitconstructionkit.model.analysis.CircuitAnalysisCCKAdapter;
 import edu.colorado.phet.circuitconstructionkit.model.analysis.CircuitSolver;
-import edu.colorado.phet.circuitconstructionkit.model.analysis.MNASolver;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
 
 /**
  * CCKModel
  *
- * @author Ron LeMaster
+ * @author Sam Reid
  * @version $Revision$
  */
 public class CCKModel {
@@ -78,7 +76,19 @@ public class CCKModel {
             }
         };
         this.circuit = createCircuit( circuitChangeListener );
-        circuitSolver = new CircuitAnalysisCCKAdapter( new MNASolver() );
+//        circuitSolver = new CircuitAnalysisCCKAdapter( new MNASolver() );
+
+        //Use reflection for Java->Scala dependencies until Eclipse developers are using Scala builder
+        try{
+            Class c=Class.forName("edu.colorado.phet.cckscala.tests.PureScalaSolver");
+            circuitSolver= (CircuitSolver) c.newInstance();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        }
         particleSet = new ParticleSet( getCircuit() );
         layout = new ConstantDensityLayout( getCircuit(), particleSet );
         getCircuit().addCircuitListener( layout );
@@ -97,7 +107,10 @@ public class CCKModel {
         //todo we can no longer have DT dynamic because it destroys smoothness of the plots
         if ( getCircuit().isDynamic() || modelChanged ) {
             getCircuit().stepInTime( dt );
-            circuitSolver.apply( getCircuit() );
+            int N=10;
+            for (int i=0;i<N;i++){
+                circuitSolver.apply( getCircuit(),dt/N );
+            }
             modelChanged = false;
         }
         particleSet.stepInTime( dt );
