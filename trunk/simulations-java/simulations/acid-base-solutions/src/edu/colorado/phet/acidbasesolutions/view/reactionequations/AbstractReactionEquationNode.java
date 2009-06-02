@@ -192,7 +192,7 @@ public abstract class AbstractReactionEquationNode extends PComposite {
      * Handles the positioning of a term.
      * @param index the index of the term
      * @param xStart the starting location of the xOffset
-     * @param yOffset the y offset of the Lewis Structure diagram
+     * @param structureYOffset the y offset of the Lewis Structure diagram
      */
     private double layoutTerm( int index, double xStart, double structureYOffset ) {
         double xOffset, yOffset;
