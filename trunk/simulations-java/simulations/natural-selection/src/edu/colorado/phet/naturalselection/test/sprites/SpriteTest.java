@@ -32,6 +32,7 @@ public class SpriteTest extends JFrame {
                                 ( (ActiveSprite) sprite ).perturb();
                             }
                         }
+
                         Collections.sort( spriteCanvas.getLandscape().getChildrenReference(), new Comparator() {
                             public int compare( Object a, Object b ) {
                                 Sprite sa = (Sprite) a;

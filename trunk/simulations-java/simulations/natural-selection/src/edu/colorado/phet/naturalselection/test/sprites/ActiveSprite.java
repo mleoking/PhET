@@ -54,5 +54,6 @@ public class ActiveSprite extends Sprite {
         }
         double y = landscape.getGroundY( x, z );
         setPosition( new Point3D.Double( x, y, z ) );
+        graphics.setScale( 200 / z );
     }
 }
