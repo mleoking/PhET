@@ -115,7 +115,8 @@ public class JavaBuildCommand {
             e.printStackTrace();
         }
         System.out.println( "s = " + s );
-        scalac.setClasspath( new Path( antTaskRunner.getProject(), toString( project.getAllJarFiles() ) + " : " + project.getClassesDirectory().getAbsolutePath() + " : " + s ) );
+        scalac.setClasspath( new Path( antTaskRunner.getProject(), toString( project.getAllJarFiles() ) +
+                " : " + project.getClassesDirectory().getAbsolutePath() + " : " + s ) );
         scalac.setSrcdir( new Path( antTaskRunner.getProject(), toString( project.getAllScalaSourceRoots() ) ) );
         scalac.setTarget( BuildToolsConstants.SIM_SCALA_VERSION );//see Scalac.Target
         scalac.setDestdir( project.getClassesDirectory() );
