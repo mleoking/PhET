@@ -16,8 +16,8 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
  * Time: 1:11:17 PM
  */
 public class Capacitor extends CircuitComponent implements DynamicBranch {
-    public static final double DEFAULT_CAPACITANCE = 0.02;
-    double capacitance = DEFAULT_CAPACITANCE;
+    public static final double DEFAULT_CAPACITANCE = 1E-1;
+    private double capacitance = DEFAULT_CAPACITANCE;
     private ArrayList listeners = new ArrayList();
 
     public Capacitor( Point2D start, AbstractVector2D dir, double length, double height, CircuitChangeListener kl ) {

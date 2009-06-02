@@ -15,7 +15,7 @@ import edu.colorado.phet.circuitconstructionkit.model.Junction;
 public class ACVoltageSource extends Battery implements DynamicBranch {
     private double time = 0;
     private double amplitude = 10;
-    private double frequency = 1.0 / 100.0;//hz
+    private double frequency = 0.5;//Hz
 
     public ACVoltageSource( CircuitChangeListener kl, Junction startJunction, Junction endjJunction, double length, double height, double internalResistance, boolean internalResistanceOn ) {
         super( kl, startJunction, endjJunction, length, height, internalResistance, internalResistanceOn );
@@ -27,7 +27,7 @@ public class ACVoltageSource extends Battery implements DynamicBranch {
     }
 
     public void stepInTime( double dt ) {
-        this.time += dt * CCKDefaults.modelTimeScale;
+        this.time += dt;
     }
 
     public void resetDynamics() {

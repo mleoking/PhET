@@ -58,17 +58,17 @@ object TestRCCircuit {
   def main(args: Array[String]) {
     val v = 10
     val R = 10.0
-    val C = 1.0E-2
+    val C = 1.0E-6
     val battery = Battery(0, 1, v)
     val resistor = Resistor(1, 2, R)
     val circuit = new FullCircuit(battery :: Nil, resistor :: Nil, Capacitor(2, 0, C, 0.0, 0.0) :: Nil, Nil)
     val inited = circuit.getInitializedCircuit
     println("inited=" + inited)
 
-    val dt = 1E-4
+    val dt = 0.03E-6
     var dynamicCircuit = inited
     println("voltage\tdesiredVoltage\terror")
-    for (i <- 0 until 10000) {
+    for (i <- 0 until 1000) {
       val t = i * dt
       val solution = dynamicCircuit.solve(dt)
       val current = solution.getCurrent(battery)

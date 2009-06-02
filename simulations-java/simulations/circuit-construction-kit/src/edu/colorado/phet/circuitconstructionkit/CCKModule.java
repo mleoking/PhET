@@ -31,9 +31,10 @@ public class CCKModule extends PiccoloModule {
     private CCKParameters cckParameters;
     private CCKSimulationPanel cckSimulationPanel;
     private MeasurementToolSet measurementToolSet;
-
+    private static int delay=30;//ms
+    private static double dt=delay/1000.0;//simulation units = seconds
     public CCKModule( String[] args ) {
-        super( "CCK-Piccolo", new SwingClock( 30, 1 ) );
+        super( "CCK-Piccolo", new SwingClock( delay,dt) );
 
         cckParameters = new CCKParameters( this, args );
         setModel( new BaseModel() );
