@@ -2,6 +2,7 @@ package edu.colorado.phet.cckscala.tests
 
 
 import collection.mutable.{ArrayBuffer, HashMap}
+import java.util.ArrayList
 
 abstract case class CompanionModel(batteries: Seq[Battery], resistors: Seq[Resistor], currentSources: Seq[CurrentSource]) {
   def getCurrent(solution: Solution): Double
@@ -39,9 +40,18 @@ case class Inductor(node0: Int, node1: Int, inductance: Double, voltage: Double,
     }
   }
 }
-
+object JavaUtil{
+    def toSeq[T](javalist:ArrayList[T]):Seq[T]={
+    val arrayBuffer=new ArrayBuffer[T]
+    for (i <- 0 until javalist.size)
+      arrayBuffer+=javalist.get(i)
+    arrayBuffer
+  }
+}
 case class InitialCondition(voltage: Double, current: Double)
 case class FullCircuit(batteries: Seq[Battery], resistors: Seq[Resistor], capacitors: Seq[Capacitor], inductors: Seq[Inductor]) extends AbstractCircuit {
+  //This auxiliary constructor facilitates communication with java
+  def this(b:ArrayList[Battery],r:ArrayList[Resistor],c:ArrayList[Capacitor],i:ArrayList[Inductor])=this(JavaUtil.toSeq(b),JavaUtil.toSeq(r),JavaUtil.toSeq(c),JavaUtil.toSeq(i))
   def stepInTime(dt: Double) = {
     val solution = solve(dt)
     new FullCircuit(batteries, resistors,
