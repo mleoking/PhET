@@ -25,6 +25,7 @@ ISSUES:
 - Laurie proposed that we hide the reactant molecule image for strong bases
 
 DONE:
+# 0.01.18
 6/2/09 fix odd behavior at strong/intermediate base boundary, switch symbols/icons/etc before strength notification
 6/2/09 move common behavior to Solute base class
 # 0.01.17
