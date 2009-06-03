@@ -16,8 +16,9 @@ class PureScalaSolver extends CircuitSolver
 
     def getComponent: Branch
   }
-  class BatteryAdapter(c: CCKCircuit, b: CCKBattery)
-          extends Battery(c.indexOf(b.getStartJunction), c.indexOf(b.getEndJunction), b.getVoltageDrop) with Adapter {
+
+  class ResistiveBatteryAdapter(c: CCKCircuit, b: CCKBattery)
+          extends ResistiveBattery(c.indexOf(b.getStartJunction), c.indexOf(b.getEndJunction), b.getVoltageDrop,b.getResistance) with Adapter {
     def getComponent = b
 
     //don't set voltage on the battery; that actually changes its nominal voltage
@@ -43,21 +44,21 @@ class PureScalaSolver extends CircuitSolver
     def getComponent = b
   }
   def apply(circuit: CCKCircuit, dt: Double) = {
-    val batteries = new ArrayBuffer[BatteryAdapter]
+    val batteries = new ArrayBuffer[ResistiveBatteryAdapter]
     val resistors = new ArrayBuffer[ResistorAdapter]
     val capacitors = new ArrayBuffer[CapacitorAdapter]
     val inductors = new ArrayBuffer[InductorAdapter]
     for (i <- 0 until circuit.numBranches) {
       circuit.getBranches.apply(i) match {
-        case battery: CCKBattery => batteries += new BatteryAdapter(circuit, battery)
+        case battery: CCKBattery => batteries += new ResistiveBatteryAdapter(circuit, battery)
         case resistor: CCKResistor => resistors += new ResistorAdapter(circuit, resistor)
         case resistor: Wire => resistors += new ResistorAdapter(circuit, resistor)
         case resistor: Filament => resistors += new ResistorAdapter(circuit, resistor)
-        case s: Switch => resistors += new ResistorAdapter(circuit, s)
-        case s: Bulb => resistors += new ResistorAdapter(circuit, s)
-        case s: SeriesAmmeter => resistors += new ResistorAdapter(circuit, s)
-        case c: CCKCapacitor => capacitors += new CapacitorAdapter(circuit, c)
-        case c: CCKInductor => inductors += new InductorAdapter(circuit, c)
+        case resistor: Switch => resistors += new ResistorAdapter(circuit, resistor)
+        case resistor: Bulb => resistors += new ResistorAdapter(circuit, resistor)
+        case resistor: SeriesAmmeter => resistors += new ResistorAdapter(circuit, resistor)
+        case capacitor: CCKCapacitor => capacitors += new CapacitorAdapter(circuit, capacitor)
+        case inductor: CCKInductor => inductors += new InductorAdapter(circuit, inductor)
       }
     }
     val circ = new FullCircuit(batteries, resistors, capacitors, inductors)
