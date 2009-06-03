@@ -39,7 +39,7 @@ public abstract class NaturalSelectionSprite extends PNode implements Comparable
 
     public void setPosition( Point3D position ) {
         //System.out.println( "Moving " + getClass().getSimpleName() + " to " + position );
-        double old = position.getZ();
+        double old = this.position.getZ();
         this.position = position;
         notifyMoved( old != position.getZ() );
     }
