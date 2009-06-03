@@ -20,10 +20,10 @@ case class Capacitor(node0: Int, node1: Int, capacitance: Double, voltage: Doubl
     val midNode = newNode()
     new CompanionModel(new Battery(node0, midNode, voltage + dt * current / 2 / capacitance) :: Nil,
       new Resistor(midNode, node1, dt / 2 / capacitance) :: Nil, Nil) {
-      def getCurrent(solution: Solution) = -solution.getCurrent(batteries(0))//todo: why is minus sign here?
+      def getCurrent(solution: Solution) = -solution.getCurrent(batteries(0)) //todo: why is minus sign here?
 
-      def getVoltage(solution: Solution) = voltage+dt/2/capacitance*(current+getCurrent(solution))//seems to have same behavior as line below
-//      def getVoltage(solution: Solution) = solution.getNodeVoltage(node1)-solution.getNodeVoltage(node0)
+      def getVoltage(solution: Solution) = voltage + dt / 2 / capacitance * (current + getCurrent(solution)) //seems to have same behavior as line below
+      //      def getVoltage(solution: Solution) = solution.getNodeVoltage(node1)-solution.getNodeVoltage(node0)
     }
   }
 }
@@ -36,22 +36,37 @@ case class Inductor(node0: Int, node1: Int, inductance: Double, voltage: Double,
       new Resistor(midNode, node1, 2 * inductance / dt) :: Nil, Nil) {
       def getCurrent(solution: Solution) = solution.getCurrent(batteries(0))
 
-      def getVoltage(solution: Solution) = (getCurrent(solution)-current)*2*inductance/dt-voltage
+      def getVoltage(solution: Solution) = (getCurrent(solution) - current) * 2 * inductance / dt - voltage
     }
   }
 }
-object JavaUtil{
-    def toSeq[T](javalist:ArrayList[T]):Seq[T]={
-    val arrayBuffer=new ArrayBuffer[T]
-    for (i <- 0 until javalist.size)
-      arrayBuffer+=javalist.get(i).asInstanceOf[T]
-    arrayBuffer
+
+//This models a battery with a resistance in series
+case class ResistiveBattery(node0: Int, node1: Int, voltage: Double, resistance: Double) extends Element with HasCompanionModel {
+  def getCompanionModel(dt: Double, newNode: () => Int) = {
+    val midNode = newNode()
+    new CompanionModel(Battery(node0, midNode, voltage) :: Nil,
+      new Resistor(midNode, node1, resistance) :: Nil, Nil) {
+      def getCurrent(solution: Solution) = solution.getCurrent(batteries(0))
+
+      def getVoltage(solution: Solution) = solution.getVoltageDifference(node0, node1)
+    }
   }
 }
+
+//object JavaUtil {
+//  def toSeq[T](javalist: ArrayList[T]): Seq[T] = {
+//    val arrayBuffer = new ArrayBuffer[T]
+//    for (i <- 0 until javalist.size)
+//      arrayBuffer += javalist.get(i).asInstanceOf[T]
+//    arrayBuffer
+//  }
+//}
 case class InitialCondition(voltage: Double, current: Double)
-case class FullCircuit(batteries: Seq[Battery], resistors: Seq[Resistor], capacitors: Seq[Capacitor], inductors: Seq[Inductor]) extends AbstractCircuit {
+case class FullCircuit(batteries: Seq[ResistiveBattery], resistors: Seq[Resistor], capacitors: Seq[Capacitor], inductors: Seq[Inductor]) extends AbstractCircuit {
   //This auxiliary constructor facilitates communication with java
-  def this(b:ArrayList[Battery],r:ArrayList[Resistor],c:ArrayList[Capacitor],i:ArrayList[Inductor])=this(JavaUtil.toSeq(b),JavaUtil.toSeq(r),JavaUtil.toSeq(c),JavaUtil.toSeq(i))
+//  def this(b: ArrayList[Battery], r: ArrayList[Resistor], c: ArrayList[Capacitor], i: ArrayList[Inductor]) = this (JavaUtil.toSeq(b), JavaUtil.toSeq(r), JavaUtil.toSeq(c), JavaUtil.toSeq(i))
+
   def stepInTime(dt: Double) = {
     val solution = solve(dt)
     new FullCircuit(batteries, resistors,
@@ -76,12 +91,16 @@ case class FullCircuit(batteries: Seq[Battery], resistors: Seq[Resistor], capaci
   //This is done by:
   // treating a capacitor as a R=0.0 resistor and computing the current through it
   // treating an inductor as a R=INF resistor and computing the voltage drop across it
+  //Todo: finding inital bias currently ignores batteries with resistance
   def getInitialConditions = {
     val b = new ArrayBuffer[Battery]
-    b ++= batteries
     val r = new ArrayBuffer[Resistor]
     r ++= resistors
     val cs = new ArrayBuffer[CurrentSource]
+
+    for (batt<-batteries) {
+      b+=new Battery(batt.node0,batt.node1,batt.voltage)//todo: account for internal resistance of battery in initial bias computation
+    }
 
     val capToRes = new HashMap[Capacitor, Resistor]
     for (c <- capacitors) {
@@ -110,8 +129,7 @@ case class FullCircuit(batteries: Seq[Battery], resistors: Seq[Resistor], capaci
   case class InitialConditionSet(capacitorMap: HashMap[Capacitor, InitialCondition], inductorMap: HashMap[Inductor, InitialCondition])
 
   def getCompanionModel(dt: Double) = {
-    val b = new ArrayBuffer[Battery]
-    b ++= batteries
+    val b = new ArrayBuffer[Battery]//batteries use companion model since they have optionally have internal resistance
     val r = new ArrayBuffer[Resistor]
     r ++= resistors
     val cs = new ArrayBuffer[CurrentSource]
@@ -119,7 +137,7 @@ case class FullCircuit(batteries: Seq[Battery], resistors: Seq[Resistor], capaci
     val usedIndices = new ArrayBuffer[Int]
 
     val companionMap = new HashMap[HasCompanionModel, CompanionModel]
-    val sourceElements: Seq[HasCompanionModel] = capacitors.toList ::: inductors.toList
+    val sourceElements: Seq[HasCompanionModel] = capacitors.toList ::: inductors.toList ::: batteries.toList
     for (c <- sourceElements) {
       val cm = c.getCompanionModel(dt, () => getFreshIndex(usedIndices))
       companionMap += c -> cm
@@ -144,7 +162,7 @@ case class FullCircuit(batteries: Seq[Battery], resistors: Seq[Resistor], capaci
     selected
   }
 
-  def getElements:Seq[Element] = batteries.toList ::: resistors.toList ::: capacitors.toList ::: inductors.toList
+  def getElements: Seq[Element] = batteries.toList ::: resistors.toList ::: capacitors.toList ::: inductors.toList
 
   def solve(dt: Double) = {
     val companionModel = getCompanionModel(dt)

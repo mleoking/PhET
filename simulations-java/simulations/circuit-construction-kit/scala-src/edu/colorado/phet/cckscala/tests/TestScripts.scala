@@ -29,7 +29,7 @@ object TestRLCircuit {
     val R = 10
     val V = 5.0
     val resistor = Resistor(1, 2, R)
-    val circuit = new FullCircuit(Battery(0, 1, V) :: Nil, resistor :: Nil, Nil, Inductor(2, 0, L, 0, 0) :: Nil)
+    val circuit = new FullCircuit(ResistiveBattery(0, 1, V,0) :: Nil, resistor :: Nil, Nil, Inductor(2, 0, L, 0, 0) :: Nil)
 
     val dt = 1E-4
     var dynamicCircuit = circuit.getInitializedCircuit
@@ -59,7 +59,7 @@ object TestRCCircuit {
     val v = 10
     val R = 10.0
     val C = 1.0E-6
-    val battery = Battery(0, 1, v)
+    val battery = ResistiveBattery(0, 1, v,0)
     val resistor = Resistor(1, 2, R)
     val circuit = new FullCircuit(battery :: Nil, resistor :: Nil, Capacitor(2, 0, C, 0.0, 0.0) :: Nil, Nil)
     val inited = circuit.getInitializedCircuit

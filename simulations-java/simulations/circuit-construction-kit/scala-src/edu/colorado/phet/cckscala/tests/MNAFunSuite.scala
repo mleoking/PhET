@@ -103,7 +103,7 @@ class MNAFunSuite extends FunSuite {
 
   def testVRCCircuit(v: Double, r: Double, c: Double) = {
     val resistor = Resistor(1, 2, r)
-    val circuit = new FullCircuit(Battery(0, 1, v) :: Nil, resistor :: Nil, Capacitor(2, 0, c, 0.0, 0.0) :: Nil, Nil)
+    val circuit = new FullCircuit(ResistiveBattery(0, 1, v,0) :: Nil, resistor :: Nil, Capacitor(2, 0, c, 0.0, 0.0) :: Nil, Nil)
 
     val dt = 1E-4
     var dynamicCircuit = circuit.getInitializedCircuit
@@ -138,12 +138,12 @@ class MNAFunSuite extends FunSuite {
   test("RL Circuit should have correct behavior for V=7 R=13 L=1E4") {
     testVRLCircuit(7, 13, 1E4)
   }
-  test("RL Circuit should have correct behavior for V=7 R=13 L=1E-4") {
+  test("RL Circuit should have correct behavior for V=7 R=13 L=1E-4") {//todo: currently fails
     testVRLCircuit(7, 13, 1E-4)
   }
   def testVRLCircuit(V: Double, R: Double, L: Double) {
     val resistor = Resistor(1, 2, R)
-    val circuit = new FullCircuit(Battery(0, 1, V) :: Nil, resistor :: Nil, Nil, Inductor(2, 0, L, 0, 0) :: Nil)
+    val circuit = new FullCircuit(ResistiveBattery(0, 1, V,0) :: Nil, resistor :: Nil, Nil, Inductor(2, 0, L, 0, 0) :: Nil)
     val dt = 1E-4
     var dynamicCircuit = circuit.getInitializedCircuit
     for (i <- 0 until 1000) {
