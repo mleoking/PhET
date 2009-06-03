@@ -35,7 +35,6 @@ public class BaseReactionEquationNode extends AbstractReactionEquationNode {
     public BaseReactionEquationNode( AqueousSolution solution ) {
         super();
         
-        setTerm( H2O_INDEX, ABSSymbols.H2O, ABSConstants.H2O_COLOR, ABSImages.H2O_STRUCTURE );
         setTerm( OH_MINUS_INDEX, ABSSymbols.OH_MINUS, ABSConstants.OH_COLOR, ABSImages.OH_MINUS_STRUCTURE );
         
         this.solution = solution;
@@ -82,7 +81,7 @@ public class BaseReactionEquationNode extends AbstractReactionEquationNode {
         setTerm( PRODUCT_INDEX, solute.getConjugateSymbol(), solute.getConjugateColor(), solute.getConjugateStructure() );
         
         // H2O does not scale, use black text when scaling is enabled
-        Color waterColor = ( isScaleEnabled() ? Color.BLACK : ABSConstants.H2O_COLOR );
+        Color waterColor = ( isScaleEnabled() ? Color.BLACK : ABSConstants.H2O_EQUATION_COLOR );
         setTerm( H2O_INDEX, ABSSymbols.H2O, waterColor, ABSImages.H2O_STRUCTURE );
         
         // strong vs weak base
@@ -94,7 +93,6 @@ public class BaseReactionEquationNode extends AbstractReactionEquationNode {
         if ( scaleEnabled ) {
             EquilibriumModel equilibriumModel = solution.getEquilibriumModel();
             scaleTermToConcentration( REACTANT_INDEX, equilibriumModel.getReactantConcentration() );
-            scaleTermToConcentration( H2O_INDEX, equilibriumModel.getH2OConcentration() );
             scaleTermToConcentration( PRODUCT_INDEX, equilibriumModel.getProductConcentration() );
             scaleTermToConcentration( OH_MINUS_INDEX, equilibriumModel.getOHConcentration() );
         }

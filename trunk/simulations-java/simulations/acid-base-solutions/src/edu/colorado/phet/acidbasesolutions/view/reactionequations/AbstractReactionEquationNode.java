@@ -24,13 +24,15 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public abstract class AbstractReactionEquationNode extends PComposite {
     
+    private static final int FONT_SIZE = 18;
+    
     private static final int MAX_TERMS = 4; // don't attempt to change this
     
     private static final double X_SPACING = 20;
     private static final double Y_SPACING = 10;
     
-    private static final Font SYMBOL_FONT = new PhetFont( Font.BOLD, 24 );
-    private static final Font PLUS_FONT = new PhetFont( Font.BOLD, 22 );
+    private static final Font SYMBOL_FONT = new PhetFont( Font.BOLD, FONT_SIZE );
+    private static final Font PLUS_FONT = new PhetFont( Font.BOLD, FONT_SIZE );
     private static final Color PLUS_COLOR = Color.BLACK;
     
     private final Term[] terms;
@@ -100,6 +102,7 @@ public abstract class AbstractReactionEquationNode extends PComposite {
         else {
             arrow.setImage( ABSImages.ARROW_SINGLE );
         }
+        updateLayout();
     }
     
     /*
@@ -110,13 +113,6 @@ public abstract class AbstractReactionEquationNode extends PComposite {
         terms[1].setVisible( visible );
         plusLHS.setVisible( visible );
         updateLayout();
-    }
-    
-    /*
-     * Sets the mutable properties of a term.
-     */
-    protected void setTerm( int index, String text, Color color ) {
-        setTerm( index, text, color, null );
     }
     
     /*
@@ -145,8 +141,8 @@ public abstract class AbstractReactionEquationNode extends PComposite {
     }
     
     /*
-     * Changes the visibility of a term's Lewis structure diagram.
-     * Use addChild/removeChild so that full bounds won't include an invisible structure.
+     * Changes the visibility of one term's Lewis structure diagram.
+     * Uses addChild/removeChild so that full bounds won't include an invisible structure.
      */
     private void setStructureVisible( int index, boolean visible ) {
         Term term = terms[ index ];
@@ -157,6 +153,7 @@ public abstract class AbstractReactionEquationNode extends PComposite {
         else if ( indexOfChild( structureNode ) != -1 ) {
             removeChild( structureNode );
         }
+        updateLayout();
     }
     
     /*

@@ -19,8 +19,8 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 
 public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
     
-    private static final Dimension TOP_CANVAS_SIZE = new Dimension( 525, 150 );
-    private static final Dimension BOTTOM_CANVAS_SIZE = new Dimension( TOP_CANVAS_SIZE.width, 120 );
+    private static final Dimension TOP_CANVAS_SIZE = new Dimension( 500, 130 );
+    private static final Dimension BOTTOM_CANVAS_SIZE = new Dimension( TOP_CANVAS_SIZE.width, 100 );
     
     private final AqueousSolution solution;
     private final SolutionListener solutionListener;

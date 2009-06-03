@@ -86,6 +86,9 @@ public class ABSConstants {
     public static final Color MOH_PARTICLES_COLOR = MOH_COLOR;
     public static final Color M_PARTICLES_COLOR = M_COLOR;
     
+    // equation colors
+    public static final Color H2O_EQUATION_COLOR = H2O_COLOR.darker();
+    
     // slider thumbs
     public static final Color THUMB_ENABLED_COLOR = new Color( 154, 255, 255 );
     public static final Color THUMB_HILITE_COLOR = new Color( 46, 255, 255 );

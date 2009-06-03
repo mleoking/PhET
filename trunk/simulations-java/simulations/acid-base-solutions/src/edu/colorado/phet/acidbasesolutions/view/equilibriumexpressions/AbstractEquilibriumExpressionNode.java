@@ -37,21 +37,23 @@ abstract class AbstractEquilibriumExpressionNode extends PComposite {
     // Class data
     //----------------------------------------------------------------------------
     
+    private static final int FONT_SIZE = 18;
+    
     private static final double X_SPACING = 10;
     private static final double Y_SPACING = 5;
     
-    private static final Font K_FONT = new PhetFont( Font.BOLD, 24 );
+    private static final Font K_FONT = new PhetFont( Font.BOLD, FONT_SIZE );
     
-    private static final Font SYMBOL_FONT = new PhetFont( Font.BOLD, 24 );
+    private static final Font SYMBOL_FONT = new PhetFont( Font.BOLD, FONT_SIZE );
     
-    private static final Font VALUE_FONT = new PhetFont( Font.PLAIN, 24 );
+    private static final Font VALUE_FONT = new PhetFont( Font.PLAIN, FONT_SIZE );
     private static final Color VALUE_COLOR = Color.BLACK;
     private static final TimesTenNumberFormat VALUE_FORMAT = new TimesTenNumberFormat( "0.00" );
     
-    private static final Font EQUALS_FONT = new PhetFont( Font.BOLD, 22 );
+    private static final Font EQUALS_FONT = new PhetFont( Font.BOLD, FONT_SIZE - 2 );
     private static final Color EQUALS_COLOR = Color.BLACK;
     
-    private static final Font BRACKET_FONT = new PhetFont( Font.PLAIN, 22 );
+    private static final Font BRACKET_FONT = new PhetFont( Font.PLAIN, FONT_SIZE - 2 );
     private static final Color BRACKET_COLOR = Color.BLACK;
     private static final double BRACKET_X_MARGIN = 2;
     

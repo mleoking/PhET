@@ -3,7 +3,6 @@
 ==================================================================================
 
 TODO:
-- fix initial layout of acid reaction equation
 - stronger typing in equilibrium expressions and reaction equations constructors
 - move setScaleEnabled out of subclasses and into AbstractEquilibriumExpression
 - too much duplication in AbstractEquilibriumExpression and AbstractReactionEquation subclasses
@@ -28,6 +27,8 @@ ISSUES:
 - Laurie proposed that we hide the reactant molecule image for strong bases
 
 DONE:
+6/2/09 fix initial layout of acid reaction equation
+6/2/09 use a darker color for H2O symbols in equations
 6/2/09 hide Lewis structure diagrams for specific acids and bases
 6/2/09 address many issues in reaction equations, still some issues
 6/1/09 implement concentration scaling in reaction equations
