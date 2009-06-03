@@ -107,7 +107,7 @@ public class CCKModel {
     //Every frameSolveCount steps, it will run N iterations of the solver
     public void stepInTime( double dt ) {
         stepCount++;
-        if ( (getCircuit().isDynamic() || modelChanged ) && stepCount%frameSolveCount==1) {
+        if ( (getCircuit().isDynamic() || modelChanged ) && stepCount%frameSolveCount==0) {
             getCircuit().stepInTime( dt );
             for (int i=0;i<N;i++){
                 circuitSolver.apply( getCircuit(),dt/(double)N*(double)frameSolveCount );
