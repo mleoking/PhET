@@ -34,7 +34,7 @@ DONE:
 6/2/09 hide Lewis structure diagrams for specific acids and bases
 6/2/09 address many issues in reaction equations, still some issues
 6/1/09 implement concentration scaling in reaction equations
-6/1/09 redo reaction equation hierachy, sort of broken
+6/1/09 redo reaction equation hierarchy, sort of broken
 6/1/09 add bi-directionality of reaction to model
 6/1/09 remove strength symbol from model
 6/1/09 revise equilibrium expression class hierarchy
