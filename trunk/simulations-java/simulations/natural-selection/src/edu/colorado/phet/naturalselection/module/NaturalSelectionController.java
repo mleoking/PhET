@@ -28,7 +28,7 @@ public class NaturalSelectionController {
 
         // if a new bunny is created in the model, we should create a sprite for it. (Also bushes and trees change
         // depending on environment and selection factors)
-        model.addListener( canvas.bunnies );
+        model.addListener( canvas.landscapeNode );
 
         // if the environment changes, we need to modify the background
         model.addListener( canvas.backgroundNode );

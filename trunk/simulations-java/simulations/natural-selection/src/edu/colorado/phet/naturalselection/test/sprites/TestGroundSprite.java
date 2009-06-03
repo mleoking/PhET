@@ -6,11 +6,11 @@ import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.umd.cs.piccolo.nodes.PPath;
 
-public class GroundSprite extends Sprite {
+public class TestGroundSprite extends TestSprite {
 
     private PPath graphics;
 
-    public GroundSprite( Landscape landscape, Point3D position ) {
+    public TestGroundSprite( TestLandscape landscape, Point3D position ) {
         super( landscape, position );
 
         graphics = new PPath();

@@ -9,14 +9,14 @@ import javax.swing.*;
 import org.jfree.ui.RefineryUtilities;
 
 public class SpriteTest extends JFrame {
-    private SpriteCanvas spriteCanvas;
+    private TestSpriteCanvas testSpriteCanvas;
 
     public SpriteTest() throws HeadlessException {
         super( "SpriteTest" );
 
         JPanel panel = new JPanel( new GridLayout( 1, 1 ) );
-        spriteCanvas = new SpriteCanvas();
-        panel.add( spriteCanvas );
+        testSpriteCanvas = new TestSpriteCanvas();
+        panel.add( testSpriteCanvas );
         setContentPane( panel );
 
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
@@ -27,16 +27,16 @@ public class SpriteTest extends JFrame {
                 try {
                     while ( true ) {
                         Thread.sleep( 1000 / 25 );
-                        for ( Sprite sprite : spriteCanvas.getLandscape().getSprites() ) {
-                            if ( sprite instanceof ActiveSprite ) {
-                                ( (ActiveSprite) sprite ).perturb();
+                        for ( TestSprite testSprite : testSpriteCanvas.getLandscape().getSprites() ) {
+                            if ( testSprite instanceof TestActiveSprite ) {
+                                ( (TestActiveSprite) testSprite ).perturb();
                             }
                         }
 
-                        Collections.sort( spriteCanvas.getLandscape().getChildrenReference(), new Comparator() {
+                        Collections.sort( testSpriteCanvas.getLandscape().getChildrenReference(), new Comparator() {
                             public int compare( Object a, Object b ) {
-                                Sprite sa = (Sprite) a;
-                                Sprite sb = (Sprite) b;
+                                TestSprite sa = (TestSprite) a;
+                                TestSprite sb = (TestSprite) b;
 
                                 if ( sa.getPosition().getZ() == sb.getPosition().getZ() ) {
                                     return 0;

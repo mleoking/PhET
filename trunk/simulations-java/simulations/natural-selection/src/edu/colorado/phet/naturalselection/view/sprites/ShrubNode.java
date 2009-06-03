@@ -1,12 +1,13 @@
 /* Copyright 2009, University of Colorado */
 
-package edu.colorado.phet.naturalselection.view;
+package edu.colorado.phet.naturalselection.view.sprites;
 
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionResources;
 import edu.colorado.phet.naturalselection.model.Shrub;
+import edu.colorado.phet.naturalselection.view.LandscapeNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
@@ -14,30 +15,29 @@ import edu.umd.cs.piccolo.nodes.PImage;
  *
  * @author Jonathan Olson
  */
-public class ShrubNode extends NaturalSelectionSprite {
+public class ShrubNode extends NaturalSelectionSprite implements Rescalable {
 
-    private final double backgroundX;
-    private final double backgroundY;
     private final double baseScale;
 
     private PImage shrubImage;
 
     private Shrub shrub;
 
+    private LandscapeNode landscapeNode;
+
     /**
      * Constructor. Creates a shrub at the specified canvas location with the specified scale, with the correct depth
      * so that bunnies display correctly in front and behind the shrub
      *
-     * @param spriteHandler SpritesNode
+     * @param landscapeNode SpritesNode
      * @param shrub         The corresponding shrub to view
      */
-    public ShrubNode( SpriteHandler spriteHandler, Shrub shrub ) {
-        super( spriteHandler );
+    public ShrubNode( LandscapeNode landscapeNode, Shrub shrub ) {
+        super( landscapeNode, shrub.getPosition() );
 
+        this.landscapeNode = landscapeNode;
         this.shrub = shrub;
 
-        backgroundX = shrub.getBackgroundX();
-        backgroundY = shrub.getBackgroundY();
         baseScale = shrub.getBaseScale();
 
         // load the image
@@ -45,28 +45,19 @@ public class ShrubNode extends NaturalSelectionSprite {
 
         // offset the shrub image so it looks like the base is where the bottom of the image was before
         Point2D offset = NaturalSelectionConstants.IMAGE_SHRUB_OFFSET;
-        shrubImage.setOffset( offset.getX(), offset.getY() );
+        shrubImage.setOffset( offset.getX() - shrubImage.getWidth() / 2, offset.getY() - shrubImage.getHeight() );
 
         addChild( shrubImage );
 
-        reposition();
+        rescale();
+
+        //addChild( new DebugCross() );
 
     }
 
-    public void reposition() {
-
-
-        setSpriteLocation( backgroundX, 0, getInverseGroundZDepth( backgroundY ) );
-
-        double scale = baseScale * spriteHandler.getSpriteTransform().getScaleY();
+    public void rescale() {
+        double scale = baseScale * landscapeNode.getSpriteTransform().getScaleY();
 
         setScale( scale );
-
-        Point2D location = new Point2D.Double( backgroundX, backgroundY );
-
-        spriteHandler.getSpriteTransform().transform( location, location );
-
-        setOffset( location.getX() - scale * shrubImage.getWidth() / 2, location.getY() - shrubImage.getHeight() * scale );
-
     }
 }

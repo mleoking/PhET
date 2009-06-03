@@ -11,7 +11,6 @@ import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
-import edu.colorado.phet.naturalselection.view.SpriteHandler;
 
 /**
  * Represents a bunny in the Natural Selection model
@@ -80,8 +79,7 @@ public class Bunny {
     private static final Random random = new Random( System.currentTimeMillis() );
 
     // 3d coordinates
-    // TODO: use Point3D
-    private double x, y, z;
+    private Point3D position;
 
     // time since the last hop
     private int sinceHopTime = 0;
@@ -98,6 +96,8 @@ public class Bunny {
     private ClockAdapter clockListener;
 
     private ArrayList<Listener> listeners;
+
+    public static final double BUNNY_SIDE_SPACER = 10.0;
 
     /**
      * Constructor
@@ -177,12 +177,9 @@ public class Bunny {
      * Sets the initial bunny position (3d coordinates)
      */
     private void setInitialPosition() {
-        x = Math.random() * ( SpriteHandler.MAX_X - SpriteHandler.MIN_X ) + SpriteHandler.MIN_X;
-
-        // start on the ground
-        y = SpriteHandler.MIN_Y;
-
-        z = Math.random() * ( SpriteHandler.MAX_Z - SpriteHandler.MIN_Z ) + SpriteHandler.MIN_Z;
+        position = model.getLandscape().getRandomGroundPosition();
+        double mx = model.getLandscape().getMaximumX( position.getZ() );
+        position.setLocation( position.getX() * ( mx - BUNNY_SIDE_SPACER ) / mx, position.getY(), position.getZ() );
     }
 
     public boolean isAlive() {
@@ -286,44 +283,8 @@ public class Bunny {
         return mated;
     }
 
-    public double getX() {
-        return x;
-    }
-
-    public void setX( double x ) {
-        double old = this.x;
-        this.x = x;
-        if ( old != x ) {
-            notifyChangePosition();
-        }
-    }
-
-    public double getY() {
-        return y;
-    }
-
-    public void setY( double y ) {
-        double old = this.y;
-        this.y = y;
-        if ( old != y ) {
-            notifyChangePosition();
-        }
-    }
-
-    public double getZ() {
-        return z;
-    }
-
-    public void setZ( double z ) {
-        double old = this.z;
-        this.z = z;
-        if ( old != z ) {
-            notifyChangePosition();
-        }
-    }
-
     public Point3D getPosition() {
-        return new Point3D.Double( x, y, z );
+        return position;
     }
 
     public boolean isMutated() {
@@ -474,29 +435,48 @@ public class Bunny {
             int hopProgress = sinceHopTime - BETWEEN_HOP_TIME;
             double hopFraction = ( (double) hopProgress ) / ( (double) HOP_TIME );
 
-            setY( HOP_HEIGHT * 2 * ( -hopFraction * hopFraction + hopFraction ) );
+            double x = position.getX() + hopDirection.getX();
+            double z = position.getZ() + hopDirection.getZ();
+            double y = model.getLandscape().getGroundY( x, z ) + HOP_HEIGHT * 2 * ( -hopFraction * hopFraction + hopFraction );
 
-            setX( getX() + hopDirection.getX() );
-            setZ( getZ() + hopDirection.getZ() );
+            setPosition( new Point3D.Double( x, y, z ) );
 
             if ( movingRight ) {
-                if ( getX() >= SpriteHandler.MAX_X ) {
+                if ( position.getX() >= getMaxX() ) {
                     movingRight = false;
                     hopDirection.setLocation( -hopDirection.getX(), 0, hopDirection.getZ() );
                 }
             }
             else {
-                if ( getX() <= SpriteHandler.MIN_X ) {
+                if ( position.getX() <= -getMaxX() ) {
                     movingRight = true;
                     hopDirection.setLocation( -hopDirection.getX(), 0, hopDirection.getZ() );
                 }
             }
 
-            if ( getZ() >= SpriteHandler.MAX_Z || getZ() <= SpriteHandler.MIN_Z ) {
+            if ( position.getZ() >= getMaxZ() || position.getZ() <= getMinZ() ) {
                 hopDirection.setLocation( hopDirection.getX(), 0, -hopDirection.getZ() );
             }
 
         }
+
+    }
+
+    private double getMaxX() {
+        return model.getLandscape().getMaximumX( position.getZ() ) - BUNNY_SIDE_SPACER;
+    }
+
+    private double getMinZ() {
+        return Landscape.NEARPLANE;
+    }
+
+    private double getMaxZ() {
+        return Landscape.FARPLANE;
+    }
+
+    private void setPosition( Point3D position ) {
+        this.position = position;
+        notifyChangePosition();
     }
 
 
@@ -633,7 +613,7 @@ public class Bunny {
 
     private void notifyChangePosition() {
         Event event = new Event( this, Event.TYPE_POSITION_CHANGED );
-        event.setPosition( getX(), getY(), getZ() );
+        event.setPosition( position.getX(), position.getY(), position.getZ() );
         notifyListenersOfEvent( event );
     }
 

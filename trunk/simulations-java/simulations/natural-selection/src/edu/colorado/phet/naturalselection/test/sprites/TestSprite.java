@@ -6,15 +6,15 @@ import java.util.List;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.umd.cs.piccolo.PNode;
 
-public abstract class Sprite extends PNode {
+public abstract class TestSprite extends PNode {
 
     private Point3D position;
 
     private List<Listener> listeners;
 
-    protected Landscape landscape;
+    protected TestLandscape landscape;
 
-    protected Sprite( Landscape landscape, Point3D position ) {
+    protected TestSprite( TestLandscape landscape, Point3D position ) {
         this.landscape = landscape;
         this.position = position;
         listeners = new LinkedList<Listener>();
@@ -53,6 +53,6 @@ public abstract class Sprite extends PNode {
     }
 
     public interface Listener {
-        public void spriteMoved( Sprite sprite, boolean zChanged );
+        public void spriteMoved( TestSprite testSprite, boolean zChanged );
     }
 }

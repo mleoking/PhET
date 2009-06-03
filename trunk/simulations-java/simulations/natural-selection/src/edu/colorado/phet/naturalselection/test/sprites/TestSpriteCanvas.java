@@ -6,13 +6,13 @@ import java.awt.geom.AffineTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 
-public class SpriteCanvas extends PhetPCanvas {
+public class TestSpriteCanvas extends PhetPCanvas {
 
     public static final Dimension BASE = new Dimension( 640, 480 );
-    private Background back;
-    private Landscape landscape;
+    private TestBackground back;
+    private TestLandscape landscape;
 
-    public SpriteCanvas() {
+    public TestSpriteCanvas() {
         super( BASE );
 
         setWorldTransformStrategy( new ConstantTransformStrategy( new AffineTransform() ) );
@@ -21,16 +21,16 @@ public class SpriteCanvas extends PhetPCanvas {
 
         addWorldChild( root );
 
-        back = new Background( 640, 480 );
+        back = new TestBackground( 640, 480 );
         root.addChild( back );
 
-        landscape = new Landscape();
+        landscape = new TestLandscape();
         root.addChild( landscape );
 
 
     }
 
-    public Landscape getLandscape() {
+    public TestLandscape getLandscape() {
         return landscape;
     }
 

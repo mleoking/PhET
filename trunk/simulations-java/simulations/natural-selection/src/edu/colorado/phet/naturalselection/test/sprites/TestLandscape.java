@@ -8,7 +8,7 @@ import java.util.List;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.umd.cs.piccolox.nodes.PNodeCache;
 
-public class Landscape extends PNodeCache implements Sprite.Listener {
+public class TestLandscape extends PNodeCache implements TestSprite.Listener {
 
     public static final Dimension LANDSCAPE_SIZE = new Dimension( 640, 480 );
     public static final double LANDSCAPE_HORIZON = 100;
@@ -17,13 +17,13 @@ public class Landscape extends PNodeCache implements Sprite.Listener {
     public static final double LANDSCAPE_FARPLANE = 300;
     public static final double LANDSCAPE_VERTICAL_RISE = 100;
 
-    private List<Sprite> sprites;
+    private List<TestSprite> testSprites;
 
     private double landscapeWidth;
     private double landscapeHeight;
 
-    public Landscape() {
-        sprites = new LinkedList<Sprite>();
+    public TestLandscape() {
+        testSprites = new LinkedList<TestSprite>();
 
         double nearX = getMaximumX( LANDSCAPE_NEARPLANE );
         double farX = getMaximumX( LANDSCAPE_FARPLANE );
@@ -34,21 +34,21 @@ public class Landscape extends PNodeCache implements Sprite.Listener {
         Point3D bottomRight = getGroundPoint( nearX, LANDSCAPE_NEARPLANE );
 
 
-        addSprite( new StaticSprite( this, topLeft, Color.RED ) );
-        addSprite( new StaticSprite( this, topRight, Color.GREEN ) );
-        addSprite( new StaticSprite( this, bottomLeft, Color.BLUE ) );
-        addSprite( new StaticSprite( this, bottomRight, Color.ORANGE ) );
+        addSprite( new TestStaticSprite( this, topLeft, Color.RED ) );
+        addSprite( new TestStaticSprite( this, topRight, Color.GREEN ) );
+        addSprite( new TestStaticSprite( this, bottomLeft, Color.BLUE ) );
+        addSprite( new TestStaticSprite( this, bottomRight, Color.ORANGE ) );
 
         for ( int i = 0; i < 5; i++ ) {
-            addSprite( new GroundSprite( this, getRandomGroundPosition() ) );
+            addSprite( new TestGroundSprite( this, getRandomGroundPosition() ) );
         }
 
         for ( int i = 0; i < 30; i++ ) {
-            addSprite( new ActiveSprite( this, getRandomGroundPosition() ) );
+            addSprite( new TestActiveSprite( this, getRandomGroundPosition() ) );
         }
 
-        //addSprite( new StaticSprite( this, new Point3D.Double( 0, 0, 0 ) ) );
-        //addSprite( new StaticSprite( this, new Point3D.Double( 80, 0, 20 ) ) );
+        //addSprite( new TestStaticSprite( this, new Point3D.Double( 0, 0, 0 ) ) );
+        //addSprite( new TestStaticSprite( this, new Point3D.Double( 80, 0, 20 ) ) );
     }
 
     public Point3D getRandomGroundPosition() {
@@ -61,61 +61,61 @@ public class Landscape extends PNodeCache implements Sprite.Listener {
         return new Point3D.Double( x, y, z );
     }
 
-    public void addSprite( Sprite sprite ) {
-        sprites.add( sprite );
-        addChild( sprite );
-        sprite.addSpriteListener( this );
+    public void addSprite( TestSprite testSprite ) {
+        testSprites.add( testSprite );
+        addChild( testSprite );
+        testSprite.addSpriteListener( this );
 
-        repositionSprite( sprite );
-        spriteDepthCheck( sprite );
+        repositionSprite( testSprite );
+        spriteDepthCheck( testSprite );
     }
 
-    public void removeSprite( Sprite sprite ) {
-        sprites.remove( sprite );
-        removeChild( sprite );
-        sprite.removeSpriteListener( this );
+    public void removeSprite( TestSprite testSprite ) {
+        testSprites.remove( testSprite );
+        removeChild( testSprite );
+        testSprite.removeSpriteListener( this );
     }
 
 
-    public void spriteMoved( Sprite sprite, boolean zChanged ) {
-        repositionSprite( sprite );
+    public void spriteMoved( TestSprite testSprite, boolean zChanged ) {
+        repositionSprite( testSprite );
         if ( zChanged ) {
-            //spriteDepthCheck( sprite );
+            //spriteDepthCheck( testSprite );
         }
-        sprite.repaint();
+        testSprite.repaint();
     }
 
-    private void spriteDepthCheck( Sprite sprite ) {
+    private void spriteDepthCheck( TestSprite testSprite ) {
         List children = getChildrenReference();
-        int idx = children.indexOf( sprite );
+        int idx = children.indexOf( testSprite );
         if ( idx == -1 ) {
             return;
         }
 
         boolean ok = true;
-        if ( idx > 0 && ( (Sprite) getChild( idx - 1 ) ).getPosition().getZ() < sprite.getPosition().getZ() ) {
+        if ( idx > 0 && ( (TestSprite) getChild( idx - 1 ) ).getPosition().getZ() < testSprite.getPosition().getZ() ) {
             ok = false;
         }
-        if ( idx < children.size() - 1 && ( (Sprite) getChild( idx + 1 ) ).getPosition().getZ() > sprite.getPosition().getZ() ) {
+        if ( idx < children.size() - 1 && ( (TestSprite) getChild( idx + 1 ) ).getPosition().getZ() > testSprite.getPosition().getZ() ) {
             ok = false;
         }
 
         if ( !ok ) {
-            replaceSprite( sprite );
+            replaceSprite( testSprite );
         }
     }
 
-    private void replaceSprite( Sprite sprite ) {
-        removeChild( sprite );
+    private void replaceSprite( TestSprite testSprite ) {
+        removeChild( testSprite );
         List children = getChildrenReference();
         for ( int i = 0; i < children.size(); i++ ) {
-            Sprite testSprite = (Sprite) children.get( i );
-            if ( sprite.getPosition().getZ() >= testSprite.getPosition().getZ() ) {
-                addChild( i, sprite );
+            TestSprite testTestSprite = (TestSprite) children.get( i );
+            if ( testSprite.getPosition().getZ() >= testTestSprite.getPosition().getZ() ) {
+                addChild( i, testSprite );
                 return;
             }
         }
-        addChild( children.size(), sprite );
+        addChild( children.size(), testSprite );
     }
 
     public Point3D getGroundPoint( double x, double z ) {
@@ -134,28 +134,32 @@ public class Landscape extends PNodeCache implements Sprite.Listener {
         return ( LANDSCAPE_SIZE.getHeight() - LANDSCAPE_HORIZON ) * LANDSCAPE_NEARPLANE / LANDSCAPE_VERTICAL_RISE;
     }
 
+    public double landscapeYToZ( double yy ) {
+        return ( LANDSCAPE_NEARPLANE * LANDSCAPE_FARPLANE * ( LANDSCAPE_HORIZON - LANDSCAPE_SIZE.getHeight() ) ) * ( LANDSCAPE_FARPLANE * ( LANDSCAPE_HORIZON - yy ) + LANDSCAPE_NEARPLANE * ( yy - LANDSCAPE_SIZE.getHeight() ) );
+    }
+
     public Point2D spriteToScreen( Point3D position ) {
         double landscapeX = LANDSCAPE_SIZE.getWidth() / 2 + ( position.getX() / position.getZ() ) * getFactor();
         double landscapeY = LANDSCAPE_HORIZON - ( position.getY() / position.getZ() ) * getFactor();
         return new Point2D.Double( landscapeX * landscapeWidth / LANDSCAPE_SIZE.getWidth(), landscapeY * landscapeHeight / LANDSCAPE_SIZE.getHeight() );
     }
 
-    private void repositionSprite( Sprite sprite ) {
-        Point3D position = sprite.getPosition();
+    private void repositionSprite( TestSprite testSprite ) {
+        Point3D position = testSprite.getPosition();
 
-        Point2D screenPosition = spriteToScreen( sprite.getPosition() );
-        sprite.setOffset( screenPosition.getX(), screenPosition.getY() );
+        Point2D screenPosition = spriteToScreen( testSprite.getPosition() );
+        testSprite.setOffset( screenPosition.getX(), screenPosition.getY() );
     }
 
     public void updateLayout( double width, double height ) {
         landscapeWidth = width;
         landscapeHeight = height;
-        for ( Sprite sprite : sprites ) {
-            repositionSprite( sprite );
+        for ( TestSprite testSprite : testSprites ) {
+            repositionSprite( testSprite );
         }
     }
 
-    public List<Sprite> getSprites() {
-        return sprites;
+    public List<TestSprite> getSprites() {
+        return testSprites;
     }
 }
