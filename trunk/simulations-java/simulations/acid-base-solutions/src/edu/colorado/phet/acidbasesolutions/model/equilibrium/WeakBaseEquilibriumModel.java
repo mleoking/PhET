@@ -37,8 +37,4 @@ public class WeakBaseEquilibriumModel extends EquilibriumModel {
     public double getH2OConcentration() {
         return Water.getConcentration() - getProductConcentration();
     }
-    
-    public double getAcidMoleculeCount() {
-        return getMoleculeCount( getProductConcentration() );
-    }
 }
