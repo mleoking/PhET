@@ -8,9 +8,6 @@ TODO:
 - too much duplication in AbstractEquilibriumExpression and AbstractReactionEquation subclasses
 - particle views
 - scale image files
-- bug: odd behavior in equilibrium expressions when switching between strong/weak base
-- bug: odd behavior in reaction equations when switching between strong/weak base 
-- bug: B displayed when switching to Custom Base with strength=Strong, should be MOH
 - bug: is water molecule count being actively calculated? when concentration goes from 56->55, count should go from 3.3E25->3.2E25
 - lots of issues with SolutionControlsNode
 - review remaining instanceof comparisons
@@ -28,6 +25,9 @@ ISSUES:
 - Laurie proposed that we hide the reactant molecule image for strong bases
 
 DONE:
+6/2/09 fix odd behavior at strong/intermediate base boundary, switch symbols/icons/etc before strength notification
+6/2/09 move common behavior to Solute base class
+# 0.01.17
 6/2/09 fix initial layout of acid reaction equation
 6/2/09 use a darker color for H2O symbols in equations
 6/2/09 hide Lewis structure diagrams for specific acids and bases

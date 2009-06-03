@@ -9,8 +9,10 @@ import edu.colorado.phet.acidbasesolutions.ABSSymbols;
 public abstract class Acid extends Solute {
     
     protected Acid( String name, String symbol, String conjugateSymbol, double strength  ) {
-        super( name, symbol, ABSImages.HA_MOLECULE, ABSImages.HA_STRUCTURE, ABSConstants.HA_COLOR, 
-                conjugateSymbol, ABSImages.A_MINUS_MOLECULE, ABSImages.A_MINUS_STRUCTURE, ABSConstants.A_COLOR, strength );
+        super( name, 
+               symbol, ABSImages.HA_MOLECULE, ABSImages.HA_STRUCTURE, ABSConstants.HA_COLOR, 
+               conjugateSymbol, ABSImages.A_MINUS_MOLECULE, ABSImages.A_MINUS_STRUCTURE, ABSConstants.A_COLOR, 
+               strength );
     }
     
     //----------------------------------------------------------------------------
@@ -23,16 +25,8 @@ public abstract class Acid extends Solute {
             super( name, symbol, conjugateSymbol, strength );
         }
         
-        public boolean isZeroNegligible() {
-            return true;
-        }
-        
         protected boolean isValidStrength( double strength ) {
             return ABSConstants.STRONG_STRENGTH_RANGE.contains( strength );
-        }
-        
-        public boolean isReactionBidirectional() {
-            return false;
         }
     }
     
@@ -58,16 +52,8 @@ public abstract class Acid extends Solute {
             super( name, symbol, conjugateSymbol, strength );
         }
         
-        public boolean isZeroNegligible() {
-            return false;
-        }
-        
         protected boolean isValidStrength( double strength ) {
             return ABSConstants.WEAK_STRENGTH_RANGE.contains( strength );
-        }
-        
-        public boolean isReactionBidirectional() {
-            return true;
         }
     }
     
@@ -106,22 +92,14 @@ public abstract class Acid extends Solute {
         public CustomAcid() {
             super( ABSStrings.CUSTOM_ACID, ABSSymbols.HA, ABSSymbols.A_MINUS, DEFAULT_STRENGTH );
         }
-
-        // public, so that custom acid strength is mutable
-        public void setStrength( double strength ) {
-            super.setStrength( strength );
-        }
-        
-        public boolean isZeroNegligible() {
-            return isStrong();
-        }
         
         protected boolean isValidStrength( double strength ) {
             return ABSConstants.CUSTOM_STRENGTH_RANGE.contains( strength );
         }
-        
-        public boolean isReactionBidirectional() {
-            return !isStrong();
+
+        // public, so that custom acid strength is mutable
+        public void setStrength( double strength ) {
+            super.setStrength( strength );
         }
     }
 
