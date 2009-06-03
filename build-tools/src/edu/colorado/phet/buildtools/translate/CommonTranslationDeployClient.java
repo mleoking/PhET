@@ -1,8 +1,8 @@
 package edu.colorado.phet.buildtools.translate;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.FileFilter;
+import java.io.IOException;
 import java.util.Locale;
 
 import javax.swing.*;
@@ -18,32 +18,33 @@ import com.jcraft.jsch.JSchException;
 
 /**
  * Deploying a common simulation has four phases:
- *
+ * <p/>
  * (A) Run CommonTranslationDeployClient on your machine
- *     (1) A dialog will open. Select the common strings file that you want to deploy and hit "open"
- *     (2) This will create a new directory on tigercat under htdocs/sims/resources/
- *     (3) The translation, related metadata, and if applicable new Flash HTML files will be uploaded
- *     (4) Instructions will be printed for the steps below
+ * (1) A dialog will open. Select the common strings file that you want to deploy and hit "open"
+ * (2) This will create a new directory on tigercat under htdocs/sims/resources/
+ * (3) The translation, related metadata, and if applicable new Flash HTML files will be uploaded
+ * (4) Instructions will be printed for the steps below
  * (B) Run ResourceDeployServer on tigercat
- *         shortcut: "htdocs/sims/resources/server (absolute-path-to-tmp-dir)"
- *     This will not modify the live sim directory, just the temporary directory under resources.
- *     Necessary files will be copied, backed up, poked with files, signed and/or generated
+ * shortcut: "htdocs/sims/resources/server (absolute-path-to-tmp-dir)"
+ * This will not modify the live sim directory, just the temporary directory under resources.
+ * Necessary files will be copied, backed up, poked with files, signed and/or generated
  * (C) Thoroughly test everything under htdocs/sims/resources/(tmp-dir)/test/
- *     Every file under test/ will replace its live counterpart during publishing (except for SWFs, which are not changed)
+ * Every file under test/ will replace its live counterpart during publishing (except for SWFs, which are not changed)
  * (D) Run ResourceDeployPublisher on tigercat
- *         shortcut: "htdocs/sims/resources/publish (absolute-path-to-tmp-dir)"
- *     This will copy over the necessary files from the test/ dir to the live sim dirs.
- *
+ * shortcut: "htdocs/sims/resources/publish (absolute-path-to-tmp-dir)"
+ * This will copy over the necessary files from the test/ dir to the live sim dirs.
+ * <p/>
  * If something goes wrong with publishing (or some time after publishing) due to the deployment, this can be reverted:
  * (E) Run ResourceDeployReverter on tigercat
- *         shortcut: "htdocs/sims/resources/revert (absolute-path-to-tmp-dir)"
- *     This will replace any files copied into the live sim dirs with what was previously there (from the backup dir)
- *     If the deployment created a new file, this file will not be automatically deleted (but you will be notified of its existence)
- *
+ * shortcut: "htdocs/sims/resources/revert (absolute-path-to-tmp-dir)"
+ * This will replace any files copied into the live sim dirs with what was previously there (from the backup dir)
+ * If the deployment created a new file, this file will not be automatically deleted (but you will be notified of its existence)
+ * <p/>
  * For more details on the process, see ResourceDeployClient for an explanation of the temporary directory and storage
- *
  */
 public class CommonTranslationDeployClient {
+
+    private static final boolean DEBUG = false;
 
     private File resourceFile;
     private File trunk;
@@ -187,32 +188,38 @@ public class CommonTranslationDeployClient {
         return getDirNameList( getFlashSimulationDirs() );
     }
 
-    public File[] getJavaSimulationDirs() {        
-        //return new File[]{new File( trunk, "simulations-java/simulations/test-project" )};
-        File simsDir = new File( trunk, "simulations-java/simulations" );
+    public File[] getJavaSimulationDirs() {
+        if ( DEBUG ) {
+            return new File[]{new File( trunk, "simulations-java/simulations/test-project" )};
+        }
+        else {
+            File simsDir = new File( trunk, "simulations-java/simulations" );
 
-        File[] simDirs = simsDir.listFiles( new FileFilter() {
-            public boolean accept( File file ) {
-                return file.isDirectory() && !file.getName().startsWith( "." );
-            }
-        } );
+            File[] simDirs = simsDir.listFiles( new FileFilter() {
+                public boolean accept( File file ) {
+                    return file.isDirectory() && !file.getName().startsWith( "." );
+                }
+            } );
 
-        return simDirs;
-        //*/
+            return simDirs;
+        }
     }
 
     public File[] getFlashSimulationDirs() {
-        //return new File[]{new File( trunk, "simulations-flash/simulations/test-flash-project" )};
-        File simsDir = new File( trunk, "simulations-flash/simulations" );
+        if ( DEBUG ) {
+            return new File[]{new File( trunk, "simulations-flash/simulations/test-flash-project" )};
+        }
+        else {
+            File simsDir = new File( trunk, "simulations-flash/simulations" );
 
-        File[] simDirs = simsDir.listFiles( new FileFilter() {
-            public boolean accept( File file ) {
-                return file.isDirectory() && !file.getName().startsWith( "." );
-            }
-        } );
+            File[] simDirs = simsDir.listFiles( new FileFilter() {
+                public boolean accept( File file ) {
+                    return file.isDirectory() && !file.getName().startsWith( "." );
+                }
+            } );
 
-        return simDirs;
-        //*/
+            return simDirs;
+        }
     }
 
     public String getDirNameList( File[] dirs ) {
@@ -247,7 +254,6 @@ public class CommonTranslationDeployClient {
         try {
             trunk = ( new File( args[0] ) ).getCanonicalFile();
             BuildLocalProperties.initRelativeToTrunk( trunk );
-            //testSSH();
         }
         catch( IOException e ) {
             e.printStackTrace();
