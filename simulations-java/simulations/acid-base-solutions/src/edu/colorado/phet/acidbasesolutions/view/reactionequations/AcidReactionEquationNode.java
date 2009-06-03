@@ -35,7 +35,6 @@ public class AcidReactionEquationNode extends AbstractReactionEquationNode {
     public AcidReactionEquationNode( AqueousSolution solution ) {
         super();
         
-        setTerm( H2O_INDEX, ABSSymbols.H2O, ABSConstants.H2O_COLOR, ABSImages.H2O_STRUCTURE );
         setTerm( H3O_PLUS_INDEX, ABSSymbols.H3O_PLUS, ABSConstants.H3O_COLOR, ABSImages.H3O_PLUS_STRUCTURE );
         
         this.solution = solution;
@@ -82,8 +81,8 @@ public class AcidReactionEquationNode extends AbstractReactionEquationNode {
         setTerm( PRODUCT_INDEX, solute.getConjugateSymbol(), solute.getConjugateColor(), solute.getConjugateStructure() );
         
         // H2O does not scale, use black text when scaling is enabled
-        Color waterColor = ( isScaleEnabled() ? Color.BLACK : ABSConstants.H2O_COLOR );
-        setTerm( 1, ABSSymbols.H2O, waterColor, ABSImages.H2O_STRUCTURE );
+        Color waterColor = ( isScaleEnabled() ? Color.BLACK : ABSConstants.H2O_EQUATION_COLOR );
+        setTerm( H2O_INDEX, ABSSymbols.H2O, waterColor, ABSImages.H2O_STRUCTURE );
         
         // strong vs weak acid
         setBidirectional( !solution.getSolute().isStrong() );

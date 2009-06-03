@@ -19,7 +19,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 
 public class ReactionEquationsDialog extends PaintImmediateDialog {
     
-    private static final Dimension TOP_CANVAS_SIZE = new Dimension( 650, 175 );
+    private static final Dimension TOP_CANVAS_SIZE = new Dimension( 650, 140 );
     private static final Dimension BOTTOM_CANVAS_SIZE = TOP_CANVAS_SIZE;
     
     private final AqueousSolution solution;
@@ -32,8 +32,9 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
     private final JRadioButton scaleOnRadioButton, scaleOffRadioButton;
     
     public ReactionEquationsDialog( Frame owner, final AqueousSolution solution ) {
-        super( owner, ABSStrings.TITLE_REACTION_EQUATIONS );
-        setResizable( true );
+        super( owner);
+        setTitle( ABSStrings.TITLE_REACTION_EQUATIONS );
+        setResizable( false );
         
         this.solution = solution;
         this.solutionListener = new SolutionAdapter() {

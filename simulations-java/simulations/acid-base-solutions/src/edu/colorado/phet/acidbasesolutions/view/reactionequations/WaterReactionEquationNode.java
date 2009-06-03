@@ -73,7 +73,7 @@ public class WaterReactionEquationNode extends AbstractReactionEquationNode {
     private void updateView() {
         
         // H2O does not scale, use black text when scaling is enabled
-        Color waterColor = ( isScaleEnabled() ? Color.BLACK : ABSConstants.H2O_COLOR );
+        Color waterColor = ( isScaleEnabled() ? Color.BLACK : ABSConstants.H2O_EQUATION_COLOR );
         setTerm( H2O_LEFT_INDEX, ABSSymbols.H2O, waterColor, ABSImages.H2O_STRUCTURE );
         setTerm( H2O_RIGHT_INDEX, ABSSymbols.H2O, waterColor, ABSImages.H2O_STRUCTURE );
         
