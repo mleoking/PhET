@@ -257,7 +257,7 @@ public class NaturalSelectionModel extends ClockAdapter {
         }
         else if ( TeethGene.getInstance().getMutatable() ) {
             gene = TeethGene.getInstance();
-            allele = TeethGene.TEETH_HUGE_ALLELE;
+            allele = TeethGene.TEETH_LONG_ALLELE;
         }
         else {
             // don't mutate anything!
@@ -323,7 +323,7 @@ public class NaturalSelectionModel extends ClockAdapter {
 
             double actualFraction = baseFraction;
 
-            if ( bunny.getTeethPhenotype() == TeethGene.TEETH_HUGE_ALLELE ) {
+            if ( bunny.getTeethPhenotype() == TeethGene.TEETH_LONG_ALLELE ) {
                 actualFraction /= 8;
             }
 

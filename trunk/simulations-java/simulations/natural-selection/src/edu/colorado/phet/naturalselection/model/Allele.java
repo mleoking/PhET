@@ -42,10 +42,10 @@ public class Allele {
         else if ( this == ColorGene.BROWN_ALLELE ) {
             return "b";
         }
-        else if ( this == TeethGene.TEETH_REGULAR_ALLELE ) {
+        else if ( this == TeethGene.TEETH_SHORT_ALLELE ) {
             return "r";
         }
-        else if ( this == TeethGene.TEETH_HUGE_ALLELE ) {
+        else if ( this == TeethGene.TEETH_LONG_ALLELE ) {
             return "g";
         }
         else if ( this == TailGene.TAIL_SHORT_ALLELE ) {

@@ -67,7 +67,7 @@ public class DisplayBunnyNode extends PNode {
             imageName += "_big_tail";
         }
 
-        if ( teeth == TeethGene.TEETH_HUGE_ALLELE ) {
+        if ( teeth == TeethGene.TEETH_LONG_ALLELE ) {
             imageName += "_long_teeth";
         }
 
