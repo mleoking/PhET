@@ -24,6 +24,8 @@ public class BunnyNode extends NaturalSelectionSprite implements Bunny.Listener 
 
     private PNode displayHolder;
 
+    private boolean cachedFlip = false;
+
     /**
      * Constructor
      *
@@ -64,7 +66,7 @@ public class BunnyNode extends NaturalSelectionSprite implements Bunny.Listener 
 
     public void setFlipped( boolean flipped ) {
         displayBunnyNode.setFlipped( flipped );
-
+        cachedFlip = flipped;
         //setBunnyOffset();
     }
 
@@ -76,6 +78,9 @@ public class BunnyNode extends NaturalSelectionSprite implements Bunny.Listener 
             case Bunny.Event.TYPE_POSITION_CHANGED:
                 // TODO: refactor setPosition to Point3D?
                 setPosition( event.getPosition() );
+                if ( cachedFlip == event.getBunny().isMovingRight() ) {
+                    setFlipped( !event.getBunny().isMovingRight() );
+                }
                 break;
         }
     }

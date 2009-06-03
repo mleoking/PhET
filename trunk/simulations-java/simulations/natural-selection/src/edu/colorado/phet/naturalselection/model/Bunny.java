@@ -89,7 +89,13 @@ public class Bunny {
     public static final int BETWEEN_HOP_TIME = 50;
     public static final int HOP_TIME = 10;
     public static final int HOP_HEIGHT = 50;
-    public static final double HOP_HORIZONTAL_STEP = 2.0;
+    public static final double NORMAL_HOP_DISTANCE = 20.0;
+
+    private static final int HUNGER_THRESHOLD = 400;
+    private static final int MAX_HUNGER = 600;
+    private int hunger = random.nextInt( MAX_HUNGER );
+
+    private Point3D hopDirection;
 
     private NaturalSelectionModel model;
 
@@ -344,16 +350,8 @@ public class Bunny {
         notifyReproduces();
     }
 
-    private static final int HUNGER_THRESHOLD = 700;
-    private static final int MAX_HUNGER = 1000;
-    private static final double HUNGER_WALK_DISTANCE = 3.0;
-    private static final double Z_SCALE = 100.0;
-    private int hunger = random.nextInt( MAX_HUNGER );
-
-    private Point3D hopDirection;
-
     private Point3D getNewHopDirection() {
-        if ( false && hunger > HUNGER_THRESHOLD && model.getSelectionFactor() == NaturalSelectionModel.SELECTION_FOOD ) {
+        if ( hunger > HUNGER_THRESHOLD && model.getSelectionFactor() == NaturalSelectionModel.SELECTION_FOOD ) {
 
             List<Shrub> shrubs = model.getShrubs();
 
@@ -364,7 +362,7 @@ public class Bunny {
 
             for ( Shrub shrub : shrubs ) {
                 Point3D shrubPosition = shrub.getPosition();
-                double distance = Math.abs( shrubPosition.getX() - bunnyPosition.getX() );
+                double distance = Point3D.distance( bunnyPosition, shrubPosition );
 
                 if ( distance < bestDistance ) {
                     bestDistance = distance;
@@ -381,10 +379,10 @@ public class Bunny {
 
             movingRight = diffX >= 0;
 
-            double mag = Math.sqrt( diffX * diffX + diffZ * diffZ * Z_SCALE * Z_SCALE );
-            if ( mag > HUNGER_WALK_DISTANCE ) {
-                diffX *= HUNGER_WALK_DISTANCE / mag;
-                diffZ *= HUNGER_WALK_DISTANCE / mag;
+            double mag = Math.sqrt( diffX * diffX + diffZ * diffZ );
+            if ( mag > NORMAL_HOP_DISTANCE ) {
+                diffX *= NORMAL_HOP_DISTANCE / mag;
+                diffZ *= NORMAL_HOP_DISTANCE / mag;
             }
             else {
                 hunger = 0;
@@ -395,14 +393,12 @@ public class Bunny {
             diffX *= 0.7;
             diffZ *= 0.7;
 
-            //if( Math.abs( diffZ ) > 0.05 ) {
-            //    diffZ /= Math.abs( diffZ ) * 10;
-            //}
-
             return new Point3D.Double( diffX, 0, diffZ );
         }
         else {
-            Point3D.Double ret = new Point3D.Double( HOP_HORIZONTAL_STEP, 0, ( Math.random() - 0.5 ) * 0.01 );
+            //Point3D.Double ret = new Point3D.Double( NORMAL_HOP_DISTANCE, 0, Math.random() * 10 - 5 );
+            double angle = Math.random() * Math.PI * 2;
+            Point3D.Double ret = new Point3D.Double( Math.abs( NORMAL_HOP_DISTANCE * Math.cos( angle ) ), 0, NORMAL_HOP_DISTANCE * Math.sin( angle ) );
             if ( !movingRight ) {
                 ret.setLocation( -ret.getX(), 0, ret.getZ() );
             }
@@ -435,8 +431,8 @@ public class Bunny {
             int hopProgress = sinceHopTime - BETWEEN_HOP_TIME;
             double hopFraction = ( (double) hopProgress ) / ( (double) HOP_TIME );
 
-            double x = position.getX() + hopDirection.getX();
-            double z = position.getZ() + hopDirection.getZ();
+            double x = position.getX() + hopDirection.getX() / ( (double) HOP_TIME );
+            double z = position.getZ() + hopDirection.getZ() / ( (double) HOP_TIME );
             double y = model.getLandscape().getGroundY( x, z ) + HOP_HEIGHT * 2 * ( -hopFraction * hopFraction + hopFraction );
 
             setPosition( new Point3D.Double( x, y, z ) );
@@ -445,19 +441,22 @@ public class Bunny {
                 if ( position.getX() >= getMaxX() ) {
                     movingRight = false;
                     hopDirection.setLocation( -hopDirection.getX(), 0, hopDirection.getZ() );
+                    sinceHopTime--;
                 }
             }
             else {
                 if ( position.getX() <= -getMaxX() ) {
                     movingRight = true;
                     hopDirection.setLocation( -hopDirection.getX(), 0, hopDirection.getZ() );
+                    sinceHopTime--;
                 }
             }
 
             if ( position.getZ() >= getMaxZ() || position.getZ() <= getMinZ() ) {
                 hopDirection.setLocation( hopDirection.getX(), 0, -hopDirection.getZ() );
+                sinceHopTime--;
             }
-
+            
         }
 
     }
