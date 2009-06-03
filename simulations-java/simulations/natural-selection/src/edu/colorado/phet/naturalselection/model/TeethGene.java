@@ -9,11 +9,11 @@ package edu.colorado.phet.naturalselection.model;
  */
 public class TeethGene extends Gene {
     // teeth alleles (also used for phenotypes)
-    public static final Allele TEETH_REGULAR_ALLELE = new Allele( "Short Teeth" );
-    public static final Allele TEETH_HUGE_ALLELE = new Allele( "Long Teeth" );
+    public static final Allele TEETH_SHORT_ALLELE = new Allele( "Short Teeth" );
+    public static final Allele TEETH_LONG_ALLELE = new Allele( "Long Teeth" );
 
     private TeethGene() {
-        super( TEETH_REGULAR_ALLELE, TEETH_HUGE_ALLELE );
+        super( TEETH_SHORT_ALLELE, TEETH_LONG_ALLELE );
     }
 
     private static TeethGene instance = null;

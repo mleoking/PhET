@@ -139,7 +139,7 @@ public class Bunny {
             // one parent is null, so this bunny must be one of the "root" generation 0 bunnies.
             // in general, just make this a vanilla bunny
             colorGenotype = new Genotype( ColorGene.getInstance(), ColorGene.WHITE_ALLELE, ColorGene.WHITE_ALLELE );
-            teethGenotype = new Genotype( TeethGene.getInstance(), TeethGene.TEETH_REGULAR_ALLELE, TeethGene.TEETH_REGULAR_ALLELE );
+            teethGenotype = new Genotype( TeethGene.getInstance(), TeethGene.TEETH_SHORT_ALLELE, TeethGene.TEETH_SHORT_ALLELE );
             tailGenotype = new Genotype( TailGene.getInstance(), TailGene.TAIL_SHORT_ALLELE, TailGene.TAIL_SHORT_ALLELE );
         }
         else {
@@ -387,6 +387,9 @@ public class Bunny {
             else {
                 hunger = 0;
                 sinceHopTime = 0;
+                if( teethPhenotype == TeethGene.TEETH_LONG_ALLELE ) {
+                    sinceHopTime = -20;
+                }
                 movingRight = random.nextInt( 2 ) == 0;
             }
 
@@ -495,8 +498,8 @@ public class Bunny {
         }
         if ( TeethGene.getInstance().getMutatable() ) {
             mutated = true;
-            teethPhenotype = TeethGene.TEETH_HUGE_ALLELE;
-            teethGenotype = new Genotype( TeethGene.getInstance(), TeethGene.TEETH_HUGE_ALLELE, TeethGene.TEETH_HUGE_ALLELE );
+            teethPhenotype = TeethGene.TEETH_LONG_ALLELE;
+            teethGenotype = new Genotype( TeethGene.getInstance(), TeethGene.TEETH_LONG_ALLELE, TeethGene.TEETH_LONG_ALLELE );
         }
     }
 
