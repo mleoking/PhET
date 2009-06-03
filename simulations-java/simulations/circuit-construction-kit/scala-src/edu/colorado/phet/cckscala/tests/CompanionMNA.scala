@@ -54,18 +54,8 @@ case class ResistiveBattery(node0: Int, node1: Int, voltage: Double, resistance:
   }
 }
 
-//object JavaUtil {
-//  def toSeq[T](javalist: ArrayList[T]): Seq[T] = {
-//    val arrayBuffer = new ArrayBuffer[T]
-//    for (i <- 0 until javalist.size)
-//      arrayBuffer += javalist.get(i).asInstanceOf[T]
-//    arrayBuffer
-//  }
-//}
 case class InitialCondition(voltage: Double, current: Double)
 case class FullCircuit(batteries: Seq[ResistiveBattery], resistors: Seq[Resistor], capacitors: Seq[Capacitor], inductors: Seq[Inductor]) extends AbstractCircuit {
-  //This auxiliary constructor facilitates communication with java
-//  def this(b: ArrayList[Battery], r: ArrayList[Resistor], c: ArrayList[Capacitor], i: ArrayList[Inductor]) = this (JavaUtil.toSeq(b), JavaUtil.toSeq(r), JavaUtil.toSeq(c), JavaUtil.toSeq(i))
 
   def stepInTime(dt: Double) = {
     val solution = solve(dt)
@@ -91,7 +81,8 @@ case class FullCircuit(batteries: Seq[ResistiveBattery], resistors: Seq[Resistor
   //This is done by:
   // treating a capacitor as a R=0.0 resistor and computing the current through it
   // treating an inductor as a R=INF resistor and computing the voltage drop across it
-  //Todo: finding inital bias currently ignores batteries with resistance
+  //Todo: finding inital bias currently ignores internal resistance in batteries
+  //Todo: Is this computation even used by CCK?  Should it be?
   def getInitialConditions = {
     val b = new ArrayBuffer[Battery]
     val r = new ArrayBuffer[Resistor]

@@ -35,11 +35,6 @@ class Solution(private val nodeVoltages: collection.Map[Int, Double], private va
     }
   }
 
-  //  def toFormattedString = {
-  //    val stringBuffer = new StringBuffer
-  //    stringBuffer.append("Solution(")
-  //  }
-
   def getVoltage(e: Element) = nodeVoltages(e.node1) - nodeVoltages(e.node0)
 
   def getCurrent(e: Element) = {
