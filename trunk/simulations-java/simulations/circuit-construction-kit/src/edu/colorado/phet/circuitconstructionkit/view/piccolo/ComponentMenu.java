@@ -144,10 +144,8 @@ public abstract class ComponentMenu extends JPopupMenuRepaintWorkaround {
         public InductorMenu( final Inductor inductor, CCKModule module ) {
             super( inductor, module );
             this.inductor = inductor;
-            double min = 0;
-            double max = 50;
             editor = new ComponentEditor( module, CCKStrings.getString( "inductance" ), inductor, module.getSimulationPanel(),
-                                          CCKStrings.getString( "inductance" ), CCKStrings.getString( "henries" ), min, max,
+                                          CCKStrings.getString( "inductance" ), CCKStrings.getString( "henries" ), Inductor.MIN_INDUCTANCE, Inductor.MAX_INDUCTANCE,
                                           inductor.getInductance(), module.getCircuit() ) {
                 protected void doChange( double value ) {
                     inductor.setInductance( value );
