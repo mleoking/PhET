@@ -1,3 +1,5 @@
+# 3.17.02 (32285) Jun 3, 2009
+6/3/09 Added battery internal resistance
 # 3.17.01 (32260) Jun 2, 2009
 Converted to Scala MNA implementation
 Added numbers and units back to chart time axes, see #1333
