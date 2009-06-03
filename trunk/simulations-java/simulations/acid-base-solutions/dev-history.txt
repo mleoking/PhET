@@ -3,16 +3,15 @@
 ==================================================================================
 
 TODO:
-- fix layout of reaction equations
-- show/hide Lewis structures at proper times (look at eariler version of AbstractReactionEquationsNode)
-- move equilibrium model into solute
+- fix initial layout of acid reaction equation
 - stronger typing in equilibrium expressions and reaction equations constructors
 - move setScaleEnabled out of subclasses and into AbstractEquilibriumExpression
 - too much duplication in AbstractEquilibriumExpression and AbstractReactionEquation subclasses
 - particle views
 - scale image files
-- bug: when switching from strong to weak base, MOH flashes briefly in denominator of equilibrium expression
-- bug: B displayed when switching to Custom Base with strength=Strong
+- bug: odd behavior in equilibrium expressions when switching between strong/weak base
+- bug: odd behavior in reaction equations when switching between strong/weak base 
+- bug: B displayed when switching to Custom Base with strength=Strong, should be MOH
 - bug: is water molecule count is being actively calculated? when concentration goes from 56->55, count should go from 3.3E25->3.2E25
 - lots of issues with SolutionControlsNode
 - review remaining instanceof comparisons
@@ -26,9 +25,11 @@ ISSUES:
 - people think the A- icon has something wrong with it
 - PSwing buffering makes Swing text look lousy while dragging sliders
 - Kathy doesn't like look of solute combo box
-- Laurie proposed that we hide the Lewis structures for strong bases
+- Laurie proposed that we hide the reactant molecule image for strong bases
 
 DONE:
+6/2/09 hide Lewis structure diagrams for specific acids and bases
+6/2/09 address many issues in reaction equations, still some issues
 6/1/09 implement concentration scaling in reaction equations
 6/1/09 redo reaction equation hierachy, sort of broken
 6/1/09 add bi-directionality of reaction to model

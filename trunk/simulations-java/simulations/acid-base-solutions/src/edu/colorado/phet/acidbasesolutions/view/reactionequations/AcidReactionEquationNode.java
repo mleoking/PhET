@@ -10,6 +10,7 @@ import edu.colorado.phet.acidbasesolutions.ABSSymbols;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.model.Solute;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.SolutionListener;
+import edu.colorado.phet.acidbasesolutions.model.Solute.ICustomSolute;
 import edu.colorado.phet.acidbasesolutions.model.equilibrium.EquilibriumModel;
 
 /**
@@ -22,6 +23,11 @@ import edu.colorado.phet.acidbasesolutions.model.equilibrium.EquilibriumModel;
  */
 public class AcidReactionEquationNode extends AbstractReactionEquationNode {
     
+    private static final int REACTANT_INDEX = 0; // HA
+    private static final int H2O_INDEX = 1;
+    private static final int H3O_PLUS_INDEX = 2;
+    private static final int PRODUCT_INDEX = 3; // A-
+    
     private final AqueousSolution solution;
     private final SolutionListener solutionListener;
     private boolean scaleEnabled;
@@ -29,10 +35,8 @@ public class AcidReactionEquationNode extends AbstractReactionEquationNode {
     public AcidReactionEquationNode( AqueousSolution solution ) {
         super();
         
-        setTerm( 0, ABSSymbols.HA, ABSConstants.HA_COLOR, ABSImages.HA_STRUCTURE );
-        setTerm( 1, ABSSymbols.H2O, ABSConstants.H2O_COLOR, ABSImages.H2O_STRUCTURE );
-        setTerm( 2, ABSSymbols.H3O_PLUS, ABSConstants.H3O_COLOR, ABSImages.H3O_PLUS_STRUCTURE );
-        setTerm( 3, ABSSymbols.A_MINUS, ABSConstants.A_COLOR, ABSImages.A_MINUS_STRUCTURE );
+        setTerm( H2O_INDEX, ABSSymbols.H2O, ABSConstants.H2O_COLOR, ABSImages.H2O_STRUCTURE );
+        setTerm( H3O_PLUS_INDEX, ABSSymbols.H3O_PLUS, ABSConstants.H3O_COLOR, ABSImages.H3O_PLUS_STRUCTURE );
         
         this.solution = solution;
         solutionListener = new SolutionListener() {
@@ -74,8 +78,8 @@ public class AcidReactionEquationNode extends AbstractReactionEquationNode {
         Solute solute = solution.getSolute();
         
         // symbols and colors
-        setTerm( 0, solute.getSymbol(), solute.getColor() );
-        setTerm( 3, solute.getConjugateSymbol(), solute.getConjugateColor() );
+        setTerm( REACTANT_INDEX, solute.getSymbol(), solute.getColor(), solute.getStructure() );
+        setTerm( PRODUCT_INDEX, solute.getConjugateSymbol(), solute.getConjugateColor(), solute.getConjugateStructure() );
         
         // H2O does not scale, use black text when scaling is enabled
         Color waterColor = ( isScaleEnabled() ? Color.BLACK : ABSConstants.H2O_COLOR );
@@ -87,12 +91,15 @@ public class AcidReactionEquationNode extends AbstractReactionEquationNode {
         // concentration scaling
         if ( scaleEnabled) {
             EquilibriumModel equilibriumModel = solution.getEquilibriumModel();
-            scaleTermToConcentration( 0, equilibriumModel.getReactantConcentration() );
-            scaleTermToConcentration( 0, equilibriumModel.getH3OConcentration() );
-            scaleTermToConcentration( 0, equilibriumModel.getProductConcentration() );
+            scaleTermToConcentration( REACTANT_INDEX, equilibriumModel.getReactantConcentration() );
+            scaleTermToConcentration( H3O_PLUS_INDEX, equilibriumModel.getH3OConcentration() );
+            scaleTermToConcentration( PRODUCT_INDEX, equilibriumModel.getProductConcentration() );
         }
         else {
             scaleAllTerms( 1 );
         }
+        
+        // Lewis structure diagrams
+        setAllStructuresVisible( solution.getSolute() instanceof ICustomSolute );
     }
 }

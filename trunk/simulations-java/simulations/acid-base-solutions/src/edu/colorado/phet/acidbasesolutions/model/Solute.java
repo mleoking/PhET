@@ -16,15 +16,18 @@ public abstract class Solute extends Molecule {
     
     private String conjugateSymbol;
     private Image conjugateIcon;
+    private Image conjugateStructure;
     private Color conjugateColor;
     private double strength;
     private double concentration; // initial concentration!
     private final ArrayList<SoluteListener> listeners;
     
-    protected Solute( String name, String symbol, Image icon, Color color, String conjugateSymbol, Image conjugateIcon, Color conjugateColor, double strength ) {
-        super( name, symbol, icon, color );
+    protected Solute( String name, String symbol, Image icon, Image structure, Color color, 
+                      String conjugateSymbol, Image conjugateIcon, Image conjugateStructure, Color conjugateColor, double strength ) {
+        super( name, symbol, icon, structure, color );
         this.conjugateSymbol = conjugateSymbol;
         this.conjugateIcon = conjugateIcon;
+        this.conjugateStructure = conjugateStructure;
         this.conjugateColor = conjugateColor;
         if ( !isValidStrength( strength ) ) {
             throw new IllegalArgumentException( "strength is invalid: " + strength );
@@ -66,6 +69,14 @@ public abstract class Solute extends Molecule {
     
     public Image getConjugateIcon() {
         return conjugateIcon;
+    }
+    
+    protected void setConjugateStructure( Image conjugateStructure ) {
+        this.conjugateStructure = conjugateStructure;
+    }
+    
+    public Image getConjugateStructure() {
+        return conjugateStructure;
     }
     
     protected void setConjugateColor( Color conjugateColor ) {
