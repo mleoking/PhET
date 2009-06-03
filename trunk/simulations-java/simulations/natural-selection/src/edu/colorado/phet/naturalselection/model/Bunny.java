@@ -387,7 +387,7 @@ public class Bunny {
             else {
                 hunger = 0;
                 sinceHopTime = 0;
-                if( teethPhenotype == TeethGene.TEETH_LONG_ALLELE ) {
+                if ( teethPhenotype == TeethGene.TEETH_LONG_ALLELE ) {
                     sinceHopTime = -20;
                 }
                 movingRight = random.nextInt( 2 ) == 0;
@@ -401,10 +401,23 @@ public class Bunny {
         else {
             //Point3D.Double ret = new Point3D.Double( NORMAL_HOP_DISTANCE, 0, Math.random() * 10 - 5 );
             double angle = Math.random() * Math.PI * 2;
-            Point3D.Double ret = new Point3D.Double( Math.abs( NORMAL_HOP_DISTANCE * Math.cos( angle ) ), 0, NORMAL_HOP_DISTANCE * Math.sin( angle ) );
+            double a = NORMAL_HOP_DISTANCE * Math.cos( angle );
+            double b = NORMAL_HOP_DISTANCE * Math.sin( angle );
+            boolean swap = Math.abs( a ) < Math.abs( b );
+            Point3D.Double ret = new Point3D.Double( Math.abs( swap ? b : a ), 0, swap ? a : b );
+
+            double mx = getMaxX();
+            if ( movingRight && position.getX() + ret.getX() > mx ) {
+                movingRight = false;
+            }
+            if ( !movingRight && position.getX() - ret.getX() < -mx ) {
+                movingRight = true;
+            }
+
             if ( !movingRight ) {
                 ret.setLocation( -ret.getX(), 0, ret.getZ() );
             }
+
             return ret;
         }
     }
@@ -459,7 +472,7 @@ public class Bunny {
                 hopDirection.setLocation( hopDirection.getX(), 0, -hopDirection.getZ() );
                 sinceHopTime--;
             }
-            
+
         }
 
     }
