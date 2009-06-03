@@ -14,6 +14,7 @@ TODO:
 - bug: is water molecule count being actively calculated? when concentration goes from 56->55, count should go from 3.3E25->3.2E25
 - lots of issues with SolutionControlsNode
 - review remaining instanceof comparisons
+- layout change of play area is annoying when switching solutes, due to label changes in beaker's View control panel
 
 DEFER:
 - restrict Strength slider to one section of the range (only needed if we add "Custom Weak" acid/base)
