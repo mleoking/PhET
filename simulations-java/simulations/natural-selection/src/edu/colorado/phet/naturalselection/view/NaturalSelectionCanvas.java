@@ -19,11 +19,6 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class NaturalSelectionCanvas extends PhetPCanvas {
 
-    /**
-     * The pixel-level from the top of the "horizon", where the 3d bunny positions would appear if infinitely far away
-     */
-    public static final double HORIZON = 120.0;
-
     private NaturalSelectionModel model;
 
     private PNode rootNode;
@@ -31,7 +26,7 @@ public class NaturalSelectionCanvas extends PhetPCanvas {
     /**
      * Holds the piccolo node that has all of the sprites (bunnies, trees, shrubs, wolves, etc.)
      */
-    public SpriteHandler bunnies;
+    public LandscapeNode landscapeNode;
 
     /**
      * The background node (background images, part of the environment)
@@ -41,8 +36,6 @@ public class NaturalSelectionCanvas extends PhetPCanvas {
     private MutationPendingNode mutationPendingNode = null;
 
     private AddFriendNode addFriendNode;
-
-    private FrenzyNode frenzyNode;
 
     /**
      * Constructor
@@ -66,8 +59,8 @@ public class NaturalSelectionCanvas extends PhetPCanvas {
         backgroundNode = new NaturalSelectionBackgroundNode( this.model.getClimate() );
         rootNode.addChild( backgroundNode );
 
-        bunnies = new SpriteHandler( model );
-        rootNode.addChild( bunnies );
+        landscapeNode = new LandscapeNode( model, model.getLandscape() );
+        rootNode.addChild( landscapeNode );
 
         addFriendNode = new AddFriendNode( model );
         addFriendNode.setOffset( 75, 250 );
@@ -76,7 +69,7 @@ public class NaturalSelectionCanvas extends PhetPCanvas {
     }
 
     public void reset() {
-        bunnies.reset();
+        landscapeNode.reset();
         backgroundNode.reset();
         addFriendNode.setVisible( true );
 
@@ -87,6 +80,8 @@ public class NaturalSelectionCanvas extends PhetPCanvas {
     }
 
     protected void updateLayout() {
+
+        // TODO: refactor this for the update
 
         Dimension2D worldSize = getWorldSize();
         if ( worldSize.getWidth() <= 0 || worldSize.getHeight() <= 0 ) {
@@ -101,7 +96,8 @@ public class NaturalSelectionCanvas extends PhetPCanvas {
 
         backgroundNode.updateLayout( getWidth(), getHeight() );
 
-        bunnies.setSpriteTransform( backgroundNode.getBackgroundTransform( getWidth(), getHeight() ) );
+        landscapeNode.setSpriteTransform( backgroundNode.getBackgroundTransform( getWidth(), getHeight() ) );
+        landscapeNode.updateLayout( getWidth(), getHeight() );
 
         positionMutationPending();
     }

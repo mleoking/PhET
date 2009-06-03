@@ -4,16 +4,15 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
+import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.naturalselection.view.SpriteHandler;
 
 public class Wolf extends ClockAdapter {
-    private double x;
-    private double y;
-    private double z;
+    private Point3D position;
 
     private boolean movingRight;
+
     private ArrayList<Listener> listeners;
 
     private NaturalSelectionModel model;
@@ -34,7 +33,7 @@ public class Wolf extends ClockAdapter {
 
         listeners = new ArrayList<Listener>();
 
-        setInitialPosition();
+        position = model.getLandscape().getRandomGroundPosition();
 
         model.getClock().addClockListener( this );
     }
@@ -47,55 +46,33 @@ public class Wolf extends ClockAdapter {
         enabled = false;
     }
 
-    private void setInitialPosition() {
-        // TODO: refactor initial random positions into SpriteHandler
-        x = Math.random() * ( SpriteHandler.MAX_X - SpriteHandler.MIN_X ) + SpriteHandler.MIN_X;
-
-        // start on the ground
-        y = SpriteHandler.MIN_Y;
-
-        z = Math.random() * ( SpriteHandler.MAX_Z - SpriteHandler.MIN_Z ) + SpriteHandler.MIN_Z;
+    public void setPosition( Point3D position ) {
+        this.position = position;
     }
 
-    public double getX() {
-        return x;
-    }
-
-    public double getY() {
-        return y;
-    }
-
-    public double getZ() {
-        return z;
-    }
-
-    public void setX( double x ) {
-        this.x = x;
-    }
-
-    public void setY( double y ) {
-        this.y = y;
-    }
-
-    public void setZ( double z ) {
-        this.z = z;
+    public Point3D getPosition() {
+        return position;
     }
 
     public boolean isMovingRight() {
         return movingRight;
     }
 
+    private void setX( double x ) {
+        position = new Point3D.Double( x, position.getY(), position.getZ() );
+    }
+
     private void moveAround() {
 
         if ( movingRight ) {
-            setX( getX() + HORIZONTAL_STEP );
-            if ( getX() >= SpriteHandler.MAX_X ) {
+            setX( position.getX() + HORIZONTAL_STEP );
+            if ( position.getX() >= model.getLandscape().getMaximumX( position.getZ() ) ) {
                 movingRight = false;
             }
         }
         else {
-            setX( getX() - HORIZONTAL_STEP );
-            if ( getX() <= SpriteHandler.MIN_X ) {
+            setX( position.getX() - HORIZONTAL_STEP );
+            if ( position.getX() <= -model.getLandscape().getMaximumX( position.getZ() ) ) {
                 movingRight = true;
             }
         }

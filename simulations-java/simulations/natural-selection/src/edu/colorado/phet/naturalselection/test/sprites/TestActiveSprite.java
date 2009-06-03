@@ -4,13 +4,14 @@ import java.awt.*;
 
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
-public class ActiveSprite extends Sprite {
+public class TestActiveSprite extends TestSprite {
 
     private PPath graphics;
 
-    public ActiveSprite( Landscape landscape, Point3D position ) {
+    public TestActiveSprite( TestLandscape landscape, Point3D position ) {
         super( landscape, position );
 
         graphics = new PPath();
@@ -30,7 +31,14 @@ public class ActiveSprite extends Sprite {
 
         graphics.setPathTo( path.getGeneralPath() );
 
-        addChild( graphics );
+        PNode a = new PNode();
+        PNode b = new PNode();
+        PNode c = new PNode();
+        c.addChild( graphics );
+        b.addChild( c );
+        a.addChild( b );
+        addChild( a );
+        //addChild( graphics );
 
         graphics.setScale( 200 / position.getZ() );
     }
@@ -39,11 +47,11 @@ public class ActiveSprite extends Sprite {
         Point3D cur = getPosition();
         double x = cur.getX() + Math.random() * 4 - 2;
         double z = cur.getZ() + Math.random() * 4 - 2;
-        if ( z > Landscape.LANDSCAPE_FARPLANE ) {
-            z = Landscape.LANDSCAPE_FARPLANE;
+        if ( z > TestLandscape.LANDSCAPE_FARPLANE ) {
+            z = TestLandscape.LANDSCAPE_FARPLANE;
         }
-        if ( z < Landscape.LANDSCAPE_NEARPLANE ) {
-            z = Landscape.LANDSCAPE_NEARPLANE;
+        if ( z < TestLandscape.LANDSCAPE_NEARPLANE ) {
+            z = TestLandscape.LANDSCAPE_NEARPLANE;
         }
         double mx = landscape.getMaximumX( z );
         if ( x > mx ) {

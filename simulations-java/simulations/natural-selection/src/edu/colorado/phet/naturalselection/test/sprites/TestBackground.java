@@ -7,11 +7,11 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
-public class Background extends PNode {
+public class TestBackground extends PNode {
     private PPath mainBackground;
     private PPath skyBackground;
 
-    public Background( double width, double height ) {
+    public TestBackground( double width, double height ) {
 
         mainBackground = new PPath();
 
@@ -21,9 +21,9 @@ public class Background extends PNode {
 
         DoubleGeneralPath path = new DoubleGeneralPath();
         path.moveTo( 0, 0 );
-        path.lineTo( Landscape.LANDSCAPE_SIZE.getWidth(), 0 );
-        path.lineTo( Landscape.LANDSCAPE_SIZE.getWidth(), Landscape.LANDSCAPE_SIZE.getHeight() );
-        path.lineTo( 0, Landscape.LANDSCAPE_SIZE.getHeight() );
+        path.lineTo( TestLandscape.LANDSCAPE_SIZE.getWidth(), 0 );
+        path.lineTo( TestLandscape.LANDSCAPE_SIZE.getWidth(), TestLandscape.LANDSCAPE_SIZE.getHeight() );
+        path.lineTo( 0, TestLandscape.LANDSCAPE_SIZE.getHeight() );
         path.lineTo( 0, 0 );
 
         mainBackground.setPathTo( path.getGeneralPath() );
@@ -39,9 +39,9 @@ public class Background extends PNode {
 
         DoubleGeneralPath skyPath = new DoubleGeneralPath();
         skyPath.moveTo( 0, 0 );
-        skyPath.lineTo( Landscape.LANDSCAPE_SIZE.getWidth(), 0 );
-        skyPath.lineTo( Landscape.LANDSCAPE_SIZE.getWidth(), Landscape.LANDSCAPE_HORIZON );
-        skyPath.lineTo( 0, Landscape.LANDSCAPE_HORIZON );
+        skyPath.lineTo( TestLandscape.LANDSCAPE_SIZE.getWidth(), 0 );
+        skyPath.lineTo( TestLandscape.LANDSCAPE_SIZE.getWidth(), TestLandscape.LANDSCAPE_HORIZON );
+        skyPath.lineTo( 0, TestLandscape.LANDSCAPE_HORIZON );
         skyPath.lineTo( 0, 0 );
 
         skyBackground.setPathTo( skyPath.getGeneralPath() );
@@ -54,7 +54,7 @@ public class Background extends PNode {
 
     public void updateLayout( double width, double height ) {
         AffineTransform trans = new AffineTransform();
-        trans.setToScale( width / Landscape.LANDSCAPE_SIZE.getWidth(), height / Landscape.LANDSCAPE_SIZE.getHeight() );
+        trans.setToScale( width / TestLandscape.LANDSCAPE_SIZE.getWidth(), height / TestLandscape.LANDSCAPE_SIZE.getHeight() );
 
         setTransform( trans );
     }

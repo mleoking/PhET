@@ -47,6 +47,7 @@ public class NaturalSelectionModel extends ClockAdapter {
     private Bunny rootMother;
 
     private List<Shrub> shrubs;
+    private List<Tree> trees;
 
     private ArrayList<Listener> listeners;
 
@@ -78,6 +79,8 @@ public class NaturalSelectionModel extends ClockAdapter {
      */
     private int selectionFactor = SELECTION_NONE;
 
+    private Landscape landscape;
+
     private static final Random random = new Random( System.currentTimeMillis() );
 
     /**
@@ -89,6 +92,7 @@ public class NaturalSelectionModel extends ClockAdapter {
 
         this.clock = clock;
 
+        landscape = new Landscape();
         bunnies = new ArrayList<Bunny>();
         listeners = new ArrayList<Listener>();
 
@@ -105,9 +109,14 @@ public class NaturalSelectionModel extends ClockAdapter {
         this.clock.addClockListener( this );
 
         shrubs = new LinkedList<Shrub>();
-        shrubs.add( new Shrub( 80, 330, 1 ) );
-        shrubs.add( new Shrub( 750, 200, 0.8 ) );
-        shrubs.add( new Shrub( 320, 130, 0.6 ) );
+        shrubs.add( new Shrub( this, 80, 330, 1 ) );
+        shrubs.add( new Shrub( this, 750, 200, 0.8 ) );
+        shrubs.add( new Shrub( this, 320, 130, 0.6 ) );
+
+        trees = new LinkedList<Tree>();
+        trees.add( new Tree( this, 125, 138, 1 ) );
+        trees.add( new Tree( this, 917, 115, 0.7 ) );
+        trees.add( new Tree( this, 635, 90, 0.2 ) );
     }
 
     /**
@@ -528,6 +537,14 @@ public class NaturalSelectionModel extends ClockAdapter {
 
     public List<Shrub> getShrubs() {
         return shrubs;
+    }
+
+    public List<Tree> getTrees() {
+        return trees;
+    }
+
+    public Landscape getLandscape() {
+        return landscape;
     }
 
     //----------------------------------------------------------------------------
