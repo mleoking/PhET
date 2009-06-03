@@ -18,8 +18,10 @@ class PureScalaSolver extends CircuitSolver
   }
   class BatteryAdapter(c: CCKCircuit, b: CCKBattery)
           extends Battery(c.indexOf(b.getStartJunction), c.indexOf(b.getEndJunction), b.getVoltageDrop) with Adapter {
-    def getComponent = b //todo: maybe shouldn't set voltage on the battery..?  On the other hand, hopefully v is coming back correct from the solver
-    //todo: though it may not be exactly correct, and perhaps errors will accrue over time
+    def getComponent = b
+
+    //don't set voltage on the battery; that actually changes its nominal voltage
+    override def applySolution(sol: CompanionSolution) = getComponent.setCurrent(sol.getCurrent(this))
   }
   class ResistorAdapter(c: CCKCircuit, b: Branch)
           extends Resistor(c.indexOf(b.getStartJunction), c.indexOf(b.getEndJunction), b.getResistance) with Adapter {
