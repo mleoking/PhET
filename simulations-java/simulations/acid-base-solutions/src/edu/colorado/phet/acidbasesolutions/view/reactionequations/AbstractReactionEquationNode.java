@@ -3,7 +3,6 @@ package edu.colorado.phet.acidbasesolutions.view.reactionequations;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
-import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.acidbasesolutions.ABSImages;
 import edu.colorado.phet.acidbasesolutions.view.equilibriumexpressions.ConcentrationScaleModel;
@@ -19,6 +18,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 /**
  * Base class for all acid/base/water reaction equations.
  * Reaction equations are composed of at most 4 terms, numbered 0-3.
+ * Each term has a symbol and a Lewis structure diagram.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -38,7 +38,7 @@ public abstract class AbstractReactionEquationNode extends PComposite {
     private PImage arrow;
     
     /*
-     * Sets up a default reaction equation that looks like: S0 + S1 -> S2 + S3
+     * Sets up a default reaction equation that looks like: ?0 + ?1 -> ?2 + ?3
      * and has no Lewis Structure diagrams.
      */
     public AbstractReactionEquationNode() {
@@ -46,8 +46,9 @@ public abstract class AbstractReactionEquationNode extends PComposite {
         
         terms = new Term[MAX_TERMS];
         for ( int i = 0; i < terms.length; i++ ) {
-            terms[i] = new Term( new SymbolNode( "S" + i ) );
-            addTerm( terms[i] );
+            terms[i] = new Term( new SymbolNode( "?" + i ) );
+            addChild( terms[i].getSymbolNode() );
+            // don't add the Lewis structure, it's invisible by default
         }
         
         plusLHS = new PlusNode();
@@ -121,7 +122,7 @@ public abstract class AbstractReactionEquationNode extends PComposite {
     /*
      * Sets the mutable properties of a Term.
      */
-    protected void setTerm( int index, String text, Color color, BufferedImage structureImage ) {
+    protected void setTerm( int index, String text, Color color, Image structureImage ) {
         Term term = terms[index];
         // symbol
         SymbolNode symbolNode = term.getSymbolNode();
@@ -135,17 +136,42 @@ public abstract class AbstractReactionEquationNode extends PComposite {
     }
     
     /*
-     * Adds a term, by adding its nodes to the scenegraph.
+     * Sets the visibility of all Lewis structure diagrams.
      */
-    private void addTerm( Term term ) {
-        super.addChild( term.getSymbolNode() );
-        super.addChild( term.getStructureNode() );
+    protected void setAllStructuresVisible( boolean visible ) {
+        for ( int i = 0; i < terms.length; i++ ) {
+            setStructureVisible( i, visible );
+        }
+    }
+    
+    /*
+     * Changes the visibility of a term's Lewis structure diagram.
+     * Use addChild/removeChild so that full bounds won't include an invisible structure.
+     */
+    private void setStructureVisible( int index, boolean visible ) {
+        Term term = terms[ index ];
+        StructureNode structureNode = term.getStructureNode();
+        if ( visible ) {
+            addChild( structureNode );
+        }
+        else if ( indexOfChild( structureNode ) != -1 ) {
+            removeChild( structureNode );
+        }
     }
     
     /*
      * Sets the position of all nodes.
      */
     private void updateLayout() {
+        
+        // remember scaling of each symbol
+        double[] symbolScales = new double[ terms.length ];
+        for ( int i = 0; i < terms.length; i++ ) {
+            symbolScales[i] = terms[i].getSymbolNode().getScale();
+        }
+        
+        // do the layout at unity scale
+        scaleAllTerms( 1 );
         
         final double maxSymbolHeight = getMaxSymbolHeight();
         final double structureYOffset = ( maxSymbolHeight / 2 ) + Y_SPACING;
@@ -186,6 +212,11 @@ public abstract class AbstractReactionEquationNode extends PComposite {
         
         // term 3
         xOffset = layoutTerm( termIndex++, xOffset, structureYOffset );
+        
+        // restore scaling of each symbol
+        for ( int i = 0; i < symbolScales.length; i++ ) {
+            setTermScale( i, symbolScales[i] );
+        }
     }
     
     /*

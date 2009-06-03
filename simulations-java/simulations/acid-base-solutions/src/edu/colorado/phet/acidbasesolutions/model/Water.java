@@ -16,7 +16,7 @@ public class Water extends Molecule {
     private static final double Kw = 1E-14; // equilibrium constant
 
     public Water() {
-        super( ABSStrings.WATER, ABSSymbols.H2O, ABSImages.H2O_MOLECULE, ABSConstants.H2O_COLOR );
+        super( ABSStrings.WATER, ABSSymbols.H2O, ABSImages.H2O_MOLECULE, ABSImages.H2O_STRUCTURE, ABSConstants.H2O_COLOR );
     }
     
     public static double getConcentration() {

@@ -11,8 +11,9 @@ import edu.colorado.phet.acidbasesolutions.ABSSymbols;
 
 public abstract class Base extends Solute {
     
-    private Base( String name, String symbol, Image icon, Color color, String conjugateSymbol, Image conjugateIcon, Color conjugateColor, double strength ) {
-        super( name, symbol, icon, color, conjugateSymbol, conjugateIcon, conjugateColor, strength );
+    private Base( String name, String symbol, Image icon, Image structure, Color color, 
+            String conjugateSymbol, Image conjugateIcon, Image conjugateStructure, Color conjugateColor, double strength ) {
+        super( name, symbol, icon, structure, color, conjugateSymbol, conjugateIcon, conjugateStructure, conjugateColor, strength );
     }
     
     //----------------------------------------------------------------------------
@@ -22,7 +23,8 @@ public abstract class Base extends Solute {
     public abstract static class StrongBase extends Base {
         
         private StrongBase( String name, String symbol, String conjugateSymbol, double strength  ) {
-            super( name, symbol, ABSImages.MOH_MOLECULE, ABSConstants.MOH_COLOR, conjugateSymbol, ABSImages.M_PLUS_MOLECULE, ABSConstants.M_COLOR, strength );
+            super( name, symbol, ABSImages.MOH_MOLECULE, ABSImages.MOH_STRUCTURE, ABSConstants.MOH_COLOR, 
+                    conjugateSymbol, ABSImages.M_PLUS_MOLECULE, ABSImages.M_PLUS_STRUCTURE, ABSConstants.M_COLOR, strength );
         }
         
         public boolean isZeroNegligible() {
@@ -51,7 +53,8 @@ public abstract class Base extends Solute {
     public abstract static class WeakBase extends Base {
         
         private WeakBase( String name, String symbol, String conjugateSymbol, double strength ) {
-            super( name, symbol, ABSImages.B_MOLECULE, ABSConstants.B_COLOR, conjugateSymbol, ABSImages.BH_PLUS_MOLECULE, ABSConstants.BH_COLOR, strength );
+            super( name, symbol, ABSImages.B_MOLECULE, ABSImages.B_STRUCTURE, ABSConstants.B_COLOR, 
+                    conjugateSymbol, ABSImages.BH_PLUS_MOLECULE, ABSImages.BH_PLUS_STRUCTURE, ABSConstants.BH_COLOR, strength );
         }
         
         public boolean isZeroNegligible() {
@@ -88,7 +91,8 @@ public abstract class Base extends Solute {
         private static final double DEFAULT_STRENGTH = ABSConstants.WEAK_STRENGTH_RANGE.getMin();
         
         public CustomBase() {
-            super( ABSStrings.CUSTOM_BASE, "", ABSImages.B_MOLECULE, ABSConstants.B_COLOR, "", ABSImages.BH_PLUS_MOLECULE, ABSConstants.BH_COLOR, DEFAULT_STRENGTH );
+            super( ABSStrings.CUSTOM_BASE, "?", ABSImages.B_MOLECULE, ABSImages.B_STRUCTURE, ABSConstants.B_COLOR, 
+                    "?", ABSImages.BH_PLUS_MOLECULE, ABSImages.BH_PLUS_STRUCTURE, ABSConstants.BH_COLOR, DEFAULT_STRENGTH );
             updateSymbol( getStrength() );
         }
         
@@ -103,17 +107,21 @@ public abstract class Base extends Solute {
             if ( isStrong() ) {
                 setSymbol( ABSSymbols.MOH );
                 setIcon( ABSImages.MOH_MOLECULE );
+                setStructure( ABSImages.MOH_STRUCTURE );
                 setColor( ABSConstants.MOH_COLOR );
                 setConjugateSymbol( ABSSymbols.M_PLUS );
                 setConjugateIcon( ABSImages.M_PLUS_MOLECULE );
+                setConjugateStructure( ABSImages.M_PLUS_STRUCTURE );
                 setConjugateColor( ABSConstants.M_COLOR );
             }
             else {
                 setSymbol( ABSSymbols.B );
                 setIcon( ABSImages.B_MOLECULE );
+                setStructure( ABSImages.B_STRUCTURE );
                 setColor( ABSConstants.B_COLOR );
                 setConjugateSymbol( ABSSymbols.BH_PLUS );
                 setConjugateIcon( ABSImages.BH_PLUS_MOLECULE );
+                setConjugateStructure( ABSImages.BH_PLUS_STRUCTURE );
                 setConjugateColor( ABSConstants.BH_COLOR );
             }
         }

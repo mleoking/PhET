@@ -19,7 +19,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 
 public class ReactionEquationsDialog extends PaintImmediateDialog {
     
-    private static final Dimension TOP_CANVAS_SIZE = new Dimension( 600, 175 );
+    private static final Dimension TOP_CANVAS_SIZE = new Dimension( 650, 175 );
     private static final Dimension BOTTOM_CANVAS_SIZE = TOP_CANVAS_SIZE;
     
     private final AqueousSolution solution;
@@ -33,13 +33,14 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
     
     public ReactionEquationsDialog( Frame owner, final AqueousSolution solution ) {
         super( owner, ABSStrings.TITLE_REACTION_EQUATIONS );
-        setResizable( false );
+        setResizable( true );
         
         this.solution = solution;
         this.solutionListener = new SolutionAdapter() {
             public void soluteChanged() {
                 updateVisibility();
                 updateTopLayout();
+                updateBottomLayout();
             }
         };
         this.solution.addSolutionListener( solutionListener );
@@ -154,14 +155,14 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
         
         // acid expression
         acidNode.setScaleEnabled( false ); // do the layout with scaling off
-        xOffset = ( topCanvas.getWidth() - acidNode.getFullBoundsReference().getWidth() ) / 2;
+        xOffset = ( ( topCanvas.getWidth() - acidNode.getFullBoundsReference().getWidth() ) / 2 ) - PNodeUtils.getOriginXOffset( acidNode );
         yOffset = ( ( topCanvas.getHeight() - acidNode.getFullBoundsReference().getHeight() ) / 2 ) - PNodeUtils.getOriginYOffset( acidNode );
         acidNode.setOffset( xOffset, yOffset );
         acidNode.setScaleEnabled( isScalingEnabled() ); // restore scaling
         
         // base expression
         baseNode.setScaleEnabled( false ); // do the layout with scaling off
-        xOffset = ( topCanvas.getWidth() - baseNode.getFullBoundsReference().getWidth() ) / 2;
+        xOffset = ( ( topCanvas.getWidth() - baseNode.getFullBoundsReference().getWidth() ) / 2 ) - PNodeUtils.getOriginXOffset( baseNode );
         yOffset = ( ( topCanvas.getHeight() - baseNode.getFullBoundsReference().getHeight() ) / 2 ) - PNodeUtils.getOriginYOffset( baseNode );
         baseNode.setOffset( xOffset, yOffset );
         baseNode.setScaleEnabled( isScalingEnabled() ); // restore scaling
@@ -171,7 +172,7 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
         
         // water expression
         waterNode.setScaleEnabled( false ); // do the layout with scaling off
-        double xOffset = ( bottomCanvas.getWidth() - waterNode.getFullBoundsReference().getWidth() ) / 2;
+        double xOffset = ( ( bottomCanvas.getWidth() - waterNode.getFullBoundsReference().getWidth() ) / 2 ) - PNodeUtils.getOriginXOffset( waterNode );
         double yOffset = ( ( bottomCanvas.getHeight() - waterNode.getFullBoundsReference().getHeight() ) / 2 ) - PNodeUtils.getOriginYOffset( waterNode );
         waterNode.setOffset( xOffset, yOffset );
         waterNode.setScaleEnabled( isScalingEnabled() ); // restore scaling

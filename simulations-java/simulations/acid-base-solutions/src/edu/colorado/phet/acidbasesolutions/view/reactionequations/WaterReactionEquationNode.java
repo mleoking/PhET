@@ -7,12 +7,18 @@ import edu.colorado.phet.acidbasesolutions.ABSImages;
 import edu.colorado.phet.acidbasesolutions.ABSSymbols;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.SolutionListener;
+import edu.colorado.phet.acidbasesolutions.model.Solute.ICustomSolute;
 import edu.colorado.phet.acidbasesolutions.model.equilibrium.EquilibriumModel;
 
 /**
  * Water reaction equation: H2O + H2O <-> H3O+ + OH-
  */
 public class WaterReactionEquationNode extends AbstractReactionEquationNode {
+    
+    private static final int H2O_LEFT_INDEX = 0;
+    private static final int H2O_RIGHT_INDEX = 1;
+    private static final int H3O_PLUS_INDEX = 2;
+    private static final int OH_MINUS_INDEX = 3;
     
     private final AqueousSolution solution;
     private final SolutionListener solutionListener;
@@ -21,10 +27,11 @@ public class WaterReactionEquationNode extends AbstractReactionEquationNode {
     public WaterReactionEquationNode( AqueousSolution solution ) {
         super();
         
-        setTerm( 0, ABSSymbols.H2O, ABSConstants.H2O_COLOR, ABSImages.H2O_STRUCTURE );
-        setTerm( 1, ABSSymbols.H2O, ABSConstants.H2O_COLOR, ABSImages.H2O_STRUCTURE );
-        setTerm( 2, ABSSymbols.H3O_PLUS, ABSConstants.H3O_COLOR, ABSImages.H3O_PLUS_STRUCTURE );
-        setTerm( 3, ABSSymbols.OH_MINUS, ABSConstants.OH_COLOR, ABSImages.OH_MINUS_STRUCTURE );
+        setTerm( H2O_LEFT_INDEX, ABSSymbols.H2O, ABSConstants.H2O_COLOR, ABSImages.H2O_STRUCTURE );
+        setTerm( H2O_RIGHT_INDEX, ABSSymbols.H2O, ABSConstants.H2O_COLOR, ABSImages.H2O_STRUCTURE );
+        setTerm( H3O_PLUS_INDEX, ABSSymbols.H3O_PLUS, ABSConstants.H3O_COLOR, ABSImages.H3O_PLUS_STRUCTURE );
+        setTerm( OH_MINUS_INDEX, ABSSymbols.OH_MINUS, ABSConstants.OH_COLOR, ABSImages.OH_MINUS_STRUCTURE );
+        setBidirectional( true );
         
         this.solution = solution;
         scaleEnabled = false;
@@ -67,16 +74,20 @@ public class WaterReactionEquationNode extends AbstractReactionEquationNode {
         
         // H2O does not scale, use black text when scaling is enabled
         Color waterColor = ( isScaleEnabled() ? Color.BLACK : ABSConstants.H2O_COLOR );
-        setTerm( 0, ABSSymbols.H2O, waterColor, ABSImages.H2O_STRUCTURE );
-        setTerm( 1, ABSSymbols.H2O, waterColor, ABSImages.H2O_STRUCTURE );
+        setTerm( H2O_LEFT_INDEX, ABSSymbols.H2O, waterColor, ABSImages.H2O_STRUCTURE );
+        setTerm( H2O_RIGHT_INDEX, ABSSymbols.H2O, waterColor, ABSImages.H2O_STRUCTURE );
         
+        // concentration scaling
         if ( isScaleEnabled() ) {
             EquilibriumModel equilibriumModel = solution.getEquilibriumModel();
-            scaleTermToConcentration( 2, equilibriumModel.getH3OConcentration() );
-            scaleTermToConcentration( 3, equilibriumModel.getOHConcentration() );
+            scaleTermToConcentration( H3O_PLUS_INDEX, equilibriumModel.getH3OConcentration() );
+            scaleTermToConcentration( OH_MINUS_INDEX, equilibriumModel.getOHConcentration() );
         }
         else {
             scaleAllTerms( 1.0 );
         }
+        
+        // Lewis structure diagrams
+        setAllStructuresVisible( solution.getSolute() instanceof ICustomSolute );
     }
 }

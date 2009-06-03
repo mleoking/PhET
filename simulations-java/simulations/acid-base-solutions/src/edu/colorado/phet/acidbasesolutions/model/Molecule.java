@@ -10,12 +10,14 @@ public abstract class Molecule {
     private String name;
     private String symbol;
     private Image icon;
+    private Image structure;
     private Color color;
     
-    protected Molecule( String name, String symbol, Image icon, Color color ) {
+    protected Molecule( String name, String symbol, Image icon, Image structure, Color color ) {
         this.name = name;
         this.symbol = symbol;
         this.icon = icon;
+        this.structure = structure;
         this.color = color;
     }
     
@@ -41,6 +43,14 @@ public abstract class Molecule {
     
     public Image getIcon() {
         return icon;
+    }
+    
+    protected void setStructure( Image structure ) {
+        this.structure = structure;
+    }
+    
+    public Image getStructure() {
+        return structure;
     }
     
     protected void setColor( Color color ) {
