@@ -288,8 +288,7 @@ public class LandscapeNode extends PNode implements NaturalSelectionModel.Listen
 
     private void repositionSprite( NaturalSelectionSprite sprite ) {
         Point3D position = sprite.getPosition();
-
-        Point2D screenPosition = landscape.spriteToScreen( sprite.getPosition() );
+        Point2D screenPosition = landscape.spriteToScreen( position );
         sprite.setOffset( screenPosition.getX(), screenPosition.getY() );
     }
 
