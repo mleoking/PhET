@@ -39,9 +39,13 @@ public abstract class Solute extends Molecule {
     
     protected abstract boolean isValidStrength( double strength );
     
-    public abstract boolean isZeroNegligible();
+    public boolean isZeroNegligible() {
+        return isStrong();
+    }
     
-    public abstract boolean isReactionBidirectional();
+    public boolean isReactionBidirectional() {
+        return !isStrong();
+    }
     
     public boolean isStrong() {
         return ABSConstants.STRONG_STRENGTH_RANGE.contains( getStrength() );

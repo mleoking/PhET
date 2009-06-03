@@ -11,9 +11,14 @@ import edu.colorado.phet.acidbasesolutions.ABSSymbols;
 
 public abstract class Base extends Solute {
     
-    private Base( String name, String symbol, Image icon, Image structure, Color color, 
-            String conjugateSymbol, Image conjugateIcon, Image conjugateStructure, Color conjugateColor, double strength ) {
-        super( name, symbol, icon, structure, color, conjugateSymbol, conjugateIcon, conjugateStructure, conjugateColor, strength );
+    private Base( String name, 
+                  String symbol, Image icon, Image structure, Color color, 
+                  String conjugateSymbol, Image conjugateIcon, Image conjugateStructure, Color conjugateColor, 
+                  double strength ) {
+        super( name, 
+               symbol, icon, structure, color, 
+               conjugateSymbol, conjugateIcon, conjugateStructure, conjugateColor, 
+               strength );
     }
     
     //----------------------------------------------------------------------------
@@ -23,20 +28,14 @@ public abstract class Base extends Solute {
     public abstract static class StrongBase extends Base {
         
         private StrongBase( String name, String symbol, String conjugateSymbol, double strength  ) {
-            super( name, symbol, ABSImages.MOH_MOLECULE, ABSImages.MOH_STRUCTURE, ABSConstants.MOH_COLOR, 
-                    conjugateSymbol, ABSImages.M_PLUS_MOLECULE, ABSImages.M_PLUS_STRUCTURE, ABSConstants.M_COLOR, strength );
-        }
-        
-        public boolean isZeroNegligible() {
-            return true;
+            super( name, 
+                   symbol, ABSImages.MOH_MOLECULE, ABSImages.MOH_STRUCTURE, ABSConstants.MOH_COLOR, 
+                   conjugateSymbol, ABSImages.M_PLUS_MOLECULE, ABSImages.M_PLUS_STRUCTURE, ABSConstants.M_COLOR, 
+                   strength );
         }
         
         protected boolean isValidStrength( double strength ) {
             return ABSConstants.STRONG_STRENGTH_RANGE.contains( strength );
-        }
-        
-        public boolean isReactionBidirectional() {
-            return false;
         }
     }
     
@@ -53,20 +52,14 @@ public abstract class Base extends Solute {
     public abstract static class WeakBase extends Base {
         
         private WeakBase( String name, String symbol, String conjugateSymbol, double strength ) {
-            super( name, symbol, ABSImages.B_MOLECULE, ABSImages.B_STRUCTURE, ABSConstants.B_COLOR, 
-                    conjugateSymbol, ABSImages.BH_PLUS_MOLECULE, ABSImages.BH_PLUS_STRUCTURE, ABSConstants.BH_COLOR, strength );
-        }
-        
-        public boolean isZeroNegligible() {
-            return false;
+            super( name, 
+                   symbol, ABSImages.B_MOLECULE, ABSImages.B_STRUCTURE, ABSConstants.B_COLOR, 
+                   conjugateSymbol, ABSImages.BH_PLUS_MOLECULE, ABSImages.BH_PLUS_STRUCTURE, ABSConstants.BH_COLOR,
+                   strength );
         }
         
         protected boolean isValidStrength( double strength ) {
             return ABSConstants.WEAK_STRENGTH_RANGE.contains( strength );
-        }
-        
-        public boolean isReactionBidirectional() {
-            return true;
         }
     }
 
@@ -91,9 +84,15 @@ public abstract class Base extends Solute {
         private static final double DEFAULT_STRENGTH = ABSConstants.WEAK_STRENGTH_RANGE.getMin();
         
         public CustomBase() {
-            super( ABSStrings.CUSTOM_BASE, "?", ABSImages.B_MOLECULE, ABSImages.B_STRUCTURE, ABSConstants.B_COLOR, 
-                    "?", ABSImages.BH_PLUS_MOLECULE, ABSImages.BH_PLUS_STRUCTURE, ABSConstants.BH_COLOR, DEFAULT_STRENGTH );
+            super( ABSStrings.CUSTOM_BASE, 
+                   "symbol?", ABSImages.B_MOLECULE, ABSImages.B_STRUCTURE, ABSConstants.B_COLOR, 
+                   "symbol?", ABSImages.BH_PLUS_MOLECULE, ABSImages.BH_PLUS_STRUCTURE, ABSConstants.BH_COLOR, 
+                   DEFAULT_STRENGTH );
             updateSymbol( getStrength() );
+        }
+        
+        protected boolean isValidStrength( double strength ) {
+            return ABSConstants.CUSTOM_STRENGTH_RANGE.contains( strength );
         }
         
         // public, so that custom base strength is mutable
@@ -104,7 +103,7 @@ public abstract class Base extends Solute {
         
         //XXX redo this
         private void updateSymbol( double strength ) {
-            if ( isStrong() ) {
+            if ( ABSConstants.STRONG_STRENGTH_RANGE.contains( strength ) ) {
                 setSymbol( ABSSymbols.MOH );
                 setIcon( ABSImages.MOH_MOLECULE );
                 setStructure( ABSImages.MOH_STRUCTURE );
@@ -124,18 +123,6 @@ public abstract class Base extends Solute {
                 setConjugateStructure( ABSImages.BH_PLUS_STRUCTURE );
                 setConjugateColor( ABSConstants.BH_COLOR );
             }
-        }
-        
-        public boolean isZeroNegligible() {
-            return isStrong();
-        }
-        
-        protected boolean isValidStrength( double strength ) {
-            return ABSConstants.CUSTOM_STRENGTH_RANGE.contains( strength );
-        }
-        
-        public boolean isReactionBidirectional() {
-            return !isStrong();
         }
     }
 }
