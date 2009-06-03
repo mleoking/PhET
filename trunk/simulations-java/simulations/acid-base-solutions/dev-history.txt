@@ -11,7 +11,7 @@ TODO:
 - bug: odd behavior in equilibrium expressions when switching between strong/weak base
 - bug: odd behavior in reaction equations when switching between strong/weak base 
 - bug: B displayed when switching to Custom Base with strength=Strong, should be MOH
-- bug: is water molecule count is being actively calculated? when concentration goes from 56->55, count should go from 3.3E25->3.2E25
+- bug: is water molecule count being actively calculated? when concentration goes from 56->55, count should go from 3.3E25->3.2E25
 - lots of issues with SolutionControlsNode
 - review remaining instanceof comparisons
 
