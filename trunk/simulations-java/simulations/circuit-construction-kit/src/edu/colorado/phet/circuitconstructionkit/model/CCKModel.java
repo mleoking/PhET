@@ -101,15 +101,16 @@ public class CCKModel {
         return new Circuit( circuitChangeListener );
     }
 
-
+    int stepCount=0;
+    int frameSolveCount=1;
+    int N=1;
+    //Every frameSolveCount steps, it will run N iterations of the solver
     public void stepInTime( double dt ) {
-//        dt = 1.0;
-        //todo we can no longer have DT dynamic because it destroys smoothness of the plots
-        if ( getCircuit().isDynamic() || modelChanged ) {
+        stepCount++;
+        if ( (getCircuit().isDynamic() || modelChanged ) && stepCount%frameSolveCount==1) {
             getCircuit().stepInTime( dt );
-            int N=5;
             for (int i=0;i<N;i++){
-                circuitSolver.apply( getCircuit(),dt/N );
+                circuitSolver.apply( getCircuit(),dt/(double)N*(double)frameSolveCount );
             }
             modelChanged = false;
         }
