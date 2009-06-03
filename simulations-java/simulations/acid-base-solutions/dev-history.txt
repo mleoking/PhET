@@ -6,7 +6,7 @@ TODO:
 - stronger typing in equilibrium expressions and reaction equations constructors
 - move setScaleEnabled out of subclasses and into AbstractEquilibriumExpression
 - too much duplication in AbstractEquilibriumExpression and AbstractReactionEquation subclasses
-- particle views
+- implement "ratio" views
 - scale image files
 - bug: is water molecule count being actively calculated? when concentration goes from 56->55, count should go from 3.3E25->3.2E25
 - lots of issues with SolutionControlsNode
