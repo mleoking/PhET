@@ -299,6 +299,8 @@ public class ResourceDeployClient {
                 printUsageAndExit();
             }
 
+            BuildLocalProperties.initRelativeToTrunk( trunk );
+
             if ( mode.equals( "java" ) ) {
                 try {
                     deployJavaResourceFile( trunk, resourceFile, resourceDestination );
