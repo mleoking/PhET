@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.FileFilter;
 
 public class ResourceDeployUtils {
+
+    // TODO: refactor all of resource deploy stuff into buildtools/resource/, instead of under buildtools/translate
+
     public static final boolean DEBUG = false;
 
     public static File getTestDir( File resourceDir ) {
