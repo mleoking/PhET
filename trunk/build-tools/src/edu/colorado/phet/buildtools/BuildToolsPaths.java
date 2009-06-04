@@ -11,8 +11,16 @@ public class BuildToolsPaths {
 
     public static final String BUILD_TOOLS_DIR = "build-tools";
 
+    public static final String BUILD_LOCAL_PROPERTIES = BUILD_TOOLS_DIR + "/build-local.properties";
+
+    public static final String BUILD_TOOLS_TEMPLATES = BUILD_TOOLS_DIR + "/templates";
+
+    public static final String WEBSTART_TEMPLATE = BUILD_TOOLS_TEMPLATES + "/webstart-template.jnlp";
+    public static final String PROGUARD_TEMPLATE = BUILD_TOOLS_TEMPLATES + "/proguard-template.pro";
+
     public static final String FLASH_HTML_TEMPLATE = BUILD_TOOLS_DIR + "/data/flash/flash-template.html";
     public static final String FLASH_BUILD_TEMPLATE = BUILD_TOOLS_DIR + "/data/flash/build-template.jsfl";
+
     public static final String FLASH_GET_FLASH_IMAGE = BUILD_TOOLS_DIR + "/data/flash/get_flash.jpg";
 
 
@@ -21,6 +29,18 @@ public class BuildToolsPaths {
     //----------------------------------------------------------------------------
 
     public static final String SIMULATIONS_JAVA = "simulations-java";
+
+    public static final String JAVA_SIMULATIONS_DIR = SIMULATIONS_JAVA + "/simulations";
+    public static final String JAVA_COMMON = SIMULATIONS_JAVA + "/common";
+    public static final String JAVA_CONTRIB = SIMULATIONS_JAVA + "/contrib";
+
+    public static final String PHETCOMMON = JAVA_COMMON + "/phetcommon";
+
+    public static final String PHETCOMMON_DATA = PHETCOMMON + "/data";
+
+    public static final String PHETCOMMON_LOCALIZATION = PHETCOMMON_DATA + "/phetcommon/localization";
+
+    public static final String JNLP_JAR = JAVA_CONTRIB + "/javaws/jnlp.jar";
 
 
     //----------------------------------------------------------------------------
@@ -40,6 +60,14 @@ public class BuildToolsPaths {
     public static final String FLASH_SOFTWARE_AGREEMENT_ACTIONSCRIPT = FLASH_COMMON_SOURCE + "/SoftwareAgreement.as";
 
     //----------------------------------------------------------------------------
+    // simulations-flex
+    //----------------------------------------------------------------------------
+
+    public static final String SIMULATIONS_FLEX = "simulations-flex";
+
+    public static final String FLEX_SIMULATIONS_DIR = SIMULATIONS_FLEX + "/simulations";
+
+    //----------------------------------------------------------------------------
     // simulations-common
     //----------------------------------------------------------------------------
 
@@ -57,9 +85,39 @@ public class BuildToolsPaths {
 
 
     //----------------------------------------------------------------------------
-    // miscellaneous
+    // util
     //----------------------------------------------------------------------------
+
+    public static final String UTIL = "util";
+
+    public static final String PHET_UPDATER = UTIL + "/phet-updater";
+    public static final String TRANSLATION_UTILITY = UTIL + "/translation-utility";
+
+
+    //----------------------------------------------------------------------------
+    // tigercat
+    //----------------------------------------------------------------------------
+
+    // TODO: refactor these into PhetProductionServer ?
 
     public static final String TIGERCAT_HTDOCS = "/web/chroot/phet/usr/local/apache/htdocs";
 
+    public static final String TIGERCAT_SIMS_DIR = TIGERCAT_HTDOCS + "/sims";
+
+    public static final String TIGERCAT_RESOURCES_TEMP_DIR = TIGERCAT_SIMS_DIR + "/resources";
+    public static final String TIGERCAT_TRANSLATIONS_TEMP_DIR = TIGERCAT_SIMS_DIR + "/translations";
+
+    public static final String TIGERCAT_STAGING_SWAP_SCRIPT = TIGERCAT_HTDOCS + "/cl_utils/swap-staged-sim.sh";
+
+    public static final String BUILD_TOOLS_PROD_SERVER_DEPLOY_PATH = TIGERCAT_HTDOCS + "/phet-dist/build-tools";
+    public static final String PHET_UPDATER_PROD_SERVER_DEPLOY_PATH = TIGERCAT_HTDOCS + "/phet-dist/phet-updater";
+    public static final String TRANSLATION_UTILITY_PROD_SERVER_DEPLOY_PATH = TIGERCAT_HTDOCS + "/phet-dist/translation-utility";
+
+
+    //----------------------------------------------------------------------------
+    // within jars
+    //----------------------------------------------------------------------------
+
+    public static final String JAVA_JAR_LOCALIZATION = "/phetcommon/localization/";
+    public static final String FLASH_JAR_LOCALIZATION = "/";
 }

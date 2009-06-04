@@ -5,6 +5,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import edu.colorado.phet.buildtools.BuildToolsPaths;
 import edu.colorado.phet.buildtools.java.JavaBuildCommand;
 import edu.colorado.phet.buildtools.java.JavaProject;
 
@@ -13,7 +14,6 @@ import edu.colorado.phet.buildtools.java.JavaProject;
  */
 public class PhetProguardConfigBuilder {
     private final ProguardConfigBuilder builder = new ProguardConfigBuilder();
-    private String PROGUARD_TEMPLATE = "build-tools/templates/proguard-template.pro";
 
     public void reset() {
         builder.reset();
@@ -25,7 +25,7 @@ public class PhetProguardConfigBuilder {
 
     public void setJavaProject( JavaProject project ) {
         builder.setName( project.getName() );
-        builder.setProguardTemplate( new File( project.getTrunk(), PROGUARD_TEMPLATE ) );
+        builder.setProguardTemplate( new File( project.getTrunk(), BuildToolsPaths.PROGUARD_TEMPLATE ) );
         builder.setInputJars( prepend( project.getAllJarFiles(), project.getJarFile() ) );
         builder.setProguardOutputFile( new File( project.getAntOutputDir(), project.getName() + ".pro" ) );
         builder.setMainClasses( getAllMainClasses( project ) );

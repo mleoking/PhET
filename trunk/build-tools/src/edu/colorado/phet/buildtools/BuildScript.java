@@ -1,8 +1,8 @@
 package edu.colorado.phet.buildtools;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -535,7 +535,7 @@ public class BuildScript {
         SshConnection sshConnection = new SshConnection( server.getHost(), authenticationInfo.getUsername(), authenticationInfo.getPassword() );
         try {
             sshConnection.connect();
-            sshConnection.executeTask( new SshCommand( "/web/htdocs/phet/cl_utils/swap-staged-sim.sh " + project.getName() ) );
+            sshConnection.executeTask( new SshCommand( BuildToolsPaths.TIGERCAT_STAGING_SWAP_SCRIPT + " " + project.getName() ) );
         }
         catch( Exception e ) {e.printStackTrace();}
         finally {sshConnection.disconnect();}
@@ -577,7 +577,7 @@ public class BuildScript {
     }
 
     private static String getJARGenerationCommand( PhetProject project, PhetServer server ) throws IOException {
-        BuildToolsProject buildToolsProject = new BuildToolsProject( new File( project.getTrunk(), "build-tools" ) );
+        BuildToolsProject buildToolsProject = new BuildToolsProject( new File( project.getTrunk(), BuildToolsPaths.BUILD_TOOLS_DIR ) );
         String buildScriptDir = server.getServerDeployPath( buildToolsProject );
         String projectDir = server.getServerDeployPath( project );
 
@@ -593,7 +593,7 @@ public class BuildScript {
     public static void clearWebCaches() {
         System.out.println( "Clearing website cache" );
         try {
-            FileUtils.download( PhetServer.PRODUCTION.getCacheClearUrl(), new File( new File(System.getProperty("java.io.tmpdir")), PhetServer.PRODUCTION.getCacheClearFile() ) );
+            FileUtils.download( PhetServer.PRODUCTION.getCacheClearUrl(), new File( new File( System.getProperty( "java.io.tmpdir" ) ), PhetServer.PRODUCTION.getCacheClearFile() ) );
         }
         catch( FileNotFoundException e ) {
             e.printStackTrace();

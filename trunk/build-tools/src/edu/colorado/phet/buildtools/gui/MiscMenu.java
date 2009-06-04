@@ -8,10 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JSeparator;
+import javax.swing.*;
 
 import edu.colorado.phet.buildtools.*;
 import edu.colorado.phet.buildtools.flash.FlashCommonProject;
@@ -58,10 +55,10 @@ public class MiscMenu extends JMenu {
             public void actionPerformed( ActionEvent e ) {
                 try {
                     PhetProject[] projects = new PhetProject[]{
-                            new JavaSimulationProject( new File( trunk, "simulations-java/simulations/test-project" ) ),
-                            new FlashSimulationProject( new File( trunk, "simulations-flash/simulations/test-flash-project" ) )
+                            new JavaSimulationProject( new File( trunk, BuildToolsPaths.JAVA_SIMULATIONS_DIR + "/test-project" ) ),
+                            new FlashSimulationProject( new File( trunk, BuildToolsPaths.FLASH_SIMULATIONS_DIR + "/test-flash-project" ) )
                     };
-                    batchDeploy( projects,selectDeployStrategy() );
+                    batchDeploy( projects, selectDeployStrategy() );
                 }
                 catch( IOException e1 ) {
                     e1.printStackTrace();
@@ -75,7 +72,7 @@ public class MiscMenu extends JMenu {
         buildAndDeployAll.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
 //                batchDeploy( PhetProject.getAllSimulations( trunk ), selectDeployStrategy() );
-                batchDeploy( select(PhetProject.getAllSimulations( trunk )), selectDeployStrategy() );
+                batchDeploy( select( PhetProject.getAllSimulations( trunk ) ), selectDeployStrategy() );
             }
         } );
         add( buildAndDeployAll );
@@ -99,7 +96,7 @@ public class MiscMenu extends JMenu {
 
             }
         } );
-        
+
         JMenuItem updateFlashAgreement = new JMenuItem( "Update software agreement (Flash)" );
         updateFlashAgreement.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -109,36 +106,36 @@ public class MiscMenu extends JMenu {
             }
         } );
         add( updateFlashAgreement );
-        
+
         add( new JSeparator() );
-        
+
         JMenuItem rebuildInstallers = new JMenuItem( "Rebuild Installers" );
         rebuildInstallers.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 System.out.println( "Rebuild installers invoked" );
                 String rebuildMsg = new String(
-                		"Rebuilding of the installers is not yet fully integrated into the build\n" +
-                		"process.  For information on how to rebuild the installers manually,\n" +
-                		"please see the \"User Guide to the Installer Builder\" in the Unfuddle\n" +
-                		"notebook that can be found at the URL:\n" +
-                		"https://phet.unfuddle.com/projects/9404/notebooks/3771"
-                		);
+                        "Rebuilding of the installers is not yet fully integrated into the build\n" +
+                        "process.  For information on how to rebuild the installers manually,\n" +
+                        "please see the \"User Guide to the Installer Builder\" in the Unfuddle\n" +
+                        "notebook that can be found at the URL:\n" +
+                        "https://phet.unfuddle.com/projects/9404/notebooks/3771"
+                );
                 JOptionPane.showMessageDialog( null, rebuildMsg );
             }
         } );
         add( rebuildInstallers );
-        
+
         JMenuItem deployInstallers = new JMenuItem( "Deploy Installers" );
         deployInstallers.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 System.out.println( "Deploy installers invoked" );
                 String deployInstallersMsg = new String(
-                		"Deployment of the installers is not yet fully integrated into the build\n" +
-                		"process.  For information on how to redeploy the installers manually,\n" +
-                		"please see the \"User Guide to the Installer Builder\" in the Unfuddle\n" +
-                		"notebook that can be found at the URL:\n" +
-                		"https://phet.unfuddle.com/projects/9404/notebooks/3771"
-                		);
+                        "Deployment of the installers is not yet fully integrated into the build\n" +
+                        "process.  For information on how to redeploy the installers manually,\n" +
+                        "please see the \"User Guide to the Installer Builder\" in the Unfuddle\n" +
+                        "notebook that can be found at the URL:\n" +
+                        "https://phet.unfuddle.com/projects/9404/notebooks/3771"
+                );
                 JOptionPane.showMessageDialog( null, deployInstallersMsg );
             }
         } );
@@ -146,21 +143,21 @@ public class MiscMenu extends JMenu {
     }
 
     private PhetProject[] select( PhetProject[] allSimulations ) {
-        System.out.println( "starting selection with jvm: "+System.getProperty("java.version" ));
-        ArrayList todo=new ArrayList( );
-        String deployedAsIOMBeta="acid-base-solutions,balloons,battery-resistor-circuit,battery-voltage,bound-states,cavendish-experiment,charges-and-fields-scala,circuit-construction-kit,color-vision,conductivity,discharge-lamps,eating-and-exercise,efield," +
-                          "electric-hockey,energy-skate-park,faraday,forces-1d,fourier,glaciers,greenhouse,hydrogen-atom," +
-                          "ideal-gas,java-common-strings";//batch 3
+        System.out.println( "starting selection with jvm: " + System.getProperty( "java.version" ) );
+        ArrayList todo = new ArrayList();
+        String deployedAsIOMBeta = "acid-base-solutions,balloons,battery-resistor-circuit,battery-voltage,bound-states,cavendish-experiment,charges-and-fields-scala,circuit-construction-kit,color-vision,conductivity,discharge-lamps,eating-and-exercise,efield," +
+                                   "electric-hockey,energy-skate-park,faraday,forces-1d,fourier,glaciers,greenhouse,hydrogen-atom," +
+                                   "ideal-gas,java-common-strings";//batch 3
 
-        ArrayList done=new ArrayList( );
-        StringTokenizer st=new StringTokenizer( deployedAsIOMBeta,",");
-        while(st.hasMoreTokens() ){
-            done.add(st.nextToken());
+        ArrayList done = new ArrayList();
+        StringTokenizer st = new StringTokenizer( deployedAsIOMBeta, "," );
+        while ( st.hasMoreTokens() ) {
+            done.add( st.nextToken() );
         }
         for ( int i = 0; i < allSimulations.length; i++ ) {
             PhetProject allSimulation = allSimulations[i];
-            if (!done.contains(allSimulation.getName())){
-                 todo.add(allSimulation);
+            if ( !done.contains( allSimulation.getName() ) ) {
+                todo.add( allSimulation );
             }
         }
         return (PhetProject[]) todo.toArray( new PhetProject[0] );
@@ -168,14 +165,15 @@ public class MiscMenu extends JMenu {
 
     private DeployStrategy selectDeployStrategy() {
         DeployDev dev = new DeployDev();
-        DeployStrategy sel= (DeployStrategy) JOptionPane.showInputDialog( this, "Choose a batch deploy location","Batch deploy location",JOptionPane.QUESTION_MESSAGE, null,new Object[]{dev,new DeployProd()},dev);
+        DeployStrategy sel = (DeployStrategy) JOptionPane.showInputDialog( this, "Choose a batch deploy location", "Batch deploy location", JOptionPane.QUESTION_MESSAGE, null, new Object[]{dev, new DeployProd()}, dev );
         return sel;
     }
 
-    private static interface DeployStrategy{
-        void deploy(BuildScript buildScript);
+    private static interface DeployStrategy {
+        void deploy( BuildScript buildScript );
     }
-    public static class DeployDev implements DeployStrategy{
+
+    public static class DeployDev implements DeployStrategy {
         public void deploy( BuildScript buildScript ) {
             buildScript.deployDev( BuildLocalProperties.getInstance().getDevAuthenticationInfo(), true );
         }
@@ -184,7 +182,8 @@ public class MiscMenu extends JMenu {
             return "Deploy dev";
         }
     }
-    public static class DeployProd implements DeployStrategy{
+
+    public static class DeployProd implements DeployStrategy {
         public void deploy( BuildScript buildScript ) {
             buildScript.deployProd( BuildLocalProperties.getInstance().getDevAuthenticationInfo(),
                                     BuildLocalProperties.getInstance().getProdAuthenticationInfo() );
@@ -194,8 +193,9 @@ public class MiscMenu extends JMenu {
             return "deploy prod";
         }
     }
-    private void batchDeploy( PhetProject[] projects,DeployStrategy deployStrategy ) {
-        PhetServer.showReminder=false;
+
+    private void batchDeploy( PhetProject[] projects, DeployStrategy deployStrategy ) {
+        PhetServer.showReminder = false;
         int svnVersion = new BuildScript( trunk, projects[0] ).getRevisionOnTrunkREADME();
         String message = JOptionPane.showInputDialog( "Deploying all sims to dev/.  Make sure you've update your working copy.\n" +
                                                       "Assuming you've updated already, the revision number will be: " + svnVersion + "\n" +

@@ -80,9 +80,9 @@ public abstract class PhetServer {
     private boolean developmentServer;
     private String buildLocalPropertiesFile;
     private String stagingArea;
-    public static boolean showReminder=true;
+    public static boolean showReminder = true;
 
-    public PhetServer( String serverHost, String webHost, String serverDeployPath, String webDeployPath, String cacheClearUrl, String cacheClearFile, String localizationCommand, boolean developmentServer, String buildLocalPropertiesFile,String stagingArea ) {
+    public PhetServer( String serverHost, String webHost, String serverDeployPath, String webDeployPath, String cacheClearUrl, String cacheClearFile, String localizationCommand, boolean developmentServer, String buildLocalPropertiesFile, String stagingArea ) {
         this.serverHost = serverHost;
         this.webHost = webHost;
         this.serverDeployPath = serverDeployPath;
@@ -149,8 +149,8 @@ public abstract class PhetServer {
     }
 
     private static class PhetDevServer extends PhetServer {
-        public PhetDevServer( String serverHost, String webHost, String serverDeployPath, String webDeployPath, String cacheClearUrl, String cacheClearFile, String localizationCommand, String buildLocalPropertiesFile,String stagingArea ) {
-            super( serverHost, webHost, serverDeployPath, webDeployPath, cacheClearUrl, cacheClearFile, localizationCommand, true, buildLocalPropertiesFile,stagingArea );
+        public PhetDevServer( String serverHost, String webHost, String serverDeployPath, String webDeployPath, String cacheClearUrl, String cacheClearFile, String localizationCommand, String buildLocalPropertiesFile, String stagingArea ) {
+            super( serverHost, webHost, serverDeployPath, webDeployPath, cacheClearUrl, cacheClearFile, localizationCommand, true, buildLocalPropertiesFile, stagingArea );
         }
 
         public String getCodebase( PhetProject project ) {
@@ -175,8 +175,8 @@ public abstract class PhetServer {
     }
 
     private static class PhetProdServer extends PhetServer {
-        public PhetProdServer( String serverHost, String webHost, String serverDeployPath, String webDeployPath, String cacheClearUrl, String cacheClearFile, String localizationCommand, String buildLocalPropertiesFile,String stagingArea ) {
-            super( serverHost, webHost, serverDeployPath, webDeployPath, cacheClearUrl, cacheClearFile, localizationCommand, false, buildLocalPropertiesFile,stagingArea );
+        public PhetProdServer( String serverHost, String webHost, String serverDeployPath, String webDeployPath, String cacheClearUrl, String cacheClearFile, String localizationCommand, String buildLocalPropertiesFile, String stagingArea ) {
+            super( serverHost, webHost, serverDeployPath, webDeployPath, cacheClearUrl, cacheClearFile, localizationCommand, false, buildLocalPropertiesFile, stagingArea );
         }
 
         public String getCodebase( PhetProject project ) {
@@ -204,10 +204,10 @@ public abstract class PhetServer {
 
         public void deployFinished() {
             super.deployFinished();
-            if (PhetServer.showReminder){
-            JOptionPane.showMessageDialog( null, "Reminder:\n" +
-                                                 "Document this release in trunk/website/about/changes.txt.\n" +
-                                                 "Copy to tigercat:/web/htdocs/phet/about/changes.txt." );
+            if ( PhetServer.showReminder ) {
+                JOptionPane.showMessageDialog( null, "Reminder:\n" +
+                                                     "Document this release in trunk/website/about/changes.txt.\n" +
+                                                     "Copy to tigercat:/web/htdocs/phet/about/changes.txt." );
             }
         }
 

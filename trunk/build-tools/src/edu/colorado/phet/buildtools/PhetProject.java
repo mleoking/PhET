@@ -6,7 +6,10 @@ import java.util.*;
 import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
 import edu.colorado.phet.buildtools.flex.PhetFlexProject;
 import edu.colorado.phet.buildtools.java.JavaProject;
-import edu.colorado.phet.buildtools.java.projects.*;
+import edu.colorado.phet.buildtools.java.projects.BuildToolsProject;
+import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
+import edu.colorado.phet.buildtools.java.projects.PhetUpdaterProject;
+import edu.colorado.phet.buildtools.java.projects.TranslationUtilityProject;
 import edu.colorado.phet.buildtools.scripts.SetSVNIgnoreToDeployDirectories;
 import edu.colorado.phet.buildtools.util.*;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
@@ -73,7 +76,7 @@ public abstract class PhetProject {
     }
 
     public File getSimulationsJava() {
-        return new File( getTrunk(), "simulations-java" );
+        return new File( getTrunk(), BuildToolsPaths.SIMULATIONS_JAVA );
     }
 
     public String getName() {
@@ -179,7 +182,7 @@ public abstract class PhetProject {
         for ( int i = 0; i < path.length; i++ ) {
             File file = path[i];
             if ( file.exists() && isProject( file ) ) {
-                projects.add( toProject(file) );
+                projects.add( toProject( file ) );
             }
         }
         return (PhetProject[]) projects.toArray( new PhetProject[0] );
@@ -189,19 +192,21 @@ public abstract class PhetProject {
      * This is a factory method for obtaining a PhetProject object given the root directory for the project.
      * This is necessary to make sure that each project has its getTrunk() and dependency searches working properly.
      * //todo: add support for other project types as well
+     *
      * @param file
      * @return
      */
     private PhetProject toProject( File file ) {
-        try{
-        if ( file.equals( new BuildToolsProject( new File( getTrunk(), "build-tools" ) ) ) ) {
-            return new BuildToolsProject( new File( getTrunk(), "build-tools" ) );
+        try {
+            if ( file.equals( new BuildToolsProject( new File( getTrunk(), BuildToolsPaths.BUILD_TOOLS_DIR ) ) ) ) {
+                return new BuildToolsProject( new File( getTrunk(), BuildToolsPaths.BUILD_TOOLS_DIR ) );
+            }
+            else {
+                return new JavaSimulationProject( file );
+            }
         }
-        else {
-            return new JavaSimulationProject( file );
-        }
-        }catch (IOException e){
-            e.printStackTrace(  );
+        catch( IOException e ) {
+            e.printStackTrace();
             return null;
         }
     }
@@ -228,11 +233,11 @@ public abstract class PhetProject {
     }
 
     private File searchPath( String token ) {
-        File commonProject = new File( getSimulationsJava(), "common/" + token );
+        File commonProject = new File( getTrunk(), BuildToolsPaths.JAVA_COMMON + "/" + token );
         if ( commonProject.exists() && isProject( commonProject ) ) {
             return commonProject;
         }
-        File contribPath = new File( getSimulationsJava(), "contrib/" + token );
+        File contribPath = new File( getTrunk(), BuildToolsPaths.JAVA_CONTRIB + "/" + token );
         if ( contribPath.exists() ) {
             return contribPath;
         }
@@ -240,11 +245,11 @@ public abstract class PhetProject {
         if ( path.exists() ) {
             return path;
         }
-        File commonPathNonProject = new File( getSimulationsJava(), "common/" + token );
+        File commonPathNonProject = new File( getTrunk(), BuildToolsPaths.JAVA_COMMON + "/" + token );
         if ( commonPathNonProject.exists() ) {
             return commonPathNonProject;
         }
-        File simProject = new File( getSimulationsJava(), "simulations/" + token );
+        File simProject = new File( getTrunk(), BuildToolsPaths.JAVA_SIMULATIONS_DIR + "/" + token );
         if ( simProject.exists() && isProject( simProject ) ) {
             return simProject;
         }
@@ -258,7 +263,7 @@ public abstract class PhetProject {
             System.out.println( "Found item based on path from trunk: " + trunkPath.getAbsolutePath() );
             return trunkPath;
         }
-        System.out.println( "Searched simJ="+getSimulationsJava() );
+        System.out.println( "Searched simJ=" + getSimulationsJava() );
 
         throw new RuntimeException( "No path found for token=" + token + ", antBaseDir=" + getSimulationsJava().getAbsolutePath() + ", in project=" + this );
     }
@@ -522,9 +527,9 @@ public abstract class PhetProject {
         try {
             //Add supplemental projects
             //TODO: move these to a separate area
-            phetProjects.add( new TranslationUtilityProject( new File( trunk, "util/translation-utility" ) ) );
-            phetProjects.add( new PhetUpdaterProject( new File( trunk, "util/phet-updater" ) ) );
-            phetProjects.add( new BuildToolsProject( new File( trunk, "build-tools" ) ) );
+            phetProjects.add( new TranslationUtilityProject( new File( trunk, BuildToolsPaths.TRANSLATION_UTILITY ) ) );
+            phetProjects.add( new PhetUpdaterProject( new File( trunk, BuildToolsPaths.PHET_UPDATER ) ) );
+            phetProjects.add( new BuildToolsProject( new File( trunk, BuildToolsPaths.BUILD_TOOLS_DIR ) ) );
         }
         catch( IOException e ) {
             e.printStackTrace();

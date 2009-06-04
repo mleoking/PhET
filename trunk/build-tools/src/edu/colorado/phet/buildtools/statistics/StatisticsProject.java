@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Locale;
 
+import edu.colorado.phet.buildtools.BuildToolsPaths;
 import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.Simulation;
 
@@ -17,7 +18,7 @@ import edu.colorado.phet.buildtools.Simulation;
 public class StatisticsProject extends PhetProject {
 
     public StatisticsProject( File trunk ) throws IOException {
-        super( new File( trunk, "statistics" ) );
+        super( new File( trunk, BuildToolsPaths.STATISTICS ) );
     }
 
     public Simulation getSimulation( String simulationName, Locale locale ) {

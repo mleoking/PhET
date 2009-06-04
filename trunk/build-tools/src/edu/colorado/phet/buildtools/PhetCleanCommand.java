@@ -24,7 +24,7 @@ public class PhetCleanCommand {
         boolean del = header.delete();
         System.out.println( "Delete header file=" + del );
 
-        File[] files = project.getDeployDir().listFiles(new FileFilter() {
+        File[] files = project.getDeployDir().listFiles( new FileFilter() {
             public boolean accept( File pathname ) {
                 return !pathname.isDirectory();
             }

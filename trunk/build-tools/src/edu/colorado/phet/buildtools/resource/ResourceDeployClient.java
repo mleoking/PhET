@@ -10,6 +10,7 @@ import org.rev6.scf.SshException;
 
 import edu.colorado.phet.buildtools.AuthenticationInfo;
 import edu.colorado.phet.buildtools.BuildLocalProperties;
+import edu.colorado.phet.buildtools.BuildToolsPaths;
 import edu.colorado.phet.buildtools.PhetServer;
 import edu.colorado.phet.buildtools.java.projects.BuildToolsProject;
 import edu.colorado.phet.buildtools.util.FileUtils;
@@ -77,7 +78,7 @@ import com.jcraft.jsch.JSchException;
 public class ResourceDeployClient {
 
     // TODO: refactor PhetServer so that this type of thing is not necessary
-    public final String PROD_PATH = "/web/chroot/phet/usr/local/apache/htdocs/sims/resources/";
+    public final String PROD_PATH = BuildToolsPaths.TIGERCAT_RESOURCES_TEMP_DIR + "/";
 
     private File resourceFile;
     private File propertiesFile;
