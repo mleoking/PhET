@@ -382,6 +382,10 @@ public class NaturalSelectionModel extends ClockAdapter {
             //throw new RuntimeException( "Already frenzying" );
         }
 
+        if ( getPopulation() == 0 ) {
+            return;
+        }
+
         System.out.println( "Starting frenzy" );
 
         frenzy = new Frenzy( this, 5 * NaturalSelectionDefaults.CLOCK_FRAME_RATE ); // TODO: work on time stuff!
@@ -392,7 +396,7 @@ public class NaturalSelectionModel extends ClockAdapter {
         // now create wolves, so all listeners hear the wolf creations
         frenzy.init();
 
-        invisibleWolfAttack();
+        //invisibleWolfAttack();
     }
 
     public void prematureEndFrenzy() {

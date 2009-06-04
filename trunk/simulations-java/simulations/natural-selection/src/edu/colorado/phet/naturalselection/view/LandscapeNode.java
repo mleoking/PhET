@@ -169,12 +169,18 @@ public class LandscapeNode extends PNode implements NaturalSelectionModel.Listen
     }
 
     public void reset() {
+        List<NaturalSelectionSprite> removedSprites = new LinkedList<NaturalSelectionSprite>();
         for ( NaturalSelectionSprite sprite : sprites ) {
-            removeChild( sprite );
+            if ( indexOfChild( sprite ) != -1 && !( sprite instanceof TreeNode || sprite instanceof ShrubNode ) ) {
+                removeChild( sprite );
+                removedSprites.add( sprite );
+            }
+        }
+        for ( NaturalSelectionSprite removedSprite : removedSprites ) {
+            sprites.remove( removedSprite );
         }
         onClimateChange( NaturalSelectionDefaults.DEFAULT_CLIMATE );
         onSelectionFactorChange( NaturalSelectionDefaults.DEFAULT_SELECTION_FACTOR );
-        sprites.clear();
         bunnies.clear();
         wolves.clear();
     }

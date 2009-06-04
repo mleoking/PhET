@@ -31,6 +31,8 @@ public class WolfNode extends NaturalSelectionSprite implements Wolf.Listener {
 
         //addChild( new DebugCross() );
 
+        rescale();
+
     }
 
     public boolean isFlipped() {

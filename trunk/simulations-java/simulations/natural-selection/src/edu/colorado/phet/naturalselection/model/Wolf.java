@@ -9,6 +9,8 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 
 public class Wolf extends ClockAdapter {
+    private static final double MAX_STEP = 7.0;
+
     private Point3D position;
 
     private boolean movingRight;
@@ -16,15 +18,19 @@ public class Wolf extends ClockAdapter {
     private ArrayList<Listener> listeners;
 
     private NaturalSelectionModel model;
-
     private boolean enabled = true;
-    private static final double HORIZONTAL_STEP = 15.0;
+    private boolean hunting = true;
+
+    private Bunny target;
+
+    private Frenzy frenzy;
 
     // random number generator
     private static final Random random = new Random( System.currentTimeMillis() );
 
     public Wolf( NaturalSelectionModel model, Frenzy frenzy ) {
         this.model = model;
+        this.frenzy = frenzy;
 
         movingRight = true;
         if ( random.nextInt( 2 ) == 0 ) {
@@ -36,6 +42,12 @@ public class Wolf extends ClockAdapter {
         position = model.getLandscape().getRandomGroundPosition();
 
         model.getClock().addClockListener( this );
+
+        getNewTarget();
+    }
+
+    private void getNewTarget() {
+        target = frenzy.getNewWolfTarget( this );
     }
 
     public void disable() {
@@ -58,22 +70,75 @@ public class Wolf extends ClockAdapter {
         return movingRight;
     }
 
+    public boolean isHunting() {
+        return hunting;
+    }
+
+    public void setHunting( boolean hunting ) {
+        this.hunting = hunting;
+    }
+
+    public Bunny getTarget() {
+        return target;
+    }
+
     private void setX( double x ) {
         position = new Point3D.Double( x, position.getY(), position.getZ() );
     }
 
-    private void moveAround() {
+    private double groundDistance( Point3D a, Point3D b ) {
+        double x = a.getX() - b.getX();
+        double z = a.getZ() - b.getZ();
+        return Math.sqrt( x * x + z * z );
+    }
 
-        if ( movingRight ) {
-            setX( position.getX() + HORIZONTAL_STEP );
-            if ( position.getX() >= model.getLandscape().getMaximumX( position.getZ() ) ) {
-                movingRight = false;
+    private void moveAround() {
+        if ( hunting ) {
+            if ( target == null ) {
+                hunting = false;
+                return;
+            }
+            if ( !target.isAlive() ) {
+                getNewTarget();
+            }
+            if ( target == null ) {
+                hunting = false;
+                return;
+            }
+
+            Point3D targetPosition = target.getPosition();
+            double distance = groundDistance( targetPosition, position );
+            if ( distance < MAX_STEP ) {
+                target.die();
+            }
+            else {
+                Point3D diff = new Point3D.Double( targetPosition.getX() - position.getX(), 0, targetPosition.getZ() - position.getZ() );
+                diff.setLocation( diff.getX() * MAX_STEP / distance, 0, diff.getZ() * MAX_STEP / distance );
+
+                position = new Point3D.Double( position.getX() + diff.getX(), position.getY(), position.getZ() + diff.getZ() );
+                movingRight = diff.getX() >= 0;
+                /*
+                if ( movingRight ) {
+                    setX( position.getX() + MAX_STEP );
+                    if ( position.getX() >= model.getLandscape().getMaximumX( position.getZ() ) ) {
+                        movingRight = false;
+                    }
+                }
+                else {
+                    setX( position.getX() - MAX_STEP );
+                    if ( position.getX() <= -model.getLandscape().getMaximumX( position.getZ() ) ) {
+                        movingRight = true;
+                    }
+                }
+                */
             }
         }
         else {
-            setX( position.getX() - HORIZONTAL_STEP );
-            if ( position.getX() <= -model.getLandscape().getMaximumX( position.getZ() ) ) {
-                movingRight = true;
+            if ( movingRight ) {
+                setX( position.getX() + MAX_STEP );
+            }
+            else {
+                setX( position.getX() - MAX_STEP );
             }
         }
 
