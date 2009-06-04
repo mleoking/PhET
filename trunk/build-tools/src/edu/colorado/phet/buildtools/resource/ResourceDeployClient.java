@@ -1,4 +1,4 @@
-package edu.colorado.phet.buildtools.translate;
+package edu.colorado.phet.buildtools.resource;
 
 import java.io.File;
 import java.io.IOException;
@@ -266,4 +266,66 @@ public class ResourceDeployClient {
         client.displayResourceDeployServerInstructions( trunk );
     }
 
+    /**
+     * Class used on the command line to deploy a single resource
+     */
+    public static class ResourceDeploy {
+
+        private static void printUsageAndExit() {
+            System.out.println( "Usage: ResourceDeploy <trunk> <mode> <resourceFile> <resourceDestination>" );
+            System.out.println( "<trunk> is the path to the trunk directory" );
+            System.out.println( "<mode> is either 'java' or 'flash'" );
+            System.out.println( "<resourceFile> is the path to the resource file" );
+            System.out.println( "<resourceDestination> is where to put the resource file in the JARs (should always start and end with '/')" );
+            System.exit( 1 );
+        }
+
+        public static void main( String[] args ) {
+            if ( args.length != 4 ) {
+                printUsageAndExit();
+            }
+            File trunk = new File( args[0] );
+            String mode = args[1];
+            File resourceFile = new File( args[2] );
+            String resourceDestination = args[3];
+
+            if ( !trunk.exists() || !trunk.isDirectory() ) {
+                System.out.println( "Path to trunk is invalid" );
+                printUsageAndExit();
+            }
+
+            if ( !resourceFile.exists() ) {
+                System.out.println( "Path to resource file is invalid" );
+                printUsageAndExit();
+            }
+
+            if ( mode.equals( "java" ) ) {
+                try {
+                    deployJavaResourceFile( trunk, resourceFile, resourceDestination );
+                }
+                catch( IOException e ) {
+                    e.printStackTrace();
+                }
+                catch( JSchException e ) {
+                    e.printStackTrace();
+                }
+            }
+            else if ( mode.equals( "flash" ) ) {
+                try {
+                    deployFlashResourceFile( trunk, resourceFile, resourceDestination );
+                }
+                catch( IOException e ) {
+                    e.printStackTrace();
+                }
+                catch( JSchException e ) {
+                    e.printStackTrace();
+                }
+            }
+            else {
+                System.out.println( "Unknown mode" );
+                printUsageAndExit();
+            }
+        }
+
+    }
 }

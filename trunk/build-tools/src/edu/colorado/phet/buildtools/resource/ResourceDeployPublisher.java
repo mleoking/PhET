@@ -1,4 +1,4 @@
-package edu.colorado.phet.buildtools.translate;
+package edu.colorado.phet.buildtools.resource;
 
 import java.io.File;
 import java.io.IOException;
