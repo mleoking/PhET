@@ -1,7 +1,6 @@
 package edu.colorado.phet.buildtools.translate;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.io.IOException;
 import java.util.Locale;
 
@@ -44,8 +43,6 @@ import com.jcraft.jsch.JSchException;
  */
 public class CommonTranslationDeployClient {
 
-    private static final boolean DEBUG = false;
-
     private File resourceFile;
     private File trunk;
     private ResourceDeployClient client;
@@ -76,12 +73,12 @@ public class CommonTranslationDeployClient {
             String propertiesString = "resourceFile=" + resourceFile.getName() + "\n";
             if ( type == Translation.TRANSLATION_JAVA ) {
                 // TODO: properties should be constants somewhere
-                propertiesString += "sims=" + getJavaSimNames() + "\n";
+                propertiesString += "sims=" + ResourceDeployUtils.getJavaSimNames( trunk ) + "\n";
                 propertiesString += "resourceDestination=/phetcommon/localization/\n";
                 propertiesString += "mode=java\n";
             }
             else if ( type == Translation.TRANSLATION_FLASH ) {
-                propertiesString += "sims=" + getFlashSimNames() + "\n";
+                propertiesString += "sims=" + ResourceDeployUtils.getFlashSimNames( trunk ) + "\n";
                 propertiesString += "resourceDestination=/\n";
                 propertiesString += "mode=flash\n";
             }
@@ -122,7 +119,7 @@ public class CommonTranslationDeployClient {
         System.out.println();
         System.out.println( "****** Building and sending Flash HTMLs" );
 
-        File[] simDirs = getFlashSimulationDirs();
+        File[] simDirs = ResourceDeployUtils.getFlashSimulationDirs( trunk );
 
         for ( int i = 0; i < simDirs.length; i++ ) {
             File simDir = simDirs[i];
@@ -177,71 +174,6 @@ public class CommonTranslationDeployClient {
         query.send();
         System.out.println( "end of BuildAndSendFlashHTML: " + simName );
     }
-
-    // comma-separated list of sim names
-    public String getJavaSimNames() {
-        return getDirNameList( getJavaSimulationDirs() );
-    }
-
-    // comma-separated list of sim names
-    public String getFlashSimNames() {
-        return getDirNameList( getFlashSimulationDirs() );
-    }
-
-    public File[] getJavaSimulationDirs() {
-        if ( DEBUG ) {
-            return new File[]{new File( trunk, "simulations-java/simulations/test-project" )};
-        }
-        else {
-            File simsDir = new File( trunk, "simulations-java/simulations" );
-
-            File[] simDirs = simsDir.listFiles( new FileFilter() {
-                public boolean accept( File file ) {
-                    return file.isDirectory() && !file.getName().startsWith( "." );
-                }
-            } );
-
-            return simDirs;
-        }
-    }
-
-    public File[] getFlashSimulationDirs() {
-        if ( DEBUG ) {
-            return new File[]{new File( trunk, "simulations-flash/simulations/test-flash-project" )};
-        }
-        else {
-            File simsDir = new File( trunk, "simulations-flash/simulations" );
-
-            File[] simDirs = simsDir.listFiles( new FileFilter() {
-                public boolean accept( File file ) {
-                    return file.isDirectory() && !file.getName().startsWith( "." );
-                }
-            } );
-
-            return simDirs;
-        }
-    }
-
-    public String getDirNameList( File[] dirs ) {
-        String ret = "";
-
-        if ( dirs.length == 0 ) {
-            return ret;
-        }
-
-        for ( int i = 0; i < dirs.length; i++ ) {
-            File dir = dirs[i];
-
-            if ( i != 0 ) {
-                ret += ",";
-            }
-
-            ret += dir.getName();
-        }
-
-        return ret;
-    }
-
 
     public static void main( String[] args ) {
         if ( args.length == 0 ) {
