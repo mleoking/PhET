@@ -3,6 +3,7 @@
 package edu.colorado.phet.naturalselection.model;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
 
 /**
  * GlaciersClock is the clock for this simulation.
@@ -33,5 +34,12 @@ public class NaturalSelectionClock extends ConstantDtClock {
     public void setDt( double dt ) {
         super.setDt( dt );
         resetSimulationTime();
+    }
+
+    @Override
+    public void stepClockWhilePaused() {
+        for ( int i = 0; i < NaturalSelectionDefaults.TICKS_PER_YEAR / 4; i++ ) {
+            super.stepClockWhilePaused();
+        }
     }
 }

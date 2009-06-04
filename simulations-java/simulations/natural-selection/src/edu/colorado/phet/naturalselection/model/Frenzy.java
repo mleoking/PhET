@@ -2,6 +2,8 @@ package edu.colorado.phet.naturalselection.model;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -19,6 +21,8 @@ public class Frenzy extends ClockAdapter {
     private boolean running = true;
 
     private ArrayList<Listener> listeners;
+
+    private static final Random random = new Random( System.currentTimeMillis() );
 
     public Frenzy( NaturalSelectionModel model, double duration ) {
         this.model = model;
@@ -59,6 +63,25 @@ public class Frenzy extends ClockAdapter {
 
     public boolean isRunning() {
         return running;
+    }
+
+    public Bunny getNewWolfTarget( Wolf wolf ) {
+        List<Bunny> bunnies = model.getAliveBunnyList();
+        if ( bunnies.isEmpty() ) {
+            return null;
+        }
+        int index = 0;
+        for ( int i = 0; i < 10; i++ ) {
+            index = random.nextInt( bunnies.size() );
+            Allele color = bunnies.get( index ).getColorPhenotype();
+            if ( color == ColorGene.WHITE_ALLELE && model.getClimate() == NaturalSelectionModel.CLIMATE_EQUATOR ) {
+                break;
+            }
+            else if ( color == ColorGene.BROWN_ALLELE && model.getClimate() == NaturalSelectionModel.CLIMATE_ARCTIC ) {
+                break;
+            }
+        }
+        return bunnies.get( index );
     }
 
     public void simulationTimeChanged( ClockEvent event ) {
