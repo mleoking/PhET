@@ -38,6 +38,26 @@ public class BuildLocalProperties {
     }
 
     /**
+     * Return instance of BuildLocalProperties initialized from the specified properties file.
+     * NOTE: this function should only be called from one properties file
+     *
+     * @param propertiesFile
+     * @return
+     */
+    public static BuildLocalProperties getInstanceFromPropertiesFile( File propertiesFile ) {
+        if ( instance != null ) {
+            if ( instance.properties.equals( propertiesFile ) ) {
+                return instance;
+            }
+            else {
+                throw new IllegalStateException( "Attempted to initialize BuildLocalProperties with different properties file" );
+            }
+        }
+        instance = new BuildLocalProperties( propertiesFile );
+        return instance;
+    }
+
+    /**
      * Initializes the singleton instance by loading properties from a properties file
      * that exists at a location relation to some trunk directory.
      *
@@ -46,6 +66,16 @@ public class BuildLocalProperties {
      */
     public static BuildLocalProperties initRelativeToTrunk( File trunk ) {
         return initFromPropertiesFile( new File( trunk, "build-tools/build-local.properties" ) );
+    }
+
+    /**
+     * Return instance of BuildLocalProperties initialized from the properties within the specified trunk
+     *
+     * @param trunk Reference to the trunk directory
+     * @return
+     */
+    public static BuildLocalProperties getInstanceRelativeToTrunk( File trunk ) {
+        return getInstanceFromPropertiesFile( new File( trunk, "build-tools/build-local.properties" ) );
     }
 
     public static BuildLocalProperties getInstance() {
@@ -189,19 +219,21 @@ public class BuildLocalProperties {
     public boolean getDebugSkipCommit() {
         return getBoolean( "debug.skip-commit", false );
     }
-    
-    
+
+
     /**
      * Gets the name of the Flash application on Mac, as it appears in the Finder.
      * For example, "Flash 8".
+     *
      * @return
      */
     public String getMacFlashName() {
         return getRequiredString( "mac.flash.name", "name of the Flash application (Mac)" );
     }
-    
+
     /**
      * Gets the name of the Mac volume on which your trunk directory resides.
+     *
      * @return
      */
     public String getMacTrunkVolume() {
