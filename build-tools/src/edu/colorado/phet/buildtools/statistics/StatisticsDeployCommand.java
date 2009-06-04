@@ -87,7 +87,7 @@ public class StatisticsDeployCommand {
 
         for ( int i = 0; i < adminFiles.length; i++ ) {
             try {
-                ScpTo.uploadFile( adminFiles[i], authenticationInfo.getUsername(), remoteDeployServer, deployFileName( reportFiles[i], "/admin/" ), authenticationInfo.getPassword() );
+                ScpTo.uploadFile( adminFiles[i], authenticationInfo.getUsername(), remoteDeployServer, deployFileName( adminFiles[i], "/admin/" ), authenticationInfo.getPassword() );
             }
             catch( JSchException e ) {
                 e.printStackTrace();
