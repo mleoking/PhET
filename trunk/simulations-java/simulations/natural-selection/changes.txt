@@ -1,3 +1,5 @@
+# 0.01.15 (32302) Jun 4, 2009
+6/4/09 More UI improvements
 # 0.01.14 (32275) Jun 3, 2009
 6/3/09 Full quasi-3d recode, plus time until next generation / game over UI and bugfixes
 # 0.01.13 (32163) May 30, 2009
