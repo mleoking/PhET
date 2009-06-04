@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import edu.colorado.phet.buildtools.BuildToolsPaths;
 import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.util.FileUtils;
 
@@ -58,10 +59,10 @@ public class ImportTranslations {
 
                 if ( translation.isCommonTranslation() ) {
                     if ( translation.isJavaTranslation() ) {
-                        destination = new File( trunk, "simulations-java/common/phetcommon/data/phetcommon/localization/" + file.getName() );
+                        destination = new File( trunk, BuildToolsPaths.PHETCOMMON_LOCALIZATION + "/" + file.getName() );
                     }
                     else if ( translation.isFlashTranslation() ) {
-                        destination = new File( trunk, "simulations-flash/common/data/localization/" + file.getName() );
+                        destination = new File( trunk, BuildToolsPaths.FLASH_COMMON_LOCALIZATION + "/" + file.getName() );
                     }
                 }
                 else {

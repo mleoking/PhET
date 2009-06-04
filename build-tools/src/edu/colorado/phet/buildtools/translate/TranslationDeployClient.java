@@ -18,6 +18,7 @@ import org.rev6.scf.SshException;
 
 import edu.colorado.phet.buildtools.AuthenticationInfo;
 import edu.colorado.phet.buildtools.BuildLocalProperties;
+import edu.colorado.phet.buildtools.BuildToolsPaths;
 import edu.colorado.phet.buildtools.PhetServer;
 import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
 import edu.colorado.phet.buildtools.java.projects.BuildToolsProject;
@@ -108,13 +109,14 @@ public class TranslationDeployClient {
         File srcDir = new File( dirname );
         String deployDirName = new SimpleDateFormat( "M-d-yyyy_h-ma" ).format( new Date() );
         System.out.println( "Deploying to: " + deployDirName );
-        String translationDir = "/web/chroot/phet/usr/local/apache/htdocs/sims/translations/" + deployDirName;
+        String translationDir = BuildToolsPaths.TIGERCAT_TRANSLATIONS_TEMP_DIR + "/" + deployDirName;
 
         AuthenticationInfo authenticationInfo = BuildLocalProperties.getInstance().getProdAuthenticationInfo();
         PhetServer server = PhetServer.PRODUCTION;
         mkdir( server, authenticationInfo, translationDir );
         transfer( server, authenticationInfo, srcDir, translationDir );
 
+        // TODO: refactor into PhetProductionServer ?
         openBrowser( "http://phet.colorado.edu/sims/translations/" + deployDirName );
 
         transferFlashHTMLs( trunk, srcDir, server, authenticationInfo, translationDir );
@@ -202,7 +204,7 @@ public class TranslationDeployClient {
             else if ( translation.isCommonTranslation() ) {
                 // common strings instead, so we need to find all simulations with sim-strings for the same locale
 
-                File simsDir = new File( trunk, "simulations-flash/simulations" );
+                File simsDir = new File( trunk, BuildToolsPaths.SIMULATIONS_FLASH );
 
                 File[] sims = simsDir.listFiles( new FileFilter() {
                     public boolean accept( File pathname ) {
@@ -256,7 +258,7 @@ public class TranslationDeployClient {
             String pathToBuildLocalProperties = server.getBuildLocalPropertiesFile();
             //String jarCommand, File buildLocalProperties, File pathToSimsDir, File translationDir
             String command = javaCmd + " -classpath " + buildScriptDir + "/" + jarName + " " + TranslationDeployServer.class.getName() + " " +
-                             jarCmd + " " + pathToBuildLocalProperties + " /web/chroot/phet/usr/local/apache/htdocs/sims " + translationDir + " 2>&1";
+                             jarCmd + " " + pathToBuildLocalProperties + " " + BuildToolsPaths.TIGERCAT_SIMS_DIR + " " + translationDir + " 2>&1";
 
             System.out.println( "Running command: \n" + command );
             sshConnection.executeTask( new SshCommand( command ) );
@@ -306,13 +308,13 @@ public class TranslationDeployClient {
         try {
             sshConnection.connect();
 
-            BuildToolsProject buildToolsProject = new BuildToolsProject( new File( trunk, "build-tools" ) );
+            BuildToolsProject buildToolsProject = new BuildToolsProject( new File( trunk, BuildToolsPaths.BUILD_TOOLS_DIR ) );
             String buildScriptDir = server.getServerDeployPath( buildToolsProject );
 
             String javaCmd = server.getJavaCommand();
             String jarName = buildToolsProject.getDefaultDeployJar().getName();
             String command = javaCmd + " -classpath " + buildScriptDir + "/" + jarName + " " + TranslationDeployPublisher.class.getName() + " " +
-                             "/web/chroot/phet/usr/local/apache/htdocs/sims " + translationDir;
+                             BuildToolsPaths.TIGERCAT_SIMS_DIR + " " + translationDir;
 
             System.out.println( "Running command: \n" + command );
             sshConnection.executeTask( new SshCommand( command ) );

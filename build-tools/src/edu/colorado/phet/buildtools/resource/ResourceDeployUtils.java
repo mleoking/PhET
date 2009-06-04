@@ -3,6 +3,8 @@ package edu.colorado.phet.buildtools.resource;
 import java.io.File;
 import java.io.FileFilter;
 
+import edu.colorado.phet.buildtools.BuildToolsPaths;
+
 public class ResourceDeployUtils {
 
     // TODO: refactor all of resource deploy stuff into buildtools/resource/, instead of under buildtools/translate
@@ -60,10 +62,10 @@ public class ResourceDeployUtils {
 
     public static File[] getJavaSimulationDirs( File trunk ) {
         if ( DEBUG ) {
-            return new File[]{new File( trunk, "simulations-java/simulations/test-project" )};
+            return new File[]{new File( trunk, BuildToolsPaths.JAVA_SIMULATIONS_DIR + "/test-project" )};
         }
         else {
-            File simsDir = new File( trunk, "simulations-java/simulations" );
+            File simsDir = new File( trunk, BuildToolsPaths.JAVA_SIMULATIONS_DIR );
 
             File[] simDirs = simsDir.listFiles( new FileFilter() {
                 public boolean accept( File file ) {
@@ -77,10 +79,10 @@ public class ResourceDeployUtils {
 
     public static File[] getFlashSimulationDirs( File trunk ) {
         if ( DEBUG ) {
-            return new File[]{new File( trunk, "simulations-flash/simulations/test-flash-project" )};
+            return new File[]{new File( trunk, BuildToolsPaths.FLASH_SIMULATIONS_DIR + "/test-flash-project" )};
         }
         else {
-            File simsDir = new File( trunk, "simulations-flash/simulations" );
+            File simsDir = new File( trunk, BuildToolsPaths.FLASH_SIMULATIONS_DIR );
 
             File[] simDirs = simsDir.listFiles( new FileFilter() {
                 public boolean accept( File file ) {

@@ -116,10 +116,11 @@ public class BuildPropertiesFile extends AbstractPropertiesFile {
     /**
      * Returns true if the build file specifies to use all-permissions in the security tag; this is specified
      * by putting security=all-permissions in the build file.
+     *
      * @return true if this sim is requesting all permissions.
      */
     public boolean requestAllPermissions() {
-        final String securityProperty = getProperty("security");
-        return securityProperty !=null && securityProperty.equals("all-permissions");
+        final String securityProperty = getProperty( "security" );
+        return securityProperty != null && securityProperty.equals( "all-permissions" );
     }
 }

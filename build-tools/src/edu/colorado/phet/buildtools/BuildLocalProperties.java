@@ -65,7 +65,7 @@ public class BuildLocalProperties {
      * @return
      */
     public static BuildLocalProperties initRelativeToTrunk( File trunk ) {
-        return initFromPropertiesFile( new File( trunk, "build-tools/build-local.properties" ) );
+        return initFromPropertiesFile( new File( trunk, BuildToolsPaths.BUILD_LOCAL_PROPERTIES ) );
     }
 
     /**
@@ -75,7 +75,7 @@ public class BuildLocalProperties {
      * @return
      */
     public static BuildLocalProperties getInstanceRelativeToTrunk( File trunk ) {
-        return getInstanceFromPropertiesFile( new File( trunk, "build-tools/build-local.properties" ) );
+        return getInstanceFromPropertiesFile( new File( trunk, BuildToolsPaths.BUILD_LOCAL_PROPERTIES ) );
     }
 
     public static BuildLocalProperties getInstance() {

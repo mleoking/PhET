@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Locale;
 
+import edu.colorado.phet.buildtools.BuildToolsPaths;
 import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
 import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
@@ -119,10 +120,10 @@ public class Translation {
     // convenience function for where simulations are stored
     private File getSimulationsDir( File trunk ) {
         if ( isJavaTranslation() ) {
-            return new File( trunk, "simulations-java/simulations" );
+            return new File( trunk, BuildToolsPaths.SIMULATIONS_JAVA );
         }
         else if ( isFlashTranslation() ) {
-            return new File( trunk, "simulations-flash/simulations" );
+            return new File( trunk, BuildToolsPaths.SIMULATIONS_FLASH );
         }
 
         return null;

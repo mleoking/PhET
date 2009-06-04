@@ -46,7 +46,7 @@ public class ScpTo {
             channel.connect();
 
             if ( checkAck( in ) != 0 ) {
-                new Exception("ack failed, exiting").printStackTrace(  );
+                new Exception( "ack failed, exiting" ).printStackTrace();
                 System.exit( 0 );
             }
 
@@ -68,7 +68,7 @@ public class ScpTo {
             out.write( command.getBytes() );
             out.flush();
             if ( checkAck( in ) != 0 ) {
-                new Exception("ack failed, exiting").printStackTrace(  );
+                new Exception( "ack failed, exiting" ).printStackTrace();
                 System.exit( 0 );
             }
 

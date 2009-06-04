@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.Locale;
 
 import edu.colorado.phet.buildtools.BuildLocalProperties;
+import edu.colorado.phet.buildtools.BuildToolsPaths;
 import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.Simulation;
 import edu.colorado.phet.common.phetcommon.util.StreamReaderThread;
@@ -88,7 +89,7 @@ public class PhetFlexProject extends PhetProject {
 
     public static PhetProject[] getFlexProjects( File trunk ) {
 //        File flashSimDir=new File(baseDir.getParentFile(),"team/jolson/simulations");
-        File flashSimDir = new File( trunk, "simulations-flex/simulations" );
+        File flashSimDir = new File( trunk, BuildToolsPaths.FLEX_SIMULATIONS_DIR );
         File[] files = flashSimDir.listFiles( new FileFilter() {
             public boolean accept( File pathname ) {
                 return pathname.isDirectory() && !pathname.getName().startsWith( "." );

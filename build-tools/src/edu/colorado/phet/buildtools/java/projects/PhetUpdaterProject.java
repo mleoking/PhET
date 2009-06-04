@@ -3,6 +3,7 @@ package edu.colorado.phet.buildtools.java.projects;
 import java.io.File;
 import java.io.IOException;
 
+import edu.colorado.phet.buildtools.BuildToolsPaths;
 import edu.colorado.phet.buildtools.java.JavaProject;
 
 /**
@@ -27,6 +28,6 @@ public class PhetUpdaterProject extends JavaProject {
     }
 
     public String getProdServerDeployPath() {
-        return "/web/htdocs/phet/phet-dist/phet-updater";
+        return BuildToolsPaths.PHET_UPDATER_PROD_SERVER_DEPLOY_PATH;
     }
 }

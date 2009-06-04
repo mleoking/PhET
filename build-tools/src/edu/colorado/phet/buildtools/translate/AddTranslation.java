@@ -135,6 +135,8 @@ public class AddTranslation {
             //download JNLP from main site and use as template in case any changes in main-class
             final File localFile = new File( TRANSLATIONS_TEMP_DIR, "template-" + project.getName() + ".jnlp" );
             localFile.deleteOnExit();
+
+            // TODO: this has to be shared somewhere else?
             String url = "http://phet.colorado.edu/sims/" + project.getName() + "/" + project.getSimulations()[i].getName() + ".jnlp";
             try {
                 FileUtils.download( url, localFile );

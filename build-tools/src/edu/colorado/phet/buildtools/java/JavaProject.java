@@ -14,6 +14,7 @@ import org.apache.tools.ant.taskdefs.Java;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
 
+import edu.colorado.phet.buildtools.BuildToolsPaths;
 import edu.colorado.phet.buildtools.MyAntTaskRunner;
 import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.Simulation;
@@ -37,7 +38,7 @@ public abstract class JavaProject extends PhetProject {
     }
 
     public static PhetProject[] getJavaSimulations( File trunk ) {
-        File simulationsJava = new File( trunk, "simulations-java" );
+        File simulationsJava = new File( trunk, BuildToolsPaths.SIMULATIONS_JAVA );
         Collection projects = new ArrayList();
         String[] sims = getSimNames( simulationsJava );
         for ( int i = 0; i < sims.length; i++ ) {
@@ -108,7 +109,7 @@ public abstract class JavaProject extends PhetProject {
         }
 
         java.setArgs( "-dev" ); // program arg to run in developer mode
-        File file = new File( getTrunk(), "build-tools/test-output.txt" );
+        File file = new File( getTrunk(), BuildToolsPaths.BUILD_TOOLS_DIR + "/test-output.txt" );
         java.setOutput( file );
 
         System.out.println( "Launching task, output will be printed after finish." );

@@ -3,6 +3,7 @@ package edu.colorado.phet.buildtools.java.projects;
 import java.io.File;
 import java.io.IOException;
 
+import edu.colorado.phet.buildtools.BuildToolsPaths;
 import edu.colorado.phet.buildtools.java.JavaProject;
 
 /**
@@ -22,7 +23,7 @@ public class BuildToolsProject extends JavaProject {
     }
 
     public String getProdServerDeployPath() {
-        return "/web/chroot/phet/usr/local/apache/htdocs/phet-dist/build-tools";
+        return BuildToolsPaths.BUILD_TOOLS_PROD_SERVER_DEPLOY_PATH;
     }
 
     //TODO: should be written to bin/ or other useful location

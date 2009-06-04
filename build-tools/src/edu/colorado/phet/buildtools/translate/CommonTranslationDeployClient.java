@@ -7,6 +7,7 @@ import java.util.Locale;
 import javax.swing.*;
 
 import edu.colorado.phet.buildtools.BuildLocalProperties;
+import edu.colorado.phet.buildtools.BuildToolsPaths;
 import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
 import edu.colorado.phet.buildtools.resource.ResourceDeployClient;
 import edu.colorado.phet.buildtools.resource.ResourceDeployUtils;
@@ -76,12 +77,12 @@ public class CommonTranslationDeployClient {
             if ( type == Translation.TRANSLATION_JAVA ) {
                 // TODO: properties should be constants somewhere
                 propertiesString += "sims=" + ResourceDeployUtils.getJavaSimNames( trunk ) + "\n";
-                propertiesString += "resourceDestination=/phetcommon/localization/\n";
+                propertiesString += "resourceDestination=" + BuildToolsPaths.JAVA_JAR_LOCALIZATION + "\n";
                 propertiesString += "mode=java\n";
             }
             else if ( type == Translation.TRANSLATION_FLASH ) {
                 propertiesString += "sims=" + ResourceDeployUtils.getFlashSimNames( trunk ) + "\n";
-                propertiesString += "resourceDestination=/\n";
+                propertiesString += "resourceDestination=" + BuildToolsPaths.FLASH_JAR_LOCALIZATION + "\n";
                 propertiesString += "mode=flash\n";
             }
             FileUtils.writeString( propertiesFile, propertiesString );

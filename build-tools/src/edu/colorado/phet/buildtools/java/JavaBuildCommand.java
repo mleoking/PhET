@@ -6,9 +6,9 @@ import scala.tools.ant.Scalac;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Properties;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Properties;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.Jar;
@@ -83,7 +83,7 @@ public class JavaBuildCommand {
 
     private File getSoftwareAgreementDir() {
         //Copy the software agreement to the top level, so it will appear at the top level of the jar file
-        return new File( project.getTrunk(), "simulations-java/common/phetcommon/data" );
+        return new File( project.getTrunk(), BuildToolsPaths.PHETCOMMON_DATA );
     }
 
     private void signJAR() {
@@ -111,11 +111,11 @@ public class JavaBuildCommand {
     private void compileScala() {
         Scalac scalac = new Scalac();
         scalac.setClasspath( new Path( antTaskRunner.getProject(), toString( project.getAllJarFiles() ) +
-                " : " + project.getClassesDirectory().getAbsolutePath() ) );
-        ArrayList all=new ArrayList(Arrays.asList(project.getAllScalaSourceRoots()));
-        all.addAll(Arrays.asList(project.getAllJavaSourceRoots()));
-        scalac.setSrcdir( new Path( antTaskRunner.getProject(), toString((File[]) all.toArray(new File[all.size()])) ) );
-        scalac.setIncludes("**/*.scala, **/*.java");
+                                                                   " : " + project.getClassesDirectory().getAbsolutePath() ) );
+        ArrayList all = new ArrayList( Arrays.asList( project.getAllScalaSourceRoots() ) );
+        all.addAll( Arrays.asList( project.getAllJavaSourceRoots() ) );
+        scalac.setSrcdir( new Path( antTaskRunner.getProject(), toString( (File[]) all.toArray( new File[all.size()] ) ) ) );
+        scalac.setIncludes( "**/*.scala, **/*.java" );
         scalac.setTarget( BuildToolsConstants.SIM_SCALA_VERSION );//see Scalac.Target, allows targeting 1.4 jvm
         scalac.setDestdir( project.getClassesDirectory() );
         antTaskRunner.runTask( scalac );
@@ -146,10 +146,10 @@ public class JavaBuildCommand {
 
         //This block enables compilation of mixed java-scala sources by pointing the java compiler at the compiled scala source
         // see http://www.codecommit.com/blog/scala/joint-compilation-of-scala-and-java-sources
-        if (project.containsScalaSource()){
-            ArrayList all=new ArrayList(Arrays.asList(classpath));
-            all.add(project.getClassesDirectory());
-            classpath= (File[]) all.toArray(new File[all.size()]);
+        if ( project.containsScalaSource() ) {
+            ArrayList all = new ArrayList( Arrays.asList( classpath ) );
+            all.add( project.getClassesDirectory() );
+            classpath = (File[]) all.toArray( new File[all.size()] );
         }
         javac.setClasspath( new Path( antTaskRunner.getProject(), toString( classpath ) ) );
 
@@ -168,8 +168,8 @@ public class JavaBuildCommand {
         Javac javac = new Javac();
         javac.setSource( BuildToolsConstants.BOOTSTRAP_JAVA_VERSION );//Java version checker must be compiled in lowest language version
         javac.setTarget( BuildToolsConstants.BOOTSTRAP_JAVA_VERSION );//so it can run in lowest language version jvms
-        javac.setClasspath( new Path( antTaskRunner.getProject(), new File( project.getTrunk(), "simulations-java/contrib/javaws/jnlp.jar" ).getAbsolutePath() ) );
-        javac.setSrcdir( new Path( antTaskRunner.getProject(), new File( project.getTrunk(), "simulations-java/common/java-version-checker/src" ).getAbsolutePath() ) );
+        javac.setClasspath( new Path( antTaskRunner.getProject(), new File( project.getTrunk(), BuildToolsPaths.JNLP_JAR ).getAbsolutePath() ) );
+        javac.setSrcdir( new Path( antTaskRunner.getProject(), new File( project.getTrunk(), BuildToolsPaths.JAVA_COMMON + "/java-version-checker/src" ).getAbsolutePath() ) );
         javac.setDestdir( project.getClassesDirectory() );
         javac.setDebugLevel( "lines,source" );
         javac.setDebug( true );
