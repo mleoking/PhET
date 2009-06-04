@@ -1,3 +1,5 @@
+# 00.50.00 (32296) Jun 4, 2009
+6/4/09 Refactoring and common translation deploy / resource deploy modifications
 # 00.49.00 (31933) May 19, 2009
 5/19/09 Fix for translation deploy
 # 00.48.00 (31905) May 18, 2009
