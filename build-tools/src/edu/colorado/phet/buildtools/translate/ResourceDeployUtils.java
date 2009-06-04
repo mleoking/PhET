@@ -1,8 +1,10 @@
 package edu.colorado.phet.buildtools.translate;
 
 import java.io.File;
+import java.io.FileFilter;
 
 public class ResourceDeployUtils {
+    public static final boolean DEBUG = false;
 
     public static File getTestDir( File resourceDir ) {
         return new File( resourceDir, "test" );
@@ -33,4 +35,77 @@ public class ResourceDeployUtils {
         return file.getName().endsWith( ".swf" );
     }
 
+    public static String getDirNameList( File[] dirs ) {
+        String ret = "";
+
+        if ( dirs.length == 0 ) {
+            return ret;
+        }
+
+        for ( int i = 0; i < dirs.length; i++ ) {
+            File dir = dirs[i];
+
+            if ( i != 0 ) {
+                ret += ",";
+            }
+
+            ret += dir.getName();
+        }
+
+        return ret;
+    }
+
+    public static File[] getJavaSimulationDirs( File trunk ) {
+        if ( DEBUG ) {
+            return new File[]{new File( trunk, "simulations-java/simulations/test-project" )};
+        }
+        else {
+            File simsDir = new File( trunk, "simulations-java/simulations" );
+
+            File[] simDirs = simsDir.listFiles( new FileFilter() {
+                public boolean accept( File file ) {
+                    return file.isDirectory() && !file.getName().startsWith( "." );
+                }
+            } );
+
+            return simDirs;
+        }
+    }
+
+    public static File[] getFlashSimulationDirs( File trunk ) {
+        if ( DEBUG ) {
+            return new File[]{new File( trunk, "simulations-flash/simulations/test-flash-project" )};
+        }
+        else {
+            File simsDir = new File( trunk, "simulations-flash/simulations" );
+
+            File[] simDirs = simsDir.listFiles( new FileFilter() {
+                public boolean accept( File file ) {
+                    return file.isDirectory() && !file.getName().startsWith( "." );
+                }
+            } );
+
+            return simDirs;
+        }
+    }
+
+    /**
+     * Get a comma-separated list of java sim names
+     *
+     * @param trunk Reference to trunk
+     * @return A string of comma-separated sim names
+     */
+    public static String getJavaSimNames( File trunk ) {
+        return getDirNameList( getJavaSimulationDirs( trunk ) );
+    }
+
+    /**
+     * Get a comma-separated list of flash sim names
+     *
+     * @param trunk Reference to trunk
+     * @return A string of comma-separated sim names
+     */
+    public static String getFlashSimNames( File trunk ) {
+        return getDirNameList( getFlashSimulationDirs( trunk ) );
+    }
 }
