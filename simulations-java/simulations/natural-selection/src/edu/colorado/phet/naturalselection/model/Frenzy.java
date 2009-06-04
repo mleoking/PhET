@@ -1,9 +1,6 @@
 package edu.colorado.phet.naturalselection.model;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -21,8 +18,7 @@ public class Frenzy extends ClockAdapter {
 
     private ArrayList<Listener> listeners;
 
-    private int killed = 0;
-    private int toKill;
+    private List<Bunny> targets;
 
     private static final Random random = new Random( System.currentTimeMillis() );
 
@@ -40,17 +36,18 @@ public class Frenzy extends ClockAdapter {
 
     public void init() {
         int pop = model.getPopulation();
-        int numWolves = 4 + pop / 6;
-        if ( pop > 40 ) {
-            toKill = pop / 3;
-        }
-        else {
-            toKill = pop / 5;
-        }
+        int numWolves = 2 + pop / 5;
+
+        initializeTargets();
 
         wolves = new ArrayList<Wolf>();
         for ( int i = 0; i < numWolves; i++ ) {
             final Wolf wolf = new Wolf( model, this );
+
+            // if no wolves are killed this frenzy, don't let the wolves hunt
+            if ( targets.isEmpty() ) {
+                wolf.setHunting( false );
+            }
             wolves.add( wolf );
             notifyWolfCreate( wolf );
             wolf.addListener( new Wolf.Listener() {
@@ -63,9 +60,35 @@ public class Frenzy extends ClockAdapter {
         }
     }
 
+    private void initializeTargets() {
+        targets = new LinkedList<Bunny>();
+
+        double baseFraction = ( Math.sqrt( (double) model.getPopulation() ) - 3 ) / 10;
+
+        for ( Bunny bunny : model.getAliveBunnyList() ) {
+            double actualFraction = baseFraction;
+
+            if (
+                    ( bunny.getColorPhenotype() == ColorGene.WHITE_ALLELE && model.getClimate() == NaturalSelectionModel.CLIMATE_ARCTIC )
+                    || ( bunny.getColorPhenotype() == ColorGene.BROWN_ALLELE && model.getClimate() == NaturalSelectionModel.CLIMATE_EQUATOR )
+                    ) {
+                actualFraction /= 6;
+            }
+
+            if ( actualFraction > NaturalSelectionModel.MAX_KILL_FRACTION ) {
+                actualFraction = NaturalSelectionModel.MAX_KILL_FRACTION;
+            }
+
+            if ( Math.random() < actualFraction ) {
+                targets.add( bunny );
+            }
+
+        }
+    }
+
     private void onBunnyKilled( Wolf wolf, Bunny bunny ) {
-        killed++;
-        if ( killed >= toKill ) {
+        targets.remove( bunny );
+        if ( targets.isEmpty() ) {
             for ( Wolf daWolf : wolves ) {
                 daWolf.setHunting( false );
             }
@@ -90,22 +113,11 @@ public class Frenzy extends ClockAdapter {
     }
 
     public Bunny getNewWolfTarget( Wolf wolf ) {
-        List<Bunny> bunnies = model.getAliveBunnyList();
-        if ( bunnies.isEmpty() ) {
+        if ( targets.isEmpty() ) {
             return null;
         }
-        int index = 0;
-        for ( int i = 0; i < 10; i++ ) {
-            index = random.nextInt( bunnies.size() );
-            Allele color = bunnies.get( index ).getColorPhenotype();
-            if ( color == ColorGene.WHITE_ALLELE && model.getClimate() == NaturalSelectionModel.CLIMATE_EQUATOR ) {
-                break;
-            }
-            else if ( color == ColorGene.BROWN_ALLELE && model.getClimate() == NaturalSelectionModel.CLIMATE_ARCTIC ) {
-                break;
-            }
-        }
-        return bunnies.get( index );
+        int index = random.nextInt( targets.size() );
+        return targets.get( index );
     }
 
     public void simulationTimeChanged( ClockEvent event ) {

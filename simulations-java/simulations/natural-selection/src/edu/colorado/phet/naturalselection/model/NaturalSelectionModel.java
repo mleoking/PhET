@@ -24,7 +24,7 @@ public class NaturalSelectionModel extends ClockAdapter {
     public static final int SELECTION_FOOD = 1;
     public static final int SELECTION_WOLVES = 2;
 
-    private static final double MAX_KILL_FRACTION = 0.9;
+    public static final double MAX_KILL_FRACTION = 0.9;
 
     /**
      * The simulation clock

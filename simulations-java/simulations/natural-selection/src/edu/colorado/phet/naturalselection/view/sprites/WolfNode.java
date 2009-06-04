@@ -14,6 +14,7 @@ public class WolfNode extends NaturalSelectionSprite implements Wolf.Listener {
     private PNode wolfHolder;
     private PNode wolfGraphic;
     private boolean flipped = false;
+    private boolean flippedInit = false;
     private PImage wolfImage;
 
     public WolfNode( LandscapeNode landscapeNode, Point3D position ) {
@@ -41,7 +42,8 @@ public class WolfNode extends NaturalSelectionSprite implements Wolf.Listener {
 
     public void setFlipped( boolean flipped ) {
         // TODO: refactor flipped into NaturalSelectionSprite 
-        if ( flipped != this.flipped ) {
+        if ( flipped != this.flipped || !flippedInit ) {
+            flippedInit = true;
             if ( flipped ) {
                 wolfGraphic.setTransform( new PAffineTransform( 1, 0, 0, 1, 0, 0 ) );
             }
