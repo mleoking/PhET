@@ -1,7 +1,6 @@
 package edu.colorado.phet.naturalselection.model;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Point3D;
@@ -9,7 +8,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 
 public class Wolf extends ClockAdapter {
-    private static final double MAX_STEP = 7.0;
+    private static final double MAX_STEP = 10.0;
 
     private Point3D position;
 
@@ -76,6 +75,9 @@ public class Wolf extends ClockAdapter {
 
     public void setHunting( boolean hunting ) {
         this.hunting = hunting;
+        if ( !hunting ) {
+            movingRight = random.nextBoolean();
+        }
     }
 
     public Bunny getTarget() {
@@ -108,7 +110,7 @@ public class Wolf extends ClockAdapter {
 
             Point3D targetPosition = target.getPosition();
             double distance = groundDistance( targetPosition, position );
-            if ( distance < MAX_STEP ) {
+            if ( distance < MAX_STEP * 5 ) {
                 target.die();
                 notifyKilledBunny();
             }
@@ -118,7 +120,12 @@ public class Wolf extends ClockAdapter {
 
                 // TODO: make sure the wolf "mouth" area is the part touching the bunny, not the wolf's center
 
-                position = new Point3D.Double( position.getX() + diff.getX(), position.getY(), position.getZ() + diff.getZ() );
+
+                double x = position.getX() + diff.getX();
+                double z = position.getZ() + diff.getZ();
+                double y = model.getLandscape().getGroundY( x, z );
+
+                position = new Point3D.Double( x, y, z );
                 movingRight = diff.getX() >= 0;
             }
         }
@@ -151,8 +158,7 @@ public class Wolf extends ClockAdapter {
     }
 
     private void notifyListenersOfEvent( Event event ) {
-        for ( Iterator<Listener> iterator = listeners.iterator(); iterator.hasNext(); ) {
-            Listener listener = iterator.next();
+        for ( Listener listener : listeners ) {
             listener.onEvent( event );
         }
     }
