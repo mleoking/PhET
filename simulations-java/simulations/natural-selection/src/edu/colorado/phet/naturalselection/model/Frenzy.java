@@ -16,11 +16,13 @@ public class Frenzy extends ClockAdapter {
     private NaturalSelectionClock clock;
     private NaturalSelectionModel model;
     private ArrayList<Wolf> wolves;
-    private ArrayList<Bunny> targetedBunnies;
 
     private boolean running = true;
 
     private ArrayList<Listener> listeners;
+
+    private int killed = 0;
+    private int toKill;
 
     private static final Random random = new Random( System.currentTimeMillis() );
 
@@ -34,17 +36,39 @@ public class Frenzy extends ClockAdapter {
         startTime = clock.getSimulationTime();
         clock.addClockListener( this );
 
-        targetedBunnies = new ArrayList<Bunny>();
-
     }
 
     public void init() {
-        int numWolves = 4 + model.getPopulation() / 6;
+        int pop = model.getPopulation();
+        int numWolves = 4 + pop / 6;
+        if ( pop > 40 ) {
+            toKill = pop / 3;
+        }
+        else {
+            toKill = pop / 5;
+        }
+
         wolves = new ArrayList<Wolf>();
         for ( int i = 0; i < numWolves; i++ ) {
-            Wolf wolf = new Wolf( model, this );
+            final Wolf wolf = new Wolf( model, this );
             wolves.add( wolf );
             notifyWolfCreate( wolf );
+            wolf.addListener( new Wolf.Listener() {
+                public void onEvent( Wolf.Event event ) {
+                    if ( event.type == Wolf.Event.TYPE_KILLED_BUNNY ) {
+                        onBunnyKilled( wolf, wolf.getTarget() );
+                    }
+                }
+            } );
+        }
+    }
+
+    private void onBunnyKilled( Wolf wolf, Bunny bunny ) {
+        killed++;
+        if ( killed >= toKill ) {
+            for ( Wolf daWolf : wolves ) {
+                daWolf.setHunting( false );
+            }
         }
     }
 
@@ -138,11 +162,6 @@ public class Frenzy extends ClockAdapter {
         while ( iter.hasNext() ) {
             ( iter.next() ).onWolfCreate( wolf );
         }
-    }
-
-
-    public void addTargetBunny( Bunny bunny ) {
-        targetedBunnies.add( bunny );
     }
 
     //----------------------------------------------------------------------------

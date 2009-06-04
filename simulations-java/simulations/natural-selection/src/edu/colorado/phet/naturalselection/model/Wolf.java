@@ -110,27 +110,16 @@ public class Wolf extends ClockAdapter {
             double distance = groundDistance( targetPosition, position );
             if ( distance < MAX_STEP ) {
                 target.die();
+                notifyKilledBunny();
             }
             else {
                 Point3D diff = new Point3D.Double( targetPosition.getX() - position.getX(), 0, targetPosition.getZ() - position.getZ() );
                 diff.setLocation( diff.getX() * MAX_STEP / distance, 0, diff.getZ() * MAX_STEP / distance );
 
+                // TODO: make sure the wolf "mouth" area is the part touching the bunny, not the wolf's center
+
                 position = new Point3D.Double( position.getX() + diff.getX(), position.getY(), position.getZ() + diff.getZ() );
                 movingRight = diff.getX() >= 0;
-                /*
-                if ( movingRight ) {
-                    setX( position.getX() + MAX_STEP );
-                    if ( position.getX() >= model.getLandscape().getMaximumX( position.getZ() ) ) {
-                        movingRight = false;
-                    }
-                }
-                else {
-                    setX( position.getX() - MAX_STEP );
-                    if ( position.getX() <= -model.getLandscape().getMaximumX( position.getZ() ) ) {
-                        movingRight = true;
-                    }
-                }
-                */
             }
         }
         else {
@@ -157,6 +146,10 @@ public class Wolf extends ClockAdapter {
         notifyListenersOfEvent( new Event( this, Event.TYPE_POSITION_CHANGED ) );
     }
 
+    private void notifyKilledBunny() {
+        notifyListenersOfEvent( new Event( this, Event.TYPE_KILLED_BUNNY ) );
+    }
+
     private void notifyListenersOfEvent( Event event ) {
         for ( Iterator<Listener> iterator = listeners.iterator(); iterator.hasNext(); ) {
             Listener listener = iterator.next();
@@ -178,6 +171,7 @@ public class Wolf extends ClockAdapter {
 
     public class Event {
         public static final int TYPE_POSITION_CHANGED = 0;
+        public static final int TYPE_KILLED_BUNNY = 1;
 
         public final int type;
         public final Wolf wolf;
