@@ -12,6 +12,11 @@ chmod o-wx -R report
 chmod o+rx report
 chmod o+r -R report
 
+# the same for the admin directory
+chmod o-wx -R admin
+chmod o+rx admin
+chmod o+r -R admin
+
 # make tigercat scripts runnable only by people in the group
 chmod ug+rwx $scripts
 chmod o-rwx $scripts
