@@ -1,3 +1,5 @@
+# 00.51.00 (32304) Jun 4, 2009
+6/4/09 Refactored common string path literals
 # 00.50.00 (32296) Jun 4, 2009
 6/4/09 Refactoring and common translation deploy / resource deploy modifications
 # 00.49.00 (31933) May 19, 2009
