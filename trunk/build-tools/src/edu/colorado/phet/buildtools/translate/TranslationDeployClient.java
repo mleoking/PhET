@@ -194,7 +194,7 @@ public class TranslationDeployClient {
             }
 
             if ( !translation.isFlashTranslation() ) {
-                System.out.println( "WARNING: Not a Flash translation: " + files[i].getName() );
+                //System.out.println( "WARNING: Not a Flash translation: " + files[i].getName() );
                 continue;
             }
 
