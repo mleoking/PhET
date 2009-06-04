@@ -15,6 +15,7 @@ import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
  */
 public class TestTextRenderOrder {
     public static void main( String[] args ) {
+        /*
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         VerticalLayoutPanel verticalLayoutPanel = new VerticalLayoutPanel();
@@ -46,5 +47,6 @@ public class TestTextRenderOrder {
 
         frame.pack();
         frame.setVisible( true );
+        */
     }
 }
