@@ -44,7 +44,7 @@ class Solution(private val nodeVoltages: collection.Map[Int, Double], private va
     else {
       e match {
         //current flows from high to low potential in a component (except batteries) 
-        case r: Resistor => -getVoltage(r) / r.resistance
+        case r: Resistor => getVoltage(r) / r.resistance
         case _ => throw new RuntimeException("Solution does not contain current for element: " + e)
       }
     }
@@ -124,9 +124,9 @@ case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor], currentSou
   def getIncomingCurrentTerms(node: Int) = {
     val nodeTerms = new ArrayBuffer[Term]
     for (b <- batteries if b.node1 == node)
-      nodeTerms += Term(1, UnknownCurrent(b))
+      nodeTerms += Term(-1, UnknownCurrent(b))
     for (r <- resistors; if r.node1 == node; if r.resistance == 0) //Treat resistors with R=0 as having unknown current and v1=v2
-      nodeTerms += Term(1, UnknownCurrent(r))
+      nodeTerms += Term(-1, UnknownCurrent(r))
     for (r <- resistors; if r.node1 == node; if r.resistance != 0) {
       nodeTerms += Term(1 / r.resistance, UnknownVoltage(r.node1))
       nodeTerms += Term(-1 / r.resistance, UnknownVoltage(r.node0))
@@ -145,9 +145,9 @@ case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor], currentSou
   def getOutgoingCurrentTerms(node: Int) = {
     val nodeTerms = new ArrayBuffer[Term]
     for (b <- batteries if b.node0 == node)
-      nodeTerms += Term(-1, UnknownCurrent(b))
+      nodeTerms += Term(1, UnknownCurrent(b))
     for (r <- resistors; if r.node0 == node; if r.resistance == 0) //Treat resistors with R=0 as having unknown current and v1=v2
-      nodeTerms += Term(-1, UnknownCurrent(r))
+      nodeTerms += Term(1, UnknownCurrent(r))
     for (r <- resistors; if r.node0 == node; if r.resistance != 0) {
       nodeTerms += Term(-1 / r.resistance, UnknownVoltage(r.node1))
       nodeTerms += Term(1 / r.resistance, UnknownVoltage(r.node0))
