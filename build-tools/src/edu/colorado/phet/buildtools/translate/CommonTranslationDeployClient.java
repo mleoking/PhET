@@ -8,6 +8,8 @@ import javax.swing.*;
 
 import edu.colorado.phet.buildtools.BuildLocalProperties;
 import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
+import edu.colorado.phet.buildtools.resource.ResourceDeployClient;
+import edu.colorado.phet.buildtools.resource.ResourceDeployUtils;
 import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.application.VersionInfoQuery;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
