@@ -43,7 +43,6 @@ public class JavaBuildCommand {
 
     public static final String JAVA_VERSION_CHECKER_CLASS_NAME = "edu.colorado.phet.javaversionchecker.JavaVersionChecker";
     public static final String JAR_LAUNCHER_CLASS_NAME = JARLauncher.class.getName();
-    public static final String SOFTWARE_AGREEMENT_PATH = "simulations-common/data/software-agreement";
 
     public static String getMainLauncherClassName( JavaProject project ) {
         if ( project.getAlternateMainClass() != null ) {
@@ -72,7 +71,7 @@ public class JavaBuildCommand {
     }
 
     public void copySoftwareAgreement() {
-        File src = new File( project.getTrunk(), SOFTWARE_AGREEMENT_PATH );
+        File src = new File( project.getTrunk(), BuildToolsPaths.SOFTWARE_AGREEMENT_PATH );
         try {
             FileUtils.copyRecursive( src, getSoftwareAgreementDir() );
 //            SetSVNIgnoreToDeployDirectories.setIgnorePatternsOnDir( getSoftwareAgreementDir().getParentFile(), new String[]{getSoftwareAgreementDir().getName()} );

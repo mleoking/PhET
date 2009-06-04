@@ -9,9 +9,7 @@ import org.rev6.scf.SshCommand;
 import org.rev6.scf.SshConnection;
 import org.rev6.scf.SshException;
 
-import edu.colorado.phet.buildtools.AuthenticationInfo;
-import edu.colorado.phet.buildtools.BuildLocalProperties;
-import edu.colorado.phet.buildtools.SVNStatusChecker;
+import edu.colorado.phet.buildtools.*;
 import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.buildtools.util.ProcessOutputReader;
 import edu.colorado.phet.buildtools.util.ScpTo;
@@ -26,7 +24,7 @@ public class StatisticsDeployCommand {
 
     private String remoteDeployServer = "tigercat.colorado.edu";
 
-    private String remoteDeployDir = "/web/chroot/phet/usr/local/apache/htdocs/statistics";
+    private String remoteDeployDir = BuildToolsPaths.TIGERCAT_HTDOCS + "/statistics";
 
     private static String[] ignoreFileNames = {
             "raw-log.txt",
@@ -139,7 +137,7 @@ public class StatisticsDeployCommand {
     }
 
     private File getStatisticsDir() {
-        return new File( getTrunkDir(), "statistics" );
+        return new File( getTrunkDir(), BuildToolsPaths.STATISTICS );
     }
 
     private File getReportDir() {

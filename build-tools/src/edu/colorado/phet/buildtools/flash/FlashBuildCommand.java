@@ -7,6 +7,7 @@ import java.text.MessageFormat;
 import javax.swing.*;
 
 import edu.colorado.phet.buildtools.BuildLocalProperties;
+import edu.colorado.phet.buildtools.BuildToolsPaths;
 import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 
@@ -17,12 +18,15 @@ import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
  * Time: 10:17:40 AM
  */
 public class FlashBuildCommand {
+
+    public static final String BUILD_OUTPUT_TEMP = BuildToolsPaths.SIMULATIONS_FLASH + "/build-output-temp";
+
     // returns boolean success of whether the sim was built without errors
     public static boolean build( String sim, File trunk ) throws IOException {
 
         boolean success;
 
-        File outputFile = new File( trunk, "simulations-flash/build-output-temp/output-" + sim + ".txt" );
+        File outputFile = new File( trunk, BUILD_OUTPUT_TEMP + "/output-" + sim + ".txt" );
 
         // if the output file exists, remove it so we can correctly detect whether the build is completed
         if ( outputFile.exists() ) {
@@ -80,13 +84,13 @@ public class FlashBuildCommand {
             success = false;
         }
 
-        FileUtils.delete( new File( trunk, "simulations-flash/build-output-temp" ), true );
+        FileUtils.delete( new File( trunk, BUILD_OUTPUT_TEMP ), true );
 
         return success;
     }
 
     public static void build( String[] sims, File trunk ) throws IOException {
-        String template = FileUtils.loadFileAsString( new File( trunk, "build-tools/data/flash/build-template.jsfl" ) );
+        String template = FileUtils.loadFileAsString( new File( trunk, BuildToolsPaths.FLASH_BUILD_TEMPLATE ) );
         String out = template;
 
         String trunkPipe;
@@ -104,7 +108,7 @@ public class FlashBuildCommand {
         out = FileUtils.replaceAll( out, "@CLOSEFLASH@", "false" );
         System.out.println( "out = " + out );
 
-        String outputSuffix = "simulations-flash" + File.separator + "build-output-temp" + File.separator + "build.jsfl";
+        String outputSuffix = BUILD_OUTPUT_TEMP + "/build.jsfl";
         File outputFile = new File( trunk, outputSuffix );
         FileUtils.writeString( outputFile, out );
 
