@@ -18,9 +18,10 @@ case class Capacitor(node0: Int, node1: Int, capacitance: Double, voltage: Doubl
     //linear companion model for capacitor, using trapezoidal approximation, under thevenin model, see http://dev.hypertriton.com/edacious/trunk/doc/lec.pdf
     //and p.23 pillage
     val midNode = newNode()
-    new CompanionModel(new Battery(node0, midNode, voltage + dt * current / 2 / capacitance) :: Nil,
+    new CompanionModel(
+      new Battery(node0, midNode, voltage + dt * current / 2 / capacitance) :: Nil,
       new Resistor(midNode, node1, dt / 2 / capacitance) :: Nil, Nil) {
-      def getCurrent(solution: Solution) = -solution.getCurrent(batteries(0)) //todo: why is minus sign here?
+      def getCurrent(solution: Solution) = solution.getCurrent(batteries(0)) //todo: why is minus sign here?
 
       def getVoltage(solution: Solution) = voltage + dt / 2 / capacitance * (current + getCurrent(solution)) //seems to have same behavior as line below
       //      def getVoltage(solution: Solution) = solution.getNodeVoltage(node1)-solution.getNodeVoltage(node0)

@@ -128,8 +128,8 @@ case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor], currentSou
     for (r <- resistors; if r.node1 == node; if r.resistance == 0) //Treat resistors with R=0 as having unknown current and v1=v2
       nodeTerms += Term(1, UnknownCurrent(r))
     for (r <- resistors; if r.node1 == node; if r.resistance != 0) {
-      nodeTerms += Term(-1 / r.resistance, UnknownVoltage(r.node1))
-      nodeTerms += Term(1 / r.resistance, UnknownVoltage(r.node0))
+      nodeTerms += Term(1 / r.resistance, UnknownVoltage(r.node1))
+      nodeTerms += Term(-1 / r.resistance, UnknownVoltage(r.node0))
     }
     nodeTerms
   }
@@ -149,8 +149,8 @@ case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor], currentSou
     for (r <- resistors; if r.node0 == node; if r.resistance == 0) //Treat resistors with R=0 as having unknown current and v1=v2
       nodeTerms += Term(-1, UnknownCurrent(r))
     for (r <- resistors; if r.node0 == node; if r.resistance != 0) {
-      nodeTerms += Term(1 / r.resistance, UnknownVoltage(r.node1))
-      nodeTerms += Term(-1 / r.resistance, UnknownVoltage(r.node0))
+      nodeTerms += Term(-1 / r.resistance, UnknownVoltage(r.node1))
+      nodeTerms += Term(1 / r.resistance, UnknownVoltage(r.node0))
     }
     nodeTerms
   }
@@ -266,12 +266,15 @@ case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor], currentSou
 object TestMNA {
   def main(args: Array[String]) {
     val battery = Battery(0, 1, 4.0)
-    val resistor = Resistor(1, 0, 2.0)
-    val circuit = new Circuit(battery :: Nil, resistor :: Nil)
-    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 4.0), Map(battery -> 2.0))
-    val current = circuit.solve.getCurrent(resistor)
+    val resistor = Resistor(1, 2, 8.0)
+    val resistor2 = Resistor(2, 0, 0)
+    val circuit = new Circuit(battery :: Nil, resistor :: resistor2::Nil)
+    circuit.debug=true
+    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 4.0), Map(battery -> 0.5))
+    val solution = circuit.solve
+    val current = solution.getCurrent(resistor)
     println("resistor.current=" + current)
     assert(abs(current - 2.0) < 1E-6)
-    assert(circuit.solve.approxEquals(desiredSolution))
+    assert(solution.approxEquals(desiredSolution))
   }
 }
