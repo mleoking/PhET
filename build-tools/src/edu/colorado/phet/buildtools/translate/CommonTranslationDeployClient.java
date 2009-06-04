@@ -100,7 +100,7 @@ public class CommonTranslationDeployClient {
             }
 
             // display to the user the commands needed to execute the server side
-            client.executeResourceDeployServer( trunk );
+            client.displayResourceDeployServerInstructions( trunk );
 
 
         }
