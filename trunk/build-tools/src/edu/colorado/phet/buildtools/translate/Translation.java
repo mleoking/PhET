@@ -120,10 +120,10 @@ public class Translation {
     // convenience function for where simulations are stored
     private File getSimulationsDir( File trunk ) {
         if ( isJavaTranslation() ) {
-            return new File( trunk, BuildToolsPaths.SIMULATIONS_JAVA );
+            return new File( trunk, BuildToolsPaths.JAVA_SIMULATIONS_DIR );
         }
         else if ( isFlashTranslation() ) {
-            return new File( trunk, BuildToolsPaths.SIMULATIONS_FLASH );
+            return new File( trunk, BuildToolsPaths.FLASH_SIMULATIONS_DIR );
         }
 
         return null;
