@@ -177,6 +177,18 @@ public class BuildLocalProperties {
     }
 
     /**
+     * The path to trunk as seen by wine
+     * NOTE: This is required for use with wine if the trunk directory is not under the wine directory
+     * In this case, a symbolic link should be placed somewhere within the wine directory to the actual trunk
+     * This should only be called when wine is true
+     *
+     * @return
+     */
+    public String getWineTrunk() {
+        return getRequiredString( "wine.trunk", "Path to trunk that is wine-compatible" );
+    }
+
+    /**
      * ??
      * Use this carefully! It should be used only for debugging.
      * Defaults to false.

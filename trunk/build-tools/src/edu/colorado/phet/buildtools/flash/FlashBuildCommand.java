@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
 
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
 import edu.colorado.phet.buildtools.BuildLocalProperties;
 import edu.colorado.phet.buildtools.util.FileUtils;
@@ -92,7 +92,8 @@ public class FlashBuildCommand {
         String trunkPipe;
         final boolean useWine = BuildLocalProperties.getInstance().getWine();
         if ( useWine ) {
-            trunkPipe = "C|/svn/trunk";
+            //trunkPipe = "C|/svn/trunk";
+            trunkPipe = BuildLocalProperties.getInstance().getWineTrunk().replace( ':', '|' ).replace( '\\', '/' );
         }
         else {
             trunkPipe = trunk.getAbsolutePath().replace( ':', '|' ).replace( '\\', '/' );
@@ -112,8 +113,8 @@ public class FlashBuildCommand {
         if ( useWine ) {
             p = Runtime.getRuntime().exec( new String[]{
                     "wine",
-                    "C:\\Program Files\\Macromedia\\Flash 8\\Flash.exe", // possibly replace this with cmdArray
-                    "C:\\svn\\trunk\\" + outputSuffix.replace( '/', '\\' )
+                    BuildLocalProperties.getInstance().getFlash(),
+                    BuildLocalProperties.getInstance().getWineTrunk() + "\\" + outputSuffix.replace( '/', '\\' )
             } );
         }
         else {
@@ -122,18 +123,18 @@ public class FlashBuildCommand {
                 String flashName = BuildLocalProperties.getInstance().getMacFlashName();
                 String volume = BuildLocalProperties.getInstance().getMacTrunkVolume();
                 String macPath = unixToMacPath( outputFile.getAbsolutePath() );
-                Object[] args = { flashName, volume, macPath  };
+                Object[] args = {flashName, volume, macPath};
                 String pattern = "tell application \"{0}\" to open alias \"{1}:{2}\"";
                 String actionScript = MessageFormat.format( pattern, args );
-                p = Runtime.getRuntime().exec( new String[] { "osascript", "-e", actionScript } );
+                p = Runtime.getRuntime().exec( new String[]{"osascript", "-e", actionScript} );
             }
             else {
                 String cmd = BuildLocalProperties.getInstance().getFlash();
-                p = Runtime.getRuntime().exec( new String[] { cmd, outputFile.getAbsolutePath() } );
+                p = Runtime.getRuntime().exec( new String[]{cmd, outputFile.getAbsolutePath()} );
             }
         }
     }
-    
+
     private static String unixToMacPath( String path ) {
         return path.replace( '/', ':' );
     }
