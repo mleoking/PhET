@@ -26,6 +26,9 @@ public class TestTextRenderOrder {
         verticalLayoutPanel.add( new JLabel( "\u062D hello \u0635" ) );
         verticalLayoutPanel.add(new JLabel(MessageFormat.format( "testing {0} and {1}","value.0","value.1" )));
         verticalLayoutPanel.add(new JLabel(MessageFormat.format( "testing {0} and {1}","\u062D","\u0635" )));
+        verticalLayoutPanel.add(new JLabel(MessageFormat.format( "{0}{1}","\u062D","\u0635" )));
+        verticalLayoutPanel.add(new JLabel(MessageFormat.format( "{0} {1}","\u062D","\u0635" )));
+        verticalLayoutPanel.add(new JLabel(MessageFormat.format( "{0} hello {1}","\u062D","\u0635" )));
         JPanel jPanel = new JPanel() {
             //            @Override
             protected void paintComponent( Graphics g ) {
