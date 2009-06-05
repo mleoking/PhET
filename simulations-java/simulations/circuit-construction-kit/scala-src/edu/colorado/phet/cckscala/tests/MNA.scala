@@ -20,7 +20,7 @@ trait ISolution {
   def getVoltageDifference(node0: Int, node1: Int) = getNodeVoltage(node1) - getNodeVoltage(node0)
 }
 //sparse solution containing only the solved unknowns in MNA
-class Solution(private val nodeVoltages: collection.Map[Int, Double], private val branchCurrents: collection.Map[Element, Double]) extends ISolution {
+case class Solution(private val nodeVoltages: collection.Map[Int, Double], private val branchCurrents: collection.Map[Element, Double]) extends ISolution {
   def getNodeVoltage(node: Int) = nodeVoltages(node)
 
   def approxEquals(s: Solution): Boolean = approxEquals(s, 1E-6)
@@ -44,7 +44,7 @@ class Solution(private val nodeVoltages: collection.Map[Int, Double], private va
     else {
       e match {
         //current flows from high to low potential in a component (except batteries) 
-        case r: Resistor => getVoltage(r) / r.resistance
+        case r: Resistor => -getVoltage(r) / r.resistance
         case _ => throw new RuntimeException("Solution does not contain current for element: " + e)
       }
     }
@@ -119,8 +119,17 @@ case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor], currentSou
     def toTermName = "V" + node
   }
 
+
+  def getRHS(node: Int) = {
+    var sum = 0.0
+    for (c <- currentSources if c.node1 == node) sum = sum - c.current //current is entering the node//TODO: these signs seem backwards, shouldn't incoming current add?
+    for (c <- currentSources if c.node0 == node) sum = sum + c.current //current is going away
+    sum
+  }
   //Todo: does this get the signs right in all cases?
   //TODO: maybe signs here should depend on component orientation?
+
+  //incoming current is negative, outgoing is positive
   def getIncomingCurrentTerms(node: Int) = {
     val nodeTerms = new ArrayBuffer[Term]
     for (b <- batteries if b.node1 == node)
@@ -133,14 +142,6 @@ case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor], currentSou
     }
     nodeTerms
   }
-
-  def getRHS(node: Int) = {
-    var sum = 0.0
-    for (c <- currentSources if c.node1 == node) sum = sum - c.current //current is entering the node//TODO: these signs seem backwards, shouldn't incoming current add?
-    for (c <- currentSources if c.node0 == node) sum = sum + c.current //current is going away
-    sum
-  }
-
   //outgoing currents are negative so that incoming + outgoing = 0
   def getOutgoingCurrentTerms(node: Int) = {
     val nodeTerms = new ArrayBuffer[Term]
@@ -265,16 +266,26 @@ case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor], currentSou
 
 object TestMNA {
   def main(args: Array[String]) {
-    val battery = Battery(0, 1, 4.0)
-    val resistor = Resistor(1, 2, 8.0)
-    val resistor2 = Resistor(2, 0, 0)
-    val circuit = new Circuit(battery :: Nil, resistor :: resistor2::Nil)
+        val battery = Battery(0, 1, 4.0)
+    val resistor = Resistor(1, 2, 4.0)
+    val resistor2 = Resistor(2, 0, 0.0)
+    val circuit = new Circuit(battery :: Nil, resistor :: resistor2:: Nil)
+    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 4.0), Map(battery -> 1.0))
     circuit.debug=true
-    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 4.0), Map(battery -> 0.5))
-    val solution = circuit.solve
-    val current = solution.getCurrent(resistor)
-    println("resistor.current=" + current)
-    assert(abs(current - 2.0) < 1E-6)
-    assert(solution.approxEquals(desiredSolution))
+    println("circuit.solve="+circuit.solve)
+    assert(circuit.solve.approxEquals(desiredSolution))
+
+//
+//    val battery = Battery(0, 1, 4.0)
+//    val resistor = Resistor(1, 2, 8.0)
+//    val resistor2 = Resistor(2, 0, 0)
+//    val circuit = new Circuit(battery :: Nil, resistor :: resistor2::Nil)
+//    circuit.debug=true
+//    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 4.0), Map(battery -> 0.5))
+//    val solution = circuit.solve
+//    val current = solution.getCurrent(resistor)
+//    println("resistor.current=" + current)
+//    assert(abs(current - 2.0) < 1E-6)
+//    assert(solution.approxEquals(desiredSolution))
   }
 }
