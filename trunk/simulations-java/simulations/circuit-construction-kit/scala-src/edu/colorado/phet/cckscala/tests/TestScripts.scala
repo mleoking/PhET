@@ -96,21 +96,24 @@ object TestRCCircuit {
     val C = 1.0E-6
     val battery = ResistiveBattery(0, 1, Vbatt, 0)
     val resistor = Resistor(1, 2, R)
-    val circuit = new FullCircuit(battery :: Nil, resistor :: Nil, Capacitor(2, 0, C, 0.0, 0.0) :: Nil, Nil)
-    val inited = circuit.getInitializedCircuit
-    println("inited=" + inited)
+    val circuit = new FullCircuit(battery :: Nil, resistor :: Nil, Capacitor(2, 0, C, 0.0, 1.0) :: Nil, Nil)
+//    val inited = circuit.getInitializedCircuit
+//    println("inited=" + inited)
+//    var dynamicCircuit = inited
+
+    var dynamicCircuit=circuit
 
     val dt = 0.03E-6
-    var dynamicCircuit = inited
+
     println("t\tvoltage\tdesiredVoltage\terror")
     for (i <- 0 until 1000) {
       val t = i * dt
-      val solutionAtT = dynamicCircuit.solve(dt)
-      val current = solutionAtT.getCurrent(battery)
-      val voltageAtT = solutionAtT.getVoltage(resistor)
-      val desiredVoltageAtT = -Vbatt * exp(-t / (R * C))
-      val error = voltageAtT - desiredVoltageAtT
-      println(t + "\t" + voltageAtT + "\t" + desiredVoltageAtT + "\t" + error)
+      val solutionAtTPlusDT = dynamicCircuit.solve(dt)//solve gives solution at t+dt
+      val current = solutionAtTPlusDT.getCurrent(battery)
+      val voltageAtT = solutionAtTPlusDT.getVoltage(resistor)
+      val desiredVoltageAtTPlusDT = -Vbatt * exp(-(t+dt) / (R * C))
+      val error = voltageAtT - desiredVoltageAtTPlusDT
+      println( voltageAtT + "\t" + desiredVoltageAtTPlusDT + "\t" + error)
 
 
 

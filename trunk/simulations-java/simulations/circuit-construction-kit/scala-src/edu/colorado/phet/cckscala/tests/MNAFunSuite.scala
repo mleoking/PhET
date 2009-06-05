@@ -109,10 +109,10 @@ class MNAFunSuite extends FunSuite {
     var dynamicCircuit = circuit.getInitializedCircuit
     for (i <- 0 until 1000) { //takes 0.3 sec on my machine
       val t = i * dt
-      val solution = dynamicCircuit.solve(dt)
-      val voltage = solution.getVoltage(resistor)
-      val desiredVoltage = -v * exp(-t / r / c)
-      val error = abs(voltage - desiredVoltage)
+      val solutionAtTPlusDT = dynamicCircuit.solve(dt)
+      val voltage = solutionAtTPlusDT.getVoltage(resistor)
+      val desiredVoltageAtTPlusDT = -v * exp(-(t+dt) / r / c)
+      val error = abs(voltage - desiredVoltageAtTPlusDT)
       assert(error < 1E-6) //sample run indicates largest error is 1.5328E-7, is this acceptable?  See TestRCCircuit
       dynamicCircuit = dynamicCircuit.stepInTime(dt)
     }
