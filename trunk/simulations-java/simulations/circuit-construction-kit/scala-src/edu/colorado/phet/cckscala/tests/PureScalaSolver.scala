@@ -30,13 +30,8 @@ class PureScalaSolver extends CircuitSolver
   }
   class CapacitorAdapter(c: CCKCircuit, b: CCKCapacitor)
           extends Capacitor(c.indexOf(b.getStartJunction), c.indexOf(b.getEndJunction),
-            b.getCapacitance, b.getVoltageDrop, -b.getCurrent) with Adapter { //todo: why is minus sign here too?
+            b.getCapacitance, b.getVoltageDrop, b.getCurrent) with Adapter {
     def getComponent = b
-
-    override def applySolution(sol: CompanionSolution) = {
-      getComponent.setCurrent(-sol.getCurrent(this)) //todo: why is current negative?
-      getComponent.setVoltageDrop(sol.getVoltage(this))
-    }
   }
   class InductorAdapter(c: CCKCircuit, b: CCKInductor)
           extends Inductor(c.indexOf(b.getStartJunction), c.indexOf(b.getEndJunction),

@@ -193,17 +193,17 @@ public class CapacitorNode extends ComponentNode {
         rightPlate.removeChargeGraphics();
         ChargeGraphic plate1Graphic = new ChargeGraphic() {
             public Shape createGraphic( Point2D center ) {
-                return !( capacitor.getCharge() > 0 ) ? createPlusGraphic( center ) : createMinusGraphic( center );
+                return ( capacitor.getCharge() > 0 ) ? createPlusGraphic( center ) : createMinusGraphic( center );
             }
         };
         ChargeGraphic plate2Graphic = new ChargeGraphic() {
             public Shape createGraphic( Point2D center ) {
-                return ( capacitor.getCharge() > 0 ) ? createPlusGraphic( center ) : createMinusGraphic( center );
+                return !( capacitor.getCharge() > 0 ) ? createPlusGraphic( center ) : createMinusGraphic( center );
             }
         };
 
-        Color plate1ChargeColor = !( capacitor.getCharge() > 0 ) ? Color.red : Color.blue;
-        Color plate2ChargeColor = ( capacitor.getCharge() > 0 ) ? Color.red : Color.blue;
+        Color plate1ChargeColor = ( capacitor.getCharge() > 0 ) ? Color.red : Color.blue;
+        Color plate2ChargeColor = !( capacitor.getCharge() > 0 ) ? Color.red : Color.blue;
 
         double w = capacitor3DShapeSet.getWidth();
         double L = capacitor3DShapeSet.getLength();
