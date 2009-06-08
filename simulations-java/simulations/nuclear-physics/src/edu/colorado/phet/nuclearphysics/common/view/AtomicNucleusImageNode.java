@@ -14,7 +14,6 @@ import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.view.NucleusImageFactory;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
@@ -57,7 +56,10 @@ public class AtomicNucleusImageNode extends AtomicNucleusNode {
 	        // Scale the image to the appropriate size.  Note that this is tweaked
 	        // a little bit in order to make it look better.
 			newImage.scale( (atomicNucleus.getDiameter()/1.2)/((newImage.getWidth() + newImage.getHeight()) / 2));
-			newImage.setOffset( -atomicNucleus.getDiameter() / 2, -atomicNucleus.getDiameter() / 2 );
+
+			// Set the offset so that the center will be at point (0, 0).
+			newImage.setOffset( -newImage.getFullBoundsReference().width / 2,
+					-newImage.getFullBoundsReference().height / 2 );
 		}
 		else if ( _imageType == AtomicNucleusImageType.GRADIENT_SPHERE ){
 			double radius = atomicNucleus.getDiameter() / 2;
@@ -70,11 +72,9 @@ public class AtomicNucleusImageNode extends AtomicNucleusNode {
 			newImage = new PPath( new Ellipse2D.Double( 0, 0, atomicNucleus.getDiameter(),
 	        		-atomicNucleus.getDiameter() / 2 ) );
 			newImage.setPaint( getColorForElement(atomicNucleus) );
-			newImage.setOffset( -atomicNucleus.getDiameter() / 2, -atomicNucleus.getDiameter() / 2 );
 		}
 		
 		return newImage;
-		
 	}
     
     protected void handleNucleusChangedEvent(AtomicNucleus atomicNucleus, int numProtons, int numNeutrons, 
