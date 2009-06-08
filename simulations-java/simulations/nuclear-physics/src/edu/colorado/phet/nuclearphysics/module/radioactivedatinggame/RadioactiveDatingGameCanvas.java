@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.geom.AffineTransform;
@@ -215,7 +214,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     private void configureProportionsChart(){
         _proportionsChart.setTimeSpan(Carbon14Nucleus.HALF_LIFE * 3.2);
         _proportionsChart.setHalfLife(Carbon14Nucleus.HALF_LIFE);
-        _proportionsChart.setPreDecayElementLabel(NuclearPhysicsStrings.CARBON_14_CHEMICAL_SYMBOL);
+        _proportionsChart.setPreDecayChemicalSymbol(NuclearPhysicsStrings.CARBON_14_CHEMICAL_SYMBOL);
         _proportionsChart.setPreDecayLabelColor(NuclearPhysicsConstants.CARBON_COLOR);
         _proportionsChart.setShowPostDecayCurve(true);
         _proportionsChart.setTimeMarkerLabelEnabled(false);
