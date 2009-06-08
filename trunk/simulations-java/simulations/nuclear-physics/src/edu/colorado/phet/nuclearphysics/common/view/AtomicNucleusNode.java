@@ -5,7 +5,6 @@ package edu.colorado.phet.nuclearphysics.common.view;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -41,7 +40,6 @@ public class AtomicNucleusNode extends PNode {
     // standard font sizes and the use the Piccolo scaling capabilities,
     // which tends to look better than using non-standard sizes.
     private static final double NORMAL_LABEL_SCALING_FACTOR = 0.30;
-    private static final double LARGE_LABEL_SCALING_FACTOR = 0.40;
     
     // Constants that control the nature of the explosion graphic.
     private static final int   EXPLOSION_COUNTER_RESET_VAL = 10;
@@ -337,7 +335,8 @@ public class AtomicNucleusNode extends PNode {
         if (isotopeNumber == "" && chemSymbol != ""){
         	// Set the scale a little smaller if there is no isotope number so
         	// that the label doesn't dominate the image.
-        	scale = _atomicNucleus.getDiameter() / (_isotopeChemSymbol.getFullBoundsReference().getWidth() * 1.5); 
+        	scale = Math.min(_atomicNucleus.getDiameter() / _isotopeChemSymbol.getFullBoundsReference().getWidth() * 0.9,
+        			_atomicNucleus.getDiameter() / _isotopeChemSymbol.getFullBoundsReference().getHeight() * 0.8); 
         }
         else if (chemSymbol != ""){
         	scale = _atomicNucleus.getDiameter() / ( _isotopeChemSymbol.getFullBoundsReference().getWidth() + 
@@ -363,20 +362,27 @@ public class AtomicNucleusNode extends PNode {
      */
     private void updateLabelPositions(){
     	
-        // Optimization: Only check one of the label elements, and only do
-        // the update if it exists.
-        if (_isotopeChemSymbol != null){
-            
-            double numPosX = _atomicNucleus.getDiameter()/2;
-            double numPosY = _atomicNucleus.getDiameter()/2;
-            _isotopeNumber.setOffset( -numPosX, -numPosY );            
-            _isotopeNumberShadow.setOffset( -numPosX + SHADOW_OFFSET, -numPosY + SHADOW_OFFSET);
-            
-            double chemPosX = _isotopeNumber.getOffset().getX() + _isotopeNumber.getFullBounds().getWidth();
-            double chemPosY = _isotopeNumber.getOffset().getY();
-            _isotopeChemSymbol.setOffset( chemPosX, chemPosY );
-            _isotopeChemSymbolShadow.setOffset( chemPosX + SHADOW_OFFSET, chemPosY + SHADOW_OFFSET);
-        }
+    	double totalWidth = _isotopeNumber.getFullBoundsReference().getWidth() +
+    		_isotopeChemSymbol.getFullBoundsReference().getWidth();
+    	double totalHeight = _isotopeChemSymbol.getFullBoundsReference().getHeight();
+    	
+    	double xPos = -totalWidth / 2;
+    	double yPos = -totalHeight / 2;
+    	
+    	if (_isotopeNumber.getText().length() == 0){
+    		// Handle the case where no isotope number is present.
+        	_isotopeChemSymbol.setOffset(xPos, yPos);
+        	_isotopeChemSymbolShadow.setOffset( _isotopeChemSymbol.getOffset().getX() + SHADOW_OFFSET, 
+        			_isotopeChemSymbol.getOffset().getY() + SHADOW_OFFSET );
+    	}
+    	else{
+        	_isotopeNumber.setOffset(xPos, yPos);
+            _isotopeNumberShadow.setOffset( _isotopeNumber.getOffset().getX() + SHADOW_OFFSET, 
+            		_isotopeNumber.getOffset().getY() + SHADOW_OFFSET );
+        	_isotopeChemSymbol.setOffset(_isotopeNumber.getFullBoundsReference().getMaxX(), yPos);
+        	_isotopeChemSymbolShadow.setOffset( _isotopeChemSymbol.getOffset().getX() + SHADOW_OFFSET, 
+        			_isotopeChemSymbol.getOffset().getY() + SHADOW_OFFSET );
+    	}
     }
 
     /**
