@@ -5,7 +5,6 @@ package edu.colorado.phet.nuclearphysics.view;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 
-import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -43,13 +42,16 @@ public class LabeledNucleusImageNode extends LabeledNucleusNode {
 
         // Scale and position the label.
         double imageWidth = nucleusImage.getFullBoundsReference().getWidth();
+        double imageHeight = nucleusImage.getFullBoundsReference().getHeight();
         PNode label = getLabel();
-        double scale = (imageWidth / label.getFullBoundsReference().getWidth()) * 0.9;
+        double scale = Math.min( ( imageWidth / label.getFullBoundsReference().getWidth() ) * 0.9,
+        	( imageHeight / label.getFullBoundsReference().getHeight() ) );
+        
         label.setScale( scale );
 
         // Center the label over the nucleus image.
         label.setOffset( ( imageWidth - label.getFullBoundsReference().getWidth() ) / 2, 
-      	  	  ( nucleusImage.getFullBoundsReference().getHeight() - label.getFullBoundsReference().getHeight() ) / 2);
+      	  	  ( imageHeight - label.getFullBoundsReference().getHeight() ) / 2);
 
     }
 }
