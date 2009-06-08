@@ -1,3 +1,5 @@
+# 3.12.01 (32334) Jun 8, 2009
+6/8/09 Fixed an issue where the isotope number for Lead 207 was incorrect in some places.
 # 3.12.00 (32129) May 29, 2009
 5/29/09 Fixed an issue where the strings associated with the logarithmic time line were not translatable.
 # 3.11.01 (32109) May 29, 2009
