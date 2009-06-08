@@ -54,6 +54,8 @@ public class NuclearDecayProportionChart extends PNode {
 
     // Constants that control the proportions of the main components of the chart.
     private static final double PIE_CHART_WIDTH_PROPORTION = 0.1;
+    private static final double MOVABLE_PERCENT_INDICATOR_WIDTH_PROPORTION = 0.15;
+    private static final double MOVABLE_PERCENT_INDICATOR_HEIGHT_PROPORTION = 0.2;
     
     //------------------------------------------------------------------------
     // Instance Data
@@ -74,12 +76,13 @@ public class NuclearDecayProportionChart extends PNode {
 	private Color _postDecayLabelColor;
 	private boolean _pieChartEnabled;
 	private boolean _showPostDecayCurve;
-	private boolean _timeMarkerLabelEnabled;
+	private boolean _movablePercentIndicatorEnabled;
 
 	// References to the various components of the chart.
     private PPath _borderNode;
     private ProportionsPieChartNode _pieChart;
     private GraphNode _graph;
+    private MovablePercentIndicator _movablePercentIndicator;
 
     // Decay events that are represented on the graph.
     ArrayList _decayEvents = new ArrayList();
@@ -98,9 +101,10 @@ public class NuclearDecayProportionChart extends PNode {
     // Constructor
     //------------------------------------------------------------------------
 
-    public NuclearDecayProportionChart(boolean pieChartEnabled){
+    public NuclearDecayProportionChart(boolean pieChartEnabled, boolean moveablePercentIndicatorEnabled){
     	
     	_pieChartEnabled = pieChartEnabled;
+    	_movablePercentIndicatorEnabled = moveablePercentIndicatorEnabled;
 
     	// Many of the following initializations are arbitrary, and the chart
     	// should be set up via method calls before attempting to display
@@ -113,7 +117,6 @@ public class NuclearDecayProportionChart extends PNode {
     	// to behave somewhat reasonably.
     	_showPostDecayCurve = false;
     	_postDecayLabelColor = Color.ORANGE;
-    	_timeMarkerLabelEnabled = false;
     	
         // Set up the parent node that will contain the non-interactive
         // portions of the chart.
@@ -145,6 +148,13 @@ public class NuclearDecayProportionChart extends PNode {
         	_pieChart = new ProportionsPieChartNode(this);
         	_nonPickableChartNode.addChild( _pieChart );
         }
+        
+        // Add the movable percentage indicator (if enabled).
+        if ( _movablePercentIndicatorEnabled ){
+        	_movablePercentIndicator = new MovablePercentIndicator();
+        	_pickableChartNode.addChild( _movablePercentIndicator );
+        }
+        
     }
 
 	//------------------------------------------------------------------------
@@ -153,54 +163,49 @@ public class NuclearDecayProportionChart extends PNode {
     
     public void setTimeSpan( double timeSpan ){
     	_timeSpan = timeSpan;
-    	update();
+    	updateLayout();
     }
     
     public void setHalfLife(double life) {
 		_halfLife = life;
-    	update();
+    	updateLayout();
 	}
     
 	public void setPreDecayChemicalSymbol(String decayElementLabel) {
 		_preDecayChemicalSymbol = decayElementLabel;
-    	update();
+    	updateLayout();
 	}
 	
 	public void setPreDecayIsotopeNumber(String isotopeNumber) {
 		_preDecayIsotopeNumber = isotopeNumber;
-    	update();
+    	updateLayout();
 	}
 
 	public void setPreDecayLabelColor(Color decayLabelColor) {
 		_preDecayLabelColor = decayLabelColor;
-    	update();
+    	updateLayout();
 	}
 
 	public void setPostDecayChemicalSymbol(String decayElementLabel) {
 		_postDecayChemicalSymbol = decayElementLabel;
-    	update();
+    	updateLayout();
 	}
 
 	public void setPostDecayIsotopeNumber(String isotopeNumber) {
 		_postDecayIsotopeNumber = isotopeNumber;
-    	update();
+    	updateLayout();
 	}
 
 	public void setPostDecayLabelColor(Color decayLabelColor) {
 		_postDecayLabelColor = decayLabelColor;
-    	update();
+    	updateLayout();
 	}
 
 	public void setShowPostDecayCurve(boolean postDecayCurve) {
 		_showPostDecayCurve = postDecayCurve;
-    	update();
+    	updateLayout();
 	}
 
-	public void setTimeMarkerLabelEnabled(boolean markerLabelEnabled) {
-		_timeMarkerLabelEnabled = markerLabelEnabled;
-    	update();
-	}
-	
 	/**
 	 * Configure the parameters
 	 * @param nucleusType
@@ -231,7 +236,7 @@ public class NuclearDecayProportionChart extends PNode {
     	}
     	
     	clear();
-    	update();
+    	updateLayout();
 	}
 
     /**
@@ -253,14 +258,14 @@ public class NuclearDecayProportionChart extends PNode {
         		rect.getWidth() - ( BORDER_STROKE_WIDTH * 2 ), rect.getHeight() - ( BORDER_STROKE_WIDTH * 2 ) );
 
         // Redraw the chart based on these recalculated values.
-        update();
+        updateLayout();
     }
 
     /**
      * Redraw the chart based on the current state.  This is basically the
      * place where the chart gets laid out.
      */
-    private void update() {
+    private void updateLayout() {
     	
     	if (_usableAreaRect.getWidth() <= 0 || _usableAreaRect.getHeight() <= 0){
     		// Ignore if the size makes no sense.
@@ -288,8 +293,17 @@ public class NuclearDecayProportionChart extends PNode {
         }
         
         // Position the graph.
-        _graph.update( (_usableAreaRect.getWidth() - graphLeftEdge) * 0.95, _usableAreaRect.getHeight() * 0.9 );
-        _graph.setOffset( graphLeftEdge + 5, _usableAreaRect.getCenterY() - (_graph.getFullBoundsReference().height / 2 ) );
+        if (!_movablePercentIndicatorEnabled){
+            _graph.update( (_usableAreaRect.getWidth() - graphLeftEdge) * 0.95, _usableAreaRect.getHeight() * 0.9 );
+            _graph.setOffset( graphLeftEdge + 5, _usableAreaRect.getCenterY() - (_graph.getFullBoundsReference().height / 2 ) );
+        }
+        else{
+        	// Leave room above the graph for the movable percentage indicator.
+            _graph.update( (_usableAreaRect.getWidth() - graphLeftEdge) * 0.95, 
+            		_usableAreaRect.getHeight() * (1 - MOVABLE_PERCENT_INDICATOR_HEIGHT_PROPORTION) );
+            _graph.setOffset( graphLeftEdge + 5, 
+            		_usableAreaRect.getMaxY() - _graph.getFullBoundsReference().height + 5);
+        }
     }
 
     /**
@@ -943,6 +957,28 @@ public class NuclearDecayProportionChart extends PNode {
 	    	return unitsText;
 	    }
     }
+    
+    /**
+     * This class represents the movable indicator that allows the user to
+     * obtain detailed information about the relationship between time and
+     * percentage of the element that has decayed.
+     */
+    private static class MovablePercentIndicator extends PNode {
+    	
+    	private static final Color INDICATOR_COLOR = Color.cyan;
+    	private static Stroke INDICATOR_STROKE = new BasicStroke( 3 );
+    	private static final int DEFAULT_WIDTH = 100;
+    	private static final int DEFAULT_HEIGHT = DEFAULT_WIDTH * 3 / 4;
+    	
+    	PhetPPath _readoutRect;
+    	
+    	public MovablePercentIndicator(){
+    		
+    		_readoutRect = new PhetPPath( new RoundRectangle2D.Double(0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT, 4, 4),
+    				INDICATOR_COLOR, INDICATOR_STROKE, INDICATOR_COLOR);
+    		addChild(_readoutRect);
+    	}
+    }
 
     /**
      * Main routine for stand alone testing.
@@ -951,14 +987,13 @@ public class NuclearDecayProportionChart extends PNode {
      */
     public static void main(String [] args){
     	
-        final NuclearDecayProportionChart proportionsChart = new NuclearDecayProportionChart(true); 
+        final NuclearDecayProportionChart proportionsChart = new NuclearDecayProportionChart(true, true); 
 
         proportionsChart.setTimeSpan(Carbon14Nucleus.HALF_LIFE * 3.2);
         proportionsChart.setHalfLife(Carbon14Nucleus.HALF_LIFE);
         proportionsChart.setPreDecayChemicalSymbol(NuclearPhysicsStrings.CARBON_14_CHEMICAL_SYMBOL);
         proportionsChart.setPreDecayLabelColor(NuclearPhysicsConstants.CARBON_COLOR);
         proportionsChart.setShowPostDecayCurve(false);
-        proportionsChart.setTimeMarkerLabelEnabled(false);
 
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
