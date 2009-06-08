@@ -126,7 +126,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         addWorldChild(_edgeOfWorld);
         
         // Create the chart that will display relative decay proportions.
-        _proportionsChart = new NuclearDecayProportionChart(false);
+        _proportionsChart = new NuclearDecayProportionChart(false, true);
         configureProportionsChart();
         addWorldChild(_proportionsChart);
         
@@ -217,7 +217,6 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         _proportionsChart.setPreDecayChemicalSymbol(NuclearPhysicsStrings.CARBON_14_CHEMICAL_SYMBOL);
         _proportionsChart.setPreDecayLabelColor(NuclearPhysicsConstants.CARBON_COLOR);
         _proportionsChart.setShowPostDecayCurve(true);
-        _proportionsChart.setTimeMarkerLabelEnabled(false);
         _proportionsChart.setShowPostDecayCurve(false);
     }
 }
