@@ -1,3 +1,5 @@
+# 0.47.04 (32346) Jun 9, 2009
+6/9/09 Testing SSH connection error handling
 # 0.47.03 (32345) Jun 8, 2009
 6/8/09 Testing SVN version verification
 # 0.47.02 (32344) Jun 8, 2009
