@@ -262,8 +262,20 @@ public class NuclearDecayProportionChart extends PNode {
 		return _graph.getFullBoundsReference().getMaxX();
 	}
 	
+	/**
+	 * Get the value of the data displayed on the graph given an X position
+	 * in the overall chart's coordinate frame.
+	 */
 	protected double getDataValueForXPixelPos(double xPixelPos){
 		return _graph.getDataValueForXPixelPos(xPixelPos - _graph.getOffset().getX());
+	}
+
+	/**
+	 * Get the equivalent value for the time as displayed on the graph given
+	 * an X position in the overall chart's coordinate frame.
+	 */
+	protected double getTimeValueForXPixelPos(double xPixelPos){
+		return _graph.getTimeValueForXPixelPos(xPixelPos - _graph.getOffset().getX());
 	}
 
     /**
@@ -794,7 +806,7 @@ public class NuclearDecayProportionChart extends PNode {
 		}
 		
 		/**
-		 * Obtain the percentage value at a given X position in pixels.  Note
+		 * Obtain the data value at a given X position in pixels.  Note
 		 * that this is pretty unusual given the way we generally think about
 		 * graphs.  The caller provides a value in pixels from the left side
 		 * of the graph, and the data value at the corresponding location is
@@ -816,6 +828,30 @@ public class NuclearDecayProportionChart extends PNode {
 	    			returnValue = decayEvent.getY();
 	    		}
 	    	}
+
+			return returnValue;
+		}
+		
+		/**
+		 * Get the time value corresponding to the given pixel position in
+		 * the X dimension.  Note that the provided position information is
+		 * not for just the data display portion of the graph, but for the
+		 * entire graph node (including labels and such), so the value could
+		 * be off the edge.  When that happens, the closest value is returned.
+		 */
+		public double getTimeValueForXPixelPos(double xPixelPos){
+			
+			double returnValue = 0;
+
+			if (xPixelPos < _graphRect.getX()){
+				returnValue = 0;
+			}
+			else if (xPixelPos > _graphRect.getMaxX()){
+				returnValue = _graphRect.getWidth() / _msToPixelsFactor;
+			}
+			else{
+				returnValue = ( xPixelPos - _graphRect.getX() ) / _msToPixelsFactor;
+			}
 
 			return returnValue;
 		}
