@@ -13,6 +13,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
+import java.awt.geom.Line2D.Double;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -31,8 +32,11 @@ import edu.colorado.phet.nuclearphysics.model.Carbon14Nucleus;
 import edu.colorado.phet.nuclearphysics.model.Uranium238Nucleus;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusDecayModel;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PDragEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
@@ -302,7 +306,18 @@ public class NuclearDecayProportionChart extends PNode {
             _graph.update( (_usableAreaRect.getWidth() - graphLeftEdge) * 0.95, 
             		_usableAreaRect.getHeight() * (1 - MOVABLE_PERCENT_INDICATOR_HEIGHT_PROPORTION) );
             _graph.setOffset( graphLeftEdge + 5, 
-            		_usableAreaRect.getMaxY() - _graph.getFullBoundsReference().height + 5);
+            		_usableAreaRect.getMaxY() - _graph.getFullBoundsReference().height);
+        }
+        
+        // Size and position the movable percentage indicator if enabled.
+        // Note that its X-position is set elsewhere based on where it was
+        // positioned by the user.
+        if ( _movablePercentIndicatorEnabled ){
+        	_movablePercentIndicator.updateLayout(
+        			(int)(Math.round(_usableAreaRect.getWidth() * MOVABLE_PERCENT_INDICATOR_WIDTH_PROPORTION)),
+        			(int)(Math.round(_usableAreaRect.getHeight() * MOVABLE_PERCENT_INDICATOR_HEIGHT_PROPORTION * 0.85)),
+        			(int)(Math.round(_graph.getFullBoundsReference().getY())),		
+        			(int)(Math.round(_graph.getFullBoundsReference().getMaxY())));
         }
     }
 
@@ -504,7 +519,7 @@ public class NuclearDecayProportionChart extends PNode {
         private static final double GRAPH_TEXT_HEIGHT_PROPORTION = 0.07;
         
         // For enabling/disabling the sizing rectangle.
-        private static final boolean SIZING_RECT_VISIBLE = false;
+        private static final boolean SIZING_RECT_VISIBLE = true;
         
         // The chart on which this graph will be appearing.
         NuclearDecayProportionChart _chart;
@@ -970,14 +985,79 @@ public class NuclearDecayProportionChart extends PNode {
     	private static final int DEFAULT_WIDTH = 100;
     	private static final int DEFAULT_HEIGHT = DEFAULT_WIDTH * 3 / 4;
     	
-    	PhetPPath _readoutRect;
+    	private PhetPPath _readoutRect;
+    	private PDragEventHandler _dragEventHandler;
     	
+    	/**
+    	 * Constructor.
+    	 */
     	public MovablePercentIndicator(){
     		
+    		// Make sure everything is pickable so that the user can move it.
+    		setPickable(true);
+    		setChildrenPickable(true);
+    		
+    		// Create the drag event handler that will handle mouse drags by
+    		// the user.
+    		_dragEventHandler = new PDragEventHandler(){
+                public void startDrag( PInputEvent event) {
+                    super.startDrag(event);
+                    handleMouseStartDragEvent( event );
+                }
+                
+                public void drag(PInputEvent event){
+                    handleMouseDragEvent( event );
+                }
+                
+                public void endDrag( PInputEvent event ){
+                    super.endDrag(event);     
+                    handleMouseEndDragEvent( event );
+                }
+    		};
+    		
+    		// Create the rectangle over which the readout will appear.
     		_readoutRect = new PhetPPath( new RoundRectangle2D.Double(0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT, 4, 4),
     				INDICATOR_COLOR, INDICATOR_STROKE, INDICATOR_COLOR);
+    		_readoutRect.setPickable(true);
+    		_readoutRect.addInputEventListener(_dragEventHandler);
     		addChild(_readoutRect);
     	}
+    	
+    	/**
+    	 * Update the layout of this node.
+    	 * 
+    	 * @param topRectWidth - Width of the rectangular readout portion of this node.
+    	 * @param topRectHeight - Height of the rectangular readout portion of this node.
+    	 * @param topOfGraphPosY - Y position of the top of the graph.  The readout sits above this and the
+    	 * tail is below.
+    	 * @param bottomOfGraphPosY - Y position of the bottom of the graph, which will also be the bottom
+    	 * of the tail.
+    	 */
+    	public void updateLayout( int topRectWidth, int topRectHeight, int topOfGraphPosY, int bottomOfGraphPosY ) {
+    		
+    		_readoutRect.setPathTo(new RoundRectangle2D.Double(0, 0, topRectWidth, topRectHeight, 10, 10));
+    		_readoutRect.setOffset(200, topOfGraphPosY - _readoutRect.getFullBoundsReference().height);
+    		
+    	}
+    	
+        private void handleMouseDragEvent(PInputEvent event){
+            
+            PNode draggedNode = event.getPickedNode();
+            PDimension d = event.getDeltaRelativeTo(draggedNode);
+            draggedNode.localToParent(d);
+            System.out.println("Mouse drag event received.");
+//            m_mouseMovementAmount += d.getHeight();
+
+        }
+        
+        private void handleMouseStartDragEvent(PInputEvent event){
+            System.out.println("Mouse start drag event received.");
+//            m_mouseMovementAmount = 0;
+        }
+
+        private void handleMouseEndDragEvent(PInputEvent event){
+            System.out.println("Mouse end event received.");
+        }
     }
 
     /**
