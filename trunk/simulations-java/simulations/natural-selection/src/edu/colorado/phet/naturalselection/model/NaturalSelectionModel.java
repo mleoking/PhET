@@ -138,6 +138,8 @@ public class NaturalSelectionModel extends ClockAdapter {
 
         lastYearTick = 0;
 
+        frenzy = null;
+
         bunnies = new ArrayList<Bunny>();
 
         ColorGene.getInstance().reset();
@@ -214,6 +216,7 @@ public class NaturalSelectionModel extends ClockAdapter {
      * Causes all bunnies that can reproduce to do so
      */
     private void mateBunnies() {
+        /* OLD behavior of mateBunnies() that is potentialMate based
         Iterator<Bunny> iter = bunnies.iterator();
 
         // temporarily store the new bunnies that we are creating
@@ -239,6 +242,31 @@ public class NaturalSelectionModel extends ClockAdapter {
             bunnies.add( bunny );
             //clock.addClockListener( bunny );
             // TODO: possibly notify at the end for potential performance issues?
+            notifyNewBunny( bunny );
+        }
+        */
+        List<Bunny> aliveBunnies = getAliveBunnyList();
+        Collections.shuffle( aliveBunnies );
+
+        List<Bunny> newBunnies = new LinkedList<Bunny>();
+        // we will, for now, ignore anything about bunnies!
+        Bunny prev = null;
+        for ( Bunny bunny : aliveBunnies ) {
+            if ( prev == null ) {
+                prev = bunny;
+                continue;
+            }
+            Bunny[] offspring = Bunny.mateBunnies( prev, bunny, generation + 1 );
+            for ( int i = 0; i < offspring.length; i++ ) {
+                Bunny child = offspring[i];
+                newBunnies.add( child );
+            }
+            prev = null;
+        }
+        mutateSomeBunny( newBunnies );
+        for ( Bunny bunny : newBunnies ) {
+            bunny.notifyInit();
+            bunnies.add( bunny );
             notifyNewBunny( bunny );
         }
     }
@@ -312,7 +340,7 @@ public class NaturalSelectionModel extends ClockAdapter {
     private void bunnyFamine() {
         Iterator<Bunny> iter = bunnies.iterator();
 
-        double baseFraction = ( Math.sqrt( (double) getPopulation() ) - 3 ) / ( 10 );
+        double baseFraction = ( Math.sqrt( (double) getPopulation() ) - 3 ) / ( 4 );
 
         while ( iter.hasNext() ) {
             Bunny bunny = iter.next();
@@ -324,7 +352,7 @@ public class NaturalSelectionModel extends ClockAdapter {
             double actualFraction = baseFraction;
 
             if ( bunny.getTeethPhenotype() == TeethGene.TEETH_LONG_ALLELE ) {
-                actualFraction /= 8;
+                actualFraction /= 5;
             }
 
             if ( actualFraction > MAX_KILL_FRACTION ) {

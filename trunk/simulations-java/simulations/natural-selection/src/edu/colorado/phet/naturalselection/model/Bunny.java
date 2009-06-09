@@ -583,14 +583,14 @@ public class Bunny {
      * @param mother The mother
      * @return An array of the children
      */
-    public static Bunny[] mateBunnies( Bunny father, Bunny mother ) {
+    public static Bunny[] mateBunnies( Bunny father, Bunny mother, int generation ) {
         //System.out.println( "Mating " + father + " and " + mother );
 
         // create the bunnies
-        Bunny a = new Bunny( father.getModel(), father, mother, father.getGeneration() + 1 );
-        Bunny b = new Bunny( father.getModel(), father, mother, father.getGeneration() + 1 );
-        Bunny c = new Bunny( father.getModel(), father, mother, father.getGeneration() + 1 );
-        Bunny d = new Bunny( father.getModel(), father, mother, father.getGeneration() + 1 );
+        Bunny a = new Bunny( father.getModel(), father, mother, generation );
+        Bunny b = new Bunny( father.getModel(), father, mother, generation );
+        Bunny c = new Bunny( father.getModel(), father, mother, generation );
+        Bunny d = new Bunny( father.getModel(), father, mother, generation );
 
         // pair them up with their potential mates
         a.setPotentialMate( b );
