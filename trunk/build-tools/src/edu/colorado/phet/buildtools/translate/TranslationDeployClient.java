@@ -110,7 +110,11 @@ public class TranslationDeployClient {
 
         AuthenticationInfo authenticationInfo = BuildLocalProperties.getInstance().getProdAuthenticationInfo();
         PhetServer server = PhetServer.PRODUCTION;
-        mkdir( server, authenticationInfo, translationDir );
+        boolean dirSuccess = mkdir( server, authenticationInfo, translationDir );
+        if ( !dirSuccess ) {
+            System.out.println( "Error was encountered while trying to create dirs on the server. Stopping process, please see console output" );
+            return;
+        }
         transfer( server, authenticationInfo, srcDir, translationDir );
 
         // TODO: refactor into PhetProductionServer ?
@@ -118,7 +122,11 @@ public class TranslationDeployClient {
 
         transferFlashHTMLs( trunk, srcDir, server, authenticationInfo, translationDir );
 
-        invokeTranslationDeployServer( translationDir, authenticationInfo, server );
+        boolean deployServerSuccess = invokeTranslationDeployServer( translationDir, authenticationInfo, server );
+        if ( !deployServerSuccess ) {
+            System.out.println( "Errors encountered, process has been stopped" );
+            return;
+        }
 
         showMessage( "<html>Translated sims are being deployed to a staging directory at" +
                      "<br>http://phet.colorado.edu/sims/translations/" + deployDirName +
@@ -241,7 +249,8 @@ public class TranslationDeployClient {
                                        "You will be prompted for the directory name.</html>" );
     }
 
-    private void invokeTranslationDeployServer( String translationDir, AuthenticationInfo authenticationInfo, PhetServer server ) {
+    private boolean invokeTranslationDeployServer( String translationDir, AuthenticationInfo authenticationInfo, PhetServer server ) {
+        boolean success = true;
         try {
             BuildToolsProject buildToolsProject = new BuildToolsProject( new File( trunk, "build-tools" ) );
             String buildScriptDir = server.getServerDeployPath( buildToolsProject );
@@ -254,11 +263,17 @@ public class TranslationDeployClient {
             String command = javaCmd + " -classpath " + buildScriptDir + "/" + jarName + " " + TranslationDeployServer.class.getName() + " " +
                              jarCmd + " " + pathToBuildLocalProperties + " " + BuildToolsPaths.TIGERCAT_SIMS_DIR + " " + translationDir + " 2>&1";
 
-            SshUtils.executeCommand( command, server, authenticationInfo );
+            boolean sshSuccess = SshUtils.executeCommand( command, server, authenticationInfo );
+            if ( !sshSuccess ) {
+                System.out.println( "Errors were encountered when trying to invoke the translation deploy server" );
+                success = false;
+            }
         }
         catch( IOException e ) {
             e.printStackTrace();
+            success = false;
         }
+        return success;
     }
 
     private void showMessage( String html, final String translationDir, final AuthenticationInfo authenticationInfo, final PhetServer phetServer ) {
@@ -300,7 +315,10 @@ public class TranslationDeployClient {
             String command = javaCmd + " -classpath " + buildScriptDir + "/" + jarName + " " + TranslationDeployPublisher.class.getName() + " " +
                              BuildToolsPaths.TIGERCAT_SIMS_DIR + " " + translationDir;
 
-            SshUtils.executeCommand( command, server, authenticationInfo );
+            boolean success = SshUtils.executeCommand( command, server, authenticationInfo );
+            if ( !success ) {
+                System.out.println( "Errors were encountered while publishing! Please contact the developers responsible for the translation deploy process!" );
+            }
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -319,8 +337,8 @@ public class TranslationDeployClient {
         }
     }
 
-    public static void mkdir( PhetServer server, AuthenticationInfo authenticationInfo, String serverDir ) {
-        SshUtils.executeCommand( "mkdir -p -m 775 " + serverDir, server, authenticationInfo );
+    public static boolean mkdir( PhetServer server, AuthenticationInfo authenticationInfo, String serverDir ) {
+        return SshUtils.executeCommand( "mkdir -p -m 775 " + serverDir, server, authenticationInfo );
     }
 
     public static void transfer( PhetServer server, AuthenticationInfo authenticationInfo, File srcDir, String remotePathDir ) {

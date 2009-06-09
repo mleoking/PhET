@@ -95,7 +95,12 @@ public class CommonTranslationDeployClient {
             System.out.println( "****** Uploading resource file and properties" );
 
             // uploads just the resource file and properties file (also creates the temporary directory structure)
-            client.uploadResourceFile();
+            boolean success = client.uploadResourceFile();
+
+            if ( !success ) {
+                System.out.println( "Failure to upload resource file, aborting" );
+                return;
+            }
 
             if ( type == Translation.TRANSLATION_FLASH ) {
                 // if applicable, build and upload the Flash HTMLs that need to be modified
