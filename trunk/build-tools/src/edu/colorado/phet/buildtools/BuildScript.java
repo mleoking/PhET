@@ -7,10 +7,13 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import javax.swing.*;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 
-import org.rev6.scf.SshCommand;
-import org.rev6.scf.SshConnection;
-import org.rev6.scf.SshException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import edu.colorado.phet.buildtools.flex.PhetFlexProject;
 import edu.colorado.phet.buildtools.java.JavaProject;
@@ -18,6 +21,8 @@ import edu.colorado.phet.buildtools.java.projects.BuildToolsProject;
 import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.buildtools.util.ProcessOutputReader;
 import edu.colorado.phet.buildtools.util.ScpTo;
+import edu.colorado.phet.buildtools.util.SshUtils;
+import edu.colorado.phet.common.phetcommon.view.util.XMLUtils;
 
 import com.jcraft.jsch.JSchException;
 
@@ -45,16 +50,21 @@ public class BuildScript {
     }
 
     public static interface RevisionStrategy {
+
         int getRevision();
+
     }
 
     public class DynamicRevisionStrategy implements RevisionStrategy {
+
         public int getRevision() {
             return getRevisionOnTrunkREADME();
         }
+
     }
 
     public static class ConstantRevisionStrategy implements RevisionStrategy {
+
         private int revision;
 
         public ConstantRevisionStrategy( int revision ) {
@@ -64,6 +74,7 @@ public class BuildScript {
         public int getRevision() {
             return revision;
         }
+
     }
 
     public void setRevisionStrategy( RevisionStrategy revisionStrategy ) {
@@ -75,9 +86,11 @@ public class BuildScript {
     }
 
     public static interface Listener {
+
         void deployFinished( BuildScript buildScript, PhetProject project, String codebase );
 
         void deployErrorOccurred( BuildScript buildScript, PhetProject project, String error );
+
     }
 
     public BuildScript( File trunk, PhetProject project ) {
@@ -110,13 +123,17 @@ public class BuildScript {
     }
 
     static interface Task {
+
         boolean invoke();
+
     }
 
     static class NullTask implements Task {
+
         public boolean invoke() {
             return true;
         }
+
     }
 
     public void deploy( PhetServer server, AuthenticationInfo authenticationInfo, VersionIncrement versionIncrement ) {
@@ -143,17 +160,25 @@ public class BuildScript {
         int svnNumber = revisionStrategy.getRevision();
         System.out.println( "Current SVN: " + svnNumber );
         System.out.println( "Setting SVN Version" );
-        setSVNVersion( svnNumber + 1 );
+        int newRevision = svnNumber + 1;
+        setSVNVersion( newRevision );
         setVersionTimestamp();
         System.out.println( "Adding message to change file" );
         addMessagesToChangeFile( svnNumber + 1 );
 
         if ( !debugDryRun && !debugSkipCommit ) {
             System.out.println( "Committing changes to version and change file." );
-            commitProject();//commits both changes to version and change file
+            boolean success = commitProject();//commits both changes to version and change file
+            if ( !success ) {
+                notifyError( project, "Commit of version and change file failed, stopping (see console)" );
+                return;
+            }
+            success = verifyRevision( newRevision, new String[]{project.getProjectPropertiesFile().getAbsolutePath()} );
+            if ( !success ) {
+                notifyError( project, "Commit of version and change file did not result with the expected revision number. Stopping (see console)" );
+                return;
+            }
         }
-
-        //TODO: check that new version number is correct
 
         //would be nice to build before deploying new SVN number in case there are errors,
         //however, we need the correct version info in the JAR
@@ -278,29 +303,13 @@ public class BuildScript {
         }
     }
 
-    private void sendSSH( PhetServer server, AuthenticationInfo authenticationInfo ) {
-        SshConnection sshConnection = new SshConnection( server.getHost(), authenticationInfo.getUsername(), authenticationInfo.getPassword() );
+    private boolean sendSSH( PhetServer server, AuthenticationInfo authenticationInfo ) {
         String remotePathDir = server.getServerDeployPath( project );
-        try {
-            sshConnection.connect();
-
-            // -m sets the permissions of the created directory
-            //TODO: how can we detect failure of this command, e.g. due to permissions errors?  See #1164
-//            sshConnection.executeTask( new SshCommand( "mkdir " + getParentDir( getParentDir( remotePathDir ) ) ) );//TODO: would it be worthwhile to skip this task when possible?
-            sshConnection.executeTask( new SshCommand( "mkdir -m 775 " + getParentDir( remotePathDir ) ) );//TODO: would it be worthwhile to skip this task when possible?
-            sshConnection.executeTask( new SshCommand( "mkdir -m 775 " + remotePathDir ) );//TODO: would it be worthwhile to skip this task when possible?
-        }
-        catch( SshException e ) {
-            if ( e.toString().toLowerCase().indexOf( "auth fail" ) != -1 ) {
-                // TODO: check if authentication fails, don't try logging in again
-                // on tigercat, 3 (9?) unsuccessful login attepts will lock you out
-                System.out.println( "Authentication on '" + server.getHost() + "' has failed, is your username and password correct?  Exiting..." );
-                System.exit( 0 );
-            }
-            e.printStackTrace();
-        }
-        finally {
-            sshConnection.disconnect();
+        // if the directory does not exist on the server, it will be created.
+        boolean success = SshUtils.executeCommand( "mkdir -p -m 775 " + remotePathDir, server, authenticationInfo );
+        if ( !success ) {
+            System.out.println( "Warning: failed to create or verify the existence of the deploy directory" );
+            return false;
         }
 
         //for some reason, the securechannelfacade fails with a "server didn't expect this file" error
@@ -318,13 +327,16 @@ public class BuildScript {
                 }
                 catch( JSchException e ) {
                     e.printStackTrace();
+                    return false;
                 }
                 catch( IOException e ) {
                     e.printStackTrace();
+                    return false;
                 }
 //                    sshConnection.executeTask( new ScpUpload( new ScpFile( f[i],  ) ) );
             }
         }
+        return true;
     }
 
     private String getParentDir( String remotePathDir ) {
@@ -362,7 +374,7 @@ public class BuildScript {
         throw new RuntimeException( "No svn version information found: " + output );
     }
 
-    private void commitProject() {
+    private boolean commitProject() {
         AuthenticationInfo auth = buildLocalProperties.getRespositoryAuthenticationInfo();
         String message = project.getName() + ": deployed version " + project.getFullVersionString();
         String path = project.getProjectDir().getAbsolutePath();
@@ -374,9 +386,11 @@ public class BuildScript {
             System.out.println( a.getOut() );
             System.out.println( a.getErr() );
             System.out.println( "Finished committing new version file with message: " + message );
+            return true;
         }
         else {
             System.out.println( "Abnormal termination: " + a );
+            return false;
         }
     }
 
@@ -496,8 +510,8 @@ public class BuildScript {
                     public boolean invoke() {
                         //generate JNLP files for dev
                         sendCopyToDev( devAuth );
-                        prepareStagingArea( PhetServer.PRODUCTION, prodAuth );
-                        return true;
+                        boolean success = prepareStagingArea( PhetServer.PRODUCTION, prodAuth );
+                        return success;
                     }
                 }, PhetServer.PRODUCTION, prodAuth, new VersionIncrement.UpdateProd(), new Task() {
                     public boolean invoke() {
@@ -514,16 +528,12 @@ public class BuildScript {
     }
 
     //Run "rm" on the server to remove the phet/staging/sims/<project> directory contents, see #1529
-    private void prepareStagingArea( PhetServer server, AuthenticationInfo authenticationInfo ) {
-        SshConnection sshConnection = new SshConnection( server.getHost(), authenticationInfo.getUsername(), authenticationInfo.getPassword() );
-        try {
-            sshConnection.connect();
-            sshConnection.executeTask( new SshCommand( "mkdir -m 775 " + server.getStagingArea() + "/" + project.getName() ) );
-            assert project.getName().length() >= 2;//reduce probability of a scary rm
-            sshConnection.executeTask( new SshCommand( "rm -f " + server.getStagingArea() + "/" + project.getName() + "/*" ) );
-        }
-        catch( Exception e ) {e.printStackTrace();}
-        finally {sshConnection.disconnect();}
+    private boolean prepareStagingArea( PhetServer server, AuthenticationInfo authenticationInfo ) {
+        assert project.getName().length() >= 2;//reduce probability of a scary rm
+        return SshUtils.executeCommands( new String[]{
+                "mkdir -p -m 775 " + server.getStagingArea() + "/" + project.getName(),
+                "rm -f " + server.getStagingArea() + "/" + project.getName() + "/*"
+        }, server, authenticationInfo );
     }
 
     /*
@@ -532,13 +542,7 @@ public class BuildScript {
         > b. mv phet/staging/sims/<project> phet/sims/<project>
      */
     private void copyFromStagingAreaToSimDir( PhetServer server, AuthenticationInfo authenticationInfo ) {
-        SshConnection sshConnection = new SshConnection( server.getHost(), authenticationInfo.getUsername(), authenticationInfo.getPassword() );
-        try {
-            sshConnection.connect();
-            sshConnection.executeTask( new SshCommand( BuildToolsPaths.TIGERCAT_STAGING_SWAP_SCRIPT + " " + project.getName() ) );
-        }
-        catch( Exception e ) {e.printStackTrace();}
-        finally {sshConnection.disconnect();}
+        SshUtils.executeCommand( BuildToolsPaths.TIGERCAT_STAGING_SWAP_SCRIPT + " " + project.getName(), server, authenticationInfo );
     }
 
     private void sendCopyToDev( AuthenticationInfo devAuth ) {
@@ -551,27 +555,16 @@ public class BuildScript {
     }
 
     public static void generateOfflineJars( PhetProject project, PhetServer server, AuthenticationInfo authenticationInfo ) {
+        // TODO: return executeCommand's success if we run it, and modify the calling locations
 
         //only sign jars for Java Projects, and only if it is enabled (e.g. for simulations)
         boolean projectWantsJARs = project instanceof JavaProject && ( (JavaProject) project ).getSignJar();
         if ( projectWantsJARs && generateJARs ) {
-            SshConnection sshConnection = new SshConnection( server.getHost(), authenticationInfo.getUsername(), authenticationInfo.getPassword() );
             try {
-                sshConnection.connect();
-
-                String command = getJARGenerationCommand( project, server );
-
-                System.out.println( "Running command: \n" + command );
-                sshConnection.executeTask( new SshCommand( command ) );
-            }
-            catch( SshException e ) {
-                e.printStackTrace();
+                SshUtils.executeCommand( getJARGenerationCommand( project, server ), server, authenticationInfo );
             }
             catch( IOException e ) {
                 e.printStackTrace();
-            }
-            finally {
-                sshConnection.disconnect();
             }
         }
     }
@@ -599,4 +592,55 @@ public class BuildScript {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Returns whether or not each path is up to the particular revision
+     *
+     * @param revision The revision we need the entries to be
+     * @param paths    Various paths to check together
+     * @return Whether or not all of the path's revisions were the same as the specified revision
+     */
+    public static boolean verifyRevision( int revision, String[] paths ) {
+        try {
+            List<String> args = new LinkedList<String>();
+            args.add( "svn" );
+            args.add( "info" );
+            args.add( "--xml" ); // so we can easily parse the XML
+            args.add( "--non-interactive" ); // so it doesn't pause for input
+            for ( String path : paths ) {
+                args.add( path );
+            }
+            ProcessOutputReader.ProcessExecResult result = ProcessOutputReader.exec( args.toArray( new String[0] ) );
+
+            String out = result.getOut();
+            //System.out.println( "verifyRevision input:\n" + out );
+            Document document = XMLUtils.toDocument( out );
+
+            NodeList entries = document.getElementsByTagName( "entry" );
+
+            for ( int i = 0; i < entries.getLength(); i++ ) {
+                Node entryNode = entries.item( i );
+                Element entryElement = (Element) entryNode;
+                String revisionString = entryElement.getAttribute( "revision" );
+                if ( Integer.parseInt( revisionString ) == revision ) {
+                    System.out.println( entryElement.getAttribute( "path" ) + " has the correct revision " + revisionString );
+                }
+                else {
+                    System.out.println( "Warning: " + entryElement.getAttribute( "path" ) + " has the incorrect revision "
+                                        + revisionString + ", it should be " + revision );
+                    return false;
+                }
+            }
+        }
+        catch( TransformerException e ) {
+            e.printStackTrace();
+            return false;
+        }
+        catch( ParserConfigurationException e ) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
 }

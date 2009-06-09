@@ -19,6 +19,9 @@ import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
  */
 public class FlashBuildCommand {
 
+    public static boolean closeFLA = true;
+    public static boolean closeIDE = false;
+
     public static final String BUILD_OUTPUT_TEMP = BuildToolsPaths.SIMULATIONS_FLASH + "/build-output-temp";
 
     // returns boolean success of whether the sim was built without errors
@@ -105,8 +108,9 @@ public class FlashBuildCommand {
 
         out = FileUtils.replaceAll( out, "@TRUNK@", trunkPipe );
         out = FileUtils.replaceAll( out, "@SIMS@", toSimsString( sims ) );
-        out = FileUtils.replaceAll( out, "@CLOSEFLASH@", "false" );
-        System.out.println( "out = " + out );
+        out = FileUtils.replaceAll( out, "@CLOSE_IDE@", Boolean.toString( closeIDE ) );
+        out = FileUtils.replaceAll( out, "@CLOSE_FLA@", Boolean.toString( closeFLA ) );
+        //System.out.println( "out = " + out );
 
         String outputSuffix = BUILD_OUTPUT_TEMP + "/build.jsfl";
         File outputFile = new File( trunk, outputSuffix );

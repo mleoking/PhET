@@ -816,7 +816,7 @@ public abstract class PhetProject {
     }
 
     //this one includes the version, and background color for flash
-    private File getProjectPropertiesFile() {
+    public File getProjectPropertiesFile() {
         return new File( getDataDirectory(), getName() + ".properties" );
     }
 

@@ -10,33 +10,36 @@ var prefix = "file:///@TRUNK@/simulations-flash/simulations/";
 // sim names to publish
 var sims = [@SIMS@];
 
-var closeFlash = @CLOSEFLASH@;
+var closeFLA = @CLOSE_FLA@;
+var closeIDE = @CLOSE_IDE@;
 
 // if execution takes a while, don't display a "your script is running long" message
 fl.showIdleMessage(false);
 
-for(var i = 0; i < sims.length; i++) {
+for ( var i = 0; i < sims.length; i++ ) {
 	var sim = sims[i];
 
     // clear the output panel to wipe any previous errors
     fl.outputPanel.clear();
 
     // open the FLA in the IDE
-	var doc = fl.openDocument(prefix + sim + "/src/" + sim + ".fla");
+	var doc = fl.openDocument( prefix + sim + "/src/" + sim + ".fla" );
 
     // publish it
 	fl.getDocumentDOM().publish();
 
     // save any errors to a file
-    fl.outputPanel.save("file:///@TRUNK@/simulations-flash/build-output-temp/output-" + sim + ".txt")
+    fl.outputPanel.save( "file:///@TRUNK@/simulations-flash/build-output-temp/output-" + sim + ".txt" );
 
     // close the FLA
-	fl.closeDocument(doc);
+    if ( closeFLA ) {
+	    fl.closeDocument(doc);
+    }
 }
 
 fl.showIdleMessage(true);
 
 // close the Flash IDE that we opened
-if(closeFlash) {
+if ( closeIDE ) {
     fl.quit();
 }

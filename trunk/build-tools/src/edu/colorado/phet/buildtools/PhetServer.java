@@ -43,7 +43,7 @@ public abstract class PhetServer {
                     "cache-clear.php", // Cache clear file
                     "/web/chroot/phet/usr/local/apache/htdocs/cl_utils/create-localized-jars.py --verbose ", // Localization generation command
                     "/web/htdocs/phet/phet-dist/build-tools-config/build-local.properties",
-                    "/web/chroot/phet/usr/local/apache/htdocs/staging/sims'"
+                    "/web/chroot/phet/usr/local/apache/htdocs/staging/sims"
             );
     /* Dano's test machine
     public static PhetServer DEVELOPMENT = 

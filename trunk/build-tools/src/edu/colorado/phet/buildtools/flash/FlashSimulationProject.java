@@ -84,6 +84,35 @@ public class FlashSimulationProject extends PhetProject {
         return success;
     }
 
+    public boolean testBuild( boolean clean, boolean html, boolean swf, boolean jars ) throws Exception {
+        if ( clean ) {
+            // note: if not rebuilding JARs, they will not be available!
+            if ( html && swf ) {
+                cleanEntireDeployDir();
+            }
+            else {
+                if ( html ) {
+                    cleanHTML();
+                }
+                if ( swf ) {
+                    cleanSWF();
+                }
+            }
+        }
+        if ( html ) {
+            buildHTMLs();
+        }
+        copyProperties();
+        boolean success = true;
+        if ( swf ) {
+            success = buildSWF();
+        }
+        if ( success && jars ) {
+            buildOfflineJARs();
+        }
+        return success;
+    }
+
     private void copyProperties() throws IOException {
         FileUtils.copyToDir( new File( getDataDirectory(), getName() + ".properties" ), getDeployDir() );
     }
@@ -109,9 +138,20 @@ public class FlashSimulationProject extends PhetProject {
         }
     }
 
+    private void cleanEntireDeployDir() {
+        File[] files = getDeployDir().listFiles();
+        for ( File file : files ) {
+            if ( !file.isDirectory() ) {
+                System.out.println( "Cleaning " + file.getName() );
+                file.delete();
+            }
+        }
+    }
+
     private void cleanDeploy() {
         cleanSWF();
         cleanHTML();
+        cleanEntireDeployDir();
     }
 
     private void buildOfflineJARs() {
@@ -259,7 +299,6 @@ public class FlashSimulationProject extends PhetProject {
         Properties agreementProperties = getAgreementProperties();
 
         String agreementVersion = agreementProperties.getProperty( "version" );
-        //String agreementContent = agreementProperties.getProperty( "content" );
         String agreementContent = FileUtils.loadFileAsString( getAgreementHTMLFile() );
 
         String creditsString = FileUtils.loadFileAsString( getCreditsFile() );
