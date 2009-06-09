@@ -217,6 +217,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         _proportionsChart.setTimeSpan(Carbon14Nucleus.HALF_LIFE * 3.2);
         _proportionsChart.setHalfLife(Carbon14Nucleus.HALF_LIFE);
         _proportionsChart.setPreDecayChemicalSymbol(NuclearPhysicsStrings.CARBON_14_CHEMICAL_SYMBOL);
+        _proportionsChart.setPreDecayIsotopeNumber(NuclearPhysicsStrings.CARBON_14_ISOTOPE_NUMBER);
         _proportionsChart.setPreDecayLabelColor(NuclearPhysicsConstants.CARBON_COLOR);
         _proportionsChart.setShowPostDecayCurve(true);
         _proportionsChart.setShowPostDecayCurve(false);

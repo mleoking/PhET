@@ -4,7 +4,6 @@ package edu.colorado.phet.nuclearphysics.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.Stroke;
@@ -24,7 +23,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PieChartNode;
-import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
+import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PieChartNode.PieValue;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
@@ -222,8 +221,10 @@ public class NuclearDecayProportionChart extends PNode {
             _timeSpan = Carbon14Nucleus.HALF_LIFE * 3.2;
             _halfLife = Carbon14Nucleus.HALF_LIFE;
             _preDecayChemicalSymbol = NuclearPhysicsStrings.CARBON_14_CHEMICAL_SYMBOL;
+            _preDecayIsotopeNumber = NuclearPhysicsStrings.CARBON_14_ISOTOPE_NUMBER;
             _preDecayLabelColor = NuclearPhysicsConstants.CARBON_COLOR;
             _postDecayChemicalSymbol = NuclearPhysicsStrings.NITROGEN_14_CHEMICAL_SYMBOL;
+            _postDecayIsotopeNumber = NuclearPhysicsStrings.NITROGEN_14_ISOTOPE_NUMBER;
             _postDecayLabelColor = NuclearPhysicsConstants.NITROGEN_COLOR;
             break;
             
@@ -231,8 +232,10 @@ public class NuclearDecayProportionChart extends PNode {
             _timeSpan = Uranium238Nucleus.HALF_LIFE * 3.2;
             _halfLife = Uranium238Nucleus.HALF_LIFE;
             _preDecayChemicalSymbol = NuclearPhysicsStrings.URANIUM_238_CHEMICAL_SYMBOL;
+            _preDecayIsotopeNumber = NuclearPhysicsStrings.URANIUM_238_ISOTOPE_NUMBER;
             _preDecayLabelColor = NuclearPhysicsConstants.URANIUM_238_COLOR;
             _postDecayChemicalSymbol = NuclearPhysicsStrings.LEAD_206_CHEMICAL_SYMBOL;
+            _postDecayIsotopeNumber = NuclearPhysicsStrings.LEAD_206_ISOTOPE_NUMBER;
             _postDecayLabelColor = NuclearPhysicsConstants.LEAD_206_COLOR;
             break;
             
@@ -425,8 +428,8 @@ public class NuclearDecayProportionChart extends PNode {
     	// The various elements of the chart.
     	private PieChartNode _pieChartNode;
     	private NuclearDecayProportionChart _chart; // The chart upon which this node resides.
-    	private ShadowPText _preDecayLabel;
-    	private ShadowPText _postDecayLabel;
+    	private ShadowHTMLNode _preDecayLabel;
+    	private ShadowHTMLNode _postDecayLabel;
     	private PText _numberPreDecayRemaining;
     	private PText _numberPostDecayRemaining;
     	
@@ -452,11 +455,11 @@ public class NuclearDecayProportionChart extends PNode {
 	        PText dummySizingNode = new PText("9999");
 	        dummySizingNode.setFont(LABEL_FONT);
 	        
-	        _preDecayLabel = new ShadowPText();
+	        _preDecayLabel = new ShadowHTMLNode();
 	        _preDecayLabel.setFont(LABEL_FONT);
 	        _preDecayLabel.setOffset(0, 0);
 	        addChild(_preDecayLabel);
-	        _postDecayLabel = new ShadowPText();
+	        _postDecayLabel = new ShadowHTMLNode();
 	        _postDecayLabel.setFont(LABEL_FONT);
 	        _postDecayLabel.setOffset(0, INITIAL_OVERALL_HEIGHT - dummySizingNode.getFullBoundsReference().height);
 	        addChild(_postDecayLabel);
@@ -525,11 +528,11 @@ public class NuclearDecayProportionChart extends PNode {
 			
 			// Set the colors of the labels.
 			
-			_preDecayLabel.setTextPaint(_chart._preDecayLabelColor);
-			_preDecayLabel.setText("<html><sup><font size=-2>" + _chart._preDecayIsotopeNumber + " </font></sup>" 
+			_preDecayLabel.setPaint(_chart._preDecayLabelColor);
+			_preDecayLabel.setHtml("<html><sup><font size=-2>" + _chart._preDecayIsotopeNumber + " </font></sup>" 
 					+ _chart._preDecayChemicalSymbol + "</html>");
-			_postDecayLabel.setTextPaint(_chart._postDecayLabelColor);
-			_postDecayLabel.setText("<html><sup><font size=-2>" + _chart._postDecayIsotopeNumber + " </font></sup>" 
+			_postDecayLabel.setPaint(_chart._postDecayLabelColor);
+			_postDecayLabel.setHtml("<html><sup><font size=-2>" + _chart._postDecayIsotopeNumber + " </font></sup>" 
 					+ _chart._postDecayChemicalSymbol + "</html>");
 		}
     }
