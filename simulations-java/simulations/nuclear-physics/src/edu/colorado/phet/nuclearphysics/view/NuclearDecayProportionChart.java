@@ -13,7 +13,6 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
-import java.awt.geom.Line2D.Double;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -262,6 +261,10 @@ public class NuclearDecayProportionChart extends PNode {
 	protected double getGraphMaxX(){
 		return _graph.getFullBoundsReference().getMaxX();
 	}
+	
+	protected double getDataValueForXPixelPos(double xPixelPos){
+		return _graph.getDataValueForXPixelPos(xPixelPos - _graph.getOffset().getX());
+	}
 
     /**
      * This method is called to re-scale the chart, which generally occurs
@@ -379,7 +382,7 @@ public class NuclearDecayProportionChart extends PNode {
 		}
 		
 		// Update the graph.
-    	Point2D decayEvent = new Point2D.Double( time, 100 * (double)numDecayed/(double)(numDecayed + numUndecayed));
+    	Point2D decayEvent = new Point2D.Double( time, 100 * (double)numUndecayed/(double)(numDecayed + numUndecayed));
 		_decayEvents.add( decayEvent );
 		_graph.graphDecayEvent( decayEvent );
     }
@@ -790,6 +793,33 @@ public class NuclearDecayProportionChart extends PNode {
 			return new Point2D.Double(_graphRect.getX(), _graphRect.getMaxY());
 		}
 		
+		/**
+		 * Obtain the percentage value at a given X position in pixels.  Note
+		 * that this is pretty unusual given the way we generally think about
+		 * graphs.  The caller provides a value in pixels from the left side
+		 * of the graph, and the data value at the corresponding location is
+		 * returned.  If the pixel value is outside of the graph range (e.g.
+		 * it is where the labels are), the closest value is still returned. 
+		 */
+		public double getDataValueForXPixelPos(double xPixelPos){
+			
+			double returnValue = 0;
+			
+			double time = ( xPixelPos - _graphRect.getX() ) / _msToPixelsFactor;
+			double deltaTime = Double.POSITIVE_INFINITY;
+			
+			// Find the closest data point for a given time value.
+	    	for ( Iterator it = _chart._decayEvents.iterator(); it.hasNext();){
+	    		Point2D decayEvent = (Point2D)it.next();
+	    		if (Math.abs(time - decayEvent.getX()) < deltaTime){
+	    			deltaTime = Math.abs( time - decayEvent.getX() );
+	    			returnValue = decayEvent.getY();
+	    		}
+	    	}
+
+			return returnValue;
+		}
+		
 	    /**
 	     * Add the vertical lines and the labels that depict the half life
 	     * intervals to the chart.  This does some sanity testing to make sure
@@ -911,6 +941,7 @@ public class NuclearDecayProportionChart extends PNode {
 	     * @param label
 	     */
 	    private void addXAxisTickMark(double time, String label){
+	    	
 			PhetPPath tickMark = new PhetPPath(TICK_MARK_COLOR);
 			tickMark.setPathTo(new Line2D.Double(0, 0, 0, -TICK_MARK_LENGTH));
 			tickMark.setStroke(TICK_MARK_STROKE);
@@ -950,9 +981,9 @@ public class NuclearDecayProportionChart extends PNode {
 	    private void graphDecayEvent( Point2D decayEventLocation ){
 	    	
 	    	float xPos = (float)(_msToPixelsFactor * decayEventLocation.getX() + _graphRect.getX());
-	    	float yPosPreDecay = (float)( _graphRect.getMaxY() - ( ( ( 100 - decayEventLocation.getY() ) / 100 ) 
+	    	float yPosPreDecay = (float)( _graphRect.getMaxY() - ( ( decayEventLocation.getY() / 100 ) 
 	    			* _graphRect.getHeight() ) );
-	    	float yPosPostDecay = (float)( _graphRect.getMaxY() - ( ( decayEventLocation.getY() / 100 ) 
+	    	float yPosPostDecay = (float)( _graphRect.getMaxY() - ( ( ( 100 - decayEventLocation.getY() ) / 100 ) 
 	    			* _graphRect.getHeight() ) );
 	    	
 	    	if ( _preDecayProportionCurve == null ){
@@ -1103,9 +1134,20 @@ public class NuclearDecayProportionChart extends PNode {
 			_timeText.setOffset(centerX - _timeText.getFullBoundsReference().width / 2, centerY);
     	}
     	
-    	public void updateReadout(){
+    	private void updateReadout(){
+
+    		double percentage = _chart.getDataValueForXPixelPos(_readoutRect.getFullBoundsReference().getCenterX());
+    		
+    		String percentageString;
+    		if (percentage >= 0 && percentage <= 100){
+    			percentageString = String.format("%.1f", percentage) + " %";
+    		}
+    		else{
+    			percentageString = "---";
+    		}
+    		System.out.println("---->" + percentage);
 			_percentageText.setHTML("<html><sup><font size=-2>" + _chart._preDecayIsotopeNumber + " </font></sup>" 
-					+ _chart._preDecayChemicalSymbol + "= 67%" + "</html>");
+					+ _chart._preDecayChemicalSymbol + "= " + percentageString + "</html>");
     		_timeText.setText("t = 3500");
     	}
     	
@@ -1132,7 +1174,6 @@ public class NuclearDecayProportionChart extends PNode {
             }
             _readoutRect.setOffset(newXPos, _readoutRect.getOffset().getY());
             updateReadout();
-            System.out.println("Mouse drag event received, center x = " + _readoutRect.getFullBoundsReference().getCenterX());
         }
         
         private void handleMouseStartDragEvent(PInputEvent event){
