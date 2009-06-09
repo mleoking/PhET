@@ -1,3 +1,5 @@
+# 0.01.16 (32363) Jun 9, 2009
+6/9/09 Changed bunny reproduction, removed generation chart, and sped up the timeline
 # 0.01.15 (32302) Jun 4, 2009
 6/4/09 More UI improvements
 # 0.01.14 (32275) Jun 3, 2009
