@@ -176,6 +176,10 @@ public class MultiNucleusDecayModel implements NucleusTypeControl {
 		return years * 3.1556926E10;
 	}
 	
+	static public double convertMsToYears( double milliseconds ){
+		return milliseconds * 3.16887646E-11;
+	}
+	
 	/**
 	 * Set up the object that will listen to notifications from the nuclei.
 	 * It will be common to override this is sub-classes which may need to
