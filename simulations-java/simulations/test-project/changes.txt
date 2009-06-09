@@ -1,3 +1,4 @@
+# 0.47.06 (32348) Jun 9, 2009
 # 0.47.05 (32347) Jun 9, 2009
 # 0.47.04 (32346) Jun 9, 2009
 6/9/09 Testing SSH connection error handling
