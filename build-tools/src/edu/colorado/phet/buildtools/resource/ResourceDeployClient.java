@@ -88,29 +88,38 @@ public class ResourceDeployClient {
     }
 
     // uploads the resource file and its corresponding properties file
-    public void uploadResourceFile() throws JSchException, IOException {
+    public boolean uploadResourceFile() throws JSchException, IOException {
         AuthenticationInfo authenticationInfo = BuildLocalProperties.getInstance().getProdAuthenticationInfo();
         String temporaryDirPath = getTemporaryDirPath();
 
-        dirtyExecute( "mkdir -p -m 775 " + temporaryDirPath + "/resource" );
+        boolean success = dirtyExecute( "mkdir -p -m 775 " + temporaryDirPath + "/resource" );
+        if ( !success ) {
+            System.out.println( "Error creating the path for the resource file, aborting the upload" );
+            return false;
+        }
 
         ScpTo.uploadFile( resourceFile, authenticationInfo.getUsername(), PhetServer.PRODUCTION.getHost(),
                           temporaryDirPath + "/resource/" + resourceFile.getName(), authenticationInfo.getPassword() );
         ScpTo.uploadFile( propertiesFile, authenticationInfo.getUsername(), PhetServer.PRODUCTION.getHost(),
                           temporaryDirPath + "/resource/resource.properties", authenticationInfo.getPassword() );
+        return true;
     }
 
     // uploads an extra file for a particular sim
-    public void uploadExtraFile( File extraFile, String sim ) throws JSchException, IOException {
+    public boolean uploadExtraFile( File extraFile, String sim ) throws JSchException, IOException {
         AuthenticationInfo authenticationInfo = BuildLocalProperties.getInstance().getProdAuthenticationInfo();
         String temporaryDirPath = getTemporaryDirPath();
 
         String temporarySimExtrasDir = temporaryDirPath + "/extras/" + sim;
 
-        dirtyExecute( "mkdir -p -m 775 " + temporarySimExtrasDir );
-
+        boolean success = dirtyExecute( "mkdir -p -m 775 " + temporarySimExtrasDir );
+        if ( !success ) {
+            System.out.println( "Error attempting to upload extra file!" );
+            return false;
+        }
         ScpTo.uploadFile( extraFile, authenticationInfo.getUsername(), PhetServer.PRODUCTION.getHost(),
                           temporarySimExtrasDir + "/" + extraFile.getName(), authenticationInfo.getPassword() );
+        return true;
     }
 
     // display instructions to execute the resource deploy server on tigercat
@@ -174,11 +183,11 @@ public class ResourceDeployClient {
         return PROD_PATH + getTemporaryDirName();
     }
 
-    public void dirtyExecute( String command ) {
+    public boolean dirtyExecute( String command ) {
         System.out.println( "# " + command );
         PhetServer server = PhetServer.PRODUCTION;
         AuthenticationInfo authenticationInfo = BuildLocalProperties.getInstance().getProdAuthenticationInfo();
-        SshUtils.executeCommand( command, server, authenticationInfo );
+        return SshUtils.executeCommand( command, server, authenticationInfo );
     }
 
     /**
@@ -242,7 +251,12 @@ public class ResourceDeployClient {
         System.out.println( "****** Uploading resource file and properties" );
 
         // uploads just the resource file and properties file (also creates the temporary directory structure)
-        client.uploadResourceFile();
+        boolean success = client.uploadResourceFile();
+
+        if ( !success ) {
+            System.out.println( "Upload failure, stopping process" );
+            return;
+        }
 
         // display to the user the commands needed to execute the server side
         client.displayResourceDeployServerInstructions( trunk );
