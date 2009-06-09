@@ -261,7 +261,7 @@ public class TranslationDeployClient {
             String pathToBuildLocalProperties = server.getBuildLocalPropertiesFile();
             //String jarCommand, File buildLocalProperties, File pathToSimsDir, File translationDir
             String command = javaCmd + " -classpath " + buildScriptDir + "/" + jarName + " " + TranslationDeployServer.class.getName() + " " +
-                             jarCmd + " " + pathToBuildLocalProperties + " " + BuildToolsPaths.TIGERCAT_SIMS_DIR + " " + translationDir + " 2>&1";
+                             jarCmd + " " + pathToBuildLocalProperties + " " + BuildToolsPaths.TIGERCAT_SIMS_DIR + " " + translationDir;
 
             boolean sshSuccess = SshUtils.executeCommand( command, server, authenticationInfo );
             if ( !sshSuccess ) {
