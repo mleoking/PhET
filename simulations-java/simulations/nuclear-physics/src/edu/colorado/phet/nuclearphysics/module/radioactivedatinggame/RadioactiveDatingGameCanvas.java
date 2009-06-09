@@ -134,10 +134,10 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         // resizing call to be a part of the constructor for the chart (I think).
         _proportionsChart.componentResized( new Rectangle2D.Double( 0, 0, 
         		INITIAL_INTERMEDIATE_COORD_WIDTH * PROPORTIONS_CHART_WIDTH_FRACTION,
-        		INITIAL_INTERMEDIATE_COORD_HEIGHT - _mvt.modelToViewYDouble(_model.getBottomOfStrata())));
+        		INITIAL_INTERMEDIATE_COORD_HEIGHT - _mvt.modelToViewYDouble(_model.getBottomOfStrata()) - 12));
         _proportionsChart.setOffset(
         		INITIAL_INTERMEDIATE_COORD_WIDTH * 0.6 - _proportionsChart.getFullBoundsReference().width / 2,
-        		_mvt.modelToViewYDouble(_model.getBottomOfStrata()));
+        		_mvt.modelToViewYDouble(_model.getBottomOfStrata()) + 4);
 
         // Create the radiometric measuring device.
         _meter = new RadiometricDatingMeterNode(_model.getMeter(), probeTypeModel,
