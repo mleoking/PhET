@@ -281,8 +281,6 @@ public class NuclearDecayProportionChart extends PNode {
     /**
      * This method is called to re-scale the chart, which generally occurs
      * when the overall size of the simulation is changed.
-     * 
-     * @param 
      */
     private void updateBounds( Rectangle2D rect ) {
     	
@@ -1135,7 +1133,7 @@ public class NuclearDecayProportionChart extends PNode {
     		_readoutRect.addChild(_timeText);
     		
     		// Set the initial values for the text.
-    		updateReadout();
+    		updateReadoutText();
     	}
     	
     	/**
@@ -1155,11 +1153,17 @@ public class NuclearDecayProportionChart extends PNode {
     		_readoutRect.setOffset(200, topOfGraphPosY - _readoutRect.getFullBoundsReference().height);
     		
     		// Resize and position the readout text.
+    		updateReadoutTextLayout();
+    	}
+    	
+    	private void updateReadoutTextLayout(){
+    		
+    		// Scale the text.
+    		_percentageText.setScale(1);
+    		_timeText.setScale(1);
     		double scale = _readoutRect.getFullBoundsReference().height * 0.4 
     			/ _percentageText.getFullBoundsReference().getHeight();
-			_percentageText.setScale(1);
 			_percentageText.setScale(scale);
-			_timeText.setScale(1);
 			_timeText.setScale(scale);
 			
 			// Position the text centered in the readout rectangle.
@@ -1170,8 +1174,9 @@ public class NuclearDecayProportionChart extends PNode {
 			_timeText.setOffset(centerX - _timeText.getFullBoundsReference().width / 2, centerY);
     	}
     	
-    	private void updateReadout(){
+    	private void updateReadoutText(){
 
+    		// Figure out and format the percentage information.
     		double percentage = _chart.getDataValueForXPixelPos(_readoutRect.getFullBoundsReference().getCenterX());
     		
     		String percentageString;
@@ -1181,10 +1186,29 @@ public class NuclearDecayProportionChart extends PNode {
     		else{
     			percentageString = "---";
     		}
-    		System.out.println("---->" + percentage);
-			_percentageText.setHTML("<html><sup><font size=-2>" + _chart._preDecayIsotopeNumber + " </font></sup>" 
+			
+    		_percentageText.setHTML("<html><sup><font size=-2>" + _chart._preDecayIsotopeNumber + " </font></sup>" 
 					+ _chart._preDecayChemicalSymbol + "= " + percentageString + "</html>");
-    		_timeText.setText("t = 3500");
+			
+			// Figure out and format the time information.  This does
+			// different things based on the scale of time, and doesn't
+			// handle all time ranges.  Enhance if needed.
+			double time = _chart.getTimeValueForXPixelPos( _readoutRect.getFullBoundsReference().getCenterX() );
+			String timeString;
+    		if ( time < MultiNucleusDecayModel.convertYearsToMs(1E6)){
+    			// Use individual years.
+    			timeString = Integer.toString((int)MultiNucleusDecayModel.convertMsToYears(time)) 
+    				+ " " + NuclearPhysicsStrings.TIME_GRAPH_UNITS_YRS;
+    		}
+    		else{
+    			// Use billions of years.
+    			timeString = String.format("%.1f", MultiNucleusDecayModel.convertMsToYears(time) / 1E9) 
+					+ " " + NuclearPhysicsStrings.TIME_GRAPH_UNITS_BILLION_YRS;
+    		}
+    		_timeText.setText(timeString);
+    		
+    		// Update the layout.
+    		updateReadoutTextLayout();
     	}
     	
     	/**
@@ -1209,7 +1233,7 @@ public class NuclearDecayProportionChart extends PNode {
             	newXPos = _chart.getGraphMaxX() - ( _readoutRect.getFullBoundsReference().width / 2 );
             }
             _readoutRect.setOffset(newXPos, _readoutRect.getOffset().getY());
-            updateReadout();
+            updateReadoutText();
         }
         
         private void handleMouseStartDragEvent(PInputEvent event){
