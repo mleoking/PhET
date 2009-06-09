@@ -15,6 +15,9 @@ import java.util.Random;
  * it from contiguous layers (definition obtained from wikipedia).
  */
 public class Stratum {
+	
+	private static final int NUM_EVAL_POINTS_FOR_DEPTH = 10;
+	
     private LayerLine _topLine;
     private LayerLine _bottomLine;
     private GeneralPath _path = new GeneralPath();
@@ -41,11 +44,25 @@ public class Stratum {
     }
     
     public double getBottomOfStratumY() {
-        return _bottomLine.getMaxDepth();
+    	double bottomDepth = Double.POSITIVE_INFINITY;
+    	for (int i = 0; i < NUM_EVAL_POINTS_FOR_DEPTH; i++){
+    		double t = (double)i * (1.0 / (double)NUM_EVAL_POINTS_FOR_DEPTH);
+    		if (evaluateCurve(_bottomLine, t).getY() < bottomDepth){
+    			bottomDepth = evaluateCurve(_bottomLine, t).getY();
+    		}
+    	}
+    	return bottomDepth;
     }
 
     public double getTopOfStratumY() {
-        return _topLine.getMinDepth();
+    	double topDepth = Double.NEGATIVE_INFINITY;
+    	for (int i = 0; i < NUM_EVAL_POINTS_FOR_DEPTH; i++){
+    		double t = (double)i * (1.0 / (double)NUM_EVAL_POINTS_FOR_DEPTH);
+    		if (evaluateCurve(_topLine, t).getY() > topDepth){
+    			topDepth = evaluateCurve(_topLine, t).getY();
+    		}
+    	}
+    	return topDepth;
     }
 
     public LayerLine getTopLine() {
