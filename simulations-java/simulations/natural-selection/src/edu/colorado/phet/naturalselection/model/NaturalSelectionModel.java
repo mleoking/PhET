@@ -24,8 +24,6 @@ public class NaturalSelectionModel extends ClockAdapter {
     public static final int SELECTION_FOOD = 1;
     public static final int SELECTION_WOLVES = 2;
 
-    public static final double MAX_KILL_FRACTION = 0.9;
-
     /**
      * The simulation clock
      */
@@ -137,6 +135,8 @@ public class NaturalSelectionModel extends ClockAdapter {
         generation = 0;
 
         lastYearTick = 0;
+
+        lastEventTick = NaturalSelectionDefaults.TICKS_PER_YEAR / 4;
 
         frenzy = null;
 
@@ -355,8 +355,8 @@ public class NaturalSelectionModel extends ClockAdapter {
                 actualFraction /= 5;
             }
 
-            if ( actualFraction > MAX_KILL_FRACTION ) {
-                actualFraction = MAX_KILL_FRACTION;
+            if ( actualFraction > NaturalSelectionDefaults.MAX_KILL_FRACTION ) {
+                actualFraction = NaturalSelectionDefaults.MAX_KILL_FRACTION;
             }
 
             if ( Math.random() < actualFraction ) {
@@ -392,8 +392,8 @@ public class NaturalSelectionModel extends ClockAdapter {
                 actualFraction /= 8;
             }
 
-            if ( actualFraction > MAX_KILL_FRACTION ) {
-                actualFraction = MAX_KILL_FRACTION;
+            if ( actualFraction > NaturalSelectionDefaults.MAX_KILL_FRACTION ) {
+                actualFraction = NaturalSelectionDefaults.MAX_KILL_FRACTION;
             }
 
             if ( Math.random() < actualFraction ) {
@@ -416,7 +416,7 @@ public class NaturalSelectionModel extends ClockAdapter {
 
         System.out.println( "Starting frenzy" );
 
-        frenzy = new Frenzy( this, 5 * NaturalSelectionDefaults.CLOCK_FRAME_RATE ); // TODO: work on time stuff!
+        frenzy = new Frenzy( this, NaturalSelectionDefaults.FRENZY_TICKS ); // TODO: work on time stuff!
 
         // so listeners can listen to the frenzy
         notifyFrenzyStart( frenzy );
