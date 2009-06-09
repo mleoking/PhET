@@ -130,6 +130,8 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         configureProportionsChart();
         addWorldChild(_proportionsChart);
         
+        // Set the size and position of the chart.  There are some "tweak
+        // factors" in here to make things look good.
         // TODO: If I end up leaving this as a world child, I need to change this
         // resizing call to be a part of the constructor for the chart (I think).
         _proportionsChart.componentResized( new Rectangle2D.Double( 0, 0, 
