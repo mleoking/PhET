@@ -4,6 +4,7 @@ package edu.colorado.phet.nuclearphysics.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.Stroke;
@@ -36,7 +37,6 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
-import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * This class represents a chart that shows the proportion of nuclei that have
@@ -92,10 +92,13 @@ public class NuclearDecayProportionChart extends PNode {
     
     // Parent node that will be non-pickable and will contain all of the
     // non-interactive portions of the chart.
-    private PComposite _nonPickableChartNode;
+    private PNode _nonPickableChartNode;
     
     // Parent node that will have interactive portions of the chart.
     private PNode _pickableChartNode;
+
+    // Overall size.
+    Rectangle2D _boundingRect = new Rectangle2D.Double();
     
     // Rect that is used to keep track of the overall usable area for the chart.
     Rectangle2D _usableAreaRect = new Rectangle2D.Double();
@@ -123,7 +126,7 @@ public class NuclearDecayProportionChart extends PNode {
     	
         // Set up the parent node that will contain the non-interactive
         // portions of the chart.
-        _nonPickableChartNode = new PComposite();
+        _nonPickableChartNode = new PNode();
         _nonPickableChartNode.setPickable( false );
         _nonPickableChartNode.setChildrenPickable( false );
         addChild( _nonPickableChartNode );
@@ -289,6 +292,12 @@ public class NuclearDecayProportionChart extends PNode {
     		// but we just ignore it if it does.
     		return;
     	}
+    	
+    	// Save the bounding rectangle.
+    	_boundingRect = rect;
+    	if (rect.getX() != 0 || rect.getY() != 0){
+    		System.err.println(this.getClass().getName() + ": Warning - Got a non-zero offset for chart bounds.");
+    	}
 
         // Recalculate the usable area for the chart.
         _usableAreaRect.setRect( rect.getX() + BORDER_STROKE_WIDTH, rect.getY() + BORDER_STROKE_WIDTH,
@@ -310,8 +319,8 @@ public class NuclearDecayProportionChart extends PNode {
     	}
     	
         // Set up the border for the chart.
-        _borderNode.setPathTo( new RoundRectangle2D.Double( _usableAreaRect.getX(), _usableAreaRect.getY(), 
-        		_usableAreaRect.getWidth(), _usableAreaRect.getHeight(), 20, 20 ) );
+        _borderNode.setPathTo( new RoundRectangle2D.Double( _boundingRect.getX(), _boundingRect.getY(), 
+        		_boundingRect.getWidth(), _boundingRect.getHeight(), 20, 20 ) );
         
         // Position the pie chart if enabled.
         double graphLeftEdge = 0;
@@ -1123,17 +1132,18 @@ public class NuclearDecayProportionChart extends PNode {
     		
     		// Create and add the readout text.  Note that these are set up as
     		// children of the readout rectangle.
-    		_percentageText = new HTMLNode();
+    		_percentageText = new HTMLNode("---");
     		_percentageText.setFont(DEFAULT_FONT);
     		_percentageText.setPickable(true);
     		_readoutRect.addChild(_percentageText);
-    		_timeText = new PText();
+    		_timeText = new PText("---");
     		_timeText.setFont(DEFAULT_FONT);
     		_timeText.setPickable(true);
     		_readoutRect.addChild(_timeText);
     		
     		// Set the initial values for the text.
     		updateReadoutText();
+    		
     	}
     	
     	/**
@@ -1148,12 +1158,15 @@ public class NuclearDecayProportionChart extends PNode {
     	 */
     	public void updateLayout( int topRectWidth, int topRectHeight, int topOfGraphPosY, int bottomOfGraphPosY ) {
     		
-    		// Resize and position the readout rectangle.
+    		// Size the readout rectangle, but don't position it yet.
     		_readoutRect.setPathTo(new RoundRectangle2D.Double(0, 0, topRectWidth, topRectHeight, 10, 10));
-    		_readoutRect.setOffset(200, topOfGraphPosY - _readoutRect.getFullBoundsReference().height);
     		
     		// Resize and position the readout text.
     		updateReadoutTextLayout();
+
+    		// Set the position of the readout rectangle.
+    		// TODO: Need to work out how to do horizontal positioning.
+    		_readoutRect.setOffset(200, _chart._usableAreaRect.getX());
     	}
     	
     	private void updateReadoutTextLayout(){
@@ -1161,14 +1174,15 @@ public class NuclearDecayProportionChart extends PNode {
     		// Scale the text.
     		_percentageText.setScale(1);
     		_timeText.setScale(1);
-    		double scale = _readoutRect.getFullBoundsReference().height * 0.4 
+    		double scale = _readoutRect.getHeight() * 0.45 
     			/ _percentageText.getFullBoundsReference().getHeight();
+    		System.out.println(scale);
 			_percentageText.setScale(scale);
 			_timeText.setScale(scale);
 			
 			// Position the text centered in the readout rectangle.
-			double centerX = _readoutRect.getFullBoundsReference().width / 2;
-			double centerY = _readoutRect.getFullBoundsReference().height / 2;
+			double centerX = _readoutRect.getWidth() / 2;
+			double centerY = _readoutRect.getHeight() / 2;
 			_percentageText.setOffset(centerX - _percentageText.getFullBoundsReference().width / 2, 
 					centerY - _percentageText.getFullBoundsReference().height);
 			_timeText.setOffset(centerX - _timeText.getFullBoundsReference().width / 2, centerY);
@@ -1266,7 +1280,8 @@ public class NuclearDecayProportionChart extends PNode {
         frame.setContentPane( canvas );
         canvas.addScreenChild( proportionsChart );
         frame.setSize( 1000, 600 );
-        proportionsChart.componentResized(frame.getBounds());
+        proportionsChart.componentResized(new Rectangle2D.Double(0, 0, 800, 400));
+        proportionsChart.setOffset(100, 100);
         frame.setVisible( true );
         
         for (int i = 0; i < 5; i++){
