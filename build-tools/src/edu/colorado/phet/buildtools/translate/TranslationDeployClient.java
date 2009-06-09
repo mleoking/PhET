@@ -12,10 +12,6 @@ import java.util.Locale;
 
 import javax.swing.*;
 
-import org.rev6.scf.SshCommand;
-import org.rev6.scf.SshConnection;
-import org.rev6.scf.SshException;
-
 import edu.colorado.phet.buildtools.AuthenticationInfo;
 import edu.colorado.phet.buildtools.BuildLocalProperties;
 import edu.colorado.phet.buildtools.BuildToolsPaths;
@@ -23,6 +19,7 @@ import edu.colorado.phet.buildtools.PhetServer;
 import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
 import edu.colorado.phet.buildtools.java.projects.BuildToolsProject;
 import edu.colorado.phet.buildtools.util.ScpTo;
+import edu.colorado.phet.buildtools.util.SshUtils;
 import edu.colorado.phet.common.phetcommon.application.VersionInfoQuery;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
@@ -245,10 +242,7 @@ public class TranslationDeployClient {
     }
 
     private void invokeTranslationDeployServer( String translationDir, AuthenticationInfo authenticationInfo, PhetServer server ) {
-        SshConnection sshConnection = new SshConnection( server.getHost(), authenticationInfo.getUsername(), authenticationInfo.getPassword() );
         try {
-            sshConnection.connect();
-
             BuildToolsProject buildToolsProject = new BuildToolsProject( new File( trunk, "build-tools" ) );
             String buildScriptDir = server.getServerDeployPath( buildToolsProject );
 
@@ -260,18 +254,10 @@ public class TranslationDeployClient {
             String command = javaCmd + " -classpath " + buildScriptDir + "/" + jarName + " " + TranslationDeployServer.class.getName() + " " +
                              jarCmd + " " + pathToBuildLocalProperties + " " + BuildToolsPaths.TIGERCAT_SIMS_DIR + " " + translationDir + " 2>&1";
 
-            System.out.println( "Running command: \n" + command );
-            sshConnection.executeTask( new SshCommand( command ) );
-            System.out.println( "TranslationDeployServer finished, disconnecting" );
-        }
-        catch( SshException e ) {
-            e.printStackTrace();
+            SshUtils.executeCommand( command, server, authenticationInfo );
         }
         catch( IOException e ) {
             e.printStackTrace();
-        }
-        finally {
-            sshConnection.disconnect();
         }
     }
 
@@ -304,9 +290,7 @@ public class TranslationDeployClient {
     }
 
     private void publish( String translationDir, AuthenticationInfo authenticationInfo, PhetServer server ) {
-        SshConnection sshConnection = new SshConnection( server.getHost(), authenticationInfo.getUsername(), authenticationInfo.getPassword() );
         try {
-            sshConnection.connect();
 
             BuildToolsProject buildToolsProject = new BuildToolsProject( new File( trunk, BuildToolsPaths.BUILD_TOOLS_DIR ) );
             String buildScriptDir = server.getServerDeployPath( buildToolsProject );
@@ -316,17 +300,10 @@ public class TranslationDeployClient {
             String command = javaCmd + " -classpath " + buildScriptDir + "/" + jarName + " " + TranslationDeployPublisher.class.getName() + " " +
                              BuildToolsPaths.TIGERCAT_SIMS_DIR + " " + translationDir;
 
-            System.out.println( "Running command: \n" + command );
-            sshConnection.executeTask( new SshCommand( command ) );
-        }
-        catch( SshException e ) {
-            e.printStackTrace();
+            SshUtils.executeCommand( command, server, authenticationInfo );
         }
         catch( IOException e ) {
             e.printStackTrace();
-        }
-        finally {
-            sshConnection.disconnect();
         }
     }
 
@@ -343,25 +320,7 @@ public class TranslationDeployClient {
     }
 
     public static void mkdir( PhetServer server, AuthenticationInfo authenticationInfo, String serverDir ) {
-        SshConnection sshConnection = new SshConnection( server.getHost(), authenticationInfo.getUsername(), authenticationInfo.getPassword() );
-        try {
-            sshConnection.connect();
-
-            //TODO: how can we detect failure of this command, e.g. due to permissions errors?  See #1164
-            sshConnection.executeTask( new SshCommand( "mkdir -p -m 775 " + serverDir ) );//TODO: would it be worthwhile to skip this task when possible?
-        }
-        catch( SshException e ) {
-            if ( e.toString().toLowerCase().indexOf( "auth fail" ) != -1 ) {
-                // TODO: check if authentication fails, don't try logging in again
-                // on tigercat, 3 (9?) unsuccessful login attepts will lock you out
-                System.out.println( "Authentication on '" + server.getHost() + "' has failed, is your username and password correct?  Exiting..." );
-                System.exit( 0 );
-            }
-            e.printStackTrace();
-        }
-        finally {
-            sshConnection.disconnect();
-        }
+        SshUtils.executeCommand( "mkdir -p -m 775 " + serverDir, server, authenticationInfo );
     }
 
     public static void transfer( PhetServer server, AuthenticationInfo authenticationInfo, File srcDir, String remotePathDir ) {

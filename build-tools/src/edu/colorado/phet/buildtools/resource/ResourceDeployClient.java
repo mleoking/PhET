@@ -4,10 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 
-import org.rev6.scf.SshCommand;
-import org.rev6.scf.SshConnection;
-import org.rev6.scf.SshException;
-
 import edu.colorado.phet.buildtools.AuthenticationInfo;
 import edu.colorado.phet.buildtools.BuildLocalProperties;
 import edu.colorado.phet.buildtools.BuildToolsPaths;
@@ -15,6 +11,7 @@ import edu.colorado.phet.buildtools.PhetServer;
 import edu.colorado.phet.buildtools.java.projects.BuildToolsProject;
 import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.buildtools.util.ScpTo;
+import edu.colorado.phet.buildtools.util.SshUtils;
 
 import com.jcraft.jsch.JSchException;
 
@@ -181,23 +178,7 @@ public class ResourceDeployClient {
         System.out.println( "# " + command );
         PhetServer server = PhetServer.PRODUCTION;
         AuthenticationInfo authenticationInfo = BuildLocalProperties.getInstance().getProdAuthenticationInfo();
-        SshConnection sshConnection = new SshConnection( server.getHost(), authenticationInfo.getUsername(), authenticationInfo.getPassword() );
-        try {
-            sshConnection.connect();
-            sshConnection.executeTask( new SshCommand( command ) );
-        }
-        catch( SshException e ) {
-            if ( e.toString().toLowerCase().indexOf( "auth fail" ) != -1 ) {
-                // TODO: check if authentication fails, don't try logging in again
-                // on tigercat, 3 (9?) unsuccessful login attepts will lock you out
-                System.out.println( "Authentication on '" + server.getHost() + "' has failed, is your username and password correct?  Exiting..." );
-                System.exit( 0 );
-            }
-            e.printStackTrace();
-        }
-        finally {
-            sshConnection.disconnect();
-        }
+        SshUtils.executeCommand( command, server, authenticationInfo );
     }
 
     /**
