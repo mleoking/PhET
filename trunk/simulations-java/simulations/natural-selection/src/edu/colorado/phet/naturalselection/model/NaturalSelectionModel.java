@@ -233,7 +233,7 @@ public class NaturalSelectionModel extends ClockAdapter {
             }
         }
 
-        mutateSomeBunny( newBunnies );
+        mutateSomeBunnies( newBunnies );
 
         Iterator<Bunny> newIter = newBunnies.iterator();
         while ( newIter.hasNext() ) {
@@ -263,7 +263,7 @@ public class NaturalSelectionModel extends ClockAdapter {
             }
             prev = null;
         }
-        mutateSomeBunny( newBunnies );
+        mutateSomeBunnies( newBunnies );
         for ( Bunny bunny : newBunnies ) {
             bunny.notifyInit();
             bunnies.add( bunny );
@@ -271,7 +271,7 @@ public class NaturalSelectionModel extends ClockAdapter {
         }
     }
 
-    private void mutateSomeBunny( List<Bunny> newBunnies ) {
+    private void mutateSomeBunnies( List<Bunny> newBunnies ) {
         Gene gene = null;
         Allele allele = null;
 
@@ -310,9 +310,19 @@ public class NaturalSelectionModel extends ClockAdapter {
             return;
         }
 
-        Bunny mutant = possibleBunnies.get( random.nextInt( possibleBunnies.size() ) );
+        int bunniesToMutate = 1 + possibleBunnies.size() / 7;
 
-        mutant.mutateGene( gene, allele );
+        for ( int i = 0; i < bunniesToMutate; i++ ) {
+            if ( possibleBunnies.isEmpty() ) {
+                break;
+            }
+
+            Bunny mutant = possibleBunnies.get( random.nextInt( possibleBunnies.size() ) );
+
+            possibleBunnies.remove( mutant );
+
+            mutant.mutateGene( gene, allele );
+        }
 
     }
 
