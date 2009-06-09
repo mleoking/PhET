@@ -1,3 +1,5 @@
+# 0.47.03 (32345) Jun 8, 2009
+6/8/09 Testing SVN version verification
 # 0.47.02 (32344) Jun 8, 2009
 6/8/09 Testing SVN revision verification
 # 0.47.01 (31620) May 13, 2009
