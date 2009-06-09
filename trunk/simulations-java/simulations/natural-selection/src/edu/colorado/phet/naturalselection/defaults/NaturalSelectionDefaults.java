@@ -10,18 +10,22 @@ import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
  * Defaults for the simulation
  */
 public class NaturalSelectionDefaults {
-    public static double TICKS_PER_YEAR = 300.0;
+    public static final boolean CLOCK_RUNNING = true;
+    public static final int CLOCK_FRAME_RATE = 25;
+    public static final double CLOCK_DT = 1;
+    public static final int CLOCK_TIME_COLUMNS = 10;
+
+    public static double TICKS_PER_YEAR = 150.0;
     public static final double FRENZY_MILLISECONDS = 4000;
+    public static final double MAX_KILL_FRACTION = 0.9;
+    public static final double FRENZY_TICKS = 3 * CLOCK_FRAME_RATE; // ie X seconds
 
     /* Not intended for instantiation */
     private NaturalSelectionDefaults() {
     }
 
     // Clock
-    public static final boolean CLOCK_RUNNING = GlobalDefaults.CLOCK_RUNNING;
-    public static final int CLOCK_FRAME_RATE = GlobalDefaults.CLOCK_FRAME_RATE;
-    public static final double CLOCK_DT = GlobalDefaults.CLOCK_DT;
-    public static final int CLOCK_TIME_COLUMNS = GlobalDefaults.CLOCK_TIME_COLUMNS;
+
 
     // Model-view transform
     public static final Dimension VIEW_SIZE = new Dimension( 1014, 366 ); // the size of the background images

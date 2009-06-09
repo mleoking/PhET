@@ -36,7 +36,7 @@ public class Frenzy extends ClockAdapter {
 
     public void init() {
         int pop = model.getPopulation();
-        int numWolves = 2 + pop / 5;
+        int numWolves = 2 + pop / 3;
 
         initializeTargets();
 
@@ -75,8 +75,8 @@ public class Frenzy extends ClockAdapter {
                 actualFraction /= 5;
             }
 
-            if ( actualFraction > NaturalSelectionModel.MAX_KILL_FRACTION ) {
-                actualFraction = NaturalSelectionModel.MAX_KILL_FRACTION;
+            if ( actualFraction > NaturalSelectionDefaults.MAX_KILL_FRACTION ) {
+                actualFraction = NaturalSelectionDefaults.MAX_KILL_FRACTION;
             }
 
             if ( Math.random() < actualFraction ) {
