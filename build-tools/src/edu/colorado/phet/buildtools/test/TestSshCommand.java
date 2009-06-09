@@ -18,31 +18,12 @@ import com.jcraft.jsch.JSchException;
 
 public class TestSshCommand {
     private static void sendSSH( PhetServer server, AuthenticationInfo authenticationInfo ) {
-        String remotePathDir = server.getServerDeployPath() + "/test-permissions/0.00.02";
-        /*
-        SshConnection sshConnection = new SshConnection( server.getHost(), authenticationInfo.getUsername(), authenticationInfo.getPassword() );
-        try {
-            sshConnection.connect();
-            execute( sshConnection, "mkdir -p -m 775 " + remotePathDir );
-        }
-        catch( SshException e ) {
-            if ( e.toString().toLowerCase().indexOf( "auth fail" ) != -1 ) {
-                // TODO: check if authentication fails, don't try logging in again
-                // on tigercat, 3 (9?) unsuccessful login attepts will lock you out
-                System.out.println( "Authentication on '" + server.getHost() + "' has failed, is your username and password correct?  Exiting..." );
-                System.exit( 0 );
-            }
-            e.printStackTrace();
-        }
-        finally {
-            sshConnection.disconnect();
-        }
-        */
+        String remotePathDir = server.getServerDeployPath() + "/test-permissions/0.00.03";
         SshUtils.executeCommand( "mkdir -p -m 775 " + remotePathDir, server, authenticationInfo );
 
         try {
             File tmpFile = File.createTempFile( "prefix", ".suffix" );
-            ScpTo.uploadFile( tmpFile, authenticationInfo.getUsername(), server.getHost(), remotePathDir + "/" + tmpFile.getName(), authenticationInfo.getPassword() );
+            ScpTo.uploadFile( tmpFile, authenticationInfo.getUsername(), server.getHost(), remotePathDir + "/" + "unknowndir/prefix.suffix", authenticationInfo.getPassword() );
         }
         catch( JSchException e ) {
             e.printStackTrace();
