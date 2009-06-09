@@ -8,17 +8,15 @@ import edu.colorado.phet.buildtools.BuildToolsPaths;
 import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.Simulation;
 
-/**
- * Created by IntelliJ IDEA.
- * User: jon
- * Date: Mar 15, 2009
- * Time: 2:33:36 PM
- * To change this template use File | Settings | File Templates.
- */
 public class StatisticsProject extends PhetProject {
 
     public StatisticsProject( File trunk ) throws IOException {
         super( new File( trunk, BuildToolsPaths.STATISTICS ) );
+    }
+
+    @Override
+    public String getName() {
+        return "Statistics Database server code";
     }
 
     public Simulation getSimulation( String simulationName, Locale locale ) {
@@ -54,7 +52,7 @@ public class StatisticsProject extends PhetProject {
     }
 
     public String getListDisplayName() {
-        return null;
+        return getName();
     }
 
     public void runSim( Locale locale, String simulationName ) {

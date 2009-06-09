@@ -43,10 +43,11 @@ public class StatisticsDeployCommand {
     public StatisticsDeployCommand( File trunkFile ) {
         trunk = trunkFile;
 
-        buildLocalProperties = BuildLocalProperties.initRelativeToTrunk( trunk );
+        buildLocalProperties = BuildLocalProperties.getInstanceRelativeToTrunk( trunk );
     }
 
     public boolean deploy() throws IOException {
+        // TODO: don't catch all of these failures, since one failure means a failure of deploy!
         System.out.println( "Starting statistics deploy process" );
 
         System.out.println( "Trunk:      " + getTrunkDir().getCanonicalPath() );
