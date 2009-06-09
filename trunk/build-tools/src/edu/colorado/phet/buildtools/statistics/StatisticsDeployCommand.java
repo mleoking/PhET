@@ -5,17 +5,11 @@ import java.io.FileFilter;
 import java.io.IOException;
 import java.util.StringTokenizer;
 
-import org.rev6.scf.SshCommand;
-import org.rev6.scf.SshConnection;
-import org.rev6.scf.SshException;
-
-import edu.colorado.phet.buildtools.AuthenticationInfo;
-import edu.colorado.phet.buildtools.BuildLocalProperties;
-import edu.colorado.phet.buildtools.BuildToolsPaths;
-import edu.colorado.phet.buildtools.SVNStatusChecker;
+import edu.colorado.phet.buildtools.*;
 import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.buildtools.util.ProcessOutputReader;
 import edu.colorado.phet.buildtools.util.ScpTo;
+import edu.colorado.phet.buildtools.util.SshUtils;
 
 import com.jcraft.jsch.JSchException;
 
@@ -26,6 +20,8 @@ public class StatisticsDeployCommand {
     private BuildLocalProperties buildLocalProperties;
 
     private String remoteDeployServer = "tigercat.colorado.edu";
+
+    private PhetServer server = PhetServer.PRODUCTION;
 
     private String remoteDeployDir = BuildToolsPaths.TIGERCAT_HTDOCS + "/statistics";
 
@@ -47,6 +43,7 @@ public class StatisticsDeployCommand {
     }
 
     public boolean deploy() throws IOException {
+        boolean success = true;
         // TODO: don't catch all of these failures, since one failure means a failure of deploy!
         System.out.println( "Starting statistics deploy process" );
 
@@ -69,9 +66,11 @@ public class StatisticsDeployCommand {
             }
             catch( JSchException e ) {
                 e.printStackTrace();
+                success = false;
             }
             catch( IOException e ) {
                 e.printStackTrace();
+                success = false;
             }
         }
 
@@ -81,9 +80,11 @@ public class StatisticsDeployCommand {
             }
             catch( JSchException e ) {
                 e.printStackTrace();
+                success = false;
             }
             catch( IOException e ) {
                 e.printStackTrace();
+                success = false;
             }
         }
 
@@ -93,33 +94,17 @@ public class StatisticsDeployCommand {
             }
             catch( JSchException e ) {
                 e.printStackTrace();
+                success = false;
             }
             catch( IOException e ) {
                 e.printStackTrace();
+                success = false;
             }
         }
 
-        SshConnection sshConnection = new SshConnection( remoteDeployServer, authenticationInfo.getUsername(), authenticationInfo.getPassword() );
+        success = success && SshUtils.executeCommand( "cd " + remoteDeployDir + "; chmod ug+x set_permissions; ./set_permissions", server, authenticationInfo );
 
-        try {
-            sshConnection.connect();
-
-            sshConnection.executeTask( new SshCommand( "cd " + remoteDeployDir + "; chmod ug+x set_permissions; ./set_permissions" ) );
-        }
-        catch( SshException e ) {
-            if ( e.toString().toLowerCase().indexOf( "auth fail" ) != -1 ) {
-                // TODO: check if authentication fails, don't try logging in again
-                // on tigercat, 3 (9?) unsuccessful login attepts will lock you out
-                System.out.println( "Authentication on '" + remoteDeployServer + "' has failed, is your username and password correct?  Exiting..." );
-                System.exit( 0 );
-            }
-            e.printStackTrace();
-        }
-        finally {
-            sshConnection.disconnect();
-        }
-
-        return true;
+        return success;
     }
 
     private void writeRevisionFile() throws IOException {
