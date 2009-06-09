@@ -1,3 +1,5 @@
+# 2.02.02 (32343) Jun 8, 2009
+6/8/09 Testing Test build GUI's deploy
 # 2.02.00 (30671) Apr 21, 2009
 4/21/09 Batch deploy as part of IOM milestone with revision 30670
 # 2.01.00 (30583) Apr 20, 2009
