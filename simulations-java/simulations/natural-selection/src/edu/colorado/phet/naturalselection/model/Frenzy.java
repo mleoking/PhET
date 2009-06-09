@@ -63,7 +63,7 @@ public class Frenzy extends ClockAdapter {
     private void initializeTargets() {
         targets = new LinkedList<Bunny>();
 
-        double baseFraction = ( Math.sqrt( (double) model.getPopulation() ) - 3 ) / 10;
+        double baseFraction = ( Math.sqrt( (double) model.getPopulation() ) - 3 ) / 4;
 
         for ( Bunny bunny : model.getAliveBunnyList() ) {
             double actualFraction = baseFraction;
@@ -72,7 +72,7 @@ public class Frenzy extends ClockAdapter {
                     ( bunny.getColorPhenotype() == ColorGene.WHITE_ALLELE && model.getClimate() == NaturalSelectionModel.CLIMATE_ARCTIC )
                     || ( bunny.getColorPhenotype() == ColorGene.BROWN_ALLELE && model.getClimate() == NaturalSelectionModel.CLIMATE_EQUATOR )
                     ) {
-                actualFraction /= 6;
+                actualFraction /= 5;
             }
 
             if ( actualFraction > NaturalSelectionModel.MAX_KILL_FRACTION ) {
