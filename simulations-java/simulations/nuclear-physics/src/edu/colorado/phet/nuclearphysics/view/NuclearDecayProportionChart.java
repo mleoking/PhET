@@ -155,7 +155,7 @@ public class NuclearDecayProportionChart extends PNode {
         
         // Add the movable percentage indicator (if enabled).
         if ( _movablePercentIndicatorEnabled ){
-        	_movablePercentIndicator = new MovablePercentIndicator();
+        	_movablePercentIndicator = new MovablePercentIndicator( this );
         	_pickableChartNode.addChild( _movablePercentIndicator );
         }
         
@@ -241,6 +241,26 @@ public class NuclearDecayProportionChart extends PNode {
     	
     	clear();
     	updateLayout();
+	}
+	
+	/**
+	 * The the location within the coordinate space of the overall chart (not
+	 * just the graph) where the graph originates.
+	 */
+	protected Point2D getGraphOriginPos(){
+		
+		Point2D originOffsetWithinGraph = _graph.getOriginOffset();
+		
+		return new Point2D.Double( originOffsetWithinGraph.getX() + _graph.getOffset().getX(),
+				originOffsetWithinGraph.getY() + _graph.getOffset().getY());
+	}
+	
+	/**
+	 * Get the max x position value for the graph within the overall chart's
+	 * coordinate system.
+	 */
+	protected double getGraphMaxX(){
+		return _graph.getFullBoundsReference().getMaxX();
 	}
 
     /**
@@ -762,6 +782,14 @@ public class NuclearDecayProportionChart extends PNode {
 	        _postDecayProportionCurve = null;
 		}
 		
+		/**
+		 * Get the offset of the graph's origin with respect the upper left
+		 * corner of the graph.  This is in screen coordinates (i.e. pixels).
+		 */
+		public Point2D getOriginOffset(){
+			return new Point2D.Double(_graphRect.getX(), _graphRect.getMaxY());
+		}
+		
 	    /**
 	     * Add the vertical lines and the labels that depict the half life
 	     * intervals to the chart.  This does some sanity testing to make sure
@@ -987,11 +1015,14 @@ public class NuclearDecayProportionChart extends PNode {
     	
     	private PhetPPath _readoutRect;
     	private PDragEventHandler _dragEventHandler;
+    	private NuclearDecayProportionChart _chart;
     	
     	/**
     	 * Constructor.
     	 */
-    	public MovablePercentIndicator(){
+    	public MovablePercentIndicator(NuclearDecayProportionChart chart){
+    		
+    		_chart = chart;
     		
     		// Make sure everything is pickable so that the user can move it.
     		setPickable(true);
@@ -1040,19 +1071,33 @@ public class NuclearDecayProportionChart extends PNode {
     		
     	}
     	
+    	/**
+    	 * Handle and event indicating that the user has dragged the mouse,
+    	 * intending to move the marker.  This updates the position of the
+    	 * marker and the values displayed.
+    	 * 
+    	 * @param event
+    	 */
         private void handleMouseDragEvent(PInputEvent event){
-            
             PNode draggedNode = event.getPickedNode();
             PDimension d = event.getDeltaRelativeTo(draggedNode);
             draggedNode.localToParent(d);
-            System.out.println("Mouse drag event received.");
-//            m_mouseMovementAmount += d.getHeight();
-
+            double newXPos = _readoutRect.getOffset().getX() + d.width;
+            double newCenterXPos = newXPos + ( _readoutRect.getFullBoundsReference().width / 2 );
+            if (newCenterXPos < _chart.getGraphOriginPos().getX()){
+            	// Limit the position from going too far to the left.
+            	newXPos = _chart.getGraphOriginPos().getX() - ( _readoutRect.getFullBoundsReference().width / 2 );
+            }
+            else if (newCenterXPos > _chart.getGraphMaxX()){
+            	// Limit the position from going too far to the right.
+            	newXPos = _chart.getGraphMaxX() - ( _readoutRect.getFullBoundsReference().width / 2 );
+            }
+            _readoutRect.setOffset(newXPos, _readoutRect.getOffset().getY());
+            System.out.println("Mouse drag event received, center x = " + _readoutRect.getFullBoundsReference().getCenterX());
         }
         
         private void handleMouseStartDragEvent(PInputEvent event){
             System.out.println("Mouse start drag event received.");
-//            m_mouseMovementAmount = 0;
         }
 
         private void handleMouseEndDragEvent(PInputEvent event){
