@@ -1012,10 +1012,13 @@ public class NuclearDecayProportionChart extends PNode {
     	private static Stroke INDICATOR_STROKE = new BasicStroke( 3 );
     	private static final int DEFAULT_WIDTH = 100;
     	private static final int DEFAULT_HEIGHT = DEFAULT_WIDTH * 3 / 4;
+    	private static final Font DEFAULT_FONT = new PhetFont(12);
     	
     	private PhetPPath _readoutRect;
     	private PDragEventHandler _dragEventHandler;
     	private NuclearDecayProportionChart _chart;
+    	private HTMLNode _percentageText;
+    	private PText _timeText;
     	
     	/**
     	 * Constructor.
@@ -1052,6 +1055,20 @@ public class NuclearDecayProportionChart extends PNode {
     		_readoutRect.setPickable(true);
     		_readoutRect.addInputEventListener(_dragEventHandler);
     		addChild(_readoutRect);
+    		
+    		// Create and add the readout text.  Note that these are set up as
+    		// children of the readout rectangle.
+    		_percentageText = new HTMLNode();
+    		_percentageText.setFont(DEFAULT_FONT);
+    		_percentageText.setPickable(true);
+    		_readoutRect.addChild(_percentageText);
+    		_timeText = new PText();
+    		_timeText.setFont(DEFAULT_FONT);
+    		_timeText.setPickable(true);
+    		_readoutRect.addChild(_timeText);
+    		
+    		// Set the initial values for the text.
+    		updateReadout();
     	}
     	
     	/**
@@ -1066,9 +1083,30 @@ public class NuclearDecayProportionChart extends PNode {
     	 */
     	public void updateLayout( int topRectWidth, int topRectHeight, int topOfGraphPosY, int bottomOfGraphPosY ) {
     		
+    		// Resize and position the readout rectangle.
     		_readoutRect.setPathTo(new RoundRectangle2D.Double(0, 0, topRectWidth, topRectHeight, 10, 10));
     		_readoutRect.setOffset(200, topOfGraphPosY - _readoutRect.getFullBoundsReference().height);
     		
+    		// Resize and position the readout text.
+    		double scale = _readoutRect.getFullBoundsReference().height * 0.4 
+    			/ _percentageText.getFullBoundsReference().getHeight();
+			_percentageText.setScale(1);
+			_percentageText.setScale(scale);
+			_timeText.setScale(1);
+			_timeText.setScale(scale);
+			
+			// Position the text centered in the readout rectangle.
+			double centerX = _readoutRect.getFullBoundsReference().width / 2;
+			double centerY = _readoutRect.getFullBoundsReference().height / 2;
+			_percentageText.setOffset(centerX - _percentageText.getFullBoundsReference().width / 2, 
+					centerY - _percentageText.getFullBoundsReference().height);
+			_timeText.setOffset(centerX - _timeText.getFullBoundsReference().width / 2, centerY);
+    	}
+    	
+    	public void updateReadout(){
+			_percentageText.setHTML("<html><sup><font size=-2>" + _chart._preDecayIsotopeNumber + " </font></sup>" 
+					+ _chart._preDecayChemicalSymbol + "= 67%" + "</html>");
+    		_timeText.setText("t = 3500");
     	}
     	
     	/**
@@ -1093,6 +1131,7 @@ public class NuclearDecayProportionChart extends PNode {
             	newXPos = _chart.getGraphMaxX() - ( _readoutRect.getFullBoundsReference().width / 2 );
             }
             _readoutRect.setOffset(newXPos, _readoutRect.getOffset().getY());
+            updateReadout();
             System.out.println("Mouse drag event received, center x = " + _readoutRect.getFullBoundsReference().getCenterX());
         }
         
