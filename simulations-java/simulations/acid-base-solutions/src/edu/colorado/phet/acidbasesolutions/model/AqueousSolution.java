@@ -59,6 +59,14 @@ public class AqueousSolution {
         return solute instanceof NoSolute;
     }
     
+    public boolean isAcidic() {
+        return solute instanceof Acid;
+    }
+    
+    public boolean isBasic() {
+        return solute instanceof Base;
+    }
+    
     public EquilibriumModel getEquilibriumModel() {
         return equilibriumModel;
     }

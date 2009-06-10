@@ -144,9 +144,8 @@ public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
     }
     
     private void updateVisibility() {
-        Solute solute = solution.getSolute();
-        acidNode.setVisible( !solution.isPureWater() && ( solute instanceof Acid ) );
-        baseNode.setVisible( !solution.isPureWater() && ( solute instanceof Base ) );
+        acidNode.setVisible( solution.isAcidic() );
+        baseNode.setVisible( solution.isBasic() );
     }
     
     private void updateTopLayout() {
