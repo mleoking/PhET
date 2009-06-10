@@ -9,6 +9,7 @@ import java.awt.Rectangle;
 import java.awt.Stroke;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -18,6 +19,7 @@ import java.util.Iterator;
 
 import javax.swing.JFrame;
 
+import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
@@ -141,7 +143,7 @@ public class NuclearDecayProportionChart extends PNode {
         _borderNode = new PPath();
         _borderNode.setStroke( BORDER_STROKE );
         _borderNode.setStrokePaint( BORDER_COLOR );
-        _borderNode.setPaint( NuclearPhysicsConstants.ALPHA_DECAY_CHART_COLOR );
+        _borderNode.setPaint( NuclearPhysicsConstants.CHART_BACKGROUND_COLOR );
         _nonPickableChartNode.addChild( _borderNode );
 
         // Create the graph.
@@ -428,8 +430,8 @@ public class NuclearDecayProportionChart extends PNode {
     	// The various elements of the chart.
     	private PieChartNode _pieChartNode;
     	private NuclearDecayProportionChart _chart; // The chart upon which this node resides.
-    	private ShadowHTMLNode _preDecayLabel;
-    	private ShadowHTMLNode _postDecayLabel;
+    	private HTMLNode _preDecayLabel;
+    	private HTMLNode _postDecayLabel;
     	private PText _numberPreDecayRemaining;
     	private PText _numberPostDecayRemaining;
     	
@@ -455,11 +457,11 @@ public class NuclearDecayProportionChart extends PNode {
 	        PText dummySizingNode = new PText("9999");
 	        dummySizingNode.setFont(LABEL_FONT);
 	        
-	        _preDecayLabel = new ShadowHTMLNode();
+	        _preDecayLabel = new HTMLNode();
 	        _preDecayLabel.setFont(LABEL_FONT);
 	        _preDecayLabel.setOffset(0, 0);
 	        addChild(_preDecayLabel);
-	        _postDecayLabel = new ShadowHTMLNode();
+	        _postDecayLabel = new HTMLNode();
 	        _postDecayLabel.setFont(LABEL_FONT);
 	        _postDecayLabel.setOffset(0, INITIAL_OVERALL_HEIGHT - dummySizingNode.getFullBoundsReference().height);
 	        addChild(_postDecayLabel);
@@ -528,11 +530,11 @@ public class NuclearDecayProportionChart extends PNode {
 			
 			// Set the colors of the labels.
 			
-			_preDecayLabel.setPaint(_chart._preDecayLabelColor);
-			_preDecayLabel.setHtml("<html><sup><font size=-2>" + _chart._preDecayIsotopeNumber + " </font></sup>" 
+			_preDecayLabel.setHTMLColor(_chart._preDecayLabelColor);
+			_preDecayLabel.setHTML("<html><sup><font size=-2>" + _chart._preDecayIsotopeNumber + " </font></sup>" 
 					+ _chart._preDecayChemicalSymbol + "</html>");
-			_postDecayLabel.setPaint(_chart._postDecayLabelColor);
-			_postDecayLabel.setHtml("<html><sup><font size=-2>" + _chart._postDecayIsotopeNumber + " </font></sup>" 
+			_postDecayLabel.setHTMLColor(_chart._postDecayLabelColor);
+			_postDecayLabel.setHTML("<html><sup><font size=-2>" + _chart._postDecayIsotopeNumber + " </font></sup>" 
 					+ _chart._postDecayChemicalSymbol + "</html>");
 		}
     }
@@ -1085,13 +1087,17 @@ public class NuclearDecayProportionChart extends PNode {
      */
     private static class MovablePercentIndicator extends PNode {
     	
-    	private static final Color INDICATOR_COLOR = Color.cyan;
+    	private static final Color INDICATOR_OUTLINE_COLOR = new Color(85, 175, 205);
+    	private static final Color INDICATOR_BACKGROUND_COLOR = 
+    		ColorUtils.brighterColor(NuclearPhysicsConstants.CHART_BACKGROUND_COLOR, 0.5);
     	private static Stroke INDICATOR_STROKE = new BasicStroke( 3 );
     	private static final int DEFAULT_WIDTH = 100;
     	private static final int DEFAULT_HEIGHT = DEFAULT_WIDTH * 3 / 4;
     	private static final Font DEFAULT_FONT = new PhetFont(12);
     	
     	private PhetPPath _readoutRect;
+    	private PhetPPath _indicatorHandle;
+    	private PhetPPath _indicatorLine;
     	private PDragEventHandler _dragEventHandler;
     	private NuclearDecayProportionChart _chart;
     	private HTMLNode _percentageText;
@@ -1128,7 +1134,7 @@ public class NuclearDecayProportionChart extends PNode {
     		
     		// Create the rectangle over which the readout will appear.
     		_readoutRect = new PhetPPath( new RoundRectangle2D.Double(0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT, 4, 4),
-    				INDICATOR_COLOR, INDICATOR_STROKE, INDICATOR_COLOR);
+    				INDICATOR_BACKGROUND_COLOR, INDICATOR_STROKE, INDICATOR_OUTLINE_COLOR);
     		_readoutRect.setPickable(true);
     		_readoutRect.addInputEventListener(_dragEventHandler);
     		addChild(_readoutRect);
@@ -1143,6 +1149,20 @@ public class NuclearDecayProportionChart extends PNode {
     		_timeText.setFont(DEFAULT_FONT);
     		_timeText.setPickable(true);
     		_readoutRect.addChild(_timeText);
+    		
+    		// Create and add the "handle", which is a small ellipse just
+    		// below the readout.
+    		_indicatorHandle = new PhetPPath( new Ellipse2D.Double(0, 0, DEFAULT_WIDTH / 4, DEFAULT_HEIGHT / 4),
+    				INDICATOR_OUTLINE_COLOR, INDICATOR_STROKE, INDICATOR_OUTLINE_COLOR);
+    		_indicatorHandle.setPickable(true);
+    		_indicatorHandle.addInputEventListener(_dragEventHandler);
+    		addChild(_indicatorHandle);
+    		
+    		// Create and add the line that indicates the position on the chart.
+    		_indicatorLine = new PhetPPath( INDICATOR_OUTLINE_COLOR, INDICATOR_STROKE, INDICATOR_OUTLINE_COLOR );
+    		_indicatorLine.setPickable(true);
+    		_indicatorLine.addInputEventListener(_dragEventHandler);
+    		addChild(_indicatorLine);
     		
     		// Set the initial values for the text.
     		updateReadoutText();
@@ -1168,8 +1188,19 @@ public class NuclearDecayProportionChart extends PNode {
     		updateReadoutTextLayout();
 
     		// Set the position of the readout rectangle.
-    		// TODO: Need to work out how to do horizontal positioning.
+    		// TODO: Need to work out how to do initial horizontal positioning.
     		_readoutRect.setOffset(200, _chart._usableAreaRect.getX());
+    		
+    		// Set the size and position of the handle.
+    		_indicatorHandle.setPathToEllipse(0, 0, topRectWidth / 4, topRectHeight / 4);
+    		_indicatorHandle.setOffset(
+    				_readoutRect.getOffset().getX() + _readoutRect.getWidth() / 2 - _indicatorHandle.getWidth() / 2, 
+    				_readoutRect.getOffset().getY() + _readoutRect.getHeight());
+    		
+    		// Set the size and position of the indicator line.
+    		_indicatorLine.setPathTo(new Line2D.Double(0, 0, 0, bottomOfGraphPosY - topOfGraphPosY));
+    		_indicatorLine.setOffset(_readoutRect.getOffset().getX() + _readoutRect.getWidth() / 2, 
+    				_readoutRect.getOffset().getY() + _readoutRect.getHeight());
     	}
     	
     	private void updateReadoutTextLayout(){
@@ -1177,8 +1208,7 @@ public class NuclearDecayProportionChart extends PNode {
     		// Scale the text.
     		_percentageText.setScale(1);
     		_timeText.setScale(1);
-    		double scale = _readoutRect.getHeight() * 0.45 
-    			/ _percentageText.getFullBoundsReference().getHeight();
+    		double scale = _readoutRect.getHeight() * 0.45 / _percentageText.getFullBoundsReference().getHeight();
     		System.out.println(scale);
 			_percentageText.setScale(scale);
 			_timeText.setScale(scale);
@@ -1251,6 +1281,11 @@ public class NuclearDecayProportionChart extends PNode {
             }
             _readoutRect.setOffset(newXPos, _readoutRect.getOffset().getY());
             updateReadoutText();
+            _indicatorHandle.setOffset(newXPos + _readoutRect.getWidth() / 2 - _indicatorHandle.getWidth() / 2,
+            		_indicatorHandle.getOffset().getY());
+    		_indicatorLine.setOffset(newXPos + _readoutRect.getWidth() / 2 - _indicatorLine.getWidth() / 2,
+    				_indicatorHandle.getOffset().getY());
+
         }
         
         private void handleMouseStartDragEvent(PInputEvent event){
