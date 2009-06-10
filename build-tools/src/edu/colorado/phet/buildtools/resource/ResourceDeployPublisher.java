@@ -6,6 +6,13 @@ import java.io.IOException;
 import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 
+/**
+ * Prints instructions on how to revert to standard output
+ * Copies each non-SWF file from the temporary resource directories to the corresponding live sim directory
+ * <p/>
+ * NOTE: run on the server, so do not rename / move this without changing the other references under
+ * edu.colorado.phet.buildtools.resource
+ */
 public class ResourceDeployPublisher implements IProguardKeepClass {
 
     private File resourceDir;
@@ -42,6 +49,11 @@ public class ResourceDeployPublisher implements IProguardKeepClass {
         }
     }
 
+    /**
+     * Run the resource deploy publisher
+     *
+     * @param args First argument should be the path to the temporary resource directory
+     */
     public static void main( String[] args ) {
         try {
             new ResourceDeployPublisher( new File( args[0] ) );

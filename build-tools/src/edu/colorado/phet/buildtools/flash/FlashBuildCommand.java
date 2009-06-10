@@ -12,19 +12,41 @@ import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Sam
- * Date: Feb 4, 2009
- * Time: 10:17:40 AM
+ * Functions to build Flash 8 simulation SWFs from their FLAs using the Flash IDE (tested on version 8)
+ * <p/>
+ * A JSFL (JavaScript FLash) file is put in a temporary directory, then Flash is instructed to run it.
+ * The script publishes the SWF for the simulation to the deploy directory, and then saves the build output
+ * (like errors, etc) in a file in the temporary directory. We can tell whether the build succeeded or failed from that
+ * file.
  */
 public class FlashBuildCommand {
 
+    /**
+     * Whether the FLA should be closed once publishing is complete. Inserted into JSFL script that the Flash IDE is
+     * instructed to run
+     */
     public static boolean closeFLA = true;
+
+    /**
+     * Whether the Flash IDE should be closed once publishing is complete. Inserted into JSFL script that the Flash IDE
+     * is instructed to run
+     */
     public static boolean closeIDE = false;
 
+    /**
+     * Location of temporary build directory where we will store the JSFL, and the corresponding output files
+     */
     public static final String BUILD_OUTPUT_TEMP = BuildToolsPaths.SIMULATIONS_FLASH + "/build-output-temp";
 
-    // returns boolean success of whether the sim was built without errors
+    /**
+     * Build the specified sim in the SVN trunk specified. This function handles error recognition (and will show a dialog
+     * if a build error is detected), and will wait up to 5 minutes until the Flash IDE successfully builds to exit.
+     *
+     * @param sim   The sim name to build
+     * @param trunk Path to trunk
+     * @return Success of the build
+     * @throws IOException
+     */
     public static boolean build( String sim, File trunk ) throws IOException {
 
         boolean success;
@@ -92,14 +114,23 @@ public class FlashBuildCommand {
         return success;
     }
 
+    /**
+     * Builds the JSFL file and launches the Flash IDE. This will not wait until the build is finished! Use
+     * build( String sim, File trunk ) for regular use and error handling.
+     *
+     * @param sims  Sim name
+     * @param trunk Path to trunk
+     * @throws IOException
+     */
     public static void build( String[] sims, File trunk ) throws IOException {
         String template = FileUtils.loadFileAsString( new File( trunk, BuildToolsPaths.FLASH_BUILD_TEMPLATE ) );
         String out = template;
 
         String trunkPipe;
+
+        // if we are using wine, we need to handle this path differently
         final boolean useWine = BuildLocalProperties.getInstance().getWine();
         if ( useWine ) {
-            //trunkPipe = "C|/svn/trunk";
             trunkPipe = BuildLocalProperties.getInstance().getWineTrunk().replace( ':', '|' ).replace( '\\', '/' );
         }
         else {
@@ -110,7 +141,6 @@ public class FlashBuildCommand {
         out = FileUtils.replaceAll( out, "@SIMS@", toSimsString( sims ) );
         out = FileUtils.replaceAll( out, "@CLOSE_IDE@", Boolean.toString( closeIDE ) );
         out = FileUtils.replaceAll( out, "@CLOSE_FLA@", Boolean.toString( closeFLA ) );
-        //System.out.println( "out = " + out );
 
         String outputSuffix = BUILD_OUTPUT_TEMP + "/build.jsfl";
         File outputFile = new File( trunk, outputSuffix );

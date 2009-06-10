@@ -87,7 +87,13 @@ public class ResourceDeployClient {
         temporaryDirName = createTemporaryDirName( resourceFile );
     }
 
-    // uploads the resource file and its corresponding properties file
+    /**
+     * uploads the resource file and its corresponding properties file
+     *
+     * @return Success
+     * @throws JSchException
+     * @throws IOException
+     */
     public boolean uploadResourceFile() throws JSchException, IOException {
         AuthenticationInfo authenticationInfo = BuildLocalProperties.getInstance().getProdAuthenticationInfo();
         String temporaryDirPath = getTemporaryDirPath();
@@ -105,7 +111,15 @@ public class ResourceDeployClient {
         return true;
     }
 
-    // uploads an extra file for a particular sim
+    /**
+     * uploads an extra file for a particular sim. (like the Flash HTML files that need to be regenerated on the client)
+     *
+     * @param extraFile The extra file to upload
+     * @param sim       The sim name
+     * @return
+     * @throws JSchException
+     * @throws IOException
+     */
     public boolean uploadExtraFile( File extraFile, String sim ) throws JSchException, IOException {
         AuthenticationInfo authenticationInfo = BuildLocalProperties.getInstance().getProdAuthenticationInfo();
         String temporaryDirPath = getTemporaryDirPath();
@@ -122,7 +136,12 @@ public class ResourceDeployClient {
         return true;
     }
 
-    // display instructions to execute the resource deploy server on tigercat
+    /**
+     * display instructions to execute the resource deploy server on tigercat
+     *
+     * @param trunk Path to trunk
+     * @throws IOException
+     */
     public void displayResourceDeployServerInstructions( File trunk ) throws IOException {
         String temporaryDirPath = getTemporaryDirPath();
 
@@ -168,7 +187,7 @@ public class ResourceDeployClient {
 
     }
 
-    public String createTemporaryDirName( File resourceFile ) {
+    private String createTemporaryDirName( File resourceFile ) {
         String ret = resourceFile.getName();
         ret = ret.replaceAll( "[^a-zA-Z0-9]", "-" );
         ret = String.valueOf( ( new Date() ).getTime() ) + "_" + ret;
@@ -183,7 +202,7 @@ public class ResourceDeployClient {
         return PROD_PATH + getTemporaryDirName();
     }
 
-    public boolean dirtyExecute( String command ) {
+    private boolean dirtyExecute( String command ) {
         System.out.println( "# " + command );
         PhetServer server = PhetServer.PRODUCTION;
         AuthenticationInfo authenticationInfo = BuildLocalProperties.getInstance().getProdAuthenticationInfo();
@@ -264,6 +283,13 @@ public class ResourceDeployClient {
 
     /**
      * Class used on the command line to deploy a single resource
+     * <p/>
+     * Usage: ResourceDeploy (trunk) (mode) (resourceFile) (resourceDestination)
+     * <p/>
+     * (trunk) is the path to the trunk directory
+     * (mode) is either 'java' or 'flash'
+     * (resourceFile) is the path to the resource file
+     * (resourceDestination) is where to put the resource file in the JARs (should always start and end with '/')
      */
     public static class ResourceDeploy {
 

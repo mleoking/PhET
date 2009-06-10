@@ -19,12 +19,7 @@ import edu.colorado.phet.flashlauncher.FlashHTML;
 import edu.colorado.phet.flashlauncher.FlashLauncher;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Sam
- * Date: Jan 29, 2009
- * Time: 11:22:23 AM
- * <p/>
- * //phetProjects.addAll(Arrays.asList( PhetFlashProject.getFlashProjects(baseDir ) ));
+ * Represents a Flash simulation project. Each project contains one simulation of the same name.
  */
 public class FlashSimulationProject extends PhetProject {
 
@@ -84,6 +79,19 @@ public class FlashSimulationProject extends PhetProject {
         return success;
     }
 
+    /**
+     * Build function meant to be used ONLY for testing purposes, but allows optimizations which will save developers
+     * time. If the HTML is already generated, and all that is needed is the SWF to be updated, just re-publish within
+     * the IDE instead of re-running the test
+     *
+     * @param clean Whether to clean the deploy directory beforehand. Will only clean the parts that will be regenerated,
+     *              as specified by the later arguments
+     * @param html  Whether to (re)generate HTML for each locale
+     * @param swf   Whether to (re)publish the SWF from the FLA. Time consuming, especially if IDE is not open.
+     * @param jars  Whether to (re)generate the JARs for each locale. Time consuming!
+     * @return Success or failure
+     * @throws Exception
+     */
     public boolean testBuild( boolean clean, boolean html, boolean swf, boolean jars ) throws Exception {
         if ( clean ) {
             // note: if not rebuilding JARs, they will not be available!
@@ -151,6 +159,8 @@ public class FlashSimulationProject extends PhetProject {
     private void cleanDeploy() {
         cleanSWF();
         cleanHTML();
+
+        // added so that miscellaneous files are not deployed to tigercat when they should not be!
         cleanEntireDeployDir();
     }
 
@@ -229,8 +239,6 @@ public class FlashSimulationProject extends PhetProject {
             attribute.setName( "Main-Class" );
             attribute.setValue( FlashLauncher.class.getName() );
 
-//            jar.addFileset( toFileSetFile( createJARLauncherPropertiesFile() ) );
-
             manifest.addConfiguredAttribute( attribute );
             jar.addConfiguredManifest( manifest );
 
@@ -278,6 +286,13 @@ public class FlashSimulationProject extends PhetProject {
         return success;
     }
 
+    /**
+     * Build HTML for a specific locale and version. Automatically sets the dev flag if the dev version is not zero
+     *
+     * @param locale  The locale to use (common and sim strings)
+     * @param version The version to include
+     * @throws IOException
+     */
     public void buildHTML( Locale locale, PhetVersion version ) throws IOException {
         String bgColor = getProjectProperties().getProperty( "bgcolor" );
 
@@ -346,6 +361,7 @@ public class FlashSimulationProject extends PhetProject {
         }
 
         // copy over other extra files needed by the main HTML file
+        // currently this is usually the "get flash" image
         copyExtrasTo( getDeployDir() );
 
     }
@@ -515,7 +531,7 @@ public class FlashSimulationProject extends PhetProject {
 
 
     /**
-     * Used solely for building the flash-launcher .class files that will be used in PhetFlashProject.
+     * Used solely for building the flash-launcher .class files that will be used in FlashSimulationProject.
      * This project is not intended to be used or deployed by itself.
      */
     public class FlashLauncherProject extends JavaProject {

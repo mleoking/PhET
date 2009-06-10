@@ -5,9 +5,10 @@ import java.io.FileFilter;
 
 import edu.colorado.phet.buildtools.BuildToolsPaths;
 
+/**
+ * Utility functions for the resource deploy process
+ */
 public class ResourceDeployUtils {
-
-    // TODO: refactor all of resource deploy stuff into buildtools/resource/, instead of under buildtools/translate
 
     public static final boolean DEBUG = true;
 
@@ -36,6 +37,13 @@ public class ResourceDeployUtils {
         return new File( getResourceSubDir( resourceDir ), "resource.properties" );
     }
 
+    /**
+     * During the publishing process, we don't want to copy over more files than we have to. This function should
+     * be able to specify which files should not be copied
+     *
+     * @param file The file that is being checked for whether it should be copied during publishing
+     * @return Whether or not to copy it
+     */
     public static boolean ignoreTestFile( File file ) {
         return file.getName().endsWith( ".swf" );
     }
@@ -60,6 +68,12 @@ public class ResourceDeployUtils {
         return ret;
     }
 
+    /**
+     * Get a list of Java simulation directories, relative to a checked out copy
+     *
+     * @param trunk Path to trunk
+     * @return Array of java simulation directories
+     */
     public static File[] getJavaSimulationDirs( File trunk ) {
         if ( DEBUG ) {
             return new File[]{new File( trunk, BuildToolsPaths.JAVA_SIMULATIONS_DIR + "/test-project" )};
@@ -76,6 +90,13 @@ public class ResourceDeployUtils {
             return simDirs;
         }
     }
+
+    /**
+     * Get a list of flash simulation directories, relative to a checked out copy
+     *
+     * @param trunk Path to trunk
+     * @return Array of flash simulation directories
+     */
 
     public static File[] getFlashSimulationDirs( File trunk ) {
         if ( DEBUG ) {

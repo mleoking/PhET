@@ -13,6 +13,10 @@ import edu.colorado.phet.buildtools.util.SshUtils;
 
 import com.jcraft.jsch.JSchException;
 
+/**
+ * Handles deploying the statistics database code to tigercat.
+ * TODO: for refactor, allow it to deploy to any "production" server
+ */
 public class StatisticsDeployCommand {
 
     private File trunk;
@@ -25,6 +29,9 @@ public class StatisticsDeployCommand {
 
     private String remoteDeployDir = BuildToolsPaths.TIGERCAT_HTDOCS + "/statistics";
 
+    /**
+     * List of file names that should not be uploaded to the server
+     */
     private static String[] ignoreFileNames = {
             "raw-log.txt",
             "parsed-log.txt",
@@ -44,21 +51,23 @@ public class StatisticsDeployCommand {
 
     public boolean deploy() throws IOException {
         boolean success = true;
-        // TODO: don't catch all of these failures, since one failure means a failure of deploy!
+
         System.out.println( "Starting statistics deploy process" );
 
         System.out.println( "Trunk:      " + getTrunkDir().getCanonicalPath() );
         System.out.println( "Statistics: " + getStatisticsDir().getCanonicalPath() );
 
+        // write the revision into the correct source file
         writeRevisionFile();
 
+        // get lists of files for each directory
         File[] statisticsFiles = getStatisticsDir().listFiles( new StatisticsFileFilter() );
-
         File[] reportFiles = getReportDir().listFiles( new StatisticsFileFilter() );
-
         File[] adminFiles = getAdminDir().listFiles( new StatisticsFileFilter() );
 
         AuthenticationInfo authenticationInfo = buildLocalProperties.getProdAuthenticationInfo();
+
+        // SCP all of the files to tigercat
 
         for ( int i = 0; i < statisticsFiles.length; i++ ) {
             try {
@@ -102,11 +111,18 @@ public class StatisticsDeployCommand {
             }
         }
 
+        // set the permissions of the server-side files
         success = success && SshUtils.executeCommand( "cd " + remoteDeployDir + "; chmod ug+x set_permissions; ./set_permissions", server, authenticationInfo );
 
         return success;
     }
 
+    /**
+     * We need to write the revision of the deployment into the server-side code so that it will log messages with the
+     * correct server revision
+     *
+     * @throws IOException
+     */
     private void writeRevisionFile() throws IOException {
         FileUtils.writeString( new File( getStatisticsDir(), "db-revision.php" ), "<?php $serverVersion = \"" + getSVNVersion() + "\"; ?>\n" );
     }
@@ -153,6 +169,14 @@ public class StatisticsDeployCommand {
         return false;
     }
 
+    /**
+     * A mapping from local repository file names to what they are on the server.
+     * This is mainly used for mapping htaccess to .htaccess currently
+     *
+     * @param file      The local file
+     * @param deployDir The directory where the file will be deployed (backups, reports, main dir, etc.)
+     * @return The string representing the full path of where it should be deployed
+     */
     private String deployFileName( File file, String deployDir ) {
         if ( deployDir == null ) {
             deployDir = "/";
@@ -166,6 +190,12 @@ public class StatisticsDeployCommand {
         return remoteDeployDir + deployDir + resultName;
     }
 
+    /**
+     * Gets the SVN revision of the latest code. This may not be the last commit where changes were made to statistics,
+     * but instead represent the CURRENT SVN revision at the time of the deploy.
+     *
+     * @return String representing the SVN revision
+     */
     private String getSVNVersion() {
         String[] args = new String[]{"svn", "status", "-u", "--non-interactive", getTrunkPath()};
         ProcessOutputReader.ProcessExecResult output = ProcessOutputReader.exec( args );
@@ -175,14 +205,17 @@ public class StatisticsDeployCommand {
             String key = "Status against revision:";
             if ( token.toLowerCase().startsWith( key.toLowerCase() ) ) {
                 String suffix = token.substring( key.length() ).trim();
-                //return Integer.parseInt( suffix );
                 return suffix;
             }
         }
         throw new RuntimeException( "No svn version information found: " + output );
     }
 
-
+    /**
+     * Runs the statistics deployment
+     *
+     * @param args First argument must be the path to trunk
+     */
     public static void main( String[] args ) {
         if ( args.length == 0 ) {
             System.out.println( "You just provide a system-specific path to the trunk" );
@@ -201,9 +234,11 @@ public class StatisticsDeployCommand {
             StatisticsProject project = new StatisticsProject( trunk );
             SVNStatusChecker checker = new SVNStatusChecker();
 
+            // make sure SVN of statistics is up to date before deploying
             if ( checker.isUpToDate( project ) ) {
                 StatisticsDeployCommand command = new StatisticsDeployCommand( trunk );
 
+                // actually deploy everything
                 command.deploy();
             }
 
@@ -215,11 +250,12 @@ public class StatisticsDeployCommand {
 
     }
 
-}
-
-
-class StatisticsFileFilter implements FileFilter {
-    public boolean accept( File file ) {
-        return file.isFile() && !StatisticsDeployCommand.ignoreFile( file );
+    private class StatisticsFileFilter implements FileFilter {
+        public boolean accept( File file ) {
+            return file.isFile() && !StatisticsDeployCommand.ignoreFile( file );
+        }
     }
+
 }
+
+
