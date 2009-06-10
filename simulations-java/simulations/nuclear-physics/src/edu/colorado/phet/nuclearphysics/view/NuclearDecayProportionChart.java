@@ -4,6 +4,7 @@ package edu.colorado.phet.nuclearphysics.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.Stroke;
@@ -22,6 +23,7 @@ import javax.swing.JFrame;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PieChartNode;
@@ -1136,6 +1138,7 @@ public class NuclearDecayProportionChart extends PNode {
     		_readoutRect = new PhetPPath( INDICATOR_BACKGROUND_COLOR, INDICATOR_STROKE, INDICATOR_OUTLINE_COLOR );
     		_readoutRect.setPickable(true);
     		_readoutRect.addInputEventListener(_dragEventHandler);
+
     		addChild(_readoutRect);
     		
     		// Create and add the readout text.  Note that these are set up as
@@ -1161,6 +1164,10 @@ public class NuclearDecayProportionChart extends PNode {
     		_indicatorLine.setPickable(true);
     		_indicatorLine.addInputEventListener(_dragEventHandler);
     		addChild(_indicatorLine);
+
+    		// Add a cursor handler to the entire node to present a cursor to
+    		// the user when they mouse over.
+    		addInputEventListener(new CursorHandler(Cursor.E_RESIZE_CURSOR));
     	}
     	
     	/**
