@@ -1096,11 +1096,11 @@ public class NuclearDecayProportionChart extends PNode {
     	private static final Color INDICATOR_BACKGROUND_COLOR = 
     		ColorUtils.brighterColor(NuclearPhysicsConstants.CHART_BACKGROUND_COLOR, 0.5);
     	private static Stroke INDICATOR_STROKE = new BasicStroke( 3 );
-    	private static final Font DEFAULT_FONT = new PhetFont(12);
+    	private static final Font DEFAULT_FONT = new PhetFont(12, false);
     	
-    	private PhetPPath _readoutRect;
-    	private PhetPPath _indicatorHandle;
-    	private PhetPPath _indicatorLine;
+    	private PPath _readoutRect;
+    	private PPath _indicatorHandle;
+    	private PPath _indicatorLine;
     	private PDragEventHandler _dragEventHandler;
     	private NuclearDecayProportionChart _chart;
     	private HTMLNode _percentageText;
@@ -1247,12 +1247,14 @@ public class NuclearDecayProportionChart extends PNode {
 			String timeString;
     		if ( time < MultiNucleusDecayModel.convertYearsToMs(1E6)){
     			// Use individual years.
-    			timeString = Integer.toString((int)MultiNucleusDecayModel.convertMsToYears(time)) 
+    			timeString = NuclearPhysicsStrings.TIME_ABBREVIATION + " = " 
+    				+ Integer.toString((int)MultiNucleusDecayModel.convertMsToYears(time)) 
     				+ " " + NuclearPhysicsStrings.TIME_GRAPH_UNITS_YRS;
     		}
     		else{
     			// Use billions of years.
-    			timeString = String.format("%.1f", MultiNucleusDecayModel.convertMsToYears(time) / 1E9) 
+    			timeString = NuclearPhysicsStrings.TIME_ABBREVIATION + " = "
+    				+ String.format("%.1f", MultiNucleusDecayModel.convertMsToYears(time) / 1E9) 
 					+ " " + NuclearPhysicsStrings.TIME_GRAPH_UNITS_BILLION_YRS;
     		}
     		_timeText.setText(timeString);
