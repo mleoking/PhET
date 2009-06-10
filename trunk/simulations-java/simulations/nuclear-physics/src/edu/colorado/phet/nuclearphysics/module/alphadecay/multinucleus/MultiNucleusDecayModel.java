@@ -120,13 +120,6 @@ public class MultiNucleusDecayModel implements NucleusTypeControl {
 	    }
 	}
 
-	public void setPaused(boolean paused) {
-		// Pause the decay and movement of all nuclei.
-		for (int i = 0; i < _atomicNuclei.size(); i++){
-			((AbstractDecayNucleus)_atomicNuclei.get(i)).setPaused(paused);
-		}
-	}
-
 	/**
 	 * Reset all nuclei that are either active (meaning that they could decay
 	 * at any time) or decayed.

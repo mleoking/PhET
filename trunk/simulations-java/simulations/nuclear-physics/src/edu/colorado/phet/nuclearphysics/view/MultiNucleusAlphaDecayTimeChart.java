@@ -369,10 +369,10 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         	boolean halfLifeChanged;
         	public void mousePressed(PInputEvent event) {
         		halfLifeChanged = false;
-        		_model.setPaused(true);
+        		_model.getClock().setPaused(true);
         	}
         	public void mouseReleased(PInputEvent event) {
-        		_model.setPaused(false);
+        		_model.getClock().setPaused(false);
         		if (halfLifeChanged){
         			if (_model.resetActiveAndDecayedNuclei() != 0){
             			_canvas.autoPressResetNucleiButton();
