@@ -69,7 +69,8 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     // Constructor
     //----------------------------------------------------------------------------
 
-    public RadioactiveDatingGameCanvas(RadioactiveDatingGameModel radioactiveDatingGameModel, ProbeTypeModel probeTypeModel) {
+    public RadioactiveDatingGameCanvas(RadioactiveDatingGameModel radioactiveDatingGameModel, 
+    		ProbeTypeModel probeTypeModel) {
 
     	_model = radioactiveDatingGameModel;
 
@@ -77,7 +78,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         _mvt = new ModelViewTransform2D(
         		new Point2D.Double(0, 0), 
         		new Point(INITIAL_INTERMEDIATE_COORD_WIDTH / 2, 
-        				(int)Math.round(INITIAL_INTERMEDIATE_COORD_HEIGHT * 0.27)),
+        				(int)Math.round(INITIAL_INTERMEDIATE_COORD_HEIGHT * 0.25)),
         		20,
         		true);
 
