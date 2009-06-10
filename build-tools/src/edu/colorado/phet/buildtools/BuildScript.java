@@ -503,7 +503,7 @@ public class BuildScript {
         } );
     }
 
-    public void deployProd( final AuthenticationInfo devAuth, final AuthenticationInfo prodAuth ) {
+    public void deployProd( final AuthenticationInfo devAuth, final AuthenticationInfo prodAuth, VersionIncrement versionIncrement ) {
         deploy(
                 //send a copy to dev
                 new Task() {
@@ -513,7 +513,7 @@ public class BuildScript {
                         boolean success = prepareStagingArea( PhetServer.PRODUCTION, prodAuth );
                         return success;
                     }
-                }, PhetServer.PRODUCTION, prodAuth, new VersionIncrement.UpdateProd(), new Task() {
+                }, PhetServer.PRODUCTION, prodAuth, versionIncrement, new Task() {
                     public boolean invoke() {
                         System.out.println( "Invoking server side scripts to generate simulation and language JAR files" );
                         if ( !debugDryRun ) {
@@ -525,6 +525,10 @@ public class BuildScript {
                         return true;
                     }
                 } );
+    }
+
+    public void deployProd( final AuthenticationInfo devAuth, final AuthenticationInfo prodAuth ) {
+        deployProd( devAuth, prodAuth, new VersionIncrement.UpdateProdMinor() );
     }
 
     //Run "rm" on the server to remove the phet/staging/sims/<project> directory contents, see #1529
@@ -601,6 +605,7 @@ public class BuildScript {
      * @return Whether or not all of the path's revisions were the same as the specified revision
      */
     public static boolean verifyRevision( int revision, String[] paths ) {
+        String out = null;
         try {
             List<String> args = new LinkedList<String>();
             args.add( "svn" );
@@ -612,7 +617,7 @@ public class BuildScript {
             }
             ProcessOutputReader.ProcessExecResult result = ProcessOutputReader.exec( args.toArray( new String[0] ) );
 
-            String out = result.getOut();
+            out = result.getOut();
             //System.out.println( "verifyRevision input:\n" + out );
             Document document = XMLUtils.toDocument( out );
 
@@ -634,10 +639,12 @@ public class BuildScript {
         }
         catch( TransformerException e ) {
             e.printStackTrace();
+            System.out.println( "Caused by the XML:\n" + out );
             return false;
         }
         catch( ParserConfigurationException e ) {
             e.printStackTrace();
+            System.out.println( "Caused by the XML:\n" + out );
             return false;
         }
         return true;

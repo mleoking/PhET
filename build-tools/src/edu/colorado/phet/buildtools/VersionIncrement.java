@@ -10,10 +10,18 @@ public interface VersionIncrement {
         }
     }
 
-    public static class UpdateProd implements VersionIncrement {
+    public static class UpdateProdMinor implements VersionIncrement {
         public void increment( PhetProject project ) {
             project.setDevVersion( 0 );
             project.setMinorVersion( project.getMinorVersion() + 1 );
+        }
+    }
+
+    public static class UpdateProdMajor implements VersionIncrement {
+        public void increment( PhetProject project ) {
+            project.setDevVersion( 0 );
+            project.setMinorVersion( 0 );
+            project.setMajorVersion( project.getMajorVersion() + 1 );
         }
     }
 }
