@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Point3D;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 
@@ -99,7 +98,7 @@ public class Bunny {
 
     private NaturalSelectionModel model;
 
-    private ClockAdapter clockListener;
+    private NaturalSelectionClock.Listener clockListener;
 
     private ArrayList<Listener> listeners;
 
@@ -161,14 +160,13 @@ public class Bunny {
 
         setInitialPosition();
 
-        clockListener = new ClockAdapter() {
-            @Override
-            public void simulationTimeChanged( ClockEvent clockEvent ) {
-                Bunny.this.simulationTimeChanged( clockEvent );
+        clockListener = new NaturalSelectionClock.Listener() {
+            public void onTick( ClockEvent event ) {
+                Bunny.this.onPhysicalTick( event );
             }
         };
 
-        model.getClock().addClockListener( clockListener );
+        model.getClock().addPhysicalListener( clockListener );
 
         // bunny is set up, notify various things that the bunny has been created and is ready to use
         //notifyInit();
@@ -545,13 +543,13 @@ public class Bunny {
     // Event handlers
     //----------------------------------------------------------------------------
 
-    private void simulationTimeChanged( ClockEvent clockEvent ) {
+    private void onPhysicalTick( ClockEvent clockEvent ) {
         if ( isAlive() ) {
             moveAround();
         }
         else {
             // stop listening
-            model.getClock().removeClockListener( clockListener );
+            model.getClock().removePhysicalListener( clockListener );
         }
     }
 
