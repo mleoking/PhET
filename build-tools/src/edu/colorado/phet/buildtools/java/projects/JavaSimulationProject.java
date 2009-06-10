@@ -14,6 +14,16 @@ public class JavaSimulationProject extends JavaProject {
         super( parentDir, name );
     }
 
+    @Override
+    public boolean build() throws Exception {
+        boolean success = super.build();
+        if ( success ) {
+            // write descriptions and titles to <project-name>.xml
+            writeMetaXML();
+        }
+        return success;
+    }
+
     public File getTrunkAbsolute() {
         return new File( getProjectDir(), "../../.." );
     }

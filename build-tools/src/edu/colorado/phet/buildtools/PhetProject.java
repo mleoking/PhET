@@ -909,4 +909,43 @@ public abstract class PhetProject {
         System.out.println( "No launch files (JNLP) for " + getClass().getName() );
     }
 
+    /**
+     * Writes localized sim descriptions and titles to an XML file to be sent to the server. see #1686
+     * Note: only used and tested with Java and Flash simulations
+     */
+    public void writeMetaXML() {
+        System.out.println( "Attempting to write meta XML" );
+        try {
+            String str = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n" +
+                         "<project name=\"" + getName() + "\">\n" +
+                         "<simulations>\n";
+            for ( String simulationName : getSimulationNames() ) {
+                for ( Locale locale : getLocales() ) {
+                    Simulation simulation = getSimulation( simulationName, locale );
+                    str += "<simulation name=\"" + getName() + "\" locale=\"" + LocaleUtils.localeToString( locale ) + "\">\n";
+                    String title = simulation.getTitle();
+                    String description = simulation.getDescription();
+                    if ( title != null ) {
+                        str += "<title><![CDATA[" + title + "]]></title>\n";
+                    }
+                    if ( description != null ) {
+                        str += "<description><![CDATA[" + description + "]]></description>\n";
+                    }
+                    str += "</simulation>\n";
+                }
+            }
+            str += "</simulations>\n" +
+                   "</project>";
+
+            FileUtils.writeString( new File( getDeployDir(), getName() + ".xml" ), str );
+        }
+        catch( UnsupportedEncodingException e ) {
+            e.printStackTrace();
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+
+    }
+
 }
