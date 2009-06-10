@@ -430,7 +430,7 @@ public class NuclearDecayProportionChart extends PNode {
     	private static final double INITIAL_OVERALL_HEIGHT = INITIAL_OVERALL_WIDTH / INITIAL_ASPECT_RATIO;
     	private static final double PIE_CHART_WIDTH_PROPORTION = 0.9;
     	private static final int INITIAL_PIE_CHART_WIDTH = (int)(Math.round(INITIAL_OVERALL_WIDTH * PIE_CHART_WIDTH_PROPORTION));
-    	private static final Font LABEL_FONT = new PhetFont(18);
+    	private static final Font LABEL_FONT = new PhetFont(18, true);
     	
     	// The various elements of the chart.
     	private PieChartNode _pieChartNode;
@@ -1096,7 +1096,7 @@ public class NuclearDecayProportionChart extends PNode {
     	private static final Color INDICATOR_BACKGROUND_COLOR = 
     		ColorUtils.brighterColor(NuclearPhysicsConstants.CHART_BACKGROUND_COLOR, 0.5);
     	private static Stroke INDICATOR_STROKE = new BasicStroke( 3 );
-    	private static final Font DEFAULT_FONT = new PhetFont(12, false);
+    	private static final Font DEFAULT_FONT = new PhetFont(12, true);
     	
     	private PPath _readoutRect;
     	private PPath _indicatorHandle;
