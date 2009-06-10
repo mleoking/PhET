@@ -1,3 +1,5 @@
+# 2.00.03 (32391) Jun 9, 2009
+6/9/09 Possible IE accessibility fix
 # 2.00.02 (31761) May 16, 2009
 5/16/09 Added complete keyboard accessibility
 # 2.00.01 (31667) May 14, 2009
