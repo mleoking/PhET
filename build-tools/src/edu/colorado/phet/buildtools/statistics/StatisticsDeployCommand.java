@@ -167,7 +167,7 @@ public class StatisticsDeployCommand {
     }
 
     private String getSVNVersion() {
-        String[] args = new String[]{"svn", "status", "-u", getTrunkPath()};
+        String[] args = new String[]{"svn", "status", "-u", "--non-interactive", getTrunkPath()};
         ProcessOutputReader.ProcessExecResult output = ProcessOutputReader.exec( args );
         StringTokenizer st = new StringTokenizer( output.getOut(), "\n" );
         while ( st.hasMoreTokens() ) {
