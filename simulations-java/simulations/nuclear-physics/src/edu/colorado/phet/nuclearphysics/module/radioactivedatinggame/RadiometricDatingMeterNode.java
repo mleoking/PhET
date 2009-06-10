@@ -10,14 +10,12 @@ import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
 
 import javax.swing.BorderFactory;
-import javax.swing.ButtonGroup;
 import javax.swing.JRadioButton;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
@@ -32,7 +30,6 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.module.radioactivedatinggame.ProbeTypeModel.ProbeType;
 import edu.umd.cs.piccolo.PNode;
@@ -86,9 +83,10 @@ public class RadiometricDatingMeterNode extends PNode {
 		_probeTypeModel = probeTypeModel;
 		
 		// Register with the model to find out when something new is being touched.
-		_meterModel.addListener(new RadiometricDatingMeter.Listener(){
-			public void touchedItemChanged() {
+		_meterModel.addObserver(new SimpleObserver(){
+			public void update() {
 				updateMeterReading();
+				
 			}
 		});
 		
@@ -230,10 +228,10 @@ public class RadiometricDatingMeterNode extends PNode {
             imageNode.rotateAboutPoint( probeModel.getAngle(), 0.1, 0.1 );
             imageNode.scale( PROBE_SIZE_SCALE_FACTOR );
             addChild( imageNode );
-            probeModel.addListener( new RadiometricDatingMeter.ProbeModel.Listener() {
-                public void probeModelChanged() {
-                    updateProbe();
-                }
+            probeModel.addObserver( new SimpleObserver() {
+				public void update() {
+					updateProbe();
+				}
             } );
 
             addInputEventListener( new PBasicInputEventHandler() {

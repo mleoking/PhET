@@ -5,6 +5,7 @@ package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusDecayModel;
 
 /**
@@ -77,10 +78,11 @@ public class RadioactiveDatingGameModel {
     	// Add the meter and register for user-initiated movements.
     	_meter = new RadiometricDatingMeter( this );
     	
-    	_meter.getProbeModel().addListener(new RadiometricDatingMeter.ProbeModel.Listener(){
-    		public void probeModelChanged(){
-    			getDatableItemAtLocation( _meter.getProbeModel().getTipLocation() );
-    		}
+    	_meter.getProbeModel().addObserver(new SimpleObserver(){
+			public void update() {
+				getDatableItemAtLocation( _meter.getProbeModel().getTipLocation() );
+				
+			}
     	});
     }
 

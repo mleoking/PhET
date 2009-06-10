@@ -6,7 +6,9 @@ import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
+
+import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
  * This class encapsulates a meter that supplies information about the amount
@@ -14,14 +16,13 @@ import java.util.ArrayList;
  * 
  * @author John Blanco
  */
-public class RadiometricDatingMeter {
+public class RadiometricDatingMeter extends SimpleObservable {
 
 	//----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
 
 	private final ProbeModel _probe;
-	private ArrayList<Listener> listeners = new ArrayList<Listener>();
 	private DatableObject _itemBeingTouched = null;
 	private RadioactiveDatingGameModel _model;
 	
@@ -32,9 +33,8 @@ public class RadiometricDatingMeter {
 	public RadiometricDatingMeter( RadioactiveDatingGameModel model ) {
 		_model = model;
 		_probe = new ProbeModel(new Point2D.Double(-20, -8), -0.3);
-		_probe.addListener(new ProbeModel.Listener(){
-
-			public void probeModelChanged() {
+		_probe.addObserver(new SimpleObserver(){
+			public void update() {
 				updateReading();
 			}
 		});
@@ -69,32 +69,16 @@ public class RadiometricDatingMeter {
     	
     	if (_itemBeingTouched != newTouchedItem){
     		_itemBeingTouched = newTouchedItem;
-    		notifyListeners();
+    		notifyObservers();
     	}
-    }
-	
-    static interface Listener {
-        void touchedItemChanged();
-    }
-
-    public void addListener( Listener listener ) {
-        listeners.add( listener );
-    }
-
-    private void notifyListeners() {
-        for ( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener) listeners.get( i );
-            listener.touchedItemChanged();
-        }
     }
 	
 	/**
 	 * This class represents the probe that moves around and comes in contact
 	 * with various datable elements in the model.
 	 */
-    public static class ProbeModel {
+    public static class ProbeModel extends SimpleObservable {
         private Point2D.Double tipLocation;
-        private ArrayList listeners = new ArrayList();
         private double angle;
         private double tipWidth = 0.1 * 0.35;
         private double tipHeight = 0.3 * 1.25 * 0.75;
@@ -111,7 +95,7 @@ public class RadiometricDatingMeter {
         public void translate( double dx, double dy ) {
             tipLocation.x += dx;
             tipLocation.y += dy;
-            notifyListeners();
+            notifyObservers();
         }
 
         public Point2D getTipLocation() {
@@ -129,17 +113,6 @@ public class RadiometricDatingMeter {
 
         static interface Listener {
             void probeModelChanged();
-        }
-
-        public void addListener( Listener listener ) {
-            listeners.add( listener );
-        }
-
-        public void notifyListeners() {
-            for ( int i = 0; i < listeners.size(); i++ ) {
-                Listener listener = (Listener) listeners.get( i );
-                listener.probeModelChanged();
-            }
         }
     }
 }
