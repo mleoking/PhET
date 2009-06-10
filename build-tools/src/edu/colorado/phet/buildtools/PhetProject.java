@@ -215,7 +215,7 @@ public abstract class PhetProject {
         if ( !file.exists() || !file.isDirectory() ) {
             return false;
         }
-        return new File( file, file.getName() + "-build.properties" ).exists();
+        return BuildPropertiesFile.getBuildPropertiesFile( file ).exists();
     }
 
     private File[] expandPath( String lib ) {
@@ -507,7 +507,7 @@ public abstract class PhetProject {
     }
 
     private static boolean isSimulation( File simulation ) {
-        return simulation.isDirectory() && !simulation.getName().equalsIgnoreCase( "all-sims" ) && !simulation.getName().equalsIgnoreCase( ".svn" ) && new File( simulation, simulation.getName() + "-build.properties" ).exists();
+        return simulation.isDirectory() && !simulation.getName().equalsIgnoreCase( "all-sims" ) && !simulation.getName().equalsIgnoreCase( ".svn" ) && BuildPropertiesFile.getBuildPropertiesFile( simulation ).exists();
     }
 
     public static PhetProject[] getAllSimulations( File trunk ) {
@@ -555,7 +555,7 @@ public abstract class PhetProject {
     public abstract File getTranslationFile( Locale locale );
 
     public File getBuildPropertiesFile() {
-        return new File( getProjectDir(), getName() + "-build.properties" );
+        return BuildPropertiesFile.getBuildPropertiesFile( getProjectDir() );
     }
 
     public File getDataDirectory() {

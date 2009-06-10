@@ -1,5 +1,6 @@
 package edu.colorado.phet.buildtools.util;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.StringTokenizer;
@@ -17,7 +18,7 @@ public class BuildPropertiesFile extends AbstractPropertiesFile {
     private final PhetProject project;
 
     public BuildPropertiesFile( PhetProject project ) {
-        super( PhetBuildUtils.getBuildPropertiesFile( project.getProjectDir() ) );
+        super( getBuildPropertiesFile( project.getProjectDir() ) );
         this.project = project;
     }
 
@@ -122,5 +123,16 @@ public class BuildPropertiesFile extends AbstractPropertiesFile {
     public boolean requestAllPermissions() {
         final String securityProperty = getProperty( "security" );
         return securityProperty != null && securityProperty.equals( "all-permissions" );
+    }
+
+    /**
+     * Retrieves the build properties file for the dir and project name. This
+     * file may not exist, if the directory does not describe a project.
+     *
+     * @param dir The project directory.
+     * @return The build properties file.
+     */
+    public static File getBuildPropertiesFile( File dir ) {
+        return new File( dir, dir.getName() + "-build.properties" );
     }
 }
