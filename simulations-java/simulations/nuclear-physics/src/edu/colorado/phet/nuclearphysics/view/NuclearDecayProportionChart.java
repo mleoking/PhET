@@ -1133,8 +1133,7 @@ public class NuclearDecayProportionChart extends PNode {
     		};
     		
     		// Create the rectangle over which the readout will appear.
-    		_readoutRect = new PhetPPath( new RoundRectangle2D.Double(0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT, 4, 4),
-    				INDICATOR_BACKGROUND_COLOR, INDICATOR_STROKE, INDICATOR_OUTLINE_COLOR);
+    		_readoutRect = new PhetPPath( INDICATOR_BACKGROUND_COLOR, INDICATOR_STROKE, INDICATOR_OUTLINE_COLOR );
     		_readoutRect.setPickable(true);
     		_readoutRect.addInputEventListener(_dragEventHandler);
     		addChild(_readoutRect);
@@ -1152,8 +1151,7 @@ public class NuclearDecayProportionChart extends PNode {
     		
     		// Create and add the "handle", which is a small ellipse just
     		// below the readout.
-    		_indicatorHandle = new PhetPPath( new Ellipse2D.Double(0, 0, DEFAULT_WIDTH / 4, DEFAULT_HEIGHT / 4),
-    				INDICATOR_OUTLINE_COLOR, INDICATOR_STROKE, INDICATOR_OUTLINE_COLOR);
+    		_indicatorHandle = new PhetPPath( INDICATOR_OUTLINE_COLOR, INDICATOR_STROKE, INDICATOR_OUTLINE_COLOR );
     		_indicatorHandle.setPickable(true);
     		_indicatorHandle.addInputEventListener(_dragEventHandler);
     		addChild(_indicatorHandle);
@@ -1163,10 +1161,6 @@ public class NuclearDecayProportionChart extends PNode {
     		_indicatorLine.setPickable(true);
     		_indicatorLine.addInputEventListener(_dragEventHandler);
     		addChild(_indicatorLine);
-    		
-    		// Set the initial values for the text.
-    		updateReadoutText();
-    		
     	}
     	
     	/**
@@ -1185,6 +1179,7 @@ public class NuclearDecayProportionChart extends PNode {
     		_readoutRect.setPathTo(new RoundRectangle2D.Double(0, 0, topRectWidth, topRectHeight, 10, 10));
     		
     		// Resize and position the readout text.
+    		updateReadoutText();
     		updateReadoutTextLayout();
 
     		// Set the position of the readout rectangle.
