@@ -26,6 +26,7 @@ class WorkshopsPage extends SitePage {
         <ul>
 	<li><em>Using PhET simulations for Science Inquiry; Technology in Education (TIE)</em> Colorado, Copper Mountain Resort, CO <strong>Jun 2009</strong> (<a href="{$workshop_materials_location}PhET_Workshop_Flyer_TIE_2009-06-24.pdf">PDF flyer</a>)</li>
         <li><em>Teacher and Researcher: Designing Research Studies around PhET's Interactive Simulations</em>; AAPT Summer 2009 Meeting, Ann Arbor, MI, <strong>July 25-29, 2009</strong></li>
+        <li><em>Exploring Easy and Effective Ways to Use PhET's Web-Based Interactive Simulations in your Science Course</em>; NSTA Conferences on Science Educations, Minneapolis, MN <strong>Oct 28-31, 2009, </strong>Fort Lauderdale, FL <strong>Nov 12-14, 2009, </strong>Phoenix, AZ <strong>Dec 3-5, 2009</strong> (<a href="{$workshop_materials_location}flyer_for_NSTA.pdf">PDF flyer</a>)</li>
         </ul>
 
         <h2>Workshop Materials:</h2>
