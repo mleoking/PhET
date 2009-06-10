@@ -1,3 +1,5 @@
+# 2.00.02 (32390) Jun 9, 2009
+6/9/09 Testing IE accessibility fix
 # 2.00.01 (32309) Jun 4, 2009
 6/4/09 Arabic (embedding) fix
 # 2.00.00 (30671) Apr 21, 2009
