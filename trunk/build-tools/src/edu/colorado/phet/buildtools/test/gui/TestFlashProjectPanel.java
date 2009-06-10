@@ -10,6 +10,7 @@ import javax.swing.*;
 import edu.colorado.phet.buildtools.BuildLocalProperties;
 import edu.colorado.phet.buildtools.BuildScript;
 import edu.colorado.phet.buildtools.PhetServer;
+import edu.colorado.phet.buildtools.VersionIncrement;
 import edu.colorado.phet.buildtools.flash.FlashBuildCommand;
 import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
@@ -27,6 +28,8 @@ public class TestFlashProjectPanel extends JPanel {
     private JRadioButton keepOpenButton;
     private JRadioButton closeFLAButton;
     private JRadioButton closeIDEButton;
+    private JRadioButton incrementMinor;
+    private JRadioButton incrementMajor;
 
     public TestFlashProjectPanel( File trunk, FlashSimulationProject project ) {
         super( new BorderLayout() );
@@ -94,6 +97,14 @@ public class TestFlashProjectPanel extends JPanel {
 
         JPanel deployProdPanel = new VerticalLayoutPanel();
         deployProdPanel.setBorder( BorderFactory.createTitledBorder( "Production Deploy" ) );
+        incrementMinor = new JRadioButton( "Increment minor version" );
+        incrementMajor = new JRadioButton( "Increment major version " );
+        ButtonGroup incrementGroup = new ButtonGroup();
+        incrementGroup.add( incrementMinor );
+        incrementGroup.add( incrementMajor );
+        deployProdPanel.add( incrementMinor );
+        deployProdPanel.add( incrementMajor );
+        incrementMinor.setSelected( true );
         JButton deployProdButton = new JButton( "Deploy Dev & Prod" );
         deployProdPanel.add( deployProdButton );
 
@@ -151,6 +162,14 @@ public class TestFlashProjectPanel extends JPanel {
 
         BuildLocalProperties buildLocalProperties = BuildLocalProperties.getInstance();
 
-        new BuildScript( trunk, project ).deployProd( buildLocalProperties.getDevAuthenticationInfo(), buildLocalProperties.getProdAuthenticationInfo() );
+        VersionIncrement versionIncrement = null;
+        if ( incrementMinor.isSelected() ) {
+            versionIncrement = new VersionIncrement.UpdateProdMinor();
+        }
+        else if ( incrementMajor.isSelected() ) {
+            versionIncrement = new VersionIncrement.UpdateProdMajor();
+        }
+
+        new BuildScript( trunk, project ).deployProd( buildLocalProperties.getDevAuthenticationInfo(), buildLocalProperties.getProdAuthenticationInfo(), versionIncrement );
     }
 }
