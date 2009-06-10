@@ -364,7 +364,7 @@ public class NuclearDecayProportionChart extends PNode {
         			(int)(Math.round(_usableAreaRect.getWidth() * MOVABLE_PERCENT_INDICATOR_WIDTH_PROPORTION)),
         			(int)(Math.round(_usableAreaRect.getHeight() * MOVABLE_PERCENT_INDICATOR_HEIGHT_PROPORTION * 0.85)),
         			(int)(Math.round(_graph.getFullBoundsReference().getY())),		
-        			(int)(Math.round(_graph.getFullBoundsReference().getMaxY())));
+        			(int)(Math.round(_graph.getOriginOffset().getY() + _graph.getOffset().getY())));
         }
     }
 
