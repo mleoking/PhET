@@ -377,6 +377,10 @@ public class DecayRatesCanvas extends PhetPCanvas {
     			    	System.err.println(this.getClass().getName() + ": Error - Could not remove nucleus from canvas.");
     			    }
     			}
+    			
+    			// Tell this node to remove itself as a listener from anything
+    			// that it may have registered with.
+    			nucleusNode.cleanup();
     		}
     		_mapNucleiToNodes.remove( modelElement );
     	}
