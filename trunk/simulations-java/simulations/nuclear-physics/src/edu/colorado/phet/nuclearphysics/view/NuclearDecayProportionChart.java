@@ -60,7 +60,7 @@ public class NuclearDecayProportionChart extends PNode {
 
     // Constants that control the proportions of the main components of the chart.
     private static final double PIE_CHART_WIDTH_PROPORTION = 0.1;
-    private static final double MOVABLE_PERCENT_INDICATOR_WIDTH_PROPORTION = 0.15;
+    private static final double MOVABLE_PERCENT_INDICATOR_WIDTH_PROPORTION = 0.20;
     private static final double MOVABLE_PERCENT_INDICATOR_HEIGHT_PROPORTION = 0.2;
     
     //------------------------------------------------------------------------
@@ -411,6 +411,11 @@ public class NuclearDecayProportionChart extends PNode {
     	Point2D decayEvent = new Point2D.Double( time, 100 * (double)numUndecayed/(double)(numDecayed + numUndecayed));
 		_decayEvents.add( decayEvent );
 		_graph.graphDecayEvent( decayEvent );
+		
+		// Update the movable indicator.
+		if ( _movablePercentIndicatorEnabled ){
+			_movablePercentIndicator.updateReadoutText();
+		}
     }
     
     /**
@@ -1194,7 +1199,7 @@ public class NuclearDecayProportionChart extends PNode {
     		_readoutRect.setOffset(200, _chart._usableAreaRect.getX());
     		
     		// Set the size and position of the handle.
-    		_indicatorHandle.setPathToEllipse(0, 0, topRectWidth / 4, topRectHeight / 4);
+    		_indicatorHandle.setPathToEllipse(0, 0, topRectWidth / 4, topRectHeight / 5);
     		_indicatorHandle.setOffset(
     				_readoutRect.getOffset().getX() + _readoutRect.getWidth() / 2 - _indicatorHandle.getWidth() / 2, 
     				_readoutRect.getOffset().getY() + _readoutRect.getHeight());
@@ -1205,7 +1210,7 @@ public class NuclearDecayProportionChart extends PNode {
     				_readoutRect.getOffset().getY() + _readoutRect.getHeight());
     	}
     	
-    	private void updateReadoutTextLayout(){
+    	public void updateReadoutTextLayout(){
     		
     		// Scale the text.
     		_percentageText.setScale(1);
