@@ -15,6 +15,7 @@ public class SVNStatusChecker {
         args.add( "svn" );
         args.add( "status" );
         args.add( "-u" );//checks with server, without this flag check is only local
+        args.add( "--non-interactive" ); // don't have it ask for input
         PhetProject[] projects = project.getAllDependencies();
         for ( int i = 0; i < projects.length; i++ ) {
             args.add( projects[i].getProjectDir().getAbsolutePath() );

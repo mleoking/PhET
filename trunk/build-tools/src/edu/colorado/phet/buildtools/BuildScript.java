@@ -360,7 +360,7 @@ public class BuildScript {
         if ( !readmeFile.exists() ) {
             throw new RuntimeException( "Readme file doesn't exist, need to get version info some other way" );
         }
-        String[] args = new String[]{"svn", "status", "-u", readmeFile.getAbsolutePath()};
+        String[] args = new String[]{"svn", "status", "-u", "--non-interactive", readmeFile.getAbsolutePath()};
         ProcessOutputReader.ProcessExecResult output = ProcessOutputReader.exec( args );
         StringTokenizer st = new StringTokenizer( output.getOut(), "\n" );
         while ( st.hasMoreTokens() ) {
@@ -378,7 +378,7 @@ public class BuildScript {
         AuthenticationInfo auth = buildLocalProperties.getRespositoryAuthenticationInfo();
         String message = project.getName() + ": deployed version " + project.getFullVersionString();
         String path = project.getProjectDir().getAbsolutePath();
-        String[] args = new String[]{"svn", "commit", "--username", auth.getUsername(), "--password", auth.getPassword(), "--message", message, path};
+        String[] args = new String[]{"svn", "commit", "--non-interactive", "--username", auth.getUsername(), "--password", auth.getPassword(), "--message", message, path};
         //TODO: verify that SVN repository revision number now matches what we wrote to the project properties file
         ProcessOutputReader.ProcessExecResult a = ProcessOutputReader.exec( args );
         if ( a.getTerminatedNormally() ) {
