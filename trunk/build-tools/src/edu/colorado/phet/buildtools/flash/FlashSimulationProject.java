@@ -66,6 +66,9 @@ public class FlashSimulationProject extends PhetProject {
 
         cleanDeploy();
 
+        // write descriptions and titles to <project-name>.xml
+        writeMetaXML();
+
         buildHTMLs();
 
         copyProperties();
@@ -74,6 +77,7 @@ public class FlashSimulationProject extends PhetProject {
         if ( success ) {
             buildOfflineJARs();
         }
+
 
         //TODO: check for success
         return success;
@@ -107,6 +111,10 @@ public class FlashSimulationProject extends PhetProject {
                 }
             }
         }
+
+        // write descriptions and titles to <project-name>.xml
+        writeMetaXML();
+
         if ( html ) {
             buildHTMLs();
         }
@@ -118,6 +126,8 @@ public class FlashSimulationProject extends PhetProject {
         if ( success && jars ) {
             buildOfflineJARs();
         }
+
+
         return success;
     }
 
@@ -320,8 +330,7 @@ public class FlashSimulationProject extends PhetProject {
 
         String encodedAgreement = FlashHTML.encodeXML( agreementContent );
 
-        String localeString = LocaleUtils.localeToString( locale );
-        File HTMLFile = new File( getDeployDir(), getName() + "_" + localeString + ".html" );
+        File HTMLFile = getHTMLFile( locale );
 
         System.out.println( "Generating " + HTMLFile.getName() );
 
@@ -452,15 +461,43 @@ public class FlashSimulationProject extends PhetProject {
     }
 
     private File getHTMLFile( Locale locale ) {
-        return new File( getProjectDir(), "deploy/" + getName() + "_" + locale + ".html" );
+        return new File( getDeployDir(), getName() + "_" + LocaleUtils.localeToString( locale ) + ".html" );
     }
 
     private File getSWFFile() {
         return new File( getProjectDir(), "deploy/" + getName() + ".swf" );
     }
 
+    private String getSimulationTitle( Locale locale ) {
+        File simXMLFile = getTranslationFile( locale );
+        if ( !simXMLFile.exists() ) {
+            simXMLFile = getTranslationFile( new Locale( "en" ) ); // TODO: standardize "en" locale somewhere? LocaleUtils?
+            if ( !simXMLFile.exists() ) {
+                System.out.println( "Warning: could not find sim XML for either locale or en" );
+                return getName();
+            }
+        }
+        String ret = FlashHTML.extractTitleFromXML( simXMLFile );
+        if ( ret == null ) {
+            ret = getName();
+        }
+        return ret;
+    }
+
+    private String getSimulationDescription( Locale locale ) {
+        File simXMLFile = getTranslationFile( locale );
+        if ( !simXMLFile.exists() ) {
+            simXMLFile = getTranslationFile( new Locale( "en" ) ); // TODO: standardize "en" locale somewhere? LocaleUtils?
+            if ( !simXMLFile.exists() ) {
+                System.out.println( "Warning: could not find sim XML for either locale or en" );
+                return getName();
+            }
+        }
+        return FlashHTML.extractDescriptionFromXML( simXMLFile );
+    }
+
     public Simulation getSimulation( String simulationName, Locale locale ) {
-        return new Simulation( simulationName, getName(), "description", "mainclass", new String[0], new File( "screenshot.gif" ) );
+        return new Simulation( simulationName, getSimulationTitle( locale ), getSimulationDescription( locale ), "mainclass", new String[0], new File( "screenshot.gif" ) );
     }
 
     public Locale[] getLocales() {

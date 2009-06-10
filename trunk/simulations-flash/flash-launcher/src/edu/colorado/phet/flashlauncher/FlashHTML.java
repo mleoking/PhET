@@ -178,12 +178,18 @@ public class FlashHTML {
     }
 
     public static String extractTitleFromXML( File xmlFile ) {
+        return extractStringFromXML( xmlFile, "simTitle" );
+    }
+
+    public static String extractDescriptionFromXML( File xmlFile ) {
+        return extractStringFromXML( xmlFile, "simDescription" );
+    }
+
+    public static String extractStringFromXML( File xmlFile, String keyString ) {
         try {
             String xmlString = rawFile( xmlFile );
 
             Document document = XMLUtils.toDocument( xmlString );
-
-            //System.out.println( XMLUtils.toString( document ) );
 
             NodeList strings = document.getElementsByTagName( "string" );
 
@@ -192,15 +198,11 @@ public class FlashHTML {
 
                 String key = element.getAttribute( "key" );
 
-                //System.out.println( "key: " + key );
-
-                if ( !key.equals( "simTitle" ) ) {
+                if ( !key.equals( keyString ) ) {
                     continue;
                 }
 
                 String value = element.getAttribute( "value" );
-
-                //System.out.println( "value: " + value );
 
                 return value;
             }
