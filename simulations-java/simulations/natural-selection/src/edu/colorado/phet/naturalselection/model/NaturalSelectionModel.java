@@ -49,6 +49,8 @@ public class NaturalSelectionModel extends ClockAdapter {
 
     private ArrayList<Listener> listeners;
 
+    private double time = 0;
+
     /**
      * the last tick at which a year changed. When the difference between this and the actual tick is large enough,
      * another year will change
@@ -61,6 +63,8 @@ public class NaturalSelectionModel extends ClockAdapter {
      * The current generation
      */
     private int generation = 0;
+
+    private int lastFrenziedGeneration = -1;
 
     /**
      * Whether the user has pressed "Add a friend" yet
@@ -133,6 +137,8 @@ public class NaturalSelectionModel extends ClockAdapter {
         friendAdded = false;
 
         generation = 0;
+
+        lastFrenziedGeneration = -1;
 
         lastYearTick = 0;
 
@@ -424,6 +430,13 @@ public class NaturalSelectionModel extends ClockAdapter {
             return;
         }
 
+        if ( lastFrenziedGeneration == generation ) {
+            // don't frenzy twice in the same generation
+            return;
+        }
+
+        lastFrenziedGeneration = generation;
+
         System.out.println( "Starting frenzy" );
 
         frenzy = new Frenzy( this, NaturalSelectionDefaults.FRENZY_TICKS ); // TODO: work on time stuff!
@@ -574,7 +587,7 @@ public class NaturalSelectionModel extends ClockAdapter {
     }
 
     public int getGenerationProgressPercent() {
-        return (int) ( 100 * ( clock.getSimulationTime() - lastYearTick ) / NaturalSelectionDefaults.TICKS_PER_YEAR );
+        return (int) ( 100 * ( time - lastYearTick ) / NaturalSelectionDefaults.TICKS_PER_YEAR );
     }
 
     public List<Shrub> getShrubs() {
@@ -595,21 +608,28 @@ public class NaturalSelectionModel extends ClockAdapter {
 
     public void simulationTimeChanged( ClockEvent event ) {
 
-        while ( event.getSimulationTime() - lastYearTick > NaturalSelectionDefaults.TICKS_PER_YEAR ) {
-            lastYearTick += NaturalSelectionDefaults.TICKS_PER_YEAR;
-            nextGeneration();
-        }
+        clock.notifyPhysicalListeners( event );
 
-        while ( event.getSimulationTime() - lastEventTick > NaturalSelectionDefaults.TICKS_PER_YEAR ) {
-            lastEventTick += NaturalSelectionDefaults.TICKS_PER_YEAR;
+        if ( !isDuringFrenzy() ) {
+            time++;
 
-            if ( selectionFactor == SELECTION_WOLVES ) {
-                startFrenzy();
+            while ( time - lastYearTick > NaturalSelectionDefaults.TICKS_PER_YEAR ) {
+                lastYearTick += NaturalSelectionDefaults.TICKS_PER_YEAR;
+                nextGeneration();
             }
 
-            if ( selectionFactor == SELECTION_FOOD ) {
-                bunnyFamine();
+            while ( time - lastEventTick > NaturalSelectionDefaults.TICKS_PER_YEAR ) {
+                lastEventTick += NaturalSelectionDefaults.TICKS_PER_YEAR;
+
+                if ( selectionFactor == SELECTION_WOLVES ) {
+                    startFrenzy();
+                }
+
+                if ( selectionFactor == SELECTION_FOOD ) {
+                    bunnyFamine();
+                }
             }
+            clock.notifyTimeListeners( event );
         }
     }
 

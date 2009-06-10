@@ -2,11 +2,11 @@ package edu.colorado.phet.naturalselection.model;
 
 import java.util.*;
 
-import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
 
-public class Frenzy extends ClockAdapter {
+public class Frenzy implements NaturalSelectionClock.Listener {
 
     private double startTime;
     private double duration;
@@ -30,7 +30,7 @@ public class Frenzy extends ClockAdapter {
 
         clock = model.getClock();
         startTime = clock.getSimulationTime();
-        clock.addClockListener( this );
+        clock.addPhysicalListener( this );
 
     }
 
@@ -120,14 +120,29 @@ public class Frenzy extends ClockAdapter {
         return targets.get( index );
     }
 
-    public void simulationTimeChanged( ClockEvent event ) {
+    public void onTick( ClockEvent event ) {
         notifyFrenzyTimeLeft();
 
         if ( startTime + duration <= event.getSimulationTime() ) {
             endFrenzy();
         }
-
+        else if ( targets.isEmpty() ) {
+            // if there are no more bunnies targeted, and all of the wolves are "off-stage", then we should end early
+            boolean onStage = false;
+            for ( Wolf wolf : wolves ) {
+                Point3D position = wolf.getPosition();
+                double mx = model.getLandscape().getMaximumX( position.getZ() );
+                if ( position.getX() < mx && position.getX() > -mx ) {
+                    onStage = true;
+                    break;
+                }
+            }
+            if ( !onStage ) {
+                endFrenzy();
+            }
+        }
     }
+
 
     /**
      * Does all of the necessary cleanup to end the frenzy in the model
@@ -137,7 +152,7 @@ public class Frenzy extends ClockAdapter {
             return;
         }
 
-        clock.removeClockListener( this );
+        clock.removePhysicalListener( this );
         model.endFrenzy();
 
         running = false;

@@ -4,10 +4,9 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Point3D;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 
-public class Wolf extends ClockAdapter {
+public class Wolf implements NaturalSelectionClock.Listener {
     private static final double MAX_STEP = 10.0;
 
     private Point3D position;
@@ -40,7 +39,7 @@ public class Wolf extends ClockAdapter {
 
         position = model.getLandscape().getRandomGroundPosition();
 
-        model.getClock().addClockListener( this );
+        model.getClock().addPhysicalListener( this );
 
         getNewTarget();
     }
@@ -51,7 +50,7 @@ public class Wolf extends ClockAdapter {
 
     public void disable() {
         if ( enabled ) {
-            model.getClock().removeClockListener( this );
+            model.getClock().removePhysicalListener( this );
         }
 
         enabled = false;
@@ -142,10 +141,8 @@ public class Wolf extends ClockAdapter {
 
     }
 
-
-    public void simulationTimeChanged( ClockEvent clockEvent ) {
+    public void onTick( ClockEvent event ) {
         moveAround();
-
     }
 
 

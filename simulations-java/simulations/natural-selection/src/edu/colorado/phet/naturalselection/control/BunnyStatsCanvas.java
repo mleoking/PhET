@@ -23,14 +23,10 @@ import org.jfree.data.xy.XYSeriesCollection;
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
 import edu.colorado.phet.common.jfreechartphet.piccolo.XYPlotNode;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionResources;
-import edu.colorado.phet.naturalselection.model.ColorGene;
-import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
-import edu.colorado.phet.naturalselection.model.TailGene;
-import edu.colorado.phet.naturalselection.model.TeethGene;
+import edu.colorado.phet.naturalselection.model.*;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -148,23 +144,10 @@ public class BunnyStatsCanvas extends PhetPCanvas {
 
         updateLayout();
 
-        model.getClock().addClockListener( new ClockListener() {
-
+        model.getClock().addTimeListener( new NaturalSelectionClock.Listener() {
             int rot = 0;
 
-            public void clockTicked( ClockEvent clockEvent ) {
-
-            }
-
-            public void clockStarted( ClockEvent clockEvent ) {
-
-            }
-
-            public void clockPaused( ClockEvent clockEvent ) {
-
-            }
-
-            public void simulationTimeChanged( ClockEvent clockEvent ) {
+            public void onTick( ClockEvent event ) {
                 if ( cachedPopulation != model.getPopulation() ) {
                     cachedPopulation = model.getPopulation();
                     addDataPoint();
@@ -173,12 +156,7 @@ public class BunnyStatsCanvas extends PhetPCanvas {
                     addDataPoint();
                 }
             }
-
-            public void simulationTimeReset( ClockEvent clockEvent ) {
-
-            }
         } );
-
 
         chart.addChangeListener( new ChartChangeListener() {
             public void chartChanged( ChartChangeEvent event ) {
