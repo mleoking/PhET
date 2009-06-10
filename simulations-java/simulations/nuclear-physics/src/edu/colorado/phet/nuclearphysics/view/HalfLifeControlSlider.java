@@ -26,7 +26,7 @@ public class HalfLifeControlSlider extends JSlider {
         setValue( 0 );
         setPaintTicks( false );
         setPaintLabels( false );
-        setBackground(NuclearPhysicsConstants.ALPHA_DECAY_CHART_COLOR);
+        setBackground(NuclearPhysicsConstants.CHART_BACKGROUND_COLOR);
     }
     
     public double getNormalizedValue(){
