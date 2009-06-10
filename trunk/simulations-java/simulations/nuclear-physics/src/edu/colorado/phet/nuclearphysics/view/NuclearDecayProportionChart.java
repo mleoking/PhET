@@ -10,7 +10,6 @@ import java.awt.Rectangle;
 import java.awt.Stroke;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -27,7 +26,6 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PieChartNode;
-import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PieChartNode.PieValue;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
@@ -60,8 +58,8 @@ public class NuclearDecayProportionChart extends PNode {
 
     // Constants that control the proportions of the main components of the chart.
     private static final double PIE_CHART_WIDTH_PROPORTION = 0.1;
-    private static final double MOVABLE_PERCENT_INDICATOR_WIDTH_PROPORTION = 0.20;
-    private static final double MOVABLE_PERCENT_INDICATOR_HEIGHT_PROPORTION = 0.2;
+    private static final double MOVABLE_PERCENT_INDICATOR_WIDTH_PROPORTION = 0.26;
+    private static final double MOVABLE_PERCENT_INDICATOR_HEIGHT_PROPORTION = 0.23;
     
     //------------------------------------------------------------------------
     // Instance Data
@@ -1098,8 +1096,6 @@ public class NuclearDecayProportionChart extends PNode {
     	private static final Color INDICATOR_BACKGROUND_COLOR = 
     		ColorUtils.brighterColor(NuclearPhysicsConstants.CHART_BACKGROUND_COLOR, 0.5);
     	private static Stroke INDICATOR_STROKE = new BasicStroke( 3 );
-    	private static final int DEFAULT_WIDTH = 100;
-    	private static final int DEFAULT_HEIGHT = DEFAULT_WIDTH * 3 / 4;
     	private static final Font DEFAULT_FONT = new PhetFont(12);
     	
     	private PhetPPath _readoutRect;
@@ -1215,7 +1211,7 @@ public class NuclearDecayProportionChart extends PNode {
     		// Scale the text.
     		_percentageText.setScale(1);
     		_timeText.setScale(1);
-    		double scale = _readoutRect.getHeight() * 0.45 / _percentageText.getFullBoundsReference().getHeight();
+    		double scale = _readoutRect.getHeight() * 0.5 / _percentageText.getFullBoundsReference().getHeight();
     		System.out.println(scale);
 			_percentageText.setScale(scale);
 			_timeText.setScale(scale);
@@ -1316,6 +1312,7 @@ public class NuclearDecayProportionChart extends PNode {
         proportionsChart.setTimeSpan(Carbon14Nucleus.HALF_LIFE * 3.2);
         proportionsChart.setHalfLife(Carbon14Nucleus.HALF_LIFE);
         proportionsChart.setPreDecayChemicalSymbol(NuclearPhysicsStrings.CARBON_14_CHEMICAL_SYMBOL);
+        proportionsChart.setPreDecayIsotopeNumber(NuclearPhysicsStrings.CARBON_14_ISOTOPE_NUMBER);
         proportionsChart.setPreDecayLabelColor(NuclearPhysicsConstants.CARBON_COLOR);
         proportionsChart.setShowPostDecayCurve(false);
 
