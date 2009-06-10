@@ -13,8 +13,15 @@ import edu.colorado.phet.buildtools.util.PhetJarSigner;
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 import edu.colorado.phet.common.phetcommon.util.StreamReaderThread;
 
-// TODO: refactor the way directories are handled to one place
-
+/**
+ * Builds all files necessary to test and run simulations with the new resource before they are published (copied into
+ * the live sim directories)
+ * <p/>
+ * See ResourceDeployClient for the main documentation.
+ * <p/>
+ * NOTE: run on the server, so do not rename / move this without changing the other references under
+ * edu.colorado.phet.buildtools.resource
+ */
 public class ResourceDeployServer implements IProguardKeepClass {
 
     private String jarCommand;

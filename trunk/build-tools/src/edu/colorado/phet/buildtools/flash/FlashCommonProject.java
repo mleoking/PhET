@@ -2,7 +2,6 @@ package edu.colorado.phet.buildtools.flash;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Date;
 
 import javax.swing.*;
 
@@ -11,11 +10,10 @@ import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.buildtools.util.SVNDependencyProject;
 
 /**
- * Created by IntelliJ IDEA.
- * User: jon
- * Date: Feb 12, 2009
- * Time: 3:10:37 AM
- * To change this template use File | Settings | File Templates.
+ * Not meant for building purposes, just currently for:
+ * (a) representing the dependency on flash-common that all flash simulations have
+ * (b) generating actionscript that contains the software agreement. (This is done because it is too large to pass in
+ * through FlashVars (and it would have to be passed twice, AND we gain the SWF compression on it)
  */
 public class FlashCommonProject extends SVNDependencyProject {
     public FlashCommonProject( File projectRoot ) throws IOException {
@@ -33,15 +31,18 @@ public class FlashCommonProject extends SVNDependencyProject {
         try {
             String text = FileUtils.loadFileAsString( softwareAgreementFile );
 
+            // strip newlines out of the HTML, since Flash's HTML fields incorrectly add them in as equivalent to <br>s
             text = text.replaceAll( "\n", "" );
             text = text.replaceAll( "\r", "" );
 
+            // escape the single quotes
             text = text.replaceAll( "'", "\\\\'" );
-
-            Date now = new Date();
 
             String aString = "// SoftwareAgreement.as\n//\n// Contains the text of the software agreement\n";
 
+            // these lines screw with version control. if SoftwareAgreement.as is ever taken out of version control,
+            // it may be useful to add this back in
+            //Date now = new Date();
             //aString += "// Generated from PBG at " + now.toString() + "\n\n";
 
             aString += "\nclass edu.colorado.phet.flashcommon.SoftwareAgreement {\n\tpublic static var agreementText : String = '";

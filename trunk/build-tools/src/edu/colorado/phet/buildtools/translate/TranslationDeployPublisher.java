@@ -10,10 +10,8 @@ import edu.colorado.phet.buildtools.JARGenerator;
 import edu.colorado.phet.buildtools.util.FileUtils;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Sam
- * Date: Mar 28, 2009
- * Time: 11:10:11 AM
+ * Publishes a translation deployment from the temporary dir (under htdocs/sims/translations/) to the live sim dir
+ * NOTE: this is called on the server side, so do not rename / move without changing TranslationDeployClient
  */
 public class TranslationDeployPublisher {
     private File sims;

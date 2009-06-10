@@ -6,6 +6,14 @@ import java.io.IOException;
 import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 
+/**
+ * Reverts a resource deployment
+ * <p/>
+ * NOTE: This can only be guaranteed to work for the most recent resource deployment.
+ * <p/>
+ * NOTE: run on the server, so do not rename / move this without changing the other references under
+ * edu.colorado.phet.buildtools.resource
+ */
 public class ResourceDeployReverter implements IProguardKeepClass {
     private File resourceDir;
     private File liveSimsDir;
@@ -60,6 +68,11 @@ public class ResourceDeployReverter implements IProguardKeepClass {
         }
     }
 
+    /**
+     * Reverts the live sim dir to what was there before
+     *
+     * @param args First argument should be the temporary resource directory
+     */
     public static void main( String[] args ) {
         new ResourceDeployReverter( new File( args[0] ) );
 

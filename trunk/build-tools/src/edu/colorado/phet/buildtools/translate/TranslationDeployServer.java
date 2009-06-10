@@ -13,10 +13,10 @@ import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.common.phetcommon.util.StreamReaderThread;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Sam
- * Date: Mar 28, 2009
- * Time: 7:56:50 AM
+ * Takes translation files for Java and Flash in a temporary translation dir (under htdocs/sims/translations),
+ * and does the necessary tasks to construct testable JARs, JNLPs and HTMLs for translations to test, plus all
+ * other files necessary.
+ * NOTE: run on the server, so do not rename / move this without making the corresponding changes in TranslationDeployClient
  */
 public class TranslationDeployServer {
     private String jarCommand;

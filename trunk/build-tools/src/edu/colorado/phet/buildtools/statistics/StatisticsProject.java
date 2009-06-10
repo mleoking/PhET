@@ -8,6 +8,9 @@ import edu.colorado.phet.buildtools.BuildToolsPaths;
 import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.Simulation;
 
+/**
+ * Statistics database code project. Used for dependencies and new build gui
+ */
 public class StatisticsProject extends PhetProject {
 
     public StatisticsProject( File trunk ) throws IOException {
