@@ -263,7 +263,7 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
         _borderNode = new PPath();
         _borderNode.setStroke( BORDER_STROKE );
         _borderNode.setStrokePaint( BORDER_COLOR );
-        _borderNode.setPaint( NuclearPhysicsConstants.ALPHA_DECAY_CHART_COLOR );
+        _borderNode.setPaint( NuclearPhysicsConstants.CHART_BACKGROUND_COLOR );
         _nonPickableChartNode.addChild( _borderNode );
 
         // Create the x axis of the graph.  The initial position is arbitrary
@@ -368,7 +368,7 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
         _halfLifeMarkerLine = new PPath();
         _halfLifeMarkerLine.setStroke( HALF_LIFE_LINE_STROKE );
         _halfLifeMarkerLine.setStrokePaint( HALF_LIFE_LINE_COLOR );
-        _halfLifeMarkerLine.setPaint( NuclearPhysicsConstants.ALPHA_DECAY_CHART_COLOR );
+        _halfLifeMarkerLine.setPaint( NuclearPhysicsConstants.CHART_BACKGROUND_COLOR );
         _nonPickableChartNode.addChild( _halfLifeMarkerLine );
         
         // Create the handle that will allow the user to control the half life.

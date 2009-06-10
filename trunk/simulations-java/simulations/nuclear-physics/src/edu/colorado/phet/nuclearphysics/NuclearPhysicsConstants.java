@@ -132,7 +132,7 @@ public class NuclearPhysicsConstants {
     public static final Color CUSTOM_NUCLEUS_POST_DECAY_COLOR = new Color( 54, 130, 55 );
     
     // Color of the chart background for the alpha decay application.
-	public static final Color  ALPHA_DECAY_CHART_COLOR = new Color( 246, 242, 175 );
+	public static final Color  CHART_BACKGROUND_COLOR = new Color( 246, 242, 175 );
 	
 	// Color of the reset button that appears on many of the canvases.
 	public static final Color CANVAS_RESET_BUTTON_COLOR = new Color(0xff9900);
