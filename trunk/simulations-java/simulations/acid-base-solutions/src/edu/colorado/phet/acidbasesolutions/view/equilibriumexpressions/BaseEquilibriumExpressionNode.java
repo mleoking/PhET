@@ -6,7 +6,6 @@ import edu.colorado.phet.acidbasesolutions.ABSSymbols;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.model.Solute;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.SolutionListener;
-import edu.colorado.phet.acidbasesolutions.model.equilibrium.EquilibriumModel;
 
 /**
  * Equilibrium expression bases: Kb = [BH+][OH-] / [B] = value
@@ -76,10 +75,9 @@ public class BaseEquilibriumExpressionNode extends AbstractEquilibriumExpression
 
         // concentration scaling
         if ( scaleEnabled ) {
-            EquilibriumModel equilibriumModel = solution.getEquilibriumModel();
-            scaleLeftNumeratorToConcentration( equilibriumModel.getProductConcentration() );
-            scaleRightNumeratorToConcentration( equilibriumModel.getOHConcentration() );
-            scaleDenominatorToConcentration( equilibriumModel.getReactantConcentration() );
+            scaleLeftNumeratorToConcentration( solution.getProductConcentration() );
+            scaleRightNumeratorToConcentration( solution.getOHConcentration() );
+            scaleDenominatorToConcentration( solution.getReactantConcentration() );
         }
         else {
             scaleAllTerms( 1 );

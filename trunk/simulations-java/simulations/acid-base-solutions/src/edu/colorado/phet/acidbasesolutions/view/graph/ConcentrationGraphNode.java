@@ -4,7 +4,6 @@ package edu.colorado.phet.acidbasesolutions.view.graph;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.model.Solute;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.SolutionListener;
-import edu.colorado.phet.acidbasesolutions.model.equilibrium.EquilibriumModel;
 import edu.umd.cs.piccolo.util.PDimension;
 
 
@@ -64,12 +63,11 @@ public class ConcentrationGraphNode extends AbstractConcentrationGraphNode {
             countsNode.setReactantNegligibleEnabled( solute.isZeroNegligible() );
             
             // counts
-            EquilibriumModel equilibriumModel = solution.getEquilibriumModel();
-            countsNode.setReactantConcentration( equilibriumModel.getReactantConcentration() );
-            countsNode.setProductConcentration( equilibriumModel.getProductConcentration() );
-            countsNode.setH3OConcentration( equilibriumModel.getH3OConcentration() );
-            countsNode.setOHConcentration( equilibriumModel.getOHConcentration() );
-            countsNode.setH2OConcentration( equilibriumModel.getH2OConcentration() );
+            countsNode.setReactantConcentration( solution.getReactantConcentration() );
+            countsNode.setProductConcentration( solution.getProductConcentration() );
+            countsNode.setH3OConcentration( solution.getH3OConcentration() );
+            countsNode.setOHConcentration( solution.getOHConcentration() );
+            countsNode.setH2OConcentration( solution.getH2OConcentration() );
         }
     }
 }

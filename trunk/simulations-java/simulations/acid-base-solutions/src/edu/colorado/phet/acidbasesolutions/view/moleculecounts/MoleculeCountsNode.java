@@ -4,7 +4,6 @@ package edu.colorado.phet.acidbasesolutions.view.moleculecounts;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.model.Solute;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.SolutionListener;
-import edu.colorado.phet.acidbasesolutions.model.equilibrium.EquilibriumModel;
 
 
 public class MoleculeCountsNode extends AbstractMoleculeCountsNode {
@@ -63,12 +62,11 @@ public class MoleculeCountsNode extends AbstractMoleculeCountsNode {
             countsNode.setReactantNegligibleEnabled( solute.isZeroNegligible() );
             
             // counts
-            EquilibriumModel equilibriumModel = solution.getEquilibriumModel();
-            countsNode.setReactantCount( equilibriumModel.getReactantMoleculeCount() );
-            countsNode.setProductCount( equilibriumModel.getProductMoleculeCount() );
-            countsNode.setH3OCount( equilibriumModel.getH3OMoleculeCount() );
-            countsNode.setOHCount( equilibriumModel.getOHMoleculeCount() );
-            countsNode.setH2OCount( equilibriumModel.getH2OMoleculeCount() );
+            countsNode.setReactantCount( solution.getReactantMoleculeCount() );
+            countsNode.setProductCount( solution.getProductMoleculeCount() );
+            countsNode.setH3OCount( solution.getH3OMoleculeCount() );
+            countsNode.setOHCount( solution.getOHMoleculeCount() );
+            countsNode.setH2OCount( solution.getH2OMoleculeCount() );
         }
     }
 }

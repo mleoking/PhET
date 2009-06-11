@@ -67,16 +67,52 @@ public class AqueousSolution {
         return solute instanceof Base;
     }
     
-    public EquilibriumModel getEquilibriumModel() {
-        return equilibriumModel;
+    public PHValue getPH() {
+        return equilibriumModel.getPH();
+    }
+    
+    public double getReactantConcentration() {
+        return equilibriumModel.getReactantConcentration();
+    }
+
+    public double getReactantMoleculeCount() {
+        return equilibriumModel.getReactantMoleculeCount();
+    }
+    
+    public double getProductConcentration() {
+        return equilibriumModel.getProductConcentration();
+    }
+
+    public double getProductMoleculeCount() {
+        return equilibriumModel.getProductMoleculeCount();
+    }
+
+    public double getH3OConcentration() {
+        return equilibriumModel.getH3OConcentration();
+    }
+
+    public double getH3OMoleculeCount() {
+        return equilibriumModel.getH3OMoleculeCount();
+    }
+
+    public double getOHConcentration() {
+        return equilibriumModel.getOHConcentration();
+    }
+
+    public double getOHMoleculeCount() {
+        return equilibriumModel.getOHMoleculeCount();
+    }
+    
+    public double getH2OConcentration() {
+        return equilibriumModel.getH2OConcentration();
+    }
+
+    public double getH2OMoleculeCount() {
+        return equilibriumModel.getH2OMoleculeCount();
     }
     
     private void updateEquilibriumModel() {
         equilibriumModel = EquilibriumModelFactory.getModel( solute );
-    }
-    
-    public PHValue getPH() {
-        return equilibriumModel.getPH();
     }
     
     public String toString() {

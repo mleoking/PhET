@@ -3,7 +3,6 @@
 ==================================================================================
 
 TODO:
-- Solute implements IEquilibriumModel, use strategy pattern
 - stronger typing in equilibrium expressions and reaction equations constructors
 - move setScaleEnabled out of subclasses and into AbstractEquilibriumExpression
 - too much duplication in AbstractEquilibriumExpression and AbstractReactionEquation subclasses
@@ -26,6 +25,7 @@ ISSUES:
 - Laurie proposed that we hide the reactant molecule image for strong bases
 
 DONE:
+6/11/09 hide EquilibriumModel inside AqueousSolution, add adapter to strategy
 6/10/09 replace "instanceof" with AqueousSolution.isAcidic, isBasic
 # 0.01.18
 6/2/09 fix odd behavior at strong/intermediate base boundary, switch symbols/icons/etc before strength notification
