@@ -61,7 +61,7 @@ public class AlphaDecayNucleusSelectionPanel extends JPanel {
     	// Register for notifications of nucleus type changes.
     	alphaDecayModel.addListener(new NuclearDecayListenerAdapter(){
     		public void nucleusTypeChanged() {
-    			if (_alphaDecayModel.getNucleusType() == NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM){
+    			if (_alphaDecayModel.getNucleusTypeOldStyle() == NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM){
     				_customNucleusRadioButton.setSelected(true);
     			}
     			else{
@@ -92,12 +92,12 @@ public class AlphaDecayNucleusSelectionPanel extends JPanel {
         // Register for button presses.
         _poloniumRadioButton.addActionListener( new ActionListener(){
             public void actionPerformed(ActionEvent event){
-            	_alphaDecayModel.setNucleusType(NuclearPhysicsConstants.NUCLEUS_ID_POLONIUM);
+            	_alphaDecayModel.setNucleusTypeOldStyle(NuclearPhysicsConstants.NUCLEUS_ID_POLONIUM);
             }
         });
         _customNucleusRadioButton.addActionListener( new ActionListener(){
             public void actionPerformed(ActionEvent event){
-            	_alphaDecayModel.setNucleusType(NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM);
+            	_alphaDecayModel.setNucleusTypeOldStyle(NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM);
             }
         });
 
@@ -224,10 +224,10 @@ public class AlphaDecayNucleusSelectionPanel extends JPanel {
      * change in the model.
      */
     public void updateButtonState(){
-    	if (_alphaDecayModel.getNucleusType() == NuclearPhysicsConstants.NUCLEUS_ID_POLONIUM){
+    	if (_alphaDecayModel.getNucleusTypeOldStyle() == NuclearPhysicsConstants.NUCLEUS_ID_POLONIUM){
     		_poloniumRadioButton.setSelected(true);
     	}
-    	else if (_alphaDecayModel.getNucleusType() == NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM){
+    	else if (_alphaDecayModel.getNucleusTypeOldStyle() == NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM){
     		_customNucleusRadioButton.setSelected(true);
     	}
     	else{

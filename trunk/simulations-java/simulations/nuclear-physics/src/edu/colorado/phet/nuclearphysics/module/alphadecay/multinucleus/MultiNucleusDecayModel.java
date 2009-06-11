@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
+import edu.colorado.phet.nuclearphysics.common.NucleusType;
 import edu.colorado.phet.nuclearphysics.common.model.AbstractDecayNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.NuclearDecayModelListener;
@@ -88,7 +89,8 @@ public class MultiNucleusDecayModel implements NucleusTypeControl {
     // Public and protected methods
     //------------------------------------------------------------------------
 
-	public void setNucleusType(int nucleusType) {
+	// TODO: Finish refactoring to use enum and get rid of this method.
+	public void setNucleusTypeOldStyle(int nucleusType) {
 		
 		if (nucleusType != _currentNucleusType){
 			
@@ -104,8 +106,23 @@ public class MultiNucleusDecayModel implements NucleusTypeControl {
 		}
 	}
 	
-	public int getNucleusType() {
+	// TODO: Finish refactoring to use enum and get rid of this method.
+	public int getNucleusTypeOldStyle() {
 		return _currentNucleusType;
+	}
+	
+	public NucleusType getNucleusType() {
+		switch (_currentNucleusType){
+		case NuclearPhysicsConstants.NUCLEUS_ID_CARBON_14:
+			return NucleusType.CARBON_14;
+		case NuclearPhysicsConstants.NUCLEUS_ID_URANIUM_238:
+			return NucleusType.URANIUM_238;
+		case NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM:
+			return NucleusType.CUSTOM;
+		default:
+			assert false;
+		    return null;
+		}
 	}
 
 	/**
@@ -165,12 +182,49 @@ public class MultiNucleusDecayModel implements NucleusTypeControl {
 		_jitterOffsetCount = (_jitterOffsetCount + 1) % CLOCKS_PER_JITTER;
 	}
 	
+	/**
+	 * Convenience method for converting years to milliseconds, since
+	 * milliseconds is used throughout the simulation for timing.
+	 */
 	static public double convertYearsToMs( double years ){
 		return years * 3.1556926E10;
 	}
 	
+	/**
+	 * Convenience method for converting milliseconds to years, since
+	 * milliseconds is used throughout the simulation for timing.
+	 */
 	static public double convertMsToYears( double milliseconds ){
 		return milliseconds * 3.16887646E-11;
+	}
+	
+	/**
+	 * Convenience method for obtaining the decay product(s) for a given
+	 * nucleus.  Note that the return values are NOT NECESSARILY what always
+	 * happens in the real world - they represent the way this simulation
+	 * behaves, which is a simplification of real-world behavior.
+	 */
+	public static ArrayList<NucleusType> getDecayProduct(NucleusType preDecayNucleus){
+		
+		ArrayList<NucleusType> decayProducts = new ArrayList<NucleusType>();
+		
+		switch (preDecayNucleus){
+		
+		case CARBON_14:
+			decayProducts.add(NucleusType.NITROGEN_14);
+			break;
+			
+		case URANIUM_238:
+			decayProducts.add(NucleusType.LEAD_206);
+			break;
+
+		default:
+			System.out.println("Warning: No decay product information available for requested nucleus, returning original value, nucleus = " + preDecayNucleus);
+			decayProducts.add(preDecayNucleus);
+			break;
+		}
+		
+		return decayProducts;
 	}
 	
 	/**

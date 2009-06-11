@@ -9,6 +9,8 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.nuclearphysics.common.NucleusType;
+import edu.colorado.phet.nuclearphysics.model.HalfLifeInfo;
 
 /**
  * This class encapsulates a meter that supplies information about the amount
@@ -25,6 +27,8 @@ public class RadiometricDatingMeter extends SimpleObservable {
 	private final ProbeModel _probe;
 	private DatableObject _itemBeingTouched = null;
 	private RadioactiveDatingGameModel _model;
+	private NucleusType _nucleusTypeForDating;
+	private double _halfLifeOfDatingNucleus;
 	
 	//----------------------------------------------------------------------------
     // Constructor(s)
@@ -35,11 +39,14 @@ public class RadiometricDatingMeter extends SimpleObservable {
 		_probe = new ProbeModel(new Point2D.Double(-20, -8), -0.3);
 		_probe.addObserver(new SimpleObserver(){
 			public void update() {
-				updateReading();
+				updateTouchedItem();
 			}
 		});
 		
-		updateReading();
+		// Set the default nucleus type.
+		_nucleusTypeForDating = NucleusType.CARBON_14;
+		
+		updateTouchedItem();
 	}
 
 	//----------------------------------------------------------------------------
@@ -60,10 +67,48 @@ public class RadiometricDatingMeter extends SimpleObservable {
 		return _itemBeingTouched;
 	}
 	
+	public void setNucleusTypeUsedForDating(NucleusType nucleusType){
+		_nucleusTypeForDating = nucleusType;
+	}
+	
+	public NucleusType getNucleusTypeUsedForDating(){
+		return _nucleusTypeForDating;
+	}
+	
+	/**
+	 * Set the half life to use when dating.  This is only applicable when a
+	 * custom nuclues is being used, otherwise the half life is determined by
+	 * the selected nucleus type.
+	 * 
+	 * @param halfLife - Half life in milliseconds.
+	 */
+	public void setHalfLifeForDating(double halfLife){
+		
+		// This can ONLY be called if a custom nucleus is being used for
+		// dating.
+		assert _nucleusTypeForDating == NucleusType.CUSTOM;
+		
+		_halfLifeOfDatingNucleus = halfLife;
+	}
+	
+	/**
+	 * Get the half life of the currently selected dating element.
+	 * 
+	 * @return half life in milliseconds.
+	 */
+	public double getHalfLifeForDating(){
+		if (_nucleusTypeForDating == NucleusType.CUSTOM){
+			return _halfLifeOfDatingNucleus;
+		}
+		else{
+			return HalfLifeInfo.getHalfLifeForNucleusType(_nucleusTypeForDating);
+		}
+	}
+	
     /**
-     * Update the current reading based on the input probe location.
+     * Update the current touched item based on the input probe location.
      */
-    private void updateReading(){
+    private void updateTouchedItem(){
 
     	DatableObject newTouchedItem = _model.getDatableItemAtLocation(_probe.getTipLocation());
     	

@@ -359,13 +359,13 @@ public class RadiometricElementDecayCanvas extends PhetPCanvas {
 	}
     
     private void handleNucleusTypeChanged(){
-    	_bucketNode.setNucleusType(_model.getNucleusType());
+    	_bucketNode.setNucleusType(_model.getNucleusTypeOldStyle());
     	setTimeSpanForChart();
     }
     
     private void setTimeSpanForChart(){
     	// Set the time span of the chart based on the nucleus type.
-    	switch ( _model.getNucleusType() ){
+    	switch ( _model.getNucleusTypeOldStyle() ){
     	case NuclearPhysicsConstants.NUCLEUS_ID_CARBON_14:
     		_decayTimeChart.setTimeSpan(Carbon14Nucleus.HALF_LIFE * 3);
     		break;

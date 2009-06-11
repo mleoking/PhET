@@ -3,15 +3,12 @@
 package edu.colorado.phet.nuclearphysics.module.decayrates;
 
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.event.ChangeEvent;
@@ -20,10 +17,8 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
-import edu.colorado.phet.nuclearphysics.common.model.AbstractDecayNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.NuclearDecayControl;
 import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusImageNode;
@@ -75,7 +70,6 @@ public class DecayRatesCanvas extends PhetPCanvas {
     private PNode _particleLayer;
     private PNode _graphLayer;
 	private BucketOfNucleiNode _bucketNode;
-	private GradientButtonNode _addMultipleNucleiButtonNode;
 	private PPath _holdingAreaRect;
 	private int _chartRefreshCounter;
     

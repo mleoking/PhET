@@ -19,14 +19,14 @@ public interface NucleusTypeControl {
 	 * @param nucleusId - must be one of the values defined in this interface
 	 * definition file.
 	 */
-	public void setNucleusType( int nucleusId );
+	public void setNucleusTypeOldStyle( int nucleusId );
 
 	/**
 	 * Get the type of nucleus.
 	 * 
 	 * @return A value representing the current nucleus type. 
 	 */
-	public int getNucleusType();
+	public int getNucleusTypeOldStyle();
 
 	/**
 	 * Register to be informed of changes to the nucleus type (as well as

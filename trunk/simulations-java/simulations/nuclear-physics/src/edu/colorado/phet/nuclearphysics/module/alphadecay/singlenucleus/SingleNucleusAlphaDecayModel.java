@@ -127,7 +127,7 @@ public class SingleNucleusAlphaDecayModel implements NucleusTypeControl {
 		return true;
 	}
 
-	public void setNucleusType(int nucleusID) {
+	public void setNucleusTypeOldStyle(int nucleusID) {
 		if (nucleusID == _nucleusID){
 			// Current type is already set, so nothing needs to be done.
 			return;
@@ -138,7 +138,7 @@ public class SingleNucleusAlphaDecayModel implements NucleusTypeControl {
 		notifyNucleusTypeChanged();
 	}
 	
-	public int getNucleusType(){
+	public int getNucleusTypeOldStyle(){
 		return _nucleusID;
 	}
 	
