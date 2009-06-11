@@ -532,10 +532,10 @@ public class NuclearDecayProportionChart extends PNode {
         private static final float  DATA_CURVE_LINE_WIDTH_PROPORTION = 0.02f;
 
         // Constants that control other proportionate aspects of the graph.
-        private static final double GRAPH_TEXT_HEIGHT_PROPORTION = 0.07;
+        private static final double GRAPH_TEXT_HEIGHT_PROPORTION = 0.10;
         
         // For enabling/disabling the sizing rectangle.
-        private static final boolean SIZING_RECT_VISIBLE = false;
+        private static final boolean SIZING_RECT_VISIBLE = true;
         
         // The chart on which this graph will be appearing.
         NuclearDecayProportionChart _chart;
@@ -685,7 +685,7 @@ public class NuclearDecayProportionChart extends PNode {
 	        // graph's origin.  There is a tweak factor in here that controls
 	        // the relative size of the label.
 	        _yAxisLabel.setScale(1);
-	        scale = ((newHeight * 0.4) / _yAxisLabel.getFullBoundsReference().getHeight());
+	        scale = ((newHeight * 0.6) / _yAxisLabel.getFullBoundsReference().getHeight());
 	        _yAxisLabel.setScale(scale);
 
 	        _yAxisLabel.setOffset(0, newHeight / 2 - _yAxisLabel.getFullBoundsReference().width / 2);
@@ -708,7 +708,7 @@ public class NuclearDecayProportionChart extends PNode {
 	        		_yAxisLabel.getFullBoundsReference().width + maxYAxisLabelWidth,
 	        		graphLabelHeight * 1.2, 
 	        		newWidth - _yAxisLabel.getFullBoundsReference().getWidth() - maxYAxisLabelWidth,
-	        		newHeight - 3.6 * graphLabelHeight);
+	        		newHeight - 3.2 * graphLabelHeight);
 	        
 	        // Reposition the Y axis label now that we know the vertical size
 	        // and position of the graph.
@@ -723,7 +723,7 @@ public class NuclearDecayProportionChart extends PNode {
 	        for (PText yAxisTickMarkLabel : _yAxisTickMarkLabels){
 	        	yAxisTickMarkLabel.setOffset( 
 	        			_yAxisLabel.getFullBoundsReference().getWidth() + maxYAxisLabelWidth 
-	        				- yAxisTickMarkLabel.getFullBoundsReference().width - 3,
+	        				- yAxisTickMarkLabel.getFullBoundsReference().width,
 	        			_graphRect.getMaxY() - yAxisTickMarkCount * yAxisTickMarkSpacing 
 	        				- yAxisTickMarkLabel.getFullBoundsReference().height / 2);
 	        	yAxisTickMarkCount++;
@@ -947,7 +947,7 @@ public class NuclearDecayProportionChart extends PNode {
 	        // Position and size the label for the lower X axis.
 	    	double unitsLabelYPos = _graphRect.getMaxY() + 5;
 	    	if (_xAxisTickMarkLabels.size() > 0){
-	    		unitsLabelYPos = _xAxisTickMarkLabels.get(0).getFullBoundsReference().getMaxY() + 5;
+	    		unitsLabelYPos = _xAxisTickMarkLabels.get(0).getFullBoundsReference().getMaxY();
 	    	}
 	        _lowerXAxisLabel.setText(getXAxisUnitsText());
 	        _lowerXAxisLabel.setFont(BOLD_LABEL_FONT);
