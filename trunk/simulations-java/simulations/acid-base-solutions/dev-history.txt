@@ -11,7 +11,6 @@ TODO:
 - bug: is water molecule count being actively calculated? when concentration goes from 56->55, count should go from 3.3E25->3.2E25
 - lots of issues with SolutionControlsNode
 - review remaining instanceof comparisons
-- layout change of play area is annoying when switching solutes, due to label changes in beaker's View control panel
 
 DEFER:
 - restrict Strength slider to one section of the range (only needed if we add "Custom Weak" acid/base)
@@ -23,6 +22,7 @@ ISSUES:
 - PSwing buffering makes Swing text look lousy while dragging sliders
 - Kathy doesn't like look of solute combo box
 - Laurie proposed that we hide the reactant molecule image for strong bases
+- layout change of play area is annoying when switching solutes, due to label changes in beaker's View control panel
 
 DONE:
 6/11/09 hide EquilibriumModel inside AqueousSolution, add adapter to strategy
