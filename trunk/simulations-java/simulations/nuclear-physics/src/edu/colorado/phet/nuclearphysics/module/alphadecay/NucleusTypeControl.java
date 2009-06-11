@@ -1,3 +1,5 @@
+/* Copyright 2009, University of Colorado */
+
 package edu.colorado.phet.nuclearphysics.module.alphadecay;
 
 import edu.colorado.phet.nuclearphysics.common.model.NuclearDecayModelListener;
