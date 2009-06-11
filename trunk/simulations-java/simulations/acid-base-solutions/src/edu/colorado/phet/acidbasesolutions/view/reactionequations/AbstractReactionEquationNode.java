@@ -16,7 +16,7 @@ import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Base class for all acid/base/water reaction equations.
+ * Base class for all reaction equations.
  * Reaction equations are composed of at most 4 terms, numbered 0-3.
  * Each term has a symbol and a Lewis structure diagram.
  *
@@ -36,8 +36,10 @@ public abstract class AbstractReactionEquationNode extends PComposite {
     private static final Color PLUS_COLOR = Color.BLACK;
     
     private final Term[] terms;
+    private final double[] scales;
     private final PlusNode plusLHS, plusRHS;
     private PImage arrow;
+    private boolean scalingEnabled;
     
     /*
      * Sets up a default reaction equation that looks like: ?0 + ?1 -> ?2 + ?3
@@ -53,6 +55,11 @@ public abstract class AbstractReactionEquationNode extends PComposite {
             // don't add the Lewis structure, it's invisible by default
         }
         
+        scales = new double[MAX_TERMS];
+        for ( int i = 0; i < scales.length; i++ ) {
+            scales[i] = 1.0;
+        }
+        
         plusLHS = new PlusNode();
         addChild( plusLHS );
         
@@ -65,6 +72,24 @@ public abstract class AbstractReactionEquationNode extends PComposite {
         updateLayout();
     }
     
+    public void setScalingEnabled( boolean enabled ) {
+        if ( enabled != scalingEnabled ) {
+            scalingEnabled = enabled;
+            if ( !enabled ) {
+                setUnityScale();
+            }
+            else {
+                for ( int i = 0; i < scales.length; i++ ) {
+                    setTermScale( i, scales[i] );
+                }
+            }
+        }
+    }
+    
+    public boolean isScalingEnabled() {
+        return scalingEnabled;
+    }
+    
     public int getNumberOfTerms() {
         return terms.length;
     }
@@ -74,24 +99,31 @@ public abstract class AbstractReactionEquationNode extends PComposite {
         setTermScale( index, scale );
     }
     
-    // scale about center
     private void setTermScale( int index, double scale ) {
-        SymbolNode symbolNode = terms[index].getSymbolNode();
-        PBounds boundsBefore = symbolNode.getFullBounds();
-        symbolNode.setScale( scale );
-        PBounds boundsAfter = symbolNode.getFullBounds();
-        double xOffset = symbolNode.getXOffset() - ( boundsAfter.getWidth() - boundsBefore.getWidth() ) / 2;
-        double yOffset = symbolNode.getYOffset() - ( boundsAfter.getHeight() - boundsBefore.getHeight() ) / 2;
-        symbolNode.setOffset( xOffset, yOffset );
+        scales[index] = scale;
+        if ( scalingEnabled ) {
+            setScaleAboutCenter( terms[index].getSymbolNode(), scale );
+        }
     }
     
-    
-    /**
-     * Sets all scalable nodes to have the same scale.
+    /*
+     * Scales a node about its center.
      */
-    protected void scaleAllTerms( double scale ) {
+    private void setScaleAboutCenter( PNode node, double scale ) {
+        PBounds boundsBefore = node.getFullBounds();
+        node.setScale( scale );
+        PBounds boundsAfter = node.getFullBounds();
+        double xOffset = node.getXOffset() - ( ( boundsAfter.getWidth() - boundsBefore.getWidth() ) / 2 );
+        double yOffset = node.getYOffset() - ( ( boundsAfter.getHeight() - boundsBefore.getHeight() ) / 2 );
+        node.setOffset( xOffset, yOffset );
+    }
+    
+    /*
+     * Sets all scalable nodes to have unity scale.
+     */
+    private void setUnityScale() {
         for ( int i = 0; i < terms.length; i++ ) {
-            setTermScale( i, scale );
+            setScaleAboutCenter( terms[i].getSymbolNode(), 1.0 );
         }
     }
 
@@ -168,7 +200,7 @@ public abstract class AbstractReactionEquationNode extends PComposite {
         }
         
         // do the layout at unity scale
-        scaleAllTerms( 1 );
+        setUnityScale();
         
         final double maxSymbolHeight = getMaxSymbolHeight();
         final double structureYOffset = ( maxSymbolHeight / 2 ) + Y_SPACING;
