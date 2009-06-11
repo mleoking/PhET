@@ -21,7 +21,6 @@ import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Base class for all equilibrium expressions.
  * Equilibrium expressions are composed of at most 3 terms, and have the form:
  * <code>
  * K = [term1][term2] / [term3] = value
@@ -31,7 +30,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-abstract class AbstractEquilibriumExpressionNode extends PComposite {
+class EquilibriumExpressionNode extends PComposite {
     
     //----------------------------------------------------------------------------
     // Class data
@@ -71,12 +70,14 @@ abstract class AbstractEquilibriumExpressionNode extends PComposite {
     private final ValueNode valueNode;
     private final LargeValueNode largeValueNode;
     private final boolean hasDenominator;
+    private boolean scalingEnabled;
+    private double leftNumeratorScale, rightNumeratorScale, denominatorScale;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    protected AbstractEquilibriumExpressionNode( boolean hasDenominator ) {
+    protected EquilibriumExpressionNode( boolean hasDenominator ) {
         super();
         setPickable( false );
         setChildrenPickable( false );
@@ -108,6 +109,7 @@ abstract class AbstractEquilibriumExpressionNode extends PComposite {
         addChild( largeValueNode );
         
         // default state
+        leftNumeratorScale = rightNumeratorScale = denominatorScale = 1.0;
         setLargeValueVisible( false );
     }
     
@@ -115,21 +117,42 @@ abstract class AbstractEquilibriumExpressionNode extends PComposite {
     // Setters and getters
     //----------------------------------------------------------------------------
     
+    public void setScalingEnabled( boolean enabled ) {
+        if ( enabled != scalingEnabled ) {
+            scalingEnabled = enabled;
+            if ( !enabled ) {
+                scaleAllTerms( 1.0 );
+            }
+            else {
+                setScaleAboutCenter( leftNumeratorNode, leftNumeratorScale );
+                setScaleAboutCenter( rightNumeratorNode, rightNumeratorScale );
+                setScaleAboutCenter( denominatorNode, denominatorScale );
+            }
+        }
+    }
+    
+    public boolean isScalingEnabled() {
+        return scalingEnabled;
+    }
+    
     protected void scaleLeftNumeratorToConcentration( double concentration ) {
-        scaleTermToConcentration( leftNumeratorNode, concentration );
+        leftNumeratorScale = scaleTermToConcentration( leftNumeratorNode, concentration );
     }
     
     protected void scaleRightNumeratorToConcentration( double concentration ) {
-        scaleTermToConcentration( rightNumeratorNode, concentration );
+        rightNumeratorScale = scaleTermToConcentration( rightNumeratorNode, concentration );
     }
     
     protected void scaleDenominatorToConcentration( double concentration ) {
-        scaleTermToConcentration( denominatorNode, concentration );
+        denominatorScale = scaleTermToConcentration( denominatorNode, concentration );
     }
     
-    private void scaleTermToConcentration( PNode node, double concentration ) {
+    private double scaleTermToConcentration( PNode node, double concentration ) {
         double scale = ConcentrationScaleModel.getFontSize( concentration ) / SYMBOL_FONT.getSize();
-        setScaleAboutCenter( node, scale );
+        if ( scalingEnabled ) {
+            setScaleAboutCenter( node, scale );
+        }
+        return scale;
     }
     
     /**

@@ -9,7 +9,6 @@ TODO:
 - implement "ratio" views
 - scale image files
 - bug: is water molecule count being actively calculated? when concentration goes from 56->55, count should go from 3.3E25->3.2E25
-- lots of issues with SolutionControlsNode
 - review remaining instanceof comparisons
 
 DEFER:
@@ -25,6 +24,8 @@ ISSUES:
 - layout change of play area is annoying when switching solutes, due to label changes in beaker's View control panel
 
 DONE:
+6/11/09 fix issues in SolutionControlsNode
+6/11/09 revise implementation of equilibrium expressions to be more type-safe
 6/11/09 hide EquilibriumModel inside AqueousSolution, add adapter to strategy
 6/10/09 replace "instanceof" with AqueousSolution.isAcidic, isBasic
 # 0.01.18
