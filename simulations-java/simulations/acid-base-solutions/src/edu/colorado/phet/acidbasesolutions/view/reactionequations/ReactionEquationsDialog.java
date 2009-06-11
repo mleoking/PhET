@@ -4,17 +4,21 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.ButtonGroup;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.border.EmptyBorder;
 
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
-import edu.colorado.phet.acidbasesolutions.model.*;
+import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.SolutionAdapter;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.SolutionListener;
 import edu.colorado.phet.acidbasesolutions.util.PNodeUtils;
 import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.umd.cs.piccolo.PCanvas;
 
 
 public class ReactionEquationsDialog extends PaintImmediateDialog {
@@ -139,9 +143,9 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
     }
     
     private void handleScalingEnabled() {
-        acidNode.setScaleEnabled( isScalingEnabled() );
-        baseNode.setScaleEnabled( isScalingEnabled() );
-        waterNode.setScaleEnabled( isScalingEnabled() );
+        acidNode.setScalingEnabled( isScalingEnabled() );
+        baseNode.setScalingEnabled( isScalingEnabled() );
+        waterNode.setScalingEnabled( isScalingEnabled() );
     }
     
     private void updateVisibility() {
@@ -150,31 +154,22 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
     }
     
     private void updateTopLayout() {
-        
-        double xOffset, yOffset;
-        
-        // acid expression
-        acidNode.setScaleEnabled( false ); // do the layout with scaling off
-        xOffset = ( ( topCanvas.getWidth() - acidNode.getFullBoundsReference().getWidth() ) / 2 ) - PNodeUtils.getOriginXOffset( acidNode );
-        yOffset = ( ( topCanvas.getHeight() - acidNode.getFullBoundsReference().getHeight() ) / 2 ) - PNodeUtils.getOriginYOffset( acidNode );
-        acidNode.setOffset( xOffset, yOffset );
-        acidNode.setScaleEnabled( isScalingEnabled() ); // restore scaling
-        
-        // base expression
-        baseNode.setScaleEnabled( false ); // do the layout with scaling off
-        xOffset = ( ( topCanvas.getWidth() - baseNode.getFullBoundsReference().getWidth() ) / 2 ) - PNodeUtils.getOriginXOffset( baseNode );
-        yOffset = ( ( topCanvas.getHeight() - baseNode.getFullBoundsReference().getHeight() ) / 2 ) - PNodeUtils.getOriginYOffset( baseNode );
-        baseNode.setOffset( xOffset, yOffset );
-        baseNode.setScaleEnabled( isScalingEnabled() ); // restore scaling
+       centerEquation( acidNode, topCanvas );
+       centerEquation( baseNode, topCanvas );
     }
     
     private void updateBottomLayout() {
-        
-        // water expression
-        waterNode.setScaleEnabled( false ); // do the layout with scaling off
-        double xOffset = ( ( bottomCanvas.getWidth() - waterNode.getFullBoundsReference().getWidth() ) / 2 ) - PNodeUtils.getOriginXOffset( waterNode );
-        double yOffset = ( ( bottomCanvas.getHeight() - waterNode.getFullBoundsReference().getHeight() ) / 2 ) - PNodeUtils.getOriginYOffset( waterNode );
-        waterNode.setOffset( xOffset, yOffset );
-        waterNode.setScaleEnabled( isScalingEnabled() ); // restore scaling
+        centerEquation( waterNode, bottomCanvas );
+    }
+    
+    private static void centerEquation( AbstractReactionEquationNode node, PCanvas canvas ) {
+        if ( node != null ) {
+            final boolean isScalingEnabled = node.isScalingEnabled();
+            node.setScalingEnabled( false ); // do the layout with scaling off
+            double xOffset = ( canvas.getWidth() - node.getFullBoundsReference().getWidth() ) / 2;
+            double yOffset = ( ( canvas.getHeight() - node.getFullBoundsReference().getHeight() ) / 2 ) - PNodeUtils.getOriginYOffset( node );
+            node.setOffset( xOffset, yOffset );
+            node.setScalingEnabled( isScalingEnabled ); // restore scaling
+        }
     }
 }

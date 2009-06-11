@@ -21,7 +21,6 @@ public class WaterReactionEquationNode extends AbstractReactionEquationNode {
     
     private final AqueousSolution solution;
     private final SolutionListener solutionListener;
-    private boolean scaleEnabled;
     
     public WaterReactionEquationNode( AqueousSolution solution ) {
         super();
@@ -33,7 +32,6 @@ public class WaterReactionEquationNode extends AbstractReactionEquationNode {
         setBidirectional( true );
         
         this.solution = solution;
-        scaleEnabled = false;
         
         solutionListener = new SolutionListener() {
 
@@ -58,33 +56,17 @@ public class WaterReactionEquationNode extends AbstractReactionEquationNode {
         solution.removeSolutionListener( solutionListener );
     }
     
-    public void setScaleEnabled( boolean enabled ) {
-        if ( enabled != this.scaleEnabled ) {
-            this.scaleEnabled = enabled;
-            updateView();
-        }
-    }
-
-    public boolean isScaleEnabled() {
-        return scaleEnabled;
-    }
-    
     private void updateView() {
-        
+
         // H2O does not scale, use black text when scaling is enabled
-        Color waterColor = ( isScaleEnabled() ? Color.BLACK : ABSConstants.H2O_EQUATION_COLOR );
+        Color waterColor = ( isScalingEnabled() ? Color.BLACK : ABSConstants.H2O_EQUATION_COLOR );
         setTerm( H2O_LEFT_INDEX, ABSSymbols.H2O, waterColor, ABSImages.H2O_STRUCTURE );
         setTerm( H2O_RIGHT_INDEX, ABSSymbols.H2O, waterColor, ABSImages.H2O_STRUCTURE );
-        
+
         // concentration scaling
-        if ( isScaleEnabled() ) {
-            scaleTermToConcentration( H3O_PLUS_INDEX, solution.getH3OConcentration() );
-            scaleTermToConcentration( OH_MINUS_INDEX, solution.getOHConcentration() );
-        }
-        else {
-            scaleAllTerms( 1.0 );
-        }
-        
+        scaleTermToConcentration( H3O_PLUS_INDEX, solution.getH3OConcentration() );
+        scaleTermToConcentration( OH_MINUS_INDEX, solution.getOHConcentration() );
+
         // Lewis structure diagrams
         setAllStructuresVisible( solution.getSolute() instanceof ICustomSolute );
     }

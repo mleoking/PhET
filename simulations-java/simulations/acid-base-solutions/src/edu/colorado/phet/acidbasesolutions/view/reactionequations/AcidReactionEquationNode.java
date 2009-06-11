@@ -29,7 +29,6 @@ public class AcidReactionEquationNode extends AbstractReactionEquationNode {
     
     private final AqueousSolution solution;
     private final SolutionListener solutionListener;
-    private boolean scaleEnabled;
     
     public AcidReactionEquationNode( AqueousSolution solution ) {
         super();
@@ -60,17 +59,6 @@ public class AcidReactionEquationNode extends AbstractReactionEquationNode {
         solution.removeSolutionListener( solutionListener );
     }
 
-    public void setScaleEnabled( boolean enabled ) {
-        if ( enabled != this.scaleEnabled ) {
-            this.scaleEnabled = enabled;
-            updateView();
-        }
-    }
-
-    public boolean isScaleEnabled() {
-        return scaleEnabled;
-    }
-    
     private void updateView() {
         
         Solute solute = solution.getSolute();
@@ -80,22 +68,17 @@ public class AcidReactionEquationNode extends AbstractReactionEquationNode {
         setTerm( PRODUCT_INDEX, solute.getConjugateSymbol(), solute.getConjugateColor(), solute.getConjugateStructure() );
         
         // H2O does not scale, use black text when scaling is enabled
-        Color waterColor = ( isScaleEnabled() ? Color.BLACK : ABSConstants.H2O_EQUATION_COLOR );
+        Color waterColor = ( isScalingEnabled() ? Color.BLACK : ABSConstants.H2O_EQUATION_COLOR );
         setTerm( H2O_INDEX, ABSSymbols.H2O, waterColor, ABSImages.H2O_STRUCTURE );
         
         // strong vs weak acid
         setBidirectional( !solution.getSolute().isStrong() );
         
         // concentration scaling
-        if ( scaleEnabled) {
-            scaleTermToConcentration( REACTANT_INDEX, solution.getReactantConcentration() );
-            scaleTermToConcentration( H3O_PLUS_INDEX, solution.getH3OConcentration() );
-            scaleTermToConcentration( PRODUCT_INDEX, solution.getProductConcentration() );
-        }
-        else {
-            scaleAllTerms( 1 );
-        }
-        
+        scaleTermToConcentration( REACTANT_INDEX, solution.getReactantConcentration() );
+        scaleTermToConcentration( H3O_PLUS_INDEX, solution.getH3OConcentration() );
+        scaleTermToConcentration( PRODUCT_INDEX, solution.getProductConcentration() );
+
         // Lewis structure diagrams
         setAllStructuresVisible( solution.getSolute() instanceof ICustomSolute );
     }
