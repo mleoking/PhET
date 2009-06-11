@@ -424,8 +424,8 @@ public class NuclearDecayProportionChart extends PNode {
 			
 			// Create and add the main chart.
 			PieChartNode.PieValue[] pieChartValues = new PieValue[]{
-	                new PieChartNode.PieValue( 100, _chart._preDecayNucleusDisplayInfo.getLabelColor() ),
-	                new PieChartNode.PieValue( 0, _chart._postDecayNucleusDisplayInfo.getLabelColor() )};
+	                new PieChartNode.PieValue( 100, _chart._preDecayNucleusDisplayInfo.getDisplayColor() ),
+	                new PieChartNode.PieValue( 0, _chart._postDecayNucleusDisplayInfo.getDisplayColor() )};
 	        _pieChartNode = new PieChartNode( pieChartValues, new Rectangle(INITIAL_PIE_CHART_WIDTH, INITIAL_PIE_CHART_WIDTH) );
 	        _pieChartNode.setOffset(INITIAL_OVERALL_WIDTH / 2 - _pieChartNode.getFullBoundsReference().width / 2,
 	        		INITIAL_OVERALL_HEIGHT / 2 - _pieChartNode.getFullBounds().height / 2);
@@ -473,9 +473,9 @@ public class NuclearDecayProportionChart extends PNode {
 			
 			PieChartNode.PieValue[] pieChartValues = new PieValue[]{
 	                new PieChartNode.PieValue( 100 - percentageDecayed, 
-	                		_chart._preDecayNucleusDisplayInfo.getLabelColor() ),
+	                		_chart._preDecayNucleusDisplayInfo.getDisplayColor() ),
 	                new PieChartNode.PieValue( percentageDecayed, 
-	                		_chart._postDecayNucleusDisplayInfo.getLabelColor() )
+	                		_chart._postDecayNucleusDisplayInfo.getDisplayColor() )
 	        };
 			
 			_pieChartNode.setPieValues(pieChartValues);
@@ -495,8 +495,8 @@ public class NuclearDecayProportionChart extends PNode {
 			
 			// Set the proportions of the pie chart.
 			PieChartNode.PieValue[] pieChartValues = new PieValue[]{
-	                new PieChartNode.PieValue( numUndecayed, _chart._preDecayNucleusDisplayInfo.getLabelColor() ),
-	                new PieChartNode.PieValue( numDecayed, _chart._postDecayNucleusDisplayInfo.getLabelColor() )};
+	                new PieChartNode.PieValue( numUndecayed, _chart._preDecayNucleusDisplayInfo.getDisplayColor() ),
+	                new PieChartNode.PieValue( numDecayed, _chart._postDecayNucleusDisplayInfo.getDisplayColor() )};
 			
 			_pieChartNode.setPieValues(pieChartValues);
 		}
@@ -511,11 +511,11 @@ public class NuclearDecayProportionChart extends PNode {
 			
 			// Set the colors of the labels.
 			
-			_preDecayLabel.setHTMLColor(_chart._preDecayNucleusDisplayInfo.getLabelColor());
+			_preDecayLabel.setHTMLColor(_chart._preDecayNucleusDisplayInfo.getDisplayColor());
 			_preDecayLabel.setHTML("<html><sup><font size=-2>" + 
 					_chart._preDecayNucleusDisplayInfo.getIsotopeNumberString() + " </font></sup>" 
 					+ _chart._preDecayNucleusDisplayInfo.getChemicalSymbol() + "</html>");
-			_postDecayLabel.setHTMLColor(_chart._postDecayNucleusDisplayInfo.getLabelColor());
+			_postDecayLabel.setHTMLColor(_chart._postDecayNucleusDisplayInfo.getDisplayColor());
 			_postDecayLabel.setHTML("<html><sup><font size=-2>" + 
 					_chart._postDecayNucleusDisplayInfo.getIsotopeNumberString() + " </font></sup>" 
 					+ _chart._postDecayNucleusDisplayInfo.getChemicalSymbol() + "</html>");
@@ -1027,7 +1027,7 @@ public class NuclearDecayProportionChart extends PNode {
 	    		_preDecayProportionCurve = new PPath();
 	    		_preDecayProportionCurve.moveTo( xPos, yPosPreDecay );
 	    		_preDecayProportionCurve.setStroke( _dataCurveStroke );
-	    		_preDecayProportionCurve.setStrokePaint( _chart._preDecayNucleusDisplayInfo.getLabelColor() );
+	    		_preDecayProportionCurve.setStrokePaint( _chart._preDecayNucleusDisplayInfo.getDisplayColor() );
 	        	_dataPresentationLayer.addChild( _preDecayProportionCurve );
 	    	}
 	    	else{
@@ -1040,7 +1040,7 @@ public class NuclearDecayProportionChart extends PNode {
 	    		_postDecayProportionCurve = new PPath();
 	    		_postDecayProportionCurve.moveTo( xPos, yPosPostDecay );
 	    		_postDecayProportionCurve.setStroke( _dataCurveStroke );
-	    		_postDecayProportionCurve.setStrokePaint( _chart._postDecayNucleusDisplayInfo.getLabelColor() );
+	    		_postDecayProportionCurve.setStrokePaint( _chart._postDecayNucleusDisplayInfo.getDisplayColor() );
 	        	_dataPresentationLayer.addChild( _postDecayProportionCurve );
 	        	_postDecayProportionCurve.setVisible(_chart._showPostDecayCurve);
 	    	}
