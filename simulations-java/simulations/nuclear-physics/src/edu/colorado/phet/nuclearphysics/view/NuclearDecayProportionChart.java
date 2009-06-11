@@ -657,6 +657,7 @@ public class NuclearDecayProportionChart extends PNode {
 			_sizingRect = new PPath();
 			_sizingRect.setStroke(THICK_AXIS_STROKE);
 			_sizingRect.setStrokePaint(Color.red);
+			_sizingRect.setPickable(false);
 			addChild(_sizingRect);
 			_sizingRect.setVisible(SIZING_RECT_VISIBLE);
 		}
