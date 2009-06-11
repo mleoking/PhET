@@ -9,7 +9,6 @@ import edu.colorado.phet.acidbasesolutions.ABSImages;
 import edu.colorado.phet.acidbasesolutions.ABSSymbols;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.model.Solute;
-import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.SolutionListener;
 import edu.colorado.phet.acidbasesolutions.model.Solute.ICustomSolute;
 
 /**
@@ -20,7 +19,7 @@ import edu.colorado.phet.acidbasesolutions.model.Solute.ICustomSolute;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BaseReactionEquationNode extends AbstractReactionEquationNode {
+class BaseReactionEquationNode extends AbstractReactionEquationNode {
     
     private static final int REACTANT_INDEX = 0; // B or MOH
     private static final int H2O_INDEX = 1;
@@ -28,48 +27,23 @@ public class BaseReactionEquationNode extends AbstractReactionEquationNode {
     private static final int OH_MINUS_INDEX = 3;
     
     private final AqueousSolution solution;
-    private final SolutionListener solutionListener;
     
     public BaseReactionEquationNode( AqueousSolution solution ) {
         super();
-        
-        setTerm( OH_MINUS_INDEX, ABSSymbols.OH_MINUS, ABSConstants.OH_COLOR, ABSImages.OH_MINUS_STRUCTURE );
-        
         this.solution = solution;
-        solutionListener = new SolutionListener() {
-
-            public void soluteChanged() {
-                updateView();
-            }
-
-            public void concentrationChanged() {
-                updateView();
-            }
-
-            public void strengthChanged() {
-                updateView();
-            }
-        };
-        solution.addSolutionListener( solutionListener );
-
-        updateView();
+        setTerm( H2O_INDEX, ABSSymbols.H2O, ABSConstants.H2O_EQUATION_COLOR, ABSImages.H2O_STRUCTURE );
+        setTerm( OH_MINUS_INDEX, ABSSymbols.OH_MINUS, ABSConstants.OH_COLOR, ABSImages.OH_MINUS_STRUCTURE );
+        update();
+        updateH2OColor();
     }
     
-    public void cleanup() {
-        solution.removeSolutionListener( solutionListener );
-    }
-
-    private void updateView() {
+    public void update() {
         
         Solute solute = solution.getSolute();
         
-        // symbols and colors
+        // symbols and colors (strong vs weak)
         setTerm( REACTANT_INDEX, solute.getSymbol(), solute.getColor(), solute.getStructure() );
         setTerm( PRODUCT_INDEX, solute.getConjugateSymbol(), solute.getConjugateColor(), solute.getConjugateStructure() );
-        
-        // H2O does not scale, use black text when scaling is enabled
-        Color waterColor = ( isScalingEnabled() ? Color.BLACK : ABSConstants.H2O_EQUATION_COLOR );
-        setTerm( H2O_INDEX, ABSSymbols.H2O, waterColor, ABSImages.H2O_STRUCTURE );
         
         // strong vs weak base
         final boolean isStrong = solution.getSolute().isStrong();
@@ -83,5 +57,11 @@ public class BaseReactionEquationNode extends AbstractReactionEquationNode {
 
         // Lewis structure diagrams
         setAllStructuresVisible( solution.getSolute() instanceof ICustomSolute );
+    }
+    
+    protected void updateH2OColor() {
+        // H2O does not scale, use black text when scaling is enabled
+        Color waterColor = ( isScalingEnabled() ? Color.BLACK : ABSConstants.H2O_EQUATION_COLOR );
+        setTermColor( H2O_INDEX, waterColor );
     }
 }

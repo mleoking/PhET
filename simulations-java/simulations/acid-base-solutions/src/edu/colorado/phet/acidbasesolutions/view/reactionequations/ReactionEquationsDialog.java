@@ -13,7 +13,6 @@ import javax.swing.border.EmptyBorder;
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
-import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.SolutionAdapter;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.SolutionListener;
 import edu.colorado.phet.acidbasesolutions.util.PNodeUtils;
 import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
@@ -30,8 +29,7 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
     private final SolutionListener solutionListener;
     
     private final PhetPCanvas topCanvas, bottomCanvas;
-    private final AcidReactionEquationNode acidNode;
-    private final BaseReactionEquationNode baseNode;
+    private AbstractReactionEquationNode soluteNode;
     private final WaterReactionEquationNode waterNode;
     private final JRadioButton scaleOnRadioButton, scaleOffRadioButton;
     
@@ -41,11 +39,18 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
         setResizable( false );
         
         this.solution = solution;
-        this.solutionListener = new SolutionAdapter() {
+        this.solutionListener = new SolutionListener() {
+            
             public void soluteChanged() {
-                updateVisibility();
-                updateTopLayout();
-                updateBottomLayout();
+                handleSoluteChanged();
+            }
+
+            public void concentrationChanged() {
+                handleConcentrationOrStrengthChanged();
+            }
+
+            public void strengthChanged() {
+                handleConcentrationOrStrengthChanged();
             }
         };
         this.solution.addSolutionListener( solutionListener );
@@ -83,13 +88,8 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
         topCanvas.setPreferredSize( TOP_CANVAS_SIZE );
         topCanvas.setBackground( ABSConstants.REACTION_EQUATIONS_BACKGROUND );
         
-        // acid equation
-        acidNode = new AcidReactionEquationNode( solution );
-        topCanvas.getLayer().addChild( acidNode );
-        
-        // base equation
-        baseNode = new BaseReactionEquationNode( solution );
-        topCanvas.getLayer().addChild( baseNode );
+        // solute equation, set based on solution
+        soluteNode = null;
         
         // bottom canvas
         bottomCanvas = new PhetPCanvas() {
@@ -115,7 +115,7 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
         JPanel mainPanel = new JPanel( new BorderLayout() );
         mainPanel.add( userPanel, BorderLayout.CENTER );
             
-        updateVisibility();
+        handleSoluteChanged();
         
         getContentPane().add( mainPanel, BorderLayout.CENTER );
         pack();
@@ -123,14 +123,45 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
     
     private void cleanup() {
         solution.removeSolutionListener( solutionListener );
-        acidNode.cleanup();
-        baseNode.cleanup();
-        waterNode.cleanup();
     }
     
     public void dispose() {
         cleanup();
         super.dispose();
+    }
+    
+    private void handleSoluteChanged() {
+        
+        // remove any existing solute equation
+        if ( soluteNode != null ) {
+            topCanvas.getLayer().removeChild( soluteNode );
+            soluteNode = null;
+        }
+        
+        // create the proper type of solute equation 
+        if ( solution.isAcidic() ) {
+            soluteNode = new AcidReactionEquationNode( solution );
+        }
+        else if ( solution.isBasic() ) {
+            soluteNode = new BaseReactionEquationNode( solution );
+        }
+        
+        // add the new solute equation
+        if ( soluteNode != null ) {
+            soluteNode.setScalingEnabled( isScalingEnabled() );
+            topCanvas.getLayer().addChild( soluteNode );
+            updateTopLayout();
+        }
+        
+        // update the water equation
+        waterNode.update();
+    }
+    
+    private void handleConcentrationOrStrengthChanged() {
+        if ( soluteNode != null ) {
+            soluteNode.update();
+        }
+        waterNode.update();
     }
     
     public void setScalingEnabled( boolean enabled ) {
@@ -143,19 +174,14 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
     }
     
     private void handleScalingEnabled() {
-        acidNode.setScalingEnabled( isScalingEnabled() );
-        baseNode.setScalingEnabled( isScalingEnabled() );
+        if ( soluteNode != null ) {
+            soluteNode.setScalingEnabled( isScalingEnabled() );
+        }
         waterNode.setScalingEnabled( isScalingEnabled() );
     }
     
-    private void updateVisibility() {
-        acidNode.setVisible( solution.isAcidic() );
-        baseNode.setVisible( solution.isBasic() );
-    }
-    
     private void updateTopLayout() {
-       centerEquation( acidNode, topCanvas );
-       centerEquation( baseNode, topCanvas );
+       centerEquation( soluteNode, topCanvas );
     }
     
     private void updateBottomLayout() {
