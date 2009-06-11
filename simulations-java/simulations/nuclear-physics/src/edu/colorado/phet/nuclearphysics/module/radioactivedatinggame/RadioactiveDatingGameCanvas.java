@@ -15,7 +15,9 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
+import edu.colorado.phet.nuclearphysics.common.NucleusType;
 import edu.colorado.phet.nuclearphysics.model.Carbon14Nucleus;
+import edu.colorado.phet.nuclearphysics.model.HalfLifeInfo;
 import edu.colorado.phet.nuclearphysics.view.NuclearDecayProportionChart;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -87,6 +89,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         _model.getMeter().addListener(new RadiometricDatingMeter.Adapter(){
         	public void datingElementChanged(){
         		configureProportionsChart();
+        		drawDecayCurveOnChart();
         		update();
         	};
         });
@@ -160,7 +163,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         setUpComboBox();
         addWorldChild( _meter );
         
-        // Add decay curve to chart.
+        // Draw the decay curve on the chart.
         drawDecayCurveOnChart();
     }
 
@@ -205,25 +208,24 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     		_edgeOfWorld.updateEdgeShape(innerEdgeOfWorldIntermediate.getX(), outerEdgeOfWorldIntermediate.getX());
     	}
     }
-
-    /**
-     * Set up the chart to show the appropriate decay curve.
-     */
+    
     private void drawDecayCurveOnChart(){
+        double halfLife = _model.getMeter().getHalfLifeForDating();
     	final int numSamples = 500;
     	_proportionsChart.clear();
-    	double timeSpan = Carbon14Nucleus.HALF_LIFE * 3;
+    	double timeSpan = halfLife * 3;
     	double timeIncrement = timeSpan / numSamples;
-    	double lambda = Math.log(2)/Carbon14Nucleus.HALF_LIFE;
+    	double lambda = Math.log(2)/halfLife;
     	for ( double time = 0; time < timeSpan; time += timeIncrement ){
-    		// Calculate the proportion of carbon that should be decayed at this point in time.
+    		// Calculate the proportion of the element that should be decayed at this point in time.
     		double amountDecayed = numSamples - (numSamples * Math.exp(-time*lambda));
     		_proportionsChart.addDataPoint(time, (int)Math.round(numSamples - amountDecayed), 
     				(int)Math.round(amountDecayed));
     	}
     }
-    
+
     private void configureProportionsChart(){
+    	
         double halfLife = _model.getMeter().getHalfLifeForDating();
         _proportionsChart.setTimeParameters(halfLife * 3.2, halfLife);
         _proportionsChart.setShowPostDecayCurve(false);
