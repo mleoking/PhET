@@ -209,7 +209,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
             };
             
             public void nucleusTypeChanged(){
-        		switch (_model.getNucleusType()){
+        		switch (_model.getNucleusTypeOldStyle()){
         		case NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM:
         			_pieChartValues[0].setColor(NuclearPhysicsConstants.CUSTOM_NUCLEUS_LABEL_COLOR);
         			_pieChartValues[1].setColor(NuclearPhysicsConstants.DECAYED_CUSTOM_NUCLEUS_LABEL_COLOR);
@@ -578,7 +578,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     }
     
     private void updateNucleusGraphLabels(){
-    	if (_model.getNucleusType() == NuclearPhysicsConstants.NUCLEUS_ID_POLONIUM){
+    	if (_model.getNucleusTypeOldStyle() == NuclearPhysicsConstants.NUCLEUS_ID_POLONIUM){
     		_numUndecayedNucleiLabel.setText("#" + NuclearPhysicsStrings.POLONIUM_211_CHEMICAL_SYMBOL);
     		_numUndecayedNucleiLabel.setTextPaint(NuclearPhysicsConstants.POLONIUM_LABEL_COLOR);
     		_numUndecayedNucleiLabel.setShadowColor(Color.BLACK);
@@ -698,7 +698,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         }
         
         // If it is a custom nucleus, position and show the handle.
-        if (_model.getNucleusType() == NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM){
+        if (_model.getNucleusTypeOldStyle() == NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM){
         	_halfLifeHandleNode.setVisible(true);
         	_halfLifeHandleNode.setOffset( _halfLifeMarkerLine.getX(), _halfLifeMarkerLine.getY() + (_graphOriginY - _halfLifeMarkerLine.getY()) / 2 );
         }
@@ -731,7 +731,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
 		
 		String upperLabel, lowerLabel;
 		
-		switch (_model.getNucleusType()){
+		switch (_model.getNucleusTypeOldStyle()){
 		case NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM:
 			upperLabel = NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL;
 			lowerLabel = NuclearPhysicsStrings.DECAYED_CUSTOM_NUCLEUS_CHEMICAL_SYMBOL;

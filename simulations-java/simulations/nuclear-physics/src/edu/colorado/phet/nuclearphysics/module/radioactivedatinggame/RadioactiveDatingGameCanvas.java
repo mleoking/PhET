@@ -15,7 +15,6 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
-import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.model.Carbon14Nucleus;
 import edu.colorado.phet.nuclearphysics.view.NuclearDecayProportionChart;
 import edu.umd.cs.piccolo.PNode;
@@ -215,12 +214,9 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     }
     
     private void configureProportionsChart(){
-        _proportionsChart.setTimeSpan(Carbon14Nucleus.HALF_LIFE * 3.2);
-        _proportionsChart.setHalfLife(Carbon14Nucleus.HALF_LIFE);
-        _proportionsChart.setPreDecayChemicalSymbol(NuclearPhysicsStrings.CARBON_14_CHEMICAL_SYMBOL);
-        _proportionsChart.setPreDecayIsotopeNumber(NuclearPhysicsStrings.CARBON_14_ISOTOPE_NUMBER);
-        _proportionsChart.setPreDecayLabelColor(NuclearPhysicsConstants.CARBON_COLOR);
-        _proportionsChart.setShowPostDecayCurve(true);
+        _proportionsChart.setTimeSpan(_model.getMeter().getHalfLifeForDating() * 3.2);
+        _proportionsChart.setHalfLife(_model.getMeter().getHalfLifeForDating());
+        _proportionsChart.configureForNucleusType(_model.getMeter().getNucleusTypeUsedForDating());
         _proportionsChart.setShowPostDecayCurve(false);
     }
 }

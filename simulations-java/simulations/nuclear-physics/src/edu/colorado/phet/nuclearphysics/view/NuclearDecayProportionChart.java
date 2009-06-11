@@ -29,8 +29,9 @@ import edu.colorado.phet.common.piccolophet.nodes.PieChartNode;
 import edu.colorado.phet.common.piccolophet.nodes.PieChartNode.PieValue;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
+import edu.colorado.phet.nuclearphysics.common.NucleusDisplayInfo;
+import edu.colorado.phet.nuclearphysics.common.NucleusType;
 import edu.colorado.phet.nuclearphysics.model.Carbon14Nucleus;
-import edu.colorado.phet.nuclearphysics.model.Uranium238Nucleus;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusDecayModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
@@ -70,14 +71,13 @@ public class NuclearDecayProportionChart extends PNode {
     
     // Half life of primary (i.e. decaying) element.
 	private double _halfLife; // Half life of decaying element, in milliseconds.
+
+	// Information for displaying the portions of the chart that vary based on
+	// the nuclei that are being represented.
+	private NucleusDisplayInfo _preDecayNucleusDisplayInfo = NucleusDisplayInfo.DEFAULT_DISPLAY_INFO;
+	private NucleusDisplayInfo _postDecayNucleusDisplayInfo = NucleusDisplayInfo.DEFAULT_DISPLAY_INFO;
 	
-	// Variables that control chart appearance.
-	private String _preDecayChemicalSymbol;
-	private String _preDecayIsotopeNumber;
-	private Color _preDecayLabelColor;
-	private String _postDecayChemicalSymbol;
-	private String _postDecayIsotopeNumber;
-	private Color _postDecayLabelColor;
+	// Variables that control which of the major elements of the chart are shown.
 	private boolean _pieChartEnabled;
 	private boolean _showPostDecayCurve;
 	private boolean _movablePercentIndicatorEnabled;
@@ -112,18 +112,13 @@ public class NuclearDecayProportionChart extends PNode {
     	
     	_pieChartEnabled = pieChartEnabled;
     	_movablePercentIndicatorEnabled = moveablePercentIndicatorEnabled;
+    	_showPostDecayCurve = false;
 
     	// Many of the following initializations are arbitrary, and the chart
     	// should be set up via method calls before attempting to display
     	// anything.
     	_timeSpan = 1000;
     	_halfLife = 300;
-    	_preDecayLabelColor = Color.PINK;
-    	
-    	// The following params don't necessarily need to be set for the chart
-    	// to behave somewhat reasonably.
-    	_showPostDecayCurve = false;
-    	_postDecayLabelColor = Color.ORANGE;
     	
         // Set up the parent node that will contain the non-interactive
         // portions of the chart.
@@ -161,7 +156,6 @@ public class NuclearDecayProportionChart extends PNode {
         	_movablePercentIndicator = new MovablePercentIndicator( this );
         	_pickableChartNode.addChild( _movablePercentIndicator );
         }
-        
     }
 
 	//------------------------------------------------------------------------
@@ -178,36 +172,16 @@ public class NuclearDecayProportionChart extends PNode {
     	updateLayout();
 	}
     
-	public void setPreDecayChemicalSymbol(String decayElementLabel) {
-		_preDecayChemicalSymbol = decayElementLabel;
+	public void setPreDecayDisplayInfo(NucleusDisplayInfo displayInfo) {
+		_preDecayNucleusDisplayInfo = displayInfo;
     	updateLayout();
 	}
 	
-	public void setPreDecayIsotopeNumber(String isotopeNumber) {
-		_preDecayIsotopeNumber = isotopeNumber;
+	public void setPostDecayDisplayInfo(NucleusDisplayInfo displayInfo) {
+		_postDecayNucleusDisplayInfo = displayInfo;
     	updateLayout();
 	}
-
-	public void setPreDecayLabelColor(Color decayLabelColor) {
-		_preDecayLabelColor = decayLabelColor;
-    	updateLayout();
-	}
-
-	public void setPostDecayChemicalSymbol(String decayElementLabel) {
-		_postDecayChemicalSymbol = decayElementLabel;
-    	updateLayout();
-	}
-
-	public void setPostDecayIsotopeNumber(String isotopeNumber) {
-		_postDecayIsotopeNumber = isotopeNumber;
-    	updateLayout();
-	}
-
-	public void setPostDecayLabelColor(Color decayLabelColor) {
-		_postDecayLabelColor = decayLabelColor;
-    	updateLayout();
-	}
-
+	
 	public void setShowPostDecayCurve(boolean postDecayCurve) {
 		_showPostDecayCurve = postDecayCurve;
     	updateLayout();
@@ -217,34 +191,39 @@ public class NuclearDecayProportionChart extends PNode {
 	 * Configure the parameters
 	 * @param nucleusType
 	 */
-	public void configureForNucleusType(int nucleusType){
-    	switch(nucleusType){
-    	case NuclearPhysicsConstants.NUCLEUS_ID_CARBON_14:
-            _timeSpan = Carbon14Nucleus.HALF_LIFE * 3.2;
-            _halfLife = Carbon14Nucleus.HALF_LIFE;
-            _preDecayChemicalSymbol = NuclearPhysicsStrings.CARBON_14_CHEMICAL_SYMBOL;
-            _preDecayIsotopeNumber = NuclearPhysicsStrings.CARBON_14_ISOTOPE_NUMBER;
-            _preDecayLabelColor = NuclearPhysicsConstants.CARBON_COLOR;
-            _postDecayChemicalSymbol = NuclearPhysicsStrings.NITROGEN_14_CHEMICAL_SYMBOL;
-            _postDecayIsotopeNumber = NuclearPhysicsStrings.NITROGEN_14_ISOTOPE_NUMBER;
-            _postDecayLabelColor = NuclearPhysicsConstants.NITROGEN_COLOR;
-            break;
-            
-    	case NuclearPhysicsConstants.NUCLEUS_ID_URANIUM_238:
-            _timeSpan = Uranium238Nucleus.HALF_LIFE * 3.2;
-            _halfLife = Uranium238Nucleus.HALF_LIFE;
-            _preDecayChemicalSymbol = NuclearPhysicsStrings.URANIUM_238_CHEMICAL_SYMBOL;
-            _preDecayIsotopeNumber = NuclearPhysicsStrings.URANIUM_238_ISOTOPE_NUMBER;
-            _preDecayLabelColor = NuclearPhysicsConstants.URANIUM_238_COLOR;
-            _postDecayChemicalSymbol = NuclearPhysicsStrings.LEAD_206_CHEMICAL_SYMBOL;
-            _postDecayIsotopeNumber = NuclearPhysicsStrings.LEAD_206_ISOTOPE_NUMBER;
-            _postDecayLabelColor = NuclearPhysicsConstants.LEAD_206_COLOR;
-            break;
-            
-        default:
-        	System.err.println(this.getClass().getName() + ": Error - Unable to configure chart for current nucleus type.");
-            break;
-    	}
+	public void configureForNucleusType(NucleusType nucleusType){
+		
+		_preDecayNucleusDisplayInfo = NucleusDisplayInfo.getDisplayInfoForNucleusType(nucleusType);
+		_postDecayNucleusDisplayInfo = 
+			NucleusDisplayInfo.getDisplayInfoForNucleusType( MultiNucleusDecayModel.getDecayProduct(nucleusType).get(0) );
+		
+//    	switch(nucleusType){
+//    	case NuclearPhysicsConstants.NUCLEUS_ID_CARBON_14:
+//            _timeSpan = Carbon14Nucleus.HALF_LIFE * 3.2;
+//            _halfLife = Carbon14Nucleus.HALF_LIFE;
+//            _preDecayChemicalSymbol = NuclearPhysicsStrings.CARBON_14_CHEMICAL_SYMBOL;
+//            _preDecayIsotopeNumber = NuclearPhysicsStrings.CARBON_14_ISOTOPE_NUMBER;
+//            _preDecayLabelColor = NuclearPhysicsConstants.CARBON_COLOR;
+//            _postDecayChemicalSymbol = NuclearPhysicsStrings.NITROGEN_14_CHEMICAL_SYMBOL;
+//            _postDecayIsotopeNumber = NuclearPhysicsStrings.NITROGEN_14_ISOTOPE_NUMBER;
+//            _postDecayLabelColor = NuclearPhysicsConstants.NITROGEN_COLOR;
+//            break;
+//            
+//    	case NuclearPhysicsConstants.NUCLEUS_ID_URANIUM_238:
+//            _timeSpan = Uranium238Nucleus.HALF_LIFE * 3.2;
+//            _halfLife = Uranium238Nucleus.HALF_LIFE;
+//            _preDecayChemicalSymbol = NuclearPhysicsStrings.URANIUM_238_CHEMICAL_SYMBOL;
+//            _preDecayIsotopeNumber = NuclearPhysicsStrings.URANIUM_238_ISOTOPE_NUMBER;
+//            _preDecayLabelColor = NuclearPhysicsConstants.URANIUM_238_COLOR;
+//            _postDecayChemicalSymbol = NuclearPhysicsStrings.LEAD_206_CHEMICAL_SYMBOL;
+//            _postDecayIsotopeNumber = NuclearPhysicsStrings.LEAD_206_ISOTOPE_NUMBER;
+//            _postDecayLabelColor = NuclearPhysicsConstants.LEAD_206_COLOR;
+//            break;
+//            
+//        default:
+//        	System.err.println(this.getClass().getName() + ": Error - Unable to configure chart for current nucleus type.");
+//            break;
+//    	}
     	
     	clear();
     	updateLayout();
@@ -451,8 +430,8 @@ public class NuclearDecayProportionChart extends PNode {
 			
 			// Create and add the main chart.
 			PieChartNode.PieValue[] pieChartValues = new PieValue[]{
-	                new PieChartNode.PieValue( 100, _chart._preDecayLabelColor ),
-	                new PieChartNode.PieValue( 0, _chart._postDecayLabelColor )};
+	                new PieChartNode.PieValue( 100, _chart._preDecayNucleusDisplayInfo.getLabelColor() ),
+	                new PieChartNode.PieValue( 0, _chart._postDecayNucleusDisplayInfo.getLabelColor() )};
 	        _pieChartNode = new PieChartNode( pieChartValues, new Rectangle(INITIAL_PIE_CHART_WIDTH, INITIAL_PIE_CHART_WIDTH) );
 	        _pieChartNode.setOffset(INITIAL_OVERALL_WIDTH / 2 - _pieChartNode.getFullBoundsReference().width / 2,
 	        		INITIAL_OVERALL_HEIGHT / 2 - _pieChartNode.getFullBounds().height / 2);
@@ -499,8 +478,11 @@ public class NuclearDecayProportionChart extends PNode {
 			}
 			
 			PieChartNode.PieValue[] pieChartValues = new PieValue[]{
-	                new PieChartNode.PieValue( 100 - percentageDecayed, _chart._preDecayLabelColor ),
-	                new PieChartNode.PieValue( percentageDecayed, _chart._postDecayLabelColor )};
+	                new PieChartNode.PieValue( 100 - percentageDecayed, 
+	                		_chart._preDecayNucleusDisplayInfo.getLabelColor() ),
+	                new PieChartNode.PieValue( percentageDecayed, 
+	                		_chart._postDecayNucleusDisplayInfo.getLabelColor() )
+	        };
 			
 			_pieChartNode.setPieValues(pieChartValues);
 		}
@@ -519,8 +501,8 @@ public class NuclearDecayProportionChart extends PNode {
 			
 			// Set the proportions of the pie chart.
 			PieChartNode.PieValue[] pieChartValues = new PieValue[]{
-	                new PieChartNode.PieValue( numUndecayed, _chart._preDecayLabelColor ),
-	                new PieChartNode.PieValue( numDecayed, _chart._postDecayLabelColor )};
+	                new PieChartNode.PieValue( numUndecayed, _chart._preDecayNucleusDisplayInfo.getLabelColor() ),
+	                new PieChartNode.PieValue( numDecayed, _chart._postDecayNucleusDisplayInfo.getLabelColor() )};
 			
 			_pieChartNode.setPieValues(pieChartValues);
 		}
@@ -535,12 +517,14 @@ public class NuclearDecayProportionChart extends PNode {
 			
 			// Set the colors of the labels.
 			
-			_preDecayLabel.setHTMLColor(_chart._preDecayLabelColor);
-			_preDecayLabel.setHTML("<html><sup><font size=-2>" + _chart._preDecayIsotopeNumber + " </font></sup>" 
-					+ _chart._preDecayChemicalSymbol + "</html>");
-			_postDecayLabel.setHTMLColor(_chart._postDecayLabelColor);
-			_postDecayLabel.setHTML("<html><sup><font size=-2>" + _chart._postDecayIsotopeNumber + " </font></sup>" 
-					+ _chart._postDecayChemicalSymbol + "</html>");
+			_preDecayLabel.setHTMLColor(_chart._preDecayNucleusDisplayInfo.getLabelColor());
+			_preDecayLabel.setHTML("<html><sup><font size=-2>" + 
+					_chart._preDecayNucleusDisplayInfo.getIsotopeNumberString() + " </font></sup>" 
+					+ _chart._preDecayNucleusDisplayInfo.getChemicalSymbol() + "</html>");
+			_postDecayLabel.setHTMLColor(_chart._postDecayNucleusDisplayInfo.getLabelColor());
+			_postDecayLabel.setHTML("<html><sup><font size=-2>" + 
+					_chart._postDecayNucleusDisplayInfo.getIsotopeNumberString() + " </font></sup>" 
+					+ _chart._postDecayNucleusDisplayInfo.getChemicalSymbol() + "</html>");
 		}
     }
     
@@ -560,7 +544,6 @@ public class NuclearDecayProportionChart extends PNode {
         private static final float  TICK_MARK_WIDTH = 2;
         private static final Stroke TICK_MARK_STROKE = new BasicStroke( TICK_MARK_WIDTH );
         private static final Color  TICK_MARK_COLOR = AXES_LINE_COLOR;
-        private static final Font   PLAIN_LABEL_FONT = new PhetFont( Font.PLAIN, 14 );
         private static final Font   BOLD_LABEL_FONT = new PhetFont( Font.BOLD, 18 );
         private static final float  HALF_LIFE_LINE_STROKE_WIDTH = 2.0f;
         private static final Stroke HALF_LIFE_LINE_STROKE = new BasicStroke( HALF_LIFE_LINE_STROKE_WIDTH, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 3.0f, 3.0f }, 0 );
@@ -1044,7 +1027,7 @@ public class NuclearDecayProportionChart extends PNode {
 	    		_preDecayProportionCurve = new PPath();
 	    		_preDecayProportionCurve.moveTo( xPos, yPosPreDecay );
 	    		_preDecayProportionCurve.setStroke( _dataCurveStroke );
-	    		_preDecayProportionCurve.setStrokePaint( _chart._preDecayLabelColor );
+	    		_preDecayProportionCurve.setStrokePaint( _chart._preDecayNucleusDisplayInfo.getLabelColor() );
 	        	_dataPresentationLayer.addChild( _preDecayProportionCurve );
 	    	}
 	    	else{
@@ -1057,7 +1040,7 @@ public class NuclearDecayProportionChart extends PNode {
 	    		_postDecayProportionCurve = new PPath();
 	    		_postDecayProportionCurve.moveTo( xPos, yPosPostDecay );
 	    		_postDecayProportionCurve.setStroke( _dataCurveStroke );
-	    		_postDecayProportionCurve.setStrokePaint( _chart._postDecayLabelColor );
+	    		_postDecayProportionCurve.setStrokePaint( _chart._postDecayNucleusDisplayInfo.getLabelColor() );
 	        	_dataPresentationLayer.addChild( _postDecayProportionCurve );
 	        	_postDecayProportionCurve.setVisible(_chart._showPostDecayCurve);
 	    	}
@@ -1237,8 +1220,9 @@ public class NuclearDecayProportionChart extends PNode {
     			percentageString = "---";
     		}
 			
-    		_percentageText.setHTML("<html><sup><font size=-2>" + _chart._preDecayIsotopeNumber + " </font></sup>" 
-					+ _chart._preDecayChemicalSymbol + "= " + percentageString + "</html>");
+    		_percentageText.setHTML("<html><sup><font size=-2>" 
+    				+ _chart._preDecayNucleusDisplayInfo.getIsotopeNumberString() + " </font></sup>" 
+					+ _chart._preDecayNucleusDisplayInfo.getChemicalSymbol() + "= " + percentageString + "</html>");
 			
 			// Figure out and format the time information.  This does
 			// different things based on the scale of time, and doesn't
@@ -1313,9 +1297,7 @@ public class NuclearDecayProportionChart extends PNode {
 
         proportionsChart.setTimeSpan(Carbon14Nucleus.HALF_LIFE * 3.2);
         proportionsChart.setHalfLife(Carbon14Nucleus.HALF_LIFE);
-        proportionsChart.setPreDecayChemicalSymbol(NuclearPhysicsStrings.CARBON_14_CHEMICAL_SYMBOL);
-        proportionsChart.setPreDecayIsotopeNumber(NuclearPhysicsStrings.CARBON_14_ISOTOPE_NUMBER);
-        proportionsChart.setPreDecayLabelColor(NuclearPhysicsConstants.CARBON_COLOR);
+        proportionsChart.configureForNucleusType(NucleusType.CARBON_14);
         proportionsChart.setShowPostDecayCurve(false);
 
         JFrame frame = new JFrame();

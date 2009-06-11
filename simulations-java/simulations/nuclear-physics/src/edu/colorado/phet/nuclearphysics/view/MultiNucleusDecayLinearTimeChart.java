@@ -213,7 +213,7 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
             };
             
             public void nucleusTypeChanged(){
-        		switch (_model.getNucleusType()){
+        		switch (_model.getNucleusTypeOldStyle()){
         		case NuclearPhysicsConstants.NUCLEUS_ID_CARBON_14:
         			_pieChartValues[0].setColor(NuclearPhysicsConstants.CARBON_COLOR);
         			_pieChartValues[1].setColor(NuclearPhysicsConstants.NITROGEN_COLOR);
@@ -593,7 +593,7 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
     }
     
     private void updateNucleusGraphLabels(){
-    	if (_model.getNucleusType() == NuclearPhysicsConstants.NUCLEUS_ID_CARBON_14){
+    	if (_model.getNucleusTypeOldStyle() == NuclearPhysicsConstants.NUCLEUS_ID_CARBON_14){
     		_numUndecayedNucleiLabel.setText("#" + NuclearPhysicsStrings.CARBON_14_CHEMICAL_SYMBOL);
     		_numUndecayedNucleiLabel.setTextPaint(NuclearPhysicsConstants.CARBON_COLOR);
     		_numUndecayedNucleiLabel.setShadowColor(Color.BLACK);
@@ -601,7 +601,7 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
     		_numDecayedNucleiLabel.setTextPaint(NuclearPhysicsConstants.NITROGEN_COLOR);
     		_numDecayedNucleiLabel.setShadowColor(Color.WHITE);
     	}
-    	else if (_model.getNucleusType() == NuclearPhysicsConstants.NUCLEUS_ID_URANIUM_238){
+    	else if (_model.getNucleusTypeOldStyle() == NuclearPhysicsConstants.NUCLEUS_ID_URANIUM_238){
     		_numUndecayedNucleiLabel.setText("#" + NuclearPhysicsStrings.URANIUM_238_CHEMICAL_SYMBOL);
     		_numUndecayedNucleiLabel.setTextPaint(NuclearPhysicsConstants.URANIUM_238_COLOR);
     		_numUndecayedNucleiLabel.setShadowColor(Color.BLACK);
@@ -716,7 +716,7 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
         }
         
         // If it is a custom nucleus, position and show the handle.
-        if (_model.getNucleusType() == NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM){
+        if (_model.getNucleusTypeOldStyle() == NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM){
         	_halfLifeHandleNode.setVisible(true);
         	_halfLifeHandleNode.setOffset( _halfLifeMarkerLine.getX(), _halfLifeMarkerLine.getY() + (_graphOriginY - _halfLifeMarkerLine.getY()) / 2 );
         }
@@ -749,7 +749,7 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
 		
 		String upperLabel, lowerLabel;
 		
-		switch (_model.getNucleusType()){
+		switch (_model.getNucleusTypeOldStyle()){
 		case NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM:
 			upperLabel = NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL;
 			lowerLabel = NuclearPhysicsStrings.DECAYED_CUSTOM_NUCLEUS_CHEMICAL_SYMBOL;

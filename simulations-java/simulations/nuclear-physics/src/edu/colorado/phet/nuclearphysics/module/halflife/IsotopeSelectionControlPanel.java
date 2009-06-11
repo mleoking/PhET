@@ -114,10 +114,10 @@ public class IsotopeSelectionControlPanel extends ControlPanel {
         	// Register for notifications of nucleus type changes.
         	_model.addListener(new NuclearDecayListenerAdapter(){
         		public void nucleusTypeChanged() {
-        			if (_model.getNucleusType() == NuclearPhysicsConstants.NUCLEUS_ID_CARBON_14){
+        			if (_model.getNucleusTypeOldStyle() == NuclearPhysicsConstants.NUCLEUS_ID_CARBON_14){
         				_carbon14RadioButton.setSelected(true);
         			}
-        			else if (_model.getNucleusType() == NuclearPhysicsConstants.NUCLEUS_ID_URANIUM_238){
+        			else if (_model.getNucleusTypeOldStyle() == NuclearPhysicsConstants.NUCLEUS_ID_URANIUM_238){
         				_uranium238RadioButton.setSelected(true);
         			}
         			else {
@@ -148,17 +148,17 @@ public class IsotopeSelectionControlPanel extends ControlPanel {
             // Register for button presses.
             _carbon14RadioButton.addActionListener( new ActionListener(){
                 public void actionPerformed(ActionEvent event){
-                	_model.setNucleusType(NuclearPhysicsConstants.NUCLEUS_ID_CARBON_14);
+                	_model.setNucleusTypeOldStyle(NuclearPhysicsConstants.NUCLEUS_ID_CARBON_14);
                 }
             });
             _uranium238RadioButton.addActionListener( new ActionListener(){
                 public void actionPerformed(ActionEvent event){
-                	_model.setNucleusType(NuclearPhysicsConstants.NUCLEUS_ID_URANIUM_238);
+                	_model.setNucleusTypeOldStyle(NuclearPhysicsConstants.NUCLEUS_ID_URANIUM_238);
                 }
             });
             _customNucleusRadioButton.addActionListener( new ActionListener(){
                 public void actionPerformed(ActionEvent event){
-                	_model.setNucleusType(NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM);
+                	_model.setNucleusTypeOldStyle(NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM);
                 }
             });
 
@@ -246,10 +246,10 @@ public class IsotopeSelectionControlPanel extends ControlPanel {
          * change in the model.
          */
         public void updateButtonState(){
-        	if (_model.getNucleusType() == NuclearPhysicsConstants.NUCLEUS_ID_POLONIUM){
+        	if (_model.getNucleusTypeOldStyle() == NuclearPhysicsConstants.NUCLEUS_ID_POLONIUM){
         		_carbon14RadioButton.setSelected(true);
         	}
-        	else if (_model.getNucleusType() == NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM){
+        	else if (_model.getNucleusTypeOldStyle() == NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM){
         		_uranium238RadioButton.setSelected(true);
         	}
         	else{

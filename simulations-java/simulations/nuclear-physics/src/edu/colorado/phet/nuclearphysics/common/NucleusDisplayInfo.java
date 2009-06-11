@@ -6,7 +6,6 @@ import java.awt.Color;
 
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
-import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusDecayModel;
 
 /**
  * This class encapsulates the information that is used to display each of the
@@ -30,6 +29,34 @@ public class NucleusDisplayInfo {
 			NuclearPhysicsConstants.CARBON_14_LABEL_COLOR,
 			NuclearPhysicsConstants.CARBON_COLOR );
 
+	public static final NucleusDisplayInfo NITROGEN_14_DISPLAY_INFO = new NucleusDisplayInfo(
+			NuclearPhysicsStrings.NITROGEN_14_LEGEND_LABEL,
+			NuclearPhysicsStrings.NITROGEN_14_CHEMICAL_SYMBOL,
+			NuclearPhysicsStrings.NITROGEN_14_ISOTOPE_NUMBER,
+			NuclearPhysicsConstants.NITROGEN_14_LABEL_COLOR,
+			NuclearPhysicsConstants.NITROGEN_COLOR );
+
+	public static final NucleusDisplayInfo URANIUM_238_DISPLAY_INFO = new NucleusDisplayInfo(
+			NuclearPhysicsStrings.URANIUM_238_LEGEND_LABEL,
+			NuclearPhysicsStrings.URANIUM_238_CHEMICAL_SYMBOL,
+			NuclearPhysicsStrings.URANIUM_238_ISOTOPE_NUMBER,
+			NuclearPhysicsConstants.URANIUM_238_LABEL_COLOR,
+			NuclearPhysicsConstants.URANIUM_238_COLOR );
+	
+	public static final NucleusDisplayInfo LEAD_206_DISPLAY_INFO = new NucleusDisplayInfo(
+			NuclearPhysicsStrings.LEAD_206_LEGEND_LABEL,
+			NuclearPhysicsStrings.LEAD_206_CHEMICAL_SYMBOL,
+			NuclearPhysicsStrings.LEAD_206_ISOTOPE_NUMBER,
+			NuclearPhysicsConstants.LEAD_LABEL_COLOR,
+			NuclearPhysicsConstants.LEAD_206_COLOR );
+
+	public static final NucleusDisplayInfo DEFAULT_DISPLAY_INFO = new NucleusDisplayInfo(
+			"XX",
+			"XX",
+			"XX",
+			Color.WHITE,
+			Color.GRAY );
+	
     //------------------------------------------------------------------------
     // Instance Data
     //------------------------------------------------------------------------
@@ -44,7 +71,12 @@ public class NucleusDisplayInfo {
     // Constructor
     //------------------------------------------------------------------------
 	
-	public NucleusDisplayInfo(
+	/**
+	 * Constructor.  Not intended to be instantiated outside of this class,
+	 * but this could change if for some reason more dynamic display info is
+	 * needed in the future.
+	 */
+	private NucleusDisplayInfo(
 			String name, 
 			String chemicalSymbol, 
 			String isotopeNumberString, 
@@ -89,11 +121,24 @@ public class NucleusDisplayInfo {
 		case CARBON_14:
 			displayInfo = CARBON_14_DISPLAY_INFO;
 			break;
-		}
-		
-		if (displayInfo == null){
-			System.err.println("Warning: No display information available for selected nucleus, nucleus = " + nucleusType);
-			assert false;
+
+		case NITROGEN_14:
+			displayInfo = NITROGEN_14_DISPLAY_INFO;
+			break;
+			
+		case URANIUM_238:
+			displayInfo = URANIUM_238_DISPLAY_INFO;
+			break;
+			
+		case LEAD_206:
+			displayInfo = LEAD_206_DISPLAY_INFO;
+			break;
+			
+		default:
+			System.err.println("Warning: No display information available for selected nucleus " + nucleusType + ", using default");
+			assert false;  // Add the needed information if you hit this while debugging.
+		    displayInfo = DEFAULT_DISPLAY_INFO;
+		    break;
 		}
 		
 		return displayInfo;
