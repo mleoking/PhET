@@ -22,7 +22,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class AbstractReactionEquationNode extends PComposite {
+abstract class AbstractReactionEquationNode extends PComposite {
     
     private static final int FONT_SIZE = 18;
     
@@ -55,6 +55,7 @@ public abstract class AbstractReactionEquationNode extends PComposite {
             // don't add the Lewis structure, it's invisible by default
         }
         
+        scalingEnabled = false;
         scales = new double[MAX_TERMS];
         for ( int i = 0; i < scales.length; i++ ) {
             scales[i] = 1.0;
@@ -72,6 +73,13 @@ public abstract class AbstractReactionEquationNode extends PComposite {
         updateLayout();
     }
     
+    public abstract void update();
+    
+    /**
+     * H2O color depends on whether scaling is enabled.
+     */
+    protected abstract void updateH2OColor();
+    
     public void setScalingEnabled( boolean enabled ) {
         if ( enabled != scalingEnabled ) {
             scalingEnabled = enabled;
@@ -84,6 +92,7 @@ public abstract class AbstractReactionEquationNode extends PComposite {
                 }
             }
         }
+        updateH2OColor();
     }
     
     public boolean isScalingEnabled() {
@@ -163,6 +172,10 @@ public abstract class AbstractReactionEquationNode extends PComposite {
         updateLayout();
     }
     
+    protected void setTermColor( int index, Color color ) {
+        terms[index].getSymbolNode().setHTMLColor( color );
+    }
+    
     /*
      * Sets the visibility of all Lewis structure diagrams.
      */
@@ -192,12 +205,6 @@ public abstract class AbstractReactionEquationNode extends PComposite {
      * Sets the position of all nodes.
      */
     private void updateLayout() {
-        
-        // remember scaling of each symbol
-        double[] symbolScales = new double[ terms.length ];
-        for ( int i = 0; i < terms.length; i++ ) {
-            symbolScales[i] = terms[i].getSymbolNode().getScale();
-        }
         
         // do the layout at unity scale
         setUnityScale();
@@ -243,8 +250,8 @@ public abstract class AbstractReactionEquationNode extends PComposite {
         xOffset = layoutTerm( termIndex++, xOffset, structureYOffset );
         
         // restore scaling of each symbol
-        for ( int i = 0; i < symbolScales.length; i++ ) {
-            setTermScale( i, symbolScales[i] );
+        for ( int i = 0; i < scales.length; i++ ) {
+            setTermScale( i, scales[i] );
         }
     }
     

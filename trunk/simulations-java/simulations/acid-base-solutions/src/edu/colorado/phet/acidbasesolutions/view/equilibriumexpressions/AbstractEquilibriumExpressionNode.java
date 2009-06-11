@@ -111,8 +111,11 @@ abstract class AbstractEquilibriumExpressionNode extends PComposite {
         addChild( largeValueNode );
         
         // default state
+        scalingEnabled = false;
         leftNumeratorScale = rightNumeratorScale = denominatorScale = 1.0;
         setLargeValueVisible( false );
+        
+        updateLayout();
     }
     
     public abstract void update();

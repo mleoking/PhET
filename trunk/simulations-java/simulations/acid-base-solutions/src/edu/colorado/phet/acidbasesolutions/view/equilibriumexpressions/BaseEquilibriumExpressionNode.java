@@ -14,11 +14,8 @@ class BaseEquilibriumExpressionNode extends AbstractEquilibriumExpressionNode {
         super( true );
         assert( solution.isBasic() );
         this.solution = solution;
-        Solute solute = solution.getSolute();
         setKLabel( ABSSymbols.Kb );
-        setLeftNumeratorProperties( solute.getConjugateSymbol(), solute.getConjugateColor() );
         setRightNumeratorProperties( ABSSymbols.OH_MINUS, ABSConstants.OH_COLOR );
-        setDenominatorProperties( solute.getSymbol(), solute.getColor() );
         update();
     }
 
