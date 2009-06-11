@@ -29,32 +29,28 @@ public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
     private final SolutionListener solutionListener;
     private final JRadioButton scaleOnRadioButton, scaleOffRadioButton;
     private final PhetPCanvas topCanvas, bottomCanvas;
-    private final EquilibriumExpressionNode soluteNode;
+    private EquilibriumExpressionNode soluteNode;
     private final EquilibriumExpressionNode waterNode;
-    private ExpressionUpdateStrategy soluteUpdateStrategy;
-    private final WaterExpressionUpdateStrategy waterUpdateStrategy;
     
     public EquilibriumExpressionsDialog( Frame owner, final AqueousSolution solution ) {
         super( owner );
         setTitle( ABSStrings.TITLE_EQUILIBRIUM_EXPRESSIONS );
         setResizable( false );
         
-        waterUpdateStrategy = new WaterExpressionUpdateStrategy();
         this.solution = solution;
         
         this.solutionListener = new SolutionListener() {
+            
             public void soluteChanged() {
                 handleSoluteChanged();
             }
 
             public void concentrationChanged() {
-                soluteUpdateStrategy.update( soluteNode, solution );
-                waterUpdateStrategy.update( waterNode, solution );
+                handleConcentrationOrStrengthChanged();
             }
 
             public void strengthChanged() {
-                soluteUpdateStrategy.update( soluteNode, solution );
-                waterUpdateStrategy.update( waterNode, solution );
+                handleConcentrationOrStrengthChanged();
             }
         };
         this.solution.addSolutionListener( solutionListener );
@@ -92,9 +88,8 @@ public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
         topCanvas.setPreferredSize( TOP_CANVAS_SIZE );
         topCanvas.setBackground( ABSConstants.EQUILIBRIUM_EXPRESSIONS_BACKGROUND );
         
-        // solute expression
-        soluteNode = new EquilibriumExpressionNode( true );
-        topCanvas.getLayer().addChild( soluteNode );
+        // solute expression, will be set based on solution
+        soluteNode = null;
         
         // bottom canvas
         bottomCanvas = new PhetPCanvas() {
@@ -107,7 +102,7 @@ public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
         bottomCanvas.setBackground( ABSConstants.EQUILIBRIUM_EXPRESSIONS_BACKGROUND );
         
         // water expression
-        waterNode = new EquilibriumExpressionNode( false );
+        waterNode = new WaterEquilibriumExpressionNode( solution );
         bottomCanvas.getLayer().addChild( waterNode );
         
         // layout
@@ -137,18 +132,44 @@ public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
     }
     
     private void handleSoluteChanged() {
-        soluteNode.setVisible( !solution.isPureWater() );
-        soluteUpdateStrategy = ExpressionUpdateStrategyFactory.getUpdateStrategy( solution );
-        if ( soluteUpdateStrategy != null ) {
-            soluteUpdateStrategy.update( soluteNode, solution );
+        
+        // remove any existing solute expression
+        if ( soluteNode != null ) {
+            topCanvas.getLayer().removeChild( soluteNode );
+            soluteNode = null;
+        }
+        
+        // create the proper type of solute expression
+        if ( solution.isAcidic() ) {
+            soluteNode = new AcidEquilibriumExpressionNode( solution );
+        }
+        else if ( solution.isBasic() ) {
+            soluteNode = new BaseEquilibriumExpressionNode( solution );
+        }
+        
+        // add the new solute expression
+        if ( soluteNode != null ) {
+            soluteNode.setScalingEnabled( isScalingEnabled() );
+            topCanvas.getLayer().addChild( soluteNode );
             updateTopLayout();
         }
-        waterUpdateStrategy.update( waterNode, solution );
+        
+        // update the water expression
+        waterNode.update();
+    }
+    
+    private void handleConcentrationOrStrengthChanged() {
+        if ( soluteNode != null ) {
+            soluteNode.update();
+        }
+        waterNode.update();
     }
     
     public void setScalingEnabled( boolean enabled ) {
         scaleOnRadioButton.setSelected( enabled );
-        soluteNode.setScalingEnabled( enabled );
+        if ( soluteNode != null ) {
+            soluteNode.setScalingEnabled( enabled );
+        }
         waterNode.setScalingEnabled( enabled );
     }
     
@@ -165,97 +186,104 @@ public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
     }
     
     private static void centerExpression( EquilibriumExpressionNode node, PCanvas canvas ) {
-        final boolean isScalingEnabled = node.isScalingEnabled();
-        node.setScalingEnabled( false ); // do the layout with scaling off
-        double xOffset = ( canvas.getWidth() - node.getFullBoundsReference().getWidth() ) / 2;
-        double yOffset = ( ( canvas.getHeight() - node.getFullBoundsReference().getHeight() ) / 2 ) - PNodeUtils.getOriginYOffset( node );
-        node.setOffset( xOffset, yOffset );
-        node.setScalingEnabled( isScalingEnabled ); // restore scaling
-    }
-    
-    private static class ExpressionUpdateStrategyFactory {
-
-        private ExpressionUpdateStrategyFactory() {}
-
-        public static ExpressionUpdateStrategy getUpdateStrategy( AqueousSolution solution ) {
-            ExpressionUpdateStrategy strategy = null;
-            if ( solution.isAcidic() ) {
-                strategy = new AcidExpressionUpdateStrategy();
-            }
-            else if ( solution.isBasic() ) {
-                strategy = new BaseExpressionUpdateStrategy();
-            }
-            return strategy;
+        if ( node != null ) {
+            final boolean isScalingEnabled = node.isScalingEnabled();
+            node.setScalingEnabled( false ); // do the layout with scaling off
+            double xOffset = ( canvas.getWidth() - node.getFullBoundsReference().getWidth() ) / 2;
+            double yOffset = ( ( canvas.getHeight() - node.getFullBoundsReference().getHeight() ) / 2 ) - PNodeUtils.getOriginYOffset( node );
+            node.setOffset( xOffset, yOffset );
+            node.setScalingEnabled( isScalingEnabled ); // restore scaling
         }
     }
     
-    private interface ExpressionUpdateStrategy {
-        public void update( EquilibriumExpressionNode node, AqueousSolution solution );
-    }
-    
-    private static class AcidExpressionUpdateStrategy implements ExpressionUpdateStrategy {
+    private static class AcidEquilibriumExpressionNode extends EquilibriumExpressionNode {
+        
+        private final AqueousSolution solution;
+        
+        public AcidEquilibriumExpressionNode( AqueousSolution solution ) {
+            super( true );
+            assert( solution.isAcidic() );
+            this.solution = solution;
+            Solute solute = solution.getSolute();
+            setKLabel( ABSSymbols.Ka );
+            setLeftNumeratorProperties( ABSSymbols.H3O_PLUS, ABSConstants.H3O_COLOR );
+            setRightNumeratorProperties( solute.getConjugateSymbol(), solute.getConjugateColor() );
+            setDenominatorProperties( solute.getSymbol(), solute.getColor() );
+            update();
+        }
 
-        public void update( EquilibriumExpressionNode node, AqueousSolution solution ) {
+        public void update() {
             assert( solution.isAcidic() );
             
-            Solute solute = solution.getSolute();
-
-            // symbols and colors
-            node.setKLabel( ABSSymbols.Ka );
-            node.setLeftNumeratorProperties( ABSSymbols.H3O_PLUS, ABSConstants.H3O_COLOR );
-            node.setRightNumeratorProperties( solute.getConjugateSymbol(), solute.getConjugateColor() );
-            node.setDenominatorProperties( solute.getSymbol(), solute.getColor() );
-
             // K value
-            node.setKValue( solute.getStrength() );
-            node.setLargeValueVisible( solute.isStrong() );
+            Solute solute = solution.getSolute();
+            setKValue( solute.getStrength() );
+            setLargeValueVisible( solute.isStrong() );
 
             // concentration scaling
-            node.scaleLeftNumeratorToConcentration( solution.getH3OConcentration() );
-            node.scaleRightNumeratorToConcentration( solution.getProductConcentration() );
-            node.scaleDenominatorToConcentration( solution.getReactantConcentration() );
+            scaleLeftNumeratorToConcentration( solution.getH3OConcentration() );
+            scaleRightNumeratorToConcentration( solution.getProductConcentration() );
+            scaleDenominatorToConcentration( solution.getReactantConcentration() );
         }
     }
     
-    private static class BaseExpressionUpdateStrategy implements ExpressionUpdateStrategy {
+    private static class BaseEquilibriumExpressionNode extends EquilibriumExpressionNode {
+        
+        private final AqueousSolution solution;
+        
+        public BaseEquilibriumExpressionNode( AqueousSolution solution ) {
+            super( true );
+            assert( solution.isBasic() );
+            this.solution = solution;
+            Solute solute = solution.getSolute();
+            setKLabel( ABSSymbols.Kb );
+            setLeftNumeratorProperties( solute.getConjugateSymbol(), solute.getConjugateColor() );
+            setRightNumeratorProperties( ABSSymbols.OH_MINUS, ABSConstants.OH_COLOR );
+            setDenominatorProperties( solute.getSymbol(), solute.getColor() );
+            update();
+        }
 
-        public void update( EquilibriumExpressionNode node, AqueousSolution solution ) {
+        public void update() {
             assert( solution.isBasic() );
             
             Solute solute = solution.getSolute();
-
-            // symbols and colors
-            node.setKLabel( ABSSymbols.Kb );
-            node.setLeftNumeratorProperties( solute.getConjugateSymbol(), solute.getConjugateColor() );
-            node.setRightNumeratorProperties( ABSSymbols.OH_MINUS, ABSConstants.OH_COLOR );
-            node.setDenominatorProperties( solute.getSymbol(), solute.getColor() );
+            
+            // strong vs weak base
+            setLeftNumeratorProperties( solute.getConjugateSymbol(), solute.getConjugateColor() );
+            setDenominatorProperties( solute.getSymbol(), solute.getColor() );
 
             // K value
-            node.setKValue( solute.getStrength() );
-            node.setLargeValueVisible( solute.isStrong() );
+            setKValue( solute.getStrength() );
+            setLargeValueVisible( solute.isStrong() );
 
             // concentration scaling
-            node.scaleLeftNumeratorToConcentration( solution.getProductConcentration() );
-            node.scaleRightNumeratorToConcentration( solution.getOHConcentration() );
-            node.scaleDenominatorToConcentration( solution.getReactantConcentration() );
+            scaleLeftNumeratorToConcentration( solution.getProductConcentration() );
+            scaleRightNumeratorToConcentration( solution.getOHConcentration() );
+            scaleDenominatorToConcentration( solution.getReactantConcentration() );
         }
     }
     
-    private static class WaterExpressionUpdateStrategy implements ExpressionUpdateStrategy {
-
-        public void update( EquilibriumExpressionNode node, AqueousSolution solution ) {
+    private static class WaterEquilibriumExpressionNode extends EquilibriumExpressionNode {
+        
+        private final AqueousSolution solution;
+        
+        public WaterEquilibriumExpressionNode( AqueousSolution solution ) {
+            super( false );
+            this.solution = solution;
+            setKLabel( ABSSymbols.Kw );
+            setLeftNumeratorProperties( ABSSymbols.H3O_PLUS, ABSConstants.H3O_COLOR );
+            setRightNumeratorProperties( ABSSymbols.OH_MINUS, ABSConstants.OH_COLOR );
+            update();
+        }
+        
+        public void update() {
            
-            // symbols and colors
-            node.setKLabel( ABSSymbols.Kw );
-            node.setLeftNumeratorProperties( ABSSymbols.H3O_PLUS, ABSConstants.H3O_COLOR );
-            node.setRightNumeratorProperties( ABSSymbols.OH_MINUS, ABSConstants.OH_COLOR );
-            
             // K value
-            node.setKValue( Water.getEquilibriumConstant() );
+            setKValue( Water.getEquilibriumConstant() );
             
             // concentration scaling
-            node.scaleLeftNumeratorToConcentration( solution.getH3OConcentration() );
-            node.scaleRightNumeratorToConcentration( solution.getOHConcentration() );
+            scaleLeftNumeratorToConcentration( solution.getH3OConcentration() );
+            scaleRightNumeratorToConcentration( solution.getOHConcentration() );
         }
     }
 }

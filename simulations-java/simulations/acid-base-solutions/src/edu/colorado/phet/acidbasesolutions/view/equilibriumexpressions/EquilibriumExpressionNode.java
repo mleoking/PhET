@@ -21,6 +21,7 @@ import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
+ * Base class for equilibrium expressions.
  * Equilibrium expressions are composed of at most 3 terms, and have the form:
  * <code>
  * K = [term1][term2] / [term3] = value
@@ -30,7 +31,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class EquilibriumExpressionNode extends PComposite {
+abstract class EquilibriumExpressionNode extends PComposite {
     
     //----------------------------------------------------------------------------
     // Class data
@@ -112,6 +113,8 @@ class EquilibriumExpressionNode extends PComposite {
         leftNumeratorScale = rightNumeratorScale = denominatorScale = 1.0;
         setLargeValueVisible( false );
     }
+    
+    public abstract void update();
     
     //----------------------------------------------------------------------------
     // Setters and getters
