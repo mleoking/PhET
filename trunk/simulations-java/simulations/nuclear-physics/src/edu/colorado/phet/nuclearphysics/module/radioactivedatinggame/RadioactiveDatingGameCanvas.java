@@ -15,9 +15,6 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
-import edu.colorado.phet.nuclearphysics.common.NucleusType;
-import edu.colorado.phet.nuclearphysics.model.Carbon14Nucleus;
-import edu.colorado.phet.nuclearphysics.model.HalfLifeInfo;
 import edu.colorado.phet.nuclearphysics.view.NuclearDecayProportionChart;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -139,7 +136,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         addWorldChild(_edgeOfWorld);
         
         // Create the chart that will display relative decay proportions.
-        _proportionsChart = new NuclearDecayProportionChart(false, true);
+        _proportionsChart = new NuclearDecayProportionChart(false, true, false);
         configureProportionsChart();
         addWorldChild(_proportionsChart);
         
@@ -211,7 +208,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     
     private void drawDecayCurveOnChart(){
         double halfLife = _model.getMeter().getHalfLifeForDating();
-    	final int numSamples = 500;
+    	final int numSamples = 100;
     	_proportionsChart.clear();
     	double timeSpan = halfLife * 3;
     	double timeIncrement = timeSpan / numSamples;
@@ -228,7 +225,6 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     	
         double halfLife = _model.getMeter().getHalfLifeForDating();
         _proportionsChart.setTimeParameters(halfLife * 3.2, halfLife);
-        _proportionsChart.setShowPostDecayCurve(false);
         _proportionsChart.setDisplayInfoForNucleusType(_model.getMeter().getNucleusTypeUsedForDating());
     }
 }
