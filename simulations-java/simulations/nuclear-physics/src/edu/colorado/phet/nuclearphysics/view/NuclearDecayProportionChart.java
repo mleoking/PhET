@@ -109,11 +109,11 @@ public class NuclearDecayProportionChart extends PNode {
     // Constructor
     //------------------------------------------------------------------------
 
-    public NuclearDecayProportionChart(boolean pieChartEnabled, boolean moveablePercentIndicatorEnabled){
+    public NuclearDecayProportionChart(boolean pieChartEnabled, boolean moveablePercentIndicatorEnabled, boolean showPostDecayCurve){
     	
     	_pieChartEnabled = pieChartEnabled;
     	_movablePercentIndicatorEnabled = moveablePercentIndicatorEnabled;
-    	_showPostDecayCurve = false;
+    	_showPostDecayCurve = showPostDecayCurve;
 
     	// Many of the following initializations are arbitrary, and the chart
     	// should be set up via method calls before attempting to display
@@ -198,15 +198,6 @@ public class NuclearDecayProportionChart extends PNode {
     	updateLayout();
 	}
 	
-    /**
-     * Turn on/off the visibility of the post-decay curve.  Note that the
-     * chart will need to be redrawn in order for this change to become visible.
-     */
-	public void setShowPostDecayCurve(boolean postDecayCurve) {
-		_showPostDecayCurve = postDecayCurve;
-    	updateLayout();
-	}
-
 	/**
 	 * Configure the display information based on the given nucleus type.
 	 * Note that the chart must be redrawn before this change will be visible.
@@ -373,6 +364,7 @@ public class NuclearDecayProportionChart extends PNode {
      * @param numDecayed
      */
     public void addDataPoint(double time, int numUndecayed, int numDecayed){
+    	
 		// Update the pie chart if it is present.
 		if ( _pieChart != null ){
 			_pieChart.setAmounts(numUndecayed, numDecayed);
@@ -382,11 +374,6 @@ public class NuclearDecayProportionChart extends PNode {
     	Point2D decayEvent = new Point2D.Double( time, 100 * (double)numUndecayed/(double)(numDecayed + numUndecayed));
 		_decayEvents.add( decayEvent );
 		_graph.graphDecayEvent( decayEvent );
-		
-		// Update the movable indicator.
-		if ( _movablePercentIndicatorEnabled ){
-			_movablePercentIndicator.updateReadoutText();
-		}
     }
     
     /**
@@ -1292,12 +1279,11 @@ public class NuclearDecayProportionChart extends PNode {
      */
     public static void main(String [] args){
     	
-        final NuclearDecayProportionChart proportionsChart = new NuclearDecayProportionChart(true, true); 
+        final NuclearDecayProportionChart proportionsChart = new NuclearDecayProportionChart(true, true, false); 
 
         double halfLife = HalfLifeInfo.getHalfLifeForNucleusType(NucleusType.CARBON_14);
         proportionsChart.setTimeParameters(halfLife * 3.2, halfLife);
         proportionsChart.setDisplayInfoForNucleusType(NucleusType.CARBON_14);
-        proportionsChart.setShowPostDecayCurve(false);
 
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
