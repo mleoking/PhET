@@ -2,6 +2,7 @@ package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 import edu.colorado.phet.nuclearphysics.model.Carbon14Nucleus;
+import edu.colorado.phet.nuclearphysics.model.Uranium238Nucleus;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusDecayModel;
 
 public class ProbeTypeModel extends SimpleObservable{
@@ -37,7 +38,7 @@ public class ProbeTypeModel extends SimpleObservable{
 				return item.getPercentageCarbon14Remaining(item);
 			}	
 		};
-		public static final ProbeType URANIUM_238 = new ProbeType("Uranium 238", Carbon14Nucleus.HALF_LIFE){
+		public static final ProbeType URANIUM_238 = new ProbeType("Uranium 238", Uranium238Nucleus.HALF_LIFE){
 			public double getPercentage(DatableObject item) {
 				return item.getPercentageUranium238Remaining(item);
 			}

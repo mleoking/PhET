@@ -6,6 +6,7 @@ import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -18,7 +19,7 @@ import edu.colorado.phet.nuclearphysics.model.HalfLifeInfo;
  * 
  * @author John Blanco
  */
-public class RadiometricDatingMeter extends SimpleObservable {
+public class RadiometricDatingMeter {
 
 	//----------------------------------------------------------------------------
     // Instance Data
@@ -29,6 +30,7 @@ public class RadiometricDatingMeter extends SimpleObservable {
 	private RadioactiveDatingGameModel _model;
 	private NucleusType _nucleusTypeForDating;
 	private double _halfLifeOfDatingNucleus;
+	protected ArrayList<Listener> _listeners = new ArrayList<Listener>();
 	
 	//----------------------------------------------------------------------------
     // Constructor(s)
@@ -57,6 +59,12 @@ public class RadiometricDatingMeter extends SimpleObservable {
 		return _probe;
 	}
 	
+	public void addListener(Listener listener) {
+	    if ( !_listeners.contains( listener )){
+	        _listeners.add( listener );
+	    }
+	}
+
 	/**
 	 * Get the item that is currently being touched by the meter's probe, if
 	 * there is one.
@@ -69,6 +77,7 @@ public class RadiometricDatingMeter extends SimpleObservable {
 	
 	public void setNucleusTypeUsedForDating(NucleusType nucleusType){
 		_nucleusTypeForDating = nucleusType;
+		notifyDatingElementChanged();
 	}
 	
 	public NucleusType getNucleusTypeUsedForDating(){
@@ -89,6 +98,8 @@ public class RadiometricDatingMeter extends SimpleObservable {
 		assert _nucleusTypeForDating == NucleusType.CUSTOM;
 		
 		_halfLifeOfDatingNucleus = halfLife;
+		
+		notifyDatingElementChanged();
 	}
 	
 	/**
@@ -114,10 +125,43 @@ public class RadiometricDatingMeter extends SimpleObservable {
     	
     	if (_itemBeingTouched != newTouchedItem){
     		_itemBeingTouched = newTouchedItem;
-    		notifyObservers();
+    		notifyTouchedStateChanged();
     	}
     }
+    
+	/**
+	 * Notify listeners about a change in the touch state.
+	 */
+	private void notifyTouchedStateChanged() {
+	    for (int i = 0; i < _listeners.size(); i++){
+	        _listeners.get(i).touchedStateChanged();
+	    }
+	}
 	
+	/**
+	 * Notify listeners about a change in the element that is being used to
+	 * perform the dating.
+	 */
+	private void notifyDatingElementChanged() {
+	    for (int i = 0; i < _listeners.size(); i++){
+	        _listeners.get(i).datingElementChanged();
+	    }
+	}
+	
+	//----------------------------------------------------------------------------
+    // Inner Classes and Interfaces
+    //----------------------------------------------------------------------------
+    
+    static interface Listener{
+    	public void touchedStateChanged();
+    	public void datingElementChanged();
+    }
+    
+    static class Adapter implements Listener {
+    	public void touchedStateChanged(){};
+    	public void datingElementChanged(){};
+    }
+
 	/**
 	 * This class represents the probe that moves around and comes in contact
 	 * with various datable elements in the model.

@@ -80,6 +80,16 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         				(int)Math.round(INITIAL_INTERMEDIATE_COORD_HEIGHT * 0.25)),
         		20,
         		true);
+        
+        // Register with the meter in the model in order to know when the user
+        // changes any of the meter settings, since they need to be propagated
+        // to the chart.
+        _model.getMeter().addListener(new RadiometricDatingMeter.Adapter(){
+        	public void datingElementChanged(){
+        		configureProportionsChart();
+        		update();
+        	};
+        });
 
         // Add a reference node that will be used when positioning other nodes later.
         _referenceNode = new PNode();
@@ -162,13 +172,13 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
 	//------------------------------------------------------------------------
     // Methods
     //------------------------------------------------------------------------
-
+    
     /**
      * Update the layout of the nodes on this canvas.  This handles
      * specialized node movement and resizing that can't be fully handled
      * by the canvas transform strategy.
      */
-    protected void updateLayout(){
+    public void updateLayout(){
 
     	if ( getWidth() > 0 && getHeight() > 0){
 	    	// Set the location of the edge of the world.  This is done here
@@ -214,9 +224,9 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     }
     
     private void configureProportionsChart(){
-        _proportionsChart.setTimeSpan(_model.getMeter().getHalfLifeForDating() * 3.2);
-        _proportionsChart.setHalfLife(_model.getMeter().getHalfLifeForDating());
-        _proportionsChart.configureForNucleusType(_model.getMeter().getNucleusTypeUsedForDating());
+        double halfLife = _model.getMeter().getHalfLifeForDating();
+        _proportionsChart.setTimeParameters(halfLife * 3.2, halfLife);
         _proportionsChart.setShowPostDecayCurve(false);
+        _proportionsChart.setDisplayInfoForNucleusType(_model.getMeter().getNucleusTypeUsedForDating());
     }
 }
