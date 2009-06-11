@@ -31,7 +31,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-abstract class EquilibriumExpressionNode extends PComposite {
+abstract class AbstractEquilibriumExpressionNode extends PComposite {
     
     //----------------------------------------------------------------------------
     // Class data
@@ -78,7 +78,7 @@ abstract class EquilibriumExpressionNode extends PComposite {
     // Constructors
     //----------------------------------------------------------------------------
     
-    protected EquilibriumExpressionNode( boolean hasDenominator ) {
+    protected AbstractEquilibriumExpressionNode( boolean hasDenominator ) {
         super();
         setPickable( false );
         setChildrenPickable( false );
