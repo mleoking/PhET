@@ -15,10 +15,15 @@ DEFER:
 ISSUES:
 - vertical spacing of items in solute combo box
 - people think the A- icon has something wrong with it
-- PSwing buffering makes Swing text look lousy while dragging sliders
-- Kathy doesn't like look of solute combo box
-- Laurie proposed that we hide the reactant molecule image for strong bases
+- KP: PSwing buffering makes Swing text look lousy while dragging sliders
+- KP: doesn't like look of solute combo box
+- LL: proposed that we hide the reactant molecule image for strong bases
 - layout change of play area is annoying when switching solutes, due to label changes in beaker's View control panel
+- TL: label the intermediate range of the strength slider
+- JB: different strong acids/bases shouldn't have different positions on strength slider
+- LL: different icon for MOH
+- JB: changes to the descriptions in the legend
+- JB: Ka value for HF (Hydrofluoric Acid)
 
 DONE:
 6/11/09 revise implementation of reaction equations to be more type-safe, eliminate duplicate code
