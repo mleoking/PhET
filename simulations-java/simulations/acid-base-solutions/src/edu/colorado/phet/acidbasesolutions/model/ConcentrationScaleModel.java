@@ -1,8 +1,5 @@
 
-package edu.colorado.phet.acidbasesolutions.view.equilibriumexpressions;
-
-
-
+package edu.colorado.phet.acidbasesolutions.model;
 
 public class ConcentrationScaleModel {
 
