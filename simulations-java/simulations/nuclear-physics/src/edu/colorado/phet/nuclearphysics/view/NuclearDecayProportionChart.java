@@ -1195,7 +1195,6 @@ public class NuclearDecayProportionChart extends PNode {
     		_percentageText.setScale(1);
     		_timeText.setScale(1);
     		double scale = _readoutRect.getHeight() * 0.5 / _percentageText.getFullBoundsReference().getHeight();
-    		System.out.println(scale);
 			_percentageText.setScale(scale);
 			_timeText.setScale(scale);
 			
@@ -1278,11 +1277,11 @@ public class NuclearDecayProportionChart extends PNode {
         }
         
         private void handleMouseStartDragEvent(PInputEvent event){
-            System.out.println("Mouse start drag event received.");
+            // TODO: Is this needed for anything?
         }
 
         private void handleMouseEndDragEvent(PInputEvent event){
-            System.out.println("Mouse end event received.");
+            // TODO: Is this needed for anything?
         }
     }
 
