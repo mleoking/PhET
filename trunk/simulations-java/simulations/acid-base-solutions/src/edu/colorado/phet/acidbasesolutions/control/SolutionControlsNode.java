@@ -154,22 +154,22 @@ public class SolutionControlsNode extends PhetPNode {
         // strength control is enabled only for custom solutes
         strengthSliderNode.setEnabled( solute instanceof ICustomSolute );
         
-        // for specific (immutable) solutes, set strength control
-        if ( !( solute instanceof ICustomSolute || solute instanceof NoSolute ) ) {
+        // set concentration and strength
+        if ( !( solute instanceof NoSolute ) ) {
+            setConcentration( solute.getConcentration() );
             setStrength( solute.getStrength() );
-        }
-        
-        // new solute uses the existing concentration
-        solute.setConcentration( getConcentration() );
-        
-        // custom solute uses the existing strength
-        if ( solute instanceof ICustomSolute ) {
-            ( (ICustomSolute) solute ).setStrength( getStrength() );
         }
     }
     
     public Solute getSolute() {
-        return SoluteFactory.createSolute( soluteComboBox.getSoluteName() );
+        Solute solute = SoluteFactory.createSolute( soluteComboBox.getSoluteName() );
+        // use existing concentration for all solutes
+        solute.setConcentration( getConcentration() );
+        // use existing strength for custom solutes
+        if ( solute instanceof ICustomSolute ) {
+            ( (ICustomSolute) solute ).setStrength( getStrength() );
+        }
+        return solute;
     }
     
     public void setConcentration( double concentration ) {
