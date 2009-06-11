@@ -16,6 +16,7 @@ import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
 
 import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
 import javax.swing.JRadioButton;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
@@ -31,6 +32,7 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
+import edu.colorado.phet.nuclearphysics.common.NucleusType;
 import edu.colorado.phet.nuclearphysics.module.radioactivedatinggame.ProbeTypeModel.ProbeType;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -83,10 +85,14 @@ public class RadiometricDatingMeterNode extends PNode {
 		_probeTypeModel = probeTypeModel;
 		
 		// Register with the model to find out when something new is being touched.
-		_meterModel.addObserver(new SimpleObserver(){
-			public void update() {
+		_meterModel.addListener(new RadiometricDatingMeter.Listener(){
+			public void datingElementChanged() {
+				// TODO: Need to hook this up to the selection panel (I think).
 				updateMeterReading();
-				
+			}
+
+			public void touchedStateChanged() {
+				updateMeterReading();
 			}
 		});
 		
@@ -114,7 +120,7 @@ public class RadiometricDatingMeterNode extends PNode {
 		_percentageDisplay.setPercentage(100);
 		
 		// Add the selection panel.
-		_elementSelectionPanel = new ElementSelectionPanel((int)Math.round(width * 0.9), (int)Math.round(height * 0.66), probeTypeModel);
+		_elementSelectionPanel = new ElementSelectionPanel((int)Math.round(width * 0.9), (int)Math.round(height * 0.66), probeTypeModel, meterModel);
 		_elementSelectionNode = new PSwing(_elementSelectionPanel);
 		_elementSelectionNode.setOffset( 
 				_meterBody.getFullBounds().width / 2 - _elementSelectionNode.getFullBounds().width / 2,
@@ -367,10 +373,13 @@ public class RadiometricDatingMeterNode extends PNode {
 	}
 	
 	private static class ElementSelectionPanel extends VerticalLayoutPanel {
+
+		static private final Font LABEL_FONT = new PhetFont(18, true);
 		
 		private final PComboBox comboBox;
 
-		public ElementSelectionPanel(int width, int height, final ProbeTypeModel probeTypeModel){
+		public ElementSelectionPanel(int width, int height, final ProbeTypeModel probeTypeModel, 
+				final RadiometricDatingMeter meterModel){
 			
 			setPreferredSize(new Dimension(width, height));
 			setBackground(BODY_COLOR);
@@ -383,30 +392,71 @@ public class RadiometricDatingMeterNode extends PNode {
                     "Probe Type",
                     TitledBorder.CENTER,
                     TitledBorder.TOP,
-                    new PhetFont( Font.BOLD, 18 ),
+                    LABEL_FONT,
                     Color.WHITE );
             
             setBorder( titledBorder );
             
-            // Create the radio buttons, one for each possible probe type.
-            for (final ProbeType probeType : ProbeTypeModel.POSSIBLE_PROBE_TYPES){
-                final JRadioButton radioButton = new JRadioButton(probeType.getName(), 
-                		probeTypeModel.getProbeType().equals(probeType));
-                radioButton.setBackground(BODY_COLOR);
-                radioButton.setForeground(Color.WHITE);
-                radioButton.setFont(new PhetFont(18));
-                radioButton.addActionListener(new ActionListener(){
-					public void actionPerformed(ActionEvent e) {
-						probeTypeModel.setProbeType(probeType);
-					}
-                });
-                add(radioButton);
-                probeTypeModel.addObserver(new SimpleObserver(){
-					public void update() {
-		                radioButton.setSelected( probeTypeModel.getProbeType().equals(probeType));
-					}
-                });
-            }
+            // Create the radio buttons, one for each possible radiometric
+            // dating element.
+            
+            final JRadioButton carbon14Button = new JRadioButton(ProbeType.CARBON_14.getName(), true);
+            carbon14Button.setBackground(BODY_COLOR);
+            carbon14Button.setForeground(Color.WHITE);
+            carbon14Button.setFont(LABEL_FONT);
+            carbon14Button.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent e) {
+					// TODO: Ultimately things will be refactored so that only one of these calls is needed.
+					probeTypeModel.setProbeType(ProbeType.CARBON_14);
+					meterModel.setNucleusTypeUsedForDating(NucleusType.CARBON_14);
+				}
+            });
+            add(carbon14Button);
+            probeTypeModel.addObserver(new SimpleObserver(){
+				public void update() {
+	                carbon14Button.setSelected( probeTypeModel.getProbeType().equals(ProbeType.CARBON_14));
+				}
+            });
+            carbon14Button.setSelected( probeTypeModel.getProbeType().equals(ProbeType.CARBON_14));
+            
+            final JRadioButton uranium238RadioButton = new JRadioButton(ProbeType.URANIUM_238.getName(), true);
+            uranium238RadioButton.setBackground(BODY_COLOR);
+            uranium238RadioButton.setForeground(Color.WHITE);
+            uranium238RadioButton.setFont(LABEL_FONT);
+            uranium238RadioButton.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent e) {
+					// TODO: Ultimately things will be refactored so that only one of these calls is needed.
+					probeTypeModel.setProbeType(ProbeType.URANIUM_238);
+					meterModel.setNucleusTypeUsedForDating(NucleusType.URANIUM_238);
+				}
+            });
+            add(uranium238RadioButton);
+            probeTypeModel.addObserver(new SimpleObserver(){
+				public void update() {
+	                uranium238RadioButton.setSelected( probeTypeModel.getProbeType().equals(ProbeType.URANIUM_238));
+				}
+            });
+            uranium238RadioButton.setSelected( probeTypeModel.getProbeType().equals(ProbeType.URANIUM_238));
+            
+            final JRadioButton customNucleusRadioButton = new JRadioButton(ProbeType.CUSTOM.getName(), true);
+            customNucleusRadioButton.setBackground(BODY_COLOR);
+            customNucleusRadioButton.setForeground(Color.WHITE);
+            customNucleusRadioButton.setFont(LABEL_FONT);
+            customNucleusRadioButton.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent e) {
+					// TODO: Ultimately things will be refactored so that only one of these calls is needed.
+					probeTypeModel.setProbeType(ProbeType.CUSTOM);
+					meterModel.setNucleusTypeUsedForDating(NucleusType.CUSTOM);
+				}
+            });
+            add(customNucleusRadioButton);
+            probeTypeModel.addObserver(new SimpleObserver(){
+				public void update() {
+					customNucleusRadioButton.setSelected( probeTypeModel.getProbeType().equals(ProbeType.CUSTOM));
+				}
+            });
+			customNucleusRadioButton.setSelected( probeTypeModel.getProbeType().equals(ProbeType.CUSTOM));
+            
             comboBox = new PComboBox(new Object[]{"100 ky","100 my"});
             add(comboBox);
 		}

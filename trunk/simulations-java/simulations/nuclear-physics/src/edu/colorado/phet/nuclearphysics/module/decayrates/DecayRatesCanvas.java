@@ -24,6 +24,7 @@ import edu.colorado.phet.nuclearphysics.common.model.NuclearDecayControl;
 import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusImageNode;
 import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusImageType;
 import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusNode;
+import edu.colorado.phet.nuclearphysics.model.HalfLifeInfo;
 import edu.colorado.phet.nuclearphysics.model.NuclearDecayListenerAdapter;
 import edu.colorado.phet.nuclearphysics.view.BucketOfNucleiNode;
 import edu.colorado.phet.nuclearphysics.view.NuclearDecayProportionChart;
@@ -158,7 +159,7 @@ public class DecayRatesCanvas extends PhetPCanvas {
         // pre- and post-decay nuclei.
         _proportionsChart = new NuclearDecayProportionChart(true, false);
         _proportionsChart.setShowPostDecayCurve(true);
-        _proportionsChart.configureForNucleusType(_model.getNucleusType());
+        _proportionsChart.setDisplayInfoForNucleusType(_model.getNucleusType());
         _graphLayer.addChild(_proportionsChart);
         
         // Register with the model for notifications of nuclei coming and
@@ -174,7 +175,9 @@ public class DecayRatesCanvas extends PhetPCanvas {
             
             public void nucleusTypeChanged(){
             	_proportionsChart.clear();
-                _proportionsChart.configureForNucleusType(_model.getNucleusType());
+                double halfLife = HalfLifeInfo.getHalfLifeForNucleusType(_model.getNucleusType());
+                _proportionsChart.setTimeParameters(halfLife * 3.2, halfLife);
+                _proportionsChart.setDisplayInfoForNucleusType(_model.getNucleusType());
                 _bucketNode.resetSliderPosition();
             }
         });

@@ -32,6 +32,7 @@ import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.common.NucleusDisplayInfo;
 import edu.colorado.phet.nuclearphysics.common.NucleusType;
 import edu.colorado.phet.nuclearphysics.model.Carbon14Nucleus;
+import edu.colorado.phet.nuclearphysics.model.HalfLifeInfo;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusDecayModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
@@ -162,69 +163,62 @@ public class NuclearDecayProportionChart extends PNode {
     // Methods
     //------------------------------------------------------------------------
     
-    public void setTimeSpan( double timeSpan ){
-    	_timeSpan = timeSpan;
+    /**
+     * Set the time parameters for the graph.  These are set at the same time
+     * to avoid problems that can emerge if the two values are at very
+     * different scales the methods for layout out the chart are called.
+     * 
+     * @param totalTimeSpan - Total time period covered by chart.
+     * @param halfLife - Half life of the element being represented.
+     */
+    public void setTimeParameters(double totalTimeSpan, double halfLife){
+    	_timeSpan = totalTimeSpan;
+		_halfLife = halfLife;
     	updateLayout();
+    	
     }
     
-    public void setHalfLife(double life) {
-		_halfLife = life;
-    	updateLayout();
-	}
-    
+    /**
+     * Set the display information for the pre-decay element.  Note that the
+     * chart will need to be redrawn in order for this change to become visible.
+     * 
+     */
 	public void setPreDecayDisplayInfo(NucleusDisplayInfo displayInfo) {
 		_preDecayNucleusDisplayInfo = displayInfo;
     	updateLayout();
 	}
 	
+    /**
+     * Set the display information for the post-decay element.  Note that the
+     * chart will need to be redrawn in order for this change to become visible.
+     * 
+     */
 	public void setPostDecayDisplayInfo(NucleusDisplayInfo displayInfo) {
 		_postDecayNucleusDisplayInfo = displayInfo;
     	updateLayout();
 	}
 	
+    /**
+     * Turn on/off the visibility of the post-decay curve.  Note that the
+     * chart will need to be redrawn in order for this change to become visible.
+     */
 	public void setShowPostDecayCurve(boolean postDecayCurve) {
 		_showPostDecayCurve = postDecayCurve;
     	updateLayout();
 	}
 
 	/**
-	 * Configure the parameters
+	 * Configure the display information based on the given nucleus type.
+	 * Note that the chart must be redrawn before this change will be visible.
+	 * 
 	 * @param nucleusType
 	 */
-	public void configureForNucleusType(NucleusType nucleusType){
+	public void setDisplayInfoForNucleusType(NucleusType nucleusType){
 		
 		_preDecayNucleusDisplayInfo = NucleusDisplayInfo.getDisplayInfoForNucleusType(nucleusType);
 		_postDecayNucleusDisplayInfo = 
 			NucleusDisplayInfo.getDisplayInfoForNucleusType( MultiNucleusDecayModel.getDecayProduct(nucleusType).get(0) );
 		
-//    	switch(nucleusType){
-//    	case NuclearPhysicsConstants.NUCLEUS_ID_CARBON_14:
-//            _timeSpan = Carbon14Nucleus.HALF_LIFE * 3.2;
-//            _halfLife = Carbon14Nucleus.HALF_LIFE;
-//            _preDecayChemicalSymbol = NuclearPhysicsStrings.CARBON_14_CHEMICAL_SYMBOL;
-//            _preDecayIsotopeNumber = NuclearPhysicsStrings.CARBON_14_ISOTOPE_NUMBER;
-//            _preDecayLabelColor = NuclearPhysicsConstants.CARBON_COLOR;
-//            _postDecayChemicalSymbol = NuclearPhysicsStrings.NITROGEN_14_CHEMICAL_SYMBOL;
-//            _postDecayIsotopeNumber = NuclearPhysicsStrings.NITROGEN_14_ISOTOPE_NUMBER;
-//            _postDecayLabelColor = NuclearPhysicsConstants.NITROGEN_COLOR;
-//            break;
-//            
-//    	case NuclearPhysicsConstants.NUCLEUS_ID_URANIUM_238:
-//            _timeSpan = Uranium238Nucleus.HALF_LIFE * 3.2;
-//            _halfLife = Uranium238Nucleus.HALF_LIFE;
-//            _preDecayChemicalSymbol = NuclearPhysicsStrings.URANIUM_238_CHEMICAL_SYMBOL;
-//            _preDecayIsotopeNumber = NuclearPhysicsStrings.URANIUM_238_ISOTOPE_NUMBER;
-//            _preDecayLabelColor = NuclearPhysicsConstants.URANIUM_238_COLOR;
-//            _postDecayChemicalSymbol = NuclearPhysicsStrings.LEAD_206_CHEMICAL_SYMBOL;
-//            _postDecayIsotopeNumber = NuclearPhysicsStrings.LEAD_206_ISOTOPE_NUMBER;
-//            _postDecayLabelColor = NuclearPhysicsConstants.LEAD_206_COLOR;
-//            break;
-//            
-//        default:
-//        	System.err.println(this.getClass().getName() + ": Error - Unable to configure chart for current nucleus type.");
-//            break;
-//    	}
-    	
     	clear();
     	updateLayout();
 	}
@@ -866,6 +860,12 @@ public class NuclearDecayProportionChart extends PNode {
 	    	
 	    	int numHalfLifeLines = (int)Math.floor( _chart._timeSpan / _chart._halfLife );
 	    	
+	    	if (numHalfLifeLines > 10){
+	    		// Too many line.  Ignore this.
+	    		System.err.println(this.getClass().getName() + " - Warning: Too many half life lines, ignoring request to draw them.");
+	    		return;
+	    	}
+	    	
 	    	if ( numHalfLifeLines != _halfLifeLines.size() ){
 	    		// Either this is the first time through, or something has changed
 	    		// that requires the half life lines to be reallocated.  First,
@@ -1294,9 +1294,9 @@ public class NuclearDecayProportionChart extends PNode {
     	
         final NuclearDecayProportionChart proportionsChart = new NuclearDecayProportionChart(true, true); 
 
-        proportionsChart.setTimeSpan(Carbon14Nucleus.HALF_LIFE * 3.2);
-        proportionsChart.setHalfLife(Carbon14Nucleus.HALF_LIFE);
-        proportionsChart.configureForNucleusType(NucleusType.CARBON_14);
+        double halfLife = HalfLifeInfo.getHalfLifeForNucleusType(NucleusType.CARBON_14);
+        proportionsChart.setTimeParameters(halfLife * 3.2, halfLife);
+        proportionsChart.setDisplayInfoForNucleusType(NucleusType.CARBON_14);
         proportionsChart.setShowPostDecayCurve(false);
 
         JFrame frame = new JFrame();
