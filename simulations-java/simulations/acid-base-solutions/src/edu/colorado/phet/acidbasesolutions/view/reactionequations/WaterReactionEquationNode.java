@@ -8,7 +8,6 @@ import edu.colorado.phet.acidbasesolutions.ABSSymbols;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.SolutionListener;
 import edu.colorado.phet.acidbasesolutions.model.Solute.ICustomSolute;
-import edu.colorado.phet.acidbasesolutions.model.equilibrium.EquilibriumModel;
 
 /**
  * Water reaction equation: H2O + H2O <-> H3O+ + OH-
@@ -79,9 +78,8 @@ public class WaterReactionEquationNode extends AbstractReactionEquationNode {
         
         // concentration scaling
         if ( isScaleEnabled() ) {
-            EquilibriumModel equilibriumModel = solution.getEquilibriumModel();
-            scaleTermToConcentration( H3O_PLUS_INDEX, equilibriumModel.getH3OConcentration() );
-            scaleTermToConcentration( OH_MINUS_INDEX, equilibriumModel.getOHConcentration() );
+            scaleTermToConcentration( H3O_PLUS_INDEX, solution.getH3OConcentration() );
+            scaleTermToConcentration( OH_MINUS_INDEX, solution.getOHConcentration() );
         }
         else {
             scaleAllTerms( 1.0 );

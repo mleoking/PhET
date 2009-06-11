@@ -11,7 +11,6 @@ import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.model.Solute;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.SolutionListener;
 import edu.colorado.phet.acidbasesolutions.model.Solute.ICustomSolute;
-import edu.colorado.phet.acidbasesolutions.model.equilibrium.EquilibriumModel;
 
 /**
  * Reaction equation for bases.
@@ -91,10 +90,9 @@ public class BaseReactionEquationNode extends AbstractReactionEquationNode {
         
         // concentration scaling
         if ( scaleEnabled ) {
-            EquilibriumModel equilibriumModel = solution.getEquilibriumModel();
-            scaleTermToConcentration( REACTANT_INDEX, equilibriumModel.getReactantConcentration() );
-            scaleTermToConcentration( PRODUCT_INDEX, equilibriumModel.getProductConcentration() );
-            scaleTermToConcentration( OH_MINUS_INDEX, equilibriumModel.getOHConcentration() );
+            scaleTermToConcentration( REACTANT_INDEX, solution.getReactantConcentration() );
+            scaleTermToConcentration( PRODUCT_INDEX, solution.getProductConcentration() );
+            scaleTermToConcentration( OH_MINUS_INDEX, solution.getOHConcentration() );
         }
         else {
             scaleAllTerms( 1 );

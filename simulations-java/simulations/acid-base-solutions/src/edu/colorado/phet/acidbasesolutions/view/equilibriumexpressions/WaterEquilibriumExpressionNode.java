@@ -5,7 +5,6 @@ import edu.colorado.phet.acidbasesolutions.ABSSymbols;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.model.Water;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.SolutionListener;
-import edu.colorado.phet.acidbasesolutions.model.equilibrium.EquilibriumModel;
 
 /**
  * Water equilibrium expression: Kw = [H3O+][OH-] = 1.0 x 10^-14
@@ -62,9 +61,8 @@ class WaterEquilibriumExpressionNode extends AbstractEquilibriumExpressionNode {
     
     private void updateView() {
         if ( isScaleEnabled() ) {
-            EquilibriumModel equilibriumModel = solution.getEquilibriumModel();
-            scaleLeftNumeratorToConcentration( equilibriumModel.getH3OConcentration() );
-            scaleRightNumeratorToConcentration( equilibriumModel.getOHConcentration() );
+            scaleLeftNumeratorToConcentration( solution.getH3OConcentration() );
+            scaleRightNumeratorToConcentration( solution.getOHConcentration() );
         }
         else {
             scaleAllTerms( 1.0 );

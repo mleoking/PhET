@@ -6,7 +6,6 @@ import edu.colorado.phet.acidbasesolutions.ABSSymbols;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.model.Solute;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.SolutionListener;
-import edu.colorado.phet.acidbasesolutions.model.equilibrium.EquilibriumModel;
 
 /**
  * Equilibrium expression for acids: Ka = [H3O+][A-] / [HA] = value
@@ -76,10 +75,9 @@ public class AcidEquilibriumExpressionNode extends AbstractEquilibriumExpression
 
         // concentration scaling
         if ( scaleEnabled ) {
-            EquilibriumModel equilibriumModel = solution.getEquilibriumModel();
-            scaleLeftNumeratorToConcentration( equilibriumModel.getH3OConcentration() );
-            scaleRightNumeratorToConcentration( equilibriumModel.getProductConcentration() );
-            scaleDenominatorToConcentration( equilibriumModel.getReactantConcentration() );
+            scaleLeftNumeratorToConcentration( solution.getH3OConcentration() );
+            scaleRightNumeratorToConcentration( solution.getProductConcentration() );
+            scaleDenominatorToConcentration( solution.getReactantConcentration() );
         }
         else {
             scaleAllTerms( 1 );
