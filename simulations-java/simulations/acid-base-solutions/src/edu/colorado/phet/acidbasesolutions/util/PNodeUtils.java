@@ -4,8 +4,15 @@ import java.awt.geom.Point2D;
 
 import edu.umd.cs.piccolo.PNode;
 
-
+/**
+ * A collection of utilites that are useful for PNodes.
+ * 
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class PNodeUtils {
+    
+    /* not intended for instantiation */
+    private PNodeUtils() {}
     
     /**
      * Determines how far a node's offset is from the origin of its bounding box.

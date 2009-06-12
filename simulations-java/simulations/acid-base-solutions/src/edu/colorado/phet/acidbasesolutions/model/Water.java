@@ -6,7 +6,7 @@ import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.ABSSymbols;
 
 /**
- * Water.
+ * Water molecule.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

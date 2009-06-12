@@ -1,6 +1,12 @@
 
 package edu.colorado.phet.acidbasesolutions.model;
 
+/**
+ * Model for mapping a concentration value to a font size.
+ * Used for scaling reaction equations and equilibrium expressions.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class ConcentrationScaleModel {
 
     // concentration log10 range

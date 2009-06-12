@@ -11,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.view.ResetAllButton;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 /**
- * ABSResetAllButton is the "Reset All" button.
+ * The "Reset All" button.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

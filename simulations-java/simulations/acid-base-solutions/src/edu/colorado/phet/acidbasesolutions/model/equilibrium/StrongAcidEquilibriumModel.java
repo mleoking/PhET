@@ -3,7 +3,12 @@ package edu.colorado.phet.acidbasesolutions.model.equilibrium;
 import edu.colorado.phet.acidbasesolutions.model.Acid;
 import edu.colorado.phet.acidbasesolutions.model.Water;
 
-public class StrongAcidEquilibriumModel extends EquilibriumModel {
+/**
+ * Equilibrium model for strong acids.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
+public class StrongAcidEquilibriumModel extends AbstractEquilibriumModel {
     
     protected StrongAcidEquilibriumModel( Acid acid ) {
         super( acid );

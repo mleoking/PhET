@@ -2,7 +2,11 @@ package edu.colorado.phet.acidbasesolutions.model;
 
 import edu.colorado.phet.acidbasesolutions.*;
 
-
+/**
+ * Base class for all acids.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public abstract class Acid extends Solute {
     
     protected Acid( String name, String symbol, String conjugateSymbol, double strength  ) {

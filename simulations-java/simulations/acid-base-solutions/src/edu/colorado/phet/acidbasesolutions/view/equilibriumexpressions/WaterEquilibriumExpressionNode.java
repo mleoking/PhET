@@ -6,6 +6,11 @@ import edu.colorado.phet.acidbasesolutions.ABSSymbols;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.model.Water;
 
+/**
+ * Equilibrium expression for water.
+ * 
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 class WaterEquilibriumExpressionNode extends AbstractEquilibriumExpressionNode {
     
     private final AqueousSolution solution;

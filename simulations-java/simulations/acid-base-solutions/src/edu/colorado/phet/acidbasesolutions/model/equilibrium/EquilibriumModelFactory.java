@@ -9,19 +9,23 @@ import edu.colorado.phet.acidbasesolutions.model.Base.CustomBase;
 import edu.colorado.phet.acidbasesolutions.model.Base.StrongBase;
 import edu.colorado.phet.acidbasesolutions.model.Base.WeakBase;
 
-
+/**
+ * Factory for creating equilibrium models.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class EquilibriumModelFactory {
     
     // not intended for instantiation
     private EquilibriumModelFactory() {}
     
     /**
-     * Gets a concentration model that's appropriate for the Solute type.
+     * Gets a model that's appropriate for the Solute type.
      * @param solute
-     * @return ConcentrationModel
+     * @return
      */
-    public static EquilibriumModel getModel( Solute solute ) {
-        EquilibriumModel model = null;
+    public static AbstractEquilibriumModel getModel( Solute solute ) {
+        AbstractEquilibriumModel model = null;
         if ( solute instanceof NoSolute ) {
             model = new PureWaterEquilibriumModel( (NoSolute) solute );
         }

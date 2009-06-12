@@ -5,9 +5,8 @@ package edu.colorado.phet.acidbasesolutions.model;
 import edu.colorado.phet.acidbasesolutions.util.PrecisionDecimal;
 
 
-
 /**
- * PHValue is an immutable pH value that is constrained to some precision.
+ * An immutable pH value that is constrained to some precision.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

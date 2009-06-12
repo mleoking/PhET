@@ -25,10 +25,8 @@ public class DeveloperMenu extends JMenu {
 
     private final AcidBaseSolutionsApplication app;
     private final JCheckBoxMenuItem tabPropertiesItem;
-    private final JCheckBoxMenuItem particlesControlsMenuItem;
     
     private JDialog tabPropertiesDialog;
-    private JDialog particleControlsDialog;
 
     public DeveloperMenu( AcidBaseSolutionsApplication app ) {
         super( "Developer" );
@@ -40,14 +38,6 @@ public class DeveloperMenu extends JMenu {
         tabPropertiesItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 handleTabProperties();
-            }
-        });
-        
-        particlesControlsMenuItem = new JCheckBoxMenuItem( "Particle controls..." );
-        add( particlesControlsMenuItem );
-        particlesControlsMenuItem.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent event ) {
-                handleParticleControls();
             }
         });
     }
@@ -76,28 +66,5 @@ public class DeveloperMenu extends JMenu {
         else {
             tabPropertiesDialog.dispose();
         }
-    }
-    
-    private void handleParticleControls() {
-//        if ( _particlesControlsMenuItem.isSelected() ) {
-//            Frame owner = _app.getPhetFrame();
-//            _particleControlsDialog = new ParticleControlsDialog( owner, _app );
-//            _particleControlsDialog.setVisible( true );
-//            _particleControlsDialog.addWindowListener( new WindowAdapter() {
-//                public void windowClosed( WindowEvent e ) {
-//                    cleanup();
-//                }
-//                public void windowClosing( WindowEvent e ) {
-//                    cleanup();
-//                }
-//                private void cleanup() {
-//                    _particlesControlsMenuItem.setSelected( false );
-//                    _particleControlsDialog = null;
-//                }
-//            } );
-//        }
-//        else {
-//            _particleControlsDialog.dispose();
-//        }
     }
 }

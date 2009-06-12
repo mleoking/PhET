@@ -5,7 +5,11 @@ import java.awt.Image;
 
 import edu.colorado.phet.acidbasesolutions.*;
 
-
+/**
+ * Base class for all bases.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public abstract class Base extends Solute {
     
     private Base( String name, 

@@ -27,6 +27,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Base class for all concentration graphs, y-axis is log moles/L.
+ * Knows nothing about the model.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

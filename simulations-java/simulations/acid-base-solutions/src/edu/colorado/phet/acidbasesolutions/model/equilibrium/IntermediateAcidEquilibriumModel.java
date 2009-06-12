@@ -4,9 +4,15 @@ import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.model.Acid;
 import edu.colorado.phet.acidbasesolutions.model.Water;
 
-
-
-public class IntermediateAcidEquilibriumModel extends EquilibriumModel {
+/**
+ * Equilibrium model for an "intermediate" acid.
+ * Intermediate is a term that PhET invented to describe a hypothetical range
+ * between weak and strong.  Acids in this range are represented as weak,
+ * but the model provides a smooth transition between weak and strong.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
+public class IntermediateAcidEquilibriumModel extends AbstractEquilibriumModel {
 
     public IntermediateAcidEquilibriumModel( Acid acid ) {
         super( acid );

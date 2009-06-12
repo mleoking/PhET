@@ -6,6 +6,11 @@ import edu.colorado.phet.acidbasesolutions.ABSSymbols;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.model.Solute;
 
+/**
+ * Equilibrium expression for acids.
+ * 
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 class AcidEquilibriumExpressionNode extends AbstractEquilibriumExpressionNode {
     
     private final AqueousSolution solution;

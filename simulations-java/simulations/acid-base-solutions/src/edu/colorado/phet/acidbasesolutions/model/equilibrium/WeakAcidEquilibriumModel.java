@@ -4,8 +4,12 @@ import edu.colorado.phet.acidbasesolutions.model.Acid;
 import edu.colorado.phet.acidbasesolutions.model.Water;
 
 
-
-public class WeakAcidEquilibriumModel extends EquilibriumModel {
+/**
+ * Equilibrium model for weak acids.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
+public class WeakAcidEquilibriumModel extends AbstractEquilibriumModel {
 
     protected WeakAcidEquilibriumModel( Acid acid ) {
         super( acid );

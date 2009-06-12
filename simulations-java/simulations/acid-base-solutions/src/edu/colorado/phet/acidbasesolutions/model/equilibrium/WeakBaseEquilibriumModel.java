@@ -4,8 +4,12 @@ import edu.colorado.phet.acidbasesolutions.model.Base;
 import edu.colorado.phet.acidbasesolutions.model.Water;
 
 
-
-public class WeakBaseEquilibriumModel extends EquilibriumModel {
+/**
+ * Equilibrium model for weak bases.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
+public class WeakBaseEquilibriumModel extends AbstractEquilibriumModel {
 
     protected WeakBaseEquilibriumModel( Base base ) {
         super( base );

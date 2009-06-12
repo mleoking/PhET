@@ -10,7 +10,11 @@ import edu.colorado.phet.acidbasesolutions.model.SoluteFactory;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.umd.cs.piccolox.pswing.PComboBox;
 
-
+/**
+ * Combo box for selecting a solute.
+ * 
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class SoluteComboBox extends PComboBox {
     
     /*

@@ -7,7 +7,12 @@ import java.util.Iterator;
 
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
 
-
+/**
+ * A solute is a substance that is dissolved in a solution.
+ * It's conjugate is the thing that is produced as the result of dissolving.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public abstract class Solute extends Molecule {
     
     public interface ICustomSolute {
