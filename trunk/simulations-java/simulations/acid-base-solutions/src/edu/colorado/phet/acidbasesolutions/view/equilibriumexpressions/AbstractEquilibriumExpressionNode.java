@@ -6,7 +6,7 @@ import java.awt.Font;
 import java.awt.Stroke;
 import java.awt.geom.Line2D;
 
-import edu.colorado.phet.acidbasesolutions.ABSConstants;
+import edu.colorado.phet.acidbasesolutions.ABSColors;
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.model.ConcentrationScaleModel;
 import edu.colorado.phet.acidbasesolutions.util.PNodeUtils;
@@ -305,7 +305,7 @@ abstract class AbstractEquilibriumExpressionNode extends PComposite {
         public KNode( String text ) {
             super( HTMLUtils.toHTMLString( text ) );
             setFont( K_FONT );
-            setHTMLColor( ABSConstants.K_COLOR );
+            setHTMLColor( ABSColors.K );
         }
         
         public void setHTML( String text ) {

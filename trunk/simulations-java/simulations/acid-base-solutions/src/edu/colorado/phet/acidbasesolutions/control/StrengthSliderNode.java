@@ -15,7 +15,7 @@ import java.util.Iterator;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.acidbasesolutions.ABSConstants;
+import edu.colorado.phet.acidbasesolutions.ABSColors;
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.control.IScalarTransform.LogLinearTransform;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
@@ -44,8 +44,8 @@ public class StrengthSliderNode extends PhetPNode {
 
     // Thumb
     private static final PDimension THUMB_SIZE = new PDimension( 13, 18 );
-    private static final Color THUMB_ENABLED_COLOR = ABSConstants.THUMB_ENABLED_COLOR;
-    private static final Color THUMB_HILITE_COLOR = ABSConstants.THUMB_HILITE_COLOR;
+    private static final Color THUMB_ENABLED_COLOR = ABSColors.THUMB_ENABLED;
+    private static final Color THUMB_HILITE_COLOR = ABSColors.THUMB_HIGHLIGHTED;
     private static final Color THUMB_DISABLED_COLOR = new Color( 245, 245, 245 );
     private static final Color THUMB_STROKE_COLOR = Color.BLACK;
     private static final Stroke THUMB_STROKE = new BasicStroke( 1f );

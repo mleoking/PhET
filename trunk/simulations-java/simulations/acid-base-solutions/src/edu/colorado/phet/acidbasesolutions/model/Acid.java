@@ -1,17 +1,14 @@
 package edu.colorado.phet.acidbasesolutions.model;
 
-import edu.colorado.phet.acidbasesolutions.ABSConstants;
-import edu.colorado.phet.acidbasesolutions.ABSImages;
-import edu.colorado.phet.acidbasesolutions.ABSStrings;
-import edu.colorado.phet.acidbasesolutions.ABSSymbols;
+import edu.colorado.phet.acidbasesolutions.*;
 
 
 public abstract class Acid extends Solute {
     
     protected Acid( String name, String symbol, String conjugateSymbol, double strength  ) {
         super( name, 
-               symbol, ABSImages.HA_MOLECULE, ABSImages.HA_STRUCTURE, ABSConstants.HA_COLOR, 
-               conjugateSymbol, ABSImages.A_MINUS_MOLECULE, ABSImages.A_MINUS_STRUCTURE, ABSConstants.A_COLOR, 
+               symbol, ABSImages.HA_MOLECULE, ABSImages.HA_STRUCTURE, ABSColors.HA, 
+               conjugateSymbol, ABSImages.A_MINUS_MOLECULE, ABSImages.A_MINUS_STRUCTURE, ABSColors.A_MINUS, 
                strength );
     }
     

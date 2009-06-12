@@ -6,6 +6,7 @@ import java.awt.geom.Dimension2D;
 
 import javax.swing.JComponent;
 
+import edu.colorado.phet.acidbasesolutions.ABSColors;
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.control.ABSResetAllButton;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
@@ -26,7 +27,7 @@ public class ABSAbstractCanvas extends PhetPCanvas {
     
     public ABSAbstractCanvas( Resettable resettable ) {
         super( ABSConstants.CANVAS_RENDERING_SIZE );
-        setBackground( ABSConstants.CANVAS_BACKGROUND );
+        setBackground( ABSColors.CANVAS_BACKGROUND );
         
         // Root of our scene graph
         rootNode = new PNode();

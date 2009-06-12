@@ -1,7 +1,7 @@
 /* Copyright 2009, University of Colorado */
 package edu.colorado.phet.acidbasesolutions.view.equilibriumexpressions;
 
-import edu.colorado.phet.acidbasesolutions.ABSConstants;
+import edu.colorado.phet.acidbasesolutions.ABSColors;
 import edu.colorado.phet.acidbasesolutions.ABSSymbols;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.model.Solute;
@@ -16,7 +16,7 @@ class AcidEquilibriumExpressionNode extends AbstractEquilibriumExpressionNode {
         this.solution = solution;
         Solute solute = solution.getSolute();
         setKLabel( ABSSymbols.Ka );
-        setLeftNumeratorProperties( ABSSymbols.H3O_PLUS, ABSConstants.H3O_COLOR );
+        setLeftNumeratorProperties( ABSSymbols.H3O_PLUS, ABSColors.H3O_PLUS );
         setRightNumeratorProperties( solute.getConjugateSymbol(), solute.getConjugateColor() );
         setDenominatorProperties( solute.getSymbol(), solute.getColor() );
         update();
