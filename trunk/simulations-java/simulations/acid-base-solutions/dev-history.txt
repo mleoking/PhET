@@ -3,6 +3,7 @@
 ==================================================================================
 
 TODO:
+- is strong range correct?
 - implement "ratio" views
 - scale image files
 - review remaining instanceof comparisons
@@ -27,6 +28,7 @@ ISSUES:
 - KP: fewer pixels for the strong range of the strength slider
 
 DONE:
+6/12/09 add H3O/OH ratio view, lifted from pH Scale sim
 6/12/09 localize symbol legend
 6/12/09 javadoc all code
 6/12/09 move colors to ABSColors, standardize names

@@ -1,10 +1,14 @@
 package edu.colorado.phet.acidbasesolutions.view.beaker;
 
+import java.awt.geom.Rectangle2D;
+
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
+import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.SolutionListener;
 import edu.colorado.phet.acidbasesolutions.util.PNodeUtils;
 import edu.colorado.phet.acidbasesolutions.view.moleculecounts.MoleculeCountsNode;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
+import edu.umd.cs.piccolox.nodes.PClip;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
@@ -16,10 +20,27 @@ public class BeakerNode extends PComposite {
     
     private static double MAX_VOLUME = 1; // liters
     
+    private final PClip particlesParentNode;
     private final MoleculeCountsNode moleculeCountsNode;
     private final BeakerLabelNode beakerLabelNode;
+    private final HydroniumHydroxideRatioNode hydroniumHydroxideRatioNode;
     
     public BeakerNode( PDimension vesselSize, AqueousSolution solution ) {
+        
+        solution.addSolutionListener( new SolutionListener() {
+
+            public void concentrationChanged() {
+                hydroniumHydroxideRatioNode.update();
+            }
+
+            public void soluteChanged() {
+                hydroniumHydroxideRatioNode.update();
+            }
+
+            public void strengthChanged() {
+                hydroniumHydroxideRatioNode.update();
+            }
+        });
         
         VesselNode vesselNode = new VesselNode( vesselSize, MAX_VOLUME );
         
@@ -33,9 +54,17 @@ public class BeakerNode extends PComposite {
         PDimension labelSize = new PDimension( 0.9 * vesselSize.getWidth(), 0.1 * vesselSize.getHeight() );
         beakerLabelNode = new BeakerLabelNode( labelSize, solution );
         
+        PBounds containerBounds = new PBounds( 0, 0, vesselSize.getWidth(), vesselSize.getHeight() );
+        particlesParentNode = new PClip();
+        particlesParentNode.setPathTo( new Rectangle2D.Double( containerBounds.getX(), containerBounds.getY(), containerBounds.getWidth(), containerBounds.getHeight() ) );
+        particlesParentNode.setStroke( null );
+        hydroniumHydroxideRatioNode = new HydroniumHydroxideRatioNode( solution, containerBounds );
+        particlesParentNode.addChild( hydroniumHydroxideRatioNode ); // clip to solution bounds
+        
         // rendering order
         addChild( solutionNode );
         addChild( probeNode );
+        addChild( particlesParentNode );
         addChild( vesselNode );
         addChild( moleculeCountsNode );
         addChild( beakerLabelNode );
@@ -67,11 +96,11 @@ public class BeakerNode extends PComposite {
     }
     
     public void setHydroniumHydroxideRatioVisible( boolean visible ) {
-        //XXX
+        hydroniumHydroxideRatioNode.setVisible( visible );
     }
     
-    public boolean istHydroniumHydroxideRatioVisible() {
-        return false; //XXX
+    public boolean isHydroniumHydroxideRatioVisible() {
+        return hydroniumHydroxideRatioNode.getVisible();
     }
     
     public void setMoleculeCountsVisible( boolean visible ) {

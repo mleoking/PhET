@@ -6,16 +6,16 @@ import java.awt.Color;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.acidbasesolutions.ABSColors;
+import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
-import edu.umd.cs.piccolox.nodes.PClip;
-import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * SolutionNode is the macroscopic view of the solution in the beaker.
+ * Implemented as a PClip so that we can clip things to the bounds of the solution.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class SolutionNode extends PComposite {
+class SolutionNode extends PPath {
     
     //----------------------------------------------------------------------------
     // Class data
@@ -32,10 +32,8 @@ class SolutionNode extends PComposite {
         setPickable( false );
         setChildrenPickable( false );
         
-        PClip solutionNode = new PClip(); // clip particles to liquid
-        solutionNode.setPathTo( new Rectangle2D.Double( 0, 0, size.getWidth(), size.getHeight() ) );
-        solutionNode.setStroke( null );
-        solutionNode.setPaint( COLOR );
-        addChild( solutionNode );
+        setPathTo( new Rectangle2D.Double( 0, 0, size.getWidth(), size.getHeight() ) );
+        setStroke( null );
+        setPaint( COLOR );
     }
 }
