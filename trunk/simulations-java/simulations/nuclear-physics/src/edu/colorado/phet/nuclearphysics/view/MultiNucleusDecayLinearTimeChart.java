@@ -145,8 +145,7 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
     private ArrayList _yAxisTickMarks;
     private ArrayList _yAxisTickMarkLabels;
     private PText _xAxisLabel;
-    private PText _yAxisLabel1;
-    private PText _yAxisLabel2;
+    private PText _yAxisLabel;
     private ShadowPText _numUndecayedNucleiLabel;
     private PText _numUndecayedNucleiText;
     private ShadowPText _numDecayedNucleiLabel;
@@ -308,14 +307,10 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
         _xAxisLabel = new PText( NuclearPhysicsStrings.DECAY_TIME_CHART_X_AXIS_LABEL + " (" + NuclearPhysicsStrings.DECAY_TIME_UNITS + ")" );
         _xAxisLabel.setFont( SMALL_LABEL_FONT );
         _nonPickableChartNode.addChild( _xAxisLabel );
-        _yAxisLabel1 = new PText( NuclearPhysicsStrings.DECAY_TIME_CHART_Y_AXIS_LABEL1 );
-        _yAxisLabel1.setFont( SMALL_LABEL_FONT );
-        _yAxisLabel1.rotate( 1.5 * Math.PI );
-        _nonPickableChartNode.addChild( _yAxisLabel1 );
-        _yAxisLabel2 = new PText( NuclearPhysicsStrings.DECAY_TIME_CHART_Y_AXIS_LABEL2 );
-        _yAxisLabel2.setFont( SMALL_LABEL_FONT );
-        _yAxisLabel2.rotate( 1.5 * Math.PI );
-        _nonPickableChartNode.addChild( _yAxisLabel2 );
+        _yAxisLabel = new PText( NuclearPhysicsStrings.DECAY_TIME_CHART_Y_AXIS_LABEL_ISOTOPE );
+        _yAxisLabel.setFont( SMALL_LABEL_FONT );
+        _yAxisLabel.rotate( 1.5 * Math.PI );
+        _nonPickableChartNode.addChild( _yAxisLabel );
         
         // Add the pie chart.
         _pieChartValues = new PieValue[]{
@@ -328,7 +323,6 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
         // nuclei.
         _numUndecayedNucleiLabel = new ShadowPText();
         _numUndecayedNucleiLabel.setFont(LARGE_LABEL_FONT);
-        _numUndecayedNucleiLabel.setTextPaint(Color.YELLOW);
         _nonPickableChartNode.addChild(_numUndecayedNucleiLabel);
         _numUndecayedNucleiText = new PText("0");
         _numUndecayedNucleiText.setFont(LARGE_LABEL_FONT);
@@ -484,17 +478,15 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
         		((PNode)_xAxisTickMarkLabels.get(0)).getFullBoundsReference().getMaxY() );
         double yAxisLabelCenter = yAxisUpperTickMark.getY() 
                 + ((yAxisLowerTickMark.getY() - yAxisUpperTickMark.getY()) / 2);
-        _yAxisLabel2.setOffset( yAxisLowerTickMarkLabel.getOffset().getX() - ( 1.8 * _yAxisLabel1.getFont().getSize() ),
-        		yAxisLabelCenter + (_yAxisLabel2.getFullBounds().height / 2) );
-        _yAxisLabel1.setOffset( _yAxisLabel2.getOffset().getX() - ( 1.1 * _yAxisLabel2.getFont().getSize() ),
-        		yAxisLabelCenter + (_yAxisLabel1.getFullBounds().height / 2) );
+        _yAxisLabel.setOffset( yAxisLowerTickMarkLabel.getOffset().getX() - ( 1.8 * _yAxisLabel.getFont().getSize() ),
+        		yAxisLabelCenter + (_yAxisLabel.getFullBounds().height / 2) );
         
         // Position the pie chart.
         int pieChartDiameter = (int)Math.round(Math.min(_usableWidth * 0.10, _usableHeight * 0.4));
         _pieChart.setArea( new Rectangle(pieChartDiameter, pieChartDiameter) );
         PBounds pieChartBounds = _pieChart.getFullBoundsReference();
         _pieChart.setOffset(
-        		_yAxisLabel1.getFullBoundsReference().getX() - _pieChart.getFullBoundsReference().getWidth(),
+        		_yAxisLabel.getFullBoundsReference().getX() - _pieChart.getFullBoundsReference().getWidth(),
         		yAxisLabelCenter - _pieChart.getFullBoundsReference().height / 2 );
         
         // Position the dummy text so that it can be used as a reference for

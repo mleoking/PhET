@@ -84,6 +84,7 @@ public class NuclearPhysicsStrings {
     public static final String DECAY_TIME_CHART_X_AXIS_LABEL = NuclearPhysicsResources.getString( "DecayTimeChart.XAxisLabel" );
     public static final String DECAY_TIME_CHART_Y_AXIS_LABEL1 = NuclearPhysicsResources.getString( "DecayTimeChart.YAxisLabel1" );
     public static final String DECAY_TIME_CHART_Y_AXIS_LABEL2 = NuclearPhysicsResources.getString( "DecayTimeChart.YAxisLabel2" );
+    public static final String DECAY_TIME_CHART_Y_AXIS_LABEL_ISOTOPE = NuclearPhysicsResources.getString( "DecayTimeChart.Isotope" );
     public static final String DECAY_TIME_LABEL = NuclearPhysicsResources.getString( "DecayTimeChart.DecayTimeLabel" );
     public static final String DECAY_TIME_UNITS = NuclearPhysicsResources.getString( "DecayTimeChart.DecayTimeUnits" );
     public static final String DECAY_TIME_CLEAR_CHART = NuclearPhysicsResources.getString( "DecayTimeChart.ClearChart" );
