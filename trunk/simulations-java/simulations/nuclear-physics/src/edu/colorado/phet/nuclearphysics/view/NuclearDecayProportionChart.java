@@ -385,12 +385,13 @@ public class NuclearDecayProportionChart extends PNode {
     private static class ProportionsPieChartNode extends PNode {
 
     	// Constants that control chart appearance and behavior.
-    	private static final double INITIAL_ASPECT_RATIO = 0.75;
-    	private static final double INITIAL_OVERALL_WIDTH = 100;
-    	private static final double INITIAL_OVERALL_HEIGHT = INITIAL_OVERALL_WIDTH / INITIAL_ASPECT_RATIO;
+    	private static final double INITIAL_ASPECT_RATIO = 0.66;
+    	private static final double INITIAL_WIDTH = 100;
+    	private static final double INITIAL_HEIGHT = INITIAL_WIDTH / INITIAL_ASPECT_RATIO;
     	private static final double PIE_CHART_WIDTH_PROPORTION = 0.9;
-    	private static final int INITIAL_PIE_CHART_WIDTH = (int)(Math.round(INITIAL_OVERALL_WIDTH * PIE_CHART_WIDTH_PROPORTION));
-    	private static final Font LABEL_FONT = new PhetFont(18, true);
+    	private static final int INITIAL_PIE_CHART_WIDTH = (int)(Math.round(INITIAL_WIDTH * PIE_CHART_WIDTH_PROPORTION));
+    	private static final Font LABEL_FONT = new PhetFont(16, true);
+    	private static final double FONT_SCALING_FACTOR = 1.5;
     	
     	// The various elements of the chart.
     	private PieChartNode _pieChartNode;
@@ -399,6 +400,8 @@ public class NuclearDecayProportionChart extends PNode {
     	private HTMLNode _postDecayLabel;
     	private PText _numberPreDecayRemaining;
     	private PText _numberPostDecayRemaining;
+    	private PhetPPath _boundsRect;
+    	private boolean _showBoundsRect = false;
     	
     	/**
     	 * Constructor.
@@ -409,65 +412,49 @@ public class NuclearDecayProportionChart extends PNode {
 			
 			_chart = chart;
 			
-			// Create and add the main chart.
+			// Create the bounds rect, which may or may not be visible, but is
+			// used to position other things.
+			_boundsRect = new PhetPPath( new Rectangle2D.Double(0, 0, INITIAL_WIDTH, INITIAL_HEIGHT), Color.ORANGE);
+			_boundsRect.setPickable(false);
+			_boundsRect.setVisible(_showBoundsRect);
+			addChild(_boundsRect);
+			
+			// Create and add the pie.
 			PieChartNode.PieValue[] pieChartValues = new PieValue[]{
 	                new PieChartNode.PieValue( 100, _chart._preDecayNucleusDisplayInfo.getDisplayColor() ),
 	                new PieChartNode.PieValue( 0, _chart._postDecayNucleusDisplayInfo.getDisplayColor() )};
 	        _pieChartNode = new PieChartNode( pieChartValues, new Rectangle(INITIAL_PIE_CHART_WIDTH, INITIAL_PIE_CHART_WIDTH) );
-	        _pieChartNode.setOffset(INITIAL_OVERALL_WIDTH / 2 - _pieChartNode.getFullBoundsReference().width / 2,
-	        		INITIAL_OVERALL_HEIGHT / 2 - _pieChartNode.getFullBounds().height / 2);
+	        _pieChartNode.setOffset(INITIAL_WIDTH / 2 - _pieChartNode.getFullBoundsReference().width / 2,
+	        		INITIAL_HEIGHT / 2 - _pieChartNode.getFullBounds().height / 2);
 	        addChild( _pieChartNode );
 	        
-	        // Create and add the labels.
-	        PText dummySizingNode = new PText("9999");
+	         HTMLNode dummySizingNode = new HTMLNode("<html><sup><font size=-1>12</font></sup>XX"); 
 	        dummySizingNode.setFont(LABEL_FONT);
+	        dummySizingNode.setScale(FONT_SCALING_FACTOR); // Workaround for issue with small superscripts.
 	        
 	        _preDecayLabel = new HTMLNode();
 	        _preDecayLabel.setFont(LABEL_FONT);
+	        _preDecayLabel.setScale(FONT_SCALING_FACTOR); // Workaround for issue with small superscripts.
 	        _preDecayLabel.setOffset(0, 0);
 	        addChild(_preDecayLabel);
 	        _postDecayLabel = new HTMLNode();
 	        _postDecayLabel.setFont(LABEL_FONT);
-	        _postDecayLabel.setOffset(0, INITIAL_OVERALL_HEIGHT - dummySizingNode.getFullBoundsReference().height);
+	        _postDecayLabel.setScale(FONT_SCALING_FACTOR); // Workaround for issue with small superscripts.
+	        _postDecayLabel.setOffset(0, _boundsRect.getHeight() - dummySizingNode.getFullBoundsReference().height);
 	        addChild(_postDecayLabel);
 	        _numberPreDecayRemaining = new PText();
 	        _numberPreDecayRemaining.setFont(LABEL_FONT);
-	        _numberPreDecayRemaining.setOffset(
-	        		INITIAL_OVERALL_WIDTH - dummySizingNode.getFullBoundsReference().width,
-	        		0);
+	        _numberPreDecayRemaining.setScale(FONT_SCALING_FACTOR); // Workaround for issue with small superscripts.
 	        addChild(_numberPreDecayRemaining);
 	        _numberPostDecayRemaining = new PText();
 	        _numberPostDecayRemaining.setFont(LABEL_FONT);
-	        _numberPostDecayRemaining.setOffset(
-	        		INITIAL_OVERALL_WIDTH - dummySizingNode.getFullBoundsReference().width,
-	        		INITIAL_OVERALL_HEIGHT - dummySizingNode.getFullBoundsReference().height);
+	        _numberPostDecayRemaining.setScale(FONT_SCALING_FACTOR); // Workaround for issue with small superscripts.
 	        addChild(_numberPostDecayRemaining);
 	        
 	        // Reset the node.
 	        reset();
 		}
 	
-		/**
-		 * The percentage of undecayed vs decayed nuclei.
-		 * 
-		 * @param percentageDecayed
-		 */
-		public void setDecayedPercentage( double percentageDecayed ){
-			// Validate input.
-			if ((percentageDecayed < 0) || (percentageDecayed > 100)){
-				throw new IllegalArgumentException("Error: Percentage must be between 0 and 100.");
-			}
-			
-			PieChartNode.PieValue[] pieChartValues = new PieValue[]{
-	                new PieChartNode.PieValue( 100 - percentageDecayed, 
-	                		_chart._preDecayNucleusDisplayInfo.getDisplayColor() ),
-	                new PieChartNode.PieValue( percentageDecayed, 
-	                		_chart._postDecayNucleusDisplayInfo.getDisplayColor() )
-	        };
-			
-			_pieChartNode.setPieValues(pieChartValues);
-		}
-		
 		public void setAmounts(int numUndecayed, int numDecayed){
 			
 			// Set the text on the labels.
@@ -486,6 +473,9 @@ public class NuclearDecayProportionChart extends PNode {
 	                new PieChartNode.PieValue( numDecayed, _chart._postDecayNucleusDisplayInfo.getDisplayColor() )};
 			
 			_pieChartNode.setPieValues(pieChartValues);
+			
+			// Make sure the text is located correctly.
+			updateTextPositions();
 		}
 		
 		/**
@@ -499,13 +489,31 @@ public class NuclearDecayProportionChart extends PNode {
 			// Set the colors of the labels.
 			
 			_preDecayLabel.setHTMLColor(_chart._preDecayNucleusDisplayInfo.getDisplayColor());
-			_preDecayLabel.setHTML("<html><sup><font size=-2>" + 
+			_preDecayLabel.setHTML("<html><sup><font size=-1>" + 
 					_chart._preDecayNucleusDisplayInfo.getIsotopeNumberString() + " </font></sup>" 
 					+ _chart._preDecayNucleusDisplayInfo.getChemicalSymbol() + "</html>");
 			_postDecayLabel.setHTMLColor(_chart._postDecayNucleusDisplayInfo.getDisplayColor());
-			_postDecayLabel.setHTML("<html><sup><font size=-2>" + 
+			_postDecayLabel.setHTML("<html><sup><font size=-1>" + 
 					_chart._postDecayNucleusDisplayInfo.getIsotopeNumberString() + " </font></sup>" 
 					+ _chart._postDecayNucleusDisplayInfo.getChemicalSymbol() + "</html>");
+			
+			updateTextPositions();
+		}
+		
+		private void updateTextPositions(){
+			
+			_numberPreDecayRemaining.setOffset(
+					_boundsRect.getFullBoundsReference().getMaxX() 
+						- _numberPreDecayRemaining.getFullBoundsReference().width,
+					_preDecayLabel.getFullBoundsReference().getMaxY()
+						- _numberPostDecayRemaining.getFullBoundsReference().height);
+			
+			_numberPostDecayRemaining.setOffset(
+					_boundsRect.getFullBoundsReference().getMaxX() 
+						- _numberPostDecayRemaining.getFullBoundsReference().width,
+					_boundsRect.getFullBoundsReference().getMaxY()
+						- _numberPostDecayRemaining.getFullBoundsReference().height);
+			
 		}
     }
     
