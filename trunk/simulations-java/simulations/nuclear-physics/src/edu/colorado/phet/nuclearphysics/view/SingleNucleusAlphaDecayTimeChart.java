@@ -28,6 +28,7 @@ import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
+import edu.colorado.phet.nuclearphysics.common.NucleusType;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.model.NuclearDecayListenerAdapter;
 import edu.colorado.phet.nuclearphysics.model.AlphaDecayCompositeNucleus;
@@ -160,7 +161,7 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
         _clock = model.getClock();
         _model = model;
 
-        if (_model.getNucleusTypeOldStyle() == NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM){
+        if (_model.getNucleusType() == NucleusType.CUSTOM){
         	_exponentialMode = true;
         }
         else{
@@ -591,7 +592,7 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
      */
 	private void handleNucleusTypeChanged() {
 		clearDecayedNuclei();
-    	if (_model.getNucleusTypeOldStyle() == NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM){
+    	if (_model.getNucleusType() == NucleusType.CUSTOM){
     		_exponentialMode = true;
     		setYAxisTickMarkLabelText();
     	}
@@ -607,13 +608,13 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
 		
 		String upperLabel, lowerLabel;
 		
-		switch (_model.getNucleusTypeOldStyle()){
-		case NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM:
+		switch (_model.getNucleusType()){
+		case CUSTOM:
 			upperLabel = NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL;
 			lowerLabel = NuclearPhysicsStrings.DECAYED_CUSTOM_NUCLEUS_CHEMICAL_SYMBOL;
 			break;
 			
-		case NuclearPhysicsConstants.NUCLEUS_ID_POLONIUM:
+		case POLONIUM_211:
 			upperLabel = NuclearPhysicsStrings.POLONIUM_211_ISOTOPE_NUMBER;
 			lowerLabel = NuclearPhysicsStrings.LEAD_207_ISOTOPE_NUMBER;
 			break;

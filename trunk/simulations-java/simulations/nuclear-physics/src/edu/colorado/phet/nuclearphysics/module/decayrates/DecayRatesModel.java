@@ -7,8 +7,8 @@ import java.awt.geom.Rectangle2D;
 import java.util.Iterator;
 import java.util.Random;
 
-import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
+import edu.colorado.phet.nuclearphysics.common.NucleusType;
 import edu.colorado.phet.nuclearphysics.common.model.AbstractDecayNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.model.AdjustableHalfLifeNucleus;
@@ -30,7 +30,7 @@ public class DecayRatesModel extends MultiNucleusDecayModel {
     //------------------------------------------------------------------------
 	
 	private static final int MAX_NUCLEI = 1000;
-	private static final int NUCLEUS_TYPE = NuclearPhysicsConstants.NUCLEUS_ID_CARBON_14;
+	private static final NucleusType DEFAULT_NUCLEUS_TYPE = NucleusType.CARBON_14;
 	private static final double INITIAL_WORLD_WIDTH = 800;  // In femtometers
 	private static final double INITIAL_WORLD_HEIGHT = INITIAL_WORLD_WIDTH * 0.4;  // In femtometers
 	
@@ -57,7 +57,7 @@ public class DecayRatesModel extends MultiNucleusDecayModel {
      * @param clock
      */
     public DecayRatesModel(NuclearPhysicsClock clock) {
-    	super( clock, MAX_NUCLEI, NUCLEUS_TYPE );
+    	super( clock, MAX_NUCLEI, DEFAULT_NUCLEUS_TYPE );
     }
     
     //------------------------------------------------------------------------
@@ -150,10 +150,10 @@ public class DecayRatesModel extends MultiNucleusDecayModel {
 		AbstractDecayNucleus newNucleus;
 		
 		for ( int i = 0; i < _maxNuclei; i++ ){
-			if ( _currentNucleusType == NuclearPhysicsConstants.NUCLEUS_ID_CARBON_14 ){
+			if ( _currentNucleusType == NucleusType.CARBON_14 ){
 				newNucleus = new Carbon14Nucleus( _clock );
 			}
-			else if ( _currentNucleusType == NuclearPhysicsConstants.NUCLEUS_ID_URANIUM_238 ){
+			else if ( _currentNucleusType == NucleusType.URANIUM_238 ){
 				newNucleus = new Uranium238Nucleus( _clock );
 			}
 			else{

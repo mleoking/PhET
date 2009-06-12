@@ -26,6 +26,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
+import edu.colorado.phet.nuclearphysics.common.NucleusType;
 import edu.colorado.phet.nuclearphysics.model.NuclearDecayListenerAdapter;
 import edu.colorado.phet.nuclearphysics.view.LabeledNucleusImageNode;
 import edu.umd.cs.piccolo.PNode;
@@ -61,7 +62,7 @@ public class AlphaDecayNucleusSelectionPanel extends JPanel {
     	// Register for notifications of nucleus type changes.
     	alphaDecayModel.addListener(new NuclearDecayListenerAdapter(){
     		public void nucleusTypeChanged() {
-    			if (_alphaDecayModel.getNucleusTypeOldStyle() == NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM){
+    			if (_alphaDecayModel.getNucleusType() == NucleusType.CUSTOM){
     				_customNucleusRadioButton.setSelected(true);
     			}
     			else{
@@ -92,12 +93,12 @@ public class AlphaDecayNucleusSelectionPanel extends JPanel {
         // Register for button presses.
         _poloniumRadioButton.addActionListener( new ActionListener(){
             public void actionPerformed(ActionEvent event){
-            	_alphaDecayModel.setNucleusTypeOldStyle(NuclearPhysicsConstants.NUCLEUS_ID_POLONIUM);
+            	_alphaDecayModel.setNucleusType(NucleusType.POLONIUM_211);
             }
         });
         _customNucleusRadioButton.addActionListener( new ActionListener(){
             public void actionPerformed(ActionEvent event){
-            	_alphaDecayModel.setNucleusTypeOldStyle(NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM);
+            	_alphaDecayModel.setNucleusType(NucleusType.CUSTOM);
             }
         });
 
@@ -133,7 +134,7 @@ public class AlphaDecayNucleusSelectionPanel extends JPanel {
         add( new JLabel(poloniumIconImage), constraints );
         
         // Create and add the textual label for the Polonium nucleus.
-        JLabel poloniumLabel = new JLabel( NuclearPhysicsStrings.POLONIUM_LEGEND_LABEL ) ;
+        JLabel poloniumLabel = new JLabel( NuclearPhysicsStrings.POLONIUM_211_LEGEND_LABEL ) ;
         constraints.anchor = GridBagConstraints.WEST;
         constraints.gridx = 2;
         constraints.gridy = 0;
@@ -224,15 +225,14 @@ public class AlphaDecayNucleusSelectionPanel extends JPanel {
      * change in the model.
      */
     public void updateButtonState(){
-    	if (_alphaDecayModel.getNucleusTypeOldStyle() == NuclearPhysicsConstants.NUCLEUS_ID_POLONIUM){
+    	if (_alphaDecayModel.getNucleusType() == NucleusType.POLONIUM_211){
     		_poloniumRadioButton.setSelected(true);
     	}
-    	else if (_alphaDecayModel.getNucleusTypeOldStyle() == NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM){
+    	else if (_alphaDecayModel.getNucleusType() == NucleusType.CUSTOM){
     		_customNucleusRadioButton.setSelected(true);
     	}
     	else{
     		System.err.println("Error: Unrecognized nucleus type.");
-    		
     	}
     }
     

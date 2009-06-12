@@ -121,7 +121,7 @@ public class AtomicNucleusImageNode extends AtomicNucleusNode {
     		
     	case 82:
     		// Lead
-    		color = NuclearPhysicsConstants.LEAD_206_COLOR;
+    		color = NuclearPhysicsConstants.LEAD_COLOR;
     		break;
     		
     	case 81:

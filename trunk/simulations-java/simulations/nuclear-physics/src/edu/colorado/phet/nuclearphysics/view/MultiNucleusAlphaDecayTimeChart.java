@@ -30,6 +30,8 @@ import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.colorado.phet.common.piccolophet.nodes.PieChartNode.PieValue;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
+import edu.colorado.phet.nuclearphysics.common.NucleusDisplayInfo;
+import edu.colorado.phet.nuclearphysics.common.NucleusType;
 import edu.colorado.phet.nuclearphysics.common.model.AbstractDecayNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.model.AbstractAlphaDecayNucleus;
@@ -209,24 +211,14 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
             };
             
             public void nucleusTypeChanged(){
-        		switch (_model.getNucleusTypeOldStyle()){
-        		case NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM:
-        			_pieChartValues[0].setColor(NuclearPhysicsConstants.CUSTOM_NUCLEUS_LABEL_COLOR);
-        			_pieChartValues[1].setColor(NuclearPhysicsConstants.DECAYED_CUSTOM_NUCLEUS_LABEL_COLOR);
-        			break;
-        			
-        		case NuclearPhysicsConstants.NUCLEUS_ID_POLONIUM:
-        			_pieChartValues[0].setColor(NuclearPhysicsConstants.POLONIUM_LABEL_COLOR);
-        			_pieChartValues[1].setColor(NuclearPhysicsConstants.LEAD_LABEL_COLOR);
-        			break;
-        			
-        		default:
-        			// If these ever show up, someone will notice (and
-        			// presumably fix the problem).
-        			_pieChartValues[0].setColor(Color.PINK);
-         			_pieChartValues[1].setColor(Color.ORANGE);
-        			break;
-        		}
+            	NucleusDisplayInfo preDecayDisplayInfo = 
+            		NucleusDisplayInfo.getDisplayInfoForNucleusType(_model.getNucleusType());
+            	_pieChartValues[0].setColor(preDecayDisplayInfo.getLabelColor());
+            	
+            	
+            	NucleusDisplayInfo postDecayDisplayInfo = 
+            		NucleusDisplayInfo.getDisplayInfoForNucleusType(MultiNucleusDecayModel.getDecayProduct(_model.getNucleusType()).get(0));
+            	_pieChartValues[1].setColor(postDecayDisplayInfo.getLabelColor());
 
             	update();
             };
@@ -578,7 +570,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
     }
     
     private void updateNucleusGraphLabels(){
-    	if (_model.getNucleusTypeOldStyle() == NuclearPhysicsConstants.NUCLEUS_ID_POLONIUM){
+    	if (_model.getNucleusType() == NucleusType.POLONIUM_211){
     		_numUndecayedNucleiLabel.setText("#" + NuclearPhysicsStrings.POLONIUM_211_CHEMICAL_SYMBOL);
     		_numUndecayedNucleiLabel.setTextPaint(NuclearPhysicsConstants.POLONIUM_LABEL_COLOR);
     		_numUndecayedNucleiLabel.setShadowColor(Color.BLACK);
@@ -698,7 +690,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         }
         
         // If it is a custom nucleus, position and show the handle.
-        if (_model.getNucleusTypeOldStyle() == NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM){
+        if (_model.getNucleusType() == NucleusType.CUSTOM){
         	_halfLifeHandleNode.setVisible(true);
         	_halfLifeHandleNode.setOffset( _halfLifeMarkerLine.getX(), _halfLifeMarkerLine.getY() + (_graphOriginY - _halfLifeMarkerLine.getY()) / 2 );
         }
@@ -731,13 +723,13 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
 		
 		String upperLabel, lowerLabel;
 		
-		switch (_model.getNucleusTypeOldStyle()){
-		case NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM:
+		switch (_model.getNucleusType()){
+		case CUSTOM:
 			upperLabel = NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL;
 			lowerLabel = NuclearPhysicsStrings.DECAYED_CUSTOM_NUCLEUS_CHEMICAL_SYMBOL;
 			break;
 			
-		case NuclearPhysicsConstants.NUCLEUS_ID_POLONIUM:
+		case POLONIUM_211:
 			upperLabel = NuclearPhysicsStrings.POLONIUM_211_ISOTOPE_NUMBER;
 			lowerLabel = NuclearPhysicsStrings.LEAD_207_ISOTOPE_NUMBER;
 			break;

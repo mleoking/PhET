@@ -18,12 +18,12 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.ResizeArrowNode;
-import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
+import edu.colorado.phet.nuclearphysics.common.NucleusType;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
-import edu.colorado.phet.nuclearphysics.model.NuclearDecayListenerAdapter;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.CompositeAtomicNucleus;
+import edu.colorado.phet.nuclearphysics.model.NuclearDecayListenerAdapter;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.singlenucleus.SingleNucleusAlphaDecayCanvas;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.singlenucleus.SingleNucleusAlphaDecayModel;
 import edu.umd.cs.piccolo.PNode;
@@ -68,10 +68,6 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
 	private static final double CUSTOM_INITIAL_PEAK_POTENTIAL_ENERGY = 22; // Defines peak of the potential energy curve.
 	private static final double PRE_DECAY_ENERGY_WELL_BOTTOM = -37;
 	
-	// TODO: Decide which of these constants go here and which go elsewhere.
-	private static final double MAX_TIME = 3.2e19;  // Trillion years
-	private static final double HALF_LIFE_CALC_CONSTANT = Math.log(MAX_TIME)/(NUM_Y_AXIS_UNITS - Y_AXIS_ZERO_OFFSET);
-
     // Constants for controlling the appearance of the chart.
     private static final Color   BORDER_COLOR = Color.DARK_GRAY;
     private static final float   BORDER_STROKE_WIDTH = 6f;
@@ -182,7 +178,7 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
         // Register for significant events from the model.
         _model.addListener(new NuclearDecayListenerAdapter(){
         	public void nucleusTypeChanged(){
-        		if (_model.getNucleusTypeOldStyle() == NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM){
+        		if (_model.getNucleusType() == NucleusType.CUSTOM){
         			_interactivityEnabled = true;
         	        _totalEnergy = CUSTOM_INITIAL_TOTAL_ENERGY;
         	        _potentialEnergyMinimum = CUSTOM_INITIAL_MINIUMIM_POTENTIAL_ENERGY;
@@ -208,7 +204,7 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
         
         // If the model currently has the custom nucleus, we need to set the
         // half life to correspond to our initial energy configuration.
-        if (_model.getNucleusTypeOldStyle() == NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM){
+        if (_model.getNucleusType() == NucleusType.CUSTOM){
         	updateCustomNucleusHalfLife();
         }
 
@@ -370,7 +366,7 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
      * levels.
      */
 	private void updateCustomNucleusHalfLife() {
-		if (_model.getNucleusTypeOldStyle() == NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM){
+		if (_model.getNucleusType() == NucleusType.CUSTOM){
 			_model.setHalfLife(calculateHalfLife());
         }
 	}

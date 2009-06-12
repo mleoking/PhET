@@ -7,8 +7,8 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
+import edu.colorado.phet.nuclearphysics.common.NucleusType;
 import edu.colorado.phet.nuclearphysics.common.model.AbstractDecayNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.model.AdjustableHalfLifeNucleus;
@@ -31,7 +31,7 @@ public class MultiNucleusAlphaDecayModel extends MultiNucleusDecayModel {
 	// Defaults for the Alpha Decay model.  Could parameterize into
 	// constructor some day if necessary.
 	static final int MAX_NUCLEI = 99;
-	static final int NUCLEUS_TYPE = NuclearPhysicsConstants.NUCLEUS_ID_POLONIUM;
+	static final NucleusType DEFAULT_NUCLEUS_TYPE = NucleusType.POLONIUM_211;
 	
 	// Size and position of the bucket of nuclei which the user uses to add
 	// nuclei to the simulation.
@@ -51,7 +51,7 @@ public class MultiNucleusAlphaDecayModel extends MultiNucleusDecayModel {
      * @param clock
      */
     public MultiNucleusAlphaDecayModel(NuclearPhysicsClock clock) {
-    	super( clock, MAX_NUCLEI, NUCLEUS_TYPE );
+    	super( clock, MAX_NUCLEI, DEFAULT_NUCLEUS_TYPE );
     }
     
     //------------------------------------------------------------------------
@@ -83,7 +83,7 @@ public class MultiNucleusAlphaDecayModel extends MultiNucleusDecayModel {
 		AbstractDecayNucleus newNucleus;
 		
 		for (int i = 0; i < _maxNuclei; i++){
-			if (_currentNucleusType == NuclearPhysicsConstants.NUCLEUS_ID_POLONIUM){
+			if (_currentNucleusType == NucleusType.POLONIUM_211){
 				newNucleus = new Polonium211Nucleus(_clock);
 			}
 			else{

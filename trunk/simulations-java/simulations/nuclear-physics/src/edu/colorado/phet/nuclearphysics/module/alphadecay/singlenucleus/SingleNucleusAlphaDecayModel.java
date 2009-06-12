@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
+import edu.colorado.phet.nuclearphysics.common.NucleusType;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.NuclearDecayModelListener;
 import edu.colorado.phet.nuclearphysics.model.AdjustableHalfLifeCompositeNucleus;
@@ -31,7 +31,7 @@ public class SingleNucleusAlphaDecayModel implements NucleusTypeControl {
     // Class data
     //------------------------------------------------------------------------
 	
-	public int DEFAULT_NUCLEUS_TYPE_ID = NuclearPhysicsConstants.NUCLEUS_ID_POLONIUM;
+	public NucleusType DEFAULT_NUCLEUS_TYPE = NucleusType.POLONIUM_211;
     
     //------------------------------------------------------------------------
     // Instance data
@@ -41,7 +41,7 @@ public class SingleNucleusAlphaDecayModel implements NucleusTypeControl {
     private AlphaParticle _tunneledAlpha;
     private NuclearPhysicsClock _clock;
     private ArrayList _listeners = new ArrayList();
-    private int _nucleusID;
+    private NucleusType _nucleusType;
     private AtomicNucleus.Adapter _atomicNucleusAdapter;
     
     //------------------------------------------------------------------------
@@ -51,7 +51,7 @@ public class SingleNucleusAlphaDecayModel implements NucleusTypeControl {
     public SingleNucleusAlphaDecayModel(NuclearPhysicsClock clock)
     {
         _clock = clock;
-        _nucleusID = DEFAULT_NUCLEUS_TYPE_ID;
+        _nucleusType = DEFAULT_NUCLEUS_TYPE;
 
         // Register as a listener to the clock.
         clock.addClockListener( new ClockAdapter(){
@@ -66,10 +66,10 @@ public class SingleNucleusAlphaDecayModel implements NucleusTypeControl {
             
             public void simulationTimeReset(ClockEvent clockEvent){
             	removeCurrentNucleus();
-            	int oldNucleusID = _nucleusID;
-            	_nucleusID = DEFAULT_NUCLEUS_TYPE_ID;
+            	NucleusType oldNucleusType = _nucleusType;
+            	_nucleusType = DEFAULT_NUCLEUS_TYPE;
             	addNewNucleus();
-            	if (oldNucleusID != DEFAULT_NUCLEUS_TYPE_ID){
+            	if (oldNucleusType != DEFAULT_NUCLEUS_TYPE){
             		notifyNucleusTypeChanged();
             	}
             }
@@ -127,21 +127,22 @@ public class SingleNucleusAlphaDecayModel implements NucleusTypeControl {
 		return true;
 	}
 
-	public void setNucleusTypeOldStyle(int nucleusID) {
-		if (nucleusID == _nucleusID){
+	public void setNucleusType(NucleusType nucleusType){
+		
+		if (_nucleusType == nucleusType){
 			// Current type is already set, so nothing needs to be done.
 			return;
 		}
 		removeCurrentNucleus();
-		_nucleusID = nucleusID;
+		_nucleusType = nucleusType;
 		addNewNucleus();
 		notifyNucleusTypeChanged();
 	}
 	
-	public int getNucleusTypeOldStyle(){
-		return _nucleusID;
+	public NucleusType getNucleusType() {
+		return _nucleusType;
 	}
-	
+    
     //------------------------------------------------------------------------
     // Other Public Methods
     //------------------------------------------------------------------------
@@ -202,7 +203,7 @@ public class SingleNucleusAlphaDecayModel implements NucleusTypeControl {
 	public void setHalfLife(double halfLife){
 		
 		// Verify that the current nucleus is custom.
-		if (_nucleusID != NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM){
+		if (_nucleusType != NucleusType.CUSTOM){
 			System.err.println("Warning: Can only set nucleus type for custom nucleus, ignoring request.");
 			return;
 		}
@@ -259,12 +260,12 @@ public class SingleNucleusAlphaDecayModel implements NucleusTypeControl {
     		System.err.println("Warning: Removing existing nucleus before adding new one.");
     		removeCurrentNucleus();
     	}
-		switch (_nucleusID){
-		case NuclearPhysicsConstants.NUCLEUS_ID_POLONIUM:
+		switch (_nucleusType){
+		case POLONIUM_211:
 	        _atomicNucleus = new Polonium211CompositeNucleus(_clock, new Point2D.Double(0, 0));
 	        break;
 			
-		case NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM:
+		case CUSTOM:
 	        _atomicNucleus = new AdjustableHalfLifeCompositeNucleus(_clock, new Point2D.Double(0, 0));
 	        break;
 		}
@@ -317,6 +318,4 @@ public class SingleNucleusAlphaDecayModel implements NucleusTypeControl {
             ((NuclearDecayModelListener)_listeners.get(i)).halfLifeChanged();
         }
     }
-    
-
 }

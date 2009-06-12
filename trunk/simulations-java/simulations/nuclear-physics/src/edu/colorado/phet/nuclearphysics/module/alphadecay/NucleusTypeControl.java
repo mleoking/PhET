@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.nuclearphysics.module.alphadecay;
 
+import edu.colorado.phet.nuclearphysics.common.NucleusType;
 import edu.colorado.phet.nuclearphysics.common.model.NuclearDecayModelListener;
 
 /**
@@ -16,21 +17,21 @@ public interface NucleusTypeControl {
 	/**
 	 * Set the type of nucleus.
 	 * 
-	 * @param nucleusId - must be one of the values defined in this interface
-	 * definition file.
+	 * @param nucleusType - One of the defined types of nuclei.
 	 */
-	public void setNucleusTypeOldStyle( int nucleusId );
+	public void setNucleusType( NucleusType nucleusType );
 
 	/**
 	 * Get the type of nucleus.
 	 * 
 	 * @return A value representing the current nucleus type. 
 	 */
-	public int getNucleusTypeOldStyle();
+	public NucleusType getNucleusType();
 
 	/**
 	 * Register to be informed of changes to the nucleus type (as well as
 	 * other nucleus events).
 	 */
 	public void addListener(NuclearDecayModelListener listener);
+
 }

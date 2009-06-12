@@ -6,5 +6,7 @@ public enum NucleusType {
 	NITROGEN_14,
 	URANIUM_238,
 	LEAD_206,
-	CUSTOM
+	LEAD_207,
+	CUSTOM,
+	CUSTOM_POST_DECAY
 }

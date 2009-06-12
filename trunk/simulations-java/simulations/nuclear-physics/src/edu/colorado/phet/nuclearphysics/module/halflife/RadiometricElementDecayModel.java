@@ -6,8 +6,8 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
+import edu.colorado.phet.nuclearphysics.common.NucleusType;
 import edu.colorado.phet.nuclearphysics.common.model.AbstractDecayNucleus;
 import edu.colorado.phet.nuclearphysics.model.AdjustableHalfLifeNucleus;
 import edu.colorado.phet.nuclearphysics.model.Carbon14Nucleus;
@@ -30,7 +30,7 @@ public class RadiometricElementDecayModel extends MultiNucleusDecayModel {
 	// Defaults for the Alpha Decay model.  Could parameterize into
 	// constructor some day if necessary.
 	static final int MAX_NUCLEI = 99;
-	static final int NUCLEUS_TYPE = NuclearPhysicsConstants.NUCLEUS_ID_CARBON_14;
+	static final NucleusType DEFAULT_NUCLEUS_TYPE = NucleusType.CARBON_14;
 	
 	// Size and position of the bucket of nuclei which the user uses to add
 	// nuclei to the simulation.
@@ -50,7 +50,7 @@ public class RadiometricElementDecayModel extends MultiNucleusDecayModel {
      * @param clock
      */
     public RadiometricElementDecayModel(NuclearPhysicsClock clock) {
-    	super( clock, MAX_NUCLEI, NUCLEUS_TYPE );
+    	super( clock, MAX_NUCLEI, DEFAULT_NUCLEUS_TYPE );
     }
     
     //------------------------------------------------------------------------
@@ -71,10 +71,10 @@ public class RadiometricElementDecayModel extends MultiNucleusDecayModel {
 		AbstractDecayNucleus newNucleus;
 		
 		for ( int i = 0; i < _maxNuclei; i++ ){
-			if ( _currentNucleusType == NuclearPhysicsConstants.NUCLEUS_ID_CARBON_14 ){
+			if ( _currentNucleusType == NucleusType.CARBON_14 ){
 				newNucleus = new Carbon14Nucleus( _clock );
 			}
-			else if ( _currentNucleusType == NuclearPhysicsConstants.NUCLEUS_ID_URANIUM_238 ){
+			else if ( _currentNucleusType == NucleusType.URANIUM_238 ){
 				newNucleus = new Uranium238Nucleus( _clock );
 			}
 			else{

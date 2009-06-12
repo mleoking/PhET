@@ -43,12 +43,40 @@ public class NucleusDisplayInfo {
 			NuclearPhysicsConstants.URANIUM_238_LABEL_COLOR,
 			NuclearPhysicsConstants.URANIUM_238_COLOR );
 	
+	public static final NucleusDisplayInfo POLONIUM_211_DISPLAY_INFO = new NucleusDisplayInfo(
+			NuclearPhysicsStrings.POLONIUM_211_LEGEND_LABEL,
+			NuclearPhysicsStrings.POLONIUM_211_CHEMICAL_SYMBOL,
+			NuclearPhysicsStrings.POLONIUM_211_ISOTOPE_NUMBER,
+			NuclearPhysicsConstants.POLONIUM_LABEL_COLOR,
+			NuclearPhysicsConstants.POLONIUM_COLOR );
+
 	public static final NucleusDisplayInfo LEAD_206_DISPLAY_INFO = new NucleusDisplayInfo(
 			NuclearPhysicsStrings.LEAD_206_LEGEND_LABEL,
 			NuclearPhysicsStrings.LEAD_206_CHEMICAL_SYMBOL,
 			NuclearPhysicsStrings.LEAD_206_ISOTOPE_NUMBER,
 			NuclearPhysicsConstants.LEAD_LABEL_COLOR,
-			NuclearPhysicsConstants.LEAD_206_COLOR );
+			NuclearPhysicsConstants.LEAD_COLOR );
+
+	public static final NucleusDisplayInfo LEAD_207_DISPLAY_INFO = new NucleusDisplayInfo(
+			NuclearPhysicsStrings.LEAD_207_LEGEND_LABEL,
+			NuclearPhysicsStrings.LEAD_207_CHEMICAL_SYMBOL,
+			NuclearPhysicsStrings.LEAD_207_ISOTOPE_NUMBER,
+			NuclearPhysicsConstants.LEAD_LABEL_COLOR,
+			NuclearPhysicsConstants.LEAD_COLOR );
+
+	public static final NucleusDisplayInfo CUSTOM_NUCLEUS_DISPLAY_INFO = new NucleusDisplayInfo(
+			NuclearPhysicsStrings.CUSTOM_NUCLEUS_LEGEND_LABEL,
+			NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL,
+			"",  // No isotope number for the custom nucleus.
+			NuclearPhysicsConstants.CUSTOM_NUCLEUS_LABEL_COLOR,
+			NuclearPhysicsConstants.CUSTOM_NUCLEUS_PRE_DECAY_COLOR );
+
+	public static final NucleusDisplayInfo DECAYED_CUSTOM_NUCLEUS_DISPLAY_INFO = new NucleusDisplayInfo(
+			NuclearPhysicsStrings.CUSTOM_NUCLEUS_LEGEND_LABEL,
+			NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL,
+			"",  // No isotope number for the custom nucleus.
+			NuclearPhysicsConstants.DECAYED_CUSTOM_NUCLEUS_LABEL_COLOR,
+			NuclearPhysicsConstants.CUSTOM_NUCLEUS_POST_DECAY_COLOR );
 
 	public static final NucleusDisplayInfo DEFAULT_DISPLAY_INFO = new NucleusDisplayInfo(
 			"XX",
@@ -126,12 +154,28 @@ public class NucleusDisplayInfo {
 			displayInfo = NITROGEN_14_DISPLAY_INFO;
 			break;
 			
+		case LEAD_206:
+			displayInfo = LEAD_206_DISPLAY_INFO;
+			break;
+			
+		case LEAD_207:
+			displayInfo = LEAD_207_DISPLAY_INFO;
+			break;
+			
+		case POLONIUM_211:
+			displayInfo = POLONIUM_211_DISPLAY_INFO;
+			break;
+			
 		case URANIUM_238:
 			displayInfo = URANIUM_238_DISPLAY_INFO;
 			break;
 			
-		case LEAD_206:
-			displayInfo = LEAD_206_DISPLAY_INFO;
+		case CUSTOM:
+			displayInfo = CUSTOM_NUCLEUS_DISPLAY_INFO;
+			break;
+			
+		case CUSTOM_POST_DECAY:
+			displayInfo = DECAYED_CUSTOM_NUCLEUS_DISPLAY_INFO;
 			break;
 			
 		default:
