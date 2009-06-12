@@ -735,33 +735,30 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
     	_xAxisTickMarks.clear();
     	_xAxisTickMarkLabels.clear();
     	
-    	// Add the label for zero time.
-		PText tickMarkLabel = new PText();
-		tickMarkLabel.setText("0.0");  // Note: Not making this translatable since other labels aren't.
-		tickMarkLabel.setFont(TICK_MARK_LABEL_FONT);
-		tickMarkLabel.setOffset(_graphOriginX + (TIME_ZERO_OFFSET_PROPORTION * _timeSpan * _msToPixelsFactor), 
-				_graphOriginY);
-		_nonPickableChartNode.addChild(tickMarkLabel);
-		_xAxisTickMarkLabels.add(tickMarkLabel);
-    	
     	int numTickMarks = 0;
     	if (_timeSpan < MultiNucleusDecayModel.convertYearsToMs(1E9)){
     		// Tick marks are 5000 yrs apart.  This is generally used for
     		// the Carbon 14 range.
-    		numTickMarks = (int)(_timeSpan / MultiNucleusDecayModel.convertYearsToMs(5000));
+    		numTickMarks = (int)(_timeSpan / MultiNucleusDecayModel.convertYearsToMs(5000) + 1);
     		
     		for (int i = 0; i < numTickMarks; i++){
-    			addXAxisTickMark((i + 1) * MultiNucleusDecayModel.convertYearsToMs(5000),
-    					Integer.toString((i + 1) * 5000));
+    			String tickMarkText;
+    			if (i == 0){
+    				tickMarkText = "0.0";
+    			}
+    			else{
+    				tickMarkText = Integer.toString(i * 5000);
+    			}
+    			addXAxisTickMark(i * MultiNucleusDecayModel.convertYearsToMs(5000), tickMarkText);
     		}
     	}
     	else{
     		// Space the tick marks four billion years apart.
-    		numTickMarks = (int)(_timeSpan / MultiNucleusDecayModel.convertYearsToMs(4E9));
+    		numTickMarks = (int)(_timeSpan / MultiNucleusDecayModel.convertYearsToMs(4E9) + 1);
     		
     		for (int i = 0; i < numTickMarks; i++){
-    			addXAxisTickMark((i + 1) * MultiNucleusDecayModel.convertYearsToMs(4E9),
-    					String.format("%.1f", (float)((i + 1) * 4)));
+    			addXAxisTickMark(i * MultiNucleusDecayModel.convertYearsToMs(4E9),
+    					String.format("%.1f", (float)(i * 4)));
     		}
     	}
     	
@@ -771,7 +768,7 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
     		unitsLabelYPos = _xAxisTickMarkLabels.get(0).getFullBoundsReference().getMaxY();
     	}
     	
-        _xAxisLabel.setText(NuclearPhysicsStrings.DECAY_TIME_CHART_X_AXIS_LABEL + "(" + getXAxisUnitsText() + ")");
+        _xAxisLabel.setText(NuclearPhysicsStrings.DECAY_TIME_CHART_X_AXIS_LABEL + " (" + getXAxisUnitsText() + ")");
         _xAxisLabel.setOffset( _graphOriginX - (_xAxisLabel.getFullBoundsReference().width / 2), unitsLabelYPos);
     }
     
@@ -783,21 +780,21 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
      */
     private void addXAxisTickMark(double time, String label){
     	
-//		PhetPPath tickMark = new PhetPPath(TICK_MARK_COLOR);
-//		tickMark.setPathTo(new Line2D.Double(0, 0, 0, -TICK_MARK_LENGTH));
-//		tickMark.setStroke(TICK_MARK_STROKE);
-//		tickMark.setOffset(_graphRect.getX() + (time * _msToPixelsFactor), _graphRect.getMaxY());
-//		_nonPickableGraphLayer.addChild(tickMark);
-//		_xAxisTickMarks.add(tickMark);
-//		PText tickMarkLabel = new PText();
-//		tickMarkLabel.setText(label);
-//		tickMarkLabel.setFont(BOLD_LABEL_FONT);
-//		tickMarkLabel.setScale(_labelScalingFactor);
-//		tickMarkLabel.setOffset(
-//				tickMark.getOffset().getX() - tickMarkLabel.getFullBoundsReference().width / 2,
-//				_graphRect.getMaxY() + (tickMarkLabel.getFullBoundsReference().height * 0.1));
-//		_nonPickableGraphLayer.addChild(tickMarkLabel);
-//		_xAxisTickMarkLabels.add(tickMarkLabel);
+    	double timeZeroPosX = _graphOriginX + (TIME_ZERO_OFFSET_PROPORTION * _timeSpan * _msToPixelsFactor);
+		PhetPPath tickMark = new PhetPPath(TICK_MARK_COLOR);
+		tickMark.setPathTo(new Line2D.Double(0, 0, 0, -TICK_MARK_LENGTH));
+		tickMark.setStroke(TICK_MARK_STROKE);
+		tickMark.setOffset(timeZeroPosX + (time * _msToPixelsFactor), _graphOriginY);
+		_nonPickableChartNode.addChild(tickMark);
+		_xAxisTickMarks.add(tickMark);
+		PText tickMarkLabel = new PText();
+		tickMarkLabel.setText(label);
+		tickMarkLabel.setFont(TICK_MARK_LABEL_FONT);
+		tickMarkLabel.setOffset(
+				tickMark.getOffset().getX() - tickMarkLabel.getFullBoundsReference().width / 2,
+				_graphOriginY + (tickMarkLabel.getFullBoundsReference().height * 0.1));
+		_nonPickableChartNode.addChild(tickMarkLabel);
+		_xAxisTickMarkLabels.add(tickMarkLabel);
     }
     
     /**
@@ -823,7 +820,6 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
     	return unitsText;
     }
 
-    
 	private void setYAxisTickMarkLabelText(){
 		
 		String upperLabel, lowerLabel;
