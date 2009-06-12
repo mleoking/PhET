@@ -27,7 +27,6 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PieChartNode;
 import edu.colorado.phet.common.piccolophet.nodes.ResizeArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
-import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.colorado.phet.common.piccolophet.nodes.PieChartNode.PieValue;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
@@ -88,8 +87,8 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
     private static final double RESIZE_HANDLE_SIZE = 35;
 
     // Constants that control the location of the origin.
-    private static final double X_ORIGIN_PROPORTION = 0.22;
-    private static final double Y_ORIGIN_PROPORTION = 0.65;
+    private static final double X_ORIGIN_PROPORTION = 0.30;
+    private static final double Y_ORIGIN_PROPORTION = 0.67;
 
     // Tweakable values that can be used to adjust where the nuclei appear on
     // the chart.
@@ -146,7 +145,8 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
     private ArrayList<PhetPPath> _xAxisTickMarks = new ArrayList<PhetPPath>();
     private ArrayList<PText> _xAxisTickMarkLabels = new ArrayList<PText>();
     private ArrayList _yAxisTickMarks;
-    private ArrayList _yAxisTickMarkLabels;
+    private ShadowHTMLNode _yAxisUpperTickMarkLabel;
+    private ShadowHTMLNode _yAxisLowerTickMarkLabel;
     private PText _xAxisLabel;
     private PText _yAxisLabel;
     private ShadowHTMLNode _numUndecayedNucleiLabel;
@@ -294,17 +294,13 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
         _yAxisTickMarks.add( yTickMark2 );
         _nonPickableChartNode.addChild( yTickMark2 );
 
-        _yAxisTickMarkLabels = new ArrayList( 2 );
+        _yAxisUpperTickMarkLabel = new ShadowHTMLNode();
+        _yAxisUpperTickMarkLabel.setFont( ISOTOPE_LABEL_FONT );
+        _nonPickableChartNode.addChild( _yAxisUpperTickMarkLabel );
 
-        PText yTickMarkLabel1 = new PText();
-        yTickMarkLabel1.setFont( TICK_MARK_LABEL_FONT );
-        _yAxisTickMarkLabels.add( yTickMarkLabel1 );
-        _nonPickableChartNode.addChild( yTickMarkLabel1 );
-
-        PText yTickMarkLabel2 = new PText();
-        yTickMarkLabel2.setFont( TICK_MARK_LABEL_FONT );
-        _yAxisTickMarkLabels.add( yTickMarkLabel2 );
-        _nonPickableChartNode.addChild( yTickMarkLabel2 );
+        _yAxisLowerTickMarkLabel = new ShadowHTMLNode();
+        _yAxisLowerTickMarkLabel.setFont( ISOTOPE_LABEL_FONT );
+        _nonPickableChartNode.addChild( _yAxisLowerTickMarkLabel );
 
         // Add the text for the X & Y axes.
         _xAxisLabel = new PText( NuclearPhysicsStrings.DECAY_TIME_CHART_X_AXIS_LABEL + " (" + NuclearPhysicsStrings.DECAY_TIME_UNITS + ")" );
@@ -452,9 +448,6 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
         // Position the tick marks and their labels on the X axis.
         updateXAxisTickMarksAndLabels();
 
-        // Update the text for the Y axis tick mark labels.
-        setYAxisTickMarkLabelText();
-        
         // Position the tick marks and their labels on the Y axis.
         double preDecayPosY = _usableAreaOriginY + ( _usableHeight * PRE_DECAY_TIME_LINE_POS_FRACTION );
         double postDecayPosY = _usableAreaOriginY + ( _usableHeight * POST_DECAY_TIME_LINE_POS_FRACTION );
@@ -466,22 +459,22 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
         yAxisUpperTickMark.setPathTo( new Line2D.Double( _graphOriginX - TICK_MARK_LENGTH, preDecayPosY, 
         		_graphOriginX, preDecayPosY ) );
 
-        PText yAxisLowerTickMarkLabel = (PText) _yAxisTickMarkLabels.get( 0 );
-        yAxisLowerTickMarkLabel.setOffset( _graphOriginX - yAxisLowerTickMark.getWidth() -
-        		( 1.15 * yAxisLowerTickMarkLabel.getWidth() ), 
-        		yAxisLowerTickMark.getY() - ( 0.5 * yAxisLowerTickMarkLabel.getHeight() ) );
+        _yAxisLowerTickMarkLabel.setOffset( 
+        		_graphOriginX - _yAxisLowerTickMarkLabel.getFullBoundsReference().getWidth() 
+        			- ( yAxisLowerTickMark.getWidth() * 1.5 ),
+        		yAxisLowerTickMark.getY() - ( 0.5 * _yAxisLowerTickMarkLabel.getFullBoundsReference().height ) );
 
-        PText yAxisUpperTickMarkLabel = (PText) _yAxisTickMarkLabels.get( 1 );
-        yAxisUpperTickMarkLabel.setOffset( _graphOriginX - yAxisUpperTickMark.getWidth() -
-        		( 1.15 * yAxisUpperTickMarkLabel.getWidth() ),
-        		yAxisUpperTickMark.getY() - ( 0.5 * yAxisUpperTickMarkLabel.getHeight() ) );
+        _yAxisUpperTickMarkLabel.setOffset( 
+        		_graphOriginX - _yAxisUpperTickMarkLabel.getFullBoundsReference().getWidth()
+        			- ( yAxisUpperTickMark.getWidth() * 1.5 ),
+        		yAxisUpperTickMark.getY() - ( 0.5 * _yAxisUpperTickMarkLabel.getFullBoundsReference().height ) );
 
         // Position the labels for the axes.
         _xAxisLabel.setOffset( _graphOriginX - (_xAxisLabel.getFullBoundsReference().width / 2),
         		((PNode)_xAxisTickMarkLabels.get(0)).getFullBoundsReference().getMaxY() );
         double yAxisLabelCenter = yAxisUpperTickMark.getY() 
                 + ((yAxisLowerTickMark.getY() - yAxisUpperTickMark.getY()) / 2);
-        _yAxisLabel.setOffset( yAxisLowerTickMarkLabel.getOffset().getX() - ( 1.8 * _yAxisLabel.getFont().getSize() ),
+        _yAxisLabel.setOffset( _yAxisLowerTickMarkLabel.getOffset().getX() - ( 1.8 * _yAxisLabel.getFont().getSize() ),
         		yAxisLabelCenter + (_yAxisLabel.getFullBounds().height / 2) );
         
         // Position the pie chart.
@@ -572,37 +565,22 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
     	NucleusDisplayInfo postDecayDisplayInfo = 
     		NucleusDisplayInfo.getDisplayInfoForNucleusType(MultiNucleusDecayModel.getDecayProduct(_model.getNucleusType()).get(0));
     	
-    	// Put the text up.
+    	// Set the text for these labels.
     	_numUndecayedNucleiLabel.setHtml("<html># <sup><font size=-1>" + preDecayDisplayInfo.getIsotopeNumberString() 
-    			+ " </font></sup>" + preDecayDisplayInfo.getChemicalSymbol());
+    			+ "</font></sup>" + preDecayDisplayInfo.getChemicalSymbol());
     	_numUndecayedNucleiLabel.setColor(preDecayDisplayInfo.getDisplayColor());
     	_numDecayedNucleiLabel.setHtml("<html># <sup><font size=-1>" + postDecayDisplayInfo.getIsotopeNumberString() 
-    			+ " </font></sup>" + postDecayDisplayInfo.getChemicalSymbol());
+    			+ "</font></sup>" + postDecayDisplayInfo.getChemicalSymbol());
     	_numDecayedNucleiLabel.setColor(postDecayDisplayInfo.getDisplayColor());
-//    	if (_model.getNucleusType() == NucleusType.CARBON_14){
-//    		_numUndecayedNucleiLabel.setHtml("#" + NuclearPhysicsStrings.CARBON_14_CHEMICAL_SYMBOL);
-//    		_numUndecayedNucleiLabel.setPaint(NuclearPhysicsConstants.CARBON_COLOR);
-//    		_numUndecayedNucleiLabel.setShadowColor(Color.BLACK);
-//    		_numDecayedNucleiLabel.setHtml("#" + NuclearPhysicsStrings.NITROGEN_14_CHEMICAL_SYMBOL);
-//    		_numDecayedNucleiLabel.setPaint(NuclearPhysicsConstants.NITROGEN_COLOR);
-//    		_numDecayedNucleiLabel.setShadowColor(Color.WHITE);
-//    	}
-//    	else if (_model.getNucleusType() == NucleusType.URANIUM_238){
-//    		_numUndecayedNucleiLabel.setText("#" + NuclearPhysicsStrings.URANIUM_238_CHEMICAL_SYMBOL);
-//    		_numUndecayedNucleiLabel.setPaint(NuclearPhysicsConstants.URANIUM_238_COLOR);
-//    		_numUndecayedNucleiLabel.setShadowColor(Color.BLACK);
-//    		_numDecayedNucleiLabel.setText("#" + NuclearPhysicsStrings.LEAD_206_CHEMICAL_SYMBOL);
-//    		_numDecayedNucleiLabel.setPaint(NuclearPhysicsConstants.LEAD_COLOR);
-//    		_numDecayedNucleiLabel.setShadowColor(Color.WHITE);
-//    	}
-//    	else {
-//    		_numUndecayedNucleiLabel.setText("#" + NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL);
-//    		_numUndecayedNucleiLabel.setPaint(NuclearPhysicsConstants.CUSTOM_NUCLEUS_LABEL_COLOR);
-//    		_numUndecayedNucleiLabel.setShadowColor(Color.BLACK);
-//    		_numDecayedNucleiLabel.setText("#" + NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL);
-//    		_numDecayedNucleiLabel.setPaint(NuclearPhysicsConstants.DECAYED_CUSTOM_NUCLEUS_LABEL_COLOR);
-//    		_numDecayedNucleiLabel.setShadowColor(Color.WHITE);
-//    	}
+    	
+    	// Update the Y axis tick mark labels.
+    	_yAxisUpperTickMarkLabel.setHtml("<html><sup><font size=-1>" + preDecayDisplayInfo.getIsotopeNumberString() 
+    			+ "</font></sup>" + preDecayDisplayInfo.getChemicalSymbol());
+    	_yAxisUpperTickMarkLabel.setColor(preDecayDisplayInfo.getDisplayColor());
+    	_yAxisLowerTickMarkLabel.setHtml("<html><sup><font size=-1>" + postDecayDisplayInfo.getIsotopeNumberString() 
+    			+ "</font></sup>" + postDecayDisplayInfo.getChemicalSymbol());
+    	_yAxisLowerTickMarkLabel.setColor(postDecayDisplayInfo.getDisplayColor());
+    	
     }
     
     /**
@@ -844,33 +822,6 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
     	return unitsText;
     }
 
-	private void setYAxisTickMarkLabelText(){
-		
-		String upperLabel, lowerLabel;
-		
-		switch (_model.getNucleusType()){
-		case CUSTOM:
-			upperLabel = NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL;
-			lowerLabel = NuclearPhysicsStrings.DECAYED_CUSTOM_NUCLEUS_CHEMICAL_SYMBOL;
-			break;
-			
-		case POLONIUM_211:
-			upperLabel = NuclearPhysicsStrings.POLONIUM_211_ISOTOPE_NUMBER;
-			lowerLabel = NuclearPhysicsStrings.LEAD_207_ISOTOPE_NUMBER;
-			break;
-			
-		default:
-			upperLabel = "";
-			lowerLabel = "";
-			break;
-		}
-		
-		if (_yAxisTickMarkLabels.size() >= 2){
-    		((PText)_yAxisTickMarkLabels.get(0)).setText(lowerLabel);
-    		((PText)_yAxisTickMarkLabels.get(1)).setText(upperLabel);
-		}
-	}
-    
     /**
      * Map the given decay time to one of the buckets of the histogram.
      * 
