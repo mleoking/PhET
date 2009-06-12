@@ -26,10 +26,12 @@ import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PieChartNode;
 import edu.colorado.phet.common.piccolophet.nodes.ResizeArrowNode;
+import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.colorado.phet.common.piccolophet.nodes.PieChartNode.PieValue;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
+import edu.colorado.phet.nuclearphysics.common.NucleusDisplayInfo;
 import edu.colorado.phet.nuclearphysics.common.NucleusType;
 import edu.colorado.phet.nuclearphysics.common.model.AbstractDecayNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
@@ -58,7 +60,7 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
     //------------------------------------------------------------------------
 
     // Total amount of time in milliseconds represented by this chart.
-    private static final double DEFAULT_TIME_SPAN = 3200;
+    private static final double DEFAULT_TIME_SPAN = 1000;
     
     // Minimum allowable half life.
     private static final double MIN_HALF_LIFE = 10; // In milliseconds.
@@ -77,6 +79,7 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
     private static final Color  TICK_MARK_COLOR = AXES_LINE_COLOR;
     private static final Font   SMALL_LABEL_FONT = new PhetFont( Font.BOLD, 14 );
     private static final Font   LARGE_LABEL_FONT = new PhetFont( Font.BOLD, 18 );
+    private static final Font   ISOTOPE_LABEL_FONT = new PhetFont( Font.PLAIN, 20 );
     private static final float  HALF_LIFE_LINE_STROKE_WIDTH = 2.0f;
     private static final Stroke HALF_LIFE_LINE_STROKE = new BasicStroke( HALF_LIFE_LINE_STROKE_WIDTH, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 3.0f, 3.0f }, 0 );
     private static final Color  HALF_LIFE_LINE_COLOR = new Color (238, 0, 0);
@@ -85,7 +88,7 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
     private static final double RESIZE_HANDLE_SIZE = 35;
 
     // Constants that control the location of the origin.
-    private static final double X_ORIGIN_PROPORTION = 0.25;
+    private static final double X_ORIGIN_PROPORTION = 0.22;
     private static final double Y_ORIGIN_PROPORTION = 0.65;
 
     // Tweakable values that can be used to adjust where the nuclei appear on
@@ -146,9 +149,9 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
     private ArrayList _yAxisTickMarkLabels;
     private PText _xAxisLabel;
     private PText _yAxisLabel;
-    private ShadowPText _numUndecayedNucleiLabel;
+    private ShadowHTMLNode _numUndecayedNucleiLabel;
     private PText _numUndecayedNucleiText;
-    private ShadowPText _numDecayedNucleiLabel;
+    private ShadowHTMLNode _numDecayedNucleiLabel;
     private PText _numDecayedNucleiText;
     private PText _dummyNumberText;
     private PieChartNode _pieChart;
@@ -308,7 +311,7 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
         _xAxisLabel.setFont( SMALL_LABEL_FONT );
         _nonPickableChartNode.addChild( _xAxisLabel );
         _yAxisLabel = new PText( NuclearPhysicsStrings.DECAY_TIME_CHART_Y_AXIS_LABEL_ISOTOPE );
-        _yAxisLabel.setFont( SMALL_LABEL_FONT );
+        _yAxisLabel.setFont( LARGE_LABEL_FONT );
         _yAxisLabel.rotate( 1.5 * Math.PI );
         _nonPickableChartNode.addChild( _yAxisLabel );
         
@@ -321,23 +324,23 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
         
         // Add the text for labeling the pre- and post-decay quantities of the
         // nuclei.
-        _numUndecayedNucleiLabel = new ShadowPText();
-        _numUndecayedNucleiLabel.setFont(LARGE_LABEL_FONT);
+        _numUndecayedNucleiLabel = new ShadowHTMLNode();
+        _numUndecayedNucleiLabel.setFont(ISOTOPE_LABEL_FONT);
         _nonPickableChartNode.addChild(_numUndecayedNucleiLabel);
         _numUndecayedNucleiText = new PText("0");
-        _numUndecayedNucleiText.setFont(LARGE_LABEL_FONT);
+        _numUndecayedNucleiText.setFont(ISOTOPE_LABEL_FONT);
         _nonPickableChartNode.addChild(_numUndecayedNucleiText);
-        _numDecayedNucleiLabel = new ShadowPText();
-        _numDecayedNucleiLabel.setFont(LARGE_LABEL_FONT);
+        _numDecayedNucleiLabel = new ShadowHTMLNode();
+        _numDecayedNucleiLabel.setFont(ISOTOPE_LABEL_FONT);
         _nonPickableChartNode.addChild(_numDecayedNucleiLabel);
         _numDecayedNucleiText = new PText("0");
-        _numDecayedNucleiText.setFont(LARGE_LABEL_FONT);
+        _numDecayedNucleiText.setFont(ISOTOPE_LABEL_FONT);
         _nonPickableChartNode.addChild(_numDecayedNucleiText);
         
         // Create a dummy text value for consistent positioning of the real
         // numerical values.
         _dummyNumberText = new PText("00");
-        _dummyNumberText.setFont(LARGE_LABEL_FONT);
+        _dummyNumberText.setFont(ISOTOPE_LABEL_FONT);
 
         // Create the line that will illustrate where the half life is.
         _halfLifeMarkerLine = new PPath();
@@ -562,30 +565,44 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
     }
     
     private void updateNucleusGraphLabels(){
-    	if (_model.getNucleusType() == NucleusType.CARBON_14){
-    		_numUndecayedNucleiLabel.setText("#" + NuclearPhysicsStrings.CARBON_14_CHEMICAL_SYMBOL);
-    		_numUndecayedNucleiLabel.setTextPaint(NuclearPhysicsConstants.CARBON_COLOR);
-    		_numUndecayedNucleiLabel.setShadowColor(Color.BLACK);
-    		_numDecayedNucleiLabel.setText("#" + NuclearPhysicsStrings.NITROGEN_14_CHEMICAL_SYMBOL);
-    		_numDecayedNucleiLabel.setTextPaint(NuclearPhysicsConstants.NITROGEN_COLOR);
-    		_numDecayedNucleiLabel.setShadowColor(Color.WHITE);
-    	}
-    	else if (_model.getNucleusType() == NucleusType.URANIUM_238){
-    		_numUndecayedNucleiLabel.setText("#" + NuclearPhysicsStrings.URANIUM_238_CHEMICAL_SYMBOL);
-    		_numUndecayedNucleiLabel.setTextPaint(NuclearPhysicsConstants.URANIUM_238_COLOR);
-    		_numUndecayedNucleiLabel.setShadowColor(Color.BLACK);
-    		_numDecayedNucleiLabel.setText("#" + NuclearPhysicsStrings.LEAD_206_CHEMICAL_SYMBOL);
-    		_numDecayedNucleiLabel.setTextPaint(NuclearPhysicsConstants.LEAD_COLOR);
-    		_numDecayedNucleiLabel.setShadowColor(Color.WHITE);
-    	}
-    	else {
-    		_numUndecayedNucleiLabel.setText("#" + NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL);
-    		_numUndecayedNucleiLabel.setTextPaint(NuclearPhysicsConstants.CUSTOM_NUCLEUS_LABEL_COLOR);
-    		_numUndecayedNucleiLabel.setShadowColor(Color.BLACK);
-    		_numDecayedNucleiLabel.setText("#" + NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL);
-    		_numDecayedNucleiLabel.setTextPaint(NuclearPhysicsConstants.DECAYED_CUSTOM_NUCLEUS_LABEL_COLOR);
-    		_numDecayedNucleiLabel.setShadowColor(Color.WHITE);
-    	}
+    	
+    	// Get the display information for the current nuclei.
+    	NucleusDisplayInfo preDecayDisplayInfo = 
+    		NucleusDisplayInfo.getDisplayInfoForNucleusType(_model.getNucleusType());
+    	NucleusDisplayInfo postDecayDisplayInfo = 
+    		NucleusDisplayInfo.getDisplayInfoForNucleusType(MultiNucleusDecayModel.getDecayProduct(_model.getNucleusType()).get(0));
+    	
+    	// Put the text up.
+    	_numUndecayedNucleiLabel.setHtml("<html># <sup><font size=-1>" + preDecayDisplayInfo.getIsotopeNumberString() 
+    			+ " </font></sup>" + preDecayDisplayInfo.getChemicalSymbol());
+    	_numUndecayedNucleiLabel.setColor(preDecayDisplayInfo.getDisplayColor());
+    	_numDecayedNucleiLabel.setHtml("<html># <sup><font size=-1>" + postDecayDisplayInfo.getIsotopeNumberString() 
+    			+ " </font></sup>" + postDecayDisplayInfo.getChemicalSymbol());
+    	_numDecayedNucleiLabel.setColor(postDecayDisplayInfo.getDisplayColor());
+//    	if (_model.getNucleusType() == NucleusType.CARBON_14){
+//    		_numUndecayedNucleiLabel.setHtml("#" + NuclearPhysicsStrings.CARBON_14_CHEMICAL_SYMBOL);
+//    		_numUndecayedNucleiLabel.setPaint(NuclearPhysicsConstants.CARBON_COLOR);
+//    		_numUndecayedNucleiLabel.setShadowColor(Color.BLACK);
+//    		_numDecayedNucleiLabel.setHtml("#" + NuclearPhysicsStrings.NITROGEN_14_CHEMICAL_SYMBOL);
+//    		_numDecayedNucleiLabel.setPaint(NuclearPhysicsConstants.NITROGEN_COLOR);
+//    		_numDecayedNucleiLabel.setShadowColor(Color.WHITE);
+//    	}
+//    	else if (_model.getNucleusType() == NucleusType.URANIUM_238){
+//    		_numUndecayedNucleiLabel.setText("#" + NuclearPhysicsStrings.URANIUM_238_CHEMICAL_SYMBOL);
+//    		_numUndecayedNucleiLabel.setPaint(NuclearPhysicsConstants.URANIUM_238_COLOR);
+//    		_numUndecayedNucleiLabel.setShadowColor(Color.BLACK);
+//    		_numDecayedNucleiLabel.setText("#" + NuclearPhysicsStrings.LEAD_206_CHEMICAL_SYMBOL);
+//    		_numDecayedNucleiLabel.setPaint(NuclearPhysicsConstants.LEAD_COLOR);
+//    		_numDecayedNucleiLabel.setShadowColor(Color.WHITE);
+//    	}
+//    	else {
+//    		_numUndecayedNucleiLabel.setText("#" + NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL);
+//    		_numUndecayedNucleiLabel.setPaint(NuclearPhysicsConstants.CUSTOM_NUCLEUS_LABEL_COLOR);
+//    		_numUndecayedNucleiLabel.setShadowColor(Color.BLACK);
+//    		_numDecayedNucleiLabel.setText("#" + NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL);
+//    		_numDecayedNucleiLabel.setPaint(NuclearPhysicsConstants.DECAYED_CUSTOM_NUCLEUS_LABEL_COLOR);
+//    		_numDecayedNucleiLabel.setShadowColor(Color.WHITE);
+//    	}
     }
     
     /**
