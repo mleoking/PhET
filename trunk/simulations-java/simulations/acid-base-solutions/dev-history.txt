@@ -23,6 +23,8 @@ ISSUES:
 - LL: different icon for MOH
 - JB: changes to the descriptions in the legend
 - JB: Ka value for HF (Hydrofluoric Acid)
+- TL: different number of decimal places for strength
+- KP: fewer pixels for the strong range of the strength slider
 
 DONE:
 6/12/09 localize symbol legend
