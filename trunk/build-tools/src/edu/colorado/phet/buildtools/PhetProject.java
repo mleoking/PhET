@@ -922,7 +922,7 @@ public abstract class PhetProject {
             for ( String simulationName : getSimulationNames() ) {
                 for ( Locale locale : getLocales() ) {
                     Simulation simulation = getSimulation( simulationName, locale );
-                    str += "<simulation name=\"" + getName() + "\" locale=\"" + LocaleUtils.localeToString( locale ) + "\">\n";
+                    str += "<simulation name=\"" + simulation.getName() + "\" locale=\"" + LocaleUtils.localeToString( locale ) + "\">\n";
                     String title = simulation.getTitle();
                     String description = simulation.getDescription();
                     if ( title != null ) {
