@@ -10,6 +10,7 @@ import java.util.Random;
 import edu.colorado.phet.acidbasesolutions.ABSColors;
 import edu.colorado.phet.acidbasesolutions.ABSSymbols;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
+import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.SolutionListener;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
@@ -81,6 +82,20 @@ public class HydroniumHydroxideRatioNode extends PComposite {
         setChildrenPickable( false );
         
         this.solution = solution;
+        solution.addSolutionListener( new SolutionListener() {
+
+            public void concentrationChanged() {
+                update();
+            }
+
+            public void soluteChanged() {
+                update();
+            }
+
+            public void strengthChanged() {
+                update();
+            }
+        });
         
         this.containerBounds = new PBounds( containerBounds );
         randomCoordinate = new Random();
@@ -91,7 +106,7 @@ public class HydroniumHydroxideRatioNode extends PComposite {
         // developer only, display particle counts in lower left of container
         if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
             numbersNode = new HTMLNode( "?" );
-            numbersNode.setFont( new PhetFont() );
+            numbersNode.setFont( new PhetFont( 16 ) );
             addChild( numbersNode );
             numbersNode.setOffset( containerBounds.getX() + 5, containerBounds.getMaxY() - numbersNode.getFullBoundsReference().getHeight() - 15 );
         }
@@ -243,10 +258,10 @@ public class HydroniumHydroxideRatioNode extends PComposite {
     // Updaters
     //----------------------------------------------------------------------------
     
-    /**
+    /*
      * Updates the view to match the model.
      */
-    public void update() {
+    private void update() {
         if ( getVisible() ) {
             createParticles();
         }
@@ -257,7 +272,7 @@ public class HydroniumHydroxideRatioNode extends PComposite {
      */
     private void updateNumbersNode( int h3o, int oh ) {
         if ( numbersNode != null ) {
-            String html = HTMLUtils.toHTMLString( ABSSymbols.H3O_PLUS + "/" + ABSSymbols.OH_MINUS + "=" + h3o + "/" + oh );
+            String html = HTMLUtils.toHTMLString( ABSSymbols.H3O_PLUS + "/" + ABSSymbols.OH_MINUS + " = " + h3o + "/" + oh );
             numbersNode.setHTML( html );
         }
     }

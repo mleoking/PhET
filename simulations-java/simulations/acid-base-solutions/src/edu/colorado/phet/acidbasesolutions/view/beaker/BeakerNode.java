@@ -27,21 +27,6 @@ public class BeakerNode extends PComposite {
     
     public BeakerNode( PDimension vesselSize, AqueousSolution solution ) {
         
-        solution.addSolutionListener( new SolutionListener() {
-
-            public void concentrationChanged() {
-                hydroniumHydroxideRatioNode.update();
-            }
-
-            public void soluteChanged() {
-                hydroniumHydroxideRatioNode.update();
-            }
-
-            public void strengthChanged() {
-                hydroniumHydroxideRatioNode.update();
-            }
-        });
-        
         VesselNode vesselNode = new VesselNode( vesselSize, MAX_VOLUME );
         
         double probeHeight = vesselSize.getHeight() + 55;
