@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.acidbasesolutions.ABSConstants;
+import edu.colorado.phet.acidbasesolutions.ABSColors;
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.control.EquationScalingControl;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
@@ -71,7 +71,7 @@ public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
             }
         };
         topCanvas.setPreferredSize( TOP_CANVAS_SIZE );
-        topCanvas.setBackground( ABSConstants.EQUILIBRIUM_EXPRESSIONS_BACKGROUND );
+        topCanvas.setBackground( ABSColors.EQUILIBRIUM_EXPRESSIONS_BACKGROUND );
         
         // solute expression, will be set based on solution
         soluteNode = null;
@@ -84,7 +84,7 @@ public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
             }
         };
         bottomCanvas.setPreferredSize( BOTTOM_CANVAS_SIZE );
-        bottomCanvas.setBackground( ABSConstants.EQUILIBRIUM_EXPRESSIONS_BACKGROUND );
+        bottomCanvas.setBackground( ABSColors.EQUILIBRIUM_EXPRESSIONS_BACKGROUND );
         
         // water expression
         waterNode = new WaterEquilibriumExpressionNode( solution );

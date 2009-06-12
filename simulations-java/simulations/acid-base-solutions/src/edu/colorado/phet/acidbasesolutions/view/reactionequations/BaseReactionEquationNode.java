@@ -4,7 +4,7 @@ package edu.colorado.phet.acidbasesolutions.view.reactionequations;
 
 import java.awt.Color;
 
-import edu.colorado.phet.acidbasesolutions.ABSConstants;
+import edu.colorado.phet.acidbasesolutions.ABSColors;
 import edu.colorado.phet.acidbasesolutions.ABSImages;
 import edu.colorado.phet.acidbasesolutions.ABSSymbols;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
@@ -31,8 +31,8 @@ class BaseReactionEquationNode extends AbstractReactionEquationNode {
     public BaseReactionEquationNode( AqueousSolution solution ) {
         super();
         this.solution = solution;
-        setTerm( H2O_INDEX, ABSSymbols.H2O, ABSConstants.H2O_EQUATION_COLOR, ABSImages.H2O_STRUCTURE );
-        setTerm( OH_MINUS_INDEX, ABSSymbols.OH_MINUS, ABSConstants.OH_COLOR, ABSImages.OH_MINUS_STRUCTURE );
+        setTerm( H2O_INDEX, ABSSymbols.H2O, ABSColors.H2O_EQUATION, ABSImages.H2O_STRUCTURE );
+        setTerm( OH_MINUS_INDEX, ABSSymbols.OH_MINUS, ABSColors.OH_MINUS, ABSImages.OH_MINUS_STRUCTURE );
         update();
         updateH2OColor();
     }
@@ -61,7 +61,7 @@ class BaseReactionEquationNode extends AbstractReactionEquationNode {
     
     protected void updateH2OColor() {
         // H2O does not scale, use black text when scaling is enabled
-        Color waterColor = ( isScalingEnabled() ? Color.BLACK : ABSConstants.H2O_EQUATION_COLOR );
+        Color waterColor = ( isScalingEnabled() ? Color.BLACK : ABSColors.H2O_EQUATION );
         setTermColor( H2O_INDEX, waterColor );
     }
 }

@@ -8,7 +8,7 @@ import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
-import edu.colorado.phet.acidbasesolutions.ABSConstants;
+import edu.colorado.phet.acidbasesolutions.ABSColors;
 import edu.colorado.phet.acidbasesolutions.ABSImages;
 import edu.colorado.phet.acidbasesolutions.ABSSymbols;
 import edu.colorado.phet.acidbasesolutions.util.PNodeUtils;
@@ -176,9 +176,9 @@ abstract class AbstractConcentrationGraphNode extends PComposite {
         }
         // layout of icons and labels will be handled when they are set
 
-        setMolecule( H3O_INDEX, ABSSymbols.H3O_PLUS, ABSImages.H3O_PLUS_MOLECULE, ABSConstants.H3O_COLOR );
-        setMolecule( OH_INDEX, ABSSymbols.OH_MINUS, ABSImages.OH_MINUS_MOLECULE, ABSConstants.OH_COLOR );
-        setMolecule( H2O_INDEX, ABSSymbols.H2O, ABSImages.H2O_MOLECULE, ABSConstants.H2O_COLOR );
+        setMolecule( H3O_INDEX, ABSSymbols.H3O_PLUS, ABSImages.H3O_PLUS_MOLECULE, ABSColors.H3O_PLUS );
+        setMolecule( OH_INDEX, ABSSymbols.OH_MINUS, ABSImages.OH_MINUS_MOLECULE, ABSColors.OH_MINUS );
+        setMolecule( H2O_INDEX, ABSSymbols.H2O, ABSImages.H2O_MOLECULE, ABSColors.H2O );
         setFormat( H2O_INDEX, H2O_FORMAT );
     }
 

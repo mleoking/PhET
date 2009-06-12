@@ -3,10 +3,7 @@ package edu.colorado.phet.acidbasesolutions.model;
 import java.awt.Color;
 import java.awt.Image;
 
-import edu.colorado.phet.acidbasesolutions.ABSConstants;
-import edu.colorado.phet.acidbasesolutions.ABSImages;
-import edu.colorado.phet.acidbasesolutions.ABSStrings;
-import edu.colorado.phet.acidbasesolutions.ABSSymbols;
+import edu.colorado.phet.acidbasesolutions.*;
 
 
 public abstract class Base extends Solute {
@@ -29,8 +26,8 @@ public abstract class Base extends Solute {
         
         private StrongBase( String name, String symbol, String conjugateSymbol, double strength  ) {
             super( name, 
-                   symbol, ABSImages.MOH_MOLECULE, ABSImages.MOH_STRUCTURE, ABSConstants.MOH_COLOR, 
-                   conjugateSymbol, ABSImages.M_PLUS_MOLECULE, ABSImages.M_PLUS_STRUCTURE, ABSConstants.M_COLOR, 
+                   symbol, ABSImages.MOH_MOLECULE, ABSImages.MOH_STRUCTURE, ABSColors.MOH, 
+                   conjugateSymbol, ABSImages.M_PLUS_MOLECULE, ABSImages.M_PLUS_STRUCTURE, ABSColors.M_PLUS, 
                    strength );
         }
         
@@ -53,8 +50,8 @@ public abstract class Base extends Solute {
         
         private WeakBase( String name, String symbol, String conjugateSymbol, double strength ) {
             super( name, 
-                   symbol, ABSImages.B_MOLECULE, ABSImages.B_STRUCTURE, ABSConstants.B_COLOR, 
-                   conjugateSymbol, ABSImages.BH_PLUS_MOLECULE, ABSImages.BH_PLUS_STRUCTURE, ABSConstants.BH_COLOR,
+                   symbol, ABSImages.B_MOLECULE, ABSImages.B_STRUCTURE, ABSColors.B, 
+                   conjugateSymbol, ABSImages.BH_PLUS_MOLECULE, ABSImages.BH_PLUS_STRUCTURE, ABSColors.BH_PLUS,
                    strength );
         }
         
@@ -85,8 +82,8 @@ public abstract class Base extends Solute {
         
         public CustomBase() {
             super( ABSStrings.CUSTOM_BASE, 
-                   "symbol?", ABSImages.B_MOLECULE, ABSImages.B_STRUCTURE, ABSConstants.B_COLOR, 
-                   "symbol?", ABSImages.BH_PLUS_MOLECULE, ABSImages.BH_PLUS_STRUCTURE, ABSConstants.BH_COLOR, 
+                   "symbol?", ABSImages.B_MOLECULE, ABSImages.B_STRUCTURE, ABSColors.B, 
+                   "symbol?", ABSImages.BH_PLUS_MOLECULE, ABSImages.BH_PLUS_STRUCTURE, ABSColors.BH_PLUS, 
                    DEFAULT_STRENGTH );
             updateSymbol( getStrength() );
         }
@@ -107,21 +104,21 @@ public abstract class Base extends Solute {
                 setSymbol( ABSSymbols.MOH );
                 setIcon( ABSImages.MOH_MOLECULE );
                 setStructure( ABSImages.MOH_STRUCTURE );
-                setColor( ABSConstants.MOH_COLOR );
+                setColor( ABSColors.MOH );
                 setConjugateSymbol( ABSSymbols.M_PLUS );
                 setConjugateIcon( ABSImages.M_PLUS_MOLECULE );
                 setConjugateStructure( ABSImages.M_PLUS_STRUCTURE );
-                setConjugateColor( ABSConstants.M_COLOR );
+                setConjugateColor( ABSColors.M_PLUS );
             }
             else {
                 setSymbol( ABSSymbols.B );
                 setIcon( ABSImages.B_MOLECULE );
                 setStructure( ABSImages.B_STRUCTURE );
-                setColor( ABSConstants.B_COLOR );
+                setColor( ABSColors.B );
                 setConjugateSymbol( ABSSymbols.BH_PLUS );
                 setConjugateIcon( ABSImages.BH_PLUS_MOLECULE );
                 setConjugateStructure( ABSImages.BH_PLUS_STRUCTURE );
-                setConjugateColor( ABSConstants.BH_COLOR );
+                setConjugateColor( ABSColors.BH_PLUS );
             }
         }
     }

@@ -5,7 +5,7 @@ package edu.colorado.phet.acidbasesolutions.view.beaker;
 import java.awt.Color;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.acidbasesolutions.ABSConstants;
+import edu.colorado.phet.acidbasesolutions.ABSColors;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PClip;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -21,7 +21,7 @@ class SolutionNode extends PComposite {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final Color COLOR = ABSConstants.H2O_COLOR;
+    private static final Color COLOR = ABSColors.H2O;
     
     //----------------------------------------------------------------------------
     // Constructors
