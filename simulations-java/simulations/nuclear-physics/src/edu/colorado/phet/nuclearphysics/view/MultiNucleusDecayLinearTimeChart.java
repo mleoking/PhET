@@ -24,6 +24,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PieChartNode;
 import edu.colorado.phet.common.piccolophet.nodes.ResizeArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
@@ -92,7 +93,7 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
     // the chart.
     private static final double PRE_DECAY_TIME_LINE_POS_FRACTION = 0.20;
     private static final double POST_DECAY_TIME_LINE_POS_FRACTION = 0.50;
-    private static final double TIME_ZERO_OFFSET = 100; // In milliseconds
+    private static final double TIME_ZERO_OFFSET_PROPORTION = 0.05; // Proportion of total time span
     private static final int INITIAL_FALL_COUNT = 5; // Number of clock ticks for nucleus to fall from upper to lower line.
 
     // Constants that control the way the nuclei look.
@@ -420,6 +421,14 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
     	_msToPixelsFactor = ((_usableWidth - _graphOriginX) * 0.98) / _timeSpan;
     	update();
     }
+    
+    /**
+     * Reset the chart.
+     */
+    public void reset() {
+        // Redraw the chart.
+        update();
+    }
 
     /**
      * This method is called to re-scale the chart, which generally occurs
@@ -469,7 +478,7 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
 
             // Position the tick mark itself.
             PPath tickMark = (PPath) _xAxisTickMarks.get( i );
-            double tickMarkPosX = _graphOriginX + (TIME_ZERO_OFFSET * _msToPixelsFactor) 
+            double tickMarkPosX = _graphOriginX + (TIME_ZERO_OFFSET_PROPORTION * _timeSpan * _msToPixelsFactor) 
                     + ( i * 1000 * _msToPixelsFactor );
             tickMark.setPathTo( new Line2D.Double( tickMarkPosX, _graphOriginY, tickMarkPosX, _graphOriginY - TICK_MARK_LENGTH ) );
 
@@ -696,10 +705,12 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
         // Position the marker for the half life.
     	double halfLife = _model.getHalfLife();  // Get half life.
         _halfLifeMarkerLine.reset();
-        _halfLifeMarkerLine.moveTo( (float) ( _graphOriginX + (TIME_ZERO_OFFSET + halfLife) * _msToPixelsFactor ),
+        _halfLifeMarkerLine.moveTo( 
+        		(float)(_graphOriginX + ((TIME_ZERO_OFFSET_PROPORTION * _timeSpan) + halfLife) * _msToPixelsFactor),
         		(float)(_graphOriginY + ((_usableHeight - _graphOriginY) * 0.4)) );
-        _halfLifeMarkerLine.lineTo( (float) ( _graphOriginX + (TIME_ZERO_OFFSET + halfLife) * _msToPixelsFactor ),
-        		(float) ( _usableAreaOriginY + ( 0.1 * _usableHeight ) ) );
+        _halfLifeMarkerLine.lineTo( 
+        		(float)(_graphOriginX + ((TIME_ZERO_OFFSET_PROPORTION *  _timeSpan) + halfLife) * _msToPixelsFactor),
+        		(float)(_usableAreaOriginY + ( 0.1 * _usableHeight ) ) );
         
         // If the marker is overlapping with a tick mark label, redraw it so
         // that it is completely above the axis.
@@ -708,10 +719,13 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
         	if (tickMark.getFullBoundsReference().intersects(_halfLifeMarkerLine.getFullBoundsReference())){
         		// Redraw the line to be above the axis.
                 _halfLifeMarkerLine.reset();
-                _halfLifeMarkerLine.moveTo( (float) ( _graphOriginX + (TIME_ZERO_OFFSET + halfLife) * _msToPixelsFactor ),
-                		(float)_graphOriginY );
-                _halfLifeMarkerLine.lineTo( (float) ( _graphOriginX + (TIME_ZERO_OFFSET + halfLife) * _msToPixelsFactor ),
-                		(float) ( _usableAreaOriginY + ( 0.1 * _usableHeight ) ) );
+                _halfLifeMarkerLine.moveTo( 
+                	(float)(_graphOriginX + ((TIME_ZERO_OFFSET_PROPORTION * _timeSpan) + halfLife) * _msToPixelsFactor),
+                	(float)_graphOriginY );
+                _halfLifeMarkerLine.lineTo( 
+                	(float)(_graphOriginX + ((TIME_ZERO_OFFSET_PROPORTION * _timeSpan) + halfLife) * _msToPixelsFactor),
+                	(float)(_usableAreaOriginY + ( 0.1 * _usableHeight ) ) );
+                
         		break;
         	}
         }
@@ -739,13 +753,30 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
     }
     
     /**
-     * Reset the chart.
+     * Convenience method for adding tick marks and their labels to the X axis.
+     * 
+     * @param time
+     * @param label
      */
-    public void reset() {
-        // Redraw the chart.
-        update();
+    private void addXAxisTickMark(double time, String label){
+    	
+//		PhetPPath tickMark = new PhetPPath(TICK_MARK_COLOR);
+//		tickMark.setPathTo(new Line2D.Double(0, 0, 0, -TICK_MARK_LENGTH));
+//		tickMark.setStroke(TICK_MARK_STROKE);
+//		tickMark.setOffset(_graphRect.getX() + (time * _msToPixelsFactor), _graphRect.getMaxY());
+//		_nonPickableGraphLayer.addChild(tickMark);
+//		_xAxisTickMarks.add(tickMark);
+//		PText tickMarkLabel = new PText();
+//		tickMarkLabel.setText(label);
+//		tickMarkLabel.setFont(BOLD_LABEL_FONT);
+//		tickMarkLabel.setScale(_labelScalingFactor);
+//		tickMarkLabel.setOffset(
+//				tickMark.getOffset().getX() - tickMarkLabel.getFullBoundsReference().width / 2,
+//				_graphRect.getMaxY() + (tickMarkLabel.getFullBoundsReference().height * 0.1));
+//		_nonPickableGraphLayer.addChild(tickMarkLabel);
+//		_xAxisTickMarkLabels.add(tickMarkLabel);
     }
-
+    
 	private void setYAxisTickMarkLabelText(){
 		
 		String upperLabel, lowerLabel;
@@ -1044,8 +1075,9 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
         		}
         	}
         	
-        	xPos = _graphOriginX + (_nucleus.getAdjustedActivatedTime() + TIME_ZERO_OFFSET) * _msToPixelsFactor 
-        	        - _nucleusNodeRadius + (_bunchingOffset.getX() * _usableHeight);
+        	xPos = _graphOriginX 
+        		+ (_nucleus.getAdjustedActivatedTime() + (TIME_ZERO_OFFSET_PROPORTION *  _timeSpan)) * _msToPixelsFactor 
+        	    - _nucleusNodeRadius + (_bunchingOffset.getX() * _usableHeight);
         	_nucleusNode.setOffset(xPos, yPos);
     	}
     	
