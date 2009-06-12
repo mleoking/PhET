@@ -50,8 +50,8 @@ public class MultiNucleusDecayModel implements NucleusTypeControl {
 	protected NuclearPhysicsClock _clock;
 	protected ArrayList _listeners = new ArrayList();
 	protected ArrayList<AbstractDecayNucleus> _atomicNuclei;
-	protected int _currentNucleusType;
-	protected int _initialNucleusType;
+	protected NucleusType _currentNucleusType;
+	protected NucleusType _initialNucleusType;
 	protected AtomicNucleus.Adapter _nucleusListener;
 	private final Random _rand = new Random();
 	protected Point2D [] _jitterOffsets;
@@ -62,7 +62,7 @@ public class MultiNucleusDecayModel implements NucleusTypeControl {
     // Constructor(s)
     //------------------------------------------------------------------------
 	
-	public MultiNucleusDecayModel( NuclearPhysicsClock clock, int maxNuclei, int initialNucleusType ) {
+	public MultiNucleusDecayModel( NuclearPhysicsClock clock, int maxNuclei, NucleusType initialNucleusType ) {
         _clock = clock;
         _initialNucleusType = initialNucleusType;
         _currentNucleusType = initialNucleusType;
@@ -89,9 +89,7 @@ public class MultiNucleusDecayModel implements NucleusTypeControl {
     // Public and protected methods
     //------------------------------------------------------------------------
 
-	// TODO: Finish refactoring to use enum and get rid of this method.
-	public void setNucleusTypeOldStyle(int nucleusType) {
-		
+	public void setNucleusType(NucleusType nucleusType){
 		if (nucleusType != _currentNucleusType){
 			
 			removeAllNuclei();
@@ -106,23 +104,8 @@ public class MultiNucleusDecayModel implements NucleusTypeControl {
 		}
 	}
 	
-	// TODO: Finish refactoring to use enum and get rid of this method.
-	public int getNucleusTypeOldStyle() {
-		return _currentNucleusType;
-	}
-	
 	public NucleusType getNucleusType() {
-		switch (_currentNucleusType){
-		case NuclearPhysicsConstants.NUCLEUS_ID_CARBON_14:
-			return NucleusType.CARBON_14;
-		case NuclearPhysicsConstants.NUCLEUS_ID_URANIUM_238:
-			return NucleusType.URANIUM_238;
-		case NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM:
-			return NucleusType.CUSTOM;
-		default:
-			assert false;
-		    return null;
-		}
+		return _currentNucleusType;
 	}
 
 	/**
@@ -217,6 +200,14 @@ public class MultiNucleusDecayModel implements NucleusTypeControl {
 		case URANIUM_238:
 			decayProducts.add(NucleusType.LEAD_206);
 			break;
+			
+		case POLONIUM_211:
+			decayProducts.add(NucleusType.LEAD_207);
+			break;
+
+		case CUSTOM:
+			decayProducts.add(NucleusType.CUSTOM_POST_DECAY);
+			break;
 
 		default:
 			System.out.println("Warning: No decay product information available for requested nucleus, returning original value, nucleus = " + preDecayNucleus);
@@ -269,7 +260,7 @@ public class MultiNucleusDecayModel implements NucleusTypeControl {
 		AbstractDecayNucleus newNucleus;
 			
 		for (int i = 0; i < _maxNuclei; i++){
-			if (_currentNucleusType == NuclearPhysicsConstants.NUCLEUS_ID_POLONIUM){
+			if (_currentNucleusType == NucleusType.POLONIUM_211){
 				newNucleus = new Polonium211Nucleus(_clock);
 			}
 			else{
@@ -354,8 +345,8 @@ public class MultiNucleusDecayModel implements NucleusTypeControl {
 	public void setHalfLife(double halfLife) {
 		
 		// Verify that the current nucleus is custom.
-		if (_currentNucleusType != NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM){
-			System.err.println("Warning: Can only set nucleus type for custom nucleus, ignoring request.");
+		if (_currentNucleusType != NucleusType.CUSTOM){
+			System.err.println("Warning: Can only set half life for custom nucleus, ignoring request.");
 			return;
 		}
 		

@@ -25,9 +25,9 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
+import edu.colorado.phet.nuclearphysics.common.NucleusType;
 import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusAlphaDecayCanvas;
 import edu.umd.cs.piccolo.PNode;
@@ -83,7 +83,7 @@ public class BucketOfNucleiNode extends PNode {
     int _numVisibleNucleiInOuterLayers;
     PNode _nodeBeingDragged;
     ArrayList _shrinkAnimationTimers;
-	private int _nucleusType;
+	private NucleusType _nucleusType;
 	private double _nucleusWidth = 0;
 	private boolean _showLabel = true;             // Label is shown by default.
 	private boolean _showRadiationSymbol = true;   // Icon is shown by default.
@@ -110,7 +110,7 @@ public class BucketOfNucleiNode extends PNode {
 		_bucketHeight = height;
 		_bucketWidth = width;
 		_shrinkAnimationTimers = new ArrayList();
-		_nucleusType = NuclearPhysicsConstants.NUCLEUS_ID_POLONIUM;
+		_nucleusType = NucleusType.POLONIUM_211;
 		_baseColor = baseColor;
 		
 		// Create and add the background rectangle.
@@ -376,7 +376,7 @@ public class BucketOfNucleiNode extends PNode {
         }
     }
     
-    public void setNucleusType( int nucleusType ){
+    public void setNucleusType( NucleusType nucleusType ){
     	_nucleusType  = nucleusType;
     	updateLabelText();
     }
@@ -536,15 +536,15 @@ public class BucketOfNucleiNode extends PNode {
 		
 		// Set the text of the label.
 		switch (_nucleusType){
-		case NuclearPhysicsConstants.NUCLEUS_ID_POLONIUM:
+		case POLONIUM_211:
 			_bucketLabel.setHTML(NuclearPhysicsStrings.BUCKET_LABEL_POLONIUM);
 		    break;
 			
-		case NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM:
+		case CUSTOM:
 			_bucketLabel.setHTML(NuclearPhysicsStrings.BUCKET_LABEL_ATOMS);
 		    break;
 		    
-		case NuclearPhysicsConstants.NUCLEUS_ID_CARBON_14:
+		case CARBON_14:
 			_bucketLabel.setHTML(NuclearPhysicsStrings.BUCKET_LABEL_ATOMS);
 		    break;
 		    

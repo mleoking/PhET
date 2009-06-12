@@ -122,8 +122,11 @@ public class NuclearPhysicsConstants {
     // Color for U238 when represented as a circle or sphere.
     public static final Color URANIUM_238_COLOR = new Color( 150, 150, 0 );
     
-    // Color for Lead 206 when represented as a circle or sphere.
-    public static final Color LEAD_206_COLOR = new Color( 97, 117, 126 );
+    // Color for Lead when represented as a circle or sphere.
+    public static final Color LEAD_COLOR = new Color( 97, 117, 126 );
+    
+    // Color for Polonium when represented as a circle or sphere.
+    public static final Color POLONIUM_COLOR = Color.ORANGE;
     
     // Color for pre-decay custom nucleus when represented as a circle or sphere.
     public static final Color CUSTOM_NUCLEUS_PRE_DECAY_COLOR = new Color( 155, 97, 42 );

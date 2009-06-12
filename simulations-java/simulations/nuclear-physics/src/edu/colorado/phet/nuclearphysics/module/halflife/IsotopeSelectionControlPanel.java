@@ -11,8 +11,6 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.geom.Point2D;
 
 import javax.swing.BorderFactory;
@@ -33,6 +31,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
+import edu.colorado.phet.nuclearphysics.common.NucleusType;
 import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusImageType;
 import edu.colorado.phet.nuclearphysics.model.NuclearDecayListenerAdapter;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.NucleusTypeControl;
@@ -114,10 +113,10 @@ public class IsotopeSelectionControlPanel extends ControlPanel {
         	// Register for notifications of nucleus type changes.
         	_model.addListener(new NuclearDecayListenerAdapter(){
         		public void nucleusTypeChanged() {
-        			if (_model.getNucleusTypeOldStyle() == NuclearPhysicsConstants.NUCLEUS_ID_CARBON_14){
+        			if (_model.getNucleusType() == NucleusType.CARBON_14){
         				_carbon14RadioButton.setSelected(true);
         			}
-        			else if (_model.getNucleusTypeOldStyle() == NuclearPhysicsConstants.NUCLEUS_ID_URANIUM_238){
+        			else if (_model.getNucleusType() == NucleusType.URANIUM_238){
         				_uranium238RadioButton.setSelected(true);
         			}
         			else {
@@ -148,17 +147,17 @@ public class IsotopeSelectionControlPanel extends ControlPanel {
             // Register for button presses.
             _carbon14RadioButton.addActionListener( new ActionListener(){
                 public void actionPerformed(ActionEvent event){
-                	_model.setNucleusTypeOldStyle(NuclearPhysicsConstants.NUCLEUS_ID_CARBON_14);
+                	_model.setNucleusType(NucleusType.CARBON_14);
                 }
             });
             _uranium238RadioButton.addActionListener( new ActionListener(){
                 public void actionPerformed(ActionEvent event){
-                	_model.setNucleusTypeOldStyle(NuclearPhysicsConstants.NUCLEUS_ID_URANIUM_238);
+                	_model.setNucleusType(NucleusType.URANIUM_238);
                 }
             });
             _customNucleusRadioButton.addActionListener( new ActionListener(){
                 public void actionPerformed(ActionEvent event){
-                	_model.setNucleusTypeOldStyle(NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM);
+                	_model.setNucleusType(NucleusType.CUSTOM);
                 }
             });
 
@@ -209,7 +208,7 @@ public class IsotopeSelectionControlPanel extends ControlPanel {
             		NuclearPhysicsStrings.LEAD_207_ISOTOPE_NUMBER,
             		NuclearPhysicsStrings.LEAD_207_CHEMICAL_SYMBOL,
             		NuclearPhysicsConstants.LEAD_LABEL_COLOR,
-            		NuclearPhysicsConstants.LEAD_206_COLOR,
+            		NuclearPhysicsConstants.LEAD_COLOR,
             		NuclearPhysicsStrings.LEAD_206_LEGEND_LABEL );
             
             addIsotopeSelection( _uranium238RadioButton, uranium238Descriptor, lead206Descriptor );
@@ -246,10 +245,10 @@ public class IsotopeSelectionControlPanel extends ControlPanel {
          * change in the model.
          */
         public void updateButtonState(){
-        	if (_model.getNucleusTypeOldStyle() == NuclearPhysicsConstants.NUCLEUS_ID_POLONIUM){
+        	if (_model.getNucleusType() == NucleusType.CARBON_14){
         		_carbon14RadioButton.setSelected(true);
         	}
-        	else if (_model.getNucleusTypeOldStyle() == NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM){
+        	else if (_model.getNucleusType() == NucleusType.URANIUM_238){
         		_uranium238RadioButton.setSelected(true);
         	}
         	else{

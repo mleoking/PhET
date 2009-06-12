@@ -367,7 +367,7 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
 	}
     
     private void handleNucleusTypeChanged(){
-    	_bucketNode.setNucleusType(_model.getNucleusTypeOldStyle());
+    	_bucketNode.setNucleusType(_model.getNucleusType());
     }
     
     /**

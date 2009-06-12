@@ -58,7 +58,7 @@ public class NuclearPhysicsStrings {
 
     public static final String POLONIUM_211_CHEMICAL_SYMBOL = NuclearPhysicsResources.getString( "Polonium211Graphic.Symbol" );
     public static final String POLONIUM_211_ISOTOPE_NUMBER = NuclearPhysicsResources.getString( "Polonium211Graphic.Number" );
-    public static final String POLONIUM_LEGEND_LABEL = NuclearPhysicsResources.getString( "NuclearPhysicsControlPanel.Polonium211Label" );
+    public static final String POLONIUM_211_LEGEND_LABEL = NuclearPhysicsResources.getString( "NuclearPhysicsControlPanel.Polonium211Label" );
 
     public static final String LEAD_207_CHEMICAL_SYMBOL = NuclearPhysicsResources.getString( "Lead207Graphic.Symbol" );
     public static final String LEAD_207_ISOTOPE_NUMBER = NuclearPhysicsResources.getString( "Lead207Graphic.Number" );

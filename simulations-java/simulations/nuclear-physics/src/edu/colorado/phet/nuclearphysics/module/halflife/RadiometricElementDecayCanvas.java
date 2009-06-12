@@ -21,6 +21,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
+import edu.colorado.phet.nuclearphysics.common.NucleusType;
 import edu.colorado.phet.nuclearphysics.common.model.AbstractDecayNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.NuclearDecayControl;
@@ -29,9 +30,8 @@ import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics.common.view.GrabbableNucleusImageNode;
 import edu.colorado.phet.nuclearphysics.model.AbstractAlphaDecayNucleus;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
-import edu.colorado.phet.nuclearphysics.model.Carbon14Nucleus;
+import edu.colorado.phet.nuclearphysics.model.HalfLifeInfo;
 import edu.colorado.phet.nuclearphysics.model.NuclearDecayListenerAdapter;
-import edu.colorado.phet.nuclearphysics.model.Uranium238Nucleus;
 import edu.colorado.phet.nuclearphysics.view.AlphaParticleModelNode;
 import edu.colorado.phet.nuclearphysics.view.AutoPressGradientButtonNode;
 import edu.colorado.phet.nuclearphysics.view.BucketOfNucleiNode;
@@ -359,33 +359,20 @@ public class RadiometricElementDecayCanvas extends PhetPCanvas {
 	}
     
     private void handleNucleusTypeChanged(){
-    	_bucketNode.setNucleusType(_model.getNucleusTypeOldStyle());
+    	_bucketNode.setNucleusType(_model.getNucleusType());
     	setTimeSpanForChart();
     }
     
     private void setTimeSpanForChart(){
     	// Set the time span of the chart based on the nucleus type.
-    	switch ( _model.getNucleusTypeOldStyle() ){
-    	case NuclearPhysicsConstants.NUCLEUS_ID_CARBON_14:
-    		_decayTimeChart.setTimeSpan(Carbon14Nucleus.HALF_LIFE * 3);
-    		break;
-    		
-    	case NuclearPhysicsConstants.NUCLEUS_ID_URANIUM_238:
-    		_decayTimeChart.setTimeSpan(Uranium238Nucleus.HALF_LIFE * 3);
-    		break;
-    		
-    	case NuclearPhysicsConstants.NUCLEUS_ID_CUSTOM:
-    		// Use real time here.
+    	if (_model.getNucleusType() == NucleusType.CUSTOM){
+    		// Set the chart for five seconds of real time.
     		_decayTimeChart.setTimeSpan(5000);
-    		break;
-    		
-    	default:
-    		// Shouldn't get here, debug if it does.
-    		assert false;
-    	
-    	    // Use an arbitrary value if encountered in the real world.
-  		    _decayTimeChart.setTimeSpan(Carbon14Nucleus.HALF_LIFE * 3);
-    		break;
+    	}
+    	else{
+    		// Set the chart time span to some multiple of the half life of
+    		// the current nucleus.
+    		_decayTimeChart.setTimeSpan(HalfLifeInfo.getHalfLifeForNucleusType(_model.getNucleusType()));
     	}
     }
     
