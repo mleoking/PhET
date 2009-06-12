@@ -19,7 +19,12 @@ import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PCanvas;
 
-
+/**
+ * Dialog that displays the reaction equations for a solution.
+ * The top equation is changed base on the type of solute.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class ReactionEquationsDialog extends PaintImmediateDialog {
     
     private static final Dimension TOP_CANVAS_SIZE = new Dimension( 650, 140 );

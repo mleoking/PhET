@@ -7,7 +7,11 @@ import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
-
+/**
+ * Composite node that contains all of the visuals related to the beaker.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class BeakerNode extends PComposite {
     
     private static double MAX_VOLUME = 1; // liters

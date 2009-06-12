@@ -2,7 +2,12 @@ package edu.colorado.phet.acidbasesolutions.model;
 
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
 
-
+/**
+ * Represents the absences of a solute.
+ * Using an instance of this instead of null simplifies code.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class NoSolute extends Solute {
     
     public NoSolute() {

@@ -5,21 +5,27 @@ import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.model.Solute;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.SolutionListener;
 
-
+/**
+ * 
+ * MoleculeCountsNode depicts the molecule counts in a solution.
+ * Updates itself based on changes in the solution.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class MoleculeCountsNode extends AbstractMoleculeCountsNode {
 
     public MoleculeCountsNode( AqueousSolution solution ) {
-        this();
-        solution.addSolutionListener( new ModelViewController( solution, this ) );
-    }
-    
-    public MoleculeCountsNode() {
         super();
         // not interactive
         setPickable( false );
         setChildrenPickable( false );
+        // listen to the model
+        solution.addSolutionListener( new ModelViewController( solution, this ) );
     }
     
+    /*
+     * Update the view to match the model.
+     */
     private static class ModelViewController implements SolutionListener {
 
         private final AqueousSolution solution;

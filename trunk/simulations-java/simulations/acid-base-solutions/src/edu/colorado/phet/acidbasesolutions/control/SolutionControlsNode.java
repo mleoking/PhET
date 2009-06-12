@@ -32,7 +32,13 @@ import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
-
+/**
+ * Controls related to the solution in the beaker.
+ * Includes solute selection, solute concentration and solute strength.
+ * This control panel dynamically reconfigures itself based on the type of solute.
+ * 
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class SolutionControlsNode extends PhetPNode {
     
     private static final double X_SPACING = 3;
@@ -54,12 +60,20 @@ public class SolutionControlsNode extends PhetPNode {
     private final StrengthSliderNode strengthSliderNode;
     private final ArrayList<SolutionControlsListener> listeners;
     
+    /**
+     * Public constructor, handles connection to model.
+     * @param canvas
+     * @param solution
+     */
     public SolutionControlsNode( PSwingCanvas canvas, AqueousSolution solution ) {
         this( canvas );
         solution.addSolutionListener( new ModelViewController( solution, this ) );
         this.addSolutionControlsListener( new ViewModelController( this, solution ) );
     }
 
+    /*
+     * Private constructor, has no knowledge of the model.
+     */
     private SolutionControlsNode( PSwingCanvas canvas ) {
         super();
         

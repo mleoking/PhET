@@ -19,7 +19,11 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
-
+/**
+ * pH probe that appears in the beaker, and measure the pH of a solution.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 class PHProbeNode extends PComposite {
     
     //----------------------------------------------------------------------------
@@ -57,6 +61,9 @@ class PHProbeNode extends PComposite {
         solution.addSolutionListener( new ModelViewController( solution, this ) );
     }
     
+    /*
+     * Private constructor, has no knowledge of the model.
+     */
     private PHProbeNode( double height ) {
         super();
         setPickable( false );

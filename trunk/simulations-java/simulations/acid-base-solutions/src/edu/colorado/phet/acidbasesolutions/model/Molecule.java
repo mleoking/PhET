@@ -3,8 +3,11 @@ package edu.colorado.phet.acidbasesolutions.model;
 import java.awt.Color;
 import java.awt.Image;
 
-
-
+/**
+ * Base class for molecules.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public abstract class Molecule {
 
     private String name;

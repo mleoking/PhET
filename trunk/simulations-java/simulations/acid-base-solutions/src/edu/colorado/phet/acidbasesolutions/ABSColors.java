@@ -2,7 +2,11 @@ package edu.colorado.phet.acidbasesolutions;
 
 import java.awt.Color;
 
-
+/**
+ * Colors used throughout the simulation.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class ABSColors {
     
     /* not intended for instantiation */

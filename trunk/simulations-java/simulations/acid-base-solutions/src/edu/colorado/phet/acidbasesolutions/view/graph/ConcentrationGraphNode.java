@@ -6,21 +6,26 @@ import edu.colorado.phet.acidbasesolutions.model.Solute;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.SolutionListener;
 import edu.umd.cs.piccolo.util.PDimension;
 
-
+/**
+ * Graph that depicts the concentrations related to a solution.
+ * Updates itself based on changes in the solution.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class ConcentrationGraphNode extends AbstractConcentrationGraphNode {
 
     public ConcentrationGraphNode( PDimension outlineSize, AqueousSolution solution ) {
-        this( outlineSize );
-        solution.addSolutionListener( new ModelViewController( solution, this ) );
-    }
-    
-    public ConcentrationGraphNode( PDimension outlineSize ) {
         super( outlineSize );
         // not interactive
         setPickable( false );
         setChildrenPickable( false );
+        // listen to the model
+        solution.addSolutionListener( new ModelViewController( solution, this ) );
     }
     
+    /*
+     * Update the view to match the model.
+     */
     private static class ModelViewController implements SolutionListener {
 
         private final AqueousSolution solution;

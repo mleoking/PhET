@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import edu.colorado.phet.acidbasesolutions.model.Solute.SoluteListener;
-import edu.colorado.phet.acidbasesolutions.model.equilibrium.EquilibriumModel;
+import edu.colorado.phet.acidbasesolutions.model.equilibrium.AbstractEquilibriumModel;
 import edu.colorado.phet.acidbasesolutions.model.equilibrium.EquilibriumModelFactory;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 
@@ -18,7 +18,7 @@ import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 public class AqueousSolution {
 
     private Solute solute;
-    private EquilibriumModel equilibriumModel;
+    private AbstractEquilibriumModel equilibriumModel;
     private final ArrayList<SolutionListener> listeners;
     private final SoluteListener soluteListener;
     

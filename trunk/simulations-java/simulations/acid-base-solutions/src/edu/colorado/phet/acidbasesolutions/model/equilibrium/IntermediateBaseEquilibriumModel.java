@@ -4,8 +4,15 @@ import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.model.Base;
 import edu.colorado.phet.acidbasesolutions.model.Water;
 
-
-public class IntermediateBaseEquilibriumModel extends EquilibriumModel {
+/**
+ * Equilibrium model for an "intermediate" base.
+ * Intermediate is a term that PhET invented to describe a hypothetical range
+ * between weak and strong.  Bases in this range are represented as weak,
+ * but the model provides a smooth transition between weak and strong.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
+public class IntermediateBaseEquilibriumModel extends AbstractEquilibriumModel {
 
     public IntermediateBaseEquilibriumModel( Base base ) {
         super( base );

@@ -118,6 +118,12 @@ abstract class AbstractEquilibriumExpressionNode extends PComposite {
         updateLayout();
     }
     
+    /**
+     * Call this method to update the expression.
+     * We use this approach instead of listening to the solution.
+     * Listening to the solution introduces problems with order dependencies.
+     * And if the solute type changes, then the expression type may no longer be appropriate.
+     */
     public abstract void update();
     
     //----------------------------------------------------------------------------

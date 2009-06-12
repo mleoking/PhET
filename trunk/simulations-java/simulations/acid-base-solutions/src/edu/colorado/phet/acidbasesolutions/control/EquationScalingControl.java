@@ -17,7 +17,11 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
 
-
+/**
+ * On/off control for equation scaling.
+ * 
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class EquationScalingControl extends JPanel {
 
     private final JRadioButton onRadioButton, offRadioButton;

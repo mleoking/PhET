@@ -3,8 +3,12 @@ package edu.colorado.phet.acidbasesolutions.model.equilibrium;
 import edu.colorado.phet.acidbasesolutions.model.NoSolute;
 import edu.colorado.phet.acidbasesolutions.model.Water;
 
-
-public class PureWaterEquilibriumModel extends EquilibriumModel {
+/**
+ * Equilibrium model for pure water (no solute).
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
+public class PureWaterEquilibriumModel extends AbstractEquilibriumModel {
     
     private static final double H3O_CONCENTRATION = 1E-7;
     private static final double OH_CONCENTRATION = 1E-7;

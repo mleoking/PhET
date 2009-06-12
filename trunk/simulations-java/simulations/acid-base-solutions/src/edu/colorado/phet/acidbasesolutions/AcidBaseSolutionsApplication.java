@@ -28,7 +28,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 
 /**
- * AcidBaseSolutionsApplication is the main application for this simulation.
+ * Main application for this simulation.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * 

@@ -6,7 +6,11 @@ import edu.colorado.phet.acidbasesolutions.model.Base.CustomBase;
 import edu.colorado.phet.acidbasesolutions.model.Base.Pyridine;
 import edu.colorado.phet.acidbasesolutions.model.Base.SodiumHydroxide;
 
-
+/**
+ * Factory for creating solutes.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class SoluteFactory {
     
     // one instance of each solute used in the sim

@@ -27,7 +27,11 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
-
+/**
+ * Miscellaneous controls.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class MiscControlsNode extends PNode {
     
     private final Frame parentFrame;

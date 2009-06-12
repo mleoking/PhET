@@ -3,6 +3,7 @@
 ==================================================================================
 
 TODO:
+- localize symbol legend
 - implement "ratio" views
 - scale image files
 - bug: is water molecule count being actively calculated? when concentration goes from 56->55, count should go from 3.3E25->3.2E25

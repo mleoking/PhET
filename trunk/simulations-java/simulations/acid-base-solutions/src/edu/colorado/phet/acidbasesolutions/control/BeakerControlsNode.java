@@ -14,7 +14,6 @@ import javax.swing.border.TitledBorder;
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.ABSSymbols;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
-import edu.colorado.phet.acidbasesolutions.model.NoSolute;
 import edu.colorado.phet.acidbasesolutions.model.Solute;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.SolutionAdapter;
 import edu.colorado.phet.acidbasesolutions.view.beaker.BeakerNode;
@@ -25,7 +24,11 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
-
+/**
+ * Various "view" options related to the beaker.
+ * 
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class BeakerControlsNode extends PNode {
     
     private static final String RATIO_PATTERN = ABSStrings.CHECK_BOX_RATIO;
@@ -38,11 +41,20 @@ public class BeakerControlsNode extends PNode {
     private final JCheckBox moleculeCountsCheckBox;
     private final JCheckBox beakerLabelCheckBox;
     
+    /**
+     * Public constructor, handles connection to model.
+     * @param beakerNode
+     * @param background
+     * @param solution
+     */
     public BeakerControlsNode( final BeakerNode beakerNode, Color background, AqueousSolution solution ) {
         this( beakerNode, background );
         solution.addSolutionListener( new ModelViewController( solution, this ) );
     }
     
+    /*
+     * Private constructor knows nothing about model.
+     */
     private BeakerControlsNode( final BeakerNode beakerNode, Color background ) {
         super();
         
@@ -149,6 +161,9 @@ public class BeakerControlsNode extends PNode {
         return beakerLabelCheckBox.isSelected();
     }
     
+    /*
+     * Updates controls to match the model.
+     */
     private static class ModelViewController extends SolutionAdapter {
         
         private final AqueousSolution solution;

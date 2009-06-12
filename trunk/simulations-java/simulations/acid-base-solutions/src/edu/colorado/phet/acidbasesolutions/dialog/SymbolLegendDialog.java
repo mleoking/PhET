@@ -19,7 +19,11 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
-
+/**
+ * Dialog that shows a legend for symbols.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class SymbolLegendDialog extends PaintImmediateDialog {
     
     //TODO localize
