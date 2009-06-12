@@ -1,17 +1,17 @@
 package edu.colorado.phet.acidbasesolutions.view.reactionequations;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Frame;
+import java.awt.GridLayout;
 
-import javax.swing.ButtonGroup;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.border.EmptyBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
+import edu.colorado.phet.acidbasesolutions.control.EquationScalingControl;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.SolutionListener;
 import edu.colorado.phet.acidbasesolutions.util.PNodeUtils;
@@ -31,7 +31,7 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
     private final PhetPCanvas topCanvas, bottomCanvas;
     private AbstractReactionEquationNode soluteNode;
     private final WaterReactionEquationNode waterNode;
-    private final JRadioButton scaleOnRadioButton, scaleOffRadioButton;
+    private final EquationScalingControl scalingControl;
     
     public ReactionEquationsDialog( Frame owner, final AqueousSolution solution ) {
         super( owner);
@@ -55,28 +55,13 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
         };
         this.solution.addSolutionListener( solutionListener );
         
-        // scale on/off
-        JLabel scaleOnOffLabel = new JLabel( ABSStrings.LABEL_EQUATION_SCALING );
-        ActionListener scaleOnOffActionListener = new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                handleScalingEnabled();
+        // scaling on/off
+        scalingControl = new EquationScalingControl();
+        scalingControl.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                setScalingEnabled( scalingControl.isScalingEnabled() );
             }
-        };
-        scaleOnRadioButton = new JRadioButton( ABSStrings.RADIO_BUTTON_EQUATION_SCALING_ON );
-        scaleOnRadioButton.addActionListener( scaleOnOffActionListener );
-        scaleOffRadioButton = new JRadioButton( ABSStrings.RADIO_BUTTON_EQUATION_SCALING_OFF );
-        scaleOffRadioButton.addActionListener( scaleOnOffActionListener );
-        ButtonGroup buttonGroup = new ButtonGroup();
-        buttonGroup.add( scaleOffRadioButton );
-        buttonGroup.add( scaleOnRadioButton );
-        scaleOffRadioButton.setSelected( true );
-        JPanel scaleOnOffPanel = new JPanel( new GridBagLayout() );
-        scaleOnOffPanel.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
-        GridBagConstraints constraints = new GridBagConstraints();
-        constraints.gridx = GridBagConstraints.RELATIVE;
-        scaleOnOffPanel.add( scaleOnOffLabel );
-        scaleOnOffPanel.add( scaleOnRadioButton );
-        scaleOnOffPanel.add( scaleOffRadioButton );
+        } );
         
         // top canvas
         topCanvas = new PhetPCanvas() {
@@ -110,7 +95,7 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
         canvasPanel.add( topCanvas );
         canvasPanel.add( bottomCanvas);
         JPanel userPanel = new JPanel( new BorderLayout() );
-        userPanel.add( scaleOnOffPanel, BorderLayout.NORTH );
+        userPanel.add( scalingControl, BorderLayout.NORTH );
         userPanel.add( canvasPanel, BorderLayout.CENTER );
         JPanel mainPanel = new JPanel( new BorderLayout() );
         mainPanel.add( userPanel, BorderLayout.CENTER );
@@ -165,19 +150,15 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
     }
     
     public void setScalingEnabled( boolean enabled ) {
-        scaleOnRadioButton.setSelected( enabled );
-        handleScalingEnabled();
-    }
-    
-    public boolean isScalingEnabled() {
-        return scaleOnRadioButton.isSelected();
-    }
-    
-    private void handleScalingEnabled() {
+        scalingControl.setScalingEnabled( enabled );
         if ( soluteNode != null ) {
             soluteNode.setScalingEnabled( isScalingEnabled() );
         }
         waterNode.setScalingEnabled( isScalingEnabled() );
+    }
+    
+    public boolean isScalingEnabled() {
+        return scalingControl.isScalingEnabled();
     }
     
     private void updateTopLayout() {

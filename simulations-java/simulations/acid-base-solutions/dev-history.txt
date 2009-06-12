@@ -26,6 +26,7 @@ ISSUES:
 - JB: Ka value for HF (Hydrofluoric Acid)
 
 DONE:
+6/12/09 replace duplicate code for equation scaling on/off control
 6/11/09 revise implementation of reaction equations to be more type-safe, eliminate duplicate code
 6/11/09 fix issues in SolutionControlsNode
 6/11/09 revise implementation of equilibrium expressions to be more type-safe, eliminate duplicate code
