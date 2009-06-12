@@ -535,7 +535,7 @@ public class NuclearDecayProportionChart extends PNode {
         private static final double GRAPH_TEXT_HEIGHT_PROPORTION = 0.10;
         
         // For enabling/disabling the sizing rectangle.
-        private static final boolean SIZING_RECT_VISIBLE = true;
+        private static final boolean SIZING_RECT_VISIBLE = false;
         
         // The chart on which this graph will be appearing.
         NuclearDecayProportionChart _chart;
