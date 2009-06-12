@@ -372,7 +372,7 @@ public class RadiometricElementDecayCanvas extends PhetPCanvas {
     	else{
     		// Set the chart time span to some multiple of the half life of
     		// the current nucleus.
-    		_decayTimeChart.setTimeSpan(HalfLifeInfo.getHalfLifeForNucleusType(_model.getNucleusType()));
+    		_decayTimeChart.setTimeSpan(3.2 * HalfLifeInfo.getHalfLifeForNucleusType(_model.getNucleusType()));
     	}
     }
     
