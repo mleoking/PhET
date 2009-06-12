@@ -32,11 +32,6 @@ class WaterReactionEquationNode extends AbstractReactionEquationNode {
         updateH2OColor();
     }
     
-    public void setScalingEnabled( boolean enabled ) {
-        super.setScalingEnabled( enabled );
-        updateH2OColor();
-    }
-    
     public void update() {
 
         updateH2OColor();
