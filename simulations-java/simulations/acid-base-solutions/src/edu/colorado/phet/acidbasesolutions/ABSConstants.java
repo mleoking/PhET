@@ -2,11 +2,9 @@
 
 package edu.colorado.phet.acidbasesolutions;
 
-import java.awt.*;
+import java.awt.Dimension;
 
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.umd.cs.piccolo.util.PDimension;
 
 
 /**
@@ -33,39 +31,15 @@ public class ABSConstants {
     
     public static final String PROJECT_NAME = "acid-base-solutions";
 
-    // Model-view transform
+    //----------------------------------------------------------------------------
+    // View
+    //----------------------------------------------------------------------------
+    
+    // reference coordinate frame size for world nodes
     public static final Dimension CANVAS_RENDERING_SIZE = new Dimension( 1024, 768 );
     
     // how much to scale Swing components that are wrapped in PSwing
     public static final double PSWING_SCALE = 1.25;
-    
-    //----------------------------------------------------------------------------
-    // Fonts
-    //----------------------------------------------------------------------------
-
-    public static final int CONTROL_FONT_SIZE = 18;
-    public static final Font CONTROL_FONT = new PhetFont( Font.PLAIN, CONTROL_FONT_SIZE );
-    
-    //----------------------------------------------------------------------------
-    // Strokes
-    //----------------------------------------------------------------------------
-
-    public static final Stroke DASHED_STROKE = 
-        new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] {3,3}, 0 );
-    
-    //----------------------------------------------------------------------------
-    // Dimensions
-    //----------------------------------------------------------------------------
-    
-    public static final PDimension MIN_BEAKER_LABEL_SIZE = new PDimension( 315, 40 );
-    
-    //----------------------------------------------------------------------------
-    // Images
-    //----------------------------------------------------------------------------
-    
-    //----------------------------------------------------------------------------
-    // Cursors
-    //----------------------------------------------------------------------------
     
     //----------------------------------------------------------------------------
     // Model
