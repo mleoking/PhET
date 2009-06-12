@@ -71,7 +71,7 @@ public class BeakerControlsNode extends PNode {
         Object[] args = { ABSSymbols.H3O_PLUS, ABSSymbols.OH_MINUS };
         String html = HTMLUtils.toHTMLString( MessageFormat.format( RATIO_PATTERN, args ) );
         hyroniumHydroxideRatioCheckBox = new JCheckBox( html );
-        hyroniumHydroxideRatioCheckBox.setSelected( beakerNode.istHydroniumHydroxideRatioVisible() );
+        hyroniumHydroxideRatioCheckBox.setSelected( beakerNode.isHydroniumHydroxideRatioVisible() );
         hyroniumHydroxideRatioCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 beakerNode.setHydroniumHydroxideRatioVisible( hyroniumHydroxideRatioCheckBox.isSelected() );

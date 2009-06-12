@@ -38,6 +38,14 @@ public abstract class AbstractEquilibriumModel {
     
     public abstract double getH2OConcentration();
     
+    public double getH3OConcentration( double pH ) {
+        return Math.pow( 10, -pH );
+    }
+    
+    public double getOHConcentration( double pH ) {
+        return Math.pow( 10, -( 14 - pH ) );
+    }
+    
     public double getReactantMoleculeCount() {
         return getMoleculeCount( getReactantConcentration() ); 
     }

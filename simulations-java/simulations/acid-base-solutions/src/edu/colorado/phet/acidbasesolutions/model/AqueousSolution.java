@@ -111,6 +111,14 @@ public class AqueousSolution {
         return equilibriumModel.getH2OMoleculeCount();
     }
     
+    public double getH3OConcentration( double pH ) {
+        return equilibriumModel.getH3OConcentration( pH );
+    }
+    
+    public double getOHConcentration( double pH ) {
+        return equilibriumModel.getOHConcentration( pH );
+    }
+    
     private void updateEquilibriumModel() {
         equilibriumModel = EquilibriumModelFactory.getModel( solute );
     }
