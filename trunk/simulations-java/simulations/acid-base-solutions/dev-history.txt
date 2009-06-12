@@ -3,10 +3,8 @@
 ==================================================================================
 
 TODO:
-- localize symbol legend
 - implement "ratio" views
 - scale image files
-- bug: is water molecule count being actively calculated? when concentration goes from 56->55, count should go from 3.3E25->3.2E25
 - review remaining instanceof comparisons
 
 DEFER:
@@ -27,6 +25,8 @@ ISSUES:
 - JB: Ka value for HF (Hydrofluoric Acid)
 
 DONE:
+6/12/09 localize symbol legend
+6/12/09 javadoc all code
 6/12/09 move colors to ABSColors, standardize names
 6/12/09 replace duplicate code for equation scaling on/off control
 6/11/09 revise implementation of reaction equations to be more type-safe, eliminate duplicate code

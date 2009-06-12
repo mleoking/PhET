@@ -27,6 +27,7 @@ public class ABSStrings {
     public static final String TITLE_REACTION_EQUATIONS = ABSResources.getString( "title.reactionEquations" );
     public static final String TITLE_MISC_CONTROLS = ABSResources.getString( "title.miscControls" );
     public static final String TITLE_BEAKER_CONTROLS = ABSResources.getString( "title.beakerControls" );
+    public static final String TITLE_SYMBOL_LEGEND = ABSResources.getString( "title.symbolLegend" );
     
     public static final String MESSAGE_NOT_A_CONFIG = ABSResources.getString( "message.notAConfigFile" );
     
@@ -41,6 +42,11 @@ public class ABSStrings {
     public static final String LABEL_STRONGER = ABSResources.getString( "label.stronger" );
     public static final String LABEL_CONCENTRATION_GRAPH_Y_AXIS = ABSResources.getString("label.concentrationGraph.yAxis" );
     public static final String LABEL_SOLUTE = ABSResources.getString( "label.solute" );
+    
+    // legend text
+    public static final String LEGEND_HA = ABSResources.getString( "legend.HA" );
+    public static final String LEGEND_B = ABSResources.getString( "legend.B" );
+    public static final String LEGEND_MOH = ABSResources.getString( "legend.MOH" );
     
     // check boxes
     public static final String CHECK_BOX_MOLECULE_COUNTS = ABSResources.getString( "checkBox.moleculeCounts" );

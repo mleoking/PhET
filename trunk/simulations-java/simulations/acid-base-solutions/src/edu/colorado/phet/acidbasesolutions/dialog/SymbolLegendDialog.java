@@ -12,6 +12,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import edu.colorado.phet.acidbasesolutions.ABSImages;
+import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.ABSSymbols;
 import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
@@ -26,38 +27,12 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
  */
 public class SymbolLegendDialog extends PaintImmediateDialog {
     
-    //TODO localize
-    private static final String TITLE = "Symbol Legend";
-    private static final String HA_DESCRIPTION = 
-        "<html>" + 
-        "A generic acid. The symbol <i>A</i> refers to <br>" + 
-        "the part of the acid that remains after <br>" +
-        " dissociation. For example, <i>A</i> refers to <br>" + 
-        "the chlorine atom in the acid HCl." + 
-        "</html>";
-    private static final String B_DESCRIPTION = 
-        "<html>" +
-        "A generic weak base. The symbol <i>B</i> <br>" + 
-        "refers to the part of the molecule that <br>" + 
-        "can accept a hydrogen atom. For example, <br>" + 
-        "<i>B</i> refers to the ammonium molecule, NH<sub>3</sub>, <br>" + 
-        "which becomes NH<sub>4</sub><sup>+</sup> (or <i>B</i>H<sup>+</sup>) in water." +
-        "</html>";
-    private static final String MOH_DESCRIPTION = 
-        "<html>" +
-        "A generic strong base, or metal hydroxide. <br>" +
-        "The symbol <i>M</i> refers to the metal part <br>" + 
-        "of the base that remains after dissociation <br>" + 
-        "in water. For example, in NaOH, the <i>M</i> <br>" + 
-        "refers to the sodium atom." +
-        "</html>";
-    
     public static final double MOLECULE_IMAGE_SCALE = 0.25; //TODO scale image files so that this is 1.0
     public static final Font MOLECULE_FONT = new PhetFont( Font.PLAIN, 14 );
     public static final Font DESCRIPTION_FONT = new PhetFont();
     
     public SymbolLegendDialog( Frame owner ) {
-        super( owner, TITLE );
+        super( owner, ABSStrings.TITLE_SYMBOL_LEGEND );
         setResizable( false );
         
         JPanel panel = new SymbolLegendPanel();
@@ -73,13 +48,13 @@ public class SymbolLegendDialog extends PaintImmediateDialog {
             super();
             
             JLabel labelHA = new MoleculeLabel( ABSSymbols.HA, ABSImages.HA_MOLECULE );
-            JLabel descriptionHA = new DescriptionLabel( HA_DESCRIPTION );
+            JLabel descriptionHA = new DescriptionLabel( ABSStrings.LEGEND_HA );
             
             JLabel labelB = new MoleculeLabel( ABSSymbols.B, ABSImages.B_MOLECULE );
-            JLabel descriptionB = new DescriptionLabel( B_DESCRIPTION );
+            JLabel descriptionB = new DescriptionLabel( ABSStrings.LEGEND_B );
             
             JLabel labelMOH = new MoleculeLabel( ABSSymbols.MOH, ABSImages.MOH_MOLECULE );
-            JLabel descriptionMOH = new DescriptionLabel( MOH_DESCRIPTION );
+            JLabel descriptionMOH = new DescriptionLabel( ABSStrings.LEGEND_MOH );
             
             // layout
             
