@@ -9,7 +9,6 @@ import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.text.DecimalFormat;
 
-import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.model.PHValue;
@@ -38,7 +37,7 @@ class PHProbeNode extends PComposite {
     private static final double DISPLAY_BORDER_WIDTH = 3;
     private static final double DISPLAY_BORDER_MARGIN = 8;
     
-    private static final Font DISPLAY_FONT = new PhetFont( Font.BOLD, ABSConstants.CONTROL_FONT_SIZE );
+    private static final Font DISPLAY_FONT = new PhetFont( Font.BOLD, 18 );
     private static final DecimalFormat DISPLAY_FORMAT = new DecimalFormat( "#0.00" );
     private static final double DISPLAY_X_SPACING = 8;
     private static final Color DISPLAY_BACKGROUND = Color.LIGHT_GRAY;
