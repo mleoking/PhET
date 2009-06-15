@@ -1,5 +1,7 @@
 package edu.colorado.phet.buildtools.test.gui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 
 import javax.swing.*;
@@ -7,19 +9,58 @@ import javax.swing.*;
 import edu.colorado.phet.buildtools.BuildLocalProperties;
 import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.PhetServer;
+import edu.colorado.phet.buildtools.gui.MiscMenu;
+import edu.colorado.phet.buildtools.translate.TranslationDeployClient;
 
 public class TestGUI {
 
     private JFrame frame;
 
 
-    public TestGUI( File trunk ) {
+    public TestGUI( final File trunk ) {
 
         BuildLocalProperties.initRelativeToTrunk( trunk );
 
         frame = new JFrame( "Test Build GUI" );
 
-        frame.setContentPane( new TestGUIPanel( trunk ) );
+        final TestGUIPanel guiPanel = new TestGUIPanel( trunk );
+        frame.setContentPane( guiPanel );
+
+        JMenuBar menuBar = new JMenuBar();
+        JMenu translationMenu = new JMenu( "Translations" );
+        JMenuItem deployItem = new JMenuItem( "Deploy..." );
+        deployItem.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                try {
+                    TranslationDeployClient translationDeployClient = new TranslationDeployClient( trunk );
+                    translationDeployClient.startClient();
+                }
+                catch( Exception e1 ) {
+                    e1.printStackTrace();
+                }
+            }
+        } );
+        translationMenu.add( deployItem );
+
+        JMenu c = new JMenu( "File" );
+        JMenuItem menuItem = new JMenuItem( "Exit" );
+        menuItem.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                System.exit( 0 );
+            }
+        } );
+        c.add( menuItem );
+        menuBar.add( c );
+        menuBar.add( translationMenu );
+        final MiscMenu miscMenu = new MiscMenu( trunk );
+        menuBar.add( miscMenu );
+        frame.setJMenuBar( menuBar );
+
+        guiPanel.getProjectList().addListener( new TestProjectList.Listener() {
+            public void notifyChanged() {
+                miscMenu.setSelectedProject( guiPanel.getProjectList().getSelectedProject() );
+            }
+        } );
 
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 

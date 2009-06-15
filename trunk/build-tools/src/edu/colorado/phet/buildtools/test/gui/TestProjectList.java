@@ -9,9 +9,13 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import edu.colorado.phet.buildtools.BuildToolsPaths;
 import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
+import edu.colorado.phet.buildtools.java.projects.BuildToolsProject;
 import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
+import edu.colorado.phet.buildtools.java.projects.PhetUpdaterProject;
+import edu.colorado.phet.buildtools.java.projects.TranslationUtilityProject;
 import edu.colorado.phet.buildtools.statistics.StatisticsProject;
 
 public class TestProjectList extends JList {
@@ -55,11 +59,15 @@ public class TestProjectList extends JList {
         }
 
         try {
+            model.addElement( new ProjectListElement( new TranslationUtilityProject( new File( trunk, BuildToolsPaths.TRANSLATION_UTILITY ) ) ) );
+            model.addElement( new ProjectListElement( new PhetUpdaterProject( new File( trunk, BuildToolsPaths.PHET_UPDATER ) ) ) );
+            model.addElement( new ProjectListElement( new BuildToolsProject( new File( trunk, BuildToolsPaths.BUILD_TOOLS_DIR ) ) ) );
             model.addElement( new ProjectListElement( new StatisticsProject( trunk ) ) );
         }
         catch( IOException e ) {
             e.printStackTrace();
         }
+
     }
 
     private static class ProjectListElement {
