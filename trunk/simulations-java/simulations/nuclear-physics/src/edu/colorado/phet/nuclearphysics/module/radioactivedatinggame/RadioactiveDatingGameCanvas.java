@@ -141,7 +141,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         
         // Add the nodes that represent the items on which the user can
         // perform radiometric dating.
-        for (DatableObject item : _model.getItemIterable()){
+        for (DatableItem item : _model.getItemIterable()){
         	PNode datableItemNode = new DatableItemNode(item, _mvt);
         	datableItemNode.setOffset(_mvt.modelToViewDouble(item.getCenter()));
         	_strataLayer.addChild(datableItemNode);

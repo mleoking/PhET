@@ -151,7 +151,7 @@ public class RadiometricDatingMeterNode extends PNode {
 	}
 	
 	private void updateMeterReading(){
-		DatableObject datableItem = _meterModel.getItemBeingTouched();
+		DatableItem datableItem = _meterModel.getItemBeingTouched();
 		if (datableItem == null){
 			_percentageDisplay.setBlank();
 		}

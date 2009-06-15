@@ -34,17 +34,17 @@ public class ProbeTypeModel extends SimpleObservable{
 	public abstract static class ProbeType{
 		
 		public static final ProbeType CARBON_14 = new ProbeType("Carbon 14", Carbon14Nucleus.HALF_LIFE){
-			public double getPercentage(DatableObject item) {
+			public double getPercentage(DatableItem item) {
 				return item.getPercentageCarbon14Remaining(item);
 			}	
 		};
 		public static final ProbeType URANIUM_238 = new ProbeType("Uranium 238", Uranium238Nucleus.HALF_LIFE){
-			public double getPercentage(DatableObject item) {
+			public double getPercentage(DatableItem item) {
 				return item.getPercentageUranium238Remaining(item);
 			}
 		};
 		public static final ProbeType CUSTOM = new ProbeType("Custom", MultiNucleusDecayModel.convertYearsToMs(100000)){
-			public double getPercentage(DatableObject item) {
+			public double getPercentage(DatableItem item) {
 				return item.getPercentageCustomNucleusRemaining(item, _halfLife);
 			}	
 		};
@@ -80,10 +80,10 @@ public class ProbeTypeModel extends SimpleObservable{
 			return result;
 		}
 
-		public abstract double getPercentage(DatableObject item);
+		public abstract double getPercentage(DatableItem item);
 	}
 
-	public double getPercentage(DatableObject item) {
+	public double getPercentage(DatableItem item) {
 		return _probeType.getPercentage(item);
 	}
 }

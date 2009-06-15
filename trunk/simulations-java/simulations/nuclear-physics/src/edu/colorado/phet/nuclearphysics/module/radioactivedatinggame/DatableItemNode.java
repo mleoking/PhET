@@ -18,13 +18,13 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 public class DatableItemNode extends PNode {
 	
-	private final DatableObject rdgObject;
+	private final DatableItem rdgObject;
 	private final PImage image;
 	
 	// For debugging of placement, turns on a name so users can tell what's what.
 	private final boolean SHOW_NAME = false;
 
-	public DatableItemNode(DatableObject rdgObject, ModelViewTransform2D mvt) {
+	public DatableItemNode(DatableItem rdgObject, ModelViewTransform2D mvt) {
 		this.rdgObject = rdgObject;
 		image = new PImage( rdgObject.getImage() );
 		Point2D desiredSize = mvt.modelToViewDifferentialDouble(rdgObject.getWidth(), rdgObject.getHeight());

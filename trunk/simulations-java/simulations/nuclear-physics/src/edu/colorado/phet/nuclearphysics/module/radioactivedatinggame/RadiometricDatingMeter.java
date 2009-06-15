@@ -26,7 +26,7 @@ public class RadiometricDatingMeter {
     //----------------------------------------------------------------------------
 
 	private final ProbeModel _probe;
-	private DatableObject _itemBeingTouched = null;
+	private DatableItem _itemBeingTouched = null;
 	private RadioactiveDatingGameModel _model;
 	private NucleusType _nucleusTypeForDating;
 	private double _halfLifeOfDatingNucleus;
@@ -71,7 +71,7 @@ public class RadiometricDatingMeter {
 	 * 
 	 * @return item being touched if there is one, null if not
 	 */
-	public DatableObject getItemBeingTouched(){
+	public DatableItem getItemBeingTouched(){
 		return _itemBeingTouched;
 	}
 	
@@ -121,7 +121,7 @@ public class RadiometricDatingMeter {
      */
     private void updateTouchedItem(){
 
-    	DatableObject newTouchedItem = _model.getDatableItemAtLocation(_probe.getTipLocation());
+    	DatableItem newTouchedItem = _model.getDatableItemAtLocation(_probe.getTipLocation());
     	
     	if (_itemBeingTouched != newTouchedItem){
     		_itemBeingTouched = newTouchedItem;
