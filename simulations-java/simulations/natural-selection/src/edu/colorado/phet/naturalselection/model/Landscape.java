@@ -81,4 +81,8 @@ public class Landscape {
         return new Point2D.Double( landscapeX * landscapeWidth / Landscape.SIZE.getWidth(), landscapeY * landscapeHeight / Landscape.SIZE.getHeight() );
     }
 
+    public double landscapeDistanceToModel( double distance, double z ) {
+        return distance * z / getFactor();
+    }
+
 }

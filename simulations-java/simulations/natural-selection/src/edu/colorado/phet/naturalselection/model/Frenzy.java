@@ -36,7 +36,7 @@ public class Frenzy implements NaturalSelectionClock.Listener {
 
     public void init() {
         int pop = model.getPopulation();
-        int numWolves = 2 + pop / 3;
+        int numWolves = 2 + pop / 15;
 
         initializeTargets();
 
@@ -46,7 +46,7 @@ public class Frenzy implements NaturalSelectionClock.Listener {
 
             // if no wolves are killed this frenzy, don't let the wolves hunt
             if ( targets.isEmpty() ) {
-                wolf.setHunting( false );
+                wolf.stopHunting();
             }
             wolves.add( wolf );
             notifyWolfCreate( wolf );
@@ -90,7 +90,7 @@ public class Frenzy implements NaturalSelectionClock.Listener {
         targets.remove( bunny );
         if ( targets.isEmpty() ) {
             for ( Wolf daWolf : wolves ) {
-                daWolf.setHunting( false );
+                daWolf.stopHunting();
             }
         }
     }
@@ -116,8 +116,19 @@ public class Frenzy implements NaturalSelectionClock.Listener {
         if ( targets.isEmpty() ) {
             return null;
         }
-        int index = random.nextInt( targets.size() );
-        return targets.get( index );
+
+        Bunny target = null;
+        double distance = Double.POSITIVE_INFINITY;
+
+        for ( Bunny bunny : targets ) {
+            double pDistance = Point3D.distance( wolf.getPosition(), bunny.getPosition() );
+            if ( pDistance < distance ) {
+                target = bunny;
+                distance = pDistance;
+            }
+        }
+
+        return target;
     }
 
     public void onTick( ClockEvent event ) {
