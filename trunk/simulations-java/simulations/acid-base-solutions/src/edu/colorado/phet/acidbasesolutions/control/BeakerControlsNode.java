@@ -75,7 +75,7 @@ public abstract class BeakerControlsNode extends PNode {
 
         // border
         panel = new JPanel();
-        TitledBorder border = new TitledBorder( new LineBorder( Color.BLACK, 1 ), ABSStrings.TITLE_BEAKER_CONTROLS );
+        TitledBorder border = new TitledBorder( new LineBorder( Color.BLACK, 1 ), ABSStrings.TITLE_VIEW );
         border.setTitleFont( new PhetFont( Font.BOLD, 16 ) );
         panel.setBorder( border );
         

@@ -3,7 +3,6 @@
 ==================================================================================
 
 TODO:
-- localize ComparingViewControlsNode
 - save/load Comparing module
 - Equations in Comparing module
 - save/load equation scaling in ComparingModule
@@ -34,6 +33,7 @@ ISSUES:
 - KP: fewer pixels for the strong range of the strength slider
 
 DONE:
+6/15/09 localize ComparingViewControlsNode
 6/15/09 save/load for Comparing module
 6/15/09 first pass at Comparing canvas
 6/15/09 refactor beaker view controls for use in other modules
