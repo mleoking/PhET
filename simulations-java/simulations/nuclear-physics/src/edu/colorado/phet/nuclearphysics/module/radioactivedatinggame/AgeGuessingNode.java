@@ -106,6 +106,10 @@ public class AgeGuessingNode extends PNode {
 		}
 	}
 	
+	/**
+	 * Submit the age guess by interpreting the value and notifying any
+	 * listeners.
+	 */
 	private void submitGuess(){
 		
 		double ageGuessInYears;
@@ -118,10 +122,8 @@ public class AgeGuessingNode extends PNode {
 			ageGuessInYears = Double.NaN;
 		}
 		
-		double ageGuessInMilliseconds = MultiNucleusDecayModel.convertYearsToMs(ageGuessInYears);
-		
 		// Let listeners know that the guess was submitted.
-		notifyGuessSubmitted(ageGuessInMilliseconds);
+		notifyGuessSubmitted(ageGuessInYears);
 	}
 	
     /**
@@ -144,7 +146,9 @@ public class AgeGuessingNode extends PNode {
 		/**
 		 * Inform listeners that the user has submitted a guess of the age.
 		 * 
-		 * @param ageGuess - Age in milliseconds.
+		 * @param ageGuess - Age in years.  This uses years instead of
+		 * milliseconds (which is the convention in the other portions of
+		 * the simulation) because we were having rounding errors.
 		 */
 		public void guessSubmitted(double ageGuess);
 	}
