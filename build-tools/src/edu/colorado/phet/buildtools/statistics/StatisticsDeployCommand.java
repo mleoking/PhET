@@ -209,7 +209,7 @@ public class StatisticsDeployCommand {
                 return suffix;
             }
         }
-        throw new RuntimeException( "No svn version information found: " + output );
+        throw new RuntimeException( "No svn version information found: " + output.getOut() );
     }
 
     /**
