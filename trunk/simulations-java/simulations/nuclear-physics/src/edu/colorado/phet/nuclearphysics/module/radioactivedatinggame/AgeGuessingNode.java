@@ -2,7 +2,6 @@ package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 
 import java.awt.Color;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.Line2D.Double;
 
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
