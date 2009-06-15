@@ -47,7 +47,13 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     private static final double PROPORTIONS_METER_WIDTH_FRACTION = 0.23;
     
     // Fraction of canvas width used to portray the edge of the world.
-    private static final double WORLD_EDGE_WIDTH_PROPORTION = 0.05;       
+    private static final double WORLD_EDGE_WIDTH_PROPORTION = 0.05;  
+    
+    // Constant that controls how close the user must be to the actual age
+    // of an item to be considered correct.  This is a percentage, and a
+    // value of 0 means the user must be perfectly accurate and a value of 100
+    // means that they can be off by as much as the value of the age.
+    private static final double AGE_GUESS_TOLERANCE_PERCENTAGE = 20;
     
     //----------------------------------------------------------------------------
     // Instance Data
@@ -322,17 +328,18 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     	_guessingGameLayer.removeChild(_ageGuessingNode);
     	_ageGuessingNode = null;
     	
-    	// Add a node that indicates to the user whether they got the answer
-    	// right.
-    	AgeGuessResultNode guessResultNode = new AgeGuessResultNode(ageGuess, true);
+    	// Add a node that indicates to the user whether the user got the
+    	// answer right.
+    	AgeGuessResultNode guessResultNode =
+    		new AgeGuessResultNode(ageGuess, determineIfGuessIsGood(ageGuess, itemBeingTouched));
 		PNode datableItemNode = _mapDatableItemsToNodes.get(itemBeingTouched);
 		Point2D guessResultNodeLocation = new Point2D.Double(0, 0);
-		if (datableItemNode == null){
+		if (datableItemNode == null) {
 			System.err.println(getClass().getName() + " - Error: Could not locate node for datable item " + itemBeingTouched);
 			assert false;
 			return;
 		}
-		else{
+		else {
 			// Position the result indication node to the side of the node
 			// that represents the item being touched.  There is a tweak
 			// factor in here to add a little space between the guessing box
@@ -345,8 +352,22 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
 		
 		guessResultNode.setOffset(guessResultNodeLocation);
 		_guessingGameLayer.addChild( guessResultNode );
-		
-		
+    }
+    
+    /**
+     * Return true if the guessed age is within the tolerance range and false
+     * if not.
+     * 
+     * @param guessedAge - Age in milliseconds.
+     * @param datableItem
+     * @return
+     */
+    private boolean determineIfGuessIsGood( double guessedAge, DatableItem datableItem ){
+
+    	double actualAge = datableItem.getAge();
+    	
+    	return ( guessedAge < actualAge * ( 1 + AGE_GUESS_TOLERANCE_PERCENTAGE / 100 ) ) &&
+    		   ( guessedAge > actualAge * ( 1 - AGE_GUESS_TOLERANCE_PERCENTAGE / 100 ) );
     }
 
     private void configureProportionsChart(){
