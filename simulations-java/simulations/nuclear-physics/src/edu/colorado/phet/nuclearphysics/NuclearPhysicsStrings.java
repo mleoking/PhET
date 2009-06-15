@@ -163,4 +163,6 @@ public class NuclearPhysicsStrings {
     public static final String DECAY_PROPORTIONS_Y_AXIS_LABEL= NuclearPhysicsResources.getString( "DecayProportionsChart.YAxisLabel" );
     
     public static final String TIME_ABBREVIATION= NuclearPhysicsResources.getString( "TimeAbbreviation" );
+    
+    public static final String CHECK_AGE=NuclearPhysicsResources.getString("DatingGame.CheckAge");
 }
