@@ -11,18 +11,25 @@ public class SVNStatusChecker {
     }
 
     public boolean isUpToDate( PhetProject project ) {
+        AuthenticationInfo auth = BuildLocalProperties.getInstance().getRespositoryAuthenticationInfo();
         ArrayList args = new ArrayList();
         args.add( "svn" );
         args.add( "status" );
         args.add( "-u" );//checks with server, without this flag check is only local
         args.add( "--non-interactive" ); // don't have it ask for input
+        args.add( "--username" );
+        args.add( auth.getUsername() );
+        args.add( "--password" );
+        args.add( auth.getPassword() );
         PhetProject[] projects = project.getAllDependencies();
         for ( int i = 0; i < projects.length; i++ ) {
             args.add( projects[i].getProjectDir().getAbsolutePath() );
         }
         try {
             String[] cmd = (String[]) args.toArray( new String[0] );
-            System.out.println( "exec'ing: " + toString( cmd ) );
+
+            // for security reasons, don't print the username / password out
+            //System.out.println( "exec'ing: " + toString( cmd ) );
             Process p = Runtime.getRuntime().exec( cmd );
             ProcessOutputReader pop = new ProcessOutputReader( p.getInputStream() );
             pop.start();

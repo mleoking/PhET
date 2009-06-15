@@ -197,7 +197,8 @@ public class StatisticsDeployCommand {
      * @return String representing the SVN revision
      */
     private String getSVNVersion() {
-        String[] args = new String[]{"svn", "status", "-u", "--non-interactive", getTrunkPath()};
+        AuthenticationInfo auth = BuildLocalProperties.getInstance().getRespositoryAuthenticationInfo();
+        String[] args = new String[]{"svn", "status", "-u", "--non-interactive", "--username", auth.getUsername(), "--password", auth.getPassword(), getTrunkPath()};
         ProcessOutputReader.ProcessExecResult output = ProcessOutputReader.exec( args );
         StringTokenizer st = new StringTokenizer( output.getOut(), "\n" );
         while ( st.hasMoreTokens() ) {
