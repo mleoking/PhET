@@ -39,6 +39,7 @@ DONE:
 6/15/09 first pass at Comparing canvas
 6/15/09 refactor beaker view controls for use in other modules
 6/15/09 create model for Comparing module
+# 0.01.19
 6/15/09 move solution creation into model
 6/12/09 add H3O/OH ratio view, lifted from pH Scale sim
 6/12/09 localize symbol legend
