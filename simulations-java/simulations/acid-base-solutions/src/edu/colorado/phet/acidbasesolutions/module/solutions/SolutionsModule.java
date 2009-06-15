@@ -10,7 +10,6 @@ import edu.colorado.phet.acidbasesolutions.control.BeakerControlsNode;
 import edu.colorado.phet.acidbasesolutions.control.MiscControlsNode;
 import edu.colorado.phet.acidbasesolutions.control.SolutionControlsNode;
 import edu.colorado.phet.acidbasesolutions.model.ABSClock;
-import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.model.SoluteFactory;
 import edu.colorado.phet.acidbasesolutions.model.Solute.ICustomSolute;
 import edu.colorado.phet.acidbasesolutions.module.ABSAbstractModule;
@@ -45,8 +44,7 @@ public class SolutionsModule extends ABSAbstractModule {
         super( TITLE, CLOCK );
 
         // Model
-        AqueousSolution solution = new AqueousSolution();
-        model = new SolutionsModel( CLOCK, solution );
+        model = new SolutionsModel( CLOCK );
 
         // Canvas
         canvas = new SolutionsCanvas( model, this );

@@ -13,24 +13,12 @@ import edu.colorado.phet.acidbasesolutions.module.ABSModel;
  */
 public class SolutionsModel extends ABSModel {
     
-    //----------------------------------------------------------------------------
-    // Instance data
-    //----------------------------------------------------------------------------
-    
     private final AqueousSolution solution;
     
-    //----------------------------------------------------------------------------
-    // Constructors
-    //----------------------------------------------------------------------------
-    
-    public SolutionsModel( ABSClock clock, AqueousSolution solution ) {
+    public SolutionsModel( ABSClock clock ) {
         super( clock );
-        this.solution = solution;
+        this.solution = new AqueousSolution();
     }
-    
-    //----------------------------------------------------------------------------
-    // Accessors
-    //----------------------------------------------------------------------------
     
     public AqueousSolution getSolution() {
         return solution;
