@@ -349,6 +349,13 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     	_guessingGameLayer.removeChild(_ageGuessingNode);
     	_ageGuessingNode = null;
     	
+    	// Check for a valid guess.
+    	if (!((ageGuess > 0 ) && (ageGuess < Double.POSITIVE_INFINITY))){
+    		// The user didn't submit a valid guess, so bail out here, which
+    		// effectively ignores the submission.
+    		return;
+    	}
+    	
     	// Remove any previous guess result nodes.
     	_mapDatableItemsToGuessResults.remove(itemBeingTouched);
     	
