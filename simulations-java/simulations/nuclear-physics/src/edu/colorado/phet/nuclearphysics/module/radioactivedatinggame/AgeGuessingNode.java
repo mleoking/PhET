@@ -1,9 +1,14 @@
 package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -15,6 +20,7 @@ import javax.swing.JTextField;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusDecayModel;
 import edu.colorado.phet.nuclearphysics.module.radioactivedatinggame.RadiometricDatingMeter.Listener;
@@ -53,6 +59,13 @@ public class AgeGuessingNode extends PNode {
 		textEntryFieldLabel.setFont(TEXT_FONT);
 		ageEntryPanel.add(_ageEntryField);
 		ageEntryPanel.add(textEntryFieldLabel);
+		
+		// Add a handler to catch when the user hits the "enter" key.
+		_ageEntryField.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				submitGuess();
+			}
+		});
 		
 		// Create the sub-panel that contains the button. 
 		JPanel checkAgeButtonPanel = new JPanel();
