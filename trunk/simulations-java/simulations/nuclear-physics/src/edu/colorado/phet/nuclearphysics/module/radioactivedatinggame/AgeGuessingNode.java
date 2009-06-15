@@ -1,7 +1,9 @@
 package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 
+import java.awt.Color;
 import java.awt.Font;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -24,7 +26,8 @@ public class AgeGuessingNode extends PNode {
 	private static final double WIDTH = 100;
 	private static final double HEIGHT = WIDTH / 2;
 	private static final Font TEXT_FONT = new PhetFont(18);
-	
+	private static final Color BORDER_COLOR = Color.BLACK;
+	private static final int BORDER_THICKNESS = 2;
 
 	/**
 	 * Constructor.
@@ -33,6 +36,7 @@ public class AgeGuessingNode extends PNode {
 		
 		// Create the panel that will contain all the components.
 		JPanel ageGuessingNodePanel = new VerticalLayoutPanel();
+		ageGuessingNodePanel.setBorder(BorderFactory.createLineBorder(BORDER_COLOR, BORDER_THICKNESS) );
 		
 		// Create the sub-panel that will contain the text field for entering
 		// the age and the units label.
@@ -57,6 +61,5 @@ public class AgeGuessingNode extends PNode {
 		// Wrap the whole thing in a PSwing and add it to the node.
 		PSwing ageGuessingNodePanelPSwing = new PSwing(ageGuessingNodePanel);
 		addChild(ageGuessingNodePanelPSwing);
-		
 	}
 }
