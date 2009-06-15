@@ -10,6 +10,7 @@ import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.control.BeakerControlsNode;
 import edu.colorado.phet.acidbasesolutions.control.MiscControlsNode;
 import edu.colorado.phet.acidbasesolutions.control.SolutionControlsNode;
+import edu.colorado.phet.acidbasesolutions.control.SolutionsBeakerControlsNode;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.module.ABSAbstractCanvas;
 import edu.colorado.phet.acidbasesolutions.util.PNodeUtils;
@@ -35,7 +36,7 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
     
     // Controls
     private final SolutionControlsNode solutionControlsNode;
-    private final BeakerControlsNode beakerControlsNode;
+    private final SolutionsBeakerControlsNode beakerControlsNode;
     private final MiscControlsNode miscControlsNode;
     
     //----------------------------------------------------------------------------
@@ -54,7 +55,7 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         solutionControlsNode = new SolutionControlsNode( this, solution );
         solutionControlsNode.scale( ABSConstants.PSWING_SCALE );
         
-        beakerControlsNode = new BeakerControlsNode( beakerNode, getBackground(), solution );
+        beakerControlsNode = new SolutionsBeakerControlsNode( getBackground(), beakerNode, solution );
         beakerControlsNode.scale( ABSConstants.PSWING_SCALE );
         beakerControlsNode.addPropertyChangeListener( new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {

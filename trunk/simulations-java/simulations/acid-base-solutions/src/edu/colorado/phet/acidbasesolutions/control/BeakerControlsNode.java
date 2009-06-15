@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
@@ -13,10 +15,6 @@ import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.ABSSymbols;
-import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
-import edu.colorado.phet.acidbasesolutions.model.Solute;
-import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.SolutionAdapter;
-import edu.colorado.phet.acidbasesolutions.view.beaker.BeakerNode;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -29,68 +27,49 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BeakerControlsNode extends PNode {
+public abstract class BeakerControlsNode extends PNode {
     
     private static final String RATIO_PATTERN = ABSStrings.CHECK_BOX_RATIO;
-    
-    private final BeakerNode beakerNode;
     
     private final JPanel panel;
     private final JCheckBox dissociatedComponentsRatioCheckBox;
     private final JCheckBox hyroniumHydroxideRatioCheckBox;
     private final JCheckBox moleculeCountsCheckBox;
-    private final JCheckBox beakerLabelCheckBox;
+    private final JCheckBox labelCheckBox;
+    private final ArrayList<BeakerViewChangeListener> listeners;
     
-    /**
-     * Public constructor, handles connection to model.
-     * @param beakerNode
-     * @param background
-     * @param solution
-     */
-    public BeakerControlsNode( final BeakerNode beakerNode, Color background, AqueousSolution solution ) {
-        this( beakerNode, background );
-        solution.addSolutionListener( new ModelViewController( solution, this ) );
-    }
-    
-    /*
-     * Private constructor knows nothing about model.
-     */
-    private BeakerControlsNode( final BeakerNode beakerNode, Color background ) {
+    protected BeakerControlsNode( Color background ) {
         super();
         
-        this.beakerNode = beakerNode;
+        listeners = new ArrayList<BeakerViewChangeListener>();
         
-        dissociatedComponentsRatioCheckBox = new JCheckBox( "?" );
-        dissociatedComponentsRatioCheckBox.setSelected( beakerNode.isDisassociatedRatioComponentsVisible() );
+        dissociatedComponentsRatioCheckBox = new JCheckBox( HTMLUtils.toHTMLString( ABSStrings.CHECK_BOX_DISASSOCIATED_COMPONENTS_RATIO ) );
         dissociatedComponentsRatioCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                beakerNode.setDisassociatedRatioComponentsVisible( dissociatedComponentsRatioCheckBox.isSelected() );
+                notifyDisassociatedComponentsRatioChanged();
             }
         });
         
         Object[] args = { ABSSymbols.H3O_PLUS, ABSSymbols.OH_MINUS };
         String html = HTMLUtils.toHTMLString( MessageFormat.format( RATIO_PATTERN, args ) );
         hyroniumHydroxideRatioCheckBox = new JCheckBox( html );
-        hyroniumHydroxideRatioCheckBox.setSelected( beakerNode.isHydroniumHydroxideRatioVisible() );
         hyroniumHydroxideRatioCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                beakerNode.setHydroniumHydroxideRatioVisible( hyroniumHydroxideRatioCheckBox.isSelected() );
+                notifyHydroniumHydroxideRatioChanged();
             }
         });
         
         moleculeCountsCheckBox = new JCheckBox( ABSStrings.CHECK_BOX_MOLECULE_COUNTS );
-        moleculeCountsCheckBox.setSelected( beakerNode.isMoleculeCountsVisible() );
         moleculeCountsCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                beakerNode.setMoleculeCountsVisible( moleculeCountsCheckBox.isSelected() );
+                notifyMoleculeCountsChanged();
             }
         });
         
-        beakerLabelCheckBox = new JCheckBox( ABSStrings.CHECK_BOX_BEAKER_LABEL );
-        beakerLabelCheckBox.setSelected( beakerNode.isBeakerLabelVisible() );
-        beakerLabelCheckBox.addActionListener( new ActionListener() {
+        labelCheckBox = new JCheckBox( ABSStrings.CHECK_BOX_BEAKER_LABEL );
+        labelCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                beakerNode.setBeakerLabelVisible( beakerLabelCheckBox.isSelected() );
+               notifyLabelChanged();
             }
         });
 
@@ -108,7 +87,7 @@ public class BeakerControlsNode extends PNode {
         layout.addComponent( dissociatedComponentsRatioCheckBox, row++, column );
         layout.addComponent( hyroniumHydroxideRatioCheckBox, row++, column );
         layout.addComponent( moleculeCountsCheckBox, row++, column );
-        layout.addComponent( beakerLabelCheckBox, row++, column );
+        layout.addComponent( labelCheckBox, row++, column );
         
         SwingUtils.setBackgroundDeep( panel, background );
         
@@ -126,8 +105,10 @@ public class BeakerControlsNode extends PNode {
     }
     
     public void setDissociatedComponentsRatioSelected( boolean b ) {
-        dissociatedComponentsRatioCheckBox.setSelected( b );
-        beakerNode.setDisassociatedRatioComponentsVisible( b );
+        if ( b != isDissociatedComponentsRatioSelected() ) {
+            dissociatedComponentsRatioCheckBox.setSelected( b );
+            notifyDisassociatedComponentsRatioChanged();
+        }
     }
     
     public boolean isDissociatedComponentsRatioSelected() {
@@ -135,8 +116,10 @@ public class BeakerControlsNode extends PNode {
     }
     
     public void setHydroniumHydroxideRatioSelected( boolean b ) {
-        hyroniumHydroxideRatioCheckBox.setSelected( b );
-        beakerNode.setHydroniumHydroxideRatioVisible( b );
+        if ( b != isHydroniumHydroxideRatioSelected() ) {
+            hyroniumHydroxideRatioCheckBox.setSelected( b );
+            notifyHydroniumHydroxideRatioChanged();
+        }
     }
     
     public boolean isHydroniumHydroxideRatioSelected() {
@@ -144,47 +127,71 @@ public class BeakerControlsNode extends PNode {
     }
     
     public void setMoleculeCountsSelected( boolean b ) {
-        moleculeCountsCheckBox.setSelected( b );
-        beakerNode.setMoleculeCountsVisible( b );
+        if ( b != isMoleculeCountsSelected() ) {
+            moleculeCountsCheckBox.setSelected( b );
+            notifyMoleculeCountsChanged();
+        }
     }
     
     public boolean isMoleculeCountsSelected() {
         return moleculeCountsCheckBox.isSelected();
     }
     
-    public void setBeakerLabelSelected( boolean b ) {
-        beakerLabelCheckBox.setSelected( b );
-        beakerNode.setBeakerLabelVisible( b );
+    public void setLabelSelected( boolean b ) {
+        if ( b != isLabelSelected() ) {
+            labelCheckBox.setSelected( b );
+            notifyLabelChanged();
+        }
     }
     
-    public boolean isBeakerLabelSelected() {
-        return beakerLabelCheckBox.isSelected();
+    public boolean isLabelSelected() {
+        return labelCheckBox.isSelected();
     }
     
-    /*
-     * Updates controls to match the model.
-     */
-    private static class ModelViewController extends SolutionAdapter {
-        
-        private final AqueousSolution solution;
-        private final BeakerControlsNode beakerControlsNode; 
-
-        public ModelViewController( AqueousSolution solution, BeakerControlsNode beakerControlsNode ) {
-            this.solution = solution;
-            this.beakerControlsNode = beakerControlsNode;
+    public interface BeakerViewChangeListener {
+        public void disassociatedComponentsRatioChanged( boolean selected );
+        public void hydroniumHydroxideRatioChanged( boolean selected );
+        public void moleculeCountsChanged( boolean selected );
+        public void labelChanged( boolean selected );
+    }
+    
+    public void addBeakerViewChangeListener( BeakerViewChangeListener listener ) {
+        listeners.add( listener );
+    }
+    
+    public void removeBeakerViewChangeListener( BeakerViewChangeListener listener ) {
+        listeners.remove( listener );
+    }
+    
+    private void notifyDisassociatedComponentsRatioChanged() {
+        final boolean selected = dissociatedComponentsRatioCheckBox.isSelected();
+        Iterator<BeakerViewChangeListener> i = listeners.iterator();
+        while ( i.hasNext() ) {
+            i.next().disassociatedComponentsRatioChanged( selected );
         }
-        public void soluteChanged() {
-            updateRatioLabels();
+    }
+    
+    private void notifyHydroniumHydroxideRatioChanged() {
+        final boolean selected = hyroniumHydroxideRatioCheckBox.isSelected();
+        Iterator<BeakerViewChangeListener> i = listeners.iterator();
+        while ( i.hasNext() ) {
+            i.next().hydroniumHydroxideRatioChanged( selected );
         }
-        
-        public void strengthChanged() {
-            updateRatioLabels();
+    }
+    
+    private void notifyMoleculeCountsChanged() {
+        final boolean selected = moleculeCountsCheckBox.isSelected();
+        Iterator<BeakerViewChangeListener> i = listeners.iterator();
+        while ( i.hasNext() ) {
+            i.next().moleculeCountsChanged( selected );
         }
-        
-        private void updateRatioLabels() {
-            Solute solute = solution.getSolute();
-            beakerControlsNode.setDissociatedComponentsCheckBoxVisible( !solution.isPureWater() );
-            beakerControlsNode.setDissociatedComponents( solute.getSymbol(), solute.getConjugateSymbol() );
+    }
+    
+    private void notifyLabelChanged() {
+        final boolean selected = labelCheckBox.isSelected();
+        Iterator<BeakerViewChangeListener> i = listeners.iterator();
+        while ( i.hasNext() ) {
+            i.next().labelChanged( selected );
         }
     }
 }
