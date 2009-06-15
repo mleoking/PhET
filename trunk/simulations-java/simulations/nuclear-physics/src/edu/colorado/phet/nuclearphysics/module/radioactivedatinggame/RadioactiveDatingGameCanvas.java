@@ -56,12 +56,14 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     private RadioactiveDatingGameModel _model;
     private PNode _backgroundImageLayer;
     private PNode _backgroundImage;
-//    private PNode _datableItemsLayer;
+    private PNode _strataLayer;
+    private PNode _guessingGameLayer;
     private NuclearDecayProportionChart _proportionsChart;
     private RadiometricDatingMeterNode _meter;
     private PNode _referenceNode; // For positioning other nodes.
     private ArrayList<StratumNode> _stratumNodes = new ArrayList<StratumNode>();
     private EdgeOfWorldNode _edgeOfWorld;
+    private AgeGuessingNode _ageGuessingNode;
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -90,6 +92,14 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         		update();
         	};
         });
+        
+        // Register with the probe so that we know when the user touches or
+        // stops touching something.
+        _model.getMeter().addListener(new RadiometricDatingMeter.Adapter(){
+        	public void touchedStateChanged(){
+        		handleMeterTouchStateChanged();
+        	};
+        });
 
         // Add a reference node that will be used when positioning other nodes later.
         _referenceNode = new PNode();
@@ -102,9 +112,15 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         _backgroundImageLayer = new PNode();
         addWorldChild(_backgroundImageLayer);
 
-        // Create the layer where the datable items will be located.
-//        _datableArtifactsLayer = new PNode();
-//        addScreenChild(_datableArtifactsLayer);
+        // Create the layer where the strata and the datable items will be
+        // located.
+        _strataLayer = new PNode();
+        addWorldChild(_strataLayer);
+
+        // Create the layer where the data entry and result nodes for the
+        // guessing game will reside.
+        _guessingGameLayer = new PNode();
+        addWorldChild(_guessingGameLayer);
 
         // Load the background image.
         BufferedImage bufferedImage = NuclearPhysicsResources.getImage( "green-hills-and-sky.png" );
@@ -120,15 +136,15 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         			NuclearPhysicsConstants.strataColors.get(i % NuclearPhysicsConstants.strataColors.size()),
         			_mvt );
         	_stratumNodes.add(stratumNode);
-            addWorldChild(stratumNode);
+            _strataLayer.addChild(stratumNode);
         }
-
+        
         // Add the nodes that represent the items on which the user can
         // perform radiometric dating.
         for (DatableObject item : _model.getItemIterable()){
         	PNode datableItemNode = new DatableItemNode(item, _mvt);
         	datableItemNode.setOffset(_mvt.modelToViewDouble(item.getCenter()));
-        	addWorldChild(datableItemNode);
+        	_strataLayer.addChild(datableItemNode);
         }
         	
         // Add the node that represents the edge of the world.
@@ -218,6 +234,27 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     		double amountDecayed = numSamples - (numSamples * Math.exp(-time*lambda));
     		_proportionsChart.addDataPoint(time, (int)Math.round(numSamples - amountDecayed), 
     				(int)Math.round(amountDecayed));
+    	}
+    }
+    
+    /**
+     * Handle a notification from the meter that indicates that it has started
+     * or stopped touching a datable item.
+     */
+    private void handleMeterTouchStateChanged(){
+    	
+    	// Clean up any existing nodes.
+    	if (_ageGuessingNode != null){
+    		_guessingGameLayer.removeChild(_ageGuessingNode);
+    		_ageGuessingNode = null;
+    	}
+    	
+    	if (_model.getMeter().getItemBeingTouched() != null){
+    		// Show the guessing box.
+    		// TODO: How do I mark the nodes that have already been guessed?  Probably need a map.
+    		_ageGuessingNode = new AgeGuessingNode();
+    		_guessingGameLayer.setOffset(0, 0);
+    		_guessingGameLayer.addChild(_ageGuessingNode);
     	}
     }
 
