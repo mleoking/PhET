@@ -1,29 +1,21 @@
 package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 
 import java.awt.Color;
-import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler;
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
-import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusDecayModel;
-import edu.colorado.phet.nuclearphysics.module.radioactivedatinggame.RadiometricDatingMeter.Listener;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -38,8 +30,10 @@ public class AgeGuessingNode extends PNode {
 	private static final Font TEXT_FONT = new PhetFont(18);
 	private static final Color BORDER_COLOR = Color.BLACK;
 	private static final int BORDER_THICKNESS = 2;
+	private static final int AGE_ENTRY_FIELD_COLUMNS = 12;
+	
 	private ArrayList<Listener> _listeners = new ArrayList<Listener>();
-	private JTextField _ageEntryField;
+	private JFormattedTextField _ageEntryField;
 
 	/**
 	 * Constructor.
@@ -53,7 +47,8 @@ public class AgeGuessingNode extends PNode {
 		// Create the sub-panel that will contain the text field for entering
 		// the age and the units label.
 		JPanel ageEntryPanel = new JPanel();
-		_ageEntryField = new JTextField(15);
+		_ageEntryField = new JFormattedTextField( NumberFormat.getNumberInstance() );
+		_ageEntryField.setColumns(AGE_ENTRY_FIELD_COLUMNS);
 		_ageEntryField.setFont(TEXT_FONT);
 		JLabel textEntryFieldLabel = new JLabel(NuclearPhysicsStrings.READOUT_UNITS_YRS);
 		textEntryFieldLabel.setFont(TEXT_FONT);
@@ -115,10 +110,11 @@ public class AgeGuessingNode extends PNode {
 		double ageGuessInYears;
 		
 		// Interpret the data in the text field.
-		try{
-			ageGuessInYears = Double.valueOf(_ageEntryField.getText().trim()).doubleValue();
+		if (_ageEntryField.getValue() != null){
+			
+			ageGuessInYears = ((Number)_ageEntryField.getValue()).doubleValue();
 		}
-		catch ( NumberFormatException nfe ) {
+		else{
 			ageGuessInYears = Double.NaN;
 		}
 		
