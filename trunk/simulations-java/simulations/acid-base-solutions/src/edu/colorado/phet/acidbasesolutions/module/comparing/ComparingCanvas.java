@@ -110,6 +110,14 @@ public class ComparingCanvas extends ABSAbstractCanvas {
         return solutionControlsNodeRight;
     }
     
+    public ComparingViewControlsNode getViewControlsNode() {
+        return viewControlsNode;
+    }
+    
+    public ComparingBeakerControlsNode getBeakerControlsNode() {
+        return beakerControlsNode;
+    }
+    
     //----------------------------------------------------------------------------
     // Canvas layout
     //----------------------------------------------------------------------------

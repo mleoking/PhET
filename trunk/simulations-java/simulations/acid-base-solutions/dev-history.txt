@@ -3,11 +3,16 @@
 ==================================================================================
 
 TODO:
+- localize ComparingViewControlsNode
+- save/load Comparing module
+- Equations in Comparing module
+- save/load equation scaling in ComparingModule
 - close/restore dialogs when switching modules
 - is strong range correct?
-- implement "ratio" views
+- implement HA/A "ratio" view
 - scale image files
 - review remaining instanceof comparisons
+- rewrite layout code for ComparingCanvas so that it supports i18n
 
 DEFER:
 - restrict Strength slider to one section of the range (only needed if we add "Custom Weak" acid/base)
@@ -29,6 +34,7 @@ ISSUES:
 - KP: fewer pixels for the strong range of the strength slider
 
 DONE:
+6/15/09 save/load for Comparing module
 6/15/09 first pass at Comparing canvas
 6/15/09 refactor beaker view controls for use in other modules
 6/15/09 create model for Comparing module

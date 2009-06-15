@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.acidbasesolutions.module.comparing;
 
+import edu.colorado.phet.acidbasesolutions.model.Acid.CustomAcid;
+import edu.colorado.phet.acidbasesolutions.model.Base.CustomBase;
 import edu.colorado.phet.acidbasesolutions.persistence.ComparingConfig;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -28,23 +30,25 @@ public class ComparingDefaults {
     /* singleton */
     private ComparingDefaults() {
         config = new ComparingConfig();
-//        // left solution controls
-//        config.setSoluteNameLeft( new CustomAcid().getName() );
-//        config.setConcentrationLeft( 1E-2 );
-//        config.setStrengthLeft( 1E-6 );
-//        // right solution controls
-//        config.setSoluteNameRight( new CustomAcid().getName() );
-//        config.setConcentrationRight( 1E-2 );
-//        config.setStrengthRight( 1E-6 );
-//        // view control
-//        config.setBeakerSelected( true );
-//        // beaker view controls
-//        config.setDisassociatedComponentsRatioVisible( false );
-//        config.setHydroniumHydroxideRatioVisible( false );
-//        config.setMoleculeCountsVisible( false );
-//        config.setBeakerLabelVisible( false );
-//        config.setReactionEquationsScalingEnabled( false );
-        //TODO others?...
+        // left solution controls
+        config.setSoluteNameLeft( new CustomAcid().getName() );
+        config.setConcentrationLeft( 1E-2 );
+        config.setStrengthLeft( 1E-6 );
+        // right solution controls
+        config.setSoluteNameRight( new CustomBase().getName() );
+        config.setConcentrationRight( 1E-2 );
+        config.setStrengthRight( 1E-6 );
+        // view control
+        config.setBeakersSelected( true );
+        config.setGraphsSelected( false );
+        config.setEquationsSelected( false );
+        // beaker view controls
+        config.setDisassociatedComponentsRatioVisible( false );
+        config.setHydroniumHydroxideRatioVisible( false );
+        config.setMoleculeCountsVisible( false );
+        config.setBeakerLabelVisible( false );
+        // equations controls
+        config.setEquationsScalingEnabled( false );
     }
     
     public ComparingConfig getConfig() {

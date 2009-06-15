@@ -6,7 +6,13 @@ import java.awt.Frame;
 
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.AcidBaseSolutionsApplication;
+import edu.colorado.phet.acidbasesolutions.control.BeakerControlsNode;
+import edu.colorado.phet.acidbasesolutions.control.ComparingBeakerControlsNode;
+import edu.colorado.phet.acidbasesolutions.control.ComparingViewControlsNode;
+import edu.colorado.phet.acidbasesolutions.control.SolutionControlsNode;
 import edu.colorado.phet.acidbasesolutions.model.ABSClock;
+import edu.colorado.phet.acidbasesolutions.model.SoluteFactory;
+import edu.colorado.phet.acidbasesolutions.model.Solute.ICustomSolute;
 import edu.colorado.phet.acidbasesolutions.module.ABSAbstractModule;
 import edu.colorado.phet.acidbasesolutions.persistence.ComparingConfig;
 
@@ -53,7 +59,7 @@ public class ComparingModule extends ABSAbstractModule {
 
         // Help
         if ( hasHelp() ) {
-            //XXX add help items
+            // add help items here
         }
 
         // Set initial state
@@ -82,7 +88,33 @@ public class ComparingModule extends ABSAbstractModule {
         // Module
         config.setActive( isActive() );
 
-        //XXX call config setters
+        // left solution controls
+        SolutionControlsNode solutionControlsNodeLeft = canvas.getSolutionControlsNodeLeft();
+        config.setSoluteNameLeft( solutionControlsNodeLeft.getSolute().getName() );
+        config.setConcentrationLeft( solutionControlsNodeLeft.getConcentration() );
+        config.setStrengthLeft( solutionControlsNodeLeft.getStrength() );
+        
+        // right solution controls
+        SolutionControlsNode solutionControlsNodeRight = canvas.getSolutionControlsNodeRight();
+        config.setSoluteNameRight( solutionControlsNodeRight.getSolute().getName() );
+        config.setConcentrationRight( solutionControlsNodeRight.getConcentration() );
+        config.setStrengthRight( solutionControlsNodeRight.getStrength() );
+        
+        // view controls
+        ComparingViewControlsNode viewControlsNode = canvas.getViewControlsNode();
+        config.setBeakersSelected( viewControlsNode.isBeakersSelected() );
+        config.setGraphsSelected( viewControlsNode.isGraphsSelected() );
+        config.setEquationsSelected( viewControlsNode.isEquationsSelected() );
+        
+        // beaker controls
+        ComparingBeakerControlsNode beakerControls = canvas.getBeakerControlsNode();
+        config.setDisassociatedComponentsRatioVisible( beakerControls.isDissociatedComponentsRatioSelected() );
+        config.setHydroniumHydroxideRatioVisible( beakerControls.isHydroniumHydroxideRatioSelected() );
+        config.setMoleculeCountsVisible( beakerControls.isMoleculeCountsSelected() );
+        config.setBeakerLabelVisible( beakerControls.isLabelSelected() );
+        
+        // equations controls
+        //XXX equations scaling
         
         return config;
     }
@@ -94,6 +126,36 @@ public class ComparingModule extends ABSAbstractModule {
             AcidBaseSolutionsApplication.getInstance().setActiveModule( this );
         }
 
-        //XXX call config getters
+        // left solution controls
+        SolutionControlsNode solutionControlsNodeLeft = canvas.getSolutionControlsNodeLeft();
+        solutionControlsNodeLeft.setSolute( SoluteFactory.createSolute( config.getSoluteNameLeft() ) );
+        if ( solutionControlsNodeLeft.getSolute() instanceof ICustomSolute ) {
+            solutionControlsNodeLeft.setConcentration( config.getConcentrationLeft() );
+            solutionControlsNodeLeft.setStrength( config.getStrengthLeft() );
+        }
+        
+        // right solution controls
+        SolutionControlsNode solutionControlsNodeRight = canvas.getSolutionControlsNodeRight();
+        solutionControlsNodeRight.setSolute( SoluteFactory.createSolute( config.getSoluteNameRight() ) );
+        if ( solutionControlsNodeRight.getSolute() instanceof ICustomSolute ) {
+            solutionControlsNodeRight.setConcentration( config.getConcentrationRight() );
+            solutionControlsNodeRight.setStrength( config.getStrengthRight() );
+        }
+        
+        // view controls
+        ComparingViewControlsNode viewControlsNode = canvas.getViewControlsNode();
+        viewControlsNode.setBeakersSelected( config.isBeakersSelected() );
+        viewControlsNode.setGraphsSelected( config.isGraphsSelected() );
+        viewControlsNode.setEquationsSelected( config.isEquationsSelected() );
+
+        // beaker controls
+        BeakerControlsNode beakerControls = canvas.getBeakerControlsNode();
+        beakerControls.setDissociatedComponentsRatioSelected( config.isDisassociatedComponentsRatioVisible() );
+        beakerControls.setHydroniumHydroxideRatioSelected( config.isHydroniumHydroxideRatioVisible() );
+        beakerControls.setMoleculeCountsSelected( config.isMoleculeCountsVisible() );
+        beakerControls.setLabelSelected( config.isBeakerLabelVisible() );
+        
+        // equations controls
+        //XXX equations scaling
     }
 }

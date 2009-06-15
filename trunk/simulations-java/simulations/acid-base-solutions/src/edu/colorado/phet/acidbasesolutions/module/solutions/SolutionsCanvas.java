@@ -7,7 +7,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
-import edu.colorado.phet.acidbasesolutions.control.BeakerControlsNode;
 import edu.colorado.phet.acidbasesolutions.control.MiscControlsNode;
 import edu.colorado.phet.acidbasesolutions.control.SolutionControlsNode;
 import edu.colorado.phet.acidbasesolutions.control.SolutionsBeakerControlsNode;
@@ -84,7 +83,7 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         return solutionControlsNode;
     }
     
-    public BeakerControlsNode getBeakerControlsNode() {
+    public SolutionsBeakerControlsNode getBeakerControlsNode() {
         return beakerControlsNode;
     }
     

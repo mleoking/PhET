@@ -9,6 +9,7 @@ import edu.colorado.phet.acidbasesolutions.AcidBaseSolutionsApplication;
 import edu.colorado.phet.acidbasesolutions.control.BeakerControlsNode;
 import edu.colorado.phet.acidbasesolutions.control.MiscControlsNode;
 import edu.colorado.phet.acidbasesolutions.control.SolutionControlsNode;
+import edu.colorado.phet.acidbasesolutions.control.SolutionsBeakerControlsNode;
 import edu.colorado.phet.acidbasesolutions.model.ABSClock;
 import edu.colorado.phet.acidbasesolutions.model.SoluteFactory;
 import edu.colorado.phet.acidbasesolutions.model.Solute.ICustomSolute;
@@ -58,7 +59,7 @@ public class SolutionsModule extends ABSAbstractModule {
 
         // Help
         if ( hasHelp() ) {
-            //XXX add help items
+            // add help items here
         }
 
         // Set initial state
@@ -92,7 +93,7 @@ public class SolutionsModule extends ABSAbstractModule {
         config.setConcentration( solutionControlsNode.getConcentration() );
         config.setStrength( solutionControlsNode.getStrength() );
         
-        BeakerControlsNode beakerControls = canvas.getBeakerControlsNode();
+        SolutionsBeakerControlsNode beakerControls = canvas.getBeakerControlsNode();
         config.setDisassociatedComponentsRatioVisible( beakerControls.isDissociatedComponentsRatioSelected() );
         config.setHydroniumHydroxideRatioVisible( beakerControls.isHydroniumHydroxideRatioSelected() );
         config.setMoleculeCountsVisible( beakerControls.isMoleculeCountsSelected() );
