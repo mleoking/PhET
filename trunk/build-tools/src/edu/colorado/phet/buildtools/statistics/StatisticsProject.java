@@ -19,7 +19,7 @@ public class StatisticsProject extends PhetProject {
 
     @Override
     public String getName() {
-        return "Statistics Database server code";
+        return "statistics-database";
     }
 
     public Simulation getSimulation( String simulationName, Locale locale ) {
