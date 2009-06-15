@@ -69,6 +69,7 @@ public class SolutionControlsNode extends PhetPNode {
         this( canvas );
         solution.addSolutionListener( new ModelViewController( solution, this ) );
         this.addSolutionControlsListener( new ViewModelController( this, solution ) );
+        setSolute( solution.getSolute() );
     }
 
     /*
