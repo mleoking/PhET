@@ -96,7 +96,7 @@ public class SolutionsModule extends ABSAbstractModule {
         config.setDisassociatedComponentsRatioVisible( beakerControls.isDissociatedComponentsRatioSelected() );
         config.setHydroniumHydroxideRatioVisible( beakerControls.isHydroniumHydroxideRatioSelected() );
         config.setMoleculeCountsVisible( beakerControls.isMoleculeCountsSelected() );
-        config.setBeakerLabelVisible( beakerControls.isBeakerLabelSelected() );
+        config.setBeakerLabelVisible( beakerControls.isLabelSelected() );
         
         MiscControlsNode miscControls = canvas.getMiscControlsNode();
         config.setConcentrationGraphVisible( miscControls.isConcentrationGraphSelected() );
@@ -129,7 +129,7 @@ public class SolutionsModule extends ABSAbstractModule {
         beakerControls.setDissociatedComponentsRatioSelected( config.isDisassociatedComponentsRatioVisible() );
         beakerControls.setHydroniumHydroxideRatioSelected( config.isHydroniumHydroxideRatioVisible() );
         beakerControls.setMoleculeCountsSelected( config.isMoleculeCountsVisible() );
-        beakerControls.setBeakerLabelSelected( config.isBeakerLabelVisible() );
+        beakerControls.setLabelSelected( config.isBeakerLabelVisible() );
 
         // misc controls
         MiscControlsNode miscControls = canvas.getMiscControlsNode();
