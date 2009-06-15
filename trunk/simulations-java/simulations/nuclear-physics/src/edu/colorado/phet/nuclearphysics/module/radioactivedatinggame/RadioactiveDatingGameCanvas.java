@@ -71,8 +71,9 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     private PNode _referenceNode; // For positioning other nodes.
     private ArrayList<StratumNode> _stratumNodes = new ArrayList<StratumNode>();
     private EdgeOfWorldNode _edgeOfWorld;
-    private IdentityHashMap<DatableItem, PNode> _mapDatableItemsToNodes = 
-    	new IdentityHashMap<DatableItem, PNode>();
+    private IdentityHashMap<DatableItem, PNode> _mapDatableItemsToNodes = new IdentityHashMap<DatableItem, PNode>();
+    private IdentityHashMap<DatableItem, AgeGuessResultNode> _mapDatableItemsToGuessResults = 
+    	new IdentityHashMap<DatableItem, AgeGuessResultNode>();
     private AgeGuessingNode.Listener _ageGuessListener;
 
     //----------------------------------------------------------------------------
@@ -262,7 +263,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
      */
     private void handleMeterTouchStateChanged(){
     	
-    	// Clean up any existing nodes.
+    	// Clean up any existing guess submission node.
     	if (_ageGuessingNode != null){
     		_guessingGameLayer.removeChild(_ageGuessingNode);
     		_ageGuessingNode.removeListener(_ageGuessListener);
@@ -270,8 +271,24 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     	}
     	
     	DatableItem itemBeingTouched = _model.getMeter().getItemBeingTouched();
+    	
     	if (itemBeingTouched != null){
     		
+	    	AgeGuessResultNode previousGuessResultNode = _mapDatableItemsToGuessResults.get(itemBeingTouched);
+	    	if (previousGuessResultNode != null){
+	    		// The user has previously submitted a guess for this item.
+	    		if (previousGuessResultNode.isGuessGood()){
+	    			// The previous guess was good.  In this case, we don't need
+	    			// to put the dialog up for another guess, so we just bail.
+	    			return;
+	    		}
+	    		else {
+	    			// The previous guess must've been bad.  Remove it.
+	    			_guessingGameLayer.removeChild(previousGuessResultNode);
+	    			_mapDatableItemsToGuessResults.remove(itemBeingTouched);
+	    		}
+	    	}
+    	
     		// Create a new guessing box.
     		_ageGuessingNode = new AgeGuessingNode();
     		// TODO: How do I mark the nodes that have already been guessed?  Probably need a map.
@@ -323,16 +340,20 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     		return;
     	}
     	
-    	// Remove the node where the user submits guesses.
+    	// Remove the dialog node where the user submits guesses.
     	_ageGuessingNode.removeListener(_ageGuessListener);
     	_guessingGameLayer.removeChild(_ageGuessingNode);
     	_ageGuessingNode = null;
+    	
+    	// Remove any previous guess result nodes.
+    	_mapDatableItemsToGuessResults.remove(itemBeingTouched);
     	
     	// Add a node that indicates to the user whether the user got the
     	// answer right.
     	AgeGuessResultNode guessResultNode =
     		new AgeGuessResultNode(ageGuess, determineIfGuessIsGood(ageGuess, itemBeingTouched));
 		PNode datableItemNode = _mapDatableItemsToNodes.get(itemBeingTouched);
+		_mapDatableItemsToGuessResults.put(itemBeingTouched, guessResultNode);
 		Point2D guessResultNodeLocation = new Point2D.Double(0, 0);
 		if (datableItemNode == null) {
 			System.err.println(getClass().getName() + " - Error: Could not locate node for datable item " + itemBeingTouched);
