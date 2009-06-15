@@ -10,6 +10,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.IdentityHashMap;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -64,6 +65,8 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     private ArrayList<StratumNode> _stratumNodes = new ArrayList<StratumNode>();
     private EdgeOfWorldNode _edgeOfWorld;
     private AgeGuessingNode _ageGuessingNode;
+    private IdentityHashMap<DatableItem, PNode> _mapDatableItemsToNodes = 
+    	new IdentityHashMap<DatableItem, PNode>();
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -93,7 +96,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         	};
         });
         
-        // Register with the probe so that we know when the user touches or
+        // Register with the meter so that we know when the user touches or
         // stops touching something.
         _model.getMeter().addListener(new RadiometricDatingMeter.Adapter(){
         	public void touchedStateChanged(){
@@ -143,6 +146,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         // perform radiometric dating.
         for (DatableItem item : _model.getItemIterable()){
         	PNode datableItemNode = new DatableItemNode(item, _mvt);
+        	_mapDatableItemsToNodes.put(item, datableItemNode);
         	datableItemNode.setOffset(_mvt.modelToViewDouble(item.getCenter()));
         	_strataLayer.addChild(datableItemNode);
         }
@@ -249,11 +253,32 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     		_ageGuessingNode = null;
     	}
     	
-    	if (_model.getMeter().getItemBeingTouched() != null){
-    		// Show the guessing box.
-    		// TODO: How do I mark the nodes that have already been guessed?  Probably need a map.
+    	DatableItem itemBeingTouched = _model.getMeter().getItemBeingTouched();
+    	if (itemBeingTouched != null){
+    		
+    		// Create a new guessing box.
     		_ageGuessingNode = new AgeGuessingNode();
-    		_guessingGameLayer.setOffset(0, 0);
+    		// TODO: How do I mark the nodes that have already been guessed?  Probably need a map.
+    		
+    		// Position the guessing box to the side of the node that
+    		// represents the item being dated.
+    		PNode datableItemNode = _mapDatableItemsToNodes.get(itemBeingTouched);
+    		Point2D ageGuessingNodeLocation = new Point2D.Double(0, 0);
+    		if (datableItemNode == null){
+    			System.err.println(getClass().getName() + " - Error: Could not locate node for datable item " + itemBeingTouched);
+    			assert false;
+    		}
+    		else{
+    			// Position the guessing box to the side of the node that
+    			// represents the item being touched.  There is a tweak factor
+    			// in here to add a little space between the guessing box and
+    			// the datable item node.
+    			ageGuessingNodeLocation.setLocation(
+    					datableItemNode.getFullBoundsReference().getMaxX() + 8,
+    					datableItemNode.getFullBoundsReference().getCenterY() - _ageGuessingNode.getFullBoundsReference().height / 2);
+    		}
+    			
+    		_ageGuessingNode.setOffset(ageGuessingNodeLocation);
     		_guessingGameLayer.addChild(_ageGuessingNode);
     	}
     }
