@@ -215,6 +215,19 @@ public class NuclearDecayProportionChart extends PNode {
 	}
 	
 	/**
+	 * Update the text displayed on the marker.  It was necessary to make this
+	 * available because having the marker text update itself each time a new
+	 * data point is added is very computationally intensive when adding a lot
+	 * of data points at one time.  So, users should add the data and then
+	 * call this routine when an update is needed.
+	 */
+	public void updateMarkerText(){
+		if (_movablePercentIndicatorEnabled){
+			_movablePercentIndicator.updateReadoutText();
+		}
+	}
+	
+	/**
 	 * The the location within the coordinate space of the overall chart (not
 	 * just the graph) where the graph originates.
 	 */
@@ -1202,7 +1215,7 @@ public class NuclearDecayProportionChart extends PNode {
 			_timeText.setOffset(centerX - _timeText.getFullBoundsReference().width / 2, centerY);
     	}
     	
-    	private void updateReadoutText(){
+    	public void updateReadoutText(){
 
     		// Figure out and format the percentage information.
     		double percentage = _chart.getDataValueForXPixelPos(_readoutRect.getFullBoundsReference().getCenterX());

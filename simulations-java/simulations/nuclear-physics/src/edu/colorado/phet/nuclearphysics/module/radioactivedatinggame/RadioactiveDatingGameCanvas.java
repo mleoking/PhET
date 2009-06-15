@@ -254,6 +254,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     		_proportionsChart.addDataPoint(time, (int)Math.round(numSamples - amountDecayed), 
     				(int)Math.round(amountDecayed));
     	}
+    	_proportionsChart.updateMarkerText();
     }
     
     /**
