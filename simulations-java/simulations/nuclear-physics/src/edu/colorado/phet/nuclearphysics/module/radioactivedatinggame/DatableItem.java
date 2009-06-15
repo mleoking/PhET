@@ -16,7 +16,7 @@ import edu.colorado.phet.nuclearphysics.model.Uranium238Nucleus;
  * measurements, such as a skull or a fossil or a tree.
  * 
  */
-public class DatableObject {
+public class DatableItem {
 
 	private final Point2D center;
 	private final double width;
@@ -27,7 +27,7 @@ public class DatableObject {
 	private final double rotationAngle; // In radians.
 	private BufferedImage image;
 	
-	public DatableObject(String name, String resourceImageName, Point2D center, double width, 
+	public DatableItem(String name, String resourceImageName, Point2D center, double width, 
 			double rotationAngle, double age) {
 		super();
 		this.name = name;
@@ -75,15 +75,15 @@ public class DatableObject {
 	 * @param customNucleusHalfLife
 	 * @return
 	 */
-	public static double getPercentageCustomNucleusRemaining( DatableObject item, double customNucleusHalfLife ){
+	public static double getPercentageCustomNucleusRemaining( DatableItem item, double customNucleusHalfLife ){
 		return calculatePercentageRemaining(item.getAge(), customNucleusHalfLife);
 	}
 	
-	public static double getPercentageCarbon14Remaining( DatableObject item ){
+	public static double getPercentageCarbon14Remaining( DatableItem item ){
 		return calculatePercentageRemaining(item.getAge(), Carbon14Nucleus.HALF_LIFE);
 	}
 	
-	public static double getPercentageUranium238Remaining( DatableObject item ){
+	public static double getPercentageUranium238Remaining( DatableItem item ){
 		return calculatePercentageRemaining(item.getAge(), Uranium238Nucleus.HALF_LIFE);
 	}
 	
