@@ -356,11 +356,12 @@ public class BuildScript {
     }
 
     public int getRevisionOnTrunkREADME() {
+        AuthenticationInfo auth = buildLocalProperties.getRespositoryAuthenticationInfo();
         File readmeFile = new File( trunk, "README.txt" );
         if ( !readmeFile.exists() ) {
             throw new RuntimeException( "Readme file doesn't exist, need to get version info some other way" );
         }
-        String[] args = new String[]{"svn", "status", "-u", "--non-interactive", readmeFile.getAbsolutePath()};
+        String[] args = new String[]{"svn", "status", "-u", "--non-interactive", "--username", auth.getUsername(), "--password", auth.getPassword(), readmeFile.getAbsolutePath()};
         ProcessOutputReader.ProcessExecResult output = ProcessOutputReader.exec( args );
         StringTokenizer st = new StringTokenizer( output.getOut(), "\n" );
         while ( st.hasMoreTokens() ) {
@@ -607,20 +608,23 @@ public class BuildScript {
     public static boolean verifyRevision( int revision, String[] paths ) {
         String out = null;
         try {
+            AuthenticationInfo auth = BuildLocalProperties.getInstance().getRespositoryAuthenticationInfo();
             List<String> args = new LinkedList<String>();
             args.add( "svn" );
             args.add( "info" );
             args.add( "--xml" ); // so we can easily parse the XML
             args.add( "--non-interactive" ); // so it doesn't pause for input
+            args.add( "--username" );
+            args.add( auth.getUsername() );
+            args.add( "--password" );
+            args.add( auth.getPassword() );
             for ( String path : paths ) {
                 args.add( path );
             }
             ProcessOutputReader.ProcessExecResult result = ProcessOutputReader.exec( args.toArray( new String[0] ) );
 
             out = result.getOut();
-            //System.out.println( "verifyRevision input:\n" + out );
             Document document = XMLUtils.toDocument( out );
-
             NodeList entries = document.getElementsByTagName( "entry" );
 
             for ( int i = 0; i < entries.getLength(); i++ ) {
