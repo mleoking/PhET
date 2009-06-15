@@ -97,7 +97,7 @@ public class MiscControlsNode extends PNode {
         
         // border
         JPanel panel = new JPanel();
-        TitledBorder border = new TitledBorder( new LineBorder( Color.BLACK, 1 ), ABSStrings.TITLE_MISC_CONTROLS );
+        TitledBorder border = new TitledBorder( new LineBorder( Color.BLACK, 1 ), ABSStrings.TITLE_VIEW );
         border.setTitleFont( new PhetFont( Font.BOLD, 16 ) );
         panel.setBorder( border );
         

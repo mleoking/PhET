@@ -25,9 +25,8 @@ public class ABSStrings {
     public static final String TITLE_SOLUTION = ABSResources.getString( "title.solution" );
     public static final String TITLE_EQUILIBRIUM_EXPRESSIONS = ABSResources.getString( "title.equilibriumExpressions" );
     public static final String TITLE_REACTION_EQUATIONS = ABSResources.getString( "title.reactionEquations" );
-    public static final String TITLE_MISC_CONTROLS = ABSResources.getString( "title.miscControls" );
-    public static final String TITLE_BEAKER_CONTROLS = ABSResources.getString( "title.beakerControls" );
     public static final String TITLE_SYMBOL_LEGEND = ABSResources.getString( "title.symbolLegend" );
+    public static final String TITLE_VIEW = ABSResources.getString( "title.view" );
     
     public static final String MESSAGE_NOT_A_CONFIG = ABSResources.getString( "message.notAConfigFile" );
     
@@ -61,6 +60,9 @@ public class ABSStrings {
     // radio buttons
     public static final String RADIO_BUTTON_EQUATION_SCALING_OFF = ABSResources.getString( "radioButton.equationScaling.off" );
     public static final String RADIO_BUTTON_EQUATION_SCALING_ON = ABSResources.getString( "radioButton.equationScaling.on" );
+    public static final String RADIO_BUTTON_BEAKERS = ABSResources.getString( "radioButton.beakers" );
+    public static final String RADIO_BUTTON_GRAPHS = ABSResources.getString( "radioButton.graphs" );
+    public static final String RADIO_BUTTON_EQUATIONS = ABSResources.getString( "radioButton.equations" );
     
     // units
     public static final String UNITS_LITERS = ABSResources.getString( "units.liters" );

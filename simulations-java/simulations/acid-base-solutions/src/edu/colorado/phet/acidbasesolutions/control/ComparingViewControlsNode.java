@@ -15,6 +15,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
@@ -23,12 +24,6 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 
 public class ComparingViewControlsNode extends PhetPNode {
-    
-    //TODO localize
-    private static final String BEAKERS = "Beakers";
-    private static final String GRAPHS = "Bar Graphs";
-    private static final String EQUATIONS = "Equations";
-    private static final String VIEW = "View";
     
     private final JRadioButton beakersRadioButton, graphsRadioButton, equationsRadioButton;
     private final ArrayList<ChangeListener> listeners;
@@ -44,13 +39,13 @@ public class ComparingViewControlsNode extends PhetPNode {
             }
         };
         
-        beakersRadioButton = new JRadioButton( BEAKERS );
+        beakersRadioButton = new JRadioButton( ABSStrings.RADIO_BUTTON_BEAKERS );
         beakersRadioButton.addActionListener( actionListener );
         
-        graphsRadioButton = new JRadioButton( GRAPHS );
+        graphsRadioButton = new JRadioButton( ABSStrings.RADIO_BUTTON_GRAPHS );
         graphsRadioButton.addActionListener( actionListener );
         
-        equationsRadioButton = new JRadioButton( EQUATIONS );
+        equationsRadioButton = new JRadioButton( ABSStrings.RADIO_BUTTON_EQUATIONS );
         equationsRadioButton.addActionListener( actionListener );
         
         ButtonGroup group = new ButtonGroup();
@@ -60,7 +55,7 @@ public class ComparingViewControlsNode extends PhetPNode {
         
         // panel with border
         JPanel panel = new JPanel();
-        TitledBorder border = new TitledBorder( new LineBorder( Color.BLACK, 1 ), VIEW );
+        TitledBorder border = new TitledBorder( new LineBorder( Color.BLACK, 1 ), ABSStrings.TITLE_VIEW );
         border.setTitleFont( new PhetFont( Font.BOLD, 16 ) );
         panel.setBorder( border );
         
