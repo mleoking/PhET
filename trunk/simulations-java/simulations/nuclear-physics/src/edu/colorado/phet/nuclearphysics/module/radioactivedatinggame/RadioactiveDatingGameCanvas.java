@@ -59,14 +59,15 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     private PNode _backgroundImage;
     private PNode _strataLayer;
     private PNode _guessingGameLayer;
+    private AgeGuessingNode _ageGuessingNode;
     private NuclearDecayProportionChart _proportionsChart;
     private RadiometricDatingMeterNode _meter;
     private PNode _referenceNode; // For positioning other nodes.
     private ArrayList<StratumNode> _stratumNodes = new ArrayList<StratumNode>();
     private EdgeOfWorldNode _edgeOfWorld;
-    private AgeGuessingNode _ageGuessingNode;
     private IdentityHashMap<DatableItem, PNode> _mapDatableItemsToNodes = 
     	new IdentityHashMap<DatableItem, PNode>();
+    private AgeGuessingNode.Listener _ageGuessListener;
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -182,6 +183,14 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         
         // Draw the decay curve on the chart.
         drawDecayCurveOnChart();
+        
+        // Create the listener that will be registered with the node that
+        // allows the user to guess the age of an item.
+        _ageGuessListener = new AgeGuessingNode.Listener(){
+			public void guessSubmitted(double ageGuess) {
+				handleGuessSubmitted(ageGuess);
+			}
+        };
     }
 
     //Workaround to get PComboBox to show popup in the right spot.
@@ -250,6 +259,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     	// Clean up any existing nodes.
     	if (_ageGuessingNode != null){
     		_guessingGameLayer.removeChild(_ageGuessingNode);
+    		_ageGuessingNode.removeListener(_ageGuessListener);
     		_ageGuessingNode = null;
     	}
     	
@@ -280,7 +290,63 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     			
     		_ageGuessingNode.setOffset(ageGuessingNodeLocation);
     		_guessingGameLayer.addChild(_ageGuessingNode);
+    		
+    		// Register with the node to be informed if and when the user
+    		// submits a guess.
+    		_ageGuessingNode.addListener(new AgeGuessingNode.Listener(){
+				public void guessSubmitted(double ageGuess) {
+					handleGuessSubmitted(ageGuess);
+				}
+    		});
     	}
+    }
+    
+    /**
+     * Handle the event where the user has submitted a guess of the currently
+     * touched item.  The guess is evaluated and a node is presented that
+     * indicates whether the user's guess is close enough to be considered
+     * correct.
+     */
+    private void handleGuessSubmitted(double ageGuess){
+
+    	DatableItem itemBeingTouched = _model.getMeter().getItemBeingTouched();
+    	
+    	if (itemBeingTouched == null){
+    		System.err.println(getClass().getName() + " - Error: Guess submitted when meter not it contact with datable item.");
+    		assert false;
+    		return;
+    	}
+    	
+    	// Remove the node where the user submits guesses.
+    	_ageGuessingNode.removeListener(_ageGuessListener);
+    	_guessingGameLayer.removeChild(_ageGuessingNode);
+    	_ageGuessingNode = null;
+    	
+    	// Add a node that indicates to the user whether they got the answer
+    	// right.
+    	AgeGuessResultNode guessResultNode = new AgeGuessResultNode(ageGuess, true);
+		PNode datableItemNode = _mapDatableItemsToNodes.get(itemBeingTouched);
+		Point2D guessResultNodeLocation = new Point2D.Double(0, 0);
+		if (datableItemNode == null){
+			System.err.println(getClass().getName() + " - Error: Could not locate node for datable item " + itemBeingTouched);
+			assert false;
+			return;
+		}
+		else{
+			// Position the result indication node to the side of the node
+			// that represents the item being touched.  There is a tweak
+			// factor in here to add a little space between the guessing box
+			// and the datable item node.
+			guessResultNodeLocation.setLocation(
+					datableItemNode.getFullBoundsReference().getMaxX() + 8,
+					datableItemNode.getFullBoundsReference().getCenterY() 
+						- guessResultNode.getFullBoundsReference().height / 2);
+		}
+		
+		guessResultNode.setOffset(guessResultNodeLocation);
+		_guessingGameLayer.addChild( guessResultNode );
+		
+		
     }
 
     private void configureProportionsChart(){
