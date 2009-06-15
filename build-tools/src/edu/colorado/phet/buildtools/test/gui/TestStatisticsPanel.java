@@ -14,12 +14,12 @@ import edu.colorado.phet.buildtools.statistics.StatisticsDeployCommand;
 import edu.colorado.phet.buildtools.statistics.StatisticsProject;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 
-public class TestStatisticsProjectPanel extends JPanel {
+public class TestStatisticsPanel extends JPanel {
 
     private File trunk;
     private StatisticsProject project;
 
-    public TestStatisticsProjectPanel( File trunk, StatisticsProject project ) {
+    public TestStatisticsPanel( File trunk, StatisticsProject project ) {
         super( new BorderLayout() );
 
         this.trunk = trunk;

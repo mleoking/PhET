@@ -7,6 +7,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
+import edu.colorado.phet.buildtools.java.JavaProject;
 import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
 import edu.colorado.phet.buildtools.statistics.StatisticsProject;
 
@@ -24,7 +25,7 @@ public class TestGUIPanel extends JSplitPane {
         projectListHolder.setBorder( BorderFactory.createTitledBorder( "Projects" ) );
 
         projectPanel = new JPanel( new GridLayout( 1, 1 ) );
-        projectPanel.add( new JButton( "Test" ) );
+        //projectPanel.add( new JButton( "Test" ) );
 
 
         setLeftComponent( projectListHolder );
@@ -39,19 +40,30 @@ public class TestGUIPanel extends JSplitPane {
                 cachedProject = project;
                 System.out.println( "Changing project to " + project );
                 if ( project instanceof FlashSimulationProject ) {
-                    projectPanel = new TestFlashProjectPanel( trunk, (FlashSimulationProject) project );
+                    projectPanel = new TestFlashSimulationPanel( trunk, (FlashSimulationProject) project );
                     setRightComponent( projectPanel );
                 }
                 else if ( project instanceof JavaSimulationProject ) {
-                    projectPanel = new TestJavaProjectPanel( trunk, (JavaSimulationProject) project );
+                    projectPanel = new TestJavaSimulationPanel( trunk, (JavaSimulationProject) project );
                     setRightComponent( projectPanel );
                 }
                 else if ( project instanceof StatisticsProject ) {
-                    projectPanel = new TestStatisticsProjectPanel( trunk, (StatisticsProject) project );
+                    projectPanel = new TestStatisticsPanel( trunk, (StatisticsProject) project );
                     setRightComponent( projectPanel );
+                }
+                else if ( project instanceof JavaProject ) {
+                    projectPanel = new TestMiscJavaPanel( trunk, (JavaProject) project );
+                    setRightComponent( projectPanel );
+                }
+                else {
+                    setRightComponent( null );
                 }
             }
         } );
 
+    }
+
+    public TestProjectList getProjectList() {
+        return projectList;
     }
 }

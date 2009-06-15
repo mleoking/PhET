@@ -14,7 +14,7 @@ import edu.colorado.phet.buildtools.VersionIncrement;
 import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 
-public class TestJavaProjectPanel extends JPanel {
+public class TestJavaSimulationPanel extends JPanel {
     private File trunk;
 
     private JavaSimulationProject project;
@@ -24,7 +24,7 @@ public class TestJavaProjectPanel extends JPanel {
     private JRadioButton incrementMinor;
     private JRadioButton incrementMajor;
 
-    public TestJavaProjectPanel( File trunk, JavaSimulationProject project ) {
+    public TestJavaSimulationPanel( File trunk, JavaSimulationProject project ) {
         super( new BorderLayout() );
 
         this.trunk = trunk;
