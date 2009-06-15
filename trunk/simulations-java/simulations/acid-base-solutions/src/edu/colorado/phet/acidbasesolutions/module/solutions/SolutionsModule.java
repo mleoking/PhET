@@ -36,6 +36,7 @@ public class SolutionsModule extends ABSAbstractModule {
 
     private SolutionsModel model;
     private SolutionsCanvas canvas;
+    private boolean reactionEquationDialogWasOpen, equilibriumExpressionsDialogWasOpen, symbolLegendDialogWasOpen;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -75,6 +76,29 @@ public class SolutionsModule extends ABSAbstractModule {
      */
     public void reset() {
         load( SolutionsDefaults.getInstance().getConfig() );
+    }
+
+    public void activate() {
+        super.activate();
+        // restore state of dialogs
+        MiscControlsNode miscControlsNode = canvas.getMiscControlsNode();
+        miscControlsNode.setReactionEquationsSelected( reactionEquationDialogWasOpen );
+        miscControlsNode.setEquilibriumExpressionsSelected( equilibriumExpressionsDialogWasOpen );
+        miscControlsNode.setSymbolLegendSelected( symbolLegendDialogWasOpen );
+    }
+    
+    public void deactivate() {
+        MiscControlsNode miscControlsNode = canvas.getMiscControlsNode();
+        // save state of open dialogs
+        reactionEquationDialogWasOpen = miscControlsNode.isReactionEquationsSelected();
+        equilibriumExpressionsDialogWasOpen = miscControlsNode.isEquilibriumExpressionsSelected();
+        symbolLegendDialogWasOpen = miscControlsNode.isSymbolLegendSelected();
+        // hide any open dialogs
+        miscControlsNode.setReactionEquationsSelected( false );
+        miscControlsNode.setEquilibriumExpressionsSelected( false );
+        miscControlsNode.setSymbolLegendSelected( false );
+        // deactivate
+        super.deactivate();
     }
     
     //----------------------------------------------------------------------------
