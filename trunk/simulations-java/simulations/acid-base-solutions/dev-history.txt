@@ -28,6 +28,8 @@ ISSUES:
 - KP: fewer pixels for the strong range of the strength slider
 
 DONE:
+6/15/09 create model for Comparing module
+6/15/09 move solution creation into model
 6/12/09 add H3O/OH ratio view, lifted from pH Scale sim
 6/12/09 localize symbol legend
 6/12/09 javadoc all code
