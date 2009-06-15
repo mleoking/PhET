@@ -64,6 +64,8 @@ public class NaturalSelectionModel extends ClockAdapter {
      */
     private int generation = 0;
 
+    private boolean gameEnded = false;
+
     private int lastFrenziedGeneration = -1;
 
     /**
@@ -137,6 +139,10 @@ public class NaturalSelectionModel extends ClockAdapter {
         friendAdded = false;
 
         generation = 0;
+
+        time = 0;
+
+        gameEnded = false;
 
         lastFrenziedGeneration = -1;
 
@@ -214,6 +220,11 @@ public class NaturalSelectionModel extends ClockAdapter {
     }
 
     public void endGame() {
+        if ( gameEnded ) {
+            // game already ended!
+            return;
+        }
+        gameEnded = true;
         clock.pause();
         notifyGameOver();
     }
@@ -608,7 +619,6 @@ public class NaturalSelectionModel extends ClockAdapter {
 
     public void simulationTimeChanged( ClockEvent event ) {
 
-        clock.notifyPhysicalListeners( event );
 
         if ( !isDuringFrenzy() ) {
             time++;
@@ -629,6 +639,11 @@ public class NaturalSelectionModel extends ClockAdapter {
                     bunnyFamine();
                 }
             }
+        }
+
+        clock.notifyPhysicalListeners( event );
+
+        if ( !isDuringFrenzy() ) {
             clock.notifyTimeListeners( event );
         }
     }
