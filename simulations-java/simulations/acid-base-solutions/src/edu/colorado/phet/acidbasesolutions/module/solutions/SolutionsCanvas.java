@@ -112,8 +112,8 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         double xOffset, yOffset = 0;
         
         // solution controls in upper left
-        xOffset = solutionControlsNode.getXOffset() - solutionControlsNode.getFullBoundsReference().getX();
-        yOffset = solutionControlsNode.getYOffset() - solutionControlsNode.getFullBoundsReference().getY();
+        xOffset = -PNodeUtils.getOriginXOffset( solutionControlsNode );
+        yOffset = -PNodeUtils.getOriginYOffset( solutionControlsNode );
         solutionControlsNode.setOffset( xOffset, yOffset );
         
         // beaker below solution controls
