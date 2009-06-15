@@ -3,6 +3,7 @@
 ==================================================================================
 
 TODO:
+- Comparing canvas layout change is visible when visited for the first time
 - save/load Comparing module
 - Equations in Comparing module
 - save/load equation scaling in ComparingModule
