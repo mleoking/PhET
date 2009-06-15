@@ -1,3 +1,5 @@
+# 00.51.01 (32489) Jun 15, 2009
+6/15/09 Test GUI tests for build-tools
 # 00.51.00 (32304) Jun 4, 2009
 6/4/09 Refactored common string path literals
 # 00.50.00 (32296) Jun 4, 2009
