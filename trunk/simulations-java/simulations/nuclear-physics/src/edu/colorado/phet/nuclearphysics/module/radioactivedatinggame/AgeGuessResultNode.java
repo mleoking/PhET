@@ -27,17 +27,17 @@ public class AgeGuessResultNode extends PNode {
 	/**
 	 * Contructor.
 	 * 
-	 * @param age - Age to be displayed, in milliseconds.
+	 * @param ageGuess - Age to be displayed, in years.
 	 * @param isGuessGood - boolean indicating whether the guess was good.
 	 */
-	public AgeGuessResultNode(double age, boolean isGuessGood) {
+	public AgeGuessResultNode(double ageGuess, boolean isGuessGood) {
 		
 		_guessIsGood = isGuessGood;
 		
 		// Create the text.
 		PText ageText = new PText();
 		ageText.setFont(TEXT_FONT);
-		ageText.setText(String.format("%.0f", MultiNucleusDecayModel.convertMsToYears(age)) 
+		ageText.setText(String.format("%.0f", ageGuess) 
 				+ " " + NuclearPhysicsStrings.READOUT_UNITS_YRS);
 		
 		// Create the bounding rectangle so that it encloses the text.

@@ -16,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
+import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusDecayModel;
 import edu.colorado.phet.nuclearphysics.view.NuclearDecayProportionChart;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -329,6 +330,9 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
      * touched item.  The guess is evaluated and a node is presented that
      * indicates whether the user's guess is close enough to be considered
      * correct.
+     * 
+     * @param ageGuess - Guess of the age in years (note - not in seconds or
+     * milliseconds).
      */
     private void handleGuessSubmitted(double ageGuess){
 
@@ -340,7 +344,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     		return;
     	}
     	
-    	// Remove the dialog node where the user submits guesses.
+    	// Remove the dialog node where the user submitted the guess.
     	_ageGuessingNode.removeListener(_ageGuessListener);
     	_guessingGameLayer.removeChild(_ageGuessingNode);
     	_ageGuessingNode = null;
@@ -348,10 +352,10 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     	// Remove any previous guess result nodes.
     	_mapDatableItemsToGuessResults.remove(itemBeingTouched);
     	
-    	// Add a node that indicates to the user whether the user got the
-    	// answer right.
-    	AgeGuessResultNode guessResultNode =
-    		new AgeGuessResultNode(ageGuess, determineIfGuessIsGood(ageGuess, itemBeingTouched));
+    	// Add a node that indicates to the user whether they got the answer
+    	// right.
+    	AgeGuessResultNode guessResultNode = new AgeGuessResultNode(ageGuess,
+    		determineIfGuessIsGood(MultiNucleusDecayModel.convertYearsToMs(ageGuess), itemBeingTouched));
 		PNode datableItemNode = _mapDatableItemsToNodes.get(itemBeingTouched);
 		_mapDatableItemsToGuessResults.put(itemBeingTouched, guessResultNode);
 		Point2D guessResultNodeLocation = new Point2D.Double(0, 0);
