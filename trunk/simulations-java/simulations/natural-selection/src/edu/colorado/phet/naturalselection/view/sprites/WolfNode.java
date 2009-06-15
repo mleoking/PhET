@@ -3,7 +3,6 @@ package edu.colorado.phet.naturalselection.view.sprites;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionResources;
-import edu.colorado.phet.naturalselection.model.Landscape;
 import edu.colorado.phet.naturalselection.model.Wolf;
 import edu.colorado.phet.naturalselection.view.LandscapeNode;
 import edu.umd.cs.piccolo.PNode;
@@ -69,7 +68,8 @@ public class WolfNode extends NaturalSelectionSprite implements Wolf.Listener {
 
     public void rescale() {
         // how much to scale the wolf by
-        double scaleFactor = Landscape.NEARPLANE * 0.25 / getPosition().getZ();
+        //double scaleFactor = Landscape.NEARPLANE * 0.25 / getPosition().getZ();
+        double scaleFactor = Wolf.wolfScale( getPosition() );
 
         setScale( scaleFactor );
     }
@@ -78,6 +78,7 @@ public class WolfNode extends NaturalSelectionSprite implements Wolf.Listener {
         Wolf wolf = event.wolf;
         if ( event.type == Wolf.Event.TYPE_POSITION_CHANGED ) {
             setPosition( wolf.getPosition() );
+            setFlipped( wolf.isFlipped() );
         }
     }
 }

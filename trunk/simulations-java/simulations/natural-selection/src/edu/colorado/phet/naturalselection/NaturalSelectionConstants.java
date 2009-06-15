@@ -116,6 +116,7 @@ public class NaturalSelectionConstants {
     public static final String IMAGE_MUTATION_BUNNY = "mutation_very_large.png";
 
     public static final String IMAGE_WOLF = "wolf_2.png";
+    public static final double WOLF_WIDTH = 490;
 
     public static final String IMAGE_TARGET = "target.png";
     public static final String IMAGE_CROSSHAIR = "crosshair.png";

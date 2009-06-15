@@ -5,9 +5,10 @@ import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 
 public class Wolf implements NaturalSelectionClock.Listener {
-    private static final double MAX_STEP = 10.0;
+    private static final double MAX_STEP = 5.0;
 
     private Point3D position;
 
@@ -25,6 +26,8 @@ public class Wolf implements NaturalSelectionClock.Listener {
 
     // random number generator
     private static final Random random = new Random( System.currentTimeMillis() );
+    private final double KILL_DISTANCE = MAX_STEP * 2;
+    private final double DOUBLE_BACK_DISTANCE = MAX_STEP * 6;
 
     public Wolf( NaturalSelectionModel model, Frenzy frenzy ) {
         this.model = model;
@@ -93,40 +96,106 @@ public class Wolf implements NaturalSelectionClock.Listener {
         return Math.sqrt( x * x + z * z );
     }
 
+    public void stopHunting() {
+        hunting = false;
+        movingRight = getPosition().getX() > 0;
+    }
+
     private void moveAround() {
         if ( hunting ) {
             if ( target == null ) {
-                hunting = false;
+                stopHunting();
                 return;
             }
             if ( !target.isAlive() ) {
                 getNewTarget();
             }
             if ( target == null ) {
-                hunting = false;
+                stopHunting();
                 return;
             }
 
+            double mX = position.getX();
+            double mY = position.getY();
+            double mZ = position.getZ();
             Point3D targetPosition = target.getPosition();
-            double distance = groundDistance( targetPosition, position );
-            if ( distance < MAX_STEP * 5 ) {
-                target.die();
-                notifyKilledBunny();
+            double tX = targetPosition.getX();
+            double tY = targetPosition.getY();
+            double tZ = targetPosition.getZ();
+            double tGround = model.getLandscape().getGroundY( tX, tZ );
+
+            double killX;
+
+            boolean rightOfTarget = mX > tX;
+
+            if ( rightOfTarget ) {
+                killX = tX + model.getLandscape().landscapeDistanceToModel( wolfScale( position ) * NaturalSelectionConstants.WOLF_WIDTH / 2, mZ );
             }
             else {
-                Point3D diff = new Point3D.Double( targetPosition.getX() - position.getX(), 0, targetPosition.getZ() - position.getZ() );
-                diff.setLocation( diff.getX() * MAX_STEP / distance, 0, diff.getZ() * MAX_STEP / distance );
-
-                // TODO: make sure the wolf "mouth" area is the part touching the bunny, not the wolf's center
-
-
-                double x = position.getX() + diff.getX();
-                double z = position.getZ() + diff.getZ();
-                double y = model.getLandscape().getGroundY( x, z );
-
-                position = new Point3D.Double( x, y, z );
-                movingRight = diff.getX() >= 0;
+                killX = tX - model.getLandscape().landscapeDistanceToModel( wolfScale( position ) * NaturalSelectionConstants.WOLF_WIDTH / 2, mZ );
             }
+
+            boolean rightOfKillpoint = mX > killX;
+
+            double aimX = 0;
+            double aimZ = 0;
+            boolean movePosition = true;
+
+            if ( ( rightOfTarget == rightOfKillpoint ) && ( rightOfTarget != movingRight ) ) {
+                // regular approach, moving towards bunny already
+                aimX = tX;
+                aimZ = tZ;
+
+                double targetDistance = Point3D.distance( killX, 0, tZ, mX, 0, mZ );
+                if ( targetDistance < KILL_DISTANCE ) {
+                    target.die();
+                    notifyKilledBunny();
+                }
+            }
+            else if ( ( rightOfTarget == rightOfKillpoint ) && ( Math.abs( killX - mX ) >= DOUBLE_BACK_DISTANCE ) && ( rightOfTarget == movingRight ) ) {
+                // far from target, but moving the wrong way
+
+                // point towards the target
+                movingRight = !rightOfTarget;
+                movePosition = false;
+            }
+            else {
+                // too close to the target, either:
+                // (a) between target and kill point
+                // or (b) outside of kill point but moving wrong direction
+                // we need to move farther from the target so that our "mouth" can make an approach to get the bunny
+
+                // turn away from target
+                movingRight = rightOfTarget;
+
+                final double buffer = 10;
+
+                if ( rightOfTarget ) {
+                    aimX = killX + DOUBLE_BACK_DISTANCE + buffer;
+                }
+                else {
+                    aimX = killX - DOUBLE_BACK_DISTANCE - buffer;
+                }
+                aimZ = tZ;
+            }
+
+            if ( movePosition ) {
+                double dX = aimX - mX;
+                double dZ = aimZ - mZ;
+                double distance = Math.sqrt( dX * dX + dZ * dZ );
+
+                if ( distance > MAX_STEP ) {
+                    // if our aim point is too far away, limit our step to MAX_STEP
+                    dX = MAX_STEP * dX / distance;
+                    dZ = MAX_STEP * dZ / distance;
+                }
+
+                double x = mX + dX;
+                double z = mZ + dZ;
+
+                position = new Point3D.Double( x, model.getLandscape().getGroundY( x, z ), z );
+            }
+
         }
         else {
             if ( movingRight ) {
@@ -141,10 +210,17 @@ public class Wolf implements NaturalSelectionClock.Listener {
 
     }
 
+    public static double wolfScale( Point3D position ) {
+        return Landscape.NEARPLANE * 0.25 / position.getZ();
+    }
+
     public void onTick( ClockEvent event ) {
         moveAround();
     }
 
+    public boolean isFlipped() {
+        return !movingRight;
+    }
 
     private void notifyPositionChanged() {
         notifyListenersOfEvent( new Event( this, Event.TYPE_POSITION_CHANGED ) );
