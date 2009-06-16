@@ -43,7 +43,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     		INITIAL_INTERMEDIATE_COORD_HEIGHT );
     
     // Fraction of canvas width used for the proportions chart.
-    private static final double PROPORTIONS_CHART_WIDTH_FRACTION = 0.8;
+    private static final double PROPORTIONS_CHART_WIDTH_FRACTION = 0.9;
     
     // Fraction of canvas width for the meter.
     private static final double PROPORTIONS_METER_WIDTH_FRACTION = 0.23;

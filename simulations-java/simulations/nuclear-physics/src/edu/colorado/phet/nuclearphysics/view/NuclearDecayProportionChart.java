@@ -60,7 +60,7 @@ public class NuclearDecayProportionChart extends PNode {
 
     // Constants that control the proportions of the main components of the chart.
     private static final double PIE_CHART_WIDTH_PROPORTION = 0.1;
-    private static final double MOVABLE_PERCENT_INDICATOR_WIDTH_PROPORTION = 0.26;
+    private static final double MOVABLE_PERCENT_INDICATOR_WIDTH_PROPORTION = 0.22;
     private static final double MOVABLE_PERCENT_INDICATOR_HEIGHT_PROPORTION = 0.23;
     
     //------------------------------------------------------------------------
