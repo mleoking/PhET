@@ -3,9 +3,12 @@
 package edu.colorado.phet.nuclearphysics.common;
 
 import java.awt.Color;
+import java.security.InvalidParameterException;
 
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
+import edu.colorado.phet.nuclearphysics.view.LabeledNucleusImageNode;
+import edu.colorado.phet.nuclearphysics.view.LabeledNucleusSphereNode;
 
 /**
  * This class encapsulates the information that is used to display each of the
@@ -36,12 +39,33 @@ public class NucleusDisplayInfo {
 			NuclearPhysicsConstants.NITROGEN_14_LABEL_COLOR,
 			NuclearPhysicsConstants.NITROGEN_COLOR );
 
+	public static final NucleusDisplayInfo URANIUM_235_DISPLAY_INFO = new NucleusDisplayInfo(
+			NuclearPhysicsStrings.URANIUM_235_LEGEND_LABEL,
+			NuclearPhysicsStrings.URANIUM_235_CHEMICAL_SYMBOL,
+			NuclearPhysicsStrings.URANIUM_235_ISOTOPE_NUMBER,
+			NuclearPhysicsConstants.URANIUM_235_LABEL_COLOR,
+			NuclearPhysicsConstants.URANIUM_COLOR );
+	
+	public static final NucleusDisplayInfo URANIUM_236_DISPLAY_INFO = new NucleusDisplayInfo(
+			NuclearPhysicsStrings.URANIUM_236_LEGEND_LABEL,
+			NuclearPhysicsStrings.URANIUM_236_CHEMICAL_SYMBOL,
+			NuclearPhysicsStrings.URANIUM_236_ISOTOPE_NUMBER,
+			NuclearPhysicsConstants.URANIUM_236_LABEL_COLOR,
+			NuclearPhysicsConstants.URANIUM_COLOR );
+	
 	public static final NucleusDisplayInfo URANIUM_238_DISPLAY_INFO = new NucleusDisplayInfo(
 			NuclearPhysicsStrings.URANIUM_238_LEGEND_LABEL,
 			NuclearPhysicsStrings.URANIUM_238_CHEMICAL_SYMBOL,
 			NuclearPhysicsStrings.URANIUM_238_ISOTOPE_NUMBER,
 			NuclearPhysicsConstants.URANIUM_238_LABEL_COLOR,
-			NuclearPhysicsConstants.URANIUM_238_COLOR );
+			NuclearPhysicsConstants.URANIUM_COLOR );
+	
+	public static final NucleusDisplayInfo URANIUM_239_DISPLAY_INFO = new NucleusDisplayInfo(
+			NuclearPhysicsStrings.URANIUM_239_LEGEND_LABEL,
+			NuclearPhysicsStrings.URANIUM_239_CHEMICAL_SYMBOL,
+			NuclearPhysicsStrings.URANIUM_239_ISOTOPE_NUMBER,
+			NuclearPhysicsConstants.URANIUM_239_LABEL_COLOR,
+			NuclearPhysicsConstants.URANIUM_COLOR );
 	
 	public static final NucleusDisplayInfo POLONIUM_211_DISPLAY_INFO = new NucleusDisplayInfo(
 			NuclearPhysicsStrings.POLONIUM_211_LEGEND_LABEL,
@@ -166,8 +190,20 @@ public class NucleusDisplayInfo {
 			displayInfo = POLONIUM_211_DISPLAY_INFO;
 			break;
 			
+		case URANIUM_235:
+			displayInfo = URANIUM_235_DISPLAY_INFO;
+			break;
+			
+		case URANIUM_236:
+			displayInfo = URANIUM_236_DISPLAY_INFO;
+			break;
+			
 		case URANIUM_238:
 			displayInfo = URANIUM_238_DISPLAY_INFO;
+			break;
+			
+		case URANIUM_239:
+			displayInfo = URANIUM_239_DISPLAY_INFO;
 			break;
 			
 		case CUSTOM:
@@ -184,6 +220,96 @@ public class NucleusDisplayInfo {
 		    displayInfo = DEFAULT_DISPLAY_INFO;
 		    break;
 		}
+		
+		return displayInfo;
+	}
+	
+	public static NucleusDisplayInfo getDisplayInfoForNucleusConfig( int numProtons, int numNeutrons ){
+		
+		NucleusDisplayInfo displayInfo = null;
+		
+		// Note that (obviously) not every nucleus that exists in nature is
+		// handled here - just those needed by the sim.  Feel free to add more
+		// if needed.
+		switch (numProtons){
+    	case 6:
+    		// Carbon 14.
+    		displayInfo = NucleusDisplayInfo.getDisplayInfoForNucleusType( NucleusType.CARBON_14 );
+    		break;
+    		
+    	case 7:
+    		// Nitrogen 14.
+    		displayInfo = NucleusDisplayInfo.getDisplayInfoForNucleusType( NucleusType.NITROGEN_14 );
+    		break;
+    		
+    	case 81:
+    		// This is thallium, which we use as the post-decay custom nucleus.
+    		displayInfo = NucleusDisplayInfo.getDisplayInfoForNucleusType( NucleusType.CUSTOM_POST_DECAY );
+    		break;
+    		
+    	case 82:
+    		// Lead.
+    		if ( numNeutrons == 124 ){
+    			// Lead 206
+        		displayInfo = NucleusDisplayInfo.getDisplayInfoForNucleusType( NucleusType.LEAD_206 );
+    		}
+    		else if ( numNeutrons == 125 ) {
+    			// Lead 207
+        		displayInfo = NucleusDisplayInfo.getDisplayInfoForNucleusType( NucleusType.LEAD_207 );
+    		}
+    		else {
+    			System.err.println("Error: Unrecognized isotope for Lead, using Lead 207.");
+    			assert false;
+        		displayInfo = NucleusDisplayInfo.getDisplayInfoForNucleusType( NucleusType.LEAD_207 );
+    		}
+    		break;
+    		
+    	case 83:
+    		// This nucleus is bismuth, which we use as the pre-decay custom
+    		// nucleus.
+    		displayInfo = NucleusDisplayInfo.getDisplayInfoForNucleusType( NucleusType.CUSTOM );
+    		break;
+    		
+    	case 84:
+    		// Polonium.
+    		displayInfo = NucleusDisplayInfo.getDisplayInfoForNucleusType( NucleusType.POLONIUM_211 );
+    		break;
+    		
+    	case 92:
+    		switch (numNeutrons){
+    		case 143:
+    			// U235.
+        		displayInfo = NucleusDisplayInfo.getDisplayInfoForNucleusType( NucleusType.URANIUM_235 );
+        		break;
+        		
+    		case 144:
+    			// U236.
+        		displayInfo = NucleusDisplayInfo.getDisplayInfoForNucleusType( NucleusType.URANIUM_236 );
+        		break;
+        		
+    		case 146:
+    			// U238.
+        		displayInfo = NucleusDisplayInfo.getDisplayInfoForNucleusType( NucleusType.URANIUM_238 );
+        		break;
+        		
+    		case 147:
+    			// U239.
+        		displayInfo = NucleusDisplayInfo.getDisplayInfoForNucleusType( NucleusType.URANIUM_239 );
+        		break;
+        		
+    		default:
+    			// Unrecognized.
+    			System.err.println("Error: Unrecognized uranium isotop, using U238.");
+    			assert false;
+        		displayInfo = NucleusDisplayInfo.getDisplayInfoForNucleusType( NucleusType.URANIUM_238 );
+        		break;
+    		}
+    		break;
+    		
+    	default:
+    		assert false;  // This is not a nucleus type that we know how to handle.
+    		throw new InvalidParameterException("Unrecognized nucleus type.");
+    	}
 		
 		return displayInfo;
 	}
