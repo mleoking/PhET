@@ -30,13 +30,15 @@ public abstract class Solute extends Molecule {
     protected Solute( String name, String symbol, Image icon, Image structure, Color color, 
                       String conjugateSymbol, Image conjugateIcon, Image conjugateStructure, Color conjugateColor, double strength ) {
         super( name, symbol, icon, structure, color );
+        
+        if ( !isValidStrength( strength ) ) {
+            throw new IllegalArgumentException( "strength is invalid: " + strength );
+        }
+        
         this.conjugateSymbol = conjugateSymbol;
         this.conjugateIcon = conjugateIcon;
         this.conjugateStructure = conjugateStructure;
         this.conjugateColor = conjugateColor;
-        if ( !isValidStrength( strength ) ) {
-            throw new IllegalArgumentException( "strength is invalid: " + strength );
-        }
         this.strength = strength;
         this.concentration = ABSConstants.CONCENTRATION_RANGE.getMin();
         listeners = new ArrayList<SoluteListener>();
