@@ -83,7 +83,6 @@ public class ComparingEquationsNode extends PhetPNode {
         // create the proper type of solute equations 
         if ( solution.isAcidic() ) {
             soluteReactionEquationNode = new AcidReactionEquationNode( solution );
-            soluteReactionEquationNode.setStructuresEnabled( LEWIS_STRUCTURES_ENABLED );
             soluteEquilibriumExpressionNode = new AcidEquilibriumExpressionNode( solution );
         }
         else if ( solution.isBasic() ) {
@@ -94,6 +93,7 @@ public class ComparingEquationsNode extends PhetPNode {
         // add the new solute equations
         if ( soluteReactionEquationNode != null ) {
             addChild( soluteReactionEquationNode );
+            soluteReactionEquationNode.setStructuresEnabled( LEWIS_STRUCTURES_ENABLED );
             soluteReactionEquationNode.setScalingEnabled( waterReactionEquationNode.isScalingEnabled() );
         }
         if ( soluteEquilibriumExpressionNode != null ) {
