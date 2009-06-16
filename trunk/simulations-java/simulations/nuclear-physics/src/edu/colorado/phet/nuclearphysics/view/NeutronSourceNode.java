@@ -266,6 +266,6 @@ public class NeutronSourceNode extends PNode{
         contentPane.addScreenChild( neutronSourceNode );
         frame.setContentPane( contentPane );
         frame.setSize( 1024, 768 );
-        frame.show();
+        frame.setVisible(true);
     }
 }
