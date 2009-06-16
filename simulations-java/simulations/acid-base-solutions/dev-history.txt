@@ -10,12 +10,14 @@ TODO:
 - review remaining instanceof comparisons
 - rewrite layout code for ComparingCanvas, improve i18n support
 - auto layout of symbol legend descriptions, so that we don't need to localize HTML markup
+- Match Game module
 
 DEFER:
 - restrict Strength slider to one section of the range (only needed if we add "Custom Weak" acid/base)
 - align baselines of characters in equations (requires a new implementation)
 
 ISSUES:
+- drop "Find The Unknown" module?
 - will equations fit in the available space in the Comparing tab?
 - can we drop Lewis structure diagrams in Comparing tab?
 - replace scaling on/off radio buttons with a check box?
