@@ -180,63 +180,75 @@ public class ComparingCanvas extends ABSAbstractCanvas {
         yOffset = -PNodeUtils.getOriginYOffset( solutionControlsNodeLeft );
         solutionControlsNodeLeft.setOffset( xOffset, yOffset );
         
-        // view controls between solution controls
-        xOffset = solutionControlsNodeLeft.getFullBoundsReference().getMaxX() + 10;
-        yOffset = 0;
-        viewControlsNode.setOffset( xOffset, yOffset );
-        
         // solution controls in upper right
-        xOffset = viewControlsNode.getFullBoundsReference().getMaxX() + 30;
+        final double maxControlWidth = getMaxControlWidth();
+        xOffset = solutionControlsNodeLeft.getFullBoundsReference().getMaxX() + maxControlWidth + 20 - PNodeUtils.getOriginXOffset( solutionControlsNodeRight );
         yOffset = -PNodeUtils.getOriginYOffset( solutionControlsNodeRight );
         solutionControlsNodeRight.setOffset( xOffset, yOffset );
         
-        // left beaker below left solution controls
-        xOffset = solutionControlsNodeLeft.getFullBoundsReference().getMinX() - PNodeUtils.getOriginXOffset( beakerNodeLeft );
+        // view controls, centered between solution controls
+        double centerX = solutionControlsNodeLeft.getFullBoundsReference().getMaxX() + (( solutionControlsNodeRight.getFullBoundsReference().getMinX() - solutionControlsNodeLeft.getFullBoundsReference().getMaxX() ) / 2 );
+        xOffset = centerX - ( viewControlsNode.getFullBoundsReference().getWidth() / 2 );
+        yOffset = 0;
+        viewControlsNode.setOffset( xOffset, yOffset );
+        
+        // left beaker, centered below left solution controls
+        xOffset = solutionControlsNodeLeft.getFullBoundsReference().getMinX() - PNodeUtils.getOriginXOffset( beakerNodeLeft ) + 
+            (( solutionControlsNodeLeft.getFullBoundsReference().getWidth() - beakerNodeLeft.getFullBoundsReference().getWidth() ) / 2 );
         yOffset = solutionControlsNodeLeft.getFullBoundsReference().getMaxY() - PNodeUtils.getOriginYOffset( beakerNodeLeft ) + 20;
         beakerNodeLeft.setOffset( xOffset, yOffset );
         
-        // right beaker below right solution controls
-        xOffset = solutionControlsNodeRight.getFullBoundsReference().getMinX() - PNodeUtils.getOriginXOffset( beakerNodeRight );
+        // right beaker, centered below right solution controls
+        xOffset = solutionControlsNodeRight.getFullBoundsReference().getMinX() - PNodeUtils.getOriginXOffset( beakerNodeRight ) + 
+            (( solutionControlsNodeRight.getFullBoundsReference().getWidth() - beakerNodeRight.getFullBoundsReference().getWidth() ) / 2 );
         yOffset = solutionControlsNodeRight.getFullBoundsReference().getMaxY() - PNodeUtils.getOriginYOffset( beakerNodeRight ) + 20;
         beakerNodeRight.setOffset( xOffset, yOffset );
         
-        // beaker view controls between beakers
-        double centerX = beakerNodeLeft.getFullBoundsReference().getMaxX() + ( ( beakerNodeRight.getFullBoundsReference().getMinX() - beakerNodeLeft.getFullBoundsReference().getMaxX() ) / 2 );
-        xOffset = centerX - ( beakerControlsNode.getFullBoundsReference().getWidth() / 2 );
+        // beaker view controls, between beakers, centered on view controls
+        xOffset = viewControlsNode.getFullBoundsReference().getCenterX() - ( beakerControlsNode.getFullBoundsReference().getWidth() / 2 );
         yOffset = beakerNodeLeft.getFullBoundsReference().getMaxY() - beakerControlsNode.getFullBoundsReference().getHeight();
         beakerControlsNode.setOffset( xOffset, yOffset );
         
-        // left graph below left solution controls
+        // left graph, left justified below left solution controls
         xOffset = solutionControlsNodeLeft.getFullBoundsReference().getMinX() - PNodeUtils.getOriginXOffset( graphNodeLeft );
         yOffset = solutionControlsNodeLeft.getFullBoundsReference().getMaxY() - PNodeUtils.getOriginYOffset( graphNodeLeft ) + 20;
         graphNodeLeft.setOffset( xOffset, yOffset );
         
-        // right graph below right solution controls
+        // right graph, left justified below right solution controls
         xOffset = solutionControlsNodeRight.getFullBoundsReference().getMinX() - PNodeUtils.getOriginXOffset( graphNodeRight );
         yOffset = solutionControlsNodeRight.getFullBoundsReference().getMaxY() - PNodeUtils.getOriginYOffset( graphNodeRight ) + 20;
         graphNodeRight.setOffset( xOffset, yOffset );
         
-        // equation scaling controls below solution controls
-        xOffset = viewControlsNode.getFullBoundsReference().getCenterX() + ( ( equationScalingControlWrapper.getFullBoundsReference().getWidth() - viewControlsNode.getFullBoundsReference().getMaxX() ) / 2 );
+        // equation scaling controls below solution controls, centered on view controls
+        xOffset = viewControlsNode.getFullBoundsReference().getCenterX() - ( equationScalingControlWrapper.getFullBoundsReference().getWidth() / 2 );
         yOffset = solutionControlsNodeLeft.getFullBoundsReference().getMaxY() + 10;
         equationScalingControlWrapper.setOffset( xOffset, yOffset );
         
-        // left equations below left solution controls
+        // left equations, left justified below left solution controls
         xOffset = solutionControlsNodeLeft.getFullBoundsReference().getMinX() - PNodeUtils.getOriginXOffset( equationsNodeLeft );
         yOffset = equationScalingControlWrapper.getFullBoundsReference().getMaxY() - PNodeUtils.getOriginYOffset( equationsNodeLeft ) + 20;
         equationsNodeLeft.setOffset( xOffset, yOffset );
         
-        // right equations below right solution controls
+        // right equations, left justified below right solution controls
         xOffset = solutionControlsNodeRight.getFullBoundsReference().getMinX() - PNodeUtils.getOriginXOffset( equationsNodeRight );
         yOffset = equationScalingControlWrapper.getFullBoundsReference().getMaxY() - PNodeUtils.getOriginYOffset( equationsNodeRight ) + 20;
         equationsNodeRight.setOffset( xOffset, yOffset );
         
-        // Reset All button below view controls
+        // Reset All button centered below view controls
         PNode resetAllButton = getResetAllButton();
-        xOffset = viewControlsNode.getXOffset();
+        xOffset = viewControlsNode.getXOffset() + ( ( viewControlsNode.getFullBoundsReference().getWidth() - resetAllButton.getFullBoundsReference().getWidth() ) / 2 );
         yOffset = viewControlsNode.getFullBoundsReference().getMaxY() + 10;
         resetAllButton.setOffset( xOffset , yOffset );
         
         centerRootNode();
+    }
+    
+    private double getMaxControlWidth() {
+        double maxControlWidth = 0;
+        maxControlWidth = Math.max( maxControlWidth, viewControlsNode.getFullBoundsReference().getWidth() );
+        maxControlWidth = Math.max( maxControlWidth, beakerControlsNode.getFullBoundsReference().getWidth() );
+        maxControlWidth = Math.max( maxControlWidth, getResetAllButton().getFullBoundsReference().getWidth() );
+        return maxControlWidth;
+        
     }
 }

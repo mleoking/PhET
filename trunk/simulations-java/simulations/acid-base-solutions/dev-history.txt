@@ -7,7 +7,6 @@ TODO:
 - implement HA/A "ratio" view
 - scale image files
 - review remaining instanceof comparisons
-- rewrite layout code for ComparingCanvas, improve i18n support
 - auto layout of symbol legend descriptions, so that we don't need to localize HTML markup
 - Match Game module
 
@@ -36,6 +35,7 @@ ISSUES:
 - KP: fewer pixels for the strong range of the strength slider
 
 DONE:
+6/16/09 rewrite layout code for ComparingCanvas, improve i18n support
 6/16/09 add Equations view to Comparing module
 6/16/09 add ability to diable Lewis structures in reaction equations
 6/16/09 save/load equation scaling in ComparingModule
