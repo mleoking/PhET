@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Line2D.Double;
+import java.text.NumberFormat;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
@@ -37,8 +38,7 @@ public class AgeGuessResultNode extends PNode {
 		// Create the text.
 		PText ageText = new PText();
 		ageText.setFont(TEXT_FONT);
-		ageText.setText(String.format("%.0f", ageGuess) 
-				+ " " + NuclearPhysicsStrings.READOUT_UNITS_YRS);
+		ageText.setText(NumberFormat.getNumberInstance().format(ageGuess) + " " + NuclearPhysicsStrings.READOUT_UNITS_YRS);
 		
 		// Create the bounding rectangle so that it encloses the text.
 		_backgoundRect = new PPath( new Rectangle2D.Double( 0, 0, ageText.getFullBoundsReference().width * 1.2,
