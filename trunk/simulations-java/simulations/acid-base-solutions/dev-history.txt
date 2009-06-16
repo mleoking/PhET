@@ -32,6 +32,7 @@ ISSUES:
 - KP: fewer pixels for the strong range of the strength slider
 
 DONE:
+6/16/09 make single and double arrow image files the same width so that equations don't shift
 6/16/09 scale image files for reaction equation arrows by 65% 
 6/16/09 support horizontal and vertical orientation of scaling controls
 6/15/09 close/restore dialogs when switching modules
