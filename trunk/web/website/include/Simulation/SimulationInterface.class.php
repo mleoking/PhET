@@ -57,6 +57,9 @@ interface SimulationInterface {
 
     public function getProjectFilename();
 
+    public function getNameFromXML($locale = Locale::DEFAULT_LOCALE);
+    public function getDescriptionFromXML($locale = Locale::DEFAULT_LOCALE);
+
     public function getTranslations();
 
     public function getVersion();

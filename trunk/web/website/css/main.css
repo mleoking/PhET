@@ -1913,6 +1913,7 @@ table.localized_sims tr.even {
     background-color: #fefefe;
     border-bottom: 1px #6699CC dotted;
 }
+
 table.localized_sims tr.odd {
     border-bottom: 1px #6699CC dotted;
 }
@@ -1926,6 +1927,28 @@ table.localized_sims td.odd {
 
 table.localized_sims td.even {
 }
+
+
+table.localized_sims .localized_description {
+    display: none;
+    padding-left: 2em;
+    width: 450px;
+}
+
+table.localized_sims .localized_description_header a,
+table.localized_sims .localized_description_header a:link,
+table.localized_sims .localized_description_header a:visited,
+table.localized_sims .localized_description_header a:hover,
+table.localized_sims .localized_description_header a:active {
+    font-weight: bold !important;
+    text-decoration: underline;
+    color: black !important;
+}
+
+table.localized_sims .localized_description_body {
+    display: none;
+}
+
 
 p.code {
     background-color: #ddddff;
