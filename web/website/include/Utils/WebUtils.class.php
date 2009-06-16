@@ -48,22 +48,22 @@ class WebUtils {
         return $attrs;
     }
 
-    public function stringToHtml($string) {
-        return htmlentities($string);
+    public function stringToHtml($string, $charset = 'ISO-8859-1') {
+        return htmlentities($string, ENT_COMPAT, $charset);
     }
 
-    public function toHtml($mixed) {
+    public function toHtml($mixed, $charset = 'ISO-8859-1') {
         if (is_array($mixed)) {
             $clean = array();
 
             foreach($mixed as $key => $value) {
-                $clean["$key"] = $this->toHtml("$value");
+                $clean["$key"] = $this->toHtml("$value", $charset);
             }
 
             return $clean;
         }
         else {
-            return $this->stringToHtml($mixed);
+            return $this->stringToHtml($mixed, $charset);
         }
     }
 

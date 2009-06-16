@@ -332,6 +332,87 @@ abstract class BaseSimulation implements SimulationInterface {
         return SITE_ROOT."admin/get-run-offline.php?sim_id={$this->getId()}&locale={$locale}";
     }
 
+    private function getProjectXMLFilename() {
+        $basename = "{$this->project_name}/{$this->project_name}.xml";
+        return self::sim_root.$basename;
+    }
+
+    protected function getProjectXMLFile() {
+        // A slight speed enhancement, cache the XML
+
+        // If the xml has been parsed, just return that
+        if (isset($this->project_xml)) {
+            return $this->project_xml;
+        }
+
+        // Get the XML filename
+        $project_xml = $this->getProjectXMLFilename();
+        if (!file_exists($project_xml)) {
+            // No file containing localized titles
+            // TODO: email an error
+            return FALSE;
+        }
+
+        // Load and parse the XML into a SimpleXML object
+        $this->project_xml = simplexml_load_file($project_xml);
+        
+        return $this->project_xml;
+    }
+
+    public function getNameFromXML($locale = Locale::DEFAULT_LOCALE) {
+        $xml = $this->getProjectXMLFile();
+        if (!$xml) {
+            // No file containing localized titles
+            // TODO: email an error
+            return $this->getName();
+        }
+
+        $xpath_query = "/project/simulations/simulation".
+            "[@name = '{$this->getSimName()}' and @locale='{$locale}']";
+        $path = $xml->xpath($xpath_query);
+        if (count($path) == 0) {
+            // No entry by that path
+            // TODO: email an error
+            return $this->getName();
+        }
+        else if (count($path) > 1) {
+            // Too many matches
+            // TODO: email an error
+            return $this->getName();
+        }
+        
+        return $path[0]->title;
+    }
+
+    public function getDescriptionFromXML($locale = Locale::DEFAULT_LOCALE) {
+        $xml = $this->getProjectXMLFile();
+        if (!$xml) {
+            // No file containing localized titles
+            // TODO: email an error
+            return $this->getDescription();
+        }
+
+        $xpath_query = "/project/simulations/simulation".
+            "[@name = '{$this->getSimName()}' and @locale='{$locale}']";
+        $path = $xml->xpath($xpath_query);
+        if (count($path) == 0) {
+            // No entry by that path
+            // TODO: email an error
+            return $this->getDescription();
+        }
+        else if (count($path) > 1) {
+            // Too many matches
+            // TODO: email an error
+            return $this->getDescription();
+        }
+        
+        if (!isset($path[0]->description)) {
+            return $this->getDescription();
+        }
+
+        return $path[0]->description;
+    }
+
     // I'd rather declare these explicitly as abstract, but PHP thinks
     // about these differently.  If you receive a error "Cannot
     // instantiate abstract class BaseSimulation in ...file..."  It is
