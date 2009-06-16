@@ -1,3 +1,5 @@
+# 3.13.02 (32516) Jun 16, 2009
+6/16/09 Second permissions test on dev
 # 3.13.01 (32515) Jun 16, 2009
 6/16/09 Testing permissions on dev deploy
 # 3.13.01 (32514) Jun 16, 2009
