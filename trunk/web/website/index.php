@@ -36,6 +36,7 @@ class MainPage extends SitePage {
                 <div id="utility-panel">
                     $utility_panel_html
                 </div>
+        {$this->get_statistics_gathering_code()}
             </body>
 
 EOT;
