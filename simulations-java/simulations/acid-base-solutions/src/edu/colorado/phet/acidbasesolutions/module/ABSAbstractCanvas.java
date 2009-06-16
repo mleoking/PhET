@@ -31,6 +31,8 @@ public class ABSAbstractCanvas extends PhetPCanvas {
         
         // Root of our scene graph
         rootNode = new PNode();
+        
+        // add to "world" so that we get automatic scaling
         addWorldChild( rootNode );
         
         JComponent resetAllButton = new ABSResetAllButton( resettable, this );
