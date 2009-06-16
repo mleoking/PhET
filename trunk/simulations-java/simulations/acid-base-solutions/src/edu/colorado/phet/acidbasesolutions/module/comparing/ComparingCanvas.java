@@ -243,12 +243,15 @@ public class ComparingCanvas extends ABSAbstractCanvas {
         centerRootNode();
     }
     
+    /*
+     * Gets the maximum control width.
+     * Used to determine how much space should be between the left and right solution control panels.
+     */
     private double getMaxControlWidth() {
         double maxControlWidth = 0;
         maxControlWidth = Math.max( maxControlWidth, viewControlsNode.getFullBoundsReference().getWidth() );
         maxControlWidth = Math.max( maxControlWidth, beakerControlsNode.getFullBoundsReference().getWidth() );
         maxControlWidth = Math.max( maxControlWidth, getResetAllButton().getFullBoundsReference().getWidth() );
         return maxControlWidth;
-        
     }
 }
