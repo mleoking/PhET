@@ -19,7 +19,7 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.umd.cs.piccolo.PNode;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -27,7 +27,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class BeakerControlsNode extends PNode {
+public abstract class BeakerControlsNode extends PhetPNode {
     
     private static final String RATIO_PATTERN = ABSStrings.CHECK_BOX_RATIO;
     
