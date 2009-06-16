@@ -69,7 +69,7 @@ public class MatchingGameModule extends ABSAbstractModule {
      */
     public void reset() {
         super.reset();
-//        System.out.println( getClass().getName() + ".reset" );//XXX
+        load( MatchingGameDefaults.getInstance().getConfig() );
     }
     
     //----------------------------------------------------------------------------

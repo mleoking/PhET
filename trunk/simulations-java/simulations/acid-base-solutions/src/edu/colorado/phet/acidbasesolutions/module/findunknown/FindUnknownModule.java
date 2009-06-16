@@ -69,7 +69,7 @@ public class FindUnknownModule extends ABSAbstractModule {
      */
     public void reset() {
         super.reset();
-//        System.out.println( getClass().getName() + ".reset" );//XXX
+        load( FindUnknownDefaults.getInstance().getConfig() );
     }
     
     //----------------------------------------------------------------------------
