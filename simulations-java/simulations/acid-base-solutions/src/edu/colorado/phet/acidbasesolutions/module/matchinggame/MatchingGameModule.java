@@ -68,6 +68,7 @@ public class MatchingGameModule extends ABSAbstractModule {
      * Resets the module.
      */
     public void reset() {
+        super.reset();
 //        System.out.println( getClass().getName() + ".reset" );//XXX
     }
     

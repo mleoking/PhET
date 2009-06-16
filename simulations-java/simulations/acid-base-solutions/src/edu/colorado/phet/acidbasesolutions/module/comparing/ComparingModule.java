@@ -71,6 +71,7 @@ public class ComparingModule extends ABSAbstractModule {
      * Resets the module.
      */
     public void reset() {
+        super.reset();
         load( ComparingDefaults.getInstance().getConfig() );
     }
     

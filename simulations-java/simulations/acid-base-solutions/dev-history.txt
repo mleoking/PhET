@@ -3,7 +3,7 @@
 ==================================================================================
 
 TODO:
-- Comparing canvas layout change is visible when visited for the first time
+- Comparing canvas layout change is visible when visited for the first time, AncestorListener+ComponentListener both called, other sims only call AncestorListener
 - implement HA/A "ratio" view
 - scale image files
 - review remaining instanceof comparisons
