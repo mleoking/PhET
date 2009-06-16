@@ -1,5 +1,6 @@
 package edu.colorado.phet.acidbasesolutions.control;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 /**
  * On/off control for equation scaling.
@@ -26,18 +28,18 @@ public class EquationScalingControl extends JPanel {
     private final ArrayList<ChangeListener> listeners;
     
     public static class HorizontalEquationScalingControl extends EquationScalingControl {
-        public HorizontalEquationScalingControl() {
-            super( HORIZONTAL );
+        public HorizontalEquationScalingControl( Color background ) {
+            super( background, HORIZONTAL );
         }
     }
     
     public static class VerticalEquationScalingControl extends EquationScalingControl {
-        public VerticalEquationScalingControl() {
-            super( VERTICAL );
+        public VerticalEquationScalingControl( Color background ) {
+            super( background, VERTICAL );
         }
     }
     
-    private EquationScalingControl( int orientation ) {
+    private EquationScalingControl( Color background, int orientation ) {
         
         listeners = new ArrayList<ChangeListener>();
         
@@ -74,6 +76,8 @@ public class EquationScalingControl extends JPanel {
         innerPanel.add( label );
         innerPanel.add( onRadioButton );
         innerPanel.add( offRadioButton );
+        
+        SwingUtils.setBackgroundDeep( this, background );
     }
     
     public void setScalingEnabled( boolean enabled ) {
