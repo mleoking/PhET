@@ -5,6 +5,7 @@ package edu.colorado.phet.nuclearphysics.view;
 import java.awt.Color;
 
 import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
+import edu.colorado.phet.nuclearphysics.common.NucleusDisplayInfo;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -59,7 +60,33 @@ public abstract class LabeledNucleusNode extends PComposite {
         setChildrenPickable(false);
     }
     
-    /**
+	public LabeledNucleusNode( NucleusDisplayInfo displayInfo ){
+
+    	// Create the "layers" where the representation and the label will reside.
+    	_representationLayer = new PNode();
+    	addChild(_representationLayer);
+    	_labelLayer = new PNode();
+    	addChild(_labelLayer);
+    	
+    	// Get shorthand references to the needed display information.
+    	String isotopeNumber = displayInfo.getIsotopeNumberString();
+    	String chemicalSymbol = displayInfo.getChemicalSymbol();
+    	Color labelColor = displayInfo.getLabelColor();
+    	
+        // Create and add the shadowed label.
+        String labelText = "<html><sup><font size=-2>" + isotopeNumber + " </font></sup>" + chemicalSymbol + "</html>";
+        _label = new ShadowHTMLNode( labelText );
+        _label.setColor( labelColor );
+        _label.setShadowColor( labelColor == Color.BLACK ? Color.WHITE : Color.BLACK );
+        _label.setShadowOffset( 0.5, 0.5 );
+        _labelLayer.addChild(_label);
+        
+        // Make sure we aren't pickable since we don't handle any mouse events.
+        setPickable(false);
+        setChildrenPickable(false);
+    }
+
+	/**
      * Constructor that takes a color instead of an image name and creates a
      * sphere to represent the nucleus.
      * 

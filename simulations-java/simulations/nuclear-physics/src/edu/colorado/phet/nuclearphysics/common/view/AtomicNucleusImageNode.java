@@ -111,7 +111,7 @@ public class AtomicNucleusImageNode extends AtomicNucleusNode {
     		
     	case 92:
     		// Uranium
-    		color = NuclearPhysicsConstants.URANIUM_238_COLOR;
+    		color = NuclearPhysicsConstants.URANIUM_COLOR;
     		break;
     		
     	case 83:
