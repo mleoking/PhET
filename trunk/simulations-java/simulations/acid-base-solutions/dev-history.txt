@@ -9,7 +9,8 @@ TODO:
 - implement HA/A "ratio" view
 - scale image files
 - review remaining instanceof comparisons
-- rewrite layout code for ComparingCanvas so that it supports i18n
+- rewrite layout code for ComparingCanvas, improve i18n support
+- auto layout of symbol legend descriptions, so that we don't need to localize HTML markup
 
 DEFER:
 - restrict Strength slider to one section of the range (only needed if we add "Custom Weak" acid/base)
