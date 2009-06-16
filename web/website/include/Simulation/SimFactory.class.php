@@ -7,8 +7,6 @@ require_once('include/db-utils.php');
 class SimFactory {
     private static $instance;
 
-    const PRE_IOM_COMPATIBLE = TRUE;
-
     // TODO: make these private
     const JAVA_TYPE = 0;
     const FLASH_TYPE = 1;
@@ -169,29 +167,6 @@ class SimFactory {
         return $this->projectSimNameMap;
     }
 
-    private function getFlashSimulation($db_data, $pre_iom = self::PRE_IOM_COMPATIBLE) {
-        assert(($pre_iom === TRUE) || ($pre_iom === FALSE));
-
-        // Remove postIOM
-        if ($pre_iom) {
-            return new PreIomFlashSimulation($db_data);
-        }
-
-        return new FlashSimulation($db_data);
-    }
-
-    private function getJavaSimulation($db_data, $pre_iom = self::PRE_IOM_COMPATIBLE) {
-        assert(($pre_iom === TRUE) || ($pre_iom === FALSE));
-
-
-        // Remove postIOM
-        if ($pre_iom) {
-            return new PreIomJavaSimulation($db_data);
-        }
-
-        return new JavaSimulation($db_data);
-    }
-
     public function enableTestSims() {
         // Enable returning test sims
         $this->testSimsEnabled = TRUE;
@@ -200,13 +175,13 @@ class SimFactory {
         $this->simDBCache = NULL;
     }
 
-    public function getByWebEncodedName($sim_encoding, $pre_iom = self::PRE_IOM_COMPATIBLE) {
+    public function getByWebEncodedName($sim_encoding) {
         $map = $this->getWebEncodedNameToIdMap();
 
         // Straight exact match with web encoded name
         foreach($map as $encoding => $sim) {
             if ($encoding == $sim_encoding) {
-                return $this->getById($sim['sim_id'], $pre_iom);
+                return $this->getById($sim['sim_id']);
             }
         }
 
@@ -243,20 +218,20 @@ class SimFactory {
         return $this->getById($best_sim['sim_id']);
     }
 
-    public function getByExactWebEncodedName($sim_encoding, $pre_iom = self::PRE_IOM_COMPATIBLE) {
+    public function getByExactWebEncodedName($sim_encoding) {
         $map = $this->getWebEncodedNameToIdMap();
 
         // Straight exact match with web encoded name
         foreach($map as $encoding => $sim) {
             if ($encoding == $sim_encoding) {
-                return $this->getById($sim['sim_id'], $pre_iom);
+                return $this->getById($sim['sim_id']);
             }
         }
 
         throw new PhetSimException("Simulation encoding '{$sim_encoding}' not found");
     }
 
-    public function getCloseWebEncodings($sim_encoding, $close_enough_distance = 4, $pre_iom = self::PRE_IOM_COMPATIBLE) {
+    public function getCloseWebEncodings($sim_encoding, $close_enough_distance = 4) {
         $map = $this->getWebEncodedNameToIdMap();
 
         // Look for best match using Levenshtein distance function:
@@ -275,7 +250,7 @@ class SimFactory {
         return $close_enough;
     }
 
-    public function getById($sim_id, $pre_iom = self::PRE_IOM_COMPATIBLE) {
+    public function getById($sim_id) {
         if (!empty($this->idMap) && isset($this->idMap[$sim_id])) {
             return $this->idMap[$sim_id];
         }
@@ -300,24 +275,21 @@ class SimFactory {
             throw new PhetSimException("Simulation ID #{$sim_id} does not exist");
         }
 
-        if ($db_data['sim_type'] == self::JAVA_TYPE) {
-            $sim = $this->getJavaSimulation($db_data, $pre_iom);
-        }
-        else if ($db_data['sim_type'] == self::FLASH_TYPE) {
-            $sim = $this->getFlashSimulation($db_data, $pre_iom);
-        }
-        else if ($db_data['sim_type'] == self::TEST_JAVA_TYPE) {
-            // Test simulations are NOT pre-IOM at this point, so just
-            // instantiate it directly
-            $sim = new TestJavaSimulation($db_data);
-        }
-        else if ($db_data['sim_type'] == self::TEST_FLASH_TYPE) {
-            // Test simulations are NOT pre-IOM at this point, so just
-            // instantiate it directly
-            $sim = new TestFlashSimulation($db_data);
-        }
-        else {
-            throw new PhetSimException("Bad simulation type received from database");
+        switch ($db_data['sim_type']) {
+            case self::JAVA_TYPE:
+                $sim = new JavaSimulation($db_data);
+                break;
+            case self::FLASH_TYPE:
+                $sim = new FlashSimulation($db_data);
+                break;
+            case self::TEST_JAVA_TYPE:
+                $sim = new TestJavaSimulation($db_data);
+                break;
+            case self::TEST_FLASH_TYPE:
+                $sim = new TestFlashSimulation($db_data);
+                break;
+            default:
+                throw new PhetSimException("Bad simulation type received from database");
         }
 
         $this->idMap[$sim_id] = new SimulationHTMLDecorator($sim);
@@ -325,7 +297,7 @@ class SimFactory {
         return $this->idMap[$sim_id];
     }
 
-    public function getSimsByCatId($cat_id, $sort_alphabetically = false, $pre_iom = self::PRE_IOM_COMPATIBLE) {
+    public function getSimsByCatId($cat_id, $sort_alphabetically = false) {
         if ($sort_alphabetically) {
             $order = "`simulation`.`sim_sorting_name` ASC";
         }
@@ -342,7 +314,7 @@ class SimFactory {
         $sims = array();
         $sim_ids = db_get_rows_custom_query($sql);
         foreach ($sim_ids as $row) {
-            $sims[] = $this->getById($row['sim_id'], $pre_iom);
+            $sims[] = $this->getById($row['sim_id']);
         }
 
         return $sims;
@@ -353,11 +325,11 @@ class SimFactory {
         return strcmp($a->getSortingName(), $b->getSortingName());
     }
 
-    public function getAllSims($sort = false, $pre_iom = self::PRE_IOM_COMPATIBLE) {
+    public function getAllSims($sort = false) {
         $sims = array();
         $db_data = $this->getSimDBData();
         foreach ($db_data as $data) {
-            $sims[] = $this->getById($data['sim_id'], $pre_iom);
+            $sims[] = $this->getById($data['sim_id']);
         }
 
         if ($sort) {
@@ -367,13 +339,13 @@ class SimFactory {
         return $sims;
     }
 
-    public function getByProjectAndSimName($project_name, $sim_name, $pre_iom = self::PRE_IOM_COMPATIBLE) {
+    public function getByProjectAndSimName($project_name, $sim_name) {
         $map = $this->getProjectSimNameToIdMap();
         if (!isset($map[$project_name][$sim_name])) {
             throw new PhetSimException("Simulation with project name '{$project_name}' and sim name '{$sim_name}'");
         }
 
-        return $this->getById($map[$project_name][$sim_name], $pre_iom);
+        return $this->getById($map[$project_name][$sim_name]);
     }
 }
 
