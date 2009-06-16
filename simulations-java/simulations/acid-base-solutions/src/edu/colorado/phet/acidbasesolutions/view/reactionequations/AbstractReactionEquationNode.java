@@ -22,7 +22,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-abstract class AbstractReactionEquationNode extends PComposite {
+public abstract class AbstractReactionEquationNode extends PComposite {
     
     private static final int FONT_SIZE = 18;
     
@@ -40,6 +40,8 @@ abstract class AbstractReactionEquationNode extends PComposite {
     private final PlusNode plusLHS, plusRHS;
     private PImage arrow;
     private boolean scalingEnabled;
+    private boolean structuresVisible;
+    private boolean structuresEnabled;
     
     /*
      * Sets up a default reaction equation that looks like: ?0 + ?1 -> ?2 + ?3
@@ -47,6 +49,9 @@ abstract class AbstractReactionEquationNode extends PComposite {
      */
     public AbstractReactionEquationNode() {
         super();
+        
+        structuresVisible = false;
+        structuresEnabled = true;
         
         terms = new Term[MAX_TERMS];
         for ( int i = 0; i < terms.length; i++ ) {
@@ -182,12 +187,28 @@ abstract class AbstractReactionEquationNode extends PComposite {
         terms[index].getSymbolNode().setHTMLColor( color );
     }
     
+    public void setStructuresEnabled( boolean enabled ) {
+        if ( enabled != structuresEnabled ) {
+            if ( enabled ) {
+                structuresEnabled = true;
+                setStructuresVisible( structuresVisible );
+            }
+            else {
+                setStructuresVisible( false );
+                structuresEnabled = false;
+            }
+        }
+    }
+    
     /*
      * Sets the visibility of all Lewis structure diagrams.
      */
-    protected void setAllStructuresVisible( boolean visible ) {
-        for ( int i = 0; i < terms.length; i++ ) {
-            setStructureVisible( i, visible );
+    protected void setStructuresVisible( boolean visible ) {
+        structuresVisible = visible;
+        if ( structuresEnabled ) {
+            for ( int i = 0; i < terms.length; i++ ) {
+                setStructureVisible( i, visible );
+            }
         }
     }
     

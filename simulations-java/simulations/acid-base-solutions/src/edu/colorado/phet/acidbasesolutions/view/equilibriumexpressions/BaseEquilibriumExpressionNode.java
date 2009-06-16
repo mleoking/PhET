@@ -11,7 +11,7 @@ import edu.colorado.phet.acidbasesolutions.model.Solute;
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class BaseEquilibriumExpressionNode extends AbstractEquilibriumExpressionNode {
+public class BaseEquilibriumExpressionNode extends AbstractEquilibriumExpressionNode {
     
     private final AqueousSolution solution;
     

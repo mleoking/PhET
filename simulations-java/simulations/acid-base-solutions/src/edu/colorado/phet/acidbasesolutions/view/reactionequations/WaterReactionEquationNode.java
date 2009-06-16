@@ -11,7 +11,7 @@ import edu.colorado.phet.acidbasesolutions.model.Solute.ICustomSolute;
 /**
  * Water reaction equation: H2O + H2O <-> H3O+ + OH-
  */
-class WaterReactionEquationNode extends AbstractReactionEquationNode {
+public class WaterReactionEquationNode extends AbstractReactionEquationNode {
     
     private static final int H2O_LEFT_INDEX = 0;
     private static final int H2O_RIGHT_INDEX = 1;
@@ -41,7 +41,7 @@ class WaterReactionEquationNode extends AbstractReactionEquationNode {
         scaleTermToConcentration( OH_MINUS_INDEX, solution.getOHConcentration() );
 
         // Lewis structure diagrams
-        setAllStructuresVisible( solution.getSolute() instanceof ICustomSolute );
+        setStructuresVisible( solution.getSolute() instanceof ICustomSolute );
     }
     
     protected void updateH2OColor() {
