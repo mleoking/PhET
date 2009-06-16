@@ -11,6 +11,8 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.IdentityHashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -282,16 +284,15 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
 	    			// to put the dialog up for another guess, so we just bail.
 	    			return;
 	    		}
-	    		else {
-	    			// The previous guess must've been bad.  Remove it.
-	    			_guessingGameLayer.removeChild(previousGuessResultNode);
-	    			_mapDatableItemsToGuessResults.remove(itemBeingTouched);
+	    		else{
+	    			// Hide this node so that it doesn't visually interfere
+	    			// with the guess entry node.
+	    			previousGuessResultNode.setVisible(false);
 	    		}
 	    	}
     	
     		// Create a new guessing box.
     		_ageGuessingNode = new AgeGuessingNode();
-    		// TODO: How do I mark the nodes that have already been guessed?  Probably need a map.
     		
     		// Position the guessing box to the side of the node that
     		// represents the item being dated.
@@ -321,6 +322,15 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
 					handleGuessSubmitted(ageGuess);
 				}
     		});
+    	}
+    	else {
+    		// Make sure all previously hidden guess results are now visible.
+    		Iterator guessResultNodes = _mapDatableItemsToGuessResults.values().iterator();
+    		for (int i = 0; i < _mapDatableItemsToGuessResults.size(); i++)
+    		{
+    		  AgeGuessResultNode guessResultNode = (AgeGuessResultNode) guessResultNodes.next();
+    		  guessResultNode.setVisible(true);
+    		}
     	}
     }
     
@@ -356,7 +366,11 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     	}
     	
     	// Remove any previous guess result nodes.
-    	_mapDatableItemsToGuessResults.remove(itemBeingTouched);
+    	AgeGuessResultNode previousGuessResultNode = 
+    		_mapDatableItemsToGuessResults.remove(itemBeingTouched);
+    	if (previousGuessResultNode != null){
+    		_guessingGameLayer.removeChild(previousGuessResultNode);
+    	}
     	
     	// Add a node that indicates to the user whether they got the answer
     	// right.
