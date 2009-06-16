@@ -119,8 +119,8 @@ public class NuclearPhysicsConstants {
     // Color for nitrogen when represented as a circle or sphere.
     public static final Color NITROGEN_COLOR = new Color( 14, 86, 200 );
     
-    // Color for U238 when represented as a circle or sphere.
-    public static final Color URANIUM_238_COLOR = new Color( 150, 150, 0 );
+    // Color for Uranium when represented as a circle or sphere.
+    public static final Color URANIUM_COLOR = new Color( 150, 150, 0 );
     
     // Color for Lead when represented as a circle or sphere.
     public static final Color LEAD_COLOR = new Color( 97, 117, 126 );
