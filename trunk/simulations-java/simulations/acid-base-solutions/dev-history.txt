@@ -4,7 +4,6 @@
 
 TODO:
 - Comparing canvas layout change is visible when visited for the first time
-- save/load Comparing module
 - Equations in Comparing module
 - save/load equation scaling in ComparingModule
 - is strong range correct?
@@ -33,6 +32,7 @@ ISSUES:
 - KP: fewer pixels for the strong range of the strength slider
 
 DONE:
+6/16/09 support horizontal and vertical orientation of scaling controls
 6/15/09 close/restore dialogs when switching modules
 6/15/09 localize ComparingViewControlsNode
 6/15/09 save/load for Comparing module

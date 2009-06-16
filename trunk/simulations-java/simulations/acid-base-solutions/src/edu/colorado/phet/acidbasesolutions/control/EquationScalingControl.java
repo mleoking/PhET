@@ -1,16 +1,11 @@
 package edu.colorado.phet.acidbasesolutions.control;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import javax.swing.ButtonGroup;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -24,10 +19,25 @@ import edu.colorado.phet.acidbasesolutions.ABSStrings;
  */
 public class EquationScalingControl extends JPanel {
 
+    private static final int HORIZONTAL = SwingConstants.HORIZONTAL;
+    private static final int VERTICAL = SwingConstants.VERTICAL;
+    
     private final JRadioButton onRadioButton, offRadioButton;
     private final ArrayList<ChangeListener> listeners;
     
-    public EquationScalingControl() {
+    public static class HorizontalEquationScalingControl extends EquationScalingControl {
+        public HorizontalEquationScalingControl() {
+            super( HORIZONTAL );
+        }
+    }
+    
+    public static class VerticalEquationScalingControl extends EquationScalingControl {
+        public VerticalEquationScalingControl() {
+            super( VERTICAL );
+        }
+    }
+    
+    private EquationScalingControl( int orientation ) {
         
         listeners = new ArrayList<ChangeListener>();
         
@@ -56,13 +66,14 @@ public class EquationScalingControl extends JPanel {
         offRadioButton.setSelected( true );
         
         // layout
-        setLayout( new GridBagLayout() );
-        setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
-        GridBagConstraints constraints = new GridBagConstraints();
-        constraints.gridx = GridBagConstraints.RELATIVE;
-        add( label );
-        add( onRadioButton );
-        add( offRadioButton );
+        JPanel innerPanel = new JPanel();
+        add( innerPanel );
+        int axis = ( orientation == HORIZONTAL ? BoxLayout.X_AXIS : BoxLayout.Y_AXIS );
+        innerPanel.setLayout( new BoxLayout( innerPanel, axis ) );
+        innerPanel.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
+        innerPanel.add( label );
+        innerPanel.add( onRadioButton );
+        innerPanel.add( offRadioButton );
     }
     
     public void setScalingEnabled( boolean enabled ) {
