@@ -16,7 +16,6 @@ import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
 
 import javax.swing.BorderFactory;
-import javax.swing.ButtonGroup;
 import javax.swing.JRadioButton;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;

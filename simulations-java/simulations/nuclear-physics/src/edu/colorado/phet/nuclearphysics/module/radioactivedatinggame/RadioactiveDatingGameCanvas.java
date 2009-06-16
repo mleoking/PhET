@@ -12,7 +12,6 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.IdentityHashMap;
 import java.util.Iterator;
-import java.util.Map;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;

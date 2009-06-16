@@ -18,21 +18,21 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 public class DatableItemNode extends PNode {
 	
-	private final DatableItem rdgObject;
+	private final DatableItem datableItem;
 	private final PImage image;
 	
 	// For debugging of placement, turns on a name so users can tell what's what.
 	private final boolean SHOW_NAME = false;
 
-	public DatableItemNode(DatableItem rdgObject, ModelViewTransform2D mvt) {
-		this.rdgObject = rdgObject;
-		image = new PImage( rdgObject.getImage() );
-		Point2D desiredSize = mvt.modelToViewDifferentialDouble(rdgObject.getWidth(), rdgObject.getHeight());
+	public DatableItemNode(DatableItem datableItem, ModelViewTransform2D mvt) {
+		this.datableItem = datableItem;
+		image = new PImage( datableItem.getImage() );
+		Point2D desiredSize = mvt.modelToViewDifferentialDouble(datableItem.getWidth(), datableItem.getHeight());
 		image.scale(desiredSize.getX() / image.getFullBoundsReference().getWidth());
 		image.setOffset(-image.getFullBoundsReference().width / 2, -image.getFullBoundsReference().height / 2);
 		addChild(image);
 		if (SHOW_NAME){
-			PText name = new PText(rdgObject.getName());
+			PText name = new PText(datableItem.getName());
 			name.setFont(new PhetFont());
 			addChild(name);
 		}

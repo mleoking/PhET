@@ -3,13 +3,11 @@ package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.Line2D.Double;
 import java.text.NumberFormat;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
-import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusDecayModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
