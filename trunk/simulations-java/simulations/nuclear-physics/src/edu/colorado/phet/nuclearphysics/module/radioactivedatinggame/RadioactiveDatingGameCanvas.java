@@ -58,6 +58,9 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     // means that they can be off by as much as the value of the age.
     private static final double AGE_GUESS_TOLERANCE_PERCENTAGE = 20;
     
+    // Resolution of the decay chart.
+    private static final double NUM_SAMPLES_ON_DECAY_CHART = 250;
+    
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
@@ -245,15 +248,14 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     
     private void drawDecayCurveOnChart(){
         double halfLife = _model.getMeter().getHalfLifeForDating();
-    	final int numSamples = 100;
     	_proportionsChart.clear();
-    	double timeSpan = halfLife * 3;
-    	double timeIncrement = timeSpan / numSamples;
+    	double timeSpan = halfLife * 3.2;
+    	double timeIncrement = timeSpan / NUM_SAMPLES_ON_DECAY_CHART;
     	double lambda = Math.log(2)/halfLife;
     	for ( double time = 0; time < timeSpan; time += timeIncrement ){
     		// Calculate the proportion of the element that should be decayed at this point in time.
-    		double amountDecayed = numSamples - (numSamples * Math.exp(-time*lambda));
-    		_proportionsChart.addDataPoint(time, (int)Math.round(numSamples - amountDecayed), 
+    		double amountDecayed = NUM_SAMPLES_ON_DECAY_CHART - (NUM_SAMPLES_ON_DECAY_CHART * Math.exp(-time*lambda));
+    		_proportionsChart.addDataPoint(time, (int)Math.round(NUM_SAMPLES_ON_DECAY_CHART - amountDecayed), 
     				(int)Math.round(amountDecayed));
     	}
     	_proportionsChart.updateMarkerText();
