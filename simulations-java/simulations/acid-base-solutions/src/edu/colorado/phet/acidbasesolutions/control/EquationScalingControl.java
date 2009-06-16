@@ -21,25 +21,10 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  */
 public class EquationScalingControl extends JPanel {
 
-    private static final int HORIZONTAL = SwingConstants.HORIZONTAL;
-    private static final int VERTICAL = SwingConstants.VERTICAL;
-    
     private final JRadioButton onRadioButton, offRadioButton;
     private final ArrayList<ChangeListener> listeners;
     
-    public static class HorizontalEquationScalingControl extends EquationScalingControl {
-        public HorizontalEquationScalingControl( Color background ) {
-            super( background, HORIZONTAL );
-        }
-    }
-    
-    public static class VerticalEquationScalingControl extends EquationScalingControl {
-        public VerticalEquationScalingControl( Color background ) {
-            super( background, VERTICAL );
-        }
-    }
-    
-    private EquationScalingControl( Color background, int orientation ) {
+    public EquationScalingControl( Color background ) {
         
         listeners = new ArrayList<ChangeListener>();
         
@@ -70,8 +55,7 @@ public class EquationScalingControl extends JPanel {
         // layout
         JPanel innerPanel = new JPanel();
         add( innerPanel );
-        int axis = ( orientation == HORIZONTAL ? BoxLayout.X_AXIS : BoxLayout.Y_AXIS );
-        innerPanel.setLayout( new BoxLayout( innerPanel, axis ) );
+        innerPanel.setLayout( new BoxLayout( innerPanel, BoxLayout.X_AXIS ) );
         innerPanel.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
         innerPanel.add( label );
         innerPanel.add( onRadioButton );

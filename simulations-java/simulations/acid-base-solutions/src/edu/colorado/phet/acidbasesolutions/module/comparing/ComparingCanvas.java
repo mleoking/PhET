@@ -12,7 +12,6 @@ import edu.colorado.phet.acidbasesolutions.control.ComparingBeakerControlsNode;
 import edu.colorado.phet.acidbasesolutions.control.ComparingViewControlsNode;
 import edu.colorado.phet.acidbasesolutions.control.EquationScalingControl;
 import edu.colorado.phet.acidbasesolutions.control.SolutionControlsNode;
-import edu.colorado.phet.acidbasesolutions.control.EquationScalingControl.HorizontalEquationScalingControl;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.module.ABSAbstractCanvas;
 import edu.colorado.phet.acidbasesolutions.util.PNodeUtils;
@@ -82,7 +81,7 @@ public class ComparingCanvas extends ABSAbstractCanvas {
         beakerControlsNode = new ComparingBeakerControlsNode( getBackground(), beakerNodeLeft, beakerNodeRight );
         beakerControlsNode.scale( ABSConstants.PSWING_SCALE );
         
-        equationScalingControl = new HorizontalEquationScalingControl( getBackground() );
+        equationScalingControl = new EquationScalingControl( getBackground() );
         equationScalingControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 updateEquationsScaling();
