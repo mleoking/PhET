@@ -75,6 +75,7 @@ public class SolutionsModule extends ABSAbstractModule {
      * Resets the module.
      */
     public void reset() {
+        super.reset();
         load( SolutionsDefaults.getInstance().getConfig() );
     }
 
