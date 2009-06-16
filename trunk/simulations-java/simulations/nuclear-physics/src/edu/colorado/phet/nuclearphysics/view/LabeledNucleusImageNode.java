@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
+import edu.colorado.phet.nuclearphysics.common.NucleusDisplayInfo;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
@@ -31,6 +32,33 @@ public class LabeledNucleusImageNode extends LabeledNucleusNode {
     public LabeledNucleusImageNode( String imageName, String isotopeNumber, String chemicalSymbol, Color labelColor ){
     	
     	super( isotopeNumber, chemicalSymbol, labelColor );
+        
+        // Get the image for the nucleus.
+        BufferedImage im = NuclearPhysicsResources.getImage( imageName );
+        
+        // Create and add the image node.
+        PImage nucleusImage = new PImage(im);
+        nucleusImage.setScale( IMAGE_SCALING_FACTOR );
+        getRepresentationLayer().addChild(nucleusImage);
+
+        // Scale and position the label.
+        double imageWidth = nucleusImage.getFullBoundsReference().getWidth();
+        double imageHeight = nucleusImage.getFullBoundsReference().getHeight();
+        PNode label = getLabel();
+        double scale = Math.min( ( imageWidth / label.getFullBoundsReference().getWidth() ) * 0.9,
+        	( imageHeight / label.getFullBoundsReference().getHeight() ) );
+        
+        label.setScale( scale );
+
+        // Center the label over the nucleus image.
+        label.setOffset( ( imageWidth - label.getFullBoundsReference().getWidth() ) / 2, 
+      	  	  ( imageHeight - label.getFullBoundsReference().getHeight() ) / 2);
+
+    }
+    
+    public LabeledNucleusImageNode( String imageName, NucleusDisplayInfo displayInfo ){
+    	
+    	super( displayInfo );
         
         // Get the image for the nucleus.
         BufferedImage im = NuclearPhysicsResources.getImage( imageName );

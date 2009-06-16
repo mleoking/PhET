@@ -2,12 +2,12 @@
 
 package edu.colorado.phet.nuclearphysics.view;
 
-import java.awt.Color;
 import java.awt.Paint;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
+import edu.colorado.phet.nuclearphysics.common.NucleusDisplayInfo;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -21,22 +21,47 @@ public class LabeledNucleusSphereNode extends LabeledNucleusNode {
 
 	private static final double SPHERE_DIAMETER = 50;
 
-    /**
-     * Constructor that takes the name of an image resource and loads it.
-     * 
-     * @param imageName - Name of the image resource that will provide the background.
-     * @param isotopeNumber - Numerical isotope number, which will be displayed as a pre-script.
-     * @param chemicalSymbol - Chemical symbol for the nucleus.
-     * @param labelColor - Color that will be used to display the label.
-     */
-    public LabeledNucleusSphereNode( Color sphereColor, String isotopeNumber, String chemicalSymbol, Color labelColor ){
+//    /**
+//     * Constructor that takes the name of an image resource and loads it.
+//     * 
+//     * @param imageName - Name of the image resource that will provide the background.
+//     * @param isotopeNumber - Numerical isotope number, which will be displayed as a pre-script.
+//     * @param chemicalSymbol - Chemical symbol for the nucleus.
+//     * @param labelColor - Color that will be used to display the label.
+//     */
+//    public LabeledNucleusSphereNode( Color sphereColor, String isotopeNumber, String chemicalSymbol, Color labelColor ){
+//    	
+//    	super( isotopeNumber, chemicalSymbol, labelColor );
+//        
+//    	// Create the gradient paint for the sphere in order to give it a 3D look.
+//		Paint spherePaint = new RoundGradientPaint( SPHERE_DIAMETER / 8, -SPHERE_DIAMETER / 8, 
+//				getHighlightColor( sphereColor ), new Point2D.Double( SPHERE_DIAMETER / 4, SPHERE_DIAMETER / 4 ),
+//				sphereColor );
+//
+//    	// Create and add the sphere node.
+//    	SphericalNode sphere = new SphericalNode(SPHERE_DIAMETER, spherePaint, false);
+//    	sphere.setOffset(SPHERE_DIAMETER / 2, SPHERE_DIAMETER / 2);
+//        getRepresentationLayer().addChild( sphere );
+//        
+//        // Scale and position the label.
+//        double sphereWidth = sphere.getFullBoundsReference().getWidth();
+//        PNode label = getLabel();
+//        double scale = (sphereWidth / label.getFullBoundsReference().getWidth()) * 0.9;
+//        label.setScale( scale );
+//
+//        // Center the label over the nucleus image.
+//        label.setOffset( ( sphereWidth - label.getFullBoundsReference().getWidth() ) / 2, 
+//      	  	  ( sphere.getFullBoundsReference().getHeight() - label.getFullBoundsReference().getHeight() ) / 2);
+//    }
+    public LabeledNucleusSphereNode( NucleusDisplayInfo displayInfo ){
     	
-    	super( isotopeNumber, chemicalSymbol, labelColor );
+    	super( displayInfo );
         
     	// Create the gradient paint for the sphere in order to give it a 3D look.
 		Paint spherePaint = new RoundGradientPaint( SPHERE_DIAMETER / 8, -SPHERE_DIAMETER / 8, 
-				getHighlightColor( sphereColor ), new Point2D.Double( SPHERE_DIAMETER / 4, SPHERE_DIAMETER / 4 ),
-				sphereColor );
+				getHighlightColor( displayInfo.getDisplayColor() ), 
+				new Point2D.Double( SPHERE_DIAMETER / 4, SPHERE_DIAMETER / 4 ),
+				displayInfo.getDisplayColor() );
 
     	// Create and add the sphere node.
     	SphericalNode sphere = new SphericalNode(SPHERE_DIAMETER, spherePaint, false);

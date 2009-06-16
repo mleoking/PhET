@@ -11,7 +11,6 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
-import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -216,29 +215,14 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
             };
             
             public void nucleusTypeChanged(){
-        		switch (_model.getNucleusType()){
-        		case CARBON_14:
-        			_pieChartValues[0].setColor(NuclearPhysicsConstants.CARBON_COLOR);
-        			_pieChartValues[1].setColor(NuclearPhysicsConstants.NITROGEN_COLOR);
-        			break;
-        			
-        		case URANIUM_238:
-        			_pieChartValues[0].setColor(NuclearPhysicsConstants.URANIUM_238_COLOR);
-        			_pieChartValues[1].setColor(NuclearPhysicsConstants.LEAD_COLOR);
-        			break;
-        			
-        		case CUSTOM:
-        			_pieChartValues[0].setColor(NuclearPhysicsConstants.CUSTOM_NUCLEUS_PRE_DECAY_COLOR);
-        			_pieChartValues[1].setColor(NuclearPhysicsConstants.CUSTOM_NUCLEUS_POST_DECAY_COLOR);
-        			break;
-        			
-        		default:
-        			// If these colors ever show up, someone will notice (and
-        			// presumably fix the problem).
-        			_pieChartValues[0].setColor(Color.PINK);
-         			_pieChartValues[1].setColor(Color.ORANGE);
-        			break;
-        		}
+            	NucleusDisplayInfo preDecayDisplayInfo = 
+            		NucleusDisplayInfo.getDisplayInfoForNucleusType(_model.getNucleusType());
+            	
+            	NucleusDisplayInfo postDecayDisplayInfo = 
+            		NucleusDisplayInfo.getDisplayInfoForNucleusType(_model.getDecayProduct(_model.getNucleusType()).get(0));
+
+            	_pieChartValues[0].setColor(preDecayDisplayInfo.getDisplayColor());
+    			_pieChartValues[1].setColor(postDecayDisplayInfo.getDisplayColor());
 
             	update();
             };
@@ -1105,82 +1089,11 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
     	 * @return - A PNode that depicts this nucleus.
     	 */
     	private LabeledNucleusNode createNucleusNode(){
-        	
-        	LabeledNucleusNode nucleusNode;
 
-        	switch (_nucleus.getNumProtons()){
-        	case 6:
-        		// Create a labeled nucleus representing Carbon.
-        		nucleusNode = new LabeledNucleusSphereNode( NuclearPhysicsConstants.CARBON_COLOR,
-                        NuclearPhysicsStrings.CARBON_14_ISOTOPE_NUMBER, 
-                        NuclearPhysicsStrings.CARBON_14_CHEMICAL_SYMBOL, 
-                        NuclearPhysicsConstants.CARBON_14_LABEL_COLOR );
-        		break;
-        		
-        	case 7:
-        		// Create a labeled nucleus representing Nitrogen.
-        		nucleusNode = new LabeledNucleusSphereNode( NuclearPhysicsConstants.NITROGEN_COLOR,
-                        NuclearPhysicsStrings.NITROGEN_14_ISOTOPE_NUMBER, 
-                        NuclearPhysicsStrings.NITROGEN_14_CHEMICAL_SYMBOL, 
-                        NuclearPhysicsConstants.NITROGEN_14_LABEL_COLOR );
-        		break;
-        		
-        	case 81:
-        		// This is thallium, which we use as the post-decay custom nucleus.
-        		nucleusNode = new LabeledNucleusSphereNode( NuclearPhysicsConstants.CUSTOM_NUCLEUS_POST_DECAY_COLOR,
-                        "", // No isotope number.
-                        "   ", // No chemical symbol, but use spaces so the sphere has some size.
-                        NuclearPhysicsConstants.CUSTOM_NUCLEUS_LABEL_COLOR );
-        		break;
-        		
-        	case 82:
-        		// Create a labeled nucleus representing Lead.
-        		nucleusNode = new LabeledNucleusSphereNode( NuclearPhysicsConstants.LEAD_COLOR,
-                        NuclearPhysicsStrings.LEAD_206_ISOTOPE_NUMBER,
-                        NuclearPhysicsStrings.LEAD_206_CHEMICAL_SYMBOL,
-                        NuclearPhysicsConstants.LEAD_LABEL_COLOR );
-        		break;
-        		
-        	case 83:
-        		// This nucleus is bismuth, which we use as the pre-decay custom
-        		// nucleus.
-        		nucleusNode = new LabeledNucleusSphereNode( NuclearPhysicsConstants.CUSTOM_NUCLEUS_PRE_DECAY_COLOR,
-                        "", // No isotope number.
-                        "   ", // No chemical symbol, but use spaces so the sphere has some size.
-                        NuclearPhysicsConstants.CUSTOM_NUCLEUS_LABEL_COLOR );
-        		break;
-        		
-        	case 84:
-        		// Create a labeled nucleus representing Polonium.
-        		nucleusNode = new LabeledNucleusImageNode("Polonium Nucleus Small.png",
-                        NuclearPhysicsStrings.POLONIUM_211_ISOTOPE_NUMBER, 
-                        NuclearPhysicsStrings.POLONIUM_211_CHEMICAL_SYMBOL, 
-                        NuclearPhysicsConstants.POLONIUM_LABEL_COLOR );
-        		break;
-        		
-        	case 92:
-        		if (_nucleus.getNumNeutrons() == 146){
-            		// Create a labeled nucleus representing Uranium 238.
-            		nucleusNode = new LabeledNucleusSphereNode( NuclearPhysicsConstants.URANIUM_238_COLOR,
-                            NuclearPhysicsStrings.URANIUM_238_ISOTOPE_NUMBER, 
-                            NuclearPhysicsStrings.URANIUM_238_CHEMICAL_SYMBOL, 
-                            NuclearPhysicsConstants.URANIUM_238_LABEL_COLOR);
-        		}
-        		else{
-            		// Create a labeled nucleus representing generic Uranium.
-            		nucleusNode = new LabeledNucleusSphereNode( NuclearPhysicsConstants.NITROGEN_COLOR,
-                            "", 
-                            NuclearPhysicsStrings.URANIUM_238_CHEMICAL_SYMBOL, 
-                            NuclearPhysicsConstants.URANIUM_238_COLOR );
-        		}
-        		break;
-        		
-        	default:
-        		assert false;  // This is not a nucleus type that we know how to handle.
-        		throw new InvalidParameterException("Unrecognized nucleus type.");
-        	}
-        	
-        	return nucleusNode;
+    		NucleusDisplayInfo displayInfo = NucleusDisplayInfo.getDisplayInfoForNucleusConfig(
+    				_nucleus.getNumProtons(), _nucleus.getNumNeutrons());
+    		
+        	return new LabeledNucleusSphereNode( displayInfo ); 
     	}
     }
 }

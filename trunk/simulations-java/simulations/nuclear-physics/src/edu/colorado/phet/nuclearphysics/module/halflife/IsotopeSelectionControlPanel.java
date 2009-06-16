@@ -31,6 +31,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
+import edu.colorado.phet.nuclearphysics.common.NucleusDisplayInfo;
 import edu.colorado.phet.nuclearphysics.common.NucleusType;
 import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusImageType;
 import edu.colorado.phet.nuclearphysics.model.NuclearDecayListenerAdapter;
@@ -175,67 +176,22 @@ public class IsotopeSelectionControlPanel extends ControlPanel {
             
             // Add the first isotope selection option.
             
-            NucleusSelectionDescriptor carbon14Descriptor = new NucleusSelectionDescriptor(
-            		AtomicNucleusImageType.GRADIENT_SPHERE,
-            		NuclearPhysicsStrings.CARBON_14_ISOTOPE_NUMBER,
-            		NuclearPhysicsStrings.CARBON_14_CHEMICAL_SYMBOL,
-            		NuclearPhysicsConstants.CARBON_14_LABEL_COLOR,
-            		NuclearPhysicsConstants.CARBON_COLOR,
-            		NuclearPhysicsStrings.CARBON_14_LEGEND_LABEL );
-
-            NucleusSelectionDescriptor nitrogen14Descriptor = new NucleusSelectionDescriptor(
-            		AtomicNucleusImageType.GRADIENT_SPHERE,
-            		NuclearPhysicsStrings.NITROGEN_14_ISOTOPE_NUMBER,
-            		NuclearPhysicsStrings.NITROGEN_14_CHEMICAL_SYMBOL,
-            		NuclearPhysicsConstants.NITROGEN_14_LABEL_COLOR,
-            		NuclearPhysicsConstants.NITROGEN_COLOR,
-            		NuclearPhysicsStrings.NITROGEN_14_LEGEND_LABEL );
-            
-            addIsotopeSelection( _carbon14RadioButton, carbon14Descriptor, nitrogen14Descriptor );
+            addIsotopeSelection( _carbon14RadioButton, 
+            		NucleusDisplayInfo.getDisplayInfoForNucleusType(NucleusType.CARBON_14), 
+            		NucleusDisplayInfo.getDisplayInfoForNucleusType(NucleusType.NITROGEN_14) );
                         
             // Add the selection for U238->Lead 206
             
-            NucleusSelectionDescriptor uranium238Descriptor = new NucleusSelectionDescriptor(
-            		AtomicNucleusImageType.GRADIENT_SPHERE,
-            		NuclearPhysicsStrings.URANIUM_238_ISOTOPE_NUMBER,
-            		NuclearPhysicsStrings.URANIUM_238_CHEMICAL_SYMBOL,
-            		NuclearPhysicsConstants.URANIUM_238_LABEL_COLOR,
-            		NuclearPhysicsConstants.URANIUM_238_COLOR,
-            		NuclearPhysicsStrings.URANIUM_238_LEGEND_LABEL );
-
-            NucleusSelectionDescriptor lead206Descriptor = new NucleusSelectionDescriptor(
-            		AtomicNucleusImageType.GRADIENT_SPHERE,
-            		NuclearPhysicsStrings.LEAD_207_ISOTOPE_NUMBER,
-            		NuclearPhysicsStrings.LEAD_207_CHEMICAL_SYMBOL,
-            		NuclearPhysicsConstants.LEAD_LABEL_COLOR,
-            		NuclearPhysicsConstants.LEAD_COLOR,
-            		NuclearPhysicsStrings.LEAD_206_LEGEND_LABEL );
-            
-            addIsotopeSelection( _uranium238RadioButton, uranium238Descriptor, lead206Descriptor );
+            addIsotopeSelection( _uranium238RadioButton, 
+            		NucleusDisplayInfo.getDisplayInfoForNucleusType(NucleusType.URANIUM_238), 
+            		NucleusDisplayInfo.getDisplayInfoForNucleusType(NucleusType.LEAD_206) );
             
             // Add the custom nucleus selection, but only if it is enabled.
             if ( customNucleusSelectionEnabled ){
 
-                // Add the selection for U238->Lead 206
-                
-                NucleusSelectionDescriptor preDecayCustomNucleusDescriptor = new NucleusSelectionDescriptor(
-                		AtomicNucleusImageType.GRADIENT_SPHERE,
-                		"",  // Custom nucleus has no isotope number on this panel.
-                		"",  // Custom nucleus has no chemical symbol on this panel.
-                		NuclearPhysicsConstants.CUSTOM_NUCLEUS_LABEL_COLOR,
-                		NuclearPhysicsConstants.CUSTOM_NUCLEUS_PRE_DECAY_COLOR,
-                		NuclearPhysicsStrings.CUSTOM_PARENT_NUCLEUS_LABEL );
-
-                NucleusSelectionDescriptor postDecayCustomNucleusDescriptor = new NucleusSelectionDescriptor(
-                		AtomicNucleusImageType.GRADIENT_SPHERE,
-                		"",  // Custom nucleus has no isotope number on this panel.
-                		"",  // Custom nucleus has no chemical symbol on this panel.
-                		NuclearPhysicsConstants.CUSTOM_NUCLEUS_LABEL_COLOR,
-                		NuclearPhysicsConstants.CUSTOM_NUCLEUS_POST_DECAY_COLOR,
-                		NuclearPhysicsStrings.CUSTOM_DAUGHTER_NUCLEUS_LABEL );
-                
-                addIsotopeSelection( _customNucleusRadioButton, preDecayCustomNucleusDescriptor, 
-                		postDecayCustomNucleusDescriptor );                        
+                addIsotopeSelection( _customNucleusRadioButton, 
+                		NucleusDisplayInfo.getDisplayInfoForNucleusType(NucleusType.CUSTOM), 
+                		NucleusDisplayInfo.getDisplayInfoForNucleusType(NucleusType.CUSTOM_POST_DECAY) );
             }
         }
         
@@ -268,8 +224,8 @@ public class IsotopeSelectionControlPanel extends ControlPanel {
          * @return
          */
         private int _isotopeSelectorCount = 0;
-        private void addIsotopeSelection( final JRadioButton button, NucleusSelectionDescriptor preDecayNucleus,
-        		NucleusSelectionDescriptor postDecayNucleus ){
+        private void addIsotopeSelection( final JRadioButton button, NucleusDisplayInfo preDecayNucleus,
+        		NucleusDisplayInfo postDecayNucleus ){
         	
             GridBagConstraints constraints = new GridBagConstraints();
         	
@@ -283,11 +239,7 @@ public class IsotopeSelectionControlPanel extends ControlPanel {
             
             // Create and add the pre-decay nucleus.  It is created as a
             // sphere and not a nucleus image.
-            PNode labeledPreDecayNucleus = new LabeledNucleusSphereNode(
-            		preDecayNucleus.getSphereColor(),
-                    preDecayNucleus.getIsotopeNumberString(), 
-                    preDecayNucleus.getChemicalSymbol(), 
-                    preDecayNucleus.getLabelColor() );
+            PNode labeledPreDecayNucleus = new LabeledNucleusSphereNode( preDecayNucleus );
             Image preDecayImage = labeledPreDecayNucleus.toImage();
             ImageIcon predecayIconImage = new ImageIcon(preDecayImage);
             constraints.anchor = GridBagConstraints.WEST;
@@ -307,7 +259,7 @@ public class IsotopeSelectionControlPanel extends ControlPanel {
             });
             
             // Create and add the textual label for the pre-decay nucleus.
-            JLabel preDecayNucleusLabel = new JLabel( preDecayNucleus.getLegendLabel() ) ;
+            JLabel preDecayNucleusLabel = new JLabel( preDecayNucleus.getName() ) ;
             preDecayNucleusLabel.setFont( LABEL_FONT );
             constraints.anchor = GridBagConstraints.WEST;
             constraints.gridx = 2;
@@ -321,11 +273,7 @@ public class IsotopeSelectionControlPanel extends ControlPanel {
             add( new JLabel( createArrowIcon( Color.BLACK ) ), constraints );
             
             // Create and add post-decay nucleus.
-            PNode labeledPostDecayNucleus = new LabeledNucleusSphereNode(
-            		postDecayNucleus.getSphereColor(),
-            		postDecayNucleus.getIsotopeNumberString(), 
-            		postDecayNucleus.getChemicalSymbol(), 
-            		postDecayNucleus.getLabelColor() );
+            PNode labeledPostDecayNucleus = new LabeledNucleusSphereNode( postDecayNucleus );
             Image postDecayNucleusImage = labeledPostDecayNucleus.toImage();
             ImageIcon postDecayIconImage = new ImageIcon( postDecayNucleusImage );
             constraints.anchor = GridBagConstraints.WEST;
@@ -336,7 +284,7 @@ public class IsotopeSelectionControlPanel extends ControlPanel {
             constraints.ipadx = 0; // Remove the padding.
             
             // Create and add the textual label for the post-decay nucleus.
-            JLabel postDecayNucleusLabel = new JLabel( postDecayNucleus.getLegendLabel() ) ;
+            JLabel postDecayNucleusLabel = new JLabel( postDecayNucleus.getName() ) ;
             postDecayNucleusLabel.setFont( LABEL_FONT );
             constraints.anchor = GridBagConstraints.WEST;
             constraints.gridx = 2;
