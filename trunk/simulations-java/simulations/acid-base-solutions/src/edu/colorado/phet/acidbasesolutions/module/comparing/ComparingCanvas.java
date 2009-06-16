@@ -126,6 +126,10 @@ public class ComparingCanvas extends ABSAbstractCanvas {
         return beakerControlsNode;
     }
     
+    public EquationScalingControl getEquationScalingControl() {
+        return equationScalingControl;
+    }
+    
     //----------------------------------------------------------------------------
     // Updaters
     //----------------------------------------------------------------------------

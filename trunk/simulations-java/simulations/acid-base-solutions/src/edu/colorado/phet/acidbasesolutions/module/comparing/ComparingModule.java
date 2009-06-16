@@ -6,10 +6,7 @@ import java.awt.Frame;
 
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.AcidBaseSolutionsApplication;
-import edu.colorado.phet.acidbasesolutions.control.BeakerControlsNode;
-import edu.colorado.phet.acidbasesolutions.control.ComparingBeakerControlsNode;
-import edu.colorado.phet.acidbasesolutions.control.ComparingViewControlsNode;
-import edu.colorado.phet.acidbasesolutions.control.SolutionControlsNode;
+import edu.colorado.phet.acidbasesolutions.control.*;
 import edu.colorado.phet.acidbasesolutions.model.ABSClock;
 import edu.colorado.phet.acidbasesolutions.model.SoluteFactory;
 import edu.colorado.phet.acidbasesolutions.model.Solute.ICustomSolute;
@@ -114,7 +111,8 @@ public class ComparingModule extends ABSAbstractModule {
         config.setBeakerLabelVisible( beakerControls.isLabelSelected() );
         
         // equations controls
-        //XXX equations scaling
+        EquationScalingControl equationScalingControl = canvas.getEquationScalingControl();
+        config.setEquationsScalingEnabled( equationScalingControl.isScalingEnabled() );
         
         return config;
     }
@@ -156,6 +154,7 @@ public class ComparingModule extends ABSAbstractModule {
         beakerControls.setLabelSelected( config.isBeakerLabelVisible() );
         
         // equations controls
-        //XXX equations scaling
+        EquationScalingControl equationScalingControl = canvas.getEquationScalingControl();
+        equationScalingControl.setScalingEnabled( config.isEquationsScalingEnabled() );
     }
 }
