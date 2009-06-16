@@ -1,3 +1,5 @@
+# 0.01.11 (32528) Jun 16, 2009
+6/16/09 demo completed "Comparing Solutions" tab
 # 0.01.10 (32484) Jun 15, 2009
 6/15/09 demo progress on "Comparing Solutions" tab
 # 0.01.09 (32466) Jun 15, 2009
