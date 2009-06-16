@@ -12,7 +12,6 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.acidbasesolutions.ABSColors;
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.control.EquationScalingControl;
-import edu.colorado.phet.acidbasesolutions.control.EquationScalingControl.HorizontalEquationScalingControl;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.SolutionListener;
 import edu.colorado.phet.acidbasesolutions.util.PNodeUtils;
@@ -62,7 +61,7 @@ public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
         this.solution.addSolutionListener( solutionListener );
         
         // scaling on/off
-        scalingControl = new HorizontalEquationScalingControl( getBackground() );
+        scalingControl = new EquationScalingControl( getBackground() );
         scalingControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 setScalingEnabled( scalingControl.isScalingEnabled() );
