@@ -122,7 +122,9 @@ class SitePage extends BasePage {
         }
     }
 
-    function close_xhtml_head() {
+    function get_statistics_gathering_code() {
+        $code = '';
+
         $site_root = SITE_ROOT;
 
         // TODO: clean this up
@@ -141,7 +143,7 @@ class SitePage extends BasePage {
         }
 
         if ((!isset($ga_source)) || ($ga_source == 0)) {
-            print <<<EOT
+            $code .= <<<EOT
     <script type="text/javascript">
         var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
         document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
@@ -150,19 +152,19 @@ class SitePage extends BasePage {
 EOT;
         }
         else if ($ga_source == 1) {
-                print <<<EOT
+            $code .= <<<EOT
     <script type="text/javascript" src="{$site_root}js/local_ga.js"></script>
 
 EOT;
         }
 
-        print <<<EOT
+        $code .= <<<EOT
     <script type="text/javascript" src="{$site_root}js/autoTracking_phet.js"></script>
 
 EOT;
 
         if ($ga_source != 2) {
-            print <<<EOT
+            $code .= <<<EOT
     <script type="text/javascript">
         var benchmarkTracker = _gat._getTracker("UA-5033201-1");
         benchmarkTracker._setDomainName('phet.colorado.edu');
@@ -178,7 +180,7 @@ EOT;
 EOT;
         }
 
-        parent::close_xhtml_head();
+        return $code;
     }
 
     function authenticate_user() {
@@ -342,12 +344,6 @@ EOT;
         <p>The information needed was either invalid or not specified.  Please go back and try again.</p>
 
 EOT;
-    }
-
-    function open_xhtml() {
-        print '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">'."\n";
-        print "\n";
-        print '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">'."\n";
     }
 
     function open_xhtml_body() {

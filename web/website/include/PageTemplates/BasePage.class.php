@@ -11,6 +11,9 @@ class BasePage {
     // Variable for any debugging content
     private $debug_content;
 
+    // Charset sent in meta tag, defaults to utf-8
+    private $charset;
+
     // Title and title sections of the page
     protected $base_title;
     protected $page_title;
@@ -60,6 +63,8 @@ class BasePage {
                          $base_title = self::WEBSITE_BASE_TITLE) {
         $this->set_title($page_title, $base_title);
 
+        $this->charset = 'UTF-8';
+
         // Setup the content
         $this->content = array();
 
@@ -98,6 +103,10 @@ class BasePage {
         $this->set_prefix();
 
         $this->css_container_name = "container";
+    }
+
+    function set_charset($charset) {
+        $this->charset = $charset;
     }
 
     /**
@@ -244,6 +253,10 @@ class BasePage {
             print "{$key}: {$value}";
             print "\n";
         }
+
+        // Add the character set header
+        header('Content-type: text/html; charset='.$this->charset);
+
         /*
          * example from another project, verify useful for PhET
          * if so, move to appropriate location (not here)
@@ -312,7 +325,7 @@ EOT;
   <head>
     <title>{$formatted_title}</title>
 
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset={$this->charset}" />
     {$meta_refresh}
 
 EOT;
@@ -437,6 +450,9 @@ EOT;
         $this->render_navigation_bar();
     }
 
+    function print_statistics_gathering_code() {
+    }
+
     /**
      * Output HTML associated with end of the body section
      *
@@ -456,6 +472,7 @@ EOT;
                 <div id="utility-panel">
                     $utility_panel_html
                 </div>
+        {$this->get_statistics_gathering_code()}
             </body>
 
 EOT;
