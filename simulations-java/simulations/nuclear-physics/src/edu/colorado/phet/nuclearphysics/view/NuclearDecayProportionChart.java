@@ -1246,7 +1246,7 @@ public class NuclearDecayProportionChart extends PNode {
     		else{
     			// Use billions of years.
     			timeString = NuclearPhysicsStrings.TIME_ABBREVIATION + " = "
-    				+ String.format("%.1f", MultiNucleusDecayModel.convertMsToYears(time) / 1E9) 
+    				+ String.format("%.2f", MultiNucleusDecayModel.convertMsToYears(time) / 1E9) 
 					+ " " + NuclearPhysicsStrings.DECAY_PROPORTIONS_TIME_UNITS_BILLION_YEARS_ABBREV;
     		}
     		_timeText.setText(timeString);
