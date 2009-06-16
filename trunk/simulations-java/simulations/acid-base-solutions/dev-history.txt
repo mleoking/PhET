@@ -4,7 +4,6 @@
 
 TODO:
 - Comparing canvas layout change is visible when visited for the first time
-- Equations in Comparing module
 - implement HA/A "ratio" view
 - scale image files
 - review remaining instanceof comparisons
@@ -37,6 +36,8 @@ ISSUES:
 - KP: fewer pixels for the strong range of the strength slider
 
 DONE:
+6/16/09 add Equations view to Comparing module
+6/16/09 add ability to diable Lewis structures in reaction equations
 6/16/09 save/load equation scaling in ComparingModule
 6/16/09 fix upper bound of strong strength range, 10x too large
 6/16/09 make single and double arrow image files the same width so that equations don't shift

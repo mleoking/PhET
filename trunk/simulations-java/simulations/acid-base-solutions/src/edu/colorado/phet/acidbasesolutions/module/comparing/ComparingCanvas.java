@@ -12,7 +12,7 @@ import edu.colorado.phet.acidbasesolutions.control.ComparingBeakerControlsNode;
 import edu.colorado.phet.acidbasesolutions.control.ComparingViewControlsNode;
 import edu.colorado.phet.acidbasesolutions.control.EquationScalingControl;
 import edu.colorado.phet.acidbasesolutions.control.SolutionControlsNode;
-import edu.colorado.phet.acidbasesolutions.control.EquationScalingControl.VerticalEquationScalingControl;
+import edu.colorado.phet.acidbasesolutions.control.EquationScalingControl.HorizontalEquationScalingControl;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.module.ABSAbstractCanvas;
 import edu.colorado.phet.acidbasesolutions.util.PNodeUtils;
@@ -37,7 +37,7 @@ public class ComparingCanvas extends ABSAbstractCanvas {
     // View
     private final BeakerNode beakerNodeLeft, beakerNodeRight;
     private final ConcentrationGraphNode graphNodeLeft, graphNodeRight;
-    //XXX equations
+    private final ComparingEquationsNode equationsNodeLeft, equationsNodeRight;
     
     // Controls
     private final SolutionControlsNode solutionControlsNodeLeft, solutionControlsNodeRight;
@@ -62,7 +62,8 @@ public class ComparingCanvas extends ABSAbstractCanvas {
         graphNodeLeft = new ConcentrationGraphNode( ComparingDefaults.CONCENTRATION_GRAPH_OUTLINE_SIZE, solutionLeft );
         graphNodeRight = new ConcentrationGraphNode( ComparingDefaults.CONCENTRATION_GRAPH_OUTLINE_SIZE, solutionRight );
         
-        //XXX equations
+        equationsNodeLeft = new ComparingEquationsNode( solutionLeft );
+        equationsNodeRight = new ComparingEquationsNode( solutionRight );
         
         solutionControlsNodeLeft = new SolutionControlsNode( this, solutionLeft );
         solutionControlsNodeLeft.scale( ABSConstants.PSWING_SCALE );
@@ -81,7 +82,7 @@ public class ComparingCanvas extends ABSAbstractCanvas {
         beakerControlsNode = new ComparingBeakerControlsNode( getBackground(), beakerNodeLeft, beakerNodeRight );
         beakerControlsNode.scale( ABSConstants.PSWING_SCALE );
         
-        equationScalingControl = new VerticalEquationScalingControl( getBackground() );
+        equationScalingControl = new HorizontalEquationScalingControl( getBackground() );
         equationScalingControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 updateEquationsScaling();
@@ -100,7 +101,8 @@ public class ComparingCanvas extends ABSAbstractCanvas {
         addNode( beakerControlsNode );
         addNode( graphNodeLeft );
         addNode( graphNodeRight );
-        //XXX equations
+        addNode( equationsNodeLeft );
+        addNode( equationsNodeRight );
         addNode( equationScalingControlWrapper );
         
         updateVisibility();
@@ -144,11 +146,13 @@ public class ComparingCanvas extends ABSAbstractCanvas {
         graphNodeRight.setVisible( viewControlsNode.isGraphsSelected() );
         // equations
         equationScalingControlWrapper.setVisible( viewControlsNode.isEquationsSelected() );
-        //XXX equations
+        equationsNodeLeft.setVisible( viewControlsNode.isEquationsSelected() );
+        equationsNodeRight.setVisible( viewControlsNode.isEquationsSelected() );
     }
     
     private void updateEquationsScaling() {
-        //XXX equations
+        equationsNodeLeft.setScalingEnabled( equationScalingControl.isScalingEnabled() );
+        equationsNodeRight.setScalingEnabled( equationScalingControl.isScalingEnabled() );
     }
     
     //----------------------------------------------------------------------------
@@ -212,12 +216,20 @@ public class ComparingCanvas extends ABSAbstractCanvas {
         yOffset = solutionControlsNodeRight.getFullBoundsReference().getMaxY() - PNodeUtils.getOriginYOffset( graphNodeRight ) + 20;
         graphNodeRight.setOffset( xOffset, yOffset );
         
-        //XXX equations
-        
-        // equation scaling controls between left and right equations
-        xOffset = viewControlsNode.getFullBoundsReference().getX();//XXX
-        yOffset = beakerNodeLeft.getFullBoundsReference().getMaxY() - equationScalingControlWrapper.getFullBoundsReference().getHeight();//XXX
+        // equation scaling controls below solution controls
+        xOffset = viewControlsNode.getFullBoundsReference().getCenterX() + ( ( equationScalingControlWrapper.getFullBoundsReference().getWidth() - viewControlsNode.getFullBoundsReference().getMaxX() ) / 2 );
+        yOffset = solutionControlsNodeLeft.getFullBoundsReference().getMaxY() + 10;
         equationScalingControlWrapper.setOffset( xOffset, yOffset );
+        
+        // left equations below left solution controls
+        xOffset = solutionControlsNodeLeft.getFullBoundsReference().getMinX() - PNodeUtils.getOriginXOffset( equationsNodeLeft );
+        yOffset = equationScalingControlWrapper.getFullBoundsReference().getMaxY() - PNodeUtils.getOriginYOffset( equationsNodeLeft ) + 20;
+        equationsNodeLeft.setOffset( xOffset, yOffset );
+        
+        // right equations below right solution controls
+        xOffset = solutionControlsNodeRight.getFullBoundsReference().getMinX() - PNodeUtils.getOriginXOffset( equationsNodeRight );
+        yOffset = equationScalingControlWrapper.getFullBoundsReference().getMaxY() - PNodeUtils.getOriginYOffset( equationsNodeRight ) + 20;
+        equationsNodeRight.setOffset( xOffset, yOffset );
         
         // Reset All button below view controls
         PNode resetAllButton = getResetAllButton();

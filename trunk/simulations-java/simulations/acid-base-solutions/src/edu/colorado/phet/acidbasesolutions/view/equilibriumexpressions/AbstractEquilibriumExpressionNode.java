@@ -32,7 +32,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-abstract class AbstractEquilibriumExpressionNode extends PComposite {
+public abstract class AbstractEquilibriumExpressionNode extends PComposite {
     
     //----------------------------------------------------------------------------
     // Class data

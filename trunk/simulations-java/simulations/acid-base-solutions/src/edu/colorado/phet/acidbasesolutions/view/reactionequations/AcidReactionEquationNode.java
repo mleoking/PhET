@@ -19,7 +19,7 @@ import edu.colorado.phet.acidbasesolutions.model.Solute.ICustomSolute;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class AcidReactionEquationNode extends AbstractReactionEquationNode {
+public class AcidReactionEquationNode extends AbstractReactionEquationNode {
     
     private static final int REACTANT_INDEX = 0; // HA
     private static final int H2O_INDEX = 1;
@@ -51,7 +51,7 @@ class AcidReactionEquationNode extends AbstractReactionEquationNode {
         scaleTermToConcentration( PRODUCT_INDEX, solution.getProductConcentration() );
 
         // Lewis structure diagrams
-        setAllStructuresVisible( solution.getSolute() instanceof ICustomSolute );
+        setStructuresVisible( solution.getSolute() instanceof ICustomSolute );
     }
     
     protected void updateH2OColor() {
