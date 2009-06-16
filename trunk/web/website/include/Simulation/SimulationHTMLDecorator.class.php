@@ -203,7 +203,7 @@ class SimulationHTMLDecorator implements SimulationInterface {
     }
 
     public function getNameFromXML($locale = Locale::DEFAULT_LOCALE) {
-        return WebUtils::inst()->toHtml($this->sim->getTitleFromXML($locale), 'UTF-8');
+        return WebUtils::inst()->toHtml($this->sim->getNameFromXML($locale), 'UTF-8');
     }
 
     public function getDescriptionFromXML($locale = Locale::DEFAULT_LOCALE) {
