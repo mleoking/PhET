@@ -15,7 +15,7 @@ import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucl
  *
  * @author John Blanco
  */
-public class RadioactiveDatingGameModel {
+public class RadioactiveDatingGameModel implements ModelContainingDatableItems {
 
     //------------------------------------------------------------------------
     // Class data
@@ -146,10 +146,9 @@ public class RadioactiveDatingGameModel {
     // Other Methods
     //------------------------------------------------------------------------
 
-    /**
-     * Get the datable item at the specified model location, or null if there
-     * isn't anything there.
-     */
+    /* (non-Javadoc)
+	 * @see edu.colorado.phet.nuclearphysics.module.radioactivedatinggame.ModelContainingDatableItems#getDatableItemAtLocation(java.awt.geom.Point2D)
+	 */
     public DatableItem getDatableItemAtLocation( Point2D probeLocation ){
 
     	DatableItem datableItem = null;

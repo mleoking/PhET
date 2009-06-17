@@ -27,7 +27,7 @@ public class RadiometricDatingMeter {
 
 	private final ProbeModel _probe;
 	private DatableItem _itemBeingTouched = null;
-	private RadioactiveDatingGameModel _model;
+	private ModelContainingDatableItems _model;
 	private NucleusType _nucleusTypeForDating;
 	private double _halfLifeOfDatingNucleus;
 	protected ArrayList<Listener> _listeners = new ArrayList<Listener>();
@@ -36,7 +36,7 @@ public class RadiometricDatingMeter {
     // Constructor(s)
     //----------------------------------------------------------------------------
 	
-	public RadiometricDatingMeter( RadioactiveDatingGameModel model ) {
+	public RadiometricDatingMeter( ModelContainingDatableItems model ) {
 		_model = model;
 		_probe = new ProbeModel(new Point2D.Double(-20, -8), -0.3);
 		_probe.addObserver(new SimpleObserver(){

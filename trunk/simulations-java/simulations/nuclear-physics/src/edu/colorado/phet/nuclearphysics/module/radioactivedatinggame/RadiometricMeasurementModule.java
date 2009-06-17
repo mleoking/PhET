@@ -1,4 +1,4 @@
-/* Copyright 2008, University of Colorado */
+/* Copyright 2009, University of Colorado */
 
 package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 
@@ -11,37 +11,37 @@ import edu.colorado.phet.nuclearphysics.defaults.RadiometricDecayDefaults;
 
 /**
  * This class is where the model and view classes are created and connected
- * for the portion of the sim that allows the user to date multiple items and
- * guess their ages.
+ * for the portion of the sim that demonstrates radiometric dating of an
+ * individual item.
  *
  * @author John Blanco
  */
-public class RadioactiveDatingGameModule extends PiccoloModule {
+public class RadiometricMeasurementModule extends PiccoloModule {
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
-    private RadioactiveDatingGameModel _model;
-    private RadioactiveDatingGameCanvas _canvas;
+    private RadiometricMeasurementModel _model;
+    private RadiometricMeasurementCanvas _canvas;
     private ProbeTypeModel _probeTypeModel;
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
 
-    public RadioactiveDatingGameModule( Frame parentFrame ) {
-        super( NuclearPhysicsStrings.TITLE_RADIOACTIVE_DATING_GAME,
+    public RadiometricMeasurementModule( Frame parentFrame ) {
+        super( NuclearPhysicsStrings.TITLE_RADIOMETRIC_MEASUREMENT,
                new NuclearPhysicsClock( RadiometricDecayDefaults.CLOCK_FRAME_RATE, RadiometricDecayDefaults.CLOCK_DT ));
  
         // Physical model
-        _model = new RadioactiveDatingGameModel();
+        _model = new RadiometricMeasurementModel();
 
         // Model components
         _probeTypeModel = new ProbeTypeModel();
 
         // Canvas
-        _canvas = new RadioactiveDatingGameCanvas( _model, _probeTypeModel );
+        _canvas = new RadiometricMeasurementCanvas( _model, _probeTypeModel );
         setSimulationPanel( _canvas );
         
         // Help

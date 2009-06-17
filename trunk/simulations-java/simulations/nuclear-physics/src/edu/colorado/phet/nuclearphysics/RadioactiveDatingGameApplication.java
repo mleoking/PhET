@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.nuclearphysics.module.decayrates.DecayRatesModule;
 import edu.colorado.phet.nuclearphysics.module.halflife.RadiometricElementDecayModule;
 import edu.colorado.phet.nuclearphysics.module.radioactivedatinggame.RadioactiveDatingGameModule;
+import edu.colorado.phet.nuclearphysics.module.radioactivedatinggame.RadiometricMeasurementModule;
 
 
 /**
@@ -28,6 +29,7 @@ public class RadioactiveDatingGameApplication extends AbstractNuclearPhysicsAppl
     //----------------------------------------------------------------------------
     private RadiometricElementDecayModule _radioactiveElementDecayModule;
     private DecayRatesModule _decayRatesModule;
+    private RadiometricMeasurementModule _radiometricMeasurementModule;
     private RadioactiveDatingGameModule _radioactiveDatingGameModule;
 
     /**
@@ -47,6 +49,9 @@ public class RadioactiveDatingGameApplication extends AbstractNuclearPhysicsAppl
     
         _decayRatesModule = new DecayRatesModule( parentFrame );
         addModule( _decayRatesModule );
+    
+        _radiometricMeasurementModule = new RadiometricMeasurementModule( parentFrame );
+        addModule( _radiometricMeasurementModule );
     
         _radioactiveDatingGameModule = new RadioactiveDatingGameModule( parentFrame );
         addModule( _radioactiveDatingGameModule );
