@@ -4,6 +4,7 @@ package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GradientPaint;
 import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -70,7 +71,7 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
         _mvt = new ModelViewTransform2D(
         		new Point2D.Double(0, 0), 
         		new Point(INITIAL_INTERMEDIATE_COORD_WIDTH / 2, 
-        				(int)Math.round(INITIAL_INTERMEDIATE_COORD_HEIGHT * 0.4)),
+        				(int)Math.round(INITIAL_INTERMEDIATE_COORD_HEIGHT * 0.5)),
         		20,
         		true);
         
@@ -204,7 +205,9 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
     	public static final double GROUND_HEIGHT = INITIAL_INTERMEDIATE_COORD_HEIGHT * 2;
 		public GroundNode() {
 			PPath ground = new PPath( new Rectangle2D.Double( 0, 0, GROUND_WIDTH, GROUND_HEIGHT));
-			ground.setPaint(Color.GREEN);
+			GradientPaint groundGradient = new GradientPaint(0, 0, new Color(0, 100, 0), 0, (float)GROUND_HEIGHT / 4, 
+					new Color(120, 255, 60), false);
+			ground.setPaint(groundGradient);
 			ground.setOffset(-GROUND_WIDTH / 2, 0);
 			addChild(ground);
 		}
@@ -215,7 +218,9 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
     	public static final double SKY_HEIGHT = INITIAL_INTERMEDIATE_COORD_HEIGHT * 2;
 		public SkyNode() {
 			PPath ground = new PPath( new Rectangle2D.Double( 0, 0, SKY_WIDTH, SKY_HEIGHT));
-			ground.setPaint(Color.BLUE);
+			GradientPaint skyGradient = new GradientPaint(0, (float)(SKY_HEIGHT * 0.66), new Color(0, 0, 150), 0,
+					(float)SKY_HEIGHT, new Color(200, 255, 255), false);
+			ground.setPaint(skyGradient);
 			ground.setOffset(-SKY_WIDTH / 2, -SKY_HEIGHT);
 			addChild(ground);
 		}
