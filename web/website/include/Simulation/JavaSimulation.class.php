@@ -23,19 +23,7 @@ class JavaSimulation extends BaseSimulation {
     }
 
     public function getLaunchFilename($locale = Locale::DEFAULT_LOCALE) {
-        // TODO: When country codes have been fully implemented in the
-        // simulation filenames, change this entire function to:
-        //return self::sim_root."{$this->project_name}/{$this->sim_name}_{$locale}.jnlp";
-
-        $base_file = self::sim_root."{$this->project_name}/{$this->sim_name}";
-        foreach ($this->getRemappedLocales($locale) as $loc) {
-            $locale_file = $base_file.'_'.$loc.'.jnlp';
-            if (file_exists($locale_file)) {
-                return $locale_file;
-            }
-        }
-
-        return false;
+        return self::sim_root."{$this->project_name}/{$this->sim_name}_{$locale}.jnlp";
     }
 
     public function getLaunchUrl($locale = Locale::DEFAULT_LOCALE) {
