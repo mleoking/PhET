@@ -118,7 +118,7 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
         		INITIAL_INTERMEDIATE_COORD_HEIGHT * PROPORTIONS_METER_HEIGHT_FRACTION,
         		_mvt );
         _meterNode.setMeterBodyOffset( 0,
-        		INITIAL_INTERMEDIATE_COORD_HEIGHT - _meterNode.getFullBoundsReference().height - 4);
+        		INITIAL_INTERMEDIATE_COORD_HEIGHT - _meterNode.getMeterBodySize().getHeight() - 4);
         setUpComboBox();
         addWorldChild( _meterNode );
         
@@ -133,10 +133,10 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
         // resizing call to be a part of the constructor for the chart (I think).
         _proportionsChart.componentResized( new Rectangle2D.Double( 0, 0, 
         		INITIAL_INTERMEDIATE_COORD_WIDTH * PROPORTIONS_CHART_WIDTH_FRACTION,
-        		_meterNode.getFullBoundsReference().height));
+        		_meterNode.getMeterBodySize().getHeight()));
         _proportionsChart.setOffset(
-        		_meterNode.getFullBoundsReference().getMaxX() + 4,
-        		_meterNode.getOffset().getY());
+        		_meterNode.getMeterBodyOffset().getX() + _meterNode.getMeterBodySize().getWidth() + 4,
+        		_meterNode.getMeterBodyOffset().getY());
 
         // Draw the decay curve on the chart.
         drawDecayCurveOnChart();
