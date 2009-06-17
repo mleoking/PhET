@@ -1,7 +1,5 @@
 package edu.colorado.phet.statesofmatter.module.solidliquidgas;
 
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 
