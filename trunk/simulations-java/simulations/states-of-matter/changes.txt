@@ -1,3 +1,5 @@
+# 1.04.02 (32540) Jun 17, 2009
+6/17/09 Interaction Potential (aka Atomic Interaction) improvements: Made atoms fuzzy, lined them up with graph, and allowed them to overlap.
 # 1.04.01 (31191) Apr 30, 2009
 4/30/09 Changed the name for the Interaction Potential app to Atomic Interactions
 # 1.04.00 (30732) Apr 21, 2009
