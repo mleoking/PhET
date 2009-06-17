@@ -52,7 +52,7 @@
 
         $comments = array();
 
-        $result = db_exec_query("SELECT * FROM `contribution_comment`, `contributor` WHERE `contribution_comment`.`contributor_id` = `contributor`.`contributor_id` AND `contribution_comment`.`contribution_id`='$contribution_id'  ");
+        $result = db_exec_query("SELECT * FROM `contribution_comment`, `contributor` WHERE `contribution_comment`.`contributor_id` = `contributor`.`contributor_id` AND `contribution_comment`.`contribution_id`='$contribution_id' ORDER BY contribution_comment_created");
 
         while ($comment = mysql_fetch_assoc($result)) {
             $comments[] = $comment;
