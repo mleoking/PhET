@@ -9,6 +9,7 @@ import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
 import java.beans.PropertyChangeEvent;
@@ -282,12 +283,21 @@ public class RadiometricDatingMeterNode extends PNode {
 		_meterBody.setOffset(x, y);
 	}
 	
+	public Point2D getMeterBodyOffset(){
+		return _meterBody.getOffset();
+	}
+	
 	private PNode getMeterBodyNode() {
 		return _meterBody;
 	}
 	
-	public double getMeterBodyWidth(){
-		return _meterBody.getFullBounds().width;
+	/**
+	 * Get the size of the meter node excluding the probe and cable.  This is
+	 * useful when positioning things on a canvas relative to the meter.
+	 */
+	public Dimension2D getMeterBodySize() {
+		return ( new PDimension( _meterBody.getFullBoundsReference().width, 
+				_meterBody.getFullBoundsReference().height ) ); 
 	}
 
     //------------------------------------------------------------------------
