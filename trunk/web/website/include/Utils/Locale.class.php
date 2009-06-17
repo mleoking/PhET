@@ -52,74 +52,6 @@ class Locale {
     }
 
     /**
-     * Returns a map from the combined "fake" language codes to the full locale.
-     *
-     * @return array Map from the combined "fake" language codes to the full locale.
-     */
-    private function getCombinedLangugeCodeMap() {
-        return array('bp' => 'pt_BR', 'tc' => 'zh_TW');
-    }
-
-    /**
-     * Determine if the specified locale is a "fake" combined langugae code
-     *
-     * @return bool True it is a comibned language code, otherwise false
-     */
-    public function isCombinedLanguageCode($locale) {
-        return array_key_exists($locale, $this->getCombinedLangugeCodeMap());
-    }
-
-    /**
-     * Determine if the specified locale has a mapping to a "fake"
-     * combined langugae code
-     *
-     * @return bool True it has a mapping, otherwise false
-     */
-    public function hasCombinedLanguageCodeMap($locale) {
-        return array_key_exists($locale,
-                                array_flip($this->getCombinedLangugeCodeMap()));
-    }
-
-    /**
-     * Remap the combined language codes to the long form locale.  The
-     * old combined language code must still apper in the langages
-     * table.
-     *
-     * Validity checking is NOT performed.
-     *
-     * @param string $language_code Langugage code, short or long form locale to romap
-     * @return string New long form locale if argument is old style combined langage code, or the original locale that was passed
-     */
-    public function combinedLanguageCodeToFullLocale($language_code) {
-        $combined_language_code_map = $this->getCombinedLangugeCodeMap();
-        if (array_key_exists($language_code, $combined_language_code_map)) {
-            return $combined_language_code_map[$language_code];
-        }
-        else {
-            return $language_code;
-        }
-    }
-
-    /**
-     * Remap the long form language code to a combined language code, if it exists.
-     *
-     * Validity checking is NOT performed.
-     *
-     * @param string $language_code Locale, short or long form
-     * @return string New combined language code if the mapping exists, or the original locale that was passed
-     */
-    public function fullLocaleToCombinedLanguageCode($locale) {
-        $full_locale_to_combined_language_map =
-            array_flip($this->getCombinedLangugeCodeMap());
-        if (array_key_exists($locale, $full_locale_to_combined_language_map)) {
-            return $full_locale_to_combined_language_map[$locale];
-        }
-        else {
-            return $locale;
-        }
-    }
-
-    /**
      * Determine if the locale is a valid short or long form locale.
      *
      * The code itself must be valid, and the language and coutry code
@@ -393,8 +325,8 @@ class Locale {
      */
     private function languageSortCodeByNameCmp($a, $b) {
         // This top part is temporary until there is support for long form locales everywhere
-        $a1 = $this->extractLanguageCode($this->combinedLanguageCodeToFullLocale($a));
-        $b1 = $this->extractLanguageCode($this->combinedLanguageCodeToFullLocale($b));
+        $a1 = $this->extractLanguageCode($a);
+        $b1 = $this->extractLanguageCode($b);
 
         return strcmp($this->getLanguageName($a1), $this->getLanguageName($b1));
     }
@@ -410,12 +342,6 @@ class Locale {
      * @exception PhetLocaleException if either of the codes are invalid
      */
     private function countrySortCodeByNameCmp($a, $b) {
-        // This top part is temporary until there is support for long form locales everywhere
-        $a2 = $this->combinedLanguageCodeToFullLocale($a);
-        if ($a != $a2) $a = $this->extractCountryCode($a);
-        $b2 = $this->combinedLanguageCodeToFullLocale($b);
-        if ($b != $b2) $a = $this->extractCountryCode($a);
-
         return strcmp($this->getCountryName($a), $this->getCountryName($b));
     }
 
@@ -428,12 +354,9 @@ class Locale {
      * @exception PhetLocaleException if either of the codes are invalid
      */
     public function sortCodeByNameCmp($a, $b) {
-        $a1 = $this->combinedLanguageCodeToFullLocale($a);
-        $b1 = $this->combinedLanguageCodeToFullLocale($b);
-
         // First do languages
-        $lang_a = $this->extractLanguageCode($a1);
-        $lang_b = $this->extractLanguageCode($b1);
+        $lang_a = $this->extractLanguageCode($a);
+        $lang_b = $this->extractLanguageCode($b);
         $result = $this->languageSortCodeByNameCmp($lang_a, $lang_b);
         if (0 !== $result) {
             return $result;
@@ -441,8 +364,8 @@ class Locale {
 
         // Language codes are the same, try the countries
         // which may or may not be present
-        $valid_country_a = $this->hasValidCountryCode($a1);
-        $valid_country_b = $this->hasValidCountryCode($b1);
+        $valid_country_a = $this->hasValidCountryCode($a);
+        $valid_country_b = $this->hasValidCountryCode($b);
         if ((!$valid_country_a) && (!$valid_country_b)) {
             // Countries are the same
             return 0;
@@ -456,8 +379,8 @@ class Locale {
             return 1;
         }
         else {
-            $country_a = $this->extractCountryCode($a1);
-            $country_b = $this->extractCountryCode($b1);
+            $country_a = $this->extractCountryCode($a);
+            $country_b = $this->extractCountryCode($b);
             return $this->countrySortCodeByNameCmp($country_a, $country_b);
         }
     }
@@ -547,8 +470,6 @@ class Locale {
         if (!$this->isValid($locale)) {
             return false;
         }
-
-        $locale = $this->combinedLanguageCodeToFullLocale($locale);
 
         $info = array();
 
