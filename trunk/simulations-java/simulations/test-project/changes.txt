@@ -1,3 +1,5 @@
+# 2.01.02 (32542) Jun 17, 2009
+6/17/09 Testing a permissions issue
 # 2.01.01 (32464) Jun 15, 2009
 6/15/09 Testing svn user/pass with --non-interactive
 # 2.01.00 (32435) Jun 12, 2009
