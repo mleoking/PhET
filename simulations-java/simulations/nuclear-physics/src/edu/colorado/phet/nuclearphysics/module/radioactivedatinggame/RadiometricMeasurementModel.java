@@ -34,7 +34,7 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
     {
 
     	// Add the meter and register for user-initiated movements.
-    	_meter = new RadiometricDatingMeter( this );
+    	_meter = new RadiometricDatingMeter( this, new Point2D.Double(-20, 3) );
     	
     	_meter.getProbeModel().addObserver(new SimpleObserver(){
 			public void update() {

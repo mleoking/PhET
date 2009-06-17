@@ -36,9 +36,9 @@ public class RadiometricDatingMeter {
     // Constructor(s)
     //----------------------------------------------------------------------------
 	
-	public RadiometricDatingMeter( ModelContainingDatableItems model ) {
+	public RadiometricDatingMeter( ModelContainingDatableItems model, Point2D initialTipLocation ) {
 		_model = model;
-		_probe = new ProbeModel(new Point2D.Double(-20, -8), -0.3);
+		_probe = new ProbeModel(initialTipLocation, -0.3);
 		_probe.addObserver(new SimpleObserver(){
 			public void update() {
 				updateTouchedItem();
@@ -49,6 +49,11 @@ public class RadiometricDatingMeter {
 		_nucleusTypeForDating = NucleusType.CARBON_14;
 		
 		updateTouchedItem();
+	}
+
+	public RadiometricDatingMeter( ModelContainingDatableItems model ) {
+		// Construct with the probe in a default location.
+		this(model, new Point2D.Double(-20, -8));
 	}
 
 	//----------------------------------------------------------------------------
@@ -176,7 +181,7 @@ public class RadiometricDatingMeter {
             this( new Point2D.Double(), angle );
         }
 
-        public ProbeModel( Point2D.Double tipLocation, double angle ) {
+        public ProbeModel( Point2D tipLocation, double angle ) {
             this.tipLocation = new Point2D.Double( tipLocation.getX(), tipLocation.getY() );
             this.angle = angle;
         }
@@ -190,7 +195,7 @@ public class RadiometricDatingMeter {
         public Point2D getTipLocation() {
             return new Point2D.Double( tipLocation.x, tipLocation.y );
         }
-
+        
         public Shape getTipShape() {
             Rectangle2D.Double tip = new Rectangle2D.Double( tipLocation.x - tipWidth / 2, tipLocation.y, tipWidth, tipHeight );
             return AffineTransform.getRotateInstance( angle, tipLocation.x, tipLocation.y ).createTransformedShape( tip );
