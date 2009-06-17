@@ -88,12 +88,14 @@
 
         foreach ($nominations as $nomination) {
             $contribution_id = $nomination['contribution_id'];
+            $nominator_info = contributor_get_contributor_by_id($nomination['contributor_id']);
+            $nominator = WebUtils::inst()->toHtml($nominator_info['contributor_name']);
 
             if (!isset($contrib_to_descs["$contribution_id"])) {
                 $contrib_to_descs["$contribution_id"] = '';
             }
 
-            $contrib_to_descs["$contribution_id"] .= '<br/>"<em>'.format_string_for_html($nomination['contribution_nomination_desc']).'</em>"';
+            $contrib_to_descs["$contribution_id"] .= '<br/>'.$nominator.' - "<em>'.format_string_for_html($nomination['contribution_nomination_desc']).'</em>"';
         }
 
         return $contrib_to_descs;
