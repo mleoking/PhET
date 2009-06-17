@@ -171,6 +171,7 @@ public class BuildScript {
             boolean success = commitProject();//commits both changes to version and change file
             if ( !success ) {
                 notifyError( project, "Commit of version and change file failed, stopping (see console)" );
+                // TODO: possibly roll back .properties file and changes
                 return;
             }
             success = verifyRevision( newRevision, new String[]{project.getProjectPropertiesFile().getAbsolutePath()} );
