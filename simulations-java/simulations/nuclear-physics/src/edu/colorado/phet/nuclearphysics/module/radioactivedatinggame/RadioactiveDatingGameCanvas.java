@@ -73,7 +73,6 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     private AgeGuessingNode _ageGuessingNode;
     private NuclearDecayProportionChart _proportionsChart;
     private RadiometricDatingMeterNode _meterNode;
-    private PNode _referenceNode; // For positioning other nodes.
     private ArrayList<StratumNode> _stratumNodes = new ArrayList<StratumNode>();
     private EdgeOfWorldNode _edgeOfWorld;
     private IdentityHashMap<DatableItem, PNode> _mapDatableItemsToNodes = new IdentityHashMap<DatableItem, PNode>();
@@ -117,10 +116,6 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         	};
         });
 
-        // Add a reference node that will be used when positioning other nodes later.
-        _referenceNode = new PNode();
-        addWorldChild(_referenceNode);
-        
         // Set the background color.
         setBackground( NuclearPhysicsConstants.CANVAS_BACKGROUND );
 
