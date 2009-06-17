@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.geom.Point2D;
@@ -13,6 +14,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.view.NuclearDecayProportionChart;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * This class represents the canvas upon which the view of the model is
@@ -53,7 +55,6 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
     private PNode _backgroundLayer;
     private NuclearDecayProportionChart _proportionsChart;
     private RadiometricDatingMeterNode _meterNode;
-    private PNode _referenceNode; // For positioning other nodes.
     private IdentityHashMap<DatableItem, PNode> _mapDatableItemsToNodes = new IdentityHashMap<DatableItem, PNode>();
 
     //----------------------------------------------------------------------------
@@ -69,7 +70,7 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
         _mvt = new ModelViewTransform2D(
         		new Point2D.Double(0, 0), 
         		new Point(INITIAL_INTERMEDIATE_COORD_WIDTH / 2, 
-        				(int)Math.round(INITIAL_INTERMEDIATE_COORD_HEIGHT * 0.25)),
+        				(int)Math.round(INITIAL_INTERMEDIATE_COORD_HEIGHT * 0.4)),
         		20,
         		true);
         
@@ -92,16 +93,22 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
         	};
         });
 
-        // Add a reference node that will be used when positioning other nodes later.
-        _referenceNode = new PNode();
-        addWorldChild(_referenceNode);
-        
         // Set the background color.
         setBackground( NuclearPhysicsConstants.CANVAS_BACKGROUND );
 
         // Create the layer where the background will be placed.
         _backgroundLayer = new PNode();
         addWorldChild(_backgroundLayer);
+        
+        // Add the ground to the background.
+        GroundNode ground = new GroundNode();
+        ground.setOffset(_mvt.modelToViewXDouble(0), _mvt.modelToViewYDouble(_model.getGroundLevelY()));
+        _backgroundLayer.addChild(ground);
+
+        // Add the ground to the background.
+        SkyNode sky = new SkyNode();
+        sky.setOffset(_mvt.modelToViewXDouble(0), _mvt.modelToViewYDouble(_model.getGroundLevelY()));
+        _backgroundLayer.addChild(sky);
 
         // Create and add the node that represents the sky.
         // TODO
@@ -186,5 +193,31 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
         double halfLife = _model.getMeter().getHalfLifeForDating();
         _proportionsChart.setTimeParameters(halfLife * 3.2, halfLife);
         _proportionsChart.setDisplayInfoForNucleusType(_model.getMeter().getNucleusTypeUsedForDating());
+    }
+    
+    /**
+     * Class used to represent the ground on this canvas.
+     */
+    private static class GroundNode extends PNode {
+
+    	public static final double GROUND_WIDTH = INITIAL_INTERMEDIATE_COORD_WIDTH * 4;
+    	public static final double GROUND_HEIGHT = INITIAL_INTERMEDIATE_COORD_HEIGHT * 2;
+		public GroundNode() {
+			PPath ground = new PPath( new Rectangle2D.Double( 0, 0, GROUND_WIDTH, GROUND_HEIGHT));
+			ground.setPaint(Color.GREEN);
+			ground.setOffset(-GROUND_WIDTH / 2, 0);
+			addChild(ground);
+		}
+    }
+    private static class SkyNode extends PNode {
+
+    	public static final double SKY_WIDTH = INITIAL_INTERMEDIATE_COORD_WIDTH * 4;
+    	public static final double SKY_HEIGHT = INITIAL_INTERMEDIATE_COORD_HEIGHT * 2;
+		public SkyNode() {
+			PPath ground = new PPath( new Rectangle2D.Double( 0, 0, SKY_WIDTH, SKY_HEIGHT));
+			ground.setPaint(Color.BLUE);
+			ground.setOffset(-SKY_WIDTH / 2, -SKY_HEIGHT);
+			addChild(ground);
+		}
     }
 }
