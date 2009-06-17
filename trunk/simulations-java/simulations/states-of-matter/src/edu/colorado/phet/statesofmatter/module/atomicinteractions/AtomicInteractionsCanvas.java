@@ -68,6 +68,10 @@ public class AtomicInteractionsCanvas extends PhetPCanvas {
     // in the code in case it is ever brought back.  Note that it is not fully
     // debugged, so will likely take some effort to get it working correctly.
     private static final boolean ENABLE_WIGGLE_ME = false;
+    
+    // Constant to turn on/off a set of vertical lines that can be used to
+    // check the alignment between the graph and the atoms.
+    private static final boolean SHOW_ALIGNMENT_LINES = false;
         
     //----------------------------------------------------------------------------
     // Instance Data
@@ -158,14 +162,14 @@ public class AtomicInteractionsCanvas extends PhetPCanvas {
         // one picometer on the diagram.  Hence the somewhat tricky scaling
         // calculation.
         m_interactionPotentialDiagram = new InteractiveInteractionPotentialDiagram(m_model.getSigma(),
-                m_model.getEpsilon(), true,m_model);
-        double desiredWidth = m_interactionPotentialDiagram.getXAxisRange() + 
-                ((1 - m_interactionPotentialDiagram.getXAxisGraphProportion()) * m_interactionPotentialDiagram.getXAxisRange());
+                m_model.getEpsilon(), true, m_model);
+        double desiredWidth = m_interactionPotentialDiagram.getXAxisRange() 
+        		/ m_interactionPotentialDiagram.getXAxisGraphProportion();
         double diagramScaleFactor = desiredWidth / m_interactionPotentialDiagram.getFullBoundsReference().width;
         m_interactionPotentialDiagram.scale( diagramScaleFactor );
         
         // Position the diagram so that the x origin lines up with the fixed particle.
-        m_interactionPotentialDiagram.setOffset( -m_interactionPotentialDiagram.getFullBoundsReference().width * (1 - m_interactionPotentialDiagram.getXAxisGraphProportion()), 
+        m_interactionPotentialDiagram.setOffset( -m_interactionPotentialDiagram.getFullBoundsReference().width * m_interactionPotentialDiagram.getXAxisOffsetProportion(), 
                   -m_interactionPotentialDiagram.getFullBoundsReference().height * 1.3 );
         addWorldChild( m_interactionPotentialDiagram );
         
@@ -208,16 +212,27 @@ public class AtomicInteractionsCanvas extends PhetPCanvas {
         	handleFixedParticleAdded( m_fixedParticle );
         }
         
-        // These lines are used to make sure that things are lining up
-        // correctly.  Comment or uncomment them as needed.
-        PhetPPath fixedAtomVerticalCenterMarker = new PhetPPath(new Line2D.Double(0, 0, 0, 1000), 
-        		new BasicStroke(7), Color.PINK);
-        fixedAtomVerticalCenterMarker.setOffset(0, -1000);
-        addWorldChild(fixedAtomVerticalCenterMarker);
-        PhetPPath movableAtomVerticalCenterMarker = new PhetPPath(new Line2D.Double(0, 0, 0, 1000), 
-        		new BasicStroke(7), Color.ORANGE);
-        movableAtomVerticalCenterMarker.setOffset(m_model.getMovableAtomRef().getX(), -1000);
-        addWorldChild(movableAtomVerticalCenterMarker);
+        // The following code creates a set of vertical lines that can be used
+        // to make sure that the atoms are lining up correctly with the
+        // various parts of the graph.
+        
+        if (SHOW_ALIGNMENT_LINES){
+        	
+        	PhetPPath fixedAtomVerticalCenterMarker = new PhetPPath(new Line2D.Double(0, 0, 0, 1000), 
+        			new BasicStroke(7), Color.PINK);
+        	fixedAtomVerticalCenterMarker.setOffset(0, -1000);
+        	addWorldChild(fixedAtomVerticalCenterMarker);
+        	
+        	PhetPPath movableAtomVerticalCenterMarker = new PhetPPath(new Line2D.Double(0, 0, 0, 1000), 
+        			new BasicStroke(7), Color.ORANGE);
+        	movableAtomVerticalCenterMarker.setOffset(m_model.getMovableAtomRef().getX(), -1000);
+        	addWorldChild(movableAtomVerticalCenterMarker);
+        	
+        	PhetPPath rightSideOfChartMarker = new PhetPPath(new Line2D.Double(0, 0, 0, 1000), 
+        			new BasicStroke(7), Color.GREEN);
+        	rightSideOfChartMarker.setOffset(1100, -1000);
+        	addWorldChild(rightSideOfChartMarker);
+        }
     }
     
     //----------------------------------------------------------------------------

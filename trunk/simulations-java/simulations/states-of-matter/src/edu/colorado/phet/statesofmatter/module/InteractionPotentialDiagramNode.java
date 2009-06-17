@@ -370,9 +370,20 @@ public class InteractionPotentialDiagramNode extends PNode {
     /**
      * Returns a value between 0 and 1 representing the fraction of the
      * overall node that is actually used for graphing in the x direction.
+     * This is generally used for determining how to scale the graph when
+     * used in an environment where the scale must match the surroundings.
      */
     public double getXAxisGraphProportion(){
         return m_graphWidth / m_width;
+    }
+    
+    /**
+     * Returns a values between 0 and 1 representing the fraction of the
+     * overall node that exists to the left of the X axis.  This is generally
+     * used for alignment and positioning of this node on a canvas.
+     */
+    public double getXAxisOffsetProportion(){
+        return 1 - ( m_graphWidth + AXES_ARROW_HEAD_HEIGHT ) / m_width;
     }
     
     /**
