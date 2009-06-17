@@ -1,3 +1,5 @@
+# 2.01.04 (32549) Jun 17, 2009
+6/17/09 Testing to see if permissions issues resolved
 # 2.01.04 (32545) Jun 17, 2009
 6/17/09 Testing possible remedy for permissions woes
 # 2.01.03 (32543) Jun 17, 2009
