@@ -40,13 +40,14 @@ public class GrabbableParticleNode extends ParticleForceNode {
      * Constructor.
      * @param particle - The particle within the model.
      * @param mvt - Model-view transform.
+     * @param enableOverlap TODO
      * @param minX - Minimum value in the X direction to which the particle can be moved.
      * @param maxX - Maximum value in the X direction to which the particle can be moved.
      */
     public GrabbableParticleNode( DualAtomModel model, StatesOfMatterAtom particle, ModelViewTransform mvt,
-    		boolean useGradient, double minX, double maxX ) {
+    		boolean useGradient, boolean enableOverlap, double minX, double maxX ) {
         
-        super( particle, mvt, useGradient );
+        super( particle, mvt, useGradient, enableOverlap );
 
         m_model = model;
         m_minX = minX;
@@ -83,7 +84,7 @@ public class GrabbableParticleNode extends ParticleForceNode {
     public GrabbableParticleNode( DualAtomModel model, StatesOfMatterAtom particle, ModelViewTransform mvt, 
             boolean useGradient ) {
 
-        this(model, particle, mvt, useGradient, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+        this(model, particle, mvt, useGradient, true, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
     }
     
     //----------------------------------------------------------------------------
