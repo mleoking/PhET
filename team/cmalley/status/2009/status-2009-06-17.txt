@@ -1,0 +1,40 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: June 10-17, 2009 (Wed-Thu)
+
+ACCOMPLISHMENTS:
+
+  acid-base-solutions:
+  - discussed feedback on version 0.01.08
+  - generalized on/off control for equation scaling
+  - implemented H3O+/OH- ratio feature (aka "dot view")
+  - redesigned layout for the "Comparing Solutions" tab
+  - implemented "Comparing Solutions" tab
+  - revised code for equations
+  - reviewed Kathy's algorithm for disassociated components ratio feature (eg, HA/A)
+  - javadoc'ed all code
+  - published 0.01.09, 0.01.10, 0.01.11
+  - summarized list of open issues for 6/18 meeting
+  
+  build process
+  - worked on "svn status" problem with Jonathan
+  - verified and closed tickets #1171, 1371, 1448, 1551, 1665
+  
+  misc:
+  - status meeting
+  
+WHAT'S NEXT:
+ 
+  - acid-base-solutions implementation
+  - Translation Utility enhancements related to KSU
+  
+ISSUES:
+
+  - none
+  
+DATES UNAVAILABLE:
+
+   July 25 - August 9
+  
+--
