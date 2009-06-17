@@ -312,7 +312,7 @@
             if (preg_match('/^.+\.([^.]+)$/', $file_path, $matches)) {
                 $ext = strtolower($matches[1]);
 
-                // Hand-coding for some file types:
+                // Hand-coding for some file types:
                 if ($ext == 'jnlp') {
                     $mime_type = "application/x-java-jnlp-file";
                 }
@@ -369,7 +369,7 @@
                          * zz-application/zz-winassoc-xls
                          *
                          */
-                        $mime_type1 = "application/vnd.ms-excel";
+                        $mime_type = "application/vnd.ms-excel";
                     }
                 }
              }
