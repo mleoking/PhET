@@ -2,15 +2,19 @@
 
 package edu.colorado.phet.statesofmatter.module.atomicinteractions;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.help.DefaultWiggleMe;
 import edu.colorado.phet.common.piccolophet.help.MotionHelpBalloon;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 import edu.colorado.phet.statesofmatter.model.DualAtomModel;
@@ -203,6 +207,17 @@ public class AtomicInteractionsCanvas extends PhetPCanvas {
         if (m_fixedParticle != null){
         	handleFixedParticleAdded( m_fixedParticle );
         }
+        
+        // These lines are used to make sure that things are lining up
+        // correctly.  Comment or uncomment them as needed.
+        PhetPPath fixedAtomVerticalCenterMarker = new PhetPPath(new Line2D.Double(0, 0, 0, 1000), 
+        		new BasicStroke(7), Color.PINK);
+        fixedAtomVerticalCenterMarker.setOffset(0, -1000);
+        addWorldChild(fixedAtomVerticalCenterMarker);
+        PhetPPath movableAtomVerticalCenterMarker = new PhetPPath(new Line2D.Double(0, 0, 0, 1000), 
+        		new BasicStroke(7), Color.ORANGE);
+        movableAtomVerticalCenterMarker.setOffset(m_model.getMovableAtomRef().getX(), -1000);
+        addWorldChild(movableAtomVerticalCenterMarker);
     }
     
     //----------------------------------------------------------------------------
@@ -280,7 +295,7 @@ public class AtomicInteractionsCanvas extends PhetPCanvas {
     private void handleFixedParticleAdded(StatesOfMatterAtom particle){
         
         m_fixedParticle = particle;
-        m_fixedParticleNode = new ParticleForceNode(particle, m_mvt, true);
+        m_fixedParticleNode = new ParticleForceNode(particle, m_mvt, true, true);
         m_fixedParticleNode.setShowAttractiveForces( m_showAttractiveForces );
         m_fixedParticleNode.setShowRepulsiveForces( m_showRepulsiveForces );
         m_fixedParticleNode.setShowTotalForces( m_showTotalForces );
@@ -320,8 +335,8 @@ public class AtomicInteractionsCanvas extends PhetPCanvas {
     	// Add the atom node for this guy.
 
     	m_movableParticle = particle;
-        m_movableParticleNode = new GrabbableParticleNode(m_model, particle, m_mvt, true, 0, 
-        		Double.POSITIVE_INFINITY);
+        m_movableParticleNode = new GrabbableParticleNode(m_model, particle, m_mvt, true, true, 
+        		0, Double.POSITIVE_INFINITY);
         m_movableParticleNode.setShowAttractiveForces( m_showAttractiveForces );
         m_movableParticleNode.setShowRepulsiveForces( m_showRepulsiveForces );
         m_movableParticleNode.setShowTotalForces( m_showTotalForces );

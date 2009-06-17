@@ -7,6 +7,7 @@ import java.awt.Paint;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
+import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
 import edu.colorado.phet.statesofmatter.model.particle.ArgonAtom;
 import edu.colorado.phet.statesofmatter.model.particle.ConfigurableStatesOfMatterAtom;
@@ -27,6 +28,8 @@ public class ParticleNode extends PNode {
     //----------------------------------------------------------------------------
     // Class Data
     //----------------------------------------------------------------------------
+	
+	public static final double OVERLAP_ENLARGEMENT_FACTOR = 1.25;
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -38,12 +41,24 @@ public class ParticleNode extends PNode {
     private Point2D.Double m_position;
     private SphericalNode m_sphere;
     private boolean m_useGradient = false;
+    private boolean m_overlapEnabled = false;
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
 
-    public ParticleNode( StatesOfMatterAtom particle, ModelViewTransform mvt, boolean useGradient ) {
+    /**
+     * Main constructor.
+     * 
+     * @param particle - The particle in the model that this node will represent in the view.
+     * @param mvt - The model view transform for transforming particle position.
+     * @param useGradient - True to use a gradient when displaying the node, false if not.  The gradient is
+     * computationally intensive to create, so use only when needed.
+     * @param enableOverlap - True if the node should be larger than the actual particle, thus allowing particles
+     * to overlap when they collide.
+     */
+    public ParticleNode( StatesOfMatterAtom particle, ModelViewTransform mvt, boolean useGradient, 
+    		boolean enableOverlap ) {
 
     	if ((mvt == null) || (particle == null)){
     		throw new IllegalArgumentException();
@@ -52,6 +67,7 @@ public class ParticleNode extends PNode {
         m_particle = particle;
         m_mvt = mvt;
         m_useGradient = useGradient;
+        m_overlapEnabled = enableOverlap;
 
         // Local initialization.
         m_position = new Point2D.Double();
@@ -73,10 +89,19 @@ public class ParticleNode extends PNode {
         };
         particle.addListener( m_particleListener );
 
+        // Decide of the diameter of the sphere/circle.
+        double sphereDiameter = particle.getRadius() * 2;
+        if (m_overlapEnabled){
+        	// Overlap is enabled, so make the shape slightly larger than
+        	// the radius of the sphere so that overlap will occur during
+        	// inter-particle collisions.
+        	sphereDiameter = sphereDiameter * OVERLAP_ENLARGEMENT_FACTOR;
+        }
+        
         // Create the node that will represent this particle.  If we are
         // using a gradient, specify that an image should be used, since it
         // will be less computationally intensive to move it around.
-        m_sphere = new SphericalNode( particle.getRadius() * 2, choosePaint( particle ), useGradient );
+        m_sphere = new SphericalNode( sphereDiameter, choosePaint( particle ), useGradient );
         addChild( m_sphere );
         
         // Set ourself to be non-pickable so that we don't get mouse events.
@@ -87,7 +112,7 @@ public class ParticleNode extends PNode {
     }
     
     public ParticleNode( StatesOfMatterAtom particle, ModelViewTransform mvt ) {
-    	this( particle, mvt, false ); // If the user doesn't specify, the gradient is not used.
+    	this( particle, mvt, false, false ); // If the user doesn't specify, a hard circle with no gradient is assumed.
     }
     
     //----------------------------------------------------------------------------
@@ -158,7 +183,13 @@ public class ParticleNode extends PNode {
     		// If the size changes, the gradient must also change to match.
     		m_sphere.setPaint( choosePaint(m_particle) );
     	}
-        m_sphere.setDiameter( m_particle.getRadius() * 2 );
+    	double sphereDiameter = m_particle.getRadius() * 2;
+    	if (m_overlapEnabled){
+    		// Make node larger than particle so that overlap appears to
+    		// happen when the particles collide.
+    		sphereDiameter = sphereDiameter * OVERLAP_ENLARGEMENT_FACTOR;
+    	}
+        m_sphere.setDiameter( sphereDiameter );
     }
 
     /**
@@ -169,12 +200,15 @@ public class ParticleNode extends PNode {
     protected Paint choosePaint( StatesOfMatterAtom atom ) {
 
     	Color baseColor = chooseColor( atom );
+    	Color darkenedBaseColor = ColorUtils.darkerColor(baseColor, 0.9);
+    	Color transparentDarkenedBasedColor = new Color(darkenedBaseColor.getRed(), darkenedBaseColor.getGreen(), 
+    			darkenedBaseColor.getBlue(), 20);
     	
     	if (m_useGradient){
-    		double atomRadius = atom.getRadius();
+    		double radius = m_overlapEnabled ? atom.getRadius() * OVERLAP_ENLARGEMENT_FACTOR : atom.getRadius();
         
-    		return ( new RoundGradientPaint( atomRadius, -atomRadius, Color.WHITE,
-                new Point2D.Double( -atomRadius, atomRadius ), baseColor ) );
+    		return ( new RoundGradientPaint( 0, 0, baseColor,
+                    new Point2D.Double( -radius, radius ), transparentDarkenedBasedColor ) );
     	}
     	else{
     		return baseColor;
