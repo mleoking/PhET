@@ -89,6 +89,10 @@ EOT;
             $count = 0;
             $last_sim = count($sim_list);
             foreach ($sim_list as $sim) {
+                $localized_launch_anchor_attributes = array(
+                    'title' => "Click here to launch this sim"
+                    );
+
                 $launch_anchor_attributes = array(
                     'title' => "Click here to launch the {$locale_info['locale_name']} version of {$sim->getName()}"
                     );
@@ -101,7 +105,7 @@ EOT;
                 $localized_lang_launch_anchor_tag = WebUtils::inst()->buildAnchorTag(
                     $sim->getLaunchUrl($locale),
                     $sim->getNameFromXML($locale),
-                    $launch_anchor_attributes
+                    $localized_launch_anchor_attributes
                     );
                 $lang_launch_anchor_tag = WebUtils::inst()->buildAnchorTag(
                     $sim->getLaunchUrl($locale),
@@ -133,25 +137,12 @@ EOT;
                 }
 
                 print <<<EOT
-                <tr class="even">
+                <tr {$row_class}>
                     <td>{$localized_lang_launch_anchor_tag}</td>
                   <td>{$lang_launch_anchor_tag}</td>
                   <td>{$launch_anchor_tag}</td>
                   {$download_html}
                 </tr>
-
-                <tr class="odd">
-                      <td colspan="4">
-                      <div class="localized_description">
-                      <div class="localized_description_header">
-                      <a onclick="$(this).parent().next().toggle(300); return false;">Click to toggle description</a>
-                      </div>
-                      <div class="localized_description_body">
-                      {$sim->getDescriptionFromXML($locale)}
-                </div>
-                      </div>
-                </td>
-                      </tr>
 
 EOT;
             }
@@ -165,29 +156,6 @@ EOT;
         }
 
         $this->set_charset('utf-8');
-
-        // All the description elements get added hidden via CSS.  If
-        // they were to be expanded the page would be overrun with
-        // clutter.
-        //
-        // To get around this if Java Script is enabled, they can
-        // click on the description elements to expand the localized
-        // description.  If Java Script is not enabled, they can't see
-        // it, the descriptions just don't exist.
-        //
-        // If this one translations page gets split into 1 per
-        // lanugage, it will probably make more sense to add the
-        // descriptions back in for everybody and avoid the Java
-        // Script trick.
-        //
-        // The next line unhides the elements that allow clicking for
-        // more info, but will still keep thet descriptions themselves
-        // hidden until the user explicitly requests them.
-        $add_script = <<<EOT
-            $('div.localized_description').css('display', 'block');
-
-EOT;
-        $this->add_javascript_header_script($add_script);
     }
 
     public function render_content() {
