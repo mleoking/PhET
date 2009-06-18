@@ -1,3 +1,5 @@
+# 0.01.19 (32564) Jun 18, 2009
+6/18/09 Added "rabbits take over the world", fixes, and wolf movement improvements
 # 0.01.18 (32394) Jun 10, 2009
 6/10/09 Added that dreaded "wolf frenzy that makes time stand still"
 # 0.01.17 (32374) Jun 9, 2009
