@@ -34,7 +34,7 @@ public class DisassociatedComponentsRatioNode extends PComposite {
     
     private static final double BASE_CONCENTRATION = 1E-6;
     private static final int BASE_DOTS = 2;
-    private static final int MAX_DOTS = 500;
+    private static final int MAX_DOTS = 5000;
     private static final double BASE_FACTOR = Math.pow( ( MAX_DOTS / BASE_DOTS ), ( 1 / MathUtil.log10( 1 / BASE_CONCENTRATION ) ) );
 
     private static final double DOT_DIAMETER = 6;
@@ -162,7 +162,7 @@ public class DisassociatedComponentsRatioNode extends PComposite {
 
             numberOfReactantDots = getNumberOfDots( solution.getReactantConcentration() );
             numberOfProductDots = getNumberOfDots( solution.getProductConcentration() );
-
+            
             // create particles, minority species in foreground
             if ( numberOfReactantDots > numberOfProductDots ) {
                 createReactantNodes( (int) numberOfReactantDots, MAJORITY_TRANSPARENCY );
