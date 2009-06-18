@@ -149,6 +149,10 @@ public class NuclearPhysicsStrings {
     public static final String TIME_GRAPH_UNITS_MILLION_YRS= NuclearPhysicsResources.getString( "LogarithmicTimeLine.Units.MillionYrs" );
     public static final String TIME_GRAPH_UNITS_BILLION_YRS= NuclearPhysicsResources.getString( "LogarithmicTimeLine.Units.BillionYrs" );
 
+    public static final String MEASUREMENT_CONTROL_PANEL_TITLE= NuclearPhysicsResources.getString( "RadometericMeasurementControlPanel.Title" );
+    public static final String TREE_LABEL= NuclearPhysicsResources.getString( "RadometericMeasurementControlPanel.Tree" );
+    public static final String ROCK_LABEL= NuclearPhysicsResources.getString( "RadometericMeasurementControlPanel.Rock" );
+
     public static final String INFINITY_SYMBOL= NuclearPhysicsResources.getString( "InfinitySymbol" );
 
     public static final String BUCKET_LABEL_POLONIUM= NuclearPhysicsResources.getString( "Bucket.Label.Polonium" );
