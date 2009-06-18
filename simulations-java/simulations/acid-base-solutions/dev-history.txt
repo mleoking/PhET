@@ -15,7 +15,6 @@ DEFER:
 - align baselines of characters in equations (requires a new implementation)
 
 ISSUES:
-- drop "Find The Unknown" module?
 - will equations fit in the available space in the Comparing tab?
 - can we drop Lewis structure diagrams in Comparing tab?
 - replace scaling on/off radio buttons with a check box?
@@ -35,6 +34,7 @@ ISSUES:
 - KP: fewer pixels for the strong range of the strength slider
 
 DONE:
+6/18/09 drop "Find The Unknown" module
 6/16/09 delete support for vertical orientation of scaling controls
 6/16/09 reset by loading a default config in all modules
 6/16/09 rewrite layout code for ComparingCanvas, improve i18n support
