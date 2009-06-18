@@ -19,13 +19,13 @@ public class BunniesTakeOverDialog extends JDialog {
     public BunniesTakeOverDialog( Frame frame, final NaturalSelectionModule module ) {
         super( frame );
 
-        setTitle( "Rabbits have taken over the world" );
+        setTitle( "Bunnies have taken over the world" );
 
         final VerticalLayoutPanel panel = new VerticalLayoutPanel();
 
         panel.setInsets( new Insets( 10, 10, 0, 10 ) );
 
-        JLabel label = new JLabel( "Rabbits have taken over the world!" );
+        JLabel label = new JLabel( "Bunnies have taken over the world!" );
         label.setForeground( Color.WHITE );
         label.setFont( new PhetFont( 20 ) );
         label.setHorizontalAlignment( SwingConstants.CENTER );
