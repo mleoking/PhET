@@ -13,6 +13,7 @@ import java.util.IdentityHashMap;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.view.NuclearDecayProportionChart;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -110,13 +111,14 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
         SkyNode sky = new SkyNode();
         sky.setOffset(_mvt.modelToViewXDouble(0), _mvt.modelToViewYDouble(_model.getGroundLevelY()));
         _backgroundLayer.addChild(sky);
+        
+        // Add the volcano.
+        // TODO: This should be in the model, and is here now solely for demo/testing purposes.
+        PNode volcano = NuclearPhysicsResources.getImageNode("volcano_hot.png");
+        volcano.scale(0.75);
+        volcano.setOffset(700, 330);
+        _backgroundLayer.addChild(volcano);
 
-        // Create and add the node that represents the sky.
-        // TODO
-        
-        // Create and add the node that represents the ground.
-        // TODO
-        
         // Add the nodes that represent the items on which the user can
         // perform radiometric dating.
         	
