@@ -3,7 +3,6 @@ package edu.colorado.phet.acidbasesolutions.view.beaker;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
-import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.SolutionListener;
 import edu.colorado.phet.acidbasesolutions.util.PNodeUtils;
 import edu.colorado.phet.acidbasesolutions.view.moleculecounts.MoleculeCountsNode;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -24,6 +23,7 @@ public class BeakerNode extends PComposite {
     private final MoleculeCountsNode moleculeCountsNode;
     private final BeakerLabelNode beakerLabelNode;
     private final HydroniumHydroxideRatioNode hydroniumHydroxideRatioNode;
+    private final DisassociatedComponentsRatioNode disassociatedComponentsRadioNode;
     
     public BeakerNode( PDimension vesselSize, AqueousSolution solution ) {
         
@@ -39,12 +39,17 @@ public class BeakerNode extends PComposite {
         PDimension labelSize = new PDimension( 0.9 * vesselSize.getWidth(), 0.1 * vesselSize.getHeight() );
         beakerLabelNode = new BeakerLabelNode( labelSize, solution );
         
+        // clipping path for "dot" views
         PBounds containerBounds = new PBounds( 0, 0, vesselSize.getWidth(), vesselSize.getHeight() );
         particlesParentNode = new PClip();
         particlesParentNode.setPathTo( new Rectangle2D.Double( containerBounds.getX(), containerBounds.getY(), containerBounds.getWidth(), containerBounds.getHeight() ) );
         particlesParentNode.setStroke( null );
+        
         hydroniumHydroxideRatioNode = new HydroniumHydroxideRatioNode( solution, containerBounds );
         particlesParentNode.addChild( hydroniumHydroxideRatioNode ); // clip to solution bounds
+        
+        disassociatedComponentsRadioNode = new DisassociatedComponentsRatioNode( solution, containerBounds );
+        particlesParentNode.addChild( disassociatedComponentsRadioNode ); // clip to solution bounds
         
         // rendering order
         addChild( solutionNode );
@@ -73,11 +78,11 @@ public class BeakerNode extends PComposite {
     }
     
     public void setDisassociatedRatioComponentsVisible( boolean visible ) {
-        //XXX
+        disassociatedComponentsRadioNode.setVisible( visible );
     }
     
     public boolean isDisassociatedRatioComponentsVisible() {
-        return false; //XXX
+        return disassociatedComponentsRadioNode.getVisible();
     }
     
     public void setHydroniumHydroxideRatioVisible( boolean visible ) {
