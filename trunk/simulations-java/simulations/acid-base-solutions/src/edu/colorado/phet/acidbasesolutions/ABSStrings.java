@@ -40,11 +40,18 @@ public class ABSStrings {
     public static final String LABEL_STRONGER = ABSResources.getString( "label.stronger" );
     public static final String LABEL_CONCENTRATION_GRAPH_Y_AXIS = ABSResources.getString("label.concentrationGraph.yAxis" );
     public static final String LABEL_SOLUTE = ABSResources.getString( "label.solute" );
+    public static final String LABEL_POINTS = ABSResources.getString( "label.points" );
+    public static final String LABEL_SOLUTIONS = ABSResources.getString( "label.solutions" );
     
     // legend text
     public static final String LEGEND_HA = ABSResources.getString( "legend.HA" );
     public static final String LEGEND_B = ABSResources.getString( "legend.B" );
     public static final String LEGEND_MOH = ABSResources.getString( "legend.MOH" );
+    
+    // messages
+    public static final String MESSAGE_MATCH = ABSResources.getString( "message.match" );
+    public static final String MESSAGE_CORRECT = ABSResources.getString( "message.correct" );
+    public static final String MESSAGE_WRONG = ABSResources.getString( "message.wrong" );
     
     // check boxes
     public static final String CHECK_BOX_MOLECULE_COUNTS = ABSResources.getString( "checkBox.moleculeCounts" );
@@ -55,6 +62,10 @@ public class ABSStrings {
     public static final String CHECK_BOX_REACTION_EQUATIONS = ABSResources.getString( "checkBox.reactionEquations" );
     public static final String CHECK_BOX_SYMBOL_LEGEND = ABSResources.getString( "checkBox.symbolLegend" );
     public static final String CHECK_BOX_CONCENTRATIONS_GRAPH = ABSResources.getString( "checkBox.concentrationsGraph" );
+    
+    // buttons
+    public static final String BUTTON_NEW_SOLUTION = ABSResources.getString( "button.newSolution" );
+    public static final String BUTTON_CHECK_MATCH = ABSResources.getString( "button.checkMatch" );
     
     // radio buttons
     public static final String RADIO_BUTTON_EQUATION_SCALING_OFF = ABSResources.getString( "radioButton.equationScaling.off" );
