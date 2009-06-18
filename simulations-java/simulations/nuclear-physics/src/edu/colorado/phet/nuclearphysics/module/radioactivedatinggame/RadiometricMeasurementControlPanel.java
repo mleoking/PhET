@@ -2,12 +2,8 @@
 
 package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.Frame;
-import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
 import javax.swing.Box;
@@ -17,18 +13,13 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.SwingConstants;
 
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
-import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
-import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusImageType;
-import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
-import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
 
 /**
  * This class represents the control panel that allows the user to select the
@@ -42,9 +33,7 @@ public class RadiometricMeasurementControlPanel extends ControlPanel {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private DatableItemSelectionPanel _selectionPanel;
     private RadiometricMeasurementModel _model;
-    private static final Font LABEL_FONT = new PhetFont( Font.BOLD, 14 ); 
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -95,98 +84,16 @@ public class RadiometricMeasurementControlPanel extends ControlPanel {
         treeSelector.getButton().setSelected( true );
     }
     
-    //----------------------------------------------------------------------------
-    // Inner classes
-    //----------------------------------------------------------------------------
-    
-    private class DatableItemSelectionPanel extends VerticalLayoutPanel {
-    	
-        //------------------------------------------------------------------------
-        // Class Data
-        //------------------------------------------------------------------------
-    	
-    	// Constant that controls the size (height) of the image icons used to
-    	// represent the various selections.
-    	private static final int IMAGE_ICON_HEIGHT = 70;  // In pixels.
-        
-        //------------------------------------------------------------------------
-        // Instance Data
-        //------------------------------------------------------------------------
-        
-        private JRadioButton _treeRadioButton;
-        private JRadioButton _rockRadioButton;
-
-        //------------------------------------------------------------------------
-        // Constructor
-        //------------------------------------------------------------------------
-        
-        public DatableItemSelectionPanel() {
-        	
-        	// Set the layout to a grid with 2 columns, one for the button and
-        	// one for the image.
-            
-            // Create the radio buttons.
-        	
-//            _treeRadioButton = new JRadioButton("Tree", createIconFromImageName("tree_1.png"));
-            _treeRadioButton = new JRadioButton("Tree");
-            _treeRadioButton.setFont(LABEL_FONT);
-            _treeRadioButton.setVerticalTextPosition(SwingConstants.CENTER);
-            _treeRadioButton.setHorizontalTextPosition(SwingConstants.LEFT);
-
-            _rockRadioButton = new JRadioButton("Rock", createIconFromImageName("rock_1.png"));
-            _rockRadioButton.setFont(LABEL_FONT);
-            
-            // Register for button presses.
-            _treeRadioButton.addActionListener( new ActionListener(){
-                public void actionPerformed(ActionEvent event){
-                }
-            });
-            _rockRadioButton.addActionListener( new ActionListener(){
-                public void actionPerformed(ActionEvent event){
-                }
-            });
-            
-            // Group the radio buttons together logically and set initial state.
-            ButtonGroup buttonGroup = new ButtonGroup();
-            buttonGroup.add( _treeRadioButton );
-            buttonGroup.add( _rockRadioButton );
-            _treeRadioButton.setSelected( true );
-            
-            // Add the buttons to the panel.
-            add(_treeRadioButton);
-            add(_rockRadioButton);
-            
-        }
-        
-        /**
-         * Update the state of the buttons based on the values in the model.
-         */
-        public void updateButtonState(){
-        	// TODO
-        }
-        
-        private JPanel createVerticalSpacingPanel(int space){
-            JPanel spacePanel = new JPanel();
-            spacePanel.setLayout( new BoxLayout( spacePanel, BoxLayout.Y_AXIS ) );
-            spacePanel.add( Box.createVerticalStrut( space ) );
-            return spacePanel;
-        }
-        
-        private ImageIcon createIconFromImageName( String imageName ){
-            BufferedImage image = NuclearPhysicsResources.getImage( imageName );
-            double scaleFactor = (double)((double)IMAGE_ICON_HEIGHT / (double)(image.getHeight()));
-            image = BufferedImageUtils.rescaleFractional( image, scaleFactor, scaleFactor );
-            return new ImageIcon( image );
-        }
-    }
-    
-    
     private JPanel createVerticalSpacingPanel(int space){
         JPanel spacePanel = new JPanel();
         spacePanel.setLayout( new BoxLayout( spacePanel, BoxLayout.Y_AXIS ) );
         spacePanel.add( Box.createVerticalStrut( space ) );
         return spacePanel;
     }
+    
+    //----------------------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------------------
     
     /**
      * This class combines an icon and a radio button on to a panel in the way
@@ -223,6 +130,9 @@ public class RadiometricMeasurementControlPanel extends ControlPanel {
             ImageIcon imageIcon = new ImageIcon( image );
             JLabel iconImageLabel = new JLabel( imageIcon );
             add( iconImageLabel );
+            
+            // Add a listener to the image that essentially makes it so that
+            // clicking on the image is the same as clicking on the button.
     	}
     	
     	public JRadioButton getButton(){
