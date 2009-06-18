@@ -90,7 +90,7 @@ EOT;
             $last_sim = count($sim_list);
             foreach ($sim_list as $sim) {
                 $localized_launch_anchor_attributes = array(
-                    'title' => "Click here to launch this sim"
+                    'title' => $sim->getDescriptionFromXML($locale),
                     );
 
                 $launch_anchor_attributes = array(
