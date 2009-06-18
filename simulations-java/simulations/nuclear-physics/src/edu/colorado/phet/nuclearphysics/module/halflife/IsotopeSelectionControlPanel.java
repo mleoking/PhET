@@ -32,7 +32,6 @@ import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.common.NucleusDisplayInfo;
 import edu.colorado.phet.nuclearphysics.common.NucleusType;
-import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusImageType;
 import edu.colorado.phet.nuclearphysics.model.NuclearDecayListenerAdapter;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.NucleusTypeControl;
 import edu.colorado.phet.nuclearphysics.view.LabeledNucleusSphereNode;
@@ -311,55 +310,5 @@ public class IsotopeSelectionControlPanel extends ControlPanel {
             spacePanel.add( Box.createVerticalStrut( space ) );
             return spacePanel;
         }
-    }
-    
-    /**
-     * This class is used to describe a nucleus that needs to be added to a
-     * control panel.  The description has little to do with the nature of the
-     * nucleus itself and everything to do with how it is presented to the user.
-     * 
-     */
-    private class NucleusSelectionDescriptor {
-    	private final AtomicNucleusImageType imageType;
-    	private final String isotopeNumberString;
-    	private final String chemicalSymbol;
-    	private final Color labelColor;
-    	private final Color sphereColor;
-    	private final String legendLabel;
-    	
-		public NucleusSelectionDescriptor(AtomicNucleusImageType imageType,
-				String isotopeNumberString, String chemicalSymbol, Color labelColor,
-				Color sphereColor, String legendLabel) {
-			this.imageType = imageType;
-			this.isotopeNumberString = isotopeNumberString;
-			this.chemicalSymbol = chemicalSymbol;
-			this.labelColor = labelColor;
-			this.sphereColor = sphereColor;
-			this.legendLabel = legendLabel;
-		}
-
-		public AtomicNucleusImageType getImageType() {
-			return imageType;
-		}
-
-		public String getIsotopeNumberString() {
-			return isotopeNumberString;
-		}
-
-		public String getChemicalSymbol() {
-			return chemicalSymbol;
-		}
-
-		public Color getLabelColor() {
-			return labelColor;
-		}
-
-		public Color getSphereColor() {
-			return sphereColor;
-		}
-
-		public String getLegendLabel() {
-			return legendLabel;
-		}
-    }
+    }    
 }
