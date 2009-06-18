@@ -5,21 +5,30 @@ package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Frame;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.SwingConstants;
 
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
+import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusImageType;
+import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
+import edu.colorado.phet.statesofmatter.StatesOfMatterResources;
 
 /**
  * This class represents the control panel that allows the user to select the
@@ -58,26 +67,47 @@ public class RadiometricMeasurementControlPanel extends ControlPanel {
         int minimumWidth = NuclearPhysicsResources.getInt( "int.minControlPanelWidth", 215 );
         setMinimumWidth( minimumWidth );
         
-        // Create sub-panel
-        _selectionPanel = new DatableItemSelectionPanel();
+        // Create and add the title for the control panel.
+        JPanel titlePanel = new JPanel();
+        JLabel controlPanelTitle = new JLabel("Choose an Object");
+        controlPanelTitle.setFont(new PhetFont(20, true));
+        titlePanel.add(controlPanelTitle);
+        addControlFullWidth(titlePanel);
         
-        // Add the selection panel.
-        addControlFullWidth( _selectionPanel );
+        // Insert some spacing.
+        addControlFullWidth(createVerticalSpacingPanel(20));
         
-        // Add the Reset All button.
-        addVerticalSpace( 10 );
-        addResetAllButton( piccoloModule );
+        // Create the tree selection.
+        RadioButtonWithIcon treeSelector = new RadioButtonWithIcon( "Tree", "tree_1.png" );
+        addControlFullWidth( treeSelector );
+
+        // Insert some spacing.
+        addControlFullWidth(createVerticalSpacingPanel(10));
+        
+        // Create the rock selection.
+        RadioButtonWithIcon rockSelector = new RadioButtonWithIcon( "Rock", "rock_1.png" );
+        addControlFullWidth( rockSelector );
+        
+        // Put the radio buttons in a group together.
+        ButtonGroup buttonGroup = new ButtonGroup();
+        buttonGroup.add( treeSelector.getButton() );
+        buttonGroup.add( rockSelector.getButton() );
+        treeSelector.getButton().setSelected( true );
     }
     
     //----------------------------------------------------------------------------
     // Inner classes
     //----------------------------------------------------------------------------
     
-    private class DatableItemSelectionPanel extends JPanel {
+    private class DatableItemSelectionPanel extends VerticalLayoutPanel {
     	
         //------------------------------------------------------------------------
         // Class Data
         //------------------------------------------------------------------------
+    	
+    	// Constant that controls the size (height) of the image icons used to
+    	// represent the various selections.
+    	private static final int IMAGE_ICON_HEIGHT = 70;  // In pixels.
         
         //------------------------------------------------------------------------
         // Instance Data
@@ -91,12 +121,20 @@ public class RadiometricMeasurementControlPanel extends ControlPanel {
         //------------------------------------------------------------------------
         
         public DatableItemSelectionPanel() {
+        	
+        	// Set the layout to a grid with 2 columns, one for the button and
+        	// one for the image.
             
             // Create the radio buttons.
         	
-        	ImageIcon treeImageIcon = new ImageIcon(NuclearPhysicsResources.getImage("tree_1.png"));
-            _treeRadioButton = new JRadioButton("Tree", treeImageIcon);
-            _rockRadioButton = new JRadioButton();
+//            _treeRadioButton = new JRadioButton("Tree", createIconFromImageName("tree_1.png"));
+            _treeRadioButton = new JRadioButton("Tree");
+            _treeRadioButton.setFont(LABEL_FONT);
+            _treeRadioButton.setVerticalTextPosition(SwingConstants.CENTER);
+            _treeRadioButton.setHorizontalTextPosition(SwingConstants.LEFT);
+
+            _rockRadioButton = new JRadioButton("Rock", createIconFromImageName("rock_1.png"));
+            _rockRadioButton.setFont(LABEL_FONT);
             
             // Register for button presses.
             _treeRadioButton.addActionListener( new ActionListener(){
@@ -114,6 +152,10 @@ public class RadiometricMeasurementControlPanel extends ControlPanel {
             buttonGroup.add( _rockRadioButton );
             _treeRadioButton.setSelected( true );
             
+            // Add the buttons to the panel.
+            add(_treeRadioButton);
+            add(_rockRadioButton);
+            
         }
         
         /**
@@ -129,55 +171,62 @@ public class RadiometricMeasurementControlPanel extends ControlPanel {
             spacePanel.add( Box.createVerticalStrut( space ) );
             return spacePanel;
         }
+        
+        private ImageIcon createIconFromImageName( String imageName ){
+            BufferedImage image = NuclearPhysicsResources.getImage( imageName );
+            double scaleFactor = (double)((double)IMAGE_ICON_HEIGHT / (double)(image.getHeight()));
+            image = BufferedImageUtils.rescaleFractional( image, scaleFactor, scaleFactor );
+            return new ImageIcon( image );
+        }
+    }
+    
+    
+    private JPanel createVerticalSpacingPanel(int space){
+        JPanel spacePanel = new JPanel();
+        spacePanel.setLayout( new BoxLayout( spacePanel, BoxLayout.Y_AXIS ) );
+        spacePanel.add( Box.createVerticalStrut( space ) );
+        return spacePanel;
     }
     
     /**
-     * This class is used to describe a nucleus that needs to be added to a
-     * control panel.  The description has little to do with the nature of the
-     * nucleus itself and everything to do with how it is presented to the user.
-     * 
+     * This class combines an icon and a radio button on to a panel in the way
+     * that is needed for this simulation.
      */
-    private class NucleusSelectionDescriptor {
-    	private final AtomicNucleusImageType imageType;
-    	private final String isotopeNumberString;
-    	private final String chemicalSymbol;
-    	private final Color labelColor;
-    	private final Color sphereColor;
-    	private final String legendLabel;
+    private static class RadioButtonWithIcon extends HorizontalLayoutPanel {
     	
-		public NucleusSelectionDescriptor(AtomicNucleusImageType imageType,
-				String isotopeNumberString, String chemicalSymbol, Color labelColor,
-				Color sphereColor, String legendLabel) {
-			this.imageType = imageType;
-			this.isotopeNumberString = isotopeNumberString;
-			this.chemicalSymbol = chemicalSymbol;
-			this.labelColor = labelColor;
-			this.sphereColor = sphereColor;
-			this.legendLabel = legendLabel;
-		}
+    	// Constant that controls the size (height) of the image icons used to
+    	// represent the various selections.
+    	private static final int IMAGE_ICON_HEIGHT = 90;  // In pixels.
 
-		public AtomicNucleusImageType getImageType() {
-			return imageType;
-		}
+    	// Font to use for labels.
+    	private static final Font LABEL_FONT = new PhetFont(18);
+    	
+    	private JRadioButton _button;
 
-		public String getIsotopeNumberString() {
-			return isotopeNumberString;
-		}
-
-		public String getChemicalSymbol() {
-			return chemicalSymbol;
-		}
-
-		public Color getLabelColor() {
-			return labelColor;
-		}
-
-		public Color getSphereColor() {
-			return sphereColor;
-		}
-
-		public String getLegendLabel() {
-			return legendLabel;
-		}
+    	/**
+    	 * Constructor.
+    	 * 
+    	 * @param text
+    	 * @param imageName
+    	 */
+    	public RadioButtonWithIcon(String text, String imageName){
+    		
+    		// Create and add the button.
+    		_button = new JRadioButton(text);
+    		_button.setFont(LABEL_FONT);
+    		add(_button);
+    		
+    		// Create and add the image.
+            BufferedImage image = NuclearPhysicsResources.getImage( imageName );
+            double scaleFactor = (double)((double)IMAGE_ICON_HEIGHT / (double)(image.getHeight()));
+            image = BufferedImageUtils.rescaleFractional( image, scaleFactor, scaleFactor );
+            ImageIcon imageIcon = new ImageIcon( image );
+            JLabel iconImageLabel = new JLabel( imageIcon );
+            add( iconImageLabel );
+    	}
+    	
+    	public JRadioButton getButton(){
+    		return _button;
+    	}
     }
 }
