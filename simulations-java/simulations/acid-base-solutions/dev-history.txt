@@ -4,11 +4,12 @@
 
 TODO:
 - first time a module is activated, canvas updateLayout is called twice (AncestorListener+ComponentListener), other sims only call once (AncestorListener)
-- implement HA/A "ratio" view
 - scale image files
 - review remaining instanceof comparisons
 - auto layout of symbol legend descriptions, so that we don't need to localize HTML markup
 - Match Game module
+- delete HydroniumHydroxideRatioNode
+- delete "H3O/OH ratio" control in BeakerControlsNode, including associated strings
 
 DEFER:
 - restrict Strength slider to one section of the range (only needed if we add "Custom Weak" acid/base)
@@ -32,8 +33,13 @@ ISSUES:
 - KP: fewer pixels for the strong range of the strength slider
 
 DONE:
+6/18/09 implement HA/A "ratio" view using Kathy's new algorithm for calculating number of dots
+6/18/09 drop "H3O/OH ratio" feature, based on today's design meeting
 6/18/09 started on "Matching Game" module (score, message area, buttons)
+# 0.01.12
 6/18/09 drop "Find The Unknown" module
+6/18/08 delete Lewis diagrams for custom bases in Comparing tab
+# 0.01.11
 6/16/09 delete support for vertical orientation of scaling controls
 6/16/09 reset by loading a default config in all modules
 6/16/09 rewrite layout code for ComparingCanvas, improve i18n support
@@ -44,13 +50,14 @@ DONE:
 6/16/09 make single and double arrow image files the same width so that equations don't shift
 6/16/09 scale image files for reaction equation arrows by 65% 
 6/16/09 support horizontal and vertical orientation of scaling controls
+# 0.01.10
 6/15/09 close/restore dialogs when switching modules
 6/15/09 localize ComparingViewControlsNode
 6/15/09 save/load for Comparing module
 6/15/09 first pass at Comparing canvas
 6/15/09 refactor beaker view controls for use in other modules
 6/15/09 create model for Comparing module
-# 0.01.19
+# 0.01.09
 6/15/09 move solution creation into model
 6/12/09 add H3O/OH ratio view, lifted from pH Scale sim
 6/12/09 localize symbol legend
@@ -62,10 +69,10 @@ DONE:
 6/11/09 revise implementation of equilibrium expressions to be more type-safe, eliminate duplicate code
 6/11/09 hide EquilibriumModel inside AqueousSolution, add adapter to strategy
 6/10/09 replace "instanceof" with AqueousSolution.isAcidic, isBasic
-# 0.01.18
+# 0.01.08
 6/2/09 fix odd behavior at strong/intermediate base boundary, switch symbols/icons/etc before strength notification
 6/2/09 move common behavior to Solute base class
-# 0.01.17
+# 0.01.07
 6/2/09 fix initial layout of acid reaction equation
 6/2/09 use a darker color for H2O symbols in equations
 6/2/09 hide Lewis structure diagrams for specific acids and bases
