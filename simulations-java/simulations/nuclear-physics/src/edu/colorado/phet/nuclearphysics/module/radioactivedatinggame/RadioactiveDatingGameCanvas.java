@@ -356,8 +356,16 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     	
     	// Check for a valid guess.
     	if (!((ageGuess >= 0 ) && (ageGuess < Double.POSITIVE_INFINITY))){
+    		
     		// The user didn't submit a valid guess, so bail out here, which
-    		// effectively ignores the submission.
+    		// effectively ignores the submission.  But first check to see
+    		// if a previous guess should be restored.
+    		AgeGuessResultNode guessResultNode = _mapDatableItemsToGuessResults.get(itemBeingTouched);
+    		if (guessResultNode != null){
+    			guessResultNode.setVisible(true);
+    		}
+    		
+    		// And now bail.
     		return;
     	}
     	
