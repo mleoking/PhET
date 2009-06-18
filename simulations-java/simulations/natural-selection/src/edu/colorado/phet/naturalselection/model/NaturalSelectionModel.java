@@ -24,6 +24,8 @@ public class NaturalSelectionModel extends ClockAdapter {
     public static final int SELECTION_FOOD = 1;
     public static final int SELECTION_WOLVES = 2;
 
+    public static final int MAX_POPULATION = 500;
+
     /**
      * The simulation clock
      */
@@ -191,8 +193,12 @@ public class NaturalSelectionModel extends ClockAdapter {
         ageBunnies();
 
         if ( !friendAdded ) {
-            if ( getPopulation() == 0 ) {
+            int prePop = getPopulation();
+            if ( prePop == 0 ) {
                 endGame();
+            }
+            else if ( prePop > MAX_POPULATION ) {
+                bunniesTakeOver();
             }
             else {
                 System.out.println( "Nothing to do, friend has not been added" );
@@ -214,9 +220,22 @@ public class NaturalSelectionModel extends ClockAdapter {
         if ( pop == 0 ) {
             endGame();
         }
+        else if ( pop > MAX_POPULATION ) {
+            bunniesTakeOver();
+        }
         else {
             System.out.println( "Population: " + pop );
         }
+    }
+
+    public void bunniesTakeOver() {
+        if ( gameEnded ) {
+            // game already ended!
+            return;
+        }
+        gameEnded = true;
+        clock.pause();
+        notifyBunniesTakeOver();
     }
 
     public void endGame() {
@@ -695,6 +714,12 @@ public class NaturalSelectionModel extends ClockAdapter {
         }
     }
 
+    private void notifyBunniesTakeOver() {
+        for ( Listener listener : listeners ) {
+            listener.onEvent( new Event( this, Event.TYPE_BUNNIES_TAKE_OVER ) );
+        }
+    }
+
     //----------------------------------------------------------------------------
     // Listeners
     //----------------------------------------------------------------------------
@@ -721,6 +746,7 @@ public class NaturalSelectionModel extends ClockAdapter {
         public static final int TYPE_SELECTION_CHANGE = 3;
         public static final int TYPE_FRENZY_START = 4;
         public static final int TYPE_GAME_OVER = 5;
+        public static final int TYPE_BUNNIES_TAKE_OVER = 6;
 
         private NaturalSelectionModel model;
         private int type;

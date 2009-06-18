@@ -127,6 +127,9 @@ public class NaturalSelectionConstants {
     public static final Point2D IMAGE_SHRUB_OFFSET = new Point2D.Double( 0, 15 );
     public static final Point2D IMAGE_TREE_OFFSET = new Point2D.Double( 0, 20 );
 
+    public static final String IMAGE_EARTH = "earth-v1.png";
+    public static final String IMAGE_EARTH_PLAIN = "earth-v1-plain.png";
+
 
     //----------------------------------------------------------------------------
     // Cursors
