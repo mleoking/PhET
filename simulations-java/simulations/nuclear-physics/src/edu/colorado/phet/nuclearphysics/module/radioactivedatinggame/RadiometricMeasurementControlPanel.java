@@ -4,6 +4,8 @@ package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 
 import java.awt.Font;
 import java.awt.Frame;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
 import javax.swing.Box;
@@ -20,6 +22,7 @@ import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 
 /**
  * This class represents the control panel that allows the user to select the
@@ -58,7 +61,7 @@ public class RadiometricMeasurementControlPanel extends ControlPanel {
         
         // Create and add the title for the control panel.
         JPanel titlePanel = new JPanel();
-        JLabel controlPanelTitle = new JLabel("Choose an Object");
+        JLabel controlPanelTitle = new JLabel(NuclearPhysicsStrings.MEASUREMENT_CONTROL_PANEL_TITLE);
         controlPanelTitle.setFont(new PhetFont(20, true));
         titlePanel.add(controlPanelTitle);
         addControlFullWidth(titlePanel);
@@ -67,14 +70,14 @@ public class RadiometricMeasurementControlPanel extends ControlPanel {
         addControlFullWidth(createVerticalSpacingPanel(20));
         
         // Create the tree selection.
-        RadioButtonWithIcon treeSelector = new RadioButtonWithIcon( "Tree", "tree_1.png" );
+        RadioButtonWithIcon treeSelector = new RadioButtonWithIcon( NuclearPhysicsStrings.TREE_LABEL, "tree_1.png" );
         addControlFullWidth( treeSelector );
 
         // Insert some spacing.
         addControlFullWidth(createVerticalSpacingPanel(10));
         
         // Create the rock selection.
-        RadioButtonWithIcon rockSelector = new RadioButtonWithIcon( "Rock", "rock_1.png" );
+        RadioButtonWithIcon rockSelector = new RadioButtonWithIcon( NuclearPhysicsStrings.ROCK_LABEL, "rock_1.png" );
         addControlFullWidth( rockSelector );
         
         // Put the radio buttons in a group together.
@@ -133,6 +136,11 @@ public class RadiometricMeasurementControlPanel extends ControlPanel {
             
             // Add a listener to the image that essentially makes it so that
             // clicking on the image is the same as clicking on the button.
+            iconImageLabel.addMouseListener( new MouseAdapter(){
+				public void mouseReleased(MouseEvent e) {
+					_button.setSelected(true);
+				}
+            });
     	}
     	
     	public JRadioButton getButton(){
