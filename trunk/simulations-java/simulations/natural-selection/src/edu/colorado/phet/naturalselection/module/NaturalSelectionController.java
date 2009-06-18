@@ -129,6 +129,14 @@ public class NaturalSelectionController {
             }
         } );
 
+        model.addListener( new NaturalSelectionModel.Listener() {
+            public void onEvent( NaturalSelectionModel.Event event ) {
+                if ( event.getType() == NaturalSelectionModel.Event.TYPE_BUNNIES_TAKE_OVER ) {
+                    module.showBunniesTakeOver();
+                }
+            }
+        } );
+
         ColorGene.getInstance().addListener( new GeneListener() {
             public void onChangeDominantAllele( Gene gene, boolean primary ) {
 
@@ -137,6 +145,9 @@ public class NaturalSelectionController {
             public void onChangeDistribution( Gene gene, int primary, int secondary ) {
                 if ( primary + secondary == 0 ) {
                     model.endGame();
+                }
+                else if ( primary + secondary > NaturalSelectionModel.MAX_POPULATION ) {
+                    model.bunniesTakeOver();
                 }
             }
 

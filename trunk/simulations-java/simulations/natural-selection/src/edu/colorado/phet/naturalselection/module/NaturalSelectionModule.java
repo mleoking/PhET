@@ -11,6 +11,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
 import edu.colorado.phet.naturalselection.control.NaturalSelectionControlPanel;
 import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
+import edu.colorado.phet.naturalselection.dialog.BunniesTakeOverDialog;
 import edu.colorado.phet.naturalselection.dialog.GameOverDialog;
 import edu.colorado.phet.naturalselection.dialog.GenerationChartDialog;
 import edu.colorado.phet.naturalselection.model.NaturalSelectionClock;
@@ -29,6 +30,7 @@ public class NaturalSelectionModule extends PiccoloModule {
     private NaturalSelectionControlPanel controlPanel;
     private GenerationChartDialog generationChartDialog;
     private GameOverDialog gameOverDialog;
+    private BunniesTakeOverDialog bunniesTakeOverDialog;
 
     private Frame parentFrame;
 
@@ -69,7 +71,6 @@ public class NaturalSelectionModule extends PiccoloModule {
      * Shows the generation chart dialog
      */
     public void showGenerationChart() {
-        System.out.println( "Showing generation chart" );
         if ( generationChartDialog == null ) {
             generationChartDialog = new GenerationChartDialog( parentFrame, model );
             SwingUtils.centerDialogInParent( generationChartDialog );
@@ -89,7 +90,6 @@ public class NaturalSelectionModule extends PiccoloModule {
     }
 
     public void showGameOver() {
-        System.out.println( "Showing game over" );
         if ( gameOverDialog == null ) {
             gameOverDialog = new GameOverDialog( parentFrame, this );
             SwingUtils.centerDialogInParent( gameOverDialog );
@@ -105,6 +105,25 @@ public class NaturalSelectionModule extends PiccoloModule {
                 }
             } );
             gameOverDialog.setVisible( true );
+        }
+    }
+
+    public void showBunniesTakeOver() {
+        if ( bunniesTakeOverDialog == null ) {
+            bunniesTakeOverDialog = new BunniesTakeOverDialog( parentFrame, this );
+            SwingUtils.centerDialogInParent( bunniesTakeOverDialog );
+            bunniesTakeOverDialog.addWindowListener( new WindowAdapter() {
+                // called when the close button in the dialog's window dressing is clicked
+                public void windowClosing( WindowEvent e ) {
+                    bunniesTakeOverDialog.dispose();
+                }
+
+                // called by JDialog.dispose
+                public void windowClosed( WindowEvent e ) {
+                    bunniesTakeOverDialog = null;
+                }
+            } );
+            bunniesTakeOverDialog.setVisible( true );
         }
     }
 
