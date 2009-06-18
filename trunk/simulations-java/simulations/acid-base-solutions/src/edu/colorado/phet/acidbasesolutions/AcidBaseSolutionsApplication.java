@@ -13,10 +13,12 @@ import javax.swing.JOptionPane;
 import edu.colorado.phet.acidbasesolutions.developer.DeveloperMenu;
 import edu.colorado.phet.acidbasesolutions.menu.OptionsMenu;
 import edu.colorado.phet.acidbasesolutions.module.comparing.ComparingModule;
-import edu.colorado.phet.acidbasesolutions.module.findunknown.FindUnknownModule;
 import edu.colorado.phet.acidbasesolutions.module.matchinggame.MatchingGameModule;
 import edu.colorado.phet.acidbasesolutions.module.solutions.SolutionsModule;
-import edu.colorado.phet.acidbasesolutions.persistence.*;
+import edu.colorado.phet.acidbasesolutions.persistence.ABSConfig;
+import edu.colorado.phet.acidbasesolutions.persistence.ComparingConfig;
+import edu.colorado.phet.acidbasesolutions.persistence.MatchingGameConfig;
+import edu.colorado.phet.acidbasesolutions.persistence.SolutionsConfig;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
@@ -42,7 +44,6 @@ public class AcidBaseSolutionsApplication extends PiccoloPhetApplication {
     private SolutionsModule solutionsModule;
     private ComparingModule comparingModule;
     private MatchingGameModule matchingGameModule;
-    private FindUnknownModule findUnknownModule;
 
     // PersistanceManager is used to save/load simulation configurations.
     private XMLPersistenceManager persistenceManager;
@@ -101,9 +102,6 @@ public class AcidBaseSolutionsApplication extends PiccoloPhetApplication {
         
         matchingGameModule = new MatchingGameModule( parentFrame );
         addModule( matchingGameModule );
-        
-        findUnknownModule = new FindUnknownModule( parentFrame );
-        addModule( findUnknownModule );
     }
 
     /*
@@ -200,9 +198,6 @@ public class AcidBaseSolutionsApplication extends PiccoloPhetApplication {
         MatchingGameConfig matchingGameConfig = matchingGameModule.save();
         appConfig.setMatchGameConfig( matchingGameConfig );
         
-        FindUnknownConfig findUnknownConfig = findUnknownModule.save();
-        appConfig.setFindUnknownConfig( findUnknownConfig );
-        
         persistenceManager.save( appConfig );
     }
 
@@ -220,7 +215,6 @@ public class AcidBaseSolutionsApplication extends PiccoloPhetApplication {
                 solutionsModule.load( appConfig.getSolutionsConfig() );
                 comparingModule.load( appConfig.getComparingConfig() );
                 matchingGameModule.load( appConfig.getMatchGameConfig() );
-                findUnknownModule.load( appConfig.getFindUnknownConfig() );
             }
             else {
                 String message = ABSStrings.MESSAGE_NOT_A_CONFIG;

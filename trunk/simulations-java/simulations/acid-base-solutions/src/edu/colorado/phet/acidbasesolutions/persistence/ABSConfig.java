@@ -27,7 +27,6 @@ public class ABSConfig implements IProguardKeepClass {
     private SolutionsConfig solutionsConfig;
     private ComparingConfig comparingConfig;
     private MatchingGameConfig matchGameConfig;
-    private FindUnknownConfig findUnknownConfig;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -40,7 +39,6 @@ public class ABSConfig implements IProguardKeepClass {
         solutionsConfig = new SolutionsConfig();
         comparingConfig = new ComparingConfig();
         matchGameConfig = new MatchingGameConfig();
-        findUnknownConfig = new FindUnknownConfig();
     }
 
     //----------------------------------------------------------------------------
@@ -113,13 +111,5 @@ public class ABSConfig implements IProguardKeepClass {
 
     public void setMatchGameConfig( MatchingGameConfig gameConfig ) {
         matchGameConfig = gameConfig;
-    }
-
-    public FindUnknownConfig getFindUnknownConfig() {
-        return findUnknownConfig;
-    }
-    
-    public void setFindUnknownConfig( FindUnknownConfig unknownConfig ) {
-        findUnknownConfig = unknownConfig;
     }
 }
