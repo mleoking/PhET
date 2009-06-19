@@ -1,3 +1,5 @@
+<%@ page import="java.util.Enumeration" %>
+<%@ page import="java.util.Properties" %>
 <%--
   Created by IntelliJ IDEA.
   User: jon
@@ -9,6 +11,16 @@
 <html>
 <head><title>Simple jsp page</title></head>
 <body>
-Java version: <%= System.getProperty( "java.version" ) %>
+<%
+    Properties properties = System.getProperties();
+    Enumeration en = properties.propertyNames();
+    while ( en.hasMoreElements() ) {
+        String key = (String) en.nextElement();
+        String value = properties.getProperty( key );
+%>
+<%=key%> = <%=value%><br>
+<%
+    }
+%>
 </body>
 </html>

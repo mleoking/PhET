@@ -17,6 +17,12 @@
         <servlet-name>RequestHeaderExample</servlet-name>
         <servlet-class>edu.colorado.phet.tomcattest.RequestHeaderExample</servlet-class>
     </servlet>
+    <servlet>
+        <description>Tests mysql login and other things</description>
+        <display-name>MySQL Test</display-name>
+        <servlet-name>MySQLTestServlet</servlet-name>
+        <servlet-class>edu.colorado.phet.tomcattest.MySQLTestServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HelloWorld</servlet-name>
         <url-pattern>/helloworld</url-pattern>
@@ -24,5 +30,9 @@
     <servlet-mapping>
         <servlet-name>RequestHeaderExample</servlet-name>
         <url-pattern>/requestheaderexample</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MySQLTestServlet</servlet-name>
+        <url-pattern>/mysqltest</url-pattern>
     </servlet-mapping>
 </web-app>
