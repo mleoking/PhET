@@ -22,8 +22,11 @@ public abstract class Acid extends Solute {
     
     public abstract static class StrongAcid extends Acid {
         
-        private StrongAcid( String name, String symbol, String conjugateSymbol, double strength ) {
-            super( name, symbol, conjugateSymbol, strength );
+        // all strong bases have the same strength, in the middle of the range
+        private static final double STRENGTH = ABSConstants.STRONG_STRENGTH_RANGE.getMin() +  ( ABSConstants.STRONG_STRENGTH_RANGE.getLength() / 2 );
+        
+        private StrongAcid( String name, String symbol, String conjugateSymbol ) {
+            super( name, symbol, conjugateSymbol, STRENGTH );
         }
         
         protected boolean isValidStrength( double strength ) {
@@ -33,13 +36,13 @@ public abstract class Acid extends Solute {
     
     public static class HydrochloricAcid extends StrongAcid {
         public HydrochloricAcid() {
-            super( ABSStrings.HYDROCHLORIC_ACID, ABSSymbols.HCl, ABSSymbols.Cl_MINUS, 25 );
+            super( ABSStrings.HYDROCHLORIC_ACID, ABSSymbols.HCl, ABSSymbols.Cl_MINUS );
         }
     }
     
     public static class PerchloricAcid extends StrongAcid {
         public PerchloricAcid() {
-            super( ABSStrings.PERCHLORIC_ACID, ABSSymbols.HClO4, ABSSymbols.ClO4_MINUS, 25 );
+            super( ABSStrings.PERCHLORIC_ACID, ABSSymbols.HClO4, ABSSymbols.ClO4_MINUS );
         }
     }
 

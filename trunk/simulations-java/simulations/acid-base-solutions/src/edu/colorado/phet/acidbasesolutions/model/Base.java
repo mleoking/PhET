@@ -28,11 +28,14 @@ public abstract class Base extends Solute {
     
     public abstract static class StrongBase extends Base {
         
-        private StrongBase( String name, String symbol, String conjugateSymbol, double strength  ) {
+        // all strong bases have the same strength, in the middle of the range
+        private static final double STRENGTH = ABSConstants.STRONG_STRENGTH_RANGE.getMin() +  ( ABSConstants.STRONG_STRENGTH_RANGE.getLength() / 2 );
+        
+        private StrongBase( String name, String symbol, String conjugateSymbol  ) {
             super( name, 
                    symbol, ABSImages.MOH_MOLECULE, ABSImages.MOH_STRUCTURE, ABSColors.MOH, 
                    conjugateSymbol, ABSImages.M_PLUS_MOLECULE, ABSImages.M_PLUS_STRUCTURE, ABSColors.M_PLUS, 
-                   strength );
+                   STRENGTH );
         }
         
         protected boolean isValidStrength( double strength ) {
@@ -42,7 +45,7 @@ public abstract class Base extends Solute {
     
     public static class SodiumHydroxide extends StrongBase {
         public SodiumHydroxide() {
-            super( ABSStrings.SODIUM_HYDROXIDE, ABSSymbols.NaOH, ABSSymbols.Na_PLUS, 25 );
+            super( ABSStrings.SODIUM_HYDROXIDE, ABSSymbols.NaOH, ABSSymbols.Na_PLUS );
         }
     }
 
