@@ -16,7 +16,7 @@ public class BaseEquilibriumExpressionNode extends AbstractEquilibriumExpression
     private final AqueousSolution solution;
     
     public BaseEquilibriumExpressionNode( AqueousSolution solution ) {
-        super( true );
+        super( true, true );
         assert( solution.isBasic() );
         this.solution = solution;
         setKLabel( ABSSymbols.Kb );
@@ -35,7 +35,6 @@ public class BaseEquilibriumExpressionNode extends AbstractEquilibriumExpression
 
         // K value
         setKValue( solute.getStrength() );
-        setLargeValueVisible( solute.isStrong() );
 
         // concentration scaling
         scaleLeftNumeratorToConcentration( solution.getProductConcentration() );

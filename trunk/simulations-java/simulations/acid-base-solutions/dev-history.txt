@@ -10,7 +10,6 @@ TODO:
 - Match Game module
 - custom renderer for solute combo box so they all have the same height
 - separator below "no solute" and above custom choices
-- Ka > 1 and Kb > 1 for intermediate range of strength slider
 
 DEFER:
 - restrict Strength slider to one section of the range (only needed if we add "Custom Weak" acid/base)
@@ -22,6 +21,7 @@ ISSUES:
 - LL: different icon for MOH
 
 DONE:
+6/19/09 Ka > 1 and Kb > 1 for intermediate range of strength slider
 6/19/09 set all strong acids/bases to have strength in the middle of the strong range
 6/19/09 change RatioDotsNode.BASE_CONCENTRATION = 1E-7, so that pure water shows some dots
 6/19/09 shown H3O/OH using new algorithm

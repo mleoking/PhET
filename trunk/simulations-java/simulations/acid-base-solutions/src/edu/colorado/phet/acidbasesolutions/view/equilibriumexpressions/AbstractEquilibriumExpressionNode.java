@@ -7,6 +7,7 @@ import java.awt.Stroke;
 import java.awt.geom.Line2D;
 
 import edu.colorado.phet.acidbasesolutions.ABSColors;
+import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.model.ConcentrationScaleModel;
 import edu.colorado.phet.acidbasesolutions.util.PNodeUtils;
@@ -54,6 +55,9 @@ public abstract class AbstractEquilibriumExpressionNode extends PComposite {
     private static final Font EQUALS_FONT = new PhetFont( Font.BOLD, FONT_SIZE - 2 );
     private static final Color EQUALS_COLOR = Color.BLACK;
     
+    private static final Font GREATER_THAN_FONT = new PhetFont( Font.BOLD, FONT_SIZE );
+    private static final Color GREATER_THAN_COLOR = EQUALS_COLOR;
+    
     private static final Font BRACKET_FONT = new PhetFont( Font.PLAIN, FONT_SIZE - 2 );
     private static final Color BRACKET_COLOR = Color.BLACK;
     private static final double BRACKET_X_MARGIN = 2;
@@ -68,21 +72,25 @@ public abstract class AbstractEquilibriumExpressionNode extends PComposite {
     private final KNode kNode;
     private final TermNode leftNumeratorNode, rightNumeratorNode, denominatorNode;
     private final EqualsNode leftEqualsNode, rightEqualsNode;
+    private final GreaterThanOneNode greaterThanOneNode;
     private final DividedNode dividedNode;
     private final ValueNode valueNode;
     private final LargeValueNode largeValueNode;
     private final boolean hasDenominator;
     private boolean scalingEnabled;
     private double leftNumeratorScale, rightNumeratorScale, denominatorScale;
+    private final boolean kRepresentationVaries;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    protected AbstractEquilibriumExpressionNode( boolean hasDenominator ) {
+    protected AbstractEquilibriumExpressionNode( boolean hasDenominator, boolean kRepresentationVaries ) {
         super();
         setPickable( false );
         setChildrenPickable( false );
+        
+        this.kRepresentationVaries = kRepresentationVaries;
         
         kNode = new KNode( "?" );
         addChild( kNode );
@@ -107,14 +115,20 @@ public abstract class AbstractEquilibriumExpressionNode extends PComposite {
         
         valueNode = new ValueNode();
         addChild( valueNode );
+        
+        greaterThanOneNode = new GreaterThanOneNode();
+        greaterThanOneNode.setVisible( false );
+        addChild( greaterThanOneNode );
+        
         largeValueNode = new LargeValueNode();
+        largeValueNode.setVisible( false );
         addChild( largeValueNode );
         
         // default state
         scalingEnabled = false;
         leftNumeratorScale = rightNumeratorScale = denominatorScale = 1.0;
-        setLargeValueVisible( false );
         
+        updateKRepresentation();
         updateLayout();
     }
     
@@ -182,15 +196,27 @@ public abstract class AbstractEquilibriumExpressionNode extends PComposite {
      */
     public void setKValue( double value ) {
         valueNode.setValue( value );
+        updateKRepresentation();
         updateLayout();
     }
     
     /*
-     * Sets the visibility of the value "Large".
+     * The value of K displayed may vary depending on what range K is in.
+     * 
+     * weak: = 2.04 x 10^-3
+     * strong: = Large
+     * intermediate: > 1
      */
-    protected void setLargeValueVisible( boolean b ) {
-        largeValueNode.setVisible( b );
-        valueNode.setVisible( !b );
+    private void updateKRepresentation() {
+        if ( kRepresentationVaries ) {
+            final double k = valueNode.getValue();
+            boolean isWeak = ABSConstants.WEAK_STRENGTH_RANGE.contains( k );
+            boolean isStrong = ABSConstants.STRONG_STRENGTH_RANGE.contains( k );
+            valueNode.setVisible( isWeak );
+            largeValueNode.setVisible( isStrong );
+            rightEqualsNode.setVisible( isStrong || isWeak );
+            greaterThanOneNode.setVisible( !isStrong && !isWeak );
+        }
     }
     
     protected void setLeftNumeratorProperties( String text, Color color ) {
@@ -285,6 +311,8 @@ public abstract class AbstractEquilibriumExpressionNode extends PComposite {
         xOffset = rightNumeratorNode.getFullBoundsReference().getMaxX() + X_SPACING - PNodeUtils.getOriginXOffset( rightEqualsNode );
         yOffset = leftEqualsNode.getYOffset() - PNodeUtils.getOriginYOffset( rightEqualsNode );
         rightEqualsNode.setOffset( xOffset, yOffset );
+        // greater than
+        greaterThanOneNode.setOffset( xOffset, yOffset );
         // value
         xOffset = rightEqualsNode.getFullBoundsReference().getMaxX() + X_SPACING - PNodeUtils.getOriginXOffset( valueNode );
         yOffset = rightEqualsNode.getFullBoundsReference().getCenterY() - ( valueNode.getFullBoundsReference().getHeight() / 2 ) - PNodeUtils.getOriginYOffset( valueNode );
@@ -407,6 +435,17 @@ public abstract class AbstractEquilibriumExpressionNode extends PComposite {
             super( "=" );
             setFont( EQUALS_FONT );
             setTextPaint( EQUALS_COLOR );
+        }
+    }
+    
+    /*
+     * Greater than sign.
+     */
+    private static class GreaterThanOneNode extends PText {
+        public GreaterThanOneNode() {
+            super( "> 1" );
+            setFont( GREATER_THAN_FONT );
+            setTextPaint( GREATER_THAN_COLOR );
         }
     }
     
