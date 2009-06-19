@@ -109,7 +109,7 @@ class BeakerLabelNode extends PNode {
         
         private void updateLabel() {
             if ( solution.isPureWater() ) {
-                String text = ABSStrings.PURE_WATER + ", 0.00 " + ABSStrings.UNITS_MOLAR;
+                String text = ABSStrings.PURE_WATER;
                 labelNode.setHTML( text );
             }
             else {
