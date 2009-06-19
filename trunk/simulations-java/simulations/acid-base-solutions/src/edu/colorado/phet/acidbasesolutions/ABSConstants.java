@@ -49,7 +49,7 @@ public class ABSConstants {
     
     public static final DoubleRange CONCENTRATION_RANGE = new DoubleRange( 1E-3, 1 );
     public static final DoubleRange WEAK_STRENGTH_RANGE = new DoubleRange( 1E-10, 1 );
-    public static final DoubleRange STRONG_STRENGTH_RANGE = new DoubleRange( 20, 1E7 );
+    public static final DoubleRange STRONG_STRENGTH_RANGE = new DoubleRange( 20, 30 );
     public static final DoubleRange INTERMEDIATE_STRENGTH_RANGE = new DoubleRange( WEAK_STRENGTH_RANGE.getMax(), STRONG_STRENGTH_RANGE.getMin() ); // exclusive
     public static final DoubleRange CUSTOM_STRENGTH_RANGE = new DoubleRange( WEAK_STRENGTH_RANGE.getMin(), STRONG_STRENGTH_RANGE.getMax() );
     

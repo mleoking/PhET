@@ -33,13 +33,13 @@ public abstract class Acid extends Solute {
     
     public static class HydrochloricAcid extends StrongAcid {
         public HydrochloricAcid() {
-            super( ABSStrings.HYDROCHLORIC_ACID, ABSSymbols.HCl, ABSSymbols.Cl_MINUS, 1E7 );
+            super( ABSStrings.HYDROCHLORIC_ACID, ABSSymbols.HCl, ABSSymbols.Cl_MINUS, 25 );
         }
     }
     
     public static class PerchloricAcid extends StrongAcid {
         public PerchloricAcid() {
-            super( ABSStrings.PERCHLORIC_ACID, ABSSymbols.HClO4, ABSSymbols.ClO4_MINUS, 40 );
+            super( ABSStrings.PERCHLORIC_ACID, ABSSymbols.HClO4, ABSSymbols.ClO4_MINUS, 25 );
         }
     }
 

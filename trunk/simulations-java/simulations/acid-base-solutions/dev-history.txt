@@ -10,6 +10,9 @@ TODO:
 - Match Game module
 - delete HydroniumHydroxideRatioNode
 - delete "H3O/OH ratio" control in BeakerControlsNode, including associated strings
+- custom renderer for solute combo box so they all have the same height
+- separator below "no solute" and above custom choices
+- K=25 for strong acid/base, calculate this so it's in the middle if strong range ever changes
 
 DEFER:
 - restrict Strength slider to one section of the range (only needed if we add "Custom Weak" acid/base)
@@ -17,22 +20,18 @@ DEFER:
 
 ISSUES:
 - replace scaling on/off radio buttons with a check box?
-- algorithm for calculating number of dots for ratio feature
-- vertical spacing of items in solute combo box
 - people think the A- icon has something wrong with it
 - KP: PSwing buffering makes Swing text look lousy while dragging sliders
-- KP: doesn't like look of solute combo box
-- LL: proposed that we hide the reactant molecule image for strong bases
 - layout change of play area is annoying when switching solutes, due to label changes in beaker's View control panel
-- TL: label the intermediate range of the strength slider
-- JB: different strong acids/bases shouldn't have different positions on strength slider
 - LL: different icon for MOH
-- JB: changes to the descriptions in the legend
-- JB: Ka value for HF (Hydrofluoric Acid)
-- TL: different number of decimal places for strength
-- KP: fewer pixels for the strong range of the strength slider
 
 DONE:
+6/19/09 set strong range to 20-30, set all specific strong acids/bases to K=25
+6/19/09 fewer pixels for the strong range of the strength slider
+6/19/09 two decimal places for H2O molecule counts
+6/19/09 one decimal place for H2O concentration
+6/19/09 changes to the descriptions in the legend
+# 0.01.13
 6/18/09 implement HA/A "ratio" view using Kathy's new algorithm for calculating number of dots
 6/18/09 drop "H3O/OH ratio" feature, based on today's design meeting
 6/18/09 started on "Matching Game" module (score, message area, buttons)
