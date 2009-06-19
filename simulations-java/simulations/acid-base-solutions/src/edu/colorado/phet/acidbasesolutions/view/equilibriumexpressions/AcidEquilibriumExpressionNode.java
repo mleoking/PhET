@@ -16,7 +16,7 @@ public class AcidEquilibriumExpressionNode extends AbstractEquilibriumExpression
     private final AqueousSolution solution;
     
     public AcidEquilibriumExpressionNode( AqueousSolution solution ) {
-        super( true );
+        super( true, true );
         assert( solution.isAcidic() );
         this.solution = solution;
         Solute solute = solution.getSolute();
@@ -33,7 +33,6 @@ public class AcidEquilibriumExpressionNode extends AbstractEquilibriumExpression
         // K value
         Solute solute = solution.getSolute();
         setKValue( solute.getStrength() );
-        setLargeValueVisible( solute.isStrong() );
 
         // concentration scaling
         scaleLeftNumeratorToConcentration( solution.getH3OConcentration() );

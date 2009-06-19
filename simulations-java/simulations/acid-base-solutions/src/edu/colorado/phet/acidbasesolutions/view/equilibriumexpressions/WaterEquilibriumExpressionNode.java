@@ -16,7 +16,7 @@ public class WaterEquilibriumExpressionNode extends AbstractEquilibriumExpressio
     private final AqueousSolution solution;
     
     public WaterEquilibriumExpressionNode( AqueousSolution solution ) {
-        super( false );
+        super( false, false );
         this.solution = solution;
         setKLabel( ABSSymbols.Kw );
         setLeftNumeratorProperties( ABSSymbols.H3O_PLUS, ABSColors.H3O_PLUS );
