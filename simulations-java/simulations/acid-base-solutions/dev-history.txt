@@ -8,8 +8,6 @@ TODO:
 - review remaining instanceof comparisons
 - auto layout of symbol legend descriptions, so that we don't need to localize HTML markup
 - Match Game module
-- delete HydroniumHydroxideRatioNode
-- delete "H3O/OH ratio" control in BeakerControlsNode, including associated strings
 - custom renderer for solute combo box so they all have the same height
 - separator below "no solute" and above custom choices
 - Ka > 1 and Kb > 1 for intermediate range of strength slider
