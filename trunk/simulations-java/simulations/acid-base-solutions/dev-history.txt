@@ -13,6 +13,8 @@ TODO:
 - custom renderer for solute combo box so they all have the same height
 - separator below "no solute" and above custom choices
 - K=25 for strong acid/base, calculate this so it's in the middle if strong range ever changes
+- Ka > 1 and Kb > 1 for intermediate range of strength slider
+- add in H3O/OH using new algorithm (change DisassociatedComponentsRatioNode to ConcentrationRatioNode)
 
 DEFER:
 - restrict Strength slider to one section of the range (only needed if we add "Custom Weak" acid/base)

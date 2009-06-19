@@ -38,8 +38,10 @@ public class DisassociatedComponentsRatioNode extends PComposite {
     private static final double BASE_FACTOR = Math.pow( ( MAX_DOTS / BASE_DOTS ), ( 1 / MathUtil.log10( 1 / BASE_CONCENTRATION ) ) );
 
     private static final double DOT_DIAMETER = 6;
-    private static final int MAJORITY_TRANSPARENCY = 140; // transparency of majority species, 0-255, transparent-opaque
-    private static final int MINORITY_TRANSPARENCY = 140; // transparency of minority species, 0-255, transparent-opaque
+    
+    // transparency of dots0-255, transparent-opaque
+    private static final int MAJORITY_TRANSPARENCY = 140; // majority species
+    private static final int MINORITY_TRANSPARENCY = 140; // minority species
     
     //----------------------------------------------------------------------------
     // Instance data
