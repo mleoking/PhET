@@ -1,3 +1,5 @@
+# 2.01.07 (32591) Jun 19, 2009
+6/19/09 demo changes to dot view, symbol legend, decimal places
 # 2.01.06 (32583) Jun 18, 2009
 6/18/09 Testing test-project deploy for XML parsing errors
 # 2.01.05 (32582) Jun 18, 2009
