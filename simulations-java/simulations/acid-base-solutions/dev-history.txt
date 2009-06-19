@@ -14,20 +14,19 @@ TODO:
 - separator below "no solute" and above custom choices
 - K=25 for strong acid/base, calculate this so it's in the middle if strong range ever changes
 - Ka > 1 and Kb > 1 for intermediate range of strength slider
-- add in H3O/OH using new algorithm (change DisassociatedComponentsRatioNode to ConcentrationRatioNode)
 
 DEFER:
 - restrict Strength slider to one section of the range (only needed if we add "Custom Weak" acid/base)
 - align baselines of characters in equations (requires a new implementation)
 
 ISSUES:
-- replace scaling on/off radio buttons with a check box?
-- people think the A- icon has something wrong with it
 - KP: PSwing buffering makes Swing text look lousy while dragging sliders
 - layout change of play area is annoying when switching solutes, due to label changes in beaker's View control panel
 - LL: different icon for MOH
 
 DONE:
+6/19/09 change RatioDotsNode.BASE_CONCENTRATION = 1E-7, so that pure water shows some dots
+6/19/09 shown H3O/OH using new algorithm
 6/19/09 set strong range to 20-30, set all specific strong acids/bases to K=25
 6/19/09 fewer pixels for the strong range of the strength slider
 6/19/09 two decimal places for H2O molecule counts

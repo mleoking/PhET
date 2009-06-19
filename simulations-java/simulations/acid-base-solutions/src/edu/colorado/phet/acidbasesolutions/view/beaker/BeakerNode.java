@@ -19,11 +19,9 @@ public class BeakerNode extends PComposite {
     
     private static double MAX_VOLUME = 1; // liters
     
-    private final PClip particlesParentNode;
     private final MoleculeCountsNode moleculeCountsNode;
     private final BeakerLabelNode beakerLabelNode;
-    private final HydroniumHydroxideRatioNode hydroniumHydroxideRatioNode;
-    private final DisassociatedComponentsRatioNode disassociatedComponentsRadioNode;
+    private final RatioDotsNode dotsNode;
     
     public BeakerNode( PDimension vesselSize, AqueousSolution solution ) {
         
@@ -41,20 +39,17 @@ public class BeakerNode extends PComposite {
         
         // clipping path for "dot" views
         PBounds containerBounds = new PBounds( 0, 0, vesselSize.getWidth(), vesselSize.getHeight() );
-        particlesParentNode = new PClip();
-        particlesParentNode.setPathTo( new Rectangle2D.Double( containerBounds.getX(), containerBounds.getY(), containerBounds.getWidth(), containerBounds.getHeight() ) );
-        particlesParentNode.setStroke( null );
+        PClip dotsClippingPath = new PClip();
+        dotsClippingPath.setPathTo( new Rectangle2D.Double( containerBounds.getX(), containerBounds.getY(), containerBounds.getWidth(), containerBounds.getHeight() ) );
+        dotsClippingPath.setStroke( null );
         
-        hydroniumHydroxideRatioNode = new HydroniumHydroxideRatioNode( solution, containerBounds );
-        particlesParentNode.addChild( hydroniumHydroxideRatioNode ); // clip to solution bounds
-        
-        disassociatedComponentsRadioNode = new DisassociatedComponentsRatioNode( solution, containerBounds );
-        particlesParentNode.addChild( disassociatedComponentsRadioNode ); // clip to solution bounds
+        dotsNode = new RatioDotsNode( solution, containerBounds );
+        dotsClippingPath.addChild( dotsNode ); // clip to solution bounds
         
         // rendering order
         addChild( solutionNode );
         addChild( probeNode );
-        addChild( particlesParentNode );
+        addChild( dotsClippingPath );
         addChild( vesselNode );
         addChild( moleculeCountsNode );
         addChild( beakerLabelNode );
@@ -78,19 +73,19 @@ public class BeakerNode extends PComposite {
     }
     
     public void setDisassociatedRatioComponentsVisible( boolean visible ) {
-        disassociatedComponentsRadioNode.setVisible( visible );
+        dotsNode.setDisassociatedComponentsVisible( visible );
     }
     
     public boolean isDisassociatedRatioComponentsVisible() {
-        return disassociatedComponentsRadioNode.getVisible();
+        return dotsNode.isDisassociatedComponentsVisible();
     }
     
     public void setHydroniumHydroxideRatioVisible( boolean visible ) {
-        hydroniumHydroxideRatioNode.setVisible( visible );
+        dotsNode.setHydroniumHydroxideVisible( visible );
     }
     
     public boolean isHydroniumHydroxideRatioVisible() {
-        return hydroniumHydroxideRatioNode.getVisible();
+        return dotsNode.isHydroniumHydroxideVisible();
     }
     
     public void setMoleculeCountsVisible( boolean visible ) {

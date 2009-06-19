@@ -85,7 +85,7 @@ public abstract class BeakerControlsNode extends PhetPNode {
         int row = 0;
         int column = 0;
         layout.addComponent( dissociatedComponentsRatioCheckBox, row++, column );
-//        layout.addComponent( hyroniumHydroxideRatioCheckBox, row++, column ); //XXX permanently delete this and all associated code?
+        layout.addComponent( hyroniumHydroxideRatioCheckBox, row++, column );
         layout.addComponent( moleculeCountsCheckBox, row++, column );
         layout.addComponent( labelCheckBox, row++, column );
         
