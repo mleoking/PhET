@@ -56,7 +56,7 @@ public class StrengthSliderNode extends PhetPNode {
     private static final Color TRACK_STRONG_COLOR = Color.GRAY;
     private static final double TRACK_WEAK_WIDTH = 200;
     private static final double TRACK_INTERMEDIATE_WIDTH = 30;
-    private static final double TRACK_STRONG_WIDTH = 80;
+    private static final double TRACK_STRONG_WIDTH = 32;
     private static final double TRACK_WIDTH = TRACK_WEAK_WIDTH + TRACK_INTERMEDIATE_WIDTH + TRACK_STRONG_WIDTH;
     private static final double TRACK_HEIGHT = 10;
     private static final Stroke TRACK_STROKE = new BasicStroke( 1f );

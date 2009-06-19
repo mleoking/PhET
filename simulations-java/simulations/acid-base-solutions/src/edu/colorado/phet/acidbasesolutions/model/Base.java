@@ -42,7 +42,7 @@ public abstract class Base extends Solute {
     
     public static class SodiumHydroxide extends StrongBase {
         public SodiumHydroxide() {
-            super( ABSStrings.SODIUM_HYDROXIDE, ABSSymbols.NaOH, ABSSymbols.Na_PLUS, 1E7 );
+            super( ABSStrings.SODIUM_HYDROXIDE, ABSSymbols.NaOH, ABSSymbols.Na_PLUS, 25 );
         }
     }
 
