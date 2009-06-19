@@ -22,8 +22,10 @@ ISSUES:
 - LL: different icon for MOH
 
 DONE:
+# 0.01.15
 6/19/09 no concentration for pure water on beaker label
 6/19/09 Ka > 1 and Kb > 1 for intermediate range of strength slider
+# 0.01.14
 6/19/09 set all strong acids/bases to have strength in the middle of the strong range
 6/19/09 change RatioDotsNode.BASE_CONCENTRATION = 1E-7, so that pure water shows some dots
 6/19/09 shown H3O/OH using new algorithm
