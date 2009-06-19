@@ -3,11 +3,12 @@
 ==================================================================================
 
 TODO:
+- new icon coming from Archie
 - first time a module is activated, canvas updateLayout is called twice (AncestorListener+ComponentListener), other sims only call once (AncestorListener)
 - scale image files
 - review remaining instanceof comparisons
 - auto layout of symbol legend descriptions, so that we don't need to localize HTML markup
-- Match Game module
+- Matching Game module
 - custom renderer for solute combo box so they all have the same height
 - separator below "no solute" and above custom choices
 
