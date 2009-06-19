@@ -57,7 +57,7 @@ abstract class AbstractConcentrationGraphNode extends PComposite {
     // numeric values
     private static final Font VALUE_FONT = new PhetFont( Font.PLAIN, 18 );
     private static final TimesTenNumberFormat DEFAULT_VALUE_FORMAT = new TimesTenNumberFormat( "0.00" );
-    private static final DecimalFormat H2O_FORMAT = new DefaultDecimalFormat( "#0" );
+    private static final DecimalFormat H2O_FORMAT = new DefaultDecimalFormat( "#0.0" );
     private static final double NEGLIGIBLE_THRESHOLD = 0;
     
     // molecule icons and labels
