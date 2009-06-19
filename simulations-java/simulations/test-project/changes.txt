@@ -1,3 +1,5 @@
+# 2.01.06 (32583) Jun 18, 2009
+6/18/09 Testing test-project deploy for XML parsing errors
 # 2.01.05 (32582) Jun 18, 2009
 6/18/09 test "Deploy Dev"
 # 2.01.04 (32549) Jun 17, 2009
