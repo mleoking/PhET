@@ -39,12 +39,13 @@ public class MySQLTestServlet extends HttpServlet {
 
             ResultSet ret;
 
-            ret = stmt.executeQuery( "SELECT * FROM testrow" );
+            ret = stmt.executeQuery( "SELECT sim_id, sim_name, sim_dirname FROM simulation" );
 
             while ( ret.next() ) {
-                int id = ret.getInt( "id" );
-                String value = ret.getString( "value" );
-                out.println( "id=" + String.valueOf( id ) + ", value=" + value + "<br>" );
+                int id = ret.getInt( "sim_id" );
+                String simName = ret.getString( "sim_name" );
+                String simDirName = ret.getString( "sim_dirname" );
+                out.println( simDirName + "<br>" );
             }
 
             con.close();
