@@ -23,6 +23,28 @@
         <servlet-name>MySQLTestServlet</servlet-name>
         <servlet-class>edu.colorado.phet.tomcattest.MySQLTestServlet</servlet-class>
     </servlet>
+    <servlet>
+        <description>Lists all of the simulations</description>
+        <display-name>Full SImulation List</display-name>
+        <servlet-name>FullSimulationList</servlet-name>
+        <servlet-class>edu.colorado.phet.tomcattest.FullSimulationList</servlet-class>
+    </servlet>
+    <servlet>
+        <description>Displays a simulation</description>
+        <display-name>Simulation</display-name>
+        <servlet-name>SimulationPage</servlet-name>
+        <servlet-class>edu.colorado.phet.tomcattest.SimulationPage</servlet-class>
+    </servlet>
+    <filter>
+        <filter-name>UrlRewriteFilter</filter-name>
+        <filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>UrlRewriteFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+    </filter-mapping>
     <servlet-mapping>
         <servlet-name>HelloWorld</servlet-name>
         <url-pattern>/helloworld</url-pattern>
@@ -34,5 +56,13 @@
     <servlet-mapping>
         <servlet-name>MySQLTestServlet</servlet-name>
         <url-pattern>/mysqltest</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FullSimulationList</servlet-name>
+        <url-pattern>/simulations</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SimulationPage</servlet-name>
+        <url-pattern>/internalsim</url-pattern>
     </servlet-mapping>
 </web-app>
