@@ -7,7 +7,7 @@ import java.util.Properties;
 import javax.servlet.ServletContext;
 
 public class SqlUtils {
-    public ResultSet run( ServletContext context, String query ) {
+    public static ResultSet run( ServletContext context, String query ) {
         ResultSet ret = null;
         try {
             Properties props = new Properties();
@@ -21,7 +21,7 @@ public class SqlUtils {
             String url = "jdbc:mysql://" + host + ":3306/" + name;
             Connection con = DriverManager.getConnection( url, user, pass );
             Statement stmt = con.createStatement();
-            ResultSet resultSet = stmt.executeQuery( query );
+            ret = stmt.executeQuery( query );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -34,4 +34,11 @@ public class SqlUtils {
         }
         return ret;
     }
+
+    public static ResultSet getSimulationSql( ServletContext context, String project, String simulation ) {
+        String str = "SELECT * FROM simulation WHERE (sim_dirname = '" + project + "' AND sim_flavorname = '" + simulation + "');";
+        System.out.println( str );
+        return run( context, str );
+    }
+
 }

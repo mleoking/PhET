@@ -7,6 +7,6 @@
 <urlrewrite>
     <rule>
         <from>^/simulation/([^/]*)/([^/]*)$</from>
-        <to>/internalsim?projectName=$1&amp;simulationName=$2</to>
+        <to>/simulationpage.jsp?projectName=$1&amp;simulationName=$2</to>
     </rule>
 </urlrewrite>
