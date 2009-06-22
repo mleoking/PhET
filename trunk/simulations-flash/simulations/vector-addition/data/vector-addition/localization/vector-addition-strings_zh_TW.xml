@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--vector-addition-strings_zh_TW.xml created Mon Jun 22 16:59:57 CST 2009 using: vector-addition 2.00.00 (30671), translation-utility 2.01.00 (31673) 五月 15, 2009-->
+<SimStrings>
+<string key="showSum" value="顯示結果"/>
+<string key="simTitle" value="向量加法"/>
+<string key="grabOne" value="選取一個"/>
+<string key="clearAll" value="清除"/>
+<string key="componentDisplay" value="物件顯示"/>
+<string key="y" value="Y軸"/>
+<string key="style3" value="第三型"/>
+<string key="none" value="無"/>
+<string key="showGrid" value="顯示格線"/>
+<string key="style2" value="第二型"/>
+<string key="x" value="X軸"/>
+<string key="style1" value="第一型"/>
+</SimStrings>
