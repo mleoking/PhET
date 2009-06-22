@@ -33,6 +33,7 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.common.NucleusType;
+import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusDecayModel;
 import edu.colorado.phet.nuclearphysics.module.radioactivedatinggame.ProbeTypeModel.ProbeType;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -62,7 +63,17 @@ public class RadiometricDatingMeterNode extends PNode {
 	private static final double READOUT_HEIGHT_PROPORTION = 0.2;
 	private static final double PROBE_SIZE_SCALE_FACTOR = 0.75;  // Adjust in order to change size of probe.
 	private static final Font HALF_LIFE_SELECTION_FONT = new PhetFont(16);
-
+	
+	// Array that maps values to the strings used for the custom nucleus half
+	// life.  THESE MUST BE MANUALLY KEPT IN SYNC WITH THE STRINGS IN THE
+	// LOCALIZTION FILE.
+	private static final ValueStringPair [] HALF_LIFE_VALUE_STRING_PAIRS = {
+		new ValueStringPair(MultiNucleusDecayModel.convertYearsToMs(100E3), "100 ky"),
+		new ValueStringPair(MultiNucleusDecayModel.convertYearsToMs(1E6), "1 my"),
+		new ValueStringPair(MultiNucleusDecayModel.convertYearsToMs(10E6), "10 my"),
+		new ValueStringPair(MultiNucleusDecayModel.convertYearsToMs(100E6), "100 my"),
+	};
+	
     //------------------------------------------------------------------------
     // Instance Data
     //------------------------------------------------------------------------
@@ -75,6 +86,7 @@ public class RadiometricDatingMeterNode extends PNode {
 	private ElementSelectionPanel _elementSelectionPanel;
 	private ProbeTypeModel _probeTypeModel;
 	private PSwing _elementSelectionNode;
+	private PComboBox _halfLifeComboBox;
 	
     //------------------------------------------------------------------------
     // Constructor
@@ -138,11 +150,13 @@ public class RadiometricDatingMeterNode extends PNode {
 		// panel, but problems with that approach necessitated its extraction
 		// into a separate PSwing.
 		if (showCustom){
-	        String[] halfLifeValues = { "100 ky", "1 my", "10 my", "100 my" };
-	        PComboBox halfLifeComboBox = new PComboBox(halfLifeValues);
-	        halfLifeComboBox.setFont(HALF_LIFE_SELECTION_FONT);
-	        PSwing halfLifeComboBoxPSwing = new PSwing( halfLifeComboBox );
-	        halfLifeComboBox.setEnvironment(halfLifeComboBoxPSwing, canvas);
+	        _halfLifeComboBox = new PComboBox();
+	        _halfLifeComboBox.setFont(HALF_LIFE_SELECTION_FONT);
+	        for (int i = 0; i < HALF_LIFE_VALUE_STRING_PAIRS.length; i++){
+	        	_halfLifeComboBox.insertItemAt(HALF_LIFE_VALUE_STRING_PAIRS[i].string, i);
+	        }
+	        PSwing halfLifeComboBoxPSwing = new PSwing( _halfLifeComboBox );
+	        _halfLifeComboBox.setEnvironment(halfLifeComboBoxPSwing, canvas);
 	        _meterBody.addChild(halfLifeComboBoxPSwing);
 	        halfLifeComboBoxPSwing.setOffset(
 	        		_elementSelectionNode.getFullBoundsReference().getMaxX() 
@@ -155,8 +169,15 @@ public class RadiometricDatingMeterNode extends PNode {
 	        		halfLifeComboBoxPSwing.getXOffset() - halfLifeSelectionLabel.getFullBoundsReference().width,
 	        		_elementSelectionNode.getFullBoundsReference().getMaxY() );
 	        _meterBody.addChild(halfLifeSelectionLabel);
+
+	        // Hook up the handler for changes to the custom half life setting.
+			_halfLifeComboBox.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent e) {
+					handleUserChangedHalfLife();
+				}
+			});
 		}
-        
+		
 		// Add the probe.
 		_probeNode = new ProbeNode( _meterModel.getProbeModel(), _mvt );
 		addChild(_probeNode);
@@ -174,6 +195,15 @@ public class RadiometricDatingMeterNode extends PNode {
 
 	public Point2D getProbeTailLocation(){
 		return (_meterBody.localToParent(_probeNode.getTailLocation()));
+	}
+	
+	/**
+	 * Handle the event generated when the user changes the half life of the
+	 * custom nucleus through the combo box by setting the half life in the
+	 * meter model.
+	 */
+	private void handleUserChangedHalfLife(){
+		_meterModel.setHalfLifeForDating(HALF_LIFE_VALUE_STRING_PAIRS[_halfLifeComboBox.getSelectedIndex()].value);
 	}
 	
 	private ProbeNode getProbeNode() {
@@ -498,7 +528,13 @@ public class RadiometricDatingMeterNode extends PNode {
 		}
 	}
 	
-	public PSwing getComboBoxPSwing() {
-		return _elementSelectionNode;
+	static class ValueStringPair {
+		public double value;
+		public String string;
+		
+		public ValueStringPair(double value, String string) {
+			this.value = value;
+			this.string = string;
+		}
 	}
 }
