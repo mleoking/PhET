@@ -5,14 +5,13 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 
-import javax.swing.BorderFactory;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.ListCellRenderer;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+import edu.colorado.phet.acidbasesolutions.model.NoSolute;
 import edu.colorado.phet.acidbasesolutions.model.Solute;
 import edu.colorado.phet.acidbasesolutions.model.SoluteFactory;
+import edu.colorado.phet.acidbasesolutions.model.Solute.ICustomSolute;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.umd.cs.piccolox.pswing.PComboBox;
 
@@ -62,14 +61,38 @@ public class SoluteComboBox extends PComboBox {
         // items
         Solute[] solutes = SoluteFactory.getSolutes();
         for ( int i = 0; i < solutes.length; i++ ) {
-            Choice choice = new Choice( solutes[i] );
+            Solute solute = solutes[i];
+            Choice choice = new Choice( solute );
             addItem( choice );
         }
         
+//        setRenderer( new CustomRenderer( MIN_ITEM_HEIGHT ) );
+        
+//        final ListCellRenderer lcr = getRenderer();
+//        setRenderer( new ListCellRenderer() {
+//
+//            public Component getListCellRendererComponent( JList list, Object value, int index, boolean isSelected, boolean cellHasFocus ) {
+//                if ( value instanceof JSeparator ) {
+//                    return (JSeparator) value;
+//                }
+//                else {
+//                    return (JLabel) lcr.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
+//                }
+//            }
+//        } );
+//
+//        DefaultComboBoxModel model = new DefaultComboBoxModel() {
+//
+//            public void setSelectedItem( Object o ) {
+//                if ( o instanceof JSeparator )
+//                    return;
+//                super.setSelectedItem( o );
+//            }
+//        };
+//        setModel( model );
+        
         // make all items visible (no vertical scroll bar)
         setMaximumRowCount( getItemCount() );
-        
-//        setRenderer( new CustomRenderer( MIN_ITEM_HEIGHT ) );
     }
     
     /**
@@ -80,10 +103,13 @@ public class SoluteComboBox extends PComboBox {
         Object item = null;
         int count = getItemCount();
         for ( int i = 0; i < count; i++ ) {
-            Choice choice = (Choice) getItemAt( i );
-            if ( choice.getName().equals( solute.getName() ) ){
-                item = choice;
-                break;
+            Object o = getItemAt( i );
+            if ( o instanceof Choice ) {
+                Choice choice = (Choice) o;
+                if ( choice.getName().equals( solute.getName() ) ) {
+                    item = choice;
+                    break;
+                }
             }
         }
         if ( item == null ) {
@@ -101,6 +127,7 @@ public class SoluteComboBox extends PComboBox {
     public String getSoluteName() {
         return ( (Choice) getSelectedItem() ).getName();
     }
+    
     
     private static class CustomRenderer extends JLabel implements ListCellRenderer {
 
