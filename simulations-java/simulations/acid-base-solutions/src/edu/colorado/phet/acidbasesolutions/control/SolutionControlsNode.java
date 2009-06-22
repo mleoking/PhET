@@ -158,7 +158,7 @@ public class SolutionControlsNode extends PhetPNode {
     }
     
     public void setSolute( Solute solute ) {
-        soluteComboBox.setSelectionByName( solute.getName() );
+        soluteComboBox.setSelectedSoluteName( solute.getName() );
         
         // concentration slider is hidden and reads "zero" for no solute
         setConcentrationControlZero( solute instanceof NoSolute );
@@ -177,7 +177,7 @@ public class SolutionControlsNode extends PhetPNode {
     }
     
     public Solute getSolute() {
-        Solute solute = SoluteFactory.createSolute( soluteComboBox.getSoluteName() );
+        Solute solute = SoluteFactory.createSolute( soluteComboBox.getSelectedSoluteName() );
         // use existing concentration for all solutes
         solute.setConcentration( getConcentration() );
         // use existing strength for custom solutes
