@@ -141,7 +141,6 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
         		this );
         _meterNode.setMeterBodyOffset( 0,
         		INITIAL_INTERMEDIATE_COORD_HEIGHT - _meterNode.getMeterBodySize().getHeight() - 4);
-        setUpComboBox();
         addWorldChild( _meterNode );
         
         // Create the chart that will display relative decay proportions.
@@ -163,11 +162,6 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
         // Draw the decay curve on the chart.
         drawDecayCurveOnChart();
     }
-
-    //Workaround to get PComboBox to show popup in the right spot.
-    private void setUpComboBox() {
-		_meterNode.getComboBox().setEnvironment(_meterNode.getComboBoxPSwing(), this);
-	}
 
 	//------------------------------------------------------------------------
     // Methods
