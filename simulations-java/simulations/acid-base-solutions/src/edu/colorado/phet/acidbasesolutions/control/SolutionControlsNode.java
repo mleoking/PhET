@@ -158,7 +158,7 @@ public class SolutionControlsNode extends PhetPNode {
     }
     
     public void setSolute( Solute solute ) {
-        soluteComboBox.setSolute( solute );
+        soluteComboBox.setSelectionByName( solute.getName() );
         
         // concentration slider is hidden and reads "zero" for no solute
         setConcentrationControlZero( solute instanceof NoSolute );

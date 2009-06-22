@@ -6,10 +6,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 
-import javax.swing.BorderFactory;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.ListCellRenderer;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import edu.colorado.phet.acidbasesolutions.model.Solute;
@@ -67,17 +64,18 @@ public class SoluteComboBox extends PComboBox {
         int maxHeight = 0;
         Solute[] solutes = SoluteFactory.getSolutes();
         for ( int i = 0; i < solutes.length; i++ ) {
+            
+            // add item to the menu
             Solute solute = solutes[i];
             Choice choice = new Choice( solute );
             addItem( choice );
             
+            // calculate max item dimensions
             JLabel label = new JLabel( choice.toString() );
             label.setFont( FONT );
             maxWidth = Math.max( maxWidth, label.getPreferredSize().width );
             maxHeight = Math.max( maxHeight, label.getPreferredSize().height );
         }
-        
-        System.out.println( "maxWidth=" + maxWidth + " maxHeight=" + maxHeight );//XXX
         
 //        final ListCellRenderer lcr = getRenderer();
 //        setRenderer( new ListCellRenderer() {
@@ -105,29 +103,29 @@ public class SoluteComboBox extends PComboBox {
         // make all items visible (no vertical scroll bar)
         setMaximumRowCount( getItemCount() );
         
-        setRenderer( new CustomRenderer( maxHeight + 5 ) );
         setPreferredSize( new Dimension( maxWidth + 60, maxHeight + 5 ) );
+        setRenderer( new CustomRenderer( getPreferredSize().height ) );
     }
     
     /**
      * Sets the selection based on the Solute's name.
      * @param solute
      */
-    public void setSolute( Solute solute ) {
+    public void setSelectionByName( String soluteName ) {
         Object item = null;
         int count = getItemCount();
         for ( int i = 0; i < count; i++ ) {
             Object o = getItemAt( i );
             if ( o instanceof Choice ) {
                 Choice choice = (Choice) o;
-                if ( choice.getName().equals( solute.getName() ) ) {
+                if ( choice.getName().equals( soluteName ) ) {
                     item = choice;
                     break;
                 }
             }
         }
         if ( item == null ) {
-            throw new IllegalArgumentException( "solute is not in the list: " + solute.toString() );
+            throw new IllegalArgumentException( "solute is not in the list: " + soluteName );
         }
         else {
             setSelectedItem( item );
@@ -143,35 +141,39 @@ public class SoluteComboBox extends PComboBox {
     }
     
     
-    private static class CustomRenderer extends JLabel implements ListCellRenderer {
+    private static class CustomRenderer implements ListCellRenderer {
 
         private final int height;
         
         public CustomRenderer( int minHeight ) {
             super();
-            setFont( FONT );
-            setOpaque( true );
-            setHorizontalAlignment( LEFT );
-            setVerticalAlignment( CENTER );
             this.height = minHeight;
         }
 
         public Component getListCellRendererComponent( JList list, Object value, int index, boolean isSelected, boolean cellHasFocus ) {
-
-            if ( isSelected ) {
-                setBackground( list.getSelectionBackground() );
-                setForeground( list.getSelectionForeground() );
+            Component component = null;
+            if ( value instanceof JSeparator ) {
+                component = (JSeparator) value; 
             }
             else {
-                setBackground( list.getBackground() );
-                setForeground( list.getForeground() );
+                JLabel label = new JLabel( value.toString() );
+                label.setFont( list.getFont() );
+                label.setOpaque( true );
+                label.setHorizontalAlignment( SwingConstants.LEFT );
+                label.setVerticalAlignment( SwingConstants.TOP );
+                if ( isSelected ) {
+                    label.setBackground( list.getSelectionBackground() );
+                    label.setForeground( list.getSelectionForeground() );
+                }
+                else {
+                    label.setBackground( list.getBackground() );
+                    label.setForeground( list.getForeground() );
+                }
+                label.setBorder( new EmptyBorder( 2, 4, 2, 6 ) ); // top, left, bottom, right
+                label.setPreferredSize( new Dimension( label.getPreferredSize().width, Math.max( height, label.getPreferredSize().height ) ) );
+                component = label;
             }
-
-            setText( value.toString() );
-            setFont( list.getFont() );
-            setBorder( new EmptyBorder( 2, 4, 2, 6 ) ); // top, left, bottom, right
-            setPreferredSize( new Dimension( getPreferredSize().width, Math.max( height, getPreferredSize().height ) ) );
-            return this;
+            return component;
         }
     }
 }
