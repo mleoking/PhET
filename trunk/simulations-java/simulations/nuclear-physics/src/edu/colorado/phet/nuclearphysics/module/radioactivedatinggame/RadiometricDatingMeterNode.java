@@ -202,16 +202,18 @@ public class RadiometricDatingMeterNode extends PNode {
 	 * changed.
 	 */
 	private void handleDatingElementChanged(){
-		if (_meterModel.getNucleusTypeUsedForDating() == NucleusType.CUSTOM){
-			_halfLifeComboBox.setEnabled(true);
-			if (_halfLifeComboBox.getSelectedIndex() == -1){
-				_halfLifeComboBox.setSelectedIndex(0);
+		if (_halfLifeComboBox != null){
+			if (_meterModel.getNucleusTypeUsedForDating() == NucleusType.CUSTOM){
+				_halfLifeComboBox.setEnabled(true);
+				if (_halfLifeComboBox.getSelectedIndex() == -1){
+					_halfLifeComboBox.setSelectedIndex(0);
+				}
+			}
+			else{
+				_halfLifeComboBox.setEnabled(false);
 			}
 		}
-		else{
-			_halfLifeComboBox.setEnabled(false);
-		}
-		_halfLifeComboBox.setEnabled(_meterModel.getNucleusTypeUsedForDating() == NucleusType.CUSTOM);
+		
 		updateMeterReading();
 	}
 	
