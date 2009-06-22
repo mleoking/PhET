@@ -24,19 +24,26 @@ import java.text.ParsePosition;
  */
 public class TimesTenNumberFormat extends NumberFormat {
     
-    private static final String FORMAT = "<html>{0} x 10<sup>{1}</sup></html>";
+    private static final String FORMAT = "<html>{0} x 10<sup style=\"font-size:{2}%\"> {1}</sup></html>";
+    private static final int DEFAULT_EXPONENT_SCALE = 100; // percent
 
     private final DefaultDecimalFormat _decimalFormat;
     private boolean _simpleZeroFormat;
+    private final int _exponentScale;
+    
+    public TimesTenNumberFormat( String mantissaFormat ) {
+        this( mantissaFormat, DEFAULT_EXPONENT_SCALE );
+    }
     
     /**
      * Constructor.
      * 
      * @param mantissaFormat format of the mantissa, specified using DecimalFormat's syntax
      */
-    public TimesTenNumberFormat( String mantissaFormat ) {
+    public TimesTenNumberFormat( String mantissaFormat, int exponentScale ) {
         _decimalFormat = new DefaultDecimalFormat( mantissaFormat + "E0" );
         _simpleZeroFormat = true;
+        _exponentScale = exponentScale;
     }
     
     /**
@@ -72,7 +79,7 @@ public class TimesTenNumberFormat extends NumberFormat {
             String mantissa = scientificString.substring( 0, index );
             String exponent = scientificString.substring( index + 1 );
             // put the mantissa and exponent into our format
-            Object[] args = { mantissa, exponent };
+            Object[] args = { mantissa, exponent, _exponentScale };
             valueString = MessageFormat.format( FORMAT, args );
         }
         toAppendTo.append( valueString );
@@ -108,7 +115,7 @@ public class TimesTenNumberFormat extends NumberFormat {
         f1.setSimpleZeroFormat( false );
         NumberFormat f2 = new TimesTenNumberFormat( p2 );
         NumberFormat f3 = new TimesTenNumberFormat( p3 );
-        NumberFormat f4 = new TimesTenNumberFormat( p4 );
+        NumberFormat f4 = new TimesTenNumberFormat( p4, 50 );
         
         System.out.println( "pattern=" + p1 + " value=" + zero  + " formatted=" + f1.format( zero ) );
         System.out.println( "pattern=" + p1 + " value=" + value + " formatted=" + f1.format( value ) );
