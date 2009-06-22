@@ -36,6 +36,7 @@ public class SoluteComboBox extends PComboBox {
         setFont( FONT );
         
         addItem( new NoSolute() );
+        addItem( new SoluteSeparator() ); //---------
         addItem( new AceticAcid() );
         addItem( new Ammonia() );
         addItem( new ChlorousAcid() );
@@ -45,6 +46,7 @@ public class SoluteComboBox extends PComboBox {
         addItem( new PerchloricAcid() );
         addItem( new Pyridine() );
         addItem( new SodiumHydroxide() );
+        addItem( new SoluteSeparator() ); //---------
         addItem( new CustomAcid() );
         addItem( new CustomBase() );
         
@@ -60,19 +62,6 @@ public class SoluteComboBox extends PComboBox {
             }
         }
         
-//        final ListCellRenderer lcr = getRenderer();
-//        setRenderer( new ListCellRenderer() {
-//
-//            public Component getListCellRendererComponent( JList list, Object value, int index, boolean isSelected, boolean cellHasFocus ) {
-//                if ( value instanceof JSeparator ) {
-//                    return (JSeparator) value;
-//                }
-//                else {
-//                    return (JLabel) lcr.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
-//                }
-//            }
-//        } );
-//
 //        DefaultComboBoxModel model = new DefaultComboBoxModel() {
 //
 //            public void setSelectedItem( Object o ) {
@@ -95,9 +84,9 @@ public class SoluteComboBox extends PComboBox {
      * @param solute
      */
     public void setSelectedSoluteName( String soluteName ) {
+        
         Object item = null;
-        int count = getItemCount();
-        for ( int i = 0; i < count; i++ ) {
+        for ( int i = 0; i < getItemCount(); i++ ) {
             Object o = getItemAt( i );
             if ( o instanceof Solute ) {
                 if ( ((Solute)o).getName().equals( soluteName ) ) {
@@ -106,6 +95,7 @@ public class SoluteComboBox extends PComboBox {
                 }
             }
         }
+        
         if ( item == null ) {
             throw new IllegalArgumentException( "solute is not in the list: " + soluteName );
         }
@@ -160,6 +150,7 @@ public class SoluteComboBox extends PComboBox {
     }
     
     private static class SoluteLabel extends JLabel {
+        
         public SoluteLabel( Solute solute, Font font ) {
             super( soluteToString( solute ) );
             setFont( font );
@@ -168,15 +159,22 @@ public class SoluteComboBox extends PComboBox {
             setVerticalAlignment( SwingConstants.TOP );
             setBorder( new EmptyBorder( 2, 4, 2, 6 ) ); // top, left, bottom, right
         }
+        
+        private static final String soluteToString( Solute solute ) {
+            String name = solute.getName();
+            String symbol = solute.getSymbol();
+            String s = name;
+            if ( symbol != null && symbol.length() > 0 ) {
+                s += " (" + symbol + ")";
+            }
+            return HTMLUtils.toHTMLString( s );
+        }
     }
     
-    private static final String soluteToString( Solute solute ) {
-        String name = solute.getName();
-        String symbol = solute.getSymbol();
-        String s = name;
-        if ( symbol != null && symbol.length() > 0 ) {
-            s += " (" + symbol + ")";
+    private static class SoluteSeparator extends JSeparator {
+        public SoluteSeparator() {
+            super();
+            setForeground( Color.BLACK );
         }
-        return HTMLUtils.toHTMLString( s );
     }
 }
