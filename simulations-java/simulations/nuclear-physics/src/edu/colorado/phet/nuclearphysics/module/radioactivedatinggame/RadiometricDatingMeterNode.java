@@ -61,6 +61,7 @@ public class RadiometricDatingMeterNode extends PNode {
 	private static final double READOUT_WIDTH_PROPORTION = 0.75;
 	private static final double READOUT_HEIGHT_PROPORTION = 0.2;
 	private static final double PROBE_SIZE_SCALE_FACTOR = 0.75;  // Adjust in order to change size of probe.
+	private static final Font HALF_LIFE_SELECTION_FONT = new PhetFont(16);
 
     //------------------------------------------------------------------------
     // Instance Data
@@ -123,13 +124,38 @@ public class RadiometricDatingMeterNode extends PNode {
 		
 		// Add the selection panel.
 		_elementSelectionPanel = new ElementSelectionPanel((int)Math.round(width * 0.9),
-				(int)Math.round(height * 0.66), probeTypeModel, meterModel);
+				(int)Math.round(height * 0.5), probeTypeModel, meterModel);
 		_elementSelectionNode = new PSwing(_elementSelectionPanel);
 		_elementSelectionNode.setOffset( 
 				_meterBody.getFullBounds().width / 2 - _elementSelectionNode.getFullBounds().width / 2,
 				_percentageDisplay.getFullBounds().getMaxY());
 		_meterBody.addChild(_elementSelectionNode);
-		_elementSelectionPanel.setUpComboBox(_elementSelectionNode, canvas);
+		
+		// Add the combo box that allows the user to specify the half life of
+		// the custom element.  NOTE THAT THIS IS PART OF A HACK THIS IS
+		// NECESSARY DUE TO PROBLEMS WITH COMBO BOXES ON PICCOLO CANVASES.
+		// Ideally, this combo box would be part of the element selection
+		// panel, but problems with that approach necessitated its extraction
+		// into a separate PSwing.
+        String[] halfLifeValues = { "100 ky", "1 my", "10 my", "100 my" };
+        PComboBox halfLifeComboBox = new PComboBox(halfLifeValues);
+        halfLifeComboBox.setFont(HALF_LIFE_SELECTION_FONT);
+        PSwing halfLifeComboBoxPSwing = new PSwing( halfLifeComboBox );
+        halfLifeComboBox.setEnvironment(halfLifeComboBoxPSwing, canvas);
+        _meterBody.addChild(halfLifeComboBoxPSwing);
+        halfLifeComboBoxPSwing.setOffset(
+        		_elementSelectionNode.getFullBoundsReference().getMaxX() 
+        		- halfLifeComboBoxPSwing.getFullBoundsReference().width, 
+        		_elementSelectionNode.getFullBoundsReference().getMaxY());
+        PText halfLifeSelectionLabel = new PText("Halflife = ");
+        halfLifeSelectionLabel.setFont(HALF_LIFE_SELECTION_FONT);
+        halfLifeSelectionLabel.setTextPaint(Color.WHITE);
+        halfLifeSelectionLabel.setOffset(
+        		halfLifeComboBoxPSwing.getXOffset() - halfLifeSelectionLabel.getFullBoundsReference().width,
+        		_elementSelectionNode.getFullBoundsReference().getMaxY() );
+        _meterBody.addChild(halfLifeSelectionLabel);
+        
+        
 		
 		// Add the probe.
 		_probeNode = new ProbeNode( _meterModel.getProbeModel(), _mvt );
@@ -389,8 +415,6 @@ public class RadiometricDatingMeterNode extends PNode {
 
 		static private final Font LABEL_FONT = new PhetFont(18, true);
 		
-		private final PComboBox testComboBox;
-
 		public ElementSelectionPanel(int width, int height, final ProbeTypeModel probeTypeModel, 
 				final RadiometricDatingMeter meterModel){
 			
@@ -469,14 +493,6 @@ public class RadiometricDatingMeterNode extends PNode {
 				}
             });
 			customNucleusRadioButton.setSelected( probeTypeModel.getProbeType().equals(ProbeType.CUSTOM));
-
-	        String[] halfLifeValues = { "bully-bully", "10 ky", "100 ky", "1 my", "10 my", "100 my" };
-	        testComboBox = new PComboBox(halfLifeValues);
-            add(testComboBox);
-		}
-
-		public void setUpComboBox( PSwing wrapper, PSwingCanvas canvas ){
-			testComboBox.setEnvironment(wrapper, canvas);
 		}
 	}
 	
