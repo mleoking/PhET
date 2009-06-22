@@ -168,7 +168,8 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         		INITIAL_INTERMEDIATE_COORD_WIDTH * PROPORTIONS_METER_WIDTH_FRACTION,
         		(INITIAL_INTERMEDIATE_COORD_HEIGHT - _mvt.modelToViewYDouble(_model.getBottomOfStrata())) * 0.95,
         		_mvt,
-        		this );
+        		this,
+        		true );
         _meterNode.setMeterBodyOffset( 0, _mvt.modelToViewYDouble(_model.getBottomOfStrata()) + 4);
         addWorldChild( _meterNode );
         

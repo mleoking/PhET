@@ -81,7 +81,7 @@ public class RadiometricDatingMeterNode extends PNode {
     //------------------------------------------------------------------------
 
 	public RadiometricDatingMeterNode(RadiometricDatingMeter meterModel, ProbeTypeModel probeTypeModel, double width,
-			double height, ModelViewTransform2D mvt, PSwingCanvas canvas) {
+			double height, ModelViewTransform2D mvt, PSwingCanvas canvas, boolean showCustom) {
 		
 		_meterModel = meterModel;
 		_mvt = mvt;
@@ -124,7 +124,7 @@ public class RadiometricDatingMeterNode extends PNode {
 		
 		// Add the selection panel.
 		_elementSelectionPanel = new ElementSelectionPanel((int)Math.round(width * 0.9),
-				(int)Math.round(height * 0.5), probeTypeModel, meterModel);
+				(int)Math.round(height * 0.5), probeTypeModel, meterModel, showCustom);
 		_elementSelectionNode = new PSwing(_elementSelectionPanel);
 		_elementSelectionNode.setOffset( 
 				_meterBody.getFullBounds().width / 2 - _elementSelectionNode.getFullBounds().width / 2,
@@ -137,26 +137,26 @@ public class RadiometricDatingMeterNode extends PNode {
 		// Ideally, this combo box would be part of the element selection
 		// panel, but problems with that approach necessitated its extraction
 		// into a separate PSwing.
-        String[] halfLifeValues = { "100 ky", "1 my", "10 my", "100 my" };
-        PComboBox halfLifeComboBox = new PComboBox(halfLifeValues);
-        halfLifeComboBox.setFont(HALF_LIFE_SELECTION_FONT);
-        PSwing halfLifeComboBoxPSwing = new PSwing( halfLifeComboBox );
-        halfLifeComboBox.setEnvironment(halfLifeComboBoxPSwing, canvas);
-        _meterBody.addChild(halfLifeComboBoxPSwing);
-        halfLifeComboBoxPSwing.setOffset(
-        		_elementSelectionNode.getFullBoundsReference().getMaxX() 
-        		- halfLifeComboBoxPSwing.getFullBoundsReference().width, 
-        		_elementSelectionNode.getFullBoundsReference().getMaxY());
-        PText halfLifeSelectionLabel = new PText("Halflife = ");
-        halfLifeSelectionLabel.setFont(HALF_LIFE_SELECTION_FONT);
-        halfLifeSelectionLabel.setTextPaint(Color.WHITE);
-        halfLifeSelectionLabel.setOffset(
-        		halfLifeComboBoxPSwing.getXOffset() - halfLifeSelectionLabel.getFullBoundsReference().width,
-        		_elementSelectionNode.getFullBoundsReference().getMaxY() );
-        _meterBody.addChild(halfLifeSelectionLabel);
+		if (showCustom){
+	        String[] halfLifeValues = { "100 ky", "1 my", "10 my", "100 my" };
+	        PComboBox halfLifeComboBox = new PComboBox(halfLifeValues);
+	        halfLifeComboBox.setFont(HALF_LIFE_SELECTION_FONT);
+	        PSwing halfLifeComboBoxPSwing = new PSwing( halfLifeComboBox );
+	        halfLifeComboBox.setEnvironment(halfLifeComboBoxPSwing, canvas);
+	        _meterBody.addChild(halfLifeComboBoxPSwing);
+	        halfLifeComboBoxPSwing.setOffset(
+	        		_elementSelectionNode.getFullBoundsReference().getMaxX() 
+	        		- halfLifeComboBoxPSwing.getFullBoundsReference().width, 
+	        		_elementSelectionNode.getFullBoundsReference().getMaxY());
+	        PText halfLifeSelectionLabel = new PText("Halflife = ");
+	        halfLifeSelectionLabel.setFont(HALF_LIFE_SELECTION_FONT);
+	        halfLifeSelectionLabel.setTextPaint(Color.WHITE);
+	        halfLifeSelectionLabel.setOffset(
+	        		halfLifeComboBoxPSwing.getXOffset() - halfLifeSelectionLabel.getFullBoundsReference().width,
+	        		_elementSelectionNode.getFullBoundsReference().getMaxY() );
+	        _meterBody.addChild(halfLifeSelectionLabel);
+		}
         
-        
-		
 		// Add the probe.
 		_probeNode = new ProbeNode( _meterModel.getProbeModel(), _mvt );
 		addChild(_probeNode);
@@ -416,7 +416,7 @@ public class RadiometricDatingMeterNode extends PNode {
 		static private final Font LABEL_FONT = new PhetFont(18, true);
 		
 		public ElementSelectionPanel(int width, int height, final ProbeTypeModel probeTypeModel, 
-				final RadiometricDatingMeter meterModel){
+				final RadiometricDatingMeter meterModel, boolean showCustom){
 			
 			setPreferredSize(new Dimension(width, height));
 			setBackground(BODY_COLOR);
@@ -475,24 +475,26 @@ public class RadiometricDatingMeterNode extends PNode {
             });
             uranium238RadioButton.setSelected( probeTypeModel.getProbeType().equals(ProbeType.URANIUM_238));
             
-            final JRadioButton customNucleusRadioButton = new JRadioButton(ProbeType.CUSTOM.getName(), true);
-            customNucleusRadioButton.setBackground(BODY_COLOR);
-            customNucleusRadioButton.setForeground(Color.WHITE);
-            customNucleusRadioButton.setFont(LABEL_FONT);
-            customNucleusRadioButton.addActionListener(new ActionListener(){
-				public void actionPerformed(ActionEvent e) {
-					// TODO: Ultimately things will be refactored so that only one of these calls is needed.
-					probeTypeModel.setProbeType(ProbeType.CUSTOM);
-					meterModel.setNucleusTypeUsedForDating(NucleusType.CUSTOM);
-				}
-            });
-            add(customNucleusRadioButton);
-            probeTypeModel.addObserver(new SimpleObserver(){
-				public void update() {
-					customNucleusRadioButton.setSelected( probeTypeModel.getProbeType().equals(ProbeType.CUSTOM));
-				}
-            });
-			customNucleusRadioButton.setSelected( probeTypeModel.getProbeType().equals(ProbeType.CUSTOM));
+            if (showCustom){
+	            final JRadioButton customNucleusRadioButton = new JRadioButton(ProbeType.CUSTOM.getName(), true);
+	            customNucleusRadioButton.setBackground(BODY_COLOR);
+	            customNucleusRadioButton.setForeground(Color.WHITE);
+	            customNucleusRadioButton.setFont(LABEL_FONT);
+	            customNucleusRadioButton.addActionListener(new ActionListener(){
+					public void actionPerformed(ActionEvent e) {
+						// TODO: Ultimately things will be refactored so that only one of these calls is needed.
+						probeTypeModel.setProbeType(ProbeType.CUSTOM);
+						meterModel.setNucleusTypeUsedForDating(NucleusType.CUSTOM);
+					}
+	            });
+	            add(customNucleusRadioButton);
+	            probeTypeModel.addObserver(new SimpleObserver(){
+					public void update() {
+						customNucleusRadioButton.setSelected( probeTypeModel.getProbeType().equals(ProbeType.CUSTOM));
+					}
+	            });
+				customNucleusRadioButton.setSelected( probeTypeModel.getProbeType().equals(ProbeType.CUSTOM));
+            }
 		}
 	}
 	

@@ -138,7 +138,7 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
         		INITIAL_INTERMEDIATE_COORD_WIDTH * PROPORTIONS_METER_WIDTH_FRACTION, 
         		INITIAL_INTERMEDIATE_COORD_HEIGHT * PROPORTIONS_METER_HEIGHT_FRACTION,
         		_mvt,
-        		this );
+        		this, false );
         _meterNode.setMeterBodyOffset( 0,
         		INITIAL_INTERMEDIATE_COORD_HEIGHT - _meterNode.getMeterBodySize().getHeight() - 4);
         addWorldChild( _meterNode );
