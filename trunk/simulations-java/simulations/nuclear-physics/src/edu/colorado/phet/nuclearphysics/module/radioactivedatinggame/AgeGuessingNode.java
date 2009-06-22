@@ -84,6 +84,10 @@ public class AgeGuessingNode extends PNode {
 		addChild(ageGuessingNodePanelPSwing);
 	}
 	
+	public boolean requestFocus(){
+		return _ageEntryField.requestFocusInWindow();
+	}
+	
 	public void addListener(Listener listener) {
 	    if ( !_listeners.contains( listener )){
 	        _listeners.add( listener );

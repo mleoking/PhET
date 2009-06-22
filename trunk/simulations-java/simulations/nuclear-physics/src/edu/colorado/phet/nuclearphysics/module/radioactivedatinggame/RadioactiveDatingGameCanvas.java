@@ -165,7 +165,10 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         
         // Create the radiometric measuring device.
         _meterNode = new RadiometricDatingMeterNode(_model.getMeter(), probeTypeModel,
-        		INITIAL_INTERMEDIATE_COORD_WIDTH * PROPORTIONS_METER_WIDTH_FRACTION, (INITIAL_INTERMEDIATE_COORD_HEIGHT - _mvt.modelToViewYDouble(_model.getBottomOfStrata())) * 0.95, _mvt );
+        		INITIAL_INTERMEDIATE_COORD_WIDTH * PROPORTIONS_METER_WIDTH_FRACTION,
+        		(INITIAL_INTERMEDIATE_COORD_HEIGHT - _mvt.modelToViewYDouble(_model.getBottomOfStrata())) * 0.95,
+        		_mvt,
+        		this );
         _meterNode.setMeterBodyOffset( 0, _mvt.modelToViewYDouble(_model.getBottomOfStrata()) + 4);
         setUpComboBox();
         addWorldChild( _meterNode );
@@ -310,6 +313,11 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     			
     		_ageGuessingNode.setOffset(ageGuessingNodeLocation);
     		_guessingGameLayer.addChild(_ageGuessingNode);
+    		
+    		// Request that the node have focus so that the user doesn't have
+    		// to click in the edit box on the node before they start entering
+    		// their guess.
+    		_ageGuessingNode.requestFocus();
     		
     		// Register with the node to be informed if and when the user
     		// submits a guess.
