@@ -170,7 +170,6 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         		_mvt,
         		this );
         _meterNode.setMeterBodyOffset( 0, _mvt.modelToViewYDouble(_model.getBottomOfStrata()) + 4);
-        setUpComboBox();
         addWorldChild( _meterNode );
         
         // Create the chart that will display relative decay proportions.
@@ -200,11 +199,6 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
 			}
         };
     }
-
-    //Workaround to get PComboBox to show popup in the right spot.
-    private void setUpComboBox() {
-		_meterNode.getComboBox().setEnvironment(_meterNode.getComboBoxPSwing(), this);
-	}
 
 	//------------------------------------------------------------------------
     // Methods

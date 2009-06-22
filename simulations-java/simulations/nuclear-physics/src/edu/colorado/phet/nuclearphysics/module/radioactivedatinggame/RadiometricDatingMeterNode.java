@@ -43,6 +43,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PComboBox;
 import edu.umd.cs.piccolox.pswing.PSwing;
+import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
  * This class represents a node that the user can interact with in order to
@@ -78,7 +79,8 @@ public class RadiometricDatingMeterNode extends PNode {
     // Constructor
     //------------------------------------------------------------------------
 
-	public RadiometricDatingMeterNode(RadiometricDatingMeter meterModel, ProbeTypeModel probeTypeModel, double width, double height, ModelViewTransform2D mvt) {
+	public RadiometricDatingMeterNode(RadiometricDatingMeter meterModel, ProbeTypeModel probeTypeModel, double width,
+			double height, ModelViewTransform2D mvt, PSwingCanvas canvas) {
 		
 		_meterModel = meterModel;
 		_mvt = mvt;
@@ -120,13 +122,15 @@ public class RadiometricDatingMeterNode extends PNode {
 		_percentageDisplay.setPercentage(100);
 		
 		// Add the selection panel.
-		_elementSelectionPanel = new ElementSelectionPanel((int)Math.round(width * 0.9), (int)Math.round(height * 0.66), probeTypeModel, meterModel);
+		_elementSelectionPanel = new ElementSelectionPanel((int)Math.round(width * 0.9),
+				(int)Math.round(height * 0.66), probeTypeModel, meterModel);
 		_elementSelectionNode = new PSwing(_elementSelectionPanel);
 		_elementSelectionNode.setOffset( 
 				_meterBody.getFullBounds().width / 2 - _elementSelectionNode.getFullBounds().width / 2,
 				_percentageDisplay.getFullBounds().getMaxY());
 		_meterBody.addChild(_elementSelectionNode);
-				
+		_elementSelectionPanel.setUpComboBox(_elementSelectionNode, canvas);
+		
 		// Add the probe.
 		_probeNode = new ProbeNode( _meterModel.getProbeModel(), _mvt );
 		addChild(_probeNode);
@@ -385,7 +389,7 @@ public class RadiometricDatingMeterNode extends PNode {
 
 		static private final Font LABEL_FONT = new PhetFont(18, true);
 		
-		private final PComboBox comboBox;
+		private final PComboBox testComboBox;
 
 		public ElementSelectionPanel(int width, int height, final ProbeTypeModel probeTypeModel, 
 				final RadiometricDatingMeter meterModel){
@@ -465,21 +469,17 @@ public class RadiometricDatingMeterNode extends PNode {
 				}
             });
 			customNucleusRadioButton.setSelected( probeTypeModel.getProbeType().equals(ProbeType.CUSTOM));
-            
-            comboBox = new PComboBox(new Object[]{"100 ky","100 my"});
-            add(comboBox);
+
+	        String[] halfLifeValues = { "bully-bully", "10 ky", "100 ky", "1 my", "10 my", "100 my" };
+	        testComboBox = new PComboBox(halfLifeValues);
+            add(testComboBox);
 		}
 
-		public PComboBox getComboBox() {
-			return comboBox;
+		public void setUpComboBox( PSwing wrapper, PSwingCanvas canvas ){
+			testComboBox.setEnvironment(wrapper, canvas);
 		}
-		
 	}
-
-	public PComboBox getComboBox() {
-		return _elementSelectionPanel.getComboBox();
-	}
-
+	
 	public PSwing getComboBoxPSwing() {
 		return _elementSelectionNode;
 	}
