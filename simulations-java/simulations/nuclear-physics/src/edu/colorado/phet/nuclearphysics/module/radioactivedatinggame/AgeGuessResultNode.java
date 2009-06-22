@@ -53,10 +53,10 @@ public class AgeGuessResultNode extends PNode {
 		
 		// Add the icon that graphically indicates whether the guess is good or bad.
 		if (_guessIsGood){
-			_icon = NuclearPhysicsResources.getImageNode("gold_star.png");
+			_icon = NuclearPhysicsResources.getImageNode("happy_face.png");
 		}
 		else {
-			_icon = NuclearPhysicsResources.getImageNode("red_x.png");
+			_icon = NuclearPhysicsResources.getImageNode("frowny_face.png");
 		}
 		
 		_icon.setScale( _backgoundRect.getFullBoundsReference().height / _icon.getFullBoundsReference().height );
