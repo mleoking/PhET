@@ -1105,7 +1105,7 @@ public class NuclearDecayProportionChart extends PNode {
 	    	if (_chart._timeSpan > MultiNucleusDecayModel.convertYearsToMs(1E9)){
 	    		unitsText = NuclearPhysicsStrings.DECAY_PROPORTIONS_TIME_UNITS_BILLION_YEARS;
 	    	}
-	    	if (_chart._timeSpan > MultiNucleusDecayModel.convertYearsToMs(1E6)){
+	    	else if (_chart._timeSpan > MultiNucleusDecayModel.convertYearsToMs(1E6)){
 	    		unitsText = NuclearPhysicsStrings.DECAY_PROPORTIONS_TIME_UNITS_MILLION_YEARS;
 	    	}
 	    	else{
