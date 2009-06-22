@@ -102,8 +102,7 @@ public class RadiometricDatingMeterNode extends PNode {
 		// Register with the model to find out when something new is being touched.
 		_meterModel.addListener(new RadiometricDatingMeter.Listener(){
 			public void datingElementChanged() {
-				// TODO: Need to hook this up to the selection panel (I think).
-				updateMeterReading();
+				handleDatingElementChanged();
 			}
 
 			public void touchedStateChanged() {
@@ -176,6 +175,7 @@ public class RadiometricDatingMeterNode extends PNode {
 					handleUserChangedHalfLife();
 				}
 			});
+			_halfLifeComboBox.setEnabled(false);
 		}
 		
 		// Add the probe.
@@ -204,6 +204,24 @@ public class RadiometricDatingMeterNode extends PNode {
 	 */
 	private void handleUserChangedHalfLife(){
 		_meterModel.setHalfLifeForDating(HALF_LIFE_VALUE_STRING_PAIRS[_halfLifeComboBox.getSelectedIndex()].value);
+	}
+	
+	/**
+	 * Handle a notification from the meter model that the dating element has
+	 * changed.
+	 */
+	private void handleDatingElementChanged(){
+		if (_meterModel.getNucleusTypeUsedForDating() == NucleusType.CUSTOM){
+			_halfLifeComboBox.setEnabled(true);
+			if (_halfLifeComboBox.getSelectedIndex() == -1){
+				_halfLifeComboBox.setSelectedIndex(0);
+			}
+		}
+		else{
+			_halfLifeComboBox.setEnabled(false);
+		}
+		_halfLifeComboBox.setEnabled(_meterModel.getNucleusTypeUsedForDating() == NucleusType.CUSTOM);
+		updateMeterReading();
 	}
 	
 	private ProbeNode getProbeNode() {
