@@ -3,14 +3,14 @@
 ==================================================================================
 
 TODO:
-- new icon coming from Archie
+- custom renderer for solute combo box so they all have the same height
+- separator below "no solute" and above custom choices
+- new icons coming from Archie
+- Matching Game module
 - first time a module is activated, canvas updateLayout is called twice (AncestorListener+ComponentListener), other sims only call once (AncestorListener)
 - scale image files
 - review remaining instanceof comparisons
 - auto layout of symbol legend descriptions, so that we don't need to localize HTML markup
-- Matching Game module
-- custom renderer for solute combo box so they all have the same height
-- separator below "no solute" and above custom choices
 
 DEFER:
 - restrict Strength slider to one section of the range (only needed if we add "Custom Weak" acid/base)
@@ -22,6 +22,7 @@ ISSUES:
 - LL: different icon for MOH
 
 DONE:
+6/22/09 brighter red (222, 2, 0) for H3O+
 # 0.01.15
 6/19/09 no concentration for pure water on beaker label
 6/19/09 Ka > 1 and Kb > 1 for intermediate range of strength slider
