@@ -3,7 +3,7 @@
 ==================================================================================
 
 TODO:
-- separator below "no solute" and above custom choices
+- prevent selection of separators in solute combo box
 - Matching Game module
 - first time a module is activated, canvas updateLayout is called twice (AncestorListener+ComponentListener), other sims only call once (AncestorListener)
 - review remaining instanceof comparisons
@@ -17,6 +17,7 @@ ISSUES:
 - CM: layout change of play area is annoying when switching solutes, due to label changes in beaker's View control panel
 
 DONE:
+6/22/09 add separators to solute combo box
 6/22/09 custom renderer for solute combo box, so that all items have the same height
 # 0.01.17
 6/22/09 scale image files, so that Piccolo scaling is 1.0, improves quality
