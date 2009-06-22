@@ -46,6 +46,11 @@ class NavBar {
         $this->prefix = $prefix;
     }
 
+    function set_navigation_category($navigation_category) {
+        assert($this->selected_page_is_valid($navigation_category));
+        $this->navigation_category = $navigation_category;
+    }
+
     function render() {
         $this->print_navigation_bar($this->navigation_category, $this->prefix);
     }

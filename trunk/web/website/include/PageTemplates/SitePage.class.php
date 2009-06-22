@@ -93,7 +93,6 @@ class SitePage extends BasePage {
 
         $this->add_javascript_header_script(
             array(
-                "                    select_current_navbar_category('{$_SERVER["REQUEST_URI"]}');",
                 // Old method used a lot of $() to find inputs and place a regex
                 // validation pattern in it, which really bogged down on big pages.
                 // Replaced with a method to just look for inputs and moved it to
@@ -106,8 +105,19 @@ class SitePage extends BasePage {
                 )
             );
 
-            // Start with a blank login header message
-            $this->login_header_message = '';
+        $this->set_navbar_uri($_SERVER["REQUEST_URI"]);
+
+        // Start with a blank login header message
+        $this->login_header_message = '';
+    }
+
+    function set_navigation_category($navigation_category) {
+        $this->navigation_bar->set_navigation_category($navigation_category);
+    }
+
+    function set_navbar_uri($uri) {
+        $this->nav_cat = $uri;
+        return;
     }
 
     function is_installer_builder_rip() {
@@ -358,6 +368,18 @@ EOT;
 
     function render_navigation_bar() {
         $this->navigation_bar->render();
+    }
+
+    function open_xhtml_head() {
+        // Add the header script that highlights the subsection of the navbar
+        assert(isset($this->nav_cat));
+        $this->add_javascript_header_script(
+            array(
+                "                    select_current_navbar_category('{$this->nav_cat}');",
+                )
+            );
+
+        parent::open_xhtml_head();
     }
 
     function render_content() {

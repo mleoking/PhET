@@ -1272,15 +1272,26 @@ EOT;
 
         $is_first = true;
 
-        foreach ($names as $name) {
+        foreach ($names as $key_sim_id => $name) {
             if ($is_first) {
                 $is_first = false;
             }
             else {
                 $list .= ', ';
             }
+            
+            // Get the simulation
+            $key_sim_id = substr($key_sim_id, 7);
+            $sim = SimFactory::inst()->getById($key_sim_id);
 
-            $list .= $name;
+            // Bulid an anchor tag to the sim page
+            $thing = WebUtils::inst()->buildAnchorTag(
+                $sim->getPageUrl(),
+                $name
+                );
+
+            // Add the anchor to the list
+            $list .= $thing;
         }
 
         return $list;

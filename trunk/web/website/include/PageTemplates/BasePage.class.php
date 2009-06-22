@@ -211,7 +211,7 @@ class BasePage {
      */
     function add_javascript_header_script($script) {
         if (is_array($script)) {
-            $this->javascript_ready = $this->javascript_ready + $script;
+            $this->javascript_ready = array_merge($this->javascript_ready, $script);
         }
         else {
             $this->javascript_ready[] = $script;
