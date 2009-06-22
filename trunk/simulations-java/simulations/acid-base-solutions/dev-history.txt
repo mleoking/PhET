@@ -11,7 +11,7 @@ TODO:
 - auto layout of symbol legend descriptions, so that we don't need to localize HTML markup
 
 DEFER:
-- align baselines of characters in equations (requires a new implementation)
+- align baselines of characters in equations (requires a new implementation: Piccolo or TextAttribute)
 
 ISSUES:
 - KP: PSwing buffering makes Swing text look lousy while dragging sliders
