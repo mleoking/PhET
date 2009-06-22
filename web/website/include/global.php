@@ -97,7 +97,7 @@
 
     define("JAVA_MIN_VERSION_GENERIC", "1.5");
     define("JAVA_MIN_VERSION_WIN", "1.5.0_15");
-    define("JAVA_MIN_VERSION_OSX", "1.5.0_16");
+    define("JAVA_MIN_VERSION_OSX", "1.5.0_19");
     define("JAVA_MIN_VERSION_LIN", "1.5.0_15");
     define("JAVA_MIN_VERSION_GENERIC_FULL", JAVA_MIN_VERSION_GENERIC."1.5");
     define("JAVA_MIN_VERSION_WIN_FULL", "Sun Java ".JAVA_MIN_VERSION_WIN);
