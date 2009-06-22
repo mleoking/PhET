@@ -7,7 +7,6 @@ TODO:
 - separator below "no solute" and above custom choices
 - Matching Game module
 - first time a module is activated, canvas updateLayout is called twice (AncestorListener+ComponentListener), other sims only call once (AncestorListener)
-- scale image files
 - review remaining instanceof comparisons
 - auto layout of symbol legend descriptions, so that we don't need to localize HTML markup
 
@@ -19,6 +18,7 @@ ISSUES:
 - CM: layout change of play area is annoying when switching solutes, due to label changes in beaker's View control panel
 
 DONE:
+6/22/09 scale image files, so that Piccolo scaling is 1.0, improves quality
 6/22/09 new icons for MOH and A-
 6/22/09 fix: water molecule count exponent is smaller than the others
 6/22/09 change scaling control label to "Animate symbol size:"

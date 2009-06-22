@@ -46,7 +46,7 @@ abstract class AbstractMoleculeCountsNode extends PComposite {
     
     private static final Font LABEL_FONT = new PhetFont( Font.PLAIN, 18 );
     private static final Color LABEL_COLOR = Color.BLACK;
-    private static final double ICON_SCALE = 0.25; //TODO: scale image files so that this is 1.0
+    private static final double ICON_SCALE = 1.0;
     
     private final ValueNode[] countNodes;
     private final IconNode[] iconNodes;
