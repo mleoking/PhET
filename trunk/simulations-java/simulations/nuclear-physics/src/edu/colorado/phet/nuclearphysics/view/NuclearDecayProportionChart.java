@@ -946,7 +946,7 @@ public class NuclearDecayProportionChart extends PNode {
 			_xAxisTickMarkLabels.add(tickMarkLabel);
 	    	
 	    	int numTickMarks = 0;
-	    	if (_chart._timeSpan < MultiNucleusDecayModel.convertYearsToMs(1E9)){
+	    	if (_chart._timeSpan < MultiNucleusDecayModel.convertYearsToMs(100000)){
 	    		// Tick marks are 5000 yrs apart.  This is generally used for
 	    		// the Carbon 14 range.
 	    		numTickMarks = (int)(_chart._timeSpan / MultiNucleusDecayModel.convertYearsToMs(5000));
@@ -954,6 +954,42 @@ public class NuclearDecayProportionChart extends PNode {
 	    		for (int i = 0; i < numTickMarks; i++){
 	    			addXAxisTickMark((i + 1) * MultiNucleusDecayModel.convertYearsToMs(5000),
 	    					Integer.toString((i + 1) * 5000));
+	    		}
+	    	}
+	    	else if (_chart._timeSpan < MultiNucleusDecayModel.convertYearsToMs(1E6)){
+	    		// Tick marks are 100000 yrs apart.
+	    		numTickMarks = (int)(_chart._timeSpan / MultiNucleusDecayModel.convertYearsToMs(100000));
+	    		
+	    		for (int i = 0; i < numTickMarks; i++){
+	    			addXAxisTickMark((i + 1) * MultiNucleusDecayModel.convertYearsToMs(100000),
+	    					Integer.toString((i + 1) * 100000));
+	    		}
+	    	}
+	    	else if (_chart._timeSpan < MultiNucleusDecayModel.convertYearsToMs(10E6)){
+	    		// Tick marks are 1 million years apart.
+	    		numTickMarks = (int)(_chart._timeSpan / MultiNucleusDecayModel.convertYearsToMs(1E6));
+	    		
+	    		for (int i = 0; i < numTickMarks; i++){
+	    			addXAxisTickMark((i + 1) * MultiNucleusDecayModel.convertYearsToMs(1E6),
+	    					String.format("%.1f", (float)(i + 1)));
+	    		}
+	    	}
+	    	else if (_chart._timeSpan < MultiNucleusDecayModel.convertYearsToMs(100E6)){
+	    		// Tick marks are 10 million years apart.
+	    		numTickMarks = (int)(_chart._timeSpan / MultiNucleusDecayModel.convertYearsToMs(10E6));
+	    		
+	    		for (int i = 0; i < numTickMarks; i++){
+	    			addXAxisTickMark((i + 1) * MultiNucleusDecayModel.convertYearsToMs(10E6),
+	    					String.format("%.1f", (float)((i + 1) * 10)));
+	    		}
+	    	}
+	    	else if (_chart._timeSpan < MultiNucleusDecayModel.convertYearsToMs(1E9)){
+	    		// Tick marks are 100 million years apart.
+	    		numTickMarks = (int)(_chart._timeSpan / MultiNucleusDecayModel.convertYearsToMs(100E6));
+	    		
+	    		for (int i = 0; i < numTickMarks; i++){
+	    			addXAxisTickMark((i + 1) * MultiNucleusDecayModel.convertYearsToMs(100E6),
+	    					String.format("%.0f", (float)((i + 1) * 100)));
 	    		}
 	    	}
 	    	else{
@@ -1066,8 +1102,11 @@ public class NuclearDecayProportionChart extends PNode {
 	    private String getXAxisUnitsText(){
 	    	
 	    	String unitsText;
-	    	if (_chart._timeSpan > MultiNucleusDecayModel.convertYearsToMs(100000)){
+	    	if (_chart._timeSpan > MultiNucleusDecayModel.convertYearsToMs(1E9)){
 	    		unitsText = NuclearPhysicsStrings.DECAY_PROPORTIONS_TIME_UNITS_BILLION_YEARS;
+	    	}
+	    	if (_chart._timeSpan > MultiNucleusDecayModel.convertYearsToMs(1E6)){
+	    		unitsText = NuclearPhysicsStrings.DECAY_PROPORTIONS_TIME_UNITS_MILLION_YEARS;
 	    	}
 	    	else{
 	    		unitsText = NuclearPhysicsStrings.DECAY_PROPORTIONS_TIME_UNITS_YEARS;
@@ -1242,6 +1281,12 @@ public class NuclearDecayProportionChart extends PNode {
     			timeString = NuclearPhysicsStrings.TIME_ABBREVIATION + " = " 
     				+ Integer.toString((int)MultiNucleusDecayModel.convertMsToYears(time)) 
     				+ " " + NuclearPhysicsStrings.TIME_GRAPH_UNITS_YRS;
+    		}
+    		else if ( time < MultiNucleusDecayModel.convertYearsToMs(1E9)){
+    			// Use millions of years.
+    			timeString = NuclearPhysicsStrings.TIME_ABBREVIATION + " = " 
+				+ String.format("%.2f", MultiNucleusDecayModel.convertMsToYears(time) / 1E6) 
+				+ " " + NuclearPhysicsStrings.DECAY_PROPORTIONS_TIME_UNITS_MILLION_YEARS_ABBREV;
     		}
     		else{
     			// Use billions of years.
