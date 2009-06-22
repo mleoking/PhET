@@ -2,8 +2,14 @@
 package edu.colorado.phet.acidbasesolutions.control;
 
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 
 import javax.swing.BorderFactory;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.ListCellRenderer;
+import javax.swing.border.EmptyBorder;
 
 import edu.colorado.phet.acidbasesolutions.model.Solute;
 import edu.colorado.phet.acidbasesolutions.model.SoluteFactory;
@@ -16,6 +22,8 @@ import edu.umd.cs.piccolox.pswing.PComboBox;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class SoluteComboBox extends PComboBox {
+    
+    private static final int MIN_ITEM_HEIGHT = 35; //TODO discover this
     
     /*
      * Choices in the combo box.
@@ -54,11 +62,14 @@ public class SoluteComboBox extends PComboBox {
         // items
         Solute[] solutes = SoluteFactory.getSolutes();
         for ( int i = 0; i < solutes.length; i++ ) {
-            addItem( new Choice( solutes[i] ) );
+            Choice choice = new Choice( solutes[i] );
+            addItem( choice );
         }
         
         // make all items visible (no vertical scroll bar)
         setMaximumRowCount( getItemCount() );
+        
+//        setRenderer( new CustomRenderer( MIN_ITEM_HEIGHT ) );
     }
     
     /**
@@ -89,5 +100,37 @@ public class SoluteComboBox extends PComboBox {
      */
     public String getSoluteName() {
         return ( (Choice) getSelectedItem() ).getName();
+    }
+    
+    private static class CustomRenderer extends JLabel implements ListCellRenderer {
+
+        private final int height;
+        
+        public CustomRenderer( int minHeight ) {
+            super();
+            setOpaque( true );
+            setHorizontalAlignment( LEFT );
+            setVerticalAlignment( CENTER );
+            this.height = minHeight;
+        }
+
+        public Component getListCellRendererComponent( JList list, Object value, int index, boolean isSelected, boolean cellHasFocus ) {
+
+            if ( isSelected ) {
+                setBackground( list.getSelectionBackground() );
+                setForeground( list.getSelectionForeground() );
+            }
+            else {
+                setBackground( list.getBackground() );
+                setForeground( list.getForeground() );
+            }
+
+            setText( value.toString() );
+            setFont( list.getFont() );
+            setBorder( new EmptyBorder( 2, 2, 2, 2 ) );
+            setPreferredSize( new Dimension( getPreferredSize().width, Math.max( height, getPreferredSize().height ) ) );
+            return this;
+
+        }
     }
 }
