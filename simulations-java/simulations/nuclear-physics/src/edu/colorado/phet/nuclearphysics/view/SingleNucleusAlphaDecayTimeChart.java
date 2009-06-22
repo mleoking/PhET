@@ -872,6 +872,7 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
         private final double MILLISECONDS_PER_BILLION_YEARS = 3.16e19;
         private final double MILLISECONDS_PER_TRILLION_YEARS = 3.16e22;
         private final double MILLISECONDS_PER_QUADRILLION_YEARS = 3.16e25;
+        private final int EXPONENT_SCALE = 80; // percent
         
         private double _readoutWidth;
         private double _readoutHeight;
@@ -885,10 +886,10 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
     	private HTMLNode _dummyTextExponential;  // Used for scaling.
         private DecimalFormat _timeFormatterNoDecimals = new DecimalFormat( "##0" );
         private DecimalFormat _timeFormatterOneDecimal = new DecimalFormat( "##0.0" );
-        private ConstantPowerOfTenNumberFormat _thousandsFormatter = new ConstantPowerOfTenNumberFormat("0", 3);
-        private ConstantPowerOfTenNumberFormat _millionsFormatter = new ConstantPowerOfTenNumberFormat("0", 6);
-        private ConstantPowerOfTenNumberFormat _billionsFormatter = new ConstantPowerOfTenNumberFormat("0", 9);
-        private ConstantPowerOfTenNumberFormat _trillionsFormatter = new ConstantPowerOfTenNumberFormat("0", 12);
+        private ConstantPowerOfTenNumberFormat _thousandsFormatter = new ConstantPowerOfTenNumberFormat("0", 3, EXPONENT_SCALE);
+        private ConstantPowerOfTenNumberFormat _millionsFormatter = new ConstantPowerOfTenNumberFormat("0", 6, EXPONENT_SCALE);
+        private ConstantPowerOfTenNumberFormat _billionsFormatter = new ConstantPowerOfTenNumberFormat("0", 9, EXPONENT_SCALE);
+        private ConstantPowerOfTenNumberFormat _trillionsFormatter = new ConstantPowerOfTenNumberFormat("0", 12, EXPONENT_SCALE);
     	
     	TimeDisplayNode(){
     		_readoutWidth = _usableWidth * 0.22;   // Somewhat arbitrary default values, size is expected to be set through method.

@@ -24,25 +24,33 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  */
 public class ConstantPowerOfTenNumberFormat extends NumberFormat {
     
-    private static final String PATTERN = "<html>{0} x 10<sup style=\"font-size:80%\"> {1}</sup></html>";
+    private static final String PATTERN = "<html>{0} x 10<sup style=\"font-size:{2}%\"> {1}</sup></html>";
+    private static final int DEFAULT_EXPONENT_SCALE = 100; // percent
     private static final DefaultDecimalFormat SIMPLE_FORMAT = new DefaultDecimalFormat( "0" );
     
     private final DefaultDecimalFormat _decimalFormat;
     private boolean _simpleMantissaFormat;
     private final int _constantExponent;
     private boolean _simpleExponentFormat;
+    private final int _exponentScale;
+    
+    public ConstantPowerOfTenNumberFormat( String mantissaFormat, int constantExponent ) {
+        this( mantissaFormat, constantExponent, DEFAULT_EXPONENT_SCALE );
+    }
     
     /**
      * Constructor.
      * 
      * @param mantissaFormat format of the mantissa, specified using DecimalFormat's syntax
      * @param constantExponent exponent for the constant power of 10
+     * @param exponentScale how much to scale the exponent, in percent
      */
-    public ConstantPowerOfTenNumberFormat( String mantissaFormat, int constantExponent ) {
+    public ConstantPowerOfTenNumberFormat( String mantissaFormat, int constantExponent, int exponentScale ) {
         _decimalFormat = new DefaultDecimalFormat( mantissaFormat );
         _constantExponent = constantExponent;
         _simpleMantissaFormat = true;
         _simpleExponentFormat = true;
+        _exponentScale = exponentScale;
     }
     
     /**
@@ -88,7 +96,7 @@ public class ConstantPowerOfTenNumberFormat extends NumberFormat {
             // use a DecimalFormat to format the mantissa
             String mantissaString = _decimalFormat.format( mantissa );
             // put the mantissa and exponent into our format
-            Object[] args = { mantissaString, new Integer( _constantExponent ) };
+            Object[] args = { mantissaString, new Integer( _constantExponent ), _exponentScale };
             valueString = MessageFormat.format( PATTERN, args );
         }
         toAppendTo.append( valueString );
@@ -120,7 +128,7 @@ public class ConstantPowerOfTenNumberFormat extends NumberFormat {
         String p3 = "#.0";
         String p4 = "0";
         
-        ConstantPowerOfTenNumberFormat f1 = new ConstantPowerOfTenNumberFormat( p1, 5 );
+        ConstantPowerOfTenNumberFormat f1 = new ConstantPowerOfTenNumberFormat( p1, 5, 80 );
         f1.setSimpleMantissaFormat( false );
         NumberFormat f2 = new ConstantPowerOfTenNumberFormat( p2, 5 );
         NumberFormat f3 = new ConstantPowerOfTenNumberFormat( p3, 5);
