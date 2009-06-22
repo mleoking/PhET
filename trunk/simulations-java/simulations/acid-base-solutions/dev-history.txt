@@ -5,7 +5,6 @@
 TODO:
 - custom renderer for solute combo box so they all have the same height
 - separator below "no solute" and above custom choices
-- new icons coming from Archie
 - Matching Game module
 - first time a module is activated, canvas updateLayout is called twice (AncestorListener+ComponentListener), other sims only call once (AncestorListener)
 - scale image files
@@ -13,13 +12,11 @@ TODO:
 - auto layout of symbol legend descriptions, so that we don't need to localize HTML markup
 
 DEFER:
-- restrict Strength slider to one section of the range (only needed if we add "Custom Weak" acid/base)
 - align baselines of characters in equations (requires a new implementation)
 
 ISSUES:
 - KP: PSwing buffering makes Swing text look lousy while dragging sliders
-- layout change of play area is annoying when switching solutes, due to label changes in beaker's View control panel
-- LL: different icon for MOH
+- CM: layout change of play area is annoying when switching solutes, due to label changes in beaker's View control panel
 
 DONE:
 6/22/09 new icons for MOH and A-
