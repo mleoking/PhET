@@ -1,4 +1,3 @@
-6/22/09  publish requested changes for review
 > improve quality of icons by scaling their image files, instead of doing scaling in Piccolo
 # 0.01.16 (32625) Jun 22, 2009
 6/22/09 publish requested changes for review
