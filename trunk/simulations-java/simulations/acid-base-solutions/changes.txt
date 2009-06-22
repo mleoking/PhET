@@ -1,3 +1,5 @@
+# 0.01.16 (32625) Jun 22, 2009
+6/22/09 publish requested changes for review
 > new icons for MOH and A-
 > exponents for all molecule counts are now the same size
 > change equation scaling control label to "Animate symbol size:"
