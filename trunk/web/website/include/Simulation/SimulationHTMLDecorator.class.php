@@ -249,8 +249,8 @@ class SimulationHTMLDecorator implements SimulationInterface {
         $attributes = array(
             'alt' => 'Sim preview image',
             'title' => 'Click here to launch the simulation from your browser',
-            'width' => '300',
-            'height' => '225');
+            'width' => '300'
+            );
         return WebUtils::inst()->buildImageTag($this->sim->getScreenshotUrl(), $attributes);
     }
 
