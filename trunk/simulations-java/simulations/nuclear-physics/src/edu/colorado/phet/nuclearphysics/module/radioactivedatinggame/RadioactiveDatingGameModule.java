@@ -24,7 +24,6 @@ public class RadioactiveDatingGameModule extends PiccoloModule {
 
     private RadioactiveDatingGameModel _model;
     private RadioactiveDatingGameCanvas _canvas;
-    private ProbeTypeModel _probeTypeModel;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -37,11 +36,8 @@ public class RadioactiveDatingGameModule extends PiccoloModule {
         // Physical model
         _model = new RadioactiveDatingGameModel();
 
-        // Model components
-        _probeTypeModel = new ProbeTypeModel();
-
         // Canvas
-        _canvas = new RadioactiveDatingGameCanvas( _model, _probeTypeModel );
+        _canvas = new RadioactiveDatingGameCanvas( _model );
         setSimulationPanel( _canvas );
         
         // Help

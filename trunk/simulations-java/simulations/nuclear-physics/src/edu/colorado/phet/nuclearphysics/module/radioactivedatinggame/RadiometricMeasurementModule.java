@@ -24,7 +24,6 @@ public class RadiometricMeasurementModule extends PiccoloModule {
 
     private RadiometricMeasurementModel _model;
     private RadiometricMeasurementCanvas _canvas;
-    private ProbeTypeModel _probeTypeModel;
     private RadiometricMeasurementControlPanel _controlPanel;
 
     //----------------------------------------------------------------------------
@@ -38,11 +37,8 @@ public class RadiometricMeasurementModule extends PiccoloModule {
         // Physical model
         _model = new RadiometricMeasurementModel();
 
-        // Model components
-        _probeTypeModel = new ProbeTypeModel();
-
         // Canvas
-        _canvas = new RadiometricMeasurementCanvas( _model, _probeTypeModel );
+        _canvas = new RadiometricMeasurementCanvas( _model );
         setSimulationPanel( _canvas );
         
         // Control Panel

@@ -64,8 +64,7 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
     // Constructor
     //----------------------------------------------------------------------------
 
-    public RadiometricMeasurementCanvas(RadiometricMeasurementModel radiometricMeasurementModel, 
-    		ProbeTypeModel probeTypeModel) {
+    RadiometricMeasurementCanvas(RadiometricMeasurementModel radiometricMeasurementModel) {
 
     	_model = radiometricMeasurementModel;
 
@@ -134,11 +133,11 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
         // perform radiometric dating.
         	
         // Create the radiometric measuring device.
-        _meterNode = new RadiometricDatingMeterNode( _model.getMeter(), probeTypeModel,
-        		INITIAL_INTERMEDIATE_COORD_WIDTH * PROPORTIONS_METER_WIDTH_FRACTION, 
-        		INITIAL_INTERMEDIATE_COORD_HEIGHT * PROPORTIONS_METER_HEIGHT_FRACTION,
+        _meterNode = new RadiometricDatingMeterNode( _model.getMeter(), INITIAL_INTERMEDIATE_COORD_WIDTH * PROPORTIONS_METER_WIDTH_FRACTION,
+        		INITIAL_INTERMEDIATE_COORD_HEIGHT * PROPORTIONS_METER_HEIGHT_FRACTION, 
         		_mvt,
-        		this, false );
+        		this,
+        		false );
         _meterNode.setMeterBodyOffset( 0,
         		INITIAL_INTERMEDIATE_COORD_HEIGHT - _meterNode.getMeterBodySize().getHeight() - 4);
         addWorldChild( _meterNode );
