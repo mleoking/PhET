@@ -27,7 +27,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
  */
 public class SymbolLegendDialog extends PaintImmediateDialog {
     
-    public static final double MOLECULE_IMAGE_SCALE = 0.25; //TODO scale image files so that this is 1.0
+    public static final double MOLECULE_IMAGE_SCALE = 1.0;
     public static final Font MOLECULE_FONT = new PhetFont( Font.PLAIN, 14 );
     public static final Font DESCRIPTION_FONT = new PhetFont();
     
