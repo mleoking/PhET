@@ -29,7 +29,7 @@ public class RadiometricDatingMeter {
 	private DatableItem _itemBeingTouched = null;
 	private ModelContainingDatableItems _model;
 	private NucleusType _nucleusTypeForDating;
-	private double _halfLifeOfDatingNucleus;
+	private double _halfLifeOfCustomNucleus;
 	protected ArrayList<Listener> _listeners = new ArrayList<Listener>();
 	
 	//----------------------------------------------------------------------------
@@ -62,6 +62,37 @@ public class RadiometricDatingMeter {
 
 	public ProbeModel getProbeModel(){
 		return _probe;
+	}
+	
+	/**
+	 * Get the percentage of the element that is being used for radiometric
+	 * dating that remains in the currently touched item.  If no item is being
+	 * touched, this returns NaN (not a number).
+	 */
+	public double getPercentageOfDatingElementRemaining(){
+		
+		if (_itemBeingTouched == null){
+			return Double.NaN;
+		}
+		
+		double halflife;
+		
+		if (_nucleusTypeForDating == NucleusType.CUSTOM){
+			halflife = _halfLifeOfCustomNucleus;
+		}
+		else {
+			halflife = HalfLifeInfo.getHalfLifeForNucleusType( _nucleusTypeForDating );
+		}
+
+		
+		if ( _itemBeingTouched.getAge() <= 0 ){
+			return 100;
+		}
+		else{
+			// Calculate the percentage based on the standard exponential
+			// decay curve.
+			return 100 * Math.exp( -0.693 * _itemBeingTouched.getAge() / halflife );
+		}
 	}
 	
 	public void addListener(Listener listener) {
@@ -102,7 +133,7 @@ public class RadiometricDatingMeter {
 		// dating.
 		assert _nucleusTypeForDating == NucleusType.CUSTOM;
 		
-		_halfLifeOfDatingNucleus = halfLife;
+		_halfLifeOfCustomNucleus = halfLife;
 		
 		notifyDatingElementChanged();
 	}
@@ -114,7 +145,7 @@ public class RadiometricDatingMeter {
 	 */
 	public double getHalfLifeForDating(){
 		if (_nucleusTypeForDating == NucleusType.CUSTOM){
-			return _halfLifeOfDatingNucleus;
+			return _halfLifeOfCustomNucleus;
 		}
 		else{
 			return HalfLifeInfo.getHalfLifeForNucleusType(_nucleusTypeForDating);

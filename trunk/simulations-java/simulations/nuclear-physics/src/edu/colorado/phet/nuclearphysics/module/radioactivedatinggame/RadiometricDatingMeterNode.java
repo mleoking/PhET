@@ -234,7 +234,7 @@ public class RadiometricDatingMeterNode extends PNode {
 			_percentageDisplay.setBlank();
 		}
 		else{
-			_percentageDisplay.setPercentage(_probeTypeModel.getPercentage(datableItem));
+			_percentageDisplay.setPercentage(_meterModel.getPercentageOfDatingElementRemaining());
 		}
 	}
 
