@@ -32,9 +32,9 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
+import edu.colorado.phet.nuclearphysics.common.NucleusDisplayInfo;
 import edu.colorado.phet.nuclearphysics.common.NucleusType;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusDecayModel;
-import edu.colorado.phet.nuclearphysics.module.radioactivedatinggame.ProbeTypeModel.ProbeType;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -84,7 +84,6 @@ public class RadiometricDatingMeterNode extends PNode {
 	private ProbeNode _probeNode;
 	private PercentageDisplayNode _percentageDisplay;
 	private ElementSelectionPanel _elementSelectionPanel;
-	private ProbeTypeModel _probeTypeModel;
 	private PSwing _elementSelectionNode;
 	private PComboBox _halfLifeComboBox;
 	
@@ -92,12 +91,11 @@ public class RadiometricDatingMeterNode extends PNode {
     // Constructor
     //------------------------------------------------------------------------
 
-	public RadiometricDatingMeterNode(RadiometricDatingMeter meterModel, ProbeTypeModel probeTypeModel, double width,
-			double height, ModelViewTransform2D mvt, PSwingCanvas canvas, boolean showCustom) {
+	public RadiometricDatingMeterNode(RadiometricDatingMeter meterModel, double width, double height,
+			ModelViewTransform2D mvt, PSwingCanvas canvas, boolean showCustom) {
 		
 		_meterModel = meterModel;
 		_mvt = mvt;
-		_probeTypeModel = probeTypeModel;
 		
 		// Register with the model to find out when something new is being touched.
 		_meterModel.addListener(new RadiometricDatingMeter.Listener(){
@@ -106,13 +104,6 @@ public class RadiometricDatingMeterNode extends PNode {
 			}
 
 			public void touchedStateChanged() {
-				updateMeterReading();
-			}
-		});
-		
-		// Register with probe to get notified when its setting changes.
-		probeTypeModel.addObserver(new SimpleObserver(){
-			public void update() {
 				updateMeterReading();
 			}
 		});
@@ -135,7 +126,7 @@ public class RadiometricDatingMeterNode extends PNode {
 		
 		// Add the selection panel.
 		_elementSelectionPanel = new ElementSelectionPanel((int)Math.round(width * 0.9),
-				(int)Math.round(height * 0.5), probeTypeModel, meterModel, showCustom);
+				(int)Math.round(height * 0.5), meterModel, showCustom);
 		_elementSelectionNode = new PSwing(_elementSelectionPanel);
 		_elementSelectionNode.setOffset( 
 				_meterBody.getFullBounds().width / 2 - _elementSelectionNode.getFullBounds().width / 2,
@@ -463,8 +454,8 @@ public class RadiometricDatingMeterNode extends PNode {
 
 		static private final Font LABEL_FONT = new PhetFont(18, true);
 		
-		public ElementSelectionPanel(int width, int height, final ProbeTypeModel probeTypeModel, 
-				final RadiometricDatingMeter meterModel, boolean showCustom){
+		public ElementSelectionPanel(int width, int height, final RadiometricDatingMeter meterModel, 
+				boolean showCustom){
 			
 			setPreferredSize(new Dimension(width, height));
 			setBackground(BODY_COLOR);
@@ -485,63 +476,63 @@ public class RadiometricDatingMeterNode extends PNode {
             // Create the radio buttons, one for each possible radiometric
             // dating element.
             
-            final JRadioButton carbon14Button = new JRadioButton(ProbeType.CARBON_14.getName(), true);
+            final JRadioButton carbon14Button = new JRadioButton(
+            		NucleusDisplayInfo.getDisplayInfoForNucleusType(NucleusType.CARBON_14).getName(), true);
             carbon14Button.setBackground(BODY_COLOR);
             carbon14Button.setForeground(Color.WHITE);
             carbon14Button.setFont(LABEL_FONT);
             carbon14Button.addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent e) {
-					// TODO: Ultimately things will be refactored so that only one of these calls is needed.
-					probeTypeModel.setProbeType(ProbeType.CARBON_14);
 					meterModel.setNucleusTypeUsedForDating(NucleusType.CARBON_14);
 				}
             });
             add(carbon14Button);
-            probeTypeModel.addObserver(new SimpleObserver(){
-				public void update() {
-	                carbon14Button.setSelected( probeTypeModel.getProbeType().equals(ProbeType.CARBON_14));
-				}
+            meterModel.addListener(new RadiometricDatingMeter.Adapter(){
+            	public void datingElementChanged(){
+            		carbon14Button.setSelected( meterModel.getNucleusTypeUsedForDating() == 
+            			NucleusType.CARBON_14 );
+            	};
             });
-            carbon14Button.setSelected( probeTypeModel.getProbeType().equals(ProbeType.CARBON_14));
+            carbon14Button.setSelected( meterModel.getNucleusTypeUsedForDating() == NucleusType.CARBON_14);
             
-            final JRadioButton uranium238RadioButton = new JRadioButton(ProbeType.URANIUM_238.getName(), true);
+            final JRadioButton uranium238RadioButton = new JRadioButton(
+            		NucleusDisplayInfo.getDisplayInfoForNucleusType(NucleusType.URANIUM_238).getName(), true);
             uranium238RadioButton.setBackground(BODY_COLOR);
             uranium238RadioButton.setForeground(Color.WHITE);
             uranium238RadioButton.setFont(LABEL_FONT);
             uranium238RadioButton.addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent e) {
-					// TODO: Ultimately things will be refactored so that only one of these calls is needed.
-					probeTypeModel.setProbeType(ProbeType.URANIUM_238);
 					meterModel.setNucleusTypeUsedForDating(NucleusType.URANIUM_238);
 				}
             });
             add(uranium238RadioButton);
-            probeTypeModel.addObserver(new SimpleObserver(){
-				public void update() {
-	                uranium238RadioButton.setSelected( probeTypeModel.getProbeType().equals(ProbeType.URANIUM_238));
-				}
+            meterModel.addListener(new RadiometricDatingMeter.Adapter(){
+            	public void datingElementChanged(){
+            		uranium238RadioButton.setSelected( meterModel.getNucleusTypeUsedForDating() == 
+            			NucleusType.URANIUM_238 );
+            	};
             });
-            uranium238RadioButton.setSelected( probeTypeModel.getProbeType().equals(ProbeType.URANIUM_238));
+            uranium238RadioButton.setSelected( meterModel.getNucleusTypeUsedForDating() == NucleusType.URANIUM_238);
             
             if (showCustom){
-	            final JRadioButton customNucleusRadioButton = new JRadioButton(ProbeType.CUSTOM.getName(), true);
+	            final JRadioButton customNucleusRadioButton = new JRadioButton(
+	            		NucleusDisplayInfo.getDisplayInfoForNucleusType(NucleusType.CUSTOM).getName(), true);
 	            customNucleusRadioButton.setBackground(BODY_COLOR);
 	            customNucleusRadioButton.setForeground(Color.WHITE);
 	            customNucleusRadioButton.setFont(LABEL_FONT);
 	            customNucleusRadioButton.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e) {
-						// TODO: Ultimately things will be refactored so that only one of these calls is needed.
-						probeTypeModel.setProbeType(ProbeType.CUSTOM);
 						meterModel.setNucleusTypeUsedForDating(NucleusType.CUSTOM);
 					}
 	            });
 	            add(customNucleusRadioButton);
-	            probeTypeModel.addObserver(new SimpleObserver(){
-					public void update() {
-						customNucleusRadioButton.setSelected( probeTypeModel.getProbeType().equals(ProbeType.CUSTOM));
-					}
+	            meterModel.addListener(new RadiometricDatingMeter.Adapter(){
+	            	public void datingElementChanged(){
+	            		customNucleusRadioButton.setSelected( meterModel.getNucleusTypeUsedForDating() == 
+	            			NucleusType.CUSTOM );
+	            	};
 	            });
-				customNucleusRadioButton.setSelected( probeTypeModel.getProbeType().equals(ProbeType.CUSTOM));
+	            customNucleusRadioButton.setSelected( meterModel.getNucleusTypeUsedForDating() == NucleusType.CUSTOM);
             }
 		}
 	}
