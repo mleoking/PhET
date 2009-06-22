@@ -16,6 +16,7 @@ import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.view.NuclearDecayProportionChart;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
@@ -112,6 +113,16 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
         sky.setOffset(_mvt.modelToViewXDouble(0), _mvt.modelToViewYDouble(_model.getGroundLevelY()));
         _backgroundLayer.addChild(sky);
         
+        // Add a couple of clouds to the background.
+        PImage cloud1 = NuclearPhysicsResources.getImageNode("cloud_1.png");
+        cloud1.setScale(0.75);
+        cloud1.setOffset(0, 20);
+        _backgroundLayer.addChild(cloud1);
+        PImage cloud2 = NuclearPhysicsResources.getImageNode("cloud_1.png");
+        cloud2.setScale(0.5);
+        cloud2.setOffset(INITIAL_INTERMEDIATE_COORD_WIDTH / 2, 100);
+        _backgroundLayer.addChild(cloud2);
+        
         // Add the volcano.
         // TODO: This should be in the model, and is here now solely for demo/testing purposes.
         PNode volcano = NuclearPhysicsResources.getImageNode("volcano_hot.png");
@@ -126,7 +137,8 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
         _meterNode = new RadiometricDatingMeterNode( _model.getMeter(), probeTypeModel,
         		INITIAL_INTERMEDIATE_COORD_WIDTH * PROPORTIONS_METER_WIDTH_FRACTION, 
         		INITIAL_INTERMEDIATE_COORD_HEIGHT * PROPORTIONS_METER_HEIGHT_FRACTION,
-        		_mvt );
+        		_mvt,
+        		this );
         _meterNode.setMeterBodyOffset( 0,
         		INITIAL_INTERMEDIATE_COORD_HEIGHT - _meterNode.getMeterBodySize().getHeight() - 4);
         setUpComboBox();
