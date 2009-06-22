@@ -4,15 +4,18 @@ package edu.colorado.phet.acidbasesolutions.control;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.ListCellRenderer;
 import javax.swing.border.EmptyBorder;
 
-import edu.colorado.phet.acidbasesolutions.model.NoSolute;
 import edu.colorado.phet.acidbasesolutions.model.Solute;
 import edu.colorado.phet.acidbasesolutions.model.SoluteFactory;
-import edu.colorado.phet.acidbasesolutions.model.Solute.ICustomSolute;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolox.pswing.PComboBox;
 
 /**
@@ -22,7 +25,7 @@ import edu.umd.cs.piccolox.pswing.PComboBox;
  */
 public class SoluteComboBox extends PComboBox {
     
-    private static final int MIN_ITEM_HEIGHT = 35; //TODO discover this
+    private static final Font FONT = new PhetFont( 16 );
     
     /*
      * Choices in the combo box.
@@ -57,16 +60,24 @@ public class SoluteComboBox extends PComboBox {
         super();
         setBorder( BorderFactory.createLineBorder( Color.BLACK, 1 ) ); // hack for PComboBox
         setBackground( Color.WHITE ); // hack for PComboBox
+        setFont( FONT );
         
         // items
+        int maxWidth = 0;
+        int maxHeight = 0;
         Solute[] solutes = SoluteFactory.getSolutes();
         for ( int i = 0; i < solutes.length; i++ ) {
             Solute solute = solutes[i];
             Choice choice = new Choice( solute );
             addItem( choice );
+            
+            JLabel label = new JLabel( choice.toString() );
+            label.setFont( FONT );
+            maxWidth = Math.max( maxWidth, label.getPreferredSize().width );
+            maxHeight = Math.max( maxHeight, label.getPreferredSize().height );
         }
         
-//        setRenderer( new CustomRenderer( MIN_ITEM_HEIGHT ) );
+        System.out.println( "maxWidth=" + maxWidth + " maxHeight=" + maxHeight );//XXX
         
 //        final ListCellRenderer lcr = getRenderer();
 //        setRenderer( new ListCellRenderer() {
@@ -93,6 +104,9 @@ public class SoluteComboBox extends PComboBox {
         
         // make all items visible (no vertical scroll bar)
         setMaximumRowCount( getItemCount() );
+        
+        setRenderer( new CustomRenderer( maxHeight + 5 ) );
+        setPreferredSize( new Dimension( maxWidth + 60, maxHeight + 5 ) );
     }
     
     /**
@@ -135,6 +149,7 @@ public class SoluteComboBox extends PComboBox {
         
         public CustomRenderer( int minHeight ) {
             super();
+            setFont( FONT );
             setOpaque( true );
             setHorizontalAlignment( LEFT );
             setVerticalAlignment( CENTER );
@@ -154,10 +169,9 @@ public class SoluteComboBox extends PComboBox {
 
             setText( value.toString() );
             setFont( list.getFont() );
-            setBorder( new EmptyBorder( 2, 2, 2, 2 ) );
+            setBorder( new EmptyBorder( 2, 4, 2, 6 ) ); // top, left, bottom, right
             setPreferredSize( new Dimension( getPreferredSize().width, Math.max( height, getPreferredSize().height ) ) );
             return this;
-
         }
     }
 }
