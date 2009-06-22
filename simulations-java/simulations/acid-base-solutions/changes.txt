@@ -1,3 +1,7 @@
+> new icons for MOH and A-
+> exponents for all molecule counts are now the same size
+> change equation scaling control label to "Animate symbol size:"
+> use a brighter red (222, 2, 0) for H3O+
 # 0.01.15 (32598) Jun 19, 2009
 # 0.01.14 (32592) Jun 19, 2009
 6/19/09 demo changes to dot view, symbol legend, decimal places
