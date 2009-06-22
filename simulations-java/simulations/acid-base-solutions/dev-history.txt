@@ -22,6 +22,7 @@ ISSUES:
 - LL: different icon for MOH
 
 DONE:
+6/22/09 fix: water molecule count exponent is smaller than the others
 6/22/09 change scaling control label to "Animate symbol size:"
 6/22/09 brighter red (222, 2, 0) for H3O+
 # 0.01.15
