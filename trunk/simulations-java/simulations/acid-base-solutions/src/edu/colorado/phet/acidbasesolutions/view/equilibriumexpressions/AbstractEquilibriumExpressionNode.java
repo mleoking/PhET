@@ -11,6 +11,7 @@ import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.model.ConcentrationScaleModel;
 import edu.colorado.phet.acidbasesolutions.util.PNodeUtils;
+import edu.colorado.phet.acidbasesolutions.view.SymbolNode;
 import edu.colorado.phet.common.phetcommon.util.TimesTenNumberFormat;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -58,7 +59,7 @@ public abstract class AbstractEquilibriumExpressionNode extends PComposite {
     private static final Font GREATER_THAN_FONT = new PhetFont( Font.BOLD, FONT_SIZE );
     private static final Color GREATER_THAN_COLOR = EQUALS_COLOR;
     
-    private static final Font BRACKET_FONT = new PhetFont( Font.PLAIN, FONT_SIZE - 2 );
+    private static final Font BRACKET_FONT = new PhetFont( Font.PLAIN, FONT_SIZE );
     private static final Color BRACKET_COLOR = Color.BLACK;
     private static final double BRACKET_X_MARGIN = 2;
     
@@ -70,7 +71,7 @@ public abstract class AbstractEquilibriumExpressionNode extends PComposite {
     //----------------------------------------------------------------------------
     
     private final KNode kNode;
-    private final TermNode leftNumeratorNode, rightNumeratorNode, denominatorNode;
+    private TermNode leftNumeratorNode, rightNumeratorNode, denominatorNode;
     private final EqualsNode leftEqualsNode, rightEqualsNode;
     private final GreaterThanOneNode greaterThanOneNode;
     private final DividedNode dividedNode;
@@ -95,9 +96,9 @@ public abstract class AbstractEquilibriumExpressionNode extends PComposite {
         kNode = new KNode( "?" );
         addChild( kNode );
         
-        leftNumeratorNode = new TermNode( "?" );
+        leftNumeratorNode = new TermNode( "ABC", Color.BLACK );
         addChild( leftNumeratorNode );
-        rightNumeratorNode = new TermNode( "?" );
+        rightNumeratorNode = new TermNode( "ABC", Color.BLACK );
         addChild( rightNumeratorNode );
         
         leftEqualsNode = new EqualsNode();
@@ -106,7 +107,7 @@ public abstract class AbstractEquilibriumExpressionNode extends PComposite {
         addChild( rightEqualsNode );
         
         this.hasDenominator = hasDenominator;
-        denominatorNode = new TermNode( "?" );
+        denominatorNode = new TermNode( "ABC", Color.BLACK );
         dividedNode = new DividedNode( 1 );
         if ( hasDenominator ) {
             addChild( denominatorNode );
@@ -220,19 +221,23 @@ public abstract class AbstractEquilibriumExpressionNode extends PComposite {
     }
     
     protected void setLeftNumeratorProperties( String text, Color color ) {
-        setTermProperties( leftNumeratorNode, text, color );
+        removeChild( leftNumeratorNode );
+        leftNumeratorNode = new TermNode( text, color );
+        addChild( leftNumeratorNode );
+        updateLayout();
     }
     
     protected void setRightNumeratorProperties( String text, Color color ) {
-        setTermProperties( rightNumeratorNode, text, color );
+        removeChild( rightNumeratorNode );
+        rightNumeratorNode = new TermNode( text, color );
+        addChild( rightNumeratorNode );
+        updateLayout();
     }
     
     protected void setDenominatorProperties( String text, Color color ) {
-        setTermProperties( denominatorNode, text, color );
-    }
-    
-    protected void setTermProperties( TermNode node, String text, Color fill ) {
-        node.setTermProperties( text, fill );
+        removeChild( denominatorNode );
+        denominatorNode = new TermNode( text, color );
+        addChild( denominatorNode );
         updateLayout();
     }
     
@@ -284,7 +289,7 @@ public abstract class AbstractEquilibriumExpressionNode extends PComposite {
             leftNumeratorNode.setOffset( xOffset, yOffset );
             // right numerator
             xOffset = leftNumeratorNode.getFullBoundsReference().getMaxX() + X_SPACING - PNodeUtils.getOriginXOffset( rightNumeratorNode );
-            yOffset = leftEqualsNode.getFullBoundsReference().getCenterY() - rightNumeratorNode.getFullBoundsReference().getHeight() - Y_SPACING - PNodeUtils.getOriginYOffset( rightNumeratorNode );
+            yOffset = leftNumeratorNode.getYOffset(); 
             rightNumeratorNode.setOffset( xOffset, yOffset );
             // divided line
             double length = rightNumeratorNode.getFullBoundsReference().getMaxX() - leftNumeratorNode.getFullBoundsReference().getX();
@@ -304,7 +309,7 @@ public abstract class AbstractEquilibriumExpressionNode extends PComposite {
             leftNumeratorNode.setOffset( xOffset, yOffset );
             // right numerator
             xOffset = leftNumeratorNode.getFullBoundsReference().getMaxX() + X_SPACING - PNodeUtils.getOriginXOffset( rightNumeratorNode );
-            yOffset = leftEqualsNode.getFullBoundsReference().getCenterY() - ( rightNumeratorNode.getFullBoundsReference().getHeight() / 2 ) - PNodeUtils.getOriginYOffset( rightNumeratorNode );
+            yOffset = leftNumeratorNode.getYOffset(); 
             rightNumeratorNode.setOffset( xOffset, yOffset );
         }
         // right equals
@@ -314,8 +319,9 @@ public abstract class AbstractEquilibriumExpressionNode extends PComposite {
         // greater than
         greaterThanOneNode.setOffset( xOffset, yOffset );
         // value
+        final double fudgeFactor = -4;
         xOffset = rightEqualsNode.getFullBoundsReference().getMaxX() + X_SPACING - PNodeUtils.getOriginXOffset( valueNode );
-        yOffset = rightEqualsNode.getFullBoundsReference().getCenterY() - ( valueNode.getFullBoundsReference().getHeight() / 2 ) - PNodeUtils.getOriginYOffset( valueNode );
+        yOffset = rightEqualsNode.getFullBoundsReference().getCenterY() - ( valueNode.getFullBoundsReference().getHeight() / 2 ) - PNodeUtils.getOriginYOffset( valueNode ) + fudgeFactor;
         valueNode.setOffset( xOffset, yOffset );
         // large value
         xOffset = rightEqualsNode.getFullBoundsReference().getMaxX() + X_SPACING - PNodeUtils.getOriginXOffset( largeValueNode );
@@ -346,22 +352,7 @@ public abstract class AbstractEquilibriumExpressionNode extends PComposite {
             super.setHTML( HTMLUtils.toHTMLString( text ) );
         }
     }
-    
-    /*
-     * A symbol is the formula for a molecule.
-     */
-    private static class SymbolNode extends HTMLNode {
-        
-        public SymbolNode( String text ) {
-            super( HTMLUtils.toHTMLString( text ) );
-            setFont( SYMBOL_FONT );
-        }
-        
-        public void setHTML( String text ) {
-            super.setHTML( HTMLUtils.toHTMLString( text ) );
-        }
-    }
-    
+   
     /*
      * A term in the expression denoting concentration.
      * This is a symbol surrounded by square brackets.
@@ -371,19 +362,14 @@ public abstract class AbstractEquilibriumExpressionNode extends PComposite {
         private final SymbolNode symbolNode;
         private final BracketNode leftBracketNode, rightBracketNode;
         
-        public TermNode( String text ) {
+        public TermNode( String text, Color color ) {
             super();
-            symbolNode= new SymbolNode( text );
+            symbolNode= new SymbolNode( text, SYMBOL_FONT, color );
             addChild( symbolNode );
             leftBracketNode = new LeftBracketNode();
             addChild( leftBracketNode );
             rightBracketNode = new RightBracketNode();
             addChild( rightBracketNode );
-        }
-        
-        public void setTermProperties( String text, Color color ) {
-            symbolNode.setHTML( HTMLUtils.toHTMLString( text ) );
-            symbolNode.setHTMLColor( color );
             updateLayout();
         }
         
@@ -395,7 +381,7 @@ public abstract class AbstractEquilibriumExpressionNode extends PComposite {
             leftBracketNode.setOffset( xOffset, yOffset );
             // symbol
             xOffset = leftBracketNode.getFullBoundsReference().getMaxX() + BRACKET_X_MARGIN;
-            yOffset = leftBracketNode.getFullBoundsReference().getCenterY() - ( symbolNode.getFullBoundsReference().getHeight() / 2 );
+            yOffset = leftBracketNode.getYOffset();
             symbolNode.setOffset( xOffset, yOffset );
             // right bracket
             xOffset = symbolNode.getFullBoundsReference().getMaxX() + BRACKET_X_MARGIN;
