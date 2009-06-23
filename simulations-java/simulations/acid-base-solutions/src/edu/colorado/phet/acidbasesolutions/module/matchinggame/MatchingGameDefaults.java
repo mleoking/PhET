@@ -3,6 +3,7 @@
 package edu.colorado.phet.acidbasesolutions.module.matchinggame;
 
 import edu.colorado.phet.acidbasesolutions.persistence.MatchingGameConfig;
+import edu.umd.cs.piccolo.util.PDimension;
 
 
 /**
@@ -11,6 +12,10 @@ import edu.colorado.phet.acidbasesolutions.persistence.MatchingGameConfig;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class MatchingGameDefaults {
+    
+    // default sizes
+    public static final PDimension BEAKER_SIZE = new PDimension( 400, 400 );
+    public static final PDimension CONCENTRATION_GRAPH_OUTLINE_SIZE = new PDimension( 360, 350 );
 
     private static MatchingGameDefaults INSTANCE = new MatchingGameDefaults();
     

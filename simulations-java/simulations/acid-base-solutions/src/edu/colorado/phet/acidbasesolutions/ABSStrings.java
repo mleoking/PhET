@@ -48,10 +48,13 @@ public class ABSStrings {
     public static final String LEGEND_B = ABSResources.getString( "legend.B" );
     public static final String LEGEND_MOH = ABSResources.getString( "legend.MOH" );
     
-    // messages
-    public static final String MESSAGE_MATCH = ABSResources.getString( "message.match" );
-    public static final String MESSAGE_CORRECT = ABSResources.getString( "message.correct" );
-    public static final String MESSAGE_WRONG = ABSResources.getString( "message.wrong" );
+    // questions
+    public static final String QUESTION_ACID_OR_BASE = ABSResources.getString( "question.acidOrBase" );
+    public static final String QUESTION_MATCH_SOLUTION = ABSResources.getString( "question.matchSolution" );
+    
+    // answers
+    public static final String ANSWER_CORRECT = ABSResources.getString( "answer.correct" );
+    public static final String ANSWER_WRONG = ABSResources.getString( "answer.wrong" );
     
     // check boxes
     public static final String CHECK_BOX_MOLECULE_COUNTS = ABSResources.getString( "checkBox.moleculeCounts" );
@@ -66,6 +69,8 @@ public class ABSStrings {
     // buttons
     public static final String BUTTON_NEW_SOLUTION = ABSResources.getString( "button.newSolution" );
     public static final String BUTTON_CHECK_MATCH = ABSResources.getString( "button.checkMatch" );
+    public static final String BUTTON_ACID = ABSResources.getString( "button.acid" );
+    public static final String BUTTON_BASE = ABSResources.getString( "button.base" );
     
     // radio buttons
     public static final String RADIO_BUTTON_EQUATION_SCALING_OFF = ABSResources.getString( "radioButton.equationScaling.off" );

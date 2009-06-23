@@ -83,7 +83,7 @@ public class MatchingGameModule extends ABSAbstractModule {
         // Module
         config.setActive( isActive() );
 
-        //XXX call config setters
+        // this module has no other persistent state
         
         return config;
     }
@@ -95,6 +95,6 @@ public class MatchingGameModule extends ABSAbstractModule {
             AcidBaseSolutionsApplication.getInstance().setActiveModule( this );
         }
 
-        //XXX call config getters
+       // this module has no other persistent state
     }
 }
