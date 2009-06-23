@@ -43,6 +43,7 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
     private final PSwingButton acidButton, baseButton;
     private final PSwingButton checkMatchButton;
     private final SolutionControlsNode solutionControlsNodeRight;
+    private final MatchingGameViewControlsNode viewControlsNode;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -61,18 +62,23 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
         
         correctAnswer = new MatchingGameAnswerNode( ABSStrings.ANSWER_CORRECT );
         wrongAnswer = new MatchingGameAnswerNode( ABSStrings.ANSWER_WRONG );
+        //XXX add listener
         
         newSolutionButton = new PSwingButton( ABSStrings.BUTTON_NEW_SOLUTION );
         newSolutionButton.scale( ABSConstants.PSWING_SCALE );
+        //XXX add listener
         
         acidButton = new PSwingButton( ABSStrings.BUTTON_ACID );
         acidButton.scale( ABSConstants.PSWING_SCALE );
+        //XXX add listener
         
         baseButton = new PSwingButton( ABSStrings.BUTTON_BASE );
         baseButton.scale( ABSConstants.PSWING_SCALE );
-        
+        //XXX add listener
+
         checkMatchButton = new PSwingButton( ABSStrings.BUTTON_CHECK_MATCH );
         checkMatchButton.scale( ABSConstants.PSWING_SCALE );
+        //XXX add listener
         
         beakerNodeLeft = new BeakerNode( MatchingGameDefaults.BEAKER_SIZE, solutionLeft );
         beakerNodeRight = new BeakerNode( MatchingGameDefaults.BEAKER_SIZE, solutionRight );
@@ -83,6 +89,11 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
         solutionControlsNodeRight = new SolutionControlsNode( this, solutionRight );
         solutionControlsNodeRight.setSoluteComboBoxEnabled( false );
         solutionControlsNodeRight.scale( ABSConstants.PSWING_SCALE );
+        //XXX add listener
+        
+        viewControlsNode = new MatchingGameViewControlsNode( getBackground() );
+        viewControlsNode.scale( ABSConstants.PSWING_SCALE );
+        //XXX add listener
         
         addNode( scoreNode );
         addNode( newSolutionButton );
@@ -102,12 +113,12 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
         addNode( graphNodeLeft );
         addNode( graphNodeRight );
         addNode( solutionControlsNodeRight );
+        addNode( viewControlsNode );
     }
     
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
-    
     
     //----------------------------------------------------------------------------
     // Canvas layout
