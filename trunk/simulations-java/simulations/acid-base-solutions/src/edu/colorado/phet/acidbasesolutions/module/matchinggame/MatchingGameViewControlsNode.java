@@ -14,6 +14,8 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.ABSSymbols;
@@ -31,16 +33,19 @@ public class MatchingGameViewControlsNode extends PhetPNode {
     private final JCheckBox dissociatedComponentsRatioCheckBox;
     private final JCheckBox hyroniumHydroxideRatioCheckBox;
     private final JCheckBox moleculeCountsCheckBox;
-    private final ArrayList<MatchingGameViewChangeListener> listeners;
+    private final ArrayList<ChangeListener> listeners;
     
     public MatchingGameViewControlsNode( Color background ) {
         super();
         
-        listeners = new ArrayList<MatchingGameViewChangeListener>();
+        listeners = new ArrayList<ChangeListener>();
         
         ActionListener actionListener = new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                notifyModeChanged();
+                dissociatedComponentsRatioCheckBox.setEnabled( beakersRadioButton.isSelected() );
+                hyroniumHydroxideRatioCheckBox.setEnabled( beakersRadioButton.isSelected() );
+                moleculeCountsCheckBox.setEnabled( beakersRadioButton.isSelected() );
+                notifyStateChanged();
             }
         };
         
@@ -57,7 +62,7 @@ public class MatchingGameViewControlsNode extends PhetPNode {
         dissociatedComponentsRatioCheckBox = new JCheckBox( HTMLUtils.toHTMLString( ABSStrings.CHECK_BOX_DISASSOCIATED_COMPONENTS_RATIO ) );
         dissociatedComponentsRatioCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                notifyDisassociatedComponentsRatioChanged();
+                notifyStateChanged();
             }
         });
         
@@ -66,14 +71,14 @@ public class MatchingGameViewControlsNode extends PhetPNode {
         hyroniumHydroxideRatioCheckBox = new JCheckBox( html );
         hyroniumHydroxideRatioCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                notifyHydroniumHydroxideRatioChanged();
+                notifyStateChanged();
             }
         });
         
         moleculeCountsCheckBox = new JCheckBox( ABSStrings.CHECK_BOX_MOLECULE_COUNTS );
         moleculeCountsCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                notifyMoleculeCountsChanged();
+                notifyStateChanged();
             }
         });
         
@@ -104,8 +109,8 @@ public class MatchingGameViewControlsNode extends PhetPNode {
         SwingUtils.setBackgroundDeep( panel, background );
         
         // default state
-        beakersRadioButton.setSelected( true );
-        hyroniumHydroxideRatioCheckBox.setSelected( true );
+        setBeakersSelected( true );
+        setHydroniumHydroxideRatioSelected( true );
     }
     
     /**
@@ -127,16 +132,16 @@ public class MatchingGameViewControlsNode extends PhetPNode {
      */
     public void setModeMatchSolution() {
         beakersRadioButton.setEnabled( true );
-        dissociatedComponentsRatioCheckBox.setEnabled( true );
-        hyroniumHydroxideRatioCheckBox.setEnabled( true );
-        moleculeCountsCheckBox.setEnabled( true );
+        dissociatedComponentsRatioCheckBox.setEnabled( beakersRadioButton.isSelected() );
+        hyroniumHydroxideRatioCheckBox.setEnabled( beakersRadioButton.isSelected() );
+        moleculeCountsCheckBox.setEnabled( beakersRadioButton.isSelected() );
         graphsRadioButton.setEnabled( true );
     }
     
     public void setBeakersSelected( boolean b ) {
         if ( b != isBeakersSelected() ) {
             beakersRadioButton.setSelected( b );
-            notifyModeChanged();
+            notifyStateChanged();
         }
     }
     
@@ -148,11 +153,23 @@ public class MatchingGameViewControlsNode extends PhetPNode {
         return graphsRadioButton.isSelected();
     }
     
+    public boolean isDissociatedComponentsRatioSelected() {
+        return dissociatedComponentsRatioCheckBox.isSelected();
+    }
+    
     public void setHydroniumHydroxideRatioSelected( boolean b ) {
         if ( b != hyroniumHydroxideRatioCheckBox.isSelected() ) {
             hyroniumHydroxideRatioCheckBox.setSelected( b );
-            notifyHydroniumHydroxideRatioChanged();
+            notifyStateChanged();
         }
+    }
+    
+    public boolean isHydroniumHydroxideRatioSelected() {
+        return hyroniumHydroxideRatioCheckBox.isSelected();
+    }
+    
+    public boolean isMoleculeCountsSelected() {
+        return moleculeCountsCheckBox.isSelected();
     }
     
     public interface MatchingGameViewChangeListener {
@@ -162,43 +179,19 @@ public class MatchingGameViewControlsNode extends PhetPNode {
         public void moleculeCountsChanged( boolean selected );
     }
     
-    public void addMatchingGameViewChangeListener( MatchingGameViewChangeListener listener ) {
+    public void addChangeListener( ChangeListener listener ) {
         listeners.add( listener );
     }
     
-    public void removeMatchingGameViewChangeListener( MatchingGameViewChangeListener listener ) {
+    public void removeChangeListener( ChangeListener listener ) {
         listeners.remove( listener );
     }
     
-    private void notifyModeChanged() {
-        Iterator<MatchingGameViewChangeListener> i = listeners.iterator();
+    private void notifyStateChanged() {
+        ChangeEvent event = new ChangeEvent( this );
+        Iterator<ChangeListener> i = listeners.iterator();
         while ( i.hasNext() ) {
-            i.next().modeChanged();
+            i.next().stateChanged( event );
         }
     }
-    
-    private void notifyDisassociatedComponentsRatioChanged() {
-        final boolean selected = dissociatedComponentsRatioCheckBox.isSelected();
-        Iterator<MatchingGameViewChangeListener> i = listeners.iterator();
-        while ( i.hasNext() ) {
-            i.next().disassociatedComponentsRatioChanged( selected );
-        }
-    }
-    
-    private void notifyHydroniumHydroxideRatioChanged() {
-        final boolean selected = hyroniumHydroxideRatioCheckBox.isSelected();
-        Iterator<MatchingGameViewChangeListener> i = listeners.iterator();
-        while ( i.hasNext() ) {
-            i.next().hydroniumHydroxideRatioChanged( selected );
-        }
-    }
-    
-    private void notifyMoleculeCountsChanged() {
-        final boolean selected = moleculeCountsCheckBox.isSelected();
-        Iterator<MatchingGameViewChangeListener> i = listeners.iterator();
-        while ( i.hasNext() ) {
-            i.next().moleculeCountsChanged( selected );
-        }
-    }
-
 }

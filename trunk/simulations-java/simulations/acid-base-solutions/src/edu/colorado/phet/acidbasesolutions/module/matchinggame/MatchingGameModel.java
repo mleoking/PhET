@@ -32,7 +32,7 @@ public class MatchingGameModel extends ABSModel {
         randomSolute = new Random();
         randomConcentration = new Random();
         randomStrength = new Random();
-        nextSolution();
+        newSolution();
     }
 
     public AqueousSolution getSolutionLeft() {
@@ -48,7 +48,7 @@ public class MatchingGameModel extends ABSModel {
      * The left and right solutions must be the same type (either Custom Acid or Custom Base),
      * but their concentrations and strengths will be different.
      */
-    public void nextSolution() {
+    public void newSolution() {
         Solute soluteLeft = null;
         Solute soluteRight = null;
         if ( randomSolute.nextBoolean() ) {
