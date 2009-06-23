@@ -57,7 +57,7 @@ public class DecayRatesModel extends MultiNucleusDecayModel {
      * @param clock
      */
     public DecayRatesModel(NuclearPhysicsClock clock) {
-    	super( clock, MAX_NUCLEI, DEFAULT_NUCLEUS_TYPE );
+    	super( clock, MAX_NUCLEI, DEFAULT_NUCLEUS_TYPE, false );
     }
     
     //------------------------------------------------------------------------

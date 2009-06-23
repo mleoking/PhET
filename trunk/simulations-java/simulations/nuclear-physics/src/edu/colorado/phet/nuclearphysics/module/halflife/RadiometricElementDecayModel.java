@@ -50,7 +50,7 @@ public class RadiometricElementDecayModel extends MultiNucleusDecayModel {
      * @param clock
      */
     public RadiometricElementDecayModel(NuclearPhysicsClock clock) {
-    	super( clock, MAX_NUCLEI, DEFAULT_NUCLEUS_TYPE );
+    	super( clock, MAX_NUCLEI, DEFAULT_NUCLEUS_TYPE, true );
     }
     
     //------------------------------------------------------------------------

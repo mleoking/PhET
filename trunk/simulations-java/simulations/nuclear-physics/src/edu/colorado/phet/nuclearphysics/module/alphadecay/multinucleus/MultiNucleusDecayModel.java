@@ -57,16 +57,20 @@ public class MultiNucleusDecayModel implements NucleusTypeControl {
 	protected Point2D [] _jitterOffsets;
 	private int _jitterOffsetCount = 0;
 	protected final int _maxNuclei;
+	private boolean _jitterEnabled;
 
     //------------------------------------------------------------------------
     // Constructor(s)
     //------------------------------------------------------------------------
 	
-	public MultiNucleusDecayModel( NuclearPhysicsClock clock, int maxNuclei, NucleusType initialNucleusType ) {
+	public MultiNucleusDecayModel( NuclearPhysicsClock clock, int maxNuclei, NucleusType initialNucleusType, 
+			boolean jitterEnabled ) {
+		
         _clock = clock;
-        _initialNucleusType = initialNucleusType;
+        _initialNucleusType = initialNucleusType;  // Needed for reset.
         _currentNucleusType = initialNucleusType;
         _maxNuclei = maxNuclei;
+        _jitterEnabled = jitterEnabled;
         _atomicNuclei = new ArrayList();
         _jitterOffsets = new Point2D[_maxNuclei];
 
@@ -107,6 +111,17 @@ public class MultiNucleusDecayModel implements NucleusTypeControl {
 	public NucleusType getNucleusType() {
 		return _currentNucleusType;
 	}
+	
+	/**
+	 * Turn the jittering of the atoms on/off.  This was added due to a need
+	 * to reduce the amount of processor time consumed in instances where
+	 * there are a lot of nuclei being simulated.
+	 * 
+	 * @param jitterEnabled
+	 */
+	public void setJitterEnabled( boolean jitterEnabled ){
+		_jitterEnabled = jitterEnabled;
+	}
 
 	/**
 	 * This method allows the caller to register for changes in the overall
@@ -140,29 +155,33 @@ public class MultiNucleusDecayModel implements NucleusTypeControl {
 	}
 
 	protected void handleClockTicked(ClockEvent clockEvent) {
-		// Cause the active nuclei to "jitter".  For efficiency, not every
-		// active nucleus is moved every time.
-		for (int i = _jitterOffsetCount; i < _atomicNuclei.size(); i = i + CLOCKS_PER_JITTER){
-			AbstractDecayNucleus nucleus = (AbstractDecayNucleus)_atomicNuclei.get(i);
-			if (nucleus.isDecayActive() && !nucleus.isPaused()){
-				// This nucleus is active, so it should be jittered.
-				Point2D jitterOffset = _jitterOffsets[i];
-				Point2D currentLocation = nucleus.getPositionReference();
-				if (jitterOffset.getX() == 0 && jitterOffset.getY() == 0){
-					// Move this nucleus away from its center location.
-					generateJitterOffset( jitterOffset );
-					nucleus.setPosition( currentLocation.getX() + jitterOffset.getX(),
-							currentLocation.getY() + jitterOffset.getY());
-				}
-				else{
-					// Move back to original location.
-					nucleus.setPosition( currentLocation.getX() - jitterOffset.getX(),
-							currentLocation.getY() - jitterOffset.getY());
-					_jitterOffsets[i].setLocation(0, 0);
+		
+		if (_jitterEnabled){
+			
+			// Cause the active nuclei to "jitter".  For efficiency, not every
+			// active nucleus is moved every time.
+			for (int i = _jitterOffsetCount; i < _atomicNuclei.size(); i = i + CLOCKS_PER_JITTER){
+				AbstractDecayNucleus nucleus = (AbstractDecayNucleus)_atomicNuclei.get(i);
+				if (nucleus.isDecayActive() && !nucleus.isPaused()){
+					// This nucleus is active, so it should be jittered.
+					Point2D jitterOffset = _jitterOffsets[i];
+					Point2D currentLocation = nucleus.getPositionReference();
+					if (jitterOffset.getX() == 0 && jitterOffset.getY() == 0){
+						// Move this nucleus away from its center location.
+						generateJitterOffset( jitterOffset );
+						nucleus.setPosition( currentLocation.getX() + jitterOffset.getX(),
+								currentLocation.getY() + jitterOffset.getY());
+					}
+					else{
+						// Move back to original location.
+						nucleus.setPosition( currentLocation.getX() - jitterOffset.getX(),
+								currentLocation.getY() - jitterOffset.getY());
+						_jitterOffsets[i].setLocation(0, 0);
+					}
 				}
 			}
+			_jitterOffsetCount = (_jitterOffsetCount + 1) % CLOCKS_PER_JITTER;
 		}
-		_jitterOffsetCount = (_jitterOffsetCount + 1) % CLOCKS_PER_JITTER;
 	}
 	
 	/**
