@@ -13,6 +13,9 @@ import edu.colorado.phet.acidbasesolutions.model.Base.SodiumHydroxide;
  */
 public class SoluteFactory {
     
+    /*
+     * NOTE: If you add a new solute here, also add one to SoluteComboBox.
+     */
     // one instance of each solute used in the sim
     private static final Solute[] SOLUTES = {
         new NoSolute(),
@@ -29,10 +32,6 @@ public class SoluteFactory {
         new CustomBase()
     };
     
-    public static Solute[] getSolutes() {
-        return SOLUTES;
-    }
-
     public static Solute createSolute( String name ) {
         Solute solute = null;
         for ( int i = 0; i < SOLUTES.length; i++ ) {
