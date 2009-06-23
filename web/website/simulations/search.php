@@ -71,23 +71,61 @@ EOT;
             print "</ul>";
         }
 
-        print "<h2>Contributions</h2>\n";
-
         if ((!isset($this->contribs) || count($this->contribs) == 0)) {
+            print "<h2>Contributions</h2>\n";
             print "<p>No contributions were found meeting the specified criteria.</p>\n";
         }
         else {
-            print "<ul>\n";
-
+            $gold_star_contributions = array();
+            $non_gold_star_contributions = array();
             foreach($this->contribs as $contrib) {
                 $contribution_id = $contrib['contribution_id'];
                 $contribution_title = WebUtils::inst()->toHtml($contrib['contribution_title']);
-                print <<<EOT
-                    <li><a href="{$this->prefix}teacher_ideas/view-contribution.php?contribution_id=$contribution_id">$contribution_title</a></li>
+
+                $extras = array();
+                if (isset($contrib['contribution_is_gold_star']) && 
+                    $contrib['contribution_is_gold_star']) {
+                    $extras[] = contribution_get_gold_star_html(10);
+                }
+
+                if (isset($contrib['contribution_from_phet']) && 
+                    $contrib['contribution_from_phet']) {
+                    $extras[] = SimUtils::inst()->getContributionFromPhetImageAnchorTag();
+
+                }
+
+                $extra = '';
+                if (count($extras) > 0) {
+                    $extra = join(' ', $extras).' ';
+                }
+
+                $contribution_li = <<<EOT
+                    <li>{$extra}<a href="{$this->prefix}teacher_ideas/view-contribution.php?contribution_id=$contribution_id">$contribution_title</a></li>
 
 EOT;
+                
+                $sort_title = strtolower($contrib['contribution_title']);
+                if (isset($contrib['contribution_is_gold_star']) &&
+                    $contrib['contribution_is_gold_star']) {
+                    $gold_star_contributions[$sort_title] = $contribution_li;
+                } 
+                else {
+                    $non_gold_star_contributions[$sort_title] = $contribution_li;
+                }
             }
 
+            // Sort the 2 arrays
+            ksort($gold_star_contributions);
+            ksort($non_gold_star_contributions);
+
+            // Print the 2 arrays
+            print "<h2>Gold Star Contributions</h2>\n";
+            print "<ul>\n";
+            print join("\n", $gold_star_contributions);
+            print "</ul>\n";
+            print "<h2>Contributions</h2>\n";
+            print "<ul>\n";
+            print join("\n", $non_gold_star_contributions);
             print "</ul>\n";
         }
 
