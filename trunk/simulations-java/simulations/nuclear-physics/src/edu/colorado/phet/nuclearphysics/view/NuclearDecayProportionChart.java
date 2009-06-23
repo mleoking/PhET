@@ -585,6 +585,7 @@ public class NuclearDecayProportionChart extends PNode {
         private PPath _preDecayProportionCurve;
         private PPath _postDecayProportionCurve;
         private Stroke _dataCurveStroke = new BasicStroke();
+        private Point2D _previousDecayEvent;
 
         // Factor for converting milliseconds to pixels.
         double _msToPixelsFactor = 1; // Arbitrary init val, updated later.
@@ -1094,37 +1095,55 @@ public class NuclearDecayProportionChart extends PNode {
 	    private void graphDecayEvent( Point2D decayEventLocation ){
 	    	
 	    	float xPos = (float)(_msToPixelsFactor * decayEventLocation.getX() + _graphRect.getX());
-	    	float yPosPreDecay = (float)( _graphRect.getMaxY() - ( ( decayEventLocation.getY() / 100 ) 
-	    			* _graphRect.getHeight() ) );
-	    	float yPosPostDecay = (float)( _graphRect.getMaxY() - ( ( ( 100 - decayEventLocation.getY() ) / 100 ) 
-	    			* _graphRect.getHeight() ) );
 	    	
-	    	if ( _preDecayProportionCurve == null ){
-	    		// Curve doesn't exist - create it.
-	    		_preDecayProportionCurve = new PPath();
-	    		_preDecayProportionCurve.moveTo( xPos, yPosPreDecay );
-	    		_preDecayProportionCurve.setStroke( _dataCurveStroke );
-	    		_preDecayProportionCurve.setStrokePaint( _chart._preDecayNucleusDisplayInfo.getDisplayColor() );
-	        	_dataPresentationLayer.addChild( _preDecayProportionCurve );
-	    	}
-	    	else{
-	    		// Add the next segment to the curve.
-	    		_preDecayProportionCurve.lineTo(xPos, yPosPreDecay);
+	    	if ( xPos > _graphRect.getMaxX() ){
+	    		// If the previous data point was on the chart and this one is
+	    		// off, fudge the x-position a little so that the line will be
+	    		// drawn right to the edge of the chart.  This prevents an
+	    		// awkward-looking space between the end of the curve and the
+	    		// end of the chart.
+	    		float previousXPos = (float)(_msToPixelsFactor * _previousDecayEvent.getX() + _graphRect.getX());
+	    		if (previousXPos <= _graphRect.getMaxX()){
+	    			xPos = (float)_graphRect.getMaxX();
+	    		}
 	    	}
 	    	
-	    	if ( _postDecayProportionCurve == null ){
-	    		// Curve doesn't exist - create it.
-	    		_postDecayProportionCurve = new PPath();
-	    		_postDecayProportionCurve.moveTo( xPos, yPosPostDecay );
-	    		_postDecayProportionCurve.setStroke( _dataCurveStroke );
-	    		_postDecayProportionCurve.setStrokePaint( _chart._postDecayNucleusDisplayInfo.getDisplayColor() );
-	        	_dataPresentationLayer.addChild( _postDecayProportionCurve );
-	        	_postDecayProportionCurve.setVisible(_chart._showPostDecayCurve);
+	    	if ( xPos <= _graphRect.getMaxX() ){
+	    		
+		    	float yPosPreDecay = (float)( _graphRect.getMaxY() - ( ( decayEventLocation.getY() / 100 ) 
+		    			* _graphRect.getHeight() ) );
+		    	float yPosPostDecay = (float)( _graphRect.getMaxY() - ( ( ( 100 - decayEventLocation.getY() ) / 100 ) 
+		    			* _graphRect.getHeight() ) );
+		    	
+		    	if ( _preDecayProportionCurve == null ){
+		    		// Curve doesn't exist - create it.
+		    		_preDecayProportionCurve = new PPath();
+		    		_preDecayProportionCurve.moveTo( xPos, yPosPreDecay );
+		    		_preDecayProportionCurve.setStroke( _dataCurveStroke );
+		    		_preDecayProportionCurve.setStrokePaint( _chart._preDecayNucleusDisplayInfo.getDisplayColor() );
+		        	_dataPresentationLayer.addChild( _preDecayProportionCurve );
+		    	}
+		    	else{
+		    		// Add the next segment to the curve.
+	    			_preDecayProportionCurve.lineTo(xPos, yPosPreDecay);
+		    	}
+		    	
+		    	if ( _postDecayProportionCurve == null ){
+		    		// Curve doesn't exist - create it.
+		    		_postDecayProportionCurve = new PPath();
+		    		_postDecayProportionCurve.moveTo( xPos, yPosPostDecay );
+		    		_postDecayProportionCurve.setStroke( _dataCurveStroke );
+		    		_postDecayProportionCurve.setStrokePaint( _chart._postDecayNucleusDisplayInfo.getDisplayColor() );
+		        	_dataPresentationLayer.addChild( _postDecayProportionCurve );
+		        	_postDecayProportionCurve.setVisible(_chart._showPostDecayCurve);
+		    	}
+		    	else{
+		    		// Add the next segment to the curve.
+		    		_postDecayProportionCurve.lineTo(xPos, yPosPostDecay);
+		    	}
 	    	}
-	    	else{
-	    		// Add the next segment to the curve.
-	    		_postDecayProportionCurve.lineTo(xPos, yPosPostDecay);
-	    	}
+	    	
+	    	_previousDecayEvent = decayEventLocation;
 	    }
 	    
 	    /**
