@@ -1,4 +1,4 @@
-/* Copyright 2007, University of Colorado */
+/* Copyright 2009, University of Colorado */
 
 package edu.colorado.phet.nuclearphysics.view;
 
@@ -26,6 +26,7 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PieChartNode;
+import edu.colorado.phet.common.piccolophet.nodes.ResizeArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.PieChartNode.PieValue;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
@@ -144,7 +145,7 @@ public class NuclearDecayProportionChart extends PNode {
 
         // Create the graph.
         _graph = new GraphNode( this );
-        addChild( _graph );
+        _nonPickableChartNode.addChild( _graph );
         
         // Add the pie chart (if enabled).
         if ( _pieChartEnabled ){
@@ -1181,7 +1182,7 @@ public class NuclearDecayProportionChart extends PNode {
     	private static final Font DEFAULT_FONT = new PhetFont(12, true);
     	
     	private PPath _readoutRect;
-    	private PPath _indicatorHandle;
+    	private ResizeArrowNode _indicatorHandle;
     	private PPath _indicatorLine;
     	private PDragEventHandler _dragEventHandler;
     	private NuclearDecayProportionChart _chart;
@@ -1235,19 +1236,18 @@ public class NuclearDecayProportionChart extends PNode {
     		_timeText.setPickable(true);
     		_readoutRect.addChild(_timeText);
     		
-    		// Create and add the "handle", which is a small ellipse just
-    		// below the readout.
-    		_indicatorHandle = new PhetPPath( INDICATOR_OUTLINE_COLOR, INDICATOR_STROKE, INDICATOR_OUTLINE_COLOR );
-    		_indicatorHandle.setPickable(true);
-    		_indicatorHandle.addInputEventListener(_dragEventHandler);
-    		addChild(_indicatorHandle);
-    		
     		// Create and add the line that indicates the position on the chart.
     		_indicatorLine = new PhetPPath( INDICATOR_OUTLINE_COLOR, INDICATOR_STROKE, INDICATOR_OUTLINE_COLOR );
     		_indicatorLine.setPickable(true);
     		_indicatorLine.addInputEventListener(_dragEventHandler);
     		addChild(_indicatorLine);
-
+    		
+    		// Create and add the handle.
+    		_indicatorHandle = new ResizeArrowNode( 40, 0, Color.GREEN, Color.YELLOW );
+    		_indicatorHandle.setPickable(true);
+    		_indicatorHandle.addInputEventListener(_dragEventHandler);
+    		addChild(_indicatorHandle);
+    		
     		// Add a cursor handler to the entire node to present a cursor to
     		// the user when they mouse over.
     		addInputEventListener(new CursorHandler(Cursor.E_RESIZE_CURSOR));
@@ -1276,16 +1276,16 @@ public class NuclearDecayProportionChart extends PNode {
     		// TODO: Need to work out how to do initial horizontal positioning.
     		_readoutRect.setOffset(200, _chart._usableAreaRect.getX());
     		
-    		// Set the size and position of the handle.
-    		_indicatorHandle.setPathToEllipse(0, 0, topRectWidth / 4, topRectHeight / 5);
-    		_indicatorHandle.setOffset(
-    				_readoutRect.getOffset().getX() + _readoutRect.getWidth() / 2 - _indicatorHandle.getWidth() / 2, 
-    				_readoutRect.getOffset().getY() + _readoutRect.getHeight());
-    		
     		// Set the size and position of the indicator line.
     		_indicatorLine.setPathTo(new Line2D.Double(0, 0, 0, bottomOfGraphPosY - topOfGraphPosY));
     		_indicatorLine.setOffset(_readoutRect.getOffset().getX() + _readoutRect.getWidth() / 2, 
     				_readoutRect.getOffset().getY() + _readoutRect.getHeight());
+
+    		// Set the position of the handle.
+    		_indicatorHandle.setOffset(
+    				_readoutRect.getOffset().getX() + _readoutRect.getWidth() / 2 - _indicatorHandle.getWidth() / 2, 
+    				_indicatorLine.getOffset().getY() + _indicatorLine.getHeight() / 3);
+    		
     	}
     	
     	public void updateReadoutTextLayout(){
@@ -1377,7 +1377,7 @@ public class NuclearDecayProportionChart extends PNode {
             _indicatorHandle.setOffset(newXPos + _readoutRect.getWidth() / 2 - _indicatorHandle.getWidth() / 2,
             		_indicatorHandle.getOffset().getY());
     		_indicatorLine.setOffset(newXPos + _readoutRect.getWidth() / 2 - _indicatorLine.getWidth() / 2,
-    				_indicatorHandle.getOffset().getY());
+    				_readoutRect.getOffset().getY() + _readoutRect.getHeight());
 
         }
         
