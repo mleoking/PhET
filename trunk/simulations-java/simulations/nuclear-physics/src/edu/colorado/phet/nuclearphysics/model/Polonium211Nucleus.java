@@ -10,7 +10,7 @@ import javax.swing.JFrame;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
 import edu.colorado.phet.nuclearphysics.common.view.AbstractAtomicNucleusNode;
-import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusNode;
+import edu.colorado.phet.nuclearphysics.common.view.LabeledExplodingAtomicNucleusNode;
 
 /**
  * This class represents a non-composite Polonium 211 nucleus.  In other words,
@@ -134,7 +134,7 @@ public class Polonium211Nucleus extends AbstractAlphaDecayNucleus {
      */
     public static void main(String [] args){
         Polonium211Nucleus nucleus = new Polonium211Nucleus(new NuclearPhysicsClock(24, 10));
-        AbstractAtomicNucleusNode nucleusNode = new AtomicNucleusNode(nucleus);
+        AbstractAtomicNucleusNode nucleusNode = new LabeledExplodingAtomicNucleusNode(nucleus);
         nucleus.setPosition(400, 300);
         
         JFrame frame = new JFrame();

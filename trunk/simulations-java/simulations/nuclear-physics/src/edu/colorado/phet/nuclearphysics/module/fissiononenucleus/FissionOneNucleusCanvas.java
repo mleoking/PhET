@@ -21,7 +21,7 @@ import edu.colorado.phet.nuclearphysics.common.model.Neutron;
 import edu.colorado.phet.nuclearphysics.common.model.Nucleon;
 import edu.colorado.phet.nuclearphysics.common.model.Proton;
 import edu.colorado.phet.nuclearphysics.common.view.AbstractAtomicNucleusNode;
-import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusNode;
+import edu.colorado.phet.nuclearphysics.common.view.LabeledExplodingAtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.CompositeAtomicNucleus;
 import edu.colorado.phet.nuclearphysics.model.NeutronSource;
@@ -171,7 +171,7 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
         
         // Add the nucleus node to the canvas.  Since the constituents are
         // handled individually, this just shows the label.
-        _atomicNucleusNode = new AtomicNucleusNode(fissionOneNucleusModel.getAtomicNucleus());
+        _atomicNucleusNode = new LabeledExplodingAtomicNucleusNode(fissionOneNucleusModel.getAtomicNucleus());
         _nucleusLabelsLayerNode.addChild( _atomicNucleusNode );
         
         // Add the neutron source to the canvas.
