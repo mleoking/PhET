@@ -8,7 +8,6 @@ import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
 import edu.colorado.phet.nuclearphysics.defaults.RadiometricDecayDefaults;
-import edu.colorado.phet.nuclearphysics.defaults.AlphaDecayDefaults;
 import edu.colorado.phet.nuclearphysics.module.halflife.IsotopeSelectionControlPanel;
 
 /**
@@ -34,7 +33,7 @@ public class DecayRatesModule extends PiccoloModule {
 
     public DecayRatesModule( Frame parentFrame ) {
         super( NuclearPhysicsStrings.TITLE_LOTS_OF_NUCLEI_DECAYING,
-               new NuclearPhysicsClock( RadiometricDecayDefaults.CLOCK_FRAME_RATE, AlphaDecayDefaults.CLOCK_DT ));
+               new NuclearPhysicsClock( RadiometricDecayDefaults.CLOCK_FRAME_RATE, RadiometricDecayDefaults.CLOCK_DT ));
  
         // Model
         NuclearPhysicsClock clock = (NuclearPhysicsClock) getClock();
