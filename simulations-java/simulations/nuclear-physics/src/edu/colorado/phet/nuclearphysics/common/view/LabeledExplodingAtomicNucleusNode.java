@@ -25,7 +25,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  *
  * @author John Blanco
  */
-public class AtomicNucleusNode extends AbstractAtomicNucleusNode {
+public class LabeledExplodingAtomicNucleusNode extends AbstractAtomicNucleusNode {
     
     //------------------------------------------------------------------------
     // Class Data
@@ -78,7 +78,7 @@ public class AtomicNucleusNode extends AbstractAtomicNucleusNode {
     // Constructor
     //------------------------------------------------------------------------
 
-    public AtomicNucleusNode(AtomicNucleus atomicNucleus)
+    public LabeledExplodingAtomicNucleusNode(AtomicNucleus atomicNucleus)
     {
         super(atomicNucleus);
         _currentAtomicWeight = _atomicNucleus.getAtomicWeight();

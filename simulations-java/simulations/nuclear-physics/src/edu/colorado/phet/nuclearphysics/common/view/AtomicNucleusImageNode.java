@@ -23,7 +23,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
  *
  * @author John Blanco
  */
-public class AtomicNucleusImageNode extends AtomicNucleusNode {
+public class AtomicNucleusImageNode extends LabeledExplodingAtomicNucleusNode {
 
     private PNode _displayNode;
     private AtomicNucleusImageType _imageType;

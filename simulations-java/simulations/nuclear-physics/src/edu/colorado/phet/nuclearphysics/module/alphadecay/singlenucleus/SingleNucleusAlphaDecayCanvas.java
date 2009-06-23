@@ -23,7 +23,7 @@ import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.Neutron;
 import edu.colorado.phet.nuclearphysics.common.model.Proton;
 import edu.colorado.phet.nuclearphysics.common.view.AbstractAtomicNucleusNode;
-import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusNode;
+import edu.colorado.phet.nuclearphysics.common.view.LabeledExplodingAtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics.model.AlphaDecayCompositeNucleus;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.CompositeAtomicNucleus;
@@ -290,7 +290,7 @@ public class SingleNucleusAlphaDecayCanvas extends PhetPCanvas {
             }
         }
 
-        _nucleusNode = new AtomicNucleusNode(atomicNucleus);
+        _nucleusNode = new LabeledExplodingAtomicNucleusNode(atomicNucleus);
         _labelLayer.addChild( _nucleusNode );
 	}
 	
@@ -317,7 +317,7 @@ public class SingleNucleusAlphaDecayCanvas extends PhetPCanvas {
 		itr = labelLayerNodes.iterator();
 		while( itr.hasNext() ){
 			Object node = itr.next();
-			if (node instanceof AtomicNucleusNode){
+			if (node instanceof LabeledExplodingAtomicNucleusNode){
 				((AbstractAtomicNucleusNode)node).cleanup();
 			}
 		}

@@ -29,7 +29,7 @@ import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.common.NucleusType;
 import edu.colorado.phet.nuclearphysics.common.view.AbstractAtomicNucleusNode;
-import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusNode;
+import edu.colorado.phet.nuclearphysics.common.view.LabeledExplodingAtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusAlphaDecayCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -499,7 +499,7 @@ public class BucketOfNucleiNode extends PNode {
 				// Fill this slot.
 				for (int j = 0; j < getChildrenCount(); j++){
 					PNode childNode = getChild(j);
-					if (childNode instanceof AtomicNucleusNode){
+					if (childNode instanceof LabeledExplodingAtomicNucleusNode){
 						// Add this to the list of visible nuclei.
 						childNode.setVisible(true);
 						_visibleNucleusNodes[i] = (AbstractAtomicNucleusNode)childNode;
