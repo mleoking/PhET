@@ -7,9 +7,14 @@ import java.awt.geom.Dimension2D;
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.control.PSwingButton;
+import edu.colorado.phet.acidbasesolutions.control.SolutionControlsNode;
+import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.module.ABSAbstractCanvas;
-import edu.colorado.phet.acidbasesolutions.view.MatchingGameMessageNode;
+import edu.colorado.phet.acidbasesolutions.view.MatchingGameAnswerNode;
+import edu.colorado.phet.acidbasesolutions.view.MatchingGameQuestionNode;
 import edu.colorado.phet.acidbasesolutions.view.MatchingGameScoreNode;
+import edu.colorado.phet.acidbasesolutions.view.beaker.BeakerNode;
+import edu.colorado.phet.acidbasesolutions.view.graph.ConcentrationGraphNode;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.umd.cs.piccolo.PNode;
 
@@ -26,11 +31,18 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
 
     // View
     private final MatchingGameScoreNode scoreNode;
-    private final MatchingGameMessageNode messageNode;
+    private final MatchingGameQuestionNode acidBaseQuestion;
+    private final MatchingGameQuestionNode matchSolutionQuestion;
+    private final MatchingGameAnswerNode correctAnswer;
+    private final MatchingGameAnswerNode wrongAnswer;
+    private final BeakerNode beakerNodeLeft, beakerNodeRight;
+    private final ConcentrationGraphNode graphNodeLeft, graphNodeRight;
     
     // Controls
     private final PSwingButton newSolutionButton;
+    private final PSwingButton acidButton, baseButton;
     private final PSwingButton checkMatchButton;
+    private final SolutionControlsNode solutionControlsNodeRight;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -39,21 +51,56 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
     public MatchingGameCanvas( MatchingGameModel model, Resettable resettable ) {
         super( resettable );
         
+        AqueousSolution solutionLeft = model.getSolutionLeft();
+        AqueousSolution solutionRight = model.getSolutionRight();
+        
         scoreNode = new MatchingGameScoreNode();
         
-        messageNode = new MatchingGameMessageNode();
-        messageNode.setText( ABSStrings.MESSAGE_MATCH );
+        acidBaseQuestion = new MatchingGameQuestionNode( ABSStrings.QUESTION_ACID_OR_BASE );
+        matchSolutionQuestion = new MatchingGameQuestionNode( ABSStrings.QUESTION_MATCH_SOLUTION );
+        
+        correctAnswer = new MatchingGameAnswerNode( ABSStrings.ANSWER_CORRECT );
+        wrongAnswer = new MatchingGameAnswerNode( ABSStrings.ANSWER_WRONG );
         
         newSolutionButton = new PSwingButton( ABSStrings.BUTTON_NEW_SOLUTION );
         newSolutionButton.scale( ABSConstants.PSWING_SCALE );
         
+        acidButton = new PSwingButton( ABSStrings.BUTTON_ACID );
+        acidButton.scale( ABSConstants.PSWING_SCALE );
+        
+        baseButton = new PSwingButton( ABSStrings.BUTTON_BASE );
+        baseButton.scale( ABSConstants.PSWING_SCALE );
+        
         checkMatchButton = new PSwingButton( ABSStrings.BUTTON_CHECK_MATCH );
         checkMatchButton.scale( ABSConstants.PSWING_SCALE );
         
+        beakerNodeLeft = new BeakerNode( MatchingGameDefaults.BEAKER_SIZE, solutionLeft );
+        beakerNodeRight = new BeakerNode( MatchingGameDefaults.BEAKER_SIZE, solutionRight );
+        
+        graphNodeLeft = new ConcentrationGraphNode( MatchingGameDefaults.CONCENTRATION_GRAPH_OUTLINE_SIZE, solutionLeft );
+        graphNodeRight = new ConcentrationGraphNode( MatchingGameDefaults.CONCENTRATION_GRAPH_OUTLINE_SIZE, solutionRight );
+        
+        solutionControlsNodeRight = new SolutionControlsNode( this, solutionRight );
+        solutionControlsNodeRight.scale( ABSConstants.PSWING_SCALE );
+        
         addNode( scoreNode );
         addNode( newSolutionButton );
-        addNode( messageNode );
+        
+        addNode( acidBaseQuestion );
+        addNode( acidButton );
+        addNode( baseButton );
+        
+        addNode( matchSolutionQuestion );
         addNode( checkMatchButton );
+        
+        addNode( correctAnswer );
+        addNode( wrongAnswer );
+        
+        addNode( beakerNodeLeft );
+        addNode( beakerNodeRight );
+        addNode( graphNodeLeft );
+        addNode( graphNodeRight );
+        addNode( solutionControlsNodeRight );
     }
     
     //----------------------------------------------------------------------------
@@ -93,11 +140,11 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
         // message 
         xOffset = Math.max( scoreNode.getFullBoundsReference().getMaxX(), newSolutionButton.getFullBoundsReference().getMaxX() ) + 30;
         yOffset = scoreNode.getYOffset();
-        messageNode.setOffset( xOffset, yOffset );
+        matchSolutionQuestion.setOffset( xOffset, yOffset );
         
         // "Check Match" button
-        xOffset = messageNode.getXOffset();
-        yOffset = Math.max( newSolutionButton.getYOffset(), messageNode.getFullBoundsReference().getMaxY() + 15 );
+        xOffset = matchSolutionQuestion.getXOffset();
+        yOffset = Math.max( newSolutionButton.getYOffset(), matchSolutionQuestion.getFullBoundsReference().getMaxY() + 15 );
         checkMatchButton.setOffset( xOffset, yOffset );
         
         // Reset All button at bottom center

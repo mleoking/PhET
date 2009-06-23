@@ -94,7 +94,11 @@ public abstract class Acid extends Solute {
         private static final double DEFAULT_STRENGTH = ABSConstants.WEAK_STRENGTH_RANGE.getMin();
         
         public CustomAcid() {
-            super( ABSStrings.CUSTOM_ACID, ABSSymbols.HA, ABSSymbols.A_MINUS, DEFAULT_STRENGTH );
+            this( DEFAULT_STRENGTH );
+        }
+        
+        public CustomAcid( double strength ) {
+            super( ABSStrings.CUSTOM_ACID, ABSSymbols.HA, ABSSymbols.A_MINUS, strength );
         }
         
         protected boolean isValidStrength( double strength ) {

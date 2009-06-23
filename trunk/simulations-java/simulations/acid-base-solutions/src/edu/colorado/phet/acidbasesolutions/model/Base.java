@@ -88,10 +88,14 @@ public abstract class Base extends Solute {
         private static final double DEFAULT_STRENGTH = ABSConstants.WEAK_STRENGTH_RANGE.getMin();
         
         public CustomBase() {
+            this( DEFAULT_STRENGTH );
+        }
+        
+        public CustomBase( double strength ) {
             super( ABSStrings.CUSTOM_BASE, 
                    "symbol?", ABSImages.B_MOLECULE, ABSImages.B_STRUCTURE, ABSColors.B, 
                    "symbol?", ABSImages.BH_PLUS_MOLECULE, ABSImages.BH_PLUS_STRUCTURE, ABSColors.BH_PLUS, 
-                   DEFAULT_STRENGTH );
+                   strength );
             updateSymbol( getStrength() );
         }
         

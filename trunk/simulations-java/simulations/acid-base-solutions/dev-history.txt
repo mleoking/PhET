@@ -3,7 +3,10 @@
 ==================================================================================
 
 TODO:
-- Matching Game module
+- layout Matching Game canvas
+- state machine for Matching Game
+- View control panel for Matching Game
+- solution control panel that displays solute name instead of combo box
 - first time a module is activated, canvas updateLayout is called twice (AncestorListener+ComponentListener), other sims only call once (AncestorListener)
 - review remaining instanceof comparisons
 - auto layout of symbol legend descriptions, so that we don't need to localize HTML markup
@@ -13,6 +16,7 @@ ISSUES:
 - CM: layout change of play area is annoying when switching solutes, due to label changes in beaker's View control panel
 
 DONE:
+6/23/09 first pass at model for Matching Game
 6/23/09 custom Piccolo node to align baselines of characters in equations
 # 0.01.18
 6/23/09 separate model and view in SoluteComboBox
