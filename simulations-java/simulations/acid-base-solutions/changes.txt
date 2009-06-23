@@ -1,3 +1,5 @@
+# 0.01.19 (32680) Jun 23, 2009
+6/23/09 publish requested changes for review
 > align baselines in equations
 # 0.01.18 (32665) Jun 23, 2009
 6/23/09 publish requested changes for review
