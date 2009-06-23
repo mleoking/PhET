@@ -57,7 +57,7 @@ public class SymbolNode extends PComposite {
     private static final String SUBSCRIPT_END_TAG = "</sub>";
     
     private final Font font;
-    private final Color color;
+    private Color color;
     private final double scriptScale;
     private double capHeight;
     
@@ -98,6 +98,16 @@ public class SymbolNode extends PComposite {
      */
     public double getCapHeight() {
         return capHeight;
+    }
+    
+    public void setSymbolColor( Color color ) {
+        this.color = color;
+        for ( int i = 0; i < getChildrenCount(); i++ ) {
+            PNode child = getChild( i );
+            if ( child instanceof FragmentNode ) {
+                ((FragmentNode)child).setHTMLColor( color );
+            }
+        }
     }
     
     /*
