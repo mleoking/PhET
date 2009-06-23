@@ -16,6 +16,7 @@ ISSUES:
 - CM: layout change of play area is annoying when switching solutes, due to label changes in beaker's View control panel
 
 DONE:
+# 0.01.18
 6/23/09 separate model and view in SoluteComboBox
 6/23/09 prevent selection of separators in solute combo box
 6/22/09 add separators to solute combo box

@@ -1,3 +1,5 @@
+> custom renderer for solute combo box
+> separators in solute combo box
 # 0.01.17 (32638) Jun 22, 2009
 6/22/09 publish requested changes for review
 > improve quality of icons by scaling their image files, instead of doing scaling in Piccolo
