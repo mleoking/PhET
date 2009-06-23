@@ -3,6 +3,7 @@ package edu.colorado.phet.acidbasesolutions.view;
 import java.awt.Color;
 import java.awt.Font;
 
+import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -10,16 +11,12 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
 public class MatchingGameScoreNode extends PComposite {
     
-    //TODO localize
-    private static final String POINTS = "Points:";
-    private static final String SOLUTIONS = "Solutions:";
-    
     private static final int X_SPACING = 10;
     private static final int Y_SPACING = 10;
     private static final Color LABEL_COLOR = Color.BLACK;
     private static final Color VALUE_COLOR = Color.RED;
-    private static final Font LABEL_FONT = new PhetFont( 20 );
-    private static final Font VALUE_FONT = new PhetFont( Font.BOLD, 20 );
+    private static final Font LABEL_FONT = new PhetFont( 24 );
+    private static final Font VALUE_FONT = new PhetFont( Font.BOLD, 24 );
     
     private int points;
     private int solutions;
@@ -32,9 +29,10 @@ public class MatchingGameScoreNode extends PComposite {
         points = 0;
         solutions = 0;
         
-        LabelNode pointsLabel = new LabelNode( POINTS );
+        LabelNode pointsLabel = new LabelNode( ABSStrings.LABEL_POINTS );
         pointsValue = new IntValueNode();
-        LabelNode solutionsLabel = new LabelNode( SOLUTIONS );
+        LabelNode solutionsLabel = new LabelNode( ABSStrings.LABEL_SOLUTIONS );
+        
         solutionsValue = new IntValueNode();
         
         // rendering order

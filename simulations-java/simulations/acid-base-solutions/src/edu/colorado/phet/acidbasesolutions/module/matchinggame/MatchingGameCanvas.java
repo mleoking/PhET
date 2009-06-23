@@ -2,7 +2,12 @@
 
 package edu.colorado.phet.acidbasesolutions.module.matchinggame;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
+
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
@@ -10,6 +15,7 @@ import edu.colorado.phet.acidbasesolutions.control.PSwingButton;
 import edu.colorado.phet.acidbasesolutions.control.SolutionControlsNode;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.module.ABSAbstractCanvas;
+import edu.colorado.phet.acidbasesolutions.util.PNodeUtils;
 import edu.colorado.phet.acidbasesolutions.view.MatchingGameAnswerNode;
 import edu.colorado.phet.acidbasesolutions.view.MatchingGameQuestionNode;
 import edu.colorado.phet.acidbasesolutions.view.MatchingGameScoreNode;
@@ -49,7 +55,7 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public MatchingGameCanvas( MatchingGameModel model, Resettable resettable ) {
+    public MatchingGameCanvas( final MatchingGameModel model, Resettable resettable ) {
         super( resettable );
         
         AqueousSolution solutionLeft = model.getSolutionLeft();
@@ -62,11 +68,14 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
         
         correctAnswer = new MatchingGameAnswerNode( ABSStrings.ANSWER_CORRECT );
         wrongAnswer = new MatchingGameAnswerNode( ABSStrings.ANSWER_WRONG );
-        //XXX add listener
         
         newSolutionButton = new PSwingButton( ABSStrings.BUTTON_NEW_SOLUTION );
         newSolutionButton.scale( ABSConstants.PSWING_SCALE );
-        //XXX add listener
+        newSolutionButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                model.newSolution();
+            }
+        });
         
         acidButton = new PSwingButton( ABSStrings.BUTTON_ACID );
         acidButton.scale( ABSConstants.PSWING_SCALE );
@@ -81,7 +90,9 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
         //XXX add listener
         
         beakerNodeLeft = new BeakerNode( MatchingGameDefaults.BEAKER_SIZE, solutionLeft );
+        beakerNodeLeft.setBeakerLabelVisible( false );
         beakerNodeRight = new BeakerNode( MatchingGameDefaults.BEAKER_SIZE, solutionRight );
+        beakerNodeRight.setBeakerLabelVisible( false );
         
         graphNodeLeft = new ConcentrationGraphNode( MatchingGameDefaults.CONCENTRATION_GRAPH_OUTLINE_SIZE, solutionLeft );
         graphNodeRight = new ConcentrationGraphNode( MatchingGameDefaults.CONCENTRATION_GRAPH_OUTLINE_SIZE, solutionRight );
@@ -89,11 +100,14 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
         solutionControlsNodeRight = new SolutionControlsNode( this, solutionRight );
         solutionControlsNodeRight.setSoluteComboBoxEnabled( false );
         solutionControlsNodeRight.scale( ABSConstants.PSWING_SCALE );
-        //XXX add listener
         
         viewControlsNode = new MatchingGameViewControlsNode( getBackground() );
         viewControlsNode.scale( ABSConstants.PSWING_SCALE );
-        //XXX add listener
+        viewControlsNode.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent event ) {
+               updateView();
+            }
+        });
         
         addNode( scoreNode );
         addNode( newSolutionButton );
@@ -114,11 +128,26 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
         addNode( graphNodeRight );
         addNode( solutionControlsNodeRight );
         addNode( viewControlsNode );
+        
+        updateView();
     }
     
     //----------------------------------------------------------------------------
-    // Accessors
+    // Event handlers
     //----------------------------------------------------------------------------
+    
+    private void updateView() {
+        beakerNodeLeft.setVisible( viewControlsNode.isBeakersSelected() );
+        beakerNodeRight.setVisible( viewControlsNode.isBeakersSelected() );
+        beakerNodeLeft.setDisassociatedRatioComponentsVisible( viewControlsNode.isDissociatedComponentsRatioSelected() );
+        beakerNodeRight.setDisassociatedRatioComponentsVisible( viewControlsNode.isDissociatedComponentsRatioSelected() );
+        beakerNodeLeft.setHydroniumHydroxideRatioVisible( viewControlsNode.isHydroniumHydroxideRatioSelected() );
+        beakerNodeRight.setHydroniumHydroxideRatioVisible( viewControlsNode.isHydroniumHydroxideRatioSelected() );
+        beakerNodeLeft.setMoleculeCountsVisible( viewControlsNode.isMoleculeCountsSelected() );
+        beakerNodeRight.setMoleculeCountsVisible( viewControlsNode.isMoleculeCountsSelected() );
+        graphNodeLeft.setVisible( viewControlsNode.isGraphsSelected() );
+        graphNodeRight.setVisible( viewControlsNode.isGraphsSelected() );
+    }
     
     //----------------------------------------------------------------------------
     // Canvas layout
@@ -149,20 +178,60 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
         yOffset = scoreNode.getFullBoundsReference().getMaxY() + 10;
         newSolutionButton.setOffset( xOffset, yOffset );
         
-        // message 
+        // questions and answers
         xOffset = Math.max( scoreNode.getFullBoundsReference().getMaxX(), newSolutionButton.getFullBoundsReference().getMaxX() ) + 30;
         yOffset = scoreNode.getYOffset();
+        acidBaseQuestion.setOffset( xOffset, yOffset );
         matchSolutionQuestion.setOffset( xOffset, yOffset );
+        correctAnswer.setOffset( xOffset, yOffset );
+        wrongAnswer.setOffset( xOffset, yOffset );
+        
+        // "Acid" and "Base" buttons
+        xOffset = acidBaseQuestion.getXOffset();
+        yOffset = acidBaseQuestion.getFullBoundsReference().getMaxY() + 15;
+        acidButton.setOffset( xOffset, yOffset );
+        xOffset = acidButton.getFullBoundsReference().getMaxX() + 10;
+        baseButton.setOffset( xOffset, yOffset );
         
         // "Check Match" button
         xOffset = matchSolutionQuestion.getXOffset();
-        yOffset = Math.max( newSolutionButton.getYOffset(), matchSolutionQuestion.getFullBoundsReference().getMaxY() + 15 );
+        yOffset = matchSolutionQuestion.getFullBoundsReference().getMaxY() + 15;
         checkMatchButton.setOffset( xOffset, yOffset );
         
-        // Reset All button at bottom center
+        // left beaker
+        xOffset = -PNodeUtils.getOriginXOffset( beakerNodeLeft );
+        yOffset = solutionControlsNodeRight.getFullBoundsReference().getHeight() - PNodeUtils.getOriginYOffset( beakerNodeLeft ) + 20;
+        beakerNodeLeft.setOffset( xOffset, yOffset );
+        
+        // view controls, between beakers
         PNode resetAllButton = getResetAllButton();
-        xOffset = ( worldSize.getWidth() / 2 ) - ( resetAllButton.getFullBoundsReference().getWidth() / 2 );
-        yOffset = worldSize.getHeight() - resetAllButton.getFullBounds().getHeight() - 20;
+        xOffset = beakerNodeLeft.getFullBoundsReference().getMaxX() + 10;
+        yOffset = beakerNodeLeft.getFullBoundsReference().getMaxY() - viewControlsNode.getFullBoundsReference().getHeight() - resetAllButton.getFullBoundsReference().getHeight() - 15;
+        viewControlsNode.setOffset( xOffset, yOffset );
+        
+        // right beaker
+        xOffset = viewControlsNode.getFullBoundsReference().getMaxX() + 10 - PNodeUtils.getOriginXOffset( beakerNodeRight );
+        yOffset = beakerNodeLeft.getYOffset();
+        beakerNodeRight.setOffset( xOffset, yOffset );
+        
+        // solution controls
+        xOffset = beakerNodeRight.getFullBoundsReference().getCenterX() - ( solutionControlsNodeRight.getFullBoundsReference().getWidth() / 2 ) - PNodeUtils.getOriginXOffset( solutionControlsNodeRight );
+        yOffset = -PNodeUtils.getOriginYOffset( solutionControlsNodeRight );
+        solutionControlsNodeRight.setOffset( xOffset, yOffset );
+        
+        // left graph
+        xOffset = beakerNodeLeft.getFullBoundsReference().getMinX() - PNodeUtils.getOriginXOffset( graphNodeLeft );
+        yOffset = beakerNodeLeft.getFullBoundsReference().getMinY() - PNodeUtils.getOriginYOffset( graphNodeLeft );
+        graphNodeLeft.setOffset( xOffset, yOffset );
+        
+        // right graph, left justified below right solution controls
+        xOffset = beakerNodeRight.getFullBoundsReference().getMinX() - PNodeUtils.getOriginXOffset( graphNodeRight );
+        yOffset = beakerNodeRight.getFullBoundsReference().getMinY() - PNodeUtils.getOriginYOffset( graphNodeRight );
+        graphNodeRight.setOffset( xOffset, yOffset );
+        
+        // Reset All button below view controls
+        xOffset = viewControlsNode.getFullBoundsReference().getCenterX() - ( resetAllButton.getFullBoundsReference().getWidth() / 2 );
+        yOffset = viewControlsNode.getFullBoundsReference().getMaxY() + 15;
         resetAllButton.setOffset( xOffset , yOffset );
         
         centerRootNode();
