@@ -64,6 +64,9 @@ public class NaturalSelectionModule extends PiccoloModule {
         controlPanel.reset();
         canvas.reset();
         model.reset();
+        if ( generationChartDialog != null ) {
+            generationChartDialog.generationChartPanel.reset();
+        }
         gameOverDialog = null;
     }
 

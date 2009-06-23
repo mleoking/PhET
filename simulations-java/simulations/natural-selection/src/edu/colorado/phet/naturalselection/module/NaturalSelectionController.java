@@ -155,6 +155,12 @@ public class NaturalSelectionController {
 
             }
         } );
+
+        controlPanel.showGenerationChartButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent actionEvent ) {
+                module.showGenerationChart();
+            }
+        } );
     }
 
 }
