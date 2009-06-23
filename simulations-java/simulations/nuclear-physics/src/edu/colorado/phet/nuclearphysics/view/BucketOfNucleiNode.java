@@ -28,6 +28,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.common.NucleusType;
+import edu.colorado.phet.nuclearphysics.common.view.AbstractAtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusAlphaDecayCanvas;
 import edu.umd.cs.piccolo.PNode;
@@ -75,7 +76,7 @@ public class BucketOfNucleiNode extends PNode {
     private PNode _frontOfBucketLayer;
     private HTMLNode _bucketLabel;
     private PImage _radiationSymbolNode;
-    private AtomicNucleusNode [] _visibleNucleusNodes;
+    private AbstractAtomicNucleusNode [] _visibleNucleusNodes;
     private double _bucketHeight;
     private double _bucketWidth;
     private double _ellipseVerticalSpan;
@@ -215,7 +216,7 @@ public class BucketOfNucleiNode extends PNode {
 	 * to an appropriate location and the node may be hidden if the bucket is
 	 * already looking like it is full.
 	 */
-	public void addNucleus( AtomicNucleusNode nucleusNode ){
+	public void addNucleus( AbstractAtomicNucleusNode nucleusNode ){
 		
 		if ( isEmpty() ){
 			// This is the first nucleus being added, so now we know the
@@ -224,7 +225,7 @@ public class BucketOfNucleiNode extends PNode {
 			_nucleusWidth = nucleusNode.getFullBoundsReference().getWidth();
 			_numVisibleNucleiInMiddleLayer = (int)(_bucketWidth / _nucleusWidth);
 			_numVisibleNucleiInOuterLayers = (int)((double)_numVisibleNucleiInMiddleLayer * 0.75);
-			_visibleNucleusNodes = new AtomicNucleusNode[((2 * _numVisibleNucleiInOuterLayers) + 
+			_visibleNucleusNodes = new AbstractAtomicNucleusNode[((2 * _numVisibleNucleiInOuterLayers) + 
 					_numVisibleNucleiInMiddleLayer)];
 		}
 		
@@ -256,7 +257,7 @@ public class BucketOfNucleiNode extends PNode {
 	 * 
 	 * @param nucleusNode - Nucleus node to be added to the bucket.
 	 */
-	public void addNucleusAnimated(AtomicNucleusNode nucleusNode){
+	public void addNucleusAnimated(AbstractAtomicNucleusNode nucleusNode){
 		
 		// Create a timer that will step through the animation and, when done,
 		// will add the node.
@@ -266,7 +267,7 @@ public class BucketOfNucleiNode extends PNode {
 	/**
 	 * Remove a specific nucleus node from the bucket.
 	 */
-	public void removeNucleus( AtomicNucleusNode nucleusNode ){
+	public void removeNucleus( AbstractAtomicNucleusNode nucleusNode ){
 		
 		// See if it is in the list of visible nuclei and remove it if so.
 		boolean nucleusWasVisible = false;
@@ -330,12 +331,12 @@ public class BucketOfNucleiNode extends PNode {
 	 * 
 	 * @return - Reference to the nucleus, null if the bucket is empty.
 	 */
-	public AtomicNucleusNode extractAnyNucleusFromBucket(){
+	public AbstractAtomicNucleusNode extractAnyNucleusFromBucket(){
 		
 		// Pull a nucleus off the list of visible nuclei.  By design, if this
 		// list is empty then the bucket is empty.
 		
-		AtomicNucleusNode extractedNode = null;
+		AbstractAtomicNucleusNode extractedNode = null;
 		
 		for (int i = 0; i < _visibleNucleusNodes.length; i++){
 			if (_visibleNucleusNodes[i] != null){
@@ -460,7 +461,7 @@ public class BucketOfNucleiNode extends PNode {
 
 		double xPos, yPos;
 		
-		AtomicNucleusNode nucleus = _visibleNucleusNodes[nucleusIndex];
+		AbstractAtomicNucleusNode nucleus = _visibleNucleusNodes[nucleusIndex];
 		
 		if (nucleusIndex < _numVisibleNucleiInOuterLayers){
 			// This nucleus is in the back row.
@@ -501,7 +502,7 @@ public class BucketOfNucleiNode extends PNode {
 					if (childNode instanceof AtomicNucleusNode){
 						// Add this to the list of visible nuclei.
 						childNode.setVisible(true);
-						_visibleNucleusNodes[i] = (AtomicNucleusNode)childNode;
+						_visibleNucleusNodes[i] = (AbstractAtomicNucleusNode)childNode;
 						positionVisibleNucleus(i);
 						break;
 					}
@@ -629,10 +630,10 @@ public class BucketOfNucleiNode extends PNode {
     	
     	private static final int INITIAL_SHRINK_COUNT = 20; // Number of shrinking steps before disappearing.
     	
-    	private AtomicNucleusNode _shrinkingNode;
+    	private AbstractAtomicNucleusNode _shrinkingNode;
     	private int _shrinkCount;
     	
-		public ShrinkAnimationTimer(AtomicNucleusNode node) {
+		public ShrinkAnimationTimer(AbstractAtomicNucleusNode node) {
 			super(TIMER_DELAY, null);
 			
 			_shrinkingNode = node;
@@ -662,7 +663,7 @@ public class BucketOfNucleiNode extends PNode {
             start();
 		}
 		
-		public AtomicNucleusNode getShrinkingNode(){
+		public AbstractAtomicNucleusNode getShrinkingNode(){
 			return _shrinkingNode;
 		}
 		

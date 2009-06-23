@@ -22,6 +22,7 @@ import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.Neutron;
 import edu.colorado.phet.nuclearphysics.common.model.Proton;
+import edu.colorado.phet.nuclearphysics.common.view.AbstractAtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics.model.AlphaDecayCompositeNucleus;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
@@ -70,7 +71,7 @@ public class SingleNucleusAlphaDecayCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
     
     private SingleNucleusAlphaDecayModel _singleNucleusAlphaDecayModel;
-    private AtomicNucleusNode _nucleusNode;
+    private AbstractAtomicNucleusNode _nucleusNode;
     private AlphaDecayEnergyChart _alphaDecayEnergyChart;
     private SingleNucleusAlphaDecayTimeChart _alphaDecayTimeChart;
     private AutoPressGradientButtonNode _resetButtonNode;
@@ -317,7 +318,7 @@ public class SingleNucleusAlphaDecayCanvas extends PhetPCanvas {
 		while( itr.hasNext() ){
 			Object node = itr.next();
 			if (node instanceof AtomicNucleusNode){
-				((AtomicNucleusNode)node).cleanup();
+				((AbstractAtomicNucleusNode)node).cleanup();
 			}
 		}
 		

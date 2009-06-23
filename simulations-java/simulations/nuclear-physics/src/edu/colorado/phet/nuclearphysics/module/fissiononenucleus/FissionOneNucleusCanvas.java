@@ -20,6 +20,7 @@ import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.Neutron;
 import edu.colorado.phet.nuclearphysics.common.model.Nucleon;
 import edu.colorado.phet.nuclearphysics.common.model.Proton;
+import edu.colorado.phet.nuclearphysics.common.view.AbstractAtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.CompositeAtomicNucleus;
@@ -57,7 +58,7 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
     private PNode _nucleusParticlesLayerNode;
     private PNode _nucleusLabelsLayerNode;
     private FissionOneNucleusModel _fissionOneNucleusModel;
-    private AtomicNucleusNode _atomicNucleusNode;
+    private AbstractAtomicNucleusNode _atomicNucleusNode;
     private NeutronSourceNode _neutronSourceNode;
     private FissionEnergyChart _fissionEnergyChart;
     private Hashtable _particleToNodeMap;

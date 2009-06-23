@@ -13,7 +13,6 @@ import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.common.model.AbstractDecayNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -26,7 +25,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  *
  * @author John Blanco
  */
-public class AtomicNucleusNode extends PNode {
+public class AtomicNucleusNode extends AbstractAtomicNucleusNode {
     
     //------------------------------------------------------------------------
     // Class Data
@@ -42,7 +41,7 @@ public class AtomicNucleusNode extends PNode {
     private static final double NORMAL_LABEL_SCALING_FACTOR = 0.30;
     
     // Constants that control the nature of the explosion graphic.
-    private static final int   EXPLOSION_COUNTER_RESET_VAL = 10;
+    static final int   EXPLOSION_COUNTER_RESET_VAL = 10;
     private static final Color EXPLOSION_STROKE_COLOR = new Color(0xffff33);
     private static final Color EXPLOSION_FILL_COLOR = new Color(0xffff33);
     private static final float EXPLOSION_MIN_TRANSPARENCY = 0.4f;
@@ -54,10 +53,8 @@ public class AtomicNucleusNode extends PNode {
     // Instance Data
     //------------------------------------------------------------------------
     
-    protected AtomicNucleus _atomicNucleus;
-    private int _currentAtomicWeight;
-    private int _explosionCounter = 0;
-    private PPath _explosion;
+    int _explosionCounter = 0;
+    PPath _explosion;
     private Ellipse2D _explosionShape;
 
     // The following variables represent the four portions of the label,
@@ -69,20 +66,6 @@ public class AtomicNucleusNode extends PNode {
     private PText _isotopeNumberShadow;
     private PText _isotopeChemSymbol;
     private PText _isotopeChemSymbolShadow;
-    
-    // Adapter for registering to get nucleus events.
-    AtomicNucleus.Adapter _atomicNucleusAdapter = new AtomicNucleus.Adapter(){
-        
-        public void positionChanged(){
-            updatePosition();
-        }
-        
-        public void nucleusChangeEvent(AtomicNucleus atomicNucleus, int numProtons, int numNeutrons, 
-                ArrayList byProducts){
-            
-            handleNucleusChangedEvent( atomicNucleus, numProtons, numNeutrons, byProducts );
-        }
-    };
     
     // Adapter for registering to receive clock events.
     ClockAdapter _clockAdapter = new ClockAdapter(){
@@ -97,7 +80,7 @@ public class AtomicNucleusNode extends PNode {
 
     public AtomicNucleusNode(AtomicNucleus atomicNucleus)
     {
-        _atomicNucleus = atomicNucleus;
+        super(atomicNucleus);
         _currentAtomicWeight = _atomicNucleus.getAtomicWeight();
         
         // Initialize the node that is used to display the explosion.
@@ -156,35 +139,13 @@ public class AtomicNucleusNode extends PNode {
     //------------------------------------------------------------------------
     
     /**
-     * Get a reference to the nucleus within the model that is being monitored
-     * by this node.
-     */
-    public AtomicNucleus getNucleusRef(){
-    	return _atomicNucleus;
-    }
-    
-    /**
-     * Perform any cleanup necessary before being garbage collected.
-     */
-    public void cleanup(){
-        // Remove ourself as a listener from any place that we have registered
-        // in order to avoid memory leaks.
-        _atomicNucleus.removeListener(_atomicNucleusAdapter);
-        _atomicNucleus.getClock().removeClockListener( _clockAdapter );
-    }
-
-    //------------------------------------------------------------------------
-    // Private and Protected Methods
-    //------------------------------------------------------------------------
-    
-    /**
      * Set the label for the nucleus based on the number of protons and
      * neutrons
      * 
      * @param numProtons - The total number of protons in the nucleus.
      * @param numNeutrons - The total number of neutrons in the nucleus.
      */
-    private void setLabel(int numProtons, int numNeutrons){
+    void setLabel(int numProtons, int numNeutrons){
         
         if (_isotopeChemSymbol == null){
             // Don't bother doing anything if there is no label to set.
@@ -349,18 +310,10 @@ public class AtomicNucleusNode extends PNode {
     }
     
     /**
-     * Updates the position of the node based on the position of the
-     * corresponding nucleus in the model.
-     */
-    private void updatePosition(){
-    	setOffset(_atomicNucleus.getPositionReference());
-    }
-    
-    /**
      * Update the position of the labels within the node.  This is generally
      * called when something 
      */
-    private void updateLabelPositions(){
+    void updateLabelPositions(){
     	
     	double totalWidth = _isotopeNumber.getFullBoundsReference().getWidth() +
     		_isotopeChemSymbol.getFullBoundsReference().getWidth();
@@ -406,45 +359,43 @@ public class AtomicNucleusNode extends PNode {
         }
     }
 
-    /**
-     * Handle the notification that says that the atomic nucleus has undergone
-     * some sort of change event, such as a decay.
-     * 
-     * @param atomicNucleus
-     * @param numProtons
-     * @param numNeutrons
-     * @param byProducts
-     */
-    protected void handleNucleusChangedEvent(AtomicNucleus atomicNucleus, int numProtons, int numNeutrons, 
-                    ArrayList byProducts){
-        
-    	if ( atomicNucleus instanceof AbstractDecayNucleus ){
-    		if (((AbstractDecayNucleus)atomicNucleus).hasDecayed()){
-    			// Kick off the explosion graphic.
-                _explosionCounter = EXPLOSION_COUNTER_RESET_VAL;
-                _explosion.setVisible( true );
-                _explosion.setPickable(false);
-    		}
-    		else{
-    			_explosion.setVisible(false);
-    			_explosion.setPathTo(new Ellipse2D.Double(0,0,0,0));
-    		}
-    	}
-    	else {
-            int newAtomicWeight = numProtons + numNeutrons;
-            if ((newAtomicWeight < _currentAtomicWeight) && (newAtomicWeight != 0) && (byProducts != null)){
-                // This was a decay event, so kick off the explosion graphic.
-                _explosionCounter = EXPLOSION_COUNTER_RESET_VAL;
-                _explosion.setVisible( true );
-                _explosion.setPickable(false);
-            }
-        }
-        
-        // Save the new weight.
-        _currentAtomicWeight = numProtons + numNeutrons;
-        
-        // Update the label to reflect the new element.
-        setLabel(numProtons, numNeutrons);
-        updateLabelPositions();
-    }
+	@Override
+	protected void handleNucleusChangedEvent(AtomicNucleus atomicNucleus,
+			int numProtons, int numNeutrons, ArrayList byProducts) {
+		
+		if ( atomicNucleus instanceof AbstractDecayNucleus ){
+			if (((AbstractDecayNucleus)atomicNucleus).hasDecayed()){
+				// Kick off the explosion graphic.
+	            _explosionCounter = EXPLOSION_COUNTER_RESET_VAL;
+	            _explosion.setVisible( true );
+	            _explosion.setPickable(false);
+			}
+			else{
+				_explosion.setVisible(false);
+				_explosion.setPathTo(new Ellipse2D.Double(0,0,0,0));
+			}
+		}
+		else {
+	        int newAtomicWeight = numProtons + numNeutrons;
+	        if ((newAtomicWeight < _currentAtomicWeight) && (newAtomicWeight != 0) && (byProducts != null)){
+	            // This was a decay event, so kick off the explosion graphic.
+	            _explosionCounter = EXPLOSION_COUNTER_RESET_VAL;
+	            _explosion.setVisible( true );
+	            _explosion.setPickable(false);
+	        }
+	    }
+	    
+	    // Save the new weight.
+	    _currentAtomicWeight = numProtons + numNeutrons;
+	    
+	    // Update the label to reflect the new element.
+	    setLabel(numProtons, numNeutrons);
+	    updateLabelPositions();
+	}
+
+	@Override
+	public void cleanup() {
+		super.cleanup();
+	    _atomicNucleus.getClock().removeClockListener( _clockAdapter );
+	}
 }
