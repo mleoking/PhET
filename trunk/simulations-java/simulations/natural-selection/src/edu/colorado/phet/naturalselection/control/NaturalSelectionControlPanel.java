@@ -179,7 +179,7 @@ public class NaturalSelectionControlPanel extends JPanel {
         rightPanel.add( Box.createRigidArea( new Dimension( 0, 5 ) ) );
 
         showGenerationChartButton = new JButton( NaturalSelectionStrings.GENERATION_CHART );
-        //rightPanel.add( showGenerationChartButton );
+        rightPanel.add( showGenerationChartButton );
 
 
     }
