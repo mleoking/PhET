@@ -38,7 +38,7 @@ public class RadiometricDatingMeter {
 	
 	public RadiometricDatingMeter( ModelContainingDatableItems model, Point2D initialTipLocation ) {
 		_model = model;
-		_probe = new ProbeModel(initialTipLocation, -0.3);
+		_probe = new ProbeModel(initialTipLocation, 1.3);
 		_probe.addObserver(new SimpleObserver(){
 			public void update() {
 				updateTouchedItem();
@@ -53,7 +53,7 @@ public class RadiometricDatingMeter {
 
 	public RadiometricDatingMeter( ModelContainingDatableItems model ) {
 		// Construct with the probe in a default location.
-		this(model, new Point2D.Double(-20, -8));
+		this(model, new Point2D.Double(-3, -7.5));
 	}
 
 	//----------------------------------------------------------------------------
@@ -207,10 +207,6 @@ public class RadiometricDatingMeter {
         private double angle;
         private double tipWidth = 0.1 * 0.35;
         private double tipHeight = 0.3 * 1.25 * 0.75;
-
-        public ProbeModel( double angle ) {
-            this( new Point2D.Double(), angle );
-        }
 
         public ProbeModel( Point2D tipLocation, double angle ) {
             this.tipLocation = new Point2D.Double( tipLocation.getX(), tipLocation.getY() );

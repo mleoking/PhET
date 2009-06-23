@@ -162,15 +162,6 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         _edgeOfWorld = new EdgeOfWorldNode(_model, _mvt);
         addWorldChild(_edgeOfWorld);
         
-        // Create the radiometric measuring device.
-        _meterNode = new RadiometricDatingMeterNode(_model.getMeter(), INITIAL_INTERMEDIATE_COORD_WIDTH * PROPORTIONS_METER_WIDTH_FRACTION,
-        		(INITIAL_INTERMEDIATE_COORD_HEIGHT - _mvt.modelToViewYDouble(_model.getBottomOfStrata())) * 0.95,
-        		_mvt,
-        		this,
-        		true );
-        _meterNode.setMeterBodyOffset( 0, _mvt.modelToViewYDouble(_model.getBottomOfStrata()) + 4);
-        addWorldChild( _meterNode );
-        
         // Create the chart that will display relative decay proportions.
         _proportionsChart = new NuclearDecayProportionChart(false, true, false);
         configureProportionsChart();
@@ -184,9 +175,18 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         		INITIAL_INTERMEDIATE_COORD_WIDTH * PROPORTIONS_CHART_WIDTH_FRACTION,
         		INITIAL_INTERMEDIATE_COORD_HEIGHT - _mvt.modelToViewYDouble(_model.getBottomOfStrata()) - 12));
         _proportionsChart.setOffset(
-        		_meterNode.getFullBoundsReference().getMaxX() + 4,
+        		INITIAL_INTERMEDIATE_COORD_WIDTH * PROPORTIONS_METER_WIDTH_FRACTION + 10, 
         		_mvt.modelToViewYDouble(_model.getBottomOfStrata()) + 4);
 
+        // Create the radiometric measuring device.
+        _meterNode = new RadiometricDatingMeterNode(_model.getMeter(), INITIAL_INTERMEDIATE_COORD_WIDTH * PROPORTIONS_METER_WIDTH_FRACTION,
+        		(INITIAL_INTERMEDIATE_COORD_HEIGHT - _mvt.modelToViewYDouble(_model.getBottomOfStrata())) * 0.95,
+        		_mvt,
+        		this,
+        		true );
+        _meterNode.setMeterBodyOffset( 0, _mvt.modelToViewYDouble(_model.getBottomOfStrata()) + 4);
+        addWorldChild( _meterNode );
+        
         // Draw the decay curve on the chart.
         drawDecayCurveOnChart();
         
