@@ -15,7 +15,7 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 
 public class ComparingEquationsNode extends PhetPNode {
     
-    private static final double Y_SPACING = 40;
+    private static final double Y_SPACING = 65;
     private static final boolean LEWIS_STRUCTURES_ENABLED = false;
     
     private final AqueousSolution solution;
@@ -142,22 +142,22 @@ public class ComparingEquationsNode extends PhetPNode {
         // solute reaction equation
         if ( soluteReactionEquationNode != null ) {
             soluteReactionEquationNode.setOffset( xOffset, yOffset );
-            yOffset = yOffset + soluteReactionEquationNode.getFullBoundsReference().getHeight() + Y_SPACING;
+            yOffset = soluteReactionEquationNode.getFullBoundsReference().getMaxY() + Y_SPACING;
         }
         
         // water reaction equation
         waterReactionEquationNode.setOffset( xOffset, yOffset );
-        yOffset = yOffset + waterReactionEquationNode.getFullBoundsReference().getHeight() + Y_SPACING;
+        yOffset = waterReactionEquationNode.getFullBoundsReference().getMaxY() + Y_SPACING;
         
         // solute equilibrium expression
         if ( soluteEquilibriumExpressionNode != null ) {
             soluteEquilibriumExpressionNode.setOffset( xOffset, yOffset );
-            yOffset = yOffset + soluteEquilibriumExpressionNode.getFullBoundsReference().getHeight() + Y_SPACING;
+            yOffset = soluteEquilibriumExpressionNode.getFullBoundsReference().getMaxY() + Y_SPACING;
         }
         
         // water equilibrium expression
         waterEquilibriumExpressionNode.setOffset( xOffset, yOffset );
-        yOffset = yOffset + waterEquilibriumExpressionNode.getFullBoundsReference().getHeight() + Y_SPACING;
+        yOffset = waterEquilibriumExpressionNode.getFullBoundsReference().getMaxY() + Y_SPACING;
         
         // restore scaling
         setScalingEnabled( scalingWasEnabled );

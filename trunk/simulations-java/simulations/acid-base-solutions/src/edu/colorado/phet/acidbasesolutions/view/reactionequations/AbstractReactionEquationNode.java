@@ -6,9 +6,8 @@ import java.awt.Image;
 
 import edu.colorado.phet.acidbasesolutions.ABSImages;
 import edu.colorado.phet.acidbasesolutions.model.ConcentrationScaleModel;
-import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
+import edu.colorado.phet.acidbasesolutions.view.SymbolNode;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -55,7 +54,7 @@ public abstract class AbstractReactionEquationNode extends PComposite {
         
         terms = new Term[MAX_TERMS];
         for ( int i = 0; i < terms.length; i++ ) {
-            terms[i] = new Term( new SymbolNode( "?" + i ) );
+            terms[i] = new Term( new SymbolNode( "ABC" + i, SYMBOL_FONT, Color.BLACK ) );
             addChild( terms[i].getSymbolNode() );
             // don't add the Lewis structure, it's invisible by default
         }
@@ -168,23 +167,37 @@ public abstract class AbstractReactionEquationNode extends PComposite {
     }
     
     /*
-     * Sets the mutable properties of a Term.
+     * Changes a term.
      */
     protected void setTerm( int index, String text, Color color, Image structureImage ) {
+        // remove old term
         Term term = terms[index];
-        // symbol
-        SymbolNode symbolNode = term.getSymbolNode();
-        symbolNode.setHTML( text );
-        symbolNode.setHTMLColor( color );
-        // structure
-        StructureNode structureNode = term.getStructureNode();
-        structureNode.setImage( structureImage );
-        // layout
+        removeChild( term.getSymbolNode() );
+        removeChild( term.getStructureNode() );
+        // add new term
+        SymbolNode symbolNode = new SymbolNode( text, SYMBOL_FONT, color );
+        addChild( symbolNode );
+        StructureNode structureNode = new StructureNode( structureImage );
+        if ( structuresVisible && structuresEnabled ) {
+            addChild( structureNode );
+        }
+        terms[index] = new Term( symbolNode, structureNode );
         updateLayout();
     }
     
+    /**
+     * Override to workaround Piccolo problem.
+     */
+    public PNode removeChild( PNode child ) {
+        PNode nodeRemoved = null;
+        if ( indexOfChild( child ) != -1 ) {
+            nodeRemoved = super.removeChild( child );
+        }
+        return nodeRemoved;
+    }
+    
     protected void setTermColor( int index, Color color ) {
-        terms[index].getSymbolNode().setHTMLColor( color );
+        terms[index].getSymbolNode().setSymbolColor( color );
     }
     
     public void setStructuresEnabled( boolean enabled ) {
@@ -294,7 +307,7 @@ public abstract class AbstractReactionEquationNode extends PComposite {
         // symbol
         SymbolNode symbolNode = term.getSymbolNode();
         xOffset = xStart;
-        yOffset = -symbolNode.getFullBoundsReference().getHeight() / 2;
+        yOffset = -symbolNode.getCapHeight() / 2;
         symbolNode.setOffset( xOffset, yOffset );
         // structure
         StructureNode structureNode = term.getStructureNode();
@@ -336,7 +349,7 @@ public abstract class AbstractReactionEquationNode extends PComposite {
             this.symbolNode = symbolNode;
             this.structureNode = structureNode;
         }
-
+        
         public SymbolNode getSymbolNode() {
             return symbolNode;
         }
@@ -352,21 +365,6 @@ public abstract class AbstractReactionEquationNode extends PComposite {
         
         public boolean isVisible() {
             return symbolNode.getVisible() || structureNode.getVisible();
-        }
-    }
-    
-    /*
-     * A symbol is the formula for a molecule.
-     */
-    private static class SymbolNode extends HTMLNode {
-        
-        public SymbolNode( String text ) {
-            super( HTMLUtils.toHTMLString( text ) );
-            setFont( SYMBOL_FONT );
-        }
-        
-        public void setHTML( String text ) {
-            super.setHTML( HTMLUtils.toHTMLString( text ) );
         }
     }
     

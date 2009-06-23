@@ -145,6 +145,7 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
         
         // update the water equation
         waterNode.update();
+        updateBottomLayout();
     }
     
     private void handleConcentrationOrStrengthChanged() {
