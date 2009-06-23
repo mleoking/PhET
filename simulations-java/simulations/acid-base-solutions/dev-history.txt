@@ -3,13 +3,11 @@
 ==================================================================================
 
 TODO:
+- custom Piccolo node to align baselines of characters in equations
 - Matching Game module
 - first time a module is activated, canvas updateLayout is called twice (AncestorListener+ComponentListener), other sims only call once (AncestorListener)
 - review remaining instanceof comparisons
 - auto layout of symbol legend descriptions, so that we don't need to localize HTML markup
-
-DEFER:
-- align baselines of characters in equations (requires a new implementation: Piccolo or TextAttribute)
 
 ISSUES:
 - KP: PSwing buffering makes Swing text look lousy while dragging sliders
