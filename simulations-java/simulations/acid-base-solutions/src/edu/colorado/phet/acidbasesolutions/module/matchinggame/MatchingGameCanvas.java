@@ -81,6 +81,7 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
         graphNodeRight = new ConcentrationGraphNode( MatchingGameDefaults.CONCENTRATION_GRAPH_OUTLINE_SIZE, solutionRight );
         
         solutionControlsNodeRight = new SolutionControlsNode( this, solutionRight );
+        solutionControlsNodeRight.setSoluteComboBoxEnabled( false );
         solutionControlsNodeRight.scale( ABSConstants.PSWING_SCALE );
         
         addNode( scoreNode );

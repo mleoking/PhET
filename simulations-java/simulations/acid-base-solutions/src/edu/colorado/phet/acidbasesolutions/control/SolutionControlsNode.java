@@ -157,6 +157,10 @@ public class SolutionControlsNode extends PhetPNode {
         addChild( 0, backgroundNode );
     }
     
+    public void setSoluteComboBoxEnabled( boolean enabled ) {
+        soluteComboBox.setEnabled( enabled );
+    }
+    
     public void setSolute( Solute solute ) {
         soluteComboBox.setSelectedSoluteName( solute.getName() );
         
