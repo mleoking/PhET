@@ -571,7 +571,8 @@ public class NuclearDecayProportionChart extends PNode {
         private final PPath _lowerXAxisOfGraph;
         private final PText _lowerXAxisLabel;
         private final PPath _upperXAxisOfGraph;
-        private final PPath _yAxisOfGraph;
+        private final PPath _leftYAxisOfGraph;
+        private final PPath _rightYAxisOfGraph;
         private ArrayList<PhetPPath> _xAxisTickMarks = new ArrayList<PhetPPath>();
         private ArrayList<PText> _xAxisTickMarkLabels = new ArrayList<PText>();
         private ArrayList<PPath> _yAxisGridLines = new ArrayList<PPath>();
@@ -643,12 +644,17 @@ public class NuclearDecayProportionChart extends PNode {
 	        _lowerXAxisLabel.setFont(BOLD_LABEL_FONT);
 	        _nonPickableGraphLayer.addChild(_lowerXAxisLabel);
 
-	        // Create the y axis of the graph.
-	        _yAxisOfGraph = new PPath();
-	        _yAxisOfGraph.setStroke( THIN_AXIS_STROKE );
-	        _yAxisOfGraph.setStrokePaint( AXES_LINE_COLOR );
-	        _yAxisOfGraph.setPaint( AXES_LINE_COLOR );
-	        _nonPickableGraphLayer.addChild( _yAxisOfGraph );
+	        // Create the y axes of the graph.
+	        _leftYAxisOfGraph = new PPath();
+	        _leftYAxisOfGraph.setStroke( THIN_AXIS_STROKE );
+	        _leftYAxisOfGraph.setStrokePaint( AXES_LINE_COLOR );
+	        _leftYAxisOfGraph.setPaint( AXES_LINE_COLOR );
+	        _nonPickableGraphLayer.addChild( _leftYAxisOfGraph );
+	        _rightYAxisOfGraph = new PPath();
+	        _rightYAxisOfGraph.setStroke( THIN_AXIS_STROKE );
+	        _rightYAxisOfGraph.setStrokePaint( AXES_LINE_COLOR );
+	        _rightYAxisOfGraph.setPaint( AXES_LINE_COLOR );
+	        _nonPickableGraphLayer.addChild( _rightYAxisOfGraph );
 	        
 	        // Add the text for the Y axis tick marks.
 	        PText tempText = new PText( NuclearPhysicsStrings.TWENTY_FIVE_PER_CENT );
@@ -787,8 +793,10 @@ public class NuclearDecayProportionChart extends PNode {
 	        _upperXAxisOfGraph.setPathTo( new Line2D.Double(_graphRect.getX(), _graphRect.getY(), 
 	        		_graphRect.getMaxX(), _graphRect.getY() ) );
 	        
-	        _yAxisOfGraph.setPathTo( new Line2D.Double(_graphRect.getX(), _graphRect.getY(), 
+	        _leftYAxisOfGraph.setPathTo( new Line2D.Double(_graphRect.getX(), _graphRect.getY(), 
 	        		_graphRect.getX(), _graphRect.getMaxY() ) ); 
+	        _rightYAxisOfGraph.setPathTo( new Line2D.Double(_graphRect.getMaxX(), _graphRect.getY(), 
+	        		_graphRect.getMaxX(), _graphRect.getMaxY() ) ); 
 
 	        // Position and size labels for the upper X axis.
 	        _upperXAxisLabel.setScale( 1 );
