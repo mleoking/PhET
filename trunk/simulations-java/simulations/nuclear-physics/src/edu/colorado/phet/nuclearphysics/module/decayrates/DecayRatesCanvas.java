@@ -237,9 +237,9 @@ public class DecayRatesCanvas extends PhetPCanvas {
 		
 		super.update();
 		
-		_proportionsChart.componentResized(new Rectangle2D.Double( 0, 0, getWidth(), getHeight() * PROPORTION_CHART_FRACTION ) );
-		_proportionsChart.setOffset(0, getHeight() - _proportionsChart.getFullBoundsReference().height * 1.02);
-		
+		_proportionsChart.componentResized(new Rectangle2D.Double( 0, 0, getWidth() * 0.98, 
+				getHeight() * PROPORTION_CHART_FRACTION ) );
+		_proportionsChart.setOffset( 7, getHeight() - _proportionsChart.getFullBoundsReference().height);
 	}
 	
     /**
