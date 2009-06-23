@@ -1,3 +1,4 @@
+> align baselines in equations
 # 0.01.18 (32665) Jun 23, 2009
 6/23/09 publish requested changes for review
 > custom renderer for solute combo box
