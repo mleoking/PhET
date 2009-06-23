@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--arithmetic-strings_zh_TW.xml created Sun Jun 21 23:43:12 CST 2009 using: arithmetic 2.00.00 (30671), translation-utility 2.01.00 (31673) 五月 15, 2009-->
+<SimStrings>
+<string key="level" value="難易級別"/>
+<string key="typeAnswer" value="填入並按Enter鍵"/>
+<string key="clickToSelect" value="按下正確的方格"/>
+<string key="correct" value="答對了！"/>
+<string key="end" value="End"/>
+<string key="isWrong" value="是錯誤答案。"/>
+<string key="start" value="Start"/>
+<string key="simTitle" value="算數"/>
+<string key="time" value="時間(秒)"/>
+<string key="finalTime" value="使用時間："/>
+<string key="multiply" value="乘法"/>
+<string key="tryAgain" value="再試一次。"/>
+<string key="sound" value="音效"/>
+<string key="divide" value="除法"/>
+<string key="factor" value="商"/>
+<string key="minute" value="分鐘"/>
+<string key="finalScore" value="總得分："/>
+<string key="nbrRight" value="答對題數："/>
+<string key="mustTypeNbr" value="必須填入一個數。"/>
+<string key="score" value="分數："/>
+<string key="scorePer" value="題數"/>
+<string key="nbrWrong" value="答錯題數："/>
+<string key="reset" value="Reset"/>
+<string key="clock" value="計時"/>
+<string key="title" value="算數練習"/>
+</SimStrings>
