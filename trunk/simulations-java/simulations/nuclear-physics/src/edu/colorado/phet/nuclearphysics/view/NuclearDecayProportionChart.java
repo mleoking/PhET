@@ -551,8 +551,11 @@ public class NuclearDecayProportionChart extends PNode {
         private static final Stroke HALF_LIFE_LINE_STROKE = new BasicStroke( HALF_LIFE_LINE_STROKE_WIDTH, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 3.0f, 3.0f }, 0 );
         private static final Color  HALF_LIFE_LINE_COLOR = new Color (238, 0, 0);
         private static final float  DATA_CURVE_LINE_WIDTH_PROPORTION = 0.02f;
+        private static final int    NUM_Y_AXIS_GRID_LINES = 3;
+        private static final Color  Y_AXIS_GRID_LINES_COLOR = Color.LIGHT_GRAY;
+        private static final Stroke Y_AXIS_GRID_LINES_STROKE = THIN_AXIS_STROKE;
 
-        // Constants that control other proportionate aspects of the graph.
+        // Constants that control other proportioned aspects of the graph.
         private static final double GRAPH_TEXT_HEIGHT_PROPORTION = 0.10;
         
         // For enabling/disabling the sizing rectangle.
@@ -571,8 +574,8 @@ public class NuclearDecayProportionChart extends PNode {
         private final PPath _yAxisOfGraph;
         private ArrayList<PhetPPath> _xAxisTickMarks = new ArrayList<PhetPPath>();
         private ArrayList<PText> _xAxisTickMarkLabels = new ArrayList<PText>();
-        private ArrayList _yAxisGridLines;
-        private ArrayList<PText> _yAxisTickMarkLabels = new ArrayList<PText>();
+        private ArrayList<PPath> _yAxisGridLines = new ArrayList<PPath>();
+        private ArrayList<PText> _yAxisGridLineLabels = new ArrayList<PText>();
         private final HTMLNode _yAxisLabel;
         private final PText _upperXAxisLabel;
         private final PNode _pickableGraphLayer;
@@ -651,24 +654,32 @@ public class NuclearDecayProportionChart extends PNode {
 	        PText tempText = new PText( NuclearPhysicsStrings.TWENTY_FIVE_PER_CENT );
 	        tempText.setFont(BOLD_LABEL_FONT);
 	        _nonPickableGraphLayer.addChild(tempText);
-	        _yAxisTickMarkLabels.add(tempText);
+	        _yAxisGridLineLabels.add(tempText);
 	        tempText = new PText( NuclearPhysicsStrings.FIFTY_PER_CENT );
 	        tempText.setFont(BOLD_LABEL_FONT);
 	        _nonPickableGraphLayer.addChild(tempText);
-	        _yAxisTickMarkLabels.add(tempText);
+	        _yAxisGridLineLabels.add(tempText);
 	        tempText = new PText( NuclearPhysicsStrings.SEVENTY_FIVE_PER_CENT );
 	        tempText.setFont(BOLD_LABEL_FONT);
 	        _nonPickableGraphLayer.addChild(tempText);
-	        _yAxisTickMarkLabels.add(tempText);
+	        _yAxisGridLineLabels.add(tempText);
 	        tempText = new PText( NuclearPhysicsStrings.ONE_HUNDRED_PER_CENT );
 	        tempText.setFont(BOLD_LABEL_FONT);
 	        _nonPickableGraphLayer.addChild(tempText);
-	        _yAxisTickMarkLabels.add(tempText);
+	        _yAxisGridLineLabels.add(tempText);
 	        
 	        // Add the Y axis label.
 	        _yAxisLabel = new HTMLNode(NuclearPhysicsStrings.DECAY_PROPORTIONS_Y_AXIS_LABEL);
 	        _yAxisLabel.rotate(-Math.PI / 2);
 	        _nonPickableGraphLayer.addChild(_yAxisLabel);
+	        
+	        // Add the Y axis grid lines.
+	        for (int i = 0; i < NUM_Y_AXIS_GRID_LINES; i++){
+	        	PhetPPath gridLine = new PhetPPath(Y_AXIS_GRID_LINES_COLOR, Y_AXIS_GRID_LINES_STROKE,
+	        			Y_AXIS_GRID_LINES_COLOR);
+	        	_nonPickableGraphLayer.addChild(gridLine);
+	        	_yAxisGridLines.add(gridLine);
+	        }
 	        
 	        // Add the label for the upper X axis.
 	        _upperXAxisLabel = new PText( NuclearPhysicsStrings.HALF_LIVES_LABEL );
@@ -715,10 +726,10 @@ public class NuclearDecayProportionChart extends PNode {
 	        // Set the size of Y axis tick mark labels, since they will affect
 	        // the location of the graph's origin.
 	        double maxYAxisLabelWidth = 0;
-	        for (PText yAxisTickMarkLabel : _yAxisTickMarkLabels){
-	        	yAxisTickMarkLabel.setScale(1);
-		        yAxisTickMarkLabel.setScale(_labelScalingFactor);
-		        maxYAxisLabelWidth = Math.max(yAxisTickMarkLabel.getFullBoundsReference().width, maxYAxisLabelWidth);
+	        for (PText yAxisGridLineLabel : _yAxisGridLineLabels){
+	        	yAxisGridLineLabel.setScale(1);
+		        yAxisGridLineLabel.setScale(_labelScalingFactor);
+		        maxYAxisLabelWidth = Math.max(yAxisGridLineLabel.getFullBoundsReference().width, maxYAxisLabelWidth);
 	        }
 
 	        // Create a rectangle that defines where the graph itself is,
@@ -737,20 +748,33 @@ public class NuclearDecayProportionChart extends PNode {
 	        _yAxisLabel.setOffset(_yAxisLabel.getOffset().getX(), 
 	        		_graphRect.getCenterY() + _yAxisLabel.getFullBoundsReference().height / 2);
 	        
-	        // Position the y-axis tick mark labels now that we know the
+	        // Position the y-axis labels and grid lines now that we know the
 	        // vertical size of the graph.  Note that this assumes that there
-	        // is no label for zero and that the labels are in increasing order.
-	        int yAxisTickMarkCount = 1;
-	        double yAxisTickMarkSpacing = _graphRect.getHeight() / (_yAxisTickMarkLabels.size());
-	        for (PText yAxisTickMarkLabel : _yAxisTickMarkLabels){
-	        	yAxisTickMarkLabel.setOffset( 
+	        // is no label for zero and that the labels are in increasing
+	        // order.
+	        assert _yAxisGridLineLabels.size() == _yAxisGridLines.size() + 1;
+	        double yAxisGridLineSpacing = _graphRect.getHeight() / (_yAxisGridLineLabels.size());
+	        for (int i = 0; i < _yAxisGridLineLabels.size(); i++){
+	        	
+	        	// Add the label to the Y axis.
+	        	PText yAxisGridLineLabel = _yAxisGridLineLabels.get(i);
+	        	yAxisGridLineLabel.setOffset( 
 	        			_yAxisLabel.getFullBoundsReference().getWidth() + maxYAxisLabelWidth 
-	        				- yAxisTickMarkLabel.getFullBoundsReference().width,
-	        			_graphRect.getMaxY() - yAxisTickMarkCount * yAxisTickMarkSpacing 
-	        				- yAxisTickMarkLabel.getFullBoundsReference().height / 2);
-	        	yAxisTickMarkCount++;
+	        				- yAxisGridLineLabel.getFullBoundsReference().width,
+	        			_graphRect.getMaxY() - (i + 1) * yAxisGridLineSpacing 
+	        				- yAxisGridLineLabel.getFullBoundsReference().height / 2);
+	        	
+	        	// Add the grid line.  Note that there is no grid line at the
+	        	// top of the graph, though there is a label.
+	        	if (i < _yAxisGridLines.size()){
+		        	PPath yAxisGridLine = _yAxisGridLines.get(i);
+		        	yAxisGridLine.setPathTo(new Line2D.Double(0, 0, _graphRect.getWidth(), 0));
+		        	yAxisGridLine.setOffset(_graphRect.getX(), 
+		        			_graphRect.getMaxY() - (i + 1) * yAxisGridLineSpacing 
+		        			- yAxisGridLine.getFullBoundsReference().height / 2);
+	        	}
 	        }
-
+	        
 	        // Update the multiplier used for converting from pixels to
 	        // milliseconds.  Use the multiplier to tweak the span of the x axis.
 	        _msToPixelsFactor = _graphRect.getWidth() / _chart._timeSpan;	        
