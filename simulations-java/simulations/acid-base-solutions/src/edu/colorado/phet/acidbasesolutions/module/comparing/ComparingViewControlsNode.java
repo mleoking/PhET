@@ -1,4 +1,4 @@
-package edu.colorado.phet.acidbasesolutions.control;
+package edu.colorado.phet.acidbasesolutions.module.comparing;
 
 import java.awt.Color;
 import java.awt.Font;
