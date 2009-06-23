@@ -25,9 +25,9 @@ import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.Neutron;
+import edu.colorado.phet.nuclearphysics.common.view.AbstractAtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusImageNode;
 import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusImageType;
-import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics.model.Uranium235Nucleus;
 import edu.colorado.phet.nuclearphysics.model.Uranium238Nucleus;
 import edu.colorado.phet.nuclearphysics.module.nuclearreactor.ControlRod;
@@ -293,7 +293,7 @@ public class NuclearReactorNode extends PNode {
             if (modelElement instanceof AtomicNucleus){
                 // Remove the nucleus node.
                 _nucleiAndFreeParticleNode.removeChild( (PNode )nucleusNode );
-                AtomicNucleusNode node = (AtomicNucleusNode)_modelElementToNodeMap.remove( modelElement );
+                AbstractAtomicNucleusNode node = (AbstractAtomicNucleusNode)_modelElementToNodeMap.remove( modelElement );
                 node.cleanup();
             }
             else {

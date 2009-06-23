@@ -24,8 +24,8 @@ import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.common.model.AbstractDecayNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.NuclearDecayControl;
+import edu.colorado.phet.nuclearphysics.common.view.AbstractAtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusImageType;
-import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics.common.view.GrabbableNucleusImageNode;
 import edu.colorado.phet.nuclearphysics.model.AbstractAlphaDecayNucleus;
 import edu.colorado.phet.nuclearphysics.model.AdjustableHalfLifeNucleus;
@@ -336,7 +336,7 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
     private void handleModelElementRemoved(Object modelElement) {
     	
     	if (modelElement instanceof AtomicNucleus){
-    		AtomicNucleusNode nucleusNode = (AtomicNucleusNode)_mapNucleiToNodes.get(modelElement);
+    		AbstractAtomicNucleusNode nucleusNode = (AbstractAtomicNucleusNode)_mapNucleiToNodes.get(modelElement);
     		if (nucleusNode == null){
     			System.err.println("Error: Could not find node for removed model element.");
     		}
@@ -380,7 +380,7 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
             Map.Entry entry = (Map.Entry)iterator.next();
             AtomicNucleus nucleus = (AtomicNucleus)entry.getKey();
             nucleus.reset();
-            if (!_bucketNode.isNodeInBucket((AtomicNucleusNode)_mapNucleiToNodes.get(nucleus))){
+            if (!_bucketNode.isNodeInBucket((AbstractAtomicNucleusNode)_mapNucleiToNodes.get(nucleus))){
             	if (nucleus instanceof NuclearDecayControl){
             		((NuclearDecayControl) nucleus).activateDecay();
             	}
@@ -410,7 +410,7 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
      * 
      * @param node
      */
-	private void transferNodeFromBucketToCanvas( AtomicNucleusNode node ) {
+	private void transferNodeFromBucketToCanvas( AbstractAtomicNucleusNode node ) {
 
 		// Add this nucleus node as a child.
 		_nucleiLayer.addChild(node);
@@ -423,7 +423,7 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
 	 * Transfer a node that was out on the canvas back into the bucket.
 	 * @param node
 	 */
-	private void transferNodeFromCanvasToBucket( AtomicNucleusNode node){
+	private void transferNodeFromCanvasToBucket( AbstractAtomicNucleusNode node){
 		node.getNucleusRef().reset();
 		_bucketNode.addNucleusAnimated(node);
 	}
@@ -485,7 +485,7 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
      * to close to an existing one.
      * @return
      */
-    private Point2D findOpenSpotForNucleus(AtomicNucleusNode nucleusNode){
+    private Point2D findOpenSpotForNucleus(AbstractAtomicNucleusNode nucleusNode){
 
     	double xPos, yPos;
     	boolean openSpotFound = false;
@@ -531,7 +531,7 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
                 while (iterator.hasNext() && openSpotFound == true) {
                     Map.Entry entry = (Map.Entry)iterator.next();
                     AtomicNucleus nucleus = (AtomicNucleus)entry.getKey();
-                    if (!_bucketNode.isNodeInBucket((AtomicNucleusNode)_mapNucleiToNodes.get(nucleus))){
+                    if (!_bucketNode.isNodeInBucket((AbstractAtomicNucleusNode)_mapNucleiToNodes.get(nucleus))){
                         if ((thisNucleus != nucleus) &&
                         	(openLocation.distance(nucleus.getPositionReference()) < minInterNucleusDistance)){
                         	openSpotFound = false;
@@ -557,7 +557,7 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
     	
     	int numberOfNucleiObtained;
     	for (numberOfNucleiObtained = 0; numberOfNucleiObtained < numNucleiToAdd; numberOfNucleiObtained++){
-    		AtomicNucleusNode nucleusNode = _bucketNode.extractAnyNucleusFromBucket();
+    		AbstractAtomicNucleusNode nucleusNode = _bucketNode.extractAnyNucleusFromBucket();
     		if (nucleusNode == null){
     			// The bucket must be empty, so there is nothing more to do.
     			break;

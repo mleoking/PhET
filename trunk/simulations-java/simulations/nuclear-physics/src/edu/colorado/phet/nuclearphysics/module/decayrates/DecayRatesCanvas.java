@@ -21,9 +21,8 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.NuclearDecayControl;
-import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusImageNode;
-import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusImageType;
-import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusNode;
+import edu.colorado.phet.nuclearphysics.common.view.AbstractAtomicNucleusNode;
+import edu.colorado.phet.nuclearphysics.common.view.SimpleAtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics.model.HalfLifeInfo;
 import edu.colorado.phet.nuclearphysics.model.NuclearDecayListenerAdapter;
 import edu.colorado.phet.nuclearphysics.view.BucketOfNucleiNode;
@@ -255,7 +254,7 @@ public class DecayRatesCanvas extends PhetPCanvas {
     	
     	int numberOfNucleiObtained;
     	for (numberOfNucleiObtained = 0; numberOfNucleiObtained < numNucleiToMove; numberOfNucleiObtained++){
-    		AtomicNucleusNode nucleusNode = _bucketNode.extractAnyNucleusFromBucket();
+    		AbstractAtomicNucleusNode nucleusNode = _bucketNode.extractAnyNucleusFromBucket();
     		if (nucleusNode == null){
     			// The bucket must be empty, so there is nothing more to do.
     			break;
@@ -304,7 +303,7 @@ public class DecayRatesCanvas extends PhetPCanvas {
     			_model.moveNucleusToHoldingArea(nucleus);
     			
     			// Find the node associated with this nucleus.
-    			AtomicNucleusNode nucleusNode = (AtomicNucleusNode)_mapNucleiToNodes.get(nucleus);
+    			AbstractAtomicNucleusNode nucleusNode = (AbstractAtomicNucleusNode)_mapNucleiToNodes.get(nucleus);
     			
     			// Add this node to the bucket.
     			_bucketNode.addNucleus(nucleusNode);
@@ -326,8 +325,8 @@ public class DecayRatesCanvas extends PhetPCanvas {
     		// A new nucleus has been added to the model.  Create a
     		// node for it and add it to the nucleus-to-node map.
     		AtomicNucleus nucleus = (AtomicNucleus) modelElement;
-    		AtomicNucleusImageNode atomicNucleusNode = 
-    			new AtomicNucleusImageNode( nucleus, AtomicNucleusImageType.GRADIENT_SPHERE );
+    		SimpleAtomicNucleusNode atomicNucleusNode = 
+    			new SimpleAtomicNucleusNode( nucleus );
     		
     		// Map this node and nucleus together.
     		_mapNucleiToNodes.put(nucleus, atomicNucleusNode);
@@ -358,7 +357,7 @@ public class DecayRatesCanvas extends PhetPCanvas {
     private void handleModelElementRemoved(Object modelElement) {
     	
     	if (modelElement instanceof AtomicNucleus){
-    		AtomicNucleusNode nucleusNode = (AtomicNucleusNode)_mapNucleiToNodes.get(modelElement);
+    		AbstractAtomicNucleusNode nucleusNode = (AbstractAtomicNucleusNode)_mapNucleiToNodes.get(modelElement);
     		if (nucleusNode == null){
     			System.err.println(this.getClass().getName() + ": Error - Could not find node for removed model element.");
     		}
