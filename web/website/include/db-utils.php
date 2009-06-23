@@ -114,6 +114,16 @@
         return $result;
     }
 
+    function db_count_rows($table_name) {
+        $result = db_exec_query('SELECT COUNT(*) FROM '.$table_name);
+        if ($result) {
+            $row = mysql_fetch_array($result, MYSQL_NUM);
+            return $row[0];
+        }
+
+        return false;
+    }
+
     function db_describe_table($table_name) {
         $query = "DESCRIBE `$table_name`";
 

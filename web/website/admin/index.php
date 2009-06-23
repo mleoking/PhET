@@ -33,6 +33,7 @@ class AdminControlPanelPage extends SitePage {
             <h3>Contributions</h3>
             <ul>
                 <li><a href="manage-contributors.php">Manage Contributors</a></li>
+                <li><a href="export-contributors-page.php">Export Contributors</a></li>
                 <li><a href="manage-comments.php">Manage Comments</a></li>
                 <li><a href="view-gold-star-nominations.php">View Gold Star Nominations</a></li>
             </ul>
