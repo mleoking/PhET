@@ -4,6 +4,7 @@ package edu.colorado.phet.nuclearphysics.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.GradientPaint;
 import java.awt.Stroke;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JSlider;
 import javax.swing.Timer;
+import javax.swing.plaf.basic.BasicSliderUI;
 
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -29,8 +31,6 @@ import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.common.NucleusType;
 import edu.colorado.phet.nuclearphysics.common.view.AbstractAtomicNucleusNode;
-import edu.colorado.phet.nuclearphysics.common.view.LabeledExplodingAtomicNucleusNode;
-import edu.colorado.phet.nuclearphysics.common.view.SimpleAtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusAlphaDecayCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -398,9 +398,10 @@ public class BucketOfNucleiNode extends PNode {
     	// If the slider doesn't exist yet, create it.
     	if (_sliderNode == null && enabled){
         	_slider = new NormalizedSlider();
-        	_slider.setPreferredSize(new Dimension((int)(_bucketWidth * 0.8),(int)(_bucketHeight * 0.4)));
+        	_slider.setPreferredSize(new Dimension((int)(_bucketWidth * 0.8),(int)(_bucketHeight * 0.5)));
         	_slider.setBackground(ColorUtils.darkerColor(_baseColor,0.5));
         	_slider.setForeground(Color.GREEN);
+            _slider.setCursor( new Cursor( Cursor.HAND_CURSOR ) );
         	
         	// Wrap the slider in a PSwing so that it can be used in the play area.
         	PSwing sliderNode = new PSwing(_slider);
@@ -615,6 +616,30 @@ public class BucketOfNucleiNode extends PNode {
     	
 		public double getNormalizedReading(){
 			return ((double)getValue() / (double)MAX_SLIDER_VALUE);
+		}
+    }
+    
+    // TODO: The class below was part of an experiment to change the size of
+    // the slider knob on the bucket.  It kind of worked, but is likely to
+    // have issues on the Mac.  I'm going to check with the physicists if
+    // having a larger slider is really worth the amount of work that it
+    // appears to entail.  If not, this can go.  Jblanco, June 24 2009.
+    private class MySliderUI extends BasicSliderUI {
+
+		public MySliderUI(JSlider slider) {
+			super(slider);
+		}
+
+		@Override
+		protected Dimension getThumbSize() {
+			Dimension oldDimension = super.getThumbSize();
+			return new Dimension(20, 40);
+		}
+
+		@Override
+		protected void calculateTrackRect() {
+			// TODO Auto-generated method stub
+			super.calculateTrackRect();
 		}
     }
 
