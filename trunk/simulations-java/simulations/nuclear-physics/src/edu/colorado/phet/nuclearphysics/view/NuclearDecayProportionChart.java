@@ -745,9 +745,9 @@ public class NuclearDecayProportionChart extends PNode {
 
 	        _graphRect.setRect(
 	        		_yAxisLabel.getFullBoundsReference().width + maxYAxisLabelWidth,
-	        		graphLabelHeight * 1.6, 
+	        		graphLabelHeight * 1.8, 
 	        		newWidth - _yAxisLabel.getFullBoundsReference().getWidth() - maxYAxisLabelWidth,
-	        		newHeight - 3.2 * graphLabelHeight);
+	        		newHeight - 3.6 * graphLabelHeight);
 	        
 	        // Reposition the Y axis label now that we know the vertical size
 	        // and position of the graph.
@@ -922,13 +922,15 @@ public class NuclearDecayProportionChart extends PNode {
 	    		}
 	    	}
 	    	
-	    	// Set the size and location for each of lines and labels.
+	    	// Set the size and location for each of the lines and labels.
 			for ( int i = 0; i < _halfLifeLines.size(); i++ ){
 				PPath halfLifeLine = (PPath)_halfLifeLines.get(i);
 				halfLifeLine.setPathTo( new Line2D.Double(0, 0, 0, _graphRect.getHeight() ) );
 				double xPos = (i + 1) * _chart._halfLife * _msToPixelsFactor + _graphRect.getX();
 				halfLifeLine.setOffset( xPos, _graphRect.getY() );
 				PText halfLifeLabel = (PText)_halfLifeLineLabels.get(i);
+				halfLifeLabel.setScale(1);
+				halfLifeLabel.setScale(_labelScalingFactor);
 				halfLifeLabel.setOffset(xPos - halfLifeLabel.getFullBoundsReference().width/2, 
 						_graphRect.getY() - halfLifeLabel.getFullBoundsReference().height);
 			}
