@@ -130,6 +130,41 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
         addNode( viewControlsNode );
         
         updateView();
+        reset();
+    }
+    
+    public void reset() {
+        scoreNode.reset();
+        setModeAcidBaseQuestion();
+    }
+    
+    public void setModeAcidBaseQuestion() {
+        viewControlsNode.setModeAcidBaseQuestion();
+        viewControlsNode.setBeakersSelected( true );
+        viewControlsNode.setDissociatedComponentsRatioSelected( false );
+        viewControlsNode.setHydroniumHydroxideRatioSelected( true );
+        viewControlsNode.setMoleculeCountsSelected( false );
+        acidBaseQuestion.setVisible( true );
+        acidButton.setVisible( true );
+        baseButton.setVisible( true );
+        matchSolutionQuestion.setVisible( false );
+        checkMatchButton.setVisible( false );
+        correctAnswer.setVisible( false );
+        wrongAnswer.setVisible( false );
+        beakerNodeRight.setVisible( false );
+        graphNodeRight.setVisible( false );
+        solutionControlsNodeRight.setVisible( false );
+    }
+    
+    public void setModeMatchSolutionQuestion() {
+        viewControlsNode.setModeMatchSolutionQuestion();
+        acidBaseQuestion.setVisible( false );
+        acidButton.setVisible( false );
+        baseButton.setVisible( false );
+        matchSolutionQuestion.setVisible( true );
+        checkMatchButton.setVisible( true );
+        correctAnswer.setVisible( false );
+        wrongAnswer.setVisible( false );
     }
     
     //----------------------------------------------------------------------------

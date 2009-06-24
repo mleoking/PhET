@@ -18,16 +18,10 @@ public class MatchingGameScoreNode extends PComposite {
     private static final Font LABEL_FONT = new PhetFont( 24 );
     private static final Font VALUE_FONT = new PhetFont( Font.BOLD, 24 );
     
-    private int points;
-    private int solutions;
-    
     private final IntValueNode pointsValue;
     private final IntValueNode solutionsValue;
     
     public MatchingGameScoreNode() {
-        
-        points = 0;
-        solutions = 0;
         
         LabelNode pointsLabel = new LabelNode( ABSStrings.LABEL_POINTS );
         pointsValue = new IntValueNode();
@@ -59,16 +53,21 @@ public class MatchingGameScoreNode extends PComposite {
         xOffset = solutionsLabel.getFullBoundsReference().getMaxX() + X_SPACING;
         yOffset = solutionsLabel.getYOffset();
         solutionsValue.setOffset( xOffset, yOffset );
+        
+        reset();
     }
     
     public void changePoints( int delta ) {
-        points += delta;
-        pointsValue.setValue( points );
+        pointsValue.setValue( pointsValue.getValue() + delta );
     }
     
     public void changeSolutions( int delta ) {
-        solutions += delta;
-        solutionsValue.setValue( solutions );
+        solutionsValue.setValue( solutionsValue.getValue() + delta );
+    }
+    
+    public void reset() {
+        solutionsValue.setValue( 0 );
+        pointsValue.setValue( 0 );
     }
     
     private static class LabelNode extends PText {
@@ -81,14 +80,21 @@ public class MatchingGameScoreNode extends PComposite {
     
     private static class IntValueNode extends PText {
         
+        private int value;
+        
         public IntValueNode() {
-            super( "0" );
+            super();
             setFont( VALUE_FONT );
             setTextPaint( VALUE_COLOR );
+            setValue( 0 );
         }
         
         public void setValue( int value ) {
             setText( String.valueOf( value ) );
+        }
+        
+        public int getValue() {
+            return value;
         }
     }
 

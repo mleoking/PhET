@@ -130,7 +130,7 @@ public class MatchingGameViewControlsNode extends PhetPNode {
     /**
      * All controls are enabled when the user is trying to match the solution.
      */
-    public void setModeMatchSolution() {
+    public void setModeMatchSolutionQuestion() {
         beakersRadioButton.setEnabled( true );
         dissociatedComponentsRatioCheckBox.setEnabled( beakersRadioButton.isSelected() );
         hyroniumHydroxideRatioCheckBox.setEnabled( beakersRadioButton.isSelected() );
@@ -153,12 +153,19 @@ public class MatchingGameViewControlsNode extends PhetPNode {
         return graphsRadioButton.isSelected();
     }
     
+    public void setDissociatedComponentsRatioSelected( boolean b ) {
+        if ( b != isDissociatedComponentsRatioSelected() ) {
+            dissociatedComponentsRatioCheckBox.setSelected( b );
+            notifyStateChanged();
+        }
+    }
+    
     public boolean isDissociatedComponentsRatioSelected() {
         return dissociatedComponentsRatioCheckBox.isSelected();
     }
     
     public void setHydroniumHydroxideRatioSelected( boolean b ) {
-        if ( b != hyroniumHydroxideRatioCheckBox.isSelected() ) {
+        if ( b != isHydroniumHydroxideRatioSelected() ) {
             hyroniumHydroxideRatioCheckBox.setSelected( b );
             notifyStateChanged();
         }
@@ -166,6 +173,13 @@ public class MatchingGameViewControlsNode extends PhetPNode {
     
     public boolean isHydroniumHydroxideRatioSelected() {
         return hyroniumHydroxideRatioCheckBox.isSelected();
+    }
+    
+    public void setMoleculeCountsSelected( boolean b ) {
+        if ( b != isMoleculeCountsSelected() ) {
+            moleculeCountsCheckBox.setSelected( b );
+            notifyStateChanged();
+        }
     }
     
     public boolean isMoleculeCountsSelected() {
