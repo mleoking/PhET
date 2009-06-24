@@ -557,7 +557,7 @@ public class NuclearDecayProportionChart extends PNode {
         private static final Stroke Y_AXIS_GRID_LINES_STROKE = THIN_AXIS_STROKE;
 
         // Constants that control other proportioned aspects of the graph.
-        private static final double GRAPH_TEXT_HEIGHT_PROPORTION = 0.10;
+        private static final double GRAPH_TEXT_HEIGHT_PROPORTION = 0.12;
         
         // For enabling/disabling the sizing rectangle.
         private static final boolean SIZING_RECT_VISIBLE = false;
@@ -741,13 +741,11 @@ public class NuclearDecayProportionChart extends PNode {
 	        }
 
 	        // Create a rectangle that defines where the graph itself is,
-	        // excluding all labels and such.  There are some "fudge factors"
-	        // in this calculation to account for the fact that there is often
-	        // some spacing between the labels and the graphs.
+	        // excluding all labels and such.
 
 	        _graphRect.setRect(
 	        		_yAxisLabel.getFullBoundsReference().width + maxYAxisLabelWidth,
-	        		graphLabelHeight * 1.2, 
+	        		graphLabelHeight * 1.6, 
 	        		newWidth - _yAxisLabel.getFullBoundsReference().getWidth() - maxYAxisLabelWidth,
 	        		newHeight - 3.2 * graphLabelHeight);
 	        
@@ -800,12 +798,6 @@ public class NuclearDecayProportionChart extends PNode {
 	        _rightYAxisOfGraph.setPathTo( new Line2D.Double(_graphRect.getMaxX(), _graphRect.getY(), 
 	        		_graphRect.getMaxX(), _graphRect.getMaxY() ) ); 
 
-	        // Position and size labels for the upper X axis.
-	        _upperXAxisLabel.setScale( 1 );
-	        _upperXAxisLabel.setScale(_labelScalingFactor);
-	        _upperXAxisLabel.setOffset(_graphRect.getX() + 5, _graphRect.getY() - 
-	        		_upperXAxisLabel.getFullBoundsReference().height - 5 );
-	        
 	        // Add the X axis tick marks and labels.  Note that this won't
 	        // handle all values of time span, so add more if needed.
 	        updateXAxisTickMarksAndLabels();
@@ -815,17 +807,6 @@ public class NuclearDecayProportionChart extends PNode {
 	        
 	        // Reposition the data curve(s)
 	        updateDecayCurves();
-	        
-	        // Position the tick marks and their labels on the X axis.
-	        // TODO: Position tick marks and labels.
-
-	        // Update the text for the Y axis labels.
-	        // Set text for Y axis.
-	        
-	        // Position the labels for the axes.
-	        // TODO: Lower X axis label
-	        // TODO: Y axis label
-	        // TODO: Upper axis label
 		}
 		
 		public void clearData(){
@@ -951,6 +932,12 @@ public class NuclearDecayProportionChart extends PNode {
 				halfLifeLabel.setOffset(xPos - halfLifeLabel.getFullBoundsReference().width/2, 
 						_graphRect.getY() - halfLifeLabel.getFullBoundsReference().height);
 			}
+			
+			// Position the upper x-axis label that sits above the labels of
+			// the individual half-life line labels.
+	        _upperXAxisLabel.setScale(1);
+	        _upperXAxisLabel.setScale(_labelScalingFactor);
+	        _upperXAxisLabel.setOffset( _graphRect.getCenterX() - _upperXAxisLabel.getFullBoundsReference().width / 2, 0 );
 	    }
 	    
 	    /**
@@ -1036,16 +1023,17 @@ public class NuclearDecayProportionChart extends PNode {
 	    		}
 	    	}
 	    	
-	        // Position and size the label for the lower X axis.
+	        // Update the label for the lower X axis.
+	    	
+	    	_lowerXAxisLabel.setText(getXAxisUnitsText());
+	    	_lowerXAxisLabel.setScale(1);
+	    	_lowerXAxisLabel.setScale(_labelScalingFactor);
+	    	
 	    	double unitsLabelYPos = _graphRect.getMaxY() + 5;
 	    	if (_xAxisTickMarkLabels.size() > 0){
-	    		unitsLabelYPos = _xAxisTickMarkLabels.get(0).getFullBoundsReference().getMaxY();
+	    		unitsLabelYPos = _sizingRect.getHeight() - _lowerXAxisLabel.getFullBoundsReference().height;
 	    	}
-	        _lowerXAxisLabel.setText(getXAxisUnitsText());
-	        _lowerXAxisLabel.setFont(BOLD_LABEL_FONT);
-	        _lowerXAxisLabel.setScale(1);
-	        _lowerXAxisLabel.setScale(_labelScalingFactor);
-	        _lowerXAxisLabel.setOffset(_graphRect.getCenterX() - _lowerXAxisLabel.getFullBoundsReference().height / 2,
+	        _lowerXAxisLabel.setOffset(_graphRect.getCenterX() - _lowerXAxisLabel.getFullBoundsReference().width / 2,
 	        		unitsLabelYPos);
 	    }
 	    
