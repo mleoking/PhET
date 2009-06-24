@@ -69,6 +69,8 @@ public class MatchingGameModule extends ABSAbstractModule {
      */
     public void reset() {
         super.reset();
+        model.newSolution();
+        canvas.reset();
         load( MatchingGameDefaults.getInstance().getConfig() );
     }
     
