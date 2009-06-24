@@ -163,8 +163,6 @@ public class DecayRatesCanvas extends PhetPCanvas {
         // Add the button for resetting the nuclei to the canvas.
         _resetButtonNode = new AutoPressGradientButtonNode(NuclearPhysicsStrings.RESET_ALL_NUCLEI, 22, 
         		BUCKET_AND_BUTTON_COLOR);
-//        _resetButtonNode.setOffset(_bucketNode.getFullBoundsReference().getCenterX() 
-//        		- _resetButtonNode.getFullBoundsReference().width / 2, CANVAS_HEIGHT * 0.1);
         _resetButtonNode.setOffset(_bucketNode.getFullBoundsReference().getCenterX()
         		- _resetButtonNode.getFullBoundsReference().width / 2, -70);
         _chartLayer.addChild(_resetButtonNode);
