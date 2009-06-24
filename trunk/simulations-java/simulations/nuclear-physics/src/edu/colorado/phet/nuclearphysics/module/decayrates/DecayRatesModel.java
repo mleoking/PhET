@@ -229,9 +229,6 @@ public class DecayRatesModel extends MultiNucleusDecayModel {
 	            openLocation = new Point2D.Double(xPos, yPos);
         	}
             while (HOLDING_AREA_RECT.contains(openLocation));
-        	
-        	// TODO: Remove the debug statement below once it is being seen infrequently enough.
-        	System.out.println("Warning: Didn't find open location, choosing one arbitrarily.");
         }
         
         return openLocation;
