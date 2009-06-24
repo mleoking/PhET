@@ -1,3 +1,5 @@
+# 0.01.21 (32696) Jun 23, 2009
+6/23/09 Temporary fix for generation chart
 # 0.01.20 (32662) Jun 22, 2009
 6/22/09 Added generation chart back in
 # 0.01.19 (32564) Jun 18, 2009
