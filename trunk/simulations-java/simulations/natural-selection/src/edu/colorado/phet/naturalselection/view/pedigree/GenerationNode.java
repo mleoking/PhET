@@ -306,29 +306,34 @@ public class GenerationNode extends PNode {
 
             // for each child, draw the vertical line pointing to it, and record its position
             while ( childIter.hasNext() ) {
-                Bunny child = childIter.next();
+                try {
+                    Bunny child = childIter.next();
 
-                // location of child
-                Point2D childOffset = nextGenerationNode.getBunnyLocalOffset( child );
+                    // location of child
+                    Point2D childOffset = nextGenerationNode.getBunnyLocalOffset( child );
 
-                // size of child
-                Dimension childSize = nextGenerationNode.getBunnyLocalDimension( child );
+                    // size of child
+                    Dimension childSize = nextGenerationNode.getBunnyLocalDimension( child );
 
-                // the vertical top but horizontally centered point of the child bunny (Relative to this top generation)
-                Point2D topCenter = new Point2D.Double( childOffset.getX() + childSize.getWidth() / 2, childOffset.getY() + nextTop - BUNNY_TOP_PADDING );
+                    // the vertical top but horizontally centered point of the child bunny (Relative to this top generation)
+                    Point2D topCenter = new Point2D.Double( childOffset.getX() + childSize.getWidth() / 2, childOffset.getY() + nextTop - BUNNY_TOP_PADDING );
 
-                // change min or max as necessary
-                minChildX = Math.min( minChildX, topCenter.getX() );
-                maxChildX = Math.max( maxChildX, topCenter.getX() );
+                    // change min or max as necessary
+                    minChildX = Math.min( minChildX, topCenter.getX() );
+                    maxChildX = Math.max( maxChildX, topCenter.getX() );
 
-                // line from horizontal child bar to top of child
-                addLine(
-                        topCenter,
-                        new Point2D.Double(
-                                topCenter.getX(),
-                                horizTop
-                        )
-                );
+                    // line from horizontal child bar to top of child
+                    addLine(
+                            topCenter,
+                            new Point2D.Double(
+                                    topCenter.getX(),
+                                    horizTop
+                            )
+                    );
+                }
+                catch( NullPointerException e ) {
+                    // just ignore errors for line placement
+                }
             }
 
             // horizontal bar above children
