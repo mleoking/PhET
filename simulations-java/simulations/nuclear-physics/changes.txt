@@ -1,3 +1,5 @@
+# 3.13.03 (32705) Jun 24, 2009
+6/24/09 Fixed and added a number of things based on initial feedback
 # 3.13.02 (32516) Jun 16, 2009
 6/16/09 Second permissions test on dev
 # 3.13.01 (32515) Jun 16, 2009
