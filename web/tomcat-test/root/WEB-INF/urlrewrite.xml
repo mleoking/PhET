@@ -6,7 +6,15 @@
 
 <urlrewrite>
     <rule>
-        <from>^/simulation/([^/]*)/([^/]*)$</from>
-        <to>/simulationpage.jsp?projectName=$1&amp;simulationName=$2</to>
+        <from>^/simulation/([^/]*)$</from>
+        <to>/simulationpage.jsp?simulationName=$1</to>
+    </rule>
+    <rule>
+        <from>^/simulations(/.*)?$</from>
+        <to>/simulations.jsp?$1</to>
+    </rule>
+    <rule>
+        <from>^/debugsimulations(/.*)?$</from>
+        <to>/debugsimulations.jsp?$1</to>
     </rule>
 </urlrewrite>
