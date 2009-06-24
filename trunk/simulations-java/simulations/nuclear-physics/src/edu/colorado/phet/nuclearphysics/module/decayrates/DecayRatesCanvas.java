@@ -3,6 +3,8 @@
 package edu.colorado.phet.nuclearphysics.module.decayrates;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
@@ -19,16 +21,19 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.NuclearDecayControl;
 import edu.colorado.phet.nuclearphysics.common.view.AbstractAtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics.common.view.SimpleAtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics.model.HalfLifeInfo;
 import edu.colorado.phet.nuclearphysics.model.NuclearDecayListenerAdapter;
+import edu.colorado.phet.nuclearphysics.view.AutoPressGradientButtonNode;
 import edu.colorado.phet.nuclearphysics.view.BucketOfNucleiNode;
 import edu.colorado.phet.nuclearphysics.view.NuclearDecayProportionChart;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -68,8 +73,9 @@ public class DecayRatesCanvas extends PhetPCanvas {
     private HashMap _mapNucleiToNodes = new HashMap();
     private NuclearDecayProportionChart _proportionsChart;
     private PNode _particleLayer;
-    private PNode _graphLayer;
+    private PNode _chartLayer;
 	private BucketOfNucleiNode _bucketNode;
+    private AutoPressGradientButtonNode _resetButtonNode;
 	private PPath _holdingAreaRect;
 	private int _chartRefreshCounter;
     
@@ -113,8 +119,8 @@ public class DecayRatesCanvas extends PhetPCanvas {
         // Add the PNodes that will act as layers for the particles and graphs.
         _particleLayer = new PNode();
         addWorldChild(_particleLayer);
-        _graphLayer = new PNode();
-        addScreenChild(_graphLayer);
+        _chartLayer = new PNode();
+        addWorldChild(_chartLayer);
         
         // Create and add the node the represents the bucket from which nuclei
         // can be extracted and added to the play area.
@@ -154,11 +160,29 @@ public class DecayRatesCanvas extends PhetPCanvas {
         	}
         });
         
+        // Add the button for resetting the nuclei to the canvas.
+        _resetButtonNode = new AutoPressGradientButtonNode(NuclearPhysicsStrings.RESET_ALL_NUCLEI, 22, 
+        		BUCKET_AND_BUTTON_COLOR);
+//        _resetButtonNode.setOffset(_bucketNode.getFullBoundsReference().getCenterX() 
+//        		- _resetButtonNode.getFullBoundsReference().width / 2, CANVAS_HEIGHT * 0.1);
+        _resetButtonNode.setOffset(_bucketNode.getFullBoundsReference().getCenterX()
+        		- _resetButtonNode.getFullBoundsReference().width / 2, -70);
+        _chartLayer.addChild(_resetButtonNode);
+        
+        // Register to receive button pushes.
+        _resetButtonNode.addActionListener( new ActionListener(){
+            public void actionPerformed(ActionEvent event){
+        		_model.getClock().resetSimulationTime();
+        		_model.resetActiveAndDecayedNuclei();
+        		_proportionsChart.clear();
+            }
+        });
+        
         // Add the diagram that will depict the relative concentration of
         // pre- and post-decay nuclei.
         _proportionsChart = new NuclearDecayProportionChart(true, false, true);
         _proportionsChart.setDisplayInfoForNucleusType(_model.getNucleusType());
-        _graphLayer.addChild(_proportionsChart);
+        _chartLayer.addChild(_proportionsChart);
         
         // Register with the model for notifications of nuclei coming and
         // going.
@@ -237,9 +261,12 @@ public class DecayRatesCanvas extends PhetPCanvas {
 		
 		super.update();
 		
-		_proportionsChart.componentResized(new Rectangle2D.Double( 0, 0, getWidth() * 0.98, 
-				getHeight() * PROPORTION_CHART_FRACTION ) );
-		_proportionsChart.setOffset( 7, getHeight() - _proportionsChart.getFullBoundsReference().height);
+		_proportionsChart.componentResized(new Rectangle2D.Double( 0, 0, getWorldSize().getWidth() * 0.98, 
+				getWorldSize().getHeight() * PROPORTION_CHART_FRACTION ) );
+		PBounds propChartBounds = _proportionsChart.getFullBoundsReference();
+		_proportionsChart.setOffset( -propChartBounds.width / 2, 
+				getWorldSize().getHeight() * (1 - HEIGHT_TRANSLATION_FACTOR) 
+				- _proportionsChart.getFullBoundsReference().height);
 	}
 	
     /**
