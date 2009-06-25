@@ -14,7 +14,10 @@ import edu.umd.cs.piccolo.nodes.PImage;
  * May 22, 2007, 2:37:54 PM
  */
 public class MovingManNode extends AbstractMovingManNode {
+    private IMovingManModel motionModel;
+
     public MovingManNode( final IMovingManModel motionModel ) throws IOException {
+        this.motionModel=motionModel;
         final PImage manImage = super.getManImage();
         manImage.addInputEventListener( new CursorHandler() );
         manImage.addInputEventListener( new PBasicInputEventHandler() {
@@ -39,9 +42,15 @@ public class MovingManNode extends AbstractMovingManNode {
         updateObject( manImage, motionModel );
         motionModel.addListener( new MovingManMotionModel.Adapter() {
             public void boundaryChanged() {
-                MovingManNode.this.setWallsVisible( motionModel.isBoundaryOpen() );
+                updateWallsVisible();
             }
         } );
+
+        updateWallsVisible();
+    }
+
+    private void updateWallsVisible() {
+        MovingManNode.this.setWallsVisible( !motionModel.isBoundaryOpen() );
     }
 
     private void updateObject( PNode object, IMovingManModel model ) {
