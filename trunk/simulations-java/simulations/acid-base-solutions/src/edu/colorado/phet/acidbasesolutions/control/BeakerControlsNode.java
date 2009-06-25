@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
+import edu.colorado.phet.acidbasesolutions.ABSColors;
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.ABSSymbols;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
@@ -28,8 +29,6 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public abstract class BeakerControlsNode extends PhetPNode {
-    
-    private static final String RATIO_PATTERN = ABSStrings.CHECK_BOX_RATIO;
     
     private final JPanel panel;
     private final JCheckBox dissociatedComponentsRatioCheckBox;
@@ -49,9 +48,12 @@ public abstract class BeakerControlsNode extends PhetPNode {
                 notifyDisassociatedComponentsRatioChanged();
             }
         });
-        
-        Object[] args = { ABSSymbols.H3O_PLUS, ABSSymbols.OH_MINUS };
-        String html = HTMLUtils.toHTMLString( MessageFormat.format( RATIO_PATTERN, args ) );
+
+        String stringH3O = HTMLUtils.createColoredFragment( ABSSymbols.H3O_PLUS, ABSColors.H3O_PLUS );
+        String stringOH = HTMLUtils.createColoredFragment( ABSSymbols.OH_MINUS, ABSColors.OH_MINUS );
+        Object[] args = { stringH3O, stringOH };
+        String html = HTMLUtils.toHTMLString( MessageFormat.format( ABSStrings.CHECK_BOX_RATIO, args ) );
+        System.out.println( "BeakerControlsNode html=" + html );
         hyroniumHydroxideRatioCheckBox = new JCheckBox( html );
         hyroniumHydroxideRatioCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -94,9 +96,11 @@ public abstract class BeakerControlsNode extends PhetPNode {
         addChild( new PSwing( panel ) );
     }
     
-    protected void setDissociatedComponents( String component1, String component2 ) {
-        Object[] args = { component1, component2 };
-        String html = HTMLUtils.toHTMLString( MessageFormat.format( RATIO_PATTERN, args ) );
+    protected void setDissociatedComponents( String symbol1, Color color1, String symbol2, Color color2 ) {
+        String s1 = HTMLUtils.createColoredFragment( symbol1, color1 );
+        String s2 = HTMLUtils.createColoredFragment( symbol2, color2 );
+        Object[] args = { s1, s2 };
+        String html = HTMLUtils.toHTMLString( MessageFormat.format( ABSStrings.CHECK_BOX_RATIO, args ) );
         dissociatedComponentsRatioCheckBox.setText( html );
     }
     

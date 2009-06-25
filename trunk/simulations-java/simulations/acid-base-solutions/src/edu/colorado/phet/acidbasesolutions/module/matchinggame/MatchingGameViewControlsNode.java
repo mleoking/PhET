@@ -17,6 +17,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.acidbasesolutions.ABSColors;
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.ABSSymbols;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
@@ -66,7 +67,9 @@ public class MatchingGameViewControlsNode extends PhetPNode {
             }
         });
         
-        Object[] args = { ABSSymbols.H3O_PLUS, ABSSymbols.OH_MINUS };
+        String stringH3O = HTMLUtils.createColoredFragment( ABSSymbols.H3O_PLUS, ABSColors.H3O_PLUS );
+        String stringOH = HTMLUtils.createColoredFragment( ABSSymbols.OH_MINUS, ABSColors.OH_MINUS );
+        Object[] args = { stringH3O, stringOH };
         String html = HTMLUtils.toHTMLString( MessageFormat.format( ABSStrings.CHECK_BOX_RATIO, args ) );
         hyroniumHydroxideRatioCheckBox = new JCheckBox( html );
         hyroniumHydroxideRatioCheckBox.addActionListener( new ActionListener() {
