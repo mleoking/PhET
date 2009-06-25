@@ -17,11 +17,15 @@ ISSUES:
 - CM: layout change of play area is annoying when switching solutes, due to label changes in beaker's View control panel
 
 DONE:
-6/24/09 color the symbols in the ratio check box labels
+6/25/09 fix random number generation to work with log10 scale of concentration and strength
+6/25/09 add logic for "retry" and "give up" in Matching Game model
+6/25/09 move game logic into Matching Game model
+6/25/09 color the symbols in the ratio check box labels
 6/23/09 add all components to Matching Game canvas, rough layout for development
 6/23/09 View control panel for Matching Game
 6/23/09 add option to disable solute combo box, for Matching Game
 6/23/09 first pass at model for Matching Game
+# 0.01.19
 6/23/09 custom Piccolo node to align baselines of characters in equations
 # 0.01.18
 6/23/09 separate model and view in SoluteComboBox
