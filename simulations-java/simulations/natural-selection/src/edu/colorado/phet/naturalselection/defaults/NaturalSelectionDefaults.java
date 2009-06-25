@@ -17,7 +17,7 @@ public class NaturalSelectionDefaults {
 
     public static double TICKS_PER_YEAR = 150.0;
     public static final double FRENZY_MILLISECONDS = 4000;
-    public static final double MAX_KILL_FRACTION = 0.9;
+    public static final double MAX_KILL_FRACTION = 0.85;
     public static final double FRENZY_TICKS = 15 * CLOCK_FRAME_RATE; // ie X seconds
 
     /* Not intended for instantiation */
