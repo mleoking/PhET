@@ -1,6 +1,8 @@
 package edu.colorado.phet.common.phetcommon.view.util;
 
+import java.awt.Color;
 import java.awt.Font;
+import java.text.MessageFormat;
 import java.util.Locale;
 
 import javax.swing.JEditorPane;
@@ -208,6 +210,20 @@ public class HTMLUtils {
         }
         buffer.append( "</html>" );
         return buffer.toString();
+    }
+    
+    /**
+     * Creates an HMTL fragment is a specified color.
+     * @param fragment
+     * @param color
+     * @return
+     */
+    public static String createColoredFragment( String fragment, Color color ) {
+        String pattern = "<font color=\"#{0}\">{1}</font>";
+        String rgb = Integer.toHexString( color.getRGB() );
+        rgb = rgb.substring( 2, rgb.length() );
+        Object[] args = { rgb, fragment };
+        return MessageFormat.format( pattern, args );
     }
     
     /**
