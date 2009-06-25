@@ -4,7 +4,6 @@ package edu.colorado.phet.acidbasesolutions.module.matchinggame;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Random;
 
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.model.ABSClock;
@@ -44,7 +43,6 @@ public class MatchingGameModel extends ABSModel {
     private int numberOfSolutions;
     private int points;
     private final AqueousSolution solutionLeft, solutionRight;
-    private final Random randomSolute, randomConcentration, randomStrength;
     private final ArrayList<MatchingGameModelListener> listeners;
     private boolean acidBaseGuessed, matchGuessed;
 
@@ -54,9 +52,6 @@ public class MatchingGameModel extends ABSModel {
         points = 0;
         solutionLeft = new AqueousSolution();
         solutionRight = new AqueousSolution();  
-        randomSolute = new Random();
-        randomConcentration = new Random();
-        randomStrength = new Random();
         listeners = new ArrayList<MatchingGameModelListener>();
         acidBaseGuessed = matchGuessed = false;
         reset();
