@@ -31,14 +31,14 @@ public class MatchingGameModel extends ABSModel {
     private static final int POINTS_ACIDBASE_CORRECT_RETRY = 0;
     private static final int POINTS_ACIDBASE_WRONG_FIRST = -1;
     private static final int POINTS_ACIDBASE_WRONG_RETRY = -1;
-    private static final int POINTS_ACID_BASE_GIVEUP = 0;
+    private static final int POINTS_ACID_BASE_GIVEUP = -1;
 
     // points related to "Match the solution" challenge
     private static final int POINTS_MATCH_CORRECT_FIRST = +5;
     private static final int POINTS_MATCH_CORRECT_RETRY = 0;
     private static final int POINTS_MATCH_WRONG_FIRST = -1;
     private static final int POINTS_MATCH_WRONG_RETRY = -1;
-    private static final int POINTS_MATCH_GIVEUP = 0;
+    private static final int POINTS_MATCH_GIVEUP = -1;
 
     private int numberOfSolutions;
     private int points;
@@ -53,11 +53,11 @@ public class MatchingGameModel extends ABSModel {
         solutionLeft = new AqueousSolution();
         solutionRight = new AqueousSolution();  
         listeners = new ArrayList<MatchingGameModelListener>();
-        acidBaseGuessed = matchGuessed = false;
         reset();
     }
     
     public void reset() {
+        acidBaseGuessed = matchGuessed = true; // so this isn't interpretted as "give up"
         setPoints( 0 );
         setNumberOfSolutions( 0 );
         newSolution();
@@ -132,6 +132,7 @@ public class MatchingGameModel extends ABSModel {
         soluteRight.setConcentration( getRandomConcentration() );
         solutionLeft.setSolute( soluteLeft );
         solutionRight.setSolute( soluteRight );
+        setNumberOfSolutions( numberOfSolutions + 1 );
         notifyNewSolution();
     }
     
@@ -247,6 +248,12 @@ public class MatchingGameModel extends ABSModel {
         public void solutionChanged();
         public void pointsChanged( int points );
         public void numberOfSolutionsChanged( int numberOfSolutions );
+    }
+    
+    public static class MatchingGameModelAdapter implements MatchingGameModelListener {
+        public void solutionChanged() {}
+        public void pointsChanged( int points ) {}
+        public void numberOfSolutionsChanged( int numberOfSolutions ) {}
     }
     
     public void addMatchingGameModelListener( MatchingGameModelListener listener ) {

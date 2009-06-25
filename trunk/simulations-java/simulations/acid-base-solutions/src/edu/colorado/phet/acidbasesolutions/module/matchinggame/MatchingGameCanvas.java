@@ -61,7 +61,7 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
         AqueousSolution solutionLeft = model.getSolutionLeft();
         AqueousSolution solutionRight = model.getSolutionRight();
         
-        scoreNode = new MatchingGameScoreNode();
+        scoreNode = new MatchingGameScoreNode( model );
         
         acidBaseQuestion = new MatchingGameQuestionNode( ABSStrings.QUESTION_ACID_OR_BASE );
         matchSolutionQuestion = new MatchingGameQuestionNode( ABSStrings.QUESTION_MATCH_SOLUTION );
@@ -79,15 +79,30 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
         
         acidButton = new PSwingButton( ABSStrings.BUTTON_ACID );
         acidButton.scale( ABSConstants.PSWING_SCALE );
-        //XXX add listener
+        acidButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                boolean success = model.checkAcid();
+                //TODO change state based on success
+            }
+        } );
         
         baseButton = new PSwingButton( ABSStrings.BUTTON_BASE );
         baseButton.scale( ABSConstants.PSWING_SCALE );
-        //XXX add listener
+        baseButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                boolean success = model.checkBase();
+                //TODO change state based on success
+            }
+        } );
 
         checkMatchButton = new PSwingButton( ABSStrings.BUTTON_CHECK_MATCH );
         checkMatchButton.scale( ABSConstants.PSWING_SCALE );
-        //XXX add listener
+        checkMatchButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                boolean success = model.checkMatch();
+                //TODO change state based on success
+            }
+        } );
         
         beakerNodeLeft = new BeakerNode( MatchingGameDefaults.BEAKER_SIZE, solutionLeft );
         beakerNodeLeft.setBeakerLabelVisible( false );

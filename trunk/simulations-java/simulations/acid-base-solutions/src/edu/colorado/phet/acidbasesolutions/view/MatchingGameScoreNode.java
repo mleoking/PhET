@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
+import edu.colorado.phet.acidbasesolutions.module.matchinggame.MatchingGameModel;
+import edu.colorado.phet.acidbasesolutions.module.matchinggame.MatchingGameModel.MatchingGameModelAdapter;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -21,7 +23,7 @@ public class MatchingGameScoreNode extends PComposite {
     private final IntValueNode pointsValue;
     private final IntValueNode solutionsValue;
     
-    public MatchingGameScoreNode() {
+    public MatchingGameScoreNode( final MatchingGameModel model ) {
         
         LabelNode pointsLabel = new LabelNode( ABSStrings.LABEL_POINTS );
         pointsValue = new IntValueNode();
@@ -54,20 +56,25 @@ public class MatchingGameScoreNode extends PComposite {
         yOffset = solutionsLabel.getYOffset();
         solutionsValue.setOffset( xOffset, yOffset );
         
-        reset();
+        model.addMatchingGameModelListener( new MatchingGameModelAdapter() {
+            public void pointsChanged( int points ) {
+                setPoints( points );
+            }
+            public void numberOfSolutionsChanged( int numberOfSolutions ) {
+                setSolutions( numberOfSolutions );
+            }
+        } );
+        
+        setPoints( 0 );
+        setSolutions( 0 );
     }
     
-    public void changePoints( int delta ) {
-        pointsValue.setValue( pointsValue.getValue() + delta );
+    private void setPoints( int points ) {
+        pointsValue.setValue( points );
     }
     
-    public void changeSolutions( int delta ) {
-        solutionsValue.setValue( solutionsValue.getValue() + delta );
-    }
-    
-    public void reset() {
-        solutionsValue.setValue( 0 );
-        pointsValue.setValue( 0 );
+    private void setSolutions( int solutions ) {
+        solutionsValue.setValue( solutions );
     }
     
     private static class LabelNode extends PText {
