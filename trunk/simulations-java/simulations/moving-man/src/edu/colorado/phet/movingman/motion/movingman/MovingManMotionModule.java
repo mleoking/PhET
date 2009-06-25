@@ -74,6 +74,10 @@ public class MovingManMotionModule extends AbstractMotionModule implements Arrow
         movingManMotionModel.setBoundaryOpen( b );
     }
 
+    public boolean isBoundaryOpen(){
+        return movingManMotionModel.isBoundaryOpen();
+    }
+
     public TimeSeriesModel getTimeSeriesModel() {
         return movingManMotionModel.getTimeSeriesModel();
     }
