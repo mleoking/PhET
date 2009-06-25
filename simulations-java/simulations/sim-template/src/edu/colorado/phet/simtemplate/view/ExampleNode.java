@@ -7,6 +7,8 @@ import java.awt.Color;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.simtemplate.model.ExampleModelElement;
+import edu.colorado.phet.simtemplate.model.ExampleModelElement.ExampleModelElementListener;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
@@ -21,18 +23,33 @@ public class ExampleNode extends PPath {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public ExampleNode() {
+    public ExampleNode( final ExampleModelElement modelElement ) {
         super();
         setStroke( new BasicStroke( 1f ) );
         setStrokePaint( Color.BLACK );
         setPaint( Color.ORANGE );
+        
+        modelElement.addExampleModelElementListener( new ExampleModelElementListener() {
+
+            public void orientationChanged() {
+                setOrientation( modelElement.getOrientation() );
+            }
+
+            public void positionChanged() {
+                setPosition( modelElement.getPositionReference() );
+            }
+        });
+        
+        setSize( modelElement.getWidth(), modelElement.getHeight() );
+        setPosition( modelElement.getPositionReference() );
+        setOrientation( modelElement.getOrientation() );
     }
     
     //----------------------------------------------------------------------------
     // Setters and getters
     //----------------------------------------------------------------------------
 
-    public void setSize( double width, double height ) {
+    private void setSize( double width, double height ) {
         // pointer with origin at geometric center
         final float w = (float) width;
         final float h = (float) height;
@@ -46,11 +63,11 @@ public class ExampleNode extends PPath {
         setPathTo( path );
     }
     
-    public void setPosition( Point2D position ) {
+    private void setPosition( Point2D position ) {
         setOffset( position );
     }
 
-    public void setOrientation( double orientation ) {
+    private void setOrientation( double orientation ) {
         setRotation( orientation );
     }
 }

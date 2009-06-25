@@ -31,7 +31,7 @@ public class ExampleControlPanel extends ControlPanel {
      * @param module
      * @param parentFrame parent frame, for creating dialogs
      */
-    public ExampleControlPanel( ExampleModule module, Frame parentFrame ) {
+    public ExampleControlPanel( ExampleModule module, Frame parentFrame, ExampleModel model ) {
         super();
         
         // Set the control panel's minimum width.
@@ -39,7 +39,7 @@ public class ExampleControlPanel extends ControlPanel {
         setMinimumWidth( minimumWidth );
         
         // Create sub-panels
-        _exampleSubPanel = new ExampleSubPanel();
+        _exampleSubPanel = new ExampleSubPanel( model.getExampleModelElement() );
         
         // Layout
         {
