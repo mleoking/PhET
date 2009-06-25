@@ -1,3 +1,5 @@
+# 00.52.00 (32717) Jun 25, 2009
+6/25/09 Meta xml deployed with translation deploy
 # 00.51.01 (32489) Jun 15, 2009
 6/15/09 Test GUI tests for build-tools
 # 00.51.00 (32304) Jun 4, 2009
