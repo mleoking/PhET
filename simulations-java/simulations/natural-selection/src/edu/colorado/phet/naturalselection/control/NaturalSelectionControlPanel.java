@@ -30,12 +30,13 @@ public class NaturalSelectionControlPanel extends JPanel {
 
     // subpanels
     public ClimatePanel climatePanel;
-    private JPanel selectionPanel;
+    public SelectionPanel selectionPanel;
+    //private JPanel selectionPanel;
 
     // buttons
-    public JRadioButton wolvesButton;
-    public JRadioButton foodButton;
-    public JRadioButton noneButton;
+    //public JRadioButton wolvesButton;
+    //public JRadioButton foodButton;
+    //public JRadioButton noneButton;
     public JButton resetAllButton;
     public JButton showGenerationChartButton;
 
@@ -59,9 +60,10 @@ public class NaturalSelectionControlPanel extends JPanel {
 
         // build all of the panels
         climatePanel = new ClimatePanel( this.model );
+        selectionPanel = new SelectionPanel( this.model );
         PiccoloClockControlPanel clockControlPanel = new PiccoloClockControlPanel( this.module.getClock() );
         clockControlPanel.addBetweenTimeDisplayAndButtons( new GenerationProgressPanel( model ) );
-        createSelectionPanel();
+        //createSelectionPanel();
         createRightPanel();
         leftPanel = new LeftPanel( this.model );
         //generationCanvas = new GenerationChartCanvas( this.model );
@@ -119,14 +121,15 @@ public class NaturalSelectionControlPanel extends JPanel {
         setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
         rightPanel.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
         selectionPanel.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
-        wolvesButton.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
-        foodButton.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
-        noneButton.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
+        //wolvesButton.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
+        //foodButton.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
+        //noneButton.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
     }
 
     /**
      * Created the panel that allows the user to choose which selection factor they want
      */
+    /*
     public void createSelectionPanel() {
         selectionPanel = new JPanel();
         selectionPanel.setLayout( new BoxLayout( selectionPanel, BoxLayout.Y_AXIS ) );
@@ -145,8 +148,11 @@ public class NaturalSelectionControlPanel extends JPanel {
 
         selectDefaultSelectionFactor();
     }
+    */
 
     public void selectDefaultSelectionFactor() {
+        selectionPanel.selectDefaultSelectionFactor();
+        /*
         int selection = NaturalSelectionDefaults.DEFAULT_SELECTION_FACTOR;
         switch( selection ) {
             case NaturalSelectionModel.SELECTION_NONE:
@@ -159,6 +165,7 @@ public class NaturalSelectionControlPanel extends JPanel {
                 wolvesButton.setSelected( true );
                 break;
         }
+        */
     }
 
     /**

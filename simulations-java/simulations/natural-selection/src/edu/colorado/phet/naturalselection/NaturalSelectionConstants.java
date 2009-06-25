@@ -86,9 +86,13 @@ public class NaturalSelectionConstants {
     public static final double SCALED_BUNNY_WIDTH = FULL_BUNNY_WIDTH * BUNNY_SCALE;
 
     public static final double SCALED_BUNNY_HEIGHT = FULL_BUNNY_WIDTH * BUNNY_SCALE;
-    public static final String IMAGE_EQUATOR_ENVIRONMENT = "equator-environment.png";
 
+    public static final String IMAGE_EQUATOR_ENVIRONMENT = "equator-environment.png";
     public static final String IMAGE_ARCTIC_ENVIRONMENT = "arctic-environment.png";
+
+    public static final String IMAGE_SELECTION_WOLVES = "selection_wolves.png";
+    public static final String IMAGE_SELECTION_FOOD = "selection_food.png";
+
     public static final String IMAGE_BIG_VANILLA_BUNNY = "big_bunny.png";
     public static final String IMAGE_BUNNY_COLOR_WHITE = "bunny_color_white.png";
     public static final String IMAGE_BUNNY_COLOR_BROWN = "bunny_color_brown.png";
