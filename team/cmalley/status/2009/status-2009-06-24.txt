@@ -1,0 +1,36 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: June 18-24, 2009 (Thu-Wed)
+
+ACCOMPLISHMENTS:
+
+  acid-base-solutions:
+  - design team meeting to resolve open issues
+  - completed all change requests related to first 2 tabs
+  - align baselines of symbols in equations
+  - started on "Matching Game" tab
+  - published 0.01.12 through 0.01.19
+  
+  common:
+  - fix "powers of ten" formatting classes so that they all render exponents at the same size
+  
+  misc:
+  - status meeting
+  - resolved issue with Java Web Start in Java 1.5.0_19 for Mac OS 10.5
+  - dev discussion with John B.
+  
+WHAT'S NEXT:
+ 
+  - acid-base-solutions implementation
+  - Translation Utility enhancements related to KSU
+  
+ISSUES:
+
+  - none
+  
+DATES UNAVAILABLE:
+
+   July 25 - August 9
+  
+--
