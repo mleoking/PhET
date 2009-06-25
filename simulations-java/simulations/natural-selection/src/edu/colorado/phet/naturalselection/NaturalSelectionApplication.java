@@ -23,11 +23,6 @@ import edu.colorado.phet.naturalselection.module.NaturalSelectionModule;
 import edu.colorado.phet.naturalselection.persistence.ExampleConfig;
 import edu.colorado.phet.naturalselection.persistence.NaturalSelectionConfig;
 
-/**
- * SimTemplateApplication is the main application for this simulation.
- *
- * @author Chris Malley (cmalley@pixelzoom.com)
- */
 public class NaturalSelectionApplication extends PiccoloPhetApplication {
 
     //----------------------------------------------------------------------------
@@ -211,18 +206,8 @@ public class NaturalSelectionApplication extends PiccoloPhetApplication {
          * If you want to customize your application (look-&-feel, window size, etc) 
          * create your own PhetApplicationConfig and use one of the other launchSim methods
          */
-        testReflection();
 
         new PhetApplicationLauncher().launchSim( args, NaturalSelectionConstants.PROJECT_NAME, NaturalSelectionApplication.class );
     }
 
-    private static void testReflection() {
-        try {
-            Class c = Class.forName( "edu.colorado.phet.naturalselection.NaturalSelectionApplication" );
-            System.out.println( "reflection gave: " + c.getMethods().length + " methods" );
-        }
-        catch( Throwable t ) {
-            t.printStackTrace();
-        }
-    }
 }
