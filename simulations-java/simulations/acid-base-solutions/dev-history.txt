@@ -16,6 +16,8 @@ ISSUES:
 - CM: layout change of play area is annoying when switching solutes, due to label changes in beaker's View control panel
 
 DONE:
+6/25/09 wire up answer buttons to model
+6/25/09 update score display when model changes
 6/25/09 fix random number generation to work with log10 scale of concentration and strength
 6/25/09 add logic for "retry" and "give up" in Matching Game model
 6/25/09 Reset All for Matching Game
