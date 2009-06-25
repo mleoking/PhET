@@ -25,7 +25,7 @@ public class ExampleModelElement extends ClockAdapter {
     private Point2D _position;
     private double _orientation;
     
-    private ArrayList _listeners;
+    private final ArrayList<ExampleModelElementListener> _listeners;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -37,7 +37,7 @@ public class ExampleModelElement extends ClockAdapter {
         _height = height;
         _position = new Point2D.Double( position.getX(), position.getY() );
         _orientation = orientation;
-        _listeners = new ArrayList();
+        _listeners = new ArrayList<ExampleModelElementListener>();
     }
 
     //----------------------------------------------------------------------------
@@ -83,16 +83,16 @@ public class ExampleModelElement extends ClockAdapter {
     //----------------------------------------------------------------------------
 
     private void notifyPositionChanged() {
-        Iterator i = _listeners.iterator();
+        Iterator<ExampleModelElementListener> i = _listeners.iterator();
         while ( i.hasNext() ) {
-            ( (ExampleModelElementListener) i.next() ).positionChanged();
+            i.next().positionChanged();
         }
     }
     
     private void notifyOrientationChanged() {
-        Iterator i = _listeners.iterator();
+        Iterator<ExampleModelElementListener> i = _listeners.iterator();
         while ( i.hasNext() ) {
-            ( (ExampleModelElementListener) i.next() ).orientationChanged();
+            i.next().orientationChanged();
         }
     }
     
