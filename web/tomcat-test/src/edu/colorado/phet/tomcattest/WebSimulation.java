@@ -115,12 +115,14 @@ public class WebSimulation {
 
     public String getRunUrl() {
         String str = "/sims/" + getProject() + "/" + getSimulation() + "_" + getLocaleString();
-        if( isJava() ) {
+        if ( isJava() ) {
             str += ".jnlp";
-        } else if( isFlash() ) {
+        }
+        else if ( isFlash() ) {
             str += ".html";
-        } else {
-            throw new RuntimeException( "Handle more than java and flash");
+        }
+        else {
+            throw new RuntimeException( "Handle more than java and flash" );
         }
         return str;
     }
@@ -157,7 +159,7 @@ public class WebSimulation {
                     if ( b.getLocale().equals( locale ) ) {
                         return 1;
                     }
-                    return a.getLocaleString().compareTo( b.getLocaleString() );
+                    return a.getLocale().getDisplayName( locale ).compareToIgnoreCase( b.getLocale().getDisplayName( locale ) );
                 }
 
                 String aGlobalTitle = map.get( a.getSimulation() );
@@ -176,7 +178,7 @@ public class WebSimulation {
                             bGlobalTitle = bGlobalTitle.substring( ignoreWord.length() + 1 );
                         }
                     }
-                    return aGlobalTitle.compareTo( bGlobalTitle );
+                    return aGlobalTitle.compareToIgnoreCase( bGlobalTitle );
                 }
                 else if ( aGlobal ) {
                     return -1;
@@ -185,7 +187,7 @@ public class WebSimulation {
                     return 1;
                 }
                 else {
-                    return a.getSimulation().compareTo( b.getSimulation() );
+                    return a.getSimulation().compareToIgnoreCase( b.getSimulation() );
                 }
             }
         } );

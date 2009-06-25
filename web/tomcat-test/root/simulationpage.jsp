@@ -3,12 +3,31 @@
 <%@ page import="edu.colorado.phet.common.phetcommon.util.LocaleUtils" %>
 <%@ page import="edu.colorado.phet.tomcattest.WebSimulation" %>
 <%@ page import="edu.colorado.phet.tomcattest.util.SqlUtils" %>
+<%@ page import="edu.colorado.phet.tomcattest.util.WebStrings" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    Locale myLocale = LocaleUtils.stringToLocale( "en" );
+    System.out.println( "Displaying: " + request.getRequestURI() );
+
+
+    Locale detectedLocale = (Locale) request.getAttribute( "locale" );
+    String detectedLocaleString = null;
+    if ( detectedLocale != null ) {
+        detectedLocaleString = LocaleUtils.localeToString( detectedLocale );
+    }
+
+    Locale myLocale = detectedLocale;
     String simulationName = request.getParameter( "simulationName" );
+
     List<WebSimulation> simulations = SqlUtils.getSimulationsMatching( application, null, simulationName, null );
     WebSimulation.orderSimulations( simulations, myLocale );
+
+    WebStrings strings = new WebStrings( application, myLocale );
+
+    String htmlTags = "";
+    if( myLocale.getLanguage().equals( "ar" ) ) {
+        htmlTags = " dir=\"rtl\"";
+    }
+
     if ( simulations.isEmpty() ) {
 %>
 An error has occurred!
@@ -19,7 +38,7 @@ else {
 %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<html<%= htmlTags %>>
 <head>
     <title><%= simulation.getTitle() %> <%= simulation.getVersionString() %>
     </title>
@@ -41,21 +60,21 @@ else {
         <%= simulation.getDescription() %>
     </div>
 
-    <h4>Translated versions of this sim:</h4>
+    <h4><%= strings.get( "simulation.translated-versions" )%></h4>
 
     <table>
         <%
             for ( int i = 0; i < simulations.size(); i++ ) {
                 WebSimulation translatedSim = simulations.get( i );
                 Locale tLocale = translatedSim.getLocale();
-                if( tLocale == myLocale ) {
+                if ( tLocale.equals( myLocale ) ) {
                     continue;
                 }
         %>
         <tr>
             <td>
                 <a href="<%= translatedSim.getRunUrl() %>">
-                    <%= tLocale.getDisplayName()%>
+                    <%= tLocale.getDisplayName( myLocale )%>
                 </a>
             </td>
             <td>
@@ -69,6 +88,11 @@ else {
             }
         %>
     </table>
+    <%--
+    <br>
+    Debugging:<br>
+    Locale: <%= detectedLocaleString %><br>
+    --%>
 </div>
 </body>
 </html>
