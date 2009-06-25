@@ -62,9 +62,6 @@ public class DecayRatesCanvas extends PhetPCanvas {
     // Constants that control the appearance of the canvas.
     private static final Color BUCKET_AND_BUTTON_COLOR = new Color(90, 180, 225);
     
-    // Constant that controls how often the chart is updated.
-	private static final int CHART_REFRESH_COUNT = 2;
-
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -77,7 +74,6 @@ public class DecayRatesCanvas extends PhetPCanvas {
 	private BucketOfNucleiNode _bucketNode;
     private AutoPressGradientButtonNode _resetButtonNode;
 	private PPath _holdingAreaRect;
-	private int _chartRefreshCounter;
     
     //----------------------------------------------------------------------------
     // Builder + Constructor
@@ -89,10 +85,7 @@ public class DecayRatesCanvas extends PhetPCanvas {
     	
     	_model.getClock().addClockListener(new ClockAdapter(){
     	    public void clockTicked( ClockEvent clockEvent ) {
-    	    	if (_model.getNumActiveNuclei() > 0){
-    	    		// Update the chart.
-    	    		updateChartData(clockEvent);
-    	    	}
+   	    		updateChartData(clockEvent);
     	    }
     	});
     	
@@ -259,7 +252,7 @@ public class DecayRatesCanvas extends PhetPCanvas {
 		
 		super.update();
 		
-		_proportionsChart.componentResized(new Rectangle2D.Double( 0, 0, getWorldSize().getWidth() * 0.98, 
+		_proportionsChart.componentResized(new Rectangle2D.Double( 0, 0, getWorldSize().getWidth() * 1.00, 
 				getWorldSize().getHeight() * PROPORTION_CHART_FRACTION ) );
 		PBounds propChartBounds = _proportionsChart.getFullBoundsReference();
 		_proportionsChart.setOffset( -propChartBounds.width / 2, 
@@ -407,12 +400,7 @@ public class DecayRatesCanvas extends PhetPCanvas {
 	}
 
 	private void updateChartData(ClockEvent clockEvent) {
-		// Add a data point to the chart, but don't do it every clock tick
-		// or there will be too many data points.
-		_chartRefreshCounter++;
-		if (_chartRefreshCounter % CHART_REFRESH_COUNT == 0){
-			_proportionsChart.addDataPoint(_model.convertSimTimeToAdjustedTime(clockEvent.getSimulationTime()),
-					_model.getNumActiveNuclei(), _model.getNumDecayedNuclei());
-		}
+		_proportionsChart.addDataPoint(_model.convertSimTimeToAdjustedTime(clockEvent.getSimulationTime()),
+				_model.getNumActiveNuclei(), _model.getNumDecayedNuclei());
 	}
 }
