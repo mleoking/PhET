@@ -130,12 +130,6 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
         addNode( viewControlsNode );
         
         updateView();
-        reset();
-    }
-    
-    public void reset() {
-        scoreNode.reset();
-        setModeAcidBaseQuestion();
     }
     
     public void setModeAcidBaseQuestion() {

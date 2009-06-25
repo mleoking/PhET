@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.acidbasesolutions.module.matchinggame;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
@@ -21,17 +23,33 @@ public class MatchingGameModel extends ABSModel {
     
     private static final double CONCENTRATION_CLOSENESS = 0.15; // percent, 0-1
     private static final double STRENGTH_CLOSENESS = 0.15; // percent, 0-1
+    
+    private static final int POINTS_ACIDBASE_CORRECT = 1;
+    private static final int POINTS_ACIDBASE_WRONG = -1;
+    private static final int POINTS_ACID_BASE_GIVEUP = 0;
 
+    private static final int POINTS_MATCH_CORRECT = 5;
+    private static final int POINTS_MATCH_WRONG = 1;
+    private static final int POINTS_MATCH_GIVEUP = 0;
+
+    private int numberOfSolutions;
+    private int points;
     private final AqueousSolution solutionLeft, solutionRight;
     private final Random randomSolute, randomConcentration, randomStrength;
+    private final ArrayList<MatchingGameModelListener> listeners;
+    private boolean acidBaseGuessed, matchGuessed;
 
     public MatchingGameModel( ABSClock clock ) {
         super( clock );
+        numberOfSolutions = 0;
+        points = 0;
         solutionLeft = new AqueousSolution();
         solutionRight = new AqueousSolution();  
         randomSolute = new Random();
         randomConcentration = new Random();
         randomStrength = new Random();
+        listeners = new ArrayList<MatchingGameModelListener>();
+        acidBaseGuessed = matchGuessed = false;
         newSolution();
     }
 
@@ -43,12 +61,40 @@ public class MatchingGameModel extends ABSModel {
         return solutionRight;
     }
     
+    public void reset() {
+        setPoints( 0 );
+        setNumberOfSolutions( 0 );
+        newSolution();
+    }
+    
+    private void setNumberOfSolutions( int numberOfSolutions ) {
+        if ( numberOfSolutions != this.numberOfSolutions ) {
+            this.numberOfSolutions = numberOfSolutions;
+            notifyNumberOfSolutionsChanged( numberOfSolutions );
+        }
+    }
+    
+    public int getNumberOfSolutions() {
+        return numberOfSolutions;
+    }
+    
     /**
-     * Generates random solutions.
-     * The left and right solutions must be the same type (either Custom Acid or Custom Base),
-     * but their concentrations and strengths will be different.
+     * Generates the next solution to be matched.
+     * The left and right solutions will be the same type (either Custom Acid or Custom Base),
+     * but their concentrations and strengths initially will be different.
      */
     public void newSolution() {
+        
+        // deduct points for giving up
+        if ( !acidBaseGuessed ) {
+            changePoints( POINTS_ACID_BASE_GIVEUP );
+        }
+        else if ( !matchGuessed ) {
+            changePoints( POINTS_MATCH_GIVEUP );
+        }
+        acidBaseGuessed = matchGuessed = false;
+        
+        // generate new solutions
         Solute soluteLeft = null;
         Solute soluteRight = null;
         if ( randomSolute.nextBoolean() ) {
@@ -63,6 +109,7 @@ public class MatchingGameModel extends ABSModel {
         soluteRight.setConcentration( getRandomConcentration() );
         solutionLeft.setSolute( soluteLeft );
         solutionRight.setSolute( soluteRight );
+        notifyNewSolution();
     }
     
     private double getRandomConcentration() {
@@ -75,20 +122,54 @@ public class MatchingGameModel extends ABSModel {
         return ABSConstants.CUSTOM_STRENGTH_RANGE.getMin() + ( d * ABSConstants.CUSTOM_STRENGTH_RANGE.getLength() );
     }
     
-    /**
-     * Are we trying to match an acid?
-     * @return
-     */
-    public boolean isAcid() {
-        return solutionLeft.isAcidic();
+    private void changePoints( int delta ) {
+        if ( delta != 0 ) {
+            setPoints( getPoints() + delta );
+        }
+    }
+    
+    private void setPoints( int points ) {
+        if ( points != this.points ) {
+            this.points = points;
+            notifyPointsChanged( points );
+        }
+    }
+    
+    public int getPoints() {
+        return points;
     }
     
     /**
-     * Are we trying to match a base?
+     * Checks if the solution on the left is an acid.
+     * <p>
+     * If this is our first guess and we're correct, we get points.
+     * If it's not our first guess and we're correct, we get no points.
+     * If the guess is wrong, we lose points.
      * @return
      */
-    public boolean isBase() {
-        return solutionLeft.isBasic();
+    public boolean checkAcid() {
+        boolean success = false;
+        if ( solutionLeft.isAcidic() ) {
+            success = true;
+            if ( !acidBaseGuessed ) {
+                changePoints( POINTS_ACIDBASE_CORRECT );
+            }
+        }
+        else {
+            success = false;
+            changePoints( POINTS_ACIDBASE_WRONG );
+        }
+        acidBaseGuessed = true;
+        return success;
+    }
+    
+    /**
+     * Checks it the solution on the left is a base.
+     * See checkAcid.
+     * @return
+     */
+    public boolean checkBase() {
+        return !checkAcid();
     }
     
     /**
@@ -96,11 +177,27 @@ public class MatchingGameModel extends ABSModel {
      * Solutions match is their types are the same, and the right solution (the guess)
      * has concentration and strength that is "sufficiently close" to the left solution
      * (the randomly generated solution.)
+     * <p>
+     * If this is our first guess and we're correct, we get points.
+     * If it's not our first guess and we're correct, we get no points.
+     * If the guess is wrong, we lose points.
      * 
      * @return true or false
      */
     public boolean checkMatch() {
-        return solutesMatch() && concentrationsMatch() && strengthsMatch();
+        boolean success = false;
+        if ( solutesMatch() && concentrationsMatch() && strengthsMatch() ) { 
+            success = true;
+            if ( !matchGuessed ) {
+                changePoints( POINTS_MATCH_CORRECT );
+            }
+        }
+        else {
+            success = false;
+            changePoints( POINTS_MATCH_WRONG );
+        }
+        matchGuessed = true;
+        return success;
     }
     
     /*
@@ -129,4 +226,41 @@ public class MatchingGameModel extends ABSModel {
         final double rightK = solutionRight.getSolute().getStrength();
         return ( Math.abs( leftK - rightK ) / leftK ) <= STRENGTH_CLOSENESS;
     }
+    
+    public interface MatchingGameModelListener {
+        public void newSolution();
+        public void pointChanged( int points );
+        public void numberOfSolutionsChanged( int numberOfSolutions );
+    }
+    
+    public void addMatchingGameModelListener( MatchingGameModelListener listener ) {
+        listeners.add( listener );
+    }
+    
+    public void removeMatchingGameModelListener( MatchingGameModelListener listener ) {
+        listeners.remove( listener );
+    }
+    
+    private void notifyNewSolution() {
+        Iterator<MatchingGameModelListener> i = listeners.iterator();
+        while ( i.hasNext() ) {
+            i.next().newSolution();
+        }
+    }
+    
+    private void notifyPointsChanged( int points ) {
+        Iterator<MatchingGameModelListener> i = listeners.iterator();
+        while ( i.hasNext() ) {
+            i.next().pointChanged( points );
+        }
+    }
+    
+    private void notifyNumberOfSolutionsChanged( int numberOfSolutions ) {
+        Iterator<MatchingGameModelListener> i = listeners.iterator();
+        while ( i.hasNext() ) {
+            i.next().numberOfSolutionsChanged( numberOfSolutions );
+        }
+    }
+    
+    
 }
