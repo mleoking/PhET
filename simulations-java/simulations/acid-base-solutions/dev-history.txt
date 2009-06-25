@@ -5,9 +5,8 @@
 TODO:
 - state machine for Matching Game
 - group nodes together in MatchingGameCanvas so that they're easy to show/hide at different stages in the game
-- Reset All for Matching Game
-- if a check box has an HTML label, disabling it doesn't grey out the label
 - redo layout of Matching Game canvas
+- if a check box has an HTML label, disabling it doesn't grey out the label
 - first time a module is activated, canvas updateLayout is called twice (AncestorListener+ComponentListener), other sims only call once (AncestorListener)
 - review remaining instanceof comparisons
 - auto layout of symbol legend descriptions, so that we don't need to localize HTML markup
@@ -19,6 +18,7 @@ ISSUES:
 DONE:
 6/25/09 fix random number generation to work with log10 scale of concentration and strength
 6/25/09 add logic for "retry" and "give up" in Matching Game model
+6/25/09 Reset All for Matching Game
 6/25/09 move game logic into Matching Game model
 6/25/09 color the symbols in the ratio check box labels
 6/23/09 add all components to Matching Game canvas, rough layout for development
