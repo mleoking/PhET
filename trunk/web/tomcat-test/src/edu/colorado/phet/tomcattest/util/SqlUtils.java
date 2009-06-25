@@ -18,6 +18,7 @@ public class SqlUtils {
 
     private static final String ALL_SIMS_QUERY = "SELECT project.name as project, simulation.name as simulation, project.sim_type as sim_type, localized_simulation.title as title, localized_simulation.description as description, localized_simulation.locale as locale FROM project, simulation, localized_simulation WHERE (project.id = simulation.project AND simulation.id = localized_simulation.simulation);";
     private static final String SINGLE_SIM_QUERY = "SELECT project.name as project, simulation.name as simulation, project.sim_type as sim_type, localized_simulation.title as title, localized_simulation.description as description, localized_simulation.locale as locale FROM project, simulation, localized_simulation WHERE (project.id = simulation.project AND simulation.id = localized_simulation.simulation AND project.name = ? AND simulation.name = ? AND localized_simulation.locale = ?);";
+    private static final String NOT_TRANSLATED_SIM_QUERY = "SELECT project.name as project, simulation.name as simulation, project.sim_type as sim_type, localized_simulation.title as title, localized_simulation.description as description, localized_simulation.locale as locale FROM (SELECT simulation.name as simulation FROM simulation LEFT JOIN localized_simulation ON (localized_simulation.simulation = simulation.id AND localized_simulation.locale = ?) WHERE (localized_simulation.locale IS NULL)) as x, project, simulation, localized_simulation WHERE (project.id = simulation.project AND simulation.id = localized_simulation.simulation AND x.simulation = simulation.name AND localized_simulation.locale = 'en');";
 
     private static Connection getConnection( ServletContext context ) throws IOException, SQLException, ClassNotFoundException {
         Properties props = new Properties();
@@ -42,6 +43,29 @@ public class SqlUtils {
         try {
             Connection con = getConnection( context );
             PreparedStatement stmt = con.prepareStatement( ALL_SIMS_QUERY );
+            ResultSet resultSet = stmt.executeQuery();
+            while ( resultSet.next() ) {
+                ret.add( new WebSimulation( getSimBase( context ), new SimulationSQL( resultSet ) ) );
+            }
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+        catch( SQLException e ) {
+            e.printStackTrace();
+        }
+        catch( ClassNotFoundException e ) {
+            e.printStackTrace();
+        }
+        return ret;
+    }
+
+    public static List<WebSimulation> getAllSimulationsWithoutLocale( ServletContext context, Locale locale ) {
+        List<WebSimulation> ret = new LinkedList<WebSimulation>();
+        try {
+            Connection con = getConnection( context );
+            PreparedStatement stmt = con.prepareStatement( NOT_TRANSLATED_SIM_QUERY );
+            stmt.setString( 1, LocaleUtils.localeToString( locale ) );
             ResultSet resultSet = stmt.executeQuery();
             while ( resultSet.next() ) {
                 ret.add( new WebSimulation( getSimBase( context ), new SimulationSQL( resultSet ) ) );

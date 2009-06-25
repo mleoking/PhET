@@ -6,6 +6,16 @@
 
 <urlrewrite>
     <rule>
+        <from>.*</from>
+        <run class="edu.colorado.phet.tomcattest.filters.LocalizationHandler">
+            
+        </run>
+    </rule>
+    <rule>
+        <from>^/[a-zA-Z]{2}(_[a-zA-Z]{2})?/(.*)$</from>
+        <to>/$2</to>
+    </rule>
+    <rule>
         <from>^/simulation/([^/]*)$</from>
         <to>/simulationpage.jsp?simulationName=$1</to>
     </rule>
