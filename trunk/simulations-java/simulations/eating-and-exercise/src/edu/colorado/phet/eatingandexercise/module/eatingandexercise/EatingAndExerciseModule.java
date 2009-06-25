@@ -25,7 +25,6 @@ import edu.colorado.phet.eatingandexercise.control.ChartNode;
 import edu.colorado.phet.eatingandexercise.model.CalorieSet;
 import edu.colorado.phet.eatingandexercise.model.EatingAndExerciseUnits;
 import edu.colorado.phet.eatingandexercise.model.Human;
-import edu.colorado.phet.eatingandexercise.persistence.EatingAndExerciseConfig;
 
 public class EatingAndExerciseModule extends PiccoloModule {
 
@@ -202,29 +201,6 @@ public class EatingAndExerciseModule extends PiccoloModule {
         if ( getDefaultHelpPane().getLayer().indexOfChild( motionHelpBalloon ) >= 0 ) {
             getDefaultHelpPane().remove( motionHelpBalloon );
         }
-    }
-
-    //----------------------------------------------------------------------------
-    // Persistence
-    //----------------------------------------------------------------------------
-
-    public EatingAndExerciseConfig save() {
-
-        EatingAndExerciseConfig config = new EatingAndExerciseConfig();
-
-        // Module
-        config.setActive( isActive() );
-
-        return config;
-    }
-
-    public void load( EatingAndExerciseConfig config ) {
-
-        // Module
-        if ( config.isActive() ) {
-            EatingAndExerciseApplication.instance().setActiveModule( this );
-        }
-
     }
 
     public Human getHuman() {
