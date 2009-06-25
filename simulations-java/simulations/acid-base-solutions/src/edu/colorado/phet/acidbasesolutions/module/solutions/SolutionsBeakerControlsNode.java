@@ -71,6 +71,6 @@ public class SolutionsBeakerControlsNode extends BeakerControlsNode {
     private void updateDisassociatedComponentsCheckBox() {
         Solute solute = solution.getSolute();
         setDissociatedComponentsCheckBoxVisible( !solution.isPureWater() );
-        setDissociatedComponents( solute.getSymbol(), solute.getConjugateSymbol() );
+        setDissociatedComponents( solute.getSymbol(), solute.getColor(), solute.getConjugateSymbol(), solute.getConjugateColor() );
     }
 }

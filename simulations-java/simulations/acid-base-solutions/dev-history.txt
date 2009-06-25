@@ -3,7 +3,6 @@
 ==================================================================================
 
 TODO:
-- color the symbols in the ratio check box labels, especially important in Matching Game
 - state machine for Matching Game
 - group nodes together in MatchingGameCanvas so that they're easy to show/hide at different stages in the game
 - Reset All for Matching Game
@@ -18,6 +17,7 @@ ISSUES:
 - CM: layout change of play area is annoying when switching solutes, due to label changes in beaker's View control panel
 
 DONE:
+6/24/09 color the symbols in the ratio check box labels
 6/23/09 add all components to Matching Game canvas, rough layout for development
 6/23/09 View control panel for Matching Game
 6/23/09 add option to disable solute combo box, for Matching Game
