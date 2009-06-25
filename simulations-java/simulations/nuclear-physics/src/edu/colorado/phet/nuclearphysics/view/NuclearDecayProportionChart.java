@@ -91,7 +91,7 @@ public class NuclearDecayProportionChart extends PNode {
     private MovablePercentIndicator _movablePercentIndicator;
 
     // Decay events that are represented on the graph.
-    ArrayList _decayEvents = new ArrayList();
+    ArrayList<Point2D> _decayEvents = new ArrayList<Point2D>();
     
     // Parent node that will be non-pickable and will contain all of the
     // non-interactive portions of the chart.
@@ -105,6 +105,11 @@ public class NuclearDecayProportionChart extends PNode {
     
     // Rect that is used to keep track of the overall usable area for the chart.
     Rectangle2D _usableAreaRect = new Rectangle2D.Double();
+    
+    // Boolean that controls whether the chart is drawn such that each new
+    // data point causes a "square" look (as opposed to there being a straight
+    // line from each data point to the next).
+    boolean _squareMode = false;
 
     //------------------------------------------------------------------------
     // Constructor
@@ -213,6 +218,10 @@ public class NuclearDecayProportionChart extends PNode {
 		
     	clear();
     	updateLayout();
+	}
+	
+	public void setSquareModeEnabled(boolean enabled){
+		_squareMode = enabled;
 	}
 	
 	/**
@@ -385,6 +394,13 @@ public class NuclearDecayProportionChart extends PNode {
 		}
 		
 		// Update the graph.
+		if (_squareMode && _decayEvents.size() > 0){
+			// Add an extra data point to made the graph have more of a square
+			// appearance.  This was requested by Mike D and Kathy P.
+			Point2D previousDecayEvent = _decayEvents.get(_decayEvents.size() - 1);
+			Point2D fakeDecayEventForCorner = new Point2D.Double( time, previousDecayEvent.getY());
+			_graph.graphDecayEvent(fakeDecayEventForCorner);
+		}
     	Point2D decayEvent = new Point2D.Double( time, 100 * (double)numUndecayed/(double)(numDecayed + numUndecayed));
 		_decayEvents.add( decayEvent );
 		_graph.graphDecayEvent( decayEvent );

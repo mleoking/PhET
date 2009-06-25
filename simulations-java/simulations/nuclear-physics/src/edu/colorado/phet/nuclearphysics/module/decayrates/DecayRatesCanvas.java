@@ -85,7 +85,7 @@ public class DecayRatesCanvas extends PhetPCanvas {
     	
     	_model.getClock().addClockListener(new ClockAdapter(){
     	    public void clockTicked( ClockEvent clockEvent ) {
-   	    		updateChartData(clockEvent);
+   	    		updateChartData();
     	    }
     	});
     	
@@ -153,7 +153,7 @@ public class DecayRatesCanvas extends PhetPCanvas {
         	}
         });
         
-        // Add the button for resetting the nuclei to the canvas.
+        // Add a button to the canvas for resetting the nuclei.
         _resetButtonNode = new AutoPressGradientButtonNode(NuclearPhysicsStrings.RESET_ALL_NUCLEI, 22, 
         		BUCKET_AND_BUTTON_COLOR);
         _resetButtonNode.setOffset(_bucketNode.getFullBoundsReference().getCenterX()
@@ -166,6 +166,7 @@ public class DecayRatesCanvas extends PhetPCanvas {
         		_model.getClock().resetSimulationTime();
         		_model.resetActiveAndDecayedNuclei();
         		_proportionsChart.clear();
+        		updateChartData();
             }
         });
         
@@ -173,6 +174,7 @@ public class DecayRatesCanvas extends PhetPCanvas {
         // pre- and post-decay nuclei.
         _proportionsChart = new NuclearDecayProportionChart(true, false, true);
         _proportionsChart.setDisplayInfoForNucleusType(_model.getNucleusType());
+        _proportionsChart.setSquareModeEnabled(true);
         _chartLayer.addChild(_proportionsChart);
         
         // Register with the model for notifications of nuclei coming and
@@ -191,6 +193,7 @@ public class DecayRatesCanvas extends PhetPCanvas {
                 double halfLife = HalfLifeInfo.getHalfLifeForNucleusType(_model.getNucleusType());
                 _proportionsChart.setTimeParameters(halfLife * 3.2, halfLife);
                 _proportionsChart.setDisplayInfoForNucleusType(_model.getNucleusType());
+                updateChartData();
                 _bucketNode.resetSliderPosition();
             }
         });
@@ -399,8 +402,8 @@ public class DecayRatesCanvas extends PhetPCanvas {
     	}
 	}
 
-	private void updateChartData(ClockEvent clockEvent) {
-		_proportionsChart.addDataPoint(_model.convertSimTimeToAdjustedTime(clockEvent.getSimulationTime()),
+	private void updateChartData() {
+		_proportionsChart.addDataPoint(_model.convertSimTimeToAdjustedTime(_model.getClock().getSimulationTime()),
 				_model.getNumActiveNuclei(), _model.getNumDecayedNuclei());
 	}
 }
