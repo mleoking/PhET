@@ -90,7 +90,7 @@ public class Bunny {
     public static final int HOP_HEIGHT = 50;
     public static final double NORMAL_HOP_DISTANCE = 20.0;
 
-    private static final int HUNGER_THRESHOLD = 400;
+    private static final int HUNGER_THRESHOLD = 250;
     private static final int MAX_HUNGER = 600;
     private int hunger = random.nextInt( MAX_HUNGER );
 
@@ -349,7 +349,7 @@ public class Bunny {
     }
 
     private Point3D getNewHopDirection() {
-        if ( hunger > HUNGER_THRESHOLD && model.getSelectionFactor() == NaturalSelectionModel.SELECTION_FOOD ) {
+        if ( hunger > HUNGER_THRESHOLD && model.getSelectionFactor() == NaturalSelectionModel.SELECTION_FOOD && teethPhenotype == TeethGene.TEETH_LONG_ALLELE ) {
 
             List<Shrub> shrubs = model.getShrubs();
 
