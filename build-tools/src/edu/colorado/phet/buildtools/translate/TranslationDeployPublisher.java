@@ -50,7 +50,22 @@ public class TranslationDeployPublisher {
 
         }
 
+        copyMetaXML( translationDir, javaProjectNameList );
+        copyMetaXML( translationDir, flashProjectNameList );
+
         BuildScript.clearWebCaches();
+    }
+
+    private void copyMetaXML( File translationDir, ArrayList projectNameList ) {
+        for ( Object ob : projectNameList ) {
+            String project = (String) ob;
+            try {
+                FileUtils.copyToDir( new File( translationDir, project + ".xml" ), new File( sims, project ) );
+            }
+            catch( IOException e ) {
+                e.printStackTrace();
+            }
+        }
     }
 
     // copy the necessary flash HTML files in translationDir (with project and locales) to the main location

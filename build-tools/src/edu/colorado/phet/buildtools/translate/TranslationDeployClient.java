@@ -12,12 +12,10 @@ import java.util.Locale;
 
 import javax.swing.*;
 
-import edu.colorado.phet.buildtools.AuthenticationInfo;
-import edu.colorado.phet.buildtools.BuildLocalProperties;
-import edu.colorado.phet.buildtools.BuildToolsPaths;
-import edu.colorado.phet.buildtools.PhetServer;
+import edu.colorado.phet.buildtools.*;
 import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
 import edu.colorado.phet.buildtools.java.projects.BuildToolsProject;
+import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.buildtools.util.ScpTo;
 import edu.colorado.phet.buildtools.util.SshUtils;
 import edu.colorado.phet.common.phetcommon.application.VersionInfoQuery;
@@ -103,6 +101,8 @@ public class TranslationDeployClient {
         new ImportTranslations( trunk ).importTranslations( dir );
         instructUserToCommit();
 
+        buildMetaXML( dir );
+
         File srcDir = new File( dirname );
         String deployDirName = new SimpleDateFormat( "M-d-yyyy_h-ma" ).format( new Date() );
         System.out.println( "Deploying to: " + deployDirName );
@@ -140,6 +140,24 @@ public class TranslationDeployClient {
                      "</html>" + deployDirName, translationDir, authenticationInfo, server );
 
         //launch remote TranslationDeployServer
+    }
+
+    private void buildMetaXML( File dir ) {
+        for ( File file : dir.listFiles() ) {
+            Translation translation = new Translation( file );
+            if ( !translation.isValid() ) {
+                System.out.println( "Skipping " + file.getAbsolutePath() + ", does not represent a valid translation" );
+                continue;
+            }
+            try {
+                PhetProject project = translation.getProject( trunk );
+                project.writeMetaXML();
+                FileUtils.copyToDir( project.getMetaXMLFile(), dir );
+            }
+            catch( IOException e ) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void buildAndSendFlashTranslation( final String simName, final String remotePathDir, final Locale locale, final FlashSimulationProject project, final AuthenticationInfo authenticationInfo, final PhetServer server ) {

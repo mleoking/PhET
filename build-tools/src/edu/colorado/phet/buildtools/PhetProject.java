@@ -937,7 +937,7 @@ public abstract class PhetProject {
             str += "</simulations>\n" +
                    "</project>";
 
-            FileUtils.writeString( new File( getDeployDir(), getName() + ".xml" ), str );
+            FileUtils.writeString( getMetaXMLFile(), str );
         }
         catch( UnsupportedEncodingException e ) {
             e.printStackTrace();
@@ -946,6 +946,10 @@ public abstract class PhetProject {
             e.printStackTrace();
         }
 
+    }
+
+    public File getMetaXMLFile() {
+        return new File( getDeployDir(), getName() + ".xml" );
     }
 
 }
