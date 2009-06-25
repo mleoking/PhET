@@ -75,7 +75,8 @@ public class NaturalSelectionModule extends PiccoloModule {
      */
     public void showGenerationChart() {
         if ( generationChartDialog == null ) {
-            generationChartDialog = new GenerationChartDialog( parentFrame, model );
+            //generationChartDialog = new GenerationChartDialog( parentFrame, model );
+            generationChartDialog = new GenerationChartDialog( null, model );
             SwingUtils.centerDialogInParent( generationChartDialog );
             generationChartDialog.addWindowListener( new WindowAdapter() {
                 // called when the close button in the dialog's window dressing is clicked
