@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -17,9 +16,8 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.acidbasesolutions.ABSColors;
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
-import edu.colorado.phet.acidbasesolutions.ABSSymbols;
+import edu.colorado.phet.acidbasesolutions.control.RatioCheckBox.HydroniumHydroxideRatioCheckBox;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -67,11 +65,7 @@ public class MatchingGameViewControlsNode extends PhetPNode {
             }
         });
         
-        String stringH3O = HTMLUtils.createColoredFragment( ABSSymbols.H3O_PLUS, ABSColors.H3O_PLUS );
-        String stringOH = HTMLUtils.createColoredFragment( ABSSymbols.OH_MINUS, ABSColors.OH_MINUS );
-        Object[] args = { stringH3O, stringOH };
-        String html = HTMLUtils.toHTMLString( MessageFormat.format( ABSStrings.CHECK_BOX_RATIO, args ) );
-        hyroniumHydroxideRatioCheckBox = new JCheckBox( html );
+        hyroniumHydroxideRatioCheckBox = new HydroniumHydroxideRatioCheckBox();
         hyroniumHydroxideRatioCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 notifyStateChanged();

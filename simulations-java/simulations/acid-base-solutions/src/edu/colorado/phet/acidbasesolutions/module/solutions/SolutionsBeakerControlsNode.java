@@ -3,7 +3,6 @@ package edu.colorado.phet.acidbasesolutions.module.solutions;
 import java.awt.Color;
 
 import edu.colorado.phet.acidbasesolutions.control.BeakerControlsNode;
-import edu.colorado.phet.acidbasesolutions.control.BeakerControlsNode.BeakerViewChangeListener;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.model.Solute;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.SolutionAdapter;
