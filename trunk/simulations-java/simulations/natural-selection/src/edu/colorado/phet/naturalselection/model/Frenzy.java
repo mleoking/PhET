@@ -36,7 +36,7 @@ public class Frenzy implements NaturalSelectionClock.Listener {
 
     public void init() {
         int pop = model.getPopulation();
-        int numWolves = 2 + pop / 15;
+        int numWolves = 5 + pop / 10;
 
         initializeTargets();
 
@@ -63,7 +63,8 @@ public class Frenzy implements NaturalSelectionClock.Listener {
     private void initializeTargets() {
         targets = new LinkedList<Bunny>();
 
-        double baseFraction = ( Math.sqrt( (double) model.getPopulation() ) - 3 ) / 4;
+        //double baseFraction = ( Math.sqrt( (double) model.getPopulation() ) ) / 4;
+        double baseFraction = ( Math.pow( (double) model.getPopulation() + 10, 0.4 ) ) / 4;
 
         for ( Bunny bunny : model.getAliveBunnyList() ) {
             double actualFraction = baseFraction;
