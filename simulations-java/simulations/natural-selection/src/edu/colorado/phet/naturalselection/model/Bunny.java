@@ -83,7 +83,7 @@ public class Bunny {
     // time since the last hop
     private int sinceHopTime = 0;
 
-    private boolean movingRight;                                                             
+    private boolean movingRight;
 
     public static final int BETWEEN_HOP_TIME = 50;
     public static final int HOP_TIME = 10;

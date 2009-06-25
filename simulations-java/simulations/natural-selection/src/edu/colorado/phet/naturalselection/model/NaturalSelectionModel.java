@@ -177,6 +177,11 @@ public class NaturalSelectionModel extends ClockAdapter {
     }
 
     public void addFriend() {
+        // reset time variables
+        time = 0;
+        lastYearTick = 0;
+        lastEventTick = NaturalSelectionDefaults.TICKS_PER_YEAR / 4;
+
         friendAdded = true;
         rootMother = new Bunny( this, null, null, 0 );
         rootMother.notifyInit();
@@ -617,6 +622,9 @@ public class NaturalSelectionModel extends ClockAdapter {
     }
 
     public int getGenerationProgressPercent() {
+        if ( !friendAdded ) {
+            return 0;
+        }
         return (int) ( 100 * ( time - lastYearTick ) / NaturalSelectionDefaults.TICKS_PER_YEAR );
     }
 
