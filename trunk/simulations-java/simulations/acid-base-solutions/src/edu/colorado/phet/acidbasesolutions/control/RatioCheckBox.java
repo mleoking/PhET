@@ -12,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 
 /**
  * Check box for component ratios.
- * Components are displayed in specified colors.
+ * Component symbols are displayed in specified colors.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
