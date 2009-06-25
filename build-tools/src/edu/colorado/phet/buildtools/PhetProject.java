@@ -6,10 +6,7 @@ import java.util.*;
 import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
 import edu.colorado.phet.buildtools.flex.PhetFlexProject;
 import edu.colorado.phet.buildtools.java.JavaProject;
-import edu.colorado.phet.buildtools.java.projects.BuildToolsProject;
-import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
-import edu.colorado.phet.buildtools.java.projects.PhetUpdaterProject;
-import edu.colorado.phet.buildtools.java.projects.TranslationUtilityProject;
+import edu.colorado.phet.buildtools.java.projects.*;
 import edu.colorado.phet.buildtools.scripts.SetSVNIgnoreToDeployDirectories;
 import edu.colorado.phet.buildtools.util.*;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
@@ -530,6 +527,7 @@ public abstract class PhetProject {
             phetProjects.add( new TranslationUtilityProject( new File( trunk, BuildToolsPaths.TRANSLATION_UTILITY ) ) );
             phetProjects.add( new PhetUpdaterProject( new File( trunk, BuildToolsPaths.PHET_UPDATER ) ) );
             phetProjects.add( new BuildToolsProject( new File( trunk, BuildToolsPaths.BUILD_TOOLS_DIR ) ) );
+            phetProjects.add( new TimesheetProject( new File( trunk, BuildToolsPaths.TIMESHEET) ) );
         }
         catch( IOException e ) {
             e.printStackTrace();

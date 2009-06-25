@@ -1,6 +1,7 @@
 package edu.colorado.phet.reids.admin;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.awt.event.*;
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,6 +18,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.reids.admin.util.FileUtils;
 import edu.colorado.phet.reids.admin.util.FrameSetup;
+import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 
 /**
  * Created by: Sam
@@ -167,11 +169,12 @@ public class TimesheetApp extends JFrame {
     }
 
     private void updateIconImage() throws IOException {
-        setIconImage( ImageIO.read( new File( "C:\\workingcopy\\phet\\svn\\trunk\\team\\reids\\admin\\contrib\\tango\\" + ( timesheetData.isRunning() ? "x-office-running.png" : "x-office-calendar.png" ) ) ) );
+        BufferedImage image=new PhetResources("timesheet").getImage(( timesheetData.isRunning() ? "x-office-running.png" : "x-office-calendar.png" ) );
+        setIconImage( image );
     }
 
     public File[] getRecentFiles() {
-        return (File[]) recentFiles.toArray( new File[0] );
+        return (File[]) recentFiles.toArray(new File[recentFiles.size()]);
     }
 
     private void loadPreferences() throws IOException {
