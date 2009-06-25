@@ -3,10 +3,11 @@
 ==================================================================================
 
 TODO:
+- color the symbols in the ratio check box labels, especially important in Matching Game
 - state machine for Matching Game
 - group nodes together in MatchingGameCanvas so that they're easy to show/hide at different stages in the game
 - Reset All for Matching Game
-- disabling a check box doesn't grey out its HTML label
+- if a check box has an HTML label, disabling it doesn't grey out the label
 - redo layout of Matching Game canvas
 - first time a module is activated, canvas updateLayout is called twice (AncestorListener+ComponentListener), other sims only call once (AncestorListener)
 - review remaining instanceof comparisons
