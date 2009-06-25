@@ -1099,6 +1099,7 @@ public class NuclearDecayProportionChart extends PNode {
 	    		}
 	    	}
 	    	
+	    	// Graph the point if it is on the chart.
 	    	if ( xPos <= _graphRect.getMaxX() ){
 	    		
 		    	float yPosPreDecay = (float)( _graphRect.getMaxY() - ( ( decayEventLocation.getY() / 100 ) 
@@ -1109,10 +1110,19 @@ public class NuclearDecayProportionChart extends PNode {
 		    	if ( _preDecayProportionCurve == null ){
 		    		// Curve doesn't exist - create it.
 		    		_preDecayProportionCurve = new PPath();
-		    		_preDecayProportionCurve.moveTo( xPos, yPosPreDecay );
 		    		_preDecayProportionCurve.setStroke( _dataCurveStroke );
 		    		_preDecayProportionCurve.setStrokePaint( _chart._preDecayNucleusDisplayInfo.getDisplayColor() );
 		        	_dataPresentationLayer.addChild( _preDecayProportionCurve );
+		        	
+		        	if (decayEventLocation.getX() != 0){
+		        		// The initial data point isn't at the start of the
+		        		// graph, but we want it to start there anyway.
+			    		_preDecayProportionCurve.moveTo( (float)_graphRect.getX(), yPosPreDecay );
+			    		_preDecayProportionCurve.lineTo( xPos, yPosPreDecay );
+		        	}
+		        	else{
+		        		_preDecayProportionCurve.moveTo( xPos, yPosPreDecay );
+		        	}
 		    	}
 		    	else{
 		    		// Add the next segment to the curve.
@@ -1122,11 +1132,20 @@ public class NuclearDecayProportionChart extends PNode {
 		    	if ( _postDecayProportionCurve == null ){
 		    		// Curve doesn't exist - create it.
 		    		_postDecayProportionCurve = new PPath();
-		    		_postDecayProportionCurve.moveTo( xPos, yPosPostDecay );
 		    		_postDecayProportionCurve.setStroke( _dataCurveStroke );
 		    		_postDecayProportionCurve.setStrokePaint( _chart._postDecayNucleusDisplayInfo.getDisplayColor() );
 		        	_dataPresentationLayer.addChild( _postDecayProportionCurve );
 		        	_postDecayProportionCurve.setVisible(_chart._showPostDecayCurve);
+		        	
+		        	if (decayEventLocation.getX() != 0){
+		        		// The initial data point isn't at the start of the
+		        		// graph, but we want it to start there anyway.
+			    		_postDecayProportionCurve.moveTo( (float)_graphRect.getX(), yPosPostDecay );
+			    		_postDecayProportionCurve.lineTo( xPos, yPosPostDecay );
+		        	}
+		        	else{
+		        		_postDecayProportionCurve.moveTo( xPos, yPosPostDecay );
+		        	}
 		    	}
 		    	else{
 		    		// Add the next segment to the curve.
