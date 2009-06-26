@@ -107,8 +107,8 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
         ground.setOffset(_mvt.modelToViewXDouble(0), _mvt.modelToViewYDouble(_model.getGroundLevelY()));
         _backgroundLayer.addChild(ground);
 
-        // Add the ground to the background.
-        SkyNode sky = new SkyNode();
+        // Add the sky to the background.
+        SkyNode sky = new SkyNode(INITIAL_INTERMEDIATE_COORD_WIDTH * 4, INITIAL_INTERMEDIATE_COORD_HEIGHT * 1.5);
         sky.setOffset(_mvt.modelToViewXDouble(0), _mvt.modelToViewYDouble(_model.getGroundLevelY()));
         _backgroundLayer.addChild(sky);
         
@@ -215,19 +215,6 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
 					new Color(120, 255, 60), false);
 			ground.setPaint(groundGradient);
 			ground.setOffset(-GROUND_WIDTH / 2, 0);
-			addChild(ground);
-		}
-    }
-    private static class SkyNode extends PNode {
-
-    	public static final double SKY_WIDTH = INITIAL_INTERMEDIATE_COORD_WIDTH * 4;
-    	public static final double SKY_HEIGHT = INITIAL_INTERMEDIATE_COORD_HEIGHT * 2;
-		public SkyNode() {
-			PPath ground = new PPath( new Rectangle2D.Double( 0, 0, SKY_WIDTH, SKY_HEIGHT));
-			GradientPaint skyGradient = new GradientPaint(0, (float)(SKY_HEIGHT * 0.66), new Color(0, 0, 150), 0,
-					(float)SKY_HEIGHT, new Color(200, 255, 255), false);
-			ground.setPaint(skyGradient);
-			ground.setOffset(-SKY_WIDTH / 2, -SKY_HEIGHT);
 			addChild(ground);
 		}
     }
