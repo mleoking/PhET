@@ -148,6 +148,11 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         _guessingGameLayer = new PNode();
         addWorldChild(_guessingGameLayer);
 
+        // Add the sky to the background.
+        SkyNode sky = new SkyNode(INITIAL_INTERMEDIATE_COORD_WIDTH * 4, INITIAL_INTERMEDIATE_COORD_HEIGHT * 1.5);
+        sky.setOffset(_mvt.modelToViewXDouble(0), _mvt.modelToViewYDouble(0));
+        _backgroundImageLayer.addChild(sky);
+
         // Load the background image.
         BufferedImage bufferedImage = NuclearPhysicsResources.getImage( "green-hills-and-sky.png" );
         _backgroundImage = new PImage( bufferedImage );
@@ -156,7 +161,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         		INITIAL_INTERMEDIATE_COORD_WIDTH / 2 - _backgroundImage.getFullBoundsReference().width / 2,
         		_mvt.modelToViewYDouble(-0.25) - _backgroundImage.getFullBoundsReference().height);
         _backgroundImageLayer.addChild( _backgroundImage );
-
+        
         // Add the strata that will contain the datable items.
         for (int i=0; i<_model.getLayerCount(); i++){
         	StratumNode stratumNode = new StratumNode( _model.getLayer(i), 
