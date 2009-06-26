@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import edu.colorado.phet.circuitconstructionkit.model.analysis.CircuitSolver;
+import edu.colorado.phet.circuitconstructionkit.model.analysis.MNASolver;
+import edu.colorado.phet.circuitconstructionkit.model.analysis.CircuitAnalysisCCKAdapter;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
 
 /**
@@ -76,19 +78,20 @@ public class CCKModel {
             }
         };
         this.circuit = createCircuit( circuitChangeListener );
-//        circuitSolver = new CircuitAnalysisCCKAdapter( new MNASolver() );
+        circuitSolver = new CircuitAnalysisCCKAdapter( new MNASolver() );
 
         //Use reflection for Java->Scala dependencies until Eclipse developers are using Scala builder
-        try{
-            Class c=Class.forName("edu.colorado.phet.cckscala.tests.PureScalaSolver");
-            circuitSolver= (CircuitSolver) c.newInstance();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        }
+//        try{
+//            Class c=Class.forName("edu.colorado.phet.cckscala.tests.PureScalaSolver");
+//            circuitSolver= (CircuitSolver) c.newInstance();
+//        } catch (ClassNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (IllegalAccessException e) {
+//            e.printStackTrace();
+//        } catch (InstantiationException e) {
+//            e.printStackTrace();
+//        }
+
         particleSet = new ParticleSet( getCircuit() );
         layout = new ConstantDensityLayout( getCircuit(), particleSet );
         getCircuit().addCircuitListener( layout );
