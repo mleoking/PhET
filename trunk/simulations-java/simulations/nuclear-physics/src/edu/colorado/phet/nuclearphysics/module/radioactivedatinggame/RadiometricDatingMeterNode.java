@@ -414,7 +414,7 @@ public class RadiometricDatingMeterNode extends PNode {
 	        Point2D dstLoc = new Point2D.Double( _probeNode.getTailLocation().getX(), 
 	        		_probeNode.getTailLocation().getY() );
 	        Point2D srcLoc = new Point2D.Double(_meterBodyNode.getFullBoundsReference().getCenterX(),
-	        		_meterBodyNode.getFullBoundsReference().getMinY());
+	        		_meterBodyNode.getFullBoundsReference().getMaxY());
 	        double dist = srcLoc.distance( dstLoc );
 	        if ( dist > 0 ) {
 	            DoubleGeneralPath path = new DoubleGeneralPath( srcLoc );
