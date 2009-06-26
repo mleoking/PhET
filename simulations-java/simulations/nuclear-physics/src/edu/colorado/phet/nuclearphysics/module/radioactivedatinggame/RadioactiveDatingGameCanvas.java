@@ -54,7 +54,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     private static final double PROPORTIONS_METER_WIDTH_FRACTION = 0.23;
     
     // Fraction of canvas width for the meter.
-    private static final double PROPORTIONS_METER_AND_CHART_HEIGHT_FRACTION = 0.2;
+    private static final double PROPORTIONS_METER_AND_CHART_HEIGHT_FRACTION = 0.25;
     
     // Fraction of canvas width used to portray the edge of the world.
     private static final double WORLD_EDGE_WIDTH_PROPORTION = 0.05;  
@@ -69,7 +69,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     private static final double NUM_SAMPLES_ON_DECAY_CHART = 250;
     
     // Constant for the color of the reset button that resides on the canvas.
-    private static final Color RESET_GUESSES_BUTTON_COLOR = new Color(90, 180, 225);
+    private static final Color RESET_GUESSES_BUTTON_COLOR = new Color(0xff9900);
     
     // Fixed distance from very top of canvas where the meter and chart will
     // be positioned.
@@ -184,25 +184,10 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         _edgeOfWorld = new EdgeOfWorldNode(_model, _mvt);
         addWorldChild(_edgeOfWorld);
         
-        // Create the chart that will display relative decay proportions.
-        _proportionsChart = new NuclearDecayProportionChart(false, true, false);
-        configureProportionsChart();
-        addWorldChild(_proportionsChart);
-        
-        // Set the size and position of the chart.  There are some "tweak
-        // factors" in here to make things look good.
-        // TODO: If I end up leaving this as a world child, I need to change this
-        // resizing call to be a part of the constructor for the chart (I think).
-        _proportionsChart.componentResized( new Rectangle2D.Double( 0, 0, 
-        		INITIAL_INTERMEDIATE_COORD_WIDTH * PROPORTIONS_CHART_WIDTH_FRACTION,
-        		INITIAL_INTERMEDIATE_COORD_HEIGHT * PROPORTIONS_METER_AND_CHART_HEIGHT_FRACTION));
-        _proportionsChart.setOffset( 
-        		INITIAL_INTERMEDIATE_COORD_WIDTH * PROPORTIONS_METER_WIDTH_FRACTION + 10, OFFSET_FROM_TOP );
-
         // Create the radiometric measuring device.
         _meterNode = new RadiometricDatingMeterNode(_model.getMeter(), 
         		INITIAL_INTERMEDIATE_COORD_WIDTH * PROPORTIONS_METER_WIDTH_FRACTION,
-        		INITIAL_INTERMEDIATE_COORD_HEIGHT * PROPORTIONS_METER_WIDTH_FRACTION,
+        		INITIAL_INTERMEDIATE_COORD_HEIGHT * PROPORTIONS_METER_AND_CHART_HEIGHT_FRACTION,
         		_mvt,
         		this,
         		true );
@@ -226,6 +211,22 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         });
         addWorldChild(_resetGuessesButtonNode);
         
+        // Create the chart that will display relative decay proportions.
+        _proportionsChart = new NuclearDecayProportionChart(false, true, false);
+        configureProportionsChart();
+        addWorldChild(_proportionsChart);
+        
+        // Set the size and position of the chart.  There are some "tweak
+        // factors" in here to make things look good.
+        // TODO: If I end up leaving this as a world child, I need to change this
+        // resizing call to be a part of the constructor for the chart (I think).
+        _proportionsChart.componentResized( new Rectangle2D.Double( 0, 0, 
+        		INITIAL_INTERMEDIATE_COORD_WIDTH * PROPORTIONS_CHART_WIDTH_FRACTION,
+        		INITIAL_INTERMEDIATE_COORD_HEIGHT * PROPORTIONS_METER_AND_CHART_HEIGHT_FRACTION ) );
+        _proportionsChart.setOffset( 
+        		INITIAL_INTERMEDIATE_COORD_WIDTH * PROPORTIONS_METER_WIDTH_FRACTION + 10,
+        		OFFSET_FROM_TOP );
+
         // Draw the decay curve on the chart.
         drawDecayCurveOnChart();
         
