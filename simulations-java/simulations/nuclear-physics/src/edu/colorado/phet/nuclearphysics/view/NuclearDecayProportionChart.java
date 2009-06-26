@@ -14,6 +14,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -571,6 +572,7 @@ public class NuclearDecayProportionChart extends PNode {
         private static final int    NUM_Y_AXIS_GRID_LINES = 3;
         private static final Color  Y_AXIS_GRID_LINES_COLOR = Color.LIGHT_GRAY;
         private static final Stroke Y_AXIS_GRID_LINES_STROKE = THIN_AXIS_STROKE;
+        private static final NumberFormat NUMBER_FORMAT = NumberFormat.getNumberInstance();
 
         // Constants that control other proportioned aspects of the graph.
         private static final double GRAPH_TEXT_HEIGHT_PROPORTION = 0.12;
@@ -992,7 +994,7 @@ public class NuclearDecayProportionChart extends PNode {
 	    		
 	    		for (int i = 0; i < numTickMarks; i++){
 	    			addXAxisTickMark((i + 1) * MultiNucleusDecayModel.convertYearsToMs(5000),
-	    					Integer.toString((i + 1) * 5000));
+	    					NUMBER_FORMAT.format((i + 1) * 5000));
 	    		}
 	    	}
 	    	else if (_chart._timeSpan < MultiNucleusDecayModel.convertYearsToMs(1E6)){
@@ -1001,7 +1003,7 @@ public class NuclearDecayProportionChart extends PNode {
 	    		
 	    		for (int i = 0; i < numTickMarks; i++){
 	    			addXAxisTickMark((i + 1) * MultiNucleusDecayModel.convertYearsToMs(100000),
-	    					Integer.toString((i + 1) * 100000));
+	    					NUMBER_FORMAT.format((i + 1) * 100000));
 	    		}
 	    	}
 	    	else if (_chart._timeSpan < MultiNucleusDecayModel.convertYearsToMs(10E6)){
