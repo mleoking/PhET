@@ -113,7 +113,6 @@ public interface UpdateStrategy {
         public PositionDriven() {
         }
 
-        //todo: min/max should be mutable
         public PositionDriven( double minX, double maxX ) {
             super( minX, maxX );
         }

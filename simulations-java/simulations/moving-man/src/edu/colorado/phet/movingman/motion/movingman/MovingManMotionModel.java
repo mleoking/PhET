@@ -310,12 +310,12 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
         this.boundaryOpen = boundaryOpen;
         min = boundaryOpen ? Double.NEGATIVE_INFINITY : -10;
         max = boundaryOpen ? Double.POSITIVE_INFINITY : +10;
-//        positionDriven.setMin( min );
-//        positionDriven.setMax( max );
-//        velocityDriven.setMin( min );
-//        velocityDriven.setMax( max );
-//        accelDriven.setMin( min );
-//        accelDriven.setMax( max );
+        positionDriven.setMin( min );
+        positionDriven.setMax( max );
+        velocityDriven.setMin( min );
+        velocityDriven.setMax( max );
+        accelDriven.setMin( min );
+        accelDriven.setMax( max );
         notifyBoundaryChanged();
     }
 
