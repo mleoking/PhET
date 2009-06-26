@@ -114,7 +114,7 @@ EOT;
                     );
                 $launch_anchor_tag = WebUtils::inst()->buildAnchorTag(
                     $sim->getLaunchUrl($locale),
-                    'Run Now',
+                    'Run&nbsp;Now',
                     $launch_anchor_attributes
                     );
 
