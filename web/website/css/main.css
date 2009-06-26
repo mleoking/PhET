@@ -1910,8 +1910,11 @@ table.localized_sims {
 }
 
 table.localized_sims tr.even {
-    background-color: #fefefe;
     border-bottom: 1px #6699CC dotted;
+}
+
+table.localized_sims tr:hover {
+    background-color: #ffa;
 }
 
 table.localized_sims tr.odd {
