@@ -24,6 +24,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.util.PDebug;
 import edu.umd.cs.piccolo.util.PDimension;
+import edu.umd.cs.piccolo.util.PPaintContext;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
@@ -89,6 +90,10 @@ public class PhetPCanvas extends PSwingCanvas implements Updatable {
      * @param worldTransformStrategy
      */
     public PhetPCanvas( TransformStrategy worldTransformStrategy ) {
+        
+        // things look lousy while interacting & animating unless we set these
+        setAnimatingRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
+        setInteractingRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
         
         this.worldTransformStrategy = worldTransformStrategy;
         
