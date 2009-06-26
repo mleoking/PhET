@@ -35,7 +35,7 @@ public class DecayRatesModel extends MultiNucleusDecayModel {
 	private static final double INITIAL_WORLD_HEIGHT = INITIAL_WORLD_WIDTH * 0.4;  // In femtometers
 	
 	private static final int PLACEMENT_LOCATION_SEARCH_COUNT = 100;
-	private static final double DEFAULT_MIN_INTER_NUCLEUS_DISTANCE = 20;
+	private static final double DEFAULT_MIN_INTER_NUCLEUS_DISTANCE = 10;
 	
 	// Define the position in model space of the "holding area", where nuclei
 	// are kept while inactive.
@@ -181,6 +181,9 @@ public class DecayRatesModel extends MultiNucleusDecayModel {
      * 
      * @return
      */
+    /**
+     * @return
+     */
     public Point2D findOpenNucleusLocation(){
     	
     	Point2D.Double openLocation = null;
@@ -191,38 +194,49 @@ public class DecayRatesModel extends MultiNucleusDecayModel {
     	if ( _atomicNuclei.size() > 0 ) {
     		// Calculate a minimum distance between nuclei based on the
     		// diameter of the current nucleus.
-    		minInterNucleusDistance = ((AbstractDecayNucleus)_atomicNuclei.get(0)).getDiameter() * 1.5;
+    		minInterNucleusDistance = Math.min(((AbstractDecayNucleus)_atomicNuclei.get(0)).getDiameter() * 1.5,
+    				DEFAULT_MIN_INTER_NUCLEUS_DISTANCE);
     	}
     	
     	// Pick random locations until one is found that works or until we've
     	// tried the maximum number of times.
-        for (int i = 0; i < PLACEMENT_LOCATION_SEARCH_COUNT; i++){
-            // Randomly select an x & y position
-            double xPos = _worldSizeX * (_rand.nextDouble() - 0.5);
-            double yPos = _worldSizeY * (_rand.nextDouble() - 0.5);
-            openLocation = new Point2D.Double(xPos, yPos);
-            
-            // Check if this point is available.
-            pointAvailable = true;
-            for (int j = 0; (j < _atomicNuclei.size()) && (pointAvailable == true); j++){
-            	AbstractDecayNucleus nucleus = (AbstractDecayNucleus)_atomicNuclei.get(j);
-                if (openLocation.distance(nucleus.getPositionReference()) < minInterNucleusDistance ||
-                	HOLDING_AREA_RECT.contains(openLocation)){
-                    // This point is not available.
-                    pointAvailable = false;
+    	for (int i = 0; i < 4; i++){
+            for (int j = 0; j < PLACEMENT_LOCATION_SEARCH_COUNT / 4; j++){
+                // Randomly select an x & y position
+                double xPos = _worldSizeX * (_rand.nextDouble() - 0.5);
+                double yPos = _worldSizeY * (_rand.nextDouble() - 0.5);
+                openLocation = new Point2D.Double(xPos, yPos);
+                
+                // Check if this point is available.
+                pointAvailable = true;
+                for (int k = 0; (k < _atomicNuclei.size()) && (pointAvailable == true); k++){
+                	AbstractDecayNucleus nucleus = (AbstractDecayNucleus)_atomicNuclei.get(k);
+                    if (openLocation.distance(nucleus.getPositionReference()) < minInterNucleusDistance ||
+                    	HOLDING_AREA_RECT.contains(openLocation)){
+                        // This point is not available.
+                        pointAvailable = false;
+                    }
+                }
+                
+                if (pointAvailable == true){
+                    // We have found a usable location.
+                    break;
                 }
             }
-            
-            if (pointAvailable == true){
-                // We have found a usable location.
-                break;
+            if (pointAvailable){
+            	break;
             }
-        }
-        
+            else{
+            	// Try again, but lower our standards.
+            	minInterNucleusDistance = minInterNucleusDistance / 2;
+            }
+    	}
+    	
         if ( !pointAvailable ){
         	// The random algorithm failed to find an open location, so pick a
         	// random location that is outside of the holding area.
 
+        	System.out.println("Warning: Using arbitrary location because no open location found.");
         	do{
 	            double xPos = _worldSizeX * (_rand.nextDouble() - 0.5);
 	            double yPos = _worldSizeY * (_rand.nextDouble() - 0.5);
