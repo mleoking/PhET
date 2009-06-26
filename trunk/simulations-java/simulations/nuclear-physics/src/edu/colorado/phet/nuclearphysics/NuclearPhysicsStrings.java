@@ -172,4 +172,6 @@ public class NuclearPhysicsStrings {
     public static final String TIME_ABBREVIATION= NuclearPhysicsResources.getString( "TimeAbbreviation" );
     
     public static final String CHECK_AGE=NuclearPhysicsResources.getString("DatingGame.CheckAge");
+    public static final String CLEAR_GUESSES = NuclearPhysicsResources.getString( "DatingGame.ClearGuesses" );
+    
 }

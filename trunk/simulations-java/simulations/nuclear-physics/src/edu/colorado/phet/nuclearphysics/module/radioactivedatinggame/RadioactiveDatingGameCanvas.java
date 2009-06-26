@@ -2,8 +2,11 @@
 
 package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
@@ -15,9 +18,12 @@ import java.util.Iterator;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusDecayModel;
+import edu.colorado.phet.nuclearphysics.view.AutoPressGradientButtonNode;
 import edu.colorado.phet.nuclearphysics.view.NuclearDecayProportionChart;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -60,6 +66,9 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     // Resolution of the decay chart.
     private static final double NUM_SAMPLES_ON_DECAY_CHART = 250;
     
+    // Constant for the color of the reset button that resides on the canvas.
+    private static final Color RESET_GUESSES_BUTTON_COLOR = new Color(90, 180, 225);
+    
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
@@ -79,6 +88,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     private IdentityHashMap<DatableItem, AgeGuessResultNode> _mapDatableItemsToGuessResults = 
     	new IdentityHashMap<DatableItem, AgeGuessResultNode>();
     private AgeGuessingNode.Listener _ageGuessListener;
+    private GradientButtonNode _resetGuessesButtonNode;
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -186,6 +196,23 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         		true );
         _meterNode.setMeterBodyOffset( 0, _mvt.modelToViewYDouble(_model.getBottomOfStrata()) + 4);
         addWorldChild( _meterNode );
+        
+        // Add a button to the canvas for resetting the guesses.  The button
+        // remains invisible until the user makes their first guess.
+        _resetGuessesButtonNode = new GradientButtonNode(NuclearPhysicsStrings.CLEAR_GUESSES, 22, 
+        		RESET_GUESSES_BUTTON_COLOR);
+        _resetGuessesButtonNode.setOffset(_meterNode.getMeterBodyOffset().getX()
+        		- _resetGuessesButtonNode.getFullBoundsReference().width / 2, -70);
+        _resetGuessesButtonNode.setOffset(_meterNode.getMeterBodyOffset().getX()
+        		- _resetGuessesButtonNode.getFullBoundsReference().width, _meterNode.getMeterBodyOffset().getY());
+        _resetGuessesButtonNode.setVisible(false);
+        _resetGuessesButtonNode.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				clearGuessResults();
+				_resetGuessesButtonNode.setVisible(false);
+			}
+        });
+        addWorldChild(_resetGuessesButtonNode);
         
         // Draw the decay curve on the chart.
         drawDecayCurveOnChart();
@@ -370,7 +397,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     		return;
     	}
     	
-    	// Remove any previous guess result nodes.
+    	// Remove any previous guess result nodes for this item.
     	AgeGuessResultNode previousGuessResultNode = 
     		_mapDatableItemsToGuessResults.remove(itemBeingTouched);
     	if (previousGuessResultNode != null){
@@ -402,6 +429,24 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
 		
 		guessResultNode.setOffset(guessResultNodeLocation);
 		_guessingGameLayer.addChild( guessResultNode );
+		
+		// Double check that there is at least one valid guess result and,
+		// assuming there is, enable the button for clearing it (or them).
+		if (_mapDatableItemsToGuessResults.size() > 0){
+			_resetGuessesButtonNode.setVisible(true);
+		}
+    }
+    
+    /**
+     * Clear all the currently displayed guess results from the canvas.
+     */
+    private void clearGuessResults(){
+    	Iterator<AgeGuessResultNode> itr = _mapDatableItemsToGuessResults.values().iterator();
+    	while (itr.hasNext()){
+    		AgeGuessResultNode resultNode = itr.next();
+    		_guessingGameLayer.removeChild(resultNode);
+    		itr.remove();
+    	}
     }
     
     /**
