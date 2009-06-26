@@ -478,7 +478,7 @@ public class ModelSlider extends JPanel {
     public void commitEdit() throws IllegalValueException {
         String text = ModelSlider.this.textField.getText();
         try {
-            double value = DecimalFormat.getNumberInstance( PhetResources.readLocale() ).parse( text ).doubleValue();
+            double value = DecimalFormat.getNumberInstance( ).parse( text ).doubleValue();
             if ( value >= min && value <= max ) {
                 //still legal.
                 setValue( value );
