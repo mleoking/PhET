@@ -44,10 +44,14 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
     
     // Proportions of the meter on the canvas.
     private static final double PROPORTIONS_METER_WIDTH_FRACTION = 0.23;
-    private static final double PROPORTIONS_METER_HEIGHT_FRACTION = 0.3;
+    private static final double PROPORTIONS_METER_HEIGHT_FRACTION = 0.25;
     
     // Resolution of the decay chart.
     private static final double NUM_SAMPLES_ON_DECAY_CHART = 250;
+    
+    // Fixed distance from very top of canvas where the meter and chart will
+    // be positioned.
+    private static final double METER_AND_CHART_OFFSET_FROM_TOP = 8;
     
     //----------------------------------------------------------------------------
     // Instance Data
@@ -138,7 +142,7 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
         		_mvt,
         		this,
         		false );
-        _meterNode.setMeterBodyOffset( 0, 0);
+        _meterNode.setMeterBodyOffset( 0, METER_AND_CHART_OFFSET_FROM_TOP);
         addWorldChild( _meterNode );
         
         // Create the chart that will display relative decay proportions.
@@ -155,7 +159,7 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
         		_meterNode.getMeterBodySize().getHeight()));
         _proportionsChart.setOffset(
         		_meterNode.getMeterBodyOffset().getX() + _meterNode.getMeterBodySize().getWidth() + 4,
-        		_meterNode.getMeterBodyOffset().getY());
+        		METER_AND_CHART_OFFSET_FROM_TOP);
 
         // Draw the decay curve on the chart.
         drawDecayCurveOnChart();
