@@ -86,9 +86,6 @@ public class QWIPanel extends BufferedPhetPCanvas {
             }
         } );
         synchronizeSlitInverse();
-        setAnimatingRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
-        setInteractingRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
-        setDefaultRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
 
 //        IntensityReader intensityReader = new IntensityReader( getWavefunctionGraphic() );
 //        schrodingerScreenNode.addChild( intensityReader );

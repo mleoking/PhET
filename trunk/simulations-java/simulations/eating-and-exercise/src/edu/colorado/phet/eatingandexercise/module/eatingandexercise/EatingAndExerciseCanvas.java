@@ -134,10 +134,6 @@ public class EatingAndExerciseCanvas extends BufferedPhetPCanvas {
         caloriePanel = new CaloriePanel( model, this, parentFrame );
         addScreenChild( caloriePanel );
 
-        setInteractingRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
-        setAnimatingRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
-        setDefaultRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
-
         addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {
                 requestFocus();
