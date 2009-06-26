@@ -61,12 +61,13 @@ public class RadiometricDatingMeterNode extends PNode {
 	private static final Color BODY_COLOR = Color.DARK_GRAY;
 	private static final double READOUT_WIDTH_PROPORTION = 0.75;
 	private static final double READOUT_HEIGHT_PROPORTION = 0.2;
-	private static final double PROBE_SIZE_SCALE_FACTOR = 0.75;  // Adjust in order to change size of probe.
+	private static final double PROBE_SIZE_SCALE_FACTOR = 0.60;  // Adjust in order to change size of probe.
 	private static final Font HALF_LIFE_SELECTION_FONT = new PhetFont(16);
 	
 	// Array that maps values to the strings used for the custom nucleus half
 	// life.  THESE MUST BE MANUALLY KEPT IN SYNC WITH THE STRINGS IN THE
 	// LOCALIZTION FILE.
+	// TODO: Localization.
 	private static final ValueStringPair [] HALF_LIFE_VALUE_STRING_PAIRS = {
 		new ValueStringPair(MultiNucleusDecayModel.convertYearsToMs(100E3), "100 ky"),
 		new ValueStringPair(MultiNucleusDecayModel.convertYearsToMs(1E6), "1 my"),
@@ -301,7 +302,7 @@ public class RadiometricDatingMeterNode extends PNode {
             _probeModel = probeModel;
             _mvt = mvt;
 
-            imageNode = NuclearPhysicsResources.getImageNode( "probeBlack.gif" );
+            imageNode = NuclearPhysicsResources.getImageNode( "geiger_probe.png" );
             imageNode.rotateAboutPoint( probeModel.getAngle(), 0.1, 0.1 );
             imageNode.scale( PROBE_SIZE_SCALE_FACTOR );
             addChild( imageNode );
