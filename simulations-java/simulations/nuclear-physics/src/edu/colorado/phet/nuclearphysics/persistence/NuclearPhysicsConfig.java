@@ -23,9 +23,6 @@ public class NuclearPhysicsConfig implements IProguardKeepClass {
     private String _versionDev;
     private String _versionRevision;
     
-    // Modules
-    private ExampleConfig _exampleConfig;
-    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -34,7 +31,6 @@ public class NuclearPhysicsConfig implements IProguardKeepClass {
      * Zero-argument constructor for Java Bean compliance, required by XMLEncoder.
      */
     public NuclearPhysicsConfig() {
-        _exampleConfig = new ExampleConfig();
     }
 
     //----------------------------------------------------------------------------
@@ -79,17 +75,5 @@ public class NuclearPhysicsConfig implements IProguardKeepClass {
     
     public void setVersionRevision( String versionRevision ) {
         _versionRevision = versionRevision;
-    }
-    
-    //----------------------------------------------------------------------------
-    // Accessors for module configurations
-    //----------------------------------------------------------------------------
-    
-    public void setExampleConfig( ExampleConfig exampleConfig ) {
-        _exampleConfig = exampleConfig;
-    }
-    
-    public ExampleConfig getExampleConfig() {
-        return _exampleConfig;
-    }
+    }    
 }
