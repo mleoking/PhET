@@ -42,8 +42,7 @@ public class EdgeOfWorldNode extends PNode {
 		_mvt = mvt;
 		
 		// Create the background that will sit behind the stratum edges.
-		_background = new PhetPPath(NuclearPhysicsConstants.CANVAS_BACKGROUND, new BasicStroke(2),
-				NuclearPhysicsConstants.CANVAS_BACKGROUND);
+		_background = new PhetPPath(Color.DARK_GRAY, new BasicStroke(2), Color.DARK_GRAY);
 		addChild( _background );
 		
 		// 
