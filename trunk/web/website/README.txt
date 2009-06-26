@@ -49,9 +49,9 @@ backups
 cl_utils
   - Utilities to support various aspects of the website.
 crossdomain.xml
-  - From JO: Before Flash can access data from a host (to check for
-  updates, send tracking information, EVEN open a link to the site),
-  it checks host/crossdomain.xml to see if it is allowed to do so. Our
+  - Before Flash can access data from a host (to check for updates,
+  send tracking information, EVEN open a link to the site), it checks
+  host/crossdomain.xml to see if it is allowed to do so. Our
   crossdomain.xml tells Flash it can communicate with
   phet.colorado.edu and all its sub-directories.
   - It is theoretically possible not to have it at web root, however
@@ -90,9 +90,6 @@ sims/
   Fission, The Radioactive Dating Game.
   - It also contains directories that are not sims, elaborated upon
   below:
-sims/build-tools/
-  - ??? Is this the same as phet-dist/build-tools?
-  - **owned by JO, ask him
 sims/flash-common-strings/
 sims/java-common-strings/
   - Contains support to translate strings common to all sims of a
@@ -111,10 +108,12 @@ sims/test-project/
   website.  There is special support of "seeing" theses sims on main
   website.
 sims/translations/
-  - ??? Contains temporary files when translations are deployed.  They are
-  removed with a CRON job after they are a week old.
-  - ??? Check this, I may be confusing it with backups.  This one may
-  be in limbo requiring feedback from Marj and work by SR or JO
+  - Contains temporary files when translations are deployed.
+  Translations are deployed initially to this directory for testing
+  before being made live on the server.
+  - ??? They are not deleted?  Check this, I may be confusing it with
+  backups.  This one may be in limbo requiring feedback from Marj and
+  work by SR or JO
 staging
   - A staging are for deploying things to the website.  Copies over
   the network can be slow, this allows everything to be on tigercat
