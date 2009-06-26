@@ -1311,7 +1311,7 @@ public class NuclearDecayProportionChart extends PNode {
     		// Set the position of the handle.
     		_indicatorHandle.setOffset(
     				_readoutRect.getOffset().getX() + _readoutRect.getWidth() / 2 - _indicatorHandle.getWidth() / 2, 
-    				_indicatorLine.getOffset().getY() + _indicatorLine.getHeight() / 3);
+    				_readoutRect.getFullBoundsReference().getMaxY() + (0.5 * _indicatorHandle.getFullBoundsReference().getHeight()));
     		
     	}
     	
