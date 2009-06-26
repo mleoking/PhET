@@ -25,7 +25,7 @@ import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.NuclearDecayControl;
 import edu.colorado.phet.nuclearphysics.common.view.AbstractAtomicNucleusNode;
-import edu.colorado.phet.nuclearphysics.common.view.SimpleAtomicNucleusNode;
+import edu.colorado.phet.nuclearphysics.common.view.UnlabeledSphericalAtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics.model.HalfLifeInfo;
 import edu.colorado.phet.nuclearphysics.model.NuclearDecayListenerAdapter;
 import edu.colorado.phet.nuclearphysics.view.AutoPressGradientButtonNode;
@@ -62,6 +62,12 @@ public class DecayRatesCanvas extends PhetPCanvas {
     // Constants that control the appearance of the canvas.
     private static final Color BUCKET_AND_BUTTON_COLOR = new Color(90, 180, 225);
     
+    // This constant is used to reduce the frequency with which the
+    // proportions chart is updated, which reduces the amount of processor
+    // cycles that are consumed.  A value of 1 means that the chart is updated
+    // on every clock tick, higher values make it less frequent.
+    private static final int PROPORTIONS_CHART_UPDATE_COUNT = 1;
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -69,6 +75,7 @@ public class DecayRatesCanvas extends PhetPCanvas {
     private DecayRatesModel _model;
     private HashMap _mapNucleiToNodes = new HashMap();
     private NuclearDecayProportionChart _proportionsChart;
+    private int _proportionsChartUpdateCounter = 0;
     private PNode _particleLayer;
     private PNode _chartLayer;
 	private BucketOfNucleiNode _bucketNode;
@@ -85,7 +92,9 @@ public class DecayRatesCanvas extends PhetPCanvas {
     	
     	_model.getClock().addClockListener(new ClockAdapter(){
     	    public void clockTicked( ClockEvent clockEvent ) {
-   	    		updateChartData();
+    			if (_proportionsChartUpdateCounter++ % PROPORTIONS_CHART_UPDATE_COUNT == 0){
+    				updateChartData();
+    			}
     	    }
     	});
     	
@@ -346,8 +355,8 @@ public class DecayRatesCanvas extends PhetPCanvas {
     		// A new nucleus has been added to the model.  Create a
     		// node for it and add it to the nucleus-to-node map.
     		AtomicNucleus nucleus = (AtomicNucleus) modelElement;
-    		SimpleAtomicNucleusNode atomicNucleusNode = 
-    			new SimpleAtomicNucleusNode( nucleus );
+    		UnlabeledSphericalAtomicNucleusNode atomicNucleusNode = 
+    			new UnlabeledSphericalAtomicNucleusNode( nucleus );
     		
     		// Map this node and nucleus together.
     		_mapNucleiToNodes.put(nucleus, atomicNucleusNode);
