@@ -1,5 +1,7 @@
 //package edu.colorado.phet.circuitconstructionkit.model.mna2;
 //
+//import Jama.Matrix;
+//
 //import java.util.HashSet;
 //import java.util.List;
 //import java.util.ArrayList;
@@ -20,197 +22,262 @@
 //            return getNodeVoltage(node1) - getNodeVoltage(node0);
 //        }
 //    }
-////sparse solution containing only the solved unknowns in MNA
-//class Solution extends ISolution {
-//    HashMap<Integer,Double> nodeVoltages=new HashMap<Integer, Double>();
-//    HashMap<Element,Double> branchCurrents=new HashMap<Element, Double>();
 //
-//    Solution(HashMap<Integer, Double> nodeVoltages, HashMap<Element, Double> branchCurrents) {
-//        this.nodeVoltages = nodeVoltages;
-//        this.branchCurrents = branchCurrents;
-//    }
-//    double getNodeVoltage(int node){
-//        return nodeVoltages.get(node);
-//    }
-//    boolean approxEquals(Solution s){
-//        return approxEquals(s,1E-6);
-//    }
-//    boolean approxEquals(Solution s,double delta){
-//        if (nodeVoltages.keySet()!= s.nodeVoltages.keySet()|| branchCurrents.keySet() != s.branchCurrents.keySet())
-//      return false;
-//    else {
-//      boolean sameVoltages = nodeVoltages.keySet.foldLeft(true)((b: Boolean, a: Int) => {b && Math.abs(nodeVoltages(a) - s.nodeVoltages(a)) < delta})
-//      boolean sameCurrents = branchCurrents.keySet.foldLeft(true)((b: Boolean, a: Element) => {b && Math.abs(branchCurrents(a) - s.branchCurrents(a)) < delta})
-//      return sameVoltages && sameCurrents;
-//    }
-//    }
+//    //sparse solution containing only the solved unknowns in MNA
+//    class Solution extends ISolution {
+//        HashMap<Integer, Double> nodeVoltages = new HashMap<Integer, Double>();
+//        HashMap<Element, Double> branchCurrents = new HashMap<Element, Double>();
 //
-//    double getVoltage(Element e){
-//        return nodeVoltages.get(e.node1)-nodeVoltages.get(e.node0);
-//    }
-//    double getCurrent(Element e){
-//         //if it was a battery or resistor (of R=0), look up the answer
-//    if (branchCurrents.containsKey(e)) return branchCurrents.get(e);
-//    //else compute based on V=IR
-//    else {
-//      e match {
-//        //current flows from high to low potential in a component (except batteries)
-//        case r: Resistor => -getVoltage(r) / r.resistance
-//        case _ => throw new RuntimeException("Solution does not contain current for element: " + e)
-//      }
-//    }
-//    }
+//        Solution(HashMap<Integer, Double> nodeVoltages, HashMap<Element, Double> branchCurrents) {
+//            this.nodeVoltages = nodeVoltages;
+//            this.branchCurrents = branchCurrents;
+//        }
 //
-//}
+//        double getNodeVoltage(int node) {
+//            return nodeVoltages.get(node);
+//        }
 //
-////Subclasses should have proper equals and hashcode for hashmapping
-//abstract class Element {
-//    int node0;
+//        boolean approxEquals(Solution s) {
+//            return approxEquals(s, 1E-6);
+//        }
 //
-//    int node1;
+//        boolean approxEquals(Solution s, double delta) {
+//            if (nodeVoltages.keySet() != s.nodeVoltages.keySet() || branchCurrents.keySet() != s.branchCurrents.keySet())
+//                return false;
+//            else {
+//                boolean sameVoltages = true;
+//                for (Integer key : nodeVoltages.keySet()) {
+//                    if (nodeVoltages.get(key) != s.nodeVoltages.get(key))
+//                        sameVoltages = false;
+//                }
+//                boolean sameCurrents = true;
+//                for (Element key : branchCurrents.keySet()) {
+//                    if (Math.abs(branchCurrents.get(key) - s.branchCurrents.get(key)) > delta) sameCurrents = false;
+//                }
 //
-//    protected Element(int node0, int node1) {
-//        this.node0 = node0;
-//        this.node1 = node1;
-//    }
-//
-//    boolean containsNode(int n) {
-//        return n == node0 || n == node1;
-//    }
-//
-//    int getOpposite(int node) {
-//        if (node == node0) return node1;
-//        else if (node == node1) return node0;
-//        else throw new RuntimeException("node not found");
-//    }
-//}
-//
-////todo: provide equals and hashcode for element subclasses
-//class Battery extends Element{
-//    double voltage;
-//
-//    Battery(int node0, int node1,double voltage) {
-//        super(node0,node1);
-//        this.voltage=voltage;
-//    }
-//
-//    int node0() {
-//        return node0;
-//    }
-//
-//    int node1() {
-//        return node1;
-//    }
-//}
-//
-//class Resistor extends Element
-//{
-//    double resistance;
-//
-//    Resistor(int node0, int node1, double resistance) {
-//        super(node0, node1);
-//        this.resistance = resistance;
-//    }
-//}
-//class CurrentSource extends Element{
-//    double current;
-//
-//    CurrentSource(int node0, int node1, double current) {
-//        super(node0, node1);
-//        this.current = current;
-//    }
-//}
-//
-//abstract class AbstractCircuit {
-//  HashSet<Integer> getNodeSet() {
-//    HashSet<Integer> set = new HashSet<Integer>();
-//      for (Element element : getElements()) {
-//          set.add(element.node0);
-//          set.add(element.node1);
-//      }
-//      return set;
-//  }
-//
-//  abstract List<Element> getElements();
-//}
-//
-//class Circuit extends AbstractCircuit {
-//    //(batteries: Seq[Battery], resistors: Seq[Resistor], currentSources: Seq[CurrentSource])
-//    List<Battery> batteries;
-//    List<Resistor> resistors;
-//    List<CurrentSource>currentSources;
-//
-//    Circuit(List<Battery> batteries, List<Resistor> resistors) {
-//        this(batteries,resistors,new ArrayList<CurrentSource>());
-//    }
-//
-//    Circuit(List<Battery> batteries, List<Resistor> resistors, List<CurrentSource> currentSources) {
-//        this.batteries = batteries;
-//        this.resistors = resistors;
-//        this.currentSources = currentSources;
-//    }
-//
-//    List<Element> getElements() {
-//        List<Element> list=new ArrayList<Element>();
-//        list.addAll(batteries);
-//        list.addAll(resistors);
-//        list.addAll(currentSources);
-//        return list;
-//    }
-//    int getNodeCount(){
-//        return getNodeSet().size();
-//    }
-//    int getCurrentCount(){//def getCurrentCount = batteries.length + resistors.filter(_.resistance == 0).size
-//        int zeroResistors=0;
-//        for (Resistor resistor : resistors) {
-//            if (resistor.resistance==0){
-//                zeroResistors++;
+//                return sameVoltages && sameCurrents;
 //            }
 //        }
-//        return batteries.size()+zeroResistors;
-//    }
-//    int getNumVars(){
-//        return getNodeCount()+getCurrentCount();
-//    }
-//}
 //
-//  case class Term(coefficient: Double, variable: Unknown) {
-//    def toTermString = {
-//      val prefix = if (coefficient == 1) "" else if (coefficient == -1) "-" else coefficient + "*"
-//      prefix + variable.toTermName
+//        double getVoltage(Element e) {
+//            return nodeVoltages.get(e.node1) - nodeVoltages.get(e.node0);
+//        }
+//
+//        double getCurrent(Element e) {
+//            //if it was a battery or resistor (of R=0), look up the answer
+//            if (branchCurrents.containsKey(e)) return branchCurrents.get(e);
+//                //else compute based on V=IR
+//            else {
+//                if (e instanceof Resistor) {
+//                    Resistor r = (Resistor) e;
+//                    return -getVoltage(r) / r.resistance;
+//                } else {
+//                    throw new RuntimeException("Solution does not contain current for element: " + e);
+//                }
+//            }
+//
+//        }
 //    }
-//  }
 //
-//  class Equation(rhs: Double, terms: Term*) {
-//    def stamp(row: Int, A: Matrix, z: Matrix, indexMap: Unknown => Int) = {
-//      z.set(row, 0, rhs)
-//      for (a <- terms) A.set(row, indexMap(a.variable), a.coefficient + A.get(row, indexMap(a.variable)))
+//    //Subclasses should have proper equals and hashcode for hashmapping
+//    abstract class Element {
+//        int node0;
+//
+//        int node1;
+//
+//        protected Element(int node0, int node1) {
+//            this.node0 = node0;
+//            this.node1 = node1;
+//        }
+//
+//        boolean containsNode(int n) {
+//            return n == node0 || n == node1;
+//        }
+//
+//        int getOpposite(int node) {
+//            if (node == node0) return node1;
+//            else if (node == node1) return node0;
+//            else throw new RuntimeException("node not found");
+//        }
 //    }
 //
-//    override def toString = {
-//      val termList = for (a <- terms) yield a.toTermString
-//      val result = "" + termList.mkString("+") + "=" + rhs
-//      result.replaceAll("\\+\\-", "\\-")
+//    //todo: provide equals and hashcode for element subclasses
+//    class Battery extends Element {
+//        double voltage;
+//
+//        Battery(int node0, int node1, double voltage) {
+//            super(node0, node1);
+//            this.voltage = voltage;
+//        }
+//
+//        int node0() {
+//            return node0;
+//        }
+//
+//        int node1() {
+//            return node1;
+//        }
 //    }
-//  }
-//  abstract class Unknown {
-//    def toTermName: String
-//  }
-//  case class UnknownCurrent(element: Element) extends Unknown {
-//    def toTermName = "I" + element.node0 + "_" + element.node1
-//  }
-//  case class UnknownVoltage(node: Int) extends Unknown {
-//    def toTermName = "V" + node
-//  }
+//
+//    class Resistor extends Element {
+//        double resistance;
+//
+//        Resistor(int node0, int node1, double resistance) {
+//            super(node0, node1);
+//            this.resistance = resistance;
+//        }
+//    }
+//
+//    class CurrentSource extends Element {
+//        double current;
+//
+//        CurrentSource(int node0, int node1, double current) {
+//            super(node0, node1);
+//            this.current = current;
+//        }
+//    }
+//
+//    static abstract class AbstractCircuit {
+//        HashSet<Integer> getNodeSet() {
+//            HashSet<Integer> set = new HashSet<Integer>();
+//            for (Element element : getElements()) {
+//                set.add(element.node0);
+//                set.add(element.node1);
+//            }
+//            return set;
+//        }
+//
+//        abstract List<Element> getElements();
+//    }
+//
+//    static class Circuit extends AbstractCircuit {
+//        //(batteries: Seq[Battery], resistors: Seq[Resistor], currentSources: Seq[CurrentSource])
+//        List<Battery> batteries;
+//        List<Resistor> resistors;
+//        List<CurrentSource> currentSources;
+//
+//        Circuit(List<Battery> batteries, List<Resistor> resistors) {
+//            this(batteries, resistors, new ArrayList<CurrentSource>());
+//        }
+//
+//        Circuit(List<Battery> batteries, List<Resistor> resistors, List<CurrentSource> currentSources) {
+//            this.batteries = batteries;
+//            this.resistors = resistors;
+//            this.currentSources = currentSources;
+//        }
+//
+//        List<Element> getElements() {
+//            List<Element> list = new ArrayList<Element>();
+//            list.addAll(batteries);
+//            list.addAll(resistors);
+//            list.addAll(currentSources);
+//            return list;
+//        }
+//
+//        int getNodeCount() {
+//            return getNodeSet().size();
+//        }
+//
+//        int getCurrentCount() {//def getCurrentCount = batteries.length + resistors.filter(_.resistance == 0).size
+//            int zeroResistors = 0;
+//            for (Resistor resistor : resistors) {
+//                if (resistor.resistance == 0) {
+//                    zeroResistors++;
+//                }
+//            }
+//            return batteries.size() + zeroResistors;
+//        }
+//
+//        int getNumVars() {
+//            return getNodeCount() + getCurrentCount();
+//        }
+//
+//        class Term {
+//            double coefficient;
+//            Unknown variable;
+//
+//            Term(double coefficient, Unknown variable) {
+//                this.coefficient = coefficient;
+//                this.variable = variable;
+//            }
+//
+//            String toTermString() {
+//                String prefix = coefficient == 1 ? "" : ((coefficient == -1) ? "-" : coefficient + "*");
+//                return prefix + variable.toTermName();
+//            }
+//        }
+//
+//        static interface IndexMap {
+//            int getIndex(Unknown unknown);
+//        }
+//
+//        class Equation {
+//            //(rhs: Double, terms: Term*)
+//            double rhs;
+//            ArrayList<Term> terms;
+//
+//            Equation(double rhs, ArrayList<Term> terms) {
+//                this.rhs = rhs;
+//                this.terms = terms;
+//            }
+//
+//            void stamp(int row, Matrix A, Matrix z, IndexMap indexMap) {
+//                z.set(row, 0, rhs);
+//                for (Term a : terms) {
+//                    A.set(row, indexMap.getIndex(a.variable), a.coefficient + A.get(row, indexMap.getIndex(a.variable)));
+//                }
+//            }
+//
+//            public String toString() {
+//                val termList =
+//                for (a< -terms) yield a.toTermString
+//                String result = "" + termList.mkString("+") + "=" + rhs;
+//                return result.replaceAll("\\+\\-", "\\-");
+//            }
+//        }
+//
+//        abstract class Unknown {
+//            abstract String toTermName();
+//        }
+//
+//        class UnknownCurrent extends Unknown {
+//            Element element;
+//
+//            UnknownCurrent(Element element) {
+//                this.element = element;
+//            }
+//
+//            String toTermName() {
+//                return "I" + element.node0 + "_" + element.node1;
+//            }
+//
+//        }
+//
+//        class UnknownVoltage extends Unknown {
+//            int node;
+//
+//            UnknownVoltage(int node) {
+//                this.node = node;
+//            }
+//
+//            String toTermName() {
+//                return "V" + node;
+//            }
+//        }
 //
 //
-//  def getRHS(node: Int) = {
-//    var sum = 0.0
-//    for (c <- currentSources if c.node1 == node) sum = sum - c.current //current is entering the node//TODO: these signs seem backwards, shouldn't incoming current add?
-//    for (c <- currentSources if c.node0 == node) sum = sum + c.current //current is going away
-//    sum
-//  }
-//  //Todo: does this get the signs right in all cases?
+//        double getRHS(int node) {
+//            double sum = 0.0;
+//            for (CurrentSource c : currentSources) {
+//                if (c.node1 == node)
+//                    sum = sum - c.current;//current is entering the node//TODO: these signs seem backwards, shouldn't incoming current add?
+//                if (c.node0 == node) sum = sum + c.current;//current is going away
+//            }
+//            return sum;
+//        }
+//
+//
+//        //Todo: does this get the signs right in all cases?
 //  //TODO: maybe signs here should depend on component orientation?
 //
 //  //incoming current is negative, outgoing is positive
@@ -347,6 +414,7 @@
 //
 //  var debug = false
 //}
+//        }
 //
 //class TestMNA {
 //    public static void main(String[] args) {
