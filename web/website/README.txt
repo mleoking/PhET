@@ -98,8 +98,10 @@ sims/java-common-strings/
   - Contains support to translate strings common to all sims of a
   specific type
 sims/resources/
-  - ??? What are these files for?
-  - **owned by JO, ask him
+  - Used for deploying files to all flash or java JARs etc. Used for
+  deploying common translations. It also stores backups of the files
+  changed (and isn't used often), so it can be manually cleaned very
+  ocassionally.
 sims/sim-template/
   - A dummy java sim that is used for testing deployment procedures.
 sims/test-flash-project/
