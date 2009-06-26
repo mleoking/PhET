@@ -137,15 +137,30 @@ public class MatchingGameModel extends ABSModel {
     }
     
     /**
-     * Checks if the solution on the left is an acid.
+     * Checks if the solution on the left is an acid, assesses points.
+     * @return
+     */
+    public boolean checkAcid() {
+        return checkAcidBase( solutionLeft.isAcidic() );
+    }
+    
+    /**
+     * Checks if the solution on the left is a base, assesses points.
+     * @return
+     */
+    public boolean checkBase() {
+        return checkAcidBase( solutionLeft.isBasic() );
+    }
+    
+    /**
+     * Handles points for the acid/base question.
      * <p>
      * If this is our first guess and we're correct, we get points.
      * If it's not our first guess and we're correct, we get no points.
      * If the guess is wrong, we lose points.
      * @return
      */
-    public boolean checkAcid() {
-        boolean success = solutionLeft.isAcidic();
+    private boolean checkAcidBase( final boolean success ) {
         int delta = 0;
         if ( success ) {
             delta = ( acidBaseGuessed ? POINTS_ACIDBASE_CORRECT_RETRY : POINTS_ACIDBASE_CORRECT_FIRST );
@@ -156,15 +171,6 @@ public class MatchingGameModel extends ABSModel {
         acidBaseGuessed = true;
         changePoints( delta );
         return success;
-    }
-    
-    /**
-     * Checks it the solution on the left is a base.
-     * See checkAcid.
-     * @return
-     */
-    public boolean checkBase() {
-        return !checkAcid();
     }
     
     /**

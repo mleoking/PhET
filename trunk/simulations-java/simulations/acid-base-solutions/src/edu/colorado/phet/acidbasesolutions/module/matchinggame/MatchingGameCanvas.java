@@ -21,7 +21,9 @@ import edu.colorado.phet.acidbasesolutions.view.MatchingGameQuestionNode;
 import edu.colorado.phet.acidbasesolutions.view.MatchingGameScoreNode;
 import edu.colorado.phet.acidbasesolutions.view.beaker.BeakerNode;
 import edu.colorado.phet.acidbasesolutions.view.graph.ConcentrationGraphNode;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -37,19 +39,22 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
 
     // View
     private final MatchingGameScoreNode scoreNode;
-    private final MatchingGameQuestionNode acidBaseQuestion;
-    private final MatchingGameQuestionNode matchSolutionQuestion;
-    private final MatchingGameAnswerNode correctAnswer;
-    private final MatchingGameAnswerNode wrongAnswer;
     private final BeakerNode beakerNodeLeft, beakerNodeRight;
     private final ConcentrationGraphNode graphNodeLeft, graphNodeRight;
     
     // Controls
     private final PSwingButton newSolutionButton;
-    private final PSwingButton acidButton, baseButton;
-    private final PSwingButton checkMatchButton;
     private final SolutionControlsNode solutionControlsNodeRight;
     private final MatchingGameViewControlsNode viewControlsNode;
+    
+    // Parent nodes, for changing visibility based on game state
+    private final PhetPNode acidBaseQuestionParent;
+    private final PhetPNode matchQuestionParent;
+    private final PhetPNode correctParent;
+    private final PhetPNode wrongParent;
+    
+    // Dev
+    private final PNode cheatNode;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -63,46 +68,97 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
         
         scoreNode = new MatchingGameScoreNode( model );
         
-        acidBaseQuestion = new MatchingGameQuestionNode( ABSStrings.QUESTION_ACID_OR_BASE );
-        matchSolutionQuestion = new MatchingGameQuestionNode( ABSStrings.QUESTION_MATCH_SOLUTION );
-        
-        correctAnswer = new MatchingGameAnswerNode( ABSStrings.ANSWER_CORRECT );
-        wrongAnswer = new MatchingGameAnswerNode( ABSStrings.ANSWER_WRONG );
-        
         newSolutionButton = new PSwingButton( ABSStrings.BUTTON_NEW_SOLUTION );
         newSolutionButton.scale( ABSConstants.PSWING_SCALE );
         newSolutionButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 model.newSolution();
+                setModeAcidBaseQuestion();
             }
         });
         
-        acidButton = new PSwingButton( ABSStrings.BUTTON_ACID );
-        acidButton.scale( ABSConstants.PSWING_SCALE );
-        acidButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                boolean success = model.checkAcid();
-                //TODO change state based on success
-            }
-        } );
-        
-        baseButton = new PSwingButton( ABSStrings.BUTTON_BASE );
-        baseButton.scale( ABSConstants.PSWING_SCALE );
-        baseButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                boolean success = model.checkBase();
-                //TODO change state based on success
-            }
-        } );
+        // "Acid or Base" question and related controls
+        {
+            PNode question = new MatchingGameQuestionNode( ABSStrings.QUESTION_ACID_OR_BASE );
 
-        checkMatchButton = new PSwingButton( ABSStrings.BUTTON_CHECK_MATCH );
-        checkMatchButton.scale( ABSConstants.PSWING_SCALE );
-        checkMatchButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                boolean success = model.checkMatch();
-                //TODO change state based on success
-            }
-        } );
+            PSwingButton acidButton = new PSwingButton( ABSStrings.BUTTON_ACID );
+            acidButton.scale( ABSConstants.PSWING_SCALE );
+            acidButton.addActionListener( new ActionListener() {
+
+                public void actionPerformed( ActionEvent e ) {
+                    boolean success = model.checkAcid();
+                    if ( success ) {
+                        setModeMatchQuestion();
+                    }
+                }
+            } );
+
+            PSwingButton baseButton = new PSwingButton( ABSStrings.BUTTON_BASE );
+            baseButton.scale( ABSConstants.PSWING_SCALE );
+            baseButton.addActionListener( new ActionListener() {
+
+                public void actionPerformed( ActionEvent e ) {
+                    boolean success = model.checkBase();
+                    if ( success ) {
+                        setModeMatchQuestion();
+                    }
+                }
+            } );
+
+            acidBaseQuestionParent = new PhetPNode();
+            acidBaseQuestionParent.addChild( question );
+            acidBaseQuestionParent.addChild( acidButton );
+            acidBaseQuestionParent.addChild( baseButton );
+            
+            question.setOffset( 0, 0 );
+            acidButton.setOffset( 0, question.getFullBoundsReference().getMaxY() + 10 );
+            baseButton.setOffset( acidButton.getFullBoundsReference().getMaxX() + 10, acidButton.getYOffset() );
+        }
+
+        // "Match" question and related controls
+        {
+            PNode question = new MatchingGameQuestionNode( ABSStrings.QUESTION_MATCH_SOLUTION );
+            
+            PSwingButton checkMatchButton = new PSwingButton( ABSStrings.BUTTON_CHECK_MATCH );
+            checkMatchButton.scale( ABSConstants.PSWING_SCALE );
+            checkMatchButton.addActionListener( new ActionListener() {
+
+                public void actionPerformed( ActionEvent e ) {
+                    boolean success = model.checkMatch();
+                    if ( success ) {
+                        model.newSolution();
+                        setModeAcidBaseQuestion();
+                    }
+                }
+            } );
+            
+            matchQuestionParent = new PhetPNode();
+            matchQuestionParent.addChild( question );
+            matchQuestionParent.addChild( checkMatchButton );
+            
+            question.setOffset( 0, 0 );
+            checkMatchButton.setOffset( 0, question.getFullBoundsReference().getMaxY() + 10 );
+        }
+        
+        // "Correct" answer
+        {
+            PNode answer = new MatchingGameAnswerNode( ABSStrings.ANSWER_CORRECT );
+            
+            correctParent = new PhetPNode();
+            correctParent.addChild( answer );
+            
+            answer.setOffset( 0, 0 );
+        }
+        
+        // "Wrong" answer
+        {
+            PNode answer = new MatchingGameAnswerNode( ABSStrings.ANSWER_WRONG );
+            
+            wrongParent = new PhetPNode();
+            wrongParent.addChild( answer );
+            
+            answer.setOffset( 0, 0 );
+        }
         
         beakerNodeLeft = new BeakerNode( MatchingGameDefaults.BEAKER_SIZE, solutionLeft );
         beakerNodeLeft.setBeakerLabelVisible( false );
@@ -124,18 +180,14 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
             }
         });
         
+        cheatNode = new MatchingGameCheatNode( solutionLeft );
+        
         addNode( scoreNode );
         addNode( newSolutionButton );
-        
-        addNode( acidBaseQuestion );
-        addNode( acidButton );
-        addNode( baseButton );
-        
-        addNode( matchSolutionQuestion );
-        addNode( checkMatchButton );
-        
-        addNode( correctAnswer );
-        addNode( wrongAnswer );
+        addNode( acidBaseQuestionParent );
+        addNode( matchQuestionParent );
+        addNode( correctParent );
+        addNode( wrongParent );
         
         addNode( beakerNodeLeft );
         addNode( beakerNodeRight );
@@ -143,37 +195,44 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
         addNode( graphNodeRight );
         addNode( solutionControlsNodeRight );
         addNode( viewControlsNode );
+        if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
+            addNode( cheatNode );
+        }
         
         updateView();
+        setModeAcidBaseQuestion();
     }
     
     public void setModeAcidBaseQuestion() {
+        // question & answer area
+        acidBaseQuestionParent.setVisible( true );
+        matchQuestionParent.setVisible( false );
+        correctParent.setVisible( false );
+        wrongParent.setVisible( false );
+        // view controls
         viewControlsNode.setModeAcidBaseQuestion();
         viewControlsNode.setBeakersSelected( true );
         viewControlsNode.setDissociatedComponentsRatioSelected( false );
         viewControlsNode.setHydroniumHydroxideRatioSelected( true );
         viewControlsNode.setMoleculeCountsSelected( false );
-        acidBaseQuestion.setVisible( true );
-        acidButton.setVisible( true );
-        baseButton.setVisible( true );
-        matchSolutionQuestion.setVisible( false );
-        checkMatchButton.setVisible( false );
-        correctAnswer.setVisible( false );
-        wrongAnswer.setVisible( false );
+        // solution views
+        solutionControlsNodeRight.setVisible( false );
         beakerNodeRight.setVisible( false );
         graphNodeRight.setVisible( false );
-        solutionControlsNodeRight.setVisible( false );
     }
     
-    public void setModeMatchSolutionQuestion() {
+    public void setModeMatchQuestion() {
+        // question & answer area
+        acidBaseQuestionParent.setVisible( false );
+        matchQuestionParent.setVisible( true );
+        correctParent.setVisible( false );
+        wrongParent.setVisible( false );
+        // view controls
         viewControlsNode.setModeMatchSolutionQuestion();
-        acidBaseQuestion.setVisible( false );
-        acidButton.setVisible( false );
-        baseButton.setVisible( false );
-        matchSolutionQuestion.setVisible( true );
-        checkMatchButton.setVisible( true );
-        correctAnswer.setVisible( false );
-        wrongAnswer.setVisible( false );
+        // solution views
+        solutionControlsNodeRight.setVisible( true );
+        beakerNodeRight.setVisible( viewControlsNode.isBeakersSelected() );
+        graphNodeRight.setVisible( viewControlsNode.isGraphsSelected() );
     }
     
     //----------------------------------------------------------------------------
@@ -222,25 +281,18 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
         yOffset = scoreNode.getFullBoundsReference().getMaxY() + 10;
         newSolutionButton.setOffset( xOffset, yOffset );
         
+        // "Cheat" panel below "Next Solution" button
+        xOffset = newSolutionButton.getXOffset();
+        yOffset = newSolutionButton.getFullBoundsReference().getMaxY() + 10;
+        cheatNode.setOffset( xOffset, yOffset );
+        
         // questions and answers
         xOffset = Math.max( scoreNode.getFullBoundsReference().getMaxX(), newSolutionButton.getFullBoundsReference().getMaxX() ) + 30;
         yOffset = scoreNode.getYOffset();
-        acidBaseQuestion.setOffset( xOffset, yOffset );
-        matchSolutionQuestion.setOffset( xOffset, yOffset );
-        correctAnswer.setOffset( xOffset, yOffset );
-        wrongAnswer.setOffset( xOffset, yOffset );
-        
-        // "Acid" and "Base" buttons
-        xOffset = acidBaseQuestion.getXOffset();
-        yOffset = acidBaseQuestion.getFullBoundsReference().getMaxY() + 15;
-        acidButton.setOffset( xOffset, yOffset );
-        xOffset = acidButton.getFullBoundsReference().getMaxX() + 10;
-        baseButton.setOffset( xOffset, yOffset );
-        
-        // "Check Match" button
-        xOffset = matchSolutionQuestion.getXOffset();
-        yOffset = matchSolutionQuestion.getFullBoundsReference().getMaxY() + 15;
-        checkMatchButton.setOffset( xOffset, yOffset );
+        acidBaseQuestionParent.setOffset( xOffset, yOffset );
+        matchQuestionParent.setOffset( xOffset, yOffset );
+        correctParent.setOffset( xOffset, yOffset );
+        wrongParent.setOffset( xOffset, yOffset );
         
         // left beaker
         xOffset = -PNodeUtils.getOriginXOffset( beakerNodeLeft );
