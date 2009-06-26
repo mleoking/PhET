@@ -101,8 +101,7 @@ sims/resources/
   - ??? What are these files for?
   - **owned by JO, ask him
 sims/sim-template/
-  - ??? What is this for?
-  - **owned by SR, ask him
+  - A dummy java sim that is used for testing deployment procedures.
 sims/test-flash-project/
 sims/test-project/
   - Test projects for Flash and Java, respectively.  These are not
@@ -126,9 +125,6 @@ staging
 statistics
   - Contians scripts that hanle gathering and reporting the statistics
   sent from sims
-testout.txt
-  - ??? What is this file for?
-  - ** Owned by SR, ask him
 webcache
   - Cached versions of the webpages.  We have our own custom solution,
   all files can be found here.
