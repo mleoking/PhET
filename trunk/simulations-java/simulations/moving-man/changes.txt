@@ -1,3 +1,4 @@
+> Fixed a bug that prevented boundaries from working properly, see #1697
 # 1.22.00 (30796) Apr 22, 2009
 4/22/09 move Arabic (ar) translation to Farsi (fa), #1507
 # 1.21.00 (30671) Apr 21, 2009
