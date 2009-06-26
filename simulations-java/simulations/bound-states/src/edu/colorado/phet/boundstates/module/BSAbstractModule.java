@@ -178,9 +178,6 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         // Piccolo canvas
         {
             _canvas = new PhetPCanvas( CANVAS_RENDERING_SIZE );
-            _canvas.setAnimatingRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
-            _canvas.setDefaultRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
-            _canvas.setInteractingRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
             _canvas.setBackground( BSConstants.CANVAS_BACKGROUND );
             setSimulationPanel( _canvas );
 
