@@ -84,11 +84,6 @@ public class CCKSimulationPanel extends PhetPCanvas {
             }
         } );
 
-//        setZoomEventHandler( new PZoomEventHandler() );
-        setInteractingRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
-        setDefaultRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
-        setAnimatingRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
-
         requestFocus();
         addKeyListener( new KeyListener() {
             public void keyPressed( KeyEvent e ) {

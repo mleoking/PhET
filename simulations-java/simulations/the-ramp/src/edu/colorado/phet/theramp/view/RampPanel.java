@@ -151,8 +151,6 @@ public class RampPanel extends PhetPCanvas {
             }
 
         } );
-        setInteractingRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
-        setDefaultRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
     }
 
     private void layoutAll() {
