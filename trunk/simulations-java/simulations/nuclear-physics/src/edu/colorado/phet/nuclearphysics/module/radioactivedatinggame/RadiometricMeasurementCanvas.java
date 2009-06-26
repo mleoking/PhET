@@ -72,7 +72,7 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
         _mvt = new ModelViewTransform2D(
         		new Point2D.Double(0, 0), 
         		new Point(INITIAL_INTERMEDIATE_COORD_WIDTH / 2, 
-        				(int)Math.round(INITIAL_INTERMEDIATE_COORD_HEIGHT * 0.5)),
+        				(int)Math.round(INITIAL_INTERMEDIATE_COORD_HEIGHT * 0.7)),
         		20,
         		true);
         
@@ -138,8 +138,7 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
         		_mvt,
         		this,
         		false );
-        _meterNode.setMeterBodyOffset( 0,
-        		INITIAL_INTERMEDIATE_COORD_HEIGHT - _meterNode.getMeterBodySize().getHeight() - 4);
+        _meterNode.setMeterBodyOffset( 0, 0);
         addWorldChild( _meterNode );
         
         // Create the chart that will display relative decay proportions.
