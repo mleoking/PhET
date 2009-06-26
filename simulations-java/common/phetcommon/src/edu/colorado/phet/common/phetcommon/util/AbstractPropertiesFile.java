@@ -55,7 +55,9 @@ public class AbstractPropertiesFile {
      */
     private void store() {
         try {
-            properties.store( new FileOutputStream( file ), header );
+            final FileOutputStream stream = new FileOutputStream(file);
+            properties.store(stream, header );
+            stream.close();//close the output stream after use to avoid file locking related problems
         }
         catch( IOException e ) {
             e.printStackTrace();
