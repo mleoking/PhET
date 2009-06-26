@@ -23,7 +23,6 @@ import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusDecayModel;
-import edu.colorado.phet.nuclearphysics.view.AutoPressGradientButtonNode;
 import edu.colorado.phet.nuclearphysics.view.NuclearDecayProportionChart;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -54,6 +53,9 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     // Fraction of canvas width for the meter.
     private static final double PROPORTIONS_METER_WIDTH_FRACTION = 0.23;
     
+    // Fraction of canvas width for the meter.
+    private static final double PROPORTIONS_METER_AND_CHART_HEIGHT_FRACTION = 0.2;
+    
     // Fraction of canvas width used to portray the edge of the world.
     private static final double WORLD_EDGE_WIDTH_PROPORTION = 0.05;  
     
@@ -68,6 +70,10 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     
     // Constant for the color of the reset button that resides on the canvas.
     private static final Color RESET_GUESSES_BUTTON_COLOR = new Color(90, 180, 225);
+    
+    // Fixed distance from very top of canvas where the meter and chart will
+    // be positioned.
+    private static final double OFFSET_FROM_TOP = 8;
     
     //----------------------------------------------------------------------------
     // Instance Data
@@ -102,7 +108,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         _mvt = new ModelViewTransform2D(
         		new Point2D.Double(0, 0), 
         		new Point(INITIAL_INTERMEDIATE_COORD_WIDTH / 2, 
-        				(int)Math.round(INITIAL_INTERMEDIATE_COORD_HEIGHT * 0.25)),
+        				(int)Math.round(INITIAL_INTERMEDIATE_COORD_HEIGHT * 0.55 )),
         		20,
         		true);
         
@@ -147,7 +153,8 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         _backgroundImage = new PImage( bufferedImage );
         _backgroundImage.scale(1.2);  // Empirically determined scaling factor, tweak as needed.
         _backgroundImage.setOffset(
-        		INITIAL_INTERMEDIATE_COORD_WIDTH / 2 - _backgroundImage.getFullBoundsReference().width / 2, 0);
+        		INITIAL_INTERMEDIATE_COORD_WIDTH / 2 - _backgroundImage.getFullBoundsReference().width / 2,
+        		_mvt.modelToViewYDouble(-0.25) - _backgroundImage.getFullBoundsReference().height);
         _backgroundImageLayer.addChild( _backgroundImage );
 
         // Add the strata that will contain the datable items.
@@ -183,18 +190,18 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         // resizing call to be a part of the constructor for the chart (I think).
         _proportionsChart.componentResized( new Rectangle2D.Double( 0, 0, 
         		INITIAL_INTERMEDIATE_COORD_WIDTH * PROPORTIONS_CHART_WIDTH_FRACTION,
-        		INITIAL_INTERMEDIATE_COORD_HEIGHT - _mvt.modelToViewYDouble(_model.getBottomOfStrata()) - 12));
-        _proportionsChart.setOffset(
-        		INITIAL_INTERMEDIATE_COORD_WIDTH * PROPORTIONS_METER_WIDTH_FRACTION + 10, 
-        		_mvt.modelToViewYDouble(_model.getBottomOfStrata()) + 4);
+        		INITIAL_INTERMEDIATE_COORD_HEIGHT * PROPORTIONS_METER_AND_CHART_HEIGHT_FRACTION));
+        _proportionsChart.setOffset( 
+        		INITIAL_INTERMEDIATE_COORD_WIDTH * PROPORTIONS_METER_WIDTH_FRACTION + 10, OFFSET_FROM_TOP );
 
         // Create the radiometric measuring device.
-        _meterNode = new RadiometricDatingMeterNode(_model.getMeter(), INITIAL_INTERMEDIATE_COORD_WIDTH * PROPORTIONS_METER_WIDTH_FRACTION,
-        		(INITIAL_INTERMEDIATE_COORD_HEIGHT - _mvt.modelToViewYDouble(_model.getBottomOfStrata())) * 0.95,
+        _meterNode = new RadiometricDatingMeterNode(_model.getMeter(), 
+        		INITIAL_INTERMEDIATE_COORD_WIDTH * PROPORTIONS_METER_WIDTH_FRACTION,
+        		INITIAL_INTERMEDIATE_COORD_HEIGHT * PROPORTIONS_METER_WIDTH_FRACTION,
         		_mvt,
         		this,
         		true );
-        _meterNode.setMeterBodyOffset( 0, _mvt.modelToViewYDouble(_model.getBottomOfStrata()) + 4);
+        _meterNode.setMeterBodyOffset( 0, OFFSET_FROM_TOP );
         addWorldChild( _meterNode );
         
         // Add a button to the canvas for resetting the guesses.  The button
