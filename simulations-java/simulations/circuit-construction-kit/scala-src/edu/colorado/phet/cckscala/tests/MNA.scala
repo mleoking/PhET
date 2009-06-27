@@ -179,7 +179,6 @@ case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor], currentSou
   }
 
   def getConnectedNodes(node: Int): HashSet[Int] = {
-    val nodeSet = getNodeSet
     val visited = new HashSet[Int]
     val toVisit = new HashSet[Int]
     toVisit += node
