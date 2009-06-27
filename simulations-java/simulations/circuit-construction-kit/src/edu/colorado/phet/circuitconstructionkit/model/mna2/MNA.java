@@ -10,7 +10,7 @@ import java.util.*;
  */
 public class MNA {
 
-    static abstract class ISolution {
+    public static abstract class ISolution {
         abstract double getNodeVoltage(int node);
 
         abstract double getCurrent(Element element);
@@ -21,7 +21,7 @@ public class MNA {
     }
 
     //sparse solution containing only the solved unknowns in MNA
-    static class Solution extends ISolution {
+    public static class Solution extends ISolution {
         HashMap<Integer, Double> nodeVoltages = new HashMap<Integer, Double>();
         HashMap<Element, Double> branchCurrents = new HashMap<Element, Double>();
 
@@ -105,7 +105,7 @@ public class MNA {
     }
 
     //Subclasses should have proper equals and hashcode for hashmapping
-    static abstract class Element {
+    public static abstract class Element {
         int node0;
 
         int node1;
@@ -154,7 +154,7 @@ public class MNA {
         }
     }
 
-    static class Battery extends Element {
+    public static class Battery extends Element {
         double voltage;
 
         Battery(int node0, int node1, double voltage) {
@@ -200,7 +200,7 @@ public class MNA {
         }
     }
 
-    static class Resistor extends Element {
+    public static class Resistor extends Element {
         double resistance;
 
         Resistor(int node0, int node1, double resistance) {
@@ -238,7 +238,7 @@ public class MNA {
         }
     }
 
-    class CurrentSource extends Element {
+    public class CurrentSource extends Element {
         double current;
 
         CurrentSource(int node0, int node1, double current) {
@@ -276,7 +276,7 @@ public class MNA {
         }
     }
 
-    static abstract class AbstractCircuit {
+    public static abstract class AbstractCircuit {
         HashSet<Integer> getNodeSet() {
             HashSet<Integer> set = new HashSet<Integer>();
             for (Element element : getElements()) {
@@ -289,7 +289,7 @@ public class MNA {
         abstract List<Element> getElements();
     }
 
-    static class Circuit extends AbstractCircuit {
+    public static class Circuit extends AbstractCircuit {
         List<Battery> batteries;
         List<Resistor> resistors;
         List<CurrentSource> currentSources;
