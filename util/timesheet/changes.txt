@@ -1,2 +1,4 @@
+# 1.00.02 (32797) Jun 27, 2009
+6/27/09 Rearrange buttons, see #1696
 # 1.00.01 (32722) Jun 25, 2009
 6/25/09 Initial deploy of timesheet utility application.
