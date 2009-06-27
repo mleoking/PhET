@@ -715,7 +715,6 @@ public class MNA {
 
     public static class TestMNA {
         public static void main(String[] args) {
-
             final ArrayList<Battery> batteryArrayList = new ArrayList<Battery>();
             Battery battery = new Battery(0, 1, 4.0);
             batteryArrayList.add(battery);
@@ -736,7 +735,5 @@ public class MNA {
             System.out.println("circuit.solve=" + circuit.solve());
             assert (circuit.solve().approxEquals(desiredSolution));
         }
-
-
     }
 }
