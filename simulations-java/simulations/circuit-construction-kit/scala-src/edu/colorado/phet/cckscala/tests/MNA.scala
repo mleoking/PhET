@@ -43,7 +43,7 @@ case class Solution(private val nodeVoltages: collection.Map[Int, Double], priva
     //else compute based on V=IR
     else {
       e match {
-        //current flows from high to low potential in a component (except batteries) 
+      //current flows from high to low potential in a component (except batteries)
         case r: Resistor => -getVoltage(r) / r.resistance
         case _ => throw new RuntimeException("Solution does not contain current for element: " + e)
       }
@@ -265,15 +265,15 @@ case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor], currentSou
 
 object TestMNA {
   def main(args: Array[String]) {
-        val battery = Battery(0, 1, 4.0)
+    val battery = Battery(0, 1, 4.0)
     val resistor = Resistor(1, 2, 4.0)
     val resistor2 = Resistor(2, 0, 0.0)
-    val circuit = new Circuit(battery :: Nil, resistor :: resistor2:: Nil)
-    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 4.0, 2->0.0), Map(battery -> 1.0,resistor2->1.0))
-    circuit.debug=true
-    println("circuit.solve="+circuit.solve)
-    println("desired solution="+desiredSolution)
-    circuit.debug=false
+    val circuit = new Circuit(battery :: Nil, resistor :: resistor2 :: Nil)
+    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 4.0, 2 -> 0.0), Map(battery -> 1.0, resistor2 -> 1.0))
+    circuit.debug = true
+    println("circuit.solve=" + circuit.solve)
+    println("desired solution=" + desiredSolution)
+    circuit.debug = false
     assert(circuit.solve.approxEquals(desiredSolution))
   }
 }

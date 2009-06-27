@@ -290,7 +290,6 @@ public class MNA {
     }
 
     static class Circuit extends AbstractCircuit {
-        //(batteries: Seq[Battery], resistors: Seq[Resistor], currentSources: Seq[CurrentSource])
         List<Battery> batteries;
         List<Resistor> resistors;
         List<CurrentSource> currentSources;
@@ -351,7 +350,7 @@ public class MNA {
             return getNodeSet().size();
         }
 
-        int getCurrentCount() {//def getCurrentCount = batteries.length + resistors.filter(_.resistance == 0).size
+        int getCurrentCount() {
             int zeroResistors = 0;
             for (Resistor resistor : resistors) {
                 if (resistor.resistance == 0) {
@@ -413,7 +412,6 @@ public class MNA {
         }
 
         class Equation {
-            //(rhs: Double, terms: Term*)
             double rhs;
             Term[] terms;
 
@@ -430,9 +428,9 @@ public class MNA {
             }
 
             public String toString() {
-                ArrayList<String> termList =new ArrayList<String>();
+                ArrayList<String> termList = new ArrayList<String>();
                 for (Term a : terms) termList.add(a.toTermString());
-                String result = "" + Util.mkString(termList,"+") + "=" + rhs;
+                String result = "" + Util.mkString(termList, "+") + "=" + rhs;
                 return result.replaceAll("\\+\\-", "\\-");
             }
         }
@@ -680,12 +678,10 @@ public class MNA {
             HashMap<Integer, Double> voltageMap = new HashMap<Integer, Double>();
             for (UnknownVoltage nodeVoltage : getUnknownVoltages())
                 voltageMap.put(nodeVoltage.node, x.get(getUnknowns().indexOf(nodeVoltage), 0));
-//    for (nodeVoltage <- getUnknownVoltages) voltageMap(nodeVoltage.node) = x.get(getUnknowns.indexOf(nodeVoltage), 0)
 
             HashMap<Element, Double> currentMap = new HashMap<Element, Double>();
             for (UnknownCurrent currentVar : getUnknownCurrents())
                 currentMap.put(currentVar.element, x.get(getUnknowns().indexOf(currentVar), 0));
-//    for (currentVar <- getUnknownCurrents) currentMap(currentVar.element) = x.get(getUnknowns.indexOf(currentVar), 0)
 
             if (debug) {
                 System.out.println("Debugging circuit: " + toString());
@@ -743,6 +739,4 @@ public class MNA {
 
 
     }
-
-
 }
