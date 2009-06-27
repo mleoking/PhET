@@ -154,7 +154,6 @@ public class MNA {
         }
     }
 
-    //todo: provide equals and hashcode for element subclasses
     static class Battery extends Element {
         double voltage;
 
