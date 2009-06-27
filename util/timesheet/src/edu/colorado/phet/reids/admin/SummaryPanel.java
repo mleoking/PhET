@@ -114,6 +114,8 @@ public class SummaryPanel extends JPanel {
         add( piechart );
         updateSaveButtonEnabled();
 
+        add( new SummaryButton( data ) );
+
         delete = new JButton( "Delete" );
         delete.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -143,8 +145,6 @@ public class SummaryPanel extends JPanel {
         } );
         updateInsertButtonEnabled();
         add( insert );
-
-        add( new SummaryButton( data ) );
 
         add( new WeeklyReadoutPanel( "platform-issues", data ) {
             protected TimesheetData selectData( TimesheetData data ) {
