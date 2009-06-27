@@ -74,6 +74,34 @@ public class MNA {
             }
 
         }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            Solution solution = (Solution) o;
+
+            if (!branchCurrents.equals(solution.branchCurrents)) return false;
+            if (!nodeVoltages.equals(solution.nodeVoltages)) return false;
+
+            return true;
+        }
+
+        @Override
+        public int hashCode() {
+            int result = nodeVoltages.hashCode();
+            result = 31 * result + branchCurrents.hashCode();
+            return result;
+        }
+
+        @Override
+        public String toString() {
+            return "Solution{" +
+                    "nodeVoltages=" + nodeVoltages +
+                    ", branchCurrents=" + branchCurrents +
+                    '}';
+        }
     }
 
     //Subclasses should have proper equals and hashcode for hashmapping
@@ -96,6 +124,34 @@ public class MNA {
             else if (node == node1) return node0;
             else throw new RuntimeException("node not found");
         }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            Element element = (Element) o;
+
+            if (node0 != element.node0) return false;
+            if (node1 != element.node1) return false;
+
+            return true;
+        }
+
+        @Override
+        public int hashCode() {
+            int result = node0;
+            result = 31 * result + node1;
+            return result;
+        }
+
+        @Override
+        public String toString() {
+            return "Element{" +
+                    "node0=" + node0 +
+                    ", node1=" + node1 +
+                    '}';
+        }
     }
 
     //todo: provide equals and hashcode for element subclasses
@@ -114,6 +170,35 @@ public class MNA {
         int node1() {
             return node1;
         }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            if (!super.equals(o)) return false;
+
+            Battery battery = (Battery) o;
+
+            if (Double.compare(battery.voltage, voltage) != 0) return false;
+
+            return true;
+        }
+
+        @Override
+        public int hashCode() {
+            int result = super.hashCode();
+            long temp;
+            temp = voltage != +0.0d ? Double.doubleToLongBits(voltage) : 0L;
+            result = 31 * result + (int) (temp ^ (temp >>> 32));
+            return result;
+        }
+
+        @Override
+        public String toString() {
+            return "Battery{" +
+                    "voltage=" + voltage +
+                    '}';
+        }
     }
 
     static class Resistor extends Element {
@@ -123,6 +208,35 @@ public class MNA {
             super(node0, node1);
             this.resistance = resistance;
         }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            if (!super.equals(o)) return false;
+
+            Resistor resistor = (Resistor) o;
+
+            if (Double.compare(resistor.resistance, resistance) != 0) return false;
+
+            return true;
+        }
+
+        @Override
+        public int hashCode() {
+            int result = super.hashCode();
+            long temp;
+            temp = resistance != +0.0d ? Double.doubleToLongBits(resistance) : 0L;
+            result = 31 * result + (int) (temp ^ (temp >>> 32));
+            return result;
+        }
+
+        @Override
+        public String toString() {
+            return "Resistor{" +
+                    "resistance=" + resistance +
+                    '}';
+        }
     }
 
     class CurrentSource extends Element {
@@ -131,6 +245,35 @@ public class MNA {
         CurrentSource(int node0, int node1, double current) {
             super(node0, node1);
             this.current = current;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            if (!super.equals(o)) return false;
+
+            CurrentSource that = (CurrentSource) o;
+
+            if (Double.compare(that.current, current) != 0) return false;
+
+            return true;
+        }
+
+        @Override
+        public int hashCode() {
+            int result = super.hashCode();
+            long temp;
+            temp = current != +0.0d ? Double.doubleToLongBits(current) : 0L;
+            result = 31 * result + (int) (temp ^ (temp >>> 32));
+            return result;
+        }
+
+        @Override
+        public String toString() {
+            return "CurrentSource{" +
+                    "current=" + current +
+                    '}';
         }
     }
 
@@ -161,6 +304,40 @@ public class MNA {
             this.batteries = batteries;
             this.resistors = resistors;
             this.currentSources = currentSources;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            Circuit circuit = (Circuit) o;
+
+            if (debug != circuit.debug) return false;
+            if (!batteries.equals(circuit.batteries)) return false;
+            if (!currentSources.equals(circuit.currentSources)) return false;
+            if (!resistors.equals(circuit.resistors)) return false;
+
+            return true;
+        }
+
+        @Override
+        public int hashCode() {
+            int result = batteries.hashCode();
+            result = 31 * result + resistors.hashCode();
+            result = 31 * result + currentSources.hashCode();
+            result = 31 * result + (debug ? 1 : 0);
+            return result;
+        }
+
+        @Override
+        public String toString() {
+            return "Circuit{" +
+                    "batteries=" + batteries +
+                    ", resistors=" + resistors +
+                    ", currentSources=" + currentSources +
+                    ", debug=" + debug +
+                    '}';
         }
 
         List<Element> getElements() {
@@ -201,6 +378,34 @@ public class MNA {
             String toTermString() {
                 String prefix = coefficient == 1 ? "" : ((coefficient == -1) ? "-" : coefficient + "*");
                 return prefix + variable.toTermName();
+            }
+
+            @Override
+            public boolean equals(Object o) {
+                if (this == o) return true;
+                if (o == null || getClass() != o.getClass()) return false;
+
+                Term term = (Term) o;
+
+                if (Double.compare(term.coefficient, coefficient) != 0) return false;
+                if (!variable.equals(term.variable)) return false;
+
+                return true;
+            }
+
+            @Override
+            public int hashCode() {
+                int result;
+                long temp;
+                temp = coefficient != +0.0d ? Double.doubleToLongBits(coefficient) : 0L;
+                result = (int) (temp ^ (temp >>> 32));
+                result = 31 * result + variable.hashCode();
+                return result;
+            }
+
+            @Override
+            public String toString() {
+                return super.toString();
             }
         }
 
@@ -248,6 +453,29 @@ public class MNA {
                 return "I" + element.node0 + "_" + element.node1;
             }
 
+            @Override
+            public boolean equals(Object o) {
+                if (this == o) return true;
+                if (o == null || getClass() != o.getClass()) return false;
+
+                UnknownCurrent that = (UnknownCurrent) o;
+
+                if (!element.equals(that.element)) return false;
+
+                return true;
+            }
+
+            @Override
+            public int hashCode() {
+                return element.hashCode();
+            }
+
+            @Override
+            public String toString() {
+                return "UnknownCurrent{" +
+                        "element=" + element +
+                        '}';
+            }
         }
 
         class UnknownVoltage extends Unknown {
@@ -259,6 +487,30 @@ public class MNA {
 
             String toTermName() {
                 return "V" + node;
+            }
+
+            @Override
+            public boolean equals(Object o) {
+                if (this == o) return true;
+                if (o == null || getClass() != o.getClass()) return false;
+
+                UnknownVoltage that = (UnknownVoltage) o;
+
+                if (node != that.node) return false;
+
+                return true;
+            }
+
+            @Override
+            public int hashCode() {
+                return node;
+            }
+
+            @Override
+            public String toString() {
+                return "UnknownVoltage{" +
+                        "node=" + node +
+                        '}';
             }
         }
 
