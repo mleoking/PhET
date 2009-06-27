@@ -273,18 +273,5 @@ object TestMNA {
     circuit.debug=true
     println("circuit.solve="+circuit.solve)
     assert(circuit.solve.approxEquals(desiredSolution))
-
-//
-//    val battery = Battery(0, 1, 4.0)
-//    val resistor = Resistor(1, 2, 8.0)
-//    val resistor2 = Resistor(2, 0, 0)
-//    val circuit = new Circuit(battery :: Nil, resistor :: resistor2::Nil)
-//    circuit.debug=true
-//    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 4.0), Map(battery -> 0.5))
-//    val solution = circuit.solve
-//    val current = solution.getCurrent(resistor)
-//    println("resistor.current=" + current)
-//    assert(abs(current - 2.0) < 1E-6)
-//    assert(solution.approxEquals(desiredSolution))
   }
 }
