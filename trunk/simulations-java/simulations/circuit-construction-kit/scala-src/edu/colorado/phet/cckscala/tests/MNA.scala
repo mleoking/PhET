@@ -269,9 +269,11 @@ object TestMNA {
     val resistor = Resistor(1, 2, 4.0)
     val resistor2 = Resistor(2, 0, 0.0)
     val circuit = new Circuit(battery :: Nil, resistor :: resistor2:: Nil)
-    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 4.0), Map(battery -> 1.0))
+    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 4.0, 2->0.0), Map(battery -> 1.0,resistor2->1.0))
     circuit.debug=true
     println("circuit.solve="+circuit.solve)
+    println("desired solution="+desiredSolution)
+    circuit.debug=false
     assert(circuit.solve.approxEquals(desiredSolution))
   }
 }
