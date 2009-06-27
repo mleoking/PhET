@@ -327,10 +327,21 @@
 //      }
 //    return new InitialConditionSet(capacitorMap, inductorMap);
 //  }
-//  case class InitialConditionSet(capacitorMap: HashMap[Capacitor, InitialCondition], inductorMap: HashMap[Inductor, InitialCondition])
+//        //todo: needs equals, hashcode, tostring?
+//  class InitialConditionSet{
+////      (capacitorMap: HashMap[Capacitor, InitialCondition], inductorMap: HashMap[Inductor, InitialCondition])
+//      HashMap<Capacitor,InitialCondition> capacitorMap;
+//      HashMap<Inductor,InitialCondition> inductorMap;
 //
-//  def getCompanionModel(dt: Double) = {
-//    val b = new ArrayBuffer[Battery]//batteries use companion model since they have optionally have internal resistance
+//      InitialConditionSet(HashMap<Capacitor, InitialCondition> capacitorMap, HashMap<Inductor, InitialCondition> inductorMap) {
+//          this.capacitorMap = capacitorMap;
+//          this.inductorMap = inductorMap;
+//      }
+//  }
+//
+//  CompanionCircuit getCompanionModel(double dt) {
+//    ArrayList<MNA.Battery> b = new ArrayList<MNA.Battery>();//batteries use companion model since they have optionally have internal resistance
+//
 //    val r = new ArrayBuffer[Resistor]
 //    r ++= resistors
 //    val cs = new ArrayBuffer[CurrentSource]
