@@ -39,12 +39,12 @@ public class MNA {
         }
 
         boolean approxEquals(Solution s, double delta) {
-            if (nodeVoltages.keySet() != s.nodeVoltages.keySet() || branchCurrents.keySet() != s.branchCurrents.keySet())
+            if (!nodeVoltages.keySet().equals(s.nodeVoltages.keySet()) || !branchCurrents.keySet().equals(s.branchCurrents.keySet()))
                 return false;
             else {
                 boolean sameVoltages = true;
                 for (Integer key : nodeVoltages.keySet()) {
-                    if (nodeVoltages.get(key) != s.nodeVoltages.get(key))
+                    if (!nodeVoltages.get(key).equals(s.nodeVoltages.get(key)))
                         sameVoltages = false;
                 }
                 boolean sameCurrents = true;
@@ -726,13 +726,16 @@ public class MNA {
             batteryArrayList.add(battery);
             final ArrayList<Resistor> resistorArrayList = new ArrayList<Resistor>();
             resistorArrayList.add(new Resistor(1, 2, 4.0));
-            resistorArrayList.add(new Resistor(2, 0, 0.0));
+            Resistor resistor2 = new Resistor(2, 0, 0.0);
+            resistorArrayList.add(resistor2);
             Circuit circuit = new Circuit(batteryArrayList, resistorArrayList);
             HashMap<Integer, Double> voltageMap = new HashMap<Integer, Double>();
             voltageMap.put(0, 0.0);
             voltageMap.put(1, 4.0);
+            voltageMap.put(2, 0.0);
             HashMap<Element, Double> currentMap = new HashMap<Element, Double>();
             currentMap.put(battery, 1.0);
+            currentMap.put(resistor2, 1.0);
             Solution desiredSolution = new Solution(voltageMap, currentMap);
             circuit.debug = true;
             System.out.println("circuit.solve=" + circuit.solve());
