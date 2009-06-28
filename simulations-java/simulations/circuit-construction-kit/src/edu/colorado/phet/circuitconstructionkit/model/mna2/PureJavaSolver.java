@@ -73,7 +73,7 @@ public class PureJavaSolver extends CircuitSolver {
         Capacitor b;
 
         CapacitorAdapter(Circuit c, Capacitor b) {
-            super(c.indexOf(b.getStartJunction()), c.indexOf(b.getEndJunction()), b.getCurrent(), b.getVoltageDrop(), b.getCurrent());
+            super(c.indexOf(b.getStartJunction()), c.indexOf(b.getEndJunction()), b.getCapacitance(), b.getVoltageDrop(), b.getCurrent());
             this.c = c;
             this.b = b;
         }
@@ -96,7 +96,7 @@ public class PureJavaSolver extends CircuitSolver {
         Inductor b;
 
         InductorAdapter(Circuit c, Inductor b) {
-            super(c.indexOf(b.getStartJunction()), c.indexOf(b.getEndJunction()), b.getCurrent(), b.getVoltageDrop(), b.getCurrent());
+            super(c.indexOf(b.getStartJunction()), c.indexOf(b.getEndJunction()), b.getInductance(), b.getVoltageDrop(), b.getCurrent());
             this.c = c;
             this.b = b;
         }
