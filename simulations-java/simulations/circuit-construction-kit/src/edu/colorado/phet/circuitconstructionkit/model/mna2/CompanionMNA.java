@@ -131,7 +131,7 @@ public class CompanionMNA {
         }
     }
 
-    class Inductor extends MNA.Element implements HasCompanionModel {
+    public static class Inductor extends MNA.Element implements HasCompanionModel {
         double inductance;
         double voltage;
         double current;
@@ -200,7 +200,7 @@ public class CompanionMNA {
     }
 
     //This models a battery with a resistance in series
-    class ResistiveBattery extends MNA.Element implements HasCompanionModel {
+    public static class ResistiveBattery extends MNA.Element implements HasCompanionModel {
         double voltage;
         double resistance;
 
@@ -261,7 +261,7 @@ public class CompanionMNA {
         }
     }
 
-    class InitialCondition {
+    static class InitialCondition {
         double voltage;
         double current;
 
@@ -303,15 +303,13 @@ public class CompanionMNA {
         }
     }
 
-    class FullCircuit extends MNA.AbstractCircuit {
-        //(batteries: Seq[ResistiveBattery], resistors: Seq[Resistor], capacitors: Seq[Capacitor], inductors: Seq[Inductor])
+    public static class FullCircuit extends MNA.AbstractCircuit {
+        ArrayList<? extends ResistiveBattery> batteries;
+        ArrayList<? extends MNA.Resistor> resistors;
+        ArrayList<? extends Capacitor> capacitors;
+        ArrayList<? extends Inductor> inductors;
 
-        ArrayList<ResistiveBattery> batteries;
-        ArrayList<MNA.Resistor> resistors;
-        ArrayList<Capacitor> capacitors;
-        ArrayList<Inductor> inductors;
-
-        FullCircuit(ArrayList<ResistiveBattery> batteries, ArrayList<MNA.Resistor> resistors, ArrayList<Capacitor> capacitors, ArrayList<Inductor> inductors) {
+        public FullCircuit(ArrayList<? extends ResistiveBattery> batteries, ArrayList<? extends MNA.Resistor> resistors, ArrayList<? extends Capacitor> capacitors, ArrayList<? extends Inductor> inductors) {
             this.batteries = batteries;
             this.resistors = resistors;
             this.capacitors = capacitors;
@@ -516,7 +514,7 @@ public class CompanionMNA {
         }
     }
 
-    class CompanionCircuit {
+    static class CompanionCircuit {
         MNA.Circuit circuit;
         HashMap<HasCompanionModel, CompanionModel> elementMap;
 
@@ -562,8 +560,7 @@ public class CompanionMNA {
         }
     }
 
-    class CompanionSolution extends MNA.ISolution {
-        // (fullCircuit: FullCircuit, companionModel: CompanionCircuit, solution: Solution)
+    public static class CompanionSolution extends MNA.ISolution {
         FullCircuit fullCircuit;
         CompanionCircuit companionModel;
         MNA.Solution solution;

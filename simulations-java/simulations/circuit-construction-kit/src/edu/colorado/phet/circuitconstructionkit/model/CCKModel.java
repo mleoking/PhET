@@ -18,6 +18,7 @@ import edu.colorado.phet.circuitconstructionkit.model.analysis.CircuitSolver;
 import edu.colorado.phet.circuitconstructionkit.model.analysis.MNASolver;
 import edu.colorado.phet.circuitconstructionkit.model.analysis.CircuitAnalysisCCKAdapter;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
+import edu.colorado.phet.circuitconstructionkit.model.mna2.PureJavaSolver;
 
 /**
  * CCKModel
@@ -78,7 +79,8 @@ public class CCKModel {
             }
         };
         this.circuit = createCircuit( circuitChangeListener );
-        circuitSolver = new CircuitAnalysisCCKAdapter( new MNASolver() );
+//        circuitSolver = new CircuitAnalysisCCKAdapter( new MNASolver() );
+        circuitSolver = new PureJavaSolver();
 
         //Use reflection for Java->Scala dependencies until Eclipse developers are using Scala builder
 //        try{
