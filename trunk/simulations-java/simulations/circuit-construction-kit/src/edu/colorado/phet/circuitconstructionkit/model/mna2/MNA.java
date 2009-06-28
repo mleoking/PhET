@@ -241,10 +241,10 @@ public class MNA {
         }
     }
 
-    public class CurrentSource extends Element {
+    public static class CurrentSource extends Element {
         double current;
 
-        CurrentSource(int node0, int node1, double current) {
+        public CurrentSource(int node0, int node1, double current) {
             super(node0, node1);
             this.current = current;
         }
