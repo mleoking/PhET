@@ -20,7 +20,10 @@ public class MNAFunSuite extends TestCase {
         MNA.Solution desiredSolution = new MNA.Solution(voltageMap, currentMap);
         assertTrue(circuit.solve().approxEquals(desiredSolution));
     }
-//  def approxEquals(a: Double, b: Double) = abs(a - b) <= 1E-6
+
+    boolean approxEquals(double a, double b) {
+        return Math.abs(a - b) <= 1E-6;
+    }
 
     public void test_battery_resistor_circuit_should_have_correct_voltages_and_currents_for_a_simple_circuit_ii() {
         MNA.Battery battery = new MNA.Battery(0, 1, 4.0);
@@ -37,14 +40,22 @@ public class MNAFunSuite extends TestCase {
         assertTrue(circuit.solve().approxEquals(desiredSolution));
     }
 
-//  test("Should be able to obtain current for a resistor") {
-//    val battery = Battery(0, 1, 4.0)
-//    val resistor = Resistor(1, 0, 2.0)
-//    val circuit = new Circuit(battery :: Nil, resistor :: Nil)
-//    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 4.0), Map(battery -> 2.0))
-//    assert(circuit.solve.approxEquals(desiredSolution))
-//    assert(approxEquals(circuit.solve.getCurrent(resistor), 2)) //current through resistor should be 2.0 Amps, same magnitude as battery: positive because current flows from node 1 to 0
-//  }
+    public void test_should_be_able_to_obtain_current_for_a_resistor() {
+        MNA.Battery battery = new MNA.Battery(0, 1, 4.0);
+        MNA.Battery[] batteries = new MNA.Battery[]{battery};
+        MNA.Resistor resistor = new MNA.Resistor(1, 0, 2);
+        MNA.Resistor[] resistors = new MNA.Resistor[]{resistor};
+        MNA.Circuit circuit = new MNA.Circuit(Arrays.asList(batteries), Arrays.asList(resistors));
+        HashMap<Integer, Double> voltageMap = new HashMap<Integer, Double>();
+        voltageMap.put(0, 0.0);
+        voltageMap.put(1, 4.0);
+
+        HashMap<MNA.Element, Double> currentMap = new HashMap<MNA.Element, Double>();
+        currentMap.put(battery, 2.0);
+        MNA.Solution desiredSolution = new MNA.Solution(voltageMap, currentMap);
+        assertTrue(circuit.solve().approxEquals(desiredSolution));
+        assertTrue(approxEquals(circuit.solve().getCurrent(resistor),2));//current through resistor should be 2.0 Amps, same magnitude as battery: positive because current flows from node 1 to 0
+    }
 //
 //  //todo: works in IDE but fails in build process with error
 ////   found   : Double
