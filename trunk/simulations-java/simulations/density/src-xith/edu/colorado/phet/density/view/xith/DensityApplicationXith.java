@@ -13,7 +13,6 @@ import edu.colorado.phet.densityjava.model.MassVolumeModel;
 import edu.colorado.phet.densityjava.util.DensityUtils;
 import edu.colorado.phet.densityjava.view.d3.DensityJMECanvas;
 import edu.colorado.phet.densityjava.ModelComponents;
-import edu.colorado.phet.densityjava.DensityApplication;
 
 import javax.swing.*;
 import java.io.File;
