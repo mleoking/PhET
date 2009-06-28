@@ -87,6 +87,11 @@ class Internationalizer{
 				field.text = stringValue;
 			}
 			//field.setTextFormat(currentTextFormat);
+			if( _level0.languageCode != "en" ) {
+				var format : TextFormat = field.getTextFormat();
+				format.font = "Arial";
+				field.setTextFormat( format );
+			}
 			_level0.common.prepareTranslatedTextField(field);
 			this.resizeText(field, alignment);
 			//trace("key: "+key+"   stringValue:"+stringValue);
