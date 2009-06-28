@@ -2,15 +2,15 @@ package edu.colorado.phet.circuitconstructionkit.model.mna2;
 
 import junit.framework.TestCase;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
 public class MNAFunSuite extends TestCase {
     public void test_battery_resistor_circuit_should_have_correct_voltages_and_currents_for_a_simple_circuit() {
         MNA.Battery battery = new MNA.Battery(0, 1, 4.0);
-        MNA.Battery[] batteries = new MNA.Battery[]{battery};
         MNA.Resistor[] resistors = new MNA.Resistor[]{new MNA.Resistor(1, 0, 4)};
-        MNA.Circuit circuit = new MNA.Circuit(Arrays.asList(batteries), Arrays.asList(resistors));
+        MNA.Circuit circuit = new MNA.Circuit(Arrays.asList(battery), Arrays.asList(resistors));
         HashMap<Integer, Double> voltageMap = new HashMap<Integer, Double>();
         voltageMap.put(0, 0.0);
         voltageMap.put(1, 4.0);
@@ -54,40 +54,66 @@ public class MNAFunSuite extends TestCase {
         currentMap.put(battery, 2.0);
         MNA.Solution desiredSolution = new MNA.Solution(voltageMap, currentMap);
         assertTrue(circuit.solve().approxEquals(desiredSolution));
-        assertTrue(approxEquals(circuit.solve().getCurrent(resistor),2));//current through resistor should be 2.0 Amps, same magnitude as battery: positive because current flows from node 1 to 0
+        assertTrue(approxEquals(circuit.solve().getCurrent(resistor), 2));//current through resistor should be 2.0 Amps, same magnitude as battery: positive because current flows from node 1 to 0
     }
 //
-//  //todo: works in IDE but fails in build process with error
-////   found   : Double
-////
-//// required: scala.reflect.Manifest[?]
-////
-////      circuit.solve.getCurrent(Battery(4, 1, 999))
-////                    ^
-////  test("should throw an exception when asking for current for unknown element") {
-////    val circuit = new Circuit(Battery(0, 1, 4.0) :: Nil, Resistor(1, 0, 2.0) :: Nil)
-////    intercept(classOf[RuntimeException]) {
-////      circuit.solve.getCurrent(Battery(4, 1, 999))
-////    }
-////  }
-//  test("disjoint circuits should be solved independently") {
-//    val battery = Battery(0, 1, 4)
-//    val battery2 = Battery(2, 3, 5)
-//    val circuit = new Circuit(battery :: battery2 :: Nil, Resistor(1, 0, 4.0) :: Resistor(3, 2, 2) :: Nil, Nil)
-//    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 4, 2 -> 0.0, 3 -> 5), Map(battery -> 1.0, battery2 -> 5.0 / 2.0))
-//    assert(circuit.solve.approxEquals(desiredSolution))
+    //todo: works in IDE but fails in build process with error
+//   found   : Double
+//
+// required: scala.reflect.Manifest[?]
+//
+//      circuit.solve.getCurrent(Battery(4, 1, 999))
+//                    ^
+//  test("should throw an exception when asking for current for unknown element") {
+//    val circuit = new Circuit(Battery(0, 1, 4.0) :: Nil, Resistor(1, 0, 2.0) :: Nil)
+//    intercept(classOf[RuntimeException]) {
+//      circuit.solve.getCurrent(Battery(4, 1, 999))
+//    }
 //  }
-//  test("current source should provide current") {
-//    val circuit = new Circuit(Nil, Resistor(1, 0, 4.0) :: Nil, CurrentSource(0, 1, 10.0) :: Nil)
-//    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 10.0 * 4.0), Map())
-//    assert(circuit.solve.approxEquals(desiredSolution))
-//  }
-//  test("current should be reversed when voltage is reversed") {
-//    val battery = Battery(0, 1, -4.0)
-//    val circuit = new Circuit(battery :: Nil, Resistor(1, 0, 2.0) :: Nil)
-//    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> -4.0), Map(battery -> -2.0))
-//    assert(circuit.solve.approxEquals(desiredSolution))
-//  }
+
+    public void test_disjoint_circuits_should_be_solved_independently() {
+        MNA.Battery battery = new MNA.Battery(0, 1, 4.0);
+        MNA.Battery battery2 = new MNA.Battery(2, 3, 5.0);
+        MNA.Battery[] batteries = new MNA.Battery[]{battery, battery2};
+        MNA.Resistor[] resistors = new MNA.Resistor[]{new MNA.Resistor(1, 0, 4), new MNA.Resistor(3, 2, 2)};
+        MNA.Circuit circuit = new MNA.Circuit(Arrays.asList(batteries), Arrays.asList(resistors));
+        HashMap<Integer, Double> voltageMap = new HashMap<Integer, Double>();
+        voltageMap.put(0, 0.0);
+        voltageMap.put(1, 4.0);
+        voltageMap.put(2, 0.0);
+        voltageMap.put(3, 5.0);
+
+        HashMap<MNA.Element, Double> currentMap = new HashMap<MNA.Element, Double>();
+        currentMap.put(battery, 1.0);
+        currentMap.put(battery2, 5.0 / 2);
+        MNA.Solution desiredSolution = new MNA.Solution(voltageMap, currentMap);
+        assertTrue(circuit.solve().approxEquals(desiredSolution));
+    }
+
+    public void test_current_source_should_provide_current() {
+        MNA.Resistor[] resistors = new MNA.Resistor[]{new MNA.Resistor(1, 0, 4)};
+        MNA.CurrentSource[] currentSources = new MNA.CurrentSource[]{new MNA.CurrentSource(0, 1, 10.0)};
+        MNA.Circuit circuit = new MNA.Circuit(new ArrayList<MNA.Battery>(), Arrays.asList(resistors), Arrays.asList(currentSources));
+        HashMap<Integer, Double> voltageMap = new HashMap<Integer, Double>();
+        voltageMap.put(0, 0.0);
+        voltageMap.put(1, 10.0 * 4.0);
+
+        MNA.Solution desiredSolution = new MNA.Solution(voltageMap, new HashMap<MNA.Element, Double>());
+        assertTrue(circuit.solve().approxEquals(desiredSolution));
+    }
+
+    public void test_current_should_be_reversed_when_voltage_is_reversed() {
+        MNA.Battery battery = new MNA.Battery(0, 1, -4);
+        MNA.Circuit circuit = new MNA.Circuit(Arrays.asList(battery), Arrays.asList(new MNA.Resistor(1, 0, 2.0)));
+        HashMap<Integer, Double> voltageMap = new HashMap<Integer, Double>();
+        voltageMap.put(0, 0.0);
+        voltageMap.put(1, -4.0);
+
+        HashMap<MNA.Element, Double> currentMap = new HashMap<MNA.Element, Double>();
+        currentMap.put(battery, -2.0);
+        MNA.Solution desiredSolution = new MNA.Solution(voltageMap, currentMap);
+        assertTrue(circuit.solve().approxEquals(desiredSolution));
+    }
 //  test("Two batteries in series should have voltage added") {
 //    val battery = Battery(0, 1, -4.0)
 //    val battery2 = Battery(1, 2, -4.0)
