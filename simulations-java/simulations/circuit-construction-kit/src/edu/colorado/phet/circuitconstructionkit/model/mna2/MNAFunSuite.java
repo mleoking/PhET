@@ -2,22 +2,20 @@ package edu.colorado.phet.circuitconstructionkit.model.mna2;
 
 import junit.framework.TestCase;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class MNAFunSuite extends TestCase {
     public void test_battery_resistor_circuit_should_have_correct_voltages_and_currents_for_a_simple_circuit() {
         MNA.Battery battery = new MNA.Battery(0, 1, 4.0);
-        ArrayList<MNA.Battery> batteries = new ArrayList<MNA.Battery>();
-        ArrayList<MNA.Resistor> resistors = new ArrayList<MNA.Resistor>();
-        batteries.add(battery);
-        resistors.add(new MNA.Resistor(1, 0, 4));
-        MNA.Circuit circuit = new MNA.Circuit(batteries, resistors);
+        MNA.Battery[] batteries = new MNA.Battery[]{battery};
+        MNA.Resistor[] resistors = new MNA.Resistor[]{new MNA.Resistor(1, 0, 4)};
+        MNA.Circuit circuit = new MNA.Circuit(Arrays.asList(batteries), Arrays.asList(resistors));
         HashMap<Integer, Double> voltageMap = new HashMap<Integer, Double>();
-        HashMap<MNA.Element, Double> currentMap = new HashMap<MNA.Element, Double>();
         voltageMap.put(0, 0.0);
         voltageMap.put(1, 4.0);
 
+        HashMap<MNA.Element, Double> currentMap = new HashMap<MNA.Element, Double>();
         currentMap.put(battery, 1.0);
         MNA.Solution desiredSolution = new MNA.Solution(voltageMap, currentMap);
         assertTrue(circuit.solve().approxEquals(desiredSolution));
@@ -26,28 +24,19 @@ public class MNAFunSuite extends TestCase {
 
     public void test_battery_resistor_circuit_should_have_correct_voltages_and_currents_for_a_simple_circuit_ii() {
         MNA.Battery battery = new MNA.Battery(0, 1, 4.0);
-        ArrayList<MNA.Battery> batteries = new ArrayList<MNA.Battery>();
-        ArrayList<MNA.Resistor> resistors = new ArrayList<MNA.Resistor>();
-        batteries.add(battery);
-        resistors.add(new MNA.Resistor(1, 0, 2));
-        MNA.Circuit circuit = new MNA.Circuit(batteries, resistors);
+        MNA.Battery[] batteries = new MNA.Battery[]{battery};
+        MNA.Resistor[] resistors = new MNA.Resistor[]{new MNA.Resistor(1, 0, 2)};
+        MNA.Circuit circuit = new MNA.Circuit(Arrays.asList(batteries), Arrays.asList(resistors));
         HashMap<Integer, Double> voltageMap = new HashMap<Integer, Double>();
-        HashMap<MNA.Element, Double> currentMap = new HashMap<MNA.Element, Double>();
         voltageMap.put(0, 0.0);
         voltageMap.put(1, 4.0);
 
+        HashMap<MNA.Element, Double> currentMap = new HashMap<MNA.Element, Double>();
         currentMap.put(battery, 2.0);
         MNA.Solution desiredSolution = new MNA.Solution(voltageMap, currentMap);
         assertTrue(circuit.solve().approxEquals(desiredSolution));
     }
 
-//  test("battery resistor circuit should have correct voltages and currents for a simple circuit ii") {
-//    val battery = Battery(0, 1, 4.0)
-//    val resistor = Resistor(1, 0, 2.0)
-//    val circuit = new Circuit(battery :: Nil, resistor :: Nil)
-//    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 4.0), Map(battery -> 2.0))
-//    assert(circuit.solve.approxEquals(desiredSolution))
-//  }
 //  test("Should be able to obtain current for a resistor") {
 //    val battery = Battery(0, 1, 4.0)
 //    val resistor = Resistor(1, 0, 2.0)
