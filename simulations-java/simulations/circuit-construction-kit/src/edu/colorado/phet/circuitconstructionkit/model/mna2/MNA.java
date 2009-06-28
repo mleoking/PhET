@@ -37,6 +37,9 @@ public class MNA {
         boolean approxEquals(Solution s) {
             return approxEquals(s, 1E-6);
         }
+        boolean approxEquals(double a,double b,double delta){
+            return Math.abs(a-b)<delta;
+        }
 
         boolean approxEquals(Solution s, double delta) {
             if (!nodeVoltages.keySet().equals(s.nodeVoltages.keySet()) || !branchCurrents.keySet().equals(s.branchCurrents.keySet()))
@@ -44,7 +47,7 @@ public class MNA {
             else {
                 boolean sameVoltages = true;
                 for (Integer key : nodeVoltages.keySet()) {
-                    if (!nodeVoltages.get(key).equals(s.nodeVoltages.get(key)))
+                    if (!approxEquals(nodeVoltages.get(key),s.nodeVoltages.get(key),delta))
                         sameVoltages = false;
                 }
                 boolean sameCurrents = true;
