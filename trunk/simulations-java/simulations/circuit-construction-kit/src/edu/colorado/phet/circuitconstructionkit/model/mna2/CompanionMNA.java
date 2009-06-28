@@ -143,16 +143,6 @@ public class CompanionMNA {
             this.current = current;
         }
 
-//    def getCompanionModel(dt: Double, newNode: () => Int) = {
-//    //Thevenin, Pillage p.23.  Pillage says this is the model used in Spice
-//    val midNode = newNode()
-//    new CompanionModel(Battery(node0, midNode, voltage + 2 * inductance * current / dt) :: Nil,
-//      new Resistor(midNode, node1, 2 * inductance / dt) :: Nil, Nil) {
-//      def getCurrent(solution: Solution) = solution.getCurrent(batteries(0))
-//
-//      def getVoltage(solution: Solution) = (getCurrent(solution) - current) * 2 * inductance / dt - voltage
-//    }
-
         public CompanionModel getCompanionModel(final double dt, NodeCreator newNode) {
             //Thevenin, Pillage p.23.  Pillage says this is the model used in Spice
             int midNode = newNode.newNode();
@@ -236,15 +226,80 @@ public class CompanionMNA {
                 }
             };
         }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            if (!super.equals(o)) return false;
+
+            ResistiveBattery that = (ResistiveBattery) o;
+
+            if (Double.compare(that.resistance, resistance) != 0) return false;
+            if (Double.compare(that.voltage, voltage) != 0) return false;
+
+            return true;
+        }
+
+        @Override
+        public int hashCode() {
+            int result = super.hashCode();
+            long temp;
+            temp = voltage != +0.0d ? Double.doubleToLongBits(voltage) : 0L;
+            result = 31 * result + (int) (temp ^ (temp >>> 32));
+            temp = resistance != +0.0d ? Double.doubleToLongBits(resistance) : 0L;
+            result = 31 * result + (int) (temp ^ (temp >>> 32));
+            return result;
+        }
+
+        @Override
+        public String toString() {
+            return "ResistiveBattery{" +
+                    "voltage=" + voltage +
+                    ", resistance=" + resistance +
+                    '}';
+        }
     }
 
-    class InitialCondition {    //todo: needs hashcode, equals and tostring?
+    class InitialCondition {
         double voltage;
         double current;
 
         InitialCondition(double voltage, double current) {
             this.voltage = voltage;
             this.current = current;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            InitialCondition that = (InitialCondition) o;
+
+            if (Double.compare(that.current, current) != 0) return false;
+            if (Double.compare(that.voltage, voltage) != 0) return false;
+
+            return true;
+        }
+
+        @Override
+        public int hashCode() {
+            int result;
+            long temp;
+            temp = voltage != +0.0d ? Double.doubleToLongBits(voltage) : 0L;
+            result = (int) (temp ^ (temp >>> 32));
+            temp = current != +0.0d ? Double.doubleToLongBits(current) : 0L;
+            result = 31 * result + (int) (temp ^ (temp >>> 32));
+            return result;
+        }
+
+        @Override
+        public String toString() {
+            return "InitialCondition{" +
+                    "voltage=" + voltage +
+                    ", current=" + current +
+                    '}';
         }
     }
 
@@ -330,15 +385,41 @@ public class CompanionMNA {
             return new InitialConditionSet(capacitorMap, inductorMap);
         }
 
-        //todo: needs equals, hashcode, tostring?
         class InitialConditionSet {
-            //      (capacitorMap: HashMap[Capacitor, InitialCondition], inductorMap: HashMap[Inductor, InitialCondition])
             HashMap<Capacitor, InitialCondition> capacitorMap;
             HashMap<Inductor, InitialCondition> inductorMap;
 
             InitialConditionSet(HashMap<Capacitor, InitialCondition> capacitorMap, HashMap<Inductor, InitialCondition> inductorMap) {
                 this.capacitorMap = capacitorMap;
                 this.inductorMap = inductorMap;
+            }
+
+            @Override
+            public boolean equals(Object o) {
+                if (this == o) return true;
+                if (o == null || getClass() != o.getClass()) return false;
+
+                InitialConditionSet that = (InitialConditionSet) o;
+
+                if (!capacitorMap.equals(that.capacitorMap)) return false;
+                if (!inductorMap.equals(that.inductorMap)) return false;
+
+                return true;
+            }
+
+            @Override
+            public int hashCode() {
+                int result = capacitorMap.hashCode();
+                result = 31 * result + inductorMap.hashCode();
+                return result;
+            }
+
+            @Override
+            public String toString() {
+                return "InitialConditionSet{" +
+                        "capacitorMap=" + capacitorMap +
+                        ", inductorMap=" + inductorMap +
+                        '}';
             }
         }
 
@@ -399,6 +480,40 @@ public class CompanionMNA {
             MNA.Solution solution = companionModel.circuit.solve();
             return new CompanionSolution(this, companionModel, solution);
         }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            FullCircuit that = (FullCircuit) o;
+
+            if (!batteries.equals(that.batteries)) return false;
+            if (!capacitors.equals(that.capacitors)) return false;
+            if (!inductors.equals(that.inductors)) return false;
+            if (!resistors.equals(that.resistors)) return false;
+
+            return true;
+        }
+
+        @Override
+        public int hashCode() {
+            int result = batteries.hashCode();
+            result = 31 * result + resistors.hashCode();
+            result = 31 * result + capacitors.hashCode();
+            result = 31 * result + inductors.hashCode();
+            return result;
+        }
+
+        @Override
+        public String toString() {
+            return "FullCircuit{" +
+                    "batteries=" + batteries +
+                    ", resistors=" + resistors +
+                    ", capacitors=" + capacitors +
+                    ", inductors=" + inductors +
+                    '}';
+        }
     }
 
     class CompanionCircuit {
@@ -416,6 +531,34 @@ public class CompanionMNA {
 
         double getVoltage(HasCompanionModel c, MNA.Solution solution) {
             return elementMap.get(c).getVoltage(solution);
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            CompanionCircuit that = (CompanionCircuit) o;
+
+            if (!circuit.equals(that.circuit)) return false;
+            if (!elementMap.equals(that.elementMap)) return false;
+
+            return true;
+        }
+
+        @Override
+        public int hashCode() {
+            int result = circuit.hashCode();
+            result = 31 * result + elementMap.hashCode();
+            return result;
+        }
+
+        @Override
+        public String toString() {
+            return "CompanionCircuit{" +
+                    "circuit=" + circuit +
+                    ", elementMap=" + elementMap +
+                    '}';
         }
     }
 
