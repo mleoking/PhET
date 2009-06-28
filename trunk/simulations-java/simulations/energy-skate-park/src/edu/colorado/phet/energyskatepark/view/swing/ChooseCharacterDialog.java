@@ -17,6 +17,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.text.MessageFormat;
 
 /**
  * Author: Sam Reid
@@ -96,7 +97,9 @@ public class ChooseCharacterDialog extends JDialog {
             this.skaterCharacter = skaterCharacter;
             GridBagConstraints gridBagConstraints = new GridBagConstraints();
             try {
-                JLabel label = new JLabel( skaterCharacter.getName() + " (" + skaterCharacter.getMass() + " "+EnergySkateParkStrings.getString("units.kg")+")",
+                String pattern=EnergySkateParkStrings.getString("controls.choose-character.label.pattern");
+                String labelStr=MessageFormat.format(pattern,skaterCharacter.getName(),skaterCharacter.getMass(), EnergySkateParkStrings.getString("units.kg"));
+                JLabel label = new JLabel(labelStr,
                                            new ImageIcon( BufferedImageUtils.rescaleYMaintainAspectRatio(
                                                    ImageLoader.loadBufferedImage( skaterCharacter.getImageURL() ), (int)( skaterCharacter.getModelHeight() * 75 ) ) ), JLabel.TRAILING );
                 add( label, gridBagConstraints );
