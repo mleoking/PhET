@@ -36,6 +36,7 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
 	private SIMULATION_MODE _simulationMode = DEFAULT_MODE;
 	private ConstantDtClock _clock;
 	private ArrayList<Listener> _listeners = new ArrayList<Listener>();
+	private ArrayList<AnimatedModelElement> _animatedModelElements = new ArrayList<AnimatedModelElement>();
 
     //------------------------------------------------------------------------
     // Constructor
@@ -61,6 +62,14 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
     
     public RadiometricDatingMeter getMeter(){
     	return _meter;
+    }
+
+    /**
+     * Get a collection of all model elements that currently exist in the
+     * simulation.
+     */
+    public ArrayList getModelElements(){
+    	return new ArrayList(_animatedModelElements);
     }
     
     /**
