@@ -4,6 +4,8 @@ package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 
 import java.awt.Font;
 import java.awt.Frame;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -72,6 +74,11 @@ public class RadiometricMeasurementControlPanel extends ControlPanel {
         // Create the tree selection.
         RadioButtonWithIcon treeSelector = new RadioButtonWithIcon( NuclearPhysicsStrings.TREE_LABEL, "tree_1.png" );
         addControlFullWidth( treeSelector );
+        treeSelector.getButton().addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				_model.setSimulationMode(RadiometricMeasurementModel.SIMULATION_MODE.TREE);
+			}
+        });
 
         // Insert some spacing.
         addControlFullWidth(createVerticalSpacingPanel(10));
@@ -79,6 +86,11 @@ public class RadiometricMeasurementControlPanel extends ControlPanel {
         // Create the rock selection.
         RadioButtonWithIcon rockSelector = new RadioButtonWithIcon( NuclearPhysicsStrings.ROCK_LABEL, "rock_1.png" );
         addControlFullWidth( rockSelector );
+        rockSelector.getButton().addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				_model.setSimulationMode(RadiometricMeasurementModel.SIMULATION_MODE.ROCK);
+			}
+        });
         
         // Put the radio buttons in a group together.
         ButtonGroup buttonGroup = new ButtonGroup();
