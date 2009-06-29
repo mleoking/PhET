@@ -92,16 +92,11 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
         		drawDecayCurveOnChart();
         		update();
         	};
-        });
-        
-        // Register with the meter so that we know when the user touches or
-        // stops touching something.
-        _model.getMeter().addListener(new RadiometricDatingMeter.Adapter(){
         	public void touchedStateChanged(){
         		handleMeterTouchStateChanged();
         	};
         });
-
+        
         // Set the background color.
         setBackground( NuclearPhysicsConstants.CANVAS_BACKGROUND );
 
@@ -129,16 +124,6 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
         cloud2.setOffset(INITIAL_INTERMEDIATE_COORD_WIDTH / 2, 100);
         _backgroundLayer.addChild(cloud2);
         
-        // Add the volcano.
-        // TODO: This should be in the model, and is here now solely for demo/testing purposes.
-        PNode volcano = NuclearPhysicsResources.getImageNode("volcano_hot.png");
-        volcano.scale(0.75);
-        volcano.setOffset(700, 330);
-        _backgroundLayer.addChild(volcano);
-
-        // Add the nodes that represent the items on which the user can
-        // perform radiometric dating.
-        	
         // Create the radiometric measuring device.
         _meterNode = new RadiometricDatingMeterNode( _model.getMeter(), INITIAL_INTERMEDIATE_COORD_WIDTH * PROPORTIONS_METER_WIDTH_FRACTION,
         		INITIAL_INTERMEDIATE_COORD_HEIGHT * PROPORTIONS_METER_HEIGHT_FRACTION, 
@@ -163,9 +148,10 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
         _proportionsChart.setOffset(
         		_meterNode.getMeterBodyOffset().getX() + _meterNode.getMeterBodySize().getWidth() + 4,
         		METER_AND_CHART_OFFSET_FROM_TOP);
-
-        // Draw the decay curve on the chart.
-        drawDecayCurveOnChart();
+        
+        // Add the node(s) to the canvas corresponding to the datable items in
+        // the model.
+        handleModelElementAdded();
     }
 
 	//------------------------------------------------------------------------
