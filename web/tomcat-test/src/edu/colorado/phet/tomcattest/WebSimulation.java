@@ -3,6 +3,7 @@ package edu.colorado.phet.tomcattest;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.*;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;

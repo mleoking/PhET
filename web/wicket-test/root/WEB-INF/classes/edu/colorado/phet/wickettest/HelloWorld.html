@@ -1,6 +1,43 @@
 <html>
+<head>
+    <title>Wicket test simulations</title>
+    <style type="text/css">
+        .simulation-list-item {
+            text-align: center;
+            border: 1px solid gray;
+            padding: 10px;
+            margin-right: 10px;
+        }
+
+        .simulation-list-thumbnail {
+            padding-bottom: 5px;
+        }
+
+        .simulation-list-title {
+            font-size: 14px;
+            font-family: Arial, sans-serif;
+            color: #660000;
+        }
+    </style>
+</head>
 <body>
-    <span wicket:id="message" id="message">Message goes here</span>
+
+<div>
+    <h1>Simulations</h1>
+    <table>
+        <tr>
+            <span wicket:id="simulation-list">
+                <td class="simulation-list-item">
+                    <img wicket:id="thumbnail" class="simulation-list-thumbnail"
+                         src="../../../../../../../template-files/images/arithmetic-thumbnail.jpg"/><br>
+                    <strong><span wicket:id="title" class="simulation-list-title">Simulation Title</span></strong><br>
+                </td>
+            </span>
+        </tr>
+    </table>
+    <br>
+</div>
+
 </body>
 </html>
 
