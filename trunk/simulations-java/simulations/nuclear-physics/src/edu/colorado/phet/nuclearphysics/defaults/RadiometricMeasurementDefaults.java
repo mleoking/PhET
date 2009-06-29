@@ -16,7 +16,7 @@ public class RadiometricMeasurementDefaults {
     private RadiometricMeasurementDefaults() {}
     
     // Clock
-    public static final boolean CLOCK_RUNNING = GlobalDefaults.CLOCK_RUNNING;
+    public static final boolean CLOCK_RUNNING = false;
     public static final int CLOCK_FRAME_RATE = 25; // Frames per second.
     public static final double CLOCK_DT = 40; // Milliseconds per tick.
     public static final int CLOCK_TIME_COLUMNS = GlobalDefaults.CLOCK_TIME_COLUMNS;
