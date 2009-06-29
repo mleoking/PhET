@@ -9,7 +9,6 @@ import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.IdentityHashMap;
 import java.util.Iterator;
 
@@ -221,7 +220,7 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
     			// The element that corresponds to this node appears to have
     			// been removed from the model, so it should be removed from
     			// the canvas and the mapping structure.
-    			_datableItemsLayer.addChild(itemNode);
+    			_datableItemsLayer.removeChild(itemNode);
     			itr.remove();
     		}
     	}
