@@ -150,7 +150,7 @@ public class RadiometricMeasurementControlPanel extends ControlPanel {
             // clicking on the image is the same as clicking on the button.
             iconImageLabel.addMouseListener( new MouseAdapter(){
 				public void mouseReleased(MouseEvent e) {
-					_button.setSelected(true);
+					_button.doClick();
 				}
             });
     	}
