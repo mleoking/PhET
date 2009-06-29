@@ -8,6 +8,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
 import edu.colorado.phet.nuclearphysics.defaults.RadiometricDecayDefaults;
+import edu.colorado.phet.nuclearphysics.defaults.RadiometricMeasurementDefaults;
 
 /**
  * This class is where the model and view classes are created and connected
@@ -35,7 +36,7 @@ public class RadiometricMeasurementModule extends PiccoloModule {
                new NuclearPhysicsClock( RadiometricDecayDefaults.CLOCK_FRAME_RATE, RadiometricDecayDefaults.CLOCK_DT ));
  
         // Physical model
-        _model = new RadiometricMeasurementModel();
+        _model = new RadiometricMeasurementModel( RadiometricMeasurementDefaults.CLOCK );
 
         // Canvas
         _canvas = new RadiometricMeasurementCanvas( _model );
@@ -57,5 +58,10 @@ public class RadiometricMeasurementModule extends PiccoloModule {
     //----------------------------------------------------------------------------
     // Module overrides
     //----------------------------------------------------------------------------
-
+    @Override
+    public void reset() {
+        // Reset the clock and set it to not be running.
+        _model.getClock().resetSimulationTime();
+        setClockRunningWhenActive( RadiometricMeasurementDefaults.CLOCK_RUNNING );
+    }
 }
