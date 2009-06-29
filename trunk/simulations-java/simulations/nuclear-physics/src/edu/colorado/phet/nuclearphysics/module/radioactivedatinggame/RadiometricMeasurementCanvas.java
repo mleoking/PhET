@@ -97,6 +97,17 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
         	};
         });
         
+        // Register with the model for notifications of new elements coming
+        // and going.
+        _model.addListener(new RadiometricMeasurementModel.Adapter(){
+    		public void modelElementAdded() {
+    			handleModelElementAdded();
+    		}
+    		public void modelElementRemoved() {
+    			handleModelElementRemoved();
+    		}
+        });
+        
         // Set the background color.
         setBackground( NuclearPhysicsConstants.CANVAS_BACKGROUND );
 
