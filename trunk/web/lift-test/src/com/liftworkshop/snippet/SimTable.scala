@@ -1,5 +1,7 @@
 package com.liftworkshop.snippet
 
+import net.liftweb.http.S
+
 case class Simulation(title:String,simname:String)
 
 class SimTable{
@@ -28,4 +30,8 @@ class SimTable{
         </div>
     </td>
   }
+}
+
+class SimPage{
+  def render = <b> hello and welcome to {S.param("sim").open_!}</b>
 }
