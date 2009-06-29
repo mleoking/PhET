@@ -14,8 +14,10 @@ import java.util.Iterator;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.view.NuclearDecayProportionChart;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -55,6 +57,12 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
     // be positioned.
     private static final double METER_AND_CHART_OFFSET_FROM_TOP = 8;
     
+    // Constants that control the appearance of the buttons in the play area.
+    private static final Color START_OPERATION_BUTTON_COLOR = new Color(90, 180, 225);
+    private static final Color FORCE_CLOSURE_BUTTON_COLOR = new Color(90, 180, 225);
+    private static final int PLAY_AREA_BUTTON_FONT_SIZE = 18;
+    private static final double BUTTON_DISTANCE_FROM_TOP = METER_AND_CHART_OFFSET_FROM_TOP;
+    
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
@@ -62,9 +70,12 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
     private ModelViewTransform2D _mvt;
     private RadiometricMeasurementModel _model;
     private PNode _datableItemsLayer;
+    private PNode _chartAndMeterLayer;
     private NuclearDecayProportionChart _proportionsChart;
     private RadiometricDatingMeterNode _meterNode;
     private IdentityHashMap<DatableItem, PNode> _mapModelElementsToNodes = new IdentityHashMap<DatableItem, PNode>();
+    private GradientButtonNode _startOperationButtonNode;
+    private GradientButtonNode _forceClosureButtonNode;
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -105,6 +116,9 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
     		public void modelElementRemoved() {
     			handleModelElementRemoved();
     		}
+    		public void simulationModeChanged() {
+    			handleSimulationModeChanged();
+    		}
         });
         
         // Set the background color.
@@ -118,9 +132,8 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
         _datableItemsLayer = new PNode();
         addWorldChild(_datableItemsLayer);
         
-        // Create the layer where the chart and meter will be placed.
-        PNode chartAndMeterLayer = new PNode();
-        addWorldChild(chartAndMeterLayer);
+        _chartAndMeterLayer = new PNode();
+        addWorldChild(_chartAndMeterLayer);
         
         // Add the ground to the background.
         GroundNode ground = new GroundNode();
@@ -145,7 +158,7 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
         // Create the chart that will display relative decay proportions.
         _proportionsChart = new NuclearDecayProportionChart(false, false, false);
         configureProportionsChart();
-        chartAndMeterLayer.addChild(_proportionsChart);
+        _chartAndMeterLayer.addChild(_proportionsChart);
         
         // Set the size and position of the chart.  There are some "tweak
         // factors" in here to make things look good.
@@ -165,7 +178,10 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
         		this,
         		false );
         _meterNode.setMeterBodyOffset( 0, METER_AND_CHART_OFFSET_FROM_TOP);
-        chartAndMeterLayer.addChild( _meterNode );
+        _chartAndMeterLayer.addChild( _meterNode );
+
+        // Set up the initial buttons in the play area.
+        updateButtonState();
         
         // Add the node(s) to the canvas corresponding to the datable items in
         // the model.
@@ -225,6 +241,70 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
     			// the canvas and the mapping structure.
     			_datableItemsLayer.removeChild(itemNode);
     			itr.remove();
+    		}
+    	}
+    }
+
+    /**
+     * Handle a notification that the simulation mode - which means whether
+     * a tree, a rock, or whatever is being simulated - has changed.
+     */
+    private void handleSimulationModeChanged(){
+    	updateButtonState();
+    }
+    
+    /**
+     * Update the state of the play area buttons based on the current state of
+     * the model.
+     */
+    private void updateButtonState(){
+    	
+    	// Remove any pre-existing buttons.
+    	if (_startOperationButtonNode != null){
+    		_chartAndMeterLayer.removeChild(_startOperationButtonNode);
+    	}
+    	if (_forceClosureButtonNode != null){
+    		_chartAndMeterLayer.removeChild(_forceClosureButtonNode);
+    	}
+    	
+    	// If the clock is not running, set up the buttons to initiate the
+    	// simulation.
+    	if ( !_model.getClock().isRunning() ){
+    		switch ( _model.getSimulationMode() ){
+    		
+    		case TREE:
+    			_startOperationButtonNode = new GradientButtonNode(NuclearPhysicsStrings.PLANT_TREE, 
+    					PLAY_AREA_BUTTON_FONT_SIZE, START_OPERATION_BUTTON_COLOR); 
+    			break;
+    		case ROCK:
+    			_startOperationButtonNode = new GradientButtonNode(NuclearPhysicsStrings.ERUPT_VOLCANO, 
+    					PLAY_AREA_BUTTON_FONT_SIZE, START_OPERATION_BUTTON_COLOR); 
+    		}
+    		
+    		_startOperationButtonNode.setOffset(
+   				_meterNode.getMeterBodyOffset().getX() - _startOperationButtonNode.getFullBoundsReference().width * 1.1,
+   				BUTTON_DISTANCE_FROM_TOP);
+    		_chartAndMeterLayer.addChild(_startOperationButtonNode);
+    	}
+    	else {
+    		// Clock is running, so if closure has not occurred we need to add
+    		// the button to force it.
+    		if (!_model.hasClosureOccurred()){
+        		switch ( _model.getSimulationMode() ){
+        		
+        		case TREE:
+        			_forceClosureButtonNode = new GradientButtonNode(NuclearPhysicsStrings.KILL_TREE, 
+        					PLAY_AREA_BUTTON_FONT_SIZE, FORCE_CLOSURE_BUTTON_COLOR); 
+        			break;
+        		case ROCK:
+        			_forceClosureButtonNode = new GradientButtonNode(NuclearPhysicsStrings.COOL_ROCK, 
+        					PLAY_AREA_BUTTON_FONT_SIZE, FORCE_CLOSURE_BUTTON_COLOR);
+        		}
+        		
+        		_forceClosureButtonNode.setOffset(
+       				_meterNode.getMeterBodyOffset().getX() - _startOperationButtonNode.getFullBoundsReference().width * 1.1,
+       				BUTTON_DISTANCE_FROM_TOP);
+        		_chartAndMeterLayer.addChild(_forceClosureButtonNode);
     		}
     	}
     }
