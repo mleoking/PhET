@@ -3,17 +3,18 @@
 ==================================================================================
 
 TODO:
- - redo layout of Matching Game canvas
+- redo layout of Matching Game canvas
 - if a check box has an HTML label, disabling it doesn't grey out the label
 - first time a module is activated, canvas updateLayout is called twice (AncestorListener+ComponentListener), other sims only call once (AncestorListener)
 - review remaining instanceof comparisons
 - auto layout of symbol legend descriptions, so that we don't need to localize HTML markup
-- in Matching Game, clicking in concentration text field causes dot view to redraw
+- 2nd click in concentration text field causes the solute to be modified (focusLost and textfield precision issue)
 
 ISSUES:
 - CM: layout change of play area is annoying when switching solutes, due to label changes in beaker's View control panel
 
 DONE:
+# 0.01.20
 6/29/09 changed points scheme to be identical to design doc
 6/29/09 instructions for how to continue game after solution has been successfully matched
 6/29/09 formatting of points change in correct/wrong message
