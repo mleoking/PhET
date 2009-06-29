@@ -28,28 +28,30 @@ public class MatchingGameModel extends ABSModel {
     
     // points related to "Acid or Base?" question
     private static final int POINTS_ACIDBASE_CORRECT_FIRST = +1;
-    private static final int POINTS_ACIDBASE_CORRECT_RETRY = 0;
+    private static final int POINTS_ACIDBASE_CORRECT_RETRY = +1;
     private static final int POINTS_ACIDBASE_WRONG_FIRST = -1;
     private static final int POINTS_ACIDBASE_WRONG_RETRY = -1;
-    private static final int POINTS_ACID_BASE_GIVEUP = -1;
+    private static final int POINTS_ACID_BASE_GIVEUP = 0;
 
     // points related to "Match the solution" challenge
     private static final int POINTS_MATCH_CORRECT_FIRST = +5;
-    private static final int POINTS_MATCH_CORRECT_RETRY = 0;
+    private static final int POINTS_MATCH_CORRECT_RETRY = +5;
     private static final int POINTS_MATCH_WRONG_FIRST = -1;
     private static final int POINTS_MATCH_WRONG_RETRY = -1;
-    private static final int POINTS_MATCH_GIVEUP = -1;
+    private static final int POINTS_MATCH_GIVEUP = 0;
 
     private int numberOfSolutions;
     private int points;
     private final AqueousSolution solutionLeft, solutionRight;
     private final ArrayList<MatchingGameModelListener> listeners;
     private boolean acidBaseGuessed, matchGuessed;
+    private int deltaPoints; // most recent points delta
 
     public MatchingGameModel( ABSClock clock ) {
         super( clock );
         numberOfSolutions = 0;
         points = 0;
+        deltaPoints = 0;
         solutionLeft = new AqueousSolution();
         solutionRight = new AqueousSolution();  
         listeners = new ArrayList<MatchingGameModelListener>();
@@ -83,6 +85,7 @@ public class MatchingGameModel extends ABSModel {
     }
     
     private void setPoints( int points ) {
+        this.deltaPoints = points - this.points;
         if ( points != this.points ) {
             this.points = points;
             notifyPointsChanged( points );
@@ -90,13 +93,15 @@ public class MatchingGameModel extends ABSModel {
     }
     
     private void changePoints( int delta ) {
-        if ( delta != 0 ) {
-            setPoints( getPoints() + delta );
-        }
+        setPoints( getPoints() + delta );
     }
     
     public int getPoints() {
         return points;
+    }
+    
+    public int getDeltaPoints() {
+        return deltaPoints;
     }
     
     /**

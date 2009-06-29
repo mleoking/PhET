@@ -57,6 +57,7 @@ public class ABSStrings {
     public static final String WRONG_ACIDBASE = ABSResources.getString( "wrong.acidbase" );
     public static final String CORRECT_MATCH = ABSResources.getString( "correct.match" );
     public static final String WRONG_MATCH = ABSResources.getString( "wrong.match" );
+    public static final String GAME_CONTINUE = ABSResources.getString( "game.continue" );
     
     // check boxes
     public static final String CHECK_BOX_MOLECULE_COUNTS = ABSResources.getString( "checkBox.moleculeCounts" );
