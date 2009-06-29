@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Locale;
 import java.util.Properties;
+import java.text.MessageFormat;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 
@@ -91,5 +92,17 @@ public class PhetCommonResources {
      */
     public static BufferedImage getImage( String name ) {
         return INSTANCE.getImage( name );
+    }
+
+    /**
+     * Formats a string containing a value and units using the pattern specified in the translation file by Common.value.units.  In English
+     * this has the form "{0} {1}", for example "3 meters"
+     * 
+     * @param value the value to display
+     * @param units the units for the value
+     * @return the formatted string
+     */
+    public static String formatValueUnits(String value, String units) {
+        return MessageFormat.format(getString("Common.value_units"), value, units);
     }
 }

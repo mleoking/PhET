@@ -231,8 +231,7 @@ public class MeasuringTape extends PhetPNode {
         }
 
         public void setDistance(double modelDistance) {
-            final String formatted = MessageFormat.format(PhetCommonResources.getString("Common.value.units"), decimalFormat.format(modelDistance), units);
-            phetShadowTextGraphic.setText(formatted);
+            phetShadowTextGraphic.setText(PhetCommonResources.formatValueUnits(decimalFormat.format(modelDistance),units));
         }
 
         public void setUnits( String units ) {
