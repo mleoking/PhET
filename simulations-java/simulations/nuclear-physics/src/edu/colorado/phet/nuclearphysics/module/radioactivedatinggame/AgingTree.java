@@ -33,8 +33,8 @@ public class AgingTree extends DatableItem {
     // Constructor
     //------------------------------------------------------------------------
 	
-	public AgingTree(ConstantDtClock clock, Point2D center, double width, double rotationAngle) {
-		super(NAME, LIVING_TREE_IMAGE_NAME, center, width, rotationAngle, 0);
+	public AgingTree(ConstantDtClock clock, Point2D center, double width) {
+		super(NAME, LIVING_TREE_IMAGE_NAME, center, width, 0, 0);
 		_clock = clock;
 	}
 	
