@@ -47,6 +47,7 @@ public class ConcentrationSliderNode extends PhetPNode {
     private static final PDimension THUMB_SIZE = new PDimension( 13, 18 );
     private static final Color THUMB_ENABLED_COLOR = ABSColors.THUMB_ENABLED;
     private static final Color THUMB_HILITE_COLOR = ABSColors.THUMB_HIGHLIGHTED;
+    private static final Color THUMB_DISABLED_COLOR = ABSColors.THUMB_DISABLED;
     private static final Color THUMB_STROKE_COLOR = Color.BLACK;
     private static final Stroke THUMB_STROKE = new BasicStroke( 1f );
 
@@ -84,6 +85,8 @@ public class ConcentrationSliderNode extends PhetPNode {
     private final double min, max;
     private double value;
     private final IScalarTransform transform;
+    private boolean enabled;
+    private final CursorHandler thumbCursorHandler;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -95,6 +98,8 @@ public class ConcentrationSliderNode extends PhetPNode {
     
     public ConcentrationSliderNode( double min, double max ) {
         assert ( min < max );
+        
+        this.enabled = true;
         
         this.min = min;
         this.max = max;
@@ -113,17 +118,10 @@ public class ConcentrationSliderNode extends PhetPNode {
         // thumb
         thumbNode = new SliderThumbArrowNode( THUMB_SIZE, THUMB_ENABLED_COLOR, THUMB_STROKE_COLOR, THUMB_STROKE );
         addChild( thumbNode );
-        thumbNode.addInputEventListener( new CursorHandler() );
+        thumbCursorHandler = new CursorHandler();
+        thumbNode.addInputEventListener( thumbCursorHandler );
         thumbNode.addInputEventListener( new ThumbDragHandler( this ) );
-        thumbNode.addInputEventListener( new PBasicInputEventHandler() {
-            public void mouseEntered(PInputEvent event) {
-                thumbNode.setThumbPaint( THUMB_HILITE_COLOR );
-            }
-
-            public void mouseExited(PInputEvent event) {
-                thumbNode.setThumbPaint( THUMB_ENABLED_COLOR );
-            }
-        });
+        thumbNode.addInputEventListener( new HilightHandler( this ) );
         
         // initial state
         updateThumb();
@@ -197,6 +195,23 @@ public class ConcentrationSliderNode extends PhetPNode {
     
     public double getMax() {
         return max;
+    }
+    
+    public void setEnabled( boolean enabled ) {
+        if ( enabled != this.enabled ) {
+            this.enabled = enabled;
+            thumbNode.setThumbPaint( enabled ? THUMB_ENABLED_COLOR : THUMB_DISABLED_COLOR );
+            if ( enabled ) {
+                thumbNode.addInputEventListener( thumbCursorHandler );
+            }
+            else {
+                thumbNode.removeInputEventListener( thumbCursorHandler );
+            }
+        }
+    }
+    
+    public boolean isEnabled() {
+        return enabled;
     }
     
     protected TrackNode getTrackNode() {
@@ -331,32 +346,36 @@ public class ConcentrationSliderNode extends PhetPNode {
         }
 
         protected void startDrag( PInputEvent event ) {
-            super.startDrag( event );
-            // note the offset between the mouse click and the knob's origin
-            Point2D pMouseLocal = event.getPositionRelativeTo( sliderNode );
-            Point2D pMouseGlobal = sliderNode.localToGlobal( pMouseLocal );
-            Point2D pThumbGlobal = sliderNode.localToGlobal( sliderNode.getThumbNode().getOffset() );
-            _globalClickXOffset = pMouseGlobal.getX() - pThumbGlobal.getX();
+            if ( sliderNode.isEnabled() ) {
+                super.startDrag( event );
+                // note the offset between the mouse click and the knob's origin
+                Point2D pMouseLocal = event.getPositionRelativeTo( sliderNode );
+                Point2D pMouseGlobal = sliderNode.localToGlobal( pMouseLocal );
+                Point2D pThumbGlobal = sliderNode.localToGlobal( sliderNode.getThumbNode().getOffset() );
+                _globalClickXOffset = pMouseGlobal.getX() - pThumbGlobal.getX();
+            }
         }
 
         protected void drag( PInputEvent event ) {
+            if ( sliderNode.isEnabled() ) {
 
-            // determine the thumb's new offset
-            Point2D pMouseLocal = event.getPositionRelativeTo( sliderNode );
-            Point2D pMouseGlobal = sliderNode.localToGlobal( pMouseLocal );
-            Point2D pThumbGlobal = new Point2D.Double( pMouseGlobal.getX() - _globalClickXOffset, pMouseGlobal.getY() );
-            Point2D pThumbLocal = sliderNode.globalToLocal( pThumbGlobal );
+                // determine the thumb's new offset
+                Point2D pMouseLocal = event.getPositionRelativeTo( sliderNode );
+                Point2D pMouseGlobal = sliderNode.localToGlobal( pMouseLocal );
+                Point2D pThumbGlobal = new Point2D.Double( pMouseGlobal.getX() - _globalClickXOffset, pMouseGlobal.getY() );
+                Point2D pThumbLocal = sliderNode.globalToLocal( pThumbGlobal );
 
-            // transform offset to a slider value
-            double value = sliderNode.getScalarTransform().viewToModel( pThumbLocal.getX() );
-            if ( value < sliderNode.getMin() ) {
-                value = sliderNode.getMin();
+                // transform offset to a slider value
+                double value = sliderNode.getScalarTransform().viewToModel( pThumbLocal.getX() );
+                if ( value < sliderNode.getMin() ) {
+                    value = sliderNode.getMin();
+                }
+                else if ( value > sliderNode.getMax() ) {
+                    value = sliderNode.getMax();
+                }
+
+                sliderNode.setValue( value );
             }
-            else if ( value > sliderNode.getMax() ) {
-                value = sliderNode.getMax();
-            }
-            
-            sliderNode.setValue( value );
         }
     }
     
@@ -389,6 +408,28 @@ public class ConcentrationSliderNode extends PhetPNode {
             }
             
             sliderNode.setValue( value );
+        }
+    }
+    
+    public static class HilightHandler extends PBasicInputEventHandler {
+
+        private final ConcentrationSliderNode sliderNode;
+
+        public HilightHandler( ConcentrationSliderNode sliderNode ) {
+            super();
+            this.sliderNode = sliderNode;
+        }
+
+        public void mouseEntered( PInputEvent event ) {
+            if ( sliderNode.isEnabled() ) {
+                sliderNode.getThumbNode().setThumbPaint( THUMB_HILITE_COLOR );
+            }
+        }
+
+        public void mouseExited( PInputEvent event ) {
+            if ( sliderNode.isEnabled() ) {
+                sliderNode.getThumbNode().setThumbPaint( THUMB_ENABLED_COLOR );
+            }
         }
     }
 }

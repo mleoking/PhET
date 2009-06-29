@@ -161,6 +161,15 @@ public class SolutionControlsNode extends PhetPNode {
         soluteComboBox.setEnabled( enabled );
     }
     
+    /**
+     * Freezes the controls, disabling them until setSolute is called again.
+     */
+    public void freezeControls() {
+        soluteComboBox.setEnabled( false );
+        concentrationControlNode.setEnabled( false );
+        strengthSliderNode.setEnabled( false );
+    }
+    
     public void setSolute( Solute solute ) {
         soluteComboBox.setSelectedSoluteName( solute.getName() );
         

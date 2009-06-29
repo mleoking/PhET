@@ -100,6 +100,11 @@ public class ConcentrationControlNode extends PNode {
         panelWrapper.setOffset( xOffset, yOffset );
     }
     
+    public void setEnabled( boolean enabled ) {
+        sliderNode.setEnabled( enabled );
+        textField.setEditable( enabled );
+    }
+    
     public static NumberFormat getFormat() {
         return TEXTFIELD_FORMAT;
     }
