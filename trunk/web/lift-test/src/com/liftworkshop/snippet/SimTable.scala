@@ -19,11 +19,10 @@ class SimTable{
 
   //Generate a sequence of sim entries
   def getEntries=for (sim<-simulations) yield {
-    val thumbnail="data/images/"+sim.simname+"-thumbnail.jpg"
     <td>
         <div class="mini_sim_group">
-            <a href="index.html">
-                <img src={thumbnail}/>
+            <a href={"simpage.html?sim="+sim.simname}>
+                <img src={"data/images/"+sim.simname+"-thumbnail.jpg"}/>
                 <div class="mini_sim_title">{sim.title}</div>
             </a>
         </div>
