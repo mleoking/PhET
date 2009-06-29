@@ -2,9 +2,13 @@
 
 package edu.colorado.phet.acidbasesolutions.module.matchinggame;
 
+import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
+import java.text.DecimalFormat;
+import java.text.MessageFormat;
 
 import javax.swing.Timer;
 import javax.swing.event.ChangeEvent;
@@ -24,7 +28,9 @@ import edu.colorado.phet.acidbasesolutions.view.beaker.BeakerNode;
 import edu.colorado.phet.acidbasesolutions.view.graph.ConcentrationGraphNode;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -34,17 +40,23 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class MatchingGameCanvas extends ABSAbstractCanvas {
     
-    private static final int CORRECT_TIMER_DELAY = 2000; // ms
-    private static final int WRONG_TIMER_DELAY = 2000; // ms
+    private static final int CORRECT_TIMER_DELAY = 2500; // ms
+    private static final int WRONG_TIMER_DELAY = 2500; // ms
+    public static final Cursor DEFAULT_CURSOR = new Cursor( Cursor.DEFAULT_CURSOR );
+    public static final Cursor WAIT_CURSOR = new Cursor( Cursor.WAIT_CURSOR );
 
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
+    // Model
+    private final MatchingGameModel model;
+    
     // View
     private final MatchingGameScoreNode scoreNode;
     private final BeakerNode beakerNodeLeft, beakerNodeRight;
     private final ConcentrationGraphNode graphNodeLeft, graphNodeRight;
+    private final DecimalFormat pointsFormat;
     
     // Controls
     private final PSwingButton newSolutionButton;
@@ -59,6 +71,9 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
     private final PhetPNode acidBaseWrongParent;
     private final PhetPNode matchCorrectParent;
     private final PhetPNode matchWrongParent;
+    private final MatchingGameAnswerNode acidBaseCorrectNode, acidBaseWrongNode;
+    private final MatchingGameAnswerNode matchCorrectNode, matchWrongNode;
+    private final HTMLNode continueInstructionsNode;
     
     // Dev
     private final PNode cheatNode;
@@ -70,8 +85,11 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
     public MatchingGameCanvas( final MatchingGameModel model, Resettable resettable ) {
         super( resettable );
         
+        this.model = model;
         AqueousSolution solutionLeft = model.getSolutionLeft();
         AqueousSolution solutionRight = model.getSolutionRight();
+        
+        pointsFormat = new DecimalFormat( "0" );
         
         scoreNode = new MatchingGameScoreNode( model );
         
@@ -130,22 +148,22 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
 
         // Correct answer to "Acid or Base" question
         {
-            PNode answer = new MatchingGameAnswerNode( ABSStrings.CORRECT_ACIDBASE );
+            acidBaseCorrectNode = new MatchingGameAnswerNode( ABSStrings.CORRECT_ACIDBASE );
             
             acidBaseCorrectParent = new PhetPNode();
-            acidBaseCorrectParent.addChild( answer );
+            acidBaseCorrectParent.addChild( acidBaseCorrectNode );
             
-            answer.setOffset( 0, 0 );
+            acidBaseCorrectNode.setOffset( 0, 0 );
         }
         
         // Wrong answer to "Acid or Base" question 
         {
-            PNode answer = new MatchingGameAnswerNode( ABSStrings.WRONG_ACIDBASE );
+            acidBaseWrongNode = new MatchingGameAnswerNode( ABSStrings.WRONG_ACIDBASE );
             
             acidBaseWrongParent = new PhetPNode();
-            acidBaseWrongParent.addChild( answer );
+            acidBaseWrongParent.addChild( acidBaseWrongNode );
             
-            answer.setOffset( 0, 0 );
+            acidBaseWrongNode.setOffset( 0, 0 );
         }
         
         // "Match" question and related controls
@@ -159,7 +177,6 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
                 public void actionPerformed( ActionEvent e ) {
                     boolean success = model.checkMatch();
                     if ( success ) {
-                        model.newSolution();
                         setStateMatchCorrect();
                     }
                     else {
@@ -178,22 +195,28 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
         
         // Correct answer to "Match" question
         {
-            PNode answer = new MatchingGameAnswerNode( ABSStrings.CORRECT_MATCH );
+            matchCorrectNode = new MatchingGameAnswerNode( ABSStrings.CORRECT_MATCH );
+            
+            continueInstructionsNode = new HTMLNode( ABSStrings.GAME_CONTINUE );
+            continueInstructionsNode.setFont( new PhetFont( 16 ) );
+            continueInstructionsNode.setHTMLColor( Color.RED );
             
             matchCorrectParent = new PhetPNode();
-            matchCorrectParent.addChild( answer );
+            matchCorrectParent.addChild( matchCorrectNode );
+            matchCorrectParent.addChild( continueInstructionsNode );
             
-            answer.setOffset( 0, 0 );
+            matchCorrectNode.setOffset( 0, 0 );
+            continueInstructionsNode.setOffset( matchCorrectNode.getXOffset(), matchCorrectNode.getFullBoundsReference().getMaxY() + 5 );
         }
         
         // Wrong answer to "Match" question 
         {
-            PNode answer = new MatchingGameAnswerNode( ABSStrings.WRONG_MATCH );
+            matchWrongNode = new MatchingGameAnswerNode( ABSStrings.WRONG_MATCH );
             
             matchWrongParent = new PhetPNode();
-            matchWrongParent.addChild( answer );
+            matchWrongParent.addChild( matchWrongNode );
             
-            answer.setOffset( 0, 0 );
+            matchWrongNode.setOffset( 0, 0 );
         }
         
         beakerNodeLeft = new BeakerNode( MatchingGameDefaults.BEAKER_SIZE, solutionLeft );
@@ -264,16 +287,19 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
     public void setStateAcidBaseCorrect() {
         // show "Correct"
         hideAllQuestionsAndAnswers();
+        acidBaseCorrectNode.setText( formatCorrectWrongMessage( ABSStrings.CORRECT_ACIDBASE, model.getDeltaPoints() ) );
         acidBaseCorrectParent.setVisible( true );
         // buttons
         newSolutionButton.setEnabled( false );
         acidButton.setEnabled( false );
         baseButton.setEnabled( false );
         // pause, then advance automatically to next state
+        waitCursor();
         Timer timer = new StateTimer( CORRECT_TIMER_DELAY );
         timer.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 setStateMatchQuestion();
+                defaultCursor();
             }
         });
         timer.start();
@@ -282,16 +308,19 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
     public void setStateAcidBaseWrong() {
         // show "Wrong"
         hideAllQuestionsAndAnswers();
+        acidBaseWrongNode.setText( formatCorrectWrongMessage( ABSStrings.WRONG_ACIDBASE, model.getDeltaPoints() ) );
         acidBaseWrongParent.setVisible( true );
         // buttons
         newSolutionButton.setEnabled( false );
         acidButton.setEnabled( false );
         baseButton.setEnabled( false );
         // pause, then advance automatically to next state
+        waitCursor();
         Timer timer = new StateTimer( WRONG_TIMER_DELAY );
         timer.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 setStateAcidBaseQuestion();
+                defaultCursor();
             }
         });
         timer.start();
@@ -315,6 +344,7 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
     public void setStateMatchCorrect() {
         // show "Correct"
         hideAllQuestionsAndAnswers();
+        matchCorrectNode.setText( formatCorrectWrongMessage( ABSStrings.CORRECT_MATCH, model.getDeltaPoints() ) );
         matchCorrectParent.setVisible( true );
         // buttons
         newSolutionButton.setEnabled( true );
@@ -326,6 +356,7 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
     public void setStateMatchWrong() {
         // show "Wrong"
         hideAllQuestionsAndAnswers();
+        matchWrongNode.setText( formatCorrectWrongMessage( ABSStrings.WRONG_MATCH, model.getDeltaPoints() ) );
         matchWrongParent.setVisible( true );
         // buttons
         newSolutionButton.setEnabled( false );
@@ -333,11 +364,13 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
         // freeze solution controls
         solutionControlsNodeRight.setAllControlsEnabled( false );
         // pause, then advance automatically to next state
+        waitCursor();
         Timer timer = new StateTimer( WRONG_TIMER_DELAY );
         timer.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 setStateMatchQuestion();
                 solutionControlsNodeRight.setAllControlsEnabled( true );
+                defaultCursor();
             }
         });
         timer.start();
@@ -352,11 +385,30 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
         matchWrongParent.setVisible( false );
     }
     
+    private String formatCorrectWrongMessage( String pattern, int deltaPoints) {
+        if ( deltaPoints > 0 ) {
+            pointsFormat.setPositivePrefix( "+" );
+        }
+        else {
+            pointsFormat.setPositivePrefix( "" );
+        }
+        String s = pointsFormat.format( deltaPoints );
+        return MessageFormat.format( pattern, s );
+    }
+    
     private static class StateTimer extends Timer {
         public StateTimer( int delayMillis ) {
             super( delayMillis, (ActionListener)null );
             setRepeats( false );
         }
+    }
+    
+    private void waitCursor() {
+        this.setCursor( WAIT_CURSOR );
+    }
+    
+    private void defaultCursor() {
+        this.setCursor( DEFAULT_CURSOR );
     }
     
     //----------------------------------------------------------------------------
@@ -411,7 +463,7 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
         cheatNode.setOffset( xOffset, yOffset );
         
         // questions and answers
-        xOffset = Math.max( scoreNode.getFullBoundsReference().getMaxX(), newSolutionButton.getFullBoundsReference().getMaxX() ) + 30;
+        xOffset = Math.max( scoreNode.getFullBoundsReference().getMaxX(), scoreNode.getFullBoundsReference().getMaxX() ) + 75;
         yOffset = scoreNode.getYOffset();
         acidBaseQuestionParent.setOffset( xOffset, yOffset );
         acidBaseCorrectParent.setOffset( xOffset, yOffset );

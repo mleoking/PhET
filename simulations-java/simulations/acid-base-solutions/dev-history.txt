@@ -9,11 +9,16 @@ TODO:
 - first time a module is activated, canvas updateLayout is called twice (AncestorListener+ComponentListener), other sims only call once (AncestorListener)
 - review remaining instanceof comparisons
 - auto layout of symbol legend descriptions, so that we don't need to localize HTML markup
+- in Matching Game, clicking in concentration text field causes dot view to redraw
 
 ISSUES:
 - CM: layout change of play area is annoying when switching solutes, due to label changes in beaker's View control panel
 
 DONE:
+6/29/09 instructions for how to continue game after solution has been successfully matched
+6/29/09 formatting of points change in correct/wrong message
+6/29/09 Swing timers for controlling automatic game state changes
+6/29/09 add cursors while game is not interactive
 6/29/09 visibility and enabling for game states
 6/29/09 add ability to disable all solution controls
 6/29/09 organize imports
