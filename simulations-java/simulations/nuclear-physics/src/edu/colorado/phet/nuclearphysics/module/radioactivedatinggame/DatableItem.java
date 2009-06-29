@@ -2,9 +2,11 @@
 
 package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 
+import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
@@ -16,16 +18,19 @@ import edu.colorado.phet.nuclearphysics.model.Uranium238Nucleus;
  * measurements, such as a skull or a fossil or a tree.
  * 
  */
-public class DatableItem {
+public class DatableItem implements AnimatedModelElement {
 
-	private final Point2D center;
 	private final double width;
 	private final double height;
 	private final double age;
 	private final String name;
 	private final String resourceImageName;
 	private final double rotationAngle; // In radians.
+	private Point2D center;
 	private BufferedImage image;
+	private ArrayList<AnimationListener> animationListeners = new ArrayList<AnimationListener>();
+
+
 	
 	public DatableItem(String name, String resourceImageName, Point2D center, double width, 
 			double rotationAngle, double age) {
@@ -47,8 +52,18 @@ public class DatableItem {
 		this.height = (double)image.getHeight() / (double)image.getWidth() * width;
 	}
 
-	public Point2D getCenter() {
+	public Point2D getPosition() {
 		return new Point2D.Double(center.getX(), center.getY());
+	}
+	
+	protected void setPosition(Point2D centerPoint) {
+		center = new Point2D.Double(centerPoint.getX(), centerPoint.getY());
+	}
+	
+	public void addAnimationListener(AnimationListener listener) {
+		if (!animationListeners.contains(listener)){
+			animationListeners.add(listener);
+		}
 	}
 
 	public double getWidth() {
@@ -103,6 +118,10 @@ public class DatableItem {
 	public BufferedImage getImage() {
 		return image;
 	}
+	
+	protected void setImage( BufferedImage newImage ){
+		image = newImage;
+	}
 
 	public String getName() {
 		return name;
@@ -123,7 +142,20 @@ public class DatableItem {
 		return new Rectangle2D.Double( center.getX() - width /2, center.getY() - height/2, width, height );
 	}
 
-	public double getRotationAngle() {
+	public double getRotationalAngle() {
 		return rotationAngle;
+	}
+
+	public Dimension2D getSize() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void removeAllAnimationListeners() {
+		animationListeners.clear();
+	}
+
+	public boolean removeAnimationListener(AnimationListener listener) {
+		return animationListeners.remove(listener);
 	}
 }

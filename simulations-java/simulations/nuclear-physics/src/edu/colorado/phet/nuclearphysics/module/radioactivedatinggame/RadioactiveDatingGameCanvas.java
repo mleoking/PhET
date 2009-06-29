@@ -176,7 +176,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         for (DatableItem item : _model.getItemIterable()){
         	PNode datableItemNode = new DatableItemNode(item, _mvt);
         	_mapDatableItemsToNodes.put(item, datableItemNode);
-        	datableItemNode.setOffset(_mvt.modelToViewDouble(item.getCenter()));
+        	datableItemNode.setOffset(_mvt.modelToViewDouble(item.getPosition()));
         	_strataLayer.addChild(datableItemNode);
         }
         	
