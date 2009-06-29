@@ -2,36 +2,55 @@ package com.liftworkshop.snippet
 
 import net.liftweb.http.S
 
-case class Simulation(title:String,simname:String)
+case class SimulationEntry(project: String, sim: String) {
+  def this(name: String) = this(name, name)
+}
 
-class SimTable{
+trait SimInfo{
+  def getTitle(entry:SimulationEntry):String
+}
+
+class SimTable {
+  object StaticInfo extends SimInfo {
+    def getTitle(entry: SimulationEntry) = entry.sim.toUpperCase //todo: actually return sim title
+  }
+
   //TODO load simulations from database/disk
-  def simulations =
-    new Simulation("Circuit Construction Kit", "circuit-construction-kit-dc") ::
-            new Simulation("Glaciers", "glaciers") ::
-            new Simulation("Projectile Motion", "projectile-motion") :: Nil
+  val simInfo=StaticInfo
+  def sims = SimulationEntry("circuit-construction-kit", "circuit-construction-kit-dc") ::
+          SimulationEntry("glaciers","glaciers")::SimulationEntry("projectile-motion","projectile-motion")::Nil
 
   //Generate HTML For the simulation table
-  def display=
+  def display =
     <table id="mini_sim_table">
-        <tr>
-        {getEntries}
-        </tr>
+    <tr>{getEntries}</tr>
     </table>
 
   //Generate a sequence of sim entries
-  def getEntries=for (sim<-simulations) yield {
+  def getEntries = for (entry <- sims) yield {
     <td>
-        <div class="mini_sim_group">
-            <a href={"simpage.html?sim="+sim.simname}>
-                <img src={"data/images/"+sim.simname+"-thumbnail.jpg"}/>
-                <div class="mini_sim_title">{sim.title}</div>
-            </a>
-        </div>
+    <div class="mini_sim_group">
+    <a href={"simpage.html?sim=" + entry.sim}>
+    <img src={"data/images/" + entry.sim + "-thumbnail.jpg"}/>
+    <div class="mini_sim_title">{simInfo.getTitle(entry)}</div>
+    </a>
+    </div>
     </td>
   }
 }
 
-class SimPage{
-  def render = <b> hello and welcome to {S.param("sim").open_!}</b>
+class SimPage {
+  def getSim = S.param("sim").open_!
+
+  def render = <a>Simulation page for {getSim}</a>
+
+  def renderTitle = <a>Simulation page for {getSim}</a>
+
+  def renderImage = {
+    <a href={"runsim/" + getSim}>
+    <img src={"data/images/" + getSim + "-thumbnail.jpg"} alt="Screenshot for the simulation 'Arithmetic'"/>
+    </a>
+  }
+
+  def renderDescription = <a>Remember your multiplication tables?...me neither.Brush up on your multiplication, division and factoring skills with this exciting game.No calculators allowed!</a>
 }

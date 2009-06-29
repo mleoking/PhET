@@ -1,5 +1,23 @@
 <lift:surround with="default" at="content">
     <!--Show the thumbnails and titles for sims.-->
-    Simpage!
-    <lift:SimPage.render/>
+    <div id="sim_holder">
+        <h2><lift:SimPage.renderTitle/></h2>
+
+        <div id="sim_image">
+            <lift:SimPage.renderImage/>
+        </div>
+
+        <div id="sim_description">
+            <lift:SimPage.renderDescription/>
+        </div>
+
+        <h4>Translated versions of this sim:</h4>
+
+        <ul>
+            <li><a href="/runsim/arithmetic/en">English</a></li>
+            <li><a href="/runsim/arithmetic/es">Spanish</a></li>
+        </ul>
+        <lift:SimPage.render/>
+    </div>
+
 </lift:surround>
