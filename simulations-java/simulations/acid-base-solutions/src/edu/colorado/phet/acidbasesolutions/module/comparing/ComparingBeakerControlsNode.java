@@ -3,7 +3,6 @@ package edu.colorado.phet.acidbasesolutions.module.comparing;
 import java.awt.Color;
 
 import edu.colorado.phet.acidbasesolutions.control.BeakerControlsNode;
-import edu.colorado.phet.acidbasesolutions.control.BeakerControlsNode.BeakerViewChangeListener;
 import edu.colorado.phet.acidbasesolutions.view.beaker.BeakerNode;
 
 /**

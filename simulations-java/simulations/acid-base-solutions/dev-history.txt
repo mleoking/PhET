@@ -11,10 +11,11 @@ TODO:
 - auto layout of symbol legend descriptions, so that we don't need to localize HTML markup
 
 ISSUES:
-- KP: PSwing buffering makes Swing text look lousy while dragging sliders
 - CM: layout change of play area is annoying when switching solutes, due to label changes in beaker's View control panel
 
 DONE:
+6/29/09 organize imports
+6/26/09 fix fuzziness during interaction by setting rendering quality in PhetPCanvas
 6/26/09 incremental changes and fixes to Matching Game
 6/26/09 group nodes together in MatchingGameCanvas so that they're easy to show/hide at different stages in the game
 6/25/09 wire up answer buttons to model
