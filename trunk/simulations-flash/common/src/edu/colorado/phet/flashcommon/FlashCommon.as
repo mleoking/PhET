@@ -1,4 +1,4 @@
-// FlashCommon.as
+﻿// FlashCommon.as
 //
 // coordinates all common flash code, including the updates and statistics
 //
@@ -64,6 +64,9 @@ class edu.colorado.phet.flashcommon.FlashCommon {
 		if(debugging) {
 			var padding : Number = 50;
 			_root.createTextField("debugs", 104384, padding, padding, Stage.width - 2 * padding, Stage.height - 2 * padding);
+			var format : TextFormat = _root.debugs.getTextFormat();
+			format.font = "Arial";
+			_root.debugs.setTextFormat( format );
 			_root.debugs._visible = false;
 			_root.debugs.background = true;
 			_root.debugs.wordWrap = true;
