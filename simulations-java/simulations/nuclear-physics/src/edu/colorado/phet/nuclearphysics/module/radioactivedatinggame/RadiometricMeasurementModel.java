@@ -113,6 +113,7 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
 			// Remove all existing model elements.
 			Iterator<AnimatedModelElement> itr = _animatedModelElements.iterator();
 			while (itr.hasNext()){
+				itr.next();
 				itr.remove();
 				notifyModelElementRemoved();
 			}
