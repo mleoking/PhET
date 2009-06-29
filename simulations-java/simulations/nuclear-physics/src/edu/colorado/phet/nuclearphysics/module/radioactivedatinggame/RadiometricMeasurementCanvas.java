@@ -8,7 +8,10 @@ import java.awt.GradientPaint;
 import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.IdentityHashMap;
+import java.util.Iterator;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -62,7 +65,7 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
     private PNode _backgroundLayer;
     private NuclearDecayProportionChart _proportionsChart;
     private RadiometricDatingMeterNode _meterNode;
-    private IdentityHashMap<DatableItem, PNode> _mapDatableItemsToNodes = new IdentityHashMap<DatableItem, PNode>();
+    private IdentityHashMap<DatableItem, PNode> _mapModelElementsToNodes = new IdentityHashMap<DatableItem, PNode>();
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -168,6 +171,56 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
 	//------------------------------------------------------------------------
     // Methods
     //------------------------------------------------------------------------
+    
+    /**
+     * Handle a notification that a model element was added by comparing the
+     * list of elements in the model to the list of corresponding nodes and
+     * creating new nodes for any elements that are not yet represented.
+     */
+    private void handleModelElementAdded(){
+    	
+    	ArrayList modelElements = _model.getModelElements();
+    	
+    	for (Object modelElement : modelElements){
+    		if (_mapModelElementsToNodes.get(modelElement) == null){
+    			// No node exists for this model element, so add one.
+    			if (modelElement instanceof DatableItem){
+    				DatableItem item = (DatableItem)modelElement;
+    				DatableItemNode itemNode = new DatableItemNode(item, _mvt);
+    				_mapModelElementsToNodes.put(item, itemNode);
+    				addWorldChild(itemNode);
+    			}
+    			else{
+    				// TODO: Not sure if there is a need for handling of items
+    				// other than non-datable items.  The volcano may, for
+    				// instance, spew out non-datable stuff.  If so, this will
+    				// need to be handled at some point.
+    				assert false;
+    			}
+    		}
+    	}
+    }
+    
+    /**
+     * Handle and event that signifies that a model element has been removed
+     * from the model by removing the corresponding node from the canvas.
+     */
+    private void handleModelElementRemoved(){
+    	
+    	ArrayList _modelElements = _model.getModelElements();
+    	Iterator itr = _mapModelElementsToNodes.values().iterator();
+    	
+    	while ( itr.hasNext() ){
+    		PNode itemNode = (PNode)itr.next();
+    		if (!_modelElements.contains(itemNode)){
+    			// The element that corresponds to this node appears to have
+    			// been removed from the model, so it should be removed from
+    			// the canvas and the mapping structure.
+    			removeWorldChild(itemNode);
+    			itr.remove();
+    		}
+    	}
+    }
     
     private void drawDecayCurveOnChart(){
         double halfLife = _model.getMeter().getHalfLifeForDating();
