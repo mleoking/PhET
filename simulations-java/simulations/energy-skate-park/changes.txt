@@ -1,3 +1,4 @@
+> Improvements for internationalization
 # 2.05.05 (32357) Jun 9, 2009
 6/9/09 Attempt to fix an issue where newly added strings are not appearing when loaded into translation utility.
 # 2.05.04 (32242) Jun 1, 2009
