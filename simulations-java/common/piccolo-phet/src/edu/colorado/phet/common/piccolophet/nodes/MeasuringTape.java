@@ -14,11 +14,13 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.text.MessageFormat;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
@@ -206,14 +208,13 @@ public class MeasuringTape extends PhetPNode {
         Point2D modelDX = modelViewTransform2D.viewToModelDifferential( new Point2D.Double( dx, dy ) );
         modelDst.x += modelDX.getX();
         modelDst.y += modelDX.getY();
-//        System.out.println( "modelDst = " + modelDst );
         update();
     }
 
     class ReadoutGraphic extends PNode {
-        DecimalFormat decimalFormat = new DecimalFormat( "0.00" );
+        private DecimalFormat decimalFormat = new DecimalFormat( "0.00" );
         private String units;
-        public PText phetShadowTextGraphic;
+        private PText phetShadowTextGraphic;
 
         public ReadoutGraphic( String units ) {
             this.units = units;
@@ -229,9 +230,9 @@ public class MeasuringTape extends PhetPNode {
             addChild( phetShadowTextGraphic );
         }
 
-        public void setDistance( double modelDistance ) {
-            String text = decimalFormat.format( modelDistance ) + " " + units;
-            phetShadowTextGraphic.setText( text );
+        public void setDistance(double modelDistance) {
+            final String formatted = MessageFormat.format(PhetCommonResources.getString("Common.value.units"), decimalFormat.format(modelDistance), units);
+            phetShadowTextGraphic.setText(formatted);
         }
 
         public void setUnits( String units ) {
