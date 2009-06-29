@@ -27,7 +27,7 @@ public class PSwingButton extends PhetPNode {
         jButton.setFont( font );
     }
     
-    public void setEnable( boolean enabled ) {
+    public void setEnabled( boolean enabled ) {
         jButton.setEnabled( enabled );
     }
     

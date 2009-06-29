@@ -14,6 +14,7 @@ ISSUES:
 - CM: layout change of play area is annoying when switching solutes, due to label changes in beaker's View control panel
 
 DONE:
+6/29/09 visibility and enabling for game states
 6/29/09 add ability to disable all solution controls
 6/29/09 organize imports
 6/26/09 fix fuzziness during interaction by setting rendering quality in PhetPCanvas
