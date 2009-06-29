@@ -46,7 +46,7 @@ public class StrengthSliderNode extends PhetPNode {
     private static final PDimension THUMB_SIZE = new PDimension( 13, 18 );
     private static final Color THUMB_ENABLED_COLOR = ABSColors.THUMB_ENABLED;
     private static final Color THUMB_HILITE_COLOR = ABSColors.THUMB_HIGHLIGHTED;
-    private static final Color THUMB_DISABLED_COLOR = new Color( 245, 245, 245 );
+    private static final Color THUMB_DISABLED_COLOR = ABSColors.THUMB_DISABLED;
     private static final Color THUMB_STROKE_COLOR = Color.BLACK;
     private static final Stroke THUMB_STROKE = new BasicStroke( 1f );
 
