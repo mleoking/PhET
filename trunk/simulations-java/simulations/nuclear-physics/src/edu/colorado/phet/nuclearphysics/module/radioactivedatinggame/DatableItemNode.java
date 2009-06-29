@@ -19,6 +19,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 public class DatableItemNode extends PNode {
 	
 	private final DatableItem datableItem;
+	private final ModelViewTransform2D mvt;
 	private final PImage image;
 	
 	// For debugging of placement, turns on a name so users can tell what's what.
@@ -26,15 +27,22 @@ public class DatableItemNode extends PNode {
 
 	public DatableItemNode(DatableItem datableItem, ModelViewTransform2D mvt) {
 		this.datableItem = datableItem;
+		this.mvt = mvt;
 		image = new PImage( datableItem.getImage() );
 		Point2D desiredSize = mvt.modelToViewDifferentialDouble(datableItem.getWidth(), datableItem.getHeight());
 		image.scale(desiredSize.getX() / image.getFullBoundsReference().getWidth());
-		image.setOffset(-image.getFullBoundsReference().width / 2, -image.getFullBoundsReference().height / 2);
 		addChild(image);
 		if (SHOW_NAME){
 			PText name = new PText(datableItem.getName());
 			name.setFont(new PhetFont());
 			addChild(name);
 		}
+		updatePosition();
+	}
+	
+	public void updatePosition(){
+		Point2D centerCanvasPosition = mvt.modelToViewDouble(datableItem.getPosition());
+		image.setOffset(centerCanvasPosition.getX() - ( image.getFullBoundsReference().width / 2 ),
+				centerCanvasPosition.getY() - ( image.getFullBoundsReference().height / 2 ) );
 	}
 }
