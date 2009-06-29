@@ -18,7 +18,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * 
  * Demonstrates that HTML text of disabled Swing components are not grayed out.
  * This problem is not specific to PSwing, it's a general Swing issue.
- * Observed on Mac OS 10.5.7 with Java 1.5.0_19, untested on other platforms.
+ * Observed on both Mac and Windows.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
