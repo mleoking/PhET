@@ -62,7 +62,7 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
 
     private ModelViewTransform2D _mvt;
     private RadiometricMeasurementModel _model;
-    private PNode _backgroundLayer;
+    private PNode _datableItemsLayer;
     private NuclearDecayProportionChart _proportionsChart;
     private RadiometricDatingMeterNode _meterNode;
     private IdentityHashMap<DatableItem, PNode> _mapModelElementsToNodes = new IdentityHashMap<DatableItem, PNode>();
@@ -112,28 +112,52 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
         setBackground( NuclearPhysicsConstants.CANVAS_BACKGROUND );
 
         // Create the layer where the background will be placed.
-        _backgroundLayer = new PNode();
-        addWorldChild(_backgroundLayer);
+        PNode backgroundLayer = new PNode();
+        addWorldChild(backgroundLayer);
+        
+        // Create the layer where the datable items will be placed.
+        _datableItemsLayer = new PNode();
+        addWorldChild(_datableItemsLayer);
+        
+        // Create the layer where the chart and meter will be placed.
+        PNode chartAndMeterLayer = new PNode();
+        addWorldChild(chartAndMeterLayer);
         
         // Add the ground to the background.
         GroundNode ground = new GroundNode();
         ground.setOffset(_mvt.modelToViewXDouble(0), _mvt.modelToViewYDouble(_model.getGroundLevelY()));
-        _backgroundLayer.addChild(ground);
+        backgroundLayer.addChild(ground);
 
         // Add the sky to the background.
         SkyNode sky = new SkyNode(INITIAL_INTERMEDIATE_COORD_WIDTH * 4, INITIAL_INTERMEDIATE_COORD_HEIGHT * 1.5);
         sky.setOffset(_mvt.modelToViewXDouble(0), _mvt.modelToViewYDouble(_model.getGroundLevelY()));
-        _backgroundLayer.addChild(sky);
+        backgroundLayer.addChild(sky);
         
         // Add a couple of clouds to the background.
         PImage cloud1 = NuclearPhysicsResources.getImageNode("cloud_1.png");
         cloud1.setScale(0.75);
         cloud1.setOffset(0, 20);
-        _backgroundLayer.addChild(cloud1);
+        backgroundLayer.addChild(cloud1);
         PImage cloud2 = NuclearPhysicsResources.getImageNode("cloud_1.png");
         cloud2.setScale(0.5);
         cloud2.setOffset(INITIAL_INTERMEDIATE_COORD_WIDTH / 2, 100);
-        _backgroundLayer.addChild(cloud2);
+        backgroundLayer.addChild(cloud2);
+        
+        // Create the chart that will display relative decay proportions.
+        _proportionsChart = new NuclearDecayProportionChart(false, false, false);
+        configureProportionsChart();
+        chartAndMeterLayer.addChild(_proportionsChart);
+        
+        // Set the size and position of the chart.  There are some "tweak
+        // factors" in here to make things look good.
+        // TODO: If I end up leaving this as a world child, I need to change this
+        // resizing call to be a part of the constructor for the chart (I think).
+        _proportionsChart.componentResized( new Rectangle2D.Double( 0, 0, 
+        		INITIAL_INTERMEDIATE_COORD_WIDTH * PROPORTIONS_CHART_WIDTH_FRACTION,
+        		INITIAL_INTERMEDIATE_COORD_HEIGHT * PROPORTIONS_METER_HEIGHT_FRACTION));
+        _proportionsChart.setOffset(
+        		INITIAL_INTERMEDIATE_COORD_WIDTH * PROPORTIONS_METER_WIDTH_FRACTION + 4,
+        		METER_AND_CHART_OFFSET_FROM_TOP);
         
         // Create the radiometric measuring device.
         _meterNode = new RadiometricDatingMeterNode( _model.getMeter(), INITIAL_INTERMEDIATE_COORD_WIDTH * PROPORTIONS_METER_WIDTH_FRACTION,
@@ -142,23 +166,7 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
         		this,
         		false );
         _meterNode.setMeterBodyOffset( 0, METER_AND_CHART_OFFSET_FROM_TOP);
-        addWorldChild( _meterNode );
-        
-        // Create the chart that will display relative decay proportions.
-        _proportionsChart = new NuclearDecayProportionChart(false, false, false);
-        configureProportionsChart();
-        addWorldChild(_proportionsChart);
-        
-        // Set the size and position of the chart.  There are some "tweak
-        // factors" in here to make things look good.
-        // TODO: If I end up leaving this as a world child, I need to change this
-        // resizing call to be a part of the constructor for the chart (I think).
-        _proportionsChart.componentResized( new Rectangle2D.Double( 0, 0, 
-        		INITIAL_INTERMEDIATE_COORD_WIDTH * PROPORTIONS_CHART_WIDTH_FRACTION,
-        		_meterNode.getMeterBodySize().getHeight()));
-        _proportionsChart.setOffset(
-        		_meterNode.getMeterBodyOffset().getX() + _meterNode.getMeterBodySize().getWidth() + 4,
-        		METER_AND_CHART_OFFSET_FROM_TOP);
+        chartAndMeterLayer.addChild( _meterNode );
         
         // Add the node(s) to the canvas corresponding to the datable items in
         // the model.
@@ -185,7 +193,7 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
     				DatableItem item = (DatableItem)modelElement;
     				DatableItemNode itemNode = new DatableItemNode(item, _mvt);
     				_mapModelElementsToNodes.put(item, itemNode);
-    				addWorldChild(itemNode);
+    				_datableItemsLayer.addChild(itemNode);
     			}
     			else{
     				// TODO: Not sure if there is a need for handling of items
@@ -213,7 +221,7 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
     			// The element that corresponds to this node appears to have
     			// been removed from the model, so it should be removed from
     			// the canvas and the mapping structure.
-    			removeWorldChild(itemNode);
+    			_datableItemsLayer.addChild(itemNode);
     			itr.remove();
     		}
     	}
