@@ -22,10 +22,10 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class TestDisableHTMLLabel extends JFrame {
+public class TestDisableHTMLLabels extends JFrame {
 
-    public TestDisableHTMLLabel() {
-        super( "TestPSwingDisable" );
+    public TestDisableHTMLLabels() {
+        super();
         setResizable( false );
 
         // panel with check boxes on a canvas
@@ -88,7 +88,7 @@ public class TestDisableHTMLLabel extends JFrame {
     }
 
     public static void main( String[] args ) {
-        JFrame frame = new TestDisableHTMLLabel();
+        JFrame frame = new TestDisableHTMLLabels();
         frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
         SwingUtils.centerWindowOnScreen( frame );
         frame.setVisible( true );
