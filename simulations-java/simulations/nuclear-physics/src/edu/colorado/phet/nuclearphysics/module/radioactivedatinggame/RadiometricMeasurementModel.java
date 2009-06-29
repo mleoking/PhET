@@ -4,11 +4,11 @@ package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
-import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus.Listener;
 
 /**
  * This class defines a model (in the model-view-controller paradigm) that
@@ -27,13 +27,20 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
 	public enum SIMULATION_MODE { TREE, ROCK };
 	private SIMULATION_MODE DEFAULT_MODE = SIMULATION_MODE.TREE;
 	
+	// Constants that control the initial size and position of some of the
+	// model elements.
+	private static final Point2D INITIAL_TREE_POSITION = new Point2D.Double(-10, -5);
+	private static final double  INITIAL_TREE_WIDTH = 10;
+	private static final Point2D INITIAL_VOLCANO_POSITION = new Point2D.Double(-1, 15);
+	private static final double  INITIAL_VOLCANO_WIDTH = 5;
+	
     //------------------------------------------------------------------------
     // Instance data
     //------------------------------------------------------------------------
 
 	private DatableItem _datableItem;
 	private RadiometricDatingMeter _meter;
-	private SIMULATION_MODE _simulationMode = DEFAULT_MODE;
+	private SIMULATION_MODE _simulationMode;
 	private ConstantDtClock _clock;
 	private ArrayList<Listener> _listeners = new ArrayList<Listener>();
 	private ArrayList<AnimatedModelElement> _animatedModelElements = new ArrayList<AnimatedModelElement>();
@@ -54,6 +61,10 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
 				getDatableItemAtLocation( _meter.getProbeModel().getTipLocation() );
 			}
     	});
+    	
+    	// Set the initial simulation mode, which will add the initial
+    	// model element(s).
+    	setSimulationMode(DEFAULT_MODE);
     }
 
     //------------------------------------------------------------------------
@@ -94,6 +105,30 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
 	public void setSimulationMode(SIMULATION_MODE mode) {
 		if ( _simulationMode != mode){
 			_simulationMode = mode;
+			
+			// Stop and reset the clock.
+			_clock.stop();
+			_clock.resetSimulationTime();
+			
+			// Remove all existing model elements.
+			Iterator<AnimatedModelElement> itr = _animatedModelElements.iterator();
+			while (itr.hasNext()){
+				itr.remove();
+				notifyModelElementRemoved();
+			}
+			
+			// Add the appropriate model elements based on the simulation mode.
+			switch( _simulationMode ){
+			case TREE:
+				_animatedModelElements.add(new AgingTree(_clock, INITIAL_TREE_POSITION, INITIAL_TREE_WIDTH));
+				notifyModelElementAdded();
+				break;
+			case ROCK:
+				_animatedModelElements.add(new EruptingVolcano(_clock, INITIAL_VOLCANO_POSITION, INITIAL_VOLCANO_WIDTH));
+				notifyModelElementAdded();
+				break;
+			}
+			
 			notifySimulationModeChanged();
 		}
 	}
@@ -136,10 +171,22 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
     	return datableItem;
     }
     
-    protected void notifySimulationModeChanged(){
+    protected void notifySimulationModeChanged() {
         for (int i = 0; i < _listeners.size(); i++){
-            ((Listener)_listeners.get( i )).simulationModeChanged();
+            _listeners.get( i ).simulationModeChanged();
+        }
+    }
+    
+    protected void notifyModelElementAdded() {
+        for (int i = 0; i < _listeners.size(); i++){
+            _listeners.get( i ).modelElementAdded();
         }        
+    }
+
+    protected void notifyModelElementRemoved() {
+        for (int i = 0; i < _listeners.size(); i++){
+            _listeners.get( i ).modelElementRemoved();
+        }
     }
     
     //------------------------------------------------------------------------
