@@ -40,8 +40,7 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class MatchingGameCanvas extends ABSAbstractCanvas {
     
-    private static final int CORRECT_TIMER_DELAY = 2500; // ms
-    private static final int WRONG_TIMER_DELAY = 2500; // ms
+    private static final int TIMER_DELAY = 2000; // ms
     public static final Cursor DEFAULT_CURSOR = new Cursor( Cursor.DEFAULT_CURSOR );
     public static final Cursor WAIT_CURSOR = new Cursor( Cursor.WAIT_CURSOR );
 
@@ -295,7 +294,7 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
         baseButton.setEnabled( false );
         // pause, then advance automatically to next state
         waitCursor();
-        Timer timer = new StateTimer( CORRECT_TIMER_DELAY );
+        Timer timer = new StateTimer( TIMER_DELAY );
         timer.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 setStateMatchQuestion();
@@ -316,7 +315,7 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
         baseButton.setEnabled( false );
         // pause, then advance automatically to next state
         waitCursor();
-        Timer timer = new StateTimer( WRONG_TIMER_DELAY );
+        Timer timer = new StateTimer( TIMER_DELAY );
         timer.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 setStateAcidBaseQuestion();
@@ -365,7 +364,7 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
         solutionControlsNodeRight.setAllControlsEnabled( false );
         // pause, then advance automatically to next state
         waitCursor();
-        Timer timer = new StateTimer( WRONG_TIMER_DELAY );
+        Timer timer = new StateTimer( TIMER_DELAY );
         timer.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 setStateMatchQuestion();
@@ -417,7 +416,7 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
     
     private void updateView() {
         beakerNodeLeft.setVisible( viewControlsNode.isBeakersSelected() );
-        beakerNodeRight.setVisible( viewControlsNode.isBeakersSelected() );
+        beakerNodeRight.setVisible( viewControlsNode.isBeakersSelected() && solutionControlsNodeRight.isVisible() );
         beakerNodeLeft.setDisassociatedRatioComponentsVisible( viewControlsNode.isDissociatedComponentsRatioSelected() );
         beakerNodeRight.setDisassociatedRatioComponentsVisible( viewControlsNode.isDissociatedComponentsRatioSelected() );
         beakerNodeLeft.setHydroniumHydroxideRatioVisible( viewControlsNode.isHydroniumHydroxideRatioSelected() );

@@ -121,7 +121,9 @@ public class MatchingGameViewControlsNode extends PhetPNode {
         moleculeCountsCheckBox.setEnabled( false );
         graphsRadioButton.setEnabled( false );
         setBeakersSelected( true );
+        setDissociatedComponentsRatioSelected( false );
         setHydroniumHydroxideRatioSelected( true );
+        setMoleculeCountsSelected( false );
     }
     
     /**
