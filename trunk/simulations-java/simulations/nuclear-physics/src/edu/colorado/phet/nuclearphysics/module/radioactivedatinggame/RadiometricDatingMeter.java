@@ -231,9 +231,5 @@ public class RadiometricDatingMeter {
         public double getAngle() {
             return angle;
         }
-
-        static interface Listener {
-            void probeModelChanged();
-        }
     }
 }
