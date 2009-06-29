@@ -22,7 +22,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 public class MatchingGameCheatNode extends PComposite {
     
     private static final DecimalFormat CONCENTRATION_FORMAT = new DecimalFormat( "0.0000" );
-    private static final DecimalFormat STRENGTH_FORMAT = new DecimalFormat( "0.0000" );
+    private static final DecimalFormat STRENGTH_FORMAT = new DecimalFormat( "0.0E0" );
     
     private final AqueousSolution solution;
     private final JLabel concentrationLabel, strengthLabel;
