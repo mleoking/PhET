@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
 
+import javax.swing.Timer;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -32,6 +33,9 @@ import edu.umd.cs.piccolo.PNode;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class MatchingGameCanvas extends ABSAbstractCanvas {
+    
+    private static final int CORRECT_TIMER_DELAY = 2000; // ms
+    private static final int WRONG_TIMER_DELAY = 2000; // ms
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -265,8 +269,14 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
         newSolutionButton.setEnabled( false );
         acidButton.setEnabled( false );
         baseButton.setEnabled( false );
-        //XXX pause for 3 seconds
-        //XXX setStateMatchQuestion
+        // pause, then advance automatically to next state
+        Timer timer = new StateTimer( CORRECT_TIMER_DELAY );
+        timer.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                setStateMatchQuestion();
+            }
+        });
+        timer.start();
     }
     
     public void setStateAcidBaseWrong() {
@@ -277,8 +287,14 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
         newSolutionButton.setEnabled( false );
         acidButton.setEnabled( false );
         baseButton.setEnabled( false );
-        //XXX pause for 3 seconds
-        //XXX setStateAcidBaseQuestion
+        // pause, then advance automatically to next state
+        Timer timer = new StateTimer( WRONG_TIMER_DELAY );
+        timer.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                setStateAcidBaseQuestion();
+            }
+        });
+        timer.start();
     }
     
     public void setStateMatchQuestion() {
@@ -304,7 +320,7 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
         newSolutionButton.setEnabled( true );
         matchButton.setEnabled( false );
         // freeze solution controls
-        solutionControlsNodeRight.freezeControls();
+        solutionControlsNodeRight.setAllControlsEnabled( false );
     }
     
     public void setStateMatchWrong() {
@@ -315,9 +331,16 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
         newSolutionButton.setEnabled( false );
         matchButton.setEnabled( false );
         // freeze solution controls
-        solutionControlsNodeRight.freezeControls();
-        //XXX pause for 3 seconds
-        //XXX setStateMatchQuestion, unfreeze controls
+        solutionControlsNodeRight.setAllControlsEnabled( false );
+        // pause, then advance automatically to next state
+        Timer timer = new StateTimer( WRONG_TIMER_DELAY );
+        timer.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                setStateMatchQuestion();
+                solutionControlsNodeRight.setAllControlsEnabled( true );
+            }
+        });
+        timer.start();
     }
     
     private void hideAllQuestionsAndAnswers() {
@@ -329,12 +352,10 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
         matchWrongParent.setVisible( false );
     }
     
-    private void pause( int seconds ) {
-        try {
-            Thread.sleep( seconds * 1000L );
-        }
-        catch ( InterruptedException e ) {
-            e.printStackTrace();
+    private static class StateTimer extends Timer {
+        public StateTimer( int delayMillis ) {
+            super( delayMillis, (ActionListener)null );
+            setRepeats( false );
         }
     }
     
@@ -393,9 +414,11 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
         xOffset = Math.max( scoreNode.getFullBoundsReference().getMaxX(), newSolutionButton.getFullBoundsReference().getMaxX() ) + 30;
         yOffset = scoreNode.getYOffset();
         acidBaseQuestionParent.setOffset( xOffset, yOffset );
-        matchQuestionParent.setOffset( xOffset, yOffset );
         acidBaseCorrectParent.setOffset( xOffset, yOffset );
         acidBaseWrongParent.setOffset( xOffset, yOffset );
+        matchQuestionParent.setOffset( xOffset, yOffset );
+        matchCorrectParent.setOffset( xOffset, yOffset );
+        matchWrongParent.setOffset( xOffset, yOffset );
         
         // left beaker
         xOffset = -PNodeUtils.getOriginXOffset( beakerNodeLeft );
