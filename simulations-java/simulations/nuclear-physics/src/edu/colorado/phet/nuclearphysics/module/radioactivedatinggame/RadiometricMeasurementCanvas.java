@@ -145,7 +145,7 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
         addWorldChild( _meterNode );
         
         // Create the chart that will display relative decay proportions.
-        _proportionsChart = new NuclearDecayProportionChart(false, true, false);
+        _proportionsChart = new NuclearDecayProportionChart(false, false, false);
         configureProportionsChart();
         addWorldChild(_proportionsChart);
         
