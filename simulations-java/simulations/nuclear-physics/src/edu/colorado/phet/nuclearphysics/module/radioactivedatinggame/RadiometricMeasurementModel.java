@@ -33,6 +33,7 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
 	private static final double  INITIAL_TREE_WIDTH = 7;
 	private static final Point2D INITIAL_VOLCANO_POSITION = new Point2D.Double(13, 0);
 	private static final double  INITIAL_VOLCANO_WIDTH = 12;
+	private static final Point2D INITIAL_PROBE_TIP_POSITION = new Point2D.Double(0, 10);
 	
     //------------------------------------------------------------------------
     // Instance data
@@ -54,7 +55,7 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
     	_clock = clock;
     	
     	// Add the meter and register for user-initiated movements.
-    	_meter = new RadiometricDatingMeter( this, new Point2D.Double(-5, 3) );
+    	_meter = new RadiometricDatingMeter( this, INITIAL_PROBE_TIP_POSITION );
     	
     	_meter.getProbeModel().addObserver(new SimpleObserver(){
 			public void update() {
