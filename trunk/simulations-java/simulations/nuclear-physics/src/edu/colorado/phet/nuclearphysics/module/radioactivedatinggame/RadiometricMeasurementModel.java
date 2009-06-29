@@ -134,6 +134,16 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
 		}
 	}
 	
+	/**
+	 * Returns a value indicating whether "closure" has occurred, meaning that
+	 * the datable item(s) have started to age radiometrically.  For a tree,
+	 * this occurs when the tree dies.  For a rock, when it cools.  And so on.
+	 */
+	public boolean hasClosureOccurred(){
+		// TODO: Needs implementation.
+		return false;
+	}
+	
 	public ConstantDtClock getClock() {
 		return _clock;
 	}

@@ -149,9 +149,13 @@ public class NuclearPhysicsStrings {
     public static final String TIME_GRAPH_UNITS_MILLION_YRS= NuclearPhysicsResources.getString( "LogarithmicTimeLine.Units.MillionYrs" );
     public static final String TIME_GRAPH_UNITS_BILLION_YRS= NuclearPhysicsResources.getString( "LogarithmicTimeLine.Units.BillionYrs" );
 
-    public static final String MEASUREMENT_CONTROL_PANEL_TITLE= NuclearPhysicsResources.getString( "RadometericMeasurementControlPanel.Title" );
-    public static final String TREE_LABEL= NuclearPhysicsResources.getString( "RadometericMeasurementControlPanel.Tree" );
-    public static final String ROCK_LABEL= NuclearPhysicsResources.getString( "RadometericMeasurementControlPanel.Rock" );
+    public static final String MEASUREMENT_CONTROL_PANEL_TITLE= NuclearPhysicsResources.getString( "RadiometericMeasurementControlPanel.Title" );
+    public static final String TREE_LABEL= NuclearPhysicsResources.getString( "RadiometericMeasurementControlPanel.Tree" );
+    public static final String ROCK_LABEL= NuclearPhysicsResources.getString( "RadiometericMeasurementControlPanel.Rock" );
+    public static final String PLANT_TREE= NuclearPhysicsResources.getString( "RadiometericMeasurement.PlantTree" );
+    public static final String KILL_TREE= NuclearPhysicsResources.getString( "RadiometericMeasurement.KillTree" );
+    public static final String ERUPT_VOLCANO= NuclearPhysicsResources.getString( "RadiometericMeasurement.EruptVolcano" );
+    public static final String COOL_ROCK= NuclearPhysicsResources.getString( "RadiometericMeasurement.CoolRock" );
 
     public static final String INFINITY_SYMBOL= NuclearPhysicsResources.getString( "InfinitySymbol" );
 
