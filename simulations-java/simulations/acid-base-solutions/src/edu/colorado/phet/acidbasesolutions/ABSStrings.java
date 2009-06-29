@@ -49,12 +49,14 @@ public class ABSStrings {
     public static final String LEGEND_MOH = ABSResources.getString( "legend.MOH" );
     
     // questions
-    public static final String QUESTION_ACID_OR_BASE = ABSResources.getString( "question.acidOrBase" );
-    public static final String QUESTION_MATCH_SOLUTION = ABSResources.getString( "question.matchSolution" );
+    public static final String QUESTION_ACIDBASE = ABSResources.getString( "question.acidbase" );
+    public static final String QUESTION_MATCH = ABSResources.getString( "question.match" );
     
     // answers
-    public static final String ANSWER_CORRECT = ABSResources.getString( "answer.correct" );
-    public static final String ANSWER_WRONG = ABSResources.getString( "answer.wrong" );
+    public static final String CORRECT_ACIDBASE = ABSResources.getString( "correct.acidbase" );
+    public static final String WRONG_ACIDBASE = ABSResources.getString( "wrong.acidbase" );
+    public static final String CORRECT_MATCH = ABSResources.getString( "correct.match" );
+    public static final String WRONG_MATCH = ABSResources.getString( "wrong.match" );
     
     // check boxes
     public static final String CHECK_BOX_MOLECULE_COUNTS = ABSResources.getString( "checkBox.moleculeCounts" );
