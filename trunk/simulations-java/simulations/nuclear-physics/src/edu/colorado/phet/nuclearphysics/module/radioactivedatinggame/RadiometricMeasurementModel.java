@@ -3,10 +3,12 @@
 package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
+import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus.Listener;
 
 /**
  * This class defines a model (in the model-view-controller paradigm) that
@@ -33,6 +35,7 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
 	private RadiometricDatingMeter _meter;
 	private SIMULATION_MODE _simulationMode = DEFAULT_MODE;
 	private ConstantDtClock _clock;
+	private ArrayList<Listener> _listeners = new ArrayList<Listener>();
 
     //------------------------------------------------------------------------
     // Constructor
@@ -53,7 +56,7 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
     }
 
     //------------------------------------------------------------------------
-    // Accessor Methods
+    // Methods
     //------------------------------------------------------------------------
     
     public RadiometricDatingMeter getMeter(){
@@ -80,7 +83,10 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
      * @param mode
      */
 	public void setSimulationMode(SIMULATION_MODE mode) {
-		_simulationMode = mode;
+		if ( _simulationMode != mode){
+			_simulationMode = mode;
+			notifySimulationModeChanged();
+		}
 	}
 	
 	public ConstantDtClock getClock() {
@@ -95,6 +101,17 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
     // Other Methods
     //------------------------------------------------------------------------
 
+    public void addListener(Listener listener){
+        if (!_listeners.contains( listener ))
+        {
+        	_listeners.add( listener );
+        }
+    }
+    
+    public boolean removeListener(Listener listener){
+    	return _listeners.remove(listener);
+    }
+    
 	/**
      * Get the datable item at the specified model location, or null if there
      * isn't anything there.
@@ -108,5 +125,29 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
     	}
     	
     	return datableItem;
+    }
+    
+    protected void notifySimulationModeChanged(){
+        for (int i = 0; i < _listeners.size(); i++){
+            ((Listener)_listeners.get( i )).simulationModeChanged();
+        }        
+    }
+    
+    //------------------------------------------------------------------------
+    // Inner Interfaces and Classes
+    //------------------------------------------------------------------------
+
+    public static interface Listener {
+    	public void simulationModeChanged();
+    	public void modelElementAdded();
+    	public void modelElementRemoved();
+    	public void operationalStateChanged();
+    }
+    
+    public static class Adapter implements Listener {
+		public void simulationModeChanged() {}
+		public void modelElementAdded() {}
+		public void modelElementRemoved() {}
+		public void operationalStateChanged() {}
     }
 }
