@@ -170,6 +170,9 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
         // Add the node(s) to the canvas corresponding to the datable items in
         // the model.
         handleModelElementAdded();
+        
+        // Draw the decay curve on the chart.
+        drawDecayCurveOnChart();
     }
 
 	//------------------------------------------------------------------------
