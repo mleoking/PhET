@@ -39,7 +39,6 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
     // Instance data
     //------------------------------------------------------------------------
 
-	private DatableItem _datableItem;
 	private RadiometricDatingMeter _meter;
 	private SIMULATION_MODE _simulationMode;
 	private ConstantDtClock _clock;
@@ -166,8 +165,12 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
 
     	DatableItem datableItem = null;
     	
-    	if ( (_datableItem != null ) && (_datableItem.contains( probeLocation ) ) ){
-    		datableItem = _datableItem;
+    	for ( AnimatedModelElement modelElement : _animatedModelElements ){
+    		if ( modelElement instanceof DatableItem ){
+    			if ( ((DatableItem)modelElement).contains(probeLocation) ){
+    				datableItem = (DatableItem)modelElement;
+    			}
+    		}
     	}
     	
     	return datableItem;
