@@ -3,8 +3,7 @@
 ==================================================================================
 
 TODO:
-- state machine for Matching Game
-- redo layout of Matching Game canvas
+ - redo layout of Matching Game canvas
 - if a check box has an HTML label, disabling it doesn't grey out the label
 - first time a module is activated, canvas updateLayout is called twice (AncestorListener+ComponentListener), other sims only call once (AncestorListener)
 - review remaining instanceof comparisons
