@@ -48,15 +48,13 @@ public class ABSStrings {
     public static final String LEGEND_B = ABSResources.getString( "legend.B" );
     public static final String LEGEND_MOH = ABSResources.getString( "legend.MOH" );
     
-    // questions
-    public static final String QUESTION_ACIDBASE = ABSResources.getString( "question.acidbase" );
-    public static final String QUESTION_MATCH = ABSResources.getString( "question.match" );
-    
-    // answers
-    public static final String CORRECT_ACIDBASE = ABSResources.getString( "correct.acidbase" );
-    public static final String WRONG_ACIDBASE = ABSResources.getString( "wrong.acidbase" );
-    public static final String CORRECT_MATCH = ABSResources.getString( "correct.match" );
-    public static final String WRONG_MATCH = ABSResources.getString( "wrong.match" );
+    // game
+    public static final String GAME_ACIDBASE_QUESTION = ABSResources.getString( "game.acidbase.question" );
+    public static final String GAME_ACIDBASE_CORRECT = ABSResources.getString( "game.acidbase.correct" );
+    public static final String GAME_ACIDBASE_WRONG = ABSResources.getString( "game.acidbase.wrong" );
+    public static final String GAME_MATCH_QUESTION = ABSResources.getString( "game.match.question" );
+    public static final String GAME_MATCH_CORRECT = ABSResources.getString( "game.match.correct" );
+    public static final String GAME_MATCH_WRONG = ABSResources.getString( "game.match.wrong" );
     public static final String GAME_CONTINUE = ABSResources.getString( "game.continue" );
     
     // check boxes

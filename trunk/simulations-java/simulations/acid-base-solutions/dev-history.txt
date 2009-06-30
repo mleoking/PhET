@@ -11,6 +11,7 @@ ISSUES:
 - CM: layout change of play area is annoying when switching solutes, due to label changes in beaker's View control panel
 
 DONE:
+6/30/09 rename keys and constants for localized strings related to Matching Game
 6/30/09 constrain precision of random concentration values so that clicking in concentration textfield doesn't cause an update
 6/30/09 handle greying out of disabled "chemical ion ration" check box, see #1704
 # 0.01.20
