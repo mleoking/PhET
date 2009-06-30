@@ -131,96 +131,146 @@ public class MNAFunSuite extends TestCase {
         assertTrue(circuit.solve().approxEquals(desiredSolution));
     }
 
-//  test("Two resistors in series should have resistance added") {
-//    val battery = Battery(0, 1, 5.0)
-//    val circuit = new Circuit(battery :: Nil, Resistor(1, 2, 10.0) :: Resistor(2, 0, 10.0) :: Nil)
-//    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 5.0, 2 -> 2.5), Map(battery -> 5.0 / 20))
-//    assert(circuit.solve.approxEquals(desiredSolution))
-//  }
-//  test("A resistor with one node unconnected shouldn't cause problems") {
-//    val battery = Battery(0, 1, 4.0)
-//    val circuit = new Circuit(battery :: Nil, Resistor(1, 0, 4.0) :: Resistor(0, 2, 100.0) :: Nil)
-//    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 4.0, 2 -> 0.0), Map(battery -> 1.0))
-//    assert(circuit.solve.approxEquals(desiredSolution))
-//  }
-//  test("An unconnected resistor shouldn't cause problems") {
-//    val battery = Battery(0, 1, 4.0)
-//    val circuit = new Circuit(battery :: Nil, Resistor(1, 0, 4.0) :: Resistor(2, 3, 100.0) :: Nil)
-//    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 4.0, 2 -> 0.0, 3 -> 0.0), Map(battery -> 1.0))
-//    assert(circuit.solve.approxEquals(desiredSolution))
-//  }
-//  test("Should handle resistors with no resistance") {
-//    val battery = Battery(0, 1, 5.0)
-//    val resistor = Resistor(2, 0, 0.0)
-//    val circuit = new Circuit(battery :: Nil, Resistor(1, 2, 10.0) :: resistor :: Nil)
-//    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> 5.0, 2 -> 0.0), Map(battery -> 5.0 / 10, resistor -> 5.0 / 10))
-//    assert(circuit.solve.approxEquals(desiredSolution))
-//  }
-//  test("Resistors in parallel should have harmonic mean of resistance") {
-//    val V = 9.0
-//    val R1 = 5.0
-//    val R2 = 5.0
-//    val Req = 1 / (1 / R1 + 1 / R2)
-//    val battery = Battery(0, 1, V)
-//    val circuit = new Circuit(battery :: Nil, Resistor(1, 0, R1) :: Resistor(1, 0, R2) :: Nil)
-//    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> V), Map(battery -> V / Req))
-//    assert(circuit.solve.approxEquals(desiredSolution))
-//  }
-//
-//  def testVRCCircuit(v: Double, r: Double, c: Double) = {
-//    val resistor = Resistor(1, 2, r)
-//    val circuit = new FullCircuit(ResistiveBattery(0, 1, v,0) :: Nil, resistor :: Nil, Capacitor(2, 0, c, 0.0, 0.0) :: Nil, Nil)
-//
-//    val dt = 1E-4
-//    var dynamicCircuit = circuit.getInitializedCircuit
-//    for (i <- 0 until 1000) { //takes 0.3 sec on my machine
-//      val t = i * dt
-//      val solutionAtTPlusDT = dynamicCircuit.solve(dt)
-//      val voltage = solutionAtTPlusDT.getVoltage(resistor)
-//      val desiredVoltageAtTPlusDT = -v * exp(-(t+dt) / r / c)
-//      val error = abs(voltage - desiredVoltageAtTPlusDT)
-//      assert(error < 1E-6) //sample run indicates largest error is 1.5328E-7, is this acceptable?  See TestRCCircuit
-//      dynamicCircuit = dynamicCircuit.stepInTime(dt)
-//    }
-//  }
-//  test("RC Circuit should have voltage exponentially decay with T=RC for v=5, r=10, c=1E-2") {
-//    testVRCCircuit(5.0, 10.0, 1.0E-2)
-//  }
-//  test("RC Circuit should have voltage exponentially decay with T=RC for v=10, r=10, c=1E-2") {
-//    testVRCCircuit(10.0, 10.0, 1.0E-2)
-//  }
-//  test("RC Circuit should have voltage exponentially decay with T=RC for v=3, r=7, c=1E-1") {
-//    testVRCCircuit(3, 7, 1E-1)
-//  }
-//  test("RC Circuit should have voltage exponentially decay with T=RC for v=3, r=7, c=100") {
-//    testVRCCircuit(3, 7, 100)
-//  }
-//  test("RL Circuit should have correct behavior for V=5 R=10 L=1") {
-//    testVRLCircuit(5, 10, 1)
-//  }
-//  test("RL Circuit should have correct behavior for V=3 R=11 L=2.5") {
-//    testVRLCircuit(3, 11, 2.5)
-//  }
-//  test("RL Circuit should have correct behavior for V=7 R=13 L=1E4") {
-//    testVRLCircuit(7, 13, 1E4)
-//  }
-//  test("RL Circuit should have correct behavior for V=7 R=13 L=1E-4") {//todo: currently fails
-//    testVRLCircuit(7, 13, 1E-4)
-//  }
-//  def testVRLCircuit(V: Double, R: Double, L: Double) {
-//    val resistor = Resistor(1, 2, R)
-//    val circuit = new FullCircuit(ResistiveBattery(0, 1, V,0) :: Nil, resistor :: Nil, Nil, Inductor(2, 0, L, 0, 0) :: Nil)
-//    val dt = 1E-4
-//    var dynamicCircuit = circuit.getInitializedCircuit
-//    for (i <- 0 until 1000) {
-//      val t = i * dt
-//      val solution = dynamicCircuit.solve(dt)
-//      val voltage = solution.getVoltage(resistor)
-//      val desiredVoltage = -V * (1 - exp(-t * R / L)) //todo: why is negative sign here?
-//      val error = abs(voltage - desiredVoltage)
-//      //                  println(voltage + "\t" + desiredVoltage + "\t" + error)
-//      assert(error < 1E-6)
-//      dynamicCircuit = dynamicCircuit.stepInTime(dt)
-//    }
-//  }
+    public void test_two_resistors_in_series_should_have_resistance_added() {
+        MNA.Battery battery = new MNA.Battery(0, 1, 5.0);
+        MNA.Circuit circuit = new MNA.Circuit(Arrays.asList(battery), Arrays.asList(new MNA.Resistor(1, 2, 10.0), new MNA.Resistor(2, 0, 10.0)));
+        HashMap<Integer, Double> voltageMap = new HashMap<Integer, Double>();
+        voltageMap.put(0, 0.0);
+        voltageMap.put(1, 5.0);
+        voltageMap.put(2, 2.5);
+
+        HashMap<MNA.Element, Double> currentMap = new HashMap<MNA.Element, Double>();
+        currentMap.put(battery, 5 / 20.0);
+        MNA.Solution desiredSolution = new MNA.Solution(voltageMap, currentMap);
+        assertTrue(circuit.solve().approxEquals(desiredSolution));
+    }
+
+    public void test_A_resistor_with_one_node_unconnected_shouldnt_cause_problems() {
+        MNA.Battery battery = new MNA.Battery(0, 1, 4.0);
+        MNA.Circuit circuit = new MNA.Circuit(Arrays.asList(battery), Arrays.asList(new MNA.Resistor(1, 0, 4.0), new MNA.Resistor(0, 2, 100.0)));
+        HashMap<Integer, Double> voltageMap = new HashMap<Integer, Double>();
+        voltageMap.put(0, 0.0);
+        voltageMap.put(1, 4.0);
+        voltageMap.put(2, 0.0);
+
+        HashMap<MNA.Element, Double> currentMap = new HashMap<MNA.Element, Double>();
+        currentMap.put(battery, 1.0);
+        MNA.Solution desiredSolution = new MNA.Solution(voltageMap, currentMap);
+        assertTrue(circuit.solve().approxEquals(desiredSolution));
+    }
+
+    public void test_an_unconnected_resistor_shouldnt_cause_problems() {
+        MNA.Battery battery = new MNA.Battery(0, 1, 4.0);
+        MNA.Circuit circuit = new MNA.Circuit(Arrays.asList(battery), Arrays.asList(new MNA.Resistor(1, 0, 4.0), new MNA.Resistor(2, 3, 100.0)));
+        HashMap<Integer, Double> voltageMap = new HashMap<Integer, Double>();
+        voltageMap.put(0, 0.0);
+        voltageMap.put(1, 4.0);
+        voltageMap.put(2, 0.0);
+        voltageMap.put(3, 0.0);
+
+        HashMap<MNA.Element, Double> currentMap = new HashMap<MNA.Element, Double>();
+        currentMap.put(battery, 1.0);
+        MNA.Solution desiredSolution = new MNA.Solution(voltageMap, currentMap);
+        assertTrue(circuit.solve().approxEquals(desiredSolution));
+    }
+
+    public void test_should_handle_resistors_with_no_resistance() {
+        MNA.Battery battery = new MNA.Battery(0, 1, 5.0);
+        MNA.Resistor resistor = new MNA.Resistor(2, 0, 0.0);
+        MNA.Circuit circuit = new MNA.Circuit(Arrays.asList(battery), Arrays.asList(new MNA.Resistor(1, 2, 10.0), resistor));
+        HashMap<Integer, Double> voltageMap = new HashMap<Integer, Double>();
+        voltageMap.put(0, 0.0);
+        voltageMap.put(1, 5.0);
+        voltageMap.put(2, 0.0);
+
+        HashMap<MNA.Element, Double> currentMap = new HashMap<MNA.Element, Double>();
+        currentMap.put(battery, 5.0 / 10);
+        currentMap.put(resistor, 5.0 / 10);
+        MNA.Solution desiredSolution = new MNA.Solution(voltageMap, currentMap);
+        assertTrue(circuit.solve().approxEquals(desiredSolution));
+    }
+
+    public void test_resistors_in_parallel_should_have_harmonic_mean_of_resistance() {
+        double V = 9.0;
+        double R1 = 5.0;
+        double R2 = 5.0;
+        double Req = 1 / (1 / R1 + 1 / R2);
+        MNA.Battery battery = new MNA.Battery(0, 1, V);
+        MNA.Circuit circuit = new MNA.Circuit(Arrays.asList(battery), Arrays.asList(new MNA.Resistor(1, 0, R1), new MNA.Resistor(1, 0, R2)));
+        HashMap<Integer, Double> voltageMap = new HashMap<Integer, Double>();
+        voltageMap.put(0, 0.0);
+        voltageMap.put(1, V);
+
+        HashMap<MNA.Element, Double> currentMap = new HashMap<MNA.Element, Double>();
+        currentMap.put(battery, V / Req);
+        MNA.Solution desiredSolution = new MNA.Solution(voltageMap, currentMap);
+        assertTrue(circuit.solve().approxEquals(desiredSolution));
+    }
+
+    public void testVRCCircuit(double v, double r, double c) {
+        MNA.Resistor resistor = new MNA.Resistor(1, 2, r);
+        CompanionMNA.FullCircuit circuit = new CompanionMNA.FullCircuit(Arrays.asList(new CompanionMNA.ResistiveBattery(0, 1, v, 0)),
+                Arrays.asList(resistor), Arrays.asList(new CompanionMNA.Capacitor(2, 0, c, 0.0, 0.0)), new ArrayList<CompanionMNA.Inductor>());
+
+        double dt = 1E-4;
+        CompanionMNA.FullCircuit dynamicCircuit = circuit.getInitializedCircuit();
+        for (int i = 0; i < 1000; i++) {//takes 0.3 sec on my machine
+            double t = i * dt;
+            CompanionMNA.CompanionSolution solutionAtTPlusDT = dynamicCircuit.solve(dt);
+            double voltage = solutionAtTPlusDT.getVoltage(resistor);
+            double desiredVoltageAtTPlusDT = -v * Math.exp(-(t + dt) / r / c);
+            double error = Math.abs(voltage - desiredVoltageAtTPlusDT);
+            assertTrue(error < 1E-6); //sample run indicates largest error is 1.5328E-7, is this acceptable?  See TestRCCircuit
+            dynamicCircuit = dynamicCircuit.stepInTime(dt);
+        }
+    }
+
+    public void test_RC_Circuit_should_have_voltage_exponentially_decay_with_T_RC_for_v_5_r_10_c_1E_minus2() {
+        testVRCCircuit(5.0, 10.0, 1.0E-2);
+    }
+
+    public void test_RC_Circuit_should_have_voltage_exponentially_decay_with_T_RC_for_v_10_r_10_c_1E_minus2() {
+        testVRCCircuit(10.0, 10.0, 1.0E-2);
+    }
+
+    public void test_RC_Circuit_should_have_voltage_exponentially_decay_with_T_RC_for_v_3__r_7__c_1Eminus1() {
+        testVRCCircuit(3, 7, 1E-1);
+    }
+
+    public void test_RC_Circuit_should_have_voltage_exponentially_decay_with_T_RC_for_v_3__r_7__c_100() {
+        testVRCCircuit(3, 7, 100);
+    }
+
+    public void test_RL_Circuit_should_have_correct_behavior_for_V_5_R_10_L_1() {
+        testVRLCircuit(5, 10, 1);
+    }
+
+    public void test_RL_Circuit_should_have_correct_behavior_for_V_3_R_11_L_2_5() {
+        testVRLCircuit(3, 11, 2.5);
+    }
+
+    public void test_RL_Circuit_should_have_correct_behavior_for_V_7_R_13_L_1E4() {
+        testVRLCircuit(7, 13, 1E4);
+    }
+
+    public void test_RL_Circuit_should_have_correct_behavior_for_V_7_R_13_L_1Eminus4() {//todo: currently fails
+        testVRLCircuit(7, 13, 1E-4);
+    }
+
+    public void testVRLCircuit(double V, double R, double L) {
+        MNA.Resistor resistor = new MNA.Resistor(1, 2, R);
+        CompanionMNA.FullCircuit circuit = new CompanionMNA.FullCircuit(Arrays.asList(new CompanionMNA.ResistiveBattery(0, 1, V, 0)),
+                Arrays.asList(resistor), new ArrayList<CompanionMNA.Capacitor>(), Arrays.asList(new CompanionMNA.Inductor(2, 0, L, 0, 0)));
+        double dt = 1E-4;
+        CompanionMNA.FullCircuit dynamicCircuit = circuit.getInitializedCircuit();
+        for (int i = 0; i < 1000; i++) {
+            double t = i * dt;
+            CompanionMNA.CompanionSolution solution = dynamicCircuit.solve(dt);
+            double voltage = solution.getVoltage(resistor);
+            double desiredVoltage = -V * (1 - Math.exp(-t * R / L));
+            double error = Math.abs(voltage - desiredVoltage);
+            assertTrue(error < 1E-6);
+            dynamicCircuit = dynamicCircuit.stepInTime(dt);
+        }
+    }
 }
