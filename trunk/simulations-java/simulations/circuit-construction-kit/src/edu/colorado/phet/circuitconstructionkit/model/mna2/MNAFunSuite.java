@@ -114,13 +114,23 @@ public class MNAFunSuite extends TestCase {
         MNA.Solution desiredSolution = new MNA.Solution(voltageMap, currentMap);
         assertTrue(circuit.solve().approxEquals(desiredSolution));
     }
-//  test("Two batteries in series should have voltage added") {
-//    val battery = Battery(0, 1, -4.0)
-//    val battery2 = Battery(1, 2, -4.0)
-//    val circuit = new Circuit(battery :: battery2 :: Nil, Resistor(2, 0, 2.0) :: Nil)
-//    val desiredSolution = new Solution(Map(0 -> 0.0, 1 -> -4.0, 2 -> -8.0), Map(battery -> -4, battery2 -> -4))
-//    assert(circuit.solve.approxEquals(desiredSolution))
-//  }
+
+    public void test_two_batteries_in_series_should_have_voltage_added() {
+        MNA.Battery battery = new MNA.Battery(0, 1, -4);
+        MNA.Battery battery2 = new MNA.Battery(1, 2, -4);
+        MNA.Circuit circuit = new MNA.Circuit(Arrays.asList(battery, battery2), Arrays.asList(new MNA.Resistor(2, 0, 2.0)));
+        HashMap<Integer, Double> voltageMap = new HashMap<Integer, Double>();
+        voltageMap.put(0, 0.0);
+        voltageMap.put(1, -4.0);
+        voltageMap.put(2, -8.0);
+
+        HashMap<MNA.Element, Double> currentMap = new HashMap<MNA.Element, Double>();
+        currentMap.put(battery, -4.0);
+        currentMap.put(battery2, -4.0);
+        MNA.Solution desiredSolution = new MNA.Solution(voltageMap, currentMap);
+        assertTrue(circuit.solve().approxEquals(desiredSolution));
+    }
+
 //  test("Two resistors in series should have resistance added") {
 //    val battery = Battery(0, 1, 5.0)
 //    val circuit = new Circuit(battery :: Nil, Resistor(1, 2, 10.0) :: Resistor(2, 0, 10.0) :: Nil)
