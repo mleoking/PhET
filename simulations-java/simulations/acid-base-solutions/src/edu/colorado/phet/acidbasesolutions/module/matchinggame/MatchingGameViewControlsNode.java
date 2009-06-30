@@ -58,7 +58,13 @@ public class MatchingGameViewControlsNode extends PhetPNode {
         group.add( beakersRadioButton );
         group.add( graphsRadioButton );
         
-        dissociatedComponentsRatioCheckBox = new JCheckBox( HTMLUtils.toHTMLString( ABSStrings.CHECK_BOX_DISASSOCIATED_COMPONENTS_RATIO ) );
+        dissociatedComponentsRatioCheckBox = new JCheckBox( HTMLUtils.toHTMLString( ABSStrings.CHECK_BOX_DISASSOCIATED_COMPONENTS_RATIO ) ) {
+            // WORKAROUND for #1704, HTML text doesn't gray out when disabled
+            public void setEnabled( boolean enabled ) {
+                super.setEnabled( enabled );
+                setForeground( enabled ? Color.BLACK : Color.GRAY );
+            }
+        };
         dissociatedComponentsRatioCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 notifyStateChanged();
