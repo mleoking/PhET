@@ -3,6 +3,7 @@ package edu.colorado.phet.common.piccolophet.test;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,13 +11,14 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
- * 
- * Demonstrates that HTML text of disabled Swing components are not grayed out.
+ * Disabled Swing components are not grayed out if their text is HTML.
+ * Use the red "enable components" check box to demonstrate.
  * This problem is not specific to PSwing, it's a general Swing issue.
  * Observed on both Mac and Windows.
  *
@@ -28,17 +30,17 @@ public class TestDisableHTMLLabels extends JFrame {
         super();
         setResizable( false );
 
-        // panel with check boxes on a canvas
+        // panel with controls on a canvas
         PhetPCanvas canvas = new PhetPCanvas();
-        canvas.setPreferredSize( new Dimension( 200, 200 ) );
+        canvas.setPreferredSize( new Dimension( 300, 400 ) );
         final JPanel pswingPanel = new MyPanel( "PSwing" );
         PSwing pswingWrapper = new PSwing( pswingPanel );
         canvas.getLayer().addChild( pswingWrapper );
         pswingWrapper.setOffset( 50, 50 );
 
-        // panel with check boxes outside the canvas
+        // panel with controls outside the canvas
         final JPanel swingPanel = new MyPanel( "Swing" );
-        final JCheckBox enableCheckBox = new JCheckBox( "enable controls" );
+        final JCheckBox enableCheckBox = new JCheckBox( "enable components" );
         enableCheckBox.setForeground( Color.RED );
         enableCheckBox.setSelected( true );
         enableCheckBox.addActionListener( new ActionListener() {
@@ -47,8 +49,7 @@ public class TestDisableHTMLLabels extends JFrame {
                 swingPanel.setEnabled( enableCheckBox.isSelected() );
             }
         } );
-        JPanel controlPanel = new JPanel();
-        controlPanel.setLayout( new BoxLayout( controlPanel, BoxLayout.Y_AXIS ) );
+        JPanel controlPanel = new VerticalLayoutPanel();
         controlPanel.add( swingPanel );
         controlPanel.add( Box.createVerticalStrut( 20 ) );
         controlPanel.add( enableCheckBox );
@@ -62,28 +63,34 @@ public class TestDisableHTMLLabels extends JFrame {
     }
 
     /*
-     * A panel with 2 check boxes.
-     * Disabling the panel disables the check boxes.
+     * A panel with various JComponents.
+     * Disabling the panel disables all of its child components.
      */
     public static class MyPanel extends JPanel {
-
-        private final JCheckBox plainTextCheckBox;
-        private final JCheckBox htmlCheckBox;
 
         public MyPanel( String title ) {
             super();
             setBorder( new TitledBorder( title ) );
-            plainTextCheckBox = new JCheckBox( "plain text" );
-            htmlCheckBox = new JCheckBox( "<html><b>HTML</b> text</html>" );
             setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
-            add( plainTextCheckBox );
-            add( htmlCheckBox );
+            add( new JLabel( "plain label") );
+            add( new JLabel( "<html>HTML label</html>") );
+            add( new JSeparator() );
+            add( new JCheckBox( "plain check box" ) );
+            add( new JCheckBox( "<html>HTML check box</html>" ) );
+            add( new JSeparator() );
+            add( new JButton( "plain button" ) );
+            add( new JButton( "<html>HTML button</html>" ) );
+            add( new JSeparator() );
+            add( new JRadioButton( "plain radio button" ) );
+            add( new JRadioButton( "<html>HTML radio button</html>" ) );
         }
 
         public void setEnabled( boolean enabled ) {
             super.setEnabled( enabled );
-            plainTextCheckBox.setEnabled( enabled );
-            htmlCheckBox.setEnabled( enabled );
+            Component[] children = getComponents();
+            for ( int i = 0; i < children.length; i++ ) {
+                children[i].setEnabled( enabled );
+            }
         }
     }
 
