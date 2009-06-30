@@ -103,7 +103,7 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
         
         // "Acid or Base" question and related controls
         {
-            PNode question = new MatchingGameQuestionNode( ABSStrings.QUESTION_ACIDBASE );
+            PNode question = new MatchingGameQuestionNode( ABSStrings.GAME_ACIDBASE_QUESTION );
 
             acidButton = new PSwingButton( ABSStrings.BUTTON_ACID );
             acidButton.scale( ABSConstants.PSWING_SCALE );
@@ -147,7 +147,7 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
 
         // Correct answer to "Acid or Base" question
         {
-            acidBaseCorrectNode = new MatchingGameAnswerNode( ABSStrings.CORRECT_ACIDBASE );
+            acidBaseCorrectNode = new MatchingGameAnswerNode( ABSStrings.GAME_ACIDBASE_CORRECT );
             
             acidBaseCorrectParent = new PhetPNode();
             acidBaseCorrectParent.addChild( acidBaseCorrectNode );
@@ -157,7 +157,7 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
         
         // Wrong answer to "Acid or Base" question 
         {
-            acidBaseWrongNode = new MatchingGameAnswerNode( ABSStrings.WRONG_ACIDBASE );
+            acidBaseWrongNode = new MatchingGameAnswerNode( ABSStrings.GAME_ACIDBASE_WRONG );
             
             acidBaseWrongParent = new PhetPNode();
             acidBaseWrongParent.addChild( acidBaseWrongNode );
@@ -167,7 +167,7 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
         
         // "Match" question and related controls
         {
-            PNode question = new MatchingGameQuestionNode( ABSStrings.QUESTION_MATCH );
+            PNode question = new MatchingGameQuestionNode( ABSStrings.GAME_MATCH_QUESTION );
             
             matchButton = new PSwingButton( ABSStrings.BUTTON_CHECK_MATCH );
             matchButton.scale( ABSConstants.PSWING_SCALE );
@@ -194,7 +194,7 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
         
         // Correct answer to "Match" question
         {
-            matchCorrectNode = new MatchingGameAnswerNode( ABSStrings.CORRECT_MATCH );
+            matchCorrectNode = new MatchingGameAnswerNode( ABSStrings.GAME_MATCH_CORRECT );
             
             continueInstructionsNode = new HTMLNode( ABSStrings.GAME_CONTINUE );
             continueInstructionsNode.setFont( new PhetFont( 16 ) );
@@ -210,7 +210,7 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
         
         // Wrong answer to "Match" question 
         {
-            matchWrongNode = new MatchingGameAnswerNode( ABSStrings.WRONG_MATCH );
+            matchWrongNode = new MatchingGameAnswerNode( ABSStrings.GAME_MATCH_WRONG );
             
             matchWrongParent = new PhetPNode();
             matchWrongParent.addChild( matchWrongNode );
@@ -286,7 +286,7 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
     public void setStateAcidBaseCorrect() {
         // show "Correct"
         hideAllQuestionsAndAnswers();
-        acidBaseCorrectNode.setText( formatCorrectWrongMessage( ABSStrings.CORRECT_ACIDBASE, model.getDeltaPoints() ) );
+        acidBaseCorrectNode.setText( formatCorrectWrongMessage( ABSStrings.GAME_ACIDBASE_CORRECT, model.getDeltaPoints() ) );
         acidBaseCorrectParent.setVisible( true );
         // buttons
         newSolutionButton.setEnabled( false );
@@ -307,7 +307,7 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
     public void setStateAcidBaseWrong() {
         // show "Wrong"
         hideAllQuestionsAndAnswers();
-        acidBaseWrongNode.setText( formatCorrectWrongMessage( ABSStrings.WRONG_ACIDBASE, model.getDeltaPoints() ) );
+        acidBaseWrongNode.setText( formatCorrectWrongMessage( ABSStrings.GAME_ACIDBASE_WRONG, model.getDeltaPoints() ) );
         acidBaseWrongParent.setVisible( true );
         // buttons
         newSolutionButton.setEnabled( false );
@@ -343,7 +343,7 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
     public void setStateMatchCorrect() {
         // show "Correct"
         hideAllQuestionsAndAnswers();
-        matchCorrectNode.setText( formatCorrectWrongMessage( ABSStrings.CORRECT_MATCH, model.getDeltaPoints() ) );
+        matchCorrectNode.setText( formatCorrectWrongMessage( ABSStrings.GAME_MATCH_CORRECT, model.getDeltaPoints() ) );
         matchCorrectParent.setVisible( true );
         // buttons
         newSolutionButton.setEnabled( true );
@@ -355,7 +355,7 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
     public void setStateMatchWrong() {
         // show "Wrong"
         hideAllQuestionsAndAnswers();
-        matchWrongNode.setText( formatCorrectWrongMessage( ABSStrings.WRONG_MATCH, model.getDeltaPoints() ) );
+        matchWrongNode.setText( formatCorrectWrongMessage( ABSStrings.GAME_MATCH_WRONG, model.getDeltaPoints() ) );
         matchWrongParent.setVisible( true );
         // buttons
         newSolutionButton.setEnabled( false );
