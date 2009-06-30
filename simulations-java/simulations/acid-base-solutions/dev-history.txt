@@ -5,7 +5,7 @@
 TODO:
 - redo layout of Matching Game canvas
 - first time a module is activated, canvas updateLayout is called twice (AncestorListener+ComponentListener), other sims only call once (AncestorListener)
-- auto layout of symbol legend descriptions, so that we don't need to localize HTML markup
+- make symbol legend descriptions automatically wrap, so we don't been breaks in HTML markup
 
 ISSUES:
 - CM: layout change of play area is annoying when switching solutes, due to label changes in beaker's View control panel
