@@ -5,7 +5,6 @@
 TODO:
 - redo layout of Matching Game canvas
 - first time a module is activated, canvas updateLayout is called twice (AncestorListener+ComponentListener), other sims only call once (AncestorListener)
-- review remaining instanceof comparisons
 - auto layout of symbol legend descriptions, so that we don't need to localize HTML markup
 - 2nd click in concentration text field causes the solute to be modified (focusLost and textfield precision issue)
 
