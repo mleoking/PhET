@@ -25,7 +25,14 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
-
+/**
+ * View controls for the Matching Game.
+ * These are somewhat similar to view controls in other modules.
+ * But they have enough unique requirements that it was preferable
+ * to create an implementation that is specific to this module.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class MatchingGameViewControlsNode extends PhetPNode {
     
     private final JRadioButton beakersRadioButton, graphsRadioButton;
