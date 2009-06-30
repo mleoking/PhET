@@ -48,10 +48,10 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
     		INITIAL_INTERMEDIATE_COORD_HEIGHT );
     
     // Fraction of canvas width used for the proportions chart.
-    private static final double PROPORTIONS_CHART_WIDTH_FRACTION = 0.8;
+    private static final double PROPORTIONS_CHART_WIDTH_FRACTION = 0.75;
     
     // Proportions and location of the meter on the canvas.
-    private static final double PROPORTIONS_METER_WIDTH_FRACTION = 0.20;
+    private static final double PROPORTIONS_METER_WIDTH_FRACTION = 0.23;
     private static final double PROPORTIONS_METER_HEIGHT_FRACTION = 0.25;
     private static final double METER_X_OFFSET = 70;
     
@@ -63,10 +63,10 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
     private static final double METER_AND_CHART_OFFSET_FROM_TOP = 8;
     
     // Constants that control the appearance of the buttons in the play area.
-    private static final Color START_OPERATION_BUTTON_COLOR = new Color(220, 70, 0);
-    private static final Color FORCE_CLOSURE_BUTTON_COLOR = new Color(255, 204, 102);
+    private static final Color START_OPERATION_BUTTON_COLOR = new Color(255, 204, 102);
+    private static final Color FORCE_CLOSURE_BUTTON_COLOR = new Color(250, 70, 0);
     private static final int PLAY_AREA_BUTTON_FONT_SIZE = 24;
-    private static final double BUTTON_DISTANCE_FROM_TOP = METER_AND_CHART_OFFSET_FROM_TOP;
+    private static final double BUTTON_DISTANCE_FROM_BOTTOM = 20;
     
     //----------------------------------------------------------------------------
     // Instance Data
@@ -298,8 +298,8 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
     		}
     		
     		_startOperationButtonNode.setOffset(
-   				_meterNode.getMeterBodyOffset().getX() - _startOperationButtonNode.getFullBoundsReference().width * 1.1,
-   				BUTTON_DISTANCE_FROM_TOP);
+   				INITIAL_INTERMEDIATE_COORD_WIDTH - _startOperationButtonNode.getFullBoundsReference().width,
+   				INITIAL_INTERMEDIATE_COORD_HEIGHT - BUTTON_DISTANCE_FROM_BOTTOM - _startOperationButtonNode.getFullBoundsReference().height);
     		_chartAndMeterLayer.addChild(_startOperationButtonNode);
     		
     		// Hook up the button to the method in the model that will start
@@ -326,8 +326,8 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
         		}
         		
         		_forceClosureButtonNode.setOffset(
-       				_meterNode.getMeterBodyOffset().getX() - _forceClosureButtonNode.getFullBoundsReference().width * 1.1,
-       				BUTTON_DISTANCE_FROM_TOP);
+           				INITIAL_INTERMEDIATE_COORD_WIDTH - _forceClosureButtonNode.getFullBoundsReference().width,
+           				INITIAL_INTERMEDIATE_COORD_HEIGHT - BUTTON_DISTANCE_FROM_BOTTOM - _forceClosureButtonNode.getFullBoundsReference().height);
         		_chartAndMeterLayer.addChild(_forceClosureButtonNode);
     		}
     	}
