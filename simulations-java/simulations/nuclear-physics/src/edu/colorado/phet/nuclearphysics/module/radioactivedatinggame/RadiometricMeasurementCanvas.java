@@ -61,8 +61,8 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
     private static final double METER_AND_CHART_OFFSET_FROM_TOP = 8;
     
     // Constants that control the appearance of the buttons in the play area.
-    private static final Color START_OPERATION_BUTTON_COLOR = new Color(90, 180, 225);
-    private static final Color FORCE_CLOSURE_BUTTON_COLOR = new Color(90, 180, 225);
+    private static final Color START_OPERATION_BUTTON_COLOR = new Color(220, 70, 0);
+    private static final Color FORCE_CLOSURE_BUTTON_COLOR = new Color(255, 204, 102);
     private static final int PLAY_AREA_BUTTON_FONT_SIZE = 24;
     private static final double BUTTON_DISTANCE_FROM_TOP = METER_AND_CHART_OFFSET_FROM_TOP;
     
