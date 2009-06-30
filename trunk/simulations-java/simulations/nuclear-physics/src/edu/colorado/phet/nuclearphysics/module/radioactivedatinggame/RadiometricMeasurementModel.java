@@ -23,7 +23,7 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
     // Class data
     //------------------------------------------------------------------------
 	
-	// Enumerations that defines the main modes for this model.
+	// Enumeration that defines the main modes for this model.
 	public enum SIMULATION_MODE { TREE, ROCK };
 	private SIMULATION_MODE DEFAULT_MODE = SIMULATION_MODE.TREE;
 	
@@ -93,6 +93,9 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
     	return 0;
     }
     
+    /**
+     * Get the mode value that indicates what is being simulated.
+     */
     public SIMULATION_MODE getSimulationMode() {
 		return _simulationMode;
 	}
@@ -121,8 +124,7 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
 			// Add the appropriate model elements based on the simulation mode.
 			switch( _simulationMode ){
 			case TREE:
-				_animatedModelElements.add(new AgingTree(_clock, INITIAL_TREE_POSITION, INITIAL_TREE_WIDTH));
-				notifyModelElementAdded();
+				// No model elements added until the tree is planted.
 				break;
 			case ROCK:
 				_animatedModelElements.add(new EruptingVolcano(_clock, INITIAL_VOLCANO_POSITION, INITIAL_VOLCANO_WIDTH));
@@ -132,6 +134,46 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
 			
 			notifySimulationModeChanged();
 		}
+	}
+	
+	/**
+	 * Start simulating based on the currently selected mode.  This is ignored
+	 * if a simulation is already in progress.
+	 */
+	public void startOperation(){
+		
+		if ( _clock.getSimulationTime() != 0 ){
+			// The simulation has already been started, so print an error and
+			// exit.
+			System.err.println(getClass().getName() + " - Warning: Command received to start operation when already started.");
+			return;
+		}
+		
+		switch (_simulationMode){
+		case TREE:
+			plantTree();
+			break;
+		case ROCK:
+			break;
+		}
+		
+		// Start the clock, which the model elements will listen to and do
+		// their thing.
+		_clock.start();
+	}
+	
+	/**
+	 * Start simulating the life of a tree be creating a tree and adding it
+	 * to the model.
+	 */
+	private void plantTree(){
+		// At the time of this writing, no other animated model elements
+		// should exist when the tree is planted.
+		assert _animatedModelElements.size() == 0;
+		
+		// Add the tree.
+		_animatedModelElements.add(new AgingTree(_clock, INITIAL_TREE_POSITION, INITIAL_TREE_WIDTH));
+		notifyModelElementAdded();
 	}
 	
 	/**
