@@ -6,12 +6,12 @@ TODO:
 - redo layout of Matching Game canvas
 - first time a module is activated, canvas updateLayout is called twice (AncestorListener+ComponentListener), other sims only call once (AncestorListener)
 - auto layout of symbol legend descriptions, so that we don't need to localize HTML markup
-- 2nd click in concentration text field causes the solute to be modified (focusLost and textfield precision issue)
 
 ISSUES:
 - CM: layout change of play area is annoying when switching solutes, due to label changes in beaker's View control panel
 
 DONE:
+6/30/09 constrain precision of random concentration values so that clicking in concentration textfield doesn't cause an update
 6/30/09 handle greying out of disabled "chemical ion ration" check box, see #1704
 # 0.01.20
 6/29/09 changed points scheme to be identical to design doc
