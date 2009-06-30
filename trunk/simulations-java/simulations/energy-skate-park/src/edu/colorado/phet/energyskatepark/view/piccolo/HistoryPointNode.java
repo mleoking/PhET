@@ -16,6 +16,7 @@ import java.awt.geom.Point2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
+import java.text.MessageFormat;
 
 /**
  * User: Sam Reid
@@ -77,17 +78,19 @@ public class HistoryPointNode extends PNode {
         setOffset( pt );
 
         String J= str("units.joules.abbreviation");
-        String heatString = historyPoint.getThermalEnergy() != 0 ? str("energy.thermal.energy")+"=" + format( historyPoint.getThermalEnergy() ) + " "+J+"<br>" : "";
-//        String heightSpeedReadout="";
+        String energyReadoutPattern=str("history.point.node.readout.pattern-energy_value_units");
+        String heatString = historyPoint.getThermalEnergy() != 0 ?
+                MessageFormat.format(energyReadoutPattern,str("energy.thermal.energy"),format( historyPoint.getThermalEnergy() ),J)+"<br>"
+                : "";
 
-        String heightSpeedReadout = "<br>"+str("properties.height")+"=" + format( historyPoint.getHeightAboveZero() ) + " "+str("units.meters.abbreviation")+"<br>" +
-                                    str("properties.speed")+"=" + format( historyPoint.getSpeed() ) + " "+str("units.speed.abbreviation");
+        String heightSpeedReadout = MessageFormat.format(energyReadoutPattern,str("properties.height"),format( historyPoint.getHeightAboveZero() ),str("units.meters.abbreviation"))+"<br>"+
+                                    MessageFormat.format(energyReadoutPattern,str("properties.speed"),format( historyPoint.getSpeed() ),str("units.speed.abbreviation"));
         String html = "<html>" +
-                      str("energy.kinetic.energy")+"=" + format( historyPoint.getKE() ) + " "+J+"<br>" +
-                      str("energy.potential.energy")+"=" + format( historyPoint.getPe() ) + " "+J+"<br>" +
-                      heatString +
-                      str("energy.total.energy")+"=" + format( historyPoint.getTotalEnergy() ) + " "+J+"<br>" +
-                      heightSpeedReadout + "<br>" +
+                        MessageFormat.format(energyReadoutPattern,str("energy.kinetic.energy"),format( historyPoint.getKE() ),J)+"<br>"+
+                        MessageFormat.format(energyReadoutPattern,str("energy.potential.energy"),format( historyPoint.getPe() ),J)+"<br>"+
+                        heatString +
+                        MessageFormat.format(energyReadoutPattern,str("energy.total.energy"),format( historyPoint.getTotalEnergy() ),J)+"<br>"+
+                      "<br>"+heightSpeedReadout + "<br>" +
                       "</html>";
         if( historyPoint.isReadoutVisible() ) {
             htmlNode.setHtml( html );
