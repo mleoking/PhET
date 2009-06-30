@@ -53,4 +53,6 @@ public class ABSConstants {
     public static final DoubleRange INTERMEDIATE_STRENGTH_RANGE = new DoubleRange( WEAK_STRENGTH_RANGE.getMax(), STRONG_STRENGTH_RANGE.getMin() ); // exclusive
     public static final DoubleRange CUSTOM_STRENGTH_RANGE = new DoubleRange( WEAK_STRENGTH_RANGE.getMin(), STRONG_STRENGTH_RANGE.getMax() );
     
+    public static final int CONCENTRATION_DECIMAL_PLACES = 4;
+    
 }

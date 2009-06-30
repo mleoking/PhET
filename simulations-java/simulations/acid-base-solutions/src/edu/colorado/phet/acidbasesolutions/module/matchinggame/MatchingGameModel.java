@@ -12,6 +12,7 @@ import edu.colorado.phet.acidbasesolutions.model.Solute;
 import edu.colorado.phet.acidbasesolutions.model.Acid.CustomAcid;
 import edu.colorado.phet.acidbasesolutions.model.Base.CustomBase;
 import edu.colorado.phet.acidbasesolutions.module.ABSModel;
+import edu.colorado.phet.acidbasesolutions.util.PrecisionDecimal;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 
@@ -46,6 +47,7 @@ public class MatchingGameModel extends ABSModel {
     private final ArrayList<MatchingGameModelListener> listeners;
     private boolean acidBaseGuessed, matchGuessed;
     private int deltaPoints; // most recent points delta
+    private final PrecisionDecimal concentrationValue;
 
     public MatchingGameModel( ABSClock clock ) {
         super( clock );
@@ -55,6 +57,7 @@ public class MatchingGameModel extends ABSModel {
         solutionLeft = new AqueousSolution();
         solutionRight = new AqueousSolution();  
         listeners = new ArrayList<MatchingGameModelListener>();
+        concentrationValue = new PrecisionDecimal( ABSConstants.CONCENTRATION_RANGE.getMin(), ABSConstants.CONCENTRATION_DECIMAL_PLACES );
         reset();
     }
     
@@ -236,14 +239,19 @@ public class MatchingGameModel extends ABSModel {
     }
     
     private double getRandomConcentration() {
-        return getRandom( ABSConstants.CONCENTRATION_RANGE );
+        // limit the precision of the concentration so that we don't have issues with precision of controls
+        concentrationValue.setValue( getRandomLog10( ABSConstants.CONCENTRATION_RANGE ) );
+        return concentrationValue.getValue();
     }
     
     private double getRandomStrength() {
-        return getRandom( ABSConstants.CUSTOM_STRENGTH_RANGE );
+        return getRandomLog10( ABSConstants.CUSTOM_STRENGTH_RANGE );
     }
     
-    private static double getRandom( DoubleRange range ) {
+    /* 
+     * Randomly picks the exponent for a value in a log range.
+     */
+    private static double getRandomLog10( DoubleRange range ) {
         double d = Math.random();
         double minExponent = MathUtil.log10( range.getMin() );
         double maxExponent = MathUtil.log10( range.getMax() );
