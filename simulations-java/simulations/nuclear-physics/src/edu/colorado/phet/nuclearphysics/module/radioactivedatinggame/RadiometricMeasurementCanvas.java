@@ -46,11 +46,12 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
     		INITIAL_INTERMEDIATE_COORD_HEIGHT );
     
     // Fraction of canvas width used for the proportions chart.
-    private static final double PROPORTIONS_CHART_WIDTH_FRACTION = 0.9;
+    private static final double PROPORTIONS_CHART_WIDTH_FRACTION = 0.8;
     
-    // Proportions of the meter on the canvas.
-    private static final double PROPORTIONS_METER_WIDTH_FRACTION = 0.23;
+    // Proportions and location of the meter on the canvas.
+    private static final double PROPORTIONS_METER_WIDTH_FRACTION = 0.20;
     private static final double PROPORTIONS_METER_HEIGHT_FRACTION = 0.25;
+    private static final double METER_X_OFFSET = 70;
     
     // Resolution of the decay chart.
     private static final double NUM_SAMPLES_ON_DECAY_CHART = 250;
@@ -62,7 +63,7 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
     // Constants that control the appearance of the buttons in the play area.
     private static final Color START_OPERATION_BUTTON_COLOR = new Color(90, 180, 225);
     private static final Color FORCE_CLOSURE_BUTTON_COLOR = new Color(90, 180, 225);
-    private static final int PLAY_AREA_BUTTON_FONT_SIZE = 18;
+    private static final int PLAY_AREA_BUTTON_FONT_SIZE = 24;
     private static final double BUTTON_DISTANCE_FROM_TOP = METER_AND_CHART_OFFSET_FROM_TOP;
     
     //----------------------------------------------------------------------------
@@ -150,11 +151,11 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
         // Add a couple of clouds to the background.
         PImage cloud1 = NuclearPhysicsResources.getImageNode("cloud_1.png");
         cloud1.setScale(0.75);
-        cloud1.setOffset(0, 20);
+        cloud1.setOffset(50, 250);
         backgroundLayer.addChild(cloud1);
         PImage cloud2 = NuclearPhysicsResources.getImageNode("cloud_1.png");
         cloud2.setScale(0.5);
-        cloud2.setOffset(INITIAL_INTERMEDIATE_COORD_WIDTH / 2, 100);
+        cloud2.setOffset(600, 350);
         backgroundLayer.addChild(cloud2);
         
         // Create the chart that will display relative decay proportions.
@@ -170,7 +171,7 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
         		INITIAL_INTERMEDIATE_COORD_WIDTH * PROPORTIONS_CHART_WIDTH_FRACTION,
         		INITIAL_INTERMEDIATE_COORD_HEIGHT * PROPORTIONS_METER_HEIGHT_FRACTION));
         _proportionsChart.setOffset(
-        		INITIAL_INTERMEDIATE_COORD_WIDTH * PROPORTIONS_METER_WIDTH_FRACTION + 4,
+        		METER_X_OFFSET + INITIAL_INTERMEDIATE_COORD_WIDTH * PROPORTIONS_METER_WIDTH_FRACTION + 8,
         		METER_AND_CHART_OFFSET_FROM_TOP);
         
         // Create the radiometric measuring device.
@@ -179,7 +180,7 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
         		_mvt,
         		this,
         		false );
-        _meterNode.setMeterBodyOffset( 0, METER_AND_CHART_OFFSET_FROM_TOP);
+        _meterNode.setMeterBodyOffset( METER_X_OFFSET, METER_AND_CHART_OFFSET_FROM_TOP);
         _meterNode.enablePeriodicUpdate(true);
         _chartAndMeterLayer.addChild( _meterNode );
 
