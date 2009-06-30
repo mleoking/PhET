@@ -149,7 +149,7 @@ public class NuclearPhysicsConstants {
 		strataColors.add( new Color( 216, 175, 208 ) );
 		strataColors.add( new Color( 198, 218, 119 ) );
 		strataColors.add( new Color( 179, 179, 179 ) );
-		strataColors.add( new Color( 150, 22, 22 ) );
+		strataColors.add( Color.DARK_GRAY );
 	}
 
     //----------------------------------------------------------------------------
