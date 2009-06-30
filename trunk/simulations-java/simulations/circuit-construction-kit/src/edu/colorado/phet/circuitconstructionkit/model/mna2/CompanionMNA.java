@@ -2,6 +2,7 @@ package edu.colorado.phet.circuitconstructionkit.model.mna2;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class CompanionMNA {
     abstract static class CompanionModel {
@@ -304,12 +305,12 @@ public class CompanionMNA {
     }
 
     public static class FullCircuit extends MNA.AbstractCircuit {
-        ArrayList<? extends ResistiveBattery> batteries;
-        ArrayList<? extends MNA.Resistor> resistors;
-        ArrayList<? extends Capacitor> capacitors;
-        ArrayList<? extends Inductor> inductors;
+        List<? extends ResistiveBattery> batteries;
+        List<? extends MNA.Resistor> resistors;
+        List<? extends Capacitor> capacitors;
+        List<? extends Inductor> inductors;
 
-        public FullCircuit(ArrayList<? extends ResistiveBattery> batteries, ArrayList<? extends MNA.Resistor> resistors, ArrayList<? extends Capacitor> capacitors, ArrayList<? extends Inductor> inductors) {
+        public FullCircuit(List<? extends ResistiveBattery> batteries, List<? extends MNA.Resistor> resistors, List<? extends Capacitor> capacitors, List<? extends Inductor> inductors) {
             this.batteries = batteries;
             this.resistors = resistors;
             this.capacitors = capacitors;
