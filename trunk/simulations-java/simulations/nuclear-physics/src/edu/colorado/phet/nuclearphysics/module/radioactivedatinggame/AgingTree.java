@@ -5,6 +5,7 @@ package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.nuclearphysics.common.Cleanupable;
 
 /**
  * This class implements the behavior of a model element that represents a
@@ -13,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
  * 
  * @author John Blanco
  */
-public class AgingTree extends DatableItem {
+public class AgingTree extends DatableItem implements Cleanupable {
 
     //------------------------------------------------------------------------
     // Class Data
@@ -37,9 +38,12 @@ public class AgingTree extends DatableItem {
 		super(NAME, LIVING_TREE_IMAGE_NAME, center, width, 0, 0);
 		_clock = clock;
 	}
-	
+
     //------------------------------------------------------------------------
     // Methods
     //------------------------------------------------------------------------
 
+	public void cleanup() {
+		// TODO Auto-generated method stub
+	}
 }
