@@ -6,6 +6,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GradientPaint;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -178,6 +180,7 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
         		this,
         		false );
         _meterNode.setMeterBodyOffset( 0, METER_AND_CHART_OFFSET_FROM_TOP);
+        _meterNode.enablePeriodicUpdate(true);
         _chartAndMeterLayer.addChild( _meterNode );
 
         // Set up the initial buttons in the play area.
@@ -285,6 +288,14 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
    				_meterNode.getMeterBodyOffset().getX() - _startOperationButtonNode.getFullBoundsReference().width * 1.1,
    				BUTTON_DISTANCE_FROM_TOP);
     		_chartAndMeterLayer.addChild(_startOperationButtonNode);
+    		
+    		// Hook up the button to the method in the model that will start
+    		// the simulation.
+    		_startOperationButtonNode.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent e) {
+					_model.startOperation();
+				}
+    		});
     	}
     	else {
     		// Clock is running, so if closure has not occurred we need to add
