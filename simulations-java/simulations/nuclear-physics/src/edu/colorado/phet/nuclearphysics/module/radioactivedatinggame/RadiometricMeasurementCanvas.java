@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.IdentityHashMap;
 import java.util.Iterator;
 
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
@@ -122,6 +124,14 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
     		public void simulationModeChanged() {
     			handleSimulationModeChanged();
     		}
+        });
+        
+        // Register with the model's clock for changes in status that impact
+        // what is presented to the user.
+        _model.getClock().addClockListener(new ClockAdapter(){
+            public void clockStarted( ClockEvent clockEvent ) {
+            	updateButtonState();
+            }
         });
         
         // Set the background color.
@@ -266,9 +276,11 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
     	// Remove any pre-existing buttons.
     	if (_startOperationButtonNode != null){
     		_chartAndMeterLayer.removeChild(_startOperationButtonNode);
+    		_startOperationButtonNode = null;
     	}
     	if (_forceClosureButtonNode != null){
     		_chartAndMeterLayer.removeChild(_forceClosureButtonNode);
+    		_forceClosureButtonNode = null;
     	}
     	
     	// If the clock is not running, set up the buttons to initiate the
@@ -314,7 +326,7 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
         		}
         		
         		_forceClosureButtonNode.setOffset(
-       				_meterNode.getMeterBodyOffset().getX() - _startOperationButtonNode.getFullBoundsReference().width * 1.1,
+       				_meterNode.getMeterBodyOffset().getX() - _forceClosureButtonNode.getFullBoundsReference().width * 1.1,
        				BUTTON_DISTANCE_FROM_TOP);
         		_chartAndMeterLayer.addChild(_forceClosureButtonNode);
     		}
