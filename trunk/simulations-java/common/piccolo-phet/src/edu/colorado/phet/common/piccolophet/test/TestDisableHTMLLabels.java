@@ -21,6 +21,8 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * Use the red "enable components" check box to demonstrate.
  * This problem is not specific to PSwing, it's a general Swing issue.
  * Observed on both Mac and Windows.
+ * <p>
+ * See Unfuddle #1704.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
