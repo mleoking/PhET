@@ -62,7 +62,7 @@ public class RadiometricDatingMeterNode extends PNode {
 	private static final Color BODY_COLOR = Color.DARK_GRAY;
 	private static final double READOUT_WIDTH_PROPORTION = 0.75;
 	private static final double READOUT_HEIGHT_PROPORTION = 0.2;
-	private static final double PROBE_SIZE_SCALE_FACTOR = 0.60;  // Adjust in order to change size of probe.
+	private static final double PROBE_SIZE_SCALE_FACTOR = 0.45;  // Adjust in order to change size of probe.
 	private static final Font HALF_LIFE_SELECTION_FONT = new PhetFont(16);
 	
 	// Array that maps values to the strings used for the custom nucleus half
