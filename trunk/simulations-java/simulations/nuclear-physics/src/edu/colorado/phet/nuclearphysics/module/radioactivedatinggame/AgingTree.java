@@ -3,6 +3,7 @@
 package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -31,6 +32,9 @@ public class AgingTree extends DatableItem implements Cleanupable {
 	// into the age of the item so that users don't have to wait around for
 	// thousands of years for anything to happen.
 	private static final double AGE_ADJUSTMENT_FACTOR = MultiNucleusDecayModel.convertYearsToMs(1000) / 5000;
+	
+	// Animation sequence.
+	private static ArrayList<ModelAnimationDelta> animationSequence = new ArrayList<ModelAnimationDelta>();
 	
     //------------------------------------------------------------------------
     // Instance Data
@@ -80,4 +84,17 @@ public class AgingTree extends DatableItem implements Cleanupable {
 	public double getAge() {
 		return age;
 	}
+
+	//------------------------------------------------------------------------
+    // The animation sequence that defines how the appearance of the tree
+	// will change as it ages.
+    //------------------------------------------------------------------------
+	static{
+		animationSequence.add(new ModelAnimationDelta(500, null, 0, 1.1, 0, 0, 0));
+		animationSequence.add(new ModelAnimationDelta(1000, null, 0, 1.1, 0, 0, 0));
+		animationSequence.add(new ModelAnimationDelta(1500, null, 0, 1.1, 0, 0, 0));
+		animationSequence.add(new ModelAnimationDelta(2000, null, 0, 1.1, 0, 0, 0));
+		animationSequence.add(new ModelAnimationDelta(2500, null, 0, 1.1, 0, 0, 0));
+	}
+	
 }
