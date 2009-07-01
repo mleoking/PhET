@@ -10,10 +10,8 @@ TODO:
 - first time a module is activated, canvas updateLayout is called twice (AncestorListener+ComponentListener), other sims only call once (AncestorListener)
 - make symbol legend descriptions automatically wrap, so we don't need breaks in HTML markup
 
-ISSUES:
-- CM: layout change of play area is annoying when switching solutes, due to label changes in beaker's View control panel
-
 DONE:
+7/1/09 don't adjust layout "Solutions" canvas when solute changes, add enough space to accommodate widest View control panel
 7/1/09 add ability to hide pH meter
 7/1/09 remove "Concentration: 0" for "no solute", simply hide control
 6/30/09 fix: selecting "no solute" throws NullPointerException in RatioCheckBox
