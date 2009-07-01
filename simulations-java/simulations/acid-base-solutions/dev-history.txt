@@ -3,7 +3,7 @@
 ==================================================================================
 
 TODO:
-- randomly select view for "acid or base" question
+- randomly select one view for "acid or base" question, treat pH meter as a view
 - disable all view controls during "acid or base" question, show what's selected
 - hide HA/A from graph and molecule counts for "acid or base" question
 - redo layout of Matching Game canvas
@@ -14,6 +14,7 @@ ISSUES:
 - CM: layout change of play area is annoying when switching solutes, due to label changes in beaker's View control panel
 
 DONE:
+7/1/09 add ability to hide pH meter
 7/1/09 remove "Concentration: 0" for "no solute", simply hide control
 6/30/09 fix: selecting "no solute" throws NullPointerException in RatioCheckBox
 6/30/09 rename keys and constants for localized strings related to Matching Game
