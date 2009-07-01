@@ -5,6 +5,7 @@ import java.awt.*;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
 import edu.colorado.phet.naturalselection.model.NaturalSelectionClock;
 import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
 
@@ -17,15 +18,12 @@ public class GenerationProgressPanel extends JPanel {
 
         setOpaque( false );
 
-        add( new JLabel( "Time until next generation" ) );
+        add( new JLabel( NaturalSelectionStrings.CLOCK_TIME_UNTIL_NEXT_GENERATION ) );
 
         generationProgressBar = new JProgressBar( SwingConstants.HORIZONTAL );
         generationProgressBar.setValue( 0 );
 
         add( generationProgressBar );
-
-        //generationProgressBar.setPreferredSize( new Dimension( (int) showGenerationChartButton.getPreferredSize().getWidth(), (int) generationProgressBar.getPreferredSize().getHeight() ) );
-        //generationProgressBar.setMaximumSize( generationProgressBar.getPreferredSize() );
 
         model.getClock().addTimeListener( new NaturalSelectionClock.Listener() {
             public void onTick( ClockEvent event ) {

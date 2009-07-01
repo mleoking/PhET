@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.naturalselection.model;
 
+import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
+
 /**
  * The gene for different types of bunny teeth (singleton)
  *
@@ -9,8 +11,8 @@ package edu.colorado.phet.naturalselection.model;
  */
 public class TeethGene extends Gene {
     // teeth alleles (also used for phenotypes)
-    public static final Allele TEETH_SHORT_ALLELE = new Allele( "Short Teeth" );
-    public static final Allele TEETH_LONG_ALLELE = new Allele( "Long Teeth" );
+    public static final Allele TEETH_SHORT_ALLELE = new Allele( NaturalSelectionStrings.GENE_TEETH_SHORT );
+    public static final Allele TEETH_LONG_ALLELE = new Allele( NaturalSelectionStrings.GENE_TEETH_LONG );
 
     private TeethGene() {
         super( TEETH_SHORT_ALLELE, TEETH_LONG_ALLELE );
@@ -32,6 +34,7 @@ public class TeethGene extends Gene {
 
     /**
      * Mutation probability
+     * TODO: unused, remove these
      *
      * @return The fraction of alleles that have a mutation when enabled.
      */
@@ -59,6 +62,6 @@ public class TeethGene extends Gene {
      * @return The name of the gene
      */
     public String getName() {
-        return "Teeth";
+        return NaturalSelectionStrings.GENE_TEETH_NAME;
     }
 }

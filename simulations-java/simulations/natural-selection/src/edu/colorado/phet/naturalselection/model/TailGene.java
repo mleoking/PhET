@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.naturalselection.model;
 
+import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
+
 /**
  * The gene for different types (lengths?) of bunny tails. Singleton
  *
@@ -9,8 +11,8 @@ package edu.colorado.phet.naturalselection.model;
  */
 public class TailGene extends Gene {
     // tail alleles (also used for phenotypes)
-    public static final Allele TAIL_SHORT_ALLELE = new Allele( "Short Tail" );
-    public static final Allele TAIL_LONG_ALLELE = new Allele( "Long Tail" );
+    public static final Allele TAIL_SHORT_ALLELE = new Allele( NaturalSelectionStrings.GENE_TAIL_SHORT );
+    public static final Allele TAIL_LONG_ALLELE = new Allele( NaturalSelectionStrings.GENE_TAIL_LONG );
 
     private TailGene() {
         super( TAIL_SHORT_ALLELE, TAIL_LONG_ALLELE );
@@ -59,6 +61,6 @@ public class TailGene extends Gene {
      * @return The name of the gene
      */
     public String getName() {
-        return "Tail";
+        return NaturalSelectionStrings.GENE_TAIL_NAME;
     }
 }

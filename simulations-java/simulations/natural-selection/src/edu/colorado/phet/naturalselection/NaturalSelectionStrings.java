@@ -2,12 +2,6 @@
 
 package edu.colorado.phet.naturalselection;
 
-/**
- * TemplateStrings is the collection of localized strings used by this simulations.
- * We load all strings as statics so that we will be warned at startup time of any missing strings.
- *
- * @author Chris Malley (cmalley@pixelzoom.com)
- */
 public class NaturalSelectionStrings {
 
     /* not intended for instantiation */
@@ -36,5 +30,35 @@ public class NaturalSelectionStrings {
     public static final String GENERATION_CHART = NaturalSelectionResources.getString( "natural-selection.generationChart" );
     public static final String RESET_ALL = NaturalSelectionResources.getString( "natural-selection.resetAll" );
     public static final String HEREDITY = NaturalSelectionResources.getString( "natural-selection.heredity" );
+    public static final String ADD_A_FRIEND = NaturalSelectionResources.getString( "natural-selection.addAFriend" );
+    public static final String MUTATION_COMING = NaturalSelectionResources.getString( "natural-selection.mutationComing" );
 
+    public static final String GENE_COLOR_NAME = NaturalSelectionResources.getString( "natural-selection.gene.color.name" );
+    public static final String GENE_COLOR_WHITE = NaturalSelectionResources.getString( "natural-selection.gene.color.white" );
+    public static final String GENE_COLOR_BROWN = NaturalSelectionResources.getString( "natural-selection.gene.color.brown" );
+
+    public static final String GENE_TEETH_NAME = NaturalSelectionResources.getString( "natural-selection.gene.teeth.name" );
+    public static final String GENE_TEETH_SHORT = NaturalSelectionResources.getString( "natural-selection.gene.teeth.short" );
+    public static final String GENE_TEETH_LONG = NaturalSelectionResources.getString( "natural-selection.gene.teeth.long" );
+
+    public static final String GENE_TAIL_NAME = NaturalSelectionResources.getString( "natural-selection.gene.tail.name" );
+    public static final String GENE_TAIL_SHORT = NaturalSelectionResources.getString( "natural-selection.gene.tail.short" );
+    public static final String GENE_TAIL_LONG = NaturalSelectionResources.getString( "natural-selection.gene.tail.long" );
+
+    public static final String STATS_TOTAL = NaturalSelectionResources.getString( "natural-selection.stats.total" );
+    public static final String STATS_TIME = NaturalSelectionResources.getString( "natural-selection.stats.time" );
+    public static final String STATS_POPULATION = NaturalSelectionResources.getString( "natural-selection.stats.population" );
+
+    public static final String GENE_PANEL_EDIT_GENES = NaturalSelectionResources.getString( "natural-selection.genePanel.editGenes" );
+    public static final String GENE_PANEL_DOMINANT = NaturalSelectionResources.getString( "natural-selection.genePanel.dominant" );
+    public static final String GENE_PANEL_RECESSIVE = NaturalSelectionResources.getString( "natural-selection.genePanel.recessive" );
+
+    public static final String MUTATION_PANEL_ADD_MUTATION = NaturalSelectionResources.getString( "natural-selection.mutationPanel.addMutation" );
+
+    public static final String CLOCK_TIME_UNTIL_NEXT_GENERATION = NaturalSelectionResources.getString( "natural-selection.clock.timeUntilNextGeneration" );
+
+    public static final String GAME_OVER = NaturalSelectionResources.getString( "natural-selection.endGame.gameOver" );
+    public static final String GAME_OVER_BUNNIES_TAKEN_OVER = NaturalSelectionResources.getString( "natural-selection.endGame.bunniesTakenOver" );
+    public static final String GAME_OVER_PLAY_AGAIN = NaturalSelectionResources.getString( "natural-selection.endGame.playAgain" );
+    public static final String GAME_OVER_ALL_BUNNIES_DIED = NaturalSelectionResources.getString( "natural-selection.endGame.allBunniesDied" );
 }

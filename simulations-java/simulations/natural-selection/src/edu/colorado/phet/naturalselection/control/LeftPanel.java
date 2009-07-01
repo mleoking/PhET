@@ -8,6 +8,7 @@ import javax.swing.border.EmptyBorder;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionResources;
+import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
 import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
 
 public class LeftPanel extends JPanel {
@@ -19,7 +20,9 @@ public class LeftPanel extends JPanel {
         setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
 
 
-        JLabel label = new JLabel( "Add Mutation", new ImageIcon( NaturalSelectionResources.getImage( NaturalSelectionConstants.IMAGE_MUTATION_PANEL_LARGE ) ), SwingConstants.LEFT );
+        JLabel label = new JLabel( NaturalSelectionStrings.MUTATION_PANEL_ADD_MUTATION,
+                                   new ImageIcon( NaturalSelectionResources.getImage( NaturalSelectionConstants.IMAGE_MUTATION_PANEL_LARGE ) ),
+                                   SwingConstants.LEFT );
         label.setFont( new PhetFont( 18 ) );
         JPanel labelPanel = new JPanel( new FlowLayout( FlowLayout.CENTER ) );
         labelPanel.add( label );

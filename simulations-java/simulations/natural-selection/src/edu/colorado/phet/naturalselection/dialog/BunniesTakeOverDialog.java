@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionResources;
+import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
 import edu.colorado.phet.naturalselection.module.NaturalSelectionModule;
 import edu.umd.cs.piccolo.PNode;
 
@@ -19,13 +20,13 @@ public class BunniesTakeOverDialog extends JDialog {
     public BunniesTakeOverDialog( Frame frame, final NaturalSelectionModule module ) {
         super( frame );
 
-        setTitle( "Bunnies have taken over the world" );
+        setTitle( NaturalSelectionStrings.GAME_OVER_BUNNIES_TAKEN_OVER );
 
         final VerticalLayoutPanel panel = new VerticalLayoutPanel();
 
         panel.setInsets( new Insets( 10, 10, 0, 10 ) );
 
-        JLabel label = new JLabel( "Bunnies have taken over the world!" );
+        JLabel label = new JLabel( NaturalSelectionStrings.GAME_OVER_BUNNIES_TAKEN_OVER );
         label.setForeground( Color.WHITE );
         label.setFont( new PhetFont( 20 ) );
         label.setHorizontalAlignment( SwingConstants.CENTER );
@@ -46,7 +47,7 @@ public class BunniesTakeOverDialog extends JDialog {
 
         panel.setInsets( new Insets( 10, 10, 10, 10 ) );
 
-        JButton playAgainButton = new JButton( "Play Again" );
+        JButton playAgainButton = new JButton( NaturalSelectionStrings.GAME_OVER_PLAY_AGAIN );
         panel.add( playAgainButton );
 
         playAgainButton.addActionListener( new ActionListener() {

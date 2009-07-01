@@ -11,8 +11,6 @@ import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.ValueAxis;
-import org.jfree.chart.event.ChartChangeEvent;
-import org.jfree.chart.event.ChartChangeListener;
 import org.jfree.chart.plot.PlotRenderingInfo;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
@@ -26,6 +24,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionResources;
+import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
 import edu.colorado.phet.naturalselection.model.*;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -158,11 +157,13 @@ public class BunnyStatsCanvas extends PhetPCanvas {
             }
         } );
 
+        /*
         chart.addChangeListener( new ChartChangeListener() {
             public void chartChanged( ChartChangeEvent event ) {
                 System.out.println( "Chart changed" );
             }
         } );
+        */
 
     }
 
@@ -187,13 +188,13 @@ public class BunnyStatsCanvas extends PhetPCanvas {
     private XYSeriesCollection createDataset() {
         XYSeriesCollection ret = new XYSeriesCollection();
 
-        ret.addSeries( new XYSeries( "Total" ) );
-        ret.addSeries( new XYSeries( "White fur" ) );
-        ret.addSeries( new XYSeries( "Brown fur" ) );
-        ret.addSeries( new XYSeries( "Short tail" ) );
-        ret.addSeries( new XYSeries( "Long tail" ) );
-        ret.addSeries( new XYSeries( "Short teeth" ) );
-        ret.addSeries( new XYSeries( "Long teeth" ) );
+        ret.addSeries( new XYSeries( NaturalSelectionStrings.STATS_TOTAL ) );
+        ret.addSeries( new XYSeries( NaturalSelectionStrings.GENE_COLOR_WHITE ) );
+        ret.addSeries( new XYSeries( NaturalSelectionStrings.GENE_COLOR_BROWN ) );
+        ret.addSeries( new XYSeries( NaturalSelectionStrings.GENE_TEETH_SHORT ) );
+        ret.addSeries( new XYSeries( NaturalSelectionStrings.GENE_TEETH_LONG ) );
+        ret.addSeries( new XYSeries( NaturalSelectionStrings.GENE_TAIL_SHORT ) );
+        ret.addSeries( new XYSeries( NaturalSelectionStrings.GENE_TAIL_LONG ) );
 
         return ret;
     }
@@ -201,12 +202,12 @@ public class BunnyStatsCanvas extends PhetPCanvas {
     private XYPlot createPlot( XYSeriesCollection dataset ) {
         XYPlot plot = new XYPlot();
 
-        ValueAxis domainAxis = new NumberAxis( "Time" );
+        ValueAxis domainAxis = new NumberAxis( NaturalSelectionStrings.STATS_TIME );
         domainAxis.setTickLabelsVisible( false );
         domainAxis.setRange( 0, RANGE );
         plot.setDomainAxis( domainAxis );
 
-        ValueAxis rangeAxis = new NumberAxis( "Population" );
+        ValueAxis rangeAxis = new NumberAxis( NaturalSelectionStrings.STATS_POPULATION );
         rangeAxis.setStandardTickUnits( NumberAxis.createIntegerTickUnits() );
         plot.setRangeAxis( rangeAxis );
         rangeAxis.setRange( 0, 50 );

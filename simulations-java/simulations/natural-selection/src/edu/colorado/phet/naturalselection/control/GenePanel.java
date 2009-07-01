@@ -9,8 +9,11 @@ import javax.swing.border.EmptyBorder;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
+import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
 import edu.colorado.phet.naturalselection.model.*;
 import edu.colorado.phet.naturalselection.util.ImagePanel;
+
+// TODO: cleanup if possible
 
 public class GenePanel extends JPanel {
 
@@ -87,9 +90,9 @@ public class GenePanel extends JPanel {
         teethSR = createButton( true );
         createFourGroup( TeethGene.getInstance(), teethPD, teethPR, teethSD, teethSR );
 
-        colorLabel = new JLabel( "Fur" );
-        tailLabel = new JLabel( "Tail" );
-        teethLabel = new JLabel( "Teeth" );
+        colorLabel = new JLabel( NaturalSelectionStrings.GENE_COLOR_NAME );
+        tailLabel = new JLabel( NaturalSelectionStrings.GENE_TAIL_NAME );
+        teethLabel = new JLabel( NaturalSelectionStrings.GENE_TEETH_NAME );
 
         setColorEnabled( false );
         setTailEnabled( false );
@@ -99,7 +102,7 @@ public class GenePanel extends JPanel {
         c.gridy = ROW_TITLE;
         c.gridwidth = 4;
         c.gridheight = 1;
-        JLabel label = new JLabel( "Edit Genes" );
+        JLabel label = new JLabel( NaturalSelectionStrings.GENE_PANEL_EDIT_GENES );
         label.setBorder( new EmptyBorder( new Insets( 0, 0, 5, 0 ) ) );
         label.setFont( new PhetFont( 18 ) );
         add( label, c );
@@ -133,7 +136,7 @@ public class GenePanel extends JPanel {
         c.gridy = ROW_FIELDS;
         c.gridwidth = 1;
         c.gridheight = 1;
-        JLabel dominantLabel = new JLabel( "Dominant" );
+        JLabel dominantLabel = new JLabel( NaturalSelectionStrings.GENE_PANEL_DOMINANT );
         dominantLabel.setBorder( new EmptyBorder( new Insets( 0, 10, 0, 10 ) ) );
         add( dominantLabel, c );
 
@@ -141,7 +144,7 @@ public class GenePanel extends JPanel {
         c.gridy = ROW_FIELDS;
         c.gridwidth = 1;
         c.gridheight = 1;
-        add( new JLabel( "Recessive" ), c );
+        add( new JLabel( NaturalSelectionStrings.GENE_PANEL_RECESSIVE ), c );
 
         //----------------------------------------------------------------------------
         // Fur Color

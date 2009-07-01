@@ -229,7 +229,7 @@ public class NaturalSelectionModel extends ClockAdapter {
             bunniesTakeOver();
         }
         else {
-            System.out.println( "Population: " + pop );
+            //System.out.println( "Population: " + pop );
         }
     }
 
@@ -472,7 +472,7 @@ public class NaturalSelectionModel extends ClockAdapter {
 
         lastFrenziedGeneration = generation;
 
-        System.out.println( "Starting frenzy" );
+        //System.out.println( "Starting frenzy" );
 
         frenzy = new Frenzy( this, NaturalSelectionDefaults.FRENZY_TICKS ); // TODO: work on time stuff!
 
@@ -495,7 +495,7 @@ public class NaturalSelectionModel extends ClockAdapter {
     }
 
     public void endFrenzy() {
-        System.out.println( "Ending frenzy" );
+        //System.out.println( "Ending frenzy" );
         frenzy = null;
     }
 
