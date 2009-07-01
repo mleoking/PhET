@@ -19,6 +19,7 @@ public class BeakerNode extends PComposite {
     
     private static double MAX_VOLUME = 1; // liters
     
+    private final PHProbeNode probeNode;
     private final MoleculeCountsNode moleculeCountsNode;
     private final BeakerLabelNode beakerLabelNode;
     private final RatioDotsNode dotsNode;
@@ -28,7 +29,7 @@ public class BeakerNode extends PComposite {
         VesselNode vesselNode = new VesselNode( vesselSize, MAX_VOLUME );
         
         double probeHeight = vesselSize.getHeight() + 55;
-        PHProbeNode probeNode = new PHProbeNode( probeHeight, solution );
+        probeNode = new PHProbeNode( probeHeight, solution );
         
         SolutionNode solutionNode = new SolutionNode( vesselSize );
         
@@ -70,6 +71,14 @@ public class BeakerNode extends PComposite {
         xOffset = vfb.getMaxX() - probeNode.getFullBoundsReference().getWidth() - 100;
         yOffset = vfb.getMaxY() - probeNode.getFullBoundsReference().getHeight();
         probeNode.setOffset( xOffset, yOffset );
+    }
+    
+    public void setProbeVisible( boolean visible ) {
+        probeNode.setVisible( visible );
+    }
+    
+    public boolean isProbeVisible() {
+        return probeNode.getVisible();
     }
     
     public void setDisassociatedRatioComponentsVisible( boolean visible ) {
