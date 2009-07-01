@@ -55,10 +55,15 @@ public class ModelAnimationDeltaInterpreter {
 	 * @param time
 	 */
 	public void setTime(double time){
-		for ( int i = 0; i < maxEventsPerUpdate; i++){
-			if (time > animationDeltas.get(i).getTime()){
+		for ( int i = 0; i < maxEventsPerUpdate && currentIndex < animationDeltas.size(); i++){
+			if (time > animationDeltas.get(currentIndex).getTime()){
 				// Execute this animation delta.
-				interpret(animationDeltas.get(i));
+				interpret(animationDeltas.get(currentIndex));
+				currentIndex++;
+			}
+			else{
+				// We are up to date.
+				break;
 			}
 		}
 	}
@@ -101,7 +106,7 @@ public class ModelAnimationDeltaInterpreter {
 			// The size needs to be changed.
 			Dimension2D size = modelElement.getSize();
 			size.setSize(size.getWidth() * delta.getSizeChangeFactor(),
-					size.getWidth() * delta.getSizeChangeFactor() );
+					size.getHeight() * delta.getSizeChangeFactor() );
 			modelElement.setSize(size);
 		}
 	}
