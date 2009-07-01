@@ -34,7 +34,7 @@ public class AgingTree extends DatableItem implements Cleanupable {
 	private static final double AGE_ADJUSTMENT_FACTOR = MultiNucleusDecayModel.convertYearsToMs(1000) / 5000;
 	
 	// Animation sequence.
-	private static ArrayList<ModelAnimationDelta> animationSequence = new ArrayList<ModelAnimationDelta>();
+	private static ArrayList<ModelAnimationDelta> ANIMATION_SEQUENCE = new ArrayList<ModelAnimationDelta>();
 	
     //------------------------------------------------------------------------
     // Instance Data
@@ -43,6 +43,7 @@ public class AgingTree extends DatableItem implements Cleanupable {
 	private final ConstantDtClock _clock;
 	private final ClockAdapter _clockAdapter;
 	private double age = 0; // Age in milliseconds of this datable item.
+	private final ModelAnimationDeltaInterpreter animationIterpreter;
 	
     //------------------------------------------------------------------------
     // Constructor
@@ -62,6 +63,9 @@ public class AgingTree extends DatableItem implements Cleanupable {
 		    }
 		};
 		_clock.addClockListener(_clockAdapter);
+		
+		// Create the animation interpreter that will execute the animation.
+		animationIterpreter = new ModelAnimationDeltaInterpreter(this, ANIMATION_SEQUENCE);
 	}
 
     //------------------------------------------------------------------------
@@ -74,6 +78,7 @@ public class AgingTree extends DatableItem implements Cleanupable {
 	
 	private void handleClockTicked(){
 		age = _clock.getSimulationTime() * AGE_ADJUSTMENT_FACTOR;
+		animationIterpreter.setTime(age);
 	}
 
 	private void handleSimulationTimeReset(){
@@ -90,11 +95,15 @@ public class AgingTree extends DatableItem implements Cleanupable {
 	// will change as it ages.
     //------------------------------------------------------------------------
 	static{
-		animationSequence.add(new ModelAnimationDelta(500, null, 0, 1.1, 0, 0, 0));
-		animationSequence.add(new ModelAnimationDelta(1000, null, 0, 1.1, 0, 0, 0));
-		animationSequence.add(new ModelAnimationDelta(1500, null, 0, 1.1, 0, 0, 0));
-		animationSequence.add(new ModelAnimationDelta(2000, null, 0, 1.1, 0, 0, 0));
-		animationSequence.add(new ModelAnimationDelta(2500, null, 0, 1.1, 0, 0, 0));
+		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(100),  null, 0, 1.1, 0, 0, 0));
+		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(200),  null, 0, 1.1, 0, 0, 0));
+		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(300),  null, 0, 1.1, 0, 0, 0));
+		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(400),  null, 0, 1.1, 0, 0, 0));
+		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(500),  null, 0, 1.1, 0, 0, 0));
+		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(600),  null, 0, 1.1, 0, 0, 0));
+		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(700),  null, 0, 1.1, 0, 0, 0));
+		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(800),  null, 0, 1.1, 0, 0, 0));
+		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(900),  null, 0, 1.1, 0, 0, 0));
+		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(1100), null, 0, 1.1, 0, 0, 0));
 	}
-	
 }
