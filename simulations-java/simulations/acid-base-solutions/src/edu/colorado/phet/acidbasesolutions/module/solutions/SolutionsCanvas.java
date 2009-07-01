@@ -3,8 +3,6 @@
 package edu.colorado.phet.acidbasesolutions.module.solutions;
 
 import java.awt.geom.Dimension2D;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.control.MiscControlsNode;
