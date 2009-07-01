@@ -46,7 +46,7 @@ public interface AnimatedModelElement {
 	/**
 	 * Set the 2D size of the model element.
 	 */
-	public void getSize(Dimension2D size);
+	public void setSize(Dimension2D size);
 	
 	/**
 	 * Get the unscaled image that should be used to represent this model
@@ -59,16 +59,31 @@ public interface AnimatedModelElement {
 	public BufferedImage getImage();
 	
 	/**
-	 * Set the index for the primary and secondary images.  If the values are
-	 * equal, it is considered to mean that only one image is in use and no
-	 * fading is happening.  If the values are unequal, the fade factor will
-	 * be used to mix the two images together into the image obtained via the
-	 * getImage interface call.
+	 * Get the number of images that are available for use.
 	 * 
-	 * @param primary - Index of primary image, or NO_IMAGE
-	 * @param secondary - Index of primary image, or NO_IMAGE
+	 * @return
 	 */
-	public void setImageIndexes( int primary, int secondary );
+	public int getNumberImages();
+	
+	/**
+	 * Set the index for the primary image.
+	 */
+	public void setPrimaryImageIndex( int imageIndex );
+	
+	/**
+	 * Get the index for the primary image.
+	 */
+	public int getPrimaryImageIndex();
+	
+	/**
+	 * Set the index for the secondary image.
+	 */
+	public void setSecondaryImageIndex( int imageIndex );
+	
+	/**
+	 * Get the index for the secondary image.
+	 */
+	public int getSecondaryImageIndex();
 	
 	/**
 	 * Set the amount of fade between the primary and secondary images.
@@ -77,6 +92,15 @@ public interface AnimatedModelElement {
 	 * in between for corresponding amount of fade.
 	 */
 	public void setFadeFactor(double fadeFactor);
+	
+	/**
+	 * The the fade factor, which defines the relative amounts of the primary
+	 * and secondary images that are shown.
+	 * 
+	 * @return fadeFactor - 0 for 100% primary, 1 for 100% secondary, values
+	 * in between for corresponding amount of fade.
+	 */
+	public double getFadeFactor();
 	
 	/**
 	 * Register for notifications of animation changes.

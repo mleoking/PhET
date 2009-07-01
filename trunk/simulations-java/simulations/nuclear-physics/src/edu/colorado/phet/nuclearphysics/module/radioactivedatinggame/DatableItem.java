@@ -169,12 +169,42 @@ public class DatableItem implements AnimatedModelElement {
 		
 	}
 
-	public void setImageIndexes(int primary, int secondary) {
+	public void setRotationalAngle(double rotationalAngle) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	public void setRotationalAngle(double rotationalAngle) {
+	public int getNumberImages() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public int getPrimaryImageIndex() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public int getSecondaryImageIndex() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public void setPrimaryImageIndex(int imageIndex) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setSecondaryImageIndex(int imageIndex) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public double getFadeFactor() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public void setSize(Dimension2D size) {
 		// TODO Auto-generated method stub
 		
 	}
