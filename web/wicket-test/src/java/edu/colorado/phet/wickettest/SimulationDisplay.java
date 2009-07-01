@@ -19,11 +19,13 @@ import edu.colorado.phet.tomcattest.WebSimulation;
 import edu.colorado.phet.tomcattest.util.SqlUtils;
 import edu.colorado.phet.wickettest.util.StaticImage;
 
-public class HelloWorld extends WebPage {
-    public HelloWorld( PageParameters parameters ) {
+public class SimulationDisplay extends WebPage {
+    public SimulationDisplay( PageParameters parameters ) {
         ServletContext context = ( (WebApplication) getApplication() ).getServletContext();
 
-        Locale myLocale = LocaleUtils.stringToLocale( parameters.getString( "localeString" ) );
+        Locale myLocale = LocaleUtils.stringToLocale( (String) parameters.get( "localeString" ) );
+
+        System.out.println( "Loading SimulationDisplay with Locale: " + LocaleUtils.localeToString( myLocale ) );
 
         List<WebSimulation> simulations = SqlUtils.getSimulationsMatching( context, null, null, myLocale );
         WebSimulation.orderSimulations( simulations, myLocale );
