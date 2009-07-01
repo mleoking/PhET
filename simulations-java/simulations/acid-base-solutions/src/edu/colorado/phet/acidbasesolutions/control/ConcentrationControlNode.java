@@ -127,10 +127,6 @@ public class ConcentrationControlNode extends PNode {
         return sliderNode.getMax();
     }
     
-    public void setSliderVisible( boolean visible ) {
-        sliderNode.setVisible( visible );
-    }
-    
     private double getTextFieldValue() {
         String text = textField.getText();
         double value = 0;

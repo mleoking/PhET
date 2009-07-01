@@ -3,7 +3,9 @@
 ==================================================================================
 
 TODO:
-- remove "Concentration: 0" for "no solute" ?
+- randomly select view for "acid or base" question
+- disable all view controls during "acid or base" question, show what's selected
+- hide HA/A from graph and molecule counts for "acid or base" question
 - redo layout of Matching Game canvas
 - first time a module is activated, canvas updateLayout is called twice (AncestorListener+ComponentListener), other sims only call once (AncestorListener)
 - make symbol legend descriptions automatically wrap, so we don't need breaks in HTML markup
@@ -12,6 +14,7 @@ ISSUES:
 - CM: layout change of play area is annoying when switching solutes, due to label changes in beaker's View control panel
 
 DONE:
+7/1/09 remove "Concentration: 0" for "no solute", simply hide control
 6/30/09 fix: selecting "no solute" throws NullPointerException in RatioCheckBox
 6/30/09 rename keys and constants for localized strings related to Matching Game
 6/30/09 constrain precision of random concentration values so that clicking in concentration textfield doesn't cause an update

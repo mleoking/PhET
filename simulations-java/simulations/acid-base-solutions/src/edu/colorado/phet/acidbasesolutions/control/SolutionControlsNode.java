@@ -174,8 +174,8 @@ public class SolutionControlsNode extends PhetPNode {
     public void setSolute( Solute solute ) {
         soluteComboBox.setSelectedSoluteName( solute.getName() );
         
-        // concentration slider is hidden and reads "zero" for no solute
-        setConcentrationControlZero( solute instanceof NoSolute );
+        // concentration control is hidden for no solute
+        setConcentrationControlVisible( ! ( solute instanceof NoSolute ) );
         
         // strength slider is hidden for no solute
         setStrengthControlVisible( ! ( solute instanceof NoSolute ) );
@@ -217,14 +217,9 @@ public class SolutionControlsNode extends PhetPNode {
         return strengthSliderNode.getValue();
     }
     
-    private void setConcentrationControlZero( boolean isZero ) {
-        concentrationControlNode.setVisible( !isZero );
-        if ( isZero ) {
-            concentrationLabelNode.setText( ABSStrings.LABEL_CONCENTRATION + " 0.0" );
-        }
-        else {
-            concentrationLabelNode.setText( ABSStrings.LABEL_CONCENTRATION );
-        }
+    private void setConcentrationControlVisible( boolean visible ) {
+        concentrationLabelNode.setVisible( visible );
+        concentrationControlNode.setVisible( visible );
     }
     
     private void setStrengthControlVisible( boolean visible ) {
