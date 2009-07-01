@@ -11,6 +11,8 @@ TODO:
 - make symbol legend descriptions automatically wrap, so we don't need breaks in HTML markup
 
 DONE:
+7/1/09 prepare View controls in match game for random selection
+7/1/09 add ability to hide disassociated componets from molecule counts
 7/1/09 don't adjust layout "Solutions" canvas when solute changes, add enough space to accommodate widest View control panel
 7/1/09 add ability to hide pH meter
 7/1/09 remove "Concentration: 0" for "no solute", simply hide control
