@@ -45,7 +45,7 @@ public class ResourceDeployUtils {
      * @return Whether or not to copy it
      */
     public static boolean ignoreTestFile( File file ) {
-        return file.getName().endsWith( ".swf" );
+        return file.getName().endsWith( ".swf" ) || file.getName().endsWith( ".jnlp" );
     }
 
     public static String getDirNameList( File[] dirs ) {

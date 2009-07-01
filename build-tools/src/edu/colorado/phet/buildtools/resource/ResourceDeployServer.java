@@ -36,6 +36,7 @@ public class ResourceDeployServer implements IProguardKeepClass {
     private boolean onlyAllJARs;
     private boolean generateJARs;
     private boolean copySWFs;
+    private boolean copyJNLPs;
     private File testDir;
 
     public ResourceDeployServer( String jarCommand, File buildLocalProperties, File resourceDir ) {
@@ -75,11 +76,13 @@ public class ResourceDeployServer implements IProguardKeepClass {
             onlyAllJARs = true;
             generateJARs = true;
             copySWFs = false;
+            copyJNLPs = true;
         }
         else if ( mode.equals( "flash" ) ) {
             onlyAllJARs = false;
             generateJARs = false;
             copySWFs = true;
+            copyJNLPs = false;
         }
 
         // unused, replaced with mode (see above)
@@ -119,6 +122,10 @@ public class ResourceDeployServer implements IProguardKeepClass {
             if ( copySWFs ) {
                 copyFlashSWFs();
             }
+
+            if ( copyJNLPs ) {
+                copyJavaJNLPs();
+            }
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -131,6 +138,43 @@ public class ResourceDeployServer implements IProguardKeepClass {
 
         System.out.println( "All successful!" );
 
+    }
+
+    private void copyJavaJNLPs() throws IOException {
+        testDir = ResourceDeployUtils.getTestDir( resourceDir );
+
+        for ( int i = 0; i < sims.length; i++ ) {
+            String sim = sims[i];
+
+            File backupSimDir = new File( backupDir, sim );
+            File testSimDir = new File( testDir, sim );
+            File simDir = new File( getLiveSimsDir(), sim );
+
+            File[] jarFiles = backupSimDir.listFiles( new FilenameFilter() {
+                public boolean accept( File file, String s ) {
+                    return s.endsWith( ".jar" ) && !s.endsWith( "_all.jar" );
+                }
+            } );
+
+            for ( File jarFile : jarFiles ) {
+                String jnlpName = jarFile.getName().replace( ".jar", ".jnlp" );
+                File baseJnlpFile = new File( simDir, jnlpName );
+                if ( !baseJnlpFile.exists() ) {
+                    try {
+                        System.out.println( "WARNING: JNLP does not exist: " + baseJnlpFile.getCanonicalPath() );
+                    }
+                    catch( IOException e ) {
+                        e.printStackTrace();
+                    }
+                    finally {
+                        continue;
+                    }
+                }
+                FileUtils.copyToDir( baseJnlpFile, backupSimDir );
+                FileUtils.copyToDir( baseJnlpFile, testSimDir );
+            }
+
+        }
     }
 
     private void createBackupJARs() throws IOException {
