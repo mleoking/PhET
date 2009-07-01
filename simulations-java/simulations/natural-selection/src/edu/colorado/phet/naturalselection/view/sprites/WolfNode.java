@@ -29,8 +29,6 @@ public class WolfNode extends NaturalSelectionSprite implements Wolf.Listener {
 
         wolfHolder.setOffset( -wolfImage.getWidth() / 2, -wolfImage.getHeight() );
 
-        //addChild( new DebugCross() );
-
         rescale();
 
     }

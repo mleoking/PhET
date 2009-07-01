@@ -33,15 +33,6 @@ public class TailGene extends Gene {
     }
 
     /**
-     * Mutation probability
-     *
-     * @return The fraction of alleles that have a mutation when enabled.
-     */
-    public double getMutationFraction() {
-        return 0.07;
-    }
-
-    /**
      * Extracts the correct genotype from a bunny
      *
      * @param bunny The bunny you need the DNA from

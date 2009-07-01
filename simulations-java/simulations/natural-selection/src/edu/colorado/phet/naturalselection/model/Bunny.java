@@ -168,9 +168,6 @@ public class Bunny {
 
         model.getClock().addPhysicalListener( clockListener );
 
-        // bunny is set up, notify various things that the bunny has been created and is ready to use
-        //notifyInit();
-
     }
 
     public boolean isMovingRight() {

@@ -181,13 +181,6 @@ public abstract class Gene implements Bunny.Listener {
     }
 
     /**
-     * Subclasses should implement this to return the fraction of alleles that will mutate when passed on.
-     *
-     * @return
-     */
-    public abstract double getMutationFraction();
-
-    /**
      * The name of the gene
      *
      * @return The name of the gene

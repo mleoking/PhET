@@ -13,8 +13,6 @@ public class BunnyStatsPanel extends JPanel {
     public BunnyStatsPanel( NaturalSelectionModel model ) {
         super( new GridLayout( 1, 1 ) );
 
-        //setBorder( new EmptyBorder( new Insets( 0, 100, 0, 100 ) ) );
-
         bunnyStatsCanvas = new BunnyStatsCanvas( model );
         add( bunnyStatsCanvas );
 
