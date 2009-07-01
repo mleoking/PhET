@@ -26,7 +26,7 @@ public class DatableItem implements AnimatedModelElement {
 	private final double age;
 	private final String name;
 	private final String resourceImageName;
-	private final double rotationAngle; // In radians.
+	private double rotationAngle; // In radians.
 	private Point2D center;
 	private BufferedImage image;
 	private ArrayList<ModelAnimationListener> animationListeners = new ArrayList<ModelAnimationListener>();
@@ -59,6 +59,7 @@ public class DatableItem implements AnimatedModelElement {
 	
 	public void setPosition(Point2D centerPoint) {
 		center = new Point2D.Double(centerPoint.getX(), centerPoint.getY());
+		notifyPositionChanged();
 	}
 	
 	public void addAnimationListener(ModelAnimationListener listener) {
@@ -165,8 +166,7 @@ public class DatableItem implements AnimatedModelElement {
 	}
 
 	public void setRotationalAngle(double rotationalAngle) {
-		// TODO Auto-generated method stub
-		
+		this.rotationAngle = rotationalAngle;
 	}
 
 	public int getNumberImages() {
