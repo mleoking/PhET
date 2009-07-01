@@ -172,9 +172,17 @@ public class ResourceDeployServer implements IProguardKeepClass {
                 }
                 FileUtils.copyToDir( baseJnlpFile, backupSimDir );
                 FileUtils.copyToDir( baseJnlpFile, testSimDir );
+
+                File testJnlp = new File( testSimDir, jnlpName );
+                modifyJnlp( testJnlp );
             }
 
         }
+    }
+
+    private void modifyJnlp( File jnlpFile ) throws IOException {
+        String str = FileUtils.loadFileAsString( jnlpFile );
+        str.replace( "http://phet.colorado.edu/sims", "http://phet.colorado.edu/sims/resources/" + resourceDir.getName() + "/test" );
     }
 
     private void createBackupJARs() throws IOException {
