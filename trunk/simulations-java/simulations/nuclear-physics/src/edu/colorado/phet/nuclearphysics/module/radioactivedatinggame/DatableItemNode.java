@@ -26,6 +26,8 @@ public class DatableItemNode extends PNode {
 	
 	// For debugging of placement, turns on a name so users can tell what's what.
 	private final boolean SHOW_NAME = false;
+	
+	private double rotationAngle = 0;
 
 	/**
 	 * Constructor
@@ -46,11 +48,11 @@ public class DatableItemNode extends PNode {
 			}
 
 			public void positionChanged() {
-				// TODO Auto-generated method stub
+				updatePosition();
 			}
 
 			public void rotationalAngleChanged() {
-				// TODO Auto-generated method stub
+				handleRotationalAngleChanged();
 			}
 
 			public void sizeChanged() {
@@ -82,6 +84,11 @@ public class DatableItemNode extends PNode {
 		// We ignore the height here, since we can't scale in each direction
 		// due to limitations of Piccolo.
 		image.scale(desiredSize.getX() / image.getFullBoundsReference().getWidth());
+		updatePosition();
+	}
+	
+	public void handleRotationalAngleChanged(){
+		image.setRotation(datableItem.getRotationalAngle());
 		updatePosition();
 	}
 }
