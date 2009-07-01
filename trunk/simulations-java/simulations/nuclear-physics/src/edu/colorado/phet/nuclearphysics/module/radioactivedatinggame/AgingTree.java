@@ -95,7 +95,9 @@ public class AgingTree extends DatableItem implements Cleanupable {
 	// will change as it ages.
     //------------------------------------------------------------------------
 	static{
-		Point2D GROWTH_COMPENSATION = new Point2D.Double(0, 0.7);
+		Point2D GROWTH_COMPENSATION = new Point2D.Double(0, 0.6);
+		
+		// Grow.
 		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(100),  GROWTH_COMPENSATION, 0, 1.1, 0, 0, 0));
 		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(200),  GROWTH_COMPENSATION, 0, 1.1, 0, 0, 0));
 		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(300),  GROWTH_COMPENSATION, 0, 1.1, 0, 0, 0));
@@ -109,5 +111,13 @@ public class AgingTree extends DatableItem implements Cleanupable {
 		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(1100), GROWTH_COMPENSATION, 0, 1.1, 0, 0, 0));
 		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(1200), GROWTH_COMPENSATION, 0, 1.1, 0, 0, 0));
 		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(1300), GROWTH_COMPENSATION, 0, 1.1, 0, 0, 0));
+		
+		// Fall over.
+		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(1400), null, 0.2, 1.0, 0, 0, 0));
+		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(1500), null, 0.3, 1.0, 0, 0, 0));
+		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(1600), null, 0.3, 1.0, 0, 0, 0));
+		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(1700), null, 0.3, 1.0, 0, 0, 0));
+		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(1800), null, 0.3, 1.0, 0, 0, 0));
+		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(1900), null, 0.2, 1.0, 0, 0, 0));
 	}
 }

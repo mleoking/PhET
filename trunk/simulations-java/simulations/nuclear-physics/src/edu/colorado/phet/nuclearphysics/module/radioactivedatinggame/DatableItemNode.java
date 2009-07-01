@@ -88,7 +88,9 @@ public class DatableItemNode extends PNode {
 	}
 	
 	public void handleRotationalAngleChanged(){
-		image.setRotation(datableItem.getRotationalAngle());
-		updatePosition();
+		Point2D rotationPoint = new Point2D.Double(getFullBoundsReference().getCenterX(),
+				getFullBoundsReference().getCenterY() );
+		image.rotateInPlace(datableItem.getRotationalAngle() - rotationAngle);
+		rotationAngle = datableItem.getRotationalAngle();
 	}
 }
