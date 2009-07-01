@@ -112,4 +112,12 @@ public class BeakerNode extends PComposite {
     public boolean isBeakerLabelVisible() {
         return beakerLabelNode.getVisible();
     }
+    
+    public void setProductMoleculeCountsVisible( boolean visible ) {
+        moleculeCountsNode.setProductVisible( visible );
+    }
+    
+    public void setReactantMoleculeCountsVisible( boolean visible ) {
+        moleculeCountsNode.setReactantVisible( visible );
+    }
 }
