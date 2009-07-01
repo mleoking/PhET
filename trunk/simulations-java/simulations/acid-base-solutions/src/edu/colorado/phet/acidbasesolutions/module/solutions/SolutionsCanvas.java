@@ -55,13 +55,6 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         
         beakerControlsNode = new SolutionsBeakerControlsNode( getBackground(), beakerNode, solution );
         beakerControlsNode.scale( ABSConstants.PSWING_SCALE );
-        beakerControlsNode.addPropertyChangeListener( new PropertyChangeListener() {
-            public void propertyChange( PropertyChangeEvent evt ) {
-                if ( evt.getPropertyName().equals( PNode.PROPERTY_FULL_BOUNDS )) {
-                    updateLayout();
-                }
-            }
-        } );
         
         miscControlsNode = new MiscControlsNode( concentrationGraphNode, getBackground(), solution );
         miscControlsNode.scale( ABSConstants.PSWING_SCALE );
@@ -126,7 +119,8 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         beakerControlsNode.setOffset( xOffset, yOffset );
         
         // concentration graph to the right of beaker
-        xOffset = beakerControlsNode.getFullBoundsReference().getMaxX() - PNodeUtils.getOriginXOffset( concentrationGraphNode ) + 20;
+        double fudgeX = 50; // add space to handle widest label for disassociated components ratio check box
+        xOffset = beakerControlsNode.getFullBoundsReference().getMaxX() - PNodeUtils.getOriginXOffset( concentrationGraphNode ) + fudgeX;
         yOffset = 0;
         concentrationGraphNode.setOffset( xOffset, yOffset );
         
