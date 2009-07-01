@@ -56,7 +56,7 @@ public class DatableItem implements AnimatedModelElement {
 		return new Point2D.Double(center.getX(), center.getY());
 	}
 	
-	protected void setPosition(Point2D centerPoint) {
+	public void setPosition(Point2D centerPoint) {
 		center = new Point2D.Double(centerPoint.getX(), centerPoint.getY());
 	}
 	
@@ -157,5 +157,25 @@ public class DatableItem implements AnimatedModelElement {
 
 	public boolean removeAnimationListener(ModelAnimationListener listener) {
 		return animationListeners.remove(listener);
+	}
+
+	public void getSize(Dimension2D size) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setFadeFactor(double fadeFactor) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setImageIndexes(int primary, int secondary) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setRotationalAngle(double rotationalAngle) {
+		// TODO Auto-generated method stub
+		
 	}
 }
