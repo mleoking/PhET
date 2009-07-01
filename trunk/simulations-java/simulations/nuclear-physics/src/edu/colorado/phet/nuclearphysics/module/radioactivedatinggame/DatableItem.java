@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.model.Carbon14Nucleus;
 import edu.colorado.phet.nuclearphysics.model.Uranium238Nucleus;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * This class represents a physical object that can be dated using radiometric
@@ -20,8 +21,8 @@ import edu.colorado.phet.nuclearphysics.model.Uranium238Nucleus;
  */
 public class DatableItem implements AnimatedModelElement {
 
-	private final double width;
-	private final double height;
+	private double width;
+	private double height;
 	private final double age;
 	private final String name;
 	private final String resourceImageName;
@@ -147,8 +148,7 @@ public class DatableItem implements AnimatedModelElement {
 	}
 
 	public Dimension2D getSize() {
-		// TODO Auto-generated method stub
-		return null;
+		return new PDimension(width, height);
 	}
 
 	public void removeAllAnimationListeners() {
@@ -157,11 +157,6 @@ public class DatableItem implements AnimatedModelElement {
 
 	public boolean removeAnimationListener(ModelAnimationListener listener) {
 		return animationListeners.remove(listener);
-	}
-
-	public void getSize(Dimension2D size) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	public void setFadeFactor(double fadeFactor) {
@@ -205,7 +200,32 @@ public class DatableItem implements AnimatedModelElement {
 	}
 
 	public void setSize(Dimension2D size) {
-		// TODO Auto-generated method stub
-		
+		width = size.getWidth();
+		height = size.getHeight();
+		notifySizeChanged();
+	}
+	
+	private void notifySizeChanged(){
+		for (ModelAnimationListener listener : animationListeners){
+			listener.sizeChanged();
+		}
+	}
+	
+	private void notifyPositionChanged(){
+		for (ModelAnimationListener listener : animationListeners){
+			listener.positionChanged();
+		}
+	}
+	
+	private void notifyRotationalAngleChanged(){
+		for (ModelAnimationListener listener : animationListeners){
+			listener.rotationalAngleChanged();
+		}
+	}
+	
+	private void notifyImageChanged(){
+		for (ModelAnimationListener listener : animationListeners){
+			listener.imageChanged();
+		}
 	}
 }
