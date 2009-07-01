@@ -79,8 +79,8 @@ public class CCKModel {
             }
         };
         this.circuit = createCircuit( circuitChangeListener );
-//        circuitSolver = new CircuitAnalysisCCKAdapter( new MNASolver() );
-        circuitSolver = new PureJavaSolver();
+        circuitSolver = new CircuitAnalysisCCKAdapter( new MNASolver() );
+//        circuitSolver = new PureJavaSolver();
 
         //Use reflection for Java->Scala dependencies until Eclipse developers are using Scala builder
 //        try{
