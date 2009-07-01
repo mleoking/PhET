@@ -95,15 +95,19 @@ public class AgingTree extends DatableItem implements Cleanupable {
 	// will change as it ages.
     //------------------------------------------------------------------------
 	static{
-		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(100),  null, 0, 1.1, 0, 0, 0));
-		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(200),  null, 0, 1.1, 0, 0, 0));
-		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(300),  null, 0, 1.1, 0, 0, 0));
-		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(400),  null, 0, 1.1, 0, 0, 0));
-		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(500),  null, 0, 1.1, 0, 0, 0));
-		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(600),  null, 0, 1.1, 0, 0, 0));
-		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(700),  null, 0, 1.1, 0, 0, 0));
-		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(800),  null, 0, 1.1, 0, 0, 0));
-		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(900),  null, 0, 1.1, 0, 0, 0));
-		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(1100), null, 0, 1.1, 0, 0, 0));
+		Point2D GROWTH_COMPENSATION = new Point2D.Double(0, 0.7);
+		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(100),  GROWTH_COMPENSATION, 0, 1.1, 0, 0, 0));
+		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(200),  GROWTH_COMPENSATION, 0, 1.1, 0, 0, 0));
+		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(300),  GROWTH_COMPENSATION, 0, 1.1, 0, 0, 0));
+		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(400),  GROWTH_COMPENSATION, 0, 1.1, 0, 0, 0));
+		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(500),  GROWTH_COMPENSATION, 0, 1.1, 0, 0, 0));
+		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(600),  GROWTH_COMPENSATION, 0, 1.1, 0, 0, 0));
+		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(700),  GROWTH_COMPENSATION, 0, 1.1, 0, 0, 0));
+		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(800),  GROWTH_COMPENSATION, 0, 1.1, 0, 0, 0));
+		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(900),  GROWTH_COMPENSATION, 0, 1.1, 0, 0, 0));
+		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(1000), GROWTH_COMPENSATION, 0, 1.1, 0, 0, 0));
+		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(1100), GROWTH_COMPENSATION, 0, 1.1, 0, 0, 0));
+		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(1200), GROWTH_COMPENSATION, 0, 1.1, 0, 0, 0));
+		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(1300), GROWTH_COMPENSATION, 0, 1.1, 0, 0, 0));
 	}
 }
