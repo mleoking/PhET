@@ -1,6 +1,7 @@
 package edu.colorado.phet.acidbasesolutions.module.matchinggame;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -35,6 +36,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class MatchingGameViewControlsNode extends PhetPNode {
     
+    private final JPanel panel;
     private final JRadioButton beakersRadioButton, graphsRadioButton;
     private final JCheckBox dissociatedComponentsRatioCheckBox;
     private final JCheckBox hyroniumHydroxideRatioCheckBox;
@@ -93,7 +95,7 @@ public class MatchingGameViewControlsNode extends PhetPNode {
         });
         
         // panel with border
-        JPanel panel = new JPanel();
+        panel = new JPanel();
         TitledBorder border = new TitledBorder( new LineBorder( Color.BLACK, 1 ), ABSStrings.TITLE_VIEW );
         border.setTitleFont( new PhetFont( Font.BOLD, 16 ) );
         panel.setBorder( border );
@@ -122,32 +124,17 @@ public class MatchingGameViewControlsNode extends PhetPNode {
         setBeakersSelected( true );
         setHydroniumHydroxideRatioSelected( true );
     }
-    
+
     /**
-     * All controls except "H3O/OH ratio" are disabled when user is
-     * deciding whether the solution is an acid or base.
+     * Enabling/disabling this node enabled/disables all swing components.
+     * @param enabled
      */
-    public void setModeAcidBaseQuestion() {
-        beakersRadioButton.setEnabled( true );
-        dissociatedComponentsRatioCheckBox.setEnabled( false );
-        hyroniumHydroxideRatioCheckBox.setEnabled( true );
-        moleculeCountsCheckBox.setEnabled( false );
-        graphsRadioButton.setEnabled( false );
-        setBeakersSelected( true );
-        setDissociatedComponentsRatioSelected( false );
-        setHydroniumHydroxideRatioSelected( true );
-        setMoleculeCountsSelected( false );
-    }
-    
-    /**
-     * All controls are enabled when the user is trying to match the solution.
-     */
-    public void setModeMatchSolutionQuestion() {
-        beakersRadioButton.setEnabled( true );
-        dissociatedComponentsRatioCheckBox.setEnabled( beakersRadioButton.isSelected() );
-        hyroniumHydroxideRatioCheckBox.setEnabled( beakersRadioButton.isSelected() );
-        moleculeCountsCheckBox.setEnabled( beakersRadioButton.isSelected() );
-        graphsRadioButton.setEnabled( true );
+    public void setEnabled( boolean enabled ) {
+        panel.setEnabled( enabled );
+        Component[] components = panel.getComponents();
+        for ( int i = 0; i < components.length; i++ ) {
+            components[i].setEnabled( enabled );
+        }
     }
     
     public void setBeakersSelected( boolean b ) {

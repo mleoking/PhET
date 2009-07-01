@@ -275,8 +275,21 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
         newSolutionButton.setEnabled( true );
         acidButton.setEnabled( true );
         baseButton.setEnabled( true );
+        // pH probe
+        beakerNodeLeft.setProbeVisible( true );
+        // counts
+        beakerNodeLeft.setProductMoleculeCountsVisible( false );
+        beakerNodeLeft.setReactantMoleculeCountsVisible( false );
+        // graph
+        graphNodeLeft.setReactantVisible( false );
+        graphNodeLeft.setProductVisible( false );
         // view controls
-        viewControlsNode.setModeAcidBaseQuestion();
+//        viewControlsNode.setEnabled( false );  //XXX disabled for test views
+        //TODO randomly select a view, including pH meter
+        viewControlsNode.setBeakersSelected( true );
+        viewControlsNode.setDissociatedComponentsRatioSelected( false );
+        viewControlsNode.setHydroniumHydroxideRatioSelected( true );
+        viewControlsNode.setMoleculeCountsSelected( false );
         // solution views
         solutionControlsNodeRight.setVisible( false );
         beakerNodeRight.setVisible( false );
@@ -332,12 +345,21 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
         // buttons
         newSolutionButton.setEnabled( true );
         matchButton.setEnabled( true );
+        // pH probe
+        beakerNodeLeft.setProbeVisible( true );
+        // counts
+        beakerNodeLeft.setProductMoleculeCountsVisible( true );
+        beakerNodeLeft.setReactantMoleculeCountsVisible( true );
+        // graph
+        graphNodeLeft.setReactantVisible( true );
+        graphNodeLeft.setProductVisible( true );
         // view controls
-        viewControlsNode.setModeMatchSolutionQuestion();
+        viewControlsNode.setEnabled( true );
         // solution views
         solutionControlsNodeRight.setVisible( true );
         beakerNodeRight.setVisible( viewControlsNode.isBeakersSelected() );
         graphNodeRight.setVisible( viewControlsNode.isGraphsSelected() );
+        updateView(); // do this last!
     }
     
     public void setStateMatchCorrect() {
@@ -418,13 +440,13 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
         beakerNodeLeft.setVisible( viewControlsNode.isBeakersSelected() );
         beakerNodeRight.setVisible( viewControlsNode.isBeakersSelected() && solutionControlsNodeRight.isVisible() );
         beakerNodeLeft.setDisassociatedRatioComponentsVisible( viewControlsNode.isDissociatedComponentsRatioSelected() );
-        beakerNodeRight.setDisassociatedRatioComponentsVisible( viewControlsNode.isDissociatedComponentsRatioSelected() );
+        beakerNodeRight.setDisassociatedRatioComponentsVisible( viewControlsNode.isDissociatedComponentsRatioSelected() && solutionControlsNodeRight.isVisible() );
         beakerNodeLeft.setHydroniumHydroxideRatioVisible( viewControlsNode.isHydroniumHydroxideRatioSelected() );
-        beakerNodeRight.setHydroniumHydroxideRatioVisible( viewControlsNode.isHydroniumHydroxideRatioSelected() );
+        beakerNodeRight.setHydroniumHydroxideRatioVisible( viewControlsNode.isHydroniumHydroxideRatioSelected() && solutionControlsNodeRight.isVisible() );
         beakerNodeLeft.setMoleculeCountsVisible( viewControlsNode.isMoleculeCountsSelected() );
-        beakerNodeRight.setMoleculeCountsVisible( viewControlsNode.isMoleculeCountsSelected() );
+        beakerNodeRight.setMoleculeCountsVisible( viewControlsNode.isMoleculeCountsSelected() && solutionControlsNodeRight.isVisible() );
         graphNodeLeft.setVisible( viewControlsNode.isGraphsSelected() );
-        graphNodeRight.setVisible( viewControlsNode.isGraphsSelected() );
+        graphNodeRight.setVisible( viewControlsNode.isGraphsSelected() && solutionControlsNodeRight.isVisible() );
     }
     
     //----------------------------------------------------------------------------
