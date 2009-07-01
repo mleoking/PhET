@@ -167,6 +167,7 @@ public class DatableItem implements AnimatedModelElement {
 
 	public void setRotationalAngle(double rotationalAngle) {
 		this.rotationAngle = rotationalAngle;
+		notifyRotationalAngleChanged();
 	}
 
 	public int getNumberImages() {
