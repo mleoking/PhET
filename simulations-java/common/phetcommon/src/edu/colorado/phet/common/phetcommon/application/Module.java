@@ -87,6 +87,7 @@ public abstract class Module implements Resettable {
         };
         clock.addClockListener( moduleRunner );
         this.clockRunningWhenActive = !startsPaused;
+        updateHelpPanelVisible();
     }
 
     protected JComponent createClockControlPanel( IClock clock ) {
@@ -416,13 +417,17 @@ public abstract class Module implements Resettable {
         if ( clockRunningWhenActive ) {
             clock.start();
         }
-        JComponent helpPanel = getHelpPanel();
-        if ( helpPanel != null ) {
-            helpPanel.setVisible( hasHelp() );
-        }
+        updateHelpPanelVisible();
         active = true;
         for ( int i = 0; i < listeners.size(); i++ ) {
             ((Listener)listeners.get( i )).activated();
+        }
+    }
+
+    private void updateHelpPanelVisible() {
+        JComponent helpPanel = getHelpPanel();
+        if ( helpPanel != null ) {
+            helpPanel.setVisible( hasHelp() );
         }
     }
 
