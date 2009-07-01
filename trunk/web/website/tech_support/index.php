@@ -78,6 +78,8 @@ class TroubleshootingPage extends SitePage {
 
                     <li class="faq"><a href="#q11">I have downloaded and installed the {$installer_name}, and I get a warning on every page. Why?</a></li>
 
+                    <li class="faq"><a href="#q12">When I run simulations from the {$installer_name}, I am seeing a dialog that says "The application's digital signature has been verified.  Do you want to run the application?" (or something similar).  What does this mean?</a></li>
+
                     <li class="faq"><a href="{$this->prefix}about/licensing.php">What are Licensing requirements?</a></li>
                 </ul>
             </div><br />
@@ -236,6 +238,10 @@ class TroubleshootingPage extends SitePage {
 	    <p>If you wish to disable this warning, you can do so by adjusting your browser's security settings.  For IE versions 6 and 7, the way to do this is to go into Tools->Internet Options->Advanced, find the "Security" heading, and check "Allow active content to run in files on My Computer".  Note that you will need to restart Internet Explorer to get this change to take effect.  You should only do this if feel confident that there is no other off-line content that you may run on your computer that could be malicious.</p>
 
             <p>Alternatively, you could use a different browser (such as Firefox) that does not have this issue.</p>
+
+            <h3 id="q12" >>When I run simulations from the {$installer_name}, I am seeing a dialog that says "The application's digital signature has been verified.  Do you want to run the application?" (or something similar).  What does this mean?</h3>
+            <p>The PhET simulations that are distributed with the installer include a "digital certificate" that verifies that these simulations were actually created by PhET.  This is a security measure that helps to prevent an unscrupulous individual from creating an application that claims to be produced by PhET but is not.  If the certificate acceptance dialog says that the publisher is "PhET, University of Colorado" and that the signature was validated by a trusted source, you can have a high degree of confidence that the application was produced by the PhET team.</p>
+            <p>On most systems, it is possible to permanently accept the PhET certificate and thereby prevent this dialog from appearing every time a simulation is run locally.  Most Windows and Max OSX systems have a check box on the certificate acceptance dialog that says "Always trust content from this publisher".  Checking this box will set your system up in such a way that the dialog will no longer appear when starting up PhET applications.</p>
             <p><a href="#top"><img src="{$this->prefix}images/top.gif" alt="Go to top" /></a></p>
 <br />
 <br />
