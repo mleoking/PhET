@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.model.Carbon14Nucleus;
 import edu.colorado.phet.nuclearphysics.model.Uranium238Nucleus;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -25,34 +26,87 @@ public class DatableItem implements AnimatedModelElement {
 	private double height;
 	private final double age;
 	private final String name;
-	private final String resourceImageName;
 	private double rotationAngle; // In radians.
 	private Point2D center;
-	private BufferedImage image;
+	private ArrayList<BufferedImage> images = new ArrayList<BufferedImage>();
 	private ArrayList<ModelAnimationListener> animationListeners = new ArrayList<ModelAnimationListener>();
+	private int primaryImageIndex;
+	private int secondaryImageIndex;
 
-
-	
-	public DatableItem(String name, String resourceImageName, Point2D center, double width, 
+	/**
+	 * Constructor.
+	 * 
+	 * @param name
+	 * @param resourceImageName
+	 * @param center
+	 * @param width
+	 * @param rotationAngle
+	 * @param age
+	 */
+	public DatableItem(String name, ArrayList<String> resourceImageNames, Point2D center, double width, 
 			double rotationAngle, double age) {
 		super();
+		
+		if (resourceImageNames == null || resourceImageNames.size() == 0){
+			throw new IllegalArgumentException("Must have at least one image name.");
+		}
+		
 		this.name = name;
 		this.center = new Point2D.Double(center.getX(), center.getY());
 		this.width = width;
 		this.age = age;
-		this.resourceImageName = resourceImageName;
 		this.rotationAngle = rotationAngle;
-		
-		image = NuclearPhysicsResources.getImage(resourceImageName);
-		if (rotationAngle != 0){
-			image = BufferedImageUtils.getRotatedImage(image, rotationAngle);
+
+		// Load up the images.
+		for ( String imageName : resourceImageNames ){
+			images.add(NuclearPhysicsResources.getImage(imageName));
+		}
+		primaryImageIndex = secondaryImageIndex = 0;
+		if (images.size() >= 2){
+			secondaryImageIndex = 1;
 		}
 		
 		// The height is defined by a combination of the width of the artifact
 		// and the aspect ratio of the image.
-		this.height = (double)image.getHeight() / (double)image.getWidth() * width;
+		this.height = (double)images.get(primaryImageIndex).getHeight() 
+			/ (double)images.get(primaryImageIndex).getWidth() * width;
+	}
+	
+	/**
+	 * Constructor with only one image name.
+	 * 
+	 * @param name
+	 * @param resourceImageName
+	 * @param center
+	 * @param width
+	 * @param rotationAngle
+	 * @param age
+	 */
+	public DatableItem(String name, String resourceImageName, Point2D center, double width, 
+			double rotationAngle, double age) {
+		super();
+		
+		this.name = name;
+		this.center = new Point2D.Double(center.getX(), center.getY());
+		this.width = width;
+		this.age = age;
+		this.rotationAngle = rotationAngle;
+
+		// Load up the image.
+		BufferedImage image = NuclearPhysicsResources.getImage(resourceImageName);
+		if (rotationAngle != 0){
+			image = BufferedImageUtils.getRotatedImage(image, rotationAngle);
+		}
+		images.add(image);
+		primaryImageIndex = secondaryImageIndex = 0;
+		
+		// The height is defined by a combination of the width of the artifact
+		// and the aspect ratio of the image.
+		this.height = (double)images.get(primaryImageIndex).getHeight() 
+			/ (double)images.get(primaryImageIndex).getWidth() * width;
 	}
 
+	
 	public Point2D getPosition() {
 		return new Point2D.Double(center.getX(), center.getY());
 	}
@@ -113,18 +167,10 @@ public class DatableItem implements AnimatedModelElement {
 		}
 	}
 	
-	public String getResourceImageName() {
-		return resourceImageName;
-	}
-
 	public BufferedImage getImage() {
-		return image;
+		return images.get(primaryImageIndex);
 	}
 	
-	protected void setImage( BufferedImage newImage ){
-		image = newImage;
-	}
-
 	public String getName() {
 		return name;
 	}

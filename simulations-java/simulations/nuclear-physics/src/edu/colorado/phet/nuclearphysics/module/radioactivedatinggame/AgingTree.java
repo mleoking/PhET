@@ -24,9 +24,16 @@ public class AgingTree extends DatableItem implements Cleanupable {
     // Class Data
     //------------------------------------------------------------------------
 	
-	private static final String NAME = "Aging Tree"; // For debugging, no need to translate. 
+	private static final String NAME = "Aging Tree"; // For debugging, no need to translate.
+	
+	// Images to use to portray the tree.
+	private static final ArrayList<String> IMAGES = new ArrayList<String>();
 	private static final String LIVING_TREE_IMAGE_NAME = "tree_1.png";
 	private static final String DEAD_TREE_IMAGE_NAME = "dead_tree.png";
+	static {
+		IMAGES.add(LIVING_TREE_IMAGE_NAME);
+		IMAGES.add(DEAD_TREE_IMAGE_NAME);
+	}
 	
 	// Age adjustment factor - used to convert the amount of simulation time
 	// into the age of the item so that users don't have to wait around for
@@ -50,7 +57,7 @@ public class AgingTree extends DatableItem implements Cleanupable {
     //------------------------------------------------------------------------
 	
 	public AgingTree(ConstantDtClock clock, Point2D center, double width) {
-		super(NAME, LIVING_TREE_IMAGE_NAME, center, width, 0, 0);
+		super(NAME, IMAGES, center, width, 0, 0);
 		_clock = clock;
 		
 		// Create the adapter that will listen to the clock.
