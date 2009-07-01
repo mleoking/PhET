@@ -3,14 +3,16 @@
 ==================================================================================
 
 TODO:
+- remove "Concentration: 0" for "no solute" ?
 - redo layout of Matching Game canvas
 - first time a module is activated, canvas updateLayout is called twice (AncestorListener+ComponentListener), other sims only call once (AncestorListener)
-- make symbol legend descriptions automatically wrap, so we don't been breaks in HTML markup
+- make symbol legend descriptions automatically wrap, so we don't need breaks in HTML markup
 
 ISSUES:
 - CM: layout change of play area is annoying when switching solutes, due to label changes in beaker's View control panel
 
 DONE:
+6/30/09 fix: selecting "no solute" throws NullPointerException in RatioCheckBox
 6/30/09 rename keys and constants for localized strings related to Matching Game
 6/30/09 constrain precision of random concentration values so that clicking in concentration textfield doesn't cause an update
 6/30/09 handle greying out of disabled "chemical ion ration" check box, see #1704
