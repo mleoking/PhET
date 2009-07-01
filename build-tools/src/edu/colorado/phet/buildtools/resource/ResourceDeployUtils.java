@@ -76,7 +76,7 @@ public class ResourceDeployUtils {
      */
     public static File[] getJavaSimulationDirs( File trunk ) {
         if ( DEBUG ) {
-            return new File[]{new File( trunk, BuildToolsPaths.JAVA_SIMULATIONS_DIR + "/test-project" )};
+            return new File[]{new File( trunk, BuildToolsPaths.JAVA_SIMULATIONS_DIR + "/conductivity" )};
         }
         else {
             File simsDir = new File( trunk, BuildToolsPaths.JAVA_SIMULATIONS_DIR );
@@ -100,7 +100,7 @@ public class ResourceDeployUtils {
 
     public static File[] getFlashSimulationDirs( File trunk ) {
         if ( DEBUG ) {
-            return new File[]{new File( trunk, BuildToolsPaths.FLASH_SIMULATIONS_DIR + "/test-flash-project" )};
+            return new File[]{new File( trunk, BuildToolsPaths.FLASH_SIMULATIONS_DIR + "/curve-fitting" )};
         }
         else {
             File simsDir = new File( trunk, BuildToolsPaths.FLASH_SIMULATIONS_DIR );
