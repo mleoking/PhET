@@ -28,7 +28,7 @@ public class DatableItem implements AnimatedModelElement {
 	private final double rotationAngle; // In radians.
 	private Point2D center;
 	private BufferedImage image;
-	private ArrayList<AnimationListener> animationListeners = new ArrayList<AnimationListener>();
+	private ArrayList<ModelAnimationListener> animationListeners = new ArrayList<ModelAnimationListener>();
 
 
 	
@@ -60,7 +60,7 @@ public class DatableItem implements AnimatedModelElement {
 		center = new Point2D.Double(centerPoint.getX(), centerPoint.getY());
 	}
 	
-	public void addAnimationListener(AnimationListener listener) {
+	public void addAnimationListener(ModelAnimationListener listener) {
 		if (!animationListeners.contains(listener)){
 			animationListeners.add(listener);
 		}
@@ -155,7 +155,7 @@ public class DatableItem implements AnimatedModelElement {
 		animationListeners.clear();
 	}
 
-	public boolean removeAnimationListener(AnimationListener listener) {
+	public boolean removeAnimationListener(ModelAnimationListener listener) {
 		return animationListeners.remove(listener);
 	}
 }
