@@ -51,8 +51,6 @@ public class ShrubNode extends NaturalSelectionSprite implements Rescalable {
 
         rescale();
 
-        //addChild( new DebugCross() );
-
     }
 
     public void rescale() {

@@ -22,20 +22,14 @@ public class NaturalSelectionControlPanel extends JPanel {
 
     // main panels
     private JPanel rightPanel;
-    //public GenerationChartCanvas generationCanvas;
-    //public GenerationChartPanel generationPanel;
     public BunnyStatsPanel bunnyStatsPanel;
     private LeftPanel leftPanel;
 
     // subpanels
     public ClimatePanel climatePanel;
     public SelectionPanel selectionPanel;
-    //private JPanel selectionPanel;
 
     // buttons
-    //public JRadioButton wolvesButton;
-    //public JRadioButton foodButton;
-    //public JRadioButton noneButton;
     public JButton resetAllButton;
     public JButton showGenerationChartButton;
 
@@ -62,11 +56,8 @@ public class NaturalSelectionControlPanel extends JPanel {
         selectionPanel = new SelectionPanel( this.model );
         PiccoloClockControlPanel clockControlPanel = new PiccoloClockControlPanel( this.module.getClock() );
         clockControlPanel.addBetweenTimeDisplayAndButtons( new GenerationProgressPanel( model ) );
-        //createSelectionPanel();
         createRightPanel();
         leftPanel = new LeftPanel( this.model );
-        //generationCanvas = new GenerationChartCanvas( this.model );
-        //generationPanel = new GenerationChartPanel( this.model );
         bunnyStatsPanel = new BunnyStatsPanel( this.model );
         LogoPanel logoPanel = new LogoPanel();
         logoPanel.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
@@ -125,45 +116,8 @@ public class NaturalSelectionControlPanel extends JPanel {
         //noneButton.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
     }
 
-    /**
-     * Created the panel that allows the user to choose which selection factor they want
-     */
-    /*
-    public void createSelectionPanel() {
-        selectionPanel = new JPanel();
-        selectionPanel.setLayout( new BoxLayout( selectionPanel, BoxLayout.Y_AXIS ) );
-        selectionPanel.add( new JLabel( NaturalSelectionStrings.SELECTION_FACTOR ) );
-        wolvesButton = new JRadioButton( NaturalSelectionStrings.WOLVES );
-        selectionPanel.add( wolvesButton );
-        foodButton = new JRadioButton( NaturalSelectionStrings.FOOD );
-        selectionPanel.add( foodButton );
-        noneButton = new JRadioButton( NaturalSelectionStrings.NONE );
-        selectionPanel.add( noneButton );
-
-        ButtonGroup group = new ButtonGroup();
-        group.add( wolvesButton );
-        group.add( foodButton );
-        group.add( noneButton );
-
-        selectDefaultSelectionFactor();
-    }
-    */
     public void selectDefaultSelectionFactor() {
         selectionPanel.selectDefaultSelectionFactor();
-        /*
-        int selection = NaturalSelectionDefaults.DEFAULT_SELECTION_FACTOR;
-        switch( selection ) {
-            case NaturalSelectionModel.SELECTION_NONE:
-                noneButton.setSelected( true );
-                break;
-            case NaturalSelectionModel.SELECTION_FOOD:
-                foodButton.setSelected( true );
-                break;
-            case NaturalSelectionModel.SELECTION_WOLVES:
-                wolvesButton.setSelected( true );
-                break;
-        }
-        */
     }
 
     /**
@@ -192,7 +146,6 @@ public class NaturalSelectionControlPanel extends JPanel {
     public void reset() {
         climatePanel.reset();
         selectDefaultSelectionFactor();
-        //generationPanel.reset();
         bunnyStatsPanel.reset();
         leftPanel.reset();
     }

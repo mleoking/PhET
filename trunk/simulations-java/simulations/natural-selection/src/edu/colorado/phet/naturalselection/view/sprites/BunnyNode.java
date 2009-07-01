@@ -46,8 +46,6 @@ public class BunnyNode extends NaturalSelectionSprite implements Bunny.Listener 
 
         setBunnyOffset();
 
-        //addChild( new DebugCross() );
-
         rescale();
     }
 

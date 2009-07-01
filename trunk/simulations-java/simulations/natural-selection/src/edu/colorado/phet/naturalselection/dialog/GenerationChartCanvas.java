@@ -25,11 +25,8 @@ public class GenerationChartCanvas extends PhetPCanvas {
     private PNode rootNode;
 
     private static final double TOP_PADDING = 5.0;
-    //public JButton statsButton;
 
     private static final double PEDIGREE_TOP_PADDING = 30.0;
-    //private PText title;
-    //private GenerationCountNode generationCount;
 
     /**
      * Constructor
@@ -55,17 +52,6 @@ public class GenerationChartCanvas extends PhetPCanvas {
         rootNode.addChild( pedigreeNode );
 
         pedigreeNode.setOffset( new Point2D.Double( 0, PEDIGREE_TOP_PADDING ) );
-
-        /*
-        title = new PText( "Generation Chart" );
-        title.setFont( new PhetFont( 16, true ) );
-        title.translate( ( getPreferredSize().getWidth() - title.getWidth() ) / 2, TOP_PADDING );
-        rootNode.addChild( title );
-
-        generationCount = new GenerationCountNode( model );
-        generationCount.translate( getPreferredSize().getWidth() - generationCount.getTextWidth() - 20, TOP_PADDING );
-        rootNode.addChild( generationCount );
-        */
 
         setCenterPoint( 0 );
 

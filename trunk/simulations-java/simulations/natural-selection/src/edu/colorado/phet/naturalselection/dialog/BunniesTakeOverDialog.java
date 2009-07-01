@@ -61,22 +61,5 @@ public class BunniesTakeOverDialog extends JDialog {
 
         pack();
 
-        /*
-        ( new Thread() {
-            @Override
-            public void run() {
-                for ( int i = 1; i < 15; i++ ) {
-                    try {
-                        Thread.sleep( 100 );
-                        root.addChild( NaturalSelectionResources.getImageNode( "earth-v1-bunnies-" + String.valueOf( i ) + ".png" ) );
-                        panel.repaint();
-                    }
-                    catch( InterruptedException e ) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        } ).start();
-        */
     }
 }

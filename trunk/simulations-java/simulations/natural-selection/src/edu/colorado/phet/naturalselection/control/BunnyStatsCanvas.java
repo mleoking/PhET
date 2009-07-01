@@ -157,14 +157,6 @@ public class BunnyStatsCanvas extends PhetPCanvas {
             }
         } );
 
-        /*
-        chart.addChangeListener( new ChartChangeListener() {
-            public void chartChanged( ChartChangeEvent event ) {
-                System.out.println( "Chart changed" );
-            }
-        } );
-        */
-
     }
 
     public void reset() {
