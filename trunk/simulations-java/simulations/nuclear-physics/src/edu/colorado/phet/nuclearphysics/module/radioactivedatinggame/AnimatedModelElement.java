@@ -8,10 +8,10 @@ import java.awt.image.BufferedImage;
 
 /**
  * This interface allows callers to obtain information about an animated
- * element, such as its position, its rotational angle, the image that should
- * be used to portray the element, etc.
+ * model element, such as its position, its rotational angle, the image that
+ * should be used to portray the element, etc.
  * 
- * @author John
+ * @author John Blanco
  *
  */
 public interface AnimatedModelElement {
@@ -47,14 +47,14 @@ public interface AnimatedModelElement {
 	 * 
 	 * @param listener
 	 */
-	public void addAnimationListener( AnimationListener listener );
+	public void addAnimationListener( ModelAnimationListener listener );
 	
 	/**
 	 * Remove the designated listener from the list of listeners.
 	 * @param listener
 	 * @return
 	 */
-	public boolean removeAnimationListener( AnimationListener listener );
+	public boolean removeAnimationListener( ModelAnimationListener listener );
 	
 	/**
 	 * Remove all animation listeners for this animated element.
