@@ -87,7 +87,7 @@ public class ModelAnimationDeltaInterpreter {
 			// The fade amount needs to be updated.
 			modelElement.setFadeFactor(modelElement.getFadeFactor() + delta.getFadeFactorDelta());
 		}
-		if ( delta.getPositionDelta().getX() != 0 || delta.getPositionDelta().getY() != 0 ){
+		if ( delta.getPositionDelta() != null  ){
 			// The position needs to be updated.
 			double xPos = modelElement.getPosition().getX() + delta.getPositionDelta().getX();
 			double yPos = modelElement.getPosition().getY() + delta.getPositionDelta().getY();
