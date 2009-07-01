@@ -15,16 +15,18 @@ import java.awt.geom.Point2D;
  */
 public class ModelAnimationDelta {
 
+	private final double time;
 	private final Point2D positionDelta;
 	private final double rotationDelta;
 	private final double sizeChangeFactor;
-	private final double primaryImageIndexDelta;
-	private final double secondaryImageIndexDelta;
+	private final int primaryImageIndexDelta;
+	private final int secondaryImageIndexDelta;
 	private final double fadeFactorDelta;
 	
 	/**
 	 * Constructor.
 	 * 
+	 * @param time
 	 * @param positionDelta
 	 * @param rotationDelta
 	 * @param sizeChangeFactor
@@ -32,16 +34,20 @@ public class ModelAnimationDelta {
 	 * @param secondaryImageIndexDelta
 	 * @param fadeFactorDelta
 	 */
-	public ModelAnimationDelta(Point2D positionDelta, double rotationDelta,
-			double sizeChangeFactor, double primaryImageIndexDelta,
-			double secondaryImageIndexDelta, double fadeFactorDelta) {
+	public ModelAnimationDelta(double time, Point2D positionDelta, double rotationDelta, double sizeChangeFactor,
+			int primaryImageIndexDelta, int secondaryImageIndexDelta, double fadeFactorDelta) {
 		super();
+		this.time = time;
 		this.positionDelta = positionDelta;
 		this.rotationDelta = rotationDelta;
 		this.sizeChangeFactor = sizeChangeFactor;
 		this.primaryImageIndexDelta = primaryImageIndexDelta;
 		this.secondaryImageIndexDelta = secondaryImageIndexDelta;
 		this.fadeFactorDelta = fadeFactorDelta;
+	}
+
+	public double getTime() {
+		return time;
 	}
 
 	public Point2D getPositionDelta() {
@@ -56,11 +62,11 @@ public class ModelAnimationDelta {
 		return sizeChangeFactor;
 	}
 
-	public double getPrimaryImageIndexDelta() {
+	public int getPrimaryImageIndexDelta() {
 		return primaryImageIndexDelta;
 	}
 
-	public double getSecondaryImageIndexDelta() {
+	public int getSecondaryImageIndexDelta() {
 		return secondaryImageIndexDelta;
 	}
 
