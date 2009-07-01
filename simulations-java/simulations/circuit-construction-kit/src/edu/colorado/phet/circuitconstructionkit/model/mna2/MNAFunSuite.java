@@ -9,8 +9,7 @@ import java.util.HashMap;
 public class MNAFunSuite extends TestCase {
     public void test_battery_resistor_circuit_should_have_correct_voltages_and_currents_for_a_simple_circuit() {
         MNA.Battery battery = new MNA.Battery(0, 1, 4.0);
-        MNA.Resistor[] resistors = new MNA.Resistor[]{new MNA.Resistor(1, 0, 4)};
-        MNA.Circuit circuit = new MNA.Circuit(Arrays.asList(battery), Arrays.asList(resistors));
+        MNA.Circuit circuit = new MNA.Circuit(Arrays.asList(battery), Arrays.asList(new MNA.Resistor(1, 0, 4)));
         HashMap<Integer, Double> voltageMap = new HashMap<Integer, Double>();
         voltageMap.put(0, 0.0);
         voltageMap.put(1, 4.0);
@@ -27,9 +26,7 @@ public class MNAFunSuite extends TestCase {
 
     public void test_battery_resistor_circuit_should_have_correct_voltages_and_currents_for_a_simple_circuit_ii() {
         MNA.Battery battery = new MNA.Battery(0, 1, 4.0);
-        MNA.Battery[] batteries = new MNA.Battery[]{battery};
-        MNA.Resistor[] resistors = new MNA.Resistor[]{new MNA.Resistor(1, 0, 2)};
-        MNA.Circuit circuit = new MNA.Circuit(Arrays.asList(batteries), Arrays.asList(resistors));
+        MNA.Circuit circuit = new MNA.Circuit(Arrays.asList(battery), Arrays.asList(new MNA.Resistor(1, 0, 2)));
         HashMap<Integer, Double> voltageMap = new HashMap<Integer, Double>();
         voltageMap.put(0, 0.0);
         voltageMap.put(1, 4.0);
@@ -42,10 +39,8 @@ public class MNAFunSuite extends TestCase {
 
     public void test_should_be_able_to_obtain_current_for_a_resistor() {
         MNA.Battery battery = new MNA.Battery(0, 1, 4.0);
-        MNA.Battery[] batteries = new MNA.Battery[]{battery};
         MNA.Resistor resistor = new MNA.Resistor(1, 0, 2);
-        MNA.Resistor[] resistors = new MNA.Resistor[]{resistor};
-        MNA.Circuit circuit = new MNA.Circuit(Arrays.asList(batteries), Arrays.asList(resistors));
+        MNA.Circuit circuit = new MNA.Circuit(Arrays.asList(battery), Arrays.asList(resistor));
         HashMap<Integer, Double> voltageMap = new HashMap<Integer, Double>();
         voltageMap.put(0, 0.0);
         voltageMap.put(1, 4.0);
@@ -74,9 +69,7 @@ public class MNAFunSuite extends TestCase {
     public void test_disjoint_circuits_should_be_solved_independently() {
         MNA.Battery battery = new MNA.Battery(0, 1, 4.0);
         MNA.Battery battery2 = new MNA.Battery(2, 3, 5.0);
-        MNA.Battery[] batteries = new MNA.Battery[]{battery, battery2};
-        MNA.Resistor[] resistors = new MNA.Resistor[]{new MNA.Resistor(1, 0, 4), new MNA.Resistor(3, 2, 2)};
-        MNA.Circuit circuit = new MNA.Circuit(Arrays.asList(batteries), Arrays.asList(resistors));
+        MNA.Circuit circuit = new MNA.Circuit(Arrays.asList(battery, battery2), Arrays.asList(new MNA.Resistor(1, 0, 4), new MNA.Resistor(3, 2, 2)));
         HashMap<Integer, Double> voltageMap = new HashMap<Integer, Double>();
         voltageMap.put(0, 0.0);
         voltageMap.put(1, 4.0);
@@ -91,9 +84,7 @@ public class MNAFunSuite extends TestCase {
     }
 
     public void test_current_source_should_provide_current() {
-        MNA.Resistor[] resistors = new MNA.Resistor[]{new MNA.Resistor(1, 0, 4)};
-        MNA.CurrentSource[] currentSources = new MNA.CurrentSource[]{new MNA.CurrentSource(0, 1, 10.0)};
-        MNA.Circuit circuit = new MNA.Circuit(new ArrayList<MNA.Battery>(), Arrays.asList(resistors), Arrays.asList(currentSources));
+        MNA.Circuit circuit = new MNA.Circuit(new ArrayList<MNA.Battery>(), Arrays.asList(new MNA.Resistor(1, 0, 4)), Arrays.asList(new MNA.CurrentSource(0, 1, 10.0)));
         HashMap<Integer, Double> voltageMap = new HashMap<Integer, Double>();
         voltageMap.put(0, 0.0);
         voltageMap.put(1, 10.0 * 4.0);
