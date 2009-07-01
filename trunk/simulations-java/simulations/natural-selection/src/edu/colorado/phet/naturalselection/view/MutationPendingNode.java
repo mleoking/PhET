@@ -6,6 +6,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.layout.SwingLayoutNode;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionResources;
+import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
 import edu.colorado.phet.naturalselection.model.ColorGene;
 import edu.colorado.phet.naturalselection.model.Gene;
 import edu.colorado.phet.naturalselection.model.TailGene;
@@ -27,7 +28,7 @@ public class MutationPendingNode extends PNode {
         geneImage = NaturalSelectionResources.getImageNode( getImageString( gene ) );
         mutationImage = NaturalSelectionResources.getImageNode( NaturalSelectionConstants.IMAGE_MUTATION_PANEL_LARGE );
 
-        label = new PText( "mutation coming" );
+        label = new PText( NaturalSelectionStrings.MUTATION_COMING );
         label.setFont( new PhetFont( 16, true ) );
         //addChild( label );
 

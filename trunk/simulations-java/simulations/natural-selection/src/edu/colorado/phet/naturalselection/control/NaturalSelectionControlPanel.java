@@ -10,7 +10,6 @@ import edu.colorado.phet.common.phetcommon.view.LogoPanel;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
-import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
 import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
 import edu.colorado.phet.naturalselection.module.NaturalSelectionModule;
 
@@ -149,7 +148,6 @@ public class NaturalSelectionControlPanel extends JPanel {
         selectDefaultSelectionFactor();
     }
     */
-
     public void selectDefaultSelectionFactor() {
         selectionPanel.selectDefaultSelectionFactor();
         /*

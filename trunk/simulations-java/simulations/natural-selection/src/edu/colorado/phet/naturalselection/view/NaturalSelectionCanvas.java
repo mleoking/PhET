@@ -89,7 +89,7 @@ public class NaturalSelectionCanvas extends PhetPCanvas {
             return;
         }
         else if ( NaturalSelectionConstants.DEBUG_CANVAS_UPDATE_LAYOUT ) {
-            System.out.println( "NaturalSelectionCanvas.updateLayout worldSize=" + worldSize );//XXX
+            //System.out.println( "NaturalSelectionCanvas.updateLayout worldSize=" + worldSize );//XXX
         }
 
         // layout everything

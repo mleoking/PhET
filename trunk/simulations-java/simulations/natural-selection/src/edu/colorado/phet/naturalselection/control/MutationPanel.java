@@ -8,6 +8,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionResources;
+import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
 import edu.colorado.phet.naturalselection.model.*;
 import edu.colorado.phet.naturalselection.util.ImagePanel;
 
@@ -30,13 +31,13 @@ public class MutationPanel extends JPanel {
         tailMutationIndicator.setVisible( false );
         teethMutationIndicator.setVisible( false );
 
-        colorButton = new JButton( "Brown Fur", new ImageIcon( NaturalSelectionResources.getImage( NaturalSelectionConstants.IMAGE_BUNNY_COLOR_BROWN ) ) );
+        colorButton = new JButton( NaturalSelectionStrings.GENE_COLOR_BROWN, new ImageIcon( NaturalSelectionResources.getImage( NaturalSelectionConstants.IMAGE_BUNNY_COLOR_BROWN ) ) );
         colorButton.setHorizontalTextPosition( SwingConstants.LEFT );
 
-        tailButton = new JButton( "Fuzzy Tail", new ImageIcon( NaturalSelectionResources.getImage( NaturalSelectionConstants.IMAGE_BUNNY_TAIL_SHORT ) ) );
+        tailButton = new JButton( NaturalSelectionStrings.GENE_TAIL_LONG, new ImageIcon( NaturalSelectionResources.getImage( NaturalSelectionConstants.IMAGE_BUNNY_TAIL_SHORT ) ) );
         tailButton.setHorizontalTextPosition( SwingConstants.LEFT );
 
-        teethButton = new JButton( "Long Teeth", new ImageIcon( NaturalSelectionResources.getImage( NaturalSelectionConstants.IMAGE_BUNNY_TEETH_LONG ) ) );
+        teethButton = new JButton( NaturalSelectionStrings.GENE_TEETH_LONG, new ImageIcon( NaturalSelectionResources.getImage( NaturalSelectionConstants.IMAGE_BUNNY_TEETH_LONG ) ) );
         teethButton.setHorizontalTextPosition( SwingConstants.LEFT );
 
         GridBagConstraints c = new GridBagConstraints();

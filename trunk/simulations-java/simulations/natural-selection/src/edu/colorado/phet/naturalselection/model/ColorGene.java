@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.naturalselection.model;
 
+import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
+
 /**
  * The gene for different colors of fur (singleton)
  *
@@ -9,8 +11,8 @@ package edu.colorado.phet.naturalselection.model;
  */
 public class ColorGene extends Gene {
     // fur alleles (also used for phenotypes)
-    public static final Allele WHITE_ALLELE = new Allele( "White Fur" );
-    public static final Allele BROWN_ALLELE = new Allele( "Brown Fur" );
+    public static final Allele WHITE_ALLELE = new Allele( NaturalSelectionStrings.GENE_COLOR_WHITE );
+    public static final Allele BROWN_ALLELE = new Allele( NaturalSelectionStrings.GENE_COLOR_BROWN );
 
     private ColorGene() {
         super( WHITE_ALLELE, BROWN_ALLELE );
@@ -59,6 +61,6 @@ public class ColorGene extends Gene {
      * @return The name of the gene
      */
     public String getName() {
-        return "Fur";
+        return NaturalSelectionStrings.GENE_COLOR_NAME;
     }
 }
