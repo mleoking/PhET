@@ -181,9 +181,9 @@ public class ResourceDeployServer implements IProguardKeepClass {
     }
 
     private void modifyJnlp( File jnlpFile ) throws IOException {
-        String str = FileUtils.loadFileAsString( jnlpFile );
+        String str = FileUtils.loadFileAsString( jnlpFile, "utf-16" );
         str = str.replace( "http://phet.colorado.edu/sims", "http://phet.colorado.edu/sims/resources/" + resourceDir.getName() + "/test" );
-        FileUtils.writeString( jnlpFile, str );
+        FileUtils.writeString( jnlpFile, str, "utf-16" );
     }
 
     private void createBackupJARs() throws IOException {
