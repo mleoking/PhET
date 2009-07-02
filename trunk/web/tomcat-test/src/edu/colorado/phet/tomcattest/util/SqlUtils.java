@@ -162,4 +162,12 @@ public class SqlUtils {
         }
     }
 
+    public static WebSimulation getBestSimulation( ServletContext context, String project, String simulation, Locale locale ) {
+        WebSimulation ret = getSingleSimulation( context, project, simulation, locale );
+        if ( ret == null ) {
+            ret = getSingleSimulation( context, project, simulation, LocaleUtils.stringToLocale( "en" ) );
+        }
+        return ret;
+    }
+
 }

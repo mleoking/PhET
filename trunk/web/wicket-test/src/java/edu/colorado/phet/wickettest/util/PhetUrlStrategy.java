@@ -34,6 +34,7 @@ public class PhetUrlStrategy implements IRequestTargetUrlCodingStrategy {
         System.out.println( "Path: " + requestParameters.getPath() );
         System.out.println( "ComponentPath: " + requestParameters.getComponentPath() );
         PageParameters params = new PageParameters( requestParameters.getParameters() );
+        params.add( "path", requestParameters.getPath() );
         params.add( "localeString", localeString );
         String strippedPath = stripPath( requestParameters.getPath() );
         Class toClass = mapper.getMappedClass( strippedPath );
