@@ -1,3 +1,4 @@
+# 2.05.06 (32959) Jul 1, 2009
 > Added Joules and meters on the Energy vs. Position graph
 > Improvements for internationalization
 # 2.05.05 (32357) Jun 9, 2009
