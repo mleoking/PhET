@@ -389,6 +389,8 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
         viewControlsNode.setEnabled( true );
         // solution views
         solutionControlsNodeRight.setVisible( true );
+        solutionControlsNodeRight.setConcentrationControlEnabled( true );
+        solutionControlsNodeRight.setStrengthControlEnabled( true );
         beakerNodeRight.setVisible( viewControlsNode.isBeakersSelected() );
         graphNodeRight.setVisible( viewControlsNode.isGraphsSelected() );
         updateView(); // do this last!
@@ -403,7 +405,8 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
         newSolutionButton.setEnabled( true );
         matchButton.setEnabled( false );
         // freeze solution controls
-        solutionControlsNodeRight.setAllControlsEnabled( false );
+        solutionControlsNodeRight.setConcentrationControlEnabled( false );
+        solutionControlsNodeRight.setStrengthControlEnabled( false );
     }
     
     public void setStateMatchWrong() {
@@ -415,14 +418,16 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
         newSolutionButton.setEnabled( false );
         matchButton.setEnabled( false );
         // freeze solution controls
-        solutionControlsNodeRight.setAllControlsEnabled( false );
+        solutionControlsNodeRight.setConcentrationControlEnabled( false );
+        solutionControlsNodeRight.setStrengthControlEnabled( false );
         // pause, then advance automatically to next state
         waitCursor();
         Timer timer = new StateTimer( TIMER_DELAY );
         timer.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 setStateMatchQuestion();
-                solutionControlsNodeRight.setAllControlsEnabled( true );
+                solutionControlsNodeRight.setConcentrationControlEnabled( true );
+                solutionControlsNodeRight.setStrengthControlEnabled( true );
                 defaultCursor();
             }
         });
