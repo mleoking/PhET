@@ -7,6 +7,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
@@ -45,7 +46,7 @@ public class DatableItem implements AnimatedModelElement {
 	 * @param rotationAngle
 	 * @param age
 	 */
-	public DatableItem(String name, ArrayList<String> resourceImageNames, Point2D center, double width, 
+	public DatableItem(String name, List<String> resourceImageNames, Point2D center, double width, 
 			double rotationAngle, double age) {
 		super();
 		
