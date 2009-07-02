@@ -9,6 +9,7 @@ import org.apache.wicket.markup.html.list.ListView;
 
 import edu.colorado.phet.tomcattest.WebSimulation;
 import edu.colorado.phet.wickettest.SimulationModel;
+import edu.colorado.phet.wickettest.util.PhetLink;
 import edu.colorado.phet.wickettest.util.PhetPage;
 
 public class SimulationList extends PhetPage {
@@ -20,7 +21,11 @@ public class SimulationList extends PhetPage {
         ListView simulationList = new ListView( "simulation-list", models ) {
             protected void populateItem( ListItem item ) {
                 WebSimulation simulation = (WebSimulation) ( ( (SimulationModel) ( item.getModel().getObject() ) ).getObject() );
-                item.add( new Label( "title", simulation.getTitle() ) );
+
+                Label title = new Label( "title", simulation.getTitle() );
+                PhetLink link = SimulationPage.createLink( "simulation-link", getMyLocale(), simulation );
+                link.add( title );
+                item.add( link );
             }
         };
         add( simulationList );
