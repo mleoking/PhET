@@ -7,6 +7,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
@@ -69,7 +70,7 @@ public class DatableItem implements AnimatedModelElement {
 			secondaryImageIndex = 1;
 		}
 		
-		// The height is defined by a combination of the width of the artifact
+		// The height is defined by a combination of the prescribed width and
 		// and the aspect ratio of the image.
 		this.height = (double)images.get(primaryImageIndex).getHeight() 
 			/ (double)images.get(primaryImageIndex).getWidth() * width;
@@ -87,26 +88,7 @@ public class DatableItem implements AnimatedModelElement {
 	 */
 	public DatableItem(String name, String resourceImageName, Point2D center, double width, 
 			double rotationAngle, double age) {
-		super();
-		
-		this.name = name;
-		this.center = new Point2D.Double(center.getX(), center.getY());
-		this.width = width;
-		this.age = age;
-		this.rotationAngle = rotationAngle;
-
-		// Load up the image.
-		BufferedImage image = NuclearPhysicsResources.getImage(resourceImageName);
-		if (rotationAngle != 0){
-			image = BufferedImageUtils.getRotatedImage(image, rotationAngle);
-		}
-		images.add(image);
-		primaryImageIndex = secondaryImageIndex = 0;
-		
-		// The height is defined by a combination of the width of the artifact
-		// and the aspect ratio of the image.
-		this.height = (double)images.get(primaryImageIndex).getHeight() 
-			/ (double)images.get(primaryImageIndex).getWidth() * width;
+		this(name, Arrays.asList(resourceImageName), center, width, rotationAngle, age);
 	}
 
 	
