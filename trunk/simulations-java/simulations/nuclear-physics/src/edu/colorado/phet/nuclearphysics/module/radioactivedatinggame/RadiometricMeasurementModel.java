@@ -6,6 +6,8 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
@@ -33,6 +35,8 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
 	private static final double  INITIAL_TREE_WIDTH = 7;
 	private static final Point2D INITIAL_VOLCANO_POSITION = new Point2D.Double(13, 0);
 	private static final double  INITIAL_VOLCANO_WIDTH = 12;
+	private static final Point2D INITIAL_AGING_ROCK_POSITION = new Point2D.Double(13, 3);
+	private static final double  INITIAL_AGING_ROCK_WIDTH = 1;
 	private static final Point2D INITIAL_PROBE_TIP_POSITION = new Point2D.Double(0, 10);
 	
     //------------------------------------------------------------------------
@@ -44,6 +48,7 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
 	private ConstantDtClock _clock;
 	private ArrayList<Listener> _listeners = new ArrayList<Listener>();
 	private ArrayList<AnimatedModelElement> _animatedModelElements = new ArrayList<AnimatedModelElement>();
+	private boolean agingRockAdded = false;
 
     //------------------------------------------------------------------------
     // Constructor
@@ -52,6 +57,13 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
     public RadiometricMeasurementModel(NuclearPhysicsClock clock)
     {
     	_clock = clock;
+    	
+    	// Register for clock ticks.
+    	_clock.addClockListener(new ClockAdapter(){
+    	    public void clockTicked( ClockEvent clockEvent ) {
+    	    	handleClockTicked();
+    	    }
+    	});
     	
     	// Add the meter and register for user-initiated movements.
     	_meter = new RadiometricDatingMeter( this, INITIAL_PROBE_TIP_POSITION );
@@ -113,6 +125,9 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
 			_clock.stop();
 			_clock.resetSimulationTime();
 			
+			// Reset state.
+			agingRockAdded = false;
+			
 			// Remove all existing model elements.
 			Iterator<AnimatedModelElement> itr = _animatedModelElements.iterator();
 			while (itr.hasNext()){
@@ -160,6 +175,18 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
 		// Start the clock, which the model elements will listen to and do
 		// their thing.
 		_clock.start();
+	}
+	
+	private void handleClockTicked(){
+		if (_simulationMode == SIMULATION_MODE.ROCK){
+			// In this mode, additional model elements are added at various times.
+			if (_clock.getSimulationTime() > 1000 && !agingRockAdded){
+				// Add the aging rock to the sim.
+				_animatedModelElements.add(new AgingRock(_clock, INITIAL_AGING_ROCK_POSITION, INITIAL_AGING_ROCK_WIDTH));
+				notifyModelElementAdded();
+				agingRockAdded = true;
+			}
+		}
 	}
 	
 	/**
