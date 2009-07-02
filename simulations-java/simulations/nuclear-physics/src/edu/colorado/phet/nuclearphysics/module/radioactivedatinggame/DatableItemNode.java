@@ -22,7 +22,7 @@ public class DatableItemNode extends PNode {
 	
 	private final DatableItem datableItem;
 	private final ModelViewTransform2D mvt;
-	private final PImage image;
+	private PImage image = null;
 	
 	// For debugging of placement, turns on a name so users can tell what's what.
 	private final boolean SHOW_NAME = false;
@@ -44,7 +44,7 @@ public class DatableItemNode extends PNode {
 		datableItem.addAnimationListener(new ModelAnimationListener(){
 
 			public void imageChanged() {
-				// TODO Auto-generated method stub
+				updateImage();
 			}
 
 			public void positionChanged() {
@@ -59,12 +59,9 @@ public class DatableItemNode extends PNode {
 				handleSizeChanged();
 			}
 		});
+
+		updateImage();
 		
-		// Load up the initial image.
-		image = new PImage( datableItem.getImage() );
-		Point2D desiredSize = mvt.modelToViewDifferentialDouble(datableItem.getWidth(), datableItem.getHeight());
-		image.scale(desiredSize.getX() / image.getFullBoundsReference().getWidth());
-		addChild(image);
 		if (SHOW_NAME){
 			PText name = new PText(datableItem.getName());
 			name.setFont(new PhetFont());
@@ -73,13 +70,13 @@ public class DatableItemNode extends PNode {
 		updatePosition();
 	}
 	
-	public void updatePosition(){
+	private void updatePosition(){
 		Point2D centerCanvasPosition = mvt.modelToViewDouble(datableItem.getPosition());
 		image.setOffset(centerCanvasPosition.getX() - ( image.getFullBoundsReference().width / 2 ),
 				centerCanvasPosition.getY() - ( image.getFullBoundsReference().height / 2 ) );
 	}
 	
-	public void handleSizeChanged(){
+	private void handleSizeChanged(){
 		Point2D desiredSize = mvt.modelToViewDifferentialDouble(datableItem.getWidth(), datableItem.getHeight());
 		// We ignore the height here, since we can't scale in each direction
 		// due to limitations of Piccolo.
@@ -87,10 +84,22 @@ public class DatableItemNode extends PNode {
 		updatePosition();
 	}
 	
-	public void handleRotationalAngleChanged(){
-		Point2D rotationPoint = new Point2D.Double(getFullBoundsReference().getCenterX(),
-				getFullBoundsReference().getCenterY() );
+	private void handleRotationalAngleChanged(){
 		image.rotateInPlace(datableItem.getRotationalAngle() - rotationAngle);
 		rotationAngle = datableItem.getRotationalAngle();
+	}
+	
+	private void updateImage(){
+		if (image != null){
+			removeChild(image);
+		}
+		image = new PImage( datableItem.getImage() );
+		
+		// Since Piccolo only has overall scaling, not scaling in both
+		// dimensions, scale the entire node based only on the width.  This
+		// is sufficient for our purposes, but may need to change some day.
+		double desiredWidth = mvt.modelToViewDifferentialXDouble(datableItem.getWidth());
+		image.scale(desiredWidth / image.getFullBoundsReference().getWidth());
+		addChild(image);
 	}
 }
