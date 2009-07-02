@@ -85,14 +85,7 @@ public class Bunny {
 
     private boolean movingRight;
 
-    public static final int BETWEEN_HOP_TIME = 50;
-    public static final int HOP_TIME = 10;
-    public static final int HOP_HEIGHT = 50;
-    public static final double NORMAL_HOP_DISTANCE = 20.0;
-
-    private static final int HUNGER_THRESHOLD = 250;
-    private static final int MAX_HUNGER = 600;
-    private int hunger = random.nextInt( MAX_HUNGER );
+    private int hunger = random.nextInt( NaturalSelectionConstants.getSettings().getBunnyMaxHunger() );
 
     private Point3D hopDirection;
 
@@ -101,8 +94,6 @@ public class Bunny {
     private NaturalSelectionClock.Listener clockListener;
 
     private ArrayList<Listener> listeners;
-
-    public static final double BUNNY_SIDE_SPACER = 10.0;
 
     /**
      * Constructor
@@ -117,7 +108,7 @@ public class Bunny {
 
         bunnyId = bunnyCount++;
 
-        sinceHopTime = random.nextInt( BETWEEN_HOP_TIME + HOP_TIME );
+        sinceHopTime = random.nextInt( NaturalSelectionConstants.getSettings().getBunnyBetweenHopTime() + NaturalSelectionConstants.getSettings().getBunnyHopTime() );
 
         movingRight = true;
         if ( random.nextInt( 2 ) == 0 ) {
@@ -180,7 +171,7 @@ public class Bunny {
     private void setInitialPosition() {
         position = model.getLandscape().getRandomGroundPosition();
         double mx = model.getLandscape().getMaximumX( position.getZ() );
-        position.setLocation( position.getX() * ( mx - BUNNY_SIDE_SPACER ) / mx, position.getY(), position.getZ() );
+        position.setLocation( position.getX() * ( mx - NaturalSelectionConstants.getSettings().getBunnySideSpacer() ) / mx, position.getY(), position.getZ() );
     }
 
     public boolean isAlive() {
@@ -211,7 +202,7 @@ public class Bunny {
      */
     public void setAge( int age ) {
         this.age = age;
-        if ( isAlive() && this.age >= NaturalSelectionConstants.BUNNIES_DIE_WHEN_THEY_ARE_THIS_OLD ) {
+        if ( isAlive() && this.age >= NaturalSelectionConstants.getSettings().getBunniesDieWhenTheyAreThisOld() ) {
             if ( model.isFriendAdded() && model.getGeneration() == 0 ) {
                 // in this case, we don't want the bunny to die! just want them to get older
                 return;
@@ -315,7 +306,9 @@ public class Bunny {
         }
 
         if ( this != model.getRootFather() && this != model.getRootMother() && model.getGeneration() != 0 ) {
-            if ( getAge() >= NaturalSelectionConstants.BUNNIES_STERILE_WHEN_THIS_OLD || potentialMate.getAge() >= NaturalSelectionConstants.BUNNIES_STERILE_WHEN_THIS_OLD ) {
+            if ( NaturalSelectionConstants.getSettings().isBunniesBecomeSterile() &&
+                 ( getAge() >= NaturalSelectionConstants.getSettings().getBunniesSterileWhenThisOld() ||
+                   potentialMate.getAge() >= NaturalSelectionConstants.getSettings().getBunniesSterileWhenThisOld() ) ) {
                 // too old
                 return false;
             }
@@ -346,7 +339,9 @@ public class Bunny {
     }
 
     private Point3D getNewHopDirection() {
-        if ( hunger > HUNGER_THRESHOLD && model.getSelectionFactor() == NaturalSelectionModel.SELECTION_FOOD && teethPhenotype == TeethGene.TEETH_LONG_ALLELE ) {
+        double normalHopDistance = NaturalSelectionConstants.getSettings().getBunnyNormalHopDistance();
+
+        if ( hunger > NaturalSelectionConstants.getSettings().getBunnyHungerThreshold() && model.getSelectionFactor() == NaturalSelectionModel.SELECTION_FOOD && teethPhenotype == TeethGene.TEETH_LONG_ALLELE ) {
 
             List<Shrub> shrubs = model.getShrubs();
 
@@ -375,9 +370,9 @@ public class Bunny {
             movingRight = diffX >= 0;
 
             double mag = Math.sqrt( diffX * diffX + diffZ * diffZ );
-            if ( mag > NORMAL_HOP_DISTANCE ) {
-                diffX *= NORMAL_HOP_DISTANCE / mag;
-                diffZ *= NORMAL_HOP_DISTANCE / mag;
+            if ( mag > normalHopDistance ) {
+                diffX *= normalHopDistance / mag;
+                diffZ *= normalHopDistance / mag;
             }
             else {
                 hunger = 0;
@@ -394,10 +389,10 @@ public class Bunny {
             return new Point3D.Double( diffX, 0, diffZ );
         }
         else {
-            //Point3D.Double ret = new Point3D.Double( NORMAL_HOP_DISTANCE, 0, Math.random() * 10 - 5 );
+            //Point3D.Double ret = new Point3D.Double( BUNNY_NORMAL_HOP_DISTANCE, 0, Math.random() * 10 - 5 );
             double angle = Math.random() * Math.PI * 2;
-            double a = NORMAL_HOP_DISTANCE * Math.cos( angle );
-            double b = NORMAL_HOP_DISTANCE * Math.sin( angle );
+            double a = normalHopDistance * Math.cos( angle );
+            double b = normalHopDistance * Math.sin( angle );
             boolean swap = Math.abs( a ) < Math.abs( b );
             Point3D.Double ret = new Point3D.Double( Math.abs( swap ? b : a ), 0, swap ? a : b );
 
@@ -422,29 +417,33 @@ public class Bunny {
      */
     private void moveAround() {
         hunger += random.nextInt( 3 );
-        if ( hunger > MAX_HUNGER ) {
-            hunger = MAX_HUNGER;
+        if ( hunger > NaturalSelectionConstants.getSettings().getBunnyMaxHunger() ) {
+            hunger = NaturalSelectionConstants.getSettings().getBunnyMaxHunger();
         }
+
+        int betweenHopTime = NaturalSelectionConstants.getSettings().getBunnyBetweenHopTime();
+        double hopTime = (double) NaturalSelectionConstants.getSettings().getBunnyHopTime();
+        double hopHeight = (double) NaturalSelectionConstants.getSettings().getBunnyHopHeight();
 
         // TODO: add randomness to inbetween-jumping time?
         sinceHopTime++;
-        if ( sinceHopTime > BETWEEN_HOP_TIME + HOP_TIME ) {
+        if ( sinceHopTime > betweenHopTime + hopTime ) {
             sinceHopTime = 0;
         }
-        if ( sinceHopTime == BETWEEN_HOP_TIME ) {
+        if ( sinceHopTime == betweenHopTime ) {
             hopDirection = getNewHopDirection();
         }
         else if ( hopDirection == null ) {
             hopDirection = getNewHopDirection();
         }
-        if ( sinceHopTime > BETWEEN_HOP_TIME ) {
+        if ( sinceHopTime > betweenHopTime ) {
             // move in the "hop"
-            int hopProgress = sinceHopTime - BETWEEN_HOP_TIME;
-            double hopFraction = ( (double) hopProgress ) / ( (double) HOP_TIME );
+            int hopProgress = sinceHopTime - betweenHopTime;
+            double hopFraction = ( (double) hopProgress ) / ( (double) hopTime );
 
-            double x = position.getX() + hopDirection.getX() / ( (double) HOP_TIME );
-            double z = position.getZ() + hopDirection.getZ() / ( (double) HOP_TIME );
-            double y = model.getLandscape().getGroundY( x, z ) + HOP_HEIGHT * 2 * ( -hopFraction * hopFraction + hopFraction );
+            double x = position.getX() + hopDirection.getX() / ( (double) hopTime );
+            double z = position.getZ() + hopDirection.getZ() / ( (double) hopTime );
+            double y = model.getLandscape().getGroundY( x, z ) + hopHeight * 2 * ( -hopFraction * hopFraction + hopFraction );
 
             setPosition( new Point3D.Double( x, y, z ) );
 
@@ -473,7 +472,7 @@ public class Bunny {
     }
 
     private double getMaxX() {
-        return model.getLandscape().getMaximumX( position.getZ() ) - BUNNY_SIDE_SPACER;
+        return model.getLandscape().getMaximumX( position.getZ() ) - NaturalSelectionConstants.getSettings().getBunnySideSpacer();
     }
 
     private double getMinZ() {

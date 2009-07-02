@@ -6,6 +6,7 @@ import java.util.*;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
 
 /**
@@ -23,8 +24,6 @@ public class NaturalSelectionModel extends ClockAdapter {
     public static final int SELECTION_NONE = 0;
     public static final int SELECTION_FOOD = 1;
     public static final int SELECTION_WOLVES = 2;
-
-    public static final int MAX_POPULATION = 500;
 
     /**
      * The simulation clock
@@ -59,7 +58,7 @@ public class NaturalSelectionModel extends ClockAdapter {
      */
     private double lastYearTick = 0;
 
-    private double lastEventTick = NaturalSelectionDefaults.TICKS_PER_YEAR / 4;
+    private double lastEventTick = NaturalSelectionConstants.getSettings().getSelectionTick();
 
     /**
      * The current generation
@@ -123,6 +122,10 @@ public class NaturalSelectionModel extends ClockAdapter {
         trees.add( new Tree( this, 125, 138, 1 ) );
         trees.add( new Tree( this, 917, 115, 0.7 ) );
         trees.add( new Tree( this, 635, 90, 0.2 ) );
+
+        if ( !NaturalSelectionConstants.getSettings().isClockStartRunning() ) {
+            this.clock.stop();
+        }
     }
 
     /**
@@ -150,7 +153,7 @@ public class NaturalSelectionModel extends ClockAdapter {
 
         lastYearTick = 0;
 
-        lastEventTick = NaturalSelectionDefaults.TICKS_PER_YEAR / 4;
+        lastEventTick = NaturalSelectionConstants.getSettings().getSelectionTick();
 
         frenzy = null;
 
@@ -165,7 +168,13 @@ public class NaturalSelectionModel extends ClockAdapter {
         bunnies.add( rootFather );
 
         clock.resetSimulationTime();
-        clock.start();
+
+        if ( NaturalSelectionConstants.getSettings().isClockStartRunning() ) {
+            clock.start();
+        }
+        else {
+            clock.stop();
+        }
 
         notifyGenerationChange();
 
@@ -180,7 +189,7 @@ public class NaturalSelectionModel extends ClockAdapter {
         // reset time variables
         time = 0;
         lastYearTick = 0;
-        lastEventTick = NaturalSelectionDefaults.TICKS_PER_YEAR / 4;
+        lastEventTick = NaturalSelectionConstants.getSettings().getTicksPerYear() / 4;
 
         friendAdded = true;
         rootMother = new Bunny( this, null, null, 0 );
@@ -202,7 +211,7 @@ public class NaturalSelectionModel extends ClockAdapter {
             if ( prePop == 0 ) {
                 endGame();
             }
-            else if ( prePop > MAX_POPULATION ) {
+            else if ( prePop > NaturalSelectionConstants.getSettings().getMaxPopulation() ) {
                 bunniesTakeOver();
             }
             else {
@@ -225,7 +234,7 @@ public class NaturalSelectionModel extends ClockAdapter {
         if ( pop == 0 ) {
             endGame();
         }
-        else if ( pop > MAX_POPULATION ) {
+        else if ( pop > NaturalSelectionConstants.getSettings().getMaxPopulation() ) {
             bunniesTakeOver();
         }
         else {
@@ -351,7 +360,9 @@ public class NaturalSelectionModel extends ClockAdapter {
             return;
         }
 
-        int bunniesToMutate = 1 + possibleBunnies.size() / 7;
+        int base = NaturalSelectionConstants.getSettings().getMutatingBunnyBase();
+        int perBunnies = NaturalSelectionConstants.getSettings().getMutatingBunnyPerBunnies();
+        int bunniesToMutate = base + possibleBunnies.size() / perBunnies;
 
         for ( int i = 0; i < bunniesToMutate; i++ ) {
             if ( possibleBunnies.isEmpty() ) {
@@ -389,9 +400,16 @@ public class NaturalSelectionModel extends ClockAdapter {
      * Bunnies will run out of food if the selection factor is food
      */
     private void bunnyFamine() {
+        double bunnyOffset = NaturalSelectionConstants.getSettings().getFoodSelectionBunnyOffset();
+        double bunnyExponent = NaturalSelectionConstants.getSettings().getFoodSelectionBunnyExponent();
+        double scale = NaturalSelectionConstants.getSettings().getFoodSelectionScale();
+        double blendScale = NaturalSelectionConstants.getSettings().getFoodSelectionBlendScale();
+        double maxKillFraction = NaturalSelectionConstants.getSettings().getMaxKillFraction();
+
         Iterator<Bunny> iter = bunnies.iterator();
 
-        double baseFraction = ( Math.sqrt( (double) getPopulation() ) - 3 ) / ( 4 );
+        //double baseFraction = ( Math.sqrt( (double) getPopulation() ) - 3 ) / ( 4 );
+        double baseFraction = ( Math.pow( (double) getPopulation() + bunnyOffset, bunnyExponent ) ) * scale;
 
         while ( iter.hasNext() ) {
             Bunny bunny = iter.next();
@@ -403,48 +421,11 @@ public class NaturalSelectionModel extends ClockAdapter {
             double actualFraction = baseFraction;
 
             if ( bunny.getTeethPhenotype() == TeethGene.TEETH_LONG_ALLELE ) {
-                actualFraction /= 5;
+                actualFraction *= blendScale;
             }
 
-            if ( actualFraction > NaturalSelectionDefaults.MAX_KILL_FRACTION ) {
-                actualFraction = NaturalSelectionDefaults.MAX_KILL_FRACTION;
-            }
-
-            if ( Math.random() < actualFraction ) {
-                bunny.die();
-            }
-
-        }
-    }
-
-    private void invisibleWolfAttack() {
-
-        if ( !isDuringFrenzy() ) {
-            return;
-        }
-
-        Iterator<Bunny> iter = bunnies.iterator();
-
-        double baseFraction = ( Math.sqrt( (double) getPopulation() ) - 3 ) / 10;
-
-        while ( iter.hasNext() ) {
-            Bunny bunny = iter.next();
-
-            if ( !bunny.isAlive() ) {
-                continue;
-            }
-
-            double actualFraction = baseFraction;
-
-            if (
-                    ( bunny.getColorPhenotype() == ColorGene.WHITE_ALLELE && climate == CLIMATE_ARCTIC )
-                    || ( bunny.getColorPhenotype() == ColorGene.BROWN_ALLELE && climate == CLIMATE_EQUATOR )
-                    ) {
-                actualFraction /= 8;
-            }
-
-            if ( actualFraction > NaturalSelectionDefaults.MAX_KILL_FRACTION ) {
-                actualFraction = NaturalSelectionDefaults.MAX_KILL_FRACTION;
+            if ( actualFraction > maxKillFraction ) {
+                actualFraction = maxKillFraction;
             }
 
             if ( Math.random() < actualFraction ) {
@@ -474,15 +455,13 @@ public class NaturalSelectionModel extends ClockAdapter {
 
         //System.out.println( "Starting frenzy" );
 
-        frenzy = new Frenzy( this, NaturalSelectionDefaults.FRENZY_TICKS ); // TODO: work on time stuff!
+        frenzy = new Frenzy( this, NaturalSelectionConstants.getSettings().getFrenzyTicks() ); // TODO: work on time stuff!
 
         // so listeners can listen to the frenzy
         notifyFrenzyStart( frenzy );
 
         // now create wolves, so all listeners hear the wolf creations
         frenzy.init();
-
-        //invisibleWolfAttack();
     }
 
     public void prematureEndFrenzy() {
@@ -625,7 +604,7 @@ public class NaturalSelectionModel extends ClockAdapter {
         if ( !friendAdded ) {
             return 0;
         }
-        return (int) ( 100 * ( time - lastYearTick ) / NaturalSelectionDefaults.TICKS_PER_YEAR );
+        return (int) ( 100 * ( time - lastYearTick ) / NaturalSelectionConstants.getSettings().getTicksPerYear() );
     }
 
     public List<Shrub> getShrubs() {
@@ -646,17 +625,18 @@ public class NaturalSelectionModel extends ClockAdapter {
 
     public void simulationTimeChanged( ClockEvent event ) {
 
+        double ticksPerYear = NaturalSelectionConstants.getSettings().getTicksPerYear();
 
         if ( !isDuringFrenzy() ) {
             time++;
 
-            while ( time - lastYearTick > NaturalSelectionDefaults.TICKS_PER_YEAR ) {
-                lastYearTick += NaturalSelectionDefaults.TICKS_PER_YEAR;
+            while ( time - lastYearTick > ticksPerYear ) {
+                lastYearTick += ticksPerYear;
                 nextGeneration();
             }
 
-            while ( time - lastEventTick > NaturalSelectionDefaults.TICKS_PER_YEAR ) {
-                lastEventTick += NaturalSelectionDefaults.TICKS_PER_YEAR;
+            while ( time - lastEventTick > ticksPerYear ) {
+                lastEventTick += ticksPerYear;
 
                 if ( selectionFactor == SELECTION_WOLVES ) {
                     startFrenzy();

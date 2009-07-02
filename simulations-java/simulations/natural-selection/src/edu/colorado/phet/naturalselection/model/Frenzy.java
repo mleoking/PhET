@@ -4,7 +4,7 @@ import java.util.*;
 
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
+import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 
 public class Frenzy implements NaturalSelectionClock.Listener {
 
@@ -35,8 +35,11 @@ public class Frenzy implements NaturalSelectionClock.Listener {
     }
 
     public void init() {
+        int wolfBase = NaturalSelectionConstants.getSettings().getWolfBase();
+        int bunniesPerWolves = NaturalSelectionConstants.getSettings().getBunniesPerWolves();
+
         int pop = model.getPopulation();
-        int numWolves = 5 + pop / 10;
+        int numWolves = wolfBase + pop / bunniesPerWolves;
 
         initializeTargets();
 
@@ -61,10 +64,15 @@ public class Frenzy implements NaturalSelectionClock.Listener {
     }
 
     private void initializeTargets() {
+        double bunnyOffset = NaturalSelectionConstants.getSettings().getWolfSelectionBunnyOffset();
+        double bunnyExponent = NaturalSelectionConstants.getSettings().getWolfSelectionBunnyExponent();
+        double scale = NaturalSelectionConstants.getSettings().getWolfSelectionScale();
+        double blendScale = NaturalSelectionConstants.getSettings().getWolfSelectionBlendScale();
+        double maxKillFraction = NaturalSelectionConstants.getSettings().getMaxKillFraction();
+
         targets = new LinkedList<Bunny>();
 
-        //double baseFraction = ( Math.sqrt( (double) model.getPopulation() ) ) / 4;
-        double baseFraction = ( Math.pow( (double) model.getPopulation() + 10, 0.4 ) ) / 4;
+        double baseFraction = ( Math.pow( (double) model.getPopulation() + bunnyOffset, bunnyExponent ) ) * scale;
 
         for ( Bunny bunny : model.getAliveBunnyList() ) {
             double actualFraction = baseFraction;
@@ -73,11 +81,11 @@ public class Frenzy implements NaturalSelectionClock.Listener {
                     ( bunny.getColorPhenotype() == ColorGene.WHITE_ALLELE && model.getClimate() == NaturalSelectionModel.CLIMATE_ARCTIC )
                     || ( bunny.getColorPhenotype() == ColorGene.BROWN_ALLELE && model.getClimate() == NaturalSelectionModel.CLIMATE_EQUATOR )
                     ) {
-                actualFraction /= 5;
+                actualFraction *= blendScale;
             }
 
-            if ( actualFraction > NaturalSelectionDefaults.MAX_KILL_FRACTION ) {
-                actualFraction = NaturalSelectionDefaults.MAX_KILL_FRACTION;
+            if ( actualFraction > maxKillFraction ) {
+                actualFraction = maxKillFraction;
             }
 
             if ( Math.random() < actualFraction ) {
@@ -106,7 +114,7 @@ public class Frenzy implements NaturalSelectionClock.Listener {
      * @return Time left for the frenzy in milliseconds
      */
     public double getTimeLeft() {
-        return ( startTime + duration - clock.getSimulationTime() ) * 1000 / ( (double) NaturalSelectionDefaults.CLOCK_FRAME_RATE );
+        return ( startTime + duration - clock.getSimulationTime() ) * 1000 / ( (double) NaturalSelectionConstants.getSettings().getClockFrameRate() );
     }
 
     public boolean isRunning() {
