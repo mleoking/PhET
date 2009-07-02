@@ -3,14 +3,14 @@
 ==================================================================================
 
 TODO:
-- randomly select one view for "acid or base" question, treat pH meter as a view
-- disable all view controls during "acid or base" question, show what's selected
-- hide HA/A from graph and molecule counts for "acid or base" question
+- handle enable+select behavior for check boxes and radio buttons in Matching Game view
 - redo layout of Matching Game canvas
-- first time a module is activated, canvas updateLayout is called twice (AncestorListener+ComponentListener), other sims only call once (AncestorListener)
 - make symbol legend descriptions automatically wrap, so we don't need breaks in HTML markup
 
 DONE:
+7/2/09 randomly select one view for "acid or base" question, treat pH meter as a view
+7/2/09 disable all view controls during "acid or base" question, show what's selected
+7/2/09 hide HA/A from graph and molecule counts for "acid or base" question
 7/1/09 prepare View controls in match game for random selection
 7/1/09 add ability to hide disassociated componets from molecule counts
 7/1/09 don't adjust layout "Solutions" canvas when solute changes, add enough space to accommodate widest View control panel
