@@ -35,7 +35,7 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
 	private static final double  INITIAL_TREE_WIDTH = 7;
 	private static final Point2D INITIAL_VOLCANO_POSITION = new Point2D.Double(13, 0);
 	private static final double  INITIAL_VOLCANO_WIDTH = 12;
-	private static final Point2D INITIAL_AGING_ROCK_POSITION = new Point2D.Double(13, 3);
+	private static final Point2D INITIAL_AGING_ROCK_POSITION = new Point2D.Double(13, 3.5);
 	private static final double  INITIAL_AGING_ROCK_WIDTH = 1;
 	private static final Point2D INITIAL_PROBE_TIP_POSITION = new Point2D.Double(0, 10);
 	
