@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.model.Carbon14Nucleus;
 import edu.colorado.phet.nuclearphysics.model.Uranium238Nucleus;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -32,6 +33,7 @@ public class DatableItem implements AnimatedModelElement {
 	private ArrayList<ModelAnimationListener> animationListeners = new ArrayList<ModelAnimationListener>();
 	private int primaryImageIndex;
 	private int secondaryImageIndex;
+	private double fadeFactor;
 
 	/**
 	 * Constructor.
@@ -168,7 +170,12 @@ public class DatableItem implements AnimatedModelElement {
 	}
 	
 	public BufferedImage getImage() {
-		return images.get(primaryImageIndex);
+		if (images.size() > 1){
+			return fadeImages(images.get(primaryImageIndex), images.get(secondaryImageIndex), fadeFactor);
+		}
+		else{
+			return images.get(primaryImageIndex);
+		}
 	}
 	
 	public String getName() {
@@ -207,8 +214,8 @@ public class DatableItem implements AnimatedModelElement {
 	}
 
 	public void setFadeFactor(double fadeFactor) {
-		// TODO Auto-generated method stub
-		
+		this.fadeFactor = fadeFactor;
+		notifyImageChanged();
 	}
 
 	public void setRotationalAngle(double rotationalAngle) {
@@ -241,8 +248,7 @@ public class DatableItem implements AnimatedModelElement {
 	}
 
 	public double getFadeFactor() {
-		// TODO Auto-generated method stub
-		return 0;
+		return fadeFactor;
 	}
 
 	public void setSize(Dimension2D size) {
@@ -273,5 +279,34 @@ public class DatableItem implements AnimatedModelElement {
 		for (ModelAnimationListener listener : animationListeners){
 			listener.imageChanged();
 		}
+	}
+	
+	/**
+	 * Merge the two images based on the fade factor.
+	 * 
+	 * @param primaryImage
+	 * @param secondaryImage
+	 * @param fadeFactor - 0 for all primary image, 1 for all secondary image,
+	 * in between for merged.
+	 * @return
+	 */
+	private BufferedImage fadeImages(BufferedImage primaryImage, BufferedImage secondaryImage, double fadeFactor){
+
+		if (fadeFactor < 0 || fadeFactor > 1){
+			System.err.println("Error: invalid fade factor = " + fadeFactor);
+			assert false;
+			fadeFactor = 0;
+		}
+		
+		// Use piccolo as a utility to merge the images.
+    	PNode parent = new PNode();
+    	PImage pimage1 = new PImage(primaryImage);
+    	PImage pimage2 = new PImage(secondaryImage);
+//    	pimage1.setTransparency((float)(1 -fadeFactor));
+    	pimage2.setTransparency((float)fadeFactor);
+    	parent.addChild(pimage1);
+    	parent.addChild(pimage2);
+    	
+    	return BufferedImageUtils.toBufferedImage( parent.toImage() );
 	}
 }
