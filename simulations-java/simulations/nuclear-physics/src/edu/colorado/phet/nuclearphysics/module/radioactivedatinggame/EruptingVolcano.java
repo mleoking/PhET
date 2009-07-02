@@ -40,6 +40,9 @@ public class EruptingVolcano extends DatableItem {
 	// thousands of years for anything to happen.
 	private static final double AGE_ADJUSTMENT_FACTOR = MultiNucleusDecayModel.convertYearsToMs(1E9) / 5000;
 	
+	// Animation sequence.
+	private static ArrayList<ModelAnimationDelta> ANIMATION_SEQUENCE = new ArrayList<ModelAnimationDelta>();
+	
     //------------------------------------------------------------------------
     // Instance Data
     //------------------------------------------------------------------------
@@ -47,6 +50,7 @@ public class EruptingVolcano extends DatableItem {
 	private final ConstantDtClock _clock;
 	private final ClockAdapter _clockAdapter;
 	private double age = 0; // Age in milliseconds of this datable item.
+	private final ModelAnimationDeltaInterpreter animationIterpreter;
 	
     //------------------------------------------------------------------------
     // Constructor
@@ -66,6 +70,9 @@ public class EruptingVolcano extends DatableItem {
 		    }
 		};
 		_clock.addClockListener(_clockAdapter);
+		
+		// Create the animation interpreter that will execute the animation.
+		animationIterpreter = new ModelAnimationDeltaInterpreter(this, ANIMATION_SEQUENCE);
 	}
 	
     //------------------------------------------------------------------------
@@ -74,6 +81,7 @@ public class EruptingVolcano extends DatableItem {
 	
 	private void handleClockTicked(){
 		age = _clock.getSimulationTime() * AGE_ADJUSTMENT_FACTOR;
+		animationIterpreter.setTime(age);
 	}
 
 	private void handleSimulationTimeReset(){
@@ -83,5 +91,40 @@ public class EruptingVolcano extends DatableItem {
 	@Override
 	public double getAge() {
 		return age;
+	}
+	
+	//------------------------------------------------------------------------
+    // The animation sequence that defines how the appearance of the tree
+	// will change as it ages.
+    //------------------------------------------------------------------------
+	static{
+		Point2D GROWTH_COMPENSATION = new Point2D.Double(0, 0.6);
+		
+		// Shake.
+		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(10E6),  new Point2D.Double(-0.25, 0), 0, 1.0, 0, 0, 0));
+		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(20E6),  new Point2D.Double(0.25, 0), 0, 1.0, 0, 0, 0));
+		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(30E6),  new Point2D.Double(-0.3, 0.1), 0, 1.0, 0, 0, 0));
+		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(40E6),  new Point2D.Double(0.3, -0.10), 0, 1.0, 0, 0, 0));
+		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(50E6),  new Point2D.Double(0, 0.1), 0, 1.0, 0, 0, 0));
+		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(60E6),  new Point2D.Double(0, -0.1), 0, 1.0, 0, 0, 0));
+		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(70E6),  new Point2D.Double(-0.2, -0.1), 0, 1.0, 0, 0, 0));
+		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(80E6),  new Point2D.Double(0.2, 0.1), 0, 1.0, 0, 0, 0));
+		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(90E6),  new Point2D.Double(-0.25, 0), 0, 1.0, 0, 0, 0));
+		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(100E6),  new Point2D.Double(0.25, 0), 0, 1.0, 0, 0, 0));
+		
+		// Switch image to hot volcano.
+		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(110E6), null, 0, 1.0, 1, 0, 0));
+		
+		// More shaking.
+		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(120E6),  new Point2D.Double(-0.25, 0), 0, 1.0, 0, 0, 0));
+		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(130E6),  new Point2D.Double(0.25, 0), 0, 1.0, 0, 0, 0));
+		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(140E6),  new Point2D.Double(-0.3, 0.1), 0, 1.0, 0, 0, 0));
+		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(150E6),  new Point2D.Double(0.3, -0.10), 0, 1.0, 0, 0, 0));
+		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(160E6),  new Point2D.Double(0, 0.1), 0, 1.0, 0, 0, 0));
+		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(170E6),  new Point2D.Double(0, -0.1), 0, 1.0, 0, 0, 0));
+		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(180E6),  new Point2D.Double(-0.2, -0.1), 0, 1.0, 0, 0, 0));
+		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(190E6),  new Point2D.Double(0.2, 0.1), 0, 1.0, 0, 0, 0));
+		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(200E6),  new Point2D.Double(-0.25, 0), 0, 1.0, 0, 0, 0));
+		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(210E6),  new Point2D.Double(0.25, 0), 0, 1.0, 0, 0, 0));
 	}
 }
