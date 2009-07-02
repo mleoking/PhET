@@ -148,6 +148,13 @@ public class MatchingGameViewControlsNode extends PhetPNode {
         return beakersRadioButton.isSelected();
     }
     
+    public void setGraphsSelected( boolean b ) {
+        if ( b != isGraphsSelected() ) {
+            graphsRadioButton.setSelected( b );
+            notifyStateChanged();
+        }
+    }
+    
     public boolean isGraphsSelected() {
         return graphsRadioButton.isSelected();
     }

@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
+import java.util.Random;
 
 import javax.swing.Timer;
 import javax.swing.event.ChangeEvent;
@@ -276,7 +277,7 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
         acidButton.setEnabled( true );
         baseButton.setEnabled( true );
         // pH probe
-        beakerNodeLeft.setProbeVisible( true );
+        beakerNodeLeft.setProbeVisible( false );
         // counts
         beakerNodeLeft.setProductMoleculeCountsVisible( false );
         beakerNodeLeft.setReactantMoleculeCountsVisible( false );
@@ -284,16 +285,47 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
         graphNodeLeft.setReactantVisible( false );
         graphNodeLeft.setProductVisible( false );
         // view controls
-//        viewControlsNode.setEnabled( false );  //XXX disabled for test views
-        //TODO randomly select a view, including pH meter
-        viewControlsNode.setBeakersSelected( true );
-        viewControlsNode.setDissociatedComponentsRatioSelected( false );
-        viewControlsNode.setHydroniumHydroxideRatioSelected( true );
-        viewControlsNode.setMoleculeCountsSelected( false );
+        setRandomView();
         // solution views
         solutionControlsNodeRight.setVisible( false );
         beakerNodeRight.setVisible( false );
         graphNodeRight.setVisible( false );
+    }
+    
+    /*
+     * Sets a random view for the "acid or base" question.
+     * Note that the pH probe is treated as a view,
+     * and the disassociated components ratio is not an option.
+     */
+    private void setRandomView() {
+        
+        // start with default state of all views off
+        beakerNodeLeft.setProbeVisible( false );
+        viewControlsNode.setDissociatedComponentsRatioSelected( false );
+        viewControlsNode.setHydroniumHydroxideRatioSelected( false );
+        viewControlsNode.setMoleculeCountsSelected( false );
+        viewControlsNode.setBeakersSelected( true );
+        
+        // randomly select a view
+        Random r = new Random();
+        int i = r.nextInt( 4 );
+        switch ( i ) {
+        case 0:
+            beakerNodeLeft.setProbeVisible( true );
+            break;
+        case 1:
+            viewControlsNode.setHydroniumHydroxideRatioSelected( true );
+            break;
+        case 2:
+            viewControlsNode.setMoleculeCountsSelected( true );
+            break;
+        case 3:
+            viewControlsNode.setGraphsSelected( true );
+            break;
+        }
+        
+        // random view can't be changed by the user
+        viewControlsNode.setEnabled( false );
     }
     
     public void setStateAcidBaseCorrect() {
