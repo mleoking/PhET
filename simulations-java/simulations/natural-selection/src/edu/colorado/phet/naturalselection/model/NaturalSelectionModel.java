@@ -215,7 +215,7 @@ public class NaturalSelectionModel extends ClockAdapter {
                 bunniesTakeOver();
             }
             else {
-                System.out.println( "Nothing to do, friend has not been added" );
+                //System.out.println( "Nothing to do, friend has not been added" );
             }
             return;
         }
