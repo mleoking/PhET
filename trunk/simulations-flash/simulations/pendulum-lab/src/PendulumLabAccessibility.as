@@ -70,16 +70,20 @@ class PendulumLabAccessibility {
         pendulum2 = new PendulumTabEntry( _level0.pendulum2Model, _level0.pendulum2, _level0.pendulum2View );
 
         length1Text = new TabEntry(_root.panel_mc.length1Slider.value_txt);
+        _root.panel_mc.length1Slider.value_txt.onSetFocus = function( old : Object ) { _level0.tabHandler.setFocus( this ); }
         length1Slider = new TabEntry(_root.panel_mc.length1Slider.puck_mc, TabHandler.HIGHLIGHT_LOCAL);
         mass1Text = new TabEntry(_root.panel_mc.mass1Slider.value_txt);
+        _root.panel_mc.mass1Slider.value_txt.onSetFocus = function( old : Object ) { _level0.tabHandler.setFocus( this ); }
         mass1Slider = new TabEntry(_root.panel_mc.mass1Slider.puck_mc, TabHandler.HIGHLIGHT_LOCAL);
 
         pendulum2Check = new TabEntry(_root.panel_mc.pendulum2_ch.box_mc, TabHandler.HIGHLIGHT_LOCAL, _root.panel_mc.pendulum2_ch);
         pendulum2Check.buttonlike = true;
 
         length2Text = new TabEntry(_root.panel_mc.length2Slider.value_txt);
+        _root.panel_mc.length2Slider.value_txt.onSetFocus = function( old : Object ) { _level0.tabHandler.setFocus( this ); }
         length2Slider = new TabEntry(_root.panel_mc.length2Slider.puck_mc, TabHandler.HIGHLIGHT_LOCAL);
         mass2Text = new TabEntry(_root.panel_mc.mass2Slider.value_txt);
+        _root.panel_mc.mass2Slider.value_txt.onSetFocus = function( old : Object ) { _level0.tabHandler.setFocus( this ); }
         mass2Slider = new TabEntry(_root.panel_mc.mass2Slider.puck_mc, TabHandler.HIGHLIGHT_LOCAL);
 
         frictionSlider = new TabEntry( _level0.panel_mc.frictionSlider_mc, TabHandler.HIGHLIGHT_LOCAL, _level0.panel_mc.frictionSlider_mc.knob_mc );
