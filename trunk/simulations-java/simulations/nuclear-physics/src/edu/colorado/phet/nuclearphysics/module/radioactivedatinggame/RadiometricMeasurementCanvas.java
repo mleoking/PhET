@@ -104,7 +104,6 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
         _model.getMeter().addListener(new RadiometricDatingMeter.Adapter(){
         	public void datingElementChanged(){
         		configureProportionsChart();
-        		drawDecayCurveOnChart();
         		update();
         	};
         	public void touchedStateChanged(){
@@ -200,9 +199,6 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
         // Add the node(s) to the canvas corresponding to the datable items in
         // the model.
         handleModelElementAdded();
-        
-        // Draw the decay curve on the chart.
-        drawDecayCurveOnChart();
     }
 
 	//------------------------------------------------------------------------
@@ -331,21 +327,6 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
         		_chartAndMeterLayer.addChild(_forceClosureButtonNode);
     		}
     	}
-    }
-    
-    private void drawDecayCurveOnChart(){
-        double halfLife = _model.getMeter().getHalfLifeForDating();
-    	_proportionsChart.clear();
-    	double timeSpan = halfLife * 3.2;
-    	double timeIncrement = timeSpan / NUM_SAMPLES_ON_DECAY_CHART;
-    	double lambda = Math.log(2)/halfLife;
-    	for ( double time = 0; time < timeSpan; time += timeIncrement ){
-    		// Calculate the proportion of the element that should be decayed at this point in time.
-    		double amountDecayed = NUM_SAMPLES_ON_DECAY_CHART - (NUM_SAMPLES_ON_DECAY_CHART * Math.exp(-time*lambda));
-    		_proportionsChart.addDataPoint(time, (int)Math.round(NUM_SAMPLES_ON_DECAY_CHART - amountDecayed), 
-    				(int)Math.round(amountDecayed));
-    	}
-    	_proportionsChart.updateMarkerText();
     }
     
     /**
