@@ -1,3 +1,4 @@
+> Added Joules and meters on the Energy vs. Position graph
 > Improvements for internationalization
 # 2.05.05 (32357) Jun 9, 2009
 6/9/09 Attempt to fix an issue where newly added strings are not appearing when loaded into translation utility.
