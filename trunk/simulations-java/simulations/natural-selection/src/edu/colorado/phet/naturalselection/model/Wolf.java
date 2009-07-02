@@ -8,7 +8,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 
 public class Wolf implements NaturalSelectionClock.Listener {
-    private static final double MAX_STEP = 5.0;
 
     private Point3D position;
 
@@ -26,8 +25,6 @@ public class Wolf implements NaturalSelectionClock.Listener {
 
     // random number generator
     private static final Random random = new Random( System.currentTimeMillis() );
-    private final double KILL_DISTANCE = MAX_STEP * 2;
-    private final double DOUBLE_BACK_DISTANCE = MAX_STEP * 6;
 
     public Wolf( NaturalSelectionModel model, Frenzy frenzy ) {
         this.model = model;
@@ -102,6 +99,10 @@ public class Wolf implements NaturalSelectionClock.Listener {
     }
 
     private void moveAround() {
+        double killDistance = NaturalSelectionConstants.getSettings().getWolfKillDistance();
+        double doubleBackDistance = NaturalSelectionConstants.getSettings().getWolfDoubleBackDistance();
+        double maxStep = NaturalSelectionConstants.getSettings().getWolfMaxStep();
+
         if ( hunting ) {
             if ( target == null ) {
                 stopHunting();
@@ -147,12 +148,12 @@ public class Wolf implements NaturalSelectionClock.Listener {
                 aimZ = tZ;
 
                 double targetDistance = Point3D.distance( killX, 0, tZ, mX, 0, mZ );
-                if ( targetDistance < KILL_DISTANCE ) {
+                if ( targetDistance < killDistance ) {
                     target.die();
                     notifyKilledBunny();
                 }
             }
-            else if ( ( rightOfTarget == rightOfKillpoint ) && ( Math.abs( killX - mX ) >= DOUBLE_BACK_DISTANCE ) && ( rightOfTarget == movingRight ) ) {
+            else if ( ( rightOfTarget == rightOfKillpoint ) && ( Math.abs( killX - mX ) >= doubleBackDistance ) && ( rightOfTarget == movingRight ) ) {
                 // far from target, but moving the wrong way
 
                 // point towards the target
@@ -171,10 +172,10 @@ public class Wolf implements NaturalSelectionClock.Listener {
                 final double buffer = 10;
 
                 if ( rightOfTarget ) {
-                    aimX = killX + DOUBLE_BACK_DISTANCE + buffer;
+                    aimX = killX + doubleBackDistance + buffer;
                 }
                 else {
-                    aimX = killX - DOUBLE_BACK_DISTANCE - buffer;
+                    aimX = killX - doubleBackDistance - buffer;
                 }
                 aimZ = tZ;
             }
@@ -184,10 +185,10 @@ public class Wolf implements NaturalSelectionClock.Listener {
                 double dZ = aimZ - mZ;
                 double distance = Math.sqrt( dX * dX + dZ * dZ );
 
-                if ( distance > MAX_STEP ) {
-                    // if our aim point is too far away, limit our step to MAX_STEP
-                    dX = MAX_STEP * dX / distance;
-                    dZ = MAX_STEP * dZ / distance;
+                if ( distance > maxStep ) {
+                    // if our aim point is too far away, limit our step to WOLF_MAX_STEP
+                    dX = maxStep * dX / distance;
+                    dZ = maxStep * dZ / distance;
                 }
 
                 double x = mX + dX;
@@ -199,10 +200,10 @@ public class Wolf implements NaturalSelectionClock.Listener {
         }
         else {
             if ( movingRight ) {
-                setX( position.getX() + MAX_STEP );
+                setX( position.getX() + maxStep );
             }
             else {
-                setX( position.getX() - MAX_STEP );
+                setX( position.getX() - maxStep );
             }
         }
 

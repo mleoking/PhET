@@ -5,6 +5,7 @@ package edu.colorado.phet.naturalselection.module;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.control.NaturalSelectionControlPanel;
 import edu.colorado.phet.naturalselection.model.*;
 import edu.colorado.phet.naturalselection.view.NaturalSelectionCanvas;
@@ -146,7 +147,7 @@ public class NaturalSelectionController {
                 if ( primary + secondary == 0 ) {
                     model.endGame();
                 }
-                else if ( primary + secondary > NaturalSelectionModel.MAX_POPULATION ) {
+                else if ( primary + secondary > NaturalSelectionConstants.getSettings().getMaxPopulation() ) {
                     model.bunniesTakeOver();
                 }
             }

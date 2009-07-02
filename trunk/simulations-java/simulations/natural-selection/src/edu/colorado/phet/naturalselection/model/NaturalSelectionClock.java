@@ -7,7 +7,7 @@ import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
+import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 
 /**
  * GlaciersClock is the clock for this simulation.
@@ -49,7 +49,7 @@ public class NaturalSelectionClock extends ConstantDtClock {
 
     @Override
     public void stepClockWhilePaused() {
-        for ( int i = 0; i < NaturalSelectionDefaults.TICKS_PER_YEAR / 4; i++ ) {
+        for ( int i = 0; i < NaturalSelectionConstants.getSettings().getTicksPerYear() / 4; i++ ) {
             super.stepClockWhilePaused();
         }
     }

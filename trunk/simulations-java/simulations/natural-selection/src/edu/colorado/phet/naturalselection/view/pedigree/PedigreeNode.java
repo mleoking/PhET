@@ -49,8 +49,8 @@ public class PedigreeNode extends PNode implements NaturalSelectionModel.Listene
 
         int minGeneration = 0;
         int maxGeneration = model.getGeneration();
-        if ( maxGeneration - minGeneration > NaturalSelectionConstants.BUNNIES_DIE_WHEN_THEY_ARE_THIS_OLD ) {
-            minGeneration = maxGeneration - NaturalSelectionConstants.BUNNIES_DIE_WHEN_THEY_ARE_THIS_OLD;
+        if ( maxGeneration - minGeneration > NaturalSelectionConstants.getSettings().getBunniesDieWhenTheyAreThisOld() ) {
+            minGeneration = maxGeneration - NaturalSelectionConstants.getSettings().getBunniesDieWhenTheyAreThisOld();
         }
 
         // add only the latest generations if we have at least 2 dead generations
@@ -148,7 +148,7 @@ public class PedigreeNode extends PNode implements NaturalSelectionModel.Listene
                 return;
             }
 
-            if ( generation > NaturalSelectionConstants.BUNNIES_DIE_WHEN_THEY_ARE_THIS_OLD ) {
+            if ( generation > NaturalSelectionConstants.getSettings().getBunniesDieWhenTheyAreThisOld() ) {
                 popGeneration();
             }
             addGeneration( generation );

@@ -8,9 +8,9 @@ import java.awt.event.WindowEvent;
 
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
+import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
 import edu.colorado.phet.naturalselection.control.NaturalSelectionControlPanel;
-import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
 import edu.colorado.phet.naturalselection.dialog.BunniesTakeOverDialog;
 import edu.colorado.phet.naturalselection.dialog.GameOverDialog;
 import edu.colorado.phet.naturalselection.dialog.GenerationChartDialog;
@@ -35,7 +35,7 @@ public class NaturalSelectionModule extends PiccoloModule {
     private Frame parentFrame;
 
     public NaturalSelectionModule( Frame parentFrame ) {
-        super( NaturalSelectionStrings.TITLE_NATURAL_SELECTION_MODULE, new NaturalSelectionClock( NaturalSelectionDefaults.CLOCK_FRAME_RATE, NaturalSelectionDefaults.CLOCK_DT ) );
+        super( NaturalSelectionStrings.TITLE_NATURAL_SELECTION_MODULE, new NaturalSelectionClock( NaturalSelectionConstants.getSettings().getClockFrameRate(), NaturalSelectionConstants.getSettings().getClockDT() ) );
 
         this.parentFrame = parentFrame;
 
