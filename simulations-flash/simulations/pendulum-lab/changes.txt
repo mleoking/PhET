@@ -1,3 +1,5 @@
+# 2.00.06 (32966) Jul 2, 2009
+7/2/09 Text field and accessibility stuff
 # 2.00.05 (32729) Jun 25, 2009
 6/25/09 Accessibility fixes
 # 2.00.03 (32391) Jun 9, 2009
