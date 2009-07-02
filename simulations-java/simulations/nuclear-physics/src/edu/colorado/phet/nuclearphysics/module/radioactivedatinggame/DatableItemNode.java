@@ -100,6 +100,7 @@ public class DatableItemNode extends PNode {
 		// is sufficient for our purposes, but may need to change some day.
 		double desiredWidth = mvt.modelToViewDifferentialXDouble(datableItem.getWidth());
 		image.scale(desiredWidth / image.getFullBoundsReference().getWidth());
+		updatePosition();
 		addChild(image);
 	}
 }
