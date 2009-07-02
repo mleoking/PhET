@@ -1,0 +1,49 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: June 25 - July 1, 2009 (Thu-Wed)
+
+ACCOMPLISHMENTS:
+
+  acid-base-solutions:
+  - coloring of "HA/A ratio" and "H3O/OH ratio" check box labels
+  - finished "Matching Game" tab
+  - published 0.01.20
+  - started on next batch of change requests
+  
+  titration:
+  - reviewed design and model docs
+  - design team meeting
+  
+  common:
+  - identified problems with removing PSwing buffering, reverted (with Sam)
+  - fixed fuzziness by setting PhetPCanvas rendering quality to "high" (with Sam)
+  
+  misc:
+  - status meeting
+  - started "Sim Localization Guidelines" Google doc 
+  - i18n discussions
+  - updated sim-template
+  - identified fix for JSW problem on Mac OS 10.5.7 with Java 1.5.0_19, #1698
+  - discussed the need to close FileOutputStream for Properties.store
+  - discussed strategies for approval and release of dev versions to tigercat
+  - reviewed misc changesets for Sam
+  - discussed i18n using a MessageFormat-like syntax with arbitrary tags 
+  - entered info about rates-and-reactions issues into ticket #605
+  
+WHAT'S NEXT:
+ 
+  - wrap up acid-base-solutions
+  - start on titration sim
+  - Translation Utility enhancements related to KSU
+  - rates-and-reactions issues, #605
+  
+ISSUES:
+
+  - none
+  
+DATES UNAVAILABLE:
+
+   July 25 - August 9
+  
+--
