@@ -23,7 +23,7 @@ public class AgingRock extends AnimatedDatableItem {
     //------------------------------------------------------------------------
 
     public AgingRock( ConstantDtClock clock, Point2D center, double width ) {
-        super( "Aging Rock", Arrays.asList( "rock_1.png" ), center, width, 0, 0, clock, EruptingVolcano.VOLCANO_AGE_FACTOR );
+        super( "Aging Rock", Arrays.asList( "molten_rock.png", "rock_1.png" ), center, width, 0, 0, clock, EruptingVolcano.VOLCANO_AGE_FACTOR );
         System.out.println( "clock = " + clock );
     }
 
@@ -34,6 +34,8 @@ public class AgingRock extends AnimatedDatableItem {
     protected ArrayList<ModelAnimationDelta> getAnimationSequence() {
         TimeUpdater timeUpdater = new TimeUpdater( MultiNucleusDecayModel.convertYearsToMs( 20 * 10E6 ), MultiNucleusDecayModel.convertYearsToMs( 10E6 ) );
         ArrayList<ModelAnimationDelta> ANIMATION_SEQUENCE = new ArrayList<ModelAnimationDelta>();
+        
+        // Rock flies out of volcano.
         ANIMATION_SEQUENCE.add( new ModelAnimationDelta( timeUpdater.updateTime(), new Point2D.Double( -0.35, .6 ), 0, 1.07, 0, 0, 0 ) );
         ANIMATION_SEQUENCE.add( new ModelAnimationDelta( timeUpdater.updateTime(), new Point2D.Double( -0.35, .6 ), 0, 1.07, 0, 0, 0 ) );
         ANIMATION_SEQUENCE.add( new ModelAnimationDelta( timeUpdater.updateTime(), new Point2D.Double( -0.35, .6 ), 0, 1.07, 0, 0, 0 ) );
@@ -65,6 +67,19 @@ public class AgingRock extends AnimatedDatableItem {
         ANIMATION_SEQUENCE.add( new ModelAnimationDelta( timeUpdater.updateTime(), new Point2D.Double( -0.35, -1.5 ), 0, 1.07, 0, 0, 0 ) );
         ANIMATION_SEQUENCE.add( new ModelAnimationDelta( timeUpdater.updateTime(), new Point2D.Double( -0.35, -1.5 ), 0, 1.07, 0, 0, 0 ) );
         ANIMATION_SEQUENCE.add( new ModelAnimationDelta( timeUpdater.updateTime(), new Point2D.Double( -0.35, -1.5 ), 0, 1.07, 0, 0, 0 ) );
+        
+        // Rock cools down.
+        ANIMATION_SEQUENCE.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.1 ) );
+        ANIMATION_SEQUENCE.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.1 ) );
+        ANIMATION_SEQUENCE.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.1 ) );
+        ANIMATION_SEQUENCE.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.1 ) );
+        ANIMATION_SEQUENCE.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.1 ) );
+        ANIMATION_SEQUENCE.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.1 ) );
+        ANIMATION_SEQUENCE.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.1 ) );
+        ANIMATION_SEQUENCE.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.1 ) );
+        ANIMATION_SEQUENCE.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.1 ) );
+        ANIMATION_SEQUENCE.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.1 ) );
+        
         return ANIMATION_SEQUENCE;
     }
 }
