@@ -3,6 +3,7 @@
 package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -22,9 +23,17 @@ public class EruptingVolcano extends DatableItem {
     // Class Data
     //------------------------------------------------------------------------
 	
-	private static final String NAME = "Volcano"; // For debugging, no need to translate. 
+	private static final String NAME = "Volcano"; // For debugging, no need to translate.
+	
+	// Images for the volcano.
 	private static final String HOT_VOLCANO_IMAGE_NAME = "volcano_hot.png";
 	private static final String DORMANT_VOLCANO_IMAGE_NAME = "volcano_cool.png";
+	private static final ArrayList<String> VOLCANO_IMAGES = new ArrayList<String>();
+	
+	static{
+		VOLCANO_IMAGES.add(DORMANT_VOLCANO_IMAGE_NAME);
+		VOLCANO_IMAGES.add(HOT_VOLCANO_IMAGE_NAME);
+	}
 	
 	// Age adjustment factor - used to convert the amount of simulation time
 	// into the age of the item so that users don't have to wait around for
@@ -44,7 +53,7 @@ public class EruptingVolcano extends DatableItem {
     //------------------------------------------------------------------------
 	
 	public EruptingVolcano(ConstantDtClock clock, Point2D center, double width) {
-		super(NAME, HOT_VOLCANO_IMAGE_NAME, center, width, 0, 0);
+		super(NAME, VOLCANO_IMAGES, center, width, 0, 0);
 		_clock = clock;
 		
 		// Create the adapter that will listen to the clock.
