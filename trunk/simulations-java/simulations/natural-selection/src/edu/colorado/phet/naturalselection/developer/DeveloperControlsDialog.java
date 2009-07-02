@@ -8,9 +8,9 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.naturalselection.NaturalSelectionApplication;
-import edu.colorado.phet.naturalselection.control.BunnyStatsCanvas;
 import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
 import edu.colorado.phet.naturalselection.module.NaturalSelectionModule;
 
@@ -33,13 +33,20 @@ public class DeveloperControlsDialog extends JDialog {
     //----------------------------------------------------------------------------
 
     public DeveloperControlsDialog( Frame owner, final NaturalSelectionApplication app ) {
-        super( owner, "Developer Controls" );
+        super();
+        setTitle( "Developer Controls" );
+        //super( owner, "Developer Controls" );
         setResizable( false );
         setModal( false );
 
         _app = app;
 
-        JPanel mainPanel = new JPanel( new FlowLayout() );
+
+        JPanel mainPanel = new JPanel();
+
+        EasyGridBagLayout layout = new EasyGridBagLayout( mainPanel );
+
+        mainPanel.setLayout( layout );
 
         JButton frenzyButton = new JButton( "Start Frenzy" );
         frenzyButton.addActionListener( new ActionListener() {
@@ -49,15 +56,7 @@ public class DeveloperControlsDialog extends JDialog {
                 model.startFrenzy();
             }
         } );
-        mainPanel.add( frenzyButton );
-
-        JButton statsButton = new JButton( "Toggle bunny stats" );
-        statsButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent actionEvent ) {
-                BunnyStatsCanvas.allowUpdates = !BunnyStatsCanvas.allowUpdates;
-            }
-        } );
-        mainPanel.add( statsButton );
+        layout.addComponent( frenzyButton, 0, 0 );
 
         JButton killAllButton = new JButton( "Kill bunnies" );
         killAllButton.addActionListener( new ActionListener() {
@@ -65,7 +64,9 @@ public class DeveloperControlsDialog extends JDialog {
                 ( (NaturalSelectionModule) app.getActiveModule() ).getMyModel().killAllBunnies();
             }
         } );
-        mainPanel.add( killAllButton );
+        layout.addComponent( killAllButton, 1, 0 );
+
+        layout.addComponent( new DeveloperSettingsPanel( app ), 2, 0 );
 
         setContentPane( mainPanel );
         pack();
