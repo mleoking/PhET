@@ -19,6 +19,10 @@ import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 public class RatioCheckBox extends JCheckBox {
     
     private static final Color DEFAULT_COLOR = Color.BLACK;
+    private static final Color DISABLED_COLOR = Color.GRAY;
+    
+    private String symbol1, symbol2;
+    private Color color1, color2;
     
     public RatioCheckBox() {
         super();
@@ -38,11 +42,28 @@ public class RatioCheckBox extends JCheckBox {
     }
     
     public void setComponents( String symbol1, Color color1, String symbol2, Color color2 ) {
-        String s1 = HTMLUtils.createColoredFragment( symbol1, color1 );
-        String s2 = HTMLUtils.createColoredFragment( symbol2, color2 );
+        this.symbol1 = symbol1;
+        this.color1 = color1;
+        this.symbol2 = symbol2;
+        this.color2 = color2;
+        updateLabel();
+    }
+    
+    public void setEnabled( boolean enabled ) {
+        super.setEnabled( enabled );
+        updateLabel();
+    }
+    
+    private void updateLabel() {
+        boolean isColored = isEnabled() || isSelected();
+        String s1 = HTMLUtils.createColoredFragment( symbol1, isColored ? color1 : DISABLED_COLOR );
+        String s2 = HTMLUtils.createColoredFragment( symbol2, isColored ? color2 : DISABLED_COLOR );
         Object[] args = { s1, s2 };
         String html = HTMLUtils.toHTMLString( MessageFormat.format( ABSStrings.CHECK_BOX_RATIO, args ) );
         setText( html );
+        if ( !isColored ) {
+            setForeground( DISABLED_COLOR );
+        }
     }
     
     /**
