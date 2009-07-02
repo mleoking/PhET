@@ -119,12 +119,15 @@ public class AgingTree extends DatableItem implements Cleanupable {
 		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(1200), GROWTH_COMPENSATION, 0, 1.1, 0, 0, 0));
 		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(1300), GROWTH_COMPENSATION, 0, 1.1, 0, 0, 0));
 		
+		// Switch image to dead tree.
+		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(1350), null, 0, 1.1, 1, 0, 0));
+		
 		// Fall over.
 		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(1400), null, 0.2, 1.0, 0, 0, 0));
 		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(1500), null, 0.3, 1.0, 0, 0, 0));
 		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(1600), null, 0.3, 1.0, 0, 0, 0));
-		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(1700), null, 0.3, 1.0, 0, 0, 0));
-		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(1800), null, 0.3, 1.0, 0, 0, 0));
+		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(1700), null, 0.2, 1.0, 0, 0, 0));
+		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(1800), null, 0.2, 1.0, 0, 0, 0));
 		ANIMATION_SEQUENCE.add(new ModelAnimationDelta(MultiNucleusDecayModel.convertYearsToMs(1900), null, 0.2, 1.0, 0, 0, 0));
 	}
 }
