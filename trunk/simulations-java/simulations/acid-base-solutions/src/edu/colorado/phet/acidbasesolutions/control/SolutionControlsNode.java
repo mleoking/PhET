@@ -161,13 +161,11 @@ public class SolutionControlsNode extends PhetPNode {
         soluteComboBox.setEnabled( enabled );
     }
     
-    /**
-     * Enables or disables all controls.
-     * Calls to setSolute will change this.
-     */
-    public void setAllControlsEnabled( boolean enabled ) {
-        soluteComboBox.setEnabled( enabled );
+    public void setConcentrationControlEnabled( boolean enabled ) {
         concentrationControlNode.setEnabled( enabled );
+    }
+    
+    public void setStrengthControlEnabled( boolean enabled ) {
         strengthSliderNode.setEnabled( enabled );
     }
     

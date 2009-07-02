@@ -3,11 +3,11 @@
 ==================================================================================
 
 TODO:
-- shouldn't be able to select solute in match game right control panel
 - redo layout of Matching Game canvas
 - make symbol legend descriptions automatically wrap, so we don't need breaks in HTML markup
 
 DONE:
+7/2/09 fix: shouldn't be able to select solute in match game right control panel
 7/2/09 handle special enable behavior for H3O/OH ratio check box in Matching Game view
 7/2/09 randomly select one view for "acid or base" question, treat pH meter as a view
 7/2/09 disable all view controls during "acid or base" question, show what's selected
