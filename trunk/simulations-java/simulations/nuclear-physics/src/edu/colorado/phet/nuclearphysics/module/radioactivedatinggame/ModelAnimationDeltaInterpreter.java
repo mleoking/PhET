@@ -4,8 +4,13 @@ package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -90,7 +95,9 @@ public class ModelAnimationDeltaInterpreter {
 		}
 		if ( delta.getFadeFactorDelta() != 0 ){
 			// The fade amount needs to be updated.
-			modelElement.setFadeFactor(modelElement.getFadeFactor() + delta.getFadeFactorDelta());
+			double fadeFactor = modelElement.getFadeFactor() + delta.getFadeFactorDelta();
+			fadeFactor = MathUtil.clamp(0, fadeFactor, 1);
+			modelElement.setFadeFactor(fadeFactor);
 		}
 		if ( delta.getPositionDelta() != null  ){
 			// The position needs to be updated.
