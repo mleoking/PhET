@@ -217,28 +217,27 @@ public class DatableItem implements AnimatedModelElement {
 	}
 
 	public int getNumberImages() {
-		// TODO Auto-generated method stub
-		return 0;
+		return images.size();
 	}
 
 	public int getPrimaryImageIndex() {
-		// TODO Auto-generated method stub
-		return 0;
+		return primaryImageIndex;
 	}
 
 	public int getSecondaryImageIndex() {
-		// TODO Auto-generated method stub
-		return 0;
+		return secondaryImageIndex;
 	}
 
 	public void setPrimaryImageIndex(int imageIndex) {
-		// TODO Auto-generated method stub
-		
+		assert imageIndex < images.size();
+		primaryImageIndex = imageIndex;
+		notifyImageChanged();
 	}
 
 	public void setSecondaryImageIndex(int imageIndex) {
-		// TODO Auto-generated method stub
-		
+		assert imageIndex < images.size();
+		secondaryImageIndex = imageIndex;
+		notifyImageChanged();
 	}
 
 	public double getFadeFactor() {
