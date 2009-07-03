@@ -26,28 +26,29 @@ public class TestJButtonAlignment extends JFrame {
         PhetPCanvas canvas = new PhetPCanvas();
         canvas.setPreferredSize( new Dimension( 400, 300 ) );
         
+        // a PNode rectangle, for alignment reference
         PPath rectNode = new PPath( new Rectangle2D.Double( 0, 0, 100, 50 ) );
         rectNode.setPaint( Color.RED );
         canvas.getLayer().addChild( rectNode );
         rectNode.setOffset( 50, 50 );
         
-        // JLabel left aligns OK
+        // JLabel left-aligns OK
         PSwing labelNode = new PSwing( new JLabel( "PSwing JLabel" ) );
         canvas.getLayer().addChild( labelNode );
         labelNode.setOffset( rectNode.getXOffset(), rectNode.getFullBoundsReference().getMaxY() + 10 );
         
-        // JButton doesn't align perfectly, there is a bit of blank space to the left of the button (on Mac OS only?)
+        // JButton doesn't left-align perfectly, there is a bit of blank space to the left of the button
         JButton button = new JButton( "PSwing JButton" );
         PSwing buttonNode = new PSwing( button );
         canvas.getLayer().addChild( buttonNode );
         buttonNode.setOffset( rectNode.getXOffset(), labelNode.getFullBoundsReference().getMaxY() + 10 );
         
-        // JPanel with a JLabel and JButton, same space is shown to left of JButton
+        // JPanel with a JLabel and JButton, same space appears to left of JButton
         JPanel panel = new JPanel();
         panel.setBorder( new LineBorder( Color.BLACK ) );
         panel.setLayout( new GridBagLayout() );
         GridBagConstraints constraints = new GridBagConstraints();
-        constraints.anchor = GridBagConstraints.WEST;
+        constraints.anchor = GridBagConstraints.WEST; // left align
         constraints.gridx = 0;
         constraints.gridy = GridBagConstraints.RELATIVE;
         panel.add( new JLabel( "JLabel" ), constraints );
