@@ -99,6 +99,7 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
             System.out.println( getClass().getName() + ".updateLayout worldSize=" + worldSize );
         }
         
+        // start at (0,0), we'll adjust this globally with centerRootNode
         double xOffset, yOffset = 0;
         
         // solution controls in upper left
