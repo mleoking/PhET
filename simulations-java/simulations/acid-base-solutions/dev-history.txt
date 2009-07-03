@@ -3,6 +3,7 @@
 ==================================================================================
 
 TODO:
+- space to left of "New Solution", "Acid" and "Base" buttons?
 - redo layout of Matching Game canvas
 - make symbol legend descriptions automatically wrap, so we don't need breaks in HTML markup
 - Spanish translation, to test i18n
