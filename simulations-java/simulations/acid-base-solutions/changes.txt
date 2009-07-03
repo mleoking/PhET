@@ -1,3 +1,5 @@
+> clean up and document state machine for Matching Game
+> fix: set color of "ratio" in "H3O/OH ratio" ratio check box to black when enabled
 # 0.01.21 (32982) Jul 2, 2009
 7/2/09 change requests
 > randomly select the view for the "acid or base" question in Matching Game
