@@ -70,7 +70,7 @@ class JavaSupportPage extends SitePage {
             <h3 id="q4" >How do I check my computer's current version of Java?</h3>
 
             <p><strong><em>Windows Vista users:</em></strong><br />
-            From a command line (Start&nbsp;menu-&gt;All&nbsp;Programs-&gt;Accessories-&gt;Command&nbsp;Prompt), type: <strong>javaws -viewer</strong> followed by the enter key. You should see some text which will include something like "(build 1.4.2_05_05-b04)"; this number is the version of Java you are using. If you receive an error, Java is not properly installed (see above to reinstall).</p>
+            From a command line (Start&nbsp;menu-&gt;All&nbsp;Programs-&gt;Accessories-&gt;Command&nbsp;Prompt), type: <strong>javaws&nbsp;-viewer</strong> followed by the enter key. You should see some text which will include something like "(build 1.4.2_05_05-b04)"; this number is the version of Java you are using. If you receive an error, Java is not properly installed (see above to reinstall).</p>
 
             <p><strong><em>Windows 98SE/2000/XP users:</em></strong><br />
             From a command line (Start&nbsp;menu-&gt;All&nbsp;Programs-&gt;Accessories-&gt;Command&nbsp;Prompt), type: <strong>java&nbsp;-version</strong> followed by the enter key. You should see some text which will include something like "(build 1.4.2_05_05-b04)"; this number is the version of Java you are using. If you receive an error, Java is not properly installed (see above to reinstall).</p>
