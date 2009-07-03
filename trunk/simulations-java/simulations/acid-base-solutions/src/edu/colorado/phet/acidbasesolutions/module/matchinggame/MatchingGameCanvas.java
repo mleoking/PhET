@@ -34,8 +34,25 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.umd.cs.piccolo.PNode;
 
-/*
- * * MatchingGameCanvas is the canvas for MatchingGameModule.
+/**
+ * MatchingGameCanvas is the canvas for MatchingGameModule.
+ * <p>
+ * Here's the general layout:
+ * <code>
+ * |----------------------------------------------------------------------------------
+ * |                                                                                 |
+ * |  ScoreNode               Question & Answer area      Right solution controls    |
+ * |                                                                                 |
+ * |  New Solution button                                                            |
+ * |                                                                                 |
+ * |                                                                                 |
+ * |  Left solution                                       Right solution             |
+ * |  beaker & graph             View controls            beaker & graph             |
+ * |                                                                                 |
+ * |                            Reset All button                                     |
+ * |                                                                                 |
+ * |----------------------------------------------------------------------------------
+ * </code>
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
