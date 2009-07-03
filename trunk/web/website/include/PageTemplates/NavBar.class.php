@@ -355,6 +355,7 @@ EOT;
                     'admin/organize-cats.php'                   => 'Organize Categories',
                     'admin/organize-sims.php'                   => 'Organize Simulations',
                     'admin/manage-contributors.php'             => 'Manage Contributors',
+                    'admin/export-contributors-page.php'             => 'Manage Contributors',
                     'admin/manage-comments.php'                 => 'Manage Comments',
                     'admin/view-gold-star-nominations.php'      => 'View Gold Star Nominations',
                     'admin/update-settings.php'                 => 'Settings for Updates',
