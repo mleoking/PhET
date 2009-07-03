@@ -9,6 +9,7 @@ TODO:
 
 DONE:
 7/2/09 clean up and doc state machine for matching game
+7/2/09 fix: setForeground of ratio check box to black when enabled
 # 0.01.21
 7/2/09 fix: shouldn't be able to select solute in match game right control panel
 7/2/09 handle special enable behavior for H3O/OH ratio check box in Matching Game view
