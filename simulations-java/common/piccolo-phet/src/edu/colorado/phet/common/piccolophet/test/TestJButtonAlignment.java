@@ -14,6 +14,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * I noticed that it was impossible to left-align JButtons on Mac.
+ * (It was verified that this is not a problem on Windows.)
  * There is always a bit of blank space to the left of the button.
  * This program demonstrates that it's not a PSwing issue, it's a general Swing issue.
  *
