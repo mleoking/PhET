@@ -1,7 +1,5 @@
 <?php
 
-require_once("include/hierarchical-categories.php");
-
 class NavBar {
     // Navigation enumerations for the selected page
     //
@@ -44,6 +42,15 @@ class NavBar {
         $this->access_key = 1;
 
         $this->prefix = $prefix;
+
+        $pos = strpos($_SERVER['REQUEST_URI'], 'simulations/index.php');
+        $this->nav_uri = substr($_SERVER['REQUEST_URI'], $pos);
+
+        $this->hierarchical_categories = new HierarchicalCategories();
+    }
+
+    function set_uri($uri) {
+        $this->nav_uri = $uri;
     }
 
     function set_navigation_category($navigation_category) {
@@ -88,17 +95,30 @@ EOT;
     }
 
     function print_subnavigation_element($prefix, $link, $desc) {
+        $selected = false;
         if (is_array($desc)) {
             $name = WebUtils::inst()->toHtml($desc[0]);
             $extra_style = "style=\"padding-left: {$desc[1]}\"";
+            $depth = $desc[2];
+            $has_children = $desc[3];
+            $selected = $desc[5];
         }
         else {
             $name = WebUtils::inst()->toHtml($desc);
             $extra_style = "";
+            $depth = -1;
+            $has_children = false;
         }
 
+        $subnav_selected = "";
+        if ($selected || is_int(strpos($_SERVER['REQUEST_URI'], $link))) {
+            $subnav_selected = " subnav-selected";
+        }
+
+        $class = "subnav{$subnav_selected}";
+
         print <<<EOT
-                        <li class="subnav" {$extra_style}><a href="{$prefix}{$link}" class="subnav">{$name}</a></li>
+                        <li class="{$class}" {$extra_style}><a href="{$prefix}{$link}" class="{$class}">{$name}</a></li>
 
 EOT;
     }
@@ -137,24 +157,79 @@ EOT;
     }
 
     function get_sim_categories_for_navbar($prefix) {
-        // Setting this variable here is explicitly and intentionally to
-        // get around good class encapsulation.  The "walk" function below
-        // needs the user function to be specified with a function in
-        // the global scope.
-        $this->sim_categories = array();
+        $this_url = $this->nav_uri;
 
-        // Get the hierarchical categories
-        $hier_cats = new HierarchicalCategories();
+        // Go through all categories
+        $cats = $this->hierarchical_categories->getDescendants();
+        $path_to_current = array();
+        foreach ($cats as $id => $hier) {
+            if ($hier['cat_id'] == 0) {
+                // Skip the root
+                continue;
+            }
 
-        // Traverse through the hierarchical categories
-        $hier_cats->walk('get_sim_categories_for_navbar_callback', $this);
+            // Get URL
+            $cats[$id]['cat_url'] = CategoryUtils::inst()->getUrlByCatId($hier['cat_id']);
+            if (is_int(strpos($this_url, $cats[$id]['cat_url']))) {
+                // If we're on this category page, remember for later
+                $path_to_current = $this->hierarchical_categories->getPath($hier['cat_id'], true);
+            }
+        }
+
+        $categories = array();
+        $skip_children = false;
+        $parent_skip = -1;
+        foreach ($cats as $level) {
+            if ($level['cat_id'] == 0) {
+                // Skip the root
+                continue;
+            }
+
+            if (!$level['cat_is_visible']) {
+                // Skip invisible categories
+                continue;
+            }
+
+            // Determine if we're in skip children mode
+            if ($skip_children) {
+                if ($this->hierarchical_categories->isDescendantOf($level['cat_id'], $parent_skip)) {
+                    // This is a subcat of the cat being skipped, keep skipping
+                    continue;
+                }
+
+                // Turn off skip children mode
+                $skip_children = false;
+                $parent_skip = -1;
+            }
+
+            // Get info about cat
+            $cat_id = $level['cat_id'];
+            $cat_name = $level['cat_name'];
+            $depth = count($this->hierarchical_categories->getPath($cat_id));
+            $has_children = count($this->hierarchical_categories->getDescendants($cat_id, false, true)) > 0;
+            $link = CategoryUtils::inst()->getUrlByCatId($cat_id);
+            $pad_left = 0 + (($depth) * 20)."px";
+            
+            $selected = false;
+            $stripped_this_url = substr($this_url, strrpos($this_url, 'simulations/'));
+            if (is_int(strpos($stripped_this_url, $link))) {
+                $selected = true;
+            }
+
+            // Record info for submenu
+            $categories["$link"] = array($cat_name, $pad_left, $depth, $has_children, false, $selected);
+
+            // If this cat has children, and they are not part of the hiearchy of this page, skip them
+            if ($this->hierarchical_categories->numChildren($level['cat_id']) > 0) {
+                if (!in_array($level['cat_id'], array_keys($path_to_current))) {
+                    $skip_children = true;
+                    $parent_skip = $level['cat_id'];
+                }
+            }
+        }
 
         // Add the translated sims
-        $this->sim_categories["simulations/translations.php"] = "Translated Sims";
-
-        // Return the categories to the local scope and eliminate the class var
-        $categories = $this->sim_categories;
-        unset($this->sim_categories);
+        $categories["simulations/translations.php"] = "Translated Sims";
 
         // Return the result
         return $categories;
@@ -358,23 +433,6 @@ EOT;
 EOT;
     }
 
-}
-
-// This function needs to be outside the class so that it can be called
-// from HierarchicalCategories::walk(), which is a different function in
-// a different class in a different file.  Static class functions don't work.
-function get_sim_categories_for_navbar_callback($user_var, $category, $depth, $has_children) {
-    $cat_id   = $category['cat_id'];
-    $cat_name = $category['cat_name'];
-    $encoded_cat_name = WebUtils::inst()->encodeString($cat_name);
-
-    $url = CategoryUtils::inst()->getCategoryBaseUrl($encoded_cat_name);
-    // Hack: remove the SITE_ROOT
-    $url = substr($url, 3);
-
-    $pad_left = 0 + (($depth - 1) * 20)."px";
-
-    $user_var->sim_categories["$url"] = array($cat_name, $pad_left);
 }
 
 ?>

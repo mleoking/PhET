@@ -117,6 +117,15 @@ class CategoryUtils {
 
         return false;
     }
+
+    public function getUrlByCatId($cat_id) {
+        $category = db_get_row_by_id('category', 'cat_id', $cat_id);
+
+        $cat_name     = $category['cat_name'];
+        $cat_encoding = WebUtils::inst()->encodeString($cat_name);
+
+        return "simulations/index.php?cat={$cat_encoding}";
+    }
 }
 
 ?>
