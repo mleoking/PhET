@@ -6,6 +6,7 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
+import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -26,22 +27,35 @@ public class TestJButtonAlignment extends JFrame {
         PhetPCanvas canvas = new PhetPCanvas();
         canvas.setPreferredSize( new Dimension( 400, 300 ) );
         
+        final double xOffset = 50;
+        
         // a PNode rectangle, for alignment reference
         PPath rectNode = new PPath( new Rectangle2D.Double( 0, 0, 100, 50 ) );
         rectNode.setPaint( Color.RED );
         canvas.getLayer().addChild( rectNode );
-        rectNode.setOffset( 50, 50 );
+        rectNode.setOffset( xOffset, 50 );
         
         // JLabel left-aligns OK
         PSwing labelNode = new PSwing( new JLabel( "PSwing JLabel" ) );
         canvas.getLayer().addChild( labelNode );
-        labelNode.setOffset( rectNode.getXOffset(), rectNode.getFullBoundsReference().getMaxY() + 10 );
+        labelNode.setOffset( xOffset, rectNode.getFullBoundsReference().getMaxY() + 10 );
         
         // JButton doesn't left-align perfectly, there is a bit of blank space to the left of the button
         JButton button = new JButton( "PSwing JButton" );
         PSwing buttonNode = new PSwing( button );
         canvas.getLayer().addChild( buttonNode );
-        buttonNode.setOffset( rectNode.getXOffset(), labelNode.getFullBoundsReference().getMaxY() + 10 );
+        buttonNode.setOffset( xOffset, labelNode.getFullBoundsReference().getMaxY() + 10 );
+        
+        // Workaround, a little better but still some space.
+        // And as a general workaround, this will violate the Aqua style guide for usage of button types.
+        // See button types at http://nadeausoftware.com/node/87
+        JButton button2 = new JButton( "Workaround JButton" );
+        if ( PhetUtilities.isMacintosh() ) {
+            button2.putClientProperty( "JButton.buttonType", "bevel" );
+        }
+        PSwing buttonNode2 = new PSwing( button2 );
+        canvas.getLayer().addChild( buttonNode2 );
+        buttonNode2.setOffset( xOffset, buttonNode.getFullBoundsReference().getMaxY() + 10 );
         
         // JPanel with a JLabel and JButton, same space appears to left of JButton
         JPanel panel = new JPanel();
@@ -55,7 +69,7 @@ public class TestJButtonAlignment extends JFrame {
         panel.add( new JButton( "JButton" ), constraints );
         PSwing pswing = new PSwing( panel );
         canvas.getLayer().addChild( pswing );
-        pswing.setOffset( rectNode.getXOffset(), buttonNode.getFullBoundsReference().getMaxY() + 10 );
+        pswing.setOffset( xOffset, buttonNode2.getFullBoundsReference().getMaxY() + 10 );
         
         getContentPane().add( canvas );
         pack();
