@@ -595,8 +595,9 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
             System.out.println( getClass().getName() + ".updateLayout worldSize=" + worldSize );
         }
 
-        double xOffset = 0;
-        double yOffset = 15;
+        // start at (0,0), we'll adjust this globally with centerRootNode
+        double xOffset = 0; 
+        double yOffset = 0;
 
         // score in upper left
         scoreNode.setOffset( xOffset, yOffset );
