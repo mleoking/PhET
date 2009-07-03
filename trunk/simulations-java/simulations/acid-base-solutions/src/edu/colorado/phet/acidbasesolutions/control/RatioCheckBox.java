@@ -61,9 +61,7 @@ public class RatioCheckBox extends JCheckBox {
         Object[] args = { s1, s2 };
         String html = HTMLUtils.toHTMLString( MessageFormat.format( ABSStrings.CHECK_BOX_RATIO, args ) );
         setText( html );
-        if ( !isColored ) {
-            setForeground( DISABLED_COLOR );
-        }
+        setForeground( isColored ? DEFAULT_COLOR : DISABLED_COLOR );
     }
     
     /**
