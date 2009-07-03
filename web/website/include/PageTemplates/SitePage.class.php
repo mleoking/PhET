@@ -116,8 +116,7 @@ class SitePage extends BasePage {
     }
 
     function set_navbar_uri($uri) {
-        $this->nav_cat = $uri;
-        return;
+        $this->navigation_bar->set_uri($uri);
     }
 
     function is_installer_builder_rip() {
@@ -333,6 +332,8 @@ EOT;
             return $result;
         }
 
+        $this->set_navigation_referer();
+
         //
         // But if it succeeds, do some more tests
 
@@ -366,20 +367,87 @@ EOT;
 EOT;
     }
 
-    function render_navigation_bar() {
-        $this->navigation_bar->render();
+    function set_navigation_referer() {
+        $this->whereICameFrom = 'nowhere';
+
+        $req = $_SERVER['REQUEST_URI'];
+        if ((false === stripos($req, 'simulations/sims.php')) &&
+            (false === stripos($req, 'teacher_ideas/view-contribution.php'))) {
+            session_start();
+            unset($_SESSION['previous_nav_page']);
+            session_write_close();
+            return;
+        }
+
+        $referer = NULL;
+        $url = NULL;
+        $prev_nav_page = NULL;
+
+        if ((false !== stripos($req, 'simulations/sims.php')) ||
+            (false !== stripos($req, 'teacher_ideas/view-contribution.php'))) {
+            session_start();
+            if (isset($_SESSION['previous_nav_page'])) {
+                // this only take preceedance on these pages
+                $prev_nav_page = $_SESSION['previous_nav_page'];
+                $referer = $prev_nav_page;
+                $uri = $referer;
+            }
+            session_write_close();
+        }
+        else {
+            session_start();
+            unset($_SESSION['previous_nav_page']);
+            session_write_close();
+        }
+
+        if (is_null($referer) && isset($_SERVER['HTTP_REFERER'])) {
+            $referer = $_SERVER['HTTP_REFERER'];
+
+            // Strip off the 'http://blah.bla.bl' part
+            $pos1 = strpos($referer, '/');
+            $pos2 = strpos($referer, '/', $pos1 + 2);
+            $uri = substr($referer, $pos2);
+        }
+
+        if (false !== stripos($referer, 'simulations/sims.php')) {
+            $this->whereICameFrom = "I came from a simulations page\n";
+            $this->set_navbar_uri($uri);
+            $this->set_navigation_category(NavBar::NAV_SIMULATIONS);
+        }
+        else if (false !== stripos($referer, 'simulations/index.php')) {
+            $this->whereICameFrom = "I came from a simulation index page: {$uri}\n";
+            $this->set_navbar_uri($uri);
+            $prev_nav_page = $uri;
+            $this->set_navigation_category(NavBar::NAV_SIMULATIONS);
+        }
+        else if (false !== stripos($referer, 'teacher_ideas/browse.php')) {
+            $this->whereICameFrom = "I came from the teacher tip browse page\n";
+            $this->set_navigation_category(NavBar::NAV_TEACHER_IDEAS);
+            $this->set_navbar_uri($uri);
+            $prev_nav_page = $uri;
+        }
+        else if (false !== stripos($referer, 'teacher_ideas/view-contribution.php')) {
+            $this->whereICameFrom = "I came from a teacher contribution page\n";
+            $this->set_navigation_category(NavBar::NAV_TEACHER_IDEAS);
+            $this->set_navbar_uri($uri);
+        }
+        else if (false !== stripos($referer, 'simulations/search.php')) {
+            $this->whereICameFrom = "i came from a search page\n";
+        }
+        else {
+            $this->whereICameFrom = "I came from here: {$referer}\n";
+        }
+
+        session_start();
+        if (!is_null($prev_nav_page)) {
+            $_SESSION['previous_nav_page'] = $uri;
+        }
+        session_write_close();
+
     }
 
-    function open_xhtml_head() {
-        // Add the header script that highlights the subsection of the navbar
-        assert(isset($this->nav_cat));
-        $this->add_javascript_header_script(
-            array(
-                "                    select_current_navbar_category('{$this->nav_cat}');",
-                )
-            );
-
-        parent::open_xhtml_head();
+    function render_navigation_bar() {
+        $this->navigation_bar->render();
     }
 
     function render_content() {

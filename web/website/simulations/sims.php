@@ -44,42 +44,6 @@ class IndividualSimulationPage extends SitePage {
         
         return $close_sims;
     }
-    
-    function set_navigation_referer() {
-        if (isset($_SERVER['HTTP_REFERER'])) {
-            $referer = $_SERVER['HTTP_REFERER'];
-
-            // Strip off the 'http://blah.bla.bl' part
-            $pos1 = strpos($referer, '/');
-            $pos2 = strpos($referer, '/', $pos1 + 2);
-            $uri = substr($referer, $pos2);
-
-            // Check the various places we may have come from
-            // Leaving in the whereICameFrom for debugging
-            if (false !== stripos($referer, 'simulations/index.php')) {
-                //$this->whereICameFrom = "I came from a simulation index page\n";
-                $this->set_navbar_uri($uri);
-            }
-            else if (false !== stripos($referer, 'teacher_ideas/browse.php')) {
-                //$this->whereICameFrom = "I came from the teacher tip browse page\n";
-                $this->set_navigation_category(NavBar::NAV_TEACHER_IDEAS);
-                $this->set_navbar_uri($uri);
-            }
-            else if (false !== stripos($referer, 'teacher_ideas/view-contribution.php')) {
-                //$this->whereICameFrom = "I came from a teacher contribution page\n";
-                $this->set_navigation_category(NavBar::NAV_TEACHER_IDEAS);
-            }
-            else if (false !== stripos($referer, 'simulations/search.php')) {
-                //$this->whereICameFrom = "i came from a search page\n";
-            }
-            else {
-                //$this->whereICameFrom = "I came from here: {$referer}\n";
-            }
-        }
-        else {
-            //$this->whereICameFrom = "No referrer, I don't know where I came from\n";
-        }
-    }
 
     function update() {
         $result = parent::update();
