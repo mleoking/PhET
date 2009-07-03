@@ -3,12 +3,12 @@
 ==================================================================================
 
 TODO:
-- space to left of "New Solution", "Acid" and "Base" buttons?
 - make symbol legend descriptions automatically wrap, so we don't need breaks in HTML markup
 - Spanish translation, to test i18n
 - is "match" algorithm usable, or does it get too hard for small values of concentration and strength?
 
 DONE:
+7/3/09 decided to live with space to left of Aqua buttons, makes left-alignment impossible in Matching Game
 # 0.01.22
 7/2/09 clean up and doc state machine for matching game
 7/2/09 fix: setForeground of ratio check box to black when enabled
