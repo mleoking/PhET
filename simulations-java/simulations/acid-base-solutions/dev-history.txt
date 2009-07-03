@@ -3,9 +3,12 @@
 ==================================================================================
 
 TODO:
+- BH+ color is too light, symbols hard to see in ratio check box label
+- revise "match" algorithm to be "close to slider position"
+- change Lewis structure diagrams for "charged particles that are cut off"
+- "chemical ion ration" check box doesn't tell user anything about what the dot colors mean
 - make symbol legend descriptions automatically wrap, so we don't need breaks in HTML markup
 - Spanish translation, to test i18n
-- is "match" algorithm usable, or does it get too hard for small values of concentration and strength?
 
 DONE:
 7/3/09 decided to live with space to left of Aqua buttons, makes left-alignment impossible in Matching Game
