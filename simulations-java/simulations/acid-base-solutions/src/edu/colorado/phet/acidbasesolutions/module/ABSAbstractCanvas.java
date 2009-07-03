@@ -21,6 +21,8 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class ABSAbstractCanvas extends PhetPCanvas {
+    
+    private static final double MIN_MARGIN = 10;
 
     private final PNode rootNode;
     private final PNode resetAllButtonWrapper;
@@ -51,8 +53,8 @@ public class ABSAbstractCanvas extends PhetPCanvas {
     protected void centerRootNode() {
         Dimension2D worldSize = getWorldSize();
         PBounds b = rootNode.getFullBoundsReference();
-        double xOffset = Math.max( 10, ( worldSize.getWidth() -  b.getWidth() ) / 2 );
-        double yOffset = Math.max( 10, ( worldSize.getHeight() -  b.getHeight() ) / 2 );
+        double xOffset = Math.max( MIN_MARGIN, ( worldSize.getWidth() -  b.getWidth() ) / 2 );
+        double yOffset = Math.max( MIN_MARGIN, ( worldSize.getHeight() -  b.getHeight() ) / 2 );
         rootNode.setOffset( xOffset, yOffset );
     }
 }
