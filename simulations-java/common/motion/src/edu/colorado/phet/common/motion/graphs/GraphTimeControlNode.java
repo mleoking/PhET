@@ -138,7 +138,7 @@ public class GraphTimeControlNode extends PNode {
         }
 
         private void updateGoState() {
-            setGoButton( !timeSeriesModel.isRecording() );
+            setGoButton( !(timeSeriesModel.isRecording()||timeSeriesModel.isLiveAndNotPaused()) );
         }
 
         private void setGoButton( boolean go ) {

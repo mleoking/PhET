@@ -273,6 +273,10 @@ public class TimeSeriesModel extends ClockAdapter {
         return clock;
     }
 
+    public boolean isLiveAndNotPaused() {
+        return mode==live && !paused;
+    }
+
     public interface PlaybackTimeListener {
         public void timeChanged();
     }
