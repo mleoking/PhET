@@ -33,4 +33,11 @@ public class PhetPanel extends Panel {
         return context;
     }
 
+    /**
+     * Override locale, so that localized strings with wicket:message will use this panel's locale
+     */
+    @Override
+    public Locale getLocale() {
+        return myLocale;
+    }
 }
