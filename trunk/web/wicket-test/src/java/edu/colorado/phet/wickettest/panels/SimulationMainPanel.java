@@ -8,8 +8,6 @@ import java.util.Locale;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
-import org.apache.wicket.markup.html.panel.Panel;
-import org.apache.wicket.protocol.http.WebApplication;
 
 import edu.colorado.phet.wickettest.SimulationModel;
 import edu.colorado.phet.wickettest.WebSimulation;
@@ -17,10 +15,10 @@ import edu.colorado.phet.wickettest.util.PhetLink;
 import edu.colorado.phet.wickettest.util.SqlUtils;
 import edu.colorado.phet.wickettest.util.StaticImage;
 
-public class SimulationMainPanel extends Panel {
+public class SimulationMainPanel extends PhetPanel {
 
     public SimulationMainPanel( String id, WebSimulation simulation, final Locale myLocale ) {
-        super( id );
+        super( id, myLocale );
 
         add( new Label( "simulation-main-title", simulation.getTitle() ) );
 
@@ -30,7 +28,7 @@ public class SimulationMainPanel extends Panel {
 
         add( new Label( "simulation-main-description", simulation.getDescription() ) );
 
-        List<WebSimulation> simulations = SqlUtils.getSimulationsMatching( ( (WebApplication) getApplication() ).getServletContext(), null, simulation.getSimulation(), null );
+        List<WebSimulation> simulations = SqlUtils.getSimulationsMatching( getContext(), null, simulation.getSimulation(), null );
         WebSimulation.orderSimulations( simulations, myLocale );
 
         List<SimulationModel> models = new LinkedList<SimulationModel>();

@@ -1,7 +1,5 @@
 package edu.colorado.phet.wickettest.util;
 
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.ServletContext;
@@ -11,8 +9,6 @@ import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.protocol.http.WebApplication;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
-import edu.colorado.phet.wickettest.SimulationModel;
-import edu.colorado.phet.wickettest.WebSimulation;
 
 public class PhetPage extends WebPage {
 
@@ -29,24 +25,6 @@ public class PhetPage extends WebPage {
         System.out.println( "getRequestPath() of this page is: " + getRequestPath() );
     }
 
-    public List<WebSimulation> getOrderedSimulations() {
-        List<WebSimulation> simulations = SqlUtils.getSimulationsMatching( context, null, null, myLocale );
-        WebSimulation.orderSimulations( simulations, myLocale );
-        return simulations;
-    }
-
-    public List<SimulationModel> getOrderedSimulationModels() {
-        List<WebSimulation> simulations = getOrderedSimulations();
-
-        List<SimulationModel> models = new LinkedList<SimulationModel>();
-
-        for ( WebSimulation simulation : simulations ) {
-            models.add( new SimulationModel( simulation ) );
-        }
-
-        return models;
-    }
-
     public Locale getMyLocale() {
         return myLocale;
     }
@@ -59,4 +37,8 @@ public class PhetPage extends WebPage {
         return parameters.getString( "path" );
     }
 
+    @Override
+    public Locale getLocale() {
+        return myLocale;
+    }
 }
