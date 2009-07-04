@@ -7,8 +7,8 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 
-import edu.colorado.phet.tomcattest.WebSimulation;
 import edu.colorado.phet.wickettest.SimulationModel;
+import edu.colorado.phet.wickettest.WebSimulation;
 import edu.colorado.phet.wickettest.util.PhetLink;
 import edu.colorado.phet.wickettest.util.PhetPage;
 

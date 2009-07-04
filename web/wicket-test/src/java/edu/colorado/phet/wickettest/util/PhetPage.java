@@ -11,9 +11,8 @@ import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.protocol.http.WebApplication;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
-import edu.colorado.phet.tomcattest.WebSimulation;
-import edu.colorado.phet.tomcattest.util.SqlUtils;
 import edu.colorado.phet.wickettest.SimulationModel;
+import edu.colorado.phet.wickettest.WebSimulation;
 
 public class PhetPage extends WebPage {
 
@@ -25,6 +24,7 @@ public class PhetPage extends WebPage {
         this.parameters = parameters;
         context = ( (WebApplication) getApplication() ).getServletContext();
         myLocale = LocaleUtils.stringToLocale( (String) parameters.get( "localeString" ) );
+        getSession().setLocale( myLocale );
         System.out.println( "Loading " + this.getClass().getCanonicalName() + " with Locale: " + LocaleUtils.localeToString( myLocale ) );
         System.out.println( "getRequestPath() of this page is: " + getRequestPath() );
     }

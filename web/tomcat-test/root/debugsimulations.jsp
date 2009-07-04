@@ -1,7 +1,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="edu.colorado.phet.common.phetcommon.util.LocaleUtils" %>
-<%@ page import="edu.colorado.phet.tomcattest.WebSimulation" %>
-<%@ page import="edu.colorado.phet.tomcattest.util.SqlUtils" %>
+<%@ page import="edu.colorado.phet.wickettest.WebSimulation" %>
+<%@ page import="edu.colorado.phet.wickettest.util.SqlUtils" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     List<WebSimulation> simulations = SqlUtils.getAllSimulations( application );
