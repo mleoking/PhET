@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:wicket="http://svn.apache.org/repos/asf/wicket/trunk/wicket/wicket-xhtml1-strict.dtd" xml:lang="en"
+      lang="en">
+<head>
+    <title>[PREVIEW] SimulationDisplayPanel</title>
+    <wicket:head>
+        <style type="text/css">
+            .simulation-list-item {
+                text-align: center;
+                border: 1px solid gray;
+                padding: 10px;
+                margin-right: 10px;
+            }
+
+            .simulation-list-thumbnail {
+                padding-bottom: 5px;
+            }
+
+            .simulation-list-title {
+                font-size: 14px;
+                font-family: Arial, sans-serif;
+                color: #660000;
+                text-decoration: none;
+            }
+
+            .simulation-link {
+                text-decoration: none;
+            }
+
+            .simulation-link img {
+                border: none;
+            }
+
+        </style>
+    </wicket:head>
+</head>
+<body wicket:message="dir:language.dir">
+
+<wicket:panel>
+    <div>
+        <h1>
+            <wicket:message key="simulationDisplay.simulations">Simulations</wicket:message>
+        </h1>
+        <table>
+            <tr>
+            <span wicket:id="simulation-list">
+                <td class="simulation-list-item">
+                    <a href="#" wicket:id="simulation-link" class="simulation-link">
+                        <img wicket:id="thumbnail" class="simulation-list-thumbnail"
+                             src="../../../template-files/images/arithmetic-thumbnail.jpg"/><br>
+                        <strong><span wicket:id="title"
+                                      class="simulation-list-title">Simulation Title</span></strong><br>
+                    </a>
+                </td>
+            </span>
+            </tr>
+        </table>
+        <br>
+    </div>
+</wicket:panel>
+
+</body>
+</html>
+

@@ -11,6 +11,7 @@ import java.util.Properties;
 import javax.servlet.ServletContext;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
+import edu.colorado.phet.wickettest.SimulationModel;
 import edu.colorado.phet.wickettest.SimulationSQL;
 import edu.colorado.phet.wickettest.WebSimulation;
 
@@ -169,6 +170,26 @@ public class SqlUtils {
             ret = getSingleSimulation( context, project, simulation, LocaleUtils.stringToLocale( "en" ) );
         }
         return ret;
+    }
+
+    public static List<WebSimulation> getOrderedSimulations( ServletContext context, Locale locale ) {
+        List<WebSimulation> simulations = SqlUtils.getSimulationsMatching( context, null, null, locale );
+        WebSimulation.orderSimulations( simulations, locale );
+        return simulations;
+    }
+
+    public static List<SimulationModel> getOrderedSimulationModels( List<WebSimulation> simulations ) {
+        List<SimulationModel> models = new LinkedList<SimulationModel>();
+
+        for ( WebSimulation simulation : simulations ) {
+            models.add( new SimulationModel( simulation ) );
+        }
+
+        return models;
+    }
+
+    public static List<SimulationModel> getOrderedSimulationModels( ServletContext context, Locale locale ) {
+        return getOrderedSimulationModels( getOrderedSimulations( context, locale ) );
     }
 
 }

@@ -39,11 +39,10 @@ public class SimulationPage extends PhetPage {
         }
 
         // TODO: handle reordering for rtl
-        Label title = new Label( "pageTitle", simulation.getTitle() + " " + simulation.getVersionString() );
-        title.setRenderBodyOnly( true );
+        Label title = new Label( "page-title", simulation.getTitle() + " " + simulation.getVersionString() );
         add( title );
 
-        add( new SimulationMainPanel( "simulation-panel", simulation, getMyLocale() ) );
+        add( new SimulationMainPanel( "simulation-main-panel", simulation, getMyLocale() ) );
 
     }
 

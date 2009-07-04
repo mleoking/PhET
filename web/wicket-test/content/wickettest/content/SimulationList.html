@@ -4,20 +4,17 @@
       xmlns:wicket="http://svn.apache.org/repos/asf/wicket/trunk/wicket/wicket-xhtml1-strict.dtd" xml:lang="en"
       lang="en">
 <head>
-    <title>SimulationList</title>
+    <title wicket:id="page-title">[PREVIEW] SimulationList</title>
     <style type="text/css">
-
+        .simulationTitle {
+            color: red;
+        }
     </style>
 </head>
-<body>
+<body wicket:message="dir:language.dir">
 
 <div>
-    <h1>Simulations</h1>
-    <span wicket:id="simulation-list">
-        <a href="#" wicket:id="simulation-link">
-            <span wicket:id="title" class="simulation-list-title">Simulation Title</span><br>
-        </a>
-    </span>
+    <div wicket:id="simulation-list-panel"/>
 </div>
 
 </body>

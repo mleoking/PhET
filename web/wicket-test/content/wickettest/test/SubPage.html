@@ -4,14 +4,20 @@
       xmlns:wicket="http://svn.apache.org/repos/asf/wicket/trunk/wicket/wicket-xhtml1-strict.dtd" xml:lang="en"
       lang="en">
 <head>
-    <title wicket:id="page-title">[PREVIEW] SimulationDisplay</title>
+    <title>SubPage test</title>
     <style type="text/css">
+        .page {
+            float: left;
+            border: 1px solid black;
+            margin: 30px;
+        }
     </style>
 </head>
 <body wicket:message="dir:language.dir">
 
 <div>
-    <div wicket:id="simulation-display-panel"/>
+    <div wicket:id="page-1" class="page"></div>
+    <div wicket:id="page-2" class="page"></div>
 </div>
 
 </body>
