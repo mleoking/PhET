@@ -20,7 +20,7 @@ public class PhetUrlMapper {
     // TODO: add removing mapping
 
     public Class getMappedClass( String url ) {
-        System.out.println( "Testing map to " + url );
+        //System.out.println( "Testing map to " + url );
         for ( UrlMap mapping : mappings ) {
             if ( mapping.matches( url ) ) {
                 return mapping.getToClass();

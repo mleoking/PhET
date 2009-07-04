@@ -1,9 +1,8 @@
-package edu.colorado.phet.tomcattest;
+package edu.colorado.phet.wickettest;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.*;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;

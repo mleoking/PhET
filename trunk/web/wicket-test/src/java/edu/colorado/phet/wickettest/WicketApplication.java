@@ -28,5 +28,6 @@ public class WicketApplication extends WebApplication {
         mount( new PhetUrlStrategy( LocaleUtils.stringToLocale( "en" ), mapper ) );
         mount( new PhetUrlStrategy( LocaleUtils.stringToLocale( "ar" ), mapper ) );
         mount( new PhetUrlStrategy( LocaleUtils.stringToLocale( "el" ), mapper ) );
+        getMarkupSettings().setStripWicketTags( true );
     }
 }

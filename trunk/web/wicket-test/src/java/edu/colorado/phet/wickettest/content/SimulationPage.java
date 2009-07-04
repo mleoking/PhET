@@ -6,10 +6,11 @@ import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.basic.Label;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
-import edu.colorado.phet.tomcattest.WebSimulation;
-import edu.colorado.phet.tomcattest.util.SqlUtils;
+import edu.colorado.phet.wickettest.WebSimulation;
+import edu.colorado.phet.wickettest.panels.SimulationMainPanel;
 import edu.colorado.phet.wickettest.util.PhetLink;
 import edu.colorado.phet.wickettest.util.PhetPage;
+import edu.colorado.phet.wickettest.util.SqlUtils;
 
 public class SimulationPage extends PhetPage {
     public SimulationPage( PageParameters parameters ) {
@@ -42,7 +43,7 @@ public class SimulationPage extends PhetPage {
         title.setRenderBodyOnly( true );
         add( title );
 
-        add( new Label( "simulationTitle", simulation.getTitle() ) );
+        add( new SimulationMainPanel( "simulation-panel", simulation, getMyLocale() ) );
 
     }
 

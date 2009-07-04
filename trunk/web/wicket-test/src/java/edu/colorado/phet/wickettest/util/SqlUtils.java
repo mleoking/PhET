@@ -1,4 +1,4 @@
-package edu.colorado.phet.tomcattest.util;
+package edu.colorado.phet.wickettest.util;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,8 +11,8 @@ import java.util.Properties;
 import javax.servlet.ServletContext;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
-import edu.colorado.phet.tomcattest.SimulationSQL;
-import edu.colorado.phet.tomcattest.WebSimulation;
+import edu.colorado.phet.wickettest.SimulationSQL;
+import edu.colorado.phet.wickettest.WebSimulation;
 
 public class SqlUtils {
 
@@ -165,6 +165,7 @@ public class SqlUtils {
     public static WebSimulation getBestSimulation( ServletContext context, String project, String simulation, Locale locale ) {
         WebSimulation ret = getSingleSimulation( context, project, simulation, locale );
         if ( ret == null ) {
+            System.out.println( "Could not find simulation " + simulation + " with locale " + LocaleUtils.localeToString( locale ) + ", resorting to default" );
             ret = getSingleSimulation( context, project, simulation, LocaleUtils.stringToLocale( "en" ) );
         }
         return ret;

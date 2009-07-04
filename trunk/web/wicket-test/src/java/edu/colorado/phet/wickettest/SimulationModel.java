@@ -2,8 +2,6 @@ package edu.colorado.phet.wickettest;
 
 import org.apache.wicket.model.IModel;
 
-import edu.colorado.phet.tomcattest.WebSimulation;
-
 public class SimulationModel implements IModel {
     private WebSimulation simulation;
 

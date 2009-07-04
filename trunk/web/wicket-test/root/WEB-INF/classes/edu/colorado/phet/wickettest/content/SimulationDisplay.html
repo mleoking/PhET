@@ -21,7 +21,17 @@
             font-size: 14px;
             font-family: Arial, sans-serif;
             color: #660000;
+            text-decoration: none;
         }
+
+        .simulation-link {
+            text-decoration: none;
+        }
+
+        .simulation-link img {
+            border: none;
+        }
+
     </style>
 </head>
 <body>
@@ -32,9 +42,12 @@
         <tr>
             <span wicket:id="simulation-list">
                 <td class="simulation-list-item">
-                    <img wicket:id="thumbnail" class="simulation-list-thumbnail"
-                         src="../../../../../../../template-files/images/arithmetic-thumbnail.jpg"/><br>
-                    <strong><span wicket:id="title" class="simulation-list-title">Simulation Title</span></strong><br>
+                    <a href="#" wicket:id="simulation-link" class="simulation-link">
+                        <img wicket:id="thumbnail" class="simulation-list-thumbnail"
+                             src="../../../../../../../../template-files/images/arithmetic-thumbnail.jpg"/><br>
+                        <strong><span wicket:id="title"
+                                      class="simulation-list-title">Simulation Title</span></strong><br>
+                    </a>
                 </td>
             </span>
         </tr>

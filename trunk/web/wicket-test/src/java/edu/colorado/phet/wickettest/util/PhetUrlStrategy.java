@@ -30,9 +30,9 @@ public class PhetUrlStrategy implements IRequestTargetUrlCodingStrategy {
     }
 
     public IRequestTarget decode( RequestParameters requestParameters ) {
-        System.out.println( "decode( RequestParameters ): " + requestParameters );
-        System.out.println( "Path: " + requestParameters.getPath() );
-        System.out.println( "ComponentPath: " + requestParameters.getComponentPath() );
+        //System.out.println( "decode( RequestParameters ): " + requestParameters );
+        //System.out.println( "Path: " + requestParameters.getPath() );
+        //System.out.println( "ComponentPath: " + requestParameters.getComponentPath() );
         PageParameters params = new PageParameters( requestParameters.getParameters() );
         params.add( "path", requestParameters.getPath() );
         params.add( "localeString", localeString );
@@ -58,7 +58,7 @@ public class PhetUrlStrategy implements IRequestTargetUrlCodingStrategy {
     }
 
     public boolean matches( String str ) {
-        System.out.println( "Matches? : " + str );
+        //System.out.println( "Matches? : " + str );
         return mapper.getMappedClass( stripPath( str ) ) != null;
     }
 }
