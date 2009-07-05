@@ -79,20 +79,8 @@ public class CCKModel {
             }
         };
         this.circuit = createCircuit( circuitChangeListener );
-        circuitSolver = new CircuitAnalysisCCKAdapter( new MNASolver() );
-//        circuitSolver = new PureJavaSolver();
-
-        //Use reflection for Java->Scala dependencies until Eclipse developers are using Scala builder
-//        try{
-//            Class c=Class.forName("edu.colorado.phet.cckscala.tests.PureScalaSolver");
-//            circuitSolver= (CircuitSolver) c.newInstance();
-//        } catch (ClassNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (IllegalAccessException e) {
-//            e.printStackTrace();
-//        } catch (InstantiationException e) {
-//            e.printStackTrace();
-//        }
+//        circuitSolver = new CircuitAnalysisCCKAdapter( new MNASolver() );
+        circuitSolver = new PureJavaSolver();
 
         particleSet = new ParticleSet( getCircuit() );
         layout = new ConstantDensityLayout( getCircuit(), particleSet );
