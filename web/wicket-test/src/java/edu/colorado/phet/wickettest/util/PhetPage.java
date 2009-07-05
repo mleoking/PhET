@@ -19,7 +19,13 @@ public class PhetPage extends WebPage {
     public PhetPage( PageParameters parameters ) {
         this.parameters = parameters;
         context = ( (WebApplication) getApplication() ).getServletContext();
-        myLocale = LocaleUtils.stringToLocale( (String) parameters.get( "localeString" ) );
+
+        if ( this.parameters.get( "localeString" ) != null ) {
+            myLocale = LocaleUtils.stringToLocale( (String) this.parameters.get( "localeString" ) );
+        }
+        else {
+            myLocale = LocaleUtils.stringToLocale( "en" );
+        }
         getSession().setLocale( myLocale );
         System.out.println( "Loading " + this.getClass().getCanonicalName() + " with Locale: " + LocaleUtils.localeToString( myLocale ) );
         System.out.println( "getRequestPath() of this page is: " + getRequestPath() );
