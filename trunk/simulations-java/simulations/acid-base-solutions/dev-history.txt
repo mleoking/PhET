@@ -3,10 +3,11 @@
 ==================================================================================
 
 TODO:
-- BH+ color is too light, symbols hard to see in ratio check box label
+- Trish: change label of "chemical ion ratio"
+- Trish" indicate what dot colors relate to in Comparing module
+- Trish: BH+ color is too light, symbols hard to see in ratio check box label
 - revise "match" algorithm to be "close to slider position"
-- change Lewis structure diagrams for "charged particles that are cut off"
-- "chemical ion ration" check box doesn't tell user anything about what the dot colors mean
+- Trish: charges (+,-) are cut off of scaled symbols in reaction equations  (cannot reproduce)
 - make symbol legend descriptions automatically wrap, so we don't need breaks in HTML markup
 - Spanish translation, to test i18n
 
