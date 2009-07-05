@@ -1,3 +1,4 @@
+# 3.17.08 (33030) Jul 5, 2009
 # 3.17.07 (32918) Jul 1, 2009
 # 3.17.06 (32767) Jun 26, 2009
 > Fixed a bug that prevented components (e.g. batteries) from being updated while machine locale and selected locale differ in decimal character, see #1700
