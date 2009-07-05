@@ -37,7 +37,13 @@
         </descriptors>
         <webroots>
           <root url="file://$MODULE_DIR$/web/wicket-test/root" relative="/" />
+          <root url="file://$MODULE_DIR$/web/wicket-test/localization" relative="/WEB-INF/classes/edu/colorado/phet" />
+          <root url="file://$MODULE_DIR$/web/wicket-test/content" relative="/WEB-INF/classes/edu/colorado/phet" />
         </webroots>
+        <sourceRoots>
+          <root url="file://$MODULE_DIR$/simulations-java/common/phetcommon/src" />
+          <root url="file://$MODULE_DIR$/web/wicket-test/src/java" />
+        </sourceRoots>
         <building>
           <setting name="EXPLODED_URL" value="file://" />
           <setting name="EXPLODED_ENABLED" value="false" />
@@ -49,6 +55,31 @@
           <containerElement type="module" name="phet">
             <attribute name="method" value="1" />
             <attribute name="URI" value="/WEB-INF/classes" />
+          </containerElement>
+          <containerElement type="library" level="module">
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/lib" />
+            <url>jar://$MODULE_DIR$/web/wicket-test/root/WEB-INF/lib/slf4j-api-1.4.2.jar!/</url>
+          </containerElement>
+          <containerElement type="library" level="module">
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/lib" />
+            <url>jar://$MODULE_DIR$/web/wicket-test/root/WEB-INF/lib/log4j-1.2.14.jar!/</url>
+          </containerElement>
+          <containerElement type="library" level="module">
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/lib" />
+            <url>jar://$MODULE_DIR$/web/wicket-test/root/WEB-INF/lib/wicket-1.3.6.jar!/</url>
+          </containerElement>
+          <containerElement type="library" level="module">
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/lib" />
+            <url>jar://$MODULE_DIR$/web/wicket-test/root/WEB-INF/lib/slf4j-log4j12-1.4.2.jar!/</url>
+          </containerElement>
+          <containerElement type="library" level="module">
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/lib" />
+            <url>jar://$MODULE_DIR$/web/wicket-test/root/WEB-INF/lib/mysql-connector-java-5.1.7-bin.jar!/</url>
           </containerElement>
         </packaging>
       </configuration>
@@ -173,13 +204,14 @@
       <sourceFolder url="file://$MODULE_DIR$/util/unfuddle/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/web/lift-test/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/web/tomcat-test/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/web/wicket-test/src/java" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.manager" />
       <excludeFolder url="file://$MODULE_DIR$/bin" />
       <excludeFolder url="file://$MODULE_DIR$/build-tools/ant_output" />
       <excludeFolder url="file://$MODULE_DIR$/simulations-flash/ant_output" />
       <excludeFolder url="file://$MODULE_DIR$/simulations-java/ant_output" />
     </content>
-    <orderEntry type="inheritedJdk" />
+    <orderEntry type="jdk" jdkName="1.6" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library">
       <library>
@@ -1815,6 +1847,51 @@
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/web/lift-test/root/WEB-INF/lib/lift-webkit-1.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/web/wicket-test/root/WEB-INF/lib/slf4j-api-1.4.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/web/wicket-test/root/WEB-INF/lib/log4j-1.2.14.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/web/wicket-test/root/WEB-INF/lib/wicket-1.3.6.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/web/wicket-test/root/WEB-INF/lib/slf4j-log4j12-1.4.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/web/wicket-test/root/WEB-INF/lib/mysql-connector-java-5.1.7-bin.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
