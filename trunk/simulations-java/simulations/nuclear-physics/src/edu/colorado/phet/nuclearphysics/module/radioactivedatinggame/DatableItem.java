@@ -60,20 +60,35 @@ public class DatableItem implements AnimatedModelElement {
 		this.width = width;
 		this.age = age;
 		this.rotationAngle = rotationAngle;
+		
+		// Load the initial primary image, which is the first one on the list.
+		// Note that the primary image can be changed later if desired.
+		BufferedImage primaryImage = NuclearPhysicsResources.getImage(resourceImageNames.get(0));
+		images.add(primaryImage);
+		
+		// Calculate the height, which is defined by a combination of the
+		// prescribed width and the aspect ratio of the primary image.
+		this.height = (double)images.get(primaryImageIndex).getHeight() 
+			/ (double)images.get(primaryImageIndex).getWidth() * width;
 
-		// Load up the images.
-		for ( String imageName : resourceImageNames ){
-			images.add(NuclearPhysicsResources.getImage(imageName));
+		// Load up any subsequent images.  Note that they must be scaled to
+		// the same size as the first (primary) image.
+		for ( int i = 1; i < resourceImageNames.size(); i++ ){
+			BufferedImage image = NuclearPhysicsResources.getImage(resourceImageNames.get(i));
+			if (image.getWidth() != primaryImage.getWidth() || image.getHeight() != primaryImage.getHeight()){
+				// Scale as needed.
+				image = BufferedImageUtils.rescaleFractional(image, 
+						(double)primaryImage.getWidth() / (double)image.getWidth(),
+						(double)primaryImage.getHeight() / (double)image.getHeight());
+			}
+			images.add(image);
 		}
+		
+		// Set up initial indicies.
 		primaryImageIndex = secondaryImageIndex = 0;
 		if (images.size() >= 2){
 			secondaryImageIndex = 1;
 		}
-		
-		// The height is defined by a combination of the prescribed width and
-		// and the aspect ratio of the image.
-		this.height = (double)images.get(primaryImageIndex).getHeight() 
-			/ (double)images.get(primaryImageIndex).getWidth() * width;
 	}
 	
 	/**
