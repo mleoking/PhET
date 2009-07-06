@@ -11,6 +11,7 @@ TODO:
 - Spanish translation, to test i18n
 
 DONE:
+7/6/09 fix enable/disable behavior of view check boxes in matching game
 7/6/09 change "chemical ion ratio" to "solute ratio"
 7/6/09 change "HA/A ratio" to "HA/A solute ratio"
 7/6/09 revise ratio check box class hierarchy
