@@ -98,11 +98,14 @@ public class DatableItemNode extends PNode {
 		}
 		image = new PImage( datableItem.getImage() );
 		
-		// Since Piccolo only has overall scaling, not scaling in both
-		// dimensions, scale the entire node based only on the width.  This
-		// is sufficient for our purposes, but may need to change some day.
-		double desiredWidth = mvt.modelToViewDifferentialXDouble(datableItem.getWidth());
-		image.scale(desiredWidth / image.getFullBoundsReference().getWidth());
+		// Since Piccolo only has overall scaling (as opposed to scaling in
+		// both the height and width dimensions), scale the image so that it
+		// fits within the width and height defined by the model element.
+		double itemWidth = mvt.modelToViewDifferentialXDouble(datableItem.getWidth());
+		double itemHeight = mvt.modelToViewDifferentialYDouble(-datableItem.getHeight());
+		double scalingFactor = Math.min(itemWidth / image.getFullBoundsReference().getWidth(), 
+				itemHeight / image.getFullBoundsReference().getHeight());
+		image.scale(scalingFactor);
 		updatePosition();
 		addChild(image);
 	}
