@@ -215,23 +215,36 @@ public class MatchingGameModel extends ABSModel {
     }
 
     /*
-     * Concentrations match is the right solution (the guess) is within 
+     * Concentrations match if the right solution (the guess) is within 
      * CONCENTRATION_CLOSENESS percent of the left (random) solution.
      */
     private boolean concentrationsMatch() {
-        final double leftC = solutionLeft.getSolute().getConcentration();
-        final double rightC = solutionRight.getSolute().getConcentration();
-        return ( Math.abs( leftC - rightC ) / leftC ) <= CONCENTRATION_CLOSENESS;
+        final double left = solutionLeft.getSolute().getConcentration();
+        final double right = solutionRight.getSolute().getConcentration();
+        final double closeness = Math.abs( ( left - right ) / left );
+//        System.out.println( "C: " + left + " " + right + " " + closeness );//XXX
+        return ( closeness <= CONCENTRATION_CLOSENESS );
     }
     
     /*
-     * Strength match is the right solution (the guess) is within 
+     * Strengths match if the right solution (the guess) is within 
      * STRENGTH_CLOSENESS percent of the left (random) solution.
+     * If both solutions are strong, then it doesn't matter what the value is, they match.
      */
     private boolean strengthsMatch() {
-        final double leftK = solutionLeft.getSolute().getStrength();
-        final double rightK = solutionRight.getSolute().getStrength();
-        return ( Math.abs( leftK - rightK ) / leftK ) <= STRENGTH_CLOSENESS;
+        boolean success = false;
+        if ( solutionLeft.getSolute().isStrong() && solutionRight.getSolute().isStrong() ) {
+//            System.out.println( "K: strong" );//XXX
+            success = true;
+        }
+        else {
+            final double left = solutionLeft.getSolute().getStrength();
+            final double right = solutionRight.getSolute().getStrength();
+            final double closeness = Math.abs( left - right ) / left;
+//            System.out.println( "K: " + left + " " + right + " " + closeness );//XXX
+            success = ( closeness <= STRENGTH_CLOSENESS );
+        }
+        return success;
     }
     
     private boolean getRandomAcid() {
