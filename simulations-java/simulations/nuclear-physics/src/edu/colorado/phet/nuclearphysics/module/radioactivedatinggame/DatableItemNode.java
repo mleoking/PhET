@@ -52,11 +52,11 @@ public class DatableItemNode extends PNode {
 			}
 
 			public void rotationalAngleChanged() {
-				handleRotationalAngleChanged();
+				updateRotationAngle();
 			}
 
 			public void sizeChanged() {
-				handleSizeChanged();
+				updateSize();
 			}
 		});
 
@@ -70,16 +70,21 @@ public class DatableItemNode extends PNode {
 		
 		// Set the initial position and orientation.
 		updatePosition();
-		handleRotationalAngleChanged();
+		updateRotationAngle();
 	}
 	
 	private void updatePosition(){
 		Point2D centerCanvasPosition = mvt.modelToViewDouble(datableItem.getPosition());
-		image.setOffset(centerCanvasPosition.getX() - ( image.getFullBoundsReference().width / 2 ),
-				centerCanvasPosition.getY() - ( image.getFullBoundsReference().height / 2 ) );
+//		image.setOffset(centerCanvasPosition.getX() - ( image.getFullBoundsReference().width / 2 ),
+//				centerCanvasPosition.getY() - ( image.getFullBoundsReference().height / 2 ) );
+//		double compensatedWidth = image.getFullBoundsReference().width * Math.cos(rotationAngle);
+//		double compensatedHeight = image.getFullBoundsReference().height * Math.sin(rotationAngle);
+//		image.setOffset(centerCanvasPosition.getX() - ( compensatedWidth / 2 ),
+//				centerCanvasPosition.getY() - ( compensatedHeight / 2 ) );
+		setOffset(centerCanvasPosition);
 	}
 	
-	private void handleSizeChanged(){
+	private void updateSize(){
 		Point2D desiredSize = mvt.modelToViewDifferentialDouble(datableItem.getWidth(), datableItem.getHeight());
 		// We ignore the height here, since we can't scale in each direction
 		// due to limitations of Piccolo.
@@ -87,9 +92,11 @@ public class DatableItemNode extends PNode {
 		updatePosition();
 	}
 	
-	private void handleRotationalAngleChanged(){
-		image.rotateInPlace(datableItem.getRotationalAngle() - rotationAngle);
+	private void updateRotationAngle(){
+		rotateAboutPoint(datableItem.getRotationalAngle() - rotationAngle, 
+				new Point2D.Double(image.getFullBoundsReference().width / 2, getFullBoundsReference().height / 2));
 		rotationAngle = datableItem.getRotationalAngle();
+		updatePosition();
 	}
 	
 	private void updateImage(){
@@ -106,7 +113,12 @@ public class DatableItemNode extends PNode {
 		double scalingFactor = Math.min(itemWidth / image.getFullBoundsReference().getWidth(), 
 				itemHeight / image.getFullBoundsReference().getHeight());
 		image.scale(scalingFactor);
-		updatePosition();
+		
+		// Set the offset of the image such that it is centered around the
+		// parent node's offset.
+		image.setOffset(-image.getFullBoundsReference().width / 2, -image.getFullBoundsReference().height / 2);
+		
+		// Add the image to the node.
 		addChild(image);
 	}
 }
