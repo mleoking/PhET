@@ -31,7 +31,7 @@ public class AgingRock extends AnimatedDatableItem {
     // The animation sequence that defines how the appearance of the tree
     // will change as it ages.
     //------------------------------------------------------------------------
-    protected ArrayList<ModelAnimationDelta> getAnimationSequence() {
+    protected AnimationSequence getAnimationSequence() {
         TimeUpdater timeUpdater = new TimeUpdater( MultiNucleusDecayModel.convertYearsToMs( 20 * 10E6 ), MultiNucleusDecayModel.convertYearsToMs( 10E6 ) );
         ArrayList<ModelAnimationDelta> ANIMATION_SEQUENCE = new ArrayList<ModelAnimationDelta>();
         
@@ -80,6 +80,6 @@ public class AgingRock extends AnimatedDatableItem {
         ANIMATION_SEQUENCE.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.1 ) );
         ANIMATION_SEQUENCE.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.1 ) );
         
-        return ANIMATION_SEQUENCE;
+        return new StaticAnimationSequence(ANIMATION_SEQUENCE);
     }
 }
