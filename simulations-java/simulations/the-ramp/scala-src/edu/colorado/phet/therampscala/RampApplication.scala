@@ -45,6 +45,10 @@ class CoordinatesRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampM
   coordinateSystemModel.adjustable=true
 }
 
+class ForceGraphsModule(frame:JFrame, clock:ScalaClock) extends BasicRampModule(frame,clock,"Force Graphs",false){
+  coordinateSystemModel.adjustable=false
+}
+
 class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock) extends AbstractRampModule(frame, clock, "Robot Moving Company") {
   val gameModel = new RobotMovingCompanyGameModel(model, clock)
 
@@ -68,6 +72,7 @@ class RampApplication(config: PhetApplicationConfig) extends PiccoloPhetApplicat
   def newClock = new ScalaClock(RampDefaults.DELAY, RampDefaults.DT_DEFAULT)
   addModule(new IntroRampModule(getPhetFrame, newClock))
   addModule(new CoordinatesRampModule(getPhetFrame, newClock))
+  addModule(new ForceGraphsModule(getPhetFrame, newClock))
   addModule(new RobotMovingCompanyModule(getPhetFrame, newClock))
 }
 
