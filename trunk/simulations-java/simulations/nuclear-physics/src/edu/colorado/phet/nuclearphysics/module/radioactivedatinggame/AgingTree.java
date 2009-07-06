@@ -23,7 +23,7 @@ public class AgingTree extends AnimatedDatableItem {
     //------------------------------------------------------------------------
 
     public AgingTree( ConstantDtClock clock, Point2D center, double width ) {
-        super( "Aging Tree", Arrays.asList( "tree_1.png", "dead_tree.png" ), center, width, 0, 0, clock, MultiNucleusDecayModel.convertYearsToMs( 1000 ) / 5000 );
+        super( "Aging Tree", Arrays.asList( "tree_1.png", "tree_dead_1.png" ), center, width, 0, 0, clock, MultiNucleusDecayModel.convertYearsToMs( 1000 ) / 5000 );
     }
 
     //------------------------------------------------------------------------
