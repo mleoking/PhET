@@ -34,37 +34,37 @@ public class AgingTree extends AnimatedDatableItem {
     protected AnimationSequence getAnimationSequence() {
         Point2D GROWTH_COMPENSATION = new Point2D.Double( 0, 0.6 );
 
-        ArrayList<ModelAnimationDelta> ANIMATION_DELTAS = new ArrayList<ModelAnimationDelta>();
+        ArrayList<ModelAnimationDelta> animationSequence = new ArrayList<ModelAnimationDelta>();
 
 
         TimeUpdater timeUpdater = new TimeUpdater( 0, MultiNucleusDecayModel.convertYearsToMs( 100 ) );
 
         // Grow.
-        ANIMATION_DELTAS.add( new ModelAnimationDelta( timeUpdater.updateTime(), GROWTH_COMPENSATION, 0, 1.1, 0, 0, 0 ) );
-        ANIMATION_DELTAS.add( new ModelAnimationDelta( timeUpdater.updateTime(), GROWTH_COMPENSATION, 0, 1.1, 0, 0, 0 ) );
-        ANIMATION_DELTAS.add( new ModelAnimationDelta( timeUpdater.updateTime(), GROWTH_COMPENSATION, 0, 1.1, 0, 0, 0 ) );
-        ANIMATION_DELTAS.add( new ModelAnimationDelta( timeUpdater.updateTime(), GROWTH_COMPENSATION, 0, 1.1, 0, 0, 0 ) );
-        ANIMATION_DELTAS.add( new ModelAnimationDelta( timeUpdater.updateTime(), GROWTH_COMPENSATION, 0, 1.1, 0, 0, 0 ) );
-        ANIMATION_DELTAS.add( new ModelAnimationDelta( timeUpdater.updateTime(), GROWTH_COMPENSATION, 0, 1.1, 0, 0, 0 ) );
-        ANIMATION_DELTAS.add( new ModelAnimationDelta( timeUpdater.updateTime(), GROWTH_COMPENSATION, 0, 1.1, 0, 0, 0 ) );
-        ANIMATION_DELTAS.add( new ModelAnimationDelta( timeUpdater.updateTime(), GROWTH_COMPENSATION, 0, 1.1, 0, 0, 0 ) );
-        ANIMATION_DELTAS.add( new ModelAnimationDelta( timeUpdater.updateTime(), GROWTH_COMPENSATION, 0, 1.1, 0, 0, 0 ) );
-        ANIMATION_DELTAS.add( new ModelAnimationDelta( timeUpdater.updateTime(), GROWTH_COMPENSATION, 0, 1.1, 0, 0, 0 ) );
-        ANIMATION_DELTAS.add( new ModelAnimationDelta( timeUpdater.updateTime(), GROWTH_COMPENSATION, 0, 1.1, 0, 0, 0 ) );
-        ANIMATION_DELTAS.add( new ModelAnimationDelta( timeUpdater.updateTime(), GROWTH_COMPENSATION, 0, 1.1, 0, 0, 0 ) );
-        ANIMATION_DELTAS.add( new ModelAnimationDelta( timeUpdater.updateTime(), GROWTH_COMPENSATION, 0, 1.1, 0, 0, 0 ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), GROWTH_COMPENSATION, 0, 1.1, 0, 0, 0 ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), GROWTH_COMPENSATION, 0, 1.1, 0, 0, 0 ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), GROWTH_COMPENSATION, 0, 1.1, 0, 0, 0 ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), GROWTH_COMPENSATION, 0, 1.1, 0, 0, 0 ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), GROWTH_COMPENSATION, 0, 1.1, 0, 0, 0 ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), GROWTH_COMPENSATION, 0, 1.1, 0, 0, 0 ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), GROWTH_COMPENSATION, 0, 1.1, 0, 0, 0 ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), GROWTH_COMPENSATION, 0, 1.1, 0, 0, 0 ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), GROWTH_COMPENSATION, 0, 1.1, 0, 0, 0 ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), GROWTH_COMPENSATION, 0, 1.1, 0, 0, 0 ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), GROWTH_COMPENSATION, 0, 1.1, 0, 0, 0 ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), GROWTH_COMPENSATION, 0, 1.1, 0, 0, 0 ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), GROWTH_COMPENSATION, 0, 1.1, 0, 0, 0 ) );
 
         // Switch image to dead tree.
-        ANIMATION_DELTAS.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1.1, 1, 0, 0 ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1.1, 1, 0, 0 ) );
 
         // Fall over.
-        ANIMATION_DELTAS.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0.2, 1.0, 0, 0, 0 ) );
-        ANIMATION_DELTAS.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0.3, 1.0, 0, 0, 0 ) );
-        ANIMATION_DELTAS.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0.3, 1.0, 0, 0, 0 ) );
-        ANIMATION_DELTAS.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0.2, 1.0, 0, 0, 0 ) );
-        ANIMATION_DELTAS.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0.2, 1.0, 0, 0, 0 ) );
-        ANIMATION_DELTAS.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0.2, 1.0, 0, 0, 0 ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0.2, 1.0, 0, 0, 0 ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0.3, 1.0, 0, 0, 0 ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0.3, 1.0, 0, 0, 0 ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0.2, 1.0, 0, 0, 0 ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0.2, 1.0, 0, 0, 0 ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0.2, 1.0, 0, 0, 0 ) );
 
-        return new StaticAnimationSequence(ANIMATION_DELTAS);
+        return new StaticAnimationSequence(animationSequence);
     }
 }
