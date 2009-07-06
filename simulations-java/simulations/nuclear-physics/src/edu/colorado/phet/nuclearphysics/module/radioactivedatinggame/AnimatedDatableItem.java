@@ -1,14 +1,13 @@
 package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
-import java.awt.geom.Point2D;
 
-import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusDecayModel;
-import edu.colorado.phet.nuclearphysics.common.Cleanupable;
-import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.nuclearphysics.common.Cleanupable;
 
 /**
  * Created by IntelliJ IDEA.
@@ -55,7 +54,7 @@ public abstract class AnimatedDatableItem extends DatableItem implements Cleanup
 		animationIterpreter = new ModelAnimationDeltaInterpreter(this, getAnimationSequence() );
     }
 
-    protected abstract ArrayList<ModelAnimationDelta> getAnimationSequence();
+    protected abstract AnimationSequence getAnimationSequence();
 
 
 

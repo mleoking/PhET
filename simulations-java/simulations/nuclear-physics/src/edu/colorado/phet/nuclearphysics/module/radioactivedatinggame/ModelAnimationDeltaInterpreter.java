@@ -4,14 +4,9 @@ package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PImage;
-import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * This class interprets model change descriptions (or "deltas") and executes
@@ -25,18 +20,17 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class ModelAnimationDeltaInterpreter {
 
 	private final AnimatedModelElement modelElement;
-	private final ArrayList<ModelAnimationDelta> animationDeltas;
-	private int currentIndex = 0;
+	private final AnimationSequence animationSequence;
 	private int maxEventsPerUpdate = Integer.MAX_VALUE;
 	
 	/**
 	 * Constructor.
 	 */
-	public ModelAnimationDeltaInterpreter(AnimatedModelElement modelElement,
-			ArrayList<ModelAnimationDelta> animationDeltas, int maxEventsPerUpdate) {
+	public ModelAnimationDeltaInterpreter(AnimatedModelElement modelElement, AnimationSequence animationSequence,
+			int maxEventsPerUpdate) {
 		
 		this.modelElement = modelElement;
-		this.animationDeltas = animationDeltas;
+		this.animationSequence = animationSequence;
 		this.maxEventsPerUpdate = maxEventsPerUpdate;
 	}
 
@@ -44,12 +38,11 @@ public class ModelAnimationDeltaInterpreter {
 	 * Alternate constructor.
 	 * 
 	 * @param modelElement
-	 * @param animationDeltas
+	 * @param animationSequence
 	 */
-	public ModelAnimationDeltaInterpreter(AnimatedModelElement modelElement,
-			ArrayList<ModelAnimationDelta> animationDeltas) {
+	public ModelAnimationDeltaInterpreter(AnimatedModelElement modelElement, AnimationSequence animationSequence) {
 		
-		this(modelElement, animationDeltas, Integer.MAX_VALUE);
+		this(modelElement, animationSequence, Integer.MAX_VALUE);
 	}
 	
 	/**
@@ -60,16 +53,10 @@ public class ModelAnimationDeltaInterpreter {
 	 * @param time
 	 */
 	public void setTime(double time){
-		for ( int i = 0; i < maxEventsPerUpdate && currentIndex < animationDeltas.size(); i++){
-			if (time > animationDeltas.get(currentIndex).getTime()){
-				// Execute this animation delta.
-				interpret(animationDeltas.get(currentIndex));
-				currentIndex++;
-			}
-			else{
-				// We are up to date.
-				break;
-			}
+		ArrayList<ModelAnimationDelta> animationDeltas = animationSequence.getNextAnimationDeltas(time);
+		
+		for ( int i = 0; i < animationDeltas.size() &&  i < maxEventsPerUpdate; i++){
+			interpret(animationDeltas.get(i));
 		}
 	}
 	

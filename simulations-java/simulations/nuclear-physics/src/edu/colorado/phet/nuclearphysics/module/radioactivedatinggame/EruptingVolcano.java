@@ -27,7 +27,7 @@ public class EruptingVolcano extends AnimatedDatableItem {
 		super("Volcano", Arrays.asList( "volcano_cool.png","volcano_hot.png" ), center, width, 0, 0, clock , VOLCANO_AGE_FACTOR );
 	}
 
-    protected ArrayList<ModelAnimationDelta> getAnimationSequence() {
+    protected AnimationSequence getAnimationSequence() {
         TimeUpdater timeUpdater=new TimeUpdater(0, MultiNucleusDecayModel.convertYearsToMs( 10E6 ));
         ArrayList<ModelAnimationDelta> ANIMATION_SEQUENCE = new ArrayList<ModelAnimationDelta>();
         ANIMATION_SEQUENCE.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(-0.25, 0), 0, 1.0, 0, 0, 0));
@@ -60,6 +60,7 @@ public class EruptingVolcano extends AnimatedDatableItem {
         ANIMATION_SEQUENCE.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(0.2, 0.1), 0, 1.0, 0, 0, 0));
         ANIMATION_SEQUENCE.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(-0.25, 0), 0, 1.0, 0, 0, 0));
         ANIMATION_SEQUENCE.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(0.25, 0), 0, 1.0, 0, 0, 0));
-        return ANIMATION_SEQUENCE;
+        
+        return new StaticAnimationSequence(ANIMATION_SEQUENCE);
     }
 }
