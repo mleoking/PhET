@@ -29,38 +29,38 @@ public class EruptingVolcano extends AnimatedDatableItem {
 
     protected AnimationSequence getAnimationSequence() {
         TimeUpdater timeUpdater=new TimeUpdater(0, MultiNucleusDecayModel.convertYearsToMs( 10E6 ));
-        ArrayList<ModelAnimationDelta> ANIMATION_SEQUENCE = new ArrayList<ModelAnimationDelta>();
-        ANIMATION_SEQUENCE.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(-0.25, 0), 0, 1.0, 0, 0, 0));
-        ANIMATION_SEQUENCE.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(0.25, 0), 0, 1.0, 0, 0, 0));
-        ANIMATION_SEQUENCE.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(-0.3, 0.1), 0, 1.0, 0, 0, 0));
-        ANIMATION_SEQUENCE.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(0.3, -0.10), 0, 1.0, 0, 0, 0));
-        ANIMATION_SEQUENCE.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(0, 0.1), 0, 1.0, 0, 0, 0));
-        ANIMATION_SEQUENCE.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(0, -0.1), 0, 1.0, 0, 0, 0));
-        ANIMATION_SEQUENCE.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(-0.2, -0.1), 0, 1.0, 0, 0, 0));
-        ANIMATION_SEQUENCE.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(0.2, 0.1), 0, 1.0, 0, 0, 0));
-        ANIMATION_SEQUENCE.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(-0.25, 0), 0, 1.0, 0, 0, 0));
-        ANIMATION_SEQUENCE.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(0.25, 0), 0, 1.0, 0, 0, 0));
+        ArrayList<ModelAnimationDelta> animationSequence = new ArrayList<ModelAnimationDelta>();
+        animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(-0.25, 0), 0, 1.0, 0, 0, 0));
+        animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(0.25, 0), 0, 1.0, 0, 0, 0));
+        animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(-0.3, 0.1), 0, 1.0, 0, 0, 0));
+        animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(0.3, -0.10), 0, 1.0, 0, 0, 0));
+        animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(0, 0.1), 0, 1.0, 0, 0, 0));
+        animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(0, -0.1), 0, 1.0, 0, 0, 0));
+        animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(-0.2, -0.1), 0, 1.0, 0, 0, 0));
+        animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(0.2, 0.1), 0, 1.0, 0, 0, 0));
+        animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(-0.25, 0), 0, 1.0, 0, 0, 0));
+        animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(0.25, 0), 0, 1.0, 0, 0, 0));
 
         // Fade image to hot volcano.
-        ANIMATION_SEQUENCE.add(new ModelAnimationDelta(timeUpdater.updateTime(), null, 0, 1.0, 0, 0, 0.2));
-        ANIMATION_SEQUENCE.add(new ModelAnimationDelta(timeUpdater.updateTime(), null, 0, 1.0, 0, 0, 0.2));
-        ANIMATION_SEQUENCE.add(new ModelAnimationDelta(timeUpdater.updateTime(), null, 0, 1.0, 0, 0, 0.2));
-        ANIMATION_SEQUENCE.add(new ModelAnimationDelta(timeUpdater.updateTime(), null, 0, 1.0, 0, 0, 0.2));
-        ANIMATION_SEQUENCE.add(new ModelAnimationDelta(timeUpdater.updateTime(), null, 0, 1.0, 0, 0, 0.2));
-        ANIMATION_SEQUENCE.add(new ModelAnimationDelta(timeUpdater.updateTime(), null, 0, 1.0, 0, 0, 0.2));
+        animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(), null, 0, 1.0, 0, 0, 0.2));
+        animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(), null, 0, 1.0, 0, 0, 0.2));
+        animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(), null, 0, 1.0, 0, 0, 0.2));
+        animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(), null, 0, 1.0, 0, 0, 0.2));
+        animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(), null, 0, 1.0, 0, 0, 0.2));
+        animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(), null, 0, 1.0, 0, 0, 0.2));
 
         // More shaking.
-        ANIMATION_SEQUENCE.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(-0.25, 0), 0, 1.0, 0, 0, 0));
-        ANIMATION_SEQUENCE.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(0.25, 0), 0, 1.0, 0, 0, 0));
-        ANIMATION_SEQUENCE.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(-0.3, 0.1), 0, 1.0, 0, 0, 0));
-        ANIMATION_SEQUENCE.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(0.3, -0.10), 0, 1.0, 0, 0, 0));
-        ANIMATION_SEQUENCE.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(0, 0.1), 0, 1.0, 0, 0, 0));
-        ANIMATION_SEQUENCE.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(0, -0.1), 0, 1.0, 0, 0, 0));
-        ANIMATION_SEQUENCE.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(-0.2, -0.1), 0, 1.0, 0, 0, 0));
-        ANIMATION_SEQUENCE.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(0.2, 0.1), 0, 1.0, 0, 0, 0));
-        ANIMATION_SEQUENCE.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(-0.25, 0), 0, 1.0, 0, 0, 0));
-        ANIMATION_SEQUENCE.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(0.25, 0), 0, 1.0, 0, 0, 0));
+        animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(-0.25, 0), 0, 1.0, 0, 0, 0));
+        animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(0.25, 0), 0, 1.0, 0, 0, 0));
+        animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(-0.3, 0.1), 0, 1.0, 0, 0, 0));
+        animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(0.3, -0.10), 0, 1.0, 0, 0, 0));
+        animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(0, 0.1), 0, 1.0, 0, 0, 0));
+        animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(0, -0.1), 0, 1.0, 0, 0, 0));
+        animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(-0.2, -0.1), 0, 1.0, 0, 0, 0));
+        animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(0.2, 0.1), 0, 1.0, 0, 0, 0));
+        animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(-0.25, 0), 0, 1.0, 0, 0, 0));
+        animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(0.25, 0), 0, 1.0, 0, 0, 0));
         
-        return new StaticAnimationSequence(ANIMATION_SEQUENCE);
+        return new StaticAnimationSequence(animationSequence);
     }
 }
