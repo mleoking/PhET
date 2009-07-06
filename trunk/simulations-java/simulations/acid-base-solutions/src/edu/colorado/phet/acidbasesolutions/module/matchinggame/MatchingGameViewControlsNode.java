@@ -1,7 +1,6 @@
 package edu.colorado.phet.acidbasesolutions.module.matchinggame;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -50,9 +49,7 @@ public class MatchingGameViewControlsNode extends PhetPNode {
         
         ActionListener actionListener = new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                soluteComponentsRatioCheckBox.setEnabled( beakersRadioButton.isSelected() );
-                hyroniumHydroxideRatioCheckBox.setEnabled( beakersRadioButton.isSelected() );
-                moleculeCountsCheckBox.setEnabled( beakersRadioButton.isSelected() );
+                updateCheckBoxEnable();
                 notifyStateChanged();
             }
         };
@@ -125,21 +122,27 @@ public class MatchingGameViewControlsNode extends PhetPNode {
         setHydroniumHydroxideRatioSelected( true );
     }
 
+    private void updateCheckBoxEnable() {
+        boolean enabled = beakersRadioButton.isEnabled();
+        soluteComponentsRatioCheckBox.setEnabled( beakersRadioButton.isSelected() && enabled );
+        hyroniumHydroxideRatioCheckBox.setEnabled( beakersRadioButton.isSelected() && enabled );
+        moleculeCountsCheckBox.setEnabled( beakersRadioButton.isSelected() && enabled );
+    }
+    
     /**
-     * Enabling/disabling this node enabled/disables all swing components.
+     * Enable and disable Swing controls.
      * @param enabled
      */
     public void setEnabled( boolean enabled ) {
-        panel.setEnabled( enabled );
-        Component[] components = panel.getComponents();
-        for ( int i = 0; i < components.length; i++ ) {
-            components[i].setEnabled( enabled );
-        }
+        beakersRadioButton.setEnabled( enabled );
+        graphsRadioButton.setEnabled( enabled );
+        updateCheckBoxEnable();
     }
     
     public void setBeakersSelected( boolean b ) {
         if ( b != isBeakersSelected() ) {
             beakersRadioButton.setSelected( b );
+            updateCheckBoxEnable();
             notifyStateChanged();
         }
     }
@@ -151,6 +154,7 @@ public class MatchingGameViewControlsNode extends PhetPNode {
     public void setGraphsSelected( boolean b ) {
         if ( b != isGraphsSelected() ) {
             graphsRadioButton.setSelected( b );
+            updateCheckBoxEnable();
             notifyStateChanged();
         }
     }
