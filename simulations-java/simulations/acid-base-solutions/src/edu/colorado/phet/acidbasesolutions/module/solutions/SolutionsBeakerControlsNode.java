@@ -3,6 +3,8 @@ package edu.colorado.phet.acidbasesolutions.module.solutions;
 import java.awt.Color;
 
 import edu.colorado.phet.acidbasesolutions.control.BeakerControlsNode;
+import edu.colorado.phet.acidbasesolutions.control.RatioCheckBox;
+import edu.colorado.phet.acidbasesolutions.control.RatioCheckBox.SpecificSoluteRatioCheckBox;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.model.Solute;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.SolutionAdapter;
@@ -28,7 +30,7 @@ public class SolutionsBeakerControlsNode extends BeakerControlsNode {
         
         this.solution = solution;
         
-        setDissociatedComponentsRatioSelected( beakerNode.isDisassociatedRatioComponentsVisible() );
+        setSoluteComponentsRatioSelected( beakerNode.isSoluteComponentsRatioVisible() );
         setHydroniumHydroxideRatioSelected( beakerNode.isHydroniumHydroxideRatioVisible() );
         setMoleculeCountsSelected( beakerNode.isMoleculeCountsVisible() );
         setLabelSelected( beakerNode.isBeakerLabelVisible() );
@@ -36,8 +38,8 @@ public class SolutionsBeakerControlsNode extends BeakerControlsNode {
         // update view when controls change
         addBeakerViewChangeListener( new BeakerViewChangeListener() {
 
-            public void disassociatedComponentsRatioChanged( boolean selected ) {
-                beakerNode.setDisassociatedRatioComponentsVisible( selected );
+            public void soluteComponentsRatioChanged( boolean selected ) {
+                beakerNode.setSoluteComponentsRatioVisible( selected );
             }
 
             public void hydroniumHydroxideRatioChanged( boolean selected ) {
@@ -57,21 +59,25 @@ public class SolutionsBeakerControlsNode extends BeakerControlsNode {
         solution.addSolutionListener( new SolutionAdapter() {
 
             public void soluteChanged() {
-                updateDisassociatedComponentsCheckBox();
+                updateSoluteIonRatioCheckBox();
             }
 
             public void strengthChanged() {
-                updateDisassociatedComponentsCheckBox();
+                updateSoluteIonRatioCheckBox();
             }
 
         } );
     }
 
-    private void updateDisassociatedComponentsCheckBox() {
+    private void updateSoluteIonRatioCheckBox() {
         Solute solute = solution.getSolute();
-        setDissociatedComponentsCheckBoxVisible( !solution.isPureWater() );
+        setSoluteComponentsRatioCheckBoxVisible( !solution.isPureWater() );
         if ( !solution.isPureWater() ) {
-            setDissociatedComponents( solute.getSymbol(), solute.getColor(), solute.getConjugateSymbol(), solute.getConjugateColor() );
+            setSoluteComponents( solute.getSymbol(), solute.getColor(), solute.getConjugateSymbol(), solute.getConjugateColor() );
         }
+    }
+    
+    protected RatioCheckBox getSoluteComponentsRatioCheckBox() {
+        return new SpecificSoluteRatioCheckBox();
     }
 }

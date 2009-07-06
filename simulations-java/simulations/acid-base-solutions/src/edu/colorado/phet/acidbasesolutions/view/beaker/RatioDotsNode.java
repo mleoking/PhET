@@ -55,8 +55,8 @@ public class RatioDotsNode extends PComposite {
     private final PBounds containerBounds;
     private final PNode parentReactant, parentProduct, parentH3O, parentOH;
     private final Random randomCoordinate;
-    private DotCountNode disassociatedComponentsCountsNode, hydroniumHydroxideCountsNode;
-    private boolean disassociatedComponentsVisible, hydroniumHydroxideVisible;
+    private DotCountNode soluteComponentsCountNode, hydroniumHydroxideCountsNode;
+    private boolean soluteComponentsVisible, hydroniumHydroxideVisible;
     private boolean dirty;
     private final PNode[] dotParents;
     
@@ -67,7 +67,7 @@ public class RatioDotsNode extends PComposite {
     public RatioDotsNode( AqueousSolution solution, PBounds containerBounds ) {
         super();
         
-        disassociatedComponentsVisible = true;
+        soluteComponentsVisible = true;
         hydroniumHydroxideVisible = true;
         dirty = true;
         
@@ -112,15 +112,15 @@ public class RatioDotsNode extends PComposite {
         
         // dot counts (developer)
         {
-            disassociatedComponentsCountsNode = new DotCountNode();
-            addChild( disassociatedComponentsCountsNode );
+            soluteComponentsCountNode = new DotCountNode();
+            addChild( soluteComponentsCountNode );
 
             hydroniumHydroxideCountsNode = new DotCountNode();
             addChild( hydroniumHydroxideCountsNode );
 
             // layout, lower left of container
             hydroniumHydroxideCountsNode.setOffset( containerBounds.getX() + 5, containerBounds.getMaxY() - hydroniumHydroxideCountsNode.getFullBoundsReference().getHeight() - 15 );
-            disassociatedComponentsCountsNode.setOffset( hydroniumHydroxideCountsNode.getXOffset(), hydroniumHydroxideCountsNode.getYOffset() - disassociatedComponentsCountsNode.getFullBoundsReference().getHeight() - 15 );
+            soluteComponentsCountNode.setOffset( hydroniumHydroxideCountsNode.getXOffset(), hydroniumHydroxideCountsNode.getYOffset() - soluteComponentsCountNode.getFullBoundsReference().getHeight() - 15 );
         }
         
         update();
@@ -130,20 +130,20 @@ public class RatioDotsNode extends PComposite {
     // Setters and getters
     //----------------------------------------------------------------------------
     
-    public void setDisassociatedComponentsVisible( boolean visible ) {
-        if ( visible != isDisassociatedComponentsVisible() ) {
-            disassociatedComponentsVisible = visible;
+    public void setSoluteComponentsVisible( boolean visible ) {
+        if ( visible != isSoluteComponentsVisible() ) {
+            soluteComponentsVisible = visible;
             parentReactant.setVisible( visible );
             parentProduct.setVisible( visible );
-            disassociatedComponentsCountsNode.setVisible( visible && !solution.isPureWater() );
+            soluteComponentsCountNode.setVisible( visible && !solution.isPureWater() );
             if ( visible && dirty ) {
                 update();
             }
         }
     }
     
-    public boolean isDisassociatedComponentsVisible() {
-        return disassociatedComponentsVisible;
+    public boolean isSoluteComponentsVisible() {
+        return soluteComponentsVisible;
     }
     
     public void setHydroniumHydroxideVisible( boolean visible ) {
@@ -170,7 +170,7 @@ public class RatioDotsNode extends PComposite {
      * Updates the view to match the model.
      */
     private void update() {
-        if ( isDisassociatedComponentsVisible() || isHydroniumHydroxideVisible() ) {
+        if ( isSoluteComponentsVisible() || isHydroniumHydroxideVisible() ) {
             createParticles();
             dirty = false;
         }
@@ -227,10 +227,10 @@ public class RatioDotsNode extends PComposite {
         }
         
         // counts display (developer)
-        disassociatedComponentsCountsNode.setVisible( !solution.isPureWater() && PhetApplication.getInstance().isDeveloperControlsEnabled() );
+        soluteComponentsCountNode.setVisible( !solution.isPureWater() && PhetApplication.getInstance().isDeveloperControlsEnabled() );
         if ( !solution.isPureWater() ) {
             Solute solute = solution.getSolute();
-            disassociatedComponentsCountsNode.setCounts( solute.getSymbol(), solute.getConjugateSymbol(), dotsReactant, dotsProduct );
+            soluteComponentsCountNode.setCounts( solute.getSymbol(), solute.getConjugateSymbol(), dotsReactant, dotsProduct );
         }
         hydroniumHydroxideCountsNode.setCounts( ABSSymbols.H3O_PLUS, ABSSymbols.OH_MINUS, dotsH3O, dotsOH );
     }

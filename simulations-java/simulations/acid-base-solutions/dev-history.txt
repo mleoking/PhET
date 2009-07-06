@@ -3,7 +3,6 @@
 ==================================================================================
 
 TODO:
-- Trish: change label of "chemical ion ratio"
 - Trish" indicate what dot colors relate to in Comparing module
 - Trish: BH+ color is too light, symbols hard to see in ratio check box label
 - revise "match" algorithm to be "close to slider position"
@@ -12,6 +11,10 @@ TODO:
 - Spanish translation, to test i18n
 
 DONE:
+7/6/09 change "chemical ion ratio" to "solute ratio"
+7/6/09 change "HA/A ratio" to "HA/A solute ratio"
+7/6/09 revise ratio check box class hierarchy
+7/6/09 change internal terminology from "dissassociated components" to "solute components"
 7/3/09 decided to live with space to left of Aqua buttons, makes left-alignment impossible in Matching Game
 # 0.01.22
 7/2/09 clean up and doc state machine for matching game

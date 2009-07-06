@@ -3,6 +3,8 @@ package edu.colorado.phet.acidbasesolutions.module.comparing;
 import java.awt.Color;
 
 import edu.colorado.phet.acidbasesolutions.control.BeakerControlsNode;
+import edu.colorado.phet.acidbasesolutions.control.RatioCheckBox;
+import edu.colorado.phet.acidbasesolutions.control.RatioCheckBox.GeneralSoluteRatioCheckBox;
 import edu.colorado.phet.acidbasesolutions.view.beaker.BeakerNode;
 
 /**
@@ -16,13 +18,13 @@ public class ComparingBeakerControlsNode extends BeakerControlsNode {
         super( background );
         
         // make sure left and right are the same
-        beakerNodeRight.setDisassociatedRatioComponentsVisible( beakerNodeLeft.isDisassociatedRatioComponentsVisible() );
+        beakerNodeRight.setSoluteComponentsRatioVisible( beakerNodeLeft.isSoluteComponentsRatioVisible() );
         beakerNodeRight.setHydroniumHydroxideRatioVisible( beakerNodeLeft.isHydroniumHydroxideRatioVisible() );
         beakerNodeRight.setMoleculeCountsVisible( beakerNodeLeft.isMoleculeCountsVisible() );
         beakerNodeRight.setBeakerLabelVisible( beakerNodeLeft.isBeakerLabelVisible() );
         
         // sync controls with left
-        setDissociatedComponentsRatioSelected( beakerNodeLeft.isDisassociatedRatioComponentsVisible() );
+        setSoluteComponentsRatioSelected( beakerNodeLeft.isSoluteComponentsRatioVisible() );
         setHydroniumHydroxideRatioSelected( beakerNodeLeft.isHydroniumHydroxideRatioVisible() );
         setMoleculeCountsSelected( beakerNodeLeft.isMoleculeCountsVisible() );
         setLabelSelected( beakerNodeLeft.isBeakerLabelVisible() );
@@ -30,9 +32,9 @@ public class ComparingBeakerControlsNode extends BeakerControlsNode {
         // update view when controls change
         addBeakerViewChangeListener( new BeakerViewChangeListener() {
 
-            public void disassociatedComponentsRatioChanged( boolean selected ) {
-                beakerNodeLeft.setDisassociatedRatioComponentsVisible( selected );
-                beakerNodeRight.setDisassociatedRatioComponentsVisible( selected );
+            public void soluteComponentsRatioChanged( boolean selected ) {
+                beakerNodeLeft.setSoluteComponentsRatioVisible( selected );
+                beakerNodeRight.setSoluteComponentsRatioVisible( selected );
             }
 
             public void hydroniumHydroxideRatioChanged( boolean selected ) {
@@ -50,5 +52,9 @@ public class ComparingBeakerControlsNode extends BeakerControlsNode {
                 beakerNodeRight.setBeakerLabelVisible( selected );
             }
         });
+    }
+    
+    protected RatioCheckBox getSoluteComponentsRatioCheckBox() {
+        return new GeneralSoluteRatioCheckBox();
     }
 }

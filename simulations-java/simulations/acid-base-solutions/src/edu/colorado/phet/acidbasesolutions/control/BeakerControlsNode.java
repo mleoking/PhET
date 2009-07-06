@@ -13,9 +13,9 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
+import edu.colorado.phet.acidbasesolutions.control.RatioCheckBox.GeneralSoluteRatioCheckBox;
 import edu.colorado.phet.acidbasesolutions.control.RatioCheckBox.HydroniumHydroxideRatioCheckBox;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
-import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -29,7 +29,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 public abstract class BeakerControlsNode extends PhetPNode {
     
     private final JPanel panel;
-    private final RatioCheckBox dissociatedComponentsRatioCheckBox;
+    private final RatioCheckBox soluteComponentsRatioCheckBox;
     private final JCheckBox hyroniumHydroxideRatioCheckBox;
     private final JCheckBox moleculeCountsCheckBox;
     private final JCheckBox labelCheckBox;
@@ -40,11 +40,10 @@ public abstract class BeakerControlsNode extends PhetPNode {
         
         listeners = new ArrayList<BeakerViewChangeListener>();
         
-        dissociatedComponentsRatioCheckBox = new RatioCheckBox();
-        dissociatedComponentsRatioCheckBox.setText( HTMLUtils.toHTMLString( ABSStrings.CHECK_BOX_DISASSOCIATED_COMPONENTS_RATIO ) );
-        dissociatedComponentsRatioCheckBox.addActionListener( new ActionListener() {
+        soluteComponentsRatioCheckBox = getSoluteComponentsRatioCheckBox();
+        soluteComponentsRatioCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                notifyDisassociatedComponentsRatioChanged();
+                notifySoluteRatioChanged();
             }
         });
 
@@ -80,7 +79,7 @@ public abstract class BeakerControlsNode extends PhetPNode {
         panel.setLayout( layout );
         int row = 0;
         int column = 0;
-        layout.addComponent( dissociatedComponentsRatioCheckBox, row++, column );
+        layout.addComponent( soluteComponentsRatioCheckBox, row++, column );
         layout.addComponent( hyroniumHydroxideRatioCheckBox, row++, column );
         layout.addComponent( moleculeCountsCheckBox, row++, column );
         layout.addComponent( labelCheckBox, row++, column );
@@ -90,23 +89,25 @@ public abstract class BeakerControlsNode extends PhetPNode {
         addChild( new PSwing( panel ) );
     }
     
-    protected void setDissociatedComponents( String symbol1, Color color1, String symbol2, Color color2 ) {
-        dissociatedComponentsRatioCheckBox.setComponents( symbol1, color1, symbol2, color2 );
+    protected abstract RatioCheckBox getSoluteComponentsRatioCheckBox();
+    
+    protected void setSoluteComponents( String symbol1, Color color1, String symbol2, Color color2 ) {
+        soluteComponentsRatioCheckBox.setComponents( symbol1, color1, symbol2, color2 );
     }
     
-    protected void setDissociatedComponentsCheckBoxVisible( boolean visible ) {
-        dissociatedComponentsRatioCheckBox.setVisible( visible );
+    protected void setSoluteComponentsRatioCheckBoxVisible( boolean visible ) {
+        soluteComponentsRatioCheckBox.setVisible( visible );
     }
     
-    public void setDissociatedComponentsRatioSelected( boolean b ) {
-        if ( b != isDissociatedComponentsRatioSelected() ) {
-            dissociatedComponentsRatioCheckBox.setSelected( b );
-            notifyDisassociatedComponentsRatioChanged();
+    public void setSoluteComponentsRatioSelected( boolean b ) {
+        if ( b != isSoluteComponentsRatioSelected() ) {
+            soluteComponentsRatioCheckBox.setSelected( b );
+            notifySoluteRatioChanged();
         }
     }
     
-    public boolean isDissociatedComponentsRatioSelected() {
-        return dissociatedComponentsRatioCheckBox.isSelected();
+    public boolean isSoluteComponentsRatioSelected() {
+        return soluteComponentsRatioCheckBox.isSelected();
     }
     
     public void setHydroniumHydroxideRatioSelected( boolean b ) {
@@ -143,7 +144,7 @@ public abstract class BeakerControlsNode extends PhetPNode {
     }
     
     public interface BeakerViewChangeListener {
-        public void disassociatedComponentsRatioChanged( boolean selected );
+        public void soluteComponentsRatioChanged( boolean selected );
         public void hydroniumHydroxideRatioChanged( boolean selected );
         public void moleculeCountsChanged( boolean selected );
         public void labelChanged( boolean selected );
@@ -157,11 +158,11 @@ public abstract class BeakerControlsNode extends PhetPNode {
         listeners.remove( listener );
     }
     
-    private void notifyDisassociatedComponentsRatioChanged() {
-        final boolean selected = dissociatedComponentsRatioCheckBox.isSelected();
+    private void notifySoluteRatioChanged() {
+        final boolean selected = soluteComponentsRatioCheckBox.isSelected();
         Iterator<BeakerViewChangeListener> i = listeners.iterator();
         while ( i.hasNext() ) {
-            i.next().disassociatedComponentsRatioChanged( selected );
+            i.next().soluteComponentsRatioChanged( selected );
         }
     }
     
