@@ -106,7 +106,7 @@ public class ComparingModule extends ABSAbstractModule {
         
         // beaker controls
         ComparingBeakerControlsNode beakerControls = canvas.getBeakerControlsNode();
-        config.setDisassociatedComponentsRatioVisible( beakerControls.isDissociatedComponentsRatioSelected() );
+        config.setSoluteComponentsRatioVisible( beakerControls.isSoluteComponentsRatioSelected() );
         config.setHydroniumHydroxideRatioVisible( beakerControls.isHydroniumHydroxideRatioSelected() );
         config.setMoleculeCountsVisible( beakerControls.isMoleculeCountsSelected() );
         config.setBeakerLabelVisible( beakerControls.isLabelSelected() );
@@ -149,7 +149,7 @@ public class ComparingModule extends ABSAbstractModule {
 
         // beaker controls
         BeakerControlsNode beakerControls = canvas.getBeakerControlsNode();
-        beakerControls.setDissociatedComponentsRatioSelected( config.isDisassociatedComponentsRatioVisible() );
+        beakerControls.setSoluteComponentsRatioSelected( config.isSoluteComponentsRatioVisible() );
         beakerControls.setHydroniumHydroxideRatioSelected( config.isHydroniumHydroxideRatioVisible() );
         beakerControls.setMoleculeCountsSelected( config.isMoleculeCountsVisible() );
         beakerControls.setLabelSelected( config.isBeakerLabelVisible() );

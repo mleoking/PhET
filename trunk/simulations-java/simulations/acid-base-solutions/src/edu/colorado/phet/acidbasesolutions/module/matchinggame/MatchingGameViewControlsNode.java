@@ -18,9 +18,9 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
+import edu.colorado.phet.acidbasesolutions.control.RatioCheckBox.GeneralSoluteRatioCheckBox;
 import edu.colorado.phet.acidbasesolutions.control.RatioCheckBox.HydroniumHydroxideRatioCheckBox;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
-import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -38,7 +38,7 @@ public class MatchingGameViewControlsNode extends PhetPNode {
     
     private final JPanel panel;
     private final JRadioButton beakersRadioButton, graphsRadioButton;
-    private final JCheckBox dissociatedComponentsRatioCheckBox;
+    private final JCheckBox soluteComponentsRatioCheckBox;
     private final JCheckBox hyroniumHydroxideRatioCheckBox;
     private final JCheckBox moleculeCountsCheckBox;
     private final ArrayList<ChangeListener> listeners;
@@ -50,7 +50,7 @@ public class MatchingGameViewControlsNode extends PhetPNode {
         
         ActionListener actionListener = new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                dissociatedComponentsRatioCheckBox.setEnabled( beakersRadioButton.isSelected() );
+                soluteComponentsRatioCheckBox.setEnabled( beakersRadioButton.isSelected() );
                 hyroniumHydroxideRatioCheckBox.setEnabled( beakersRadioButton.isSelected() );
                 moleculeCountsCheckBox.setEnabled( beakersRadioButton.isSelected() );
                 notifyStateChanged();
@@ -67,14 +67,14 @@ public class MatchingGameViewControlsNode extends PhetPNode {
         group.add( beakersRadioButton );
         group.add( graphsRadioButton );
         
-        dissociatedComponentsRatioCheckBox = new JCheckBox( HTMLUtils.toHTMLString( ABSStrings.CHECK_BOX_DISASSOCIATED_COMPONENTS_RATIO ) ) {
+        soluteComponentsRatioCheckBox = new GeneralSoluteRatioCheckBox() {
             // WORKAROUND for #1704, HTML text doesn't gray out when disabled
             public void setEnabled( boolean enabled ) {
                 super.setEnabled( enabled );
                 setForeground( enabled ? Color.BLACK : Color.GRAY );
             }
         };
-        dissociatedComponentsRatioCheckBox.addActionListener( new ActionListener() {
+        soluteComponentsRatioCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 notifyStateChanged();
             }
@@ -108,7 +108,7 @@ public class MatchingGameViewControlsNode extends PhetPNode {
         int column = 0;
         layout.addComponent( beakersRadioButton, row++, column, 2, 1 );
         column = 1;
-        layout.addComponent( dissociatedComponentsRatioCheckBox, row++, column );
+        layout.addComponent( soluteComponentsRatioCheckBox, row++, column );
         layout.addComponent( hyroniumHydroxideRatioCheckBox, row++, column );
         layout.addComponent( moleculeCountsCheckBox, row++, column );
         column = 0;
@@ -159,15 +159,15 @@ public class MatchingGameViewControlsNode extends PhetPNode {
         return graphsRadioButton.isSelected();
     }
     
-    public void setDissociatedComponentsRatioSelected( boolean b ) {
-        if ( b != isDissociatedComponentsRatioSelected() ) {
-            dissociatedComponentsRatioCheckBox.setSelected( b );
+    public void setSoluteComponentsRatioSelected( boolean b ) {
+        if ( b != isSoluteComponentsRatioSelected() ) {
+            soluteComponentsRatioCheckBox.setSelected( b );
             notifyStateChanged();
         }
     }
     
-    public boolean isDissociatedComponentsRatioSelected() {
-        return dissociatedComponentsRatioCheckBox.isSelected();
+    public boolean isSoluteComponentsRatioSelected() {
+        return soluteComponentsRatioCheckBox.isSelected();
     }
     
     public void setHydroniumHydroxideRatioSelected( boolean b ) {
@@ -194,7 +194,7 @@ public class MatchingGameViewControlsNode extends PhetPNode {
     
     public interface MatchingGameViewChangeListener {
         public void modeChanged();
-        public void disassociatedComponentsRatioChanged( boolean selected );
+        public void soluteComponentsRatioChanged( boolean selected );
         public void hydroniumHydroxideRatioChanged( boolean selected );
         public void moleculeCountsChanged( boolean selected );
     }

@@ -355,13 +355,13 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
         /*
          * Sets a random view for the "acid or base" question.
          * Note that the pH probe is treated as a view,
-         * and the disassociated components ratio is not an option.
+         * and the solute ion ratio is not an option.
          */
         private void setRandomView() {
 
             // start with default state of all views off
             beakerNodeLeft.setProbeVisible( false );
-            viewControlsNode.setDissociatedComponentsRatioSelected( false );
+            viewControlsNode.setSoluteComponentsRatioSelected( false );
             viewControlsNode.setHydroniumHydroxideRatioSelected( false );
             viewControlsNode.setMoleculeCountsSelected( false );
             viewControlsNode.setBeakersSelected( true );
@@ -584,8 +584,8 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
     private void updateView() {
         beakerNodeLeft.setVisible( viewControlsNode.isBeakersSelected() );
         beakerNodeRight.setVisible( viewControlsNode.isBeakersSelected() );
-        beakerNodeLeft.setDisassociatedRatioComponentsVisible( viewControlsNode.isDissociatedComponentsRatioSelected() );
-        beakerNodeRight.setDisassociatedRatioComponentsVisible( viewControlsNode.isDissociatedComponentsRatioSelected() );
+        beakerNodeLeft.setSoluteComponentsRatioVisible( viewControlsNode.isSoluteComponentsRatioSelected() );
+        beakerNodeRight.setSoluteComponentsRatioVisible( viewControlsNode.isSoluteComponentsRatioSelected() );
         beakerNodeLeft.setHydroniumHydroxideRatioVisible( viewControlsNode.isHydroniumHydroxideRatioSelected() );
         beakerNodeRight.setHydroniumHydroxideRatioVisible( viewControlsNode.isHydroniumHydroxideRatioSelected() );
         beakerNodeLeft.setMoleculeCountsVisible( viewControlsNode.isMoleculeCountsSelected() );

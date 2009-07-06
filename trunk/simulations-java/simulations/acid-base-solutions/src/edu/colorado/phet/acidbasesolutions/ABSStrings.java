@@ -60,8 +60,9 @@ public class ABSStrings {
     // check boxes
     public static final String CHECK_BOX_MOLECULE_COUNTS = ABSResources.getString( "checkBox.moleculeCounts" );
     public static final String CHECK_BOX_BEAKER_LABEL = ABSResources.getString( "checkBox.beakerLabel" );
-    public static final String CHECK_BOX_RATIO = ABSResources.getString( "checkBox.ratio" );
-    public static final String CHECK_BOX_DISASSOCIATED_COMPONENTS_RATIO = ABSResources.getString( "checkBox.disassociatedComponentsRatio" );
+    public static final String CHECK_BOX_SOLUTE_RATIO_SPECIFIC = ABSResources.getString( "checkBox.soluteRatio-reactant_product" );
+    public static final String CHECK_BOX_SOLUTE_RATIO_GENERAL = ABSResources.getString( "checkBox.soluteRatio" );
+    public static final String CHECK_BOX_H3O_OH_RATIO = ABSResources.getString( "checkBox.ratio-H3O_OH" );
     public static final String CHECK_BOX_EQUILIBRIUM_EXPRESSIONS = ABSResources.getString( "checkBox.equilibriumExpressions" );
     public static final String CHECK_BOX_REACTION_EQUATIONS = ABSResources.getString( "checkBox.reactionEquations" );
     public static final String CHECK_BOX_SYMBOL_LEGEND = ABSResources.getString( "checkBox.symbolLegend" );

@@ -30,7 +30,7 @@ public class ComparingConfig extends AbstractModuleConfig {
     private boolean equationsSelected;
     
     // beaker view controls
-    private boolean disassociatedComponentsRatioVisible;
+    private boolean soluteComponentsRatioVisible;
     private boolean hydroniumHydroxideRatioVisible;
     private boolean moleculeCountsVisible;
     private boolean beakerLabelVisible;
@@ -141,13 +141,13 @@ public class ComparingConfig extends AbstractModuleConfig {
     }
 
     
-    public boolean isDisassociatedComponentsRatioVisible() {
-        return disassociatedComponentsRatioVisible;
+    public boolean isSoluteComponentsRatioVisible() {
+        return soluteComponentsRatioVisible;
     }
 
     
-    public void setDisassociatedComponentsRatioVisible( boolean disassociatedComponentsRatioVisible ) {
-        this.disassociatedComponentsRatioVisible = disassociatedComponentsRatioVisible;
+    public void setSoluteComponentsRatioVisible( boolean visible ) {
+        this.soluteComponentsRatioVisible = visible;
     }
 
     
@@ -156,8 +156,8 @@ public class ComparingConfig extends AbstractModuleConfig {
     }
 
     
-    public void setHydroniumHydroxideRatioVisible( boolean hydroniumHydroxideRatioVisible ) {
-        this.hydroniumHydroxideRatioVisible = hydroniumHydroxideRatioVisible;
+    public void setHydroniumHydroxideRatioVisible( boolean visible ) {
+        this.hydroniumHydroxideRatioVisible = visible;
     }
 
     

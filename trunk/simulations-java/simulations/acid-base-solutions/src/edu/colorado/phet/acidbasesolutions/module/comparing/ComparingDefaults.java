@@ -43,7 +43,7 @@ public class ComparingDefaults {
         config.setGraphsSelected( false );
         config.setEquationsSelected( false );
         // beaker view controls
-        config.setDisassociatedComponentsRatioVisible( false );
+        config.setSoluteComponentsRatioVisible( false );
         config.setHydroniumHydroxideRatioVisible( false );
         config.setMoleculeCountsVisible( false );
         config.setBeakerLabelVisible( false );

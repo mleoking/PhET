@@ -118,7 +118,7 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         beakerControlsNode.setOffset( xOffset, yOffset );
         
         // concentration graph to the right of beaker
-        double fudgeX = 50; // add space to handle widest label for disassociated components ratio check box
+        double fudgeX = 50; // add space to handle widest label for solute ion ratio check box
         xOffset = beakerControlsNode.getFullBoundsReference().getMaxX() - PNodeUtils.getOriginXOffset( concentrationGraphNode ) + fudgeX;
         yOffset = 0;
         concentrationGraphNode.setOffset( xOffset, yOffset );

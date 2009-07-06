@@ -81,12 +81,12 @@ public class BeakerNode extends PComposite {
         return probeNode.getVisible();
     }
     
-    public void setDisassociatedRatioComponentsVisible( boolean visible ) {
-        dotsNode.setDisassociatedComponentsVisible( visible );
+    public void setSoluteComponentsRatioVisible( boolean visible ) {
+        dotsNode.setSoluteComponentsVisible( visible );
     }
     
-    public boolean isDisassociatedRatioComponentsVisible() {
-        return dotsNode.isDisassociatedComponentsVisible();
+    public boolean isSoluteComponentsRatioVisible() {
+        return dotsNode.isSoluteComponentsVisible();
     }
     
     public void setHydroniumHydroxideRatioVisible( boolean visible ) {

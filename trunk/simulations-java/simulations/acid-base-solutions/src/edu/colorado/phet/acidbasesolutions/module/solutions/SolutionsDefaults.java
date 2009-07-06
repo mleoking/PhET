@@ -33,7 +33,7 @@ public class SolutionsDefaults {
         config.setConcentration( 1E-2 );
         config.setStrength( 1E-6 );
         // beaker view controls
-        config.setDisassociatedComponentsRatioVisible( false );
+        config.setSoluteComponentsRatioVisible( false );
         config.setHydroniumHydroxideRatioVisible( false );
         config.setMoleculeCountsVisible( false );
         config.setBeakerLabelVisible( false );
