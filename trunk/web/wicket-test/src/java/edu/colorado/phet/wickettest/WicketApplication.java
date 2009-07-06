@@ -1,6 +1,8 @@
 package edu.colorado.phet.wickettest;
 
 import org.apache.wicket.protocol.http.WebApplication;
+import org.apache.wicket.protocol.http.HttpSessionStore;
+import org.apache.wicket.session.ISessionStore;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.wickettest.content.IndexPage;
@@ -21,6 +23,7 @@ public class WicketApplication extends WebApplication {
 
     @Override
     protected void init() {
+        super.init();
         mapper = new PhetUrlMapper();
 
         mapper.addMap( "^simulations$", SimulationDisplay.class );
@@ -33,5 +36,17 @@ public class WicketApplication extends WebApplication {
         mount( new PhetUrlStrategy( LocaleUtils.stringToLocale( "el" ), mapper ) );
         mount( new PhetUrlStrategy( LocaleUtils.stringToLocale( "ar" ), mapper ) );
         getMarkupSettings().setStripWicketTags( true );
+
+        //remove thread monitoring from resource watcher
+        //enable this line to run under GAE
+//        this.getResourceSettings().setResourcePollFrequency(null);
     }
+
+    //enable this override to run under GAE
+//    	@Override
+//	protected ISessionStore newSessionStore()
+//	{
+//		return new HttpSessionStore(this);
+//	}
+
 }
