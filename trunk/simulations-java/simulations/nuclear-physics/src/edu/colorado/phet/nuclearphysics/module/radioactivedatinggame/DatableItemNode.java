@@ -67,7 +67,10 @@ public class DatableItemNode extends PNode {
 			name.setFont(new PhetFont());
 			addChild(name);
 		}
+		
+		// Set the initial position and orientation.
 		updatePosition();
+		handleRotationalAngleChanged();
 	}
 	
 	private void updatePosition(){
