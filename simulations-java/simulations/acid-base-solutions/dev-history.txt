@@ -3,9 +3,9 @@
 ==================================================================================
 
 TODO:
+- revise "match" algorithm to be "close to slider position"
 - Trish: indicate what dot colors relate to in Comparing module
 - Trish: BH+ color is too light, symbols hard to see in ratio check box label
-- revise "match" algorithm to be "close to slider position"
 - Trish: charges (+,-) go outside canvas bounds in reaction equations dialog 
 - make symbol legend descriptions automatically wrap, so we don't need breaks in HTML markup
 - should dot view update while dragging strength slider in strong region?
