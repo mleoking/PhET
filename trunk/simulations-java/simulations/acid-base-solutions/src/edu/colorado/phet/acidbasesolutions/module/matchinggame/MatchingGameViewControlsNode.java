@@ -192,13 +192,6 @@ public class MatchingGameViewControlsNode extends PhetPNode {
         return moleculeCountsCheckBox.isSelected();
     }
     
-    public interface MatchingGameViewChangeListener {
-        public void modeChanged();
-        public void soluteComponentsRatioChanged( boolean selected );
-        public void hydroniumHydroxideRatioChanged( boolean selected );
-        public void moleculeCountsChanged( boolean selected );
-    }
-    
     public void addChangeListener( ChangeListener listener ) {
         listeners.add( listener );
     }
