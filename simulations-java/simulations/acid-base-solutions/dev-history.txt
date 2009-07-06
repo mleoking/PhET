@@ -6,11 +6,13 @@ TODO:
 - Trish: indicate what dot colors relate to in Comparing module
 - Trish: BH+ color is too light, symbols hard to see in ratio check box label
 - revise "match" algorithm to be "close to slider position"
-- Trish: charges (+,-) are cut off of scaled symbols in reaction equations  (cannot reproduce)
+- Trish: charges (+,-) go outside canvas bounds in reaction equations dialog 
 - make symbol legend descriptions automatically wrap, so we don't need breaks in HTML markup
+- should dot view update while dragging strength slider in strong region?
 - Spanish translation, to test i18n
 
 DONE:
+7/6/09 match strength if both solutions have a value in strong range
 # 0.01.23
 7/6/09 fix enable/disable behavior of view check boxes in matching game
 7/6/09 change "chemical ion ratio" to "solute ratio"
