@@ -74,14 +74,7 @@ public class DatableItemNode extends PNode {
 	}
 	
 	private void updatePosition(){
-		Point2D centerCanvasPosition = mvt.modelToViewDouble(datableItem.getPosition());
-//		image.setOffset(centerCanvasPosition.getX() - ( image.getFullBoundsReference().width / 2 ),
-//				centerCanvasPosition.getY() - ( image.getFullBoundsReference().height / 2 ) );
-//		double compensatedWidth = image.getFullBoundsReference().width * Math.cos(rotationAngle);
-//		double compensatedHeight = image.getFullBoundsReference().height * Math.sin(rotationAngle);
-//		image.setOffset(centerCanvasPosition.getX() - ( compensatedWidth / 2 ),
-//				centerCanvasPosition.getY() - ( compensatedHeight / 2 ) );
-		setOffset(centerCanvasPosition);
+		setOffset(mvt.modelToViewDouble(datableItem.getPosition()));
 	}
 	
 	private void updateSize(){
@@ -89,6 +82,7 @@ public class DatableItemNode extends PNode {
 		// We ignore the height here, since we can't scale in each direction
 		// due to limitations of Piccolo.
 		image.scale(desiredSize.getX() / image.getFullBoundsReference().getWidth());
+		image.setOffset(-image.getFullBoundsReference().width / 2, -image.getFullBoundsReference().height / 2);
 		updatePosition();
 	}
 	
