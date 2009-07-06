@@ -1,3 +1,5 @@
+> change "chemical ion ratio" to "solute ratio"
+> change "HA/A ratio" to "HA/A solute ratio"
 # 0.01.22 (33014) Jul 3, 2009
 7/3/09 misc cleanup and fixes
 > clean up and document state machine for Matching Game
