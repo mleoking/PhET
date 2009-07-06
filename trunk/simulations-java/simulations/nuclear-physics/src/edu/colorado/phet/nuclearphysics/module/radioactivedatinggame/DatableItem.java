@@ -298,12 +298,17 @@ public class DatableItem implements AnimatedModelElement {
 		
 		// Use piccolo as a utility to merge the images.
     	PNode parent = new PNode();
-    	PImage pimage1 = new PImage(primaryImage);
-    	PImage pimage2 = new PImage(secondaryImage);
-//    	pimage1.setTransparency((float)(1 -fadeFactor));
-    	pimage2.setTransparency((float)fadeFactor);
-    	parent.addChild(pimage1);
-    	parent.addChild(pimage2);
+    	PImage backgroundImage = new PImage(primaryImage);
+    	PImage foregroundImage = new PImage(secondaryImage);
+    	
+    	// Set the transparency of each image based on a function that uses an
+    	// exponent.  Linear values don't work because the composite image
+    	// ends up looking transparent overall in the middle range (I tried
+    	// it).
+    	backgroundImage.setTransparency((float)(-Math.pow(fadeFactor, 4) + 1));
+    	foregroundImage.setTransparency((float)(-Math.pow((fadeFactor - 1), 4) + 1));
+    	parent.addChild(backgroundImage);
+    	parent.addChild(foregroundImage);
     	
     	return BufferedImageUtils.toBufferedImage( parent.toImage() );
 	}
