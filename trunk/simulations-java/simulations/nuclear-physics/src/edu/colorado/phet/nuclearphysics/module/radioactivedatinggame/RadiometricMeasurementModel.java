@@ -14,8 +14,8 @@ import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
 
 /**
  * This class defines a model (in the model-view-controller paradigm) that
- * includes a single datable item that contains a single datable item and
- * a meter which can be used to radiometrically date the item.
+ * includes one or more animated datable items as well as a meter than can be
+ * used to date the items.
  *
  * @author John Blanco
  */
@@ -175,6 +175,20 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
 		// Start the clock, which the model elements will listen to and do
 		// their thing.
 		_clock.start();
+	}
+	
+	/**
+	 * Reset the state of the current operation.  For instance, if a growing
+	 * tree is being simulated, go back to the state prior to the planting of
+	 * the tree.
+	 */
+	public void resetOperation(){
+		
+		// This is a little bit of a tricky way to do this, but it gets the
+		// job done and avoids duplicated code.
+		SIMULATION_MODE simMode = _simulationMode;
+		_simulationMode = null;
+		setSimulationMode(simMode);
 	}
 	
 	private void handleClockTicked(){
