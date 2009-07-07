@@ -3,7 +3,6 @@
 ==================================================================================
 
 TODO:
-- revise "match" algorithm to be "close to slider position"
 - Trish: indicate what dot colors relate to in Comparing module
 - Trish: BH+ color is too light, symbols hard to see in ratio check box label
 - Trish: charges (+,-) go outside canvas bounds in reaction equations dialog 
@@ -11,6 +10,7 @@ TODO:
 - Spanish translation, to test i18n
 
 DONE:
+7/6/09 revise "match" algorithm to use log10(concentration) and log10(strength)
 7/6/09 make dot view static while dragging strength slider in strong region
 7/6/09 match strength if both solutions have a value in strong range
 # 0.01.23
