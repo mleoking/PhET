@@ -1,7 +1,6 @@
 package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
 import java.util.EventObject;
 import java.util.List;
 
@@ -110,11 +109,11 @@ public abstract class AnimatedDatableItem extends DatableItem implements Cleanup
     /**
      * Event used to convey information about changes to the closure state.
      */
-    public static class ClosureEvent extends EventObject{
+    public static class RadiometricClosureEvent extends EventObject{
 
     	private final CLOSURE_STATE closureState;
     	
-		public ClosureEvent(Object source, CLOSURE_STATE closureState) {
+		public RadiometricClosureEvent(Object source, CLOSURE_STATE closureState) {
 			super(source);
 			this.closureState = closureState;
 		}
