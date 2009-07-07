@@ -14,6 +14,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -97,6 +98,13 @@ public class RadiometricMeasurementControlPanel extends ControlPanel {
         buttonGroup.add( treeSelector.getButton() );
         buttonGroup.add( rockSelector.getButton() );
         treeSelector.getButton().setSelected( true );
+        
+        // Add some spacing.
+        addControlFullWidth(createVerticalSpacingPanel(30));
+        
+        // Add the reset button.
+        JButton resetButton = new JButton(NuclearPhysicsStrings.RESET_BUTTON_LABEL);
+        addControl(resetButton);
     }
     
     private JPanel createVerticalSpacingPanel(int space){
