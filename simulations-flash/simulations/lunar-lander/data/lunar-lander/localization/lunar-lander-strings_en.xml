@@ -41,5 +41,5 @@
   <string key="accVector" value="Acceleration vector" />
   <string key="longHelp" value="~ Land in as many different flat zones as you can before your fuel runs out.\n~ After landing, take off by increasing thrust.\n~ No credit for landing in the same zone more than once.\n~ More points for landing in smaller or harder-to-reach zones:  \n     Easy big zones = 5 points   to    Killer tight zones = 50 points\n~ 10 extra points for a soft landing ( v &lt; 2 m/s).\n~ Game over if you touch a boulder. (You can't land on boulders!)\n~ Game over if you crash land (v &gt; 12 m/s)." />
   <string key="simTitle" value="Lunar Lander" />
-
+  <string key="simDescription" value="Can you avoid the boulder field and land safely, just before your fuel runs out, as Neil Armstrong did in 1969? Our version of this classic video game accurately simulates the real motion of the lunar lander with the correct mass, thrust, fuel consumption rate, and lunar gravity. The real lunar lander is very hard to control." />
 </SimStrings>

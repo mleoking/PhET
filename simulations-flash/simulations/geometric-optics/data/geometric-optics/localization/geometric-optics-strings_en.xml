@@ -21,4 +21,5 @@
   <string key="draggableRuler" value="draggable ruler" />
   <string key="draggableScreen" value="draggable screen" />
   <string key="simTitle" value="Geometric Optics" />
+  <string key="simDescription" value="How does a lens form an image? See how light rays are refracted by a lens. Watch how the image changes when you adjust the focal length of the lens, move the object, move the lens, or move the screen." />
 </SimStrings>

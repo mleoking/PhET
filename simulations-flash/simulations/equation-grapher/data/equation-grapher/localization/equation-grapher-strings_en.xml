@@ -5,5 +5,5 @@
   <string key="erase" value="Erase" />
   <string key="showYEq" value="Show y =" />
   <string key="simTitle" value="Equation Grapher" />
- 
+  <string key="simDescription" value="Learn about graphing polynomials. The shape of the curve changes as the constants are adjusted. View the curves for the individual terms (e.g. y=bx ) to see how they add to generate the polynomial curve." />
 </SimStrings>

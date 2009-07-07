@@ -23,5 +23,5 @@
   <string key="randomXZ" value="random xz" />
   <string key="sound" value="Sound" />
   <string key="simTitle" value="Stern-Gerlach Experiment" />
-  
+  <string key="simDescription" value="The classic Stern-Gerlach Experiment shows that atoms have a property called spin. Spin is a kind of intrinsic angular momentum, which has no classical counterpart. When the z-component of the spin is measured, one always gets one of two values: spin up or spin down." />
 </SimStrings>

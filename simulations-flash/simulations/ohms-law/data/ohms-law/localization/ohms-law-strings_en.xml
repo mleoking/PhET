@@ -5,4 +5,5 @@
   <string key="currentEq" value="current = " />
   <string key="sound" value="sound" />
   <string key="simTitle" value="Ohm's Law" />
+  <string key="simDescription" value="See how the equation form of Ohm's law relates to a simple circuit. Adjust the voltage and resistance, and see the current change according to Ohm's law. The sizes of the symbols in the equation change to match the circuit diagram." />
 </SimStrings>

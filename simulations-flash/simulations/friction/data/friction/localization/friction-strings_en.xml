@@ -5,4 +5,5 @@
   <string key="reset" value="Reset" />
   <string key="rubYellowAtoms" value="Rub yellow atoms \nagainst green." />
   <string key="simTitle" value="Friction" />
+  <string key="simDescription" value="Learn how friction causes a material to heat up and melt. Rub two objects together and they heat up. When one reaches the melting temperature, particles break free as the material melts away." />
 </SimStrings>

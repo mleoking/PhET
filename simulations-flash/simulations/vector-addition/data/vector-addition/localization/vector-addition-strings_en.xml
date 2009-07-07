@@ -12,5 +12,5 @@
   <string key="x" value="x" />
   <string key="y" value="y" />
   <string key="simTitle" value="Vector Addition" />
- 
+  <string key="simDescription" value="Learn how to add vectors. Drag vectors onto a graph, change their length and angle, and sum them together. The magnitude, angle, and components of each vector can be displayed in several formats." />
 </SimStrings>

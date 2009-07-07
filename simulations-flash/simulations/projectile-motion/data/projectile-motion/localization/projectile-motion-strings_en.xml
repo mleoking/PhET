@@ -29,5 +29,5 @@
   <string key="score" value="Score!" />
 
   <string key="simTitle" value="Projectile Motion" />
- 
+  <string key="simDescription" value="Blast a Buick out of a cannon! Learn about projectile motion by firing various objects. Set the angle, initial speed, and mass. Add air resistance. Make a game out of this simulation by trying to hit a target." />
 </SimStrings>
