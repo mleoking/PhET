@@ -59,20 +59,20 @@ public class AnimationTestModelElement extends AnimatedDatableItem {
 //        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, Math.PI/8, 1.0, 0, 0, 0 ) );
         
         // Make it grow and shrink in place without moving (i.e. translating).
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1.1, 0, 0, 0 ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1.1, 0, 0, 0 ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1.1, 0, 0, 0 ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1.1, 0, 0, 0 ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1.1, 0, 0, 0 ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1.1, 0, 0, 0 ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1.1, 0, 0, 0 ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 0.9, 0, 0, 0 ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 0.9, 0, 0, 0 ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 0.9, 0, 0, 0 ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 0.9, 0, 0, 0 ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 0.9, 0, 0, 0 ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 0.9, 0, 0, 0 ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 0.9, 0, 0, 0 ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1.1, 0, 0, 0, null ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1.1, 0, 0, 0, null ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1.1, 0, 0, 0, null ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1.1, 0, 0, 0, null ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1.1, 0, 0, 0, null ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1.1, 0, 0, 0, null ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1.1, 0, 0, 0, null ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 0.9, 0, 0, 0, null ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 0.9, 0, 0, 0, null ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 0.9, 0, 0, 0, null ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 0.9, 0, 0, 0, null ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 0.9, 0, 0, 0, null ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 0.9, 0, 0, 0, null ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 0.9, 0, 0, 0, null ) );
 
         return new StaticAnimationSequence(animationSequence);
     }

@@ -3,6 +3,7 @@
 package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 
 import java.awt.geom.Point2D;
+import java.util.EventObject;
 
 /**
  * This class defines an "Animation Delta" for a model element, which means
@@ -22,21 +23,24 @@ public class ModelAnimationDelta {
 	private final int primaryImageIndexDelta;
 	private final int secondaryImageIndexDelta;
 	private final double fadeFactorDelta;
+	private final EventObject event;
 	
 	/**
 	 * Constructor.
 	 * 
-	 * @param time
-	 * @param positionDelta
-	 * @param rotationDelta
-	 * @param sizeChangeFactor
-	 * @param primaryImageIndexDelta
-	 * @param secondaryImageIndexDelta
-	 * @param fadeFactorDelta
+	 * @param time - The time at which the event should occur.
+	 * @param positionDelta - Change to the element's position.  Null means no change.
+	 * @param rotationDelta - Change to the element's rotational position.  Zero (0) means no change.
+	 * @param sizeChangeFactor - Change to the element's size.  One (1) means no change.
+	 * @param primaryImageIndexDelta - Change to the index of the primary image.  Zero (0) means no change.
+	 * @param secondaryImageIndexDelta - Change to the index of the secondary image.  Zero (0) means no change.
+	 * @param fadeFactorDelta - Change to the fade factor between the primary and secondary images.  Zero (0) means
+	 * no change.
+	 * @param event - Arbitrary event that can be fired to any listeners, generally used to synchronize outside
+	 * model events with the animation sequence.
 	 */
 	public ModelAnimationDelta(double time, Point2D positionDelta, double rotationDelta, double sizeChangeFactor,
-			int primaryImageIndexDelta, int secondaryImageIndexDelta, double fadeFactorDelta) {
-		super();
+			int primaryImageIndexDelta, int secondaryImageIndexDelta, double fadeFactorDelta, EventObject event) {
 		this.time = time;
 		this.positionDelta = positionDelta;
 		this.rotationDelta = rotationDelta;
@@ -44,6 +48,7 @@ public class ModelAnimationDelta {
 		this.primaryImageIndexDelta = primaryImageIndexDelta;
 		this.secondaryImageIndexDelta = secondaryImageIndexDelta;
 		this.fadeFactorDelta = fadeFactorDelta;
+		this.event = event;
 	}
 
 	public double getTime() {
@@ -72,5 +77,9 @@ public class ModelAnimationDelta {
 
 	public double getFadeFactorDelta() {
 		return fadeFactorDelta;
+	}
+	
+	public EventObject getEvent() {
+		return event;
 	}
 }
