@@ -15,9 +15,7 @@ import edu.colorado.phet.nuclearphysics.common.Cleanupable;
  * Date: Jul 2, 2009
  * Time: 3:24:52 PM
  */
-public abstract class AnimatedDatableItem extends DatableItem implements Cleanupable{// Age adjustment factor - used to convert the amount of simulation time
-// into the age of the item so that users don't have to wait around for
-// thousands of years for anything to happen.
+public abstract class AnimatedDatableItem extends DatableItem implements Cleanupable{
 
     public static interface ImageGetter{
         ArrayList<String> getResourceImageNames();
