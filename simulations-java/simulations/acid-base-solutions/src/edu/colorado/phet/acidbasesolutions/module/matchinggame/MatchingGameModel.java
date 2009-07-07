@@ -23,9 +23,11 @@ import edu.colorado.phet.common.phetcommon.util.DoubleRange;
  */
 public class MatchingGameModel extends ABSModel {
     
+    private static final boolean DEBUG_MATCH = false;
+    
     // parameters that define what constitutes a match
-    private static final double CONCENTRATION_CLOSENESS = 0.15; // percent, 0-1
-    private static final double STRENGTH_CLOSENESS = 0.15; // percent, 0-1
+    private static final double LOG10_CONCENTRATION_CLOSENESS = 0.12; // difference between log10 of concentration values
+    private static final double LOG10_STRENGTH_CLOSENESS = 0.35; // difference between log10 of s values
     
     // points related to "Acid or Base?" question
     private static final int POINTS_ACIDBASE_CORRECT_FIRST = +1;
@@ -213,36 +215,49 @@ public class MatchingGameModel extends ABSModel {
     private boolean solutesMatch() {
         return solutionLeft.getSolute().getClass().equals( solutionRight.getSolute().getClass() );
     }
-
+    
     /*
      * Concentrations match if the right solution (the guess) is within 
-     * CONCENTRATION_CLOSENESS percent of the left (random) solution.
+     * CONCENTRATION_CLOSENESS of the left (random) solution.
+     * Match is based on log10, since the concentration control is log.
+     * If we did this based on linear closeness, matching would get more 
+     * difficult as values got smaller.
      */
     private boolean concentrationsMatch() {
-        final double left = solutionLeft.getSolute().getConcentration();
-        final double right = solutionRight.getSolute().getConcentration();
-        final double closeness = Math.abs( ( left - right ) / left );
-//        System.out.println( "C: " + left + " " + right + " " + closeness );//XXX
-        return ( closeness <= CONCENTRATION_CLOSENESS );
+        final double left = MathUtil.log10( solutionLeft.getSolute().getConcentration() );
+        final double right = MathUtil.log10( solutionRight.getSolute().getConcentration() );
+        final double closeness = Math.abs( left - right );
+        final boolean success = ( closeness <= LOG10_CONCENTRATION_CLOSENESS );
+        if ( DEBUG_MATCH ) {
+            System.out.println( "MatchingGameModel.concentrationMatch left=" + left + " right=" + right + " closeness=" + closeness + " threshold=" + LOG10_CONCENTRATION_CLOSENESS + " success=" + success );
+        }
+        return success;
     }
     
     /*
      * Strengths match if the right solution (the guess) is within 
-     * STRENGTH_CLOSENESS percent of the left (random) solution.
+     * STRENGTH_CLOSENESS of the left (random) solution.
      * If both solutions are strong, then it doesn't matter what the value is, they match.
+     * Match is based on log10, since the concentration control is log.
+     * If we did this based on linear closeness, matching would get more 
+     * difficult as values got smaller.
      */
     private boolean strengthsMatch() {
         boolean success = false;
         if ( solutionLeft.getSolute().isStrong() && solutionRight.getSolute().isStrong() ) {
-//            System.out.println( "K: strong" );//XXX
+            if ( DEBUG_MATCH ) {
+                System.out.println( "MatchingGameModel.strengthMatch: strong, success=true" );
+            }
             success = true;
         }
         else {
-            final double left = solutionLeft.getSolute().getStrength();
-            final double right = solutionRight.getSolute().getStrength();
-            final double closeness = Math.abs( left - right ) / left;
-//            System.out.println( "K: " + left + " " + right + " " + closeness );//XXX
-            success = ( closeness <= STRENGTH_CLOSENESS );
+            final double left = MathUtil.log10( solutionLeft.getSolute().getStrength() );
+            final double right = MathUtil.log10( solutionRight.getSolute().getStrength() );
+            final double closeness = Math.abs( left - right );
+            success = ( closeness <= LOG10_STRENGTH_CLOSENESS );
+            if ( DEBUG_MATCH ) {
+                System.out.println( "MatchingGameModel.strengthMatch: left=" + left + " right=" + right + " closeness=" + closeness + " threshold=" + LOG10_STRENGTH_CLOSENESS + " success=" + success );
+            }
         }
         return success;
     }
@@ -316,6 +331,4 @@ public class MatchingGameModel extends ABSModel {
             i.next().numberOfSolutionsChanged( numberOfSolutions );
         }
     }
-    
-    
 }
