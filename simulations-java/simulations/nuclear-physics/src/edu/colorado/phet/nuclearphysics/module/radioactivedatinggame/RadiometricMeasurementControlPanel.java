@@ -104,7 +104,13 @@ public class RadiometricMeasurementControlPanel extends ControlPanel {
         
         // Add the reset button.
         JButton resetButton = new JButton(NuclearPhysicsStrings.RESET_BUTTON_LABEL);
+        resetButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				_model.resetOperation();
+			}
+        });
         addControl(resetButton);
+        
     }
     
     private JPanel createVerticalSpacingPanel(int space){
