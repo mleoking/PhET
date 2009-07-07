@@ -2,9 +2,11 @@
 
 package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 
+import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.EventObject;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 
@@ -22,6 +24,7 @@ public class ModelAnimationInterpreter {
 	private final AnimatedModelElement modelElement;
 	private final AnimationSequence animationSequence;
 	private int maxEventsPerUpdate = Integer.MAX_VALUE;
+	private ArrayList<Listener> _listeners = new ArrayList<Listener>();
 	
 	/**
 	 * Constructor.
@@ -60,6 +63,23 @@ public class ModelAnimationInterpreter {
 		}
 	}
 	
+    public void addListener(Listener listener){
+        if (!_listeners.contains( listener ))
+        {
+        	_listeners.add( listener );
+        }
+    }
+    
+    public boolean removeListener(Listener listener){
+    	return _listeners.remove(listener);
+    }
+	
+    protected void notifySimulationModeChanged(EventObject event) {
+        for (int i = 0; i < _listeners.size(); i++){
+            _listeners.get( i ).animationEventOccurred(event);
+        }
+    }
+
 	/**
 	 * Interpret the animation delta by looking at each field, deciding if
 	 * its value implies that something needs to change for the model element
@@ -103,5 +123,9 @@ public class ModelAnimationInterpreter {
 					size.getHeight() * delta.getSizeChangeFactor() );
 			modelElement.setSize(size);
 		}
+	}
+	
+	public static interface Listener {
+		public void animationEventOccurred(EventObject event);
 	}
 }
