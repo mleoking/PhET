@@ -1,3 +1,4 @@
+> Increased font size for scale disclaimer on second panel
 > Increased and bolded the ruler font, particularly for units
 > Moved the ruler graphic in front of the wall graphic
 > Fixed: The rulers should be longer at least as long as the white space

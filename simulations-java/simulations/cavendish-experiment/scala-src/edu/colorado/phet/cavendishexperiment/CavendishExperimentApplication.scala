@@ -282,14 +282,14 @@ class SolarCavendishModule(clock: ScalaClock) extends Module("Sun-Planet System"
 class Circle(center: Vector2D, radius: Double) extends Ellipse2D.Double(center.x - radius, center.y - radius, radius * 2, radius * 2)
 class ScaleDisclaimerNode(model: CavendishExperimentModel, transform: ModelViewTransform2D) extends PNode {
   val text = new PText("* Radii not to scale.  If they were to scale the sun would be this big ")
-  text.setFont(new PhetFont(16))
+  text.setFont(new PhetFont(16,true))
   text.setTextPaint(Color.lightGray)
   import CavendishExperimentDefaults._
   val earthIcon = new PhetPPath(new Circle(new Vector2D, transform.modelToViewDifferentialXDouble(earthRadius)), Color.blue)
   val sunIcon = new PhetPPath(new Circle(new Vector2D, transform.modelToViewDifferentialXDouble(sunRadius)), Color.red)
 
   val text2 = new PText("and the Earth would be this big ")
-  text2.setFont(new PhetFont(16))
+  text2.setFont(new PhetFont(16,true))
   text2.setTextPaint(Color.lightGray)
 
   val node = new SwingLayoutNode
