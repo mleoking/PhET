@@ -12,20 +12,22 @@ import common.phetcommon.view.graphics.RoundGradientPaint
 import common.piccolophet.event.CursorHandler
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import java.awt._
-import umd.cs.piccolo.PNode
+import java.text.{NumberFormat, DecimalFormat}
 import umd.cs.piccolo.nodes.{PImage, PText}
 import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
 import umd.cs.piccolo.util.PDimension
+
+import umd.cs.piccolo.PNode
 import java.awt.event.{ComponentAdapter, ComponentEvent}
 import java.awt.geom.{Ellipse2D, Rectangle2D, Point2D}
-import java.text.{DecimalFormat, NumberFormat}
 import scalacommon.math.Vector2D
 import scalacommon.Predef._
 import scalacommon.ScalaClock
 import scalacommon.util.Observable
 import java.lang.Math._
 
-class ForceLabelNode(mass: Mass, transform: ModelViewTransform2D, model: CavendishExperimentModel, color: Color, scale: Double, format: NumberFormat) extends PNode {
+class ForceLabelNode(target: Mass, source:Mass, transform: ModelViewTransform2D, model: CavendishExperimentModel,
+                     color: Color, scale: Double, format: NumberFormat, offsetY: Double, right: Boolean, wall: Wall) extends PNode {
   val arrowNode = new ArrowNode(new Point2D.Double(0, 0), new Point2D.Double(1, 1), 20, 20, 8, 0.5, true)
   arrowNode.setPaint(color)
   val label = new PText
@@ -33,11 +35,16 @@ class ForceLabelNode(mass: Mass, transform: ModelViewTransform2D, model: Cavendi
   label.setFont(new PhetFont(18, true))
 
   defineInvokeAndPass(model.addListenerByName) {
-    label.setOffset(transform.modelToView(mass.position) - new Vector2D(0, label.getFullBounds.getHeight + 100))
-    label.setText("Force on " + model.m1.name + " by " + model.m2.name + " = " + format.format(model.getForce.magnitude) + " N")
-    val tip = label.getOffset + new Vector2D(model.getForce.magnitude * scale, -20)
+    label.setOffset(transform.modelToView(target.position) - new Vector2D(0, label.getFullBounds.getHeight + offsetY))
+    label.setText("Force on " + target.name + " by " + source.name + " = " + format.format(model.getForce.magnitude) + " N") //todo: internationalize
+    val sign = if (right) 1 else -1
+    val tip = label.getOffset + new Vector2D(sign * model.getForce.magnitude * scale, -20)
     val tail = label.getOffset + new Vector2D(0, -20)
     arrowNode.setTipAndTailLocations(tip, tail)
+    if (!right)
+      label.translate(-label.getFullBounds.getWidth, 0)
+    val wallViewShape = transform.modelToView(wall.getShape)
+    label.setOffset(max(wallViewShape.getMaxX + 5, label.getOffset.getX), label.getOffset.getY)
   }
 
   addChild(arrowNode)
@@ -123,7 +130,8 @@ class CavendishExperimentCanvas(model: CavendishExperimentModel, modelWidth: Dou
   addNode(new MassNode(model.m1, transform, mass1Color))
   addNode(new SpringNode(model, transform, opposite(backgroundColor)))
   addNode(new DraggableMassNode(model.m2, transform, mass2Color))
-  addNode(new ForceLabelNode(model.m1, transform, model, opposite(backgroundColor), forceLabelScale, forceArrowNumberFormat))
+  addNode(new ForceLabelNode(model.m1, model.m2, transform, model, opposite(backgroundColor), forceLabelScale, forceArrowNumberFormat, 100, true, model.wall))
+  addNode(new ForceLabelNode(model.m2, model.m1, transform, model, opposite(backgroundColor), forceLabelScale, forceArrowNumberFormat, 200, false, model.wall))
   addNode(rulerNode)
   rulerNode.addInputEventListener(new PBasicInputEventHandler {
     override def mouseDragged(event: PInputEvent) = {
@@ -263,7 +271,7 @@ class SolarCavendishModule(clock: ScalaClock) extends Module("Sun-Planet System"
     override def componentResized(e: ComponentEvent) = updateDisclaimerLocation()
   })
   updateDisclaimerLocation()
-  def updateDisclaimerLocation() = disclaimerNode.setOffset(canvas.canonicalBounds.width / 2 - disclaimerNode.getFullBounds.getWidth / 2, canvas.canonicalBounds.height - disclaimerNode.getFullBounds.getHeight*3)
+  def updateDisclaimerLocation() = disclaimerNode.setOffset(canvas.canonicalBounds.width / 2 - disclaimerNode.getFullBounds.getWidth / 2, canvas.canonicalBounds.height - disclaimerNode.getFullBounds.getHeight * 3)
   canvas.addNode(disclaimerNode)
   setSimulationPanel(canvas)
   clock.addClockListener(model.update(_))
@@ -279,11 +287,11 @@ class ScaleDisclaimerNode(model: CavendishExperimentModel, transform: ModelViewT
   val earthIcon = new PhetPPath(new Circle(new Vector2D, transform.modelToViewDifferentialXDouble(earthRadius)), Color.blue)
   val sunIcon = new PhetPPath(new Circle(new Vector2D, transform.modelToViewDifferentialXDouble(sunRadius)), Color.red)
 
-  val text2=new PText("and the Earth would be this big ")
+  val text2 = new PText("and the Earth would be this big ")
   text2.setFont(new PhetFont(16))
   text2.setTextPaint(Color.lightGray)
 
-  val node=new SwingLayoutNode
+  val node = new SwingLayoutNode
   node.addChild(text)
   node.addChild(sunIcon)
   node.addChild(text2)
