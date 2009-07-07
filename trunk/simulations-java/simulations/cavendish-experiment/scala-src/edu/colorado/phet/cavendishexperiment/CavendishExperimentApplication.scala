@@ -132,7 +132,6 @@ class CavendishExperimentCanvas(model: CavendishExperimentModel, modelWidth: Dou
   addNode(new DraggableMassNode(model.m2, transform, mass2Color))
   addNode(new ForceLabelNode(model.m1, model.m2, transform, model, opposite(backgroundColor), forceLabelScale, forceArrowNumberFormat, 100, true, model.wall))
   addNode(new ForceLabelNode(model.m2, model.m1, transform, model, opposite(backgroundColor), forceLabelScale, forceArrowNumberFormat, 200, false, model.wall))
-  addNode(rulerNode)
   rulerNode.addInputEventListener(new PBasicInputEventHandler {
     override def mouseDragged(event: PInputEvent) = {
       rulerNode.translate(event.getDeltaRelativeTo(rulerNode.getParent).width, event.getDeltaRelativeTo(rulerNode.getParent).height)
@@ -141,6 +140,7 @@ class CavendishExperimentCanvas(model: CavendishExperimentModel, modelWidth: Dou
   rulerNode.addInputEventListener(new CursorHandler)
 
   addNode(new WallNode(model.wall, transform, opposite(backgroundColor)))
+  addNode(rulerNode)
 }
 
 class MyDoubleGeneralPath(pt: Point2D) extends DoubleGeneralPath(pt) {
@@ -231,7 +231,8 @@ class CavendishExperimentModel(mass1: Double, mass2: Double,
 }
 class CavendishExperimentModule(clock: ScalaClock) extends Module("Cavendish Experiment", clock) {
   val model = new CavendishExperimentModel(10, 25, 0, 1, mass => mass / 30, mass => mass / 30, 1E-8, 1, 50, 50, -4, "m1", "m2")
-  val canvas = new CavendishExperimentCanvas(model, 10, Color.blue, Color.blue, Color.white, 5, 5, "m", _.toString, 1E10, new DecimalFormat("0.000000000000"))
+  val canvas = new CavendishExperimentCanvas(model, 10, Color.blue, Color.blue, Color.white, 10, 10, 
+    "m", _.toString, 1E10, new DecimalFormat("0.000000000000"))
   setSimulationPanel(canvas)
   clock.addClockListener(model.update(_))
   setControlPanel(new CavendishExperimentControlPanel(model))
@@ -263,7 +264,7 @@ class SolarCavendishModule(clock: ScalaClock) extends Module("Sun-Planet System"
   def metersToLightMinutes(a: Double) = a * 5.5594E-11
 
   val canvas = new CavendishExperimentCanvas(model, sunEarthDist * 2.05, Color.blue, Color.red, Color.black,
-    CavendishExperimentDefaults.sunEarthDist.toLong, 4, "light minutes", dist => {
+    (CavendishExperimentDefaults.sunEarthDist*3).toLong, 10, "light minutes", dist => {
       new DecimalFormat("0.0").format(metersToLightMinutes(dist.toDouble))
     }, 3.2E-22 * 10, new DecimalFormat("0.0"))
   val disclaimerNode = new ScaleDisclaimerNode(model, canvas.transform)

@@ -1,3 +1,4 @@
+> Fixed: The rulers should be longer at least as long as the white space
 > Added a graphical display for the force on m2 by m1
 # 0.01.01 (31358) May 5, 2009
 > Added a sun-earth module.
