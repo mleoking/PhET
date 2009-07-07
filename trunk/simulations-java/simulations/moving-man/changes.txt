@@ -1,3 +1,4 @@
+# 1.23.00 (33090) Jul 7, 2009
 # 1.22.03 (33022) Jul 3, 2009
 > Made it so the Stop buttons associated with each chart continue working after t=20 sec
 # 1.22.02 (32916) Jul 1, 2009
