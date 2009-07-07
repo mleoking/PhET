@@ -74,9 +74,9 @@ public class ModelAnimationInterpreter {
     	return _listeners.remove(listener);
     }
 	
-    protected void notifySimulationModeChanged(EventObject event) {
+    protected void notifyAnimationEventOccurred(EventObject event) {
         for (int i = 0; i < _listeners.size(); i++){
-            _listeners.get( i ).animationEventOccurred(event);
+            _listeners.get( i ).animationNotificationEventOccurred(event);
         }
     }
 
@@ -123,9 +123,14 @@ public class ModelAnimationInterpreter {
 					size.getHeight() * delta.getSizeChangeFactor() );
 			modelElement.setSize(size);
 		}
+		if ( delta.getEvent() != null){
+			// An event is embedded in the sequence that should be sent off to
+			// any registered listeners.
+			notifyAnimationEventOccurred(delta.getEvent());
+		}
 	}
 	
 	public static interface Listener {
-		public void animationEventOccurred(EventObject event);
+		public void animationNotificationEventOccurred(EventObject event);
 	}
 }
