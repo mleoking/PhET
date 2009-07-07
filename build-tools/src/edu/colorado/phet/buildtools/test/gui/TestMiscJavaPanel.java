@@ -12,19 +12,21 @@ import edu.colorado.phet.buildtools.BuildScript;
 import edu.colorado.phet.buildtools.PhetServer;
 import edu.colorado.phet.buildtools.VersionIncrement;
 import edu.colorado.phet.buildtools.java.JavaProject;
+import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 
 public class TestMiscJavaPanel extends JPanel {
     private File trunk;
 
     private JavaProject project;
-    private TestLocaleListPanel localeList;
-    private JList simulationList;
-    private JCheckBox deployDevJARs;
     private JRadioButton incrementMinor;
     private JRadioButton incrementMajor;
 
     public TestMiscJavaPanel( File trunk, JavaProject project ) {
+        this( trunk, project, false );
+    }
+
+    public TestMiscJavaPanel( File trunk, JavaProject project, boolean testable ) {
         super( new BorderLayout() );
 
         this.trunk = trunk;
@@ -38,11 +40,24 @@ public class TestMiscJavaPanel extends JPanel {
 
         JPanel controlPanel = new JPanel();
 
+        if ( testable ) {
+            JPanel testPanel = new VerticalLayoutPanel();
+            testPanel.setBorder( BorderFactory.createTitledBorder( "Testing" ) );
+
+            JButton testButton = new JButton( "Test" );
+            testPanel.add( testButton );
+
+            controlPanel.add( testPanel );
+
+            testButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent actionEvent ) {
+                    doTest();
+                }
+            } );
+        }
+
         JPanel deployDevPanel = new VerticalLayoutPanel();
         deployDevPanel.setBorder( BorderFactory.createTitledBorder( "Dev Deploy" ) );
-        deployDevJARs = new JCheckBox( "Generate locale JARs" );
-        deployDevJARs.setSelected( false );
-        deployDevPanel.add( deployDevJARs );
         JButton deployDevButton = new JButton( "Deploy Dev" );
         deployDevPanel.add( deployDevButton );
 
@@ -82,11 +97,21 @@ public class TestMiscJavaPanel extends JPanel {
         return new BuildScript( trunk, project );
     }
 
+    private void doTest() {
+        getBuildScript().clean();
+        boolean success = getBuildScript().build();
+        if ( success ) {
+            project.runSim( LocaleUtils.stringToLocale( "en" ), project.getName() );
+        }
+        else {
+            System.out.println( "Errors on build" );
+        }
+    }
+
     private void doDeployDev() {
         BuildLocalProperties buildLocalProperties = BuildLocalProperties.getInstance();
 
-        boolean generateOfflineJars = deployDevJARs.isSelected();
-        System.out.println( "genoj=" + generateOfflineJars );
+        boolean generateOfflineJars = false;
         getBuildScript().deployDev( buildLocalProperties.getDevAuthenticationInfo(), generateOfflineJars );
     }
 

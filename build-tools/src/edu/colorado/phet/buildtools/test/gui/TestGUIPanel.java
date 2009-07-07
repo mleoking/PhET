@@ -9,6 +9,7 @@ import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
 import edu.colorado.phet.buildtools.java.JavaProject;
 import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
+import edu.colorado.phet.buildtools.java.projects.TranslationUtilityProject;
 import edu.colorado.phet.buildtools.statistics.StatisticsProject;
 
 public class TestGUIPanel extends JSplitPane {
@@ -51,8 +52,12 @@ public class TestGUIPanel extends JSplitPane {
                     projectPanel = new TestStatisticsPanel( trunk, (StatisticsProject) project );
                     setRightComponent( projectPanel );
                 }
+                else if ( project instanceof TranslationUtilityProject ) {
+                    projectPanel = new TestMiscJavaPanel( trunk, (JavaProject) project, true );
+                    setRightComponent( projectPanel );
+                }
                 else if ( project instanceof JavaProject ) {
-                    projectPanel = new TestMiscJavaPanel( trunk, (JavaProject) project );
+                    projectPanel = new TestMiscJavaPanel( trunk, (JavaProject) project, false );
                     setRightComponent( projectPanel );
                 }
                 else {

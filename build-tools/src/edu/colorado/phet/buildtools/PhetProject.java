@@ -527,7 +527,7 @@ public abstract class PhetProject {
             phetProjects.add( new TranslationUtilityProject( new File( trunk, BuildToolsPaths.TRANSLATION_UTILITY ) ) );
             phetProjects.add( new PhetUpdaterProject( new File( trunk, BuildToolsPaths.PHET_UPDATER ) ) );
             phetProjects.add( new BuildToolsProject( new File( trunk, BuildToolsPaths.BUILD_TOOLS_DIR ) ) );
-            phetProjects.add( new TimesheetProject( new File( trunk, BuildToolsPaths.TIMESHEET) ) );
+            phetProjects.add( new TimesheetProject( new File( trunk, BuildToolsPaths.TIMESHEET ) ) );
         }
         catch( IOException e ) {
             e.printStackTrace();
