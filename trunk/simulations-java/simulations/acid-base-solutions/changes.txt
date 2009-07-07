@@ -1,3 +1,7 @@
+> match concentration if log10 differs by 0.12
+> match strength if log10 differs by 0.35
+> match strength if both solutions are strong, don't compare strength values
+> make dot views static while strength slider is dragged in the strong region
 # 0.01.23 (33058) Jul 6, 2009
 7/6/09 change requests
 > change "chemical ion ratio" to "solute ratio"
