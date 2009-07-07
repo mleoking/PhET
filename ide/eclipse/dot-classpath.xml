@@ -217,7 +217,6 @@
     <classpathentry kind="src" path="util/testing/contrib/opencsv/src"/>
 	
 	<!-- Unfuddle notifier -->
-	<!-- this was implemented in Java 5 code, omit from classpath until we move to Java 5
     <classpathentry kind="src" path="util/unfuddle/src"/>
 	<classpathentry kind="src" path="util/unfuddle/data"/>
 	<classpathentry kind="lib" path="util/unfuddle/contrib/ant/ant.jar"/>
@@ -227,7 +226,6 @@
 	<classpathentry kind="lib" path="util/unfuddle/contrib/javamail/mailapi.jar"/>
 	<classpathentry kind="lib" path="util/unfuddle/contrib/javamail/pop3.jar"/>
 	<classpathentry kind="lib" path="util/unfuddle/contrib/javamail/smtp.jar"/>
-	-->
 
     <!-- Scala sims and resources, requires plugin
 	<classpathentry kind="src" path="simulations-java/common/scala-common/scala-src"/>
