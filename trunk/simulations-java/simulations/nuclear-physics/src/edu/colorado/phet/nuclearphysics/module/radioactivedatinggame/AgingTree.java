@@ -32,13 +32,24 @@ public class AgingTree extends AnimatedDatableItem {
     //-----------------------------------------------------------------------
 
     protected AnimationSequence getAnimationSequence() {
+    	
+    	// Vars needed in the sequence.
         double growthRate = 1.04;
         double verticalGrowthCompensation = 0.11;
-
-        ArrayList<ModelAnimationDelta> animationSequence = new ArrayList<ModelAnimationDelta>();
-
-
+        RadiometricClosureEvent closureOccurredEvent = 
+        	new RadiometricClosureEvent(this, AnimatedDatableItem.CLOSURE_STATE.CLOSED);
+        RadiometricClosureEvent closurePossibleEvent = 
+        	new RadiometricClosureEvent(this, AnimatedDatableItem.CLOSURE_STATE.CLOSURE_POSSIBLE);
         TimeUpdater timeUpdater = new TimeUpdater( 0, MultiNucleusDecayModel.convertYearsToMs( 25 ) );
+
+        // Create the sequence.
+        ArrayList<ModelAnimationDelta> animationSequence = new ArrayList<ModelAnimationDelta>();
+        
+        // Add the individual animation deltas to the sequence.
+        
+        // Signal that closure is possible.
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, growthRate, 0, 0, 0, 
+        		closurePossibleEvent ) );
 
         // Grow.
         animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), 
@@ -154,6 +165,10 @@ public class AgingTree extends AnimatedDatableItem {
         animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1.0, 0, 0, 0.2, null ) );
         animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1.0, 0, 0, 0.2, null ) );
         
+        // Signal that closure has occurred.
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, growthRate, 0, 0, 0, 
+        		closureOccurredEvent ) );
+        
         // Pause.
         timeUpdater.updateTime();
         timeUpdater.updateTime();
@@ -182,6 +197,7 @@ public class AgingTree extends AnimatedDatableItem {
         animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), new Point2D.Double(0.1, -1.0), 0.0, 1.0, 0, 0, 0, null ) );
         animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), new Point2D.Double(0.1, -1.0), 0.0, 1.0, 0, 0, 0, null ) );
         animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), new Point2D.Double(0.1, -1.0), 0.0, 1.0, 0, 0, 0, null ) );
+        
         // Bounce.
 
         return new StaticAnimationSequence(animationSequence);
