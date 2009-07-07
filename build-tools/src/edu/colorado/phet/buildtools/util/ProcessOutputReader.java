@@ -85,6 +85,10 @@ public class ProcessOutputReader extends Thread {
 
                 int code = p.waitFor();
 
+                // wait for ProcessOutputReaders to finish also
+                processOutputReader.join( 5000 );
+                processErr.join( 5000 );
+
                 return new ProcessExecResult( args, code, processOutputReader.getOutput(), processErr.getOutput() );
             }
             catch( InterruptedException e ) {
