@@ -122,7 +122,7 @@ class CavendishExperimentCanvas(model: CavendishExperimentModel, modelWidth: Dou
   val rulerNode = {
     val maj = for (i <- ticks) yield tickToString(i)
     val dx = transform.modelToViewDifferentialX(rulerLength)
-    new RulerNode(dx, 14, 40, maj.toArray, new PhetFont(Font.PLAIN, 14), rulerLabel, new PhetFont(Font.PLAIN, 10), 4, 10, 6);
+    new RulerNode(dx, 14, 40, maj.toArray, new PhetFont(Font.BOLD, 13), rulerLabel, new PhetFont(Font.BOLD, 13), 4, 10, 6);
   }
   rulerNode.setOffset(150, 500)
 
