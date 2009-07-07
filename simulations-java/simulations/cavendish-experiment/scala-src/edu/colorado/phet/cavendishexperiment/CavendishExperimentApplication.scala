@@ -12,7 +12,7 @@ import common.phetcommon.view.graphics.RoundGradientPaint
 import common.piccolophet.event.CursorHandler
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import java.awt._
-import java.text.{NumberFormat, DecimalFormat}
+import java.text.{DecimalFormatSymbols, NumberFormat, DecimalFormat}
 import umd.cs.piccolo.nodes.{PImage, PText}
 import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
 import umd.cs.piccolo.util.PDimension
@@ -26,7 +26,7 @@ import scalacommon.ScalaClock
 import scalacommon.util.Observable
 import java.lang.Math._
 
-class ForceLabelNode(target: Mass, source:Mass, transform: ModelViewTransform2D, model: CavendishExperimentModel,
+class ForceLabelNode(target: Mass, source: Mass, transform: ModelViewTransform2D, model: CavendishExperimentModel,
                      color: Color, scale: Double, format: NumberFormat, offsetY: Double, right: Boolean, wall: Wall) extends PNode {
   val arrowNode = new ArrowNode(new Point2D.Double(0, 0), new Point2D.Double(1, 1), 20, 20, 8, 0.5, true)
   arrowNode.setPaint(color)
@@ -229,10 +229,20 @@ class CavendishExperimentModel(mass1: Double, mass2: Double,
     m1.position = new Vector2D(x, 0)
   }
 }
+
+class TinyDecimalFormat extends DecimalFormat("0.000000000000")
+
+class SunPlanetDecimalFormat extends DecimalFormat("#,###,###,###,###,###,##0.0", {
+  val f = new DecimalFormatSymbols
+  f.setGroupingSeparator(' ')
+  f
+}) {
+}
+
 class CavendishExperimentModule(clock: ScalaClock) extends Module("Cavendish Experiment", clock) {
   val model = new CavendishExperimentModel(10, 25, 0, 1, mass => mass / 30, mass => mass / 30, 1E-8, 1, 50, 50, -4, "m1", "m2")
-  val canvas = new CavendishExperimentCanvas(model, 10, Color.blue, Color.blue, Color.white, 10, 10, 
-    "m", _.toString, 1E10, new DecimalFormat("0.000000000000"))
+  val canvas = new CavendishExperimentCanvas(model, 10, Color.blue, Color.blue, Color.white, 10, 10,
+    "m", _.toString, 1E10, new TinyDecimalFormat())
   setSimulationPanel(canvas)
   clock.addClockListener(model.update(_))
   setControlPanel(new CavendishExperimentControlPanel(model))
@@ -266,7 +276,7 @@ class SolarCavendishModule(clock: ScalaClock) extends Module("Sun-Planet System"
   val canvas = new CavendishExperimentCanvas(model, sunEarthDist * 2.05, Color.blue, Color.red, Color.black,
     (CavendishExperimentDefaults.sunEarthDist*3).toLong, 10, "light minutes", dist => {
       new DecimalFormat("0.0").format(metersToLightMinutes(dist.toDouble))
-    }, 3.2E-22 * 10, new DecimalFormat("0.0"))
+    }, 3.2E-22 * 10, new SunPlanetDecimalFormat())
   val disclaimerNode = new ScaleDisclaimerNode(model, canvas.transform)
   canvas.addComponentListener(new ComponentAdapter() {
     override def componentResized(e: ComponentEvent) = updateDisclaimerLocation()
@@ -282,14 +292,14 @@ class SolarCavendishModule(clock: ScalaClock) extends Module("Sun-Planet System"
 class Circle(center: Vector2D, radius: Double) extends Ellipse2D.Double(center.x - radius, center.y - radius, radius * 2, radius * 2)
 class ScaleDisclaimerNode(model: CavendishExperimentModel, transform: ModelViewTransform2D) extends PNode {
   val text = new PText("* Radii not to scale.  If they were to scale the sun would be this big ")
-  text.setFont(new PhetFont(16,true))
+  text.setFont(new PhetFont(16, true))
   text.setTextPaint(Color.lightGray)
   import CavendishExperimentDefaults._
   val earthIcon = new PhetPPath(new Circle(new Vector2D, transform.modelToViewDifferentialXDouble(earthRadius)), Color.blue)
   val sunIcon = new PhetPPath(new Circle(new Vector2D, transform.modelToViewDifferentialXDouble(sunRadius)), Color.red)
 
   val text2 = new PText("and the Earth would be this big ")
-  text2.setFont(new PhetFont(16,true))
+  text2.setFont(new PhetFont(16, true))
   text2.setTextPaint(Color.lightGray)
 
   val node = new SwingLayoutNode
