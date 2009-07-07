@@ -1,5 +1,6 @@
+> Added a graphical display for the force on m2 by m1
 # 0.01.01 (31358) May 5, 2009
-5/5/09 Added a sun-earth module.
+> Added a sun-earth module.
 # 0.01.00 (30589) Apr 20, 2009
 4/20/09 Batch deploy as part of IOM milestone with revision 30588
 > Show spring graphic in front of mass graphic
