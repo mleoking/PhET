@@ -2,6 +2,8 @@ package edu.colorado.phet.buildtools.test.gui;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -32,6 +34,8 @@ public class TestProjectList extends JList {
 
         setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 
+        setCellRenderer( new ProjectCellRenderer( trunk ) );
+
         initializeProjects();
 
         addListSelectionListener( new ListSelectionListener() {
@@ -50,27 +54,38 @@ public class TestProjectList extends JList {
     }
 
     private void initializeProjects() {
+        List<PhetProject> projects = new LinkedList<PhetProject>();
         for ( PhetProject phetProject : JavaSimulationProject.getJavaSimulations( trunk ) ) {
-            model.addElement( new ProjectListElement( phetProject ) );
+            projects.add( phetProject );
         }
 
         for ( PhetProject phetProject : FlashSimulationProject.getFlashSimulations( trunk ) ) {
-            model.addElement( new ProjectListElement( phetProject ) );
+            projects.add( phetProject );
         }
 
         try {
-            model.addElement( new ProjectListElement( new TranslationUtilityProject( new File( trunk, BuildToolsPaths.TRANSLATION_UTILITY ) ) ) );
-            model.addElement( new ProjectListElement( new PhetUpdaterProject( new File( trunk, BuildToolsPaths.PHET_UPDATER ) ) ) );
-            model.addElement( new ProjectListElement( new BuildToolsProject( new File( trunk, BuildToolsPaths.BUILD_TOOLS_DIR ) ) ) );
-            model.addElement( new ProjectListElement( new StatisticsProject( trunk ) ) );
+            projects.add( new TranslationUtilityProject( new File( trunk, BuildToolsPaths.TRANSLATION_UTILITY ) ) );
+            projects.add( new PhetUpdaterProject( new File( trunk, BuildToolsPaths.PHET_UPDATER ) ) );
+            projects.add( new BuildToolsProject( new File( trunk, BuildToolsPaths.BUILD_TOOLS_DIR ) ) );
+            projects.add( new StatisticsProject( trunk ) );
         }
         catch( IOException e ) {
             e.printStackTrace();
         }
 
+        Collections.sort( projects, new Comparator<PhetProject>() {
+            public int compare( PhetProject a, PhetProject b ) {
+                return a.getName().compareTo( b.getName() );
+            }
+        } );
+
+        for ( PhetProject project : projects ) {
+            model.addElement( new ProjectListElement( project ) );
+        }
+
     }
 
-    private static class ProjectListElement {
+    public static class ProjectListElement {
         private PhetProject p;
 
         private ProjectListElement( PhetProject p ) {
