@@ -23,7 +23,7 @@ public class AgingRock extends AnimatedDatableItem {
     //------------------------------------------------------------------------
 
     public AgingRock( ConstantDtClock clock, Point2D center, double width ) {
-        super( "Aging Rock", Arrays.asList( "molten_rock.png", "rock_1.png" ), center, width, 0, 0, clock, EruptingVolcano.VOLCANO_AGE_FACTOR );
+        super( "Aging Rock", Arrays.asList( "molten_rock.png", "rock_volcanic.png" ), center, width, 0, 0, clock, EruptingVolcano.VOLCANO_AGE_FACTOR );
         System.out.println( "clock = " + clock );
     }
 
