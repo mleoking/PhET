@@ -2,6 +2,7 @@ package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.EventObject;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -10,23 +11,39 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.nuclearphysics.common.Cleanupable;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Sam
- * Date: Jul 2, 2009
- * Time: 3:24:52 PM
+ * This class extends the datable item class to add animation and other time-
+ * driven behaviors.
  */
 public abstract class AnimatedDatableItem extends DatableItem implements Cleanupable{
 
-    public static interface ImageGetter{
-        ArrayList<String> getResourceImageNames();
-    }
-
+    //------------------------------------------------------------------------
+    // Class Data
+    //------------------------------------------------------------------------
+	
+	// This enum defines the possible states with respect to closure, which
+	// is the time at which the item begins aging radiometrically and its
+	// radioactive elements start decreasing.  For example, if the item is
+	// organic, closure occurs when the item dies.
+	public enum CLOSURE_STATE {
+		CLOSURE_NOT_POSSIBLE,    // Closure cannot be forced.
+		CLOSURE_POSSIBLE,        // Closure has not occurred, but could be forced.
+		CLOSED                   // Closure has occurred.
+	};
+	
+    //------------------------------------------------------------------------
+    // Instance Data
+    //------------------------------------------------------------------------
+	
     protected ConstantDtClock _clock;
     private double ageAdjustmentFactor;
     protected ClockAdapter _clockAdapter;
     private double age = 0; // Age in milliseconds of this datable item.
     protected ModelAnimationDeltaInterpreter animationIterpreter;
 
+    //------------------------------------------------------------------------
+    // Constructor(s)
+    //------------------------------------------------------------------------
+    
     public AnimatedDatableItem( String name, List<String> resourceImageNames, Point2D center, double width, double rotationAngle, double age, ConstantDtClock clock,double ageAdjustmentFactor ) {
         super( name, resourceImageNames, center, width, rotationAngle, age );
         _clock = clock;
@@ -42,7 +59,6 @@ public abstract class AnimatedDatableItem extends DatableItem implements Cleanup
 		};
 		_clock.addClockListener(_clockAdapter);
 
-
         //------------------------------------------------------------------------
         // The animation sequence that defines how the appearance of the tree
         // will change as it ages.
@@ -52,14 +68,12 @@ public abstract class AnimatedDatableItem extends DatableItem implements Cleanup
 		animationIterpreter = new ModelAnimationDeltaInterpreter(this, getAnimationSequence() );
     }
 
-    protected abstract AnimationSequence getAnimationSequence();
-
-
-
     //------------------------------------------------------------------------
     // Methods
     //------------------------------------------------------------------------
     
+    protected abstract AnimationSequence getAnimationSequence();
+
     protected void handleClockTicked(){
         age = _clock.getSimulationTime() * ageAdjustmentFactor;
         animationIterpreter.setTime(age);
@@ -91,5 +105,22 @@ public abstract class AnimatedDatableItem extends DatableItem implements Cleanup
             time = time + dt;
             return time;
         }
+    }
+    
+    /**
+     * Event used to convey information about changes to the closure state.
+     */
+    public static class ClosureEvent extends EventObject{
+
+    	private final CLOSURE_STATE closureState;
+    	
+		public ClosureEvent(Object source, CLOSURE_STATE closureState) {
+			super(source);
+			this.closureState = closureState;
+		}
+
+		public CLOSURE_STATE getClosureState() {
+			return closureState;
+		}
     }
 }
