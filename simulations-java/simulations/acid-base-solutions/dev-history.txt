@@ -8,10 +8,10 @@ TODO:
 - Trish: BH+ color is too light, symbols hard to see in ratio check box label
 - Trish: charges (+,-) go outside canvas bounds in reaction equations dialog 
 - make symbol legend descriptions automatically wrap, so we don't need breaks in HTML markup
-- dot view should be static while dragging strength slider in strong region
 - Spanish translation, to test i18n
 
 DONE:
+7/6/09 make dot view static while dragging strength slider in strong region
 7/6/09 match strength if both solutions have a value in strong range
 # 0.01.23
 7/6/09 fix enable/disable behavior of view check boxes in matching game
