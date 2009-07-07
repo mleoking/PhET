@@ -1,6 +1,7 @@
 package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 import java.util.EventObject;
 import java.util.List;
 
@@ -38,6 +39,7 @@ public abstract class AnimatedDatableItem extends DatableItem implements Cleanup
     protected ClockAdapter _clockAdapter;
     private double age = 0; // Age in milliseconds of this datable item.
     protected ModelAnimationInterpreter animationIterpreter;
+    private ArrayList<ClosureListener> _closureListeners = new ArrayList<ClosureListener>();
 
     //------------------------------------------------------------------------
     // Constructor(s)
@@ -69,7 +71,7 @@ public abstract class AnimatedDatableItem extends DatableItem implements Cleanup
 		// Register with the animation interpreter for any animation events
 		// that occur during the interpretation of the sequence.
 		animationIterpreter.addListener(new ModelAnimationInterpreter.Listener(){
-			public void animationEventOccurred(EventObject event) {
+			public void animationNotificationEventOccurred(EventObject event) {
 				handleAnimationEvent(event);
 			}
 		});
@@ -82,8 +84,22 @@ public abstract class AnimatedDatableItem extends DatableItem implements Cleanup
     protected abstract AnimationSequence getAnimationSequence();
 
     protected void handleAnimationEvent(EventObject event){
-    	System.out.println("Animation event received.");;
+    	System.out.println("Animation event received.");
     }
+    
+	public void addClosureListener(ClosureListener listener) {
+		if (!_closureListeners.contains(listener)){
+			_closureListeners.add(listener);
+		}
+	}
+	
+	public void removeClosureListener(ClosureListener listener) {
+		_closureListeners.remove(listener);
+	}
+
+	public void removeAllClosureListeners() {
+		_closureListeners.clear();
+	}
 
     protected void handleClockTicked(){
         age = _clock.getSimulationTime() * ageAdjustmentFactor;
@@ -133,5 +149,13 @@ public abstract class AnimatedDatableItem extends DatableItem implements Cleanup
 		public CLOSURE_STATE getClosureState() {
 			return closureState;
 		}
+    }
+    
+    /**
+     * Listener through which information about the radiometric closure state
+     * can be monitored.
+     */
+    public interface ClosureListener{
+    	public void closureStateChanged();
     }
 }
