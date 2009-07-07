@@ -17,7 +17,7 @@ import edu.colorado.phet.common.phetcommon.math.MathUtil;
  * 
  * @author John Blanco
  */
-public class ModelAnimationDeltaInterpreter {
+public class ModelAnimationInterpreter {
 
 	private final AnimatedModelElement modelElement;
 	private final AnimationSequence animationSequence;
@@ -26,7 +26,7 @@ public class ModelAnimationDeltaInterpreter {
 	/**
 	 * Constructor.
 	 */
-	public ModelAnimationDeltaInterpreter(AnimatedModelElement modelElement, AnimationSequence animationSequence,
+	public ModelAnimationInterpreter(AnimatedModelElement modelElement, AnimationSequence animationSequence,
 			int maxEventsPerUpdate) {
 		
 		this.modelElement = modelElement;
@@ -40,7 +40,7 @@ public class ModelAnimationDeltaInterpreter {
 	 * @param modelElement
 	 * @param animationSequence
 	 */
-	public ModelAnimationDeltaInterpreter(AnimatedModelElement modelElement, AnimationSequence animationSequence) {
+	public ModelAnimationInterpreter(AnimatedModelElement modelElement, AnimationSequence animationSequence) {
 		
 		this(modelElement, animationSequence, Integer.MAX_VALUE);
 	}

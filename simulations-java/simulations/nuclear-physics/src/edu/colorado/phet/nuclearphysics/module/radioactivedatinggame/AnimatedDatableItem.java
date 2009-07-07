@@ -38,7 +38,7 @@ public abstract class AnimatedDatableItem extends DatableItem implements Cleanup
     private double ageAdjustmentFactor;
     protected ClockAdapter _clockAdapter;
     private double age = 0; // Age in milliseconds of this datable item.
-    protected ModelAnimationDeltaInterpreter animationIterpreter;
+    protected ModelAnimationInterpreter animationIterpreter;
 
     //------------------------------------------------------------------------
     // Constructor(s)
@@ -65,7 +65,7 @@ public abstract class AnimatedDatableItem extends DatableItem implements Cleanup
         //------------------------------------------------------------------------
 
 		// Create the animation interpreter that will execute the animation.
-		animationIterpreter = new ModelAnimationDeltaInterpreter(this, getAnimationSequence() );
+		animationIterpreter = new ModelAnimationInterpreter(this, getAnimationSequence() );
     }
 
     //------------------------------------------------------------------------
