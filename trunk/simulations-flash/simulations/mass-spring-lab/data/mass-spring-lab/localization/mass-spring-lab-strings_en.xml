@@ -49,5 +49,5 @@
   <string key="resetTimer" value="reset" />
   <string key="startTimer" value="start/pause" />
   <string key="simTitle" value="Masses &amp; Springs" />
- 
+  <string key="simDescription" value="A realistic mass and spring laboratory. Hang masses from springs and adjust the spring stiffness and damping. You can even slow time. Transport the lab to different planets. A chart shows the kinetic, potential, and thermal energy for each spring." />
 </SimStrings>

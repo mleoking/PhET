@@ -43,4 +43,5 @@
   <string key="exactAnswer" value="exact answer" /> 
   <string key="or" value="or2" />
   <string key="simTitle" value="Estimation" />
+  <string key="simDescription" value="Explore size estimation in one, two and three dimensions! Multiple levels of difficulty allow for progressive skill improvement." />
 </SimStrings>

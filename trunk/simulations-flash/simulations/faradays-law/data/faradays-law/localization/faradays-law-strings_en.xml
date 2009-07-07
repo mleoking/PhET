@@ -10,4 +10,5 @@
   <string key="showFieldLines" value="Show field lines" />
   <string key="flipMagnet" value="Flip magnet" />
   <string key="simTitle" value="Faraday's Law" />
+  <string key="simDescription" value="Light a light bulb by waving a magnet. This demonstration of Faraday's Law shows you how to reduce your power bill at the expense of your grocery bill." />
 </SimStrings>

@@ -41,4 +41,6 @@
   <string key="thermal" value="thermal" />
   <string key="total" value="total" />
   <string key="simStrings" value="Pendulum Lab" />
+  <string key="simTitle" value="Pendulum Lab" />
+  <string key="simDescription" value="Play with one or two pendulums and discover how the period of a simple pendulum depends on the length of the string, the mass of the pendulum bob, and the amplitude of the swing. It's easy to measure the period using the photogate timer. You can vary friction and the strength of gravity. Use the pendulum to find the value of g on planet X. Notice the anharmonic behavior at large amplitude." />
 </SimStrings>

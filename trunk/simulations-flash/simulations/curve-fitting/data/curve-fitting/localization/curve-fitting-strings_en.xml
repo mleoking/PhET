@@ -33,4 +33,5 @@
   <string key="chiSqHelp5" value=":   fit too good   (error bars too small)" />
   <string key="correlation" value="correlation coefficient " />
   <string key="simTitle" value="Curve Fitting" />
+  <string key="simDescription" value="With your mouse, drag data points and their error bars, and watch the best-fit polynomial curve update instantly. You choose the type of fit: linear, quadratic, cubic, or quartic. The reduced chi-square statistic shows you when the fit is good. Or you can try to find the best fit by manually adjusting fit parameters." />
 </SimStrings>

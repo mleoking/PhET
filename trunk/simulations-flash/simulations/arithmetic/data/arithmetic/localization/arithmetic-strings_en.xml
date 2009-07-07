@@ -28,5 +28,6 @@
   <string key="clickToSelect" value="Click to select \ncorrect square" />
 
   <string key="simTitle" value="Arithmetic" />
+  <string key="simDescription" value="Remember your multiplication tables? ... me neither. Brush up on your multiplication, division, and factoring skills with this exciting game. No calculators allowed!" />
 
 </SimStrings>

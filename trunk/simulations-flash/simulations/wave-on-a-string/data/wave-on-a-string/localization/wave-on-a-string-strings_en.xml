@@ -30,5 +30,5 @@
   <string key="resetTimer" value="reset" />
   <string key="startTimer" value="start/pause" />
   <string key="simTitle" value="Wave on a String" />
- 
+  <string key="simDescription" value="Watch a string vibrate in slow motion. Wiggle the end of the string and make waves, or adjust the frequency and amplitude of an oscillator. Adjust the damping and tension. The end can be fixed, loose, or open." />
 </SimStrings>

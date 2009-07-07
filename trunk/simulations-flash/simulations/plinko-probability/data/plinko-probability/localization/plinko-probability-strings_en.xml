@@ -22,5 +22,5 @@
   <string key="sEquals" value="s =" /> 
   <string key="sMeanEquals" value="" /> 
   <string key="simTitle" value="Plinko Probability" />
-  
+  <string key="simDescription" value="Play Plinko and develop your knowledge of statistics. Drops balls through a triangular grid of pegs and see the balls random walk through the lattice. Watch the histogram of final positions build up and approach the binomial distribution. Inspired by the Virtual Lab in Probability and Statistics at U. Alabama in Huntsville (www.math.uah.edu/stat)" />
 </SimStrings>
