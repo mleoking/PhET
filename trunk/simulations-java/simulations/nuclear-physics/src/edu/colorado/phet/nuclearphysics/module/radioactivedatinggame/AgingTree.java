@@ -42,117 +42,117 @@ public class AgingTree extends AnimatedDatableItem {
 
         // Grow.
         animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), 
-        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0 ) );
+        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0, null ) );
         verticalGrowthCompensation = verticalGrowthCompensation * growthRate;
         animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), 
-        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0 ) );
+        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0, null ) );
         verticalGrowthCompensation = verticalGrowthCompensation * growthRate;
         animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), 
-        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0 ) );
+        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0, null ) );
         verticalGrowthCompensation = verticalGrowthCompensation * growthRate;
         animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), 
-        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0 ) );
+        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0, null ) );
         verticalGrowthCompensation = verticalGrowthCompensation * growthRate;
         animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), 
-        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0 ) );
+        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0, null ) );
         verticalGrowthCompensation = verticalGrowthCompensation * growthRate;
         animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), 
-        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0 ) );
+        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0, null ) );
         verticalGrowthCompensation = verticalGrowthCompensation * growthRate;
         animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), 
-        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0 ) );
+        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0, null ) );
         verticalGrowthCompensation = verticalGrowthCompensation * growthRate;
         animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), 
-        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0 ) );
+        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0, null ) );
         verticalGrowthCompensation = verticalGrowthCompensation * growthRate;
         animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), 
-        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0 ) );
+        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0, null ) );
         verticalGrowthCompensation = verticalGrowthCompensation * growthRate;
         animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), 
-        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0 ) );
+        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0, null ) );
         verticalGrowthCompensation = verticalGrowthCompensation * growthRate;
         animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), 
-        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0 ) );
+        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0, null ) );
         verticalGrowthCompensation = verticalGrowthCompensation * growthRate;
         animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), 
-        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0 ) );
+        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0, null ) );
         verticalGrowthCompensation = verticalGrowthCompensation * growthRate;
         animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), 
-        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0 ) );
+        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0, null ) );
         verticalGrowthCompensation = verticalGrowthCompensation * growthRate;
         animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), 
-        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0 ) );
+        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0, null ) );
         verticalGrowthCompensation = verticalGrowthCompensation * growthRate;
         animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), 
-        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0 ) );
+        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0, null ) );
         verticalGrowthCompensation = verticalGrowthCompensation * growthRate;
         animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), 
-        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0 ) );
+        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0, null ) );
         verticalGrowthCompensation = verticalGrowthCompensation * growthRate;
         animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), 
-        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0 ) );
+        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0, null ) );
         verticalGrowthCompensation = verticalGrowthCompensation * growthRate;
         animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), 
-        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0 ) );
+        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0, null ) );
         verticalGrowthCompensation = verticalGrowthCompensation * growthRate;
         animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), 
-        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0 ) );
+        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0, null ) );
         verticalGrowthCompensation = verticalGrowthCompensation * growthRate;
         animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), 
-        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0 ) );
+        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0, null ) );
         verticalGrowthCompensation = verticalGrowthCompensation * growthRate;
         animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), 
-        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0 ) );
+        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0, null ) );
         verticalGrowthCompensation = verticalGrowthCompensation * growthRate;
         animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), 
-        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0 ) );
+        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0, null ) );
         verticalGrowthCompensation = verticalGrowthCompensation * growthRate;
         animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), 
-        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0 ) );
+        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0, null ) );
         verticalGrowthCompensation = verticalGrowthCompensation * growthRate;
         animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), 
-        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0 ) );
+        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0, null ) );
         verticalGrowthCompensation = verticalGrowthCompensation * growthRate;
         animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), 
-        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0 ) );
+        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0, null ) );
         verticalGrowthCompensation = verticalGrowthCompensation * growthRate;
         animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), 
-        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0 ) );
+        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0, null ) );
         verticalGrowthCompensation = verticalGrowthCompensation * growthRate;
         animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), 
-        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0 ) );
+        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0, null ) );
         verticalGrowthCompensation = verticalGrowthCompensation * growthRate;
         animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), 
-        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0 ) );
+        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0, null ) );
         verticalGrowthCompensation = verticalGrowthCompensation * growthRate;
         animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), 
-        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0 ) );
+        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0, null ) );
         verticalGrowthCompensation = verticalGrowthCompensation * growthRate;
         animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), 
-        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0 ) );
+        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0, null ) );
         verticalGrowthCompensation = verticalGrowthCompensation * growthRate;
         animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), 
-        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0 ) );
+        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0, null ) );
         verticalGrowthCompensation = verticalGrowthCompensation * growthRate;
         animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), 
-        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0 ) );
+        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0, null ) );
         verticalGrowthCompensation = verticalGrowthCompensation * growthRate;
         animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), 
-        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0 ) );
+        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0, null ) );
         verticalGrowthCompensation = verticalGrowthCompensation * growthRate;
         animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), 
-        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0 ) );
+        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0, null ) );
         verticalGrowthCompensation = verticalGrowthCompensation * growthRate;
         animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), 
-        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0 ) );
+        		new Point2D.Double(0, verticalGrowthCompensation), 0, growthRate, 0, 0, 0, null ) );
         verticalGrowthCompensation = verticalGrowthCompensation * growthRate;
 
         // Fade from the live to the dead tree.
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1.0, 0, 0, 0.2 ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1.0, 0, 0, 0.2 ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1.0, 0, 0, 0.2 ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1.0, 0, 0, 0.2 ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1.0, 0, 0, 0.2 ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1.0, 0, 0, 0.2, null ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1.0, 0, 0, 0.2, null ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1.0, 0, 0, 0.2, null ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1.0, 0, 0, 0.2, null ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1.0, 0, 0, 0.2, null ) );
         
         // Pause.
         timeUpdater.updateTime();
@@ -161,27 +161,27 @@ public class AgingTree extends AnimatedDatableItem {
         timeUpdater.updateTime();
 
         // Sway back and forth a bit.
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0.05, 1.0, 0, 0, 0 ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0.05, 1.0, 0, 0, 0 ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0.05, 1.0, 0, 0, 0, null ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0.05, 1.0, 0, 0, 0, null ) );
         timeUpdater.updateTime();
         timeUpdater.updateTime();
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, -0.05, 1.0, 0, 0, 0 ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, -0.05, 1.0, 0, 0, 0 ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, -0.05, 1.0, 0, 0, 0 ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, -0.05, 1.0, 0, 0, 0 ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0.05, 1.0, 0, 0, 0 ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0.05, 1.0, 0, 0, 0 ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, -0.05, 1.0, 0, 0, 0, null ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, -0.05, 1.0, 0, 0, 0, null ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, -0.05, 1.0, 0, 0, 0, null ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, -0.05, 1.0, 0, 0, 0, null ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0.05, 1.0, 0, 0, 0, null ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0.05, 1.0, 0, 0, 0, null ) );
         
         // Fall over.
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), new Point2D.Double(0.3, -0.7), 0.3, 1.0, 0, 0, 0 ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), new Point2D.Double(0.3, -0.7), 0.3, 1.0, 0, 0, 0 ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), new Point2D.Double(0.3, -0.7), 0.3, 1.0, 0, 0, 0 ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), new Point2D.Double(0.3, -0.7), 0.3, 1.0, 0, 0, 0 ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), new Point2D.Double(0.3, -0.7), 0.3, 1.0, 0, 0, 0 ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), new Point2D.Double(0.3, -0.7), 0.3, 1.0, 0, 0, 0, null ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), new Point2D.Double(0.3, -0.7), 0.3, 1.0, 0, 0, 0, null ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), new Point2D.Double(0.3, -0.7), 0.3, 1.0, 0, 0, 0, null ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), new Point2D.Double(0.3, -0.7), 0.3, 1.0, 0, 0, 0, null ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), new Point2D.Double(0.3, -0.7), 0.3, 1.0, 0, 0, 0, null ) );
         
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), new Point2D.Double(0.1, -1.0), 0.0, 1.0, 0, 0, 0 ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), new Point2D.Double(0.1, -1.0), 0.0, 1.0, 0, 0, 0 ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), new Point2D.Double(0.1, -1.0), 0.0, 1.0, 0, 0, 0 ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), new Point2D.Double(0.1, -1.0), 0.0, 1.0, 0, 0, 0, null ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), new Point2D.Double(0.1, -1.0), 0.0, 1.0, 0, 0, 0, null ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), new Point2D.Double(0.1, -1.0), 0.0, 1.0, 0, 0, 0, null ) );
         // Bounce.
 
         return new StaticAnimationSequence(animationSequence);

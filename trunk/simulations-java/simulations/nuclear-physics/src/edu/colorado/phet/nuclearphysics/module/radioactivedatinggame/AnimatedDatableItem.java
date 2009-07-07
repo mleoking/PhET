@@ -65,13 +65,25 @@ public abstract class AnimatedDatableItem extends DatableItem implements Cleanup
 
 		// Create the animation interpreter that will execute the animation.
 		animationIterpreter = new ModelAnimationInterpreter(this, getAnimationSequence() );
+		
+		// Register with the animation interpreter for any animation events
+		// that occur during the interpretation of the sequence.
+		animationIterpreter.addListener(new ModelAnimationInterpreter.Listener(){
+			public void animationEventOccurred(EventObject event) {
+				handleAnimationEvent(event);
+			}
+		});
     }
 
-    //------------------------------------------------------------------------
+	//------------------------------------------------------------------------
     // Methods
     //------------------------------------------------------------------------
     
     protected abstract AnimationSequence getAnimationSequence();
+
+    protected void handleAnimationEvent(EventObject event){
+    	System.out.println("Animation event received.");;
+    }
 
     protected void handleClockTicked(){
         age = _clock.getSimulationTime() * ageAdjustmentFactor;
