@@ -16,7 +16,7 @@ import java.util.Properties;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class AbstractPropertiesFile {
-    
+
     private final File file;
     private final Properties properties;
     private String header;
@@ -24,7 +24,7 @@ public class AbstractPropertiesFile {
     public AbstractPropertiesFile( String filename ) {
         this( new File( filename ) );
     }
-    
+
     public AbstractPropertiesFile( File file ) {
         this.file = file;
         this.header = null;
@@ -38,7 +38,10 @@ public class AbstractPropertiesFile {
         Properties properties = new Properties();
         if ( file.exists() ) {
             try {
-                properties.load( new BufferedInputStream( new FileInputStream( file ) ) );
+                // added stream closing, so we don't open way way way too many streams!
+                BufferedInputStream stream = new BufferedInputStream( new FileInputStream( file ) );
+                properties.load( stream );
+                stream.close();
             }
             catch ( IOException e ) {
                 e.printStackTrace();
@@ -49,7 +52,7 @@ public class AbstractPropertiesFile {
         }
         return properties;
     }
-    
+
     /*
      * Store the properties to the file.
      */
@@ -66,18 +69,18 @@ public class AbstractPropertiesFile {
             System.err.println( getClass().getName() + " access denied to file " + file.getAbsolutePath() );
         }
     }
-    
+
     /**
      * Sets the header in the properties file.
      * The header is not written until the next time that store is called.
-     * This ensures that we don't needlessly touch a properties file until 
+     * This ensures that we don't needlessly touch a properties file until
      * some property is actually modified.
      * @param header
      */
     public void setHeader( String header ) {
         this.header = header;
     }
-    
+
     /**
      * Does this properties file exist?
      * @return
@@ -85,7 +88,7 @@ public class AbstractPropertiesFile {
     public boolean exists() {
         return file.exists();
     }
-    
+
     /**
      * Gets the names of all properties in the file.
      * @return
@@ -93,29 +96,29 @@ public class AbstractPropertiesFile {
     public Enumeration getPropertyNames() {
         return properties.propertyNames();
     }
-    
+
     /*
      * Setting a property stores it immediately.
      * <p>
      * This method is protected because subclasses should not expose key values,
      * they should have set/get methods for each property.
-     * 
-     * @param key 
+     *
+     * @param key
      * @param value
      */
     protected void setProperty( String key, String value ) {
         properties.setProperty( key, value );
         store();
     }
-    
+
     protected void setProperty( String key, int value ) {
         setProperty( key, String.valueOf( value ) );
     }
-    
+
     protected void setProperty( String key, long value ) {
         setProperty( key, String.valueOf( value ) );
     }
-    
+
     /*
      * Gets a property value as a String.
      * <p>
@@ -127,14 +130,14 @@ public class AbstractPropertiesFile {
     protected String getProperty( String key ) {
         return properties.getProperty( key );
     }
-    
+
     /*
      * Gets a property as an integer value.
      * If the property value can't be converted to an integer, defaultValue is returned.
      * <p>
      * This method is protected because subclasses should not expose key values,
      * they should have set/get methods for each property.
-     * 
+     *
      * @param key
      * @param defaultValue
      * @return int value
@@ -152,14 +155,14 @@ public class AbstractPropertiesFile {
         }
         return value;
     }
-    
+
     /*
      * Gets a property as an integer value.
      * If the property value can't be converted to an integer, defaultValue is returned.
      * <p>
      * This method is protected because subclasses should not expose key values,
      * they should have set/get methods for each property.
-     * 
+     *
      * @param key
      * @param defaultValue
      * @return int value
@@ -177,7 +180,7 @@ public class AbstractPropertiesFile {
         }
         return value;
     }
-    
+
     public String toString() {
         return properties.toString();
     }
@@ -186,7 +189,7 @@ public class AbstractPropertiesFile {
         properties.clear();
         return file.delete();
     }
-    
+
     public void deleteOnExit(){
         file.deleteOnExit();
     }

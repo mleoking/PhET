@@ -41,18 +41,26 @@ public class FileUtils {
         int lenA = Integer.MAX_VALUE;//code for requiring initialization in loop
         int lenB = Integer.MAX_VALUE;
 
+        boolean ret = true;
+
         while ( lenA > 0 || lenB > 0 ) {
             lenA = inA.read( bufferA );
             lenB = inB.read( bufferB );
             if ( lenA != lenB ) {
-                return false;
+                ret = false;
+                break;
             }
             if ( !Arrays.equals( bufferA, bufferB ) ) {
-                return false;
+                ret = false;
+                break;
             }
 
         }
-        return true;
+
+        inA.close();
+        inB.close();
+
+        return ret;
     }
 
 }
