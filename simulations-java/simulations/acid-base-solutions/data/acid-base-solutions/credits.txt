@@ -1,1 +1,1 @@
-phet-credits lead-design=Archie Paulson software-development=Chris Malley design-team=Wendy Adams, Laurie Langdon, Patricia Loeblein, Kathy Perkins
+phet-credits lead-design=Archie Paulson software-development=Chris Malley design-team=Wendy Adams, Jack Barbera, Laurie Langdon, Patricia Loeblein, Kathy Perkins
