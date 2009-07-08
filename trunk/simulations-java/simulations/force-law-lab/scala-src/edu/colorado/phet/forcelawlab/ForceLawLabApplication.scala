@@ -12,7 +12,7 @@ import common.phetcommon.view.graphics.RoundGradientPaint
 import common.piccolophet.event.CursorHandler
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import java.awt._
-import java.text.{DecimalFormatSymbols, NumberFormat, DecimalFormat,MessageFormat}
+import java.text._
 import umd.cs.piccolo.nodes.{PImage, PText}
 import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
 import umd.cs.piccolo.util.PDimension
@@ -231,7 +231,19 @@ class ForceLawLabModel(mass1: Double, mass2: Double,
   }
 }
 
-class TinyDecimalFormat extends DecimalFormat("0.000000000000")
+class TinyDecimalFormat extends DecimalFormat("0.00000000000"){
+  override def format(number: Double, result: StringBuffer, fieldPosition: FieldPosition) = {
+    val s=super.format(number,result,fieldPosition).toString
+    //start at the end, and insert spaces after every 3 elements, may not work for every locale
+    var str=""
+    for (ch<-s){
+      str=str+ch
+      if (str.length%4==0)//4 instead of 3 because space adds another element
+        str=str+" "
+    }
+    new StringBuffer(str)
+  }
+}
 
 class SunPlanetDecimalFormat extends DecimalFormat("#,###,###,###,###,###,##0.0", {
   val f = new DecimalFormatSymbols
