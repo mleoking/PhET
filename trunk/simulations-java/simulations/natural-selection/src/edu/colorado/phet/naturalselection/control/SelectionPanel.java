@@ -8,6 +8,7 @@ import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
 import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
 import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
+import edu.colorado.phet.naturalselection.persistence.NaturalSelectionConfig;
 import edu.colorado.phet.naturalselection.util.ImagePanel;
 
 public class SelectionPanel extends JPanel {
@@ -79,6 +80,10 @@ public class SelectionPanel extends JPanel {
 
     public void selectDefaultSelectionFactor() {
         int selection = NaturalSelectionDefaults.DEFAULT_CLIMATE;
+        setSelectionFactor( selection );
+    }
+
+    private void setSelectionFactor( int selection ) {
         if ( selection == NaturalSelectionModel.SELECTION_WOLVES ) {
             wolvesButton.setSelected( true );
         }
@@ -92,5 +97,9 @@ public class SelectionPanel extends JPanel {
 
     public void reset() {
         selectDefaultSelectionFactor();
+    }
+
+    public void load( NaturalSelectionConfig config ) {
+        setSelectionFactor( config.getSelectionFactor() );
     }
 }

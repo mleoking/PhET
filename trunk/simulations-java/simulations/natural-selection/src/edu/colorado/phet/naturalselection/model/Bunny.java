@@ -10,6 +10,7 @@ import java.util.Random;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
+import edu.colorado.phet.naturalselection.persistence.BunnyConfig;
 
 /**
  * Represents a bunny in the Natural Selection model
@@ -159,6 +160,62 @@ public class Bunny {
 
         model.getClock().addPhysicalListener( clockListener );
 
+    }
+
+    public BunnyConfig getConfig() {
+        BunnyConfig config = new BunnyConfig();
+
+        config.setId( bunnyId );
+        if ( potentialMate != null ) {
+            config.setPotentialMateId( potentialMate.bunnyId );
+        }
+        else {
+            config.setPotentialMateId( -1 );
+        }
+        config.setMated( mated );
+        config.setMutated( mutated );
+        config.setAlive( alive );
+
+        if ( mated ) {
+            config.setChildrenIds( new int[]{
+                    children.get( 0 ).bunnyId,
+                    children.get( 1 ).bunnyId,
+                    children.get( 2 ).bunnyId,
+                    children.get( 3 ).bunnyId
+            } );
+        }
+        else {
+            config.setChildrenIds( new int[]{} );
+        }
+
+        config.setAge( age );
+        config.setGeneration( generation );
+
+        config.setColorPhenotypeRegular( colorPhenotype == ColorGene.WHITE_ALLELE );
+        config.setTeethPhenotypeRegular( teethPhenotype == TeethGene.TEETH_SHORT_ALLELE );
+        config.setTailPhenotypeRegular( tailPhenotype == TailGene.TAIL_SHORT_ALLELE );
+
+        config.setColorFatherGenotypeRegular( colorGenotype.getFatherAllele() == ColorGene.WHITE_ALLELE );
+        config.setTeethFatherGenotypeRegular( teethGenotype.getFatherAllele() == TeethGene.TEETH_SHORT_ALLELE );
+        config.setTailFatherGenotypeRegular( tailGenotype.getFatherAllele() == TailGene.TAIL_SHORT_ALLELE );
+
+        config.setColorMotherGenotypeRegular( colorGenotype.getMotherAllele() == ColorGene.WHITE_ALLELE );
+        config.setTeethMotherGenotypeRegular( teethGenotype.getMotherAllele() == TeethGene.TEETH_SHORT_ALLELE );
+        config.setTailMotherGenotypeRegular( tailGenotype.getMotherAllele() == TailGene.TAIL_SHORT_ALLELE );
+
+        config.setX( position.getX() );
+        config.setY( position.getY() );
+        config.setZ( position.getZ() );
+
+        config.setSinceHopTime( sinceHopTime );
+        config.setMovingRight( movingRight );
+        config.setHunger( hunger );
+
+        config.setHopX( hopDirection.getX() );
+        config.setHopY( hopDirection.getY() );
+        config.setHopZ( hopDirection.getZ() );
+
+        return config;
     }
 
     public boolean isMovingRight() {

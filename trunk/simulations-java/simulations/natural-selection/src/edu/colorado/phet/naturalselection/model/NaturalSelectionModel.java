@@ -8,6 +8,8 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
+import edu.colorado.phet.naturalselection.persistence.BunnyConfig;
+import edu.colorado.phet.naturalselection.persistence.NaturalSelectionConfig;
 
 /**
  * The model itself for the Natural Selection simulation
@@ -181,6 +183,117 @@ public class NaturalSelectionModel extends ClockAdapter {
         initialize();
     }
 
+    public void save( NaturalSelectionConfig config ) {
+        NaturalSelectionClock clock = getClock();
+        config.setClockDt( clock.getDt() );
+        config.setClockPaused( clock.isPaused() );
+        config.setClockTime( clock.getSimulationTime() );
+        config.setClimate( climate );
+        config.setSelectionFactor( selectionFactor );
+        config.setTime( time );
+        config.setLastYearTick( lastYearTick );
+        config.setLastEventTick( lastEventTick );
+        config.setGeneration( generation );
+        config.setGameEnded( gameEnded );
+        config.setLastFrenziedGeneration( lastFrenziedGeneration );
+        config.setFriendAdded( friendAdded );
+
+        config.setRootFatherId( rootFather.bunnyId );
+        if ( rootMother == null ) {
+            config.setRootMotherId( -1 );
+        }
+        else {
+            config.setRootMotherId( rootMother.bunnyId );
+        }
+
+        BunnyConfig[] bunnyConfigs = new BunnyConfig[bunnies.size()];
+        for ( int i = 0; i < bunnyConfigs.length; i++ ) {
+            bunnyConfigs[i] = bunnies.get( i ).getConfig();
+        }
+        config.setBunnies( bunnyConfigs );
+
+        config.setColorRegularDominant( ColorGene.getInstance().getDominantAllele() == ColorGene.WHITE_ALLELE );
+        config.setTeethRegularDominant( TeethGene.getInstance().getDominantAllele() == TeethGene.TEETH_SHORT_ALLELE );
+        config.setTailRegularDominant( TailGene.getInstance().getDominantAllele() == TailGene.TAIL_SHORT_ALLELE );
+
+
+    }
+
+    public void load( NaturalSelectionConfig config ) {
+        clock.setDt( config.getClockDt() );
+        clock.setPaused( config.isClockPaused() );
+        clock.setSimulationTime( config.getClockTime() );
+        setClimate( config.getClimate() );
+        setSelectionFactor( config.getSelectionFactor() );
+        time = config.getTime();
+        lastYearTick = config.getLastYearTick();
+        lastEventTick = config.getLastEventTick();
+        generation = config.getGeneration();
+        gameEnded = config.isGameEnded();
+        lastFrenziedGeneration = config.getLastFrenziedGeneration();
+        friendAdded = config.isFriendAdded();
+
+        if ( config.isColorRegularDominant() ) {
+            ColorGene.getInstance().setDominantAllele( ColorGene.WHITE_ALLELE );
+        }
+        else {
+            ColorGene.getInstance().setDominantAllele( ColorGene.BROWN_ALLELE );
+        }
+
+        if ( config.isTeethRegularDominant() ) {
+            TeethGene.getInstance().setDominantAllele( TeethGene.TEETH_SHORT_ALLELE );
+        }
+        else {
+            TeethGene.getInstance().setDominantAllele( TeethGene.TEETH_LONG_ALLELE );
+        }
+
+        if ( config.isTailRegularDominant() ) {
+            TailGene.getInstance().setDominantAllele( TailGene.TAIL_SHORT_ALLELE );
+        }
+        else {
+            TailGene.getInstance().setDominantAllele( TailGene.TAIL_LONG_ALLELE );
+        }
+
+        for ( BunnyConfig bunnyConfig : config.getBunnies() ) {
+            addBunnyConfig( bunnyConfig, config );
+        }
+    }
+
+    public Bunny getBunnyById( int id ) {
+        for ( Bunny bunny : bunnies ) {
+            if ( bunny.bunnyId == id ) {
+                return bunny;
+            }
+        }
+        return null;
+    }
+
+    public void addBunnyConfig( BunnyConfig config, NaturalSelectionConfig mainConfig ) {
+        /*
+        if ( config.getId() == mainConfig.getRootFatherId() ) {
+            // don't add root father, he is already added
+            return;
+        }
+        Bunny bunny = new Bunny( this, getBunnyById( config.getFatherId() ), getBunnyById( config.getMotherId() ), config.getGeneration() );
+        bunny.notifyInit();
+        Bunny potentialMate = getBunnyById( config.getPotentialMateId() );
+        if( potentialMate != null ) {
+            bunny.setPotentialMate( potentialMate );
+            potentialMate.setPotentialMate( bunny );
+        }
+        if( mainConfig.getRootMotherId() == config.getId() ) {
+            rootMother = bunny;
+        }
+
+        if( bunny.bunnyId != config.getId() ) {
+            System.out.println( "WARNING: bunny IDs do not match!" );
+        }
+
+        bunnies.add( bunny );
+        notifyNewBunny( bunny );
+        */
+    }
+
     public void initialize() {
         notifyNewBunny( rootFather );
     }
@@ -266,35 +379,6 @@ public class NaturalSelectionModel extends ClockAdapter {
      * Causes all bunnies that can reproduce to do so
      */
     private void mateBunnies() {
-        /* OLD behavior of mateBunnies() that is potentialMate based
-        Iterator<Bunny> iter = bunnies.iterator();
-
-        // temporarily store the new bunnies that we are creating
-        ArrayList<Bunny> newBunnies = new ArrayList<Bunny>();
-
-        while ( iter.hasNext() ) {
-            Bunny bunny = iter.next();
-
-            if ( bunny.canMate() ) {
-                Bunny[] offspring = Bunny.mateBunnies( bunny, bunny.getPotentialMate() );
-                for ( int i = 0; i < offspring.length; i++ ) {
-                    newBunnies.add( offspring[i] );
-                }
-            }
-        }
-
-        mutateSomeBunnies( newBunnies );
-
-        Iterator<Bunny> newIter = newBunnies.iterator();
-        while ( newIter.hasNext() ) {
-            Bunny bunny = newIter.next();
-            bunny.notifyInit();
-            bunnies.add( bunny );
-            //clock.addClockListener( bunny );
-            // TODO: possibly notify at the end for potential performance issues?
-            notifyNewBunny( bunny );
-        }
-        */
         List<Bunny> aliveBunnies = getAliveBunnyList();
         Collections.shuffle( aliveBunnies );
 
