@@ -33,7 +33,7 @@ public class RangeLimitedIntegerTextField extends JTextField {
         this.maxValue = maxValue;
         setText( "0" );
         setPreferredSize( new Dimension( 30, (int)getPreferredSize().getHeight() ) );
-
+        setColumns( 3 );
         addFocusListener( new InputValidator() );
     }
 
