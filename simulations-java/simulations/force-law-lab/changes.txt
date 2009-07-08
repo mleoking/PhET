@@ -1,3 +1,4 @@
+> constrained drag to lie within play area
 > added control panel to sun planet module
 # 0.01.03 (33142) Jul 8, 2009
 # 0.01.03 (33132) Jul 8, 2009
