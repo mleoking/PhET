@@ -5,6 +5,7 @@ package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusDecayModel;
@@ -30,36 +31,54 @@ public class EruptingVolcano extends AnimatedDatableItem {
     protected AnimationSequence getAnimationSequence() {
         TimeUpdater timeUpdater=new TimeUpdater(0, MultiNucleusDecayModel.convertYearsToMs( 10E6 ));
         ArrayList<ModelAnimationDelta> animationSequence = new ArrayList<ModelAnimationDelta>();
-        animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(-0.25, 0), 0, 1.0, 0, 0, 0, null));
-        animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(0.25, 0), 0, 1.0, 0, 0, 0, null));
-        animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(-0.3, 0.1), 0, 1.0, 0, 0, 0, null));
-        animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(0.3, -0.10), 0, 1.0, 0, 0, 0, null));
-        animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(0, 0.1), 0, 1.0, 0, 0, 0, null));
-        animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(0, -0.1), 0, 1.0, 0, 0, 0, null));
-        animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(-0.2, -0.1), 0, 1.0, 0, 0, 0, null));
-        animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(0.2, 0.1), 0, 1.0, 0, 0, 0, null));
-        animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(-0.25, 0), 0, 1.0, 0, 0, 0, null));
-        animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(0.25, 0), 0, 1.0, 0, 0, 0, null));
+        Random rand = new Random();
+        
+        // Shake back and forth.
+        double maxXShakePerStep = 0.3;
+        double maxYShakePerStep = 0.1;
+        Point2D.Double shakeTranslation = new Point2D.Double();
+        int shakeSteps = 40;  // Must be divisible by 2 or volcano will end up in different spot.
+        for (int i = 0; i < shakeSteps / 2; i++){
+        	double xTranslation = maxXShakePerStep * rand.nextDouble();
+        	double yTranslation = maxYShakePerStep * rand.nextDouble();
+        	shakeTranslation.setLocation(xTranslation, yTranslation);
+        	animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(), shakeTranslation, 0, 1.0, 0, 0, 0, null));
+        	shakeTranslation.setLocation(-xTranslation, -yTranslation);
+        	animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(), shakeTranslation, 0, 1.0, 0, 0, 0, null));
+        }
 
-        // Fade image to hot volcano.
-        animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(), null, 0, 1.0, 0, 0, 0.2, null));
-        animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(), null, 0, 1.0, 0, 0, 0.2, null));
-        animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(), null, 0, 1.0, 0, 0, 0.2, null));
-        animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(), null, 0, 1.0, 0, 0, 0.2, null));
-        animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(), null, 0, 1.0, 0, 0, 0.2, null));
-        animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(), null, 0, 1.0, 0, 0, 0.2, null));
+        // Fade image to hot volcano while continuing to shake.
+        int fadeSteps = 30;  // Must be divisible by 2.
+        double fadeAmountPerStep = 1 / (double)fadeSteps;
+        for (int i = 0; i < fadeSteps; i += 2){
+        	double xTranslation = maxXShakePerStep * rand.nextDouble();
+        	double yTranslation = maxYShakePerStep * rand.nextDouble();
+        	shakeTranslation.setLocation(xTranslation, yTranslation);
+        	animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(), shakeTranslation, 0, 1.0, 0, 0,
+        			fadeAmountPerStep, null));
+        	shakeTranslation.setLocation(-xTranslation, -yTranslation);
+        	animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(), shakeTranslation, 0, 1.0, 0, 0,
+        			fadeAmountPerStep, null));
+        }
 
         // More shaking.
-        animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(-0.25, 0), 0, 1.0, 0, 0, 0, null));
-        animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(0.25, 0), 0, 1.0, 0, 0, 0, null));
-        animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(-0.3, 0.1), 0, 1.0, 0, 0, 0, null));
-        animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(0.3, -0.10), 0, 1.0, 0, 0, 0, null));
-        animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(0, 0.1), 0, 1.0, 0, 0, 0, null));
-        animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(0, -0.1), 0, 1.0, 0, 0, 0, null));
-        animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(-0.2, -0.1), 0, 1.0, 0, 0, 0, null));
-        animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(0.2, 0.1), 0, 1.0, 0, 0, 0, null));
-        animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(-0.25, 0), 0, 1.0, 0, 0, 0, null));
-        animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(),  new Point2D.Double(0.25, 0), 0, 1.0, 0, 0, 0, null));
+        shakeSteps = 40;  // Must be divisible by 2 or volcano will end up in different spot.
+        for (int i = 0; i < shakeSteps / 2; i++){
+        	double xTranslation = maxXShakePerStep * rand.nextDouble();
+        	double yTranslation = maxYShakePerStep * rand.nextDouble();
+        	shakeTranslation.setLocation(xTranslation, yTranslation);
+        	animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(), shakeTranslation, 0, 1.0, 0, 0, 0, null));
+        	shakeTranslation.setLocation(-xTranslation, -yTranslation);
+        	animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(), shakeTranslation, 0, 1.0, 0, 0, 0, null));
+        }
+        
+        // Fade back to dormant-looking image.
+        fadeSteps = 30;  // Must be divisible by 2.
+        fadeAmountPerStep = -1 / (double)fadeSteps;
+        for (int i = 0; i < fadeSteps; i++){
+        	animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(), null, 0, 1.0, 0, 0,
+        			fadeAmountPerStep, null));
+        }
         
         return new StaticAnimationSequence(animationSequence);
     }
