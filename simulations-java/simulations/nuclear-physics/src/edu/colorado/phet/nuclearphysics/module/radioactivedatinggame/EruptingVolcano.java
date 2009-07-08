@@ -37,7 +37,7 @@ public class EruptingVolcano extends AnimatedDatableItem {
         double maxXShakePerStep = 0.3;
         double maxYShakePerStep = 0.1;
         Point2D.Double shakeTranslation = new Point2D.Double();
-        int shakeSteps = 40;  // Must be divisible by 2 or volcano will end up in different spot.
+        int shakeSteps = 10;  // Must be divisible by 2 or volcano will end up in different spot.
         for (int i = 0; i < shakeSteps / 2; i++){
         	double xTranslation = maxXShakePerStep * rand.nextDouble();
         	double yTranslation = maxYShakePerStep * rand.nextDouble();
@@ -48,7 +48,7 @@ public class EruptingVolcano extends AnimatedDatableItem {
         }
 
         // Fade image to hot volcano while continuing to shake.
-        int fadeSteps = 30;  // Must be divisible by 2.
+        int fadeSteps = 60;  // Must be divisible by 2.
         double fadeAmountPerStep = 1 / (double)fadeSteps;
         for (int i = 0; i < fadeSteps; i += 2){
         	double xTranslation = maxXShakePerStep * rand.nextDouble();
