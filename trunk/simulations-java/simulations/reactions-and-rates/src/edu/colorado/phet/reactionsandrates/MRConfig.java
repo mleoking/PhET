@@ -7,18 +7,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.reactionsandrates.model.EnergyProfile;
 import edu.colorado.phet.reactionsandrates.model.MoleculeA;
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
-
 /**
- * edu.colorado.phet.molecularreactionspublic ;.MRConfig
- *
  * @author Ron LeMaster
  * @version $Revision$
  */
