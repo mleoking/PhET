@@ -24,16 +24,17 @@ public class AnimatedFlyingRock extends AnimatedDatableItem {
     // Class Data
     //------------------------------------------------------------------------
 	private static final double MIN_ARC_HEIGHT_INCREMENT = 0.05;
-	private static final double MAX_ARC_HEIGHT_INCREMENT = 0.1;
+	private static final double MAX_ARC_HEIGHT_INCREMENT = 0.15;
 	private static final double MAX_X_TRANSLATION_INCREMENT = 1;
 	private static final double MAX_ROTATION_CHANGE = Math.PI/10;
+	private static final Random IMAGE_CHOICE_RAND = new Random();
 	
     //------------------------------------------------------------------------
     // Constructor
     //------------------------------------------------------------------------
 
     public AnimatedFlyingRock( ConstantDtClock clock, Point2D center, double width ) {
-        super( "Aging Rock", Arrays.asList( "molten_rock.png" ), center, width, 0, 
+        super( "Aging Rock", Arrays.asList( chooseInitialImage() ), center, width, 0, 
         		0, clock, EruptingVolcano.VOLCANO_AGE_FACTOR );
     }
 
@@ -59,5 +60,14 @@ public class AnimatedFlyingRock extends AnimatedDatableItem {
         }
         
         return new StaticAnimationSequence(animationSequence);
+    }
+    
+    private static String chooseInitialImage(){
+    	if (IMAGE_CHOICE_RAND.nextBoolean()){
+    		return "molten_rock.png";
+    	}
+    	else{
+    		return "molten_rock_large.png";
+    	}
     }
 }
