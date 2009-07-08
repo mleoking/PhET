@@ -226,9 +226,6 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
     				DatableItemNode itemNode = new DatableItemNode(item, _mvt);
     				_mapModelElementsToNodes.put(item, itemNode);
     				_datableItemsLayer.addChild(itemNode);
-    				
-    				// Register for notifications of radiometric closure.
-    				
     			}
     			else{
     				// TODO: Not sure if there is a need for handling of items
@@ -325,7 +322,7 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
     						PLAY_AREA_BUTTON_FONT_SIZE, FORCE_CLOSURE_BUTTON_COLOR); 
     				break;
     			case ROCK:
-    				_startOperationButtonNode = new GradientButtonNode(NuclearPhysicsStrings.COOL_ROCK, 
+    				_forceClosureButtonNode = new GradientButtonNode(NuclearPhysicsStrings.COOL_ROCK, 
     						PLAY_AREA_BUTTON_FONT_SIZE, FORCE_CLOSURE_BUTTON_COLOR);
     				break;
     			}
