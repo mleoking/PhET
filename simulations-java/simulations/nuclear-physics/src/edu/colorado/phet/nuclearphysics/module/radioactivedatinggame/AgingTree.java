@@ -37,9 +37,9 @@ public class AgingTree extends AnimatedDatableItem {
         double growthRate = 1.04;
         double verticalGrowthCompensation = 0.11;
         RadiometricClosureEvent closureOccurredEvent = 
-        	new RadiometricClosureEvent(this, AnimatedDatableItem.CLOSURE_STATE.CLOSED);
+        	new RadiometricClosureEvent(this, RadiometricClosureState.CLOSED);
         RadiometricClosureEvent closurePossibleEvent = 
-        	new RadiometricClosureEvent(this, AnimatedDatableItem.CLOSURE_STATE.CLOSURE_POSSIBLE);
+        	new RadiometricClosureEvent(this, RadiometricClosureState.CLOSURE_POSSIBLE);
         TimeUpdater timeUpdater = new TimeUpdater( 0, MultiNucleusDecayModel.convertYearsToMs( 25 ) );
 
         // Create the sequence.

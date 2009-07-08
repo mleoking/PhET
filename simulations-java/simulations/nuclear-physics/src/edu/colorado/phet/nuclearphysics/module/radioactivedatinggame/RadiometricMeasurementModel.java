@@ -47,8 +47,10 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
 	private SIMULATION_MODE _simulationMode;
 	private ConstantDtClock _clock;
 	private ArrayList<Listener> _listeners = new ArrayList<Listener>();
-	private ArrayList<AnimatedModelElement> _animatedModelElements = new ArrayList<AnimatedModelElement>();
-	private boolean agingRockAdded = false;
+	private ArrayList<AnimatedDatableItem> _animatedModelElements = new ArrayList<AnimatedDatableItem>();
+	private boolean _agingRockAdded = false;
+    private AnimatedDatableItem.ClosureListener _closureListener;
+    private RadiometricClosureState _closureState = RadiometricClosureState.CLOSURE_NOT_POSSIBLE;
 
     //------------------------------------------------------------------------
     // Constructor
@@ -74,6 +76,14 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
 			}
     	});
     	
+        // Create a listener for handling notifications of radiometric closure
+    	// from the individual datable items.
+        _closureListener = new AnimatedDatableItem.ClosureListener(){
+			public void closureStateChanged(AnimatedDatableItem datableItem) {
+				handleClosureStateChanged(datableItem);
+			}
+        };
+        
     	// Set the initial simulation mode, which will add the initial
     	// model element(s).
     	setSimulationMode(DEFAULT_MODE);
@@ -83,7 +93,15 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
     // Methods
     //------------------------------------------------------------------------
     
-    public RadiometricDatingMeter getMeter(){
+    protected void handleClosureStateChanged(AnimatedDatableItem datableItem) {
+		// TODO Does no validation.  Probably needs to do that at some point.
+    	if (_closureState != datableItem.getClosureState()){
+    		_closureState = datableItem.getClosureState();
+    		notifyClosureStateChanged();
+    	}
+	}
+
+	public RadiometricDatingMeter getMeter(){
     	return _meter;
     }
 
@@ -126,12 +144,14 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
 			_clock.resetSimulationTime();
 			
 			// Reset state.
-			agingRockAdded = false;
+			_agingRockAdded = false;
+			_closureState = RadiometricClosureState.CLOSURE_NOT_POSSIBLE;
 			
 			// Remove all existing model elements.
-			Iterator<AnimatedModelElement> itr = _animatedModelElements.iterator();
-			while (itr.hasNext()){
-				itr.next();
+			Iterator<AnimatedDatableItem> itr = _animatedModelElements.iterator();
+			while (itr.hasNext()) {
+				AnimatedDatableItem datableItem = itr.next();
+				datableItem.removeClosureListener(_closureListener);
 				itr.remove();
 				notifyModelElementRemoved();
 			}
@@ -194,11 +214,13 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
 	private void handleClockTicked(){
 		if (_simulationMode == SIMULATION_MODE.ROCK){
 			// In this mode, additional model elements are added at various times.
-			if (_clock.getSimulationTime() > 1000 && !agingRockAdded){
+			if (_clock.getSimulationTime() > 1000 && !_agingRockAdded){
 				// Add the aging rock to the sim.
-				_animatedModelElements.add(new AgingRock(_clock, INITIAL_AGING_ROCK_POSITION, INITIAL_AGING_ROCK_WIDTH));
+				AgingRock agingRock = new AgingRock(_clock, INITIAL_AGING_ROCK_POSITION, INITIAL_AGING_ROCK_WIDTH);
+				_animatedModelElements.add(agingRock);
+				agingRock.addClosureListener(_closureListener);
 				notifyModelElementAdded();
-				agingRockAdded = true;
+				_agingRockAdded = true;
 			}
 		}
 	}
@@ -213,18 +235,31 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
 		assert _animatedModelElements.size() == 0;
 		
 		// Add the tree.
-		_animatedModelElements.add(new AgingTree(_clock, INITIAL_TREE_POSITION, INITIAL_TREE_WIDTH));
+		AgingTree agingTree = new AgingTree(_clock, INITIAL_TREE_POSITION, INITIAL_TREE_WIDTH);
+		_animatedModelElements.add(agingTree);
+		
+		// Register for closure notifications.
+		agingTree.addClosureListener(_closureListener);
+		
+		// Let everyone know about the new tree!
 		notifyModelElementAdded();
 	}
 	
 	/**
-	 * Returns a value indicating whether "closure" has occurred, meaning that
-	 * the datable item(s) have started to age radiometrically.  For a tree,
-	 * this occurs when the tree dies.  For a rock, when it cools.  And so on.
+	 * Get the current radiometric closure state, which indicates whether the
+	 * primary object has begun aging (in a radiometric sense).
 	 */
-	public boolean hasClosureOccurred(){
-		// TODO: Needs implementation.
-		return false;
+	public RadiometricClosureState getRadiometricClosureState(){
+		return _closureState;
+	}
+	
+	/**
+	 * Force radiometric closure to occur, which should cause the radiometric
+	 * elements in the datable item(s) to begin decaying.
+	 */
+	public void forceClosure(){
+		System.err.println("Fill me in!!!");
+		
 	}
 	
 	public ConstantDtClock getClock() {
@@ -287,6 +322,12 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
         }
     }
     
+    protected void notifyClosureStateChanged() {
+        for (int i = 0; i < _listeners.size(); i++){
+            _listeners.get( i ).closureStateChanged();
+        }
+    }
+    
     //------------------------------------------------------------------------
     // Inner Interfaces and Classes
     //------------------------------------------------------------------------
@@ -295,13 +336,13 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
     	public void simulationModeChanged();
     	public void modelElementAdded();
     	public void modelElementRemoved();
-    	public void operationalStateChanged();
+    	public void closureStateChanged();
     }
     
     public static class Adapter implements Listener {
 		public void simulationModeChanged() {}
 		public void modelElementAdded() {}
 		public void modelElementRemoved() {}
-		public void operationalStateChanged() {}
+		public void closureStateChanged() {}
     }
 }

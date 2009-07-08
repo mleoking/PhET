@@ -20,16 +20,6 @@ public abstract class AnimatedDatableItem extends DatableItem implements Cleanup
     // Class Data
     //------------------------------------------------------------------------
 	
-	// This enum defines the possible states with respect to closure, which
-	// is the time at which the item begins aging radiometrically and its
-	// radioactive elements start decreasing.  For example, if the item is
-	// organic, closure occurs when the item dies.
-	public enum CLOSURE_STATE {
-		CLOSURE_NOT_POSSIBLE,    // Closure cannot be forced.
-		CLOSURE_POSSIBLE,        // Closure has not occurred, but could be forced.
-		CLOSED                   // Closure has occurred.
-	};
-	
     //------------------------------------------------------------------------
     // Instance Data
     //------------------------------------------------------------------------
@@ -40,6 +30,7 @@ public abstract class AnimatedDatableItem extends DatableItem implements Cleanup
     private double age = 0; // Age in milliseconds of this datable item.
     protected ModelAnimationInterpreter animationIterpreter;
     private ArrayList<ClosureListener> _closureListeners = new ArrayList<ClosureListener>();
+    private RadiometricClosureState closureState = RadiometricClosureState.CLOSURE_NOT_POSSIBLE; 
 
     //------------------------------------------------------------------------
     // Constructor(s)
@@ -84,7 +75,22 @@ public abstract class AnimatedDatableItem extends DatableItem implements Cleanup
     protected abstract AnimationSequence getAnimationSequence();
 
     protected void handleAnimationEvent(EventObject event){
-    	System.out.println("Animation event received.");
+    	if (event instanceof RadiometricClosureEvent){
+    		setClosureState(((RadiometricClosureEvent) event).getClosureState()); 
+    	}
+    }
+    
+    public RadiometricClosureState getClosureState(){
+    	return closureState;
+    }
+    
+    private void setClosureState(RadiometricClosureState newClosureState){
+    	if (closureState != newClosureState){
+    		// NOTE: There is currently no validity checking done here.  It
+    		// may be necessary to do so at some point.
+    		closureState = newClosureState;
+    		notifyClosureStateChanged();
+    	}
     }
     
 	public void addClosureListener(ClosureListener listener) {
@@ -99,6 +105,12 @@ public abstract class AnimatedDatableItem extends DatableItem implements Cleanup
 
 	public void removeAllClosureListeners() {
 		_closureListeners.clear();
+	}
+	
+	private void notifyClosureStateChanged(){
+		for (ClosureListener listener : _closureListeners){
+			listener.closureStateChanged(this);
+		}
 	}
 
     protected void handleClockTicked(){
@@ -139,14 +151,14 @@ public abstract class AnimatedDatableItem extends DatableItem implements Cleanup
      */
     public static class RadiometricClosureEvent extends EventObject{
 
-    	private final CLOSURE_STATE closureState;
+    	private final RadiometricClosureState closureState;
     	
-		public RadiometricClosureEvent(Object source, CLOSURE_STATE closureState) {
+		public RadiometricClosureEvent(Object source, RadiometricClosureState closureState) {
 			super(source);
 			this.closureState = closureState;
 		}
 
-		public CLOSURE_STATE getClosureState() {
+		public RadiometricClosureState getClosureState() {
 			return closureState;
 		}
     }
@@ -156,6 +168,6 @@ public abstract class AnimatedDatableItem extends DatableItem implements Cleanup
      * can be monitored.
      */
     public interface ClosureListener{
-    	public void closureStateChanged();
+    	public void closureStateChanged(AnimatedDatableItem datableItem);
     }
 }

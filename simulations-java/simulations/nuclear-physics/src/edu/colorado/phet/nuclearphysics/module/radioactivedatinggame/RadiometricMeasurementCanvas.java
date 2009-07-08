@@ -123,6 +123,9 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
     		public void simulationModeChanged() {
     			handleSimulationModeChanged();
     		}
+    		public void closureStateChanged() {
+    			updateButtonState();
+    		}
         });
         
         // Register with the model's clock for changes in status that impact
@@ -217,11 +220,15 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
     	for (Object modelElement : modelElements){
     		if (_mapModelElementsToNodes.get(modelElement) == null){
     			// No node exists for this model element, so add one.
-    			if (modelElement instanceof DatableItem){
-    				DatableItem item = (DatableItem)modelElement;
+    			if (modelElement instanceof AnimatedDatableItem){
+    				// Add a new node for this model element.
+    				DatableItem item = (AnimatedDatableItem)modelElement;
     				DatableItemNode itemNode = new DatableItemNode(item, _mvt);
     				_mapModelElementsToNodes.put(item, itemNode);
     				_datableItemsLayer.addChild(itemNode);
+    				
+    				// Register for notifications of radiometric closure.
+    				
     			}
     			else{
     				// TODO: Not sure if there is a need for handling of items
@@ -230,6 +237,7 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
     				// need to be handled at some point.
     				assert false;
     			}
+    			
     		}
     	}
     }
@@ -309,22 +317,31 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
     	else {
     		// Clock is running, so if closure has not occurred we need to add
     		// the button to force it.
-    		if (!_model.hasClosureOccurred()){
-        		switch ( _model.getSimulationMode() ){
-        		
-        		case TREE:
-        			_forceClosureButtonNode = new GradientButtonNode(NuclearPhysicsStrings.KILL_TREE, 
-        					PLAY_AREA_BUTTON_FONT_SIZE, FORCE_CLOSURE_BUTTON_COLOR); 
-        			break;
-        		case ROCK:
-        			_forceClosureButtonNode = new GradientButtonNode(NuclearPhysicsStrings.COOL_ROCK, 
-        					PLAY_AREA_BUTTON_FONT_SIZE, FORCE_CLOSURE_BUTTON_COLOR);
-        		}
-        		
-        		_forceClosureButtonNode.setOffset(
+    		if (_model.getRadiometricClosureState() == RadiometricClosureState.CLOSURE_POSSIBLE){
+    			switch ( _model.getSimulationMode() ){
+    			
+    			case TREE:
+    				_forceClosureButtonNode = new GradientButtonNode(NuclearPhysicsStrings.KILL_TREE, 
+    						PLAY_AREA_BUTTON_FONT_SIZE, FORCE_CLOSURE_BUTTON_COLOR); 
+    				break;
+    			case ROCK:
+    				_startOperationButtonNode = new GradientButtonNode(NuclearPhysicsStrings.COOL_ROCK, 
+    						PLAY_AREA_BUTTON_FONT_SIZE, FORCE_CLOSURE_BUTTON_COLOR);
+    				break;
+    			}
+
+    			_forceClosureButtonNode.setOffset(
            				INITIAL_INTERMEDIATE_COORD_WIDTH - _forceClosureButtonNode.getFullBoundsReference().width,
            				INITIAL_INTERMEDIATE_COORD_HEIGHT - BUTTON_DISTANCE_FROM_BOTTOM - _forceClosureButtonNode.getFullBoundsReference().height);
-        		_chartAndMeterLayer.addChild(_forceClosureButtonNode);
+            	_chartAndMeterLayer.addChild(_forceClosureButtonNode);
+            		
+        		// Hook up the button to the method in the model that will start
+        		// the simulation.
+        		_forceClosureButtonNode.addActionListener(new ActionListener(){
+    				public void actionPerformed(ActionEvent e) {
+    					_model.forceClosure();
+    				}
+        		});
     		}
     	}
     }
