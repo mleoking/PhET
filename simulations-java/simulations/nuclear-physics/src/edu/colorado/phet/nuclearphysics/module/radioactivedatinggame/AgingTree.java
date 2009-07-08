@@ -99,14 +99,22 @@ public class AgingTree extends AnimatedDatableItem {
         
         // Fall over.
         int fallSteps = 6;
-        Point2D fallTranslation = new Point2D.Double(1.5, -1.2);
-        double fallRotation = Math.PI / 2 / (double)fallSteps;
+        Point2D fallTranslation = new Point2D.Double();
+        double fallRotationPerStep = Math.PI / 2 / (double)fallSteps;
+        double fallTranslationPerStep = 2;
         for (int i = 0; i < fallSteps; i++){
-        	animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), fallTranslation, fallRotation, 1.0, 0, 0, 0, null ) );
+        	fallTranslation.setLocation(fallTranslationPerStep * Math.cos(fallRotationPerStep * i),
+        			-fallTranslationPerStep * Math.sin(fallRotationPerStep * i));
+        	animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), fallTranslation, fallRotationPerStep, 1.0, 0, 0, 0, null ) );
         }
         
-        // Bounce.
-
+        // Sink a little.
+        Point2D sinkTranslation = new Point2D.Double(0, -0.3);
+        int sinkSteps = 5;
+        for (int i = 0; i < sinkSteps; i++){
+        	animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), sinkTranslation, 0, 1.0, 0, 0, 0, null ) );
+        }
+        
         return new StaticAnimationSequence(animationSequence);
     }
 }
