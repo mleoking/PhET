@@ -214,7 +214,7 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
 	private void handleClockTicked(){
 		if (_simulationMode == SIMULATION_MODE.ROCK){
 			// In this mode, additional model elements are added at various times.
-			if (_clock.getSimulationTime() > 1000 && !_agingRockAdded){
+			if (_clock.getSimulationTime() > 2500 && !_agingRockAdded){
 				// Add the aging rock to the sim.
 				AgingRock agingRock = new AgingRock(_clock, INITIAL_AGING_ROCK_POSITION, INITIAL_AGING_ROCK_WIDTH);
 				_animatedModelElements.add(agingRock);
