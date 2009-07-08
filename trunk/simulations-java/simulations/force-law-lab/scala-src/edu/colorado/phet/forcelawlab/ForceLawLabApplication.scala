@@ -249,14 +249,14 @@ class CavendishExperimentModule(clock: ScalaClock) extends Module("Cavendish Exp
   setClockControlPanel(null)
 }
 
-object CavendishExperimentDefaults {
+object ForceLawLabDefaults {
   val sunEarthDist = 1.496E11 //  sun earth distace in m
   val earthRadius = 6.371E6
   val sunRadius = 6.955E8
 }
 
 class SolarCavendishModule(clock: ScalaClock) extends Module("Sun-Planet System", clock) {
-  import CavendishExperimentDefaults._
+  import ForceLawLabDefaults._
   val model = new ForceLawLabModel(5.9742E24, //earth mass in kg
     1.9891E30, // sun mass in kg
     -sunEarthDist / 2,
@@ -274,7 +274,7 @@ class SolarCavendishModule(clock: ScalaClock) extends Module("Sun-Planet System"
   def metersToLightMinutes(a: Double) = a * 5.5594E-11
 
   val canvas = new CavendishExperimentCanvas(model, sunEarthDist * 2.05, Color.blue, Color.red, Color.black,
-    (CavendishExperimentDefaults.sunEarthDist * 3).toLong, 10, "light minutes", dist => {
+    (ForceLawLabDefaults.sunEarthDist * 3).toLong, 10, "light minutes", dist => {
       new DecimalFormat("0.0").format(metersToLightMinutes(dist.toDouble))
     }, 3.2E-22 * 10, new SunPlanetDecimalFormat())
   val disclaimerNode = new ScaleDisclaimerNode(model, canvas.transform)
@@ -294,6 +294,7 @@ class ScaleDisclaimerNode(model: ForceLawLabModel, transform: ModelViewTransform
   val text = new PText("* Radii not to scale.  If they were to scale the sun would be this big ")
   text.setFont(new PhetFont(16, true))
   text.setTextPaint(Color.lightGray)
+  import ForceLawLabDefaults._
   val earthIcon = new PhetPPath(new Circle(new Vector2D, transform.modelToViewDifferentialXDouble(earthRadius)), Color.blue)
   val sunIcon = new PhetPPath(new Circle(new Vector2D, transform.modelToViewDifferentialXDouble(sunRadius)), Color.red)
 
