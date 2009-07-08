@@ -12,7 +12,7 @@ import common.phetcommon.view.graphics.RoundGradientPaint
 import common.piccolophet.event.CursorHandler
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import java.awt._
-import java.text.{DecimalFormatSymbols, NumberFormat, DecimalFormat}
+import java.text.{DecimalFormatSymbols, NumberFormat, DecimalFormat,MessageFormat}
 import umd.cs.piccolo.nodes.{PImage, PText}
 import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
 import umd.cs.piccolo.util.PDimension
@@ -36,7 +36,8 @@ class ForceLabelNode(target: Mass, source: Mass, transform: ModelViewTransform2D
 
   defineInvokeAndPass(model.addListenerByName) {
     label.setOffset(transform.modelToView(target.position) - new Vector2D(0, label.getFullBounds.getHeight + offsetY))
-    label.setText("Force on " + target.name + " by " + source.name + " = " + format.format(model.getForce.magnitude) + " N") //todo: internationalize
+    val str=MessageFormat.format(ForceLawLabResources.getLocalizedString("force-description-pattern-target_source_value"),target.name,source.name,format.format(model.getForce.magnitude))
+    label.setText(str)
     val sign = if (right) 1 else -1
     val tip = label.getOffset + new Vector2D(sign * model.getForce.magnitude * scale, -20)
     val tail = label.getOffset + new Vector2D(0, -20)
@@ -178,8 +179,8 @@ class WallNode(wall: Wall, transform: ModelViewTransform2D, color: Color) extend
   //  println("wallpathbounds=" + wallPath.getGlobalFullBounds)
 }
 class CavendishExperimentControlPanel(model: ForceLawLabModel) extends ControlPanel {
-  add(new ScalaValueControl(0.01, 100, "m1", "0.00", "kg", model.m1.mass, model.m1.mass = _, model.m1.addListener))
-  add(new ScalaValueControl(0.01, 100, "m2", "0.00", "kg", model.m2.mass, model.m2.mass = _, model.m2.addListener))
+  add(new ScalaValueControl(0.01, 100, model.m1.name, "0.00", ForceLawLabResources.getLocalizedString("units.kg"), model.m1.mass, model.m1.mass = _, model.m1.addListener))
+  add(new ScalaValueControl(0.01, 100, model.m2.name, "0.00", ForceLawLabResources.getLocalizedString("units.kg"), model.m2.mass, model.m2.mass = _, model.m2.addListener))
 }
 class Mass(private var _mass: Double, private var _position: Vector2D, val name: String, massToRadius: Double => Double) extends Observable {
   def mass = _mass
@@ -239,10 +240,10 @@ class SunPlanetDecimalFormat extends DecimalFormat("#,###,###,###,###,###,##0.0"
 }) {
 }
 
-class CavendishExperimentModule(clock: ScalaClock) extends Module("Cavendish Experiment", clock) {
-  val model = new ForceLawLabModel(10, 25, 0, 1, mass => mass / 30, mass => mass / 30, 1E-8, 1, 50, 50, -4, "m1", "m2")
+class ForceLawsModule(clock: ScalaClock) extends Module(ForceLawLabResources.getLocalizedString("module.force-laws.name"), clock) {
+  val model = new ForceLawLabModel(10, 25, 0, 1, mass => mass / 30, mass => mass / 30, 1E-8, 1, 50, 50, -4, ForceLawLabResources.getLocalizedString("mass-1.name"), ForceLawLabResources.getLocalizedString("mass-2.name"))
   val canvas = new CavendishExperimentCanvas(model, 10, Color.blue, Color.blue, Color.white, 10, 10,
-    "m", _.toString, 1E10, new TinyDecimalFormat())
+    ForceLawLabResources.getLocalizedString("module.force-laws.ruler.label"), _.toString, 1E10, new TinyDecimalFormat())
   setSimulationPanel(canvas)
   clock.addClockListener(model.update(_))
   setControlPanel(new CavendishExperimentControlPanel(model))
@@ -255,8 +256,9 @@ object ForceLawLabDefaults {
   val sunRadius = 6.955E8
 }
 
-class SolarCavendishModule(clock: ScalaClock) extends Module("Sun-Planet System", clock) {
+class SolarModule(clock: ScalaClock) extends Module(ForceLawLabResources.getLocalizedString("module.sun-planet-system.name"), clock) {
   import ForceLawLabDefaults._
+  import ForceLawLabResources._
   val model = new ForceLawLabModel(5.9742E24, //earth mass in kg
     1.9891E30, // sun mass in kg
     -sunEarthDist / 2,
@@ -268,13 +270,13 @@ class SolarCavendishModule(clock: ScalaClock) extends Module("Sun-Planet System"
     1.42E12, sunEarthDist / 3, //this one too
     1E13,
     1E12,
-    -sunEarthDist, "Earth", "Sun"
+    -sunEarthDist, getLocalizedString("planet.name"), getLocalizedString("sun.name")
     )
 
   def metersToLightMinutes(a: Double) = a * 5.5594E-11
 
   val canvas = new CavendishExperimentCanvas(model, sunEarthDist * 2.05, Color.blue, Color.red, Color.black,
-    (ForceLawLabDefaults.sunEarthDist * 3).toLong, 10, "light minutes", dist => {
+    (ForceLawLabDefaults.sunEarthDist * 3).toLong, 10, getLocalizedString("module.sun-planet-system.ruler.label"), dist => {
       new DecimalFormat("0.0").format(metersToLightMinutes(dist.toDouble))
     }, 3.2E-22 * 10, new SunPlanetDecimalFormat())
   val disclaimerNode = new ScaleDisclaimerNode(model, canvas.transform)
@@ -291,14 +293,14 @@ class SolarCavendishModule(clock: ScalaClock) extends Module("Sun-Planet System"
 
 class Circle(center: Vector2D, radius: Double) extends Ellipse2D.Double(center.x - radius, center.y - radius, radius * 2, radius * 2)
 class ScaleDisclaimerNode(model: ForceLawLabModel, transform: ModelViewTransform2D) extends PNode {
-  val text = new PText("* Radii not to scale.  If they were to scale the sun would be this big ")
+  val text = new PText(ForceLawLabResources.getLocalizedString("scale.disclaimer.start")+" ")
   text.setFont(new PhetFont(16, true))
   text.setTextPaint(Color.lightGray)
   import ForceLawLabDefaults._
   val earthIcon = new PhetPPath(new Circle(new Vector2D, transform.modelToViewDifferentialXDouble(earthRadius)), Color.blue)
   val sunIcon = new PhetPPath(new Circle(new Vector2D, transform.modelToViewDifferentialXDouble(sunRadius)), Color.red)
 
-  val text2 = new PText("and the Earth would be this big ")
+  val text2 = new PText(ForceLawLabResources.getLocalizedString("scale.disclaimer.end")+ " ")
   text2.setFont(new PhetFont(16, true))
   text2.setTextPaint(Color.lightGray)
 
@@ -312,8 +314,8 @@ class ScaleDisclaimerNode(model: ForceLawLabModel, transform: ModelViewTransform
 }
 
 class ForceLawLabApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
-  addModule(new CavendishExperimentModule(new ScalaClock(30, 30 / 1000.0)))
-  addModule(new SolarCavendishModule(new ScalaClock(30, 30 / 1000.0)))
+  addModule(new ForceLawsModule(new ScalaClock(30, 30 / 1000.0)))
+  addModule(new SolarModule(new ScalaClock(30, 30 / 1000.0)))
 }
 
 object ForceLawLabApplicationMain {
