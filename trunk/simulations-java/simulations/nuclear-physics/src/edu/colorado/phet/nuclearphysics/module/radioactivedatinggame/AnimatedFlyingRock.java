@@ -5,6 +5,7 @@ package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusDecayModel;
@@ -19,6 +20,14 @@ import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucl
  */
 public class AnimatedFlyingRock extends AnimatedDatableItem {
 
+    //------------------------------------------------------------------------
+    // Class Data
+    //------------------------------------------------------------------------
+	private static final double MIN_ARC_HEIGHT_INCREMENT = 0.05;
+	private static final double MAX_ARC_HEIGHT_INCREMENT = 0.1;
+	private static final double MAX_X_TRANSLATION_INCREMENT = 1;
+	private static final double MAX_ROTATION_CHANGE = Math.PI/10;
+	
     //------------------------------------------------------------------------
     // Constructor
     //------------------------------------------------------------------------
@@ -35,13 +44,13 @@ public class AnimatedFlyingRock extends AnimatedDatableItem {
     protected AnimationSequence getAnimationSequence() {
         TimeUpdater timeUpdater = new TimeUpdater( 0, MultiNucleusDecayModel.convertYearsToMs( 10E6 ) );
         ArrayList<ModelAnimationDelta> animationSequence = new ArrayList<ModelAnimationDelta>();
+        Random rand = new Random();
         
         // Rock flies out of volcano in a parabolic arc.
         int flightSteps = 50;
-        double totalRotation = -8 * Math.PI;
-        double rotationPerStep = totalRotation / flightSteps;
-        double arcHeightControl = 0.08; // Higher for higher arc, lower for lower arc.
-        double flightXTranslation = -0.38; // Higher positive or negative number move further.
+        double rotationPerStep = (rand.nextDouble() - 0.5) * MAX_ROTATION_CHANGE;
+        double arcHeightControl = MIN_ARC_HEIGHT_INCREMENT + rand.nextDouble() * (MAX_ARC_HEIGHT_INCREMENT - MIN_ARC_HEIGHT_INCREMENT);
+        double flightXTranslation = (rand.nextDouble() - 0.5) * 2 * MAX_X_TRANSLATION_INCREMENT;
         for (int i = 0; i < flightSteps; i++){
         	double flightYTranslation = arcHeightControl * (((double)flightSteps * 0.42) - i);
         	animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), 
