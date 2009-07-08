@@ -8,6 +8,7 @@ import java.util.Arrays;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusDecayModel;
+import edu.colorado.phet.nuclearphysics.module.radioactivedatinggame.AnimatedDatableItem.RadiometricClosureEvent;
 
 /**
  * This class implements the behavior of a model element that represents a
@@ -23,7 +24,7 @@ public class AgingRock extends AnimatedDatableItem {
     //------------------------------------------------------------------------
 
     public AgingRock( ConstantDtClock clock, Point2D center, double width ) {
-        super( "Aging Rock", Arrays.asList( "molten_rock.png", "rock_volcanic.png" ), center, width, 0, 0, clock, EruptingVolcano.VOLCANO_AGE_FACTOR );
+        super( "Aging Rock", Arrays.asList( "molten_rock_large.png", "rock_volcanic_larger.png" ), center, width, 0, 0, clock, EruptingVolcano.VOLCANO_AGE_FACTOR );
         System.out.println( "clock = " + clock );
     }
 
@@ -34,6 +35,10 @@ public class AgingRock extends AnimatedDatableItem {
     protected AnimationSequence getAnimationSequence() {
         TimeUpdater timeUpdater = new TimeUpdater( MultiNucleusDecayModel.convertYearsToMs( 20 * 10E6 ), MultiNucleusDecayModel.convertYearsToMs( 10E6 ) );
         ArrayList<ModelAnimationDelta> animationSequence = new ArrayList<ModelAnimationDelta>();
+        RadiometricClosureEvent closureOccurredEvent = 
+        	new RadiometricClosureEvent(this, RadiometricClosureState.CLOSED);
+        RadiometricClosureEvent closurePossibleEvent = 
+        	new RadiometricClosureEvent(this, RadiometricClosureState.CLOSURE_POSSIBLE);
         
         // Rock flies out of volcano.
         animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), new Point2D.Double( -0.35, .6 ), 0, 1.07, 0, 0, 0, null ) );
@@ -68,17 +73,35 @@ public class AgingRock extends AnimatedDatableItem {
         animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), new Point2D.Double( -0.35, -1.5 ), 0, 1.07, 0, 0, 0, null ) );
         animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), new Point2D.Double( -0.35, -1.5 ), 0, 1.07, 0, 0, 0, null ) );
         
+        // Rock should be sitting on the ground now, so closure is possible.
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0, closurePossibleEvent ) );
+        
         // Rock cools down.
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.1, null ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.1, null ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.1, null ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.1, null ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.1, null ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.1, null ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.1, null ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.1, null ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.1, null ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.1, null ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.05, null ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.05, null ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.05, null ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.05, null ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.05, null ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.05, null ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.05, null ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.05, null ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.05, null ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.05, null ) );
+        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.05, null ) );
+//        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.05, null ) );
+//        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.05, null ) );
+//        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.05, null ) );
+//        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.05, null ) );
+//        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.05, null ) );
+//        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.05, null ) );
+//        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.05, null ) );
+//        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.05, null ) );
+//        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.05, null ) );
+        
+        // Radiometric closure occurs.
+        double tempTime = timeUpdater.updateTime();
+        setClosureAge(tempTime);
+        animationSequence.add( new ModelAnimationDelta( tempTime, null, 0, 1, 0, 0, 0, closureOccurredEvent ) );
         
         return new StaticAnimationSequence(animationSequence);
     }
