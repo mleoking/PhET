@@ -3,6 +3,7 @@ package edu.colorado.phet.forcelawlab
 
 import collection.mutable.ArrayBuffer
 import common.phetcommon.application.{PhetApplicationConfig, PhetApplicationLauncher, Module}
+import common.phetcommon.math.MathUtil
 import common.piccolophet.nodes.layout.SwingLayoutNode
 import common.piccolophet.PiccoloPhetApplication
 import common.phetcommon.view.ControlPanel
@@ -15,6 +16,7 @@ import java.awt._
 import event.{MouseAdapter, MouseEvent}
 
 import java.text._
+import scalacommon.swing.MyRadioButton
 import umd.cs.piccolo.nodes.{PImage, PText}
 import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
 import umd.cs.piccolo.util.PDimension
@@ -205,6 +207,29 @@ class SunPlanetControlPanel(model: ForceLawLabModel) extends ControlPanel {
     model.m1.addListener(listener)
     model.m2.addListener(listener)
   }
+
+  def addPlanetListener(listener:()=>Unit)={
+    model.m1.addListener(listener)
+    model.m2.addListener(listener)//since sun location can change
+  }
+  case class Planet(name:String,mass:Double,dist:Double)
+  val planets=new Planet("Earth",earthMass,sunEarthDist):: new Planet("Mercury",earthMass/4,sunEarthDist*2) ::
+          new Planet("Venus",earthMass/3,sunEarthDist*1.5)::Nil
+  def setPlanet(p:Planet)={
+    model.m1.mass=p.mass
+    model.m2.position=new Vector2D(p.dist/2)
+    model.m1.position=new Vector2D(model.m2.position.x-p.dist,0)
+  }
+  def isPlanet(p:Planet)={
+    MathUtil.isApproxEqual(model.m1.mass,p.mass,p.mass*0.05)&&
+    MathUtil.isApproxEqual(model.distance,p.dist,p.dist*0.05)
+  }
+
+  for (p<-planets)
+    add(new MyRadioButton(p.name,setPlanet(p),isPlanet(p),addPlanetListener))
+
+  val none=new MyRadioButton("None of the above",()=>{},!planets.foldLeft(false){(a,b)=>{a||isPlanet(b)}},addPlanetListener)
+  add(none)
 }
 
 class Mass(private var _mass: Double, private var _position: Vector2D, val name: String, massToRadius: Double => Double) extends Observable {
