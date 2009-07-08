@@ -13,11 +13,25 @@ import edu.colorado.phet.licensing.util.FileUtils;
  */
 public class DependencyReport {
 
-    public static void main( String[] args ) throws IOException {
-        new DependencyReport().start();
+    private File trunk;
+
+    public DependencyReport( File trunk ) {
+        this.trunk = trunk;
     }
 
-    private void start() throws IOException {
+    public static void main( String[] args ) throws IOException {
+        String trunkPath;
+        if ( args.length > 0 ) {
+            trunkPath = args[0];
+        }
+        else {
+            trunkPath = Config.TRUNK_PATH;
+        }
+        File trunkFile = new File( trunkPath );
+        new DependencyReport( trunkFile ).start();
+    }
+
+    public void start() throws IOException {
         generateSimReport();
         generateRuleSet();
         generateIndex();
@@ -25,7 +39,7 @@ public class DependencyReport {
     }
 
     private void generateContribReport() {
-        File contribDir = new File( Config.TRUNK, "simulations-java/contrib" );
+        File contribDir = new File( trunk, "simulations-java/contrib" );
 
         File[] f = contribDir.listFiles( new FileFilter() {
             public boolean accept( File pathname ) {
@@ -53,7 +67,7 @@ public class DependencyReport {
                       "</html>";
 
         try {
-            BufferedWriter bufferedWriter = new BufferedWriter( new FileWriter( new File( Config.TRUNK, "util\\licensing\\deploy\\contrib-report.html" ) ) );
+            BufferedWriter bufferedWriter = new BufferedWriter( new FileWriter( new File( trunk, "util/licensing/deploy/contrib-report.html" ) ) );
             bufferedWriter.write( html );
             bufferedWriter.close();
         }
@@ -81,7 +95,7 @@ public class DependencyReport {
             String href = dir.getName() + ": <a href=\"" + "licenses/" + dir.getName() + "/" + licenseFileName + "\">" + license + "</a>" + notes + "<br>";
 
             File licenseFile = new File( dir, licenseFileName );
-            File dest = new File( Config.TRUNK, "util\\licensing\\deploy\\licenses\\" + dir.getName() + "\\" + licenseFileName );
+            File dest = new File( trunk, "util/licensing/deploy/licenses/" + dir.getName() + "/" + licenseFileName );
             dest.getParentFile().mkdirs();
             FileUtils.copy( licenseFile, dest );
 //            return file.getName()+": "+license+"<br>";
@@ -101,25 +115,25 @@ public class DependencyReport {
     }
 
     private void generateRuleSet() throws IOException {
-        FileUtils.copy( new File( Config.TRUNK, "util\\licensing\\src\\edu\\colorado\\phet\\licensing\\PhetRuleSet.java" ), new File( Config.TRUNK, "util\\licensing\\deploy\\" + getRuleSetFilename() ) );//make txt so as not to confuse browsers
+        FileUtils.copy( new File( trunk, "util/licensing/src/edu/colorado/phet/licensing/PhetRuleSet.java" ), new File( trunk, "util/licensing/deploy/" + getRuleSetFilename() ) );//make txt so as not to confuse browsers
     }
 
     private void generateSimReport() throws IOException {
-        File file = new File( Config.TRUNK, "util\\licensing\\deploy\\report.html" );
+        File file = new File( trunk, "util/licensing/deploy/report.html" );
         file.getParentFile().mkdirs();
         file.createNewFile();
         BufferedWriter bufferedWriter = new BufferedWriter( new FileWriter( file ) );
 
 
-        File baseDir = new File( Config.TRUNK, "simulations-java" );
+        File baseDir = new File( trunk, "simulations-java" );
         String[] simNames = PhetProject.getSimNames( baseDir );
 
         ArrayList simHTMLs = new ArrayList();
-        int count=0;
+        int count = 0;
         for ( int i = 0; i < simNames.length; i++ ) {
             DependencyReport.SimHTML info = visitSim( simNames[i] );
             simHTMLs.add( info );
-            count+=info.getIssues().getIssueCount();
+            count += info.getIssues().getIssueCount();
         }
 
         String content = "Sims with no known issues:<br>";
@@ -132,7 +146,7 @@ public class DependencyReport {
         }
         content += "<br><br>";
 
-        content += "Sims with known issues ("+count+" issues found):<br>";
+        content += "Sims with known issues (" + count + " issues found):<br>";
         for ( int i = 0; i < simHTMLs.size(); i++ ) {
             SimHTML html = (SimHTML) simHTMLs.get( i );
             if ( !html.getIssues().isEmpty() ) {
@@ -175,9 +189,13 @@ public class DependencyReport {
                        "\n" +
                        "</body>\n" +
                        "</html>";
-        BufferedWriter bw = new BufferedWriter( new FileWriter( new File( Config.TRUNK, "util\\licensing\\deploy\\index.html" ) ) );
+        BufferedWriter bw = new BufferedWriter( new FileWriter( getIndexFile() ) );
         bw.write( index );
         bw.close();
+    }
+
+    public File getIndexFile() {
+        return new File( trunk, "util/licensing/deploy/index.html" );
     }
 
     private class SimHTML {
@@ -205,13 +223,13 @@ public class DependencyReport {
     }
 
     private SimHTML visitSim( String simName ) throws IOException {
-        SimInfo issues = SimInfo.getSimInfo( Config.TRUNK, simName ).getIssues();
+        SimInfo issues = SimInfo.getSimInfo( trunk, simName ).getIssues();
 
         String header = issues.getHTMLHeader();
         String body = issues.getHTMLBody() + "<br><HR WIDTH=100% ALIGN=CENTER><br>";
         for ( int i = 0; i < issues.getResources().length; i++ ) {
             AnnotatedFile x = issues.getResources()[i];
-            File target = new File( Config.TRUNK.getAbsolutePath() + "\\util\\licensing\\deploy\\", issues.getHTMLFileLocation( x ) );
+            File target = new File( trunk.getAbsolutePath() + "/util/licensing/deploy/", issues.getHTMLFileLocation( x ) );
             target.getParentFile().mkdirs();
             if ( target.exists() && !FileUtils.contentEquals( target, x.getFile() ) ) {
                 System.out.println( "Target exists, and has different content: " + target.getAbsolutePath() );

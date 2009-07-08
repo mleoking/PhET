@@ -16,6 +16,7 @@ import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
 import edu.colorado.phet.buildtools.java.JavaBuildCommand;
 import edu.colorado.phet.buildtools.java.JavaProject;
 import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
+import edu.colorado.phet.licensing.DependencyReport;
 
 public class MiscMenu extends JMenu {
     private PhetProject selectedProject;
@@ -32,6 +33,24 @@ public class MiscMenu extends JMenu {
                 for ( int i = 0; i < projects.length; i++ ) {
                     PhetProject project = projects[i];
                     project.copyLicenseInfo();
+                }
+            }
+        } );
+
+        JMenuItem generateLicenseReportItem = new JMenuItem( "Generate License Report" );
+        add( generateLicenseReportItem );
+        generateLicenseReportItem.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                try {
+                    DependencyReport report = new DependencyReport( trunk );
+                    report.start();
+                    String browser = BuildLocalProperties.getInstance().getBrowser();
+                    String path = report.getIndexFile().getAbsolutePath();
+                    System.out.println( "command=" + browser + " " + path );
+                    Process p = Runtime.getRuntime().exec( new String[]{browser, path} );
+                }
+                catch( IOException ex ) {
+                    ex.printStackTrace();
                 }
             }
         } );
