@@ -8,7 +8,6 @@ import java.util.Arrays;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusDecayModel;
-import edu.colorado.phet.nuclearphysics.module.radioactivedatinggame.AnimatedDatableItem.RadiometricClosureEvent;
 
 /**
  * This class implements the behavior of a model element that represents a
@@ -24,8 +23,8 @@ public class AgingRock extends AnimatedDatableItem {
     //------------------------------------------------------------------------
 
     public AgingRock( ConstantDtClock clock, Point2D center, double width ) {
-        super( "Aging Rock", Arrays.asList( "molten_rock_large.png", "rock_volcanic_larger.png" ), center, width, 0, 0, clock, EruptingVolcano.VOLCANO_AGE_FACTOR );
-        System.out.println( "clock = " + clock );
+        super( "Aging Rock", Arrays.asList( "molten_rock_large.png", "rock_volcanic_larger.png" ), center, width, 0, 
+        		0, clock, EruptingVolcano.VOLCANO_AGE_FACTOR );
     }
 
     //------------------------------------------------------------------------
@@ -33,7 +32,7 @@ public class AgingRock extends AnimatedDatableItem {
     // will change as it ages.
     //------------------------------------------------------------------------
     protected AnimationSequence getAnimationSequence() {
-        TimeUpdater timeUpdater = new TimeUpdater( MultiNucleusDecayModel.convertYearsToMs( 20 * 10E6 ), MultiNucleusDecayModel.convertYearsToMs( 10E6 ) );
+        TimeUpdater timeUpdater = new TimeUpdater( 0, MultiNucleusDecayModel.convertYearsToMs( 10E6 ) );
         ArrayList<ModelAnimationDelta> animationSequence = new ArrayList<ModelAnimationDelta>();
         RadiometricClosureEvent closureOccurredEvent = 
         	new RadiometricClosureEvent(this, RadiometricClosureState.CLOSED);
