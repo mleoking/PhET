@@ -3,7 +3,6 @@ package edu.colorado.phet.forcelawlab
 
 import collection.mutable.ArrayBuffer
 import common.phetcommon.application.{PhetApplicationConfig, PhetApplicationLauncher, Module}
-import common.piccolophet.nodes.layout.SwingLayoutNode
 import common.piccolophet.PiccoloPhetApplication
 import common.phetcommon.view.ControlPanel
 import common.phetcommon.view.util.{DoubleGeneralPath, PhetFont}
@@ -12,13 +11,14 @@ import common.phetcommon.view.graphics.RoundGradientPaint
 import common.piccolophet.event.CursorHandler
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import java.awt._
+import event.{MouseEvent, MouseAdapter}
+
 import java.text._
 import umd.cs.piccolo.nodes.{PImage, PText}
 import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
 import umd.cs.piccolo.util.PDimension
 
 import umd.cs.piccolo.PNode
-import java.awt.event.{ComponentAdapter, ComponentEvent}
 import java.awt.geom.{Ellipse2D, Rectangle2D, Point2D}
 import scalacommon.math.Vector2D
 import scalacommon.Predef._
@@ -107,8 +107,8 @@ class DraggableMassNode(mass: Mass, transform: ModelViewTransform2D, color: Colo
 }
 
 class ForceLawLabCanvas(model: ForceLawLabModel, modelWidth: Double, mass1Color: Color, mass2Color: Color, backgroundColor: Color,
-                                rulerLength: Long, numTicks: Long, rulerLabel: String, tickToString: Long => String,
-                                forceLabelScale: Double, forceArrowNumberFormat: NumberFormat) extends DefaultCanvas(modelWidth, modelWidth) {
+                        rulerLength: Long, numTicks: Long, rulerLabel: String, tickToString: Long => String,
+                        forceLabelScale: Double, forceArrowNumberFormat: NumberFormat) extends DefaultCanvas(modelWidth, modelWidth) {
   setBackground(backgroundColor)
 
   val tickIncrement = rulerLength / numTicks
@@ -181,6 +181,27 @@ class ForceLawLabControlPanel(model: ForceLawLabModel) extends ControlPanel {
   add(new ScalaValueControl(0.01, 100, model.m1.name, "0.00", ForceLawLabResources.getLocalizedString("units.kg"), model.m1.mass, model.m1.mass = _, model.m1.addListener))
   add(new ScalaValueControl(0.01, 100, model.m2.name, "0.00", ForceLawLabResources.getLocalizedString("units.kg"), model.m2.mass, model.m2.mass = _, model.m2.addListener))
 }
+
+class SunPlanetControlPanel(model: ForceLawLabModel) extends ControlPanel {
+  import ForceLawLabDefaults._
+  import ForceLawLabResources._
+  add(new ScalaValueControl(kgToEarthMasses(model.m1.mass / 10), kgToEarthMasses(model.m1.mass * 5), model.m1.name + " mass", "0.00", "earth masses",
+    kgToEarthMasses(model.m1.mass), a => model.m1.mass = earthMassesToKg(a), model.m1.addListener))
+
+  val control = new ScalaValueControl(0.01, metersToLightMinutes(sunEarthDist * 5), "distance", "0.00", getLocalizedString("units.light-minutes"),
+    metersToLightMinutes(model.distance), a => model.distance = lightMinutesToMeters(a), addListener)
+  control.getSlider.addMouseListener(new MouseAdapter() {
+    override def mouseReleased(e: MouseEvent) = model.setDragging(false)
+
+    override def mousePressed(e: MouseEvent) = model.setDragging(true)
+  })
+  add(control)
+  def addListener(listener: () => Unit) = {
+    model.m1.addListener(listener)
+    model.m2.addListener(listener)
+  }
+}
+
 class Mass(private var _mass: Double, private var _position: Vector2D, val name: String, massToRadius: Double => Double) extends Observable {
   def mass = _mass
 
@@ -192,7 +213,9 @@ class Mass(private var _mass: Double, private var _position: Vector2D, val name:
 
   def radius = massToRadius(_mass)
 }
+
 class Spring(val k: Double, val restingLength: Double)
+
 class ForceLawLabModel(mass1: Double, mass2: Double,
                        mass1Position: Double, mass2Position: Double,
                        mass1Radius: Double => Double, mass2Radius: Double => Double,
@@ -205,6 +228,7 @@ class ForceLawLabModel(mass1: Double, mass2: Double,
   val m2 = new Mass(mass2, new Vector2D(mass2Position, 0), mass2Name, mass2Radius)
   val spring = new Spring(k, springRestingLength)
   val G = 6.67E-11
+  private var isDraggingControl = false
   m1.addListenerByName(notifyListeners())
   m2.addListenerByName(notifyListeners())
 
@@ -215,9 +239,16 @@ class ForceLawLabModel(mass1: Double, mass2: Double,
 
   def r = rFull
 
+  def distance = m2.position.x - m1.position.x
+
+  //set the location of the m1 based on the total separation radius
+  def distance_=(d: Double) = m1.position = new Vector2D(m2.position.x - d, 0)
+
   def rMin = if (m1.position.x + m1.radius < m2.position.x - m2.radius) r else m2.position - new Vector2D(m2.radius, 0)
 
   def getForce = r * G * m1.mass * m2.mass / pow(r.magnitude, 3)
+
+  def setDragging(b: Boolean) = this.isDraggingControl = b
 
   def update(dt: Double) = {
     //    println("force magnitude=" + getForce.magnitude + ", from r=" + r + ", m1.x=" + m1.position.x + ", m2.position.x=" + m2.position.x)
@@ -226,7 +257,8 @@ class ForceLawLabModel(mass1: Double, mass2: Double,
       m2.position.x - m2.radius - m1.radius
     else
       xDesired
-    m1.position = new Vector2D(x, 0)
+    if (!isDraggingControl)
+      m1.position = new Vector2D(x, 0)
   }
 }
 
@@ -265,12 +297,23 @@ object ForceLawLabDefaults {
   val sunEarthDist = 1.496E11 //  sun earth distace in m
   val earthRadius = 6.371E6
   val sunRadius = 6.955E8
+  val earthMass = 5.9742E24 //kg
+
+  val metersPerLightMinute = 5.5594E-11
+
+  def metersToLightMinutes(a: Double) = a * metersPerLightMinute
+
+  def lightMinutesToMeters(a: Double) = a / metersPerLightMinute
+
+  def kgToEarthMasses(a: Double) = a / earthMass
+
+  def earthMassesToKg(a: Double) = a * earthMass
 }
 
 class SolarModule(clock: ScalaClock) extends Module(ForceLawLabResources.getLocalizedString("module.sun-planet-system.name"), clock) {
   import ForceLawLabDefaults._
   import ForceLawLabResources._
-  val model = new ForceLawLabModel(5.9742E24, //earth mass in kg
+  val model = new ForceLawLabModel(earthMass, //earth mass in kg
     1.9891E30, // sun mass in kg
     -sunEarthDist / 2,
     sunEarthDist / 2,
@@ -284,14 +327,13 @@ class SolarModule(clock: ScalaClock) extends Module(ForceLawLabResources.getLoca
     -sunEarthDist, getLocalizedString("planet"), getLocalizedString("sun")
     )
 
-  def metersToLightMinutes(a: Double) = a * 5.5594E-11
-
   val canvas = new ForceLawLabCanvas(model, sunEarthDist * 2.05, Color.blue, Color.red, Color.black,
     (ForceLawLabDefaults.sunEarthDist * 3).toLong, 10, getLocalizedString("units.light-minutes"), dist => {
       new DecimalFormat("0.0").format(metersToLightMinutes(dist.toDouble))
     }, 3.2E-22 * 10, new SunPlanetDecimalFormat())
   setSimulationPanel(canvas)
   clock.addClockListener(model.update(_))
+  setControlPanel(new SunPlanetControlPanel(model))
   setClockControlPanel(null)
 }
 
