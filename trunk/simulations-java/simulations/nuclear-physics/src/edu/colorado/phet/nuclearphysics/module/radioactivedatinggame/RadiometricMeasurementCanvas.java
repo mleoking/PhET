@@ -167,7 +167,7 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
         backgroundLayer.addChild(cloud1);
         PImage cloud2 = NuclearPhysicsResources.getImageNode("cloud_1.png");
         cloud2.setScale(0.5);
-        cloud2.setOffset(600, 350);
+        cloud2.setOffset(720, 350);
         backgroundLayer.addChild(cloud2);
         
         // Create the chart that will display relative decay proportions.
