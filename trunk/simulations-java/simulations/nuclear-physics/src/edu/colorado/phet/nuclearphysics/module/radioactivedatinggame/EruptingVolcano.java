@@ -62,7 +62,7 @@ public class EruptingVolcano extends AnimatedDatableItem {
         }
 
         // More shaking.
-        shakeSteps = 40;  // Must be divisible by 2 or volcano will end up in different spot.
+        shakeSteps = 80;  // Must be divisible by 2 or volcano will end up in different spot.
         for (int i = 0; i < shakeSteps / 2; i++){
         	double xTranslation = maxXShakePerStep * rand.nextDouble();
         	double yTranslation = maxYShakePerStep * rand.nextDouble();
@@ -73,7 +73,7 @@ public class EruptingVolcano extends AnimatedDatableItem {
         }
         
         // Fade back to dormant-looking image.
-        fadeSteps = 30;  // Must be divisible by 2.
+        fadeSteps = 70;  // Must be divisible by 2.
         fadeAmountPerStep = -1 / (double)fadeSteps;
         for (int i = 0; i < fadeSteps; i++){
         	animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(), null, 0, 1.0, 0, 0,
