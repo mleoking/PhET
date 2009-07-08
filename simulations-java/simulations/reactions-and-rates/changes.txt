@@ -1,3 +1,5 @@
+# 1.03.01 (33126) Jul 8, 2009
+7/8/09 fix for #1709, issues with dragging Launcher
 # 1.03.00 (30671) Apr 21, 2009
 4/21/09 Batch deploy as part of IOM milestone with revision 30670
 # 1.02.04 (30491) Apr 16, 2009
