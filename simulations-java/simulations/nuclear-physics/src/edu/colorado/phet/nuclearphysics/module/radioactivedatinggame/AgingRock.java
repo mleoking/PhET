@@ -57,9 +57,14 @@ public class AgingRock extends AnimatedDatableItem {
         
         // Rock should be sitting on the ground now, so closure is possible.
         animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0, closurePossibleEvent ) );
+
+        // Pause for a while.
+        for (int i = 0; i < 50; i++){
+        	timeUpdater.updateTime();
+        }
         
         // Rock cools down.
-        int coolSteps = 50;
+        int coolSteps = 70;
         double coolFadePerStep = 1 / (double)coolSteps;
         for (int i = 0; i < coolSteps; i++){
         	animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, coolFadePerStep, null ) );
