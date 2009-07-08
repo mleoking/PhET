@@ -14,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.util.PImageFactory;
+import edu.colorado.phet.reactionsandrates.MRConfig;
 import edu.colorado.phet.reactionsandrates.model.Launcher;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -128,7 +129,7 @@ public class LauncherGraphic extends PNode implements SimpleObserver {
         public void mouseEntered( PInputEvent event ) {
             if( launcher.isEnabled() ) {
                 if( launcher.getMovementType() == Launcher.TWO_DIMENSIONAL ) {
-                    PhetUtilities.getActiveModule().getSimulationPanel().setCursor( Cursor.getPredefinedCursor( Cursor.MOVE_CURSOR ) );
+                    PhetUtilities.getActiveModule().getSimulationPanel().setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
                 }
                 else if( launcher.getMovementType() == Launcher.ONE_DIMENSIONAL ) {
                     PhetUtilities.getActiveModule().getSimulationPanel().setCursor( Cursor.getPredefinedCursor( Cursor.N_RESIZE_CURSOR ) );
@@ -155,19 +156,25 @@ public class LauncherGraphic extends PNode implements SimpleObserver {
         }
 
         public void mouseDragged( PInputEvent event ) {
-            if( launcher.isEnabled() ) {
+            if ( launcher.isEnabled() ) {
+                double extension = 0;
                 Point2D end = event.getPositionRelativeTo( LauncherGraphic.this.getParent() );
-                Vector2D.Double v1 = new Vector2D.Double( launcher.getRestingTipLocation(), startPoint );
-                Vector2D.Double v2 = new Vector2D.Double( launcher.getRestingTipLocation(), end );
+                // if we're dragging below the tip...
+                if ( end.getY() > launcher.getRestingTipLocation().getY() ) {
+                    Vector2D.Double v1 = new Vector2D.Double( launcher.getRestingTipLocation(), startPoint );
+                    Vector2D.Double v2 = new Vector2D.Double( launcher.getRestingTipLocation(), end );
 
-                // If the launcher supports 2D motion, compute its angle
-                if( launcher.getMovementType() == Launcher.TWO_DIMENSIONAL ) {
-                    double dTheta = v2.getAngle() - v1.getAngle();
-                    launcher.setTheta( originalAngle + dTheta );
+                    // If the launcher supports 2D motion, compute its angle
+                    if ( launcher.getMovementType() == Launcher.TWO_DIMENSIONAL ) {
+                        double dTheta = v2.getAngle() - v1.getAngle();
+                        launcher.setTheta( originalAngle + dTheta );
+                    }
+
+                    double dr = v2.getMagnitude() - v1.getMagnitude();
+                    extension = Math.min( MRConfig.LAUNCHER_MAX_EXTENSION, originalR + dr );
+                    
                 }
-
-                double dr = v2.getMagnitude() - v1.getMagnitude();
-                launcher.setExtension( originalR + dr );
+                launcher.setExtension( extension );
             }
 
         }
