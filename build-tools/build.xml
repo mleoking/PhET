@@ -49,6 +49,7 @@
 	<property name="phetcommon-src" location="${dir.common}/phetcommon/src"/>
 	<property name="flash-launcher-src" location="${trunk}/simulations-flash/flash-launcher/src"/>
     <property name="scf-src" value="${dir.build-tools}/contrib/securechannelfacade/src/main/java"/>
+    <property name="licensing-src" location="${trunk}/util/licensing/src"/>
 		
 	<!-- jar dependencies -->
     <property name="proguard.jar" location="${dir.build-tools}/contrib/proguard/lib/proguard.jar"/>
@@ -77,7 +78,7 @@
     <target name="_compile-phet-build">
         <mkdir dir="${phetbuild-classes-dir}"/>
 
-        <javac srcdir="${phetbuild-src}:${phetcommon-src}:${scf-src}:${flash-launcher-src}"
+        <javac srcdir="${phetbuild-src}:${phetcommon-src}:${scf-src}:${flash-launcher-src}:${licensing-src}"
                destdir="${phetbuild-classes-dir}"
                classpath="${phetbuild-classpath-jars}" debug="true"
                source="1.5"
