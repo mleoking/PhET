@@ -114,11 +114,11 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
         // Register with the model for notifications of new elements coming
         // and going.
         _model.addListener(new RadiometricMeasurementModel.Adapter(){
-    		public void modelElementAdded() {
-    			handleModelElementAdded();
+    		public void modelElementAdded(Object modelElement) {
+    			handleModelElementAdded(modelElement);
     		}
-    		public void modelElementRemoved() {
-    			handleModelElementRemoved();
+    		public void modelElementRemoved(Object modelElement) {
+    			handleModelElementRemoved(modelElement);
     		}
     		public void simulationModeChanged() {
     			handleSimulationModeChanged();
@@ -201,7 +201,10 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
         
         // Add the node(s) to the canvas corresponding to the datable items in
         // the model.
-        handleModelElementAdded();
+        ArrayList modelElements = _model.getModelElements();
+        for (Object modelElement : modelElements){
+        	handleModelElementAdded(modelElement);
+        }
     }
 
 	//------------------------------------------------------------------------
@@ -213,29 +216,27 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
      * list of elements in the model to the list of corresponding nodes and
      * creating new nodes for any elements that are not yet represented.
      */
-    private void handleModelElementAdded(){
-    	
-    	ArrayList modelElements = _model.getModelElements();
-    	
-    	for (Object modelElement : modelElements){
-    		if (_mapModelElementsToNodes.get(modelElement) == null){
-    			// No node exists for this model element, so add one.
-    			if (modelElement instanceof AnimatedDatableItem){
-    				// Add a new node for this model element.
-    				DatableItem item = (AnimatedDatableItem)modelElement;
-    				DatableItemNode itemNode = new DatableItemNode(item, _mvt);
-    				_mapModelElementsToNodes.put(item, itemNode);
-    				_datableItemsLayer.addChild(itemNode);
-    			}
-    			else{
-    				// TODO: Not sure if there is a need for handling of items
-    				// other than non-datable items.  The volcano may, for
-    				// instance, spew out non-datable stuff.  If so, this will
-    				// need to be handled at some point.
-    				assert false;
-    			}
-    			
-    		}
+    private void handleModelElementAdded(Object modelElement){
+
+    	if (!_mapModelElementsToNodes.containsKey(modelElement)){
+			if (modelElement instanceof AnimatedDatableItem){
+				// Add a new node for this model element.
+				DatableItem item = (AnimatedDatableItem)modelElement;
+				DatableItemNode itemNode = new DatableItemNode(item, _mvt);
+				_mapModelElementsToNodes.put(item, itemNode);
+				_datableItemsLayer.addChild(itemNode);
+			}
+			else{
+				// TODO: Not sure if there is a need for handling of items
+				// other than non-datable items.  The volcano may, for
+				// instance, spew out non-datable stuff.  If so, this will
+				// need to be handled at some point.
+				assert false;
+			}
+    	}
+    	else{
+    		System.err.println(getClass().getName() + " - Error: Redundant attempt to add model element " + modelElement.toString());
+    		assert(false);
     	}
     }
     
@@ -243,20 +244,12 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
      * Handle and event that signifies that a model element has been removed
      * from the model by removing the corresponding node from the canvas.
      */
-    private void handleModelElementRemoved(){
+    private void handleModelElementRemoved(Object modelElement){
     	
-    	ArrayList _modelElements = _model.getModelElements();
-    	Iterator itr = _mapModelElementsToNodes.values().iterator();
-    	
-    	while ( itr.hasNext() ){
-    		PNode itemNode = (PNode)itr.next();
-    		if (!_modelElements.contains(itemNode)){
-    			// The element that corresponds to this node appears to have
-    			// been removed from the model, so it should be removed from
-    			// the canvas and the mapping structure.
-    			_datableItemsLayer.removeChild(itemNode);
-    			itr.remove();
-    		}
+    	if (_mapModelElementsToNodes.containsKey(modelElement)){
+    		PNode node = _mapModelElementsToNodes.get(modelElement);
+    		_datableItemsLayer.removeChild(node);
+    		_mapModelElementsToNodes.remove(modelElement);
     	}
     }
 
