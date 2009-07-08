@@ -1,4 +1,4 @@
-package edu.colorado.phet.cavendishexperiment
+package edu.colorado.phet.forcelawlab
 
 
 import collection.mutable.ArrayBuffer
@@ -26,7 +26,7 @@ import scalacommon.ScalaClock
 import scalacommon.util.Observable
 import java.lang.Math._
 
-class ForceLabelNode(target: Mass, source: Mass, transform: ModelViewTransform2D, model: CavendishExperimentModel,
+class ForceLabelNode(target: Mass, source: Mass, transform: ModelViewTransform2D, model: ForceLawLabModel,
                      color: Color, scale: Double, format: NumberFormat, offsetY: Double, right: Boolean, wall: Wall) extends PNode {
   val arrowNode = new ArrowNode(new Point2D.Double(0, 0), new Point2D.Double(1, 1), 20, 20, 8, 0.5, true)
   arrowNode.setPaint(color)
@@ -74,7 +74,7 @@ class MassNode(mass: Mass, transform: ModelViewTransform2D, color: Color) extend
 class DraggableMassNode(mass: Mass, transform: ModelViewTransform2D, color: Color) extends MassNode(mass, transform, color) {
   var dragging = false
   var initialDrag = false //don't show a pushpin on startup
-  val pushPinNode = new PImage(CavendishExperimentResources.getImage("push-pin.png"))
+  val pushPinNode = new PImage(ForceLawLabResources.getImage("push-pin.png"))
   addChild(pushPinNode)
   pushPinNode.setPickable(false)
   pushPinNode.setChildrenPickable(false)
@@ -105,7 +105,7 @@ class DraggableMassNode(mass: Mass, transform: ModelViewTransform2D, color: Colo
   def draggingChanged() = pushPinNode.setVisible(initialDrag && !dragging)
 }
 
-class CavendishExperimentCanvas(model: CavendishExperimentModel, modelWidth: Double, mass1Color: Color, mass2Color: Color, backgroundColor: Color,
+class CavendishExperimentCanvas(model: ForceLawLabModel, modelWidth: Double, mass1Color: Color, mass2Color: Color, backgroundColor: Color,
                                 rulerLength: Long, numTicks: Long, rulerLabel: String, tickToString: Long => String,
                                 forceLabelScale: Double, forceArrowNumberFormat: NumberFormat) extends DefaultCanvas(modelWidth, modelWidth) {
   setBackground(backgroundColor)
@@ -147,7 +147,7 @@ class MyDoubleGeneralPath(pt: Point2D) extends DoubleGeneralPath(pt) {
   def curveTo(control1: Vector2D, control2: Vector2D, dest: Vector2D) = super.curveTo(control1.x, control1.y, control2.x, control2.y, dest.x, dest.y)
 }
 
-class SpringNode(model: CavendishExperimentModel, transform: ModelViewTransform2D, color: Color) extends PNode {
+class SpringNode(model: ForceLawLabModel, transform: ModelViewTransform2D, color: Color) extends PNode {
   val path = new PhetPPath(new BasicStroke(2), color)
   addChild(path)
   defineInvokeAndPass(model.addListenerByName) {
@@ -177,7 +177,7 @@ class WallNode(wall: Wall, transform: ModelViewTransform2D, color: Color) extend
   addChild(wallPath)
   //  println("wallpathbounds=" + wallPath.getGlobalFullBounds)
 }
-class CavendishExperimentControlPanel(model: CavendishExperimentModel) extends ControlPanel {
+class CavendishExperimentControlPanel(model: ForceLawLabModel) extends ControlPanel {
   add(new ScalaValueControl(0.01, 100, "m1", "0.00", "kg", model.m1.mass, model.m1.mass = _, model.m1.addListener))
   add(new ScalaValueControl(0.01, 100, "m2", "0.00", "kg", model.m2.mass, model.m2.mass = _, model.m2.addListener))
 }
@@ -193,12 +193,12 @@ class Mass(private var _mass: Double, private var _position: Vector2D, val name:
   def radius = massToRadius(_mass)
 }
 class Spring(val k: Double, val restingLength: Double)
-class CavendishExperimentModel(mass1: Double, mass2: Double,
-                               mass1Position: Double, mass2Position: Double,
-                               mass1Radius: Double => Double, mass2Radius: Double => Double,
-                               k: Double, springRestingLength: Double,
-                               wallWidth: Double, wallHeight: Double, wallMaxX: Double,
-                               mass1Name: String, mass2Name: String
+class ForceLawLabModel(mass1: Double, mass2: Double,
+                       mass1Position: Double, mass2Position: Double,
+                       mass1Radius: Double => Double, mass2Radius: Double => Double,
+                       k: Double, springRestingLength: Double,
+                       wallWidth: Double, wallHeight: Double, wallMaxX: Double,
+                       mass1Name: String, mass2Name: String
         ) extends Observable {
   val wall = new Wall(wallWidth, wallHeight, wallMaxX)
   val m1 = new Mass(mass1, new Vector2D(mass1Position, 0), mass1Name, mass1Radius)
@@ -240,7 +240,7 @@ class SunPlanetDecimalFormat extends DecimalFormat("#,###,###,###,###,###,##0.0"
 }
 
 class CavendishExperimentModule(clock: ScalaClock) extends Module("Cavendish Experiment", clock) {
-  val model = new CavendishExperimentModel(10, 25, 0, 1, mass => mass / 30, mass => mass / 30, 1E-8, 1, 50, 50, -4, "m1", "m2")
+  val model = new ForceLawLabModel(10, 25, 0, 1, mass => mass / 30, mass => mass / 30, 1E-8, 1, 50, 50, -4, "m1", "m2")
   val canvas = new CavendishExperimentCanvas(model, 10, Color.blue, Color.blue, Color.white, 10, 10,
     "m", _.toString, 1E10, new TinyDecimalFormat())
   setSimulationPanel(canvas)
@@ -257,7 +257,7 @@ object CavendishExperimentDefaults {
 
 class SolarCavendishModule(clock: ScalaClock) extends Module("Sun-Planet System", clock) {
   import CavendishExperimentDefaults._
-  val model = new CavendishExperimentModel(5.9742E24, //earth mass in kg
+  val model = new ForceLawLabModel(5.9742E24, //earth mass in kg
     1.9891E30, // sun mass in kg
     -sunEarthDist / 2,
     sunEarthDist / 2,
@@ -274,7 +274,7 @@ class SolarCavendishModule(clock: ScalaClock) extends Module("Sun-Planet System"
   def metersToLightMinutes(a: Double) = a * 5.5594E-11
 
   val canvas = new CavendishExperimentCanvas(model, sunEarthDist * 2.05, Color.blue, Color.red, Color.black,
-    (CavendishExperimentDefaults.sunEarthDist*3).toLong, 10, "light minutes", dist => {
+    (CavendishExperimentDefaults.sunEarthDist * 3).toLong, 10, "light minutes", dist => {
       new DecimalFormat("0.0").format(metersToLightMinutes(dist.toDouble))
     }, 3.2E-22 * 10, new SunPlanetDecimalFormat())
   val disclaimerNode = new ScaleDisclaimerNode(model, canvas.transform)
@@ -290,11 +290,10 @@ class SolarCavendishModule(clock: ScalaClock) extends Module("Sun-Planet System"
 }
 
 class Circle(center: Vector2D, radius: Double) extends Ellipse2D.Double(center.x - radius, center.y - radius, radius * 2, radius * 2)
-class ScaleDisclaimerNode(model: CavendishExperimentModel, transform: ModelViewTransform2D) extends PNode {
+class ScaleDisclaimerNode(model: ForceLawLabModel, transform: ModelViewTransform2D) extends PNode {
   val text = new PText("* Radii not to scale.  If they were to scale the sun would be this big ")
   text.setFont(new PhetFont(16, true))
   text.setTextPaint(Color.lightGray)
-  import CavendishExperimentDefaults._
   val earthIcon = new PhetPPath(new Circle(new Vector2D, transform.modelToViewDifferentialXDouble(earthRadius)), Color.blue)
   val sunIcon = new PhetPPath(new Circle(new Vector2D, transform.modelToViewDifferentialXDouble(sunRadius)), Color.red)
 
@@ -309,14 +308,13 @@ class ScaleDisclaimerNode(model: CavendishExperimentModel, transform: ModelViewT
   node.addChild(earthIcon)
 
   addChild(node)
-
 }
 
-class CavendishExperimentApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
+class ForceLawLabApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
   addModule(new CavendishExperimentModule(new ScalaClock(30, 30 / 1000.0)))
   addModule(new SolarCavendishModule(new ScalaClock(30, 30 / 1000.0)))
 }
 
-object CavendishExperimentApplicationMain {
-  def main(args: Array[String]) = new PhetApplicationLauncher().launchSim(args, "cavendish-experiment", classOf[CavendishExperimentApplication])
+object ForceLawLabApplicationMain {
+  def main(args: Array[String]) = new PhetApplicationLauncher().launchSim(args, "force-law-lab", classOf[ForceLawLabApplication])
 }
