@@ -45,7 +45,7 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
 	// flying rocks are rocks that are NOT the primary datable rocks, but are
 	// added to the animation to make the volcanic eruption look better).
 	// Rocks that go outside of these boundaries are deleted.
-	private static final Rectangle2D _rockBoundaryRect = new Rectangle2D.Double(-20, -20, 40, 40);
+	private static final Rectangle2D _rockBoundaryRect = new Rectangle2D.Double(-30, 0, 60, 25);
 	
     //------------------------------------------------------------------------
     // Instance data
@@ -221,7 +221,9 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
 	}
 	
 	private void handleClockTicked(){
+		
 		if (_simulationMode == SIMULATION_MODE.ROCK){
+			
 			// In this mode, additional model elements are added at various times.
 			if (_clock.getSimulationTime() == RadiometricMeasurementDefaults.CLOCK_DT * 100 && !_agingRockAdded){
 				// Add the aging rock to the sim.
@@ -231,7 +233,13 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
 				notifyModelElementAdded(agingRock);
 				_agingRockAdded = true;
 			}
-			else if (_clock.getSimulationTime() == RadiometricMeasurementDefaults.CLOCK_DT * 50){
+			else if ((_clock.getSimulationTime() == RadiometricMeasurementDefaults.CLOCK_DT * 20) ||
+					 (_clock.getSimulationTime() == RadiometricMeasurementDefaults.CLOCK_DT * 30) ||
+					 (_clock.getSimulationTime() == RadiometricMeasurementDefaults.CLOCK_DT * 45) ||
+					 (_clock.getSimulationTime() == RadiometricMeasurementDefaults.CLOCK_DT * 50) ||
+					 (_clock.getSimulationTime() == RadiometricMeasurementDefaults.CLOCK_DT * 90) ||
+					 (_clock.getSimulationTime() == RadiometricMeasurementDefaults.CLOCK_DT * 120)) {
+				
 				// Add a flying rock.
 				AnimatedFlyingRock flyingRock = new AnimatedFlyingRock(_clock, INITIAL_ROCK_POSITION, 1.5);
 				_animatedModelElements.add(flyingRock);
@@ -381,6 +389,7 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
 				public void positionChanged(){
 					if (!_rockBoundaryRect.contains(_rock.getPosition())){
 						// Remove this rock from the model.
+						System.out.println("Rock position = " + _rock.getPosition());
 						_model._animatedModelElements.remove(_rock);
 						_model.notifyModelElementRemoved(_rock);
 						_rock.removeAnimationListener(_animationListener);
