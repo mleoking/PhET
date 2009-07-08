@@ -1,20 +1,25 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.reactionsandrates.view;
 
-import edu.colorado.phet.reactionsandrates.MRConfig;
-import edu.colorado.phet.reactionsandrates.model.MRModel;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 
-import javax.swing.*;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.*;
+
+import edu.colorado.phet.reactionsandrates.MRConfig;
+import edu.colorado.phet.reactionsandrates.modules.MRModule;
 
 public class InitialTemperaturePanel extends JPanel {
     private final InitialTemperatureSlider slider;
     private static final int SLIDER_INSET = 5;
     private volatile boolean adjustmentInProgress;
 
-    public InitialTemperaturePanel( final MRModel model ) {
+    public InitialTemperaturePanel( final MRModule module ) {
         super( new GridBagLayout() );
 
         JLabel sliderLabel;
@@ -50,7 +55,7 @@ public class InitialTemperaturePanel extends JPanel {
 
                         double temp = source.getValue();
 
-                        model.setDefaultTemperature( temp );
+                        module.getMRModel().setDefaultTemperature( temp );
                     }
                 }
         );
