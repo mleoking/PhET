@@ -161,7 +161,7 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
         add( numCTF, textFieldGbc );
 
         // Initial temperature slider:
-        initialTemperaturePanel = new InitialTemperaturePanel( (MRModel)module.getModel() );
+        initialTemperaturePanel = new InitialTemperaturePanel( module );
 
         c.gridx = 0;
         c.gridy = GridBagConstraints.RELATIVE;

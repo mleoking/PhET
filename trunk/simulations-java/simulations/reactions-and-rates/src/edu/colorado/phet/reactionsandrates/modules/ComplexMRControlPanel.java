@@ -10,6 +10,16 @@
  */
 package edu.colorado.phet.reactionsandrates.modules;
 
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
 import edu.colorado.phet.reactionsandrates.MRConfig;
 import edu.colorado.phet.reactionsandrates.model.MRModel;
 import edu.colorado.phet.reactionsandrates.util.ControlBorderFactory;
@@ -17,11 +27,6 @@ import edu.colorado.phet.reactionsandrates.view.InitialTemperaturePanel;
 import edu.colorado.phet.reactionsandrates.view.MoleculeInstanceControlPanel;
 import edu.colorado.phet.reactionsandrates.view.ReactionChooserComboBox;
 import edu.colorado.phet.reactionsandrates.view.charts.ChartOptionsPanel;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * ComplexMRControlPanel
@@ -108,7 +113,7 @@ public class ComplexMRControlPanel extends MRControlPanel {
         c.gridwidth = GridBagConstraints.REMAINDER;
         c.gridheight = GridBagConstraints.REMAINDER;
 
-        initialTemperaturePanel = new InitialTemperaturePanel( module.getMRModel() );
+        initialTemperaturePanel = new InitialTemperaturePanel( module );
 
         reactionSelectionPanel.add( initialTemperaturePanel, c );
 
