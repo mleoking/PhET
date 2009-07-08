@@ -241,9 +241,9 @@ class SunPlanetDecimalFormat extends DecimalFormat("#,###,###,###,###,###,##0.0"
 }
 
 class ForceLawsModule(clock: ScalaClock) extends Module(ForceLawLabResources.getLocalizedString("module.force-laws.name"), clock) {
-  val model = new ForceLawLabModel(10, 25, 0, 1, mass => mass / 30, mass => mass / 30, 1E-8, 1, 50, 50, -4, ForceLawLabResources.getLocalizedString("mass-1.name"), ForceLawLabResources.getLocalizedString("mass-2.name"))
+  val model = new ForceLawLabModel(10, 25, 0, 1, mass => mass / 30, mass => mass / 30, 1E-8, 1, 50, 50, -4, ForceLawLabResources.getLocalizedString("mass-1"), ForceLawLabResources.getLocalizedString("mass-2"))
   val canvas = new CavendishExperimentCanvas(model, 10, Color.blue, Color.blue, Color.white, 10, 10,
-    ForceLawLabResources.getLocalizedString("module.force-laws.ruler.label"), _.toString, 1E10, new TinyDecimalFormat())
+    ForceLawLabResources.getLocalizedString("units.m"), _.toString, 1E10, new TinyDecimalFormat())
   setSimulationPanel(canvas)
   clock.addClockListener(model.update(_))
   setControlPanel(new CavendishExperimentControlPanel(model))
@@ -270,13 +270,13 @@ class SolarModule(clock: ScalaClock) extends Module(ForceLawLabResources.getLoca
     1.42E12, sunEarthDist / 3, //this one too
     1E13,
     1E12,
-    -sunEarthDist, getLocalizedString("planet.name"), getLocalizedString("sun.name")
+    -sunEarthDist, getLocalizedString("planet"), getLocalizedString("sun")
     )
 
   def metersToLightMinutes(a: Double) = a * 5.5594E-11
 
   val canvas = new CavendishExperimentCanvas(model, sunEarthDist * 2.05, Color.blue, Color.red, Color.black,
-    (ForceLawLabDefaults.sunEarthDist * 3).toLong, 10, getLocalizedString("module.sun-planet-system.ruler.label"), dist => {
+    (ForceLawLabDefaults.sunEarthDist * 3).toLong, 10, getLocalizedString("units.light-minutes"), dist => {
       new DecimalFormat("0.0").format(metersToLightMinutes(dist.toDouble))
     }, 3.2E-22 * 10, new SunPlanetDecimalFormat())
   val disclaimerNode = new ScaleDisclaimerNode(model, canvas.transform)
