@@ -10,6 +10,10 @@
  */
 package edu.colorado.phet.reactionsandrates.view;
 
+import java.awt.Cursor;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -19,10 +23,6 @@ import edu.colorado.phet.reactionsandrates.model.Launcher;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-
-import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
 
 /**
  * LauncherGraphic
@@ -121,34 +121,26 @@ public class LauncherGraphic extends PNode implements SimpleObserver {
      * Mouse handler
      */
     private class PlungerMouseHandler extends PBasicInputEventHandler {
+        boolean mousePressed, mouseInside;
         double dySinceLastMolecule;
         double originalAngle;
         double originalR;
         Point2D startPoint;
 
         public void mouseEntered( PInputEvent event ) {
-            if( launcher.isEnabled() ) {
-                if( launcher.getMovementType() == Launcher.TWO_DIMENSIONAL ) {
-                    PhetUtilities.getActiveModule().getSimulationPanel().setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
-                }
-                else if( launcher.getMovementType() == Launcher.ONE_DIMENSIONAL ) {
-                    PhetUtilities.getActiveModule().getSimulationPanel().setCursor( Cursor.getPredefinedCursor( Cursor.N_RESIZE_CURSOR ) );
-                }
-
-                temperatureBeingAdjusted = true;
-            }
+            mouseInside = true;
+            updateCursor();
         }
 
         public void mouseExited( PInputEvent event ) {
-            if( launcher.isEnabled() ) {
-                PhetUtilities.getActiveModule().getSimulationPanel().setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
-
-                temperatureBeingAdjusted = false;
-            }
+            mouseInside = false;
+            updateCursor();
         }
 
         public void mousePressed( PInputEvent event ) {
+            mousePressed = true;
             if( launcher.isEnabled() ) {
+                temperatureBeingAdjusted = true;
                 originalAngle = launcher.getTheta();
                 originalR = launcher.getExtension();
                 this.startPoint = event.getPositionRelativeTo( LauncherGraphic.this.getParent() );
@@ -181,9 +173,29 @@ public class LauncherGraphic extends PNode implements SimpleObserver {
 
         public void mouseReleased( PInputEvent event ) {
             if( launcher.isEnabled() ) {
+                temperatureBeingAdjusted = false;
                 launcher.release();
-                PhetUtilities.getActiveModule().getSimulationPanel().setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
             }
+            mousePressed = false;
+            updateCursor();
+        }
+        
+        private void updateCursor() {
+            if ( mouseInside && launcher.isEnabled() ) {
+                if ( launcher.getMovementType() == Launcher.TWO_DIMENSIONAL ) {
+                    setCursor( Cursor.HAND_CURSOR );
+                }
+                else if ( launcher.getMovementType() == Launcher.ONE_DIMENSIONAL ) {
+                    setCursor( Cursor.N_RESIZE_CURSOR );
+                }
+            }
+            else if ( !mouseInside && !mousePressed ) {
+                setCursor( Cursor.DEFAULT_CURSOR );
+            }
+        }
+        
+        private void setCursor( int cursorType ) {
+            PhetUtilities.getActiveModule().getSimulationPanel().setCursor( Cursor.getPredefinedCursor( cursorType ) );
         }
     }
 }
