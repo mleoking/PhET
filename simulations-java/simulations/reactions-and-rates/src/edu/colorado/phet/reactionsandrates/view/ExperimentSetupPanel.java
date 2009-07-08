@@ -224,10 +224,10 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
     }
 
     private void setInitialConditionsEditable( boolean editable ) {
-        numATF.setEditable( editable );
-        numBCTF.setEditable( editable );
-        numABTF.setEditable( editable );
-        numCTF.setEditable( editable );
+        numATF.setEnabled( editable );
+        numBCTF.setEnabled( editable );
+        numABTF.setEnabled( editable );
+        numCTF.setEnabled( editable );
     }
 
     /**
