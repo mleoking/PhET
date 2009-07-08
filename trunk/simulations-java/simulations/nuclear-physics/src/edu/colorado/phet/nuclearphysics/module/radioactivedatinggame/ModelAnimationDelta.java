@@ -42,7 +42,7 @@ public class ModelAnimationDelta {
 	public ModelAnimationDelta(double time, Point2D positionDelta, double rotationDelta, double sizeChangeFactor,
 			int primaryImageIndexDelta, int secondaryImageIndexDelta, double fadeFactorDelta, EventObject event) {
 		this.time = time;
-		this.positionDelta = positionDelta;
+		this.positionDelta = positionDelta == null ? null : new Point2D.Double(positionDelta.getX(), positionDelta.getY());
 		this.rotationDelta = rotationDelta;
 		this.sizeChangeFactor = sizeChangeFactor;
 		this.primaryImageIndexDelta = primaryImageIndexDelta;
