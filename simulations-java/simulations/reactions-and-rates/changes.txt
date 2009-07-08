@@ -1,3 +1,5 @@
+# 1.03.02 (33136) Jul 8, 2009
+7/8/09 fixes for #1709, #1715
 # 1.03.01 (33126) Jul 8, 2009
 7/8/09 fix for #1709, issues with dragging Launcher
 # 1.03.00 (30671) Apr 21, 2009
