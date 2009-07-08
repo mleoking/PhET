@@ -24,13 +24,14 @@ public abstract class AnimatedDatableItem extends DatableItem implements Cleanup
     // Instance Data
     //------------------------------------------------------------------------
 	
-    private ConstantDtClock _clock;
-    private double _ageAdjustmentFactor;
-    private ClockAdapter _clockAdapter;
+    private final ConstantDtClock _clock;
+    private final double _ageAdjustmentFactor;
+    private final ClockAdapter _clockAdapter;
+    private final double _birthTime;
+    private final ModelAnimationInterpreter _animationIterpreter;
+    private final ArrayList<ClosureListener> _closureListeners = new ArrayList<ClosureListener>();
     private double _age = 0; // Age in milliseconds of this datable item.
     private double _ageOffset = 0;
-    private ModelAnimationInterpreter _animationIterpreter;
-    private ArrayList<ClosureListener> _closureListeners = new ArrayList<ClosureListener>();
     private RadiometricClosureState _closureState = RadiometricClosureState.CLOSURE_NOT_POSSIBLE;
     private double _closureAge = 0;
 
@@ -38,9 +39,11 @@ public abstract class AnimatedDatableItem extends DatableItem implements Cleanup
     // Constructor(s)
     //------------------------------------------------------------------------
     
-    public AnimatedDatableItem( String name, List<String> resourceImageNames, Point2D center, double width, double rotationAngle, double age, ConstantDtClock clock,double ageAdjustmentFactor ) {
+    public AnimatedDatableItem( String name, List<String> resourceImageNames, Point2D center, double width, 
+    		double rotationAngle, double age, ConstantDtClock clock, double ageAdjustmentFactor ) {
         super( name, resourceImageNames, center, width, rotationAngle, age );
         _clock = clock;
+        _birthTime = _clock.getSimulationTime() * ageAdjustmentFactor;
         this._ageAdjustmentFactor = ageAdjustmentFactor;
         // Create the adapter that will listen to the clock.
 		_clockAdapter = new ClockAdapter(){
@@ -52,11 +55,6 @@ public abstract class AnimatedDatableItem extends DatableItem implements Cleanup
 		    }
 		};
 		_clock.addClockListener(_clockAdapter);
-
-        //------------------------------------------------------------------------
-        // The animation sequence that defines how the appearance of the tree
-        // will change as it ages.
-        //------------------------------------------------------------------------
 
 		// Create the animation interpreter that will execute the animation.
 		_animationIterpreter = new ModelAnimationInterpreter(this, getAnimationSequence() );
@@ -140,7 +138,7 @@ public abstract class AnimatedDatableItem extends DatableItem implements Cleanup
 	}
 
     protected void handleClockTicked(){
-        _age = _clock.getSimulationTime() * _ageAdjustmentFactor + _ageOffset;
+        _age = _clock.getSimulationTime() * _ageAdjustmentFactor + _ageOffset - _birthTime;
         _animationIterpreter.setTime(_age);
     }
 
