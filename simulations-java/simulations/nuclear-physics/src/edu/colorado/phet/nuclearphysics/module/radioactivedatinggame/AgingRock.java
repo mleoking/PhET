@@ -40,23 +40,26 @@ public class AgingRock extends AnimatedDatableItem {
         	new RadiometricClosureEvent(this, RadiometricClosureState.CLOSURE_POSSIBLE);
         
         // Rock flies out of volcano in a parabolic arc and gets larger in
-        // order to look like it is getting closer.
+        // order to look like it is getting closer.  Also spins.
         int flightSteps = 50;
-        double growthFactor = 1.05;
-        double arcHeightControl = 0.03; // Higher for higher arc, lower for lower arc.
-        double flightXTranslation = -0.35; // Higher positive or negative number move further.
+        double totalGrowthFactor = 10;
+        double growthPerStep = Math.pow(totalGrowthFactor, 1/(double)flightSteps);
+        double totalRotation = -8 * Math.PI;
+        double rotationPerStep = totalRotation / flightSteps;
+        double arcHeightControl = 0.04; // Higher for higher arc, lower for lower arc.
+        double flightXTranslation = -0.38; // Higher positive or negative number move further.
         for (int i = 0; i < flightSteps; i++){
-        	double flightYTranslation = arcHeightControl * (((double)flightSteps * 0.4) - i);
+        	double flightYTranslation = arcHeightControl * (((double)flightSteps * 0.42) - i);
         	animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), 
-        			new Point2D.Double( flightXTranslation, flightYTranslation ),
-        			0, growthFactor, 0, 0, 0, null ) );
+        			new Point2D.Double( flightXTranslation, flightYTranslation ), rotationPerStep, growthPerStep, 0, 
+        			0, 0, null ) );
         }
         
         // Rock should be sitting on the ground now, so closure is possible.
         animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0, closurePossibleEvent ) );
         
         // Rock cools down.
-        int coolSteps = 20;
+        int coolSteps = 50;
         double coolFadePerStep = 1 / (double)coolSteps;
         for (int i = 0; i < coolSteps; i++){
         	animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, coolFadePerStep, null ) );
