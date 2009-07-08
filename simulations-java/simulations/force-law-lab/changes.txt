@@ -1,3 +1,4 @@
+# 0.01.03 (33132) Jul 8, 2009
 > added whitespace every 3 digits after the decimal place
 > internationalized
 > renamed cavendish-experiment to force-law-lab
