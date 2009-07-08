@@ -3,6 +3,7 @@
 package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -11,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
+import edu.colorado.phet.nuclearphysics.defaults.RadiometricMeasurementDefaults;
 
 /**
  * This class defines a model (in the model-view-controller paradigm) that
@@ -35,9 +37,15 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
 	private static final double  INITIAL_TREE_WIDTH = 1;
 	private static final Point2D INITIAL_VOLCANO_POSITION = new Point2D.Double(13, 0);
 	private static final double  INITIAL_VOLCANO_WIDTH = 12;
-	private static final Point2D INITIAL_AGING_ROCK_POSITION = new Point2D.Double(13, 3.5);
+	private static final Point2D INITIAL_ROCK_POSITION = new Point2D.Double(13, 3.5);
 	private static final double  INITIAL_AGING_ROCK_WIDTH = 1;
 	private static final Point2D INITIAL_PROBE_TIP_POSITION = new Point2D.Double(0, 10);
+	
+	// Boundaries for where the auxillary flying rocks may be (auxillary
+	// flying rocks are rocks that are NOT the primary datable rocks, but are
+	// added to the animation to make the volcanic eruption look better).
+	// Rocks that go outside of these boundaries are deleted.
+	private static final Rectangle2D _rockBoundaryRect = new Rectangle2D.Double(-20, -20, 40, 40);
 	
     //------------------------------------------------------------------------
     // Instance data
@@ -153,7 +161,7 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
 				AnimatedDatableItem datableItem = itr.next();
 				datableItem.removeClosureListener(_closureListener);
 				itr.remove();
-				notifyModelElementRemoved();
+				notifyModelElementRemoved(datableItem);
 			}
 			
 			// Add the appropriate model elements based on the simulation mode.
@@ -162,8 +170,9 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
 				// No model elements added until the tree is planted.
 				break;
 			case ROCK:
-				_animatedModelElements.add(new EruptingVolcano(_clock, INITIAL_VOLCANO_POSITION, INITIAL_VOLCANO_WIDTH));
-				notifyModelElementAdded();
+				EruptingVolcano volcano = new EruptingVolcano(_clock, INITIAL_VOLCANO_POSITION, INITIAL_VOLCANO_WIDTH);
+				_animatedModelElements.add(volcano);
+				notifyModelElementAdded(volcano);
 				break;
 			}
 			
@@ -214,13 +223,20 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
 	private void handleClockTicked(){
 		if (_simulationMode == SIMULATION_MODE.ROCK){
 			// In this mode, additional model elements are added at various times.
-			if (_clock.getSimulationTime() > 2500 && !_agingRockAdded){
+			if (_clock.getSimulationTime() == RadiometricMeasurementDefaults.CLOCK_DT * 100 && !_agingRockAdded){
 				// Add the aging rock to the sim.
-				AgingRock agingRock = new AgingRock(_clock, INITIAL_AGING_ROCK_POSITION, INITIAL_AGING_ROCK_WIDTH);
+				AgingRock agingRock = new AgingRock(_clock, INITIAL_ROCK_POSITION, INITIAL_AGING_ROCK_WIDTH);
 				_animatedModelElements.add(agingRock);
 				agingRock.addClosureListener(_closureListener);
-				notifyModelElementAdded();
+				notifyModelElementAdded(agingRock);
 				_agingRockAdded = true;
+			}
+			else if (_clock.getSimulationTime() == RadiometricMeasurementDefaults.CLOCK_DT * 50){
+				// Add a flying rock.
+				AnimatedFlyingRock flyingRock = new AnimatedFlyingRock(_clock, INITIAL_ROCK_POSITION, 1.5);
+				_animatedModelElements.add(flyingRock);
+				new FlyingRockManager(this, flyingRock);
+				notifyModelElementAdded(flyingRock);
 			}
 		}
 	}
@@ -242,7 +258,7 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
 		agingTree.addClosureListener(_closureListener);
 		
 		// Let everyone know about the new tree!
-		notifyModelElementAdded();
+		notifyModelElementAdded(agingTree);
 	}
 	
 	/**
@@ -311,15 +327,15 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
         }
     }
     
-    protected void notifyModelElementAdded() {
+    protected void notifyModelElementAdded(Object modelElement) {
         for (int i = 0; i < _listeners.size(); i++){
-            _listeners.get( i ).modelElementAdded();
+            _listeners.get( i ).modelElementAdded(modelElement);
         }        
     }
 
-    protected void notifyModelElementRemoved() {
+    protected void notifyModelElementRemoved(Object modelElement) {
         for (int i = 0; i < _listeners.size(); i++){
-            _listeners.get( i ).modelElementRemoved();
+            _listeners.get( i ).modelElementRemoved(modelElement);
         }
     }
     
@@ -335,15 +351,44 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
 
     public static interface Listener {
     	public void simulationModeChanged();
-    	public void modelElementAdded();
-    	public void modelElementRemoved();
+    	public void modelElementAdded(Object modelElement);
+    	public void modelElementRemoved(Object modelElement);
     	public void closureStateChanged();
     }
     
     public static class Adapter implements Listener {
 		public void simulationModeChanged() {}
-		public void modelElementAdded() {}
-		public void modelElementRemoved() {}
+		public void modelElementAdded(Object modelElement) {}
+		public void modelElementRemoved(Object modelElement) {}
 		public void closureStateChanged() {}
+    }
+    
+    /**
+     * This class keeps track of the rocks that are added to make the volcanic
+     * eruption look more interesting, but are not actually kept around to
+     * allow the user to date them.
+     */
+    public static class FlyingRockManager{
+    	
+    	private final AnimatedFlyingRock _rock;
+    	private final RadiometricMeasurementModel _model;
+    	private final ModelAnimationAdapter _animationListener;
+    	
+    	public FlyingRockManager(RadiometricMeasurementModel model, AnimatedFlyingRock rock) {
+			this._rock = rock;
+			this._model = model;
+			_animationListener = new ModelAnimationAdapter(){
+				public void positionChanged(){
+					if (!_rockBoundaryRect.contains(_rock.getPosition())){
+						// Remove this rock from the model.
+						_model._animatedModelElements.remove(_rock);
+						_model.notifyModelElementRemoved(_rock);
+						_rock.removeAnimationListener(_animationListener);
+					}
+				}
+			};
+			
+			rock.addAnimationListener(_animationListener);
+		}
     }
 }

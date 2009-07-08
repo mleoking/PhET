@@ -186,7 +186,7 @@ public abstract class AnimatedDatableItem extends DatableItem implements Cleanup
 			return closureState;
 		}
     }
-    
+
     /**
      * Listener through which information about the radiometric closure state
      * can be monitored.
