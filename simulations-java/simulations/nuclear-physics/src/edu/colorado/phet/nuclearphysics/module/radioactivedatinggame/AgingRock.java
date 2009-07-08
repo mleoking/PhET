@@ -39,65 +39,30 @@ public class AgingRock extends AnimatedDatableItem {
         RadiometricClosureEvent closurePossibleEvent = 
         	new RadiometricClosureEvent(this, RadiometricClosureState.CLOSURE_POSSIBLE);
         
-        // Rock flies out of volcano.
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), new Point2D.Double( -0.35, .6 ), 0, 1.07, 0, 0, 0, null ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), new Point2D.Double( -0.35, .6 ), 0, 1.07, 0, 0, 0, null ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), new Point2D.Double( -0.35, .6 ), 0, 1.07, 0, 0, 0, null ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), new Point2D.Double( -0.35, 0.5 ), 0, 1.07, 0, 0, 0, null ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), new Point2D.Double( -0.35, 0.5 ), 0, 1.07, 0, 0, 0, null ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), new Point2D.Double( -0.35, 0.5 ), 0, 1.07, 0, 0, 0, null ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), new Point2D.Double( -0.35, 0.5 ), 0, 1.07, 0, 0, 0, null ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), new Point2D.Double( -0.35, 0.5 ), 0, 1.07, 0, 0, 0, null ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), new Point2D.Double( -0.35, 0.5 ), 0, 1.07, 0, 0, 0, null ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), new Point2D.Double( -0.35, 0.5 ), 0, 1.07, 0, 0, 0, null ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), new Point2D.Double( -0.35, 0.5 ), 0, 1.07, 0, 0, 0, null ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), new Point2D.Double( -0.35, 0.4 ), 0, 1.07, 0, 0, 0, null ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), new Point2D.Double( -0.35, 0.3 ), 0, 1.07, 0, 0, 0, null ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), new Point2D.Double( -0.35, 0.2 ), 0, 1.07, 0, 0, 0, null ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), new Point2D.Double( -0.35, 0.1 ), 0, 1.07, 0, 0, 0, null ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), new Point2D.Double( -0.35, 0 ), 0, 1.07, 0, 0, 0, null ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), new Point2D.Double( -0.35, -0.1 ), 0, 1.07, 0, 0, 0, null ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), new Point2D.Double( -0.35, -0.1 ), 0, 1.07, 0, 0, 0, null ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), new Point2D.Double( -0.35, -0.4 ), 0, 1.07, 0, 0, 0, null ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), new Point2D.Double( -0.35, -0.5 ), 0, 1.07, 0, 0, 0, null ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), new Point2D.Double( -0.35, -0.6 ), 0, 1.07, 0, 0, 0, null ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), new Point2D.Double( -0.35, -.9 ), 0, 1.07, 0, 0, 0, null ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), new Point2D.Double( -0.35, -1 ), 0, 1.07, 0, 0, 0, null ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), new Point2D.Double( -0.35, -1.1 ), 0, 1.07, 0, 0, 0, null ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), new Point2D.Double( -0.35, -1.2 ), 0, 1.07, 0, 0, 0, null ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), new Point2D.Double( -0.35, -1.2 ), 0, 1.07, 0, 0, 0, null ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), new Point2D.Double( -0.35, -1.3 ), 0, 1.07, 0, 0, 0, null ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), new Point2D.Double( -0.35, -1.3 ), 0, 1.07, 0, 0, 0, null ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), new Point2D.Double( -0.35, -1.5 ), 0, 1.07, 0, 0, 0, null ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), new Point2D.Double( -0.35, -1.5 ), 0, 1.07, 0, 0, 0, null ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), new Point2D.Double( -0.35, -1.5 ), 0, 1.07, 0, 0, 0, null ) );
+        // Rock flies out of volcano in a parabolic arc and gets larger in
+        // order to look like it is getting closer.
+        int flightSteps = 50;
+        double growthFactor = 1.05;
+        double arcHeightControl = 0.03; // Higher for higher arc, lower for lower arc.
+        double flightXTranslation = -0.35; // Higher positive or negative number move further.
+        for (int i = 0; i < flightSteps; i++){
+        	double flightYTranslation = arcHeightControl * (((double)flightSteps * 0.4) - i);
+        	animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), 
+        			new Point2D.Double( flightXTranslation, flightYTranslation ),
+        			0, growthFactor, 0, 0, 0, null ) );
+        }
         
         // Rock should be sitting on the ground now, so closure is possible.
         animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0, closurePossibleEvent ) );
         
         // Rock cools down.
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.05, null ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.05, null ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.05, null ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.05, null ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.05, null ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.05, null ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.05, null ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.05, null ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.05, null ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.05, null ) );
-        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.05, null ) );
-//        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.05, null ) );
-//        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.05, null ) );
-//        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.05, null ) );
-//        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.05, null ) );
-//        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.05, null ) );
-//        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.05, null ) );
-//        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.05, null ) );
-//        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.05, null ) );
-//        animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, 0.05, null ) );
+        int coolSteps = 20;
+        double coolFadePerStep = 1 / (double)coolSteps;
+        for (int i = 0; i < coolSteps; i++){
+        	animationSequence.add( new ModelAnimationDelta( timeUpdater.updateTime(), null, 0, 1, 0, 0, coolFadePerStep, null ) );
+        }
         
-        // Radiometric closure occurs.
+        // Done cooling, so radiometric closure occurs.
         double tempTime = timeUpdater.updateTime();
         setClosureAge(tempTime);
         animationSequence.add( new ModelAnimationDelta( tempTime, null, 0, 1, 0, 0, 0, closureOccurredEvent ) );
