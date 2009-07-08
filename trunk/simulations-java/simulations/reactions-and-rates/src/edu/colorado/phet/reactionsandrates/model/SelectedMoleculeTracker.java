@@ -1,13 +1,5 @@
 /* Copyright 2003-2004, University of Colorado */
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
 package edu.colorado.phet.reactionsandrates.model;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
@@ -29,10 +21,11 @@ import java.util.List;
  * and listener for changes in their selection status.
  *
  * @author Ron LeMaster
- * @version $Revision$
  */
 public class SelectedMoleculeTracker extends PublishingModel.ModelListenerAdapter implements ModelElement,
                                                                                              SimpleMolecule.ChangeListener {
+    private static final boolean DEBUG_OUTPUT = false;
+    
     private MRModel model;
     private SimpleMolecule moleculeTracked;
     private SimpleMolecule closestMolecule;
@@ -55,7 +48,9 @@ public class SelectedMoleculeTracker extends PublishingModel.ModelListenerAdapte
             }
             moleculeTracked = newMoleculeTracked;
 
-            System.out.println( "Selected molecule changing to " + moleculeTracked );
+            if ( DEBUG_OUTPUT ) {
+                System.out.println( "Selected molecule changing to " + moleculeTracked );
+            }
 
             determineNearestToSelected();
 
@@ -76,7 +71,9 @@ public class SelectedMoleculeTracker extends PublishingModel.ModelListenerAdapte
             }
             closestMolecule = newClosestMolecule;
 
-            System.out.println( "Closest molecule changing to " + closestMolecule );
+            if ( DEBUG_OUTPUT ) {
+                System.out.println( "Closest molecule changing to " + closestMolecule );
+            }
 
             listenerProxy.closestMoleculeChanged( closestMolecule, prevClosest );
             listenerProxy.moleculeBeingTrackedChanged( moleculeTracked, moleculeTracked );
