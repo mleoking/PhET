@@ -36,7 +36,7 @@ class ForceLabelNode(target: Mass, source: Mass, transform: ModelViewTransform2D
 
   defineInvokeAndPass(model.addListenerByName) {
     label.setOffset(transform.modelToView(target.position) - new Vector2D(0, label.getFullBounds.getHeight + offsetY))
-    val str=MessageFormat.format(ForceLawLabResources.getLocalizedString("force-description-pattern-target_source_value"),target.name,source.name,format.format(model.getForce.magnitude))
+    val str = MessageFormat.format(ForceLawLabResources.getLocalizedString("force-description-pattern-target_source_value"), target.name, source.name, format.format(model.getForce.magnitude))
     label.setText(str)
     val sign = if (right) 1 else -1
     val tip = label.getOffset + new Vector2D(sign * model.getForce.magnitude * scale, -20)
@@ -106,7 +106,7 @@ class DraggableMassNode(mass: Mass, transform: ModelViewTransform2D, color: Colo
   def draggingChanged() = pushPinNode.setVisible(initialDrag && !dragging)
 }
 
-class CavendishExperimentCanvas(model: ForceLawLabModel, modelWidth: Double, mass1Color: Color, mass2Color: Color, backgroundColor: Color,
+class ForceLawLabCanvas(model: ForceLawLabModel, modelWidth: Double, mass1Color: Color, mass2Color: Color, backgroundColor: Color,
                                 rulerLength: Long, numTicks: Long, rulerLabel: String, tickToString: Long => String,
                                 forceLabelScale: Double, forceArrowNumberFormat: NumberFormat) extends DefaultCanvas(modelWidth, modelWidth) {
   setBackground(backgroundColor)
@@ -176,9 +176,8 @@ class Wall(width: Double, height: Double, _maxX: Double) {
 class WallNode(wall: Wall, transform: ModelViewTransform2D, color: Color) extends PNode {
   val wallPath = new PhetPPath(transform.createTransformedShape(wall.getShape), color, new BasicStroke(2f), Color.gray)
   addChild(wallPath)
-  //  println("wallpathbounds=" + wallPath.getGlobalFullBounds)
 }
-class CavendishExperimentControlPanel(model: ForceLawLabModel) extends ControlPanel {
+class ForceLawLabControlPanel(model: ForceLawLabModel) extends ControlPanel {
   add(new ScalaValueControl(0.01, 100, model.m1.name, "0.00", ForceLawLabResources.getLocalizedString("units.kg"), model.m1.mass, model.m1.mass = _, model.m1.addListener))
   add(new ScalaValueControl(0.01, 100, model.m2.name, "0.00", ForceLawLabResources.getLocalizedString("units.kg"), model.m2.mass, model.m2.mass = _, model.m2.addListener))
 }
@@ -231,15 +230,15 @@ class ForceLawLabModel(mass1: Double, mass2: Double,
   }
 }
 
-class TinyDecimalFormat extends DecimalFormat("0.00000000000"){
+class TinyDecimalFormat extends DecimalFormat("0.00000000000") {
   override def format(number: Double, result: StringBuffer, fieldPosition: FieldPosition) = {
-    val s=super.format(number,result,fieldPosition).toString
+    val s = super.format(number, result, fieldPosition).toString
     //start at the end, and insert spaces after every 3 elements, may not work for every locale
-    var str=""
-    for (ch<-s){
-      str=str+ch
-      if (str.length%4==0)//4 instead of 3 because space adds another element
-        str=str+" "
+    var str = ""
+    for (ch <- s) {
+      str = str + ch
+      if (str.length % 4 == 0) //4 instead of 3 because space adds another element
+        str = str + " "
     }
     new StringBuffer(str)
   }
@@ -254,11 +253,11 @@ class SunPlanetDecimalFormat extends DecimalFormat("#,###,###,###,###,###,##0.0"
 
 class ForceLawsModule(clock: ScalaClock) extends Module(ForceLawLabResources.getLocalizedString("module.force-laws.name"), clock) {
   val model = new ForceLawLabModel(10, 25, 0, 1, mass => mass / 30, mass => mass / 30, 1E-8, 1, 50, 50, -4, ForceLawLabResources.getLocalizedString("mass-1"), ForceLawLabResources.getLocalizedString("mass-2"))
-  val canvas = new CavendishExperimentCanvas(model, 10, Color.blue, Color.blue, Color.white, 10, 10,
+  val canvas = new ForceLawLabCanvas(model, 10, Color.blue, Color.blue, Color.white, 10, 10,
     ForceLawLabResources.getLocalizedString("units.m"), _.toString, 1E10, new TinyDecimalFormat())
   setSimulationPanel(canvas)
   clock.addClockListener(model.update(_))
-  setControlPanel(new CavendishExperimentControlPanel(model))
+  setControlPanel(new ForceLawLabControlPanel(model))
   setClockControlPanel(null)
 }
 
@@ -287,43 +286,16 @@ class SolarModule(clock: ScalaClock) extends Module(ForceLawLabResources.getLoca
 
   def metersToLightMinutes(a: Double) = a * 5.5594E-11
 
-  val canvas = new CavendishExperimentCanvas(model, sunEarthDist * 2.05, Color.blue, Color.red, Color.black,
+  val canvas = new ForceLawLabCanvas(model, sunEarthDist * 2.05, Color.blue, Color.red, Color.black,
     (ForceLawLabDefaults.sunEarthDist * 3).toLong, 10, getLocalizedString("units.light-minutes"), dist => {
       new DecimalFormat("0.0").format(metersToLightMinutes(dist.toDouble))
     }, 3.2E-22 * 10, new SunPlanetDecimalFormat())
-  val disclaimerNode = new ScaleDisclaimerNode(model, canvas.transform)
-  canvas.addComponentListener(new ComponentAdapter() {
-    override def componentResized(e: ComponentEvent) = updateDisclaimerLocation()
-  })
-  updateDisclaimerLocation()
-  def updateDisclaimerLocation() = disclaimerNode.setOffset(canvas.canonicalBounds.width / 2 - disclaimerNode.getFullBounds.getWidth / 2, canvas.canonicalBounds.height - disclaimerNode.getFullBounds.getHeight * 3)
-  canvas.addNode(disclaimerNode)
   setSimulationPanel(canvas)
   clock.addClockListener(model.update(_))
   setClockControlPanel(null)
 }
 
 class Circle(center: Vector2D, radius: Double) extends Ellipse2D.Double(center.x - radius, center.y - radius, radius * 2, radius * 2)
-class ScaleDisclaimerNode(model: ForceLawLabModel, transform: ModelViewTransform2D) extends PNode {
-  val text = new PText(ForceLawLabResources.getLocalizedString("scale.disclaimer.start")+" ")
-  text.setFont(new PhetFont(16, true))
-  text.setTextPaint(Color.lightGray)
-  import ForceLawLabDefaults._
-  val earthIcon = new PhetPPath(new Circle(new Vector2D, transform.modelToViewDifferentialXDouble(earthRadius)), Color.blue)
-  val sunIcon = new PhetPPath(new Circle(new Vector2D, transform.modelToViewDifferentialXDouble(sunRadius)), Color.red)
-
-  val text2 = new PText(ForceLawLabResources.getLocalizedString("scale.disclaimer.end")+ " ")
-  text2.setFont(new PhetFont(16, true))
-  text2.setTextPaint(Color.lightGray)
-
-  val node = new SwingLayoutNode
-  node.addChild(text)
-  node.addChild(sunIcon)
-  node.addChild(text2)
-  node.addChild(earthIcon)
-
-  addChild(node)
-}
 
 class ForceLawLabApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
   addModule(new ForceLawsModule(new ScalaClock(30, 30 / 1000.0)))
