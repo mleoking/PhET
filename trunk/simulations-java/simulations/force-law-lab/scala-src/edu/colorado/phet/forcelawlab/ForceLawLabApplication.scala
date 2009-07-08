@@ -72,7 +72,7 @@ class MassNode(mass: Mass, transform: ModelViewTransform2D, color: Color) extend
   addChild(image)
   addChild(label)
 }
-class DraggableMassNode(mass: Mass, transform: ModelViewTransform2D, color: Color) extends MassNode(mass, transform, color) {
+class DraggableMassNode(mass: Mass, transform: ModelViewTransform2D, color: Color,minDragX:Double,maxDragX:()=>Double) extends MassNode(mass, transform, color) {
   var dragging = false
   var initialDrag = false //don't show a pushpin on startup
   val pushPinNode = new PImage(ForceLawLabResources.getImage("push-pin.png"))
@@ -87,6 +87,10 @@ class DraggableMassNode(mass: Mass, transform: ModelViewTransform2D, color: Colo
     override def mouseDragged(event: PInputEvent) = {
       implicit def pdimensionToPoint2D(dim: PDimension) = new Point2D.Double(dim.width, dim.height)
       mass.position = mass.position + new Vector2D(transform.viewToModelDifferential(event.getDeltaRelativeTo(DraggableMassNode.this.getParent)).x, 0)
+      if (mass.position.x<minDragX)
+        mass.position=new Vector2D(minDragX,0)
+      if (mass.position.x>maxDragX())
+        mass.position=new Vector2D(maxDragX(),0)
     }
 
     override def mousePressed(event: PInputEvent) = {
@@ -130,7 +134,7 @@ class ForceLawLabCanvas(model: ForceLawLabModel, modelWidth: Double, mass1Color:
   def opposite(c: Color) = new Color(255 - c.getRed, 255 - c.getGreen, 255 - c.getBlue)
   addNode(new MassNode(model.m1, transform, mass1Color))
   addNode(new SpringNode(model, transform, opposite(backgroundColor)))
-  addNode(new DraggableMassNode(model.m2, transform, mass2Color))
+  addNode(new DraggableMassNode(model.m2, transform, mass2Color,model.wall.maxX,()=>transform.viewToModelX(getVisibleModelBounds.getMaxX)))
   addNode(new ForceLabelNode(model.m1, model.m2, transform, model, opposite(backgroundColor), forceLabelScale, forceArrowNumberFormat, 100, true, model.wall))
   addNode(new ForceLabelNode(model.m2, model.m1, transform, model, opposite(backgroundColor), forceLabelScale, forceArrowNumberFormat, 200, false, model.wall))
   rulerNode.addInputEventListener(new PBasicInputEventHandler {
