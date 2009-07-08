@@ -4,11 +4,11 @@
 
 TODO:
 - sim description
-- Trish: indicate what dot colors relate to in Comparing module
-- Trish: BH+ color is too light, symbols hard to see in ratio check box label
-- Trish: charges (+,-) go outside canvas bounds in reaction equations dialog 
-- make symbol legend descriptions automatically wrap, so we don't need breaks in HTML markup
 - Spanish translation, to test i18n
+- BH+ color is too light, symbols hard to see in equations and checkbox
+- legend for dot colors (pending interviews)
+- when equations are scaled, some symbols expand beyond the bounds of the window (pending interviews)
+- make symbol legend descriptions automatically wrap, so we don't need breaks in HTML markup
 
 DONE:
 7/8/09 add Jack to credits
