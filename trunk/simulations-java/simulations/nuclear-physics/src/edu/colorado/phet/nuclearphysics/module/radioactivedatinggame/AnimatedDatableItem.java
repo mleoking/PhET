@@ -24,13 +24,15 @@ public abstract class AnimatedDatableItem extends DatableItem implements Cleanup
     // Instance Data
     //------------------------------------------------------------------------
 	
-    protected ConstantDtClock _clock;
-    private double ageAdjustmentFactor;
-    protected ClockAdapter _clockAdapter;
-    private double age = 0; // Age in milliseconds of this datable item.
-    protected ModelAnimationInterpreter animationIterpreter;
+    private ConstantDtClock _clock;
+    private double _ageAdjustmentFactor;
+    private ClockAdapter _clockAdapter;
+    private double _age = 0; // Age in milliseconds of this datable item.
+    private double _ageOffset = 0;
+    private ModelAnimationInterpreter _animationIterpreter;
     private ArrayList<ClosureListener> _closureListeners = new ArrayList<ClosureListener>();
-    private RadiometricClosureState closureState = RadiometricClosureState.CLOSURE_NOT_POSSIBLE; 
+    private RadiometricClosureState _closureState = RadiometricClosureState.CLOSURE_NOT_POSSIBLE;
+    private double _closureAge = 0;
 
     //------------------------------------------------------------------------
     // Constructor(s)
@@ -39,7 +41,7 @@ public abstract class AnimatedDatableItem extends DatableItem implements Cleanup
     public AnimatedDatableItem( String name, List<String> resourceImageNames, Point2D center, double width, double rotationAngle, double age, ConstantDtClock clock,double ageAdjustmentFactor ) {
         super( name, resourceImageNames, center, width, rotationAngle, age );
         _clock = clock;
-        this.ageAdjustmentFactor = ageAdjustmentFactor;
+        this._ageAdjustmentFactor = ageAdjustmentFactor;
         // Create the adapter that will listen to the clock.
 		_clockAdapter = new ClockAdapter(){
 		    public void clockTicked( ClockEvent clockEvent ) {
@@ -57,11 +59,11 @@ public abstract class AnimatedDatableItem extends DatableItem implements Cleanup
         //------------------------------------------------------------------------
 
 		// Create the animation interpreter that will execute the animation.
-		animationIterpreter = new ModelAnimationInterpreter(this, getAnimationSequence() );
+		_animationIterpreter = new ModelAnimationInterpreter(this, getAnimationSequence() );
 		
 		// Register with the animation interpreter for any animation events
 		// that occur during the interpretation of the sequence.
-		animationIterpreter.addListener(new ModelAnimationInterpreter.Listener(){
+		_animationIterpreter.addListener(new ModelAnimationInterpreter.Listener(){
 			public void animationNotificationEventOccurred(EventObject event) {
 				handleAnimationEvent(event);
 			}
@@ -74,21 +76,45 @@ public abstract class AnimatedDatableItem extends DatableItem implements Cleanup
     
     protected abstract AnimationSequence getAnimationSequence();
 
+    /**
+     * Handle an animation event that results from the interpretation of the
+     * animation sequence.  These events are generally used to synchronize the
+     * animation sequence with other aspects of the model behavior.
+     * 
+     * @param event
+     */
     protected void handleAnimationEvent(EventObject event){
     	if (event instanceof RadiometricClosureEvent){
     		setClosureState(((RadiometricClosureEvent) event).getClosureState()); 
     	}
     }
     
+    /**
+     * Force radiometric closure to occur.
+     */
+    public void forceClosure(){
+    	if (_closureAge > _age){
+    		_ageOffset = _closureAge - _age;
+    	}
+    	else{
+    		System.err.println(getClass().getName() + 
+    				" - Warning: Attempt to force closure after it should have already occurred.");
+    	}
+    }
+    
     public RadiometricClosureState getClosureState(){
-    	return closureState;
+    	return _closureState;
+    }
+    
+    protected void setClosureAge(double closureAge){
+    	this._closureAge = closureAge;
     }
     
     private void setClosureState(RadiometricClosureState newClosureState){
-    	if (closureState != newClosureState){
+    	if (_closureState != newClosureState){
     		// NOTE: There is currently no validity checking done here.  It
     		// may be necessary to do so at some point.
-    		closureState = newClosureState;
+    		_closureState = newClosureState;
     		notifyClosureStateChanged();
     	}
     }
@@ -114,8 +140,8 @@ public abstract class AnimatedDatableItem extends DatableItem implements Cleanup
 	}
 
     protected void handleClockTicked(){
-        age = _clock.getSimulationTime() * ageAdjustmentFactor;
-        animationIterpreter.setTime(age);
+        _age = _clock.getSimulationTime() * _ageAdjustmentFactor + _ageOffset;
+        _animationIterpreter.setTime(_age);
     }
 
     public void cleanup() {
@@ -123,12 +149,12 @@ public abstract class AnimatedDatableItem extends DatableItem implements Cleanup
 	}
 
     protected void handleSimulationTimeReset(){
-        age = 0;
+        _age = 0;
     }
 
     @Override
 	public double getAge() {
-        return age;
+        return _age;
     }
 
     public static class TimeUpdater {
