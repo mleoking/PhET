@@ -1,4 +1,4 @@
-package edu.colorado.phet.cavendishexperiment
+package edu.colorado.phet.forcelawlab
 
 import common.phetcommon.view.controls.valuecontrol.LinearValueControl
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
