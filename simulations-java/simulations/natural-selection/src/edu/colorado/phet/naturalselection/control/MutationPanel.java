@@ -200,4 +200,5 @@ public class MutationPanel extends JPanel {
         tailMutationIndicator.setVisible( false );
         teethMutationIndicator.setVisible( false );
     }
+
 }

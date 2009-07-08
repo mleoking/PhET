@@ -10,6 +10,7 @@ import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
 import edu.colorado.phet.naturalselection.model.Gene;
 import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
+import edu.colorado.phet.naturalselection.persistence.NaturalSelectionConfig;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -125,5 +126,9 @@ public class NaturalSelectionCanvas extends PhetPCanvas {
             return;
         }
         mutationPendingNode.setOffset( ( getWidth() - mutationPendingNode.getPlacementWidth() ) / 2, getHeight() - mutationPendingNode.getPlacementHeight() - 10 );
+    }
+
+    public void load( NaturalSelectionConfig config ) {
+        addFriendNode.setVisible( !config.isFriendAdded() );
     }
 }

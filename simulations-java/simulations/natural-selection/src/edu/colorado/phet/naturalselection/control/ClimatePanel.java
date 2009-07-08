@@ -10,6 +10,7 @@ import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
 import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
 import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
+import edu.colorado.phet.naturalselection.persistence.NaturalSelectionConfig;
 import edu.colorado.phet.naturalselection.util.ImagePanel;
 
 /**
@@ -87,6 +88,10 @@ public class ClimatePanel extends JPanel {
 
     public void selectDefaultClimate() {
         int climate = NaturalSelectionDefaults.DEFAULT_CLIMATE;
+        setClimate( climate );
+    }
+
+    private void setClimate( int climate ) {
         if ( climate == NaturalSelectionModel.CLIMATE_EQUATOR ) {
             equatorButton.setSelected( true );
         }
@@ -97,5 +102,9 @@ public class ClimatePanel extends JPanel {
 
     public void reset() {
         selectDefaultClimate();
+    }
+
+    public void load( NaturalSelectionConfig config ) {
+        setClimate( config.getClimate() );
     }
 }

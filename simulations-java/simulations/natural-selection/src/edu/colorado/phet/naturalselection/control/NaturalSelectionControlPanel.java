@@ -12,6 +12,7 @@ import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
 import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
 import edu.colorado.phet.naturalselection.module.NaturalSelectionModule;
+import edu.colorado.phet.naturalselection.persistence.NaturalSelectionConfig;
 
 /**
  * Main control panel for Natural Selection
@@ -163,4 +164,13 @@ public class NaturalSelectionControlPanel extends JPanel {
         frame.setVisible( true );
     }
 
+    public void load( NaturalSelectionConfig config ) {
+        leftPanel.load( config );
+        climatePanel.load( config );
+        selectionPanel.load( config );
+    }
+
+    public void save( NaturalSelectionConfig config ) {
+        leftPanel.save( config );
+    }
 }

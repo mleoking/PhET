@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
 import edu.colorado.phet.naturalselection.model.*;
+import edu.colorado.phet.naturalselection.persistence.NaturalSelectionConfig;
 import edu.colorado.phet.naturalselection.util.ImagePanel;
 
 // TODO: cleanup if possible
@@ -60,6 +61,9 @@ public class GenePanel extends JPanel {
     private JRadioButton teethSD;
     private JRadioButton teethSR;
 
+    private boolean colorEnabled;
+    private boolean teethEnabled;
+    private boolean tailEnabled;
 
     public GenePanel( NaturalSelectionModel model, MutationPanel mutationPanel ) {
 
@@ -390,6 +394,7 @@ public class GenePanel extends JPanel {
     }
 
     public void setColorEnabled( boolean enabled ) {
+        colorEnabled = enabled;
         colorLabel.setEnabled( enabled );
         colorWhite.setEnabled( enabled );
         colorBrown.setEnabled( enabled );
@@ -400,6 +405,7 @@ public class GenePanel extends JPanel {
     }
 
     public void setTailEnabled( boolean enabled ) {
+        tailEnabled = enabled;
         tailLabel.setEnabled( enabled );
         tailRegular.setEnabled( enabled );
         tailBig.setEnabled( enabled );
@@ -410,6 +416,7 @@ public class GenePanel extends JPanel {
     }
 
     public void setTeethEnabled( boolean enabled ) {
+        teethEnabled = enabled;
         teethLabel.setEnabled( enabled );
         teethRegular.setEnabled( enabled );
         teethLong.setEnabled( enabled );
@@ -444,4 +451,39 @@ public class GenePanel extends JPanel {
         setTeethEnabled( false );
     }
 
+    public void load( NaturalSelectionConfig config ) {
+        setColorEnabled( config.isColorMutated() );
+        setTeethEnabled( config.isTeethMutated() );
+        setTailEnabled( config.isTailMutated() );
+        if ( config.isColorRegularDominant() ) {
+            colorPD.setSelected( true );
+            colorSR.setSelected( true );
+        }
+        else {
+            colorPR.setSelected( true );
+            colorSD.setSelected( true );
+        }
+        if ( config.isTeethRegularDominant() ) {
+            teethPD.setSelected( true );
+            teethSR.setSelected( true );
+        }
+        else {
+            teethPR.setSelected( true );
+            teethSD.setSelected( true );
+        }
+        if ( config.isTailRegularDominant() ) {
+            tailPD.setSelected( true );
+            tailSR.setSelected( true );
+        }
+        else {
+            tailPR.setSelected( true );
+            tailSD.setSelected( true );
+        }
+    }
+
+    public void save( NaturalSelectionConfig config ) {
+        config.setColorMutated( colorEnabled );
+        config.setTeethMutated( teethEnabled );
+        config.setTailMutated( tailEnabled );
+    }
 }

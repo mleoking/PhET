@@ -14,8 +14,10 @@ import edu.colorado.phet.naturalselection.control.NaturalSelectionControlPanel;
 import edu.colorado.phet.naturalselection.dialog.BunniesTakeOverDialog;
 import edu.colorado.phet.naturalselection.dialog.GameOverDialog;
 import edu.colorado.phet.naturalselection.dialog.GenerationChartDialog;
+import edu.colorado.phet.naturalselection.model.Bunny;
 import edu.colorado.phet.naturalselection.model.NaturalSelectionClock;
 import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
+import edu.colorado.phet.naturalselection.persistence.NaturalSelectionConfig;
 import edu.colorado.phet.naturalselection.view.NaturalSelectionCanvas;
 
 /**
@@ -61,6 +63,7 @@ public class NaturalSelectionModule extends PiccoloModule {
      * Reset the entire module
      */
     public void reset() {
+        Bunny.bunnyCount = 0;
         controlPanel.reset();
         canvas.reset();
         model.reset();
@@ -68,6 +71,18 @@ public class NaturalSelectionModule extends PiccoloModule {
             generationChartDialog.generationChartPanel.reset();
         }
         gameOverDialog = null;
+    }
+
+    public void save( NaturalSelectionConfig config ) {
+        model.save( config );
+        controlPanel.save( config );
+    }
+
+    public void load( NaturalSelectionConfig config ) {
+        reset();
+        model.load( config );
+        controlPanel.load( config );
+        canvas.load( config );
     }
 
     /**

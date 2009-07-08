@@ -4,29 +4,47 @@ package edu.colorado.phet.naturalselection.persistence;
 
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 
-/**
- * TemplateConfig describes a configuration of this simulation.
- * It encapsulates all of the settings that the user can change.
- *
- * @author Chris Malley (cmalley@pixelzoom.com)
- */
 public class NaturalSelectionConfig implements IProguardKeepClass {
-
-    // TODO: persistence?
 
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
     // Global config
-    private String _versionString;
-    private String _versionMajor;
-    private String _versionMinor;
-    private String _versionDev;
-    private String _versionRevision;
+    private String versionString;
+    private String versionMajor;
+    private String versionMinor;
+    private String versionDev;
+    private String versionRevision;
 
-    // Modules
-    private ExampleConfig _exampleConfig;
+
+    // model config
+    private double clockDt;
+    private boolean clockPaused;
+    private double clockTime;
+    private int climate;
+    private int selectionFactor;
+    private double time;
+    private double lastYearTick;
+    private double lastEventTick;
+    private int generation;
+    private boolean gameEnded;
+    private int lastFrenziedGeneration;
+    private boolean friendAdded;
+
+    private int rootFatherId;
+    private int rootMotherId;
+
+    private boolean colorRegularDominant;
+    private boolean teethRegularDominant;
+    private boolean tailRegularDominant;
+
+    private boolean colorMutated;
+    private boolean teethMutated;
+    private boolean tailMutated;
+
+
+    private BunnyConfig[] bunnies;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -36,7 +54,7 @@ public class NaturalSelectionConfig implements IProguardKeepClass {
      * Zero-argument constructor for Java Bean compliance, required by XMLEncoder.
      */
     public NaturalSelectionConfig() {
-        _exampleConfig = new ExampleConfig();
+
     }
 
     //----------------------------------------------------------------------------
@@ -44,54 +62,210 @@ public class NaturalSelectionConfig implements IProguardKeepClass {
     //----------------------------------------------------------------------------
 
     public String getVersionString() {
-        return _versionString;
+        return versionString;
     }
 
     public void setVersionString( String versionString ) {
-        _versionString = versionString;
+        this.versionString = versionString;
     }
 
     public String getVersionMajor() {
-        return _versionMajor;
+        return versionMajor;
     }
 
     public void setVersionMajor( String versionMajor ) {
-        _versionMajor = versionMajor;
+        this.versionMajor = versionMajor;
     }
 
     public String getVersionMinor() {
-        return _versionMinor;
+        return versionMinor;
     }
 
     public void setVersionMinor( String versionMinor ) {
-        _versionMinor = versionMinor;
+        this.versionMinor = versionMinor;
     }
 
     public String getVersionDev() {
-        return _versionDev;
+        return versionDev;
     }
 
     public void setVersionDev( String versionDev ) {
-        _versionDev = versionDev;
+        this.versionDev = versionDev;
     }
 
     public String getVersionRevision() {
-        return _versionRevision;
+        return versionRevision;
     }
 
     public void setVersionRevision( String versionRevision ) {
-        _versionRevision = versionRevision;
+        this.versionRevision = versionRevision;
     }
 
-    //----------------------------------------------------------------------------
-    // Accessors for module configurations
-    //----------------------------------------------------------------------------
-
-    public void setExampleConfig( ExampleConfig exampleConfig ) {
-        _exampleConfig = exampleConfig;
+    public BunnyConfig[] getBunnies() {
+        return bunnies;
     }
 
-    public ExampleConfig getExampleConfig() {
-        return _exampleConfig;
+    public void setBunnies( BunnyConfig[] bunnies ) {
+        this.bunnies = bunnies;
+    }
+
+    public double getClockDt() {
+        return clockDt;
+    }
+
+    public void setClockDt( double clockDt ) {
+        this.clockDt = clockDt;
+    }
+
+    public boolean isClockPaused() {
+        return clockPaused;
+    }
+
+    public void setClockPaused( boolean clockPaused ) {
+        this.clockPaused = clockPaused;
+    }
+
+    public double getClockTime() {
+        return clockTime;
+    }
+
+    public void setClockTime( double clockTime ) {
+        this.clockTime = clockTime;
+    }
+
+    public int getClimate() {
+        return climate;
+    }
+
+    public void setClimate( int climate ) {
+        this.climate = climate;
+    }
+
+    public int getSelectionFactor() {
+        return selectionFactor;
+    }
+
+    public void setSelectionFactor( int selectionFactor ) {
+        this.selectionFactor = selectionFactor;
+    }
+
+    public double getTime() {
+        return time;
+    }
+
+    public void setTime( double time ) {
+        this.time = time;
+    }
+
+    public double getLastYearTick() {
+        return lastYearTick;
+    }
+
+    public void setLastYearTick( double lastYearTick ) {
+        this.lastYearTick = lastYearTick;
+    }
+
+    public double getLastEventTick() {
+        return lastEventTick;
+    }
+
+    public void setLastEventTick( double lastEventTick ) {
+        this.lastEventTick = lastEventTick;
+    }
+
+    public int getGeneration() {
+        return generation;
+    }
+
+    public void setGeneration( int generation ) {
+        this.generation = generation;
+    }
+
+    public boolean isGameEnded() {
+        return gameEnded;
+    }
+
+    public void setGameEnded( boolean gameEnded ) {
+        this.gameEnded = gameEnded;
+    }
+
+    public int getLastFrenziedGeneration() {
+        return lastFrenziedGeneration;
+    }
+
+    public void setLastFrenziedGeneration( int lastFrenziedGeneration ) {
+        this.lastFrenziedGeneration = lastFrenziedGeneration;
+    }
+
+    public boolean isFriendAdded() {
+        return friendAdded;
+    }
+
+    public void setFriendAdded( boolean friendAdded ) {
+        this.friendAdded = friendAdded;
+    }
+
+    public int getRootFatherId() {
+        return rootFatherId;
+    }
+
+    public void setRootFatherId( int rootFatherId ) {
+        this.rootFatherId = rootFatherId;
+    }
+
+    public int getRootMotherId() {
+        return rootMotherId;
+    }
+
+    public void setRootMotherId( int rootMotherId ) {
+        this.rootMotherId = rootMotherId;
+    }
+
+    public boolean isColorRegularDominant() {
+        return colorRegularDominant;
+    }
+
+    public void setColorRegularDominant( boolean colorRegularDominant ) {
+        this.colorRegularDominant = colorRegularDominant;
+    }
+
+    public boolean isTeethRegularDominant() {
+        return teethRegularDominant;
+    }
+
+    public void setTeethRegularDominant( boolean teethRegularDominant ) {
+        this.teethRegularDominant = teethRegularDominant;
+    }
+
+    public boolean isTailRegularDominant() {
+        return tailRegularDominant;
+    }
+
+    public void setTailRegularDominant( boolean tailRegularDominant ) {
+        this.tailRegularDominant = tailRegularDominant;
+    }
+
+    public boolean isColorMutated() {
+        return colorMutated;
+    }
+
+    public void setColorMutated( boolean colorMutated ) {
+        this.colorMutated = colorMutated;
+    }
+
+    public boolean isTeethMutated() {
+        return teethMutated;
+    }
+
+    public void setTeethMutated( boolean teethMutated ) {
+        this.teethMutated = teethMutated;
+    }
+
+    public boolean isTailMutated() {
+        return tailMutated;
+    }
+
+    public void setTailMutated( boolean tailMutated ) {
+        this.tailMutated = tailMutated;
     }
 }

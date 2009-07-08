@@ -20,7 +20,6 @@ import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.naturalselection.developer.DeveloperMenu;
 import edu.colorado.phet.naturalselection.menu.OptionsMenu;
 import edu.colorado.phet.naturalselection.module.NaturalSelectionModule;
-import edu.colorado.phet.naturalselection.persistence.ExampleConfig;
 import edu.colorado.phet.naturalselection.persistence.NaturalSelectionConfig;
 
 public class NaturalSelectionApplication extends PiccoloPhetApplication {
@@ -30,7 +29,7 @@ public class NaturalSelectionApplication extends PiccoloPhetApplication {
     //----------------------------------------------------------------------------
 
     // PersistanceManager is used to save/load simulation configurations.
-    private XMLPersistenceManager _persistenceManager;
+    private XMLPersistenceManager persistenceManager;
 
     private static TabbedModulePanePiccolo _tabbedModulePane;
 
@@ -90,8 +89,8 @@ public class NaturalSelectionApplication extends PiccoloPhetApplication {
 
         final PhetFrame frame = getPhetFrame();
 
-        if ( _persistenceManager == null ) {
-            _persistenceManager = new XMLPersistenceManager( frame );
+        if ( persistenceManager == null ) {
+            persistenceManager = new XMLPersistenceManager( frame );
         }
 
         // File menu
@@ -169,10 +168,10 @@ public class NaturalSelectionApplication extends PiccoloPhetApplication {
         appConfig.setVersionDev( getSimInfo().getVersion().getDev() );
         appConfig.setVersionRevision( getSimInfo().getVersion().getRevision() );
 
-        //ExampleConfig exampleConfig = _exampleModule.save();
-        //appConfig.setExampleConfig( exampleConfig );
+        // TODO: refactor module out to variable
+        ( (NaturalSelectionModule) getModule( 0 ) ).save( appConfig );
 
-        _persistenceManager.save( appConfig );
+        persistenceManager.save( appConfig );
     }
 
     /*
@@ -180,14 +179,13 @@ public class NaturalSelectionApplication extends PiccoloPhetApplication {
      */
     private void load() {
 
-        Object object = _persistenceManager.load();
+        Object object = persistenceManager.load();
         if ( object != null ) {
 
             if ( object instanceof NaturalSelectionConfig ) {
                 NaturalSelectionConfig appConfig = (NaturalSelectionConfig) object;
 
-                ExampleConfig exampleConfig = appConfig.getExampleConfig();
-                //_exampleModule.load( exampleConfig );
+                ( (NaturalSelectionModule) getModule( 0 ) ).load( appConfig );
             }
             else {
                 String message = NaturalSelectionResources.getString( "message.notAConfigFile" );

@@ -10,6 +10,7 @@ import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionResources;
 import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
 import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
+import edu.colorado.phet.naturalselection.persistence.NaturalSelectionConfig;
 
 public class LeftPanel extends JPanel {
     private MutationPanel mutationPanel;
@@ -48,5 +49,13 @@ public class LeftPanel extends JPanel {
     public void reset() {
         mutationPanel.reset();
         genePanel.reset();
+    }
+
+    public void load( NaturalSelectionConfig config ) {
+        genePanel.load( config );
+    }
+
+    public void save( NaturalSelectionConfig config ) {
+        genePanel.save( config );
     }
 }
