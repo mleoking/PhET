@@ -1,0 +1,51 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: July 2-8, 2009 (Thu-Wed)
+
+ACCOMPLISHMENTS:
+
+  acid-base-solutions:
+  - discussed many issues and change requests
+  - deferred some issues pending interviews
+  - implemented change requests, as documented in versions 0.01.21, 0.01.22, 0.01.23
+  - summarized remaining issues
+  
+  reactions-and-rates:
+  - #605, broke this ticket into 4 tickets, discussed and clarified with Trish
+  - #698, slider issue fixed by Mac Java update
+  - #1713, noted problems with Reset All feature
+  - #1709, fixed multiple problems with Launcher drag behavior
+  - #1715, changed "Reload Shooter" to "Reload Launcher"
+  - #1710, discussed problems with "Initial temperature" control with Trish, reproduced, working on fix
+  - #1716, fixed text fields to display 3 digits, disable when not editable
+  - #1720, documented problems with text fields in "Rate Experiments" tab, Wendy deferred
+  - published 1.03.01, 1.03.02, 1.03.03
+  
+  titration:
+  - design team meeting
+  - reviewed design doc revisions
+  
+  misc:
+  - status meeting
+  - dev meeting (Scala, MessageFormat, deploy process)
+  - evaluated Scala Eclipse Plugin
+  - discussed collaboration with Sam and Wendy
+  
+WHAT'S NEXT:
+ 
+  - wrap up acid-base-solutions
+  - fix rates-and-reactions issues
+  - Translation Utility enhancements related to KSU
+  - start on titration sim
+  
+ISSUES:
+
+  - none
+  
+DATES UNAVAILABLE:
+
+   July 10
+   July 25 - August 9
+  
+--
