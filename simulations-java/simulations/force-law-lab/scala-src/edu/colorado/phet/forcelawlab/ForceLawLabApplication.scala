@@ -4,9 +4,9 @@ package edu.colorado.phet.forcelawlab
 import collection.mutable.ArrayBuffer
 import common.phetcommon.application.{PhetApplicationConfig, PhetApplicationLauncher, Module}
 import common.phetcommon.math.MathUtil
+import common.phetcommon.view.{VerticalLayoutPanel, ControlPanel}
 import common.piccolophet.nodes.layout.SwingLayoutNode
 import common.piccolophet.PiccoloPhetApplication
-import common.phetcommon.view.ControlPanel
 import common.phetcommon.view.util.{DoubleGeneralPath, PhetFont}
 import common.piccolophet.nodes.{PhetPPath, RulerNode, ArrowNode, SphericalNode}
 import common.phetcommon.view.graphics.RoundGradientPaint
@@ -16,6 +16,7 @@ import java.awt._
 import event.{MouseAdapter, MouseEvent}
 
 import java.text._
+import javax.swing.BorderFactory
 import scalacommon.swing.MyRadioButton
 import umd.cs.piccolo.nodes.{PImage, PText}
 import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
@@ -54,7 +55,7 @@ class ForceLabelNode(target: Mass, source: Mass, transform: ModelViewTransform2D
   addChild(arrowNode)
   addChild(label)
 }
-class MassNode(mass: Mass, transform: ModelViewTransform2D, color: Color) extends PNode {
+class MassNode(mass: Mass, transform: ModelViewTransform2D, color: Color,magnification:Magnification) extends PNode {
   val image = new SphericalNode(mass.radius * 2, color, false)
 
   val label = new PText(mass.name)
@@ -68,6 +69,8 @@ class MassNode(mass: Mass, transform: ModelViewTransform2D, color: Color) extend
     image.setPaint(new RoundGradientPaint(viewRadius, -viewRadius, Color.WHITE,
       new Point2D.Double(-viewRadius, viewRadius), color))
     label.setOffset(transform.modelToView(mass.position) - new Vector2D(label.getFullBounds.getWidth / 2, label.getFullBounds.getHeight / 2))
+    if (image.getFullBounds.getHeight<label.getFullBounds.getHeight)
+    label.translate(0,-label.getFullBounds.getHeight*1.2)            //gets notification from mass
 
     //    println("updated mass node, radius=" + mass.radius + ", viewRadius=" + viewRadius + ", globalfullbounds=" + image.getGlobalFullBounds)
   }
@@ -75,7 +78,7 @@ class MassNode(mass: Mass, transform: ModelViewTransform2D, color: Color) extend
   addChild(image)
   addChild(label)
 }
-class DraggableMassNode(mass: Mass, transform: ModelViewTransform2D, color: Color, minDragX: Double, maxDragX: () => Double) extends MassNode(mass, transform, color) {
+class DraggableMassNode(mass: Mass, transform: ModelViewTransform2D, color: Color, minDragX: Double, maxDragX: () => Double,magnification:Magnification) extends MassNode(mass, transform, color,magnification) {
   var dragging = false
   var initialDrag = false //don't show a pushpin on startup
   val pushPinNode = new PImage(ForceLawLabResources.getImage("push-pin.png"))
@@ -115,7 +118,7 @@ class DraggableMassNode(mass: Mass, transform: ModelViewTransform2D, color: Colo
 
 class ForceLawLabCanvas(model: ForceLawLabModel, modelWidth: Double, mass1Color: Color, mass2Color: Color, backgroundColor: Color,
                         rulerLength: Long, numTicks: Long, rulerLabel: String, tickToString: Long => String,
-                        forceLabelScale: Double, forceArrowNumberFormat: NumberFormat) extends DefaultCanvas(modelWidth, modelWidth) {
+                        forceLabelScale: Double, forceArrowNumberFormat: NumberFormat, magnification: Magnification) extends DefaultCanvas(modelWidth, modelWidth) {
   setBackground(backgroundColor)
 
   val tickIncrement = rulerLength / numTicks
@@ -134,10 +137,14 @@ class ForceLawLabCanvas(model: ForceLawLabModel, modelWidth: Double, mass1Color:
   }
   rulerNode.setOffset(150, 500)
 
+  def updateRulerVisible()=rulerNode.setVisible(!magnification.magnified)
+  magnification.addListenerByName(updateRulerVisible())
+  updateRulerVisible()
+
   def opposite(c: Color) = new Color(255 - c.getRed, 255 - c.getGreen, 255 - c.getBlue)
-  addNode(new MassNode(model.m1, transform, mass1Color))
+  addNode(new MassNode(model.m1, transform, mass1Color,magnification))
   addNode(new SpringNode(model, transform, opposite(backgroundColor)))
-  addNode(new DraggableMassNode(model.m2, transform, mass2Color, model.wall.maxX, () => transform.viewToModelX(getVisibleModelBounds.getMaxX)))
+  addNode(new DraggableMassNode(model.m2, transform, mass2Color, model.wall.maxX, () => transform.viewToModelX(getVisibleModelBounds.getMaxX),magnification))
   addNode(new ForceLabelNode(model.m1, model.m2, transform, model, opposite(backgroundColor), forceLabelScale, forceArrowNumberFormat, 100, true, model.wall))
   addNode(new ForceLabelNode(model.m2, model.m1, transform, model, opposite(backgroundColor), forceLabelScale, forceArrowNumberFormat, 200, false, model.wall))
   rulerNode.addInputEventListener(new PBasicInputEventHandler {
@@ -189,7 +196,7 @@ class ForceLawLabControlPanel(model: ForceLawLabModel) extends ControlPanel {
   add(new ScalaValueControl(0.01, 100, model.m2.name, "0.00", ForceLawLabResources.getLocalizedString("units.kg"), model.m2.mass, model.m2.mass = _, model.m2.addListener))
 }
 
-class SunPlanetControlPanel(model: ForceLawLabModel) extends ControlPanel {
+class SunPlanetControlPanel(model: ForceLawLabModel, m: Magnification) extends ControlPanel {
   import ForceLawLabDefaults._
   import ForceLawLabResources._
   add(new ScalaValueControl(kgToEarthMasses(model.m1.mass / 10), kgToEarthMasses(model.m1.mass * 5), model.m1.name + " mass", "0.00", "earth masses",
@@ -213,7 +220,7 @@ class SunPlanetControlPanel(model: ForceLawLabModel) extends ControlPanel {
     model.m2.addListener(listener) //since sun location can change
   }
   case class Planet(name: String, mass: Double, dist: Double)
-  val planets = new Planet("Earth", earthMass, sunEarthDist)::Nil
+  val planets = new Planet("Earth", earthMass, sunEarthDist) :: Nil
 
   def setPlanet(p: Planet) = {
     model.m1.mass = p.mass
@@ -231,9 +238,25 @@ class SunPlanetControlPanel(model: ForceLawLabModel) extends ControlPanel {
 
   val none = new MyRadioButton("Custom", () => {}, !planets.foldLeft(false) {(a, b) => {a || isPlanet(b)}}, addPlanetListener)
   add(none)
+
+  add(new ScaleControl(m))
 }
 
-class Mass(private var _mass: Double, private var _position: Vector2D, val name: String, massToRadius: Double => Double) extends Observable {
+class Magnification(private var _magnified: Boolean) extends Observable {
+  def magnified_=(b: Boolean) = {
+    _magnified = b
+    notifyListeners()
+  }
+
+  def magnified = _magnified
+}
+class ScaleControl(m: Magnification) extends VerticalLayoutPanel {
+  setBorder(BorderFactory.createTitledBorder("Scale"))
+  add(new MyRadioButton("Magnified", m.magnified = true, m.magnified, m.addListener))
+  add(new MyRadioButton("Actual Size", m.magnified = false, !m.magnified, m.addListener))
+}
+
+class Mass(private var _mass: Double, private var _position: Vector2D, val name: String, private var _massToRadius: Double => Double) extends Observable {
   def mass = _mass
 
   def mass_=(m: Double) = {_mass = m; notifyListeners()}
@@ -242,7 +265,12 @@ class Mass(private var _mass: Double, private var _position: Vector2D, val name:
 
   def position_=(p: Vector2D) = {_position = p; notifyListeners()}
 
-  def radius = massToRadius(_mass)
+  def radius = _massToRadius(_mass)
+
+  def setMassToRadiusFunction(massToRadius: Double => Double) = {
+    _massToRadius = massToRadius
+    notifyListeners()
+  }
 }
 
 class Spring(val k: Double, val restingLength: Double)
@@ -317,7 +345,7 @@ class SunPlanetDecimalFormat extends DecimalFormat("#,###,###,###,###,###,##0.0"
 class ForceLawsModule(clock: ScalaClock) extends Module(ForceLawLabResources.getLocalizedString("module.force-laws.name"), clock) {
   val model = new ForceLawLabModel(10, 25, 0, 1, mass => mass / 30, mass => mass / 30, 1E-8, 1, 50, 50, -4, ForceLawLabResources.getLocalizedString("mass-1"), ForceLawLabResources.getLocalizedString("mass-2"))
   val canvas = new ForceLawLabCanvas(model, 10, Color.blue, Color.blue, Color.white, 10, 10,
-    ForceLawLabResources.getLocalizedString("units.m"), _.toString, 1E10, new TinyDecimalFormat())
+    ForceLawLabResources.getLocalizedString("units.m"), _.toString, 1E10, new TinyDecimalFormat(), new Magnification(false))
   setSimulationPanel(canvas)
   clock.addClockListener(model.update(_))
   setControlPanel(new ForceLawLabControlPanel(model))
@@ -343,14 +371,21 @@ object ForceLawLabDefaults {
 }
 
 class SolarModule(clock: ScalaClock) extends Module(ForceLawLabResources.getLocalizedString("module.sun-planet-system.name"), clock) {
+  val magnification = new Magnification(true)
   import ForceLawLabDefaults._
   import ForceLawLabResources._
   val model = new ForceLawLabModel(earthMass, //earth mass in kg
     1.9891E30, // sun mass in kg
     -sunEarthDist / 2,
     sunEarthDist / 2,
-    mass => earthRadius * 1.6E3, //latter term is a fudge factor to make things visible on the same scale
-    mass => sunRadius * 5E1,
+    mass => {
+      val scale = if (magnification.magnified) 1.6E3 else 1.0 //latter term is a fudge factor to make things visible on the same scale
+      earthRadius * scale
+    },
+    mass => {
+      val scale = if (magnification.magnified) 5E1 else 1.0
+      sunRadius * scale
+    },
     //    1.5E14, sunEarthDist / 2, // this version puts the spring resting length so that default position is distEarthSun
     //    0.98E12, sunEarthDist / 4,  //this requires the sun to tug on the earth to put it in the right spot
     1.42E12, sunEarthDist / 3, //this one too
@@ -362,7 +397,12 @@ class SolarModule(clock: ScalaClock) extends Module(ForceLawLabResources.getLoca
   val canvas = new ForceLawLabCanvas(model, sunEarthDist * 2.05, Color.blue, Color.red, Color.black,
     (ForceLawLabDefaults.sunEarthDist * 3).toLong, 10, getLocalizedString("units.light-minutes"), dist => {
       new DecimalFormat("0.0").format(metersToLightMinutes(dist.toDouble))
-    }, 3.2E-22 * 10, new SunPlanetDecimalFormat())
+    }, 3.2E-22 * 10, new SunPlanetDecimalFormat(), magnification)
+
+  magnification.addListenerByName {
+    model.m1.notifyListeners()//chain events from magnification
+    model.m2.notifyListeners()
+  }
   val disclaimerNode = new ScaleDisclaimerNode(model, canvas.transform)
   canvas.addComponentListener(new java.awt.event.ComponentAdapter() {
     override def componentResized(e: java.awt.event.ComponentEvent) = updateDisclaimerLocation()
@@ -372,7 +412,7 @@ class SolarModule(clock: ScalaClock) extends Module(ForceLawLabResources.getLoca
   canvas.addNode(disclaimerNode)
   setSimulationPanel(canvas)
   clock.addClockListener(model.update(_))
-  setControlPanel(new SunPlanetControlPanel(model))
+  setControlPanel(new SunPlanetControlPanel(model, magnification))
   setClockControlPanel(null)
 }
 
