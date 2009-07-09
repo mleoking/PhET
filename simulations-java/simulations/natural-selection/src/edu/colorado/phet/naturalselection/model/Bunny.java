@@ -540,7 +540,7 @@ public class Bunny {
         return Landscape.FARPLANE;
     }
 
-    private void setPosition( Point3D position ) {
+    public void setPosition( Point3D position ) {
         this.position = position;
         notifyChangePosition();
     }
@@ -590,6 +590,64 @@ public class Bunny {
         }
 
 
+    }
+
+    // setters used by persistence
+
+    public void setColorGenotype( Genotype colorGenotype ) {
+        this.colorGenotype = colorGenotype;
+    }
+
+    public void setTeethGenotype( Genotype teethGenotype ) {
+        this.teethGenotype = teethGenotype;
+    }
+
+    public void setTailGenotype( Genotype tailGenotype ) {
+        this.tailGenotype = tailGenotype;
+    }
+
+    public void setMated( boolean mated ) {
+        this.mated = mated;
+    }
+
+    public void setMutated( boolean mutated ) {
+        this.mutated = mutated;
+    }
+
+    public void setAlive( boolean alive ) {
+        this.alive = alive;
+    }
+
+    public void setChildren( ArrayList<Bunny> children ) {
+        this.children = children;
+    }
+
+    public void setColorPhenotype( Allele colorPhenotype ) {
+        this.colorPhenotype = colorPhenotype;
+    }
+
+    public void setTeethPhenotype( Allele teethPhenotype ) {
+        this.teethPhenotype = teethPhenotype;
+    }
+
+    public void setTailPhenotype( Allele tailPhenotype ) {
+        this.tailPhenotype = tailPhenotype;
+    }
+
+    public void setSinceHopTime( int sinceHopTime ) {
+        this.sinceHopTime = sinceHopTime;
+    }
+
+    public void setMovingRight( boolean movingRight ) {
+        this.movingRight = movingRight;
+    }
+
+    public void setHunger( int hunger ) {
+        this.hunger = hunger;
+    }
+
+    public void setHopDirection( Point3D hopDirection ) {
+        this.hopDirection = hopDirection;
     }
 
     //----------------------------------------------------------------------------

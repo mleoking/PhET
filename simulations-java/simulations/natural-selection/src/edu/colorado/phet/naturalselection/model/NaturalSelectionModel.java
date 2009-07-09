@@ -4,6 +4,7 @@ package edu.colorado.phet.naturalselection.model;
 
 import java.util.*;
 
+import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
@@ -269,7 +270,7 @@ public class NaturalSelectionModel extends ClockAdapter {
     }
 
     public void addBunnyConfig( BunnyConfig config, NaturalSelectionConfig mainConfig ) {
-        /*
+
         if ( config.getId() == mainConfig.getRootFatherId() ) {
             // don't add root father, he is already added
             return;
@@ -277,21 +278,78 @@ public class NaturalSelectionModel extends ClockAdapter {
         Bunny bunny = new Bunny( this, getBunnyById( config.getFatherId() ), getBunnyById( config.getMotherId() ), config.getGeneration() );
         bunny.notifyInit();
         Bunny potentialMate = getBunnyById( config.getPotentialMateId() );
-        if( potentialMate != null ) {
+        if ( potentialMate != null ) {
             bunny.setPotentialMate( potentialMate );
             potentialMate.setPotentialMate( bunny );
         }
-        if( mainConfig.getRootMotherId() == config.getId() ) {
+        if ( mainConfig.getRootMotherId() == config.getId() ) {
             rootMother = bunny;
         }
 
-        if( bunny.bunnyId != config.getId() ) {
+        if ( bunny.bunnyId != config.getId() ) {
             System.out.println( "WARNING: bunny IDs do not match!" );
         }
 
+        // TODO: refactor bunny-specific parameters into the bunny code!
+
+        bunny.setMated( config.isMated() );
+        bunny.setMutated( config.isMutated() );
+        bunny.setAlive( config.isAlive() );
+        if ( config.isMated() ) {
+            ArrayList<Bunny> list = new ArrayList<Bunny>();
+            for ( int i : config.getChildrenIds() ) {
+                list.add( getBunnyById( i ) );
+            }
+            bunny.setChildren( list );
+        }
+        else {
+            bunny.setChildren( new ArrayList<Bunny>() );
+        }
+        bunny.setAge( config.getAge() );
+        bunny.setColorPhenotype( regularColor( config.isColorPhenotypeRegular() ) );
+        bunny.setTeethPhenotype( regularTeeth( config.isTeethPhenotypeRegular() ) );
+        bunny.setTailPhenotype( regularTail( config.isTailPhenotypeRegular() ) );
+
+        bunny.setColorGenotype( new Genotype(
+                ColorGene.getInstance(),
+                regularColor( config.isColorFatherGenotypeRegular() ),
+                regularColor( config.isColorMotherGenotypeRegular() )
+        ) );
+
+        bunny.setTeethGenotype( new Genotype(
+                TeethGene.getInstance(),
+                regularTeeth( config.isTeethFatherGenotypeRegular() ),
+                regularTeeth( config.isTeethMotherGenotypeRegular() )
+        ) );
+
+        bunny.setTailGenotype( new Genotype(
+                TailGene.getInstance(),
+                regularTail( config.isTailFatherGenotypeRegular() ),
+                regularTail( config.isTailMotherGenotypeRegular() )
+        ) );
+
+        bunny.setPosition( new Point3D.Double( config.getX(), config.getY(), config.getZ() ) );
+
+        bunny.setSinceHopTime( config.getSinceHopTime() );
+        bunny.setMovingRight( config.isMovingRight() );
+        bunny.setHunger( config.getHunger() );
+        bunny.setHopDirection( new Point3D.Double( config.getHopX(), config.getHopY(), config.getHopZ() ) );
+
         bunnies.add( bunny );
         notifyNewBunny( bunny );
-        */
+
+    }
+
+    private Allele regularColor( boolean regular ) {
+        return regular ? ColorGene.WHITE_ALLELE : ColorGene.BROWN_ALLELE;
+    }
+
+    private Allele regularTeeth( boolean regular ) {
+        return regular ? TeethGene.TEETH_SHORT_ALLELE : TeethGene.TEETH_LONG_ALLELE;
+    }
+
+    private Allele regularTail( boolean regular ) {
+        return regular ? TailGene.TAIL_SHORT_ALLELE : TailGene.TAIL_LONG_ALLELE;
     }
 
     public void initialize() {
