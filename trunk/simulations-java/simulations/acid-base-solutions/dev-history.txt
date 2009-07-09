@@ -5,7 +5,7 @@
 TODO:
 - sim description
 - Spanish translation, to test i18n
-- BH+ color is too light, symbols hard to see in equations and checkbox
+- BH+ color is too light, symbols hard to see in equations and checkbox (coffee=187,162,117 mustard=192,178,60)
 - legend for dot colors (pending interviews)
 - when equations are scaled, some symbols expand beyond the bounds of the window (pending interviews)
 - make symbol legend descriptions automatically wrap, so we don't need breaks in HTML markup
