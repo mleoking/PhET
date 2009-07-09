@@ -217,8 +217,8 @@ class SunPlanetControlPanel(model: ForceLawLabModel) extends ControlPanel {
           new Planet("Venus",earthMass/3,sunEarthDist*1.5)::Nil
   def setPlanet(p:Planet)={
     model.m1.mass=p.mass
-    model.m2.position=new Vector2D(p.dist/2)
-    model.m1.position=new Vector2D(model.m2.position.x-p.dist,0)
+    model.m2.position=new Vector2D(p.dist/2,0)
+    model.m1.position=new Vector2D(-p.dist/2,0)
   }
   def isPlanet(p:Planet)={
     MathUtil.isApproxEqual(model.m1.mass,p.mass,p.mass*0.05)&&
