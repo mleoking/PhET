@@ -1,11 +1,10 @@
 package edu.colorado.phet.buildtools.test.gui;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -38,11 +37,26 @@ public class TestProjectList extends JList {
 
         initializeProjects();
 
+        final ProjectListElement defaultProject = getDefaultProject();
+        if ( defaultProject != null ) {
+            SwingUtilities.invokeLater( new Runnable() {
+                public void run() {
+                    TestProjectList.this.setSelectedValue( defaultProject, true );
+                    onProjectChange();
+                }
+            } );
+        }
+
         addListSelectionListener( new ListSelectionListener() {
             public void valueChanged( ListSelectionEvent listSelectionEvent ) {
-                notifyChanged();
+                onProjectChange();
             }
         } );
+    }
+
+    private void onProjectChange() {
+        notifyChanged();
+        saveNewProjectSelection();
     }
 
     public PhetProject getSelectedProject() {
@@ -83,6 +97,52 @@ public class TestProjectList extends JList {
             model.addElement( new ProjectListElement( project ) );
         }
 
+    }
+
+    private void saveNewProjectSelection() {
+        Properties properties = new Properties();
+        properties.setProperty( "project", getSelectedProject().getName() );
+        try {
+            properties.store( new FileOutputStream( getPhetBuildGUIPropertyFile() ), null );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+    }
+
+    private ProjectListElement getDefaultProject() {
+        File file = getPhetBuildGUIPropertyFile();
+        if ( file.exists() ) {
+            Properties p = new Properties();
+            try {
+                p.load( new FileInputStream( file ) );
+                if ( p.containsKey( "project" ) ) {
+                    String proj = p.getProperty( "project" );
+                    Enumeration elements = model.elements();
+                    while ( elements.hasMoreElements() ) {
+                        ProjectListElement element = (ProjectListElement) elements.nextElement();
+                        if ( element.getProject().getName().equals( proj ) ) {
+                            return element;
+                        }
+                    }
+                    return null;
+                }
+                else {
+                    return null;
+                }
+            }
+            catch( IOException e ) {
+                return null;
+            }
+        }
+        else {
+            return null;
+        }
+    }
+
+    private File getPhetBuildGUIPropertyFile() {
+        File file = new File( trunk, ".phet-build-gui.properties" );
+        return file;
     }
 
     public static class ProjectListElement {
