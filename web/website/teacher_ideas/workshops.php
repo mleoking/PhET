@@ -24,7 +24,6 @@ class WorkshopsPage extends SitePage {
 
         <h2>Upcoming Workshops</h2>
         <ul>
-	<li><em>Using PhET simulations for Science Inquiry; Technology in Education (TIE)</em> Colorado, Copper Mountain Resort, CO <strong>Jun 2009</strong> (<a href="{$workshop_materials_location}PhET_Workshop_Flyer_TIE_2009-06-24.pdf">PDF flyer</a>)</li>
         <li><em>Teacher and Researcher: Designing Research Studies around PhET's Interactive Simulations</em>; AAPT Summer 2009 Meeting, Ann Arbor, MI, <strong>July 25-29, 2009</strong></li>
         <li><em>Exploring Easy and Effective Ways to Use PhET's Web-Based Interactive Simulations in your Science Course</em>; NSTA Conferences on Science Educations, Minneapolis, MN <strong>Oct 28-31, 2009, </strong>Fort Lauderdale, FL <strong>Nov 12-14, 2009, </strong>Phoenix, AZ <strong>Dec 3-5, 2009</strong> (<a href="{$workshop_materials_location}flyer_for_NSTA.pdf">PDF flyer</a>)</li>
         </ul>
@@ -40,6 +39,7 @@ class WorkshopsPage extends SitePage {
 
         <h2>Schedule of Past Workshops</h2>
         <ul>
+	<li><em>Using PhET simulations for Science Inquiry; Technology in Education (TIE)</em> Colorado, Copper Mountain Resort, CO <strong>Jun 2009</strong> (<a href="{$workshop_materials_location}PhET_Workshop_Flyer_TIE_2009-06-24.pdf">PDF flyer</a>).<!-- <br /> Materials available at <a href="http://tieconference.wikispaces.com/2114">http://tieconference.wikispaces.com/2114</a> --></li>
         <li><em>Using the Updated PhET Motion Simulations in HS Physics: Moving Man, Forces in 1 Dimension, Ramps, Ladybug Revolution, Torque</em>; APS HS Teacher Day, Sheraton Denver Hotel, Denver, CO, <strong>May 5, 2009</strong></li>
         <li><em>Using PhET for Physical Science in Middle School</em>; Jefferson County School Administration Building, Golden CO, <strong>Feb 5, 2009</strong>  (<a href="{$workshop_materials_location}PhET_Workshop_Flyer_MS_Jeffco_2009-02-05.pdf">PDF flyer</a>) (<a href="{$workshop_materials_location}PhET_Workshop_Handouts_MS_Jeffco_2009-02-05.zip">ZIPped handouts</a>)</li>
         <li><em>Using PhET for Physical Science in Middle School</em>; Colorado Science Convention, Denver, CO, <strong>Nov 21, 2008</strong> (<a href="{$workshop_materials_location}MS_CSC_2008.pdf">PDF flyer</a>)</li>
