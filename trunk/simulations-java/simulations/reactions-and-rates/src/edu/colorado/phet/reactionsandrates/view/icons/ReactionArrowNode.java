@@ -1,51 +1,54 @@
-/* Copyright 2003-2004, University of Colorado */
+/* Copyright 2003-2009, University of Colorado */
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
 package edu.colorado.phet.reactionsandrates.view.icons;
 
-import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Paint;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Rectangle2D;
+
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
-import java.awt.*;
-import java.awt.geom.Point2D;
-
-/**
- * ReactionArrowNode
- *
- * @author Ron LeMaster
- * @version $Revision$
+/*
+ * ReactionArrowNode (rewritten for Unfuddle #592)
+ * 
+ * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class ReactionArrowNode extends PNode {
-
+    
+    private static final double ARROW_LENGTH = 30;
+    private static final double HEAD_HEIGHT = 12;
+    private static final double HEAD_WIDTH = 8;
 
     public ReactionArrowNode( Paint arrowColor ) {
-        Arrow arrowC = new Arrow( new Point2D.Double( 0, 0 ),
-                                  new Point2D.Double( 30, 0 ),
-                                  12, 8, 1 );
-        Arrow arrowA = new Arrow( new Point2D.Double( 30, 0 ),
-                                  new Point2D.Double( 0, 0 ),
-                                  12, 8, 1 );
-        PNode arrowNode = new PNode();
-        PPath arrowANode = new PPath( arrowA.getShape() );
-        arrowANode.setPaint( arrowColor );
-        arrowANode.setStrokePaint( arrowColor );
-        arrowNode.addChild( arrowANode );
-        PPath arrowCNode = new PPath( arrowC.getShape() );
-        arrowCNode.setPaint( arrowColor );
-        arrowCNode.setStrokePaint( arrowColor );
-        arrowNode.addChild( arrowCNode );
-        arrowANode.setOffset( 0, arrowANode.getFullBounds().getHeight() / 2 );
-        arrowCNode.setOffset( arrowANode.getWidth(), arrowANode.getFullBounds().getHeight() / 2 );
-
-        addChild( arrowANode );
-        addChild( arrowCNode );
+        PNode topNode = new HalfArrowNode();
+        PNode bottomNode = new HalfArrowNode();
+        bottomNode.rotate( Math.PI );
+        bottomNode.setOffset( ARROW_LENGTH, topNode.getFullBoundsReference().getMaxY() + 7 );
+        addChild( topNode );
+        addChild( bottomNode );
+    }
+    
+    /*
+     * Creates an arrow that looks like this:
+     * 
+     *    ______\
+     */
+    private static class HalfArrowNode extends PPath {
+        
+        public HalfArrowNode() {
+            super();
+            setPaint( Color.BLACK );
+            setStroke( new BasicStroke( 2f ) );
+            GeneralPath topPath = new GeneralPath();
+            final float yOffset = (float)(HEAD_WIDTH / 2 );
+            topPath.moveTo( 0f, yOffset );
+            topPath.lineTo( (float) ARROW_LENGTH, yOffset );
+            topPath.lineTo( (float)( ARROW_LENGTH - HEAD_HEIGHT ), 0f );
+            PPath topNode = new PPath( topPath );
+            addChild( topNode );
+        }
     }
 }
