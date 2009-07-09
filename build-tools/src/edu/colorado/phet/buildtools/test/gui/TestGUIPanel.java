@@ -12,6 +12,11 @@ import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
 import edu.colorado.phet.buildtools.java.projects.TranslationUtilityProject;
 import edu.colorado.phet.buildtools.statistics.StatisticsProject;
 
+/**
+ * The main GUI of the PhET Build GUI
+ * <p/>
+ * Contains a project list on the left, and a project panel on the right
+ */
 public class TestGUIPanel extends JSplitPane {
     private TestProjectList projectList;
     private Container projectPanel;
@@ -26,8 +31,6 @@ public class TestGUIPanel extends JSplitPane {
         projectListHolder.setBorder( BorderFactory.createTitledBorder( "Projects" ) );
 
         projectPanel = new JPanel( new GridLayout( 1, 1 ) );
-        //projectPanel.add( new JButton( "Test" ) );
-
 
         setLeftComponent( projectListHolder );
         setRightComponent( projectPanel );
@@ -40,6 +43,7 @@ public class TestGUIPanel extends JSplitPane {
                 }
                 cachedProject = project;
                 System.out.println( "Changing project to " + project );
+                // TODO: consider refactoring project panels to be selected based on the project itself, instead of handling directly in the GUI
                 if ( project instanceof FlashSimulationProject ) {
                     projectPanel = new TestFlashSimulationPanel( trunk, (FlashSimulationProject) project );
                     setRightComponent( projectPanel );

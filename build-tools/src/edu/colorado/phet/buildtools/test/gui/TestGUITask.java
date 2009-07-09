@@ -3,6 +3,9 @@ package edu.colorado.phet.buildtools.test.gui;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 
+/**
+ * Ant task so the PhET Build GUI can be run from Ant
+ */
 public class TestGUITask extends Task {
     final Object blocker = new Object();
 
