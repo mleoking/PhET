@@ -219,6 +219,10 @@
 
         $hash_contents = $_SERVER['REQUEST_URI'];
 
+        if (isset($_SERVER['HTTP_REFERER'])) {
+            $hash_contents .= $_SERVER['HTTP_REFERER'];
+        }
+
         foreach ($_SESSION as $key => $value) {
             $hash_contents .= "$key=>$value";
         }
