@@ -183,7 +183,8 @@ public class TestProjectList extends JList {
     }
 
     public void notifyChanged() {
-        for ( Listener listener : listeners ) {
+        Listener[] listenerArray = listeners.toArray( new Listener[0] );
+        for ( Listener listener : listenerArray ) {
             listener.notifyChanged();
         }
     }
