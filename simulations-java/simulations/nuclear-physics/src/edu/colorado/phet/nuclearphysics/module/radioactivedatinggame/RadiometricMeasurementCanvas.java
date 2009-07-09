@@ -8,11 +8,11 @@ import java.awt.GradientPaint;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.IdentityHashMap;
-import java.util.Iterator;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -55,9 +55,6 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
     private static final double PROPORTIONS_METER_HEIGHT_FRACTION = 0.25;
     private static final double METER_X_OFFSET = 70;
     
-    // Resolution of the decay chart.
-    private static final double NUM_SAMPLES_ON_DECAY_CHART = 250;
-    
     // Fixed distance from very top of canvas where the meter and chart will
     // be positioned.
     private static final double METER_AND_CHART_OFFSET_FROM_TOP = 8;
@@ -81,6 +78,7 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
     private IdentityHashMap<DatableItem, PNode> _mapModelElementsToNodes = new IdentityHashMap<DatableItem, PNode>();
     private GradientButtonNode _startOperationButtonNode;
     private GradientButtonNode _forceClosureButtonNode;
+    private Rectangle2D _probeDragBounds = new Rectangle2D.Double();
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -187,11 +185,14 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
         		METER_AND_CHART_OFFSET_FROM_TOP);
         
         // Create the radiometric measuring device.
-        _meterNode = new RadiometricDatingMeterNode( _model.getMeter(), INITIAL_INTERMEDIATE_COORD_WIDTH * PROPORTIONS_METER_WIDTH_FRACTION,
+        _meterNode = new RadiometricDatingMeterNode( 
+        		_model.getMeter(), 
+        		INITIAL_INTERMEDIATE_COORD_WIDTH * PROPORTIONS_METER_WIDTH_FRACTION,
         		INITIAL_INTERMEDIATE_COORD_HEIGHT * PROPORTIONS_METER_HEIGHT_FRACTION, 
         		_mvt,
         		this,
-        		false );
+        		false, 
+        		_probeDragBounds );
         _meterNode.setMeterBodyOffset( METER_X_OFFSET, METER_AND_CHART_OFFSET_FROM_TOP);
         _meterNode.enablePeriodicUpdate(true);
         _chartAndMeterLayer.addChild( _meterNode );
@@ -211,7 +212,22 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
     // Methods
     //------------------------------------------------------------------------
     
-    /**
+    @Override
+	protected void updateLayout() {
+		super.updateLayout();
+		_probeDragBounds.setFrame(getBounds());
+		System.out.println("============ START ==============");
+		System.out.println(getLocation());
+		System.out.println(getWorldSize());
+		System.out.println(getBounds());
+		System.out.println(getX());
+		System.out.println(getY());
+		System.out.println(getVisibleRect());
+		AffineTransform transform = getWorldTransformStrategy().getTransform();
+		System.out.println(transform.transform(new Point2D.Double(0,0), null));
+	}
+
+	/**
      * Handle a notification that a model element was added by comparing the
      * list of elements in the model to the list of corresponding nodes and
      * creating new nodes for any elements that are not yet represented.

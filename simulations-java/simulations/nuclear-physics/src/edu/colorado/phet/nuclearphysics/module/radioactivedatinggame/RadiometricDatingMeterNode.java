@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -95,7 +96,7 @@ public class RadiometricDatingMeterNode extends PNode {
     //------------------------------------------------------------------------
 
 	public RadiometricDatingMeterNode(RadiometricDatingMeter meterModel, double width, double height,
-			ModelViewTransform2D mvt, PSwingCanvas canvas, boolean showCustom) {
+			ModelViewTransform2D mvt, PSwingCanvas canvas, boolean showCustom, Rectangle2D probeDragBounds) {
 		
 		_meterModel = meterModel;
 		_mvt = mvt;
@@ -173,7 +174,7 @@ public class RadiometricDatingMeterNode extends PNode {
 		}
 		
 		// Add the probe.
-		_probeNode = new ProbeNode( _meterModel.getProbeModel(), _mvt );
+		_probeNode = new ProbeNode( _meterModel.getProbeModel(), _mvt, probeDragBounds );
 		addChild(_probeNode);
 		
 		// Create the cable that visually attaches the probe to the meter.
@@ -319,14 +320,18 @@ public class RadiometricDatingMeterNode extends PNode {
     }
     
     static class ProbeNode extends PhetPNode {
-        private RadiometricDatingMeter.ProbeModel _probeModel;
-        private PImage imageNode;
-        private PhetPPath tipPath;
-        private ModelViewTransform2D _mvt;
+        private final RadiometricDatingMeter.ProbeModel _probeModel;
+        private final PImage imageNode;
+        private final PhetPPath tipPath;
+        private final ModelViewTransform2D _mvt;
+        private final Rectangle2D _dragBounds;
 
-        public ProbeNode( RadiometricDatingMeter.ProbeModel probeModel, ModelViewTransform2D mvt ) {
+        public ProbeNode( RadiometricDatingMeter.ProbeModel probeModel, ModelViewTransform2D mvt, 
+        		Rectangle2D probeDragBounds ) {
+        	
             _probeModel = probeModel;
             _mvt = mvt;
+            _dragBounds = probeDragBounds;
 
             imageNode = NuclearPhysicsResources.getImageNode( "geiger_probe.png" );
             imageNode.rotateAboutPoint( probeModel.getAngle(), 0.1, 0.1 );
@@ -337,12 +342,16 @@ public class RadiometricDatingMeterNode extends PNode {
 					updateProbe();
 				}
             } );
-
+            
             addInputEventListener( new PBasicInputEventHandler() {
                 public void mouseDragged( PInputEvent event ) {
                     PDimension pt = event.getDeltaRelativeTo( ProbeNode.this.getParent() );
-                    _probeModel.translate( _mvt.viewToModelDifferentialX(pt.width),
-                    		_mvt.viewToModelDifferentialY(pt.height) );
+                    System.out.println("---->" + ProbeNode.this.getFullBounds());
+                    if (_dragBounds.contains(event.getPosition())){
+                    	// Move the probe in the model based on the user's dragging.
+	                    _probeModel.translate( _mvt.viewToModelDifferentialX(pt.width),
+	                    		_mvt.viewToModelDifferentialY(pt.height) );
+                    }
                 }
             } );
             addInputEventListener( new CursorHandler() );
