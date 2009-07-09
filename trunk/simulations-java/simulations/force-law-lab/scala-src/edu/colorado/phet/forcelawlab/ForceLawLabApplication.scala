@@ -213,26 +213,12 @@ class SunPlanetControlPanel(model: ForceLawLabModel) extends ControlPanel {
     model.m2.addListener(listener) //since sun location can change
   }
   case class Planet(name: String, mass: Double, dist: Double)
-  val planets = new Planet("Earth", earthMass, sunEarthDist) ::
-          new Planet("Mercury", 3.30E23, 5.791E10) ::
-          new Planet("Venus", 4.8685E24, 107476259000L) :: Nil
+  val planets = new Planet("Earth", earthMass, sunEarthDist)::Nil
 
   def setPlanet(p: Planet) = {
     model.m1.mass = p.mass
     model.m2.position = new Vector2D(p.dist / 2, 0)
     model.m1.position = new Vector2D(-p.dist / 2, 0)
-
-    //val xDesired = wall.maxX + spring.restingLength + getGravityForce.magnitude / spring.k
-    //we want xDesired to be -p.dist/2 and spring.restingLength to be some fixed number like p.dist/5
-    //solve for k
-
-    //todo: enable this
-//    model.spring.restingLength=p.dist/5
-//    val k=(-p.dist/2-model.wall.maxX-model.spring.restingLength)/model.getGravityForce.x//todo: abs
-
-    //todo: set spring value for planet to be at equilibrium
-//    model.spring.k=k
-    ()
   }
 
   def isPlanet(p: Planet) = {
@@ -243,7 +229,7 @@ class SunPlanetControlPanel(model: ForceLawLabModel) extends ControlPanel {
   for (p <- planets)
     add(new MyRadioButton(p.name, setPlanet(p), isPlanet(p), addPlanetListener))
 
-  val none = new MyRadioButton("None of the above", () => {}, !planets.foldLeft(false) {(a, b) => {a || isPlanet(b)}}, addPlanetListener)
+  val none = new MyRadioButton("Custom", () => {}, !planets.foldLeft(false) {(a, b) => {a || isPlanet(b)}}, addPlanetListener)
   add(none)
 }
 
@@ -259,9 +245,7 @@ class Mass(private var _mass: Double, private var _position: Vector2D, val name:
   def radius = massToRadius(_mass)
 }
 
-class Spring(val k: Double, val restingLength: Double){
-  
-}
+class Spring(val k: Double, val restingLength: Double)
 
 class ForceLawLabModel(mass1: Double, mass2: Double,
                        mass1Position: Double, mass2Position: Double,
