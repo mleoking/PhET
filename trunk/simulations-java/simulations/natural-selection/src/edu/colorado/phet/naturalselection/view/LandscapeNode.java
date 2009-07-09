@@ -191,6 +191,10 @@ public class LandscapeNode extends PNode implements NaturalSelectionModel.Listen
      * @param bunny The bunny
      */
     public void onNewBunny( final Bunny bunny ) {
+        if ( !bunny.isAlive() ) {
+            // don't instantiate a dead bunny (loading config, etc)
+            return;
+        }
         // create a bunny node with the correct visual appearance
         BunnyNode bunnyNode = new BunnyNode( bunny.getColorPhenotype(), bunny.getTeethPhenotype(), bunny.getTailPhenotype(), this, bunny.getPosition() );
 
