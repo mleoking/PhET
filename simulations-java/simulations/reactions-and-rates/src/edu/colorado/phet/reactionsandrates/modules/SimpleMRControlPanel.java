@@ -10,6 +10,8 @@
  */
 package edu.colorado.phet.reactionsandrates.modules;
 
+import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.view.ResetAllButton;
 import edu.colorado.phet.reactionsandrates.MRConfig;
 import edu.colorado.phet.reactionsandrates.model.Launcher;
 import edu.colorado.phet.reactionsandrates.util.ControlBorderFactory;
@@ -55,12 +57,12 @@ public class SimpleMRControlPanel extends MRControlPanel {
         gbc.anchor = GridBagConstraints.CENTER;
         add( reloadBtn, gbc );
 
-        JButton resetAllBtn = new JButton( MRConfig.RESOURCES.getLocalizedString( "Control.reset" ) );
-        resetAllBtn.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
+        ResetAllButton resetAllBtn = new ResetAllButton( this );
+        resetAllBtn.addResettable( new Resettable() {
+            public void reset() {
                 module.reset();
             }
-        } );
+        });
         gbc.anchor = GridBagConstraints.CENTER;
         add( resetAllBtn, gbc );
     }

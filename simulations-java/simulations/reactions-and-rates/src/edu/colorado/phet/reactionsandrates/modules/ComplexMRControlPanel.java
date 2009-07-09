@@ -13,13 +13,12 @@ package edu.colorado.phet.reactionsandrates.modules;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.view.ResetAllButton;
 import edu.colorado.phet.reactionsandrates.MRConfig;
 import edu.colorado.phet.reactionsandrates.model.MRModel;
 import edu.colorado.phet.reactionsandrates.util.ControlBorderFactory;
@@ -39,7 +38,6 @@ import edu.colorado.phet.reactionsandrates.view.charts.ChartOptionsPanel;
 public class ComplexMRControlPanel extends MRControlPanel {
     private MoleculeInstanceControlPanel moleculeInstanceControlPanel;
     private ChartOptionsPanel optionsPanel;
-    private JButton resetBtn;
     private static InitialTemperaturePanel initialTemperaturePanel;
 
     /**
@@ -65,12 +63,12 @@ public class ComplexMRControlPanel extends MRControlPanel {
         optionsPanel = new ChartOptionsPanel( module );
 
         // Reset button
-        resetBtn = new JButton( MRConfig.RESOURCES.getLocalizedString( "Control.reset" ) );
-        resetBtn.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
+        ResetAllButton resetAllBtn = new ResetAllButton( this );
+        resetAllBtn.addResettable( new Resettable() {
+            public void reset() {
                 module.reset();
             }
-        } );
+        });
 
         // Lay out the controls
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -81,7 +79,7 @@ public class ComplexMRControlPanel extends MRControlPanel {
         add( optionsPanel, gbc );
 
         gbc.fill = GridBagConstraints.NONE;
-        add( resetBtn, gbc );
+        add( resetAllBtn, gbc );
     }
 
     private static JPanel createReactionSelectionPanel( ComplexModule module ) {
