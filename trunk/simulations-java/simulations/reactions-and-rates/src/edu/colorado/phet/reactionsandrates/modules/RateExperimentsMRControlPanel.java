@@ -10,6 +10,8 @@
  */
 package edu.colorado.phet.reactionsandrates.modules;
 
+import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.view.ResetAllButton;
 import edu.colorado.phet.reactionsandrates.MRConfig;
 import edu.colorado.phet.reactionsandrates.model.MRModel;
 import edu.colorado.phet.reactionsandrates.view.ExperimentSetupPanel;
@@ -54,13 +56,12 @@ public class RateExperimentsMRControlPanel extends MRControlPanel {
         // Options
         optionsPanel = new ChartOptionsPanel( module );
 
-        // Reset button
-        JButton resetBtn = new JButton( MRConfig.RESOURCES.getLocalizedString( "Control.reset" ) );
-        resetBtn.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
+        ResetAllButton resetAllBtn = new ResetAllButton( this );
+        resetAllBtn.addResettable( new Resettable() {
+            public void reset() {
                 module.reset();
             }
-        } );
+        });
 
         // Lay out the controls
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -69,7 +70,7 @@ public class RateExperimentsMRControlPanel extends MRControlPanel {
         add( optionsPanel, gbc );
 
         gbc.fill = GridBagConstraints.NONE;
-        add( resetBtn, gbc );
+        add( resetAllBtn, gbc );
 
         reset();
     }
