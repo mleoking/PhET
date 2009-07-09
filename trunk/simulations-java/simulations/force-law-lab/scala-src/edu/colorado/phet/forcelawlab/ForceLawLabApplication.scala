@@ -16,7 +16,7 @@ import java.awt._
 import event.{MouseAdapter, MouseEvent}
 
 import java.text._
-import javax.swing.BorderFactory
+import javax.swing.{JButton, BorderFactory}
 import scalacommon.swing.MyRadioButton
 import umd.cs.piccolo.nodes.{PImage, PText}
 import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
@@ -55,7 +55,7 @@ class ForceLabelNode(target: Mass, source: Mass, transform: ModelViewTransform2D
   addChild(arrowNode)
   addChild(label)
 }
-class MassNode(mass: Mass, transform: ModelViewTransform2D, color: Color,magnification:Magnification) extends PNode {
+class MassNode(mass: Mass, transform: ModelViewTransform2D, color: Color, magnification: Magnification) extends PNode {
   val image = new SphericalNode(mass.radius * 2, color, false)
 
   val label = new PText(mass.name)
@@ -69,8 +69,8 @@ class MassNode(mass: Mass, transform: ModelViewTransform2D, color: Color,magnifi
     image.setPaint(new RoundGradientPaint(viewRadius, -viewRadius, Color.WHITE,
       new Point2D.Double(-viewRadius, viewRadius), color))
     label.setOffset(transform.modelToView(mass.position) - new Vector2D(label.getFullBounds.getWidth / 2, label.getFullBounds.getHeight / 2))
-    if (image.getFullBounds.getHeight<label.getFullBounds.getHeight)
-    label.translate(0,-label.getFullBounds.getHeight*1.2)            //gets notification from mass
+    if (image.getFullBounds.getHeight < label.getFullBounds.getHeight)
+      label.translate(0, -label.getFullBounds.getHeight * 1.2) //gets notification from mass
 
     //    println("updated mass node, radius=" + mass.radius + ", viewRadius=" + viewRadius + ", globalfullbounds=" + image.getGlobalFullBounds)
   }
@@ -78,7 +78,7 @@ class MassNode(mass: Mass, transform: ModelViewTransform2D, color: Color,magnifi
   addChild(image)
   addChild(label)
 }
-class DraggableMassNode(mass: Mass, transform: ModelViewTransform2D, color: Color, minDragX: Double, maxDragX: () => Double,magnification:Magnification) extends MassNode(mass, transform, color,magnification) {
+class DraggableMassNode(mass: Mass, transform: ModelViewTransform2D, color: Color, minDragX: Double, maxDragX: () => Double, magnification: Magnification) extends MassNode(mass, transform, color, magnification) {
   var dragging = false
   var initialDrag = false //don't show a pushpin on startup
   val pushPinNode = new PImage(ForceLawLabResources.getImage("push-pin.png"))
@@ -137,14 +137,14 @@ class ForceLawLabCanvas(model: ForceLawLabModel, modelWidth: Double, mass1Color:
   }
   rulerNode.setOffset(150, 500)
 
-  def updateRulerVisible()=rulerNode.setVisible(!magnification.magnified)
+  def updateRulerVisible() = rulerNode.setVisible(!magnification.magnified)
   magnification.addListenerByName(updateRulerVisible())
   updateRulerVisible()
 
   def opposite(c: Color) = new Color(255 - c.getRed, 255 - c.getGreen, 255 - c.getBlue)
-  addNode(new MassNode(model.m1, transform, mass1Color,magnification))
+  addNode(new MassNode(model.m1, transform, mass1Color, magnification))
   addNode(new SpringNode(model, transform, opposite(backgroundColor)))
-  addNode(new DraggableMassNode(model.m2, transform, mass2Color, model.wall.maxX, () => transform.viewToModelX(getVisibleModelBounds.getMaxX),magnification))
+  addNode(new DraggableMassNode(model.m2, transform, mass2Color, model.wall.maxX, () => transform.viewToModelX(getVisibleModelBounds.getMaxX), magnification))
   addNode(new ForceLabelNode(model.m1, model.m2, transform, model, opposite(backgroundColor), forceLabelScale, forceArrowNumberFormat, 100, true, model.wall))
   addNode(new ForceLabelNode(model.m2, model.m1, transform, model, opposite(backgroundColor), forceLabelScale, forceArrowNumberFormat, 200, false, model.wall))
   rulerNode.addInputEventListener(new PBasicInputEventHandler {
@@ -240,8 +240,25 @@ class SunPlanetControlPanel(model: ForceLawLabModel, m: Magnification) extends C
   add(none)
 
   add(new ScaleControl(m))
+  val units = new Units(true)
+  add(new UnitsControl(units))
 }
 
+class UnitsControl(units: Units) extends VerticalLayoutPanel {
+  setBorder(BorderFactory.createTitledBorder("Units"))
+  add(new MyRadioButton("Light Minutes", units.lightMinutes = true, units.lightMinutes, units.addListener))
+  add(new MyRadioButton("Kilometers", units.lightMinutes = false, !units.lightMinutes, units.addListener))
+  add(new JButton("Explain"))
+}
+
+class Units(private var _lightMinutes: Boolean) extends Observable {
+  def lightMinutes_=(b: Boolean) = {
+    _lightMinutes = b
+    notifyListeners()
+  }
+
+  def lightMinutes = _lightMinutes
+}
 class Magnification(private var _magnified: Boolean) extends Observable {
   def magnified_=(b: Boolean) = {
     _magnified = b
@@ -400,7 +417,7 @@ class SolarModule(clock: ScalaClock) extends Module(ForceLawLabResources.getLoca
     }, 3.2E-22 * 10, new SunPlanetDecimalFormat(), magnification)
 
   magnification.addListenerByName {
-    model.m1.notifyListeners()//chain events from magnification
+    model.m1.notifyListeners() //chain events from magnification
     model.m2.notifyListeners()
   }
   val disclaimerNode = new ScaleDisclaimerNode(model, canvas.transform)
