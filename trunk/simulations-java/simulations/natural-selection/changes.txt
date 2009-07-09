@@ -1,3 +1,5 @@
+# 0.01.26 (33171) Jul 8, 2009
+7/8/09 Added persistence
 # 0.01.25 (32963) Jul 1, 2009
 7/1/09 Internationalization up to date, refactoring and added developer settings panel
 # 0.01.24 (32715) Jun 25, 2009
