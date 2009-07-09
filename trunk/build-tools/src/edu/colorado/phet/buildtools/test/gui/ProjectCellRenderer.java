@@ -10,6 +10,9 @@ import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
 import edu.colorado.phet.buildtools.java.JavaProject;
 
+/**
+ * Render an entry of a project in the project list
+ */
 public class ProjectCellRenderer extends DefaultListCellRenderer {
 
     private File trunk;

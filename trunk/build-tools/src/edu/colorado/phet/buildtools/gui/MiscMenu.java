@@ -21,6 +21,9 @@ import edu.colorado.phet.licensing.DependencyReport;
 
 import com.jcraft.jsch.JSchException;
 
+/**
+ * TODO: when replacing with the Test GUI, do NOT remove this class. It is used directly by the Test GUI
+ */
 public class MiscMenu extends JMenu {
     private PhetProject selectedProject;
     private File trunk;

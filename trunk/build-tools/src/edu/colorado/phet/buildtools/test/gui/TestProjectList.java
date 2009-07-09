@@ -19,6 +19,9 @@ import edu.colorado.phet.buildtools.java.projects.PhetUpdaterProject;
 import edu.colorado.phet.buildtools.java.projects.TranslationUtilityProject;
 import edu.colorado.phet.buildtools.statistics.StatisticsProject;
 
+/**
+ * A list of projects that can be selected
+ */
 public class TestProjectList extends JList {
 
     private File trunk;
@@ -31,10 +34,13 @@ public class TestProjectList extends JList {
 
         setModel( model );
 
+        // only select one at a time
         setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 
+        // render cells in a custom way
         setCellRenderer( new ProjectCellRenderer( trunk ) );
 
+        // add all of the projects
         initializeProjects();
 
         final ProjectListElement defaultProject = getDefaultProject();
@@ -78,6 +84,7 @@ public class TestProjectList extends JList {
         }
 
         try {
+            // TODO: consider refactoring for PhetProject.getAllProjects
             projects.add( new TranslationUtilityProject( new File( trunk, BuildToolsPaths.TRANSLATION_UTILITY ) ) );
             projects.add( new PhetUpdaterProject( new File( trunk, BuildToolsPaths.PHET_UPDATER ) ) );
             projects.add( new BuildToolsProject( new File( trunk, BuildToolsPaths.BUILD_TOOLS_DIR ) ) );
@@ -87,6 +94,7 @@ public class TestProjectList extends JList {
             e.printStackTrace();
         }
 
+        // sort by name
         Collections.sort( projects, new Comparator<PhetProject>() {
             public int compare( PhetProject a, PhetProject b ) {
                 return a.getName().compareTo( b.getName() );

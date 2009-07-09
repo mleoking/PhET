@@ -8,6 +8,9 @@ import javax.swing.event.ListSelectionListener;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 
+/**
+ * A displayed list of sorted locales (English should be first, then alphabetical)
+ */
 public class TestLocaleList extends JList {
 
     private DefaultListModel model;

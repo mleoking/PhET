@@ -10,14 +10,28 @@ import edu.colorado.phet.buildtools.BuildLocalProperties;
 import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.PhetServer;
 import edu.colorado.phet.buildtools.gui.MiscMenu;
-import edu.colorado.phet.buildtools.translate.CommonTranslationDeployClient;
-import edu.colorado.phet.buildtools.translate.TranslationDeployClient;
 
+/**
+ * Main entry point for the PhET Build GUI (currently TestGUI)
+ * TODO: change documentation when replacing PBG
+ * <p/>
+ * This provides a user interface for building, testing and deploying different types of projects, which include Java and
+ * Flash simulations.
+ * <p/>
+ * There is a list of projects on the left hand side which can be selected.
+ * <p/>
+ * Each project can have a customized project panel on the right hand side with options and information specific to that
+ * project.
+ */
 public class TestGUI {
 
     private JFrame frame;
 
-
+    /**
+     * Constructor
+     *
+     * @param trunk We need a reference to trunk for many things
+     */
     public TestGUI( final File trunk ) {
 
         BuildLocalProperties.initRelativeToTrunk( trunk );
@@ -28,40 +42,7 @@ public class TestGUI {
         frame.setContentPane( guiPanel );
 
         JMenuBar menuBar = new JMenuBar();
-        JMenu translationMenu = new JMenu( "Translations" );
-        JMenuItem deployItem = new JMenuItem( "Deploy Simulation Translation..." );
-        deployItem.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                try {
-                    TranslationDeployClient translationDeployClient = new TranslationDeployClient( trunk );
-                    translationDeployClient.startClient();
-                }
-                catch( Exception e1 ) {
-                    e1.printStackTrace();
-                }
-            }
-        } );
-        translationMenu.add( deployItem );
-
-        JMenuItem deployCommonItem = new JMenuItem( "Deploy Common Translation..." );
-        deployCommonItem.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                final JFileChooser fileChooser = new JFileChooser();
-                fileChooser.setDialogTitle( "Choose a common translation to deploy" );
-                int ret = fileChooser.showOpenDialog( null );
-                if ( ret != JFileChooser.APPROVE_OPTION ) {
-                    System.out.println( "File was not selected, aborting" );
-                    return;
-                }
-
-                File resourceFile = fileChooser.getSelectedFile();
-
-                new CommonTranslationDeployClient( resourceFile, trunk ).deployCommonTranslation();
-
-                JOptionPane.showMessageDialog( null, "The instructions to complete the common translation deployment have been printed to the console", "Instructions", JOptionPane.INFORMATION_MESSAGE );
-            }
-        } );
-        translationMenu.add( deployCommonItem );
+        JMenu translationMenu = new TranslationsMenu( trunk );
 
         JMenu c = new JMenu( "File" );
         JMenuItem menuItem = new JMenuItem( "Exit" );

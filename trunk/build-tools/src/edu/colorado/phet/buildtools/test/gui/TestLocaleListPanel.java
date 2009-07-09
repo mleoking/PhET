@@ -5,13 +5,15 @@ import java.util.Locale;
 
 import javax.swing.*;
 
+/**
+ * A panel that holds a list of locales that can be selected
+ */
 public class TestLocaleListPanel extends JPanel {
     private TestLocaleList list;
 
     public TestLocaleListPanel( Locale[] locales ) {
         super( new GridLayout( 1, 1 ) );
         list = new TestLocaleList( locales );
-        //list.setMinimumSize( new Dimension( 400, 0 ) );
         setMinimumSize( new Dimension( 400, 0 ) );
         JScrollPane holder = new JScrollPane( list );
         holder.setBorder( BorderFactory.createTitledBorder( "Locales" ) );
