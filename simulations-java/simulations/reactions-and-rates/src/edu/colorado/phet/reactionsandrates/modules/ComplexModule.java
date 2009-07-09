@@ -44,6 +44,7 @@ public class ComplexModule extends MRModule {
     private MoleculePopulationsPieChartNode pieChart;
     private boolean firstTimeStripChartVisible = true;
     private PSwing stopwatchAdapter;
+    private StopwatchPanel stopwatchPanel;
 
     private final StripChartNode stripChartNode;
 
@@ -127,6 +128,8 @@ public class ComplexModule extends MRModule {
         controlPanel.reset();
         pumpGraphic.reset();
         resetStripChart();
+        stopwatchPanel.stop();
+        stopwatchPanel.reset();
     }
 
     private void setInitialConditions() {
@@ -199,9 +202,9 @@ public class ComplexModule extends MRModule {
     public void setStopwatchVisible( boolean visible ) {
         stopwatchAdapter.setVisible( visible );
     }
-
+    
     protected void addMovableStopwatch( double x, double y ) {
-        StopwatchPanel stopwatchPanel = new StopwatchPanel( getClock() );
+        stopwatchPanel = new StopwatchPanel( getClock() );
 
         stopwatchAdapter = new PSwing( stopwatchPanel );
 
