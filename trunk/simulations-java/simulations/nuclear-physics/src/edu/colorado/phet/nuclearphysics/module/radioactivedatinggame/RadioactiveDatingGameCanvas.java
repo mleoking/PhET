@@ -95,6 +95,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     	new IdentityHashMap<DatableItem, AgeGuessResultNode>();
     private AgeGuessingNode.Listener _ageGuessListener;
     private GradientButtonNode _resetGuessesButtonNode;
+    private Rectangle2D _probeDragBounds = new Rectangle2D.Double();
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -189,7 +190,8 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         		INITIAL_INTERMEDIATE_COORD_HEIGHT * PROPORTIONS_METER_AND_CHART_HEIGHT_FRACTION,
         		_mvt,
         		this,
-        		true );
+        		true, 
+        		_probeDragBounds );
         _meterNode.setMeterBodyOffset( 0, OFFSET_FROM_TOP );
         addWorldChild( _meterNode );
         
@@ -272,6 +274,10 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
 			}
 			
     		_edgeOfWorld.updateEdgeShape(innerEdgeOfWorldIntermediate.getX(), outerEdgeOfWorldIntermediate.getX());
+    		
+    		// Set the boundaries of where the probe can move based on the
+    		// size of the canvas.
+    		_probeDragBounds.setFrame(getBounds());
     	}
     }
     
