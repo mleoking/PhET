@@ -39,10 +39,10 @@ class ForceLabelNode(target: Mass, source: Mass, transform: ModelViewTransform2D
 
   defineInvokeAndPass(model.addListenerByName) {
     label.setOffset(transform.modelToView(target.position) - new Vector2D(0, label.getFullBounds.getHeight + offsetY))
-    val str = MessageFormat.format(ForceLawLabResources.getLocalizedString("force-description-pattern-target_source_value"), target.name, source.name, format.format(model.getForce.magnitude))
+    val str = MessageFormat.format(ForceLawLabResources.getLocalizedString("force-description-pattern-target_source_value"), target.name, source.name, format.format(model.getGravityForce.magnitude))
     label.setText(str)
     val sign = if (right) 1 else -1
-    val tip = label.getOffset + new Vector2D(sign * model.getForce.magnitude * scale, -20)
+    val tip = label.getOffset + new Vector2D(sign * model.getGravityForce.magnitude * scale, -20)
     val tail = label.getOffset + new Vector2D(0, -20)
     arrowNode.setTipAndTailLocations(tip, tail)
     if (!right)
@@ -75,7 +75,7 @@ class MassNode(mass: Mass, transform: ModelViewTransform2D, color: Color) extend
   addChild(image)
   addChild(label)
 }
-class DraggableMassNode(mass: Mass, transform: ModelViewTransform2D, color: Color,minDragX:Double,maxDragX:()=>Double) extends MassNode(mass, transform, color) {
+class DraggableMassNode(mass: Mass, transform: ModelViewTransform2D, color: Color, minDragX: Double, maxDragX: () => Double) extends MassNode(mass, transform, color) {
   var dragging = false
   var initialDrag = false //don't show a pushpin on startup
   val pushPinNode = new PImage(ForceLawLabResources.getImage("push-pin.png"))
@@ -90,10 +90,10 @@ class DraggableMassNode(mass: Mass, transform: ModelViewTransform2D, color: Colo
     override def mouseDragged(event: PInputEvent) = {
       implicit def pdimensionToPoint2D(dim: PDimension) = new Point2D.Double(dim.width, dim.height)
       mass.position = mass.position + new Vector2D(transform.viewToModelDifferential(event.getDeltaRelativeTo(DraggableMassNode.this.getParent)).x, 0)
-      if (mass.position.x<minDragX)
-        mass.position=new Vector2D(minDragX,0)
-      if (mass.position.x>maxDragX())
-        mass.position=new Vector2D(maxDragX(),0)
+      if (mass.position.x < minDragX)
+        mass.position = new Vector2D(minDragX, 0)
+      if (mass.position.x > maxDragX())
+        mass.position = new Vector2D(maxDragX(), 0)
     }
 
     override def mousePressed(event: PInputEvent) = {
@@ -137,7 +137,7 @@ class ForceLawLabCanvas(model: ForceLawLabModel, modelWidth: Double, mass1Color:
   def opposite(c: Color) = new Color(255 - c.getRed, 255 - c.getGreen, 255 - c.getBlue)
   addNode(new MassNode(model.m1, transform, mass1Color))
   addNode(new SpringNode(model, transform, opposite(backgroundColor)))
-  addNode(new DraggableMassNode(model.m2, transform, mass2Color,model.wall.maxX,()=>transform.viewToModelX(getVisibleModelBounds.getMaxX)))
+  addNode(new DraggableMassNode(model.m2, transform, mass2Color, model.wall.maxX, () => transform.viewToModelX(getVisibleModelBounds.getMaxX)))
   addNode(new ForceLabelNode(model.m1, model.m2, transform, model, opposite(backgroundColor), forceLabelScale, forceArrowNumberFormat, 100, true, model.wall))
   addNode(new ForceLabelNode(model.m2, model.m1, transform, model, opposite(backgroundColor), forceLabelScale, forceArrowNumberFormat, 200, false, model.wall))
   rulerNode.addInputEventListener(new PBasicInputEventHandler {
@@ -208,27 +208,42 @@ class SunPlanetControlPanel(model: ForceLawLabModel) extends ControlPanel {
     model.m2.addListener(listener)
   }
 
-  def addPlanetListener(listener:()=>Unit)={
+  def addPlanetListener(listener: () => Unit) = {
     model.m1.addListener(listener)
-    model.m2.addListener(listener)//since sun location can change
+    model.m2.addListener(listener) //since sun location can change
   }
-  case class Planet(name:String,mass:Double,dist:Double)
-  val planets=new Planet("Earth",earthMass,sunEarthDist):: new Planet("Mercury",earthMass/4,sunEarthDist*2) ::
-          new Planet("Venus",earthMass/3,sunEarthDist*1.5)::Nil
-  def setPlanet(p:Planet)={
-    model.m1.mass=p.mass
-    model.m2.position=new Vector2D(p.dist/2,0)
-    model.m1.position=new Vector2D(-p.dist/2,0)
-  }
-  def isPlanet(p:Planet)={
-    MathUtil.isApproxEqual(model.m1.mass,p.mass,p.mass*0.05)&&
-    MathUtil.isApproxEqual(model.distance,p.dist,p.dist*0.05)
+  case class Planet(name: String, mass: Double, dist: Double)
+  val planets = new Planet("Earth", earthMass, sunEarthDist) ::
+          new Planet("Mercury", 3.30E23, 5.791E10) ::
+          new Planet("Venus", 4.8685E24, 107476259000L) :: Nil
+
+  def setPlanet(p: Planet) = {
+    model.m1.mass = p.mass
+    model.m2.position = new Vector2D(p.dist / 2, 0)
+    model.m1.position = new Vector2D(-p.dist / 2, 0)
+
+    //val xDesired = wall.maxX + spring.restingLength + getGravityForce.magnitude / spring.k
+    //we want xDesired to be -p.dist/2 and spring.restingLength to be some fixed number like p.dist/5
+    //solve for k
+
+    //todo: enable this
+//    model.spring.restingLength=p.dist/5
+//    val k=(-p.dist/2-model.wall.maxX-model.spring.restingLength)/model.getGravityForce.x//todo: abs
+
+    //todo: set spring value for planet to be at equilibrium
+//    model.spring.k=k
+    ()
   }
 
-  for (p<-planets)
-    add(new MyRadioButton(p.name,setPlanet(p),isPlanet(p),addPlanetListener))
+  def isPlanet(p: Planet) = {
+    MathUtil.isApproxEqual(model.m1.mass, p.mass, p.mass * 0.05) &&
+            MathUtil.isApproxEqual(model.distance, p.dist, p.dist * 0.05)
+  }
 
-  val none=new MyRadioButton("None of the above",()=>{},!planets.foldLeft(false){(a,b)=>{a||isPlanet(b)}},addPlanetListener)
+  for (p <- planets)
+    add(new MyRadioButton(p.name, setPlanet(p), isPlanet(p), addPlanetListener))
+
+  val none = new MyRadioButton("None of the above", () => {}, !planets.foldLeft(false) {(a, b) => {a || isPlanet(b)}}, addPlanetListener)
   add(none)
 }
 
@@ -244,7 +259,9 @@ class Mass(private var _mass: Double, private var _position: Vector2D, val name:
   def radius = massToRadius(_mass)
 }
 
-class Spring(val k: Double, val restingLength: Double)
+class Spring(val k: Double, val restingLength: Double){
+  
+}
 
 class ForceLawLabModel(mass1: Double, mass2: Double,
                        mass1Position: Double, mass2Position: Double,
@@ -276,13 +293,13 @@ class ForceLawLabModel(mass1: Double, mass2: Double,
 
   def rMin = if (m1.position.x + m1.radius < m2.position.x - m2.radius) r else m2.position - new Vector2D(m2.radius, 0)
 
-  def getForce = r * G * m1.mass * m2.mass / pow(r.magnitude, 3)
+  def getGravityForce = r * G * m1.mass * m2.mass / pow(r.magnitude, 3)
 
   def setDragging(b: Boolean) = this.isDraggingControl = b
 
   def update(dt: Double) = {
     //    println("force magnitude=" + getForce.magnitude + ", from r=" + r + ", m1.x=" + m1.position.x + ", m2.position.x=" + m2.position.x)
-    val xDesired = wall.maxX + spring.restingLength + getForce.magnitude / spring.k
+    val xDesired = wall.maxX + spring.restingLength + getGravityForce.magnitude / spring.k
     val x = if (xDesired + m1.radius > m2.position.x - m2.radius)
       m2.position.x - m2.radius - m1.radius
     else
@@ -324,6 +341,7 @@ class ForceLawsModule(clock: ScalaClock) extends Module(ForceLawLabResources.get
 }
 
 object ForceLawLabDefaults {
+  val sunMercuryDist = 5.791E10 //  sun earth distace in m
   val sunEarthDist = 1.496E11 //  sun earth distace in m
   val earthRadius = 6.371E6
   val sunRadius = 6.955E8
@@ -376,14 +394,14 @@ class SolarModule(clock: ScalaClock) extends Module(ForceLawLabResources.getLoca
 
 class Circle(center: Vector2D, radius: Double) extends Ellipse2D.Double(center.x - radius, center.y - radius, radius * 2, radius * 2)
 class ScaleDisclaimerNode(model: ForceLawLabModel, transform: ModelViewTransform2D) extends PNode {
-  val text = new PText(ForceLawLabResources.getLocalizedString("scale.disclaimer.start")+" ")
+  val text = new PText(ForceLawLabResources.getLocalizedString("scale.disclaimer.start") + " ")
   text.setFont(new PhetFont(16, true))
   text.setTextPaint(Color.lightGray)
   import ForceLawLabDefaults._
-//  val earthIcon = new PhetPPath(new Circle(new Vector2D, transform.modelToViewDifferentialXDouble(earthRadius)), Color.blue)
+  //  val earthIcon = new PhetPPath(new Circle(new Vector2D, transform.modelToViewDifferentialXDouble(earthRadius)), Color.blue)
   val sunIcon = new PhetPPath(new Circle(new Vector2D, transform.modelToViewDifferentialXDouble(sunRadius)), Color.red)
 
-  val text2 = new PText(ForceLawLabResources.getLocalizedString("scale.disclaimer.end")+ " ")
+  val text2 = new PText(ForceLawLabResources.getLocalizedString("scale.disclaimer.end") + " ")
   text2.setFont(new PhetFont(16, true))
   text2.setTextPaint(Color.lightGray)
 
@@ -391,7 +409,7 @@ class ScaleDisclaimerNode(model: ForceLawLabModel, transform: ModelViewTransform
   node.addChild(text)
   node.addChild(sunIcon)
   node.addChild(text2)
-//  node.addChild(earthIcon)
+  //  node.addChild(earthIcon)
 
   addChild(node)
 }
