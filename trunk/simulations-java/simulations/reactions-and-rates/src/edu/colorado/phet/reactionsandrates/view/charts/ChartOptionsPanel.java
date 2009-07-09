@@ -162,12 +162,14 @@ public class ChartOptionsPanel extends JPanel implements Resetable {
         if( showNoneBtn.isSelected() && module.getMRModel().getMoleculeBeingTracked() != null ) {
             module.getMRModel().getMoleculeBeingTracked().setSelectionStatus( Selectable.NOT_SELECTED );
         }
+        module.setStopwatchVisible( showStopwatchBtn.isSelected() );
     }
 
     public void reset() {
         showStripChartBtn.setSelected( false );
         showNoneBtn.setSelected( true );
         showBondsBtn.setSelected( false );
+        showStopwatchBtn.setSelected( false );
         setEnergyViewChartOptions();
     }
 
