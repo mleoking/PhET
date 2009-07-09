@@ -16,7 +16,10 @@ import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
 import edu.colorado.phet.buildtools.java.JavaBuildCommand;
 import edu.colorado.phet.buildtools.java.JavaProject;
 import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
+import edu.colorado.phet.buildtools.resource.ResourceDeployClient;
 import edu.colorado.phet.licensing.DependencyReport;
+
+import com.jcraft.jsch.JSchException;
 
 public class MiscMenu extends JMenu {
     private PhetProject selectedProject;
@@ -159,6 +162,62 @@ public class MiscMenu extends JMenu {
             }
         } );
         add( deployInstallers );
+
+        add( new JSeparator() );
+
+        JMenuItem deployJavaResource = new JMenuItem( "Deploy Java Resource File" );
+        deployJavaResource.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                final JFileChooser fileChooser = new JFileChooser();
+                fileChooser.setDialogTitle( "Choose a resource file to deploy" );
+                int ret = fileChooser.showOpenDialog( null );
+                if ( ret != JFileChooser.APPROVE_OPTION ) {
+                    System.out.println( "File was not selected, aborting" );
+                    return;
+                }
+
+                File resourceFile = fileChooser.getSelectedFile();
+                String path = JOptionPane.showInputDialog( "Please input the desired deployment path into JARs (should start and end with '/'):" );
+                try {
+                    ResourceDeployClient.deployJavaResourceFile( trunk, resourceFile, path );
+                }
+                catch( IOException e1 ) {
+                    e1.printStackTrace();
+                }
+                catch( JSchException e1 ) {
+                    e1.printStackTrace();
+                }
+                JOptionPane.showMessageDialog( null, "The instructions to complete the resource deployment have been printed to the console", "Instructions", JOptionPane.INFORMATION_MESSAGE );
+            }
+        } );
+        add( deployJavaResource );
+
+        JMenuItem deployFlashResource = new JMenuItem( "Deploy Flash Resource File" );
+        deployFlashResource.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                final JFileChooser fileChooser = new JFileChooser();
+                fileChooser.setDialogTitle( "Choose a resource file to deploy" );
+                int ret = fileChooser.showOpenDialog( null );
+                if ( ret != JFileChooser.APPROVE_OPTION ) {
+                    System.out.println( "File was not selected, aborting" );
+                    return;
+                }
+
+                File resourceFile = fileChooser.getSelectedFile();
+                String path = JOptionPane.showInputDialog( "Please input the desired deployment path into JARs (should start and end with '/'):" );
+                try {
+                    ResourceDeployClient.deployFlashResourceFile( trunk, resourceFile, path );
+                }
+                catch( IOException e1 ) {
+                    e1.printStackTrace();
+                }
+                catch( JSchException e1 ) {
+                    e1.printStackTrace();
+                }
+                JOptionPane.showMessageDialog( null, "The instructions to complete the resource deployment have been printed to the console", "Instructions", JOptionPane.INFORMATION_MESSAGE );
+            }
+        } );
+        add( deployFlashResource );
     }
 
     private PhetProject[] select( PhetProject[] allSimulations ) {
