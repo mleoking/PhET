@@ -123,6 +123,7 @@ public class ComplexMRControlPanel extends MRControlPanel {
     }
 
     public void reset() {
+        initialTemperaturePanel.reset();
         optionsPanel.reset();
     }
 
