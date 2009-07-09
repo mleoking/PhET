@@ -26,7 +26,7 @@ public class ABSColors {
     public static final Color HA = new Color( 13, 176, 47 );
     public static final Color A_MINUS = new Color( 235, 145, 5 );
     public static final Color B = new Color( 169, 51, 216 );
-    public static final Color BH_PLUS = new Color( 236, 216, 42 );
+    public static final Color BH_PLUS = new Color( 192, 178, 60 );
     public static final Color MOH = B;
     public static final Color M_PLUS = BH_PLUS;
     public static final Color K = Color.GRAY;
