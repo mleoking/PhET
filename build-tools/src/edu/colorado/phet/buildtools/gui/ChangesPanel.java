@@ -1,4 +1,4 @@
-package edu.colorado.phet.buildtools.test.gui;
+package edu.colorado.phet.buildtools.gui;
 
 import java.awt.*;
 
@@ -9,12 +9,12 @@ import edu.colorado.phet.buildtools.PhetProject;
 /**
  * Displays the changelog for a particular project
  */
-public class TestChangesPanel extends JPanel {
+public class ChangesPanel extends JPanel {
 
     private PhetProject project;
     private JTextArea changesTextArea;
 
-    public TestChangesPanel( PhetProject project ) {
+    public ChangesPanel( PhetProject project ) {
         super( new GridLayout( 1, 1 ) );
         this.project = project;
         changesTextArea = new JTextArea( 10, 30 );

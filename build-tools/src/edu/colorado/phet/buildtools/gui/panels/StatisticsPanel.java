@@ -1,4 +1,4 @@
-package edu.colorado.phet.buildtools.test.gui;
+package edu.colorado.phet.buildtools.gui.panels;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -10,16 +10,17 @@ import javax.swing.*;
 
 import edu.colorado.phet.buildtools.PhetServer;
 import edu.colorado.phet.buildtools.SVNStatusChecker;
+import edu.colorado.phet.buildtools.gui.PhetBuildGUI;
 import edu.colorado.phet.buildtools.statistics.StatisticsDeployCommand;
 import edu.colorado.phet.buildtools.statistics.StatisticsProject;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 
-public class TestStatisticsPanel extends JPanel {
+public class StatisticsPanel extends JPanel {
 
     private File trunk;
     private StatisticsProject project;
 
-    public TestStatisticsPanel( File trunk, StatisticsProject project ) {
+    public StatisticsPanel( File trunk, StatisticsProject project ) {
         super( new BorderLayout() );
 
         this.trunk = trunk;
@@ -48,7 +49,7 @@ public class TestStatisticsPanel extends JPanel {
     }
 
     private void doDeployProd() {
-        boolean confirm = TestGUI.confirmProdDeploy( project, PhetServer.PRODUCTION );
+        boolean confirm = PhetBuildGUI.confirmProdDeploy( project, PhetServer.PRODUCTION );
 
         if ( !confirm ) {
             System.out.println( "Cancelled" );

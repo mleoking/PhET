@@ -1,4 +1,4 @@
-package edu.colorado.phet.buildtools.test.gui;
+package edu.colorado.phet.buildtools.gui.panels;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -13,9 +13,12 @@ import edu.colorado.phet.buildtools.PhetServer;
 import edu.colorado.phet.buildtools.VersionIncrement;
 import edu.colorado.phet.buildtools.flash.FlashBuildCommand;
 import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
+import edu.colorado.phet.buildtools.gui.ChangesPanel;
+import edu.colorado.phet.buildtools.gui.LocaleListPanel;
+import edu.colorado.phet.buildtools.gui.PhetBuildGUI;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 
-public class TestFlashSimulationPanel extends JPanel {
+public class FlashSimulationPanel extends JPanel {
 
     private File trunk;
 
@@ -24,14 +27,14 @@ public class TestFlashSimulationPanel extends JPanel {
     private JCheckBox rebuildHTMLButton;
     private JCheckBox rebuildSWFButton;
     private JCheckBox rebuildJARsButton;
-    private TestLocaleListPanel localeList;
+    private LocaleListPanel localeList;
     private JRadioButton keepOpenButton;
     private JRadioButton closeFLAButton;
     private JRadioButton closeIDEButton;
     private JRadioButton incrementMinor;
     private JRadioButton incrementMajor;
 
-    public TestFlashSimulationPanel( File trunk, FlashSimulationProject project ) {
+    public FlashSimulationPanel( File trunk, FlashSimulationProject project ) {
         super( new BorderLayout() );
 
         this.trunk = trunk;
@@ -41,9 +44,9 @@ public class TestFlashSimulationPanel extends JPanel {
         title.setHorizontalAlignment( SwingConstants.CENTER );
         add( title, BorderLayout.NORTH );
 
-        localeList = new TestLocaleListPanel( project.getLocales() );
+        localeList = new LocaleListPanel( project.getLocales() );
         add( localeList, BorderLayout.WEST );
-        add( new TestChangesPanel( project ), BorderLayout.CENTER );
+        add( new ChangesPanel( project ), BorderLayout.CENTER );
 
         JPanel controlPanel = new JPanel();
 
@@ -153,7 +156,7 @@ public class TestFlashSimulationPanel extends JPanel {
     }
 
     private void doDeployProd() {
-        boolean confirm = TestGUI.confirmProdDeploy( project, PhetServer.PRODUCTION );
+        boolean confirm = PhetBuildGUI.confirmProdDeploy( project, PhetServer.PRODUCTION );
 
         if ( !confirm ) {
             System.out.println( "Cancelled" );

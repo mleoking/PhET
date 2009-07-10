@@ -1,4 +1,4 @@
-package edu.colorado.phet.buildtools.test.gui;
+package edu.colorado.phet.buildtools.gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

@@ -1,4 +1,4 @@
-package edu.colorado.phet.buildtools.test.gui;
+package edu.colorado.phet.buildtools.gui;
 
 import java.awt.*;
 import java.util.Locale;
@@ -8,12 +8,12 @@ import javax.swing.*;
 /**
  * A panel that holds a list of locales that can be selected
  */
-public class TestLocaleListPanel extends JPanel {
-    private TestLocaleList list;
+public class LocaleListPanel extends JPanel {
+    private LocaleList list;
 
-    public TestLocaleListPanel( Locale[] locales ) {
+    public LocaleListPanel( Locale[] locales ) {
         super( new GridLayout( 1, 1 ) );
-        list = new TestLocaleList( locales );
+        list = new LocaleList( locales );
         setMinimumSize( new Dimension( 400, 0 ) );
         JScrollPane holder = new JScrollPane( list );
         holder.setBorder( BorderFactory.createTitledBorder( "Locales" ) );
