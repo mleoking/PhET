@@ -97,8 +97,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     	new IdentityHashMap<DatableItem, AgeGuessResultNode>();
     private AgeGuessingNode.Listener _ageGuessListener;
     private GradientButtonNode _resetGuessesButtonNode;
-    private Rectangle2D _probeDragBounds = new Rectangle2D.Double();
-    private PPath _probeDragBounds2 = new PPath();
+    private PPath _probeDragBounds = new PPath();
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -187,6 +186,11 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         _edgeOfWorld = new EdgeOfWorldNode(_model, _mvt);
         addWorldChild(_edgeOfWorld);
         
+        // Create the chart that will display relative decay proportions.
+        _proportionsChart = new NuclearDecayProportionChart(false, true, false);
+        configureProportionsChart();
+        addWorldChild(_proportionsChart);
+        
         // Create the radiometric measuring device.
         _meterNode = new RadiometricDatingMeterNode(_model.getMeter(), 
         		INITIAL_INTERMEDIATE_COORD_WIDTH * PROPORTIONS_METER_WIDTH_FRACTION,
@@ -194,7 +198,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         		_mvt,
         		this,
         		true, 
-        		_probeDragBounds2 );
+        		_probeDragBounds );
         _meterNode.setMeterBodyOffset( 0, OFFSET_FROM_TOP );
         addWorldChild( _meterNode );
         
@@ -214,11 +218,6 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
 			}
         });
         addWorldChild(_resetGuessesButtonNode);
-        
-        // Create the chart that will display relative decay proportions.
-        _proportionsChart = new NuclearDecayProportionChart(false, true, false);
-        configureProportionsChart();
-        addWorldChild(_proportionsChart);
         
         // Set the size and position of the chart.  There are some "tweak
         // factors" in here to make things look good.
@@ -244,7 +243,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         
         // Add the node that will act as the bounds for where the probe can
         // be moved.
-        addWorldChild(_probeDragBounds2);
+        addWorldChild(_probeDragBounds);
     }
 
 	//------------------------------------------------------------------------
@@ -282,10 +281,6 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
 			
     		_edgeOfWorld.updateEdgeShape(innerEdgeOfWorldIntermediate.getX(), outerEdgeOfWorldIntermediate.getX());
     		
-    		// Set the boundaries of where the probe can move based on the
-    		// size of the canvas.
-    		_probeDragBounds.setFrame(getBounds());
-    		
     		// Set the bounding node to match exactly the size of the
     		// viewport.  This will be used to constrain the movements of the
     		// probe.
@@ -300,8 +295,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     		}
     		Shape tranformedBounds = inverseTransform.createTransformedShape(getBounds());
     		
-    		_probeDragBounds2.setPathTo(tranformedBounds);
-
+    		_probeDragBounds.setPathTo(tranformedBounds);
     	}
     }
     
