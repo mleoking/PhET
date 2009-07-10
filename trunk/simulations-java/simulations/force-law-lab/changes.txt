@@ -1,3 +1,4 @@
+> reduced the range of the distance slider in the 2nd tab
 # 0.01.05 (33213) Jul 10, 2009
 > made the slider drag the sun instead of the planet
 > added units controls and explanation
