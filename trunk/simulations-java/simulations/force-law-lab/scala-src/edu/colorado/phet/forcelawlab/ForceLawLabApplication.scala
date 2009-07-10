@@ -240,24 +240,34 @@ class SunPlanetControlPanel(model: ForceLawLabModel, m: Magnification) extends C
   add(none)
 
   add(new ScaleControl(m))
-  val units = new Units(true)
+  val units = new UnitsContainer(UnitsCollection.values(0))
   add(new UnitsControl(units))
 }
 
-class UnitsControl(units: Units) extends VerticalLayoutPanel {
+class UnitsControl(units: UnitsContainer) extends VerticalLayoutPanel {
   setBorder(BorderFactory.createTitledBorder("Units"))
-  add(new MyRadioButton("Light Minutes", units.lightMinutes = true, units.lightMinutes, units.addListener))
-  add(new MyRadioButton("Kilometers", units.lightMinutes = false, !units.lightMinutes, units.addListener))
+  for (u <- UnitsCollection.values) add(new MyRadioButton(u.name, units.units = u, units.units == u, units.addListener))
   add(new JButton("Explain"))
 }
 
-class Units(private var _lightMinutes: Boolean) extends Observable {
-  def lightMinutes_=(b: Boolean) = {
-    _lightMinutes = b
+case class Units(name: String, scale: Double) {
+  def metersToUnits(m: Double) = m * scale
+
+  def unitsToMeters(u: Double) = u / scale
+}
+object UnitsCollection {
+  val values = new Units("light-minutes", 5.5594E-11) :: //new Units("meters", 1.0) ::
+          new Units("kilometers", 1 / 1000.0) :: Nil
+}
+
+class UnitsContainer(private var _units: Units) extends Observable {
+  def units = _units
+
+  def units_=(u: Units) = {
+    _units = u
     notifyListeners()
   }
 
-  def lightMinutes = _lightMinutes
 }
 class Magnification(private var _magnified: Boolean) extends Observable {
   def magnified_=(b: Boolean) = {
