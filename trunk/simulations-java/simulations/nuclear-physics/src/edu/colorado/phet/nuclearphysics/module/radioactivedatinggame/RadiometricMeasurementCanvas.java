@@ -6,9 +6,11 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GradientPaint;
 import java.awt.Point;
+import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -78,7 +80,7 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
     private IdentityHashMap<DatableItem, PNode> _mapModelElementsToNodes = new IdentityHashMap<DatableItem, PNode>();
     private GradientButtonNode _startOperationButtonNode;
     private GradientButtonNode _forceClosureButtonNode;
-    private Rectangle2D _probeDragBounds = new Rectangle2D.Double();
+    private PPath _probeDragBounds = new PPath();
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -206,6 +208,9 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
         for (Object modelElement : modelElements){
         	handleModelElementAdded(modelElement);
         }
+        
+        // Add the node that define the bounds where the probe may be dragged.
+        addWorldChild(_probeDragBounds);
     }
 
 	//------------------------------------------------------------------------
@@ -215,16 +220,20 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
     @Override
 	protected void updateLayout() {
 		super.updateLayout();
-		_probeDragBounds.setFrame(getBounds());
-		System.out.println("============ START ==============");
-		System.out.println(getLocation());
-		System.out.println(getWorldSize());
-		System.out.println(getBounds());
-		System.out.println(getX());
-		System.out.println(getY());
-		System.out.println(getVisibleRect());
+		
+		// Set the bounding node to match exactly the size of the viewport.
 		AffineTransform transform = getWorldTransformStrategy().getTransform();
-		System.out.println(transform.transform(new Point2D.Double(0,0), null));
+		AffineTransform inverseTransform;
+		try {
+			inverseTransform = transform.createInverse();
+		} catch (NoninvertibleTransformException e) {
+			System.err.println(getClass().getName() + " - Error: Unable to invert transform.");
+			e.printStackTrace();
+			inverseTransform = new AffineTransform(); // Unity transform by default.
+		}
+		Shape tranformedBounds = inverseTransform.createTransformedShape(getBounds());
+		
+		_probeDragBounds.setPathTo(tranformedBounds);
 	}
 
 	/**
