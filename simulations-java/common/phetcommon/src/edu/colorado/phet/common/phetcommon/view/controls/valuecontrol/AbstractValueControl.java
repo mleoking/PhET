@@ -276,6 +276,18 @@ public abstract class AbstractValueControl extends JPanel {
     }
 
     /**
+     * Set a range and value simultaneously; this method should be used if the new range doesn't contain the old value.
+     * @param min the new minimum
+     * @param max the new maximum
+     * @param value the new value
+     */
+    public void setRangeAndValue( double min, double max,double value ) {
+        _slider.setModelRange( min, max );
+        setValue(value);
+        updateTickLabels();
+    }
+
+    /**
      * Gets maximum value.
      *
      * @return max
