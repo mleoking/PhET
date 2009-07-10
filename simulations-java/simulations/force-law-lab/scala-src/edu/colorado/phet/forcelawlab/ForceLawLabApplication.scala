@@ -458,7 +458,8 @@ class SolarModule(clock: ScalaClock, phetFrame: PhetFrame) extends Module(ForceL
     sunEarthDist / 2,
     mass => {
       val scale = if (magnification.magnified) 1.6E3 else 1.0 //latter term is a fudge factor to make things visible on the same scale
-      earthRadius * scale
+      //when mass is earthMass, radius should be earthRadius; otherwise use a linear function
+      earthRadius * scale * mass/earthMass
     },
     mass => {
       val scale = if (magnification.magnified) 5E1 else 1.0
