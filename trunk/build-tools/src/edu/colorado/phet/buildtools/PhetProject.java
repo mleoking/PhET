@@ -950,4 +950,13 @@ public abstract class PhetProject {
         return new File( getDeployDir(), getName() + ".xml" );
     }
 
+    /**
+     * Should return whether this project is testable. Default is true
+     *
+     * @return
+     */
+    public boolean isTestable() {
+        return true;
+    }
+
 }

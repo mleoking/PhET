@@ -30,4 +30,9 @@ public class PhetUpdaterProject extends JavaProject {
     public String getProdServerDeployPath() {
         return BuildToolsPaths.PHET_UPDATER_PROD_SERVER_DEPLOY_PATH;
     }
+
+    @Override
+    public boolean isTestable() {
+        return false;
+    }
 }
