@@ -17,7 +17,6 @@
     require_once("jar-util.php");
     require_once("jnlp.php");
     require_once("xml-util.php");
-    require_once("zip.lib.php");
 
     //--------------------------------------------------------------------------
     // Function for building installers for all of the supported platforms.
@@ -64,6 +63,7 @@
 
         // Get the value of the time stamp.
         $time = time();
+        $date = date('l F jS Y h:i:s A');  // More human-readable representation.
         flushing_echo( "Creation Timestamp = $time" );
  
         // Add the time stamp to the marker file, used by the Java sims.
@@ -101,6 +101,12 @@
         }
         flushing_echo( "Processed ".sizeof ( $html_file_names )." HTML files for possible timestamp insertion." );
 
+        // Write the timestamp into an HTML file that can be used to determine
+        // the version of the sim installed.
+        $version_info_file_name = RIPPED_WEBSITE_TOP.VERSION_INFO_FILE_NAME;
+        $version_info_html = "<html>\n<body>\n\n<p>Timestamp: ".$time."</p>\n<p>Date: ".$date."</p>\n\n</body>\n</html>";
+        file_put_contents_anywhere( $version_info_file_name, $version_info_html );
+        
         // Write the timestamp to a temporary file so that we can use it later
         // if needed (such as for putting the creation timestamp into the DB).
         if ( !( $fp = fopen(CREATION_TIMESTAMP_FILE_NAME, 'w' ) ) ) {
