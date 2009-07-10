@@ -4,10 +4,10 @@ package edu.colorado.phet.forcelawlab
 import collection.mutable.ArrayBuffer
 import common.phetcommon.application.{PhetApplicationConfig, PhetApplicationLauncher, Module}
 import common.phetcommon.math.MathUtil
-import common.phetcommon.view.{VerticalLayoutPanel, ControlPanel}
+import common.phetcommon.view.util.{SwingUtils, DoubleGeneralPath, PhetFont}
+import common.phetcommon.view.{PhetFrame, VerticalLayoutPanel, ControlPanel}
 import common.piccolophet.nodes.layout.SwingLayoutNode
 import common.piccolophet.PiccoloPhetApplication
-import common.phetcommon.view.util.{DoubleGeneralPath, PhetFont}
 import common.piccolophet.nodes.{PhetPPath, RulerNode, ArrowNode, SphericalNode}
 import common.phetcommon.view.graphics.RoundGradientPaint
 import common.piccolophet.event.CursorHandler
@@ -16,8 +16,8 @@ import java.awt._
 import event.{MouseAdapter, MouseEvent}
 
 import java.text._
-import javax.swing.{JButton, BorderFactory}
-import scalacommon.swing.MyRadioButton
+import javax.swing.{JTextArea, JDialog, BorderFactory}
+import scalacommon.swing.{MyJButton, MyRadioButton}
 import umd.cs.piccolo.nodes.{PImage, PText}
 import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
 import umd.cs.piccolo.util.PDimension
@@ -196,21 +196,21 @@ class ForceLawLabControlPanel(model: ForceLawLabModel) extends ControlPanel {
   add(new ScalaValueControl(0.01, 100, model.m2.name, "0.00", ForceLawLabResources.getLocalizedString("units.kg"), model.m2.mass, model.m2.mass = _, model.m2.addListener))
 }
 
-class SunPlanetControlPanel(model: ForceLawLabModel, m: Magnification, units: UnitsContainer) extends ControlPanel {
+class SunPlanetControlPanel(model: ForceLawLabModel, m: Magnification, units: UnitsContainer,phetFrame:PhetFrame) extends ControlPanel {
   import ForceLawLabDefaults._
   import ForceLawLabResources._
   add(new ScalaValueControl(kgToEarthMasses(model.m1.mass / 10), kgToEarthMasses(model.m1.mass * 5), model.m1.name + " mass", "0.00", "earth masses",
     kgToEarthMasses(model.m1.mass), a => model.m1.mass = earthMassesToKg(a), model.m1.addListener))
 
-  units.addListenerByName{
-    distanceSlider.setRangeAndValue(0.01, units.metersToUnits(sunEarthDist * 5),units.metersToUnits(model.distance))
+  units.addListenerByName {
+    distanceSlider.setRangeAndValue(0.01, units.metersToUnits(sunEarthDist * 5), units.metersToUnits(model.distance))
     distanceSlider.setUnits(units.units.name)
   }
 
   val distanceSlider = new ScalaValueControl(0.01, units.metersToUnits(sunEarthDist * 5), "distance", "0.00", getLocalizedString("units.light-minutes"),
     units.metersToUnits(model.distance), a => model.distance = units.unitsToMeters(a), addDistanceListener)
-  distanceSlider.getTextField.setColumns(8)//to show kilometers
-  distanceSlider.addTickLabel(0.01,"min") //avoid generating 1E8 tick marks
+  distanceSlider.getTextField.setColumns(8) //to show kilometers
+  distanceSlider.addTickLabel(0.01, "min") //avoid generating 1E8 tick marks
 
   distanceSlider.getSlider.addMouseListener(new MouseAdapter() {
     override def mouseReleased(e: MouseEvent) = model.setDragging(false)
@@ -222,7 +222,7 @@ class SunPlanetControlPanel(model: ForceLawLabModel, m: Magnification, units: Un
   def addDistanceListener(listener: () => Unit) = {
     model.m1.addListener(listener)
     model.m2.addListener(listener)
-//    units.addListener(listener)
+    //    units.addListener(listener)
   }
 
   def addPlanetListener(listener: () => Unit) = {
@@ -250,13 +250,26 @@ class SunPlanetControlPanel(model: ForceLawLabModel, m: Magnification, units: Un
   add(none)
 
   add(new ScaleControl(m))
-  add(new UnitsControl(units))
+  add(new UnitsControl(units,phetFrame))
 }
 
-class UnitsControl(units: UnitsContainer) extends VerticalLayoutPanel {
+class UnitsControl(units: UnitsContainer,phetFrame:PhetFrame) extends VerticalLayoutPanel {
   setBorder(BorderFactory.createTitledBorder("Units"))
   for (u <- UnitsCollection.values) add(new MyRadioButton(u.name, units.units = u, units.units == u, units.addListener))
-  add(new JButton("Explain"))
+  val unitsExplanation = new UnitsExplanation(phetFrame)
+  add(new MyJButton("Compare", () => unitsExplanation.setVisible(true)))
+}
+
+class UnitsExplanation(phetFrame:PhetFrame) extends JDialog(phetFrame,"Units Comparison",false) {
+  val textArea = new JTextArea("1 light minute = 17 987 547.5 kilometers.\nThat's the distance light travels in 1 minute.\n\nHow far can you travel in 1 minute?")
+  textArea.setEditable(false)
+  textArea.setFont(new PhetFont(16,true))
+  setContentPane(textArea)
+  pack()
+  override def setVisible(b: Boolean) = {
+    SwingUtils.centerDialogInParent(this)
+    super.setVisible(b)
+  }
 }
 
 case class Units(name: String, scale: Double) {
@@ -410,7 +423,7 @@ object ForceLawLabDefaults {
   def earthMassesToKg(a: Double) = a * earthMass
 }
 
-class SolarModule(clock: ScalaClock) extends Module(ForceLawLabResources.getLocalizedString("module.sun-planet-system.name"), clock) {
+class SolarModule(clock: ScalaClock,phetFrame:PhetFrame) extends Module(ForceLawLabResources.getLocalizedString("module.sun-planet-system.name"), clock) {
   val magnification = new Magnification(true)
   val units = new UnitsContainer(UnitsCollection.values(0))
   import ForceLawLabDefaults._
@@ -450,10 +463,10 @@ class SolarModule(clock: ScalaClock) extends Module(ForceLawLabResources.getLoca
   })
   updateDisclaimerLocation()
   def updateDisclaimerLocation() = disclaimerNode.setOffset(canvas.canonicalBounds.width / 2 - disclaimerNode.getFullBounds.getWidth / 2, canvas.canonicalBounds.height - disclaimerNode.getFullBounds.getHeight * 3)
-  canvas.addNode(disclaimerNode)
+  //  canvas.addNode(disclaimerNode)//todo: decide whether or not we're using the disclaimer
   setSimulationPanel(canvas)
   clock.addClockListener(model.update(_))
-  setControlPanel(new SunPlanetControlPanel(model, magnification,units))
+  setControlPanel(new SunPlanetControlPanel(model, magnification, units,phetFrame))
   setClockControlPanel(null)
 }
 
@@ -481,7 +494,7 @@ class ScaleDisclaimerNode(model: ForceLawLabModel, transform: ModelViewTransform
 
 class ForceLawLabApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
   addModule(new ForceLawsModule(new ScalaClock(30, 30 / 1000.0)))
-  addModule(new SolarModule(new ScalaClock(30, 30 / 1000.0)))
+  addModule(new SolarModule(new ScalaClock(30, 30 / 1000.0),getPhetFrame))
 }
 
 object ForceLawLabApplicationMain {
