@@ -1,4 +1,4 @@
-package edu.colorado.phet.buildtools.test.gui;
+package edu.colorado.phet.buildtools.gui.panels;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -11,22 +11,24 @@ import edu.colorado.phet.buildtools.BuildLocalProperties;
 import edu.colorado.phet.buildtools.BuildScript;
 import edu.colorado.phet.buildtools.PhetServer;
 import edu.colorado.phet.buildtools.VersionIncrement;
+import edu.colorado.phet.buildtools.gui.ChangesPanel;
+import edu.colorado.phet.buildtools.gui.PhetBuildGUI;
 import edu.colorado.phet.buildtools.java.JavaProject;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 
-public class TestMiscJavaPanel extends JPanel {
+public class MiscJavaPanel extends JPanel {
     private File trunk;
 
     private JavaProject project;
     private JRadioButton incrementMinor;
     private JRadioButton incrementMajor;
 
-    public TestMiscJavaPanel( File trunk, JavaProject project ) {
+    public MiscJavaPanel( File trunk, JavaProject project ) {
         this( trunk, project, false );
     }
 
-    public TestMiscJavaPanel( File trunk, JavaProject project, boolean testable ) {
+    public MiscJavaPanel( File trunk, JavaProject project, boolean testable ) {
         super( new BorderLayout() );
 
         this.trunk = trunk;
@@ -36,7 +38,7 @@ public class TestMiscJavaPanel extends JPanel {
         title.setHorizontalAlignment( SwingConstants.CENTER );
         add( title, BorderLayout.NORTH );
 
-        add( new TestChangesPanel( project ), BorderLayout.CENTER );
+        add( new ChangesPanel( project ), BorderLayout.CENTER );
 
         JPanel controlPanel = new JPanel();
 
@@ -116,7 +118,7 @@ public class TestMiscJavaPanel extends JPanel {
     }
 
     private void doDeployProd() {
-        boolean confirm = TestGUI.confirmProdDeploy( project, PhetServer.PRODUCTION );
+        boolean confirm = PhetBuildGUI.confirmProdDeploy( project, PhetServer.PRODUCTION );
 
         if ( !confirm ) {
             System.out.println( "Cancelled" );

@@ -7,35 +7,41 @@ import java.io.File;
 import javax.swing.*;
 
 import edu.colorado.phet.buildtools.BuildLocalProperties;
-import edu.colorado.phet.buildtools.translate.TranslationDeployClient;
+import edu.colorado.phet.buildtools.PhetProject;
+import edu.colorado.phet.buildtools.PhetServer;
 
 /**
- * Provides a front-end user interface for building and deploying phet's java simulations.
- * This entry point has no ant xml dependencies.
+ * Main entry point for the PhET Build GUI (currently TestGUI)
+ * TODO: change documentation when replacing PBG
+ * <p/>
+ * This provides a user interface for building, testing and deploying different types of projects, which include Java and
+ * Flash simulations.
+ * <p/>
+ * There is a list of projects on the left hand side which can be selected.
+ * <p/>
+ * Each project can have a customized project panel on the right hand side with options and information specific to that
+ * project.
  */
 public class PhetBuildGUI {
-    private JFrame frame = new JFrame();
 
+    private JFrame frame;
+
+    /**
+     * Constructor
+     *
+     * @param trunk We need a reference to trunk for many things
+     */
     public PhetBuildGUI( final File trunk ) {
 
         BuildLocalProperties.initRelativeToTrunk( trunk );
 
-        this.frame = new JFrame( "PhET Build" );
+        frame = new JFrame( "Test Build GUI" );
+
+        final PhetBuildGUIPanel guiPanel = new PhetBuildGUIPanel( trunk );
+        frame.setContentPane( guiPanel );
+
         JMenuBar menuBar = new JMenuBar();
-        JMenu translationMenu = new JMenu( "Translations" );
-        JMenuItem deployItem = new JMenuItem( "Deploy..." );
-        deployItem.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                try {
-                    TranslationDeployClient translationDeployClient = new TranslationDeployClient( trunk );
-                    translationDeployClient.startClient();
-                }
-                catch( Exception e1 ) {
-                    e1.printStackTrace();
-                }
-            }
-        } );
-        translationMenu.add( deployItem );
+        JMenu translationMenu = new TranslationsMenu( trunk );
 
         JMenu c = new JMenu( "File" );
         JMenuItem menuItem = new JMenuItem( "Exit" );
@@ -50,22 +56,33 @@ public class PhetBuildGUI {
         final MiscMenu miscMenu = new MiscMenu( trunk );
         menuBar.add( miscMenu );
         frame.setJMenuBar( menuBar );
-        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
-        final PhetBuildGUIPanel panel = new PhetBuildGUIPanel( trunk );
-        panel.addListener( new ProjectListPanel.Listener() {
+        guiPanel.getProjectList().addListener( new ProjectList.Listener() {
             public void notifyChanged() {
-                miscMenu.setSelectedProject( panel.getSelectedProject() );
+                miscMenu.setSelectedProject( guiPanel.getProjectList().getSelectedProject() );
             }
         } );
-        miscMenu.setSelectedProject( panel.getSelectedProject() );
-        frame.setContentPane( panel );
 
-        frame.setSize( 1200, 400 );
+        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+
+        frame.setSize( 1200, 700 );
+
+
     }
 
     public void start() {
         frame.setVisible( true );
+    }
+
+    public static boolean confirmProdDeploy( PhetProject project, PhetServer server ) {
+        String message = "<html>" +
+                         "Are you sure you want to deploy <font color=red>" + project.getName() + "</font> to " + "<br>" +
+                         PhetServer.PRODUCTION.getHost() + " and " + PhetServer.DEVELOPMENT.getHost() + "?" + "<br>" +
+                         "<br>" +
+                         "(And is your <font color=red>VPN</font> connection running?)" +
+                         "</html>";
+        int option = JOptionPane.showConfirmDialog( new JButton( "Deploy Dev & Prod" ), message, "Confirm", JOptionPane.YES_NO_OPTION );
+        return ( option == JOptionPane.YES_OPTION );
     }
 
     public static void main( String[] args ) {

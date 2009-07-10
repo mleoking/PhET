@@ -1,4 +1,4 @@
-package edu.colorado.phet.buildtools.test.gui;
+package edu.colorado.phet.buildtools.gui;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -22,12 +22,12 @@ import edu.colorado.phet.buildtools.statistics.StatisticsProject;
 /**
  * A list of projects that can be selected
  */
-public class TestProjectList extends JList {
+public class ProjectList extends JList {
 
     private File trunk;
     private DefaultListModel model;
 
-    public TestProjectList( File trunk ) {
+    public ProjectList( File trunk ) {
         this.trunk = trunk;
 
         model = new DefaultListModel();
@@ -47,7 +47,7 @@ public class TestProjectList extends JList {
         if ( defaultProject != null ) {
             SwingUtilities.invokeLater( new Runnable() {
                 public void run() {
-                    TestProjectList.this.setSelectedValue( defaultProject, true );
+                    ProjectList.this.setSelectedValue( defaultProject, true );
                     onProjectChange();
                 }
             } );

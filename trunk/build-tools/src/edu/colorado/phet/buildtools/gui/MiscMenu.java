@@ -275,6 +275,13 @@ public class MiscMenu extends JMenu {
         }
     }
 
+    public static boolean askUserToGenerateOfflineJARS( JComponent parent ) {
+        Object[] objects = {"No", "Yes"};
+        int option = JOptionPane.showOptionDialog( parent, "Generate locale-specific JARs?", "Options", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, objects, objects[0] );
+        final boolean generateOfflineJars = option == 1;
+        return generateOfflineJars;
+    }
+
     private void batchDeploy( PhetProject[] projects, DeployStrategy deployStrategy ) {
         PhetServer.showReminder = false;
         int svnVersion = new BuildScript( trunk, projects[0] ).getRevisionOnTrunkREADME();
@@ -282,7 +289,7 @@ public class MiscMenu extends JMenu {
                                                       "Assuming you've updated already, the revision number will be: " + svnVersion + "\n" +
                                                       "Enter a message to add to the change log for all sims\n" +
                                                       "(or Cancel or Enter a blank line to omit batch message)" );
-        boolean generateJARs = ProjectPanel.askUserToGenerateOfflineJARS( this );
+        boolean generateJARs = askUserToGenerateOfflineJARS( this );
         BufferedWriter bufferedWriter = null;
         File logFile = new File( trunk, "build-tools/deploy-report.txt" );
         try {

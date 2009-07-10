@@ -1,4 +1,4 @@
-package edu.colorado.phet.buildtools.test.gui;
+package edu.colorado.phet.buildtools.gui;
 
 import java.util.*;
 
@@ -11,11 +11,11 @@ import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 /**
  * A displayed list of sorted locales (English should be first, then alphabetical)
  */
-public class TestLocaleList extends JList {
+public class LocaleList extends JList {
 
     private DefaultListModel model;
 
-    public TestLocaleList( Locale[] locales ) {
+    public LocaleList( Locale[] locales ) {
         model = new DefaultListModel();
 
         setModel( model );

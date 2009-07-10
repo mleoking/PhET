@@ -1,4 +1,4 @@
-package edu.colorado.phet.buildtools.test.gui;
+package edu.colorado.phet.buildtools.gui;
 
 import java.awt.*;
 import java.io.File;
@@ -25,7 +25,7 @@ public class ProjectCellRenderer extends DefaultListCellRenderer {
     public Component getListCellRendererComponent( JList list, Object value, int index, boolean isSelected, boolean cellHasFocus ) {
         super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
 
-        TestProjectList.ProjectListElement element = (TestProjectList.ProjectListElement) value;
+        ProjectList.ProjectListElement element = (ProjectList.ProjectListElement) value;
         PhetProject project = element.getProject();
 
         setText( project.getName() );
