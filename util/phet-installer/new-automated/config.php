@@ -129,6 +129,7 @@
     define("DEPLOYMENT_TAG", "WEB_SITE");
     define("MARKER_FILE_NAME", "phet-installation.properties");
     define("CREATION_TIMESTAMP_FILE_NAME", "installer-creation-timestamp.txt");
+    define("VERSION_INFO_FILE_NAME", "version.html");
     define("LINUX_INSTALLER_FILE_NAME", "PhET-Installer_linux.bin");
     define("WINDOWS_INSTALLER_FILE_NAME", "PhET-Installer_windows.exe");
     define("OSX_INSTALLER_FILE_NAME", "PhET-Installer_osx.zip");
