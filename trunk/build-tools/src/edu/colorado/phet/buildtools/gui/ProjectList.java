@@ -13,10 +13,7 @@ import javax.swing.event.ListSelectionListener;
 import edu.colorado.phet.buildtools.BuildToolsPaths;
 import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
-import edu.colorado.phet.buildtools.java.projects.BuildToolsProject;
-import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
-import edu.colorado.phet.buildtools.java.projects.PhetUpdaterProject;
-import edu.colorado.phet.buildtools.java.projects.TranslationUtilityProject;
+import edu.colorado.phet.buildtools.java.projects.*;
 import edu.colorado.phet.buildtools.statistics.StatisticsProject;
 
 /**
@@ -88,6 +85,7 @@ public class ProjectList extends JList {
             projects.add( new TranslationUtilityProject( new File( trunk, BuildToolsPaths.TRANSLATION_UTILITY ) ) );
             projects.add( new PhetUpdaterProject( new File( trunk, BuildToolsPaths.PHET_UPDATER ) ) );
             projects.add( new BuildToolsProject( new File( trunk, BuildToolsPaths.BUILD_TOOLS_DIR ) ) );
+            projects.add( new TimesheetProject( new File( trunk, BuildToolsPaths.TIMESHEET) ) );
             projects.add( new StatisticsProject( trunk ) );
         }
         catch( IOException e ) {

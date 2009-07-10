@@ -65,7 +65,7 @@ public class PhetBuildGUIPanel extends JSplitPane {
                     setRightComponent( projectPanel );
                 }
                 else if ( project instanceof JavaProject ) {
-                    projectPanel = new MiscJavaPanel( trunk, (JavaProject) project, false );
+                    projectPanel = new MiscJavaPanel( trunk, (JavaProject) project, true );
                     setRightComponent( projectPanel );
                 }
                 else {
