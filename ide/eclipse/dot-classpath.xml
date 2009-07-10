@@ -216,6 +216,8 @@
 	<classpathentry kind="src" path="util/translation-strings-diff/src"/>
 	<classpathentry kind="src" path="util/testing/src"/>
     <classpathentry kind="src" path="util/testing/contrib/opencsv/src"/>
+    <classpathentry kind="src" path="util/timesheet/src"/>
+    <classpathentry kind="src" path="util/timesheet/data"/>
     <classpathentry kind="src" path="util/unfuddle/src"/>
 	<classpathentry kind="src" path="util/unfuddle/data"/>
 	<classpathentry kind="lib" path="util/unfuddle/contrib/ant/ant.jar"/>
