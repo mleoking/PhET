@@ -108,6 +108,9 @@
                             <origin>../../temp/website/phet.colorado.edu/index.html</origin>
                         </distributionFile>
                         <distributionFile>
+                            <origin>../../temp/website/phet.colorado.edu/version.html</origin>
+                        </distributionFile>
+                        <distributionFile>
                             <origin>../../Installer-Resources/Install-Path/phet-icon.ico</origin>
                         </distributionFile>
                         <distributionFile>
