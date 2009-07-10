@@ -196,23 +196,33 @@ class ForceLawLabControlPanel(model: ForceLawLabModel) extends ControlPanel {
   add(new ScalaValueControl(0.01, 100, model.m2.name, "0.00", ForceLawLabResources.getLocalizedString("units.kg"), model.m2.mass, model.m2.mass = _, model.m2.addListener))
 }
 
-class SunPlanetControlPanel(model: ForceLawLabModel, m: Magnification) extends ControlPanel {
+class SunPlanetControlPanel(model: ForceLawLabModel, m: Magnification, units: UnitsContainer) extends ControlPanel {
   import ForceLawLabDefaults._
   import ForceLawLabResources._
   add(new ScalaValueControl(kgToEarthMasses(model.m1.mass / 10), kgToEarthMasses(model.m1.mass * 5), model.m1.name + " mass", "0.00", "earth masses",
     kgToEarthMasses(model.m1.mass), a => model.m1.mass = earthMassesToKg(a), model.m1.addListener))
 
-  val control = new ScalaValueControl(0.01, metersToLightMinutes(sunEarthDist * 5), "distance", "0.00", getLocalizedString("units.light-minutes"),
-    metersToLightMinutes(model.distance), a => model.distance = lightMinutesToMeters(a), addListener)
-  control.getSlider.addMouseListener(new MouseAdapter() {
+  units.addListenerByName{
+    distanceSlider.setRangeAndValue(0.01, units.metersToUnits(sunEarthDist * 5),units.metersToUnits(model.distance))
+    distanceSlider.setUnits(units.units.name)
+  }
+
+  val distanceSlider = new ScalaValueControl(0.01, units.metersToUnits(sunEarthDist * 5), "distance", "0.00", getLocalizedString("units.light-minutes"),
+    units.metersToUnits(model.distance), a => model.distance = units.unitsToMeters(a), addDistanceListener)
+  distanceSlider.getTextField.setColumns(8)//to show kilometers
+  distanceSlider.addTickLabel(0.01,"min") //avoid generating 1E8 tick marks
+
+  distanceSlider.getSlider.addMouseListener(new MouseAdapter() {
     override def mouseReleased(e: MouseEvent) = model.setDragging(false)
 
     override def mousePressed(e: MouseEvent) = model.setDragging(true)
   })
-  add(control)
-  def addListener(listener: () => Unit) = {
+  add(distanceSlider)
+
+  def addDistanceListener(listener: () => Unit) = {
     model.m1.addListener(listener)
     model.m2.addListener(listener)
+//    units.addListener(listener)
   }
 
   def addPlanetListener(listener: () => Unit) = {
@@ -240,7 +250,6 @@ class SunPlanetControlPanel(model: ForceLawLabModel, m: Magnification) extends C
   add(none)
 
   add(new ScaleControl(m))
-  val units = new UnitsContainer(UnitsCollection.values(0))
   add(new UnitsControl(units))
 }
 
@@ -267,6 +276,10 @@ class UnitsContainer(private var _units: Units) extends Observable {
     _units = u
     notifyListeners()
   }
+
+  def metersToUnits(m: Double) = _units.metersToUnits(m)
+
+  def unitsToMeters(u: Double) = _units.unitsToMeters(u)
 
 }
 class Magnification(private var _magnified: Boolean) extends Observable {
@@ -399,6 +412,7 @@ object ForceLawLabDefaults {
 
 class SolarModule(clock: ScalaClock) extends Module(ForceLawLabResources.getLocalizedString("module.sun-planet-system.name"), clock) {
   val magnification = new Magnification(true)
+  val units = new UnitsContainer(UnitsCollection.values(0))
   import ForceLawLabDefaults._
   import ForceLawLabResources._
   val model = new ForceLawLabModel(earthMass, //earth mass in kg
@@ -439,7 +453,7 @@ class SolarModule(clock: ScalaClock) extends Module(ForceLawLabResources.getLoca
   canvas.addNode(disclaimerNode)
   setSimulationPanel(canvas)
   clock.addClockListener(model.update(_))
-  setControlPanel(new SunPlanetControlPanel(model, magnification))
+  setControlPanel(new SunPlanetControlPanel(model, magnification,units))
   setClockControlPanel(null)
 }
 
