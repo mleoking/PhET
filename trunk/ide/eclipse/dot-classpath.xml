@@ -207,16 +207,15 @@
 	
 	<!-- utilities -->
 	<classpathentry kind="src" path="util/licensing/src"/>
+    <classpathentry kind="src" path="util/localization-strings/src"/>
 	<classpathentry kind="src" path="util/phet-installer/src"/>
     <classpathentry kind="src" path="util/phet-updater/src"/>
+    <classpathentry kind="src" path="util/phet-updater/data"/>
 	<classpathentry kind="src" path="util/translation-utility/src"/>
 	<classpathentry kind="src" path="util/translation-utility/data"/>
 	<classpathentry kind="src" path="util/translation-strings-diff/src"/>
-	<classpathentry kind="src" path="util/localization-strings/src"/>
 	<classpathentry kind="src" path="util/testing/src"/>
     <classpathentry kind="src" path="util/testing/contrib/opencsv/src"/>
-	
-	<!-- Unfuddle notifier -->
     <classpathentry kind="src" path="util/unfuddle/src"/>
 	<classpathentry kind="src" path="util/unfuddle/data"/>
 	<classpathentry kind="lib" path="util/unfuddle/contrib/ant/ant.jar"/>
