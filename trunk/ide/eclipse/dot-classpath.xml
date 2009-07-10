@@ -227,16 +227,18 @@
 	<classpathentry kind="lib" path="util/unfuddle/contrib/javamail/pop3.jar"/>
 	<classpathentry kind="lib" path="util/unfuddle/contrib/javamail/smtp.jar"/>
 
-    <!-- Scala sims and resources, requires plugin
+    <!-- Scala sims and resources, requires Scala Eclipse Plugin -->
+    <!-- disabled until plugin matures, this section is probably incomplete/incorrect
 	<classpathentry kind="src" path="simulations-java/common/scala-common/scala-src"/>
-    <classpathentry kind="src" path="simulations-java/simulations/cavendish-experiment/scala-src"/>
-    <classpathentry kind="src" path="simulations-java/simulations/cavendish-experiment/data"/>
+    <classpathentry kind="src" path="simulations-java/simulations/force-law-lab/scala-src"/>
+    <classpathentry kind="src" path="simulations-java/simulations/force-law-lab/data"/> 
   	<classpathentry kind="src" path="simulations-java/simulations/the-ramp/scala-src"/>
   	<classpathentry kind="src" path="simulations-java/simulations/ladybug-motion-2d/src"/>
   	<classpathentry kind="src" path="simulations-java/simulations/ladybug-motion-2d/scala-src"/>
   	<classpathentry kind="src" path="simulations-java/simulations/ladybug-motion-2d/data"/>
 	<classpathentry kind="con" path="ch.epfl.lamp.sdt.launching.SCALA_CONTAINER"/>
-    End Scala sims and resources-->
+	-->
+    <!-- end Scala sims and resources-->
 	
     <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
