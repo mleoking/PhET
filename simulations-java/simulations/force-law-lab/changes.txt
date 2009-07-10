@@ -1,3 +1,6 @@
+> made the slider drag the sun instead of the planet
+> added units controls and explanation
+> added a link to My Solar System sim
 > added scale control for magnified or actual size
 # 0.01.04 (33175) Jul 8, 2009
 > constrained drag to lie within play area

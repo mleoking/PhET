@@ -41,7 +41,7 @@ class ForceLabelNode(target: Mass, source: Mass, transform: ModelViewTransform2D
 
   defineInvokeAndPass(model.addListenerByName) {
     label.setOffset(transform.modelToView(target.position) - new Vector2D(0, label.getFullBounds.getHeight + offsetY))
-    val str = MessageFormat.format(ForceLawLabResources.getLocalizedString("force-description-pattern-target_source_value"), target.name, source.name, format.format(model.getGravityForce.magnitude))
+    val str = ForceLawLabResources.format("force-description-pattern-target_source_value", target.name, source.name, format.format(model.getGravityForce.magnitude))
     label.setText(str)
     val sign = if (right) 1 else -1
     val tip = label.getOffset + new Vector2D(sign * model.getGravityForce.magnitude * scale, -20)
@@ -197,14 +197,15 @@ class WallNode(wall: Wall, transform: ModelViewTransform2D, color: Color) extend
   addChild(wallPath)
 }
 class ForceLawLabControlPanel(model: ForceLawLabModel) extends ControlPanel {
-  add(new ScalaValueControl(0.01, 100, model.m1.name, "0.00", ForceLawLabResources.getLocalizedString("units.kg"), model.m1.mass, model.m1.mass = _, model.m1.addListener))
-  add(new ScalaValueControl(0.01, 100, model.m2.name, "0.00", ForceLawLabResources.getLocalizedString("units.kg"), model.m2.mass, model.m2.mass = _, model.m2.addListener))
+  import ForceLawLabResources._
+  add(new ScalaValueControl(0.01, 100, model.m1.name, "0.00", getLocalizedString("units.kg"), model.m1.mass, model.m1.mass = _, model.m1.addListener))
+  add(new ScalaValueControl(0.01, 100, model.m2.name, "0.00", getLocalizedString("units.kg"), model.m2.mass, model.m2.mass = _, model.m2.addListener))
 }
 
 class SunPlanetControlPanel(model: ForceLawLabModel, m: Magnification, units: UnitsContainer, phetFrame: PhetFrame) extends ControlPanel {
   import ForceLawLabDefaults._
   import ForceLawLabResources._
-  add(new ScalaValueControl(kgToEarthMasses(model.m1.mass / 10), kgToEarthMasses(model.m1.mass * 5), model.m1.name + " mass", "0.00", "earth masses",
+  add(new ScalaValueControl(kgToEarthMasses(model.m1.mass / 10), kgToEarthMasses(model.m1.mass * 5), format("readout.pattern-bodyname",model.m1.name), "0.00", getLocalizedString("units.earth.masses"),
     kgToEarthMasses(model.m1.mass), a => model.m1.mass = earthMassesToKg(a), model.m1.addListener))
 
   units.addListenerByName {
@@ -215,13 +216,13 @@ class SunPlanetControlPanel(model: ForceLawLabModel, m: Magnification, units: Un
   val distanceSlider = new ScalaValueControl(0.01, units.metersToUnits(sunEarthDist * 5), "distance", "0.00", getLocalizedString("units.light-minutes"),
     units.metersToUnits(model.distance), a => model.distance = units.unitsToMeters(a), addDistanceListener)
   distanceSlider.getTextField.setColumns(8) //to show kilometers
-  distanceSlider.addTickLabel(0.01, "min") //avoid generating 1E8 tick marks
+  distanceSlider.addTickLabel(0.01, "") //avoid generating 1E8 tick marks//todo: fix this
 
-  distanceSlider.getSlider.addMouseListener(new MouseAdapter() {
-    override def mouseReleased(e: MouseEvent) = model.setDragging(false)
-
-    override def mousePressed(e: MouseEvent) = model.setDragging(true)
-  })
+//  distanceSlider.getSlider.addMouseListener(new MouseAdapter() {
+//    override def mouseReleased(e: MouseEvent) = model.setDragging(false)
+//
+//    override def mousePressed(e: MouseEvent) = model.setDragging(true)
+//  })
   add(distanceSlider)
 
   def addDistanceListener(listener: () => Unit) = {
@@ -235,7 +236,7 @@ class SunPlanetControlPanel(model: ForceLawLabModel, m: Magnification, units: Un
     model.m2.addListener(listener) //since sun location can change
   }
   case class Planet(name: String, mass: Double, dist: Double)
-  val planets = new Planet("Earth", earthMass, sunEarthDist) :: Nil
+  val planets = new Planet(ForceLawLabResources.getLocalizedString("body.name.earth"), earthMass, sunEarthDist) :: Nil
 
   def setPlanet(p: Planet) = {
     model.m1.mass = p.mass
@@ -251,7 +252,7 @@ class SunPlanetControlPanel(model: ForceLawLabModel, m: Magnification, units: Un
   for (p <- planets)
     add(new MyRadioButton(p.name, setPlanet(p), isPlanet(p), addPlanetListener))
 
-  val none = new MyRadioButton("Custom", () => {}, !planets.foldLeft(false) {(a, b) => {a || isPlanet(b)}}, addPlanetListener)
+  val none = new MyRadioButton(ForceLawLabResources.getLocalizedString("custom"), () => {}, !planets.foldLeft(false) {(a, b) => {a || isPlanet(b)}}, addPlanetListener)
   add(none)
 
   add(new ScaleControl(m))
@@ -262,8 +263,8 @@ class SunPlanetControlPanel(model: ForceLawLabModel, m: Magnification, units: Un
 }
 
 class LinkToMySolarSystem extends VerticalLayoutPanel {
-  setBorder(BorderFactory.createTitledBorder("Related Sims"))
-  val jLabel = new JLabel("My Solar System", new ImageIcon(ForceLawLabResources.getImage("my-solar-system-thumbnail.jpg")), SwingConstants.CENTER)
+  setBorder(BorderFactory.createTitledBorder(ForceLawLabResources.getLocalizedString("related.sims")))
+  val jLabel = new JLabel(ForceLawLabResources.getLocalizedString("my.solar.system"), new ImageIcon(ForceLawLabResources.getImage("my-solar-system-thumbnail.jpg")), SwingConstants.CENTER)
   jLabel.setFont(new PhetFont(14, true))
   jLabel.setForeground(Color.red)
   jLabel.setHorizontalTextPosition(SwingConstants.CENTER)
@@ -276,14 +277,14 @@ class LinkToMySolarSystem extends VerticalLayoutPanel {
 }
 
 class UnitsControl(units: UnitsContainer, phetFrame: PhetFrame) extends VerticalLayoutPanel {
-  setBorder(BorderFactory.createTitledBorder("Units"))
+  setBorder(BorderFactory.createTitledBorder(ForceLawLabResources.getLocalizedString("units")))
   for (u <- UnitsCollection.values) add(new MyRadioButton(u.name, units.units = u, units.units == u, units.addListener))
   val unitsExplanation = new UnitsExplanation(phetFrame)
-  add(new MyJButton("Compare", () => unitsExplanation.setVisible(true)))
+  add(new MyJButton(ForceLawLabResources.getLocalizedString("compare"), () => unitsExplanation.setVisible(true)))
 }
 
-class UnitsExplanation(phetFrame: PhetFrame) extends JDialog(phetFrame, "Units Comparison", false) {
-  val textArea = new JTextArea("1 light minute = 17 987 547.5 kilometers.\nThat's the distance light travels in 1 minute.\n\nHow far can you travel in 1 minute?")
+class UnitsExplanation(phetFrame: PhetFrame) extends JDialog(phetFrame, ForceLawLabResources.getLocalizedString("units.comparison"), false) {
+  val textArea = new JTextArea(ForceLawLabResources.getLocalizedString("units.comparison.explanation"))
   textArea.setEditable(false)
   textArea.setFont(new PhetFont(16, true))
   setContentPane(textArea)
@@ -300,8 +301,8 @@ case class Units(name: String, scale: Double) {
   def unitsToMeters(u: Double) = u / scale
 }
 object UnitsCollection {
-  val values = new Units("light-minutes", 5.5594E-11) :: //new Units("meters", 1.0) ::
-          new Units("kilometers", 1 / 1000.0) :: Nil
+  val values = new Units(ForceLawLabResources.getLocalizedString("units.light-minutes"), 5.5594E-11) :: //new Units("meters", 1.0) ::
+          new Units(ForceLawLabResources.getLocalizedString("units.kilometers"), 1 / 1000.0) :: Nil
 }
 
 class UnitsContainer(private var _units: Units) extends Observable {
@@ -326,9 +327,9 @@ class Magnification(private var _magnified: Boolean) extends Observable {
   def magnified = _magnified
 }
 class ScaleControl(m: Magnification) extends VerticalLayoutPanel {
-  setBorder(BorderFactory.createTitledBorder("Scale"))
-  add(new MyRadioButton("Magnified", m.magnified = true, m.magnified, m.addListener))
-  add(new MyRadioButton("Actual Size", m.magnified = false, !m.magnified, m.addListener))
+  setBorder(BorderFactory.createTitledBorder(ForceLawLabResources.getLocalizedString("scale")))
+  add(new MyRadioButton(ForceLawLabResources.getLocalizedString("scale.magnified"), m.magnified = true, m.magnified, m.addListener))
+  add(new MyRadioButton(ForceLawLabResources.getLocalizedString("scale.actual-size"), m.magnified = false, !m.magnified, m.addListener))
 }
 
 class Mass(private var _mass: Double, private var _position: Vector2D, val name: String, private var _massToRadius: Double => Double) extends Observable {
@@ -375,8 +376,8 @@ class ForceLawLabModel(mass1: Double, mass2: Double,
 
   def distance = m2.position.x - m1.position.x
 
-  //set the location of the m1 based on the total separation radius
-  def distance_=(d: Double) = m1.position = new Vector2D(m2.position.x - d, 0)
+  //set the location of the m2 based on the total separation radius
+  def distance_=(d: Double) = m2.position = new Vector2D(m1.position.x + d, 0)
 
   def rMin = if (m1.position.x + m1.radius < m2.position.x - m2.radius) r else m2.position - new Vector2D(m2.radius, 0)
 
