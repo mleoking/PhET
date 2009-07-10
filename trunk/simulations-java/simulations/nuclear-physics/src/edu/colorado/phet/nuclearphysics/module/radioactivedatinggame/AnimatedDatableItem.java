@@ -152,7 +152,16 @@ public abstract class AnimatedDatableItem extends DatableItem implements Cleanup
 
     @Override
 	public double getAge() {
-        return _age;
+    	if (_closureState != RadiometricClosureState.CLOSED){
+    		// Radiometric aging does not begin until closure occurs.
+    		return 0;
+    	}
+    	else {
+    		// Calculate the time since closure occurred, since
+    		// radiometrically speaking, that is our age.
+    		assert _age > _closureAge;
+    		return _age - _closureAge;
+    	}
     }
 
     public static class TimeUpdater {
