@@ -208,12 +208,13 @@ class SunPlanetControlPanel(model: ForceLawLabModel, m: Magnification, units: Un
   add(new ScalaValueControl(kgToEarthMasses(model.m1.mass / 10), kgToEarthMasses(model.m1.mass * 5), format("readout.pattern-bodyname",model.m1.name), "0.00", getLocalizedString("units.earth.masses"),
     kgToEarthMasses(model.m1.mass), a => model.m1.mass = earthMassesToKg(a), model.m1.addListener))
 
+  def maxValue = units.metersToUnits(sunEarthDist * 1.8)
   units.addListenerByName {
-    distanceSlider.setRangeAndValue(0.01, units.metersToUnits(sunEarthDist * 5), units.metersToUnits(model.distance))
+    distanceSlider.setRangeAndValue(0.01, maxValue, units.metersToUnits(model.distance))
     distanceSlider.setUnits(units.units.name)
   }
 
-  val distanceSlider = new ScalaValueControl(0.01, units.metersToUnits(sunEarthDist * 5), "distance", "0.00", getLocalizedString("units.light-minutes"),
+  val distanceSlider = new ScalaValueControl(0.01, maxValue, "distance", "0.00", getLocalizedString("units.light-minutes"),
     units.metersToUnits(model.distance), a => model.distance = units.unitsToMeters(a), addDistanceListener)
   distanceSlider.getTextField.setColumns(8) //to show kilometers
   distanceSlider.addTickLabel(0.01, "") //avoid generating 1E8 tick marks//todo: fix this
