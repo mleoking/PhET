@@ -5,6 +5,7 @@ package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
+import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
@@ -26,6 +27,7 @@ import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucl
 import edu.colorado.phet.nuclearphysics.view.NuclearDecayProportionChart;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * This class represents the canvas upon which the view of the model is
@@ -96,6 +98,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     private AgeGuessingNode.Listener _ageGuessListener;
     private GradientButtonNode _resetGuessesButtonNode;
     private Rectangle2D _probeDragBounds = new Rectangle2D.Double();
+    private PPath _probeDragBounds2 = new PPath();
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -191,7 +194,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         		_mvt,
         		this,
         		true, 
-        		_probeDragBounds );
+        		_probeDragBounds2 );
         _meterNode.setMeterBodyOffset( 0, OFFSET_FROM_TOP );
         addWorldChild( _meterNode );
         
@@ -238,6 +241,10 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
 				handleGuessSubmitted(ageGuess);
 			}
         };
+        
+        // Add the node that will act as the bounds for where the probe can
+        // be moved.
+        addWorldChild(_probeDragBounds2);
     }
 
 	//------------------------------------------------------------------------
@@ -278,6 +285,23 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     		// Set the boundaries of where the probe can move based on the
     		// size of the canvas.
     		_probeDragBounds.setFrame(getBounds());
+    		
+    		// Set the bounding node to match exactly the size of the
+    		// viewport.  This will be used to constrain the movements of the
+    		// probe.
+    		AffineTransform transform = getWorldTransformStrategy().getTransform();
+    		AffineTransform inverseTransform;
+    		try {
+    			inverseTransform = transform.createInverse();
+    		} catch (NoninvertibleTransformException e) {
+    			System.err.println(getClass().getName() + " - Error: Unable to invert transform.");
+    			e.printStackTrace();
+    			inverseTransform = new AffineTransform(); // Unity transform by default.
+    		}
+    		Shape tranformedBounds = inverseTransform.createTransformedShape(getBounds());
+    		
+    		_probeDragBounds2.setPathTo(tranformedBounds);
+
     	}
     }
     

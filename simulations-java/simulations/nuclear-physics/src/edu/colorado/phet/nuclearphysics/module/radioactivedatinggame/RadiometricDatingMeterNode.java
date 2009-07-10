@@ -96,7 +96,7 @@ public class RadiometricDatingMeterNode extends PNode {
     //------------------------------------------------------------------------
 
 	public RadiometricDatingMeterNode(RadiometricDatingMeter meterModel, double width, double height,
-			ModelViewTransform2D mvt, PSwingCanvas canvas, boolean showCustom, Rectangle2D probeDragBounds) {
+			ModelViewTransform2D mvt, PSwingCanvas canvas, boolean showCustom, PNode probeDragBounds) {
 		
 		_meterModel = meterModel;
 		_mvt = mvt;
@@ -319,24 +319,27 @@ public class RadiometricDatingMeterNode extends PNode {
     	}
     }
     
+    /**
+     * Node that represents the probe portion of the meter.
+     */
     static class ProbeNode extends PhetPNode {
         private final RadiometricDatingMeter.ProbeModel _probeModel;
-        private final PImage imageNode;
-        private final PhetPPath tipPath;
+        private final PImage _imageNode;
+        private final PhetPPath _tipPath;
         private final ModelViewTransform2D _mvt;
-        private final Rectangle2D _dragBounds;
+        private final PNode _dragBounds;
 
         public ProbeNode( RadiometricDatingMeter.ProbeModel probeModel, ModelViewTransform2D mvt, 
-        		Rectangle2D probeDragBounds ) {
+        		PNode probeDragBounds ) {
         	
             _probeModel = probeModel;
             _mvt = mvt;
             _dragBounds = probeDragBounds;
 
-            imageNode = NuclearPhysicsResources.getImageNode( "geiger_probe.png" );
-            imageNode.rotateAboutPoint( probeModel.getAngle(), 0.1, 0.1 );
-            imageNode.scale( PROBE_SIZE_SCALE_FACTOR );
-            addChild( imageNode );
+            _imageNode = NuclearPhysicsResources.getImageNode( "geiger_probe.png" );
+            _imageNode.rotateAboutPoint( probeModel.getAngle(), 0.1, 0.1 );
+            _imageNode.scale( PROBE_SIZE_SCALE_FACTOR );
+            addChild( _imageNode );
             probeModel.addObserver( new SimpleObserver() {
 				public void update() {
 					updateProbe();
@@ -345,30 +348,52 @@ public class RadiometricDatingMeterNode extends PNode {
             
             addInputEventListener( new PBasicInputEventHandler() {
                 public void mouseDragged( PInputEvent event ) {
-                    PDimension pt = event.getDeltaRelativeTo( ProbeNode.this.getParent() );
-                    System.out.println("---->" + ProbeNode.this.getFullBounds());
-                    if (_dragBounds.contains(event.getPosition())){
-                    	// Move the probe in the model based on the user's dragging.
-	                    _probeModel.translate( _mvt.viewToModelDifferentialX(pt.width),
-	                    		_mvt.viewToModelDifferentialY(pt.height) );
-                    }
+                    handleMouseDragged(event);
                 }
             } );
             addInputEventListener( new CursorHandler() );
 
-            tipPath = new PhetPPath( Color.lightGray );
-            addChild( tipPath );
+            _tipPath = new PhetPPath( Color.lightGray );
+            addChild( _tipPath );
 
             updateProbe();
         }
 
+		private void handleMouseDragged(PInputEvent event) {
+			PDimension pt = event.getDeltaRelativeTo( ProbeNode.this.getParent() );
+            boolean movementAllowed = true;
+            Rectangle2D boundaryRect = localToGlobal(_dragBounds.getFullBounds());
+            Rectangle2D probeRect = localToGlobal(_imageNode.getFullBounds());
+            
+            // Only allow the probe to be moved if it is within the bounding
+            // rectangle.  This prevents the probe from being dragged off the
+            // canvas where the user can't recover it.
+            if (pt.width > 0 && probeRect.getMaxX() >= boundaryRect.getMaxX()){
+            	movementAllowed = false;
+            }
+            else if (pt.width < 0 && probeRect.getMinX() <= boundaryRect.getMinX()){
+            	movementAllowed = false;
+            }
+            if (pt.height > 0 && probeRect.getMaxY() >= boundaryRect.getMaxY()){
+            	movementAllowed = false;
+            }
+            else if (pt.height < 0 && probeRect.getMinY() <= boundaryRect.getMinY()){
+            	movementAllowed = false;
+            }
+            if (movementAllowed){
+            	// Move the probe in the model based on the user's dragging.
+                _probeModel.translate( _mvt.viewToModelDifferentialX(pt.width),
+                		_mvt.viewToModelDifferentialY(pt.height) );
+            }
+		}
+		
         private void updateProbe() {
-            double dx = imageNode.getImage().getWidth( null ) * PROBE_SIZE_SCALE_FACTOR * Math.cos( _probeModel.getAngle() ) / 2;
-            double dy = imageNode.getImage().getWidth( null ) * PROBE_SIZE_SCALE_FACTOR * Math.sin( _probeModel.getAngle() ) / 2;
-            imageNode.setOffset( _mvt.modelToViewXDouble(_probeModel.getTipLocation().getX()) - dx, 
+            double dx = _imageNode.getImage().getWidth( null ) * PROBE_SIZE_SCALE_FACTOR * Math.cos( _probeModel.getAngle() ) / 2;
+            double dy = _imageNode.getImage().getWidth( null ) * PROBE_SIZE_SCALE_FACTOR * Math.sin( _probeModel.getAngle() ) / 2;
+            _imageNode.setOffset( _mvt.modelToViewXDouble(_probeModel.getTipLocation().getX()) - dx, 
             		_mvt.modelToViewYDouble(_probeModel.getTipLocation().getY()) - dy);
 
-            tipPath.setPathTo( _probeModel.getTipShape() );
+            _tipPath.setPathTo( _probeModel.getTipShape() );
         }
 
         /**
@@ -379,8 +404,8 @@ public class RadiometricDatingMeterNode extends PNode {
          * @return
          */
         public Point2D getTailLocation() {
-            Point2D pt = new Point2D.Double( imageNode.getWidth() / 2, imageNode.getHeight() );
-            imageNode.localToParent( pt );
+            Point2D pt = new Point2D.Double( _imageNode.getWidth() / 2, _imageNode.getHeight() );
+            _imageNode.localToParent( pt );
             localToParent( pt );
             return new Point2D.Double( pt.getX(), pt.getY() );
         }
