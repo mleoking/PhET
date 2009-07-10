@@ -4,6 +4,7 @@ package edu.colorado.phet.forcelawlab
 import collection.mutable.ArrayBuffer
 import common.phetcommon.application.{PhetApplicationConfig, PhetApplicationLauncher, Module}
 import common.phetcommon.math.MathUtil
+import common.phetcommon.servicemanager.PhetServiceManager
 import common.phetcommon.view.util.{SwingUtils, DoubleGeneralPath, PhetFont}
 import common.phetcommon.view.{PhetFrame, VerticalLayoutPanel, ControlPanel}
 import common.piccolophet.nodes.layout.SwingLayoutNode
@@ -13,10 +14,10 @@ import common.phetcommon.view.graphics.RoundGradientPaint
 import common.piccolophet.event.CursorHandler
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import java.awt._
-import event.{MouseAdapter, MouseEvent}
+import java.awt.event.{MouseAdapter, MouseEvent}
 
 import java.text._
-import javax.swing.{JTextArea, JDialog, BorderFactory}
+import javax.swing._
 import scalacommon.swing.{MyJButton, MyRadioButton}
 import umd.cs.piccolo.nodes.{PImage, PText}
 import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
@@ -251,6 +252,23 @@ class SunPlanetControlPanel(model: ForceLawLabModel, m: Magnification, units: Un
 
   add(new ScaleControl(m))
   add(new UnitsControl(units,phetFrame))
+
+  add(Box.createRigidArea(new Dimension(100,100)))//spacer
+  add(new LinkToMySolarSystem)
+}
+
+class LinkToMySolarSystem extends VerticalLayoutPanel{
+  setBorder(BorderFactory.createTitledBorder("Related Sims"))
+  val jLabel = new JLabel("My Solar System",new ImageIcon(ForceLawLabResources.getImage("my-solar-system-thumbnail.jpg")),SwingConstants.CENTER)
+  jLabel.setFont(new PhetFont(14,true))
+  jLabel.setForeground(Color.red)
+  jLabel.setHorizontalTextPosition(SwingConstants.CENTER)
+  jLabel.setVerticalTextPosition(SwingConstants.BOTTOM)
+  jLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR))
+  jLabel.addMouseListener(new MouseAdapter(){
+    override def mousePressed(e: MouseEvent) =  PhetServiceManager.showSimPage("my-solar-system","my-solar-system") 
+  })
+  add(jLabel)
 }
 
 class UnitsControl(units: UnitsContainer,phetFrame:PhetFrame) extends VerticalLayoutPanel {
