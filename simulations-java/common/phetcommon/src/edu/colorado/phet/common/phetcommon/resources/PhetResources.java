@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
 import java.util.Properties;
+import java.text.MessageFormat;
 
 import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
 import edu.colorado.phet.common.phetcommon.util.logging.ILogger;
@@ -279,6 +280,17 @@ public class PhetResources {
 
     public String getLocalizedString( String key ) {
         return DummyConstantStringTester.getString(localizedProperties.getString( key ));
+    }
+
+    /**
+     * Look up a pattern based on a key, then fill it in with with the specified values.
+     *
+     * @param key    the key that indicates the pattern in a resource file
+     * @param values the values to use in filling in the mesage pattern
+     * @return the formatted string with values filled in
+     */
+    public String format(String key, String... values) {
+        return MessageFormat.format(getLocalizedString(key), values);
     }
 
     public char getLocalizedChar( String key, char defaultValue ) {
