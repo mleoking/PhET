@@ -4,3 +4,4 @@
 ###################################
 
 push-pin.png source=microsoft clip art
+earth-v1-plain.png comments=copied from natural selection
