@@ -4,10 +4,10 @@ package edu.colorado.phet.forcelawlab
 import collection.mutable.ArrayBuffer
 import common.phetcommon.application.{PhetApplicationConfig, PhetApplicationLauncher, Module}
 import common.phetcommon.math.MathUtil
+import common.phetcommon.model.Resettable
 import common.phetcommon.servicemanager.PhetServiceManager
 import common.phetcommon.view.util.{SwingUtils, DoubleGeneralPath, PhetFont}
 import common.phetcommon.view.{PhetFrame, VerticalLayoutPanel, ControlPanel}
-import common.piccolophet.nodes.layout.SwingLayoutNode
 import common.piccolophet.PiccoloPhetApplication
 import common.piccolophet.nodes.{PhetPPath, RulerNode, ArrowNode, SphericalNode}
 import common.phetcommon.view.graphics.RoundGradientPaint
@@ -132,8 +132,8 @@ class ForceLawLabCanvas(model: ForceLawLabModel, modelWidth: Double, mass1Color:
   }
 
   def maj = for (i <- 0 until ticks.size) yield {
-    if (i == 1 && tickToString(ticks(i)).length>1) "" //todo improve heuristic for overlapping text
-    else if (i == ticks.size - 1 && tickToString(ticks(i)).length>5) "" //skip last tick label in km if it is expected to go off the ruler
+    if (i == 1 && tickToString(ticks(i)).length > 1) "" //todo improve heuristic for overlapping text
+    else if (i == ticks.size - 1 && tickToString(ticks(i)).length > 5) "" //skip last tick label in km if it is expected to go off the ruler
     else tickToString(ticks(i))
   }
 
@@ -145,9 +145,11 @@ class ForceLawLabCanvas(model: ForceLawLabModel, modelWidth: Double, mass1Color:
     rulerNode.setUnits(units.units.name)
     rulerNode.setMajorTickLabels(maj.toArray)
   }
-  rulerNode.setOffset(150, 500)
 
-  def updateRulerVisible() = {}//rulerNode.setVisible(!magnification.magnified)
+  def resetRulerLocation()=rulerNode.setOffset(150, 500)
+  resetRulerLocation()
+
+  def updateRulerVisible() = {} //rulerNode.setVisible(!magnification.magnified)
   magnification.addListenerByName(updateRulerVisible())
   updateRulerVisible()
 
@@ -201,19 +203,25 @@ class WallNode(wall: Wall, transform: ModelViewTransform2D, color: Color) extend
   val wallPath = new PhetPPath(transform.createTransformedShape(wall.getShape), color, new BasicStroke(2f), Color.gray)
   addChild(wallPath)
 }
-class ForceLawLabControlPanel(model: ForceLawLabModel) extends ControlPanel {
+class ForceLawLabControlPanel(model: ForceLawLabModel,resetFunction:()=>Unit) extends ControlPanel {
   import ForceLawLabResources._
   add(new ForceLawLabScalaValueControl(0.01, 100, model.m1.name, "0.00", getLocalizedString("units.kg"), model.m1.mass, model.m1.mass = _, model.m1.addListener))
   add(new ForceLawLabScalaValueControl(0.01, 100, model.m2.name, "0.00", getLocalizedString("units.kg"), model.m2.mass, model.m2.mass = _, model.m2.addListener))
+  addResetAllButton(new Resettable() {
+    def reset = {
+      model.reset()
+      resetFunction()
+    }
+  })
 }
 
 class ForceLawLabScalaValueControl(min: Double, max: Double, name: String, decimalFormat: String, units: String,
-                        getter: => Double, setter: Double => Unit, addListener: (() => Unit) => Unit) extends ScalaValueControl(min,max,name,decimalFormat,units,
-  getter,setter,addListener){
-  getTextField.setFont(new PhetFont(16,true))
+                                   getter: => Double, setter: Double => Unit, addListener: (() => Unit) => Unit) extends ScalaValueControl(min, max, name, decimalFormat, units,
+  getter, setter, addListener) {
+  getTextField.setFont(new PhetFont(16, true))
 }
 
-class SunPlanetControlPanel(model: ForceLawLabModel, m: Magnification, units: UnitsContainer, phetFrame: PhetFrame) extends ControlPanel {
+class SunPlanetControlPanel(model: ForceLawLabModel, m: Magnification, units: UnitsContainer, phetFrame: PhetFrame, resetFunction:()=>Unit) extends ControlPanel {
   import ForceLawLabDefaults._
   import ForceLawLabResources._
   add(new ForceLawLabScalaValueControl(kgToEarthMasses(model.m1.mass / 10), kgToEarthMasses(model.m1.mass * 5), format("readout.pattern-bodyname", model.m1.name), "0.00", getLocalizedString("units.earth.masses"),
@@ -272,6 +280,15 @@ class SunPlanetControlPanel(model: ForceLawLabModel, m: Magnification, units: Un
 
   add(Box.createRigidArea(new Dimension(100, 100))) //spacer
   add(new LinkToMySolarSystem)
+
+  addResetAllButton(new Resettable() {
+    def reset = {
+      model.reset()
+      m.reset()
+      units.reset()
+      resetFunction()
+    }
+  })
 }
 
 class LinkToMySolarSystem extends VerticalLayoutPanel {
@@ -318,6 +335,8 @@ object UnitsCollection {
 }
 
 class UnitsContainer(private var _units: Units) extends Observable {
+  private val initialState = _units
+
   def units = _units
 
   def units_=(u: Units) = {
@@ -329,14 +348,19 @@ class UnitsContainer(private var _units: Units) extends Observable {
 
   def unitsToMeters(u: Double) = _units.unitsToMeters(u)
 
+  def reset() = units = initialState
 }
 class Magnification(private var _magnified: Boolean) extends Observable {
+  private val initialState = _magnified
+
   def magnified_=(b: Boolean) = {
     _magnified = b
     notifyListeners()
   }
 
   def magnified = _magnified
+
+  def reset() = magnified = initialState
 }
 class ScaleControl(m: Magnification) extends VerticalLayoutPanel {
   setBorder(BorderFactory.createTitledBorder(ForceLawLabResources.getLocalizedString("object.size")))
@@ -345,6 +369,12 @@ class ScaleControl(m: Magnification) extends VerticalLayoutPanel {
 }
 
 class Mass(private var _mass: Double, private var _position: Vector2D, val name: String, private var _massToRadius: Double => Double) extends Observable {
+  def setState(m: Double, p: Vector2D, mtr: Double => Double) {
+    mass = m
+    position = p
+    setMassToRadiusFunction(mtr)
+  }
+
   def mass = _mass
 
   def mass_=(m: Double) = {_mass = m; notifyListeners()}
@@ -378,6 +408,11 @@ class ForceLawLabModel(mass1: Double, mass2: Double,
   private var isDraggingControl = false
   m1.addListenerByName(notifyListeners())
   m2.addListenerByName(notifyListeners())
+
+  def reset() = {
+    m1.setState(mass1, new Vector2D(mass1Position, 0), mass1Radius)
+    m2.setState(mass2, new Vector2D(mass2Position, 0), mass2Radius)
+  }
 
   //causes dynamical problems, e.g. oscillations if you use the full model
   def rFake = m2.position - new Vector2D(wall.maxX + spring.restingLength, 0)
@@ -436,7 +471,7 @@ class ForceLawsModule(clock: ScalaClock) extends Module(ForceLawLabResources.get
     ForceLawLabResources.getLocalizedString("units.m"), _.toString, 1E10, new TinyDecimalFormat(), new Magnification(false), new UnitsContainer(new Units("meters", 1)))
   setSimulationPanel(canvas)
   clock.addClockListener(model.update(_))
-  setControlPanel(new ForceLawLabControlPanel(model))
+  setControlPanel(new ForceLawLabControlPanel(model,()=>{canvas.resetRulerLocation}))
   setClockControlPanel(null)
 }
 
@@ -495,7 +530,7 @@ class SolarModule(clock: ScalaClock, phetFrame: PhetFrame) extends Module(ForceL
   }
   setSimulationPanel(canvas)
   clock.addClockListener(model.update(_))
-  setControlPanel(new SunPlanetControlPanel(model, magnification, units, phetFrame))
+  setControlPanel(new SunPlanetControlPanel(model, magnification, units, phetFrame,()=>{canvas.resetRulerLocation}))
   setClockControlPanel(null)
 }
 

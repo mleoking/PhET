@@ -1,3 +1,4 @@
+> Added reset all button
 > Ruler is always enabled in the Sun-Planet tab
 # 0.01.08 (33237) Jul 11, 2009
 > Increased font for text boxes
