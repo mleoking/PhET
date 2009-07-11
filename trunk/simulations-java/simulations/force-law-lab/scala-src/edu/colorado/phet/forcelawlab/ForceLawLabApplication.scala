@@ -224,7 +224,8 @@ class ForceLawLabScalaValueControl(min: Double, max: Double, name: String, decim
 class SunPlanetControlPanel(model: ForceLawLabModel, m: Magnification, units: UnitsContainer, phetFrame: PhetFrame, resetFunction:()=>Unit) extends ControlPanel {
   import ForceLawLabDefaults._
   import ForceLawLabResources._
-  add(new ForceLawLabScalaValueControl(kgToEarthMasses(model.m1.mass / 10), kgToEarthMasses(model.m1.mass * 5), format("readout.pattern-bodyname", model.m1.name), "0.00", getLocalizedString("units.earth.masses"),
+
+  addFullWidth(new ForceLawLabScalaValueControl(kgToEarthMasses(model.m1.mass / 10), kgToEarthMasses(model.m1.mass * 5), format("readout.pattern-bodyname", model.m1.name), "0.00", getLocalizedString("units.earth.masses"),
     kgToEarthMasses(model.m1.mass), a => model.m1.mass = earthMassesToKg(a), model.m1.addListener))
 
   def maxValue = units.metersToUnits(sunEarthDist * 1.8)
@@ -243,7 +244,7 @@ class SunPlanetControlPanel(model: ForceLawLabModel, m: Magnification, units: Un
   //
   //    override def mousePressed(e: MouseEvent) = model.setDragging(true)
   //  })
-  add(distanceSlider)
+  addFullWidth(distanceSlider)
 
   def addDistanceListener(listener: () => Unit) = {
     model.m1.addListener(listener)
@@ -270,16 +271,16 @@ class SunPlanetControlPanel(model: ForceLawLabModel, m: Magnification, units: Un
   }
 
   for (p <- planets)
-    add(new MyRadioButton(p.name, setPlanet(p), isPlanet(p), addPlanetListener))
+    addFullWidth(new MyRadioButton(p.name, setPlanet(p), isPlanet(p), addPlanetListener))
 
   val none = new MyRadioButton(ForceLawLabResources.getLocalizedString("custom"), () => {}, !planets.foldLeft(false) {(a, b) => {a || isPlanet(b)}}, addPlanetListener)
-  add(none)
+  addFullWidth(none)
 
-  add(new ScaleControl(m))
-  add(new UnitsControl(units, phetFrame))
+  addFullWidth(new ScaleControl(m))
+  addFullWidth(new UnitsControl(units, phetFrame))
 
-  add(Box.createRigidArea(new Dimension(100, 100))) //spacer
-  add(new LinkToMySolarSystem)
+  addFullWidth(Box.createRigidArea(new Dimension(100, 100))) //spacer
+  addFullWidth(new LinkToMySolarSystem)
 
   addResetAllButton(new Resettable() {
     def reset = {
