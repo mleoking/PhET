@@ -1,3 +1,4 @@
+> Ruler is always enabled in the Sun-Planet tab
 # 0.01.08 (33237) Jul 11, 2009
 > Increased font for text boxes
 # 0.01.07 (33235) Jul 11, 2009
