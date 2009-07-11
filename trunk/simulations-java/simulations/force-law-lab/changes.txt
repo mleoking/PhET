@@ -1,3 +1,4 @@
+# 0.01.07 (33235) Jul 11, 2009
 > Improved control panel text to indicate enlargement is per object, not for entire scale
 > Increased font size on ruler
 # 0.01.06 (33216) Jul 10, 2009
