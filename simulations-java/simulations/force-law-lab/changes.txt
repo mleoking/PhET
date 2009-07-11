@@ -1,4 +1,5 @@
-> Fixed: The control panel boxes should expand to the width of the control panel. 
+> Fixed: Control panel Radio buttons should be aligned left.
+> Fixed: The control panel boxes should expand to the width of the control panel.
 > Removed the dialog box that explains the units.
 > Added reset all button
 > Ruler is always enabled in the Sun-Planet tab
