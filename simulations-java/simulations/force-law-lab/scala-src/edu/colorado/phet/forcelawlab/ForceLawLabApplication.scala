@@ -131,12 +131,17 @@ class ForceLawLabCanvas(model: ForceLawLabModel, modelWidth: Double, mass1Color:
     _x += tickIncrement
   }
 
-  def maj = for (i <- ticks) yield tickToString(i)
+  def maj = for (i <- 0 until ticks.size) yield {
+    if (i == 1 && tickToString(ticks(i)).length>1) "" //todo improve heuristic for overlapping text
+    else if (i == ticks.size - 1 && tickToString(ticks(i)).length>5) "" //skip last tick label in km if it is expected to go off the ruler
+    else tickToString(ticks(i))
+  }
+
   val rulerNode = {
     val dx = transform.modelToViewDifferentialX(rulerLength)
-    new RulerNode(dx, 14, 40, maj.toArray, new PhetFont(Font.BOLD, 13), rulerLabel, new PhetFont(Font.BOLD, 13), 4, 10, 6);
+    new RulerNode(dx, 14, 40, maj.toArray, new PhetFont(Font.BOLD, 16), rulerLabel, new PhetFont(Font.BOLD, 16), 4, 10, 6);
   }
-  units.addListenerByName{
+  units.addListenerByName {
     rulerNode.setUnits(units.units.name)
     rulerNode.setMajorTickLabels(maj.toArray)
   }
@@ -205,7 +210,7 @@ class ForceLawLabControlPanel(model: ForceLawLabModel) extends ControlPanel {
 class SunPlanetControlPanel(model: ForceLawLabModel, m: Magnification, units: UnitsContainer, phetFrame: PhetFrame) extends ControlPanel {
   import ForceLawLabDefaults._
   import ForceLawLabResources._
-  add(new ScalaValueControl(kgToEarthMasses(model.m1.mass / 10), kgToEarthMasses(model.m1.mass * 5), format("readout.pattern-bodyname",model.m1.name), "0.00", getLocalizedString("units.earth.masses"),
+  add(new ScalaValueControl(kgToEarthMasses(model.m1.mass / 10), kgToEarthMasses(model.m1.mass * 5), format("readout.pattern-bodyname", model.m1.name), "0.00", getLocalizedString("units.earth.masses"),
     kgToEarthMasses(model.m1.mass), a => model.m1.mass = earthMassesToKg(a), model.m1.addListener))
 
   def maxValue = units.metersToUnits(sunEarthDist * 1.8)
@@ -219,11 +224,11 @@ class SunPlanetControlPanel(model: ForceLawLabModel, m: Magnification, units: Un
   distanceSlider.getTextField.setColumns(8) //to show kilometers
   distanceSlider.addTickLabel(0.01, "") //avoid generating 1E8 tick marks//todo: fix this
 
-//  distanceSlider.getSlider.addMouseListener(new MouseAdapter() {
-//    override def mouseReleased(e: MouseEvent) = model.setDragging(false)
-//
-//    override def mousePressed(e: MouseEvent) = model.setDragging(true)
-//  })
+  //  distanceSlider.getSlider.addMouseListener(new MouseAdapter() {
+  //    override def mouseReleased(e: MouseEvent) = model.setDragging(false)
+  //
+  //    override def mousePressed(e: MouseEvent) = model.setDragging(true)
+  //  })
   add(distanceSlider)
 
   def addDistanceListener(listener: () => Unit) = {
@@ -459,7 +464,7 @@ class SolarModule(clock: ScalaClock, phetFrame: PhetFrame) extends Module(ForceL
     mass => {
       val scale = if (magnification.magnified) 1.6E3 else 1.0 //latter term is a fudge factor to make things visible on the same scale
       //when mass is earthMass, radius should be earthRadius; otherwise use a linear function
-      earthRadius * scale * mass/earthMass
+      earthRadius * scale * mass / earthMass
     },
     mass => {
       val scale = if (magnification.magnified) 5E1 else 1.0
