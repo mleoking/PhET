@@ -1,3 +1,4 @@
+# 0.01.08 (33237) Jul 11, 2009
 > Increased font for text boxes
 # 0.01.07 (33235) Jul 11, 2009
 > Improved control panel text to indicate enlargement is per object, not for entire scale
