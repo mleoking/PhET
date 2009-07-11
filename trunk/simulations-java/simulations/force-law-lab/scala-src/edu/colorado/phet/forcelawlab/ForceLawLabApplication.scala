@@ -6,7 +6,7 @@ import common.phetcommon.application.{PhetApplicationConfig, PhetApplicationLaun
 import common.phetcommon.math.MathUtil
 import common.phetcommon.model.Resettable
 import common.phetcommon.servicemanager.PhetServiceManager
-import common.phetcommon.view.util.{SwingUtils, DoubleGeneralPath, PhetFont}
+import common.phetcommon.view.util.{DoubleGeneralPath, PhetFont}
 import common.phetcommon.view.{PhetFrame, VerticalLayoutPanel, ControlPanel}
 import common.piccolophet.PiccoloPhetApplication
 import common.piccolophet.nodes.{PhetPPath, RulerNode, ArrowNode, SphericalNode}
@@ -18,7 +18,7 @@ import java.awt.event.{MouseAdapter, MouseEvent}
 
 import java.text._
 import javax.swing._
-import scalacommon.swing.{MyJButton, MyRadioButton}
+import scalacommon.swing.{MyRadioButton}
 import umd.cs.piccolo.nodes.{PImage, PText}
 import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
 import umd.cs.piccolo.util.PDimension
@@ -146,7 +146,7 @@ class ForceLawLabCanvas(model: ForceLawLabModel, modelWidth: Double, mass1Color:
     rulerNode.setMajorTickLabels(maj.toArray)
   }
 
-  def resetRulerLocation()=rulerNode.setOffset(150, 500)
+  def resetRulerLocation() = rulerNode.setOffset(150, 500)
   resetRulerLocation()
 
   def updateRulerVisible() = {} //rulerNode.setVisible(!magnification.magnified)
@@ -203,7 +203,7 @@ class WallNode(wall: Wall, transform: ModelViewTransform2D, color: Color) extend
   val wallPath = new PhetPPath(transform.createTransformedShape(wall.getShape), color, new BasicStroke(2f), Color.gray)
   addChild(wallPath)
 }
-class ForceLawLabControlPanel(model: ForceLawLabModel,resetFunction:()=>Unit) extends ControlPanel {
+class ForceLawLabControlPanel(model: ForceLawLabModel, resetFunction: () => Unit) extends ControlPanel {
   import ForceLawLabResources._
   add(new ForceLawLabScalaValueControl(0.01, 100, model.m1.name, "0.00", getLocalizedString("units.kg"), model.m1.mass, model.m1.mass = _, model.m1.addListener))
   add(new ForceLawLabScalaValueControl(0.01, 100, model.m2.name, "0.00", getLocalizedString("units.kg"), model.m2.mass, model.m2.mass = _, model.m2.addListener))
@@ -221,7 +221,7 @@ class ForceLawLabScalaValueControl(min: Double, max: Double, name: String, decim
   getTextField.setFont(new PhetFont(16, true))
 }
 
-class SunPlanetControlPanel(model: ForceLawLabModel, m: Magnification, units: UnitsContainer, phetFrame: PhetFrame, resetFunction:()=>Unit) extends ControlPanel {
+class SunPlanetControlPanel(model: ForceLawLabModel, m: Magnification, units: UnitsContainer, phetFrame: PhetFrame, resetFunction: () => Unit) extends ControlPanel {
   import ForceLawLabDefaults._
   import ForceLawLabResources._
 
@@ -270,12 +270,16 @@ class SunPlanetControlPanel(model: ForceLawLabModel, m: Magnification, units: Un
             MathUtil.isApproxEqual(model.distance, p.dist, p.dist * 0.05)
   }
 
-  for (p <- planets)
-    addFullWidth(new MyRadioButton(p.name, setPlanet(p), isPlanet(p), addPlanetListener))
+  class PlanetPanel extends VerticalLayoutPanel {
+    setBorder(BorderFactory.createTitledBorder(getLocalizedString("planet.control.title")))
+    for (p <- planets)
+      add(new MyRadioButton(p.name, setPlanet(p), isPlanet(p), addPlanetListener))
 
-  val none = new MyRadioButton(ForceLawLabResources.getLocalizedString("custom"), () => {}, !planets.foldLeft(false) {(a, b) => {a || isPlanet(b)}}, addPlanetListener)
-  addFullWidth(none)
+    val none = new MyRadioButton(ForceLawLabResources.getLocalizedString("custom"), () => {}, !planets.foldLeft(false) {(a, b) => {a || isPlanet(b)}}, addPlanetListener)
+    add(none)
+  }
 
+  addFullWidth(new PlanetPanel)
   addFullWidth(new ScaleControl(m))
   addFullWidth(new UnitsControl(units, phetFrame))
 
@@ -458,7 +462,7 @@ class ForceLawsModule(clock: ScalaClock) extends Module(ForceLawLabResources.get
     ForceLawLabResources.getLocalizedString("units.m"), _.toString, 1E10, new TinyDecimalFormat(), new Magnification(false), new UnitsContainer(new Units("meters", 1)))
   setSimulationPanel(canvas)
   clock.addClockListener(model.update(_))
-  setControlPanel(new ForceLawLabControlPanel(model,()=>{canvas.resetRulerLocation}))
+  setControlPanel(new ForceLawLabControlPanel(model, () => {canvas.resetRulerLocation}))
   setClockControlPanel(null)
 }
 
@@ -517,7 +521,7 @@ class SolarModule(clock: ScalaClock, phetFrame: PhetFrame) extends Module(ForceL
   }
   setSimulationPanel(canvas)
   clock.addClockListener(model.update(_))
-  setControlPanel(new SunPlanetControlPanel(model, magnification, units, phetFrame,()=>{canvas.resetRulerLocation}))
+  setControlPanel(new SunPlanetControlPanel(model, magnification, units, phetFrame, () => {canvas.resetRulerLocation}))
   setClockControlPanel(null)
 }
 
