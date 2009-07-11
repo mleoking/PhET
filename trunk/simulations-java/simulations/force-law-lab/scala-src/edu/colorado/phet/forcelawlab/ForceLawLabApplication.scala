@@ -6,7 +6,7 @@ import common.phetcommon.application.{PhetApplicationConfig, PhetApplicationLaun
 import common.phetcommon.math.MathUtil
 import common.phetcommon.model.Resettable
 import common.phetcommon.servicemanager.PhetServiceManager
-import common.phetcommon.view.util.{DoubleGeneralPath, PhetFont}
+import common.phetcommon.view.util.{BufferedImageUtils, DoubleGeneralPath, PhetFont}
 import common.phetcommon.view.{PhetFrame, VerticalLayoutPanel, ControlPanel}
 import common.piccolophet.PiccoloPhetApplication
 import common.piccolophet.nodes.{PhetPPath, RulerNode, ArrowNode, SphericalNode}
@@ -256,8 +256,8 @@ class SunPlanetControlPanel(model: ForceLawLabModel, m: Magnification, units: Un
     model.m1.addListener(listener)
     model.m2.addListener(listener) //since sun location can change
   }
-  case class Planet(name: String, mass: Double, dist: Double)
-  val planets = new Planet(ForceLawLabResources.getLocalizedString("body.name.earth"), earthMass, sunEarthDist) :: Nil
+  case class Planet(name: String, mass: Double, dist: Double, icon: String)
+  val planets = new Planet(ForceLawLabResources.getLocalizedString("body.name.earth"), earthMass, sunEarthDist, "earth-v1-plain-transparent-background.png") :: Nil
 
   def setPlanet(p: Planet) = {
     model.m1.mass = p.mass
@@ -272,8 +272,18 @@ class SunPlanetControlPanel(model: ForceLawLabModel, m: Magnification, units: Un
 
   class PlanetPanel extends VerticalLayoutPanel {
     setBorder(BorderFactory.createTitledBorder(getLocalizedString("planet.control.title")))
-    for (p <- planets)
-      add(new MyRadioButton(p.name, setPlanet(p), isPlanet(p), addPlanetListener))
+
+    for (p <- planets) {
+      val myRadioButton = new MyRadioButton(p.name, setPlanet(p), isPlanet(p), addPlanetListener)
+      val panel = new JPanel(new GridBagLayout())
+      import GridBagConstraints._
+      val constraints=new GridBagConstraints(RELATIVE,0,3,1,1,1,WEST,NONE,new Insets(0,0,0,0),0,0)
+      panel.add(myRadioButton,constraints)
+      if (p.icon != null)
+        panel.add(new JLabel(new ImageIcon(BufferedImageUtils.multiScaleToWidth(ForceLawLabResources.getImage(p.icon), 50))),constraints)
+      panel.add(Box.createRigidArea(new Dimension(100,50)))       //todo: resolve this workaround using correct swing layout
+      add(panel)
+    }
 
     val none = new MyRadioButton(ForceLawLabResources.getLocalizedString("custom"), () => {}, !planets.foldLeft(false) {(a, b) => {a || isPlanet(b)}}, addPlanetListener)
     add(none)
@@ -283,7 +293,7 @@ class SunPlanetControlPanel(model: ForceLawLabModel, m: Magnification, units: Un
   addFullWidth(new ScaleControl(m))
   addFullWidth(new UnitsControl(units, phetFrame))
 
-  addFullWidth(Box.createRigidArea(new Dimension(100, 100))) //spacer
+//  addFullWidth(Box.createRigidArea(new Dimension(100, 100))) //spacer
   addFullWidth(new LinkToMySolarSystem)
 
   addResetAllButton(new Resettable() {

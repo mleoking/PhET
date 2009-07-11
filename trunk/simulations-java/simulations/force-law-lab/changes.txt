@@ -1,3 +1,4 @@
+> Added a pic of the Earth next to the earth radio button.
 > Fixed: Control panel Radio buttons should be aligned left.
 > Fixed: The control panel boxes should expand to the width of the control panel.
 > Removed the dialog box that explains the units.
