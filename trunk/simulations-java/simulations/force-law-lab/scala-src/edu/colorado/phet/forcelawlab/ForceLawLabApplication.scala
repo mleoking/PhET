@@ -333,9 +333,9 @@ class Magnification(private var _magnified: Boolean) extends Observable {
   def magnified = _magnified
 }
 class ScaleControl(m: Magnification) extends VerticalLayoutPanel {
-  setBorder(BorderFactory.createTitledBorder(ForceLawLabResources.getLocalizedString("scale")))
-  add(new MyRadioButton(ForceLawLabResources.getLocalizedString("scale.magnified"), m.magnified = true, m.magnified, m.addListener))
-  add(new MyRadioButton(ForceLawLabResources.getLocalizedString("scale.actual-size"), m.magnified = false, !m.magnified, m.addListener))
+  setBorder(BorderFactory.createTitledBorder(ForceLawLabResources.getLocalizedString("object.size")))
+  add(new MyRadioButton(ForceLawLabResources.getLocalizedString("object.size.enlarged"), m.magnified = true, m.magnified, m.addListener))
+  add(new MyRadioButton(ForceLawLabResources.getLocalizedString("object.size.actual-size"), m.magnified = false, !m.magnified, m.addListener))
 }
 
 class Mass(private var _mass: Double, private var _position: Vector2D, val name: String, private var _massToRadius: Double => Double) extends Observable {
