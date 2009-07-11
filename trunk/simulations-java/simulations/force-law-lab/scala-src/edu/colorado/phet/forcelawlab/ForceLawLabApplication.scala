@@ -487,13 +487,6 @@ class SolarModule(clock: ScalaClock, phetFrame: PhetFrame) extends Module(ForceL
     model.m1.notifyListeners() //chain events from magnification
     model.m2.notifyListeners()
   }
-  val disclaimerNode = new ScaleDisclaimerNode(model, canvas.transform)
-  canvas.addComponentListener(new java.awt.event.ComponentAdapter() {
-    override def componentResized(e: java.awt.event.ComponentEvent) = updateDisclaimerLocation()
-  })
-  updateDisclaimerLocation()
-  def updateDisclaimerLocation() = disclaimerNode.setOffset(canvas.canonicalBounds.width / 2 - disclaimerNode.getFullBounds.getWidth / 2, canvas.canonicalBounds.height - disclaimerNode.getFullBounds.getHeight * 3)
-  //  canvas.addNode(disclaimerNode)//todo: decide whether or not we're using the disclaimer
   setSimulationPanel(canvas)
   clock.addClockListener(model.update(_))
   setControlPanel(new SunPlanetControlPanel(model, magnification, units, phetFrame))
@@ -501,26 +494,6 @@ class SolarModule(clock: ScalaClock, phetFrame: PhetFrame) extends Module(ForceL
 }
 
 class Circle(center: Vector2D, radius: Double) extends Ellipse2D.Double(center.x - radius, center.y - radius, radius * 2, radius * 2)
-class ScaleDisclaimerNode(model: ForceLawLabModel, transform: ModelViewTransform2D) extends PNode {
-  val text = new PText(ForceLawLabResources.getLocalizedString("scale.disclaimer.start") + " ")
-  text.setFont(new PhetFont(16, true))
-  text.setTextPaint(Color.lightGray)
-  import ForceLawLabDefaults._
-  //  val earthIcon = new PhetPPath(new Circle(new Vector2D, transform.modelToViewDifferentialXDouble(earthRadius)), Color.blue)
-  val sunIcon = new PhetPPath(new Circle(new Vector2D, transform.modelToViewDifferentialXDouble(sunRadius)), Color.red)
-
-  val text2 = new PText(ForceLawLabResources.getLocalizedString("scale.disclaimer.end") + " ")
-  text2.setFont(new PhetFont(16, true))
-  text2.setTextPaint(Color.lightGray)
-
-  val node = new SwingLayoutNode
-  node.addChild(text)
-  node.addChild(sunIcon)
-  node.addChild(text2)
-  //  node.addChild(earthIcon)
-
-  addChild(node)
-}
 
 class ForceLawLabApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
   addModule(new ForceLawsModule(new ScalaClock(30, 30 / 1000.0)))
