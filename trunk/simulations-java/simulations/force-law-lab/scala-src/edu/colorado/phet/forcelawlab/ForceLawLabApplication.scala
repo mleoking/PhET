@@ -203,14 +203,20 @@ class WallNode(wall: Wall, transform: ModelViewTransform2D, color: Color) extend
 }
 class ForceLawLabControlPanel(model: ForceLawLabModel) extends ControlPanel {
   import ForceLawLabResources._
-  add(new ScalaValueControl(0.01, 100, model.m1.name, "0.00", getLocalizedString("units.kg"), model.m1.mass, model.m1.mass = _, model.m1.addListener))
-  add(new ScalaValueControl(0.01, 100, model.m2.name, "0.00", getLocalizedString("units.kg"), model.m2.mass, model.m2.mass = _, model.m2.addListener))
+  add(new ForceLawLabScalaValueControl(0.01, 100, model.m1.name, "0.00", getLocalizedString("units.kg"), model.m1.mass, model.m1.mass = _, model.m1.addListener))
+  add(new ForceLawLabScalaValueControl(0.01, 100, model.m2.name, "0.00", getLocalizedString("units.kg"), model.m2.mass, model.m2.mass = _, model.m2.addListener))
+}
+
+class ForceLawLabScalaValueControl(min: Double, max: Double, name: String, decimalFormat: String, units: String,
+                        getter: => Double, setter: Double => Unit, addListener: (() => Unit) => Unit) extends ScalaValueControl(min,max,name,decimalFormat,units,
+  getter,setter,addListener){
+  getTextField.setFont(new PhetFont(16,true))
 }
 
 class SunPlanetControlPanel(model: ForceLawLabModel, m: Magnification, units: UnitsContainer, phetFrame: PhetFrame) extends ControlPanel {
   import ForceLawLabDefaults._
   import ForceLawLabResources._
-  add(new ScalaValueControl(kgToEarthMasses(model.m1.mass / 10), kgToEarthMasses(model.m1.mass * 5), format("readout.pattern-bodyname", model.m1.name), "0.00", getLocalizedString("units.earth.masses"),
+  add(new ForceLawLabScalaValueControl(kgToEarthMasses(model.m1.mass / 10), kgToEarthMasses(model.m1.mass * 5), format("readout.pattern-bodyname", model.m1.name), "0.00", getLocalizedString("units.earth.masses"),
     kgToEarthMasses(model.m1.mass), a => model.m1.mass = earthMassesToKg(a), model.m1.addListener))
 
   def maxValue = units.metersToUnits(sunEarthDist * 1.8)
@@ -219,7 +225,7 @@ class SunPlanetControlPanel(model: ForceLawLabModel, m: Magnification, units: Un
     distanceSlider.setUnits(units.units.name)
   }
 
-  val distanceSlider = new ScalaValueControl(0.01, maxValue, "distance", "0.00", getLocalizedString("units.light-minutes"),
+  val distanceSlider = new ForceLawLabScalaValueControl(0.01, maxValue, "distance", "0.00", getLocalizedString("units.light-minutes"),
     units.metersToUnits(model.distance), a => model.distance = units.unitsToMeters(a), addDistanceListener)
   distanceSlider.getTextField.setColumns(8) //to show kilometers
   distanceSlider.addTickLabel(0.01, "") //avoid generating 1E8 tick marks//todo: fix this
