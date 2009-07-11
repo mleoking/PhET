@@ -308,20 +308,6 @@ class LinkToMySolarSystem extends VerticalLayoutPanel {
 class UnitsControl(units: UnitsContainer, phetFrame: PhetFrame) extends VerticalLayoutPanel {
   setBorder(BorderFactory.createTitledBorder(ForceLawLabResources.getLocalizedString("units")))
   for (u <- UnitsCollection.values) add(new MyRadioButton(u.name, units.units = u, units.units == u, units.addListener))
-  val unitsExplanation = new UnitsExplanation(phetFrame)
-  add(new MyJButton(ForceLawLabResources.getLocalizedString("compare"), () => unitsExplanation.setVisible(true)))
-}
-
-class UnitsExplanation(phetFrame: PhetFrame) extends JDialog(phetFrame, ForceLawLabResources.getLocalizedString("units.comparison"), false) {
-  val textArea = new JTextArea(ForceLawLabResources.getLocalizedString("units.comparison.explanation"))
-  textArea.setEditable(false)
-  textArea.setFont(new PhetFont(16, true))
-  setContentPane(textArea)
-  pack()
-  override def setVisible(b: Boolean) = {
-    SwingUtils.centerDialogInParent(this)
-    super.setVisible(b)
-  }
 }
 
 case class Units(name: String, scale: Double) {
