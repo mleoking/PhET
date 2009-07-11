@@ -147,7 +147,7 @@ class ForceLawLabCanvas(model: ForceLawLabModel, modelWidth: Double, mass1Color:
   }
   rulerNode.setOffset(150, 500)
 
-  def updateRulerVisible() = rulerNode.setVisible(!magnification.magnified)
+  def updateRulerVisible() = {}//rulerNode.setVisible(!magnification.magnified)
   magnification.addListenerByName(updateRulerVisible())
   updateRulerVisible()
 
