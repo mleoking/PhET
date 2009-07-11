@@ -1,5 +1,6 @@
-Centered the object selection panel
-Fixed: Object falls off edge at wrong spot
+> Fixed: Vectors should be in the topmost layer (over the applied force slider)
+> Centered the object selection panel
+> Fixed: Object falls off edge at wrong spot
 # 1.03.19 (31397) May 6, 2009
 Performance improvements
 # 1.03.18 (31395) May 6, 2009
