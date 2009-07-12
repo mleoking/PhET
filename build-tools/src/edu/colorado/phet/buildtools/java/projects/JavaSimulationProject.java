@@ -33,6 +33,10 @@ public class JavaSimulationProject extends JavaProject {
         buildJNLP( URL, dev );
     }
 
+    public boolean isTestable() {
+        return true;
+    }
+
     public String getAlternateMainClass() {
         return null;//uses jarlauncher
     }

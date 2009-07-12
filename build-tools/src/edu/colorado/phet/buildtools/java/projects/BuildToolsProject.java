@@ -31,7 +31,6 @@ public class BuildToolsProject extends JavaProject {
         return "current-version";
     }
 
-    @Override
     public boolean isTestable() {
         return false;
     }

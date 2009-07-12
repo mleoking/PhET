@@ -87,6 +87,10 @@ public class PhetFlexProject extends PhetProject {
         //point a browser at the SWF for now
     }
 
+    public boolean isTestable() {
+        return true;
+    }
+
     public static PhetProject[] getFlexProjects( File trunk ) {
 //        File flashSimDir=new File(baseDir.getParentFile(),"team/jolson/simulations");
         File flashSimDir = new File( trunk, BuildToolsPaths.FLEX_SIMULATIONS_DIR );

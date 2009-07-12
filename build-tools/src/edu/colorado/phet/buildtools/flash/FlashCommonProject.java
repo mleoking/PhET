@@ -59,7 +59,6 @@ public class FlashCommonProject extends SVNDependencyProject {
         }
     }
 
-    @Override
     public boolean isTestable() {
         return false;
     }

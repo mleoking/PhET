@@ -66,7 +66,6 @@ public class StatisticsProject extends PhetProject {
         return new PhetProject[]{this};
     }
 
-    @Override
     public boolean isTestable() {
         return false;
     }

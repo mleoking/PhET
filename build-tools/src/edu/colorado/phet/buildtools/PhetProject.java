@@ -955,8 +955,6 @@ public abstract class PhetProject {
      *
      * @return
      */
-    public boolean isTestable() {
-        return true;
-    }
+    public abstract boolean isTestable();
 
 }

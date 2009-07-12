@@ -29,4 +29,8 @@ public class TranslationUtilityProject extends JavaProject {
     public String getProdServerDeployPath() {
         return BuildToolsPaths.TRANSLATION_UTILITY_PROD_SERVER_DEPLOY_PATH;
     }
+
+    public boolean isTestable() {
+        return true;
+    }
 }
