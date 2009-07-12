@@ -8,6 +8,7 @@ import edu.colorado.phet.buildtools.flex.PhetFlexProject;
 import edu.colorado.phet.buildtools.java.JavaProject;
 import edu.colorado.phet.buildtools.java.projects.*;
 import edu.colorado.phet.buildtools.scripts.SetSVNIgnoreToDeployDirectories;
+import edu.colorado.phet.buildtools.statistics.StatisticsProject;
 import edu.colorado.phet.buildtools.util.*;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.resources.PhetProperties;
@@ -43,10 +44,9 @@ public abstract class PhetProject {
     }
 
     public File getDeployDir() {
+        // TODO: possibly set svn:ignore flag on deploy directories if that does not already exist?
         File file = new File( getProjectDir(), "deploy/" );
-
         file.mkdirs();
-
         return file;
     }
 
@@ -455,10 +455,15 @@ public abstract class PhetProject {
         return new File( getProjectDir(), "data/" + getName() + "/localization" );
     }
 
-    public File getLocalizationFile( Locale locale ) {
-        String suffix = locale.equals( new Locale( "en" ) ) ? "" : "_" + locale;
-        return new File( getLocalizationDir(), getName() + "-strings" + suffix + ".properties" );
-    }
+    /**
+     * Return the translation for this project for the locale
+     * <p/>
+     * TODO: get rid of this at this level, it is only being used by AddTranslation?
+     *
+     * @param locale
+     * @return File containing the translation
+     */
+    public abstract File getLocalizationFile( Locale locale );
 
     public String getDevDirectoryBasename() {
         return projectPropertiesFile.getMajorVersionString() + "." + projectPropertiesFile.getMinorVersionString() + "." + projectPropertiesFile.getDevVersionString();
@@ -528,6 +533,7 @@ public abstract class PhetProject {
             phetProjects.add( new PhetUpdaterProject( new File( trunk, BuildToolsPaths.PHET_UPDATER ) ) );
             phetProjects.add( new BuildToolsProject( new File( trunk, BuildToolsPaths.BUILD_TOOLS_DIR ) ) );
             phetProjects.add( new TimesheetProject( new File( trunk, BuildToolsPaths.TIMESHEET ) ) );
+            phetProjects.add( new StatisticsProject( trunk ) );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -716,7 +722,7 @@ public abstract class PhetProject {
         }
     }
 
-    private ArrayList listeners = new ArrayList();
+    private List<Listener> listeners = new ArrayList<Listener>();
 
     public boolean containsScalaSource() {
         return getAllScalaSourceRoots().length > 0;
@@ -884,8 +890,8 @@ public abstract class PhetProject {
     }
 
     public void notifyChangesTextChanged() {
-        for ( int i = 0; i < listeners.size(); i++ ) {
-            ( (Listener) listeners.get( i ) ).changesTextChanged();
+        for ( Listener listener : listeners ) {
+            listener.changesTextChanged();
         }
     }
 
@@ -912,7 +918,7 @@ public abstract class PhetProject {
      * Note: only used and tested with Java and Flash simulations
      */
     public void writeMetaXML() {
-        System.out.println( "Attempting to write meta XML" );
+        System.out.println( "Attempting to write meta XML for " + getName() );
         try {
             String str = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n" +
                          "<project name=\"" + getName() + "\">\n" +
@@ -946,14 +952,20 @@ public abstract class PhetProject {
 
     }
 
+    /**
+     * Returns a reference to the XML file with meta information (currently title and description for each localized
+     * simulation, but this may be added to in the future)
+     *
+     * @return Meta XML file
+     */
     public File getMetaXMLFile() {
         return new File( getDeployDir(), getName() + ".xml" );
     }
 
     /**
-     * Should return whether this project is testable. Default is true
+     * Should return whether this project is testable.
      *
-     * @return
+     * @return Boolean representing whether this project can be directly tested
      */
     public abstract boolean isTestable();
 

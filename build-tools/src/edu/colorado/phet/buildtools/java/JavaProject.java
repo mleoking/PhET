@@ -229,4 +229,9 @@ public abstract class JavaProject extends PhetProject {
         return false;
     }
 
+    public File getLocalizationFile( Locale locale ) {
+        String suffix = locale.equals( new Locale( "en" ) ) ? "" : "_" + locale;
+        return new File( getLocalizationDir(), getName() + "-strings" + suffix + ".properties" );
+    }
+
 }

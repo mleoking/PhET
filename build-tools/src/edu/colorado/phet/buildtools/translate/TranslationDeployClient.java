@@ -90,7 +90,7 @@ public class TranslationDeployClient {
             BuildLocalProperties.initRelativeToTrunk( trunk );
         }
         giveInstructions();
-        String dirname = AddTranslation.prompt( "Enter the name of the directory where your localization files are:" );
+        String dirname = JOptionPane.showInputDialog( "Enter the name of the directory where your localization files are:" );
         // import the translations into the IDE workspace
         File dir = new File( dirname );
         if ( !dir.exists() ) {

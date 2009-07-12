@@ -71,6 +71,7 @@ public class ProjectList extends JList {
     }
 
     private void initializeProjects() {
+        // TODO: add flex support?
         List<PhetProject> projects = new LinkedList<PhetProject>();
         for ( PhetProject phetProject : JavaSimulationProject.getJavaSimulations( trunk ) ) {
             projects.add( phetProject );
