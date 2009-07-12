@@ -199,6 +199,14 @@ public abstract class PhetProject {
         }
     }
 
+    /**
+     * Determines whether this file would be a valid project root
+     * <p/>
+     * WARNING: does not recognize Flash, Flex or Statistics projects
+     *
+     * @param file The file possibly representing a project root
+     * @return Whether the file represents a Java-based project
+     */
     private boolean isProject( File file ) {
         if ( !file.exists() || !file.isDirectory() ) {
             return false;
