@@ -26,6 +26,10 @@ public class PhetFlexProject extends PhetProject {
         return new Locale[0];
     }
 
+    public File getLocalizationFile( Locale locale ) {
+        return null;
+    }
+
     public File getTranslationFile( Locale locale ) {
         return null;
     }
@@ -50,7 +54,6 @@ public class PhetFlexProject extends PhetProject {
         File swfFile = getSWFFile();
         boolean b = swfFile.delete();
         System.out.println( "Delete SWFFile=" + b );
-//        Process p = Runtime.getRuntime().exec( "mxmlc -output deploy/" + getName() + ".swf -compiler.source-path=src " + getMXML(), null, getProjectDir() );
         Process p = Runtime.getRuntime().exec( new String[]{"mxmlc", "-output", "deploy/" + getName() + ".swf", "-compiler.source-path=src:../../common/src", "-compiler.accessible", "-compiler.optimize", "-target-player", "9", getMXML()}, null, getProjectDir() );
         new StreamReaderThread( p.getErrorStream(), "err>" ).start();
         new StreamReaderThread( p.getInputStream(), "" ).start();
@@ -92,7 +95,6 @@ public class PhetFlexProject extends PhetProject {
     }
 
     public static PhetProject[] getFlexProjects( File trunk ) {
-//        File flashSimDir=new File(baseDir.getParentFile(),"team/jolson/simulations");
         File flashSimDir = new File( trunk, BuildToolsPaths.FLEX_SIMULATIONS_DIR );
         File[] files = flashSimDir.listFiles( new FileFilter() {
             public boolean accept( File pathname ) {

@@ -28,6 +28,10 @@ public class SVNDependencyProject extends PhetProject {
         return new Locale[0];
     }
 
+    public File getLocalizationFile( Locale locale ) {
+        return null;
+    }
+
     public File getTranslationFile( Locale locale ) {
         return null;
     }
