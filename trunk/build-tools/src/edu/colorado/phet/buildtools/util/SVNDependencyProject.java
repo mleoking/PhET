@@ -63,4 +63,8 @@ public class SVNDependencyProject extends PhetProject {
     public void buildLaunchFiles( String URL, boolean dev ) {
 
     }
+
+    public boolean isTestable() {
+        return false;
+    }
 }

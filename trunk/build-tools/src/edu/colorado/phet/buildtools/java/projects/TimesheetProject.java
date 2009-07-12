@@ -26,4 +26,8 @@ public class TimesheetProject extends JavaProject {
     public String getProdServerDeployPath() {
         return BuildToolsPaths.TIMESHEET_PROD_SERVER_DEPLOY_PATH;
     }
+
+    public boolean isTestable() {
+        return true;
+    }
 }

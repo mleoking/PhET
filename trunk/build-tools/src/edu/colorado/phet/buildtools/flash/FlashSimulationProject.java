@@ -550,6 +550,10 @@ public class FlashSimulationProject extends PhetProject {
         System.out.println( "What to do for building Flash launch files?  Are these HTML?" );
     }
 
+    public boolean isTestable() {
+        return true;
+    }
+
     public PhetProject[] getDependencies() {
         File commonRoot = new File( getProjectDir().getParentFile().getParentFile(), "common" );
 
@@ -586,6 +590,10 @@ public class FlashSimulationProject extends PhetProject {
 
         public String getProdServerDeployPath() {
             return null;
+        }
+
+        public boolean isTestable() {
+            return false;
         }
     }
 }
