@@ -23,6 +23,7 @@ import edu.colorado.phet.buildtools.util.BuildPropertiesFile;
 import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.buildtools.util.PhetBuildUtils;
 import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 
 public abstract class JavaProject extends PhetProject {
     public JavaProject( File projectRoot ) throws IOException {
@@ -232,6 +233,20 @@ public abstract class JavaProject extends PhetProject {
     public File getLocalizationFile( Locale locale ) {
         String suffix = locale.equals( new Locale( "en" ) ) ? "" : "_" + locale;
         return new File( getLocalizationDir(), getName() + "-strings" + suffix + ".properties" );
+    }
+
+    private String getJarName() {
+        return PhetApplicationConfig.getProjectJarName( getName() );
+    }
+
+    public File getDefaultDeployJar() {
+        return new File( getDeployDir(), getJarName() );
+    }
+
+    public File getJarFile() {
+        File file = new File( getAntOutputDir(), "jars/" + getJarName() );
+        file.getParentFile().mkdirs();
+        return file;
     }
 
 }

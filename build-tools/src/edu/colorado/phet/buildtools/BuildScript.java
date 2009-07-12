@@ -567,7 +567,7 @@ public class BuildScript {
         boolean projectWantsJARs = project instanceof JavaProject && ( (JavaProject) project ).getSignJar();
         if ( projectWantsJARs && generateJARs ) {
             try {
-                SshUtils.executeCommand( getJARGenerationCommand( project, server ), server, authenticationInfo );
+                SshUtils.executeCommand( getJARGenerationCommand( (JavaProject) project, server ), server, authenticationInfo );
             }
             catch( IOException e ) {
                 e.printStackTrace();
@@ -575,7 +575,7 @@ public class BuildScript {
         }
     }
 
-    private static String getJARGenerationCommand( PhetProject project, PhetServer server ) throws IOException {
+    private static String getJARGenerationCommand( JavaProject project, PhetServer server ) throws IOException {
         BuildToolsProject buildToolsProject = new BuildToolsProject( new File( project.getTrunk(), BuildToolsPaths.BUILD_TOOLS_DIR ) );
         String buildScriptDir = server.getServerDeployPath( buildToolsProject );
         String projectDir = server.getServerDeployPath( project );
