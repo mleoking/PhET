@@ -134,6 +134,13 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
             public void clockStarted( ClockEvent clockEvent ) {
             	updateButtonState();
             }
+            public void simulationTimeReset( ClockEvent clockEvent ) {
+            	// Clear the chart when time starts over.
+            	_proportionsChart.clear();
+            }
+            public void clockTicked( ClockEvent clockEvent ) {
+            	addDataToChart(clockEvent);
+            }
         });
         
         // Set the background color.
@@ -235,6 +242,21 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
 		
 		_probeDragBounds.setPathTo(tranformedBounds);
 	}
+    
+    /**
+     * Add the current meter reading to the chart (if there is one) for the
+     * current time value.
+     * 
+     * @param clockEvent
+     */
+    private void addDataToChart(ClockEvent clockEvent){
+    	if (_model.getMeter().getItemBeingTouched() != null){
+    		// The meter is currently touching something, so we should graph
+    		// this reading.
+    		double readingTime = clockEvent.getSimulationTime() * _model.getTimeConversionFactor();
+    		_proportionsChart.addDataPoint(readingTime, _model.getMeter().getPercentageOfDatingElementRemaining());
+    	}
+    }
 
 	/**
      * Handle a notification that a model element was added by comparing the
