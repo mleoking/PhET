@@ -182,6 +182,10 @@ public class TimesheetDataEntry {
         return time.after(getStartTime())&&time.before(getEndTime());
     }
 
+    public boolean hasSameStartOrSameEnd(TimesheetDataEntry other) {
+        return other.getStartTime().equals(getStartTime())|| other.getEndTime().equals(getEndTime());
+    }
+
     public static interface Listener {
         void timeChanged();
 
