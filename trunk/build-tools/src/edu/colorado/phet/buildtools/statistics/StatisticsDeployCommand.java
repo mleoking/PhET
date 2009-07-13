@@ -68,7 +68,7 @@ public class StatisticsDeployCommand {
         AuthenticationInfo authenticationInfo = buildLocalProperties.getProdAuthenticationInfo();
 
         // SCP all of the files to tigercat
-
+        // TODO: bad design for adding more directories! improve it!
         for ( int i = 0; i < statisticsFiles.length; i++ ) {
             try {
                 ScpTo.uploadFile( statisticsFiles[i], authenticationInfo.getUsername(), remoteDeployServer, deployFileName( statisticsFiles[i], "/" ), authenticationInfo.getPassword() );
@@ -232,7 +232,7 @@ public class StatisticsDeployCommand {
                 throw new RuntimeException( "WARNING: may not be correct path to trunk" );
             }
 
-            StatisticsProject project = new StatisticsProject( trunk );
+            StatisticsProject project = new StatisticsProject( new File( trunk, BuildToolsPaths.STATISTICS ) );
             SVNStatusChecker checker = new SVNStatusChecker();
 
             // make sure SVN of statistics is up to date before deploying
