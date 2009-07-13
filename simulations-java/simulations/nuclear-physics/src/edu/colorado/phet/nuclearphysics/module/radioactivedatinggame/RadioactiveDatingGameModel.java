@@ -59,7 +59,7 @@ public class RadioactiveDatingGameModel implements ModelContainingDatableItems {
     	_datableObjects.add(new DatableItem("Living Tree", "tree_1.png", new Point2D.Double(-16, 5), 5.5, 0, 0));
     	_datableObjects.add(new DatableItem("Distant Living Tree", "tree_1.png", new Point2D.Double(0, 3.5), 2, 0, 0));
     	_datableObjects.add(new DatableItem("Fish Fossil", "fish_fossil.png", new Point2D.Double(-15, -8), 7, 0, MultiNucleusDecayModel.convertYearsToMs(10E6)));
-    	_datableObjects.add(new DatableItem("Dead Tree", "dead_tree.png", new Point2D.Double(23, 2.5), 7, Math.PI/2, MultiNucleusDecayModel.convertYearsToMs(100)));
+    	_datableObjects.add(new DatableItem("Dead Tree", "tree_dead_2.png", new Point2D.Double(23, 2.5), 7, Math.PI/2, MultiNucleusDecayModel.convertYearsToMs(100)));
     	_datableObjects.add(new DatableItem("Fish Bones", "fish_bones.png", new Point2D.Double(-20, -1.5), 5, 0, MultiNucleusDecayModel.convertYearsToMs(1000)));
     	_datableObjects.add(new DatableItem("Pottery", "pottery.png", new Point2D.Double(-10, -5.0), 2.8, Math.PI/2, MultiNucleusDecayModel.convertYearsToMs(5000)));
     	_datableObjects.add(new DatableItem("Rock 1", "rock_1.png", new Point2D.Double(-9.0, 2.5), 3, 0, MultiNucleusDecayModel.convertYearsToMs(1E9)));
