@@ -220,6 +220,31 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
 		setSimulationMode(simMode);
 	}
 	
+	/**
+	 * Get the time conversion factor that is being used by the aging items
+	 * in the model.  This is needed because the simulation time is in
+	 * milliseconds, but the datable items are generally aging much more
+	 * quickly than real time (since trees don't grow in a matter of seconds),
+	 * so some conversion factor is used.  This method allows the caller to
+	 * obtain that value.
+	 * 
+	 * @return
+	 */
+	public double getTimeConversionFactor(){
+		
+		double conversionFactor = 1;  // Real time is the default.
+		
+		if (_animatedModelElements.size() > 0){
+			// Use the time value from the first model element.  IMPORTANT
+			// NOTE: This assumes the time value is the same for all elements
+			// being modeled, which is true at the time of this writing.  If
+			// that assumption ever changes, this will need to change to.
+			conversionFactor = _animatedModelElements.get(0).getTimeConversionFactor();
+		}
+		
+		return conversionFactor;
+	}
+	
 	private void handleClockTicked(){
 		
 		if (_simulationMode == SIMULATION_MODE.ROCK){
