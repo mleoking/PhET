@@ -28,7 +28,6 @@ public abstract class AnimatedDatableItem extends DatableItem implements Cleanup
     private final double _timeConversionFactor;
     private final ClockAdapter _clockAdapter;
     private final double _birthTime;
-    private final ModelAnimationInterpreter _animationIterpreter;
     private final ArrayList<ClosureListener> _closureListeners = new ArrayList<ClosureListener>();
     private double _age = 0; // Age in milliseconds of this datable item.
     private double _ageOffset = 0;
@@ -55,25 +54,12 @@ public abstract class AnimatedDatableItem extends DatableItem implements Cleanup
 		    }
 		};
 		_clock.addClockListener(_clockAdapter);
-
-		// Create the animation interpreter that will execute the animation.
-		_animationIterpreter = new ModelAnimationInterpreter(this, getAnimationSequence() );
-		
-		// Register with the animation interpreter for any animation events
-		// that occur during the interpretation of the sequence.
-		_animationIterpreter.addListener(new ModelAnimationInterpreter.Listener(){
-			public void animationNotificationEventOccurred(EventObject event) {
-				handleAnimationEvent(event);
-			}
-		});
     }
 
 	//------------------------------------------------------------------------
     // Methods
     //------------------------------------------------------------------------
     
-    protected abstract AnimationSequence getAnimationSequence();
-
     /**
      * Handle an animation event that results from the interpretation of the
      * animation sequence.  These events are generally used to synchronize the
@@ -148,9 +134,18 @@ public abstract class AnimatedDatableItem extends DatableItem implements Cleanup
 		}
 	}
 
+	
     protected void handleClockTicked(){
+    	// Update our age value.
         _age = _clock.getSimulationTime() * _timeConversionFactor + _ageOffset - _birthTime;
-        _animationIterpreter.setTime(_age);
+    }
+    
+    protected ConstantDtClock getClock(){
+    	return _clock;
+    }
+    
+    protected double getBirthTime(){
+    	return _birthTime;
     }
 
     public void cleanup() {
