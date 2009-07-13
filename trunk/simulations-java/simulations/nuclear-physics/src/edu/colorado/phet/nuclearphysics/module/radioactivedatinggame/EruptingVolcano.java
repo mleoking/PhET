@@ -17,7 +17,7 @@ import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucl
  * 
  * @author John Blanco
  */
-public class EruptingVolcano extends AnimatedDatableItem {
+public class EruptingVolcano extends StaticAnimatedDatableItem {
     public static final double VOLCANO_AGE_FACTOR = MultiNucleusDecayModel.convertYearsToMs(1E9) / 5000;
 
     //------------------------------------------------------------------------

@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusDecayModel;
 
 /**
  * This class implements the behavior of a model element that represents a
@@ -16,7 +15,7 @@ import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucl
  *
  * @author John Blanco
  */
-public class AnimationTestModelElement extends AnimatedDatableItem {
+public class AnimationTestModelElement extends StaticAnimatedDatableItem {
 
     //------------------------------------------------------------------------
     // Class Data
@@ -25,7 +24,7 @@ public class AnimationTestModelElement extends AnimatedDatableItem {
     // Constructor
     //------------------------------------------------------------------------
 
-    public AnimationTestModelElement( ConstantDtClock clock, Point2D center, double width ) {
+	public AnimationTestModelElement( ConstantDtClock clock, Point2D center, double width ) {
         super( "Animation Test", Arrays.asList( "magenta_block.png" ), center, width, 0, 0, clock, 1 );
     }
 
