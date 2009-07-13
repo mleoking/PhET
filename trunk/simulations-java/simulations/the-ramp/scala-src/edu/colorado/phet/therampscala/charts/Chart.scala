@@ -3,29 +3,24 @@ package edu.colorado.phet.therampscala.charts
 
 import common.jfreechartphet.piccolo.JFreeChartNode
 import common.motion.graphs.JFreeChartDecorator.{DottedZeroLine, InChartTickMarks}
-import common.motion.graphs.{JFreeChartDecorator, ControlGraph}
+import common.motion.graphs.{ControlGraph}
 import common.piccolophet.PhetPCanvas
 import javax.swing.JFrame
-import org.jfree.chart.axis.{NumberAxis, ValueAxis}
-import org.jfree.chart.JFreeChart
-import org.jfree.chart.plot.XYPlot
-import org.jfree.chart.renderer.xy.{XYLineAndShapeRenderer, XYItemRenderer}
-import org.jfree.data.xy.{DefaultXYDataset, XYDataset}
 import umd.cs.piccolo.nodes.PText
 import umd.cs.piccolo.PNode
 
 class Chart extends PNode {
-//  val dataset = new DefaultXYDataset
-//  val domainAxis = new NumberAxis
-//  domainAxis.setRange(0, 20)
-//  val rangeAxis = new NumberAxis
-//  rangeAxis.setRange(-10, 10)
-//  val plot = new XYPlot(dataset, domainAxis, rangeAxis, new XYLineAndShapeRenderer)
-//  val chart = new JFreeChart(plot)
+  //  val dataset = new DefaultXYDataset
+  //  val domainAxis = new NumberAxis
+  //  domainAxis.setRange(0, 20)
+  //  val rangeAxis = new NumberAxis
+  //  rangeAxis.setRange(-10, 10)
+  //  val plot = new XYPlot(dataset, domainAxis, rangeAxis, new XYLineAndShapeRenderer)
+  //  val chart = new JFreeChart(plot)
   val chart = ControlGraph.createDefaultChart("Title")
-  chart.getXYPlot.getDomainAxis.setRange(0,20)
-  chart.getXYPlot.getRangeAxis.setRange(-10,10)
-  chart.addJFreeChartNodeGraphic(new InChartTickMarks(2,2,10))
+  chart.getXYPlot.getDomainAxis.setRange(0, 20)
+  chart.getXYPlot.getRangeAxis.setRange(-10, 10)
+  chart.addJFreeChartNodeGraphic(new InChartTickMarks(2, 2, 10))
   chart.addJFreeChartNodeGraphic(new DottedZeroLine)
   val chartNode = new JFreeChartNode(chart)
 
