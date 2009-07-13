@@ -3,7 +3,6 @@ package edu.colorado.phet.buildtools.scripts;
 import java.io.File;
 import java.io.IOException;
 
-import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
 import edu.colorado.phet.buildtools.util.FileUtils;
 
@@ -20,7 +19,7 @@ public class ExportSim {
     }
 
     private void exportSim( String simname, File dest, File simulationsJava ) throws IOException {
-        PhetProject p = new JavaSimulationProject( new File( simulationsJava, "simulations" ), simname );
+        JavaSimulationProject p = new JavaSimulationProject( new File( simulationsJava, "simulations" ), simname );
         System.out.println( "p = " + p );
         File[] s = p.getAllJavaSourceRoots();
         for ( int i = 0; i < s.length; i++ ) {

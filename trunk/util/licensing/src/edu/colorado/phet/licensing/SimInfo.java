@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
 import edu.colorado.phet.buildtools.PhetProject;
+import edu.colorado.phet.buildtools.BuildToolsPaths;
 import edu.colorado.phet.buildtools.util.LicenseInfo;
 
 /**
@@ -89,11 +90,11 @@ public class SimInfo {
     }
 
     public static SimInfo getSimInfo( File trunk, String simName ) throws IOException {
-        PhetProject phetProject = new JavaSimulationProject( new File( trunk, "simulations-java/simulations/" + simName ) );
+        JavaSimulationProject project = new JavaSimulationProject( new File( trunk, BuildToolsPaths.JAVA_SIMULATIONS_DIR + "/" + simName ) );
 
-        return new SimInfo( phetProject, phetProject.getDependencies(), phetProject.getAllJarFiles(), phetProject.getSourceRoots(),
-                            phetProject.getAllLicenseInfo(),
-                            new DataProcessor().visitDirectory( phetProject, phetProject.getDataDirectory() ) );
+        return new SimInfo( project, project.getDependencies(), project.getAllJarFiles(), project.getSourceRoots(),
+                            project.getAllLicenseInfo(),
+                            new DataProcessor().visitDirectory( project, project.getDataDirectory() ) );
     }
 
 
