@@ -408,6 +408,30 @@ public class NuclearDecayProportionChart extends PNode {
     }
     
     /**
+     * Alternate version of the method for adding data points.  This one
+     * allows the caller to specify the proportions rather than the actual
+     * numbers of pre- and post-decay nuclei.
+     * 
+     * @param time
+     * @param percentageRemaining
+     */
+    public void addDataPoint(double time, double percentageRemaining){
+    	
+    	// Since the pie chart requires that integer numbers be specified, it
+    	// should not be enabled when this mode of graphing is being used.
+    	assert !_pieChartEnabled;
+    	
+    	// Validate the arguments.
+    	assert percentageRemaining >= 0;
+    	assert percentageRemaining <= 100;
+
+    	// Save and graph new data point.
+    	Point2D decayEvent = new Point2D.Double( time, percentageRemaining );
+		_decayEvents.add( decayEvent );
+		_graph.graphDecayEvent( decayEvent );
+    }
+    
+    /**
      * This class defines a node that consists of a pie chart and the various
      * labels needed for this chart.  It assumes only two sections exist, one
      * for the amount of pre-decay element and one for the amount of post-
