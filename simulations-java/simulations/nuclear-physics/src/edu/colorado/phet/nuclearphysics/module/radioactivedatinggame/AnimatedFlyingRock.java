@@ -18,7 +18,7 @@ import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucl
  *
  * @author John Blanco
  */
-public class AnimatedFlyingRock extends AnimatedDatableItem {
+public class AnimatedFlyingRock extends StaticAnimatedDatableItem {
 
     //------------------------------------------------------------------------
     // Class Data
