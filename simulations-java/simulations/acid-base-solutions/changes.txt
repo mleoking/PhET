@@ -1,3 +1,4 @@
+> change BH+ color to mustard (RGB=192,178,60)
 # 0.01.24 (33083) Jul 6, 2009
 7/6/09 change requests
 > match concentration if log10 differs by 0.12
