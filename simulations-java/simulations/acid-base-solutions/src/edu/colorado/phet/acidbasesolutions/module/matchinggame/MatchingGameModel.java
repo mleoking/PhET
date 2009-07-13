@@ -27,7 +27,7 @@ public class MatchingGameModel extends ABSModel {
     
     // parameters that define what constitutes a match
     private static final double LOG10_CONCENTRATION_CLOSENESS = 0.12; // difference between log10 of concentration values
-    private static final double LOG10_STRENGTH_CLOSENESS = 0.35; // difference between log10 of s values
+    private static final double LOG10_STRENGTH_CLOSENESS = 0.35; // difference between log10 of strength values
     
     // points related to "Acid or Base?" question
     private static final int POINTS_ACIDBASE_CORRECT_FIRST = +1;
