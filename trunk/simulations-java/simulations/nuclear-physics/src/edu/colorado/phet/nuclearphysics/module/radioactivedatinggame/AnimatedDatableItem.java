@@ -25,7 +25,7 @@ public abstract class AnimatedDatableItem extends DatableItem implements Cleanup
     //------------------------------------------------------------------------
 	
     private final ConstantDtClock _clock;
-    private final double _ageAdjustmentFactor;
+    private final double _timeConversionFactor;
     private final ClockAdapter _clockAdapter;
     private final double _birthTime;
     private final ModelAnimationInterpreter _animationIterpreter;
@@ -44,7 +44,7 @@ public abstract class AnimatedDatableItem extends DatableItem implements Cleanup
         super( name, resourceImageNames, center, width, rotationAngle, age );
         _clock = clock;
         _birthTime = _clock.getSimulationTime() * ageAdjustmentFactor;
-        this._ageAdjustmentFactor = ageAdjustmentFactor;
+        this._timeConversionFactor = ageAdjustmentFactor;
         // Create the adapter that will listen to the clock.
 		_clockAdapter = new ClockAdapter(){
 		    public void clockTicked( ClockEvent clockEvent ) {
@@ -131,6 +131,17 @@ public abstract class AnimatedDatableItem extends DatableItem implements Cleanup
 		_closureListeners.clear();
 	}
 	
+	/**
+	 * Get the value that is being used to convert simulation time into the
+	 * time values needed by the aging time.  This is often a very large
+	 * number.
+	 *
+	 * @return
+	 */
+	public double getTimeConversionFactor(){
+		return _timeConversionFactor;
+	}
+
 	private void notifyClosureStateChanged(){
 		for (ClosureListener listener : _closureListeners){
 			listener.closureStateChanged(this);
@@ -138,7 +149,7 @@ public abstract class AnimatedDatableItem extends DatableItem implements Cleanup
 	}
 
     protected void handleClockTicked(){
-        _age = _clock.getSimulationTime() * _ageAdjustmentFactor + _ageOffset - _birthTime;
+        _age = _clock.getSimulationTime() * _timeConversionFactor + _ageOffset - _birthTime;
         _animationIterpreter.setTime(_age);
     }
 
