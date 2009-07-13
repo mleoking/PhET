@@ -178,7 +178,7 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
         backgroundLayer.addChild(cloud2);
         
         // Create the chart that will display relative decay proportions.
-        _proportionsChart = new NuclearDecayProportionChart(false, false, false);
+        _proportionsChart = new NuclearDecayProportionChart(false, false, false, false);
         configureProportionsChart();
         _chartAndMeterLayer.addChild(_proportionsChart);
         
