@@ -112,7 +112,11 @@ public class DatableItem implements AnimatedModelElement {
 	}
 	
 	public void setPosition(Point2D centerPoint) {
-		center = new Point2D.Double(centerPoint.getX(), centerPoint.getY());
+		setPosition(centerPoint.getX(), centerPoint.getY());
+	}
+	
+	public void setPosition(double x, double y) {
+		center = new Point2D.Double(x, y);
 		notifyPositionChanged();
 	}
 	
