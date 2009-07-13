@@ -20,7 +20,7 @@ import edu.umd.cs.piccolo.util.PPaintContext;
  * Dec 5, 2007 at 4:58:41 PM
  */
 public class JFreeChartDecorator extends JFreeChart {
-    private ArrayList decorations = new ArrayList();
+    private ArrayList<JFreeChartDecoration> decorations = new ArrayList<JFreeChartDecoration>();
 
     public JFreeChartDecorator( String title, Font defaultTitleFont, XYPlot plot, boolean legend ) {
         super( title, defaultTitleFont, plot, legend );
@@ -32,8 +32,8 @@ public class JFreeChartDecorator extends JFreeChart {
     }
 
     private void drawDecoration( Graphics2D g2, Rectangle2D area, Point2D anchor, ChartRenderingInfo info ) {
-        for ( int i = 0; i < decorations.size(); i++ ) {
-            ( (JFreeChartDecoration) decorations.get( i ) ).paint( this, g2, area, anchor, info );
+        for (JFreeChartDecoration decoration : decorations) {
+            decoration.paint(this, g2, area, anchor, info);
         }
     }
 
