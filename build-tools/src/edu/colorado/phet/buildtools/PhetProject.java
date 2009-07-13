@@ -718,6 +718,10 @@ public abstract class PhetProject {
     }
 
     public void copyLicenseInfo() {
+        if ( this instanceof StatisticsProject ) {
+            // TODO: remove this temporary fix so that it doesn't try to set svn properties for bogus directories
+            return;
+        }
         File contribLicensesDir = getContribLicenseDir();
         File file = new File( contribLicensesDir, "license-info.txt" );
         System.out.println( "file.getAbsolute = " + file.getAbsolutePath() );
