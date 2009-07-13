@@ -63,10 +63,6 @@ public abstract class PhetProject {
         }
     }
 
-    public File getSimulationsJava() {
-        return new File( getTrunk(), BuildToolsPaths.SIMULATIONS_JAVA );
-    }
-
     public String getName() {
         return name;
     }
@@ -259,9 +255,9 @@ public abstract class PhetProject {
             System.out.println( "Found item based on path from trunk: " + trunkPath.getAbsolutePath() );
             return trunkPath;
         }
-        System.out.println( "Searched simJ=" + getSimulationsJava() );
+        System.out.println( "Searched simJ=" + new File( getTrunk(), BuildToolsPaths.SIMULATIONS_JAVA ) );
 
-        throw new RuntimeException( "No path found for token=" + token + ", antBaseDir=" + getSimulationsJava().getAbsolutePath() + ", in project=" + this );
+        throw new RuntimeException( "No path found for token=" + token + ", antBaseDir=" + new File( getTrunk(), BuildToolsPaths.SIMULATIONS_JAVA ).getAbsolutePath() + ", in project=" + this );
     }
 
 
@@ -339,7 +335,7 @@ public abstract class PhetProject {
     }
 
     public File getAntOutputDir() {
-        File destDir = new File( getSimulationsJava(), "ant_output/projects/" + name );
+        File destDir = new File( new File( getTrunk(), BuildToolsPaths.SIMULATIONS_JAVA ), "ant_output/projects/" + name );
         destDir.mkdirs();
         return destDir;
     }
