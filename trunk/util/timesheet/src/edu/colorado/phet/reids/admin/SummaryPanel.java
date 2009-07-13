@@ -115,6 +115,7 @@ public class SummaryPanel extends JPanel {
         updateSaveButtonEnabled();
 
         add( new SummaryButton( data ) );
+        add( new StatsButton(data));
 
         delete = new JButton( "Delete" );
         delete.addActionListener( new ActionListener() {

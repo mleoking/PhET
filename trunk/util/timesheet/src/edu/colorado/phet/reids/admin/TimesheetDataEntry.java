@@ -169,6 +169,19 @@ public class TimesheetDataEntry {
         listeners.remove( listener );
     }
 
+    public boolean overlapsWith(TimesheetDataEntry other) {
+        //time periods overlap if either contains any points of the other
+        return this.containsEndPoint(other) || other.containsEndPoint(this);
+    }
+
+    private boolean containsEndPoint(TimesheetDataEntry other) {
+        return contains(other.getStartTime())|| contains(other.getEndTime());
+    }
+
+    private boolean contains(Date time) {
+        return time.after(getStartTime())&&time.before(getEndTime());
+    }
+
     public static interface Listener {
         void timeChanged();
 
