@@ -10,6 +10,7 @@ import java.awt.Rectangle;
 import java.awt.Stroke;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -116,7 +117,8 @@ public class NuclearDecayProportionChart extends PNode {
     // Constructor
     //------------------------------------------------------------------------
 
-    public NuclearDecayProportionChart(boolean pieChartEnabled, boolean moveablePercentIndicatorEnabled, boolean showPostDecayCurve){
+    public NuclearDecayProportionChart(boolean pieChartEnabled, boolean moveablePercentIndicatorEnabled, 
+    		boolean showPostDecayCurve, boolean lineGraph){
     	
     	_pieChartEnabled = pieChartEnabled;
     	_movablePercentIndicatorEnabled = moveablePercentIndicatorEnabled;
@@ -150,7 +152,7 @@ public class NuclearDecayProportionChart extends PNode {
         _nonPickableChartNode.addChild( _borderNode );
 
         // Create the graph.
-        _graph = new GraphNode( this );
+        _graph = new GraphNode( this, lineGraph );
         _nonPickableChartNode.addChild( _graph );
         
         // Add the pie chart (if enabled).
@@ -628,6 +630,7 @@ public class NuclearDecayProportionChart extends PNode {
         private PPath _preDecayProportionCurve;
         private PPath _postDecayProportionCurve;
         private Stroke _dataCurveStroke = new BasicStroke();
+        private Ellipse2D _dataPointShape = new Ellipse2D.Double();
         private Point2D _previousDecayEvent;
 
         // Factor for converting milliseconds to pixels.
@@ -639,17 +642,23 @@ public class NuclearDecayProportionChart extends PNode {
         
         // Controls relative size of the labels.
 		private double _labelScalingFactor;
+		
+		// Controls whether the points that are added to the graph are
+		// connected into a line or just drawn as discrete points.
+		private final boolean _lineGraph;
 
 		/**
 		 * Constructor
 		 * 
 		 * @param parentChart
+		 * @param lineGraph TODO
 		 */
-		public GraphNode( NuclearDecayProportionChart parentChart ) {
+		public GraphNode( NuclearDecayProportionChart parentChart, boolean lineGraph ) {
 
 			_chart = parentChart;
+			_lineGraph = lineGraph;
 			
-			// Set up the layers (so to speak) for the graph.
+			// Set up the layers for the graph.
 			
 			_nonPickableGraphLayer = new PNode();
 			_nonPickableGraphLayer.setPickable(false);
@@ -763,6 +772,8 @@ public class NuclearDecayProportionChart extends PNode {
 			// of the graph.
 	        _dataCurveStroke = new BasicStroke( (float)(newHeight * DATA_CURVE_LINE_WIDTH_PROPORTION ),
 	        		BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
+	        double dataPtDiameter = newHeight * DATA_CURVE_LINE_WIDTH_PROPORTION;
+	        _dataPointShape.setFrame(-dataPtDiameter / 2, -dataPtDiameter / 2, dataPtDiameter, dataPtDiameter);
 
 	        // Position and size the Y axis label, since it will affect the
 	        // graph's origin.  There is a tweak factor in here that controls
@@ -782,7 +793,7 @@ public class NuclearDecayProportionChart extends PNode {
 		        maxYAxisLabelWidth = Math.max(yAxisGridLineLabel.getFullBoundsReference().width, maxYAxisLabelWidth);
 	        }
 
-	        // Create a rectangle that defines where the graph itself is,
+	        // Update the rectangle that defines where the graph itself is,
 	        // excluding all labels and such.
 
 	        _graphRect.setRect(
@@ -1126,6 +1137,19 @@ public class NuclearDecayProportionChart extends PNode {
 	     * of element remaining after this event.
 	     */
 	    private void graphDecayEvent( Point2D decayEventLocation ){
+	    	if (_lineGraph){
+//	    		graphDecayEventLine(decayEventLocation);
+	    	}
+	    	else{
+	    		graphDecayEventPoint(decayEventLocation);
+	    	}
+	    }
+	    
+	    /**
+	     * Graph the data point as connected to the previous data points.
+	     * 
+	     */
+	    private void graphDecayEventLine( Point2D decayEventLocation){
 	    	
 	    	float xPos = (float)(_msToPixelsFactor * decayEventLocation.getX() + _graphRect.getX());
 	    	
@@ -1193,6 +1217,39 @@ public class NuclearDecayProportionChart extends PNode {
 		    		// Add the next segment to the curve.
 		    		_postDecayProportionCurve.lineTo(xPos, yPosPostDecay);
 		    	}
+	    	}
+	    	
+	    	_previousDecayEvent = decayEventLocation;
+	    }
+	    
+	    /**
+	     * Graph the data point as connected to the previous data points.
+	     * 
+	     */
+	    private void graphDecayEventPoint( Point2D decayEventLocation){
+	    	
+	    	float xPos = (float)(_msToPixelsFactor * decayEventLocation.getX() + _graphRect.getX());
+	    	
+	    	// Graph the point if it is on the chart.
+	    	if ( xPos <= _graphRect.getMaxX() ){
+	    		
+		    	float yPosPreDecay = (float)( _graphRect.getMaxY() - ( ( decayEventLocation.getY() / 100 ) 
+		    			* _graphRect.getHeight() ) );
+		    	float yPosPostDecay = (float)( _graphRect.getMaxY() - ( ( ( 100 - decayEventLocation.getY() ) / 100 ) 
+		    			* _graphRect.getHeight() ) );
+		    	
+		    	PhetPPath preDecayDataPoint = new PhetPPath(_dataPointShape,
+		    			_chart._preDecayNucleusDisplayInfo.getDisplayColor(), null,
+		    			_chart._preDecayNucleusDisplayInfo.getDisplayColor());
+		    	preDecayDataPoint.setOffset(xPos, yPosPreDecay);
+		    	_dataPresentationLayer.addChild(preDecayDataPoint);
+		    	
+		    	PhetPPath postDecayDataPoint = new PhetPPath(_dataPointShape,
+		    			_chart._postDecayNucleusDisplayInfo.getDisplayColor(), null,
+		    			_chart._postDecayNucleusDisplayInfo.getDisplayColor());
+		    	postDecayDataPoint.setOffset(xPos, yPosPostDecay);
+		    	postDecayDataPoint.setVisible(_chart._showPostDecayCurve);
+		    	_dataPresentationLayer.addChild(postDecayDataPoint);
 	    	}
 	    	
 	    	_previousDecayEvent = decayEventLocation;
@@ -1448,7 +1505,7 @@ public class NuclearDecayProportionChart extends PNode {
      */
     public static void main(String [] args){
     	
-        final NuclearDecayProportionChart proportionsChart = new NuclearDecayProportionChart(true, true, false); 
+        final NuclearDecayProportionChart proportionsChart = new NuclearDecayProportionChart(true, true, false, true); 
 
         double halfLife = HalfLifeInfo.getHalfLifeForNucleusType(NucleusType.CARBON_14);
         proportionsChart.setTimeParameters(halfLife * 3.2, halfLife);
