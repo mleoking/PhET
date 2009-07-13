@@ -87,7 +87,7 @@ public class ProjectList extends JList {
             projects.add( new PhetUpdaterProject( new File( trunk, BuildToolsPaths.PHET_UPDATER ) ) );
             projects.add( new BuildToolsProject( new File( trunk, BuildToolsPaths.BUILD_TOOLS_DIR ) ) );
             projects.add( new TimesheetProject( new File( trunk, BuildToolsPaths.TIMESHEET ) ) );
-            projects.add( new StatisticsProject( trunk ) );
+            projects.add( new StatisticsProject( new File( trunk, BuildToolsPaths.STATISTICS ) ) );
         }
         catch( IOException e ) {
             e.printStackTrace();

@@ -526,7 +526,7 @@ public abstract class PhetProject {
             phetProjects.add( new PhetUpdaterProject( new File( trunk, BuildToolsPaths.PHET_UPDATER ) ) );
             phetProjects.add( new BuildToolsProject( new File( trunk, BuildToolsPaths.BUILD_TOOLS_DIR ) ) );
             phetProjects.add( new TimesheetProject( new File( trunk, BuildToolsPaths.TIMESHEET ) ) );
-            phetProjects.add( new StatisticsProject( trunk ) );
+            phetProjects.add( new StatisticsProject( new File( trunk, BuildToolsPaths.STATISTICS ) ) );
         }
         catch( IOException e ) {
             e.printStackTrace();

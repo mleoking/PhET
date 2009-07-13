@@ -8,6 +8,7 @@ import java.io.IOException;
 
 import javax.swing.*;
 
+import edu.colorado.phet.buildtools.BuildToolsPaths;
 import edu.colorado.phet.buildtools.PhetServer;
 import edu.colorado.phet.buildtools.SVNStatusChecker;
 import edu.colorado.phet.buildtools.gui.PhetBuildGUI;
@@ -56,7 +57,7 @@ public class StatisticsPanel extends JPanel {
             return;
         }
         try {
-            StatisticsProject project = new StatisticsProject( trunk );
+            StatisticsProject project = new StatisticsProject( new File( trunk, BuildToolsPaths.STATISTICS ) );
             SVNStatusChecker checker = new SVNStatusChecker();
 
             boolean success = true;
