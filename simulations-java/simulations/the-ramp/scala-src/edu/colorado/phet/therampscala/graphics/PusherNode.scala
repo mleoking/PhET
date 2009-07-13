@@ -3,7 +3,6 @@ package edu.colorado.phet.therampscala.graphics
 
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import common.phetcommon.view.util.BufferedImageUtils
-import java.awt.image.BufferedImage
 import model.{Bead}
 import scalacommon.Predef._
 import java.lang.Math._

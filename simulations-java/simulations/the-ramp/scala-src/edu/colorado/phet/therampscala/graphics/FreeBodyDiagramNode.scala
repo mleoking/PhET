@@ -8,7 +8,6 @@ import common.piccolophet.event.CursorHandler
 import common.piccolophet.nodes._
 import common.piccolophet.PhetPCanvas
 import java.awt._
-import image.BufferedImage
 import java.awt.geom.{Point2D, Rectangle2D}
 import javax.swing.JFrame
 import layout.SwingLayoutNode
@@ -16,7 +15,7 @@ import model.{FreeBodyDiagramModel, CoordinateFrameModel}
 import scalacommon.math.Vector2D
 import scalacommon.util.Observable
 import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEventListener, PInputEvent}
-import umd.cs.piccolo.nodes.{PImage, PText, PPath}
+import umd.cs.piccolo.nodes.{PImage, PText}
 import umd.cs.piccolo.PNode
 import scalacommon.Predef._
 import java.lang.Math._
@@ -296,7 +295,7 @@ class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val ta
   //can't use def since eta-expansion makes == and array -= impossible
   val update = () => {
     setVisible(vector.visible)
-    if (vector.visible) {//skip expensive updates if not visible
+    if (vector.visible) { //skip expensive updates if not visible
       //    println("vector: " + vector.abbreviation + ", mag=" + vector.getValue.magnitude)
       val viewTip = transform.modelToViewDouble(vector.getValue + tailLocation.getValue)
       arrowNode.setTipAndTailLocations(viewTip, transform.modelToViewDouble(tailLocation.getValue))

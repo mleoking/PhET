@@ -10,7 +10,6 @@ import model._
 
 
 import scalacommon.swing.MyRadioButton
-import scalacommon.util.Observable
 import swing.{MyCheckBox, ScalaValueControl}
 import edu.colorado.phet.scalacommon.Predef._
 

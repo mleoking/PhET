@@ -7,16 +7,15 @@ import common.phetcommon.view.util.{BufferedImageUtils, PhetFont}
 import common.phetcommon.view.VerticalLayoutPanel
 import common.piccolophet.event.CursorHandler
 import common.piccolophet.nodes.{HTMLNode, ToolTipNode, PhetPPath}
-import java.awt.{Rectangle, BasicStroke, Color}
-import java.text.MessageFormat
-import javax.swing.{JButton, Timer}
+import java.awt.{BasicStroke, Color}
+import javax.swing.{Timer}
 import scalacommon.util.Observable
 import swing.ScalaValueControl
 import umd.cs.piccolo.util.{PBounds, PDimension}
 import umd.cs.piccolox.nodes.PClip
 import umd.cs.piccolox.pswing.PSwing
 import umd.cs.piccolo.PNode
-import umd.cs.piccolo.nodes.{PText, PImage}
+import umd.cs.piccolo.nodes.{PImage}
 
 import java.awt.geom.Rectangle2D
 import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
@@ -54,8 +53,8 @@ class ObjectSelectionNode(transform: ModelViewTransform2D, model: ObjectModel) e
     n.setOffset(transform.modelToView(column * modelCellDimPt.x - 11, -10 + row * modelCellDimPt.y - 2 * modelCellDimPt.y + 0.5))
     addChild(n)
   }
-  setOffset(transform.getViewBounds.getCenterX-getFullBounds.getCenterX,
-    transform.getViewBounds.getMaxY-getFullBounds.getMaxY-2)
+  setOffset(transform.getViewBounds.getCenterX - getFullBounds.getCenterX,
+    transform.getViewBounds.getMaxY - getFullBounds.getMaxY - 2)
 
   class ObjectSelectionIcon(o: ScalaRampObject) extends PNode {
     val textNode = new HTMLNode(o.getDisplayTextHTML.toString)

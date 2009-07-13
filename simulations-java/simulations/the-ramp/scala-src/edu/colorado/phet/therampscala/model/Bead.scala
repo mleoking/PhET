@@ -2,12 +2,6 @@ package edu.colorado.phet.therampscala.model
 
 
 import collection.mutable.ArrayBuffer
-import common.phetcommon.math.MathUtil
-import graphics.{PointOfOriginVector, Vector}
-import java.awt.geom.Rectangle2D
-import java.awt.image.BufferedImage
-import java.awt.{Graphics2D, TexturePaint, Paint, Color}
-import java.util.Date
 import scalacommon.math.Vector2D
 import scalacommon.util.Observable
 import java.lang.Math._

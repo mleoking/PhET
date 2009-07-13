@@ -7,7 +7,7 @@ import common.piccolophet.nodes.PhetPPath
 import java.awt.geom.{Point2D, Line2D, Rectangle2D}
 import java.awt.{BasicStroke, Color}
 import robotmovingcompany.RobotMovingCompanyGameModel
-import umd.cs.piccolo.nodes.{PImage, PText}
+import umd.cs.piccolo.nodes.{PImage}
 import umd.cs.piccolo.PNode
 import scalacommon.Predef._
 import umd.cs.piccolo.util.PBounds

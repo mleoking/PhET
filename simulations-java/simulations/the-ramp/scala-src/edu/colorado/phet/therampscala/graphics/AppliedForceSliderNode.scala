@@ -10,7 +10,6 @@ import model.{Bead}
 import umd.cs.piccolo.PNode
 import swing.ScalaValueControl
 import umd.cs.piccolox.pswing.PSwing
-import scalacommon.math.Vector2D
 import edu.colorado.phet.scalacommon.Predef._
 
 class AppliedForceSlider(getter: () => Double,
@@ -27,7 +26,7 @@ class AppliedForceSlider(getter: () => Double,
   getSlider.setPaintLabels(false)
 
   //allow showing values outside the settable range
-  protected override def isValueInRange(value: Double) = true
+  override def isValueInRange(value: Double) = true
 }
 
 class AppliedForceSliderNode(bead: Bead, transform: ModelViewTransform2D) extends PNode {

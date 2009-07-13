@@ -41,12 +41,12 @@ class BasicRampModule(frame: JFrame, clock: ScalaClock, name: String, coordinate
 
 class IntroRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "Intro", false)
 
-class CoordinatesRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "Coordinates", true){
-  coordinateSystemModel.adjustable=true
+class CoordinatesRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "Coordinates", true) {
+  coordinateSystemModel.adjustable = true
 }
 
-class ForceGraphsModule(frame:JFrame, clock:ScalaClock) extends BasicRampModule(frame,clock,"Force Graphs",false){
-  coordinateSystemModel.adjustable=false
+class ForceGraphsModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "Force Graphs", false) {
+  coordinateSystemModel.adjustable = false
 }
 
 class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock) extends AbstractRampModule(frame, clock, "Robot Moving Company") {

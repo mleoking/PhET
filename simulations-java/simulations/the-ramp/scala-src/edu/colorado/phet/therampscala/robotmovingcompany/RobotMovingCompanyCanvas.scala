@@ -6,10 +6,9 @@ import common.piccolophet.nodes.layout.SwingLayoutNode
 import common.piccolophet.PhetPCanvas
 import java.awt._
 import geom.{Line2D, RoundRectangle2D}
-import java.awt.event.{MouseEvent, MouseAdapter}
 import javax.swing.event.{ChangeEvent, ChangeListener}
 
-import javax.swing.{JButton, JOptionPane, JFrame, Box}
+import javax.swing.{JButton, JOptionPane, JFrame}
 import scalacommon.ScalaClock
 import common.phetcommon.view.VerticalLayoutPanel
 import umd.cs.piccolo.nodes.{PImage, PText}
@@ -18,7 +17,7 @@ import common.piccolophet.nodes.PhetPPath
 import scalacommon.math.Vector2D
 import graphics._
 import model._
-import swing.{ScalaValueControl, ScalaButton}
+import swing.{ScalaButton}
 import umd.cs.piccolox.pswing.PSwing
 import scalacommon.Predef._
 
@@ -95,8 +94,8 @@ class RobotMovingCompanyCanvas(model: RampModel, coordinateSystemModel: Coordina
 
   gameModel.surfaceModel.addListener(updateRampColor)
   def updateRampColor() = {
-    rightSegmentNode.paint_=(gameModel.surfaceModel.surfaceType.color)
-    leftSegmentNode.paint_=(gameModel.surfaceModel.surfaceType.color)
+    rightSegmentNode.paintColor = gameModel.surfaceModel.surfaceType.color
+    leftSegmentNode.paintColor = gameModel.surfaceModel.surfaceType.color
   }
   updateRampColor()
 

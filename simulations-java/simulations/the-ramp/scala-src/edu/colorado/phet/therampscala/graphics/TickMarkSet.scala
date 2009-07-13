@@ -7,11 +7,8 @@ import common.piccolophet.nodes.PhetPPath
 import java.awt.Color
 import java.awt.geom.{Rectangle2D, Point2D}
 import java.text.DecimalFormat
-import scalacommon.util.Observable
 import umd.cs.piccolo.nodes.PText
 import umd.cs.piccolo.PNode
-import scalacommon.Predef._
-
 class TickMarkSet(transform: ModelViewTransform2D, positionMapper: Double => Point2D, addListener: (() => Unit) => Unit) extends PNode {
   for (x <- -10 to 10 by 2) {
     addTickLabel(x)
