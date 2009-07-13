@@ -1,13 +1,10 @@
 package edu.colorado.phet.therampscala.graphics
 
 
-import common.phetcommon.view.controls.valuecontrol.LinearValueControl
-import java.awt.{Color, Dimension}
-import java.util.{Hashtable, Dictionary}
+import java.awt.{Color}
 import javax.swing._
 import robotmovingcompany.SurfaceModel
 import scalacommon.swing.MyRadioButton
-import swing.ScalaValueControl
 import umd.cs.piccolo.nodes.PText
 import umd.cs.piccolo.PNode
 import umd.cs.piccolox.pswing.PSwing

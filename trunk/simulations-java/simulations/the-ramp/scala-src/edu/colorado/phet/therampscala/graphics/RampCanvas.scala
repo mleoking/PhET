@@ -13,6 +13,7 @@ import scalacommon.math.Vector2D
 import scalacommon.Predef._
 import umd.cs.piccolo.PNode
 import java.lang.Math._
+
 abstract class AbstractRampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, freeBodyDiagramModel: FreeBodyDiagramModel,
                                   vectorViewModel: VectorViewModel, frame: JFrame) extends DefaultCanvas(22, 20) {
   setBackground(RampDefaults.SKY_GRADIENT_BOTTOM)
@@ -23,7 +24,8 @@ abstract class AbstractRampCanvas(model: RampModel, coordinateSystemModel: Coord
   def useVectorNodeInPlayArea = true
 
   def createEarthNode: PNode
-  val earthNode=createEarthNode
+
+  val earthNode = createEarthNode
   addNode(earthNode)
 
   def createLeftSegmentNode: HasPaint
@@ -213,7 +215,7 @@ abstract class AbstractRampCanvas(model: RampModel, coordinateSystemModel: Coord
 class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, freeBodyDiagramModel: FreeBodyDiagramModel,
                  vectorViewModel: VectorViewModel, frame: JFrame) extends AbstractRampCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame) {
   addNode(new ObjectSelectionNode(transform, model))
-  addNode(indexOfChild(earthNode)+1, new AppliedForceSliderNode(model.bead, transform))
+  addNode(indexOfChild(earthNode) + 1, new AppliedForceSliderNode(model.bead, transform))
 
   override def addWallsAndDecorations() = {
     addNode(new BeadNode(model.leftWall, transform, "wall.jpg") with CloseButton {

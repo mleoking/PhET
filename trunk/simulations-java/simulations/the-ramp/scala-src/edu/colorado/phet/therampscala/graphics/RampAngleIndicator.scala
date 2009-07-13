@@ -2,8 +2,6 @@ package edu.colorado.phet.therampscala.graphics
 
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import common.phetcommon.view.util.PhetFont
-import model.RampSegment
-import scalacommon.util.Observable
 import umd.cs.piccolo.PNode
 import common.piccolophet.nodes.PhetPPath
 import java.awt.{BasicStroke, Color}

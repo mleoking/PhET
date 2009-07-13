@@ -1,6 +1,5 @@
 package edu.colorado.phet.therampscala
 
-import java.awt.Color
 import scalacommon.util.Observable
 
 class ScalaRampObject(_name: String,

@@ -2,7 +2,7 @@ package edu.colorado.phet.therampscala.charts
 
 
 import common.jfreechartphet.piccolo.JFreeChartNode
-import common.motion.graphs.JFreeChartDecorator.{DottedZeroLine, InChartTickMarks}
+import _root_.edu.colorado.phet.common.motion.graphs.JFreeChartDecorator.{DottedZeroLine, InChartTickMarks}
 import common.motion.graphs.{ControlGraph}
 import common.piccolophet.PhetPCanvas
 import javax.swing.JFrame

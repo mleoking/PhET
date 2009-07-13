@@ -2,7 +2,7 @@ package edu.colorado.phet.therampscala.graphics
 
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import common.piccolophet.PhetPCanvas
-import java.awt.{Rectangle, Dimension, Color}
+import java.awt.{Rectangle, Dimension}
 import java.awt.geom.Rectangle2D
 
 import scalacommon.CenteredBoxStrategy
@@ -19,7 +19,7 @@ class DefaultCanvas(modelWidth: Double, modelHeight: Double) extends PhetPCanvas
 
   def addNode(index: Int, node: PNode) = worldNode.addChild(index, node)
 
-  def indexOfChild(node:PNode)=worldNode.indexOfChild(node)
+  def indexOfChild(node: PNode) = worldNode.indexOfChild(node)
 
   def removeNode(node: PNode) = worldNode.removeChild(node)
 }

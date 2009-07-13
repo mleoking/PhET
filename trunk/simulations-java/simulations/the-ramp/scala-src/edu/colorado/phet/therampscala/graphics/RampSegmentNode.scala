@@ -2,7 +2,7 @@ package edu.colorado.phet.therampscala.graphics
 
 
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
-import java.awt.{Paint, Color, BasicStroke, Cursor}
+import java.awt.{Paint, Color, BasicStroke}
 import scalacommon.util.Observable
 import umd.cs.piccolo.PNode
 import common.piccolophet.nodes.PhetPPath
@@ -15,9 +15,9 @@ import scalacommon.Predef._
 import java.lang.Math._
 
 trait HasPaint extends PNode {
-  def paint_=(p: Paint): Unit
+  def paintColor_=(p: Paint): Unit
 
-  def paint: Paint
+  def paintColor: Paint
 }
 
 class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2D) extends PNode with HasPaint {
@@ -27,9 +27,9 @@ class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2
     line.setPathTo(mytransform.createTransformedShape(new BasicStroke(0.4f).createStrokedShape(rampSegment.toLine2D)))
   }
 
-  def paint_=(p: Paint) = line.setPaint(p)
+  def paintColor_=(p: Paint) = line.setPaint(p)
 
-  def paint = line.getPaint
+  def paintColor = line.getPaint
 }
 
 trait Rotatable extends Observable {
