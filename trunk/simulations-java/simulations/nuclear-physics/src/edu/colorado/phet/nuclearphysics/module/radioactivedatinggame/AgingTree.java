@@ -16,7 +16,7 @@ import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucl
  *
  * @author John Blanco
  */
-public class AgingTree extends AnimatedDatableItem {
+public class AgingTree extends StaticAnimatedDatableItem {
 
     //------------------------------------------------------------------------
     // Instance Data

@@ -16,7 +16,7 @@ import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucl
  *
  * @author John Blanco
  */
-public class AgingRock extends AnimatedDatableItem {
+public class AgingRock extends StaticAnimatedDatableItem {
 
     //------------------------------------------------------------------------
     // Constructor
