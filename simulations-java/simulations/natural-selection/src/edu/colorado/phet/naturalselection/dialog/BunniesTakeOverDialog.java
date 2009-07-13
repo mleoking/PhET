@@ -39,7 +39,6 @@ public class BunniesTakeOverDialog extends JDialog {
         canvas.setMaximumSize( new Dimension( 480, 481 ) );
         final PNode root = new PNode();
         canvas.addWorldChild( root );
-        //root.addChild( NaturalSelectionResources.getImageNode( NaturalSelectionConstants.IMAGE_EARTH_PLAIN ) );
         root.addChild( NaturalSelectionResources.getImageNode( NaturalSelectionConstants.IMAGE_EARTH ) );
         panel.add( canvas );
 
