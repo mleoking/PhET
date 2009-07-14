@@ -18,6 +18,7 @@ import java.awt.event.{MouseAdapter, MouseEvent}
 
 import java.text._
 import javax.swing._
+import border.TitledBorder
 import scalacommon.swing.{MyRadioButton}
 import umd.cs.piccolo.nodes.{PImage, PText}
 import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
@@ -225,8 +226,8 @@ class SunPlanetControlPanel(model: ForceLawLabModel, m: Magnification, units: Un
   import ForceLawLabDefaults._
   import ForceLawLabResources._
 
-  addFullWidth(new ForceLawLabScalaValueControl(kgToEarthMasses(model.m1.mass / 10), kgToEarthMasses(model.m1.mass * 5), format("readout.pattern-bodyname", model.m1.name), "0.00", getLocalizedString("units.earth.masses"),
-    kgToEarthMasses(model.m1.mass), a => model.m1.mass = earthMassesToKg(a), model.m1.addListener))
+  val planetMassSlider = new ForceLawLabScalaValueControl(kgToEarthMasses(model.m1.mass / 10), kgToEarthMasses(model.m1.mass * 5), format("readout.pattern-bodyname", model.m1.name), "0.00", getLocalizedString("units.earth.masses"),
+    kgToEarthMasses(model.m1.mass), a => model.m1.mass = earthMassesToKg(a), model.m1.addListener)
 
   def maxValue = units.metersToUnits(sunEarthDist * 1.8)
   units.addListenerByName {
@@ -239,12 +240,22 @@ class SunPlanetControlPanel(model: ForceLawLabModel, m: Magnification, units: Un
   distanceSlider.getTextField.setColumns(8) //to show kilometers
   distanceSlider.addTickLabel(0.01, "") //avoid generating 1E8 tick marks//todo: fix this
 
+  val sliderW = Math.max(planetMassSlider.getPreferredSize.width, distanceSlider.getPreferredSize.width) //todo: this solution won't work if translations of "light meters" are longer than translations of "kilometers"
+  planetMassSlider.getSlider.setPreferredSize(new Dimension(sliderW, planetMassSlider.getSlider.getPreferredSize.height))
+  distanceSlider.getSlider.setPreferredSize(new Dimension(sliderW, distanceSlider.getSlider.getPreferredSize.height))
+
   //  distanceSlider.getSlider.addMouseListener(new MouseAdapter() {
   //    override def mouseReleased(e: MouseEvent) = model.setDragging(false)
   //
   //    override def mousePressed(e: MouseEvent) = model.setDragging(true)
   //  })
-  addFullWidth(distanceSlider)
+
+
+  val sliderPanel=new VerticalLayoutPanel
+  sliderPanel.setBorder(ForceLawBorders.createTitledBorder("sun.planet.controls"))
+  sliderPanel.add(planetMassSlider)
+  sliderPanel.add(distanceSlider)
+
 
   def addDistanceListener(listener: () => Unit) = {
     model.m1.addListener(listener)
@@ -271,29 +282,32 @@ class SunPlanetControlPanel(model: ForceLawLabModel, m: Magnification, units: Un
   }
 
   class PlanetPanel extends VerticalLayoutPanel {
-    setBorder(BorderFactory.createTitledBorder(getLocalizedString("planet.control.title")))
+    setBorder(ForceLawBorders.createTitledBorder("planet.control.title"))
 
     for (p <- planets) {
       val myRadioButton = new MyRadioButton(p.name, setPlanet(p), isPlanet(p), addPlanetListener)
       val panel = new JPanel(new GridBagLayout())
       import GridBagConstraints._
-      val constraints=new GridBagConstraints(RELATIVE,0,3,1,1,1,WEST,NONE,new Insets(0,0,0,0),0,0)
-      panel.add(myRadioButton,constraints)
+      val constraints = new GridBagConstraints(RELATIVE, 0, 3, 1, 1, 1, WEST, NONE, new Insets(0, 0, 0, 0), 0, 0)
+      panel.add(myRadioButton, constraints)
       if (p.icon != null)
-        panel.add(new JLabel(new ImageIcon(BufferedImageUtils.multiScaleToWidth(ForceLawLabResources.getImage(p.icon), 50))),constraints)
-      panel.add(Box.createRigidArea(new Dimension(100,50)))       //todo: resolve this workaround using correct swing layout
+        panel.add(new JLabel(new ImageIcon(BufferedImageUtils.multiScaleToWidth(ForceLawLabResources.getImage(p.icon), 50))), constraints)
+      panel.add(Box.createRigidArea(new Dimension(100, 50))) //todo: resolve this workaround using correct swing layout
       add(panel)
     }
 
-    val none = new MyRadioButton(ForceLawLabResources.getLocalizedString("custom"), () => {}, !planets.foldLeft(false) {(a, b) => {a || isPlanet(b)}}, addPlanetListener)
+    def getter = !planets.foldLeft(false) {(a, b) => {a || isPlanet(b)}}
+    val none = new MyRadioButton(ForceLawLabResources.getLocalizedString("custom"), () => {}, getter, addPlanetListener)
+    addPlanetListener(()=>{none.setEnabled(getter)})
     add(none)
   }
 
   addFullWidth(new PlanetPanel)
+  addFullWidth(sliderPanel)
   addFullWidth(new ScaleControl(m))
   addFullWidth(new UnitsControl(units, phetFrame))
 
-//  addFullWidth(Box.createRigidArea(new Dimension(100, 100))) //spacer
+  //  addFullWidth(Box.createRigidArea(new Dimension(100, 100))) //spacer
   addFullWidth(new LinkToMySolarSystem)
 
   addResetAllButton(new Resettable() {
@@ -307,7 +321,7 @@ class SunPlanetControlPanel(model: ForceLawLabModel, m: Magnification, units: Un
 }
 
 class LinkToMySolarSystem extends VerticalLayoutPanel {
-  setBorder(BorderFactory.createTitledBorder(ForceLawLabResources.getLocalizedString("related.sims")))
+  setBorder(ForceLawBorders.createTitledBorder("related.sims"))
   val jLabel = new JLabel(ForceLawLabResources.getLocalizedString("my.solar.system"), new ImageIcon(ForceLawLabResources.getImage("my-solar-system-thumbnail.jpg")), SwingConstants.CENTER)
   jLabel.setFont(new PhetFont(14, true))
   jLabel.setForeground(Color.red)
@@ -321,7 +335,7 @@ class LinkToMySolarSystem extends VerticalLayoutPanel {
 }
 
 class UnitsControl(units: UnitsContainer, phetFrame: PhetFrame) extends VerticalLayoutPanel {
-  setBorder(BorderFactory.createTitledBorder(ForceLawLabResources.getLocalizedString("units")))
+  setBorder(ForceLawBorders.createTitledBorder("units"))
   for (u <- UnitsCollection.values) add(new MyRadioButton(u.name, units.units = u, units.units == u, units.addListener))
 }
 
@@ -364,7 +378,7 @@ class Magnification(private var _magnified: Boolean) extends Observable {
   def reset() = magnified = initialState
 }
 class ScaleControl(m: Magnification) extends VerticalLayoutPanel {
-  setBorder(BorderFactory.createTitledBorder(ForceLawLabResources.getLocalizedString("object.size")))
+  setBorder(ForceLawBorders.createTitledBorder("object.size"))
   add(new MyRadioButton(ForceLawLabResources.getLocalizedString("object.size.enlarged"), m.magnified = true, m.magnified, m.addListener))
   add(new MyRadioButton(ForceLawLabResources.getLocalizedString("object.size.actual-size"), m.magnified = false, !m.magnified, m.addListener))
 }
@@ -544,4 +558,12 @@ class ForceLawLabApplication(config: PhetApplicationConfig) extends PiccoloPhetA
 
 object ForceLawLabApplicationMain {
   def main(args: Array[String]) = new PhetApplicationLauncher().launchSim(args, "force-law-lab", classOf[ForceLawLabApplication])
+}
+
+object ForceLawBorders {
+  def createTitledBorder(key: String) = {
+    val border = new TitledBorder(ForceLawLabResources.getLocalizedString(key))
+    border.setTitleFont(new PhetFont(14, true))
+    border
+  }
 }
