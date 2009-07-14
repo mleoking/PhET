@@ -114,10 +114,12 @@ public class RatioDotsNode extends PComposite {
         // dot counts (developer)
         {
             soluteComponentsCountNode = new DotCountNode();
-            addChild( soluteComponentsCountNode );
-
             hydroniumHydroxideCountsNode = new DotCountNode();
-            addChild( hydroniumHydroxideCountsNode );
+            
+            if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
+                addChild( soluteComponentsCountNode ); 
+                addChild( hydroniumHydroxideCountsNode );
+            }
 
             // layout, lower left of container
             hydroniumHydroxideCountsNode.setOffset( containerBounds.getX() + 5, containerBounds.getMaxY() - hydroniumHydroxideCountsNode.getFullBoundsReference().getHeight() - 15 );
