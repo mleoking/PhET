@@ -30,22 +30,23 @@ class AbstractRampModule(frame: JFrame, clock: ScalaClock, name: String) extends
   }
 }
 
-class BasicRampModule(frame: JFrame, clock: ScalaClock, name: String, coordinateSystemFeaturesEnabled: Boolean)
+class BasicRampModule(frame: JFrame, clock: ScalaClock, name: String, coordinateSystemFeaturesEnabled: Boolean, useObjectComboBox: Boolean)
         extends AbstractRampModule(frame, clock, name) {
   val canvas = new RampCanvas(model, coordinateSystemModel, fbdModel, vectorViewModel, frame)
   setSimulationPanel(canvas)
   setControlPanel(new RampControlPanel(model, wordModel, fbdModel, coordinateSystemModel, vectorViewModel,
-    resetRampModule, coordinateSystemFeaturesEnabled))
+    resetRampModule, coordinateSystemFeaturesEnabled, useObjectComboBox,model))
   setClockControlPanel(new RecordModelControlPanel(model, canvas, () => new PlaybackSpeedSlider(model), Color.blue, 20))
 }
 
-class IntroRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "Intro", false)
+class IntroRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "Intro", false, false)
 
-class CoordinatesRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "Coordinates", true) {
+class CoordinatesRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "Coordinates", true, false) {
   coordinateSystemModel.adjustable = true
+
 }
 
-class ForceGraphsModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "Force Graphs", false) {
+class ForceGraphsModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "Force Graphs", false, true) {
   coordinateSystemModel.adjustable = false
 }
 

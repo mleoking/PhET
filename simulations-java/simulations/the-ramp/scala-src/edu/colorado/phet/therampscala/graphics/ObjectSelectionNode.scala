@@ -29,6 +29,8 @@ trait ObjectModel {
   def selectedObject_=(ro: ScalaRampObject): Unit
 
   def addListenerByName(listener: => Unit): Unit
+
+  def addListener(listener:()=>Unit):Unit
 }
 
 class ObjectSelectionNode(transform: ModelViewTransform2D, model: ObjectModel) extends PNode {
