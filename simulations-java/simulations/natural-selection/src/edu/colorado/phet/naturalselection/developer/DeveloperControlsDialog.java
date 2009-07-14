@@ -33,7 +33,7 @@ public class DeveloperControlsDialog extends JDialog {
     //----------------------------------------------------------------------------
 
     public DeveloperControlsDialog( Frame owner, final NaturalSelectionApplication app ) {
-        super();
+        super( owner );
         setTitle( "Developer Controls" );
         //super( owner, "Developer Controls" );
         setResizable( false );
