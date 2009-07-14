@@ -183,10 +183,10 @@ public class BunnyStatsCanvas extends PhetPCanvas {
         ret.addSeries( new XYSeries( NaturalSelectionStrings.STATS_TOTAL ) );
         ret.addSeries( new XYSeries( NaturalSelectionStrings.GENE_COLOR_WHITE ) );
         ret.addSeries( new XYSeries( NaturalSelectionStrings.GENE_COLOR_BROWN ) );
-        ret.addSeries( new XYSeries( NaturalSelectionStrings.GENE_TEETH_SHORT ) );
-        ret.addSeries( new XYSeries( NaturalSelectionStrings.GENE_TEETH_LONG ) );
         ret.addSeries( new XYSeries( NaturalSelectionStrings.GENE_TAIL_SHORT ) );
         ret.addSeries( new XYSeries( NaturalSelectionStrings.GENE_TAIL_LONG ) );
+        ret.addSeries( new XYSeries( NaturalSelectionStrings.GENE_TEETH_SHORT ) );
+        ret.addSeries( new XYSeries( NaturalSelectionStrings.GENE_TEETH_LONG ) );
 
         return ret;
     }
