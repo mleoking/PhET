@@ -10,6 +10,9 @@ TODO:
 - make symbol legend descriptions automatically wrap, so we don't need breaks in HTML markup
 
 DONE:
+# 0.01.25
+7/13/09 temporarily disable -dev, for interviews
+# 0.01.24
 7/9/09 change BH+ color to mustard (RGB=192,178,60)
 7/8/09 add Jack to credits
 7/6/09 revise "match" algorithm to use log10(concentration) and log10(strength)
