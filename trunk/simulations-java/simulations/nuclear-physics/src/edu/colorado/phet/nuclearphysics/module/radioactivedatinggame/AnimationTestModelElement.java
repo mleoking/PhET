@@ -18,8 +18,9 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 public class AnimationTestModelElement extends StaticAnimatedDatableItem {
 
     //------------------------------------------------------------------------
-    // Class Data
+    // Instance Data
     //------------------------------------------------------------------------
+	
     //------------------------------------------------------------------------
     // Constructor
     //------------------------------------------------------------------------
@@ -32,7 +33,7 @@ public class AnimationTestModelElement extends StaticAnimatedDatableItem {
     // The animation sequence.
     //-----------------------------------------------------------------------
 
-    protected AnimationSequence getAnimationSequence() {
+    protected AnimationSequence createAnimationSequence() {
 
         ArrayList<ModelAnimationDelta> animationSequence = new ArrayList<ModelAnimationDelta>();
 
