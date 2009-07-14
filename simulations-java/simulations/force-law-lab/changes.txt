@@ -1,3 +1,4 @@
+# 0.01.09 (33287) Jul 13, 2009
 > Custom checkbox becomes disabled when it's not selectable
 > Fixed: The two sliders are off set from each other.  Both should be centered.
 > Fixed: There should be a divider or box for the sliders
