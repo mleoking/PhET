@@ -560,7 +560,15 @@ public class Glacier extends ClockAdapter {
                 deltaQela = deltaQela * ELAX_M0 / ELAX_M2;
             }
             else if ( _qela > ELAX_X1 ) {
-                deltaQela = deltaQela * ( ( _qela * ACCELERATION_M ) + ACCELERATION_B );
+                if ( false ) {
+                    // new model fix for #999
+                    final double x = _qela - ELAX_X1;
+                    deltaQela = deltaQela * ( ELAX_M0 + 2 * ELAX_C3 * x + 3 * ELAX_C4 * x * x ) / ELAX_M2;
+                }
+                else {
+                    // old model
+                    deltaQela = deltaQela * ( ( _qela * ACCELERATION_M ) + ACCELERATION_B );
+                }
             }
             
             // move the quasi-ELA
