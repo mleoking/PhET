@@ -1,3 +1,5 @@
+# 0.01.27 (33277) Jul 13, 2009
+7/13/09 Removed extraneous images, bunnies now appear closer/father from bushes with different teeth when food selection is active
 # 0.01.26 (33171) Jul 8, 2009
 7/8/09 Added persistence
 # 0.01.25 (32963) Jul 1, 2009
