@@ -320,7 +320,9 @@ public abstract class Module implements Resettable {
     //----------------------------------------------------------------------------
 
     /**
-     * Tells whether this module has on-screen help.
+     * Tells whether this module has on-screen help; note: this method is called from Module's constructor; so
+     * subclasses shouldn't rely on any state initialized in subclass constructors when they override this method.
+     * See #1726
      *
      * @return whether this module has on-screen help
      */
@@ -424,7 +426,7 @@ public abstract class Module implements Resettable {
         }
     }
 
-    private void updateHelpPanelVisible() {
+    protected void updateHelpPanelVisible() {
         JComponent helpPanel = getHelpPanel();
         if ( helpPanel != null ) {
             helpPanel.setVisible( hasHelp() );

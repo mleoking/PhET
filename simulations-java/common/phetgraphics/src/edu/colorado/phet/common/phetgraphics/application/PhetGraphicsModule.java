@@ -56,6 +56,8 @@ public class PhetGraphicsModule extends Module {
     protected PhetGraphicsModule( String name, IClock clock ) {
         super( name, clock );
         helpManager = new HelpManager();
+        updateHelpPanelVisible();//have to update the state in the parent class, since helpManager was null
+                                 //when updateHelpPanelVisible was called in the super()
 
         // Handle redrawing while the clock is paused.
         clock.addClockListener( new ClockPausedHandler( this ) );
@@ -185,7 +187,8 @@ public class PhetGraphicsModule extends Module {
     }
 
     public boolean hasHelp() {
-        return helpManager.getNumGraphics() > 0;
+        return helpManager!=null//have to check since this method is called by superclass constructor 
+                && helpManager.getNumGraphics() > 0;
     }
 
     public void setHelpEnabled( boolean h ) {
