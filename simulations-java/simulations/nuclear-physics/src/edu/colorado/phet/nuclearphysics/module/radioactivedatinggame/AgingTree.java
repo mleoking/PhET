@@ -118,7 +118,7 @@ public class AgingTree extends AnimatedDatableItem {
     			
     			// Set the angle for the sway.
     			double swayDeflection = 
-    				-Math.sin(((double)(_swayCounter - SWAY_COUNT) / (double)SWAY_COUNT) * Math.PI * 2) * MAX_SWAY_DEFLECTION; 
+    				Math.cos(((double)(_swayCounter - SWAY_COUNT) / (double)SWAY_COUNT) * Math.PI * 2) * MAX_SWAY_DEFLECTION; 
     			
     			rotateAboutBottomCenter(swayDeflection);
     			
@@ -142,7 +142,7 @@ public class AgingTree extends AnimatedDatableItem {
     			// more like a real bounce.
     			if ((BOUNCE_COUNT - _bounceCounter) % 4 == 0){
     				_previousAngle = getRotationalAngle();
-    				setRotationalAngle(_previousAngle + (RAND.nextDouble() * Math.PI / 20));
+    				setRotationalAngle(_previousAngle + (RAND.nextDouble() * Math.PI / 24));
     			}
     			else if ((BOUNCE_COUNT - _bounceCounter) % 2 == 0){
     				setRotationalAngle(_previousAngle);
