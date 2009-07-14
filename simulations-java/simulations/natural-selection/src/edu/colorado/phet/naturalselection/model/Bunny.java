@@ -226,9 +226,53 @@ public class Bunny {
      * Sets the initial bunny position (3d coordinates)
      */
     private void setInitialPosition() {
+        // sample a random position
         position = model.getLandscape().getRandomGroundPosition();
+
+        // if food selection is active, we want short-toothed bunnies to appear far away from shrubs, and
+        // long-toothed bunnies to appear closer. we see whether they are too close or far to any shrub, and if so
+        // we re-sample a random position until their position is adequate
+        if ( model.getSelectionFactor() == NaturalSelectionModel.SELECTION_FOOD ) {
+            // the smallest distance between two shrubs
+            double shrubReferenceDistance = Double.POSITIVE_INFINITY;
+            for ( Shrub a : model.getShrubs() ) {
+                for ( Shrub b : model.getShrubs() ) {
+                    if ( a == b ) {
+                        continue;
+                    }
+                    shrubReferenceDistance = Math.min( shrubReferenceDistance, Point3D.distance( a.getPosition(), b.getPosition() ) );
+                }
+            }
+
+            // the threshold radius from a shrub. short-toothed bunnies appear father away from shrubs than this radius,
+            // and long-toothed bunnies appear within this radius for a shrub
+            // this could be generalized to two different radii, one for long-toothed, one for short-toothed
+            // (first time I've ever typed the word radii before!)
+            //
+            // WARNING: changing this value may create an infinite loop if either short or long toothed bunnies cannot appear
+            // in a valid position.
+            double threshold = shrubReferenceDistance * 0.5;
+
+            boolean stayAway = teethPhenotype == TeethGene.TEETH_SHORT_ALLELE;
+            while ( stayAway != ( getDistanceFromShrubs() > threshold ) ) {
+                // don't make all bunnies follow this rule
+                if ( Math.random() < 0.3 ) {
+                    break;
+                }
+                position = model.getLandscape().getRandomGroundPosition();
+            }
+        }
+
         double mx = model.getLandscape().getMaximumX( position.getZ() );
         position.setLocation( position.getX() * ( mx - NaturalSelectionConstants.getSettings().getBunnySideSpacer() ) / mx, position.getY(), position.getZ() );
+    }
+
+    private double getDistanceFromShrubs() {
+        double dist = Double.POSITIVE_INFINITY;
+        for ( Shrub shrub : model.getShrubs() ) {
+            dist = Math.min( dist, Point3D.distance( position, shrub.getPosition() ) );
+        }
+        return dist;
     }
 
     public boolean isAlive() {
