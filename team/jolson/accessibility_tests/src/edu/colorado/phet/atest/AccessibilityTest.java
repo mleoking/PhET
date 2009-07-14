@@ -51,6 +51,7 @@ public class AccessibilityTest extends JFrame {
 
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
+        
         setVisible( true );
 
         regularButton.addActionListener( new ActionListener() {
@@ -72,7 +73,10 @@ public class AccessibilityTest extends JFrame {
                 Font font = (Font) toolkit.getDesktopProperty( "win.messagebox.font" );
 
                 if ( font != null ) {
-                    regularLabel.setFont( font );                    
+                    regularLabel.setFont( font );
+                    System.out.println( "Changing font" );
+                } else {
+                    System.out.println( "Not changing font, could not find win.messagebox.font" );
                 }
             }
         } );
