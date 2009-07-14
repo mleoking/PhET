@@ -29,6 +29,7 @@ public class AgingTree extends AnimatedDatableItem {
 	private static final double AGE_OF_NATURAL_DEATH = MultiNucleusDecayModel.convertYearsToMs(500);
 	private static final int SWAY_COUNT = 75; // Controls how long tree sways before falling over.
 	private static final double MAX_SWAY_ANGLE = Math.PI/12; // Controls amount of sway.
+	private static final int FALL_COUNT = 75; // Controls how long it takes the tree to fall over.
 
     //------------------------------------------------------------------------
     // Class Data
@@ -36,6 +37,7 @@ public class AgingTree extends AnimatedDatableItem {
 	
 	private boolean _closurePossibleSent = false;
 	private int _swayCounter = SWAY_COUNT;
+	private int _fallCounter = FALL_COUNT;
 	
     //------------------------------------------------------------------------
     // Constructor
@@ -121,6 +123,20 @@ public class AgingTree extends AnimatedDatableItem {
     			
     			// Move to the next step in the cycle.
     			_swayCounter--;
+    		}
+    		else if (_fallCounter > 0){
+    			
+    			// Set the angle.
+    			setRotationalAngle(getRotationalAngle() + (Math.PI / 2 /(double)FALL_COUNT));
+    			
+    			// Translate.
+    			double translationProportion = 0.01;
+    			double xDelta = Math.cos(getRotationalAngle()) * getSize().getHeight() * translationProportion;
+    			double yDelta = -Math.sin(getRotationalAngle()) * getSize().getHeight() * translationProportion;
+    			setPosition(getPosition().getX() + xDelta, getPosition().getY() + yDelta);
+    			
+    			// Move to the next step in the cycle.
+    			_fallCounter--;
     		}
     	}
     }
