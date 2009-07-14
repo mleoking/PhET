@@ -77,6 +77,7 @@ public class AgingTree extends AnimatedDatableItem {
     		// At the moment of birth for the tree, closure is possible.  If
     		// we haven't set the state to indicate this, do it now.
     		setClosureState(RadiometricClosureState.CLOSURE_POSSIBLE);
+    		_closurePossibleSent = true;
     	}
     	
     	// Handle growth.
