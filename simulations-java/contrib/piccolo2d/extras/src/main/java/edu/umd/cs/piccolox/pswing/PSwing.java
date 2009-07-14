@@ -28,19 +28,10 @@
  */
 package edu.umd.cs.piccolox.pswing;
 
-import edu.umd.cs.piccolo.PCamera;
-import edu.umd.cs.piccolo.PLayer;
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.util.PBounds;
-import edu.umd.cs.piccolo.util.PPaintContext;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
@@ -48,6 +39,15 @@ import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import javax.swing.JComponent;
+import javax.swing.RepaintManager;
+
+import edu.umd.cs.piccolo.PCamera;
+import edu.umd.cs.piccolo.PLayer;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PBounds;
+import edu.umd.cs.piccolo.util.PPaintContext;
 
 /*
   This message was sent to Sun on August 27, 1999
@@ -193,7 +193,6 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
      * client properties.
      */
     public static final String PSWING_PROPERTY = "PSwing";
-    private static final AffineTransform IDENTITY_TRANSFORM = new AffineTransform();
     private static PBounds TEMP_REPAINT_BOUNDS2 = new PBounds();
 
     /**
@@ -204,8 +203,6 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
     private double minFontSize = Double.MAX_VALUE;
     private Stroke defaultStroke = new BasicStroke();
     private Font defaultFont = new Font( "Serif", Font.PLAIN, 12 );
-    private BufferedImage buffer;
-    private static final Color BUFFER_BACKGROUND_COLOR = new Color( 0, 0, 0, 0 );
     private PSwingCanvas canvas;
 
     ////////////////////////////////////////////////////////////
@@ -352,71 +349,22 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
      * @param g2 graphics context for rendering the JComponent
      */
     public void paint( Graphics2D g2 ) {
-        if( component.getBounds().isEmpty() ) {
+        if ( component.getBounds().isEmpty() ) {
             // The component has not been initialized yet.
             return;
         }
 
-        PSwingRepaintManager manager = (PSwingRepaintManager)RepaintManager.currentManager( component );
+        PSwingRepaintManager manager = (PSwingRepaintManager) RepaintManager.currentManager( component );
         manager.lockRepaint( component );
 
-        Graphics2D bufferedGraphics = null;
-        if( !isBufferValid() ) {
-            // Get the graphics context associated with a new buffered image.
-            // Use TYPE_INT_ARGB_PRE so that transparent components look good on Windows.
-            buffer = new BufferedImage( component.getWidth(), component.getHeight(), BufferedImage.TYPE_INT_ARGB_PRE );
-            bufferedGraphics = buffer.createGraphics();
-        }
-        else {
-            // Use the graphics context associated with the existing buffered image
-            bufferedGraphics = buffer.createGraphics();
-            // Clear the buffered image to prevent artifacts on Macintosh
-            bufferedGraphics.setBackground( BUFFER_BACKGROUND_COLOR );
-            bufferedGraphics.clearRect( 0, 0, component.getWidth(), component.getHeight() );
-        }
+        RenderingHints oldHints = g2.getRenderingHints();
 
-        // Start with the rendering hints from the provided graphics context
-        bufferedGraphics.setRenderingHints( g2.getRenderingHints() );
+        g2.setRenderingHint( RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_OFF );
+        component.paint( g2 );
 
-        //PSwing sometimes causes JComponent text to render with "..." when fractional font metrics are enabled.  These are now always disabled for the offscreen buffer.
-        bufferedGraphics.setRenderingHint( RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_OFF );
-
-        // Draw the component to the buffer
-        component.paint( bufferedGraphics );
-
-        // Draw the buffer to g2's associated drawing surface
-        if (useBuffer()){
-            g2.drawRenderedImage( buffer, IDENTITY_TRANSFORM );
-
-        }else{
-            component.paint(g2);
-        }
+        g2.setRenderingHints( oldHints );
 
         manager.unlockRepaint( component );
-    }
-
-    private boolean useBuffer(){
-        return true;
-        //todo: enable the next line to unbuffer problematic scenarios, see #689
-//        return !(PhetUtilities.isMacintosh()&&containsJSlider(component));
-    }
-
-    private static boolean containsJSlider(Container component){
-        for (int i=0;i<component.getComponentCount();i++){
-            if (component.getComponent(i) instanceof JSlider) return true;
-            else if (component.getComponent(i) instanceof Container && containsJSlider((Container)component.getComponent(i))) return true;
-        }
-        return false;
-    }
-
-    /**
-     * Tells whether the buffer for the image of the Swing components
-     * is currently valid.
-     *
-     * @return true if the buffer is currently valid
-     */
-    private boolean isBufferValid() {
-        return !( buffer == null || buffer.getWidth() != component.getWidth() || buffer.getHeight() != component.getHeight() );
     }
 
     /**
