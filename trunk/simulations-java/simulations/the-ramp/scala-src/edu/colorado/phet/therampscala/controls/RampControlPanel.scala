@@ -88,12 +88,13 @@ class RampControlPanel(model: RampModel, wordModel: WordModel, freeBodyDiagramMo
 
   getContentPanel.setFillNone()
 
+  getContentPanel.setAnchor(GridBagConstraints.CENTER) //todo: make reset appear at the bottom
   val stepButton = new JButton("Step")
   stepButton.addActionListener(() => model.stepRecord(RampDefaults.DT_DEFAULT))
   add(stepButton)
 
   //  addResetAllButton(new Resettable {def reset = resetHandler()})
-  getContentPanel.setAnchor(GridBagConstraints.SOUTH) //todo: make reset appear at the bottom
+  getContentPanel.setAnchor(GridBagConstraints.SOUTH) 
   getContentPanel.setFill(GridBagConstraints.NONE)
   val resetButton = new ResetAllButton(this)
   resetButton.addResettable(new Resettable {def reset = resetHandler()})
