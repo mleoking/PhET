@@ -30,7 +30,7 @@ class ScalaRampObject(_name: String,
 
   def height = _height
 
-  private val bufferedImage = RampResources.getImage(imageFilename)
+  val bufferedImage = RampResources.getImage(imageFilename)
 
   def width = bufferedImage.getWidth * height / bufferedImage.getHeight.toDouble
 

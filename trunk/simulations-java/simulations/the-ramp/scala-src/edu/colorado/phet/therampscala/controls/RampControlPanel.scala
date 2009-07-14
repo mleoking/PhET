@@ -2,9 +2,13 @@ package edu.colorado.phet.therampscala.controls
 
 import common.phetcommon.model.Resettable
 import common.phetcommon.util.IProguardKeepClass
-import common.phetcommon.view.util.PhetFont
+import common.phetcommon.view.util.{BufferedImageUtils, PhetFont}
 import common.phetcommon.view.{ControlPanel, VerticalLayoutPanel, ResetAllButton}
+import graphics.ObjectModel
 import java.awt._
+import java.awt.event.{ItemEvent, ItemListener}
+
+import java.util.Vector
 import javax.swing._
 import model._
 
@@ -15,24 +19,12 @@ import edu.colorado.phet.scalacommon.Predef._
 
 class RampControlPanel(model: RampModel, wordModel: WordModel, freeBodyDiagramModel: FreeBodyDiagramModel,
                        coordinateSystemModel: CoordinateSystemModel, vectorViewModel: VectorViewModel, resetHandler: () => Unit,
-                       coordinateSystemFeaturesEnabled: Boolean) extends ControlPanel {
+                       coordinateSystemFeaturesEnabled: Boolean, useObjectComboBox: Boolean,objectModel:ObjectModel) extends ControlPanel {
   getContentPanel.setAnchor(GridBagConstraints.WEST)
   getContentPanel.setFill(GridBagConstraints.HORIZONTAL)
   override def add(comp: Component) = {
     addControl(comp)
     comp
-  }
-
-  class TitleLabel(label: String) extends JLabel(label) {
-    setFont(new PhetFont(15, true))
-
-    override def paintComponent(g: Graphics) = {
-      g match {
-        case g2: Graphics2D => g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
-        case _ => {}
-      }
-      super.paintComponent(g)
-    }
   }
 
   def boxLayout(a: JComponent*) = {
@@ -54,11 +46,6 @@ class RampControlPanel(model: RampModel, wordModel: WordModel, freeBodyDiagramMo
       new MyRadioButton("Fixed", coordinateSystemModel.fixed = true, coordinateSystemModel.fixed, coordinateSystemModel.addListener),
       new MyRadioButton("Adjustable", coordinateSystemModel.adjustable = true, coordinateSystemModel.adjustable, coordinateSystemModel.addListener)
       ))
-  }
-
-  class SubControlPanel(title: String) extends VerticalLayoutPanel {
-    add(new TitleLabel(title))
-    setBorder(BorderFactory.createRaisedBevelBorder)
   }
 
   class IconPanel(component: JComponent, iconFilename: String) extends JPanel {
@@ -97,13 +84,35 @@ class RampControlPanel(model: RampModel, wordModel: WordModel, freeBodyDiagramMo
 
   add(rampPanel)
 
+  if (useObjectComboBox) add(new RampComboBox(objectModel))
+
+  getContentPanel.setFillNone()
+
+  val stepButton = new JButton("Step")
+  stepButton.addActionListener(() => model.stepRecord(RampDefaults.DT_DEFAULT))
+  add(stepButton)
+
+  //  addResetAllButton(new Resettable {def reset = resetHandler()})
   getContentPanel.setAnchor(GridBagConstraints.SOUTH) //todo: make reset appear at the bottom
   getContentPanel.setFill(GridBagConstraints.NONE)
   val resetButton = new ResetAllButton(this)
   resetButton.addResettable(new Resettable {def reset = resetHandler()})
   add(resetButton)
+}
 
-  val stepButton = new JButton("Step")
-  stepButton.addActionListener(() => model.stepRecord(RampDefaults.DT_DEFAULT))
-  add(stepButton)
+class SubControlPanel(title: String) extends VerticalLayoutPanel {
+  add(new TitleLabel(title))
+  setBorder(BorderFactory.createRaisedBevelBorder)
+}
+
+class TitleLabel(label: String) extends JLabel(label) {
+  setFont(new PhetFont(15, true))
+
+  override def paintComponent(g: Graphics) = {
+    g match {
+      case g2: Graphics2D => g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
+      case _ => {}
+    }
+    super.paintComponent(g)
+  }
 }

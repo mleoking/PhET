@@ -227,8 +227,10 @@ class RampModel extends RecordModel[String] with ObjectModel {
   def selectedObject = _selectedObject
 
   def selectedObject_=(obj: ScalaRampObject) = {
-    _selectedObject = obj
-    updateDueToObjectChange()
+    if (_selectedObject != obj) {
+      _selectedObject = obj
+      updateDueToObjectChange()
+    }
   }
 
   def updateDueToObjectChange() = {
