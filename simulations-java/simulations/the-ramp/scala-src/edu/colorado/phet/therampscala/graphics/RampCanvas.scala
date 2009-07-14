@@ -213,8 +213,8 @@ abstract class AbstractRampCanvas(model: RampModel, coordinateSystemModel: Coord
 }
 
 class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, freeBodyDiagramModel: FreeBodyDiagramModel,
-                 vectorViewModel: VectorViewModel, frame: JFrame) extends AbstractRampCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame) {
-  addNode(new ObjectSelectionNode(transform, model))
+                 vectorViewModel: VectorViewModel, frame: JFrame, rampSelectionNode: Boolean) extends AbstractRampCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame) {
+  if (rampSelectionNode) addNode(new ObjectSelectionNode(transform, model))
   addNode(indexOfChild(earthNode) + 1, new AppliedForceSliderNode(model.bead, transform))
 
   override def addWallsAndDecorations() = {

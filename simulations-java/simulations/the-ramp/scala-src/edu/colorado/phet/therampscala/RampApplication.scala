@@ -32,7 +32,7 @@ class AbstractRampModule(frame: JFrame, clock: ScalaClock, name: String) extends
 
 class BasicRampModule(frame: JFrame, clock: ScalaClock, name: String, coordinateSystemFeaturesEnabled: Boolean, useObjectComboBox: Boolean)
         extends AbstractRampModule(frame, clock, name) {
-  val canvas = new RampCanvas(model, coordinateSystemModel, fbdModel, vectorViewModel, frame)
+  val canvas = new RampCanvas(model, coordinateSystemModel, fbdModel, vectorViewModel, frame,!useObjectComboBox)
   setSimulationPanel(canvas)
   setControlPanel(new RampControlPanel(model, wordModel, fbdModel, coordinateSystemModel, vectorViewModel,
     resetRampModule, coordinateSystemFeaturesEnabled, useObjectComboBox,model))
