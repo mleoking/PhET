@@ -23,8 +23,11 @@ public abstract class StaticAnimatedDatableItem extends AnimatedDatableItem {
 		super(name, resourceImageNames, center, width, rotationAngle, age, clock,
 				ageAdjustmentFactor);
 		
+		// Create (initialize) the animation sequence.
+		AnimationSequence animationSequence = createAnimationSequence();
+		
 		// Create the animation interpreter that will execute the static animation.
-		_animationIterpreter = new ModelAnimationInterpreter(this, getAnimationSequence() );
+		_animationIterpreter = new ModelAnimationInterpreter(this, animationSequence );
 		
 		// Register with the animation interpreter for any animation events
 		// that occur during the interpretation of the sequence.
@@ -33,9 +36,11 @@ public abstract class StaticAnimatedDatableItem extends AnimatedDatableItem {
 				handleAnimationEvent(event);
 			}
 		});
+		
+		
 	}
 
-	protected abstract AnimationSequence getAnimationSequence();
+	protected abstract AnimationSequence createAnimationSequence();
 	
     protected void handleClockTicked(){
     	super.handleClockTicked();

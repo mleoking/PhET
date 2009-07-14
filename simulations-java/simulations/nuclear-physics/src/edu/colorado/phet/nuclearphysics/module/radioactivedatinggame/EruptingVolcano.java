@@ -28,7 +28,7 @@ public class EruptingVolcano extends StaticAnimatedDatableItem {
 		super("Volcano", Arrays.asList( "volcano_cool.png","volcano_hot.png" ), center, width, 0, 0, clock , VOLCANO_AGE_FACTOR );
 	}
 
-    protected AnimationSequence getAnimationSequence() {
+    protected AnimationSequence createAnimationSequence() {
         TimeUpdater timeUpdater=new TimeUpdater(0, MultiNucleusDecayModel.convertYearsToMs( 10E6 ));
         ArrayList<ModelAnimationDelta> animationSequence = new ArrayList<ModelAnimationDelta>();
         Random rand = new Random();

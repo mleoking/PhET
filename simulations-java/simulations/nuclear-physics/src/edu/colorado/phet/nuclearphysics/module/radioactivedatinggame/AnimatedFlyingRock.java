@@ -23,11 +23,16 @@ public class AnimatedFlyingRock extends StaticAnimatedDatableItem {
     //------------------------------------------------------------------------
     // Class Data
     //------------------------------------------------------------------------
+	
 	private static final double MIN_ARC_HEIGHT_INCREMENT = 0.05;
 	private static final double MAX_ARC_HEIGHT_INCREMENT = 0.15;
 	private static final double MAX_X_TRANSLATION_INCREMENT = 1;
 	private static final double MAX_ROTATION_CHANGE = Math.PI/10;
 	private static final Random IMAGE_CHOICE_RAND = new Random();
+	
+    //------------------------------------------------------------------------
+    // Instance Data
+    //------------------------------------------------------------------------
 	
     //------------------------------------------------------------------------
     // Constructor
@@ -42,7 +47,7 @@ public class AnimatedFlyingRock extends StaticAnimatedDatableItem {
     // The animation sequence that defines how the appearance of the tree
     // will change as it ages.
     //------------------------------------------------------------------------
-    protected AnimationSequence getAnimationSequence() {
+    protected AnimationSequence createAnimationSequence() {
         TimeUpdater timeUpdater = new TimeUpdater( 0, MultiNucleusDecayModel.convertYearsToMs( 10E6 ) );
         ArrayList<ModelAnimationDelta> animationSequence = new ArrayList<ModelAnimationDelta>();
         Random rand = new Random();

@@ -31,7 +31,7 @@ public class AgingRock extends StaticAnimatedDatableItem {
     // The animation sequence that defines how the appearance of the tree
     // will change as it ages.
     //------------------------------------------------------------------------
-    protected AnimationSequence getAnimationSequence() {
+    protected AnimationSequence createAnimationSequence() {
         TimeUpdater timeUpdater = new TimeUpdater( 0, MultiNucleusDecayModel.convertYearsToMs( 10E6 ) );
         ArrayList<ModelAnimationDelta> animationSequence = new ArrayList<ModelAnimationDelta>();
         RadiometricClosureEvent closureOccurredEvent = 
