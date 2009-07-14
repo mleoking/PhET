@@ -1,3 +1,4 @@
+fix for #999, bump in glacier length vs time (doesn't appear to fix it)
 # 2.01.01 (33293) Jul 14, 2009
 7/14/09 publish version before making #999 fix, for comparison
 # 2.01.00 (30610) Apr 20, 2009
