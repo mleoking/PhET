@@ -1,4 +1,3 @@
-# 0.01.26 (33280) Jul 13, 2009
 7/13/09 turn off -dev flag for interviews
 > same as 0.1.25, but with no -dev arg in JNLP files, for interviews
 # 0.01.25 (33259) Jul 13, 2009
