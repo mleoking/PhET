@@ -25,10 +25,11 @@ public class AccessibilityTest extends JFrame {
 
         final JLabel regularLabel = new JLabel( "This is without color customization" );
         regular.add( regularLabel );
-        JButton regularButton = new JButton( "Check contrast" );
+        JButton regularButton = new JButton( "Check contrast / font" );
         regular.add( regularButton );
         JTextArea textArea = new JTextArea( "If you load this sim when high-contrast is enabled on windows and press the above button, " +
-                                            "the right panel should switch back to normal colors." );
+                                            "the right panel should switch back to normal colors. (and the above label should use the " +
+                                            "correct windows system font" );
         textArea.setLineWrap( true );
         regular.add( textArea );
 
@@ -66,6 +67,12 @@ public class AccessibilityTest extends JFrame {
                 }
                 else {
                     regularLabel.setText( MessageFormat.format( "Win contrast: {0}, colors unchanged", highContrast ) );
+                }
+
+                Font font = (Font) toolkit.getDesktopProperty( "win.messagebox.font" );
+
+                if ( font != null ) {
+                    regularLabel.setFont( font );                    
                 }
             }
         } );
