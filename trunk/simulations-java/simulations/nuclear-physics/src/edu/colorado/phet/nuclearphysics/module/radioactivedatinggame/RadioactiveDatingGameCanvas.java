@@ -98,6 +98,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     private AgeGuessingNode.Listener _ageGuessListener;
     private GradientButtonNode _resetGuessesButtonNode;
     private PPath _probeDragBounds = new PPath();
+    private AgeGuessResultNode.Listener _clearResultListener;
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -244,6 +245,14 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         // Add the node that will act as the bounds for where the probe can
         // be moved.
         addWorldChild(_probeDragBounds);
+        
+        // Create the listener that will listen for requests from the user
+        // to clear a result.
+        _clearResultListener = new AgeGuessResultNode.Listener(){
+			public void userCleared(AgeGuessResultNode ageGuessResultNode) {
+				clearGuessResult(ageGuessResultNode);
+			}
+        };
     }
 
 	//------------------------------------------------------------------------
@@ -312,6 +321,40 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     				(int)Math.round(amountDecayed));
     	}
     	_proportionsChart.updateMarkerText();
+    }
+    
+    /**
+     * Handle a request to clear the results of a previous guess.
+     */
+    private void clearGuessResult(AgeGuessResultNode ageGuessResultNode){
+    	
+    	// Remove the node from the canvas.
+    	if (_guessingGameLayer.isAncestorOf(ageGuessResultNode)){
+    		_guessingGameLayer.removeChild(ageGuessResultNode);
+    	}
+    	else{
+    		System.err.println(getClass().getName() + " - Error: Guessing node not found.");
+    		return;
+    	}
+    	
+    	// Remove the mapping to the datable item.
+    	Object key = null;
+        for( Object o : _mapDatableItemsToGuessResults.keySet() ) {
+            if(_mapDatableItemsToGuessResults.get(o).equals(ageGuessResultNode)) {
+                key = o;
+                break;
+            }
+        }
+
+    	if (key != null){
+    		_mapDatableItemsToGuessResults.remove(key);
+    	}
+    	
+    	// If there are no more guess results, hide the button that allows the
+    	// user to clear them all.
+    	if (_mapDatableItemsToGuessResults.isEmpty()){
+    		_resetGuessesButtonNode.setVisible(false);
+    	}
     }
     
     /**
@@ -384,7 +427,8 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     		});
     	}
     	else {
-    		// Make sure all previously hidden guess results are now visible.
+    		// Make sure all previously hidden guess results are now visible,
+    		// since one may have been hidden by the guess entry dialog node.
     		Iterator guessResultNodes = _mapDatableItemsToGuessResults.values().iterator();
     		for (int i = 0; i < _mapDatableItemsToGuessResults.size(); i++)
     		{
@@ -440,12 +484,13 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     		_guessingGameLayer.removeChild(previousGuessResultNode);
     	}
     	
-    	// Add a node that indicates to the user whether they got the answer
-    	// right.
+    	// Add a node that indicates to the user whether the user got the
+    	// answer correct.
     	AgeGuessResultNode guessResultNode = new AgeGuessResultNode(ageGuess,
     		determineIfGuessIsGood(MultiNucleusDecayModel.convertYearsToMs(ageGuess), itemBeingTouched));
 		PNode datableItemNode = _mapDatableItemsToNodes.get(itemBeingTouched);
 		_mapDatableItemsToGuessResults.put(itemBeingTouched, guessResultNode);
+		guessResultNode.addListener(_clearResultListener);
 		Point2D guessResultNodeLocation = new Point2D.Double(0, 0);
 		if (datableItemNode == null) {
 			System.err.println(getClass().getName() + " - Error: Could not locate node for datable item " + itemBeingTouched);
