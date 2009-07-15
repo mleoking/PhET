@@ -12,7 +12,6 @@ import edu.colorado.phet.simtemplate.defaults.ExampleDefaults;
 import edu.colorado.phet.simtemplate.model.ExampleModelElement;
 import edu.colorado.phet.simtemplate.model.SimTemplateClock;
 import edu.colorado.phet.simtemplate.persistence.ExampleConfig;
-import edu.colorado.phet.simtemplate.view.ExampleNode;
 
 /**
  * ExampleModule is the "Example" module.
@@ -81,23 +80,6 @@ public class ExampleModule extends PiccoloModule {
         
         // load the default configuration
         load( ExampleDefaults.getInstance().getConfig() );
-        
-//        // Clock
-//        SimTemplateClock clock = model.getClock();
-//        clock.resetSimulationTime();
-//        clock.setDt( ExampleDefaults.CLOCK_DT );
-//        setClockRunningWhenActive( ExampleDefaults.CLOCK_RUNNING );
-//
-//        // ExampleModelElement
-//        ExampleModelElement exampleModelElement = model.getExampleModelElement();
-//        exampleModelElement.setPosition( ExampleDefaults.EXAMPLE_MODEL_ELEMENT_POSITION );
-//        exampleModelElement.setOrientation( ExampleDefaults.EXAMPLE_MODEL_ELEMENT_ORIENTATION );
-//        
-//        // ExampleNode
-//        ExampleNode exampleNode = canvas.getExampleNode();
-//        exampleNode.setSize( exampleModelElement.getWidth(), exampleModelElement.getHeight() );
-//        exampleNode.setPosition( exampleModelElement.getPosition() );
-//        exampleNode.setOrientation( exampleModelElement.getOrientation() );
     }
     
     //----------------------------------------------------------------------------
