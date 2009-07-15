@@ -339,16 +339,16 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     	}
     	
     	// Remove the mapping to the datable item.
-    	Object key = null;
-        for( Object o : _mapDatableItemsToGuessResults.keySet() ) {
-            if(_mapDatableItemsToGuessResults.get(o).equals(ageGuessResultNode)) {
-                key = o;
+    	DatableItem correspondingDatableItem = null;
+        for( DatableItem datableItem : _mapDatableItemsToGuessResults.keySet() ) {
+            if(_mapDatableItemsToGuessResults.get(datableItem).equals(ageGuessResultNode)) {
+                correspondingDatableItem = datableItem;
                 break;
             }
         }
 
-    	if (key != null){
-    		_mapDatableItemsToGuessResults.remove(key);
+    	if (correspondingDatableItem != null){
+    		_mapDatableItemsToGuessResults.remove(correspondingDatableItem);
     	}
     	
     	// If there are no more guess results, hide the button that allows the
@@ -357,10 +357,10 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     		_resetGuessesButtonNode.setVisible(false);
     	}
     	
-    	// If the user is still on (or back on, I suppose) this node, put the
-    	// guessing box back up.
+    	// If the probe is still touching this datable item, put the guessing
+    	// box back up.
     	DatableItem itemBeingTouched = _model.getMeter().getItemBeingTouched();
-    	if ((itemBeingTouched != null) && (_ageGuessingNode == null)){
+    	if ((itemBeingTouched == correspondingDatableItem) && (_ageGuessingNode == null)){
     		displayAgeGuessNode(itemBeingTouched);
     	}
     }
