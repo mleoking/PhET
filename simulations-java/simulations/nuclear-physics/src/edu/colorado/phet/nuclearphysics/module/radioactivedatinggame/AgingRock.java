@@ -29,9 +29,7 @@ public class AgingRock extends AnimatedDatableItem {
 	private static final double FINAL_ROCK_WIDTH = 10; // Model units, roughly meters.
 	private static final double ARC_HEIGHT = 10; // Model units, roughly meters.
 	private static final double ARC_HEIGHT_FACTOR = 0.04; // Higher for higher arc.
-	private static final double AGE_OF_NATURAL_DEATH = MultiNucleusDecayModel.convertYearsToMs(1E9);
 	private static final double ROTATION_PER_STEP = Math.PI * 0.1605; // Controls rate of rotation when flying.
-	private static final Random RAND = new Random();
 	private static final double GRAV = 1;
 	private static final int COOLING_START_PAUSE_STEPS = 100; // Length of pause before after landing & before starting to cool.
 	private static final int COOLING_STEPS = 60; // Number of steps to cool down.
@@ -110,17 +108,34 @@ public class AgingRock extends AnimatedDatableItem {
     		_flyCounter--;
     	}
     	else if (_flyCounter <= 0 && !_closurePossibleSent){
-    		// The rock has started cooling, so it is now possible to start
-    		// closure if desired.
+    		// The rock has landed, so it is now possible to force closure if
+    		// desired.
     		setClosureState(RadiometricClosureState.CLOSURE_POSSIBLE);
     		_closurePossibleSent = true;
     	}
     	else if (_coolingStartPauseCounter > 0){
-    		_coolingStartPauseCounter--;
+    		if (getClosureState() != RadiometricClosureState.CLOSED){
+    			_coolingStartPauseCounter--;
+    		}
+    		else{
+    			// Closure has been forced externally - skip the rest of this
+    			// stage.
+    			_coolingStartPauseCounter = 0;
+    			_closureOccurredSent = true;
+    		}
     	}
     	else if (_coolingCounter > 0){
-    		setFadeFactor(Math.min(getFadeFactor() + (1 / (double)COOLING_STEPS), 1));
-    		_coolingCounter--;
+    		if (getClosureState() != RadiometricClosureState.CLOSED){
+    			setFadeFactor(Math.min(getFadeFactor() + (1 / (double)COOLING_STEPS), 1));
+    			_coolingCounter--;
+    		}
+    		else {
+	    		// Closure has been forced externally - skip the rest of this
+	    		// stage.
+    			setFadeFactor( 1 );
+	    		_coolingCounter = 0;
+	    		_closureOccurredSent = true;
+    		}
     	}
     	else if (!_closureOccurredSent){
     		// The rock has finished cooling, so closure occurs and the rock
