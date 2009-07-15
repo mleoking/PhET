@@ -33,8 +33,8 @@ public class AgingRock extends AnimatedDatableItem {
 	private static final double ROTATION_PER_STEP = Math.PI * 0.1605; // Controls rate of rotation when flying.
 	private static final Random RAND = new Random();
 	private static final double GRAV = 1;
-	private static final int COOLING_START_PAUSE_STEPS = 50; // Length of pause before after landing & before starting to cool.
-	private static final int COOLING_STEPS = 100; // Number of steps to cool down.
+	private static final int COOLING_START_PAUSE_STEPS = 100; // Length of pause before after landing & before starting to cool.
+	private static final int COOLING_STEPS = 60; // Number of steps to cool down.
 
     //------------------------------------------------------------------------
     // Instance Data

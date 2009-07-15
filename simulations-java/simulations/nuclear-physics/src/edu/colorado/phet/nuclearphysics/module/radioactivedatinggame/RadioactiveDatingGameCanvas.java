@@ -28,6 +28,7 @@ import edu.colorado.phet.nuclearphysics.view.NuclearDecayProportionChart;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.util.PDebug;
 
 /**
  * This class represents the canvas upon which the view of the model is
@@ -203,23 +204,6 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         _meterNode.setMeterBodyOffset( 0, OFFSET_FROM_TOP );
         addWorldChild( _meterNode );
         
-        // Add a button to the canvas for resetting the guesses.  The button
-        // remains invisible until the user makes their first guess.
-        _resetGuessesButtonNode = new GradientButtonNode(NuclearPhysicsStrings.CLEAR_GUESSES, 22, 
-        		RESET_GUESSES_BUTTON_COLOR);
-        _resetGuessesButtonNode.setOffset(_meterNode.getMeterBodyOffset().getX()
-        		- _resetGuessesButtonNode.getFullBoundsReference().width / 2, -70);
-        _resetGuessesButtonNode.setOffset(_meterNode.getMeterBodyOffset().getX()
-        		- _resetGuessesButtonNode.getFullBoundsReference().width, _meterNode.getMeterBodyOffset().getY());
-        _resetGuessesButtonNode.setVisible(false);
-        _resetGuessesButtonNode.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-				clearGuessResults();
-				_resetGuessesButtonNode.setVisible(false);
-			}
-        });
-        addWorldChild(_resetGuessesButtonNode);
-        
         // Set the size and position of the chart.  There are some "tweak
         // factors" in here to make things look good.
         // TODO: If I end up leaving this as a world child, I need to change this
@@ -231,6 +215,23 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         		INITIAL_INTERMEDIATE_COORD_WIDTH * PROPORTIONS_METER_WIDTH_FRACTION + 10,
         		OFFSET_FROM_TOP );
 
+        // Add a button to the canvas for resetting the guesses.  The button
+        // remains invisible until the user makes their first guess.
+        _resetGuessesButtonNode = new GradientButtonNode(NuclearPhysicsStrings.RESET_GUESSES, 30, 
+        		RESET_GUESSES_BUTTON_COLOR);
+        _resetGuessesButtonNode.setOffset(_proportionsChart.getFullBoundsReference().getMaxX()
+        		- _resetGuessesButtonNode.getFullBoundsReference().width,
+        		_proportionsChart.getFullBoundsReference().getMaxY() + 10);
+        _resetGuessesButtonNode.setVisible(false);
+        _resetGuessesButtonNode.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				clearGuessResults();
+				_resetGuessesButtonNode.setVisible(false);
+			}
+        });
+        
+        addWorldChild(_resetGuessesButtonNode);
+        
         // Draw the decay curve on the chart.
         drawDecayCurveOnChart();
         
