@@ -1,3 +1,4 @@
+# 1.03.20 (33360) Jul 15, 2009
 > force-graphs: Objects are in pull-down menu in control panel instead of the play area
 > force-graphs: Removed force control from play area
 > Fixed: Vectors should be in the topmost layer (over the applied force slider)
