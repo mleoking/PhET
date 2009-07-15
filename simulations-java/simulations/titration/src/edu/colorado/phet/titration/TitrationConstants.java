@@ -2,9 +2,8 @@
 
 package edu.colorado.phet.titration;
 
-import java.awt.*;
-
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import java.awt.Color;
+import java.awt.Dimension;
 
 
 /**

@@ -25,7 +25,8 @@ import edu.colorado.phet.titration.module.advanced.AdvancedModule;
 import edu.colorado.phet.titration.module.compare.CompareModule;
 import edu.colorado.phet.titration.module.polyprotic.PolyproticModule;
 import edu.colorado.phet.titration.module.titrate.TitrateModule;
-import edu.colorado.phet.titration.persistence.*;
+import edu.colorado.phet.titration.persistence.TitrateConfig;
+import edu.colorado.phet.titration.persistence.TitrationConfig;
 
 /**
  * SimTemplateApplication is the main application for this simulation.
