@@ -26,10 +26,11 @@ public class AgingTree extends AnimatedDatableItem {
 	
 	private static final double FULL_GROWN_TREE_HEIGHT = 25; // Model units, roughly meters.
 	private static final double GROWTH_RATE = 1.03; // High number for faster growth.
-	private static final double AGE_OF_NATURAL_DEATH = MultiNucleusDecayModel.convertYearsToMs(4000);
+	private static final double AGE_OF_NATURAL_DEATH = MultiNucleusDecayModel.convertYearsToMs(3000);
 	private static final int SWAY_COUNT = 30; // Controls how long tree sways before falling over.
 	private static final double MAX_SWAY_DEFLECTION = 0.01; // In radians, controls amount of sway.
-	private static final int FALL_COUNT = 40; // Controls how long it takes the tree to fall over.
+	private static final int FALL_COUNT = 30; // Controls how long it takes the tree to fall over.
+	private static final double FALL_ANGLE_SCALE_FACTOR = Math.PI / (double)(FALL_COUNT * FALL_COUNT);
 	private static final int BOUNCE_COUNT = 9; // Controls length of bounce after falling.
 	private static final double BOUNCE_PROPORTION = 0.01; // Controls magnitude of bounds.
 	private static final Random RAND = new Random();
@@ -130,7 +131,15 @@ public class AgingTree extends AnimatedDatableItem {
     		}
     		else if (_fallCounter > 0){
     			
-    			rotateAboutBottomCenter(Math.PI / 2 /(double)FALL_COUNT);
+    			rotateAboutBottomCenter(FALL_ANGLE_SCALE_FACTOR * (FALL_COUNT - _fallCounter));
+    			
+    			// Tweak the translation just a little such that if the user
+    			// puts the probe at the base of the tree it will remain in
+    			// contact with the tree after it has fallen.  This was
+    			// requested by Noah P.
+    			if (_fallCounter < FALL_COUNT / 2){
+    				setPosition(getPosition().getX() - getSize().getWidth() * 0.01, getPosition().getY());
+    			}
     			
     			// Move to the next step in the cycle.
     			_fallCounter--;
