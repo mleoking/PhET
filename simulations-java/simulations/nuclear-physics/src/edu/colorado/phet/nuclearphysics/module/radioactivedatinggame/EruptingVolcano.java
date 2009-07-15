@@ -25,7 +25,8 @@ public class EruptingVolcano extends StaticAnimatedDatableItem {
     //------------------------------------------------------------------------
 	
 	public EruptingVolcano(ConstantDtClock clock, Point2D center, double width) {
-		super("Volcano", Arrays.asList( "volcano_cool.png","volcano_hot.png" ), center, width, 0, 0, clock , VOLCANO_AGE_FACTOR );
+		super("Volcano", Arrays.asList( "volcano_cool.png","volcano_hot.png" ), center, width, 0, 0, clock , 
+				VOLCANO_AGE_FACTOR, false );
 	}
 
     protected AnimationSequence createAnimationSequence() {

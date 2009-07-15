@@ -18,10 +18,10 @@ public abstract class StaticAnimatedDatableItem extends AnimatedDatableItem {
 	private final ModelAnimationInterpreter _animationIterpreter;
 
 	public StaticAnimatedDatableItem(String name, List<String> resourceImageNames, Point2D center, double width,
-			double rotationAngle, double age, ConstantDtClock clock, double ageAdjustmentFactor) {
+			double rotationAngle, double age, ConstantDtClock clock, double ageAdjustmentFactor, boolean isOrganic) {
 
 		super(name, resourceImageNames, center, width, rotationAngle, age, clock,
-				ageAdjustmentFactor);
+				ageAdjustmentFactor, isOrganic);
 		
 		// Create (initialize) the animation sequence.
 		AnimationSequence animationSequence = createAnimationSequence();

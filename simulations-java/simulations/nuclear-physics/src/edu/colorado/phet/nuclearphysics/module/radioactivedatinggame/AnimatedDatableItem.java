@@ -39,8 +39,8 @@ public abstract class AnimatedDatableItem extends DatableItem implements Cleanup
     //------------------------------------------------------------------------
     
     public AnimatedDatableItem( String name, List<String> resourceImageNames, Point2D center, double width, 
-    		double rotationAngle, double age, ConstantDtClock clock, double ageAdjustmentFactor ) {
-        super( name, resourceImageNames, center, width, rotationAngle, age );
+    		double rotationAngle, double age, ConstantDtClock clock, double ageAdjustmentFactor, boolean isOrganic ) {
+        super( name, resourceImageNames, center, width, rotationAngle, age, isOrganic );
         _clock = clock;
         _birthTime = _clock.getSimulationTime() * ageAdjustmentFactor;
         this._timeConversionFactor = ageAdjustmentFactor;
