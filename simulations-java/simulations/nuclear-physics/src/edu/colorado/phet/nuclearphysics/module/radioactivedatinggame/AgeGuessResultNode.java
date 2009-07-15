@@ -6,9 +6,12 @@ import java.awt.geom.Rectangle2D;
 import java.text.NumberFormat;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.idealgas.controller.command.AddModelElementCmd;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -62,6 +65,18 @@ public class AgeGuessResultNode extends PNode {
 		_icon.setScale( _backgoundRect.getFullBoundsReference().height / _icon.getFullBoundsReference().height );
 		_icon.setOffset(_backgoundRect.getFullBoundsReference().getMaxX() + 3, 0);
 		addChild(_icon);
+		
+		// Add a mouse handler so that the user can click on this in order
+		// to clear it.
+		setPickable(true);
+		setChildrenPickable(true);
+        addInputEventListener( new PBasicInputEventHandler(){
+			@Override
+			public void mouseReleased(PInputEvent event) {
+				System.out.println("--- Mouse released.");
+			}
+        } );
+
 	}
 
 	public boolean isGuessGood() {
