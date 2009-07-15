@@ -355,6 +355,13 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     	if (_mapDatableItemsToGuessResults.isEmpty()){
     		_resetGuessesButtonNode.setVisible(false);
     	}
+    	
+    	// If the user is still on (or back on, I suppose) this node, put the
+    	// guessing box back up.
+    	DatableItem itemBeingTouched = _model.getMeter().getItemBeingTouched();
+    	if ((itemBeingTouched != null) && (_ageGuessingNode == null)){
+    		displayAgeGuessNode(itemBeingTouched);
+    	}
     }
     
     /**
@@ -388,43 +395,8 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
 	    			previousGuessResultNode.setVisible(false);
 	    		}
 	    	}
-    	
-    		// Create a new guessing box.
-    		_ageGuessingNode = new AgeGuessingNode();
-    		
-    		// Position the guessing box to the side of the node that
-    		// represents the item being dated.
-    		PNode datableItemNode = _mapDatableItemsToNodes.get(itemBeingTouched);
-    		Point2D ageGuessingNodeLocation = new Point2D.Double(0, 0);
-    		if (datableItemNode == null){
-    			System.err.println(getClass().getName() + " - Error: Could not locate node for datable item " + itemBeingTouched);
-    			assert false;
-    		}
-    		else{
-    			// Position the guessing box to the side of the node that
-    			// represents the item being touched.  There is a tweak factor
-    			// in here to add a little space between the guessing box and
-    			// the datable item node.
-    			ageGuessingNodeLocation.setLocation(
-    					datableItemNode.getFullBoundsReference().getMaxX() + 8,
-    					datableItemNode.getFullBoundsReference().getCenterY() - _ageGuessingNode.getFullBoundsReference().height / 2);
-    		}
-    			
-    		_ageGuessingNode.setOffset(ageGuessingNodeLocation);
-    		_guessingGameLayer.addChild(_ageGuessingNode);
-    		
-    		// Request that the node have focus so that the user doesn't have
-    		// to click in the edit box on the node before they start entering
-    		// their guess.
-    		_ageGuessingNode.requestFocus();
-    		
-    		// Register with the node to be informed if and when the user
-    		// submits a guess.
-    		_ageGuessingNode.addListener(new AgeGuessingNode.Listener(){
-				public void guessSubmitted(double ageGuess) {
-					handleGuessSubmitted(ageGuess);
-				}
-    		});
+	    	
+	    	displayAgeGuessNode(itemBeingTouched);
     	}
     	else {
     		// Make sure all previously hidden guess results are now visible,
@@ -436,6 +408,49 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     		  guessResultNode.setVisible(true);
     		}
     	}
+    }
+    
+    /**
+     * Create and show the node that will allow the user to guess an object's
+     * age.
+     */
+    private void displayAgeGuessNode(DatableItem itemBeingTouched){
+		// Create a new guessing box.
+		_ageGuessingNode = new AgeGuessingNode();
+		
+		// Position the guessing box to the side of the node that
+		// represents the item being dated.
+		PNode datableItemNode = _mapDatableItemsToNodes.get(itemBeingTouched);
+		Point2D ageGuessingNodeLocation = new Point2D.Double(0, 0);
+		if (datableItemNode == null){
+			System.err.println(getClass().getName() + " - Error: Could not locate node for datable item " + itemBeingTouched);
+			assert false;
+		}
+		else{
+			// Position the guessing box to the side of the node that
+			// represents the item being touched.  There is a tweak factor
+			// in here to add a little space between the guessing box and
+			// the datable item node.
+			ageGuessingNodeLocation.setLocation(
+					datableItemNode.getFullBoundsReference().getMaxX() + 8,
+					datableItemNode.getFullBoundsReference().getCenterY() - _ageGuessingNode.getFullBoundsReference().height / 2);
+		}
+			
+		_ageGuessingNode.setOffset(ageGuessingNodeLocation);
+		_guessingGameLayer.addChild(_ageGuessingNode);
+		
+		// Request that the node have focus so that the user doesn't have
+		// to click in the edit box on the node before they start entering
+		// their guess.
+		_ageGuessingNode.requestFocus();
+		
+		// Register with the node to be informed if and when the user
+		// submits a guess.
+		_ageGuessingNode.addListener(new AgeGuessingNode.Listener(){
+			public void guessSubmitted(double ageGuess) {
+				handleGuessSubmitted(ageGuess);
+			}
+		});
     }
     
     /**
