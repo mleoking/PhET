@@ -1138,7 +1138,7 @@ public class NuclearDecayProportionChart extends PNode {
 	     */
 	    private void graphDecayEvent( Point2D decayEventLocation ){
 	    	if (_lineGraph){
-//	    		graphDecayEventLine(decayEventLocation);
+	    		graphDecayEventLine(decayEventLocation);
 	    	}
 	    	else{
 	    		graphDecayEventPoint(decayEventLocation);
