@@ -21,9 +21,11 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.titration.developer.DeveloperMenu;
 import edu.colorado.phet.titration.menu.OptionsMenu;
-import edu.colorado.phet.titration.module.example.ExampleModule;
-import edu.colorado.phet.titration.persistence.ExampleConfig;
-import edu.colorado.phet.titration.persistence.SimTemplateConfig;
+import edu.colorado.phet.titration.module.advanced.AdvancedModule;
+import edu.colorado.phet.titration.module.compare.CompareModule;
+import edu.colorado.phet.titration.module.example.TitrateModule;
+import edu.colorado.phet.titration.module.polyprotic.PolyproticModule;
+import edu.colorado.phet.titration.persistence.*;
 
 /**
  * SimTemplateApplication is the main application for this simulation.
@@ -37,7 +39,10 @@ public class TitrationApplication extends PiccoloPhetApplication {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private ExampleModule exampleModule;
+    private TitrateModule titrateModule;
+    private AdvancedModule advancedModule;
+    private PolyproticModule polyproticModule;
+    private CompareModule compareModule;
 
     // PersistanceManager is used to save/load simulation configurations.
     private XMLPersistenceManager persistenceManager;
@@ -87,16 +92,17 @@ public class TitrationApplication extends PiccoloPhetApplication {
         
         Frame parentFrame = getPhetFrame();
 
-        exampleModule = getFirstModule(parentFrame);
-        addModule( exampleModule );
+        titrateModule = new TitrateModule( parentFrame );
+        addModule( titrateModule );
         
-        Module secondModule = new ExampleModule( parentFrame );
-        secondModule.setName( "Another Example" );
-        addModule( secondModule );
-    }
-
-    protected ExampleModule getFirstModule(Frame parentFrame) {
-        return new ExampleModule( parentFrame );
+        advancedModule = new AdvancedModule( parentFrame );
+        addModule( advancedModule );
+        
+        polyproticModule = new PolyproticModule( parentFrame );
+        addModule( polyproticModule );
+        
+        compareModule = new CompareModule( parentFrame );
+        addModule( compareModule );
     }
 
     /*
@@ -176,16 +182,20 @@ public class TitrationApplication extends PiccoloPhetApplication {
      */
     private void save() {
         
-        SimTemplateConfig appConfig = new SimTemplateConfig();
+        TitrationConfig appConfig = new TitrationConfig();
         
+        // save global info
         appConfig.setVersionString( getSimInfo().getVersion().toString() );
         appConfig.setVersionMajor( getSimInfo().getVersion().getMajor() );
         appConfig.setVersionMinor( getSimInfo().getVersion().getMinor() );
         appConfig.setVersionDev( getSimInfo().getVersion().getDev() );
         appConfig.setVersionRevision( getSimInfo().getVersion().getRevision() );
         
-        ExampleConfig exampleConfig = exampleModule.save();
-        appConfig.setExampleConfig( exampleConfig );
+        // save state for each module
+        appConfig.setTitrateConfig( titrateModule.save() );
+        appConfig.setAdvancedConfig( advancedModule.save() );
+        appConfig.setPolyproticConfig( polyproticModule.save() );
+        appConfig.setCompareConfig( compareModule.save() );
         
         persistenceManager.save( appConfig );
     }
@@ -198,11 +208,11 @@ public class TitrationApplication extends PiccoloPhetApplication {
         Object object = persistenceManager.load();
         if ( object != null ) {
             
-            if ( object instanceof SimTemplateConfig ) {
-                SimTemplateConfig appConfig = (SimTemplateConfig) object;
+            if ( object instanceof TitrationConfig ) {
+                TitrationConfig appConfig = (TitrationConfig) object;
                 
-                ExampleConfig exampleConfig = appConfig.getExampleConfig();
-                exampleModule.load( exampleConfig );
+                TitrateConfig exampleConfig = appConfig.getTitrateConfig();
+                titrateModule.load( exampleConfig );
             }
             else {
                 String message = TitrationResources.getString( "message.notAConfigFile" );

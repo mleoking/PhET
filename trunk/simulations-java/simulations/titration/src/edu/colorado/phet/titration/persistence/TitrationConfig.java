@@ -5,12 +5,12 @@ package edu.colorado.phet.titration.persistence;
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 
 /**
- * TemplateConfig describes a configuration of this simulation.
+ * Describes a complete configuration of this simulation.
  * It encapsulates all of the settings that the user can change.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class SimTemplateConfig implements IProguardKeepClass {
+public class TitrationConfig implements IProguardKeepClass {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -24,7 +24,10 @@ public class SimTemplateConfig implements IProguardKeepClass {
     private String _versionRevision;
     
     // Modules
-    private ExampleConfig exampleConfig;
+    private TitrateConfig titrateConfig;
+    private AdvancedConfig advancedConfig;
+    private PolyproticConfig polyproticConfig;
+    private CompareConfig compareConfig;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -33,8 +36,8 @@ public class SimTemplateConfig implements IProguardKeepClass {
     /**
      * Zero-argument constructor for Java Bean compliance, required by XMLEncoder.
      */
-    public SimTemplateConfig() {
-        exampleConfig = new ExampleConfig();
+    public TitrationConfig() {
+        titrateConfig = new TitrateConfig();
     }
 
     //----------------------------------------------------------------------------
@@ -85,11 +88,35 @@ public class SimTemplateConfig implements IProguardKeepClass {
     // Accessors for module configurations
     //----------------------------------------------------------------------------
     
-    public void setExampleConfig( ExampleConfig exampleConfig ) {
-        this.exampleConfig = exampleConfig;
+    public TitrateConfig getTitrateConfig() {
+        return titrateConfig;
     }
     
-    public ExampleConfig getExampleConfig() {
-        return exampleConfig;
+    public void setTitrateConfig( TitrateConfig exampleConfig ) {
+        this.titrateConfig = exampleConfig;
+    }
+    
+    public AdvancedConfig getAdvancedConfig() {
+        return advancedConfig;
+    }
+    
+    public void setAdvancedConfig( AdvancedConfig advancedConfig ) {
+        this.advancedConfig = advancedConfig;
+    }
+    
+    public PolyproticConfig getPolyproticConfig() {
+        return polyproticConfig;
+    }
+
+    public void setPolyproticConfig( PolyproticConfig polyproticConfig ) {
+        this.polyproticConfig = polyproticConfig;
+    }
+    
+    public CompareConfig getCompareConfig() {
+        return compareConfig;
+    }
+    
+    public void setCompareConfig( CompareConfig compareConfig ) {
+        this.compareConfig = compareConfig;
     }
 }
