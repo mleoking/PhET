@@ -203,7 +203,6 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
         		false, 
         		_probeDragBounds );
         _meterNode.setMeterBodyOffset( METER_X_OFFSET, METER_AND_CHART_OFFSET_FROM_TOP);
-        _meterNode.enablePeriodicUpdate(true);
         _chartAndMeterLayer.addChild( _meterNode );
 
         // Set up the initial buttons in the play area.

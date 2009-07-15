@@ -8,6 +8,8 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.nuclearphysics.common.NucleusType;
@@ -30,13 +32,28 @@ public class RadiometricDatingMeter {
 	private ModelContainingDatableItems _model;
 	private NucleusType _nucleusTypeForDating;
 	private double _halfLifeOfCustomNucleus;
+	private double _prevPercentageRemaining = Double.NaN;
 	protected ArrayList<Listener> _listeners = new ArrayList<Listener>();
+	private ClockAdapter _clockListener;
 	
 	//----------------------------------------------------------------------------
     // Constructor(s)
     //----------------------------------------------------------------------------
 	
-	public RadiometricDatingMeter( ModelContainingDatableItems model, Point2D initialTipLocation ) {
+	/**
+	 * Constructor for the model representation of a meter that can be used to
+	 * radiometrically date various items.
+	 * 
+	 * @param model - Model containing datable items.
+	 * @param initialTipLocation - Initial location of the probe tip in model
+	 * space.
+	 * @param updatePeriodically - Controls whether periodic updating should
+	 * be performed.  Periodic updates are only needed when used in
+	 * situations where the datable items can move and/or age. 
+	 */
+	public RadiometricDatingMeter( ModelContainingDatableItems model, Point2D initialTipLocation,
+			boolean updatePeriodically ) {
+		
 		_model = model;
 		_probe = new ProbeModel(initialTipLocation, 1.3);
 		_probe.addObserver(new SimpleObserver(){
@@ -44,6 +61,21 @@ public class RadiometricDatingMeter {
 				updateTouchedItem();
 			}
 		});
+		
+		if (updatePeriodically){
+			_clockListener = new ClockAdapter(){
+				@Override
+			    public void clockTicked( ClockEvent clockEvent ) {
+			    	updateState();
+			    }
+
+				@Override
+				public void simulationTimeReset(ClockEvent clockEvent) {
+					updateState();
+				}
+			};
+			_model.getClock().addClockListener(_clockListener);
+		}
 		
 		// Set the default nucleus type.
 		_nucleusTypeForDating = NucleusType.CARBON_14;
@@ -53,7 +85,7 @@ public class RadiometricDatingMeter {
 
 	public RadiometricDatingMeter( ModelContainingDatableItems model ) {
 		// Construct with the probe in a default location.
-		this(model, new Point2D.Double(-3, -7.5));
+		this(model, new Point2D.Double(-3, -7.5), false);
 	}
 
 	//----------------------------------------------------------------------------
@@ -62,6 +94,31 @@ public class RadiometricDatingMeter {
 
 	public ProbeModel getProbeModel(){
 		return _probe;
+	}
+	
+	/**
+	 * Update the reading state and the touched state.
+	 */
+	public void updateState(){
+		
+		// Update the touched state.  This will send out any needed notifications.
+    	updateTouchedItem();
+    	
+    	// Update the age.
+    	if ((getPercentageOfDatingElementRemaining() != _prevPercentageRemaining) &&
+    		!(Double.isNaN(getPercentageOfDatingElementRemaining()) && Double.isNaN(_prevPercentageRemaining))){
+    		notifyReadingChanged();
+    		_prevPercentageRemaining = getPercentageOfDatingElementRemaining();
+    	}
+	}
+	
+	/**
+	 * Clean up any memory references that could cause memory leaks.  This
+	 * should be called just before removing an instance of this class from
+	 * the model.
+	 */
+	public void cleanup(){
+		_model.getClock().removeClockListener(_clockListener);
 	}
 	
 	/**
@@ -175,6 +232,15 @@ public class RadiometricDatingMeter {
 	}
 	
 	/**
+	 * Notify listeners about a change in the touch state.
+	 */
+	private void notifyReadingChanged() {
+	    for (int i = 0; i < _listeners.size(); i++){
+	        _listeners.get(i).readingChanged();
+	    }
+	}
+	
+	/**
 	 * Notify listeners about a change in the element that is being used to
 	 * perform the dating.
 	 */
@@ -191,11 +257,13 @@ public class RadiometricDatingMeter {
     static interface Listener{
     	public void touchedStateChanged();
     	public void datingElementChanged();
+    	public void readingChanged();
     }
     
     static class Adapter implements Listener {
     	public void touchedStateChanged(){};
     	public void datingElementChanged(){};
+    	public void readingChanged(){};
     }
 
 	/**
