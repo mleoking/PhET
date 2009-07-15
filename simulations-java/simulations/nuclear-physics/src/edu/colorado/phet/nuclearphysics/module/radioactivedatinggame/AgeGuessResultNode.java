@@ -4,9 +4,9 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.geom.Rectangle2D;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.idealgas.controller.command.AddModelElementCmd;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.umd.cs.piccolo.PNode;
@@ -25,6 +25,7 @@ public class AgeGuessResultNode extends PNode {
 	private final boolean _guessIsGood;
 	private final PPath _backgoundRect;
 	private final PImage _icon;
+	private final ArrayList<Listener> _listeners = new ArrayList<Listener>();
 
 	/**
 	 * Contructor.
@@ -73,13 +74,35 @@ public class AgeGuessResultNode extends PNode {
         addInputEventListener( new PBasicInputEventHandler(){
 			@Override
 			public void mouseReleased(PInputEvent event) {
-				System.out.println("--- Mouse released.");
+				// The user clicked on this node, which indicates that they
+				// with to clear (i.e. remove) the guess result.  Notify any
+				// listeners.
+				notifyCleared();
 			}
         } );
-
 	}
 
 	public boolean isGuessGood() {
 		return _guessIsGood;
+	}
+	
+	private void notifyCleared(){
+		for (Listener listener : _listeners){
+			listener.userCleared(this);
+		}
+	}
+	
+	public void addListener(Listener listener) {
+	    if ( !_listeners.contains( listener )){
+	        _listeners.add( listener );
+	    }
+	}
+
+	public boolean removeListener( Listener listener ) {
+		return _listeners.remove( listener );
+	}
+	
+	public static interface Listener {
+		public void userCleared(AgeGuessResultNode ageGuessResultNode);
 	}
 }
