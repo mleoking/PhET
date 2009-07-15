@@ -28,13 +28,13 @@ public class AgingRock extends AnimatedDatableItem {
 	private static final double FINAL_X_TRANSLATION = -20; // Model units, roughly meters.
 	private static final double FINAL_ROCK_WIDTH = 10; // Model units, roughly meters.
 	private static final double ARC_HEIGHT = 10; // Model units, roughly meters.
-	private static final double ARC_HEIGHT_FACTOR = 0.03; // Higher for higher arc.
+	private static final double ARC_HEIGHT_FACTOR = 0.04; // Higher for higher arc.
 	private static final double AGE_OF_NATURAL_DEATH = MultiNucleusDecayModel.convertYearsToMs(1E9);
-	private static final double ROTATION_PER_STEP = Math.PI/20; // Controls rate of rotation when flying.
+	private static final double ROTATION_PER_STEP = Math.PI * 0.1605; // Controls rate of rotation when flying.
 	private static final Random RAND = new Random();
 	private static final double GRAV = 1;
-	private static final int COOLING_START_PAUSE_STEPS = 20; // Length of pause before after landing & before starting to cool.
-	private static final int COOLING_STEPS = 75; // Number of steps to 
+	private static final int COOLING_START_PAUSE_STEPS = 50; // Length of pause before after landing & before starting to cool.
+	private static final int COOLING_STEPS = 100; // Number of steps to cool down.
 
     //------------------------------------------------------------------------
     // Instance Data
@@ -90,7 +90,7 @@ public class AgingRock extends AnimatedDatableItem {
 
     		// Move along the arc.
     		double flightXTranslation = FINAL_X_TRANSLATION / FLY_COUNT;
-    		double flightYTranslation = (_flyCounter - (FLY_COUNT * 0.6)) * ARC_HEIGHT_FACTOR;
+    		double flightYTranslation = (_flyCounter - (FLY_COUNT * 0.58)) * ARC_HEIGHT_FACTOR;
     		setPosition(getPosition().getX() + flightXTranslation, getPosition().getY() + flightYTranslation);
 //    		double deltaXPos = FINAL_X_TRANSLATION / FLY_COUNT;
 //    		double n = FLY_COUNT - _flyCounter;
