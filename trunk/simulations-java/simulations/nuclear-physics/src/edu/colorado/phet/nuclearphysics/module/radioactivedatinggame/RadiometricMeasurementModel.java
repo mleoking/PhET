@@ -421,7 +421,6 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
 				public void positionChanged(){
 					if (!_rockBoundaryRect.contains(_rock.getPosition())){
 						// Remove this rock from the model.
-						System.out.println("Rock position = " + _rock.getPosition());
 						_model._animatedModelElements.remove(_rock);
 						_model.notifyModelElementRemoved(_rock);
 						_rock.removeAnimationListener(_animationListener);
