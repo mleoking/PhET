@@ -1,0 +1,26 @@
+/* Copyright 2009, University of Colorado */
+
+package edu.colorado.phet.titration;
+
+/**
+ * TemplateStrings is the collection of localized strings used by this simulations.
+ * We load all strings as statics so that we will be warned at startup time of any missing strings.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
+public class TitrationStrings {
+    
+    /* not intended for instantiation */
+    private TitrationStrings() {}
+    
+    public static final String LABEL_POSITION = TitrationResources.getString( "label.position");
+    public static final String LABEL_ORIENTATION = TitrationResources.getString( "label.orientation");
+    
+    public static final String TITLE_EXAMPLE_CONTROL_PANEL = TitrationResources.getString( "title.exampleControlPanel");
+    public static final String TITLE_EXAMPLE_MODULE = TitrationResources.getString( "title.exampleModule" );
+
+    public static final String UNITS_DISTANCE = TitrationResources.getString( "units.distance");
+    public static final String UNITS_ORIENTATION = TitrationResources.getString( "units.orientation");
+    public static final String UNITS_TIME = TitrationResources.getString( "units.time" );
+
+}
