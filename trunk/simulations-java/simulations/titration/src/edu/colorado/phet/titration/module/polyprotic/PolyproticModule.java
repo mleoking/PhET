@@ -7,7 +7,6 @@ import java.awt.Frame;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.titration.TitrationApplication;
 import edu.colorado.phet.titration.TitrationStrings;
-import edu.colorado.phet.titration.defaults.PolyproticDefaults;
 import edu.colorado.phet.titration.model.TitrationClock;
 import edu.colorado.phet.titration.persistence.PolyproticConfig;
 

@@ -1,6 +1,6 @@
 /* Copyright 2009, University of Colorado */
 
-package edu.colorado.phet.titration.defaults;
+package edu.colorado.phet.titration.module.advanced;
 
 import edu.colorado.phet.titration.persistence.AdvancedConfig;
 
