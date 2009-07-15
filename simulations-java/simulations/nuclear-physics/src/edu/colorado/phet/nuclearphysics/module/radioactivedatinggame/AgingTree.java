@@ -26,13 +26,16 @@ public class AgingTree extends AnimatedDatableItem {
 	
 	private static final double FULL_GROWN_TREE_HEIGHT = 25; // Model units, roughly meters.
 	private static final double GROWTH_RATE = 1.03; // High number for faster growth.
-	private static final double AGE_OF_NATURAL_DEATH = MultiNucleusDecayModel.convertYearsToMs(500);
+	private static final double AGE_OF_NATURAL_DEATH = MultiNucleusDecayModel.convertYearsToMs(4000);
 	private static final int SWAY_COUNT = 30; // Controls how long tree sways before falling over.
 	private static final double MAX_SWAY_DEFLECTION = 0.01; // In radians, controls amount of sway.
 	private static final int FALL_COUNT = 40; // Controls how long it takes the tree to fall over.
 	private static final int BOUNCE_COUNT = 9; // Controls length of bounce after falling.
 	private static final double BOUNCE_PROPORTION = 0.01; // Controls magnitude of bounds.
 	private static final Random RAND = new Random();
+	
+	// Tree aging factor - 500 years in 1 second.
+	private static final double TREE_AGING_FACTOR = MultiNucleusDecayModel.convertYearsToMs(500) / 1000;
 
     //------------------------------------------------------------------------
     // Class Data
@@ -50,7 +53,7 @@ public class AgingTree extends AnimatedDatableItem {
 
     public AgingTree( ConstantDtClock clock, Point2D center, double width ) {
         super( "Aging Tree", Arrays.asList( "tree_1.png", "tree_dead_3.png" ), center, width, 0, 0, clock, 
-        		MultiNucleusDecayModel.convertYearsToMs( 500 ) / 5000, true );
+        		TREE_AGING_FACTOR, true );
     }
     
     //------------------------------------------------------------------------
