@@ -1,39 +1,36 @@
 /* Copyright 2009, University of Colorado */
 
-package edu.colorado.phet.titration.module.example;
+package edu.colorado.phet.titration.module.polyprotic;
 
 import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.titration.TitrationConstants;
-import edu.colorado.phet.titration.defaults.ExampleDefaults;
-import edu.colorado.phet.titration.view.ExampleNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * ExampleCanvas is the canvas for ExampleModule.
+ * Canvas for the "Polyprotic Acids" module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ExampleCanvas extends PhetPCanvas {
+public class PolyproticCanvas extends PhetPCanvas {
 
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
     // Model
-    private ExampleModel model;
+    private PolyproticModel model;
     
     // View 
     private PNode _rootNode;
-    private ExampleNode _exampleNode;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public ExampleCanvas( ExampleModel model ) {
-        super( ExampleDefaults.VIEW_SIZE );
+    public PolyproticCanvas( PolyproticModel model ) {
+        super( TitrationConstants.CANVAS_RENDERING_SIZE );
         
         this.model = model;
         
@@ -42,20 +39,11 @@ public class ExampleCanvas extends PhetPCanvas {
         // Root of our scene graph
         _rootNode = new PNode();
         addWorldChild( _rootNode );
-        
-        _exampleNode = new ExampleNode( model.getExampleModelElement() );
-        _rootNode.addChild( _exampleNode );
     }
     
-
-    
     //----------------------------------------------------------------------------
-    // Accessors
+    // Setters and getters
     //----------------------------------------------------------------------------
-    
-    public ExampleNode getExampleNode() {
-        return _exampleNode;
-    }
     
     //----------------------------------------------------------------------------
     // Canvas layout
@@ -72,7 +60,7 @@ public class ExampleCanvas extends PhetPCanvas {
             return;
         }
         else if ( TitrationConstants.DEBUG_CANVAS_UPDATE_LAYOUT ) {
-            System.out.println( "ExampleCanvas.updateLayout worldSize=" + worldSize );//XXX
+            System.out.println( "TitrateCanvas.updateLayout worldSize=" + worldSize );//XXX
         }
         
         //XXX lay out nodes

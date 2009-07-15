@@ -13,14 +13,8 @@ public class TitrationStrings {
     /* not intended for instantiation */
     private TitrationStrings() {}
     
-    public static final String LABEL_POSITION = TitrationResources.getString( "label.position");
-    public static final String LABEL_ORIENTATION = TitrationResources.getString( "label.orientation");
-    
-    public static final String TITLE_EXAMPLE_CONTROL_PANEL = TitrationResources.getString( "title.exampleControlPanel");
-    public static final String TITLE_EXAMPLE_MODULE = TitrationResources.getString( "title.exampleModule" );
-
-    public static final String UNITS_DISTANCE = TitrationResources.getString( "units.distance");
-    public static final String UNITS_ORIENTATION = TitrationResources.getString( "units.orientation");
-    public static final String UNITS_TIME = TitrationResources.getString( "units.time" );
-
+    public static final String TITLE_TITRATE = TitrationResources.getString( "title.titrate" );
+    public static final String TITLE_ADVANCED_TITRATION = TitrationResources.getString( "title.advancedTitration" );
+    public static final String TITLE_POLYPROTIC_ACIDS = TitrationResources.getString( "title.polyproticAcids" );
+    public static final String TITLE_COMPARE_TITRATIONS = TitrationResources.getString( "title.compareTitrations" );
 }
