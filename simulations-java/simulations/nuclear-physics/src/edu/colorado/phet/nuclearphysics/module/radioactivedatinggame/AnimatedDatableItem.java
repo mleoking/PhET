@@ -77,7 +77,6 @@ public abstract class AnimatedDatableItem extends DatableItem implements Cleanup
      * Force radiometric closure to occur.
      */
     public void forceClosure(){
-    	_closureAge = _age;
     	setClosureState(RadiometricClosureState.CLOSED);
     }
     
@@ -85,16 +84,18 @@ public abstract class AnimatedDatableItem extends DatableItem implements Cleanup
     	return _closureState;
     }
     
-    protected void setClosureAge(double closureAge){
-    	System.err.println("Get rid of this method!!!");
-    	this._closureAge = closureAge;
-    }
-    
     protected void setClosureState(RadiometricClosureState newClosureState){
+    	
     	if (_closureState != newClosureState){
+    		
     		// NOTE: There is currently no validity checking done here.  It
     		// may be necessary to do so at some point.
+    		
     		_closureState = newClosureState;
+    		if (newClosureState == RadiometricClosureState.CLOSED){
+    			// Record the time at which closure occurred.
+    			_closureAge = _age;
+    		}
     		notifyClosureStateChanged();
     	}
     }
