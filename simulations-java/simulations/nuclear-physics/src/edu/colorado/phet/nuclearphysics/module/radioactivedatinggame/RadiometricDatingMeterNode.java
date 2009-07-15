@@ -19,7 +19,6 @@ import java.text.DecimalFormat;
 
 import javax.swing.BorderFactory;
 import javax.swing.JRadioButton;
-import javax.swing.Timer;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 
@@ -89,7 +88,6 @@ public class RadiometricDatingMeterNode extends PNode {
 	private ElementSelectionPanel _elementSelectionPanel;
 	private PSwing _elementSelectionNode;
 	private PComboBox _halfLifeComboBox;
-	private Timer _readoutUpdateTimer;
 	
     //------------------------------------------------------------------------
     // Constructor
@@ -102,12 +100,19 @@ public class RadiometricDatingMeterNode extends PNode {
 		_mvt = mvt;
 		
 		// Register with the model to find out when something new is being touched.
-		_meterModel.addListener(new RadiometricDatingMeter.Listener(){
+		_meterModel.addListener(new RadiometricDatingMeter.Adapter(){
+			@Override
 			public void datingElementChanged() {
 				handleDatingElementChanged();
 			}
 
+			@Override
 			public void touchedStateChanged() {
+				updateMeterReading();
+			}
+
+			@Override
+			public void readingChanged() {
 				updateMeterReading();
 			}
 		});
@@ -190,30 +195,6 @@ public class RadiometricDatingMeterNode extends PNode {
 
 	public Point2D getProbeTailLocation(){
 		return (_meterBody.localToParent(_probeNode.getTailLocation()));
-	}
-	
-	/**
-	 * Turn on periodic updates of the display.  This should be used if the
-	 * meter is being used in an environment where the the age of the items
-	 * may be changing.
-	 */
-	public void enablePeriodicUpdate(boolean enabled){
-		
-		if (enabled){
-			// Create a timer to periodically update the display.
-			int delay = 1000; //milliseconds
-			ActionListener taskPerformer = new ActionListener() {
-				public void actionPerformed(ActionEvent evt) {
-					updateMeterReading();
-				}
-			};
-			_readoutUpdateTimer = new Timer(delay, taskPerformer);
-			_readoutUpdateTimer.start();
-		}
-		else{
-			_readoutUpdateTimer.stop();
-			_readoutUpdateTimer = null;
-		}
 	}
 	
 	/**

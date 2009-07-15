@@ -76,7 +76,7 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
     	});
     	
     	// Add the meter and register for user-initiated movements.
-    	_meter = new RadiometricDatingMeter( this, INITIAL_PROBE_TIP_POSITION );
+    	_meter = new RadiometricDatingMeter( this, INITIAL_PROBE_TIP_POSITION, true );
     	
     	_meter.getProbeModel().addObserver(new SimpleObserver(){
 			public void update() {
@@ -147,9 +147,8 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
 		if ( _simulationMode != mode){
 			_simulationMode = mode;
 			
-			// Stop and reset the clock.
+			// Stop the clock.
 			_clock.stop();
-			_clock.resetSimulationTime();
 			
 			// Reset state.
 			_agingRockAdded = false;
@@ -164,6 +163,12 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
 				notifyModelElementRemoved(datableItem);
 			}
 			
+			// Reset the clock.  This is done here, rather than when the clock
+			// is stopped, so that any other observers of the clock reset will
+			// pick up the information about the model elements having been
+			// removed.
+			_clock.resetSimulationTime();
+			
 			// Add the appropriate model elements based on the simulation mode.
 			switch( _simulationMode ){
 			case TREE:
@@ -175,8 +180,10 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
 				notifyModelElementAdded(volcano);
 				break;
 			}
-			
+
+			// Make any listeners aware of the change.
 			notifySimulationModeChanged();
+			
 		}
 	}
 	

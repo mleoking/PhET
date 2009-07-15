@@ -5,6 +5,7 @@ package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusDecayModel;
 
@@ -108,6 +109,11 @@ public class RadioactiveDatingGameModel implements ModelContainingDatableItems {
     
     public RadiometricDatingMeter getMeter(){
     	return _meter;
+    }
+    
+    public ConstantDtClock getClock(){
+    	// This model is unclocked, so return null.
+    	return null;
     }
     
     /**
