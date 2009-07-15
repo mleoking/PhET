@@ -200,6 +200,8 @@
 	<classpathentry kind="src" path="simulations-java/simulations/test-project/data"/>
 	<classpathentry kind="src" path="simulations-java/simulations/the-ramp/src"/>
 	<classpathentry kind="src" path="simulations-java/simulations/the-ramp/data"/>
+    <classpathentry kind="src" path="simulations-java/simulations/titration/src"/>
+	<classpathentry kind="src" path="simulations-java/simulations/titration/data"/>
 	<classpathentry kind="src" path="simulations-java/simulations/travoltage/src"/>
 	<classpathentry kind="src" path="simulations-java/simulations/travoltage/data"/>
 	<classpathentry kind="src" path="simulations-java/simulations/wave-interference/src"/>
