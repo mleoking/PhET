@@ -40,7 +40,7 @@ public class AnimatedFlyingRock extends StaticAnimatedDatableItem {
 
     public AnimatedFlyingRock( ConstantDtClock clock, Point2D center, double width ) {
         super( "Aging Rock", Arrays.asList( chooseInitialImage() ), center, width, 0, 
-        		0, clock, EruptingVolcano.VOLCANO_AGE_FACTOR );
+        		0, clock, EruptingVolcano.VOLCANO_AGE_FACTOR, false );
     }
 
     //------------------------------------------------------------------------

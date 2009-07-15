@@ -140,7 +140,18 @@ public class RadiometricDatingMeter {
 		else {
 			halflife = HalfLifeInfo.getHalfLifeForNucleusType( _nucleusTypeForDating );
 		}
-
+		
+		if (_itemBeingTouched.isOrganic() && _nucleusTypeForDating == NucleusType.URANIUM_238){
+			// For the purposes of this sim, organic materials do not contain
+			// any U238, nor matter how old they are.
+			return 0;
+		}
+		
+		if (!_itemBeingTouched.isOrganic() && _nucleusTypeForDating == NucleusType.CARBON_14){
+			// For the purposes of this sim, inorganic materials do not
+			// contain any Carbon 14.
+			return 0;
+		}
 		
 		if ( _itemBeingTouched.getAge() <= 0 ){
 			return 100;

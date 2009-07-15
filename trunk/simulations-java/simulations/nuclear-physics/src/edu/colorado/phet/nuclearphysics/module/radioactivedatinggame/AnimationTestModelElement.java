@@ -26,7 +26,7 @@ public class AnimationTestModelElement extends StaticAnimatedDatableItem {
     //------------------------------------------------------------------------
 
 	public AnimationTestModelElement( ConstantDtClock clock, Point2D center, double width ) {
-        super( "Animation Test", Arrays.asList( "magenta_block.png" ), center, width, 0, 0, clock, 1 );
+        super( "Animation Test", Arrays.asList( "magenta_block.png" ), center, width, 0, 0, clock, 1, false );
     }
 
     //------------------------------------------------------------------------

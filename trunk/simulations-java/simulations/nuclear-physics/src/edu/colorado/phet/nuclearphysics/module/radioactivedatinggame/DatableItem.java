@@ -36,19 +36,21 @@ public class DatableItem implements AnimatedModelElement {
 	private int primaryImageIndex;
 	private int secondaryImageIndex;
 	private double fadeFactor;
+	private final boolean isOrganic;
 
 	/**
 	 * Constructor.
 	 * 
 	 * @param name
-	 * @param resourceImageName
+	 * @param resourceImageNames
 	 * @param center
 	 * @param width
 	 * @param rotationAngle
 	 * @param age
+	 * @param isOrganic
 	 */
 	public DatableItem(String name, List<String> resourceImageNames, Point2D center, double width, 
-			double rotationAngle, double age) {
+			double rotationAngle, double age, boolean isOrganic) {
 		super();
 		
 		if (resourceImageNames == null || resourceImageNames.size() == 0){
@@ -60,6 +62,7 @@ public class DatableItem implements AnimatedModelElement {
 		this.width = width;
 		this.age = age;
 		this.rotationAngle = rotationAngle;
+		this.isOrganic = isOrganic;
 		
 		// Load the initial primary image, which is the first one on the list.
 		// Note that the primary image can be changed later if desired.
@@ -100,10 +103,11 @@ public class DatableItem implements AnimatedModelElement {
 	 * @param width
 	 * @param rotationAngle
 	 * @param age
+	 * @param isOrganic
 	 */
 	public DatableItem(String name, String resourceImageName, Point2D center, double width, 
-			double rotationAngle, double age) {
-		this(name, Arrays.asList(resourceImageName), center, width, rotationAngle, age);
+			double rotationAngle, double age, boolean isOrganic) {
+		this(name, Arrays.asList(resourceImageName), center, width, rotationAngle, age, isOrganic);
 	}
 
 	
@@ -132,6 +136,10 @@ public class DatableItem implements AnimatedModelElement {
 
 	public double getHeight() {
 		return height;
+	}
+	
+	public boolean isOrganic() {
+		return isOrganic;
 	}
 	
 	/**
