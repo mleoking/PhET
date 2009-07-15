@@ -175,6 +175,7 @@ class RampModel extends RecordModel[String] with ObjectModel {
   private var _walls = true
   private var _frictionless = false
   private var _selectedObject = RampDefaults.objects(0)
+  val stepListeners = new ArrayBuffer[() => Unit]
 
   val rampLength = 10
   rampSegments += new RampSegment(new Point2D.Double(-rampLength, 0), new Point2D.Double(0, 0))
@@ -295,17 +296,16 @@ class RampModel extends RecordModel[String] with ObjectModel {
 
   def rampSegmentAccessor(particleLocation: Double) = if (particleLocation <= 0) rampSegments(0) else rampSegments(1)
 
-  def update(dt: Double) = {
-    if (!isPaused) {
-      //      beads.foreach(_.stepInTime(dt))
-      bead.stepInTime(dt)
-    }
+  private def doStep(dt: Double) = {
+    super.setTime(getTime+dt)
+    bead.stepInTime(dt)
+    stepListeners.foreach(_())
   }
 
-  def stepRecord(dt: Double) = {
-    //    beads.foreach(_.stepInTime(dt))
-    bead.stepInTime(dt)
-  }
+  def update(dt: Double) = if (!isPaused) doStep(dt)
+
+  def stepRecord(dt: Double) = doStep(dt)
+
 }
 
 case class WorkEnergyState(appliedWork: Double, gravityWork: Double, frictionWork: Double,

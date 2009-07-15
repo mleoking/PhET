@@ -376,6 +376,5 @@ class Bead(_state: BeadState,
   }
   val workListeners = new ArrayBuffer[Double => Unit]
 
-
   def stepInTime(dt: Double) = attachState.stepInTime(dt)
 }

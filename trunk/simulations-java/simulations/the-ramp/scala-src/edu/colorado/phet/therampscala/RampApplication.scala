@@ -13,6 +13,7 @@ import java.awt.Color
 import javax.swing.JFrame
 
 import scalacommon.ScalaClock
+
 class AbstractRampModule(frame: JFrame, clock: ScalaClock, name: String) extends Module(name, clock) {
   val model = new RampModel
   val wordModel = new WordModel
@@ -48,7 +49,7 @@ class CoordinatesRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampM
 
 class ForceGraphsModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "Force Graphs", false, true) {
   coordinateSystemModel.adjustable = false
-  canvas.addNode(new ChartNode(canvas.transform, canvas))
+  canvas.addNode(new ChartNode(canvas.transform, canvas, model))
 }
 
 class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock) extends AbstractRampModule(frame, clock, "Robot Moving Company") {
@@ -72,10 +73,11 @@ class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock) extends Abstrac
 
 class RampApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
   def newClock = new ScalaClock(RampDefaults.DELAY, RampDefaults.DT_DEFAULT)
-  addModule(new IntroRampModule(getPhetFrame, newClock))
-  addModule(new CoordinatesRampModule(getPhetFrame, newClock))
+  //todo: add back all modules
+//  addModule(new IntroRampModule(getPhetFrame, newClock))
+//  addModule(new CoordinatesRampModule(getPhetFrame, newClock))
   addModule(new ForceGraphsModule(getPhetFrame, newClock))
-  addModule(new RobotMovingCompanyModule(getPhetFrame, newClock))
+//  addModule(new RobotMovingCompanyModule(getPhetFrame, newClock))
 }
 
 class RobotMovingCompanyApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
