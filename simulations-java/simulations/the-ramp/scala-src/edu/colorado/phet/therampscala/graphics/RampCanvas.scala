@@ -213,9 +213,11 @@ abstract class AbstractRampCanvas(model: RampModel, coordinateSystemModel: Coord
 }
 
 class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, freeBodyDiagramModel: FreeBodyDiagramModel,
-                 vectorViewModel: VectorViewModel, frame: JFrame, rampSelectionNode: Boolean) extends AbstractRampCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame) {
-  if (rampSelectionNode) addNode(new ObjectSelectionNode(transform, model))
-  addNode(indexOfChild(earthNode) + 1, new AppliedForceSliderNode(model.bead, transform))
+                 vectorViewModel: VectorViewModel, frame: JFrame, showObjectSelectionNode: Boolean) extends AbstractRampCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame) {
+  if (showObjectSelectionNode) {
+    addNode(new ObjectSelectionNode(transform, model))
+    addNode(indexOfChild(earthNode) + 1, new AppliedForceSliderNode(model.bead, transform))
+  }
 
   override def addWallsAndDecorations() = {
     addNode(new BeadNode(model.leftWall, transform, "wall.jpg") with CloseButton {
