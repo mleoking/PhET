@@ -1,4 +1,5 @@
 > force-graphs: Objects are in pull-down menu in control panel instead of the play area
+> force-graphs: Removed force control from play area
 > Fixed: Vectors should be in the topmost layer (over the applied force slider)
 > Centered the object selection panel
 > Fixed: Object falls off edge at wrong spot
