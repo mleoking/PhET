@@ -1,6 +1,6 @@
 /* Copyright 2009, University of Colorado */
 
-package edu.colorado.phet.titration.module.example;
+package edu.colorado.phet.titration.module.titrate;
 
 import edu.colorado.phet.titration.model.TitrationClock;
 

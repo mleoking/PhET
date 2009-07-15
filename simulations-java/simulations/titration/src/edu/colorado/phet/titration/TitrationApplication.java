@@ -23,8 +23,8 @@ import edu.colorado.phet.titration.developer.DeveloperMenu;
 import edu.colorado.phet.titration.menu.OptionsMenu;
 import edu.colorado.phet.titration.module.advanced.AdvancedModule;
 import edu.colorado.phet.titration.module.compare.CompareModule;
-import edu.colorado.phet.titration.module.example.TitrateModule;
 import edu.colorado.phet.titration.module.polyprotic.PolyproticModule;
+import edu.colorado.phet.titration.module.titrate.TitrateModule;
 import edu.colorado.phet.titration.persistence.*;
 
 /**
