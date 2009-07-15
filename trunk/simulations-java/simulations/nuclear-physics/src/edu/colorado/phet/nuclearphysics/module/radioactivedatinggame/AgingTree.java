@@ -4,7 +4,6 @@ package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -50,7 +49,7 @@ public class AgingTree extends AnimatedDatableItem {
     //------------------------------------------------------------------------
 
     public AgingTree( ConstantDtClock clock, Point2D center, double width ) {
-        super( "Aging Tree", Arrays.asList( "tree_1.png", "tree_dead_2.png" ), center, width, 0, 0, clock, 
+        super( "Aging Tree", Arrays.asList( "tree_1.png", "tree_dead_3.png" ), center, width, 0, 0, clock, 
         		MultiNucleusDecayModel.convertYearsToMs( 500 ) / 5000 );
     }
     
