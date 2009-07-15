@@ -161,7 +161,10 @@ public abstract class AnimatedDatableItem extends DatableItem implements Cleanup
     	else {
     		// Calculate the time since closure occurred, since
     		// radiometrically speaking, that is our age.
-    		assert _age > _closureAge;
+    		if (_age < _closureAge){
+    			System.err.println(getClass().getName() + " - Error: Age is less than closure age.");
+    			assert false;
+    		}
     		return _age - _closureAge;
     	}
     }
