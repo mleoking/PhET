@@ -1,6 +1,8 @@
 package edu.colorado.phet.therampscala
 
+import charts.ChartNode
 import common.phetcommon.application.{PhetApplicationLauncher, Module, PhetApplicationConfig}
+import common.piccolophet.{PiccoloPhetApplication}
 import graphics.RampCanvas
 import model._
 import controls.RampControlPanel
@@ -10,9 +12,7 @@ import scalacommon.record.{RecordModelControlPanel, PlaybackSpeedSlider}
 import java.awt.Color
 import javax.swing.JFrame
 
-import common.piccolophet.PiccoloPhetApplication
 import scalacommon.ScalaClock
-
 class AbstractRampModule(frame: JFrame, clock: ScalaClock, name: String) extends Module(name, clock) {
   val model = new RampModel
   val wordModel = new WordModel
@@ -32,10 +32,10 @@ class AbstractRampModule(frame: JFrame, clock: ScalaClock, name: String) extends
 
 class BasicRampModule(frame: JFrame, clock: ScalaClock, name: String, coordinateSystemFeaturesEnabled: Boolean, useObjectComboBox: Boolean)
         extends AbstractRampModule(frame, clock, name) {
-  val canvas = new RampCanvas(model, coordinateSystemModel, fbdModel, vectorViewModel, frame,!useObjectComboBox)
+  val canvas = new RampCanvas(model, coordinateSystemModel, fbdModel, vectorViewModel, frame, !useObjectComboBox)
   setSimulationPanel(canvas)
   setControlPanel(new RampControlPanel(model, wordModel, fbdModel, coordinateSystemModel, vectorViewModel,
-    resetRampModule, coordinateSystemFeaturesEnabled, useObjectComboBox,model))
+    resetRampModule, coordinateSystemFeaturesEnabled, useObjectComboBox, model))
   setClockControlPanel(new RecordModelControlPanel(model, canvas, () => new PlaybackSpeedSlider(model), Color.blue, 20))
 }
 
@@ -48,6 +48,7 @@ class CoordinatesRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampM
 
 class ForceGraphsModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "Force Graphs", false, true) {
   coordinateSystemModel.adjustable = false
+  canvas.addNode(new ChartNode(canvas.transform, canvas))
 }
 
 class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock) extends AbstractRampModule(frame, clock, "Robot Moving Company") {
