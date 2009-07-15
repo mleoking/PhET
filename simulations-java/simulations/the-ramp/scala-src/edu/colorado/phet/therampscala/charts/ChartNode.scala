@@ -37,7 +37,7 @@ class ChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas) extends PN
   def updatePosition() = {
     val viewLoc = transform.modelToView(new Point2D.Double(0, -1))
     val viewBounds = transform.getViewBounds
-    set.setBounds(viewBounds.getX, viewLoc.y, viewBounds.getWidth, viewBounds.getHeight / 2)
+    set.setBounds(viewBounds.getX, viewLoc.y, viewBounds.getWidth, viewBounds.getHeight - viewLoc.y)
   }
   updatePosition()
 }
