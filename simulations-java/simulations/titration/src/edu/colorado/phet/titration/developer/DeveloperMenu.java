@@ -25,9 +25,7 @@ import edu.colorado.phet.titration.TitrationApplication;
 public class DeveloperMenu extends JMenu {
 
     private TitrationApplication app;
-    private JCheckBoxMenuItem developerControlsItem;
     private JCheckBoxMenuItem tabPropertiesItem;
-    private JDialog developerControlsDialog;
     private JDialog tabPropertiesDialog;
 
     public DeveloperMenu( TitrationApplication app ) {
@@ -35,14 +33,6 @@ public class DeveloperMenu extends JMenu {
 
         this.app = app;
 
-        developerControlsItem = new JCheckBoxMenuItem( "Developer Controls..." );
-        add( developerControlsItem );
-        developerControlsItem.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent event ) {
-                handleDeveloperControls();
-            }
-        });
-        
         tabPropertiesItem = new JCheckBoxMenuItem( "Tabbed Pane properties..." );
         add( tabPropertiesItem );
         tabPropertiesItem.addActionListener( new ActionListener() {
@@ -52,32 +42,6 @@ public class DeveloperMenu extends JMenu {
         });
     }
 
-    private void handleDeveloperControls() {
-        if ( developerControlsItem.isSelected() ) {
-            Frame owner = PhetApplication.getInstance().getPhetFrame();
-            developerControlsDialog = new DeveloperControlsDialog( owner, app );
-            developerControlsDialog.setVisible( true );
-            developerControlsDialog.addWindowListener( new WindowAdapter() {
-
-                public void windowClosed( WindowEvent e ) {
-                    cleanup();
-                }
-
-                public void windowClosing( WindowEvent e ) {
-                    cleanup();
-                }
-
-                private void cleanup() {
-                    developerControlsItem.setSelected( false );
-                    developerControlsDialog = null;
-                }
-            } );
-        }
-        else {
-            developerControlsDialog.dispose();
-        }
-    }
-    
     private void handleTabProperties() {
         if ( tabPropertiesItem.isSelected() ) {
             Frame owner = PhetApplication.getInstance().getPhetFrame();

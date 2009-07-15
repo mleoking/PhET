@@ -157,19 +157,6 @@ public class TitrationApplication extends PiccoloPhetApplication {
     // Setters & getters
     //----------------------------------------------------------------------------
 
-    public void setControlPanelBackground( Color color ) {
-        Module[] modules = getModules();
-        for ( int i = 0; i < modules.length; i++ ) {
-            modules[i].setControlPanelBackground( color );
-            modules[i].setClockControlPanelBackground( color );
-            modules[i].setHelpPanelBackground( color );
-        }
-    }
-
-    public Color getControlPanelBackground() {
-        return getModule( 0 ).getControlPanel().getBackground();
-    }
-
     public PhetTabbedPane getTabbedPane() {
         return tabbedModulePane;
     }
