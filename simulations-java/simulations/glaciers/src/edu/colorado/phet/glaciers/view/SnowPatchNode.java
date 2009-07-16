@@ -18,8 +18,9 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * When the ELA is above or at the terminus, this snow patch doesn't exist.
  * <p>
  * There is no model for the shape of this patch.
- * From the model's point of view this patch does not exist, and have zero thickness.
+ * From the model's point of view this patch does not exist, and has zero thickness.
  * Tools will behave as if the patch doesn't exist.
+ * See Unfuddle #766 for the history of this feature.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -95,7 +96,7 @@ public class SnowPatchNode extends PComposite {
         _crossSectionPath.reset();
         _surfacePath.reset();
         
-        // generate geometry if the ELA is below terminus
+        // generate geometry if the ELA is below the terminus
         final double yELA = _glacier.getClimate().getELA();
         final double yTerminus = _glacier.getTerminusY();
         if ( yELA < yTerminus ) {
