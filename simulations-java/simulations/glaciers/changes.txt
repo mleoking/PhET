@@ -1,3 +1,4 @@
+7/16/09 revert fix for #999, it made things worse
 # 2.01.02 (33295) Jul 14, 2009
 7/14/09 enabled fix for #999
 fix for #999, bump in glacier length vs time (doesn't appear to fix it)
