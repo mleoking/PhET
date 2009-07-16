@@ -5,12 +5,15 @@ package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.model.Carbon14Nucleus;
 import edu.colorado.phet.nuclearphysics.model.Uranium238Nucleus;
@@ -21,7 +24,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 /**
  * This class represents a physical object that can be dated using radiometric
  * measurements, such as a skull or a fossil or a tree.
- * 
+ *
  */
 public class DatableItem implements AnimatedModelElement {
 
@@ -40,7 +43,7 @@ public class DatableItem implements AnimatedModelElement {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param name
 	 * @param resourceImageNames
 	 * @param center
@@ -49,29 +52,29 @@ public class DatableItem implements AnimatedModelElement {
 	 * @param age
 	 * @param isOrganic
 	 */
-	public DatableItem(String name, List<String> resourceImageNames, Point2D center, double width, 
+	public DatableItem(String name, List<String> resourceImageNames, Point2D center, double width,
 			double rotationAngle, double age, boolean isOrganic) {
 		super();
-		
+
 		if (resourceImageNames == null || resourceImageNames.size() == 0){
 			throw new IllegalArgumentException("Must have at least one image name.");
 		}
-		
+
 		this.name = name;
 		this.center = new Point2D.Double(center.getX(), center.getY());
 		this.width = width;
 		this.age = age;
 		this.rotationAngle = rotationAngle;
 		this.isOrganic = isOrganic;
-		
+
 		// Load the initial primary image, which is the first one on the list.
 		// Note that the primary image can be changed later if desired.
 		BufferedImage primaryImage = NuclearPhysicsResources.getImage(resourceImageNames.get(0));
 		images.add(primaryImage);
-		
+
 		// Calculate the height, which is defined by a combination of the
 		// prescribed width and the aspect ratio of the primary image.
-		this.height = (double)images.get(primaryImageIndex).getHeight() 
+		this.height = (double)images.get(primaryImageIndex).getHeight()
 			/ (double)images.get(primaryImageIndex).getWidth() * width;
 
 		// Load up any subsequent images.  Note that they must be scaled to
@@ -80,23 +83,23 @@ public class DatableItem implements AnimatedModelElement {
 			BufferedImage image = NuclearPhysicsResources.getImage(resourceImageNames.get(i));
 			if (image.getWidth() != primaryImage.getWidth() || image.getHeight() != primaryImage.getHeight()){
 				// Scale as needed.
-				image = BufferedImageUtils.rescaleFractional(image, 
+				image = BufferedImageUtils.rescaleFractional(image,
 						(double)primaryImage.getWidth() / (double)image.getWidth(),
 						(double)primaryImage.getHeight() / (double)image.getHeight());
 			}
 			images.add(image);
 		}
-		
+
 		// Set up initial indicies.
 		primaryImageIndex = secondaryImageIndex = 0;
 		if (images.size() >= 2){
 			secondaryImageIndex = 1;
 		}
 	}
-	
+
 	/**
 	 * Constructor with only one image name.
-	 * 
+	 *
 	 * @param name
 	 * @param resourceImageName
 	 * @param center
@@ -105,27 +108,27 @@ public class DatableItem implements AnimatedModelElement {
 	 * @param age
 	 * @param isOrganic
 	 */
-	public DatableItem(String name, String resourceImageName, Point2D center, double width, 
+	public DatableItem(String name, String resourceImageName, Point2D center, double width,
 			double rotationAngle, double age, boolean isOrganic) {
 		this(name, Arrays.asList(resourceImageName), center, width, rotationAngle, age, isOrganic);
 	}
 
-	
+
 	public Point2D getPosition() {
 		return new Point2D.Double(center.getX(), center.getY());
 	}
-	
+
 	public void setPosition(Point2D centerPoint) {
 		setPosition(centerPoint.getX(), centerPoint.getY());
 	}
-	
+
 	public void setPosition(double x, double y) {
 		if (center.getX() != x || center.getY() != y){
 			center = new Point2D.Double(x, y);
 			notifyPositionChanged();
 		}
 	}
-	
+
 	public void addAnimationListener(ModelAnimationListener listener) {
 		if (!animationListeners.contains(listener)){
 			animationListeners.add(listener);
@@ -139,23 +142,23 @@ public class DatableItem implements AnimatedModelElement {
 	public double getHeight() {
 		return height;
 	}
-	
+
 	public boolean isOrganic() {
 		return isOrganic;
 	}
-	
+
 	/**
 	 * Get the age of the item in milliseconds.
 	 */
 	public double getAge() {
 		return age;
 	}
-	
+
 	/**
 	 * Get the amount of a substance that would be left based on the age of an
 	 * item and the half life of the nucleus of the radiometric material being
 	 * tested.
-	 * 
+	 *
 	 * @param item
 	 * @param customNucleusHalfLife
 	 * @return
@@ -163,15 +166,15 @@ public class DatableItem implements AnimatedModelElement {
 	public static double getPercentageCustomNucleusRemaining( DatableItem item, double customNucleusHalfLife ){
 		return calculatePercentageRemaining(item.getAge(), customNucleusHalfLife);
 	}
-	
+
 	public static double getPercentageCarbon14Remaining( DatableItem item ){
 		return calculatePercentageRemaining(item.getAge(), Carbon14Nucleus.HALF_LIFE);
 	}
-	
+
 	public static double getPercentageUranium238Remaining( DatableItem item ){
 		return calculatePercentageRemaining(item.getAge(), Uranium238Nucleus.HALF_LIFE);
 	}
-	
+
 	private static double calculatePercentageRemaining( double age, double halfLife ){
 		if ( age <= 0 ){
 			return 100;
@@ -180,7 +183,7 @@ public class DatableItem implements AnimatedModelElement {
 			return 100 * Math.exp( -0.693 * age / halfLife );
 		}
 	}
-	
+
 	public BufferedImage getImage() {
 		if (images.size() > 1){
 			return fadeImages(images.get(primaryImageIndex), images.get(secondaryImageIndex), fadeFactor);
@@ -189,23 +192,40 @@ public class DatableItem implements AnimatedModelElement {
 			return images.get(primaryImageIndex);
 		}
 	}
-	
+
 	public String getName() {
 		return name;
 	}
-	
+
 	@Override
 	public String toString() {
 		return super.toString() + ": " + name;
 	}
-	
+
 	public boolean contains(Point2D pt){
-		
-		return getBoundingRect().contains(pt);
-		
+		//find what pixel this corresponds to in the image
+        ModelViewTransform2D modelViewTransform2D = new ModelViewTransform2D( getBoundingRect(), new Rectangle2D.Double( 0, 0, getImage().getWidth(), getImage().getHeight() ) );
+        Point pixel = modelViewTransform2D.modelToView( pt );
+
+        if ( pixel.x >= 0 && pixel.y >= 0 && pixel.x < getImage().getWidth() && pixel.y < getImage().getHeight() ) {
+            return isPixelOpaque( pixel );
+        }
+        else {
+            return false;
+        }
 	}
-	
-	public Rectangle2D getBoundingRect(){
+
+    private boolean isPixelOpaque( Point pixelpt ) {
+        if ( getImage().getType() == BufferedImage.TYPE_INT_ARGB ) {
+            int[] pixel = getImage().getData().getPixel( pixelpt.x, pixelpt.y, (int[]) null );
+            return pixel[3] > 128;
+        }
+        else {
+            return true;
+        }
+    }
+
+    public Rectangle2D getBoundingRect(){
 		return new Rectangle2D.Double( center.getX() - width /2, center.getY() - height/2, width, height );
 	}
 
@@ -272,34 +292,34 @@ public class DatableItem implements AnimatedModelElement {
 		height = size.getHeight();
 		notifySizeChanged();
 	}
-	
+
 	private void notifySizeChanged(){
 		for (ModelAnimationListener listener : animationListeners){
 			listener.sizeChanged();
 		}
 	}
-	
+
 	private void notifyPositionChanged(){
 		for (ModelAnimationListener listener : animationListeners){
 			listener.positionChanged();
 		}
 	}
-	
+
 	private void notifyRotationalAngleChanged(){
 		for (ModelAnimationListener listener : animationListeners){
 			listener.rotationalAngleChanged();
 		}
 	}
-	
+
 	private void notifyImageChanged(){
 		for (ModelAnimationListener listener : animationListeners){
 			listener.imageChanged();
 		}
 	}
-	
+
 	/**
 	 * Merge the two images based on the fade factor.
-	 * 
+	 *
 	 * @param primaryImage
 	 * @param secondaryImage
 	 * @param fadeFactor - 0 for all primary image, 1 for all secondary image,
@@ -313,12 +333,12 @@ public class DatableItem implements AnimatedModelElement {
 			assert false;
 			fadeFactor = 0;
 		}
-		
+
 		// Use piccolo as a utility to merge the images.
     	PNode parent = new PNode();
     	PImage backgroundImage = new PImage(primaryImage);
     	PImage foregroundImage = new PImage(secondaryImage);
-    	
+
     	// Set the transparency of each image based on a function that uses an
     	// exponent.  Linear values don't work because the composite image
     	// ends up looking transparent overall in the middle range (I tried
