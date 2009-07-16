@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.model.Glacier;
 import edu.colorado.phet.glaciers.model.Valley;
 import edu.colorado.phet.glaciers.model.Glacier.GlacierAdapter;
@@ -32,7 +33,7 @@ public class SnowPatchNode extends PComposite {
     private static final double THICKNESS_AT_ELA = 0; // meters
     private static final double DX = 80; // x distance between sample points (meters)
     private static final Color CROSS_SECTION_COLOR = Color.RED; //XXX
-    private static final Color SURFACE_COLOR = Color.GREEN;
+    private static final Color SURFACE_COLOR = Color.GREEN; //XXX
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -117,11 +118,11 @@ public class SnowPatchNode extends PComposite {
                 
                 if ( x == xTerminus ) {
                     _crossSectionPath.moveTo( (float) _pView.getX(), (float) _pView.getY() );
-//                    _surfacePath.moveTo( (float) _pView.getX(), (float) _pView.getY() );
+                    _surfacePath.moveTo( (float) _pView.getX(), (float) _pView.getY() );
                 }
                 else {
                     _crossSectionPath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
-//                    _surfacePath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
+                    _surfacePath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
                 }
                 
                 // Ensure that our last sample is exactly at the ELA, 
@@ -144,25 +145,16 @@ public class SnowPatchNode extends PComposite {
                 _mvt.modelToView( _pModel, _pView );
                 _crossSectionPath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
 
-//                // surface perspective
-//                final double surfaceX = x + GlaciersConstants.YAW_X_OFFSET;
-//                double elevation = _glacier.getSurfaceElevation( x ) + GlaciersConstants.PITCH_Y_OFFSET;
-//                _pModel.setLocation( surfaceX, elevation );
-//                _mvt.modelToView( _pModel, _pView );
-//                _surfacePath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
-//                if ( surfaceAtELA != null && !finishedSurfaceBelowELA ) {
-//                    final double elx = surfaceAtELA.getX() + GlaciersConstants.YAW_X_OFFSET;
-//                    if ( surfaceX > elx ) {
-//                        _surfaceBelowELAPath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
-//                    }
-//                    else {
-//                        // finish exactly at the point where the equilibrium line intersects the surface of the ice
-//                        _pModel.setLocation( elx, surfaceAtELA.getY() + GlaciersConstants.PITCH_Y_OFFSET );
-//                        _mvt.modelToView( _pModel, _pView );
-//                        _surfaceBelowELAPath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
-//                        finishedSurfaceBelowELA = true;
-//                    }
-//                }
+                /*
+                 * Surface perspective, placed directly on the valley floor.
+                 * While the cross-section has some thickness, we're placing this directly 
+                 * on the valley floor so that it lines up with the ice at the terminus.  
+                 */
+                final double surfaceX = x + GlaciersConstants.YAW_X_OFFSET;
+                double elevation = valley.getElevation( x ) + GlaciersConstants.PITCH_Y_OFFSET;
+                _pModel.setLocation( surfaceX, elevation );
+                _mvt.modelToView( _pModel, _pView );
+                _surfacePath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
                 
                 // Ensure that our last sample is exactly at the ELA, 
                 // in case the patch's length isn't an integer multiple of DX.
@@ -176,7 +168,7 @@ public class SnowPatchNode extends PComposite {
             
             // close the paths
             _crossSectionPath.closePath();
-//            _surfacePath.closePath();
+            _surfacePath.closePath();
         }
         
         // update the nodes
