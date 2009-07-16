@@ -27,6 +27,7 @@ public class AgingTree extends AnimatedDatableItem {
 	private static final double FULL_GROWN_TREE_HEIGHT = 25; // Model units, roughly meters.
 	private static final double GROWTH_RATE = 1.03; // High number for faster growth.
 	private static final double AGE_OF_NATURAL_DEATH = MultiNucleusDecayModel.convertYearsToMs(3000);
+	private static final int FADE_TO_DEAD_TREE_COUNT = 30; // Controls how long it takes for tree to die.
 	private static final int SWAY_COUNT = 30; // Controls how long tree sways before falling over.
 	private static final double MAX_SWAY_DEFLECTION = 0.01; // In radians, controls amount of sway.
 	private static final int FALL_COUNT = 30; // Controls how long it takes the tree to fall over.
@@ -43,6 +44,7 @@ public class AgingTree extends AnimatedDatableItem {
     //------------------------------------------------------------------------
 	
 	private boolean _closurePossibleSent = false;
+	private int _fadeCounter = FADE_TO_DEAD_TREE_COUNT;
 	private int _swayCounter = SWAY_COUNT;
 	private int _fallCounter = FALL_COUNT;
 	private int _bounceCounter = BOUNCE_COUNT;
@@ -98,27 +100,27 @@ public class AgingTree extends AnimatedDatableItem {
     	}
     	
     	// Handle death by natural causes.
-    	if (getClosureState() != RadiometricClosureState.CLOSED && time > AGE_OF_NATURAL_DEATH){
+    	if (getClosureState() != RadiometricClosureState.CLOSED && time > AGE_OF_NATURAL_DEATH && _fadeCounter > 0){
+
+    		double fadeAmt = 1 / (double)FADE_TO_DEAD_TREE_COUNT;
+    		
+    		setFadeFactor(Math.min(getFadeFactor() + fadeAmt, 1));
+
+    		_fadeCounter--;
+    		
     		// Time to die, a.k.a. to radiometrically "close".
-    		setClosureState(RadiometricClosureState.CLOSED);
+    		if (_fadeCounter == 0){
+    			setClosureState(RadiometricClosureState.CLOSED);
+    		}
     	}
 
     	// Handle the post-closure animation.
     	if ( getClosureState() == RadiometricClosureState.CLOSED ){
+
+    		// Make sure fully faded.
+   			setFadeFactor(1);
     		
-    		if (getFadeFactor() < 1.0){
-    			// Handle fading from live to dead image.
-	    		double currentFadeFactor = getFadeFactor();
-	    		
-	    		double fadeRate = 0.025;
-	    		if (time < AGE_OF_NATURAL_DEATH){
-	    			// Fade faster if closer was forced so that users don't get
-	    			// impatient.
-	    			fadeRate *= 1.5;
-	    		}
-				setFadeFactor(Math.min(currentFadeFactor + 0.02, 1.0));
-    		}
-    		else if (_swayCounter > 0){
+    		if (_swayCounter > 0){
     			
     			// Set the angle for the sway.
     			double swayDeflection = 
