@@ -1,3 +1,5 @@
+# 0.01.29 (33374) Jul 16, 2009
+7/16/09 Generation progress bar changed
 # 0.01.28 (33297) Jul 14, 2009
 7/14/09 Developer panel fix
 # 0.01.27 (33277) Jul 13, 2009
