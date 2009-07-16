@@ -46,9 +46,9 @@ public class GlacialBudgetMeterNode extends AbstractToolNode {
     private static final boolean SHOW_ELEVATION = false;
     
     private static final NumberFormat ELEVATION_FORMAT = new DefaultDecimalFormat( "0" );
-    private static final NumberFormat ACCUMULATION_FORMAT = new DefaultDecimalFormat( "0.00" );
-    private static final NumberFormat ABLATION_FORMAT = new DefaultDecimalFormat( "0.00" );
-    private static final NumberFormat GLACIAL_BUDGET_FORMAT = new DefaultDecimalFormat( "0.00" );
+    private static final NumberFormat ACCUMULATION_FORMAT = new DefaultDecimalFormat( "0.0" );
+    private static final NumberFormat ABLATION_FORMAT = new DefaultDecimalFormat( "0.0" );
+    private static final NumberFormat GLACIAL_BUDGET_FORMAT = new DefaultDecimalFormat( "0.0" );
     
     //----------------------------------------------------------------------------
     // Instance data
