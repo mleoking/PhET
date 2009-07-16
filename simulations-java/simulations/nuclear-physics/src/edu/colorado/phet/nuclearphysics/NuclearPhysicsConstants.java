@@ -41,6 +41,7 @@ public class NuclearPhysicsConstants {
     public static final String PROJECT_NAME = "nuclear-physics"; 
     public static final String FLAVOR_NAME_NUCLEAR_FISSION = "nuclear-fission"; 
     public static final String FLAVOR_NAME_ALPHA_DECAY = "alpha-decay";
+    public static final String FLAVOR_NAME_BETA_DECAY = "beta-decay";
     public static final String FLAVOR_NAME_RADIOACTIVE_DATING_GAME = "radioactive-dating-game";
     
     //----------------------------------------------------------------------------
@@ -78,6 +79,7 @@ public class NuclearPhysicsConstants {
     // Color of the control panels
     public static final Color NUCLEAR_FISSION_CONTROL_PANEL_COLOR = new Color( 0xfffacd );
     public static final Color ALPHA_DECAY_CONTROL_PANEL_COLOR = new Color( 227, 239, 214 );
+    public static final Color BETA_DECAY_CONTROL_PANEL_COLOR = new Color( 227, 239, 214 );
     public static final Color RADIOACTIVE_DATING_GAME_CONTROL_PANEL_COLOR = new Color( 227, 239, 214 );
     
     // Generic transparent color
