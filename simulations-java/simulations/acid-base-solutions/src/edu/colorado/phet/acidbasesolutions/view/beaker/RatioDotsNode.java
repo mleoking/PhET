@@ -65,7 +65,7 @@ public class RatioDotsNode extends PComposite {
     // Constructors
     //----------------------------------------------------------------------------
    
-    public RatioDotsNode( AqueousSolution solution, PBounds containerBounds ) {
+    public RatioDotsNode( final AqueousSolution solution, PBounds containerBounds ) {
         super();
         
         soluteComponentsVisible = true;
@@ -88,7 +88,10 @@ public class RatioDotsNode extends PComposite {
             }
 
             public void strengthChanged() {
-                update();
+                if ( !( wasStrong && solution.getSolute().isStrong() ) ) {
+                    update();
+                }
+                wasStrong = solution.getSolute().isStrong();
             }
         });
         
@@ -196,7 +199,7 @@ public class RatioDotsNode extends PComposite {
         parentH3O.removeAllChildren();
         parentOH.removeAllChildren();
     }
-    
+
     /*
      * Creates dots based on the current pH value.
      * Dots are spread at random location throughout the container.
@@ -204,44 +207,39 @@ public class RatioDotsNode extends PComposite {
      */
     private void createDots() {
 
-        if ( !( wasStrong && solution.getSolute().isStrong() ) ) {
+        deleteAllDots();
+        int dotsReactant = 0;
+        int dotsProduct = 0;
+        int dotsH3O = 0;
+        int dotsOH = 0;
 
-            wasStrong = solution.getSolute().isStrong();
+        if ( !solution.isPureWater() ) {
 
-            deleteAllDots();
-            int dotsReactant = 0;
-            int dotsProduct = 0;
-            int dotsH3O = 0;
-            int dotsOH = 0;
+            dotsReactant = getNumberOfDots( solution.getReactantConcentration() );
+            dotsProduct = getNumberOfDots( solution.getProductConcentration() );
 
-            if ( !solution.isPureWater() ) {
-
-                dotsReactant = getNumberOfDots( solution.getReactantConcentration() );
-                dotsProduct = getNumberOfDots( solution.getProductConcentration() );
-
-                createNodes( dotsReactant, solution.getSolute().getColor(), parentReactant );
-                createNodes( dotsProduct, solution.getSolute().getConjugateColor(), parentProduct );
-            }
-
-            dotsH3O = getNumberOfDots( solution.getH3OConcentration() );
-            dotsOH = getNumberOfDots( solution.getOHConcentration() );
-            createNodes( dotsH3O, ABSColors.H3O_PLUS, parentH3O );
-            createNodes( dotsOH, ABSColors.OH_MINUS, parentOH );
-
-            // Change rendering order from most to least dots.
-            Arrays.sort( dotParents, new ChildrenCountComparator() );
-            for ( int i = 0; i < dotParents.length; i++ ) {
-                dotParents[i].moveToBack();
-            }
-
-            // counts display (developer)
-            soluteComponentsCountNode.setVisible( !solution.isPureWater() && PhetApplication.getInstance().isDeveloperControlsEnabled() );
-            if ( !solution.isPureWater() ) {
-                Solute solute = solution.getSolute();
-                soluteComponentsCountNode.setCounts( solute.getSymbol(), solute.getConjugateSymbol(), dotsReactant, dotsProduct );
-            }
-            hydroniumHydroxideCountsNode.setCounts( ABSSymbols.H3O_PLUS, ABSSymbols.OH_MINUS, dotsH3O, dotsOH );
+            createNodes( dotsReactant, solution.getSolute().getColor(), parentReactant );
+            createNodes( dotsProduct, solution.getSolute().getConjugateColor(), parentProduct );
         }
+
+        dotsH3O = getNumberOfDots( solution.getH3OConcentration() );
+        dotsOH = getNumberOfDots( solution.getOHConcentration() );
+        createNodes( dotsH3O, ABSColors.H3O_PLUS, parentH3O );
+        createNodes( dotsOH, ABSColors.OH_MINUS, parentOH );
+
+        // Change rendering order from most to least dots.
+        Arrays.sort( dotParents, new ChildrenCountComparator() );
+        for ( int i = 0; i < dotParents.length; i++ ) {
+            dotParents[i].moveToBack();
+        }
+
+        // counts display (developer)
+        soluteComponentsCountNode.setVisible( !solution.isPureWater() && PhetApplication.getInstance().isDeveloperControlsEnabled() );
+        if ( !solution.isPureWater() ) {
+            Solute solute = solution.getSolute();
+            soluteComponentsCountNode.setCounts( solute.getSymbol(), solute.getConjugateSymbol(), dotsReactant, dotsProduct );
+        }
+        hydroniumHydroxideCountsNode.setCounts( ABSSymbols.H3O_PLUS, ABSSymbols.OH_MINUS, dotsH3O, dotsOH );
     }
     
     /*
