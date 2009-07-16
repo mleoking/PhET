@@ -1,0 +1,54 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: July 9-15, 2009 (Thu-Wed)
+
+ACCOMPLISHMENTS:
+
+  acid-base-solutions:
+  - changed BH+ and M+ colors to mustard
+  - summarized recent changes for Kathy
+  - published versions 0.01.25, 0.01.26 (no developer controls)
+  
+  reactions-and-rates:
+  - many discussions about tickets
+  - many comments added to tickets
+  - fixed #592 (double arrow in reaction equations)
+  - reproduced problems in #1710, 1711, 1728, 1729, 1730, 1731
+  - failed to reproduce #1712
+  
+  glaciers:
+  - investigated and discussed #766 (adding ice between terminus and ELA)
+  - collaborated with JB on #999 (bump in length vs time curve), doesn't fix the problem
+  
+  titration:
+  - created new project in SVN
+  - created simulation skeleton
+  
+  common code:
+  - tested and integrated fix for #1727 (PSwing buffering and fuzziness)
+  
+  misc:
+  - status meeting
+  - collaborated with JB for ~3 hours (animation in Radioactive Dating Game; model changes in Glaciers)
+  - discussion about design of project class hierarchy for PBG
+  - added missing projects to Eclipse classpath
+  - #1698, got Apple to acknowledge the JWS problem caused by Java 1.5.0_19 update
+  
+WHAT'S NEXT:
+ 
+  - wrap up acid-base-solutions
+  - fix rates-and-reactions issues
+  - Translation Utility enhancements related to KSU
+  - start on titration sim
+  
+ISSUES:
+
+  - none
+  
+DATES UNAVAILABLE:
+
+   July 25 - August 9
+   August 27 - September 1
+  
+--
