@@ -1,12 +1,19 @@
 package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 
 import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Image;
+import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.umd.cs.piccolo.PNode;
@@ -80,6 +87,16 @@ public class AgeGuessResultNode extends PNode {
 				notifyCleared();
 			}
         } );
+        
+        // Add a different cursor so the user will have a clue that they can
+        // do something by clicking.
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        BufferedImage cursorImage = NuclearPhysicsResources.getImage("red_x.png");
+        Dimension size = toolkit.getBestCursorSize(cursorImage.getWidth(), cursorImage.getHeight());
+        Cursor myCursor = toolkit.createCustomCursor(cursorImage,
+        		new Point(size.width / 2, size.height / 2), "myCursor");
+        addInputEventListener(new CursorHandler(myCursor));
+//        addInputEventListener(new CursorHandler(CursorHandler.HAND));
 	}
 
 	public boolean isGuessGood() {
