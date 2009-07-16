@@ -1,3 +1,5 @@
+# 2.01.03 (33403) Jul 16, 2009
+7/16/09 change requests
 7/16/09 #766, use ice color for snow patch surface, light gray for cross-section
 7/16/09 #766, fix infinite loop in snow patch geometery generation
 7/16/09 #766, put snow patch in its own layer, so that it can be in front of debris
