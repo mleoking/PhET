@@ -1,5 +1,7 @@
 ﻿//General utilities.  Useful for all sims
-//test comment for merge
+
+//Not used much.
+
 package{
 	import flash.events.*;
 	import flash.display.Sprite;
