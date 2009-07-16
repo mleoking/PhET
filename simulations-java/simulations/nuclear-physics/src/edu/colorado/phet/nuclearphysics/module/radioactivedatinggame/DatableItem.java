@@ -120,8 +120,10 @@ public class DatableItem implements AnimatedModelElement {
 	}
 	
 	public void setPosition(double x, double y) {
-		center = new Point2D.Double(x, y);
-		notifyPositionChanged();
+		if (center.getX() != x || center.getY() != y){
+			center = new Point2D.Double(x, y);
+			notifyPositionChanged();
+		}
 	}
 	
 	public void addAnimationListener(ModelAnimationListener listener) {
@@ -224,13 +226,17 @@ public class DatableItem implements AnimatedModelElement {
 	}
 
 	public void setFadeFactor(double fadeFactor) {
-		this.fadeFactor = fadeFactor;
-		notifyImageChanged();
+		if (this.fadeFactor != fadeFactor){
+			this.fadeFactor = fadeFactor;
+			notifyImageChanged();
+		}
 	}
 
 	public void setRotationalAngle(double rotationalAngle) {
-		this.rotationAngle = rotationalAngle;
-		notifyRotationalAngleChanged();
+		if (this.rotationAngle != rotationalAngle){
+			this.rotationAngle = rotationalAngle;
+			notifyRotationalAngleChanged();
+		}
 	}
 
 	public int getNumberImages() {
