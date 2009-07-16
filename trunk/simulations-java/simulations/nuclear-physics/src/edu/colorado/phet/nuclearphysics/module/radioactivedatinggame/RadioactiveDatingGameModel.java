@@ -73,7 +73,7 @@ public class RadioactiveDatingGameModel implements ModelContainingDatableItems {
     	_datableObjects.add(new DatableItem("Rock 8", "rock_8.png", new Point2D.Double(-13, -11), 2, 0, MultiNucleusDecayModel.convertYearsToMs(3.5E9), false));
     	_datableObjects.add(new DatableItem("Animal Skull 2", "skull_animal_2.png", new Point2D.Double(-8, -14.5), 4.5, 0, MultiNucleusDecayModel.convertYearsToMs(220E6), true));
     	_datableObjects.add(new DatableItem("Human Skull", "skull_human.png", new Point2D.Double(13, -1.5), 2.4, 0, MultiNucleusDecayModel.convertYearsToMs(1000), true));
-    	_datableObjects.add(new DatableItem("Cup", "cup.png", new Point2D.Double(4, -2), 2.0,  -Math.PI / 3, MultiNucleusDecayModel.convertYearsToMs(1000), true));
+    	_datableObjects.add(new DatableItem("Wooden Cup", "cup.png", new Point2D.Double(4, -2), 2.0,  -Math.PI / 3, MultiNucleusDecayModel.convertYearsToMs(1000), true));
     	_datableObjects.add(new DatableItem("Bone", "bone.png", new Point2D.Double(7, -15), 4.5, 0, MultiNucleusDecayModel.convertYearsToMs(220E6), false));
 
     	// Add the meter and register for user-initiated movements.
