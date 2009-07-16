@@ -1,3 +1,5 @@
+7/16/09 #766, use ice color for snow patch surface, light gray for cross-section
+7/16/09 #766, fix infinite loop in snow patch geometery generation
 7/16/09 #766, put snow patch in its own layer, so that it can be in front of debris
 7/16/09 #766, add surface to snow patch, shown in green
 7/16/09 #766, first step toward snow patch between terminus and ELA, cross-section only, shown in red.
