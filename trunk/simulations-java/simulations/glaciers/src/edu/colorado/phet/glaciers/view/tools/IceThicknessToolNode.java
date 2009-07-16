@@ -276,9 +276,15 @@ public class IceThicknessToolNode extends AbstractToolNode {
     private void update() {
         if ( !_iceThicknessTool.isDragging() ) {
             double value = _iceThicknessTool.getThickness();
-            _valueNode.setThickness( value );
-            double viewDistance = Math.abs( getModelViewTransform().modelToView( 0, value ).getY() );
-            _calipersNode.open( viewDistance );
+            if ( value == 0 ) {
+                // when thickness is zero, display "?" and keep calipers open.  See #766.
+                updateUnknown();
+            }
+            else {
+                _valueNode.setThickness( value );
+                double viewDistance = Math.abs( getModelViewTransform().modelToView( 0, value ).getY() );
+                _calipersNode.open( viewDistance );
+            }
         }
     }
     
