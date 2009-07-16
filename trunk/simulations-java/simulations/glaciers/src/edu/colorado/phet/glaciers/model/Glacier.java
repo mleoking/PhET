@@ -50,6 +50,8 @@ public class Glacier extends ClockAdapter {
     private static final double MAX_THICKNESS_SCALE = 2.3;
     private static final double Q_ADVANCE_LIMIT = -2; // meters/year, a limit on the advance speed of the qela
     private static final double Q_RETREAT_LIMIT = 4; // meters/year, a limit on the retreat speed of the qela
+    private static final double ACCELERATION_M = ( ( ELAX_M0 / ELAX_M2 ) - 1 ) / ( ELAX_X2 - ELAX_X1 );
+    private static final double ACCELERATION_B = 1 - ( ACCELERATION_M * ELAX_X1 );
     
     private static final double SURFACE_ELA_SEARCH_DX = 1; // meters
     private static final double SURFACE_ELA_EQUALITY_THRESHOLD = 1; // meters
@@ -558,8 +560,7 @@ public class Glacier extends ClockAdapter {
                 deltaQela = deltaQela * ELAX_M0 / ELAX_M2;
             }
             else if ( _qela > ELAX_X1 ) {
-                final double x = _qela - ELAX_X1;
-                deltaQela = deltaQela * ( ELAX_M0 + 2 * ELAX_C3 * x + 3 * ELAX_C4 * x * x ) / ELAX_M2;
+                deltaQela = deltaQela * ( ( _qela * ACCELERATION_M ) + ACCELERATION_B );
             }
             
             // move the quasi-ELA
