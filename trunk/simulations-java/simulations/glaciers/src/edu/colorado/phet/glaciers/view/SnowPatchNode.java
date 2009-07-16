@@ -32,8 +32,8 @@ public class SnowPatchNode extends PComposite {
     private static final double THICKNESS_AT_TERMINUS = UnitsConverter.feetToMeters( 50 ); // meters
     private static final double THICKNESS_AT_ELA = 0; // meters
     private static final double DX = 80; // x distance between sample points (meters)
-    private static final Color CROSS_SECTION_COLOR = Color.RED; //XXX
-    private static final Color SURFACE_COLOR = Color.GREEN; //XXX
+    private static final Color CROSS_SECTION_COLOR = Color.LIGHT_GRAY;
+    private static final Color SURFACE_COLOR = IceNode.SURFACE_COLOR;
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -129,7 +129,7 @@ public class SnowPatchNode extends PComposite {
                 // in case the patch's length isn't an integer multiple of DX.
                 if ( patchLength > DX ) {
                     double diff = xELA - x;
-                    if ( diff > 0 && diff < DX ) {
+                    if ( diff > 0.1 && diff < DX ) {
                         x = xELA - DX;
                     }
                 }
@@ -160,7 +160,7 @@ public class SnowPatchNode extends PComposite {
                 // in case the patch's length isn't an integer multiple of DX.
                 if ( patchLength > DX ) {
                     double diff = x - xTerminus;
-                    if ( diff > 0 && diff < DX ) {
+                    if ( diff > 0.1 && diff < DX ) {
                         x = xTerminus + DX;
                     }
                 }

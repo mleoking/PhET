@@ -26,7 +26,7 @@ public class IceNode extends PComposite {
     
     private static final double DX = 80; // x distance between sample points (meters)
     private static final Color CROSS_SECTION_COLOR = new Color( 207, 255, 255 ); // ice blue
-    private static final Color SURFACE_COLOR = Color.WHITE;
+    public static final Color SURFACE_COLOR = Color.WHITE;
     private static final Color SURFACE_BELOW_ELA_COLOR = new Color( 230, 230, 230 );
     
     //----------------------------------------------------------------------------
