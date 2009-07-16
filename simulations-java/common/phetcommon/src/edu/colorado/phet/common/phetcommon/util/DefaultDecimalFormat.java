@@ -12,6 +12,7 @@ package edu.colorado.phet.common.phetcommon.util;
 
 import java.text.DecimalFormat;
 import java.text.FieldPosition;
+import java.text.NumberFormat;
 import java.text.ParseException;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
@@ -24,13 +25,16 @@ import edu.colorado.phet.common.phetcommon.resources.PhetResources;
  * new DefaultDecimalFormat("0.0").format(-0) returns "0.0";
  */
 public class DefaultDecimalFormat extends DecimalFormat {
-    private DecimalFormat decimalFormat;
+    private NumberFormat decimalFormat;
 
     public DefaultDecimalFormat( String str ) {
-        this( new DecimalFormat( str ) );
+        this( DecimalFormat.getNumberInstance( PhetResources.readLocale() ) );
+        if (decimalFormat instanceof DecimalFormat){
+        	((DecimalFormat) decimalFormat).applyPattern(str);
+        }
     }
 
-    public DefaultDecimalFormat( DecimalFormat decimalFormat ) {
+    public DefaultDecimalFormat( NumberFormat decimalFormat ) {
         this.decimalFormat = decimalFormat;
     }
 
@@ -38,7 +42,7 @@ public class DefaultDecimalFormat extends DecimalFormat {
         StringBuffer formattedText = decimalFormat.format( number, new StringBuffer(), fieldPosition );
         double parsed = 0;
         try {
-            parsed = DecimalFormat.getNumberInstance( PhetResources.readLocale() ).parse( formattedText.toString() ).doubleValue();//to handle european
+            parsed = decimalFormat.parse( formattedText.toString() ).doubleValue();
         }
         catch( NumberFormatException numberFormatException ) {
             return decimalFormat.format( number, result, fieldPosition );
