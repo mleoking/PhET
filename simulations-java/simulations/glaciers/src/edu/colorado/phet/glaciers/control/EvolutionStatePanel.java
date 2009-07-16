@@ -133,7 +133,7 @@ public class EvolutionStatePanel extends JPanel {
         layout.addComponent( new JLabel( "m" ), row, col++ );
         row++;
         col = 0;
-        layout.addComponent( new JLabel( "termius:" ), row, col++ );
+        layout.addComponent( new JLabel( "terminus:" ), row, col++ );
         layout.addComponent( _terminusCurrent, row, col++ );
         layout.addComponent( _terminusPrevious, row, col++ );
         layout.addComponent( new JLabel( "m" ), row, col++ );
