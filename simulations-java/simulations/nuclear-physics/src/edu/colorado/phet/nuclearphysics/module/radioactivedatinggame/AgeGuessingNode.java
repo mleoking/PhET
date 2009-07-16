@@ -1,7 +1,6 @@
 package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.NumberFormat;
@@ -38,10 +37,10 @@ public class AgeGuessingNode extends PNode {
 	/**
 	 * Constructor.
 	 */
-	public AgeGuessingNode() {
+	public AgeGuessingNode(DatableItem item) {
 		
 		// Create the panel that will contain all the components.
-		JPanel ageGuessingNodePanel = new VerticalLayoutPanel();
+		VerticalLayoutPanel ageGuessingNodePanel = new VerticalLayoutPanel();
 		ageGuessingNodePanel.setBorder(BorderFactory.createLineBorder(BORDER_COLOR, BORDER_THICKNESS) );
 		
 		// Create the sub-panel that will contain the text field for entering
@@ -76,6 +75,8 @@ public class AgeGuessingNode extends PNode {
 		});
 		
 		// Add the sub-panels to the overall panel.
+        ageGuessingNodePanel.setFillNone();
+        ageGuessingNodePanel.add(new TitleComponent(item.getName()));
 		ageGuessingNodePanel.add(ageEntryPanel);
 		ageGuessingNodePanel.add(checkAgeButtonPanel);
 		
@@ -83,6 +84,13 @@ public class AgeGuessingNode extends PNode {
 		PSwing ageGuessingNodePanelPSwing = new PSwing(ageGuessingNodePanel);
 		addChild(ageGuessingNodePanelPSwing);
 	}
+
+    public static class TitleComponent extends JLabel{
+        public TitleComponent( String text ) {
+            super( text );
+            setFont( TEXT_FONT );
+        }
+    }
 	
 	public boolean requestFocus(){
 		return _ageEntryField.requestFocusInWindow();

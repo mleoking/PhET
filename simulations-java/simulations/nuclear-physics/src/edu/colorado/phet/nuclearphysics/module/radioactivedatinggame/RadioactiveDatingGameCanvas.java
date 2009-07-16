@@ -417,7 +417,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
      */
     private void displayAgeGuessNode(DatableItem itemBeingTouched){
 		// Create a new guessing box.
-		_ageGuessingNode = new AgeGuessingNode();
+		_ageGuessingNode = new AgeGuessingNode(itemBeingTouched );
 		
 		// Position the guessing box to the side of the node that
 		// represents the item being dated.
