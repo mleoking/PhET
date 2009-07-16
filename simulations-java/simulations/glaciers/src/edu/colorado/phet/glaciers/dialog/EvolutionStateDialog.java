@@ -17,7 +17,7 @@ public class EvolutionStateDialog extends JDialog {
     private final EvolutionStatePanel _panel;
 
     public EvolutionStateDialog( Frame owner, Glacier glacier, String moduleName ) {
-        super( owner, "Glacier evolution state (" + moduleName + ")" );
+        super( owner, "Glacier Evolution State (" + moduleName + ")" );
         setModal( false );
         setResizable( false );
         _panel = new EvolutionStatePanel( glacier );
