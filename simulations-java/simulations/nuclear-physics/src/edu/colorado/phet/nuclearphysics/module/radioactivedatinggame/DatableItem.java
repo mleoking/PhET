@@ -14,6 +14,8 @@ import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.model.Carbon14Nucleus;
 import edu.colorado.phet.nuclearphysics.model.Uranium238Nucleus;
@@ -202,10 +204,16 @@ public class DatableItem implements AnimatedModelElement {
 		return super.toString() + ": " + name;
 	}
 
-	public boolean contains(Point2D pt){
-		//find what pixel this corresponds to in the image
+    public boolean contains( Point2D pt ) {
+        //find what pixel this corresponds to in the image
         ModelViewTransform2D modelViewTransform2D = new ModelViewTransform2D( getBoundingRect(), new Rectangle2D.Double( 0, 0, getImage().getWidth(), getImage().getHeight() ) );
-        Point pixel = modelViewTransform2D.modelToView( pt );
+        Point unrotatedPoint = modelViewTransform2D.modelToView( pt );
+
+        Point2D imageCenter = new Point2D.Double( getImage().getWidth() / 2, getImage().getHeight() / 2 );
+        Vector2D unrotatedVector = new Vector2D.Double( imageCenter, unrotatedPoint );
+        AbstractVector2D rotatedVector = unrotatedVector.getRotatedInstance( -rotationAngle );
+        Point2D rotatedPoint = rotatedVector.getDestination( imageCenter );
+        Point pixel = new Point( (int) rotatedPoint.getX(), (int) rotatedPoint.getY() );
 
         if ( pixel.x >= 0 && pixel.y >= 0 && pixel.x < getImage().getWidth() && pixel.y < getImage().getHeight() ) {
             return isPixelOpaque( pixel );
@@ -213,7 +221,7 @@ public class DatableItem implements AnimatedModelElement {
         else {
             return false;
         }
-	}
+    }
 
     private boolean isPixelOpaque( Point pixelpt ) {
         if ( getImage().getType() == BufferedImage.TYPE_INT_ARGB ) {
