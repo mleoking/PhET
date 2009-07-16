@@ -80,7 +80,7 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
     
     // View
     private final PhetPCanvas _birdsEyeCanvas, _zoomedCanvas;
-    private final PLayer _backgroundLayer, _iceLayer, _ripplesLayer, _debrisLayer, _velocityLayer, _boreholeLayer;
+    private final PLayer _backgroundLayer, _iceLayer, _ripplesLayer, _debrisLayer, _velocityLayer, _boreholeLayer, _snowPatchLayer;
     private final PLayer _snowfallLayer, _coordinatesLayer, _toolboxLayer, _toolsLayer, _viewportLayer, _debugLayer;
     private final IceFlowNode _iceFlowNode;
     private final SnowfallNode _snowfallNode;
@@ -194,6 +194,7 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
         _ripplesLayer = new PLayer();
         _debrisLayer = new PLayer();
         _boreholeLayer = new PLayer();
+        _snowPatchLayer = new PLayer();
         _snowfallLayer = new PLayer();
         _coordinatesLayer = new PLayer();
         _velocityLayer = new PLayer();
@@ -205,6 +206,7 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
         addToBothViews( _iceLayer );
         addToZoomedView( _ripplesLayer );
         addToZoomedView( _debrisLayer );
+        addToZoomedView( _snowPatchLayer );
         addToZoomedView( _boreholeLayer );
         addToBothViews( _snowfallLayer );
         addToZoomedView( _velocityLayer );
@@ -242,12 +244,14 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
         }
         
         // Glacier
-        SnowPatchNode snowPatchNode = new SnowPatchNode( _model.getGlacier(), _mvt );
-        _iceLayer.addChild( snowPatchNode ); // this should be behind other parts of glacier!
         IceNode iceNode = new IceNode( _model.getGlacier(), _mvt );
         _iceLayer.addChild( iceNode );
         _iceFlowNode = new IceFlowNode( _model.getGlacier(), _mvt );
         _velocityLayer.addChild( _iceFlowNode );
+        
+        // Snow patch, between terminus and ELA
+        SnowPatchNode snowPatchNode = new SnowPatchNode( _model.getGlacier(), _mvt );
+        _snowPatchLayer.addChild( snowPatchNode );
         
         // Snowfall
         _snowfallNode = new SnowfallNode( _model.getGlacier(), _mvt );
