@@ -280,45 +280,7 @@
 			this.lastY = yP;
 		}
 		
-		//replace y-value of point with average of y-values of near-neighbors
-		//following is obsolete, replaced with simpleSmoothAllPoints()
-		public function smoothAllPoints():void{
-			var range:int = this.smoothingRange;
-			//copy current curve into middle of tempSmooth array and set ends of tempSmooth to zero
-			for (var iS:int = 0; iS < this.tempSmooth_arr.length; iS++){
-				if(iS >= range && iS < this.nbrPoints + range){
-					this.tempSmooth_arr[iS] = this.y_arr[iS - range];
-				}else{
-					//this.tempSmooth_arr[iS] = 0;
-				}
-			//trace("iS: "+iS+"  this.tempSmooth_arr[iS]:"+this.tempSmooth_arr[iS]);
-			}//end of for loop
-			var sumOfYs:Number;
-			var N:Number;
-			for(iS = 0; iS < this.tempSmooth_arr.length; iS++){
-				sumOfYs = 0;
-				N = 0;
-				for(var j:int = -range; j <= range; j++){
-					if(iS+j >= 0 && iS+j < this.tempSmooth_arr.length){
-						sumOfYs += this.tempSmooth_arr[iS+j];
-						N += 1;
-					}else{
-						N += 1;  //necessary for points near ends of curve
-					}
-				}//end of for j
-				this.tempSmooth2_arr[iS] = sumOfYs/N;
-				if(iS == range || iS == this.nbrPoints+range-1){
-				}
-			}//end of for iS
-			for(var k:int = 0; k < this.nbrPoints; k++){
-				this.y_arr[k] = this.tempSmooth2_arr[k+range];
-			}
-			this.tempSmooth_arr = this.tempSmooth2_arr.concat();
-			//trace("this.y_arr[0]: "+this.y_arr[0]+"     this.y_arr[this.nbrPoints - 1]:"+this.y_arr[this.nbrPoints - 1]);
-			this.takeDerivative();
-			this.takeIntegral();
-			this.updateViews();
-		}//end of smoothAllPoints
+		
 		
 		public function simpleSmoothAllPoints():void{
 			var range:int = this.smoothingRange;
@@ -540,9 +502,47 @@
 	}//end of class
 }//end of package
 
-
-
-
+/*
+//replace y-value of point with average of y-values of near-neighbors
+		//following is obsolete, replaced with simpleSmoothAllPoints()
+		public function smoothAllPoints():void{
+			var range:int = this.smoothingRange;
+			//copy current curve into middle of tempSmooth array and set ends of tempSmooth to zero
+			for (var iS:int = 0; iS < this.tempSmooth_arr.length; iS++){
+				if(iS >= range && iS < this.nbrPoints + range){
+					this.tempSmooth_arr[iS] = this.y_arr[iS - range];
+				}else{
+					//this.tempSmooth_arr[iS] = 0;
+				}
+			//trace("iS: "+iS+"  this.tempSmooth_arr[iS]:"+this.tempSmooth_arr[iS]);
+			}//end of for loop
+			var sumOfYs:Number;
+			var N:Number;
+			for(iS = 0; iS < this.tempSmooth_arr.length; iS++){
+				sumOfYs = 0;
+				N = 0;
+				for(var j:int = -range; j <= range; j++){
+					if(iS+j >= 0 && iS+j < this.tempSmooth_arr.length){
+						sumOfYs += this.tempSmooth_arr[iS+j];
+						N += 1;
+					}else{
+						N += 1;  //necessary for points near ends of curve
+					}
+				}//end of for j
+				this.tempSmooth2_arr[iS] = sumOfYs/N;
+				if(iS == range || iS == this.nbrPoints+range-1){
+				}
+			}//end of for iS
+			for(var k:int = 0; k < this.nbrPoints; k++){
+				this.y_arr[k] = this.tempSmooth2_arr[k+range];
+			}
+			this.tempSmooth_arr = this.tempSmooth2_arr.concat();
+			//trace("this.y_arr[0]: "+this.y_arr[0]+"     this.y_arr[this.nbrPoints - 1]:"+this.y_arr[this.nbrPoints - 1]);
+			this.takeDerivative();
+			this.takeIntegral();
+			this.updateViews();
+		}//end of smoothAllPoints
+*/
 /*
 //following functions currently unused
 		public function derivativeOf(yVal:Array):Array{
