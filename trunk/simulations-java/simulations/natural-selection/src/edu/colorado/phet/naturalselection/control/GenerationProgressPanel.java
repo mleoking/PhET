@@ -27,7 +27,7 @@ public class GenerationProgressPanel extends JPanel {
 
         model.getClock().addTimeListener( new NaturalSelectionClock.Listener() {
             public void onTick( ClockEvent event ) {
-                generationProgressBar.setValue( model.getGenerationProgressPercent() );
+                generationProgressBar.setValue( 100 - model.getGenerationProgressPercent() );
             }
         } );
     }
