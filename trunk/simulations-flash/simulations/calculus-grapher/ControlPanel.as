@@ -1,0 +1,245 @@
+﻿package {
+	import flash.display.*;
+	import flash.events.*;
+	import fl.events.*;
+	import flash.geom.*;
+	import flash.text.*;
+	import flash.ui.*;
+
+	public class ControlPanel extends Sprite {
+
+		private var myModel:Model;
+		private var myMainView:MainView;
+		private var showDerivativeCurve:Boolean;
+		private var showIntegralCurve:Boolean;
+		private var currentSliderValue:Number;
+		private var zeroButton:NiceButton;
+		private var undoButton:NiceButton;
+		private var smoothButton:NiceButton;
+		private var pButton1:PushButton;
+		private var pButton2:PushButton;
+		private var pButton3:PushButton;
+		private var pButton4:PushButton;
+		private var pButton5:PushButton;
+		private var pButton6:PushButton;
+		private var pButton7:PushButton;
+		private var pButton8:PushButton;
+		private var freeformIcon:FreeformIcon;
+		private var hillIcon:HillIcon;
+		private var linearIcon:LinearIcon;
+		private var offsetIcon:OffsetIcon;
+		private var parabolaIcon:ParabolaIcon;
+		private var pedestalIcon:PedestalIcon;
+		private var sineIcon:SineIcon;
+		private var tiltIcon:TiltIcon;
+		
+		private var tFormat:TextFormat;
+		public var previewCurve:Sprite;	//for showing preview of curve dent
+
+		public function ControlPanel(myModel:Model, myMainView:MainView) {
+			this.myModel = myModel;
+			this.myMainView = myMainView;
+			this.previewCurve = new PreviewCurve(myModel);
+			this.tFormat = new TextFormat();
+		}//end of constructor
+
+		public function initialize():void {
+			//trace("initialize called");
+			this.controlPanelBackground.width = 140;
+			this.controlPanelBackground.height = 440;
+			this.tFormat.size = 14;
+			this.tFormat.font = "Arial";
+			this.makePanelDraggable();
+			
+			this.freeformIcon = new FreeformIcon();
+			this.hillIcon = new HillIcon();
+			this.linearIcon = new LinearIcon();
+			this.offsetIcon = new OffsetIcon();
+			this.parabolaIcon = new ParabolaIcon();
+			this.pedestalIcon = new PedestalIcon();
+			this.sineIcon = new SineIcon();
+			this.tiltIcon = new TiltIcon();
+			
+			this.pButton1 = new PushButton(this.hill_sp, hillIcon, "Hill", "left", setAlterMode);
+			this.pButton2 = new PushButton(this.linear_sp, linearIcon, "Linear", "right", setAlterMode);
+			this.pButton3 = new PushButton(this.pedestal_sp, pedestalIcon, "Pedestal", "right", setAlterMode);
+			this.pButton4 = new PushButton(this.parabola_sp, parabolaIcon, "Parabola", "left", setAlterMode);
+			this.pButton5 = new PushButton(this.sine_sp, sineIcon, "Sine", "left", setAlterMode);
+			this.pButton6 = new PushButton(this.freeform_sp, freeformIcon, "Freeform", "right", setAlterMode);
+			this.pButton7 = new PushButton(this.tilt_sp, tiltIcon, "Tilt", "left", setAlterMode);
+			this.pButton8 = new PushButton(this.offset_sp, offsetIcon, "Offset", "right", setAlterMode);
+				
+			
+			this.zeroButton = new NiceButton(this.zeroButton_sp, 90, zeroCurves);
+			this.undoButton = new NiceButton(this.undoButton_sp, 90, undoLastChange);
+			this.smoothButton = new NiceButton(this.smoothButton_sp, 90, smoothAllPoints);
+			
+			this.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyPressed);
+			this.initializeComponents();
+			this.myModel.setAlterMode("Hill");
+			this.myModel.setWidthOfDent(this.currentSliderValue);
+
+			this.showDerivativeCurve = true;
+			this.showIntegralCurve = false;
+			this.previewScreen.addChild(previewCurve);
+			this.myModel.updatePreviewCurve();
+		}//end of initialize()
+		
+		public function zeroCurves():void{
+			this.myModel.copyCurrentY();
+			this.myModel.zeroAllCurves();
+		}
+		
+		public function undoLastChange():void{
+			this.myModel.undoLastChange();
+		}
+		
+		public function smoothAllPoints():void{
+			this.myModel.copyCurrentY();
+			this.myModel.simpleSmoothAllPoints();
+		}
+		
+		public function onKeyPressed(evt:KeyboardEvent):void{
+			//trace("evt.keyCode: "+evt.keyCode);
+			if(evt.ctrlKey == true && evt.keyCode == 90){ //if cntl-z
+				this.undoLastChange();
+			}
+		}
+		
+
+
+		public function initializeComponents():void {
+			//trace("this.checkBoxDerivative:"+this.checkBoxDerivative);
+
+			this.derivative_cb.addEventListener(MouseEvent.CLICK, showDerivativeCurve);
+			this.integral_cb.addEventListener(MouseEvent.CLICK, showIntegralCurve);
+			this.showGrid_cb.addEventListener(MouseEvent.CLICK, showGrid);
+			this.showRuler_cb.addEventListener(MouseEvent.CLICK, showRuler);
+			
+			this.derivative_cb.setStyle("textFormat", tFormat);
+			this.integral_cb.setStyle("textFormat", tFormat);
+			this.showGrid_cb.setStyle("textFormat", tFormat);
+			this.showRuler_cb.setStyle("textFormat", tFormat);
+			this.widthSlider.addEventListener(SliderEvent.CHANGE, setSliderValue);
+			this.widthSlider.width = 110;
+			this.currentSliderValue = this.widthSlider.value;
+			this.myModel.setWidthOfDent(this.currentSliderValue);
+			//trace("this.currentSliderValue:"+this.currentSliderValue)
+			var localRef:Object = this;
+			
+			function showDerivativeCurve(evt:MouseEvent):void {
+				//trace("derivative checked");
+				localRef.showDerivativeCurve = localRef.derivative_cb.selected;
+				localRef.updateMainView();
+			}
+			function showIntegralCurve(evt:MouseEvent):void {
+				//trace("integral checked");
+				localRef.showIntegralCurve = localRef.integral_cb.selected;
+				localRef.updateMainView();
+			}
+			
+			function showGrid(evt:MouseEvent):void{
+				var tOrF:Boolean = localRef.showGrid_cb.selected;
+				myMainView.iView.grid.visible = tOrF;
+				myMainView.yView.grid.visible = tOrF;
+				myMainView.dView.grid.visible = tOrF;
+			}
+			
+			function showRuler(evt:MouseEvent):void{
+				var tOrF:Boolean = localRef.showRuler_cb.selected;
+				myMainView.ruler.visible = tOrF;
+				myMainView.ruler.visible = tOrF;
+				myMainView.ruler.visible = tOrF;
+			}
+			
+			/*function setSliderValue(evt:SliderEvent):void{
+				localRef.currentSliderValue = evt.target.value;
+				localRef.myModel.setWidthOfDent(localRef.currentSliderValue);
+				localRef.myModel.updatePreviewCurve();
+				//localRef.myModel.range = 0.3*Math.pow(1.5, sliderValue);
+				//trace("slider sliding, value is " + localRef.currentSliderValue);
+			}*/
+		}//end of initializeCheckBoxes()
+		
+		function setAlterMode(modeName):void{
+				//trace("controlPanel.setAlterMode called");
+				var modeName = modeName;
+				this.myModel.setAlterMode(modeName);
+				this.myModel.setWidthOfDent(this.currentSliderValue);
+				if(modeName == "Tilt" || modeName == "Offset" || modeName == "Freeform"){
+					this.widthSlider.visible = false;
+				}else{
+					this.widthSlider.visible = true;
+				}
+		}//end of setAlterMode()
+		
+		function setSliderValue(evt:SliderEvent):void{
+			this.currentSliderValue = evt.target.value;
+			this.myModel.setWidthOfDent(this.currentSliderValue);
+			this.myModel.updatePreviewCurve();
+			//localRef.myModel.range = 0.3*Math.pow(1.5, sliderValue);
+			//trace("slider sliding, value is " + localRef.currentSliderValue);
+		}
+		
+		public function updateMainView():void {
+			//trace("updateMainView called.  showDerivative is " + this.showDerivativeCurve);
+			if(this.showDerivativeCurve && this.showIntegralCurve){
+				this.myMainView.showDerivativeAndIntegral();
+				//trace("show both");
+				//trace(this.myMainView);
+			}else if(this.showDerivativeCurve){
+				this.myMainView.showDerivativeOnly();
+				//trace("show deriv only");
+			}else if(this.showIntegralCurve){
+				this.myMainView.showIntegralOnly();
+				//trace("show integ only");
+			}else{
+				this.myMainView.showOriginalCurveOnly();
+				//trace("show neither");
+			}
+
+		}
+		
+		
+		
+		public function makePanelDraggable():void {
+			var target:Sprite = this.controlPanelBackground.border;
+			target.buttonMode = true;
+			target.addEventListener(MouseEvent.MOUSE_OVER, onBorder);
+			target.addEventListener(MouseEvent.MOUSE_DOWN, startMyDrag);
+			this.stage.addEventListener(MouseEvent.MOUSE_MOVE, dragging);
+			this.stage.addEventListener(MouseEvent.MOUSE_UP, stopMyDrag);
+			target.addEventListener(MouseEvent.MOUSE_OUT, offBorder);
+			var localRef = this;
+			var clickOffset:Point;
+			function onBorder(evt:MouseEvent):void {
+				//trace("overborder");
+			}
+			function startMyDrag(evt:MouseEvent):void {
+				//trace("start drag");
+				clickOffset = new Point(evt.stageX - localRef.x, evt.stageY - localRef.y);//(evt.localX, evt.localY);
+				//trace("evt.localX "+evt.localX+"  evt.localY "+evt.localY);
+			}
+			function stopMyDrag(evt:MouseEvent):void {
+				clickOffset = null;
+				//trace("stop drag");
+			}
+			function dragging(evt:MouseEvent):void {
+				//trace("dragging");
+
+				if (clickOffset != null) {//if dragging
+					//trace("evt.stageX "+evt.stageX+"  evt.stageY "+evt.stageY);
+					localRef.x = evt.stageX - clickOffset.x;
+					localRef.y = evt.stageY - clickOffset.y;
+					evt.updateAfterEvent();
+				}
+			}
+			function offBorder(evt:MouseEvent):void {
+				//trace("offborder");
+
+			}
+		}//end of makePanelDraggable
+
+	}//end of class
+
+}//end of package
