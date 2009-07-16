@@ -137,6 +137,15 @@ public class RatioDotsNode extends PComposite {
     // Setters and getters
     //----------------------------------------------------------------------------
     
+    public void setVisible( boolean visible ) {
+        if ( visible != getVisible() ) {
+            super.setVisible( visible );
+            if ( visible ) {
+                update();
+            }
+        }
+    }
+    
     public void setSoluteComponentsVisible( boolean visible ) {
         if ( visible != isSoluteComponentsVisible() ) {
             soluteComponentsVisible = visible;
@@ -177,12 +186,14 @@ public class RatioDotsNode extends PComposite {
      * Updates the view to match the model.
      */
     private void update() {
-        if ( isSoluteComponentsVisible() || isHydroniumHydroxideVisible() ) {
-            createDots();
-            dirty = false;
-        }
-        else { 
-            dirty = true;
+        if ( getVisible() ) {
+            if ( isSoluteComponentsVisible() || isHydroniumHydroxideVisible() ) {
+                createDots();
+                dirty = false;
+            }
+            else {
+                dirty = true;
+            }
         }
     }
     

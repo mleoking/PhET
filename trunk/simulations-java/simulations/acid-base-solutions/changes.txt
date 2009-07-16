@@ -1,3 +1,4 @@
+7/16/09 only update the dots when they are visible
 7/16/09 fix: dots should update for K=strong when concentration or solute is changed
 # 0.01.26 (33285) Jul 13, 2009
 7/13/09 turn off -dev flag for interviews
