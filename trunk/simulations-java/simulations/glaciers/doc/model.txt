@@ -87,6 +87,8 @@ F. fix for supercold climate
     - elax_c3                   -0.098411   
     - elax_c4                   0.000281185 
     - elax_terminus             0.6
+    - acc_m                     ((elax_m0/elax_m2)-1)/(elax_x2-elax_x1)
+    - acc_b                     1-(acc_m*elax_x1)
     - hmax_scale                2.3
     - f_extra                   0.3
 
@@ -107,9 +109,8 @@ B. climate model
    The model's climate can be uniquely described with one value:
    the ela, which is a function of two variables (temp and snow)
    that are set by the user. The temp determines ablation, and
-   snow determines accumulation; their difference (accumulation -
-   ablation) is the mass balance. The elevation of zero mass
-   balance is the ela.
+   snow determines accumulation; their difference is the mass
+   balance. The elevation of zero mass balance is the ela.
 
 1. temp is controlled by the sim user, and can be any value
    between 13 and 20
@@ -245,8 +246,7 @@ E. time-evolution of glacier
         if qela > elax_x2:
             delta_qela = delta_qela * elax_m0/elax_m2
         elif qela > elax_x1:
-            x = qela-elax_x1
-            delta_qela = delta_qela * (elax_m0 + 2*elax_c3*x + 3*elax_c4*x*x )/elax_m2
+            delta_qela = delta_qela * (qela*acc_m + acc_b)
         qela = qela + delta_qela
     if ( qela > max_F):
         qela = max_F
