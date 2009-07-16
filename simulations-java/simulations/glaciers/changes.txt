@@ -1,3 +1,4 @@
+7/16/09 #1733, fewer decimal places (1) for several things
 7/16/09 revert fix for #999, it made things worse
 # 2.01.02 (33295) Jul 14, 2009
 7/14/09 enabled fix for #999

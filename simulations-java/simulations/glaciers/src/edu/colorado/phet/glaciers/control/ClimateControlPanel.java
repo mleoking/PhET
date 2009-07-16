@@ -41,6 +41,10 @@ public class ClimateControlPanel extends AbstractSubPanel implements UnitsChange
     // Class data
     //----------------------------------------------------------------------------
     
+    // control patterns, in DecimalFormat syntax
+    private static final String TEMPERATURE_PATTERN = "#0.0";
+    private static final String SNOWFALL_PATTERN = "#0.0";
+    
     private static final Color BACKGROUND_COLOR = GlaciersConstants.SUBPANEL_BACKGROUND_COLOR;
     private static final String TITLE_STRING = GlaciersStrings.TITLE_CLIMATE_CONTROLS;
     private static final Color TITLE_COLOR = GlaciersConstants.SUBPANEL_TITLE_COLOR;
@@ -239,9 +243,8 @@ public class ClimateControlPanel extends AbstractSubPanel implements UnitsChange
                 double min = temperatureRange.getMin();
                 double max = temperatureRange.getMax();
                 String label = "";
-                String textfieldPattern = "#0.00";
                 ILayoutStrategy layout = new HorizontalLayoutStrategy();
-                _temperatureControl = new LinearValueControl( min, max, label, textfieldPattern, temperatureUnits, layout );
+                _temperatureControl = new LinearValueControl( min, max, label, TEMPERATURE_PATTERN, temperatureUnits, layout );
                 _temperatureControl.setUpDownArrowDelta( 0.01 );
                 _temperatureControl.addChangeListener( new ChangeListener() { 
                     public void stateChanged( ChangeEvent event ) {
@@ -272,9 +275,8 @@ public class ClimateControlPanel extends AbstractSubPanel implements UnitsChange
                 double min = snowfallRange.getMin();
                 double max = snowfallRange.getMax();
                 String label = "";
-                String textfieldPattern = "#0.00";
                 ILayoutStrategy layout = new HorizontalLayoutStrategy();
-                _snowfallControl = new LinearValueControl( min, max, label, textfieldPattern, snowfallUnits, layout );
+                _snowfallControl = new LinearValueControl( min, max, label, SNOWFALL_PATTERN, snowfallUnits, layout );
                 _snowfallControl.setUpDownArrowDelta( 0.01 );
                 _snowfallControl.addChangeListener( new ChangeListener() { 
                     public void stateChanged( ChangeEvent event ) {
