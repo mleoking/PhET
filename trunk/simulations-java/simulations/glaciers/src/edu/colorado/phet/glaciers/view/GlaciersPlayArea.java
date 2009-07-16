@@ -242,6 +242,8 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
         }
         
         // Glacier
+        SnowPatchNode snowPatchNode = new SnowPatchNode( _model.getGlacier(), _mvt );
+        _iceLayer.addChild( snowPatchNode ); // this should be behind other parts of glacier!
         IceNode iceNode = new IceNode( _model.getGlacier(), _mvt );
         _iceLayer.addChild( iceNode );
         _iceFlowNode = new IceFlowNode( _model.getGlacier(), _mvt );
