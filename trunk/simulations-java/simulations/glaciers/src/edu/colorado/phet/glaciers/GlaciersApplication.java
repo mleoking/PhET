@@ -141,6 +141,15 @@ public class GlaciersApplication extends PiccoloPhetApplication {
     }
     
     //----------------------------------------------------------------------------
+    // Setters and getters
+    //----------------------------------------------------------------------------
+    
+    public void setEvolutionStateDialogVisible( boolean visible ) {
+        _introModule.setEvolutionStateDialogVisible( visible );
+        _advancedModule.setEvolutionStateDialogVisible( visible );
+    }
+    
+    //----------------------------------------------------------------------------
     // Persistence
     //----------------------------------------------------------------------------
 

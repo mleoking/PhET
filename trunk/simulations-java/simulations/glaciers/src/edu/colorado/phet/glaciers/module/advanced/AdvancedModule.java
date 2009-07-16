@@ -36,6 +36,7 @@ public class AdvancedModule extends GlaciersModule {
     private final GlaciersPlayArea _playArea;
     private final AdvancedControlPanel _controlPanel;
     private EvolutionStateDialog _evolutionDialog; // debug
+    private boolean _evolutionDialogVisible; // debug
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -75,8 +76,9 @@ public class AdvancedModule extends GlaciersModule {
         }
         
         // Debug
-        if ( PhetApplication.instance().isDeveloperControlsEnabled() ) {
-            _evolutionDialog = new EvolutionStateDialog( PhetApplication.instance().getPhetFrame(), _model.getGlacier(), getName() );
+        if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
+            _evolutionDialog = new EvolutionStateDialog( PhetApplication.getInstance().getPhetFrame(), _model.getGlacier(), getName() );
+            _evolutionDialogVisible = false;
         }
         
         // Set initial state
@@ -84,13 +86,24 @@ public class AdvancedModule extends GlaciersModule {
     }
 
     //----------------------------------------------------------------------------
+    // Setters and getters
+    //----------------------------------------------------------------------------
+    
+    public void setEvolutionStateDialogVisible( boolean visible ) {
+        _evolutionDialogVisible = visible;
+        if ( isActive() && _evolutionDialog != null ) {
+            _evolutionDialog.setVisible( visible );
+        }
+    }
+    
+    //----------------------------------------------------------------------------
     // Module overrides
     //----------------------------------------------------------------------------
 
     public void activate() {
         super.activate();
         _controlPanel.activate();
-        if ( _evolutionDialog != null ) {
+        if ( _evolutionDialog != null && _evolutionDialogVisible ) {
             _evolutionDialog.setVisible( true );
         }
     }
@@ -120,7 +133,7 @@ public class AdvancedModule extends GlaciersModule {
     public void setHelpEnabled( boolean enabled ) {
         super.setHelpEnabled( enabled );
         _controlPanel.setHelpEnabled( enabled );
-        GlaciersApplication.instance().getPhetFrame().getHelpMenu().setHelpSelected( enabled );
+        GlaciersApplication.getInstance().getPhetFrame().getHelpMenu().setHelpSelected( enabled );
     }
     
     /**
@@ -213,7 +226,7 @@ public class AdvancedModule extends GlaciersModule {
 
         // Module
         if ( config.isActive() ) {
-            GlaciersApplication.instance().setActiveModule( this );
+            GlaciersApplication.getInstance().setActiveModule( this );
         }
 
         // Model
