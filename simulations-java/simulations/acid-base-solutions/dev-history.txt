@@ -10,6 +10,9 @@ TODO:
 - make symbol legend descriptions automatically wrap, so we don't need breaks in HTML markup
 
 DONE:
+# 0.01.27
+7/16/09 only update the dots when they are visible
+7/16/09 fix: dots should update for K=strong when concentration or solute is changed
 # 0.01.26
 7/13/09 temporarily disable -dev, for interviews
 7/13/09 make dot counts visible for -dev only
