@@ -70,17 +70,19 @@ public class IceThicknessTool extends AbstractTool {
     //----------------------------------------------------------------------------
     
     protected void constrainDrop() {
-        
-        double x = getX();
-        if ( GlaciersConstants.SNAP_TOOLS_TO_HEADWALL ) {
-            // constrain x to >= headwall
-            x = Math.max( getX(), _glacier.getHeadwallX() );
+        if ( _thickness > 0 ) {
+
+            double x = getX();
+            if ( GlaciersConstants.SNAP_TOOLS_TO_HEADWALL ) {
+                // constrain x to >= headwall
+                x = Math.max( getX(), _glacier.getHeadwallX() );
+            }
+
+            // snap y to valley floor
+            double valleyElevation = _glacier.getValley().getElevation( x );
+
+            setPosition( x, valleyElevation );
         }
-        
-        // snap y to valley floor
-        double valleyElevation = _glacier.getValley().getElevation( x );
-        
-        setPosition( x, valleyElevation );
     }
     
     protected void handlePositionChanged() {
