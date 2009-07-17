@@ -281,14 +281,18 @@ public class DatableItem implements AnimatedModelElement {
 
 	public void setPrimaryImageIndex(int imageIndex) {
 		assert imageIndex < images.size();
-		primaryImageIndex = imageIndex;
-		notifyImageChanged();
+		if (this.primaryImageIndex != imageIndex){
+			primaryImageIndex = imageIndex;
+			notifyImageChanged();
+		}
 	}
 
 	public void setSecondaryImageIndex(int imageIndex) {
 		assert imageIndex < images.size();
-		secondaryImageIndex = imageIndex;
-		notifyImageChanged();
+		if (this.secondaryImageIndex != imageIndex){
+			secondaryImageIndex = imageIndex;
+			notifyImageChanged();
+		}
 	}
 
 	public double getFadeFactor() {
@@ -296,9 +300,11 @@ public class DatableItem implements AnimatedModelElement {
 	}
 
 	public void setSize(Dimension2D size) {
-		width = size.getWidth();
-		height = size.getHeight();
-		notifySizeChanged();
+		if (width != size.getWidth() || height != size.getHeight()){
+			width = size.getWidth();
+			height = size.getHeight();
+			notifySizeChanged();
+		}
 	}
 
 	private void notifySizeChanged(){
