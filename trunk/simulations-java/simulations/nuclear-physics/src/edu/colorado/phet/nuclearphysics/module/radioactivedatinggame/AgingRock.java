@@ -49,7 +49,7 @@ public class AgingRock extends AnimatedDatableItem {
     //------------------------------------------------------------------------
 
     public AgingRock( ConstantDtClock clock, Point2D center, double width ) {
-        super( "Aging Rock", Arrays.asList( "molten_rock_large.png", "rock_volcanic_larger.png" ), center, width, 0, 
+        super( "Aging Rock", Arrays.asList( "rock_molten.png", "rock_cooled.png" ), center, width, 0, 
         		0, clock, EruptingVolcano.VOLCANO_AGE_FACTOR, false );
     
         _initialLocation = center;
