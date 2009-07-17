@@ -24,6 +24,7 @@ import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
+import edu.colorado.phet.nuclearphysics.common.TimeDisplayNode;
 import edu.colorado.phet.nuclearphysics.view.NuclearDecayProportionChart;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -81,6 +82,7 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
     private GradientButtonNode _startOperationButtonNode;
     private GradientButtonNode _forceClosureButtonNode;
     private PPath _probeDragBounds = new PPath();
+    private TimeDisplayNode _timeDisplay;
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -137,9 +139,12 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
             public void simulationTimeReset( ClockEvent clockEvent ) {
             	// Clear the chart when time starts over.
             	_proportionsChart.clear();
+            	// Reset the time display to 0.
+            	_timeDisplay.setTime(0);
             }
             public void clockTicked( ClockEvent clockEvent ) {
             	addDataToChart(clockEvent);
+            	updateTimeDisplay(clockEvent);
             }
         });
         
@@ -204,6 +209,15 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
         		_probeDragBounds );
         _meterNode.setMeterBodyOffset( METER_X_OFFSET, METER_AND_CHART_OFFSET_FROM_TOP);
         _chartAndMeterLayer.addChild( _meterNode );
+        
+        // Add the time display.
+        _timeDisplay = new TimeDisplayNode(200, 50);
+        _timeDisplay.setOffset(
+        		_proportionsChart.getFullBoundsReference().getMaxX() - _timeDisplay.getFullBoundsReference().width,
+        		_proportionsChart.getFullBoundsReference().getMaxY() + 5);
+        _chartAndMeterLayer.addChild(_timeDisplay);
+        _timeDisplay.setTime(0);
+        
 
         // Set up the initial buttons in the play area.
         updateButtonState();
@@ -255,6 +269,11 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
     		double readingTime = clockEvent.getSimulationTime() * _model.getTimeConversionFactor();
     		_proportionsChart.addDataPoint(readingTime, _model.getMeter().getPercentageOfDatingElementRemaining());
     	}
+    }
+    
+    private void updateTimeDisplay(ClockEvent clockEvent){
+    	double adjustedTime = clockEvent.getSimulationTime() * _model.getTimeConversionFactor();
+    	_timeDisplay.setTime(adjustedTime);
     }
 
 	/**
