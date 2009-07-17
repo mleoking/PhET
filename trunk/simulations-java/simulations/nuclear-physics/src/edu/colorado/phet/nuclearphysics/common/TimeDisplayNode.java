@@ -138,7 +138,7 @@ public class TimeDisplayNode extends PNode {
 	// TODO: A request was made to always show the time in years.  If this
 	// sticks, the code below will no longer be needed and can be
 	// permanently removed.  If this is done, the name of the class should
-	// also be changed to something like "YearDisplayNode".
+	// also be changed to something like "YearDisplayNode".  jblanco, July 2009.
 //	public void setTime(double milliseconds){
 //
 //		_currentTimeInMilliseconds = milliseconds;
@@ -208,35 +208,55 @@ public class TimeDisplayNode extends PNode {
 
 		// Convert to years.
         _timeText.setHTML( _timeFormatterNoDecimals.format(milliseconds / MILLISECONDS_PER_YEAR) );
-        _unitsText.setHTML( NuclearPhysicsStrings.READOUT_UNITS_YEARS );
+        _unitsText.setHTML( NuclearPhysicsStrings.READOUT_UNITS_YRS );
 		
 		updateTextScaling();
         updateTimeDisplay();
 	}
 	
+	// TODO: This relates to the other todo above.  If this display ends up
+	// only being used for years, this method can be permanently removed.
+//	private void updateTimeDisplay(){
+//		double xPos;
+//		double yPos;
+//		
+//		if (_currentTimeInMilliseconds < MILLISECONDS_PER_MILLENIUM){
+//    		xPos = _width / 2 - 
+//    		        (_dummyTextNormal.getFullBoundsReference().width + _spaceText.getFullBoundsReference().width + 
+//    	        	 _unitsText.getFullBoundsReference().width) / 2;
+//    		xPos += _dummyTextNormal.getFullBoundsReference().width - _timeText.getFullBoundsReference().width;
+//    		yPos = _height / 2 - _dummyTextNormal.getFullBoundsReference().height / 2;
+//		}
+//		else if (_unitsText.getHTML() != ""){
+//    		xPos = _width / 2 - 
+//       		        (_dummyTextExponential.getFullBoundsReference().width + _spaceText.getFullBoundsReference().width + 
+//	        		 _unitsText.getFullBoundsReference().width) / 2;
+//    		xPos += _dummyTextExponential.getFullBoundsReference().width - _timeText.getFullBoundsReference().width;
+//    		yPos = _height / 2 - _dummyTextExponential.getFullBoundsReference().height / 2;
+//		}
+//		else{
+//			// This is probably the case where the infinity symbol is being displayed.
+//    		xPos = _width / 2 - _timeText.getFullBoundsReference().width / 2;
+//    		yPos = _height / 2 - _timeText.getFullBoundsReference().height / 2;
+//		}
+//		
+//		_timeText.setOffset(xPos, yPos);
+//		_spaceText.setOffset(xPos + _timeText.getFullBoundsReference().width, yPos);
+//		_unitsText.setOffset(xPos + _timeText.getFullBoundsReference().width + _spaceText.getFullBoundsReference().width, 
+//				_timeText.getFullBoundsReference().getMaxY() - _unitsText.getFullBoundsReference().height);
+//	}
 	private void updateTimeDisplay(){
 		double xPos;
 		double yPos;
+		double totalTextWidth;
+		double textHeight;
 		
-		if (_currentTimeInMilliseconds < MILLISECONDS_PER_MILLENIUM){
-    		xPos = _width / 2 - 
-    		        (_dummyTextNormal.getFullBoundsReference().width + _spaceText.getFullBoundsReference().width + 
-    	        	 _unitsText.getFullBoundsReference().width) / 2;
-    		xPos += _dummyTextNormal.getFullBoundsReference().width - _timeText.getFullBoundsReference().width;
-    		yPos = _height / 2 - _dummyTextNormal.getFullBoundsReference().height / 2;
-		}
-		else if (_unitsText.getHTML() != ""){
-    		xPos = _width / 2 - 
-       		        (_dummyTextExponential.getFullBoundsReference().width + _spaceText.getFullBoundsReference().width + 
-	        		 _unitsText.getFullBoundsReference().width) / 2;
-    		xPos += _dummyTextExponential.getFullBoundsReference().width - _timeText.getFullBoundsReference().width;
-    		yPos = _height / 2 - _dummyTextExponential.getFullBoundsReference().height / 2;
-		}
-		else{
-			// This is probably the case where the infinity symbol is being displayed.
-    		xPos = _width / 2 - _timeText.getFullBoundsReference().width / 2;
-    		yPos = _height / 2 - _timeText.getFullBoundsReference().height / 2;
-		}
+		totalTextWidth = _timeText.getFullBoundsReference().width + _spaceText.getFullBoundsReference().width +
+			_unitsText.getFullBoundsReference().width;
+		textHeight = Math.max(_timeText.getFullBoundsReference().height, _unitsText.getFullBoundsReference().height);
+		
+		xPos = _width / 2 - totalTextWidth / 2;
+		yPos = _height / 2 - textHeight / 2;
 		
 		_timeText.setOffset(xPos, yPos);
 		_spaceText.setOffset(xPos + _timeText.getFullBoundsReference().width, yPos);
