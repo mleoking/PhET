@@ -211,7 +211,7 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
         _chartAndMeterLayer.addChild( _meterNode );
         
         // Add the time display.
-        _timeDisplay = new TimeDisplayNode(200, 50);
+        _timeDisplay = new TimeDisplayNode(220, 50);
         _timeDisplay.setOffset(
         		_proportionsChart.getFullBoundsReference().getMaxX() - _timeDisplay.getFullBoundsReference().width,
         		_proportionsChart.getFullBoundsReference().getMaxY() + 5);
