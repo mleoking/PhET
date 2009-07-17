@@ -206,7 +206,7 @@ public class GlaciersPlayArea extends JPanel implements IToolProducerListener, I
         addToBothViews( _iceLayer );
         addToZoomedView( _ripplesLayer );
         addToZoomedView( _debrisLayer );
-        addToZoomedView( _snowPatchLayer );
+        addToBothViews( _snowPatchLayer );
         addToZoomedView( _boreholeLayer );
         addToBothViews( _snowfallLayer );
         addToZoomedView( _velocityLayer );
