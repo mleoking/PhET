@@ -244,13 +244,13 @@ public class IsotopeSelectionControlPanel extends ControlPanel {
             constraints.gridx = 1;
             constraints.gridy = _isotopeSelectorCount * 4;
             constraints.ipadx = 10;
-            JLabel predecayLabel = new JLabel(predecayIconImage);
-            add( predecayLabel, constraints );
+            JLabel predecayIcon = new JLabel(predecayIconImage);
+            add( predecayIcon, constraints );
             constraints.ipadx = 0; // Remove the padding.
             
             // Add a handler so that if the user clicks on this nucleus image,
             // the corresponding nucleus type will be set.
-            predecayLabel.addMouseListener( new MouseAdapter(){
+            predecayIcon.addMouseListener( new MouseAdapter(){
             	public void mouseClicked(java.awt.event.MouseEvent arg0){
             		button.doClick();
             	}
@@ -278,8 +278,17 @@ public class IsotopeSelectionControlPanel extends ControlPanel {
             constraints.gridx = 1;
             constraints.gridy = _isotopeSelectorCount * 4 + 2;
             constraints.ipadx = 10;
-            add( new JLabel(postDecayIconImage), constraints );
+            JLabel postDecayIcon = new JLabel(postDecayIconImage); 
+            add( postDecayIcon, constraints );
             constraints.ipadx = 0; // Remove the padding.
+            
+            // Add a handler so that if the user clicks on this nucleus image,
+            // the corresponding nucleus type will be set.
+            postDecayIcon.addMouseListener( new MouseAdapter(){
+            	public void mouseClicked(java.awt.event.MouseEvent arg0){
+            		button.doClick();
+            	}
+            });
             
             // Create and add the textual label for the post-decay nucleus.
             JLabel postDecayNucleusLabel = new JLabel( postDecayNucleus.getName() ) ;
