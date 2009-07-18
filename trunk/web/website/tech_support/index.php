@@ -80,6 +80,8 @@ class TroubleshootingPage extends SitePage {
 
                     <li class="faq"><a href="#q12">When I run simulations from the {$installer_name}, I am seeing a dialog that says "The application's digital signature has been verified.  Do you want to run the application?" (or something similar).  What does this mean?</a></li>
 
+                    <li class="faq"><a href="#q13">(MAC users) When I click "run now" to start the simulation all I get is a text file that opens?</a></li>
+
                     <li class="faq"><a href="{$this->prefix}about/licensing.php">What are Licensing requirements?</a></li>
                 </ul>
             </div><br />
@@ -243,6 +245,18 @@ class TroubleshootingPage extends SitePage {
             <p>The PhET simulations that are distributed with the installer include a "digital certificate" that verifies that these simulations were actually created by PhET.  This is a security measure that helps to prevent an unscrupulous individual from creating applications that claim to be produced by PhET but are not.  If the certificate acceptance dialog says that the publisher is "PhET, University of Colorado", and the dialog also says that the signature was validated by a trusted source, you can have a high degree of confidence that the application was produced by the PhET team.</p>
             <p>On most systems, it is possible to permanently accept the PhET certificate and thereby prevent this dialog from appearing each time a simulation is run locally.  Most Windows and Max OSX systems have a check box on the certificate acceptance dialog that says "Always trust content from this publisher".  Checking this box will configure your system in such a way that the dialog will no longer appear when starting up PhET simulations.</p>
             <p><a href="#top"><img src="{$this->prefix}images/top.gif" alt="Go to top" /></a></p>
+
+        <h3 id="q13">(MAC users) When I click "run now" to start the simulation all I get is a text file that opens?</h3>
+        <p>This problem will affect mac users who recently installed Apple's "Java for Mac OS X 10.5 Update 4". The update will typically be done via Software Update, or automatically. After installing this update, the problem appears: clicking on JNLP files in Safari or FireFox caused the JNLP file to open in TextEdit, instead of starting Java Web Start. </p>
+        <p>
+        The fix is:<br/>
+            1. Go to http://support.apple.com/downloads/Java_for_Mac_OS_X_10_5_Update_4<br/>
+            2. Click Download to download a .dmg file<br/>
+            3. When the .dmg has downloaded, double-click on it (if it doesn't mount automatically)<br/>
+            4. Quit all applications<br/>
+            5. Run the update installer
+        </p>
+        <p><a href="#top"><img src="{$this->prefix}images/top.gif" alt="Go to top" /></a></p>
 <br />
 <br />
 <br />
