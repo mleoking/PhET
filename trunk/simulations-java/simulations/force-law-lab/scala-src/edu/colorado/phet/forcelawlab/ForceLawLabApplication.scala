@@ -8,8 +8,8 @@ import common.phetcommon.model.Resettable
 import common.phetcommon.servicemanager.PhetServiceManager
 import common.phetcommon.view.util.{BufferedImageUtils, DoubleGeneralPath, PhetFont}
 import common.phetcommon.view.{PhetFrame, VerticalLayoutPanel, ControlPanel}
+import common.piccolophet.nodes._
 import common.piccolophet.PiccoloPhetApplication
-import common.piccolophet.nodes.{PhetPPath, RulerNode, ArrowNode, SphericalNode}
 import common.phetcommon.view.graphics.RoundGradientPaint
 import common.piccolophet.event.CursorHandler
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
@@ -57,12 +57,11 @@ class ForceLabelNode(target: Mass, source: Mass, transform: ModelViewTransform2D
   addChild(arrowNode)
   addChild(label)
 }
-class MassNode(mass: Mass, transform: ModelViewTransform2D, color: Color, magnification: Magnification) extends PNode {
+class MassNode(mass: Mass, transform: ModelViewTransform2D, color: Color, magnification: Magnification, textOffset:()=>Double) extends PNode {
   val image = new SphericalNode(mass.radius * 2, color, false)
-
-  val label = new PText(mass.name)
-  label.setTextPaint(Color.white)
-  label.setFont(new PhetFont(16, true))
+  val label = new ShadowPText(mass.name,Color.white,new PhetFont(16, true))
+  val w=6
+  val centerIndicator=new PhetPPath(new Ellipse2D.Double(-w/2,-w/2,w,w),Color.black)
 
   defineInvokeAndPass(mass.addListenerByName) {
     image.setOffset(transform.modelToView(mass.position))
@@ -71,16 +70,21 @@ class MassNode(mass: Mass, transform: ModelViewTransform2D, color: Color, magnif
     image.setPaint(new RoundGradientPaint(viewRadius, -viewRadius, Color.WHITE,
       new Point2D.Double(-viewRadius, viewRadius), color))
     label.setOffset(transform.modelToView(mass.position) - new Vector2D(label.getFullBounds.getWidth / 2, label.getFullBounds.getHeight / 2))
-    if (image.getFullBounds.getHeight < label.getFullBounds.getHeight)
-      label.translate(0, -label.getFullBounds.getHeight * 1.2) //gets notification from mass
+    label.translate(0,textOffset())
+//    if (image.getFullBounds.getHeight < label.getFullBounds.getHeight)
+//      label.translate(0, -label.getFullBounds.getHeight * 1.2) //gets notification from mass
 
+    centerIndicator.setOffset(transform.modelToView(mass.position))
+    centerIndicator.setVisible(centerIndicator.getFullBounds.getWidth<image.getFullBounds.getWidth)
     //    println("updated mass node, radius=" + mass.radius + ", viewRadius=" + viewRadius + ", globalfullbounds=" + image.getGlobalFullBounds)
   }
 
+  
   addChild(image)
   addChild(label)
+  addChild(centerIndicator)
 }
-class DraggableMassNode(mass: Mass, transform: ModelViewTransform2D, color: Color, minDragX: Double, maxDragX: () => Double, magnification: Magnification) extends MassNode(mass, transform, color, magnification) {
+class DraggableMassNode(mass: Mass, transform: ModelViewTransform2D, color: Color, minDragX: Double, maxDragX: () => Double, magnification: Magnification,textOffset:()=>Double) extends MassNode(mass, transform, color, magnification,textOffset) {
   var dragging = false
   var initialDrag = false //don't show a pushpin on startup
   val pushPinNode = new PImage(ForceLawLabResources.getImage("push-pin.png"))
@@ -155,9 +159,9 @@ class ForceLawLabCanvas(model: ForceLawLabModel, modelWidth: Double, mass1Color:
   updateRulerVisible()
 
   def opposite(c: Color) = new Color(255 - c.getRed, 255 - c.getGreen, 255 - c.getBlue)
-  addNode(new MassNode(model.m1, transform, mass1Color, magnification))
+  addNode(new MassNode(model.m1, transform, mass1Color, magnification,() => 10))
   addNode(new SpringNode(model, transform, opposite(backgroundColor)))
-  addNode(new DraggableMassNode(model.m2, transform, mass2Color, model.wall.maxX, () => transform.viewToModelX(getVisibleModelBounds.getMaxX), magnification))
+  addNode(new DraggableMassNode(model.m2, transform, mass2Color, model.wall.maxX, () => transform.viewToModelX(getVisibleModelBounds.getMaxX), magnification,() => -10))
   addNode(new ForceLabelNode(model.m1, model.m2, transform, model, opposite(backgroundColor), forceLabelScale, forceArrowNumberFormat, 100, true, model.wall))
   addNode(new ForceLabelNode(model.m2, model.m1, transform, model, opposite(backgroundColor), forceLabelScale, forceArrowNumberFormat, 200, false, model.wall))
   rulerNode.addInputEventListener(new PBasicInputEventHandler {
@@ -230,21 +234,21 @@ class SunPlanetControlPanel(model: ForceLawLabModel, m: Magnification, units: Un
     kgToEarthMasses(model.m1.mass), a => model.m1.mass = earthMassesToKg(a), model.m1.addListener)
 
   def maxValue = units.metersToUnits(sunEarthDist * 1.8)
-  units.addListenerByName {
-    distanceSlider.setRangeAndValue(0.01, maxValue, units.metersToUnits(model.distance))
-    distanceSlider.setUnits(units.units.name)
-  }
 
   //leaving around the distance slider since it may be used in a future version
-  val distanceSlider = new ForceLawLabScalaValueControl(0.01, maxValue, "distance", "0.00", getLocalizedString("units.light-minutes"),
-    units.metersToUnits(model.distance), a => model.distance = units.unitsToMeters(a), addDistanceListener)
-  distanceSlider.getTextField.setColumns(8) //to show kilometers
-  distanceSlider.addTickLabel(0.01, "") //avoid generating 1E8 tick marks//todo: fix this
+//  val distanceSlider = new ForceLawLabScalaValueControl(0.01, maxValue, "distance", "0.00", getLocalizedString("units.light-minutes"),
+//    units.metersToUnits(model.distance), a => model.distance = units.unitsToMeters(a), addDistanceListener)
+//  distanceSlider.getTextField.setColumns(8) //to show kilometers
+//  distanceSlider.addTickLabel(0.01, "") //avoid generating 1E8 tick marks//todo: fix this
+  //  units.addListenerByName {
+//    distanceSlider.setRangeAndValue(0.01, maxValue, units.metersToUnits(model.distance))
+//    distanceSlider.setUnits(units.units.name)
+//  }
 
-  val sliderW = Math.max(planetMassSlider.getPreferredSize.width, distanceSlider.getPreferredSize.width) //todo: this solution won't work if translations of "light meters" are longer than translations of "kilometers"
-  planetMassSlider.getSlider.setPreferredSize(new Dimension(sliderW, planetMassSlider.getSlider.getPreferredSize.height))
-  distanceSlider.getSlider.setPreferredSize(new Dimension(sliderW, distanceSlider.getSlider.getPreferredSize.height))
-
+  //val sliderW = Math.max(planetMassSlider.getPreferredSize.width, distanceSlider.getPreferredSize.width) //todo: this solution won't work if translations of "light meters" are longer than translations of "kilometers"
+  //planetMassSlider.getSlider.setPreferredSize(new Dimension(sliderW, planetMassSlider.getSlider.getPreferredSize.height))
+  
+//  distanceSlider.getSlider.setPreferredSize(new Dimension(sliderW, distanceSlider.getSlider.getPreferredSize.height))
   //  distanceSlider.getSlider.addMouseListener(new MouseAdapter() {
   //    override def mouseReleased(e: MouseEvent) = model.setDragging(false)
   //
