@@ -487,7 +487,8 @@ class SunPlanetDecimalFormat extends DecimalFormat("#,###,###,###,###,###,##0.0"
 class ForceLawsModule(clock: ScalaClock) extends Module(ForceLawLabResources.getLocalizedString("module.force-laws.name"), clock) {
   val model = new ForceLawLabModel(10, 25, -1, 2, mass => mass / 30, mass => mass / 30, 9E-10, 0.0, 50, 50, -4, ForceLawLabResources.getLocalizedString("mass-1"), ForceLawLabResources.getLocalizedString("mass-2"))
   val canvas = new ForceLawLabCanvas(model, 10, Color.blue, Color.red, Color.white, 10, 10,
-    ForceLawLabResources.getLocalizedString("units.m"), _.toString, 1E10, new TinyDecimalFormat(), new Magnification(false), new UnitsContainer(new Units("meters", 1)))
+    ForceLawLabResources.getLocalizedString("units.m"), _.toString, 1E10,
+    new TinyDecimalFormat(), new Magnification(false), new UnitsContainer(new Units("meters", 1)))
   setSimulationPanel(canvas)
   clock.addClockListener(model.update(_))
   setControlPanel(new ForceLawLabControlPanel(model, () => {canvas.resetRulerLocation}))
@@ -546,10 +547,14 @@ class SolarModule(clock: ScalaClock, phetFrame: PhetFrame) extends Module(ForceL
     -sunEarthDist, getLocalizedString("planet"), getLocalizedString("sun")
     )
 
+  def tickToString(dist:Long)={
+    new SunPlanetDecimalFormat().format(units.metersToUnits(dist.toDouble))
+//    new DecimalFormat("0.0").format(units.metersToUnits(dist.toDouble))
+  }
+
   val canvas = new ForceLawLabCanvas(model, sunEarthDist * 2.05, Color.blue, Color.yellow, Color.black,
-    (ForceLawLabDefaults.sunEarthDist * 3).toLong, 10, getLocalizedString("units.light-minutes"), dist => {
-      new DecimalFormat("0.0").format(units.metersToUnits(dist.toDouble))
-    }, 3.2E-22 * 10, new SunPlanetDecimalFormat(), magnification, units)
+    (ForceLawLabDefaults.sunEarthDist * 3).toLong, 10, getLocalizedString("units.light-minutes"), tickToString,
+    3.2E-22 * 10, new SunPlanetDecimalFormat(), magnification, units)
 
   magnification.addListenerByName {
     model.m1.notifyListeners() //chain events from magnification
