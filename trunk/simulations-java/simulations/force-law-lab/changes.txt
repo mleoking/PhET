@@ -1,3 +1,4 @@
+> Renamed "Actual Size" to "Actual"
 > Renamed to Gravity Force Lab
 > Renamed "enlarged" to "cartoon"
 > Removed distance slider in second tab
