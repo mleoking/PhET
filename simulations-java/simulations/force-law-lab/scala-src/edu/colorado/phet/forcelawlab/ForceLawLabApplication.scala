@@ -235,6 +235,7 @@ class SunPlanetControlPanel(model: ForceLawLabModel, m: Magnification, units: Un
     distanceSlider.setUnits(units.units.name)
   }
 
+  //leaving around the distance slider since it may be used in a future version
   val distanceSlider = new ForceLawLabScalaValueControl(0.01, maxValue, "distance", "0.00", getLocalizedString("units.light-minutes"),
     units.metersToUnits(model.distance), a => model.distance = units.unitsToMeters(a), addDistanceListener)
   distanceSlider.getTextField.setColumns(8) //to show kilometers
@@ -254,7 +255,7 @@ class SunPlanetControlPanel(model: ForceLawLabModel, m: Magnification, units: Un
   val sliderPanel=new VerticalLayoutPanel
   sliderPanel.setBorder(ForceLawBorders.createTitledBorder("sun.planet.controls"))
   sliderPanel.add(planetMassSlider)
-  sliderPanel.add(distanceSlider)
+  //sliderPanel.add(distanceSlider)
 
 
   def addDistanceListener(listener: () => Unit) = {
@@ -482,7 +483,7 @@ class SunPlanetDecimalFormat extends DecimalFormat("#,###,###,###,###,###,##0.0"
 
 class ForceLawsModule(clock: ScalaClock) extends Module(ForceLawLabResources.getLocalizedString("module.force-laws.name"), clock) {
   val model = new ForceLawLabModel(10, 25, 0, 1, mass => mass / 30, mass => mass / 30, 1E-8, 1, 50, 50, -4, ForceLawLabResources.getLocalizedString("mass-1"), ForceLawLabResources.getLocalizedString("mass-2"))
-  val canvas = new ForceLawLabCanvas(model, 10, Color.blue, Color.blue, Color.white, 10, 10,
+  val canvas = new ForceLawLabCanvas(model, 10, Color.blue, Color.red, Color.white, 10, 10,
     ForceLawLabResources.getLocalizedString("units.m"), _.toString, 1E10, new TinyDecimalFormat(), new Magnification(false), new UnitsContainer(new Units("meters", 1)))
   setSimulationPanel(canvas)
   clock.addClockListener(model.update(_))
@@ -534,7 +535,7 @@ class SolarModule(clock: ScalaClock, phetFrame: PhetFrame) extends Module(ForceL
     -sunEarthDist, getLocalizedString("planet"), getLocalizedString("sun")
     )
 
-  val canvas = new ForceLawLabCanvas(model, sunEarthDist * 2.05, Color.blue, Color.red, Color.black,
+  val canvas = new ForceLawLabCanvas(model, sunEarthDist * 2.05, Color.blue, Color.yellow, Color.black,
     (ForceLawLabDefaults.sunEarthDist * 3).toLong, 10, getLocalizedString("units.light-minutes"), dist => {
       new DecimalFormat("0.0").format(units.metersToUnits(dist.toDouble))
     }, 3.2E-22 * 10, new SunPlanetDecimalFormat(), magnification, units)
