@@ -52,7 +52,7 @@ public class TestScripts {
 // Resistor{[5->2], r=0.1499999999999968},Resistor{[6->1], r=1.0E-4}]
 
             MNA.Circuit circuit = new MNA.Circuit(Arrays.asList(new MNA.Battery(1, 5, 1.851759060670426E-10), new MNA.Battery(0, 6, 9.0)),
-                    Arrays.asList(new MNA.Resistor(2, 4, 1E11),new MNA.Resistor(4,3,1.840352680379584E-8),
+                    Arrays.asList(new MNA.Resistor(2, 4, 1E8),new MNA.Resistor(4,3,1.840352680379584E-8),
                             new MNA.Resistor(5,2,0.1499999999999968),new MNA.Resistor(6,1,1E-4)));
             MNA.Solution solution=circuit.solve();
             System.out.println("solution = " + solution);

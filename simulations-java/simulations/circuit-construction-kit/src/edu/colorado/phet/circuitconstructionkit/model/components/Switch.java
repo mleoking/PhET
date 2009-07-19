@@ -14,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
  */
 public class Switch extends CircuitComponent {
     boolean closed;
-    public static final double OPEN_RESISTANCE = Double.parseDouble( "10E10" );
+    public static final double OPEN_RESISTANCE = 1E11;
     private double handleAngle = 5;
 
     public Switch( Point2D start, AbstractVector2D dir, double length, double height, CircuitChangeListener kl ) {

@@ -45,6 +45,30 @@ public class PureJavaSolver extends CircuitSolver {
         }
     }
 
+    //doesn't appear in the mna physics engine; treated as a missing piece
+    static class OpenAdapter implements Adapter {
+        Circuit c;
+        Branch b;
+
+        OpenAdapter(Circuit c, Branch b) {
+            this.c = c;
+            this.b = b;
+        }
+
+        public Branch getComponent() {
+            return b;
+        }
+
+        public MNA.Element getElement() {
+            return null;
+        }
+
+        void applySolution(CompanionMNA.CompanionSolution sol) {
+            getComponent().setCurrent(0.0);
+            getComponent().setVoltageDrop(Double.POSITIVE_INFINITY);//todo: will this cause numerical problems?
+        }
+    }
+
     static class ResistorAdapter extends MNA.Resistor implements Adapter {
         Circuit c;
         Branch b;
@@ -117,6 +141,7 @@ public class PureJavaSolver extends CircuitSolver {
     public void apply(Circuit circuit, double dt) {
         ArrayList<ResistiveBatteryAdapter> batteries = new ArrayList<ResistiveBatteryAdapter>();
         ArrayList<ResistorAdapter> resistors = new ArrayList<ResistorAdapter>();
+        ArrayList<OpenAdapter> openBranches = new ArrayList<OpenAdapter>();
         ArrayList<CapacitorAdapter> capacitors = new ArrayList<CapacitorAdapter>();
         ArrayList<InductorAdapter> inductors = new ArrayList<InductorAdapter>();
         for (int i = 0; i < circuit.numBranches(); i++) {
@@ -128,10 +153,15 @@ public class PureJavaSolver extends CircuitSolver {
                 resistors.add(new ResistorAdapter(circuit, circuit.getBranches()[i]));
             if (circuit.getBranches()[i] instanceof Filament)
                 resistors.add(new ResistorAdapter(circuit, circuit.getBranches()[i]));
-            if (circuit.getBranches()[i] instanceof Switch)//todo: how to handle switch here.
-            //todo: perhaps if it is open; don't add it at all, and just make sure we make its current zero afterwards
-            //todo:
+            if (circuit.getBranches()[i] instanceof Switch){//todo: how to handle switch here.
+                //todo: perhaps if it is open; don't add it at all, and just make sure we make its current zero afterwards
+                //todo:
+                Switch sw= (Switch) circuit.getBranches()[i];
+                if (sw.isClosed())
                 resistors.add(new ResistorAdapter(circuit, circuit.getBranches()[i]));
+                else
+                    openBranches.add(new OpenAdapter(circuit, circuit.getBranches()[i]));
+            }
             if (circuit.getBranches()[i] instanceof Bulb)
                 resistors.add(new ResistorAdapter(circuit, circuit.getBranches()[i]));
             if (circuit.getBranches()[i] instanceof SeriesAmmeter)
@@ -151,6 +181,8 @@ public class PureJavaSolver extends CircuitSolver {
             capacitorAdapter.applySolution(solution);
         for (InductorAdapter inductorAdapter : inductors)
             inductorAdapter.applySolution(solution);
+        for (OpenAdapter openAdapter: openBranches)
+            openAdapter.applySolution(solution);
         fireCircuitSolved();
     }
 }
