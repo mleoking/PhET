@@ -706,7 +706,7 @@ public class MNA {
             return new Solution(voltageMap, currentMap);
         }
 
-        boolean debug = true;
+        boolean debug = false;
 
     }
 
