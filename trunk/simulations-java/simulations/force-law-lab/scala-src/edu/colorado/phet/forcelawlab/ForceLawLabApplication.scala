@@ -14,6 +14,7 @@ import common.phetcommon.view.graphics.RoundGradientPaint
 import common.piccolophet.event.CursorHandler
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import java.awt._
+import geom.{Line2D, Ellipse2D, Rectangle2D, Point2D}
 import java.awt.event.{MouseAdapter, MouseEvent}
 
 import java.text._
@@ -25,7 +26,6 @@ import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
 import umd.cs.piccolo.util.PDimension
 
 import umd.cs.piccolo.PNode
-import java.awt.geom.{Ellipse2D, Rectangle2D, Point2D}
 import scalacommon.math.Vector2D
 import scalacommon.Predef._
 import scalacommon.ScalaClock
@@ -57,11 +57,11 @@ class ForceLabelNode(target: Mass, source: Mass, transform: ModelViewTransform2D
   addChild(arrowNode)
   addChild(label)
 }
-class MassNode(mass: Mass, transform: ModelViewTransform2D, color: Color, magnification: Magnification, textOffset:()=>Double) extends PNode {
+class MassNode(mass: Mass, transform: ModelViewTransform2D, color: Color, magnification: Magnification, textOffset: () => Double) extends PNode {
   val image = new SphericalNode(mass.radius * 2, color, false)
-  val label = new ShadowPText(mass.name,Color.white,new PhetFont(16, true))
-  val w=6
-  val centerIndicator=new PhetPPath(new Ellipse2D.Double(-w/2,-w/2,w,w),Color.black)
+  val label = new ShadowPText(mass.name, Color.white, new PhetFont(16, true))
+  val w = 6
+  val centerIndicator = new PhetPPath(new Ellipse2D.Double(-w / 2, -w / 2, w, w), Color.black)
 
   defineInvokeAndPass(mass.addListenerByName) {
     image.setOffset(transform.modelToView(mass.position))
@@ -70,21 +70,21 @@ class MassNode(mass: Mass, transform: ModelViewTransform2D, color: Color, magnif
     image.setPaint(new RoundGradientPaint(viewRadius, -viewRadius, Color.WHITE,
       new Point2D.Double(-viewRadius, viewRadius), color))
     label.setOffset(transform.modelToView(mass.position) - new Vector2D(label.getFullBounds.getWidth / 2, label.getFullBounds.getHeight / 2))
-    label.translate(0,textOffset())
-//    if (image.getFullBounds.getHeight < label.getFullBounds.getHeight)
-//      label.translate(0, -label.getFullBounds.getHeight * 1.2) //gets notification from mass
+    label.translate(0, textOffset())
+    //    if (image.getFullBounds.getHeight < label.getFullBounds.getHeight)
+    //      label.translate(0, -label.getFullBounds.getHeight * 1.2) //gets notification from mass
 
     centerIndicator.setOffset(transform.modelToView(mass.position))
-    centerIndicator.setVisible(centerIndicator.getFullBounds.getWidth<image.getFullBounds.getWidth)
+    centerIndicator.setVisible(centerIndicator.getFullBounds.getWidth < image.getFullBounds.getWidth)
     //    println("updated mass node, radius=" + mass.radius + ", viewRadius=" + viewRadius + ", globalfullbounds=" + image.getGlobalFullBounds)
   }
 
-  
+
   addChild(image)
   addChild(label)
   addChild(centerIndicator)
 }
-class DraggableMassNode(mass: Mass, transform: ModelViewTransform2D, color: Color, minDragX: Double, maxDragX: () => Double, magnification: Magnification,textOffset:()=>Double) extends MassNode(mass, transform, color, magnification,textOffset) {
+class DraggableMassNode(mass: Mass, transform: ModelViewTransform2D, color: Color, minDragX: Double, maxDragX: () => Double, magnification: Magnification, textOffset: () => Double) extends MassNode(mass, transform, color, magnification, textOffset) {
   var dragging = false
   var initialDrag = false //don't show a pushpin on startup
   val pushPinNode = new PImage(ForceLawLabResources.getImage("push-pin.png"))
@@ -159,9 +159,9 @@ class ForceLawLabCanvas(model: ForceLawLabModel, modelWidth: Double, mass1Color:
   updateRulerVisible()
 
   def opposite(c: Color) = new Color(255 - c.getRed, 255 - c.getGreen, 255 - c.getBlue)
-  addNode(new MassNode(model.m1, transform, mass1Color, magnification,() => 10))
+  addNode(new MassNode(model.m1, transform, mass1Color, magnification, () => 10))
   addNode(new SpringNode(model, transform, opposite(backgroundColor)))
-  addNode(new DraggableMassNode(model.m2, transform, mass2Color, model.wall.maxX, () => transform.viewToModelX(getVisibleModelBounds.getMaxX), magnification,() => -10))
+  addNode(new DraggableMassNode(model.m2, transform, mass2Color, model.wall.maxX, () => transform.viewToModelX(getVisibleModelBounds.getMaxX), magnification, () => -10))
   addNode(new ForceLabelNode(model.m1, model.m2, transform, model, opposite(backgroundColor), forceLabelScale, forceArrowNumberFormat, 100, true, model.wall))
   addNode(new ForceLabelNode(model.m2, model.m1, transform, model, opposite(backgroundColor), forceLabelScale, forceArrowNumberFormat, 200, false, model.wall))
   rulerNode.addInputEventListener(new PBasicInputEventHandler {
@@ -185,18 +185,25 @@ class SpringNode(model: ForceLawLabModel, transform: ModelViewTransform2D, color
   defineInvokeAndPass(model.addListenerByName) {
     val startPt = transform.modelToView(model.wall.maxX, 0)
     val endPt = transform.modelToView(model.m1.position)
-    val unitVector = (startPt - endPt).normalize
-    val distance = (startPt - endPt).magnitude
-    val p = new MyDoubleGeneralPath(startPt)
-    val springCurveHeight = 60
-    p.lineTo(startPt + new Vector2D(distance / 6, 0))
-    for (i <- 1 to 5) {
-      p.curveTo(p.getCurrentPoint + new Vector2D(0, -springCurveHeight), p.getCurrentPoint + new Vector2D(distance / 6, -springCurveHeight), p.getCurrentPoint + new Vector2D(distance / 6, 0))
-      p.curveTo(p.getCurrentPoint + new Vector2D(0, springCurveHeight), p.getCurrentPoint + new Vector2D(-distance / 12, springCurveHeight), p.getCurrentPoint + new Vector2D(-distance / 12, 0))
-    }
-    p.lineTo(endPt - new Vector2D(transform.modelToViewDifferentialXDouble(model.m1.radius), 0))
 
-    path.setPathTo(p.getGeneralPath)
+    if (endPt.getX < startPt.getX) {
+      path.setPathTo(new Line2D.Double(startPt,startPt))
+    }
+    else {
+      val unitVector = (startPt - endPt).normalize
+      val distance = (startPt - endPt).magnitude
+      val p = new MyDoubleGeneralPath(startPt)
+      val springCurveHeight = 60
+      p.lineTo(startPt + new Vector2D(distance / 6, 0))
+      for (i <- 1 to 5) {
+        p.curveTo(p.getCurrentPoint + new Vector2D(0, -springCurveHeight), p.getCurrentPoint + new Vector2D(distance / 6, -springCurveHeight), p.getCurrentPoint + new Vector2D(distance / 6, 0))
+        p.curveTo(p.getCurrentPoint + new Vector2D(0, springCurveHeight), p.getCurrentPoint + new Vector2D(-distance / 12, springCurveHeight), p.getCurrentPoint + new Vector2D(-distance / 12, 0))
+      }
+      p.lineTo(endPt - new Vector2D(transform.modelToViewDifferentialXDouble(model.m1.radius), 0))
+      path.setPathTo(p.getGeneralPath)
+    }
+
+
   }
 }
 class Wall(width: Double, height: Double, _maxX: Double) {
@@ -236,19 +243,19 @@ class SunPlanetControlPanel(model: ForceLawLabModel, m: Magnification, units: Un
   def maxValue = units.metersToUnits(sunEarthDist * 1.8)
 
   //leaving around the distance slider since it may be used in a future version
-//  val distanceSlider = new ForceLawLabScalaValueControl(0.01, maxValue, "distance", "0.00", getLocalizedString("units.light-minutes"),
-//    units.metersToUnits(model.distance), a => model.distance = units.unitsToMeters(a), addDistanceListener)
-//  distanceSlider.getTextField.setColumns(8) //to show kilometers
-//  distanceSlider.addTickLabel(0.01, "") //avoid generating 1E8 tick marks//todo: fix this
+  //  val distanceSlider = new ForceLawLabScalaValueControl(0.01, maxValue, "distance", "0.00", getLocalizedString("units.light-minutes"),
+  //    units.metersToUnits(model.distance), a => model.distance = units.unitsToMeters(a), addDistanceListener)
+  //  distanceSlider.getTextField.setColumns(8) //to show kilometers
+  //  distanceSlider.addTickLabel(0.01, "") //avoid generating 1E8 tick marks//todo: fix this
   //  units.addListenerByName {
-//    distanceSlider.setRangeAndValue(0.01, maxValue, units.metersToUnits(model.distance))
-//    distanceSlider.setUnits(units.units.name)
-//  }
+  //    distanceSlider.setRangeAndValue(0.01, maxValue, units.metersToUnits(model.distance))
+  //    distanceSlider.setUnits(units.units.name)
+  //  }
 
   //val sliderW = Math.max(planetMassSlider.getPreferredSize.width, distanceSlider.getPreferredSize.width) //todo: this solution won't work if translations of "light meters" are longer than translations of "kilometers"
   //planetMassSlider.getSlider.setPreferredSize(new Dimension(sliderW, planetMassSlider.getSlider.getPreferredSize.height))
-  
-//  distanceSlider.getSlider.setPreferredSize(new Dimension(sliderW, distanceSlider.getSlider.getPreferredSize.height))
+
+  //  distanceSlider.getSlider.setPreferredSize(new Dimension(sliderW, distanceSlider.getSlider.getPreferredSize.height))
   //  distanceSlider.getSlider.addMouseListener(new MouseAdapter() {
   //    override def mouseReleased(e: MouseEvent) = model.setDragging(false)
   //
@@ -256,7 +263,7 @@ class SunPlanetControlPanel(model: ForceLawLabModel, m: Magnification, units: Un
   //  })
 
 
-  val sliderPanel=new VerticalLayoutPanel
+  val sliderPanel = new VerticalLayoutPanel
   sliderPanel.setBorder(ForceLawBorders.createTitledBorder("sun.planet.controls"))
   sliderPanel.add(planetMassSlider)
   //sliderPanel.add(distanceSlider)
@@ -302,8 +309,9 @@ class SunPlanetControlPanel(model: ForceLawLabModel, m: Magnification, units: Un
     }
 
     def getter = !planets.foldLeft(false) {(a, b) => {a || isPlanet(b)}}
+
     val none = new MyRadioButton(ForceLawLabResources.getLocalizedString("custom"), () => {}, getter, addPlanetListener)
-    addPlanetListener(()=>{none.setEnabled(getter)})
+    addPlanetListener(() => {none.setEnabled(getter)})
     add(none)
   }
 
@@ -501,7 +509,7 @@ object ForceLawLabDefaults {
   val earthRadius = 6.371E6
   val sunRadius = 6.955E8
   val earthMass = 5.9742E24 //kg
-  val sunMass= 1.9891E30
+  val sunMass = 1.9891E30
   val G = 6.67E-11
 
   val metersPerLightMinute = 5.5594E-11
@@ -521,8 +529,8 @@ class SolarModule(clock: ScalaClock, phetFrame: PhetFrame) extends Module(ForceL
   import ForceLawLabDefaults._
   import ForceLawLabResources._
 
-  val earthSpringConstant= G * earthMass * sunMass * 2 / Math.pow(sunEarthDist,3)
-//  println("k="+earthSpringConstant)
+  val earthSpringConstant = G * earthMass * sunMass * 2 / Math.pow(sunEarthDist, 3)
+  //  println("k="+earthSpringConstant)
 
   val model = new ForceLawLabModel(earthMass, //earth mass in kg
     sunMass, // sun mass in kg
@@ -539,7 +547,7 @@ class SolarModule(clock: ScalaClock, phetFrame: PhetFrame) extends Module(ForceL
     },
     //    1.5E14, sunEarthDist / 2, // this version puts the spring resting length so that default position is distEarthSun
     //    0.98E12, sunEarthDist / 4,  //this requires the sun to tug on the earth to put it in the right spot
-//    1.42E12,
+    //    1.42E12,
     earthSpringConstant,
     0.0, //see note above
     1E13,
@@ -547,9 +555,9 @@ class SolarModule(clock: ScalaClock, phetFrame: PhetFrame) extends Module(ForceL
     -sunEarthDist, getLocalizedString("planet"), getLocalizedString("sun")
     )
 
-  def tickToString(dist:Long)={
+  def tickToString(dist: Long) = {
     new SunPlanetDecimalFormat().format(units.metersToUnits(dist.toDouble))
-//    new DecimalFormat("0.0").format(units.metersToUnits(dist.toDouble))
+    //    new DecimalFormat("0.0").format(units.metersToUnits(dist.toDouble))
   }
 
   val canvas = new ForceLawLabCanvas(model, sunEarthDist * 2.05, Color.blue, Color.yellow, Color.black,
@@ -574,7 +582,7 @@ class GravityForceLabApplication(config: PhetApplicationConfig) extends PiccoloP
 }
 
 object GravityForceLabApplicationMain {
-  def main(args: Array[String]) = new PhetApplicationLauncher().launchSim(args, "force-law-lab","gravity-force-lab", classOf[GravityForceLabApplication])
+  def main(args: Array[String]) = new PhetApplicationLauncher().launchSim(args, "force-law-lab", "gravity-force-lab", classOf[GravityForceLabApplication])
 }
 
 object ForceLawBorders {

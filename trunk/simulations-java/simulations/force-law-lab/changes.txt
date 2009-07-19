@@ -1,3 +1,4 @@
+> Ensure the spring is hidden if the first mass is left of the wall
 # 0.01.11 (33435) Jul 18, 2009
 > Added thousands separator for ruler
 > Set spring resting length to 0.0
