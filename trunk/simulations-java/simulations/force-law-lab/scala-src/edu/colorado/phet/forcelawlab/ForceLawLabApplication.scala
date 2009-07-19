@@ -552,13 +552,13 @@ class SolarModule(clock: ScalaClock, phetFrame: PhetFrame) extends Module(ForceL
 
 class Circle(center: Vector2D, radius: Double) extends Ellipse2D.Double(center.x - radius, center.y - radius, radius * 2, radius * 2)
 
-class ForceLawLabApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
+class GravityForceLabApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
   addModule(new ForceLawsModule(new ScalaClock(30, 30 / 1000.0)))
   addModule(new SolarModule(new ScalaClock(30, 30 / 1000.0), getPhetFrame))
 }
 
-object ForceLawLabApplicationMain {
-  def main(args: Array[String]) = new PhetApplicationLauncher().launchSim(args, "force-law-lab", classOf[ForceLawLabApplication])
+object GravityForceLabApplicationMain {
+  def main(args: Array[String]) = new PhetApplicationLauncher().launchSim(args, "force-law-lab","gravity-force-lab", classOf[GravityForceLabApplication])
 }
 
 object ForceLawBorders {
