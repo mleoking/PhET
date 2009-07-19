@@ -380,7 +380,7 @@ class Magnification(private var _magnified: Boolean) extends Observable {
 }
 class ScaleControl(m: Magnification) extends VerticalLayoutPanel {
   setBorder(ForceLawBorders.createTitledBorder("object.size"))
-  add(new MyRadioButton(ForceLawLabResources.getLocalizedString("object.size.enlarged"), m.magnified = true, m.magnified, m.addListener))
+  add(new MyRadioButton(ForceLawLabResources.getLocalizedString("object.size.cartoon"), m.magnified = true, m.magnified, m.addListener))
   add(new MyRadioButton(ForceLawLabResources.getLocalizedString("object.size.actual-size"), m.magnified = false, !m.magnified, m.addListener))
 }
 

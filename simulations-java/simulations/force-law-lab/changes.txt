@@ -1,3 +1,4 @@
+> Renamed "enlarged" to "cartoon"
 > Removed distance slider in second tab
 > Made one mass red in the first tab
 > Made the sun yellow
