@@ -198,7 +198,8 @@ public class MNA {
         @Override
         public String toString() {
             return "Battery{" +
-                    "voltage=" + voltage +
+                    "["+node0+"->"+node1+"], "+
+                    "v=" + voltage +
                     '}';
         }
     }
@@ -236,7 +237,8 @@ public class MNA {
         @Override
         public String toString() {
             return "Resistor{" +
-                    "resistance=" + resistance +
+                    "["+node0+"->"+node1+"], "+
+                    "r=" + resistance +
                     '}';
         }
     }
@@ -676,6 +678,16 @@ public class MNA {
                         return getUnknowns().indexOf(unknown);
                     }
                 });
+
+            if (debug){
+                System.out.println("Debugging circuit: " + toString());
+                System.out.println(Util.mkString(equations, "\n"));
+                System.out.println("a=");
+                A.print(4, 2);
+                System.out.println("z=");
+                z.print(4, 2);
+                System.out.println("unknowns=\n" + Util.mkString(getUnknowns(), "\n"));
+            }
             Matrix x = A.solve(z);
 
             HashMap<Integer, Double> voltageMap = new HashMap<Integer, Double>();
@@ -687,13 +699,6 @@ public class MNA {
                 currentMap.put(currentVar.element, x.get(getUnknowns().indexOf(currentVar), 0));
 
             if (debug) {
-                System.out.println("Debugging circuit: " + toString());
-                System.out.println(Util.mkString(equations, "\n"));
-                System.out.println("a=");
-                A.print(4, 2);
-                System.out.println("z=");
-                z.print(4, 2);
-                System.out.println("unknowns=\n" + Util.mkString(getUnknowns(), "\n"));
                 System.out.println("x=");
                 x.print(4, 2);
             }
@@ -701,7 +706,7 @@ public class MNA {
             return new Solution(voltageMap, currentMap);
         }
 
-        boolean debug = false;
+        boolean debug = true;
 
     }
 

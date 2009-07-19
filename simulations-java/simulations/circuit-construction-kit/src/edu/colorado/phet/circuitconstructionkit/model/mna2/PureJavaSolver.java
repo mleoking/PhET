@@ -128,7 +128,9 @@ public class PureJavaSolver extends CircuitSolver {
                 resistors.add(new ResistorAdapter(circuit, circuit.getBranches()[i]));
             if (circuit.getBranches()[i] instanceof Filament)
                 resistors.add(new ResistorAdapter(circuit, circuit.getBranches()[i]));
-            if (circuit.getBranches()[i] instanceof Switch)
+            if (circuit.getBranches()[i] instanceof Switch)//todo: how to handle switch here.
+            //todo: perhaps if it is open; don't add it at all, and just make sure we make its current zero afterwards
+            //todo:
                 resistors.add(new ResistorAdapter(circuit, circuit.getBranches()[i]));
             if (circuit.getBranches()[i] instanceof Bulb)
                 resistors.add(new ResistorAdapter(circuit, circuit.getBranches()[i]));

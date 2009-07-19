@@ -83,6 +83,9 @@ public class CompanionMNA {
             batteries.add(new MNA.Battery(node0, midNode, voltage - dt * current / 2 / capacitance));
             ArrayList<MNA.Resistor> resistors = new ArrayList<MNA.Resistor>();
             resistors.add(new MNA.Resistor(midNode, node1, dt / 2 / capacitance));
+
+            System.out.println("capacitor companion: mid = " + midNode+", batteries="+batteries+", resistors="+resistors);
+
             return new CompanionModel(batteries, resistors, new ArrayList<MNA.CurrentSource>()) {
                 double getCurrent(MNA.Solution solution) {
                     return solution.getCurrent(batteries.get(0));
