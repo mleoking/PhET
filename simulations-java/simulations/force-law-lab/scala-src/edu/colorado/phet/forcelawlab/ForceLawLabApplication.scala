@@ -424,7 +424,6 @@ class ForceLawLabModel(mass1: Double, mass2: Double,
   val m1 = new Mass(mass1, new Vector2D(mass1Position, 0), mass1Name, mass1Radius)
   val m2 = new Mass(mass2, new Vector2D(mass2Position, 0), mass2Name, mass2Radius)
   val spring = new Spring(k, springRestingLength)
-  val G = 6.67E-11
   private var isDraggingControl = false
   m1.addListenerByName(notifyListeners())
   m2.addListenerByName(notifyListeners())
@@ -448,7 +447,7 @@ class ForceLawLabModel(mass1: Double, mass2: Double,
 
   def rMin = if (m1.position.x + m1.radius < m2.position.x - m2.radius) r else m2.position - new Vector2D(m2.radius, 0)
 
-  def getGravityForce = r * G * m1.mass * m2.mass / pow(r.magnitude, 3)
+  def getGravityForce = r * ForceLawLabDefaults.G * m1.mass * m2.mass / pow(r.magnitude, 3)
 
   def setDragging(b: Boolean) = this.isDraggingControl = b
 
@@ -486,7 +485,7 @@ class SunPlanetDecimalFormat extends DecimalFormat("#,###,###,###,###,###,##0.0"
 }
 
 class ForceLawsModule(clock: ScalaClock) extends Module(ForceLawLabResources.getLocalizedString("module.force-laws.name"), clock) {
-  val model = new ForceLawLabModel(10, 25, 0, 1, mass => mass / 30, mass => mass / 30, 1E-8, 1, 50, 50, -4, ForceLawLabResources.getLocalizedString("mass-1"), ForceLawLabResources.getLocalizedString("mass-2"))
+  val model = new ForceLawLabModel(10, 25, -1, 2, mass => mass / 30, mass => mass / 30, 9E-10, 0.0, 50, 50, -4, ForceLawLabResources.getLocalizedString("mass-1"), ForceLawLabResources.getLocalizedString("mass-2"))
   val canvas = new ForceLawLabCanvas(model, 10, Color.blue, Color.red, Color.white, 10, 10,
     ForceLawLabResources.getLocalizedString("units.m"), _.toString, 1E10, new TinyDecimalFormat(), new Magnification(false), new UnitsContainer(new Units("meters", 1)))
   setSimulationPanel(canvas)
@@ -501,6 +500,8 @@ object ForceLawLabDefaults {
   val earthRadius = 6.371E6
   val sunRadius = 6.955E8
   val earthMass = 5.9742E24 //kg
+  val sunMass= 1.9891E30
+  val G = 6.67E-11
 
   val metersPerLightMinute = 5.5594E-11
 
@@ -518,8 +519,12 @@ class SolarModule(clock: ScalaClock, phetFrame: PhetFrame) extends Module(ForceL
   val units = new UnitsContainer(UnitsCollection.values(0))
   import ForceLawLabDefaults._
   import ForceLawLabResources._
+
+  val earthSpringConstant= G * earthMass * sunMass * 2 / Math.pow(sunEarthDist,3)
+//  println("k="+earthSpringConstant)
+
   val model = new ForceLawLabModel(earthMass, //earth mass in kg
-    1.9891E30, // sun mass in kg
+    sunMass, // sun mass in kg
     -sunEarthDist / 2,
     sunEarthDist / 2,
     mass => {
@@ -533,7 +538,9 @@ class SolarModule(clock: ScalaClock, phetFrame: PhetFrame) extends Module(ForceL
     },
     //    1.5E14, sunEarthDist / 2, // this version puts the spring resting length so that default position is distEarthSun
     //    0.98E12, sunEarthDist / 4,  //this requires the sun to tug on the earth to put it in the right spot
-    1.42E12, sunEarthDist / 3, //this one too
+//    1.42E12,
+    earthSpringConstant,
+    0.0, //see note above
     1E13,
     1E12,
     -sunEarthDist, getLocalizedString("planet"), getLocalizedString("sun")

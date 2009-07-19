@@ -1,3 +1,5 @@
+> Set spring resting length to 0.0
+> Recalibrated spring constants
 > Added a dot to indicate the center of mass for each mass
 > Have mass labels offset up and down, so they don't overlap
 > Renamed "Actual Size" to "Lifelike"
