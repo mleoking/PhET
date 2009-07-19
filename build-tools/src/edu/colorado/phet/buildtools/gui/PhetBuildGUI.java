@@ -35,7 +35,7 @@ public class PhetBuildGUI {
 
         BuildLocalProperties.initRelativeToTrunk( trunk );
 
-        frame = new JFrame( "Phet Build GUI" );
+        frame = new JFrame( "PhET Build GUI" );
 
         final PhetBuildGUIPanel guiPanel = new PhetBuildGUIPanel( trunk );
         frame.setContentPane( guiPanel );
