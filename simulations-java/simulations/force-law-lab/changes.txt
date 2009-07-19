@@ -1,3 +1,5 @@
+> Added a dot to indicate the center of mass for each mass
+> Have mass labels offset up and down, so they don't overlap
 > Renamed "Actual Size" to "Lifelike"
 > Renamed to Gravity Force Lab
 > Renamed "enlarged" to "cartoon"
