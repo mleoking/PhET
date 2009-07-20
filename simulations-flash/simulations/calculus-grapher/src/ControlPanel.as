@@ -16,14 +16,8 @@
 		private var zeroButton:NiceButton;
 		private var undoButton:NiceButton;
 		private var smoothButton:NiceButton;
-		private var pButton1:PushButton;
-		private var pButton2:PushButton;
-		private var pButton3:PushButton;
-		private var pButton4:PushButton;
-		private var pButton5:PushButton;
-		private var pButton6:PushButton;
-		private var pButton7:PushButton;
-		private var pButton8:PushButton;
+		private var pButton_arr:Array;  	//array of PushButtons;
+		private var majorTick_arr:Array; 	//array of major Ticks for Slider
 		private var freeformIcon:FreeformIcon;
 		private var hillIcon:HillIcon;
 		private var linearIcon:LinearIcon;
@@ -48,7 +42,7 @@
 			this.controlPanelBackground.width = 140;
 			this.controlPanelBackground.height = 440;
 			this.tFormat.size = 14;
-			this.tFormat.font = "Arial";
+			this.tFormat.font = "_sans";
 			this.makePanelDraggable();
 			
 			this.freeformIcon = new FreeformIcon();
@@ -60,15 +54,20 @@
 			this.sineIcon = new SineIcon();
 			this.tiltIcon = new TiltIcon();
 			
-			this.pButton1 = new PushButton(this.hill_sp, hillIcon, "Hill", "left", setAlterMode);
-			this.pButton2 = new PushButton(this.linear_sp, linearIcon, "Linear", "right", setAlterMode);
-			this.pButton3 = new PushButton(this.pedestal_sp, pedestalIcon, "Pedestal", "right", setAlterMode);
-			this.pButton4 = new PushButton(this.parabola_sp, parabolaIcon, "Parabola", "left", setAlterMode);
-			this.pButton5 = new PushButton(this.sine_sp, sineIcon, "Sine", "left", setAlterMode);
-			this.pButton6 = new PushButton(this.freeform_sp, freeformIcon, "Freeform", "right", setAlterMode);
-			this.pButton7 = new PushButton(this.tilt_sp, tiltIcon, "Tilt", "left", setAlterMode);
-			this.pButton8 = new PushButton(this.offset_sp, offsetIcon, "Offset", "right", setAlterMode);
+			this.pButton_arr = new Array(8);
+			this.pButton_arr[0] = new PushButton(this.hill_sp, hillIcon, "Hill", "left", setAlterMode);
+			this.pButton_arr[1] = new PushButton(this.linear_sp, linearIcon, "Linear", "right", setAlterMode);
+			this.pButton_arr[2] = new PushButton(this.pedestal_sp, pedestalIcon, "Pedestal", "right", setAlterMode);
+			this.pButton_arr[3] = new PushButton(this.parabola_sp, parabolaIcon, "Parabola", "left", setAlterMode);
+			this.pButton_arr[4] = new PushButton(this.sine_sp, sineIcon, "Sine", "left", setAlterMode);
+			this.pButton_arr[5] = new PushButton(this.freeform_sp, freeformIcon, "Freeform", "right", setAlterMode);
+			this.pButton_arr[6] = new PushButton(this.tilt_sp, tiltIcon, "Tilt", "left", setAlterMode);
+			this.pButton_arr[7] = new PushButton(this.offset_sp, offsetIcon, "Offset", "right", setAlterMode);
 				
+			this.majorTick_arr = new Array(3);
+			this.majorTick_arr[0] = new SliderMajorTick();
+			this.majorTick_arr[1] = new SliderMajorTick();
+			this.majorTick_arr[2] = new SliderMajorTick();
 			
 			this.zeroButton = new NiceButton(this.zeroButton_sp, 90, zeroCurves);
 			this.undoButton = new NiceButton(this.undoButton_sp, 90, undoLastChange);
@@ -77,6 +76,7 @@
 			this.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyPressed);
 			this.initializeComponents();
 			this.myModel.setAlterMode("Hill");
+			this.pButton_arr[0].highlightOn();
 			this.myModel.setWidthOfDent(this.currentSliderValue);
 
 			this.showDerivativeCurve = true;
@@ -120,8 +120,15 @@
 			this.integral_cb.setStyle("textFormat", tFormat);
 			this.showGrid_cb.setStyle("textFormat", tFormat);
 			this.showRuler_cb.setStyle("textFormat", tFormat);
-			this.widthSlider.addEventListener(SliderEvent.CHANGE, setSliderValue);
+			this.widthSlider.addEventListener(SliderEvent.CHANGE, setSliderValue);  //widthSlider is symbol on controlPanel symbol
 			this.widthSlider.width = 110;
+			this.widthSlider.addChild(this.majorTick_arr[0]);
+			this.widthSlider.addChild(this.majorTick_arr[1]);
+			this.widthSlider.addChild(this.majorTick_arr[2]);
+			this.majorTick_arr[0].x = 0;
+			this.majorTick_arr[1].x = this.widthSlider.width/2;
+			this.majorTick_arr[2].x = this.widthSlider.width;
+			
 			this.currentSliderValue = this.widthSlider.value;
 			this.myModel.setWidthOfDent(this.currentSliderValue);
 			//trace("this.currentSliderValue:"+this.currentSliderValue)
@@ -170,6 +177,9 @@
 					this.widthSlider.visible = false;
 				}else{
 					this.widthSlider.visible = true;
+				}
+				for(var i:int = 0; i < this.pButton_arr.length; i++){
+					this.pButton_arr[i].myHighlight.visible = false;
 				}
 		}//end of setAlterMode()
 		

@@ -4,17 +4,17 @@
 	
 	public class MainView extends Sprite{
 		var myModel:Model;
-		var myStageBackground:StageBackground;
+		var myStageBackground:StageBackground;	//library symbol, necessary to place all graphics on single symbol with hard-coded width & height due to bug in html publish
 		var myStageWidth:Number;
 		var myStageHeight:Number;
 		var yView:View;				//view of function curve
 		var dView:View;				//view of derivative of function
 		var iView:View;				//view of integral of function
 		//var pushPinCup:PushPinCup;
-		var controlPanel:ControlPanel;
-		var ruler:Ruler;
-		var dragMeSign:Sprite;
-		var phetLogo:Sprite;
+		var controlPanel:ControlPanel;		//library symbol
+		var ruler:Ruler;					//library symbol
+		var dragMeSign:Sprite;				//library symbol
+		var phetLogo:Sprite;				//library symbol
 		//var grabbedPin:PushPin;
 		//var pinGrabbed:Boolean;
 		var smoothOn:Boolean;	//true if smooth graph making is on
