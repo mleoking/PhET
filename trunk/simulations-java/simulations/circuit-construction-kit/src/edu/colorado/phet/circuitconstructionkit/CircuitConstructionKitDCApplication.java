@@ -57,15 +57,6 @@ public class CircuitConstructionKitDCApplication extends PiccoloPhetApplication 
         getPhetFrame().addMenu( new OptionsMenu( this, cckPiccoloModule ) );//todo options menu
     }
 
-    private static FrameSetup createFrameSetup() {
-        if ( Toolkit.getDefaultToolkit().getScreenSize().height <= 768 ) {
-            return new FrameSetup.MaxExtent( new FrameSetup.TopCenter( Toolkit.getDefaultToolkit().getScreenSize().width, 700 ) );
-        }
-        else {
-            return new FrameSetup.TopCenter( Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height - 100 );
-        }
-    }
-
     protected PhetFrame createPhetFrame() {
         return new PhetFrameWorkaround( this );
     }
@@ -80,17 +71,14 @@ public class CircuitConstructionKitDCApplication extends PiccoloPhetApplication 
     }
 
     public static void main( final String[] args ) {
-
         ApplicationConstructor appConstructor = new ApplicationConstructor() {
             public PhetApplication getApplication( PhetApplicationConfig config ) {
                 return new CircuitConstructionKitDCApplication( config );
             }
         };
-
         String flavor = isDynamic( args ) ? "circuit-construction-kit-ac" : "circuit-construction-kit-dc";
         PhetApplicationConfig appConfig = new PhetApplicationConfig( args, "circuit-construction-kit", flavor );
         appConfig.setLookAndFeel( new CCKPhetLookAndFeel() );
-        appConfig.setFrameSetup( createFrameSetup() );
         new PhetApplicationLauncher().launchSim( appConfig, appConstructor );
     }
 }

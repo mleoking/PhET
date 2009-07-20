@@ -162,12 +162,7 @@ public class ToolboxNode extends PhetPNode {
         }
 
         private Font createFont() {
-            if ( Toolkit.getDefaultToolkit().getScreenSize().width <= 1024 ) {
-                return new PhetFont( Font.PLAIN, 16 );
-            }
-            else {
-                return new PhetFont( Font.PLAIN, 12 );
-            }
+            return new PhetFont( 16 );
         }
 
         public Point2D getWorldLocation( PInputEvent event ) {
