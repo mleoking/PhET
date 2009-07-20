@@ -1,7 +1,5 @@
 ﻿//General utilities.  Useful for all sims
 
-//Not used much.
-
 package{
 	import flash.events.*;
 	import flash.display.Sprite;
@@ -11,6 +9,7 @@ package{
 		
 		//public static var ORIGINX:Number = 0.10*stage.stageWidth;
 		public static var PINGRABBED:Boolean = false;
+		public static var BACKGROUNDCOLOR:uint = 0xFFFF99;
 		
 		public function Util(){
 			//this is a static class

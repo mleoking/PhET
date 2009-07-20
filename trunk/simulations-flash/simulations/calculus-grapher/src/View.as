@@ -120,7 +120,7 @@ package{
 					this.yScale = 0.02;
 					this.yAxisIntegralLabel = new IntegralLabel();
 					addChild(this.yAxisIntegralLabel);
-					this.yAxisIntegralLabel.scaleX = this.yAxisIntegralLabel.scaleY = 0.25;
+					//this.yAxisIntegralLabel.scaleX = this.yAxisIntegralLabel.scaleY = 0.25;
 					//trace("integral");
 					break;
 				default:
@@ -304,10 +304,10 @@ package{
 			this.xAxisLabel.x = this.originX + this.nbrPoints*this.pixelsPerPoint - 25;
 			this.xAxisLabel.y = this.originY; 
 			this.yAxisLabel.x = this.originX + 5;
-			this.yAxisLabel.y = 50;
+			this.yAxisLabel.y = 30;
 			if(this.curveType == "integral"){
 				this.yAxisIntegralLabel.x = this.originX + 10;
-				this.yAxisIntegralLabel.y = 30;
+				this.yAxisIntegralLabel.y = 20;
 			}
 		}//positionAxisLabels()
 		

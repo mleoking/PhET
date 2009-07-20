@@ -6,8 +6,9 @@
 	public class PushButton {
 		private var buttonBody:Object;
 		private var bIcon:Sprite;
+		public var myHighlight:Sprite;
 		private var myButtonWidth:Number;	
-		private var bName:String;
+		public var bName:String;
 		private var rightOrLeft:String; //placement of label
 		private var myLabel:TextField;
 		private var labelFormat:TextFormat; // = new TextFormat();
@@ -17,6 +18,7 @@
 		
 		public function PushButton(buttonBody:Object, bIcon:Sprite, labelText:String, rightOrLeft:String, bFunction:Function){
 			this.buttonBody = buttonBody;
+			this.myHighlight = this.buttonBody.highlight;
 			this.bIcon = bIcon;
 			//trace("this.bIcon.name: " + this.bIcon.name);
 			this.myLabel = this.buttonBody.label_txt;
@@ -34,6 +36,7 @@
 			this.myLabel.mouseEnabled = false;
 			this.myLabel.text = " "+this.bName+" ";
 			this.myLabel.visible = false;
+			this.myHighlight.visible = false;
 			this.myLabel.background = true;
 			//this.myLabel.autoSize = 
 			if(this.rightOrLeft == "right"){
@@ -56,6 +59,8 @@
 			if(evt.type == "mouseDown"){
 					this.buttonBody.x += 1;
 					this.buttonBody.y += 1;
+					this.bFunction(this.bName);
+					//this.myHighlight.visible = true;
 					//trace("evt.name:"+evt.type);
 				}else if(evt.type == "mouseOver"){
 					this.myLabel.visible = true;
@@ -65,12 +70,16 @@
 					//trace("evt.name:"+evt.type);
 					this.buttonBody.x -= 1;
 					this.buttonBody.y -= 1;
-					this.bFunction(this.bName);
+					this.myHighlight.visible = true;
 				}else if(evt.type == "mouseOut"){
 					this.myLabel.visible = false;
 					this.buttonBody.label_txt.setTextFormat(this.labelFormat);
 					//trace("evt.name:"+evt.type);
 				}
+		}//end of buttonBehave
+		
+		public function highlightOn():void{
+			this.myHighlight.visible = true;
 		}
 	}//end of class
 }//end of package
