@@ -27,7 +27,7 @@ public class AgingRock extends AnimatedDatableItem {
 	private static final double FINAL_ROCK_WIDTH = 10; // Model units, roughly meters.
 	private static final double ARC_HEIGHT_FACTOR = 0.04; // Higher for higher arc.
 	private static final double ROTATION_PER_STEP = Math.PI * 0.1605; // Controls rate of rotation when flying.
-	private static final int COOLING_START_PAUSE_STEPS = 100; // Length of pause before after landing & before starting to cool.
+	private static final int COOLING_START_PAUSE_STEPS = 50; // Length of pause before after landing & before starting to cool.
 	private static final int COOLING_STEPS = 60; // Number of steps to cool down.
 
     //------------------------------------------------------------------------
