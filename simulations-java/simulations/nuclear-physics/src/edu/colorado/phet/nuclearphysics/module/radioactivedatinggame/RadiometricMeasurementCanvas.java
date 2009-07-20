@@ -266,14 +266,13 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
     	if (_model.getMeter().getItemBeingTouched() != null){
     		// The meter is currently touching something, so we should graph
     		// this reading.
-    		double readingTime = clockEvent.getSimulationTime() * _model.getTimeConversionFactor();
+    		double readingTime = _model.getAdjustedTime();
     		_proportionsChart.addDataPoint(readingTime, _model.getMeter().getPercentageOfDatingElementRemaining());
     	}
     }
     
     private void updateTimeDisplay(ClockEvent clockEvent){
-    	double adjustedTime = clockEvent.getSimulationTime() * _model.getTimeConversionFactor();
-    	_timeDisplay.setTime(adjustedTime);
+    	_timeDisplay.setTime(_model.getAdjustedTime());
     }
 
 	/**
