@@ -25,10 +25,8 @@ public class AgingRock extends AnimatedDatableItem {
 	private static final int FLY_COUNT = 50; // Controls how long it takes the rock to fly out and then hit the ground.
 	private static final double FINAL_X_TRANSLATION = -20; // Model units, roughly meters.
 	private static final double FINAL_ROCK_WIDTH = 10; // Model units, roughly meters.
-	private static final double ARC_HEIGHT = 10; // Model units, roughly meters.
 	private static final double ARC_HEIGHT_FACTOR = 0.04; // Higher for higher arc.
 	private static final double ROTATION_PER_STEP = Math.PI * 0.1605; // Controls rate of rotation when flying.
-	private static final double GRAV = 1;
 	private static final int COOLING_START_PAUSE_STEPS = 100; // Length of pause before after landing & before starting to cool.
 	private static final int COOLING_STEPS = 60; // Number of steps to cool down.
 
@@ -38,8 +36,6 @@ public class AgingRock extends AnimatedDatableItem {
 	
 	private int _flyCounter = FLY_COUNT;
 	private double _growthPerStep;
-	private Point2D _initialLocation;
-	private double _deltaTime;
 	private double _coolingStartPauseCounter = COOLING_START_PAUSE_STEPS;
 	private double _coolingCounter = COOLING_STEPS;
 	private boolean _closurePossibleSent = false;
@@ -53,14 +49,9 @@ public class AgingRock extends AnimatedDatableItem {
         super( "Aging Rock", Arrays.asList( "rock_molten.png", "rock_cooled.png" ), center, width, 0, 
         		0, clock, timeConversionFactor, false );
     
-        _initialLocation = center;
-        
         // Calculate the amount of growth needed per step in order to reach
         // the right size by the end of the flight.
     	_growthPerStep = Math.pow( FINAL_ROCK_WIDTH / width, 1 / (double)FLY_COUNT );
-    	
-    	double T = (Math.sqrt(2 * ARC_HEIGHT) + Math.sqrt(2 * ARC_HEIGHT + 4 * _initialLocation.getY())) / 2 * GRAV;
-    	_deltaTime = T / (double)FLY_COUNT;
     }
     
     //------------------------------------------------------------------------
@@ -69,7 +60,6 @@ public class AgingRock extends AnimatedDatableItem {
     
     @Override
 	protected void handleClockTicked(ClockEvent clockEvent) {
-		// TODO Auto-generated method stub
 		super.handleClockTicked(clockEvent);
 		animate(getTotalAge());
 	}
@@ -89,11 +79,6 @@ public class AgingRock extends AnimatedDatableItem {
     		double flightXTranslation = FINAL_X_TRANSLATION / FLY_COUNT;
     		double flightYTranslation = (_flyCounter - (FLY_COUNT * 0.58)) * ARC_HEIGHT_FACTOR;
     		setPosition(getPosition().getX() + flightXTranslation, getPosition().getY() + flightYTranslation);
-//    		double deltaXPos = FINAL_X_TRANSLATION / FLY_COUNT;
-//    		double n = FLY_COUNT - _flyCounter;
-//    		double yPos = _initialLocation.getY() + (Math.sqrt(2 * GRAV * ARC_HEIGHT) * n * _deltaTime) -
-//    			(GRAV * n * n * _deltaTime * _deltaTime);
-//    		setPosition(getPosition().getX() + deltaXPos, yPos);
     		
     		// Grow.
 			Dimension2D size = getSize();
