@@ -1,13 +1,5 @@
 /* Copyright 2003-2004, University of Colorado */
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
 package edu.colorado.phet.reactionsandrates.controller;
 
 import edu.colorado.phet.reactionsandrates.model.EnergyProfile;
@@ -27,7 +19,6 @@ import java.awt.event.ActionEvent;
  * using an AbstractAction.
  *
  * @author Ron LeMaster
- * @version $Revision$
  */
 public class SelectReactionAction extends AbstractAction {
 
@@ -100,8 +91,8 @@ public class SelectReactionAction extends AbstractAction {
             // I'm not sure why the profile has to be set before the module is reset,
             // but it does
             module.getMRModel().setEnergyProfile( currentReaction.getEnergyProfile() );
-
-            module.reset();
+            
+            module.clearExperiment();
 
             module.getMRModel().setEnergyProfile( currentReaction.getEnergyProfile() );
         }

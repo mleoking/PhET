@@ -248,7 +248,7 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
         initialTemperaturePanel.reset();
     }
 
-    private void endExperiment() {
+    public void endExperiment() {
         experimentInProgress = false;
 
         // User wants to end an experiment

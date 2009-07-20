@@ -55,6 +55,7 @@ public class InitialTemperaturePanel extends JPanel {
 
                         double temp = source.getValue();
 
+                        module.clearExperiment(); // this should happen as the result of changing default temp, but doesn't 
                         module.getMRModel().setDefaultTemperature( temp );
                     }
                 }
