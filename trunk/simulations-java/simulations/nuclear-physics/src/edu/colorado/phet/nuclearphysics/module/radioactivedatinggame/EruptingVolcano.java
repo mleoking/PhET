@@ -21,6 +21,12 @@ import edu.colorado.phet.nuclearphysics.module.radioactivedatinggame.AnimatedDat
 public class EruptingVolcano extends StaticAnimatedDatableItem {
 
     //------------------------------------------------------------------------
+    // Class Data
+    //------------------------------------------------------------------------
+	
+	private static final double PRE_ERUPTION_INITIAL_AGE = MultiNucleusDecayModel.convertYearsToMs(1E9);
+	
+    //------------------------------------------------------------------------
     // Constructor
     //------------------------------------------------------------------------
 	
@@ -47,6 +53,10 @@ public class EruptingVolcano extends StaticAnimatedDatableItem {
         	shakeTranslation.setLocation(-xTranslation, -yTranslation);
         	animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(), shakeTranslation, 0, 1.0, 0, 0, 0, null));
         }
+        
+        // Add the sending of the "closure possible" event.
+        animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(), null, 0, 1.0, 0, 0, 0,
+        		new RadiometricClosureEvent(this, RadiometricClosureState.CLOSURE_POSSIBLE)));
 
         // Fade image to hot volcano while continuing to shake.
         int fadeSteps = 60;  // Must be divisible by 2.
@@ -63,7 +73,7 @@ public class EruptingVolcano extends StaticAnimatedDatableItem {
         }
 
         // More shaking.
-        shakeSteps = 80;  // Must be divisible by 2 or volcano will end up in different spot.
+        shakeSteps = 90;  // Must be divisible by 2 or volcano will end up in different spot.
         for (int i = 0; i < shakeSteps / 2; i++){
         	double xTranslation = maxXShakePerStep * rand.nextDouble();
         	double yTranslation = maxYShakePerStep * rand.nextDouble();
@@ -81,6 +91,35 @@ public class EruptingVolcano extends StaticAnimatedDatableItem {
         			fadeAmountPerStep, null));
         }
         
+        // Add the sending of the "closure occurred" event.
+        animationSequence.add(new ModelAnimationDelta(timeUpdater.updateTime(), null, 0, 1.0, 0, 0, 0,
+        		new RadiometricClosureEvent(this, RadiometricClosureState.CLOSED)));
+        
         return new StaticAnimationSequence(animationSequence);
     }
+
+    /**
+     * The volcano is a little unique in that it has a radiometric age before
+     * it does anything, which then gets reset to zero while erupting, and
+     * then it starts to age again.
+     */
+	@Override
+	public double getRadiometricAge() {
+		double radiometricAge;
+		
+		if (getClosureState() == RadiometricClosureState.CLOSURE_NOT_POSSIBLE){
+			// This means that the eruption hasn't started, so show the per-eruption age.
+			radiometricAge = PRE_ERUPTION_INITIAL_AGE + getTotalAge();
+		}
+		else if (getClosureState() == RadiometricClosureState.CLOSURE_POSSIBLE){
+			// This indicates that the volcano is erupting, so the radiometric age is 0.
+			radiometricAge = 0;
+		}
+		else {
+			// Done erupting.  The base class implementation is now relevant.
+			radiometricAge = super.getRadiometricAge();
+		}
+		
+		return radiometricAge;
+	}
 }
