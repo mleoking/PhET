@@ -1,3 +1,6 @@
+Make default frame size 1024x768
+Removed PhET icon logo with weblink
+Increase font in play area to compensate for new size
 # 3.17.11 (33457) Jul 19, 2009
 > Rewrote voltage calculation to use node voltages
 # 3.17.10 (33455) Jul 19, 2009
