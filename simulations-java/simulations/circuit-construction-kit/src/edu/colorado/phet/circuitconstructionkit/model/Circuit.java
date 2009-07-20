@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import edu.colorado.phet.circuitconstructionkit.model.components.*;
+import edu.colorado.phet.circuitconstructionkit.model.mna2.CompanionMNA;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
@@ -25,6 +26,7 @@ public class Circuit {
     private CircuitChangeListener circuitChangeListener;
     private boolean fireKirkhoffChanges = true;
     private boolean allowUserEdits = true;
+    private CompanionMNA.CompanionSolution solution;//solution from last update;//todo: should this be dynamic?
 
     public Circuit() {
         this( new CompositeCircuitChangeListener() );
@@ -55,14 +57,11 @@ public class Circuit {
             junctions.add( junction );
             fireJunctionAdded( junction );
         }
-        else {
-            //            System.out.println( "Already contained junction." );
-        }
     }
 
     private void fireJunctionAdded( Junction junction ) {
-        for ( CircuitListener circuitListener : listeners ) {
-            circuitListener.junctionAdded( junction );
+        for ( int i = 0; i < listeners.size(); i++ ) {//using java 1.5 iterator causes concurrentmodification exception here
+            listeners.get( i ).junctionAdded( junction );
         }
     }
 
@@ -187,6 +186,10 @@ public class Circuit {
         }
 
         return n.toArray( new Branch[n.size()] );
+    }
+
+    public void setSolution( CompanionMNA.CompanionSolution solution ) {
+        this.solution = solution;
     }
 
     class EditingObserver implements SimpleObserver {
@@ -429,42 +432,14 @@ public class Circuit {
     }
 
     public double getVoltage( Connection a, Connection b ) {
-        GraphTraversalVoltage voltageDifference = new GraphTraversalVoltage( this );
         if ( a.equals( b ) ) {
             return 0;
         }
         else {
-            Junction startJ = a.getJunction();
-            Junction endJ = b.getJunction();
             double va = a.getVoltageAddon();
             double vb = -b.getVoltageAddon();//this has to be negative, because on the path VA->A->B->VB, the the VB computation is VB to B.
-//            System.out.println( "va = " + va );
-//            System.out.println( "vb = " + vb );
-            double voltInit = ( va + vb );
-//            double voltInit = ( va - vb );
-//            double voltInit = ( vb - va );
-//            double voltInit = -( va + vb );
-            //the sign of va and vb depend on the
-//            System.out.println( "voltInit = " + voltInit );
-
-            double junctionAnswer = voltageDifference.getVoltage( new ArrayList(), startJ, endJ, 0 );
-            double junctionAnswer2 = -voltageDifference.getVoltage( new ArrayList(), endJ, startJ, 0 );
-//            System.out.println( "junctionAnswer = " + junctionAnswer );
-//            System.out.println( "junctionAnswer2 = " + junctionAnswer2 );
-            double diff = ( junctionAnswer - junctionAnswer2 );
-            if ( diff > .0001 && !Double.isInfinite( junctionAnswer ) && !Double.isInfinite( junctionAnswer2 ) ) {
-                new RuntimeException( "Junction answers inconsistent, ans1=" + junctionAnswer + ", ans2=" + junctionAnswer2 ).printStackTrace();
-            }
-            double result = Double.POSITIVE_INFINITY;
-            if ( !Double.isInfinite( junctionAnswer ) ) {
-                result = ( junctionAnswer + voltInit );
-            }
-            else if ( !Double.isInfinite( junctionAnswer2 ) ) {
-                result = ( junctionAnswer2 + voltInit );
-            }
-            //            return result;
-//            System.out.println( "result = " + result );
-            return result;
+            double junctionAnswer = solution.getVoltageDifference( indexOf( a.getJunction() ), indexOf( b.getJunction() ) );
+            return junctionAnswer + va + vb;
         }
     }
 

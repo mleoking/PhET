@@ -201,6 +201,7 @@ public class PureJavaSolver extends CircuitSolver {
         for ( OpenAdapter openAdapter : openBranches ) {
             openAdapter.applySolution( solution );
         }
+        circuit.setSolution(solution);
         fireCircuitSolved();
     }
 }
