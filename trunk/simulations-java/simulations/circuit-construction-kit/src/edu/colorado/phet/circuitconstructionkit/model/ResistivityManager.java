@@ -65,7 +65,7 @@ public class ResistivityManager extends CircuitListenerAdapter {
     }
 
     public void setResistivity( double resistivity ) {
-        System.out.println( "resistivity = " + resistivity );
+//        System.out.println( "resistivity = " + resistivity );
         if ( this.resistivity != resistivity ) {
             this.resistivity = resistivity;
             changed();

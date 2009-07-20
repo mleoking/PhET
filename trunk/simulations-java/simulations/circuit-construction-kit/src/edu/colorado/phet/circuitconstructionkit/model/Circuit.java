@@ -432,7 +432,7 @@ public class Circuit {
     }
 
     public double getVoltage( Connection a, Connection b ) {
-        if ( a.equals( b ) ) {
+        if ( a.equals( b ) || !getSameComponent( a.getJunction(), b.getJunction() ) ) {
             return 0;
         }
         else {
@@ -441,6 +441,16 @@ public class Circuit {
             double junctionAnswer = solution.getVoltageDifference( indexOf( a.getJunction() ), indexOf( b.getJunction() ) );
             return junctionAnswer + va + vb;
         }
+    }
+
+    private boolean getSameComponent( Junction a, Junction b ) {
+        Branch[] x = getConnectedSubgraph( a );//todo: this logic is duplicated in mna
+        for ( Branch branch : x ) {
+            if ( branch.hasJunction( b ) ) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void setSelection( Branch branch ) {
