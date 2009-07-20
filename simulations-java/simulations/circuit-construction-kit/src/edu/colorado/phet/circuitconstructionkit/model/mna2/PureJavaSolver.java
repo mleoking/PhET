@@ -148,16 +148,16 @@ public class PureJavaSolver extends CircuitSolver {
             if ( circuit.getBranches()[i] instanceof Battery ) {
                 batteries.add( new ResistiveBatteryAdapter( circuit, (Battery) circuit.getBranches()[i] ) );
             }
-            if ( circuit.getBranches()[i] instanceof Resistor ) {
+            else if ( circuit.getBranches()[i] instanceof Resistor ) {
                 resistors.add( new ResistorAdapter( circuit, circuit.getBranches()[i] ) );
             }
-            if ( circuit.getBranches()[i] instanceof Wire ) {
+            else if ( circuit.getBranches()[i] instanceof Wire ) {
                 resistors.add( new ResistorAdapter( circuit, circuit.getBranches()[i] ) );
             }
-            if ( circuit.getBranches()[i] instanceof Filament ) {
+            else if ( circuit.getBranches()[i] instanceof Filament ) {
                 resistors.add( new ResistorAdapter( circuit, circuit.getBranches()[i] ) );
             }
-            if ( circuit.getBranches()[i] instanceof Switch ) {//todo: how to handle switch here.
+            else if ( circuit.getBranches()[i] instanceof Switch ) {//todo: how to handle switch here.
                 //todo: perhaps if it is open; don't add it at all, and just make sure we make its current zero afterwards
                 //todo:
                 Switch sw = (Switch) circuit.getBranches()[i];
@@ -168,18 +168,21 @@ public class PureJavaSolver extends CircuitSolver {
                     openBranches.add( new OpenAdapter( circuit, circuit.getBranches()[i] ) );
                 }
             }
-            if ( circuit.getBranches()[i] instanceof Bulb ) {
+            else if ( circuit.getBranches()[i] instanceof Bulb ) {
                 resistors.add( new ResistorAdapter( circuit, circuit.getBranches()[i] ) );
             }
-            if ( circuit.getBranches()[i] instanceof SeriesAmmeter ) {
+            else if ( circuit.getBranches()[i] instanceof SeriesAmmeter ) {
                 resistors.add( new ResistorAdapter( circuit, circuit.getBranches()[i] ) );
             }
-            if ( circuit.getBranches()[i] instanceof Capacitor ) {
+            else if ( circuit.getBranches()[i] instanceof Capacitor ) {
                 capacitors.add( new CapacitorAdapter( circuit, (Capacitor) circuit.getBranches()[i] ) );
             }
-            if ( circuit.getBranches()[i] instanceof Inductor ) {
+            else if ( circuit.getBranches()[i] instanceof Inductor ) {
                 inductors.add( new InductorAdapter( circuit, (Inductor) circuit.getBranches()[i] ) );
+            }else{
+                new RuntimeException( "Type not found: "+circuit.getBranches()[i]).printStackTrace(  );
             }
+
         }
         CompanionMNA.FullCircuit circ = new CompanionMNA.FullCircuit( batteries, resistors, capacitors, inductors );
         CompanionMNA.CompanionSolution solution = circ.solve( dt );
