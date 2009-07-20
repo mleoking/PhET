@@ -65,7 +65,7 @@ public class PureJavaSolver extends CircuitSolver {
 
         void applySolution(CompanionMNA.CompanionSolution sol) {
             getComponent().setCurrent(0.0);
-            getComponent().setVoltageDrop(Double.POSITIVE_INFINITY);//todo: will this cause numerical problems?
+            getComponent().setVoltageDrop(0.0);//todo: will this cause numerical problems?
         }
     }
 
@@ -153,12 +153,12 @@ public class PureJavaSolver extends CircuitSolver {
                 resistors.add(new ResistorAdapter(circuit, circuit.getBranches()[i]));
             if (circuit.getBranches()[i] instanceof Filament)
                 resistors.add(new ResistorAdapter(circuit, circuit.getBranches()[i]));
-            if (circuit.getBranches()[i] instanceof Switch){//todo: how to handle switch here.
+            if (circuit.getBranches()[i] instanceof Switch) {//todo: how to handle switch here.
                 //todo: perhaps if it is open; don't add it at all, and just make sure we make its current zero afterwards
                 //todo:
-                Switch sw= (Switch) circuit.getBranches()[i];
+                Switch sw = (Switch) circuit.getBranches()[i];
                 if (sw.isClosed())
-                resistors.add(new ResistorAdapter(circuit, circuit.getBranches()[i]));
+                    resistors.add(new ResistorAdapter(circuit, circuit.getBranches()[i]));
                 else
                     openBranches.add(new OpenAdapter(circuit, circuit.getBranches()[i]));
             }
@@ -181,7 +181,7 @@ public class PureJavaSolver extends CircuitSolver {
             capacitorAdapter.applySolution(solution);
         for (InductorAdapter inductorAdapter : inductors)
             inductorAdapter.applySolution(solution);
-        for (OpenAdapter openAdapter: openBranches)
+        for (OpenAdapter openAdapter : openBranches)
             openAdapter.applySolution(solution);
         fireCircuitSolved();
     }
