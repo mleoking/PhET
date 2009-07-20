@@ -30,7 +30,6 @@ public abstract class AnimatedDatableItem extends DatableItem implements Cleanup
     private final ArrayList<ClosureListener> _closureListeners = new ArrayList<ClosureListener>();
     private double _timeConversionFactor;
     private double _age = 0; // Age in milliseconds of this datable item.
-    private double _ageOffset = 0;
     private RadiometricClosureState _closureState = RadiometricClosureState.CLOSURE_NOT_POSSIBLE;
     private double _closureAge = 0;
 
@@ -47,7 +46,7 @@ public abstract class AnimatedDatableItem extends DatableItem implements Cleanup
         // Create the adapter that will listen to the clock.
 		_clockAdapter = new ClockAdapter(){
 		    public void clockTicked( ClockEvent clockEvent ) {
-		    	handleClockTicked();
+		    	handleClockTicked( clockEvent );
 		    }
 		    public void simulationTimeReset( ClockEvent clockEvent ) {
 		    	handleSimulationTimeReset();
@@ -143,11 +142,10 @@ public abstract class AnimatedDatableItem extends DatableItem implements Cleanup
 			listener.closureStateChanged(this);
 		}
 	}
-
 	
-    protected void handleClockTicked(){
+    protected void handleClockTicked(ClockEvent clockEvent){
     	// Update our age value.
-        _age = _clock.getSimulationTime() * _timeConversionFactor + _ageOffset - _birthTime;
+        _age = _age + (clockEvent.getSimulationTimeChange() * _timeConversionFactor);
     }
     
     protected ConstantDtClock getClock(){
@@ -167,7 +165,7 @@ public abstract class AnimatedDatableItem extends DatableItem implements Cleanup
     }
 
     @Override
-	public double getAge() {
+	public double getRadiometricAge() {
     	if (_closureState != RadiometricClosureState.CLOSED){
     		// Radiometric aging does not begin until closure occurs.
     		return 0;
@@ -181,6 +179,15 @@ public abstract class AnimatedDatableItem extends DatableItem implements Cleanup
     		}
     		return _age - _closureAge;
     	}
+    }
+    
+    /**
+     * Get the total age of this item, as opposed to the radiometric age.
+     * 
+     * @return
+     */
+    public double getTotalAge(){
+    	return _age;
     }
 
     public static class TimeUpdater {

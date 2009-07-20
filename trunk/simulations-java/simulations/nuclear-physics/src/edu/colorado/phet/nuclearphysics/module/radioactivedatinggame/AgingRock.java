@@ -6,6 +6,7 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.util.Arrays;
 
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 
 /**
@@ -67,10 +68,11 @@ public class AgingRock extends AnimatedDatableItem {
     //------------------------------------------------------------------------
     
     @Override
-    protected void handleClockTicked() {
-    	super.handleClockTicked();
-    	animate(getClock().getSimulationTime() * getTimeConversionFactor() - getBirthTime());
-    }
+	protected void handleClockTicked(ClockEvent clockEvent) {
+		// TODO Auto-generated method stub
+		super.handleClockTicked(clockEvent);
+		animate(getTotalAge());
+	}
     
     /**
      * Implement the next steps in the animation of the rock based on a

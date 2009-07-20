@@ -153,13 +153,13 @@ public class RadiometricDatingMeter {
 			return 0;
 		}
 		
-		if ( _itemBeingTouched.getAge() <= 0 ){
+		if ( _itemBeingTouched.getRadiometricAge() <= 0 ){
 			return 100;
 		}
 		else{
 			// Calculate the percentage based on the standard exponential
 			// decay curve.
-			return 100 * Math.exp( -0.693 * _itemBeingTouched.getAge() / halflife );
+			return 100 * Math.exp( -0.693 * _itemBeingTouched.getRadiometricAge() / halflife );
 		}
 	}
 	

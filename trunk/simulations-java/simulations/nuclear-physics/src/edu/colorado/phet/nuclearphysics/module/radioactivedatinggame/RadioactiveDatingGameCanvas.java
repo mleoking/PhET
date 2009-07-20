@@ -556,7 +556,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
      */
     private boolean determineIfGuessIsGood( double guessedAge, DatableItem datableItem ){
 
-    	double actualAge = datableItem.getAge();
+    	double actualAge = datableItem.getRadiometricAge();
     	
     	return ( guessedAge < actualAge * ( 1 + AGE_GUESS_TOLERANCE_PERCENTAGE / 100 ) ) &&
     		   ( guessedAge > actualAge * ( 1 - AGE_GUESS_TOLERANCE_PERCENTAGE / 100 ) );
