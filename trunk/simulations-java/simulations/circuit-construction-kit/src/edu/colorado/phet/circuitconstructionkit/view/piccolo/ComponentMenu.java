@@ -179,7 +179,7 @@ public abstract class ComponentMenu extends JPopupMenuRepaintWorkaround {
         public CapacitorMenu( final Capacitor capacitor, CCKModule module ) {
             super( capacitor, module );
             this.capacitor = capacitor;
-            editor = new ComponentEditor( module, CCKStrings.getString( "capacitance" ), capacitor, module.getSimulationPanel(), CCKStrings.getString( "capacitance" ), CCKStrings.getString( "farads" ), Capacitor.DEFAULT_CAPACITANCE/2, Capacitor.DEFAULT_CAPACITANCE*2, capacitor.getCapacitance(), module.getCircuit() ) {
+            editor = new ComponentEditor( module, CCKStrings.getString( "capacitance" ), capacitor, module.getSimulationPanel(), CCKStrings.getString( "capacitance" ), CCKStrings.getString( "farads" ), Capacitor.DEFAULT_CAPACITANCE / 2, Capacitor.DEFAULT_CAPACITANCE * 2, capacitor.getCapacitance(), module.getCircuit() ) {
                 protected void doChange( double value ) {
                     capacitor.setCapacitanceConstantCharge( value );
                 }

@@ -15,8 +15,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import edu.colorado.phet.circuitconstructionkit.model.analysis.CircuitSolver;
-import edu.colorado.phet.circuitconstructionkit.model.analysis.MNASolver;
-import edu.colorado.phet.circuitconstructionkit.model.analysis.CircuitAnalysisCCKAdapter;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
 import edu.colorado.phet.circuitconstructionkit.model.mna2.PureJavaSolver;
 
@@ -94,16 +92,17 @@ public class CCKModel {
         return new Circuit( circuitChangeListener );
     }
 
-    int stepCount=0;
-    int frameSolveCount=1;
-    int N=1;
+    int stepCount = 0;
+    int frameSolveCount = 1;
+    int N = 1;
+
     //Every frameSolveCount steps, it will run N iterations of the solver
     public void stepInTime( double dt ) {
         stepCount++;
-        if ( (getCircuit().isDynamic() || modelChanged ) && stepCount%frameSolveCount==0) {
+        if ( ( getCircuit().isDynamic() || modelChanged ) && stepCount % frameSolveCount == 0 ) {
             getCircuit().stepInTime( dt );
-            for (int i=0;i<N;i++){
-                circuitSolver.apply( getCircuit(),dt/(double)N*(double)frameSolveCount );
+            for ( int i = 0; i < N; i++ ) {
+                circuitSolver.apply( getCircuit(), dt / (double) N * (double) frameSolveCount );
             }
             modelChanged = false;
         }

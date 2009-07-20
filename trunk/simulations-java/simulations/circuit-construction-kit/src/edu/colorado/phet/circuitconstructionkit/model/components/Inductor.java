@@ -19,8 +19,8 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 public class Inductor extends CircuitComponent implements DynamicBranch {
     //only used in the ComponentMenu for inductor editor, but consolidated here
-    public static final double MIN_INDUCTANCE=10;
-    public static final double MAX_INDUCTANCE=100;
+    public static final double MIN_INDUCTANCE = 10;
+    public static final double MAX_INDUCTANCE = 100;
 
     private static final double DEFAULT_INDUCTANCE = 50;//50 henries makes tau=L/R = 5 sec for default resistor; this saturates in about 5 * tau = 25 sec
     private ArrayList listeners = new ArrayList();
