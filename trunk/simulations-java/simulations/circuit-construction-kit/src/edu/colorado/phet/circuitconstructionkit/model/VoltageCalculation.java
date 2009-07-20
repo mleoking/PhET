@@ -8,11 +8,9 @@ import java.util.ArrayList;
  * Time: 4:57:32 PM
  */
 public class VoltageCalculation {
-    private Circuit circuit;
     private VoltageDifference voltageDifference;
 
     public VoltageCalculation( Circuit circuit ) {
-        this.circuit = circuit;
         voltageDifference = new GraphTraversalVoltage( circuit );
     }
 
