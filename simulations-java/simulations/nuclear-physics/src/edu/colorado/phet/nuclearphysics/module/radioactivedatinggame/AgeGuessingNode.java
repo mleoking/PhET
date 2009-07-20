@@ -1,6 +1,9 @@
 package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.NumberFormat;
@@ -12,10 +15,12 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -27,9 +32,10 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 public class AgeGuessingNode extends PNode {
 	
 	private static final Font TEXT_FONT = new PhetFont(18);
-	private static final Color BORDER_COLOR = Color.BLACK;
 	private static final int BORDER_THICKNESS = 2;
 	private static final int AGE_ENTRY_FIELD_COLUMNS = 12;
+	private static final Color BACKGROUND_COLOR = NuclearPhysicsConstants.RADIOACTIVE_DATING_GAME_CONTROL_PANEL_COLOR;
+	private static final double ENLARGEMENT_FACTOR = 0.1;
 	
 	private ArrayList<Listener> _listeners = new ArrayList<Listener>();
 	private JFormattedTextField _ageEntryField;
@@ -39,16 +45,25 @@ public class AgeGuessingNode extends PNode {
 	 */
 	public AgeGuessingNode(DatableItem item) {
 		
-		// Create the panel that will contain all the components.
-		VerticalLayoutPanel ageGuessingNodePanel = new VerticalLayoutPanel();
-		ageGuessingNodePanel.setBorder(BorderFactory.createLineBorder(BORDER_COLOR, BORDER_THICKNESS) );
+		// Create the background.
+		PPath background = new PPath();
+		background.setStroke(new BasicStroke(BORDER_THICKNESS));
+		background.setPaint(BACKGROUND_COLOR);
+		addChild(background);
 		
-		// Create the sub-panel that will contain the text field for entering
-		// the age and the units label.
+		// Add the textual label.
+		PText title = new PText(item.getName());
+		title.setFont(TEXT_FONT);
+		background.addChild(title);
+		
+		// Create the sub-panel that will contain the edit box for entering
+		// the age, plus the units label.
 		JPanel ageEntryPanel = new JPanel();
+		ageEntryPanel.setBackground(BACKGROUND_COLOR);
 		_ageEntryField = new JFormattedTextField( NumberFormat.getNumberInstance() );
 		_ageEntryField.setColumns(AGE_ENTRY_FIELD_COLUMNS);
 		_ageEntryField.setFont(TEXT_FONT);
+		_ageEntryField.setBorder(BorderFactory.createEtchedBorder());
 		JLabel textEntryFieldLabel = new JLabel(NuclearPhysicsStrings.READOUT_UNITS_YRS);
 		textEntryFieldLabel.setFont(TEXT_FONT);
 		ageEntryPanel.add(_ageEntryField);
@@ -61,11 +76,14 @@ public class AgeGuessingNode extends PNode {
 			}
 		});
 		
+		// Wrap the age entry panel in a PSwing.
+		PSwing ageEntryPSwing = new PSwing(ageEntryPanel);
+		background.addChild(ageEntryPSwing);
+		
 		// Create the sub-panel that contains the button. 
-		JPanel checkAgeButtonPanel = new JPanel();
 		final JButton checkAgeButton = new JButton(NuclearPhysicsStrings.CHECK_AGE);
 		checkAgeButton.setFont(TEXT_FONT);
-		checkAgeButtonPanel.add(checkAgeButton);
+		checkAgeButton.setBackground(BACKGROUND_COLOR);
 		
 		// Register to send the user's guess when the button is pushed.
 		checkAgeButton.addActionListener( new ActionListener(){
@@ -74,21 +92,37 @@ public class AgeGuessingNode extends PNode {
 			}
 		});
 		
-		// Add the sub-panels to the overall panel.
-        ageGuessingNodePanel.setFillNone();
-        ageGuessingNodePanel.add(new TitleComponent(item.getName()));
-		ageGuessingNodePanel.add(ageEntryPanel);
-		ageGuessingNodePanel.add(checkAgeButtonPanel);
+		// Wrap the button in a PSwing.
+		PSwing buttonPSwing = new PSwing(checkAgeButton);
+		background.addChild(buttonPSwing);
 		
-		// Wrap the whole thing in a PSwing and add it to the node.
-		PSwing ageGuessingNodePanelPSwing = new PSwing(ageGuessingNodePanel);
-		addChild(ageGuessingNodePanelPSwing);
+		// Lay out the node.  NOTE TO FUTURE MAINTAINERS - This was originally
+		// coded in a way that used Swing's layout, and put everything on a
+		// panel, but it looked weird.  The title was cut off, the edges
+		// would appear partially occluded, etc.  Hence the hand-rolled layout
+		// code that follows.
+		double width = Math.max(title.getFullBoundsReference().width,
+				Math.max(ageEntryPSwing.getFullBoundsReference().width, buttonPSwing.getFullBoundsReference().width));
+		width = width * (1 + ENLARGEMENT_FACTOR);
+		double height = title.getFullBoundsReference().height + ageEntryPSwing.getFullBoundsReference().height
+			+ buttonPSwing.getFullBoundsReference().height;
+		double yOffset = height * (ENLARGEMENT_FACTOR / 2);
+		height = height * (1 + ENLARGEMENT_FACTOR);
+		background.setPathToRectangle(0, 0, (float)width, (float)height);
+		title.setOffset(width / 2 - title.getFullBoundsReference().width / 2, yOffset);
+		ageEntryPSwing.setOffset(width / 2 - ageEntryPSwing.getFullBoundsReference().width / 2,
+				title.getFullBoundsReference().getMaxY());
+		buttonPSwing.setOffset(width / 2 - buttonPSwing.getFullBoundsReference().width / 2,
+				ageEntryPSwing.getFullBoundsReference().getMaxY());
 	}
 
-    public static class TitleComponent extends JLabel{
+    public static class TitleComponent extends JPanel{
         public TitleComponent( String text ) {
-            super( text );
-            setFont( TEXT_FONT );
+        	FlowLayout layout = new FlowLayout(FlowLayout.CENTER);
+        	setLayout(layout);
+        	JLabel label = new JLabel(text);
+            label.setFont( TEXT_FONT );
+            add(label);
         }
     }
 	
