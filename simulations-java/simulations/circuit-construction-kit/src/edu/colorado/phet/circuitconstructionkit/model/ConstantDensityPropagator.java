@@ -15,7 +15,7 @@ public class ConstantDensityPropagator implements ModelElement {
     public static double FIRE_CURRENT = 10;
     private ParticleSet particleSet;
     private Circuit circuit;
-    private double speedScale = .01/0.03;
+    private double speedScale = .01 / 0.03;
     private double MIN_CURRENT = Math.pow( 10, -10 );
     private double MAX_STEP = CCKModel.ELECTRON_DX * .43;
     private int numEqualize = 2;

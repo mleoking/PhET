@@ -59,7 +59,7 @@ public abstract class DoubleTerminalFloatingChart extends AbstractFloatingChart 
         if ( leftCrosshairNode != null && valueReader != null ) {
             //get the coordinate in the wavefunctiongraphic.
             double value = valueReader.getValue( getLeftShape(), getRightShape() );
-            double t = super.getClock().getSimulationTime() ;
+            double t = super.getClock().getSimulationTime();
             getStripChartJFCNode().addValue( t, value );
         }
     }
