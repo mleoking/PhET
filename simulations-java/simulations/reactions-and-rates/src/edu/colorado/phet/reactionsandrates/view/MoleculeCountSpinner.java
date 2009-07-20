@@ -100,7 +100,7 @@ public class MoleculeCountSpinner extends JSpinner implements PublishingModel.Mo
     public void setEditable( boolean editable ) {
         setEnabled( editable );
         JFormattedTextField tf = ( (JSpinner.DefaultEditor)getEditor() ).getTextField();
-        tf.setEnabled( true );
+        tf.setEnabled( editable );
         tf.setEditable( editable );
         tf.setForeground( Color.black );
     }
