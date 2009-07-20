@@ -344,7 +344,10 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
 	 */
 	public void forceClosure(){
 		for ( AnimatedDatableItem datableItem : _animatedModelElements ){
-			datableItem.forceClosure();
+			if (datableItem instanceof AgingRock || datableItem instanceof AgingTree){
+				// Force closure on this item.
+				datableItem.forceClosure();
+			}
 		}
 	}
 	
