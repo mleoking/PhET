@@ -37,7 +37,7 @@ public class VoltageStripChart extends DoubleTerminalFloatingChart.Piccolo {
         }
 
         public double getValue( Shape a, Shape b ) {
-            return new PiccoloVoltageCalculation( circuit ).getVoltage( a, b );
+            return circuit.getVoltage( a, b );
         }
     }
 }

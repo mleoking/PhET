@@ -67,7 +67,7 @@ public class VoltmeterModel {
     }
 
     private void updateVoltage() {
-        double voltage = new PiccoloVoltageCalculation( circuit ).getVoltage( redLead.getTipShape(), blackLead.getTipShape() );
+        double voltage = circuit.getVoltage( redLead.getTipShape(), blackLead.getTipShape() );
         if ( voltage != this.voltage ) {
             this.voltage = voltage;
             notifyListeners();
@@ -173,7 +173,7 @@ public class VoltmeterModel {
         }
 
         public Connection getConnection() {
-            return new PiccoloVoltageCalculation( circuit ).detectConnection( getTipShape() );
+            return circuit.getConnection( getTipShape() );
         }
 
         static interface Listener {
