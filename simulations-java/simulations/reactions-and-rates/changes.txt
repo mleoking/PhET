@@ -1,3 +1,5 @@
+# 1.03.06 (33475) Jul 20, 2009
+7/20/09 publish dev version to review many bug fixes
 7/20/09 #1740, properly disabled spinners in "Rate Experiements" tab
 7/20/09 #1732, add a "Clear container" button to the "Many Collisions" tab
 7/20/09 #1730, clear the model when the reaction type is changed (instead of doing Reset All)
