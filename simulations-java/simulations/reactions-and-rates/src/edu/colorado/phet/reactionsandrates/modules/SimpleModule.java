@@ -130,6 +130,11 @@ public class SimpleModule extends MRModule {
         launcherMoleculeClass = MoleculeA.class;
         resetMolecules();
     }
+    
+    public void clearExperiment() {
+        super.clearExperiment();
+        resetMolecules();
+    }
 
     public void resetMolecules() {
         MRModel model = getThisModel();
