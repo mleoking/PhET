@@ -1,3 +1,4 @@
+# 3.17.10 (33455) Jul 19, 2009
 # 3.17.09 (33439) Jul 19, 2009
 7/19/09 made it so open switches are treated as OpenComponents, not resistors with high resistance, see #367
 # 3.17.08 (33030) Jul 5, 2009
