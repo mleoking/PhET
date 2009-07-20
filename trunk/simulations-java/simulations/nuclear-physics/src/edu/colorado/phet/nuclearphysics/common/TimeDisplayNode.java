@@ -40,6 +40,7 @@ public class TimeDisplayNode extends PNode {
     private final double MILLISECONDS_PER_TRILLION_YEARS = 1E12 * MILLISECONDS_PER_YEAR;
     private final double MILLISECONDS_PER_QUADRILLION_YEARS = 1E15 * MILLISECONDS_PER_YEAR;
     private final int EXPONENT_SCALE = 80; // percent
+    private final int NUM_SIGNIFICANT_DIGITS = 3;
     
     private double _width;
     private double _height;
@@ -58,6 +59,12 @@ public class TimeDisplayNode extends PNode {
     private ConstantPowerOfTenNumberFormat _billionsFormatter = new ConstantPowerOfTenNumberFormat("0", 9, EXPONENT_SCALE);
     private ConstantPowerOfTenNumberFormat _trillionsFormatter = new ConstantPowerOfTenNumberFormat("0", 12, EXPONENT_SCALE);
 	
+    /**
+     * Constructor.
+     * 
+     * @param width
+     * @param height
+     */
 	public TimeDisplayNode(double width, double height){
 		_width = width;
 		_height = height;
@@ -203,16 +210,76 @@ public class TimeDisplayNode extends PNode {
 //	}
 	
 	public void setTime(double milliseconds){
+		
+		if (milliseconds == _currentTimeInMilliseconds){
+			// Don't bother updating the display if the value hasn't changed.
+			return;
+		}
 
 		_currentTimeInMilliseconds = milliseconds;
 
 		// Convert to years.
-        _timeText.setHTML( _timeFormatterNoDecimals.format(milliseconds / MILLISECONDS_PER_YEAR) );
+		double timeInYears = milliseconds / MILLISECONDS_PER_YEAR;
+		double valueToDisplay = roundToSignificantDigits(timeInYears, NUM_SIGNIFICANT_DIGITS);
+        _timeText.setHTML( _timeFormatterNoDecimals.format(valueToDisplay) );
         _unitsText.setHTML( NuclearPhysicsStrings.READOUT_UNITS_YRS );
 		
 		updateTextScaling();
         updateTimeDisplay();
 	}
+
+	
+	/**
+	 * Note: This only works for numbers to the left of the decimal place.
+	 * 
+	 * @param val
+	 * @param numSigDigs
+	 * @return
+	 */
+	public static double roundToSignificantDigits(double val, int numSigDigs){
+		
+		int places = (int)Math.floor(Math.log10(val)) + 1;
+		
+		// Calculate a value where the decimal point has the number of
+		// desired significant digits to the left of the decimal point.
+		double retVal = val / Math.pow(10, places - numSigDigs);
+		
+		// Round the value.
+		retVal = (double)Math.round(retVal);
+		
+		// Multiply back to the original number of places.
+		retVal = retVal * Math.pow(10, places - numSigDigs);
+		
+		// We're done.
+		return retVal;
+	}
+	
+	public static double round(double val, int places) {
+		long factor = (long)Math.pow(10,places);
+
+		// Shift the decimal the correct number of places
+		// to the right.
+		val = val * factor;
+
+		// Round to the nearest integer.
+		long tmp = Math.round(val);
+
+		// Shift the decimal the correct number of places
+		// back to the left.
+		return (double)tmp / factor;
+	}
+	
+	public static void main(String[] args) {
+		System.out.println("Test of sig digs.");
+		double testVal;
+		testVal = 12345;
+		System.out.println("Input: " + testVal + ", Output: " + roundToSignificantDigits(testVal, 2));
+		testVal = 99.9;
+		System.out.println("Input: " + testVal + ", Output: " + roundToSignificantDigits(testVal, 2));
+		testVal = 0.002;
+		System.out.println("Input: " + testVal + ", Output: " + roundToSignificantDigits(testVal, 3));
+	}
+
 	
 	// TODO: This relates to the other todo above.  If this display ends up
 	// only being used for years, this method can be permanently removed.
