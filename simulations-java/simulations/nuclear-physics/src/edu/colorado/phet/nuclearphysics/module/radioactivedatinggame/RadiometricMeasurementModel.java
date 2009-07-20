@@ -254,17 +254,28 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
 	 */
 	public double getAdjustedTime(){
 		
-		double conversionFactor = 1;  // Real time is the default.
+		double adjustedTime = _clock.getSimulationTime(); // Use sim time by default.
 		
-		if (_animatedModelElements.size() > 0){
-			// Use the time value from the first model element.  IMPORTANT
-			// NOTE: This assumes the time value is the same for all elements
-			// being modeled, which is true at the time of this writing.  If
-			// that assumption ever changes, this will need to change to.
-			conversionFactor = _animatedModelElements.get(0).getTimeConversionFactor();
+		if (_simulationMode == SIMULATION_MODE.TREE){
+			// Find the tree and use its age, since it is expected to be
+			// around since the start for this mode.
+			for (AnimatedDatableItem item : _animatedModelElements){
+				if ( item instanceof AgingTree){
+					adjustedTime = item.getTotalAge();
+				}
+			}
+		}
+		else if (_simulationMode == SIMULATION_MODE.ROCK){
+			// Find the volcano and use its age, since it is expected to be
+			// around since the start for this mode.
+			for (AnimatedDatableItem item : _animatedModelElements){
+				if ( item instanceof EruptingVolcano){
+					adjustedTime = item.getTotalAge();
+				}
+			}
 		}
 		
-		return conversionFactor * _clock.getSimulationTime();
+		return adjustedTime;
 	}
 	
 	private void handleClockTicked(){

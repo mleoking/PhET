@@ -7,6 +7,7 @@ import java.awt.geom.Point2D;
 import java.util.Arrays;
 import java.util.Random;
 
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusDecayModel;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -61,10 +62,11 @@ public class AgingTree extends AnimatedDatableItem {
     //------------------------------------------------------------------------
     
     @Override
-    protected void handleClockTicked() {
-    	super.handleClockTicked();
-    	animate(getClock().getSimulationTime() * getTimeConversionFactor() - getBirthTime());
-    }
+	protected void handleClockTicked(ClockEvent clockEvent) {
+		// TODO Auto-generated method stub
+		super.handleClockTicked(clockEvent);
+		animate(getTotalAge());
+	}
     
     /**
      * Implement the next steps in the animation of the tree based on a
@@ -163,7 +165,7 @@ public class AgingTree extends AnimatedDatableItem {
     	}
     }
 
-    private void rotateAboutBottomCenter(double deltaTheta){
+	private void rotateAboutBottomCenter(double deltaTheta){
     	
     	double totalTranslation = getSize().getHeight() * Math.sin( deltaTheta / 2 );
     	double centerAngle = getRotationalAngle() + ( deltaTheta / 2 );

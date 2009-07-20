@@ -4,6 +4,7 @@ import java.awt.geom.Point2D;
 import java.util.EventObject;
 import java.util.List;
 
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 
 /**
@@ -36,14 +37,12 @@ public abstract class StaticAnimatedDatableItem extends AnimatedDatableItem {
 				handleAnimationEvent(event);
 			}
 		});
-		
-		
 	}
 
 	protected abstract AnimationSequence createAnimationSequence();
 	
-    protected void handleClockTicked(){
-    	super.handleClockTicked();
+    protected void handleClockTicked(ClockEvent clockEvent){
+    	super.handleClockTicked(clockEvent);
         _animationIterpreter.setTime(getClock().getSimulationTime() * getTimeConversionFactor() - getBirthTime());
     }
 }

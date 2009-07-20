@@ -2,20 +2,19 @@
 
 package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 
+import java.awt.Point;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.model.Carbon14Nucleus;
 import edu.colorado.phet.nuclearphysics.model.Uranium238Nucleus;
@@ -150,9 +149,12 @@ public class DatableItem implements AnimatedModelElement {
 	}
 
 	/**
-	 * Get the age of the item in milliseconds.
+	 * Get the radiometric age of the item in milliseconds. This is the age
+	 * since the "closure" occurred, which for an organic item means when it
+	 * died and for a mineral, since it stopped chemically interacting with
+	 * its environment.
 	 */
-	public double getAge() {
+	public double getRadiometricAge() {
 		return age;
 	}
 
@@ -166,15 +168,15 @@ public class DatableItem implements AnimatedModelElement {
 	 * @return
 	 */
 	public static double getPercentageCustomNucleusRemaining( DatableItem item, double customNucleusHalfLife ){
-		return calculatePercentageRemaining(item.getAge(), customNucleusHalfLife);
+		return calculatePercentageRemaining(item.getRadiometricAge(), customNucleusHalfLife);
 	}
 
 	public static double getPercentageCarbon14Remaining( DatableItem item ){
-		return calculatePercentageRemaining(item.getAge(), Carbon14Nucleus.HALF_LIFE);
+		return calculatePercentageRemaining(item.getRadiometricAge(), Carbon14Nucleus.HALF_LIFE);
 	}
 
 	public static double getPercentageUranium238Remaining( DatableItem item ){
-		return calculatePercentageRemaining(item.getAge(), Uranium238Nucleus.HALF_LIFE);
+		return calculatePercentageRemaining(item.getRadiometricAge(), Uranium238Nucleus.HALF_LIFE);
 	}
 
 	private static double calculatePercentageRemaining( double age, double halfLife ){
