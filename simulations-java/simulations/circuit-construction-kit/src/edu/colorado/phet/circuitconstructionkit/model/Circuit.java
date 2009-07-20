@@ -200,21 +200,6 @@ public class Circuit {
             circuitListener.editingChanged();
         }
     }
-//    public void notifyNeighbors( Branch b ) {
-//        ArrayList alreadyNotified = new ArrayList();
-//        Branch[] br1 = getAdjacentBranches( b.getStartJunction() );
-//        Branch[] br2 = getAdjacentBranches( b.getEndJunction() );
-//        ArrayList all = new ArrayList();
-//        all.addAll( Arrays.asList( br1 ) );
-//        all.addAll( Arrays.asList( br2 ) );
-//        for( int i = 0; i < all.size(); i++ ) {
-//            Branch branch = (Branch)all.get( i );
-//            if( !alreadyNotified.contains( branch ) ) {
-//                alreadyNotified.add( branch );
-//                branch.notifyObservers();
-//            }
-//        }
-//    }
 
     public Junction[] split( Junction junction ) {
         Branch[] b = getAdjacentBranches( junction );
