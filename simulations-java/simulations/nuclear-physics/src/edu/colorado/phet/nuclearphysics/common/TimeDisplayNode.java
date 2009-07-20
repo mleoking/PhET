@@ -70,6 +70,7 @@ public class TimeDisplayNode extends PNode {
 	private NumberFormat _timeFormatterWithCommas = NumberFormat.getNumberInstance(PhetResources.readLocale());
     private DecimalFormat _timeFormatterNoDecimals = new DefaultDecimalFormat( "##0" );
     private DecimalFormat _timeFormatterOneDecimal = new DecimalFormat( "##0.0" );
+    private DecimalFormat _timeFormatterTwoDecimals = new DecimalFormat( "##0.00" );
     private ConstantPowerOfTenNumberFormat _thousandsFormatter = new ConstantPowerOfTenNumberFormat("0", 3, EXPONENT_SCALE);
     private ConstantPowerOfTenNumberFormat _millionsFormatter = new ConstantPowerOfTenNumberFormat("0", 6, EXPONENT_SCALE);
     private ConstantPowerOfTenNumberFormat _billionsFormatter = new ConstantPowerOfTenNumberFormat("0", 9, EXPONENT_SCALE);
@@ -245,7 +246,12 @@ public class TimeDisplayNode extends PNode {
 		// Convert to years.
 		double timeInYears = milliseconds / MILLISECONDS_PER_YEAR;
 		double valueToDisplay = roundToSignificantDigits(timeInYears, NUM_SIGNIFICANT_DIGITS);
-        _timeText.setHTML( _timeFormatterWithCommas.format(valueToDisplay) );
+		if (valueToDisplay < 1 && valueToDisplay != 0){
+			_timeText.setHTML(_timeFormatterTwoDecimals.format( valueToDisplay ));
+		}
+		else{
+			_timeText.setHTML( _timeFormatterWithCommas.format(valueToDisplay) );
+		}
         _unitsText.setHTML( NuclearPhysicsStrings.READOUT_UNITS_YRS );
 		
 		updateTextScaling();
