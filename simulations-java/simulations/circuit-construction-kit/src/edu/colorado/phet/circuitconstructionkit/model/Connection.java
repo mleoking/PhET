@@ -29,10 +29,6 @@ public abstract class Connection {
             return false;
         }
 
-//        public Branch[] getBranchesToIgnore() {
-//            return new Branch[0];
-//        }
-
         public Junction getJunction() {
             return junction;
         }
