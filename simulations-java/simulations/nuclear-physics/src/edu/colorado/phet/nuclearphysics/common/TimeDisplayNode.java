@@ -61,7 +61,7 @@ public class TimeDisplayNode extends PNode {
     private double _height;
 	private PPath _background;
 	private RoundRectangle2D _backgroundShape;
-	private double _currentTimeInMilliseconds;
+	private double _currentTimeInMilliseconds = Double.NEGATIVE_INFINITY;
 	private HTMLNode _timeText;
 	private HTMLNode _unitsText;
 	private PText _spaceText;
@@ -153,16 +153,16 @@ public class TimeDisplayNode extends PNode {
 		// is different.
 		if ((int)(scalingFactor * 100) != (int)(_timeText.getScale() * 100)){
 			_timeText.setScale(1);
+			_spaceText.setScale(1);
 			_unitsText.setScale(1);
 //			_dummyTextExponential.setScale(1);
 //			_dummyTextNormal.setScale(1);
-			_spaceText.setScale(1);
 			
     		_timeText.setScale(scalingFactor);
     		_spaceText.setScale(scalingFactor);
+    		_unitsText.setScale(scalingFactor);
 //    		_dummyTextNormal.setScale(scalingFactor);
 //    		_dummyTextExponential.setScale(scalingFactor);
-    		_unitsText.setScale(scalingFactor);
 		}
 	}
 
@@ -261,6 +261,11 @@ public class TimeDisplayNode extends PNode {
 	 * @return
 	 */
 	public static double roundToSignificantDigits(double val, int numSigDigs){
+		
+		if (val == 0){
+			// Can't do much with.
+			return 0;
+		}
 		
 		int places = (int)Math.floor(Math.log10(val)) + 1;
 		
