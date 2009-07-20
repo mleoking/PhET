@@ -3,6 +3,8 @@ package edu.colorado.phet.circuitconstructionkit;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
+import javax.swing.*;
+
 import edu.colorado.phet.circuitconstructionkit.controls.CCKControlPanel;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.Circuit;
@@ -18,6 +20,7 @@ import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
+import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 
 /**
  * User: Sam Reid
@@ -45,7 +48,7 @@ public class CCKModule extends PiccoloModule {
         cckSimulationPanel = new CCKSimulationPanel( model, this, getClock() );
         setSimulationPanel( cckSimulationPanel );
         setControlPanel( new CCKControlPanel( this, this ) );
-
+                                    
         addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
                 model.stepInTime( dt );

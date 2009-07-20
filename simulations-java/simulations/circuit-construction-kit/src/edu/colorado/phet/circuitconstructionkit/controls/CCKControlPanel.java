@@ -46,16 +46,16 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
     public CCKControlPanel( final CCKModule module, Module m ) {
         advancedControlPanel = new AdvancedControlPanel( module );
         advancedControlPanel.setBorder( null );
-        JLabel logoLabel = new JLabel( new ImageIcon( PhetCommonResources.getInstance().getImage( "logos/phet-logo-120x50.jpg" ) ) );
-        logoLabel.setToolTipText( CCKResources.getString( "CCK3ControlPanel.PhETToolTip" ) );
-        logoLabel.setBorder( BorderFactory.createRaisedBevelBorder() );
-        logoLabel.setBorder( BorderFactory.createLineBorder( Color.black, 2 ) );
-        logoLabel.setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
-        logoLabel.addMouseListener( new MouseAdapter() {
-            public void mouseReleased( MouseEvent e ) {
-                showPhetPage();
-            }
-        } );
+//        JLabel logoLabel = new JLabel( new ImageIcon( PhetCommonResources.getInstance().getImage( "logos/phet-logo-120x50.jpg" ) ) );
+//        logoLabel.setToolTipText( CCKResources.getString( "CCK3ControlPanel.PhETToolTip" ) );
+//        logoLabel.setBorder( BorderFactory.createRaisedBevelBorder() );
+//        logoLabel.setBorder( BorderFactory.createLineBorder( Color.black, 2 ) );
+//        logoLabel.setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
+//        logoLabel.addMouseListener( new MouseAdapter() {
+//            public void mouseReleased( MouseEvent e ) {
+//                showPhetPage();
+//            }
+//        } );
         this.module = module;
         JPanel filePanel = getFilePanel();
         if ( useAdvanced() ) {
@@ -103,9 +103,9 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
             }
         } );
 
-        JPanel titlePanel = new JPanel();
-        titlePanel.add( logoLabel );
-        add( titlePanel );
+//        JPanel titlePanel = new JPanel();
+//        titlePanel.add( logoLabel );
+//        add( titlePanel );
         add( filePanel );
         addControl( new CCKResetButton( module ) );
         if ( module.getParameters().isUseVisualControlPanel() ) {
