@@ -84,6 +84,10 @@ public class RateExperimentsMRControlPanel extends MRControlPanel {
         optionsPanel.reset();
         setExperimentRunning( false );
     }
+    
+    public void clearExperiment() {
+        experimentSetupPanel.endExperiment();
+    }
 
     public void setExperimentRunning( boolean running ) {
         getMoleculeInstanceControlPanel().setCountersEditable( running );

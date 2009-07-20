@@ -37,7 +37,7 @@ import java.util.TimerTask;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class MRModule extends Module {
+public abstract class MRModule extends Module {
 
     private final Dimension canvasSize = MRConfig.SIMULATION_PANEL_SIZE;
     private final SpatialView spatialView;
@@ -110,6 +110,10 @@ public class MRModule extends Module {
 
     public boolean isTemperatureBeingAdjusted() {
         return spatialView.isTemperatureBeingAdjusted();
+    }
+    
+    public void clearExperiment() {
+        getMRModel().removeAllMolecules();
     }
 
     public boolean isResetInProgress() {

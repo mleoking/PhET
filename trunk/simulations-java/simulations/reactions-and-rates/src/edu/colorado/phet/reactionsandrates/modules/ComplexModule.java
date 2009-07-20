@@ -121,6 +121,11 @@ public class ComplexModule extends MRModule {
     public void activate() {
         super.activate();
     }
+    
+    public void clearExperiment() {
+        super.clearExperiment();
+        pumpGraphic.reset();
+    }
 
     public void reset() {
         super.reset();

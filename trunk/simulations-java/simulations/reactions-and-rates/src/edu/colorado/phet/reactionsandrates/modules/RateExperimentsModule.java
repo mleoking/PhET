@@ -61,4 +61,9 @@ public class RateExperimentsModule extends ComplexModule {
     public void emptyBox() {
         getMRModel().removeAllMolecules();
     }
+    
+    public void clearExperiment() {
+        super.clearExperiment();
+        controlPanel.clearExperiment();
+    }
 }
