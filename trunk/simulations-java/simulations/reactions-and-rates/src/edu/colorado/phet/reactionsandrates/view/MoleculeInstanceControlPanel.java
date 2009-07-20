@@ -82,7 +82,7 @@ public class MoleculeInstanceControlPanel extends JPanel {
     public void setCountersEditable( boolean editable ) {
         for( int i = 0; i < counters.size(); i++ ) {
             MoleculeCountSpinner moleculeCounter = (MoleculeCountSpinner)counters.get( i );
-            moleculeCounter.setEditable( editable );
+            moleculeCounter.setEnabled( editable );
         }
     }
 }

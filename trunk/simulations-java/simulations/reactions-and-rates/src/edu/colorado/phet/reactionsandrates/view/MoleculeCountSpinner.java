@@ -91,20 +91,6 @@ public class MoleculeCountSpinner extends JSpinner implements PublishingModel.Mo
         } );
     }
 
-    /**
-     * Sets both the spinner and the text field, and make the text field look like
-     * a normal text field when it's not editable.
-     *
-     * @param editable
-     */
-    public void setEditable( boolean editable ) {
-        setEnabled( editable );
-        JFormattedTextField tf = ( (JSpinner.DefaultEditor)getEditor() ).getTextField();
-        tf.setEnabled( editable );
-        tf.setEditable( editable );
-        tf.setForeground( Color.black );
-    }
-
     private void addMoleculeToModel( AbstractMolecule m, MRModel model ) {
         model.addModelElement( m );
         if( m instanceof CompositeMolecule ) {
