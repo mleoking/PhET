@@ -7,8 +7,11 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.geom.RoundRectangle2D;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
+import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.util.ConstantPowerOfTenNumberFormat;
+import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
@@ -21,6 +24,18 @@ import edu.umd.cs.piccolo.nodes.PText;
  * range of time, from milliseconds to billions of years.  Note that this does
  * note display time like a clock does (e.g. 12:43 PM) but as a length of time
  * (e.g. 427 ms).
+ * 
+ * TODO: This class was leveraged from another class that displays time at all
+ * sorts of different resolutions.  However, there has been talk about making
+ * this one ONLY display years.  I am reluctant to fix it to years just yet,
+ * since someone may decide differently, so there is a lot of commented out
+ * code at the moment.  Once the behavior is firmed up, this should be cleaned
+ * up.  If it is decided that several time scales are needed, it may be
+ * worthwhile to generalize this and use the same one here and for the graph
+ * from which it was initially extracted.  jblanco, July 20, 2009.
+ * Also, when cleaning up based in this, if there is no need for an exponential
+ * (and maybe even if there is), it seems like it would make sense to
+ * consolidate all the display terms into one HTML node.
  * 
  * @author John Blanco
  */
@@ -52,7 +67,8 @@ public class TimeDisplayNode extends PNode {
 	private PText _spaceText;
 	private HTMLNode _dummyTextNormal;       // Used for scaling.
 	private HTMLNode _dummyTextExponential;  // Used for scaling.
-    private DecimalFormat _timeFormatterNoDecimals = new DecimalFormat( "##0" );
+	private NumberFormat _timeFormatterWithCommas = NumberFormat.getNumberInstance(PhetResources.readLocale());
+    private DecimalFormat _timeFormatterNoDecimals = new DefaultDecimalFormat( "##0" );
     private DecimalFormat _timeFormatterOneDecimal = new DecimalFormat( "##0.0" );
     private ConstantPowerOfTenNumberFormat _thousandsFormatter = new ConstantPowerOfTenNumberFormat("0", 3, EXPONENT_SCALE);
     private ConstantPowerOfTenNumberFormat _millionsFormatter = new ConstantPowerOfTenNumberFormat("0", 6, EXPONENT_SCALE);
@@ -100,26 +116,25 @@ public class TimeDisplayNode extends PNode {
 	
 	private void updateTextScaling(){
 		
-		_timeText.setScale(1);
-		_unitsText.setScale(1);
-		_dummyTextExponential.setScale(1);
-		_dummyTextNormal.setScale(1);
-		_spaceText.setScale(1);
-		
 		double maxTextHeight = _height * 0.9;
 		double maxTextWidth = _width * 0.9;
 		double scalingFactor = 1;
 		double unscaledWidth;
 		double unscaledHeight;
 
-		if (_currentTimeInMilliseconds > MILLISECONDS_PER_MILLENIUM){
-    		unscaledWidth = _dummyTextExponential.getFullBoundsReference().width + _unitsText.getFullBoundsReference().width;
-    		unscaledHeight = _dummyTextExponential.getFullBoundsReference().height;
-		}
-		else{
-    		unscaledWidth = _dummyTextNormal.getFullBoundsReference().width + _unitsText.getFullBoundsReference().width;
-    		unscaledHeight = _dummyTextNormal.getFullBoundsReference().height;
-		}
+//		if (_currentTimeInMilliseconds > MILLISECONDS_PER_MILLENIUM){
+//    		unscaledWidth = _dummyTextExponential.getFullBoundsReference().width + _unitsText.getFullBoundsReference().width;
+//    		unscaledHeight = _dummyTextExponential.getFullBoundsReference().height;
+//		}
+//		else{
+//    		unscaledWidth = _dummyTextNormal.getFullBoundsReference().width + _unitsText.getFullBoundsReference().width;
+//    		unscaledHeight = _dummyTextNormal.getFullBoundsReference().height;
+//		}
+		
+		_dummyTextNormal.setHTML( _timeText.getHTML() + _spaceText.getText() + _unitsText.getHTML() );
+		
+		unscaledWidth = _dummyTextNormal.getFullBoundsReference().width;
+		unscaledHeight = _dummyTextNormal.getFullBoundsReference().height;
 		
 		if (unscaledWidth > maxTextWidth){
 			// Scaling is required for this to fit.
@@ -133,11 +148,20 @@ public class TimeDisplayNode extends PNode {
 			scalingFactor = maxTextWidth / unscaledWidth;
 		}
 		
-		if (scalingFactor != 0){
+		// Compare the calculated scaling factor with the desired scaling
+		// factor, within a degree of accuracy, and set the new scale if it
+		// is different.
+		if ((int)(scalingFactor * 100) != (int)(_timeText.getScale() * 100)){
+			_timeText.setScale(1);
+			_unitsText.setScale(1);
+//			_dummyTextExponential.setScale(1);
+//			_dummyTextNormal.setScale(1);
+			_spaceText.setScale(1);
+			
     		_timeText.setScale(scalingFactor);
     		_spaceText.setScale(scalingFactor);
-    		_dummyTextNormal.setScale(scalingFactor);
-    		_dummyTextExponential.setScale(scalingFactor);
+//    		_dummyTextNormal.setScale(scalingFactor);
+//    		_dummyTextExponential.setScale(scalingFactor);
     		_unitsText.setScale(scalingFactor);
 		}
 	}
@@ -221,7 +245,7 @@ public class TimeDisplayNode extends PNode {
 		// Convert to years.
 		double timeInYears = milliseconds / MILLISECONDS_PER_YEAR;
 		double valueToDisplay = roundToSignificantDigits(timeInYears, NUM_SIGNIFICANT_DIGITS);
-        _timeText.setHTML( _timeFormatterNoDecimals.format(valueToDisplay) );
+        _timeText.setHTML( _timeFormatterWithCommas.format(valueToDisplay) );
         _unitsText.setHTML( NuclearPhysicsStrings.READOUT_UNITS_YRS );
 		
 		updateTextScaling();
