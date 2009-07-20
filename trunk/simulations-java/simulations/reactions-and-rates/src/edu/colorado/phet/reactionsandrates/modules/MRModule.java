@@ -112,10 +112,6 @@ public abstract class MRModule extends Module {
         return spatialView.isTemperatureBeingAdjusted();
     }
     
-    public void clearExperiment() {
-        getMRModel().removeAllMolecules();
-    }
-
     public boolean isResetInProgress() {
         return resetInProgress;
     }
@@ -133,10 +129,15 @@ public abstract class MRModule extends Module {
         canvas.addWorldChild( energyView );
     }
 
+    // Added this to address #1729.
+    public void clearExperiment() {
+        getMRModel().removeAllMolecules();
+    }
+    
     public void reset() {
         initiateReset();
 
-        getModel().removeAllModelElements();
+        clearExperiment();
         ( (MRModel)getModel() ).setInitialConditions();
         energyView.reset();
         getClock().start();
