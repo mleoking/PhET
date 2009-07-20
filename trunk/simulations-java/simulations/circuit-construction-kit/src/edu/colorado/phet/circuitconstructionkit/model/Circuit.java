@@ -424,6 +424,23 @@ public class Circuit {
         return junctions.contains( junction );
     }
 
+    public double getVoltage(Shape leftTip, Shape rightTip) {
+        Area tipIntersection = new Area(leftTip);
+        tipIntersection.intersect(new Area(rightTip));
+        if (!tipIntersection.isEmpty()) {
+            return 0;
+        } else {
+            Connection red = getConnection(leftTip);
+            Connection black = getConnection(rightTip);
+
+            if (red == null || black == null) {
+                return Double.NaN;
+            } else {
+                return getVoltage(red, black);//dfs from one branch to the other, counting the voltage drop.
+            }
+        }
+    }
+
     public double getVoltage( Connection a, Connection b ) {
         VoltageCalculation vc = new VoltageCalculation( this );
         return vc.getVoltage( a, b );
