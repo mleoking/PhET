@@ -201,6 +201,22 @@ public class MultiNucleusDecayModel implements NucleusTypeControl {
 	}
 	
 	/**
+	 * Convenience method for converting days to milliseconds, since
+	 * milliseconds is used throughout the simulation for timing.
+	 */
+	static public double convertDaysToMs( double days ){
+		return days * 86400000;
+	}
+	
+	/**
+	 * Convenience method for converting hours to milliseconds, since
+	 * milliseconds is used throughout the simulation for timing.
+	 */
+	static public double convertHoursToMs( double hours ){
+		return hours * 3600000;
+	}
+	
+	/**
 	 * Convenience method for obtaining the decay product(s) for a given
 	 * nucleus.  Note that the return values are NOT NECESSARILY what always
 	 * happens in the real world - they represent the way this simulation
