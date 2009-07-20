@@ -13,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
 import edu.colorado.phet.nuclearphysics.defaults.RadiometricMeasurementDefaults;
+import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusDecayModel;
 
 /**
  * This class defines a model (in the model-view-controller paradigm) that
@@ -41,7 +42,14 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
 	private static final double  INITIAL_AGING_ROCK_WIDTH = 1;
 	private static final Point2D INITIAL_PROBE_TIP_POSITION = new Point2D.Double(0, 10);
 	
-	// Boundaries for where the auxillary flying rocks may be (auxillary
+	// Constants that control the conversion between simulation time (which is
+	// essentially real time) and model time, which is often thousands or
+	// billions of years in this model.
+	private static final double INITIAL_TREE_AGING_RATE = MultiNucleusDecayModel.convertYearsToMs(500) / 1000; // 500 years per second.
+	private static final double INITIAL_ROCK_AGING_RATE = MultiNucleusDecayModel.convertDaysToMs(90) / 10000; // 90 days over 10 seconds - this will be the total eruption time (~3 months). 
+	private static final double FINAL_ROCK_AGING_RATE = MultiNucleusDecayModel.convertYearsToMs(1E9) / 5000; // 1 billion years every 5 seconds.
+
+	// Boundaries for where the auxiliary flying rocks may be (auxiliary
 	// flying rocks are rocks that are NOT the primary datable rocks, but are
 	// added to the animation to make the volcanic eruption look better).
 	// Rocks that go outside of these boundaries are deleted.
@@ -175,7 +183,8 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
 				// No model elements added until the tree is planted.
 				break;
 			case ROCK:
-				EruptingVolcano volcano = new EruptingVolcano(_clock, INITIAL_VOLCANO_POSITION, INITIAL_VOLCANO_WIDTH);
+				EruptingVolcano volcano = new EruptingVolcano(_clock, INITIAL_VOLCANO_POSITION, INITIAL_VOLCANO_WIDTH,
+						INITIAL_ROCK_AGING_RATE);
 				_animatedModelElements.add(volcano);
 				notifyModelElementAdded(volcano);
 				break;
@@ -259,7 +268,8 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
 			// In this mode, additional model elements are added at various times.
 			if (_clock.getSimulationTime() == RadiometricMeasurementDefaults.CLOCK_DT * 100 && !_agingRockAdded){
 				// Add the aging rock to the sim.
-				AgingRock agingRock = new AgingRock(_clock, INITIAL_ROCK_POSITION, INITIAL_AGING_ROCK_WIDTH);
+				AgingRock agingRock = new AgingRock(_clock, INITIAL_ROCK_POSITION, INITIAL_AGING_ROCK_WIDTH,
+						INITIAL_ROCK_AGING_RATE);
 				_animatedModelElements.add(agingRock);
 				agingRock.addClosureListener(_closureListener);
 				notifyModelElementAdded(agingRock);
@@ -273,7 +283,8 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
 					 (_clock.getSimulationTime() == RadiometricMeasurementDefaults.CLOCK_DT * 120)) {
 				
 				// Add a flying rock.
-				AnimatedFlyingRock flyingRock = new AnimatedFlyingRock(_clock, INITIAL_ROCK_POSITION, 1.5);
+				AnimatedFlyingRock flyingRock = new AnimatedFlyingRock(_clock, INITIAL_ROCK_POSITION, 1.5,
+						INITIAL_ROCK_AGING_RATE);
 				_animatedModelElements.add(flyingRock);
 				new FlyingRockManager(this, flyingRock);
 				notifyModelElementAdded(flyingRock);
@@ -291,7 +302,8 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
 		assert _animatedModelElements.size() == 0;
 		
 		// Add the tree.
-		AgingTree agingTree = new AgingTree(_clock, INITIAL_TREE_POSITION, INITIAL_TREE_WIDTH);
+		AgingTree agingTree = new AgingTree(_clock, INITIAL_TREE_POSITION, INITIAL_TREE_WIDTH,
+				INITIAL_TREE_AGING_RATE);
 		_animatedModelElements.add(agingTree);
 		
 		// Register for closure notifications.

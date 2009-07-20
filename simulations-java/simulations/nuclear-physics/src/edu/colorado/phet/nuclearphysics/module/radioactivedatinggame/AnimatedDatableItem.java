@@ -25,10 +25,10 @@ public abstract class AnimatedDatableItem extends DatableItem implements Cleanup
     //------------------------------------------------------------------------
 	
     private final ConstantDtClock _clock;
-    private final double _timeConversionFactor;
     private final ClockAdapter _clockAdapter;
     private final double _birthTime;
     private final ArrayList<ClosureListener> _closureListeners = new ArrayList<ClosureListener>();
+    private double _timeConversionFactor;
     private double _age = 0; // Age in milliseconds of this datable item.
     private double _ageOffset = 0;
     private RadiometricClosureState _closureState = RadiometricClosureState.CLOSURE_NOT_POSSIBLE;
@@ -116,8 +116,21 @@ public abstract class AnimatedDatableItem extends DatableItem implements Cleanup
 	
 	/**
 	 * Get the value that is being used to convert simulation time into the
-	 * time values needed by the aging time.  This is often a very large
-	 * number.
+	 * "model time", which is the time being used by the item to figure out
+	 * its radiometric age and in some cases its animation behavior.  This is
+	 * often a very large number.
+	 *
+	 * @param timeConversionFactor
+	 */
+	public void setTimeConversionFactor(double timeConversionFactor){
+		_timeConversionFactor = timeConversionFactor;
+	}
+	
+	/**
+	 * Get the value that is being used to convert simulation time into the
+	 * "model time", which is the time being used by the item to figure out
+	 * its radiometric age and in some cases its animation behavior.  This is
+	 * often a very large number.
 	 *
 	 * @return
 	 */
