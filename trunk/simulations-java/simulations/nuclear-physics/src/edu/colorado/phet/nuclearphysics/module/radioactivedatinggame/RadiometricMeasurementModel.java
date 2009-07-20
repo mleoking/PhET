@@ -115,6 +115,15 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
     		_closureState = datableItem.getClosureState();
     		notifyClosureStateChanged();
     	}
+    	if ( _simulationMode == RadiometricMeasurementModel.SIMULATION_MODE.ROCK && 
+    		 datableItem instanceof AgingRock &&
+    		 datableItem.getClosureState() == RadiometricClosureState.CLOSED ){
+    		
+    		// Once closure occurs for the aging rock, the time scale speeds up.
+    		for (AnimatedDatableItem item : _animatedModelElements){
+    			item.setTimeConversionFactor(FINAL_ROCK_AGING_RATE);
+    		}
+    	}
 	}
 
 	public RadiometricDatingMeter getMeter(){
@@ -234,6 +243,28 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
 		SIMULATION_MODE simMode = _simulationMode;
 		_simulationMode = null;
 		setSimulationMode(simMode);
+	}
+	
+	/**
+	 * Get the current time that is being used by the various model
+	 * components to calculate their age and in some cases to control their
+	 * animation behavior.
+	 * 
+	 * @return
+	 */
+	public double getAdjustedTime(){
+		
+		double conversionFactor = 1;  // Real time is the default.
+		
+		if (_animatedModelElements.size() > 0){
+			// Use the time value from the first model element.  IMPORTANT
+			// NOTE: This assumes the time value is the same for all elements
+			// being modeled, which is true at the time of this writing.  If
+			// that assumption ever changes, this will need to change to.
+			conversionFactor = _animatedModelElements.get(0).getTimeConversionFactor();
+		}
+		
+		return conversionFactor * _clock.getSimulationTime();
 	}
 	
 	/**
