@@ -21,6 +21,7 @@ import java.util.Iterator;
 
 import javax.swing.JFrame;
 
+import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -598,7 +599,7 @@ public class NuclearDecayProportionChart extends PNode {
         private static final int    NUM_Y_AXIS_GRID_LINES = 3;
         private static final Color  Y_AXIS_GRID_LINES_COLOR = Color.LIGHT_GRAY;
         private static final Stroke Y_AXIS_GRID_LINES_STROKE = THIN_AXIS_STROKE;
-        private static final NumberFormat NUMBER_FORMAT = NumberFormat.getNumberInstance();
+        private static final NumberFormat NUMBER_FORMAT = NumberFormat.getNumberInstance( PhetResources.readLocale() );
 
         // Constants that control other proportioned aspects of the graph.
         private static final double GRAPH_TEXT_HEIGHT_PROPORTION = 0.12;
