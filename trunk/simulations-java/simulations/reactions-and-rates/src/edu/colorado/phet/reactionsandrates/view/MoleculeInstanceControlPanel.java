@@ -2,15 +2,22 @@
 
 package edu.colorado.phet.reactionsandrates.view;
 
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
 import edu.colorado.phet.reactionsandrates.MRConfig;
 import edu.colorado.phet.reactionsandrates.model.*;
 import edu.colorado.phet.reactionsandrates.util.ControlBorderFactory;
 import edu.colorado.phet.reactionsandrates.view.icons.MoleculeIcon;
-
-import javax.swing.*;
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * MoleculeInstanceControlPanel
@@ -27,6 +34,7 @@ public class MoleculeInstanceControlPanel extends JPanel {
     private JLabel cLabel = new JLabel();
     private JLabel abLabel = new JLabel();
     private JLabel bcLabel = new JLabel();
+    private final ClearContainerButton clearContainerButton;
 
     public MoleculeInstanceControlPanel( final MRModel model ) {
 
@@ -46,7 +54,7 @@ public class MoleculeInstanceControlPanel extends JPanel {
         counters.add( abMC );
         MoleculeCountSpinner bcMC = new MoleculeCountSpinner( MoleculeBC.class, model, maxMoleculeCnt );
         counters.add( bcMC );
-
+        
         // Lay out the controls
         setBorder( ControlBorderFactory.createPrimaryBorder( MRConfig.RESOURCES.getLocalizedString( "Control.numMolecules" ) ) );
         setLayout( new GridBagLayout() );
@@ -58,6 +66,7 @@ public class MoleculeInstanceControlPanel extends JPanel {
                                                          GridBagConstraints.NONE,
                                                          insets,
                                                          0, 0 );
+        
         add( aLabel, gbc );
         add( bcLabel, gbc );
         add( abLabel, gbc );
@@ -70,6 +79,12 @@ public class MoleculeInstanceControlPanel extends JPanel {
         add( bcMC, gbc );
         add( abMC, gbc );
         add( cMC, gbc );
+        
+        gbc.gridx = 0;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.CENTER;
+        clearContainerButton = new ClearContainerButton( model );
+        add( clearContainerButton, gbc );
     }
 
     private void updateIcons( EnergyProfile profile ) {
@@ -78,11 +93,26 @@ public class MoleculeInstanceControlPanel extends JPanel {
         abLabel.setIcon( new MoleculeIcon( MoleculeAB.class, profile ) );
         bcLabel.setIcon( new MoleculeIcon( MoleculeBC.class, profile ) );
     }
+    
+    public void setClearContainerButtonVisible( boolean visible ) {
+        clearContainerButton.setVisible( visible );
+    }
 
     public void setCountersEditable( boolean editable ) {
         for( int i = 0; i < counters.size(); i++ ) {
             MoleculeCountSpinner moleculeCounter = (MoleculeCountSpinner)counters.get( i );
             moleculeCounter.setEnabled( editable );
+        }
+    }
+    
+    private static class ClearContainerButton extends JButton {
+        public ClearContainerButton( final MRModel model ) {
+            super( MRConfig.RESOURCES.getLocalizedString( "Control.clearContainer" ) );
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    model.removeAllMolecules();
+                }
+            });
         }
     }
 }
