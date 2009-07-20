@@ -61,34 +61,34 @@ public class Circuit {
     }
 
     private void fireJunctionAdded( Junction junction ) {
-        for (CircuitListener circuitListener : listeners) {
-            circuitListener.junctionAdded(junction);
+        for ( CircuitListener circuitListener : listeners ) {
+            circuitListener.junctionAdded( junction );
         }
     }
 
     public Branch[] getAdjacentBranches( Junction junction ) {
         ArrayList<Branch> out = new ArrayList<Branch>();
-        for (Branch branch : branches) {
-            if (branch.hasJunction(junction)) {
-                out.add(branch);
+        for ( Branch branch : branches ) {
+            if ( branch.hasJunction( junction ) ) {
+                out.add( branch );
             }
         }
-        return out.toArray(new Branch[out.size()]);
+        return out.toArray( new Branch[out.size()] );
     }
 
     public void updateNeighbors( Junction junction ) {
-        for (Branch branch : branches) {
-            if (branch.hasJunction(junction)) {
+        for ( Branch branch : branches ) {
+            if ( branch.hasJunction( junction ) ) {
                 branch.notifyObservers();
             }
         }
     }
 
     public void updateAll() {
-        for (Branch branch : branches) {
+        for ( Branch branch : branches ) {
             branch.notifyObservers();
         }
-        for (Junction junction : junctions) {
+        for ( Junction junction : junctions ) {
             junction.notifyObservers();
         }
     }
@@ -102,8 +102,8 @@ public class Circuit {
     }
 
     public boolean hasBranch( Junction a, Junction b ) {
-        for (Branch branch : branches) {
-            if (branch.hasJunction(a) && branch.hasJunction(b)) {
+        for ( Branch branch : branches ) {
+            if ( branch.hasJunction( a ) && branch.hasJunction( b ) ) {
                 return true;
             }
         }
@@ -112,31 +112,31 @@ public class Circuit {
 
     public Junction[] getNeighbors( Junction a ) {
         ArrayList<Junction> n = new ArrayList<Junction>();
-        for (Branch branch : branches) {
-            if (branch.hasJunction(a)) {
-                n.add(branch.opposite(a));
+        for ( Branch branch : branches ) {
+            if ( branch.hasJunction( a ) ) {
+                n.add( branch.opposite( a ) );
             }
         }
-        return n.toArray(new Junction[n.size()]);
+        return n.toArray( new Junction[n.size()] );
     }
 
     public void replaceJunction( Junction old, Junction newJunction ) {
         junctions.remove( old );
         old.delete();
-        for (Branch branch : branches) {
-            if (branch.getStartJunction() == old) {
-                branch.setStartJunction(newJunction);
+        for ( Branch branch : branches ) {
+            if ( branch.getStartJunction() == old ) {
+                branch.setStartJunction( newJunction );
             }
-            if (branch.getEndJunction() == old) {
-                branch.setEndJunction(newJunction);
+            if ( branch.getEndJunction() == old ) {
+                branch.setEndJunction( newJunction );
             }
         }
         fireJunctionRemoved( old );
     }
 
     private void fireJunctionRemoved( Junction junction ) {
-        for (CircuitListener circuitListener : listeners) {
-            circuitListener.junctionRemoved(junction);
+        for ( CircuitListener circuitListener : listeners ) {
+            circuitListener.junctionRemoved( junction );
         }
     }
 
@@ -159,8 +159,8 @@ public class Circuit {
 
     public int numEditable() {
         int count = 0;
-        for (Branch branch : branches) {
-            if (branch.isEditable()) {
+        for ( Branch branch : branches ) {
+            if ( branch.isEditable() ) {
                 count++;
             }
         }
@@ -175,14 +175,14 @@ public class Circuit {
         Branch[] n0 = getAdjacentBranches( branch.getStartJunction() );
         Branch[] n1 = getAdjacentBranches( branch.getEndJunction() );
         ArrayList<Branch> n = new ArrayList<Branch>();
-        for (Branch aN0 : n0) {
-            if (aN0 != branch) {
-                n.add(aN0);
+        for ( Branch aN0 : n0 ) {
+            if ( aN0 != branch ) {
+                n.add( aN0 );
             }
         }
-        for (Branch aN1 : n1) {
-            if (aN1 != branch) {
-                n.add(aN1);
+        for ( Branch aN1 : n1 ) {
+            if ( aN1 != branch ) {
+                n.add( aN1 );
             }
         }
 
@@ -196,7 +196,7 @@ public class Circuit {
     }
 
     private void notifyEditingChanged() {
-        for (CircuitListener circuitListener : listeners) {
+        for ( CircuitListener circuitListener : listeners ) {
             circuitListener.editingChanged();
         }
     }
@@ -257,8 +257,8 @@ public class Circuit {
     }
 
     private void fireJunctionsSplit( Junction junction, Junction[] newJunctions ) {
-        for (CircuitListener circuitListener : listeners) {
-            circuitListener.junctionsSplit(junction, newJunctions);
+        for ( CircuitListener circuitListener : listeners ) {
+            circuitListener.junctionsSplit( junction, newJunctions );
         }
     }
 
@@ -271,7 +271,7 @@ public class Circuit {
     public Branch[] getStrongConnections( Junction junction ) {
         ArrayList<Branch> visited = new ArrayList<Branch>();
         getStrongConnections( visited, junction );
-        return visited.toArray(new Branch[visited.size()]);
+        return visited.toArray( new Branch[visited.size()] );
     }
 
     public Branch[] getStrongConnections( Branch wrongDir, Junction junction ) {
@@ -283,17 +283,17 @@ public class Circuit {
         if ( wrongDir != null ) {
             visited.remove( wrongDir );
         }
-        return visited.toArray(new Branch[visited.size()]);
+        return visited.toArray( new Branch[visited.size()] );
     }
 
     private void getStrongConnections( ArrayList<Branch> visited, Junction junction ) {
         Branch[] out = getAdjacentBranches( junction );
-        for (Branch branch : out) {
-            Junction opposite = branch.opposite(junction);
-            if (!visited.contains(branch)) {
-                if (branch instanceof CircuitComponent) {
-                    visited.add(branch);
-                    getStrongConnections(visited, opposite);
+        for ( Branch branch : out ) {
+            Junction opposite = branch.opposite( junction );
+            if ( !visited.contains( branch ) ) {
+                if ( branch instanceof CircuitComponent ) {
+                    visited.add( branch );
+                    getStrongConnections( visited, opposite );
                 }//Wires end the connectivity.
             }
         }
@@ -302,22 +302,22 @@ public class Circuit {
     public Branch[] getConnectedSubgraph( Junction junction ) {
         ArrayList<Branch> visited = new ArrayList<Branch>();
         getConnectedSubgraph( visited, junction );
-        return visited.toArray(new Branch[visited.size()]);
+        return visited.toArray( new Branch[visited.size()] );
     }
 
     private void getConnectedSubgraph( ArrayList<Branch> visited, Junction junction ) {
         Branch[] adj = getAdjacentBranches( junction );
-        for (Branch branch : adj) {
-            Junction opposite = branch.opposite(junction);
-            if (!visited.contains(branch)) {
-                visited.add(branch);
-                getConnectedSubgraph(visited, opposite);
+        for ( Branch branch : adj ) {
+            Junction opposite = branch.opposite( junction );
+            if ( !visited.contains( branch ) ) {
+                visited.add( branch );
+                getConnectedSubgraph( visited, opposite );
             }
         }
     }
 
     public void fireJunctionsMoved() {
-        for (CircuitListener circuitListener : listeners) {
+        for ( CircuitListener circuitListener : listeners ) {
             circuitListener.junctionsMoved();
         }
     }
@@ -361,14 +361,14 @@ public class Circuit {
     }
 
     private void fireBranchAdded( Branch branch ) {
-        for (CircuitListener circuitListener : listeners) {
-            circuitListener.branchAdded(branch);
+        for ( CircuitListener circuitListener : listeners ) {
+            circuitListener.branchAdded( branch );
         }
     }
 
     private void fireBranchRemoved( Branch branch ) {
-        for (CircuitListener circuitListener : listeners) {
-            circuitListener.branchRemoved(branch);
+        for ( CircuitListener circuitListener : listeners ) {
+            circuitListener.branchRemoved( branch );
         }
     }
 
@@ -379,44 +379,44 @@ public class Circuit {
     }
 
     public Branch[] getBranches() {
-        return branches.toArray(new Branch[branches.size()]);
+        return branches.toArray( new Branch[branches.size()] );
     }
 
     private void translate( Junction[] j, AbstractVector2D vec ) {
-        for (Junction junction : j) {
-            junction.translate(vec.getX(), vec.getY());
+        for ( Junction junction : j ) {
+            junction.translate( vec.getX(), vec.getY() );
         }
     }
 
     public void translate( Branch[] branchs, AbstractVector2D vec ) {
         Junction[] j = getJunctions( branchs );
         translate( j, vec );
-        for (Branch b : branchs) {
+        for ( Branch b : branchs ) {
             b.notifyObservers();
         }
     }
 
     public Junction[] getJunctions() {
-        return junctions.toArray(new Junction[junctions.size()]);
+        return junctions.toArray( new Junction[junctions.size()] );
     }
 
     public static Junction[] getJunctions( Branch[] branchs ) {
         ArrayList<Junction> list = new ArrayList<Junction>();
-        for (Branch branch : branchs) {
-            if (!list.contains(branch.getStartJunction())) {
-                list.add(branch.getStartJunction());
+        for ( Branch branch : branchs ) {
+            if ( !list.contains( branch.getStartJunction() ) ) {
+                list.add( branch.getStartJunction() );
             }
-            if (!list.contains(branch.getEndJunction())) {
-                list.add(branch.getEndJunction());
+            if ( !list.contains( branch.getEndJunction() ) ) {
+                list.add( branch.getEndJunction() );
             }
         }
-        return list.toArray(new Junction[list.size()]);
+        return list.toArray( new Junction[list.size()] );
     }
 
     public void fireBranchesMoved( Branch[] moved ) {
-        for (Object listener : listeners) {
+        for ( Object listener : listeners ) {
             CircuitListener circuitListener = (CircuitListener) listener;
-            circuitListener.branchesMoved(moved);
+            circuitListener.branchesMoved( moved );
         }
     }
 
@@ -424,19 +424,21 @@ public class Circuit {
         return junctions.contains( junction );
     }
 
-    public double getVoltage(Shape leftTip, Shape rightTip) {
-        Area tipIntersection = new Area(leftTip);
-        tipIntersection.intersect(new Area(rightTip));
-        if (!tipIntersection.isEmpty()) {
+    public double getVoltage( Shape leftTip, Shape rightTip ) {
+        Area tipIntersection = new Area( leftTip );
+        tipIntersection.intersect( new Area( rightTip ) );
+        if ( !tipIntersection.isEmpty() ) {
             return 0;
-        } else {
-            Connection red = getConnection(leftTip);
-            Connection black = getConnection(rightTip);
+        }
+        else {
+            Connection red = getConnection( leftTip );
+            Connection black = getConnection( rightTip );
 
-            if (red == null || black == null) {
+            if ( red == null || black == null ) {
                 return Double.NaN;
-            } else {
-                return getVoltage(red, black);//dfs from one branch to the other, counting the voltage drop.
+            }
+            else {
+                return getVoltage( red, black );//dfs from one branch to the other, counting the voltage drop.
             }
         }
     }
@@ -459,58 +461,58 @@ public class Circuit {
     }
 
     private void notifySelectionChanged() {
-        for (CircuitListener circuitListener : listeners) {
+        for ( CircuitListener circuitListener : listeners ) {
             circuitListener.selectionChanged();
         }
     }
 
     public void clearSelection() {
-        for (Branch branch : branches) {
-            branch.setSelected(false);
+        for ( Branch branch : branches ) {
+            branch.setSelected( false );
         }
-        for (Junction junction : junctions) {
-            junction.setSelected(false);
+        for ( Junction junction : junctions ) {
+            junction.setSelected( false );
         }
         notifySelectionChanged();
     }
 
     public Branch[] getSelectedBranches() {
         ArrayList<Branch> sel = new ArrayList<Branch>();
-        for (Branch branch : branches) {
-            if (branch.isSelected()) {
-                sel.add(branch);
+        for ( Branch branch : branches ) {
+            if ( branch.isSelected() ) {
+                sel.add( branch );
             }
         }
-        return sel.toArray(new Branch[sel.size()]);
+        return sel.toArray( new Branch[sel.size()] );
     }
 
     public Junction[] getSelectedJunctions() {
         ArrayList<Junction> sel = new ArrayList<Junction>();
-        for (Junction branch : junctions) {
-            if (branch.isSelected()) {
-                sel.add(branch);
+        for ( Junction branch : junctions ) {
+            if ( branch.isSelected() ) {
+                sel.add( branch );
             }
         }
-        return sel.toArray(new Junction[sel.size()]);
+        return sel.toArray( new Junction[sel.size()] );
     }
 
     public void selectAll() {
-        for (Branch branch : branches) {
-            branch.setSelected(true);
+        for ( Branch branch : branches ) {
+            branch.setSelected( true );
         }
-        for (Junction junction : junctions) {
-            junction.setSelected(true);
+        for ( Junction junction : junctions ) {
+            junction.setSelected( true );
         }
     }
 
     public void fireJunctionsCollapsed( Junction j1, Junction j2, Junction replacement ) {
-        for (CircuitListener circuitListener : listeners) {
-            circuitListener.junctionsConnected(j1, j2, replacement);
+        for ( CircuitListener circuitListener : listeners ) {
+            circuitListener.junctionsConnected( j1, j2, replacement );
         }
     }
 
     public CircuitListener[] getCircuitListeners() {
-        return listeners.toArray(new CircuitListener[listeners.size()]);
+        return listeners.toArray( new CircuitListener[listeners.size()] );
     }
 
     public void moveToFirst( Junction junction ) {
@@ -560,8 +562,8 @@ public class Circuit {
 
     public int getInductorCount() {
         int sum = 0;
-        for (Branch branch : branches) {
-            if (branch instanceof Inductor) {
+        for ( Branch branch : branches ) {
+            if ( branch instanceof Inductor ) {
                 sum++;
             }
         }
@@ -570,9 +572,9 @@ public class Circuit {
 
     public Inductor getInductor( int index ) {
         ArrayList<Inductor> inductors = new ArrayList<Inductor>();
-        for (Branch branch : branches) {
-            if (branch instanceof Inductor) {
-                inductors.add((Inductor) branch);
+        for ( Branch branch : branches ) {
+            if ( branch instanceof Inductor ) {
+                inductors.add( (Inductor) branch );
             }
         }
         return inductors.get( index );
@@ -611,9 +613,9 @@ public class Circuit {
     public boolean wouldConnectionCauseOverlappingBranches( Junction a, Junction b ) {
         Junction[] neighborsOfA = getNeighbors( a );
         Junction[] neighborsOfB = getNeighbors( b );
-        for (Junction na : neighborsOfA) {
-            for (Junction nb : neighborsOfB) {
-                if (na == nb) {
+        for ( Junction na : neighborsOfA ) {
+            for ( Junction nb : neighborsOfB ) {
+                if ( na == nb ) {
                     return true;
                 }
             }
@@ -671,15 +673,15 @@ public class Circuit {
     }
 
     public void setAllComponentsEditing( boolean editing ) {
-        for (Branch branch : branches) {
-            branch.setEditing(editing);
+        for ( Branch branch : branches ) {
+            branch.setEditing( editing );
         }
     }
 
     public int getNumEditing() {
         int count = 0;
-        for (Branch branch : branches) {
-            if (branch.isEditing()) {
+        for ( Branch branch : branches ) {
+            if ( branch.isEditing() ) {
                 count++;
             }
         }
@@ -723,14 +725,14 @@ public class Circuit {
         potentialMatches.removeAll( Arrays.asList( draggedJunctions ) );
         //now we have all the junctions that are moving,
         //and all the junctions that aren't moving, so we can look for a best match.
-        Junction[] remaining = potentialMatches.toArray(new Junction[potentialMatches.size()]);
+        Junction[] remaining = potentialMatches.toArray( new Junction[potentialMatches.size()] );
         DragMatch best = null;
-        for (Junction draggedJunction : draggedJunctions) {
-            Point2D loc = dx.getDestination(draggedJunction.getPosition());
-            Junction bestForJunction = getBestDragMatch(draggedJunction, loc, remaining);
-            if (bestForJunction != null) {
-                DragMatch dm = new DragMatch(draggedJunction, bestForJunction);
-                if (best == null || dm.getDistance() < best.getDistance()) {
+        for ( Junction draggedJunction : draggedJunctions ) {
+            Point2D loc = dx.getDestination( draggedJunction.getPosition() );
+            Junction bestForJunction = getBestDragMatch( draggedJunction, loc, remaining );
+            if ( bestForJunction != null ) {
+                DragMatch dm = new DragMatch( draggedJunction, bestForJunction );
+                if ( best == null || dm.getDistance() < best.getDistance() ) {
                     best = dm;
                 }
             }
@@ -743,13 +745,13 @@ public class Circuit {
         Branch[] strong = getStrongConnections( dragging );
         Junction closestJunction = null;
         double closestValue = Double.POSITIVE_INFINITY;
-        for (Junction target : targets) {
-            double dist = loc.distance(target.getPosition());
-            if (target != dragging && !hasBranch(dragging, target) && !wouldConnectionCauseOverlappingBranches(dragging, target)) {
-                if (closestJunction == null || dist < closestValue) {
-                    boolean legal = !contains(strong, target);
+        for ( Junction target : targets ) {
+            double dist = loc.distance( target.getPosition() );
+            if ( target != dragging && !hasBranch( dragging, target ) && !wouldConnectionCauseOverlappingBranches( dragging, target ) ) {
+                if ( closestJunction == null || dist < closestValue ) {
+                    boolean legal = !contains( strong, target );
                     double STICKY_THRESHOLD = 1;
-                    if (dist <= STICKY_THRESHOLD && legal) {
+                    if ( dist <= STICKY_THRESHOLD && legal ) {
                         closestValue = dist;
                         closestJunction = target;
                     }
@@ -760,8 +762,8 @@ public class Circuit {
     }
 
     private boolean contains( Branch[] strong, Junction j ) {
-        for (Branch branch : strong) {
-            if (branch.hasJunction(j)) {
+        for ( Branch branch : strong ) {
+            if ( branch.hasJunction( j ) ) {
                 return true;
             }
         }
@@ -794,11 +796,11 @@ public class Circuit {
     private Branch detectBranch( Shape tipShape ) {
         Wire[] wires = getWires();
         Wire connection = null;
-        for (Wire wire : wires) {
+        for ( Wire wire : wires ) {
             Shape wireShape = wire.getShape();
-            Area area = new Area(tipShape);
-            area.intersect(new Area(wireShape));
-            if (!area.isEmpty()) {
+            Area area = new Area( tipShape );
+            area.intersect( new Area( wireShape ) );
+            if ( !area.isEmpty() ) {
                 connection = wire;
             }
         }
@@ -807,21 +809,21 @@ public class Circuit {
 
     private Wire[] getWires() {
         ArrayList<Wire> list = new ArrayList<Wire>();
-        for (Branch branch : branches) {
-            if (branch instanceof Wire) {
-                list.add((Wire) branch);
+        for ( Branch branch : branches ) {
+            if ( branch instanceof Wire ) {
+                list.add( (Wire) branch );
             }
         }
-        return list.toArray(new Wire[list.size()]);
+        return list.toArray( new Wire[list.size()] );
     }
 
     private Junction detectJunction( Shape tipShape ) {
         Junction[] junctions = getJunctions();
         Junction detectedJunction = null;
-        for (Junction junction : junctions) {
-            Area area = new Area(junction.getShape());
-            area.intersect(new Area(tipShape));
-            if (!area.isEmpty()) {
+        for ( Junction junction : junctions ) {
+            Area area = new Area( junction.getShape() );
+            area.intersect( new Area( tipShape ) );
+            if ( !area.isEmpty() ) {
                 detectedJunction = junction;
             }
         }
@@ -837,16 +839,16 @@ public class Circuit {
     public void bumpOnce( Junction junction ) {
         Branch[] branches = getBranches();
         Branch[] strongConnections = getStrongConnections( junction );
-        for (Branch branch : branches) {
+        for ( Branch branch : branches ) {
             //            if( !branch.hasJunction( junction ) &&!contains(strongConnections,branch)) {
-            if (!branch.hasJunction(junction)) {
-                if (branch.getShape().intersects(junction.getShape().getBounds2D())) {
+            if ( !branch.hasJunction( junction ) ) {
+                if ( branch.getShape().intersects( junction.getShape().getBounds2D() ) ) {
                     AbstractVector2D vec = branch.getDirectionVector();
                     vec = vec.getNormalVector();
-                    vec = vec.getNormalizedInstance().getScaledInstance(junction.getShape().getBounds2D().getWidth());
-                    BranchSet bs = new BranchSet(this, strongConnections);
-                    bs.addJunction(junction);
-                    bs.translate(vec);
+                    vec = vec.getNormalizedInstance().getScaledInstance( junction.getShape().getBounds2D().getWidth() );
+                    BranchSet bs = new BranchSet( this, strongConnections );
+                    bs.addJunction( junction );
+                    bs.translate( vec );
                     break;
                 }
             }
