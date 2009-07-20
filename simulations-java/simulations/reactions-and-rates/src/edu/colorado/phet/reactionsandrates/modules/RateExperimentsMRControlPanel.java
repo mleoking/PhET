@@ -52,6 +52,7 @@ public class RateExperimentsMRControlPanel extends MRControlPanel {
 
         // Controls for adding and removing molecules
         moleculeInstanceControlPanel = new MoleculeInstanceControlPanel( model );
+        moleculeInstanceControlPanel.setClearContainerButtonVisible( false );
 
         // Options
         optionsPanel = new ChartOptionsPanel( module );
