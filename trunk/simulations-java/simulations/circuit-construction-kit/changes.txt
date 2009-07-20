@@ -1,3 +1,4 @@
+# 3.17.11 (33457) Jul 19, 2009
 > Rewrote voltage calculation to use node voltages
 # 3.17.10 (33455) Jul 19, 2009
 # 3.17.09 (33439) Jul 19, 2009
