@@ -174,8 +174,10 @@ public class CircuitInteractionModel {
                 //todo need bumpaway implementation
 //            circuitGraphic.bumpAway( branch );
             }
-            circuit.bumpAway( branch.getStartJunction() );
-            circuit.bumpAway( branch.getEndJunction() );
+            if (branch != null){
+	            circuit.bumpAway( branch.getStartJunction() );
+	            circuit.bumpAway( branch.getEndJunction() );
+            }
         }
 
 //        public Junction getStickyTarget( Junction junction, double x, double y ) {
