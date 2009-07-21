@@ -52,7 +52,7 @@ public class MoleculeCountSpinner extends JSpinner implements PublishingModel.Mo
         this.maxValue = maxValue;
 
         JFormattedTextField tf = ( (JSpinner.DefaultEditor)getEditor() ).getTextField();
-        tf.setColumns( 2 );
+        tf.setColumns( 3 );
 
         this.moleculeClass = moleculeClass;
         this.model = model;

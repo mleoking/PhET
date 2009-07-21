@@ -26,7 +26,8 @@ public class MRConfig {
     //--------------------------------------------------------------------------------------------------
     public static int CLOCK_FPS = 25;
     public static double MAX_REACTION_THRESHOLD = 5E2;
-    public static final int MAX_MOLECULE_CNT = 200;
+    public static final int MAX_MOLECULES = 200;
+    public static final int MAX_INITIAL_MOLECULES = 100; // see #1728
     public static double DEFAULT_REACTION_THRESHOLD = MAX_REACTION_THRESHOLD * .7;
     public static final double MAX_SPEED = 100; // Loeblein approved!!
     public static final double DEFAULT_TEMPERATURE = MAX_SPEED;
