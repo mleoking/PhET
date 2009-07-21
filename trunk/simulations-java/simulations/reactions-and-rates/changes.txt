@@ -1,3 +1,5 @@
+# 1.03.09 (33517) Jul 21, 2009
+7/21/09 #1741, display an error dialog if an invalid value is entered in initial conditions spinner
 # 1.03.08 (33511) Jul 21, 2009
 7/21/09 publish dev version to review change requests
 7/21/09 #1712, make the "Begin/End Experiment" button appear to be more responsive
