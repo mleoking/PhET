@@ -344,6 +344,7 @@ public class GenePanel extends JPanel {
         JRadioButton ret = new JRadioButton();
         ret.setIconTextGap( 0 );
         ret.setSelected( selected );
+        ret.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
         return ret;
     }
 
