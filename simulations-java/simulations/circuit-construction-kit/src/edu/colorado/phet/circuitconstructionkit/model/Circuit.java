@@ -296,11 +296,16 @@ public class Circuit {
     private void getConnectedSubgraph( ArrayList<Branch> visited, Junction junction ) {
         Branch[] adj = getAdjacentBranches( junction );
         for ( Branch branch : adj ) {
-            Junction opposite = branch.opposite( junction );
-            if ( !visited.contains( branch ) ) {
-                visited.add( branch );
-                getConnectedSubgraph( visited, opposite );
-            }
+        	if (branch instanceof Switch && !((Switch)branch).isClosed()){
+        		// Skip this one.
+        	}
+        	else{
+        		Junction opposite = branch.opposite( junction );
+        		if ( !visited.contains( branch ) ) {
+        			visited.add( branch );
+        			getConnectedSubgraph( visited, opposite );
+        		}
+        	}
         }
     }
 
