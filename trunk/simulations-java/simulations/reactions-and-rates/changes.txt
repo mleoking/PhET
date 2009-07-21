@@ -1,3 +1,5 @@
+# 1.03.08 (33511) Jul 21, 2009
+7/21/09 publish dev version to review change requests
 7/21/09 #1712, make the "Begin/End Experiment" button appear to be more responsive
 7/21/09 #1728, limit initial molecule counts to 100 of each type
 # 1.03.07 (33495) Jul 20, 2009
