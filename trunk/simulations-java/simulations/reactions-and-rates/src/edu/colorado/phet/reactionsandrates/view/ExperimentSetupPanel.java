@@ -5,7 +5,8 @@ package edu.colorado.phet.reactionsandrates.view;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 import java.util.List;
@@ -34,10 +35,8 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
     private RateExperimentsModule module;
     private InitialTemperaturePanel initialTemperaturePanel;
     private JButton goButton;
-    private boolean experimentInProgress = false;
-    private boolean toggleInProgress = false;
 
-    public ExperimentSetupPanel( RateExperimentsModule module ) {
+    public ExperimentSetupPanel( final RateExperimentsModule module ) {
         super( new GridBagLayout() );
         this.module = module;
 
@@ -95,7 +94,17 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
         spinnerC = new IntegerRangeSpinner( 0, MRConfig.MAX_INITIAL_MOLECULES );
 
         // The GO button
-        goButton = new JButton( new TogglingExperimentAction( module ) );
+        goButton = new JButton( MRConfig.RESOURCES.getLocalizedString( "ExperimentSetup.go" ) );
+        goButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                if ( module.isExperimentRunning() ) {
+                    endExperiment();
+                }
+                else {
+                    beginExperiment();
+                }
+            }
+        });
 
         // Add a border
         setBorder( ControlBorderFactory.createPrimaryBorder( MRConfig.RESOURCES.getLocalizedString( "ExperimentSetup.title" ) ) );
@@ -210,7 +219,7 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
         }
     }
 
-    private void setInitialConditionsEditable( boolean editable ) {
+    private void setInitialMoleculeCountsEnabled( boolean editable ) {
         spinnerA.setEnabled( editable );
         spinnerBC.setEnabled( editable );
         spinnerAB.setEnabled( editable );
@@ -236,99 +245,51 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
     }
 
     public void endExperiment() {
-        experimentInProgress = false;
 
-        // User wants to end an experiment
-        setInitialConditionsEditable( true );
-
-        //generateMolecules( MoleculeA.class,  -moleculeACounter.getCnt() );
-        //generateMolecules( MoleculeBC.class, -moleculeBCCounter.getCnt() );
-        //generateMolecules( MoleculeAB.class, -moleculeABCounter.getCnt() );
-        //generateMolecules( MoleculeC.class,  -moleculeCCounter.getCnt() );
+        goButton.setText( MRConfig.RESOURCES.getLocalizedString( "ExperimentSetup.go" ) );
+        
+        // enable the initial molecule counts
+        setInitialMoleculeCountsEnabled( true );
 
         module.getClock().pause();
 
         module.setExperimentRunning( false );
-
-        goButton.setText( MRConfig.RESOURCES.getLocalizedString( "ExperimentSetup.go" ) );
-
-        toggleInProgress = false;
     }
 
     private void beginExperiment() {
-        experimentInProgress = true;
 
-        // User wants to begin an experiment:
-        setInitialConditionsEditable( false );
-
-        generateMolecules( MoleculeA.class, spinnerA.getIntValue() );
-        generateMolecules( MoleculeBC.class, spinnerBC.getIntValue() );
-        generateMolecules( MoleculeAB.class, spinnerAB.getIntValue() );
-        generateMolecules( MoleculeC.class, spinnerC.getIntValue() );
-
+        // update button immediately so that user gets immediate feedback
         goButton.setText( MRConfig.RESOURCES.getLocalizedString( "ExperimentSetup.stop" ) );
+        
+        // disable button until experiment begins, so that user can't click it again
+        goButton.setEnabled( false );  
+        
+        // disable the initial molecule counts
+        setInitialMoleculeCountsEnabled( false );
+        
+        // clear existing molecules
+        module.getMRModel().removeAllMolecules();
+        
+        module.resetStripChart(); // pauses the strip chart recording
 
-        module.resetStripChart();//pauses the strip chart recording
-        module.setExperimentRunning( true );//restart the recording
-        module.getClock().start();
+        // wait a bit with the box cleared, then start the experiment
+        ActionListener actionListener = new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
 
-        toggleInProgress = false;
-    }
+                generateMolecules( MoleculeA.class, spinnerA.getIntValue() );
+                generateMolecules( MoleculeBC.class, spinnerBC.getIntValue() );
+                generateMolecules( MoleculeAB.class, spinnerAB.getIntValue() );
+                generateMolecules( MoleculeC.class, spinnerC.getIntValue() );
 
-    //--------------------------------------------------------------------------------------------------
-    // Inner classes
-    //--------------------------------------------------------------------------------------------------
+                module.setExperimentRunning( true ); // restart the recording
+                module.getClock().start();
 
-    /**
-     * Action for starting an experiment
-     */
-    private class TogglingExperimentAction extends AbstractAction {
-        private RateExperimentsModule module;
-
-        public TogglingExperimentAction( RateExperimentsModule module ) {
-            super( MRConfig.RESOURCES.getLocalizedString( "ExperimentSetup.go" ) );
-            this.module = module;
-        }
-
-        public void actionPerformed( ActionEvent e ) {
-            if( toggleInProgress ) {
-                return;
+                goButton.setEnabled( true ); // enable button
             }
-
-            toggleInProgress = true;
-
-            if( !experimentInProgress ) {
-
-                int moleculeCount = module.getMRModel().countWholeMolecules();
-
-                if( moleculeCount > 0 ) {
-                    module.getMRModel().removeAllMolecules();
-                    new Thread( new Runnable() {
-                        public void run() {
-
-                            try {
-                                Thread.sleep( BEGIN_EXPERIMENT_DELAY_MS );
-                            }
-                            catch( InterruptedException e1 ) {
-                                e1.printStackTrace();
-                            }
-                            SwingUtilities.invokeLater( new Runnable() {
-                                public void run() {
-                                    beginExperiment();
-                                }
-                            } );
-                        }
-                    } ).start();
-
-                }
-                else {
-                    beginExperiment();
-                }
-            }
-            else {
-                endExperiment();
-            }
-        }
+        };
+        Timer timer = new Timer( BEGIN_EXPERIMENT_DELAY_MS, actionListener );
+        timer.setRepeats( false );
+        timer.start();
     }
 
     public boolean isTemperatureBeingAdjusted() {
