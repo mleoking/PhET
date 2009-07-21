@@ -10,7 +10,7 @@ import org.apache.wicket.protocol.http.WebApplication;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 
-public class PhetPage extends WebPage {
+public abstract class PhetPage extends WebPage {
 
     private Locale myLocale;
     private ServletContext context;
@@ -20,15 +20,21 @@ public class PhetPage extends WebPage {
         this.parameters = parameters;
         context = ( (WebApplication) getApplication() ).getServletContext();
 
-        if ( this.parameters.get( "localeString" ) != null ) {
-            myLocale = LocaleUtils.stringToLocale( (String) this.parameters.get( "localeString" ) );
+        if ( this.parameters.get( "locale" ) != null ) {
+            myLocale = (Locale) this.parameters.get( "locale" );
         }
         else {
-            myLocale = LocaleUtils.stringToLocale( "en" );
+            // try again with localeString, but use english as default
+            myLocale = LocaleUtils.stringToLocale( this.parameters.getString( "localeString", "en" ) );
         }
+
         getSession().setLocale( myLocale );
         System.out.println( "Loading " + this.getClass().getCanonicalName() + " with Locale: " + LocaleUtils.localeToString( myLocale ) );
         System.out.println( "getRequestPath() of this page is: " + getRequestPath() );
+
+        for ( Object o : parameters.keySet() ) {
+            System.out.println( "[" + o.toString() + "] = " + parameters.get( o ).toString() );
+        }
     }
 
     public Locale getMyLocale() {
@@ -41,6 +47,10 @@ public class PhetPage extends WebPage {
 
     public String getRequestPath() {
         return parameters.getString( "path" );
+    }
+
+    public String getUrlPrefix() {
+        return "/" + LocaleUtils.localeToString( myLocale ) + "/";
     }
 
     @Override

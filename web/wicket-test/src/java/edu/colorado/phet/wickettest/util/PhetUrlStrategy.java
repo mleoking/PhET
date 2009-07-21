@@ -26,6 +26,10 @@ public class PhetUrlStrategy implements IRequestTargetUrlCodingStrategy {
     }
 
     public CharSequence encode( IRequestTarget request ) {
+        if ( request instanceof BookmarkablePageRequestTarget ) {
+            BookmarkablePageRequestTarget bookRequest = (BookmarkablePageRequestTarget) request;
+            // TODO
+        }
         throw new RuntimeException( "PhetUrlStrategy.encode" );
     }
 
@@ -36,8 +40,9 @@ public class PhetUrlStrategy implements IRequestTargetUrlCodingStrategy {
         PageParameters params = new PageParameters( requestParameters.getParameters() );
         params.add( "path", requestParameters.getPath() );
         params.add( "localeString", localeString );
+        params.put( "locale", LocaleUtils.stringToLocale( localeString ) );
         String strippedPath = stripPath( requestParameters.getPath() );
-        Class toClass = mapper.getMappedClass( strippedPath );
+        Class toClass = mapper.getMappedClass( strippedPath, params );
         return new BookmarkablePageRequestTarget( toClass, params );
     }
 
