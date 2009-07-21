@@ -1,31 +1,23 @@
-/* Copyright 2003-2004, University of Colorado */
+/* Copyright 2003-2009, University of Colorado */
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
 package edu.colorado.phet.reactionsandrates.view;
+
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.*;
+import java.awt.geom.Rectangle2D;
+import java.util.HashMap;
+import java.util.List;
+
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.reactionsandrates.MRConfig;
 import edu.colorado.phet.reactionsandrates.model.*;
 import edu.colorado.phet.reactionsandrates.modules.RateExperimentsModule;
 import edu.colorado.phet.reactionsandrates.util.ControlBorderFactory;
-import edu.colorado.phet.reactionsandrates.util.RangeLimitedIntegerTextField;
 import edu.colorado.phet.reactionsandrates.util.Resetable;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.geom.Rectangle2D;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * ExperimentSetupPanel
@@ -33,15 +25,11 @@ import java.util.TimerTask;
  * Contains the controls for setting up and running an experiment
  *
  * @author Ron LeMaster
- * @version $Revision$
  */
 public class ExperimentSetupPanel extends JPanel implements Resetable {
     private static final int BEGIN_EXPERIMENT_DELAY_MS = 1000;
 
-    private JTextField numATF;
-    private JTextField numBCTF;
-    private JTextField numABTF;
-    private JTextField numCTF;
+    private IntegerRangeSpinner spinnerA, spinnerBC, spinnerAB, spinnerC;
     private HashMap moleculeTypeToGenerator = new HashMap();
     private RateExperimentsModule module;
     private InitialTemperaturePanel initialTemperaturePanel;
@@ -102,10 +90,10 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
 
         // Make the text fields for the number of molecules
         int maxMolecules = MRConfig.MAX_MOLECULE_CNT;
-        numATF = new RangeLimitedIntegerTextField( 0, maxMolecules );
-        numBCTF = new RangeLimitedIntegerTextField( 0, maxMolecules );
-        numABTF = new RangeLimitedIntegerTextField( 0, maxMolecules );
-        numCTF = new RangeLimitedIntegerTextField( 0, maxMolecules );
+        spinnerA = new IntegerRangeSpinner( 0, maxMolecules );
+        spinnerBC = new IntegerRangeSpinner( 0, maxMolecules );
+        spinnerAB = new IntegerRangeSpinner( 0, maxMolecules );
+        spinnerC = new IntegerRangeSpinner( 0, maxMolecules );
 
         // The GO button
         goButton = new JButton( new TogglingExperimentAction( module ) );
@@ -152,13 +140,13 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
 
         // Text fields
         textFieldGbc.gridy = GridBagConstraints.RELATIVE;
-        add( numATF, textFieldGbc );
-        add( numABTF, textFieldGbc );
+        add( spinnerA, textFieldGbc );
+        add( spinnerAB, textFieldGbc );
         textFieldGbc.gridy = 1;
         textFieldGbc.gridx = 3;
         textFieldGbc.gridy = GridBagConstraints.RELATIVE;
-        add( numBCTF, textFieldGbc );
-        add( numCTF, textFieldGbc );
+        add( spinnerBC, textFieldGbc );
+        add( spinnerC, textFieldGbc );
 
         // Initial temperature slider:
         initialTemperaturePanel = new InitialTemperaturePanel( module );
@@ -224,10 +212,10 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
     }
 
     private void setInitialConditionsEditable( boolean editable ) {
-        numATF.setEnabled( editable );
-        numBCTF.setEnabled( editable );
-        numABTF.setEnabled( editable );
-        numCTF.setEnabled( editable );
+        spinnerA.setEnabled( editable );
+        spinnerBC.setEnabled( editable );
+        spinnerAB.setEnabled( editable );
+        spinnerC.setEnabled( editable );
     }
 
     /**
@@ -236,10 +224,10 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
     public void reset() {
         endExperiment();
 
-        numATF.setText( "0" );
-        numBCTF.setText( "0" );
-        numABTF.setText( "0" );
-        numCTF.setText( "0" );
+        spinnerA.setIntValue( 0 );
+        spinnerBC.setIntValue( 0 );
+        spinnerAB.setIntValue( 0 );
+        spinnerC.setIntValue( 0 );
 
         if( module.isActive() ) {
             module.getClock().start();
@@ -274,10 +262,10 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
         // User wants to begin an experiment:
         setInitialConditionsEditable( false );
 
-        generateMolecules( MoleculeA.class, Integer.parseInt( numATF.getText() ) );
-        generateMolecules( MoleculeBC.class, Integer.parseInt( numBCTF.getText() ) );
-        generateMolecules( MoleculeAB.class, Integer.parseInt( numABTF.getText() ) );
-        generateMolecules( MoleculeC.class, Integer.parseInt( numCTF.getText() ) );
+        generateMolecules( MoleculeA.class, spinnerA.getIntValue() );
+        generateMolecules( MoleculeBC.class, spinnerBC.getIntValue() );
+        generateMolecules( MoleculeAB.class, spinnerAB.getIntValue() );
+        generateMolecules( MoleculeC.class, spinnerC.getIntValue() );
 
         goButton.setText( MRConfig.RESOURCES.getLocalizedString( "ExperimentSetup.stop" ) );
 
@@ -342,14 +330,6 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
                 endExperiment();
             }
         }
-    }
-
-    private void runOnce( final Runnable runnable, int time ) {
-        new Timer().schedule( new TimerTask() {
-            public void run() {
-                runnable.run();
-            }
-        }, time );
     }
 
     public boolean isTemperatureBeingAdjusted() {
