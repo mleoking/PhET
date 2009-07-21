@@ -25,11 +25,10 @@ import edu.colorado.phet.reactionsandrates.view.icons.MoleculeIcon;
  * Panel that has spinners for the number of each type of molecule
  *
  * @author Ron LeMaster
- * @version $Revision$
  */
 public class MoleculeInstanceControlPanel extends JPanel {
+    
     private List counters = new ArrayList();
-    private int maxMoleculeCnt = MRConfig.MAX_MOLECULE_CNT;
     private JLabel aLabel = new JLabel();
     private JLabel cLabel = new JLabel();
     private JLabel abLabel = new JLabel();
@@ -46,13 +45,13 @@ public class MoleculeInstanceControlPanel extends JPanel {
         } );
         updateIcons( model.getEnergyProfile() );
 
-        MoleculeCountSpinner aMC = new MoleculeCountSpinner( MoleculeA.class, model, maxMoleculeCnt );
+        MoleculeCountSpinner aMC = new MoleculeCountSpinner( MoleculeA.class, model, MRConfig.MAX_MOLECULES );
         counters.add( aMC );
-        MoleculeCountSpinner cMC = new MoleculeCountSpinner( MoleculeC.class, model, maxMoleculeCnt );
+        MoleculeCountSpinner cMC = new MoleculeCountSpinner( MoleculeC.class, model, MRConfig.MAX_MOLECULES );
         counters.add( cMC );
-        MoleculeCountSpinner abMC = new MoleculeCountSpinner( MoleculeAB.class, model, maxMoleculeCnt );
+        MoleculeCountSpinner abMC = new MoleculeCountSpinner( MoleculeAB.class, model, MRConfig.MAX_MOLECULES );
         counters.add( abMC );
-        MoleculeCountSpinner bcMC = new MoleculeCountSpinner( MoleculeBC.class, model, maxMoleculeCnt );
+        MoleculeCountSpinner bcMC = new MoleculeCountSpinner( MoleculeBC.class, model, MRConfig.MAX_MOLECULES );
         counters.add( bcMC );
         
         // Lay out the controls

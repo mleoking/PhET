@@ -89,11 +89,10 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
         JLabel numCLbl = new JLabel( MRConfig.RESOURCES.getLocalizedString( "ExperimentSetup.numC" ) );
 
         // Make the text fields for the number of molecules
-        int maxMolecules = MRConfig.MAX_MOLECULE_CNT;
-        spinnerA = new IntegerRangeSpinner( 0, maxMolecules );
-        spinnerBC = new IntegerRangeSpinner( 0, maxMolecules );
-        spinnerAB = new IntegerRangeSpinner( 0, maxMolecules );
-        spinnerC = new IntegerRangeSpinner( 0, maxMolecules );
+        spinnerA = new IntegerRangeSpinner( 0, MRConfig.MAX_INITIAL_MOLECULES );
+        spinnerBC = new IntegerRangeSpinner( 0, MRConfig.MAX_INITIAL_MOLECULES );
+        spinnerAB = new IntegerRangeSpinner( 0, MRConfig.MAX_INITIAL_MOLECULES );
+        spinnerC = new IntegerRangeSpinner( 0, MRConfig.MAX_INITIAL_MOLECULES );
 
         // The GO button
         goButton = new JButton( new TogglingExperimentAction( module ) );
