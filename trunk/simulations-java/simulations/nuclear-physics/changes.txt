@@ -1,3 +1,5 @@
+# 3.13.04 (33507) Jul 21, 2009
+7/21/09 Lots of new features and fixes for testing.
 # 3.13.03 (32705) Jun 24, 2009
 6/24/09 Fixed and added a number of things based on initial feedback
 # 3.13.02 (32516) Jun 16, 2009
