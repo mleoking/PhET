@@ -36,7 +36,7 @@ import java.util.List;
  * @author Ron LeMaster
  * @version $Revision$
  */
-abstract public class CompositeMolecule extends AbstractMolecule implements PotentialEnergySource {
+public abstract class CompositeMolecule extends AbstractMolecule implements PotentialEnergySource {
 //    private Vector2D velocity;
 
     //--------------------------------------------------------------------------------------------------
