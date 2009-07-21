@@ -9,6 +9,7 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 
 /**
  * PhetOptionPane provides basic JOptionPane functionality, but uses a PaintImmediateDialog
@@ -35,6 +36,11 @@ public class PhetOptionPane {
     
     public static int showWarningDialog( Component parent, String message, String title ) {
         return showJOptionPaneDialog( parent, message, title, JOptionPane.WARNING_MESSAGE );
+    }
+    
+    public static int showErrorDialog( Component parent, String message ) {
+        String title = PhetCommonResources.getInstance().getLocalizedString( "Common.title.error" );
+        return showJOptionPaneDialog( parent, message, title, JOptionPane.ERROR_MESSAGE );
     }
     
     public static int showErrorDialog( Component parent, String message, String title ) {
