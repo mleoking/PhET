@@ -1,28 +1,24 @@
-/* Copyright 2003-2004, University of Colorado */
+/* Copyright 2003-2009, University of Colorado */
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
 package edu.colorado.phet.reactionsandrates.view;
+
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.geom.Rectangle2D;
+import java.text.MessageFormat;
+import java.util.List;
+
+import javax.swing.JFormattedTextField;
+import javax.swing.JOptionPane;
+import javax.swing.JSpinner;
+import javax.swing.SwingUtilities;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.reactionsandrates.MRConfig;
 import edu.colorado.phet.reactionsandrates.model.*;
-
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.*;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.geom.Rectangle2D;
-import java.util.List;
 
 /**
  * MoleculeCounterSpinner
@@ -30,7 +26,6 @@ import java.util.List;
  * A JSpinner that controls and displays the number of molecules of a specified type.
  *
  * @author Ron LeMaster
- * @version $Revision$
  */
 public class MoleculeCountSpinner extends JSpinner implements PublishingModel.ModelListener,
                                                               AbstractMolecule.ClassListener {
@@ -41,15 +36,16 @@ public class MoleculeCountSpinner extends JSpinner implements PublishingModel.Mo
     // so that we don't respond to add/remove messages from the model
     private boolean selfUpdating;
     private MoleculeParamGenerator moleculeParamGenerator;
-    private int maxValue;
+    private int min, max;
     private boolean hasFocus = false;
 
     /**
      * @param moleculeClass
      * @param model
      */
-    public MoleculeCountSpinner( final Class moleculeClass, final MRModel model, int maxValue ) {
-        this.maxValue = maxValue;
+    public MoleculeCountSpinner( final Class moleculeClass, final MRModel model, int min, int max ) {
+        this.min = min;
+        this.max = max;
 
         JFormattedTextField tf = ( (JSpinner.DefaultEditor)getEditor() ).getTextField();
         tf.setColumns( 3 );
@@ -70,7 +66,7 @@ public class MoleculeCountSpinner extends JSpinner implements PublishingModel.Mo
                                                                                 0,
                                                                                 Math.PI * 2,
                                                                                 moleculeClass );
-        setValue( new Integer( 0 ) );
+        setValue( new Integer( min ) );
 
         // Respond to changes in the spinner
         this.addChangeListener( new SpinnerChangeListener( moleculeClass, model ) );
@@ -131,9 +127,15 @@ public class MoleculeCountSpinner extends JSpinner implements PublishingModel.Mo
 
 
     private void resetValue() {
-        setValue( new Integer( 0 ) );
-        JOptionPane.showMessageDialog( this, MRConfig.RESOURCES.getLocalizedString( "messages.max-value-exceeded" ) );
-        requestFocus();
+        setValue( new Integer( min ) );
+        showInvalidValueDialog();
+    }
+    
+    private void showInvalidValueDialog() {
+        String pattern = MRConfig.RESOURCES.getLocalizedString( "messages.invalidValue" );
+        Object[] args = { new Integer( min ), new Integer( max ) };
+        String message = MessageFormat.format( pattern, args );
+        JOptionPane.showMessageDialog( this, message );
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -180,7 +182,8 @@ public class MoleculeCountSpinner extends JSpinner implements PublishingModel.Mo
         public void stateChanged( ChangeEvent e ) {
             selfUpdating = true;
 
-            if( ( (Integer)getValue() ).intValue() > MoleculeCountSpinner.this.maxValue ) {
+            int value = ( (Integer)getValue() ).intValue();
+            if( value < MoleculeCountSpinner.this.min || value > MoleculeCountSpinner.this.max ) {
                 resetValue();
             }
 
