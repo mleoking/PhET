@@ -25,7 +25,7 @@ import java.util.EventListener;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class SimpleMolecule extends AbstractMolecule implements Selectable {
+public abstract class SimpleMolecule extends AbstractMolecule implements Selectable {
 
     private static double areaToMassFactor = .2;
 
