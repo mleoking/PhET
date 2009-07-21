@@ -1,8 +1,6 @@
 package edu.colorado.phet.wickettest;
 
 import org.apache.wicket.protocol.http.WebApplication;
-import org.apache.wicket.protocol.http.HttpSessionStore;
-import org.apache.wicket.session.ISessionStore;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.wickettest.content.IndexPage;
@@ -26,10 +24,10 @@ public class WicketApplication extends WebApplication {
         super.init();
         mapper = new PhetUrlMapper();
 
-        mapper.addMap( "^simulations$", SimulationDisplay.class );
-        mapper.addMap( "^all-simulations$", SimulationList.class );
-        mapper.addMap( "^simulation/[^/]+(/[^/]+)?$", SimulationPage.class );
-        mapper.addMap( "^test/SubPage?$", SubPage.class );
+        mapper.addMap( SimulationDisplay.getMappingString(), SimulationDisplay.class );
+        mapper.addMap( SimulationList.getMappingString(), SimulationList.class );
+        mapper.addMap( SimulationPage.getMappingString(), SimulationPage.class, SimulationPage.getMappingParameters() );
+        mapper.addMap( SubPage.getMappingString(), SubPage.class );
 
         mount( new PhetUrlStrategy( LocaleUtils.stringToLocale( "en" ), mapper ) );
         mount( new PhetUrlStrategy( LocaleUtils.stringToLocale( "es" ), mapper ) );

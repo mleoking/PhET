@@ -17,4 +17,8 @@ public class SimulationList extends PhetPage {
         add( new SimulationListPanel( "simulation-list-panel", getMyLocale() ) );
 
     }
+
+    public static String getMappingString() {
+        return "^all-simulations$";
+    }
 }

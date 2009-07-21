@@ -16,34 +16,33 @@ public class SimulationPage extends PhetPage {
     public SimulationPage( PageParameters parameters ) {
         super( parameters );
 
-        String[] spots = getRequestPath().split( "/" );
+        String projectName = parameters.getString( "project" );
+        String flavorName = parameters.getString( "flavor", projectName );
 
-        if ( spots.length < 3 ) {
-            throw new RuntimeException( "Handle this case soon" );
-        }
-
-        String projectName = spots[2];
-        String simulationName;
-
-        if ( spots.length < 4 ) {
-            simulationName = projectName;
-        }
-        else {
-            simulationName = spots[3];
-        }
-
-        WebSimulation simulation = SqlUtils.getBestSimulation( getContext(), projectName, simulationName, getMyLocale() );
+        WebSimulation simulation = SqlUtils.getBestSimulation( getContext(), projectName, flavorName, getMyLocale() );
 
         if ( simulation == null ) {
             System.out.println( "Simulation is null!!" );
+            add( new Label( "page-title", "Unknown Simulation" ) );
+            add( new Label( "simulation-main-panel", "The simulation you specified could not be found." ) );
         }
+        else {
 
-        // TODO: handle reordering for rtl
-        Label title = new Label( "page-title", simulation.getTitle() + " " + simulation.getVersionString() );
-        add( title );
+            // TODO: handle reordering for rtl
+            Label title = new Label( "page-title", simulation.getTitle() + " " + simulation.getVersionString() );
+            add( title );
 
-        add( new SimulationMainPanel( "simulation-main-panel", simulation, getMyLocale() ) );
+            add( new SimulationMainPanel( "simulation-main-panel", simulation, getMyLocale() ) );
 
+        }
+    }
+
+    public static String getMappingString() {
+        return "^simulation/([^/]+)(/([^/]+))?$";
+    }
+
+    public static String[] getMappingParameters() {
+        return new String[]{"project", null, "flavor"};
     }
 
     public static PhetLink createLink( String id, Locale locale, WebSimulation simulation ) {

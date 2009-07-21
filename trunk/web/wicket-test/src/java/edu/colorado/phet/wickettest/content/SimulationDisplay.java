@@ -22,6 +22,10 @@ public class SimulationDisplay extends PhetPage {
 
     }
 
+    public static String getMappingString() {
+        return "^simulations$";
+    }
+
     public static PhetLink createLink( String id, Locale locale ) {
         String str = "/" + LocaleUtils.localeToString( locale ) + "/simulations";
         return new PhetLink( id, str );

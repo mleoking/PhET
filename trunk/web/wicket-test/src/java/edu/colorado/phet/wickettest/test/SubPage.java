@@ -15,4 +15,8 @@ public class SubPage extends PhetPage {
 
     }
 
+    public static String getMappingString() {
+        return "^test/SubPage?$";
+    }
+
 }
