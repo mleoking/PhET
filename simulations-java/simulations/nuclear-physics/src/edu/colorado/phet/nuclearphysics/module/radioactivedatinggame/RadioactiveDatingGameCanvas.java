@@ -20,6 +20,7 @@ import java.util.Iterator;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
+import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
@@ -100,14 +101,16 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     private GradientButtonNode _resetGuessesButtonNode;
     private PPath _probeDragBounds = new PPath();
     private AgeGuessResultNode.Listener _clearResultListener;
+    private SoundState _soundState;
 
     //----------------------------------------------------------------------------
     // Constructor
     //----------------------------------------------------------------------------
 
-    public RadioactiveDatingGameCanvas(RadioactiveDatingGameModel radioactiveDatingGameModel) {
+    public RadioactiveDatingGameCanvas(RadioactiveDatingGameModel radioactiveDatingGameModel, SoundState soundState) {
 
     	_model = radioactiveDatingGameModel;
+    	_soundState = soundState;
 
     	setWorldTransformStrategy(new PhetPCanvas.CenterWidthScaleHeight(this, INITIAL_INTERMEDIATE_DIMENSION));
         _mvt = new ModelViewTransform2D(
@@ -381,6 +384,8 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     	DatableItem itemBeingTouched = _model.getMeter().getItemBeingTouched();
     	
     	if (itemBeingTouched != null){
+    		
+   			_soundState.play( "killed.wav" );
     		
 	    	AgeGuessResultNode previousGuessResultNode = _mapDatableItemsToGuessResults.get(itemBeingTouched);
 	    	if (previousGuessResultNode != null){
