@@ -22,6 +22,7 @@ import edu.colorado.phet.reactionsandrates.MRConfig;
  */
 public class RateExperimentsModule extends ComplexModule {
     private RateExperimentsMRControlPanel controlPanel;
+    private boolean isExperimentRunning = false;
 
     /**
      *
@@ -42,10 +43,15 @@ public class RateExperimentsModule extends ComplexModule {
      * @param isRunning
      */
     public void setExperimentRunning( boolean isRunning ) {
+        isExperimentRunning = isRunning;
         if( controlPanel != null ) {
             controlPanel.setExperimentRunning( isRunning );
             setStripChartRecording( isRunning );
         }
+    }
+    
+    public boolean isExperimentRunning() {
+        return isExperimentRunning;
     }
 
     public void resetStripChart() {
