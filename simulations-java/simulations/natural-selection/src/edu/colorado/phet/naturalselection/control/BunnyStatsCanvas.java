@@ -9,6 +9,8 @@ import javax.swing.*;
 
 import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.block.LineBorder;
+import org.jfree.chart.title.LegendTitle;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.PlotRenderingInfo;
@@ -17,6 +19,7 @@ import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
+import org.jfree.ui.RectangleInsets;
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
 import edu.colorado.phet.common.jfreechartphet.piccolo.XYPlotNode;
@@ -25,6 +28,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionResources;
 import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
+import edu.colorado.phet.naturalselection.NaturalSelectionApplication;
 import edu.colorado.phet.naturalselection.model.*;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -87,9 +91,19 @@ public class BunnyStatsCanvas extends PhetPCanvas {
 
         chart = new JFreeChart( emptyPlot );
         chart.setBackgroundPaint( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
+
+        if ( NaturalSelectionApplication.isHighContrast() ) {
+            chart.setBackgroundPaint( Color.BLACK );
+            chart.setBorderPaint( Color.WHITE );
+            LegendTitle legend = chart.getLegend();
+            legend.setBackgroundPaint( Color.BLACK );
+            legend.setItemPaint( Color.WHITE );
+            legend.setFrame( new LineBorder( Color.WHITE, new BasicStroke( 1.0f ), new RectangleInsets( 5, 5, 5, 5 ) ) );
+        }
+
         chart.setAntiAlias( CHART_ANTIALIAS );
 
-        setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
+        setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
 
         chartNode = new JFreeChartNode( chart );
         root.addChild( chartNode );
@@ -210,13 +224,42 @@ public class BunnyStatsCanvas extends PhetPCanvas {
         plot.setDataset( seriesIndex, dataset );
         XYItemRenderer renderer = new StandardXYItemRenderer();
         renderer.setStroke( new BasicStroke( 3f ) );
-        renderer.setSeriesPaint( TOTAL_INDEX, Color.BLACK );
-        renderer.setSeriesPaint( FUR_WHITE_INDEX, Color.RED );
-        renderer.setSeriesPaint( FUR_BROWN_INDEX, Color.CYAN );
-        renderer.setSeriesPaint( TAIL_SHORT_INDEX, Color.BLUE );
-        renderer.setSeriesPaint( TAIL_LONG_INDEX, Color.ORANGE );
-        renderer.setSeriesPaint( TEETH_SHORT_INDEX, Color.YELLOW.darker() );
-        renderer.setSeriesPaint( TEETH_LONG_INDEX, Color.MAGENTA );
+        if ( NaturalSelectionApplication.isHighContrast() ) {
+            domainAxis.setAxisLinePaint( Color.WHITE );
+            domainAxis.setLabelPaint( Color.WHITE );
+            domainAxis.setTickLabelPaint( Color.WHITE );
+            domainAxis.setTickMarkPaint( Color.WHITE );
+
+            rangeAxis.setAxisLinePaint( Color.WHITE );
+            rangeAxis.setLabelPaint( Color.WHITE );
+            rangeAxis.setTickLabelPaint( Color.WHITE );
+            rangeAxis.setTickMarkPaint( Color.WHITE );
+
+            renderer.setSeriesPaint( TOTAL_INDEX, Color.WHITE );
+            renderer.setSeriesPaint( FUR_WHITE_INDEX, Color.RED );
+            renderer.setSeriesPaint( FUR_BROWN_INDEX, Color.CYAN );
+            renderer.setSeriesPaint( TAIL_SHORT_INDEX, Color.BLUE );
+            renderer.setSeriesPaint( TAIL_LONG_INDEX, Color.ORANGE );
+            renderer.setSeriesPaint( TEETH_SHORT_INDEX, Color.YELLOW );
+            renderer.setSeriesPaint( TEETH_LONG_INDEX, Color.MAGENTA );
+
+            plot.setBackgroundPaint( Color.BLACK );
+            plot.setDomainGridlinePaint( Color.WHITE );
+            plot.setRangeGridlinePaint( Color.WHITE );
+            plot.setDomainZeroBaselinePaint( Color.WHITE );
+            plot.setOutlinePaint( Color.WHITE );
+            plot.setRangeTickBandPaint( new Color( 32, 32, 32 ) );
+            plot.setRangeZeroBaselinePaint( Color.WHITE );
+        }
+        else {
+            renderer.setSeriesPaint( TOTAL_INDEX, Color.BLACK );
+            renderer.setSeriesPaint( FUR_WHITE_INDEX, Color.RED );
+            renderer.setSeriesPaint( FUR_BROWN_INDEX, Color.CYAN );
+            renderer.setSeriesPaint( TAIL_SHORT_INDEX, Color.BLUE );
+            renderer.setSeriesPaint( TAIL_LONG_INDEX, Color.ORANGE );
+            renderer.setSeriesPaint( TEETH_SHORT_INDEX, Color.YELLOW.darker() );
+            renderer.setSeriesPaint( TEETH_LONG_INDEX, Color.MAGENTA );
+        }
         plot.setRenderer( seriesIndex, renderer );
 
         return plot;

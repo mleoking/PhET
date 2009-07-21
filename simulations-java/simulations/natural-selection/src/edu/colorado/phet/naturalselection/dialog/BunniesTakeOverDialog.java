@@ -13,6 +13,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionResources;
 import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
+import edu.colorado.phet.naturalselection.NaturalSelectionApplication;
 import edu.colorado.phet.naturalselection.module.NaturalSelectionModule;
 import edu.umd.cs.piccolo.PNode;
 
@@ -42,7 +43,7 @@ public class BunniesTakeOverDialog extends JDialog {
         root.addChild( NaturalSelectionResources.getImageNode( NaturalSelectionConstants.IMAGE_EARTH ) );
         panel.add( canvas );
 
-        panel.setBackground( Color.BLACK );
+        panel.setBackground( NaturalSelectionApplication.accessibleColor( Color.BLACK ) );
 
         panel.setInsets( new Insets( 10, 10, 10, 10 ) );
 

@@ -9,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionResources;
 import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
+import edu.colorado.phet.naturalselection.NaturalSelectionApplication;
 import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
 import edu.colorado.phet.naturalselection.persistence.NaturalSelectionConfig;
 
@@ -40,8 +41,8 @@ public class LeftPanel extends JPanel {
         genePanel = new GenePanel( model, mutationPanel );
         add( genePanel );
 
-        setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
-        labelPanel.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
+        setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
+        labelPanel.setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
 
         setBorder( new EmptyBorder( new Insets( 0, 10, 10, 0 ) ) );
     }

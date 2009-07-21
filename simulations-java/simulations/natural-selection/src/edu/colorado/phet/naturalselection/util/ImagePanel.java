@@ -9,6 +9,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionResources;
+import edu.colorado.phet.naturalselection.NaturalSelectionApplication;
 
 /**
  * Creates a panel that contains the desired image
@@ -50,13 +51,17 @@ public class ImagePanel extends JPanel {
     }
 
     public void paintComponent( Graphics g ) {
+        Color controlColor = NaturalSelectionConstants.COLOR_CONTROL_PANEL;
+        if ( NaturalSelectionApplication.isHighContrast() ) {
+            controlColor = Color.BLACK;
+        }
         if ( enabled ) {
-            g.drawImage( image, 0, 0, NaturalSelectionConstants.COLOR_CONTROL_PANEL, null );
+            g.drawImage( image, 0, 0, controlColor, null );
         }
         else {
-            g.drawImage( image, 0, 0, NaturalSelectionConstants.COLOR_CONTROL_PANEL, null );
-            Color backColor = NaturalSelectionConstants.COLOR_CONTROL_PANEL;
-            Color alphaColor = new Color( backColor.getRed(), backColor.getGreen(), backColor.getBlue(), 175 );
+            g.drawImage( image, 0, 0, controlColor, null );
+
+            Color alphaColor = new Color( controlColor.getRed(), controlColor.getGreen(), controlColor.getBlue(), 175 );
             g.setColor( alphaColor );
             g.fillRect( 0, 0, image.getWidth(), image.getHeight() );
         }

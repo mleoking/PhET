@@ -9,6 +9,7 @@ import javax.swing.*;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionResources;
 import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
+import edu.colorado.phet.naturalselection.NaturalSelectionApplication;
 import edu.colorado.phet.naturalselection.model.*;
 import edu.colorado.phet.naturalselection.util.ImagePanel;
 
@@ -184,10 +185,10 @@ public class MutationPanel extends JPanel {
         } );
 
 
-        setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
-        colorMutationIndicator.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
-        tailMutationIndicator.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
-        teethMutationIndicator.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
+        setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
+        colorMutationIndicator.setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
+        tailMutationIndicator.setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
+        teethMutationIndicator.setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
 
     }
 

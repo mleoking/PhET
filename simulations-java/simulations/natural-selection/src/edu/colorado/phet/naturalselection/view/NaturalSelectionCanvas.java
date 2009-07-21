@@ -7,6 +7,7 @@ import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
+import edu.colorado.phet.naturalselection.NaturalSelectionApplication;
 import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
 import edu.colorado.phet.naturalselection.model.Gene;
 import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
@@ -51,7 +52,7 @@ public class NaturalSelectionCanvas extends PhetPCanvas {
 
         this.model = model;
 
-        setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
+        setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
         //setBorder( null );
 
         rootNode = new PNode();
