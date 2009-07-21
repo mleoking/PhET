@@ -45,13 +45,13 @@ public class MoleculeInstanceControlPanel extends JPanel {
         } );
         updateIcons( model.getEnergyProfile() );
 
-        MoleculeCountSpinner aMC = new MoleculeCountSpinner( MoleculeA.class, model, MRConfig.MAX_MOLECULES );
+        MoleculeCountSpinner aMC = new MoleculeCountSpinner( MoleculeA.class, model, 0, MRConfig.MAX_MOLECULES );
         counters.add( aMC );
-        MoleculeCountSpinner cMC = new MoleculeCountSpinner( MoleculeC.class, model, MRConfig.MAX_MOLECULES );
+        MoleculeCountSpinner cMC = new MoleculeCountSpinner( MoleculeC.class, model, 0, MRConfig.MAX_MOLECULES );
         counters.add( cMC );
-        MoleculeCountSpinner abMC = new MoleculeCountSpinner( MoleculeAB.class, model, MRConfig.MAX_MOLECULES );
+        MoleculeCountSpinner abMC = new MoleculeCountSpinner( MoleculeAB.class, model, 0, MRConfig.MAX_MOLECULES );
         counters.add( abMC );
-        MoleculeCountSpinner bcMC = new MoleculeCountSpinner( MoleculeBC.class, model, MRConfig.MAX_MOLECULES );
+        MoleculeCountSpinner bcMC = new MoleculeCountSpinner( MoleculeBC.class, model, 0, MRConfig.MAX_MOLECULES );
         counters.add( bcMC );
         
         // Lay out the controls
