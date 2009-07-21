@@ -7,6 +7,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
+import edu.colorado.phet.naturalselection.NaturalSelectionApplication;
 import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
 import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
 import edu.colorado.phet.naturalselection.view.pedigree.PedigreeNode;
@@ -40,7 +41,7 @@ public class GenerationChartCanvas extends PhetPCanvas {
 
         this.model = model;
 
-        setBackground( NaturalSelectionConstants.COLOR_GENERATION_CHART );
+        setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_GENERATION_CHART ) );
 
         rootNode = new PNode();
         addWorldChild( rootNode );

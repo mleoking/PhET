@@ -10,6 +10,7 @@ import javax.swing.border.EmptyBorder;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
+import edu.colorado.phet.naturalselection.NaturalSelectionApplication;
 import edu.colorado.phet.naturalselection.model.*;
 import edu.colorado.phet.naturalselection.persistence.NaturalSelectionConfig;
 import edu.colorado.phet.naturalselection.util.ImagePanel;
@@ -336,7 +337,7 @@ public class GenePanel extends JPanel {
         } );
 
 
-        setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
+        setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
 
     }
 
@@ -344,7 +345,7 @@ public class GenePanel extends JPanel {
         JRadioButton ret = new JRadioButton();
         ret.setIconTextGap( 0 );
         ret.setSelected( selected );
-        ret.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
+        ret.setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
         return ret;
     }
 

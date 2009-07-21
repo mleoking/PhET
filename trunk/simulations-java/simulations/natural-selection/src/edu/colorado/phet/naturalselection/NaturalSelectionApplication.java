@@ -150,6 +150,19 @@ public class NaturalSelectionApplication extends PiccoloPhetApplication {
         return _tabbedModulePane;
     }
 
+    public static boolean isHighContrast() {
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        Boolean ret = (Boolean) toolkit.getDesktopProperty( "win.highContrast.on" );
+        return ret != null && ret;
+    }
+
+    public static Color accessibleColor( Color color ) {
+        if ( isHighContrast() ) {
+            return null;
+        }
+        return color;
+    }
+
     //----------------------------------------------------------------------------
     // Persistence
     //----------------------------------------------------------------------------

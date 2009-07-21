@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.view.LogoPanel;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
+import edu.colorado.phet.naturalselection.NaturalSelectionApplication;
 import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
 import edu.colorado.phet.naturalselection.module.NaturalSelectionModule;
 import edu.colorado.phet.naturalselection.persistence.NaturalSelectionConfig;
@@ -61,7 +62,7 @@ public class NaturalSelectionControlPanel extends JPanel {
         leftPanel = new LeftPanel( this.model );
         bunnyStatsPanel = new BunnyStatsPanel( this.model );
         LogoPanel logoPanel = new LogoPanel();
-        logoPanel.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
+        logoPanel.setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
 
 
         // keep track of the column for the gridbaglayout
@@ -109,12 +110,12 @@ public class NaturalSelectionControlPanel extends JPanel {
         add( clockControlPanel, clockPanelConstraints );
 
         // color everything with the control panel's background color
-        setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
-        rightPanel.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
-        selectionPanel.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
-        //wolvesButton.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
-        //foodButton.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
-        //noneButton.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
+        setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
+        rightPanel.setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
+        selectionPanel.setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
+        //wolvesButton.setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
+        //foodButton.setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
+        //noneButton.setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
     }
 
     public void selectDefaultSelectionFactor() {

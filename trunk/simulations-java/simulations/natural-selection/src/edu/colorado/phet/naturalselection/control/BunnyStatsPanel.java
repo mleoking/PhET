@@ -5,6 +5,7 @@ import java.awt.*;
 import javax.swing.*;
 
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
+import edu.colorado.phet.naturalselection.NaturalSelectionApplication;
 import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
 
 public class BunnyStatsPanel extends JPanel {
@@ -16,7 +17,7 @@ public class BunnyStatsPanel extends JPanel {
         bunnyStatsCanvas = new BunnyStatsCanvas( model );
         add( bunnyStatsCanvas );
 
-        setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
+        setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
     }
 
     public void reset() {

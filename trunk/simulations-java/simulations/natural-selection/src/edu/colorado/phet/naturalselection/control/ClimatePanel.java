@@ -8,6 +8,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
+import edu.colorado.phet.naturalselection.NaturalSelectionApplication;
 import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
 import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
 import edu.colorado.phet.naturalselection.persistence.NaturalSelectionConfig;
@@ -77,13 +78,13 @@ public class ClimatePanel extends JPanel {
         selectDefaultClimate();
 
         // make sure everything has the correct background color
-        setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
-        equatorButton.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
-        equatorPanel.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
-        equatorImage.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
-        arcticButton.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
-        arcticPanel.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
-        arcticImage.setBackground( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
+        setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
+        equatorButton.setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
+        equatorPanel.setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
+        equatorImage.setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
+        arcticButton.setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
+        arcticPanel.setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
+        arcticImage.setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
     }
 
     public void selectDefaultClimate() {
