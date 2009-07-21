@@ -1,3 +1,5 @@
+# 1.03.07 (33495) Jul 20, 2009
+7/20/09 publish dev version to review bug fixes
 7/20/09 #1730, automatically reload the launcher when reaction type is changed
 7/20/09 #1741, use spinners to set molecule counts for initial conditions
 # 1.03.06 (33475) Jul 20, 2009
