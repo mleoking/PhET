@@ -10,6 +10,7 @@ TODO:
 - make symbol legend descriptions automatically wrap, so we don't need breaks in HTML markup
 
 DONE:
+7/22/09 use solute control panel color for "animate symbol size" background in equation dialogs, larger font
 # 0.01.27
 7/16/09 only update the dots when they are visible
 7/16/09 fix: dots should update for K=strong when concentration or solute is changed
