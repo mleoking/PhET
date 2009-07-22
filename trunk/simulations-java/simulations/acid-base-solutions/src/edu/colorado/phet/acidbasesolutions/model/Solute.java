@@ -112,6 +112,8 @@ public abstract class Solute extends Molecule {
         return strength;
     }
     
+    public abstract String getStrengthSymbol();
+    
     // c
     public void setConcentration( double concentration ) {
         if ( concentration != this.concentration ) {
