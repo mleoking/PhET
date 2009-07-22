@@ -1,0 +1,59 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: July 16-21, 2009 (Thu-Tue)
+
+ACCOMPLISHMENTS:
+
+  acid-base-solutions:
+  - fixed dot view so that concentration changes cause an update when K=strong
+  - published 0.01.27
+  
+  titration:
+  - design meeting to discuss model issues
+  
+  glaciers:
+  - met with Wendy about change requests
+  - #999, backed out model change that made this problem worse
+  - #766, added snow between terminus and ELA
+  - #766, made ice thickness tool show "?" wherever thickness is zero
+  - #733, one decimal place for climate controls and glacial budget meter
+  - #1724, moved "Glacier Evolution State" dialog to Developer menu
+  - published 2.01.03, 2.01.04
+  
+  reactions-and-rates:
+  - #1729, separated "clear model" from "reset all"
+  - #1710, clear model when initial temperature is changed
+  - #1730, clear model when reaction type is changed
+  - #1732, added "Clear container" button
+  - #1740, gray out spinner text fields when they are not editable
+  - #1741, use spinners for setting initial molecules counts
+  - #1728, limit initial molecule counts to 100 of each type
+  - #1712, improve responsiveness of "Begin/End Experiment" button
+  - #1712, looked for performance bottlenecks with JProfiler (none found)
+  - #1731, changed the sim description
+  - #1711,#1720, closed as duplicates
+  - published 1.03.06, 1.03.07, 1.03.08, 1.03.09
+  
+  misc:
+  - status meeting
+  - discussion about website i18n
+  
+WHAT'S NEXT:
+ 
+  - acid-base-solutions changes? publish 1.00 
+  - finish glaciers changes, test, publish new version
+  - finish rates-and-reactions fixes, test, publish new version
+  - Translation Utility enhancements related to KSU
+  - start on titration sim
+  
+ISSUES:
+
+  - none
+  
+DATES UNAVAILABLE:
+
+   July 25 - August 9
+   August 27 - September 1
+  
+--
