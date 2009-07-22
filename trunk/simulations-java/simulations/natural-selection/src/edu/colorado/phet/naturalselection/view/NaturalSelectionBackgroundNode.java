@@ -6,6 +6,8 @@ import java.awt.geom.AffineTransform;
 
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionResources;
+import edu.colorado.phet.naturalselection.NaturalSelectionApplication;
+import edu.colorado.phet.naturalselection.util.HighContrastImageFilter;
 import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -33,6 +35,10 @@ public class NaturalSelectionBackgroundNode extends PNode implements NaturalSele
         // initialize images
         equatorImage = NaturalSelectionResources.getImageNode( NaturalSelectionConstants.IMAGE_BACKGROUND_EQUATOR );
         arcticImage = NaturalSelectionResources.getImageNode( NaturalSelectionConstants.IMAGE_BACKGROUND_ARCTIC );
+
+        if ( NaturalSelectionApplication.isHighContrast() ) {
+            equatorImage = HighContrastImageFilter.getEquator().getPImage( NaturalSelectionConstants.IMAGE_BACKGROUND_EQUATOR );
+        }
 
         baseWidth = equatorImage.getWidth();
         baseHeight = equatorImage.getHeight();
@@ -85,4 +91,5 @@ public class NaturalSelectionBackgroundNode extends PNode implements NaturalSele
     public void updateLayout( int width, int height ) {
         this.setTransform( getBackgroundTransform( width, height ) );
     }
+
 }

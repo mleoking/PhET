@@ -8,6 +8,7 @@ import edu.colorado.phet.naturalselection.model.Bunny;
 import edu.colorado.phet.naturalselection.model.Landscape;
 import edu.colorado.phet.naturalselection.view.DisplayBunnyNode;
 import edu.colorado.phet.naturalselection.view.LandscapeNode;
+import edu.colorado.phet.naturalselection.NaturalSelectionApplication;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -86,6 +87,11 @@ public class BunnyNode extends NaturalSelectionSprite implements Bunny.Listener 
     private void rescale() {
         // how much to scale the bunny by
         double scaleFactor = Landscape.NEARPLANE * 0.25 / getPosition().getZ();
+
+
+        if ( NaturalSelectionApplication.isHighContrast() ) {
+            scaleFactor *= 1.5;
+        }
 
         setScale( scaleFactor );
     }
