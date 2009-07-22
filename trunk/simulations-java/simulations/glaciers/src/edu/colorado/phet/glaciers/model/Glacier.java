@@ -30,7 +30,7 @@ public class Glacier extends ClockAdapter {
     // *_B* constants refer to y-axis intercept of data fit
     
     private static final double DX = 80; // distance between x-axis sample points (meters)
-    private static final double ELA_EQUALITY_THRESHOLD = 1; // ELAs are considered equal if they are at least this close (meters)
+    private static final double ELA_EQUALITY_THRESHOLD = 0.1; // ELAs are considered equal if they are at least this close (meters)
     private static final double U_SLIDE = 20; // downvalley ice speed (meters/year)
     private static final double U_DEFORM = 20; // contribution of vertical deformation to ice speed (meters/year)
     
