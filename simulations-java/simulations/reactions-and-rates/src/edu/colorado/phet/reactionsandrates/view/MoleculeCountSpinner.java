@@ -223,7 +223,7 @@ public class MoleculeCountSpinner extends JSpinner implements PublishingModel.Mo
 
             // Transfer the focus away from the control so the value will be
             // updated from the model again:
-//            requestFocus( false );
+//#1712            requestFocus( false );
         }
     }
 }
