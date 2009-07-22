@@ -61,7 +61,7 @@ public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
         this.solution.addSolutionListener( solutionListener );
         
         // scaling on/off
-        scalingControl = new EquationScalingControl( getBackground() );
+        scalingControl = new EquationScalingControl( ABSColors.COLOR_PANEL_BACKGROUND );
         scalingControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 setScalingEnabled( scalingControl.isScalingEnabled() );
@@ -101,6 +101,7 @@ public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
         canvasPanel.add( topCanvas );
         canvasPanel.add( bottomCanvas);
         JPanel userPanel = new JPanel( new BorderLayout() );
+        userPanel.setBackground( ABSColors.COLOR_PANEL_BACKGROUND );
         userPanel.add( scalingControl, BorderLayout.NORTH );
         userPanel.add( canvasPanel, BorderLayout.CENTER );
         JPanel mainPanel = new JPanel( new BorderLayout() );

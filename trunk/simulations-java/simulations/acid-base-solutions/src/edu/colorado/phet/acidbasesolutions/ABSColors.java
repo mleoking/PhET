@@ -15,6 +15,9 @@ public class ABSColors {
     // Color of the "play area"
     public static final Color CANVAS_BACKGROUND = new Color( 230, 230, 230 );
     
+    // control panel backgrounds
+    public static final Color COLOR_PANEL_BACKGROUND = new Color( 255, 255, 220 ); // light yellow
+    
     // equation backgrounds
     public static final Color REACTION_EQUATIONS_BACKGROUND = Color.WHITE;
     public static final Color EQUILIBRIUM_EXPRESSIONS_BACKGROUND = REACTION_EQUATIONS_BACKGROUND;
