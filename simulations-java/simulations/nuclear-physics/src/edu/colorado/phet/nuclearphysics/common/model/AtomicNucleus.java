@@ -294,7 +294,7 @@ public abstract class AtomicNucleus {
         void positionChanged();
         
         /**
-         * Inform listeners that the nucleus has changed in some why, which
+         * Inform listeners that the nucleus has changed in some way, which
          * generally indicates a decay event of some kind.
          * 
          * @param numProtons - New number of protons in the nucleus.
