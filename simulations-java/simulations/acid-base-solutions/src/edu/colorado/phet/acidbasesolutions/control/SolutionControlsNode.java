@@ -235,6 +235,8 @@ public class SolutionControlsNode extends PhetPNode {
     /*
      * Assembles the proper label for the strength slider.
      * Acids use "Strength (Ka)", bases use "Strength (Kb)".
+     * The strength control is hidden for pure water, so it doesn't concern us,
+     * but fyi the label will be set to "Strength (null)".
      */
     private void setStrengthSymbol( Solute solute ) {
         strengthLabelNode.setHTML( MessageFormat.format( STRENGTH_LABEL_PATTERN, solute.getStrengthSymbol() ) );
