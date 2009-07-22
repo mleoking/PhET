@@ -1,3 +1,4 @@
+# 3.17.13 (33522) Jul 21, 2009
 # 3.17.12 (33462) Jul 19, 2009
 Make default frame size 1024x768
 Removed PhET icon logo with weblink
