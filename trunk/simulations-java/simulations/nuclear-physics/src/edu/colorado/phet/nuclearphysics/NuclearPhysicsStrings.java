@@ -32,6 +32,8 @@ public class NuclearPhysicsStrings {
     public static final String NEUTRON_LEGEND_LABEL = NuclearPhysicsResources.getString( "NuclearPhysicsControlPanel.NeutronLabel" );
     public static final String PROTON_LEGEND_LABEL = NuclearPhysicsResources.getString( "NuclearPhysicsControlPanel.ProtonLabel" );
     public static final String ALPHA_PARTICLE_LEGEND_LABEL = NuclearPhysicsResources.getString( "NuclearPhysicsControlPanel.AlphaParticleLabel" );
+    public static final String ELECTRON_LEGEND_LABEL = NuclearPhysicsResources.getString( "NuclearPhysicsControlPanel.ElectronLabel" );
+    public static final String ANTINEUTRINO_LEGEND_LABEL = NuclearPhysicsResources.getString( "NuclearPhysicsControlPanel.AntineutrinoLabel" );
 
     public static final String CARBON_14_CHEMICAL_SYMBOL = NuclearPhysicsResources.getString( "Carbon14Graphic.Symbol" );
     public static final String CARBON_14_ISOTOPE_NUMBER = NuclearPhysicsResources.getString( "Carbon14Graphic.Number" );
