@@ -7,6 +7,8 @@ import java.awt.*;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionResources;
+import edu.colorado.phet.naturalselection.NaturalSelectionApplication;
+import edu.colorado.phet.naturalselection.util.HighContrastImageFilter;
 import edu.colorado.phet.naturalselection.model.Allele;
 import edu.colorado.phet.naturalselection.model.ColorGene;
 import edu.colorado.phet.naturalselection.model.TailGene;
@@ -74,6 +76,15 @@ public class DisplayBunnyNode extends PNode {
         imageName += ".png";
 
         image = NaturalSelectionResources.getImageNode( imageName );
+
+        if ( NaturalSelectionApplication.isHighContrast() ) {
+            if ( color == ColorGene.WHITE_ALLELE ) {
+                image = HighContrastImageFilter.getWhiteBunny().getPImage( imageName );
+            }
+            else {
+                image = HighContrastImageFilter.getBrownBunny().getPImage( imageName );
+            }
+        }
 
         addChild( image );
 

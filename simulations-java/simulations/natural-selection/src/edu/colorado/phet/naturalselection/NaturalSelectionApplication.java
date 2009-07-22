@@ -5,8 +5,10 @@ package edu.colorado.phet.naturalselection;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Enumeration;
 
 import javax.swing.*;
+import javax.swing.plaf.FontUIResource;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
@@ -14,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
 import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetTabbedPane;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
@@ -47,6 +50,9 @@ public class NaturalSelectionApplication extends PiccoloPhetApplication {
         initTabbedPane();
         initModules();
         initMenubar( config.getCommandLineArgs() );
+        //if ( isHighContrast() ) {
+        //    setAccessibilityFontScale( 2.0f );
+        //}
     }
 
     //----------------------------------------------------------------------------
@@ -153,7 +159,7 @@ public class NaturalSelectionApplication extends PiccoloPhetApplication {
     public static boolean isHighContrast() {
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Boolean ret = (Boolean) toolkit.getDesktopProperty( "win.highContrast.on" );
-        return ret != null && ret;
+        return ( ret != null && ret );
     }
 
     public static Color accessibleColor( Color color ) {
@@ -161,6 +167,40 @@ public class NaturalSelectionApplication extends PiccoloPhetApplication {
             return null;
         }
         return color;
+    }
+
+    public static void setAccessibilityFontScale( final float scale ) {
+        // NOT WORKING YET
+        /*
+        java.util.Enumeration keys = UIManager.getDefaults().keys();
+        while ( keys.hasMoreElements() ) {
+            Object key = keys.nextElement();
+            Object value = UIManager.get( key );
+            if ( value instanceof javax.swing.plaf.FontUIResource ) {
+                UIManager.put( key, f );
+            }
+        }
+        */
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                UIDefaults defaults = UIManager.getDefaults();
+                Enumeration keys = defaults.keys();
+                while ( keys.hasMoreElements() ) {
+                    Object key = keys.nextElement();
+                    Object value = defaults.get( key );
+                    if ( value != null && value instanceof Font ) {
+                        UIManager.put( key, null );
+                        Font font = UIManager.getFont( key );
+                        if ( font != null ) {
+                            float size = font.getSize2D();
+                            UIManager.put( key, new FontUIResource( font.deriveFont( size *
+                                                                                     scale ) ) );
+                        }
+                    }
+                }
+            }
+        } );
+
     }
 
     //----------------------------------------------------------------------------

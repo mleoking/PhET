@@ -6,6 +6,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
 import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 public class GenerationChartDialog extends JDialog {
 
@@ -22,6 +23,8 @@ public class GenerationChartDialog extends JDialog {
         setTitle( NaturalSelectionStrings.GENERATION_CHART );
 
         pack();
+
+        SwingUtils.centerWindowOnScreen( this );
 
     }
 
