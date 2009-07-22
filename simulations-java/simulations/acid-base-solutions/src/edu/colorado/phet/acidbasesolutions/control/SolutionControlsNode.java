@@ -8,6 +8,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.geom.Line2D;
 import java.awt.geom.RoundRectangle2D;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -24,11 +25,12 @@ import edu.colorado.phet.acidbasesolutions.model.SoluteFactory;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.SolutionListener;
 import edu.colorado.phet.acidbasesolutions.model.Solute.ICustomSolute;
 import edu.colorado.phet.acidbasesolutions.util.PNodeUtils;
+import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
@@ -53,11 +55,12 @@ public class SolutionControlsNode extends PhetPNode {
     private static final Stroke BACKGROUND_STROKE = new BasicStroke( 1f );
     private static final Color SEPARATOR_COLOR = BACKGROUND_COLOR.darker();
     private static final Stroke SEPARATOR_STROKE = new BasicStroke( 1f );
+    private static final String STRENGTH_LABEL_PATTERN = ABSStrings.LABEL_STRENGTH;
     
     private final SoluteComboBox soluteComboBox;
     private final ConcentrationControlNode concentrationControlNode;
     private final LabelNode concentrationLabelNode;
-    private final PNode strengthLabelNode;
+    private final LabelNode strengthLabelNode;
     private final StrengthSliderNode strengthSliderNode;
     private final ArrayList<SolutionControlsListener> listeners;
     
@@ -182,6 +185,9 @@ public class SolutionControlsNode extends PhetPNode {
         // strength control is enabled only for custom solutes
         strengthSliderNode.setEnabled( solute instanceof ICustomSolute );
         
+        // strength K symbol
+        setStrengthSymbol( solute );
+        
         // set concentration and strength
         if ( !( solute instanceof NoSolute ) ) {
             setConcentration( solute.getConcentration() );
@@ -226,13 +232,21 @@ public class SolutionControlsNode extends PhetPNode {
         strengthSliderNode.setVisible( visible );
     }
     
-    private static class LabelNode extends PText {
+    private void setStrengthSymbol( Solute solute ) {
+        strengthLabelNode.setHTML( MessageFormat.format( STRENGTH_LABEL_PATTERN, solute.getStrengthSymbol() ) );
+    }
+    
+    private static class LabelNode extends HTMLNode {
         
         public LabelNode( String text ) {
             super( text );
             setPickable( false );
             setFont( LABEL_FONT );
-            setTextPaint( LABEL_COLOR );
+            setHTMLColor( LABEL_COLOR );
+        }
+        
+        public void setHTML( String text ) {
+            super.setHTML( HTMLUtils.toHTMLString( text ) );
         }
     }
     
@@ -338,6 +352,7 @@ public class SolutionControlsNode extends PhetPNode {
 
         public void soluteChanged() {
             solutionControls.setSolute( solution.getSolute() );
+            solutionControls.setStrengthSymbol( solution.getSolute() );
         }
         
         public void concentrationChanged() {

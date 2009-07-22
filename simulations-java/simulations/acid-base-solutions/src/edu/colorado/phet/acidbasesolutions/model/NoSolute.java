@@ -14,6 +14,10 @@ public class NoSolute extends Solute {
         super( ABSStrings.NO_SOLUTE, "", null, null, null, "", null, null, null, 0 );
     }
     
+    public String getStrengthSymbol() {
+        return null;
+    }
+    
     public boolean isZeroNegligible() {
         return false;
     }

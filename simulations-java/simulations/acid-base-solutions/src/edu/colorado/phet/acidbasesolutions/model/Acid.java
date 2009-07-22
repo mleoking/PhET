@@ -16,6 +16,10 @@ public abstract class Acid extends Solute {
                strength );
     }
     
+    public String getStrengthSymbol() {
+        return ABSSymbols.Ka;
+    }
+    
     //----------------------------------------------------------------------------
     // Strong acids
     //----------------------------------------------------------------------------

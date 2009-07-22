@@ -1,3 +1,4 @@
+7/22/09 change strength slider label to "Strength (Ka):" or "Strength (Kb)"
 7/22/09 use solute control panel color for "animate symbol size" background in equation dialogs, larger font
 # 0.01.27 (33396) Jul 16, 2009
 7/16/09 update dots when concentration is changed while K=strong

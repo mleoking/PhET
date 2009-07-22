@@ -22,6 +22,10 @@ public abstract class Base extends Solute {
                strength );
     }
     
+    public String getStrengthSymbol() {
+        return ABSSymbols.Kb;
+    }
+    
     //----------------------------------------------------------------------------
     // Strong bases
     //----------------------------------------------------------------------------
