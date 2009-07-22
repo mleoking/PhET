@@ -57,4 +57,14 @@ public abstract class PhetPage extends WebPage {
     public Locale getLocale() {
         return myLocale;
     }
+
+    /*
+    @Override
+    protected void onAfterRender() {
+        super.onAfterRender();
+
+        //remove this page because it should only be used in a bookmarkable sense
+        getPageMap().remove( this );
+    }
+    */
 }
