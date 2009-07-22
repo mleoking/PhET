@@ -36,9 +36,11 @@ class ChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model: Ram
   val controlGraphSeries = new ControlGraphSeries("title",Color.blue,"abbr","N","character",temp)
   val x = new MotionControlGraph(canvas, controlGraphSeries, "label", "title", -2000, 2000, true, timeseriesModel, updateableObject){
     setDomainUpperBound(20)
+    getJFreeChartNode.setBuffered(false)
   }
   val y = new MotionControlGraph(canvas, controlGraphSeries, "label", "title", 0, 10, true, timeseriesModel, updateableObject){
     setDomainUpperBound(20)
+    getJFreeChartNode.setBuffered(false)
   }
   val set = new GraphSetNode(new GraphSetModel(new GraphSuite(Array(new MinimizableControlGraph("x", x), new MinimizableControlGraph("y", y)))))
   set.setAlignedLayout()
