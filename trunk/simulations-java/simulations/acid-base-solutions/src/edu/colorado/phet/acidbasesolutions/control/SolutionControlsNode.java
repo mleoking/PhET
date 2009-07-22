@@ -232,6 +232,10 @@ public class SolutionControlsNode extends PhetPNode {
         strengthSliderNode.setVisible( visible );
     }
     
+    /*
+     * Assembles the proper label for the strength slider.
+     * Acids use "Strength (Ka)", bases use "Strength (Kb)".
+     */
     private void setStrengthSymbol( Solute solute ) {
         strengthLabelNode.setHTML( MessageFormat.format( STRENGTH_LABEL_PATTERN, solute.getStrengthSymbol() ) );
     }
