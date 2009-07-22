@@ -4,13 +4,14 @@ package edu.colorado.phet.nuclearphysics;
 
 import java.awt.Frame;
 
+import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusAlphaDecayModule;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.singlenucleus.SingleNucleusAlphaDecayModule;
+import edu.colorado.phet.nuclearphysics.module.betadecay.multinucleus.MultiNucleusBetaDecayModule;
 
 /**
  * Main application class for the Beta Decay simulation.
@@ -20,14 +21,14 @@ import edu.colorado.phet.nuclearphysics.module.alphadecay.singlenucleus.SingleNu
 public class BetaDecayApplication extends AbstractNuclearPhysicsApplication {
 
     private SingleNucleusAlphaDecayModule _singleNucleusAlphaDecayModule;
-    private MultiNucleusAlphaDecayModule  _multiNucleusAlphaDecayModule;
+    private MultiNucleusBetaDecayModule  _multiNucleusAlphaDecayModule;
 
     public BetaDecayApplication( PhetApplicationConfig config ) {
         super( config );
         
         Frame parentFrame = getPhetFrame();
     
-        _multiNucleusAlphaDecayModule = new MultiNucleusAlphaDecayModule( parentFrame );
+        _multiNucleusAlphaDecayModule = new MultiNucleusBetaDecayModule( parentFrame );
         addModule( _multiNucleusAlphaDecayModule );
 
         _singleNucleusAlphaDecayModule = new SingleNucleusAlphaDecayModule( parentFrame );
