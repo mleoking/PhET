@@ -168,6 +168,7 @@ public class NuclearPhysicsConstants {
     public static final double NUCLEON_DIAMETER        = 1.6; // In femtometers.
     public static final double ALPHA_PARTICLE_DIAMETER = 3.2; // In femtometers.
     public static final double ELECTRON_DIAMETER = 1; // In femtometers, not to scale.
+    public static final double ANTINEUTRINO_DIAMETER = 1; // In femtometers, not to scale, or even close.
     public static final Color  PROTON_COLOR = new Color(0xaa0000);
     public static final Color  PROTON_HILITE_COLOR = new Color(0xffaaaa);
     public static final Color  NEUTRON_COLOR = Color.GRAY;
@@ -182,6 +183,7 @@ public class NuclearPhysicsConstants {
     public static final Paint ELECTRON_ROUND_GRADIENT = new RoundGradientPaint( -ELECTRON_DIAMETER/6, 
             -ELECTRON_DIAMETER/6, ELECTRON_HILITE_COLOR, new Point2D.Double( ELECTRON_DIAMETER/4, ELECTRON_DIAMETER/4 ),
             ELECTRON_COLOR );
+    public static final Color ANTINEUTRINO_COLOR = Color.GREEN;
     public static final int NUCLEUS_ID_POLONIUM = 1;
     public static final int NUCLEUS_ID_CARBON_14 = 2;
     public static final int NUCLEUS_ID_URANIUM_238 = 3;
