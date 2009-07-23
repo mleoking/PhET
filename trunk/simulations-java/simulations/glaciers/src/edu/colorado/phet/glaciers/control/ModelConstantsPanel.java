@@ -8,6 +8,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -25,9 +26,6 @@ import edu.colorado.phet.glaciers.model.Glacier;
  */
 public class ModelConstantsPanel extends JPanel {
     
-    private static final double DELTA_ACCELERATION_M = 1;
-    private static final double DELTA_ACCELERATION_B = 10;
-    
     // controls
     private final double _defaultAccelerationM, _defaultAccelerationB;
     
@@ -35,26 +33,24 @@ public class ModelConstantsPanel extends JPanel {
         super();
 
         // acc_m
-        final double m = Glacier.DEFAULT_ACCELERATION_M;
         _defaultAccelerationM = glacier.debug_getAccelerationM();
-        final double mDelta = DELTA_ACCELERATION_M;
-        final DoubleSpinner mSpinner = new DoubleSpinner( _defaultAccelerationM, m - mDelta, m + mDelta, 0.00001, "0.00000", new Dimension( 100, 22 ) );
+        final DoubleSpinner mSpinner = new DoubleSpinner( _defaultAccelerationM, 0.01, 0.04, 0.00001, "0.00000", new Dimension( 100, 22 ) );
         mSpinner.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 glacier.debug_setAccelerationM( mSpinner.getValue() );
             }
         });
+        JLabel mRangeLabel = new JLabel( "( 0.01, 0.04 )" ); //WARNING! hard-coded label
         
         // acc_b
-        final double b = Glacier.DEFAULT_ACCELERATION_B;
         _defaultAccelerationB = glacier.debug_getAccelerationB();
-        final double bDelta = DELTA_ACCELERATION_B;
-        final DoubleSpinner bSpinner = new DoubleSpinner( _defaultAccelerationB, b - bDelta, b + bDelta, 0.01, "0.00", new Dimension( 100, 22 ) );
+        final DoubleSpinner bSpinner = new DoubleSpinner( _defaultAccelerationB, -136, -100, 0.01, "0.00", new Dimension( 100, 22 ) );
         bSpinner.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 glacier.debug_setAccelerationB( bSpinner.getValue() );
             }
         });
+        JLabel bRangeLabel = new JLabel( "( -136, -100 )" ); //WARNING! hard-coded label
         
         // Reset button, restores defaults
         JButton resetButton = new JButton( "Reset" );
@@ -69,22 +65,36 @@ public class ModelConstantsPanel extends JPanel {
         
         // layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
-        layout.setInsets( new Insets( 3, 10, 3, 10 ) ); // top, left, bottom, right
+        layout.setInsets( new Insets( 2, 3, 2, 3 ) ); // top, left, bottom, right
+        layout.setAnchor( GridBagConstraints.WEST );
         this.setLayout( layout );
         int row = 0;
         int col = 0;
-        layout.addAnchoredComponent( new JLabel( "See model.txt for details." ), row, col++, 2, 1, GridBagConstraints.WEST );
+        layout.addComponent( new JLabel( "See model.txt for details." ), row, col++, 3, 1 );
+        row++;
+        col = 0;
+        layout.addComponent( Box.createVerticalStrut( 10 ), row, col++, 3, 1 );
+        row++;
+        col = 0;
+        layout.addComponent( new JLabel( "<html><u>name</u></html>" ), row, col++ );
+        layout.addComponent( new JLabel( "<html><u>value</u></html>" ), row, col++ );
+        layout.addComponent( new JLabel( "<html><u>range (min, max)</u></html>" ), row, col++ );
         row++;
         col = 0;
         layout.addAnchoredComponent( new JLabel( "acc_m:" ), row, col++, GridBagConstraints.EAST );
-        layout.addAnchoredComponent( mSpinner, row, col++, GridBagConstraints.WEST );
+        layout.addComponent( mSpinner, row, col++ );
+        layout.addComponent( mRangeLabel, row, col++ );
         row++;
         col = 0;
-        layout.addAnchoredComponent( new JLabel( "acc_b:" ), row, col++, GridBagConstraints.EAST );
-        layout.addAnchoredComponent( bSpinner, row, col++, GridBagConstraints.WEST );
+        layout.addAnchoredComponent( new JLabel( "acc_b:" ), row, col++, GridBagConstraints.EAST);
+        layout.addComponent( bSpinner, row, col++ );
+        layout.addComponent( bRangeLabel, row, col++ );
         row++;
         col = 0;
-        layout.addAnchoredComponent( resetButton, row, col++, 2, 1, GridBagConstraints.CENTER );
+        layout.addComponent( Box.createVerticalStrut( 10 ), row, col++, 3, 1 );
+        row++;
+        col = 0;
+        layout.addAnchoredComponent( resetButton, row, col++, 3, 1, GridBagConstraints.CENTER );
     }
     
     public void cleanup() {
