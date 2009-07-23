@@ -61,7 +61,7 @@ public class ReactionEquationsDialog extends PaintImmediateDialog {
         this.solution.addSolutionListener( solutionListener );
         
         // scaling on/off
-        scalingControl = new EquationScalingControl( ABSColors.COLOR_PANEL_BACKGROUND );
+        scalingControl = new EquationScalingControl();
         scalingControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 setScalingEnabled( scalingControl.isScalingEnabled() );

@@ -9,9 +9,11 @@ import java.util.Iterator;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.acidbasesolutions.ABSColors;
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
@@ -28,7 +30,9 @@ public class EquationScalingControl extends JPanel {
     private final JRadioButton onRadioButton, offRadioButton;
     private final ArrayList<ChangeListener> listeners;
     
-    public EquationScalingControl( Color background ) {
+    public EquationScalingControl() {
+        super();
+        setBorder( new LineBorder( Color.BLACK, 1 ) );
         
         listeners = new ArrayList<ChangeListener>();
         
@@ -68,7 +72,7 @@ public class EquationScalingControl extends JPanel {
         innerPanel.add( onRadioButton );
         innerPanel.add( offRadioButton );
         
-        SwingUtils.setBackgroundDeep( this, background );
+        SwingUtils.setBackgroundDeep( this, ABSColors.COLOR_PANEL_BACKGROUND );
     }
     
     public void setScalingEnabled( boolean enabled ) {

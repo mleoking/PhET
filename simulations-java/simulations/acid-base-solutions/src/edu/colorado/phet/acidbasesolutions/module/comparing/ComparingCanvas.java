@@ -79,7 +79,7 @@ public class ComparingCanvas extends ABSAbstractCanvas {
         beakerControlsNode = new ComparingBeakerControlsNode( getBackground(), beakerNodeLeft, beakerNodeRight );
         beakerControlsNode.scale( ABSConstants.PSWING_SCALE );
         
-        equationScalingControl = new EquationScalingControl( getBackground() );
+        equationScalingControl = new EquationScalingControl();
         equationScalingControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 updateEquationsScaling();
