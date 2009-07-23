@@ -40,10 +40,10 @@ echo "================================================================" | tee --
 
 if [ "$1" = "--deploy" ]; then
    echo "Sims will be deployed after they are built." | tee --append $LOG
-   /usr/local/php/bin/php full-rip-and-rebuild.php --deploy | tee --append $LOG
+   /usr/local/php/bin/php ./bin/full-rip-and-rebuild.php --deploy | tee --append $LOG
 else
    echo "Sims will NOT be deployed after they are built." | tee --append $LOG
-   /usr/local/php/bin/php full-rip-and-rebuild.php | tee --append $LOG
+   /usr/local/php/bin/php ./bin/full-rip-and-rebuild.php | tee --append $LOG
 fi
 
 send_email_notification
