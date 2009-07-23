@@ -34,13 +34,13 @@ public class ModelConstantsPanel extends JPanel {
 
         // acc_m
         _defaultAccelerationM = glacier.debug_getAccelerationM();
-        final DoubleSpinner mSpinner = new DoubleSpinner( _defaultAccelerationM, 0.01, 0.04, 0.00001, "0.00000", new Dimension( 100, 22 ) );
+        final DoubleSpinner mSpinner = new DoubleSpinner( _defaultAccelerationM, 0.01, 0.05, 0.00001, "0.00000", new Dimension( 100, 22 ) );
         mSpinner.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 glacier.debug_setAccelerationM( mSpinner.getValue() );
             }
         });
-        JLabel mRangeLabel = new JLabel( "( 0.01, 0.04 )" ); //WARNING! hard-coded label
+        JLabel mRangeLabel = new JLabel( "( 0.01, 0.05 )" ); //WARNING! hard-coded label
         
         // acc_b
         _defaultAccelerationB = glacier.debug_getAccelerationB();
