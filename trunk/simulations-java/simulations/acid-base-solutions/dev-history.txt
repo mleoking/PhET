@@ -3,6 +3,7 @@
 ==================================================================================
 
 TODO:
+- put white box with border behind equations in play area
 - when animate is turned on/off, animate the symbols growing
 - change "Animate symbol size" to "Animate"
 - put a border around "Animate" control, set background to light yellow
