@@ -74,7 +74,7 @@ public class Glacier extends ClockAdapter {
     private boolean _steadyState; // is the glacier in the steady state?
     private final Point2D _terminus; /// point at the terminus (downvalley end)
     private Point2D _surfaceAtELA; // point where the ELA intersects the ice surface, null if ELA is below the terminus or above the headwall
-    private double _accelerationM = 0.0298; // see #999;
+    private double _accelerationM = DEFAULT_ACCELERATION_M;
     private double _accelerationB = DEFAULT_ACCELERATION_B;
     
     private final EvolutionState _evolutionState = new EvolutionState(); // for debugging purposes
