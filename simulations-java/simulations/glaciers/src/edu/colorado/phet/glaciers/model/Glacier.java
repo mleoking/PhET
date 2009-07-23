@@ -50,8 +50,8 @@ public class Glacier extends ClockAdapter {
     private static final double MAX_THICKNESS_SCALE = 2.3;
     private static final double Q_ADVANCE_LIMIT = -2; // meters/year, a limit on the advance speed of the qela
     private static final double Q_RETREAT_LIMIT = 4; // meters/year, a limit on the retreat speed of the qela
-    private static final double DEFAULT_ACCELERATION_M = ( ( ELAX_M0 / ELAX_M2 ) - 1 ) / ( ELAX_X2 - ELAX_X1 );
-    private static final double DEFAULT_ACCELERATION_B = 1 - ( DEFAULT_ACCELERATION_M * ELAX_X1 );
+    public static final double DEFAULT_ACCELERATION_M = ( ( ELAX_M0 / ELAX_M2 ) - 1 ) / ( ELAX_X2 - ELAX_X1 );
+    public static final double DEFAULT_ACCELERATION_B = 1 - ( DEFAULT_ACCELERATION_M * ELAX_X1 );
     
     private static final double SURFACE_ELA_SEARCH_DX = 1; // meters
     private static final double SURFACE_ELA_EQUALITY_THRESHOLD = 1; // meters
@@ -74,10 +74,10 @@ public class Glacier extends ClockAdapter {
     private boolean _steadyState; // is the glacier in the steady state?
     private final Point2D _terminus; /// point at the terminus (downvalley end)
     private Point2D _surfaceAtELA; // point where the ELA intersects the ice surface, null if ELA is below the terminus or above the headwall
-    
-    private final EvolutionState _evolutionState = new EvolutionState(); // for debugging purposes
     private double _accelerationM = DEFAULT_ACCELERATION_M;
     private double _accelerationB = DEFAULT_ACCELERATION_B;
+    
+    private final EvolutionState _evolutionState = new EvolutionState(); // for debugging purposes
     
     //----------------------------------------------------------------------------
     // Constructors
