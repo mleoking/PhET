@@ -50,8 +50,8 @@ public class Glacier extends ClockAdapter {
     private static final double MAX_THICKNESS_SCALE = 2.3;
     private static final double Q_ADVANCE_LIMIT = -2; // meters/year, a limit on the advance speed of the qela
     private static final double Q_RETREAT_LIMIT = 4; // meters/year, a limit on the retreat speed of the qela
-    private static final double ACCELERATION_M = ( ( ELAX_M0 / ELAX_M2 ) - 1 ) / ( ELAX_X2 - ELAX_X1 );
-    private static final double ACCELERATION_B = 1 - ( ACCELERATION_M * ELAX_X1 );
+    private static final double DEFAULT_ACCELERATION_M = ( ( ELAX_M0 / ELAX_M2 ) - 1 ) / ( ELAX_X2 - ELAX_X1 );
+    private static final double DEFAULT_ACCELERATION_B = 1 - ( DEFAULT_ACCELERATION_M * ELAX_X1 );
     
     private static final double SURFACE_ELA_SEARCH_DX = 1; // meters
     private static final double SURFACE_ELA_EQUALITY_THRESHOLD = 1; // meters
@@ -76,6 +76,8 @@ public class Glacier extends ClockAdapter {
     private Point2D _surfaceAtELA; // point where the ELA intersects the ice surface, null if ELA is below the terminus or above the headwall
     
     private final EvolutionState _evolutionState = new EvolutionState(); // for debugging purposes
+    private double _accelerationM = DEFAULT_ACCELERATION_M;
+    private double _accelerationB = DEFAULT_ACCELERATION_B;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -243,6 +245,24 @@ public class Glacier extends ClockAdapter {
      */
     public double getSurfaceElevation( double x ) {
         return _valley.getElevation( x ) + getIceThickness( x );
+    }
+    
+    public void debug_setAccelerationM( double accelerationM ) {
+        System.out.println( "Glacier.debug_setAccelerationM " + accelerationM );
+        _accelerationM = accelerationM;
+    }
+    
+    public double debug_getAccelerationM() {
+        return _accelerationM;
+    }
+    
+    public void debug_setAccelerationB( double accelerationB ) {
+        System.out.println( "Glacier.debug_setAccelerationB " + accelerationB );
+        _accelerationB = accelerationB;
+    }
+    
+    public double debug_getAccelerationB() {
+        return _accelerationB;
     }
     
     //----------------------------------------------------------------------------
@@ -527,7 +547,7 @@ public class Glacier extends ClockAdapter {
     //  Timescale model
     //----------------------------------------------------------------------------
     
-    public EvolutionState getEvolutionState() {
+    public EvolutionState debug_getEvolutionState() {
         return _evolutionState;
     }
     
@@ -560,7 +580,7 @@ public class Glacier extends ClockAdapter {
                 deltaQela = deltaQela * ELAX_M0 / ELAX_M2;
             }
             else if ( _qela > ELAX_X1 ) {
-                deltaQela = deltaQela * ( ( _qela * ACCELERATION_M ) + ACCELERATION_B );
+                deltaQela = deltaQela * ( ( _qela * _accelerationM ) + _accelerationB );
             }
             
             // move the quasi-ELA

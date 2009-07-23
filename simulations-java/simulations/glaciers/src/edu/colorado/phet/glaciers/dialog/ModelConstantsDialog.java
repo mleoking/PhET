@@ -8,21 +8,21 @@ import java.awt.Frame;
 import javax.swing.JDialog;
 
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.glaciers.control.EvolutionStatePanel;
+import edu.colorado.phet.glaciers.control.ModelConstantsPanel;
 import edu.colorado.phet.glaciers.model.Glacier;
 
 
-public class EvolutionStateDialog extends JDialog {
+public class ModelConstantsDialog extends JDialog {
     
-    private final EvolutionStatePanel _panel;
+    private final ModelConstantsPanel _panel;
 
-    public EvolutionStateDialog( Frame owner, Glacier glacier, String moduleName ) {
-        super( owner, "Glacier Evolution State (" + moduleName + ")" );
+    public ModelConstantsDialog( Frame owner, Glacier glacier, String moduleName ) {
+        super( owner, "Model Constants (" + moduleName + ")" );
         setModal( false );
         setResizable( false );
-        _panel = new EvolutionStatePanel( glacier );
+        _panel = new ModelConstantsPanel( glacier );
         getContentPane().add( _panel );
-        setSize( new Dimension( 450, (int) _panel.getPreferredSize().getHeight() + 50 ) ); // instead of pack() because displayed values will grow
+        setSize( new Dimension( 300, (int) _panel.getPreferredSize().getHeight() + 50 ) );
         SwingUtils.centerDialogInParent( this );
     }
     

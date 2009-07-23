@@ -146,7 +146,7 @@ public class EvolutionStatePanel extends JPanel {
     private void update() {
         // update data structures
         _previousState.setState( _currentState );
-        _currentState.setState( _glacier.getEvolutionState() );
+        _currentState.setState( _glacier.debug_getEvolutionState() );
         // update display
         _elaCurrent.setValue( _currentState.ela );
         _elaPrevious.setValue( _previousState.ela );
