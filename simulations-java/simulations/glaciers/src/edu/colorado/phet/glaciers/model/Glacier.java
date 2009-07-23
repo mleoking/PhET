@@ -75,7 +75,7 @@ public class Glacier extends ClockAdapter {
     private final Point2D _terminus; /// point at the terminus (downvalley end)
     private Point2D _surfaceAtELA; // point where the ELA intersects the ice surface, null if ELA is below the terminus or above the headwall
     
-    private static final EvolutionState _evolutionState = new EvolutionState(); // for debugging purposes
+    private final EvolutionState _evolutionState = new EvolutionState(); // for debugging purposes
     
     //----------------------------------------------------------------------------
     // Constructors
