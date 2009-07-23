@@ -14,7 +14,7 @@
 
     define("WEBSITE_PAGES_PATTERN", '*.htm*, *.php');
 
-    define("ROOT_DIR",      file_cleanup_local_filename(dirname(dirname(__FILE__)."/")));
+    define("ROOT_DIR",      file_cleanup_local_filename(dirname(dirname(__FILE__))."/"));
     define("TEMP_DIR",      file_cleanup_local_filename(ROOT_DIR."temp/"));
     define("OUTPUT_DIR",    file_cleanup_local_filename(TEMP_DIR."installer-output/"));
     define("DEPLOY_DIR",    "/web/htdocs/phet/phet-dist/installers/");
