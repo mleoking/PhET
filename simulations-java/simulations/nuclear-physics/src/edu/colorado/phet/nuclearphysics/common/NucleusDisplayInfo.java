@@ -7,8 +7,6 @@ import java.security.InvalidParameterException;
 
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
-import edu.colorado.phet.nuclearphysics.view.LabeledNucleusImageNode;
-import edu.colorado.phet.nuclearphysics.view.LabeledNucleusSphereNode;
 
 /**
  * This class encapsulates the information that is used to display each of the
@@ -226,7 +224,13 @@ public class NucleusDisplayInfo {
 	
 	public static NucleusDisplayInfo getDisplayInfoForNucleusConfig( int numProtons, int numNeutrons ){
 		
-		NucleusDisplayInfo displayInfo = null;
+		return getDisplayInfoForNucleusType(identifyNucleus(numProtons, numNeutrons));
+		
+	}
+	
+	public static NucleusType identifyNucleus(int numProtons, int numNeutrons){
+		
+		NucleusType nucleusType = null;
 		
 		// Note that (obviously) not every nucleus that exists in nature is
 		// handled here - just those needed by the sim.  Feel free to add more
@@ -234,74 +238,74 @@ public class NucleusDisplayInfo {
 		switch (numProtons){
     	case 6:
     		// Carbon 14.
-    		displayInfo = NucleusDisplayInfo.getDisplayInfoForNucleusType( NucleusType.CARBON_14 );
+    		nucleusType = NucleusType.CARBON_14;
     		break;
     		
     	case 7:
     		// Nitrogen 14.
-    		displayInfo = NucleusDisplayInfo.getDisplayInfoForNucleusType( NucleusType.NITROGEN_14 );
+    		nucleusType = NucleusType.NITROGEN_14;
     		break;
     		
     	case 81:
     		// This is thallium, which we use as the post-decay custom nucleus.
-    		displayInfo = NucleusDisplayInfo.getDisplayInfoForNucleusType( NucleusType.CUSTOM_POST_DECAY );
+    		nucleusType = NucleusType.CUSTOM_POST_DECAY;
     		break;
     		
     	case 82:
     		// Lead.
     		if ( numNeutrons == 124 ){
     			// Lead 206
-        		displayInfo = NucleusDisplayInfo.getDisplayInfoForNucleusType( NucleusType.LEAD_206 );
+        		nucleusType = NucleusType.LEAD_206;
     		}
     		else if ( numNeutrons == 125 ) {
     			// Lead 207
-        		displayInfo = NucleusDisplayInfo.getDisplayInfoForNucleusType( NucleusType.LEAD_207 );
+        		nucleusType = NucleusType.LEAD_207;
     		}
     		else {
     			System.err.println("Error: Unrecognized isotope for Lead, using Lead 207.");
     			assert false;
-        		displayInfo = NucleusDisplayInfo.getDisplayInfoForNucleusType( NucleusType.LEAD_207 );
+        		nucleusType = NucleusType.LEAD_207;
     		}
     		break;
     		
     	case 83:
     		// This nucleus is bismuth, which we use as the pre-decay custom
     		// nucleus.
-    		displayInfo = NucleusDisplayInfo.getDisplayInfoForNucleusType( NucleusType.CUSTOM );
+    		nucleusType = NucleusType.CUSTOM;
     		break;
     		
     	case 84:
     		// Polonium.
-    		displayInfo = NucleusDisplayInfo.getDisplayInfoForNucleusType( NucleusType.POLONIUM_211 );
+    		nucleusType = NucleusType.POLONIUM_211;
     		break;
     		
     	case 92:
     		switch (numNeutrons){
     		case 143:
     			// U235.
-        		displayInfo = NucleusDisplayInfo.getDisplayInfoForNucleusType( NucleusType.URANIUM_235 );
+        		nucleusType = NucleusType.URANIUM_235;
         		break;
         		
     		case 144:
     			// U236.
-        		displayInfo = NucleusDisplayInfo.getDisplayInfoForNucleusType( NucleusType.URANIUM_236 );
+        		nucleusType = NucleusType.URANIUM_236;
         		break;
         		
     		case 146:
     			// U238.
-        		displayInfo = NucleusDisplayInfo.getDisplayInfoForNucleusType( NucleusType.URANIUM_238 );
+        		nucleusType = NucleusType.URANIUM_238;
         		break;
         		
     		case 147:
     			// U239.
-        		displayInfo = NucleusDisplayInfo.getDisplayInfoForNucleusType( NucleusType.URANIUM_239 );
+        		nucleusType = NucleusType.URANIUM_239;
         		break;
         		
     		default:
     			// Unrecognized.
     			System.err.println("Error: Unrecognized uranium isotop, using U238.");
     			assert false;
-        		displayInfo = NucleusDisplayInfo.getDisplayInfoForNucleusType( NucleusType.URANIUM_238 );
+        		nucleusType = NucleusType.URANIUM_238;
         		break;
     		}
     		break;
@@ -311,6 +315,6 @@ public class NucleusDisplayInfo {
     		throw new InvalidParameterException("Unrecognized nucleus type.");
     	}
 		
-		return displayInfo;
+		return nucleusType;
 	}
 }

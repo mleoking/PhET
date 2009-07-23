@@ -1,5 +1,6 @@
 package edu.colorado.phet.nuclearphysics.model;
 
+import edu.colorado.phet.nuclearphysics.common.NucleusDisplayInfo;
 import edu.colorado.phet.nuclearphysics.common.NucleusType;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusDecayModel;
 
@@ -43,5 +44,9 @@ public class HalfLifeInfo {
 		}
 		
 		return halfLife;
+	}
+	
+	public static double getHalfLifeForNucleusConfig(int numProtons, int numNeutrons){
+		return getHalfLifeForNucleusType(NucleusDisplayInfo.identifyNucleus(numProtons, numNeutrons));
 	}
 }
