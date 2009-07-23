@@ -18,5 +18,5 @@ echo " Partial rip and rebuild operation performed by `whoami` on: " | tee --app
 echo " `date`"  | tee --append $LOG
 echo "================================================================" | tee --append $LOG
 
-/usr/local/php/bin/php partial-rip-and-rebuild.php $1 $2 | tee --append $LOG
+/usr/local/php/bin/php ./bin/partial-rip-and-rebuild.php $1 $2 | tee --append $LOG
 
