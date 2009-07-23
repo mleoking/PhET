@@ -17,6 +17,7 @@ import javax.swing.border.TitledBorder;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
+import edu.colorado.phet.nuclearphysics.view.AntineutrinoNode;
 import edu.colorado.phet.nuclearphysics.view.ElectronNode;
 import edu.colorado.phet.nuclearphysics.view.NeutronNode;
 import edu.colorado.phet.nuclearphysics.view.ProtonNode;
@@ -67,6 +68,9 @@ public class BetaDecayLegendPanel extends VerticalLayoutPanel {
         PNode electron = new ElectronNode();
         electron.scale( PARTICLE_SCALE_FACTOR );
         addLegendItem( electron.toImage(), NuclearPhysicsStrings.ELECTRON_LEGEND_LABEL );
+        PNode antineutrino = new AntineutrinoNode();
+        antineutrino.scale( PARTICLE_SCALE_FACTOR );
+        addLegendItem( antineutrino.toImage(), NuclearPhysicsStrings.ANTINEUTRINO_LEGEND_LABEL );
     }
     
     /**
