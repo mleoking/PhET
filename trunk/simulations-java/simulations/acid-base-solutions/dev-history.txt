@@ -3,6 +3,7 @@
 ==================================================================================
 
 TODO:
+- add "Show" button to strength control that opens new "K equation" dialog
 - put white box with border behind equations in play area
 - when animate is turned on/off, animate the symbols growing
 - change graphs/equations/expressions check boxes to radio buttons
