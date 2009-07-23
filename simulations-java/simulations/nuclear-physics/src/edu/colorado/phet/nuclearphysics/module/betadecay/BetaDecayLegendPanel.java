@@ -4,6 +4,8 @@ package edu.colorado.phet.nuclearphysics.module.betadecay;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 
@@ -14,6 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 
+import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
@@ -31,7 +34,7 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author John Blanco
  */
-public class BetaDecayLegendPanel extends VerticalLayoutPanel {
+public class BetaDecayLegendPanel extends JPanel {
         
     //------------------------------------------------------------------------
     // Class Data
@@ -41,11 +44,17 @@ public class BetaDecayLegendPanel extends VerticalLayoutPanel {
     private static final double PARTICLE_SCALE_FACTOR = 8;
     
     //------------------------------------------------------------------------
+    // Instance Data
+    //------------------------------------------------------------------------
+    
+    private int _numRows = 0;
+    
+    //------------------------------------------------------------------------
     // Constructor
     //------------------------------------------------------------------------
     
-    public BetaDecayLegendPanel() {
-        
+    public BetaDecayLegendPanel(){
+    	
         // Add the border around the legend.
         BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
         TitledBorder titledBorder = BorderFactory.createTitledBorder( baseBorder,
@@ -57,6 +66,9 @@ public class BetaDecayLegendPanel extends VerticalLayoutPanel {
         
         setBorder( titledBorder );
         
+        // Set the layout.
+        setLayout( new GridBagLayout() );
+
         // Add the images and labels that comprise the legend.
         
         PNode neutron = new NeutronNode();
@@ -71,6 +83,19 @@ public class BetaDecayLegendPanel extends VerticalLayoutPanel {
         PNode antineutrino = new AntineutrinoNode();
         antineutrino.scale( PARTICLE_SCALE_FACTOR );
         addLegendItem( antineutrino.toImage(), NuclearPhysicsStrings.ANTINEUTRINO_LEGEND_LABEL );
+        
+//        PNode neutron = new NeutronNode();
+//        neutron.scale( PARTICLE_SCALE_FACTOR );
+//        add(new ImageAndCaptionPanel(neutron.toImage(), NuclearPhysicsStrings.NEUTRON_LEGEND_LABEL)); 
+//        PNode proton = new ProtonNode();
+//        proton.scale( PARTICLE_SCALE_FACTOR );
+//        add(new ImageAndCaptionPanel(proton.toImage(), NuclearPhysicsStrings.PROTON_LEGEND_LABEL)); 
+//        PNode electron = new ElectronNode();
+//        electron.scale( PARTICLE_SCALE_FACTOR );
+//        add(new ImageAndCaptionPanel(electron.toImage(), NuclearPhysicsStrings.ELECTRON_LEGEND_LABEL)); 
+//        PNode antineutrino = new AntineutrinoNode();
+//        antineutrino.scale( PARTICLE_SCALE_FACTOR );
+//        add(new ImageAndCaptionPanel(antineutrino.toImage(), NuclearPhysicsStrings.ANTINEUTRINO_LEGEND_LABEL)); 
     }
     
     /**
@@ -78,12 +103,54 @@ public class BetaDecayLegendPanel extends VerticalLayoutPanel {
      * image and a label, to the legend.
      */
     private void addLegendItem( Image im, String label ) {
+        GridBagConstraints constraints = new GridBagConstraints();
+        
         ImageIcon icon = new ImageIcon(im);
-        add(new JPanel());
-        add(new JPanel());
-        add(new JLabel(icon));
-        add(new JLabel( label ));
-        add(new JPanel());
-        add(new JPanel());
+        
+        // Add the image.
+        constraints.anchor = GridBagConstraints.CENTER;
+        constraints.gridx = 0;
+        constraints.gridy = _numRows;
+        constraints.weightx = 1;
+        constraints.weighty = 1;
+        constraints.fill = GridBagConstraints.BOTH;
+        constraints.ipady = 10;
+        add( new JLabel(icon), constraints );
+        
+        // Add the label.
+        constraints.anchor = GridBagConstraints.CENTER;
+        constraints.gridx = 1;
+        constraints.gridy = _numRows;
+        add(new JLabel( label ), constraints);
+        
+        // Increment to the next row.
+        _numRows++;
+    }
+    
+    private static class ImageAndCaptionPanel extends JPanel {
+    	
+    	public ImageAndCaptionPanel( Image im, String labelText ) {
+
+    		ImageIcon icon = new ImageIcon(im);
+    		
+            // Set the layout.
+            setLayout( new GridBagLayout() );
+            GridBagConstraints constraints = new GridBagConstraints();
+
+            // Add the image.
+            constraints.anchor = GridBagConstraints.EAST;
+            constraints.gridx = 0;
+            constraints.gridy = 0;
+            constraints.ipadx = 0;
+            add( new JLabel(icon), constraints );
+            constraints.ipadx = 0; // Remove padding.
+
+            // Add the label
+            constraints.anchor = GridBagConstraints.WEST;
+            constraints.gridx = 1;
+            constraints.gridy = 0;
+            constraints.ipadx = 0;
+            add( new JLabel(labelText), constraints );
+		}
     }
 }
