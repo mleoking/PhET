@@ -35,9 +35,10 @@ public class ModelConstantsPanel extends JPanel {
         super();
 
         // acc_m
+        final double m = Glacier.DEFAULT_ACCELERATION_M;
         _defaultAccelerationM = glacier.debug_getAccelerationM();
         final double mDelta = DELTA_ACCELERATION_M;
-        final DoubleSpinner mSpinner = new DoubleSpinner( _defaultAccelerationM, _defaultAccelerationM - mDelta, _defaultAccelerationM + mDelta, 0.00001, "0.00000", new Dimension( 100, 22 ) );
+        final DoubleSpinner mSpinner = new DoubleSpinner( _defaultAccelerationM, m - mDelta, m + mDelta, 0.00001, "0.00000", new Dimension( 100, 22 ) );
         mSpinner.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 glacier.debug_setAccelerationM( mSpinner.getValue() );
@@ -45,9 +46,10 @@ public class ModelConstantsPanel extends JPanel {
         });
         
         // acc_b
+        final double b = Glacier.DEFAULT_ACCELERATION_B;
         _defaultAccelerationB = glacier.debug_getAccelerationB();
         final double bDelta = DELTA_ACCELERATION_B;
-        final DoubleSpinner bSpinner = new DoubleSpinner( _defaultAccelerationB, _defaultAccelerationB - bDelta, _defaultAccelerationB + bDelta, 0.01, "0.00", new Dimension( 100, 22 ) );
+        final DoubleSpinner bSpinner = new DoubleSpinner( _defaultAccelerationB, b - bDelta, b + bDelta, 0.01, "0.00", new Dimension( 100, 22 ) );
         bSpinner.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 glacier.debug_setAccelerationB( bSpinner.getValue() );
