@@ -149,6 +149,11 @@ public class GlaciersApplication extends PiccoloPhetApplication {
         _advancedModule.setEvolutionStateDialogVisible( visible );
     }
     
+    public void setModelConstantsDialogVisible( boolean visible ) {
+        _introModule.setModelConstantsDialogVisible( visible );
+        _advancedModule.setModelConstantsDialogVisible( visible );
+    }
+    
     //----------------------------------------------------------------------------
     // Persistence
     //----------------------------------------------------------------------------

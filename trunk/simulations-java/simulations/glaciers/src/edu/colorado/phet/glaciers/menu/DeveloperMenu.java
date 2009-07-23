@@ -26,11 +26,19 @@ public class DeveloperMenu extends JMenu {
     public DeveloperMenu( final GlaciersApplication app ) {
         super( "Developer" );
 
-        final JCheckBoxMenuItem evolutionStateDialogItem = new JCheckBoxMenuItem( "Glacier Evolution State dialog..." );
+        final JCheckBoxMenuItem evolutionStateDialogItem = new JCheckBoxMenuItem( "Glacier Evolution State..." );
         add( evolutionStateDialogItem );
         evolutionStateDialogItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 app.setEvolutionStateDialogVisible( evolutionStateDialogItem.isSelected() );
+            }
+        } );
+        
+        final JCheckBoxMenuItem modelConstantsDialogItem = new JCheckBoxMenuItem( "Model Constants..." );
+        add( modelConstantsDialogItem );
+        modelConstantsDialogItem.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                app.setModelConstantsDialogVisible( modelConstantsDialogItem.isSelected() );
             }
         } );
     }

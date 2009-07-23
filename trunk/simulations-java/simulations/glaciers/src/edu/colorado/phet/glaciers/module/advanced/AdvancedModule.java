@@ -4,7 +4,6 @@ package edu.colorado.phet.glaciers.module.advanced;
 
 import java.awt.Frame;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.piccolophet.help.HelpBalloon;
 import edu.colorado.phet.common.piccolophet.help.HelpPane;
 import edu.colorado.phet.glaciers.*;
@@ -12,7 +11,6 @@ import edu.colorado.phet.glaciers.control.ClimateControlPanel;
 import edu.colorado.phet.glaciers.control.GraphsControlPanel;
 import edu.colorado.phet.glaciers.control.MiscControlPanel;
 import edu.colorado.phet.glaciers.control.ViewControlPanel;
-import edu.colorado.phet.glaciers.dialog.EvolutionStateDialog;
 import edu.colorado.phet.glaciers.model.Climate;
 import edu.colorado.phet.glaciers.model.Glacier;
 import edu.colorado.phet.glaciers.model.GlaciersClock;
@@ -32,30 +30,25 @@ public class AdvancedModule extends GlaciersModule {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private final GlaciersModel _model;
     private final GlaciersPlayArea _playArea;
     private final AdvancedControlPanel _controlPanel;
-    private EvolutionStateDialog _evolutionDialog; // debug
-    private boolean _evolutionDialogVisible; // debug
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
 
     public AdvancedModule( Frame dialogOwner ) {
-        super( GlaciersStrings.TITLE_ADVANCED, new GlaciersClock() );
+        super( GlaciersStrings.TITLE_ADVANCED );
         
-        // Model
-        GlaciersClock clock = (GlaciersClock) getClock();
-        _model = new GlaciersModel( clock );
-
+        GlaciersModel model = getGlaciersModel();
+        
         // Play Area
-        _playArea = new GlaciersPlayArea( _model );
+        _playArea = new GlaciersPlayArea( model );
         setSimulationPanel( _playArea );
 
         // Put our control panel where the clock control panel normally goes
         int minHeight = GlaciersResources.getInt( "controlPanel.minHeight", 100 );
-        _controlPanel = new AdvancedControlPanel( _model, _playArea, dialogOwner, this, GlaciersConstants.DEFAULT_TO_ENGLISH_UNITS, minHeight );
+        _controlPanel = new AdvancedControlPanel( model, _playArea, dialogOwner, this, GlaciersConstants.DEFAULT_TO_ENGLISH_UNITS, minHeight );
         setClockControlPanel( _controlPanel );
         
         // Help
@@ -75,27 +68,10 @@ public class AdvancedModule extends GlaciersModule {
             toolboxHelp.pointAt( _playArea.getToolboxNode(), _playArea.getZoomedCanvas() );
         }
         
-        // Debug
-        if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
-            _evolutionDialog = new EvolutionStateDialog( PhetApplication.getInstance().getPhetFrame(), _model.getGlacier(), getName() );
-            _evolutionDialogVisible = false;
-        }
-        
         // Set initial state
         reset();
     }
 
-    //----------------------------------------------------------------------------
-    // Setters and getters
-    //----------------------------------------------------------------------------
-    
-    public void setEvolutionStateDialogVisible( boolean visible ) {
-        _evolutionDialogVisible = visible;
-        if ( isActive() && _evolutionDialog != null ) {
-            _evolutionDialog.setVisible( visible );
-        }
-    }
-    
     //----------------------------------------------------------------------------
     // Module overrides
     //----------------------------------------------------------------------------
@@ -103,16 +79,10 @@ public class AdvancedModule extends GlaciersModule {
     public void activate() {
         super.activate();
         _controlPanel.activate();
-        if ( _evolutionDialog != null && _evolutionDialogVisible ) {
-            _evolutionDialog.setVisible( true );
-        }
     }
     
     public void deactivate() {
         _controlPanel.deactivate();
-        if ( _evolutionDialog != null ) {
-            _evolutionDialog.setVisible( false );
-        }
         super.deactivate();
     }
     
@@ -145,13 +115,14 @@ public class AdvancedModule extends GlaciersModule {
         
         // Model ---------------------------------------------
         
-        _model.reset();
+        GlaciersModel model = getGlaciersModel();
+        model.reset();
         setClockRunningWhenActive( GlaciersConstants.CLOCK_RUNNING );
 
         // Controls ---------------------------------------------
 
-        Glacier glacier = _model.getGlacier();
-        Climate climate = _model.getClimate();
+        Glacier glacier = model.getGlacier();
+        Climate climate = model.getClimate();
         
         ViewControlPanel viewControlPanel = _controlPanel.getViewControlPanel();
         viewControlPanel.setEnglishUnitsSelected( GlaciersConstants.DEFAULT_TO_ENGLISH_UNITS );
@@ -193,13 +164,15 @@ public class AdvancedModule extends GlaciersModule {
 
         // Model
         {
+            GlaciersModel model = getGlaciersModel();
+            
             // Clock
-            GlaciersClock clock = _model.getClock();
+            GlaciersClock clock = model.getClock();
             config.setClockFrameRate( clock.getFrameRate() );
             config.setClockRunning( getClockRunningWhenActive() );
             
-            config.setSnowfall( _model.getClimate().getSnowfall() );
-            config.setTemperature( _model.getClimate().getTemperature() );
+            config.setSnowfall( model.getClimate().getSnowfall() );
+            config.setTemperature( model.getClimate().getTemperature() );
         }
 
         // Control panel settings that are view-related
@@ -231,14 +204,16 @@ public class AdvancedModule extends GlaciersModule {
 
         // Model
         {
+            GlaciersModel model = getGlaciersModel();
+            
             // Clock
-            GlaciersClock clock = _model.getClock();
+            GlaciersClock clock = model.getClock();
             clock.setFrameRate( config.getClockFrameRate() );
             setClockRunningWhenActive( config.isClockRunning() );
             
-            _model.getClimate().setSnowfall( config.getSnowfall() );
-            _model.getClimate().setTemperature( config.getTemperature() );
-            _model.getGlacier().setSteadyState();
+            model.getClimate().setSnowfall( config.getSnowfall() );
+            model.getClimate().setTemperature( config.getTemperature() );
+            model.getGlacier().setSteadyState();
         }
 
         // Control panel settings that are view-related

@@ -1,3 +1,5 @@
+7/23/09 move model and developer controls into GlaciersModule base class
+7/23/09 #999, add developer control panel for model constants
 7/23/09 fix: make each instance of Glacier have its own EvolutionState for debugging
 # 2.01.04 (33406) Jul 16, 2009
 7/16/09 change requests
