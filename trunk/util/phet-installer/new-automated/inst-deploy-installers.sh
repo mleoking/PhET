@@ -30,6 +30,6 @@ echo " Deployment of installers performed by `whoami` on: " | tee --append $LOG
 echo " `date`"  | tee --append $LOG
 echo "================================================================" | tee --append $LOG
 
-/usr/local/php/bin/php deploy-installers.php $1 | tee --append $LOG
+/usr/local/php/bin/php ./bin/deploy-installers.php $1 | tee --append $LOG
 
 
