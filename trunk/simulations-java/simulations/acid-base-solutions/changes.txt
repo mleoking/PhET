@@ -1,3 +1,5 @@
+# 0.01.28 (33578) Jul 23, 2009
+7/23/09 change requests
 7/23/09 put a border around "Animate" control, set background to light yellow
 7/23/09 change "Animate symbol size" to "Animate"
 7/22/09 change strength slider label to "Strength (Ka):" or "Strength (Kb)"
