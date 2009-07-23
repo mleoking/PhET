@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
+import edu.colorado.phet.nuclearphysics.model.HalfLifeInfo;
 
 public abstract class AtomicNucleus {
     
@@ -141,6 +142,13 @@ public abstract class AtomicNucleus {
      */
     public double getDiameter(){
         return _diameter;
+    }
+    
+    /**
+     * Get the half life for this nucleus.
+     */
+    public double getHalfLife(){
+    	return HalfLifeInfo.getHalfLifeForNucleusConfig(_numProtons, _numNeutrons);
     }
     
     /**

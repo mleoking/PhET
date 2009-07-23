@@ -15,6 +15,8 @@ public class NuclearPhysicsStrings {
     
     public static final String TITLE_SINGLE_ATOM_ALPHA_DECAY_MODULE = NuclearPhysicsResources.getString( "ModuleTitle.SingleAtomAlphaDecayModule" );
     public static final String TITLE_MULTI_ATOM_ALPHA_DECAY_MODULE = NuclearPhysicsResources.getString( "ModuleTitle.MultiAtomAlphaDecayModule" );
+    public static final String TITLE_SINGLE_ATOM_BETA_DECAY_MODULE = NuclearPhysicsResources.getString( "ModuleTitle.SingleAtomBetaDecayModule" );
+    public static final String TITLE_MULTI_ATOM_BETA_DECAY_MODULE = NuclearPhysicsResources.getString( "ModuleTitle.MultiAtomBetaDecayModule" );
     public static final String TITLE_FISSION_ONE_NUCLEUS_MODULE = NuclearPhysicsResources.getString( "ModuleTitle.SingleNucleusFissionModule" );
     public static final String TITLE_CHAIN_REACTION_MODULE = NuclearPhysicsResources.getString( "ModuleTitle.MultipleNucleusFissionModule" );
     public static final String TITLE_NUCLEAR_REACTOR_MODULE = NuclearPhysicsResources.getString( "ModuleTitle.ControlledReaction" );
