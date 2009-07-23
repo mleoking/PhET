@@ -28,7 +28,7 @@
         // Read the timestamp, which should be the only thing in the file.
         $timestamp = file_get_contents( CREATION_TIMESTAMP_FILE_NAME );
 
-        // Execute the script that inserts the value into the DB.
+        // Execute the PHP script that inserts the value into the DB.
         exec( "/web/htdocs/phet/cl_utils/add-installer-timestamp.php $timestamp" );
     }
 
