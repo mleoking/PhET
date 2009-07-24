@@ -1,0 +1,41 @@
+body {
+    padding: 0;
+    margin: 0;
+}
+
+#page-header {
+    background: url(../images/header_BG.gif) left top repeat-x;
+    height: 127px;
+}
+
+#page-header-logo {
+    position: absolute;
+    width: 242px;
+    height: 127px;
+    left: 0;
+    top: 0;
+}
+
+#page-header-title {
+    position: absolute;
+    width: 400px;
+    height: 127px;
+    right: 0;
+    top: 0;
+}
+
+#page-header-logo img {
+    border: 0;
+}
+
+#page-header-container {
+    height: 127px;
+    margin: 0 auto;
+    width: 765px;
+    position: relative;
+}
+
+#page-content {
+    width: 765px;
+    margin: 0 auto;
+}

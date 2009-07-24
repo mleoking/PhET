@@ -33,6 +33,8 @@ public class WicketApplication extends WebApplication {
         mount( new PhetUrlStrategy( LocaleUtils.stringToLocale( "es" ), mapper ) );
         mount( new PhetUrlStrategy( LocaleUtils.stringToLocale( "el" ), mapper ) );
         mount( new PhetUrlStrategy( LocaleUtils.stringToLocale( "ar" ), mapper ) );
+
+        // get rid of wicket:id's and other related tags in the produced HTML.
         getMarkupSettings().setStripWicketTags( true );
 
         //remove thread monitoring from resource watcher
