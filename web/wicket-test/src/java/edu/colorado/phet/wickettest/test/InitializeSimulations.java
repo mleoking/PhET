@@ -19,7 +19,7 @@ import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.wickettest.util.HibernateUtils;
 
-public class TestSchema {
+public class InitializeSimulations {
     private static File trunk;
 
     public static void main( String[] args ) {
