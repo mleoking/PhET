@@ -11,6 +11,7 @@ import org.apache.wicket.markup.html.list.ListView;
 
 import edu.colorado.phet.wickettest.SimulationModel;
 import edu.colorado.phet.wickettest.WebSimulation;
+import static edu.colorado.phet.wickettest.util.HtmlUtils.encode;
 import edu.colorado.phet.wickettest.util.PhetLink;
 import edu.colorado.phet.wickettest.util.SqlUtils;
 import edu.colorado.phet.wickettest.util.StaticImage;
@@ -23,7 +24,7 @@ public class SimulationMainPanel extends PhetPanel {
         add( new Label( "simulation-main-title", simulation.getTitle() ) );
 
         PhetLink link = new PhetLink( "simulation-main-link-run-main", simulation.getRunUrl() );
-        link.add( new StaticImage( "simulation-main-screenshot", simulation.getImageUrl(), MessageFormat.format( "Screenshot of the simulation {0}", simulation.getTitle() ) ) );
+        link.add( new StaticImage( "simulation-main-screenshot", simulation.getImageUrl(), MessageFormat.format( "Screenshot of the simulation {0}", encode( simulation.getTitle() ) ) ) );
         add( link );
 
         add( new Label( "simulation-main-description", simulation.getDescription() ) );
@@ -51,6 +52,11 @@ public class SimulationMainPanel extends PhetPanel {
             }
         };
         add( simulationList );
+
+        // so we don't emit an empty <table></table> that isn't XHTML Strict compatible
+        if ( models.isEmpty() ) {
+            simulationList.setVisible( false );
+        }
     }
 
 }

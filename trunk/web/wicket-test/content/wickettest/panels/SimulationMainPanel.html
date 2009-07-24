@@ -31,23 +31,27 @@
         <div class="simulation-main-description" wicket:id="simulation-main-description">
         </div>
 
-        <h4><wicket:message key="simulationMainPanel.translatedVersions">Translated versions</wicket:message></h4>
+        <h4>
+            <wicket:message key="simulationMainPanel.translatedVersions">Translated versions</wicket:message>
+        </h4>
 
-        <table>
-            <tr wicket:id="simulation-main-translation-list">
-                <td>
-                    <a href="#" wicket:id="simulation-main-translation-link">
-                        <span wicket:id="simulation-main-translation-locale-name">Pig Latin</span>
-                    </a>
-                </td>
-                <td>
-                    <span wicket:id="simulation-main-translation-locale-translated-name">Ig-pay Atin-lay</span>
-                </td>
-                <td>
-                    <span wicket:id="simulation-main-translation-title">Arithmetic-ay</span>
-                </td>
-            </tr>
-        </table>
+        <wicket:enclosure child="simulation-main-translation-list">
+            <table>
+                <tr wicket:id="simulation-main-translation-list">
+                    <td>
+                        <a href="#" wicket:id="simulation-main-translation-link">
+                            <span wicket:id="simulation-main-translation-locale-name">Pig Latin</span>
+                        </a>
+                    </td>
+                    <td>
+                        <span wicket:id="simulation-main-translation-locale-translated-name">Ig-pay Atin-lay</span>
+                    </td>
+                    <td>
+                        <span wicket:id="simulation-main-translation-title">Arithmetic-ay</span>
+                    </td>
+                </tr>
+            </table>
+        </wicket:enclosure>
     </div>
 </wicket:panel>
 
