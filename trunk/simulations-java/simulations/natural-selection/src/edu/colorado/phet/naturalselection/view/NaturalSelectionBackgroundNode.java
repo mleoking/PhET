@@ -4,11 +4,11 @@ package edu.colorado.phet.naturalselection.view;
 
 import java.awt.geom.AffineTransform;
 
+import edu.colorado.phet.naturalselection.NaturalSelectionApplication;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionResources;
-import edu.colorado.phet.naturalselection.NaturalSelectionApplication;
-import edu.colorado.phet.naturalselection.util.HighContrastImageFilter;
 import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
+import edu.colorado.phet.naturalselection.util.HighContrastImageFilter;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
