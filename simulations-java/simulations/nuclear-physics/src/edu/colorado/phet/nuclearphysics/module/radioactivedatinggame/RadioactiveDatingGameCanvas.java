@@ -20,7 +20,6 @@ import java.util.Iterator;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
-import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
@@ -29,7 +28,6 @@ import edu.colorado.phet.nuclearphysics.view.NuclearDecayProportionChart;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.util.PDebug;
 
 /**
  * This class represents the canvas upon which the view of the model is
@@ -385,7 +383,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     	
     	if (itemBeingTouched != null){
     		
-   			_soundState.play( "killed.wav" );
+   			_soundState.play( "32_90.wav" );
     		
 	    	AgeGuessResultNode previousGuessResultNode = _mapDatableItemsToGuessResults.get(itemBeingTouched);
 	    	if (previousGuessResultNode != null){
@@ -527,6 +525,13 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
 					datableItemNode.getFullBoundsReference().getMaxX() + 8,
 					datableItemNode.getFullBoundsReference().getCenterY() 
 						- guessResultNode.getFullBoundsReference().height / 2);
+			// Play a little sound to indicate whether the guess is good.
+			if (determineIfGuessIsGood(MultiNucleusDecayModel.convertYearsToMs(ageGuess), itemBeingTouched)){
+				// TODO: Need sound here.
+			}
+			else{
+				_soundState.play("32_83.wav");
+			}
 		}
 		
 		guessResultNode.setOffset(guessResultNodeLocation);
