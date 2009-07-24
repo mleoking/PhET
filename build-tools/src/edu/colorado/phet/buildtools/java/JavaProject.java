@@ -156,23 +156,27 @@ public abstract class JavaProject extends PhetProject {
                 title = localizedProperties.getProperty( titleKey );
                 if ( title == null ) {
                     Properties englishProperties = new Properties();
-                    englishProperties.load( new FileInputStream( getLocalizationFile( new Locale( "en" ) ) ) );
+                    FileInputStream inputStream = new FileInputStream( getLocalizationFile( new Locale( "en" ) ) );
+                    englishProperties.load( inputStream );
                     title = englishProperties.getProperty( titleKey );
                     System.out.println( "PhetProject.getSimulation: missing title for simulation: key=" + titleKey + ", locale=" + locale + ", using English" );
                     if ( title == null ) {
                         title = simulationName;
                     }
+                    inputStream.close();
                 }
                 String descriptionKey = simulationName + ".description";
                 description = localizedProperties.getProperty( descriptionKey );
                 if ( description == null ) {
                     Properties englishProperties = new Properties();
-                    englishProperties.load( new FileInputStream( getLocalizationFile( new Locale( "en" ) ) ) );
+                    FileInputStream inputStream = new FileInputStream( getLocalizationFile( new Locale( "en" ) ) );
+                    englishProperties.load( inputStream );
                     description = englishProperties.getProperty( descriptionKey );
                     System.out.println( "PhetProject.getSimulation: missing description for simulation: key=" + descriptionKey + ", locale=" + locale + ", using English" );
                     if ( description == null ) {
                         description = descriptionKey;
                     }
+                    inputStream.close();
                 }
             }
             else {
