@@ -1,0 +1,7 @@
+###################################
+# License info for nuclear-physics
+###################################
+
+killed.wav source=PhET author=Noah P
+32_83.wav source =2000 Sound Effects CD purchased by M Dubson
+32_90.wav source =2000 Sound Effects CD purchased by M Dubson
