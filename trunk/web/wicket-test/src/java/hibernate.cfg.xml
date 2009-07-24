@@ -8,13 +8,19 @@
     <session-factory>
 
         <!-- Database connection settings -->
+        <!-- MySQL settings
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
         <property name="connection.url">jdbc:mysql://localhost:3306/wickettest?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=UTF-8</property>
         <property name="connection.username">phet</property>
         <property name="connection.password">phetti0</property>
-
-        <!-- SQL dialect -->
         <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+        -->
+        <!-- PostgreSQL settings -->
+        <property name="connection.driver_class">org.postgresql.Driver</property>
+        <property name="connection.url">jdbc:postgresql://localhost/wickettest</property>
+        <property name="connection.username">phet</property>
+        <property name="connection.password">phetti0</property>
+        <property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>
 
         <!-- TODO: add actual production connection pool -->
 
