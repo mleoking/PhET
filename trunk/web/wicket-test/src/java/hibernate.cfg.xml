@@ -9,7 +9,7 @@
 
         <!-- Database connection settings -->
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="connection.url">jdbc:mysql://localhost:3306/hibernatetest</property>
+        <property name="connection.url">jdbc:mysql://localhost:3306/wickettest?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=UTF-8</property>
         <property name="connection.username">phet</property>
         <property name="connection.password">phetti0</property>
 
@@ -20,9 +20,20 @@
 
         <!-- Enable Hibernate's automatic session context management -->
         <property name="current_session_context_class">thread</property>
+
         <property name="transaction.factory_class">org.hibernate.transaction.JDBCTransactionFactory</property>
+
         <property name="hibernate.show_sql">true</property>
-        <mapping resource="edu/colorado/phet/wickettest/test/Honey.hbm.xml" />
+
+
+        <!-- Drop and re-create the database schema on startup -->
+        <property name="hbm2ddl.auto">update</property>
+
+        <mapping resource="edu/colorado/phet/wickettest/test/Honey.hbm.xml"/>
+        
+        <mapping resource="edu/colorado/phet/wickettest/test/BasicProject.hbm.xml"/>
+        <mapping resource="edu/colorado/phet/wickettest/test/BasicSimulation.hbm.xml"/>
+        <mapping resource="edu/colorado/phet/wickettest/test/BasicLocalizedSimulation.hbm.xml"/>
 
     </session-factory>
 
