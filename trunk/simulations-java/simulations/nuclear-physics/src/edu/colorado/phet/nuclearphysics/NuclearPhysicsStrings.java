@@ -37,6 +37,14 @@ public class NuclearPhysicsStrings {
     public static final String ELECTRON_LEGEND_LABEL = NuclearPhysicsResources.getString( "NuclearPhysicsControlPanel.ElectronLabel" );
     public static final String ANTINEUTRINO_LEGEND_LABEL = NuclearPhysicsResources.getString( "NuclearPhysicsControlPanel.AntineutrinoLabel" );
 
+    public static final String HYDROGEN_3_CHEMICAL_SYMBOL = NuclearPhysicsResources.getString( "Hydrogen3Graphic.Symbol" );
+    public static final String HYDROGEN_3_ISOTOPE_NUMBER = NuclearPhysicsResources.getString( "Hydrogen3Graphic.Number" );
+    public static final String HYDROGEN_3_LEGEND_LABEL = NuclearPhysicsResources.getString( "Hydrogen3Label" );
+
+    public static final String HELIUM_3_CHEMICAL_SYMBOL = NuclearPhysicsResources.getString( "Helium3Graphic.Symbol" );
+    public static final String HELIUM_3_ISOTOPE_NUMBER = NuclearPhysicsResources.getString( "Helium3Graphic.Number" );
+    public static final String HELIUM_3_LEGEND_LABEL = NuclearPhysicsResources.getString( "Helium3Label" );
+
     public static final String CARBON_14_CHEMICAL_SYMBOL = NuclearPhysicsResources.getString( "Carbon14Graphic.Symbol" );
     public static final String CARBON_14_ISOTOPE_NUMBER = NuclearPhysicsResources.getString( "Carbon14Graphic.Number" );
     public static final String CARBON_14_LEGEND_LABEL = NuclearPhysicsResources.getString( "Carbon14Label" );
