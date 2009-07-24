@@ -1,6 +1,8 @@
 package edu.colorado.phet.nuclearphysics.common;
 
 public enum NucleusType {
+	HYDROGEN_3,
+	HELIUM_3,
 	POLONIUM_211,
 	CARBON_14,
 	NITROGEN_14,
