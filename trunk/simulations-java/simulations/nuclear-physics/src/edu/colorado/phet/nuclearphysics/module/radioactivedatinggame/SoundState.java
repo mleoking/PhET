@@ -6,7 +6,8 @@ import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 
 public class SoundState extends SimpleObservable {
 
-	private boolean isEnabled = true;
+	// Default to off.
+	private boolean isEnabled = false;
 
 	public boolean isEnabled() {
 		return isEnabled;
