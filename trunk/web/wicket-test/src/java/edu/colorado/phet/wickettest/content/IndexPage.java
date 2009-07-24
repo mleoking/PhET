@@ -1,7 +1,6 @@
 package edu.colorado.phet.wickettest.content;
 
 import org.apache.wicket.PageParameters;
-import org.apache.wicket.markup.html.basic.Label;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.wickettest.util.PhetLink;
@@ -9,10 +8,9 @@ import edu.colorado.phet.wickettest.util.PhetPage;
 
 public class IndexPage extends PhetPage {
     public IndexPage( PageParameters parameters ) {
-        super( parameters );
+        super( parameters, true );
 
-        Label title = new Label( "page-title", "Wicket test index page" );
-        add( title );
+        addTitle( "Wicket test index page" );
 
         add( SimulationDisplay.createLink( "en-simulations", LocaleUtils.stringToLocale( "en" ) ) );
         add( SimulationDisplay.createLink( "es-simulations", LocaleUtils.stringToLocale( "es" ) ) );

@@ -33,7 +33,9 @@ public class StaticImage extends WebComponent {
         checkComponentTag( tag, "img" );
         super.onComponentTag( tag );
         tag.put( "src", url );
-        tag.put( "alt", alt );
+        if ( alt != null ) {
+            tag.put( "alt", alt );
+        }
     }
 
 }

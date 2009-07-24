@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:wicket="http://svn.apache.org/repos/asf/wicket/trunk/wicket/wicket-xhtml1-strict.dtd" xml:lang="en"
+      lang="en">
+<head>
+    <title wicket:id="page-title">[PREVIEW] PhetPage</title>
+    <wicket:remove>
+        <!--
+        This is a direct reference to the CSS for previewing in a browser. Unfortunately this is used so we can both
+        preview the HTML with the correct CSS (and URLs in the CSS work for background-image), but also not have extra
+        baggage when running on the server.
+         -->
+        <style type="text/css">
+            @import url(../../../root/css/test.css);
+        </style>
+        <!-- Below will be the runtime location of the CSS. -->
+    </wicket:remove>
+    <link rel="stylesheet" type="text/css" href="/css/test.css"/>
+</head>
+<body wicket:message="dir:language.dir">
+
+<div id="page-header" class="boo">
+    <div id="page-header-container">
+        <div id="page-header-logo">
+            <a href="/">
+                <img wicket:id="page-header-logo-image" src="../../../root/images/phet-logo.gif" alt="PhET Logo"
+                     title="Click here to go to the home page"/>
+            </a>
+        </div>
+        <div id="page-header-title">
+            <img wicket:id="page-header-title-image" src="../../../root/images/logo-title.jpg"
+                 alt="Physics Education Technology - University of Colorado, Boulder"
+                 title="Physics Education Technology - University of Colorado, Boulder"/>
+        </div>
+    </div>
+</div>
+<div id="page-content">
+    <wicket:child>
+        Child element goes here
+    </wicket:child>
+</div>
+
+</body>
+</html>
+

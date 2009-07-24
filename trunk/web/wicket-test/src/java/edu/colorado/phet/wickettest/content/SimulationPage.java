@@ -14,7 +14,7 @@ import edu.colorado.phet.wickettest.util.SqlUtils;
 
 public class SimulationPage extends PhetPage {
     public SimulationPage( PageParameters parameters ) {
-        super( parameters );
+        super( parameters, true );
 
         String projectName = parameters.getString( "project" );
         String flavorName = parameters.getString( "flavor", projectName );
@@ -23,14 +23,16 @@ public class SimulationPage extends PhetPage {
 
         if ( simulation == null ) {
             System.out.println( "Simulation is null!!" );
+
+            // TODO: localize
+            addTitle( "Unknown Simulation" );
             add( new Label( "page-title", "Unknown Simulation" ) );
             add( new Label( "simulation-main-panel", "The simulation you specified could not be found." ) );
         }
         else {
 
             // TODO: handle reordering for rtl
-            Label title = new Label( "page-title", simulation.getTitle() + " " + simulation.getVersionString() );
-            add( title );
+            addTitle( simulation.getTitle() + " " + simulation.getVersionString() );
 
             add( new SimulationMainPanel( "simulation-main-panel", simulation, getMyLocale() ) );
 
