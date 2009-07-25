@@ -9,5 +9,9 @@
         <property name="name"/>
         <property name="type"/>
         <many-to-one name="project" class="BasicProject"/>
+        <set name="localizedSimulations" inverse="true">
+            <key column="simulation"/>
+            <one-to-many class="BasicLocalizedSimulation"/>
+        </set>
     </class>
 </hibernate-mapping>

@@ -2,6 +2,7 @@ package edu.colorado.phet.wickettest.util;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -9,6 +10,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
+import edu.colorado.phet.wickettest.test.BasicLocalizedSimulation;
 import edu.colorado.phet.wickettest.test.BasicSimulation;
 
 public class HibernateUtils {
@@ -39,6 +41,15 @@ public class HibernateUtils {
             sessionFactory.close();
         }
         sessionFactory = null;
+    }
+
+    public static List<BasicLocalizedSimulation> getAllSimulationsTX( Locale locale ) {
+        List simulations = HibernateUtils.getInstance().getCurrentSession().createQuery( "select l from BasicLocalizedSimulation as l where l.locale = :locale" ).setLocale( "locale", locale ).list();
+        List<BasicLocalizedSimulation> ret = new LinkedList<BasicLocalizedSimulation>();
+        for ( Object simulation : simulations ) {
+            ret.add( (BasicLocalizedSimulation) simulation );
+        }
+        return ret;
     }
 
     public static List<BasicSimulation> getAllSimulationsT() {

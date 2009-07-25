@@ -9,6 +9,6 @@
         <property name="locale"/>
         <property name="title" length="1024"/>
         <property name="description" length="4048"/>
-        <many-to-one name="simulation" class="BasicSimulation"/>
+        <many-to-one name="simulation" class="BasicSimulation" column="simulation" not-null="true"/>
     </class>
 </hibernate-mapping>

@@ -58,7 +58,11 @@ public class InitializeSimulations {
                         BasicLocalizedSimulation bls = new BasicLocalizedSimulation();
                         bls.setLocale( locale );
                         bls.setSimulation( bs );
+
+                        // TODO: refactor so that these actions are handled in one place to ensure consistency
+                        bs.getLocalizedSimulations().add( bls );
                         bls.setTitle( sim.getTitle() );
+
                         bls.setDescription( sim.getDescription() );
                         session.save( bls );
 
