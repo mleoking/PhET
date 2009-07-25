@@ -10,7 +10,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import edu.colorado.phet.wickettest.test.BasicLocalizedSimulation;
+import edu.colorado.phet.wickettest.data.LocalizedSimulation;
 import edu.colorado.phet.wickettest.util.HibernateUtils;
 import edu.colorado.phet.wickettest.util.PhetLink;
 import edu.colorado.phet.wickettest.util.PhetPage;
@@ -18,9 +18,9 @@ import edu.colorado.phet.wickettest.util.PhetPage;
 public class SimulationListPanel extends PhetPanel {
 
     public SimulationListPanel( String id, PhetPage page ) {
-        super( id, page.getMyLocale() );
+        super( id, page );
 
-        List<BasicLocalizedSimulation> tsims = new LinkedList<BasicLocalizedSimulation>();
+        List<LocalizedSimulation> tsims = new LinkedList<LocalizedSimulation>();
 
         Session session = page.getHibernateSession();
         Transaction tx = null;
@@ -44,7 +44,7 @@ public class SimulationListPanel extends PhetPanel {
 
         ListView simulationList = new ListView( "simulation-list", tsims ) {
             protected void populateItem( ListItem item ) {
-                BasicLocalizedSimulation simulation = (BasicLocalizedSimulation) item.getModel().getObject();
+                LocalizedSimulation simulation = (LocalizedSimulation) item.getModel().getObject();
                 Label title = new Label( "title", simulation.getTitle() );
                 PhetLink link = new PhetLink( "simulation-link", "#" );
                 link.add( title );

@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
         "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
-<hibernate-mapping package="edu.colorado.phet.wickettest.test">
-    <class name="BasicSimulation" table="basic_simulation">
+<hibernate-mapping>
+    <class name="edu.colorado.phet.wickettest.data.Simulation" table="simulation">
         <id name="id" column="id">
             <generator class="increment"/>
         </id>
         <property name="name"/>
         <property name="type"/>
-        <many-to-one name="project" class="BasicProject"/>
+        <many-to-one name="project" class="edu.colorado.phet.wickettest.data.Project" lazy="false"/>
         <set name="localizedSimulations" inverse="true">
             <key column="simulation"/>
-            <one-to-many class="BasicLocalizedSimulation"/>
+            <one-to-many class="edu.colorado.phet.wickettest.data.LocalizedSimulation"/>
         </set>
     </class>
 </hibernate-mapping>

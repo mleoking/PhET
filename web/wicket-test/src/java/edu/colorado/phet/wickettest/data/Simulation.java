@@ -1,4 +1,4 @@
-package edu.colorado.phet.wickettest.test;
+package edu.colorado.phet.wickettest.data;
 
 import java.util.HashSet;
 import java.util.Locale;
@@ -6,24 +6,24 @@ import java.util.Set;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 
-public class BasicSimulation {
+public class Simulation {
     private int id;
     private String name;
     private int type;
-    private BasicProject project;
+    private Project project;
     private Set localizedSimulations = new HashSet();
 
     public static final int TYPE_JAVA = 0;
     public static final int TYPE_FLASH = 1;
 
-    public BasicSimulation() {
+    public Simulation() {
     }
 
-    public BasicLocalizedSimulation getBestLocalizedSimulation( Locale bestLocale ) {
-        BasicLocalizedSimulation englishSimulation = null;
+    public LocalizedSimulation getBestLocalizedSimulation( Locale bestLocale ) {
+        LocalizedSimulation englishSimulation = null;
         Locale englishLocale = LocaleUtils.stringToLocale( "en" );
         for ( Object localizedSimulation : localizedSimulations ) {
-            BasicLocalizedSimulation sim = (BasicLocalizedSimulation) localizedSimulation;
+            LocalizedSimulation sim = (LocalizedSimulation) localizedSimulation;
             if ( sim.getLocale().equals( bestLocale ) ) {
                 return sim;
             }
@@ -58,11 +58,11 @@ public class BasicSimulation {
         this.type = type;
     }
 
-    public BasicProject getProject() {
+    public Project getProject() {
         return project;
     }
 
-    public void setProject( BasicProject project ) {
+    public void setProject( Project project ) {
         this.project = project;
     }
 
