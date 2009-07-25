@@ -5,6 +5,7 @@ import java.util.Locale;
 import javax.servlet.ServletContext;
 
 import org.apache.wicket.PageParameters;
+import org.apache.wicket.Session;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.model.IModel;
@@ -17,6 +18,9 @@ public abstract class PhetPage extends WebPage {
     private Locale myLocale;
     private ServletContext context;
     private PageParameters parameters;
+    private Session wicketSession;
+    private boolean hasHibernateSession = false;
+    private org.hibernate.Session hibernateSession;
 
     public PhetPage( PageParameters parameters ) {
         this( parameters, false );
@@ -34,9 +38,13 @@ public abstract class PhetPage extends WebPage {
             myLocale = LocaleUtils.stringToLocale( this.parameters.getString( "localeString", "en" ) );
         }
 
-        getSession().setLocale( myLocale );
+        wicketSession = getSession();
+        wicketSession.setLocale( myLocale );
+
+
         System.out.println( "Loading " + this.getClass().getCanonicalName() + " with Locale: " + LocaleUtils.localeToString( myLocale ) );
         System.out.println( "getRequestPath() of this page is: " + getRequestPath() );
+        System.out.println( "Session id is: " + wicketSession.getId() );
 
         for ( Object o : parameters.keySet() ) {
             System.out.println( "[" + o.toString() + "] = " + parameters.get( o ).toString() );
@@ -78,6 +86,22 @@ public abstract class PhetPage extends WebPage {
 
     public void addTitle( IModel title ) {
         add( new Label( "page-title", title ) );
+    }
+
+    public org.hibernate.Session getHibernateSession() {
+        if ( !hasHibernateSession ) {
+            hibernateSession = HibernateUtils.getInstance().openSession();
+        }
+        return hibernateSession;
+    }
+
+    @Override
+    protected void onDetach() {
+        System.out.println( "Detaching page" );
+        if ( hasHibernateSession ) {
+            hibernateSession.close();
+        }
+        super.onDetach();
     }
 
     /*

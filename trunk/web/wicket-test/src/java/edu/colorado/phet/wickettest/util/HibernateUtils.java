@@ -43,8 +43,8 @@ public class HibernateUtils {
         sessionFactory = null;
     }
 
-    public static List<BasicLocalizedSimulation> getAllSimulationsTX( Locale locale ) {
-        List simulations = HibernateUtils.getInstance().getCurrentSession().createQuery( "select l from BasicLocalizedSimulation as l where l.locale = :locale" ).setLocale( "locale", locale ).list();
+    public static List<BasicLocalizedSimulation> getAllSimulationsS( Session session, Locale locale ) {
+        List simulations = session.createQuery( "select l from BasicLocalizedSimulation as l where l.locale = :locale" ).setLocale( "locale", locale ).list();
         List<BasicLocalizedSimulation> ret = new LinkedList<BasicLocalizedSimulation>();
         for ( Object simulation : simulations ) {
             ret.add( (BasicLocalizedSimulation) simulation );

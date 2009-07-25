@@ -14,7 +14,7 @@ public class SimulationList extends PhetPage {
         Label title = new Label( "page-title", new ResourceModel( "simulationDisplay.simulations" ) );
         add( title );
 
-        add( new SimulationListPanel( "simulation-list-panel", getMyLocale() ) );
+        add( new SimulationListPanel( "simulation-list-panel", this ) );
 
     }
 
