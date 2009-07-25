@@ -1,15 +1,15 @@
-package edu.colorado.phet.wickettest.test;
+package edu.colorado.phet.wickettest.data;
 
 import java.util.Locale;
 
-public class BasicLocalizedSimulation {
+public class LocalizedSimulation {
     private int id;
     private Locale locale;
     private String title;
     private String description;
-    private BasicSimulation simulation;
+    private Simulation simulation;
 
-    public BasicLocalizedSimulation() {
+    public LocalizedSimulation() {
     }
 
     public int getId() {
@@ -44,11 +44,11 @@ public class BasicLocalizedSimulation {
         this.description = description;
     }
 
-    public BasicSimulation getSimulation() {
+    public Simulation getSimulation() {
         return simulation;
     }
 
-    public void setSimulation( BasicSimulation simulation ) {
+    public void setSimulation( Simulation simulation ) {
         this.simulation = simulation;
     }
 }

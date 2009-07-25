@@ -12,11 +12,14 @@ import org.hibernate.Transaction;
 
 import edu.colorado.phet.buildtools.BuildLocalProperties;
 import edu.colorado.phet.buildtools.PhetProject;
-import edu.colorado.phet.buildtools.Simulation;
 import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
 import edu.colorado.phet.buildtools.java.JavaProject;
 import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
+import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
+import edu.colorado.phet.wickettest.data.LocalizedSimulation;
+import edu.colorado.phet.wickettest.data.Project;
+import edu.colorado.phet.wickettest.data.Simulation;
 import edu.colorado.phet.wickettest.util.HibernateUtils;
 
 public class InitializeSimulations {
@@ -37,34 +40,40 @@ public class InitializeSimulations {
 
             for ( PhetProject project : projects ) {
 
-                BasicProject basicProject = new BasicProject();
-                basicProject.setName( project.getName() );
-                session.save( basicProject );
+                Project oProject = new Project();
+                oProject.setName( project.getName() );
+                PhetVersion version = project.getVersion();
+                oProject.setVersionMajor( version.getMajorAsInt() );
+                oProject.setVersionMinor( version.getMinorAsInt() );
+                oProject.setVersionDev( version.getDevAsInt() );
+                oProject.setVersionRevision( version.getRevisionAsInt() );
+                oProject.setVersionTimestamp( version.getTimestampSeconds() );
+                session.save( oProject );
 
                 System.out.println( "Project: " + project.getName() );
                 Locale[] locales = project.getLocales();
                 for ( String simName : project.getSimulationNames() ) {
 
-                    BasicSimulation bs = new BasicSimulation();
-                    bs.setName( simName );
-                    bs.setProject( basicProject );
-                    bs.setType( project instanceof JavaSimulationProject ? 0 : 1 );
-                    session.save( bs );
+                    Simulation oSim = new Simulation();
+                    oSim.setName( simName );
+                    oSim.setProject( oProject );
+                    oSim.setType( project instanceof JavaSimulationProject ? 0 : 1 );
+                    session.save( oSim );
 
                     System.out.println( "   : " + simName );
                     for ( Locale locale : locales ) {
-                        Simulation sim = project.getSimulation( simName, locale );
+                        edu.colorado.phet.buildtools.Simulation sim = project.getSimulation( simName, locale );
 
-                        BasicLocalizedSimulation bls = new BasicLocalizedSimulation();
-                        bls.setLocale( locale );
-                        bls.setSimulation( bs );
+                        LocalizedSimulation oLocalSim = new LocalizedSimulation();
+                        oLocalSim.setLocale( locale );
+                        oLocalSim.setSimulation( oSim );
 
                         // TODO: refactor so that these actions are handled in one place to ensure consistency
-                        bs.getLocalizedSimulations().add( bls );
-                        bls.setTitle( sim.getTitle() );
+                        oSim.getLocalizedSimulations().add( oLocalSim );
+                        oLocalSim.setTitle( sim.getTitle() );
 
-                        bls.setDescription( sim.getDescription() );
-                        session.save( bls );
+                        oLocalSim.setDescription( sim.getDescription() );
+                        session.save( oLocalSim );
 
                         System.out.println( "       : " + LocaleUtils.localeToString( locale ) );
                     }

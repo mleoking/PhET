@@ -8,10 +8,20 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.protocol.http.WebApplication;
 
+import edu.colorado.phet.wickettest.util.PhetPage;
+
 public class PhetPanel extends Panel {
 
     private Locale myLocale;
     private ServletContext context;
+
+    // TODO: refactor out unneeded servlet context for hibernate usage
+
+    public PhetPanel( String id, PhetPage page ) {
+        super( id );
+        this.myLocale = page.getMyLocale();
+        context = ( (WebApplication) getApplication() ).getServletContext();
+    }
 
     public PhetPanel( String id, Locale myLocale ) {
         super( id );

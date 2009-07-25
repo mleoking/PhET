@@ -2,11 +2,15 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
         "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
 <hibernate-mapping>
-    <class name="edu.colorado.phet.wickettest.test.Honey" table="honey">
+    <class name="edu.colorado.phet.wickettest.data.Project" table="project">
         <id name="id" column="id">
             <generator class="increment"/>
         </id>
         <property name="name" column="name"/>
-        <property name="taste" column="taste"/>
+        <property name="versionMajor"/>
+        <property name="versionMinor"/>
+        <property name="versionDev"/>
+        <property name="versionRevision"/>
+        <property name="versionTimestamp"/>
     </class>
 </hibernate-mapping>

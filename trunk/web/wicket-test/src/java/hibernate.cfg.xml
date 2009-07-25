@@ -38,12 +38,10 @@
 
         <!-- Drop and re-create the database schema on startup -->
         <property name="hbm2ddl.auto">update</property>
-
-        <mapping resource="edu/colorado/phet/wickettest/test/Honey.hbm.xml"/>
         
-        <mapping resource="edu/colorado/phet/wickettest/test/BasicProject.hbm.xml"/>
-        <mapping resource="edu/colorado/phet/wickettest/test/BasicSimulation.hbm.xml"/>
-        <mapping resource="edu/colorado/phet/wickettest/test/BasicLocalizedSimulation.hbm.xml"/>
+        <mapping resource="edu/colorado/phet/wickettest/data/Project.hbm.xml"/>
+        <mapping resource="edu/colorado/phet/wickettest/data/Simulation.hbm.xml"/>
+        <mapping resource="edu/colorado/phet/wickettest/data/LocalizedSimulation.hbm.xml"/>
 
     </session-factory>
 
