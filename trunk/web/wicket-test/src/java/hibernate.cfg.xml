@@ -23,6 +23,10 @@
         <property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>
 
         <!-- TODO: add actual production connection pool -->
+        <property name="hibernate.c3p0.min_size">5</property>
+        <property name="hibernate.c3p0.max_size">20</property>
+        <property name="hibernate.c3p0.timeout">1800</property>
+        <property name="hibernate.c3p0.max_statements">50</property>
 
         <!-- Enable Hibernate's automatic session context management -->
         <property name="current_session_context_class">thread</property>
