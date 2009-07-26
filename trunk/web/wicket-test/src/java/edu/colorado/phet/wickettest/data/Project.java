@@ -11,9 +11,30 @@ public class Project {
     private int versionDev;
     private int versionRevision;
     private long versionTimestamp;
+    private int type;
 
     public Project() {
     }
+
+    public String getVersionString() {
+        String ret = "";
+        ret += getVersionMajor();
+        ret += ".";
+        if ( getVersionMinor() < 10 && getVersionMinor() >= 0 ) {
+            ret += "0";
+        }
+        ret += getVersionMinor();
+        if ( getVersionDev() != 0 ) {
+            ret += ".";
+            if ( getVersionDev() < 10 && getVersionDev() >= 0 ) {
+                ret += "0";
+            }
+            ret += getVersionDev();
+        }
+        return ret;
+    }
+
+    // getters and setters
 
     public int getId() {
         return id;

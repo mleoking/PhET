@@ -11,25 +11,29 @@ import org.apache.wicket.markup.html.list.ListView;
 
 import edu.colorado.phet.wickettest.SimulationModel;
 import edu.colorado.phet.wickettest.WebSimulation;
+import edu.colorado.phet.wickettest.data.LocalizedSimulation;
 import static edu.colorado.phet.wickettest.util.HtmlUtils.encode;
 import edu.colorado.phet.wickettest.util.PhetLink;
+import edu.colorado.phet.wickettest.util.PhetPage;
 import edu.colorado.phet.wickettest.util.SqlUtils;
 import edu.colorado.phet.wickettest.util.StaticImage;
 
 public class SimulationMainPanel extends PhetPanel {
 
-    public SimulationMainPanel( String id, WebSimulation simulation, final Locale myLocale ) {
+    public SimulationMainPanel( String id, LocalizedSimulation simulation, PhetPage page, final Locale myLocale ) {
         super( id, myLocale );
 
         add( new Label( "simulation-main-title", simulation.getTitle() ) );
 
         PhetLink link = new PhetLink( "simulation-main-link-run-main", simulation.getRunUrl() );
-        link.add( new StaticImage( "simulation-main-screenshot", simulation.getImageUrl(), MessageFormat.format( "Screenshot of the simulation {0}", encode( simulation.getTitle() ) ) ) );
+        // TODO: localize
+        link.add( new StaticImage( "simulation-main-screenshot", simulation.getSimulation().getImageUrl(), MessageFormat.format( "Screenshot of the simulation {0}", encode( simulation.getTitle() ) ) ) );
         add( link );
 
         add( new Label( "simulation-main-description", simulation.getDescription() ) );
 
-        List<WebSimulation> simulations = SqlUtils.getSimulationsMatching( getContext(), null, simulation.getSimulation(), null );
+        // TODO: use hibernate for locale list
+        List<WebSimulation> simulations = SqlUtils.getSimulationsMatching( getContext(), null, simulation.getSimulation().getName(), null );
         WebSimulation.orderSimulations( simulations, myLocale );
 
         List<SimulationModel> models = new LinkedList<SimulationModel>();
