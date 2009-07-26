@@ -38,4 +38,8 @@ public class StaticImage extends WebComponent {
         }
     }
 
+    @Override
+    protected boolean getStatelessHint() {
+        return true;
+    }
 }

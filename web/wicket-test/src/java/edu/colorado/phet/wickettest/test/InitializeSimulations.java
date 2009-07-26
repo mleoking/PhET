@@ -1,10 +1,7 @@
 package edu.colorado.phet.wickettest.test;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -25,9 +22,30 @@ import edu.colorado.phet.wickettest.util.HibernateUtils;
 public class InitializeSimulations {
     private static File trunk;
 
+    private static Set<String> ignoreProjects = new HashSet<String>();
+
     public static void main( String[] args ) {
         trunk = new File( args[0] );
         BuildLocalProperties.initRelativeToTrunk( trunk );
+
+        ignoreProjects.add( "acid-base-solutions" );
+        ignoreProjects.add( "charges-and-fields-scala" );
+        ignoreProjects.add( "density" );
+        ignoreProjects.add( "force-law-lab" );
+        ignoreProjects.add( "java-common-strings" );
+        ignoreProjects.add( "ladybug-motion-2d" );
+        ignoreProjects.add( "mvc-example" );
+        ignoreProjects.add( "natural-selection" );
+        ignoreProjects.add( "nuclear-physics" );
+        ignoreProjects.add( "phetgraphics-demo" );
+        ignoreProjects.add( "sim-template" );
+        ignoreProjects.add( "states-of-matter" );
+        ignoreProjects.add( "the-ramp" );
+        ignoreProjects.add( "titration" );
+        ignoreProjects.add( "calculus-grapher" );
+        ignoreProjects.add( "flash-common-strings" );
+        ignoreProjects.add( "test-flash-project" );
+
 
         List<PhetProject> projects = new LinkedList<PhetProject>();
         projects.addAll( Arrays.asList( JavaProject.getJavaSimulations( trunk ) ) );
@@ -39,6 +57,10 @@ public class InitializeSimulations {
             tx = session.beginTransaction();
 
             for ( PhetProject project : projects ) {
+
+                if ( ignoreProjects.contains( project.getName() ) ) {
+                    continue;
+                }
 
                 Project oProject = new Project();
                 oProject.setName( project.getName() );

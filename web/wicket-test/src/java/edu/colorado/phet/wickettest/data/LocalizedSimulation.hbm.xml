@@ -10,6 +10,6 @@
         <property name="title" length="1024"/>
         <property name="description" length="4048"/>
         <many-to-one name="simulation" class="edu.colorado.phet.wickettest.data.Simulation" column="simulation"
-                     not-null="true"/>
+                     not-null="true" lazy="false"/>
     </class>
 </hibernate-mapping>

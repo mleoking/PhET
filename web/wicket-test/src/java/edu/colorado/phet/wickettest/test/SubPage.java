@@ -10,8 +10,8 @@ public class SubPage extends PhetPage {
     public SubPage( PageParameters parameters ) {
         super( parameters );
 
-        add( new SimulationDisplayPanel( "page-1", LocaleUtils.stringToLocale( "en" ) ) );
-        add( new SimulationDisplayPanel( "page-2", LocaleUtils.stringToLocale( "ar" ) ) );
+        add( new SimulationDisplayPanel( "page-1", this, LocaleUtils.stringToLocale( "en" ) ) );
+        add( new SimulationDisplayPanel( "page-2", this, LocaleUtils.stringToLocale( "ar" ) ) );
 
     }
 
