@@ -34,6 +34,10 @@ public class Simulation {
         return englishSimulation;
     }
 
+    public String getThumbnailUrl() {
+        return "/sims/" + getProject().getName() + "/" + getName() + "-thumbnail.jpg";
+    }
+
     public int getId() {
         return id;
     }

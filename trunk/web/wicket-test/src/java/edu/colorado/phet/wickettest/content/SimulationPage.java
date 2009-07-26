@@ -7,6 +7,7 @@ import org.apache.wicket.markup.html.basic.Label;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.wickettest.WebSimulation;
+import edu.colorado.phet.wickettest.data.LocalizedSimulation;
 import edu.colorado.phet.wickettest.panels.SimulationMainPanel;
 import edu.colorado.phet.wickettest.util.PhetLink;
 import edu.colorado.phet.wickettest.util.PhetPage;
@@ -49,6 +50,10 @@ public class SimulationPage extends PhetPage {
 
     public static PhetLink createLink( String id, Locale locale, WebSimulation simulation ) {
         return createLink( id, locale, simulation.getProject(), simulation.getSimulation() );
+    }
+
+    public static PhetLink createLink( String id, Locale locale, LocalizedSimulation simulation ) {
+        return createLink( id, locale, simulation.getSimulation().getProject().getName(), simulation.getSimulation().getName() );
     }
 
     public static PhetLink createLink( String id, Locale locale, String projectName, String simulationName ) {

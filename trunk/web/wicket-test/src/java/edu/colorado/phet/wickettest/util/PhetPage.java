@@ -96,6 +96,12 @@ public abstract class PhetPage extends WebPage {
     }
 
     @Override
+    protected void onBeforeRender() {
+        super.onBeforeRender();
+        System.out.println( "Debug: page stateless = " + isPageStateless() );
+    }
+
+    @Override
     protected void onDetach() {
         System.out.println( "Detaching page" );
         if ( hasHibernateSession ) {

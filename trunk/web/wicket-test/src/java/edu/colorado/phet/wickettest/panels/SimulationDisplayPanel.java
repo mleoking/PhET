@@ -2,6 +2,7 @@ package edu.colorado.phet.wickettest.panels;
 
 import java.text.MessageFormat;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
@@ -10,20 +11,50 @@ import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.GridView;
 import org.apache.wicket.markup.repeater.data.IDataProvider;
 import org.apache.wicket.model.IModel;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
-import edu.colorado.phet.wickettest.WebSimulation;
 import edu.colorado.phet.wickettest.content.SimulationPage;
+import edu.colorado.phet.wickettest.data.LocalizedSimulation;
+import edu.colorado.phet.wickettest.util.HibernateUtils;
 import static edu.colorado.phet.wickettest.util.HtmlUtils.encode;
 import edu.colorado.phet.wickettest.util.PhetLink;
-import edu.colorado.phet.wickettest.util.SqlUtils;
+import edu.colorado.phet.wickettest.util.PhetPage;
 import edu.colorado.phet.wickettest.util.StaticImage;
 
 public class SimulationDisplayPanel extends PhetPanel {
 
-    public SimulationDisplayPanel( String id, final Locale myLocale ) {
+    public SimulationDisplayPanel( String id, PhetPage page ) {
+        this( id, page, page.getMyLocale() );
+    }
+
+    public SimulationDisplayPanel( String id, PhetPage page, final Locale myLocale ) {
         super( id, myLocale );
 
-        List<WebSimulation> simulations = SqlUtils.getOrderedSimulations( getContext(), getMyLocale() );
+        //List<WebSimulation> simulations = SqlUtils.getOrderedSimulations( getContext(), getMyLocale() );
+
+        List<LocalizedSimulation> simulations = new LinkedList<LocalizedSimulation>();
+
+        Session session = page.getHibernateSession();
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            simulations = HibernateUtils.getAllSimulationsS( session, getMyLocale() );
+
+            tx.commit();
+        }
+        catch( RuntimeException e ) {
+            if ( tx != null && tx.isActive() ) {
+                try {
+                    tx.rollback();
+                }
+                catch( HibernateException e1 ) {
+                    System.out.println( "ERROR: Error rolling back transaction" );
+                }
+                throw e;
+            }
+        }
 
         IDataProvider simData = new SimulationDataProvider( simulations );
         GridView gridView = new GridView( "rows", simData ) {
@@ -34,10 +65,10 @@ public class SimulationDisplayPanel extends PhetPanel {
 
             @Override
             protected void populateItem( Item item ) {
-                WebSimulation simulation = (WebSimulation) item.getModelObject();
+                LocalizedSimulation simulation = (LocalizedSimulation) item.getModelObject();
                 PhetLink link = SimulationPage.createLink( "simulation-link", getMyLocale(), simulation );
                 link.add( new Label( "title", simulation.getTitle() ) );
-                link.add( new StaticImage( "thumbnail", simulation.getThumbnailUrl(), MessageFormat.format( "Screenshot of the simulation {0}", encode( simulation.getTitle() ) ) ) );
+                link.add( new StaticImage( "thumbnail", simulation.getSimulation().getThumbnailUrl(), MessageFormat.format( "Screenshot of the simulation {0}", encode( simulation.getTitle() ) ) ) );
                 item.add( link );
             }
         };
@@ -47,9 +78,9 @@ public class SimulationDisplayPanel extends PhetPanel {
     }
 
     private static class SimulationDataProvider implements IDataProvider {
-        private List<WebSimulation> simulations;
+        private List<LocalizedSimulation> simulations;
 
-        private SimulationDataProvider( List<WebSimulation> simulations ) {
+        private SimulationDataProvider( List<LocalizedSimulation> simulations ) {
             this.simulations = simulations;
         }
 

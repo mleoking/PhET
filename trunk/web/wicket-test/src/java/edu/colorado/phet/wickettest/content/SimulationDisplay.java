@@ -16,7 +16,7 @@ public class SimulationDisplay extends PhetPage {
 
         addTitle( new ResourceModel( "simulationDisplay.simulations" ) );
 
-        add( new SimulationDisplayPanel( "simulation-display-panel", getMyLocale() ) );
+        add( new SimulationDisplayPanel( "simulation-display-panel", this ) );
 
     }
 
