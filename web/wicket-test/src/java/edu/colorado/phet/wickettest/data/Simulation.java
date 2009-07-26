@@ -38,6 +38,20 @@ public class Simulation {
         return "/sims/" + getProject().getName() + "/" + getName() + "-thumbnail.jpg";
     }
 
+    public String getImageUrl() {
+        return "/sims/" + getProject().getName() + "/" + getName() + "-screenshot.png";
+    }
+
+    public boolean isJava() {
+        return getType() == 0;
+    }
+
+    public boolean isFlash() {
+        return getType() == 1;
+    }
+
+    // getters and setters
+
     public int getId() {
         return id;
     }
