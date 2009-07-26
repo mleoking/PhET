@@ -465,7 +465,7 @@ public class ControlGraph extends PNode {
         setLayout( new AlignedLayout( minimizableControlGraphs ) );
     }
 
-    public JFreeChartNode getJFreeChartNode() {
+    public DynamicJFreeChartNode getJFreeChartNode() {
         return dynamicJFreeChartNode;
     }
 
