@@ -3,7 +3,7 @@
 	import flash.display.Sprite;
 	import flash.display.Graphics;
 	import flash.display.*;
-	
+	import edu.colorado.phet.flashcommon.*;
 	
 	public class CalculusGraph extends Sprite{
 		
@@ -18,6 +18,7 @@
 		var myMainView:MainView;	//main view
 		
 		public function CalculusGraph(){
+			SimStrings.init( this.root.loaderInfo )
 			myModel = new Model();  
 			myMainView = new MainView(myModel);
 			addChild(myMainView);

@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<SimStrings>
+  <string key="undo" value="Deshacer" />
+  <string key="smooth" value="Alisé" />
+  <string key="zero" value="Cero" />
+  <string key="simTitle" value="Cálculo Grapher" />
+  <string key="simDescription" value="Descripción de Cálculo Grapher" />
+</SimStrings>

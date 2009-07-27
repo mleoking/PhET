@@ -17,6 +17,10 @@
 			this.tFormat.align = TextFormatAlign.CENTER;
 			this.makeButton();
 		}//end of constructor
+
+        public function setLabel( label : String ) : void {
+            buttonBody.label_txt.text = label;
+        }
 		
 		public function makeButton():void {
 			this.buttonBody.background.width = this.myButtonWidth;

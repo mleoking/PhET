@@ -5,6 +5,7 @@
 	import flash.geom.*;
 	import flash.text.*;
 	import flash.ui.*;
+	import edu.colorado.phet.flashcommon.*;
 
 	public class ControlPanel extends Sprite {
 
@@ -70,8 +71,11 @@
 			this.majorTick_arr[2] = new SliderMajorTick();
 			
 			this.zeroButton = new NiceButton(this.zeroButton_sp, 90, zeroCurves);
+			this.zeroButton.setLabel( SimStrings.get( "zero", "Zero" ) );
 			this.undoButton = new NiceButton(this.undoButton_sp, 90, undoLastChange);
+			this.undoButton.setLabel( SimStrings.get( "undo", "Undo" ) );
 			this.smoothButton = new NiceButton(this.smoothButton_sp, 90, smoothAllPoints);
+			this.smoothButton.setLabel( SimStrings.get( "smooth", "Smooth" ) );
 			
 			this.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyPressed);
 			this.initializeComponents();

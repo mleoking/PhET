@@ -1,5 +1,8 @@
 <?xml version="1.0" ?>
 <SimStrings>
+  <string key="undo" value="Undo" />
+  <string key="smooth" value="Smooth" />
+  <string key="zero" value="Zero" />
   <string key="simTitle" value="Calculus Grapher" />
   <string key="simDescription" value="Description of Calculus Grapher" />
 </SimStrings>
