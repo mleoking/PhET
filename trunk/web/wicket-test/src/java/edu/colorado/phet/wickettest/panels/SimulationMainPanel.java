@@ -13,14 +13,14 @@ import org.apache.wicket.model.IModel;
 import edu.colorado.phet.wickettest.data.LocalizedSimulation;
 import edu.colorado.phet.wickettest.util.HibernateUtils;
 import static edu.colorado.phet.wickettest.util.HtmlUtils.encode;
+import edu.colorado.phet.wickettest.util.PageContext;
 import edu.colorado.phet.wickettest.util.PhetLink;
-import edu.colorado.phet.wickettest.util.PhetPage;
 import edu.colorado.phet.wickettest.util.StaticImage;
 
 public class SimulationMainPanel extends PhetPanel {
 
-    public SimulationMainPanel( String id, LocalizedSimulation simulation, PhetPage page, final Locale myLocale ) {
-        super( id, myLocale );
+    public SimulationMainPanel( String id, LocalizedSimulation simulation, final PageContext context ) {
+        super( id, context );
 
         add( new Label( "simulation-main-title", simulation.getTitle() ) );
 
@@ -32,8 +32,8 @@ public class SimulationMainPanel extends PhetPanel {
         add( new Label( "simulation-main-description", simulation.getDescription() ) );
 
 
-        List<LocalizedSimulation> simulations = HibernateUtils.getLocalizedSimulationsMatching( page.getHibernateSession(), null, simulation.getSimulation().getName(), null );
-        HibernateUtils.orderSimulations( simulations, myLocale );
+        List<LocalizedSimulation> simulations = HibernateUtils.getLocalizedSimulationsMatching( context.getSession(), null, simulation.getSimulation().getName(), null );
+        HibernateUtils.orderSimulations( simulations, context.getLocale() );
 
         List<IModel> models = new LinkedList<IModel>();
 
@@ -62,7 +62,7 @@ public class SimulationMainPanel extends PhetPanel {
                 LocalizedSimulation simulation = (LocalizedSimulation) ( ( (IModel) ( item.getModel().getObject() ) ).getObject() );
                 Locale simLocale = simulation.getLocale();
                 PhetLink link = new PhetLink( "simulation-main-translation-link", simulation.getRunUrl() );
-                link.add( new Label( "simulation-main-translation-locale-name", simLocale.getDisplayName( myLocale ) ) );
+                link.add( new Label( "simulation-main-translation-locale-name", simLocale.getDisplayName( context.getLocale() ) ) );
                 item.add( link );
                 item.add( new Label( "simulation-main-translation-locale-translated-name", simLocale.getDisplayName( simLocale ) ) );
                 item.add( new Label( "simulation-main-translation-title", simulation.getTitle() ) );

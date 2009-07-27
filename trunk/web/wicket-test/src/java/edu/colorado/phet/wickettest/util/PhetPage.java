@@ -9,6 +9,7 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.model.IModel;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
+import edu.colorado.phet.wickettest.WicketApplication;
 
 public abstract class PhetPage extends WebPage {
 
@@ -64,6 +65,10 @@ public abstract class PhetPage extends WebPage {
 
     public String getUrlPrefix() {
         return "/" + LocaleUtils.localeToString( myLocale ) + "/";
+    }
+
+    public PageContext getPageContext() {
+        return new PageContext( getMyLocale(), getHibernateSession(), (WicketApplication) getApplication(), this );
     }
 
     @Override

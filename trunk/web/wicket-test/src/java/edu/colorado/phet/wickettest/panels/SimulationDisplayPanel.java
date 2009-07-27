@@ -4,7 +4,6 @@ import java.text.MessageFormat;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
 
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
@@ -19,22 +18,18 @@ import edu.colorado.phet.wickettest.content.SimulationPage;
 import edu.colorado.phet.wickettest.data.LocalizedSimulation;
 import edu.colorado.phet.wickettest.util.HibernateUtils;
 import static edu.colorado.phet.wickettest.util.HtmlUtils.encode;
+import edu.colorado.phet.wickettest.util.PageContext;
 import edu.colorado.phet.wickettest.util.PhetLink;
-import edu.colorado.phet.wickettest.util.PhetPage;
 import edu.colorado.phet.wickettest.util.StaticImage;
 
 public class SimulationDisplayPanel extends PhetPanel {
 
-    public SimulationDisplayPanel( String id, PhetPage page ) {
-        this( id, page, page.getMyLocale() );
-    }
-
-    public SimulationDisplayPanel( String id, PhetPage page, final Locale myLocale ) {
-        super( id, myLocale );
+    public SimulationDisplayPanel( String id, final PageContext context ) {
+        super( id, context );
 
         List<LocalizedSimulation> simulations = new LinkedList<LocalizedSimulation>();
 
-        Session session = page.getHibernateSession();
+        Session session = context.getSession();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
