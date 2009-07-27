@@ -1,14 +1,16 @@
 package edu.colorado.phet.therampscala.charts
 
+import common.phetcommon.view.util.{BufferedImageUtils, PhetFont}
 import common.motion.graphs._
-import common.motion.model.{UpdateStrategy, UpdateableObject, DefaultTemporalVariable}
+import common.motion.model._
 import common.phetcommon.model.clock.ConstantDtClock
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import common.phetcommon.view.VerticalLayoutPanel
 import common.piccolophet.{PhetPCanvas}
 import common.timeseries.model.{RecordableModel, TimeSeriesModel}
 import java.awt.geom.Point2D
-import javax.swing.{JCheckBox}
+import java.text.DecimalFormat
+import javax.swing.{JCheckBox,JPanel,JLabel}
 import model.{ParallelComponent, RampModel}
 import swing.MyCheckBox
 import umd.cs.piccolo.PNode
@@ -61,12 +63,27 @@ class ForceChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model
       override def visibilityChanged = listener()
     })
   }
-  class SeriesControlSelector(series:ControlGraphSeries) extends MyCheckBox(series.getTitle,series.setVisible(_),series.isVisible,addListener(series,_))
+  class SeriesControlSelectorBox(series:ControlGraphSeries) extends MyCheckBox(series.getTitle,series.setVisible(_),series.isVisible,addListener(series,_))
+  class SeriesControlSelector(series:ControlGraphSeries) extends JPanel{
+    add(new SeriesControlSelectorBox(series).peer)
+    val label = new JLabel("hello there, long label")
+    series.getTemporalVariable.addListener(new ITemporalVariable.Listener(){
+      def dataCleared = {}
+
+      def dataAdded(data: TimeData) = {}
+
+      def valueChanged = label.setText(new DecimalFormat("0.00").format(series.getTemporalVariable.getValue)+"")
+    })
+    add(label)
+  }
   class SeriesSelectionControl extends VerticalLayoutPanel {
-    add(new SeriesControlSelector(appliedForceSeries).peer)
-    add(new SeriesControlSelector(frictionSeries).peer)
-    add(new SeriesControlSelector(gravitySeries).peer)
-    add(new SeriesControlSelector(wallSeries).peer)
+    val jLabel = new JLabel("Parallel Forces (N)")
+    jLabel.setFont(new PhetFont(20,true))
+    add(jLabel)
+    add(new SeriesControlSelector(appliedForceSeries))
+    add(new SeriesControlSelector(frictionSeries))
+    add(new SeriesControlSelector(gravitySeries))
+    add(new SeriesControlSelector(wallSeries))
   }
   parallelForceChart.addControl(new SeriesSelectionControl)
 
