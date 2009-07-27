@@ -24,7 +24,8 @@ class NewsPage extends SitePage {
             <h2>Newsletter Archive</h2>
 
             <ul>
-                <li><a href="{$newsletters_dir}phet_newsletter_july16_2008.pdf">July 16th 2008 - PhET's first newsletter</a></li>
+                <li><a href="{$newsletters_dir}phet_newsletter_sum09.pdf">Summer 2009</a></li>
+                <li><a href="{$newsletters_dir}phet_newsletter_july16_2008.pdf">Summer 2008 - PhET's first newsletter</a></li>
             </ul>
 
             <h2>Website &amp; Simulation Updates</h2>
