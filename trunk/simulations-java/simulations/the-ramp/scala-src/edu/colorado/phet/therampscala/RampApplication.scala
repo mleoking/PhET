@@ -1,6 +1,6 @@
 package edu.colorado.phet.therampscala
 
-import charts.ChartNode
+import charts.ForceChartNode
 import common.phetcommon.application.{PhetApplicationLauncher, Module, PhetApplicationConfig}
 import common.piccolophet.{PiccoloPhetApplication}
 import graphics.RampCanvas
@@ -51,7 +51,7 @@ class ForceGraphsModule(frame: JFrame, clock: ScalaClock) extends GraphingModule
 
 class GraphingModule(frame: JFrame, clock: ScalaClock, name: String) extends BasicRampModule(frame, clock, name, false, true) {
   coordinateSystemModel.adjustable = false
-  canvas.addNode(new ChartNode(canvas.transform, canvas, model))
+  canvas.addNode(new ForceChartNode(canvas.transform, canvas, model))
   model.bead.setPosition(-6)
   model.setPaused(true)
   var didUnpause = false
