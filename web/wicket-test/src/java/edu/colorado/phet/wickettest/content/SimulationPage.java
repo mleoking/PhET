@@ -51,7 +51,6 @@ public class SimulationPage extends PhetPage {
         else {
             // TODO: localize
             addTitle( simulation.getTitle() + " " + simulation.getSimulation().getProject().getVersionString() );
-            //add( new Label( "simulation-main-panel", "TODO" ) );
             add( new SimulationMainPanel( "simulation-main-panel", simulation, this, getMyLocale() ) );
         }
     }
