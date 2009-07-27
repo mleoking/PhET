@@ -1,8 +1,6 @@
 package edu.colorado.phet.wickettest.util;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -40,6 +38,76 @@ public class HibernateUtils {
             sessionFactory.close();
         }
         sessionFactory = null;
+    }
+
+    public static List<LocalizedSimulation> getLocalizedSimulationsMatching( Session session, String projectName, String simulationName, Locale locale ) {
+
+        boolean useSimulation = simulationName != null || projectName != null;
+        boolean useProject = projectName != null;
+
+        // select
+        String queryString = "select l from LocalizedSimulation as l";
+        if ( useSimulation ) {
+            queryString += ", Simulation as s";
+        }
+        if ( useProject ) {
+            queryString += ", Project as p";
+        }
+
+        // where conditions
+        queryString += " where (";
+
+        List<String> conditions = new LinkedList<String>();
+
+        // joins
+        if ( useSimulation ) {
+            conditions.add( "l.simulation = s" );
+        }
+        if ( useProject ) {
+            conditions.add( "s.project = p" );
+        }
+
+        // constraints
+        if ( projectName != null ) {
+            conditions.add( "p.name = :project" );
+        }
+        if ( simulationName != null ) {
+            conditions.add( "s.name = :flavor" );
+        }
+        if ( locale != null ) {
+            conditions.add( "l.locale = :locale" );
+        }
+
+        boolean prev = false;
+        for ( String condition : conditions ) {
+            if ( prev ) {
+                queryString += " AND ";
+            }
+            queryString += condition;
+            prev = true;
+        }
+
+        queryString += ")";
+
+        Query query = session.createQuery( queryString );
+
+        if ( projectName != null ) {
+            query.setString( "project", projectName );
+        }
+        if ( simulationName != null ) {
+            query.setString( "flavor", simulationName );
+        }
+        if ( locale != null ) {
+            query.setLocale( "locale", locale );
+        }
+
+        List simulations = query.list();
+        List<LocalizedSimulation> ret = new LinkedList<LocalizedSimulation>();
+        for ( Object simulation : simulations ) {
+            ret.add( (LocalizedSimulation) simulation );
+        }
+        return ret;
+
     }
 
 
@@ -82,5 +150,72 @@ public class HibernateUtils {
 
         throw new RuntimeException( "WARNING: matches more than 2 simulations!" );
     }
+
+    /**
+     * Sort a list of localized simulations for a particular locale. This means simulations will be sorted
+     * first by the title in the locale parameter (if there is a title), then by locale.
+     *
+     * @param list   The list of simulations to order
+     * @param locale The locale to use for ordering
+     */
+    public static void orderSimulations( List<LocalizedSimulation> list, final Locale locale ) {
+        final HashMap<String, String> map = new HashMap<String, String>();
+
+        for ( LocalizedSimulation sim : list ) {
+            boolean correctLocale = locale.equals( sim.getLocale() );
+            if ( !map.containsKey( sim.getSimulation().getName() ) || correctLocale ) {
+                if ( correctLocale ) {
+                    map.put( sim.getSimulation().getName(), sim.getTitle() );
+                }
+                else {
+                    map.put( sim.getSimulation().getName(), null );
+                }
+            }
+        }
+
+        Collections.sort( list, new Comparator<LocalizedSimulation>() {
+            public int compare( LocalizedSimulation a, LocalizedSimulation b ) {
+
+                if ( a.getSimulation().getName().equals( b.getSimulation().getName() ) ) {
+                    if ( a.getLocale().equals( locale ) ) {
+                        return -1;
+                    }
+                    if ( b.getLocale().equals( locale ) ) {
+                        return 1;
+                    }
+                    return a.getLocale().getDisplayName( locale ).compareToIgnoreCase( b.getLocale().getDisplayName( locale ) );
+                }
+
+                String aGlobalTitle = map.get( a.getSimulation().getName() );
+                String bGlobalTitle = map.get( b.getSimulation().getName() );
+
+                boolean aGlobal = aGlobalTitle != null;
+                boolean bGlobal = bGlobalTitle != null;
+
+                if ( aGlobal && bGlobal ) {
+                    final String[] ignoreWords = {"The", "La", "El"};
+                    for ( String ignoreWord : ignoreWords ) {
+                        if ( aGlobalTitle.startsWith( ignoreWord + " " ) ) {
+                            aGlobalTitle = aGlobalTitle.substring( ignoreWord.length() + 1 );
+                        }
+                        if ( bGlobalTitle.startsWith( ignoreWord + " " ) ) {
+                            bGlobalTitle = bGlobalTitle.substring( ignoreWord.length() + 1 );
+                        }
+                    }
+                    return aGlobalTitle.compareToIgnoreCase( bGlobalTitle );
+                }
+                else if ( aGlobal ) {
+                    return -1;
+                }
+                else if ( bGlobal ) {
+                    return 1;
+                }
+                else {
+                    return a.getSimulation().getName().compareToIgnoreCase( b.getSimulation().getName() );
+                }
+            }
+        } );
+    }
+
 
 }
