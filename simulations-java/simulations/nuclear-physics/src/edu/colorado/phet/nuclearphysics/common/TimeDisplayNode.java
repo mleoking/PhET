@@ -62,6 +62,7 @@ public class TimeDisplayNode extends PNode {
 	private PPath _background;
 	private RoundRectangle2D _backgroundShape;
 	private double _currentTimeInMilliseconds = Double.NEGATIVE_INFINITY;
+	private double _displayedValue = Double.NEGATIVE_INFINITY;
 	private HTMLNode _timeText;
 	private HTMLNode _unitsText;
 	private PText _spaceText;
@@ -75,6 +76,7 @@ public class TimeDisplayNode extends PNode {
     private ConstantPowerOfTenNumberFormat _millionsFormatter = new ConstantPowerOfTenNumberFormat("0", 6, EXPONENT_SCALE);
     private ConstantPowerOfTenNumberFormat _billionsFormatter = new ConstantPowerOfTenNumberFormat("0", 9, EXPONENT_SCALE);
     private ConstantPowerOfTenNumberFormat _trillionsFormatter = new ConstantPowerOfTenNumberFormat("0", 12, EXPONENT_SCALE);
+    private int _resolution = 0; 
 	
     /**
      * Constructor.
@@ -242,10 +244,29 @@ public class TimeDisplayNode extends PNode {
 		}
 
 		_currentTimeInMilliseconds = milliseconds;
-
+		
 		// Convert to years.
 		double timeInYears = milliseconds / MILLISECONDS_PER_YEAR;
-		double valueToDisplay = roundToSignificantDigits(timeInYears, NUM_SIGNIFICANT_DIGITS);
+		
+		// Based on input received during reviews of this simulation, some
+		// very specific behavior is desired in terms of the resolution that
+		// is displayed for the various ranges of time.
+		if (timeInYears < 1){
+			_resolution = -2;
+		}
+		else if (timeInYears < 1000000){
+			_resolution = 1;
+		}
+		else{
+			_resolution = 6;
+		}
+		
+		double valueToDisplay = roundToResolution(timeInYears);
+		if (valueToDisplay == _displayedValue){
+			// Don't bother updating if the displayed value hasn't changed.
+			return;
+		}
+		_displayedValue = valueToDisplay;
 		if (valueToDisplay < 1 && valueToDisplay != 0){
 			_timeText.setHTML(_timeFormatterTwoDecimals.format( valueToDisplay ));
 		}
@@ -257,33 +278,23 @@ public class TimeDisplayNode extends PNode {
 		updateTextScaling();
         updateTimeDisplay();
 	}
-
 	
-	/**
-	 * Note: This only works for numbers to the left of the decimal place.
-	 * 
-	 * @param val
-	 * @param numSigDigs
-	 * @return
-	 */
-	public static double roundToSignificantDigits(double val, int numSigDigs){
+	private double roundToResolution(double value){
 		
-		if (val == 0){
-			// Can't do much with.
+		if (value == 0){
+			// Can't do much with this.
 			return 0;
 		}
 		
-		int places = (int)Math.floor(Math.log10(val)) + 1;
-		
 		// Calculate a value where the decimal point has the number of
 		// desired significant digits to the left of the decimal point.
-		double retVal = val / Math.pow(10, places - numSigDigs);
+		double retVal = value / Math.pow(10, _resolution);
 		
 		// Round the value.
 		retVal = (double)Math.round(retVal);
 		
 		// Multiply back to the original number of places.
-		retVal = retVal * Math.pow(10, places - numSigDigs);
+		retVal = retVal * Math.pow(10, _resolution);
 		
 		// We're done.
 		return retVal;
@@ -303,18 +314,6 @@ public class TimeDisplayNode extends PNode {
 		// back to the left.
 		return (double)tmp / factor;
 	}
-	
-	public static void main(String[] args) {
-		System.out.println("Test of sig digs.");
-		double testVal;
-		testVal = 12345;
-		System.out.println("Input: " + testVal + ", Output: " + roundToSignificantDigits(testVal, 2));
-		testVal = 99.9;
-		System.out.println("Input: " + testVal + ", Output: " + roundToSignificantDigits(testVal, 2));
-		testVal = 0.002;
-		System.out.println("Input: " + testVal + ", Output: " + roundToSignificantDigits(testVal, 3));
-	}
-
 	
 	// TODO: This relates to the other todo above.  If this display ends up
 	// only being used for years, this method can be permanently removed.
