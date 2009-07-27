@@ -90,13 +90,16 @@ public class AgeGuessResultNode extends PNode {
         
         // Add a different cursor so the user will have a clue that they can
         // do something by clicking.
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-        BufferedImage cursorImage = NuclearPhysicsResources.getImage("red_x.png");
-        Dimension size = toolkit.getBestCursorSize(cursorImage.getWidth(), cursorImage.getHeight());
-        Cursor myCursor = toolkit.createCustomCursor(cursorImage,
-        		new Point(size.width / 2, size.height / 2), "myCursor");
-        addInputEventListener(new CursorHandler(myCursor));
-//        addInputEventListener(new CursorHandler(CursorHandler.HAND));
+//        Toolkit toolkit = Toolkit.getDefaultToolkit();
+//        BufferedImage cursorImage = NuclearPhysicsResources.getImage("x_cursor.png");
+//        Dimension size = toolkit.getBestCursorSize(cursorImage.getWidth(), cursorImage.getHeight());
+//        Cursor myCursor = toolkit.createCustomCursor(cursorImage,
+//        		new Point(size.width / 4, size.height / 4), "myCursor");
+//        addInputEventListener(new CursorHandler(myCursor));
+        // TODO: Custom cursor was turning out to be a lot of work, so I went
+        // with just the hand.  If this is acceptable, delete the commented
+        // out code just above.  jblanco, 7/27/2009
+        addInputEventListener(new CursorHandler(CursorHandler.HAND));
 	}
 
 	public boolean isGuessGood() {
