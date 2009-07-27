@@ -44,7 +44,7 @@ class ForceChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model
   //  }
   //  val set = new GraphSetNode(new GraphSetModel(new GraphSuite(Array(new MinimizableControlGraph("x", x), new MinimizableControlGraph("y", y)))))
   val set = new GraphSetNode(new GraphSetModel(new GraphSuite(Array(new MinimizableControlGraph("Parallel Forces(N)", parallelForceChart))))){
-    protected override def getMaxAvailableHeight(availableHeight: Double) = availableHeight
+    override def getMaxAvailableHeight(availableHeight: Double) = availableHeight
   }
   set.setAlignedLayout()
 
