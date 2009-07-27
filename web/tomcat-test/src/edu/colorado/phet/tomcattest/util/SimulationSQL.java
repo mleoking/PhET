@@ -1,4 +1,4 @@
-package edu.colorado.phet.wickettest;
+package edu.colorado.phet.tomcattest.util;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
