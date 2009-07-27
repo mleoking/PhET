@@ -9,7 +9,6 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
-import edu.colorado.phet.wickettest.WebSimulation;
 import edu.colorado.phet.wickettest.data.LocalizedSimulation;
 import edu.colorado.phet.wickettest.panels.SimulationMainPanel;
 import edu.colorado.phet.wickettest.util.HibernateUtils;
@@ -63,10 +62,6 @@ public class SimulationPage extends PhetPage {
 
     public static String[] getMappingParameters() {
         return new String[]{"project", null, "flavor"};
-    }
-
-    public static PhetLink createLink( String id, Locale locale, WebSimulation simulation ) {
-        return createLink( id, locale, simulation.getProject(), simulation.getSimulation() );
     }
 
     public static PhetLink createLink( String id, Locale locale, LocalizedSimulation simulation ) {

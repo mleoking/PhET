@@ -1,8 +1,8 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Locale" %>
 <%@ page import="edu.colorado.phet.common.phetcommon.util.LocaleUtils" %>
-<%@ page import="edu.colorado.phet.wickettest.WebSimulation" %>
-<%@ page import="edu.colorado.phet.wickettest.util.SqlUtils" %>
+<%@ page import="edu.colorado.phet.tomcattest.util.WebSimulation" %>
+<%@ page import="edu.colorado.phet.tomcattest.util.SqlUtils" %>
 <%@ page import="edu.colorado.phet.tomcattest.util.WebStrings" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
