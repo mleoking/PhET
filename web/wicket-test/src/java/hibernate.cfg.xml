@@ -33,7 +33,7 @@
 
         <property name="transaction.factory_class">org.hibernate.transaction.JDBCTransactionFactory</property>
 
-        <property name="hibernate.show_sql">true</property>
+        <!--<property name="hibernate.show_sql">true</property>-->
 
 
         <!-- Drop and re-create the database schema on startup -->
