@@ -8,14 +8,13 @@ import java.util.Locale;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.model.IModel;
 
-import edu.colorado.phet.wickettest.SimulationModel;
-import edu.colorado.phet.wickettest.WebSimulation;
 import edu.colorado.phet.wickettest.data.LocalizedSimulation;
+import edu.colorado.phet.wickettest.util.HibernateUtils;
 import static edu.colorado.phet.wickettest.util.HtmlUtils.encode;
 import edu.colorado.phet.wickettest.util.PhetLink;
 import edu.colorado.phet.wickettest.util.PhetPage;
-import edu.colorado.phet.wickettest.util.SqlUtils;
 import edu.colorado.phet.wickettest.util.StaticImage;
 
 public class SimulationMainPanel extends PhetPanel {
@@ -32,21 +31,35 @@ public class SimulationMainPanel extends PhetPanel {
 
         add( new Label( "simulation-main-description", simulation.getDescription() ) );
 
-        // TODO: use hibernate for locale list
-        List<WebSimulation> simulations = SqlUtils.getSimulationsMatching( getContext(), null, simulation.getSimulation().getName(), null );
-        WebSimulation.orderSimulations( simulations, myLocale );
 
-        List<SimulationModel> models = new LinkedList<SimulationModel>();
+        List<LocalizedSimulation> simulations = HibernateUtils.getLocalizedSimulationsMatching( page.getHibernateSession(), null, simulation.getSimulation().getName(), null );
+        HibernateUtils.orderSimulations( simulations, myLocale );
 
-        for ( WebSimulation sim : simulations ) {
+        List<IModel> models = new LinkedList<IModel>();
+
+        // TODO: improve model?
+        for ( final LocalizedSimulation sim : simulations ) {
             if ( !sim.getLocale().equals( simulation.getLocale() ) ) {
-                models.add( new SimulationModel( sim ) );
+                models.add( new IModel() {
+                    public Object getObject() {
+                        return sim;
+                    }
+
+                    public void setObject( Object o ) {
+
+                    }
+
+                    public void detach() {
+
+                    }
+                } );
             }
         }
 
+        // TODO: allow localization of locale display names
         ListView simulationList = new ListView( "simulation-main-translation-list", models ) {
             protected void populateItem( ListItem item ) {
-                WebSimulation simulation = (WebSimulation) ( ( (SimulationModel) ( item.getModel().getObject() ) ).getObject() );
+                LocalizedSimulation simulation = (LocalizedSimulation) ( ( (IModel) ( item.getModel().getObject() ) ).getObject() );
                 Locale simLocale = simulation.getLocale();
                 PhetLink link = new PhetLink( "simulation-main-translation-link", simulation.getRunUrl() );
                 link.add( new Label( "simulation-main-translation-locale-name", simLocale.getDisplayName( myLocale ) ) );

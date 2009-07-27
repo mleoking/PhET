@@ -5,15 +5,21 @@
       lang="en">
 <head>
     <title>[PREVIEW] SimulationMainPanel</title>
-    <style type="text/css">
-        .simulation-main-link-run-main {
-            text-decoration: none;
-        }
+    <wicket:head>
+        <style type="text/css">
+            .simulation-main-link-run-main {
+                text-decoration: none;
+            }
 
-        .simulation-main-screenshot {
-            border: none;
-        }
-    </style>
+            .simulation-main-screenshot {
+                border: none;
+            }
+
+            .simulation-main-translation-list {
+                font-size: 12px;
+            }
+        </style>
+    </wicket:head>
 </head>
 <body>
 
@@ -37,7 +43,7 @@
 
         <wicket:enclosure child="simulation-main-translation-list">
             <table>
-                <tr wicket:id="simulation-main-translation-list">
+                <tr wicket:id="simulation-main-translation-list" class="simulation-main-translation-list">
                     <td>
                         <a href="#" wicket:id="simulation-main-translation-link">
                             <span wicket:id="simulation-main-translation-locale-name">Pig Latin</span>
