@@ -38,8 +38,8 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
  * @version $Revision$
  */
 public class DynamicJFreeChartNode extends JFreeChartNode {
-    private ArrayList seriesDataList = new ArrayList();//of type SeriesData 
-    private ArrayList seriesViewList = new ArrayList();//of type SeriesView
+    private ArrayList<SeriesData> seriesDataList = new ArrayList<SeriesData>();
+    private ArrayList<SeriesView> seriesViewList = new ArrayList<SeriesView>();
     private PhetPCanvas phetPCanvas;
 //    private PhetPPath debugBufferRegion;//internal debugging tool for deciphering screen output regions
 
@@ -66,8 +66,7 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
 
     public void forceUpdateAll() {
         super.updateAll();
-        for ( int i = 0; i < seriesViewList.size(); i++ ) {
-            SeriesView seriesView = (SeriesView) seriesViewList.get( i );
+        for ( SeriesView seriesView : seriesViewList ) {
             seriesView.forceRepaintAll();
         }
     }
@@ -141,8 +140,7 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
      * @return the first found, or null if none found.
      */
     private SeriesData getSeriesData( String title ) {
-        for ( int i = 0; i < seriesDataList.size(); i++ ) {
-            SeriesData seriesData = (SeriesData) seriesDataList.get( i );
+        for ( SeriesData seriesData : seriesDataList ) {
             if ( seriesData.getTitle().equals( title ) ) {
                 return seriesData;
             }
@@ -154,8 +152,7 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
      * Empties each series associated with this chart.
      */
     public void clear() {
-        for ( int i = 0; i < seriesDataList.size(); i++ ) {
-            SeriesData seriesData = (SeriesData) seriesDataList.get( i );
+        for ( SeriesData seriesData : seriesDataList ) {
             seriesData.clear();
         }
         updateAll();
@@ -163,7 +160,7 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
 
     //todo: this is public merely for purposes of debugging
     public SeriesData getSeries( int series ) {
-        return (SeriesData) seriesDataList.get( series );
+        return seriesDataList.get( series );
     }
 
     /**
@@ -217,8 +214,7 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
     }
 
     private void addAllSeriesViews() {
-        for ( int i = 0; i < seriesDataList.size(); i++ ) {
-            SeriesData seriesData = (SeriesData) seriesDataList.get( i );
+        for ( SeriesData seriesData : seriesDataList ) {
             SeriesView seriesDataView = viewFactory.createSeriesView( this, seriesData );
             seriesDataView.install();
             seriesViewList.add( seriesDataView );
@@ -227,7 +223,7 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
 
     private void removeAllSeriesViews() {
         while ( seriesViewList.size() > 0 ) {
-            SeriesView seriesView = (SeriesView) seriesViewList.get( 0 );
+            SeriesView seriesView = seriesViewList.get( 0 );
             seriesView.uninstall();
             seriesViewList.remove( seriesView );
         }
