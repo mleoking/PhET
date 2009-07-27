@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.common.jfreechartphet.piccolo.dynamic;
 
 import java.awt.*;
@@ -26,6 +25,12 @@ public class PPathSeriesView extends SeriesView {
     private PropertyChangeListener listener;
 
     public void visibilityChanged() {
+//        System.out.println( "getSeriesData().isVisible() = " + getSeriesData().isVisible() );
+//        pathNode.setVisible( getSeriesData().isVisible() );
+        root.setVisible( getSeriesData().isVisible() );
+        if ( !getSeriesData().isVisible() ) {
+            super.getDynamicJFreeChartNode().removeChild( root );
+        }
         updateAll();
     }
 
