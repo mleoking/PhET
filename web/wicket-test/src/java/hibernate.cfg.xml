@@ -43,6 +43,8 @@
         <mapping resource="edu/colorado/phet/wickettest/data/Simulation.hbm.xml"/>
         <mapping resource="edu/colorado/phet/wickettest/data/LocalizedSimulation.hbm.xml"/>
 
+        <mapping resource="edu/colorado/phet/wickettest/data/Category.hbm.xml"/>
+
     </session-factory>
 
 </hibernate-configuration>
