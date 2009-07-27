@@ -81,6 +81,7 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
     private IdentityHashMap<DatableItem, PNode> _mapModelElementsToNodes = new IdentityHashMap<DatableItem, PNode>();
     private GradientButtonNode _startOperationButtonNode;
     private GradientButtonNode _forceClosureButtonNode;
+    private GradientButtonNode _resetButtonNode;
     private PPath _probeDragBounds = new PPath();
     private TimeDisplayNode _timeDisplay;
 
@@ -340,6 +341,10 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
     		_chartAndMeterLayer.removeChild(_forceClosureButtonNode);
     		_forceClosureButtonNode = null;
     	}
+    	if (_resetButtonNode != null){
+    		_chartAndMeterLayer.removeChild(_resetButtonNode);
+    		_resetButtonNode = null;
+    	}
     	
     	// If the clock is not running, set up the buttons to initiate the
     	// simulation.
@@ -394,6 +399,24 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
         		_forceClosureButtonNode.addActionListener(new ActionListener(){
     				public void actionPerformed(ActionEvent e) {
     					_model.forceClosure();
+    				}
+        		});
+    		}
+    		else if (_model.getRadiometricClosureState() == RadiometricClosureState.CLOSED){
+    			// The clock is running and closure has occurred.  Put up the
+    			// reset button.
+				_resetButtonNode = new GradientButtonNode(NuclearPhysicsStrings.RESET_BUTTON_LABEL, 
+						PLAY_AREA_BUTTON_FONT_SIZE, NuclearPhysicsConstants.CANVAS_RESET_BUTTON_COLOR); 
+				_resetButtonNode.setOffset(
+           				INITIAL_INTERMEDIATE_COORD_WIDTH - _resetButtonNode.getFullBoundsReference().width,
+           				INITIAL_INTERMEDIATE_COORD_HEIGHT - BUTTON_DISTANCE_FROM_BOTTOM - _resetButtonNode.getFullBoundsReference().height);
+            	_chartAndMeterLayer.addChild(_resetButtonNode);
+            		
+        		// Hook up the button to the method in the model that will reset
+        		// the simulation.
+            	_resetButtonNode.addActionListener(new ActionListener(){
+    				public void actionPerformed(ActionEvent e) {
+    					_model.resetOperation();
     				}
         		});
     		}
