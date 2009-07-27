@@ -2,21 +2,17 @@ package edu.colorado.phet.wickettest.util;
 
 import java.util.Locale;
 
-import javax.servlet.ServletContext;
-
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.Session;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.protocol.http.WebApplication;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 
 public abstract class PhetPage extends WebPage {
 
     private Locale myLocale;
-    private ServletContext context;
     private PageParameters parameters;
     private Session wicketSession;
     private boolean hasHibernateSession = false;
@@ -28,7 +24,6 @@ public abstract class PhetPage extends WebPage {
 
     public PhetPage( PageParameters parameters, boolean addTemplateBindings ) {
         this.parameters = parameters;
-        context = ( (WebApplication) getApplication() ).getServletContext();
 
         if ( this.parameters.get( "locale" ) != null ) {
             myLocale = (Locale) this.parameters.get( "locale" );
@@ -51,7 +46,7 @@ public abstract class PhetPage extends WebPage {
         }
 
         // visual display
-
+        // TODO: look into detecting whether the subclass page is using markup inheritance, so this does not need to be specified
         if ( addTemplateBindings ) {
             // TODO: refactor static images to a single location, so paths / names can be quickly changed
             add( new StaticImage( "page-header-logo-image", "/images/phet-logo.gif", null ) );
@@ -61,10 +56,6 @@ public abstract class PhetPage extends WebPage {
 
     public Locale getMyLocale() {
         return myLocale;
-    }
-
-    public ServletContext getContext() {
-        return context;
     }
 
     public String getRequestPath() {
@@ -110,13 +101,4 @@ public abstract class PhetPage extends WebPage {
         super.onDetach();
     }
 
-    /*
-    @Override
-    protected void onAfterRender() {
-        super.onAfterRender();
-
-        //remove this page because it should only be used in a bookmarkable sense
-        getPageMap().remove( this );
-    }
-    */
 }
