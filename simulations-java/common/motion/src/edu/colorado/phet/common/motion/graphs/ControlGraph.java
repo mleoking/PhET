@@ -56,8 +56,8 @@ public class ControlGraph extends PNode {
 
     private double ZOOM_FRACTION = 1.1;
     private Layout layout = new FlowLayout();
-    private ArrayList series = new ArrayList();
-    private ArrayList listeners = new ArrayList();
+    private ArrayList<ControlGraphSeries> series = new ArrayList<ControlGraphSeries>();
+    private ArrayList<Listener> listeners = new ArrayList<Listener>();
     private PSwing additionalControls;
     private VerticalLayoutPanel additionalControlPanel = new VerticalLayoutPanel();
     private IVariable variable;
@@ -257,8 +257,7 @@ public class ControlGraph extends PNode {
     }
 
     protected void notifyValueChanged( double value ) {
-        for ( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener) listeners.get( i );
+        for ( Listener listener : listeners ) {
             listener.valueChanged( value );
         }
     }
@@ -272,8 +271,7 @@ public class ControlGraph extends PNode {
     }
 
     private void notifyControlGrabbed() {
-        for ( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener) listeners.get( i );
+        for ( Listener listener : listeners ) {
             listener.controlFocusGrabbed();
         }
     }
@@ -318,8 +316,8 @@ public class ControlGraph extends PNode {
     }
 
     protected void notifyZoomChanged() {
-        for ( int i = 0; i < listeners.size(); i++ ) {
-            ( (Listener) listeners.get( i ) ).zoomChanged();
+        for ( Listener listener : listeners ) {
+            listener.zoomChanged();
         }
     }
 
@@ -346,7 +344,7 @@ public class ControlGraph extends PNode {
     }
 
     public ControlGraphSeries getControlGraphSeries( int i ) {
-        return (ControlGraphSeries) series.get( i );
+        return series.get( i );
     }
 
     public int getSeriesCount() {
@@ -509,15 +507,15 @@ public class ControlGraph extends PNode {
         }
 
         public double[] getValues( LayoutFunction layoutFunction ) {
-            ArrayList values = new ArrayList();
-            for ( int i = 0; i < minimizableControlGraphs.length; i++ ) {
-                if ( !minimizableControlGraphs[i].isMinimized() ) {
-                    values.add( new Double( layoutFunction.getValue( minimizableControlGraphs[i] ) ) );
+            ArrayList<Double> values = new ArrayList<Double>();
+            for ( MinimizableControlGraph minimizableControlGraph : minimizableControlGraphs ) {
+                if ( !minimizableControlGraph.isMinimized() ) {
+                    values.add( layoutFunction.getValue( minimizableControlGraph ) );
                 }
             }
             double[] val = new double[values.size()];
             for ( int i = 0; i < val.length; i++ ) {
-                val[i] = ( (Double) values.get( i ) ).doubleValue();
+                val[i] = values.get( i );
             }
             return val;
         }
@@ -563,8 +561,7 @@ public class ControlGraph extends PNode {
 
         private int getNumberMaximized() {
             int count = 0;
-            for ( int i = 0; i < minimizableControlGraphs.length; i++ ) {
-                MinimizableControlGraph minimizableControlGraph = minimizableControlGraphs[i];
+            for ( MinimizableControlGraph minimizableControlGraph : minimizableControlGraphs ) {
                 if ( !minimizableControlGraph.isMinimized() ) {
                     count++;
                 }
@@ -682,7 +679,7 @@ public class ControlGraph extends PNode {
     public void rebuildSeries() {
         getDynamicJFreeChartNode().clear();
         for ( int i = 0; i < series.size(); i++ ) {
-            ControlGraphSeries controlGraphSeries = (ControlGraphSeries) series.get( i );
+            ControlGraphSeries controlGraphSeries = series.get( i );
             for ( int k = 0; k < controlGraphSeries.getTemporalVariable().getSampleCount(); k++ ) {
                 handleDataAdded( i, controlGraphSeries.getTemporalVariable().getData( k ) );
             }
