@@ -283,6 +283,7 @@ public class ControlGraph extends PNode {
 
     public void addControl( JComponent component ) {
         additionalControlPanel.add( component );
+        additionalControls.componentHierarchyChanged();
         additionalControls.computeBounds();
     }
 
