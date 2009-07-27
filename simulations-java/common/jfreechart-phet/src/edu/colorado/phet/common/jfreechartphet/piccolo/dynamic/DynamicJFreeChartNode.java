@@ -216,8 +216,10 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
     private void addAllSeriesViews() {
         for ( SeriesData seriesData : seriesDataList ) {
             SeriesView seriesDataView = viewFactory.createSeriesView( this, seriesData );
-            seriesDataView.install();
-            seriesViewList.add( seriesDataView );
+            if ( seriesData.isVisible() ) {//todo: visibility should probably be handled in renderer subclasses
+                seriesDataView.install();
+                seriesViewList.add( seriesDataView );
+            }
         }
     }
 
