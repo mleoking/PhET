@@ -4,29 +4,28 @@
       xmlns:wicket="http://svn.apache.org/repos/asf/wicket/trunk/wicket/wicket-xhtml1-strict.dtd" xml:lang="en"
       lang="en">
 <head>
-    <title>[PREVIEW] SideNavMenu</title>
+    <title>[PREVIEW] NavMenuList</title>
     <wicket:remove>
         <link rel="stylesheet" type="text/css" href="../../../root/css/test.css"/>
     </wicket:remove>
     <wicket:head>
         <style type="text/css">
-            .side-nav a {
-                color: #727272;
-                text-decoration: none;
-                font-weight: bold;
-            }
 
-            .side-nav a:hover {
-                color: #d36a04;
-            }
         </style>
     </wicket:head>
 </head>
 <body>
 
 <wicket:panel>
-    <div class="side-nav">
-        <div wicket:id="side-nav-menu"></div>
+    <div wicket:id="items">
+        <div class="link-holder">
+            <a href="#" wicket:id="link">
+                <div wicket:id="link-label">
+                </div>
+            </a>
+
+            <div wicket:id="children"></div>
+        </div>
     </div>
 </wicket:panel>
 

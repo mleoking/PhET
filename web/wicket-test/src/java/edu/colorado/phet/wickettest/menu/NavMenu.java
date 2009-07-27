@@ -4,14 +4,20 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
+import edu.colorado.phet.wickettest.content.IndexPage;
+import edu.colorado.phet.wickettest.content.SimulationDisplay;
+
 public class NavMenu {
     private HashMap<String, NavLocation> cache = new HashMap<String, NavLocation>();
     private List<NavLocation> locations = new LinkedList<NavLocation>();
 
     public NavMenu() {
-        NavLocation home = new NavLocation( null, "home" );
-        NavLocation simulations = new NavLocation( null, "simulations" );
-        NavLocation troubleshooting = new NavLocation( null, "home" );
+        NavLocation home = new NavLocation( null, "menu.home", IndexPage.getLinker() );
+        addMajorLocation( home );
+
+        NavLocation simulations = new NavLocation( null, "menu.simulations", SimulationDisplay.getLinker() );
+        addMajorLocation( simulations );
+
     }
 
     public void addMajorLocation( NavLocation location ) {

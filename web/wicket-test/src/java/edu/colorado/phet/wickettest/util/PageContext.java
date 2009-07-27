@@ -4,6 +4,7 @@ import java.util.Locale;
 
 import org.hibernate.Session;
 
+import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.wickettest.WicketApplication;
 
 public class PageContext {
@@ -23,6 +24,10 @@ public class PageContext {
         this.page = page;
     }
 
+    public String getPrefix() {
+        return "/" + LocaleUtils.localeToString( getLocale() ) + "/";
+    }
+
     public Locale getLocale() {
         return locale;
     }
@@ -38,4 +43,5 @@ public class PageContext {
     public PhetPage getPage() {
         return page;
     }
+
 }
