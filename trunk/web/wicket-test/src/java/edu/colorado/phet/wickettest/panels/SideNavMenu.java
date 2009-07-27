@@ -4,6 +4,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import edu.colorado.phet.wickettest.menu.NavMenuList;
 import edu.colorado.phet.wickettest.util.PageContext;
 
 public class SideNavMenu extends PhetPanel {
@@ -29,6 +30,8 @@ public class SideNavMenu extends PhetPanel {
                 throw e;
             }
         }
+
+        add( new NavMenuList( "side-nav-menu", context, context.getApplication().getMenu().getLocations() ) );
 
     }
 

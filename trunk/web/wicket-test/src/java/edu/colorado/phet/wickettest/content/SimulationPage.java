@@ -74,4 +74,5 @@ public class SimulationPage extends PhetRegularPage {
         }
         return new PhetLink( id, str );
     }
+
 }
