@@ -35,7 +35,7 @@ public class InitializeCategories {
                     "radio-waves"} );
             Category physics = new Category( root, "physics" );
             Category motion = new Category( physics, "motion" );
-            Category soundAndWaves = new Category( physics, "soundAndWaves" );
+            Category soundAndWaves = new Category( physics, "sound-and-waves" );
 
             Simulation movingMan = (Simulation) session.createQuery( "select s from Simulation as s where s.name = :name" ).setString( "name", "moving-man" ).uniqueResult();
             Simulation masses = (Simulation) session.createQuery( "select s from Simulation as s where s.name = :name" ).setString( "name", "mass-spring-lab" ).uniqueResult();
