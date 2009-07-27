@@ -12,17 +12,17 @@ import org.hibernate.Transaction;
 
 import edu.colorado.phet.wickettest.data.LocalizedSimulation;
 import edu.colorado.phet.wickettest.util.HibernateUtils;
+import edu.colorado.phet.wickettest.util.PageContext;
 import edu.colorado.phet.wickettest.util.PhetLink;
-import edu.colorado.phet.wickettest.util.PhetPage;
 
 public class SimulationListPanel extends PhetPanel {
 
-    public SimulationListPanel( String id, PhetPage page ) {
-        super( id, page );
+    public SimulationListPanel( String id, PageContext context ) {
+        super( id, context );
 
         List<LocalizedSimulation> tsims = new LinkedList<LocalizedSimulation>();
 
-        Session session = page.getHibernateSession();
+        Session session = context.getSession();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();

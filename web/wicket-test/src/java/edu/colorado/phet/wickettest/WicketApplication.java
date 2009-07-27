@@ -7,6 +7,7 @@ import edu.colorado.phet.wickettest.content.IndexPage;
 import edu.colorado.phet.wickettest.content.SimulationDisplay;
 import edu.colorado.phet.wickettest.content.SimulationList;
 import edu.colorado.phet.wickettest.content.SimulationPage;
+import edu.colorado.phet.wickettest.menu.NavMenu;
 import edu.colorado.phet.wickettest.test.SubPage;
 import edu.colorado.phet.wickettest.util.PhetUrlMapper;
 import edu.colorado.phet.wickettest.util.PhetUrlStrategy;
@@ -14,6 +15,7 @@ import edu.colorado.phet.wickettest.util.PhetUrlStrategy;
 public class WicketApplication extends WebApplication {
 
     private PhetUrlMapper mapper;
+    private NavMenu menu;
 
     public Class getHomePage() {
         return IndexPage.class;
@@ -34,12 +36,18 @@ public class WicketApplication extends WebApplication {
         mount( new PhetUrlStrategy( LocaleUtils.stringToLocale( "el" ), mapper ) );
         mount( new PhetUrlStrategy( LocaleUtils.stringToLocale( "ar" ), mapper ) );
 
+        menu = new NavMenu();
+
         // get rid of wicket:id's and other related tags in the produced HTML.
         getMarkupSettings().setStripWicketTags( true );
 
         //remove thread monitoring from resource watcher
         //enable this line to run under GAE
 //        this.getResourceSettings().setResourcePollFrequency(null);
+    }
+
+    public NavMenu getMenu() {
+        return menu;
     }
 
     //enable this override to run under GAE

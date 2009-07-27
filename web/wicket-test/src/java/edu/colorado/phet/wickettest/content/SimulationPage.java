@@ -13,11 +13,11 @@ import edu.colorado.phet.wickettest.data.LocalizedSimulation;
 import edu.colorado.phet.wickettest.panels.SimulationMainPanel;
 import edu.colorado.phet.wickettest.util.HibernateUtils;
 import edu.colorado.phet.wickettest.util.PhetLink;
-import edu.colorado.phet.wickettest.util.PhetPage;
+import edu.colorado.phet.wickettest.util.PhetRegularPage;
 
-public class SimulationPage extends PhetPage {
+public class SimulationPage extends PhetRegularPage {
     public SimulationPage( PageParameters parameters ) {
-        super( parameters, true );
+        super( parameters );
 
         String projectName = parameters.getString( "project" );
         String flavorName = parameters.getString( "flavor", projectName );
@@ -51,7 +51,7 @@ public class SimulationPage extends PhetPage {
         else {
             // TODO: localize
             addTitle( simulation.getTitle() + " " + simulation.getSimulation().getProject().getVersionString() );
-            add( new SimulationMainPanel( "simulation-main-panel", simulation, this, getMyLocale() ) );
+            add( new SimulationMainPanel( "simulation-main-panel", simulation, getPageContext() ) );
         }
     }
 

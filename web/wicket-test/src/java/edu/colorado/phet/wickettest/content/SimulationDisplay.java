@@ -8,15 +8,15 @@ import org.apache.wicket.model.ResourceModel;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.wickettest.panels.SimulationDisplayPanel;
 import edu.colorado.phet.wickettest.util.PhetLink;
-import edu.colorado.phet.wickettest.util.PhetPage;
+import edu.colorado.phet.wickettest.util.PhetRegularPage;
 
-public class SimulationDisplay extends PhetPage {
+public class SimulationDisplay extends PhetRegularPage {
     public SimulationDisplay( PageParameters parameters ) {
-        super( parameters, true );
+        super( parameters );
 
         addTitle( new ResourceModel( "simulationDisplay.simulations" ) );
 
-        add( new SimulationDisplayPanel( "simulation-display-panel", this ) );
+        add( new SimulationDisplayPanel( "simulation-display-panel", getPageContext() ) );
 
     }
 
