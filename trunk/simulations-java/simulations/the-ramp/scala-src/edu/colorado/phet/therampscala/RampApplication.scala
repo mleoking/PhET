@@ -47,10 +47,23 @@ class CoordinatesRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampM
 
 }
 
-class ForceGraphsModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "Force Graphs", false, true) {
+class ForceGraphsModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(frame, clock, "Force Graphs")
+
+class GraphingModule(frame: JFrame, clock: ScalaClock, name: String) extends BasicRampModule(frame, clock, name, false, true) {
   coordinateSystemModel.adjustable = false
   canvas.addNode(new ChartNode(canvas.transform, canvas, model))
+  model.bead.setPosition(-6)
+  model.setPaused(true)
+  var didUnpause = false
+  model.bead.addListenerByName {
+    if (!didUnpause) {
+      model.setPaused(false)
+      didUnpause = true
+    }
+  }
 }
+
+class WorkEnergyModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(frame, clock, "Work-Energy")
 
 class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock) extends AbstractRampModule(frame, clock, "Robot Moving Company") {
   val gameModel = new RobotMovingCompanyGameModel(model, clock)
@@ -77,6 +90,7 @@ class RampApplication(config: PhetApplicationConfig) extends PiccoloPhetApplicat
   addModule(new IntroRampModule(getPhetFrame, newClock))
   addModule(new CoordinatesRampModule(getPhetFrame, newClock))
   addModule(new ForceGraphsModule(getPhetFrame, newClock))
+  addModule(new WorkEnergyModule(getPhetFrame, newClock))
   addModule(new RobotMovingCompanyModule(getPhetFrame, newClock))
 }
 
