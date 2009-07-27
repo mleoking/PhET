@@ -48,6 +48,8 @@ import edu.umd.cs.piccolo.PLayer;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PPaintContext;
+import edu.colorado.phet.common.phetgraphics.view.util.GraphicsSetup;
+import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
 
 /*
   This message was sent to Sun on August 27, 1999
@@ -306,10 +308,12 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
     }
 
     protected boolean shouldRenderGreek( PPaintContext renderContext ) {
-        return ( renderContext.getScale() < renderCutoff
-//                 && pSwingCanvas.getInteracting()
-        ) ||
-          minFontSize * renderContext.getScale() < 0.5;
+        return false;
+//
+//        return ( renderContext.getScale() < renderCutoff
+////                 && pSwingCanvas.getInteracting()
+//        ) ||
+//          minFontSize * renderContext.getScale() < 0.5;
     }
 
     /**
@@ -349,6 +353,7 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
      * @param g2 graphics context for rendering the JComponent
      */
     public void paint( Graphics2D g2 ) {
+        GraphicsState state=new GraphicsState( g2 );
         if ( component.getBounds().isEmpty() ) {
             // The component has not been initialized yet.
             return;
@@ -365,6 +370,7 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
         g2.setRenderingHints( oldHints );
 
         manager.unlockRepaint( component );
+        state.restoreGraphics();
     }
 
     /**
@@ -402,6 +408,22 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
      */
     public JComponent getComponent() {
         return component;
+    }
+
+    //TODO: make this private and internal by listenening for componentAdded on known components
+    //This disables double buffering on any new components; if you don't call this, then there may be many graphical artifacts
+    public void componentHierarchyChanged(){
+        disableDoubleBuffering(component);
+    }
+    
+    private void disableDoubleBuffering(JComponent component){
+        component.setDoubleBuffered( false );
+        for(int i=0;i<component.getComponentCount();i++){
+            Component c=component.getComponent( i );
+            if (c instanceof JComponent){
+                disableDoubleBuffering( (JComponent)c );
+            }
+        }
     }
 
     /**
