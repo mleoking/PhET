@@ -1,5 +1,6 @@
 Graphing modules start paused, unpause when a force is applied
 Added stub for Work-Energy module
+Allow one chart to take entire available area
 # 1.03.20 (33360) Jul 15, 2009
 > force-graphs: Objects are in pull-down menu in control panel instead of the play area
 > force-graphs: Removed force control from play area
