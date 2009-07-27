@@ -20,12 +20,13 @@ class ForceChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model
   model.stepListeners += (() => parallelAppliedForceVariable.addValue(model.bead.parallelAppliedForce, model.getTime))
 
   val parallelFriction = new DefaultTemporalVariable()
-  //todo: use ParallelComponent of the friction Vector
-  model.stepListeners += (() => parallelFriction.addValue(model.bead.frictionForce.magnitude, model.getTime))
+  model.stepListeners += (() => parallelFriction.addValue(new ParallelComponent(model.bead.frictionForceVector,model.bead).getValue.magnitude, model.getTime))
 
   val gravityForce= new DefaultTemporalVariable()
-  //todo: use ParallelComponent of the Vector
   model.stepListeners += (() => gravityForce.addValue(new ParallelComponent(model.bead.gravityForceVector,model.bead).getValue.magnitude, model.getTime))
+
+  val wallForce=new DefaultTemporalVariable()
+  model.stepListeners += (()=>wallForce.addValue(new ParallelComponent(model.bead.wallForceVector,model.bead).getValue.magnitude, model.getTime))
 
   val recordableModel = new RecordableModel() {
     def getState = "hello"
@@ -45,12 +46,14 @@ class ForceChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model
   val appliedForceSeries = new ControlGraphSeries("Parallel Applied Force", RampDefaults.appliedForceColor, "Fa", "N", "", parallelAppliedForceVariable)
   val frictionSeries=new ControlGraphSeries("Parallel Friction Force", RampDefaults.frictionForceColor, "Ff", "N", "", parallelFriction)
   val gravitySeries=new ControlGraphSeries("Parallel Gravity Force", RampDefaults.gravityForceColor, "Fg", "N", "", gravityForce)
+  val wallSeries=new ControlGraphSeries("Parallel Wall Force", RampDefaults.wallForceColor, "Fw", "N", "", wallForce)
   val parallelForceChart = new MotionControlGraph(canvas, appliedForceSeries, "label", "title", -2000, 2000, true, timeseriesModel, updateableObject) {
     setDomainUpperBound(20)
     getJFreeChartNode.setBuffered(false)
     getJFreeChartNode.setPiccoloSeries() //works better on an unbuffered chart
     addSeries(frictionSeries)
     addSeries(gravitySeries)
+    addSeries(wallSeries)
   }
 
   def addListener( series:ControlGraphSeries,listener:()=>Unit)={
@@ -63,6 +66,7 @@ class ForceChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model
     add(new SeriesControlSelector(appliedForceSeries).peer)
     add(new SeriesControlSelector(frictionSeries).peer)
     add(new SeriesControlSelector(gravitySeries).peer)
+    add(new SeriesControlSelector(wallSeries).peer)
   }
   parallelForceChart.addControl(new SeriesSelectionControl)
 
