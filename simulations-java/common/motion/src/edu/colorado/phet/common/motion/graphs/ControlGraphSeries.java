@@ -23,7 +23,7 @@ public class ControlGraphSeries {
     private boolean editable;
     private String character;
 
-    private ArrayList listeners = new ArrayList();
+    private ArrayList<Listener> listeners = new ArrayList<Listener>();
     private DefaultDecimalFormat decimalFormat = new DefaultDecimalFormat( "0.00" );
 
     public ControlGraphSeries( ITemporalVariable temporalVariable ) {
@@ -97,8 +97,8 @@ public class ControlGraphSeries {
     }
 
     private void notifyUnitsChanged() {
-        for ( int i = 0; i < listeners.size(); i++ ) {
-            ((Listener) listeners.get( i )).unitsChanged();
+        for ( Listener listener : listeners ) {
+            listener.unitsChanged();
         }
     }
 
@@ -139,8 +139,8 @@ public class ControlGraphSeries {
     }
 
     private void notifyVisibilityChanged() {
-        for ( int i = 0; i < listeners.size(); i++ ) {
-            ( (Listener) listeners.get( i ) ).visibilityChanged();
+        for ( Listener listener : listeners ) {
+            listener.visibilityChanged();
         }
     }
 
