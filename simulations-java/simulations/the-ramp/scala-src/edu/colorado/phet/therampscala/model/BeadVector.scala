@@ -14,9 +14,9 @@ class BeadVector(color: Color,
                  name: String,
                  override val abbreviation: String,
                  val bottomPO: Boolean, //shows point of origin at the bottom when in that mode
-                 getValue: () => Vector2D,
+                 private val valueGetter: () => Vector2D,
                  painter: (Vector2D, Color) => Paint)
-        extends Vector(color, name, abbreviation, getValue, painter) with PointOfOriginVector {
+        extends Vector(color, name, abbreviation, valueGetter, painter) with PointOfOriginVector {
   def getPointOfOriginOffset(defaultCenter: Double) = if (bottomPO) 0.0 else defaultCenter
 }
 
