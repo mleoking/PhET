@@ -12,7 +12,7 @@ import edu.umd.cs.piccolo.PNode;
 
 public class GraphSetNode extends PNode {
     private GraphSetModel graphSetModel;
-    private ArrayList graphComponents = new ArrayList();
+    private ArrayList<MinimizableControlGraph> graphComponents = new ArrayList<MinimizableControlGraph>();
     private MinimizableControlGraph.Listener graphComponentListener;
     private double width;
     private double height;
@@ -45,8 +45,7 @@ public class GraphSetNode extends PNode {
     }
 
     public void forceRepaintGraphs() {
-        for ( int i = 0; i < graphComponents.size(); i++ ) {
-            MinimizableControlGraph minimizableControlGraph = (MinimizableControlGraph) graphComponents.get( i );
+        for ( MinimizableControlGraph minimizableControlGraph : graphComponents ) {
             if ( minimizableControlGraph.getVisible() && !minimizableControlGraph.isMinimized() ) {
                 minimizableControlGraph.forceUpdate();
             }
@@ -90,8 +89,7 @@ public class GraphSetNode extends PNode {
     private void relayout() {
         double yPad = 5;
         double availableY = height;
-        for ( int i = 0; i < graphComponents.size(); i++ ) {
-            MinimizableControlGraph minimizableControlGraph = (MinimizableControlGraph) graphComponents.get( i );
+        for ( MinimizableControlGraph minimizableControlGraph : graphComponents ) {
             availableY -= minimizableControlGraph.getFixedHeight();
             availableY -= yPad;
         }
@@ -114,15 +112,14 @@ public class GraphSetNode extends PNode {
 
     private int numMaximized() {
         int count = 0;
-        for ( int i = 0; i < graphComponents.size(); i++ ) {
-            MinimizableControlGraph minimizableControlGraph = (MinimizableControlGraph) graphComponents.get( i );
+        for ( MinimizableControlGraph minimizableControlGraph : graphComponents ) {
             count += minimizableControlGraph.isMinimized() ? 0 : 1;
         }
         return count;
     }
 
     private void removeGraphComponent( int i ) {
-        MinimizableControlGraph minimizableControlGraph = (MinimizableControlGraph) graphComponents.remove( i );
+        MinimizableControlGraph minimizableControlGraph = graphComponents.remove( i );
         minimizableControlGraph.removeListener( graphComponentListener );
         removeChild( minimizableControlGraph );
         updateLayout();
@@ -133,21 +130,19 @@ public class GraphSetNode extends PNode {
     }
 
     private MinimizableControlGraph getGraphComponent( int i ) {
-        return (MinimizableControlGraph) graphComponents.get( i );
+        return graphComponents.get( i );
     }
 
     public void setFlowLayout() {
-        for ( int i = 0; i < graphComponents.size(); i++ ) {
-            MinimizableControlGraph minimizableControlGraph = (MinimizableControlGraph) graphComponents.get( i );
+        for ( MinimizableControlGraph minimizableControlGraph : graphComponents ) {
             minimizableControlGraph.setFlowLayout();
         }
         this.layout = flow;
     }
 
     public void setAlignedLayout() {
-        MinimizableControlGraph[] gcs = (MinimizableControlGraph[]) graphComponents.toArray( new MinimizableControlGraph[0] );
-        for ( int i = 0; i < graphComponents.size(); i++ ) {
-            MinimizableControlGraph minimizableControlGraph = (MinimizableControlGraph) graphComponents.get( i );
+        MinimizableControlGraph[] gcs = graphComponents.toArray( new MinimizableControlGraph[graphComponents.size()] );
+        for ( MinimizableControlGraph minimizableControlGraph : graphComponents ) {
             minimizableControlGraph.setAlignedLayout( gcs );
         }
         relayoutControlGraphs();
@@ -155,8 +150,7 @@ public class GraphSetNode extends PNode {
     }
 
     private void relayoutControlGraphs() {
-        for ( int i = 0; i < graphComponents.size(); i++ ) {
-            MinimizableControlGraph minimizableControlGraph = (MinimizableControlGraph) graphComponents.get( i );
+        for ( MinimizableControlGraph minimizableControlGraph : graphComponents ) {
             minimizableControlGraph.relayoutControlGraph();
         }
     }
