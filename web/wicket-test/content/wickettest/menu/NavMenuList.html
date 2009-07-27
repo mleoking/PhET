@@ -4,13 +4,59 @@
       xmlns:wicket="http://svn.apache.org/repos/asf/wicket/trunk/wicket/wicket-xhtml1-strict.dtd" xml:lang="en"
       lang="en">
 <head>
-    <title>[PREVIEW] NavMenuList</title>
+    <title>[PREVIEW] ** NOT EASILY PREVIEWABLE ** NavMenuList</title>
     <wicket:remove>
         <link rel="stylesheet" type="text/css" href="../../../root/css/test.css"/>
     </wicket:remove>
     <wicket:head>
         <style type="text/css">
+            .nml-link {
+                display: block;
+                color: #727272;
+                text-decoration: none;
+                font-weight: bold;
+            }
 
+            .nml-link:hover {
+                color: #d36a04;
+            }
+
+            .nav0 {
+                /*border: 1px solid blue;*/
+                font-size: 15px;
+            }
+
+            .nav1, .nav2, .nav3 {
+                font-size: 13px;
+            }
+
+            .nav1 {
+                /*border: 1px solid red;*/
+                padding-left: 20px;
+            }
+
+            .nav2 {
+                /*border: 1px solid gray;*/
+                padding-left: 40px;
+            }
+
+            .nav3 {
+                padding-left: 60px;
+            }
+
+            .nav0 .selected {
+                background-image: url("/images/selectedArrow_Icon.gif");
+                background-position: left 0.25ex;
+                background-repeat: no-repeat;
+                color: #d36a04;
+            }
+
+            .nav1 .selected, .nav2 .selected, .nav3 .selected {
+                color: #d36a04;
+                background-repeat: no-repeat;
+                background-position: left 1.1ex;
+                background-image: url("/images/arrow-right.gif");
+            }
         </style>
     </wicket:head>
 </head>
@@ -19,8 +65,8 @@
 <wicket:panel>
     <div wicket:id="items">
         <div class="link-holder">
-            <a href="#" wicket:id="link">
-                <div wicket:id="link-label">
+            <a href="#" wicket:id="link" class="nml-link">
+                <div wicket:id="link-label" class="nml-link-label">
                 </div>
             </a>
 
@@ -28,6 +74,61 @@
         </div>
     </div>
 </wicket:panel>
+
+<wicket:remove>
+    Test is below:
+
+    <div style="width: 240px;">
+        <div class="link-holder">
+            <a href="#" class="nml-link nav0">
+                <div class="nml-link-label">Home</div>
+            </a>
+
+            <div>
+            </div>
+        </div>
+        <div class="link-holder">
+            <a href="#" class="nml-link nav0">
+                <div class="nml-link-label">Simulations</div>
+            </a>
+
+            <div>
+                <div class="link-holder">
+                    <a href="#" class="nml-link nav1">
+                        <div class="nml-link-label">Featured Sims</div>
+                    </a>
+
+                    <div>
+                    </div>
+                </div>
+                <div class="link-holder">
+                    <a href="#" class="nml-link nav1">
+                        <div class="nml-link-label">Physics</div>
+                    </a>
+
+                    <div>
+                        <div class="link-holder">
+                            <a href="#" class="nml-link nav2">
+                                <div class="nml-link-label">Motion</div>
+                            </a>
+
+                            <div>
+                            </div>
+                        </div>
+                        <div class="link-holder">
+                            <a href="#" class="nml-link nav2">
+                                <div class="nml-link-label">Sound &amp; Waves</div>
+                            </a>
+
+                            <div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</wicket:remove>
 
 </body>
 </html>

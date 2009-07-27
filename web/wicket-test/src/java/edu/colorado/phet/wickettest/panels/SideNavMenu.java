@@ -31,7 +31,7 @@ public class SideNavMenu extends PhetPanel {
             }
         }
 
-        add( new NavMenuList( "side-nav-menu", context, context.getApplication().getMenu().getLocations() ) );
+        add( new NavMenuList( "side-nav-menu", context, context.getApplication().getMenu().getLocations(), 0 ) );
 
     }
 
