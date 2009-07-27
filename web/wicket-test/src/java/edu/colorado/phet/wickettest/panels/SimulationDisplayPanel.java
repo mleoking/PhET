@@ -32,8 +32,6 @@ public class SimulationDisplayPanel extends PhetPanel {
     public SimulationDisplayPanel( String id, PhetPage page, final Locale myLocale ) {
         super( id, myLocale );
 
-        //List<WebSimulation> simulations = SqlUtils.getOrderedSimulations( getContext(), getMyLocale() );
-
         List<LocalizedSimulation> simulations = new LinkedList<LocalizedSimulation>();
 
         Session session = page.getHibernateSession();

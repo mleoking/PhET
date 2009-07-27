@@ -5,14 +5,22 @@
       lang="en">
 <head>
     <title>[PREVIEW] SimulationDisplayPanel</title>
+    <wicket:remove>
+        <link rel="stylesheet" type="text/css" href="../../../root/css/test.css"/>
+    </wicket:remove>
     <wicket:head>
         <style type="text/css">
             .simulation-list-item {
                 text-align: center;
-                border: 1px solid gray;
+                /*border: 1px solid gray;*/
                 padding: 10px;
+                padding-left: 20px;
+                padding-right: 20px;
                 margin-right: 10px;
-                width: 150px;
+                width: 130px;
+                vertical-align: top;
+                font-size: 9pt;
+                font-weight: bold;
             }
 
             .simulation-list-thumbnail {
@@ -20,9 +28,7 @@
             }
 
             .simulation-list-title {
-                font-size: 12px;
-                font-family: Arial, sans-serif;
-                color: #660000;
+                color: #990000;
                 text-decoration: none;
             }
 
