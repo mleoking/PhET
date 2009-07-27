@@ -32,8 +32,7 @@ public class RadiometricMeasurementModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     public RadiometricMeasurementModule( Frame parentFrame ) {
-        super( NuclearPhysicsStrings.TITLE_RADIOMETRIC_MEASUREMENT,
-               new NuclearPhysicsClock( RadiometricDecayDefaults.CLOCK_FRAME_RATE, RadiometricDecayDefaults.CLOCK_DT ));
+        super( NuclearPhysicsStrings.TITLE_RADIOMETRIC_MEASUREMENT, RadiometricMeasurementDefaults.CLOCK );
  
         // Physical model
         _model = new RadiometricMeasurementModel( RadiometricMeasurementDefaults.CLOCK );
