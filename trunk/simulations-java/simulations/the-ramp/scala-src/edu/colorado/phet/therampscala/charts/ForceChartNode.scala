@@ -4,10 +4,13 @@ import common.motion.graphs._
 import common.motion.model.{UpdateStrategy, UpdateableObject, DefaultTemporalVariable}
 import common.phetcommon.model.clock.ConstantDtClock
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
+import common.phetcommon.view.VerticalLayoutPanel
 import common.piccolophet.{PhetPCanvas}
 import common.timeseries.model.{RecordableModel, TimeSeriesModel}
 import java.awt.geom.Point2D
+import javax.swing.{JCheckBox}
 import model.RampModel
+import swing.MyCheckBox
 import umd.cs.piccolo.PNode
 
 class ForceChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model: RampModel) extends PNode {
@@ -35,13 +38,26 @@ class ForceChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model
   val updateableObject = new UpdateableObject {
     def setUpdateStrategy(updateStrategy: UpdateStrategy) = {}
   }
-  val controlGraphSeries = new ControlGraphSeries("Parallel Applied Force", RampDefaults.appliedForceColor, "Fa", "N", "", parallelAppliedForceVariable)
-  val parallelForceChart = new MotionControlGraph(canvas, controlGraphSeries, "label", "title", -2000, 2000, true, timeseriesModel, updateableObject) {
+  val appliedForceSeries = new ControlGraphSeries("Parallel Applied Force", RampDefaults.appliedForceColor, "Fa", "N", "", parallelAppliedForceVariable)
+  val frictionSeries=new ControlGraphSeries("Parallel Friction Force", RampDefaults.frictionForceColor, "Ff", "N", "", parallelFriction)
+  val parallelForceChart = new MotionControlGraph(canvas, appliedForceSeries, "label", "title", -2000, 2000, true, timeseriesModel, updateableObject) {
     setDomainUpperBound(20)
     getJFreeChartNode.setBuffered(false)
     getJFreeChartNode.setPiccoloSeries() //works better on an unbuffered chart
-    addSeries(new ControlGraphSeries("Parallel Friction Force", RampDefaults.frictionForceColor, "Ff", "N", "", parallelFriction))
+    addSeries(frictionSeries)
   }
+
+  def addListener( series:ControlGraphSeries,listener:()=>Unit)={
+    series.addListener(new ControlGraphSeries.Adapter(){
+      override def visibilityChanged = listener()
+    })
+  }
+  class SeriesControlSelector(series:ControlGraphSeries) extends MyCheckBox(series.getTitle,series.setVisible(_),series.isVisible,addListener(series,_))
+  class SeriesSelectionControl extends VerticalLayoutPanel {
+    add(new SeriesControlSelector(appliedForceSeries).peer)
+    add(new SeriesControlSelector(frictionSeries).peer)
+  }
+  parallelForceChart.addControl(new SeriesSelectionControl)
 
   //  val y = new MotionControlGraph(canvas, controlGraphSeries, "label", "title", 0, 10, true, timeseriesModel, updateableObject) {
   //    setDomainUpperBound(20)
