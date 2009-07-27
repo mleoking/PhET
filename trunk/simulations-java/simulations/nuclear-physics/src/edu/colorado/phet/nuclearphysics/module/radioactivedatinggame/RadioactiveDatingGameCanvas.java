@@ -9,6 +9,7 @@ import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Dimension2D;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -97,7 +98,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     	new IdentityHashMap<DatableItem, AgeGuessResultNode>();
     private AgeGuessingNode.Listener _ageGuessListener;
     private GradientButtonNode _resetGuessesButtonNode;
-    private PPath _probeDragBounds = new PPath();
+    private PPath _transformedViewportBounds = new PPath();
     private AgeGuessResultNode.Listener _clearResultListener;
     private SoundState _soundState;
 
@@ -201,7 +202,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         		_mvt,
         		this,
         		true, 
-        		_probeDragBounds );
+        		_transformedViewportBounds );
         _meterNode.setMeterBodyOffset( 0, OFFSET_FROM_TOP );
         addWorldChild( _meterNode );
         
@@ -246,7 +247,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         
         // Add the node that will act as the bounds for where the probe can
         // be moved.
-        addWorldChild(_probeDragBounds);
+        addWorldChild(_transformedViewportBounds);
         
         // Create the listener that will listen for requests from the user
         // to clear a result.
@@ -294,7 +295,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     		
     		// Set the bounding node to match exactly the size of the
     		// viewport.  This will be used to constrain the movements of the
-    		// probe.
+    		// probe and to position the guessing game windows.
     		AffineTransform transform = getWorldTransformStrategy().getTransform();
     		AffineTransform inverseTransform;
     		try {
@@ -306,7 +307,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     		}
     		Shape tranformedBounds = inverseTransform.createTransformedShape(getBounds());
     		
-    		_probeDragBounds.setPathTo(tranformedBounds);
+    		_transformedViewportBounds.setPathTo(tranformedBounds);
     	}
     }
     
@@ -429,15 +430,12 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
 		if (datableItemNode == null){
 			System.err.println(getClass().getName() + " - Error: Could not locate node for datable item " + itemBeingTouched);
 			assert false;
+			return;
 		}
 		else{
-			// Position the guessing box to the side of the node that
-			// represents the item being touched.  There is a tweak factor
-			// in here to add a little space between the guessing box and
-			// the datable item node.
-			ageGuessingNodeLocation.setLocation(
-					datableItemNode.getFullBoundsReference().getMaxX() + 8,
-					datableItemNode.getFullBoundsReference().getCenterY() - _ageGuessingNode.getFullBoundsReference().height / 2);
+			// Position the guessing box.
+			ageGuessingNodeLocation = findSpotForWindow(datableItemNode.getFullBounds(), 
+					_ageGuessingNode.getFullBounds());
 		}
 			
 		_ageGuessingNode.setOffset(ageGuessingNodeLocation);
@@ -577,5 +575,32 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         double halfLife = _model.getMeter().getHalfLifeForDating();
         _proportionsChart.setTimeParameters(halfLife * 3.2, halfLife);
         _proportionsChart.setDisplayInfoForNucleusType(_model.getMeter().getNucleusTypeUsedForDating());
+    }
+    
+    /**
+     * Find a location on the canvas for a window of the specified size near
+     * the specified object.  This is necessary to prevent windows from going
+     * off the sides or the top/bottom of the canvas.
+     * 
+     * @param associatedObjectRect
+     * @param windowSize
+     * @return
+     */
+    private Point2D findSpotForWindow(Rectangle2D associatedObjectRect, Rectangle2D windowSize){
+    	
+    	double xPos, yPos;
+    	
+    	// Try positioning the node to the right of the associated object.
+		xPos = associatedObjectRect.getMaxX() + 8;
+		yPos = associatedObjectRect.getCenterY() - windowSize.getHeight() / 2;
+		
+		if (xPos + windowSize.getWidth() > _transformedViewportBounds.getX() + _transformedViewportBounds.getWidth()){
+			// This is off the right side of the canvas.  Try below the object
+			// and up against the right edge.
+			xPos = _transformedViewportBounds.getX() + _transformedViewportBounds.getWidth() - windowSize.getWidth() - 8;
+			yPos = associatedObjectRect.getMaxY();
+		}
+
+    	return new Point2D.Double(xPos, yPos);
     }
 }
