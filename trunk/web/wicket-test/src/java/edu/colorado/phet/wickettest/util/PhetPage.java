@@ -87,6 +87,7 @@ public abstract class PhetPage extends WebPage {
     public org.hibernate.Session getHibernateSession() {
         if ( !hasHibernateSession ) {
             hibernateSession = HibernateUtils.getInstance().openSession();
+            hasHibernateSession = true;
         }
         return hibernateSession;
     }
