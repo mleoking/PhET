@@ -8,6 +8,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
+import edu.colorado.phet.wickettest.data.Category;
 import edu.colorado.phet.wickettest.data.LocalizedSimulation;
 
 public class HibernateUtils {
@@ -110,8 +111,23 @@ public class HibernateUtils {
 
     }
 
+    public static Category getCategoryByName( Session session, String categoryName ) {
+        return (Category) session.createQuery( "select c from Category as c where c.name = :name" ).setString( "name", categoryName ).uniqueResult();
+    }
 
-    public static List<LocalizedSimulation> getAllSimulationsS( Session session, Locale locale ) {
+    public static List<LocalizedSimulation> getCategorySimulationsWithLocale( Session session, Category category, Locale locale ) {
+        Query query = session.createQuery( "select l from LocalizedSimulation as l, Simulation as s, Category as c where (l.simulation = s AND (s in elements(c.simulations)) AND l.locale = :locale AND c = :category) order by indices(c)" );
+        query.setLocale( "locale", locale );
+        query.setEntity( "category", category );
+        List simulations = query.list();
+        List<LocalizedSimulation> ret = new LinkedList<LocalizedSimulation>();
+        for ( Object simulation : simulations ) {
+            ret.add( (LocalizedSimulation) simulation );
+        }
+        return ret;
+    }
+
+    public static List<LocalizedSimulation> getAllSimulationsWithLocale( Session session, Locale locale ) {
         List simulations = session.createQuery( "select l from LocalizedSimulation as l where l.locale = :locale" ).setLocale( "locale", locale ).list();
         List<LocalizedSimulation> ret = new LinkedList<LocalizedSimulation>();
         for ( Object simulation : simulations ) {

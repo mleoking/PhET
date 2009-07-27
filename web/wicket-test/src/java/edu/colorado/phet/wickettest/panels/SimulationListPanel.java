@@ -26,7 +26,7 @@ public class SimulationListPanel extends PhetPanel {
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            tsims = HibernateUtils.getAllSimulationsS( session, getMyLocale() );
+            tsims = HibernateUtils.getAllSimulationsWithLocale( session, getMyLocale() );
 
             tx.commit();
         }
