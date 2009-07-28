@@ -56,7 +56,7 @@ public class NavMenu {
             final Category subCategory = (Category) o;
             NavLocation subLocation = new NavLocation( location, subCategory.getName(), new Linkable() {
                 public Link getLink( String id, PageContext context ) {
-                    return new PhetLink( id, context.getPrefix() + "simulations/category/" + subCategory.getName() );
+                    return new PhetLink( id, context.getPrefix() + "simulations/category/" + subCategory.getCategoryPath() );
                 }
             } );
             location.addChild( subLocation );

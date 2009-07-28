@@ -36,6 +36,18 @@ public class Category {
         }
     }
 
+    public String getCategoryPath() {
+        if ( isRoot() ) {
+            return "";
+        }
+        else if ( getParent().isRoot() ) {
+            return getName();
+        }
+        else {
+            return getParent().getCategoryPath() + "/" + getName();
+        }
+    }
+
     public int getId() {
         return id;
     }

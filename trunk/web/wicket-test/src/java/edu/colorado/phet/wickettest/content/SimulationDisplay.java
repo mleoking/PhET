@@ -29,8 +29,39 @@ public class SimulationDisplay extends PhetRegularPage {
         Transaction tx = null;
         try {
             tx = getHibernateSession().beginTransaction();
-            if ( parameters.containsKey( "category" ) ) {
-                category = HibernateUtils.getCategoryByName( context.getSession(), parameters.getString( "category" ) );
+            if ( parameters.containsKey( "categories" ) ) {
+                String categoriesString = parameters.getString( "categories" );
+                System.out.println( "categoriesString = " + categoriesString );
+                String[] categories = categoriesString.split( "/" );
+                int categoryIndex = categories.length - 1;
+                if ( categories[categoryIndex].equals( "" ) ) {
+                    categoryIndex--;
+                }
+                String categoryName = categories[categoryIndex];
+                category = HibernateUtils.getCategoryByName( context.getSession(), categoryName );
+                if ( category == null ) {
+                    throw new RuntimeException( "Couldn't find category" );
+                }
+
+                System.out.println( "category path: " + category.getCategoryPath() );
+
+                /*
+                Category cat = category;
+                for ( int i = categoryIndex; i >= -1; i-- ) {
+                    if ( i >= 0 ) {
+                        if ( !cat.getName().equals( categories[i] ) ) {
+                            throw new RuntimeException( "Bad match: " + cat.getName() + " : " + categories[i] );
+                        }
+                    }
+                    else {
+                        if ( !cat.getName().equals( "root" ) ) {
+                            throw new RuntimeException( "Bad match: " + cat.getName() + " : root" );
+                        }
+                    }
+                    cat = cat.getParent();
+                }
+                */
+
                 simulations = new LinkedList<LocalizedSimulation>();
                 addSimulationsFromCategory( simulations, category, new HashSet<Integer>() );
             }
@@ -80,7 +111,7 @@ public class SimulationDisplay extends PhetRegularPage {
 
     public static void addToMapper( PhetUrlMapper mapper ) {
         mapper.addMap( "^simulations$", SimulationDisplay.class );
-        mapper.addMap( "^simulations/category/([^/]+)$", SimulationDisplay.class, new String[]{"category"} );
+        mapper.addMap( "^simulations/category/([^?]+)([?](.*))?$", SimulationDisplay.class, new String[]{"categories", null, "query-string"} );
     }
 
     public static PhetLink createLink( String id, Locale locale ) {
