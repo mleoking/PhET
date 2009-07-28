@@ -51,7 +51,7 @@ class ForceGraphsModule(frame: JFrame, clock: ScalaClock) extends GraphingModule
 
 class GraphingModule(frame: JFrame, clock: ScalaClock, name: String,showEnergyGraph:Boolean) extends BasicRampModule(frame, clock, name, false, true) {
   coordinateSystemModel.adjustable = false
-  canvas.addNode(new ForceChartNode(canvas.transform, canvas, model,showEnergyGraph))
+  canvas.addNodeAfter(canvas.earthNode,new ForceChartNode(canvas.transform, canvas, model,showEnergyGraph))
   model.bead.setPosition(-6)
   model.setPaused(true)
   var didUnpause = false
