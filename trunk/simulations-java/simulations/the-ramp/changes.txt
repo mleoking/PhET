@@ -1,4 +1,5 @@
 Added a control to enter applied force in the box next to label
+Fixed: Force arrow slider should have a label to its left
 Graph force labels should color match to vectors
 Applied force is now adjusted to left of graph (to coordinate with the up/down graphing of force)
 Fixed: Text readouts of values on the left shouldn't alter layout
