@@ -19,21 +19,41 @@ import swing.MyCheckBox
 import umd.cs.piccolo.PNode
 import scalacommon.math.Vector2D
 
+object Defaults {
+  def createFont = new PhetFont(15, true)
+
+  def addListener(series: ControlGraphSeries, listener: () => Unit) = {
+    series.addListener(new ControlGraphSeries.Adapter() {
+      override def visibilityChanged = listener()
+    })
+  }
+}
+
 class ForceChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model: RampModel, showEnergyGraph: Boolean) extends PNode {
   val parallelAppliedForceVariable = new DefaultTemporalVariable() {
     override def setValue(value: Double) = model.bead.parallelAppliedForce = value
   }
   model.stepListeners += (() => parallelAppliedForceVariable.addValue(model.bead.appliedForce.dot(new Vector2D(model.bead.getVelocityVectorDirection)), model.getTime))
 
-  def createVariable(getter: () => Vector2D) = {
+  def createVariable(getter: () => Double) = {
+    val variable = new DefaultTemporalVariable()
+    model.stepListeners += (() => variable.addValue(getter(), model.getTime))
+    variable
+  }
+
+  def createParallelVariable(getter: () => Vector2D) = {
     val variable = new DefaultTemporalVariable()
     model.stepListeners += (() => variable.addValue(getter().dot(new Vector2D(model.bead.getVelocityVectorDirection)), model.getTime))
     variable
   }
 
-  val parallelFriction = createVariable(() => model.bead.frictionForce)
-  val gravityForce = createVariable(() => model.bead.gravityForce)
-  val wallForce = createVariable(() => model.bead.wallForce)
+  val parallelFriction = createParallelVariable(() => model.bead.frictionForce)
+  val gravityForce = createParallelVariable(() => model.bead.gravityForce)
+  val wallForce = createParallelVariable(() => model.bead.wallForce)
+
+  val energyVariable = createVariable(() => model.bead.getTotalEnergy)
+  val keVariable = createVariable(() => model.bead.getKineticEnergy)
+  val peVariable = createVariable(() => model.bead.getPotentialEnergy)
 
   val recordableModel = new RecordableModel() {
     def getState = "hello"
@@ -54,6 +74,10 @@ class ForceChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model
   val frictionSeries = new ControlGraphSeries("<html>F<sub>friction</sub></html>", RampDefaults.frictionForceColor, "Ff", "N", "", parallelFriction)
   val gravitySeries = new ControlGraphSeries("<html>F<sub>gravity</sub></html>", RampDefaults.gravityForceColor, "Fg", "N", "", gravityForce)
   val wallSeries = new ControlGraphSeries("<html>F<sub>wall</sub></html>", RampDefaults.wallForceColor, "Fw", "N", "", wallForce)
+
+  val totalEnergySeries = new ControlGraphSeries("<html>E<sub>total</sub></html>", RampDefaults.totalEnergyColor, "Etot", "J", "", energyVariable)
+  val keSeries = new ControlGraphSeries("<html>E<sub>kin</sub></html>", RampDefaults.kineticEnergyColor, "KE", "J", "", keVariable)
+  val peSeries = new ControlGraphSeries("<html>E<sub>pot</sub></html>", RampDefaults.potentialEnergyColor, "PE", "J", "", peVariable)
 
   class RampGraph(defaultSeries: ControlGraphSeries) extends MotionControlGraph(canvas, defaultSeries, "label", "title", -2000, 2000, true, timeseriesModel, updateableObject) {
     getJFreeChartNode.setBuffered(false)
@@ -85,34 +109,6 @@ class ForceChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model
     addSeries(wallSeries)
   }
 
-  def addListener(series: ControlGraphSeries, listener: () => Unit) = {
-    series.addListener(new ControlGraphSeries.Adapter() {
-      override def visibilityChanged = listener()
-    })
-  }
-
-  def createFont = new PhetFont(15, true)
-
-  class SeriesControlSelectorBox(series: ControlGraphSeries) extends MyCheckBox(series.getTitle, series.setVisible(_), series.isVisible, addListener(series, _)) {
-    peer.setFont(createFont)
-    peer.setForeground(series.getColor)
-    peer.setBackground(RampDefaults.EARTH_COLOR)
-  }
-
-  def createLabel(series: ControlGraphSeries) = {
-    val label = new JLabel()
-    label.setBackground(RampDefaults.EARTH_COLOR)
-    label.setFont(createFont)
-    label.setForeground(series.getColor)
-    series.getTemporalVariable.addListener(new ITemporalVariable.ListenerAdapter() {
-      override def valueChanged = updateLabel()
-    })
-    def updateLabel() = label.setText("= " + new DefaultDecimalFormat("0.00").format(series.getTemporalVariable.getValue) + " " + series.getUnits)
-
-    updateLabel()
-    label
-  }
-
   def createEditableLabel(series: ControlGraphSeries) = {
     val panel = new JPanel
     val textField = new JTextField(6)
@@ -132,7 +128,7 @@ class ForceChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model
       def focusLost(e: FocusEvent) = setValueFromText()
     })
 
-    textField.setFont(createFont)
+    textField.setFont(Defaults.createFont)
     textField.setForeground(series.getColor)
     series.getTemporalVariable.addListener(new ITemporalVariable.ListenerAdapter() {
       override def valueChanged = updateLabel()
@@ -144,7 +140,7 @@ class ForceChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model
 
     panel.add(textField)
     val unitsLabel = new JLabel(series.getUnits)
-    unitsLabel.setFont(createFont)
+    unitsLabel.setFont(Defaults.createFont)
     unitsLabel.setForeground(series.getColor)
     unitsLabel.setBackground(RampDefaults.EARTH_COLOR)
     panel.add(unitsLabel)
@@ -152,38 +148,26 @@ class ForceChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model
     panel
   }
 
-  class SeriesSelectionControl extends VerticalLayoutPanel {
-    setBackground(RampDefaults.EARTH_COLOR)
-    val jLabel = new JLabel("Parallel Forces (N)")
-    jLabel.setFont(new PhetFont(20, true))
-    jLabel.setBackground(RampDefaults.EARTH_COLOR)
-    add(jLabel)
-    val grid = new JPanel(new GridLayout(4, 2))
-    grid.setBackground(RampDefaults.EARTH_COLOR)
-
-    def addToGrid(series: ControlGraphSeries): Unit = {
-      addToGrid(series, createLabel)
-    }
-
-    def addToGrid(series: ControlGraphSeries, labelMaker: ControlGraphSeries => JComponent): Unit = {
-      grid.add(new SeriesControlSelectorBox(series).peer)
-      grid.add(labelMaker(series))
-    }
+  parallelForceControlGraph.addControl(new SeriesSelectionControl("Parallel Forces (N)", 4) {
     addToGrid(appliedForceSeries, createEditableLabel)
     addToGrid(frictionSeries)
     addToGrid(gravitySeries)
     addToGrid(wallSeries)
+  })
 
-    add(grid)
-  }
-  parallelForceControlGraph.addControl(new SeriesSelectionControl)
-
-  val workEnergyGraph = new RampGraph(appliedForceSeries) {
+  val workEnergyGraph = new RampGraph(totalEnergySeries) {
     setEditable(false)
     setDomainUpperBound(20)
     getJFreeChartNode.setBuffered(false)
     getJFreeChartNode.setPiccoloSeries()
+    addSeries(keSeries)
+    addSeries(peSeries)
   }
+  workEnergyGraph.addControl(new SeriesSelectionControl("Work/Energy (J)", 3) {
+    addToGrid(totalEnergySeries)
+    addToGrid(keSeries)
+    addToGrid(peSeries)
+  })
 
   val graphs = if (showEnergyGraph) Array(new MinimizableControlGraph("Parallel Forces(N)", parallelForceControlGraph), new MinimizableControlGraph("Work/Energy", workEnergyGraph))
   else Array(new MinimizableControlGraph("Parallel Forces(N)", parallelForceControlGraph))
@@ -202,4 +186,45 @@ class ForceChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model
     graphSetNode.setBounds(viewBounds.getX, viewLoc.y, viewBounds.getWidth, h)
   }
   updatePosition()
+}
+
+class SeriesSelectionControl(title: String, numRows: Int) extends VerticalLayoutPanel {
+  setBackground(RampDefaults.EARTH_COLOR)
+  val jLabel = new JLabel(title)
+  jLabel.setFont(new PhetFont(20, true))
+  jLabel.setBackground(RampDefaults.EARTH_COLOR)
+  add(jLabel)
+  val grid = new JPanel(new GridLayout(numRows, 2))
+  grid.setBackground(RampDefaults.EARTH_COLOR)
+
+  def addToGrid(series: ControlGraphSeries): Unit = {
+    addToGrid(series, createLabel)
+  }
+
+  def addToGrid(series: ControlGraphSeries, labelMaker: ControlGraphSeries => JComponent): Unit = {
+    grid.add(new SeriesControlSelectorBox(series).peer)
+    grid.add(labelMaker(series))
+  }
+
+  def createLabel(series: ControlGraphSeries) = {
+    val label = new JLabel()
+    label.setBackground(RampDefaults.EARTH_COLOR)
+    label.setFont(Defaults.createFont)
+    label.setForeground(series.getColor)
+    series.getTemporalVariable.addListener(new ITemporalVariable.ListenerAdapter() {
+      override def valueChanged = updateLabel()
+    })
+    def updateLabel() = label.setText("= " + new DefaultDecimalFormat("0.00").format(series.getTemporalVariable.getValue) + " " + series.getUnits)
+
+    updateLabel()
+    label
+  }
+
+  add(grid)
+}
+
+class SeriesControlSelectorBox(series: ControlGraphSeries) extends MyCheckBox(series.getTitle, series.setVisible(_), series.isVisible, Defaults.addListener(series, _)) {
+  peer.setFont(Defaults.createFont)
+  peer.setForeground(series.getColor)
+  peer.setBackground(RampDefaults.EARTH_COLOR)
 }

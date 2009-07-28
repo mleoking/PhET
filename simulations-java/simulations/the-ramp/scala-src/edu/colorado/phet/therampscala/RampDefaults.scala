@@ -40,4 +40,8 @@ object RampDefaults {
   val frictionForceColor = Color.red
   val totalForceColor = Color.pink
   val wallForceColor = new Color(190, 190, 0)
+
+  val totalEnergyColor = Color.blue
+  val kineticEnergyColor = Color.red
+  val potentialEnergyColor = Color.green
 }
