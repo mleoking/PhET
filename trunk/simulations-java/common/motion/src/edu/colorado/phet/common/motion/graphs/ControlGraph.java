@@ -197,7 +197,7 @@ public class ControlGraph extends PNode {
     }
 
     public static JFreeChartDecorator createXYLineChart( String title, String xAxisLabel, String yAxisLabel, XYDataset dataset,
-                                                PlotOrientation orientation ) {
+                                                         PlotOrientation orientation ) {
         NumberAxis xAxis = new NumberAxis( xAxisLabel );
         xAxis.setAutoRangeIncludesZero( false );
         NumberAxis yAxis = new NumberAxis( yAxisLabel );
@@ -383,8 +383,9 @@ public class ControlGraph extends PNode {
         final SeriesData data = dynamicJFreeChartNode.addSeries( series.getTitle(), series.getColor(), series.getStroke() );
 
         final ReadoutTitleNode titleNode = createReadoutTitleNode( series );
-        if (titleNode!=null)
-        titleLayer.addReadoutNode( titleNode );
+        if ( titleNode != null ) {
+            titleLayer.addReadoutNode( titleNode );
+        }
 
         GraphControlSeriesNode seriesNode = null;
         if ( series.isEditable() ) {
@@ -414,7 +415,9 @@ public class ControlGraph extends PNode {
         series.addListener( new ControlGraphSeries.Adapter() {
             public void visibilityChanged() {
                 dynamicJFreeChartNode.setSeriesVisible( data, series.isVisible() );
-                titleNode.setVisible( series.isVisible() );
+                if ( titleNode != null ) {
+                    titleNode.setVisible( series.isVisible() );
+                }
                 if ( seriesNodeTemp != null ) {
                     seriesNodeTemp.setVisible( series.isVisible() );
                 }
