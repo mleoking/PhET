@@ -9,9 +9,10 @@ import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import common.phetcommon.view.VerticalLayoutPanel
 import common.piccolophet.{PhetPCanvas}
 import common.timeseries.model.{RecordableModel, TimeSeriesModel}
+import java.awt.event.{FocusEvent, FocusListener, ActionEvent, ActionListener}
 import java.awt.geom.Point2D
-import java.awt.{Color, GridLayout}
-import javax.swing.{JPanel, JLabel}
+import java.awt.{GridLayout}
+import javax.swing.{JTextField, JComponent, JPanel, JLabel}
 import model.{RampModel}
 import swing.MyCheckBox
 import umd.cs.piccolo.PNode
@@ -89,6 +90,45 @@ class ForceChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model
     label
   }
 
+  def createEditableLabel(series: ControlGraphSeries) = {
+    val panel = new JPanel
+    val textField = new JTextField(6)
+    textField.addActionListener(new ActionListener() {
+      def actionPerformed(e: ActionEvent) = {
+        setValueFromText()
+      }
+    })
+    def setValueFromText() = try {
+      series.getTemporalVariable.setValue(new DefaultDecimalFormat("0.00").parse(textField.getText).doubleValue)
+    } catch {
+      case re: Exception => {}
+    }
+    textField.addFocusListener(new FocusListener() {
+      def focusGained(e: FocusEvent) = {}
+
+      def focusLost(e: FocusEvent) = setValueFromText()
+    })
+
+    textField.setFont(createFont)
+    textField.setForeground(series.getColor)
+    series.getTemporalVariable.addListener(new ITemporalVariable.ListenerAdapter() {
+      override def valueChanged = updateLabel()
+    })
+    def updateLabel() = textField.setText(new DefaultDecimalFormat("0.00").format(series.getTemporalVariable.getValue))
+
+    updateLabel()
+    textField
+
+    panel.add(textField)
+    val unitsLabel = new JLabel(series.getUnits)
+    unitsLabel.setFont(createFont)
+    unitsLabel.setForeground(series.getColor)
+    unitsLabel.setBackground(RampDefaults.EARTH_COLOR)
+    panel.add(unitsLabel)
+    panel.setBackground(RampDefaults.EARTH_COLOR)
+    panel
+  }
+
   class SeriesSelectionControl extends VerticalLayoutPanel {
     setBackground(RampDefaults.EARTH_COLOR)
     val jLabel = new JLabel("Parallel Forces (N)")
@@ -98,11 +138,15 @@ class ForceChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model
     val grid = new JPanel(new GridLayout(4, 2))
     grid.setBackground(RampDefaults.EARTH_COLOR)
 
-    def addToGrid(series: ControlGraphSeries) = {
-      grid.add(new SeriesControlSelectorBox(series).peer)
-      grid.add(createLabel(series))
+    def addToGrid(series: ControlGraphSeries): Unit = {
+      addToGrid(series, createLabel)
     }
-    addToGrid(appliedForceSeries)
+
+    def addToGrid(series: ControlGraphSeries, labelMaker: ControlGraphSeries => JComponent): Unit = {
+      grid.add(new SeriesControlSelectorBox(series).peer)
+      grid.add(labelMaker(series))
+    }
+    addToGrid(appliedForceSeries, createEditableLabel)
     addToGrid(frictionSeries)
     addToGrid(gravitySeries)
     addToGrid(wallSeries)
