@@ -29,7 +29,7 @@ public class JFreeChartSliderNode extends PNode {
     private PNode sliderThumb;
     private Color highlightColor;
     private double value = 0.0;
-    private ArrayList listeners = new ArrayList();
+    private ArrayList<Listener> listeners = new ArrayList<Listener>();
     private JFreeChartNode jFreeChartNode;
     private boolean selected = false;//highlight
 
@@ -94,15 +94,13 @@ public class JFreeChartSliderNode extends PNode {
     }
 
     private void notifySliderDragged( double value ) {
-        for ( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener) listeners.get( i );
+        for ( Listener listener : listeners ) {
             listener.sliderDragged( value );
         }
     }
 
     private void notifySliderThumbGrabbed() {
-        for ( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener) listeners.get( i );
+        for ( Listener listener : listeners ) {
             listener.sliderThumbGrabbed();
         }
     }
@@ -215,8 +213,7 @@ public class JFreeChartSliderNode extends PNode {
     }
 
     private void notifyValueChanged() {
-        for ( int i = 0; i < listeners.size(); i++ ) {
-            JFreeChartSliderNode.Listener listener = (JFreeChartSliderNode.Listener) listeners.get( i );
+        for ( Listener listener : listeners ) {
             listener.valueChanged();
         }
     }
