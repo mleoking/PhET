@@ -56,9 +56,17 @@
                 padding-right: 60px;
             }
 
+            .nav0 .nml-link-label {
+                padding-left: 15px;
+            }
+
+            .nav1 .nml-link-label, .nav2 .nml-link-label, .nav3 .nml-link-label {
+                padding-left: 15px;
+            }
+
             .nav0 .selected {
                 background-image: url("/images/selectedArrow_Icon.gif");
-                background-position: left 0.25ex;
+                background-position: 0 0.25ex;
                 background-repeat: no-repeat;
                 color: #d36a04;
             }
@@ -66,7 +74,7 @@
             .nav1 .selected, .nav2 .selected, .nav3 .selected {
                 color: #d36a04;
                 background-repeat: no-repeat;
-                background-position: left 1.1ex;
+                background-position: 7px 50%;
                 background-image: url("/images/arrow-right.gif");
             }
         </style>
@@ -90,7 +98,7 @@
 <wicket:remove>
     Test is below:
 
-    <div style="width: 240px;">
+    <div style="width: 240px; margin-left: 50px; margin-top: 100px;" class="ltr">
         <div class="link-holder">
             <a href="#" class="nml-link nav0">
                 <div class="nml-link-label">Home</div>
@@ -101,13 +109,13 @@
         </div>
         <div class="link-holder">
             <a href="#" class="nml-link nav0">
-                <div class="nml-link-label">Simulations</div>
+                <div class="nml-link-label selected">Simulations</div>
             </a>
 
             <div>
                 <div class="link-holder">
                     <a href="#" class="nml-link nav1">
-                        <div class="nml-link-label">Featured Sims</div>
+                        <div class="nml-link-label selected">Featured Sims</div>
                     </a>
 
                     <div>
