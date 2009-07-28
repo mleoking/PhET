@@ -586,19 +586,50 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
      * @param windowSize
      * @return
      */
-    private Point2D findSpotForWindow(Rectangle2D associatedObjectRect, Rectangle2D windowSize){
+    private Point2D findSpotForWindow(Rectangle2D associatedObjectRect, Rectangle2D windowSize) {
     	
-    	double xPos, yPos;
+    	double xPos, yPos, maxX, maxY;
     	
     	// Try positioning the node to the right of the associated object.
 		xPos = associatedObjectRect.getMaxX() + 8;
+		maxX = xPos + windowSize.getWidth();
 		yPos = associatedObjectRect.getCenterY() - windowSize.getHeight() / 2;
+		maxY = yPos + windowSize.getHeight();
 		
-		if (xPos + windowSize.getWidth() > _transformedViewportBounds.getX() + _transformedViewportBounds.getWidth()){
-			// This is off the right side of the canvas.  Try below the object
-			// and up against the right edge.
-			xPos = _transformedViewportBounds.getX() + _transformedViewportBounds.getWidth() - windowSize.getWidth() - 8;
-			yPos = associatedObjectRect.getMaxY();
+		if ( ( maxX > _transformedViewportBounds.getX() + _transformedViewportBounds.getWidth() ) ||
+			 ( maxY > _transformedViewportBounds.getY() + _transformedViewportBounds.getHeight() ) ) {
+			
+			// Some portion of the window will be off the canvas if we use the
+			// default position, so we need to try alternatives.
+			
+			if ( maxX > _transformedViewportBounds.getX() + _transformedViewportBounds.getWidth() ){
+				// The window would be off the right edge of the canvas, so
+				// set its x position such that it just fits in the x
+				// direction.
+				xPos = _transformedViewportBounds.getX() + _transformedViewportBounds.getWidth() - windowSize.getWidth() - 8;
+				
+				// Set the Y position so that it is just below the object.
+				// This will be checked and possibly changed below.
+				yPos = associatedObjectRect.getMaxY();
+				maxY = yPos + windowSize.getHeight();
+			}
+			
+			if ( maxY > _transformedViewportBounds.getY() + _transformedViewportBounds.getHeight() ){
+				// The window would be off the bottom of the canvas if left
+				// unadjusted.
+				if (associatedObjectRect.getMaxX() + windowSize.getWidth() < 
+					_transformedViewportBounds.getX() + _transformedViewportBounds.getWidth()){
+					// The window can fit between the right edge of the object
+					// and the right edge of the canvas, so position it at the
+					// bottom of the canvas.
+					yPos = _transformedViewportBounds.getY() + _transformedViewportBounds.getHeight() 
+							- windowSize.getHeight() - 8;
+				}
+				else{
+					// Position it above the item.
+					yPos = associatedObjectRect.getY() - windowSize.getHeight();
+				}
+			}
 		}
 
     	return new Point2D.Double(xPos, yPos);
