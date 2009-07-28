@@ -1,8 +1,6 @@
 package edu.colorado.phet.wickettest.content;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.link.Link;
@@ -33,18 +31,8 @@ public class SimulationDisplay extends PhetRegularPage {
             tx = getHibernateSession().beginTransaction();
             if ( parameters.containsKey( "category" ) ) {
                 category = HibernateUtils.getCategoryByName( context.getSession(), parameters.getString( "category" ) );
-                //simulations = HibernateUtils.getCategorySimulationsWithLocale( context.getSession(), category, context.getLocale() );
                 simulations = new LinkedList<LocalizedSimulation>();
-                for ( Object o : category.getSimulations() ) {
-                    Simulation sim = (Simulation) o;
-                    for ( Object p : sim.getLocalizedSimulations() ) {
-                        LocalizedSimulation lsim = (LocalizedSimulation) p;
-                        if ( lsim.getLocale().equals( getMyLocale() ) ) {
-                            simulations.add( lsim );
-                            break;
-                        }
-                    }
-                }
+                addSimulationsFromCategory( simulations, category, new HashSet<Integer>() );
             }
             else {
                 simulations = HibernateUtils.getAllSimulationsWithLocale( context.getSession(), context.getLocale() );
@@ -64,6 +52,29 @@ public class SimulationDisplay extends PhetRegularPage {
         }
 
         add( new SimulationDisplayPanel( "simulation-display-panel", getPageContext(), simulations ) );
+    }
+
+    private void addSimulationsFromCategory( List<LocalizedSimulation> simulations, Category category, Set<Integer> used ) {
+        for ( Object o : category.getSimulations() ) {
+            Simulation sim = (Simulation) o;
+            for ( Object p : sim.getLocalizedSimulations() ) {
+                LocalizedSimulation lsim = (LocalizedSimulation) p;
+                if ( lsim.getLocale().equals( getMyLocale() ) ) {
+                    if ( !used.contains( lsim.getId() ) ) {
+                        simulations.add( lsim );
+                        used.add( lsim.getId() );
+                    }
+
+                    break;
+                }
+            }
+        }
+        if ( category.isAuto() ) {
+            for ( Object o : category.getSubcategories() ) {
+                Category subcategory = (Category) o;
+                addSimulationsFromCategory( simulations, subcategory, used );
+            }
+        }
     }
 
     public static void addToMapper( PhetUrlMapper mapper ) {
