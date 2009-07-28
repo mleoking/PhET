@@ -1,3 +1,4 @@
+Fixed: Text readouts of values on the left shouldn't alter layout
 Graphing modules start paused, unpause when a force is applied
 Added stub for Work-Energy module
 Allow one chart to take entire available area
