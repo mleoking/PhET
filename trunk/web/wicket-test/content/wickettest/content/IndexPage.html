@@ -5,14 +5,94 @@
       lang="en">
 <head>
     <title wicket:id="page-title">Wicket Prototype Index Page</title>
+    <wicket:remove>
+        <link rel="stylesheet" type="text/css" href="../../../root/css/test.css"/>
+    </wicket:remove>
     <wicket:head>
         <style type="text/css">
             .index-content {
-                width: 600px;
-                text-align: center;
-                margin: 0px auto;
-                border: 1px solid black;
+                width: 765px;
+                margin: 0 auto; /*border: 1px solid black;*/
                 padding: 10px;
+            }
+
+            .old-content {
+                text-align: center;
+            }
+
+            #index-animated-screenshot-holder {
+                width: 300px;
+                height: 199px;
+                float: left;
+            }
+
+            #right-middle {
+                margin-left: 310px;
+                position: relative;
+            }
+
+            #index-middle-div {
+                height: 199px;
+            }
+
+            #index-header {
+                color: #d36a04;
+                font-weight: bold;
+                font-size: 18px;
+                margin-bottom: 10px;
+            }
+
+            #index-main-text {
+                color: #333333;
+            }
+
+            #index-play-sims {
+                width: 153px;
+                height: 38px;
+                margin: 0 auto;
+                text-align: center;
+                vertical-align: middle;
+                text-decoration: none;
+                display: block;
+                color: #FFFFFF;
+                margin-top: 5px;
+                background-image: url(/images/blank-button.gif);
+            }
+
+            #index-play-sims-text {
+                vertical-align: middle;
+                line-height: 38px;
+            }
+
+            #sponsors {
+                position: absolute;
+                height: 70px;
+                width: 445px;
+                left: 0px;
+                top: 129px;
+            }
+
+            .sponsor {
+                height: 70px;
+                width: 100px;
+                margin-right: 10px;
+                float: right;
+                text-align: center;
+                font-size: 10px;
+            }
+
+            .sponsor a {
+                text-decoration: none;
+                color: #990000;
+            }
+
+            .sponsor img {
+                border: none;
+            }
+
+            .langlink {
+                text-decoration: none;
+                color: #990000;
             }
         </style>
     </wicket:head>
@@ -21,13 +101,65 @@
 
 <wicket:extend>
     <div class="index-content">
-        <h3>The Best Index Page EVER!!!</h3>
-        <a href="#" wicket:id="en-simulations">Simulation list in English</a><br/>
-        <a href="#" wicket:id="es-simulations">Simulation list in Spanish</a><br/>
-        <a href="#" wicket:id="el-simulations">Simulation list in Greek</a><br/>
-        <a href="#" wicket:id="ar-simulations">Simulation list in Arabic</a><br/>
-        <br/>
-        <a href="#" wicket:id="test-translation">Translation Test</a>
+        <div id="index-middle-div">
+            <div id="index-animated-screenshot-holder">
+                <a href="#" wicket:id="image-link">
+                    <img wicket:id="index-animated-screenshot" id="index-animated-screenshot"
+                         src="../../../root/images/mass-spring-lab-animated-screenshot.gif"
+                         alt="Simulation Screenshot" style="border: none;"/>
+                </a>
+            </div>
+            <div id="right-middle">
+                <div id="index-header">Interactive Science Simulations</div>
+                <div id="index-main-text">Fun, interactive, research-based simulations of physical phenomena from the
+                    PhET project at the University of Colorado.
+                </div>
+                <a href="#" id="index-play-sims" wicket:id="play-sims-link"><span id="index-play-sims-text">Play with sims... &gt;</span></a>
+
+                <div id="sponsors">
+                    <div class="sponsor">
+                        <a href="http://www.ksu.edu.sa/">
+                            <img wicket:id="ksu-logo" src="../../../root/images/ksu-logo.gif"
+                                 alt="King Saud Univeristy logo"/>
+                            <br/>
+                            King Saud University
+                        </a>
+                    </div>
+                    <div class="sponsor">
+                        <a href="http://jila-amo.colorado.edu/">
+                            <img wicket:id="jila-logo" src="../../../root/images/jila_logo_small.gif" alt="JILA Logo"/>
+                            <br/>
+                            JILA Center for Atomic, Molecular, & Optical Physics
+                        </a>
+                    </div>
+                    <div class="sponsor" style="width: 80px;">
+                        <a href="http://www.nsf.gov/">
+                            <img wicket:id="nsf-logo" src="../../../root/images/nsf-logo-small.gif" alt="NSF Logo"/>
+                            <br/>
+                            National Science Foundation
+                        </a>
+                    </div>
+                    <div class="sponsor" style="width: 120px;">
+                        <a href="http://www.hewlett.org/">
+                            <img wicket:id="hewlett-logo" src="../../../root/images/hewlett-logo-small.jpg"
+                                 alt="Hewlett Foundation logo"/>
+                            <br/>
+                            The William and Flora Hewlett Foundation
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 5px;">
+            <!-- TODO: build this from translations loaded -->
+            <a href="#" class="langlink" wicket:id="es-simulations">Espa&ntilde;ol</a> &nbsp;|&nbsp;
+            <a href="#" class="langlink" wicket:id="ar-simulations">
+                &#1575;&#1604;&#1593;&#1585;&#1576;&#1610;&#1577;</a> &nbsp;|&nbsp;
+            <a href="#" class="langlink" wicket:id="el-simulations">&Epsilon;&lambda;&lambda;&eta;&nu;&iota;&kappa;&#940;</a>
+            <br/>
+            <a href="#" wicket:id="test-translation" class="langlink">Translation Test</a>
+        </div>
     </div>
 </wicket:extend>
 
