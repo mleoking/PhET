@@ -7,14 +7,16 @@ import common.motion.model._
 import common.phetcommon.model.clock.ConstantDtClock
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import common.phetcommon.view.VerticalLayoutPanel
+import common.piccolophet.nodes.{ShadowHTMLNode, HTMLNode}
 import common.piccolophet.{PhetPCanvas}
 import common.timeseries.model.{RecordableModel, TimeSeriesModel}
 import java.awt.event.{FocusEvent, FocusListener, ActionEvent, ActionListener}
 import java.awt.geom.Point2D
-import java.awt.{GridLayout}
+import java.awt.{Color, GridLayout}
 import javax.swing.{JTextField, JComponent, JPanel, JLabel}
 import model.{RampModel}
 import swing.MyCheckBox
+import umd.cs.piccolo.nodes.{PText, PPath}
 import umd.cs.piccolo.PNode
 import scalacommon.math.Vector2D
 
@@ -53,13 +55,24 @@ class ForceChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model
   val frictionSeries = new ControlGraphSeries("<html>F<sub>friction</sub></html>", RampDefaults.frictionForceColor, "Ff", "N", "", parallelFriction)
   val gravitySeries = new ControlGraphSeries("<html>F<sub>gravity</sub></html>", RampDefaults.gravityForceColor, "Fg", "N", "", gravityForce)
   val wallSeries = new ControlGraphSeries("<html>F<sub>wall</sub></html>", RampDefaults.wallForceColor, "Fw", "N", "", wallForce)
-  val parallelForceChart = new MotionControlGraph(canvas, appliedForceSeries, "label", "title", -2000, 2000, true, timeseriesModel, updateableObject) {
+  val parallelForceControlGraph = new MotionControlGraph(canvas, appliedForceSeries, "label", "title", -2000, 2000, true, timeseriesModel, updateableObject) {
     setDomainUpperBound(20)
     getJFreeChartNode.setBuffered(false)
     getJFreeChartNode.setPiccoloSeries() //works better on an unbuffered chart
     addSeries(frictionSeries)
     addSeries(gravitySeries)
     addSeries(wallSeries)
+
+    protected override def createSliderNode(thumb: PNode, highlightColor: Color) = {
+      new JFreeChartSliderNode( getJFreeChartNode, thumb, highlightColor ){
+        val text = new ShadowHTMLNode(appliedForceSeries.getTitle)
+        text.setFont(new PhetFont(18,true))
+        text.setColor(appliedForceSeries.getColor)
+        text.rotate(-java.lang.Math.PI/2)
+        text.setOffset(-text.getFullBounds.getWidth*1.5,getGlobalFullBounds.getHeight/2+text.getFullBounds.getHeight/2)
+        addChild(text)
+      }
+    }
   }
 
   def addListener(series: ControlGraphSeries, listener: () => Unit) = {
@@ -153,7 +166,7 @@ class ForceChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model
 
     add(grid)
   }
-  parallelForceChart.addControl(new SeriesSelectionControl)
+  parallelForceControlGraph.addControl(new SeriesSelectionControl)
 
   //  val y = new MotionControlGraph(canvas, controlGraphSeries, "label", "title", 0, 10, true, timeseriesModel, updateableObject) {
   //    setDomainUpperBound(20)
@@ -161,7 +174,7 @@ class ForceChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model
   //    getJFreeChartNode.setPiccoloSeries()
   //  }
   //  val set = new GraphSetNode(new GraphSetModel(new GraphSuite(Array(new MinimizableControlGraph("x", x), new MinimizableControlGraph("y", y)))))
-  val graphSetNode = new GraphSetNode(new GraphSetModel(new GraphSuite(Array(new MinimizableControlGraph("Parallel Forces(N)", parallelForceChart))))) {
+  val graphSetNode = new GraphSetNode(new GraphSetModel(new GraphSuite(Array(new MinimizableControlGraph("Parallel Forces(N)", parallelForceControlGraph))))) {
     override def getMaxAvailableHeight(availableHeight: Double) = availableHeight
   }
   graphSetNode.setAlignedLayout()
