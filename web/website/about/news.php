@@ -23,9 +23,14 @@ class NewsPage extends SitePage {
         print <<<EOT
             <h2>Current Newsletter</h2>
 
-            <p><a href="{$newsletters_dir}phet_newsletter_sum09.pdf">Summer 2009</a></p>
-            <p><a href="{$newsletters_dir}phet_newsletter_sum09.pdf"><img src="phet_newsletter_summer_09_thumbnail.png" width="180" height="233" border="2" alt="Summer 2009 Newsletter" /></a></p>
-            <br>
+            <div class="newsletter">
+            <span class="newsletter_caption"><a href="{$newsletters_dir}phet_newsletter_sum09.pdf">Summer 2009</a></span>
+            <span class="thumbnail">
+            <a href="{$newsletters_dir}phet_newsletter_sum09.pdf">
+            <img src="{$this->prefix}images/newsletter_thumbnails/phet_newsletter_summer_09_thumbnail.png" width="180" height="233" alt="Summer 2009 Newsletter" />
+            </a>
+            </span>
+            </div>
 
             <h2>Newsletter Archive</h2>
 
