@@ -55,7 +55,7 @@ public class RadiometricDatingMeter {
 			boolean updatePeriodically ) {
 		
 		_model = model;
-		_probe = new ProbeModel(initialTipLocation, 1.3);
+		_probe = new ProbeModel(initialTipLocation, 2);
 		_probe.addObserver(new SimpleObserver(){
 			public void update() {
 				updateTouchedItem();
