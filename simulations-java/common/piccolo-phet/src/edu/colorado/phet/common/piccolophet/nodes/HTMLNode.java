@@ -29,6 +29,7 @@ import edu.umd.cs.piccolo.util.PPaintContext;
  * HTMLNode is a Piccolo node for rendering HTML text.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
+ * @author Sam Reid
  * @version $Revision$
  */
 public class HTMLNode extends PNode {
