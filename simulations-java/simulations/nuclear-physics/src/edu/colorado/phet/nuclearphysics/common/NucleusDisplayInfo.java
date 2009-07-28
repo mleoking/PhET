@@ -154,7 +154,6 @@ public class NucleusDisplayInfo {
 	 * Constructor.  Not intended to be instantiated outside of this class,
 	 * but this could change if for some reason more dynamic display info is
 	 * needed in the future.
-	 * @param imageName TODO
 	 */
 	private NucleusDisplayInfo(
 			String name, 
