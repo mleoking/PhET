@@ -383,6 +383,7 @@ public class ControlGraph extends PNode {
         final SeriesData data = dynamicJFreeChartNode.addSeries( series.getTitle(), series.getColor(), series.getStroke() );
 
         final ReadoutTitleNode titleNode = createReadoutTitleNode( series );
+        if (titleNode!=null)
         titleLayer.addReadoutNode( titleNode );
 
         GraphControlSeriesNode seriesNode = null;
