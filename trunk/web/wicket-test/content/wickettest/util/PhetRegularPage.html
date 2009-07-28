@@ -7,13 +7,23 @@
     <title wicket:id="page-title">[PREVIEW] PhetRegularPage</title>
     <wicket:head>
         <style type="text/css">
-            #left-panel {
-                width: 240px;
+
+            div.ltr #side-panel {
                 float: left;
+                width: 240px;
             }
 
-            #main-content {
+            div.rtl #side-panel {
+                float: right;
+                width: 240px;
+            }
+
+            div.ltr #main-content {
                 margin-left: 240px;
+            }
+
+            div.rtl #main-content {
+                margin-right: 240px;
             }
         </style>
     </wicket:head>
@@ -21,7 +31,7 @@
 <body wicket:message="dir:language.dir">
 
 <wicket:extend>
-    <div id="left-panel">
+    <div id="side-panel">
         <div wicket:id="side-navigation">
             Side navigation
         </div>
