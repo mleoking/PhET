@@ -21,5 +21,7 @@ class DefaultCanvas(modelWidth: Double, modelHeight: Double) extends PhetPCanvas
 
   def indexOfChild(node: PNode) = worldNode.indexOfChild(node)
 
+  def addNodeAfter(preNode:PNode, newNode:PNode) = addNode(indexOfChild(preNode)+1,newNode)
+
   def removeNode(node: PNode) = worldNode.removeChild(node)
 }
