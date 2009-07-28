@@ -1,4 +1,5 @@
-Added buttons to open Energy/Work graph 
+Added series for total, kinetic and potential energy
+Added buttons to open Energy/Work graph
 Removed Go and Pause buttons from Force chart control panel
 Fixed: Make sure vector arrows overlap the chart and chart control panel
 Added a control to enter applied force in the box next to label
