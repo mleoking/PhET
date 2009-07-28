@@ -501,38 +501,25 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     		_guessingGameLayer.removeChild(previousGuessResultNode);
     	}
     	
-    	// Add a node that indicates to the user whether the user got the
-    	// answer correct.
+    	// Add a node that indicates to the user whether or not they guessed
+    	// correctly.
     	AgeGuessResultNode guessResultNode = new AgeGuessResultNode(ageGuess,
     		determineIfGuessIsGood(MultiNucleusDecayModel.convertYearsToMs(ageGuess), itemBeingTouched));
-		PNode datableItemNode = _mapDatableItemsToNodes.get(itemBeingTouched);
 		_mapDatableItemsToGuessResults.put(itemBeingTouched, guessResultNode);
 		guessResultNode.addListener(_clearResultListener);
-		Point2D guessResultNodeLocation = new Point2D.Double(0, 0);
-		if (datableItemNode == null) {
-			System.err.println(getClass().getName() + " - Error: Could not locate node for datable item " + itemBeingTouched);
-			assert false;
-			return;
+			
+		// Play a little sound to indicate whether the guess is good.
+		if (determineIfGuessIsGood(MultiNucleusDecayModel.convertYearsToMs(ageGuess), itemBeingTouched)){
+			// TODO: Need sound here.
 		}
-		else {
-			// Position the result indication node to the side of the node
-			// that represents the item being touched.  There is a tweak
-			// factor in here to add a little space between the guessing box
-			// and the datable item node.
-			guessResultNodeLocation.setLocation(
-					datableItemNode.getFullBoundsReference().getMaxX() + 8,
-					datableItemNode.getFullBoundsReference().getCenterY() 
-						- guessResultNode.getFullBoundsReference().height / 2);
-			// Play a little sound to indicate whether the guess is good.
-			if (determineIfGuessIsGood(MultiNucleusDecayModel.convertYearsToMs(ageGuess), itemBeingTouched)){
-				// TODO: Need sound here.
-			}
-			else{
-				_soundState.play("32_83.wav");
-			}
+		else{
+			_soundState.play("32_83.wav");
 		}
 		
-		guessResultNode.setOffset(guessResultNodeLocation);
+		// Position the result indicator.
+		PNode datableItemNode = _mapDatableItemsToNodes.get(itemBeingTouched);
+		guessResultNode.setOffset( findSpotForWindow(datableItemNode.getFullBounds(),
+				guessResultNode.getFullBounds() ) );
 		_guessingGameLayer.addChild( guessResultNode );
 		
 		// Double check that there is at least one valid guess result and,
