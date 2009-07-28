@@ -1,4 +1,4 @@
-/* Copyright 2007-2008, University of Colorado */
+/* Copyright 2009, University of Colorado */
 
 package edu.colorado.phet.nuclearphysics.module.betadecay;
 
@@ -33,10 +33,9 @@ public class BetaDecayControlPanel extends ControlPanel {
      * 
      * @param piccoloModule
      * @param parentFrame parent frame, for creating dialogs
-     * @param alphaDecayModel 
+     * @param betaDecayModel 
      */
-    public BetaDecayControlPanel( PiccoloModule piccoloModule, Frame parentFrame, 
-    		NucleusTypeControl alphaDecayModel ) {
+    public BetaDecayControlPanel( PiccoloModule piccoloModule, Frame parentFrame, NucleusTypeControl betaDecayModel ) {
         
         // Set the control panel's minimum width.
         int minimumWidth = NuclearPhysicsResources.getInt( "int.minControlPanelWidth", 215 );
@@ -44,7 +43,7 @@ public class BetaDecayControlPanel extends ControlPanel {
         
         // Create sub-panels
         _legendPanel = new BetaDecayLegendPanel();
-        _selectionPanel = new BetaDecayNucleusSelectionPanel( alphaDecayModel );
+        _selectionPanel = new BetaDecayNucleusSelectionPanel( betaDecayModel );
         
         // Add the legend panel.
         addControlFullWidth( _legendPanel );
