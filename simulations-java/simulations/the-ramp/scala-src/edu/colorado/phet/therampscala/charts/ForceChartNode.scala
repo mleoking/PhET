@@ -54,14 +54,10 @@ class ForceChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model
   val frictionSeries = new ControlGraphSeries("<html>F<sub>friction</sub></html>", RampDefaults.frictionForceColor, "Ff", "N", "", parallelFriction)
   val gravitySeries = new ControlGraphSeries("<html>F<sub>gravity</sub></html>", RampDefaults.gravityForceColor, "Fg", "N", "", gravityForce)
   val wallSeries = new ControlGraphSeries("<html>F<sub>wall</sub></html>", RampDefaults.wallForceColor, "Fw", "N", "", wallForce)
-  val parallelForceControlGraph = new MotionControlGraph(canvas, appliedForceSeries, "label", "title", -2000, 2000, true, timeseriesModel, updateableObject) {
-    setDomainUpperBound(20)
+
+  class RampGraph(defaultSeries: ControlGraphSeries) extends MotionControlGraph(canvas, defaultSeries, "label", "title", -2000, 2000, true, timeseriesModel, updateableObject) {
     getJFreeChartNode.setBuffered(false)
     getJFreeChartNode.setPiccoloSeries() //works better on an unbuffered chart
-    addSeries(frictionSeries)
-    addSeries(gravitySeries)
-    addSeries(wallSeries)
-
     override def createSliderNode(thumb: PNode, highlightColor: Color) = {
       new JFreeChartSliderNode(getJFreeChartNode, thumb, highlightColor) {
         val text = new ShadowHTMLNode(appliedForceSeries.getTitle)
@@ -72,7 +68,6 @@ class ForceChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model
         addChild(text)
       }
     }
-
     //todo: better support for hiding graph time control node
     override def createGraphTimeControlNode(timeSeriesModel: TimeSeriesModel) = new GraphTimeControlNode(timeSeriesModel) {
       override def setEditable(editable: Boolean) = {
@@ -83,13 +78,20 @@ class ForceChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model
     override def createReadoutTitleNode(series: ControlGraphSeries) = null
   }
 
+  val parallelForceControlGraph = new RampGraph(appliedForceSeries) {
+    setDomainUpperBound(20)
+    addSeries(frictionSeries)
+    addSeries(gravitySeries)
+    addSeries(wallSeries)
+  }
+
   def addListener(series: ControlGraphSeries, listener: () => Unit) = {
     series.addListener(new ControlGraphSeries.Adapter() {
       override def visibilityChanged = listener()
     })
   }
 
-  def createFont = new PhetFont(16, true)
+  def createFont = new PhetFont(15, true)
 
   class SeriesControlSelectorBox(series: ControlGraphSeries) extends MyCheckBox(series.getTitle, series.setVisible(_), series.isVisible, addListener(series, _)) {
     peer.setFont(createFont)
@@ -176,17 +178,16 @@ class ForceChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model
   }
   parallelForceControlGraph.addControl(new SeriesSelectionControl)
 
-  val y = new MotionControlGraph(canvas, appliedForceSeries, "label", "title", 0, 10, true, timeseriesModel, updateableObject) {
+  val workEnergyGraph = new RampGraph(appliedForceSeries) {
+    setEditable(false)
     setDomainUpperBound(20)
     getJFreeChartNode.setBuffered(false)
     getJFreeChartNode.setPiccoloSeries()
   }
-  ()
 
-  val graphs = if (showEnergyGraph) Array(new MinimizableControlGraph("Parallel Forces(N)", parallelForceControlGraph), new MinimizableControlGraph("Work/Energy", y))
+  val graphs = if (showEnergyGraph) Array(new MinimizableControlGraph("Parallel Forces(N)", parallelForceControlGraph), new MinimizableControlGraph("Work/Energy", workEnergyGraph))
   else Array(new MinimizableControlGraph("Parallel Forces(N)", parallelForceControlGraph))
 
-  //  val set = new GraphSetNode(new GraphSetModel(new GraphSuite(Array(new MinimizableControlGraph("x", x), new MinimizableControlGraph("y", y)))))
   val graphSetNode = new GraphSetNode(new GraphSetModel(new GraphSuite(graphs))) {
     override def getMaxAvailableHeight(availableHeight: Double) = availableHeight
   }
