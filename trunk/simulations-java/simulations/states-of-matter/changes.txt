@@ -1,3 +1,5 @@
+# 1.04.04 (33687) Jul 28, 2009
+7/28/09 Moved icons to the state control buttons.
 # 1.04.03 (33684) Jul 28, 2009
 7/28/09 Moved the icons on to the state change buttons.  Requested by Trish L.
 # 1.04.02 (32540) Jun 17, 2009
