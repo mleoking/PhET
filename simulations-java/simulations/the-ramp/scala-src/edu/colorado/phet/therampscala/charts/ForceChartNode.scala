@@ -9,6 +9,7 @@ import common.phetcommon.view.VerticalLayoutPanel
 import common.piccolophet.{PhetPCanvas}
 import common.timeseries.model.{RecordableModel, TimeSeriesModel}
 import java.awt.geom.Point2D
+import java.awt.GridLayout
 import java.text.DecimalFormat
 import javax.swing.{JPanel, JLabel}
 import model.{RampModel}
@@ -20,7 +21,7 @@ class ForceChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model
   val parallelAppliedForceVariable = new DefaultTemporalVariable() {
     override def setValue(value: Double) = model.bead.parallelAppliedForce = value
   }
-  model.stepListeners += (() => parallelAppliedForceVariable.addValue( model.bead.appliedForce.dot(new Vector2D(model.bead.getVelocityVectorDirection)), model.getTime))
+  model.stepListeners += (() => parallelAppliedForceVariable.addValue(model.bead.appliedForce.dot(new Vector2D(model.bead.getVelocityVectorDirection)), model.getTime))
 
   def createVariable(getter: () => Vector2D) = {
     val variable = new DefaultTemporalVariable()
@@ -47,10 +48,10 @@ class ForceChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model
   val updateableObject = new UpdateableObject {
     def setUpdateStrategy(updateStrategy: UpdateStrategy) = {}
   }
-  val appliedForceSeries = new ControlGraphSeries("Parallel Applied Force", RampDefaults.appliedForceColor, "Fa", "N", "", parallelAppliedForceVariable)
-  val frictionSeries = new ControlGraphSeries("Parallel Friction Force", RampDefaults.frictionForceColor, "Ff", "N", "", parallelFriction)
-  val gravitySeries = new ControlGraphSeries("Parallel Gravity Force", RampDefaults.gravityForceColor, "Fg", "N", "", gravityForce)
-  val wallSeries = new ControlGraphSeries("Parallel Wall Force", RampDefaults.wallForceColor, "Fw", "N", "", wallForce)
+  val appliedForceSeries = new ControlGraphSeries("<html>F<sub>applied</sub></html>", RampDefaults.appliedForceColor, "Fa", "N", "", parallelAppliedForceVariable)
+  val frictionSeries = new ControlGraphSeries("<html>F<sub>friction</sub></html>", RampDefaults.frictionForceColor, "Ff", "N", "", parallelFriction)
+  val gravitySeries = new ControlGraphSeries("<html>F<sub>gravity</sub></html>", RampDefaults.gravityForceColor, "Fg", "N", "", gravityForce)
+  val wallSeries = new ControlGraphSeries("<html>F<sub>wall</sub></html>", RampDefaults.wallForceColor, "Fw", "N", "", wallForce)
   val parallelForceChart = new MotionControlGraph(canvas, appliedForceSeries, "label", "title", -2000, 2000, true, timeseriesModel, updateableObject) {
     setDomainUpperBound(20)
     getJFreeChartNode.setBuffered(false)
@@ -66,26 +67,39 @@ class ForceChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model
     })
   }
   class SeriesControlSelectorBox(series: ControlGraphSeries) extends MyCheckBox(series.getTitle, series.setVisible(_), series.isVisible, addListener(series, _))
-  class SeriesControlSelector(series: ControlGraphSeries) extends JPanel {
-    add(new SeriesControlSelectorBox(series).peer)
-    val label = new JLabel("hello there, long label")
-    series.getTemporalVariable.addListener(new ITemporalVariable.Listener() {
-      def dataCleared = {}
 
-      def dataAdded(data: TimeData) = {}
-
-      def valueChanged = label.setText(new DecimalFormat("0.00").format(series.getTemporalVariable.getValue) + "")
+  def createLabel(series: ControlGraphSeries) = {
+    val label = new JLabel()
+    series.getTemporalVariable.addListener(new ITemporalVariable.Adapter() {
+      def valueChanged = updateLabel()
     })
-    add(label)
+    def updateLabel() = label.setText(new DecimalFormat("0.00").format(series.getTemporalVariable.getValue) + "") + series.getUnits
+
+    updateLabel()
+    label
   }
+
   class SeriesSelectionControl extends VerticalLayoutPanel {
     val jLabel = new JLabel("Parallel Forces (N)")
     jLabel.setFont(new PhetFont(20, true))
     add(jLabel)
-    add(new SeriesControlSelector(appliedForceSeries))
-    add(new SeriesControlSelector(frictionSeries))
-    add(new SeriesControlSelector(gravitySeries))
-    add(new SeriesControlSelector(wallSeries))
+    val grid = new JPanel(new GridLayout(4, 2))
+
+    def addToGrid(series: ControlGraphSeries) = {
+      grid.add(new SeriesControlSelectorBox(series).peer)
+      grid.add(createLabel(series))
+    }
+    addToGrid(appliedForceSeries)
+    addToGrid(frictionSeries)
+    addToGrid(gravitySeries)
+    addToGrid(wallSeries)
+
+    add(grid)
+
+    //    add(new SeriesControlSelector(appliedForceSeries))
+    //    add(new SeriesControlSelector(frictionSeries))
+    //    add(new SeriesControlSelector(gravitySeries))
+    //    add(new SeriesControlSelector(wallSeries))
   }
   parallelForceChart.addControl(new SeriesSelectionControl)
 
