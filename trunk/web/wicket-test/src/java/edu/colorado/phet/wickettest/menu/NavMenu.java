@@ -62,6 +62,14 @@ public class NavMenu {
             location.addChild( subLocation );
             buildCategoryMenu( subLocation, subCategory );
         }
+        if ( category.isRoot() ) {
+            NavLocation subLocation = new NavLocation( location, "all", new Linkable() {
+                public Link getLink( String id, PageContext context ) {
+                    return new PhetLink( id, context.getPrefix() + "simulations" );
+                }
+            } );
+            location.addChild( subLocation );
+        }
     }
 
     public void addMajorLocation( NavLocation location ) {

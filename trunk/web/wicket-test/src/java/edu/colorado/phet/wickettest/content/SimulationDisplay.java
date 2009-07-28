@@ -36,6 +36,7 @@ public class SimulationDisplay extends PhetRegularPage {
             }
             else {
                 simulations = HibernateUtils.getAllSimulationsWithLocale( context.getSession(), context.getLocale() );
+                HibernateUtils.orderSimulations( simulations, context.getLocale() );
             }
             tx.commit();
         }

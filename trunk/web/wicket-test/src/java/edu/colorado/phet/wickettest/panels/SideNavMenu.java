@@ -1,9 +1,12 @@
 package edu.colorado.phet.wickettest.panels;
 
+import java.util.List;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import edu.colorado.phet.wickettest.menu.NavLocation;
 import edu.colorado.phet.wickettest.menu.NavMenuList;
 import edu.colorado.phet.wickettest.util.PageContext;
 
@@ -31,7 +34,8 @@ public class SideNavMenu extends PhetPanel {
             }
         }
 
-        add( new NavMenuList( "side-nav-menu", context, context.getApplication().getMenu().getLocations(), 0 ) );
+        List<NavLocation> locations = context.getApplication().getMenu().getLocations();
+        add( new NavMenuList( "side-nav-menu", context, locations, 0 ) );
 
     }
 
