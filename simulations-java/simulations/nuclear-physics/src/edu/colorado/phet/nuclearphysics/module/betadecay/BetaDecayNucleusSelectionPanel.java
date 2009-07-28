@@ -48,26 +48,27 @@ public class BetaDecayNucleusSelectionPanel extends JPanel {
     // Instance Data
     //------------------------------------------------------------------------
     
-    private NucleusTypeControl _alphaDecayModel;
-    private JRadioButton _poloniumRadioButton;
+    private NucleusTypeControl _betaDecayModel;
+    private JRadioButton _hydrogenRadioButton;
+    private JRadioButton _carbonRadioButton;
     private JRadioButton _customNucleusRadioButton;
 
     //------------------------------------------------------------------------
     // Constructor
     //------------------------------------------------------------------------
     
-    public BetaDecayNucleusSelectionPanel(NucleusTypeControl alphaDecayModel) {
+    public BetaDecayNucleusSelectionPanel(NucleusTypeControl betaDecayModel) {
         
-    	_alphaDecayModel = alphaDecayModel;
+    	_betaDecayModel = betaDecayModel;
     	
     	// Register for notifications of nucleus type changes.
-    	alphaDecayModel.addListener(new NuclearDecayListenerAdapter(){
+    	betaDecayModel.addListener(new NuclearDecayListenerAdapter(){
     		public void nucleusTypeChanged() {
-    			if (_alphaDecayModel.getNucleusType() == NucleusType.CUSTOM){
+    			if (_betaDecayModel.getNucleusType() == NucleusType.CUSTOM){
     				_customNucleusRadioButton.setSelected(true);
     			}
     			else{
-    				_poloniumRadioButton.setSelected(true);
+    				_hydrogenRadioButton.setSelected(true);
     			}
     		}
     	});
@@ -88,58 +89,58 @@ public class BetaDecayNucleusSelectionPanel extends JPanel {
         GridBagConstraints constraints = new GridBagConstraints();
 
         // Create the radio buttons.
-        _poloniumRadioButton = new JRadioButton();
+        _hydrogenRadioButton = new JRadioButton();
         _customNucleusRadioButton = new JRadioButton();
         
         // Register for button presses.
-        _poloniumRadioButton.addActionListener( new ActionListener(){
+        _hydrogenRadioButton.addActionListener( new ActionListener(){
             public void actionPerformed(ActionEvent event){
-            	_alphaDecayModel.setNucleusType(NucleusType.POLONIUM_211);
+            	_betaDecayModel.setNucleusType(NucleusType.POLONIUM_211);
             }
         });
         _customNucleusRadioButton.addActionListener( new ActionListener(){
             public void actionPerformed(ActionEvent event){
-            	_alphaDecayModel.setNucleusType(NucleusType.CUSTOM);
+            	_betaDecayModel.setNucleusType(NucleusType.CUSTOM);
             }
         });
 
         
         // Group the radio buttons together logically and set initial state.
         ButtonGroup buttonGroup = new ButtonGroup();
-        buttonGroup.add( _poloniumRadioButton );
+        buttonGroup.add( _hydrogenRadioButton );
         buttonGroup.add( _customNucleusRadioButton );
-        _poloniumRadioButton.setSelected( true );
+        _hydrogenRadioButton.setSelected( true );
         
         //--------------------------------------------------------------------
         // Add the various components to the panel.
         //--------------------------------------------------------------------
         
-        // Add the Polonium radio button.
+        // Add the Hydrogen radio button.
         constraints.anchor = GridBagConstraints.EAST;
         constraints.gridx = 0;
         constraints.gridy = 0;
         constraints.ipadx = 25;
-        add( _poloniumRadioButton, constraints );
+        add( _hydrogenRadioButton, constraints );
         constraints.ipadx = 0; // Remove padding.
         
-        // Create and add the Polonium image.
-        PNode labeledPoloniumNucleus = new LabeledNucleusImageNode("Polonium Nucleus Small.png",
-                NuclearPhysicsStrings.POLONIUM_211_ISOTOPE_NUMBER, 
-                NuclearPhysicsStrings.POLONIUM_211_CHEMICAL_SYMBOL, 
-                NuclearPhysicsConstants.POLONIUM_LABEL_COLOR );
-        Image poloniumImage = labeledPoloniumNucleus.toImage();
-        ImageIcon poloniumIconImage = new ImageIcon(poloniumImage);
+        // Create and add the Hydrogen image.
+        PNode labeledHydrogen3Nucleus = new LabeledNucleusImageNode("hydrogen-nucleus.png",
+                NuclearPhysicsStrings.HYDROGEN_3_ISOTOPE_NUMBER, 
+                NuclearPhysicsStrings.HYDROGEN_3_CHEMICAL_SYMBOL, 
+                NuclearPhysicsConstants.HYDROGEN_3_LABEL_COLOR );
+        Image hydrogenImage = labeledHydrogen3Nucleus.toImage();
+        ImageIcon hydrogen3IconImage = new ImageIcon(hydrogenImage);
         constraints.anchor = GridBagConstraints.WEST;
         constraints.gridx = 1;
         constraints.gridy = 0;
-        add( new JLabel(poloniumIconImage), constraints );
+        add( new JLabel(hydrogen3IconImage), constraints );
         
-        // Create and add the textual label for the Polonium nucleus.
-        JLabel poloniumLabel = new JLabel( NuclearPhysicsStrings.POLONIUM_211_LEGEND_LABEL ) ;
+        // Create and add the textual label for the Hydrogen nucleus.
+        JLabel hydrogen3Label = new JLabel( NuclearPhysicsStrings.HYDROGEN_3_LEGEND_LABEL ) ;
         constraints.anchor = GridBagConstraints.WEST;
         constraints.gridx = 2;
         constraints.gridy = 0;
-        add( poloniumLabel, constraints );
+        add( hydrogen3Label, constraints );
         
         // Create and add the arrow that signifies decay.
         constraints.anchor = GridBagConstraints.CENTER;
@@ -226,10 +227,10 @@ public class BetaDecayNucleusSelectionPanel extends JPanel {
      * change in the model.
      */
     public void updateButtonState(){
-    	if (_alphaDecayModel.getNucleusType() == NucleusType.POLONIUM_211){
-    		_poloniumRadioButton.setSelected(true);
+    	if (_betaDecayModel.getNucleusType() == NucleusType.POLONIUM_211){
+    		_hydrogenRadioButton.setSelected(true);
     	}
-    	else if (_alphaDecayModel.getNucleusType() == NucleusType.CUSTOM){
+    	else if (_betaDecayModel.getNucleusType() == NucleusType.CUSTOM){
     		_customNucleusRadioButton.setSelected(true);
     	}
     	else{
