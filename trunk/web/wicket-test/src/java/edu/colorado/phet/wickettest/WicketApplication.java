@@ -1,6 +1,7 @@
 package edu.colorado.phet.wickettest;
 
 import org.apache.wicket.protocol.http.WebApplication;
+import org.apache.wicket.resource.loader.ClassStringResourceLoader;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.wickettest.content.IndexPage;
@@ -9,6 +10,7 @@ import edu.colorado.phet.wickettest.content.SimulationList;
 import edu.colorado.phet.wickettest.content.SimulationPage;
 import edu.colorado.phet.wickettest.menu.NavMenu;
 import edu.colorado.phet.wickettest.test.SubPage;
+import edu.colorado.phet.wickettest.translation.TranslationStringResourceLoader;
 import edu.colorado.phet.wickettest.util.PhetUrlMapper;
 import edu.colorado.phet.wickettest.util.PhetUrlStrategy;
 
@@ -35,6 +37,9 @@ public class WicketApplication extends WebApplication {
         mount( new PhetUrlStrategy( LocaleUtils.stringToLocale( "es" ), mapper ) );
         mount( new PhetUrlStrategy( LocaleUtils.stringToLocale( "el" ), mapper ) );
         mount( new PhetUrlStrategy( LocaleUtils.stringToLocale( "ar" ), mapper ) );
+
+        getResourceSettings().addStringResourceLoader( new TranslationStringResourceLoader() );
+        getResourceSettings().addStringResourceLoader( new ClassStringResourceLoader( WicketApplication.class ) );
 
         menu = new NavMenu();
 
