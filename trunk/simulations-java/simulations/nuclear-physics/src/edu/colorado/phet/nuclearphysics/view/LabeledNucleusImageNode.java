@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.common.NucleusDisplayInfo;
+import edu.colorado.phet.nuclearphysics.common.NucleusType;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
@@ -56,12 +57,14 @@ public class LabeledNucleusImageNode extends LabeledNucleusNode {
 
     }
     
-    public LabeledNucleusImageNode( String imageName, NucleusDisplayInfo displayInfo ){
+    public LabeledNucleusImageNode( NucleusType nucleusType ){
     	
-    	super( displayInfo );
+    	super( NucleusDisplayInfo.getDisplayInfoForNucleusType(nucleusType) );
+    	
+    	NucleusDisplayInfo displayInfo = NucleusDisplayInfo.getDisplayInfoForNucleusType(nucleusType);
         
         // Get the image for the nucleus.
-        BufferedImage im = NuclearPhysicsResources.getImage( imageName );
+        BufferedImage im = NuclearPhysicsResources.getImage( displayInfo.getImageName() );
         
         // Create and add the image node.
         PImage nucleusImage = new PImage(im);
@@ -80,6 +83,5 @@ public class LabeledNucleusImageNode extends LabeledNucleusNode {
         // Center the label over the nucleus image.
         label.setOffset( ( imageWidth - label.getFullBoundsReference().getWidth() ) / 2, 
       	  	  ( imageHeight - label.getFullBoundsReference().getHeight() ) / 2);
-
     }
 }
