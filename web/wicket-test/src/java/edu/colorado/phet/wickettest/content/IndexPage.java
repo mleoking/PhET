@@ -1,9 +1,11 @@
 package edu.colorado.phet.wickettest.content;
 
 import org.apache.wicket.PageParameters;
+import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
+import edu.colorado.phet.wickettest.translation.TranslationTestPage;
 import edu.colorado.phet.wickettest.util.Linkable;
 import edu.colorado.phet.wickettest.util.PageContext;
 import edu.colorado.phet.wickettest.util.PhetLink;
@@ -19,6 +21,8 @@ public class IndexPage extends PhetPage {
         add( SimulationDisplay.createLink( "es-simulations", LocaleUtils.stringToLocale( "es" ) ) );
         add( SimulationDisplay.createLink( "el-simulations", LocaleUtils.stringToLocale( "el" ) ) );
         add( SimulationDisplay.createLink( "ar-simulations", LocaleUtils.stringToLocale( "ar" ) ) );
+
+        add( new BookmarkablePageLink( "test-translation", TranslationTestPage.class ) );
     }
 
     public static PhetLink createLink( String id ) {
