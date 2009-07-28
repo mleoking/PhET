@@ -297,7 +297,7 @@ class RampModel extends RecordModel[String] with ObjectModel {
   def rampSegmentAccessor(particleLocation: Double) = if (particleLocation <= 0) rampSegments(0) else rampSegments(1)
 
   private def doStep(dt: Double) = {
-    super.setTime(getTime+dt)
+    super.setTime(getTime + dt)
     bead.stepInTime(dt)
     stepListeners.foreach(_())
   }
