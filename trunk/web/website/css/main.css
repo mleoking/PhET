@@ -2002,3 +2002,17 @@ img.getflashbutton {
     font-weight: bold;
     font-size: 16px;
 }
+
+.newsletter {
+    margin-left: 2em;
+    width: 180px;
+}
+
+.newsletter thumbnail {
+    padding: 3px;
+}
+
+.newsletter_caption {
+    text-align: center;
+    display: block;
+}
