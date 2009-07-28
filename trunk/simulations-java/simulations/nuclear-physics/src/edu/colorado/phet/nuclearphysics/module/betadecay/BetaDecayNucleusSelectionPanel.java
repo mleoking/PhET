@@ -26,6 +26,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
+import edu.colorado.phet.nuclearphysics.common.NucleusDisplayInfo;
 import edu.colorado.phet.nuclearphysics.common.NucleusType;
 import edu.colorado.phet.nuclearphysics.model.NuclearDecayListenerAdapter;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.NucleusTypeControl;
@@ -104,7 +105,6 @@ public class BetaDecayNucleusSelectionPanel extends JPanel {
             }
         });
 
-        
         // Group the radio buttons together logically and set initial state.
         ButtonGroup buttonGroup = new ButtonGroup();
         buttonGroup.add( _hydrogenRadioButton );
@@ -114,6 +114,7 @@ public class BetaDecayNucleusSelectionPanel extends JPanel {
         //--------------------------------------------------------------------
         // Add the various components to the panel.
         //--------------------------------------------------------------------
+        NucleusDisplayInfo nucleusDisplayInfo;
         
         // Add the Hydrogen radio button.
         constraints.anchor = GridBagConstraints.EAST;
@@ -124,10 +125,7 @@ public class BetaDecayNucleusSelectionPanel extends JPanel {
         constraints.ipadx = 0; // Remove padding.
         
         // Create and add the Hydrogen image.
-        PNode labeledHydrogen3Nucleus = new LabeledNucleusImageNode("hydrogen-nucleus.png",
-                NuclearPhysicsStrings.HYDROGEN_3_ISOTOPE_NUMBER, 
-                NuclearPhysicsStrings.HYDROGEN_3_CHEMICAL_SYMBOL, 
-                NuclearPhysicsConstants.HYDROGEN_3_LABEL_COLOR );
+        PNode labeledHydrogen3Nucleus = new LabeledNucleusImageNode( NucleusType.HYDROGEN_3 );
         Image hydrogenImage = labeledHydrogen3Nucleus.toImage();
         ImageIcon hydrogen3IconImage = new ImageIcon(hydrogenImage);
         constraints.anchor = GridBagConstraints.WEST;
@@ -136,7 +134,8 @@ public class BetaDecayNucleusSelectionPanel extends JPanel {
         add( new JLabel(hydrogen3IconImage), constraints );
         
         // Create and add the textual label for the Hydrogen nucleus.
-        JLabel hydrogen3Label = new JLabel( NuclearPhysicsStrings.HYDROGEN_3_LEGEND_LABEL ) ;
+        nucleusDisplayInfo = NucleusDisplayInfo.getDisplayInfoForNucleusType(NucleusType.HYDROGEN_3);
+        JLabel hydrogen3Label = new JLabel( nucleusDisplayInfo.getName() ) ;
         constraints.anchor = GridBagConstraints.WEST;
         constraints.gridx = 2;
         constraints.gridy = 0;
@@ -148,24 +147,22 @@ public class BetaDecayNucleusSelectionPanel extends JPanel {
         constraints.gridy = 1;
         add( new JLabel(createArrowIcon(Color.BLACK)), constraints );
         
-        // Create and add Lead image.
-        PNode labeledLeadNucleus = new LabeledNucleusImageNode("Polonium Nucleus Small.png",
-                NuclearPhysicsStrings.LEAD_207_ISOTOPE_NUMBER, 
-                NuclearPhysicsStrings.LEAD_207_CHEMICAL_SYMBOL,
-                NuclearPhysicsConstants.LEAD_LABEL_COLOR );
-        Image leadImage = labeledLeadNucleus.toImage();
-        ImageIcon leadIconImage = new ImageIcon( leadImage );
+        // Create and add Helium image.
+        PNode labeledHeliumNucleus = new LabeledNucleusImageNode( NucleusType.HELIUM_3 );
+        Image heliumImage = labeledHeliumNucleus.toImage();
+        ImageIcon heliumIconImage = new ImageIcon( heliumImage );
         constraints.anchor = GridBagConstraints.WEST;
         constraints.gridx = 1;
         constraints.gridy = 2;
-        add( new JLabel(leadIconImage), constraints );
+        add( new JLabel(heliumIconImage), constraints );
         
         // Create and add the textual label for the Lead nucleus.
-        JLabel leadLabel = new JLabel( NuclearPhysicsStrings.LEAD_207_LEGEND_LABEL ) ;
+        nucleusDisplayInfo = NucleusDisplayInfo.getDisplayInfoForNucleusType(NucleusType.HELIUM_3);
+        JLabel heliumLabel = new JLabel( nucleusDisplayInfo.getName() ) ;
         constraints.anchor = GridBagConstraints.WEST;
         constraints.gridx = 2;
         constraints.gridy = 2;
-        add( leadLabel, constraints );
+        add( heliumLabel, constraints );
         
         // Create spacing between the two main selections.
         constraints.gridx = 1;
