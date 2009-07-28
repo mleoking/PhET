@@ -6,7 +6,7 @@ import java.util.Vector
 import javax.swing._
 import java.awt.event.{ItemListener, ItemEvent}
 
-class RampComboBox(objectModel:ObjectModel) extends SubControlPanel("Choose an Object") {
+class RampComboBox(objectModel: ObjectModel) extends SubControlPanel("Choose an Object") {
   val vec = new Vector[ObjectItem]
 
   val mylist = for (o <- RampDefaults.objects) yield {
@@ -18,20 +18,20 @@ class RampComboBox(objectModel:ObjectModel) extends SubControlPanel("Choose an O
   class ObjectItem(val rampObject: ScalaRampObject) {
     override def toString = rampObject.getDisplayText
   }
-  for (elm<-mylist)vec.add(elm)
+  for (elm <- mylist) vec.add(elm)
 
   val comboBox = new JComboBox(vec)
-  comboBox.addItemListener(new ItemListener(){
-    def itemStateChanged(e: ItemEvent) = objectModel.selectedObject=mylist(comboBox.getSelectedIndex).rampObject
+  comboBox.addItemListener(new ItemListener() {
+    def itemStateChanged(e: ItemEvent) = objectModel.selectedObject = mylist(comboBox.getSelectedIndex).rampObject
   })
   add(comboBox)
 
-  objectModel.addListener(()=>{comboBox.setSelectedIndex(RampDefaults.objects.indexOf(objectModel.selectedObject))})
-  comboBox.setRenderer(new JLabel with ListCellRenderer{
+  objectModel.addListener(() => {comboBox.setSelectedIndex(RampDefaults.objects.indexOf(objectModel.selectedObject))})
+  comboBox.setRenderer(new JLabel with ListCellRenderer {
     setOpaque(true)
 
     def getListCellRendererComponent(list: JList, value: Any, index: Int, isSelected: Boolean, cellHasFocus: Boolean) = {
-      setIcon(new ImageIcon(BufferedImageUtils.multiScaleToHeight(value.asInstanceOf[ObjectItem].rampObject.bufferedImage,30)))
+      setIcon(new ImageIcon(BufferedImageUtils.multiScaleToHeight(value.asInstanceOf[ObjectItem].rampObject.bufferedImage, 30)))
       setText(value.asInstanceOf[ObjectItem].rampObject.getDisplayText)
       setBackground(if (isSelected) list.getSelectionBackground else list.getBackground)
       setForeground(if (isSelected) list.getSelectionForeground else list.getForeground)

@@ -74,7 +74,7 @@ class ForceChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model
     }
 
     //todo: better support for hiding graph time control node
-    override def createGraphTimeControlNode(timeSeriesModel: TimeSeriesModel) = new GraphTimeControlNode( timeSeriesModel ){
+    override def createGraphTimeControlNode(timeSeriesModel: TimeSeriesModel) = new GraphTimeControlNode(timeSeriesModel) {
       override def setEditable(editable: Boolean) = {
         super.setEditable(false)
       }

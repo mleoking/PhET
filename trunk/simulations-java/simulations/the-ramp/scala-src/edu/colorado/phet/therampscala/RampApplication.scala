@@ -47,11 +47,11 @@ class CoordinatesRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampM
 
 }
 
-class ForceGraphsModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(frame, clock, "Force Graphs",false)
+class ForceGraphsModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(frame, clock, "Force Graphs", false)
 
-class GraphingModule(frame: JFrame, clock: ScalaClock, name: String,showEnergyGraph:Boolean) extends BasicRampModule(frame, clock, name, false, true) {
+class GraphingModule(frame: JFrame, clock: ScalaClock, name: String, showEnergyGraph: Boolean) extends BasicRampModule(frame, clock, name, false, true) {
   coordinateSystemModel.adjustable = false
-  canvas.addNodeAfter(canvas.earthNode,new ForceChartNode(canvas.transform, canvas, model,showEnergyGraph))
+  canvas.addNodeAfter(canvas.earthNode, new ForceChartNode(canvas.transform, canvas, model, showEnergyGraph))
   model.bead.setPosition(-6)
   model.setPaused(true)
   var didUnpause = false
@@ -63,7 +63,7 @@ class GraphingModule(frame: JFrame, clock: ScalaClock, name: String,showEnergyGr
   }
 }
 
-class WorkEnergyModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(frame, clock, "Work-Energy",true)
+class WorkEnergyModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(frame, clock, "Work-Energy", true)
 
 class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock) extends AbstractRampModule(frame, clock, "Robot Moving Company") {
   val gameModel = new RobotMovingCompanyGameModel(model, clock)
@@ -87,11 +87,11 @@ class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock) extends Abstrac
 class RampApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
   def newClock = new ScalaClock(RampDefaults.DELAY, RampDefaults.DT_DEFAULT)
   //todo: add back all modules
-//  addModule(new IntroRampModule(getPhetFrame, newClock))
-//  addModule(new CoordinatesRampModule(getPhetFrame, newClock))
-//  addModule(new ForceGraphsModule(getPhetFrame, newClock))
+  //  addModule(new IntroRampModule(getPhetFrame, newClock))
+  //  addModule(new CoordinatesRampModule(getPhetFrame, newClock))
+  //  addModule(new ForceGraphsModule(getPhetFrame, newClock))
   addModule(new WorkEnergyModule(getPhetFrame, newClock))
-//  addModule(new RobotMovingCompanyModule(getPhetFrame, newClock))
+  //  addModule(new RobotMovingCompanyModule(getPhetFrame, newClock))
 }
 
 class RobotMovingCompanyApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {

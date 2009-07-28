@@ -2,13 +2,10 @@ package edu.colorado.phet.therampscala.controls
 
 import common.phetcommon.model.Resettable
 import common.phetcommon.util.IProguardKeepClass
-import common.phetcommon.view.util.{BufferedImageUtils, PhetFont}
+import common.phetcommon.view.util.{PhetFont}
 import common.phetcommon.view.{ControlPanel, VerticalLayoutPanel, ResetAllButton}
 import graphics.ObjectModel
 import java.awt._
-import java.awt.event.{ItemEvent, ItemListener}
-
-import java.util.Vector
 import javax.swing._
 import model._
 
@@ -19,7 +16,7 @@ import edu.colorado.phet.scalacommon.Predef._
 
 class RampControlPanel(model: RampModel, wordModel: WordModel, freeBodyDiagramModel: FreeBodyDiagramModel,
                        coordinateSystemModel: CoordinateSystemModel, vectorViewModel: VectorViewModel, resetHandler: () => Unit,
-                       coordinateSystemFeaturesEnabled: Boolean, useObjectComboBox: Boolean,objectModel:ObjectModel) extends ControlPanel {
+                       coordinateSystemFeaturesEnabled: Boolean, useObjectComboBox: Boolean, objectModel: ObjectModel) extends ControlPanel {
   getContentPanel.setAnchor(GridBagConstraints.WEST)
   getContentPanel.setFill(GridBagConstraints.HORIZONTAL)
   override def add(comp: Component) = {
@@ -94,7 +91,7 @@ class RampControlPanel(model: RampModel, wordModel: WordModel, freeBodyDiagramMo
   add(stepButton)
 
   //  addResetAllButton(new Resettable {def reset = resetHandler()})
-  getContentPanel.setAnchor(GridBagConstraints.SOUTH) 
+  getContentPanel.setAnchor(GridBagConstraints.SOUTH)
   getContentPanel.setFill(GridBagConstraints.NONE)
   val resetButton = new ResetAllButton(this)
   resetButton.addResettable(new Resettable {def reset = resetHandler()})
