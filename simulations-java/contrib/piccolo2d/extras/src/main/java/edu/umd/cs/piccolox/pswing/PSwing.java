@@ -28,7 +28,15 @@
  */
 package edu.umd.cs.piccolox.pswing;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.Shape;
+import java.awt.Stroke;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.Rectangle2D;
@@ -48,8 +56,6 @@ import edu.umd.cs.piccolo.PLayer;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PPaintContext;
-import edu.colorado.phet.common.phetgraphics.view.util.GraphicsSetup;
-import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
 
 /*
   This message was sent to Sun on August 27, 1999
@@ -353,7 +359,6 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
      * @param g2 graphics context for rendering the JComponent
      */
     public void paint( Graphics2D g2 ) {
-        GraphicsState state=new GraphicsState( g2 );
         if ( component.getBounds().isEmpty() ) {
             // The component has not been initialized yet.
             return;
@@ -370,7 +375,6 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
         g2.setRenderingHints( oldHints );
 
         manager.unlockRepaint( component );
-        state.restoreGraphics();
     }
 
     /**
