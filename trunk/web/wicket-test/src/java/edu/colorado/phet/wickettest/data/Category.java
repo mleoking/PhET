@@ -1,5 +1,6 @@
 package edu.colorado.phet.wickettest.data;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -9,7 +10,7 @@ import edu.colorado.phet.wickettest.menu.NavLocation;
 import edu.colorado.phet.wickettest.util.HibernateUtils;
 import edu.colorado.phet.wickettest.util.PageContext;
 
-public class Category {
+public class Category implements Serializable {
     private int id;
     private String name;
     private boolean auto;

@@ -1,12 +1,13 @@
 package edu.colorado.phet.wickettest.data;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 
-public class Simulation {
+public class Simulation implements Serializable {
     private int id;
     private String name;
     private int type;

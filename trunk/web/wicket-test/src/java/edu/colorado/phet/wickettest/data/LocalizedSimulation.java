@@ -1,10 +1,11 @@
 package edu.colorado.phet.wickettest.data;
 
+import java.io.Serializable;
 import java.util.Locale;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 
-public class LocalizedSimulation {
+public class LocalizedSimulation implements Serializable {
     private int id;
     private Locale locale;
     private String title;

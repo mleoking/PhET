@@ -1,5 +1,6 @@
 package edu.colorado.phet.wickettest.menu;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -8,7 +9,7 @@ import org.apache.wicket.markup.html.link.Link;
 import edu.colorado.phet.wickettest.util.Linkable;
 import edu.colorado.phet.wickettest.util.PageContext;
 
-public class NavLocation {
+public class NavLocation implements Serializable {
 
     private String key;
     private List<NavLocation> children = new LinkedList<NavLocation>();
@@ -31,11 +32,13 @@ public class NavLocation {
     }
 
     public boolean isUnderLocation( NavLocation location ) {
-        if( location == this ) {
+        if ( location == this ) {
             return true;
-        } else if( getParent() == null ) {
+        }
+        else if ( getParent() == null ) {
             return false;
-        } else {
+        }
+        else {
             return getParent().isUnderLocation( location );
         }
     }
