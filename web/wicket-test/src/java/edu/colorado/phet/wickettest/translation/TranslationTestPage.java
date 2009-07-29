@@ -6,6 +6,9 @@ import java.util.Locale;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.PageParameters;
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.extensions.ajax.markup.html.AjaxEditableLabel;
+import org.apache.wicket.model.Model;
 import org.hibernate.HibernateException;
 import org.hibernate.Transaction;
 
@@ -21,6 +24,7 @@ import edu.colorado.phet.wickettest.util.PageContext;
 public class TranslationTestPage extends TranslationPage {
 
     private PhetPanel panel;
+    private Model str = new Model( "Simulations" );
 
     public TranslationTestPage( PageParameters parameters ) {
         super( parameters, true );
@@ -59,16 +63,31 @@ public class TranslationTestPage extends TranslationPage {
         }
 
         panel = new SimulationDisplayPanel( "panel", context, simulations );
+        panel.setOutputMarkupId( true );
         add( panel );
 
         addTitle( "Translation test page" );
+
+
+        add( new AjaxEditableLabel( "translation-label", str ) {
+            @Override
+            protected void onSubmit( AjaxRequestTarget target ) {
+                super.onSubmit( target );
+                System.out.println( "Edited" );
+                System.out.println( "model: " + getModel() );
+                System.out.println( "Label model: " + getLabel().getModel() );
+                target.addComponent( panel );
+            }
+        } );
     }
 
     public String translateString( Component component, Locale locale, String key ) {
         if ( locale == null && key.equals( "language.dir" ) ) {
             return "ltr";
         }
-        //return LocaleUtils.localeToString( locale ) + " : " + key;
+        if ( key.equals( "simulationDisplay.simulations" ) ) {
+            return (String) str.getObject();
+        }
         return null;
     }
 }

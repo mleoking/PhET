@@ -103,6 +103,7 @@ public abstract class PhetPage extends WebPage {
         System.out.println( "Detaching page" );
         if ( hasHibernateSession ) {
             hibernateSession.close();
+            hasHibernateSession = false;
         }
         super.onDetach();
     }

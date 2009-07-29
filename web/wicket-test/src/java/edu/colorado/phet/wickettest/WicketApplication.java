@@ -9,7 +9,6 @@ import edu.colorado.phet.wickettest.content.SimulationDisplay;
 import edu.colorado.phet.wickettest.content.SimulationList;
 import edu.colorado.phet.wickettest.content.SimulationPage;
 import edu.colorado.phet.wickettest.menu.NavMenu;
-import edu.colorado.phet.wickettest.test.SubPage;
 import edu.colorado.phet.wickettest.translation.TranslationStringResourceLoader;
 import edu.colorado.phet.wickettest.util.PhetUrlMapper;
 import edu.colorado.phet.wickettest.util.PhetUrlStrategy;
@@ -31,7 +30,6 @@ public class WicketApplication extends WebApplication {
         SimulationDisplay.addToMapper( mapper );
         mapper.addMap( SimulationList.getMappingString(), SimulationList.class );
         SimulationPage.addToMapper( mapper );
-        mapper.addMap( SubPage.getMappingString(), SubPage.class );
 
         mount( new PhetUrlStrategy( LocaleUtils.stringToLocale( "en" ), mapper ) );
         mount( new PhetUrlStrategy( LocaleUtils.stringToLocale( "es" ), mapper ) );

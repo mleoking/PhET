@@ -1,6 +1,8 @@
 package edu.colorado.phet.wickettest.data;
 
-public class Project {
+import java.io.Serializable;
+
+public class Project implements Serializable {
 
     // TODO: add "live" object and properties
 
