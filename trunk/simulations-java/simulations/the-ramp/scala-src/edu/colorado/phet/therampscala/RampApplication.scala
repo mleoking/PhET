@@ -1,6 +1,6 @@
 package edu.colorado.phet.therampscala
 
-import charts.ForceChartNode
+import RampChartNode
 import common.phetcommon.application.{PhetApplicationLauncher, Module, PhetApplicationConfig}
 import common.piccolophet.{PiccoloPhetApplication}
 import graphics.RampCanvas
@@ -51,7 +51,7 @@ class ForceGraphsModule(frame: JFrame, clock: ScalaClock) extends GraphingModule
 
 class GraphingModule(frame: JFrame, clock: ScalaClock, name: String, showEnergyGraph: Boolean) extends BasicRampModule(frame, clock, name, false, true) {
   coordinateSystemModel.adjustable = false
-  canvas.addNodeAfter(canvas.earthNode, new ForceChartNode(canvas.transform, canvas, model, showEnergyGraph))
+  canvas.addNodeAfter(canvas.earthNode, new RampChartNode(canvas.transform, canvas, model, showEnergyGraph))
   model.bead.setPosition(-6)
 
   //pause on startup, and unpause (and start recording) when the user interacts with the sim 
