@@ -569,22 +569,27 @@ public class MultiNucleusBetaDecayTimeChart extends PNode {
     }
     
     private void updateNucleusGraphLabels(){
-    	if (_model.getNucleusType() == NucleusType.POLONIUM_211){
-    		_numUndecayedNucleiLabel.setText("#" + NuclearPhysicsStrings.POLONIUM_211_CHEMICAL_SYMBOL);
-    		_numUndecayedNucleiLabel.setTextPaint(NuclearPhysicsConstants.POLONIUM_LABEL_COLOR);
-    		_numUndecayedNucleiLabel.setShadowColor(Color.BLACK);
-    		_numDecayedNucleiLabel.setText("#" + NuclearPhysicsStrings.LEAD_207_CHEMICAL_SYMBOL);
-    		_numDecayedNucleiLabel.setTextPaint(NuclearPhysicsConstants.LEAD_LABEL_COLOR);
-    		_numDecayedNucleiLabel.setShadowColor(Color.WHITE);
-    	}
-    	else {
-    		_numUndecayedNucleiLabel.setText("#" + NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL);
-    		_numUndecayedNucleiLabel.setTextPaint(NuclearPhysicsConstants.CUSTOM_NUCLEUS_LABEL_COLOR);
-    		_numUndecayedNucleiLabel.setShadowColor(Color.BLACK);
-    		_numDecayedNucleiLabel.setText("#" + NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL);
-    		_numDecayedNucleiLabel.setTextPaint(NuclearPhysicsConstants.CUSTOM_NUCLEUS_POST_DECAY_LABEL_COLOR);
-    		_numDecayedNucleiLabel.setShadowColor(Color.WHITE);
-    	}
+    	
+    	NucleusDisplayInfo displayInfo = NucleusDisplayInfo.getDisplayInfoForNucleusType(_model.getNucleusType());
+		_numUndecayedNucleiLabel.setText("#" + displayInfo.getChemicalSymbol());
+		_numUndecayedNucleiLabel.setTextPaint(displayInfo.getLabelColor());
+		if (displayInfo.getLabelColor() == Color.BLACK){
+			_numUndecayedNucleiLabel.setShadowColor(Color.WHITE);
+		}
+		else{
+			_numUndecayedNucleiLabel.setShadowColor(Color.BLACK);
+		}
+		
+		NucleusType decayNucleusType = MultiNucleusDecayModel.getDecayProduct(_model.getNucleusType()).get(0);
+		NucleusDisplayInfo postDecayDisplayInfo = NucleusDisplayInfo.getDisplayInfoForNucleusType(decayNucleusType);
+		_numDecayedNucleiLabel.setText("#" + postDecayDisplayInfo.getChemicalSymbol());
+		_numDecayedNucleiLabel.setTextPaint(postDecayDisplayInfo.getLabelColor());
+		if (postDecayDisplayInfo.getLabelColor() == Color.BLACK){
+			_numDecayedNucleiLabel.setShadowColor(Color.WHITE);
+		}
+		else{
+			_numDecayedNucleiLabel.setShadowColor(Color.BLACK);
+		}
     }
     
     /**
