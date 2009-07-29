@@ -44,7 +44,6 @@ class IntroRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(
 
 class CoordinatesRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "Coordinates", true, false) {
   coordinateSystemModel.adjustable = true
-
 }
 
 class ForceGraphsModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(frame, clock, "Force Graphs", false)
@@ -90,10 +89,10 @@ class RampApplication(config: PhetApplicationConfig) extends PiccoloPhetApplicat
   def newClock = new ScalaClock(RampDefaults.DELAY, RampDefaults.DT_DEFAULT)
   //todo: add back all modules
   addModule(new IntroRampModule(getPhetFrame, newClock))
-  addModule(new CoordinatesRampModule(getPhetFrame, newClock))
-  addModule(new ForceGraphsModule(getPhetFrame, newClock))
-  addModule(new WorkEnergyModule(getPhetFrame, newClock))
-  addModule(new RobotMovingCompanyModule(getPhetFrame, newClock))
+//  addModule(new CoordinatesRampModule(getPhetFrame, newClock))
+//  addModule(new ForceGraphsModule(getPhetFrame, newClock))
+//  addModule(new WorkEnergyModule(getPhetFrame, newClock))
+//  addModule(new RobotMovingCompanyModule(getPhetFrame, newClock))
 }
 
 class RobotMovingCompanyApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {

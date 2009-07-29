@@ -1,3 +1,4 @@
+Added recording for bead state
 # 1.03.22 (33735) Jul 29, 2009
 Added recording for ramp angle
 Added recording for object type
