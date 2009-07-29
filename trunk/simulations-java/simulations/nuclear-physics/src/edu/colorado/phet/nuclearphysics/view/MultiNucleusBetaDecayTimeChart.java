@@ -1014,6 +1014,22 @@ public class MultiNucleusBetaDecayTimeChart extends PNode {
         	LabeledNucleusNode nucleusNode;
 
         	switch (_nucleus.getNumProtons()){
+        	case 1:
+        		// Create a labeled nucleus representing Hydrogen.
+        		nucleusNode = new LabeledNucleusImageNode("hydrogen-nucleus.png",
+                        NuclearPhysicsStrings.HYDROGEN_3_ISOTOPE_NUMBER, 
+                        NuclearPhysicsStrings.HYDROGEN_3_CHEMICAL_SYMBOL, 
+                        NuclearPhysicsConstants.HYDROGEN_3_LABEL_COLOR );
+        		break;
+        		
+        	case 2:
+        		// Create a labeled nucleus representing Helium.
+        		nucleusNode = new LabeledNucleusImageNode("helium-nucleus.png",
+                        NuclearPhysicsStrings.HELIUM_3_ISOTOPE_NUMBER, 
+                        NuclearPhysicsStrings.HELIUM_3_CHEMICAL_SYMBOL, 
+                        NuclearPhysicsConstants.HELIUM_3_LABEL_COLOR );
+        		break;
+        		
         	case 84:
         		// Create a labeled nucleus representing Polonium.
         		nucleusNode = new LabeledNucleusImageNode("Polonium Nucleus Small.png",
