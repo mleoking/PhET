@@ -53,6 +53,8 @@ class GraphingModule(frame: JFrame, clock: ScalaClock, name: String, showEnergyG
   coordinateSystemModel.adjustable = false
   canvas.addNodeAfter(canvas.earthNode, new ForceChartNode(canvas.transform, canvas, model, showEnergyGraph))
   model.bead.setPosition(-6)
+
+  //pause on startup, and unpause (and start recording) when the user interacts with the sim 
   model.setPaused(true)
   var didUnpause = false
   model.bead.addListenerByName {
