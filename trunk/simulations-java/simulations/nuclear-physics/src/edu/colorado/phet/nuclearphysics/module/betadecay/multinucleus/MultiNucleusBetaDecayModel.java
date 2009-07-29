@@ -12,6 +12,7 @@ import edu.colorado.phet.nuclearphysics.common.NucleusType;
 import edu.colorado.phet.nuclearphysics.common.model.AbstractDecayNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.model.AdjustableHalfLifeNucleus;
+import edu.colorado.phet.nuclearphysics.model.Carbon14Nucleus;
 import edu.colorado.phet.nuclearphysics.model.Hydrogen3Nucleus;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusDecayModel;
 
@@ -84,6 +85,9 @@ public class MultiNucleusBetaDecayModel extends MultiNucleusDecayModel {
 		for (int i = 0; i < _maxNuclei; i++){
 			if (_currentNucleusType == NucleusType.HYDROGEN_3){
 				newNucleus = new Hydrogen3Nucleus(_clock);
+			}
+			else if (_currentNucleusType == NucleusType.CARBON_14){
+				newNucleus = new Carbon14Nucleus(_clock);
 			}
 			else{
 				System.err.println(getClass().getName() + "Other nuclei not yet implemented.");
