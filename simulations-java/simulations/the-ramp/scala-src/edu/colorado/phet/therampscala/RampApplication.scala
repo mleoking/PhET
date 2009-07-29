@@ -1,6 +1,6 @@
 package edu.colorado.phet.therampscala
 
-import RampChartNode
+import charts.RampChartNode
 import common.phetcommon.application.{PhetApplicationLauncher, Module, PhetApplicationConfig}
 import common.piccolophet.{PiccoloPhetApplication}
 import graphics.RampCanvas
