@@ -12,6 +12,7 @@ import edu.colorado.phet.nuclearphysics.common.NucleusType;
 import edu.colorado.phet.nuclearphysics.common.model.AbstractDecayNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.model.AdjustableHalfLifeNucleus;
+import edu.colorado.phet.nuclearphysics.model.Hydrogen3Nucleus;
 import edu.colorado.phet.nuclearphysics.model.Polonium211Nucleus;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusDecayModel;
 
@@ -31,7 +32,7 @@ public class MultiNucleusBetaDecayModel extends MultiNucleusDecayModel {
 	// Defaults for the Beta Decay model.  Could parameterize into
 	// constructor some day if necessary.
 	static final int MAX_NUCLEI = 99;
-	static final NucleusType DEFAULT_NUCLEUS_TYPE = NucleusType.POLONIUM_211;
+	static final NucleusType DEFAULT_NUCLEUS_TYPE = NucleusType.HYDROGEN_3;
 	
 	// Size and position of the bucket of nuclei which the user uses to add
 	// nuclei to the simulation.
@@ -82,10 +83,11 @@ public class MultiNucleusBetaDecayModel extends MultiNucleusDecayModel {
 		AbstractDecayNucleus newNucleus;
 		
 		for (int i = 0; i < _maxNuclei; i++){
-			if (_currentNucleusType == NucleusType.POLONIUM_211){
-				newNucleus = new Polonium211Nucleus(_clock);
+			if (_currentNucleusType == NucleusType.HYDROGEN_3){
+				newNucleus = new Hydrogen3Nucleus(_clock);
 			}
 			else{
+				System.err.println(getClass().getName() + "Other nuclei not yet implemented.");
 				newNucleus = new AdjustableHalfLifeNucleus(_clock);
 			}
 			_atomicNuclei.add( newNucleus );
