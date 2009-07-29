@@ -156,7 +156,7 @@ public class IsotopeSelectionControlPanel extends ControlPanel {
             });
             _customNucleusRadioButton.addActionListener( new ActionListener(){
                 public void actionPerformed(ActionEvent event){
-                	_model.setNucleusType(NucleusType.CUSTOM);
+                	_model.setNucleusType(NucleusType.HEAVY_CUSTOM);
                 }
             });
 
@@ -188,8 +188,8 @@ public class IsotopeSelectionControlPanel extends ControlPanel {
             if ( customNucleusSelectionEnabled ){
 
                 addIsotopeSelection( _customNucleusRadioButton, 
-                		NucleusDisplayInfo.getDisplayInfoForNucleusType(NucleusType.CUSTOM), 
-                		NucleusDisplayInfo.getDisplayInfoForNucleusType(NucleusType.CUSTOM_POST_DECAY) );
+                		NucleusDisplayInfo.getDisplayInfoForNucleusType(NucleusType.HEAVY_CUSTOM), 
+                		NucleusDisplayInfo.getDisplayInfoForNucleusType(NucleusType.HEAVY_CUSTOM_POST_DECAY) );
             }
         }
         

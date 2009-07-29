@@ -178,7 +178,7 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
         // Register for significant events from the model.
         _model.addListener(new NuclearDecayListenerAdapter(){
         	public void nucleusTypeChanged(){
-        		if (_model.getNucleusType() == NucleusType.CUSTOM){
+        		if (_model.getNucleusType() == NucleusType.HEAVY_CUSTOM){
         			_interactivityEnabled = true;
         	        _totalEnergy = CUSTOM_INITIAL_TOTAL_ENERGY;
         	        _potentialEnergyMinimum = CUSTOM_INITIAL_MINIUMIM_POTENTIAL_ENERGY;
@@ -204,7 +204,7 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
         
         // If the model currently has the custom nucleus, we need to set the
         // half life to correspond to our initial energy configuration.
-        if (_model.getNucleusType() == NucleusType.CUSTOM){
+        if (_model.getNucleusType() == NucleusType.HEAVY_CUSTOM){
         	updateCustomNucleusHalfLife();
         }
 
@@ -366,7 +366,7 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
      * levels.
      */
 	private void updateCustomNucleusHalfLife() {
-		if (_model.getNucleusType() == NucleusType.CUSTOM){
+		if (_model.getNucleusType() == NucleusType.HEAVY_CUSTOM){
 			_model.setHalfLife(calculateHalfLife());
         }
 	}

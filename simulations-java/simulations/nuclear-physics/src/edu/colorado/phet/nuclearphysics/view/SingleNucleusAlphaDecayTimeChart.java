@@ -161,7 +161,7 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
         _clock = model.getClock();
         _model = model;
 
-        if (_model.getNucleusType() == NucleusType.CUSTOM){
+        if (_model.getNucleusType() == NucleusType.HEAVY_CUSTOM){
         	_exponentialMode = true;
         }
         else{
@@ -592,7 +592,7 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
      */
 	private void handleNucleusTypeChanged() {
 		clearDecayedNuclei();
-    	if (_model.getNucleusType() == NucleusType.CUSTOM){
+    	if (_model.getNucleusType() == NucleusType.HEAVY_CUSTOM){
     		_exponentialMode = true;
     		setYAxisTickMarkLabelText();
     	}
@@ -609,7 +609,7 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
 		String upperLabel, lowerLabel;
 		
 		switch (_model.getNucleusType()){
-		case CUSTOM:
+		case HEAVY_CUSTOM:
 			upperLabel = NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL;
 			lowerLabel = NuclearPhysicsStrings.DECAYED_CUSTOM_NUCLEUS_CHEMICAL_SYMBOL;
 			break;

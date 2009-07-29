@@ -543,7 +543,7 @@ public class BucketOfNucleiNode extends PNode {
 			_bucketLabel.setHTML(NuclearPhysicsStrings.BUCKET_LABEL_POLONIUM);
 		    break;
 			
-		case CUSTOM:
+		case HEAVY_CUSTOM:
 			_bucketLabel.setHTML(NuclearPhysicsStrings.BUCKET_LABEL_ATOMS);
 		    break;
 		    

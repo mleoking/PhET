@@ -134,7 +134,7 @@ public class RadiometricDatingMeter {
 		
 		double halflife;
 		
-		if (_nucleusTypeForDating == NucleusType.CUSTOM){
+		if (_nucleusTypeForDating == NucleusType.HEAVY_CUSTOM){
 			halflife = _halfLifeOfCustomNucleus;
 		}
 		else {
@@ -199,7 +199,7 @@ public class RadiometricDatingMeter {
 		
 		// This can ONLY be called if a custom nucleus is being used for
 		// dating.
-		assert _nucleusTypeForDating == NucleusType.CUSTOM;
+		assert _nucleusTypeForDating == NucleusType.HEAVY_CUSTOM;
 		
 		_halfLifeOfCustomNucleus = halfLife;
 		
@@ -212,7 +212,7 @@ public class RadiometricDatingMeter {
 	 * @return half life in milliseconds.
 	 */
 	public double getHalfLifeForDating(){
-		if (_nucleusTypeForDating == NucleusType.CUSTOM){
+		if (_nucleusTypeForDating == NucleusType.HEAVY_CUSTOM){
 			return _halfLifeOfCustomNucleus;
 		}
 		else{

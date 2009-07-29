@@ -690,7 +690,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
         }
         
         // If it is a custom nucleus, position and show the handle.
-        if (_model.getNucleusType() == NucleusType.CUSTOM){
+        if (_model.getNucleusType() == NucleusType.HEAVY_CUSTOM){
         	_halfLifeHandleNode.setVisible(true);
         	_halfLifeHandleNode.setOffset( _halfLifeMarkerLine.getX(), _halfLifeMarkerLine.getY() + (_graphOriginY - _halfLifeMarkerLine.getY()) / 2 );
         }
@@ -724,7 +724,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
 		String upperLabel, lowerLabel;
 		
 		switch (_model.getNucleusType()){
-		case CUSTOM:
+		case HEAVY_CUSTOM:
 			upperLabel = NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL;
 			lowerLabel = NuclearPhysicsStrings.DECAYED_CUSTOM_NUCLEUS_CHEMICAL_SYMBOL;
 			break;
