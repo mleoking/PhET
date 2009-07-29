@@ -11,7 +11,6 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
-import java.security.InvalidParameterException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -834,7 +833,7 @@ public class MultiNucleusBetaDecayTimeChart extends PNode {
         			
         	    	if (_nucleusNode == null){
             			// Create a node for this nucleus.
-            			_nucleusNode = createNucleusNode();
+            			_nucleusNode = new LabeledNucleusImageNode(_model.getNucleusType());
             	    	_nucleusNode.setScale((_nucleusNodeRadius * 2) / _nucleusNode.getFullBoundsReference().height);
         	    	}
         			
@@ -1007,73 +1006,6 @@ public class MultiNucleusBetaDecayTimeChart extends PNode {
         	xPos = _graphOriginX + (_nucleus.getActivatedSimTime() + TIME_ZERO_OFFSET) * _msToPixelsFactor 
         	        - _nucleusNodeRadius + (_bunchingOffset.getX() * _usableHeight);
         	_nucleusNode.setOffset(xPos, yPos);
-    	}
-    	
-    	/**
-    	 * Create the appropriate visual representation for this nucleus.
-    	 * 
-    	 * @return - A PNode that depicts this nucleus.
-    	 */
-    	private LabeledNucleusNode createNucleusNode(){
-        	
-        	LabeledNucleusNode nucleusNode;
-
-        	switch (_nucleus.getNumProtons()){
-        	case 1:
-        		// Create a labeled nucleus representing Hydrogen.
-        		nucleusNode = new LabeledNucleusImageNode("hydrogen-nucleus.png",
-                        NuclearPhysicsStrings.HYDROGEN_3_ISOTOPE_NUMBER, 
-                        NuclearPhysicsStrings.HYDROGEN_3_CHEMICAL_SYMBOL, 
-                        NuclearPhysicsConstants.HYDROGEN_3_LABEL_COLOR );
-        		break;
-        		
-        	case 2:
-        		// Create a labeled nucleus representing Helium.
-        		nucleusNode = new LabeledNucleusImageNode("helium-nucleus.png",
-                        NuclearPhysicsStrings.HELIUM_3_ISOTOPE_NUMBER, 
-                        NuclearPhysicsStrings.HELIUM_3_CHEMICAL_SYMBOL, 
-                        NuclearPhysicsConstants.HELIUM_3_LABEL_COLOR );
-        		break;
-        		
-        	case 84:
-        		// Create a labeled nucleus representing Polonium.
-        		nucleusNode = new LabeledNucleusImageNode("Polonium Nucleus Small.png",
-                        NuclearPhysicsStrings.POLONIUM_211_ISOTOPE_NUMBER, 
-                        NuclearPhysicsStrings.POLONIUM_211_CHEMICAL_SYMBOL, 
-                        NuclearPhysicsConstants.POLONIUM_LABEL_COLOR );
-        		break;
-        		
-        	case 83:
-        		// This nucleus is bismuth, which we use as the pre-decay custom
-        		// nucleus.
-        		nucleusNode = new LabeledNucleusImageNode("Polonium Nucleus Small.png", 
-        				"", // No isotope number.
-                        NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL, 
-                        NuclearPhysicsConstants.CUSTOM_NUCLEUS_LABEL_COLOR );
-        		break;
-        		
-        	case 82:
-        		// Create a labeled nucleus representing Lead.
-        		nucleusNode = new LabeledNucleusImageNode("Lead Nucleus Small.png",
-                        NuclearPhysicsStrings.LEAD_207_ISOTOPE_NUMBER, 
-                        NuclearPhysicsStrings.LEAD_207_CHEMICAL_SYMBOL, 
-                        NuclearPhysicsConstants.LEAD_LABEL_COLOR );
-        		break;
-        		
-        	case 81:
-        		// This is thallium, which we use as the post-decay custom nucleus.
-        		nucleusNode = new LabeledNucleusImageNode("Lead Nucleus Small.png",
-        				"", // No isotope number.
-                        NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL, 
-                        NuclearPhysicsConstants.CUSTOM_NUCLEUS_POST_DECAY_LABEL_COLOR );
-        		break;
-        		
-        	default:
-        		assert false;  // This is not a nucleus type that we know how to handle.
-        		throw new InvalidParameterException("Unrecognized nucleus type.");
-        	}
-        	
-        	return nucleusNode;
     	}
     }
 }
