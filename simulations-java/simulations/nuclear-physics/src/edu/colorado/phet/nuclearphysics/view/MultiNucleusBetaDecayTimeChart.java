@@ -582,7 +582,7 @@ public class MultiNucleusBetaDecayTimeChart extends PNode {
     		_numUndecayedNucleiLabel.setTextPaint(NuclearPhysicsConstants.CUSTOM_NUCLEUS_LABEL_COLOR);
     		_numUndecayedNucleiLabel.setShadowColor(Color.BLACK);
     		_numDecayedNucleiLabel.setText("#" + NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL);
-    		_numDecayedNucleiLabel.setTextPaint(NuclearPhysicsConstants.DECAYED_CUSTOM_NUCLEUS_LABEL_COLOR);
+    		_numDecayedNucleiLabel.setTextPaint(NuclearPhysicsConstants.CUSTOM_NUCLEUS_POST_DECAY_LABEL_COLOR);
     		_numDecayedNucleiLabel.setShadowColor(Color.WHITE);
     	}
     }
@@ -1044,7 +1044,7 @@ public class MultiNucleusBetaDecayTimeChart extends PNode {
         		nucleusNode = new LabeledNucleusImageNode("Lead Nucleus Small.png",
         				"", // No isotope number.
                         NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL, 
-                        NuclearPhysicsConstants.DECAYED_CUSTOM_NUCLEUS_LABEL_COLOR );
+                        NuclearPhysicsConstants.CUSTOM_NUCLEUS_POST_DECAY_LABEL_COLOR );
         		break;
         		
         	default:

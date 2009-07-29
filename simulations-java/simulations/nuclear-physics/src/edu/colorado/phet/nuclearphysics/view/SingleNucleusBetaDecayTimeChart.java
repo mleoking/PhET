@@ -768,7 +768,7 @@ public class SingleNucleusBetaDecayTimeChart extends PNode {
     		nucleusNode = new EnhancedLabeledNucleusNode("Lead Nucleus Small.png",
     				"", // No isotope number.
                     NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL, 
-                    NuclearPhysicsConstants.DECAYED_CUSTOM_NUCLEUS_LABEL_COLOR );
+                    NuclearPhysicsConstants.CUSTOM_NUCLEUS_POST_DECAY_LABEL_COLOR );
     		break;
     		
     	default:
