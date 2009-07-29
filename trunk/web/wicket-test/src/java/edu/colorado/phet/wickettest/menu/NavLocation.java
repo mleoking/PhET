@@ -30,6 +30,30 @@ public class NavLocation {
         }
     }
 
+    public boolean isUnderLocation( NavLocation location ) {
+        if ( location == this ) {
+            return true;
+        }
+        else if ( getParent() == null ) {
+            return false;
+        }
+        else {
+            return getParent().isUnderLocation( location );
+        }
+    }
+
+    public boolean isUnderLocationKey( String key ) {
+        if ( getKey().equals( key ) ) {
+            return true;
+        }
+        if ( getParent() == null ) {
+            return false;
+        }
+        else {
+            return getParent().isUnderLocationKey( key );
+        }
+    }
+
     @Override
     public String toString() {
         return "NL: " + getKey();
