@@ -20,7 +20,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
  */
 public class LabeledNucleusImageNode extends LabeledNucleusNode {
 
-	private static final double IMAGE_SCALING_FACTOR = 0.20;
+	private static final int IMAGE_WIDTH_IN_PIXELS = 50;
 
     /**
      * Constructor that takes the name of an image resource and loads it.
@@ -39,7 +39,7 @@ public class LabeledNucleusImageNode extends LabeledNucleusNode {
         
         // Create and add the image node.
         PImage nucleusImage = new PImage(im);
-        nucleusImage.setScale( IMAGE_SCALING_FACTOR );
+        nucleusImage.setScale( (double)IMAGE_WIDTH_IN_PIXELS / nucleusImage.getWidth() );
         getRepresentationLayer().addChild(nucleusImage);
 
         // Scale and position the label.
@@ -57,31 +57,15 @@ public class LabeledNucleusImageNode extends LabeledNucleusNode {
 
     }
     
+    /**
+     * Constructor.
+     * 
+     * @param nucleusType
+     */
     public LabeledNucleusImageNode( NucleusType nucleusType ){
-    	
-    	super( NucleusDisplayInfo.getDisplayInfoForNucleusType(nucleusType) );
-    	
-    	NucleusDisplayInfo displayInfo = NucleusDisplayInfo.getDisplayInfoForNucleusType(nucleusType);
-        
-        // Get the image for the nucleus.
-        BufferedImage im = NuclearPhysicsResources.getImage( displayInfo.getImageName() );
-        
-        // Create and add the image node.
-        PImage nucleusImage = new PImage(im);
-        nucleusImage.setScale( IMAGE_SCALING_FACTOR );
-        getRepresentationLayer().addChild(nucleusImage);
-
-        // Scale and position the label.
-        double imageWidth = nucleusImage.getFullBoundsReference().getWidth();
-        double imageHeight = nucleusImage.getFullBoundsReference().getHeight();
-        PNode label = getLabel();
-        double scale = Math.min( ( imageWidth / label.getFullBoundsReference().getWidth() ) * 0.9,
-        	( imageHeight / label.getFullBoundsReference().getHeight() ) );
-        
-        label.setScale( scale );
-
-        // Center the label over the nucleus image.
-        label.setOffset( ( imageWidth - label.getFullBoundsReference().getWidth() ) / 2, 
-      	  	  ( imageHeight - label.getFullBoundsReference().getHeight() ) / 2);
+    	this(NucleusDisplayInfo.getDisplayInfoForNucleusType(nucleusType).getImageName(),
+    			NucleusDisplayInfo.getDisplayInfoForNucleusType(nucleusType).getIsotopeNumberString(),
+    			NucleusDisplayInfo.getDisplayInfoForNucleusType(nucleusType).getChemicalSymbol(),
+    			NucleusDisplayInfo.getDisplayInfoForNucleusType(nucleusType).getLabelColor());
     }
 }
