@@ -212,7 +212,7 @@ public class RadiometricDatingMeterNode extends PNode {
 	 */
 	private void handleDatingElementChanged(){
 		if (_halfLifeComboBox != null){
-			if (_meterModel.getNucleusTypeUsedForDating() == NucleusType.CUSTOM){
+			if (_meterModel.getNucleusTypeUsedForDating() == NucleusType.HEAVY_CUSTOM){
 				_halfLifeComboBox.setEnabled(true);
 				if (_halfLifeComboBox.getSelectedIndex() == -1){
 					_halfLifeComboBox.setSelectedIndex(0);
@@ -560,23 +560,23 @@ public class RadiometricDatingMeterNode extends PNode {
             
             if (showCustom){
 	            final JRadioButton customNucleusRadioButton = new JRadioButton(
-	            		NucleusDisplayInfo.getDisplayInfoForNucleusType(NucleusType.CUSTOM).getName(), true);
+	            		NucleusDisplayInfo.getDisplayInfoForNucleusType(NucleusType.HEAVY_CUSTOM).getName(), true);
 	            customNucleusRadioButton.setBackground(BODY_COLOR);
 	            customNucleusRadioButton.setForeground(Color.WHITE);
 	            customNucleusRadioButton.setFont(LABEL_FONT);
 	            customNucleusRadioButton.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e) {
-						meterModel.setNucleusTypeUsedForDating(NucleusType.CUSTOM);
+						meterModel.setNucleusTypeUsedForDating(NucleusType.HEAVY_CUSTOM);
 					}
 	            });
 	            add(customNucleusRadioButton);
 	            meterModel.addListener(new RadiometricDatingMeter.Adapter(){
 	            	public void datingElementChanged(){
 	            		customNucleusRadioButton.setSelected( meterModel.getNucleusTypeUsedForDating() == 
-	            			NucleusType.CUSTOM );
+	            			NucleusType.HEAVY_CUSTOM );
 	            	};
 	            });
-	            customNucleusRadioButton.setSelected( meterModel.getNucleusTypeUsedForDating() == NucleusType.CUSTOM);
+	            customNucleusRadioButton.setSelected( meterModel.getNucleusTypeUsedForDating() == NucleusType.HEAVY_CUSTOM);
             }
 		}
 	}

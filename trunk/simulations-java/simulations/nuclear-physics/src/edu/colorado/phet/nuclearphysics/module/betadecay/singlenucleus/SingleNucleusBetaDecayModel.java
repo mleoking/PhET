@@ -186,7 +186,7 @@ public class SingleNucleusBetaDecayModel implements NucleusTypeControl {
 	public void setHalfLife(double halfLife){
 		
 		// Verify that the current nucleus is custom.
-		if (_nucleusType != NucleusType.CUSTOM){
+		if (_nucleusType != NucleusType.HEAVY_CUSTOM){
 			System.err.println("Warning: Can only set nucleus type for custom nucleus, ignoring request.");
 			return;
 		}
@@ -241,7 +241,7 @@ public class SingleNucleusBetaDecayModel implements NucleusTypeControl {
 	        _atomicNucleus = new Polonium211CompositeNucleus(_clock, new Point2D.Double(0, 0));
 	        break;
 			
-		case CUSTOM:
+		case HEAVY_CUSTOM:
 	        _atomicNucleus = new AdjustableHalfLifeCompositeNucleus(_clock, new Point2D.Double(0, 0));
 	        break;
 		}

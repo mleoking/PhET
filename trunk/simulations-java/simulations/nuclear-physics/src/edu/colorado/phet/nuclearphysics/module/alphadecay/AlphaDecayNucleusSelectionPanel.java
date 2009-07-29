@@ -62,7 +62,7 @@ public class AlphaDecayNucleusSelectionPanel extends JPanel {
     	// Register for notifications of nucleus type changes.
     	alphaDecayModel.addListener(new NuclearDecayListenerAdapter(){
     		public void nucleusTypeChanged() {
-    			if (_alphaDecayModel.getNucleusType() == NucleusType.CUSTOM){
+    			if (_alphaDecayModel.getNucleusType() == NucleusType.HEAVY_CUSTOM){
     				_customNucleusRadioButton.setSelected(true);
     			}
     			else{
@@ -98,7 +98,7 @@ public class AlphaDecayNucleusSelectionPanel extends JPanel {
         });
         _customNucleusRadioButton.addActionListener( new ActionListener(){
             public void actionPerformed(ActionEvent event){
-            	_alphaDecayModel.setNucleusType(NucleusType.CUSTOM);
+            	_alphaDecayModel.setNucleusType(NucleusType.HEAVY_CUSTOM);
             }
         });
 
@@ -228,7 +228,7 @@ public class AlphaDecayNucleusSelectionPanel extends JPanel {
     	if (_alphaDecayModel.getNucleusType() == NucleusType.POLONIUM_211){
     		_poloniumRadioButton.setSelected(true);
     	}
-    	else if (_alphaDecayModel.getNucleusType() == NucleusType.CUSTOM){
+    	else if (_alphaDecayModel.getNucleusType() == NucleusType.HEAVY_CUSTOM){
     		_customNucleusRadioButton.setSelected(true);
     	}
     	else{

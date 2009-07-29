@@ -365,7 +365,7 @@ public class RadiometricElementDecayCanvas extends PhetPCanvas {
     
     private void setTimeSpanForChart(){
     	// Set the time span of the chart based on the nucleus type.
-    	if (_model.getNucleusType() == NucleusType.CUSTOM){
+    	if (_model.getNucleusType() == NucleusType.HEAVY_CUSTOM){
     		// Set the chart for five seconds of real time.
     		_decayTimeChart.setTimeSpan(5000);
     	}

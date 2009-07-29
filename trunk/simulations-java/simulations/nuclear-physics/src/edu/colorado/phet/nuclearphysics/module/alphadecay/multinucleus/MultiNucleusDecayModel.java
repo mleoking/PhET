@@ -240,8 +240,8 @@ public class MultiNucleusDecayModel implements NucleusTypeControl {
 			decayProducts.add(NucleusType.LEAD_207);
 			break;
 
-		case CUSTOM:
-			decayProducts.add(NucleusType.CUSTOM_POST_DECAY);
+		case HEAVY_CUSTOM:
+			decayProducts.add(NucleusType.HEAVY_CUSTOM_POST_DECAY);
 			break;
 
 		default:
@@ -380,7 +380,7 @@ public class MultiNucleusDecayModel implements NucleusTypeControl {
 	public void setHalfLife(double halfLife) {
 		
 		// Verify that the current nucleus is custom.
-		if (_currentNucleusType != NucleusType.CUSTOM){
+		if (_currentNucleusType != NucleusType.HEAVY_CUSTOM){
 			System.err.println("Warning: Can only set half life for custom nucleus, ignoring request.");
 			return;
 		}

@@ -247,11 +247,11 @@ public class NucleusDisplayInfo {
 			displayInfo = URANIUM_239_DISPLAY_INFO;
 			break;
 			
-		case CUSTOM:
+		case HEAVY_CUSTOM:
 			displayInfo = CUSTOM_NUCLEUS_DISPLAY_INFO;
 			break;
 			
-		case CUSTOM_POST_DECAY:
+		case HEAVY_CUSTOM_POST_DECAY:
 			displayInfo = DECAYED_CUSTOM_NUCLEUS_DISPLAY_INFO;
 			break;
 			
@@ -291,7 +291,7 @@ public class NucleusDisplayInfo {
     		
     	case 81:
     		// This is thallium, which we use as the post-decay custom nucleus.
-    		nucleusType = NucleusType.CUSTOM_POST_DECAY;
+    		nucleusType = NucleusType.HEAVY_CUSTOM_POST_DECAY;
     		break;
     		
     	case 82:
@@ -314,7 +314,7 @@ public class NucleusDisplayInfo {
     	case 83:
     		// This nucleus is bismuth, which we use as the pre-decay custom
     		// nucleus.
-    		nucleusType = NucleusType.CUSTOM;
+    		nucleusType = NucleusType.HEAVY_CUSTOM;
     		break;
     		
     	case 84:
