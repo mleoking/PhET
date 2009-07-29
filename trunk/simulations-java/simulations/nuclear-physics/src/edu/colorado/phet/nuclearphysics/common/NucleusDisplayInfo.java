@@ -55,6 +55,22 @@ public class NucleusDisplayInfo {
 			NuclearPhysicsConstants.NITROGEN_COLOR, 
 			"atomic_nucleus_with_around_15_nucleons.png" );
 
+	public static final NucleusDisplayInfo LIGHT_CUSTOM_NUCLEUS_DISPLAY_INFO = new NucleusDisplayInfo(
+			NuclearPhysicsStrings.CUSTOM_NUCLEUS_LEGEND_LABEL,
+			NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL,
+			"",  // No isotope number for the custom nucleus.
+			NuclearPhysicsConstants.CUSTOM_NUCLEUS_LABEL_COLOR,
+			NuclearPhysicsConstants.CUSTOM_NUCLEUS_PRE_DECAY_COLOR, 
+			"atomic_nucleus_with_around_15_nucleons.png" );
+
+	public static final NucleusDisplayInfo DECAYED_LIGHT_CUSTOM_NUCLEUS_DISPLAY_INFO = new NucleusDisplayInfo(
+			NuclearPhysicsStrings.CUSTOM_NUCLEUS_LEGEND_LABEL,
+			NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL,
+			"",  // No isotope number for the custom nucleus.
+			NuclearPhysicsConstants.CUSTOM_NUCLEUS_LABEL_COLOR,
+			NuclearPhysicsConstants.CUSTOM_NUCLEUS_POST_DECAY_COLOR, 
+			"atomic_nucleus_with_around_15_nucleons.png" );
+
 	public static final NucleusDisplayInfo URANIUM_235_DISPLAY_INFO = new NucleusDisplayInfo(
 			NuclearPhysicsStrings.URANIUM_235_LEGEND_LABEL,
 			NuclearPhysicsStrings.URANIUM_235_CHEMICAL_SYMBOL,
@@ -111,7 +127,7 @@ public class NucleusDisplayInfo {
 			NuclearPhysicsConstants.LEAD_COLOR, 
 			"Polonium Nucleus Small.png" );
 
-	public static final NucleusDisplayInfo CUSTOM_NUCLEUS_DISPLAY_INFO = new NucleusDisplayInfo(
+	public static final NucleusDisplayInfo HEAVY_CUSTOM_NUCLEUS_DISPLAY_INFO = new NucleusDisplayInfo(
 			NuclearPhysicsStrings.CUSTOM_NUCLEUS_LEGEND_LABEL,
 			NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL,
 			"",  // No isotope number for the custom nucleus.
@@ -119,7 +135,7 @@ public class NucleusDisplayInfo {
 			NuclearPhysicsConstants.CUSTOM_NUCLEUS_PRE_DECAY_COLOR, 
 			"Polonium Nucleus Small.png" );
 
-	public static final NucleusDisplayInfo DECAYED_CUSTOM_NUCLEUS_DISPLAY_INFO = new NucleusDisplayInfo(
+	public static final NucleusDisplayInfo DECAYED_HEAVY_CUSTOM_NUCLEUS_DISPLAY_INFO = new NucleusDisplayInfo(
 			NuclearPhysicsStrings.CUSTOM_NUCLEUS_LEGEND_LABEL,
 			NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL,
 			"",  // No isotope number for the custom nucleus.
@@ -219,6 +235,14 @@ public class NucleusDisplayInfo {
 			displayInfo = NITROGEN_14_DISPLAY_INFO;
 			break;
 			
+		case LIGHT_CUSTOM:
+			displayInfo = LIGHT_CUSTOM_NUCLEUS_DISPLAY_INFO;
+			break;
+			
+		case LIGHT_CUSTOM_POST_DECAY:
+			displayInfo = DECAYED_LIGHT_CUSTOM_NUCLEUS_DISPLAY_INFO;
+			break;
+			
 		case LEAD_206:
 			displayInfo = LEAD_206_DISPLAY_INFO;
 			break;
@@ -248,11 +272,11 @@ public class NucleusDisplayInfo {
 			break;
 			
 		case HEAVY_CUSTOM:
-			displayInfo = CUSTOM_NUCLEUS_DISPLAY_INFO;
+			displayInfo = HEAVY_CUSTOM_NUCLEUS_DISPLAY_INFO;
 			break;
 			
 		case HEAVY_CUSTOM_POST_DECAY:
-			displayInfo = DECAYED_CUSTOM_NUCLEUS_DISPLAY_INFO;
+			displayInfo = DECAYED_HEAVY_CUSTOM_NUCLEUS_DISPLAY_INFO;
 			break;
 			
 		default:
