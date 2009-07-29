@@ -52,6 +52,8 @@ class RampChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model:
   val energyVariable = createVariable(() => model.bead.getTotalEnergy)
   val keVariable = createVariable(() => model.bead.getKineticEnergy)
   val peVariable = createVariable(() => model.bead.getPotentialEnergy)
+  val appliedWorkVariable = createVariable(() => model.bead.getAppliedWork) 
+  val gravityWorkVariable= createVariable(() => model.bead.getGravityWork)
 
   val recordableModel = new RecordableModel() {
     def getState = "hello"
@@ -76,6 +78,8 @@ class RampChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model:
   val totalEnergySeries = new ControlGraphSeries("<html>E<sub>total</sub></html>", RampDefaults.totalEnergyColor, "Etot", "J", "", energyVariable)
   val keSeries = new ControlGraphSeries("<html>E<sub>kin</sub></html>", RampDefaults.kineticEnergyColor, "KE", "J", "", keVariable)
   val peSeries = new ControlGraphSeries("<html>E<sub>pot</sub></html>", RampDefaults.potentialEnergyColor, "PE", "J", "", peVariable)
+  val appliedWorkSeries=new ControlGraphSeries("<html>W<sub>applied</sub></html>", RampDefaults.appliedWorkColor, "Wapp", "J", "", appliedWorkVariable)
+  val gravityWorkSeries=new ControlGraphSeries("<html>W<sub>gravity</sub></html>", RampDefaults.appliedWorkColor, "Wgrav", "J", "", gravityWorkVariable)
 
   class RampGraph(defaultSeries: ControlGraphSeries) extends MotionControlGraph(canvas, defaultSeries, "label", "title", -2000, 2000, true, timeseriesModel, updateableObject) {
     getJFreeChartNode.setBuffered(false)
@@ -160,11 +164,15 @@ class RampChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model:
     getJFreeChartNode.setPiccoloSeries()
     addSeries(keSeries)
     addSeries(peSeries)
+    addSeries(appliedWorkSeries)
+    addSeries(gravityWorkSeries)
   }
-  workEnergyGraph.addControl(new SeriesSelectionControl("Work/Energy (J)", 3) {
+  workEnergyGraph.addControl(new SeriesSelectionControl("Work/Energy (J)", 5) {
     addToGrid(totalEnergySeries)
     addToGrid(keSeries)
     addToGrid(peSeries)
+    addToGrid(appliedWorkSeries)
+    addToGrid(gravityWorkSeries)
   })
 
   val graphs = if (showEnergyGraph) Array(new MinimizableControlGraph("Parallel Forces(N)", parallelForceControlGraph), new MinimizableControlGraph("Work/Energy", workEnergyGraph))
@@ -172,8 +180,8 @@ class RampChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model:
 
   val graphSetNode = new GraphSetNode(new GraphSetModel(new GraphSuite(graphs))) {
     override def getMaxAvailableHeight(availableHeight: Double) = availableHeight
+    setAlignedLayout()
   }
-  graphSetNode.setAlignedLayout()
 
   addChild(graphSetNode)
 

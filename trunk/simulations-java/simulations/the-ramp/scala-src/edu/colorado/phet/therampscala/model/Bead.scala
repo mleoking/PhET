@@ -199,6 +199,10 @@ class Bead(_state: BeadState,
 
   def getPotentialEnergy = mass * gravity * position2D.y
 
+  def getAppliedWork = 0.0
+
+  def getGravityWork = -getPotentialEnergy
+
   def getKineticEnergy = 1.0 / 2.0 * mass * velocity * velocity
 
   def getAngle = attachState.getAngle
