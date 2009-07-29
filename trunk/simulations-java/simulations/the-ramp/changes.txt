@@ -1,3 +1,4 @@
+Added series for friction work
 Added series for thermal energy
 Added series for gravitational force work
 # 1.03.21 (33712) Jul 28, 2009
