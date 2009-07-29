@@ -3,6 +3,12 @@ package edu.colorado.phet.wickettest.data;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.hibernate.Session;
+
+import edu.colorado.phet.wickettest.menu.NavLocation;
+import edu.colorado.phet.wickettest.util.HibernateUtils;
+import edu.colorado.phet.wickettest.util.PageContext;
+
 public class Category {
     private int id;
     private String name;
@@ -34,6 +40,39 @@ public class Category {
         if ( !root ) {
             parent.subcategories.add( this );
         }
+    }
+
+    /**
+     * NOTE: must be in session transaction!
+     *
+     * @param session
+     * @param categoriesString
+     * @return
+     */
+    public static Category getCategoryFromPath( Session session, String categoriesString ) {
+        Category category;
+        System.out.println( "categoriesString = " + categoriesString );
+        String[] categories = categoriesString.split( "/" );
+        int categoryIndex = categories.length - 1;
+        if ( categories[categoryIndex].equals( "" ) ) {
+            categoryIndex--;
+        }
+        String categoryName = categories[categoryIndex];
+        category = HibernateUtils.getCategoryByName( session, categoryName );
+        if ( category == null ) {
+            throw new RuntimeException( "Couldn't find category" );
+        }
+
+        System.out.println( "category path: " + category.getCategoryPath() );
+
+        if ( !category.getCategoryPath().equals( categoriesString ) ) {
+            throw new RuntimeException( "category path doesn't match category strings: " + category.getCategoryPath() + " != " + categoriesString );
+        }
+        return category;
+    }
+
+    public NavLocation getNavLocation( PageContext context ) {
+        return context.getApplication().getMenu().getLocationByKey( getName() );
     }
 
     public String getCategoryPath() {

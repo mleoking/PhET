@@ -14,6 +14,7 @@ import edu.colorado.phet.wickettest.panels.SimulationMainPanel;
 import edu.colorado.phet.wickettest.util.HibernateUtils;
 import edu.colorado.phet.wickettest.util.PhetLink;
 import edu.colorado.phet.wickettest.util.PhetRegularPage;
+import edu.colorado.phet.wickettest.util.PhetUrlMapper;
 
 public class SimulationPage extends PhetRegularPage {
     public SimulationPage( PageParameters parameters ) {
@@ -57,12 +58,9 @@ public class SimulationPage extends PhetRegularPage {
         initializeMenu( null );
     }
 
-    public static String getMappingString() {
-        return "^simulation/([^/]+)(/([^/]+))?$";
-    }
-
-    public static String[] getMappingParameters() {
-        return new String[]{"project", null, "flavor"};
+    public static void addToMapper( PhetUrlMapper mapper ) {
+        //mapper.addMap( "^simulation/(.+)/([^/]+)$", SimulationPage.class, new String[]{"categories", "simulation"} );
+        mapper.addMap( "^simulation/([^/]+)(/([^/]+))?$", SimulationPage.class, new String[]{"project", null, "flavor"} );
     }
 
     public static PhetLink createLink( String id, Locale locale, LocalizedSimulation simulation ) {
