@@ -308,9 +308,6 @@ class RampModel extends RecordModel[String] with ObjectModel {
 
 }
 
-case class WorkEnergyState(appliedWork: Double, gravityWork: Double, frictionWork: Double,
-                           potentialEnergy: Double, kineticEnergy: Double, totalEnergy: Double)
-
 trait SurfaceFrictionStrategy {
   def getTotalFriction(objectFriction: Double): Double
 }
