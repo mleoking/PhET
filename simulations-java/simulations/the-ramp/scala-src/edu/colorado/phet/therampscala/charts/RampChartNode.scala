@@ -6,16 +6,14 @@ import common.motion.graphs._
 import common.motion.model._
 import common.phetcommon.model.clock.ConstantDtClock
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
-import common.phetcommon.view.VerticalLayoutPanel
 import common.piccolophet.nodes.{ShadowHTMLNode}
 import common.piccolophet.{PhetPCanvas}
 import common.timeseries.model.{RecordableModel, TimeSeriesModel}
 import java.awt.event.{FocusEvent, FocusListener, ActionEvent, ActionListener}
 import java.awt.geom.Point2D
-import java.awt.{Color, GridLayout}
-import javax.swing.{JTextField, JComponent, JPanel, JLabel}
+import java.awt.{Color}
+import javax.swing.{JTextField, JPanel, JLabel}
 import model.{RampModel}
-import swing.MyCheckBox
 import umd.cs.piccolo.PNode
 import scalacommon.math.Vector2D
 
@@ -29,7 +27,7 @@ object Defaults {
   }
 }
 
-class ForceChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model: RampModel, showEnergyGraph: Boolean) extends PNode {
+class RampChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model: RampModel, showEnergyGraph: Boolean) extends PNode {
   val parallelAppliedForceVariable = new DefaultTemporalVariable() {
     override def setValue(value: Double) = model.bead.parallelAppliedForce = value
   }
@@ -186,45 +184,4 @@ class ForceChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model
     graphSetNode.setBounds(viewBounds.getX, viewLoc.y, viewBounds.getWidth, h)
   }
   updatePosition()
-}
-
-class SeriesSelectionControl(title: String, numRows: Int) extends VerticalLayoutPanel {
-  setBackground(RampDefaults.EARTH_COLOR)
-  val jLabel = new JLabel(title)
-  jLabel.setFont(new PhetFont(20, true))
-  jLabel.setBackground(RampDefaults.EARTH_COLOR)
-  add(jLabel)
-  val grid = new JPanel(new GridLayout(numRows, 2))
-  grid.setBackground(RampDefaults.EARTH_COLOR)
-
-  def addToGrid(series: ControlGraphSeries): Unit = {
-    addToGrid(series, createLabel)
-  }
-
-  def addToGrid(series: ControlGraphSeries, labelMaker: ControlGraphSeries => JComponent): Unit = {
-    grid.add(new SeriesControlSelectorBox(series).peer)
-    grid.add(labelMaker(series))
-  }
-
-  def createLabel(series: ControlGraphSeries) = {
-    val label = new JLabel()
-    label.setBackground(RampDefaults.EARTH_COLOR)
-    label.setFont(Defaults.createFont)
-    label.setForeground(series.getColor)
-    series.getTemporalVariable.addListener(new ITemporalVariable.ListenerAdapter() {
-      override def valueChanged = updateLabel()
-    })
-    def updateLabel() = label.setText("= " + new DefaultDecimalFormat("0.00").format(series.getTemporalVariable.getValue) + " " + series.getUnits)
-
-    updateLabel()
-    label
-  }
-
-  add(grid)
-}
-
-class SeriesControlSelectorBox(series: ControlGraphSeries) extends MyCheckBox(series.getTitle, series.setVisible(_), series.isVisible, Defaults.addListener(series, _)) {
-  peer.setFont(Defaults.createFont)
-  peer.setForeground(series.getColor)
-  peer.setBackground(RampDefaults.EARTH_COLOR)
 }
