@@ -58,17 +58,19 @@ class RampChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model:
   val frictionWorkVariable = createVariable(() => model.bead.getFrictiveWork)
 
   val recordableModel = new RecordableModel() {
-    def getState = "hello"
+    def getState:Object= model.getTime.asInstanceOf[Object]
 
     def resetTime = {}
 
     def clear = {}
 
-    def setState(o: Any) = {}
+    def setState(o: Any) = model.setPlaybackTime(o.asInstanceOf[Double])
 
     def stepInTime(simulationTimeChange: Double) = {}
   }
-  val timeseriesModel = new TimeSeriesModel(recordableModel, new ConstantDtClock(30, 1.0))
+  val timeseriesModel = new TimeSeriesModel(recordableModel, new ConstantDtClock(30, 1.0)){//todo: remove dummy clock
+    override def setPlaybackTime(requestedTime: Double) = model.setPlaybackTime(requestedTime)//skip bounds checking in parent
+  }
   val updateableObject = new UpdateableObject {
     def setUpdateStrategy(updateStrategy: UpdateStrategy) = {}
   }
