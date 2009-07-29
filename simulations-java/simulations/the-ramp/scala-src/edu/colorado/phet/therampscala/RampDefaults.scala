@@ -34,15 +34,18 @@ object RampDefaults {
 
   def wallWidth = wall.width
 
-  val appliedForceColor = Color.orange
-  val gravityForceColor = Color.blue
-  val normalForceColor = Color.yellow
-  val frictionForceColor = Color.red
-  val totalForceColor = Color.pink
+  import Color._
+
+  val appliedForceColor = orange
+  val gravityForceColor = blue
+  val normalForceColor = yellow
+  val frictionForceColor = red
+  val totalForceColor = pink
   val wallForceColor = new Color(190, 190, 0)
 
-  val totalEnergyColor = Color.blue
-  val kineticEnergyColor = Color.red
-  val potentialEnergyColor = Color.green
-  val appliedWorkColor= Color.black
+  val totalEnergyColor = blue
+  val kineticEnergyColor = red
+  val potentialEnergyColor = green
+  val thermalEnergyColor = orange
+  val appliedWorkColor= black
 }

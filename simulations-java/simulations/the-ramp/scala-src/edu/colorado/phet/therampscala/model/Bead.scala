@@ -96,6 +96,8 @@ class Bead(_state: BeadState,
 
   def getVelocityVectorDirection = (positionMapper(position + velocity * 1E-6) - positionMapper(position - velocity * 1E-6)).getAngle
 
+  def getVelocityVectorUnitVector = new Vector2D(getVelocityVectorDirection)
+
   def parallelAppliedForce = _parallelAppliedForce
 
   def parallelAppliedForce_=(value: Double) = {
@@ -195,12 +197,17 @@ class Bead(_state: BeadState,
     this._airborneFloor = airborneFloor
   }
 
-  def getTotalEnergy = getPotentialEnergy + getKineticEnergy
+  def getTotalEnergy = getPotentialEnergy + getKineticEnergy + getThermalEnergy
 
   def getPotentialEnergy = mass * gravity * position2D.y
 
   def getAppliedWork = 0.0
 
+  private var thermalEnergy = 0.0
+  def getThermalEnergy = thermalEnergy
+
+  def getFrictiveWork = -getThermalEnergy
+  
   def getGravityWork = -getPotentialEnergy
 
   def getKineticEnergy = 1.0 / 2.0 * mass * velocity * velocity
@@ -361,8 +368,11 @@ class Bead(_state: BeadState,
           //        thermalEnergy += origState.kineticEnergy
         }
         val frictionWork = -thermalEnergy
-        new WorkEnergyState(appliedWork, gravityWork, frictionWork, getPotentialEnergy, getKineticEnergy, getTotalEnergy)
+        ()
+//        new WorkEnergyState(appliedWork, gravityWork, frictionWork, getPotentialEnergy, getKineticEnergy, getTotalEnergy)
       } else {
+        val dx=position - origState.position
+        thermalEnergy = thermalEnergy + abs( (frictionForce dot getVelocityVectorUnitVector) * dx )//work done by friction force, absolute value
         //      val dW=getAppliedWorkDifferential
         //      val appliedWork=origState.appliedWork
         //      val gravityWork=-getPotentialEnergy
