@@ -13,7 +13,6 @@ import edu.colorado.phet.nuclearphysics.common.model.AbstractDecayNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.model.AdjustableHalfLifeNucleus;
 import edu.colorado.phet.nuclearphysics.model.Hydrogen3Nucleus;
-import edu.colorado.phet.nuclearphysics.model.Polonium211Nucleus;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusDecayModel;
 
 /**
@@ -36,9 +35,9 @@ public class MultiNucleusBetaDecayModel extends MultiNucleusDecayModel {
 	
 	// Size and position of the bucket of nuclei which the user uses to add
 	// nuclei to the simulation.
-	static final double BUCKET_ORIGIN_X = 43;
-	static final double BUCKET_ORIGIN_Y = 45;
-	static final double BUCKET_WIDTH = 45;
+	static final double BUCKET_ORIGIN_X = 21;
+	static final double BUCKET_ORIGIN_Y = 22;
+	static final double BUCKET_WIDTH = 22;
 	static final double BUCKET_HEIGHT = BUCKET_WIDTH * 0.65;
 	private static final Rectangle2D BUCKET_RECT = new Rectangle2D.Double(BUCKET_ORIGIN_X, BUCKET_ORIGIN_Y, 
 			BUCKET_WIDTH, BUCKET_HEIGHT);
