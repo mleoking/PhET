@@ -98,7 +98,7 @@ public class NuclearPhysicsConstants {
     public static final Color CUSTOM_NUCLEUS_POST_DECAY_LABEL_COLOR = Color.BLACK;
     
     // Color for label used for the Hydrogen 3 nucleus.
-    public static final Color HYDROGEN_3_LABEL_COLOR = Color.WHITE;
+    public static final Color HYDROGEN_3_LABEL_COLOR = Color.BLUE;
     
     // Color for label used for the Helium 3 nucleus.
     public static final Color HELIUM_3_LABEL_COLOR = Color.GREEN;
@@ -121,10 +121,10 @@ public class NuclearPhysicsConstants {
     // Color for label used for the Uranium 239 nucleus.
     public static final Color URANIUM_239_LABEL_COLOR = Color.WHITE;
     
-    // Color for carbon when represented as a circle or sphere.
+    // Color for hydrogen when represented as a circle or sphere.
     public static final Color HYDROGEN_COLOR = Color.PINK;
     
-    // Color for carbon when represented as a circle or sphere.
+    // Color for helium when represented as a circle or sphere.
     public static final Color HELIUM_COLOR = Color.CYAN;
     
     // Color for carbon when represented as a circle or sphere.
