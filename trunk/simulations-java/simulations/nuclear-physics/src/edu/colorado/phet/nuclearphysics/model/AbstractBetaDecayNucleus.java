@@ -18,8 +18,8 @@ import edu.colorado.phet.nuclearphysics.common.model.AbstractDecayNucleus;
 public abstract class AbstractBetaDecayNucleus extends AbstractDecayNucleus {
 
 	public AbstractBetaDecayNucleus(NuclearPhysicsClock clock, Point2D position,
-			int numProtons, int numNeutrons) {
-		super(clock, position, numProtons, numNeutrons);
+			int numProtons, int numNeutrons, double decayTimeScalingFactor) {
+		super(clock, position, numProtons, numNeutrons, decayTimeScalingFactor);
 	}
 	
 	/**

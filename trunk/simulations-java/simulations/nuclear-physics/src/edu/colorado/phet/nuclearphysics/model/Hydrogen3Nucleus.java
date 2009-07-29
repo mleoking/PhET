@@ -5,12 +5,8 @@ package edu.colorado.phet.nuclearphysics.model;
 import java.awt.geom.Point2D;
 import java.util.Random;
 
-import javax.swing.JFrame;
-
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
-import edu.colorado.phet.nuclearphysics.common.view.AbstractAtomicNucleusNode;
-import edu.colorado.phet.nuclearphysics.common.view.LabeledExplodingAtomicNucleusNode;
+import edu.colorado.phet.nuclearphysics.common.NucleusType;
 
 /**
  * This class represents a non-composite Hydrogen 3 nucleus.  In other words,
@@ -18,7 +14,7 @@ import edu.colorado.phet.nuclearphysics.common.view.LabeledExplodingAtomicNucleu
  *
  * @author John Blanco
  */
-public class Hydrogen3Nucleus extends AbstractAlphaDecayNucleus {
+public class Hydrogen3Nucleus extends AbstractBetaDecayNucleus {
     
     //------------------------------------------------------------------------
     // Class Data
@@ -27,6 +23,11 @@ public class Hydrogen3Nucleus extends AbstractAlphaDecayNucleus {
     // Number of neutrons and protons in the nucleus upon construction.
     public static final int ORIGINAL_NUM_PROTONS = 1;
     public static final int ORIGINAL_NUM_NEUTRONS = 2;
+    
+    // Time scaling factor - scales the rate at which decay occurs so that we
+    // don't really have to wait around thousands of years.  Smaller values
+    // cause quicker decay.
+    private static double DECAY_TIME_SCALING_FACTOR = 1500 / HalfLifeInfo.getHalfLifeForNucleusType(NucleusType.HYDROGEN_3);
     
     // Random number generator used for calculating decay time based on decay constant.
     private static final Random RAND = new Random();
@@ -40,8 +41,7 @@ public class Hydrogen3Nucleus extends AbstractAlphaDecayNucleus {
     //------------------------------------------------------------------------
     
     public Hydrogen3Nucleus(NuclearPhysicsClock clock, Point2D position){
-
-        super(clock, position, ORIGINAL_NUM_PROTONS, ORIGINAL_NUM_NEUTRONS);
+        super(clock, position, ORIGINAL_NUM_PROTONS, ORIGINAL_NUM_NEUTRONS, DECAY_TIME_SCALING_FACTOR);
     }
     
     public Hydrogen3Nucleus(NuclearPhysicsClock clock){
