@@ -28,7 +28,7 @@ public class JFreeChartCursorNode extends PNode {
     private double minDragTime = Double.NEGATIVE_INFINITY;
     private double maxDragTime = Double.POSITIVE_INFINITY;
 
-    private ArrayList listeners = new ArrayList();
+    private ArrayList<Listener> listeners = new ArrayList<Listener>();
 
     final PropertyChangeListener updater = new PropertyChangeListener() {
         public void propertyChange( PropertyChangeEvent evt ) {
@@ -146,8 +146,8 @@ public class JFreeChartCursorNode extends PNode {
     }
 
     public void notifySliderDragged() {
-        for ( int i = 0; i < listeners.size(); i++ ) {
-            ( (Listener) listeners.get( i ) ).cursorTimeChanged();
+        for ( Listener listener : listeners ) {
+            listener.cursorTimeChanged();
         }
     }
 
