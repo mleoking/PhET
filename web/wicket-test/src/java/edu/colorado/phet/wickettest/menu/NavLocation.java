@@ -31,13 +31,11 @@ public class NavLocation {
     }
 
     public boolean isUnderLocation( NavLocation location ) {
-        if ( location == this ) {
+        if( location == this ) {
             return true;
-        }
-        else if ( getParent() == null ) {
+        } else if( getParent() == null ) {
             return false;
-        }
-        else {
+        } else {
             return getParent().isUnderLocation( location );
         }
     }
