@@ -64,12 +64,7 @@ public class BetaDecayNucleusSelectionPanel extends JPanel {
     	// Register for notifications of nucleus type changes.
     	betaDecayModel.addListener(new NuclearDecayListenerAdapter(){
     		public void nucleusTypeChanged() {
-    			if (_betaDecayModel.getNucleusType() == NucleusType.HEAVY_CUSTOM){
-    				_customNucleusRadioButton.setSelected(true);
-    			}
-    			else{
-    				_hydrogenRadioButton.setSelected(true);
-    			}
+    			updateButtonState();
     		}
     	});
     	
@@ -96,12 +91,18 @@ public class BetaDecayNucleusSelectionPanel extends JPanel {
         // Register for button presses.
         _hydrogenRadioButton.addActionListener( new ActionListener(){
             public void actionPerformed(ActionEvent event){
-            	_betaDecayModel.setNucleusType(NucleusType.POLONIUM_211);
+            	_betaDecayModel.setNucleusType(NucleusType.HYDROGEN_3);
             }
         });
+        _carbonRadioButton.addActionListener( new ActionListener(){
+            public void actionPerformed(ActionEvent event){
+            	_betaDecayModel.setNucleusType(NucleusType.CARBON_14);
+            }
+        });
+
         _customNucleusRadioButton.addActionListener( new ActionListener(){
             public void actionPerformed(ActionEvent event){
-            	_betaDecayModel.setNucleusType(NucleusType.HEAVY_CUSTOM);
+            	_betaDecayModel.setNucleusType(NucleusType.LIGHT_CUSTOM);
             }
         });
 
@@ -276,10 +277,13 @@ public class BetaDecayNucleusSelectionPanel extends JPanel {
      * change in the model.
      */
     public void updateButtonState(){
-    	if (_betaDecayModel.getNucleusType() == NucleusType.POLONIUM_211){
+    	if (_betaDecayModel.getNucleusType() == NucleusType.HYDROGEN_3){
     		_hydrogenRadioButton.setSelected(true);
     	}
-    	else if (_betaDecayModel.getNucleusType() == NucleusType.HEAVY_CUSTOM){
+    	else if (_betaDecayModel.getNucleusType() == NucleusType.CARBON_14){
+    		_carbonRadioButton.setSelected(true);
+    	}
+    	else if (_betaDecayModel.getNucleusType() == NucleusType.LIGHT_CUSTOM){
     		_customNucleusRadioButton.setSelected(true);
     	}
     	else{
