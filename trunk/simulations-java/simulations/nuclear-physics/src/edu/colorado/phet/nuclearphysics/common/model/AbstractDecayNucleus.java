@@ -77,8 +77,7 @@ public abstract class AbstractDecayNucleus extends AtomicNucleus implements Nucl
 	    	if (!_paused){
 	        	// See if decay should occur.
 		        if (clockEvent.getSimulationTime() >= _decayTime ) {
-		            // It is time to decay.  Cause alpha decay by generating an
-		        	// alpha particle and reducing our atomic weight.
+		            // It is time to decay.
 		        	decay( clockEvent );
 		        }
 		        else{
