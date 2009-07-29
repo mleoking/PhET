@@ -303,6 +303,16 @@ public class NucleusDisplayInfo {
 		// handled here - just those needed by the sim.  Feel free to add more
 		// if needed.
 		switch (numProtons){
+		case 1:
+			// Hydrogen.
+			nucleusType = NucleusType.HYDROGEN_3;
+			break;
+			
+		case 2:
+			// Helium.
+			nucleusType = NucleusType.HELIUM_3;
+			break;
+		
     	case 6:
     		// Carbon 14.
     		nucleusType = NucleusType.CARBON_14;
