@@ -14,5 +14,9 @@
             <key column="simulation"/>
             <one-to-many class="edu.colorado.phet.wickettest.data.LocalizedSimulation"/>
         </set>
+        <set name="categories" inverse="true" table="category_mapping">
+            <key column="simulation_id"/>
+            <many-to-many class="edu.colorado.phet.wickettest.data.Category" column="category_id"/>
+        </set>
     </class>
 </hibernate-mapping>

@@ -17,7 +17,10 @@ public class InitializeCategories {
         List list = category.getSimulations();
         for ( String name : names ) {
             Simulation sim = (Simulation) session.createQuery( "select s from Simulation as s where s.name = :name" ).setString( "name", name ).uniqueResult();
+
+            // TODO: refactor to common place(s) in category and simulation?
             list.add( sim );
+            sim.getCategories().add( category );
         }
     }
 
