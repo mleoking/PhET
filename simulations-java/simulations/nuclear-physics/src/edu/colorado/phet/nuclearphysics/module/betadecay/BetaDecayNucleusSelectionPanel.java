@@ -44,7 +44,7 @@ public class BetaDecayNucleusSelectionPanel extends JPanel {
     //------------------------------------------------------------------------
     // Class Data
     //------------------------------------------------------------------------
-    
+	
     //------------------------------------------------------------------------
     // Instance Data
     //------------------------------------------------------------------------
@@ -91,6 +91,7 @@ public class BetaDecayNucleusSelectionPanel extends JPanel {
 
         // Create the radio buttons.
         _hydrogenRadioButton = new JRadioButton();
+        _carbonRadioButton = new JRadioButton();
         _customNucleusRadioButton = new JRadioButton();
         
         // Register for button presses.
@@ -156,7 +157,7 @@ public class BetaDecayNucleusSelectionPanel extends JPanel {
         constraints.gridy = 2;
         add( new JLabel(heliumIconImage), constraints );
         
-        // Create and add the textual label for the Lead nucleus.
+        // Create and add the textual label for the helium nucleus.
         nucleusDisplayInfo = NucleusDisplayInfo.getDisplayInfoForNucleusType(NucleusType.HELIUM_3);
         JLabel heliumLabel = new JLabel( nucleusDisplayInfo.getName() ) ;
         constraints.anchor = GridBagConstraints.WEST;
@@ -164,15 +165,73 @@ public class BetaDecayNucleusSelectionPanel extends JPanel {
         constraints.gridy = 2;
         add( heliumLabel, constraints );
         
-        // Create spacing between the two main selections.
+        // Create spacing between this and the next selection.
         constraints.gridx = 1;
         constraints.gridy = 3;
         add( createVerticalSpacingPanel( 20 ), constraints );
         
+        //-------------------8888888888
+        
+        // Add the carbon-14 radio button.
+        constraints.anchor = GridBagConstraints.EAST;
+        constraints.gridx = 0;
+        constraints.gridy = 4;
+        constraints.ipadx = 25;
+        add( _carbonRadioButton, constraints );
+        constraints.ipadx = 0; // Remove padding.
+        
+        // Create and add the carbon-14 image.
+        
+        PNode labeledCarbon14Nucleus = new LabeledNucleusImageNode( NucleusType.CARBON_14 );
+        Image carbonImage = labeledCarbon14Nucleus.toImage();
+        ImageIcon carbon14IconImage = new ImageIcon(carbonImage);
+        constraints.anchor = GridBagConstraints.WEST;
+        constraints.gridx = 1;
+        constraints.gridy = 4;
+        add( new JLabel(carbon14IconImage), constraints );
+        
+        // Create and add the textual label for the carbon-14 nucleus.
+        nucleusDisplayInfo = NucleusDisplayInfo.getDisplayInfoForNucleusType(NucleusType.CARBON_14);
+        JLabel carbon14Label = new JLabel( nucleusDisplayInfo.getName() ) ;
+        constraints.anchor = GridBagConstraints.WEST;
+        constraints.gridx = 2;
+        constraints.gridy = 4;
+        add( carbon14Label, constraints );
+        
+        // Create and add the arrow that signifies decay.
+        constraints.anchor = GridBagConstraints.CENTER;
+        constraints.gridx = 1;
+        constraints.gridy = 5;
+        add( new JLabel(createArrowIcon(Color.BLACK)), constraints );
+        
+        // Create and add nitrogen-14 image.
+        PNode labeledNitrogenNucleus = new LabeledNucleusImageNode( NucleusType.NITROGEN_14 );
+        Image nitrogenImage = labeledNitrogenNucleus.toImage();
+        ImageIcon nitrogenIconImage = new ImageIcon( nitrogenImage );
+        constraints.anchor = GridBagConstraints.WEST;
+        constraints.gridx = 1;
+        constraints.gridy = 6;
+        add( new JLabel(nitrogenIconImage), constraints );
+        
+        // Create and add the textual label for the nitrogen nucleus.
+        nucleusDisplayInfo = NucleusDisplayInfo.getDisplayInfoForNucleusType(NucleusType.NITROGEN_14);
+        JLabel nitrogenLabel = new JLabel( nucleusDisplayInfo.getName() ) ;
+        constraints.anchor = GridBagConstraints.WEST;
+        constraints.gridx = 2;
+        constraints.gridy = 6;
+        add( nitrogenLabel, constraints );
+        
+        // Create spacing between this and the next selection.
+        constraints.gridx = 1;
+        constraints.gridy = 7;
+        add( createVerticalSpacingPanel( 20 ), constraints );
+        
+        //-------------------8888888888
+        
         // Add the custom nucleus radio button.
         constraints.anchor = GridBagConstraints.WEST;
         constraints.gridx = 0;
-        constraints.gridy = 4;
+        constraints.gridy = 8;
         add( _customNucleusRadioButton, constraints  );
         
         // Create and add the icon for the non-decayed custom nucleus.
@@ -183,20 +242,20 @@ public class BetaDecayNucleusSelectionPanel extends JPanel {
         ImageIcon customNucleusIconImage = new ImageIcon(customNucleusImage);
         constraints.anchor = GridBagConstraints.WEST;
         constraints.gridx = 1;
-        constraints.gridy = 4;
+        constraints.gridy = 8;
         add( new JLabel(customNucleusIconImage), constraints );
         
         // Create and add the textual label for the non-decayed custom nucleus.
         JLabel customNucleusLabel = new JLabel( NuclearPhysicsStrings.CUSTOM_NUCLEUS_LEGEND_LABEL ) ;
         constraints.anchor = GridBagConstraints.WEST;
         constraints.gridx = 2;
-        constraints.gridy = 4;
+        constraints.gridy = 8;
         add( customNucleusLabel, constraints );
         
         // Create and add the arrow that signifies decay.
         constraints.anchor = GridBagConstraints.CENTER;
         constraints.gridx = 1;
-        constraints.gridy = 5;
+        constraints.gridy = 9;
         add( new JLabel(createArrowIcon(Color.BLACK)), constraints );
         
         // Create and add the icon for the decayed custom nucleus.
@@ -207,14 +266,14 @@ public class BetaDecayNucleusSelectionPanel extends JPanel {
         ImageIcon decayedCustomNucleusIconImage = new ImageIcon(decayedCustomNucleusImage);
         constraints.anchor = GridBagConstraints.WEST;
         constraints.gridx = 1;
-        constraints.gridy = 6;
+        constraints.gridy = 10;
         add( new JLabel(decayedCustomNucleusIconImage), constraints );
         
         // Create and add the textual label for the decayed custom nucleus.
         JLabel decayedCustomNucleusLabel = new JLabel( NuclearPhysicsStrings.DECAYED_CUSTOM_NUCLEUS_LEGEND_LABEL ) ;
         constraints.anchor = GridBagConstraints.WEST;
         constraints.gridx = 2;
-        constraints.gridy = 6;
+        constraints.gridy = 10;
         add( decayedCustomNucleusLabel, constraints );
     }
     
