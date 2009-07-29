@@ -28,6 +28,10 @@ public class HalfLifeInfo {
 		
 		switch (nucleusType){
 		
+		case HYDROGEN_3:
+			halfLife = MultiNucleusDecayModel.convertDaysToMs( 4500 );
+			break;
+			
 		case CARBON_14:
 			halfLife = MultiNucleusDecayModel.convertYearsToMs( 5730 );
 			break;
