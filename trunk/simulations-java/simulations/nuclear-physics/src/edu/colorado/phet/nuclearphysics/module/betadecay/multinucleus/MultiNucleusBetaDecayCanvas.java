@@ -51,7 +51,7 @@ public class MultiNucleusBetaDecayCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
 
     // Canvas size in femto meters.  Assumes a 4:3 aspect ratio.
-    private final double CANVAS_WIDTH = 200;
+    private final double CANVAS_WIDTH = 100;
     private final double CANVAS_HEIGHT = CANVAS_WIDTH * (3.0d/4.0d);
     
     // Translation factors, used to set origin of canvas area.
