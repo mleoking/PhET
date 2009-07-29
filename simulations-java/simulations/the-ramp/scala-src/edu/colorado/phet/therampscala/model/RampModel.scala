@@ -5,8 +5,8 @@ import collection.mutable.ArrayBuffer
 import graphics.ObjectModel
 import scalacommon.math.Vector2D
 import java.awt.geom.Point2D
+import scalacommon.record.{DataPoint, RecordModel}
 import scalacommon.util.Observable
-import scalacommon.record.RecordModel
 import java.lang.Math._
 
 class WordModel extends Observable {
@@ -168,7 +168,10 @@ class CoordinateFrameModel(snapToAngles: List[() => Double]) extends Observable 
   }
 }
 
-class RampModel extends RecordModel[String] with ObjectModel {
+//This class stores all state information used in record/playback
+case class RampState(angle: Double)
+
+class RampModel extends RecordModel[RampState] with ObjectModel {
   setPaused(false)
 
   val rampSegments = new ArrayBuffer[RampSegment]
@@ -219,11 +222,13 @@ class RampModel extends RecordModel[String] with ObjectModel {
     rampSegments(1).setAngle(initialAngle)
   }
 
-  def setPlaybackState(state: String) {}
+  def setPlaybackState(state: RampState) = {
+    setRampAngle(state.angle)
+  }
 
-  def handleRecordStartedDuringPlayback() {}
+  def handleRecordStartedDuringPlayback() = {}
 
-  def getMaxRecordPoints = 100
+  def getMaxRecordPoints = 1000
 
   def selectedObject = _selectedObject
 
@@ -283,6 +288,8 @@ class RampModel extends RecordModel[String] with ObjectModel {
     rampSegments(1).setAngle(angle)
   }
 
+  def getRampAngle = rampSegments(1).angle
+
   //TODO: this may need to be more general
   def positionMapper(particleLocation: Double) = {
     if (particleLocation <= 0) {
@@ -299,13 +306,18 @@ class RampModel extends RecordModel[String] with ObjectModel {
   private def doStep(dt: Double) = {
     super.setTime(getTime + dt)
     bead.stepInTime(dt)
+    recordHistory += new DataPoint(getTime, new RampState(getRampAngle))
     stepListeners.foreach(_())
   }
 
-  def update(dt: Double) = if (!isPaused) doStep(dt)
+  def update(dt: Double) = {
+    if (!isPaused) {
+      if (isRecord) doStep(dt)
+      else if (isPlayback) stepPlayback()
+    }
+  }
 
   def stepRecord(dt: Double) = doStep(dt)
-
 }
 
 trait SurfaceFrictionStrategy {
