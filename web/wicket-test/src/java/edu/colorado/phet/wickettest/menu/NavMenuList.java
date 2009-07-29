@@ -26,8 +26,13 @@ public class NavMenuList extends Panel {
 
                 Label label = new Label( "link-label", new ResourceModel( "nav." + location.getKey() ) );
 
+                boolean open = false;
+
                 if ( currentLocations != null ) {
                     for ( NavLocation currentLocation : currentLocations ) {
+                        if ( !open ) {
+                            open = currentLocation.isUnderLocation( location );
+                        }
                         if ( currentLocation.getBaseKey().equals( location.getKey() ) || currentLocation.getKey().equals( location.getKey() ) ) {
                             label.add( new AttributeAppender( "class", new Model( "selected" ), " " ) );
                             break;
@@ -39,7 +44,7 @@ public class NavMenuList extends Panel {
 
                 item.add( link );
 
-                if ( location.getChildren().isEmpty() ) {
+                if ( location.getChildren().isEmpty() || !open ) {
                     Label placeholder = new Label( "children", "BOO" );
                     placeholder.setVisible( false );
                     item.add( placeholder );
