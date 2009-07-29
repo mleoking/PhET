@@ -5,12 +5,7 @@ package edu.colorado.phet.nuclearphysics.model;
 import java.awt.geom.Point2D;
 import java.util.Random;
 
-import javax.swing.JFrame;
-
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
-import edu.colorado.phet.nuclearphysics.common.view.AbstractAtomicNucleusNode;
-import edu.colorado.phet.nuclearphysics.common.view.LabeledExplodingAtomicNucleusNode;
 
 /**
  * This class represents a non-composite Polonium 211 nucleus.  In other words,
@@ -125,23 +120,5 @@ public class Polonium211Nucleus extends AbstractAlphaDecayNucleus {
         }
         double tunnelOutMilliseconds = (-(Math.log( 1 - randomValue ) / (0.693 / HALF_LIFE)));
         return tunnelOutMilliseconds;
-    }
-    
-    /**
-     * This main function is used to provide stand-alone testing of the class.
-     * 
-     * @param args - Unused.
-     */
-    public static void main(String [] args){
-        Polonium211Nucleus nucleus = new Polonium211Nucleus(new NuclearPhysicsClock(24, 10));
-        AbstractAtomicNucleusNode nucleusNode = new LabeledExplodingAtomicNucleusNode(nucleus);
-        nucleus.setPosition(400, 300);
-        
-        JFrame frame = new JFrame();
-        PhetPCanvas canvas = new PhetPCanvas();
-        frame.setContentPane( canvas );
-        canvas.addWorldChild( nucleusNode );
-        frame.setSize( 800, 600 );
-        frame.setVisible( true );
     }
 }
