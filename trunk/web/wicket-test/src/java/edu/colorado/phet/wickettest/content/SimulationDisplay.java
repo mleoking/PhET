@@ -33,7 +33,7 @@ public class SimulationDisplay extends PhetRegularPage {
                 category = Category.getCategoryFromPath( context.getSession(), parameters.getString( "categories" ) );
 
                 simulations = new LinkedList<LocalizedSimulation>();
-                addSimulationsFromCategory( simulations, category, new HashSet<Integer>() );
+                addSimulationsFromCategory( simulations, getMyLocale(), category );
             }
             else {
                 simulations = HibernateUtils.getAllSimulationsWithLocale( context.getSession(), context.getLocale() );
@@ -63,12 +63,17 @@ public class SimulationDisplay extends PhetRegularPage {
         add( new SimulationDisplayPanel( "simulation-display-panel", getPageContext(), simulations ) );
     }
 
-    private void addSimulationsFromCategory( List<LocalizedSimulation> simulations, Category category, Set<Integer> used ) {
+    // NOTE: must be in a transaction
+    public static void addSimulationsFromCategory( List<LocalizedSimulation> simulations, Locale locale, Category category ) {
+        addSimulationsFromCategory( simulations, locale, category, new HashSet<Integer>() );
+    }
+
+    private static void addSimulationsFromCategory( List<LocalizedSimulation> simulations, Locale locale, Category category, Set<Integer> used ) {
         for ( Object o : category.getSimulations() ) {
             Simulation sim = (Simulation) o;
             for ( Object p : sim.getLocalizedSimulations() ) {
                 LocalizedSimulation lsim = (LocalizedSimulation) p;
-                if ( lsim.getLocale().equals( getMyLocale() ) ) {
+                if ( lsim.getLocale().equals( locale ) ) {
                     if ( !used.contains( lsim.getId() ) ) {
                         simulations.add( lsim );
                         used.add( lsim.getId() );
@@ -81,7 +86,7 @@ public class SimulationDisplay extends PhetRegularPage {
         if ( category.isAuto() ) {
             for ( Object o : category.getSubcategories() ) {
                 Category subcategory = (Category) o;
-                addSimulationsFromCategory( simulations, subcategory, used );
+                addSimulationsFromCategory( simulations, locale, subcategory, used );
             }
         }
     }
