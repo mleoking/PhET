@@ -53,6 +53,8 @@ public class SimulationPage extends PhetRegularPage {
             addTitle( simulation.getTitle() + " " + simulation.getSimulation().getProject().getVersionString() );
             add( new SimulationMainPanel( "simulation-main-panel", simulation, getPageContext() ) );
         }
+
+        initializeMenu( null );
     }
 
     public static String getMappingString() {

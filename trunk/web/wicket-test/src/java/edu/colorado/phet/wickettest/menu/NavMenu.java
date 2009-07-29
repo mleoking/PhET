@@ -59,6 +59,7 @@ public class NavMenu {
                     return new PhetLink( id, context.getPrefix() + "simulations/category/" + subCategory.getCategoryPath() );
                 }
             } );
+            addLocation( subLocation );
             location.addChild( subLocation );
             buildCategoryMenu( subLocation, subCategory );
         }
@@ -68,6 +69,7 @@ public class NavMenu {
                     return new PhetLink( id, context.getPrefix() + "simulations" );
                 }
             } );
+            addLocation( subLocation );
             location.addChild( subLocation );
         }
     }

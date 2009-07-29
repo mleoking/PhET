@@ -20,6 +20,8 @@ public class SimulationList extends PhetRegularPage {
 
         add( new SimulationListPanel( "simulation-list-panel", getPageContext() ) );
 
+        initializeMenu( null );
+
     }
 
     public static String getMappingString() {
