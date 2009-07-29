@@ -11,7 +11,6 @@ public abstract class PhetRegularPage extends PhetPage {
     }
 
     public void initializeMenu( NavLocation currentLocation ) {
-        System.out.println( "Initializing menu with current location: " + currentLocation );
         add( new SideNavMenu( "side-navigation", getPageContext(), currentLocation ) );
     }
 }

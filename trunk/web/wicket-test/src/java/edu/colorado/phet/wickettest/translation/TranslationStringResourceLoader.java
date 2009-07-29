@@ -10,14 +10,14 @@ import edu.colorado.phet.wickettest.panels.PhetPanel;
 
 public class TranslationStringResourceLoader implements IStringResourceLoader {
     public String loadStringResource( Class clazz, String key, Locale locale, String style ) {
-        System.out.println( "load:clazz " + key );
+        //System.out.println( "load:clazz " + key );
         return null;
     }
 
     public String loadStringResource( Component component, String key ) {
         Locale locale = null;
         Component comp = component;
-        System.out.println( "load:component " + key );
+        //System.out.println( "load:component " + key );
 
         while ( !( comp instanceof Page ) && comp != null ) {
             if ( locale == null && comp instanceof PhetPanel ) {
