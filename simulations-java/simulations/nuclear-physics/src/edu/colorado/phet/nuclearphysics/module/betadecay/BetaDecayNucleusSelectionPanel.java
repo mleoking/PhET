@@ -108,6 +108,7 @@ public class BetaDecayNucleusSelectionPanel extends JPanel {
         // Group the radio buttons together logically and set initial state.
         ButtonGroup buttonGroup = new ButtonGroup();
         buttonGroup.add( _hydrogenRadioButton );
+        buttonGroup.add( _carbonRadioButton );
         buttonGroup.add( _customNucleusRadioButton );
         _hydrogenRadioButton.setSelected( true );
         
