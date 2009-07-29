@@ -46,23 +46,6 @@ public class SimulationDisplay extends PhetRegularPage {
 
                 System.out.println( "category path: " + category.getCategoryPath() );
 
-                /*
-                Category cat = category;
-                for ( int i = categoryIndex; i >= -1; i-- ) {
-                    if ( i >= 0 ) {
-                        if ( !cat.getName().equals( categories[i] ) ) {
-                            throw new RuntimeException( "Bad match: " + cat.getName() + " : " + categories[i] );
-                        }
-                    }
-                    else {
-                        if ( !cat.getName().equals( "root" ) ) {
-                            throw new RuntimeException( "Bad match: " + cat.getName() + " : root" );
-                        }
-                    }
-                    cat = cat.getParent();
-                }
-                */
-
                 simulations = new LinkedList<LocalizedSimulation>();
                 addSimulationsFromCategory( simulations, category, new HashSet<Integer>() );
             }
@@ -85,11 +68,10 @@ public class SimulationDisplay extends PhetRegularPage {
         }
 
         if ( category == null ) {
-            initializeMenu( null );
+            initializeMenu( context.getApplication().getMenu().getLocationByKey( "all" ) );
         }
         else {
             NavLocation location = context.getApplication().getMenu().getLocationByKey( category.getName() );
-            System.out.println( "Category is " + category + ", location is: " + location );
             initializeMenu( location );
         }
 
@@ -125,14 +107,14 @@ public class SimulationDisplay extends PhetRegularPage {
     }
 
     public static PhetLink createLink( String id, Locale locale ) {
-        String str = "/" + LocaleUtils.localeToString( locale ) + "/simulations";
+        String str = "/" + LocaleUtils.localeToString( locale ) + "/simulations/category/featured";
         return new PhetLink( id, str );
     }
 
     public static Linkable getLinker() {
         return new Linkable() {
             public Link getLink( String id, PageContext context ) {
-                return new PhetLink( id, context.getPrefix() + "simulations" );
+                return new PhetLink( id, context.getPrefix() + "simulations/category/featured" );
             }
         };
     }
