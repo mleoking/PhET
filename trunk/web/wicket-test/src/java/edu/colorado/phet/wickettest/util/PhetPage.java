@@ -14,8 +14,6 @@ import edu.colorado.phet.wickettest.WicketApplication;
 public abstract class PhetPage extends WebPage {
 
     private Locale myLocale;
-    private PageParameters parameters;
-    private Session wicketSession;
     private boolean hasHibernateSession = false;
     private org.hibernate.Session hibernateSession;
 
@@ -24,22 +22,21 @@ public abstract class PhetPage extends WebPage {
     }
 
     public PhetPage( PageParameters parameters, boolean addTemplateBindings ) {
-        this.parameters = parameters;
 
-        if ( this.parameters.get( "locale" ) != null ) {
-            myLocale = (Locale) this.parameters.get( "locale" );
+        if ( parameters.get( "locale" ) != null ) {
+            myLocale = (Locale) parameters.get( "locale" );
         }
         else {
             // try again with localeString, but use english as default
-            myLocale = LocaleUtils.stringToLocale( this.parameters.getString( "localeString", "en" ) );
+            myLocale = LocaleUtils.stringToLocale( parameters.getString( "localeString", "en" ) );
         }
 
-        wicketSession = getSession();
+        Session wicketSession = getSession();
         wicketSession.setLocale( myLocale );
 
 
         System.out.println( "Loading " + this.getClass().getCanonicalName() + " with Locale: " + LocaleUtils.localeToString( myLocale ) );
-        System.out.println( "getRequestPath() of this page is: " + getRequestPath() );
+        System.out.println( "getRequestPath() of this page is: " + parameters.getString( "path" ) );
         System.out.println( "Session id is: " + wicketSession.getId() );
 
         for ( Object o : parameters.keySet() ) {
@@ -57,10 +54,6 @@ public abstract class PhetPage extends WebPage {
 
     public Locale getMyLocale() {
         return myLocale;
-    }
-
-    public String getRequestPath() {
-        return parameters.getString( "path" );
     }
 
     public String getUrlPrefix() {
@@ -104,6 +97,7 @@ public abstract class PhetPage extends WebPage {
         if ( hasHibernateSession ) {
             hibernateSession.close();
             hasHibernateSession = false;
+            hibernateSession = null;
         }
         super.onDetach();
     }
