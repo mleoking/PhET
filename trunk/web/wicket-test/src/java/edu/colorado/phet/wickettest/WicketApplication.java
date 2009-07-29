@@ -30,7 +30,7 @@ public class WicketApplication extends WebApplication {
 
         SimulationDisplay.addToMapper( mapper );
         mapper.addMap( SimulationList.getMappingString(), SimulationList.class );
-        mapper.addMap( SimulationPage.getMappingString(), SimulationPage.class, SimulationPage.getMappingParameters() );
+        SimulationPage.addToMapper( mapper );
         mapper.addMap( SubPage.getMappingString(), SubPage.class );
 
         mount( new PhetUrlStrategy( LocaleUtils.stringToLocale( "en" ), mapper ) );

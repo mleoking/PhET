@@ -12,7 +12,6 @@ import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.wickettest.data.Category;
 import edu.colorado.phet.wickettest.data.LocalizedSimulation;
 import edu.colorado.phet.wickettest.data.Simulation;
-import edu.colorado.phet.wickettest.menu.NavLocation;
 import edu.colorado.phet.wickettest.panels.SimulationDisplayPanel;
 import edu.colorado.phet.wickettest.util.*;
 
@@ -31,20 +30,7 @@ public class SimulationDisplay extends PhetRegularPage {
         try {
             tx = getHibernateSession().beginTransaction();
             if ( parameters.containsKey( "categories" ) ) {
-                String categoriesString = parameters.getString( "categories" );
-                System.out.println( "categoriesString = " + categoriesString );
-                String[] categories = categoriesString.split( "/" );
-                int categoryIndex = categories.length - 1;
-                if ( categories[categoryIndex].equals( "" ) ) {
-                    categoryIndex--;
-                }
-                String categoryName = categories[categoryIndex];
-                category = HibernateUtils.getCategoryByName( context.getSession(), categoryName );
-                if ( category == null ) {
-                    throw new RuntimeException( "Couldn't find category" );
-                }
-
-                System.out.println( "category path: " + category.getCategoryPath() );
+                category = Category.getCategoryFromPath( context.getSession(), parameters.getString( "categories" ) );
 
                 simulations = new LinkedList<LocalizedSimulation>();
                 addSimulationsFromCategory( simulations, category, new HashSet<Integer>() );
@@ -71,8 +57,7 @@ public class SimulationDisplay extends PhetRegularPage {
             initializeMenu( context.getApplication().getMenu().getLocationByKey( "all" ) );
         }
         else {
-            NavLocation location = context.getApplication().getMenu().getLocationByKey( category.getName() );
-            initializeMenu( location );
+            initializeMenu( category.getNavLocation( context ) );
         }
 
         add( new SimulationDisplayPanel( "simulation-display-panel", getPageContext(), simulations ) );
