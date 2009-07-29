@@ -13,7 +13,6 @@
       <sourceFolder url="file://$MODULE_DIR$/../../common/jfreechart-phet/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../common/motion/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../common/phetcommon/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../common/phetgraphics/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../common/piccolo-phet/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../common/scala-common/scala-src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../common/timeseries/src" isTestSource="false" />
