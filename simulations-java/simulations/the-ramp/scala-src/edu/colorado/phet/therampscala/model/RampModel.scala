@@ -169,7 +169,7 @@ class CoordinateFrameModel(snapToAngles: List[() => Double]) extends Observable 
 }
 
 //This class stores all state information used in record/playback
-case class RecordedState(angle: Double,selectedObject:ScalaRampObjectState)
+case class RecordedState(angle: Double, selectedObject: ScalaRampObjectState,beadState:BeadState)
 
 class RampModel extends RecordModel[RecordedState] with ObjectModel {
   setPaused(false)
@@ -200,7 +200,7 @@ class RampModel extends RecordModel[RecordedState] with ObjectModel {
     else
       new Range(-10000, RampDefaults.MAX_X)
   }
-  val bead: Bead = new Bead(new BeadState(5, 0, _selectedObject.mass, _selectedObject.staticFriction, _selectedObject.kineticFriction),
+  val bead = new Bead(new BeadState(5, 0, _selectedObject.mass, _selectedObject.staticFriction, _selectedObject.kineticFriction),
     _selectedObject.height, _selectedObject.width, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction, walls, wallRange)
 
   def createBead(x: Double, width: Double, height: Double) = new Bead(new BeadState(x, 0, 10, 0, 0), height, width, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction, walls, wallRange)
@@ -226,6 +226,7 @@ class RampModel extends RecordModel[RecordedState] with ObjectModel {
   def setPlaybackState(state: RecordedState) = {
     setRampAngle(state.angle)
     selectedObject = state.selectedObject.toObject
+    bead.state=state.beadState//nice code
   }
 
   def handleRecordStartedDuringPlayback() = {}
@@ -308,7 +309,7 @@ class RampModel extends RecordModel[RecordedState] with ObjectModel {
   private def doStep(dt: Double) = {
     super.setTime(getTime + dt)
     bead.stepInTime(dt)
-    recordHistory += new DataPoint(getTime, new RecordedState(getRampAngle,selectedObject.state))
+    recordHistory += new DataPoint(getTime, new RecordedState(getRampAngle, selectedObject.state,bead.state))
     stepListeners.foreach(_())
   }
 

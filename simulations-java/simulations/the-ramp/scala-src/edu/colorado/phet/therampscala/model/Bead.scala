@@ -35,7 +35,7 @@ object Bead {
     nextInd
   }
 }
-class Bead(_state: BeadState,
+class Bead(private var _state: BeadState,
            private var _height: Double,
            private var _width: Double,
            positionMapper: Double => Vector2D,
@@ -48,7 +48,11 @@ class Bead(_state: BeadState,
   val crashListeners = new ArrayBuffer[() => Unit]
   val stopListeners = new ArrayBuffer[() => Unit]
   val gravity = -9.8
-  var state = _state
+
+  def state = _state
+
+  def state_=(s: BeadState) = {_state = s; notifyListeners()}
+
   var _parallelAppliedForce = 0.0
   private var attachState: MotionStrategy = new Grounded
 
