@@ -228,6 +228,10 @@ public class MultiNucleusDecayModel implements NucleusTypeControl {
 		
 		switch (preDecayNucleus){
 		
+		case HYDROGEN_3:
+			decayProducts.add(NucleusType.HELIUM_3);
+			break;
+		
 		case CARBON_14:
 			decayProducts.add(NucleusType.NITROGEN_14);
 			break;
