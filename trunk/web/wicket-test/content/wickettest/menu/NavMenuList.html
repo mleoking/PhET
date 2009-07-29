@@ -26,7 +26,6 @@
             }
 
             .nav0 {
-            /*border: 1px solid blue;*/
                 font-size: 15px;
                 padding-bottom: 3px;
             }
@@ -81,14 +80,20 @@
             }
 
             .nav0 .selected {
-                background-image: url("/images/selectedArrow_Icon.gif");
-                background-position: 0 0.25ex;
-                background-repeat: no-repeat;
                 color: #d36a04;
             }
 
             .nav1 .selected, .nav2 .selected, .nav3 .selected {
                 color: #d36a04;
+            }
+
+            div.ltr .nav0 .selected {
+                background-image: url("/images/selectedArrow_Icon.gif");
+                background-position: 0 0.25ex;
+                background-repeat: no-repeat;
+            }
+
+            div.ltr .nav1 .selected, .nav2 .selected, .nav3 .selected {
                 background-repeat: no-repeat;
                 background-position: 7px 50%;
                 background-image: url("/images/arrow-right.gif");
