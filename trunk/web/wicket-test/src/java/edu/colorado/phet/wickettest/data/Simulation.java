@@ -12,6 +12,7 @@ public class Simulation {
     private int type;
     private Project project;
     private Set localizedSimulations = new HashSet();
+    private Set categories = new HashSet();
 
     public static final int TYPE_JAVA = 0;
     public static final int TYPE_FLASH = 1;
@@ -90,5 +91,13 @@ public class Simulation {
 
     public void setLocalizedSimulations( Set localizedSimulations ) {
         this.localizedSimulations = localizedSimulations;
+    }
+
+    public Set getCategories() {
+        return categories;
+    }
+
+    public void setCategories( Set categories ) {
+        this.categories = categories;
     }
 }

@@ -1,6 +1,7 @@
 package edu.colorado.phet.wickettest.menu;
 
 import java.util.List;
+import java.util.Set;
 
 import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.html.basic.Label;
@@ -15,7 +16,7 @@ import edu.colorado.phet.wickettest.util.PageContext;
 
 public class NavMenuList extends Panel {
 
-    public NavMenuList( String id, final PageContext context, List<NavLocation> locations, final NavLocation currentLocation, final int level ) {
+    public NavMenuList( String id, final PageContext context, List<NavLocation> locations, final Set<NavLocation> currentLocations, final int level ) {
         super( id );
 
         ListView listView = new ListView( "items", locations ) {
@@ -25,9 +26,12 @@ public class NavMenuList extends Panel {
 
                 Label label = new Label( "link-label", new ResourceModel( "nav." + location.getKey() ) );
 
-                if ( currentLocation != null ) {
-                    if ( currentLocation.getBaseKey().equals( location.getKey() ) || currentLocation.getKey().equals( location.getKey() ) ) {
-                        label.add( new AttributeAppender( "class", new Model( "selected" ), " " ) );
+                if ( currentLocations != null ) {
+                    for ( NavLocation currentLocation : currentLocations ) {
+                        if ( currentLocation.getBaseKey().equals( location.getKey() ) || currentLocation.getKey().equals( location.getKey() ) ) {
+                            label.add( new AttributeAppender( "class", new Model( "selected" ), " " ) );
+                            break;
+                        }
                     }
                 }
 
@@ -41,7 +45,7 @@ public class NavMenuList extends Panel {
                     item.add( placeholder );
                 }
                 else {
-                    item.add( new NavMenuList( "children", context, location.getChildren(), currentLocation, level + 1 ) );
+                    item.add( new NavMenuList( "children", context, location.getChildren(), currentLocations, level + 1 ) );
                 }
 
                 link.add( new AttributeAppender( "class", new Model( "nav" + level ), " " ) );

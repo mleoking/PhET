@@ -1,5 +1,8 @@
 package edu.colorado.phet.wickettest.util;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.apache.wicket.PageParameters;
 
 import edu.colorado.phet.wickettest.menu.NavLocation;
@@ -11,6 +14,12 @@ public abstract class PhetRegularPage extends PhetPage {
     }
 
     public void initializeMenu( NavLocation currentLocation ) {
-        add( new SideNavMenu( "side-navigation", getPageContext(), currentLocation ) );
+        Set<NavLocation> currentLocations = new HashSet<NavLocation>();
+        currentLocations.add( currentLocation );
+        initializeMenuWithSet( currentLocations );
+    }
+
+    public void initializeMenuWithSet( Set<NavLocation> currentLocations ) {
+        add( new SideNavMenu( "side-navigation", getPageContext(), currentLocations ) );
     }
 }
