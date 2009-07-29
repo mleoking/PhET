@@ -55,6 +55,7 @@ class RampChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model:
   val thermalEnergyVariable = createVariable(() => model.bead.getThermalEnergy)
   val appliedWorkVariable = createVariable(() => model.bead.getAppliedWork)
   val gravityWorkVariable = createVariable(() => model.bead.getGravityWork)
+  val frictionWorkVariable = createVariable(() => model.bead.getFrictiveWork)
 
   val recordableModel = new RecordableModel() {
     def getState = "hello"
@@ -82,6 +83,7 @@ class RampChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model:
   val thermalEnergySeries= new ControlGraphSeries("<html>E<sub>therm</sub></html>", RampDefaults.thermalEnergyColor, "PE", "J", "", thermalEnergyVariable)
   val appliedWorkSeries = new ControlGraphSeries("<html>W<sub>applied</sub></html>", RampDefaults.appliedWorkColor, "Wapp", "J", "", appliedWorkVariable)
   val gravityWorkSeries = new ControlGraphSeries("<html>W<sub>gravity</sub></html>", RampDefaults.appliedWorkColor, "Wgrav", "J", "", gravityWorkVariable)
+  val frictionWorkSeries= new ControlGraphSeries("<html>W<sub>friction</sub></html>", RampDefaults.frictionWorkColor, "Wfric", "J", "", frictionWorkVariable)
 
   class RampGraph(defaultSeries: ControlGraphSeries) extends MotionControlGraph(canvas, defaultSeries, "label", "title", -2000, 2000, true, timeseriesModel, updateableObject) {
     getJFreeChartNode.setBuffered(false)
@@ -169,14 +171,16 @@ class RampChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model:
     addSeries(thermalEnergySeries)
     addSeries(appliedWorkSeries)
     addSeries(gravityWorkSeries)
+    addSeries(frictionWorkSeries)
   }
-  workEnergyGraph.addControl(new SeriesSelectionControl("Work/Energy (J)", 6) {
+  workEnergyGraph.addControl(new SeriesSelectionControl("Work/Energy (J)", 7) {
     addToGrid(totalEnergySeries)
     addToGrid(keSeries)
     addToGrid(peSeries)
     addToGrid(thermalEnergySeries)
     addToGrid(appliedWorkSeries)
     addToGrid(gravityWorkSeries)
+    addToGrid(frictionWorkSeries)
   })
 
   val graphs = if (showEnergyGraph) Array(new MinimizableControlGraph("Parallel Forces(N)", parallelForceControlGraph), new MinimizableControlGraph("Work/Energy", workEnergyGraph))
