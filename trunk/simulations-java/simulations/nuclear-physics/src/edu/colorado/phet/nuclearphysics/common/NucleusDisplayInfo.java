@@ -67,7 +67,7 @@ public class NucleusDisplayInfo {
 			NuclearPhysicsStrings.CUSTOM_NUCLEUS_LEGEND_LABEL,
 			NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL,
 			"",  // No isotope number for the custom nucleus.
-			NuclearPhysicsConstants.CUSTOM_NUCLEUS_LABEL_COLOR,
+			NuclearPhysicsConstants.CUSTOM_NUCLEUS_POST_DECAY_LABEL_COLOR,
 			NuclearPhysicsConstants.CUSTOM_NUCLEUS_POST_DECAY_COLOR, 
 			"atomic_nucleus_with_around_15_nucleons.png" );
 
@@ -139,7 +139,7 @@ public class NucleusDisplayInfo {
 			NuclearPhysicsStrings.CUSTOM_NUCLEUS_LEGEND_LABEL,
 			NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL,
 			"",  // No isotope number for the custom nucleus.
-			NuclearPhysicsConstants.DECAYED_CUSTOM_NUCLEUS_LABEL_COLOR,
+			NuclearPhysicsConstants.CUSTOM_NUCLEUS_POST_DECAY_LABEL_COLOR,
 			NuclearPhysicsConstants.CUSTOM_NUCLEUS_POST_DECAY_COLOR, 
 			"Polonium Nucleus Small.png" );
 

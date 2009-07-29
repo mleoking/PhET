@@ -250,7 +250,7 @@ public class LabeledExplodingAtomicNucleusNode extends AbstractAtomicNucleusNode
             if (numNeutrons == 123){
                 isotopeNumber = "";
                 chemSymbol = NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL;
-                labelColor = NuclearPhysicsConstants.DECAYED_CUSTOM_NUCLEUS_LABEL_COLOR;
+                labelColor = NuclearPhysicsConstants.CUSTOM_NUCLEUS_POST_DECAY_LABEL_COLOR;
             }
             
             break;

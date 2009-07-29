@@ -203,7 +203,7 @@ public class AlphaDecayNucleusSelectionPanel extends JPanel {
         // Create and add the icon for the decayed custom nucleus.
         PNode labeledDecayedCustomNucleus = new LabeledNucleusImageNode("Polonium Nucleus Small.png", "",
                 NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL, 
-                NuclearPhysicsConstants.DECAYED_CUSTOM_NUCLEUS_LABEL_COLOR );
+                NuclearPhysicsConstants.CUSTOM_NUCLEUS_POST_DECAY_LABEL_COLOR );
         Image decayedCustomNucleusImage = labeledDecayedCustomNucleus.toImage();
         ImageIcon decayedCustomNucleusIconImage = new ImageIcon(decayedCustomNucleusImage);
         constraints.anchor = GridBagConstraints.WEST;

@@ -95,7 +95,7 @@ public class NuclearPhysicsConstants {
     public static final Color CUSTOM_NUCLEUS_LABEL_COLOR = new Color (0x99ffff);
     
     // Color for label used for the Decayed Custom nucleus.
-    public static final Color DECAYED_CUSTOM_NUCLEUS_LABEL_COLOR = Color.BLACK;
+    public static final Color CUSTOM_NUCLEUS_POST_DECAY_LABEL_COLOR = Color.BLACK;
     
     // Color for label used for the Hydrogen 3 nucleus.
     public static final Color HYDROGEN_3_LABEL_COLOR = Color.YELLOW;
