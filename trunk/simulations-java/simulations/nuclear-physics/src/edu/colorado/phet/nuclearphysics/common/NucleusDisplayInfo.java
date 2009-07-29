@@ -45,7 +45,7 @@ public class NucleusDisplayInfo {
 			NuclearPhysicsStrings.CARBON_14_ISOTOPE_NUMBER,
 			NuclearPhysicsConstants.CARBON_14_LABEL_COLOR,
 			NuclearPhysicsConstants.CARBON_COLOR, 
-			"Polonium Nucleus Small.png" );
+			"atomic_nucleus_with_around_15_nucleons.png" );
 
 	public static final NucleusDisplayInfo NITROGEN_14_DISPLAY_INFO = new NucleusDisplayInfo(
 			NuclearPhysicsStrings.NITROGEN_14_LEGEND_LABEL,
@@ -53,7 +53,7 @@ public class NucleusDisplayInfo {
 			NuclearPhysicsStrings.NITROGEN_14_ISOTOPE_NUMBER,
 			NuclearPhysicsConstants.NITROGEN_14_LABEL_COLOR,
 			NuclearPhysicsConstants.NITROGEN_COLOR, 
-			"Polonium Nucleus Small.png" );
+			"atomic_nucleus_with_around_15_nucleons.png" );
 
 	public static final NucleusDisplayInfo URANIUM_235_DISPLAY_INFO = new NucleusDisplayInfo(
 			NuclearPhysicsStrings.URANIUM_235_LEGEND_LABEL,
