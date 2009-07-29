@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.wickettest.data.Category;
 import edu.colorado.phet.wickettest.data.LocalizedSimulation;
 import edu.colorado.phet.wickettest.data.Simulation;
+import edu.colorado.phet.wickettest.menu.NavLocation;
 import edu.colorado.phet.wickettest.panels.SimulationDisplayPanel;
 import edu.colorado.phet.wickettest.util.*;
 
@@ -81,6 +82,15 @@ public class SimulationDisplay extends PhetRegularPage {
                 }
                 throw e;
             }
+        }
+
+        if ( category == null ) {
+            initializeMenu( null );
+        }
+        else {
+            NavLocation location = context.getApplication().getMenu().getLocationByKey( category.getName() );
+            System.out.println( "Category is " + category + ", location is: " + location );
+            initializeMenu( location );
         }
 
         add( new SimulationDisplayPanel( "simulation-display-panel", getPageContext(), simulations ) );

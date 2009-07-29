@@ -48,6 +48,24 @@ public class Category {
         }
     }
 
+    public String getBaseName() {
+        if ( isRoot() ) {
+            return null;
+        }
+        if ( getParent().isRoot() ) {
+            System.out.println( "My parent is root, I am " + getName() );
+            return getName();
+        }
+        else {
+            return getParent().getBaseName();
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Cat: " + getName();
+    }
+
     public int getId() {
         return id;
     }

@@ -12,7 +12,7 @@ import edu.colorado.phet.wickettest.util.PageContext;
 
 public class SideNavMenu extends PhetPanel {
 
-    public SideNavMenu( String id, final PageContext context ) {
+    public SideNavMenu( String id, final PageContext context, NavLocation currentLocation ) {
         super( id, context );
 
         Session session = context.getSession();
@@ -35,7 +35,7 @@ public class SideNavMenu extends PhetPanel {
         }
 
         List<NavLocation> locations = context.getApplication().getMenu().getLocations();
-        add( new NavMenuList( "side-nav-menu", context, locations, 0 ) );
+        add( new NavMenuList( "side-nav-menu", context, locations, currentLocation, 0 ) );
 
     }
 

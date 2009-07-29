@@ -21,6 +21,20 @@ public class NavLocation {
         this.linker = linker;
     }
 
+    public String getBaseKey() {
+        if ( getParent() == null ) {
+            return getKey();
+        }
+        else {
+            return getParent().getBaseKey();
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "NL: " + getKey();
+    }
+
     public String getKey() {
         return key;
     }
@@ -44,4 +58,5 @@ public class NavLocation {
     public void addChild( NavLocation location ) {
         children.add( location );
     }
+
 }
