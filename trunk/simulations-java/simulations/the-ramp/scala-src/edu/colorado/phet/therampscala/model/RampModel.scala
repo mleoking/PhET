@@ -169,15 +169,16 @@ class CoordinateFrameModel(snapToAngles: List[() => Double]) extends Observable 
 }
 
 //This class stores all state information used in record/playback
-case class RampState(angle: Double)
+case class RecordedState(angle: Double,selectedObject:ScalaRampObjectState)
 
-class RampModel extends RecordModel[RampState] with ObjectModel {
+class RampModel extends RecordModel[RecordedState] with ObjectModel {
   setPaused(false)
 
-  val rampSegments = new ArrayBuffer[RampSegment]
   private var _walls = true
   private var _frictionless = false
   private var _selectedObject = RampDefaults.objects(0)
+
+  val rampSegments = new ArrayBuffer[RampSegment]
   val stepListeners = new ArrayBuffer[() => Unit]
 
   val rampLength = 10
@@ -222,8 +223,9 @@ class RampModel extends RecordModel[RampState] with ObjectModel {
     rampSegments(1).setAngle(initialAngle)
   }
 
-  def setPlaybackState(state: RampState) = {
+  def setPlaybackState(state: RecordedState) = {
     setRampAngle(state.angle)
+    selectedObject = state.selectedObject.toObject
   }
 
   def handleRecordStartedDuringPlayback() = {}
@@ -306,7 +308,7 @@ class RampModel extends RecordModel[RampState] with ObjectModel {
   private def doStep(dt: Double) = {
     super.setTime(getTime + dt)
     bead.stepInTime(dt)
-    recordHistory += new DataPoint(getTime, new RampState(getRampAngle))
+    recordHistory += new DataPoint(getTime, new RecordedState(getRampAngle,selectedObject.state))
     stepListeners.foreach(_())
   }
 
