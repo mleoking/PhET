@@ -235,9 +235,7 @@ public class BetaDecayNucleusSelectionPanel extends JPanel {
         add( _customNucleusRadioButton, constraints  );
         
         // Create and add the icon for the non-decayed custom nucleus.
-        PNode labeledCustomNucleus = new LabeledNucleusImageNode("Polonium Nucleus Small.png", "",
-                NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL, 
-                NuclearPhysicsConstants.CUSTOM_NUCLEUS_LABEL_COLOR );
+        PNode labeledCustomNucleus = new LabeledNucleusImageNode( NucleusType.LIGHT_CUSTOM );
         Image customNucleusImage = labeledCustomNucleus.toImage();
         ImageIcon customNucleusIconImage = new ImageIcon(customNucleusImage);
         constraints.anchor = GridBagConstraints.WEST;
@@ -259,9 +257,7 @@ public class BetaDecayNucleusSelectionPanel extends JPanel {
         add( new JLabel(createArrowIcon(Color.BLACK)), constraints );
         
         // Create and add the icon for the decayed custom nucleus.
-        PNode labeledDecayedCustomNucleus = new LabeledNucleusImageNode("Polonium Nucleus Small.png", "",
-                NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL, 
-                NuclearPhysicsConstants.DECAYED_CUSTOM_NUCLEUS_LABEL_COLOR );
+        PNode labeledDecayedCustomNucleus = new LabeledNucleusImageNode( NucleusType.LIGHT_CUSTOM_POST_DECAY );
         Image decayedCustomNucleusImage = labeledDecayedCustomNucleus.toImage();
         ImageIcon decayedCustomNucleusIconImage = new ImageIcon(decayedCustomNucleusImage);
         constraints.anchor = GridBagConstraints.WEST;
