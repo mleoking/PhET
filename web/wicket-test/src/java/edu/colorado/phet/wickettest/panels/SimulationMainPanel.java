@@ -32,7 +32,7 @@ public class SimulationMainPanel extends PhetPanel {
         add( new Label( "simulation-main-description", simulation.getDescription() ) );
 
 
-        List<LocalizedSimulation> simulations = HibernateUtils.getLocalizedSimulationsMatching( context.getSession(), null, simulation.getSimulation().getName(), null );
+        List<LocalizedSimulation> simulations = HibernateUtils.getLocalizedSimulationsMatching( getHibernateSession(), null, simulation.getSimulation().getName(), null );
         HibernateUtils.orderSimulations( simulations, context.getLocale() );
 
         List<IModel> models = new LinkedList<IModel>();

@@ -30,13 +30,13 @@ public class SimulationDisplay extends PhetRegularPage {
         try {
             tx = getHibernateSession().beginTransaction();
             if ( parameters.containsKey( "categories" ) ) {
-                category = Category.getCategoryFromPath( context.getSession(), parameters.getString( "categories" ) );
+                category = Category.getCategoryFromPath( getHibernateSession(), parameters.getString( "categories" ) );
 
                 simulations = new LinkedList<LocalizedSimulation>();
                 addSimulationsFromCategory( simulations, getMyLocale(), category );
             }
             else {
-                simulations = HibernateUtils.getAllSimulationsWithLocale( context.getSession(), context.getLocale() );
+                simulations = HibernateUtils.getAllSimulationsWithLocale( getHibernateSession(), context.getLocale() );
                 HibernateUtils.orderSimulations( simulations, context.getLocale() );
             }
             tx.commit();
@@ -54,10 +54,10 @@ public class SimulationDisplay extends PhetRegularPage {
         }
 
         if ( category == null ) {
-            initializeMenu( context.getApplication().getMenu().getLocationByKey( "all" ) );
+            initializeMenu( getNavMenu().getLocationByKey( "all" ) );
         }
         else {
-            initializeMenu( category.getNavLocation( context ) );
+            initializeMenu( category.getNavLocation( getNavMenu() ) );
         }
 
         add( new SimulationDisplayPanel( "simulation-display-panel", getPageContext(), simulations ) );

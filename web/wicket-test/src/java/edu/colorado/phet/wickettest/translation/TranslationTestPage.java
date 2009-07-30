@@ -39,13 +39,13 @@ public class TranslationTestPage extends TranslationPage {
         try {
             tx = getHibernateSession().beginTransaction();
             if ( parameters.containsKey( "categories" ) ) {
-                category = Category.getCategoryFromPath( context.getSession(), "featured" );
+                category = Category.getCategoryFromPath( getHibernateSession(), "featured" );
 
                 simulations = new LinkedList<LocalizedSimulation>();
                 SimulationDisplay.addSimulationsFromCategory( simulations, testLocale, category );
             }
             else {
-                simulations = HibernateUtils.getAllSimulationsWithLocale( context.getSession(), testLocale );
+                simulations = HibernateUtils.getAllSimulationsWithLocale( getHibernateSession(), testLocale );
                 HibernateUtils.orderSimulations( simulations, testLocale );
             }
             tx.commit();

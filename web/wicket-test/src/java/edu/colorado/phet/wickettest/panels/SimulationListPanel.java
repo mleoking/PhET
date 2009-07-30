@@ -22,7 +22,7 @@ public class SimulationListPanel extends PhetPanel {
 
         List<LocalizedSimulation> tsims = new LinkedList<LocalizedSimulation>();
 
-        Session session = context.getSession();
+        Session session = getHibernateSession();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();

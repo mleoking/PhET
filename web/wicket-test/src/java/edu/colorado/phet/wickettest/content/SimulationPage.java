@@ -37,7 +37,7 @@ public class SimulationPage extends PhetRegularPage {
             simulation = HibernateUtils.getBestSimulation( session, getMyLocale(), projectName, flavorName );
             for ( Object o : simulation.getSimulation().getCategories() ) {
                 Category category = (Category) o;
-                locations.add( category.getNavLocation( getPageContext() ) );
+                locations.add( category.getNavLocation( getNavMenu() ) );
             }
             tx.commit();
         }

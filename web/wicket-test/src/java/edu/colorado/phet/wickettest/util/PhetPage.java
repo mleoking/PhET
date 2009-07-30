@@ -10,6 +10,7 @@ import org.apache.wicket.model.IModel;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.wickettest.WicketApplication;
+import edu.colorado.phet.wickettest.menu.NavMenu;
 
 public abstract class PhetPage extends WebPage {
 
@@ -61,7 +62,7 @@ public abstract class PhetPage extends WebPage {
     }
 
     public PageContext getPageContext() {
-        return new PageContext( getMyLocale(), getHibernateSession(), (WicketApplication) getApplication(), this );
+        return new PageContext( getMyLocale(), this );
     }
 
     @Override
@@ -79,6 +80,10 @@ public abstract class PhetPage extends WebPage {
 
     public org.hibernate.Session getHibernateSession() {
         return ( (PhetRequestCycle) getRequestCycle() ).getHibernateSession();
+    }
+
+    public NavMenu getNavMenu() {
+        return ( (WicketApplication) getApplication() ).getMenu();
     }
 
     @Override
