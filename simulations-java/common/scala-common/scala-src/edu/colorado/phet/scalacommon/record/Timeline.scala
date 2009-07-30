@@ -2,37 +2,21 @@ package edu.colorado.phet.scalacommon.record
 
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader._
-import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils
 import edu.colorado.phet.common.piccolophet.event.CursorHandler
-import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloTimeControlPanel.BackgroundNode
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
 import java.awt._
-import edu.colorado.phet.common.piccolophet.event.ToolTipHandler
-import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.DefaultIconButton
-import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PlayPauseButton
-import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.RewindButton
-import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.StepButton
 import edu.colorado.phet.common.piccolophet.PhetPCanvas
-import scala.collection.mutable.ArrayBuffer
-import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources
-import edu.colorado.phet.common.phetcommon.resources.PhetResources
-import java.awt.event.{ActionEvent, ComponentAdapter, ComponentEvent, ActionListener}
+import java.awt.event.{ComponentAdapter, ComponentEvent}
 
-import java.awt.geom.{Line2D, Ellipse2D}
-import java.util.{Hashtable, Dictionary}
-import javax.swing._
-import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
-import umd.cs.piccolo.nodes.{PImage, PText}
+import java.awt.geom.{Line2D}
+import umd.cs.piccolo.nodes.{PImage}
 import umd.cs.piccolo.PNode
-import umd.cs.piccolo.util.PBounds
-import umd.cs.piccolox.pswing.PSwing
-import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloTimeControlPanel.BackgroundNode
 import edu.colorado.phet.scalacommon.Predef._
 
 
 import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
 
-class Timeline[T](model: RecordModel[T], canvas: PhetPCanvas,timelineColor:Color,maxTime:Double) extends PNode {
+class Timeline[T](model: RecordModel[T], canvas: PhetPCanvas, timelineColor: Color, maxTime: Double) extends PNode {
   val pathOffsetY = 4
   val pathHeight = 6
   val ellipseWidth = 10
@@ -75,14 +59,26 @@ class Timeline[T](model: RecordModel[T], canvas: PhetPCanvas,timelineColor:Color
     override def componentResized(e: ComponentEvent) = {updateSelf()}
   })
 
+  def handleDrag(event: PInputEvent) = {
+    model.setPaused(true)
+    val dx = event.getCanvasDelta.width
+    val t = model.getTime + dx / scale
+    model.setPlaybackTime(((model.getFloatTime + dx / scale) max model.getMinRecordedTime) min (model.getMaxRecordedTime))
+  }
+
   handle.addInputEventListener(new CursorHandler)
   handle.addInputEventListener(new PBasicInputEventHandler() {
-    override def mouseDragged(event: PInputEvent) = {
-      model.setPaused(true)
-      val dx = event.getCanvasDelta.width
-      val t = model.getTime + dx / scale
-      model.setPlaybackTime(((model.getFloatTime + dx / scale) max model.getMinRecordedTime) min (model.getMaxRecordedTime))
+    override def mouseDragged(event: PInputEvent) = handleDrag(event)
+  })
+  shaded.addInputEventListener(new PBasicInputEventHandler() {
+    override def mousePressed(event: PInputEvent) = {
+      //todo: should put model in playback mode?
+      val x = event.getCanvasPosition.x
+      val t = x / scale
+      model.setPlaybackTime((t max model.getMinRecordedTime) min (model.getMaxRecordedTime))
     }
+
+    override def mouseDragged(event: PInputEvent) = handleDrag(event)
   })
 
   model.addListener(updateSelf)
