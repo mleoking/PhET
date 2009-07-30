@@ -24,6 +24,12 @@ import edu.colorado.phet.nuclearphysics.model.HalfLifeInfo;
 public class RadiometricDatingMeter {
 
 	//----------------------------------------------------------------------------
+    // Class Data
+    //----------------------------------------------------------------------------
+	
+	enum MeasurementMode { OBJECTS, AIR };
+	
+	//----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
 
@@ -35,6 +41,7 @@ public class RadiometricDatingMeter {
 	private double _prevPercentageRemaining = Double.NaN;
 	protected ArrayList<Listener> _listeners = new ArrayList<Listener>();
 	private ClockAdapter _clockListener;
+	private MeasurementMode _measurementMode = MeasurementMode.OBJECTS;
 	
 	//----------------------------------------------------------------------------
     // Constructor(s)
@@ -94,6 +101,23 @@ public class RadiometricDatingMeter {
 
 	public ObjectProbe getProbeModel(){
 		return _probe;
+	}
+	
+	public MeasurementMode getMeasurementMode(){
+		return _measurementMode;
+	}
+	
+	public void setMeasurementMode( MeasurementMode measurementMode ){
+		if (_measurementMode != measurementMode){
+			
+			_measurementMode = measurementMode;
+			notifyMeasurementModeChanged();
+			
+			// Since the only two settings as of this writing are for dating
+			// objects or dating air, changing the setting always implies that
+			// what was being "touched" has changed.  So send a notification.
+			notifyTouchedStateChanged();
+		}
 	}
 	
 	/**
@@ -176,7 +200,12 @@ public class RadiometricDatingMeter {
 	 * @return item being touched if there is one, null if not
 	 */
 	public DatableItem getItemBeingTouched(){
-		return _itemBeingTouched;
+		if (_measurementMode == MeasurementMode.AIR){
+			return _model.getDatableAir();
+		}
+		else{
+			return _itemBeingTouched;
+		}
 	}
 	
 	public void setNucleusTypeUsedForDating(NucleusType nucleusType){
@@ -261,6 +290,12 @@ public class RadiometricDatingMeter {
 	    }
 	}
 	
+	private void notifyMeasurementModeChanged() {
+	    for (int i = 0; i < _listeners.size(); i++){
+	        _listeners.get(i).measurementModeChanged();
+	    }
+	}
+	
 	//----------------------------------------------------------------------------
     // Inner Classes and Interfaces
     //----------------------------------------------------------------------------
@@ -269,12 +304,14 @@ public class RadiometricDatingMeter {
     	public void touchedStateChanged();
     	public void datingElementChanged();
     	public void readingChanged();
+    	public void measurementModeChanged();
     }
     
     static class Adapter implements Listener {
     	public void touchedStateChanged(){};
     	public void datingElementChanged(){};
     	public void readingChanged(){};
+		public void measurementModeChanged() {};
     }
 
 	/**
