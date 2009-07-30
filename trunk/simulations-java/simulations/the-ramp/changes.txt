@@ -1,3 +1,4 @@
+Added recording of whether walls are up or down
 Added recording of the position of the stick figure
 Made it so the chart cursor controls the playback time
 Added recording for bead state
