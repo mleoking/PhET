@@ -25,7 +25,7 @@ public class TimeSeriesModel extends ClockAdapter {
 
     private Mode mode = live;//the current mode.
 
-    private ArrayList listeners = new ArrayList();
+    private ArrayList<Listener> listeners = new ArrayList<Listener>();
     private boolean paused;
 
     public TimeSeriesModel( RecordableModel recordableModel, final ConstantDtClock clock ) {
@@ -103,8 +103,7 @@ public class TimeSeriesModel extends ClockAdapter {
     }
 
     private void notifyPauseChanged() {
-        for ( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener) listeners.get( i );
+        for ( Listener listener : listeners ) {
             listener.pauseChanged();
         }
     }
@@ -142,8 +141,7 @@ public class TimeSeriesModel extends ClockAdapter {
     }
 
     private void notifyModeChanged() {
-        for ( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener) listeners.get( i );
+        for ( Listener listener : listeners ) {
             listener.modeChanged();
         }
     }
@@ -162,8 +160,7 @@ public class TimeSeriesModel extends ClockAdapter {
     }
 
     private void notifyDataSeriesChanged() {
-        for ( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener) listeners.get( i );
+        for ( Listener listener : listeners ) {
             listener.dataSeriesChanged();
         }
     }
@@ -230,8 +227,7 @@ public class TimeSeriesModel extends ClockAdapter {
     }
 
     private void notifyDataSeriesCleared() {
-        for ( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener) listeners.get( i );
+        for ( Listener listener : listeners ) {
             listener.dataSeriesCleared();
         }
     }
