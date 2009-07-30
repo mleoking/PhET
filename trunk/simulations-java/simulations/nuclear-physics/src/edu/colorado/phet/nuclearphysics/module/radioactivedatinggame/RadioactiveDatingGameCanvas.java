@@ -381,7 +381,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     	
     	DatableItem itemBeingTouched = _model.getMeter().getItemBeingTouched();
     	
-    	if (itemBeingTouched != null){
+    	if (itemBeingTouched != null && itemBeingTouched != _model.getDatableAir()){
     		
    			_soundState.play( "32_90.wav" );
     		
