@@ -1,6 +1,10 @@
 package edu.colorado.phet.wickettest;
 
+import org.apache.wicket.Request;
+import org.apache.wicket.RequestCycle;
+import org.apache.wicket.Response;
 import org.apache.wicket.protocol.http.WebApplication;
+import org.apache.wicket.protocol.http.WebRequest;
 import org.apache.wicket.resource.loader.ClassStringResourceLoader;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
@@ -10,6 +14,7 @@ import edu.colorado.phet.wickettest.content.SimulationList;
 import edu.colorado.phet.wickettest.content.SimulationPage;
 import edu.colorado.phet.wickettest.menu.NavMenu;
 import edu.colorado.phet.wickettest.translation.TranslationStringResourceLoader;
+import edu.colorado.phet.wickettest.util.PhetRequestCycle;
 import edu.colorado.phet.wickettest.util.PhetUrlMapper;
 import edu.colorado.phet.wickettest.util.PhetUrlStrategy;
 
@@ -60,4 +65,8 @@ public class WicketApplication extends WebApplication {
 //		return new HttpSessionStore(this);
 //	}
 
+    @Override
+    public RequestCycle newRequestCycle( Request request, Response response ) {
+        return new PhetRequestCycle( this, (WebRequest) request, response );
+    }
 }

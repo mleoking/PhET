@@ -14,8 +14,6 @@ import edu.colorado.phet.wickettest.WicketApplication;
 public abstract class PhetPage extends WebPage {
 
     private Locale myLocale;
-    private boolean hasHibernateSession = false;
-    private org.hibernate.Session hibernateSession;
 
     public PhetPage( PageParameters parameters ) {
         this( parameters, false );
@@ -50,6 +48,8 @@ public abstract class PhetPage extends WebPage {
             add( new StaticImage( "page-header-logo-image", "/images/phet-logo.gif", null ) );
             add( new StaticImage( "page-header-title-image", "/images/logo-title.jpg", null ) );
         }
+
+        System.out.println( "request cycle is a : " + getRequestCycle().getClass().getSimpleName() );
     }
 
     public Locale getMyLocale() {
@@ -78,11 +78,7 @@ public abstract class PhetPage extends WebPage {
     }
 
     public org.hibernate.Session getHibernateSession() {
-        if ( !hasHibernateSession ) {
-            hibernateSession = HibernateUtils.getInstance().openSession();
-            hasHibernateSession = true;
-        }
-        return hibernateSession;
+        return ( (PhetRequestCycle) getRequestCycle() ).getHibernateSession();
     }
 
     @Override
@@ -94,11 +90,6 @@ public abstract class PhetPage extends WebPage {
     @Override
     protected void onDetach() {
         System.out.println( "Detaching page" );
-        if ( hasHibernateSession ) {
-            hibernateSession.close();
-            hasHibernateSession = false;
-            hibernateSession = null;
-        }
         super.onDetach();
     }
 
