@@ -1,3 +1,4 @@
+Added a series for total force
 Added support for "clear" and "reset all" in charts
 Added "click/drag-to-seek" on the time control panel timeline bar
 Fixed: Chart cursor shouldn't be draggable beyond data region.

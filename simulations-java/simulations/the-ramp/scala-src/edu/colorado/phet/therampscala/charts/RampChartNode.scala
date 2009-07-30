@@ -45,9 +45,10 @@ class RampChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model:
     variable
   }
 
-  val parallelFriction = createParallelVariable(() => model.bead.frictionForce)
-  val gravityForce = createParallelVariable(() => model.bead.gravityForce)
-  val wallForce = createParallelVariable(() => model.bead.wallForce)
+  val parallelFrictionVariable = createParallelVariable(() => model.bead.frictionForce)
+  val gravityForceVariable = createParallelVariable(() => model.bead.gravityForce)
+  val wallForceVariable = createParallelVariable(() => model.bead.wallForce)
+  val netForceVariable= createParallelVariable(() => model.bead.totalForce)
 
   val energyVariable = createVariable(() => model.bead.getTotalEnergy)
   val keVariable = createVariable(() => model.bead.getKineticEnergy)
@@ -78,9 +79,10 @@ class RampChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model:
     def setUpdateStrategy(updateStrategy: UpdateStrategy) = {}
   }
   val appliedForceSeries = new ControlGraphSeries("<html>F<sub>applied</sub></html>", RampDefaults.appliedForceColor, "Fa", "N", "", parallelAppliedForceVariable)
-  val frictionSeries = new ControlGraphSeries("<html>F<sub>friction</sub></html>", RampDefaults.frictionForceColor, "Ff", "N", "", parallelFriction)
-  val gravitySeries = new ControlGraphSeries("<html>F<sub>gravity</sub></html>", RampDefaults.gravityForceColor, "Fg", "N", "", gravityForce)
-  val wallSeries = new ControlGraphSeries("<html>F<sub>wall</sub></html>", RampDefaults.wallForceColor, "Fw", "N", "", wallForce)
+  val frictionSeries = new ControlGraphSeries("<html>F<sub>friction</sub></html>", RampDefaults.frictionForceColor, "Ff", "N", "", parallelFrictionVariable)
+  val gravitySeries = new ControlGraphSeries("<html>F<sub>gravity</sub></html>", RampDefaults.gravityForceColor, "Fg", "N", "", gravityForceVariable)
+  val wallSeries = new ControlGraphSeries("<html>F<sub>wall</sub></html>", RampDefaults.wallForceColor, "Fw", "N", "", wallForceVariable)
+  val netForceSeries= new ControlGraphSeries("<html>F<sub>net</sub></html>", RampDefaults.totalForceColor, "Fnet", "N", "", netForceVariable)
 
   val totalEnergySeries = new ControlGraphSeries("<html>E<sub>total</sub></html>", RampDefaults.totalEnergyColor, "Etot", "J", "", energyVariable)
   val keSeries = new ControlGraphSeries("<html>E<sub>kin</sub></html>", RampDefaults.kineticEnergyColor, "KE", "J", "", keVariable)
@@ -130,6 +132,7 @@ class RampChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model:
     addSeries(frictionSeries)
     addSeries(gravitySeries)
     addSeries(wallSeries)
+    addSeries(netForceSeries)
   }
 
   def createEditableLabel(series: ControlGraphSeries) = {
@@ -171,11 +174,12 @@ class RampChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model:
     panel
   }
 
-  parallelForceControlGraph.addControl(new SeriesSelectionControl("Parallel Forces (N)", 4) {
+  parallelForceControlGraph.addControl(new SeriesSelectionControl("Parallel Forces (N)", 5) {
     addToGrid(appliedForceSeries, createEditableLabel)
     addToGrid(frictionSeries)
     addToGrid(gravitySeries)
     addToGrid(wallSeries)
+    addToGrid(netForceSeries)
   })
 
   val workEnergyGraph = new RampGraph(totalEnergySeries) {
