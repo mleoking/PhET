@@ -35,7 +35,7 @@ public class DatableItem implements AnimatedModelElement {
 	
 	// A static datable object that represents air, which is useful in a
 	// couple of places in the sim.
-	public static final DatableItem DATABLE_AIR = new DatableItem("Datable Air", (String)null,
+	public static final DatableItem DATABLE_AIR = new DatableItem("Datable Air", (ArrayList<String>)null,
 			new Point2D.Double(0, 0), 0, 0, 0, true);
 	
     //------------------------------------------------------------------------

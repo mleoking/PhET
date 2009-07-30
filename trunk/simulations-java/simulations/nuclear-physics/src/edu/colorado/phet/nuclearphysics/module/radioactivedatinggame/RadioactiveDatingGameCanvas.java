@@ -9,7 +9,6 @@ import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Dimension2D;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -57,7 +56,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     private static final double PROPORTIONS_METER_WIDTH_FRACTION = 0.23;
     
     // Fraction of canvas width for the meter.
-    private static final double PROPORTIONS_METER_AND_CHART_HEIGHT_FRACTION = 0.25;
+    private static final double PROPORTIONS_METER_AND_CHART_HEIGHT_FRACTION = 0.29;
     
     // Fraction of canvas width used to portray the edge of the world.
     private static final double WORLD_EDGE_WIDTH_PROPORTION = 0.05;  
