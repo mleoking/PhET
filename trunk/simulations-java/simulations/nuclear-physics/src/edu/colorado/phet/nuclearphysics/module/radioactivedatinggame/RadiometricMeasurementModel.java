@@ -55,6 +55,11 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
 	// Rocks that go outside of these boundaries are deleted.
 	private static final Rectangle2D _rockBoundaryRect = new Rectangle2D.Double(-30, 0, 60, 25);
 	
+	// Constants that control how time accelerates after the volcano has
+	// erupted.
+	private static final int TIME_ACC_COUNTER_RESET_VAL = 50;
+	private static final double TIME_ACC_INCREMENT = (FINAL_ROCK_AGING_RATE - INITIAL_ROCK_AGING_RATE) / (Math.pow(2, TIME_ACC_COUNTER_RESET_VAL) - 1); 
+	
     //------------------------------------------------------------------------
     // Instance data
     //------------------------------------------------------------------------
@@ -67,6 +72,7 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
 	private boolean _agingRockAdded = false;
     private AnimatedDatableItem.ClosureListener _closureListener;
     private RadiometricClosureState _closureState = RadiometricClosureState.CLOSURE_NOT_POSSIBLE;
+    private int _timeAccelerationCount = 0;  // Used to speed up time.
 
     //------------------------------------------------------------------------
     // Constructor
@@ -120,9 +126,7 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
     		 datableItem.getClosureState() == RadiometricClosureState.CLOSED ){
     		
     		// Once closure occurs for the aging rock, the time scale speeds up.
-    		for (AnimatedDatableItem item : _animatedModelElements){
-    			item.setTimeConversionFactor(FINAL_ROCK_AGING_RATE);
-    		}
+    		_timeAccelerationCount = TIME_ACC_COUNTER_RESET_VAL;
     	}
 	}
 
@@ -170,6 +174,7 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
 			// Reset state.
 			_agingRockAdded = false;
 			_closureState = RadiometricClosureState.CLOSURE_NOT_POSSIBLE;
+			_timeAccelerationCount = 0;
 			
 			// Remove all existing model elements.
 			Iterator<AnimatedDatableItem> itr = _animatedModelElements.iterator();
@@ -282,7 +287,8 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
 		
 		if (_simulationMode == SIMULATION_MODE.ROCK){
 			
-			// In this mode, additional model elements are added at various times.
+			// In this mode, additional model elements are added at various
+			// times.  The code below adds them.
 			if (_clock.getSimulationTime() == RadiometricMeasurementDefaults.CLOCK_DT * 100 && !_agingRockAdded){
 				// Add the aging rock to the sim.
 				AgingRock agingRock = new AgingRock(_clock, INITIAL_ROCK_POSITION, INITIAL_AGING_ROCK_WIDTH,
@@ -305,6 +311,30 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
 				_animatedModelElements.add(flyingRock);
 				new FlyingRockManager(this, flyingRock);
 				notifyModelElementAdded(flyingRock);
+			}
+			
+			if ( _timeAccelerationCount > 0 ){
+				
+				// The rate at which time is passing for the datable objects
+				// is changing.  Make the necessary adjustments.
+				double incrementCount = TIME_ACC_COUNTER_RESET_VAL - _timeAccelerationCount;
+				double agingRate = _animatedModelElements.get(0).getTimeConversionFactor();  // Assume all aging at same rate.
+				
+				// Calculate the new aging rate.  This is non-linear, because
+				// linear was tried and it didn't look good.
+				agingRate = Math.min(agingRate + Math.pow(2, incrementCount) * TIME_ACC_INCREMENT,
+						FINAL_ROCK_AGING_RATE);
+				
+				for (AnimatedDatableItem item : _animatedModelElements){
+					// Set the new aging rate.
+					item.setTimeConversionFactor(agingRate);
+				}
+				
+				_timeAccelerationCount--;
+				
+				// Debug statement - Uncomment this to see if time is
+				// accelerating as desired.
+				// System.out.println("timeAccCount = " + _timeAccelerationCount + ", at full speed is: " + (agingRate == FINAL_ROCK_AGING_RATE));
 			}
 		}
 	}
