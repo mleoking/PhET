@@ -1,3 +1,4 @@
+Added recording of the position of the stick figure
 Made it so the chart cursor controls the playback time
 Added recording for bead state
 # 1.03.22 (33735) Jul 29, 2009
