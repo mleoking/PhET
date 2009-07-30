@@ -7,8 +7,8 @@ import java.util.List;
 import org.hibernate.Session;
 
 import edu.colorado.phet.wickettest.menu.NavLocation;
+import edu.colorado.phet.wickettest.menu.NavMenu;
 import edu.colorado.phet.wickettest.util.HibernateUtils;
-import edu.colorado.phet.wickettest.util.PageContext;
 
 public class Category implements Serializable {
     private int id;
@@ -72,8 +72,8 @@ public class Category implements Serializable {
         return category;
     }
 
-    public NavLocation getNavLocation( PageContext context ) {
-        return context.getApplication().getMenu().getLocationByKey( getName() );
+    public NavLocation getNavLocation( NavMenu menu ) {
+        return menu.getLocationByKey( getName() );
     }
 
     public String getCategoryPath() {

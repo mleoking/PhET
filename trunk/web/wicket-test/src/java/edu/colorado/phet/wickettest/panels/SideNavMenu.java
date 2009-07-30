@@ -16,7 +16,7 @@ public class SideNavMenu extends PhetPanel {
     public SideNavMenu( String id, final PageContext context, Set<NavLocation> currentLocations ) {
         super( id, context );
 
-        Session session = context.getSession();
+        Session session = getHibernateSession();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
@@ -35,7 +35,7 @@ public class SideNavMenu extends PhetPanel {
             }
         }
 
-        List<NavLocation> locations = context.getApplication().getMenu().getLocations();
+        List<NavLocation> locations = getNavMenu().getLocations();
         add( new NavMenuList( "side-nav-menu", context, locations, currentLocations, 0 ) );
 
     }

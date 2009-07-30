@@ -4,13 +4,14 @@ import java.util.Locale;
 
 import org.apache.wicket.markup.html.panel.Panel;
 
+import edu.colorado.phet.wickettest.WicketApplication;
+import edu.colorado.phet.wickettest.menu.NavMenu;
 import edu.colorado.phet.wickettest.util.PageContext;
+import edu.colorado.phet.wickettest.util.PhetRequestCycle;
 
 public class PhetPanel extends Panel {
 
     private Locale myLocale;
-
-    // TODO: refactor out unneeded servlet context for hibernate usage
 
     public PhetPanel( String id, PageContext context ) {
         super( id );
@@ -19,6 +20,14 @@ public class PhetPanel extends Panel {
 
     public Locale getMyLocale() {
         return myLocale;
+    }
+
+    public org.hibernate.Session getHibernateSession() {
+        return ( (PhetRequestCycle) getRequestCycle() ).getHibernateSession();
+    }
+
+    public NavMenu getNavMenu() {
+        return ( (WicketApplication) getApplication() ).getMenu();
     }
 
     /**
