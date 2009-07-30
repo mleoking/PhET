@@ -4,8 +4,8 @@ import charts.RampChartNode
 import common.phetcommon.application.{PhetApplicationLauncher, Module, PhetApplicationConfig}
 import common.piccolophet.{PiccoloPhetApplication}
 import graphics.RampCanvas
-import java.awt.{BorderLayout, Color}
-import javax.swing.{JButton, JPanel, JFrame}
+import java.awt.{Color}
+import javax.swing.{JFrame}
 import model._
 import controls.RampControlPanel
 import robotmovingcompany.{RobotMovingCompanyGameModel, Result, RobotMovingCompanyCanvas}
@@ -13,8 +13,8 @@ import scalacommon.record.{RecordModelControlPanel, PlaybackSpeedSlider}
 
 import scalacommon.ScalaClock
 
-class AbstractRampModule(frame: JFrame, clock: ScalaClock, name: String) extends Module(name, clock) {
-  val model = new RampModel
+class AbstractRampModule(frame: JFrame, clock: ScalaClock, name: String, defaultBeadPosition: Double) extends Module(name, clock) {
+  val model = new RampModel(defaultBeadPosition)
   val wordModel = new WordModel
   val fbdModel = new FreeBodyDiagramModel
   val coordinateSystemModel = new CoordinateSystemModel
@@ -30,8 +30,9 @@ class AbstractRampModule(frame: JFrame, clock: ScalaClock, name: String) extends
   }
 }
 
-class BasicRampModule(frame: JFrame, clock: ScalaClock, name: String, coordinateSystemFeaturesEnabled: Boolean, useObjectComboBox: Boolean)
-        extends AbstractRampModule(frame, clock, name) {
+class BasicRampModule(frame: JFrame, clock: ScalaClock, name: String,
+                      coordinateSystemFeaturesEnabled: Boolean, useObjectComboBox: Boolean, defaultBeadPosition: Double)
+        extends AbstractRampModule(frame, clock, name, defaultBeadPosition) {
   val canvas = new RampCanvas(model, coordinateSystemModel, fbdModel, vectorViewModel, frame, !useObjectComboBox)
   setSimulationPanel(canvas)
   setControlPanel(new RampControlPanel(model, wordModel, fbdModel, coordinateSystemModel, vectorViewModel,
@@ -39,18 +40,17 @@ class BasicRampModule(frame: JFrame, clock: ScalaClock, name: String, coordinate
   setClockControlPanel(new RecordModelControlPanel(model, canvas, () => new PlaybackSpeedSlider(model), Color.blue, 20))
 }
 
-class IntroRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "Intro", false, false)
+class IntroRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "Intro", false, false, 5)
 
-class CoordinatesRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "Coordinates", true, false) {
+class CoordinatesRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "Coordinates", true, false, 5) {
   coordinateSystemModel.adjustable = true
 }
 
 class ForceGraphsModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(frame, clock, "Force Graphs", false)
 
-class GraphingModule(frame: JFrame, clock: ScalaClock, name: String, showEnergyGraph: Boolean) extends BasicRampModule(frame, clock, name, false, true) {
+class GraphingModule(frame: JFrame, clock: ScalaClock, name: String, showEnergyGraph: Boolean) extends BasicRampModule(frame, clock, name, false, true, -6) {
   coordinateSystemModel.adjustable = false
   canvas.addNodeAfter(canvas.earthNode, new RampChartNode(canvas.transform, canvas, model, showEnergyGraph))
-  model.bead.setPosition(-6)
 
   //pause on startup, and unpause (and start recording) when the user interacts with the sim 
   model.setPaused(true)
@@ -65,7 +65,7 @@ class GraphingModule(frame: JFrame, clock: ScalaClock, name: String, showEnergyG
 
 class WorkEnergyModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(frame, clock, "Work-Energy", true)
 
-class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock) extends AbstractRampModule(frame, clock, "Robot Moving Company") {
+class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock) extends AbstractRampModule(frame, clock, "Robot Moving Company", 5) {
   val gameModel = new RobotMovingCompanyGameModel(model, clock)
 
   gameModel.itemFinishedListeners += ((scalaRampObject, result) => {
