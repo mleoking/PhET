@@ -1,3 +1,4 @@
+Made "Reset All" button appear at the very bottom of the control panel.
 Fixed: Object size is incorrect when changing objects and when object is motionless; need to switch between objects a few times to reproduce the problem; This also occurs on object change during record/playback
 Added recording of whether walls are up or down
 Added recording of the position of the stick figure

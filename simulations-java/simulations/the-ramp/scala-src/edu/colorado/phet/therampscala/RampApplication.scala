@@ -4,13 +4,12 @@ import charts.RampChartNode
 import common.phetcommon.application.{PhetApplicationLauncher, Module, PhetApplicationConfig}
 import common.piccolophet.{PiccoloPhetApplication}
 import graphics.RampCanvas
+import java.awt.{BorderLayout, Color}
+import javax.swing.{JButton, JPanel, JFrame}
 import model._
 import controls.RampControlPanel
 import robotmovingcompany.{RobotMovingCompanyGameModel, Result, RobotMovingCompanyCanvas}
 import scalacommon.record.{RecordModelControlPanel, PlaybackSpeedSlider}
-
-import java.awt.Color
-import javax.swing.JFrame
 
 import scalacommon.ScalaClock
 

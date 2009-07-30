@@ -19,7 +19,27 @@ class RampControlPanel(model: RampModel, wordModel: WordModel,
                        coordinateSystemModel: CoordinateSystemModel,
                        vectorViewModel: VectorViewModel, resetHandler: () => Unit,
                        coordinateSystemFeaturesEnabled: Boolean,
-                       useObjectComboBox: Boolean, objectModel: ObjectModel) extends ControlPanel {
+                       useObjectComboBox: Boolean, objectModel: ObjectModel) extends JPanel(new BorderLayout) {
+
+  val body = new RampControlPanelBody(model, wordModel, freeBodyDiagramModel, coordinateSystemModel, vectorViewModel, resetHandler,
+    coordinateSystemFeaturesEnabled, useObjectComboBox, objectModel)
+
+  val southControlPanel = new JPanel()
+  val resetButton = new ResetAllButton(this)
+  resetButton.addResettable(new Resettable {def reset = resetHandler()})
+  southControlPanel.add(resetButton)
+
+  add(body, BorderLayout.NORTH)
+  add(southControlPanel, BorderLayout.SOUTH)
+}
+
+
+class RampControlPanelBody(model: RampModel, wordModel: WordModel,
+                           freeBodyDiagramModel: FreeBodyDiagramModel,
+                           coordinateSystemModel: CoordinateSystemModel,
+                           vectorViewModel: VectorViewModel, resetHandler: () => Unit,
+                           coordinateSystemFeaturesEnabled: Boolean,
+                           useObjectComboBox: Boolean, objectModel: ObjectModel) extends ControlPanel {
   getContentPanel.setAnchor(GridBagConstraints.WEST)
   getContentPanel.setFill(GridBagConstraints.HORIZONTAL)
   override def add(comp: Component) = {
@@ -92,13 +112,6 @@ class RampControlPanel(model: RampModel, wordModel: WordModel,
   val stepButton = new JButton("Step")
   stepButton.addActionListener(() => model.stepRecord(RampDefaults.DT_DEFAULT))
   add(stepButton)
-
-  //  addResetAllButton(new Resettable {def reset = resetHandler()})
-  getContentPanel.setAnchor(GridBagConstraints.SOUTH)
-  getContentPanel.setFill(GridBagConstraints.NONE)
-  val resetButton = new ResetAllButton(this)
-  resetButton.addResettable(new Resettable {def reset = resetHandler()})
-  add(resetButton)
 }
 
 class SubControlPanel(title: String) extends VerticalLayoutPanel {
