@@ -3,8 +3,8 @@ package edu.colorado.phet.therampscala
 import scalacommon.util.Observable
 
 //immutable memento for recording
-case class ScalaRampObjectState(name: String, mass: Double, kinFric: Double, statFric: Double, height:Double,
-                                imageFilename: String, iconFilename: String, customizable: Boolean, points: Int, objectType: ScalaRampObjectState => ScalaRampObject){
+case class ScalaRampObjectState(name: String, mass: Double, kinFric: Double, statFric: Double, height: Double,
+                                imageFilename: String, iconFilename: String, customizable: Boolean, points: Int, objectType: ScalaRampObjectState => ScalaRampObject) {
   def toObject = objectType(this)
 }
 
@@ -24,7 +24,7 @@ class ScalaRampObject(_name: String,
     imageFilename, iconFilename, customizable, points, createFactory)
 
   def createFactory(state: ScalaRampObjectState) = new ScalaRampObject(state.name, state.mass, state.kinFric, state.statFric, state.height,
-    state.imageFilename, state.iconFilename,state.customizable, state.points)
+    state.imageFilename, state.iconFilename, state.customizable, state.points)
 
   def kineticFriction = _kineticFriction
 
