@@ -60,7 +60,7 @@ public class MotionControlGraph extends ControlGraph {
         addChild( jFreeChartCursorNode );
         timeSeriesModel.addPlaybackTimeChangeListener( new TimeSeriesModel.PlaybackTimeListener() {
             public void timeChanged() {
-                jFreeChartCursorNode.setTime( timeSeriesModel.getTime() );
+                updateCursorLocation();
             }
         } );
         jFreeChartCursorNode.addListener( new JFreeChartCursorNode.Listener() {
@@ -87,7 +87,7 @@ public class MotionControlGraph extends ControlGraph {
         } );
         timeSeriesModel.addListener( new TimeSeriesModel.Adapter() {
             public void dataSeriesChanged() {
-                jFreeChartCursorNode.setMaxDragTime( timeSeriesModel.getRecordTime() );
+                updateCursorMaxDragTime();
 //                System.out.println( "max record time=" + timeSeriesModel.getRecordTime() );
             }
 
@@ -105,6 +105,14 @@ public class MotionControlGraph extends ControlGraph {
         } );
     }
 
+    protected void updateCursorMaxDragTime() {
+        jFreeChartCursorNode.setMaxDragTime( getMaxCursorDragTime() );
+    }
+
+    protected double getMaxCursorDragTime() {
+        return timeSeriesModel.getRecordTime();
+    }
+
     protected void handleControlFocusGrabbed() {
         super.handleControlFocusGrabbed();
         if ( updateStrategy != null ) {
@@ -112,8 +120,12 @@ public class MotionControlGraph extends ControlGraph {
         }
     }
 
-    private void updateCursorLocation() {
-        jFreeChartCursorNode.setTime( timeSeriesModel.getTime() );
+    protected void updateCursorLocation() {
+        jFreeChartCursorNode.setTime( getPlaybackTime() );
+    }
+
+    protected double getPlaybackTime() {
+        return timeSeriesModel.getTime();
     }
 
     protected void updateCursorVisible() {

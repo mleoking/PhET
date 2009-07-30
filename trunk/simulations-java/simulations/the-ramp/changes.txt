@@ -1,3 +1,4 @@
+Fixed: Chart cursor shouldn't be draggable beyond data region.
 Fixed: Chart cursor should only be visible during playback
 Fixed: Recording progress bar should "fill up" during recording
 Made "Reset All" button appear at the very bottom of the control panel.
