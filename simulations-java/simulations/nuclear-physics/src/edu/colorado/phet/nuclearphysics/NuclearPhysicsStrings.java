@@ -168,6 +168,9 @@ public class NuclearPhysicsStrings {
     public static final String KILL_TREE= NuclearPhysicsResources.getString( "RadiometericMeasurement.KillTree" );
     public static final String ERUPT_VOLCANO= NuclearPhysicsResources.getString( "RadiometericMeasurement.EruptVolcano" );
     public static final String COOL_ROCK= NuclearPhysicsResources.getString( "RadiometericMeasurement.CoolRock" );
+    
+    public static final String MEASURE_OBJECTS= NuclearPhysicsResources.getString( "RadiometricMeter.MeasureObjects" );
+    public static final String MEASURE_AIR= NuclearPhysicsResources.getString( "RadiometricMeter.MeasureAir" );
 
     public static final String INFINITY_SYMBOL= NuclearPhysicsResources.getString( "InfinitySymbol" );
 
