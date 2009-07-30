@@ -6,6 +6,7 @@ import java.util.Set;
 
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.model.StringResourceModel;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -62,7 +63,8 @@ public class SimulationPage extends PhetMenuPage {
         }
         else {
             // TODO: localize
-            addTitle( simulation.getTitle() + " " + simulation.getSimulation().getProject().getVersionString() );
+            //addTitle( simulation.getTitle() + " " + simulation.getSimulation().getProject().getVersionString() );
+            addTitle( new StringResourceModel( "simulationPage.title", this, null, new String[]{simulation.getTitle(), simulation.getSimulation().getProject().getVersionString()} ) );
             add( new SimulationMainPanel( "simulation-main-panel", simulation, getPageContext() ) );
 
             initializeLocationWithSet( locations );
