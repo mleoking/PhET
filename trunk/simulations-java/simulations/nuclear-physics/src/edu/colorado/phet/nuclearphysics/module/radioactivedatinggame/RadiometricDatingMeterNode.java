@@ -195,6 +195,17 @@ public class RadiometricDatingMeterNode extends PNode {
 		// measuring the air.
 		_modeControlButton = new JButton();
 		_modeControlButton.setFont(BUTTON_FONT);
+		_modeControlButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (_meterModel.getMeasurementMode() == MeasurementMode.AIR){
+					_meterModel.setMeasurementMode(MeasurementMode.OBJECTS);
+				}
+				else{
+					_meterModel.setMeasurementMode(MeasurementMode.AIR);
+				}
+			}
+		});
 		_modeControlButtonPSwing = new PSwing(_modeControlButton);
 		_meterBody.addChild(_modeControlButtonPSwing);
 		updateModeButtonAppearance();
@@ -248,7 +259,7 @@ public class RadiometricDatingMeterNode extends PNode {
 	}
 	
 	private void handleMeasurementModeChanged(){
-		// TODO: Stubbed for now.
+		updateModeButtonAppearance();
 	}
 	
 	private void updateModeButtonAppearance(){
@@ -273,7 +284,7 @@ public class RadiometricDatingMeterNode extends PNode {
 					halfLifeComboBoxPSwing.getFullBounds().getMaxY() + 4 );
 		}
 		else{
-			_modeControlButtonPSwing.setOffset(meterBodyBounds.getCenterX() - buttonBounds.width/2, 
+			_modeControlButtonPSwing.setOffset(meterBodyBounds.getWidth() / 2 - buttonBounds.width/2, 
 					_elementSelectionNode.getFullBounds().getMaxY() + 2 );
 		}
 	}
