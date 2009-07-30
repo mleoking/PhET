@@ -106,8 +106,6 @@ class RecordModelControlPanel[T](model: RecordModel[T], simPanel: JComponent, cr
     playPauseTooltipHandler.setText(if (model.isPaused) getString("Common.ClockControlPanel.Play") else getString("Common.ClockControlPanel.Pause"))
   })
 
-
-
   val stepButton = new StepButton(50)
   stepButton.setEnabled(false)
   stepButton.addInputEventListener(new ToolTipHandler(getString("Common.ClockControlPanel.Step"), this))
@@ -118,14 +116,12 @@ class RecordModelControlPanel[T](model: RecordModel[T], simPanel: JComponent, cr
   stepButton.addListener(() => {model.stepPlayback()})
   stepButton.setOffset(0, 12)
 
-
   addControl(clearButtonNode)
   addControl(modePanelNode)
   addControl(rewind)
   addControl(playPause)
   addControl(stepButton)
   addControl(rightmostControl)
-
 
   val timeline = new Timeline(model, this,timelineColor,maxTime)
   addScreenChild(timeline)
