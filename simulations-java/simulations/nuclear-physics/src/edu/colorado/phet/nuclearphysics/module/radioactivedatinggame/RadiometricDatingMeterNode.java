@@ -304,13 +304,13 @@ public class RadiometricDatingMeterNode extends PNode {
      * Node that represents the probe portion of the meter.
      */
     static class ProbeNode extends PhetPNode {
-        private final RadiometricDatingMeter.ProbeModel _probeModel;
+        private final RadiometricDatingMeter.ObjectProbe _probeModel;
         private final PImage _imageNode;
         private final PhetPPath _tipPath;
         private final ModelViewTransform2D _mvt;
         private final PNode _dragBounds;
 
-        public ProbeNode( RadiometricDatingMeter.ProbeModel probeModel, ModelViewTransform2D mvt, 
+        public ProbeNode( RadiometricDatingMeter.ObjectProbe probeModel, ModelViewTransform2D mvt, 
         		PNode probeDragBounds ) {
         	
             _probeModel = probeModel;
