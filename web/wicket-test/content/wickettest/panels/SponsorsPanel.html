@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:wicket="http://svn.apache.org/repos/asf/wicket/trunk/wicket/wicket-xhtml1-strict.dtd" xml:lang="en"
+      lang="en">
+<head>
+    <title>[PREVIEW] SponsorsPanel</title>
+    <wicket:remove>
+        <link rel="stylesheet" type="text/css" href="../../../root/css/test.css"/>
+    </wicket:remove>
+    <wicket:head>
+        <style type="text/css">
+            img.spons {
+                float: left;
+                margin: 0px 3px 0px 0px;
+            }
+
+            a img.spons {
+                border: medium none;
+            }
+
+            #spons {
+                margin-top: 15px;
+                font-size: 12px;
+            }
+
+            #spons h4 {
+                color: #0d2973;
+                font-size: 14px;
+                margin: 1ex 0pt;
+                padding: 0pt;
+            }
+
+            #spons div.header {
+                width: 178px;
+                height: 8px;
+                background-color: transparent;
+                background-image: url(/images/relatedLinks_BG.gif);
+                background-repeat: no-repeat;
+                background-attachment: scroll;
+                background-position: bottom left;
+                padding: 0pt;
+                margin: 0pt auto;
+                border: medium none;
+            }
+
+            #spons dl {
+                width: 158px;
+                background-image: url(/images/relatedLinksBTTM_BG.gif);
+                background-repeat: no-repeat;
+                background-attachment: scroll;
+                background-position: bottom left;
+                background-color: #d8eaf4;
+                font-size: 0.9em;
+                padding: 0pt 10px 10px;
+                margin: 0pt auto;
+                border: medium none;
+            }
+
+            #spons dt, #spons dd {
+                margin: 0pt;
+                padding: 0pt 0pt 4px 18px;
+            }
+
+            #spons dd {
+                border-bottom: 1px solid #cccccc;
+                color: #313131;
+                line-height: 1.2em;
+                margin-bottom: 15px;
+                padding-bottom: 15px;
+            }
+
+            dl a:hover {
+                color: #cc6600;
+            }
+
+            #spons dt a, #spons dd a {
+                color: #294ca8;
+                font-weight: bold;
+                text-decoration: underline;
+            }
+
+            #spons dt {
+                background-color: transparent;
+                background-image: url(/images/circleArrow_Icon.gif);
+                background-repeat: no-repeat;
+                background-attachment: scroll;
+                background-position: left 3px;
+            }
+
+
+        </style>
+    </wicket:head>
+</head>
+<body>
+
+<wicket:panel>
+
+    <div id="spons" wicket:message="dir:language.dir">
+        <h4><wicket:message key="sponsors.principalSponsors">Principal Sponsors</wicket:message></h4>
+
+        <div class="header">
+        </div>
+        <dl>
+            <dt>
+                <a class="sponsor-text-link" href="http://www.hewlett.org/">The William and Flora Hewlett Foundation</a>
+
+            </dt>
+
+            <dd>
+                <a href="http://www.hewlett.org/">
+                    <img src="/images/hewlett-logo.jpg" alt="The Hewlett Logo"/>
+                </a>
+                <br/>
+
+                <br/>
+                <wicket:message key="sponsors.hewlett">Makes grants to address the most serious social and environmental problems facing society, where risk
+                capital, responsibly invested, may make a difference over time.</wicket:message>
+            </dd>
+
+            <dt>
+                <a href="http://www.nsf.gov/">
+                    <img class="spons" src="/images/nsf-logo.gif" alt="The NSF Logo"/>National Science
+                    Foundation</a>
+            </dt>
+
+            <dd>
+                <br/>
+                <wicket:message key="sponsors.nsf">An independent federal agency created by Congress in 1950 to promote the progress of science.</wicket:message><br/>
+
+                <br/>
+            </dd>
+
+            <dt>
+                <a href="http://www.ksu.edu.sa/">
+                    <img class="spons" src="/images/ksu-logo.gif" alt="The King Saud Logo"/>King Saud
+                    University</a>
+            </dt>
+
+            <dd>
+
+                <br/>
+                <wicket:message key="sponsors.ksu">King Saud University seeks to become a leader in educational and technological innovation, scientific
+                discovery and creativity through fostering an atmosphere of intellectual inspiration and partnership for
+                the prosperity of society.</wicket:message><br/>
+                <br/>
+            </dd>
+            <dt>
+                <a href="../sponsors/index.php">
+                    <img src="/images/other-sponsors.gif" alt="Other Sponsors Logo"
+                         style="border: medium none;"/></a>
+            </dt>
+
+        </dl>
+    </div>
+</wicket:panel>
+
+</body>
+</html>
+

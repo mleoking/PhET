@@ -12,7 +12,6 @@
         <style type="text/css">
             .index-content {
                 width: 600px;
-                text-align: center;
                 margin: 0px auto;
                 border: 1px solid black;
                 padding: 10px;
@@ -20,6 +19,13 @@
 
             .translation-holder {
                 border: 1px solid red;
+                width: 240px;
+                float: right;
+            }
+
+            .string-value {
+                border: 1px solid blue;
+                margin-right: 260px;
             }
         </style>
     </wicket:head>
@@ -30,14 +36,35 @@
     <div class="index-content">
         <h3>Translation Demo</h3>
 
-        <div wicket:id="translation-label">
 
-        </div>
         <div class="translation-holder">
-            <div wicket:id="panel">
-
+            <div wicket:message="class:language.dir">
+                <div wicket:id="panel">
+                    Panel to translate<br/>
+                    Panel to translate<br/>
+                    Panel to translate<br/>
+                    Panel to translate<br/>
+                    Panel to translate<br/>
+                    Panel to translate<br/>
+                    Panel to translate<br/>
+                    Panel to translate<br/>
+                    Panel to translate<br/>
+                    Panel to translate<br/>
+                    Panel to translate<br/>
+                    Panel to translate<br/>
+                </div>
             </div>
         </div>
+
+        <div class="strings">
+            language.dir: <div wicket:id="translation-dir" class="string-value">Blah blah blah now this is some really long text that will take forever</div><br/>
+            sponsors.principalSponsors: <div wicket:id="translation-principalSponsors" class="string-value">Blah blah blah now this is some really long text that will take forever</div><br/>
+            sponsors.hewlett: <div wicket:id="translation-hewlett" class="string-value">Blah blah blah now this is some really long text that will take forever</div><br/>
+            sponsors.nsf: <div wicket:id="translation-nsf" class="string-value">Blah blah blah now this is some really long text that will take forever</div><br/>
+            sponsors.ksu: <div wicket:id="translation-ksu" class="string-value">Blah blah blah now this is some really long text that will take forever</div><br/>
+        </div>
+
+        <div class="translation-footer-x" style="clear: both;"></div>
     </div>
 </wicket:extend>
 
