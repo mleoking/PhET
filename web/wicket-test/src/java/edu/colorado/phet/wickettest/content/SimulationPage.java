@@ -17,10 +17,10 @@ import edu.colorado.phet.wickettest.menu.NavLocation;
 import edu.colorado.phet.wickettest.panels.SimulationMainPanel;
 import edu.colorado.phet.wickettest.util.HibernateUtils;
 import edu.colorado.phet.wickettest.util.PhetLink;
-import edu.colorado.phet.wickettest.util.PhetRegularPage;
+import edu.colorado.phet.wickettest.util.PhetMenuPage;
 import edu.colorado.phet.wickettest.util.PhetUrlMapper;
 
-public class SimulationPage extends PhetRegularPage {
+public class SimulationPage extends PhetMenuPage {
     public SimulationPage( PageParameters parameters ) {
         super( parameters );
 
@@ -58,14 +58,14 @@ public class SimulationPage extends PhetRegularPage {
             addTitle( "Unknown Simulation" );
             add( new Label( "simulation-main-panel", "The simulation you specified could not be found." ) );
 
-            initializeMenu( null );
+            initializeLocation( null );
         }
         else {
             // TODO: localize
             addTitle( simulation.getTitle() + " " + simulation.getSimulation().getProject().getVersionString() );
             add( new SimulationMainPanel( "simulation-main-panel", simulation, getPageContext() ) );
 
-            initializeMenuWithSet( locations );
+            initializeLocationWithSet( locations );
         }
 
     }

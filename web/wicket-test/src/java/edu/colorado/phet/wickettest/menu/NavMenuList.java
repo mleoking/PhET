@@ -24,7 +24,7 @@ public class NavMenuList extends Panel {
                 NavLocation location = (NavLocation) item.getModel().getObject();
                 Link link = location.getLink( "link", context );
 
-                Label label = new Label( "link-label", new ResourceModel( "nav." + location.getKey() ) );
+                Label label = new Label( "link-label", new ResourceModel( location.getLocalizationKey() ) );
 
                 boolean open = false;
 

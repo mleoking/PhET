@@ -54,10 +54,10 @@ public class SimulationDisplay extends PhetRegularPage {
         }
 
         if ( category == null ) {
-            initializeMenu( getNavMenu().getLocationByKey( "all" ) );
+            initializeLocation( getNavMenu().getLocationByKey( "all" ) );
         }
         else {
-            initializeMenu( category.getNavLocation( getNavMenu() ) );
+            initializeLocation( category.getNavLocation( getNavMenu() ) );
         }
 
         add( new SimulationDisplayPanel( "simulation-display-panel", getPageContext(), simulations ) );

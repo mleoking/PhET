@@ -7,6 +7,7 @@ body {
 #page-header {
     background: url(../images/header_BG.gif) left top repeat-x;
     height: 127px;
+    margin-bottom: 10px;
 }
 
 #page-header-logo {

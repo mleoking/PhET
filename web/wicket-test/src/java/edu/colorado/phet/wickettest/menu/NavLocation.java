@@ -22,6 +22,10 @@ public class NavLocation implements Serializable {
         this.linker = linker;
     }
 
+    public String getLocalizationKey() {
+        return "nav." + getKey();
+    }
+
     public String getBaseKey() {
         if ( getParent() == null ) {
             return getKey();

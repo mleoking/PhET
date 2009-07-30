@@ -4,22 +4,29 @@
       xmlns:wicket="http://svn.apache.org/repos/asf/wicket/trunk/wicket/wicket-xhtml1-strict.dtd" xml:lang="en"
       lang="en">
 <head>
-    <title wicket:id="page-title">[PREVIEW] TranslationTestPage</title>
+    <title wicket:id="page-title">[PREVIEW] PhetMenuPage</title>
     <wicket:remove>
         <link rel="stylesheet" type="text/css" href="../../../root/css/test.css"/>
     </wicket:remove>
     <wicket:head>
         <style type="text/css">
-            .index-content {
-                width: 600px;
-                text-align: center;
-                margin: 0px auto;
-                border: 1px solid black;
-                padding: 10px;
+
+            div.ltr #side-panel {
+                float: left;
+                width: 240px;
             }
 
-            .translation-holder {
-                border: 1px solid red;
+            div.rtl #side-panel {
+                float: right;
+                width: 240px;
+            }
+
+            div.ltr #main-content {
+                margin-left: 240px;
+            }
+
+            div.rtl #main-content {
+                margin-right: 240px;
             }
         </style>
     </wicket:head>
@@ -27,17 +34,16 @@
 <body wicket:message="dir:language.dir">
 
 <wicket:extend>
-    <div class="index-content">
-        <h3>Translation Demo</h3>
-
-        <div wicket:id="translation-label">
-
+    <div id="side-panel">
+        <div wicket:id="side-navigation">
+            Side navigation
         </div>
-        <div class="translation-holder">
-            <div wicket:id="panel">
-
-            </div>
-        </div>
+    </div>
+    <div id="main-content">
+        <wicket:child/>
+        <wicket:remove>
+            Main content
+        </wicket:remove>
     </div>
 </wicket:extend>
 

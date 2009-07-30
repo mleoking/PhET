@@ -9,9 +9,9 @@ import edu.colorado.phet.wickettest.panels.SimulationListPanel;
 import edu.colorado.phet.wickettest.util.Linkable;
 import edu.colorado.phet.wickettest.util.PageContext;
 import edu.colorado.phet.wickettest.util.PhetLink;
-import edu.colorado.phet.wickettest.util.PhetRegularPage;
+import edu.colorado.phet.wickettest.util.PhetMenuPage;
 
-public class SimulationList extends PhetRegularPage {
+public class SimulationList extends PhetMenuPage {
     public SimulationList( PageParameters parameters ) {
         super( parameters );
 
@@ -20,7 +20,7 @@ public class SimulationList extends PhetRegularPage {
 
         add( new SimulationListPanel( "simulation-list-panel", getPageContext() ) );
 
-        initializeMenu( null );
+        initializeLocation( null );
 
     }
 
