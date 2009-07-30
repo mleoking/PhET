@@ -702,15 +702,10 @@ EOT;
         $text_to_identifier = array();
 
         $options = '<option value="" selected="selected">Select '.$select_user_name.':</option>';
-
-        foreach($options_array as $identifier => $text) {
-            // TODO: On the "teacher_ideas/contribute.php" the identifiers
-            // come in already formatted in HTML and don't need this.  Check to
-            // see if others rely on this method.
-            //$text = html_entity_decode($text);
-            $formatted_text = format_string_for_html($text);
+        foreach($options_array as $identifier => $formatted_text) {
             $options .= "<option value=\"$identifier\">$formatted_text</option>";
 
+            $text = WebUtils::inst()->fromHtml($formatted_text);
             $text_to_identifier["$text"] = "$identifier";
         }
 
@@ -724,7 +719,6 @@ EOT;
         $script_creation_code = '';
         if ($should_validate) {
             if (is_null($page)) {
-                assert($false);
                 $script_creation_code = "ms_mark_as_invalid(document.getElementById('$list_id'));";
             }
             else {
@@ -748,7 +742,6 @@ EOT;
                 $identifier = "$decode_text";
             }
             if (is_null($page)) {
-                assert($false);
                 $script_creation_code .= "ms_add_li('$name', '$list_id', '$text', '$identifier', $should_invalidate_on_empty);";
             }
             else {
