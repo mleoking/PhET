@@ -27,7 +27,7 @@ public class RadiometricDatingMeter {
     // Instance Data
     //----------------------------------------------------------------------------
 
-	private final ProbeModel _probe;
+	private final ObjectProbe _probe;
 	private DatableItem _itemBeingTouched = null;
 	private ModelContainingDatableItems _model;
 	private NucleusType _nucleusTypeForDating;
@@ -55,7 +55,7 @@ public class RadiometricDatingMeter {
 			boolean updatePeriodically ) {
 		
 		_model = model;
-		_probe = new ProbeModel(initialTipLocation, 2);
+		_probe = new ObjectProbe(initialTipLocation, 2);
 		_probe.addObserver(new SimpleObserver(){
 			public void update() {
 				updateTouchedItem();
@@ -92,7 +92,7 @@ public class RadiometricDatingMeter {
     // Methods
     //----------------------------------------------------------------------------
 
-	public ProbeModel getProbeModel(){
+	public ObjectProbe getProbeModel(){
 		return _probe;
 	}
 	
@@ -281,13 +281,13 @@ public class RadiometricDatingMeter {
 	 * This class represents the probe that moves around and comes in contact
 	 * with various datable elements in the model.
 	 */
-    public static class ProbeModel extends SimpleObservable {
+    public static class ObjectProbe extends SimpleObservable {
         private Point2D.Double tipLocation;
         private double angle;
         private double tipWidth = 0.1 * 0.35;
         private double tipHeight = 0.3 * 1.25 * 0.75;
 
-        public ProbeModel( Point2D tipLocation, double angle ) {
+        public ObjectProbe( Point2D tipLocation, double angle ) {
             this.tipLocation = new Point2D.Double( tipLocation.getX(), tipLocation.getY() );
             this.angle = angle;
         }
