@@ -29,6 +29,19 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class DatableItem implements AnimatedModelElement {
 
+    //------------------------------------------------------------------------
+    // Class Data
+    //------------------------------------------------------------------------
+	
+	// A static datable object that represents air, which is useful in a
+	// couple of places in the sim.
+	public static final DatableItem DATABLE_AIR = new DatableItem("Datable Air", (String)null,
+			new Point2D.Double(0, 0), 0, 0, 0, true);
+	
+    //------------------------------------------------------------------------
+    // Instance Data
+    //------------------------------------------------------------------------
+
 	private double width;
 	private double height;
 	private final double age;
@@ -57,10 +70,6 @@ public class DatableItem implements AnimatedModelElement {
 			double rotationAngle, double age, boolean isOrganic) {
 		super();
 
-		if (resourceImageNames == null || resourceImageNames.size() == 0){
-			throw new IllegalArgumentException("Must have at least one image name.");
-		}
-
 		this.name = name;
 		this.center = new Point2D.Double(center.getX(), center.getY());
 		this.width = width;
@@ -68,27 +77,34 @@ public class DatableItem implements AnimatedModelElement {
 		this.rotationAngle = rotationAngle;
 		this.isOrganic = isOrganic;
 
-		// Load the initial primary image, which is the first one on the list.
-		// Note that the primary image can be changed later if desired.
-		BufferedImage primaryImage = NuclearPhysicsResources.getImage(resourceImageNames.get(0));
-		images.add(primaryImage);
-
-		// Calculate the height, which is defined by a combination of the
-		// prescribed width and the aspect ratio of the primary image.
-		this.height = (double)images.get(primaryImageIndex).getHeight()
-			/ (double)images.get(primaryImageIndex).getWidth() * width;
-
-		// Load up any subsequent images.  Note that they must be scaled to
-		// the same size as the first (primary) image.
-		for ( int i = 1; i < resourceImageNames.size(); i++ ){
-			BufferedImage image = NuclearPhysicsResources.getImage(resourceImageNames.get(i));
-			if (image.getWidth() != primaryImage.getWidth() || image.getHeight() != primaryImage.getHeight()){
-				// Scale as needed.
-				image = BufferedImageUtils.rescaleFractional(image,
-						(double)primaryImage.getWidth() / (double)image.getWidth(),
-						(double)primaryImage.getHeight() / (double)image.getHeight());
+		if (resourceImageNames != null && resourceImageNames.size() != 0){
+			// Load the initial primary image, which is the first one on the list.
+			// Note that the primary image can be changed later if desired.
+			BufferedImage primaryImage = NuclearPhysicsResources.getImage(resourceImageNames.get(0));
+			images.add(primaryImage);
+	
+			// Calculate the height, which is defined by a combination of the
+			// prescribed width and the aspect ratio of the primary image.
+			this.height = (double)images.get(primaryImageIndex).getHeight()
+				/ (double)images.get(primaryImageIndex).getWidth() * width;
+	
+			// Load up any subsequent images.  Note that they must be scaled to
+			// the same size as the first (primary) image.
+			for ( int i = 1; i < resourceImageNames.size(); i++ ){
+				BufferedImage image = NuclearPhysicsResources.getImage(resourceImageNames.get(i));
+				if (image.getWidth() != primaryImage.getWidth() || image.getHeight() != primaryImage.getHeight()){
+					// Scale as needed.
+					image = BufferedImageUtils.rescaleFractional(image,
+							(double)primaryImage.getWidth() / (double)image.getWidth(),
+							(double)primaryImage.getHeight() / (double)image.getHeight());
+				}
+				images.add(image);
 			}
-			images.add(image);
+		}
+		else{
+			// It is allowable to have a datable item with no image, so this
+			// is okay.  Set the height to equal the width.
+			height = width;
 		}
 
 		// Set up initial indicies.

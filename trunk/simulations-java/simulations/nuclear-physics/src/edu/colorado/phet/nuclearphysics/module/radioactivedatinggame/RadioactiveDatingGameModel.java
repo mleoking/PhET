@@ -167,4 +167,10 @@ public class RadioactiveDatingGameModel implements ModelContainingDatableItems {
     	
     	return datableItem;
     }
+    
+    public DatableItem getDatableAir() {
+    	// There is nothing special about the air for this model, so just
+    	// return the static datable air object.
+    	return DatableItem.DATABLE_AIR;
+    }
 }
