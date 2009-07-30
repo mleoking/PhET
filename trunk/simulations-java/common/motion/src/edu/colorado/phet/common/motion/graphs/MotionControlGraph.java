@@ -116,8 +116,12 @@ public class MotionControlGraph extends ControlGraph {
         jFreeChartCursorNode.setTime( timeSeriesModel.getTime() );
     }
 
-    private void updateCursorVisible() {
-        jFreeChartCursorNode.setVisible( timeSeriesModel.isPlaybackMode() || timeSeriesModel.isPaused() );
+    protected void updateCursorVisible() {
+        jFreeChartCursorNode.setVisible( getCursorShouldBeVisible() );
+    }
+
+    protected boolean getCursorShouldBeVisible() {
+        return timeSeriesModel.isPlaybackMode() || timeSeriesModel.isPaused();
     }
 
     public boolean hasListener( Listener listener ) {
