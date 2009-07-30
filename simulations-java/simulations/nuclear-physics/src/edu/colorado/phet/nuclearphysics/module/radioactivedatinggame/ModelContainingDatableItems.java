@@ -21,6 +21,11 @@ public interface ModelContainingDatableItems {
 	public DatableItem getDatableItemAtLocation(Point2D probeLocation);
 	
 	/**
+	 * Get the datable item that corresponds to the air.
+	 */
+	public DatableItem getDatableAir();
+	
+	/**
 	 * Get the clock that the model is using.
 	 * 
 	 * @return - Clock being used by the model, null if this model is non-clocked.

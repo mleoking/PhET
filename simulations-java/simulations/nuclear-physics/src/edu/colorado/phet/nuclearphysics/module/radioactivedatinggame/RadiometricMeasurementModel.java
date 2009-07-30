@@ -69,6 +69,7 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
 	private ConstantDtClock _clock;
 	private ArrayList<Listener> _listeners = new ArrayList<Listener>();
 	private ArrayList<AnimatedDatableItem> _animatedModelElements = new ArrayList<AnimatedDatableItem>();
+	private DatableItem datableAir;
 	private boolean _agingRockAdded = false;
     private AnimatedDatableItem.ClosureListener _closureListener;
     private RadiometricClosureState _closureState = RadiometricClosureState.CLOSURE_NOT_POSSIBLE;
@@ -421,6 +422,12 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
     	}
     	
     	return datableItem;
+    }
+    
+    public DatableItem getDatableAir() {
+    	// There is nothing special about the air for this model, so just
+    	// return the static datable air object.
+    	return DatableItem.DATABLE_AIR;
     }
     
     protected void notifySimulationModeChanged() {
