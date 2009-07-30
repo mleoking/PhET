@@ -27,7 +27,8 @@ public class TranslationStringResourceLoader implements IStringResourceLoader {
         }
 
         if ( comp != null && comp instanceof TranslationPage ) {
-            return ( (TranslationPage) comp ).translateString( component, locale, key );
+            //return ( (TranslationPage) comp ).translateString( component, locale, key );
+            return ( (TranslationPage) component.getPage() ).translateString( component, locale, key );
         }
         else {
             return null;
