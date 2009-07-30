@@ -112,11 +112,7 @@ public class RadiometricDatingMeter {
 			
 			_measurementMode = measurementMode;
 			notifyMeasurementModeChanged();
-			
-			// Since the only two settings as of this writing are for dating
-			// objects or dating air, changing the setting always implies that
-			// what was being "touched" has changed.  So send a notification.
-			notifyTouchedStateChanged();
+			updateTouchedItem();
 		}
 	}
 	
@@ -254,11 +250,20 @@ public class RadiometricDatingMeter {
      */
     private void updateTouchedItem(){
 
-    	DatableItem newTouchedItem = _model.getDatableItemAtLocation(_probe.getTipLocation());
-    	
-    	if (_itemBeingTouched != newTouchedItem){
-    		_itemBeingTouched = newTouchedItem;
-    		notifyTouchedStateChanged();
+    	if (_measurementMode == MeasurementMode.OBJECTS){
+	    	DatableItem newTouchedItem = _model.getDatableItemAtLocation(_probe.getTipLocation());
+	    	
+	    	if (_itemBeingTouched != newTouchedItem){
+	    		_itemBeingTouched = newTouchedItem;
+	    		notifyTouchedStateChanged();
+	    	}
+    	}
+    	else{
+    		// Always touching air when set to the AIR mode.
+    		if (_itemBeingTouched != _model.getDatableAir()){
+    			_itemBeingTouched = _model.getDatableAir();
+    			notifyTouchedStateChanged();
+    		}
     	}
     }
     
