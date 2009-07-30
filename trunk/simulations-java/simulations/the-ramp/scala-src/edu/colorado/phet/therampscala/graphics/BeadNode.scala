@@ -36,7 +36,10 @@ class BeadNode(bead: Bead, transform: ModelViewTransform2D, imageName: String) e
   val shapeNode = new PhetPPath(new BasicStroke(1), Color.green)
   val imageNode = new PImage(RampResources.getImage(imageName))
 
-  def setImage(im: BufferedImage) = imageNode.setImage(im)
+  def setImage(im: BufferedImage) = {
+    imageNode.setImage(im)
+    update()
+  }
   addChild(imageNode)
   //  addChild(shapeNode) //TODO remove after debug done
 
