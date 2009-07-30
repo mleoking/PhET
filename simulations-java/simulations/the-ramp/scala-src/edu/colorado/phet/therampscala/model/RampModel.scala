@@ -314,6 +314,7 @@ class RampModel extends RecordModel[RecordedState] with ObjectModel {
     bead.stepInTime(dt)
     recordHistory += new DataPoint(getTime, new RecordedState(getRampAngle, selectedObject.state, bead.state, manBead.state, bead.parallelAppliedForce, walls))
     stepListeners.foreach(_())
+    notifyListeners()//signify to the Timeline that more data has been added
   }
 
   def update(dt: Double) = {

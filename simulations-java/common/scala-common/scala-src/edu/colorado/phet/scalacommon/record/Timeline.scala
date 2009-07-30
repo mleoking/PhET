@@ -63,7 +63,6 @@ class Timeline[T](model: RecordModel[T], canvas: PhetPCanvas,timelineColor:Color
       rightShade.setPathTo(new Line2D.Double(b.getMaxX, b.getY, b.getMaxX, b.getMaxY))
     }
   }
-  //  val handle = new PhetPPath(Color.blue, new BasicStroke(1), Color.darkGray)
   val img = loadBufferedImage("piccolo-phet/images/button-template.png")
   val scaledImage = BufferedImageUtils.getScaledInstance(img, 20, 10, RenderingHints.VALUE_INTERPOLATION_BILINEAR, true)
   val handle = new PImage(scaledImage)
@@ -86,8 +85,8 @@ class Timeline[T](model: RecordModel[T], canvas: PhetPCanvas,timelineColor:Color
     }
   })
 
-  model.addListenerByName(updateSelf())
-  updateSelf
+  model.addListener(updateSelf)
+
   def updateSelf() = {
     scale = (canvas.getWidth - insetX * 2) / maxTime
 
@@ -95,7 +94,7 @@ class Timeline[T](model: RecordModel[T], canvas: PhetPCanvas,timelineColor:Color
     background.setPathTo(new Rectangle(insetX, pathOffsetY, (maxTime * scale).toInt, pathHeight))
     handle.setVisible(model.isPlayback)
     val elapsed = model.getTime - model.getMinRecordedTime
-    //    handle.setPathTo(new Ellipse2D.Double(elapsed * scale - ellipseWidth / 2 + insetX, pathOffsetY - 1, ellipseWidth, ellipseHeight))
     handle.setOffset(elapsed * scale - handle.getFullBounds.getWidth / 2 + insetX, pathOffsetY - 2)
   }
+  updateSelf()
 }
