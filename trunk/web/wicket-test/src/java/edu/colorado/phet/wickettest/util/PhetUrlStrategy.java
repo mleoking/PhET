@@ -63,8 +63,9 @@ public class PhetUrlStrategy implements IRequestTargetUrlCodingStrategy {
     }
 
     public boolean matches( String str ) {
-        boolean ret = mapper.getMappedClass( stripPath( str ) ) != null;
-        System.out.println( " XMatches? : " + str + " = " + ret );
+        Class clazz = mapper.getMappedClass( stripPath( str ) );
+        boolean ret = clazz != null;
+        System.out.println( " XMatches? : " + str + " = " + ret + ( ret ? " for " + clazz.getCanonicalName() : "" ) );
         return ret;
     }
 }
