@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
-import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
+import edu.colorado.phet.nuclearphysics.common.NucleusDisplayInfo;
 import edu.colorado.phet.nuclearphysics.common.model.AbstractDecayNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -152,124 +152,11 @@ public class LabeledExplodingAtomicNucleusNode extends AbstractAtomicNucleusNode
             return;
         }
         
-        String chemSymbol = "";
-        String isotopeNumber = "";
-        Color labelColor = Color.GRAY;
+        NucleusDisplayInfo displayInfo = NucleusDisplayInfo.getDisplayInfoForNucleusConfig(numProtons, numNeutrons);
+        String chemSymbol = displayInfo.getChemicalSymbol();
+        String isotopeNumber = displayInfo.getIsotopeNumberString();
+        Color labelColor = displayInfo.getLabelColor();
         
-        switch (numProtons){
-        case 6:
-        	// Carbon
-            if (numNeutrons == 8){
-                // Carbon 14
-                isotopeNumber = NuclearPhysicsStrings.CARBON_14_ISOTOPE_NUMBER;
-                chemSymbol = NuclearPhysicsStrings.CARBON_14_CHEMICAL_SYMBOL;
-                labelColor = NuclearPhysicsConstants.CARBON_14_LABEL_COLOR;
-            }
-            
-            break;
-        	
-        case 7:
-        	// Nitrogen
-            if (numNeutrons == 7){
-                // Nitrogen 14
-                isotopeNumber = NuclearPhysicsStrings.NITROGEN_14_ISOTOPE_NUMBER;
-                chemSymbol = NuclearPhysicsStrings.NITROGEN_14_CHEMICAL_SYMBOL;
-                labelColor = NuclearPhysicsConstants.NITROGEN_14_LABEL_COLOR;
-            }
-            
-            break;
-        	
-        case 92:
-            // Uranium
-            if (numNeutrons == 143){
-                // Uranium 235
-                isotopeNumber = NuclearPhysicsStrings.URANIUM_235_ISOTOPE_NUMBER;
-                chemSymbol = NuclearPhysicsStrings.URANIUM_235_CHEMICAL_SYMBOL;
-                labelColor = NuclearPhysicsConstants.URANIUM_235_LABEL_COLOR;
-            }
-            else if (numNeutrons == 144){
-                // Uranium 236
-                isotopeNumber = NuclearPhysicsStrings.URANIUM_236_ISOTOPE_NUMBER;
-                chemSymbol = NuclearPhysicsStrings.URANIUM_236_CHEMICAL_SYMBOL;
-                labelColor = NuclearPhysicsConstants.URANIUM_236_LABEL_COLOR;
-            }
-            else if (numNeutrons == 146){
-                // Uranium 238
-                isotopeNumber = NuclearPhysicsStrings.URANIUM_238_ISOTOPE_NUMBER;
-                chemSymbol = NuclearPhysicsStrings.URANIUM_238_CHEMICAL_SYMBOL;
-                labelColor = NuclearPhysicsConstants.URANIUM_238_LABEL_COLOR;
-            }
-            else if (numNeutrons == 147){
-                // Uranium 239
-                isotopeNumber = NuclearPhysicsStrings.URANIUM_239_ISOTOPE_NUMBER;
-                chemSymbol = NuclearPhysicsStrings.URANIUM_239_CHEMICAL_SYMBOL;
-                labelColor = NuclearPhysicsConstants.URANIUM_239_LABEL_COLOR;
-            }
-            
-            break;
-            
-        case 84:
-            // Polonium
-            if (numNeutrons == 127){
-            // Polonium 211
-                isotopeNumber = NuclearPhysicsStrings.POLONIUM_211_ISOTOPE_NUMBER;
-                chemSymbol = NuclearPhysicsStrings.POLONIUM_211_CHEMICAL_SYMBOL;
-                labelColor = NuclearPhysicsConstants.POLONIUM_LABEL_COLOR;
-            }
-            
-            break;
-            
-        case 83:
-            // Bismuth, which is used as the pre-decay "custom" nucleus.
-            if (numNeutrons == 125){
-                // Undecayed Bismuth.
-                isotopeNumber = "";
-                chemSymbol = NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL;
-                labelColor = NuclearPhysicsConstants.CUSTOM_NUCLEUS_LABEL_COLOR;
-            }
-            
-            break;
-            
-        case 82:
-            // Lead
-            if (numNeutrons == 125){
-                isotopeNumber = NuclearPhysicsStrings.LEAD_207_ISOTOPE_NUMBER;
-                chemSymbol = NuclearPhysicsStrings.LEAD_207_CHEMICAL_SYMBOL;
-                labelColor = NuclearPhysicsConstants.LEAD_LABEL_COLOR;
-            }
-            else if (numNeutrons == 124){
-                isotopeNumber = NuclearPhysicsStrings.LEAD_206_ISOTOPE_NUMBER;
-                chemSymbol = NuclearPhysicsStrings.LEAD_206_CHEMICAL_SYMBOL;
-                labelColor = NuclearPhysicsConstants.LEAD_LABEL_COLOR;
-            }
-            
-            break;
-            
-        case 81:
-            // Thallium, which is used as the post-decay "custom" nucleus.
-            if (numNeutrons == 123){
-                isotopeNumber = "";
-                chemSymbol = NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL;
-                labelColor = NuclearPhysicsConstants.CUSTOM_NUCLEUS_POST_DECAY_LABEL_COLOR;
-            }
-            
-            break;
-            
-        case 0:
-            // This is a special case that is used to signal that the nucleus
-            // should have no label.
-            
-            chemSymbol = "";
-            
-            break;
-            
-        default:
-            // Add no label.
-            chemSymbol = "";
-            
-            break;
-        }
-
         _isotopeChemSymbol.setTextPaint( labelColor );
         _isotopeNumber.setTextPaint( labelColor );
         
