@@ -47,6 +47,6 @@ object RampDefaults {
   val kineticEnergyColor = red
   val potentialEnergyColor = green
   val thermalEnergyColor = orange
-  val appliedWorkColor= black
-  val frictionWorkColor= yellow
+  val appliedWorkColor = black
+  val frictionWorkColor = yellow
 }

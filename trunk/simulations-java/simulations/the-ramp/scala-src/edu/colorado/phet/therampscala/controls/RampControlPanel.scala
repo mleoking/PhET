@@ -14,9 +14,12 @@ import scalacommon.swing.MyRadioButton
 import swing.{MyCheckBox, ScalaValueControl}
 import edu.colorado.phet.scalacommon.Predef._
 
-class RampControlPanel(model: RampModel, wordModel: WordModel, freeBodyDiagramModel: FreeBodyDiagramModel,
-                       coordinateSystemModel: CoordinateSystemModel, vectorViewModel: VectorViewModel, resetHandler: () => Unit,
-                       coordinateSystemFeaturesEnabled: Boolean, useObjectComboBox: Boolean, objectModel: ObjectModel) extends ControlPanel {
+class RampControlPanel(model: RampModel, wordModel: WordModel,
+                       freeBodyDiagramModel: FreeBodyDiagramModel,
+                       coordinateSystemModel: CoordinateSystemModel,
+                       vectorViewModel: VectorViewModel, resetHandler: () => Unit,
+                       coordinateSystemFeaturesEnabled: Boolean,
+                       useObjectComboBox: Boolean, objectModel: ObjectModel) extends ControlPanel {
   getContentPanel.setAnchor(GridBagConstraints.WEST)
   getContentPanel.setFill(GridBagConstraints.HORIZONTAL)
   override def add(comp: Component) = {
