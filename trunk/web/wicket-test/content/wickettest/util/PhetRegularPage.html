@@ -5,38 +5,19 @@
       lang="en">
 <head>
     <title wicket:id="page-title">[PREVIEW] PhetRegularPage</title>
+    <wicket:remove>
+        <link rel="stylesheet" type="text/css" href="../../../root/css/test.css"/>
+    </wicket:remove>
     <wicket:head>
         <style type="text/css">
-
-            div.ltr #side-panel {
-                float: left;
-                width: 240px;
-            }
-
-            div.rtl #side-panel {
-                float: right;
-                width: 240px;
-            }
-
-            div.ltr #main-content {
-                margin-left: 240px;
-            }
-
-            div.rtl #main-content {
-                margin-right: 240px;
-            }
         </style>
     </wicket:head>
 </head>
 <body wicket:message="dir:language.dir">
 
 <wicket:extend>
-    <div id="side-panel">
-        <div wicket:id="side-navigation">
-            Side navigation
-        </div>
-    </div>
-    <div id="main-content">
+    <div>
+        <div wicket:id="breadcrumbs" >Sample Title</div>
         <wicket:child/>
         <wicket:remove>
             Main content

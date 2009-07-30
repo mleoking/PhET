@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:wicket="http://svn.apache.org/repos/asf/wicket/trunk/wicket/wicket-xhtml1-strict.dtd" xml:lang="en"
+      lang="en">
+<head>
+    <title>[PREVIEW] NavBreadCrumbs</title>
+    <wicket:remove>
+        <link rel="stylesheet" type="text/css" href="../../../root/css/test.css"/>
+    </wicket:remove>
+    <wicket:head>
+        <style type="text/css">
+            .main-breadcrumb .breadcrumb-label {
+                font-size: 18px;
+                color: #d36a04;
+            }
+
+            .sub-breadcrumb .breadcrumb-label {
+                font-size: 14px;
+                color: #15337f;
+            }
+
+            .breadcrumb-link {
+
+                font-weight: bold;
+                padding-bottom: 10px;
+                text-decoration: none;
+            }
+
+            .breadcrumbs span {
+                vertical-align: baseline;
+            }
+
+            .breadcrumb-separator {
+                font-size: 14px;
+                color: #727272;
+            }
+        </style>
+    </wicket:head>
+</head>
+<body>
+
+<wicket:panel>
+    <span class="breadcrumbs">
+        <span class="main-breadcrumb">
+            <a href="#" class="breadcrumb-link" wicket:id="base-link">
+                <span wicket:id="base-label" class="breadcrumb-label">Base Category</span>
+            </a>
+        </span>
+        <span wicket:id="more-crumbs" class="sub-breadcrumb">
+            <span class="breadcrumb-separator">&gt;</span>
+            <a href="#" class="breadcrumb-link" wicket:id="crumb-link"><span wicket:id="crumb-label"
+                                                                             class="breadcrumb-label">Sub Category</span></a>
+        </span>
+    </span>
+</wicket:panel>
+
+</body>
+</html>
+
