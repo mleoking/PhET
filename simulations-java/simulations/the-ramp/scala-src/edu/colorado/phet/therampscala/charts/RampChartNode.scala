@@ -100,7 +100,11 @@ class RampChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model:
         addChild(text)
       }
     }
-    //todo: better support for hiding graph time control node
+
+    override def getCursorShouldBeVisible = model.isPlayback
+
+    model addListener updateCursorVisible
+
     override def createGraphTimeControlNode(timeSeriesModel: TimeSeriesModel) = new GraphTimeControlNode(timeSeriesModel) {
       override def setEditable(editable: Boolean) = {
         super.setEditable(false)
