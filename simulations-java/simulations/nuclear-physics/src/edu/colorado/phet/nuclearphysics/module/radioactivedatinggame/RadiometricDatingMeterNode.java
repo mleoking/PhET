@@ -115,6 +115,11 @@ public class RadiometricDatingMeterNode extends PNode {
 			public void readingChanged() {
 				updateMeterReading();
 			}
+
+			@Override
+			public void measurementModeChanged() {
+				handleMeasurementModeChanged();
+			}
 		});
 		
 		_meterBody = new PNode();
@@ -224,6 +229,10 @@ public class RadiometricDatingMeterNode extends PNode {
 		}
 		
 		updateMeterReading();
+	}
+	
+	private void handleMeasurementModeChanged(){
+		// TODO: Stubbed for now.
 	}
 	
 	private ProbeNode getProbeNode() {
