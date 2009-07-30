@@ -10,6 +10,13 @@
     </wicket:remove>
     <wicket:head>
         <style type="text/css">
+            .simulation-main-title {
+                color: #990000;
+                font-size: 18px;
+                font-weight: bold;
+                padding-bottom: 10px;
+            }
+
             .simulation-main-link-run-main {
                 text-decoration: none;
             }
@@ -28,7 +35,8 @@
 
 <wicket:panel>
     <div class="simulation-main-container" wicket:message="dir:language.dir">
-        <h2><span wicket:id="simulation-main-title" class="simulation-main-title">Simulation Title</span></h2>
+        <div class="simulation-main-title"><span wicket:id="simulation-main-title" class="simulation-main-title">Simulation Title</span>
+        </div>
 
         <div class="simulation-main-image">
             <a href="#" wicket:id="simulation-main-link-run-main" class="simulation-main-link-run-main">
