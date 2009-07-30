@@ -99,9 +99,12 @@ abstract class RecordModel[T] extends Observable {
     }
   }
 
+  val historyClearListeners = new ArrayBuffer[()=>Unit]
+
   def clearHistory() = {
     recordHistory.clear()
     notifyListeners()
+    for (listener <- historyClearListeners) listener()
   }
 
   def isPlayback() = !record

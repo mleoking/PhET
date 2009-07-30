@@ -215,7 +215,11 @@ public class TimeSeriesModel extends ClockAdapter {
     }
 
     public void clear() {
-        if ( series.size() > 0 ) {
+        clear(false);
+    }
+
+    public void clear( boolean overrideClear ) {
+        if ( series.size() > 0 || overrideClear) {
             series.clear();
             record.reset();
             recordableModel.clear();

@@ -68,9 +68,12 @@ class RampChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model:
 
     def stepInTime(simulationTimeChange: Double) = {}
   }
+
   val timeseriesModel = new TimeSeriesModel(recordableModel, new ConstantDtClock(30, 1.0)) { //todo: remove dummy clock
     override def setPlaybackTime(requestedTime: Double) = model.setPlaybackTime(requestedTime) //skip bounds checking in parent
   }
+  model.historyClearListeners += (()=>timeseriesModel.clear(true))
+
   val updateableObject = new UpdateableObject {
     def setUpdateStrategy(updateStrategy: UpdateStrategy) = {}
   }

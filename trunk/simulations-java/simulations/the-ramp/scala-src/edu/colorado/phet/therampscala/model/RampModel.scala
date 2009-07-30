@@ -171,7 +171,7 @@ class CoordinateFrameModel(snapToAngles: List[() => Double]) extends Observable 
 //This class stores all state information used in record/playback
 case class RecordedState(angle: Double, selectedObject: ScalaRampObjectState, beadState: BeadState, manBeadState: BeadState, appliedForce: Double, walls: Boolean)
 
-class RampModel extends RecordModel[RecordedState] with ObjectModel {
+class RampModel(defaultBeadPosition:Double) extends RecordModel[RecordedState] with ObjectModel {
   setPaused(false)
 
   private var _walls = true
@@ -200,7 +200,7 @@ class RampModel extends RecordModel[RecordedState] with ObjectModel {
     else
       new Range(-10000, RampDefaults.MAX_X)
   }
-  val bead = new Bead(new BeadState(5, 0, _selectedObject.mass, _selectedObject.staticFriction, _selectedObject.kineticFriction),
+  val bead = new Bead(new BeadState(defaultBeadPosition, 0, _selectedObject.mass, _selectedObject.staticFriction, _selectedObject.kineticFriction),
     _selectedObject.height, _selectedObject.width, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction, walls, wallRange)
 
   def createBead(x: Double, width: Double, height: Double) = new Bead(new BeadState(x, 0, 10, 0, 0), height, width, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction, walls, wallRange)
@@ -213,10 +213,12 @@ class RampModel extends RecordModel[RecordedState] with ObjectModel {
   updateDueToObjectChange()
 
   override def resetAll() = {
+    super.resetAll()
+    clearHistory()
     selectedObject = RampDefaults.objects(0)
     frictionless = false
     walls = true
-    bead.setPosition(5)
+    bead.setPosition(defaultBeadPosition)
     bead.parallelAppliedForce = 0
     bead.setVelocity(0)
     bead.attach()
@@ -314,7 +316,12 @@ class RampModel extends RecordModel[RecordedState] with ObjectModel {
     bead.stepInTime(dt)
     recordHistory += new DataPoint(getTime, new RecordedState(getRampAngle, selectedObject.state, bead.state, manBead.state, bead.parallelAppliedForce, walls))
     stepListeners.foreach(_())
-    notifyListeners()//signify to the Timeline that more data has been added
+    notifyListeners() //signify to the Timeline that more data has been added
+  }
+
+  override def clearHistory() = {
+    super.clearHistory()
+    setTime(0.0)
   }
 
   def update(dt: Double) = {
