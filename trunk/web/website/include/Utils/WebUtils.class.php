@@ -67,6 +67,25 @@ class WebUtils {
         }
     }
 
+    public function stringFromHtml($string, $charset = 'ISO-8859-1') {
+        return html_entity_decode($string, ENT_COMPAT, $charset);
+    }
+
+    public function fromHtml($mixed, $charset = 'ISO-8859-1') {
+        if (is_array($mixed)) {
+            $clean = array();
+
+            foreach($mixed as $key => $value) {
+                $clean["$key"] = $this->toHtml("$value", $charset);
+            }
+
+            return $clean;
+        }
+        else {
+            return $this->stringFromHtml($mixed, $charset);
+        }
+    }
+
     public function buildImageTag($src, $extra_attributes = array()) {
         if (empty($src)) {
             return '';
