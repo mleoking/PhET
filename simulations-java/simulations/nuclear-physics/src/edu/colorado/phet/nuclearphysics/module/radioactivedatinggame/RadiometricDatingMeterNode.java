@@ -18,6 +18,7 @@ import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JRadioButton;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
@@ -33,15 +34,18 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.common.NucleusDisplayInfo;
 import edu.colorado.phet.nuclearphysics.common.NucleusType;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusDecayModel;
+import edu.colorado.phet.nuclearphysics.module.radioactivedatinggame.RadiometricDatingMeter.MeasurementMode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PComboBox;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -61,8 +65,9 @@ public class RadiometricDatingMeterNode extends PNode {
 
 	private static final Color BODY_COLOR = Color.DARK_GRAY;
 	private static final double READOUT_WIDTH_PROPORTION = 0.75;
-	private static final double READOUT_HEIGHT_PROPORTION = 0.2;
+	private static final double READOUT_HEIGHT_PROPORTION = 0.16;
 	private static final double PROBE_SIZE_SCALE_FACTOR = 0.45;  // Adjust in order to change size of probe.
+	private static final Font BUTTON_FONT = new PhetFont(16, true);
 	private static final Font HALF_LIFE_SELECTION_FONT = new PhetFont(16);
 	
 	// Array that maps values to the strings used for the custom nucleus half
@@ -88,6 +93,9 @@ public class RadiometricDatingMeterNode extends PNode {
 	private ElementSelectionPanel _elementSelectionPanel;
 	private PSwing _elementSelectionNode;
 	private PComboBox _halfLifeComboBox;
+	private JButton _modeControlButton;
+	private PSwing _modeControlButtonPSwing;
+	PSwing halfLifeComboBoxPSwing = null;
 	
     //------------------------------------------------------------------------
     // Constructor
@@ -134,7 +142,7 @@ public class RadiometricDatingMeterNode extends PNode {
 		_percentageDisplay = new PercentageDisplayNode(width * READOUT_WIDTH_PROPORTION,
 				height * READOUT_HEIGHT_PROPORTION);
 		_percentageDisplay.setOffset(mainBody.getFullBounds().width / 2 - _percentageDisplay.getFullBounds().width / 2,
-				mainBody.getHeight() * 0.1 );
+				mainBody.getHeight() * 0.06 );
 		_meterBody.addChild(_percentageDisplay);
 		_percentageDisplay.setPercentage(100);
 		
@@ -159,7 +167,7 @@ public class RadiometricDatingMeterNode extends PNode {
 	        for (int i = 0; i < HALF_LIFE_VALUE_STRING_PAIRS.length; i++){
 	        	_halfLifeComboBox.insertItemAt(HALF_LIFE_VALUE_STRING_PAIRS[i].string, i);
 	        }
-	        PSwing halfLifeComboBoxPSwing = new PSwing( _halfLifeComboBox );
+	        halfLifeComboBoxPSwing = new PSwing( _halfLifeComboBox );
 	        _halfLifeComboBox.setEnvironment(halfLifeComboBoxPSwing, canvas);
 	        _meterBody.addChild(halfLifeComboBoxPSwing);
 	        halfLifeComboBoxPSwing.setOffset(
@@ -182,6 +190,14 @@ public class RadiometricDatingMeterNode extends PNode {
 			});
 			_halfLifeComboBox.setEnabled(false);
 		}
+		
+		// Add the button that will switch between measuring objects or
+		// measuring the air.
+		_modeControlButton = new JButton();
+		_modeControlButton.setFont(BUTTON_FONT);
+		_modeControlButtonPSwing = new PSwing(_modeControlButton);
+		_meterBody.addChild(_modeControlButtonPSwing);
+		updateModeButtonAppearance();
 		
 		// Add the probe.
 		_probeNode = new ProbeNode( _meterModel.getProbeModel(), _mvt, probeDragBounds );
@@ -233,6 +249,33 @@ public class RadiometricDatingMeterNode extends PNode {
 	
 	private void handleMeasurementModeChanged(){
 		// TODO: Stubbed for now.
+	}
+	
+	private void updateModeButtonAppearance(){
+		if (_meterModel.getMeasurementMode() == MeasurementMode.AIR){
+			_modeControlButton.setText(NuclearPhysicsStrings.MEASURE_OBJECTS);
+		}
+		else{
+			_modeControlButton.setText(NuclearPhysicsStrings.MEASURE_AIR);
+		}
+		
+		PBounds meterBodyBounds = _meterBody.getFullBounds();
+		PBounds buttonBounds = _modeControlButtonPSwing.getFullBounds();
+		_modeControlButtonPSwing.setScale(1);
+		if (buttonBounds.width > meterBodyBounds.width){
+			// Need to scale the button to make it fit.
+			_modeControlButtonPSwing.setScale(meterBodyBounds.width / buttonBounds.width);
+		}
+		
+		// Position the button at the bottom of the meter, horizontally centered.
+		if (halfLifeComboBoxPSwing != null){
+			_modeControlButtonPSwing.setOffset(meterBodyBounds.getCenterX() - buttonBounds.width/2, 
+					halfLifeComboBoxPSwing.getFullBounds().getMaxY() + 4 );
+		}
+		else{
+			_modeControlButtonPSwing.setOffset(meterBodyBounds.getCenterX() - buttonBounds.width/2, 
+					_elementSelectionNode.getFullBounds().getMaxY() + 2 );
+		}
 	}
 	
 	private ProbeNode getProbeNode() {
