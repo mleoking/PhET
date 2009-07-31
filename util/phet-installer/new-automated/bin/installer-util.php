@@ -63,7 +63,8 @@
 
         // Get the value of the time stamp.
         $time = time();
-        $date = date('l F jS Y h:i:s A');  // More human-readable representation.
+        date_default_timezone_set("America/Denver");
+        $date = date('l F jS Y h:i:s A e');  // More human-readable representation.
         flushing_echo( "Creation Timestamp = $time" );
  
         // Add the time stamp to the marker file, used by the Java sims.
