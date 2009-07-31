@@ -69,6 +69,7 @@ public class RadiometricDatingMeterNode extends PNode {
 	private static final double PROBE_SIZE_SCALE_FACTOR = 0.45;  // Adjust in order to change size of probe.
 	private static final Font BUTTON_FONT = new PhetFont(16, true);
 	private static final Font HALF_LIFE_SELECTION_FONT = new PhetFont(16);
+	private static final double AIR_PROBE_HEIGHT_PROPORTION = 0.5;
 	
 	// Array that maps values to the strings used for the custom nucleus half
 	// life.  THESE MUST BE MANUALLY KEPT IN SYNC WITH THE STRINGS IN THE
@@ -85,17 +86,20 @@ public class RadiometricDatingMeterNode extends PNode {
     // Instance Data
     //------------------------------------------------------------------------
 
-	RadiometricDatingMeter _meterModel;
-	ModelViewTransform2D _mvt;
-	PNode _meterBody;
-	private ProbeNode _probeNode;
+	private RadiometricDatingMeter _meterModel;
+	private ModelViewTransform2D _mvt;
+	private PNode _airProbeLayer;
+	private PNode _meterBody;
+	private ProbeNode _objectProbeNode;
+	private ProbeCableNode _cableNode;
 	private PercentageDisplayNode _percentageDisplay;
 	private ElementSelectionPanel _elementSelectionPanel;
 	private PSwing _elementSelectionNode;
 	private PComboBox _halfLifeComboBox;
 	private JButton _modeControlButton;
 	private PSwing _modeControlButtonPSwing;
-	PSwing halfLifeComboBoxPSwing = null;
+	private PSwing halfLifeComboBoxPSwing = null;
+	private PNode _airProbeNode;
 	
     //------------------------------------------------------------------------
     // Constructor
@@ -130,6 +134,8 @@ public class RadiometricDatingMeterNode extends PNode {
 			}
 		});
 		
+		_airProbeLayer = new PNode();
+		addChild(_airProbeLayer);     // Add first so that the air probe appears behind the meter body.
 		_meterBody = new PNode();
 		addChild(_meterBody);
 		
@@ -208,16 +214,28 @@ public class RadiometricDatingMeterNode extends PNode {
 		});
 		_modeControlButtonPSwing = new PSwing(_modeControlButton);
 		_meterBody.addChild(_modeControlButtonPSwing);
-		updateModeButtonAppearance();
 		
-		// Add the probe.
-		_probeNode = new ProbeNode( _meterModel.getProbeModel(), _mvt, probeDragBounds );
-		addChild(_probeNode);
+		// Add the object probe.
+		_objectProbeNode = new ProbeNode( _meterModel.getProbeModel(), _mvt, probeDragBounds );
+		addChild(_objectProbeNode);
 		
-		// Create the cable that visually attaches the probe to the meter.
-		addChild(new ProbeCableNode(this));
+		// Create the cable that visually attaches the object probe to the meter.
+		_cableNode = new ProbeCableNode(this);
+		addChild(_cableNode);
+		
+		// Add the air probe.
+		_airProbeNode = new PImage(NuclearPhysicsResources.getImage("air_probe.png"));
+		_airProbeLayer.addChild(_airProbeNode);
+		double airProbeScale = (_meterBody.getFullBoundsReference().getHeight() * AIR_PROBE_HEIGHT_PROPORTION) 
+		/ _airProbeNode.getFullBoundsReference().height;
+		_airProbeNode.setScale(airProbeScale);
+		_airProbeNode.setOffset(
+				_meterBody.getOffset().getX() + _meterBody.getFullBoundsReference().width / 2 - _airProbeNode.getFullBoundsReference().width / 2,
+				_meterBody.getFullBounds().getMaxY() - _airProbeNode.getFullBoundsReference().height / 2);
 
-		// Set the initial meter reading.
+		// Do initial state updates.
+		updateProbeVisibility();
+		updateModeButtonAppearance();
 		updateMeterReading();
 	}
 	
@@ -226,7 +244,7 @@ public class RadiometricDatingMeterNode extends PNode {
     //------------------------------------------------------------------------
 
 	public Point2D getProbeTailLocation(){
-		return (_meterBody.localToParent(_probeNode.getTailLocation()));
+		return (_meterBody.localToParent(_objectProbeNode.getTailLocation()));
 	}
 	
 	/**
@@ -260,6 +278,7 @@ public class RadiometricDatingMeterNode extends PNode {
 	
 	private void handleMeasurementModeChanged(){
 		updateModeButtonAppearance();
+		updateProbeVisibility();
 	}
 	
 	private void updateModeButtonAppearance(){
@@ -289,8 +308,23 @@ public class RadiometricDatingMeterNode extends PNode {
 		}
 	}
 	
+	private void updateProbeVisibility() {
+		switch (_meterModel.getMeasurementMode()){
+		case AIR:
+			_airProbeNode.setVisible(true);
+			_objectProbeNode.setVisible(false);
+			_cableNode.setVisible(false);
+			break;
+		case OBJECTS:
+			_airProbeNode.setVisible(false);
+			_objectProbeNode.setVisible(true);
+			_cableNode.setVisible(true);
+			break;
+		}
+	}
+	
 	private ProbeNode getProbeNode() {
-		return _probeNode;
+		return _objectProbeNode;
 	}
 	
 	private void updateMeterReading(){
