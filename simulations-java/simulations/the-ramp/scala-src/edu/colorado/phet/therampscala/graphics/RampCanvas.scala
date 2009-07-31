@@ -120,7 +120,7 @@ abstract class AbstractRampCanvas(model: RampModel, coordinateSystemModel: Coord
     }
   }
 
-  class BodyVectorNode(transform: ModelViewTransform2D, vector: Vector, offset: VectorValue) extends VectorNode(transform, vector, offset) {
+  class BodyVectorNode(transform: ModelViewTransform2D, vector: Vector, offset: VectorValue) extends VectorNode(transform, vector, offset,RampDefaults.BODY_LABEL_MAX_OFFSET) {
     model.bead.addListenerByName {
       setOffset(model.bead.position2D)
       update()
@@ -153,8 +153,8 @@ abstract class AbstractRampCanvas(model: RampModel, coordinateSystemModel: Coord
   }
 
   def addVector(bead: Bead, vector: Vector with PointOfOriginVector, offsetFBD: VectorValue, offsetPlayArea: Double) = {
-    fbdNode.addVector(vector, offsetFBD)
-    windowFBDNode.addVector(vector, offsetFBD)
+    fbdNode.addVector(vector, offsetFBD,RampDefaults.FBD_LABEL_MAX_OFFSET)
+    windowFBDNode.addVector(vector, offsetFBD,RampDefaults.FBD_LABEL_MAX_OFFSET)
 
     val tailLocationInPlayArea = new VectorValue() {
       def addListener(listener: () => Unit) = {

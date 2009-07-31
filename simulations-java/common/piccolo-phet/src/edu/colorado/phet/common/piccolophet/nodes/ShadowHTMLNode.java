@@ -33,7 +33,7 @@ public class ShadowHTMLNode extends PNode {
     public ShadowHTMLNode( String html, Color foreground ) {
         htmlGraphic = new HTMLNode( html );
         shadow = new HTMLNode( html );
-        shadow.setHTMLColor( foreground );
+        shadow.setHTMLColor( foreground );//this is clearly buggy; the foreground is the front, not the shadow
 
         addChild( shadow );
         addChild( htmlGraphic );
