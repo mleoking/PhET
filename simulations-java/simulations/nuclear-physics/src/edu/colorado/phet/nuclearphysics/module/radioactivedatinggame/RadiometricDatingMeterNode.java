@@ -225,13 +225,13 @@ public class RadiometricDatingMeterNode extends PNode {
 		
 		// Add the air probe.
 		_airProbeNode = new PImage(NuclearPhysicsResources.getImage("air_probe.png"));
-		_airProbeLayer.addChild(_airProbeNode);
 		double airProbeScale = (_meterBody.getFullBoundsReference().getHeight() * AIR_PROBE_HEIGHT_PROPORTION) 
 		/ _airProbeNode.getFullBoundsReference().height;
 		_airProbeNode.setScale(airProbeScale);
 		_airProbeNode.setOffset(
 				_meterBody.getOffset().getX() + _meterBody.getFullBoundsReference().width / 2 - _airProbeNode.getFullBoundsReference().width / 2,
 				_meterBody.getFullBounds().getMaxY() - _airProbeNode.getFullBoundsReference().height / 2);
+		_airProbeLayer.addChild(_airProbeNode);
 
 		// Do initial state updates.
 		updateProbeVisibility();
@@ -491,6 +491,7 @@ public class RadiometricDatingMeterNode extends PNode {
 
 	public void setMeterBodyOffset(double x, double y) {
 		_meterBody.setOffset(x, y);
+		_airProbeLayer.setOffset(x, y);
 	}
 	
 	public Point2D getMeterBodyOffset(){
