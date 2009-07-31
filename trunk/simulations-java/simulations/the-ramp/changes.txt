@@ -1,3 +1,4 @@
+# 1.03.25 (33806) Jul 31, 2009
 # 1.03.24 (33804) Jul 31, 2009
 Fixed: Stick figure position should reset on Reset All
 Fixed: Vector labels should be near the tail if they will be offscreen shown near the tip (or if the vector length is longer than some threshold)
