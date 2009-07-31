@@ -1,3 +1,4 @@
+Fixed: Stick figure position should reset on Reset All
 Fixed: Vector labels should be near the tail if they will be offscreen shown near the tip (or if the vector length is longer than some threshold)
 Set colors to match old colors in the ramp, except for net force which was given in the design doc
 Fixed: Reset All causes the sim to pause
