@@ -1,18 +1,19 @@
 package edu.colorado.phet.therampscala
 
+import charts.bargraphs.{WorkEnergyChartModel, WorkEnergyChart}
 import charts.RampChartNode
 import common.phetcommon.application.{PhetApplicationLauncher, Module, PhetApplicationConfig}
 import common.piccolophet.{PiccoloPhetApplication}
 import graphics.RampCanvas
+import java.awt.event.{ActionEvent, ActionListener}
 import java.awt.{Color}
-import javax.swing.{JFrame}
+import javax.swing.{JButton, JFrame}
 import model._
 import controls.RampControlPanel
 import robotmovingcompany.{RobotMovingCompanyGameModel, Result, RobotMovingCompanyCanvas}
 import scalacommon.record.{RecordModelControlPanel, PlaybackSpeedSlider}
 
 import scalacommon.ScalaClock
-
 class AbstractRampModule(frame: JFrame, clock: ScalaClock, name: String, defaultBeadPosition: Double, pausedOnReset: Boolean) extends Module(name, clock) {
   val model = new RampModel(defaultBeadPosition, pausedOnReset)
   val wordModel = new WordModel
@@ -39,8 +40,9 @@ class BasicRampModule(frame: JFrame, clock: ScalaClock, name: String,
         extends AbstractRampModule(frame, clock, name, defaultBeadPosition, pausedOnReset) {
   val canvas = new RampCanvas(model, coordinateSystemModel, fbdModel, vectorViewModel, frame, !useObjectComboBox)
   setSimulationPanel(canvas)
-  setControlPanel(new RampControlPanel(model, wordModel, fbdModel, coordinateSystemModel, vectorViewModel,
-    resetRampModule, coordinateSystemFeaturesEnabled, useObjectComboBox, model))
+  val rampControlPanel = new RampControlPanel(model, wordModel, fbdModel, coordinateSystemModel, vectorViewModel,
+    resetRampModule, coordinateSystemFeaturesEnabled, useObjectComboBox, model)
+  setControlPanel(rampControlPanel)
   setClockControlPanel(new RecordModelControlPanel(model, canvas, () => new PlaybackSpeedSlider(model), Color.blue, 20))
 }
 
@@ -71,7 +73,17 @@ class GraphingModule(frame: JFrame, clock: ScalaClock, name: String, showEnergyG
   }
 }
 
-class WorkEnergyModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(frame, clock, "Work-Energy", true)
+class WorkEnergyModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(frame, clock, "Work-Energy", true) {
+  val workEnergyChartModel = new WorkEnergyChartModel
+  val jButton = new JButton("Show Work/Energy Charts")
+  jButton.addActionListener(new ActionListener() {
+    def actionPerformed(e: ActionEvent) = {workEnergyChartModel.visible = true}
+  })
+  rampControlPanel.addToBody(jButton)
+  val chart = new WorkEnergyChart(workEnergyChartModel, model)
+
+  override def reset = {super.reset(); workEnergyChartModel.reset()}
+}
 
 class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock) extends AbstractRampModule(frame, clock, "Robot Moving Company", 5, false) {
   val gameModel = new RobotMovingCompanyGameModel(model, clock)
@@ -101,6 +113,10 @@ class RampApplication(config: PhetApplicationConfig) extends PiccoloPhetApplicat
   addModule(new WorkEnergyModule(getPhetFrame, newClock))
   addModule(new RobotMovingCompanyModule(getPhetFrame, newClock))
 }
+class RampWorkEnergyApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
+  def newClock = new ScalaClock(RampDefaults.DELAY, RampDefaults.DT_DEFAULT)
+  addModule(new WorkEnergyModule(getPhetFrame, newClock))
+}
 
 class RobotMovingCompanyApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
   addModule(new RobotMovingCompanyModule(getPhetFrame, new ScalaClock(RampDefaults.DELAY, RampDefaults.DT_DEFAULT)))
@@ -109,6 +125,9 @@ class RobotMovingCompanyApplication(config: PhetApplicationConfig) extends Picco
 //Current IntelliJ plugin has trouble finding main for classes with a companion object, so we use a different name 
 object RampApplicationMain {
   def main(args: Array[String]) = new PhetApplicationLauncher().launchSim(args, "the-ramp", classOf[RampApplication])
+}
+object RampWorkEnergyApplicationMain {
+  def main(args: Array[String]) = new PhetApplicationLauncher().launchSim(args, "the-ramp", classOf[RampWorkEnergyApplication])
 }
 
 object RobotMovingCompanyApplicationMain {

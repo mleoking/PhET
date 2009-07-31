@@ -162,7 +162,7 @@ public class BarChartNode extends PNode {
         yAxis.updateBarChartHeight();
     }
 
-    protected void update() {
+    public void update() {
         if ( getVisible() ) {
             for ( int i = 0; i < barLayer.getChildrenCount(); i++ ) {
                 BarNode barGraphic2D = (BarNode) barLayer.getChild( i );

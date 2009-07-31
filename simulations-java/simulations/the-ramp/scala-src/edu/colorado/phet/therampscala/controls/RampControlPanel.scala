@@ -30,23 +30,25 @@ class RampControlPanel(model: RampModel, wordModel: WordModel,
 
   add(body, BorderLayout.NORTH)
   add(southControlPanel, BorderLayout.SOUTH)
-//  body.setBorder(null)
-//  setBorder(null)
-//  southControlPanel.setBorder(null)
-//  println()
-//  removeBorders(this,0)
-//  println()
-//  def removeBorders(a: JComponent,depth:Int): Unit = {
-//    if (depth<=3) a.setBorder(null)
-//    val st=for (i<-0 until depth) yield ""
-//    println(st.mkString("\t")+depth+":removed border from: "+a)
-//    for (i <- 0 until a.getComponentCount) {
-//      a getComponent i match {
-//        case x: JComponent => removeBorders(x,depth+1)
-//        case _ => {}
-//      }
-//    }
-//  }
+
+  def addToBody(component: JComponent) = body.add(component)
+  //  body.setBorder(null)
+  //  setBorder(null)
+  //  southControlPanel.setBorder(null)
+  //  println()
+  //  removeBorders(this,0)
+  //  println()
+  //  def removeBorders(a: JComponent,depth:Int): Unit = {
+  //    if (depth<=3) a.setBorder(null)
+  //    val st=for (i<-0 until depth) yield ""
+  //    println(st.mkString("\t")+depth+":removed border from: "+a)
+  //    for (i <- 0 until a.getComponentCount) {
+  //      a getComponent i match {
+  //        case x: JComponent => removeBorders(x,depth+1)
+  //        case _ => {}
+  //      }
+  //    }
+  //  }
 }
 
 
