@@ -88,8 +88,9 @@ class RampChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model:
   val keSeries = new ControlGraphSeries("<html>E<sub>kin</sub></html>", RampDefaults.kineticEnergyColor, "KE", "J", "", keVariable)
   val peSeries = new ControlGraphSeries("<html>E<sub>pot</sub></html>", RampDefaults.potentialEnergyColor, "PE", "J", "", peVariable)
   val thermalEnergySeries = new ControlGraphSeries("<html>E<sub>therm</sub></html>", RampDefaults.thermalEnergyColor, "PE", "J", "", thermalEnergyVariable)
+  
   val appliedWorkSeries = new ControlGraphSeries("<html>W<sub>applied</sub></html>", RampDefaults.appliedWorkColor, "Wapp", "J", "", appliedWorkVariable)
-  val gravityWorkSeries = new ControlGraphSeries("<html>W<sub>gravity</sub></html>", RampDefaults.appliedWorkColor, "Wgrav", "J", "", gravityWorkVariable)
+  val gravityWorkSeries = new ControlGraphSeries("<html>W<sub>gravity</sub></html>", RampDefaults.gravityWorkColor, "Wgrav", "J", "", gravityWorkVariable)
   val frictionWorkSeries = new ControlGraphSeries("<html>W<sub>friction</sub></html>", RampDefaults.frictionWorkColor, "Wfric", "J", "", frictionWorkVariable)
 
   class RampGraph(defaultSeries: ControlGraphSeries) extends MotionControlGraph(canvas, defaultSeries, "label", "title", -2000, 2000, true, timeseriesModel, updateableObject) {

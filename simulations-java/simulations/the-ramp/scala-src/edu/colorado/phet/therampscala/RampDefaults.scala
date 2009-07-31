@@ -36,17 +36,36 @@ object RampDefaults {
 
   import Color._
 
-  val appliedForceColor = orange
-  val gravityForceColor = blue
-  val normalForceColor = yellow
-  val frictionForceColor = red
-  val totalForceColor = pink
-  val wallForceColor = new Color(190, 190, 0)
+  val myGreen = new Color(0.0f, 0.8f, 0.1f);
+  val lightBlue = new Color(160, 220, 255);
+  val drabYellow = new Color(190, 190, 0);
+  val myOrange = new Color(236, 153, 55)
 
-  val totalEnergyColor = blue
-  val kineticEnergyColor = red
-  val potentialEnergyColor = green
-  val thermalEnergyColor = orange
-  val appliedWorkColor = black
-  val frictionWorkColor = yellow
+  val appliedForceColor = myOrange
+  val gravityForceColor = new Color(50, 130, 215)
+  val normalForceColor = magenta
+  val frictionForceColor = red
+  val totalForceColor = pink //used to be myGreen
+  val wallForceColor = drabYellow
+
+  val appliedWorkColor = appliedForceColor
+  val frictionWorkColor = frictionForceColor
+  val gravityWorkColor = gravityForceColor
+  val totalWorkColor = myGreen
+
+  val totalEnergyColor = appliedWorkColor
+  val kineticEnergyColor = totalWorkColor
+  val potentialEnergyColor = gravityWorkColor
+  val thermalEnergyColor = frictionWorkColor
+
+  /**
+   * W_grav and deltaPE should be the same color:  Blue (sky blue, sky-high --get it?)
+   * W_fric and deltaThermal should be same color: Red (red hot)
+   * W_net and deltaKE should be same color: green (green for go)
+   * x-W_app and deltaTotalEnergy should be same color: Yellow (yellow for... I don't know, it just has to be different than blue, red, green).
+   */
+  val accelval = black
+  val velval = black
+  val positionval = black
+
 }
