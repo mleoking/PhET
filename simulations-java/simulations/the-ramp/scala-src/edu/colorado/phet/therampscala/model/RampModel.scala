@@ -209,7 +209,8 @@ class RampModel(defaultBeadPosition:Double,pausedOnReset:Boolean) extends Record
 
   val leftWall: Bead = createBead(-10, RampDefaults.wall.width, RampDefaults.wall.height)
   val rightWall: Bead = createBead(10, RampDefaults.wall.width, RampDefaults.wall.height)
-  val manBead = createBead(2, 1)
+  val defaultManPosition =2
+  val manBead:Bead= createBead(defaultManPosition, 1)
   updateDueToObjectChange()
 
   override def resetAll() = {
@@ -221,6 +222,7 @@ class RampModel(defaultBeadPosition:Double,pausedOnReset:Boolean) extends Record
     bead.setPosition(defaultBeadPosition)
     bead.parallelAppliedForce = 0
     bead.setVelocity(0)
+    manBead.setPosition(defaultManPosition)
     bead.attach()
     rampSegments(1).setAngle(initialAngle)
     setPaused(pausedOnReset)
