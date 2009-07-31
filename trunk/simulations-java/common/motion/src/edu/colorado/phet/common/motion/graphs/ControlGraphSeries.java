@@ -48,6 +48,9 @@ public class ControlGraphSeries {
         this.abbr = abbr;
         this.temporalVariable = defaultTemporalVariable;
         this.character = character;
+        if (color==null){
+            new RuntimeException("null color" ).printStackTrace(  );
+        }
     }
 
     public String getTitle() {

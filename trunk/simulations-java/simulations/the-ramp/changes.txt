@@ -1,3 +1,4 @@
+Set colors to match old colors in the ramp, except for net force which was given in the design doc
 Fixed: Reset All causes the sim to pause
 # 1.03.23 (33790) Jul 30, 2009
 Added a series for total force
