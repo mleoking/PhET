@@ -1,3 +1,4 @@
+Fixed: Reset All causes the sim to pause
 # 1.03.23 (33790) Jul 30, 2009
 Added a series for total force
 Added support for "clear" and "reset all" in charts
