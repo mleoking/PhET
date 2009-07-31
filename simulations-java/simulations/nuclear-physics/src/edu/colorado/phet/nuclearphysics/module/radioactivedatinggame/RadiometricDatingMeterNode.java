@@ -20,6 +20,7 @@ import java.text.DecimalFormat;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JRadioButton;
+import javax.swing.Timer;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 
@@ -100,6 +101,7 @@ public class RadiometricDatingMeterNode extends PNode {
 	private PSwing _modeControlButtonPSwing;
 	private PSwing halfLifeComboBoxPSwing = null;
 	private PNode _airProbeNode;
+	private MeasurementModeToggleAnimationTimer _animationTimer = null;
 	
     //------------------------------------------------------------------------
     // Constructor
@@ -204,12 +206,14 @@ public class RadiometricDatingMeterNode extends PNode {
 		_modeControlButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				MeasurementMode targetMode;
 				if (_meterModel.getMeasurementMode() == MeasurementMode.AIR){
-					_meterModel.setMeasurementMode(MeasurementMode.OBJECTS);
+					targetMode = MeasurementMode.OBJECTS;
 				}
 				else{
-					_meterModel.setMeasurementMode(MeasurementMode.AIR);
+					targetMode = MeasurementMode.AIR;
 				}
+				_animationTimer = new MeasurementModeToggleAnimationTimer(RadiometricDatingMeterNode.this, targetMode);
 			}
 		});
 		_modeControlButtonPSwing = new PSwing(_modeControlButton);
@@ -679,7 +683,7 @@ public class RadiometricDatingMeterNode extends PNode {
 		}
 	}
 	
-	static class ValueStringPair {
+	private static class ValueStringPair {
 		public double value;
 		public String string;
 		
@@ -688,4 +692,86 @@ public class RadiometricDatingMeterNode extends PNode {
 			this.string = string;
 		}
 	}
+	
+    /**
+     * Timer used to animate the toggle between the measurement modes.
+     */
+    private class MeasurementModeToggleAnimationTimer extends Timer {
+
+    	private static final int TIMER_DELAY = 30;            // Milliseconds between each animation step.
+    	private static final int TOTAL_ANIMATION_COUNT = 20;  // Total number of animation steps.
+    	
+    	private RadiometricDatingMeterNode _meterNode;
+    	private RadiometricDatingMeter.MeasurementMode _targetMode;
+    	private int _animationCount = TOTAL_ANIMATION_COUNT;
+    	
+		public MeasurementModeToggleAnimationTimer(RadiometricDatingMeterNode meterNode,
+				RadiometricDatingMeter.MeasurementMode targetMode) {
+			super(TIMER_DELAY, null);
+			
+			_meterNode = meterNode;
+			_targetMode = targetMode;
+			
+			// Set the initial position and visibility of the probes based on
+			// the change that is occurring.
+			PBounds meterBodyBounds = _meterNode._meterBody.getFullBounds();
+			PBounds airProbeBounds = _meterNode._airProbeNode.getFullBounds();
+			if (_targetMode == MeasurementMode.AIR){
+				// Start with probe retracted.
+				_meterNode._airProbeNode.setOffset(
+						meterBodyBounds.width / 2 - airProbeBounds.width / 2,
+						meterBodyBounds.getMaxY() - airProbeBounds.height);
+				_meterNode._airProbeNode.setVisible(true);
+				
+				// Hide the object probe.
+				_meterNode._objectProbeNode.setVisible(false);
+				_meterNode._cableNode.setVisible(false);
+			}
+			else{
+				// Probe should already be fully extended, but make sure.
+				_meterNode._airProbeNode.setOffset(
+						meterBodyBounds.width / 2 - airProbeBounds.width / 2,
+						meterBodyBounds.getMaxY() - airProbeBounds.height / 2);
+				_meterNode._airProbeNode.setVisible(true);
+			}
+			
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    if ( _animationCount <= 0 ) {
+                    	// Stop the timer.
+                        stop();
+                        
+                        // Set the model to the target mode.
+                        _meterNode._meterModel.setMeasurementMode(_targetMode);
+                        
+                        // Remove this timer from the meter node.
+                        _meterNode._animationTimer = null;
+                    }
+                    else{
+                    	// Perform the next step in the animation.
+                        stepAnimation(TOTAL_ANIMATION_COUNT - _animationCount);
+                        _animationCount--;
+                    }
+                }
+            });
+            
+            // Start the timer running.
+            start();
+		}
+		
+		private void stepAnimation(int count){
+			
+			double increment = _meterNode._airProbeNode.getFullBoundsReference().height / TOTAL_ANIMATION_COUNT / 2;
+			if (_targetMode == MeasurementMode.AIR){
+				// Move the probe out slightly.
+				Point2D airProbePos = _meterNode._airProbeNode.getOffset();
+				_meterNode._airProbeNode.setOffset(airProbePos.getX(), airProbePos.getY() + increment);
+			}
+			else{
+				// Move the probe in slightly.
+				Point2D airProbePos = _meterNode._airProbeNode.getOffset();
+				_meterNode._airProbeNode.setOffset(airProbePos.getX(), airProbePos.getY() - increment);
+			}
+		}
+    }
 }
