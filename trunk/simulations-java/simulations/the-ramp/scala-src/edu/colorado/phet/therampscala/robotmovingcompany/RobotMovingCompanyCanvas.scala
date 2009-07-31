@@ -265,7 +265,7 @@ class SummaryScreenNode(gm: RobotMovingCompanyGameModel, scalaRampObject: ScalaR
 
 object TestSummaryScreen {
   def main(args: Array[String]) {
-    val summaryScreenNode = new SummaryScreenNode(new RobotMovingCompanyGameModel(new RampModel(5), new ScalaClock(30, 30 / 1000.0)), RampDefaults.objects(0), new Result(true, false, 64, 100), a => {
+    val summaryScreenNode = new SummaryScreenNode(new RobotMovingCompanyGameModel(new RampModel(5,true), new ScalaClock(30, 30 / 1000.0)), RampDefaults.objects(0), new Result(true, false, 64, 100), a => {
       a.setVisible(false)
     }, "Ok")
     val frame = new JFrame

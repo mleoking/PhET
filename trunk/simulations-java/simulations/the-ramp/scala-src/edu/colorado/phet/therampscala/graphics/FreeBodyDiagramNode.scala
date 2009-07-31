@@ -184,14 +184,14 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel, private va
   val yAxisModel = new SynchronizedAxisModel(PI / 2, modelWidth / 2 * 0.9, true, coordinateFrameModel)
   addChild(new AxisNodeWithModel(transform, "x", xAxisModel, isInteractive, 0, PI / 2))
   addChild(new AxisNodeWithModel(transform, "y", yAxisModel, isInteractive, PI / 2, PI))
-  for (vector <- vectors) addVector(vector)
+  for (vector <- vectors) addVector(vector,RampDefaults.FBD_LABEL_MAX_OFFSET)
 
   updateSize()
 
-  def addVector(vector: Vector): Unit = addVector(vector, new ConstantVectorValue)
+  def addVector(vector: Vector,maxDistToLabel:Double): Unit = addVector(vector, new ConstantVectorValue,maxDistToLabel:Double)
 
-  def addVector(vector: Vector, offset: VectorValue) = {
-    addChild(new VectorNode(transform, vector, offset))
+  def addVector(vector: Vector, offset: VectorValue,maxDistToLabel:Double) = {
+    addChild(new VectorNode(transform, vector, offset,maxDistToLabel))
     //    println("Added: child count=" + getVectorCount)
   }
 
@@ -284,12 +284,12 @@ trait VectorValue {
 }
 
 //todo: could improve performance by passing isContainerVisible:()=>Boolean and addContainerVisibleListener:(()=>Unit)=>Unit
-class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val tailLocation: VectorValue) extends PNode {
+class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val tailLocation: VectorValue,maxDistToLabel:Double) extends PNode {
   val arrowNode = new ArrowNode(new Point2D.Double(0, 0), new Point2D.Double(0, 1), 20, 20, 10, 0.5, true)
   arrowNode.setPaint(vector.getPaint)
   addChild(arrowNode)
-  private val abbreviatonTextNode = new ShadowHTMLNode(vector.html, vector.color)
-  abbreviatonTextNode.setFont(new PhetFont(18))
+  private val abbreviatonTextNode = new OutlineHTMLNode(vector.html,new PhetFont(22,true),vector.color,Color.black)
+  //todo: for performance, consider buffering these outlines
   addChild(abbreviatonTextNode)
 
   //can't use def since eta-expansion makes == and array -= impossible
@@ -299,8 +299,11 @@ class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val ta
       //    println("vector: " + vector.abbreviation + ", mag=" + vector.getValue.magnitude)
       val viewTip = transform.modelToViewDouble(vector.getValue + tailLocation.getValue)
       arrowNode.setTipAndTailLocations(viewTip, transform.modelToViewDouble(tailLocation.getValue))
-      abbreviatonTextNode.setOffset(viewTip)
-      abbreviatonTextNode.setVisible(vector.getValue.magnitude > 1E-2)
+      
+      val vectorToLabel=if (vector.getValue.magnitude > maxDistToLabel) new Vector2D(vector.getValue.getAngle)*maxDistToLabel else vector.getValue
+      val textLocation = transform.modelToViewDouble(vectorToLabel + tailLocation.getValue)
+      abbreviatonTextNode.setOffset(textLocation)
+      abbreviatonTextNode.setVisible(vectorToLabel.magnitude > 1E-2)
     }
   }
   update()
