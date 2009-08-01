@@ -5,7 +5,7 @@ import common.piccolophet.nodes.barchart.BarChartNode
 import common.piccolophet.PhetPCanvas
 import java.awt.Color
 import java.awt.event.{WindowEvent, WindowAdapter}
-import javax.swing.JFrame
+import javax.swing.{JDialog, JFrame}
 import scalacommon.util.Observable
 import model.RampModel
 
@@ -20,10 +20,10 @@ class WorkEnergyChartModel extends Observable {
   def reset() = {visible = defaultVisible}
 }
 
-class WorkEnergyChart(workEnergyChartModel: WorkEnergyChartModel, model: RampModel) {
-  val frame = new JFrame("Chart")
+class WorkEnergyChart(workEnergyChartModel: WorkEnergyChartModel, model: RampModel,owner:JFrame) {
+  val frame = new JDialog(owner,"Work/Energy Chart",false)
   workEnergyChartModel.addListenerByName {frame.setVisible(workEnergyChartModel.visible)}
-  val barChartNode = new BarChartNode("Work/Energy", 0.1, Color.white)
+  val barChartNode = new BarChartNode("Work/Energy", 0.05, Color.white)
   import RampDefaults._
   val totalEnergyVariable = new BarChartNode.Variable("Total Energy", 0.0, totalEnergyColor)
   val kineticEnergyVariable = new BarChartNode.Variable("Kinetic Energy", 0.0, kineticEnergyColor)
@@ -39,10 +39,10 @@ class WorkEnergyChart(workEnergyChartModel: WorkEnergyChartModel, model: RampMod
   barChartNode.init(Array(totalEnergyVariable, kineticEnergyVariable, potentialEnergyVariable, thermalEnergyVariable,
     appliedWorkVariable, frictionWorkVariable, gravityWorkVariable, wallWorkVariable, normalWorkVariable))
   val canvas = new PhetPCanvas
-  barChartNode.setOffset(50, 50)
+  barChartNode.setOffset(20, 20)
   canvas.addWorldChild(barChartNode)
   frame.setContentPane(canvas)
-  frame.setSize(300, 600)
+  frame.setSize(300, 768)
   frame.addWindowListener(new WindowAdapter() {override def windowClosing(e: WindowEvent) = workEnergyChartModel.visible = false})
   SwingUtils.centerWindowOnScreen(frame)
   val bead = model.bead

@@ -80,7 +80,7 @@ class WorkEnergyModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(
     def actionPerformed(e: ActionEvent) = {workEnergyChartModel.visible = true}
   })
   rampControlPanel.addToBody(jButton)
-  val chart = new WorkEnergyChart(workEnergyChartModel, model)
+  val chart = new WorkEnergyChart(workEnergyChartModel, model,frame)
 
   override def reset = {super.reset(); workEnergyChartModel.reset()}
 }
