@@ -8,20 +8,22 @@ import java.lang.Math._
 import scalacommon.Predef._
 
 /**Immutable memento for recording*/
-case class BeadState(position: Double, velocity: Double, mass: Double, staticFriction: Double, kineticFriction: Double) {
+case class BeadState(position: Double, velocity: Double, mass: Double, staticFriction: Double, kineticFriction: Double, thermalEnergy: Double) {
   def translate(dx: Double) = setPosition(position + dx)
 
-  def setPosition(pos: Double) = new BeadState(pos, velocity, mass, staticFriction, kineticFriction)
+  def setPosition(pos: Double) = new BeadState(pos, velocity, mass, staticFriction, kineticFriction, thermalEnergy)
 
-  def setVelocity(vel: Double) = new BeadState(position, vel, mass, staticFriction, kineticFriction)
+  def setVelocity(vel: Double) = new BeadState(position, vel, mass, staticFriction, kineticFriction, thermalEnergy)
 
-  def setStaticFriction(value: Double) = new BeadState(position, velocity, mass, value, kineticFriction)
+  def setStaticFriction(value: Double) = new BeadState(position, velocity, mass, value, kineticFriction, thermalEnergy)
 
-  def setKineticFriction(value: Double) = new BeadState(position, velocity, mass, staticFriction, value)
+  def setKineticFriction(value: Double) = new BeadState(position, velocity, mass, staticFriction, value, thermalEnergy)
 
-  def setMass(m: Double) = new BeadState(position, velocity, m, staticFriction, kineticFriction)
+  def setMass(m: Double) = new BeadState(position, velocity, m, staticFriction, kineticFriction, thermalEnergy)
 
-  def thermalEnergy = 0
+  def setThermalEnergy(value: Double) = new BeadState(position, velocity, mass, staticFriction, kineticFriction, value)
+
+  //  def getTotalEnergy =
 }
 
 case class Range(min: Double, max: Double)
@@ -167,7 +169,7 @@ class Bead(private var _state: BeadState,
   def setVelocity(velocity: Double) = {
     if (velocity != state.velocity) {
       state = state.setVelocity(velocity)
-      frictionForceVector.notifyListeners()//todo: maybe this could be omitted during batch updates for performance
+      frictionForceVector.notifyListeners() //todo: maybe this could be omitted during batch updates for performance
       notifyListeners()
     }
   }
@@ -202,11 +204,15 @@ class Bead(private var _state: BeadState,
 
   def getAppliedWork = 0.0
 
-  private var _thermalEnergy = 0.0
+  def thermalEnergy_=(value: Double) = {
+    if (value != state.thermalEnergy) {
+      state = state.setThermalEnergy(value)
+      notifyListeners()
+    }
+  }
+  def thermalEnergy = state.thermalEnergy
 
-  def thermalEnergy_=(value: Double) = {_thermalEnergy = value; notifyListeners()}
-
-  def getThermalEnergy = _thermalEnergy
+  def getThermalEnergy = state.thermalEnergy
 
   def getFrictiveWork = -getThermalEnergy
 
@@ -355,7 +361,7 @@ class Bead(private var _state: BeadState,
         //        new WorkEnergyState(appliedWork, gravityWork, frictionWork, getPotentialEnergy, getKineticEnergy, getTotalEnergy)
       } else {
         val dx = position - origState.position
-        _thermalEnergy = _thermalEnergy + abs((frictionForce dot getVelocityVectorUnitVector) * dx) //work done by friction force, absolute value
+        thermalEnergy = getThermalEnergy + abs((frictionForce dot getVelocityVectorUnitVector) * dx) //work done by friction force, absolute value
         //      val dW=getAppliedWorkDifferential
         //      val appliedWork=origState.appliedWork
         //      val gravityWork=-getPotentialEnergy
@@ -368,7 +374,10 @@ class Bead(private var _state: BeadState,
       val work = appliedForce dot distanceVector
       //      println("work done on particle by applied force: "+work)
       workListeners.foreach(_(work))
-      notificationsEnabled = true
+
+//      println("orig Energy = " + origState.getTotalEnergy + ", final Energy = " + getTotalEnergy)
+
+      notificationsEnabled = true;
       notifyListeners() //do as a batch, since it's a performance problem to do this several times in this method call
     }
   }
