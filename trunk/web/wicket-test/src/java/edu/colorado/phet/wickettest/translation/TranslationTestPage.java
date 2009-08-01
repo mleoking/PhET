@@ -13,15 +13,18 @@ import org.apache.wicket.model.Model;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.Query;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
-import edu.colorado.phet.wickettest.content.AboutPhetPanel;
+import edu.colorado.phet.wickettest.data.LocalizedSimulation;
 import edu.colorado.phet.wickettest.data.TranslatedString;
 import edu.colorado.phet.wickettest.data.Translation;
 import edu.colorado.phet.wickettest.panels.PanelHolder;
+import edu.colorado.phet.wickettest.panels.SimulationMainPanel;
 import edu.colorado.phet.wickettest.panels.SponsorsPanel;
 import edu.colorado.phet.wickettest.util.PageContext;
 import edu.colorado.phet.wickettest.util.PhetPage;
+import edu.colorado.phet.wickettest.util.PhetRequestCycle;
 
 public class TranslationTestPage extends PhetPage {
 
@@ -81,7 +84,34 @@ public class TranslationTestPage extends PhetPage {
             protected void onSubmit( AjaxRequestTarget target, Form form ) {
                 panel.remove( subPanel );
                 //subPanel = new Label( panel.getWicketId(), "Buahahaha!" );
-                subPanel = new AboutPhetPanel( panel.getWicketId(), new PageContext( testLocale, TranslationTestPage.this ) );
+                //subPanel = new AboutPhetPanel( panel.getWicketId(), new PageContext( testLocale, TranslationTestPage.this ) );
+
+                LocalizedSimulation simulation = null;
+                Session session = ( (PhetRequestCycle) getRequestCycle() ).getHibernateSession();
+                Transaction tx = null;
+                try {
+                    tx = session.beginTransaction();
+
+                    Query query = session.createQuery( "select ls from LocalizedSimulation as ls, Simulation as s where (ls.simulation = s and s.name = 'pendulum-lab' and ls.locale = :locale)" );
+                    
+                    simulation = (LocalizedSimulation) query.setLocale( "locale", LocaleUtils.stringToLocale( "en" ) ).uniqueResult();
+
+                    tx.commit();
+                }
+                catch( RuntimeException e ) {
+                    System.out.println( "Exception: " + e );
+                    if ( tx != null && tx.isActive() ) {
+                        try {
+                            tx.rollback();
+                        }
+                        catch( HibernateException e1 ) {
+                            System.out.println( "ERROR: Error rolling back transaction" );
+                        }
+                        throw e;
+                    }
+                }
+
+                subPanel = new SimulationMainPanel( panel.getWicketId(), simulation, new PageContext( testLocale, TranslationTestPage.this ) );
                 panel.add( subPanel );
                 target.addComponent( panel );
             }

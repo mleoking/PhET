@@ -1,12 +1,13 @@
 package edu.colorado.phet.wickettest.util;
 
+import java.io.Serializable;
 import java.util.Locale;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 
-public class PageContext {
+public class PageContext implements Serializable {
     private Locale locale;
-    private PhetPage page;
+    private transient PhetPage page;
 
     public PageContext( PageContext old, Locale newLocale ) {
         this( newLocale, old.getPage() );
@@ -26,7 +27,8 @@ public class PageContext {
     }
 
     public PhetPage getPage() {
-        return page;
+        throw new RuntimeException( "temporarily disabled" );
+        //return page;
     }
 
 }
