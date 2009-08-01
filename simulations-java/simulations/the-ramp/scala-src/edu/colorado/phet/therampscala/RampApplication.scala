@@ -14,6 +14,7 @@ import robotmovingcompany.{RobotMovingCompanyGameModel, Result, RobotMovingCompa
 import scalacommon.record.{RecordModelControlPanel, PlaybackSpeedSlider}
 
 import scalacommon.ScalaClock
+
 class AbstractRampModule(frame: JFrame, clock: ScalaClock, name: String, defaultBeadPosition: Double, pausedOnReset: Boolean) extends Module(name, clock) {
   val model = new RampModel(defaultBeadPosition, pausedOnReset)
   val wordModel = new WordModel
@@ -80,7 +81,7 @@ class WorkEnergyModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(
     def actionPerformed(e: ActionEvent) = {workEnergyChartModel.visible = true}
   })
   rampControlPanel.addToBody(jButton)
-  val chart = new WorkEnergyChart(workEnergyChartModel, model,frame)
+  val chart = new WorkEnergyChart(workEnergyChartModel, model, frame)
 
   override def reset = {super.reset(); workEnergyChartModel.reset()}
 }

@@ -287,23 +287,16 @@ class Bead(private var _state: BeadState,
     def normalForce = {
       val magnitude = (gravityForce * -1) dot getRampUnitVector.rotate(PI / 2)
       val angle = getRampUnitVector.getAngle + PI / 2
-      new Vector2D(angle) * (magnitude)
+      new Vector2D(angle) * magnitude
     }
 
     override def wallForce = {
-      if (position <= wallRange().min && forceToParallelAcceleration(appliedForce) < 0) {
-        appliedForce * -1
-      }
-      else if (position >= wallRange().max && forceToParallelAcceleration(appliedForce) > 0) {
-        appliedForce * -1
-      } else {
-        new Vector2D
-      }
+      if (position <= wallRange().min && forceToParallelAcceleration(appliedForce) < 0) appliedForce * -1
+      else if (position >= wallRange().max && forceToParallelAcceleration(appliedForce) > 0) appliedForce * -1
+      else new Vector2D
     }
 
-    def multiBodyFriction(f: Double) = {
-      _surfaceFrictionStrategy.getTotalFriction(f)
-    }
+    def multiBodyFriction(f: Double) = _surfaceFrictionStrategy.getTotalFriction(f)
 
     override def frictionForce = {
       if (surfaceFriction()) {
@@ -315,12 +308,8 @@ class Bead(private var _state: BeadState,
           val fMax = abs(multiBodyFriction(staticFriction) * normalForce.magnitude)
           val netForceWithoutFriction = appliedForce + gravityForce + normalForce + wallForce
 
-          if (netForceWithoutFriction.magnitude >= fMax) {
-            new Vector2D(netForceWithoutFriction.getAngle + PI) * fMax
-          }
-          else {
-            new Vector2D(netForceWithoutFriction.getAngle + PI) * netForceWithoutFriction.magnitude
-          }
+          if (netForceWithoutFriction.magnitude >= fMax) new Vector2D(netForceWithoutFriction.getAngle + PI) * fMax
+          else new Vector2D(netForceWithoutFriction.getAngle + PI) * netForceWithoutFriction.magnitude
         }
         else {
           //object is moving, just use kinetic friction
@@ -338,14 +327,9 @@ class Bead(private var _state: BeadState,
       setVelocityWithNotify(netForceToParallelVelocity(totalForce, dt), false)
 
       //stepInTime samples at least one value less than 1E-12 on direction change to handle static friction
-      if ((origState.velocity < 0 && velocity > 0) || (origState.velocity > 0 && velocity < 0)) {
-        //see docs in static friction computation
-        setVelocity(0)
-      }
+      if ((origState.velocity < 0 && velocity > 0) || (origState.velocity > 0 && velocity < 0)) setVelocity(0) //see docs in static friction computation
 
       val requestedPosition = position + velocity * dt
-
-      //      println("requested position=" + requestedPosition + ", minRange=" + wallRange().min)
 
       //TODO: generalize boundary code
       if (requestedPosition <= wallRange().min + width / 2) {

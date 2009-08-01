@@ -171,7 +171,7 @@ class CoordinateFrameModel(snapToAngles: List[() => Double]) extends Observable 
 //This class stores all state information used in record/playback
 case class RecordedState(angle: Double, selectedObject: ScalaRampObjectState, beadState: BeadState, manBeadState: BeadState, appliedForce: Double, walls: Boolean)
 
-class RampModel(defaultBeadPosition:Double,pausedOnReset:Boolean) extends RecordModel[RecordedState] with ObjectModel {
+class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean) extends RecordModel[RecordedState] with ObjectModel {
   setPaused(pausedOnReset)
 
   private var _walls = true
@@ -209,8 +209,8 @@ class RampModel(defaultBeadPosition:Double,pausedOnReset:Boolean) extends Record
 
   val leftWall: Bead = createBead(-10, RampDefaults.wall.width, RampDefaults.wall.height)
   val rightWall: Bead = createBead(10, RampDefaults.wall.width, RampDefaults.wall.height)
-  val defaultManPosition =defaultBeadPosition-1
-  val manBead:Bead= createBead(defaultManPosition, 1)
+  val defaultManPosition = defaultBeadPosition - 1
+  val manBead: Bead = createBead(defaultManPosition, 1)
   updateDueToObjectChange()
 
   override def resetAll() = {

@@ -48,7 +48,7 @@ class RampChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model:
   val parallelFrictionVariable = createParallelVariable(() => model.bead.frictionForce)
   val gravityForceVariable = createParallelVariable(() => model.bead.gravityForce)
   val wallForceVariable = createParallelVariable(() => model.bead.wallForce)
-  val netForceVariable= createParallelVariable(() => model.bead.totalForce)
+  val netForceVariable = createParallelVariable(() => model.bead.totalForce)
 
   val energyVariable = createVariable(() => model.bead.getTotalEnergy)
   val keVariable = createVariable(() => model.bead.getKineticEnergy)
@@ -73,7 +73,7 @@ class RampChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model:
   val timeseriesModel = new TimeSeriesModel(recordableModel, new ConstantDtClock(30, 1.0)) { //todo: remove dummy clock
     override def setPlaybackTime(requestedTime: Double) = model.setPlaybackTime(requestedTime) //skip bounds checking in parent
   }
-  model.historyClearListeners += (()=>timeseriesModel.clear(true))
+  model.historyClearListeners += (() => timeseriesModel.clear(true))
 
   val updateableObject = new UpdateableObject {
     def setUpdateStrategy(updateStrategy: UpdateStrategy) = {}
@@ -82,13 +82,13 @@ class RampChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model:
   val frictionSeries = new ControlGraphSeries("<html>F<sub>friction</sub></html>", RampDefaults.frictionForceColor, "Ff", "N", "", parallelFrictionVariable)
   val gravitySeries = new ControlGraphSeries("<html>F<sub>gravity</sub></html>", RampDefaults.gravityForceColor, "Fg", "N", "", gravityForceVariable)
   val wallSeries = new ControlGraphSeries("<html>F<sub>wall</sub></html>", RampDefaults.wallForceColor, "Fw", "N", "", wallForceVariable)
-  val netForceSeries= new ControlGraphSeries("<html>F<sub>sum</sub></html>", RampDefaults.totalForceColor, "Fsum", "N", "", netForceVariable)
+  val netForceSeries = new ControlGraphSeries("<html>F<sub>sum</sub></html>", RampDefaults.totalForceColor, "Fsum", "N", "", netForceVariable)
 
   val totalEnergySeries = new ControlGraphSeries("<html>E<sub>total</sub></html>", RampDefaults.totalEnergyColor, "Etot", "J", "", energyVariable)
   val keSeries = new ControlGraphSeries("<html>E<sub>kin</sub></html>", RampDefaults.kineticEnergyColor, "KE", "J", "", keVariable)
   val peSeries = new ControlGraphSeries("<html>E<sub>pot</sub></html>", RampDefaults.potentialEnergyColor, "PE", "J", "", peVariable)
   val thermalEnergySeries = new ControlGraphSeries("<html>E<sub>therm</sub></html>", RampDefaults.thermalEnergyColor, "PE", "J", "", thermalEnergyVariable)
-  
+
   val appliedWorkSeries = new ControlGraphSeries("<html>W<sub>applied</sub></html>", RampDefaults.appliedWorkColor, "Wapp", "J", "", appliedWorkVariable)
   val gravityWorkSeries = new ControlGraphSeries("<html>W<sub>gravity</sub></html>", RampDefaults.gravityWorkColor, "Wgrav", "J", "", gravityWorkVariable)
   val frictionWorkSeries = new ControlGraphSeries("<html>W<sub>friction</sub></html>", RampDefaults.frictionWorkColor, "Wfric", "J", "", frictionWorkVariable)
