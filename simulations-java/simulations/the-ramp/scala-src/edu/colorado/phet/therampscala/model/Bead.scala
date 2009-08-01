@@ -203,13 +203,14 @@ class Bead(private var _state: BeadState,
 
   def getTotalEnergy = getPotentialEnergy + getKineticEnergy + getThermalEnergy
 
-  def getPotentialEnergy = mass * gravity * position2D.y
+  def getPotentialEnergy = mass * abs(gravity) * position2D.y
 
   def getAppliedWork = 0.0
 
-  private var thermalEnergy = 0.0
+  private var _thermalEnergy = 0.0
+  def thermalEnergy_=(value:Double) = {_thermalEnergy = value;notifyListeners()}
 
-  def getThermalEnergy = thermalEnergy
+  def getThermalEnergy = _thermalEnergy
 
   def getFrictiveWork = -getThermalEnergy
 
@@ -377,7 +378,7 @@ class Bead(private var _state: BeadState,
         //        new WorkEnergyState(appliedWork, gravityWork, frictionWork, getPotentialEnergy, getKineticEnergy, getTotalEnergy)
       } else {
         val dx = position - origState.position
-        thermalEnergy = thermalEnergy + abs((frictionForce dot getVelocityVectorUnitVector) * dx) //work done by friction force, absolute value
+        _thermalEnergy = _thermalEnergy + abs((frictionForce dot getVelocityVectorUnitVector) * dx) //work done by friction force, absolute value
         //      val dW=getAppliedWorkDifferential
         //      val appliedWork=origState.appliedWork
         //      val gravityWork=-getPotentialEnergy

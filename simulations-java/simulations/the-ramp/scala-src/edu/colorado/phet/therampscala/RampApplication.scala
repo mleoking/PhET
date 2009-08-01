@@ -106,7 +106,6 @@ class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock) extends Abstrac
 
 class RampApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
   def newClock = new ScalaClock(RampDefaults.DELAY, RampDefaults.DT_DEFAULT)
-  //todo: add back all modules
   addModule(new IntroRampModule(getPhetFrame, newClock))
   addModule(new CoordinatesRampModule(getPhetFrame, newClock))
   addModule(new ForceGraphsModule(getPhetFrame, newClock))

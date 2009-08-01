@@ -1,5 +1,6 @@
 package edu.colorado.phet.therampscala.charts.bargraphs
 
+import common.phetcommon.view.util.SwingUtils
 import common.piccolophet.nodes.barchart.BarChartNode
 import common.piccolophet.PhetPCanvas
 import java.awt.Color
@@ -22,16 +23,26 @@ class WorkEnergyChartModel extends Observable {
 class WorkEnergyChart(workEnergyChartModel: WorkEnergyChartModel, model: RampModel) {
   val frame = new JFrame("Chart")
   workEnergyChartModel.addListenerByName {frame.setVisible(workEnergyChartModel.visible)}
-  val barChartNode = new BarChartNode("Work/Energy", 1.0, Color.white)
-  val v1 = new BarChartNode.Variable("time", 0.0, Color.blue)
-  barChartNode.init(Array(v1))
+  val barChartNode = new BarChartNode("Work/Energy", 0.1, Color.white)
+  import RampDefaults._
+  val totalEnergyVariable = new BarChartNode.Variable("Total Energy", 0.0, totalEnergyColor)
+  val kineticEnergyVariable = new BarChartNode.Variable("Kinetic Energy", 0.0, kineticEnergyColor)
+  val potentialEnergyVariable = new BarChartNode.Variable("Potential Energy", 0.0, potentialEnergyColor)
+  val thermalEnergyVariable = new BarChartNode.Variable("Thermal Energy", 0.0, thermalEnergyColor)
+  barChartNode.init(Array(totalEnergyVariable, kineticEnergyVariable, potentialEnergyVariable, thermalEnergyVariable))
   val canvas = new PhetPCanvas
+  barChartNode.setOffset(50, 50)
   canvas.addWorldChild(barChartNode)
   frame.setContentPane(canvas)
-  frame.setSize(800, 600)
+  frame.setSize(300, 600)
   frame.addWindowListener(new WindowAdapter() {override def windowClosing(e: WindowEvent) = workEnergyChartModel.visible = false})
-  model.addListenerByName{
-    v1.setValue(model.getTime)
+  SwingUtils.centerWindowOnScreen(frame)
+  val bead = model.bead
+  bead.addListenerByName {
+    totalEnergyVariable.setValue(bead.getTotalEnergy)
+    kineticEnergyVariable.setValue(bead.getKineticEnergy)
+    potentialEnergyVariable.setValue(bead.getPotentialEnergy)
+    thermalEnergyVariable.setValue(bead.getThermalEnergy)
     barChartNode.update()
   }
 }
