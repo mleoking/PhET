@@ -321,57 +321,48 @@ class Bead(private var _state: BeadState,
       else new Vector2D
     }
 
+    case class SettableState(position: Double, velocity: Double, thermalEnergy: Double) {
+      def setPosition(p: Double) = new SettableState(p, velocity, thermalEnergy)
+
+      def setVelocity(v: Double) = new SettableState(position, v, thermalEnergy)
+
+      def setThermalEnergy(t: Double) = new SettableState(position, velocity, t)
+
+      def setPositionAndVelocity(p: Double, v: Double) = new SettableState(p, v, thermalEnergy)
+    }
     override def stepInTime(dt: Double) = {
       notificationsEnabled = false //make sure only to send notifications as a batch at the end; improves performance by 17%
       val origEnergy = getTotalEnergy
       val origState = state
+      val newState = getNewState(dt, origState, origEnergy)
 
-      val desiredVelocity = netForceToParallelVelocity(totalForce, dt)
-
-      //stepInTime samples at least one value less than 1E-12 on direction change to handle static friction
-      //see docs in static friction computation
-      val newVelocity = if ((origState.velocity < 0 && desiredVelocity > 0) || (origState.velocity > 0 && desiredVelocity < 0)) 0.0 else desiredVelocity
-      setVelocity(newVelocity)
-
-      val requestedPosition = position + newVelocity * dt
-
-      //TODO: generalize boundary code
-      if (requestedPosition <= wallRange().min + width / 2) {
-        setVelocity(0)
-        setPosition(wallRange().min + width / 2)
-      }
-      else if (requestedPosition >= wallRange().max - width / 2 && wallsExist) {
-        setVelocity(0)
-        setPosition(wallRange().max - width / 2)
-      }
-      if (requestedPosition > wallRange().max + width / 2 && !wallsExist) {
+      if (newState.position > wallRange().max + width / 2 && !wallsExist) {
         attachState = new Airborne(position2D, new Vector2D(getVelocityVectorDirection) * velocity, getAngle)
         parallelAppliedForce = 0
       }
-      else setPosition(requestedPosition)
-      val justCollided = false
+      setPosition(newState.position)
+      setVelocity(newState.velocity)
+      thermalEnergy = newState.thermalEnergy
 
-      //      if (multiBodyFriction(staticFriction) == 0 && multiBodyFriction(kineticFriction) == 0) {
-      //        val appliedWork = getTotalEnergy
-      //        val gravityWork = -getPotentialEnergy
-      //        val thermalEnergy = origState.thermalEnergy
-      //        if (justCollided) {
-      //          //        thermalEnergy += origState.kineticEnergy
-      //        }
-      //        val frictionWork = -thermalEnergy
-      //        ()
-      //        //        new WorkEnergyState(appliedWork, gravityWork, frictionWork, getPotentialEnergy, getKineticEnergy, getTotalEnergy)
-      //      } else {
+      notificationsEnabled = true;
+      notifyListeners() //do as a batch, since it's a performance problem to do this several times in this method call
+    }
+
+    def getNewState(dt: Double, origState: BeadState, origEnergy: Double) = {
+      val origVel = velocity
+      val desiredVel = netForceToParallelVelocity(totalForce, dt)
+      //stepInTime samples at least one value less than 1E-12 on direction change to handle static friction
+      //see docs in static friction computation
+      val newVelocity = if ((origVel < 0 && desiredVel > 0) || (origVel > 0 && desiredVel < 0)) 0.0 else desiredVel
+      val requestedPosition = position + newVelocity * dt
+      val stateAfterVelocityUpdate = new SettableState(requestedPosition, newVelocity, thermalEnergy)
+
+      val stateAfterBounds = if (requestedPosition <= wallRange().min + width / 2) stateAfterVelocityUpdate.setPositionAndVelocity(wallRange().min + width / 2, 0)
+      else if (requestedPosition >= wallRange().max - width / 2 && wallsExist) stateAfterVelocityUpdate.setPositionAndVelocity(wallRange().max - width / 2, 0.0)
+      else stateAfterVelocityUpdate
+
       val dx = position - origState.position
       thermalEnergy = getThermalEnergy + abs((frictionForce dot getVelocityVectorUnitVector) * dx) //work done by friction force, absolute value
-      //      val dW=getAppliedWorkDifferential
-      //      val appliedWork=origState.appliedWork
-      //      val gravityWork=-getPotentialEnergy
-      //      val etot=appliedWork
-      //      val thermalEnergy=etot-kineticEnergy-potentialEnergy
-      //      val frictionWork=-thermalEnergy
-
-      //      }
       val distanceVector = positionMapper(position) - positionMapper(origState.position)
       val work = appliedForce dot distanceVector
       //      println("work done on particle by applied force: "+work)
@@ -385,9 +376,7 @@ class Bead(private var _state: BeadState,
         }
       }
       println("dE= " + dE + ", orig Energy = " + origEnergy + ", final Energy = " + getTotalEnergy)
-
-      notificationsEnabled = true;
-      notifyListeners() //do as a batch, since it's a performance problem to do this several times in this method call
+      stateAfterBounds
     }
   }
   val workListeners = new ArrayBuffer[Double => Unit]
