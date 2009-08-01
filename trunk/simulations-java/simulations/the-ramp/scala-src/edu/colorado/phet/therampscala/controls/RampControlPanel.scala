@@ -126,10 +126,10 @@ class RampControlPanelBody(model: RampModel, wordModel: WordModel,
 
   getContentPanel.setFillNone()
 
-  getContentPanel.setAnchor(GridBagConstraints.CENTER) //todo: make reset appear at the bottom
-  val stepButton = new JButton("Step")
-  stepButton.addActionListener(() => model.stepRecord(RampDefaults.DT_DEFAULT))
-  add(stepButton)
+//  getContentPanel.setAnchor(GridBagConstraints.CENTER) //todo: make reset appear at the bottom
+//  val stepButton = new JButton("Step")
+//  stepButton.addActionListener(() => model.stepRecord(RampDefaults.DT_DEFAULT))
+//  add(stepButton)
 }
 
 class SubControlPanel(title: String) extends VerticalLayoutPanel {
