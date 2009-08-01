@@ -2,19 +2,23 @@ package edu.colorado.phet.wickettest.translation;
 
 import java.util.Locale;
 
+import org.apache.wicket.Component;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.extensions.ajax.markup.html.AjaxEditableMultiLineLabel;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.model.Model;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
+import edu.colorado.phet.wickettest.content.AboutPhetPanel;
 import edu.colorado.phet.wickettest.data.TranslatedString;
 import edu.colorado.phet.wickettest.data.Translation;
-import edu.colorado.phet.wickettest.panels.PhetPanel;
+import edu.colorado.phet.wickettest.panels.PanelHolder;
 import edu.colorado.phet.wickettest.panels.SponsorsPanel;
 import edu.colorado.phet.wickettest.util.PageContext;
 import edu.colorado.phet.wickettest.util.PhetPage;
@@ -22,7 +26,8 @@ import edu.colorado.phet.wickettest.util.PhetPage;
 public class TranslationTestPage extends PhetPage {
 
     private int translationId;
-    private PhetPanel panel;
+    private PanelHolder panel;
+    private Component subPanel;
     private Model modelDir = new Model( "ltr" );
     private Model modelPrincipalSponsors = new Model( "Principal Sponsors" );
     private Model modelHewlett = new Model( "Makes grants to address the most serious social and environmental problems facing society, where risk capital, responsibly invested, may make a difference over time." );
@@ -32,7 +37,7 @@ public class TranslationTestPage extends PhetPage {
     public TranslationTestPage( PageParameters parameters ) {
         super( parameters, true );
 
-        Locale testLocale = LocaleUtils.stringToLocale( "zh_CN" );
+        final Locale testLocale = LocaleUtils.stringToLocale( "zh_CN" );
         Session session = getHibernateSession();
         Translation translation = null;
         Transaction tx = null;
@@ -64,11 +69,24 @@ public class TranslationTestPage extends PhetPage {
             add( new Label( "translation-id", String.valueOf( translationId ) ) );
         }
 
-        panel = new SponsorsPanel( "panel", new PageContext( testLocale, this ) );
-        panel.setOutputMarkupId( true );
+        panel = new PanelHolder( "panel", new PageContext( testLocale, this ) );
+        subPanel = new SponsorsPanel( panel.getWicketId(), new PageContext( testLocale, this ) );
+        panel.add( subPanel );
         add( panel );
 
         addTitle( "Translation test page" );
+
+        Form form = new Form( "test-form" );
+        form.add( new AjaxButton( "test-button" ) {
+            protected void onSubmit( AjaxRequestTarget target, Form form ) {
+                panel.remove( subPanel );
+                //subPanel = new Label( panel.getWicketId(), "Buahahaha!" );
+                subPanel = new AboutPhetPanel( panel.getWicketId(), new PageContext( testLocale, TranslationTestPage.this ) );
+                panel.add( subPanel );
+                target.addComponent( panel );
+            }
+        } );
+        add( form );
 
 
         add( new AjaxEditableMultiLineLabel( "translation-dir", modelDir ) {

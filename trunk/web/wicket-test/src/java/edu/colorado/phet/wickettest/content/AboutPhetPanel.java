@@ -12,7 +12,6 @@ public class AboutPhetPanel extends PhetPanel {
 
         //add( new Label( "about-p1", new StringResourceModel( "about.p1", this, null, new String[]{"href=\"http://phet.colorado.edu/simulations/index.php\"", "href=\"http://phet.colorado.edu/research/index.php\""} ) ) );
         ResourceModel resourceModel = new ResourceModel( "about.p1" );
-        System.out.println( resourceModel.getObject() );
         add( new Label( "about-p1", resourceModel ) );
     }
 }
