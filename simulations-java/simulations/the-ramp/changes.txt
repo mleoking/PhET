@@ -1,3 +1,5 @@
+Made it so all the tabs start motionless, instead of with the object sliding
+Made it so the stick figure starts next to the object on startup.
 Removed extraneous step button from the right hand side control panel
 # 1.03.26 (33807) Jul 31, 2009
 # 1.03.25 (33806) Jul 31, 2009

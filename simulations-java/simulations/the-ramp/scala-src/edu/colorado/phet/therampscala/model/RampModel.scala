@@ -209,7 +209,7 @@ class RampModel(defaultBeadPosition:Double,pausedOnReset:Boolean) extends Record
 
   val leftWall: Bead = createBead(-10, RampDefaults.wall.width, RampDefaults.wall.height)
   val rightWall: Bead = createBead(10, RampDefaults.wall.width, RampDefaults.wall.height)
-  val defaultManPosition =2
+  val defaultManPosition =defaultBeadPosition-1
   val manBead:Bead= createBead(defaultManPosition, 1)
   updateDueToObjectChange()
 
