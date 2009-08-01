@@ -20,8 +20,8 @@ class WorkEnergyChartModel extends Observable {
   def reset() = {visible = defaultVisible}
 }
 
-class WorkEnergyChart(workEnergyChartModel: WorkEnergyChartModel, model: RampModel,owner:JFrame) {
-  val frame = new JDialog(owner,"Work/Energy Chart",false)
+class WorkEnergyChart(workEnergyChartModel: WorkEnergyChartModel, model: RampModel, owner: JFrame) {
+  val frame = new JDialog(owner, "Work/Energy Chart", false)
   workEnergyChartModel.addListenerByName {frame.setVisible(workEnergyChartModel.visible)}
   val barChartNode = new BarChartNode("Work/Energy", 0.05, Color.white)
   import RampDefaults._

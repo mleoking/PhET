@@ -126,9 +126,9 @@ class RampControlPanelBody(model: RampModel, wordModel: WordModel,
 
   getContentPanel.setFillNone()
   getContentPanel.setAnchor(GridBagConstraints.CENTER)
-//  val stepButton = new JButton("Step")
-//  stepButton.addActionListener(() => model.stepRecord(RampDefaults.DT_DEFAULT))
-//  add(stepButton)
+  //  val stepButton = new JButton("Step")
+  //  stepButton.addActionListener(() => model.stepRecord(RampDefaults.DT_DEFAULT))
+  //  add(stepButton)
 }
 
 class SubControlPanel(title: String) extends VerticalLayoutPanel {
