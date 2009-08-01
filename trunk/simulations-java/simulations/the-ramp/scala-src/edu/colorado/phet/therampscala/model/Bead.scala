@@ -164,15 +164,13 @@ class Bead(private var _state: BeadState,
     notifyListeners()
   }
 
-  private def setVelocityWithNotify(velocity: Double, notify: Boolean) = {
+  def setVelocity(velocity: Double) = {
     if (velocity != state.velocity) {
       state = state.setVelocity(velocity)
-      frictionForceVector.notifyListeners()
-      if (notify) notifyListeners()
+      frictionForceVector.notifyListeners()//todo: maybe this could be omitted during batch updates for performance
+      notifyListeners()
     }
   }
-
-  def setVelocity(velocity: Double) = setVelocityWithNotify(velocity, true)
 
   def mass_=(mass: Double) = {
     state = state.setMass(mass)
@@ -180,17 +178,15 @@ class Bead(private var _state: BeadState,
     notifyListeners()
   }
 
-  def setPositionWithNotify(position: Double, notify: Boolean) = {
+  def setPosition(position: Double) = {
     if (position != state.position) {
       state = state.setPosition(position)
       normalForceVector.notifyListeners() //since ramp segment or motion state might have changed; could improve performance on this by only sending notifications when we are sure the ramp segment has changed
       frictionForceVector.notifyListeners() //todo: omit this call since it's probably covered by the normal force call above
       wallForceVector.notifyListeners()
-      if (notify) notifyListeners()
+      notifyListeners()
     }
   }
-
-  def setPosition(position: Double) = setPositionWithNotify(position, true)
 
   private var _airborneFloor = 0.0
 
@@ -324,7 +320,7 @@ class Bead(private var _state: BeadState,
       notificationsEnabled = false //make sure only to send notifications as a batch at the end; improves performance by 17%
       val origState = state
 
-      setVelocityWithNotify(netForceToParallelVelocity(totalForce, dt), false)
+      setVelocity(netForceToParallelVelocity(totalForce, dt))
 
       //stepInTime samples at least one value less than 1E-12 on direction change to handle static friction
       if ((origState.velocity < 0 && velocity > 0) || (origState.velocity > 0 && velocity < 0)) setVelocity(0) //see docs in static friction computation
@@ -344,7 +340,7 @@ class Bead(private var _state: BeadState,
         attachState = new Airborne(position2D, new Vector2D(getVelocityVectorDirection) * velocity, getAngle)
         parallelAppliedForce = 0
       }
-      else setPositionWithNotify(requestedPosition, false)
+      else setPosition(requestedPosition)
       val justCollided = false
 
       if (multiBodyFriction(staticFriction) == 0 && multiBodyFriction(kineticFriction) == 0) {
