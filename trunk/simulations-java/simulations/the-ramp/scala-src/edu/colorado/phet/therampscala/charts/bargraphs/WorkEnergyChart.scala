@@ -29,7 +29,15 @@ class WorkEnergyChart(workEnergyChartModel: WorkEnergyChartModel, model: RampMod
   val kineticEnergyVariable = new BarChartNode.Variable("Kinetic Energy", 0.0, kineticEnergyColor)
   val potentialEnergyVariable = new BarChartNode.Variable("Potential Energy", 0.0, potentialEnergyColor)
   val thermalEnergyVariable = new BarChartNode.Variable("Thermal Energy", 0.0, thermalEnergyColor)
-  barChartNode.init(Array(totalEnergyVariable, kineticEnergyVariable, potentialEnergyVariable, thermalEnergyVariable))
+
+  val appliedWorkVariable = new BarChartNode.Variable("Applied Work", 0.0, appliedWorkColor)
+  val frictionWorkVariable = new BarChartNode.Variable("Friction Work", 0.0, frictionWorkColor)
+  val gravityWorkVariable = new BarChartNode.Variable("Gravity Work", 0.0, gravityWorkColor)
+  val wallWorkVariable = new BarChartNode.Variable("Wall Work", 0.0, Color.black)
+  val normalWorkVariable = new BarChartNode.Variable("Normal Work", 0.0, Color.black)
+
+  barChartNode.init(Array(totalEnergyVariable, kineticEnergyVariable, potentialEnergyVariable, thermalEnergyVariable,
+    appliedWorkVariable, frictionWorkVariable, gravityWorkVariable, wallWorkVariable, normalWorkVariable))
   val canvas = new PhetPCanvas
   barChartNode.setOffset(50, 50)
   canvas.addWorldChild(barChartNode)
@@ -43,6 +51,12 @@ class WorkEnergyChart(workEnergyChartModel: WorkEnergyChartModel, model: RampMod
     kineticEnergyVariable.setValue(bead.getKineticEnergy)
     potentialEnergyVariable.setValue(bead.getPotentialEnergy)
     thermalEnergyVariable.setValue(bead.getThermalEnergy)
+
+    appliedWorkVariable.setValue(bead.getAppliedWork)
+    frictionWorkVariable.setValue(bead.getFrictiveWork)
+    gravityWorkVariable.setValue(bead.getGravityWork)
+    wallWorkVariable.setValue(bead.getWallWork)
+    normalWorkVariable.setValue(bead.getNormalWork)
     barChartNode.update()
   }
 }
