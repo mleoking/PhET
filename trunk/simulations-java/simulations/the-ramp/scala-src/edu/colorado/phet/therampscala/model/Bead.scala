@@ -46,7 +46,6 @@ class Bead(private var _state: BeadState,
         extends Observable {
   val id = Bead.nextIndex()
   val crashListeners = new ArrayBuffer[() => Unit]
-  val stopListeners = new ArrayBuffer[() => Unit]
   val gravity = -9.8
 
   def state = _state
@@ -333,7 +332,7 @@ class Bead(private var _state: BeadState,
     }
 
     override def stepInTime(dt: Double) = {
-      notificationsEnabled = false//make sure only to send notifications as a batch at the end; improves performance by 17%
+      notificationsEnabled = false //make sure only to send notifications as a batch at the end; improves performance by 17%
       val origState = state
 
       setVelocityWithNotify(netForceToParallelVelocity(totalForce, dt), false)
@@ -342,10 +341,6 @@ class Bead(private var _state: BeadState,
       if ((origState.velocity < 0 && velocity > 0) || (origState.velocity > 0 && velocity < 0)) {
         //see docs in static friction computation
         setVelocity(0)
-      }
-
-      if (origState.velocity != 0 && velocity == 0) {
-        stopListeners.foreach(_())
       }
 
       val requestedPosition = position + velocity * dt
@@ -365,10 +360,7 @@ class Bead(private var _state: BeadState,
         attachState = new Airborne(position2D, new Vector2D(getVelocityVectorDirection) * velocity, getAngle)
         parallelAppliedForce = 0
       }
-
-      else {
-        setPositionWithNotify(requestedPosition, false)
-      }
+      else setPositionWithNotify(requestedPosition, false)
       val justCollided = false
 
       if (multiBodyFriction(staticFriction) == 0 && multiBodyFriction(kineticFriction) == 0) {
