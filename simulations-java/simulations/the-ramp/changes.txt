@@ -1,3 +1,4 @@
+Removed extraneous step button from the right hand side control panel
 # 1.03.26 (33807) Jul 31, 2009
 # 1.03.25 (33806) Jul 31, 2009
 # 1.03.24 (33804) Jul 31, 2009
