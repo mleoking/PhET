@@ -53,6 +53,7 @@ public class NavMenu {
                 throw e;
             }
         }
+        session.close();
     }
 
     public void buildCategoryMenu( NavLocation location, Category category ) {

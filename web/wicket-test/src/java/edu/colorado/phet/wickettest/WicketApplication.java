@@ -10,7 +10,7 @@ import org.apache.wicket.resource.loader.ClassStringResourceLoader;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.wickettest.content.*;
 import edu.colorado.phet.wickettest.menu.NavMenu;
-import edu.colorado.phet.wickettest.translation.TranslationStringResourceLoader;
+import edu.colorado.phet.wickettest.translation.PhetLocalizer;
 import edu.colorado.phet.wickettest.util.PhetRequestCycle;
 import edu.colorado.phet.wickettest.util.PhetUrlMapper;
 import edu.colorado.phet.wickettest.util.PhetUrlStrategy;
@@ -34,15 +34,13 @@ public class WicketApplication extends WebApplication {
         SimulationPage.addToMapper( mapper );
         AboutPhetPage.addToMapper( mapper );
 
-        // temporarily disable the localization cache TODO: implement custom localizer that won't cache in-progress locales?
-        getResourceSettings().getLocalizer().setEnableCache( false );
+        getResourceSettings().setLocalizer( new PhetLocalizer() );
 
         mount( new PhetUrlStrategy( LocaleUtils.stringToLocale( "en" ), mapper ) );
         mount( new PhetUrlStrategy( LocaleUtils.stringToLocale( "es" ), mapper ) );
         mount( new PhetUrlStrategy( LocaleUtils.stringToLocale( "el" ), mapper ) );
         mount( new PhetUrlStrategy( LocaleUtils.stringToLocale( "ar" ), mapper ) );
 
-        getResourceSettings().addStringResourceLoader( new TranslationStringResourceLoader() );
         getResourceSettings().addStringResourceLoader( new ClassStringResourceLoader( WicketApplication.class ) );
 
         menu = new NavMenu();

@@ -46,6 +46,9 @@
 
         <mapping resource="edu/colorado/phet/wickettest/data/Category.hbm.xml"/>
 
+        <mapping resource="edu/colorado/phet/wickettest/data/Translation.hbm.xml"/>
+        <mapping resource="edu/colorado/phet/wickettest/data/TranslatedString.hbm.xml"/>
+
     </session-factory>
 
 </hibernate-configuration>
