@@ -1,33 +1,20 @@
 package edu.colorado.phet.wickettest.translation;
 
-import java.util.Locale;
-
-import org.apache.wicket.Component;
 import org.apache.wicket.PageParameters;
-import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.markup.html.form.AjaxButton;
-import org.apache.wicket.extensions.ajax.markup.html.AjaxEditableMultiLineLabel;
-import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.model.Model;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.Query;
 
-import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
-import edu.colorado.phet.wickettest.data.LocalizedSimulation;
-import edu.colorado.phet.wickettest.data.TranslatedString;
-import edu.colorado.phet.wickettest.data.Translation;
-import edu.colorado.phet.wickettest.panels.PanelHolder;
-import edu.colorado.phet.wickettest.panels.SimulationMainPanel;
-import edu.colorado.phet.wickettest.panels.SponsorsPanel;
-import edu.colorado.phet.wickettest.util.PageContext;
+import edu.colorado.phet.wickettest.translation.entities.SponsorsEntity;
 import edu.colorado.phet.wickettest.util.PhetPage;
-import edu.colorado.phet.wickettest.util.PhetRequestCycle;
 
 public class TranslationTestPage extends PhetPage {
+    public TranslationTestPage( PageParameters parameters ) {
+        super( parameters, true );
 
+        addTitle( "Translation test page" );
+
+        add( new TranslateEntityPanel( "translation-panel", getPageContext(), new SponsorsEntity() ) );
+    }
+
+    /*
     private int translationId;
     private PanelHolder panel;
     private Component subPanel;
@@ -214,4 +201,6 @@ public class TranslationTestPage extends PhetPage {
     public String getVariation() {
         return new Integer( translationId ).toString();
     }
+
+    */
 }

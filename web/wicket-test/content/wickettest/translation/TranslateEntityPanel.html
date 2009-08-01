@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:wicket="http://svn.apache.org/repos/asf/wicket/trunk/wicket/wicket-xhtml1-strict.dtd" xml:lang="en"
+      lang="en">
+<head>
+    <title wicket:id="page-title">[PREVIEW] TranslateEntityPanel</title>
+    <wicket:remove>
+        <link rel="stylesheet" type="text/css" href="../../../root/css/test.css"/>
+    </wicket:remove>
+    <wicket:head>
+        <style type="text/css">
+            .index-content {
+                width: 900px;
+                margin: 0px auto;
+                border: 1px solid black;
+                padding: 10px;
+            }
+
+            .translation-holder {
+                border: 1px solid red;
+                width: 540px;
+                float: right;
+            }
+
+            .string-value {
+                border: 1px solid blue;
+                margin-right: 560px;
+            }
+        </style>
+    </wicket:head>
+</head>
+<body wicket:message="dir:language.dir">
+
+<wicket:panel>
+    <div class="index-content">
+        <h3>Translation Demo</h3>
+
+        Translating #<span wicket:id="translation-id">25</span>
+
+
+        <div class="translation-holder">
+            <div wicket:message="class:language.dir">
+                <div wicket:id="panel">
+                    Panel to translate<br/>
+                    Panel to translate<br/>
+                    Panel to translate<br/>
+                    Panel to translate<br/>
+                    Panel to translate<br/>
+                    Panel to translate<br/>
+                    Panel to translate<br/>
+                    Panel to translate<br/>
+                    Panel to translate<br/>
+                    Panel to translate<br/>
+                    Panel to translate<br/>
+                    Panel to translate<br/>
+                </div>
+            </div>
+        </div>
+
+        <div class="strings">
+            <div wicket:id="translation-string-list">
+                <span wicket:id="translation-string-key">language.dir</span>:
+                <div wicket:id="translation-string-value" class="string-value">
+                    Blah blah blah now this is some really long text
+                    that will take forever
+                </div>
+                <br/>
+            </div>
+            <form wicket:id="test-form">
+                <input type="submit" value="test" wicket:id="test-button"/>
+            </form>
+        </div>
+
+        <div class="translation-footer-x" style="clear: both;"></div>
+    </div>
+</wicket:panel>
+
+</body>
+</html>
+

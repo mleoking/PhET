@@ -10,7 +10,7 @@ public class PageContext implements Serializable {
     private transient PhetPage page;
 
     public PageContext( PageContext old, Locale newLocale ) {
-        this( newLocale, old.getPage() );
+        this( newLocale, old.page );
     }
 
     public PageContext( Locale locale, PhetPage page ) {
