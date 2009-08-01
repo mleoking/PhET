@@ -333,8 +333,7 @@ class Bead(private var _state: BeadState,
     }
 
     override def stepInTime(dt: Double) = {
-      notificationsEnabled = false
-      //      println("grounded.step for "+id)
+      notificationsEnabled = false//make sure only to send notifications as a batch at the end; improves performance by 17%
       val origState = state
 
       setVelocityWithNotify(netForceToParallelVelocity(totalForce, dt), false)
