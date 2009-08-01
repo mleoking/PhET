@@ -329,6 +329,9 @@ class Bead(private var _state: BeadState,
       def setThermalEnergy(t: Double) = new SettableState(position, velocity, t)
 
       def setPositionAndVelocity(p: Double, v: Double) = new SettableState(p, v, thermalEnergy)
+
+      //todo: this is duplicated with code in Bead
+      def totalEnergy = mass * velocity * velocity / 2.0 + mass * gravity.abs * positionMapper(position).y + thermalEnergy
     }
     override def stepInTime(dt: Double) = {
       notificationsEnabled = false //make sure only to send notifications as a batch at the end; improves performance by 17%
@@ -340,6 +343,10 @@ class Bead(private var _state: BeadState,
         attachState = new Airborne(position2D, new Vector2D(getVelocityVectorDirection) * velocity, getAngle)
         parallelAppliedForce = 0
       }
+      val distanceVector = positionMapper(newState.position) - positionMapper(origState.position)
+      val work = appliedForce dot distanceVector
+      //      println("work done on particle by applied force: "+work)
+      workListeners.foreach(_(work))
       setPosition(newState.position)
       setVelocity(newState.velocity)
       thermalEnergy = newState.thermalEnergy
@@ -362,14 +369,12 @@ class Bead(private var _state: BeadState,
       else stateAfterVelocityUpdate
 
       val dx = position - origState.position
+      //todo: use settablestate, not actual bead
+      //todo: make sure dot product is correct with SettableState.velocity
       thermalEnergy = getThermalEnergy + abs((frictionForce dot getVelocityVectorUnitVector) * dx) //work done by friction force, absolute value
-      val distanceVector = positionMapper(position) - positionMapper(origState.position)
-      val work = appliedForce dot distanceVector
-      //      println("work done on particle by applied force: "+work)
-      workListeners.foreach(_(work))
 
-      val dE = getTotalEnergy - origEnergy
-      val dT = thermalEnergy - origState.thermalEnergy
+      val dE = stateAfterBounds.totalEnergy - origEnergy
+      val dT = stateAfterBounds.thermalEnergy - origState.thermalEnergy
       if (dE.abs > 1E-12) {
         if (dE.abs < dT.abs) { //try to fix it by tinkering with the thermal energy
 
