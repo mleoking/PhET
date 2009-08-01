@@ -222,6 +222,7 @@ class RampModel(defaultBeadPosition:Double,pausedOnReset:Boolean) extends Record
     bead.setPosition(defaultBeadPosition)
     bead.parallelAppliedForce = 0
     bead.setVelocity(0)
+    bead.thermalEnergy_=(0.0)
     manBead.setPosition(defaultManPosition)
     bead.attach()
     rampSegments(1).setAngle(initialAngle)
