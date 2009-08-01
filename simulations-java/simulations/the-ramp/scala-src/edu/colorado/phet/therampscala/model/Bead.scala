@@ -58,7 +58,7 @@ class Bead(private var _state: BeadState,
 
   val gravityForceVector = new BeadVector(RampDefaults.gravityForceColor, "Gravity Force", "g", false, () => gravityForce, (a, b) => b)
   val normalForceVector = new BeadVector(RampDefaults.normalForceColor, "Normal Force", "N", true, () => normalForce, (a, b) => b)
-  val totalForceVector = new BeadVector(RampDefaults.totalForceColor, "Total Force (sum of forces)", "total", false, () => totalForce, (a, b) => b)
+  val totalForceVector = new BeadVector(RampDefaults.totalForceColor, "Sum of Forces", "sum", false, () => totalForce, (a, b) => b)
   val appliedForceVector = new BeadVector(RampDefaults.appliedForceColor, "Applied Force", "a", false, () => appliedForce, (a, b) => b)
   val frictionForceVector = new BeadVector(RampDefaults.frictionForceColor, "Friction Force", "f", true, () => frictionForce, (a, b) => b)
   val wallForceVector = new BeadVector(RampDefaults.wallForceColor, "Wall Force", "w", false, () => wallForce, (a, b) => b)
