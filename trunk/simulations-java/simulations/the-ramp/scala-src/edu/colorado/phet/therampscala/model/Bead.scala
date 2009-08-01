@@ -333,6 +333,7 @@ class Bead(private var _state: BeadState,
     }
 
     override def stepInTime(dt: Double) = {
+      notificationsEnabled = false
       //      println("grounded.step for "+id)
       val origState = state
 
@@ -396,10 +397,19 @@ class Bead(private var _state: BeadState,
       val work = appliedForce dot distanceVector
       //      println("work done on particle by applied force: "+work)
       workListeners.foreach(_(work))
+      notificationsEnabled = true
       notifyListeners() //do as a batch, since it's a performance problem to do this several times in this method call
     }
   }
   val workListeners = new ArrayBuffer[Double => Unit]
+
+  private var _notificationsEnabled = true
+
+  private def notificationsEnabled = _notificationsEnabled
+
+  private def notificationsEnabled_=(b: Boolean) = _notificationsEnabled = b
+  //allow global disabling of notifications since they are very expensive and called many times during Grounded.stepInTime
+  override def notifyListeners() = if (notificationsEnabled) super.notifyListeners()
 
   def stepInTime(dt: Double) = attachState.stepInTime(dt)
 }

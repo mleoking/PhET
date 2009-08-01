@@ -16,6 +16,10 @@ class Vector2D(val x: Double, val y: Double) {
     line.getP2.getX - line.getP1.getX,
     line.getP2.getY - line.getP1.getY)
 
+  lazy val getAngle = java.lang.Math.atan2(y, x)
+  lazy val magnitude = java.lang.Math.sqrt(x * x + y * y)
+  lazy val normalize = this / this.magnitude
+
   /**
    * Returns a unit vector in the specified direction
    */
@@ -31,13 +35,7 @@ class Vector2D(val x: Double, val y: Double) {
 
   def rotate(angle: Double) = new Vector2D(getAngle + angle)*magnitude
 
-  def getAngle = java.lang.Math.atan2(y, x)
-
-  def magnitude = java.lang.Math.sqrt(x * x + y * y);
-
-  def dot(that: Vector2D) = x * that.x + y * that.y;
-
-  def normalize = this / this.magnitude
+  def dot(that: Vector2D) = x * that.x + y * that.y
 
   override def hashCode = new Point2D.Double(x,y).hashCode
 
