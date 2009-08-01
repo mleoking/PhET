@@ -208,13 +208,18 @@ class Bead(private var _state: BeadState,
   def getAppliedWork = 0.0
 
   private var _thermalEnergy = 0.0
-  def thermalEnergy_=(value:Double) = {_thermalEnergy = value;notifyListeners()}
+
+  def thermalEnergy_=(value: Double) = {_thermalEnergy = value; notifyListeners()}
 
   def getThermalEnergy = _thermalEnergy
 
   def getFrictiveWork = -getThermalEnergy
 
   def getGravityWork = -getPotentialEnergy
+
+  def getWallWork = 0.0
+
+  def getNormalWork = 0.0
 
   def getKineticEnergy = 1.0 / 2.0 * mass * velocity * velocity
 
