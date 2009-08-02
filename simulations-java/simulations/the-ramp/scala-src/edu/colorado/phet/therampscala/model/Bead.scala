@@ -386,6 +386,13 @@ class Bead(private var _state: BeadState,
         origEnergy - stateAfterVelocityUpdate.ke - stateAfterVelocityUpdate.pe + appliedEnergy
       else
         origState.thermalEnergy
+
+
+      def getVelocityToConserveEnergy(state: SettableState) = {
+        val sign = MathUtil.getSign(state.velocity)
+        sign * sqrt(abs(2.0 / mass * (origEnergy + appliedEnergy - state.pe - origState.thermalEnergy)))
+      }
+
       //we'd like to just use thermalFromEnergy, since it guarantees conservation of energy
       //however, it may lead to a decrease in thermal energy, which would be physically incorrect
       //      val stateAfterThermalEnergy = stateAfterBounds.setThermalEnergy(thermalFromWork)
@@ -396,10 +403,10 @@ class Bead(private var _state: BeadState,
 
       //drop in thermal energy indicates a problem, since total thermal energy should never decrease
       //preliminary tests indicate this happens when switching between ramp segment 0 and 1
+
       val stateAfterPatchup = if (dT < 0) {
         //        println("dT=" + dT + ", dE= " + dE + ", orig Energy = " + origEnergy + ", thermalEnergy=" + stateAfterThermalEnergy.thermalEnergy)
-        val sign = MathUtil.getSign(stateAfterThermalEnergy.velocity)
-        val patchedVelocity = sign * sqrt(abs(2.0 / mass * (origEnergy + appliedEnergy - stateAfterThermalEnergy.pe - origState.thermalEnergy)))
+        val patchedVelocity = getVelocityToConserveEnergy(stateAfterThermalEnergy)
         val patch = stateAfterThermalEnergy.setThermalEnergy(origState.thermalEnergy).setVelocity(patchedVelocity)
         val dEPatch = stateAfterThermalEnergy.totalEnergy - origEnergy
         if (dEPatch.abs > 1E-8) {
@@ -414,11 +421,26 @@ class Bead(private var _state: BeadState,
         stateAfterThermalEnergy
       }
 
-      //we actually want to do a constrained optimization such that Ef=E0 and we are as close to stateFinal as possible
-      //optimization techniques may not work very well across discontinuities, such as switching from one part of the ramp to another
-      //or changing from v=0 to v!=0
+      val finalState = if (abs(stateAfterPatchup.totalEnergy - origEnergy - appliedEnergy) > 1E-8 && stateAfterPatchup.velocity.abs > 1E-3) {
+        stateAfterPatchup.setVelocity(getVelocityToConserveEnergy(stateAfterThermalEnergy))
+      } else {
+        stateAfterPatchup
+      }
 
-      stateAfterPatchup
+      val patchPosition = if (abs(finalState.totalEnergy - origEnergy) > 1E-8 && getAngle != 0.0) {
+        val x = (origEnergy + appliedEnergy - finalState.thermalEnergy - finalState.ke) / mass / gravity.abs / sin(getAngle)
+        //        println("patched position: xorig="+finalState.position+", xnew="+x)
+        stateAfterPatchup.setPosition(x)
+      } else {
+        finalState
+      }
+
+      val err = abs(patchPosition.totalEnergy - origEnergy - appliedEnergy)
+      if (err > 1E-8) {
+        println("failed to conserve energy, err=" + err)
+      }
+
+      patchPosition
     }
   }
   val workListeners = new ArrayBuffer[Double => Unit]
