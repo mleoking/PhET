@@ -4,30 +4,12 @@
       xmlns:wicket="http://svn.apache.org/repos/asf/wicket/trunk/wicket/wicket-xhtml1-strict.dtd" xml:lang="en"
       lang="en">
 <head>
-    <title wicket:id="page-title">[PREVIEW] TranslationTestPage</title>
+    <title wicket:id="page-title">[PREVIEW] TranslationEntityListPanel</title>
     <wicket:remove>
         <link rel="stylesheet" type="text/css" href="../../../root/css/test.css"/>
     </wicket:remove>
     <wicket:head>
         <style type="text/css">
-            .index-content {
-                width: 900px;
-                margin: 0px auto;
-                border: 1px solid black;
-                padding: 10px;
-            }
-
-            .translation-holder {
-                border: 1px solid red;
-                width: 540px;
-                float: right;
-            }
-
-            .string-value {
-                border: 1px solid blue;
-                margin-right: 560px;
-            }
-
             ul.entity-list {
                 list-style-type: none;
                 padding: 0;
@@ -52,28 +34,20 @@
                 color: #d36a04;
             }
 
-            div.translation-panel {
-                border-top: 1px solid black;
-                padding-top: 10px;
-                clear: both;
-            }
-
         </style>
     </wicket:head>
 </head>
 <body wicket:message="dir:language.dir">
 
-<wicket:extend>
-    <div class="index-content">
-        <h3>Translation Demo</h3>
-
-        <div wicket:id="entity-list-panel"></div>
-
-        <div wicket:id="translation-panel" class="translation-panel">
-
-        </div>
-    </div>
-</wicket:extend>
+<wicket:panel>
+    <ul class="entity-list">
+        <li wicket:id="translation-entities">
+            <a href="#" wicket:id="translation-entity-link">
+                <span wicket:id="translation-entity-display-name">Common</span>
+            </a>
+        </li>
+    </ul>
+</wicket:panel>
 
 </body>
 </html>

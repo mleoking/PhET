@@ -1,16 +1,21 @@
-package edu.colorado.phet.wickettest.translation;
+package edu.colorado.phet.wickettest.translation.entities;
 
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
 import edu.colorado.phet.wickettest.panels.PhetPanel;
+import edu.colorado.phet.wickettest.translation.PhetPanelFactory;
+import edu.colorado.phet.wickettest.translation.PhetPanelPreview;
+import edu.colorado.phet.wickettest.translation.TranslationEntityString;
 import edu.colorado.phet.wickettest.util.PageContext;
 import edu.colorado.phet.wickettest.util.PhetRequestCycle;
 
 public abstract class TranslationEntity implements Serializable {
     private List<TranslationEntityString> strings = new LinkedList<TranslationEntityString>();
     private List<PhetPanelPreview> previews = new LinkedList<PhetPanelPreview>();
+
+    public abstract String getDisplayName();
 
     protected void addString( String key ) {
         strings.add( new TranslationEntityString( key ) );
@@ -42,5 +47,13 @@ public abstract class TranslationEntity implements Serializable {
 
     public List<TranslationEntityString> getStrings() {
         return strings;
+    }
+
+    public static List<TranslationEntity> getTranslationEntities() {
+        List<TranslationEntity> entities = new LinkedList<TranslationEntity>();
+        entities.add( new CommonEntity() );
+        entities.add( new SimulationMainEntity() );
+        entities.add( new SponsorsEntity() );
+        return entities;
     }
 }

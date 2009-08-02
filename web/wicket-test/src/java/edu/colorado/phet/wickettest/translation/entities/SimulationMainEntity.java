@@ -10,7 +10,6 @@ import edu.colorado.phet.wickettest.data.LocalizedSimulation;
 import edu.colorado.phet.wickettest.panels.PhetPanel;
 import edu.colorado.phet.wickettest.panels.SimulationMainPanel;
 import edu.colorado.phet.wickettest.translation.PhetPanelFactory;
-import edu.colorado.phet.wickettest.translation.TranslationEntity;
 import edu.colorado.phet.wickettest.util.PageContext;
 import edu.colorado.phet.wickettest.util.PhetRequestCycle;
 
@@ -47,5 +46,9 @@ public class SimulationMainEntity extends TranslationEntity {
                 return new SimulationMainPanel( id, simulation, context );
             }
         }, "default" );
+    }
+
+    public String getDisplayName() {
+        return "Simulation";
     }
 }

@@ -23,6 +23,7 @@ import edu.colorado.phet.wickettest.data.Translation;
 import edu.colorado.phet.wickettest.panels.PanelHolder;
 import edu.colorado.phet.wickettest.panels.PhetPanel;
 import edu.colorado.phet.wickettest.panels.SponsorsPanel;
+import edu.colorado.phet.wickettest.translation.entities.TranslationEntity;
 import edu.colorado.phet.wickettest.util.PageContext;
 import edu.colorado.phet.wickettest.util.PhetRequestCycle;
 
