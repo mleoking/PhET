@@ -186,6 +186,7 @@ class Bead(private var _state: BeadState,
   def setPosition(position: Double) = {
     if (position != state.position) {
       state = state.setPosition(position)
+      //todo: maybe this could be omitted during batch updates for performance
       normalForceVector.notifyListeners() //since ramp segment or motion state might have changed; could improve performance on this by only sending notifications when we are sure the ramp segment has changed
       frictionForceVector.notifyListeners() //todo: omit this call since it's probably covered by the normal force call above
       wallForceVector.notifyListeners()
@@ -354,10 +355,12 @@ class Bead(private var _state: BeadState,
       val work = appliedForce dot distanceVector
       //      println("work done on particle by applied force: "+work)
       workListeners.foreach(_(work))
+//      println("setting position")
       setPosition(newState.position)
       setVelocity(newState.velocity)
       thermalEnergy = newState.thermalEnergy
 
+//      println("enabling notifications")
       notificationsEnabled = true;
       notifyListeners() //do as a batch, since it's a performance problem to do this several times in this method call
     }
@@ -472,7 +475,13 @@ class Bead(private var _state: BeadState,
 
   private def notificationsEnabled_=(b: Boolean) = _notificationsEnabled = b
   //allow global disabling of notifications since they are very expensive and called many times during Grounded.stepInTime
-  override def notifyListeners() = if (notificationsEnabled) super.notifyListeners()
+  override def notifyListeners() = {
+//    println("in notify, enabled="+notificationsEnabled)
+    if (notificationsEnabled) {
+//      new Exception("notify enabled").printStackTrace()
+      super.notifyListeners()
+    }
+  }
 
   def stepInTime(dt: Double) = attachState.stepInTime(dt)
 }
