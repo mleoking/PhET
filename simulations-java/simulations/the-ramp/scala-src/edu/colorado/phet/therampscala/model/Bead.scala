@@ -375,34 +375,27 @@ class Bead(private var _state: BeadState,
       else stateAfterVelocityUpdate
 
       val dx = stateAfterBounds.position - origState.position
-      
+
       //we also need to account for external forces, such as the applied force, which should increase the total energy
-      val appliedEnergy = -abs((appliedForce dot getVelocityVectorUnitVector(stateAfterBounds.velocity)) * dx)//todo: why the - sign?
+      val appliedEnergy = (appliedForce dot getVelocityVectorUnitVector(stateAfterBounds.velocity)) * dx
 
       val thermalFromWork = getThermalEnergy + abs((frictionForce dot getVelocityVectorUnitVector(stateAfterBounds.velocity)) * dx) //work done by friction force, absolute value
-      val thermalFromEnergy = origEnergy - stateAfterVelocityUpdate.ke - stateAfterVelocityUpdate.pe - appliedEnergy
+      val thermalFromEnergy = origEnergy - stateAfterVelocityUpdate.ke - stateAfterVelocityUpdate.pe + appliedEnergy
       //we'd like to just use thermalFromEnergy, since it guarantees conservation of energy
       //however, it may lead to a decrease in thermal energy, which would be physically incorrect
-//      val stateAfterThermalEnergy = stateAfterBounds.setThermalEnergy(thermalFromWork)
+      //      val stateAfterThermalEnergy = stateAfterBounds.setThermalEnergy(thermalFromWork)
       val stateAfterThermalEnergy = stateAfterBounds.setThermalEnergy(thermalFromEnergy)
 
       val dE = stateAfterThermalEnergy.totalEnergy - origEnergy
       val dT = stateAfterThermalEnergy.thermalEnergy - origState.thermalEnergy
+      if (dT < 0) { //then there is a problem, since total thermal energy should never decrease
+        println("dT=" + dT + ", dE= " + dE + ", orig Energy = " + origEnergy + ", final Energy = " + getTotalEnergy + ", thermalEnergy=" + stateAfterThermalEnergy.thermalEnergy)
+      }
 
-//      if (dE.abs > 1E-12) {
-//        if (dE.abs < dT.abs) { //try to fix it by tinkering with the thermal energy
-////          val fixedThermal =123
-//        }
-//      }
-
-
-      //how about a binary search on the line joining the first SettableState and the last SettableState?
-      //That's not best, since we prefer to be closer to the last settable state, and the first SettableState is guaranteed to have no errors
       //we actually want to do a constrained optimization such that Ef=E0 and we are as close to stateFinal as possible
       //optimization techniques may not work very well across discontinuities, such as switching from one part of the ramp to another
       //or changing from v=0 to v!=0
 
-      println("dE= " + dE + ", orig Energy = " + origEnergy + ", final Energy = " + getTotalEnergy + ", thermalEnergy=" + stateAfterThermalEnergy.thermalEnergy)
       stateAfterThermalEnergy
     }
   }
