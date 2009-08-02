@@ -97,9 +97,11 @@ class Bead(private var _state: BeadState,
 
   def gravityForce = new Vector2D(0, gravity * mass)
 
-  def getVelocityVectorDirection = (positionMapper(position + velocity * 1E-6) - positionMapper(position - velocity * 1E-6)).getAngle
+  def getVelocityVectorDirection:Double = getVelocityVectorDirection(velocity)
+  def getVelocityVectorDirection(v:Double):Double = (positionMapper(position + v* 1E-6) - positionMapper(position - v* 1E-6)).getAngle
 
-  def getVelocityVectorUnitVector = new Vector2D(getVelocityVectorDirection)
+  def getVelocityVectorUnitVector:Vector2D = new Vector2D(getVelocityVectorDirection)
+  def getVelocityVectorUnitVector(v:Double):Vector2D = new Vector2D(getVelocityVectorDirection(v))
 
   def parallelAppliedForce = _parallelAppliedForce
 
@@ -368,10 +370,9 @@ class Bead(private var _state: BeadState,
       else if (requestedPosition >= wallRange().max - width / 2 && wallsExist) stateAfterVelocityUpdate.setPositionAndVelocity(wallRange().max - width / 2, 0.0)
       else stateAfterVelocityUpdate
 
-      val dx = position - origState.position
-      //todo: use settablestate, not actual bead
-      //todo: make sure dot product is correct with SettableState.velocity
-      thermalEnergy = getThermalEnergy + abs((frictionForce dot getVelocityVectorUnitVector) * dx) //work done by friction force, absolute value
+      val dx = stateAfterBounds.position- origState.position
+      val newThermal= getThermalEnergy + abs((frictionForce dot getVelocityVectorUnitVector(stateAfterBounds.velocity)) * dx) //work done by friction force, absolute value
+      val stateAfterThermalEnergy = stateAfterBounds.setThermalEnergy(newThermal)
 
       val dE = stateAfterBounds.totalEnergy - origEnergy
       val dT = stateAfterBounds.thermalEnergy - origState.thermalEnergy
@@ -380,8 +381,8 @@ class Bead(private var _state: BeadState,
 
         }
       }
-      println("dE= " + dE + ", orig Energy = " + origEnergy + ", final Energy = " + getTotalEnergy)
-      stateAfterBounds
+      println("dE= " + dE + ", orig Energy = " + origEnergy + ", final Energy = " + getTotalEnergy+", thermalEnergy="+newThermal)
+      stateAfterThermalEnergy
     }
   }
   val workListeners = new ArrayBuffer[Double => Unit]
