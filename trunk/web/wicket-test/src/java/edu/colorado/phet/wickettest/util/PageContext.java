@@ -8,18 +8,20 @@ import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 public class PageContext implements Serializable {
     private Locale locale;
     private transient PhetPage page;
+    private String prefix;
 
-    public PageContext( PageContext old, Locale newLocale ) {
-        this( newLocale, old.page );
-    }
-
-    public PageContext( Locale locale, PhetPage page ) {
+    public PageContext( String prefix, Locale locale, PhetPage page ) {
+        this.prefix = prefix;
         this.locale = locale;
         this.page = page;
     }
 
+    public PageContext withNewLocale( Locale newLocale ) {
+        return new PageContext( prefix, newLocale, page );
+    }
+
     public String getPrefix() {
-        return "/" + LocaleUtils.localeToString( getLocale() ) + "/";
+        return prefix;
     }
 
     public Locale getLocale() {

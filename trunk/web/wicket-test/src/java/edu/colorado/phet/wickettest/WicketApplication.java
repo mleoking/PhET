@@ -7,10 +7,10 @@ import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.protocol.http.WebRequest;
 import org.apache.wicket.resource.loader.ClassStringResourceLoader;
 
-import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.wickettest.content.*;
 import edu.colorado.phet.wickettest.menu.NavMenu;
 import edu.colorado.phet.wickettest.translation.PhetLocalizer;
+import edu.colorado.phet.wickettest.translation.TranslationUrlStrategy;
 import edu.colorado.phet.wickettest.util.PhetRequestCycle;
 import edu.colorado.phet.wickettest.util.PhetUrlMapper;
 import edu.colorado.phet.wickettest.util.PhetUrlStrategy;
@@ -36,10 +36,11 @@ public class WicketApplication extends WebApplication {
 
         getResourceSettings().setLocalizer( new PhetLocalizer() );
 
-        mount( new PhetUrlStrategy( LocaleUtils.stringToLocale( "en" ), mapper ) );
-        mount( new PhetUrlStrategy( LocaleUtils.stringToLocale( "es" ), mapper ) );
-        mount( new PhetUrlStrategy( LocaleUtils.stringToLocale( "el" ), mapper ) );
-        mount( new PhetUrlStrategy( LocaleUtils.stringToLocale( "ar" ), mapper ) );
+        mount( new PhetUrlStrategy( "en", mapper ) );
+        mount( new PhetUrlStrategy( "es", mapper ) );
+        mount( new PhetUrlStrategy( "el", mapper ) );
+        mount( new PhetUrlStrategy( "ar", mapper ) );
+        mount( new TranslationUrlStrategy( "translation", mapper ) );
 
         getResourceSettings().addStringResourceLoader( new ClassStringResourceLoader( WicketApplication.class ) );
 

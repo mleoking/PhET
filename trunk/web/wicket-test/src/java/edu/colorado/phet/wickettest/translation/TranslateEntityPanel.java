@@ -47,10 +47,10 @@ public class TranslateEntityPanel extends PhetPanel {
 
         add( new Label( "translation-id", String.valueOf( translationId ) ) );
 
-        panel = new PanelHolder( "panel", new PageContext( context, testLocale ) );
-        subPanel = new SponsorsPanel( panel.getWicketId(), new PageContext( context, testLocale ) );
+        panel = new PanelHolder( "panel", context.withNewLocale( testLocale ) );
+        subPanel = new SponsorsPanel( panel.getWicketId(), context.withNewLocale( testLocale ) );
         if ( entity.hasPreviews() ) {
-            subPanel = entity.getPreviews().get( 0 ).getNewPanel( panel.getWicketId(), new PageContext( context, testLocale ), (PhetRequestCycle) getRequestCycle() );
+            subPanel = entity.getPreviews().get( 0 ).getNewPanel( panel.getWicketId(), context.withNewLocale( testLocale ), (PhetRequestCycle) getRequestCycle() );
         }
         else {
             subPanel = new Label( panel.getWicketId(), "(Preview is not available)" );
@@ -62,7 +62,7 @@ public class TranslateEntityPanel extends PhetPanel {
         form.add( new AjaxButton( "test-button" ) {
             protected void onSubmit( AjaxRequestTarget target, Form form ) {
                 panel.remove( subPanel );
-                subPanel = entity.getPreviews().get( 0 ).getNewPanel( panel.getWicketId(), new PageContext( context, testLocale ), (PhetRequestCycle) getRequestCycle() );
+                subPanel = entity.getPreviews().get( 0 ).getNewPanel( panel.getWicketId(), context.withNewLocale( testLocale ), (PhetRequestCycle) getRequestCycle() );
                 panel.add( subPanel );
                 target.addComponent( panel );
             }
