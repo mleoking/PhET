@@ -18,7 +18,6 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.wickettest.data.TranslatedString;
 import edu.colorado.phet.wickettest.data.Translation;
 import edu.colorado.phet.wickettest.panels.PanelHolder;
@@ -35,43 +34,14 @@ public class TranslateEntityPanel extends PhetPanel {
     private Component subPanel;
     private Map<String, IModel> stringModelMap = new HashMap<String, IModel>();
 
-    public TranslateEntityPanel( String id, final PageContext context, final TranslationEntity entity ) {
+    public TranslateEntityPanel( String id, final PageContext context, final TranslationEntity entity, final int translationId, final Locale testLocale ) {
         super( id, context );
         this.entity = entity;
+        this.translationId = translationId;
 
         setOutputMarkupId( true );
 
-        final Locale testLocale = LocaleUtils.stringToLocale( "zh_CN" );
-        Session session = getHibernateSession();
-        Translation translation = null;
-        Transaction tx = null;
-        try {
-            tx = session.beginTransaction();
-
-            translation = new Translation();
-            translation.setLocale( testLocale );
-
-            session.save( translation );
-
-            tx.commit();
-        }
-        catch( RuntimeException e ) {
-            System.out.println( "Exception: " + e );
-            if ( tx != null && tx.isActive() ) {
-                try {
-                    tx.rollback();
-                }
-                catch( HibernateException e1 ) {
-                    System.out.println( "ERROR: Error rolling back transaction" );
-                }
-                throw e;
-            }
-        }
-
-        if ( translation != null ) {
-            translationId = translation.getId();
-            add( new Label( "translation-id", String.valueOf( translationId ) ) );
-        }
+        add( new Label( "translation-id", String.valueOf( translationId ) ) );
 
         panel = new PanelHolder( "panel", new PageContext( context, testLocale ) );
         subPanel = new SponsorsPanel( panel.getWicketId(), new PageContext( context, testLocale ) );

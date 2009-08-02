@@ -1,32 +1,71 @@
 package edu.colorado.phet.wickettest.translation;
 
+import java.util.Locale;
+
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
+import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
+import edu.colorado.phet.wickettest.data.Translation;
 import edu.colorado.phet.wickettest.panels.PanelHolder;
 import edu.colorado.phet.wickettest.translation.entities.SimulationMainEntity;
 import edu.colorado.phet.wickettest.translation.entities.SponsorsEntity;
 import edu.colorado.phet.wickettest.util.PhetPage;
 
 public class TranslationTestPage extends PhetPage {
+    private int translationId;
     private PanelHolder panelHolder;
     private TranslateEntityPanel subPanel;
 
     public TranslationTestPage( PageParameters parameters ) {
         super( parameters, true );
 
+        final Locale testLocale = LocaleUtils.stringToLocale( "zh_CN" );
+        Session session = getHibernateSession();
+        Translation translation = null;
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+
+            translation = new Translation();
+            translation.setLocale( testLocale );
+
+            session.save( translation );
+
+            tx.commit();
+        }
+        catch( RuntimeException e ) {
+            System.out.println( "Exception: " + e );
+            if ( tx != null && tx.isActive() ) {
+                try {
+                    tx.rollback();
+                }
+                catch( HibernateException e1 ) {
+                    System.out.println( "ERROR: Error rolling back transaction" );
+                }
+                throw e;
+            }
+        }
+
+        if ( translation != null ) {
+            translationId = translation.getId();
+        }
+
         addTitle( "Translation test page" );
 
         panelHolder = new PanelHolder( "translation-panel", getPageContext() );
         add( panelHolder );
-        subPanel = new TranslateEntityPanel( panelHolder.getWicketId(), getPageContext(), new SponsorsEntity() );
+        subPanel = new TranslateEntityPanel( panelHolder.getWicketId(), getPageContext(), new SponsorsEntity(), translationId, testLocale );
         panelHolder.add( subPanel );
 
         add( new AjaxLink( "sponsors-translate" ) {
             public void onClick( AjaxRequestTarget target ) {
                 panelHolder.remove( subPanel );
-                subPanel = new TranslateEntityPanel( panelHolder.getWicketId(), getPageContext(), new SponsorsEntity() );
+                subPanel = new TranslateEntityPanel( panelHolder.getWicketId(), getPageContext(), new SponsorsEntity(), translationId, testLocale );
                 panelHolder.add( subPanel );
                 target.addComponent( panelHolder );
             }
@@ -35,7 +74,7 @@ public class TranslationTestPage extends PhetPage {
         add( new AjaxLink( "simulation-translate" ) {
             public void onClick( AjaxRequestTarget target ) {
                 panelHolder.remove( subPanel );
-                subPanel = new TranslateEntityPanel( panelHolder.getWicketId(), getPageContext(), new SimulationMainEntity() );
+                subPanel = new TranslateEntityPanel( panelHolder.getWicketId(), getPageContext(), new SimulationMainEntity(), translationId, testLocale );
                 panelHolder.add( subPanel );
                 target.addComponent( panelHolder );
             }
