@@ -25,7 +25,7 @@ public class TranslationEntityListPanel extends PhetPanel {
 
             protected void populateItem( final ListItem item ) {
                 final TranslationEntity entity = (TranslationEntity) item.getModel().getObject();
-                System.out.println( "Populating with Entity " + entity.getDisplayName() );
+                //System.out.println( "Populating with Entity " + entity.getDisplayName() );
                 AjaxLink link = new AjaxLink( "translation-entity-link" ) {
                     public void onClick( AjaxRequestTarget target ) {
                         PanelHolder panelHolder = page.getPanelHolder();

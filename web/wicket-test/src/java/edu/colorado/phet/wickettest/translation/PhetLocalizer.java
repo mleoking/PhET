@@ -40,7 +40,7 @@ public class PhetLocalizer extends Localizer {
 
     @Override
     public String getString( String key, Component component, IModel model, String defaultValue ) throws MissingResourceException {
-        System.out.println( "getString( \"" + key + "\", " + component.getClass().getSimpleName() + ", " + model + ", " + defaultValue + " )" );
+        //System.out.println( "getString( \"" + key + "\", " + component.getClass().getSimpleName() + ", " + model + ", " + defaultValue + " )" );
         if ( component.getVariation() != null ) {
             Session session = ( (PhetRequestCycle) component.getRequestCycle() ).getHibernateSession();
             Transaction tx = null;
@@ -76,7 +76,7 @@ public class PhetLocalizer extends Localizer {
             }
 
             if ( value == null ) {
-                System.out.println( "Could not find a string for " + key + " with variation " + component.getVariation() );
+                //System.out.println( "Could not find a string for " + key + " with variation " + component.getVariation() );
                 return super.getString( key, component, model, defaultValue );
             }
 
