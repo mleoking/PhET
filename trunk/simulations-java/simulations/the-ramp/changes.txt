@@ -1,3 +1,5 @@
+Added initial support for energy conservation with friction
+Add record/playback of thermal energy for the ramp
 Refactored thermal energy into bead state memento
 Use lazy vals instead of defs where possible for vector calculations to improve performance
 Batch notifications during bead update; profiler reports a 17% performance improvement
