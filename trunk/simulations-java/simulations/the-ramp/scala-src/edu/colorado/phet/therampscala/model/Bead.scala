@@ -371,19 +371,40 @@ class Bead(private var _state: BeadState,
       val requestedPosition = position + newVelocity * dt
       val stateAfterVelocityUpdate = new SettableState(requestedPosition, newVelocity, origState.thermalEnergy)
 
-      val stateAfterBounds = if (requestedPosition <= wallRange().min + width / 2) stateAfterVelocityUpdate.setPositionAndVelocity(wallRange().min + width / 2, 0)
-      else if (requestedPosition >= wallRange().max - width / 2 && wallsExist) stateAfterVelocityUpdate.setPositionAndVelocity(wallRange().max - width / 2, 0.0)
-      else stateAfterVelocityUpdate
+      val isKineticFriction = surfaceFriction() && kineticFriction > 0
+      val leftBound = wallRange().min + width / 2
+      val rightBound = wallRange().max - width / 2
+      val collidedLeft = requestedPosition <= leftBound && wallsExist
+      val collidedRight = requestedPosition >= rightBound && wallsExist
+      val collided=collidedLeft || collidedRight
+      val crashEnergy = stateAfterVelocityUpdate.ke
 
-      val dx = stateAfterBounds.position - origState.position
+      val stateAfterCollision = if (collidedLeft && isKineticFriction) {
+        println("crash energy: "+crashEnergy)
+        new SettableState(leftBound, 0, stateAfterVelocityUpdate.thermalEnergy + crashEnergy)
+      }
+      else if (collidedRight && isKineticFriction) {
+        println("crash energy: "+crashEnergy)
+        new SettableState(rightBound, 0, stateAfterVelocityUpdate.thermalEnergy + crashEnergy)
+      }
+      else if (collidedLeft || collidedRight) { //bounce
+        stateAfterVelocityUpdate.setVelocity(-newVelocity)
+      }
+      else {
+        stateAfterVelocityUpdate
+      }
 
-      //we also need to account for external forces, such as the applied force, which should increase the total energy
-      val appliedEnergy = (appliedForce dot getVelocityVectorUnitVector(stateAfterBounds.velocity)) * dx.abs
+      val dx = stateAfterCollision.position - origState.position
+
+      //account for external forces, such as the applied force, which should increase the total energy
+      val appliedEnergy = (appliedForce dot getVelocityVectorUnitVector(stateAfterCollision.velocity)) * dx.abs
 
       //      val thermalFromWork = getThermalEnergy + abs((frictionForce dot getVelocityVectorUnitVector(stateAfterBounds.velocity)) * dx) //work done by friction force, absolute value
       //todo: this may differ significantly from thermalFromWork
-      val thermalFromEnergy = if (surfaceFriction() && kineticFriction > 0)
+      val thermalFromEnergy = if (isKineticFriction && !collided)
         origEnergy - stateAfterVelocityUpdate.ke - stateAfterVelocityUpdate.pe + appliedEnergy
+      else if (collided)
+          stateAfterCollision.thermalEnergy
       else
         origState.thermalEnergy
 
@@ -396,7 +417,7 @@ class Bead(private var _state: BeadState,
       //we'd like to just use thermalFromEnergy, since it guarantees conservation of energy
       //however, it may lead to a decrease in thermal energy, which would be physically incorrect
       //      val stateAfterThermalEnergy = stateAfterBounds.setThermalEnergy(thermalFromWork)
-      val stateAfterThermalEnergy = stateAfterBounds.setThermalEnergy(thermalFromEnergy)
+      val stateAfterThermalEnergy = stateAfterCollision.setThermalEnergy(thermalFromEnergy)
 
       val dE = stateAfterThermalEnergy.totalEnergy - origEnergy
       val dT = stateAfterThermalEnergy.thermalEnergy - origState.thermalEnergy
