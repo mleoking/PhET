@@ -2,6 +2,7 @@ package edu.colorado.phet.therampscala.model
 
 
 import collection.mutable.ArrayBuffer
+import common.phetcommon.math.MathUtil
 import scalacommon.math.Vector2D
 import scalacommon.util.Observable
 import java.lang.Math._
@@ -380,6 +381,7 @@ class Bead(private var _state: BeadState,
       val appliedEnergy = (appliedForce dot getVelocityVectorUnitVector(stateAfterBounds.velocity)) * dx
 
       val thermalFromWork = getThermalEnergy + abs((frictionForce dot getVelocityVectorUnitVector(stateAfterBounds.velocity)) * dx) //work done by friction force, absolute value
+      //todo: this may differ significantly from thermalFromWork
       val thermalFromEnergy = origEnergy - stateAfterVelocityUpdate.ke - stateAfterVelocityUpdate.pe + appliedEnergy
       //we'd like to just use thermalFromEnergy, since it guarantees conservation of energy
       //however, it may lead to a decrease in thermal energy, which would be physically incorrect
@@ -388,15 +390,23 @@ class Bead(private var _state: BeadState,
 
       val dE = stateAfterThermalEnergy.totalEnergy - origEnergy
       val dT = stateAfterThermalEnergy.thermalEnergy - origState.thermalEnergy
-      if (dT < 0) { //then there is a problem, since total thermal energy should never decrease
-        println("dT=" + dT + ", dE= " + dE + ", orig Energy = " + origEnergy + ", final Energy = " + getTotalEnergy + ", thermalEnergy=" + stateAfterThermalEnergy.thermalEnergy)
-      }
+
+      //drop in thermal energy indicates a problem, since total thermal energy should never decrease
+      //preliminary tests indicate this happens when switching between ramp segment 0 and 1
+      val stateAfterPatchup = if (dT < 0) {
+//        println("dT=" + dT + ", dE= " + dE + ", orig Energy = " + origEnergy + ", thermalEnergy=" + stateAfterThermalEnergy.thermalEnergy)
+        val sign = MathUtil.getSign(stateAfterThermalEnergy.velocity)
+        val patchedVelocity = sign * sqrt(abs(2.0/mass*(origEnergy + appliedEnergy - stateAfterThermalEnergy.pe - origState.thermalEnergy)))
+        val patch=stateAfterThermalEnergy.setThermalEnergy(origState.thermalEnergy).setVelocity(patchedVelocity)
+        println("dt = "+dT+", origVel="+stateAfterThermalEnergy.velocity +", newV="+patchedVelocity+", dE="+(stateAfterThermalEnergy.totalEnergy - origEnergy))
+        patch
+      }else stateAfterThermalEnergy
 
       //we actually want to do a constrained optimization such that Ef=E0 and we are as close to stateFinal as possible
       //optimization techniques may not work very well across discontinuities, such as switching from one part of the ramp to another
       //or changing from v=0 to v!=0
 
-      stateAfterThermalEnergy
+      stateAfterPatchup
     }
   }
   val workListeners = new ArrayBuffer[Double => Unit]
