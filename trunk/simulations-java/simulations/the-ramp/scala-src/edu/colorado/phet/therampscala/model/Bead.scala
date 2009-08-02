@@ -374,13 +374,21 @@ class Bead(private var _state: BeadState,
       val newThermal= getThermalEnergy + abs((frictionForce dot getVelocityVectorUnitVector(stateAfterBounds.velocity)) * dx) //work done by friction force, absolute value
       val stateAfterThermalEnergy = stateAfterBounds.setThermalEnergy(newThermal)
 
-      val dE = stateAfterBounds.totalEnergy - origEnergy
-      val dT = stateAfterBounds.thermalEnergy - origState.thermalEnergy
+      val dE = stateAfterThermalEnergy.totalEnergy - origEnergy
+      val dT = stateAfterThermalEnergy.thermalEnergy - origState.thermalEnergy
+
       if (dE.abs > 1E-12) {
         if (dE.abs < dT.abs) { //try to fix it by tinkering with the thermal energy
 
         }
       }
+
+      //how about a binary search on the line joining the first SettableState and the last SettableState?
+      //That's not best, since we prefer to be closer to the last settable state, and the first SettableState is guaranteed to have no errors
+      //we actually want to do a constrained optimization such that Ef=E0 and we are as close to stateFinal as possible
+      //optimization techniques may not work very well across discontinuities, such as switching from one part of the ramp to another
+      //or changing from v=0 to v!=0
+
       println("dE= " + dE + ", orig Energy = " + origEnergy + ", final Energy = " + getTotalEnergy+", thermalEnergy="+newThermal)
       stateAfterThermalEnergy
     }
