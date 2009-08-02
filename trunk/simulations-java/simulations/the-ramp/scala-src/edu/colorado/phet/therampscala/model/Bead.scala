@@ -376,18 +376,16 @@ class Bead(private var _state: BeadState,
       val rightBound = wallRange().max - width / 2
       val collidedLeft = requestedPosition <= leftBound && wallsExist
       val collidedRight = requestedPosition >= rightBound && wallsExist
-      val collided=collidedLeft || collidedRight
+      val collided = collidedLeft || collidedRight
       val crashEnergy = stateAfterVelocityUpdate.ke
 
       val stateAfterCollision = if (collidedLeft && isKineticFriction) {
-        println("crash energy: "+crashEnergy)
         new SettableState(leftBound, 0, stateAfterVelocityUpdate.thermalEnergy + crashEnergy)
       }
       else if (collidedRight && isKineticFriction) {
-        println("crash energy: "+crashEnergy)
         new SettableState(rightBound, 0, stateAfterVelocityUpdate.thermalEnergy + crashEnergy)
       }
-      else if (collidedLeft || collidedRight) { //bounce
+      else if (collided) { //bounce
         stateAfterVelocityUpdate.setVelocity(-newVelocity)
       }
       else {
@@ -402,9 +400,11 @@ class Bead(private var _state: BeadState,
       //      val thermalFromWork = getThermalEnergy + abs((frictionForce dot getVelocityVectorUnitVector(stateAfterBounds.velocity)) * dx) //work done by friction force, absolute value
       //todo: this may differ significantly from thermalFromWork
       val thermalFromEnergy = if (isKineticFriction && !collided)
-        origEnergy - stateAfterVelocityUpdate.ke - stateAfterVelocityUpdate.pe + appliedEnergy
-      else if (collided)
-          stateAfterCollision.thermalEnergy
+        origEnergy - stateAfterCollision.ke - stateAfterCollision.pe + appliedEnergy
+      else if (collided){
+        //choose thermal energy so energy is exactly conserved
+        origEnergy + appliedEnergy - stateAfterCollision.ke - stateAfterCollision.pe
+      }
       else
         origState.thermalEnergy
 
@@ -456,9 +456,9 @@ class Bead(private var _state: BeadState,
         finalState
       }
 
-      val err = abs(patchPosition.totalEnergy - origEnergy - appliedEnergy)
-      if (err > 1E-8) {
-        println("failed to conserve energy, err=" + err)
+      val delta = patchPosition.totalEnergy - origEnergy - appliedEnergy
+      if (delta.abs> 1E-8) {
+        println("failed to conserve energy, delta=" + delta)
       }
 
       patchPosition
