@@ -1,17 +1,45 @@
 package edu.colorado.phet.wickettest.translation;
 
 import org.apache.wicket.PageParameters;
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.markup.html.AjaxLink;
 
+import edu.colorado.phet.wickettest.panels.PanelHolder;
+import edu.colorado.phet.wickettest.translation.entities.SimulationMainEntity;
 import edu.colorado.phet.wickettest.translation.entities.SponsorsEntity;
 import edu.colorado.phet.wickettest.util.PhetPage;
 
 public class TranslationTestPage extends PhetPage {
+    private PanelHolder panelHolder;
+    private TranslateEntityPanel subPanel;
+
     public TranslationTestPage( PageParameters parameters ) {
         super( parameters, true );
 
         addTitle( "Translation test page" );
 
-        add( new TranslateEntityPanel( "translation-panel", getPageContext(), new SponsorsEntity() ) );
+        panelHolder = new PanelHolder( "translation-panel", getPageContext() );
+        add( panelHolder );
+        subPanel = new TranslateEntityPanel( panelHolder.getWicketId(), getPageContext(), new SponsorsEntity() );
+        panelHolder.add( subPanel );
+
+        add( new AjaxLink( "sponsors-translate" ) {
+            public void onClick( AjaxRequestTarget target ) {
+                panelHolder.remove( subPanel );
+                subPanel = new TranslateEntityPanel( panelHolder.getWicketId(), getPageContext(), new SponsorsEntity() );
+                panelHolder.add( subPanel );
+                target.addComponent( panelHolder );
+            }
+        } );
+
+        add( new AjaxLink( "simulation-translate" ) {
+            public void onClick( AjaxRequestTarget target ) {
+                panelHolder.remove( subPanel );
+                subPanel = new TranslateEntityPanel( panelHolder.getWicketId(), getPageContext(), new SimulationMainEntity() );
+                panelHolder.add( subPanel );
+                target.addComponent( panelHolder );
+            }
+        } );
     }
 
     /*
