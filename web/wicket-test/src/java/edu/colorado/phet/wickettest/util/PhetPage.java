@@ -15,6 +15,8 @@ import edu.colorado.phet.wickettest.menu.NavMenu;
 public abstract class PhetPage extends WebPage {
 
     private Locale myLocale;
+    private String prefix;
+    private String variation;
 
     public PhetPage( PageParameters parameters ) {
         this( parameters, false );
@@ -29,6 +31,16 @@ public abstract class PhetPage extends WebPage {
             // try again with localeString, but use english as default
             myLocale = LocaleUtils.stringToLocale( parameters.getString( "localeString", "en" ) );
         }
+
+        if ( parameters.getString( "prefixString" ) != null ) {
+            prefix = parameters.getString( "prefixString" );
+        }
+        else {
+            prefix = "/" + LocaleUtils.localeToString( myLocale ) + "/";
+        }
+
+        // should usually default to null
+        variation = parameters.getString( "variation" );
 
         Session wicketSession = getSession();
         wicketSession.setLocale( myLocale );
@@ -57,12 +69,12 @@ public abstract class PhetPage extends WebPage {
         return myLocale;
     }
 
-    public String getUrlPrefix() {
-        return "/" + LocaleUtils.localeToString( myLocale ) + "/";
+    public String getMyPrefix() {
+        return prefix;
     }
 
     public PageContext getPageContext() {
-        return new PageContext( getMyLocale(), this );
+        return new PageContext( getMyPrefix(), getMyLocale(), this );
     }
 
     @Override
@@ -98,4 +110,8 @@ public abstract class PhetPage extends WebPage {
         super.onDetach();
     }
 
+    @Override
+    public String getVariation() {
+        return variation;
+    }
 }
