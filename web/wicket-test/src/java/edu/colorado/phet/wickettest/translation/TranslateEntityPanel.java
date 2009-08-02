@@ -1,12 +1,14 @@
 package edu.colorado.phet.wickettest.translation;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
+import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.extensions.ajax.markup.html.AjaxEditableMultiLineLabel;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
@@ -15,6 +17,7 @@ import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -84,17 +87,54 @@ public class TranslateEntityPanel extends PhetPanel {
                 }
 
                 item.add( new Label( "translation-string-key", tString.getKey() ) );
-                item.add( new AjaxEditableMultiLineLabel( "translation-string-value", model ) {
+                AjaxEditableMultiLineLabel editableLabel = new AjaxEditableMultiLineLabel( "translation-string-value", model ) {
                     @Override
                     protected void onSubmit( AjaxRequestTarget target ) {
                         super.onSubmit( target );
                         setString( tString.getKey(), (String) model.getObject() );
                         target.addComponent( TranslateEntityPanel.this );
                     }
-                } );
+                };
+                if ( !isStringSet( tString.getKey() ) ) {
+                    editableLabel.add( new AttributeAppender( "class", true, new Model( "not-translated" ), " " ) );
+                }
+                item.add( editableLabel );
             }
         };
         add( stringList );
+    }
+
+    public boolean isStringSet( String key ) {
+        Session session = getHibernateSession();
+        Transaction tx = null;
+        List results = null;
+        try {
+            tx = session.beginTransaction();
+
+            Query query = session.createQuery( "select ts from TranslatedString as ts, Translation as t where (t.id = :id AND ts.translation = t AND ts.key = :key)" );
+            query.setInteger( "id", translationId );
+            query.setString( "key", key );
+            results = query.list();
+
+            tx.commit();
+        }
+        catch( RuntimeException e ) {
+            System.out.println( "Exception: " + e );
+            if ( tx != null && tx.isActive() ) {
+                try {
+                    tx.rollback();
+                }
+                catch( HibernateException e1 ) {
+                    System.out.println( "ERROR: Error rolling back transaction" );
+                }
+                throw e;
+            }
+        }
+
+        if ( results == null || results.isEmpty() ) {
+            return false;
+        }
+        return true;
     }
 
     public void setString( String key, String value ) {
