@@ -72,6 +72,16 @@ public class TranslateEntityPanel extends PhetPanel {
                 final Model model = new Model( getLocalizer().getString( tString.getKey(), TranslateEntityPanel.this ) );
                 stringModelMap.put( tString.getKey(), model );
 
+                if ( tString.getNotes() == null ) {
+                    Label label = new Label( "translation-string-notes", "UNSEEN" );
+                    label.setVisible( false );
+                    item.add( label );
+                }
+                else {
+                    Label label = new Label( "translation-string-notes", tString.getNotes() );
+                    item.add( label );
+                }
+
                 item.add( new Label( "translation-string-key", tString.getKey() ) );
                 item.add( new AjaxEditableMultiLineLabel( "translation-string-value", model ) {
                     @Override

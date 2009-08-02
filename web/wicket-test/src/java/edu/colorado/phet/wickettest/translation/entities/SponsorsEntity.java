@@ -9,7 +9,6 @@ import edu.colorado.phet.wickettest.util.PhetRequestCycle;
 
 public class SponsorsEntity extends TranslationEntity {
     public SponsorsEntity() {
-        addString( "language.dir" );
         addString( "sponsors.principalSponsors" );
         addString( "sponsors.hewlett" );
         addString( "sponsors.nsf" );
