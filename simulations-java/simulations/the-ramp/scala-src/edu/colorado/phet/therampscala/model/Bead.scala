@@ -97,11 +97,13 @@ class Bead(private var _state: BeadState,
 
   def gravityForce = new Vector2D(0, gravity * mass)
 
-  def getVelocityVectorDirection:Double = getVelocityVectorDirection(velocity)
-  def getVelocityVectorDirection(v:Double):Double = (positionMapper(position + v* 1E-6) - positionMapper(position - v* 1E-6)).getAngle
+  def getVelocityVectorDirection: Double = getVelocityVectorDirection(velocity)
 
-  def getVelocityVectorUnitVector:Vector2D = new Vector2D(getVelocityVectorDirection)
-  def getVelocityVectorUnitVector(v:Double):Vector2D = new Vector2D(getVelocityVectorDirection(v))
+  def getVelocityVectorDirection(v: Double): Double = (positionMapper(position + v * 1E-6) - positionMapper(position - v * 1E-6)).getAngle
+
+  def getVelocityVectorUnitVector: Vector2D = new Vector2D(getVelocityVectorDirection)
+
+  def getVelocityVectorUnitVector(v: Double): Vector2D = new Vector2D(getVelocityVectorDirection(v))
 
   def parallelAppliedForce = _parallelAppliedForce
 
@@ -333,7 +335,9 @@ class Bead(private var _state: BeadState,
       def setPositionAndVelocity(p: Double, v: Double) = new SettableState(p, v, thermalEnergy)
 
       //todo: this is duplicated with code in Bead
-      def totalEnergy = mass * velocity * velocity / 2.0 + mass * gravity.abs * positionMapper(position).y + thermalEnergy
+      lazy val totalEnergy = ke + pe + thermalEnergy
+      lazy val ke = mass * velocity * velocity / 2.0
+      lazy val pe = mass * gravity.abs * positionMapper(position).y //assumes positionmapper doesn't change, which is true during stepintime
     }
     override def stepInTime(dt: Double) = {
       notificationsEnabled = false //make sure only to send notifications as a batch at the end; improves performance by 17%
@@ -370,18 +374,27 @@ class Bead(private var _state: BeadState,
       else if (requestedPosition >= wallRange().max - width / 2 && wallsExist) stateAfterVelocityUpdate.setPositionAndVelocity(wallRange().max - width / 2, 0.0)
       else stateAfterVelocityUpdate
 
-      val dx = stateAfterBounds.position- origState.position
-      val newThermal= getThermalEnergy + abs((frictionForce dot getVelocityVectorUnitVector(stateAfterBounds.velocity)) * dx) //work done by friction force, absolute value
-      val stateAfterThermalEnergy = stateAfterBounds.setThermalEnergy(newThermal)
+      val dx = stateAfterBounds.position - origState.position
+      
+      //we also need to account for external forces, such as the applied force, which should increase the total energy
+      val appliedEnergy = -abs((appliedForce dot getVelocityVectorUnitVector(stateAfterBounds.velocity)) * dx)//todo: why the - sign?
+
+      val thermalFromWork = getThermalEnergy + abs((frictionForce dot getVelocityVectorUnitVector(stateAfterBounds.velocity)) * dx) //work done by friction force, absolute value
+      val thermalFromEnergy = origEnergy - stateAfterVelocityUpdate.ke - stateAfterVelocityUpdate.pe - appliedEnergy
+      //we'd like to just use thermalFromEnergy, since it guarantees conservation of energy
+      //however, it may lead to a decrease in thermal energy, which would be physically incorrect
+//      val stateAfterThermalEnergy = stateAfterBounds.setThermalEnergy(thermalFromWork)
+      val stateAfterThermalEnergy = stateAfterBounds.setThermalEnergy(thermalFromEnergy)
 
       val dE = stateAfterThermalEnergy.totalEnergy - origEnergy
       val dT = stateAfterThermalEnergy.thermalEnergy - origState.thermalEnergy
 
-      if (dE.abs > 1E-12) {
-        if (dE.abs < dT.abs) { //try to fix it by tinkering with the thermal energy
+//      if (dE.abs > 1E-12) {
+//        if (dE.abs < dT.abs) { //try to fix it by tinkering with the thermal energy
+////          val fixedThermal =123
+//        }
+//      }
 
-        }
-      }
 
       //how about a binary search on the line joining the first SettableState and the last SettableState?
       //That's not best, since we prefer to be closer to the last settable state, and the first SettableState is guaranteed to have no errors
@@ -389,7 +402,7 @@ class Bead(private var _state: BeadState,
       //optimization techniques may not work very well across discontinuities, such as switching from one part of the ramp to another
       //or changing from v=0 to v!=0
 
-      println("dE= " + dE + ", orig Energy = " + origEnergy + ", final Energy = " + getTotalEnergy+", thermalEnergy="+newThermal)
+      println("dE= " + dE + ", orig Energy = " + origEnergy + ", final Energy = " + getTotalEnergy + ", thermalEnergy=" + stateAfterThermalEnergy.thermalEnergy)
       stateAfterThermalEnergy
     }
   }
