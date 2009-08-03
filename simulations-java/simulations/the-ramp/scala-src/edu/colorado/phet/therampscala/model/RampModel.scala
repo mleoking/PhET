@@ -2,6 +2,7 @@ package edu.colorado.phet.therampscala.model
 
 
 import collection.mutable.ArrayBuffer
+import common.phetcommon.math.MathUtil
 import graphics.ObjectModel
 import scalacommon.math.Vector2D
 import java.awt.geom.Point2D
@@ -229,41 +230,46 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean) extends Rec
     setPaused(pausedOnReset)
   }
 
-  class Raindrop(p: Vector2D,rainSpeed:Double,angle:Double) {
+  class Raindrop(p: Vector2D, rainSpeed: Double, angle: Double) {
     val removedListeners = new ArrayBuffer[() => Unit]
-    val rainbead=createBead(0.0,0.3,0.5)
+    val rainbead = createBead(0.0, 0.3, 0.5)
     private var _angle = 0.0
-    rainbead.attachState = new rainbead.Airborne(p, new Vector2D(angle) * rainSpeed, 0.0){
-      override def getAngle = velocity2D.getAngle + PI/2 
+    rainbead.attachState = new rainbead.Airborne(p, new Vector2D(angle) * rainSpeed, 0.0) {
+      override def getAngle = velocity2D.getAngle + PI / 2
     }
-    def stepInTime(dt:Double) = {
+    def stepInTime(dt: Double) = {
+      val origPosition = rainbead.position2D
       rainbead.stepInTime(dt)
-      rainbead.attachState match {
-        case x:rainbead.Crashed => {
-          raindrops -= this
-          removedListeners.foreach(_())
-        }
-        case _ => {}
+      val didCrash = rainbead.attachState match {
+        case x: rainbead.Crashed => true
+        case _ => false
       }
-      //todo: check for collisions
+      val newPosition = rainbead.position2D
+      import scalacommon.Predef._
+      val intersection = MathUtil.getLineSegmentsIntersection(origPosition, newPosition, rampSegments(1).startPoint, rampSegments(1).endPoint)
+      val hitRamp = if (java.lang.Double.isNaN(intersection.x) || java.lang.Double.isNaN(intersection.y)) false else true
+      if (hitRamp || didCrash) {
+        raindrops -= this
+        removedListeners.foreach(_())
+        rainCrashed()
+      }
     }
   }
   class MyFireDog {
-    val removedListeners = new ArrayBuffer[()=> Unit]
-    val height=2
-    val width=2
+    val removedListeners = new ArrayBuffer[() => Unit]
+    val height = 2
+    val width = 2
     val dogbead = createBead(-15, height, width)
     private var raindropCount = 0
     private val incomingSpeed = 0.5
     private val outgoingSpeed = 1.0
-    private val maxDrops = 60
-    private val random=new java.util.Random()
+    private val random = new java.util.Random()
 
     def stepInTime(dt: Double) = {
       if (dogbead.position < -5 && raindropCount < maxDrops) {
         dogbead.setPosition(dogbead.position + incomingSpeed)
       } else if (raindropCount < maxDrops) {
-        val raindrop = new Raindrop(dogbead.position2D+new Vector2D(width/2.0,height/3.0),10 + random.nextGaussian*3,PI/4+random.nextGaussian()*PI/16)
+        val raindrop = new Raindrop(dogbead.position2D + new Vector2D(width / 2.0, height / 3.0), 10 + random.nextGaussian * 3, PI / 4 + random.nextGaussian() * PI / 16)
         raindrops += raindrop
         raindropCount = raindropCount + 1
         raindropAddedListeners.foreach(_(raindrop))
@@ -281,10 +287,17 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean) extends Rec
   val fireDogAddedListeners = new ArrayBuffer[MyFireDog => Unit]
   val raindropAddedListeners = new ArrayBuffer[Raindrop => Unit]
 
+  var totalThermalEnergyOnClear = 0.0
   def clearHeat() = {
+    totalThermalEnergyOnClear = bead.thermalEnergy
     val fireDog = new MyFireDog //cue the fire dog, which will eventually clear the thermal energy
     fireDogs += fireDog //updates when clock ticks
     fireDogAddedListeners.foreach(_(fireDog))
+  }
+  private val maxDrops = 60
+  def rainCrashed() = {
+    bead.thermalEnergy = bead.thermalEnergy - totalThermalEnergyOnClear/(maxDrops/ 2.0)
+    if (bead.thermalEnergy < 1) bead.thermalEnergy = 0.0
   }
 
   def setPlaybackState(state: RecordedState) = {
