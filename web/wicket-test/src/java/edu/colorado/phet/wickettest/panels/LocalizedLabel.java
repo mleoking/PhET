@@ -41,4 +41,9 @@ public class LocalizedLabel extends Label {
     public void setLocale( Locale locale ) {
         this.locale = locale;
     }
+
+    @Override
+    public String getVariation() {
+        return null;
+    }
 }

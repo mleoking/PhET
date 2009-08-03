@@ -7,6 +7,7 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.markup.html.link.PopupSettings;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.IModel;
@@ -15,7 +16,9 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
+import edu.colorado.phet.wickettest.content.IndexPage;
 import edu.colorado.phet.wickettest.data.Translation;
+import edu.colorado.phet.wickettest.util.PageContext;
 import edu.colorado.phet.wickettest.util.PhetPage;
 
 public class TranslationMainPage extends PhetPage {
@@ -127,6 +130,10 @@ public class TranslationMainPage extends PhetPage {
                 item.add( new Label( "id", String.valueOf( translation.getId() ) ) );
                 item.add( new Label( "locale", translation.getLocale().getDisplayName() + " (" + LocaleUtils.localeToString( translation.getLocale() ) + ")" ) );
                 item.add( new Label( "num-strings", String.valueOf( sizes.get( translation ) ) ) );
+                Link popupLink = IndexPage.createLink( "preview", new PageContext( "/translation/" + String.valueOf( translation.getId() ) + "/", "", translation.getLocale() ) );
+                popupLink.setPopupSettings( new PopupSettings( PopupSettings.LOCATION_BAR | PopupSettings.MENU_BAR | PopupSettings.RESIZABLE
+                                                               | PopupSettings.SCROLLBARS | PopupSettings.STATUS_BAR | PopupSettings.TOOL_BAR ) );
+                item.add( popupLink );
                 item.add( new Link( "edit" ) {
                     public void onClick() {
                         PageParameters params = new PageParameters();
