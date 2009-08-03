@@ -4,13 +4,14 @@ import java.util.*;
 
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.model.ResourceModel;
+import org.apache.wicket.model.StringResourceModel;
 import org.hibernate.HibernateException;
 import org.hibernate.Transaction;
 
 import edu.colorado.phet.wickettest.data.Category;
 import edu.colorado.phet.wickettest.data.LocalizedSimulation;
 import edu.colorado.phet.wickettest.data.Simulation;
+import edu.colorado.phet.wickettest.menu.NavLocation;
 import edu.colorado.phet.wickettest.panels.SimulationDisplayPanel;
 import edu.colorado.phet.wickettest.util.*;
 
@@ -18,7 +19,8 @@ public class SimulationDisplay extends PhetRegularPage {
     public SimulationDisplay( PageParameters parameters ) {
         super( parameters );
 
-        addTitle( new ResourceModel( "simulationDisplay.simulations" ) );
+        //addTitle( new ResourceModel( "simulationDisplay.simulations" ) );
+
 
         PageContext context = getPageContext();
 
@@ -52,12 +54,18 @@ public class SimulationDisplay extends PhetRegularPage {
             }
         }
 
+        NavLocation location;
+
         if ( category == null ) {
-            initializeLocation( getNavMenu().getLocationByKey( "all" ) );
+            location = getNavMenu().getLocationByKey( "all" );
         }
         else {
-            initializeLocation( category.getNavLocation( getNavMenu() ) );
+            location = category.getNavLocation( getNavMenu() );
         }
+
+        initializeLocation( location );
+
+        addTitle( new StringResourceModel( "simulationDisplay.title", this, null, new Object[]{new StringResourceModel( location.getLocalizationKey(), this, null )} ) );
 
         add( new SimulationDisplayPanel( "simulation-display-panel", getPageContext(), simulations ) );
     }

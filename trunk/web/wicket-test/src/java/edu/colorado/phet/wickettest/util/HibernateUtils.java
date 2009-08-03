@@ -233,5 +233,27 @@ public class HibernateUtils {
         } );
     }
 
+    public static LocalizedSimulation getExampleSimulation( Session session, Locale preferredLocale ) {
+        LocalizedSimulation simulation = null;
+        Query query = session.createQuery( "select ls from LocalizedSimulation as ls, Simulation as s where (ls.simulation = s and s.name = 'circuit-construction-kit-dc' and ls.locale = :locale)" );
+        query.setLocale( "locale", preferredLocale );
+        List list = query.list();
+        if ( !list.isEmpty() ) {
+            simulation = (LocalizedSimulation) list.get( 0 );
+        }
+        else {
+            query = session.createQuery( "select ls from LocalizedSimulation as ls, Simulation as s where (ls.simulation = s and ls.locale = :locale)" );
+            query.setLocale( "locale", preferredLocale );
+            list = query.list();
+            if ( !list.isEmpty() ) {
+                simulation = (LocalizedSimulation) list.get( 0 );
+            }
+            else {
+                simulation = (LocalizedSimulation) session.createQuery( "select ls from LocalizedSimulation as ls, Simulation as s where (ls.simulation = s and s.name = 'circuit-construction-kit-dc' and ls.locale = :locale)" ).setLocale( "locale", LocaleUtils.stringToLocale( "en" ) ).uniqueResult();
+            }
+        }
+        return simulation;
+    }
+
 
 }

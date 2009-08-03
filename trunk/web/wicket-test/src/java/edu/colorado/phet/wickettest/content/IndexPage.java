@@ -2,6 +2,7 @@ package edu.colorado.phet.wickettest.content;
 
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.model.ResourceModel;
 
 import edu.colorado.phet.wickettest.panels.IndexPanel;
 import edu.colorado.phet.wickettest.util.*;
@@ -10,7 +11,7 @@ public class IndexPage extends PhetPage {
     public IndexPage( PageParameters parameters ) {
         super( parameters, true );
 
-        addTitle( "Wicket test index page" );
+        addTitle( new ResourceModel( "home.title" ) );
 
         add( new IndexPanel( "index-panel", getPageContext() ) );
 
