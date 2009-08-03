@@ -1,11 +1,12 @@
 package edu.colorado.phet.therampscala.model
 
 
+import collection.mutable.ArrayBuffer
 import graphics.Rotatable
 import java.awt.geom.{Point2D, Line2D}
 import scalacommon.util.Observable
-import scalacommon.math.Vector2D
 import scalacommon.Predef._
+import scalacommon.math.Vector2D
 
 case class RampSegmentState(startPoint: Vector2D, endPoint: Vector2D) { //don't use Point2D since it's not immutable
   def setStartPoint(newStartPoint: Vector2D) = new RampSegmentState(newStartPoint, endPoint)
@@ -20,6 +21,7 @@ case class RampSegmentState(startPoint: Vector2D, endPoint: Vector2D) { //don't 
 }
 class RampSegment(_state: RampSegmentState) extends Observable with Rotatable {
   var state = _state;
+
   def this(startPt: Point2D, endPt: Point2D) = this (new RampSegmentState(startPt, endPt))
 
   def toLine2D = new Line2D.Double(state.startPoint, state.endPoint)
@@ -48,4 +50,20 @@ class RampSegment(_state: RampSegmentState) extends Observable with Rotatable {
   }
 
   def angle = state.angle
+
+  private var _wetness = 0.0 // 1.0 means max wetness
+  def wetness = _wetness
+
+  import java.lang.Math._
+  def dropHit() = {
+    _wetness = min(_wetness + 0.1, 1.0)
+    wetnessListeners.foreach(_())
+  }
+
+  def stepInTime(dt: Double) = {
+    _wetness = max(_wetness - 0.02, 0.0)
+    wetnessListeners.foreach(_())
+  }
+
+  val wetnessListeners = new ArrayBuffer[() => Unit]
 }

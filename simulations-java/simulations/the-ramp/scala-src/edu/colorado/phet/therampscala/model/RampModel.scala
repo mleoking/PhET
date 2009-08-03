@@ -4,6 +4,7 @@ package edu.colorado.phet.therampscala.model
 import collection.mutable.ArrayBuffer
 import common.phetcommon.math.MathUtil
 import graphics.ObjectModel
+import java.awt.Color
 import scalacommon.math.Vector2D
 import java.awt.geom.Point2D
 import scalacommon.record.{DataPoint, RecordModel}
@@ -296,6 +297,8 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean) extends Rec
   }
   private val maxDrops = 60
   def rainCrashed() = {
+    rampSegments(0).dropHit()
+    rampSegments(1).dropHit()
     bead.thermalEnergy = bead.thermalEnergy - totalThermalEnergyOnClear/(maxDrops/ 2.0)
     if (bead.thermalEnergy < 1) bead.thermalEnergy = 0.0
   }
@@ -391,6 +394,8 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean) extends Rec
     bead.stepInTime(dt)
     for (f <- fireDogs) f.stepInTime(dt)
     for (r <- raindrops) r.stepInTime(dt)
+    rampSegments(0).stepInTime(dt)
+    rampSegments(1).stepInTime(dt)
     recordHistory += new DataPoint(getTime, new RecordedState(getRampAngle, selectedObject.state, bead.state, manBead.state, bead.parallelAppliedForce, walls))
     stepListeners.foreach(_())
     notifyListeners() //signify to the Timeline that more data has been added
