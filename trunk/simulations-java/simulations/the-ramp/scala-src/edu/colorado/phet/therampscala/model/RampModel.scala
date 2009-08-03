@@ -229,10 +229,42 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean) extends Rec
     setPaused(pausedOnReset)
   }
 
-  def clearHeat()={
-    //todo: cue the fire dog, which will eventually clear the thermal energy
-    bead.thermalEnergy = 0.0
-//    bead.clearHeat()
+  class Raindrop(p: Vector2D) {
+  }
+  class MyFireDog {
+    val dogbead = createBead(-15, 2, 2)
+    private var raindropCount = 0
+    private val incomingSpeed = 0.5
+    private val outgoingSpeed = 1.0
+    private val maxDrops = 100
+
+    def stepInTime(dt: Double) = {
+      if (dogbead.position < -5 && raindropCount < maxDrops) {
+        dogbead.setPosition(dogbead.position + incomingSpeed)
+      } else if (raindropCount < maxDrops) {
+        val raindrop = new Raindrop(dogbead.position2D)
+        raindrops += raindrop
+        raindropCount = raindropCount + 1
+        raindropAddedListeners.foreach(_(raindrop))
+      } else if (dogbead.position > -15) {
+        dogbead.setPosition(dogbead.position - outgoingSpeed)
+      } else {
+        fireDogs -= this
+        fireDogRemovedListeners.foreach(_(this))
+      }
+    }
+  }
+
+  private val raindrops = new ArrayBuffer[Raindrop]
+  private val fireDogs = new ArrayBuffer[MyFireDog]
+  val fireDogAddedListeners = new ArrayBuffer[MyFireDog => Unit]
+  val fireDogRemovedListeners = new ArrayBuffer[MyFireDog => Unit]
+  val raindropAddedListeners = new ArrayBuffer[Raindrop => Unit]
+
+  def clearHeat() = {
+    val fireDog = new MyFireDog //cue the fire dog, which will eventually clear the thermal energy
+    fireDogs += fireDog //updates when clock ticks
+    fireDogAddedListeners.foreach(_(fireDog))
   }
 
   def setPlaybackState(state: RecordedState) = {
@@ -324,6 +356,7 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean) extends Rec
   private def doStep(dt: Double) = {
     super.setTime(getTime + dt)
     bead.stepInTime(dt)
+    for (f <- fireDogs) f.stepInTime(dt)
     recordHistory += new DataPoint(getTime, new RecordedState(getRampAngle, selectedObject.state, bead.state, manBead.state, bead.parallelAppliedForce, walls))
     stepListeners.foreach(_())
     notifyListeners() //signify to the Timeline that more data has been added

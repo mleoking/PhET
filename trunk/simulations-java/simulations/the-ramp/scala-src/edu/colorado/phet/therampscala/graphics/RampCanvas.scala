@@ -210,6 +210,9 @@ abstract class AbstractRampCanvas(model: RampModel, coordinateSystemModel: Coord
     addVectorAllComponents(bead, bead.totalForceVector, new ConstantVectorValue(new Vector2D(0, fbdWidth / 4)), 2, () => vectorViewModel.sumOfForcesVector) //no need to add a separate listener, since it is already contained in vectorviewmodel
   }
   addAllVectors(model.bead)
+
+  val fireDogView=new FireDogView(model,this)
+  val raindropView=new RaindropView(model,this)
 }
 
 class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, freeBodyDiagramModel: FreeBodyDiagramModel,
