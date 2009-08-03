@@ -3,6 +3,7 @@ package edu.colorado.phet.therampscala
 import java.awt.Color
 
 object RampDefaults {
+  val defaultRampAngle = 30.0.toRadians
   //how far away the vector labels can be from the tip, in world coordinates
   val FBD_LABEL_MAX_OFFSET = 500
   val BODY_LABEL_MAX_OFFSET = 3
