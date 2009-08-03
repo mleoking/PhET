@@ -1,5 +1,8 @@
 package edu.colorado.phet.wickettest;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.apache.wicket.Request;
 import org.apache.wicket.RequestCycle;
 import org.apache.wicket.Response;
@@ -53,6 +56,10 @@ public class WicketApplication extends WebApplication {
         //remove thread monitoring from resource watcher
         //enable this line to run under GAE
 //        this.getResourceSettings().setResourcePollFrequency(null);
+    }
+
+    public static List<String> getTranslations() {
+        return Arrays.asList( "ar", "es", "el" );
     }
 
     public NavMenu getMenu() {

@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:wicket="http://svn.apache.org/repos/asf/wicket/trunk/wicket/wicket-xhtml1-strict.dtd" xml:lang="en"
+      lang="en">
+<head>
+    <title>[PREVIEW] TranslationLinksPanel</title>
+    <wicket:remove>
+        <link rel="stylesheet" type="text/css" href="../../../root/css/test.css"/>
+    </wicket:remove>
+    <wicket:head>
+        <style type="text/css">
+            a.translation-link {
+                text-decoration: none;
+                color: #990000;
+            }
+
+            a.translation-link .current-locale {
+                color: #727272;
+            }
+
+            span.translation-separator {
+                color: #cccccc;
+            }
+        </style>
+    </wicket:head>
+</head>
+<body>
+
+<wicket:panel>
+    <span>
+        <a href="#" wicket:id="translation-link" class="translation-link"><span wicket:id="translation-label">English</span></a>
+    </span>
+    <span wicket:id="translation-links">
+        <span class="translation-separator"> &nbsp;|&nbsp; </span>
+        <a href="#" wicket:id="translation-link" class="translation-link"><span wicket:id="translation-label">Spanish</span></a>
+    </span>
+    <wicket:remove>
+        <br/>
+        <br/>
+        Preview:
+        <br/>
+        <span>
+            <a href="#" class="translation-link"><span class="current-locale">English</span></a>
+        </span>
+        <span>
+            <span class="translation-separator"> &nbsp;|&nbsp; </span>
+            <a href="#" class="translation-link"><span>&#1575;&#1604;&#1593;&#1585;&#1576;&#1610;&#1577;</span></a>
+        </span>
+        <span>
+            <span class="translation-separator"> &nbsp;|&nbsp; </span>
+            <a href="#" class="translation-link"><span>Espa&ntilde;ol</span></a>
+        </span>
+        <span>
+            <span class="translation-separator"> &nbsp;|&nbsp; </span>
+            <a href="#" class="translation-link"><span>&Epsilon;&lambda;&lambda;&eta;&nu;&iota;&kappa;&#940;</span></a>
+        </span>
+    </wicket:remove>
+</wicket:panel>
+
+</body>
+</html>
+
