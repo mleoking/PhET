@@ -12,6 +12,8 @@ import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.extensions.ajax.markup.html.AjaxEditableMultiLineLabel;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.markup.html.link.PopupSettings;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.IModel;
@@ -21,6 +23,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import edu.colorado.phet.wickettest.content.IndexPage;
 import edu.colorado.phet.wickettest.data.TranslatedString;
 import edu.colorado.phet.wickettest.data.Translation;
 import edu.colorado.phet.wickettest.panels.PanelHolder;
@@ -43,14 +46,16 @@ public class TranslateEntityPanel extends PhetPanel {
         this.entity = entity;
         this.translationId = translationId;
 
+        final PageContext externalContext = new PageContext( "/translation/" + String.valueOf( translationId ) + "/", "", testLocale );
+
         setOutputMarkupId( true );
 
         add( new Label( "translation-id", String.valueOf( translationId ) ) );
 
-        panel = new PanelHolder( "panel", context.withNewLocale( testLocale ) );
-        subPanel = new SponsorsPanel( panel.getWicketId(), context.withNewLocale( testLocale ) );
+        panel = new PanelHolder( "panel", externalContext );
+        subPanel = new SponsorsPanel( panel.getWicketId(), externalContext );
         if ( entity.hasPreviews() ) {
-            subPanel = entity.getPreviews().get( 0 ).getNewPanel( panel.getWicketId(), context.withNewLocale( testLocale ), (PhetRequestCycle) getRequestCycle() );
+            subPanel = entity.getPreviews().get( 0 ).getNewPanel( panel.getWicketId(), externalContext, (PhetRequestCycle) getRequestCycle() );
         }
         else {
             subPanel = new Label( panel.getWicketId(), "(Preview is not available)" );
@@ -62,7 +67,7 @@ public class TranslateEntityPanel extends PhetPanel {
         form.add( new AjaxButton( "test-button" ) {
             protected void onSubmit( AjaxRequestTarget target, Form form ) {
                 panel.remove( subPanel );
-                subPanel = entity.getPreviews().get( 0 ).getNewPanel( panel.getWicketId(), context.withNewLocale( testLocale ), (PhetRequestCycle) getRequestCycle() );
+                subPanel = entity.getPreviews().get( 0 ).getNewPanel( panel.getWicketId(), externalContext, (PhetRequestCycle) getRequestCycle() );
                 panel.add( subPanel );
                 target.addComponent( panel );
             }
@@ -102,6 +107,12 @@ public class TranslateEntityPanel extends PhetPanel {
             }
         };
         add( stringList );
+
+
+        Link popupLink = IndexPage.createLink( "translation-popup", externalContext );
+        popupLink.setPopupSettings( new PopupSettings( PopupSettings.LOCATION_BAR | PopupSettings.MENU_BAR | PopupSettings.RESIZABLE
+                                                       | PopupSettings.SCROLLBARS | PopupSettings.STATUS_BAR | PopupSettings.TOOL_BAR ) );
+        add( popupLink );
     }
 
     public boolean isStringSet( String key ) {
