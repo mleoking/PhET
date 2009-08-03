@@ -174,7 +174,7 @@ class CoordinateFrameModel(snapToAngles: List[() => Double]) extends Observable 
 //This class stores all state information used in record/playback
 case class RecordedState(angle: Double, selectedObject: ScalaRampObjectState, beadState: BeadState, manBeadState: BeadState, appliedForce: Double, walls: Boolean)
 
-class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean) extends RecordModel[RecordedState] with ObjectModel {
+class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean,initialAngle:Double) extends RecordModel[RecordedState] with ObjectModel {
   setPaused(pausedOnReset)
 
   private var _walls = true
@@ -186,7 +186,6 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean) extends Rec
 
   val rampLength = 10
   rampSegments += new RampSegment(new Point2D.Double(-rampLength, 0), new Point2D.Double(0, 0))
-  val initialAngle = 30.0.toRadians
   rampSegments += new RampSegment(new Point2D.Double(0, 0), new Point2D.Double(rampLength * cos(initialAngle), rampLength * sin(initialAngle)))
 
   val coordinateFrameModel = new CoordinateFrameModel((() => rampSegments(1).angle) :: (() => 0.0) :: Nil)

@@ -5,10 +5,10 @@ import common.piccolophet.PiccoloPhetApplication
 import javax.swing.JFrame
 import scalacommon.ScalaClock
 
-class IntroModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "Intro", false, false, -6, false)
-class FrictionModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "Friction", false, false, -6, false)
-class GraphingModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "Graphing", false, false, -6, false)
-class RobotMovingCompany1DModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "Robot Moving Company", false, false, -6, false)
+class IntroModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "Intro", false, false, -6, false, 0.0)
+class FrictionModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "Friction", false, false, -6, false, 0.0)
+class GraphingModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "Graphing", false, false, -6, false, 0.0)
+class RobotMovingCompany1DModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "Robot Moving Company", false, false, -6, false, 0.0)
 
 class ForcesAndFrictionApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
   def newClock = new ScalaClock(RampDefaults.DELAY, RampDefaults.DT_DEFAULT)
@@ -19,5 +19,5 @@ class ForcesAndFrictionApplication(config: PhetApplicationConfig) extends Piccol
 }
 
 object ForcesAndFrictionApplicationMain {
-  def main(args: Array[String]) = new PhetApplicationLauncher().launchSim(args, "the-ramp", "forces-and-friction",classOf[ForcesAndFrictionApplication])
+  def main(args: Array[String]) = new PhetApplicationLauncher().launchSim(args, "the-ramp", "forces-and-friction", classOf[ForcesAndFrictionApplication])
 }

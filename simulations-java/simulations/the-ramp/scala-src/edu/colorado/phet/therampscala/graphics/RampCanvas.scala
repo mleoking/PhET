@@ -211,13 +211,13 @@ abstract class AbstractRampCanvas(model: RampModel, coordinateSystemModel: Coord
   }
   addAllVectors(model.bead)
 
-  addWorldChild(new RaindropView(model,this))
-  addWorldChild(new FireDogView(model,this))
+  addWorldChild(new RaindropView(model, this))
+  addWorldChild(new FireDogView(model, this))
 
 }
 
 class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, freeBodyDiagramModel: FreeBodyDiagramModel,
-                 vectorViewModel: VectorViewModel, frame: JFrame, showObjectSelectionNode: Boolean) extends AbstractRampCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame) {
+                 vectorViewModel: VectorViewModel, frame: JFrame, showObjectSelectionNode: Boolean, rampAngleDraggable: Boolean) extends AbstractRampCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame) {
   if (showObjectSelectionNode) {
     addNode(new ObjectSelectionNode(transform, model))
     addNode(indexOfChild(earthNode) + 1, new AppliedForceSliderNode(model.bead, transform))
@@ -234,7 +234,11 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
 
   def createLeftSegmentNode = new RampSegmentNode(model.rampSegments(0), transform)
 
-  def createRightSegmentNode = new RotatableSegmentNode(model.rampSegments(1), transform)
+  def createRightSegmentNode =
+    if (rampAngleDraggable)
+      new RotatableSegmentNode(model.rampSegments(1), transform)
+    else
+      new RampSegmentNode(model.rampSegments(1), transform)
 
   def addHeightAndAngleIndicators() = {
     addNode(new RampHeightIndicator(model.rampSegments(1), transform))

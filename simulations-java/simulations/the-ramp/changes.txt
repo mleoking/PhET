@@ -1,3 +1,4 @@
+Added an application for Forces & Friction
 Made the friction coefficients change when the ramp is wet
 Made it so the ramp turns blue when it is wet
 Added "clear heat" button to work/energy bar chart window
