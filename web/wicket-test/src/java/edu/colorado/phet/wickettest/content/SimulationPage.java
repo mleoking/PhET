@@ -57,8 +57,6 @@ public class SimulationPage extends PhetMenuPage {
             initializeLocation( null );
         }
         else {
-            // TODO: localize
-            //addTitle( simulation.getTitle() + " " + simulation.getSimulation().getProject().getVersionString() );
             addTitle( new StringResourceModel( "simulationPage.title", this, null, new String[]{simulation.getTitle(), simulation.getSimulation().getProject().getVersionString()} ) );
             add( new SimulationMainPanel( "simulation-main-panel", simulation, getPageContext() ) );
 
@@ -68,7 +66,6 @@ public class SimulationPage extends PhetMenuPage {
     }
 
     public static void addToMapper( PhetUrlMapper mapper ) {
-        //mapper.addMap( "^simulation/(.+)/([^/]+)$", SimulationPage.class, new String[]{"categories", "simulation"} );
         mapper.addMap( "^simulation/([^/]+)(/([^/]+))?$", SimulationPage.class, new String[]{"project", null, "flavor"} );
     }
 
