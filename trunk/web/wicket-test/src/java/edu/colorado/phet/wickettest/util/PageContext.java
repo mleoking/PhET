@@ -9,19 +9,21 @@ public class PageContext implements Serializable {
     private Locale locale;
     private transient PhetPage page;
     private String prefix;
+    private String path;
 
-    public PageContext( String prefix, Locale locale, PhetPage page ) {
+    public PageContext( String prefix, String path, Locale locale, PhetPage page ) {
         this.prefix = prefix;
+        this.path = path;
         this.locale = locale;
         this.page = page;
     }
 
     public PageContext withNewLocale( Locale newLocale ) {
         if ( prefix.equals( getStandardPrefix() ) ) {
-            return new PageContext( getStandardPrefix( newLocale ), newLocale, page );
+            return new PageContext( getStandardPrefix( newLocale ), path, newLocale, page );
         }
         else {
-            return new PageContext( prefix, newLocale, page );
+            return new PageContext( prefix, path, newLocale, page );
         }
     }
 
@@ -46,4 +48,7 @@ public class PageContext implements Serializable {
         //return page;
     }
 
+    public String getPath() {
+        return path;
+    }
 }

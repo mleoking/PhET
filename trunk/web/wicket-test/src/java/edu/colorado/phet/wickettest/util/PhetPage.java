@@ -18,6 +18,7 @@ public abstract class PhetPage extends WebPage {
 
     private Locale myLocale;
     private String prefix;
+    private String path;
     private String variation;
 
     public PhetPage( PageParameters parameters ) {
@@ -41,6 +42,8 @@ public abstract class PhetPage extends WebPage {
             prefix = "/" + LocaleUtils.localeToString( myLocale ) + "/";
         }
 
+        path = parameters.getString( "path" );
+
         // should usually default to null
         variation = parameters.getString( "variation" );
 
@@ -49,7 +52,8 @@ public abstract class PhetPage extends WebPage {
 
 
         System.out.println( "Loading " + this.getClass().getCanonicalName() + " with Locale: " + LocaleUtils.localeToString( myLocale ) );
-        System.out.println( "getRequestPath() of this page is: " + parameters.getString( "path" ) );
+        System.out.println( "prefix of this page is: " + prefix );
+        System.out.println( "path of this page is: " + path );
         System.out.println( "Session id is: " + wicketSession.getId() );
 
         for ( Object o : parameters.keySet() ) {
@@ -77,8 +81,15 @@ public abstract class PhetPage extends WebPage {
         return prefix;
     }
 
+    public String getMyPath() {
+        if ( path == null ) {
+            return "";
+        }
+        return path;
+    }
+
     public PageContext getPageContext() {
-        return new PageContext( getMyPrefix(), getMyLocale(), this );
+        return new PageContext( getMyPrefix(), getMyPath(), getMyLocale(), this );
     }
 
     @Override

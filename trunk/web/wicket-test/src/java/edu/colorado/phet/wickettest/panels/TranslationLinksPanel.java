@@ -11,15 +11,16 @@ import org.apache.wicket.model.ResourceModel;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.wickettest.WicketApplication;
-import edu.colorado.phet.wickettest.content.IndexPage;
 import edu.colorado.phet.wickettest.util.PageContext;
+import edu.colorado.phet.wickettest.util.PhetLink;
 
 public class TranslationLinksPanel extends PhetPanel {
     public TranslationLinksPanel( String id, final PageContext context ) {
         super( id, context );
 
         Locale englishLocale = LocaleUtils.stringToLocale( "en" );
-        Link englishLink = IndexPage.createLink( "translation-link", context.withNewLocale( englishLocale ) );
+        PageContext englishContext = context.withNewLocale( englishLocale );
+        Link englishLink = new PhetLink( "translation-link", englishContext.getPrefix() + englishContext.getPath() );
         LocalizedLabel englishLabel = new LocalizedLabel( "translation-label", englishLocale, new ResourceModel( "language.name" ) );
         englishLink.add( englishLabel );
         if ( context.getLocale().equals( englishLocale ) ) {
@@ -31,7 +32,8 @@ public class TranslationLinksPanel extends PhetPanel {
             protected void populateItem( ListItem item ) {
                 String localeString = (String) item.getModel().getObject();
                 Locale locale = LocaleUtils.stringToLocale( localeString );
-                Link link = IndexPage.createLink( "translation-link", context.withNewLocale( locale ) );
+                PageContext newContext = context.withNewLocale( locale );
+                Link link = new PhetLink( "translation-link", newContext.getPrefix() + newContext.getPath() );
                 LocalizedLabel label = new LocalizedLabel( "translation-label", locale, new ResourceModel( "language.name" ) );
                 link.add( label );
                 if ( context.getLocale().equals( locale ) ) {
