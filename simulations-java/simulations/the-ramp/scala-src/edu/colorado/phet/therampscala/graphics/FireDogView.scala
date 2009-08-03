@@ -1,21 +1,24 @@
 package edu.colorado.phet.therampscala.graphics
 
 import model.RampModel
+import umd.cs.piccolo.PNode
 
-class FireDogView(rampModel: RampModel, canvas: AbstractRampCanvas) {
+class FireDogView(rampModel: RampModel, canvas: AbstractRampCanvas) extends PNode{
   rampModel.fireDogAddedListeners += ((added: rampModel.MyFireDog) => {
     val node = new BeadNode(added.dogbead, canvas.transform, "firedog.gif")
-    canvas.addWorldChild(node)
+    addChild(node)
 
-    rampModel.fireDogRemovedListeners += (removed => canvas.removeWorldChild(node)) //eleganter than ever
+    //todo: add a listener to this exact model object, not the composite
+    added.removedListeners += (() => removeChild(node)) //eleganter than ever
   })
 }
 
-class RaindropView(rampModel: RampModel, canvas: AbstractRampCanvas) {
-  rampModel.fireDogAddedListeners += ((added: rampModel.MyFireDog) => {
-    val node = new BeadNode(added.dogbead, canvas.transform, "firedog.gif")
-    canvas.addWorldChild(node)
+class RaindropView(rampModel: RampModel, canvas: AbstractRampCanvas) extends PNode{
+  rampModel.raindropAddedListeners += ((added: rampModel.Raindrop) => {
+    val node = new BeadNode(added.rainbead, canvas.transform, "drop3.gif")
+    addChild(node)
 
-    rampModel.fireDogRemovedListeners += (removed => canvas.removeWorldChild(node)) //eleganter than ever
+    //todo: add a listener to this exact drop
+    added.removedListeners += (() => removeChild(node)) //eleganter than ever
   })
 }

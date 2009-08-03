@@ -54,7 +54,8 @@ class Bead(private var _state: BeadState,
   def state_=(s: BeadState) = {_state = s; notifyListeners()}
 
   var _parallelAppliedForce = 0.0
-  private var attachState: MotionStrategy = new Grounded
+  //todo: privatize
+  var attachState: MotionStrategy = new Grounded
 
   val gravityForceVector = new BeadVector(RampDefaults.gravityForceColor, "Gravity Force", "g", false, () => gravityForce, (a, b) => b)
   val normalForceVector = new BeadVector(RampDefaults.normalForceColor, "Normal Force", "N", true, () => normalForce, (a, b) => b)
@@ -264,7 +265,7 @@ class Bead(private var _state: BeadState,
   }
   class Airborne(private var _position2D: Vector2D, private var _velocity2D: Vector2D, _angle: Double) extends MotionStrategy {
     def getAngle = _angle
-
+    def velocity2D = _velocity2D
     override def stepInTime(dt: Double) = {
       val tf = totalForce
       val accel = totalForce / mass

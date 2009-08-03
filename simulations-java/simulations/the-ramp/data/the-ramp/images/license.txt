@@ -36,3 +36,4 @@ tree.gif
 wood5.png author=PhET 
 x-25.gif author=PhET 
 mystery-box.png author=PhET
+raindrop.png source=microsoft notes=j0432588.png http://office.microsoft.com/clipart/preview.aspx?AssetID=MCj0432588&Query=raindrop&Scope=20&CTT=1&Origin=EC790000121033&QueryID=MJtFcQ-Ee&AssetCol=MPj0437368,MPj0438824,MPj0438857,MPj0438864,MPj0438348,MPj0433166,MCj0437640,MCj0411508,MPj0422988,MPj0423058,MCj0432588,MPj0430725

@@ -211,8 +211,9 @@ abstract class AbstractRampCanvas(model: RampModel, coordinateSystemModel: Coord
   }
   addAllVectors(model.bead)
 
-  val fireDogView=new FireDogView(model,this)
-  val raindropView=new RaindropView(model,this)
+  addWorldChild(new RaindropView(model,this))
+  addWorldChild(new FireDogView(model,this))
+
 }
 
 class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, freeBodyDiagramModel: FreeBodyDiagramModel,
