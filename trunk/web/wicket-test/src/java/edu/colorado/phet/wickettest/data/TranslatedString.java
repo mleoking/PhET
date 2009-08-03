@@ -1,6 +1,8 @@
 package edu.colorado.phet.wickettest.data;
 
-public class TranslatedString {
+import java.io.Serializable;
+
+public class TranslatedString implements Serializable {
     private int id;
     private Translation translation;
     private String key;

@@ -12,9 +12,34 @@
         <style type="text/css">
             .index-content {
                 width: 765px;
-                margin: 0px auto;
-                border: 1px solid black;
+                margin: 0 auto;
                 padding: 10px;
+            }
+
+            table.translation-table {
+                border: 1px outset gray;
+                border-spacing: 2px;
+                border-collapse: collapse;
+                background-color: white;
+                /*margin: 10px;*/
+                margin: 0 auto;
+            }
+
+            table.translation-table th {
+                border: 1px dotted gray;
+                padding: 3px 3px 3px 3px;
+                background-color: white;
+            }
+
+            table.translation-table td {
+                border: 1px dotted gray;
+                padding: 3px 3px 3px 3px;
+                background-color: white;
+                text-align: center;
+            }
+
+            table.translation-table tr.head td {
+                background-color: lightblue;
             }
         </style>
     </wicket:head>
@@ -28,10 +53,38 @@
         <form wicket:id="create-translation-form">
             Create a translation:
             <select wicket:id="locales">
-                
+
             </select>
-            <input type="submit" value="create" />
+            <input type="submit" value="create"/>
         </form>
+        <br/>
+
+        <div>
+            Or edit one of the already-created translations below (users owning translations can be added in, this is
+            just for a prototype):
+        </div>
+        <table class="translation-table">
+            <tr class="head">
+                <td>id</td>
+                <td>locale</td>
+                <td># translated strings</td>
+                <td>click to edit</td>
+            </tr>
+            <tr wicket:id="translation-list">
+                <td wicket:id="id">
+
+                </td>
+                <td wicket:id="locale">
+
+                </td>
+                <td wicket:id="num-strings">
+
+                </td>
+                <td>
+                    <a href="#" wicket:id="edit">edit</a>
+                </td>
+            </tr>
+        </table>
     </div>
 </wicket:extend>
 
