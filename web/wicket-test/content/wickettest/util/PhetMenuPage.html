@@ -43,29 +43,35 @@
                 padding-top: 10px;
                 text-align: center;
             }
+            div.menu-page-content {
+                width: 765px;
+                margin: 0 auto;
+            }
         </style>
     </wicket:head>
 </head>
 <body wicket:message="dir:language.dir">
 
 <wicket:extend>
-    <div id="side-panel">
-        <div wicket:id="side-navigation">
-            Side navigation
+    <div class="menu-page-content">
+        <div id="side-panel">
+            <div wicket:id="side-navigation">
+                Side navigation
+            </div>
+            <div wicket:id="sponsors-panel">
+                Sponsors panel
+            </div>
         </div>
-        <div wicket:id="sponsors-panel">
-            Sponsors panel
+        <div id="main-content">
+            <wicket:child/>
+            <wicket:remove>
+                Main content
+            </wicket:remove>
         </div>
-    </div>
-    <div id="main-content">
-        <wicket:child/>
-        <wicket:remove>
-            Main content
-        </wicket:remove>
-    </div>
-    <div class="main-footer">
-        <div class="main-footer-spacer"> </div>
-        <div class="other-languages"><span wicket:id="translation-links">Translation links</span></div>
+        <div class="main-footer">
+            <div class="main-footer-spacer"></div>
+            <div class="other-languages"><span wicket:id="translation-links">Translation links</span></div>
+        </div>
     </div>
 </wicket:extend>
 
