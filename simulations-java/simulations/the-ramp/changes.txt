@@ -1,3 +1,4 @@
+Made the friction coefficients change when the ramp is wet
 Made it so the ramp turns blue when it is wet
 Added "clear heat" button to work/energy bar chart window
 Added support for energy conservation in the frictionless case

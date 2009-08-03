@@ -61,7 +61,7 @@ class RampSegment(_state: RampSegmentState) extends Observable with Rotatable {
   }
 
   def stepInTime(dt: Double) = {
-    _wetness = max(_wetness - 0.02, 0.0)
+    _wetness = max(_wetness - 0.01, 0.0)
     wetnessListeners.foreach(_())
   }
 

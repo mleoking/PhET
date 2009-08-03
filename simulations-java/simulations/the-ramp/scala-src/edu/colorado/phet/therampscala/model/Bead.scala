@@ -41,7 +41,9 @@ class Bead(private var _state: BeadState,
            private var _width: Double,
            positionMapper: Double => Vector2D,
            rampSegmentAccessor: Double => RampSegment,
-           model: Observable, surfaceFriction: () => Boolean,
+           model: Observable,
+           surfaceFriction: () => Boolean,
+           __surfaceFrictionStrategy: SurfaceFrictionStrategy,
            wallsExist: => Boolean,
            wallRange: () => Range)
         extends Observable {
@@ -128,9 +130,7 @@ class Bead(private var _state: BeadState,
     notifyListeners()
   }
 
-  private var _surfaceFrictionStrategy = new SurfaceFrictionStrategy {
-    def getTotalFriction(objectFriction: Double) = objectFriction
-  }
+  private var _surfaceFrictionStrategy = __surfaceFrictionStrategy
 
   def surfaceFrictionStrategy = _surfaceFrictionStrategy
 
