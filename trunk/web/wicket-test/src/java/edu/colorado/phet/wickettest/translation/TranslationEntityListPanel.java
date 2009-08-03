@@ -14,7 +14,7 @@ import edu.colorado.phet.wickettest.translation.entities.TranslationEntity;
 import edu.colorado.phet.wickettest.util.PageContext;
 
 public class TranslationEntityListPanel extends PhetPanel {
-    public TranslationEntityListPanel( String id, PageContext context, final TranslationTestPage page ) {
+    public TranslationEntityListPanel( String id, PageContext context, final TranslationEditPage page ) {
         super( id, context );
 
         setOutputMarkupId( true );
