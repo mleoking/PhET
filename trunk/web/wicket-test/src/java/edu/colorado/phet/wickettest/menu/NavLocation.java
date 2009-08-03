@@ -14,7 +14,7 @@ public class NavLocation implements Serializable {
     private String key;
     private List<NavLocation> children = new LinkedList<NavLocation>();
     private NavLocation parent;
-    private Linkable linker;
+    private transient Linkable linker;
 
     public NavLocation( NavLocation parent, String key, Linkable linker ) {
         this.parent = parent;
