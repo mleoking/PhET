@@ -3,7 +3,7 @@ package edu.colorado.phet.wickettest.panels;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 
 import edu.colorado.phet.wickettest.content.SimulationDisplay;
-import edu.colorado.phet.wickettest.translation.TranslationEditPage;
+import edu.colorado.phet.wickettest.translation.TranslationMainPage;
 import edu.colorado.phet.wickettest.util.PageContext;
 import edu.colorado.phet.wickettest.util.PhetLink;
 import edu.colorado.phet.wickettest.util.StaticImage;
@@ -23,7 +23,7 @@ public class IndexPanel extends PhetPanel {
 
         add( SimulationDisplay.createLink( "play-sims-link", context ) );
 
-        add( new BookmarkablePageLink( "test-translation", TranslationEditPage.class ) );
+        add( new BookmarkablePageLink( "test-translation", TranslationMainPage.class ) );
 
         add( new TranslationLinksPanel( "translation-links", context ) );
     }
