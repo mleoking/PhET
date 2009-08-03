@@ -2,6 +2,7 @@ package edu.colorado.phet.therampscala.model
 
 
 import collection.mutable.ArrayBuffer
+import common.phetcommon.math.Function.LinearFunction
 import common.phetcommon.math.MathUtil
 import graphics.ObjectModel
 import java.awt.Color
@@ -202,10 +203,14 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean) extends Rec
     else
       new Range(-10000, RampDefaults.MAX_X)
   }
+  val surfaceFrictionStrategy = new SurfaceFrictionStrategy(){
+    //todo: allow different values for different segments
+    def getTotalFriction(objectFriction: Double) = new LinearFunction(0,1,objectFriction,objectFriction*0.75).evaluate(rampSegments(0).wetness)
+  }
   val bead = new Bead(new BeadState(defaultBeadPosition, 0, _selectedObject.mass, _selectedObject.staticFriction, _selectedObject.kineticFriction, 0.0),
-    _selectedObject.height, _selectedObject.width, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction, walls, wallRange)
+    _selectedObject.height, _selectedObject.width, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction, surfaceFrictionStrategy,walls, wallRange)
 
-  def createBead(x: Double, width: Double, height: Double) = new Bead(new BeadState(x, 0, 10, 0, 0, 0.0), height, width, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction, walls, wallRange)
+  def createBead(x: Double, width: Double, height: Double) = new Bead(new BeadState(x, 0, 10, 0, 0, 0.0), height, width, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction, surfaceFrictionStrategy,walls, wallRange)
 
   def createBead(x: Double, width: Double): Bead = createBead(x, width, 3)
 
