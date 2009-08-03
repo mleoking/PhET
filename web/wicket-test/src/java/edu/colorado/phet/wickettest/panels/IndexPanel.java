@@ -17,11 +17,11 @@ public class IndexPanel extends PhetPanel {
         add( new StaticImage( "nsf-logo", "/images/nsf-logo-small.gif", null ) );
         add( new StaticImage( "hewlett-logo", "/images/hewlett-logo-small.jpg", null ) );
 
-        PhetLink imageLink = SimulationDisplay.createLink( "image-link", context.getLocale() );
+        PhetLink imageLink = SimulationDisplay.createLink( "image-link", context );
         add( imageLink );
         imageLink.add( new StaticImage( "index-animated-screenshot", "/images/mass-spring-lab-animated-screenshot.gif", null ) );
 
-        add( SimulationDisplay.createLink( "play-sims-link", context.getLocale() ) );
+        add( SimulationDisplay.createLink( "play-sims-link", context ) );
 
         add( new BookmarkablePageLink( "test-translation", TranslationTestPage.class ) );
 
