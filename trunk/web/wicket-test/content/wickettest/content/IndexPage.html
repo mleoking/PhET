@@ -10,15 +10,21 @@
     </wicket:remove>
     <wicket:head>
         <style type="text/css">
+            div.index-holder {
+                width: 765px;
+                margin: 0 auto;
+            }
         </style>
     </wicket:head>
 </head>
 <body wicket:message="dir:language.dir">
 
 <wicket:extend>
-    <wicket:container wicket:id="index-panel">
-        Index panel goes here
-    </wicket:container>
+    <div class="index-holder">
+        <wicket:container wicket:id="index-panel">
+            Index panel goes here
+        </wicket:container>
+    </div>
 </wicket:extend>
 
 </body>
