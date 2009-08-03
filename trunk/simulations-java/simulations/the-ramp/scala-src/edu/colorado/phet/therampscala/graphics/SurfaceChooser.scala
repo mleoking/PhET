@@ -3,7 +3,7 @@ package edu.colorado.phet.therampscala.graphics
 
 import java.awt.{Color}
 import javax.swing._
-import robotmovingcompany.SurfaceModel
+import model.SurfaceModel
 import scalacommon.swing.MyRadioButton
 import umd.cs.piccolo.nodes.PText
 import umd.cs.piccolo.PNode
