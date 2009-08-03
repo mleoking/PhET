@@ -1,3 +1,4 @@
+Added "clear heat" button to work/energy bar chart window
 Added support for energy conservation in the frictionless case
 Added initial support for energy conservation with friction
 Add record/playback of thermal energy for the ramp

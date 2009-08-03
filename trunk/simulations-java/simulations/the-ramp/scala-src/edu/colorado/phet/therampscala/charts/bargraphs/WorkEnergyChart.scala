@@ -4,8 +4,10 @@ import common.phetcommon.view.util.SwingUtils
 import common.piccolophet.nodes.barchart.BarChartNode
 import common.piccolophet.PhetPCanvas
 import java.awt.Color
-import java.awt.event.{WindowEvent, WindowAdapter}
+import java.awt.event.{ComponentEvent, ComponentAdapter, WindowEvent, WindowAdapter}
 import javax.swing.{JDialog, JFrame}
+import scalacommon.swing.MyJButton
+import umd.cs.piccolox.pswing.PSwing
 import scalacommon.util.Observable
 import model.RampModel
 
@@ -39,10 +41,16 @@ class WorkEnergyChart(workEnergyChartModel: WorkEnergyChartModel, model: RampMod
   barChartNode.init(Array(totalEnergyVariable, kineticEnergyVariable, potentialEnergyVariable, thermalEnergyVariable,
     appliedWorkVariable, frictionWorkVariable, gravityWorkVariable, wallWorkVariable, normalWorkVariable))
   val canvas = new PhetPCanvas
+
+  val clearButton = new PSwing(new MyJButton("Clear Heat", () => model.clearHeat()))
+  canvas.addWorldChild(clearButton)
   barChartNode.setOffset(20, 20)
   canvas.addWorldChild(barChartNode)
   frame.setContentPane(canvas)
   frame.setSize(300, 768)
+  canvas.addComponentListener(new ComponentAdapter() {override def componentResized(e: ComponentEvent) = updateButtonLocations()})
+  def updateButtonLocations() = clearButton.setOffset(0, canvas.getHeight - clearButton.getFullBounds.getHeight)
+  updateButtonLocations()
   frame.addWindowListener(new WindowAdapter() {override def windowClosing(e: WindowEvent) = workEnergyChartModel.visible = false})
   SwingUtils.centerWindowOnScreen(frame)
   val bead = model.bead

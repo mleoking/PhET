@@ -222,11 +222,17 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean) extends Rec
     bead.setPosition(defaultBeadPosition)
     bead.parallelAppliedForce = 0
     bead.setVelocity(0)
-    bead.thermalEnergy_=(0.0)
+    bead.thermalEnergy = 0.0
     manBead.setPosition(defaultManPosition)
     bead.attach()
     rampSegments(1).setAngle(initialAngle)
     setPaused(pausedOnReset)
+  }
+
+  def clearHeat()={
+    //todo: cue the fire dog, which will eventually clear the thermal energy
+    bead.thermalEnergy = 0.0
+//    bead.clearHeat()
   }
 
   def setPlaybackState(state: RecordedState) = {
