@@ -6,10 +6,12 @@ import org.apache.wicket.PageParameters;
 import org.apache.wicket.Session;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.IModel;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.wickettest.WicketApplication;
+import edu.colorado.phet.wickettest.content.IndexPage;
 import edu.colorado.phet.wickettest.menu.NavMenu;
 
 public abstract class PhetPage extends WebPage {
@@ -58,7 +60,9 @@ public abstract class PhetPage extends WebPage {
         // TODO: look into detecting whether the subclass page is using markup inheritance, so this does not need to be specified
         if ( addTemplateBindings ) {
             // TODO: refactor static images to a single location, so paths / names can be quickly changed
-            add( new StaticImage( "page-header-logo-image", "/images/phet-logo.gif", null ) );
+            Link link = IndexPage.createLink( "page-header-home-link", getPageContext() );
+            add( link );
+            link.add( new StaticImage( "page-header-logo-image", "/images/phet-logo.gif", null ) );
             add( new StaticImage( "page-header-title-image", "/images/logo-title.jpg", null ) );
         }
 
