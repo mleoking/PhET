@@ -10,7 +10,10 @@ import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.protocol.http.WebRequest;
 import org.apache.wicket.resource.loader.ClassStringResourceLoader;
 
-import edu.colorado.phet.wickettest.content.*;
+import edu.colorado.phet.wickettest.content.AboutPhetPage;
+import edu.colorado.phet.wickettest.content.IndexPage;
+import edu.colorado.phet.wickettest.content.SimulationDisplay;
+import edu.colorado.phet.wickettest.content.SimulationPage;
 import edu.colorado.phet.wickettest.menu.NavMenu;
 import edu.colorado.phet.wickettest.translation.PhetLocalizer;
 import edu.colorado.phet.wickettest.translation.TranslationUrlStrategy;
@@ -33,7 +36,6 @@ public class WicketApplication extends WebApplication {
         mapper = new PhetUrlMapper();
 
         SimulationDisplay.addToMapper( mapper );
-        mapper.addMap( SimulationList.getMappingString(), SimulationList.class );
         SimulationPage.addToMapper( mapper );
         AboutPhetPage.addToMapper( mapper );
         IndexPage.addToMapper( mapper );
