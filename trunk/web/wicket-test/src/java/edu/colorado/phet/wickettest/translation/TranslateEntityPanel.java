@@ -63,17 +63,6 @@ public class TranslateEntityPanel extends PhetPanel {
         panel.add( subPanel );
         add( panel );
 
-        Form form = new Form( "test-form" );
-        form.add( new AjaxButton( "test-button" ) {
-            protected void onSubmit( AjaxRequestTarget target, Form form ) {
-                panel.remove( subPanel );
-                subPanel = entity.getPreviews().get( 0 ).getNewPanel( panel.getWicketId(), externalContext, (PhetRequestCycle) getRequestCycle() );
-                panel.add( subPanel );
-                target.addComponent( panel );
-            }
-        } );
-        add( form );
-
         ListView stringList = new ListView( "translation-string-list", entity.getStrings() ) {
             protected void populateItem( ListItem item ) {
                 final TranslationEntityString tString = (TranslationEntityString) item.getModel().getObject();
