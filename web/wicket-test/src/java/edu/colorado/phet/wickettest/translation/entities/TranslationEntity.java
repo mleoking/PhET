@@ -53,6 +53,7 @@ public abstract class TranslationEntity implements Serializable {
         List<TranslationEntity> entities = new LinkedList<TranslationEntity>();
         entities.add( new CommonEntity() );
         entities.add( new IndexEntity() );
+        entities.add( new NavigationEntity() );
         entities.add( new SimulationMainEntity() );
         entities.add( new SponsorsEntity() );
         return entities;
