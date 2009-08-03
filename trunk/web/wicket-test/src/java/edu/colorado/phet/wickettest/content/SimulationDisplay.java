@@ -96,8 +96,8 @@ public class SimulationDisplay extends PhetRegularPage {
         mapper.addMap( "^simulations/category/([^?]+)([?](.*))?$", SimulationDisplay.class, new String[]{"categories", null, "query-string"} );
     }
 
-    public static PhetLink createLink( String id, Locale locale ) {
-        String str = "/" + LocaleUtils.localeToString( locale ) + "/simulations/category/featured";
+    public static PhetLink createLink( String id, PageContext context ) {
+        String str = context.getPrefix() + "simulations/category/featured";
         return new PhetLink( id, str );
     }
 
