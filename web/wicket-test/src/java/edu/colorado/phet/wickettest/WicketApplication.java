@@ -33,6 +33,7 @@ public class WicketApplication extends WebApplication {
         mapper.addMap( SimulationList.getMappingString(), SimulationList.class );
         SimulationPage.addToMapper( mapper );
         AboutPhetPage.addToMapper( mapper );
+        IndexPage.addToMapper( mapper );
 
         getResourceSettings().setLocalizer( new PhetLocalizer() );
 
