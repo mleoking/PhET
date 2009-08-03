@@ -1,9 +1,9 @@
 package edu.colorado.phet.wickettest.data;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
-import java.io.Serializable;
 
 public class Translation implements Serializable {
     private int id;
