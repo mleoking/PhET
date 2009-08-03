@@ -3,8 +3,12 @@ package edu.colorado.phet.wickettest.translation;
 import java.util.*;
 
 import org.apache.wicket.PageParameters;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.markup.html.list.ListItem;
+import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.IModel;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -82,6 +86,59 @@ public class TranslationMainPage extends PhetPage {
         createTranslationForm.add( localeChoice );
 
         add( createTranslationForm );
+
+        List<Translation> translations = new LinkedList<Translation>();
+        final Map<Translation, Integer> sizes = new HashMap<Translation, Integer>();
+
+        Session session = getHibernateSession();
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+
+            List trans = session.createQuery( "select t from Translation as t order by t.id" ).list();
+
+            for ( Object tran : trans ) {
+                Translation translation = (Translation) tran;
+
+                // count the number of strings
+                sizes.put( translation, ( (Long) session.createQuery( "select count(*) from TranslatedString as ts where ts.translation = :translation" ).setEntity( "translation", translation ).iterate().next() ).intValue() );
+
+                translations.add( translation );
+            }
+
+            tx.commit();
+        }
+        catch( RuntimeException e ) {
+            System.out.println( "Exception: " + e );
+            if ( tx != null && tx.isActive() ) {
+                try {
+                    tx.rollback();
+                }
+                catch( HibernateException e1 ) {
+                    System.out.println( "ERROR: Error rolling back transaction" );
+                }
+                throw e;
+            }
+        }
+
+        ListView tlist = new ListView( "translation-list", translations ) {
+            protected void populateItem( ListItem item ) {
+                final Translation translation = (Translation) item.getModel().getObject();
+                item.add( new Label( "id", String.valueOf( translation.getId() ) ) );
+                item.add( new Label( "locale", translation.getLocale().getDisplayName() + " (" + LocaleUtils.localeToString( translation.getLocale() ) + ")" ) );
+                item.add( new Label( "num-strings", String.valueOf( sizes.get( translation ) ) ) );
+                item.add( new Link( "edit" ) {
+                    public void onClick() {
+                        PageParameters params = new PageParameters();
+                        params.put( "translationId", translation.getId() );
+                        params.put( "translationLocale", LocaleUtils.localeToString( translation.getLocale() ) );
+                        setResponsePage( TranslationEditPage.class, params );
+                    }
+                } );
+            }
+        };
+
+        add( tlist );
 
         addTitle( "Translation test page" );
     }
