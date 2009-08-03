@@ -8,7 +8,6 @@ import org.apache.wicket.model.ResourceModel;
 import org.hibernate.HibernateException;
 import org.hibernate.Transaction;
 
-import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.wickettest.data.Category;
 import edu.colorado.phet.wickettest.data.LocalizedSimulation;
 import edu.colorado.phet.wickettest.data.Simulation;

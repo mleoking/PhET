@@ -7,23 +7,21 @@ import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 
 public class PageContext implements Serializable {
     private Locale locale;
-    private transient PhetPage page;
     private String prefix;
     private String path;
 
-    public PageContext( String prefix, String path, Locale locale, PhetPage page ) {
+    public PageContext( String prefix, String path, Locale locale ) {
         this.prefix = prefix;
         this.path = path;
         this.locale = locale;
-        this.page = page;
     }
 
     public PageContext withNewLocale( Locale newLocale ) {
         if ( prefix.equals( getStandardPrefix() ) ) {
-            return new PageContext( getStandardPrefix( newLocale ), path, newLocale, page );
+            return new PageContext( getStandardPrefix( newLocale ), path, newLocale );
         }
         else {
-            return new PageContext( prefix, path, newLocale, page );
+            return new PageContext( prefix, path, newLocale );
         }
     }
 
@@ -41,11 +39,6 @@ public class PageContext implements Serializable {
 
     public Locale getLocale() {
         return locale;
-    }
-
-    public PhetPage getPage() {
-        throw new RuntimeException( "temporarily disabled" );
-        //return page;
     }
 
     public String getPath() {

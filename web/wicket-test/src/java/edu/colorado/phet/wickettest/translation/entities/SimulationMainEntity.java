@@ -1,5 +1,7 @@
 package edu.colorado.phet.wickettest.translation.entities;
 
+import java.util.List;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -24,9 +26,23 @@ public class SimulationMainEntity extends TranslationEntity {
                 try {
                     tx = session.beginTransaction();
 
-                    Query query = session.createQuery( "select ls from LocalizedSimulation as ls, Simulation as s where (ls.simulation = s and s.name = 'pendulum-lab' and ls.locale = :locale)" );
-
-                    simulation = (LocalizedSimulation) query.setLocale( "locale", LocaleUtils.stringToLocale( "en" ) ).uniqueResult();
+                    Query query = session.createQuery( "select ls from LocalizedSimulation as ls, Simulation as s where (ls.simulation = s and s.name = 'circuit-construction-kit-dc' and ls.locale = :locale)" );
+                    query.setLocale( "locale", context.getLocale() );
+                    List list = query.list();
+                    if ( !list.isEmpty() ) {
+                        simulation = (LocalizedSimulation) list.get( 0 );
+                    }
+                    else {
+                        query = session.createQuery( "select ls from LocalizedSimulation as ls, Simulation as s where (ls.simulation = s and ls.locale = :locale)" );
+                        query.setLocale( "locale", context.getLocale() );
+                        list = query.list();
+                        if ( !list.isEmpty() ) {
+                            simulation = (LocalizedSimulation) list.get( 0 );
+                        }
+                        else {
+                            simulation = (LocalizedSimulation) session.createQuery( "select ls from LocalizedSimulation as ls, Simulation as s where (ls.simulation = s and s.name = 'circuit-construction-kit-dc' and ls.locale = :locale)" ).setLocale( "locale", LocaleUtils.stringToLocale( "en" ) ).uniqueResult();
+                        }
+                    }
 
                     tx.commit();
                 }
