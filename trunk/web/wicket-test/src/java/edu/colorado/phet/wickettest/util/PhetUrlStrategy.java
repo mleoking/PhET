@@ -34,11 +34,13 @@ public class PhetUrlStrategy implements IRequestTargetUrlCodingStrategy {
         //System.out.println( "X Path: " + requestParameters.getPath() );
         //System.out.println( "X ComponentPath: " + requestParameters.getComponentPath() );
         PageParameters params = new PageParameters( requestParameters.getParameters() );
-        params.add( "path", requestParameters.getPath() );
+        String requestPath = requestParameters.getPath();
+        String strippedPath = stripPath( requestPath );
+        params.add( "fullPath", requestPath );
+        params.add( "path", strippedPath );
         params.add( "localeString", prefix );
         params.add( "prefixString", "/" + prefix + "/" );
         params.put( "locale", LocaleUtils.stringToLocale( prefix ) );
-        String strippedPath = stripPath( requestParameters.getPath() );
         Class toClass = mapper.getMappedClass( strippedPath, params );
         return new BookmarkablePageRequestTarget( toClass, params );
     }
