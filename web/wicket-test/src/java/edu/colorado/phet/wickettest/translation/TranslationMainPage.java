@@ -87,7 +87,7 @@ public class TranslationMainPage extends PhetPage {
 
         add( createTranslationForm );
 
-        List<Translation> translations = new LinkedList<Translation>();
+        final List<Translation> translations = new LinkedList<Translation>();
         final Map<Translation, Integer> sizes = new HashMap<Translation, Integer>();
 
         Session session = getHibernateSession();
@@ -133,6 +133,37 @@ public class TranslationMainPage extends PhetPage {
                         params.put( "translationId", translation.getId() );
                         params.put( "translationLocale", LocaleUtils.localeToString( translation.getLocale() ) );
                         setResponsePage( TranslationEditPage.class, params );
+                    }
+                } );
+                item.add( new Link( "delete" ) {
+                    public void onClick() {
+                        Session session = TranslationMainPage.this.getHibernateSession();
+                        Transaction tx = null;
+                        try {
+                            tx = session.beginTransaction();
+
+                            session.load( translation, translation.getId() );
+
+                            translations.remove( translation );
+                            for ( Object o : translation.getTranslatedStrings() ) {
+                                session.delete( o );
+                            }
+                            session.delete( translation );
+
+                            tx.commit();
+                        }
+                        catch( RuntimeException e ) {
+                            System.out.println( "Exception: " + e );
+                            if ( tx != null && tx.isActive() ) {
+                                try {
+                                    tx.rollback();
+                                }
+                                catch( HibernateException e1 ) {
+                                    System.out.println( "ERROR: Error rolling back transaction" );
+                                }
+                                throw e;
+                            }
+                        }
                     }
                 } );
             }
