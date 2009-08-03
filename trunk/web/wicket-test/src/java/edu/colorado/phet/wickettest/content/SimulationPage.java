@@ -1,7 +1,6 @@
 package edu.colorado.phet.wickettest.content;
 
 import java.util.HashSet;
-import java.util.Locale;
 import java.util.Set;
 
 import org.apache.wicket.PageParameters;
@@ -11,15 +10,11 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.wickettest.data.Category;
 import edu.colorado.phet.wickettest.data.LocalizedSimulation;
 import edu.colorado.phet.wickettest.menu.NavLocation;
 import edu.colorado.phet.wickettest.panels.SimulationMainPanel;
-import edu.colorado.phet.wickettest.util.HibernateUtils;
-import edu.colorado.phet.wickettest.util.PhetLink;
-import edu.colorado.phet.wickettest.util.PhetMenuPage;
-import edu.colorado.phet.wickettest.util.PhetUrlMapper;
+import edu.colorado.phet.wickettest.util.*;
 
 public class SimulationPage extends PhetMenuPage {
     public SimulationPage( PageParameters parameters ) {
@@ -77,12 +72,12 @@ public class SimulationPage extends PhetMenuPage {
         mapper.addMap( "^simulation/([^/]+)(/([^/]+))?$", SimulationPage.class, new String[]{"project", null, "flavor"} );
     }
 
-    public static PhetLink createLink( String id, Locale locale, LocalizedSimulation simulation ) {
-        return createLink( id, locale, simulation.getSimulation().getProject().getName(), simulation.getSimulation().getName() );
+    public static PhetLink createLink( String id, PageContext context, LocalizedSimulation simulation ) {
+        return createLink( id, context, simulation.getSimulation().getProject().getName(), simulation.getSimulation().getName() );
     }
 
-    public static PhetLink createLink( String id, Locale locale, String projectName, String simulationName ) {
-        String str = "/" + LocaleUtils.localeToString( locale ) + "/simulation/" + projectName;
+    public static PhetLink createLink( String id, PageContext context, String projectName, String simulationName ) {
+        String str = context.getPrefix() + "simulation/" + projectName;
         if ( !projectName.equals( simulationName ) ) {
             str += "/" + simulationName;
         }

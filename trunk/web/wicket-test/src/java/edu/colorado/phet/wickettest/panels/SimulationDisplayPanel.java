@@ -32,7 +32,7 @@ public class SimulationDisplayPanel extends PhetPanel {
             @Override
             protected void populateItem( Item item ) {
                 LocalizedSimulation simulation = (LocalizedSimulation) item.getModelObject();
-                PhetLink link = SimulationPage.createLink( "simulation-link", getMyLocale(), simulation );
+                PhetLink link = SimulationPage.createLink( "simulation-link", context, simulation );
                 link.add( new Label( "title", simulation.getTitle() ) );
                 link.add( new StaticImage( "thumbnail", simulation.getSimulation().getThumbnailUrl(), MessageFormat.format( "Screenshot of the simulation {0}", encode( simulation.getTitle() ) ) ) );
                 item.add( link );

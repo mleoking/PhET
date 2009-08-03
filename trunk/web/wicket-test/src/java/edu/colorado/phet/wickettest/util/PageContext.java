@@ -3,8 +3,6 @@ package edu.colorado.phet.wickettest.util;
 import java.io.Serializable;
 import java.util.Locale;
 
-import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
-
 public class PageContext implements Serializable {
     private Locale locale;
     private transient PhetPage page;
