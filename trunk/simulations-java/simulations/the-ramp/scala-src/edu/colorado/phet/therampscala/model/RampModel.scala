@@ -229,20 +229,41 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean) extends Rec
     setPaused(pausedOnReset)
   }
 
-  class Raindrop(p: Vector2D) {
+  class Raindrop(p: Vector2D,rainSpeed:Double,angle:Double) {
+    val removedListeners = new ArrayBuffer[() => Unit]
+    val rainbead=createBead(0.0,0.3,0.5)
+    private var _angle = 0.0
+    rainbead.attachState = new rainbead.Airborne(p, new Vector2D(angle) * rainSpeed, 0.0){
+      override def getAngle = velocity2D.getAngle + PI/2 
+    }
+    def stepInTime(dt:Double) = {
+      rainbead.stepInTime(dt)
+      rainbead.attachState match {
+        case x:rainbead.Crashed => {
+          raindrops -= this
+          removedListeners.foreach(_())
+        }
+        case _ => {}
+      }
+      //todo: check for collisions
+    }
   }
   class MyFireDog {
-    val dogbead = createBead(-15, 2, 2)
+    val removedListeners = new ArrayBuffer[()=> Unit]
+    val height=2
+    val width=2
+    val dogbead = createBead(-15, height, width)
     private var raindropCount = 0
     private val incomingSpeed = 0.5
     private val outgoingSpeed = 1.0
-    private val maxDrops = 100
+    private val maxDrops = 60
+    private val random=new java.util.Random()
 
     def stepInTime(dt: Double) = {
       if (dogbead.position < -5 && raindropCount < maxDrops) {
         dogbead.setPosition(dogbead.position + incomingSpeed)
       } else if (raindropCount < maxDrops) {
-        val raindrop = new Raindrop(dogbead.position2D)
+        val raindrop = new Raindrop(dogbead.position2D+new Vector2D(width/2.0,height/3.0),10 + random.nextGaussian*3,PI/4+random.nextGaussian()*PI/16)
         raindrops += raindrop
         raindropCount = raindropCount + 1
         raindropAddedListeners.foreach(_(raindrop))
@@ -250,7 +271,7 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean) extends Rec
         dogbead.setPosition(dogbead.position - outgoingSpeed)
       } else {
         fireDogs -= this
-        fireDogRemovedListeners.foreach(_(this))
+        removedListeners.foreach(_())
       }
     }
   }
@@ -258,7 +279,6 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean) extends Rec
   private val raindrops = new ArrayBuffer[Raindrop]
   private val fireDogs = new ArrayBuffer[MyFireDog]
   val fireDogAddedListeners = new ArrayBuffer[MyFireDog => Unit]
-  val fireDogRemovedListeners = new ArrayBuffer[MyFireDog => Unit]
   val raindropAddedListeners = new ArrayBuffer[Raindrop => Unit]
 
   def clearHeat() = {
@@ -357,6 +377,7 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean) extends Rec
     super.setTime(getTime + dt)
     bead.stepInTime(dt)
     for (f <- fireDogs) f.stepInTime(dt)
+    for (r <- raindrops) r.stepInTime(dt)
     recordHistory += new DataPoint(getTime, new RecordedState(getRampAngle, selectedObject.state, bead.state, manBead.state, bead.parallelAppliedForce, walls))
     stepListeners.foreach(_())
     notifyListeners() //signify to the Timeline that more data has been added
