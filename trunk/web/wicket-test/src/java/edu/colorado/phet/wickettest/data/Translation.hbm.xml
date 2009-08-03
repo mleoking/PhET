@@ -8,8 +8,8 @@
             <generator class="increment"/>
         </id>
         <property name="locale" type="locale"/>
-        <set name="translatedStrings" inverse="true">
-            <key column="translation"/>
+        <set name="translatedStrings" inverse="true" cascade="all">
+            <key column="translation" on-delete="cascade"/>
             <one-to-many class="edu.colorado.phet.wickettest.data.TranslatedString"/>
         </set>
     </class>
