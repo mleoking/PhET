@@ -25,9 +25,6 @@ public class IndexPanel extends PhetPanel {
 
         add( new BookmarkablePageLink( "test-translation", TranslationTestPage.class ) );
 
-//        add( new LocalizedLabel( "test-en", LocaleUtils.stringToLocale( "en" ), new ResourceModel( "language.name" ) ) );
-//        add( new LocalizedLabel( "test-ar", LocaleUtils.stringToLocale( "ar" ), new ResourceModel( "language.name" ) ) );
-
         add( new TranslationLinksPanel( "translation-links", context ) );
     }
 

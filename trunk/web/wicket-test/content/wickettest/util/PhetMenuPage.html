@@ -28,6 +28,20 @@
             div.rtl #main-content {
                 margin-right: 240px;
             }
+
+            div.main-footer {
+                clear: both;
+            }
+
+            div.main-footer-spacer {
+                padding-bottom: 20px;
+            }
+
+            div.other-languages {
+                border-top: 1px solid gray;
+                padding-top: 10px;
+                text-align: center;
+            }
         </style>
     </wicket:head>
 </head>
@@ -47,6 +61,10 @@
         <wicket:remove>
             Main content
         </wicket:remove>
+    </div>
+    <div class="main-footer">
+        <div class="main-footer-spacer"> </div>
+        <div class="other-languages"><span wicket:id="translation-links">Translation links</span></div>
     </div>
 </wicket:extend>
 

@@ -8,12 +8,15 @@ import org.apache.wicket.PageParameters;
 import edu.colorado.phet.wickettest.menu.NavLocation;
 import edu.colorado.phet.wickettest.panels.SideNavMenu;
 import edu.colorado.phet.wickettest.panels.SponsorsPanel;
+import edu.colorado.phet.wickettest.panels.TranslationLinksPanel;
 
 public abstract class PhetMenuPage extends PhetPage {
     public PhetMenuPage( PageParameters parameters ) {
         super( parameters, true );
 
         add( new SponsorsPanel( "sponsors-panel", getPageContext() ) );
+        add( new TranslationLinksPanel( "translation-links", getPageContext() ) );
+
     }
 
     public void initializeLocation( NavLocation currentLocation ) {
