@@ -49,13 +49,13 @@ class BasicRampModule(frame: JFrame, clock: ScalaClock, name: String,
 }
 
 import RampResources._
-class IntroRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, str("module.introduction"), false, false, -6, false,RampDefaults.defaultRampAngle)
+class IntroRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "module.introduction".translate, false, false, -6, false,RampDefaults.defaultRampAngle)
 
-class CoordinatesRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, str("module.coordinates"), true, false, -6, false,RampDefaults.defaultRampAngle) {
+class CoordinatesRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "module.coordinates".translate, true, false, -6, false,RampDefaults.defaultRampAngle) {
   coordinateSystemModel.adjustable = true
 }
 
-class ForceGraphsModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(frame, clock, str("module.force-graphs"), false)
+class ForceGraphsModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(frame, clock, "module.force-graphs".translate, false)
 
 class GraphingModule(frame: JFrame, clock: ScalaClock, name: String, showEnergyGraph: Boolean) extends BasicRampModule(frame, clock, name, false, true, -6, true,RampDefaults.defaultRampAngle) {
   coordinateSystemModel.adjustable = false
@@ -76,9 +76,9 @@ class GraphingModule(frame: JFrame, clock: ScalaClock, name: String, showEnergyG
   }
 }
 
-class WorkEnergyModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(frame, clock, str("module.work-energy"), true) {
+class WorkEnergyModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(frame, clock, "module.work-energy".translate, true) {
   val workEnergyChartModel = new WorkEnergyChartModel
-  val jButton = new JButton(str("controls.showWorkEnergyCharts"))
+  val jButton = new JButton("controls.showWorkEnergyCharts".translate)
   jButton.addActionListener(new ActionListener() {
     def actionPerformed(e: ActionEvent) = {workEnergyChartModel.visible = true}
   })
@@ -88,14 +88,14 @@ class WorkEnergyModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(
   override def resetAll() = {super.reset(); workEnergyChartModel.reset()}
 }
 
-class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock) extends AbstractRampModule(frame, clock, str("module.robotMovingCompany"), 5, false,RampDefaults.defaultRampAngle) {
+class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock) extends AbstractRampModule(frame, clock, "module.robotMovingCompany".translate, 5, false,RampDefaults.defaultRampAngle) {
   val gameModel = new RobotMovingCompanyGameModel(model, clock)
 
   gameModel.itemFinishedListeners += ((scalaRampObject, result) => {
     val audioClip = result match {
-      case Result(_, true, _, _) => Some("smash0.wav")
-      case Result(true, false, _, _) => Some("tintagel/DIAMOND.WAV")
-      case Result(false, false, _, _) => Some("tintagel/PERSONAL.WAV")
+      case Result(_, true, _, _) => Some("smash0.wav".literal)
+      case Result(true, false, _, _) => Some("tintagel/DIAMOND.WAV".literal)
+      case Result(false, false, _, _) => Some("tintagel/PERSONAL.WAV".literal)
       case _ => None
     }
     if (!audioClip.isEmpty) RampResources.getAudioClip(audioClip.get).play()
@@ -126,12 +126,13 @@ class RobotMovingCompanyApplication(config: PhetApplicationConfig) extends Picco
 
 //Current IntelliJ plugin has trouble finding main for classes with a companion object, so we use a different name 
 object RampApplicationMain {
-  def main(args: Array[String]) = new PhetApplicationLauncher().launchSim(args, "the-ramp", classOf[RampApplication])
+  def main(args: Array[String]) = new PhetApplicationLauncher().launchSim(args, "the-ramp".literal, classOf[RampApplication])
 }
 object RampWorkEnergyApplicationMain {
-  def main(args: Array[String]) = new PhetApplicationLauncher().launchSim(args, "the-ramp", classOf[RampWorkEnergyApplication])
+  def main(args: Array[String]) = new PhetApplicationLauncher().launchSim(args, "the-ramp".literal, classOf[RampWorkEnergyApplication])
 }
 
 object RobotMovingCompanyApplicationMain {
-  def main(args: Array[String]) = new PhetApplicationLauncher().launchSim(args, "the-ramp", "robot-moving-company", classOf[RobotMovingCompanyApplication])
+  def main(args: Array[String]) = new PhetApplicationLauncher().launchSim(args, "the-ramp".literal, "robot-moving-company".literal, classOf[RobotMovingCompanyApplication])
 }
+

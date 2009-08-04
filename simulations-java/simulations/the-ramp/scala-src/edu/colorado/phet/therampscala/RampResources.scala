@@ -15,4 +15,11 @@ object RampResources extends PhetResources("the-ramp") {
   def formatEnergy(energy: String) = MessageFormat.format(energyPattern, energy)
 
   def formatWork(work: String) = MessageFormat.format(workPattern, work)
+
+  implicit def toMyRichString(s:String) = new MyRichString(s)
+}
+
+class MyRichString(s:String){
+  lazy val literal = s
+  lazy val translate = RampResources.getLocalizedString(s)
 }
