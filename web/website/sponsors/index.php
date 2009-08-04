@@ -35,7 +35,9 @@ class SponsorsPage extends SitePage {
 
                             <li class="platinum"><a href="http://www.nsf.gov/"><img class="spons" src="{$this->prefix}images/nsf-logo.gif" alt="NSF Logo" /><strong>The National Science Foundation</strong></a></li>
 
-                            <li class="platinum"><a href="http://www.ksu.edu.sa"><img class="spons" src="{$this->prefix}images/ECSME-logo.jpg" alt="KSU Logo" /><strong>King Saud University</strong></a></li>
+                            <li class="platinum"><a href="http://www.ksu.edu.sa"><img class="spons" src="{$this->prefix}images/ECSME-logo.jpg" alt="KSU Logo" /><strong>Excellence Center of Science and Mathematics Education at King Saud University</strong></a></li>
+
+                            <li class="platinum"><a href="http://www.ksu.edu.sa"><img class="spons" src="{$this->prefix}images/KSU-logo.jpg" alt="KSU Logo" /><strong>King Saud University</strong></a></li>
 
                             <li class="platinum"><a href="http://jila-amo.colorado.edu"><img class="spons" src="{$this->prefix}images/jila_logo_medium.gif" alt="JILA AMO Logo" /><strong>JILA Center for Atomic, Molecular, &amp; Optical Physics</strong></a></li>
 

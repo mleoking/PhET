@@ -105,12 +105,12 @@ EOT;
 
         <div id="home-page-spons">
             <div class="spon">
-                <a href="http://www.ksu.edu.sa/" title="Click here to visit the King Saud University">
-                    <img src="images/ksu-logo.gif" height="28" alt="King Saud University Logo"/>
+                <a href="http://ecsme.ksu.edu.sa/en/index.cfm" title="Click here to visit the Excellence Center of Science and Mathematics Education at King Saud University">
+                    <img src="images/ECSME-combined-logo-small.jpg" height="28" alt="Excellence Center of Science and Mathematics Education at King Saud University Logo"/>
                 </a>
                 <p>
-                    <a href="http://www.ksu.edu.sa/" title="Click here to visit the King Saud University">
-                        King Saud University
+                    <a href="http://ecsme.ksu.edu.sa/en/index.cfm" title="Click here to visit the Excellence Center of Science and Mathematics Education at King Saud University">
+                        Excellence Center of Science and Mathematics Education at King Saud University
                     </a>
                 </p>
             </div>
