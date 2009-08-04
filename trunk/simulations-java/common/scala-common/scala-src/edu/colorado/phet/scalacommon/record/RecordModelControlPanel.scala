@@ -111,9 +111,12 @@ class RecordModelControlPanel[T](model: RecordModel[T], simPanel: JComponent, cr
   stepButton.addInputEventListener(new ToolTipHandler(getString("Common.ClockControlPanel.Step"), this))
   model.addListener(() => {
     val isLastStep = model.getPlaybackIndex == model.getRecordingHistory.length
-    stepButton.setEnabled(model.isPlayback && model.isPaused && !isLastStep)
+    stepButton.setEnabled(model.isPaused && !isLastStep)
   })
-  stepButton.addListener(() => {model.stepPlayback()})
+  stepButton.addListener(() => {
+    if (model.isPlayback) model.stepPlayback()
+    else if (model.isRecord) model.stepRecord()
+  })
   stepButton.setOffset(0, 12)
 
   addControl(clearButtonNode)

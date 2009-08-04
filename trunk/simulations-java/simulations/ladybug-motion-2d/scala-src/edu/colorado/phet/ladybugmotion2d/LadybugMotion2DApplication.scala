@@ -6,6 +6,6 @@ import scalacommon.{ScalaApplicationLauncher, ScalaClock}
 object LadybugMotion2DApplication {
   def main(args: Array[String]) = {
     ScalaApplicationLauncher.launchApplication(args, "ladybug-motion-2d", "ladybug-motion-2d",
-      () => new LadybugModule[LadybugModel](new ScalaClock(30, 30 / 1000.0)))
+      () => new LadybugModule[LadybugModel](new ScalaClock(30, LadybugDefaults.defaultDT)))
   }
 }
