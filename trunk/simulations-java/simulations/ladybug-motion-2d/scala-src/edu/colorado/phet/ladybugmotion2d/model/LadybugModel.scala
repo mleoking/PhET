@@ -16,10 +16,7 @@ import scalacommon.record.{DataPoint, RecordModel}
  * and using the same model as Motion2D for interpolation.
  */
 class LadybugModel extends RecordModel[LadybugState] {
-  def stepRecord() = {
-    println("doing step record with dt=" + LadybugDefaults.defaultDT)
-    surelyUpdate(LadybugDefaults.defaultDT)
-  }
+  def stepRecord() = surelyUpdate(LadybugDefaults.defaultDT)
 
   val ladybug = new Ladybug
   private val ladybugMotionModel = new LadybugMotionModel(this)
