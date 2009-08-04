@@ -192,7 +192,6 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel, private va
 
   def addVector(vector: Vector, offset: VectorValue, maxDistToLabel: Double) = {
     addChild(new VectorNode(transform, vector, offset, maxDistToLabel))
-    //    println("Added: child count=" + getVectorCount)
   }
 
   def removeVector(vector: Vector) = {
@@ -208,7 +207,6 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel, private va
       }
     }
     count
-    //    println("Cleared: child count="+getChildrenCount)
   }
 
   def clearVectors() {
@@ -226,7 +224,6 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel, private va
     for (node <- removeList) {
       removeChildByIndex(node)
     }
-    //    println("Cleared: child count="+getChildrenCount)
   }
 
   def removeChildByIndex(node: PNode) {
@@ -299,7 +296,6 @@ class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val ta
   val update = () => {
     setVisible(vector.visible)
     if (vector.visible) { //skip expensive updates if not visible
-      //    println("vector: " + vector.abbreviation + ", mag=" + vector.getValue.magnitude)
       val viewTip = transform.modelToViewDouble(vector.getValue + tailLocation.getValue)
       arrowNode.setTipAndTailLocations(viewTip, transform.modelToViewDouble(tailLocation.getValue))
 
