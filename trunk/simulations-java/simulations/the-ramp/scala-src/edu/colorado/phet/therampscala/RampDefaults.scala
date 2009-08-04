@@ -24,23 +24,26 @@ object RampDefaults {
 
   //ScalaRampObject(name,mass,kineticFriction,staticFriction,image)
   import RampResources._
-  val objects = new ScalaRampObject(str("object.file-cabinet"), 50, 0.2, 0.5, 2.25, "cabinet.gif", 100) ::
-          new ScalaRampObject(str("object.dog"), 25, 0.5, 0.5, 1.25, "ollie.gif", 500) ::
-          new ScalaRampObject(str("object.small-crate"), 100, 0.3, 0.5, 1.5, "crate.gif", 200) ::
-          new MutableRampObject(str("object.custom-crate"), 150, 0.3, 0.5, -1, "crate.gif", 300, "crate_custom.gif", true) :: //height is determined dynamically in MutableRampObject
-          new ScalaRampObject(str("object.refrigerator"), 200, 0.2, 0.5, 2.75, "fridge.gif", 650) ::
-          new ScalaRampObject(str("object.textbook"), 10, 0.2, 0.4, 1, "phetbook.gif", 20) ::
-          new ScalaRampObject(str("object.piano"), 400, 0.3, 0.5, 3.5, "piano.png", 1000) ::
-          new CustomTextRampObject(str("object.mystery-object"), 300, 0.5, 0.5, 2, "mystery-box.png", 600, "mystery-box.png", false) ::
+  val objects = new ScalaRampObject("object.file-cabinet".translate, 50, 0.2, 0.5, 2.25, "cabinet.gif".literal, 100) ::
+          new ScalaRampObject("object.dog".translate, 25, 0.5, 0.5, 1.25, "ollie.gif".literal, 500) ::
+          new ScalaRampObject("object.small-crate".translate, 100, 0.3, 0.5, 1.5, "crate.gif".literal, 200) ::
+          new MutableRampObject("object.custom-crate".translate, 150, 0.3, 0.5, -1, "crate.gif".literal, 300, "crate_custom.gif".literal, true) :: //height is determined dynamically in MutableRampObject
+          new ScalaRampObject("object.refrigerator".translate, 200, 0.2, 0.5, 2.75, "fridge.gif".literal, 650) ::
+          new ScalaRampObject("object.textbook".translate, 10, 0.2, 0.4, 1, "phetbook.gif".literal, 20) ::
+          new ScalaRampObject("object.piano".translate, 400, 0.3, 0.5, 3.5, "piano.png".literal, 1000) ::
+          new CustomTextRampObject("object.mystery-object".translate, 300, 0.5, 0.5, 2, "mystery-box.png".literal, 600, "mystery-box.png".literal, false) ::
           Nil
   val iconsPerRow = 4
 
-  val wall = new ScalaRampObject("wall", 1000, 1000, 1000, 3.5, "wall.jpg", 100)
-  val house = new ScalaRampObject("house", 1000, 1000, 1000, 5, "robotmovingcompany/house.gif", 100)
+  val wall = new ScalaRampObject("wall".literal, 1000, 1000, 1000, 3.5, "wall.jpg".literal, 100)
+  val house = new ScalaRampObject("house".literal, 1000, 1000, 1000, 5, "robotmovingcompany/house.gif".literal, 100)
 
   def wallWidth = wall.width
 
   import Color._
+
+  val myGold = new Color(255,235,0)
+  val myBrickRed = new Color(185,80,50)
 
   val myGreen = new Color(0.0f, 0.8f, 0.1f);
   val lightBlue = new Color(160, 220, 255);
@@ -49,10 +52,10 @@ object RampDefaults {
 
   val appliedForceColor = myOrange
   val gravityForceColor = new Color(50, 130, 215)
-  val normalForceColor = magenta
+  val normalForceColor = myGold
   val frictionForceColor = red
   val totalForceColor = pink //used to be myGreen
-  val wallForceColor = drabYellow
+  val wallForceColor = myBrickRed
 
   val appliedWorkColor = appliedForceColor
   val frictionWorkColor = frictionForceColor
