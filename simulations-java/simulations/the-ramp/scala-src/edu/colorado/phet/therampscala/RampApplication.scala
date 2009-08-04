@@ -48,13 +48,14 @@ class BasicRampModule(frame: JFrame, clock: ScalaClock, name: String,
   setClockControlPanel(new RecordModelControlPanel(model, canvas, () => new PlaybackSpeedSlider(model), Color.blue, 20))
 }
 
-class IntroRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, RampStrings.moduleIntro, false, false, -6, false,RampDefaults.defaultRampAngle)
+import RampResources._
+class IntroRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, str("module.introduction"), false, false, -6, false,RampDefaults.defaultRampAngle)
 
-class CoordinatesRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, RampStrings.moduleCoordinates, true, false, -6, false,RampDefaults.defaultRampAngle) {
+class CoordinatesRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, str("module.coordinates"), true, false, -6, false,RampDefaults.defaultRampAngle) {
   coordinateSystemModel.adjustable = true
 }
 
-class ForceGraphsModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(frame, clock, RampStrings.moduleForceGraphs, false)
+class ForceGraphsModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(frame, clock, str("module.force-graphs"), false)
 
 class GraphingModule(frame: JFrame, clock: ScalaClock, name: String, showEnergyGraph: Boolean) extends BasicRampModule(frame, clock, name, false, true, -6, true,RampDefaults.defaultRampAngle) {
   coordinateSystemModel.adjustable = false
@@ -75,19 +76,19 @@ class GraphingModule(frame: JFrame, clock: ScalaClock, name: String, showEnergyG
   }
 }
 
-class WorkEnergyModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(frame, clock, RampStrings.moduleWorkEnergy, true) {
+class WorkEnergyModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(frame, clock, str("module.work-energy"), true) {
   val workEnergyChartModel = new WorkEnergyChartModel
-  val jButton = new JButton(RampStrings.controlsShowWorkEnergyCharts)
+  val jButton = new JButton(str("controls.showWorkEnergyCharts"))
   jButton.addActionListener(new ActionListener() {
     def actionPerformed(e: ActionEvent) = {workEnergyChartModel.visible = true}
   })
   rampControlPanel.addToBody(jButton)
   val chart = new WorkEnergyChart(workEnergyChartModel, model, frame)
 
-  override def reset = {super.reset(); workEnergyChartModel.reset()}
+  override def resetAll() = {super.reset(); workEnergyChartModel.reset()}
 }
 
-class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock) extends AbstractRampModule(frame, clock, RampStrings.moduleRobotMovingCompany, 5, false,RampDefaults.defaultRampAngle) {
+class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock) extends AbstractRampModule(frame, clock, str("module.robotMovingCompany"), 5, false,RampDefaults.defaultRampAngle) {
   val gameModel = new RobotMovingCompanyGameModel(model, clock)
 
   gameModel.itemFinishedListeners += ((scalaRampObject, result) => {
