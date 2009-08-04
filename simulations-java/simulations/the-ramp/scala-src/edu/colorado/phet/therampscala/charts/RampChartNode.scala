@@ -80,21 +80,23 @@ class RampChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model:
     def setUpdateStrategy(updateStrategy: UpdateStrategy) = {}
   }
   import RampResources._
+  import RampDefaults._
+  val N = "units.abbr.newtons".translate
+  val J = "units.abbr.joules".translate
+  val appliedForceSeries = new ControlGraphSeries(formatForce("forces.applied".translate), appliedForceColor, "Fa", N, "", parallelAppliedForceVariable)
+  val frictionSeries = new ControlGraphSeries(formatForce("forces.friction".translate), frictionForceColor, "Ff", N, "", parallelFrictionVariable)
+  val gravitySeries = new ControlGraphSeries(formatForce("forces.Gravity".translate), gravityForceColor, "Fg", N, "", gravityForceVariable)
+  val wallSeries = new ControlGraphSeries(formatForce("forces.Wall".translate), wallForceColor, "Fw", N, "", wallForceVariable)
+  val netForceSeries = new ControlGraphSeries(formatForce("forces.Net".translate), totalForceColor, "Fsum", N, "", netForceVariable)
 
-  val appliedForceSeries = new ControlGraphSeries(formatForce(str("forces.applied")), RampDefaults.appliedForceColor, "Fa", "N", "", parallelAppliedForceVariable)
-  val frictionSeries = new ControlGraphSeries(formatForce(str("forces.friction")), RampDefaults.frictionForceColor, "Ff", "N", "", parallelFrictionVariable)
-  val gravitySeries = new ControlGraphSeries(formatForce(str("forces.Gravity")), RampDefaults.gravityForceColor, "Fg", "N", "", gravityForceVariable)
-  val wallSeries = new ControlGraphSeries(formatForce(str("forces.Wall")), RampDefaults.wallForceColor, "Fw", "N", "", wallForceVariable)
-  val netForceSeries = new ControlGraphSeries(formatForce(str("forces.Net")), RampDefaults.totalForceColor, "Fsum", "N", "", netForceVariable)
+  val totalEnergySeries = new ControlGraphSeries(formatEnergy("energy.total".translate), totalEnergyColor, "Etot", J, "", energyVariable)
+  val keSeries = new ControlGraphSeries(formatEnergy("energy.kinetic".translate), kineticEnergyColor, "KE", J, "", keVariable)
+  val peSeries = new ControlGraphSeries(formatEnergy("energy.potential".translate), potentialEnergyColor, "PE", J, "", peVariable)
+  val thermalEnergySeries = new ControlGraphSeries(formatEnergy("energy.thermal".translate), thermalEnergyColor, "PE", J, "", thermalEnergyVariable)
 
-  val totalEnergySeries = new ControlGraphSeries(formatEnergy(str("energy.total")), RampDefaults.totalEnergyColor, "Etot", "J", "", energyVariable)
-  val keSeries = new ControlGraphSeries(formatEnergy(str("energy.kinetic")), RampDefaults.kineticEnergyColor, "KE", "J", "", keVariable)
-  val peSeries = new ControlGraphSeries(formatEnergy(str("energy.potential")), RampDefaults.potentialEnergyColor, "PE", "J", "", peVariable)
-  val thermalEnergySeries = new ControlGraphSeries(formatEnergy(str("energy.thermal")), RampDefaults.thermalEnergyColor, "PE", "J", "", thermalEnergyVariable)
-
-  val appliedWorkSeries = new ControlGraphSeries(formatWork(str("work.applied")), RampDefaults.appliedWorkColor, "Wapp", "J", "", appliedWorkVariable)
-  val gravityWorkSeries = new ControlGraphSeries(formatWork(str("work.gravity")), RampDefaults.gravityWorkColor, "Wgrav", "J", "", gravityWorkVariable)
-  val frictionWorkSeries = new ControlGraphSeries(formatWork(str("work.friction")), RampDefaults.frictionWorkColor, "Wfric", "J", "", frictionWorkVariable)
+  val appliedWorkSeries = new ControlGraphSeries(formatWork("work.applied".translate), appliedWorkColor, "Wapp", J, "", appliedWorkVariable)
+  val gravityWorkSeries = new ControlGraphSeries(formatWork("work.gravity".translate), gravityWorkColor, "Wgrav", J, "", gravityWorkVariable)
+  val frictionWorkSeries = new ControlGraphSeries(formatWork("work.friction".translate), frictionWorkColor, "Wfric", J, "", frictionWorkVariable)
 
   class RampGraph(defaultSeries: ControlGraphSeries) extends MotionControlGraph(canvas, defaultSeries, "label", "title", -2000, 2000, true, timeseriesModel, updateableObject) {
     getJFreeChartNode.setBuffered(false)
@@ -148,7 +150,7 @@ class RampChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model:
       }
     })
     def setValueFromText() = try {
-      series.getTemporalVariable.setValue(new DefaultDecimalFormat("0.00").parse(textField.getText).doubleValue)
+      series.getTemporalVariable.setValue(new DefaultDecimalFormat("0.00".literal).parse(textField.getText).doubleValue)
     } catch {
       case re: Exception => {}
     }
@@ -163,7 +165,7 @@ class RampChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model:
     series.getTemporalVariable.addListener(new ITemporalVariable.ListenerAdapter() {
       override def valueChanged = updateLabel()
     })
-    def updateLabel() = textField.setText(new DefaultDecimalFormat("0.00").format(series.getTemporalVariable.getValue))
+    def updateLabel() = textField.setText(new DefaultDecimalFormat("0.00".literal).format(series.getTemporalVariable.getValue))
 
     updateLabel()
     textField
@@ -178,7 +180,7 @@ class RampChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model:
     panel
   }
 
-  parallelForceControlGraph.addControl(new SeriesSelectionControl("Parallel Forces (N)", 5) {
+  parallelForceControlGraph.addControl(new SeriesSelectionControl("forces.parallel-title-with-units".translate, 5) {
     addToGrid(appliedForceSeries, createEditableLabel)
     addToGrid(frictionSeries)
     addToGrid(gravitySeries)
@@ -198,7 +200,7 @@ class RampChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model:
     addSeries(gravityWorkSeries)
     addSeries(frictionWorkSeries)
   }
-  workEnergyGraph.addControl(new SeriesSelectionControl("Work/Energy (J)", 7) {
+  workEnergyGraph.addControl(new SeriesSelectionControl("forces.work-energy-title-with-units".translate, 7) {
     addToGrid(totalEnergySeries)
     addToGrid(keSeries)
     addToGrid(peSeries)
@@ -208,8 +210,8 @@ class RampChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model:
     addToGrid(frictionWorkSeries)
   })
 
-  val parallelForcesString = str("forces.parallel-title")
-  val graphs = if (showEnergyGraph) Array(new MinimizableControlGraph(parallelForcesString, parallelForceControlGraph), new MinimizableControlGraph(str("forces.work-energy-title"), workEnergyGraph))
+  val parallelForcesString = "forces.parallel-title".translate
+  val graphs = if (showEnergyGraph) Array(new MinimizableControlGraph(parallelForcesString, parallelForceControlGraph), new MinimizableControlGraph("forces.work-energy-title".translate, workEnergyGraph))
   else Array(new MinimizableControlGraph(parallelForcesString, parallelForceControlGraph))
 
   val graphSetNode = new GraphSetNode(new GraphSetModel(new GraphSuite(graphs))) {

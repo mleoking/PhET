@@ -13,6 +13,7 @@ import model._
 import scalacommon.swing.MyRadioButton
 import swing.{MyCheckBox, ScalaValueControl}
 import edu.colorado.phet.scalacommon.Predef._
+import RampResources._
 
 class RampControlPanel(model: RampModel, wordModel: WordModel,
                        freeBodyDiagramModel: FreeBodyDiagramModel,
@@ -72,17 +73,17 @@ class RampControlPanelBody(model: RampModel, wordModel: WordModel,
     panel
   }
 
-  add(new TitleLabel("Free Body Diagram"))
+  add(new TitleLabel("display.free-body-diagram".translate))
   add(boxLayout(
-    new MyRadioButton("Show", freeBodyDiagramModel.visible = true, freeBodyDiagramModel.visible, freeBodyDiagramModel.addListener),
-    new MyRadioButton("Hide", freeBodyDiagramModel.visible = false, !freeBodyDiagramModel.visible, freeBodyDiagramModel.addListener)
+    new MyRadioButton("controls.show".translate, freeBodyDiagramModel.visible = true, freeBodyDiagramModel.visible, freeBodyDiagramModel.addListener),
+    new MyRadioButton("controls.hide".translate, freeBodyDiagramModel.visible = false, !freeBodyDiagramModel.visible, freeBodyDiagramModel.addListener)
     ))
 
   if (coordinateSystemFeaturesEnabled) {
-    add(new TitleLabel("Coordinate System"))
+    add(new TitleLabel("coordinates.coordinate-system".translate))
     add(boxLayout(
-      new MyRadioButton("Fixed", coordinateSystemModel.fixed = true, coordinateSystemModel.fixed, coordinateSystemModel.addListener),
-      new MyRadioButton("Adjustable", coordinateSystemModel.adjustable = true, coordinateSystemModel.adjustable, coordinateSystemModel.addListener)
+      new MyRadioButton("coordinates.fixed".translate, coordinateSystemModel.fixed = true, coordinateSystemModel.fixed, coordinateSystemModel.addListener),
+      new MyRadioButton("coordinates.adjustable".translate, coordinateSystemModel.adjustable = true, coordinateSystemModel.adjustable, coordinateSystemModel.addListener)
       ))
   }
 
@@ -92,30 +93,30 @@ class RampControlPanelBody(model: RampModel, wordModel: WordModel,
     add(new JLabel(new ImageIcon(RampResources.getImage(iconFilename))), BorderLayout.EAST)
   }
 
-  val vectorPanel = new SubControlPanel("Vectors") with IProguardKeepClass {
+  val vectorPanel = new SubControlPanel("vectors.title".translate) with IProguardKeepClass {
     def addWithIcon(iconFilename: String, component: JComponent) = add(new IconPanel(component, iconFilename))
   }
-  vectorPanel.add(new MyRadioButton("Centered", vectorViewModel.centered = true, vectorViewModel.centered, vectorViewModel.addListener))
-  vectorPanel.add(new MyRadioButton("Point of Origin", vectorViewModel.centered = false, !vectorViewModel.centered, vectorViewModel.addListener))
+  vectorPanel.add(new MyRadioButton("vectors.centered".translate, vectorViewModel.centered = true, vectorViewModel.centered, vectorViewModel.addListener))
+  vectorPanel.add(new MyRadioButton("vectors.point-of-origin".translate, vectorViewModel.centered = false, !vectorViewModel.centered, vectorViewModel.addListener))
   vectorPanel.add(Box.createRigidArea(new Dimension(10, 10)))
-  vectorPanel.add(new MyCheckBox("Force Vectors", vectorViewModel.originalVectors_=, vectorViewModel.originalVectors, vectorViewModel.addListener))
+  vectorPanel.add(new MyCheckBox("vectors.force-vectors".translate, vectorViewModel.originalVectors_=, vectorViewModel.originalVectors, vectorViewModel.addListener))
   if (coordinateSystemFeaturesEnabled) {
-    vectorPanel.addWithIcon("parallel_components_icon.gif", new MyCheckBox("Parallel Components", vectorViewModel.parallelComponents_=, vectorViewModel.parallelComponents, vectorViewModel.addListener))
-    vectorPanel.addWithIcon("xy_components_icon.gif", new MyCheckBox("X-Y Components", vectorViewModel.xyComponentsVisible = _, vectorViewModel.xyComponentsVisible, vectorViewModel.addListener))
+    vectorPanel.addWithIcon("parallel_components_icon.gif".literal, new MyCheckBox("vectors.parallel-components".translate, vectorViewModel.parallelComponents_=, vectorViewModel.parallelComponents, vectorViewModel.addListener))
+    vectorPanel.addWithIcon("xy_components_icon.gif".literal, new MyCheckBox("vectors.x-y-components".translate, vectorViewModel.xyComponentsVisible = _, vectorViewModel.xyComponentsVisible, vectorViewModel.addListener))
   }
   vectorPanel.add(Box.createRigidArea(new Dimension(10, 10)))
-  vectorPanel.addWithIcon("sum_of_forces_icon.gif", new MyCheckBox("Sum of Forces", vectorViewModel.sumOfForcesVector_=, vectorViewModel.sumOfForcesVector, vectorViewModel.addListener))
+  vectorPanel.addWithIcon("sum_of_forces_icon.gif".literal, new MyCheckBox("vectors.sum-of-forces".translate, vectorViewModel.sumOfForcesVector_=, vectorViewModel.sumOfForcesVector, vectorViewModel.addListener))
 
   add(vectorPanel)
 
-  val rampPanel = new SubControlPanel("Ramp Controls")
-  rampPanel.add(new MyCheckBox("Frictionless", model.frictionless_=, model.frictionless, model.addListener))
+  val rampPanel = new SubControlPanel("ramp.controls.title".translate)
+  rampPanel.add(new MyCheckBox("controls.frictionless".translate, model.frictionless_=, model.frictionless, model.addListener))
 
-  val positionSlider = new ScalaValueControl(RampDefaults.MIN_X, RampDefaults.MAX_X, "Object Position", "0.0", "meters",
+  val positionSlider = new ScalaValueControl(RampDefaults.MIN_X, RampDefaults.MAX_X, "object.position".translate, "0.0".literal, "units.meters".translate,
     () => model.bead.position, model.bead.setPosition, model.bead.addListener)
   rampPanel.add(positionSlider)
 
-  val angleSlider = new ScalaValueControl(0, 90, "Ramp Angle", "0.0", "degrees",
+  val angleSlider = new ScalaValueControl(0, 90, "property.ramp-angle".translate, "0.0".literal, "units.degrees".translate,
     () => model.rampSegments(1).getUnitVector.getAngle.toDegrees, value => model.setRampAngle(value.toRadians), model.rampSegments(1).addListener)
 
   rampPanel.add(angleSlider)
@@ -126,9 +127,6 @@ class RampControlPanelBody(model: RampModel, wordModel: WordModel,
 
   getContentPanel.setFillNone()
   getContentPanel.setAnchor(GridBagConstraints.CENTER)
-  //  val stepButton = new JButton("Step")
-  //  stepButton.addActionListener(() => model.stepRecord(RampDefaults.DT_DEFAULT))
-  //  add(stepButton)
 }
 
 class SubControlPanel(title: String) extends VerticalLayoutPanel {

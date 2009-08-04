@@ -5,8 +5,9 @@ import graphics.ObjectModel
 import java.util.Vector
 import javax.swing._
 import java.awt.event.{ItemListener, ItemEvent}
+import RampResources._
 
-class RampComboBox(objectModel: ObjectModel) extends SubControlPanel("Choose an Object") {
+class RampComboBox(objectModel: ObjectModel) extends SubControlPanel("controls.choose-object".translate) {
   val vec = new Vector[ObjectItem]
 
   val mylist = for (o <- RampDefaults.objects) yield {

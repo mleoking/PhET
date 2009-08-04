@@ -9,6 +9,7 @@ import javax.swing.{JPanel, JComponent, JLabel}
 import java.awt.GridLayout
 import common.motion.model.ITemporalVariable
 import common.phetcommon.util.DefaultDecimalFormat
+import RampResources._
 
 class SeriesSelectionControl(title: String, numRows: Int) extends VerticalLayoutPanel {
   setBackground(RampDefaults.EARTH_COLOR)
@@ -36,7 +37,8 @@ class SeriesSelectionControl(title: String, numRows: Int) extends VerticalLayout
     series.getTemporalVariable.addListener(new ITemporalVariable.ListenerAdapter() {
       override def valueChanged = updateLabel()
     })
-    def updateLabel() = label.setText("= " + new DefaultDecimalFormat("0.00").format(series.getTemporalVariable.getValue) + " " + series.getUnits)
+    //todo: internationalize
+    def updateLabel() = label.setText("= " + new DefaultDecimalFormat("0.00".literal).format(series.getTemporalVariable.getValue) + " " + series.getUnits)
 
     updateLabel()
     label

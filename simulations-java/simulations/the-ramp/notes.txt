@@ -1,0 +1,4 @@
+This regex finds string literals that aren't followed by .translate or .literal
+"[^"\r\n]*"((?!(\.literal|\.translate)))
+
+It can be used to help identify unhandled strings (i.e. strings that may need to be translated or annotated)
