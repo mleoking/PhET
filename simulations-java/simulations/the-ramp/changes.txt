@@ -1,3 +1,4 @@
+Added the ability to step during recording, instead of only during playback
 Remove wall and normal work from bar chart
 Display wall force when pressing block against the wall
 Update colors for Normal force and Wall force

@@ -175,7 +175,10 @@ class CoordinateFrameModel(snapToAngles: List[() => Double]) extends Observable 
 case class RecordedState(angle: Double, selectedObject: ScalaRampObjectState, beadState: BeadState, manBeadState: BeadState, appliedForce: Double, walls: Boolean)
 
 class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean,initialAngle:Double) extends RecordModel[RecordedState] with ObjectModel {
+
   setPaused(pausedOnReset)
+
+  def stepRecord():Unit = stepRecord(RampDefaults.DT_DEFAULT)
 
   private var _walls = true
   private var _frictionless = false

@@ -1,3 +1,4 @@
+Added the ability to step during recording, instead of only during playback
 # 0.02.00 (30671) Apr 21, 2009
 4/21/09 Batch deploy as part of IOM milestone with revision 30670
 # 0.01.00 (30667) Apr 21, 2009

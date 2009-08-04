@@ -9,6 +9,7 @@ object RecordModelDefaults {
   var recordAtEndOfPlayback = false
 }
 abstract class RecordModel[T] extends Observable {
+  def stepRecord():Unit
   val recordHistory = new ArrayBuffer[DataPoint[T]]
 
   //todo make private after refactor

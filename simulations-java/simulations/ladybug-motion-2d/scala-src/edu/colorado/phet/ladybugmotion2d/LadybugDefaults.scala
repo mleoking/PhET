@@ -9,6 +9,7 @@ package edu.colorado.phet.ladybugmotion2d
 import scalacommon.math.Vector2D
 
 object LadybugDefaults {
+  var defaultDT = 30 / 1000.0
   var remoteIsIndicator = true
   var vaSticky = true
   var timelineLengthSeconds: Double = 15

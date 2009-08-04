@@ -3,7 +3,6 @@ package edu.colorado.phet.ladybugmotion2d.model
 
 import _root_.java.awt.geom.{Point2D, Rectangle2D}
 import edu.colorado.phet.common.motion.model.TimeData
-import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction
 import ladybugmotion2d.Motion2DModel
 import scala.collection.mutable.ArrayBuffer
 import edu.colorado.phet.scalacommon.Predef._
@@ -11,14 +10,17 @@ import edu.colorado.phet.common.motion._
 import scalacommon.math.Vector2D
 import scalacommon.record.{DataPoint, RecordModel}
 
-import scalacommon.util.Observable
-
 /**
  * This class is the main model for Ladybug2DApplication.  It contains both a model for the current state as well as the history.
  * The smoothing of motion is done by leading the ladybug (with an abstraction called the pen),
  * and using the same model as Motion2D for interpolation.
  */
 class LadybugModel extends RecordModel[LadybugState] {
+  def stepRecord() = {
+    println("doing step record with dt=" + LadybugDefaults.defaultDT)
+    surelyUpdate(LadybugDefaults.defaultDT)
+  }
+
   val ladybug = new Ladybug
   private val ladybugMotionModel = new LadybugMotionModel(this)
   private var bounds = new Rectangle2D.Double(-10, -10, 20, 20)
@@ -158,43 +160,43 @@ class LadybugModel extends RecordModel[LadybugState] {
 
   def update(dt: Double) = {
     this.dt = dt
-    if (!isPaused) {
-      tickListeners.foreach(_())
-      if (isRecord()) {
-        setTime(getTime + dt)
-        val time = getTime
-        ladybugMotionModel.update(dt, this)
+    if (!isPaused) surelyUpdate(dt)
+    else if (isPlayback()) stepPlayback()
+  }
 
-        modelHistory += new DataPoint(time, ladybug.getState)
-        recordHistory += new DataPoint(time, ladybug.getState)
-        penPath += new PenSample(time, penPoint)
+  def surelyUpdate(dt: Double) = {
+    tickListeners.foreach(_())
+    if (isRecord()) {
+      setTime(getTime + dt)
+      val time = getTime
+      ladybugMotionModel.update(dt, this)
 
-        while (modelHistory.length > 100) {
-          modelHistory.remove(0)
-        }
-        while (penPath.length > 100) {
-          penPath.remove(0)
-        }
+      modelHistory += new DataPoint(time, ladybug.getState)
+      recordHistory += new DataPoint(time, ladybug.getState)
+      penPath += new PenSample(time, penPoint)
 
-        while (recordHistory.length > getMaxRecordPoints) {
-          //decide whether to remove end of path or beginning of path.
-          //          recordHistory.remove(recordHistory.length - 1)
-          recordHistory.remove(0)
-        }
-
-        if (!ladybugMotionModel.isExclusive()) {
-          if (penDown) {
-            PositionMode.update(dt)
-          }
-          else {
-            updateMode.update(dt)
-          }
-        }
-        notifyListeners()
-
-      } else if (isPlayback()) {
-        stepPlayback()
+      while (modelHistory.length > 100) {
+        modelHistory.remove(0)
       }
+      while (penPath.length > 100) {
+        penPath.remove(0)
+      }
+
+      while (recordHistory.length > getMaxRecordPoints) {
+        //decide whether to remove end of path or beginning of path.
+        //          recordHistory.remove(recordHistory.length - 1)
+        recordHistory.remove(0)
+      }
+
+      if (!ladybugMotionModel.isExclusive()) {
+        if (penDown) {
+          PositionMode.update(dt)
+        }
+        else {
+          updateMode.update(dt)
+        }
+      }
+      notifyListeners()
     }
   }
 
