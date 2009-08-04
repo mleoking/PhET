@@ -114,7 +114,7 @@ EOT;
                     </a>
                 </p>
             </div>
-
+<!--
             <div class="spon">
                 <a href="http://jila-amo.colorado.edu/" title="Click here to visit the JILA Center for Atomic, Molecular, &amp; Optical Physics">
                     <img src="images/jila_logo_small.gif" height="28" alt="JILA AMO Logo"/>
@@ -125,7 +125,7 @@ EOT;
                     </a>
                 </p>
             </div>
-
+-->
             <div class="spon">
                 <a href="http://www.nsf.gov/" title="Click here to visit the National Science Foundation" >
                     <img src="images/nsf-logo-small.gif" height="28" alt="National Science Foundation Logo"/>
