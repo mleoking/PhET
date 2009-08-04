@@ -10,7 +10,7 @@ import scalacommon.swing.MyJButton
 import umd.cs.piccolox.pswing.PSwing
 import scalacommon.util.Observable
 import model.RampModel
-
+import RampResources._
 class WorkEnergyChartModel extends Observable {
   private var defaultVisible = false;
   private var _visible = defaultVisible
@@ -23,29 +23,27 @@ class WorkEnergyChartModel extends Observable {
 }
 
 class WorkEnergyChart(workEnergyChartModel: WorkEnergyChartModel, model: RampModel, owner: JFrame) {
-  val dialog = new JDialog(owner, "Work/Energy Chart", false)
+  val dialog = new JDialog(owner, "controls.work-energy-charts".translate, false)
 
   def updateDialogVisible() = dialog.setVisible(workEnergyChartModel.visible)
   workEnergyChartModel.addListenerByName {updateDialogVisible()}
   updateDialogVisible()
-  val barChartNode = new BarChartNode("Work/Energy", 0.05, Color.white)
+  val barChartNode = new BarChartNode("forces.work-energy-title".translate, 0.05, Color.white)
   import RampDefaults._
-  val totalEnergyVariable = new BarChartNode.Variable("Total Energy", 0.0, totalEnergyColor)
-  val kineticEnergyVariable = new BarChartNode.Variable("Kinetic Energy", 0.0, kineticEnergyColor)
-  val potentialEnergyVariable = new BarChartNode.Variable("Potential Energy", 0.0, potentialEnergyColor)
-  val thermalEnergyVariable = new BarChartNode.Variable("Thermal Energy", 0.0, thermalEnergyColor)
+  val totalEnergyVariable = new BarChartNode.Variable("energy.total-energy".translate, 0.0, totalEnergyColor)
+  val kineticEnergyVariable = new BarChartNode.Variable("energy.kinetic-energy".translate, 0.0, kineticEnergyColor)
+  val potentialEnergyVariable = new BarChartNode.Variable("energy.potential-energy".translate, 0.0, potentialEnergyColor)
+  val thermalEnergyVariable = new BarChartNode.Variable("energy.thermal-energy".translate, 0.0, thermalEnergyColor)
 
-  val appliedWorkVariable = new BarChartNode.Variable("Applied Work", 0.0, appliedWorkColor)
-  val frictionWorkVariable = new BarChartNode.Variable("Friction Work", 0.0, frictionWorkColor)
-  val gravityWorkVariable = new BarChartNode.Variable("Gravity Work", 0.0, gravityWorkColor)
-  val wallWorkVariable = new BarChartNode.Variable("Wall Work", 0.0, Color.black)
-  val normalWorkVariable = new BarChartNode.Variable("Normal Work", 0.0, Color.black)
+  val appliedWorkVariable = new BarChartNode.Variable("work.applied-work".translate, 0.0, appliedWorkColor)
+  val frictionWorkVariable = new BarChartNode.Variable("work.friction-work".translate, 0.0, frictionWorkColor)
+  val gravityWorkVariable = new BarChartNode.Variable("work.gravity-work".translate, 0.0, gravityWorkColor)
 
   barChartNode.init(Array(totalEnergyVariable, kineticEnergyVariable, potentialEnergyVariable, thermalEnergyVariable,
-    appliedWorkVariable, frictionWorkVariable, gravityWorkVariable, wallWorkVariable, normalWorkVariable))
+    appliedWorkVariable, frictionWorkVariable, gravityWorkVariable))
   val canvas = new PhetPCanvas
 
-  val clearButton = new PSwing(new MyJButton("Clear Heat", () => model.clearHeat()))
+  val clearButton = new PSwing(new MyJButton("controls.clear-heat".translate, () => model.clearHeat()))
   canvas.addWorldChild(clearButton)
   barChartNode.setOffset(20, 20)
   canvas.addWorldChild(barChartNode)
@@ -66,8 +64,6 @@ class WorkEnergyChart(workEnergyChartModel: WorkEnergyChartModel, model: RampMod
     appliedWorkVariable.setValue(bead.getAppliedWork)
     frictionWorkVariable.setValue(bead.getFrictiveWork)
     gravityWorkVariable.setValue(bead.getGravityWork)
-    wallWorkVariable.setValue(bead.getWallWork)
-    normalWorkVariable.setValue(bead.getNormalWork)
     barChartNode.update()
   }
 }

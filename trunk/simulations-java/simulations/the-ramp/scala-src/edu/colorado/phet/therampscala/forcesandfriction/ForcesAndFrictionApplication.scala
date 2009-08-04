@@ -4,6 +4,7 @@ import common.phetcommon.application.{PhetApplicationConfig, PhetApplicationLaun
 import common.piccolophet.PiccoloPhetApplication
 import javax.swing.JFrame
 import scalacommon.ScalaClock
+import RampResources._
 
 class IntroModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "Intro", false, false, -6, false, 0.0)
 class FrictionModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "Friction", false, false, -6, false, 0.0)
@@ -19,5 +20,5 @@ class ForcesAndFrictionApplication(config: PhetApplicationConfig) extends Piccol
 }
 
 object ForcesAndFrictionApplicationMain {
-  def main(args: Array[String]) = new PhetApplicationLauncher().launchSim(args, "the-ramp", "forces-and-friction", classOf[ForcesAndFrictionApplication])
+  def main(args: Array[String]) = new PhetApplicationLauncher().launchSim(args, "the-ramp".literal, "forces-and-friction".literal, classOf[ForcesAndFrictionApplication])
 }

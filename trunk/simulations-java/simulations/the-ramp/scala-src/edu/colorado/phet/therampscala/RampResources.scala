@@ -3,12 +3,14 @@ package edu.colorado.phet.therampscala
 import common.phetcommon.resources.PhetResources
 import java.text.MessageFormat
 
-object RampResources extends PhetResources("the-ramp") {
-  val forcePattern = str("force.pattern")
-  val energyPattern = str("energy.pattern")
-  val workPattern = str("work.pattern")
-
-  def str(key: String) = getLocalizedString(key)
+object Predef{
+  implicit def toMyRichString(s:String) = new MyRichString(s)
+}
+import Predef._
+object RampResources extends PhetResources("the-ramp".literal) {
+  val forcePattern = "force.pattern".translate
+  val energyPattern = "energy.pattern".translate
+  val workPattern = "work.pattern".translate
 
   def formatForce(force: String) = MessageFormat.format(forcePattern, force)
 
