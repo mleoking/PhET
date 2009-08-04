@@ -299,8 +299,10 @@ class Bead(private var _state: BeadState,
     }
 
     override def wallForce = {
-      if (position <= wallRange().min && forceToParallelAcceleration(appliedForce) < 0) appliedForce * -1
-      else if (position >= wallRange().max && forceToParallelAcceleration(appliedForce) > 0) appliedForce * -1
+      val leftBound = wallRange().min + width / 2
+      val rightBound = wallRange().max - width / 2
+      if (position <= leftBound && forceToParallelAcceleration(appliedForce) < 0 && wallsExist) appliedForce * -1
+      else if (position >= rightBound && forceToParallelAcceleration(appliedForce) > 0 && wallsExist) appliedForce * -1//todo: account for gravity force
       else new Vector2D
     }
 

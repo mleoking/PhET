@@ -1,3 +1,4 @@
+Display wall force when pressing block against the wall
 Update colors for Normal force and Wall force
 Fixed: Reset all should hide the work energy bar chart
 # 1.03.28 (33887) Aug 3, 2009
