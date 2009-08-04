@@ -1,3 +1,4 @@
+Fixed: Reset all should hide the work energy bar chart
 # 1.03.28 (33887) Aug 3, 2009
 # 1.03.27 (33885) Aug 3, 2009
 Added an application for Forces & Friction

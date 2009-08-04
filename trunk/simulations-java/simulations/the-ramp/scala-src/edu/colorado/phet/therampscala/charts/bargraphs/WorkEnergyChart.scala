@@ -12,7 +12,7 @@ import scalacommon.util.Observable
 import model.RampModel
 
 class WorkEnergyChartModel extends Observable {
-  private var defaultVisible = true;
+  private var defaultVisible = false;
   private var _visible = defaultVisible
 
   def visible = _visible
@@ -23,8 +23,11 @@ class WorkEnergyChartModel extends Observable {
 }
 
 class WorkEnergyChart(workEnergyChartModel: WorkEnergyChartModel, model: RampModel, owner: JFrame) {
-  val frame = new JDialog(owner, "Work/Energy Chart", false)
-  workEnergyChartModel.addListenerByName {frame.setVisible(workEnergyChartModel.visible)}
+  val dialog = new JDialog(owner, "Work/Energy Chart", false)
+
+  def updateDialogVisible() = dialog.setVisible(workEnergyChartModel.visible)
+  workEnergyChartModel.addListenerByName {updateDialogVisible()}
+  updateDialogVisible()
   val barChartNode = new BarChartNode("Work/Energy", 0.05, Color.white)
   import RampDefaults._
   val totalEnergyVariable = new BarChartNode.Variable("Total Energy", 0.0, totalEnergyColor)
@@ -46,13 +49,13 @@ class WorkEnergyChart(workEnergyChartModel: WorkEnergyChartModel, model: RampMod
   canvas.addWorldChild(clearButton)
   barChartNode.setOffset(20, 20)
   canvas.addWorldChild(barChartNode)
-  frame.setContentPane(canvas)
-  frame.setSize(300, 768)
+  dialog.setContentPane(canvas)
+  dialog.setSize(300, 768)
   canvas.addComponentListener(new ComponentAdapter() {override def componentResized(e: ComponentEvent) = updateButtonLocations()})
   def updateButtonLocations() = clearButton.setOffset(0, canvas.getHeight - clearButton.getFullBounds.getHeight)
   updateButtonLocations()
-  frame.addWindowListener(new WindowAdapter() {override def windowClosing(e: WindowEvent) = workEnergyChartModel.visible = false})
-  SwingUtils.centerWindowOnScreen(frame)
+  dialog.addWindowListener(new WindowAdapter() {override def windowClosing(e: WindowEvent) = workEnergyChartModel.visible = false})
+  SwingUtils.centerWindowOnScreen(dialog)
   val bead = model.bead
   bead.addListenerByName {
     totalEnergyVariable.setValue(bead.getTotalEnergy)
