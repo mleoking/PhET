@@ -115,9 +115,15 @@ class BasePage {
      * @param $page_title string[optional] specific title of this page
      * @param $base_title string[optional] base tile of the website
      */
-    function set_title($page_title, $base_title = self::WEBSITE_BASE_TITLE) {
+    function set_title($page_title, $base_title = self::WEBSITE_BASE_TITLE, $unformatted=TRUE) {
         // Setup the page's full title
-        $this->base_title = $base_title;
+        if (is_null($base_title)) {
+            $base_title = self::WEBSITE_BASE_TITLE;
+        }
+        else {
+            $this->base_title = $base_title;
+        }
+
         $this->page_title = $page_title;
 
         $this->render_title = $this->page_title;
@@ -129,7 +135,12 @@ class BasePage {
         }
 
         $full_title = $full_title.$this->base_title;
-        $this->full_title = $full_title;
+        if ($unformatted) {
+            $this->full_title = WebUtils::inst()->toHTML($full_title);
+        }
+        else {
+            $this->full_title = $full_title;
+        }
     }
 
     /**
@@ -319,11 +330,9 @@ EOT;
             $meta_refresh = "<meta http-equiv=\"Refresh\" content=\"{$this->meta_refresh_timeout};url={$this->meta_refresh_location}\" />";
         }
 
-        $formatted_title = WebUtils::inst()->toHtml($this->full_title);
-
         print <<<EOT
   <head>
-    <title>{$formatted_title}</title>
+    <title>{$this->full_title}</title>
 
     <meta http-equiv="Content-Type" content="text/html; charset={$this->charset}" />
     {$meta_refresh}

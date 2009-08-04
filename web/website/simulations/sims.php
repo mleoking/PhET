@@ -179,7 +179,7 @@ EOT;
         $new_title .= join($delimiter, $title_keywords);
 
         // Set the new title, don't use a basename
-        $this->set_title($new_title, '');
+        $this->set_title($new_title, '', FALSE);
     }
 
     // TODO: separate out the update and render functions more.  No time now.
