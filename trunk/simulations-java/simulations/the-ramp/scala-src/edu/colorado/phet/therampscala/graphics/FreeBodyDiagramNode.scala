@@ -37,7 +37,7 @@ class Vector(val color: Color,
 
   def getPaint = painter(getValue, color)
 
-  def html = <html>F<sub>{abbreviation}</sub> </html>.toString
+  def html = "force.abbreviation.html.pattern.abbrev".translate.messageformat(abbreviation)
 }
 
 class AxisNode(val transform: ModelViewTransform2D, x0: Double, y0: Double, x1: Double, y1: Double, label: String) extends PNode {

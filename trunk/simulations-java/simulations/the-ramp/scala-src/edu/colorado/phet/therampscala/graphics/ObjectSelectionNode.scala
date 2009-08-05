@@ -96,7 +96,7 @@ class ObjectSelectionNode(transform: ModelViewTransform2D, model: ObjectModel) e
       }
     })
 
-    val getTooltipText = <html>\u03BC<sub>k</sub>={o.kineticFriction}<br> </br>\u03BC<sub>s</sub>={o.staticFriction}<br> </br> </html>.toString
+    val getTooltipText = "object.tooltip-text.pattern.kinetic_static".translate.messageformat(o.kineticFriction.toString,o.staticFriction.toString) 
 
     if (o.displayTooltip) {
       val tooltipNode = new ToolTipNode(getTooltipText, this)

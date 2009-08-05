@@ -1,3 +1,4 @@
+Internationalized HTML snippets, one in FreeBodyDiagramNode, one in ObjectSelectionNode
 Provided internationalization
 Added the ability to step during recording, instead of only during playback
 Remove wall and normal work from bar chart
