@@ -23,6 +23,7 @@ import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
+import edu.colorado.phet.nuclearphysics.common.NucleusType;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusDecayModel;
 import edu.colorado.phet.nuclearphysics.view.NuclearDecayProportionChart;
 import edu.umd.cs.piccolo.PNode;
@@ -561,6 +562,12 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         double halfLife = _model.getMeter().getHalfLifeForDating();
         _proportionsChart.setTimeParameters(halfLife * 3.2, halfLife);
         _proportionsChart.setDisplayInfoForNucleusType(_model.getMeter().getNucleusTypeUsedForDating());
+        if (_model.getMeter().getNucleusTypeUsedForDating() == NucleusType.CARBON_14){
+        	_proportionsChart.setShowCarbonOptions(true);
+        }
+        else{
+        	_proportionsChart.setShowCarbonOptions(false);
+        }
     }
     
     /**
