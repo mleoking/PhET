@@ -19,9 +19,12 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JFrame;
+import javax.swing.JRadioButton;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -44,6 +47,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * This class represents a chart that shows the proportion of nuclei that have
@@ -64,6 +68,7 @@ public class NuclearDecayProportionChart extends PNode {
 
     // Constants that control the proportions of the main components of the chart.
     private static final double PIE_CHART_WIDTH_PROPORTION = 0.1;
+    private static final double CARBON_OPTIONS_WIDTH_PROPORTION = 0.2;
     private static final double MOVABLE_PERCENT_INDICATOR_WIDTH_PROPORTION = 0.22;
     private static final double MOVABLE_PERCENT_INDICATOR_HEIGHT_PROPORTION = 0.23;
     
@@ -92,6 +97,8 @@ public class NuclearDecayProportionChart extends PNode {
     private ProportionsPieChartNode _pieChart;
     private GraphNode _graph;
     private MovablePercentIndicator _movablePercentIndicator;
+    private CarbonOptionsPanel _carbonOptionsPanel;
+    private PSwing _carbonOptionsPanelPSwing;
 
     // Decay events that are represented on the graph.
     ArrayList<Point2D> _decayEvents = new ArrayList<Point2D>();
@@ -171,6 +178,11 @@ public class NuclearDecayProportionChart extends PNode {
         	_movablePercentIndicator = new MovablePercentIndicator( this );
         	_pickableChartNode.addChild( _movablePercentIndicator );
         }
+        
+        // Create and add the carbon options panel.
+        _carbonOptionsPanel = new CarbonOptionsPanel(this);
+        _carbonOptionsPanelPSwing = new PSwing(_carbonOptionsPanel);
+        _pickableChartNode.addChild(_carbonOptionsPanelPSwing);
     }
 
 	//------------------------------------------------------------------------
@@ -252,6 +264,7 @@ public class NuclearDecayProportionChart extends PNode {
 	 */
 	public void setShowCarbonOptions(boolean enabled){
 		_showCarbonOptions = enabled;
+		updateLayout();
 	}
 	
 	/**
@@ -360,14 +373,33 @@ public class NuclearDecayProportionChart extends PNode {
         	
         }
         
+        // Position the carbon selection panel if enabled.
+        double graphRightEdge = _usableAreaRect.getMaxX();
+        if ( _showCarbonOptions ){
+        	_carbonOptionsPanelPSwing.setVisible(true);
+        	_carbonOptionsPanelPSwing.setScale(1);
+
+        	_carbonOptionsPanelPSwing.scale( _usableAreaRect.getWidth() * CARBON_OPTIONS_WIDTH_PROPORTION
+        			/ _carbonOptionsPanelPSwing.getFullBoundsReference().getWidth() );
+        	
+        	// Position so that it is on the right side of the chart.
+        	_carbonOptionsPanelPSwing.setOffset(
+        			_usableAreaRect.getMaxX() - _carbonOptionsPanelPSwing.getFullBoundsReference().width,
+        			_usableAreaRect.getHeight() / 2 - _carbonOptionsPanelPSwing.getFullBoundsReference().height / 2);
+        	graphRightEdge = _usableAreaRect.getMaxX() - _carbonOptionsPanelPSwing.getFullBoundsReference().width;
+        }
+        else{
+        	_carbonOptionsPanelPSwing.setVisible(false);
+        }
+        
         // Position the graph.
         if (!_movablePercentIndicatorEnabled){
-            _graph.update( (_usableAreaRect.getWidth() - graphLeftEdge) * 0.95, _usableAreaRect.getHeight() * 0.9 );
+            _graph.update( (graphRightEdge - graphLeftEdge) * 0.98, _usableAreaRect.getHeight() * 0.9 );
             _graph.setOffset( graphLeftEdge + 5, _usableAreaRect.getCenterY() - (_graph.getFullBoundsReference().height / 2 ) );
         }
         else{
         	// Leave room above the graph for the movable percentage indicator.
-            _graph.update( (_usableAreaRect.getWidth() - graphLeftEdge) * 0.95, 
+            _graph.update( (graphRightEdge - graphLeftEdge) * 0.95, 
             		_usableAreaRect.getHeight() * (1 - MOVABLE_PERCENT_INDICATOR_HEIGHT_PROPORTION) );
             _graph.setOffset( graphLeftEdge + 5, 
             		_usableAreaRect.getMaxY() - _graph.getFullBoundsReference().height);
@@ -1301,6 +1333,57 @@ public class NuclearDecayProportionChart extends PNode {
 	    	
 	    	return unitsText;
 	    }
+    }
+    
+    /**
+     * Panel that allows the user to select between some options for the way
+     * in which the decay curve for Carbon-14 is depicted.
+     * 
+     * @author John Blanco
+     */
+    private static class CarbonOptionsPanel extends VerticalLayoutPanel {
+
+    	public enum Carbon14DisplayMode { PERCENT_C14_REMAINING, C14_TO_C12_RATIO };
+    	private static final Font LABEL_FONT = new PhetFont(16, true);
+    	
+    	private NuclearDecayProportionChart _chart;
+    	private Carbon14DisplayMode _mode;
+    	private JRadioButton _percentC14RadioButton;
+    	private JRadioButton _c14C12RatioRadioButton;
+    	
+    	public CarbonOptionsPanel(NuclearDecayProportionChart chart) {
+    		
+    		_chart = chart;
+    		
+            setBackground( NuclearPhysicsConstants.CHART_BACKGROUND_COLOR );
+
+    		// Create and add the buttons.
+    		// TODO: Made this strings into resources.
+    		_percentC14RadioButton = new JRadioButton("% C14");
+    		_percentC14RadioButton.setFont(LABEL_FONT);
+    		_percentC14RadioButton.setBackground(getBackground());
+    		add(_percentC14RadioButton);
+    		_c14C12RatioRadioButton = new JRadioButton("C12/C14 ratio");
+    		_c14C12RatioRadioButton.setFont(LABEL_FONT);
+    		_c14C12RatioRadioButton.setBackground(getBackground());
+    		add(_c14C12RatioRadioButton);
+
+    		// Group the buttons.
+    		ButtonGroup buttonGroup = new ButtonGroup();
+    		buttonGroup.add(_percentC14RadioButton);
+    		buttonGroup.add(_c14C12RatioRadioButton);
+    		
+    		reset();
+		}
+    	
+    	public void reset(){
+    		_mode = Carbon14DisplayMode.PERCENT_C14_REMAINING;
+    		_percentC14RadioButton.setSelected(true);
+    	}
+    	
+    	public Carbon14DisplayMode getMode(){
+    		return _mode;
+    	}
     }
     
     /**
