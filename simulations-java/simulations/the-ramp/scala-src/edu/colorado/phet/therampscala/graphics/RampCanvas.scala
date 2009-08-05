@@ -14,6 +14,7 @@ import scalacommon.Predef._
 import umd.cs.piccolo.PNode
 import java.lang.Math._
 import RampResources._
+import RampDefaults._
 
 abstract class AbstractRampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, freeBodyDiagramModel: FreeBodyDiagramModel,
                                   vectorViewModel: VectorViewModel, frame: JFrame) extends DefaultCanvas(22, 20) {
@@ -72,7 +73,7 @@ abstract class AbstractRampCanvas(model: RampModel, coordinateSystemModel: Coord
     fbdNode.setVisible(freeBodyDiagramModel.visible && !freeBodyDiagramModel.windowed)
   }
 
-  val fbdWindow = new JDialog(frame, "Free Body Diagram", false)
+  val fbdWindow = new JDialog(frame, "display.free-body-diagram".translate, false)
   fbdWindow.setSize(600, 600)
 
   //create FBD canvas

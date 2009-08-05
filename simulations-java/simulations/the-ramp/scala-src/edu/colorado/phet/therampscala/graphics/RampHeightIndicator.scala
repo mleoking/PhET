@@ -24,6 +24,7 @@ class RampHeightIndicator(rampSegment: Rotatable, transform: ModelViewTransform2
   defineInvokeAndPass(rampSegment.addListenerByName) {
     line.setPathTo(transform.createTransformedShape(getLine))
     readout.setOffset(line.getFullBounds.getMaxX + 10, line.getFullBounds.getCenterY)
-    readout.setText("h = " + new DecimalFormat("0.0".literal).format(rampSegment.endPoint.y) + " m")
+    val heightValue = new DecimalFormat("0.0".literal).format(rampSegment.endPoint.y)
+    readout.setText("ramp.height-indicator".translate.messageformat(heightValue))
   }
 }

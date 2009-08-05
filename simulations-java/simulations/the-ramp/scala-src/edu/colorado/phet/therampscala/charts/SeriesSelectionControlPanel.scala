@@ -37,8 +37,9 @@ class SeriesSelectionControl(title: String, numRows: Int) extends VerticalLayout
     series.getTemporalVariable.addListener(new ITemporalVariable.ListenerAdapter() {
       override def valueChanged = updateLabel()
     })
-    //todo: internationalize
-    def updateLabel() = label.setText("= " + new DefaultDecimalFormat("0.00".literal).format(series.getTemporalVariable.getValue) + " " + series.getUnits)
+    def myValue = new DefaultDecimalFormat("0.00".literal).format(series.getTemporalVariable.getValue)
+    def labelText = "chart.series-readout.pattern.value_units".translate.messageformat(myValue,series.getUnits)
+    def updateLabel() = label.setText(labelText)
 
     updateLabel()
     label
