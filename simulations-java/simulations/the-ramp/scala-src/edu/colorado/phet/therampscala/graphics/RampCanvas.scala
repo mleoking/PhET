@@ -13,6 +13,7 @@ import scalacommon.math.Vector2D
 import scalacommon.Predef._
 import umd.cs.piccolo.PNode
 import java.lang.Math._
+import RampResources._
 
 abstract class AbstractRampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, freeBodyDiagramModel: FreeBodyDiagramModel,
                                   vectorViewModel: VectorViewModel, frame: JFrame) extends DefaultCanvas(22, 20) {
@@ -44,7 +45,7 @@ abstract class AbstractRampCanvas(model: RampModel, coordinateSystemModel: Coord
   def addWallsAndDecorations()
   addWallsAndDecorations()
 
-  val beadNode = new DraggableBeadNode(model.bead, transform, "cabinet.gif")
+  val beadNode = new DraggableBeadNode(model.bead, transform, "cabinet.gif".literal)
   model.addListenerByName(beadNode.setImage(RampResources.getImage(model.selectedObject.imageFilename)))
   addNode(beadNode)
 
@@ -62,7 +63,7 @@ abstract class AbstractRampCanvas(model: RampModel, coordinateSystemModel: Coord
   addNode(tickMarkSet)
 
   val fbdWidth = RampDefaults.freeBodyDiagramWidth
-  val fbdNode = new FreeBodyDiagramNode(freeBodyDiagramModel, 200, 200, fbdWidth, fbdWidth, model.coordinateFrameModel, coordinateSystemModel.adjustable, PhetCommonResources.getImage("buttons/maximizeButton.png"))
+  val fbdNode = new FreeBodyDiagramNode(freeBodyDiagramModel, 200, 200, fbdWidth, fbdWidth, model.coordinateFrameModel, coordinateSystemModel.adjustable, PhetCommonResources.getImage("buttons/maximizeButton.png".literal))
   val fbdListener = (pt: Point2D) => {model.bead.parallelAppliedForce = pt.getX}
   fbdNode.addListener(fbdListener)
   fbdNode.setOffset(10, 10)
@@ -75,7 +76,7 @@ abstract class AbstractRampCanvas(model: RampModel, coordinateSystemModel: Coord
   fbdWindow.setSize(600, 600)
 
   //create FBD canvas
-  val windowFBDNode = new FreeBodyDiagramNode(freeBodyDiagramModel, 600, 600, fbdWidth, fbdWidth, model.coordinateFrameModel, coordinateSystemModel.adjustable, PhetCommonResources.getImage("buttons/minimizeButton.png"))
+  val windowFBDNode = new FreeBodyDiagramNode(freeBodyDiagramModel, 600, 600, fbdWidth, fbdWidth, model.coordinateFrameModel, coordinateSystemModel.adjustable, PhetCommonResources.getImage("buttons/minimizeButton.png".literal))
   windowFBDNode.addListener(fbdListener)
   val canvas = new PhetPCanvas
   canvas.addComponentListener(new ComponentAdapter {
@@ -224,10 +225,10 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
   }
 
   override def addWallsAndDecorations() = {
-    addNode(new BeadNode(model.leftWall, transform, "wall.jpg") with CloseButton {
+    addNode(new BeadNode(model.leftWall, transform, "wall.jpg".literal) with CloseButton {
       def model = RampCanvas.this.model
     })
-    addNode(new BeadNode(model.rightWall, transform, "wall.jpg") with CloseButton {
+    addNode(new BeadNode(model.rightWall, transform, "wall.jpg".literal) with CloseButton {
       def model = RampCanvas.this.model
     })
   }

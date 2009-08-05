@@ -1,26 +1,18 @@
 package edu.colorado.phet.therampscala.graphics
 
-
 import common.phetcommon.resources.PhetCommonResources
+import RampResources._
 import model.RampModel
 import umd.cs.piccolo.nodes.PImage
 import common.piccolophet.event.CursorHandler
 import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
 import scalacommon.Predef._
 
-/**
- * Created by IntelliJ IDEA.
- * User: Owner
- * Date: Apr 27, 2009
- * Time: 9:56:11 AM
- * To change this template use File | Settings | File Templates.
- */
-
 trait CloseButton extends BeadNode {
-  val closeButton = new PImage(PhetCommonResources.getImage("buttons/closeButton.png"))
+  val closeButton = new PImage(PhetCommonResources.getImage("buttons/closeButton.png".literal))
   closeButton.addInputEventListener(new CursorHandler)
 
-  val openButton = new PImage(PhetCommonResources.getImage("buttons/maximizeButton.png"))
+  val openButton = new PImage(PhetCommonResources.getImage("buttons/maximizeButton.png".literal))
   openButton.addInputEventListener(new CursorHandler)
 
   addChild(closeButton)

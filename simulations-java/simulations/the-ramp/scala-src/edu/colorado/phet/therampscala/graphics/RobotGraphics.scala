@@ -1,6 +1,6 @@
 package edu.colorado.phet.therampscala.graphics
 
-
+import RampResources._
 import collection.mutable.ArrayBuffer
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import common.piccolophet.nodes.PhetPPath
@@ -16,10 +16,10 @@ class RobotGraphics(transform: ModelViewTransform2D, gameModel: RobotMovingCompa
   val struts = new Struts()
   addChild(struts)
 
-  val truckWheels = new PImage(RampResources.getImage("robotmovingcompany/truck_wheels.gif"))
+  val truckWheels = new PImage(RampResources.getImage("robotmovingcompany/truck_wheels.gif".literal))
   addChild(truckWheels)
 
-  val truckTop = new PImage(RampResources.getImage("robotmovingcompany/truck_top.gif"))
+  val truckTop = new PImage(RampResources.getImage("robotmovingcompany/truck_top.gif".literal))
   addChild(truckTop)
 
   gameModel.model.rampSegments(0).addListener(update)

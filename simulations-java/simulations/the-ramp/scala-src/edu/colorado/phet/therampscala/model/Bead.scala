@@ -1,6 +1,6 @@
 package edu.colorado.phet.therampscala.model
 
-
+import RampResources._
 import collection.mutable.ArrayBuffer
 import common.phetcommon.math.MathUtil
 import scalacommon.math.Vector2D
@@ -356,14 +356,11 @@ class Bead(private var _state: BeadState,
       }
       val distanceVector = positionMapper(newState.position) - positionMapper(origState.position)
       val work = appliedForce dot distanceVector
-      //      println("work done on particle by applied force: "+work)
       workListeners.foreach(_(work))
-//      println("setting position")
       setPosition(newState.position)
       setVelocity(newState.velocity)
       thermalEnergy = newState.thermalEnergy
 
-//      println("enabling notifications")
       notificationsEnabled = true;
       notifyListeners() //do as a batch, since it's a performance problem to do this several times in this method call
     }
@@ -432,7 +429,6 @@ class Bead(private var _state: BeadState,
       //preliminary tests indicate this happens when switching between ramp segment 0 and 1
 
       val stateAfterPatchup = if (dT < 0) {
-        //        println("dT=" + dT + ", dE= " + dE + ", orig Energy = " + origEnergy + ", thermalEnergy=" + stateAfterThermalEnergy.thermalEnergy)
         val patchedVelocity = getVelocityToConserveEnergy(stateAfterThermalEnergy)
         val patch = stateAfterThermalEnergy.setThermalEnergy(origState.thermalEnergy).setVelocity(patchedVelocity)
         val dEPatch = stateAfterThermalEnergy.totalEnergy - origEnergy
@@ -444,7 +440,6 @@ class Bead(private var _state: BeadState,
         } else
           patch
       } else {
-        //        println("applied energy = "+appliedEnergy+", dT = "+dT)
         stateAfterThermalEnergy
       }
 
@@ -456,7 +451,6 @@ class Bead(private var _state: BeadState,
 
       val patchPosition = if (abs(finalState.totalEnergy - origEnergy) > 1E-8 && getAngle != 0.0) {
         val x = (origEnergy + appliedEnergy - finalState.thermalEnergy - finalState.ke) / mass / gravity.abs / sin(getAngle)
-        //        println("patched position: xorig="+finalState.position+", xnew="+x)
         stateAfterPatchup.setPosition(x)
       } else {
         finalState
@@ -464,7 +458,7 @@ class Bead(private var _state: BeadState,
 
       val delta = patchPosition.totalEnergy - origEnergy - appliedEnergy
       if (delta.abs> 1E-8) {
-        println("failed to conserve energy, delta=" + delta)
+        println("failed to conserve energy, delta=".literal + delta)
       }
 
       patchPosition
@@ -479,9 +473,7 @@ class Bead(private var _state: BeadState,
   private def notificationsEnabled_=(b: Boolean) = _notificationsEnabled = b
   //allow global disabling of notifications since they are very expensive and called many times during Grounded.stepInTime
   override def notifyListeners() = {
-//    println("in notify, enabled="+notificationsEnabled)
     if (notificationsEnabled) {
-//      new Exception("notify enabled").printStackTrace()
       super.notifyListeners()
     }
   }

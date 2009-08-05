@@ -1,6 +1,7 @@
 package edu.colorado.phet.therampscala
 
 import scalacommon.util.Observable
+import RampResources._
 
 //immutable memento for recording
 case class ScalaRampObjectState(name: String, mass: Double, kinFric: Double, statFric: Double, height: Double,
@@ -34,11 +35,9 @@ class ScalaRampObject(_name: String,
 
   val imageFilename = _imageFilename
 
-  //todo: il8n
-  def getDisplayText = name + " (" + mass + " kg)"
+  def getDisplayText = "object.description.pattern.name_mass".translate.format(name, mass)
 
-  //todo: il8n
-  def getDisplayTextHTML = <html>{name}<br> </br>{mass}kg</html>
+  def getDisplayTextHTML = "object.description.html.pattern.name_mass".translate.format(name,mass)
 
   def this(name: String, mass: Double, kineticFriction: Double, staticFriction: Double, height: Double, imageFilename: String, points: Int) = this (name, mass, kineticFriction, staticFriction, height, imageFilename, imageFilename, false, points)
 
@@ -64,7 +63,7 @@ class CustomTextRampObject(name: String, mass: Double, kineticFriction: Double, 
         extends ScalaRampObject(name, mass, kineticFriction, staticFriction, height, imageFilename, iconFilename, customizable, points) {
   override def getDisplayText = name
 
-  override def getDisplayTextHTML = <html>{name}</html>
+  override def getDisplayTextHTML = "object.custom.description.html.pattern.name".translate.format(name)
 
   override def displayTooltip = false
 }

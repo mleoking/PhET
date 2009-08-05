@@ -83,20 +83,22 @@ class RampChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model:
   import RampDefaults._
   val N = "units.abbr.newtons".translate
   val J = "units.abbr.joules".translate
-  val appliedForceSeries = new ControlGraphSeries(formatForce("forces.applied".translate), appliedForceColor, "Fa", N, "", parallelAppliedForceVariable)
-  val frictionSeries = new ControlGraphSeries(formatForce("forces.friction".translate), frictionForceColor, "Ff", N, "", parallelFrictionVariable)
-  val gravitySeries = new ControlGraphSeries(formatForce("forces.Gravity".translate), gravityForceColor, "Fg", N, "", gravityForceVariable)
-  val wallSeries = new ControlGraphSeries(formatForce("forces.Wall".translate), wallForceColor, "Fw", N, "", wallForceVariable)
-  val netForceSeries = new ControlGraphSeries(formatForce("forces.Net".translate), totalForceColor, "Fsum", N, "", netForceVariable)
+  val characterUnused = "".literal
+  val abbrevUnused = "".literal
+  val appliedForceSeries = new ControlGraphSeries(formatForce("forces.applied".translate), appliedForceColor, abbrevUnused, N, characterUnused, parallelAppliedForceVariable)
+  val frictionSeries = new ControlGraphSeries(formatForce("forces.friction".translate), frictionForceColor, abbrevUnused, N, characterUnused, parallelFrictionVariable)
+  val gravitySeries = new ControlGraphSeries(formatForce("forces.Gravity".translate), gravityForceColor, abbrevUnused, N, characterUnused, gravityForceVariable)
+  val wallSeries = new ControlGraphSeries(formatForce("forces.Wall".translate), wallForceColor, abbrevUnused, N, characterUnused, wallForceVariable)
+  val netForceSeries = new ControlGraphSeries(formatForce("forces.Net".translate), totalForceColor, abbrevUnused, N, characterUnused, netForceVariable)
 
-  val totalEnergySeries = new ControlGraphSeries(formatEnergy("energy.total".translate), totalEnergyColor, "Etot", J, "", energyVariable)
-  val keSeries = new ControlGraphSeries(formatEnergy("energy.kinetic".translate), kineticEnergyColor, "KE", J, "", keVariable)
-  val peSeries = new ControlGraphSeries(formatEnergy("energy.potential".translate), potentialEnergyColor, "PE", J, "", peVariable)
-  val thermalEnergySeries = new ControlGraphSeries(formatEnergy("energy.thermal".translate), thermalEnergyColor, "PE", J, "", thermalEnergyVariable)
+  val totalEnergySeries = new ControlGraphSeries(formatEnergy("energy.total".translate), totalEnergyColor, abbrevUnused, J, characterUnused, energyVariable)
+  val keSeries = new ControlGraphSeries(formatEnergy("energy.kinetic".translate), kineticEnergyColor, abbrevUnused, J, characterUnused, keVariable)
+  val peSeries = new ControlGraphSeries(formatEnergy("energy.potential".translate), potentialEnergyColor, abbrevUnused, J, characterUnused, peVariable)
+  val thermalEnergySeries = new ControlGraphSeries(formatEnergy("energy.thermal".translate), thermalEnergyColor, abbrevUnused, J, characterUnused, thermalEnergyVariable)
 
-  val appliedWorkSeries = new ControlGraphSeries(formatWork("work.applied".translate), appliedWorkColor, "Wapp", J, "", appliedWorkVariable)
-  val gravityWorkSeries = new ControlGraphSeries(formatWork("work.gravity".translate), gravityWorkColor, "Wgrav", J, "", gravityWorkVariable)
-  val frictionWorkSeries = new ControlGraphSeries(formatWork("work.friction".translate), frictionWorkColor, "Wfric", J, "", frictionWorkVariable)
+  val appliedWorkSeries = new ControlGraphSeries(formatWork("work.applied".translate), appliedWorkColor, abbrevUnused, J, characterUnused, appliedWorkVariable)
+  val gravityWorkSeries = new ControlGraphSeries(formatWork("work.gravity".translate), gravityWorkColor, abbrevUnused, J, characterUnused, gravityWorkVariable)
+  val frictionWorkSeries = new ControlGraphSeries(formatWork("work.friction".translate), frictionWorkColor, abbrevUnused, J, characterUnused, frictionWorkVariable)
 
   class RampGraph(defaultSeries: ControlGraphSeries) extends MotionControlGraph(canvas, defaultSeries, "label", "title", -2000, 2000, true, timeseriesModel, updateableObject) {
     getJFreeChartNode.setBuffered(false)

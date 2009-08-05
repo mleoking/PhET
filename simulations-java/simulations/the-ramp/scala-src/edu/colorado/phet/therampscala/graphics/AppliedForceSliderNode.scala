@@ -11,11 +11,12 @@ import umd.cs.piccolo.PNode
 import swing.ScalaValueControl
 import umd.cs.piccolox.pswing.PSwing
 import edu.colorado.phet.scalacommon.Predef._
+import RampResources._
 
 class AppliedForceSlider(getter: () => Double,
                          setter: Double => Unit,
                          addListener: (() => Unit) => Unit)
-        extends ScalaValueControl(-RampDefaults.MAX_APPLIED_FORCE, RampDefaults.MAX_APPLIED_FORCE, "Applied Force X", "0.0", "N", getter, setter, addListener) {
+        extends ScalaValueControl(-RampDefaults.MAX_APPLIED_FORCE, RampDefaults.MAX_APPLIED_FORCE, "controls.applied-force-x".translate, "0.0".literal, "units.abbr.newtons".translate, getter, setter, addListener) {
   setTextFieldColumns(5)
   //set applied force to zero on slider mouse release
   getSlider.addMouseListener(new MouseAdapter {
