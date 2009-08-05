@@ -35,9 +35,9 @@ class ScalaRampObject(_name: String,
 
   val imageFilename = _imageFilename
 
-  def getDisplayText = "object.description.pattern.name_mass".translate.messageformat(name, mass)
+  def getDisplayText = "object.description.pattern.name_mass".translate.messageformat(name, mass.toString)
 
-  def getDisplayTextHTML = "object.description.html.pattern.name_mass".translate.messageformat(name,mass)
+  def getDisplayTextHTML = "object.description.html.pattern.name_mass".translate.messageformat(name,mass.toString)
 
   def this(name: String, mass: Double, kineticFriction: Double, staticFriction: Double, height: Double, imageFilename: String, points: Int) = this (name, mass, kineticFriction, staticFriction, height, imageFilename, imageFilename, false, points)
 
