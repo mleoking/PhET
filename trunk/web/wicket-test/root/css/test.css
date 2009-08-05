@@ -18,12 +18,22 @@ body {
     top: 0;
 }
 
+div.rtl #page-header-logo {
+    left: auto !important;
+    right: 0 !important;
+}
+
 #page-header-title {
     position: absolute;
     width: 400px;
     height: 127px;
     right: 0;
     top: 0;
+}
+
+div.rtl #page-header-title {
+    right: auto !important;
+    left: 0 !important;
 }
 
 #page-header-logo img {
