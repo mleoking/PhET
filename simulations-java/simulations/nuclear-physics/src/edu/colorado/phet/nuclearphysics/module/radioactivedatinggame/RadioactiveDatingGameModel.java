@@ -56,8 +56,8 @@ public class RadioactiveDatingGameModel implements ModelContainingDatableItems {
         // Params:                             name, image file, location(x, y), size, rotation angle (radians), age (ms)
         _datableObjects.add(new DatableItem("House", "house.png", new Point2D.Double(8, 4), 6, 0, MultiNucleusDecayModel.convertYearsToMs(75), true));
         _datableObjects.add(new DatableItem("Trilobyte", "trilobyte_fossil.png", new Point2D.Double(0, -11), 3.5, 0, MultiNucleusDecayModel.convertYearsToMs(500E6), false));
-    	_datableObjects.add(new DatableItem("Animal Skull", "skull_animal.png", new Point2D.Double(-21, 2), 3, Math.PI/4, MultiNucleusDecayModel.convertYearsToMs(25), true));
-    	_datableObjects.add(new DatableItem("Living Tree", "tree_1.png", new Point2D.Double(-16, 5), 5.5, 0, 0, true));
+    	_datableObjects.add(new DatableItem("Animal Skull", "skull_animal.png", new Point2D.Double(-26, 2), 3, Math.PI/4, MultiNucleusDecayModel.convertYearsToMs(25), true));
+    	_datableObjects.add(new DatableItem("Living Tree", "tree_1.png", new Point2D.Double(-21, 5), 5.5, 0, 0, true));
     	_datableObjects.add(new DatableItem("Distant Living Tree", "tree_1.png", new Point2D.Double(0, 3.5), 2, 0, 0, true));
     	_datableObjects.add(new DatableItem("Fish Fossil", "fish_fossil.png", new Point2D.Double(-15, -8), 7, 0, MultiNucleusDecayModel.convertYearsToMs(10E6), false));
     	_datableObjects.add(new DatableItem("Dead Tree", "tree_dead_no_space.png", new Point2D.Double(23, 2.5), 3, Math.PI/2, MultiNucleusDecayModel.convertYearsToMs(100), true));
