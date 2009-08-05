@@ -113,6 +113,10 @@ public class NuclearDecayProportionChart extends PNode {
     // data point causes a "square" look (as opposed to there being a straight
     // line from each data point to the next).
     boolean _squareMode = false;
+    
+    // Boolean that controls whether the option to show the C14/C12 ratio
+    // (which is Carbon specific) is shown.
+    boolean _showCarbonOptions = false;
 
     //------------------------------------------------------------------------
     // Constructor
@@ -224,8 +228,30 @@ public class NuclearDecayProportionChart extends PNode {
     	updateLayout();
 	}
 	
+	/**
+	 * Enable or disable a mode that causes the data points to be
+	 * interconnected in a sort of "stair step" fashion rather than by
+	 * straight lines.
+	 * 
+	 * @param enabled
+	 */
 	public void setSquareModeEnabled(boolean enabled){
 		_squareMode = enabled;
+	}
+	
+	/**
+	 * Enable or disable the controls that allow the user to select whether
+	 * the graph shows the percentage of the dating element remaining or the
+	 * ratio of C14 to C12.  This is necessary because in most cases when
+	 * radiometric dating is done, the chemical measurements are made that
+	 * compare the amount of the parent nucleus to the daughter nucleus.
+	 * However, since the daughter of C14 is N14, and N14 is pretty common,
+	 * the real measurement that is made is the ratio of C14 to C12.
+	 * 
+	 * @param enabled
+	 */
+	public void setShowCarbonOptions(boolean enabled){
+		_showCarbonOptions = enabled;
 	}
 	
 	/**
