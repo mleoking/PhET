@@ -35,9 +35,9 @@ class ScalaRampObject(_name: String,
 
   val imageFilename = _imageFilename
 
-  def getDisplayText = "object.description.pattern.name_mass".translate.format(name, mass)
+  def getDisplayText = "object.description.pattern.name_mass".translate.messageformat(name, mass)
 
-  def getDisplayTextHTML = "object.description.html.pattern.name_mass".translate.format(name,mass)
+  def getDisplayTextHTML = "object.description.html.pattern.name_mass".translate.messageformat(name,mass)
 
   def this(name: String, mass: Double, kineticFriction: Double, staticFriction: Double, height: Double, imageFilename: String, points: Int) = this (name, mass, kineticFriction, staticFriction, height, imageFilename, imageFilename, false, points)
 
@@ -63,7 +63,7 @@ class CustomTextRampObject(name: String, mass: Double, kineticFriction: Double, 
         extends ScalaRampObject(name, mass, kineticFriction, staticFriction, height, imageFilename, iconFilename, customizable, points) {
   override def getDisplayText = name
 
-  override def getDisplayTextHTML = "object.custom.description.html.pattern.name".translate.format(name)
+  override def getDisplayTextHTML = "object.custom.description.html.pattern.name".translate.messageformat(name)
 
   override def displayTooltip = false
 }

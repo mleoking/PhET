@@ -10,6 +10,7 @@ import umd.cs.piccolo.nodes.PText
 import java.awt.geom.Arc2D
 import java.text.DecimalFormat
 import edu.colorado.phet.scalacommon.Predef._
+import RampResources._
 
 //todo: consider coalescing with RampHeightIndicator
 class RampAngleIndicator(rampSegment: Rotatable, transform: ModelViewTransform2D) extends PNode {
@@ -20,13 +21,11 @@ class RampAngleIndicator(rampSegment: Rotatable, transform: ModelViewTransform2D
   addChild(readout)
   def getDegrees = rampSegment.getUnitVector.getAngle.toDegrees
 
-  def getPath = {
-    val arc = new Arc2D.Double(rampSegment.startPoint.x - 3, rampSegment.startPoint.y - 3, 6, 6, 0, -getDegrees, Arc2D.OPEN)
-    arc
-  }
+  def getPath = new Arc2D.Double(rampSegment.startPoint.x - 3, rampSegment.startPoint.y - 3, 6, 6, 0, -getDegrees, Arc2D.OPEN)
   defineInvokeAndPass(rampSegment.addListenerByName) {
     line.setPathTo(transform.createTransformedShape(getPath))
     readout.setOffset(transform.modelToView(0.5, -0.08))
-    readout.setText("Angle = " + new DecimalFormat("0.0").format(getDegrees) + " \u00B0")
+    val degrees = new DecimalFormat("0.0".literal).format(getDegrees)
+    readout.setText("ramp.angle-readout".translate.messageformat(degrees))
   }
 }
