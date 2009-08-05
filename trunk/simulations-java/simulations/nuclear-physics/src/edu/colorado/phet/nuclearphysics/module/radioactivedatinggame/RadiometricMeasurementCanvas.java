@@ -177,7 +177,7 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
         // Add a couple of clouds to the background.
         PImage cloud1 = NuclearPhysicsResources.getImageNode("cloud_1.png");
         cloud1.setScale(0.75);
-        cloud1.setOffset(50, 250);
+        cloud1.setOffset(-100, 250);
         backgroundLayer.addChild(cloud1);
         PImage cloud2 = NuclearPhysicsResources.getImageNode("cloud_1.png");
         cloud2.setScale(0.5);
