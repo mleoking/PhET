@@ -19,7 +19,7 @@ class PusherNode(transform: ModelViewTransform2D, targetBead: Bead, manBead: Bea
       //images go 0 to 14
       var leanAmount = (abs(targetBead.appliedForce.x) * 13.0 / 50.0).toInt + 1
       if (leanAmount > 14) leanAmount = 14
-      var textStr = "" + leanAmount
+      var textStr = leanAmount.toString
       while (textStr.length < 2)
         textStr = "0".literal + textStr
       val im = RampResources.getImage("pusher-leaner-png/pusher-leaning-2_00".literal + textStr + ".png".literal)

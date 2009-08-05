@@ -8,9 +8,9 @@ object Predef{
 }
 import Predef._
 object RampResources extends PhetResources("the-ramp".literal) {
-  val forcePattern = "force.pattern".translate
-  val energyPattern = "energy.pattern".translate
-  val workPattern = "work.pattern".translate
+  val forcePattern = getLocalizedString("force.pattern")
+  val energyPattern = getLocalizedString("energy.pattern")
+  val workPattern = getLocalizedString("work.pattern")
 
   def formatForce(force: String) = MessageFormat.format(forcePattern, force)
 
@@ -24,4 +24,5 @@ object RampResources extends PhetResources("the-ramp".literal) {
 class MyRichString(s:String){
   lazy val literal = s
   lazy val translate = RampResources.getLocalizedString(s)
+  def messageformat(x:Object*) = MessageFormat.format(s,x: _*) 
 }
