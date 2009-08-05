@@ -1,6 +1,7 @@
 package edu.colorado.phet.therampscala
 
 import common.phetcommon.application.PhetApplicationLauncher
+import RampResources._
 
 object RobotMovingCompanyApplicationMainTestRegex {
   def main(args: Array[String]) = new PhetApplicationLauncher().launchSim(args, "the-ramp".literal, "robot-moving-company".literal, classOf[RobotMovingCompanyApplication])
