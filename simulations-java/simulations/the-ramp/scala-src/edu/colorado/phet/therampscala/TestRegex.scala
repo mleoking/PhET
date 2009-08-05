@@ -12,5 +12,4 @@ object RobotMovingCompanyApplicationMainTestRegex {
   val test5 = ("string 1".translate -> "another string".translate)  //don't flag
   val test6="hello" translate //technically should be ignored, but okay to flag since it uses alternative syntax
   val test7="hello" .    translate //technically should be ignored, but okay to flag since it uses alternative syntax
-  val test8="hello".translate() //technically should be ignored, but okay to flag since it uses alternative syntax
 }

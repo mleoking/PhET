@@ -73,8 +73,6 @@ class RobotMovingCompanyGameModel(val model: RampModel, clock: ScalaClock) exten
     bead.crashListeners += (() => itemLostOffCliff(sel))
     val beadRef = _bead //use a reference for closures below
     bead.addListener(() => {
-      //      println("houseMinX=" + gameModel.house.minX + ", particle: " + bead.position + ", maxX: " + gameModel.house.maxX)
-      //      println("paf=" + beadRef.parallelAppliedForce)
       if (beadRef.position > 0 && abs(beadRef.velocity) < 1E-6 && !containsKey(sel) && abs(beadRef.parallelAppliedForce) < 50) {
         if (beadRef.position >= house.minX && beadRef.position <= house.maxX)
           itemMoved(sel)
@@ -117,7 +115,7 @@ class RobotMovingCompanyGameModel(val model: RampModel, clock: ScalaClock) exten
     itemFinishedListeners.foreach(_(o, r))
     if (resultMap.size == objectList.length)
       gameFinishListeners.foreach(_())
-    //    else //  automatically go to next object when you score or lose the object (instead of hitting "next object" button)
+    //    else //  automatically go to next object when you score or lose the object (instead of hitting next object button)
     //      nextObject()
     notifyListeners()
   }
