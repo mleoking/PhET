@@ -24,21 +24,23 @@ class WorkshopsPage extends SitePage {
 
         <h2>Upcoming Workshops</h2>
         <ul>
-        <li><em>Teacher and Researcher: Designing Research Studies around PhET's Interactive Simulations</em>; AAPT Summer 2009 Meeting, Ann Arbor, MI, <strong>July 25-29, 2009</strong></li>
         <li><em>Exploring Easy and Effective Ways to Use PhET's Web-Based Interactive Simulations in your Science Course</em>; NSTA Conferences on Science Educations, Minneapolis, MN <strong>Oct 28-31, 2009, </strong>Fort Lauderdale, FL <strong>Nov 12-14, 2009, </strong>Phoenix, AZ <strong>Dec 3-5, 2009</strong> (<a href="{$workshop_materials_location}flyer_for_NSTA.pdf">PDF flyer</a>)</li>
         </ul>
 
         <h2>Workshop Materials:</h2>
         <ul>
-        <li><a href="workshop_uganda.php">Uganda Workshop and Guide to giving PhET workshops in developing countries</a></li>
-        <li>4 hour workshop for American Association of Physics Teachers meetings (<a href="{$workshop_materials_location}Phet_Workshop_AAPT_Summer2007.pdf">PDF</a> or <a href="{$workshop_materials_location}Phet_Workshop_AAPT_Summer2007.ppt">PPT</a>)</li>
+        <li>4 hour workshop Teacher and Researcher: designing research Studies around PhET's Interactive Simulaitons; AAPT Summer 2009 Meeting (<a href="{$workshop_materials_location}Phet_Workshop_AAPT_Summer2009.pptx">PPTX</a>)</li>
+        <li>Handouts used in PhET researcher and teacher workshops (<a href="{$workshop_materials_location}PhETResearcherAndTeacherWorkshopHandouts.zip">ZIP</a>)</li>
+        <li>4 hour workshop for creating activities given at the American Association of Physics Teachers meetings (<a href="{$workshop_materials_location}Phet_Workshop_AAPT_Summer2007.pdf">PDF</a> or <a href="{$workshop_materials_location}Phet_Workshop_AAPT_Summer2007.ppt">PPT</a>)</li>
+        <li>Handouts used in PhET activity creation workshops (<a href="{$workshop_materials_location}PhETWorkshopHandouts.zip">ZIP</a>)</li>
         <li>Trish Loeblein's workshop series for high school teachers (<a href="{$workshop_materials_location}PhET_Workshop_Series_07-08.pdf">PDF</a>)</li>
         <li>Carl Wieman talk about PhET Simulations (<a href="{$workshop_materials_location}WiemanPhetTalk2007.pdf">PDF</a> or <a href="{$workshop_materials_location}WiemanPhetTalk2007.ppt">PPT</a>)</li>
-        <li>Handouts used in PhET Workshops (<a href="{$workshop_materials_location}PhETWorkshopHandouts.zip">ZIP</a>)</li>
+        <li><a href="workshop_uganda.php">Uganda Workshop and Guide to giving PhET workshops in developing countries</a></li>
         </ul>
 
         <h2>Schedule of Past Workshops</h2>
         <ul>
+        <li><em>Teacher and Researcher: Designing Research Studies around PhET's Interactive Simulations</em>; AAPT Summer 2009 Meeting, Ann Arbor, MI, <strong>July 25-29, 2009</strong></li>
 	<li><em>Using PhET simulations for Science Inquiry; Technology in Education (TIE)</em> Colorado, Copper Mountain Resort, CO <strong>Jun 2009</strong> (<a href="{$workshop_materials_location}PhET_Workshop_Flyer_TIE_2009-06-24.pdf">PDF flyer</a>).<!-- <br /> Materials available at <a href="http://tieconference.wikispaces.com/2114">http://tieconference.wikispaces.com/2114</a> --></li>
         <li><em>Using the Updated PhET Motion Simulations in HS Physics: Moving Man, Forces in 1 Dimension, Ramps, Ladybug Revolution, Torque</em>; APS HS Teacher Day, Sheraton Denver Hotel, Denver, CO, <strong>May 5, 2009</strong></li>
         <li><em>Using PhET for Physical Science in Middle School</em>; Jefferson County School Administration Building, Golden CO, <strong>Feb 5, 2009</strong>  (<a href="{$workshop_materials_location}PhET_Workshop_Flyer_MS_Jeffco_2009-02-05.pdf">PDF flyer</a>) (<a href="{$workshop_materials_location}PhET_Workshop_Handouts_MS_Jeffco_2009-02-05.zip">ZIPped handouts</a>)</li>
