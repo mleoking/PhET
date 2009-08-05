@@ -71,6 +71,7 @@ public class RadiometricDatingMeterNode extends PNode {
 	private static final Font BUTTON_FONT = new PhetFont(16, true);
 	private static final Font HALF_LIFE_SELECTION_FONT = new PhetFont(16);
 	private static final double AIR_PROBE_HEIGHT_PROPORTION = 0.5;
+	private static final double MAX_AIR_PROBE_EXTENSION_PROPORTION = 0.333;
 	
 	// Array that maps values to the strings used for the custom nucleus half
 	// life.  THESE MUST BE MANUALLY KEPT IN SYNC WITH THE STRINGS IN THE
@@ -230,11 +231,9 @@ public class RadiometricDatingMeterNode extends PNode {
 		// Add the air probe.
 		_airProbeNode = new PImage(NuclearPhysicsResources.getImage("air_probe.png"));
 		double airProbeScale = (_meterBody.getFullBoundsReference().getHeight() * AIR_PROBE_HEIGHT_PROPORTION) 
-		/ _airProbeNode.getFullBoundsReference().height;
+			/ _airProbeNode.getFullBoundsReference().height;
 		_airProbeNode.setScale(airProbeScale);
-		_airProbeNode.setOffset(
-				_meterBody.getOffset().getX() + _meterBody.getFullBoundsReference().width / 2 - _airProbeNode.getFullBoundsReference().width / 2,
-				_meterBody.getFullBounds().getMaxY() - _airProbeNode.getFullBoundsReference().height / 2);
+		setAirProbeExtensionAmount(0);
 		_airProbeLayer.addChild(_airProbeNode);
 
 		// Do initial state updates.
@@ -325,6 +324,23 @@ public class RadiometricDatingMeterNode extends PNode {
 			_cableNode.setVisible(true);
 			break;
 		}
+	}
+	
+	private void setAirProbeExtensionAmount(double extension){
+		
+		// Check for valid usage.
+		if (extension < 0 || extension > 1){
+			System.err.println(getClass().getName() + " - Error: Invalid extension amount");
+			assert false;
+			return;
+		}
+
+		// Set the position.
+		PBounds meterBodyBounds = _meterBody.getFullBounds();
+		PBounds airProbeBounds = _airProbeNode.getFullBounds();
+		double maxExtension = _airProbeNode.getFullBoundsReference().height * MAX_AIR_PROBE_EXTENSION_PROPORTION;
+		_airProbeNode.setOffset(meterBodyBounds.getWidth() / 2 - airProbeBounds.width / 2,
+				meterBodyBounds.height - airProbeBounds.height + (extension * maxExtension));
 	}
 	
 	private ProbeNode getProbeNode() {
@@ -699,7 +715,7 @@ public class RadiometricDatingMeterNode extends PNode {
     private class MeasurementModeToggleAnimationTimer extends Timer {
 
     	private static final int TIMER_DELAY = 30;            // Milliseconds between each animation step.
-    	private static final int TOTAL_ANIMATION_COUNT = 20;  // Total number of animation steps.
+    	private static final int TOTAL_ANIMATION_COUNT = 12;  // Total number of animation steps.
     	
     	private RadiometricDatingMeterNode _meterNode;
     	private RadiometricDatingMeter.MeasurementMode _targetMode;
@@ -707,6 +723,7 @@ public class RadiometricDatingMeterNode extends PNode {
     	
 		public MeasurementModeToggleAnimationTimer(RadiometricDatingMeterNode meterNode,
 				RadiometricDatingMeter.MeasurementMode targetMode) {
+			
 			super(TIMER_DELAY, null);
 			
 			_meterNode = meterNode;
@@ -714,13 +731,9 @@ public class RadiometricDatingMeterNode extends PNode {
 			
 			// Set the initial position and visibility of the probes based on
 			// the change that is occurring.
-			PBounds meterBodyBounds = _meterNode._meterBody.getFullBounds();
-			PBounds airProbeBounds = _meterNode._airProbeNode.getFullBounds();
 			if (_targetMode == MeasurementMode.AIR){
-				// Start with probe retracted.
-				_meterNode._airProbeNode.setOffset(
-						meterBodyBounds.width / 2 - airProbeBounds.width / 2,
-						meterBodyBounds.getMaxY() - airProbeBounds.height);
+				// Start with probe retracted but visible.
+				_meterNode.setAirProbeExtensionAmount(0);
 				_meterNode._airProbeNode.setVisible(true);
 				
 				// Hide the object probe.
@@ -729,10 +742,7 @@ public class RadiometricDatingMeterNode extends PNode {
 			}
 			else{
 				// Probe should already be fully extended, but make sure.
-				_meterNode._airProbeNode.setOffset(
-						meterBodyBounds.width / 2 - airProbeBounds.width / 2,
-						meterBodyBounds.getMaxY() - airProbeBounds.height / 2);
-				_meterNode._airProbeNode.setVisible(true);
+				_meterNode.setAirProbeExtensionAmount(1);
 			}
 			
             addActionListener( new ActionListener() {
@@ -761,16 +771,11 @@ public class RadiometricDatingMeterNode extends PNode {
 		
 		private void stepAnimation(int count){
 			
-			double increment = _meterNode._airProbeNode.getFullBoundsReference().height / TOTAL_ANIMATION_COUNT / 2;
 			if (_targetMode == MeasurementMode.AIR){
-				// Move the probe out slightly.
-				Point2D airProbePos = _meterNode._airProbeNode.getOffset();
-				_meterNode._airProbeNode.setOffset(airProbePos.getX(), airProbePos.getY() + increment);
+				_meterNode.setAirProbeExtensionAmount(((double)count + 1)/(double)TOTAL_ANIMATION_COUNT);
 			}
 			else{
-				// Move the probe in slightly.
-				Point2D airProbePos = _meterNode._airProbeNode.getOffset();
-				_meterNode._airProbeNode.setOffset(airProbePos.getX(), airProbePos.getY() - increment);
+				_meterNode.setAirProbeExtensionAmount(1 - ((double)count + 1)/(double)TOTAL_ANIMATION_COUNT);
 			}
 		}
     }
