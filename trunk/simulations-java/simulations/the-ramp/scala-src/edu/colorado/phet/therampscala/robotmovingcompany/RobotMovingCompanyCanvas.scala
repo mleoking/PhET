@@ -20,6 +20,7 @@ import model._
 import swing.{ScalaButton}
 import umd.cs.piccolox.pswing.PSwing
 import scalacommon.Predef._
+import RampResources._
 
 class RobotMovingCompanyCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, freeBodyDiagramModel: FreeBodyDiagramModel,
                                vectorViewModel: VectorViewModel, frame: JFrame, gameModel: RobotMovingCompanyGameModel)
@@ -267,7 +268,7 @@ object TestSummaryScreen {
   def main(args: Array[String]) {
     val summaryScreenNode = new SummaryScreenNode(new RobotMovingCompanyGameModel(new RampModel(5, true,RampDefaults.defaultRampAngle), new ScalaClock(30, 30 / 1000.0)), RampDefaults.objects(0), new Result(true, false, 64, 100), a => {
       a.setVisible(false)
-    }, "Ok")
+    }, "Ok".literal)
     val frame = new JFrame
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)
     frame.setSize(800, 600)

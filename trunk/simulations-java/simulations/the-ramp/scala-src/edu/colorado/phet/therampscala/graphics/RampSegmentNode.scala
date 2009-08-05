@@ -83,7 +83,6 @@ class RotationHandler(val mytransform: ModelViewTransform2D,
     val proposedAngle = origAngle + totalDelta
 
     val angle = if (proposedAngle > max) max else if (proposedAngle < min) min else proposedAngle
-    //        println("origAngle="+origAngle+", delta="+deltaAngle+", totalDelta="+totalDelta+", proposedAngle="+proposedAngle+" min="+min+", max="+max+", angle="+angle)
 
     val newPt = new Vector2D(angle) * rotatable.length
     rotatable.endPoint = newPt

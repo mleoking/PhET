@@ -19,6 +19,7 @@ import umd.cs.piccolo.nodes.{PImage, PText}
 import umd.cs.piccolo.PNode
 import scalacommon.Predef._
 import java.lang.Math._
+import RampResources._
 
 class Vector(val color: Color,
              val name: String,
@@ -130,7 +131,7 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel, private va
   val background = new PhetPPath(Color.white, new BasicStroke(2), Color.darkGray)
   addChild(background)
 
-  val closeButton = new PImage(PhetCommonResources.getImage("buttons/closeButton.png"))
+  val closeButton = new PImage(PhetCommonResources.getImage("buttons/closeButton.png".literal))
   closeButton.addInputEventListener(new CursorHandler)
   closeButton.addInputEventListener(new PBasicInputEventHandler {
     override def mousePressed(event: PInputEvent) = {
@@ -182,8 +183,8 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel, private va
 
   val xAxisModel = new SynchronizedAxisModel(0, modelWidth / 2 * 0.9, true, coordinateFrameModel)
   val yAxisModel = new SynchronizedAxisModel(PI / 2, modelWidth / 2 * 0.9, true, coordinateFrameModel)
-  addChild(new AxisNodeWithModel(transform, "x", xAxisModel, isInteractive, 0, PI / 2))
-  addChild(new AxisNodeWithModel(transform, "y", yAxisModel, isInteractive, PI / 2, PI))
+  addChild(new AxisNodeWithModel(transform, "coordinates.x".translate, xAxisModel, isInteractive, 0, PI / 2))
+  addChild(new AxisNodeWithModel(transform, "coordinates.y".translate, yAxisModel, isInteractive, PI / 2, PI))
   for (vector <- vectors) addVector(vector, RampDefaults.FBD_LABEL_MAX_OFFSET)
 
   updateSize()
@@ -321,9 +322,9 @@ class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val ta
 object TestFBD extends Application {
   val frame = new JFrame
   val canvas = new PhetPCanvas
-  val vector = new Vector(Color.blue, "Test Vector", "Fv", () => new Vector2D(5, 5), (a, b) => b)
+  val vector = new Vector(Color.blue, "Test Vector".literal, "Fv".literal, () => new Vector2D(5, 5), (a, b) => b)
   canvas.addScreenChild(new FreeBodyDiagramNode(new FreeBodyDiagramModel, 200, 200, 20, 20, new CoordinateFrameModel(Nil), true,
-    PhetCommonResources.getImage("buttons/maximizeButton.png"), vector))
+    PhetCommonResources.getImage("buttons/maximizeButton.png".literal), vector))
   frame.setContentPane(canvas)
   frame.setSize(800, 600)
   frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)

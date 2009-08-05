@@ -1,6 +1,6 @@
 package edu.colorado.phet.therampscala.graphics
 
-
+import RampResources._
 import collection.mutable.ArrayBuffer
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import common.phetcommon.view.util.{BufferedImageUtils, PhetFont}
@@ -111,9 +111,9 @@ class ObjectSelectionNode(transform: ModelViewTransform2D, model: ObjectModel) e
 
     val obj = new Object with Observable
     class CustomControlPanel extends VerticalLayoutPanel {
-      add(new ScalaValueControl(10, 150, "mass", "0.0", "kg", () => o.mass, o.mass_=, o.addListener))
-      add(new ScalaValueControl(0, 3, "Coefficient of Static Friction", "0.0", "", () => o.staticFriction, o.staticFriction = _, obj.addListener))
-      add(new ScalaValueControl(0, 3, "Coefficient of Kinetic Friction", "0.0", "", () => o.kineticFriction, o.kineticFriction = _, obj.addListener))
+      add(new ScalaValueControl(10, 150, "property.mass".translate, "0.0".literal, "units.abbr.kg".translate, () => o.mass, o.mass_=, o.addListener))
+      add(new ScalaValueControl(0, 3, "property.coefficient-of-static-friction".translate, "0.0".literal, "".literal, () => o.staticFriction, o.staticFriction = _, obj.addListener))
+      add(new ScalaValueControl(0, 3, "property.coefficient-of-kinetic-friction".translate, "0.0".literal, "".literal, () => o.kineticFriction, o.kineticFriction = _, obj.addListener))
     }
 
     val customControlPanel = new CustomControlPanel

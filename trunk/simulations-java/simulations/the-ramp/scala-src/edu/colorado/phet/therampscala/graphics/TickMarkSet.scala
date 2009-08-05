@@ -9,6 +9,7 @@ import java.awt.geom.{Rectangle2D, Point2D}
 import java.text.DecimalFormat
 import umd.cs.piccolo.nodes.PText
 import umd.cs.piccolo.PNode
+import RampResources._
 
 class TickMarkSet(transform: ModelViewTransform2D, positionMapper: Double => Point2D, addListener: (() => Unit) => Unit) extends PNode {
   for (x <- -10 to 10 by 2) {
@@ -18,7 +19,7 @@ class TickMarkSet(transform: ModelViewTransform2D, positionMapper: Double => Poi
   setChildrenPickable(false)
   def addTickLabel(x: Double) = {
     val path = new PhetPPath(Color.black)
-    val label = new PText(new DecimalFormat("0").format(x))
+    val label = new PText(new DecimalFormat("0".literal).format(x))
 
     label.setFont(new PhetFont(18, true))
     addChild(path)

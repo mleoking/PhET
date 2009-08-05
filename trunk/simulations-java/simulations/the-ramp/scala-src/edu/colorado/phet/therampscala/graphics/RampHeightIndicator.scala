@@ -1,6 +1,6 @@
 package edu.colorado.phet.therampscala.graphics
 
-
+import RampResources._
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import common.phetcommon.view.util.PhetFont
 import umd.cs.piccolo.PNode
@@ -24,6 +24,6 @@ class RampHeightIndicator(rampSegment: Rotatable, transform: ModelViewTransform2
   defineInvokeAndPass(rampSegment.addListenerByName) {
     line.setPathTo(transform.createTransformedShape(getLine))
     readout.setOffset(line.getFullBounds.getMaxX + 10, line.getFullBounds.getCenterY)
-    readout.setText("h = " + new DecimalFormat("0.0").format(rampSegment.endPoint.y) + " m")
+    readout.setText("h = " + new DecimalFormat("0.0".literal).format(rampSegment.endPoint.y) + " m")
   }
 }
