@@ -82,7 +82,6 @@ public class RadioactiveDatingGameModel implements ModelContainingDatableItems {
     	_meter.getProbeModel().addObserver(new SimpleObserver(){
 			public void update() {
 				getDatableItemAtLocation( _meter.getProbeModel().getTipLocation() );
-				
 			}
     	});
     }
