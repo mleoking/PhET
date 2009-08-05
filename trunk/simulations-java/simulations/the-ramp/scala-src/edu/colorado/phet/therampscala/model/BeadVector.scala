@@ -1,13 +1,11 @@
 package edu.colorado.phet.therampscala.model
 
-
+import RampResources._
 import graphics.{Vector, PointOfOriginVector}
 import java.awt.geom.Rectangle2D
 import java.awt.{Paint, TexturePaint, Color, Graphics2D}
 import java.awt.image.BufferedImage
 import java.lang.Math._
-
-
 import scalacommon.math.Vector2D
 
 class BeadVector(color: Color,
@@ -70,14 +68,14 @@ class AngleBasedComponent(target: BeadVector,
                           modifier: String) extends VectorComponent(target, bead, getComponentUnitVector, painter, modifier) {
   bead.addListenerByName(notifyListeners()) //since this value depends on getAngle, which depends on getPosition
 }
-class ParallelComponent(target: BeadVector, bead: Bead) extends AngleBasedComponent(target, bead, () => new Vector2D(bead.getAngle), (a, b) => b, "\u2225") //http://www.fileformat.info/info/unicode/char/2225/index.htm
-class PerpendicularComponent(target: BeadVector, bead: Bead) extends AngleBasedComponent(target, bead, () => new Vector2D(bead.getAngle + PI / 2), (a, b) => b, "\u22A5") //http://www.fileformat.info/info/unicode/char/22a5/index.htm
-class XComponent(target: BeadVector, bead: Bead, coordinateFrame: CoordinateFrameModel) extends VectorComponent(target, bead, () => new Vector2D(1, 0).rotate(coordinateFrame.angle), Paints.horizontalStripes, "x") {
+class ParallelComponent(target: BeadVector, bead: Bead) extends AngleBasedComponent(target, bead, () => new Vector2D(bead.getAngle), (a, b) => b, "symbols.parallel".translate) //http://www.fileformat.info/info/unicode/char/2225/index.htm
+class PerpendicularComponent(target: BeadVector, bead: Bead) extends AngleBasedComponent(target, bead, () => new Vector2D(bead.getAngle + PI / 2), (a, b) => b, "symbols.perpendicular".translate) //http://www.fileformat.info/info/unicode/char/22a5/index.htm
+class XComponent(target: BeadVector, bead: Bead, coordinateFrame: CoordinateFrameModel) extends VectorComponent(target, bead, () => new Vector2D(1, 0).rotate(coordinateFrame.angle), Paints.horizontalStripes, "coordinates.x".translate) {
   coordinateFrame.addListenerByName {
     notifyListeners()
   }
 }
-class YComponent(target: BeadVector, bead: Bead, coordinateFrame: CoordinateFrameModel) extends VectorComponent(target, bead, () => new Vector2D(0, 1).rotate(coordinateFrame.angle), Paints.verticalStripes, "y") {
+class YComponent(target: BeadVector, bead: Bead, coordinateFrame: CoordinateFrameModel) extends VectorComponent(target, bead, () => new Vector2D(0, 1).rotate(coordinateFrame.angle), Paints.verticalStripes, "coordinates.y".translate) {
   coordinateFrame.addListenerByName {
     notifyListeners()
   }

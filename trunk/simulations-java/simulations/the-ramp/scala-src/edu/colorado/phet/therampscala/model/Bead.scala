@@ -59,12 +59,12 @@ class Bead(private var _state: BeadState,
   //todo: privatize
   var attachState: MotionStrategy = new Grounded
 
-  val gravityForceVector = new BeadVector(RampDefaults.gravityForceColor, "Gravity Force", "g", false, () => gravityForce, (a, b) => b)
-  val normalForceVector = new BeadVector(RampDefaults.normalForceColor, "Normal Force", "N", true, () => normalForce, (a, b) => b)
-  val totalForceVector = new BeadVector(RampDefaults.totalForceColor, "Sum of Forces", "sum", false, () => totalForce, (a, b) => b)
-  val appliedForceVector = new BeadVector(RampDefaults.appliedForceColor, "Applied Force", "a", false, () => appliedForce, (a, b) => b)
-  val frictionForceVector = new BeadVector(RampDefaults.frictionForceColor, "Friction Force", "f", true, () => frictionForce, (a, b) => b)
-  val wallForceVector = new BeadVector(RampDefaults.wallForceColor, "Wall Force", "w", false, () => wallForce, (a, b) => b)
+  val gravityForceVector = new BeadVector(RampDefaults.gravityForceColor, "Gravity Force".literal, "force.abbrev.gravity".translate, false, () => gravityForce, (a, b) => b)
+  val normalForceVector = new BeadVector(RampDefaults.normalForceColor, "Normal Force".literal, "force.abbrev.normal".translate, true, () => normalForce, (a, b) => b)
+  val totalForceVector = new BeadVector(RampDefaults.totalForceColor, "Sum of Forces".literal, "force.abbrev.total".translate, false, () => totalForce, (a, b) => b)
+  val appliedForceVector = new BeadVector(RampDefaults.appliedForceColor, "Applied Force".literal, "force.abbrev.applied".translate, false, () => appliedForce, (a, b) => b)
+  val frictionForceVector = new BeadVector(RampDefaults.frictionForceColor, "Friction Force".literal, "force.abbrev.friction".translate, true, () => frictionForce, (a, b) => b)
+  val wallForceVector = new BeadVector(RampDefaults.wallForceColor, "Wall Force".literal, "force.abbrev.wall".translate, false, () => wallForce, (a, b) => b)
   //chain listeners
   normalForceVector.addListenerByName(frictionForceVector.notifyListeners())
   //todo: add normalForceVector notification when changing friction coefficients
@@ -433,7 +433,7 @@ class Bead(private var _state: BeadState,
         val patch = stateAfterThermalEnergy.setThermalEnergy(origState.thermalEnergy).setVelocity(patchedVelocity)
         val dEPatch = stateAfterThermalEnergy.totalEnergy - origEnergy
         if (dEPatch.abs > 1E-8) {
-          println("applied energy = " + appliedEnergy + ", dT = " + dT + ", origVel=" + stateAfterThermalEnergy.velocity + ", newV=" + patchedVelocity + ", dE=" + dEPatch)
+          println("applied energy = ".literal + appliedEnergy + ", dT = ".literal + dT + ", origVel=".literal + stateAfterThermalEnergy.velocity + ", newV=".literal + patchedVelocity + ", dE=".literal + dEPatch)
           //accept some problem here
           //todo: should the state be changed, given that energy is problematic?
           patch
