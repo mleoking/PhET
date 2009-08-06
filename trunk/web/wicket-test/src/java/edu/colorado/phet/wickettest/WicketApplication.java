@@ -30,24 +30,36 @@ public class WicketApplication extends WebApplication {
     @Override
     protected void init() {
         super.init();
-        mapper = new PhetUrlMapper();
 
+        // add static pages, that are accessed through reflection. this is used so that separate page AND panel classes
+        // are not needed for each visual page.
+        // NOTE: do this before adding StaticPage into the mapper
+        StaticPage.addPanel( TroubleshootingMainPanel.class );
+        StaticPage.addPanel( AboutPhetPanel.class );
+
+        // create a url mapper, and add the page classes to it
+        mapper = new PhetUrlMapper();
         SimulationDisplay.addToMapper( mapper );
         SimulationPage.addToMapper( mapper );
-        TroubleshootingMainPage.addToMapper( mapper );
-        AboutPhetPage.addToMapper( mapper );
+        StaticPage.addToMapper( mapper );
         IndexPage.addToMapper( mapper );
 
+        // set up the custom localizer
         getResourceSettings().setLocalizer( new PhetLocalizer() );
 
+        // set up the locales that will be accessible
         mount( new PhetUrlStrategy( "en", mapper ) );
-        mount( new PhetUrlStrategy( "es", mapper ) );
-        mount( new PhetUrlStrategy( "el", mapper ) );
-        mount( new PhetUrlStrategy( "ar", mapper ) );
+        for ( String localeString : getTranslations() ) {
+            mount( new PhetUrlStrategy( localeString, mapper ) );
+        }
         mount( new TranslationUrlStrategy( "translation", mapper ) );
 
+        // this will remove the default string resource loader. essentially this new one has better locale-handling,
+        // so that if a string is not found for a more specific locale (es_MX), it would try "es", then the default
+        // properties file
         getResourceSettings().addStringResourceLoader( new ClassStringResourceLoader( WicketApplication.class ) );
 
+        // initialize the navigation menu
         menu = new NavMenu();
 
         // get rid of wicket:id's and other related tags in the produced HTML.
