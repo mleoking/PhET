@@ -34,7 +34,7 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
 	
 	// Constants that control the initial size and position of some of the
 	// model elements.
-	private static final Point2D INITIAL_TREE_POSITION = new Point2D.Double(-12, -2);
+	private static final Point2D INITIAL_TREE_POSITION = new Point2D.Double(-12, -4);
 	private static final double  INITIAL_TREE_WIDTH = 1;
 	private static final Point2D INITIAL_VOLCANO_POSITION = new Point2D.Double(13, 0);
 	private static final double  INITIAL_VOLCANO_WIDTH = 12;
