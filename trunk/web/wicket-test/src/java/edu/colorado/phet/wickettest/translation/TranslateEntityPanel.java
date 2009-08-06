@@ -65,7 +65,9 @@ public class TranslateEntityPanel extends PhetPanel {
             protected void populateItem( ListItem item ) {
                 final TranslationEntityString tString = (TranslationEntityString) item.getModel().getObject();
 
-                final Model model = new Model( getLocalizer().getString( tString.getKey(), TranslateEntityPanel.this ) );
+                String initString = getLocalizer().getString( tString.getKey(), TranslateEntityPanel.this );
+                initString = initString.replaceAll( "<br/>", "\n" );
+                final Model model = new Model( initString );
                 stringModelMap.put( tString.getKey(), model );
 
                 if ( tString.getNotes() == null ) {
@@ -137,6 +139,10 @@ public class TranslateEntityPanel extends PhetPanel {
 
     public void setString( String key, String value ) {
         Session session = getHibernateSession();
+
+        value = value.replaceAll( "\r", "" );
+        value = value.replaceAll( "\n", "<br/>" );
+
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
