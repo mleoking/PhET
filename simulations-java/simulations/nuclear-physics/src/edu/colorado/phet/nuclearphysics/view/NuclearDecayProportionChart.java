@@ -68,7 +68,7 @@ public class NuclearDecayProportionChart extends PNode {
 
     // Constants that control the proportions of the main components of the chart.
     private static final double PIE_CHART_WIDTH_PROPORTION = 0.1;
-    private static final double CARBON_OPTIONS_WIDTH_PROPORTION = 0.2;
+    private static final double CARBON_OPTIONS_HEIGHT_PROPORTION = 0.2;
     private static final double MOVABLE_PERCENT_INDICATOR_WIDTH_PROPORTION = 0.22;
     private static final double MOVABLE_PERCENT_INDICATOR_HEIGHT_PROPORTION = 0.23;
     
@@ -173,16 +173,16 @@ public class NuclearDecayProportionChart extends PNode {
         	_nonPickableChartNode.addChild( _pieChart );
         }
         
+        // Create and add the carbon options panel.
+        _carbonOptionsPanel = new CarbonOptionsPanel(this);
+        _carbonOptionsPanelPSwing = new PSwing(_carbonOptionsPanel);
+        _pickableChartNode.addChild(_carbonOptionsPanelPSwing);
+
         // Add the movable percentage indicator (if enabled).
         if ( _movablePercentIndicatorEnabled ){
         	_movablePercentIndicator = new MovablePercentIndicator( this );
         	_pickableChartNode.addChild( _movablePercentIndicator );
         }
-        
-        // Create and add the carbon options panel.
-        _carbonOptionsPanel = new CarbonOptionsPanel(this);
-        _carbonOptionsPanelPSwing = new PSwing(_carbonOptionsPanel);
-        _pickableChartNode.addChild(_carbonOptionsPanelPSwing);
     }
 
 	//------------------------------------------------------------------------
@@ -374,19 +374,16 @@ public class NuclearDecayProportionChart extends PNode {
         }
         
         // Position the carbon selection panel if enabled.
-        double graphRightEdge = _usableAreaRect.getMaxX();
         if ( _showCarbonOptions ){
         	_carbonOptionsPanelPSwing.setVisible(true);
         	_carbonOptionsPanelPSwing.setScale(1);
 
-        	_carbonOptionsPanelPSwing.scale( _usableAreaRect.getWidth() * CARBON_OPTIONS_WIDTH_PROPORTION
-        			/ _carbonOptionsPanelPSwing.getFullBoundsReference().getWidth() );
+        	_carbonOptionsPanelPSwing.scale( _usableAreaRect.getHeight() * CARBON_OPTIONS_HEIGHT_PROPORTION
+        			/ _carbonOptionsPanelPSwing.getFullBoundsReference().getHeight() );
         	
-        	// Position so that it is on the right side of the chart.
-        	_carbonOptionsPanelPSwing.setOffset(
-        			_usableAreaRect.getMaxX() - _carbonOptionsPanelPSwing.getFullBoundsReference().width,
-        			_usableAreaRect.getHeight() / 2 - _carbonOptionsPanelPSwing.getFullBoundsReference().height / 2);
-        	graphRightEdge = _usableAreaRect.getMaxX() - _carbonOptionsPanelPSwing.getFullBoundsReference().width;
+        	// Position so that it is in the upper left of the chart.
+        	_carbonOptionsPanelPSwing.setOffset(graphLeftEdge + (0.1 * _usableAreaRect.getWidth()),
+        			_usableAreaRect.getMinY());
         }
         else{
         	_carbonOptionsPanelPSwing.setVisible(false);
@@ -394,12 +391,12 @@ public class NuclearDecayProportionChart extends PNode {
         
         // Position the graph.
         if (!_movablePercentIndicatorEnabled){
-            _graph.update( (graphRightEdge - graphLeftEdge) * 0.98, _usableAreaRect.getHeight() * 0.9 );
+            _graph.update( (_usableAreaRect.getMaxX() - graphLeftEdge) * 0.98, _usableAreaRect.getHeight() * 0.9 );
             _graph.setOffset( graphLeftEdge + 5, _usableAreaRect.getCenterY() - (_graph.getFullBoundsReference().height / 2 ) );
         }
         else{
         	// Leave room above the graph for the movable percentage indicator.
-            _graph.update( (graphRightEdge - graphLeftEdge) * 0.95, 
+            _graph.update( (_usableAreaRect.getMaxX() - graphLeftEdge) * 0.95, 
             		_usableAreaRect.getHeight() * (1 - MOVABLE_PERCENT_INDICATOR_HEIGHT_PROPORTION) );
             _graph.setOffset( graphLeftEdge + 5, 
             		_usableAreaRect.getMaxY() - _graph.getFullBoundsReference().height);
