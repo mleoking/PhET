@@ -58,9 +58,6 @@ public class SingleNucleusBetaDecayCanvas extends PhetPCanvas {
     // Constants that control where the charts are placed.
     private final double TIME_CHART_FRACTION = 0.2;   // Fraction of canvas for time chart.
     
-    // Other constants that affect the appearance of the chart.
-    private final Color TUNNELING_MARKERS_COLOR = new Color(150, 0, 150);
-    
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
