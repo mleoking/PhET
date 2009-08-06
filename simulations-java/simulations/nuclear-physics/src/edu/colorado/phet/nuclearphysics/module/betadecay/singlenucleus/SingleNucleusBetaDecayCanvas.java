@@ -71,9 +71,6 @@ public class SingleNucleusBetaDecayCanvas extends PhetPCanvas {
     private AutoPressGradientButtonNode _resetButtonNode;
 	private PNode _nucleusLayer;
 	private PNode _labelLayer;
-	private PPath _tunnelingRegion;
-	private PPath _leftTunnelingLine;
-	private PPath _rightTunnelingLine;
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -97,14 +94,6 @@ public class SingleNucleusBetaDecayCanvas extends PhetPCanvas {
         _singleNucleusBetaDecayModel.addListener(new NuclearDecayListenerAdapter(){
             public void modelElementAdded(Object modelElement){
             	createNucleusNodes();
-            	positionTunnelingMarkers();
-            	if (modelElement instanceof AtomicNucleus){
-                    ((AtomicNucleus)modelElement).addListener(new AtomicNucleus.Adapter(){
-                        public void tunnelingRadiusChanged(){
-                        	positionTunnelingMarkers();
-                        };
-                    });
-            	}
             }
             public void modelElementRemoved(Object modelElement){
             	if (modelElement instanceof CompositeAtomicNucleus){
@@ -127,27 +116,6 @@ public class SingleNucleusBetaDecayCanvas extends PhetPCanvas {
         
         // Set the background color.
         setBackground( NuclearPhysicsConstants.CANVAS_BACKGROUND );
-        
-        // Add the tunneling radius to the canvas.
-        _tunnelingRegion = new PPath();
-        _tunnelingRegion.setStroke( new BasicStroke(0.1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0,
-                new float[] {0.75f, 0.75f }, 0) );
-        _tunnelingRegion.setStrokePaint( TUNNELING_MARKERS_COLOR );
-        addWorldChild(_tunnelingRegion); // Put on layer that will go behind the charts.
-        
-        // Add the lines that visually connect that energy chart to the
-        // tunneling radius.
-        _leftTunnelingLine = new PPath(new Line2D.Double(0, 0, 0, CANVAS_HEIGHT * 0.35));
-        _leftTunnelingLine.setStroke( new BasicStroke(0.1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0,
-                new float[] {2, 2 }, 0) );
-        _leftTunnelingLine.setStrokePaint( TUNNELING_MARKERS_COLOR );
-        addWorldChild(_leftTunnelingLine);
-
-        _rightTunnelingLine = new PPath(new Line2D.Double(0, 0, 0, CANVAS_HEIGHT * 0.35));
-        _rightTunnelingLine.setStroke( new BasicStroke(0.1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0,
-                new float[] {2, 2 }, 0) );
-        _rightTunnelingLine.setStrokePaint( TUNNELING_MARKERS_COLOR );
-        addWorldChild(_rightTunnelingLine);
         
         // Add to the canvas the button for resetting the nucleus.
         _resetButtonNode = new AutoPressGradientButtonNode(NuclearPhysicsStrings.RESET_NUCLEUS, 22, 
@@ -205,31 +173,6 @@ public class SingleNucleusBetaDecayCanvas extends PhetPCanvas {
     // Private Methods
     //------------------------------------------------------------------------
 
-	/**
-	 * Position the set of markers that depict the tunneling radius for the
-	 * nucleus.
-	 */
-	private void positionTunnelingMarkers(){
-		AtomicNucleus nucleus = _singleNucleusBetaDecayModel.getAtomNucleus();
-		if (nucleus != null){
-			double tunnelingRadius = nucleus.getTunnelingRegionRadius();
-			if (tunnelingRadius < CANVAS_WIDTH){
-				_leftTunnelingLine.setOffset(-tunnelingRadius, 0);
-				_leftTunnelingLine.setVisible(true);
-				_rightTunnelingLine.setOffset(tunnelingRadius, 0);
-				_rightTunnelingLine.setVisible(true);
-				_tunnelingRegion.setPathTo(new Ellipse2D.Double(0, 0, tunnelingRadius * 2, tunnelingRadius * 2));
-				_tunnelingRegion.setOffset(-tunnelingRadius, -tunnelingRadius);
-				_tunnelingRegion.setVisible(true);
-			}
-			else{
-				_leftTunnelingLine.setVisible(false);
-				_rightTunnelingLine.setVisible(false);
-				_tunnelingRegion.setVisible(false);
-			}
-		}
-	}
-	
     /**
      * Create the nodes needed to represent the nucleus that is currently in
      * the model.
