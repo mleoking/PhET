@@ -398,13 +398,15 @@ public class BucketOfNucleiNode extends PNode {
     	// If the slider doesn't exist yet, create it.
     	if (_sliderNode == null && enabled){
         	_slider = new NormalizedSlider();
-        	_slider.setPreferredSize(new Dimension((int)(_bucketWidth * 0.8),(int)(_bucketHeight * 0.5)));
-        	_slider.setBackground(ColorUtils.darkerColor(_baseColor,0.5));
+        	_slider.setPreferredSize(new Dimension((int)(_bucketWidth * 0.5),(int)(_bucketHeight * 0.5)));
+        	_slider.setOpaque(false);
         	_slider.setForeground(Color.GREEN);
             _slider.setCursor( new Cursor( Cursor.HAND_CURSOR ) );
         	
         	// Wrap the slider in a PSwing so that it can be used in the play area.
+            // Scale it up a bit so it will have a larger knob.
         	PSwing sliderNode = new PSwing(_slider);
+        	sliderNode.scale(1.5);
         	sliderNode.setOffset(_bucketWidth / 2 - sliderNode.getFullBounds().width / 2,
         			_bucketHeight / 2 - sliderNode.getFullBounds().height / 2);
         	
