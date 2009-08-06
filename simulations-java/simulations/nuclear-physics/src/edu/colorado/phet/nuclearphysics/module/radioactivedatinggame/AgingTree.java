@@ -25,7 +25,7 @@ public class AgingTree extends AnimatedDatableItem {
     // Instance Data
     //------------------------------------------------------------------------
 	
-	private static final double FULL_GROWN_TREE_HEIGHT = 25; // Model units, roughly meters.
+	private static final double FULL_GROWN_TREE_HEIGHT = 22; // Model units, roughly meters.
 	private static final double GROWTH_RATE = 1.03; // High number for faster growth.
 	private static final double AGE_OF_NATURAL_DEATH = MultiNucleusDecayModel.convertYearsToMs(3000);
 	private static final int FADE_TO_DEAD_TREE_COUNT = 30; // Controls how long it takes for tree to die.
@@ -139,7 +139,8 @@ public class AgingTree extends AnimatedDatableItem {
     			// contact with the tree after it has fallen.  This was
     			// requested by Noah P.
     			if (_fallCounter < FALL_COUNT / 2){
-    				setPosition(getPosition().getX() - getSize().getWidth() * 0.01, getPosition().getY());
+    				setPosition(getPosition().getX() - getSize().getWidth() * 0.015, 
+    						getPosition().getY() + getSize().getHeight() * 0.005);
     			}
     			
     			// Move to the next step in the cycle.
