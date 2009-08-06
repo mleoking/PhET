@@ -9,10 +9,10 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import edu.colorado.phet.wickettest.content.AboutPhetPage;
+import edu.colorado.phet.wickettest.content.AboutPhetPanel;
 import edu.colorado.phet.wickettest.content.IndexPage;
 import edu.colorado.phet.wickettest.content.SimulationDisplay;
-import edu.colorado.phet.wickettest.content.TroubleshootingMainPage;
+import edu.colorado.phet.wickettest.content.TroubleshootingMainPanel;
 import edu.colorado.phet.wickettest.data.Category;
 import edu.colorado.phet.wickettest.util.HibernateUtils;
 import edu.colorado.phet.wickettest.util.Linkable;
@@ -30,10 +30,10 @@ public class NavMenu {
         NavLocation simulations = new NavLocation( null, "simulations", SimulationDisplay.getLinker() );
         addMajorLocation( simulations );
 
-        NavLocation troubleshooting = new NavLocation( null, "troubleshooting", TroubleshootingMainPage.getLinker() );
+        NavLocation troubleshooting = new NavLocation( null, "troubleshooting.main", TroubleshootingMainPanel.getLinker() );
         addMajorLocation( troubleshooting );
 
-        NavLocation about = new NavLocation( null, "about", AboutPhetPage.getLinker() );
+        NavLocation about = new NavLocation( null, "about", AboutPhetPanel.getLinker() );
         addMajorLocation( about );
 
         Session session = HibernateUtils.getInstance().openSession();

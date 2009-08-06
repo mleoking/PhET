@@ -1,8 +1,11 @@
 package edu.colorado.phet.wickettest.content;
 
+import org.apache.wicket.markup.html.link.Link;
+
 import edu.colorado.phet.wickettest.panels.PhetPanel;
-import edu.colorado.phet.wickettest.util.LocalizedLabel;
+import edu.colorado.phet.wickettest.util.Linkable;
 import edu.colorado.phet.wickettest.util.PageContext;
+import edu.colorado.phet.wickettest.util.PhetLink;
 
 public class TroubleshootingMainPanel extends PhetPanel {
     public TroubleshootingMainPanel( String id, PageContext context ) {
@@ -18,5 +21,21 @@ public class TroubleshootingMainPanel extends PhetPanel {
                 "href=\"http://phet.colorado.edu/tech_support/support-flash.php\""
         } ) );
         */
+    }
+
+    public static String getKey() {
+        return "troubleshooting.main";
+    }
+
+    public static String getUrl() {
+        return "troubleshooting";
+    }
+
+    public static Linkable getLinker() {
+        return new Linkable() {
+            public Link getLink( String id, PageContext context ) {
+                return new PhetLink( id, context.getPrefix() + getUrl() );
+            }
+        };
     }
 }
