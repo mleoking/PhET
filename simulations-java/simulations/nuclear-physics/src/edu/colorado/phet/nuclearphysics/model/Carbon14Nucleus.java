@@ -40,18 +40,27 @@ public class Carbon14Nucleus extends AbstractDecayNucleus {
     //------------------------------------------------------------------------
     // Instance Data
     //------------------------------------------------------------------------
+    
+    // Parameter that controls whether this nucleus returns a diameter value
+    // that is larger than carbon-14 is in real life.  This was added as a
+    // bit of "Hollywooding" so that carbon-14 wouldn't be so much smaller
+    // than heavier nuclei, such as Uranium.
+    private boolean _enlarged = false;
 
     //------------------------------------------------------------------------
     // Constructor(s)
     //------------------------------------------------------------------------
     
-    public Carbon14Nucleus(NuclearPhysicsClock clock, Point2D position){
-
+    public Carbon14Nucleus(NuclearPhysicsClock clock, Point2D position, boolean enlarged){
         super(clock, position, ORIGINAL_NUM_PROTONS, ORIGINAL_NUM_NEUTRONS, DECAY_TIME_SCALING_FACTOR);
+        _enlarged = enlarged;
+    }
+    
+    public Carbon14Nucleus(NuclearPhysicsClock clock, Point2D position){
+        this(clock, position, false);
     }
     
     public Carbon14Nucleus(NuclearPhysicsClock clock){
-
         this(clock, new Point2D.Double(0, 0));
     }
     
@@ -102,7 +111,13 @@ public class Carbon14Nucleus extends AbstractDecayNucleus {
      * of very different scales appearing on the same canvas.
      */
     public double getDiameter() {
-		return (1.6 * Math.pow( 100, 0.362));
+    	if (!_enlarged){
+    		return super.getDiameter();
+    	}
+    	else{
+    		// Return an artificially large value.
+    		return (1.6 * Math.pow( 100, 0.362));
+    	}
 	}
 
 	/**
