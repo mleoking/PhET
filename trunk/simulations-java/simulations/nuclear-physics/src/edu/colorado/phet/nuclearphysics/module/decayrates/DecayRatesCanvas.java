@@ -73,7 +73,7 @@ public class DecayRatesCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
     
     private DecayRatesModel _model;
-    private HashMap _mapNucleiToNodes = new HashMap();
+    private HashMap<AtomicNucleus, AbstractAtomicNucleusNode> _mapNucleiToNodes = new HashMap<AtomicNucleus, AbstractAtomicNucleusNode>();
     private NuclearDecayProportionChart _proportionsChart;
     private int _proportionsChartUpdateCounter = 0;
     private PNode _particleLayer;
@@ -264,10 +264,10 @@ public class DecayRatesCanvas extends PhetPCanvas {
 		
 		super.update();
 		
-		_proportionsChart.componentResized(new Rectangle2D.Double( 0, 0, getWorldSize().getWidth() * 1.00, 
+		_proportionsChart.componentResized(new Rectangle2D.Double( 0, 0, getWorldSize().getWidth() * 1.00 - 15, 
 				getWorldSize().getHeight() * PROPORTION_CHART_FRACTION ) );
 		PBounds propChartBounds = _proportionsChart.getFullBoundsReference();
-		_proportionsChart.setOffset( -propChartBounds.width / 2, 
+		_proportionsChart.setOffset( -propChartBounds.width / 2 + 3, 
 				getWorldSize().getHeight() * (1 - HEIGHT_TRANSLATION_FACTOR) 
 				- _proportionsChart.getFullBoundsReference().height);
 	}
