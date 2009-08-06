@@ -9,24 +9,24 @@ import org.apache.wicket.markup.parser.XmlTag;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
-public class LocalizedLabel extends WebComponent {
+public class LocalizedText extends WebComponent {
 
     private Object[] args = null;
 
-    public LocalizedLabel( String id ) {
+    public LocalizedText( String id ) {
         super( id );
     }
 
-    public LocalizedLabel( String id, String text ) {
+    public LocalizedText( String id, String text ) {
         this( id, new Model( text ) );
     }
 
-    public LocalizedLabel( String id, String text, Object[] args ) {
+    public LocalizedText( String id, String text, Object[] args ) {
         this( id, new Model( text ) );
         this.args = args;
     }
 
-    public LocalizedLabel( String id, IModel model ) {
+    public LocalizedText( String id, IModel model ) {
         super( id, model );
     }
 
@@ -35,6 +35,7 @@ public class LocalizedLabel extends WebComponent {
         String body = getLocalizer().getString( key, this );
         if ( args != null ) {
             try {
+                System.out.println( "formatting: " + body );
                 body = MessageFormat.format( body, args );
             }
             catch( RuntimeException e ) {
