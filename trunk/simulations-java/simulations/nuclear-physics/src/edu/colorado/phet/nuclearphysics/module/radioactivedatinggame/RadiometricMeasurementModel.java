@@ -45,7 +45,7 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
 	// Constants that control the conversion between simulation time (which is
 	// essentially real time) and model time, which is often thousands or
 	// billions of years in this model.
-	private static final double INITIAL_TREE_AGING_RATE = MultiNucleusDecayModel.convertYearsToMs(500) / 1000; // 500 years per second.
+	private static final double INITIAL_TREE_AGING_RATE = MultiNucleusDecayModel.convertYearsToMs(200) / 1000; // 200 years per second.
 	private static final double INITIAL_ROCK_AGING_RATE = MultiNucleusDecayModel.convertDaysToMs(90) / 10000; // 90 days over 10 seconds - this will be the total eruption time (~3 months). 
 	private static final double FINAL_ROCK_AGING_RATE = MultiNucleusDecayModel.convertYearsToMs(1E9) / 5000; // 1 billion years every 5 seconds.
 
