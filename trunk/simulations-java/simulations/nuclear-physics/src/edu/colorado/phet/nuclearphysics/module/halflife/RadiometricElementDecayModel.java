@@ -4,6 +4,7 @@ package edu.colorado.phet.nuclearphysics.module.halflife;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
 
 import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
@@ -72,7 +73,7 @@ public class RadiometricElementDecayModel extends MultiNucleusDecayModel {
 		
 		for ( int i = 0; i < _maxNuclei; i++ ){
 			if ( _currentNucleusType == NucleusType.CARBON_14 ){
-				newNucleus = new Carbon14Nucleus( _clock );
+				newNucleus = new Carbon14Nucleus( _clock, new Point2D.Double(0, 0), true );
 			}
 			else if ( _currentNucleusType == NucleusType.URANIUM_238 ){
 				newNucleus = new Uranium238Nucleus( _clock );
