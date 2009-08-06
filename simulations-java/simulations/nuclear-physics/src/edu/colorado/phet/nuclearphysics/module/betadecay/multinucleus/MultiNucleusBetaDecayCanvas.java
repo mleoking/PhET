@@ -62,7 +62,7 @@ public class MultiNucleusBetaDecayCanvas extends PhetPCanvas {
     private final double TIME_CHART_FRACTION = 0.21;   // Fraction of canvas for time chart.
     
     // Base color for the buttons on the canvas.
-    private final static Color CANVAS_BUTTON_COLOR = new Color(255, 100, 0);
+    private final static Color CANVAS_BUTTON_COLOR = new Color(0xDFE32D);
     
     // Number of tries for finding open nucleus location.
     private final static int MAX_PLACEMENT_ATTEMPTS = 100;
@@ -162,7 +162,7 @@ public class MultiNucleusBetaDecayCanvas extends PhetPCanvas {
         // Create and add the node the represents the bucket from which nuclei
         // can be extracted and added to the play area.
         _bucketRect = _model.getBucketRectRef();
-        _bucketNode = new BucketOfNucleiNode( _bucketRect.getWidth(), _bucketRect.getHeight() );
+        _bucketNode = new BucketOfNucleiNode( _bucketRect.getWidth(), _bucketRect.getHeight(), CANVAS_BUTTON_COLOR );
         _nucleiLayer.addChild(_bucketNode);
         _bucketNode.setOffset( _bucketRect.getX(), _bucketRect.getY() );
         
