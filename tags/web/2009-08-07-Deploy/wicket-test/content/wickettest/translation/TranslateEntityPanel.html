@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:wicket="http://svn.apache.org/repos/asf/wicket/trunk/wicket/wicket-xhtml1-strict.dtd" xml:lang="en"
+      lang="en">
+<head>
+    <title wicket:id="page-title">[PREVIEW] TranslateEntityPanel</title>
+    <wicket:remove>
+        <link rel="stylesheet" type="text/css" href="../../../root/css/test.css"/>
+    </wicket:remove>
+    <wicket:head>
+        <style type="text/css">
+
+            .translation-holder {
+                border: 2px solid gray;
+                width: 765px;
+                float: right;
+                background-color: white;
+            }
+
+            .string-value {
+                border: 1px solid blue;
+                margin-right: 775px;
+            }
+
+            .string-value.not-translated {
+                border: 1px solid red;
+            }
+
+            .string-notes {
+                font-size: 75%;
+                color: #727272;
+            }
+        </style>
+    </wicket:head>
+</head>
+<body wicket:message="dir:language.dir">
+
+<wicket:panel>
+    <div>
+        Translating #<span wicket:id="translation-id">25</span>
+        <a href="#" wicket:id="translation-popup">(open full-site preview)</a>
+        <br/>
+
+
+        <div class="translation-holder">
+            <div wicket:message="class:language.dir">
+                <div wicket:id="panel">
+                    Panel to translate<br/>
+                    Panel to translate<br/>
+                    Panel to translate<br/>
+                    Panel to translate<br/>
+                    Panel to translate<br/>
+                    Panel to translate<br/>
+                    Panel to translate<br/>
+                    Panel to translate<br/>
+                    Panel to translate<br/>
+                    Panel to translate<br/>
+                    Panel to translate<br/>
+                    Panel to translate<br/>
+                </div>
+            </div>
+        </div>
+
+        <div class="strings">
+            <div wicket:id="translation-string-list">
+                <span wicket:id="translation-string-key">language.dir</span>:
+                <div wicket:id="translation-string-value" class="string-value">
+                    Blah blah blah now this is some really long text
+                    that will take forever
+                </div>
+                <div wicket:id="translation-string-notes" class="string-notes">
+                    This is a much longer note than the other notes that had preceeded it in the testing version. This will hopefully show whether notes will work well
+                </div>
+                <br/>
+            </div>
+        </div>
+
+        <div class="translation-footer-x" style="clear: both;"></div>
+    </div>
+</wicket:panel>
+
+</body>
+</html>
+
