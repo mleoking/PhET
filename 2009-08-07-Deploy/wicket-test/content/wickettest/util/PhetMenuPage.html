@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:wicket="http://svn.apache.org/repos/asf/wicket/trunk/wicket/wicket-xhtml1-strict.dtd" xml:lang="en"
+      lang="en">
+<head>
+    <title wicket:id="page-title">[PREVIEW] PhetMenuPage</title>
+    <wicket:remove>
+        <link rel="stylesheet" type="text/css" href="../../../root/css/test.css"/>
+    </wicket:remove>
+    <wicket:head>
+        <style type="text/css">
+
+            div.ltr #side-panel {
+                float: left;
+                width: 240px;
+            }
+
+            div.rtl #side-panel {
+                float: right;
+                width: 240px;
+            }
+
+            div.ltr #main-content {
+                margin-left: 240px;
+            }
+
+            div.rtl #main-content {
+                margin-right: 240px;
+            }
+
+            div.main-footer {
+                clear: both;
+                margin-bottom: 30px;
+            }
+
+            div.main-footer-spacer {
+                padding-bottom: 20px;
+            }
+
+            div.other-languages {
+                border-top: 1px solid gray;
+                padding-top: 10px;
+                text-align: center;
+            }
+            div.menu-page-content {
+                width: 765px;
+                margin: 0 auto;
+            }
+            div.copyright {
+                margin: 0 auto;
+                text-align: center;
+                font-size: 12px;
+                padding-top: 5px;
+            }
+        </style>
+    </wicket:head>
+</head>
+<body wicket:message="dir:language.dir">
+
+<wicket:extend>
+    <div class="menu-page-content">
+        <div id="side-panel">
+            <div wicket:id="side-navigation">
+                Side navigation
+            </div>
+            <div wicket:id="sponsors-panel">
+                Sponsors panel
+            </div>
+        </div>
+        <div id="main-content">
+            <wicket:child/>
+            <wicket:remove>
+                Main content
+            </wicket:remove>
+        </div>
+        <div class="main-footer">
+            <div class="main-footer-spacer"></div>
+            <div class="other-languages"><span wicket:id="translation-links">Translation links</span></div>
+            <div class="copyright">&copy; 2009 University of Colorado. <a href="http://phet.colorado.edu/about/licensing.php ">Some rights reserved.</a></div>
+        </div>
+    </div>
+</wicket:extend>
+
+</body>
+</html>
+
