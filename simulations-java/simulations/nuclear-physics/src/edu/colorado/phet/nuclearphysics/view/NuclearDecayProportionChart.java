@@ -401,22 +401,6 @@ public class NuclearDecayProportionChart extends PNode {
         	
         }
         
-        // Position the carbon selection panel if enabled.
-        if ( _showCarbonOptions ){
-        	_carbonOptionsPanelPSwing.setVisible(true);
-        	_carbonOptionsPanelPSwing.setScale(1);
-
-        	_carbonOptionsPanelPSwing.scale( _usableAreaRect.getHeight() * CARBON_OPTIONS_HEIGHT_PROPORTION
-        			/ _carbonOptionsPanelPSwing.getFullBoundsReference().getHeight() );
-        	
-        	// Position so that it is in the upper left of the chart.
-        	_carbonOptionsPanelPSwing.setOffset(graphLeftEdge + (0.1 * _usableAreaRect.getWidth()),
-        			_usableAreaRect.getMinY());
-        }
-        else{
-        	_carbonOptionsPanelPSwing.setVisible(false);
-        }
-        
         // Position the graph.
         if (!_movablePercentIndicatorEnabled){
         	// Several tweak factors in here for optimal appearance.  Change
@@ -433,6 +417,22 @@ public class NuclearDecayProportionChart extends PNode {
             		_usableAreaRect.getHeight() * (1 - MOVABLE_PERCENT_INDICATOR_HEIGHT_PROPORTION) );
             _graph.setOffset( graphLeftEdge + 5, 
             		_usableAreaRect.getMaxY() - _graph.getFullBoundsReference().height);
+        }
+        
+        // Position the carbon selection panel if enabled.
+        if ( _showCarbonOptions ){
+        	_carbonOptionsPanelPSwing.setVisible(true);
+        	_carbonOptionsPanelPSwing.setScale(1);
+
+        	_carbonOptionsPanelPSwing.scale( _usableAreaRect.getHeight() * CARBON_OPTIONS_HEIGHT_PROPORTION
+        			/ _carbonOptionsPanelPSwing.getFullBoundsReference().getHeight() );
+        	
+        	// Position so that it is in the upper left of the chart.
+        	_carbonOptionsPanelPSwing.setOffset(graphLeftEdge + (0.12 * _usableAreaRect.getWidth()),
+        			_usableAreaRect.getMinY());
+        }
+        else{
+        	_carbonOptionsPanelPSwing.setVisible(false);
         }
         
         // Size and position the movable percentage indicator if enabled.
