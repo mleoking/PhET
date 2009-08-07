@@ -8,6 +8,8 @@ import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.Stroke;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.geom.Ellipse2D;
@@ -24,6 +26,7 @@ import javax.swing.JFrame;
 import javax.swing.JRadioButton;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
+import edu.colorado.phet.common.phetcommon.util.ConstantPowerOfTenNumberFormat;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -124,6 +127,10 @@ public class NuclearDecayProportionChart extends PNode {
     // Boolean that controls whether the option to show the C14/C12 ratio
     // (which is Carbon specific) is shown.
     boolean _showCarbonOptions = false;
+    
+    // Boolean that controls whether y axis is labeled with percentage
+    // remaining or ratio of C14 to C12 (used only when presenting C14).
+    boolean _yAxisLabeledWithRatio = false;
 
     //------------------------------------------------------------------------
     // Constructor
@@ -263,8 +270,29 @@ public class NuclearDecayProportionChart extends PNode {
 	 * @param enabled
 	 */
 	public void setShowCarbonOptions(boolean enabled){
-		_showCarbonOptions = enabled;
-		updateLayout();
+		if (_showCarbonOptions != enabled){
+			_showCarbonOptions = enabled;
+			if (!enabled){
+				// If we aren't showing the options, then we shouldn't be
+				// presenting the ratio.
+				_yAxisLabeledWithRatio = false;
+			}
+			_graph.updateYAxisGridLineLabels();
+			updateLayout();
+		}
+	}
+	
+	/**
+	 * Enable or disable the labeling of the Y axis with C14/C12 ratio
+	 * indicators.  This should only be enabled when Carbon is in use.
+	 * @param enabled
+	 */
+	protected void setYAxisLabeledWithRatio(boolean enabled){
+		if (_yAxisLabeledWithRatio != enabled){
+			_yAxisLabeledWithRatio = enabled;
+			_graph.updateYAxisGridLineLabels();
+			updateLayout();
+		}
 	}
 	
 	/**
@@ -662,6 +690,10 @@ public class NuclearDecayProportionChart extends PNode {
         // For enabling/disabling the sizing rectangle.
         private static final boolean SIZING_RECT_VISIBLE = false;
         
+        // Formatter for showing Y-axis labels when configured for C14/C12 ratio.
+        private static final ConstantPowerOfTenNumberFormat RATIO_FORMATTER = 
+        	new ConstantPowerOfTenNumberFormat("0.0", -12, 80);
+        
         // The chart on which this graph will be appearing.
         NuclearDecayProportionChart _chart;
 
@@ -677,7 +709,7 @@ public class NuclearDecayProportionChart extends PNode {
         private ArrayList<PhetPPath> _xAxisTickMarks = new ArrayList<PhetPPath>();
         private ArrayList<PText> _xAxisTickMarkLabels = new ArrayList<PText>();
         private ArrayList<PPath> _yAxisGridLines = new ArrayList<PPath>();
-        private ArrayList<PText> _yAxisGridLineLabels = new ArrayList<PText>();
+        private ArrayList<HTMLNode> _yAxisGridLineLabels = new ArrayList<HTMLNode>();
         private final HTMLNode _yAxisLabel;
         private final PText _upperXAxisLabel;
         private final PNode _pickableGraphLayer;
@@ -765,25 +797,15 @@ public class NuclearDecayProportionChart extends PNode {
 	        _rightYAxisOfGraph.setPaint( AXES_LINE_COLOR );
 	        _nonPickableGraphLayer.addChild( _rightYAxisOfGraph );
 	        
-	        // Add the text for the Y axis tick marks.
-	        PText tempText = new PText( NuclearPhysicsStrings.TWENTY_FIVE_PER_CENT );
-	        tempText.setFont(BOLD_LABEL_FONT);
-	        _nonPickableGraphLayer.addChild(tempText);
-	        _yAxisGridLineLabels.add(tempText);
-	        tempText = new PText( NuclearPhysicsStrings.FIFTY_PER_CENT );
-	        tempText.setFont(BOLD_LABEL_FONT);
-	        _nonPickableGraphLayer.addChild(tempText);
-	        _yAxisGridLineLabels.add(tempText);
-	        tempText = new PText( NuclearPhysicsStrings.SEVENTY_FIVE_PER_CENT );
-	        tempText.setFont(BOLD_LABEL_FONT);
-	        _nonPickableGraphLayer.addChild(tempText);
-	        _yAxisGridLineLabels.add(tempText);
-	        tempText = new PText( NuclearPhysicsStrings.ONE_HUNDRED_PER_CENT );
-	        tempText.setFont(BOLD_LABEL_FONT);
-	        _nonPickableGraphLayer.addChild(tempText);
-	        _yAxisGridLineLabels.add(tempText);
+	        // Set up the text for the Y axis tick marks, aka grid lines.
+	        for (int i = 0; i < 4; i++){
+	        	HTMLNode label = new HTMLNode();
+	        	_yAxisGridLineLabels.add(label);
+	        	_nonPickableGraphLayer.addChild(label);
+	        }
+	        updateYAxisGridLineLabels();
 	        
-	        // Add the Y axis label.
+	        // Add the overall Y axis label.
 	        _yAxisLabel = new HTMLNode(NuclearPhysicsStrings.DECAY_PROPORTIONS_Y_AXIS_LABEL);
 	        _yAxisLabel.rotate(-Math.PI / 2);
 	        _nonPickableGraphLayer.addChild(_yAxisLabel);
@@ -807,6 +829,24 @@ public class NuclearDecayProportionChart extends PNode {
 			_sizingRect.setPickable(false);
 			addChild(_sizingRect);
 			_sizingRect.setVisible(SIZING_RECT_VISIBLE);
+		}
+
+		public void updateYAxisGridLineLabels() {
+			
+			if (_chart._yAxisLabeledWithRatio){
+				// The Y axis is labeled with ratios of carbon-14 to carbon-12.
+				double initialRatio = 10E-12;
+		        for (int i = 0; i < 4; i++){
+		        	_yAxisGridLineLabels.get(i).setHTML(RATIO_FORMATTER.format((i + 1) * initialRatio / 4));
+		        }
+			}
+			else{
+				// The Y axis is labeled with percentage indicators.
+				_yAxisGridLineLabels.get(0).setHTML(NuclearPhysicsStrings.TWENTY_FIVE_PER_CENT);
+				_yAxisGridLineLabels.get(1).setHTML(NuclearPhysicsStrings.FIFTY_PER_CENT);
+				_yAxisGridLineLabels.get(2).setHTML(NuclearPhysicsStrings.SEVENTY_FIVE_PER_CENT);
+				_yAxisGridLineLabels.get(3).setHTML(NuclearPhysicsStrings.ONE_HUNDRED_PER_CENT);
+			}
 		}
 		
 		/**
@@ -840,10 +880,10 @@ public class NuclearDecayProportionChart extends PNode {
 
 	        _yAxisLabel.setOffset(0, newHeight / 2 - _yAxisLabel.getFullBoundsReference().width / 2);
 	        
-	        // Set the size of Y axis tick mark labels, since they will affect
+	        // Set the size of Y axis grid line labels, since they will affect
 	        // the location of the graph's origin.
 	        double maxYAxisLabelWidth = 0;
-	        for (PText yAxisGridLineLabel : _yAxisGridLineLabels){
+	        for (HTMLNode yAxisGridLineLabel : _yAxisGridLineLabels){
 	        	yAxisGridLineLabel.setScale(1);
 		        yAxisGridLineLabel.setScale(_labelScalingFactor);
 		        maxYAxisLabelWidth = Math.max(yAxisGridLineLabel.getFullBoundsReference().width, maxYAxisLabelWidth);
@@ -872,7 +912,7 @@ public class NuclearDecayProportionChart extends PNode {
 	        for (int i = 0; i < _yAxisGridLineLabels.size(); i++){
 	        	
 	        	// Add the label to the Y axis.
-	        	PText yAxisGridLineLabel = _yAxisGridLineLabels.get(i);
+	        	HTMLNode yAxisGridLineLabel = _yAxisGridLineLabels.get(i);
 	        	yAxisGridLineLabel.setOffset( 
 	        			_yAxisLabel.getFullBoundsReference().getWidth() + maxYAxisLabelWidth 
 	        				- yAxisGridLineLabel.getFullBoundsReference().width,
@@ -1364,6 +1404,20 @@ public class NuclearDecayProportionChart extends PNode {
     		_c14C12RatioRadioButton.setFont(LABEL_FONT);
     		_c14C12RatioRadioButton.setBackground(getBackground());
     		add(_c14C12RatioRadioButton);
+    		
+    		// Add the handlers for the buttons.
+    		_percentC14RadioButton.addActionListener(new ActionListener(){
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					_chart.setYAxisLabeledWithRatio(false);
+				}
+    		});
+    		_c14C12RatioRadioButton.addActionListener(new ActionListener(){
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					_chart.setYAxisLabeledWithRatio(true);
+				}
+    		});
 
     		// Group the buttons.
     		ButtonGroup buttonGroup = new ButtonGroup();
