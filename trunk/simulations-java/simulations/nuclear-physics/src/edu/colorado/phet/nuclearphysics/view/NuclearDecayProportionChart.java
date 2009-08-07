@@ -26,7 +26,6 @@ import javax.swing.JFrame;
 import javax.swing.JRadioButton;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
-import edu.colorado.phet.common.phetcommon.util.ConstantPowerOfTenNumberFormat;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
@@ -72,9 +71,9 @@ public class NuclearDecayProportionChart extends PNode {
 
     // Constants that control the proportions of the main components of the chart.
     private static final double PIE_CHART_WIDTH_PROPORTION = 0.1;
-    private static final double CARBON_OPTIONS_HEIGHT_PROPORTION = 0.2;
     private static final double MOVABLE_PERCENT_INDICATOR_WIDTH_PROPORTION = 0.22;
     private static final double MOVABLE_PERCENT_INDICATOR_HEIGHT_PROPORTION = 0.23;
+    private static final double CARBON_OPTIONS_HEIGHT_PROPORTION = MOVABLE_PERCENT_INDICATOR_HEIGHT_PROPORTION;
     
     //------------------------------------------------------------------------
     // Instance Data
@@ -420,7 +419,12 @@ public class NuclearDecayProportionChart extends PNode {
         
         // Position the graph.
         if (!_movablePercentIndicatorEnabled){
+        	// Several tweak factors in here for optimal appearance.  Change
+        	// these numbers as needed for good appearance, but retest
+        	// carefully.
             _graph.update( (_usableAreaRect.getMaxX() - graphLeftEdge) * 0.98, _usableAreaRect.getHeight() * 0.9 );
+            _graph.update( (_usableAreaRect.getMaxX() - graphLeftEdge) * 0.95, 
+            		_usableAreaRect.getHeight() * (1 - (CARBON_OPTIONS_HEIGHT_PROPORTION * 0.75) ));
             _graph.setOffset( graphLeftEdge + 5, _usableAreaRect.getCenterY() - (_graph.getFullBoundsReference().height / 2 ) );
         }
         else{
@@ -692,6 +696,7 @@ public class NuclearDecayProportionChart extends PNode {
         private static final boolean SIZING_RECT_VISIBLE = false;
         
         // Formatter for showing Y-axis labels when configured for C14/C12 ratio.
+        // TODO: Decide on a formatter and only keep one of the formatters below.
 //        private static final ConstantPowerOfTenNumberFormat RATIO_FORMATTER = 
 //        	new ConstantPowerOfTenNumberFormat("0.0", -12, 80);
         private static final DefaultDecimalFormat RATIO_FORMATTER = 
@@ -1407,7 +1412,7 @@ public class NuclearDecayProportionChart extends PNode {
     		_percentC14RadioButton.setFont(LABEL_FONT);
     		_percentC14RadioButton.setBackground(getBackground());
     		add(_percentC14RadioButton);
-    		_c14C12RatioRadioButton = new JRadioButton("C12/C14 ratio");
+    		_c14C12RatioRadioButton = new JRadioButton("C14/C12 ratio");
     		_c14C12RatioRadioButton.setFont(LABEL_FONT);
     		_c14C12RatioRadioButton.setBackground(getBackground());
     		add(_c14C12RatioRadioButton);
