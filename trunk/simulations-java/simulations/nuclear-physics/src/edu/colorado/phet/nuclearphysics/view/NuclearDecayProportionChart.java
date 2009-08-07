@@ -888,6 +888,10 @@ public class NuclearDecayProportionChart extends PNode {
 		        yAxisGridLineLabel.setScale(_labelScalingFactor);
 		        maxYAxisLabelWidth = Math.max(yAxisGridLineLabel.getFullBoundsReference().width, maxYAxisLabelWidth);
 	        }
+	        
+	        // Make the space allocated for the grid line labels a little
+	        // larger so things don't look too crowded.
+	        maxYAxisLabelWidth *= 1.2;
 
 	        // Update the rectangle that defines where the graph itself is,
 	        // excluding all labels and such.
@@ -914,7 +918,7 @@ public class NuclearDecayProportionChart extends PNode {
 	        	// Add the label to the Y axis.
 	        	HTMLNode yAxisGridLineLabel = _yAxisGridLineLabels.get(i);
 	        	yAxisGridLineLabel.setOffset( 
-	        			_yAxisLabel.getFullBoundsReference().getWidth() + maxYAxisLabelWidth 
+	        			_yAxisLabel.getFullBoundsReference().getWidth() + (maxYAxisLabelWidth * 0.9)  
 	        				- yAxisGridLineLabel.getFullBoundsReference().width,
 	        			_graphRect.getMaxY() - (i + 1) * yAxisGridLineSpacing 
 	        				- yAxisGridLineLabel.getFullBoundsReference().height / 2);
