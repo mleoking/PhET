@@ -27,6 +27,7 @@ import javax.swing.JRadioButton;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.util.ConstantPowerOfTenNumberFormat;
+import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -691,8 +692,10 @@ public class NuclearDecayProportionChart extends PNode {
         private static final boolean SIZING_RECT_VISIBLE = false;
         
         // Formatter for showing Y-axis labels when configured for C14/C12 ratio.
-        private static final ConstantPowerOfTenNumberFormat RATIO_FORMATTER = 
-        	new ConstantPowerOfTenNumberFormat("0.0", -12, 80);
+//        private static final ConstantPowerOfTenNumberFormat RATIO_FORMATTER = 
+//        	new ConstantPowerOfTenNumberFormat("0.0", -12, 80);
+        private static final DefaultDecimalFormat RATIO_FORMATTER = 
+        	new DefaultDecimalFormat("###0.0E0");
         
         // The chart on which this graph will be appearing.
         NuclearDecayProportionChart _chart;
