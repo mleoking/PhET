@@ -272,11 +272,6 @@ public class NuclearDecayProportionChart extends PNode {
 	public void setShowCarbonOptions(boolean enabled){
 		if (_showCarbonOptions != enabled){
 			_showCarbonOptions = enabled;
-			if (!enabled){
-				// If we aren't showing the options, then we shouldn't be
-				// presenting the ratio.
-				_yAxisLabeledWithRatio = false;
-			}
 			_graph.updateYAxisGridLineLabels();
 			updateLayout();
 		}
@@ -841,7 +836,7 @@ public class NuclearDecayProportionChart extends PNode {
 
 		public void updateYAxisGridLineLabels() {
 			
-			if (_chart._yAxisLabeledWithRatio){
+			if (_chart._showCarbonOptions && _chart._yAxisLabeledWithRatio){
 				// The Y axis is labeled with ratios of carbon-14 to carbon-12.
 				double initialRatio = 10E-12;
 		        for (int i = 0; i < 4; i++){
