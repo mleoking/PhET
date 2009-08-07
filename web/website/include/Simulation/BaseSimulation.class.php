@@ -365,7 +365,7 @@ abstract class BaseSimulation implements SimulationInterface {
             return $this->getDescription();
         }
 
-        return $path[0]->description;
+        return (string)$path[0]->description;
     }
 
     // I'd rather declare these explicitly as abstract, but PHP thinks
