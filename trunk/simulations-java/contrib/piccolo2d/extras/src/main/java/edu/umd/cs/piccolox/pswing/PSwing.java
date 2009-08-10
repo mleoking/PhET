@@ -413,7 +413,7 @@ public class PSwing extends PNode implements Serializable, PropertyChangeListene
     }
 
     //TODO: make this private and internal by listenening for componentAdded on known components
-    //This disables double buffering on any new components; if you add components to the target pswing without disabling double buffering, then there may be many graphical artifacts.
+    //This disables double buffering on any new components; if you add components to the target jcomponent without disabling double buffering, then there may be many graphical artifacts.
     public void componentHierarchyChanged(){
         disableDoubleBuffering(component);
     }
