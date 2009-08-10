@@ -2,32 +2,25 @@
 
 package edu.colorado.phet.reactionsandrates.view;
 
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.awt.geom.Rectangle2D;
-import java.text.MessageFormat;
 import java.util.List;
 
-import javax.swing.JFormattedTextField;
-import javax.swing.JOptionPane;
-import javax.swing.JSpinner;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.reactionsandrates.MRConfig;
 import edu.colorado.phet.reactionsandrates.model.*;
 
 /**
  * MoleculeCounterSpinner
  * <p/>
- * A JSpinner that controls and displays the number of molecules of a specified type.
+ * A spinner that controls and displays the number of molecules of a specified type.
  *
  * @author Ron LeMaster
  */
-public class MoleculeCountSpinner extends JSpinner implements PublishingModel.ModelListener,
+public class MoleculeCountSpinner extends IntegerRangeSpinner implements PublishingModel.ModelListener,
                                                               AbstractMolecule.ClassListener {
     private Class moleculeClass;
     private MRModel model;
@@ -36,20 +29,14 @@ public class MoleculeCountSpinner extends JSpinner implements PublishingModel.Mo
     // so that we don't respond to add/remove messages from the model
     private boolean selfUpdating;
     private MoleculeParamGenerator moleculeParamGenerator;
-    private int min, max;
-    private boolean hasFocus = false;
 
     /**
      * @param moleculeClass
      * @param model
      */
     public MoleculeCountSpinner( final Class moleculeClass, final MRModel model, int min, int max ) {
-        this.min = min;
-        this.max = max;
-
-        JFormattedTextField tf = ( (JSpinner.DefaultEditor)getEditor() ).getTextField();
-        tf.setColumns( 3 );
-
+        super( min, max, true );
+        
         this.moleculeClass = moleculeClass;
         this.model = model;
         model.addListener( this );
@@ -70,21 +57,6 @@ public class MoleculeCountSpinner extends JSpinner implements PublishingModel.Mo
 
         // Respond to changes in the spinner
         this.addChangeListener( new SpinnerChangeListener( moleculeClass, model ) );
-
-        // Track focus
-        ( (NumberEditor)getEditor() ).getTextField().addFocusListener( new FocusAdapter() {
-            public void focusGained( FocusEvent e ) {
-                //System.out.println( "MoleculeCountSpinner.focusGained" );
-                //System.out.println( "moleculeClass = " + moleculeClass );
-                hasFocus = true;
-            }
-
-            public void focusLost( FocusEvent e ) {
-                //System.out.println( "MoleculeCountSpinner.focusLost" );
-                //System.out.println( "moleculeClass = " + moleculeClass );
-                hasFocus = false;
-            }
-        } );
     }
 
     private void addMoleculeToModel( AbstractMolecule m, MRModel model ) {
@@ -119,23 +91,7 @@ public class MoleculeCountSpinner extends JSpinner implements PublishingModel.Mo
             }
         }
         cnt = n;
-
-        if( !hasFocus ) {
-            setValue( new Integer( n ) );
-        }
-    }
-
-
-    private void resetValue() {
-        setValue( new Integer( min ) );
-        showInvalidValueDialog();
-    }
-    
-    private void showInvalidValueDialog() {
-        String pattern = MRConfig.RESOURCES.getLocalizedString( "messages.invalidValue" );
-        Object[] args = { new Integer( min ), new Integer( max ) };
-        String message = MessageFormat.format( pattern, args );
-        JOptionPane.showMessageDialog( this, message );
+        setValue( new Integer( n ) );
     }
 
     //--------------------------------------------------------------------------------------------------
@@ -182,11 +138,6 @@ public class MoleculeCountSpinner extends JSpinner implements PublishingModel.Mo
         public void stateChanged( ChangeEvent e ) {
             selfUpdating = true;
 
-            int value = ( (Integer)getValue() ).intValue();
-            if( value < MoleculeCountSpinner.this.min || value > MoleculeCountSpinner.this.max ) {
-                resetValue();
-            }
-
             final int diff = ( (Integer)getValue() ).intValue() - cnt;
             for( int i = 0; i < Math.abs( diff ); i++ ) {
 
@@ -220,10 +171,6 @@ public class MoleculeCountSpinner extends JSpinner implements PublishingModel.Mo
             }
 
             selfUpdating = false;
-
-            // Transfer the focus away from the control so the value will be
-            // updated from the model again:
-//#1712            requestFocus( false );
         }
     }
 }
