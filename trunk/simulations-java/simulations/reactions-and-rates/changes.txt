@@ -1,3 +1,5 @@
+# 1.03.11 (33960) Aug 10, 2009
+8/10/09 #1738, fix molecule count spinners
 # 1.03.10 (33541) Jul 22, 2009
 7/22/09 temporary fix for #1712, for Windows testing
 # 1.03.09 (33517) Jul 21, 2009
