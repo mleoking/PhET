@@ -1,3 +1,4 @@
+Fixed: Something invisible near x=0 is blocking mouse input; to reproduce the problem put the block at x=0 and mouse around on the block
 Fixed: Creating motion with the object should start recording after pressing "clear" near the timeline controls
 Pause on startup/reset, and unpause (and start recording) when the user applies a force
 # 1.03.30 (33920) Aug 5, 2009
