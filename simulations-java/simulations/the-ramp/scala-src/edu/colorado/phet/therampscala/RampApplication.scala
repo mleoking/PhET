@@ -16,20 +16,27 @@ import scalacommon.record.{RecordModelControlPanel, PlaybackSpeedSlider}
 import scalacommon.ScalaClock
 
 class AbstractRampModule(frame: JFrame, clock: ScalaClock, name: String, defaultBeadPosition: Double, pausedOnReset: Boolean,
-        initialAngle:Double) extends Module(name, clock) {
-  val model = new RampModel(defaultBeadPosition, pausedOnReset,initialAngle)
+                         initialAngle: Double) extends Module(name, clock) {
+  val model = new RampModel(defaultBeadPosition, pausedOnReset, initialAngle)
   val wordModel = new WordModel
   val fbdModel = new FreeBodyDiagramModel
   val coordinateSystemModel = new CoordinateSystemModel
   val vectorViewModel = new VectorViewModel
   coordinateSystemModel.addListenerByName(if (coordinateSystemModel.fixed) model.coordinateFrameModel.angle = 0)
   clock.addClockListener(model.update(_))
+
+  //pause on startup/reset, and unpause (and start recording) when the user applies a force
+  model.setPaused(true)
+  model.bead.parallelAppliedForceListeners += (() => {model.setPaused(false)})
+
   def resetRampModule(): Unit = {
     model.resetAll()
     wordModel.resetAll()
     fbdModel.resetAll()
     coordinateSystemModel.resetAll()
     vectorViewModel.resetAll()
+    //pause on startup/reset, and unpause (and start recording) when the user applies a force 
+    model.setPaused(true)
     resetAll()
   }
 
@@ -38,9 +45,9 @@ class AbstractRampModule(frame: JFrame, clock: ScalaClock, name: String, default
 
 class BasicRampModule(frame: JFrame, clock: ScalaClock, name: String,
                       coordinateSystemFeaturesEnabled: Boolean, useObjectComboBox: Boolean,
-                      defaultBeadPosition: Double, pausedOnReset: Boolean,initialAngle:Double)
-        extends AbstractRampModule(frame, clock, name, defaultBeadPosition, pausedOnReset,initialAngle) {
-  val canvas = new RampCanvas(model, coordinateSystemModel, fbdModel, vectorViewModel, frame, !useObjectComboBox,initialAngle != 0.0)
+                      defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngle: Double)
+        extends AbstractRampModule(frame, clock, name, defaultBeadPosition, pausedOnReset, initialAngle) {
+  val canvas = new RampCanvas(model, coordinateSystemModel, fbdModel, vectorViewModel, frame, !useObjectComboBox, initialAngle != 0.0)
   setSimulationPanel(canvas)
   val rampControlPanel = new RampControlPanel(model, wordModel, fbdModel, coordinateSystemModel, vectorViewModel,
     resetRampModule, coordinateSystemFeaturesEnabled, useObjectComboBox, model)
@@ -49,31 +56,18 @@ class BasicRampModule(frame: JFrame, clock: ScalaClock, name: String,
 }
 
 import RampResources._
-class IntroRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "module.introduction".translate, false, false, -6, false,RampDefaults.defaultRampAngle)
 
-class CoordinatesRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "module.coordinates".translate, true, false, -6, false,RampDefaults.defaultRampAngle) {
+class IntroRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "module.introduction".translate, false, false, -6, false, RampDefaults.defaultRampAngle)
+
+class CoordinatesRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "module.coordinates".translate, true, false, -6, false, RampDefaults.defaultRampAngle) {
   coordinateSystemModel.adjustable = true
 }
 
 class ForceGraphsModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(frame, clock, "module.force-graphs".translate, false)
 
-class GraphingModule(frame: JFrame, clock: ScalaClock, name: String, showEnergyGraph: Boolean) extends BasicRampModule(frame, clock, name, false, true, -6, true,RampDefaults.defaultRampAngle) {
+class GraphingModule(frame: JFrame, clock: ScalaClock, name: String, showEnergyGraph: Boolean) extends BasicRampModule(frame, clock, name, false, true, -6, true, RampDefaults.defaultRampAngle) {
   coordinateSystemModel.adjustable = false
   canvas.addNodeAfter(canvas.earthNode, new RampChartNode(canvas.transform, canvas, model, showEnergyGraph))
-
-  //pause on startup, and unpause (and start recording) when the user interacts with the sim 
-  model.setPaused(true)
-  var didUnpause = false
-  model.bead.addListenerByName {
-    if (!didUnpause) {
-      model.setPaused(false)
-      didUnpause = true
-    }
-  }
-  override def resetAll() = {
-    super.resetAll()
-    didUnpause = false
-  }
 }
 
 class WorkEnergyModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(frame, clock, "module.work-energy".translate, true) {
@@ -88,7 +82,7 @@ class WorkEnergyModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(
   override def resetAll() = {super.reset(); workEnergyChartModel.reset()}
 }
 
-class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock) extends AbstractRampModule(frame, clock, "module.robotMovingCompany".translate, 5, false,RampDefaults.defaultRampAngle) {
+class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock) extends AbstractRampModule(frame, clock, "module.robotMovingCompany".translate, 5, false, RampDefaults.defaultRampAngle) {
   val gameModel = new RobotMovingCompanyGameModel(model, clock)
 
   gameModel.itemFinishedListeners += ((scalaRampObject, result) => {

@@ -111,8 +111,10 @@ class Bead(private var _state: BeadState,
 
   def parallelAppliedForce = _parallelAppliedForce
 
+  val parallelAppliedForceListeners = new ArrayBuffer[()=>Unit]
   def parallelAppliedForce_=(value: Double) = {
     _parallelAppliedForce = value
+    parallelAppliedForceListeners.foreach( _())
     appliedForceVector.notifyListeners()
     notifyListeners()
   }
