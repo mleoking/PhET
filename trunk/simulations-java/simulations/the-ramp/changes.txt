@@ -1,3 +1,4 @@
+Pause on startup/reset, and unpause (and start recording) when the user applies a force
 # 1.03.30 (33920) Aug 5, 2009
 # 1.03.29 (33918) Aug 5, 2009
 Internationalized HTML snippets, one in FreeBodyDiagramNode, one in ObjectSelectionNode
