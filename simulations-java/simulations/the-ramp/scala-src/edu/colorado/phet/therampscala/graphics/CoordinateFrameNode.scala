@@ -29,6 +29,9 @@ class CoordinateFrameNode(val model: RampModel, coordinateSystemModel: Coordinat
   addChild(xAxis)
 
   defineInvokeAndPass(coordinateSystemModel.addListenerByName) {
-    setVisible(coordinateSystemModel.adjustable)
+    val v = coordinateSystemModel.adjustable
+    setVisible(v)
+    setPickable(v)
+    setChildrenPickable(v)
   }
 }
