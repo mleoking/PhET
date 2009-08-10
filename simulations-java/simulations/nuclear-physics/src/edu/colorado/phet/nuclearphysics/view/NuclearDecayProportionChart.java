@@ -1414,13 +1414,11 @@ public class NuclearDecayProportionChart extends PNode {
     		
     		// Add the handlers for the buttons.
     		_percentC14RadioButton.addActionListener(new ActionListener(){
-				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					_chart.setYAxisLabeledWithRatio(false);
 				}
     		});
     		_c14C12RatioRadioButton.addActionListener(new ActionListener(){
-				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					_chart.setYAxisLabeledWithRatio(true);
 				}
