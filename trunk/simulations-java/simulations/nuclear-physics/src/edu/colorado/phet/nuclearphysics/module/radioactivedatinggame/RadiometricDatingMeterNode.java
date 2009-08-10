@@ -205,7 +205,6 @@ public class RadiometricDatingMeterNode extends PNode {
 		_modeControlButton = new JButton();
 		_modeControlButton.setFont(BUTTON_FONT);
 		_modeControlButton.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				MeasurementMode targetMode;
 				if (_meterModel.getMeasurementMode() == MeasurementMode.AIR){
