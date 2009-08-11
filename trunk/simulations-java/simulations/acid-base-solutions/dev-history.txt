@@ -5,15 +5,15 @@
 TODO:
 - add scaling control for equations and expressions in Solutions tab
 - fix layout of equations and expressions in Solutions tab
-- save/load which mutually exclusive item is selected in Solutions tab
-- when animate is turned on/off, animate the symbols growing
+- fix save/load/reset for Solutions tab
 - "tear off" control, puts graph/equations/expressions into separate window (force1d tear-20.png)
 - save/load "tear off" state
 - save/load locations of dialogs
 - save/load location of main frame?
+- when animate is turned on/off, animate the symbols growing
 - duplicate code: ComparingEquationsNode = SolutionsReactionEquationsNode + SolutionsEquilibriumExpressionsNode
 - delete unused equation dialogs
-- white box around equations in Comparing tab
+- white box around equations in Comparing tab?
 - Spanish translation, to test i18n
 - more complete legend for symbols and colors (pending interviews)
 - when equations are scaled, some symbols expand beyond the bounds of the window (pending interviews)
