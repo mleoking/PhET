@@ -61,7 +61,7 @@ abstract class AbstractConcentrationGraphNode extends PComposite {
     private static final double NEGLIGIBLE_THRESHOLD = 0;
     
     // molecule icons and labels
-    private static final Font MOLECULE_LABEL_FONT = new PhetFont( 18 );
+    private static final Font MOLECULE_LABEL_FONT = new PhetFont( 16 );
     private static final double MAX_MOLECULE_LABEL_WIDTH = BAR_WIDTH * 1.25;
     private static final double MOLECULE_LABEL_ROTATION_ANGLE = Math.PI / 4;
     private static final double MOLECULE_ICON_SCALE = 1.0;

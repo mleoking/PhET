@@ -36,6 +36,9 @@ public class ABSImages {
     public static final BufferedImage ARROW_DOUBLE = getBufferedImage( "arrow_double.png" );
     public static final BufferedImage ARROW_SINGLE = getBufferedImage( "arrow_single.png" );
     
+    public static final BufferedImage MAXIMIZE_BUTTON = getBufferedImage( "maximizeButton.png" );
+    public static final BufferedImage MINIMIZE_BUTTON = getBufferedImage( "minimizeButton.png" );
+    
     private static final BufferedImage getBufferedImage( String resourceName ) {
         return ABSResources.getBufferedImage( resourceName );
     }

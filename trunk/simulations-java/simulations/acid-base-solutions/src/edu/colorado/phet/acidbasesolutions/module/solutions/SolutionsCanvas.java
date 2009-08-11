@@ -5,6 +5,7 @@ package edu.colorado.phet.acidbasesolutions.module.solutions;
 import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
+import edu.colorado.phet.acidbasesolutions.control.MaximizeControlNode;
 import edu.colorado.phet.acidbasesolutions.control.MiscControlsNode;
 import edu.colorado.phet.acidbasesolutions.control.SolutionControlsNode;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
@@ -14,6 +15,7 @@ import edu.colorado.phet.acidbasesolutions.view.beaker.BeakerNode;
 import edu.colorado.phet.acidbasesolutions.view.graph.ConcentrationGraphNode;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * SolutionsCanvas is the canvas for SolutionsModule.
@@ -34,6 +36,7 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
     private final SolutionControlsNode solutionControlsNode;
     private final SolutionsBeakerControlsNode beakerControlsNode;
     private final MiscControlsNode miscControlsNode;
+    private final MaximizeControlNode graphMaximizeControlNode;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -57,12 +60,14 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         miscControlsNode = new MiscControlsNode( concentrationGraphNode, getBackground(), solution );
         miscControlsNode.scale( ABSConstants.PSWING_SCALE );
         
+        graphMaximizeControlNode = new MaximizeControlNode( "Graph", new PDimension( 500, 560 ), concentrationGraphNode );
+        
         // rendering order
         addNode( solutionControlsNode );
         addNode( beakerControlsNode );
         addNode( miscControlsNode );
         addNode( beakerNode );
-        addNode( concentrationGraphNode );
+        addNode( graphMaximizeControlNode );
     }
     
     //----------------------------------------------------------------------------
@@ -119,9 +124,9 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         
         // concentration graph to the right of beaker
         double fudgeX = 50; // add space to handle widest label for solute ion ratio check box
-        xOffset = beakerControlsNode.getFullBoundsReference().getMaxX() - PNodeUtils.getOriginXOffset( concentrationGraphNode ) + fudgeX;
+        xOffset = beakerControlsNode.getFullBoundsReference().getMaxX() + fudgeX;
         yOffset = 0;
-        concentrationGraphNode.setOffset( xOffset, yOffset );
+        graphMaximizeControlNode.setOffset( xOffset, yOffset );
         
         // misc controls at bottom right, but don't overlap beaker
         xOffset = concentrationGraphNode.getFullBoundsReference().getMaxX() - miscControlsNode.getFullBoundsReference().getWidth();
@@ -131,10 +136,10 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         yOffset = beakerNode.getFullBoundsReference().getMaxY() - miscControlsNode.getFullBoundsReference().getHeight();
         miscControlsNode.setOffset( xOffset, yOffset );
         
-        // Reset All button to the right of solute controls
+        // Reset All button at bottom center
         PNode resetAllButton = getResetAllButton();
-        xOffset = solutionControlsNode.getFullBoundsReference().getMaxX() + 10;
-        yOffset = solutionControlsNode.getFullBoundsReference().getY();
+        xOffset = beakerNode.getFullBoundsReference().getMaxX() + 10;
+        yOffset = beakerNode.getFullBoundsReference().getMaxY() - resetAllButton.getFullBoundsReference().getHeight();
         resetAllButton.setOffset( xOffset , yOffset );
         
         centerRootNode();
