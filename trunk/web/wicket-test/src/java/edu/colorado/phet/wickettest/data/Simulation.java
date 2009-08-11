@@ -1,9 +1,7 @@
 package edu.colorado.phet.wickettest.data;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Set;
+import java.util.*;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 
@@ -14,6 +12,14 @@ public class Simulation implements Serializable {
     private Project project;
     private Set localizedSimulations = new HashSet();
     private Set categories = new HashSet();
+
+    //    private List topics = new LinkedList();
+    private List keywords = new LinkedList();
+//    private List learningGoalKey = new LinkedList();
+
+//    private List designTeam = new LinkedList();
+//    private List libraries = new LinkedList();
+//    private List thanksTo = new LinkedList();
 
     public static final int TYPE_JAVA = 0;
     public static final int TYPE_FLASH = 1;
@@ -100,5 +106,13 @@ public class Simulation implements Serializable {
 
     public void setCategories( Set categories ) {
         this.categories = categories;
+    }
+
+    public List getKeywords() {
+        return keywords;
+    }
+
+    public void setKeywords( List keywords ) {
+        this.keywords = keywords;
     }
 }

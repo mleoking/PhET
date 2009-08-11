@@ -6,15 +6,18 @@ import java.util.List;
 import org.apache.wicket.Request;
 import org.apache.wicket.RequestCycle;
 import org.apache.wicket.Response;
+import org.apache.wicket.Session;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.protocol.http.WebRequest;
 import org.apache.wicket.resource.loader.ClassStringResourceLoader;
 
+import edu.colorado.phet.wickettest.admin.AdminMainPage;
 import edu.colorado.phet.wickettest.content.*;
 import edu.colorado.phet.wickettest.menu.NavMenu;
 import edu.colorado.phet.wickettest.translation.PhetLocalizer;
 import edu.colorado.phet.wickettest.translation.TranslationUrlStrategy;
 import edu.colorado.phet.wickettest.util.PhetRequestCycle;
+import edu.colorado.phet.wickettest.util.PhetSession;
 import edu.colorado.phet.wickettest.util.PhetUrlMapper;
 import edu.colorado.phet.wickettest.util.PhetUrlStrategy;
 
@@ -54,6 +57,8 @@ public class WicketApplication extends WebApplication {
         }
         mount( new TranslationUrlStrategy( "translation", mapper ) );
 
+        mountBookmarkablePage( "admin", AdminMainPage.class );
+
         // this will remove the default string resource loader. essentially this new one has better locale-handling,
         // so that if a string is not found for a more specific locale (es_MX), it would try "es", then the default
         // properties file
@@ -76,6 +81,11 @@ public class WicketApplication extends WebApplication {
 
     public NavMenu getMenu() {
         return menu;
+    }
+
+    @Override
+    public Session newSession( Request request, Response response ) {
+        return new PhetSession( request );
     }
 
     //enable this override to run under GAE
