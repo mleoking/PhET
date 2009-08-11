@@ -20,6 +20,7 @@ import edu.colorado.phet.wickettest.data.Translation;
 import edu.colorado.phet.wickettest.menu.NavMenu;
 import edu.colorado.phet.wickettest.util.PageContext;
 import edu.colorado.phet.wickettest.util.PhetRequestCycle;
+import edu.colorado.phet.wickettest.util.PhetSession;
 
 public abstract class PhetPage extends WebPage {
 
@@ -29,7 +30,7 @@ public abstract class PhetPage extends WebPage {
     private String variation;
 
     public PhetPage( PageParameters parameters ) {
-        this( parameters, false );
+        this( parameters, true );
     }
 
     public PhetPage( PageParameters parameters, boolean addTemplateBindings ) {
@@ -68,7 +69,6 @@ public abstract class PhetPage extends WebPage {
         }
 
         // visual display
-        // TODO: look into detecting whether the subclass page is using markup inheritance, so this does not need to be specified
         if ( addTemplateBindings ) {
             // TODO: refactor static images to a single location, so paths / names can be quickly changed
             Link link = IndexPage.createLink( "page-header-home-link", getPageContext() );
@@ -108,6 +108,22 @@ public abstract class PhetPage extends WebPage {
             }
             else {
                 Label label = new Label( "translation-preview-notification", "UNSEEN2" );
+                label.setVisible( false );
+                add( label );
+            }
+
+            // TODO: change sign out link to a mini panel with options (one of which will be to sign out)
+            final PhetSession psession = PhetSession.get();
+            if ( psession != null && psession.isSignedIn() ) {
+                add( new Link( "sign-out" ) {
+                    public void onClick() {
+                        psession.invalidate();
+                        setResponsePage( IndexPage.class );
+                    }
+                } );
+            }
+            else {
+                Label label = new Label( "sign-out", "INVISIBLE" );
                 label.setVisible( false );
                 add( label );
             }

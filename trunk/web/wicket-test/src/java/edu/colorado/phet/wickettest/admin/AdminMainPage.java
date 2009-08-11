@@ -12,12 +12,12 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
-import edu.colorado.phet.wickettest.authentication.AuthenticatedPage;
 import edu.colorado.phet.wickettest.components.PhetLink;
 import edu.colorado.phet.wickettest.data.LocalizedSimulation;
 import edu.colorado.phet.wickettest.data.Simulation;
 
-public class AdminMainPage extends AuthenticatedPage {
+public class AdminMainPage extends AdminPage {
+
     public AdminMainPage( PageParameters parameters ) {
         super( parameters );
 
