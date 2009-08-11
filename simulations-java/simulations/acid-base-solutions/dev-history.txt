@@ -15,6 +15,7 @@ TODO:
 
 DONE:
 8/11/09 minimize/maximize graph using new control
+8/11/09 standardize on slightly narrower beaker, so that equations will fit in play area
 8/11/09 sim description
 8/11/09 change title of K expression dialog to "Equilibrium Expression" (singular)
 8/11/09 save/load state of scaling control in K expression dialog
