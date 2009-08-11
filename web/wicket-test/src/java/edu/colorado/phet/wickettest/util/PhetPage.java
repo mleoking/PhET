@@ -4,6 +4,7 @@ import java.util.Locale;
 
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.Session;
+import org.apache.wicket.behavior.HeaderContributor;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
@@ -71,6 +72,9 @@ public abstract class PhetPage extends WebPage {
             add( link );
             link.add( new StaticImage( "page-header-logo-image", "/images/phet-logo.gif", null ) );
             add( new StaticImage( "page-header-title-image", "/images/logo-title.jpg", null ) );
+
+            add( HeaderContributor.forCss( "/css/phetpage-v1.css" ) );
+
             if ( prefix.startsWith( "/translation" ) && getVariation() != null ) {
                 org.hibernate.Session session = getHibernateSession();
                 Translation translation = null;

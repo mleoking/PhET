@@ -8,17 +8,8 @@
     <meta http-equiv="Content-type" content="text/html;charset=UTF-8"/>
     <title wicket:id="page-title">[PREVIEW] PhetPage</title>
     <wicket:remove>
-        <!--
-        This is a direct reference to the CSS for previewing in a browser. Unfortunately this is used so we can both
-        preview the HTML with the correct CSS (and URLs in the CSS work for background-image), but also not have extra
-        baggage when running on the server.
-         -->
-        <style type="text/css">
-            @import url(../../../root/css/test.css);
-        </style>
-        <!-- Below will be the runtime location of the CSS. -->
+        <link rel="stylesheet" type="text/css" href="../../../root/css/preview.css"/>
     </wicket:remove>
-    <link rel="stylesheet" type="text/css" href="/css/test.css"/>
 </head>
 <body wicket:message="dir:language.dir">
 

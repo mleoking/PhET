@@ -1,9 +1,5 @@
 package edu.colorado.phet.wickettest.test;
 
-import java.util.Locale;
-
-import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
-
 public class SimpleTranslationTest {
     public static void main( String[] args ) {
         /*
@@ -13,6 +9,6 @@ public class SimpleTranslationTest {
             System.out.println( localeString + " = " + locale.getDisplayLanguage( locale ) );
         }
         */
-        System.out.println( "aaxxxxbb".replaceAll( "xx", "x" ));
+        System.out.println( "aaxxxxbb".replaceAll( "xx", "x" ) );
     }
 }

@@ -3,7 +3,10 @@ package edu.colorado.phet.wickettest.content;
 import org.apache.wicket.markup.html.link.Link;
 
 import edu.colorado.phet.wickettest.panels.PhetPanel;
-import edu.colorado.phet.wickettest.util.*;
+import edu.colorado.phet.wickettest.util.Linkable;
+import edu.colorado.phet.wickettest.util.LocalizedText;
+import edu.colorado.phet.wickettest.util.PageContext;
+import edu.colorado.phet.wickettest.util.PhetLink;
 
 public class AboutPhetPanel extends PhetPanel {
     public AboutPhetPanel( String id, PageContext context ) {
