@@ -108,8 +108,8 @@ public class Hydrogen3Nucleus extends AbstractBetaDecayNucleus {
 
     /**
      * This method generates a value indicating the number of milliseconds for
-     * a Polonium 211 nucleus to decay.  This calculation is based on the 
-     * exponential decay formula and uses the decay constant for Polonium 211.
+     * a Hydrogen 3 nucleus to decay.  This calculation is based on the 
+     * exponential decay formula and uses the decay constant for Hydrogen 3.
      * 
      * @return
      */
