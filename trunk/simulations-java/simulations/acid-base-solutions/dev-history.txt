@@ -3,13 +3,16 @@
 ==================================================================================
 
 TODO:
-- equations and expressions in play area of Solutions tab
+- add scaling control for equations and expressions in Solutions tab
+- fix layout of equations and expressions in Solutions tab
 - save/load which mutually exclusive item is selected in Solutions tab
 - when animate is turned on/off, animate the symbols growing
 - "tear off" control, puts graph/equations/expressions into separate window (force1d tear-20.png)
 - save/load "tear off" state
 - save/load locations of dialogs
 - save/load location of main frame?
+- duplicate code: ComparingEquationsNode = SolutionsReactionEquationsNode + SolutionsEquilibriumExpressionsNode
+- delete unused equation dialogs
 - white box around equations in Comparing tab
 - Spanish translation, to test i18n
 - more complete legend for symbols and colors (pending interviews)
@@ -17,6 +20,7 @@ TODO:
 - make symbol legend descriptions automatically wrap, so we don't need breaks in HTML markup
 
 DONE:
+8/11/09 add equations and expressions in play area of Solutions tab
 8/11/09 make graph, equations and expression mutually exclusive choices
 8/11/09 replace equation check boxes with minimize/maximize controls (dummy managed node)
 8/11/09 incorporate Kathy's feedback into sim description
