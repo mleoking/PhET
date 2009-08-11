@@ -66,8 +66,10 @@ public class SolutionControlsNode extends PhetPNode {
     private final StrengthSliderNode strengthSliderNode;
     private final JButton kButton;
     private final ArrayList<SolutionControlsListener> listeners;
-    private JDialog kExpressionDialog;
+    
+    private KExpressionDialog kExpressionDialog;
     private Point kExpressionDialogLocation;
+    private boolean kExpressionScalingEnabled;
     
     public SolutionControlsNode( PSwingCanvas canvas, AqueousSolution solution ) {
         this( canvas, solution, false /* showKButton */ );
@@ -412,7 +414,7 @@ public class SolutionControlsNode extends PhetPNode {
         if ( kExpressionDialog == null ) {
             Frame owner = PhetApplication.getInstance().getPhetFrame();
             kExpressionDialog = new KExpressionDialog( owner, solution );
-
+            kExpressionDialog.setScalingEnabled( kExpressionScalingEnabled );
             kExpressionDialog.addWindowListener( new WindowAdapter() {
 
                 // called when the close button in the dialog's window dressing is clicked
@@ -439,6 +441,7 @@ public class SolutionControlsNode extends PhetPNode {
     private void closeKExpressionDialog() {
         if ( kExpressionDialog != null ) {
             kExpressionDialogLocation = kExpressionDialog.getLocation();
+            kExpressionScalingEnabled = kExpressionDialog.isScalingEnabled();
             kExpressionDialog.dispose();
             kExpressionDialog = null;
         }
