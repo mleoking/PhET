@@ -13,7 +13,7 @@ public class IndexPanel extends PhetPanel {
     public IndexPanel( String id, PageContext context ) {
         super( id, context );
 
-        add( new StaticImage( "ksu-logo", "/images/ksu-logo.gif", null ) );
+        add( new StaticImage( "ksu-logo", "/images/ECSME-combined-logo-small.jpg", null ) );
         add( new StaticImage( "jila-logo", "/images/jila_logo_small.gif", null ) );
         add( new StaticImage( "nsf-logo", "/images/nsf-logo-small.gif", null ) );
         add( new StaticImage( "hewlett-logo", "/images/hewlett-logo-small.jpg", null ) );
