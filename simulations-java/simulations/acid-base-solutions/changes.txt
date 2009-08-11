@@ -1,3 +1,5 @@
+# 0.01.29 (34016) Aug 11, 2009
+8/11/09 many change requests
 8/11/09 add "tear off" icons in Solutions tab (for discussion, they don't work)
 8/11/09 reorganize layout of Solutions tab
 8/11/09 replace "View" check boxes with maximize/minimize buttons for graph and equations in Solutions tab
