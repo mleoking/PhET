@@ -130,12 +130,15 @@ public abstract class SubatomicParticle {
     /**
      * Tunnel to another location.
      * 
-     * @param center
-     * @param minDistance
-     * @param nucleusRadius
-     * @param tunnelRadius
+     * @param center - Location from which to tunnel.
+     * @param minDistance - Minimum tunneling distance, often zero.
+     * @param maxDistance1 - The usual value used for the max tunneling distance.
+     * @param maxDistance2 - A value that is more rarely used and is usually
+     * equal to or bigger than the other max distance.  Originally added to
+     * allow alpha particles to sometimes tunnel to the area between the edge
+     * of the nucleus to the tunneling radius.
      */
-    public void tunnel(Point2D center, double minDistance, double nucleusRadius, double tunnelRadius){
+    public void tunnel(Point2D center, double minDistance, double maxDistance1, double maxDistance2){
     	// Does nothing in base class.
     }
 
