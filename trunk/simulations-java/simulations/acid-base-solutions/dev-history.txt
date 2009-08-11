@@ -12,12 +12,12 @@ TODO:
 - duplicate code: ComparingEquationsNode = SolutionsReactionEquationsNode + SolutionsEquilibriumExpressionsNode - scaling controls
 - white box around equations in Comparing tab?
 - Spanish translation, to test i18n
-- reduce MiscControlsNode, it only controls "Symbol Legend" checkbox
 - more complete legend for symbols and colors (pending interviews)
 - when equations are scaled, some symbols expand beyond the bounds of the window (pending interviews)
 - make symbol legend descriptions automatically wrap, so we don't need breaks in HTML markup
 
 DONE:
+8/11/09 replace MiscControlsNode with LegendControlNode, since we only have one control remaining
 8/11/09 delete obsolete equation dialogs (EquilibriumExpressionsDialog, ReactionEquationsDialog)
 8/11/09 fix layout of equations and expressions in Solutions tab
 8/11/09 add scaling control for equations and expressions in Solutions tab
