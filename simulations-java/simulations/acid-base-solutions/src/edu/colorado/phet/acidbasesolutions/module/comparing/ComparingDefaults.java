@@ -16,7 +16,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class ComparingDefaults {
     
     // default sizes
-    public static final PDimension BEAKER_SIZE = new PDimension( 400, 400 );
+    public static final PDimension BEAKER_SIZE = new PDimension( 360, 400 );
     public static final PDimension CONCENTRATION_GRAPH_OUTLINE_SIZE = new PDimension( 360, 350 );
 
     private static ComparingDefaults INSTANCE = new ComparingDefaults();
