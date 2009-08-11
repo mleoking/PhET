@@ -217,47 +217,6 @@ public class MultiNucleusDecayModel implements NucleusTypeControl {
 	}
 	
 	/**
-	 * Convenience method for obtaining the decay product(s) for a given
-	 * nucleus.  Note that the return values are NOT NECESSARILY what always
-	 * happens in the real world - they represent the way this simulation
-	 * behaves, which is a simplification of real-world behavior.
-	 */
-	public static ArrayList<NucleusType> getDecayProduct(NucleusType preDecayNucleus){
-		
-		ArrayList<NucleusType> decayProducts = new ArrayList<NucleusType>();
-		
-		switch (preDecayNucleus){
-		
-		case HYDROGEN_3:
-			decayProducts.add(NucleusType.HELIUM_3);
-			break;
-		
-		case CARBON_14:
-			decayProducts.add(NucleusType.NITROGEN_14);
-			break;
-			
-		case URANIUM_238:
-			decayProducts.add(NucleusType.LEAD_206);
-			break;
-			
-		case POLONIUM_211:
-			decayProducts.add(NucleusType.LEAD_207);
-			break;
-
-		case HEAVY_CUSTOM:
-			decayProducts.add(NucleusType.HEAVY_CUSTOM_POST_DECAY);
-			break;
-
-		default:
-			System.out.println("Warning: No decay product information available for requested nucleus, returning original value, nucleus = " + preDecayNucleus);
-			decayProducts.add(preDecayNucleus);
-			break;
-		}
-		
-		return decayProducts;
-	}
-	
-	/**
 	 * Set up the object that will listen to notifications from the nuclei.
 	 * It will be common to override this is sub-classes which may need to
 	 * handle things like decay events differently.

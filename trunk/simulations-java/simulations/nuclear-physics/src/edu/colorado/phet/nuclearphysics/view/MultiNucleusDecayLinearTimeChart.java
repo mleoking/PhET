@@ -219,7 +219,7 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
             		NucleusDisplayInfo.getDisplayInfoForNucleusType(_model.getNucleusType());
             	
             	NucleusDisplayInfo postDecayDisplayInfo = 
-            		NucleusDisplayInfo.getDisplayInfoForNucleusType(_model.getDecayProduct(_model.getNucleusType()).get(0));
+            		NucleusDisplayInfo.getDisplayInfoForNucleusType(AtomicNucleus.getPostDecayNuclei(_model.getNucleusType()).get(0));
 
             	_pieChartValues[0].setColor(preDecayDisplayInfo.getDisplayColor());
     			_pieChartValues[1].setColor(postDecayDisplayInfo.getDisplayColor());
@@ -547,7 +547,7 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
     	NucleusDisplayInfo preDecayDisplayInfo = 
     		NucleusDisplayInfo.getDisplayInfoForNucleusType(_model.getNucleusType());
     	NucleusDisplayInfo postDecayDisplayInfo = 
-    		NucleusDisplayInfo.getDisplayInfoForNucleusType(MultiNucleusDecayModel.getDecayProduct(_model.getNucleusType()).get(0));
+    		NucleusDisplayInfo.getDisplayInfoForNucleusType(AtomicNucleus.getPostDecayNuclei(_model.getNucleusType()).get(0));
     	
     	// Set the text for these labels.
     	_numUndecayedNucleiLabel.setHtml("<html># <sup><font size=-1>" + preDecayDisplayInfo.getIsotopeNumberString() 

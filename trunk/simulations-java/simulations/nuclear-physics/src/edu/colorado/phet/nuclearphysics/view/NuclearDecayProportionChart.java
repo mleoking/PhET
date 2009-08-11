@@ -41,6 +41,7 @@ import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.common.NucleusDisplayInfo;
 import edu.colorado.phet.nuclearphysics.common.NucleusType;
+import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.model.Carbon14Nucleus;
 import edu.colorado.phet.nuclearphysics.model.HalfLifeInfo;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusDecayModel;
@@ -241,7 +242,7 @@ public class NuclearDecayProportionChart extends PNode {
 		
 		_preDecayNucleusDisplayInfo = NucleusDisplayInfo.getDisplayInfoForNucleusType(nucleusType);
 		_postDecayNucleusDisplayInfo = 
-			NucleusDisplayInfo.getDisplayInfoForNucleusType( MultiNucleusDecayModel.getDecayProduct(nucleusType).get(0) );
+			NucleusDisplayInfo.getDisplayInfoForNucleusType( AtomicNucleus.getPostDecayNuclei(nucleusType).get(0) );
 		
     	clear();
     	updateLayout();
