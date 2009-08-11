@@ -8,12 +8,17 @@ import org.apache.wicket.model.StringResourceModel;
 import org.hibernate.HibernateException;
 import org.hibernate.Transaction;
 
+import edu.colorado.phet.wickettest.components.PhetLink;
 import edu.colorado.phet.wickettest.data.Category;
 import edu.colorado.phet.wickettest.data.LocalizedSimulation;
 import edu.colorado.phet.wickettest.data.Simulation;
 import edu.colorado.phet.wickettest.menu.NavLocation;
 import edu.colorado.phet.wickettest.panels.SimulationDisplayPanel;
-import edu.colorado.phet.wickettest.util.*;
+import edu.colorado.phet.wickettest.templates.PhetRegularPage;
+import edu.colorado.phet.wickettest.util.HibernateUtils;
+import edu.colorado.phet.wickettest.util.Linkable;
+import edu.colorado.phet.wickettest.util.PageContext;
+import edu.colorado.phet.wickettest.util.PhetUrlMapper;
 
 public class SimulationDisplay extends PhetRegularPage {
     public SimulationDisplay( PageParameters parameters ) {

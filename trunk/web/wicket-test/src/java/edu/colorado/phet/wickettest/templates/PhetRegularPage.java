@@ -1,4 +1,4 @@
-package edu.colorado.phet.wickettest.util;
+package edu.colorado.phet.wickettest.templates;
 
 import org.apache.wicket.PageParameters;
 

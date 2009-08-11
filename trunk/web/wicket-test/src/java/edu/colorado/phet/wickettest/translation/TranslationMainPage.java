@@ -18,8 +18,8 @@ import org.hibernate.Transaction;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.wickettest.content.IndexPage;
 import edu.colorado.phet.wickettest.data.Translation;
+import edu.colorado.phet.wickettest.templates.PhetPage;
 import edu.colorado.phet.wickettest.util.PageContext;
-import edu.colorado.phet.wickettest.util.PhetPage;
 
 public class TranslationMainPage extends PhetPage {
 

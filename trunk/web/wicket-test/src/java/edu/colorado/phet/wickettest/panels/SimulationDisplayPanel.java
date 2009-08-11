@@ -10,12 +10,12 @@ import org.apache.wicket.markup.repeater.data.GridView;
 import org.apache.wicket.markup.repeater.data.IDataProvider;
 import org.apache.wicket.model.IModel;
 
+import edu.colorado.phet.wickettest.components.PhetLink;
+import edu.colorado.phet.wickettest.components.StaticImage;
 import edu.colorado.phet.wickettest.content.SimulationPage;
 import edu.colorado.phet.wickettest.data.LocalizedSimulation;
 import static edu.colorado.phet.wickettest.util.HtmlUtils.encode;
 import edu.colorado.phet.wickettest.util.PageContext;
-import edu.colorado.phet.wickettest.util.PhetLink;
-import edu.colorado.phet.wickettest.util.StaticImage;
 
 public class SimulationDisplayPanel extends PhetPanel {
 

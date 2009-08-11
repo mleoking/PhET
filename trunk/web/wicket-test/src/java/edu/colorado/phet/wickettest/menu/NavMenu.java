@@ -9,6 +9,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import edu.colorado.phet.wickettest.components.PhetLink;
 import edu.colorado.phet.wickettest.content.AboutPhetPanel;
 import edu.colorado.phet.wickettest.content.IndexPage;
 import edu.colorado.phet.wickettest.content.SimulationDisplay;
@@ -17,7 +18,6 @@ import edu.colorado.phet.wickettest.data.Category;
 import edu.colorado.phet.wickettest.util.HibernateUtils;
 import edu.colorado.phet.wickettest.util.Linkable;
 import edu.colorado.phet.wickettest.util.PageContext;
-import edu.colorado.phet.wickettest.util.PhetLink;
 
 public class NavMenu {
     private HashMap<String, NavLocation> cache = new HashMap<String, NavLocation>();

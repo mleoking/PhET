@@ -10,12 +10,12 @@ import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.IModel;
 
+import edu.colorado.phet.wickettest.components.PhetLink;
+import edu.colorado.phet.wickettest.components.StaticImage;
 import edu.colorado.phet.wickettest.data.LocalizedSimulation;
 import edu.colorado.phet.wickettest.util.HibernateUtils;
 import static edu.colorado.phet.wickettest.util.HtmlUtils.encode;
 import edu.colorado.phet.wickettest.util.PageContext;
-import edu.colorado.phet.wickettest.util.PhetLink;
-import edu.colorado.phet.wickettest.util.StaticImage;
 
 public class SimulationMainPanel extends PhetPanel {
 

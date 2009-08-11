@@ -2,21 +2,6 @@ package edu.colorado.phet.wickettest.util;
 
 public class HtmlUtils {
     public static String encode( String s ) {
-        /*
-        StringBuffer buf = new StringBuffer();
-        int len = ( s == null ? -1 : s.length() );
-
-        for ( int i = 0; i < len; i++ ) {
-            char c = s.charAt( i );
-            if ( c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z' || c >= '0' && c <= '9' ) {
-                buf.append( c );
-            }
-            else {
-                buf.append( "&#" + (int) c + ";" );
-            }
-        }
-        return buf.toString();
-        */
         if ( s == null ) {
             return null;
         }
