@@ -2,14 +2,18 @@ package edu.colorado.phet.therampscala.controls
 
 import common.phetcommon.model.Resettable
 import common.phetcommon.util.IProguardKeepClass
-import common.phetcommon.view.util.{PhetFont}
+import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
+import common.phetcommon.view.util.{BufferedImageUtils, PhetFont}
 import common.phetcommon.view.{ControlPanel, VerticalLayoutPanel, ResetAllButton}
-import graphics.ObjectModel
+import graphics._
 import java.awt._
+import geom.Rectangle2D
+import image.BufferedImage
 import javax.swing._
 import model._
 
 
+import scalacommon.math.Vector2D
 import scalacommon.swing.MyRadioButton
 import swing.{MyCheckBox, ScalaValueControl}
 import edu.colorado.phet.scalacommon.Predef._
@@ -69,14 +73,16 @@ class RampControlPanelBody(model: RampModel, wordModel: WordModel,
       ))
   }
 
-  class IconPanel(component: JComponent, iconFilename: String) extends JPanel {
+  class IconPanel(component: JComponent, icon:Icon) extends JPanel {
+    def this(component: JComponent, iconFilename: String) = this(component,new ImageIcon(RampResources.getImage(iconFilename)) )
     setLayout(new BorderLayout)
     add(component, BorderLayout.WEST)
-    add(new JLabel(new ImageIcon(RampResources.getImage(iconFilename))), BorderLayout.EAST)
+    add(new JLabel(icon), BorderLayout.EAST)
   }
 
   val vectorPanel = new SubControlPanel("vectors.title".translate) with IProguardKeepClass {
     def addWithIcon(iconFilename: String, component: JComponent) = add(new IconPanel(component, iconFilename))
+    def addWithIcon(image: BufferedImage, component: JComponent) = add(new IconPanel(component, new ImageIcon(image)))
   }
   vectorPanel.add(new MyRadioButton("vectors.centered".translate, vectorViewModel.centered = true, vectorViewModel.centered, vectorViewModel.addListener))
   vectorPanel.add(new MyRadioButton("vectors.point-of-origin".translate, vectorViewModel.centered = false, !vectorViewModel.centered, vectorViewModel.addListener))
@@ -87,9 +93,16 @@ class RampControlPanelBody(model: RampModel, wordModel: WordModel,
     vectorPanel.addWithIcon("xy_components_icon.gif".literal, new MyCheckBox("vectors.x-y-components".translate, vectorViewModel.xyComponentsVisible = _, vectorViewModel.xyComponentsVisible, vectorViewModel.addListener))
   }
   vectorPanel.add(Box.createRigidArea(new Dimension(10, 10)))
-  vectorPanel.addWithIcon("sum_of_forces_icon.gif".literal, new MyCheckBox("vectors.sum-of-forces".translate, vectorViewModel.sumOfForcesVector_=, vectorViewModel.sumOfForcesVector, vectorViewModel.addListener))
-
+  vectorPanel.addWithIcon(createSumForceIcon, new MyCheckBox("vectors.sum-of-forces".translate, vectorViewModel.sumOfForcesVector_=, vectorViewModel.sumOfForcesVector, vectorViewModel.addListener))
   add(vectorPanel)
+
+  def createSumForceIcon = {
+    val rect = new Rectangle2D.Double(0, 0, 1, 1)
+    val vector = new Vector(RampDefaults.totalForceColor, "total-force".literal, "force.abbrev.total".translate, () => new Vector2D(50, 0), (v: Vector2D, c: Color) => {c})
+    val vectorNode = new VectorNode(new ModelViewTransform2D(rect, rect), vector, new ConstantVectorValue(new Vector2D(50, 0)), 10)
+    val bufIm=BufferedImageUtils.toBufferedImage(vectorNode.toImage)
+    BufferedImageUtils.multiScaleToHeight(bufIm,40)
+  }
 
   val rampPanel = new SubControlPanel("ramp.controls.title".translate)
   rampPanel.add(new MyCheckBox("controls.frictionless".translate, model.frictionless_=, model.frictionless, model.addListener))
