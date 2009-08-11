@@ -1,0 +1,90 @@
+/* This one rule is for IndexPage.html */
+div.index-holder {
+    width: 765px;
+    margin: 0 auto;
+}
+
+.index-content {
+    width: 745px;
+    font-size: 14px;
+    padding: 10px;
+}
+
+.old-content {
+    text-align: center;
+}
+
+#index-animated-screenshot-holder {
+    width: 300px;
+    height: 199px;
+    float: left;
+}
+
+#right-middle {
+    margin-left: 310px;
+    position: relative;
+}
+
+#index-middle-div {
+    height: 199px;
+}
+
+#index-header {
+    color: #d36a04;
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+#index-main-text {
+    color: #333333;
+}
+
+#index-play-sims {
+    width: 153px;
+    height: 38px;
+    margin: 0 auto;
+    text-align: center;
+    vertical-align: middle;
+    text-decoration: none;
+    display: block;
+    color: #FFFFFF;
+    margin-top: 5px;
+    background-image: url(../images/blank-button.gif);
+}
+
+#index-play-sims-text {
+    vertical-align: middle;
+    line-height: 38px;
+}
+
+#sponsors {
+    position: absolute;
+    height: 70px;
+    width: 445px;
+    left: 0px;
+    top: 129px;
+}
+
+.sponsor {
+    height: 70px;
+    width: 100px;
+    margin-right: 10px;
+    float: right;
+    text-align: center;
+    font-size: 10px;
+}
+
+.sponsor a {
+    text-decoration: none;
+    color: #990000;
+}
+
+.sponsor img {
+    border: none;
+}
+
+.langlink {
+    text-decoration: none;
+    color: #990000;
+}

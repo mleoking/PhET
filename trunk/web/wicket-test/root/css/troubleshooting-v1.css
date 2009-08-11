@@ -1,0 +1,17 @@
+.troubleshooting {
+    font-size: 12px;
+}
+
+.troubleshooting h2 {
+    color: #15337f;
+    font-size: 16px;
+}
+
+.troubleshooting p {
+    margin-left: 2em;
+    margin-right: 2em;
+}
+
+.troubleshooting a img {
+    border: 0;
+}

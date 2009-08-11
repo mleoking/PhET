@@ -1,5 +1,6 @@
 package edu.colorado.phet.wickettest.panels;
 
+import org.apache.wicket.behavior.HeaderContributor;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 
 import edu.colorado.phet.wickettest.content.SimulationDisplay;
@@ -26,6 +27,8 @@ public class IndexPanel extends PhetPanel {
         add( new BookmarkablePageLink( "test-translation", TranslationMainPage.class ) );
 
         add( new TranslationLinksPanel( "translation-links", context ) );
+
+        add( HeaderContributor.forCss( "/css/home-v1.css" ) );
     }
 
 }

@@ -1,5 +1,6 @@
 package edu.colorado.phet.wickettest.content;
 
+import org.apache.wicket.behavior.HeaderContributor;
 import org.apache.wicket.markup.html.link.Link;
 
 import edu.colorado.phet.wickettest.panels.PhetPanel;
@@ -57,6 +58,8 @@ public class TroubleshootingMainPanel extends PhetPanel {
         add( new LocalizedText( "troubleshooting-main-q12-answer", "troubleshooting.main.q12.answer" ) );
 
         add( new LocalizedText( "troubleshooting-main-q13-answer", "troubleshooting.main.q13.answer" ) );
+
+        add( HeaderContributor.forCss( "/css/troubleshooting-v1.css" ) );
 
     }
 
