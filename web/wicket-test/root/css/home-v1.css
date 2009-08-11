@@ -58,11 +58,13 @@ div.index-holder {
     line-height: 38px;
 }
 
+/* overridden left property in ie6fix.css */
 #sponsors {
+    clear: left;
     position: absolute;
     height: 70px;
     width: 445px;
-    left: 0px;
+    left: 0;
     top: 129px;
 }
 
