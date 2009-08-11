@@ -35,6 +35,7 @@ public class SolutionsConfig extends AbstractModuleConfig {
     // dialogs
     private boolean equilibriumExpressionsScalingEnabled;
     private boolean reactionEquationsScalingEnabled;
+    private boolean kExpressionScalingEnabled;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -183,5 +184,15 @@ public class SolutionsConfig extends AbstractModuleConfig {
     
     public void setKExpressionVisible( boolean b ) {
         kExpressionVisible = b;
+    }
+
+    
+    public boolean isKExpressionScalingEnabled() {
+        return kExpressionScalingEnabled;
+    }
+
+    
+    public void setKExpressionScalingEnabled( boolean expressionScalingEnabled ) {
+        kExpressionScalingEnabled = expressionScalingEnabled;
     }
 }

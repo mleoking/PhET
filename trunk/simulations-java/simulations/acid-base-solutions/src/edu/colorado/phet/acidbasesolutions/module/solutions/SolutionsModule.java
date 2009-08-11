@@ -129,6 +129,7 @@ public class SolutionsModule extends ABSAbstractModule {
         config.setConcentration( solutionControlsNode.getConcentration() );
         config.setStrength( solutionControlsNode.getStrength() );
         config.setKExpressionVisible( solutionControlsNode.isKExpressionDialogOpen() );
+        config.setKExpressionScalingEnabled( solutionControlsNode.isKExpressionScalingEnabled() );
         
         SolutionsBeakerControlsNode beakerControls = canvas.getBeakerControlsNode();
         config.setSoluteComponentsRatioVisible( beakerControls.isSoluteComponentsRatioSelected() );
@@ -162,7 +163,8 @@ public class SolutionsModule extends ABSAbstractModule {
             solutionControlsNode.setStrength( config.getStrength() );
         }
         solutionControlsNode.setKExpressionDialogOpen( config.isKExpressionVisible() );
-
+        solutionControlsNode.setKExpressionScalingEnabled( config.isKExpressionScalingEnabled() );
+        
         // beaker controls
         BeakerControlsNode beakerControls = canvas.getBeakerControlsNode();
         beakerControls.setSoluteComponentsRatioSelected( config.isSoluteComponentsRatioVisible() );
