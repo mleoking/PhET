@@ -118,6 +118,7 @@ public class SolutionsModule extends ABSAbstractModule {
         // Module
         config.setActive( isActive() );
 
+        // solution controls
         SolutionControlsNode solutionControlsNode = canvas.getSolutionControlsNode();
         config.setSoluteName( solutionControlsNode.getSolute().getName() );
         config.setConcentration( solutionControlsNode.getConcentration() );
@@ -125,14 +126,23 @@ public class SolutionsModule extends ABSAbstractModule {
         config.setKExpressionVisible( solutionControlsNode.isKExpressionDialogOpen() );
         config.setKExpressionScalingEnabled( solutionControlsNode.isKExpressionScalingEnabled() );
         
+        // beaker controls
         SolutionsBeakerControlsNode beakerControls = canvas.getBeakerControlsNode();
         config.setSoluteComponentsRatioVisible( beakerControls.isSoluteComponentsRatioSelected() );
         config.setHydroniumHydroxideRatioVisible( beakerControls.isHydroniumHydroxideRatioSelected() );
         config.setMoleculeCountsVisible( beakerControls.isMoleculeCountsSelected() );
         config.setBeakerLabelVisible( beakerControls.isLabelSelected() );
         
-        LegendControlNode miscControls = canvas.getLegendControlNode();
-        config.setSymbolLegendVisible( miscControls.isSelected() );
+        // mutually exclusive views
+        config.setGraphVisible( canvas.isGraphVisible() );
+        config.setReactionEquationsVisible( canvas.isReactionEquationsVisible() );
+        config.setReactionEquationsScalingEnabled( canvas.isReactionEquationsScalingEnabled() );
+        config.setEquilibriumExpressionsVisible( canvas.isEquilibriumExpressionsVisible( ) );
+        config.setEquilibriumExpressionsScalingEnabled( canvas.isEquilibriumExpressionsScalingEnabled() );
+        
+        // legend
+        LegendControlNode legendControl = canvas.getLegendControlNode();
+        config.setSymbolLegendVisible( legendControl.isSelected() );
         
         return config;
     }
@@ -161,8 +171,15 @@ public class SolutionsModule extends ABSAbstractModule {
         beakerControls.setMoleculeCountsSelected( config.isMoleculeCountsVisible() );
         beakerControls.setLabelSelected( config.isBeakerLabelVisible() );
 
-        // misc controls
-        LegendControlNode miscControls = canvas.getLegendControlNode();
-        miscControls.setSelected( config.isSymbolLegendVisible() );
+        // mutually exclusive views
+        canvas.setGraphVisible( config.isGraphVisible() );
+        canvas.setReactionEquationsVisible( config.isReactionEquationsVisible() );
+        canvas.setReactionEquationsScalingEnabled( config.isReactionEquationsScalingEnabled() );
+        canvas.setEquilibriumExpressionsVisible( config.isEquilibriumExpressionsVisible() );
+        canvas.setEquilibriumExpressionsScalingEnabled( config.isEquilibriumExpressionsScalingEnabled() );
+        
+        // legend
+        LegendControlNode legendControl = canvas.getLegendControlNode();
+        legendControl.setSelected( config.isSymbolLegendVisible() );
     }
 }

@@ -38,7 +38,7 @@ public class SolutionsDefaults {
         config.setMoleculeCountsVisible( false );
         config.setBeakerLabelVisible( false );
         // misc view controls
-        config.setConcentrationGraphVisible( true );
+        config.setGraphVisible( true );
         config.setSymbolLegendVisible( false );
         config.setEquilibriumExpressionsVisible( false );
         config.setReactionEquationsVisible( false );

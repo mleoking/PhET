@@ -26,7 +26,7 @@ public class SolutionsConfig extends AbstractModuleConfig {
     private boolean beakerLabelVisible;
     
     // misc view controls
-    private boolean concentrationGraphVisible;
+    private boolean graphVisible;
     private boolean symbolLegendVisible;
     private boolean equilibriumExpressionsVisible;
     private boolean reactionEquationsVisible;
@@ -120,13 +120,13 @@ public class SolutionsConfig extends AbstractModuleConfig {
     }
 
     
-    public boolean isConcentrationGraphVisible() {
-        return concentrationGraphVisible;
+    public boolean isGraphVisible() {
+        return graphVisible;
     }
 
     
-    public void setConcentrationGraphVisible( boolean concentrationGraphVisible ) {
-        this.concentrationGraphVisible = concentrationGraphVisible;
+    public void setGraphVisible( boolean b ) {
+        this.graphVisible = b;
     }
 
     

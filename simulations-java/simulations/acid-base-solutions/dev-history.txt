@@ -3,7 +3,6 @@
 ==================================================================================
 
 TODO:
-- fix save/load/reset for Solutions tab
 - implement "tear off" control?
 - save/load "tear off" state
 - save/load locations of dialogs
@@ -17,6 +16,7 @@ TODO:
 - make symbol legend descriptions automatically wrap, so we don't need breaks in HTML markup
 
 DONE:
+8/11/09 fix save/load/reset for exclusive views and scaling in Solutions tab
 8/11/09 replace MiscControlsNode with LegendControlNode, since we only have one control remaining
 8/11/09 delete obsolete equation dialogs (EquilibriumExpressionsDialog, ReactionEquationsDialog)
 8/11/09 fix layout of equations and expressions in Solutions tab

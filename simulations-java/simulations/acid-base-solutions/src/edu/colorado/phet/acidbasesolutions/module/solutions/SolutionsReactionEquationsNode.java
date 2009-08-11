@@ -113,6 +113,10 @@ public class SolutionsReactionEquationsNode extends PhetPNode {
         waterNode.setScalingEnabled( enabled );
     }
     
+    public boolean isScalingEnabled() {
+        return waterNode.isScalingEnabled();
+    }
+    
     private void updateLayout() {
         
         // do layout with scaling off
