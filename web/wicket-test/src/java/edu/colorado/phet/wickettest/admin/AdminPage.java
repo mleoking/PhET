@@ -15,5 +15,7 @@ public class AdminPage extends AuthenticatedPage {
         if ( !user.isTeamMember() ) {
             setResponsePage( getApplication().getApplicationSettings().getAccessDeniedPage() );
         }
+
+        addTitle( "PhET Basic Administration" );
     }
 }
