@@ -24,6 +24,7 @@ import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.CompositeAtomicNucleus;
 import edu.colorado.phet.nuclearphysics.model.NuclearDecayListenerAdapter;
+import edu.colorado.phet.nuclearphysics.model.SubatomicParticle;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.singlenucleus.SingleNucleusAlphaDecayCanvas;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.singlenucleus.SingleNucleusAlphaDecayModel;
 import edu.umd.cs.piccolo.PNode;
@@ -44,7 +45,7 @@ import edu.umd.cs.piccolox.nodes.PLine;
  *
  * @author John Blanco
  */
-public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listener {
+public class AlphaDecayEnergyChart extends PNode implements SubatomicParticle.Listener {
 
     //------------------------------------------------------------------------
     // Class Data
@@ -721,7 +722,9 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
      * Handle a change in the position of an alpha particle, and update the
      * displayed graphics accordingly.
      */
-    public void positionChanged(AlphaParticle alpha){
+    public void positionChanged(SubatomicParticle alpha){
+    	
+    	assert alpha instanceof AlphaParticle;
         
         if ((_tunneledAlpha != null) && (_tunneledAlpha == alpha)){
             
@@ -799,7 +802,7 @@ public class AlphaDecayEnergyChart extends PNode implements AlphaParticle.Listen
      * @param index
      * @param alpha
      */
-    private void setAlphaImageOffset(PImage image, AlphaParticle alpha){
+    private void setAlphaImageOffset(PImage image, SubatomicParticle alpha){
         
         // Make sure the function is being used correctly.
         assert image != null;

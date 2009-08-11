@@ -4,6 +4,7 @@ package edu.colorado.phet.nuclearphysics.view;
 
 
 import edu.colorado.phet.nuclearphysics.common.model.Nucleon;
+import edu.colorado.phet.nuclearphysics.model.SubatomicParticle;
 
 /**
  * This class displays a visual representation of the neutron and will track the
@@ -28,7 +29,7 @@ public class NeutronModelNode extends NeutronNode implements NucleonModelNode {
     {
         _nucleon = nucleon;
         _neutronListener = new Nucleon.Listener(){
-            public void positionChanged()
+            public void positionChanged(SubatomicParticle particle)
             {
                 update();
             }

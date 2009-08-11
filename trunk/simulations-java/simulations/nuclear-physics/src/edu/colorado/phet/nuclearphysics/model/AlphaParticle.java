@@ -3,7 +3,6 @@
 package edu.colorado.phet.nuclearphysics.model;
 
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -12,7 +11,7 @@ import java.util.Random;
  *
  * @author John Blanco
  */
-public class AlphaParticle implements SubatomicParticle {
+public class AlphaParticle extends SubatomicParticle {
     
     //------------------------------------------------------------------------
     // Class data
@@ -28,21 +27,11 @@ public class AlphaParticle implements SubatomicParticle {
     private static final double MAX_TUNNELING_DISTANCE = 1000;
     
     // Random number generator, used for creating some random behavior.
-    private static Random _rand = new Random();
+    private static Random RAND = new Random();
     
     //------------------------------------------------------------------------
     // Instance data
     //------------------------------------------------------------------------
-    private ArrayList _listeners = new ArrayList();
-    
-    // Location in space of this particle.
-    private Point2D.Double _position;
-    
-    // Values used for autonomous translation.
-    private double _xVelocity;
-    private double _yVelocity;
-    private double _xAcceleration;
-    private double _yAcceleration;
     
     // State of this particle with respect to tunneling out.
     private int _tunnelingState = IN_NUCLEUS;
@@ -53,66 +42,12 @@ public class AlphaParticle implements SubatomicParticle {
 
     public AlphaParticle(double xPos, double yPos)
     {
-        _position = new Point2D.Double(xPos, yPos);
-
-        _xVelocity = MAX_AUTO_TRANSLATE_AMT *((_rand.nextDouble() * 2.0) - 1.0); 
-        _yVelocity = MAX_AUTO_TRANSLATE_AMT * ((_rand.nextDouble() * 2.0) - 1.0); 
-    }
-    
-    //------------------------------------------------------------------------
-    // Accessor methods
-    //------------------------------------------------------------------------
-    
-    public void setPosition( Point2D position ){
-        
-        _position.setLocation( position );
-
-        // Notify all listeners of the position change.
-        for (int i = 0; i < _listeners.size(); i++)
-        {
-            ((Listener)_listeners.get( i )).positionChanged(this); 
-        }        
-    }
-    
-    public void setPosition( double xPos, double yPos ){
-        _position.setLocation(xPos, yPos);
-
-        // Notify all listeners of the position change.
-        for (int i = 0; i < _listeners.size(); i++)
-        {
-            ((Listener)_listeners.get( i )).positionChanged(this); 
-        }        
-    }
-    
-    public Point2D.Double getPosition(){
-        return new Point2D.Double(_position.getX(), _position.getY());
-    }
-    
-    public Point2D.Double getPositionReference(){
-        return _position;
+    	super(xPos, yPos, MAX_AUTO_TRANSLATE_AMT *((RAND.nextDouble() * 2.0) - 1.0), 
+    			MAX_AUTO_TRANSLATE_AMT * ((RAND.nextDouble() * 2.0) - 1.0));
     }
     
     public int getTunnelingState(){
         return _tunnelingState;
-    }
-    
-    //------------------------------------------------------------------------
-    // Behavior methods
-    //------------------------------------------------------------------------
-
-    /**
-     * Move the particle by some amount.
-     */
-    public void translate(double dx, double dy)
-    {
-        _position.x += dx;
-        _position.y += dy;
-        
-        // Notify all listeners of the position change.
-        for (int i = 0; i < _listeners.size(); i++)
-        {
-            ((Listener)_listeners.get( i )).positionChanged(this); 
-        }
     }
     
     /**
@@ -122,7 +57,7 @@ public class AlphaParticle implements SubatomicParticle {
     {
         double maxDistance = nucleusRadius;
         
-        if (_rand.nextDouble() > 0.98)
+        if (RAND.nextDouble() > 0.98)
         {
             // Every once in a while use the tunnel radius as the max distance
             // to which this particle might tunnel.  This creates the effect of
@@ -135,32 +70,26 @@ public class AlphaParticle implements SubatomicParticle {
         // be fairly evenly spread around the core of the nucleus and appear
         // occasionally at the outer reaches.
         
-        double multiplier = _rand.nextDouble();
+        double multiplier = RAND.nextDouble();
         
         if (multiplier > 0.8)
         {
             // Cause the distribution to tail off in the outer regions of the
             // nucleus.
-            multiplier = _rand.nextDouble() * _rand.nextDouble();
+            multiplier = RAND.nextDouble() * RAND.nextDouble();
         }
         
         double newRadius = minDistance + (multiplier * (maxDistance - minDistance));
        
         // Calculate the new angle, in radians, from the origin.
-        double newAngle = _rand.nextDouble() * 2 * Math.PI;
+        double newAngle = RAND.nextDouble() * 2 * Math.PI;
         
         // Convert from polar to Cartesian coordinates.
         double xPos = Math.cos( newAngle ) * newRadius;
         double yPos = Math.sin( newAngle ) * newRadius;
         
         // Save the new position.
-        _position.setLocation( xPos + center.getX(), yPos + center.getY());
-
-        // Notify all listeners of the position change.
-        for (int i = 0; i < _listeners.size(); i++)
-        {
-            ((Listener)_listeners.get( i )).positionChanged(this); 
-        }        
+        setPosition( xPos + center.getX(), yPos + center.getY());
     }
     
     /**
@@ -180,32 +109,26 @@ public class AlphaParticle implements SubatomicParticle {
         
         double newAngle;
         
-        if (_rand.nextBoolean()){
+        if (RAND.nextBoolean()){
             // Go out on the right side.
-            newAngle = Math.PI / 3 + (_rand.nextDouble() * Math.PI / 3);
+            newAngle = Math.PI / 3 + (RAND.nextDouble() * Math.PI / 3);
         }
         else {
             // Go out on left side.
-            newAngle = Math.PI + (Math.PI / 3) + (_rand.nextDouble() * Math.PI / 3);
+            newAngle = Math.PI + (Math.PI / 3) + (RAND.nextDouble() * Math.PI / 3);
         }
         
         double xPos = Math.sin( newAngle ) * radius;
         double yPos = Math.cos( newAngle ) * radius;
         
         // Save the new position.
-        _position.setLocation( xPos + center.getX(), yPos + center.getY() );
-
-        // Notify all listeners of the position change.
-        for (int i = 0; i < _listeners.size(); i++)
-        {
-            ((Listener)_listeners.get( i )).positionChanged(this); 
-        }
+        setPosition( xPos + center.getX(), yPos + center.getY() );
         
         // Set our initial values for translating out of the nucleus.
-        _xVelocity = 0.75 * Math.sin( newAngle );
-        _yVelocity = 0.75 * Math.cos( newAngle );
-        _xAcceleration = 0.3 * _xVelocity;
-        _yAcceleration = 0.3 * _yVelocity;
+        double xVel = 0.75 * Math.sin( newAngle );
+        double yVel = 0.75 * Math.cos( newAngle );
+        setVelocity(xVel, yVel);
+        setAcceleration(0.3 * xVel, 0.3 * yVel);
         
         // Change our tunneling state.
         _tunnelingState = TUNNELING_OUT_OF_NUCLEUS;
@@ -222,24 +145,14 @@ public class AlphaParticle implements SubatomicParticle {
             return;
         }
         
-        if (Point2D.distance( 0, 0, _position.x, _position.y ) > MAX_TUNNELING_DISTANCE){
+        if (Point2D.distance( 0, 0, getPosition().x, getPosition().y ) > MAX_TUNNELING_DISTANCE){
             // This is far enough away that we don't need to bother moving it any more.
             _tunnelingState = TUNNELED_OUT_OF_NUCLEUS;
             return;
         }
         
-        // Move some amount.
-        _position.x += _xVelocity;
-        _position.y += _yVelocity;
-        
-        // Notify all listeners of the position change.
-        for (int i = 0; i < _listeners.size(); i++){
-            ((Listener)_listeners.get( i )).positionChanged(this); 
-        }
-        
-        // Accelerate.
-        _xVelocity += _xAcceleration;
-        _yVelocity += _yAcceleration;
+        // Move based on current pos/vel/acc settings.
+        translate();
     }
     
     /**
@@ -254,34 +167,9 @@ public class AlphaParticle implements SubatomicParticle {
         }
         
         // Return our position to the origin.
-        _position.x = 0;
-        _position.y = 0;
+        setPosition(0, 0);
         
         // Reset the tunneling state.
         _tunnelingState = IN_NUCLEUS;
-    }
-    
-    
-    //------------------------------------------------------------------------
-    // Listener support
-    //------------------------------------------------------------------------
-
-    public void addListener(Listener listener){
-
-        if (_listeners.contains( listener ))
-        {
-            // Don't bother re-adding.
-            return;
-        }
-        
-        _listeners.add( listener );
-    }
-    
-    public void removeListener(Listener listener){
-        _listeners.remove( listener );
-    }
-    
-    public static interface Listener {
-        void positionChanged(AlphaParticle alpha);
     }
 }
