@@ -14,6 +14,7 @@ import org.apache.wicket.resource.loader.ClassStringResourceLoader;
 import edu.colorado.phet.wickettest.admin.AdminMainPage;
 import edu.colorado.phet.wickettest.content.*;
 import edu.colorado.phet.wickettest.menu.NavMenu;
+import edu.colorado.phet.wickettest.templates.StaticPage;
 import edu.colorado.phet.wickettest.translation.PhetLocalizer;
 import edu.colorado.phet.wickettest.translation.TranslationUrlStrategy;
 import edu.colorado.phet.wickettest.util.PhetRequestCycle;
@@ -33,6 +34,10 @@ public class WicketApplication extends WebApplication {
     @Override
     protected void init() {
         super.init();
+
+        //getApplicationSettings().setPageExpiredErrorPage( MyExpiredPage.class );
+        //getApplicationSettings().setAccessDeniedPage( MyAccessDeniedPage.class );
+        //getApplicationSettings().setInternalErrorPage( MyInternalErrorPage.class );
 
         // add static pages, that are accessed through reflection. this is used so that separate page AND panel classes
         // are not needed for each visual page.

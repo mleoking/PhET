@@ -1,4 +1,4 @@
-package edu.colorado.phet.wickettest.content;
+package edu.colorado.phet.wickettest.templates;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -10,7 +10,6 @@ import org.apache.wicket.PageParameters;
 import org.apache.wicket.model.ResourceModel;
 
 import edu.colorado.phet.wickettest.panels.PhetPanel;
-import edu.colorado.phet.wickettest.templates.PhetRegularPage;
 import edu.colorado.phet.wickettest.util.PageContext;
 import edu.colorado.phet.wickettest.util.PhetUrlMapper;
 

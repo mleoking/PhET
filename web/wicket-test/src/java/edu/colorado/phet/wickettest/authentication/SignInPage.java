@@ -15,10 +15,16 @@ import edu.colorado.phet.wickettest.util.PhetSession;
 
 public class SignInPage extends PhetPage {
 
+    // TODO: gracefully handle when user enters the wrong password
 
-    private PasswordTextField password;
-    private boolean remember = true;
     private TextField username;
+    private PasswordTextField password;
+
+    /**
+     * Whether to remember the user or not.
+     * NOTE: don't convert to local variable, PropertyModel uses reflection to change this value
+     */
+    private boolean remember = true;
 
     public SignInPage( PageParameters parameters ) {
         super( parameters, true );
