@@ -43,6 +43,7 @@ div.index-holder {
 
 #index-main-text {
     color: #333333;
+    margin-right: 10px;
 }
 
 #index-play-sims {
@@ -65,15 +66,17 @@ div.index-holder {
 
 /* overridden left property in ie6fix.css */
 #sponsors {
+    /*border: 1px solid red;*/
     clear: left;
     position: absolute;
     height: 70px;
-    width: 445px;
+    width: 425px;
     left: 0;
     top: 129px;
 }
 
 .sponsor {
+    /*border: 1px solid blue;*/
     height: 70px;
     width: 100px;
     margin-right: 10px;
