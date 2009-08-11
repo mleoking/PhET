@@ -64,6 +64,7 @@ public class SolutionControlsNode extends PhetPNode {
     private final LabelNode strengthLabelNode;
     private final StrengthSliderNode strengthSliderNode;
     private final JButton kButton;
+    private final PSwing kButtonWrapper;
     private final ArrayList<SolutionControlsListener> listeners;
     
     private KExpressionDialog kExpressionDialog;
@@ -133,7 +134,7 @@ public class SolutionControlsNode extends PhetPNode {
                 openKExpressionDialog();
             }
         });
-        PSwing kButtonWrapper = new PSwing( kButton );
+        kButtonWrapper = new PSwing( kButton );
         if ( showKButton ) {
             addChild( kButtonWrapper );
         }
@@ -282,6 +283,7 @@ public class SolutionControlsNode extends PhetPNode {
     private void setStrengthControlVisible( boolean visible ) {
         strengthLabelNode.setVisible( visible );
         strengthSliderNode.setVisible( visible );
+        kButtonWrapper.setVisible( visible );
     }
     
     /*

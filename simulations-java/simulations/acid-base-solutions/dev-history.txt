@@ -3,6 +3,7 @@
 ==================================================================================
 
 TODO:
+- Reset All does not set scaling controls to "off" in Solutions tab
 - move Reset All button to bottom center of Comparing tab for consistency with other tabs
 - implement "tear off" control?
 - save/load "tear off" state
@@ -17,6 +18,7 @@ TODO:
 - make symbol legend descriptions automatically wrap, so we don't need breaks in HTML markup
 
 DONE:
+8/11/09 hide button to show K dialog for "no solute" so we don't see a button labeled "null="
 8/11/09 fix default config for Solutions tab
 8/11/09 fix save/load/reset for exclusive views and scaling in Solutions tab
 8/11/09 replace MiscControlsNode with LegendControlNode, since we only have one control remaining
