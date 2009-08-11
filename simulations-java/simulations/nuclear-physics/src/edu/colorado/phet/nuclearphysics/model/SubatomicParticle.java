@@ -1,48 +1,165 @@
-/* Copyright 2008, University of Colorado */
+/* Copyright 2008-2009, University of Colorado */
 
 package edu.colorado.phet.nuclearphysics.model;
 
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 
 /**
- * This interface is for controlling subatomic particles.
+ * Abstract base class for subatomic particles.
  *
  * @author John Blanco
  */
-public interface SubatomicParticle {
+public abstract class SubatomicParticle {
+    
+    //------------------------------------------------------------------------
+    // Class data
+    //------------------------------------------------------------------------
+
+    //------------------------------------------------------------------------
+    // Instance data
+    //------------------------------------------------------------------------
+    private ArrayList<Listener> _listeners = new ArrayList<Listener>();
+    
+    // Location in space of this particle.
+    private Point2D.Double _position;
+    
+    // Velocity of this particle.
+    private double _xVelocity;
+    private double _yVelocity;
+    
+    // Acceleration of this particle.
+    private double _xAcceleration;
+    private double _yAcceleration;
+    
+    //------------------------------------------------------------------------
+    // Constructors
+    //------------------------------------------------------------------------
+
+    /**
+     * Construct a particle.
+     * 
+     * @param xPos - Initial X position of this particle.
+     * @param yPos - Initial Y position of this particle.
+     * @param xVel - Initial velocity in the X direction.
+     * @param yVel - Initial velocity in the Y direction.
+     * @param tunnelingEnabled - Controls whether this particle should exhibit
+     */
+    public SubatomicParticle(double xPos, double yPos, double xVel, double yVel){
+    	_position = new Point2D.Double(xPos, yPos);
+    	_xVelocity = xVel;
+    	_yVelocity = yVel;
+    }
     
     /**
-     * Get the 2D position of the constituent.
+     * Construct a particle that is not moving.
      * 
-     * @return The position.
+     * @param xPos - Initial X position of this particle.
+     * @param yPos - Initial Y position of this particle.
+     * @param tunnelingEnabled - Controls whether this particle should exhibit
+     * quantum tunneling behavior. 
      */
-    public Point2D.Double getPosition();
+    public SubatomicParticle(double xPos, double yPos)
+    {
+        this(xPos, yPos, 0, 0);
+    }
+    
+    //------------------------------------------------------------------------
+    // Accessor methods
+    //------------------------------------------------------------------------
+    
+    public Point2D.Double getPosition()
+    {
+        return new Point2D.Double(_position.getX(), _position.getY());
+    }
+    
+    public Point2D.Double getPositionReference()
+    {
+        return _position;
+    }
+    
+    public void setPosition(Point2D newPosition)
+    {
+        _position.setLocation( newPosition );
+        notifyPositionChanged();
+    }
+    
+    public void setPosition(double xPos, double yPos)
+    {
+        _position.setLocation( xPos, yPos );
+        notifyPositionChanged();
+    }
+    
+    public void setVelocity(double xVel, double yVel){
+        _xVelocity = xVel;
+        _yVelocity = yVel;
+    }
+    
+    public void setAcceleration(double xAcc, double yAcc){
+        _xAcceleration = xAcc;
+        _yAcceleration = yAcc;
+    }
+    
+    protected void notifyPositionChanged(){
+        // Notify all listeners of the position change.
+        for (Listener listener : _listeners)
+        {
+            listener.positionChanged(this); 
+        }        
+    }
+    
+    //------------------------------------------------------------------------
+    // Behavior methods
+    //------------------------------------------------------------------------
     
     /**
-     * Get a reference to the 2D position of the constituent.
-     * 
-     * @return The position.
+     * Moves this particle based on its current velocity and acceleration.
      */
-    public Point2D.Double getPositionReference();
+    public void translate(){
+        
+        // Update the position.
+        _position.x += _xVelocity;
+        _position.y += _yVelocity;
+        notifyPositionChanged();
+        
+        // Update the velocity.
+        _xVelocity += _xAcceleration;
+        _yVelocity += _yAcceleration;
+    }
     
     /**
-     * Set the 2D position of the constituent.
+     * Tunnel to another location.
      * 
-     * @return The position.
+     * @param center
+     * @param minDistance
+     * @param nucleusRadius
+     * @param tunnelRadius
      */
-    public void setPosition(Point2D position);
+    public void tunnel(Point2D center, double minDistance, double nucleusRadius, double tunnelRadius){
+    	// Does nothing in base class.
+    }
+
     
-    public void setPosition(double xPos, double yPos);
+    //------------------------------------------------------------------------
+    // Listener support
+    //------------------------------------------------------------------------
+
+    public void addListener(Listener listener)
+    {
+        if (_listeners.contains( listener ))
+        {
+            // Don't bother re-adding.
+            return;
+        }
+        
+        _listeners.add( listener );
+    }
     
-    /**
-     * This method tells the constituent to simulate quantum tunneling
-     * behavior, meaning that it will randomly jump to a new position
-     * within the specified range.
-     * 
-     * @param center - The center point around which tunneling should occur.
-     * @param minDistance - Minimum distance from center where particle can end up.
-     * @param nucleusRadius - Radius of the nucleus, which is where particles will mostly tunnel.
-     * @param tunnelRadius - Radius where particles will occasionally tunnel out to.
-     */
-    public void tunnel(Point2D center, double minDistance, double nucleusRadius, double tunnelRadius);
+    public void removeListener(Listener listener){
+    	_listeners.remove(listener);
+    }
+    
+    public static interface Listener {
+        void positionChanged(SubatomicParticle particle);
+    }
 }
