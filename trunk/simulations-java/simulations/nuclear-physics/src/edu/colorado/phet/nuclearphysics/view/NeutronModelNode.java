@@ -4,7 +4,7 @@ package edu.colorado.phet.nuclearphysics.view;
 
 
 import edu.colorado.phet.nuclearphysics.common.model.Nucleon;
-import edu.colorado.phet.nuclearphysics.model.SubatomicParticle;
+import edu.colorado.phet.nuclearphysics.common.model.SubatomicParticle;
 
 /**
  * This class displays a visual representation of the neutron and will track the

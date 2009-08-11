@@ -5,6 +5,8 @@ package edu.colorado.phet.nuclearphysics.model;
 import java.awt.geom.Point2D;
 import java.util.Random;
 
+import edu.colorado.phet.nuclearphysics.common.model.SubatomicParticle;
+
 /**
  * This class is used to represent an alpha particle in a model of alpha
  * radiation behavior.
