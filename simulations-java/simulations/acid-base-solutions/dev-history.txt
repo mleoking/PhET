@@ -4,13 +4,12 @@
 
 TODO:
 - fix save/load/reset for Solutions tab
-- "tear off" control, puts graph/equations/expressions into separate window (force1d tear-20.png)
+- implement "tear off" control?
 - save/load "tear off" state
 - save/load locations of dialogs
 - save/load location of main frame?
 - when animate is turned on/off, animate the symbols growing
 - duplicate code: ComparingEquationsNode = SolutionsReactionEquationsNode + SolutionsEquilibriumExpressionsNode - scaling controls
-- delete unused equation dialogs
 - white box around equations in Comparing tab?
 - Spanish translation, to test i18n
 - reduce MiscControlsNode, it only controls "Symbol Legend" checkbox
@@ -19,6 +18,7 @@ TODO:
 - make symbol legend descriptions automatically wrap, so we don't need breaks in HTML markup
 
 DONE:
+8/11/09 delete obsolete equation dialogs (EquilibriumExpressionsDialog, ReactionEquationsDialog)
 8/11/09 fix layout of equations and expressions in Solutions tab
 8/11/09 add scaling control for equations and expressions in Solutions tab
 8/11/09 add tear-off icon to maximize controls for demo purposes, not wired up
