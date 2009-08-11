@@ -14,6 +14,7 @@ TODO:
 - make symbol legend descriptions automatically wrap, so we don't need breaks in HTML markup
 
 DONE:
+8/11/09 incorporate Kathy's feedback into sim description
 8/11/09 minimize/maximize graph using new control
 8/11/09 standardize on slightly narrower beaker, so that equations will fit in play area
 8/11/09 sim description
