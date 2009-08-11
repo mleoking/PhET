@@ -64,16 +64,16 @@ public class ABSStrings {
     public static final String CHECK_BOX_SOLUTE_RATIO_SPECIFIC = ABSResources.getString( "checkBox.soluteRatio-reactant_product" );
     public static final String CHECK_BOX_SOLUTE_RATIO_GENERAL = ABSResources.getString( "checkBox.soluteRatio" );
     public static final String CHECK_BOX_H3O_OH_RATIO = ABSResources.getString( "checkBox.ratio-H3O_OH" );
-    public static final String CHECK_BOX_EQUILIBRIUM_EXPRESSIONS = ABSResources.getString( "checkBox.equilibriumExpressions" );
-    public static final String CHECK_BOX_REACTION_EQUATIONS = ABSResources.getString( "checkBox.reactionEquations" );
     public static final String CHECK_BOX_SYMBOL_LEGEND = ABSResources.getString( "checkBox.symbolLegend" );
-    public static final String CHECK_BOX_CONCENTRATIONS_GRAPH = ABSResources.getString( "checkBox.concentrationsGraph" );
     
     // buttons
     public static final String BUTTON_NEW_SOLUTION = ABSResources.getString( "button.newSolution" );
     public static final String BUTTON_CHECK_MATCH = ABSResources.getString( "button.checkMatch" );
     public static final String BUTTON_ACID = ABSResources.getString( "button.acid" );
     public static final String BUTTON_BASE = ABSResources.getString( "button.base" );
+    public static final String BUTTON_GRAPH = ABSResources.getString( "button.graph" );
+    public static final String BUTTON_EQUILIBRIUM_EXPRESSIONS = ABSResources.getString( "button.equilibriumExpressions" );
+    public static final String BUTTON_REACTION_EQUATIONS = ABSResources.getString( "button.reactionEquations" );
     
     // radio buttons
     public static final String RADIO_BUTTON_EQUATION_SCALING_OFF = ABSResources.getString( "radioButton.equationScaling.off" );

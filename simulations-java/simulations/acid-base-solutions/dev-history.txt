@@ -14,6 +14,8 @@ TODO:
 - make symbol legend descriptions automatically wrap, so we don't need breaks in HTML markup
 
 DONE:
+8/11/09 make graph, equations and expression mutually exclusive choices
+8/11/09 replace equation check boxes with minimize/maximize controls (dummy managed node)
 8/11/09 incorporate Kathy's feedback into sim description
 8/11/09 minimize/maximize graph using new control
 8/11/09 standardize on slightly narrower beaker, so that equations will fit in play area

@@ -35,7 +35,7 @@ public class SolutionsModule extends ABSAbstractModule {
 
     private SolutionsModel model;
     private SolutionsCanvas canvas;
-    private boolean reactionEquationDialogWasOpen, equilibriumExpressionsDialogWasOpen, symbolLegendDialogWasOpen;
+    private boolean symbolLegendDialogWasOpen;
     private boolean kExpressionDialogWasOpen;
 
     //----------------------------------------------------------------------------
@@ -87,8 +87,6 @@ public class SolutionsModule extends ABSAbstractModule {
         
         // restore state of dialogs
         solutionControlsNode.setKExpressionDialogOpen( kExpressionDialogWasOpen );
-        miscControlsNode.setReactionEquationsSelected( reactionEquationDialogWasOpen );
-        miscControlsNode.setEquilibriumExpressionsSelected( equilibriumExpressionsDialogWasOpen );
         miscControlsNode.setSymbolLegendSelected( symbolLegendDialogWasOpen );
     }
     
@@ -99,14 +97,10 @@ public class SolutionsModule extends ABSAbstractModule {
         
         // save state of open dialogs
         kExpressionDialogWasOpen = solutionControlsNode.isKExpressionDialogOpen();
-        reactionEquationDialogWasOpen = miscControlsNode.isReactionEquationsSelected();
-        equilibriumExpressionsDialogWasOpen = miscControlsNode.isEquilibriumExpressionsSelected();
         symbolLegendDialogWasOpen = miscControlsNode.isSymbolLegendSelected();
         
         // hide any open dialogs
         solutionControlsNode.setKExpressionDialogOpen( false );
-        miscControlsNode.setReactionEquationsSelected( false );
-        miscControlsNode.setEquilibriumExpressionsSelected( false );
         miscControlsNode.setSymbolLegendSelected( false );
         
         // deactivate
@@ -138,12 +132,7 @@ public class SolutionsModule extends ABSAbstractModule {
         config.setBeakerLabelVisible( beakerControls.isLabelSelected() );
         
         MiscControlsNode miscControls = canvas.getMiscControlsNode();
-        config.setConcentrationGraphVisible( miscControls.isConcentrationGraphSelected() );
         config.setSymbolLegendVisible( miscControls.isSymbolLegendSelected() );
-        config.setEquilibriumExpressionsVisible( miscControls.isEquilibriumExpressionsSelected() );
-        config.setReactionEquationsVisible( miscControls.isReactionEquationsSelected() );
-        config.setEquilibriumExpressionsScalingEnabled(  miscControls.isEquilibriumExpressionsScalingEnabled() );
-        config.setReactionEquationsScalingEnabled(  miscControls.isReactionEquationsScalingEnabled() );
         
         return config;
     }
@@ -174,11 +163,6 @@ public class SolutionsModule extends ABSAbstractModule {
 
         // misc controls
         MiscControlsNode miscControls = canvas.getMiscControlsNode();
-        miscControls.setConcentrationGraphSelected( config.isConcentrationGraphVisible() );
         miscControls.setSymbolLegendSelected( config.isSymbolLegendVisible() );
-        miscControls.setEquilibriumExpressionsSelected( config.isEquilibriumExpressionsVisible() );
-        miscControls.setReactionEquationsSelected( config.isReactionEquationsVisible() );
-        miscControls.setEquilibriumExpressionsScalingEnabled( config.isEquilibriumExpressionsScalingEnabled() );
-        miscControls.setReactionEquationsScalingEnabled( config.isReactionEquationsScalingEnabled() );
     }
 }
