@@ -1,3 +1,11 @@
+8/11/09 add "tear off" icons in Solutions tab (for discussion, they don't work)
+8/11/09 reorganize layout of Solutions tab
+8/11/09 replace "View" buttons with maximize/minimize buttons for graph and equations in Solutions tab
+8/11/09 add "K=" button next to strength slider in Solutions tab
+8/11/09 add sim description to Help->About
+7/23/09 change "Animate symbol size" to "Animate"
+7/23/09 change strength slider label to "Strength (Ka):" or "Strength (Kb)"
+7/23/09 use solution control panel color for "animate" control panel
 # 0.01.28 (33578) Jul 23, 2009
 7/23/09 change requests
 7/23/09 put a border around "Animate" control, set background to light yellow
