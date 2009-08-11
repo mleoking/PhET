@@ -7,12 +7,12 @@ import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
-import edu.colorado.phet.nuclearphysics.common.model.AbstractDecayNucleus;
+import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.Neutron;
 import edu.colorado.phet.nuclearphysics.common.model.Nucleon;
 
 
-public class Uranium238Nucleus extends AbstractDecayNucleus {
+public class Uranium238Nucleus extends AtomicNucleus {
     //------------------------------------------------------------------------
     // Class Data
     //------------------------------------------------------------------------

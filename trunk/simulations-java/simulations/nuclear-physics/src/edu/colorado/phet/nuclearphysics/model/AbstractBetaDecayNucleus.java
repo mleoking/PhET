@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
-import edu.colorado.phet.nuclearphysics.common.model.AbstractDecayNucleus;
+import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 
 /**
  * This class contains much of the behavior that is common to all nuclei that
@@ -15,7 +15,7 @@ import edu.colorado.phet.nuclearphysics.common.model.AbstractDecayNucleus;
  * 
  * @author John Blanco
  */
-public abstract class AbstractBetaDecayNucleus extends AbstractDecayNucleus {
+public abstract class AbstractBetaDecayNucleus extends AtomicNucleus {
 
 	public AbstractBetaDecayNucleus(NuclearPhysicsClock clock, Point2D position,
 			int numProtons, int numNeutrons, double decayTimeScalingFactor) {

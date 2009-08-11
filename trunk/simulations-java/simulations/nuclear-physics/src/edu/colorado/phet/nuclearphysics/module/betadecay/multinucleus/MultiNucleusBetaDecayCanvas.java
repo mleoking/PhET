@@ -21,7 +21,6 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
-import edu.colorado.phet.nuclearphysics.common.model.AbstractDecayNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.NuclearDecayControl;
 import edu.colorado.phet.nuclearphysics.common.view.AbstractAtomicNucleusNode;
@@ -33,7 +32,6 @@ import edu.colorado.phet.nuclearphysics.model.Polonium211Nucleus;
 import edu.colorado.phet.nuclearphysics.view.AutoPressGradientButtonNode;
 import edu.colorado.phet.nuclearphysics.view.BucketOfNucleiNode;
 import edu.colorado.phet.nuclearphysics.view.MultiNucleusBetaDecayTimeChart;
-import edu.colorado.phet.nuclearphysics.view.MultiNucleusDecayLinearTimeChart;
 import edu.colorado.phet.nuclearphysics.view.NucleusImageFactory;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -429,9 +427,7 @@ public class MultiNucleusBetaDecayCanvas extends PhetPCanvas {
     	}
     	else{
     		// Pause this nucleus while it is being manipulated.
-    		if (grabbedNode.getNucleusRef() instanceof AbstractDecayNucleus){
-    			((AbstractDecayNucleus)grabbedNode.getNucleusRef()).setPaused(true);
-    		}
+    		grabbedNode.getNucleusRef().setPaused(true);
     	}
     }
 
@@ -450,17 +446,14 @@ public class MultiNucleusBetaDecayCanvas extends PhetPCanvas {
     	}
     	else{
 	    	AtomicNucleus nucleus = releasedNode.getNucleusRef();
-	    	if (nucleus instanceof AbstractDecayNucleus){
-	    		AbstractDecayNucleus decayNucleus = (AbstractDecayNucleus)nucleus;
-	    		if (decayNucleus.isPaused()){
-	    			// Unpause this nucleus so that it continues towards decay.
-	    			decayNucleus.setPaused(false);
-	    		}
-	    		else{
-		    		// Cause this node to start moving towards fissioning.
-		    		((NuclearDecayControl)nucleus).activateDecay();
-	    		}
-	    	}
+    		if (nucleus.isPaused()){
+    			// Unpause this nucleus so that it continues towards decay.
+    			nucleus.setPaused(false);
+    		}
+    		else{
+	    		// Cause this node to start moving towards fissioning.
+	    		((NuclearDecayControl)nucleus).activateDecay();
+    		}
     	}
     }
     

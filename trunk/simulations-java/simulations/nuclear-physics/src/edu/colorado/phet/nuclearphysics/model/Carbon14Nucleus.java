@@ -7,7 +7,7 @@ import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
-import edu.colorado.phet.nuclearphysics.common.model.AbstractDecayNucleus;
+import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 
 /**
  * This class represents a non-composite Carbon 14 nucleus.  Because it is
@@ -16,7 +16,7 @@ import edu.colorado.phet.nuclearphysics.common.model.AbstractDecayNucleus;
  *
  * @author John Blanco
  */
-public class Carbon14Nucleus extends AbstractDecayNucleus {
+public class Carbon14Nucleus extends AtomicNucleus {
     
     //------------------------------------------------------------------------
     // Class Data
