@@ -10,8 +10,8 @@ import org.apache.wicket.PageParameters;
 import org.apache.wicket.model.ResourceModel;
 
 import edu.colorado.phet.wickettest.panels.PhetPanel;
+import edu.colorado.phet.wickettest.templates.PhetRegularPage;
 import edu.colorado.phet.wickettest.util.PageContext;
-import edu.colorado.phet.wickettest.util.PhetRegularPage;
 import edu.colorado.phet.wickettest.util.PhetUrlMapper;
 
 public class StaticPage extends PhetRegularPage {

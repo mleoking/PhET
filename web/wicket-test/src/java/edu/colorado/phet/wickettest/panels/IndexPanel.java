@@ -3,11 +3,11 @@ package edu.colorado.phet.wickettest.panels;
 import org.apache.wicket.behavior.HeaderContributor;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 
+import edu.colorado.phet.wickettest.components.PhetLink;
+import edu.colorado.phet.wickettest.components.StaticImage;
 import edu.colorado.phet.wickettest.content.SimulationDisplay;
 import edu.colorado.phet.wickettest.translation.TranslationMainPage;
 import edu.colorado.phet.wickettest.util.PageContext;
-import edu.colorado.phet.wickettest.util.PhetLink;
-import edu.colorado.phet.wickettest.util.StaticImage;
 
 public class IndexPanel extends PhetPanel {
     public IndexPanel( String id, PageContext context ) {

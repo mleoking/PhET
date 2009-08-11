@@ -1,4 +1,4 @@
-package edu.colorado.phet.wickettest.util;
+package edu.colorado.phet.wickettest.components;
 
 import org.apache.wicket.markup.html.link.Link;
 

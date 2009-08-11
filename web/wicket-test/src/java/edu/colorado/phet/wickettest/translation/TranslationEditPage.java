@@ -6,8 +6,8 @@ import org.apache.wicket.PageParameters;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.wickettest.panels.PanelHolder;
+import edu.colorado.phet.wickettest.templates.PhetPage;
 import edu.colorado.phet.wickettest.translation.entities.CommonEntity;
-import edu.colorado.phet.wickettest.util.PhetPage;
 
 public class TranslationEditPage extends PhetPage {
     private int translationId;

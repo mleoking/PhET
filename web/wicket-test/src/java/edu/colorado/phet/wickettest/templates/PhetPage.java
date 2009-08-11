@@ -1,4 +1,4 @@
-package edu.colorado.phet.wickettest.util;
+package edu.colorado.phet.wickettest.templates;
 
 import java.util.Locale;
 
@@ -14,9 +14,12 @@ import org.hibernate.Transaction;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.wickettest.WicketApplication;
+import edu.colorado.phet.wickettest.components.StaticImage;
 import edu.colorado.phet.wickettest.content.IndexPage;
 import edu.colorado.phet.wickettest.data.Translation;
 import edu.colorado.phet.wickettest.menu.NavMenu;
+import edu.colorado.phet.wickettest.util.PageContext;
+import edu.colorado.phet.wickettest.util.PhetRequestCycle;
 
 public abstract class PhetPage extends WebPage {
 

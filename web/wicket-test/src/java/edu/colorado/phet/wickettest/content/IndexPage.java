@@ -4,8 +4,12 @@ import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.ResourceModel;
 
+import edu.colorado.phet.wickettest.components.PhetLink;
 import edu.colorado.phet.wickettest.panels.IndexPanel;
-import edu.colorado.phet.wickettest.util.*;
+import edu.colorado.phet.wickettest.templates.PhetPage;
+import edu.colorado.phet.wickettest.util.Linkable;
+import edu.colorado.phet.wickettest.util.PageContext;
+import edu.colorado.phet.wickettest.util.PhetUrlMapper;
 
 public class IndexPage extends PhetPage {
     public IndexPage( PageParameters parameters ) {

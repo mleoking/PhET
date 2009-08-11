@@ -1,4 +1,4 @@
-package edu.colorado.phet.wickettest.util;
+package edu.colorado.phet.wickettest.components;
 
 import java.text.MessageFormat;
 
