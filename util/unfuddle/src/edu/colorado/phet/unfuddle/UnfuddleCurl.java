@@ -66,7 +66,15 @@ public class UnfuddleCurl {
     }
 
     protected String execCommand( String cmd ) throws IOException, InterruptedException {
+    	System.out.println(getClass().getName() + "- DBG: Entering execCommand method, about to execute command.");
         String s = myProcess.invoke( cmd );
+    	System.out.println(getClass().getName() + "- Length of returned string is " + s.length());
+    	if (s.length() <= 256){
+        	System.out.println(getClass().getName() + "Return string = " + s);
+    	}
+    	else{
+        	System.out.println(getClass().getName() + "First portion of returned string = " + s.substring(0, 255));
+    	}
         return s.substring( s.indexOf( "<?xml" ) );
     }
 
