@@ -1,6 +1,6 @@
 /* Copyright 2008-2009, University of Colorado */
 
-package edu.colorado.phet.nuclearphysics.model;
+package edu.colorado.phet.nuclearphysics.common.model;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;

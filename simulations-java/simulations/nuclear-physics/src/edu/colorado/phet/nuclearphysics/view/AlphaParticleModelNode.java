@@ -3,8 +3,8 @@
 package edu.colorado.phet.nuclearphysics.view;
 
 
+import edu.colorado.phet.nuclearphysics.common.model.SubatomicParticle;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
-import edu.colorado.phet.nuclearphysics.model.SubatomicParticle;
 
 /**
  * This class is used to represent an alpha particle in the view and extends
