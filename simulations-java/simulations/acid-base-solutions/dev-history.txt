@@ -3,6 +3,7 @@
 ==================================================================================
 
 TODO:
+- move Reset All button to bottom center of Comparing tab for consistency with other tabs
 - implement "tear off" control?
 - save/load "tear off" state
 - save/load locations of dialogs
