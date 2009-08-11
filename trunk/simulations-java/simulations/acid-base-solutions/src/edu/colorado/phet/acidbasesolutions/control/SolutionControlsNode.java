@@ -1,17 +1,15 @@
 package edu.colorado.phet.acidbasesolutions.control;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Stroke;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.awt.*;
+import java.awt.event.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.RoundRectangle2D;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -25,8 +23,11 @@ import edu.colorado.phet.acidbasesolutions.model.SoluteFactory;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.SolutionListener;
 import edu.colorado.phet.acidbasesolutions.model.Solute.ICustomSolute;
 import edu.colorado.phet.acidbasesolutions.util.PNodeUtils;
+import edu.colorado.phet.acidbasesolutions.view.equilibriumexpressions.KExpressionDialog;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.umd.cs.piccolo.PNode;
@@ -57,33 +58,34 @@ public class SolutionControlsNode extends PhetPNode {
     private static final Stroke SEPARATOR_STROKE = new BasicStroke( 1f );
     private static final String STRENGTH_LABEL_PATTERN = ABSStrings.LABEL_STRENGTH;
     
+    private final AqueousSolution solution;
     private final SoluteComboBox soluteComboBox;
     private final ConcentrationControlNode concentrationControlNode;
     private final LabelNode concentrationLabelNode;
     private final LabelNode strengthLabelNode;
     private final StrengthSliderNode strengthSliderNode;
+    private final JButton kButton;
     private final ArrayList<SolutionControlsListener> listeners;
+    private JDialog kExpressionDialog;
+    private Point kExpressionDialogLocation;
+    
+    public SolutionControlsNode( PSwingCanvas canvas, AqueousSolution solution ) {
+        this( canvas, solution, false /* showKButton */ );
+    }
     
     /**
      * Public constructor, handles connection to model.
      * @param canvas
      * @param solution
      */
-    public SolutionControlsNode( PSwingCanvas canvas, AqueousSolution solution ) {
-        this( canvas );
-        solution.addSolutionListener( new ModelViewController( solution, this ) );
-        this.addSolutionControlsListener( new ViewModelController( this, solution ) );
-        setSolute( solution.getSolute() );
-    }
-
-    /*
-     * Private constructor, has no knowledge of the model.
-     */
-    private SolutionControlsNode( PSwingCanvas canvas ) {
+    public SolutionControlsNode( PSwingCanvas canvas, final AqueousSolution solution, boolean showKButton ) {
         super();
+        
+        this.solution = solution;
         
         listeners = new ArrayList<SolutionControlsListener>();
         
+        // Solute selection
         PNode soluteLabel = new LabelNode( ABSStrings.LABEL_SOLUTE );
         addChild( soluteLabel );
         
@@ -99,6 +101,7 @@ public class SolutionControlsNode extends PhetPNode {
         addChild( soluteComboBoxWrapper );
         soluteComboBox.setEnvironment( soluteComboBoxWrapper, canvas ); // hack required by PComboBox
         
+        // Concentration
         concentrationLabelNode = new LabelNode( ABSStrings.LABEL_CONCENTRATION );
         addChild( concentrationLabelNode );
         
@@ -110,6 +113,7 @@ public class SolutionControlsNode extends PhetPNode {
         });
         addChild( concentrationControlNode );
         
+        // Strength
         strengthLabelNode = new LabelNode( ABSStrings.LABEL_STRENGTH );
         addChild( strengthLabelNode );
         
@@ -120,6 +124,18 @@ public class SolutionControlsNode extends PhetPNode {
             }
         });
         addChild( strengthSliderNode );
+        
+        // K dialog button
+        kButton = new JButton(); // text is set by setStrengthSymbol
+        kButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                openKExpressionDialog();
+            }
+        });
+        PSwing kButtonWrapper = new PSwing( kButton );
+        if ( showKButton ) {
+            addChild( kButtonWrapper );
+        }
         
         // layout
         double xOffset = 0;
@@ -140,6 +156,9 @@ public class SolutionControlsNode extends PhetPNode {
         xOffset = strengthLabelNode.getXOffset() + 15;
         yOffset = strengthLabelNode.getFullBoundsReference().getMaxY() - PNodeUtils.getOriginYOffset( strengthSliderNode );
         strengthSliderNode.setOffset( xOffset, yOffset );
+        xOffset = strengthSliderNode.getFullBoundsReference().getMaxX() + 2;
+        yOffset = strengthSliderNode.getFullBoundsReference().getMaxY() - kButtonWrapper.getFullBoundsReference().getHeight();
+        kButtonWrapper.setOffset( xOffset, yOffset );
         
         // separator
         final double sepWidth = this.getFullBoundsReference().getWidth();
@@ -159,6 +178,10 @@ public class SolutionControlsNode extends PhetPNode {
         // put a background behind the entire panel
         PNode backgroundNode = new BackgroundNode( this );
         addChild( 0, backgroundNode );
+        
+        solution.addSolutionListener( new ModelViewController( solution, this ) );
+        this.addSolutionControlsListener( new ViewModelController( this, solution ) );
+        setSolute( solution.getSolute() );
     }
     
     public void setSoluteComboBoxEnabled( boolean enabled ) {
@@ -222,6 +245,19 @@ public class SolutionControlsNode extends PhetPNode {
         return strengthSliderNode.getValue();
     }
     
+    public boolean isKExpressionDialogOpen() {
+        return kExpressionDialog != null;
+    }
+    
+    public void setKExpressionDialogOpen( boolean open ) {
+        if ( open ) {
+            openKExpressionDialog();
+        }
+        else {
+            closeKExpressionDialog();
+        }
+    }
+    
     private void setConcentrationControlVisible( boolean visible ) {
         concentrationLabelNode.setVisible( visible );
         concentrationControlNode.setVisible( visible );
@@ -233,13 +269,14 @@ public class SolutionControlsNode extends PhetPNode {
     }
     
     /*
-     * Assembles the proper label for the strength slider.
-     * Acids use "Strength (Ka)", bases use "Strength (Kb)".
+     * Assembles the proper label for the strength slider and "K=" button.
+     * For the strength slider label, acids use "Strength (Ka)", bases use "Strength (Kb)".
      * The strength control is hidden for pure water, so it doesn't concern us,
      * but fyi the label will be set to "Strength (null)".
      */
     private void setStrengthSymbol( Solute solute ) {
         strengthLabelNode.setHTML( MessageFormat.format( STRENGTH_LABEL_PATTERN, solute.getStrengthSymbol() ) );
+        kButton.setText( HTMLUtils.toHTMLString( solute.getStrengthSymbol() + "=" ) ); // this is an equation, i18n is not required
     }
     
     private static class LabelNode extends HTMLNode {
@@ -369,5 +406,41 @@ public class SolutionControlsNode extends PhetPNode {
             solutionControls.setStrength( solution.getSolute().getStrength() );
         }
         
+    }
+    
+    private void openKExpressionDialog() {
+        if ( kExpressionDialog == null ) {
+            Frame owner = PhetApplication.getInstance().getPhetFrame();
+            kExpressionDialog = new KExpressionDialog( owner, solution );
+
+            kExpressionDialog.addWindowListener( new WindowAdapter() {
+
+                // called when the close button in the dialog's window dressing is clicked
+                public void windowClosing( WindowEvent e ) {
+                    closeKExpressionDialog();
+                }
+
+                // called by JDialog.dispose
+                public void windowClosed( WindowEvent e ) {
+                    closeKExpressionDialog();
+                }
+            } );
+
+            if ( kExpressionDialogLocation == null ) {
+                SwingUtils.centerDialogInParent( kExpressionDialog );
+            }
+            else {
+                kExpressionDialog.setLocation( kExpressionDialogLocation );
+            }
+            kExpressionDialog.setVisible( true );
+        }
+    }
+    
+    private void closeKExpressionDialog() {
+        if ( kExpressionDialog != null ) {
+            kExpressionDialogLocation = kExpressionDialog.getLocation();
+            kExpressionDialog.dispose();
+            kExpressionDialog = null;
+        }
     }
 }

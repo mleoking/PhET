@@ -38,6 +38,10 @@ public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
     private final AbstractEquilibriumExpressionNode waterNode;
     
     public EquilibriumExpressionsDialog( Frame owner, final AqueousSolution solution ) {
+        this( owner, solution, true /* showWaterExpression */ );
+    }
+    
+    public EquilibriumExpressionsDialog( Frame owner, final AqueousSolution solution, boolean showWaterExpression ) {
         super( owner );
         setTitle( ABSStrings.TITLE_EQUILIBRIUM_EXPRESSIONS );
         setResizable( false );
@@ -99,7 +103,9 @@ public class EquilibriumExpressionsDialog extends PaintImmediateDialog {
         JPanel canvasPanel = new JPanel();
         canvasPanel.setLayout( new BoxLayout( canvasPanel, BoxLayout.Y_AXIS ) );
         canvasPanel.add( topCanvas );
-        canvasPanel.add( bottomCanvas);
+        if ( showWaterExpression ) {
+            canvasPanel.add( bottomCanvas );
+        }
         JPanel userPanel = new JPanel( new BorderLayout() );
         userPanel.setBackground( ABSColors.COLOR_PANEL_BACKGROUND );
         userPanel.add( scalingControl, BorderLayout.NORTH );

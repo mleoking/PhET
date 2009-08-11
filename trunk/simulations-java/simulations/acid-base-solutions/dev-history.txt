@@ -3,7 +3,8 @@
 ==================================================================================
 
 TODO:
-- add "Show" button to strength control that opens new "K equation" dialog
+- save/load state of scaling controls
+- restore scaling when dialogs are reopened
 - put white box with border behind equations in play area
 - when animate is turned on/off, animate the symbols growing
 - change graphs/equations/expressions check boxes to radio buttons
@@ -15,6 +16,9 @@ TODO:
 - make symbol legend descriptions automatically wrap, so we don't need breaks in HTML markup
 
 DONE:
+8/11/09 save/load state of K expression dialog (open/closed)
+8/11/09 add button next to strength slider to show K expression with scaling control, first tab only
+8/11/09 add dialog that shows K expression only
 7/23/09 put a border around "Animate" control, set background to light yellow
 7/23/09 change "Animate symbol size" to "Animate"
 7/22/09 change strength slider label to "Strength (Ka):" or "Strength (Kb)"

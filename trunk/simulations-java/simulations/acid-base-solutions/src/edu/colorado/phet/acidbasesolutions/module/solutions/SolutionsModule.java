@@ -36,6 +36,7 @@ public class SolutionsModule extends ABSAbstractModule {
     private SolutionsModel model;
     private SolutionsCanvas canvas;
     private boolean reactionEquationDialogWasOpen, equilibriumExpressionsDialogWasOpen, symbolLegendDialogWasOpen;
+    private boolean kExpressionDialogWasOpen;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -80,23 +81,34 @@ public class SolutionsModule extends ABSAbstractModule {
 
     public void activate() {
         super.activate();
-        // restore state of dialogs
+        
+        SolutionControlsNode solutionControlsNode = canvas.getSolutionControlsNode();
         MiscControlsNode miscControlsNode = canvas.getMiscControlsNode();
+        
+        // restore state of dialogs
+        solutionControlsNode.setKExpressionDialogOpen( kExpressionDialogWasOpen );
         miscControlsNode.setReactionEquationsSelected( reactionEquationDialogWasOpen );
         miscControlsNode.setEquilibriumExpressionsSelected( equilibriumExpressionsDialogWasOpen );
         miscControlsNode.setSymbolLegendSelected( symbolLegendDialogWasOpen );
     }
     
     public void deactivate() {
+        
+        SolutionControlsNode solutionControlsNode = canvas.getSolutionControlsNode();
         MiscControlsNode miscControlsNode = canvas.getMiscControlsNode();
+        
         // save state of open dialogs
+        kExpressionDialogWasOpen = solutionControlsNode.isKExpressionDialogOpen();
         reactionEquationDialogWasOpen = miscControlsNode.isReactionEquationsSelected();
         equilibriumExpressionsDialogWasOpen = miscControlsNode.isEquilibriumExpressionsSelected();
         symbolLegendDialogWasOpen = miscControlsNode.isSymbolLegendSelected();
+        
         // hide any open dialogs
+        solutionControlsNode.setKExpressionDialogOpen( false );
         miscControlsNode.setReactionEquationsSelected( false );
         miscControlsNode.setEquilibriumExpressionsSelected( false );
         miscControlsNode.setSymbolLegendSelected( false );
+        
         // deactivate
         super.deactivate();
     }
@@ -116,6 +128,7 @@ public class SolutionsModule extends ABSAbstractModule {
         config.setSoluteName( solutionControlsNode.getSolute().getName() );
         config.setConcentration( solutionControlsNode.getConcentration() );
         config.setStrength( solutionControlsNode.getStrength() );
+        config.setKExpressionVisible( solutionControlsNode.isKExpressionDialogOpen() );
         
         SolutionsBeakerControlsNode beakerControls = canvas.getBeakerControlsNode();
         config.setSoluteComponentsRatioVisible( beakerControls.isSoluteComponentsRatioSelected() );
@@ -148,6 +161,7 @@ public class SolutionsModule extends ABSAbstractModule {
             solutionControlsNode.setConcentration( config.getConcentration() );
             solutionControlsNode.setStrength( config.getStrength() );
         }
+        solutionControlsNode.setKExpressionDialogOpen( config.isKExpressionVisible() );
 
         // beaker controls
         BeakerControlsNode beakerControls = canvas.getBeakerControlsNode();

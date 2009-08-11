@@ -30,6 +30,7 @@ public class SolutionsConfig extends AbstractModuleConfig {
     private boolean symbolLegendVisible;
     private boolean equilibriumExpressionsVisible;
     private boolean reactionEquationsVisible;
+    private boolean kExpressionVisible;
     
     // dialogs
     private boolean equilibriumExpressionsScalingEnabled;
@@ -174,5 +175,13 @@ public class SolutionsConfig extends AbstractModuleConfig {
     
     public void setReactionEquationsScalingEnabled( boolean reactionEquationsScalingEnabled ) {
         this.reactionEquationsScalingEnabled = reactionEquationsScalingEnabled;
+    }
+    
+    public boolean isKExpressionVisible() {
+        return kExpressionVisible;
+    }
+    
+    public void setKExpressionVisible( boolean b ) {
+        kExpressionVisible = b;
     }
 }
