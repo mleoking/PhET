@@ -109,6 +109,10 @@ public class BarChartNode extends PNode {
         }
     }
 
+    public double getBarScale(){
+        return scale;
+    }
+
     public void setBarScale( double scale ) {
         this.scale = scale;
         for ( int i = 0; i < barLayer.getChildrenCount(); i++ ) {
