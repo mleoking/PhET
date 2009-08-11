@@ -18,6 +18,7 @@ div.index-holder {
     width: 300px;
     height: 199px;
     float: left;
+    border: 1px solid #cccccc;
 }
 
 #right-middle {
@@ -26,7 +27,11 @@ div.index-holder {
 }
 
 #index-middle-div {
-    height: 199px;
+    /*height: 199px;*/
+    height: 215px;
+    background-image: url(../images/home-background-1.png);
+    background-position: bottom left;
+    background-repeat: no-repeat;
 }
 
 #index-header {
