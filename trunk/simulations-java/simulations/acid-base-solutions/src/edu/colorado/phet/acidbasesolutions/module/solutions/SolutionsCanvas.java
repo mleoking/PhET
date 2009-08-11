@@ -10,8 +10,8 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
-import edu.colorado.phet.acidbasesolutions.control.MaximizeControlNode;
 import edu.colorado.phet.acidbasesolutions.control.LegendControlNode;
+import edu.colorado.phet.acidbasesolutions.control.MaximizeControlNode;
 import edu.colorado.phet.acidbasesolutions.control.SolutionControlsNode;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.module.ABSAbstractCanvas;
@@ -126,6 +126,46 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
     
     public LegendControlNode getLegendControlNode() {
         return legendControlNode;
+    }
+    
+    public void setGraphVisible( boolean b ) {
+        graphMaximizeControlNode.setMaximized( b );
+    }
+    
+    public boolean isGraphVisible() {
+        return graphMaximizeControlNode.isMaximized();
+    }
+    
+    public void setReactionEquationsVisible( boolean b ) {
+        reactionEquationsMaximizeControlNode.setMaximized( b );
+    }
+    
+    public boolean isReactionEquationsVisible() {
+        return reactionEquationsMaximizeControlNode.isMaximized();
+    }
+    
+    public void setReactionEquationsScalingEnabled( boolean enabled ) {
+        reactionEquationsNode.setScalingEnabled( enabled );
+    }
+    
+    public boolean isReactionEquationsScalingEnabled() {
+        return reactionEquationsNode.isScalingEnabled();
+    }
+    
+    public void setEquilibriumExpressionsVisible( boolean b ) {
+        equilibriumExpressionsMaximizeControlNode.setMaximized( b );
+    }
+    
+    public boolean isEquilibriumExpressionsVisible() {
+        return equilibriumExpressionsMaximizeControlNode.isMaximized();
+    }
+    
+    public void setEquilibriumExpressionsScalingEnabled( boolean enabled ) {
+        equilibriumExpressionsNode.setScalingEnabled( enabled );
+    }
+    
+    public boolean isEquilibriumExpressionsScalingEnabled() {
+        return equilibriumExpressionsNode.isScalingEnabled();
     }
     
     //----------------------------------------------------------------------------

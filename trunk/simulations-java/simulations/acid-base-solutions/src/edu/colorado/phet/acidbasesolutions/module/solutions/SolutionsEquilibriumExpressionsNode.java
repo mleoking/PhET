@@ -109,6 +109,10 @@ public class SolutionsEquilibriumExpressionsNode extends PhetPNode {
         }
         waterNode.setScalingEnabled( enabled );
     }
+    
+    public boolean isScalingEnabled() {
+        return waterNode.isScalingEnabled();
+    }
 
     private void updateLayout() {
 
