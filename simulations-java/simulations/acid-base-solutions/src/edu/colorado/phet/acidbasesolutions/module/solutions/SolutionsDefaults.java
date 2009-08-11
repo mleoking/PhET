@@ -37,12 +37,14 @@ public class SolutionsDefaults {
         config.setHydroniumHydroxideRatioVisible( false );
         config.setMoleculeCountsVisible( false );
         config.setBeakerLabelVisible( false );
-        // misc view controls
+        // views
         config.setGraphVisible( true );
-        config.setSymbolLegendVisible( false );
         config.setEquilibriumExpressionsVisible( false );
         config.setReactionEquationsVisible( false );
-        // dialog controls
+        config.setKExpressionVisible( false );
+        config.setSymbolLegendVisible( false );
+        // scaling controls
+        config.setKExpressionScalingEnabled( false );
         config.setEquilibriumExpressionsScalingEnabled( false );
         config.setReactionEquationsScalingEnabled( false );
     }
