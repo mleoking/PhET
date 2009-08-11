@@ -10,10 +10,6 @@
     </wicket:remove>
     <wicket:head>
         <style type="text/css">
-            .admin-content {
-                padding: 10px;
-            }
-
             .simulation-list-holder {
                 border: 1px solid black;
                 margin: 10px;
@@ -47,26 +43,22 @@
 <body wicket:message="dir:language.dir">
 
 <wicket:extend>
-    <div class="admin-content">
-        <h1>Administration</h1>
-
-        Simulations to view / modify
-        <div class="simulation-list-holder">
-            <table class="simulation-list-table">
-                <tr>
-                    <th>Flavor</th>
-                    <th>Project</th>
-                    <th>Title (English)</th>
-                </tr>
-                <tr wicket:id="simulation-list">
-                    <td>
-                        <a wicket:id="simulation-link"><span wicket:id="simulation-name">Simulation Name</span></a>
-                    </td>
-                    <td wicket:id="simulation-project">Simulation Project</td>
-                    <td wicket:id="simulation-title">Simulation Title</td>
-                </tr>
-            </table>
-        </div>
+    Simulations to view / modify
+    <div class="simulation-list-holder">
+        <table class="simulation-list-table">
+            <tr>
+                <th>Flavor</th>
+                <th>Project</th>
+                <th>Title (English)</th>
+            </tr>
+            <tr wicket:id="simulation-list">
+                <td>
+                    <a wicket:id="simulation-link"><span wicket:id="simulation-name">Simulation Name</span></a>
+                </td>
+                <td wicket:id="simulation-project">Simulation Project</td>
+                <td wicket:id="simulation-title">Simulation Title</td>
+            </tr>
+        </table>
     </div>
 </wicket:extend>
 

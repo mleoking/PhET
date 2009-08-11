@@ -12,7 +12,6 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
-import edu.colorado.phet.wickettest.components.PhetLink;
 import edu.colorado.phet.wickettest.data.LocalizedSimulation;
 import edu.colorado.phet.wickettest.data.Simulation;
 
@@ -20,8 +19,6 @@ public class AdminMainPage extends AdminPage {
 
     public AdminMainPage( PageParameters parameters ) {
         super( parameters );
-
-        addTitle( "Administration section" );
 
         Session session = getHibernateSession();
         List<Simulation> simulations = new LinkedList();
@@ -69,9 +66,16 @@ public class AdminMainPage extends AdminPage {
 
         ListView simulationList = new ListView( "simulation-list", simulations ) {
             protected void populateItem( ListItem item ) {
-                Simulation simulation = (Simulation) item.getModel().getObject();
+                final Simulation simulation = (Simulation) item.getModel().getObject();
                 LocalizedSimulation lsim = englishSims.get( simulation );
-                Link link = new PhetLink( "simulation-link", "#" );
+                //Link link = new PhetLink( "simulation-link", "#" );
+                Link link = new Link( "simulation-link" ) {
+                    public void onClick() {
+                        PageParameters params = new PageParameters();
+                        params.put( "simulationId", simulation.getId() );
+                        setResponsePage( AdminSimPage.class, params );
+                    }
+                };
                 link.add( new Label( "simulation-name", simulation.getName() ) );
                 item.add( link );
                 item.add( new Label( "simulation-project", simulation.getProject().getName() ) );
