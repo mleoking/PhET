@@ -6,7 +6,13 @@
 <head>
     <title>[PREVIEW] SimulationMainPanel</title>
     <wicket:remove>
-        <link rel="stylesheet" type="text/css" href="../../../root/css/preview.css"/>
+        <link rel="stylesheet" type="text/css" href="../../../../../../../root/css/preview.css"/>
+        <style type="text/css">
+            .simulation-main-container {
+                width: 525px;
+                margin: 0 auto;
+            }
+        </style>
     </wicket:remove>
     <wicket:head>
         <style type="text/css">
@@ -39,13 +45,19 @@
         </div>
 
         <div class="simulation-main-image">
-            <a href="#" wicket:id="simulation-main-link-run-main" class="simulation-main-link-run-main">
+            <a href="SimulationMainPanel.html#" wicket:id="simulation-main-link-run-main"
+               class="simulation-main-link-run-main">
                 <img wicket:id="simulation-main-screenshot" class="simulation-main-screenshot"
-                     src="../../../template-files/images/arithmetic-screenshot.png"/>
+                     src="../../../../../../../template-files/images/arithmetic-screenshot.png"/>
             </a>
         </div>
 
         <div class="simulation-main-description" wicket:id="simulation-main-description">
+            This is a sample simulation description. It's probably longer than one sentence, usually just a few
+            sentences,
+            but it shouldn't really be too long. However, we need to handle translated languages that would make these
+            strings
+            much longer than they would be in English, so this length should help to test.
         </div>
 
         <h4>
@@ -56,7 +68,7 @@
             <table>
                 <tr wicket:id="simulation-main-translation-list" class="simulation-main-translation-list">
                     <td>
-                        <a href="#" wicket:id="simulation-main-translation-link">
+                        <a href="SimulationMainPanel.html#" wicket:id="simulation-main-translation-link">
                             <span wicket:id="simulation-main-translation-locale-name">Pig Latin</span>
                         </a>
                     </td>
