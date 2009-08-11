@@ -3,8 +3,13 @@
 package edu.colorado.phet.acidbasesolutions.module.solutions;
 
 import java.awt.geom.Dimension2D;
+import java.util.ArrayList;
+
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
+import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.control.MaximizeControlNode;
 import edu.colorado.phet.acidbasesolutions.control.MiscControlsNode;
 import edu.colorado.phet.acidbasesolutions.control.SolutionControlsNode;
@@ -37,6 +42,9 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
     private final SolutionsBeakerControlsNode beakerControlsNode;
     private final MiscControlsNode miscControlsNode;
     private final MaximizeControlNode graphMaximizeControlNode;
+    private final MaximizeControlNode reactionEquationsMaximizeControlNode;
+    private final MaximizeControlNode equilibriumExpressionsMaximizeControlNode;
+    private final ArrayList<MaximizeControlNode> exclusiveControls;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -57,10 +65,36 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         beakerControlsNode = new SolutionsBeakerControlsNode( getBackground(), beakerNode, solution );
         beakerControlsNode.scale( ABSConstants.PSWING_SCALE );
         
-        miscControlsNode = new MiscControlsNode( concentrationGraphNode, getBackground(), solution );
+        miscControlsNode = new MiscControlsNode( concentrationGraphNode, getBackground() );
         miscControlsNode.scale( ABSConstants.PSWING_SCALE );
         
-        graphMaximizeControlNode = new MaximizeControlNode( "Graph", new PDimension( 500, 560 ), concentrationGraphNode );
+        ChangeListener changeListener = new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                MaximizeControlNode source = ( (MaximizeControlNode) e.getSource() );
+                if ( source.isMaximized() ) {
+                    for ( MaximizeControlNode node : exclusiveControls ) {
+                        if ( node != source ) {
+                            node.setMaximized( false );
+                        }
+                    }
+                }
+                updateLayout();
+            }
+        };
+        
+        exclusiveControls = new ArrayList<MaximizeControlNode>();
+        
+        graphMaximizeControlNode = new MaximizeControlNode( ABSStrings.BUTTON_GRAPH, new PDimension( 500, 560 ), concentrationGraphNode );
+        graphMaximizeControlNode.addChangeListener( changeListener );
+        exclusiveControls.add( graphMaximizeControlNode );
+        
+        reactionEquationsMaximizeControlNode = new MaximizeControlNode( ABSStrings.BUTTON_REACTION_EQUATIONS, new PDimension( 500, 560 ), new PNode() );//XXX managed node
+        reactionEquationsMaximizeControlNode.addChangeListener( changeListener );
+        exclusiveControls.add( reactionEquationsMaximizeControlNode );
+        
+        equilibriumExpressionsMaximizeControlNode = new MaximizeControlNode( ABSStrings.BUTTON_EQUILIBRIUM_EXPRESSIONS, new PDimension( 500, 560 ), new PNode() );//XXX managed node
+        equilibriumExpressionsMaximizeControlNode.addChangeListener( changeListener );
+        exclusiveControls.add( equilibriumExpressionsMaximizeControlNode );
         
         // rendering order
         addNode( solutionControlsNode );
@@ -68,6 +102,8 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         addNode( miscControlsNode );
         addNode( beakerNode );
         addNode( graphMaximizeControlNode );
+        addNode( reactionEquationsMaximizeControlNode );
+        addNode( equilibriumExpressionsMaximizeControlNode );
     }
     
     //----------------------------------------------------------------------------
@@ -122,25 +158,31 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         yOffset = beakerNode.getYOffset() + ( 0.1 * SolutionsDefaults.BEAKER_SIZE.getHeight() );
         beakerControlsNode.setOffset( xOffset, yOffset );
         
-        // concentration graph to the right of beaker
-        double fudgeX = 50; // add space to handle widest label for solute ion ratio check box
-        xOffset = beakerControlsNode.getFullBoundsReference().getMaxX() + fudgeX;
+        // graph to the right of beaker
+        xOffset = beakerNode.getFullBoundsReference().getMaxX() + 215;
         yOffset = 0;
         graphMaximizeControlNode.setOffset( xOffset, yOffset );
         
-        // misc controls at bottom right, but don't overlap beaker
-        xOffset = concentrationGraphNode.getFullBoundsReference().getMaxX() - miscControlsNode.getFullBoundsReference().getWidth();
-        if ( xOffset < beakerNode.getFullBoundsReference().getMaxX() ) {
-            xOffset = beakerNode.getFullBoundsReference().getMaxX();
-        }
-        yOffset = beakerNode.getFullBoundsReference().getMaxY() - miscControlsNode.getFullBoundsReference().getHeight();
-        miscControlsNode.setOffset( xOffset, yOffset );
+        // reaction equations, below graph
+        xOffset = graphMaximizeControlNode.getXOffset();
+        yOffset = graphMaximizeControlNode.getFullBoundsReference().getMaxY() + 5;
+        reactionEquationsMaximizeControlNode.setOffset( xOffset, yOffset );
+        
+        // equilibrium expressions, below reaction equations
+        xOffset = reactionEquationsMaximizeControlNode.getXOffset();
+        yOffset = reactionEquationsMaximizeControlNode.getFullBoundsReference().getMaxY() + 5;
+        equilibriumExpressionsMaximizeControlNode.setOffset( xOffset, yOffset );
         
         // Reset All button at bottom center
         PNode resetAllButton = getResetAllButton();
         xOffset = beakerNode.getFullBoundsReference().getMaxX() + 10;
         yOffset = beakerNode.getFullBoundsReference().getMaxY() - resetAllButton.getFullBoundsReference().getHeight();
         resetAllButton.setOffset( xOffset , yOffset );
+        
+        // misc controls above reset button
+        xOffset = resetAllButton.getXOffset();
+        yOffset = resetAllButton.getFullBoundsReference().getY() - miscControlsNode.getFullBoundsReference().getHeight() - 5;
+        miscControlsNode.setOffset( xOffset, yOffset );
         
         centerRootNode();
     }

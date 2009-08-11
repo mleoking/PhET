@@ -93,6 +93,7 @@ public class MaximizeControlNode extends PhetPNode {
         this.minimizedSize = new PDimension( maximizedSize.getWidth(), minimizedHeight );
         
         // default state
+        isMaximized = true; // force an update
         setMaximized( false );
     }
 
@@ -101,18 +102,20 @@ public class MaximizeControlNode extends PhetPNode {
     }
     
     public void setMaximized( boolean b ) {
-        isMaximized = b;
-        if ( isMaximized ) {
-            buttonNode.setImage( ABSImages.MINIMIZE_BUTTON );
-            backgroundNode.setPathTo( new Rectangle2D.Double( 0, 0, maximizedSize.getWidth(), maximizedSize.getHeight() ) );
-            addChild( managedNode );
+        if ( b != isMaximized ) {
+            isMaximized = b;
+            if ( isMaximized ) {
+                buttonNode.setImage( ABSImages.MINIMIZE_BUTTON );
+                backgroundNode.setPathTo( new Rectangle2D.Double( 0, 0, maximizedSize.getWidth(), maximizedSize.getHeight() ) );
+                addChild( managedNode );
+            }
+            else {
+                buttonNode.setImage( ABSImages.MAXIMIZE_BUTTON );
+                backgroundNode.setPathTo( new Rectangle2D.Double( 0, 0, minimizedSize.getWidth(), minimizedSize.getHeight() ) );
+                removeChild( managedNode );
+            }
+            fireActionPerformed();
         }
-        else {
-            buttonNode.setImage( ABSImages.MAXIMIZE_BUTTON );
-            backgroundNode.setPathTo( new Rectangle2D.Double( 0, 0, minimizedSize.getWidth(), minimizedSize.getHeight() ) );
-            removeChild( managedNode );
-        }
-        fireActionPerformed();
     }
     
     public void addChangeListener( ChangeListener listener ) {
