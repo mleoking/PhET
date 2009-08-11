@@ -2,6 +2,7 @@ package edu.colorado.phet.therampscala.charts.bargraphs
 
 import common.phetcommon.view.util.SwingUtils
 import common.piccolophet.nodes.barchart.BarChartNode
+import common.piccolophet.nodes.ZoomControlNode
 import common.piccolophet.PhetPCanvas
 import java.awt.Color
 import java.awt.event.{ComponentEvent, ComponentAdapter, WindowEvent, WindowAdapter}
@@ -11,6 +12,7 @@ import umd.cs.piccolox.pswing.PSwing
 import scalacommon.util.Observable
 import model.RampModel
 import RampResources._
+
 class WorkEnergyChartModel extends Observable {
   private var defaultVisible = false;
   private var _visible = defaultVisible
@@ -42,15 +44,29 @@ class WorkEnergyChart(workEnergyChartModel: WorkEnergyChartModel, model: RampMod
   barChartNode.init(Array(totalEnergyVariable, kineticEnergyVariable, potentialEnergyVariable, thermalEnergyVariable,
     appliedWorkVariable, frictionWorkVariable, gravityWorkVariable))
   val canvas = new PhetPCanvas
-
   val clearButton = new PSwing(new MyJButton("controls.clear-heat".translate, () => model.clearHeat()))
-  canvas.addWorldChild(clearButton)
+  val zoomButton = new MyZoomButton() {
+    addZoomListener(new ZoomControlNode.ZoomListener() {
+      val myscale = 1.5
+
+      def doZoom(factor: Double) = barChartNode.setBarScale(barChartNode.getBarScale * factor)
+
+      def zoomedOut = doZoom(1 / myscale)
+
+      def zoomedIn = doZoom(myscale)
+    })
+  }
   barChartNode.setOffset(20, 20)
   canvas.addWorldChild(barChartNode)
+  canvas.addWorldChild(clearButton)
+  canvas.addWorldChild(zoomButton)
   dialog.setContentPane(canvas)
   dialog.setSize(300, 768)
   canvas.addComponentListener(new ComponentAdapter() {override def componentResized(e: ComponentEvent) = updateButtonLocations()})
-  def updateButtonLocations() = clearButton.setOffset(0, canvas.getHeight - clearButton.getFullBounds.getHeight)
+  def updateButtonLocations() = {
+    clearButton.setOffset(0, canvas.getHeight - clearButton.getFullBounds.getHeight)
+    zoomButton.setOffset(canvas.getWidth - zoomButton.getFullBounds.getWidth, canvas.getHeight - zoomButton.getFullBounds.getHeight)
+  }
   updateButtonLocations()
   dialog.addWindowListener(new WindowAdapter() {override def windowClosing(e: WindowEvent) = workEnergyChartModel.visible = false})
   SwingUtils.centerWindowOnScreen(dialog)
@@ -67,3 +83,5 @@ class WorkEnergyChart(workEnergyChartModel: WorkEnergyChartModel, model: RampMod
     barChartNode.update()
   }
 }
+
+class MyZoomButton extends ZoomControlNode(ZoomControlNode.VERTICAL)
