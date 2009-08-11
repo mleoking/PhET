@@ -1,7 +1,7 @@
 body {
     padding: 0;
     margin: 0;
-    font-family: "arial",Verdana,Arial,Helvetica,sans-serif;
+    font-family: "arial", Verdana, Arial, Helvetica, sans-serif;
     font-size: 12px;
 }
 
@@ -49,6 +49,6 @@ div.rtl #page-header-title {
 }
 
 #page-content {
-    /*width: 765px;*/
-    /*margin: 0 auto;*/
+/*width: 765px;*/
+/*margin: 0 auto;*/
 }

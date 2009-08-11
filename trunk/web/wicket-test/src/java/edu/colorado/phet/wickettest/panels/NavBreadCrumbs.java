@@ -3,6 +3,7 @@ package edu.colorado.phet.wickettest.panels;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.wicket.behavior.HeaderContributor;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
@@ -46,6 +47,8 @@ public class NavBreadCrumbs extends PhetPanel {
                 }
             };
             add( listView );
+
+            add( HeaderContributor.forCss( "/css/nav-breadcrumbs-v1.css" ) );
         }
     }
 }

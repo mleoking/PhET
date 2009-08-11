@@ -1,0 +1,25 @@
+.main-breadcrumb .breadcrumb-label {
+    font-size: 18px;
+    color: #d36a04;
+}
+
+.sub-breadcrumb .breadcrumb-label {
+    font-size: 14px;
+    color: #15337f;
+}
+
+.breadcrumb-link {
+
+    font-weight: bold;
+    padding-bottom: 10px;
+    text-decoration: none;
+}
+
+.breadcrumbs span {
+    vertical-align: baseline;
+}
+
+.breadcrumb-separator {
+    font-size: 14px;
+    color: #727272;
+}
