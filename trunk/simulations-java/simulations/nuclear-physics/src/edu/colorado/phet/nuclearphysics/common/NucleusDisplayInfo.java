@@ -216,8 +216,12 @@ public class NucleusDisplayInfo {
 
 	public static NucleusDisplayInfo getDisplayInfoForNucleusType(NucleusType nucleusType){
 		
-		NucleusDisplayInfo displayInfo = null;
+		if (nucleusType == null){
+			return null;
+		}
 		
+		NucleusDisplayInfo displayInfo = null;
+
 		switch (nucleusType){
 		case HYDROGEN_3:
 			displayInfo = HYDROGEN_3_DISPLAY_INFO;
@@ -388,8 +392,10 @@ public class NucleusDisplayInfo {
     		break;
     		
     	default:
-    		assert false;  // This is not a nucleus type that we know how to handle.
-    		throw new InvalidParameterException("Unrecognized nucleus type.");
+    		// This is not a nucleus type that we are familiar with.  This is
+    		// okay, we just return null.
+    		nucleusType = null;
+    		break;
     	}
 		
 		return nucleusType;

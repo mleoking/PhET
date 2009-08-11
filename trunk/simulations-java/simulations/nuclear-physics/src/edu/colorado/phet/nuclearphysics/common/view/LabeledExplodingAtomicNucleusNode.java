@@ -153,6 +153,17 @@ public class LabeledExplodingAtomicNucleusNode extends AbstractAtomicNucleusNode
         }
         
         NucleusDisplayInfo displayInfo = NucleusDisplayInfo.getDisplayInfoForNucleusConfig(numProtons, numNeutrons);
+        
+        if (displayInfo == null){
+        	// There is no display information available for this nucleus, so
+        	// set the labels to be essentially nothing and thus invisible.
+        	_isotopeChemSymbol.setText("");
+        	_isotopeChemSymbolShadow.setText("");
+        	_isotopeNumber.setText("");
+        	_isotopeNumberShadow.setText("");
+        	return;
+        }
+        
         String chemSymbol = displayInfo.getChemicalSymbol();
         String isotopeNumber = displayInfo.getIsotopeNumberString();
         Color labelColor = displayInfo.getLabelColor();
