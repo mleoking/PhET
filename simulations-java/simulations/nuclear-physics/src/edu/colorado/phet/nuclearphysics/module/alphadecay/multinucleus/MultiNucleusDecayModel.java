@@ -13,7 +13,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
 import edu.colorado.phet.nuclearphysics.common.NucleusType;
-import edu.colorado.phet.nuclearphysics.common.model.AbstractDecayNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.NuclearDecayModelListener;
 import edu.colorado.phet.nuclearphysics.model.AdjustableHalfLifeNucleus;
@@ -49,7 +48,7 @@ public class MultiNucleusDecayModel implements NucleusTypeControl {
 	
 	protected NuclearPhysicsClock _clock;
 	protected ArrayList _listeners = new ArrayList();
-	protected ArrayList<AbstractDecayNucleus> _atomicNuclei;
+	protected ArrayList<AtomicNucleus> _atomicNuclei;
 	protected NucleusType _currentNucleusType;
 	protected NucleusType _initialNucleusType;
 	protected AtomicNucleus.Adapter _nucleusListener;
@@ -144,7 +143,7 @@ public class MultiNucleusDecayModel implements NucleusTypeControl {
 	public int resetActiveAndDecayedNuclei() {
 		int resetCount = 0;
 		for (int i = 0; i < _atomicNuclei.size(); i++){
-			AbstractDecayNucleus nucleus = (AbstractDecayNucleus)_atomicNuclei.get(i);
+			AtomicNucleus nucleus = _atomicNuclei.get(i);
 			if (nucleus.isDecayActive() || nucleus.hasDecayed()){
 				nucleus.reset();
 				nucleus.activateDecay();
@@ -161,7 +160,7 @@ public class MultiNucleusDecayModel implements NucleusTypeControl {
 			// Cause the active nuclei to "jitter".  For efficiency, not every
 			// active nucleus is moved every time.
 			for (int i = _jitterOffsetCount; i < _atomicNuclei.size(); i = i + CLOCKS_PER_JITTER){
-				AbstractDecayNucleus nucleus = (AbstractDecayNucleus)_atomicNuclei.get(i);
+				AtomicNucleus nucleus = _atomicNuclei.get(i);
 				if (nucleus.isDecayActive() && !nucleus.isPaused()){
 					// This nucleus is active, so it should be jittered.
 					Point2D jitterOffset = _jitterOffsets[i];
@@ -241,7 +240,7 @@ public class MultiNucleusDecayModel implements NucleusTypeControl {
 	protected void removeAllNuclei() {
 		// Remove any existing nuclei and let the listeners know of their demise.
 		for (Iterator it = _atomicNuclei.iterator(); it.hasNext(); ){
-			AbstractDecayNucleus nucleus = (AbstractDecayNucleus)it.next();
+			AtomicNucleus nucleus = (AtomicNucleus)it.next();
 			nucleus.removeListener(_nucleusListener);
 			nucleus.removedFromModel();
 			notifyModelElementRemoved( nucleus );
@@ -255,7 +254,7 @@ public class MultiNucleusDecayModel implements NucleusTypeControl {
 	 */
 	protected void addMaxNuclei() {
 	
-		AbstractDecayNucleus newNucleus;
+		AtomicNucleus newNucleus;
 			
 		for (int i = 0; i < _maxNuclei; i++){
 			if (_currentNucleusType == NucleusType.POLONIUM_211){
@@ -380,7 +379,7 @@ public class MultiNucleusDecayModel implements NucleusTypeControl {
 	 */
 	public int getNumDecayedNuclei(){
 		int decayCount = 0;
-		for (AbstractDecayNucleus nucleus : _atomicNuclei){
+		for (AtomicNucleus nucleus : _atomicNuclei){
 			if (nucleus.hasDecayed()){
 				decayCount++;
 			}
@@ -394,7 +393,7 @@ public class MultiNucleusDecayModel implements NucleusTypeControl {
 	 */
 	public int getNumActiveNuclei(){
 		int activeCount = 0;
-		for (AbstractDecayNucleus nucleus : _atomicNuclei){
+		for (AtomicNucleus nucleus : _atomicNuclei){
 			if (nucleus.isDecayActive()){
 				activeCount++;
 			}

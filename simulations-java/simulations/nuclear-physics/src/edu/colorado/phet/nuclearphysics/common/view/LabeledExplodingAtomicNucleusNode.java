@@ -11,7 +11,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.common.NucleusDisplayInfo;
-import edu.colorado.phet.nuclearphysics.common.model.AbstractDecayNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -261,27 +260,16 @@ public class LabeledExplodingAtomicNucleusNode extends AbstractAtomicNucleusNode
 	protected void handleNucleusChangedEvent(AtomicNucleus atomicNucleus,
 			int numProtons, int numNeutrons, ArrayList byProducts) {
 		
-		if ( atomicNucleus instanceof AbstractDecayNucleus ){
-			if (((AbstractDecayNucleus)atomicNucleus).hasDecayed()){
-				// Kick off the explosion graphic.
-	            _explosionCounter = EXPLOSION_COUNTER_RESET_VAL;
-	            _explosion.setVisible( true );
-	            _explosion.setPickable(false);
-			}
-			else{
-				_explosion.setVisible(false);
-				_explosion.setPathTo(new Ellipse2D.Double(0,0,0,0));
-			}
+		if (atomicNucleus.hasDecayed()){
+			// Kick off the explosion graphic.
+            _explosionCounter = EXPLOSION_COUNTER_RESET_VAL;
+            _explosion.setVisible( true );
+            _explosion.setPickable(false);
 		}
-		else {
-	        int newAtomicWeight = numProtons + numNeutrons;
-	        if ((newAtomicWeight < _currentAtomicWeight) && (newAtomicWeight != 0) && (byProducts != null)){
-	            // This was a decay event, so kick off the explosion graphic.
-	            _explosionCounter = EXPLOSION_COUNTER_RESET_VAL;
-	            _explosion.setVisible( true );
-	            _explosion.setPickable(false);
-	        }
-	    }
+		else{
+			_explosion.setVisible(false);
+			_explosion.setPathTo(new Ellipse2D.Double(0,0,0,0));
+		}
 	    
 	    // Save the new weight.
 	    _currentAtomicWeight = numProtons + numNeutrons;

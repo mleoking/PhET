@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
 import edu.colorado.phet.nuclearphysics.common.NucleusType;
-import edu.colorado.phet.nuclearphysics.common.model.AbstractDecayNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.model.AdjustableHalfLifeNucleus;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
@@ -80,7 +79,7 @@ public class MultiNucleusAlphaDecayModel extends MultiNucleusDecayModel {
 		double inBucketPosX = BUCKET_ORIGIN_X + BUCKET_WIDTH / 2;
 		double inBucketPosY = BUCKET_ORIGIN_Y + BUCKET_HEIGHT / 2;
 
-		AbstractDecayNucleus newNucleus;
+		AtomicNucleus newNucleus;
 		
 		for (int i = 0; i < _maxNuclei; i++){
 			if (_currentNucleusType == NucleusType.POLONIUM_211){

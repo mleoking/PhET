@@ -4,13 +4,11 @@ package edu.colorado.phet.nuclearphysics.module.decayrates;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.Point2D.Double;
 import java.util.Iterator;
 import java.util.Random;
 
 import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
 import edu.colorado.phet.nuclearphysics.common.NucleusType;
-import edu.colorado.phet.nuclearphysics.common.model.AbstractDecayNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.model.AdjustableHalfLifeNucleus;
 import edu.colorado.phet.nuclearphysics.model.Carbon14Nucleus;
@@ -69,7 +67,7 @@ public class DecayRatesModel extends MultiNucleusDecayModel {
     	double activeCount = 0;
     	double decayedCount = 0;
     	for (Iterator it = _atomicNuclei.iterator(); it.hasNext(); ){
-    		AbstractDecayNucleus nucleus = (AbstractDecayNucleus)it.next();
+    		AtomicNucleus nucleus = (AtomicNucleus)it.next();
     		if (nucleus.isDecayActive()){
     			activeCount++;
     		}
@@ -148,7 +146,7 @@ public class DecayRatesModel extends MultiNucleusDecayModel {
 
 	protected void addMaxNuclei() {
 		
-		AbstractDecayNucleus newNucleus;
+		AtomicNucleus newNucleus;
 		
 		for ( int i = 0; i < _maxNuclei; i++ ){
 			if ( _currentNucleusType == NucleusType.CARBON_14 ){
@@ -195,7 +193,7 @@ public class DecayRatesModel extends MultiNucleusDecayModel {
     	if ( _atomicNuclei.size() > 0 ) {
     		// Calculate a minimum distance between nuclei based on the
     		// diameter of the current nucleus.
-    		minInterNucleusDistance = Math.min(((AbstractDecayNucleus)_atomicNuclei.get(0)).getDiameter() * 1.5,
+    		minInterNucleusDistance = Math.min(_atomicNuclei.get(0).getDiameter() * 1.5,
     				DEFAULT_MIN_INTER_NUCLEUS_DISTANCE);
     	}
     	
@@ -211,7 +209,7 @@ public class DecayRatesModel extends MultiNucleusDecayModel {
                 // Check if this point is available.
                 pointAvailable = true;
                 for (int k = 0; (k < _atomicNuclei.size()) && (pointAvailable == true); k++){
-                	AbstractDecayNucleus nucleus = (AbstractDecayNucleus)_atomicNuclei.get(k);
+                	AtomicNucleus nucleus = _atomicNuclei.get(k);
                     if (openLocation.distance(nucleus.getPositionReference()) < minInterNucleusDistance ||
                     	HOLDING_AREA_RECT.contains(openLocation)){
                         // This point is not available.

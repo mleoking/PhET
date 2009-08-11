@@ -31,7 +31,6 @@ import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.common.NucleusDisplayInfo;
 import edu.colorado.phet.nuclearphysics.common.NucleusType;
-import edu.colorado.phet.nuclearphysics.common.model.AbstractDecayNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.model.NuclearDecayListenerAdapter;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusDecayModel;
@@ -618,7 +617,7 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
     		
     		// Create a data set for this nucleus and add it to the internal
     		// map.
-    		_mapNucleiToNucleiData.put(modelElement, new NucleusData((AbstractDecayNucleus)modelElement));
+    		_mapNucleiToNucleiData.put(modelElement, new NucleusData((AtomicNucleus)modelElement));
     	}
 	}
 
@@ -853,7 +852,7 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
     	private static final int STATE_PRE_DECAY = 2;
     	private static final int STATE_POST_DECAY = 3;
     	
-    	private AbstractDecayNucleus _nucleus;
+    	private AtomicNucleus _nucleus;
 		private LabeledNucleusNode _nucleusNode;
     	private int _fallCount;
     	private double _fallTarget;
@@ -861,8 +860,8 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
     	private int _decayBucket;
     	private Point2D _bunchingOffset;
     	
-    	public NucleusData(AbstractDecayNucleus nucleus){
-    		_nucleus = nucleus;
+    	public NucleusData(AtomicNucleus modelElement){
+    		_nucleus = modelElement;
     		_fallCount = 0;
     		_fallTarget = 0;
     		_internalState = STATE_INACTIVE;

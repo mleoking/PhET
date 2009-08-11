@@ -24,6 +24,10 @@ public class HalfLifeInfo {
 	 */
 	public static double getHalfLifeForNucleusType(NucleusType nucleusType){
 
+		if (nucleusType == null){
+			return Double.POSITIVE_INFINITY;
+		}
+		
 		double halfLife;
 		
 		switch (nucleusType){
@@ -36,8 +40,20 @@ public class HalfLifeInfo {
 			halfLife = MultiNucleusDecayModel.convertYearsToMs( 5730 );
 			break;
 			
+		case POLONIUM_211:
+			halfLife = 516;
+			break;
+			
+		case URANIUM_235:
+			halfLife = MultiNucleusDecayModel.convertYearsToMs( 703800000 );
+			break;
+			
 		case URANIUM_238:
 			halfLife = MultiNucleusDecayModel.convertYearsToMs( 4.46E9 );
+			break;
+			
+		case HEAVY_CUSTOM:
+			halfLife = 900;
 			break;
 			
 		default:

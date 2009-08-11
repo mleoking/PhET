@@ -22,13 +22,11 @@ import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.common.NucleusType;
-import edu.colorado.phet.nuclearphysics.common.model.AbstractDecayNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.NuclearDecayControl;
 import edu.colorado.phet.nuclearphysics.common.view.AbstractAtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusImageType;
 import edu.colorado.phet.nuclearphysics.common.view.GrabbableNucleusImageNode;
-import edu.colorado.phet.nuclearphysics.model.AbstractAlphaDecayNucleus;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.HalfLifeInfo;
 import edu.colorado.phet.nuclearphysics.model.NuclearDecayListenerAdapter;
@@ -451,9 +449,7 @@ public class RadiometricElementDecayCanvas extends PhetPCanvas {
     	}
     	else{
     		// Pause this nucleus while it is being manipulated.
-    		if (grabbedNode.getNucleusRef() instanceof AbstractAlphaDecayNucleus){
-    			((AbstractDecayNucleus)grabbedNode.getNucleusRef()).setPaused(true);
-    		}
+   			grabbedNode.getNucleusRef().setPaused(true);
     	}
     }
 
@@ -472,17 +468,14 @@ public class RadiometricElementDecayCanvas extends PhetPCanvas {
     	}
     	else{
 	    	AtomicNucleus nucleus = releasedNode.getNucleusRef();
-	    	if (nucleus instanceof AbstractDecayNucleus){
-	    		AbstractDecayNucleus decayNucleus = (AbstractDecayNucleus)nucleus;
-	    		if (decayNucleus.isPaused()){
-	    			// Unpause this nucleus so that it continues towards decay.
-	    			decayNucleus.setPaused(false);
-	    		}
-	    		else{
-		    		// Cause this node to start moving towards fissioning.
-		    		((NuclearDecayControl)nucleus).activateDecay();
-	    		}
-	    	}
+    		if (nucleus.isPaused()){
+    			// Unpause this nucleus so that it continues towards decay.
+    			nucleus.setPaused(false);
+    		}
+    		else{
+	    		// Cause this node to start moving towards fissioning.
+	    		nucleus.activateDecay();
+    		}
     	}
     }
     

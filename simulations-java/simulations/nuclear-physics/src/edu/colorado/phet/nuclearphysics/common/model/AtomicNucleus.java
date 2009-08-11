@@ -4,6 +4,7 @@ package edu.colorado.phet.nuclearphysics.common.model;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -14,7 +15,7 @@ import edu.colorado.phet.nuclearphysics.common.NucleusDisplayInfo;
 import edu.colorado.phet.nuclearphysics.common.NucleusType;
 import edu.colorado.phet.nuclearphysics.model.HalfLifeInfo;
 
-public abstract class AtomicNucleus {
+public abstract class AtomicNucleus implements NuclearDecayControl {
     
     //------------------------------------------------------------------------
     // Class data
@@ -24,6 +25,7 @@ public abstract class AtomicNucleus {
     // force.
     public static final double DEFAULT_TUNNELING_REGION_RADIUS = 15;
     public static final double MAX_TUNNELING_REGION_RADIUS = 200;
+    public static final Random RAND = new Random();
     
     //------------------------------------------------------------------------
     // Instance data
@@ -33,7 +35,7 @@ public abstract class AtomicNucleus {
     protected NuclearPhysicsClock _clock;
     
     // List of registered listeners.
-    protected ArrayList _listeners = new ArrayList();
+    protected ArrayList<Listener> _listeners = new ArrayList<Listener>();
     
     // Location in space of the center of this nucleus.
     protected Point2D _position = new Point2D.Double();
@@ -53,27 +55,53 @@ public abstract class AtomicNucleus {
     protected int _numNeutrons;
     protected int _numProtons;
     
+    // Original number of neutrons and protons, needed for resets and possibly
+    // for determining whether decay has occurred.
+    protected final int _origNumNeutrons;
+    protected final int _origNumProtons;
+    
     // Used for deciding where particles tunnel to and how far they need
     // to go to tunnel out.
     protected double _tunnelingRegionRadius = DEFAULT_TUNNELING_REGION_RADIUS;
     
     // Diameter of the atom, calculated at init and when changes occur. 
     private double _diameter;
+
+    // Variables that describe and control the decay of the nucleus.
+	protected double _decayTime = 0;
+	protected double _activatedLifetime = 0;
+	protected double _halfLife = 0;
+	protected boolean _paused = false;
+	protected final double _decayTimeScalingFactor;
+
+	// Clock adapter for listening to the simulation clock.
+    private ClockAdapter _ca = new ClockAdapter(){
+        
+        /**
+         * Clock tick handler - causes the model to move forward one
+         * increment in time.
+         */
+        public void clockTicked(ClockEvent clockEvent){
+            handleClockTicked(clockEvent);
+        }
+    };
     
     //------------------------------------------------------------------------
     // Constructor
     //------------------------------------------------------------------------
     
     /**
-     * This constructor creates the constituent particles, i.e. the protons,
-     * neutrons, and alpha particles that will comprise the nucleus.  It is
-     * generally used when create a nucleus "from scratch".
+     * Constructor.
      */
-    public AtomicNucleus(NuclearPhysicsClock clock, Point2D position, int numProtons, int numNeutrons)
+    public AtomicNucleus(NuclearPhysicsClock clock, Point2D position, int numProtons, int numNeutrons, 
+    		double decayTimeScalingFactor)
     {
         _clock = clock;
         _numProtons = numProtons;
         _numNeutrons = numNeutrons;
+        _origNumProtons = numProtons;
+        _origNumNeutrons = numNeutrons;
+        _decayTimeScalingFactor = decayTimeScalingFactor;
 
         addClockListener();
         
@@ -83,6 +111,14 @@ public abstract class AtomicNucleus {
         
         // Calculate our diameter.
         updateDiameter();
+        
+        // Set the initial half life based on the nucleus' configuration.  It
+        // can be changed through a setter method if needed.
+      	_halfLife = HalfLifeInfo.getHalfLifeForNucleusConfig( _numProtons, _numNeutrons );
+    }
+    
+    public AtomicNucleus(NuclearPhysicsClock clock, Point2D position, int numProtons, int numNeutrons){
+    	this(clock, position, numProtons, numNeutrons, 1);
     }
     
     //------------------------------------------------------------------------
@@ -146,13 +182,27 @@ public abstract class AtomicNucleus {
         return _diameter;
     }
     
-    /**
-     * Get the half life for this nucleus.
-     */
-    public double getHalfLife(){
-    	return HalfLifeInfo.getHalfLifeForNucleusConfig(_numProtons, _numNeutrons);
-    }
-    
+	public double getDecayTime() {
+	    return _decayTime;
+	}
+
+	public double getHalfLife() {
+	    return _halfLife;
+	}
+	
+	public double getDecayTimeScalingFactor() {
+		return _decayTimeScalingFactor;
+	}
+
+	/**
+	 * Set the half life for this nucleus.
+	 * 
+	 * @param halfLife - Half life in milliseconds.
+	 */
+	public void setHalfLife(double halfLife) {
+	    _halfLife = halfLife;
+	}
+
     /**
      * Recalculate the diameter of this nucleus based on the number of protons
      * and neutrons that comprise it.
@@ -184,6 +234,79 @@ public abstract class AtomicNucleus {
         return _tunnelingRegionRadius;
     }
     
+	public boolean isPaused() {
+		return _paused;
+	}
+
+	public void setPaused(boolean paused) {
+		_paused = paused;
+	}
+
+	/**
+	 * This method starts the nucleus moving towards decay.
+	 */
+    public void activateDecay(){
+    	// Only allow activation if the nucleus hasn't already decayed.
+    	if (_numNeutrons == _origNumNeutrons){
+    		_decayTime = _clock.getSimulationTime() + calcDecayTime();
+    	}
+    }
+
+	/**
+	 * Returns a boolean value indicating whether the nucleus has decayed.
+	 * This will return false if the nucleus has not been activated.
+	 */
+	public boolean hasDecayed(){
+		// Not sure if this default implementation will apply to all types of
+		// decay, but it works for those implemented by the sim as of this
+		// writing.
+		if (_numProtons < _origNumProtons){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+
+	/**
+	 * Return true if decay is currently active and false if not.  Note that
+	 * this will return false if the nucleus has already decayed.
+	 */
+	public boolean isDecayActive() {
+		if (_decayTime != 0){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+
+	/**
+	 * Returns a value indicating how long in terms of simulation time the
+	 * nucleus has been active without having decayed.
+	 * 
+	 * @return Simulation time for which this nucleus has been activated, i.e.
+	 * progressing towards decay.
+	 */
+	public double getActivatedSimTime() {
+		return _activatedLifetime;
+	}
+	
+	/**
+	 * Returns a value indicating the amount of adjusted time that the nucleus
+	 * has been active without decaying.  Adjusted time is based on the time
+	 * adjustment factor that is used to scale the amount of time that a model
+	 * element has experienced such that it will generally decay in a
+	 * reasonable time frame (so that users aren't waiting around for
+	 * thousands of years for decay to occur).
+	 * 
+	 * @return Adjusted time in milliseconds for which this nucleus has been
+	 * activated, i.e. progressing towards decay.
+	 */
+	public double getAdjustedActivatedTime() {
+		return _activatedLifetime / _decayTimeScalingFactor;
+	}
+
     //------------------------------------------------------------------------
     // Other public methods
     //------------------------------------------------------------------------
@@ -206,9 +329,15 @@ public abstract class AtomicNucleus {
     /**
      * Reset the nucleus to its original state.
      */
-    public void reset(){
-        // Stubbed in base class.
-    }
+	public void reset() {
+	    // Reset the decay time to 0, indicating that it shouldn't occur
+	    // until something changes.
+	    _decayTime = 0;
+	    _activatedLifetime = 0;
+	
+	    // Make sure we are not paused.
+		_paused = false;
+	}
     
     /**
      * Give the nucleus a chance to capture a (presumably) free particle.
@@ -405,19 +534,69 @@ public abstract class AtomicNucleus {
             // Notify listeners of the position change.
             notifyPositionChanged();
         }
+        
+        // Take any action necessary related to decay.
+	    if (_decayTime != 0){
+		     
+	    	if (!_paused){
+	        	// See if decay should occur.
+		        if (clockEvent.getSimulationTime() >= _decayTime ) {
+		            // It is time to decay.
+		        	decay( clockEvent );
+		        }
+		        else{
+		        	// Not decaying yet, so updated the activated lifetime.
+		        	_activatedLifetime += clockEvent.getSimulationTimeChange();
+		        }
+	    	}
+	    	else{
+	    		// This atom is currently paused, so extend the decay time.
+	    		_decayTime += clockEvent.getSimulationTimeChange();
+	    	}
+	    }
     }
     
-    ClockAdapter _ca = new ClockAdapter(){
-        
-        /**
-         * Clock tick handler - causes the model to move forward one
-         * increment in time.
-         */
-        public void clockTicked(ClockEvent clockEvent){
-            handleClockTicked(clockEvent);
-        }
-    };
-    
+	/**
+	 * This method is called when decay occurs, and it defines the behavior
+	 * exhibited by the nucleus when it decays.  This method should be
+	 * implemented by all subclasses that exhibit decay behavior..
+	 */
+	protected void decay( ClockEvent clockEvent ){
+		// Does nothing by default.
+	}
+	
+    /**
+     * This method generates a value indicating the number of milliseconds for
+     * a nucleus decay based on the half life.  This calculation is based on the 
+     * exponential decay formula.
+     * 
+     * @return - a time value in milliseconds
+     */
+    private double calcDecayTime(){
+    	
+    	double decayTime;
+    	
+    	if (_halfLife <= 0){
+    		decayTime = 0;
+    	}
+    	else if (_halfLife == Double.POSITIVE_INFINITY){
+    		decayTime =  Double.POSITIVE_INFINITY;
+    	}
+    	else{
+    		double decayConstant = 0.693/_halfLife;
+    		double randomValue = RAND.nextDouble();
+    		if (randomValue > 0.999){
+    			// Limit the maximum time for decay so that the user isn't waiting
+    			// around forever.
+    			randomValue = 0.999;
+    		}
+    		decayTime =  (-(Math.log( 1 - randomValue ) / decayConstant));
+    	}
+    	
+    	return decayTime;
+    }
+
+	
     /**
      * Set ourself up to listen to the simulation clock.
      */
