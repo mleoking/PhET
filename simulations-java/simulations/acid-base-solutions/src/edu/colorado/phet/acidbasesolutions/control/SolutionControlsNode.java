@@ -260,6 +260,21 @@ public class SolutionControlsNode extends PhetPNode {
         }
     }
     
+    public boolean isKExpressionScalingEnabled() {
+        boolean enabled = kExpressionScalingEnabled;
+        if ( kExpressionDialog != null ) {
+            enabled = kExpressionDialog.isScalingEnabled();
+        }
+        return enabled;
+    }
+    
+    public void setKExpressionScalingEnabled( boolean enabled ) {
+        kExpressionScalingEnabled = enabled;
+        if ( kExpressionDialog != null ) {
+            kExpressionDialog.setScalingEnabled( enabled );
+        }
+    }
+    
     private void setConcentrationControlVisible( boolean visible ) {
         concentrationLabelNode.setVisible( visible );
         concentrationControlNode.setVisible( visible );
