@@ -1,6 +1,6 @@
 8/11/09 add "tear off" icons in Solutions tab (for discussion, they don't work)
 8/11/09 reorganize layout of Solutions tab
-8/11/09 replace "View" buttons with maximize/minimize buttons for graph and equations in Solutions tab
+8/11/09 replace "View" check boxes with maximize/minimize buttons for graph and equations in Solutions tab
 8/11/09 add "K=" button next to strength slider in Solutions tab
 8/11/09 add sim description to Help->About
 7/23/09 change "Animate symbol size" to "Animate"
