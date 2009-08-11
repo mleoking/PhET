@@ -4,6 +4,7 @@ package edu.colorado.phet.nuclearphysics.view;
 
 
 import edu.colorado.phet.nuclearphysics.common.model.Nucleon;
+import edu.colorado.phet.nuclearphysics.model.SubatomicParticle;
 
 
 /**
@@ -29,7 +30,7 @@ public class ProtonModelNode extends ProtonNode implements NucleonModelNode{
     {
         _nucleon = nucleon;
         _protonListener = new Nucleon.Listener(){
-            public void positionChanged()
+            public void positionChanged(SubatomicParticle particle)
             {
                 update();
             }

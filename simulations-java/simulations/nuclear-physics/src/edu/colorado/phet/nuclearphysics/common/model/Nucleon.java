@@ -3,7 +3,6 @@
 package edu.colorado.phet.nuclearphysics.common.model;
 
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
 import java.util.Random;
 
 import edu.colorado.phet.nuclearphysics.model.SubatomicParticle;
@@ -14,7 +13,7 @@ import edu.colorado.phet.nuclearphysics.model.SubatomicParticle;
  *
  * @author John Blanco
  */
-public class Nucleon implements SubatomicParticle {
+public class Nucleon extends SubatomicParticle {
     //------------------------------------------------------------------------
     // Class data
     //------------------------------------------------------------------------
@@ -25,14 +24,6 @@ public class Nucleon implements SubatomicParticle {
     //------------------------------------------------------------------------
     // Instance data
     //------------------------------------------------------------------------
-    private ArrayList _listeners = new ArrayList();
-    
-    // Location in space of this particle.
-    private Point2D.Double _position;
-    
-    // Velocity of this particle.
-    private double _xVelocity;
-    private double _yVelocity;
     
     // Boolean that controls whether this particle should exhibit quantum
     // tunneling behavior.
@@ -65,46 +56,8 @@ public class Nucleon implements SubatomicParticle {
      * @param tunnelingEnabled - Controls whether this particle should exhibit
      */
     public Nucleon(double xPos, double yPos, double xVel, double yVel, boolean tunnelingEnabled){
-        _position = new Point2D.Double(xPos, yPos);
-        _xVelocity = xVel;
-        _yVelocity = yVel;
+    	super(xPos, yPos, xVel, yVel);
         _tunnelingEnabled = tunnelingEnabled;
-    }
-    
-    //------------------------------------------------------------------------
-    // Accessor methods
-    //------------------------------------------------------------------------
-    
-    public Point2D.Double getPosition()
-    {
-        return new Point2D.Double(_position.getX(), _position.getY());
-    }
-    
-    public Point2D.Double getPositionReference()
-    {
-        return _position;
-    }
-    
-    public void setPosition(Point2D newPosition)
-    {
-        _position.setLocation( newPosition );
-
-        // Notify all listeners of the position change.
-        for (int i = 0; i < _listeners.size(); i++)
-        {
-            ((Listener)_listeners.get( i )).positionChanged(); 
-        }        
-    }
-    
-    public void setPosition(double xPos, double yPos)
-    {
-        _position.setLocation( xPos, yPos );
-
-        // Notify all listeners of the position change.
-        for (int i = 0; i < _listeners.size(); i++)
-        {
-            ((Listener)_listeners.get( i )).positionChanged(); 
-        }        
     }
     
     public void setTunnelingEnabled(boolean tunnelingEnabled){
@@ -113,11 +66,6 @@ public class Nucleon implements SubatomicParticle {
     
     public boolean getTunnelingEnabled(){
         return _tunnelingEnabled;
-    }
-    
-    public void setVelocity(double xVel, double yVel){
-        _xVelocity = xVel;
-        _yVelocity = yVel;
     }
     
     //------------------------------------------------------------------------
@@ -160,52 +108,7 @@ public class Nucleon implements SubatomicParticle {
             double yPos = Math.sin( newAngle ) * newRadius;
             
             // Save the new position.
-            _position.setLocation( xPos + center.getX(), yPos + center.getY());
-    
-            // Notify all listeners of the position change.
-            for (int i = 0; i < _listeners.size(); i++)
-            {
-                ((Listener)_listeners.get( i )).positionChanged(); 
-            }        
+            setPosition( xPos + center.getX(), yPos + center.getY());
         }
-    }
-    
-    /**
-     * Moves this particle based on its current velocity.
-     */
-    public void translate(){
-        
-        // Update the position.
-        _position.x += _xVelocity;
-        _position.y += _yVelocity;        
-
-        // Notify all listeners of the position change.
-        for (int i = 0; i < _listeners.size(); i++)
-        {
-            ((Listener)_listeners.get( i )).positionChanged(); 
-        }        
-    }
-    
-    //------------------------------------------------------------------------
-    // Listener support
-    //------------------------------------------------------------------------
-
-    public void addListener(Listener listener)
-    {
-        if (_listeners.contains( listener ))
-        {
-            // Don't bother re-adding.
-            return;
-        }
-        
-        _listeners.add( listener );
-    }
-    
-    public void removeListener(Listener listener){
-    	_listeners.remove(listener);
-    }
-    
-    public static interface Listener {
-        void positionChanged();
     }
 }

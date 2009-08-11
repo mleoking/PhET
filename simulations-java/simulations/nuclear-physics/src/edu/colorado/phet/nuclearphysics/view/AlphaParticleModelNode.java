@@ -4,6 +4,7 @@ package edu.colorado.phet.nuclearphysics.view;
 
 
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
+import edu.colorado.phet.nuclearphysics.model.SubatomicParticle;
 
 /**
  * This class is used to represent an alpha particle in the view and extends
@@ -28,8 +29,8 @@ public class AlphaParticleModelNode extends AlphaParticleNode {
     public AlphaParticleModelNode(AlphaParticle alphaParticle)
     {
         _alphaParticle = alphaParticle;
-        _alphaParticleListener = new AlphaParticle.Listener(){
-            public void positionChanged(AlphaParticle alpha)
+        _alphaParticleListener = new SubatomicParticle.Listener(){
+            public void positionChanged(SubatomicParticle alpha)
             {
                 update();
             }
