@@ -28,7 +28,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class MaximizeControlNode extends PhetPNode {
     
     private static final int X_SPACING = 6;
-    private static final int X_MARGIN = 6;
+    private static final int X_MARGIN = 15;
     private static final int Y_MARGIN = 6;
     
     private static final Stroke BACKGROUND_STROKE = new BasicStroke( 1f );
@@ -92,7 +92,7 @@ public class MaximizeControlNode extends PhetPNode {
         double yOffset = Y_MARGIN;
         buttonNode.setOffset( xOffset, yOffset );
         xOffset = buttonNode.getFullBoundsReference().getMaxX() + X_SPACING;
-        yOffset = buttonNode.getFullBoundsReference().getCenterX() - ( labelNode.getFullBoundsReference().getHeight() / 2 );
+        yOffset = buttonNode.getFullBoundsReference().getCenterY() - ( labelNode.getFullBoundsReference().getHeight() / 2 );
         labelNode.setOffset( xOffset, yOffset );
         xOffset = maximizedSize.getWidth() - tearOffNode.getFullBoundsReference().getWidth() - X_MARGIN;
         yOffset = buttonNode.getFullBoundsReference().getCenterY() - ( tearOffNode.getFullBoundsReference().getHeight() / 2 );

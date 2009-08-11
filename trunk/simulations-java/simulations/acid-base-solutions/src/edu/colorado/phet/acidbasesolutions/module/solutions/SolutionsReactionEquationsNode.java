@@ -1,31 +1,36 @@
 package edu.colorado.phet.acidbasesolutions.module.solutions;
 
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import edu.colorado.phet.acidbasesolutions.control.EquationScalingControl;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.SolutionListener;
+import edu.colorado.phet.acidbasesolutions.util.PNodeUtils;
 import edu.colorado.phet.acidbasesolutions.view.reactionequations.AbstractReactionEquationNode;
 import edu.colorado.phet.acidbasesolutions.view.reactionequations.AcidReactionEquationNode;
 import edu.colorado.phet.acidbasesolutions.view.reactionequations.BaseReactionEquationNode;
 import edu.colorado.phet.acidbasesolutions.view.reactionequations.WaterReactionEquationNode;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 
 public class SolutionsReactionEquationsNode extends PhetPNode {
     
-    private static final double Y_SPACING = 65;
+    private static final double X_MARGIN = 20;
+    private static final double Y_SPACING = 50;
     private static final boolean LEWIS_STRUCTURES_ENABLED = true;
     
     private final AqueousSolution solution;
     private final SolutionListener solutionListener;
     
-    private AbstractReactionEquationNode soluteReactionEquationNode;
-    private final WaterReactionEquationNode waterReactionEquationNode;
+    private final EquationScalingControl scalingControl;
+    private final PSwing scalingControlWrapper;
+    private AbstractReactionEquationNode soluteNode;
+    private final WaterReactionEquationNode waterNode;
     
     public SolutionsReactionEquationsNode( final AqueousSolution solution ) {
         super();
-
-        // not interactive
-        setPickable( false );
-        setChildrenPickable( false );
 
         this.solution = solution;
         this.solutionListener = new SolutionListener() {
@@ -44,13 +49,23 @@ public class SolutionsReactionEquationsNode extends PhetPNode {
         };
         this.solution.addSolutionListener( solutionListener );
         
+        // scaling control
+        scalingControl = new EquationScalingControl();
+        scalingControl.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                setScalingEnabled( scalingControl.isScalingEnabled() );
+            }
+        });
+        scalingControlWrapper = new PSwing( scalingControl );
+        addChild( scalingControlWrapper );
+        
         // solute reaction equation, set based on solution
-        soluteReactionEquationNode = null;
+        soluteNode = null;
         
         // water reaction equation
-        waterReactionEquationNode = new WaterReactionEquationNode( solution );
-        waterReactionEquationNode.setStructuresEnabled( LEWIS_STRUCTURES_ENABLED );
-        addChild( waterReactionEquationNode );
+        waterNode = new WaterReactionEquationNode( solution );
+        waterNode.setStructuresEnabled( LEWIS_STRUCTURES_ENABLED );
+        addChild( waterNode );
         
         handleSoluteChanged();
     }
@@ -58,64 +73,71 @@ public class SolutionsReactionEquationsNode extends PhetPNode {
     private void handleSoluteChanged() {
 
         // remove any existing solute equation
-        if ( soluteReactionEquationNode != null ) {
-            removeChild( soluteReactionEquationNode );
-            soluteReactionEquationNode = null;
+        if ( soluteNode != null ) {
+            removeChild( soluteNode );
+            soluteNode = null;
         }
 
         // create the proper type of solute equations 
         if ( solution.isAcidic() ) {
-            soluteReactionEquationNode = new AcidReactionEquationNode( solution );
+            soluteNode = new AcidReactionEquationNode( solution );
         }
         else if ( solution.isBasic() ) {
-            soluteReactionEquationNode = new BaseReactionEquationNode( solution );
+            soluteNode = new BaseReactionEquationNode( solution );
         }
 
         // add the new solute equations
-        if ( soluteReactionEquationNode != null ) {
-            addChild( soluteReactionEquationNode );
-            soluteReactionEquationNode.setStructuresEnabled( LEWIS_STRUCTURES_ENABLED );
-            soluteReactionEquationNode.setScalingEnabled( waterReactionEquationNode.isScalingEnabled() );
+        if ( soluteNode != null ) {
+            addChild( soluteNode );
+            soluteNode.setStructuresEnabled( LEWIS_STRUCTURES_ENABLED );
+            soluteNode.setScalingEnabled( waterNode.isScalingEnabled() );
         }
         
         // update the water equation
-        waterReactionEquationNode.update();
+        waterNode.update();
         
         updateLayout();
     }
 
     private void handleConcentrationOrStrengthChanged() {
-        if ( soluteReactionEquationNode != null ) {
-            soluteReactionEquationNode.update();
+        if ( soluteNode != null ) {
+            soluteNode.update();
         }
-        waterReactionEquationNode.update();
+        waterNode.update();
     }
 
     public void setScalingEnabled( boolean enabled ) {
-        if ( soluteReactionEquationNode != null ) {
-            soluteReactionEquationNode.setScalingEnabled( enabled );
+        if ( soluteNode != null ) {
+            soluteNode.setScalingEnabled( enabled );
         }
-        waterReactionEquationNode.setScalingEnabled( enabled );
+        waterNode.setScalingEnabled( enabled );
     }
     
     private void updateLayout() {
         
         // do layout with scaling off
-        final boolean scalingWasEnabled = waterReactionEquationNode.isScalingEnabled();
+        final boolean scalingWasEnabled = waterNode.isScalingEnabled();
         setScalingEnabled( false );
         
-        double xOffset = 0;
-        double yOffset = 0;
+        scalingControlWrapper.setOffset( 0, Y_SPACING );
+        
+        double xOffset = scalingControlWrapper.getXOffset();
+        double yOffset = scalingControlWrapper.getFullBoundsReference().getMaxY();
         
         // solute reaction equation
-        if ( soluteReactionEquationNode != null ) {
-            soluteReactionEquationNode.setOffset( xOffset, yOffset );
-            yOffset = soluteReactionEquationNode.getFullBoundsReference().getMaxY() + Y_SPACING;
+        if ( soluteNode != null ) {
+            xOffset = xOffset - PNodeUtils.getOriginXOffset( soluteNode ) + X_MARGIN;
+            yOffset = yOffset - PNodeUtils.getOriginYOffset( soluteNode ) + Y_SPACING;
+            soluteNode.setOffset( xOffset, yOffset );
+            xOffset = 0;
+            yOffset = soluteNode.getFullBoundsReference().getMaxY();
         }
         
         // water reaction equation
-        waterReactionEquationNode.setOffset( xOffset, yOffset );
-        yOffset = waterReactionEquationNode.getFullBoundsReference().getMaxY() + Y_SPACING;
+        xOffset = xOffset - PNodeUtils.getOriginXOffset( waterNode ) + X_MARGIN;
+        yOffset = yOffset - PNodeUtils.getOriginYOffset( waterNode ) + Y_SPACING;
+        waterNode.setOffset( xOffset, yOffset );
+        yOffset = waterNode.getFullBoundsReference().getMaxY() - PNodeUtils.getOriginYOffset( waterNode ) + Y_SPACING;
         
         // restore scaling
         setScalingEnabled( scalingWasEnabled );

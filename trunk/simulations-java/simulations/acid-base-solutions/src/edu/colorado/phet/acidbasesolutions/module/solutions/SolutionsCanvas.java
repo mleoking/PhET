@@ -94,11 +94,11 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         graphMaximizeControlNode.addChangeListener( changeListener );
         exclusiveControls.add( graphMaximizeControlNode );
         
-        reactionEquationsMaximizeControlNode = new MaximizeControlNode( ABSStrings.BUTTON_REACTION_EQUATIONS, new PDimension( 500, 560 ), reactionEquationsNode );
+        reactionEquationsMaximizeControlNode = new MaximizeControlNode( ABSStrings.BUTTON_REACTION_EQUATIONS, new PDimension( 500, 450 ), reactionEquationsNode );
         reactionEquationsMaximizeControlNode.addChangeListener( changeListener );
         exclusiveControls.add( reactionEquationsMaximizeControlNode );
         
-        equilibriumExpressionsMaximizeControlNode = new MaximizeControlNode( ABSStrings.BUTTON_EQUILIBRIUM_EXPRESSIONS, new PDimension( 500, 560 ), equilibriumExpressionsNode );
+        equilibriumExpressionsMaximizeControlNode = new MaximizeControlNode( ABSStrings.BUTTON_EQUILIBRIUM_EXPRESSIONS, new PDimension( 500, 380 ), equilibriumExpressionsNode );
         equilibriumExpressionsMaximizeControlNode.addChangeListener( changeListener );
         exclusiveControls.add( equilibriumExpressionsMaximizeControlNode );
         
