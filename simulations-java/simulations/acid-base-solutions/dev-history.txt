@@ -7,7 +7,6 @@ TODO:
 - when animate is turned on/off, animate the symbols growing
 - change graphs/equations/expressions check boxes to radio buttons
 - replace graph with equations or expressions, depending on radio button selection
-- sim description
 - save/load locations of dialogs
 - Spanish translation, to test i18n
 - more complete legend for symbols and colors (pending interviews)
@@ -15,6 +14,7 @@ TODO:
 - make symbol legend descriptions automatically wrap, so we don't need breaks in HTML markup
 
 DONE:
+8/11/09 sim description
 8/11/09 change title of K expression dialog to "Equilibrium Expression" (singular)
 8/11/09 save/load state of scaling control in K expression dialog
 8/11/09 restore scaling state when K expression dialog is reopened
