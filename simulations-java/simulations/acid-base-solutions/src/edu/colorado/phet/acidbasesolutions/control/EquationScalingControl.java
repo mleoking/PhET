@@ -96,9 +96,8 @@ public class EquationScalingControl extends JPanel {
     
     private void notifyStateChanged() {
         ChangeEvent event = new ChangeEvent( this );
-        Iterator<ChangeListener> i = listeners.iterator();
-        while ( i.hasNext() ) {
-            i.next().stateChanged( event );
+        for ( ChangeListener listener : listeners ) {
+            listener.stateChanged( event );
         }
     }
 }
