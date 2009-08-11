@@ -742,7 +742,7 @@ public class NuclearDecayProportionChart extends PNode {
 		 * Constructor
 		 * 
 		 * @param parentChart
-		 * @param lineGraph TODO
+		 * @param lineGraph
 		 */
 		public GraphNode( NuclearDecayProportionChart parentChart, boolean lineGraph ) {
 
@@ -1402,12 +1402,11 @@ public class NuclearDecayProportionChart extends PNode {
             setBackground( NuclearPhysicsConstants.CHART_BACKGROUND_COLOR );
 
     		// Create and add the buttons.
-    		// TODO: Made this strings into resources.
-    		_percentC14RadioButton = new JRadioButton("% C14");
+    		_percentC14RadioButton = new JRadioButton(NuclearPhysicsStrings.DECAY_PROPORTIONS_PERCENT_C14);
     		_percentC14RadioButton.setFont(LABEL_FONT);
     		_percentC14RadioButton.setBackground(getBackground());
     		add(_percentC14RadioButton);
-    		_c14C12RatioRadioButton = new JRadioButton("C14/C12 ratio");
+    		_c14C12RatioRadioButton = new JRadioButton(NuclearPhysicsStrings.DECAY_PROPORTIONS_C14_C12_RATIO);
     		_c14C12RatioRadioButton.setFont(LABEL_FONT);
     		_c14C12RatioRadioButton.setBackground(getBackground());
     		add(_c14C12RatioRadioButton);
