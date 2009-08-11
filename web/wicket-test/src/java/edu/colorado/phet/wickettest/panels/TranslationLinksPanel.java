@@ -3,6 +3,7 @@ package edu.colorado.phet.wickettest.panels;
 import java.util.Locale;
 
 import org.apache.wicket.behavior.AttributeAppender;
+import org.apache.wicket.behavior.HeaderContributor;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
@@ -43,5 +44,7 @@ public class TranslationLinksPanel extends PhetPanel {
             }
         };
         add( listView );
+
+        add( HeaderContributor.forCss( "/css/translation-links-v1.css" ) );
     }
 }

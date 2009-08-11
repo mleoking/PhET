@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
+import org.apache.wicket.behavior.HeaderContributor;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
@@ -74,6 +75,8 @@ public class SimulationMainPanel extends PhetPanel {
         if ( models.isEmpty() ) {
             simulationList.setVisible( false );
         }
+
+        add( HeaderContributor.forCss( "/css/simulation-main-v1.css" ) );
     }
 
 }

@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.wicket.PageParameters;
+import org.apache.wicket.behavior.HeaderContributor;
 
 import edu.colorado.phet.wickettest.menu.NavLocation;
 import edu.colorado.phet.wickettest.panels.SideNavMenu;
@@ -16,6 +17,7 @@ public abstract class PhetMenuPage extends PhetPage {
 
         add( new SponsorsPanel( "sponsors-panel", getPageContext() ) );
         add( new TranslationLinksPanel( "translation-links", getPageContext() ) );
+        add( HeaderContributor.forCss( "/css/menu-page-v1.css" ) );
 
     }
 

@@ -1,4 +1,9 @@
-@import url(phetpage-v1.css);
-@import url(sponsors-v1.css);
 @import url(home-v1.css);
+@import url(menu-page-v1.css);
+@import url(nav-breadcrumbs-v1.css);
+@import url(phetpage-v1.css);
+@import url(simulation-display-v1.css);
+@import url(simulation-main-v1.css);
+@import url(sponsors-v1.css);
+@import url(translation-links-v1.css);
 @import url(troubleshooting-v1.css);

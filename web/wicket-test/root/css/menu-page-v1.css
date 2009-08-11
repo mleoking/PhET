@@ -1,0 +1,44 @@
+div.ltr #side-panel {
+    float: left;
+    width: 240px;
+}
+
+div.rtl #side-panel {
+    float: right;
+    width: 240px;
+}
+
+div.ltr #main-content {
+    margin-left: 240px;
+}
+
+div.rtl #main-content {
+    margin-right: 240px;
+}
+
+div.main-footer {
+    clear: both;
+    margin-bottom: 30px;
+}
+
+div.main-footer-spacer {
+    padding-bottom: 20px;
+}
+
+div.other-languages {
+    border-top: 1px solid gray;
+    padding-top: 10px;
+    text-align: center;
+}
+
+div.menu-page-content {
+    width: 765px;
+    margin: 0 auto;
+}
+
+div.copyright {
+    margin: 0 auto;
+    text-align: center;
+    font-size: 12px;
+    padding-top: 5px;
+}

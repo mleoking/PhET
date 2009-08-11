@@ -4,6 +4,7 @@ import java.text.MessageFormat;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.wicket.behavior.HeaderContributor;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.GridView;
@@ -40,6 +41,8 @@ public class SimulationDisplayPanel extends PhetPanel {
         };
         gridView.setColumns( 3 );
         add( gridView );
+
+        add( HeaderContributor.forCss( "/css/simulation-display-v1.css" ) );
 
     }
 
