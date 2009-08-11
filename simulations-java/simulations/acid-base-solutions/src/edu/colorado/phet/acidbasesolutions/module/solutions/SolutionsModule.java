@@ -7,7 +7,7 @@ import java.awt.Frame;
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.AcidBaseSolutionsApplication;
 import edu.colorado.phet.acidbasesolutions.control.BeakerControlsNode;
-import edu.colorado.phet.acidbasesolutions.control.MiscControlsNode;
+import edu.colorado.phet.acidbasesolutions.control.LegendControlNode;
 import edu.colorado.phet.acidbasesolutions.control.SolutionControlsNode;
 import edu.colorado.phet.acidbasesolutions.model.ABSClock;
 import edu.colorado.phet.acidbasesolutions.model.SoluteFactory;
@@ -83,25 +83,25 @@ public class SolutionsModule extends ABSAbstractModule {
         super.activate();
         
         SolutionControlsNode solutionControlsNode = canvas.getSolutionControlsNode();
-        MiscControlsNode miscControlsNode = canvas.getMiscControlsNode();
+        LegendControlNode miscControlsNode = canvas.getLegendControlNode();
         
         // restore state of dialogs
         solutionControlsNode.setKExpressionDialogOpen( kExpressionDialogWasOpen );
-        miscControlsNode.setSymbolLegendSelected( symbolLegendDialogWasOpen );
+        miscControlsNode.setSelected( symbolLegendDialogWasOpen );
     }
     
     public void deactivate() {
         
         SolutionControlsNode solutionControlsNode = canvas.getSolutionControlsNode();
-        MiscControlsNode miscControlsNode = canvas.getMiscControlsNode();
+        LegendControlNode miscControlsNode = canvas.getLegendControlNode();
         
         // save state of open dialogs
         kExpressionDialogWasOpen = solutionControlsNode.isKExpressionDialogOpen();
-        symbolLegendDialogWasOpen = miscControlsNode.isSymbolLegendSelected();
+        symbolLegendDialogWasOpen = miscControlsNode.isSelected();
         
         // hide any open dialogs
         solutionControlsNode.setKExpressionDialogOpen( false );
-        miscControlsNode.setSymbolLegendSelected( false );
+        miscControlsNode.setSelected( false );
         
         // deactivate
         super.deactivate();
@@ -131,8 +131,8 @@ public class SolutionsModule extends ABSAbstractModule {
         config.setMoleculeCountsVisible( beakerControls.isMoleculeCountsSelected() );
         config.setBeakerLabelVisible( beakerControls.isLabelSelected() );
         
-        MiscControlsNode miscControls = canvas.getMiscControlsNode();
-        config.setSymbolLegendVisible( miscControls.isSymbolLegendSelected() );
+        LegendControlNode miscControls = canvas.getLegendControlNode();
+        config.setSymbolLegendVisible( miscControls.isSelected() );
         
         return config;
     }
@@ -162,7 +162,7 @@ public class SolutionsModule extends ABSAbstractModule {
         beakerControls.setLabelSelected( config.isBeakerLabelVisible() );
 
         // misc controls
-        MiscControlsNode miscControls = canvas.getMiscControlsNode();
-        miscControls.setSymbolLegendSelected( config.isSymbolLegendVisible() );
+        LegendControlNode miscControls = canvas.getLegendControlNode();
+        miscControls.setSelected( config.isSymbolLegendVisible() );
     }
 }

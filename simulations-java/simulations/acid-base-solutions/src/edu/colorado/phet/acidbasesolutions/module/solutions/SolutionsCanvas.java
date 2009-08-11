@@ -11,7 +11,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.control.MaximizeControlNode;
-import edu.colorado.phet.acidbasesolutions.control.MiscControlsNode;
+import edu.colorado.phet.acidbasesolutions.control.LegendControlNode;
 import edu.colorado.phet.acidbasesolutions.control.SolutionControlsNode;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.module.ABSAbstractCanvas;
@@ -42,7 +42,7 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
     // Controls
     private final SolutionControlsNode solutionControlsNode;
     private final SolutionsBeakerControlsNode beakerControlsNode;
-    private final MiscControlsNode miscControlsNode;
+    private final LegendControlNode legendControlNode;
     private final MaximizeControlNode graphMaximizeControlNode;
     private final MaximizeControlNode reactionEquationsMaximizeControlNode;
     private final MaximizeControlNode equilibriumExpressionsMaximizeControlNode;
@@ -71,8 +71,8 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         beakerControlsNode = new SolutionsBeakerControlsNode( getBackground(), beakerNode, solution );
         beakerControlsNode.scale( ABSConstants.PSWING_SCALE );
         
-        miscControlsNode = new MiscControlsNode( concentrationGraphNode, getBackground() );
-        miscControlsNode.scale( ABSConstants.PSWING_SCALE );
+        legendControlNode = new LegendControlNode( getBackground() );
+        legendControlNode.scale( ABSConstants.PSWING_SCALE );
         
         ChangeListener changeListener = new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -105,7 +105,7 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         // rendering order
         addNode( solutionControlsNode );
         addNode( beakerControlsNode );
-        addNode( miscControlsNode );
+        addNode( legendControlNode );
         addNode( beakerNode );
         addNode( graphMaximizeControlNode );
         addNode( reactionEquationsMaximizeControlNode );
@@ -124,8 +124,8 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         return beakerControlsNode;
     }
     
-    public MiscControlsNode getMiscControlsNode() {
-        return miscControlsNode;
+    public LegendControlNode getLegendControlNode() {
+        return legendControlNode;
     }
     
     //----------------------------------------------------------------------------
@@ -187,8 +187,8 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         
         // misc controls above reset button
         xOffset = resetAllButton.getXOffset();
-        yOffset = resetAllButton.getFullBoundsReference().getY() - miscControlsNode.getFullBoundsReference().getHeight() - 5;
-        miscControlsNode.setOffset( xOffset, yOffset );
+        yOffset = resetAllButton.getFullBoundsReference().getY() - legendControlNode.getFullBoundsReference().getHeight() - 5;
+        legendControlNode.setOffset( xOffset, yOffset );
         
         centerRootNode();
     }
