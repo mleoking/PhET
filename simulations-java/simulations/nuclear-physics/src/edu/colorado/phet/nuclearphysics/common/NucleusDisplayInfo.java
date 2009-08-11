@@ -7,6 +7,7 @@ import java.security.InvalidParameterException;
 
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
+import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 
 /**
  * This class encapsulates the information that is used to display each of the
@@ -295,109 +296,7 @@ public class NucleusDisplayInfo {
 	
 	public static NucleusDisplayInfo getDisplayInfoForNucleusConfig( int numProtons, int numNeutrons ){
 		
-		return getDisplayInfoForNucleusType(identifyNucleus(numProtons, numNeutrons));
+		return getDisplayInfoForNucleusType(AtomicNucleus.identifyNucleus(numProtons, numNeutrons));
 		
-	}
-	
-	public static NucleusType identifyNucleus(int numProtons, int numNeutrons){
-		
-		NucleusType nucleusType = null;
-		
-		// Note that (obviously) not every nucleus that exists in nature is
-		// handled here - just those needed by the sim.  Feel free to add more
-		// if needed.
-		switch (numProtons){
-		case 1:
-			// Hydrogen.
-			nucleusType = NucleusType.HYDROGEN_3;
-			break;
-			
-		case 2:
-			// Helium.
-			nucleusType = NucleusType.HELIUM_3;
-			break;
-		
-    	case 6:
-    		// Carbon 14.
-    		nucleusType = NucleusType.CARBON_14;
-    		break;
-    		
-    	case 7:
-    		// Nitrogen 14.
-    		nucleusType = NucleusType.NITROGEN_14;
-    		break;
-    		
-    	case 81:
-    		// This is thallium, which we use as the post-decay custom nucleus.
-    		nucleusType = NucleusType.HEAVY_CUSTOM_POST_DECAY;
-    		break;
-    		
-    	case 82:
-    		// Lead.
-    		if ( numNeutrons == 124 ){
-    			// Lead 206
-        		nucleusType = NucleusType.LEAD_206;
-    		}
-    		else if ( numNeutrons == 125 ) {
-    			// Lead 207
-        		nucleusType = NucleusType.LEAD_207;
-    		}
-    		else {
-    			System.err.println("Error: Unrecognized isotope for Lead, using Lead 207.");
-    			assert false;
-        		nucleusType = NucleusType.LEAD_207;
-    		}
-    		break;
-    		
-    	case 83:
-    		// This nucleus is bismuth, which we use as the pre-decay custom
-    		// nucleus.
-    		nucleusType = NucleusType.HEAVY_CUSTOM;
-    		break;
-    		
-    	case 84:
-    		// Polonium.
-    		nucleusType = NucleusType.POLONIUM_211;
-    		break;
-    		
-    	case 92:
-    		switch (numNeutrons){
-    		case 143:
-    			// U235.
-        		nucleusType = NucleusType.URANIUM_235;
-        		break;
-        		
-    		case 144:
-    			// U236.
-        		nucleusType = NucleusType.URANIUM_236;
-        		break;
-        		
-    		case 146:
-    			// U238.
-        		nucleusType = NucleusType.URANIUM_238;
-        		break;
-        		
-    		case 147:
-    			// U239.
-        		nucleusType = NucleusType.URANIUM_239;
-        		break;
-        		
-    		default:
-    			// Unrecognized.
-    			System.err.println("Error: Unrecognized uranium isotop, using U238.");
-    			assert false;
-        		nucleusType = NucleusType.URANIUM_238;
-        		break;
-    		}
-    		break;
-    		
-    	default:
-    		// This is not a nucleus type that we are familiar with.  This is
-    		// okay, we just return null.
-    		nucleusType = null;
-    		break;
-    	}
-		
-		return nucleusType;
 	}
 }

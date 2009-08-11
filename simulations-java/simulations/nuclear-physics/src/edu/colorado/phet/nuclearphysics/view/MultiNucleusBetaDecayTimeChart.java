@@ -215,7 +215,7 @@ public class MultiNucleusBetaDecayTimeChart extends PNode {
             	
             	
             	NucleusDisplayInfo postDecayDisplayInfo = 
-            		NucleusDisplayInfo.getDisplayInfoForNucleusType(MultiNucleusDecayModel.getDecayProduct(_model.getNucleusType()).get(0));
+            		NucleusDisplayInfo.getDisplayInfoForNucleusType(AtomicNucleus.getPostDecayNuclei(_model.getNucleusType()).get(0));
             	_pieChartValues[1].setColor(postDecayDisplayInfo.getLabelColor());
 
             	update();
@@ -579,7 +579,7 @@ public class MultiNucleusBetaDecayTimeChart extends PNode {
 			_numUndecayedNucleiLabel.setShadowColor(Color.BLACK);
 		}
 		
-		NucleusType decayNucleusType = MultiNucleusDecayModel.getDecayProduct(_model.getNucleusType()).get(0);
+		NucleusType decayNucleusType = AtomicNucleus.getPostDecayNuclei(_model.getNucleusType()).get(0);
 		NucleusDisplayInfo postDecayDisplayInfo = NucleusDisplayInfo.getDisplayInfoForNucleusType(decayNucleusType);
 		_numDecayedNucleiLabel.setText("#" + postDecayDisplayInfo.getChemicalSymbol());
 		_numDecayedNucleiLabel.setTextPaint(postDecayDisplayInfo.getLabelColor());

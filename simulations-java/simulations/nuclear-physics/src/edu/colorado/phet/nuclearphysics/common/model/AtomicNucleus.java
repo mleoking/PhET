@@ -10,6 +10,8 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
+import edu.colorado.phet.nuclearphysics.common.NucleusDisplayInfo;
+import edu.colorado.phet.nuclearphysics.common.NucleusType;
 import edu.colorado.phet.nuclearphysics.model.HalfLifeInfo;
 
 public abstract class AtomicNucleus {
@@ -219,6 +221,169 @@ public abstract class AtomicNucleus {
         return false;
     };
     
+    /**
+     * Convenience method for obtaining the display information for this
+     * configuration of atomic nucleus.
+     * @return
+     */
+    public NucleusDisplayInfo getDisplayInfo(){
+    	return NucleusDisplayInfo.getDisplayInfoForNucleusConfig(_numProtons, _numNeutrons);
+    }
+    
+    /**
+	 * Convenience method for obtaining the nucleus or nuclei that the
+	 * specified nucleus type will decay into.  Note that the return values
+	 * are NOT NECESSARILY what always happens in the real world - they
+	 * represent the way this simulation behaves, which is a simplification of
+	 * real-world behavior.  Also note that this method may sometimes consider
+	 * something like an alpha particle as a helium nucleus and list it here,
+	 * or sometimes as and emitted particle, and thus NOT list it here.  It
+	 * all depends on the needs of the other portions of the sim.
+	 */
+	public static ArrayList<NucleusType> getPostDecayNuclei(NucleusType preDecayNucleus){
+		
+		ArrayList<NucleusType> decayProducts = new ArrayList<NucleusType>();
+		
+		switch (preDecayNucleus){
+		
+		case HYDROGEN_3:
+			decayProducts.add(NucleusType.HELIUM_3);
+			break;
+		
+		case CARBON_14:
+			decayProducts.add(NucleusType.NITROGEN_14);
+			break;
+			
+		case URANIUM_238:
+			decayProducts.add(NucleusType.LEAD_206);
+			break;
+			
+		case POLONIUM_211:
+			decayProducts.add(NucleusType.LEAD_207);
+			break;
+	
+		case HEAVY_CUSTOM:
+			decayProducts.add(NucleusType.HEAVY_CUSTOM_POST_DECAY);
+			break;
+	
+		default:
+			System.out.println("Warning: No decay product information available for requested nucleus, returning original value, nucleus = " + preDecayNucleus);
+			decayProducts.add(preDecayNucleus);
+			break;
+		}
+		
+		return decayProducts;
+	}
+	
+	/**
+	 * Convenience method for identifying a nucleus based on its configuration.
+	 *  
+	 * @param numProtons
+	 * @param numNeutrons
+	 * @return
+	 */
+	public static NucleusType identifyNucleus(int numProtons, int numNeutrons){
+		
+		NucleusType nucleusType = null;
+		
+		// Note that (obviously) not every nucleus that exists in nature is
+		// handled here - just those needed by the sim.  Feel free to add more
+		// if needed.
+		switch (numProtons){
+		case 1:
+			// Hydrogen.
+			nucleusType = NucleusType.HYDROGEN_3;
+			break;
+			
+		case 2:
+			// Helium.
+			nucleusType = NucleusType.HELIUM_3;
+			break;
+		
+		case 6:
+			// Carbon 14.
+			nucleusType = NucleusType.CARBON_14;
+			break;
+			
+		case 7:
+			// Nitrogen 14.
+			nucleusType = NucleusType.NITROGEN_14;
+			break;
+			
+		case 81:
+			// This is thallium, which we use as the post-decay custom nucleus.
+			nucleusType = NucleusType.HEAVY_CUSTOM_POST_DECAY;
+			break;
+			
+		case 82:
+			// Lead.
+			if ( numNeutrons == 124 ){
+				// Lead 206
+	    		nucleusType = NucleusType.LEAD_206;
+			}
+			else if ( numNeutrons == 125 ) {
+				// Lead 207
+	    		nucleusType = NucleusType.LEAD_207;
+			}
+			else {
+				System.err.println("Error: Unrecognized isotope for Lead, using Lead 207.");
+				assert false;
+	    		nucleusType = NucleusType.LEAD_207;
+			}
+			break;
+			
+		case 83:
+			// This nucleus is bismuth, which we use as the pre-decay custom
+			// nucleus.
+			nucleusType = NucleusType.HEAVY_CUSTOM;
+			break;
+			
+		case 84:
+			// Polonium.
+			nucleusType = NucleusType.POLONIUM_211;
+			break;
+			
+		case 92:
+			switch (numNeutrons){
+			case 143:
+				// U235.
+	    		nucleusType = NucleusType.URANIUM_235;
+	    		break;
+	    		
+			case 144:
+				// U236.
+	    		nucleusType = NucleusType.URANIUM_236;
+	    		break;
+	    		
+			case 146:
+				// U238.
+	    		nucleusType = NucleusType.URANIUM_238;
+	    		break;
+	    		
+			case 147:
+				// U239.
+	    		nucleusType = NucleusType.URANIUM_239;
+	    		break;
+	    		
+			default:
+				// Unrecognized.
+				System.err.println("Error: Unrecognized uranium isotop, using U238.");
+				assert false;
+	    		nucleusType = NucleusType.URANIUM_238;
+	    		break;
+			}
+			break;
+			
+		default:
+			// This is not a nucleus type that we are familiar with.  This is
+			// okay, we just return null.
+			nucleusType = null;
+			break;
+		}
+		
+		return nucleusType;
+	}
+    
     //------------------------------------------------------------------------
     // Private and Protected Methods
     //------------------------------------------------------------------------
@@ -290,11 +455,7 @@ public abstract class AtomicNucleus {
         }        
     }
     
-    //------------------------------------------------------------------------
-    // Inner interfaces
-    //------------------------------------------------------------------------
-    
-    public static interface Listener {
+	public static interface Listener {
         
         /**
          * Inform listeners that the position of the nucleus has changed.

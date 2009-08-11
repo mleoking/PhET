@@ -217,7 +217,7 @@ public class MultiNucleusAlphaDecayTimeChart extends PNode {
             	
             	
             	NucleusDisplayInfo postDecayDisplayInfo = 
-            		NucleusDisplayInfo.getDisplayInfoForNucleusType(MultiNucleusDecayModel.getDecayProduct(_model.getNucleusType()).get(0));
+            		NucleusDisplayInfo.getDisplayInfoForNucleusType(AtomicNucleus.getPostDecayNuclei(_model.getNucleusType()).get(0));
             	_pieChartValues[1].setColor(postDecayDisplayInfo.getLabelColor());
 
             	update();
