@@ -12,7 +12,7 @@ import java.util.Random;
  *
  * @author John Blanco
  */
-public class AlphaParticle implements AtomicNucleusConstituent {
+public class AlphaParticle implements SubatomicParticle {
     
     //------------------------------------------------------------------------
     // Class data
@@ -116,7 +116,7 @@ public class AlphaParticle implements AtomicNucleusConstituent {
     }
     
     /**
-     * @see AtomicNucleusConstituent
+     * @see SubatomicParticle
      */
     public void tunnel(Point2D center, double minDistance, double nucleusRadius, double tunnelRadius)
     {

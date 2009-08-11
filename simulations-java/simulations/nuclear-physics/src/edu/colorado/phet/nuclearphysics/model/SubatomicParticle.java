@@ -5,14 +5,11 @@ package edu.colorado.phet.nuclearphysics.model;
 import java.awt.geom.Point2D;
 
 /**
- * This interface is for controlling the particles that make up the atomic
- * nucleus.  It would be called "Nucleon", except that we allow alpha
- * particles to also be a constituent of the nucleus, and alpha particles
- * aren't really nucleons.
+ * This interface is for controlling subatomic particles.
  *
  * @author John Blanco
  */
-public interface AtomicNucleusConstituent {
+public interface SubatomicParticle {
     
     /**
      * Get the 2D position of the constituent.

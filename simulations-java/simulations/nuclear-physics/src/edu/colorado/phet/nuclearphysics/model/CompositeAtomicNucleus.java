@@ -171,9 +171,9 @@ public abstract class CompositeAtomicNucleus extends AtomicNucleus {
             if ((_xVelocity != 0) || (_yVelocity != 0)){
                 // Move the constituent particles by the velocity amount.
                 int numConstituents = _constituents.size();
-                AtomicNucleusConstituent constituent = null;
+                SubatomicParticle constituent = null;
                 for (int i = 0; i < numConstituents; i++){
-                    constituent = (AtomicNucleusConstituent)_constituents.get(i);
+                    constituent = (SubatomicParticle)_constituents.get(i);
                     double newPosX = constituent.getPositionReference().x + _xVelocity; 
                     double newPosY = constituent.getPositionReference().y + _yVelocity;
                     constituent.setPosition( newPosX, newPosY );
@@ -201,7 +201,7 @@ public abstract class CompositeAtomicNucleus extends AtomicNucleus {
                 double tunnelingRegion = Math.min(_tunnelingRegionRadius, getDiameter() * 1.5);
                 for (int i = _agitationCount; i < _constituents.size(); i+=agitationIncrement)
                 {
-                    AtomicNucleusConstituent constituent = (AtomicNucleusConstituent)_constituents.get( i );
+                    SubatomicParticle constituent = (SubatomicParticle)_constituents.get( i );
                     constituent.tunnel( _position, 0, getDiameter()/2, tunnelingRegion );
                 }
                 _agitationCount = (_agitationCount + 1) % agitationIncrement;

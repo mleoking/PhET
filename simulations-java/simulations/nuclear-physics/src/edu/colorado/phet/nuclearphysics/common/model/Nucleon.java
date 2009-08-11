@@ -6,7 +6,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
 
-import edu.colorado.phet.nuclearphysics.model.AtomicNucleusConstituent;
+import edu.colorado.phet.nuclearphysics.model.SubatomicParticle;
 
 /**
  * Class the implements the behavior of nucleon (i.e. proton and neutron)
@@ -14,7 +14,7 @@ import edu.colorado.phet.nuclearphysics.model.AtomicNucleusConstituent;
  *
  * @author John Blanco
  */
-public class Nucleon implements AtomicNucleusConstituent {
+public class Nucleon implements SubatomicParticle {
     //------------------------------------------------------------------------
     // Class data
     //------------------------------------------------------------------------

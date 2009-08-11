@@ -187,7 +187,7 @@ public class Uranium235CompositeNucleus extends CompositeAtomicNucleus{
         // Position all the nucleons near the new center of the nucleus.
         for ( int i = 0; i < _constituents.size(); i++ )
         {
-            AtomicNucleusConstituent constituent = (AtomicNucleusConstituent)_constituents.get( i );
+            SubatomicParticle constituent = (SubatomicParticle)_constituents.get( i );
             constituent.tunnel( _position, 0, getDiameter()/2, _tunnelingRegionRadius );
         }
         
