@@ -36,6 +36,8 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
     // View 
     private final BeakerNode beakerNode;
     private final ConcentrationGraphNode concentrationGraphNode;
+    private final SolutionsReactionEquationsNode reactionEquationsNode;
+    private final SolutionsEquilibriumExpressionsNode equilibriumExpressionsNode;
     
     // Controls
     private final SolutionControlsNode solutionControlsNode;
@@ -58,6 +60,10 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         beakerNode = new BeakerNode( SolutionsDefaults.BEAKER_SIZE, solution );
         
         concentrationGraphNode = new ConcentrationGraphNode( SolutionsDefaults.CONCENTRATION_GRAPH_OUTLINE_SIZE, solution );
+        
+        reactionEquationsNode = new SolutionsReactionEquationsNode( solution );
+        
+        equilibriumExpressionsNode = new SolutionsEquilibriumExpressionsNode( solution );
         
         solutionControlsNode = new SolutionControlsNode( this, solution, true /* showKButton */ );
         solutionControlsNode.scale( ABSConstants.PSWING_SCALE );
@@ -88,11 +94,11 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         graphMaximizeControlNode.addChangeListener( changeListener );
         exclusiveControls.add( graphMaximizeControlNode );
         
-        reactionEquationsMaximizeControlNode = new MaximizeControlNode( ABSStrings.BUTTON_REACTION_EQUATIONS, new PDimension( 500, 560 ), new PNode() );//XXX managed node
+        reactionEquationsMaximizeControlNode = new MaximizeControlNode( ABSStrings.BUTTON_REACTION_EQUATIONS, new PDimension( 500, 560 ), reactionEquationsNode );
         reactionEquationsMaximizeControlNode.addChangeListener( changeListener );
         exclusiveControls.add( reactionEquationsMaximizeControlNode );
         
-        equilibriumExpressionsMaximizeControlNode = new MaximizeControlNode( ABSStrings.BUTTON_EQUILIBRIUM_EXPRESSIONS, new PDimension( 500, 560 ), new PNode() );//XXX managed node
+        equilibriumExpressionsMaximizeControlNode = new MaximizeControlNode( ABSStrings.BUTTON_EQUILIBRIUM_EXPRESSIONS, new PDimension( 500, 560 ), equilibriumExpressionsNode );
         equilibriumExpressionsMaximizeControlNode.addChangeListener( changeListener );
         exclusiveControls.add( equilibriumExpressionsMaximizeControlNode );
         
