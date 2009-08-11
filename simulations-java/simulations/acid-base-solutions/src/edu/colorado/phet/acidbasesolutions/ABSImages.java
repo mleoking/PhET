@@ -38,6 +38,7 @@ public class ABSImages {
     
     public static final BufferedImage MAXIMIZE_BUTTON = getBufferedImage( "maximizeButton.png" );
     public static final BufferedImage MINIMIZE_BUTTON = getBufferedImage( "minimizeButton.png" );
+    public static final BufferedImage TEAR_OFF_BUTTON = getBufferedImage( "tear_off_icon.png" );
     
     private static final BufferedImage getBufferedImage( String resourceName ) {
         return ABSResources.getBufferedImage( resourceName );

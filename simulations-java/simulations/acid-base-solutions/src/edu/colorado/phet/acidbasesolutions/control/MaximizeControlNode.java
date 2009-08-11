@@ -41,6 +41,7 @@ public class MaximizeControlNode extends PhetPNode {
     private final PNode managedNode;
     private final PPath backgroundNode;
     private final PImage buttonNode;
+    private final PImage tearOffNode;
     private final ArrayList<ChangeListener> listeners;
     private boolean isMaximized;
     
@@ -76,6 +77,16 @@ public class MaximizeControlNode extends PhetPNode {
         labelNode.setFont( LABEL_FONT );
         addChild( labelNode );
         
+        // tear-off icon
+        tearOffNode = new PImage( ABSImages.TEAR_OFF_BUTTON );
+        tearOffNode.addInputEventListener( new CursorHandler() );
+        tearOffNode.addInputEventListener( new PBasicInputEventHandler() {
+            public void mouseReleased( PInputEvent event ) {
+                handleTearOff();
+            }
+        } );
+        addChild( tearOffNode );
+        
         // layout
         double xOffset = X_MARGIN;
         double yOffset = Y_MARGIN;
@@ -83,6 +94,9 @@ public class MaximizeControlNode extends PhetPNode {
         xOffset = buttonNode.getFullBoundsReference().getMaxX() + X_SPACING;
         yOffset = buttonNode.getFullBoundsReference().getCenterX() - ( labelNode.getFullBoundsReference().getHeight() / 2 );
         labelNode.setOffset( xOffset, yOffset );
+        xOffset = maximizedSize.getWidth() - tearOffNode.getFullBoundsReference().getWidth() - X_MARGIN;
+        yOffset = buttonNode.getFullBoundsReference().getCenterY() - ( tearOffNode.getFullBoundsReference().getHeight() / 2 );
+        tearOffNode.setOffset( xOffset, yOffset );
         xOffset = X_MARGIN - PNodeUtils.getOriginXOffset( managedNode );
         yOffset = buttonNode.getFullBoundsReference().getMaxY() - PNodeUtils.getOriginYOffset( managedNode ) + Y_MARGIN;
         managedNode.setOffset( xOffset, yOffset );
@@ -127,5 +141,9 @@ public class MaximizeControlNode extends PhetPNode {
         for ( ChangeListener listener : listeners ) {
             listener.stateChanged( event );
         }
+    }
+    
+    private void handleTearOff() {
+        //XXX
     }
 }

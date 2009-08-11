@@ -20,6 +20,7 @@ TODO:
 - make symbol legend descriptions automatically wrap, so we don't need breaks in HTML markup
 
 DONE:
+8/11/09 add tear-off icon to maximize controls for demo purposes, not wired up
 8/11/09 add equations and expressions in play area of Solutions tab
 8/11/09 make graph, equations and expression mutually exclusive choices
 8/11/09 replace equation check boxes with minimize/maximize controls (dummy managed node)
