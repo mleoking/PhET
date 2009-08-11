@@ -8,6 +8,7 @@ TODO:
 - change graphs/equations/expressions check boxes to radio buttons
 - replace graph with equations or expressions, depending on radio button selection
 - sim description
+- save/load locations of dialogs
 - Spanish translation, to test i18n
 - more complete legend for symbols and colors (pending interviews)
 - when equations are scaled, some symbols expand beyond the bounds of the window (pending interviews)
