@@ -128,6 +128,7 @@ public class BetaDecayNucleusSelectionPanel extends JPanel {
         
         // Create and add the Hydrogen image.
         PNode labeledHydrogen3Nucleus = new LabeledNucleusImageNode( NucleusType.HYDROGEN_3 );
+        labeledHydrogen3Nucleus.scale(0.75); // Reduce the size a bit so it looks okay with other atoms.
         Image hydrogenImage = labeledHydrogen3Nucleus.toImage();
         ImageIcon hydrogen3IconImage = new ImageIcon(hydrogenImage);
         constraints.anchor = GridBagConstraints.WEST;
@@ -153,6 +154,7 @@ public class BetaDecayNucleusSelectionPanel extends JPanel {
         
         // Create and add Helium image.
         PNode labeledHeliumNucleus = new LabeledNucleusImageNode( NucleusType.HELIUM_3 );
+        labeledHeliumNucleus.scale(0.75); // Reduce the size a bit so it looks okay with other atoms.
         Image heliumImage = labeledHeliumNucleus.toImage();
         ImageIcon heliumIconImage = new ImageIcon( heliumImage );
         constraints.anchor = GridBagConstraints.WEST;
