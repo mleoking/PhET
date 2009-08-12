@@ -3,8 +3,10 @@ package edu.colorado.phet.nuclearphysics.view;
 
 import java.awt.Image;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
@@ -31,7 +33,7 @@ public class NucleusImageFactory {
     // Class Data
     //------------------------------------------------------------------------
 
-    public static final int IMAGES_TO_CACHE = 4;
+    public static final int NUM_IMAGES_TO_CACHE = 4;
     private static final double DEEFAULT_PIXELS_PER_FM = 20;
 
     private static NucleusImageFactory _instance = null;
@@ -43,7 +45,11 @@ public class NucleusImageFactory {
     // Instance Data
     //------------------------------------------------------------------------
 
-    private ArrayList[] imageMap = new ArrayList[MAX_ATOMIC_WEIGHT];
+    // This is part of a two-level mapping structure that is used to cache
+    // images according to the number of protons and neutrons in the
+    // corresponding nucleus.
+    private HashMap<Integer, HashMap<Integer, ImageList>> mapNumProtonsToNeutronMap = 
+    	new HashMap<Integer, HashMap<Integer, ImageList>>();
 
     //------------------------------------------------------------------------
     // Constructor
@@ -57,7 +63,7 @@ public class NucleusImageFactory {
         // During construction we fill the cache for several of the more
         // common nuclei.  This saves us from doing it during run time, which
         // was found to create pauses in the simulation.
-        for ( int i = 0; i < IMAGES_TO_CACHE; i++ ) {
+        for ( int i = 0; i < NUM_IMAGES_TO_CACHE; i++ ) {
             // U235
             getNucleusImage( 92, 143, DEEFAULT_PIXELS_PER_FM );
             // U236
@@ -103,7 +109,7 @@ public class NucleusImageFactory {
 
         // If we have enough cached images at this atomic weight, use one of
         // them.
-        nucleusImage = getCachedImage( numProtons + numNeutrons );
+        nucleusImage = getCachedImage2( numProtons, numNeutrons );
         if ( nucleusImage != null ) {
             return new PImage( nucleusImage );
         }
@@ -114,18 +120,18 @@ public class NucleusImageFactory {
     
     /**
      * Generate images and cache them for the specified nucleus.  This is
-     * generally done to save time later if the images might be needed quickly
-     * at some point in the future.
+     * generally done during the initialization of the sims to save time
+     * later.
      * 
      * @param numProtons - number of protons in the nucleus.
      * @param numNeutrons - Number of neutrons in the nucleus.
      * @param pixelsPerFm - Pixels per femtometer
      */
     public void preGenerateNucleusImages( int numProtons, int numNeutrons, double pixelsPerFm ){
-    	int numCachedImages = getNumCachedImages(numProtons + numNeutrons);
-    	if (numCachedImages < IMAGES_TO_CACHE){
+    	int numCachedImages = getNumCachedImages2(numProtons, numNeutrons);
+    	if (numCachedImages < NUM_IMAGES_TO_CACHE){
     		// The cache isn't full for this atomic weight, so fill it.
-    		for (int i = 0; i < IMAGES_TO_CACHE - numCachedImages; i++){
+    		for (int i = 0; i < NUM_IMAGES_TO_CACHE - numCachedImages; i++){
     			generateNucleusImage(numProtons, numNeutrons, pixelsPerFm);
     		}
     	}
@@ -139,49 +145,85 @@ public class NucleusImageFactory {
         Image nucleusImage;
         PNode nucleus = new PNode();
 
-        // Decide on the proportion of free protons and neutrons versus those
-        // tied up in alpha particles.
-        int numAlphas = ( ( numProtons + numNeutrons ) / 2 ) / 4; // Assume half of all particles are tied up in alphas.
-        int numFreeProtons = numProtons - ( numAlphas * 2 );
-        int numFreeNeutrons = numNeutrons - ( numAlphas * 2 );
-
         // Determine the size of the nucleus in femtometers.
         double nucleusRadius = getDiameter( numProtons + numNeutrons ) / 2.0;
-
-        // For the following loop to work, it is assumed that the number of
-        // neutrons equals or exceeds the number of protons, which is always
-        // true (I think) in the real world.  However, just in case the caller
-        // has not done this, we adjust the values here if necessary.
-        if ( numFreeProtons > numFreeNeutrons ) {
-            numFreeNeutrons = numFreeProtons;
+        
+        // Add images of individual nucleons together in order to create the
+        // overall image of the nucleus.  There are some special cases here,
+        // and more may be needed as more nuclei are included in the sim.
+        
+        if (numProtons + numNeutrons == 3){
+        	// This special case was added to handle H3 and He3.  It places
+        	// the nucleons such that there is no overlap between them.  It
+        	// may also be possible to generalize it somewhat to handle small
+        	// numbers of nuclei.
+        	
+        	int protonsToAdd = numProtons;
+        	int neutronsToAdd = numNeutrons;
+        	double rotationOffset = Math.PI;  // In radians, arbitrary and just for looks.
+        	double distanceFromCenter = NuclearPhysicsConstants.NUCLEON_DIAMETER / 2 / Math.cos(Math.PI / 6);
+        	for (int i = 0; i < 3; i++){
+        		PNode nucleonNode = null;
+        		if (neutronsToAdd > 0){
+        			nucleonNode = new NeutronNode();
+        			neutronsToAdd--;
+        		}
+        		else{
+        			nucleonNode = new ProtonNode();
+        			protonsToAdd--;
+        		}
+        		nucleonNode.scale( pixelsPerFm );
+        		double angle = ( Math.PI * 2 / 3 ) * i + rotationOffset;
+                double xPos = Math.sin( angle ) * distanceFromCenter * pixelsPerFm;
+                double yPos = Math.cos( angle ) * distanceFromCenter * pixelsPerFm;
+        		nucleonNode.setOffset( xPos, yPos );
+        		nucleus.addChild( nucleonNode );
+        	}
+        }
+        else { 
+	        // Decide on the proportion of free protons and neutrons versus those
+	        // tied up in alpha particles.
+	        int numAlphas = ( ( numProtons + numNeutrons ) / 2 ) / 4; // Assume half of all particles are tied up in alphas.
+	        int numFreeProtons = numProtons - ( numAlphas * 2 );
+	        int numFreeNeutrons = numNeutrons - ( numAlphas * 2 );
+	
+	        // For the following loop to work, it is assumed that the number of
+	        // neutrons equals or exceeds the number of protons, which is always
+	        // true (I think) in the real world.  However, just in case the caller
+	        // has not done this, we adjust the values here if necessary.
+	        if ( numFreeProtons > numFreeNeutrons ) {
+	            numFreeNeutrons = numFreeProtons;
+	        }
+	
+	        // Add the individual images.  We add the most abundant images
+	        // (usually neutrons) first, since otherwise they end up dominating
+	        // the image.
+	        int maxParticleType = Math.max( numAlphas, numFreeProtons );
+	        maxParticleType = Math.max( numFreeNeutrons, maxParticleType );
+	
+	        for ( int i = 0; i < maxParticleType; i++ ) {
+	            if ( numAlphas == numFreeNeutrons ) {
+	                // Add an alpha particle.
+	                addAlpha( nucleus, nucleusRadius, pixelsPerFm );
+	                numAlphas--;
+	            }
+	            if ( numFreeProtons == numFreeNeutrons ) {
+	                addProton( nucleus, nucleusRadius, pixelsPerFm );
+	                numFreeProtons--;
+	            }
+	
+	            addNeutron( nucleus, nucleusRadius, pixelsPerFm );
+	            numFreeNeutrons--;
+	        }
         }
 
-        // Add the individual images.  We add the most abundant images
-        // (usually neutrons) first, since otherwise they end up dominating
-        // the image.
-        int maxParticleType = Math.max( numAlphas, numFreeProtons );
-        maxParticleType = Math.max( numFreeNeutrons, maxParticleType );
-
-        for ( int i = 0; i < maxParticleType; i++ ) {
-            if ( numAlphas == numFreeNeutrons ) {
-                // Add an alpha particle.
-                addAlpha( nucleus, nucleusRadius, pixelsPerFm );
-                numAlphas--;
-            }
-            if ( numFreeProtons == numFreeNeutrons ) {
-                addProton( nucleus, nucleusRadius, pixelsPerFm );
-                numFreeProtons--;
-            }
-
-            addNeutron( nucleus, nucleusRadius, pixelsPerFm );
-            numFreeNeutrons--;
-        }
-
-        // Cache the newly created image.
+        // Convert the collection of nucleon nodes to an image.
         nucleusImage = nucleus.toImage();
-        addCachedImage( numNeutrons + numProtons, nucleusImage );
+        
+        // Cache the newly created image.
+        addCachedImage2( numProtons, numNeutrons, nucleusImage );
 
-        // Return the image;
+        // Return the image.
         return new PImage( nucleus.toImage() );
     }
 
@@ -242,69 +284,120 @@ public class NucleusImageFactory {
      * @param atomicWeight
      * @return - Image if the cache is full, null if not.
      */
-    private Image getCachedImage( int atomicWeight ) {
+    private Image getCachedImage2( int numProtons, int numNeutrons ) {
 
-        if ( atomicWeight > MAX_ATOMIC_WEIGHT ) {
-            System.err.println( "Warning: Requested image has atomic weight that is too large." );
-            return null;
-        }
-
-        ArrayList imageList = imageMap[atomicWeight];
-
-        if ( imageList == null ) {
-            // No cached images exist for this atomic weight.
-            return null;
-        }
-
-        if ( imageList.size() < IMAGES_TO_CACHE ) {
-            // Not enough cached images exist for this atomic weight.
-            return null;
-        }
-
-        // We have the needed number of cached images, so return one.
-        return (Image) imageList.get( _rand.nextInt( IMAGES_TO_CACHE ) );
+    	Integer numProtonsInteger = new Integer(numProtons);
+    	Integer numNeutronsInteger = new Integer(numNeutrons);
+    	HashMap<Integer, ImageList> numNeutronsToImageListMap;
+    	
+    	numNeutronsToImageListMap = mapNumProtonsToNeutronMap.get(numProtonsInteger);
+    	
+    	if (numNeutronsToImageListMap == null){
+    		// No images for this element.
+    		return null;
+    	}
+    	
+    	ImageList imageList = numNeutronsToImageListMap.get(numNeutronsInteger);
+    	
+    	if (imageList == null || !imageList.isFullyPopulated()){
+    		// Not enough cached images for this particular isotope of this element.
+    		return null;
+    	}
+    	
+    	// We have the needed number of cached images, so return one.
+    	return imageList.getRandomImage();
     }
     
     /**
      * Get a number representing the number of cached images for the specified
      * atomic weight.
      */
-    private int getNumCachedImages( int atomicWeight ){
-
-    	if ( atomicWeight > MAX_ATOMIC_WEIGHT ) {
-            return 0;
-        }
-
-        ArrayList imageList = imageMap[atomicWeight];
-
-        if ( imageList == null ) {
-            // No cached images exist for this atomic weight.
-            return 0;
-        }
-
-        return imageList.size();
+    private int getNumCachedImages2( int numProtons, int numNeutrons ){
+    	
+    	Integer numProtonsInteger = new Integer(numProtons);
+    	Integer numNeutronsInteger = new Integer(numNeutrons);
+    	HashMap<Integer, ImageList> numNeutronsToImageListMap;
+    	
+    	numNeutronsToImageListMap = mapNumProtonsToNeutronMap.get(numProtonsInteger);
+    	
+    	if (numNeutronsToImageListMap == null){
+    		// No images for this element.
+    		return 0;
+    	}
+    	
+    	ImageList imageList = numNeutronsToImageListMap.get(numNeutronsInteger);
+    	
+    	if (imageList == null){
+    		// No images for this particular isotope of this element.
+    		return 0;
+    	}
+    	
+    	// We have the needed number of cached images, so return one.
+    	return imageList.getNumImages();
     }
 
     /**
      * Add a new image to the image cache.
      */
-    private void addCachedImage( int atomicWeight, Image newImage ) {
+    private void addCachedImage2( int numProtons, int numNeutrons, Image newImage ) {
 
-        if ( atomicWeight > MAX_ATOMIC_WEIGHT ) {
-            System.err.println( "Warning: New image has atomic weight above allowed maximum." );
-            return;
-        }
+    	Integer numProtonsInteger = new Integer(numProtons);
+    	Integer numNeutronsInteger = new Integer(numNeutrons);
+    	HashMap<Integer, ImageList> mapNumNeutonsToImageList;
+    	
+    	mapNumNeutonsToImageList = mapNumProtonsToNeutronMap.get(numProtonsInteger);
+    	
+    	if (mapNumNeutonsToImageList == null){
+    		// First image for this element, so add a num-neutrons-to-image-list map.
+    		mapNumNeutonsToImageList = new HashMap<Integer, ImageList>();
+    		mapNumProtonsToNeutronMap.put(numProtonsInteger, mapNumNeutonsToImageList);
+    	}
+    	
+    	ImageList imageList = mapNumNeutonsToImageList.get(numNeutronsInteger);
+    	
+    	if (imageList == null){
+    		// No image list yet for this particular isotope, so add one.
+    		imageList = new ImageList();
+    		mapNumNeutonsToImageList.put(numNeutronsInteger, imageList);
+    	}
+    	
+    	imageList.addImage(newImage);
+    }
+    		
+    private static class ImageList {
+    	ArrayList<Image> imageList = new ArrayList<Image>();
+    	
+    	/**
+    	 * Add a new image to the list.
+    	 */
+    	public void addImage(Image image){
+    		if (imageList.size() < NUM_IMAGES_TO_CACHE){
+    			imageList.add(image);
+    		}
+    		else{
+    			System.err.println(getClass().getName() + " - Warning: Attempt to add image to full list.");
+    		}
+    	}
+    	
+    	/**
+    	 * Pick one of the images randomly from the list and return it.  Note
+    	 * that this can return null if the list is not fully populated.
+    	 * 
+    	 * @return
+    	 */
+    	public Image getRandomImage(){
+    		return imageList.get(_rand.nextInt( imageList.size() ));
+    	}
 
-        ArrayList imageList = imageMap[atomicWeight];
-
-        if ( imageList == null ) {
-            // This is the first image for this particular atomic weight, so
-            // we need to create an ArrayList to hold the images.
-            imageList = new ArrayList( IMAGES_TO_CACHE );
-            imageMap[atomicWeight] = imageList;
-        }
-
-        // Add the image to the list.
-        imageList.add( newImage );
+    	/**
+    	 * Returns true if the list is full, false if not.
+    	 */
+    	public boolean isFullyPopulated(){
+    		return imageList.size() == NUM_IMAGES_TO_CACHE;
+    	}
+    	
+    	public int getNumImages(){
+    		return imageList.size();
+    	}
     }
 }
