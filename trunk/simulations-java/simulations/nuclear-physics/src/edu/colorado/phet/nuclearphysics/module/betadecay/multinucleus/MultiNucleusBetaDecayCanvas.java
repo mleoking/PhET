@@ -25,16 +25,20 @@ import edu.colorado.phet.nuclearphysics.common.model.Antineutrino;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.Electron;
 import edu.colorado.phet.nuclearphysics.common.model.NuclearDecayControl;
+import edu.colorado.phet.nuclearphysics.common.model.SubatomicParticle;
 import edu.colorado.phet.nuclearphysics.common.view.AbstractAtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusImageType;
 import edu.colorado.phet.nuclearphysics.common.view.GrabbableNucleusImageNode;
 import edu.colorado.phet.nuclearphysics.model.AdjustableHalfLifeNucleus;
 import edu.colorado.phet.nuclearphysics.model.NuclearDecayListenerAdapter;
 import edu.colorado.phet.nuclearphysics.model.Polonium211Nucleus;
+import edu.colorado.phet.nuclearphysics.view.AntineutrinoNode;
 import edu.colorado.phet.nuclearphysics.view.AutoPressGradientButtonNode;
 import edu.colorado.phet.nuclearphysics.view.BucketOfNucleiNode;
+import edu.colorado.phet.nuclearphysics.view.ElectronNode;
 import edu.colorado.phet.nuclearphysics.view.MultiNucleusBetaDecayTimeChart;
 import edu.colorado.phet.nuclearphysics.view.NucleusImageFactory;
+import edu.colorado.phet.nuclearphysics.view.SubatomicParticleNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -86,7 +90,8 @@ public class MultiNucleusBetaDecayCanvas extends PhetPCanvas {
     private MultiNucleusBetaDecayModel _model;
 	private Rectangle2D _bucketRect;
 	private BucketOfNucleiNode _bucketNode;
-    private HashMap _mapParticlesToNodes = new HashMap();
+    private HashMap<SubatomicParticle, SubatomicParticleNode> _mapParticlesToNodes = 
+    	new HashMap<SubatomicParticle, SubatomicParticleNode>();
     private HashMap _mapNucleiToNodes = new HashMap();
     private GrabbableNucleusImageNode.Listener _grabbableNodeListener;
     private Random _rand = new Random();
@@ -312,13 +317,18 @@ public class MultiNucleusBetaDecayCanvas extends PhetPCanvas {
     	}
     	else if (modelElement instanceof Electron){
     		// Add a new electron node to track this electron.
+    		ElectronNode electronNode = new ElectronNode((Electron)modelElement);
+    		_mapParticlesToNodes.put((SubatomicParticle)modelElement, electronNode);
+    		_nucleiLayer.addChild(electronNode);
     	}
     	else if (modelElement instanceof Antineutrino){
     		// Add a new antineutrino node to track this antineutrino.
+    		AntineutrinoNode antineutrinoNode = new AntineutrinoNode((Antineutrino)modelElement);
+    		_mapParticlesToNodes.put((SubatomicParticle)modelElement, antineutrinoNode);
+    		_nucleiLayer.addChild(antineutrinoNode);
     	}
     	else{
-    		// TODO: Need to handle emitted particles.
-    		System.err.println("WARNING: Unrecognized model element added, unable to create node for canvas.");
+    		System.err.println(getClass().getName() + " - Warning: Unrecognized model element added, unable to create node for canvas.");
     	}
 	}
 
@@ -350,9 +360,12 @@ public class MultiNucleusBetaDecayCanvas extends PhetPCanvas {
     		}
     		_mapNucleiToNodes.remove( modelElement );
     	}
+    	else if (modelElement instanceof SubatomicParticleNode){
+    		_nucleiLayer.removeChild((PNode)modelElement);
+    		_mapParticlesToNodes.remove(modelElement);
+    	}
     	else{
-    		// TODO: Need to handle emitted particles.
-    		System.out.println("Implement me!!!");
+    		System.err.println(getClass().getName() + " - Warning: Unrecognized model element removed.");
     	}
 	}
     
