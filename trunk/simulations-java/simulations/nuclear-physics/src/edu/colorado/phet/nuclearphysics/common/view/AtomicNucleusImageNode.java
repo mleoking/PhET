@@ -51,8 +51,8 @@ public class AtomicNucleusImageNode extends LabeledExplodingAtomicNucleusNode {
 		
 		// Create a graphical image that will represent this nucleus in the view.
 		if ( _imageType == AtomicNucleusImageType.NUCLEONS_VISIBLE ){
-			newImage = NucleusImageFactory.getInstance().getNucleusImage( atomicNucleus.getNumNeutrons(), 
-	                atomicNucleus.getNumProtons(), 25 );
+			newImage = NucleusImageFactory.getInstance().getNucleusImage( atomicNucleus.getNumProtons(), 
+	                atomicNucleus.getNumNeutrons(), 25 );
 	        // Scale the image to the appropriate size.  Note that this is tweaked
 	        // a little bit in order to make it look better.
 			newImage.scale( (atomicNucleus.getDiameter()/1.2)/((newImage.getWidth() + newImage.getHeight()) / 2));
@@ -82,7 +82,7 @@ public class AtomicNucleusImageNode extends LabeledExplodingAtomicNucleusNode {
         
         super.handleNucleusChangedEvent( atomicNucleus, numProtons, numNeutrons, byProducts );
         
-        // Generate a new image for this node, since the weight has changed.
+        // Generate a new image for this node, since the configuration has changed.
         removeChild( _displayNode );
         _displayNode = createImage( atomicNucleus );
         addChild(0, _displayNode);
