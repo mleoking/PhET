@@ -21,6 +21,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
+import edu.colorado.phet.nuclearphysics.common.NucleusType;
 import edu.colorado.phet.nuclearphysics.common.model.Antineutrino;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.Electron;
@@ -30,13 +31,16 @@ import edu.colorado.phet.nuclearphysics.common.view.AbstractAtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusImageType;
 import edu.colorado.phet.nuclearphysics.common.view.GrabbableNucleusImageNode;
 import edu.colorado.phet.nuclearphysics.model.AdjustableHalfLifeNucleus;
+import edu.colorado.phet.nuclearphysics.model.HalfLifeInfo;
 import edu.colorado.phet.nuclearphysics.model.NuclearDecayListenerAdapter;
 import edu.colorado.phet.nuclearphysics.model.Polonium211Nucleus;
+import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusDecayModel;
+import edu.colorado.phet.nuclearphysics.module.halflife.AutopressRestButton;
 import edu.colorado.phet.nuclearphysics.view.AntineutrinoNode;
 import edu.colorado.phet.nuclearphysics.view.AutoPressGradientButtonNode;
 import edu.colorado.phet.nuclearphysics.view.BucketOfNucleiNode;
 import edu.colorado.phet.nuclearphysics.view.ElectronNode;
-import edu.colorado.phet.nuclearphysics.view.MultiNucleusBetaDecayTimeChart;
+import edu.colorado.phet.nuclearphysics.view.MultiNucleusDecayLinearTimeChart;
 import edu.colorado.phet.nuclearphysics.view.NucleusImageFactory;
 import edu.colorado.phet.nuclearphysics.view.SubatomicParticleNode;
 import edu.umd.cs.piccolo.PNode;
@@ -48,7 +52,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author John Blanco
  */
-public class MultiNucleusBetaDecayCanvas extends PhetPCanvas {
+public class MultiNucleusBetaDecayCanvas extends PhetPCanvas implements AutopressRestButton {
     
     //----------------------------------------------------------------------------
     // Class data
@@ -84,7 +88,7 @@ public class MultiNucleusBetaDecayCanvas extends PhetPCanvas {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private MultiNucleusBetaDecayTimeChart _decayTimeChart;
+    private MultiNucleusDecayLinearTimeChart _decayTimeChart;
     private AutoPressGradientButtonNode _resetButtonNode;
     private GradientButtonNode _addTenButtonNode;
     private MultiNucleusBetaDecayModel _model;
@@ -161,8 +165,9 @@ public class MultiNucleusBetaDecayCanvas extends PhetPCanvas {
         });
 
         // Add the chart that shows the decay time.
-        _decayTimeChart = new MultiNucleusBetaDecayTimeChart(_model, this);
+        _decayTimeChart = new MultiNucleusDecayLinearTimeChart((MultiNucleusDecayModel)_model, this);
         _chartLayer.addChild( _decayTimeChart );
+        setTimeSpanForChart();
         
         // Create and add the node the represents the bucket from which nuclei
         // can be extracted and added to the play area.
@@ -371,6 +376,7 @@ public class MultiNucleusBetaDecayCanvas extends PhetPCanvas {
     
     private void handleNucleusTypeChanged(){
     	_bucketNode.setNucleusType(_model.getNucleusType());
+    	setTimeSpanForChart();
     }
     
     /**
@@ -575,5 +581,18 @@ public class MultiNucleusBetaDecayCanvas extends PhetPCanvas {
     	}
     	
     	return numberOfNucleiObtained;
+    }
+    
+    private void setTimeSpanForChart(){
+    	// Set the time span of the chart based on the nucleus type.
+    	if (_model.getNucleusType() == NucleusType.HEAVY_CUSTOM){
+    		// Set the chart for five seconds of real time.
+    		_decayTimeChart.setTimeSpan(5000);
+    	}
+    	else{
+    		// Set the chart time span to some multiple of the half life of
+    		// the current nucleus.
+    		_decayTimeChart.setTimeSpan(3.2 * HalfLifeInfo.getHalfLifeForNucleusType(_model.getNucleusType()));
+    	}
     }
 }
