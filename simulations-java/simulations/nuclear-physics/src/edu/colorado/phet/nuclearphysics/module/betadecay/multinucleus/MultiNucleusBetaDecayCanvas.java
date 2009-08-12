@@ -55,7 +55,7 @@ public class MultiNucleusBetaDecayCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
 
     // Canvas size in femto meters.  Assumes a 4:3 aspect ratio.
-    private final double CANVAS_WIDTH = 100;
+    private final double CANVAS_WIDTH = 80;
     private final double CANVAS_HEIGHT = CANVAS_WIDTH * (3.0d/4.0d);
     
     // Translation factors, used to set origin of canvas area.
@@ -360,8 +360,8 @@ public class MultiNucleusBetaDecayCanvas extends PhetPCanvas {
     		}
     		_mapNucleiToNodes.remove( modelElement );
     	}
-    	else if (modelElement instanceof SubatomicParticleNode){
-    		_nucleiLayer.removeChild((PNode)modelElement);
+    	else if (modelElement instanceof SubatomicParticle){
+    		_nucleiLayer.removeChild(_mapParticlesToNodes.get(modelElement));
     		_mapParticlesToNodes.remove(modelElement);
     	}
     	else{
