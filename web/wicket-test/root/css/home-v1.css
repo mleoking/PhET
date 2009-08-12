@@ -27,7 +27,7 @@ div.index-holder {
 }
 
 #index-middle-div {
-    /*height: 199px;*/
+/*height: 199px;*/
     height: 215px;
     background-image: url(../images/home-background-1.png);
     background-position: bottom left;
@@ -66,7 +66,7 @@ div.index-holder {
 
 /* overridden left property in ie6fix.css */
 #sponsors {
-    /*border: 1px solid red;*/
+/*border: 1px solid red;*/
     clear: left;
     position: absolute;
     height: 70px;
@@ -76,7 +76,7 @@ div.index-holder {
 }
 
 .sponsor {
-    /*border: 1px solid blue;*/
+/*border: 1px solid blue;*/
     height: 70px;
     width: 100px;
     margin-right: 10px;
@@ -98,3 +98,182 @@ div.index-holder {
     text-decoration: none;
     color: #990000;
 }
+
+div.practices {
+    background: url(../images/practice-background.png) left bottom no-repeat;
+    width: 745px;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    clear: both;
+}
+
+div.practices dl {
+    width: 185px;
+    float: left;
+    margin-right: 1px;
+    background: url(../images/practiceSeperator.gif) right top no-repeat;
+}
+
+div.practices dl.last {
+    background: none;
+    width: 186px;
+}
+
+div.practices dl.last dd {
+    text-align: right;
+}
+
+div.practices dl dt {
+    height: 41px;
+    background-color: #615c92;
+    padding-left: 5px;
+    margin-bottom: 1em;
+}
+
+div.practices dl dt a {
+    background: url(../images/white-arrow-right2.png) no-repeat 2px 5px;
+    padding-left: 9px;
+    font-size: 14px;
+    color: white;
+    text-decoration: none;
+    position: relative;
+    top: 13px;
+}
+
+
+div.practices dl dd {
+    margin: 0;
+    padding: 0 15px;
+    font-size: 12px;
+}
+
+div.practices dd a.nolink {
+    background: none;
+    text-decoration: none;
+    color: #000;
+    padding: 0;
+    line-height: 20px;
+}
+
+div.practices dd a:hover.nolink {
+    background: none;
+    text-decoration: none;
+    color: #000;
+    padding: 0;
+    line-height: 20px;
+}
+
+div.practices dd a {
+    background: url(../images/circleArrow_Icon.gif) no-repeat 0 0;
+    text-decoration: none;
+    color: #000;
+    padding: 0 0 0 17px;
+    line-height: 20px;
+}
+
+div.practices dd a img {
+    border: none;
+}
+
+div.practices dd a:hover {
+    background: url(../images/circleArrow_Icon.gif) no-repeat 0 0;
+    text-decoration: none;
+    color: #2345a1;
+    padding: 0 0 0 17px;
+    line-height: 20px;
+}
+
+
+
+.clear {
+    clear: both;
+}
+
+/* from main site
+div.practices {
+    background: url(../images/home-background-1.png) left bottom no-repeat;
+    width: 766px;
+    margin: 2ex 0 15px 0;
+    padding: 0;
+}
+
+div.practices dl dt {
+    cursor: pointer;
+    height: 41px;
+    background-color: rgb(97, 92, 146);
+    padding-left: 10px;
+    margin-bottom: 1ex;
+}
+
+div.practices dl dt a {
+    background: url(../images/white-arrow-right2.png) no-repeat 2px 5px;
+    font-size: 14px;
+    color: white;
+    text-decoration: none;
+    font-stretch: narrower;
+    position: relative;
+    top: 13px;
+    padding-left: 9px;
+}
+
+dl {
+    background: url(../images/practiceSeperator.gif) right top no-repeat;
+    float: left;
+    margin-left: 1px;
+    padding: 0;
+    width: 184px;
+}
+
+dl.last {
+    background: none;
+    width: 190px;
+}
+
+dl.last dd {
+    text-align: right;
+}
+
+dl dd {
+    margin: 0;
+    padding: 0 15px;
+}
+
+div.practices dd a.nolink {
+    background: none;
+    text-decoration: none;
+    color: #000;
+    padding: 0;
+    line-height: 20px;
+}
+
+div.practices dd a:hover.nolink {
+    background: none;
+    text-decoration: none;
+    color: #000;
+    padding: 0;
+    line-height: 20px;
+}
+
+div.practices dd a {
+    background: url(../images/circleArrow_Icon.gif) no-repeat 0 0;
+    text-decoration: none;
+    color: #000;
+    padding: 0 0 0 17px;
+    line-height: 20px;
+}
+
+div.practices dd a:hover {
+    background: url(../images/circleArrow_Icon.gif) no-repeat 0 0;
+    text-decoration: none;
+    color: #2345a1;
+    padding: 0 0 0 17px;
+    line-height: 20px;
+}
+
+dl dd.readMore a {
+    float: right;
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+}
+*/
