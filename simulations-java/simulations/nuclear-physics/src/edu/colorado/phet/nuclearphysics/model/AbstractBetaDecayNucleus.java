@@ -21,7 +21,7 @@ import edu.colorado.phet.nuclearphysics.common.model.Electron;
 public abstract class AbstractBetaDecayNucleus extends AtomicNucleus {
 
 	private static final Random RAND = new Random();
-	private static final double EMISSION_SPEED = 10;  // Femtometers per clock tick.  Weird, I know.
+	private static final double EMISSION_SPEED = 1.5;  // Femtometers per clock tick.  Weird, I know.
 	
 	public AbstractBetaDecayNucleus(NuclearPhysicsClock clock, Point2D position,
 			int numProtons, int numNeutrons, double decayTimeScalingFactor) {
@@ -46,6 +46,9 @@ public abstract class AbstractBetaDecayNucleus extends AtomicNucleus {
         Electron electron = new Electron(getPositionReference().getX(), getPositionReference().getY());
         electron.setVelocity(xVel, yVel);
         byProducts.add(electron);
+		angle = RAND.nextDouble() * Math.PI * 2;
+		xVel = Math.cos(angle) * EMISSION_SPEED; 
+		yVel = Math.sin(angle) * EMISSION_SPEED; 
         Antineutrino antineutrino = new Antineutrino(getPositionReference().getX(), getPositionReference().getY());
         antineutrino.setVelocity(xVel, yVel);
         byProducts.add(antineutrino);

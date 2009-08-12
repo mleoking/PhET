@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
 import edu.colorado.phet.nuclearphysics.common.NucleusType;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
+import edu.colorado.phet.nuclearphysics.common.model.SubatomicParticle;
 import edu.colorado.phet.nuclearphysics.model.AdjustableHalfLifeNucleus;
 import edu.colorado.phet.nuclearphysics.model.Carbon14Nucleus;
 import edu.colorado.phet.nuclearphysics.model.Hydrogen3Nucleus;
@@ -45,7 +46,7 @@ public class MultiNucleusBetaDecayModel extends MultiNucleusDecayModel {
     //------------------------------------------------------------------------
     // Instance data
     //------------------------------------------------------------------------
-	protected ArrayList _emittedParticles = new ArrayList();
+	protected ArrayList<SubatomicParticle> _emittedParticles = new ArrayList<SubatomicParticle>();
 
     /**
      * @param clock
@@ -67,8 +68,8 @@ public class MultiNucleusBetaDecayModel extends MultiNucleusDecayModel {
 		super.handleClockTicked(clockEvent);
 		
 		// Move any emitted particles that have been produced by decay events.
-		for (int i = 0; i < _emittedParticles.size(); i++){
-			// TODO: Move the particles.
+		for (SubatomicParticle particle : _emittedParticles){
+			particle.translate();
 		}
 	}
 
@@ -102,7 +103,6 @@ public class MultiNucleusBetaDecayModel extends MultiNucleusDecayModel {
 	        
 	        newNucleus.addListener( _nucleusListener );
 		}
-		
 	}
 
 	protected void initializeNucleusListener() {
@@ -117,7 +117,15 @@ public class MultiNucleusBetaDecayModel extends MultiNucleusDecayModel {
                     // managed by this object.
                     for (int i = 0; i < byProducts.size(); i++){
                         Object byProduct = byProducts.get( i );
-                        // TODO: This needs to be filled in.
+                        if (byProduct instanceof SubatomicParticle){
+                            _emittedParticles.add((SubatomicParticle)byProduct);
+                            notifyModelElementAdded(byProduct);
+                        }
+                        else {
+                            // We should never get here, debug it if it does.
+                            System.err.println("Error: Unexpected byproduct of decay event.");
+                            assert false;
+                        }
                     }
                 }
             }

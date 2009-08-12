@@ -176,11 +176,6 @@ public class DecayRatesModel extends MultiNucleusDecayModel {
 	}
 	
     /**
-     * Search for a location that is not already occupied by another nucleus.
-     * 
-     * @return
-     */
-    /**
      * @return
      */
     public Point2D findOpenNucleusLocation(){

@@ -248,7 +248,7 @@ public abstract class AtomicNucleus implements NuclearDecayControl {
     public void activateDecay(){
     	// Only allow activation if the nucleus hasn't already decayed.
     	if (_numNeutrons == _origNumNeutrons){
-    		_decayTime = _clock.getSimulationTime() + calcDecayTime();
+    		_decayTime = _clock.getSimulationTime() + (calcDecayTime() * _decayTimeScalingFactor);
     	}
     }
 
