@@ -427,6 +427,7 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngl
     elapsedTimeHistory += elapsedTimeMS
     while (elapsedTimeHistory.length > 100) elapsedTimeHistory.remove(0)
     val avg = elapsedTimeHistory.foldLeft(0L)(_ + _) / elapsedTimeHistory.length
+    ()
 //    println("elapsed time average (ns) = "+avg)
   }
 
