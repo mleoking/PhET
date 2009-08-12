@@ -12,19 +12,22 @@ class CenteredBoxStrategy(modelWidth: Double, modelHeight: Double, canvas: JComp
 
     if (canvas.getWidth > 0 && canvas.getHeight > 0) {
       val mv2d = getModelViewTransform2D
-      println("model dim="+modelWidth+"x"+modelHeight+", visible="+getVisibleModelBounds)
+      println("model dim=" + modelWidth + "x" + modelHeight + ", visible=" + getVisibleModelBounds)
       mv2d.getAffineTransform
     } else {
       new AffineTransform
     }
   }
 
-  def getModelViewTransform2D:ModelViewTransform2D = {
-    val sx = canvas.getWidth / modelWidth
-    val sy = canvas.getHeight / modelHeight
+  def sx = canvas.getWidth / modelWidth
 
+  def sy = canvas.getHeight / modelHeight
+
+  def getScale = if (sx < sy) sx else sy
+
+  def getModelViewTransform2D: ModelViewTransform2D = {
     //use the smaller
-    var scale = if (sx < sy) sx else sy
+    var scale = getScale
     scale = if (scale <= 0) sy else scale //if scale is negative or zero, just use scale=sy as a default
     val outputBox =
     if (scale == sx)
@@ -35,7 +38,5 @@ class CenteredBoxStrategy(modelWidth: Double, modelHeight: Double, canvas: JComp
     new ModelViewTransform2D(new Rectangle2D.Double(0, 0, modelWidth, modelHeight), outputBox, false)
   }
 
-  def getVisibleModelBounds = {
-    getModelViewTransform2D.getAffineTransform.createInverse.createTransformedShape(new Rectangle(canvas.getWidth, canvas.getHeight)).getBounds2D
-  }
+  def getVisibleModelBounds = getModelViewTransform2D.getAffineTransform.createInverse.createTransformedShape(new Rectangle(canvas.getWidth, canvas.getHeight)).getBounds2D
 }

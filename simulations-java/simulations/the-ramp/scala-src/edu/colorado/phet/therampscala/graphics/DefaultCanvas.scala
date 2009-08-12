@@ -7,10 +7,14 @@ import java.awt.geom.Rectangle2D
 
 import scalacommon.CenteredBoxStrategy
 import umd.cs.piccolo.PNode
+import java.lang.Math._
 
-class DefaultCanvas(modelWidth: Double, modelHeight: Double) extends PhetPCanvas(new Dimension(1024, 768)) {
-  def canonicalBounds = new Rectangle(0, 0, 768, 768)
-  setWorldTransformStrategy(new CenteredBoxStrategy(canonicalBounds.width, canonicalBounds.height, this))
+class DefaultCanvas(modelWidth: Double, modelHeight: Double, canvasWidth:Int,canvasHeight:Int) extends PhetPCanvas(new Dimension(canvasWidth,canvasHeight)) {
+  def this(modelWidth: Double, modelHeight: Double) = this(modelWidth,modelHeight,1024,768)
+  def canonicalBounds = new Rectangle(0, 0, min(canvasWidth,canvasHeight), min(canvasWidth,canvasHeight))
+  setWorldTransformStrategy(new CenteredBoxStrategy(canonicalBounds.width, canonicalBounds.height, this){
+    override def getScale = super.getScale
+  })
   val transform: ModelViewTransform2D = new ModelViewTransform2D(new Rectangle2D.Double(-modelWidth / 2, -modelHeight / 2, modelWidth, modelHeight), canonicalBounds, true)
   val worldNode = new PNode
   addWorldChild(worldNode)
