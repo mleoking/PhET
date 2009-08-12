@@ -23,12 +23,23 @@ class AbstractRampModule(frame: JFrame, clock: ScalaClock, name: String, default
   val coordinateSystemModel = new CoordinateSystemModel
   val vectorViewModel = new VectorViewModel
   coordinateSystemModel.addListenerByName(if (coordinateSystemModel.fixed) model.coordinateFrameModel.angle = 0)
-//  clock.addClockListener(model.update(_))
-  val dynamicClock = new DynamicClock(()=>{model.update(1.0/30.0)})
-  val t = new Thread(new Runnable(){
-    def run = dynamicClock.loop()
+  clock.addClockListener(dt => {
+    val startTime = System.currentTimeMillis
+    model.update(dt)
+    getSimulationPanel.paintImmediately(0,0,getSimulationPanel.getWidth,getSimulationPanel.getHeight)
+    val endTime = System.currentTimeMillis
+    val elapsed = endTime - startTime
+    if (elapsed < 25){
+      val toSleep = 25- elapsed
+//      println("had excess time, sleeping: "+toSleep)
+      Thread.sleep(toSleep)//todo: blocks swing event handler thread and paint thread
+    }
   })
-  t.start()
+//  val dynamicClock = new DynamicClock(()=>{model.update(1.0/30.0)})
+//  val t = new Thread(new Runnable(){
+//    def run = dynamicClock.loop()
+//  })
+//  t.start()
 
   //pause on startup/reset, and unpause (and start recording) when the user applies a force
   model.setPaused(true)
@@ -48,28 +59,28 @@ class AbstractRampModule(frame: JFrame, clock: ScalaClock, name: String, default
   def resetAll() = {}
 }
 
-class DynamicClock(doWork:()=>Unit){
-  val proposedDelayNS = 30000000 // 30 ms
-  def step() = {
-    val startTime = System.nanoTime
-    SwingUtilities.invokeAndWait(new Runnable(){
-      def run = doWork()
-    })
-    val endTime = System.nanoTime
-    val elapsedNS = endTime - startTime
-    val remaining = proposedDelayNS - elapsedNS
-    println("remaining = "+remaining)
-    if (remaining > 0 ){
-      val ms = remaining / 1000000
-      if (remaining > 999999) {
-        println("ms = "+ms)
-        Thread.sleep(ms,(remaining % 1000000L).toInt)
-      }
-      else Thread.sleep(0,remaining.toInt)
-    }
-  }
-  def loop() = while (true) step()
-}
+//class DynamicClock(doWork:()=>Unit){
+//  val proposedDelayNS = 30000000 // 30 ms
+//  def step() = {
+//    val startTime = System.nanoTime
+//    SwingUtilities.invokeAndWait(new Runnable(){
+//      def run = doWork()
+//    })
+//    val endTime = System.nanoTime
+//    val elapsedNS = endTime - startTime
+//    val remaining = proposedDelayNS - elapsedNS
+//    println("remaining = "+remaining)
+//    if (remaining > 0 ){
+//      val ms = remaining / 1000000
+//      if (remaining > 999999) {
+//        println("ms = "+ms)
+//        Thread.sleep(ms,(remaining % 1000000L).toInt)
+//      }
+//      else Thread.sleep(0,remaining.toInt)
+//    }
+//  }
+//  def loop() = while (true) step()
+//}
 
 class BasicRampModule(frame: JFrame, clock: ScalaClock, name: String,
                       coordinateSystemFeaturesEnabled: Boolean, useObjectComboBox: Boolean,
@@ -130,7 +141,7 @@ class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock) extends Abstrac
 }
 
 class RampApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
-  def newClock = new ScalaClock(RampDefaults.DELAY, RampDefaults.DT_DEFAULT)
+  def newClock = new ScalaClock(0, RampDefaults.DT_DEFAULT)
   addModule(new IntroRampModule(getPhetFrame, newClock))
   addModule(new CoordinatesRampModule(getPhetFrame, newClock))
   addModule(new ForceGraphsModule(getPhetFrame, newClock))
