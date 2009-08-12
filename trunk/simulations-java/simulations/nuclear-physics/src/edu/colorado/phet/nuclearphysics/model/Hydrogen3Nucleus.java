@@ -80,17 +80,6 @@ public class Hydrogen3Nucleus extends AbstractBetaDecayNucleus {
     }
     
     /**
-     * Activate the nucleus, meaning that it will now decay after some amount
-     * of time.
-     */
-    public void activateDecay(){
-    	// Only allow activation if the nucleus hasn't already decayed.
-    	if (_numNeutrons == ORIGINAL_NUM_NEUTRONS){
-    		_decayTime = _clock.getSimulationTime() + calcDecayTime();
-    	}
-    }
-    
-    /**
      * Return a value indicating whether or not the nucleus has decayed.
      */
     public boolean hasDecayed(){

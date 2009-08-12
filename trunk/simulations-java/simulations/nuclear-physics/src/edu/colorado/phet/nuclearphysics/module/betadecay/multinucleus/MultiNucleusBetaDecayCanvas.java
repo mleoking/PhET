@@ -473,7 +473,7 @@ public class MultiNucleusBetaDecayCanvas extends PhetPCanvas {
     		}
     		else{
 	    		// Cause this node to start moving towards fissioning.
-	    		((NuclearDecayControl)nucleus).activateDecay();
+	    		nucleus.activateDecay();
     		}
     	}
     }
