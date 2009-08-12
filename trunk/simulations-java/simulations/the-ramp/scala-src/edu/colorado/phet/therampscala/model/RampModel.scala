@@ -5,7 +5,6 @@ import collection.mutable.ArrayBuffer
 import common.phetcommon.math.Function.LinearFunction
 import common.phetcommon.math.MathUtil
 import graphics.ObjectModel
-import java.awt.Color
 import scalacommon.math.Vector2D
 import java.awt.geom.Point2D
 import scalacommon.record.{DataPoint, RecordModel}
@@ -174,11 +173,10 @@ class CoordinateFrameModel(snapToAngles: List[() => Double]) extends Observable 
 //This class stores all state information used in record/playback
 case class RecordedState(angle: Double, selectedObject: ScalaRampObjectState, beadState: BeadState, manBeadState: BeadState, appliedForce: Double, walls: Boolean)
 
-class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean,initialAngle:Double) extends RecordModel[RecordedState] with ObjectModel {
-
+class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngle: Double) extends RecordModel[RecordedState] with ObjectModel {
   setPaused(pausedOnReset)
 
-  def stepRecord():Unit = stepRecord(RampDefaults.DT_DEFAULT)
+  def stepRecord(): Unit = stepRecord(RampDefaults.DT_DEFAULT)
 
   private var _walls = true
   private var _frictionless = false
@@ -205,14 +203,14 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean,initialAngle
     else
       new Range(-10000, RampDefaults.MAX_X)
   }
-  val surfaceFrictionStrategy = new SurfaceFrictionStrategy(){
+  val surfaceFrictionStrategy = new SurfaceFrictionStrategy() {
     //todo: allow different values for different segments
-    def getTotalFriction(objectFriction: Double) = new LinearFunction(0,1,objectFriction,objectFriction*0.75).evaluate(rampSegments(0).wetness)
+    def getTotalFriction(objectFriction: Double) = new LinearFunction(0, 1, objectFriction, objectFriction * 0.75).evaluate(rampSegments(0).wetness)
   }
   val bead = new Bead(new BeadState(defaultBeadPosition, 0, _selectedObject.mass, _selectedObject.staticFriction, _selectedObject.kineticFriction, 0.0),
-    _selectedObject.height, _selectedObject.width, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction, surfaceFrictionStrategy,walls, wallRange)
+    _selectedObject.height, _selectedObject.width, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction, surfaceFrictionStrategy, walls, wallRange)
 
-  def createBead(x: Double, width: Double, height: Double) = new Bead(new BeadState(x, 0, 10, 0, 0, 0.0), height, width, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction, surfaceFrictionStrategy,walls, wallRange)
+  def createBead(x: Double, width: Double, height: Double) = new Bead(new BeadState(x, 0, 10, 0, 0, 0.0), height, width, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction, surfaceFrictionStrategy, walls, wallRange)
 
   def createBead(x: Double, width: Double): Bead = createBead(x, width, 3)
 
@@ -296,17 +294,20 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean,initialAngle
   val raindropAddedListeners = new ArrayBuffer[Raindrop => Unit]
 
   var totalThermalEnergyOnClear = 0.0
+
   def clearHeat() = {
     totalThermalEnergyOnClear = bead.thermalEnergy
     val fireDog = new MyFireDog //cue the fire dog, which will eventually clear the thermal energy
     fireDogs += fireDog //updates when clock ticks
     fireDogAddedListeners.foreach(_(fireDog))
   }
+
   private val maxDrops = 60
+
   def rainCrashed() = {
     rampSegments(0).dropHit()
     rampSegments(1).dropHit()
-    bead.thermalEnergy = bead.thermalEnergy - totalThermalEnergyOnClear/(maxDrops/ 2.0)
+    bead.thermalEnergy = bead.thermalEnergy - totalThermalEnergyOnClear / (maxDrops / 2.0)
     if (bead.thermalEnergy < 1) bead.thermalEnergy = 0.0
   }
 
@@ -413,11 +414,20 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean,initialAngle
     setTime(0.0)
   }
 
+  val elapsedTimeHistory = new ArrayBuffer[Long]
+
   def update(dt: Double) = {
+    val startTime = System.nanoTime
     if (!isPaused) {
       if (isRecord) doStep(dt)
       else if (isPlayback) stepPlayback()
     }
+    val endTime = System.nanoTime
+    val elapsedTimeMS = endTime - startTime
+    elapsedTimeHistory += elapsedTimeMS
+    while (elapsedTimeHistory.length > 100) elapsedTimeHistory.remove(0)
+    val avg = elapsedTimeHistory.foldLeft(0L)(_ + _) / elapsedTimeHistory.length
+//    println("elapsed time average (ns) = "+avg)
   }
 
   def stepRecord(dt: Double) = doStep(dt)
