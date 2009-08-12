@@ -39,8 +39,6 @@ public class NucleusImageFactory {
     private static NucleusImageFactory _instance = null;
     private static Random _rand = new Random();
 
-    private static final int MAX_ATOMIC_WEIGHT = 250;
-
     //------------------------------------------------------------------------
     // Instance Data
     //------------------------------------------------------------------------
