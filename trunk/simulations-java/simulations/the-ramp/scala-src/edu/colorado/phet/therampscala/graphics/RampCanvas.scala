@@ -14,10 +14,8 @@ import scalacommon.Predef._
 import umd.cs.piccolo.PNode
 import java.lang.Math._
 import RampResources._
-import RampDefaults._
-
 abstract class AbstractRampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, freeBodyDiagramModel: FreeBodyDiagramModel,
-                                  vectorViewModel: VectorViewModel, frame: JFrame) extends DefaultCanvas(22, 20) {
+                                  vectorViewModel: VectorViewModel, frame: JFrame) extends DefaultCanvas(22, 22) {
   setBackground(RampDefaults.SKY_GRADIENT_BOTTOM)
 
   addNode(new SkyNode(transform))
@@ -219,7 +217,8 @@ abstract class AbstractRampCanvas(model: RampModel, coordinateSystemModel: Coord
 }
 
 class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, freeBodyDiagramModel: FreeBodyDiagramModel,
-                 vectorViewModel: VectorViewModel, frame: JFrame, showObjectSelectionNode: Boolean, rampAngleDraggable: Boolean) extends AbstractRampCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame) {
+                 vectorViewModel: VectorViewModel, frame: JFrame, showObjectSelectionNode: Boolean, rampAngleDraggable: Boolean)
+        extends AbstractRampCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame) {
   if (showObjectSelectionNode) {
     addNode(new ObjectSelectionNode(transform, model))
     addNode(indexOfChild(earthNode) + 1, new AppliedForceSliderNode(model.bead, transform))
