@@ -21,7 +21,9 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
+import edu.colorado.phet.nuclearphysics.common.model.Antineutrino;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
+import edu.colorado.phet.nuclearphysics.common.model.Electron;
 import edu.colorado.phet.nuclearphysics.common.model.NuclearDecayControl;
 import edu.colorado.phet.nuclearphysics.common.view.AbstractAtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusImageType;
@@ -308,7 +310,13 @@ public class MultiNucleusBetaDecayCanvas extends PhetPCanvas {
             // Register for notifications from this node.
             atomicNucleusNode.addListener(_grabbableNodeListener);
     	}
-    	else {
+    	else if (modelElement instanceof Electron){
+    		// Add a new electron node to track this electron.
+    	}
+    	else if (modelElement instanceof Antineutrino){
+    		// Add a new antineutrino node to track this antineutrino.
+    	}
+    	else{
     		// TODO: Need to handle emitted particles.
     		System.err.println("WARNING: Unrecognized model element added, unable to create node for canvas.");
     	}
