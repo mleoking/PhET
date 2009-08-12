@@ -43,7 +43,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author John Blanco
  */
-public class RadiometricElementDecayCanvas extends PhetPCanvas {
+public class RadiometricElementDecayCanvas extends PhetPCanvas implements AutopressRestButton {
     
     //----------------------------------------------------------------------------
     // Class data
@@ -266,9 +266,8 @@ public class RadiometricElementDecayCanvas extends PhetPCanvas {
         _paddedBucketRect.setRect(x, y, width, height);
 	}
 	
-	/**
-	 * Auto-press the reset button, i.e. make it look like someone or some
-	 * THING pressed the button.
+	/* (non-Javadoc)
+	 * @see edu.colorado.phet.nuclearphysics.module.halflife.AutopressRestButton#autoPressResetNucleiButton()
 	 */
 	public void autoPressResetNucleiButton(){
 		_resetButtonNode.autoPress();

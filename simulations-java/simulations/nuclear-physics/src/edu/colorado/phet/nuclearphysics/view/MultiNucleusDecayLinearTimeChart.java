@@ -34,7 +34,7 @@ import edu.colorado.phet.nuclearphysics.common.NucleusType;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.model.NuclearDecayListenerAdapter;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusDecayModel;
-import edu.colorado.phet.nuclearphysics.module.halflife.RadiometricElementDecayCanvas;
+import edu.colorado.phet.nuclearphysics.module.halflife.AutopressRestButton;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -119,7 +119,7 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
     
     // Reference to the canvas on which this chart resides.  Needed for
     // certain interactions.
-    RadiometricElementDecayCanvas _canvas;
+    AutopressRestButton _canvas;
     
     // Time span covered by this chart, in milliseconds.
     private double _timeSpan = DEFAULT_TIME_SPAN;
@@ -185,7 +185,7 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
     // Constructor
     //------------------------------------------------------------------------
 
-    public MultiNucleusDecayLinearTimeChart( MultiNucleusDecayModel model, RadiometricElementDecayCanvas canvas ) {
+    public MultiNucleusDecayLinearTimeChart( MultiNucleusDecayModel model, AutopressRestButton canvas ) {
 
         _clock = model.getClock();
         _model = model;
