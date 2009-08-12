@@ -107,7 +107,7 @@ public class NucleusImageFactory {
 
         // If we have enough cached images at this atomic weight, use one of
         // them.
-        nucleusImage = getCachedImage2( numProtons, numNeutrons );
+        nucleusImage = getCachedImage( numProtons, numNeutrons );
         if ( nucleusImage != null ) {
             return new PImage( nucleusImage );
         }
@@ -126,7 +126,7 @@ public class NucleusImageFactory {
      * @param pixelsPerFm - Pixels per femtometer
      */
     public void preGenerateNucleusImages( int numProtons, int numNeutrons, double pixelsPerFm ){
-    	int numCachedImages = getNumCachedImages2(numProtons, numNeutrons);
+    	int numCachedImages = getNumCachedImages(numProtons, numNeutrons);
     	if (numCachedImages < NUM_IMAGES_TO_CACHE){
     		// The cache isn't full for this atomic weight, so fill it.
     		for (int i = 0; i < NUM_IMAGES_TO_CACHE - numCachedImages; i++){
@@ -219,7 +219,7 @@ public class NucleusImageFactory {
         nucleusImage = nucleus.toImage();
         
         // Cache the newly created image.
-        addCachedImage2( numProtons, numNeutrons, nucleusImage );
+        addCachedImage( numProtons, numNeutrons, nucleusImage );
 
         // Return the image.
         return new PImage( nucleus.toImage() );
@@ -282,7 +282,7 @@ public class NucleusImageFactory {
      * @param atomicWeight
      * @return - Image if the cache is full, null if not.
      */
-    private Image getCachedImage2( int numProtons, int numNeutrons ) {
+    private Image getCachedImage( int numProtons, int numNeutrons ) {
 
     	Integer numProtonsInteger = new Integer(numProtons);
     	Integer numNeutronsInteger = new Integer(numNeutrons);
@@ -310,7 +310,7 @@ public class NucleusImageFactory {
      * Get a number representing the number of cached images for the specified
      * atomic weight.
      */
-    private int getNumCachedImages2( int numProtons, int numNeutrons ){
+    private int getNumCachedImages( int numProtons, int numNeutrons ){
     	
     	Integer numProtonsInteger = new Integer(numProtons);
     	Integer numNeutronsInteger = new Integer(numNeutrons);
@@ -337,7 +337,7 @@ public class NucleusImageFactory {
     /**
      * Add a new image to the image cache.
      */
-    private void addCachedImage2( int numProtons, int numNeutrons, Image newImage ) {
+    private void addCachedImage( int numProtons, int numNeutrons, Image newImage ) {
 
     	Integer numProtonsInteger = new Integer(numProtons);
     	Integer numNeutronsInteger = new Integer(numNeutrons);
