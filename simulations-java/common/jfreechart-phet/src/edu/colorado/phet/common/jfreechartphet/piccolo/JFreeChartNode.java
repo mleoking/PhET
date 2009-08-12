@@ -394,7 +394,7 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
     /**
      * Adds a listener that is notified when the associated chart's rendering info changes.
      *
-     * @param listener
+     * @param propertyChangeListener
      */
     public void addChartRenderingInfoPropertyChangeListener( PropertyChangeListener propertyChangeListener ) {
         _changeSupport.addPropertyChangeListener( PROPERTY_CHART_RENDERING_INFO, propertyChangeListener );
@@ -403,7 +403,7 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
     /**
      * Removes a listener that is notified when the associated chart's rendering info changes.
      *
-     * @param listener
+     * @param propertyChangeListener
      */
     public void removeChartRenderingInfoPropertyChangeListener( PropertyChangeListener propertyChangeListener ) {
         _changeSupport.removePropertyChangeListener( PROPERTY_CHART_RENDERING_INFO, propertyChangeListener );
