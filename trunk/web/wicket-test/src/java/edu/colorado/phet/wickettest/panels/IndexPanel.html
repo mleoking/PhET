@@ -37,7 +37,8 @@
                 <div id="sponsors" class="ie6sponsors" dir="ltr">
                     <div class="sponsor" style="width: 80px;">
                         <a href="http://www.ksu.edu.sa/" wicket:message="dir:language.dir">
-                            <img wicket:id="ksu-logo" src="../../../../../../../root/images/ECSME-combined-logo-small.jpg"
+                            <img wicket:id="ksu-logo"
+                                 src="../../../../../../../root/images/ECSME-combined-logo-small.jpg"
                                  alt="King Saud Univeristy logo"/>
                             <br/>
                             ECSME at King Saud University
@@ -71,7 +72,48 @@
             </div>
         </div>
 
-        <div style="text-align: center; margin-top: 5px;">
+        <div class="practices">
+            <dl>
+                <dt><a href="get_phet/index.php">Run our Simulations</a></dt>
+                <dd><a href="simulations/index.php" wicket:id="on-line-link">On Line</a></dd>
+                <dd><a href="get_phet/full_install.php">Full Installation</a></dd>
+                <dd><a href="get_phet/simlauncher.php">One at a Time</a></dd>
+            </dl>
+
+            <dl>
+                <dt><a href="teacher_ideas/index.php">Teacher Ideas &amp; Activities</a></dt>
+                <dd><a href="teacher_ideas/workshops.php">Workshops</a></dd>
+            </dl>
+
+            <dl>
+                <dt><a href="contribute/index.php">Contribute</a></dt>
+                <dd><a href="contribute/index.php">Support PhET</a></dd>
+                <dd><a href="contribute/translation-utility.php">Translate Simulations</a></dd>
+            </dl>
+
+            <dl class="last">
+                <dt><a href="simulations/index.php">Browse Sims</a></dt>
+                <dd><a class="nolink" href="simulations/index.php"><img
+                        src="../../../../../../../root/images/geometric-optics-screenshot.png"
+                        alt="Simulation Screenshot"
+                        title="Search"
+                        wicket:id="mini-screenshot"/></a></dd>
+                <dd class="readMore">
+                    <a href="simulations/index.php">
+                        Simulations
+                    </a>
+                </dd>
+            </dl>
+            <div class="clear">
+
+            </div>
+        </div>
+
+        <div class="clear">
+
+        </div>
+
+        <div class="index-footer" style="text-align: center; margin-top: 5px;">
             <a href="IndexPanel.html#" wicket:id="test-translation" class="langlink">Translation Test</a>
             <br/>
             <!--<span wicket:id="test-en">(English)</span> <span wicket:id="test-ar">(Arabic)</span>-->
