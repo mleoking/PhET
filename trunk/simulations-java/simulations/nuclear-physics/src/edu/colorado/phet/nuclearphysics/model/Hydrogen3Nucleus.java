@@ -45,7 +45,6 @@ public class Hydrogen3Nucleus extends AbstractBetaDecayNucleus {
     }
     
     public Hydrogen3Nucleus(NuclearPhysicsClock clock){
-
         this(clock, new Point2D.Double(0, 0));
     }
     
