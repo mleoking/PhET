@@ -1,3 +1,4 @@
+Removed unused images
 Fixed: Selecting "frictionless" shouldn't change the "pause" icon to the "record" icon near the timeline controls
 Added zoom in/out buttons for Work/Energy bar chart
 Added text symbol Fsum next to the arrow in the control panel area
