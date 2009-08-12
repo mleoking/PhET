@@ -6,7 +6,7 @@ import java.awt.BasicStroke;
 import java.awt.geom.GeneralPath;
 
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
-import edu.umd.cs.piccolo.PNode;
+import edu.colorado.phet.nuclearphysics.common.model.Antineutrino;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
@@ -14,21 +14,35 @@ import edu.umd.cs.piccolo.nodes.PPath;
  * 
  * @author John Blanco
  */
-public class AntineutrinoNode extends PNode{
+public class AntineutrinoNode extends SubatomicParticleNode{
+
+	PPath _representation;
 	
-	public AntineutrinoNode() {
-		float diameter = (float)NuclearPhysicsConstants.ANTINEUTRINO_DIAMETER;
-		PPath antineutrino = new PPath();
-		antineutrino.setPaint(NuclearPhysicsConstants.ANTINEUTRINO_COLOR);
-		antineutrino.setStroke(new BasicStroke(diameter/10));
-		GeneralPath shape = new GeneralPath();
-		shape.moveTo(0, 0);
-		shape.lineTo(diameter, 0);
-		shape.lineTo(diameter / 2, 0.7f * diameter);
-		shape.lineTo(0, 0);
-		shape.closePath();
-		antineutrino.setPathTo(shape);
-		antineutrino.setOffset(-diameter/ 2, -diameter * 0.35);
-		addChild(antineutrino);
-	}
+    public AntineutrinoNode( ) {
+    	super();
+    	createRepresentation();
+    }
+    
+    public AntineutrinoNode( Antineutrino antineutrino ) {
+        super( antineutrino );
+    	createRepresentation();
+    }
+    
+    private void createRepresentation(){
+    	if (_representation == null){
+    		float diameter = (float)NuclearPhysicsConstants.ANTINEUTRINO_DIAMETER;
+    		_representation = new PPath();
+    		_representation.setPaint(NuclearPhysicsConstants.ANTINEUTRINO_COLOR);
+    		_representation.setStroke(new BasicStroke(diameter/10));
+    		GeneralPath shape = new GeneralPath();
+    		shape.moveTo(0, 0);
+    		shape.lineTo(diameter, 0);
+    		shape.lineTo(diameter / 2, 0.7f * diameter);
+    		shape.lineTo(0, 0);
+    		shape.closePath();
+    		_representation.setPathTo(shape);
+    		_representation.setOffset(-diameter/ 2, -diameter * 0.35);
+    		addChild(_representation);
+    	}
+    }
 }
