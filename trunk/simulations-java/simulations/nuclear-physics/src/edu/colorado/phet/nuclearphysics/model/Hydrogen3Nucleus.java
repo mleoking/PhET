@@ -82,7 +82,7 @@ public class Hydrogen3Nucleus extends AbstractBetaDecayNucleus {
      * Return a value indicating whether or not the nucleus has decayed.
      */
     public boolean hasDecayed(){
-    	if (_numProtons < ORIGINAL_NUM_PROTONS){
+    	if (_numNeutrons < ORIGINAL_NUM_NEUTRONS){
     		return true;
     	}
     	else{
