@@ -7,7 +7,6 @@ import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
-import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 
 /**
  * This class represents a non-composite Carbon 14 nucleus.  Because it is
@@ -16,7 +15,7 @@ import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
  *
  * @author John Blanco
  */
-public class Carbon14Nucleus extends AtomicNucleus {
+public class Carbon14Nucleus extends AbstractBetaDecayNucleus {
     
     //------------------------------------------------------------------------
     // Class Data
@@ -153,22 +152,4 @@ public class Carbon14Nucleus extends AtomicNucleus {
         double decayMilliseconds = (-(Math.log( 1 - randomValue ) / (0.693 / HALF_LIFE)));
         return decayMilliseconds;
     }
-    
-	protected void decay(ClockEvent clockEvent) {
-		
-		// Decay into N14.
-        _numNeutrons -= 1;
-        _numProtons += 1;
-
-        // Set the final value of the time that this nucleus existed prior to
-        // decaying.
-        _activatedLifetime += clockEvent.getSimulationTimeChange();
-        
-        // Send out the decay event to all listeners.
-        notifyNucleusChangeEvent(null);
-        
-        // Set the decay time to 0 to indicate that decay has occurred and
-        // should not occur again.
-        _decayTime = 0;
-	}
 }
