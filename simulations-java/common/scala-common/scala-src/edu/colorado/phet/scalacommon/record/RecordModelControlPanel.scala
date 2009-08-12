@@ -1,12 +1,6 @@
 package edu.colorado.phet.scalacommon.record
 
-import _root_.edu.colorado.phet.common.phetcommon.math.Function.LinearFunction
-import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader._
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils
-import edu.colorado.phet.common.piccolophet.event.CursorHandler
-import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloTimeControlPanel.BackgroundNode
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
 import java.awt._
 import edu.colorado.phet.common.piccolophet.event.ToolTipHandler
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.DefaultIconButton
@@ -19,7 +13,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources
 import edu.colorado.phet.common.phetcommon.resources.PhetResources
 import java.awt.event.{ActionEvent, ComponentAdapter, ComponentEvent, ActionListener}
 
-import java.awt.geom.{Line2D, Ellipse2D}
+import javax.swing._
 import java.util.{Hashtable, Dictionary}
 import javax.swing._
 import scalacommon.util.Observable
@@ -32,7 +26,7 @@ import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloTimeContro
 import edu.colorado.phet.scalacommon.Predef._
 import common.phetcommon.resources.PhetCommonResources._
 
-class RecordModelControlPanel[T](model: RecordModel[T], simPanel: JComponent, createRightControl: () => PNode,timelineColor:Color,maxTime:Double) extends PhetPCanvas {
+class RecordModelControlPanel[T](model: RecordModel[T], simPanel: JComponent, createRightControl: () => PNode, timelineColor: Color, maxTime: Double) extends PhetPCanvas {
   private class MyButtonNode(text: String, icon: Icon, action: () => Unit) extends PText(text) {
     addInputEventListener(new PBasicInputEventHandler() {
       override def mousePressed(event: PInputEvent) = {action()}
@@ -101,10 +95,13 @@ class RecordModelControlPanel[T](model: RecordModel[T], simPanel: JComponent, cr
   })
   val playPauseTooltipHandler = new ToolTipHandler(getString("Common.ClockControlPanel.Pause"), this)
   playPause.addInputEventListener(playPauseTooltipHandler)
-  model.addListener(() => {
+
+  def updatePlayPauseButton() = {
     playPause.setPlaying(!model.isPaused)
     playPauseTooltipHandler.setText(if (model.isPaused) getString("Common.ClockControlPanel.Play") else getString("Common.ClockControlPanel.Pause"))
-  })
+  }
+  model.addListener(() => updatePlayPauseButton())
+  updatePlayPauseButton()
 
   val stepButton = new StepButton(50)
   stepButton.setEnabled(false)
@@ -126,7 +123,7 @@ class RecordModelControlPanel[T](model: RecordModel[T], simPanel: JComponent, cr
   addControl(stepButton)
   addControl(rightmostControl)
 
-  val timeline = new Timeline(model, this,timelineColor,maxTime)
+  val timeline = new Timeline(model, this, timelineColor, maxTime)
   addScreenChild(timeline)
 
   setPreferredSize(prefSizeM)
