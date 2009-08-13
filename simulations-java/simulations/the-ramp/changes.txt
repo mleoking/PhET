@@ -1,3 +1,4 @@
+Added clear heat button that appears when the ramp heats up
 Made ramp turn red when heated
 # 1.03.31 (34053) Aug 12, 2009
 Removed unused images

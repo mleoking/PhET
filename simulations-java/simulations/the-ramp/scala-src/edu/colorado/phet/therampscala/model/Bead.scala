@@ -24,9 +24,7 @@ case class BeadState(position: Double, velocity: Double, mass: Double, staticFri
 
   def setThermalEnergy(value: Double) = new BeadState(position, velocity, mass, staticFriction, kineticFriction, value,crashEnergy)
 
-  def setCrashEnergy(value:Double) = {
-    new BeadState(position, velocity, mass, staticFriction, kineticFriction, thermalEnergy,value)
-  }
+  def setCrashEnergy(value:Double) = new BeadState(position, velocity, mass, staticFriction, kineticFriction, thermalEnergy,value)
 }
 
 case class Range(min: Double, max: Double)
@@ -232,6 +230,7 @@ class Bead(private var _state: BeadState,
   def thermalEnergy = state.thermalEnergy
 
   def getThermalEnergy = state.thermalEnergy
+  def getRampThermalEnergy = getThermalEnergy - getCrashEnergy
   def getCrashEnergy = state.crashEnergy
 
   def getFrictiveWork = -getThermalEnergy
