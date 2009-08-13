@@ -745,6 +745,21 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
     			addXAxisTickMark(i * 1000, tickMarkText);
     		}
     	}
+    	else if (_timeSpan < MultiNucleusDecayModel.convertYearsToMs(100)){
+    		// Tick marks are 10 yrs apart.
+    		numTickMarks = (int)(_timeSpan / MultiNucleusDecayModel.convertYearsToMs(10) + 1);
+    		
+    		for (int i = 0; i < numTickMarks; i++){
+    			String tickMarkText;
+    			if (i == 0){
+    				tickMarkText = "0.0";
+    			}
+    			else{
+    				tickMarkText = Integer.toString(i * 10);
+    			}
+    			addXAxisTickMark(i * MultiNucleusDecayModel.convertYearsToMs(10), tickMarkText);
+    		}
+    	}
     	else if (_timeSpan < MultiNucleusDecayModel.convertYearsToMs(1E9)){
     		// Tick marks are 5000 yrs apart.  This is generally used for
     		// the Carbon 14 range.
