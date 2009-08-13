@@ -3,6 +3,9 @@
 ==================================================================================
 
 TODO:
+- location of "K=" button is wrong on Windows
+- Solutions canvas layout issues on Mac with JWS on Mac OS 10.4
+- Reset All button looks odd on Mac OS 10.4
 - Reset All does not set scaling controls to "off" in Solutions tab
 - move Reset All button to bottom center of Comparing tab for consistency with other tabs
 - implement "tear off" control?
@@ -18,6 +21,7 @@ TODO:
 - make symbol legend descriptions automatically wrap, so we don't need breaks in HTML markup
 
 DONE:
+# 0.01.29
 8/11/09 hide button to show K dialog for "no solute" so we don't see a button labeled "null="
 8/11/09 fix default config for Solutions tab
 8/11/09 fix save/load/reset for exclusive views and scaling in Solutions tab
@@ -39,6 +43,7 @@ DONE:
 8/11/09 save/load state of K expression dialog (open/closed)
 8/11/09 add button next to strength slider to show K expression with scaling control, first tab only
 8/11/09 add dialog that shows K expression only
+# 0.01.28
 7/23/09 put a border around "Animate" control, set background to light yellow
 7/23/09 change "Animate symbol size" to "Animate"
 7/22/09 change strength slider label to "Strength (Ka):" or "Strength (Kb)"
