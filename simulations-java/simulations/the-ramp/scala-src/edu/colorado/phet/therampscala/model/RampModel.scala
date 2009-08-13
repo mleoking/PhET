@@ -233,6 +233,12 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngl
     manBead.setPosition(defaultManPosition)
     bead.attach()
     rampSegments(1).setAngle(initialAngle)
+
+    rampSegments(0).setWetness(0.0)
+    rampSegments(0).setHeat(0.0)
+    rampSegments(1).setWetness(0.0)
+    rampSegments(1).setHeat(0.0)
+
     setPaused(pausedOnReset)
   }
 
@@ -402,6 +408,8 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngl
     bead.stepInTime(dt)
     for (f <- fireDogs) f.stepInTime(dt)
     for (r <- raindrops) r.stepInTime(dt)
+    rampSegments(0).setHeat(bead.getThermalEnergy)
+    rampSegments(1).setHeat(bead.getThermalEnergy)
     rampSegments(0).stepInTime(dt)
     rampSegments(1).stepInTime(dt)
     recordHistory += new DataPoint(getTime, new RecordedState(getRampAngle, selectedObject.state, bead.state, manBead.state, bead.parallelAppliedForce, walls))

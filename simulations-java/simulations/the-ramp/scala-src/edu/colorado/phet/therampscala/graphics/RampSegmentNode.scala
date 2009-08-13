@@ -24,6 +24,7 @@ trait HasPaint extends PNode {
 class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2D) extends PNode with HasPaint {
   val defaultFill = new Color(184, 131, 24)
   val wetColor = new Color(150,211,238)
+  val hotColor = new Color(255,0,0)
   val line = new PhetPPath(defaultFill, new BasicStroke(2f), new Color(91, 78, 49))
   addChild(line)
   defineInvokeAndPass(rampSegment.addListenerByName) {
@@ -33,6 +34,16 @@ class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2
     val r=new LinearFunction(0,1,defaultFill.getRed,wetColor.getRed).evaluate(rampSegment.wetness).toInt
     val g=new LinearFunction(0,1,defaultFill.getGreen,wetColor.getGreen).evaluate(rampSegment.wetness).toInt
     val b=new LinearFunction(0,1,defaultFill.getBlue,wetColor.getBlue).evaluate(rampSegment.wetness).toInt
+    paintColor = new Color(r,g,b)
+  })
+
+  //todo: factor these methods together
+  rampSegment.heatListeners += (()=>{
+    val scaleFactor = 10000.0
+    val heatBetweenZeroAndOne = min(rampSegment.heat / scaleFactor,1)
+    val r=new LinearFunction(0,1,defaultFill.getRed,hotColor.getRed).evaluate(heatBetweenZeroAndOne).toInt
+    val g=new LinearFunction(0,1,defaultFill.getGreen,hotColor.getGreen).evaluate(heatBetweenZeroAndOne).toInt
+    val b=new LinearFunction(0,1,defaultFill.getBlue,hotColor.getBlue).evaluate(heatBetweenZeroAndOne).toInt
     paintColor = new Color(r,g,b)
   })
 

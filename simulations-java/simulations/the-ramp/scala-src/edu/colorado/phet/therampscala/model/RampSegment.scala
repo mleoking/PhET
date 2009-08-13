@@ -55,15 +55,28 @@ class RampSegment(_state: RampSegmentState) extends Observable with Rotatable {
   def wetness = _wetness
 
   import java.lang.Math._
-  def dropHit() = {
-    _wetness = min(_wetness + 0.1, 1.0)
+  def dropHit() = setWetness(min(_wetness + 0.1, 1.0))
+
+  def setWetness(w:Double) ={
+     _wetness = w
     wetnessListeners.foreach(_())
   }
 
+  def resetWetness() = setWetness(0.0)
+  
   def stepInTime(dt: Double) = {
-    _wetness = max(_wetness - 0.01, 0.0)
-    wetnessListeners.foreach(_())
+    setWetness(max(_wetness - 0.01, 0.0))
+    heatListeners.foreach(_())
   }
 
   val wetnessListeners = new ArrayBuffer[() => Unit]
+  val heatListeners = new ArrayBuffer[() => Unit]
+
+  private var _heat = 0.0 //Joules
+  def heat = _heat
+
+  def setHeat(heat:Double) = {
+    _heat = heat
+    heatListeners.foreach(_())
+  }
 }
