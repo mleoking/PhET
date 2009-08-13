@@ -11,8 +11,12 @@ object RampDefaults {
   val MIN_X = -10
   val MAX_X = 10
 
-  val worldWidth = (1024 * 0.81).toInt
-  val worldHeight = (768* 0.81).toInt
+//  val worldDefaultScale = 0.81
+//  val worldDefaultScale = 0.75
+  val worldDefaultScale = 1.0
+
+  val worldWidth = (1024 * worldDefaultScale).toInt
+  val worldHeight = (768* worldDefaultScale).toInt
 
   val MAX_APPLIED_FORCE = 500.0
 
