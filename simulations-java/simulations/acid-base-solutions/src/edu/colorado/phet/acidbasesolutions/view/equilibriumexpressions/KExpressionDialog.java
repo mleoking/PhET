@@ -40,7 +40,7 @@ public class KExpressionDialog extends PaintImmediateDialog {
     
     public KExpressionDialog( Frame owner, final AqueousSolution solution, boolean showWaterExpression ) {
         super( owner );
-        setTitle( ABSStrings.TITLE_EQUILIBRIUM_EXPRESSIONS );
+        setTitle( ABSStrings.TITLE_EQUILIBRIUM_EXPRESSION );
         setResizable( false );
         
         this.solution = solution;
