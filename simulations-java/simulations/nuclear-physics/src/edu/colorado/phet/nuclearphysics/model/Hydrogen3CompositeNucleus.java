@@ -67,7 +67,7 @@ public class Hydrogen3CompositeNucleus extends BetaDecayCompositeNucleus {
 	        
 	    case 2:
 	        // Helium
-	        if (_numNeutrons == 125){
+	        if (_numNeutrons == 1){
 	            // Helium-3
 	            _agitationFactor = HELIUM_3_AGITATION_FACTOR;
 	        }
