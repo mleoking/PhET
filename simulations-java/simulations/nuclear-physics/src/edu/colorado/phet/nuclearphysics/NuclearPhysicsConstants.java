@@ -179,7 +179,7 @@ public class NuclearPhysicsConstants {
     //----------------------------------------------------------------------------
     public static final double NUCLEON_DIAMETER        = 1.6; // In femtometers.
     public static final double ALPHA_PARTICLE_DIAMETER = 3.2; // In femtometers.
-    public static final double ELECTRON_DIAMETER = 1; // In femtometers, not to scale.
+    public static final double ELECTRON_DIAMETER = 0.75; // In femtometers, not to scale, or even close.
     public static final double ANTINEUTRINO_DIAMETER = 1; // In femtometers, not to scale, or even close.
     public static final Color  PROTON_COLOR = new Color(0xaa0000);
     public static final Color  PROTON_HILITE_COLOR = new Color(0xffaaaa);
