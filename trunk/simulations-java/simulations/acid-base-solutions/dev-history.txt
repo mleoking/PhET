@@ -3,19 +3,17 @@
 ==================================================================================
 
 TODO:
+- when animate is turned on/off, animate the symbols growing
 - location of "K=" button is wrong on Windows
 - Solutions canvas layout issues on Mac with JWS on Mac OS 10.4
 - Reset All button looks odd on Mac OS 10.4
 - Reset All does not set scaling controls to "off" in Solutions tab
 - move Reset All button to bottom center of Comparing tab for consistency with other tabs
-- implement "tear off" control?
-- save/load "tear off" state
 - save/load locations of dialogs
 - save/load location of main frame?
-- when animate is turned on/off, animate the symbols growing
 - duplicate code: ComparingEquationsNode = SolutionsReactionEquationsNode + SolutionsEquilibriumExpressionsNode - scaling controls
-- white box around equations in Comparing tab?
 - Spanish translation, to test i18n
+- implement "tear off" control? (pending interviews)
 - more complete legend for symbols and colors (pending interviews)
 - when equations are scaled, some symbols expand beyond the bounds of the window (pending interviews)
 - make symbol legend descriptions automatically wrap, so we don't need breaks in HTML markup
