@@ -13,8 +13,9 @@ import edu.colorado.phet.nuclearphysics.common.NucleusType;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.NuclearDecayModelListener;
 import edu.colorado.phet.nuclearphysics.model.AdjustableHalfLifeCompositeNucleus;
+import edu.colorado.phet.nuclearphysics.model.Carbon14CompositeNucleus;
 import edu.colorado.phet.nuclearphysics.model.CompositeAtomicNucleus;
-import edu.colorado.phet.nuclearphysics.model.Polonium211CompositeNucleus;
+import edu.colorado.phet.nuclearphysics.model.Hydrogen3CompositeNucleus;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.NucleusTypeControl;
 
 /**
@@ -30,7 +31,7 @@ public class SingleNucleusBetaDecayModel implements NucleusTypeControl {
     // Class data
     //------------------------------------------------------------------------
 	
-	public NucleusType DEFAULT_NUCLEUS_TYPE = NucleusType.POLONIUM_211;
+	public NucleusType DEFAULT_NUCLEUS_TYPE = NucleusType.HYDROGEN_3;
     
     //------------------------------------------------------------------------
     // Instance data
@@ -237,13 +238,18 @@ public class SingleNucleusBetaDecayModel implements NucleusTypeControl {
     		removeCurrentNucleus();
     	}
 		switch (_nucleusType){
-		case POLONIUM_211:
-	        _atomicNucleus = new Polonium211CompositeNucleus(_clock, new Point2D.Double(0, 0));
+		case HYDROGEN_3:
+	        _atomicNucleus = new Hydrogen3CompositeNucleus(_clock, new Point2D.Double(0, 0));
 	        break;
 			
-		case HEAVY_CUSTOM:
-	        _atomicNucleus = new AdjustableHalfLifeCompositeNucleus(_clock, new Point2D.Double(0, 0));
+		case CARBON_14:
+	        _atomicNucleus = new Carbon14CompositeNucleus(_clock, new Point2D.Double(0, 0));
 	        break;
+			
+		case LIGHT_CUSTOM:
+	        _atomicNucleus = new Hydrogen3CompositeNucleus(_clock, new Point2D.Double(0, 0));
+	        break;
+			
 		}
         
         // Register as a listener for the nucleus so we can handle the
