@@ -32,6 +32,7 @@ import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.common.NucleusDisplayInfo;
 import edu.colorado.phet.nuclearphysics.common.NucleusType;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
+import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusImageType;
 import edu.colorado.phet.nuclearphysics.model.NuclearDecayListenerAdapter;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusDecayModel;
 import edu.colorado.phet.nuclearphysics.module.halflife.AutopressRestButton;
@@ -180,16 +181,21 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
     // Counter used when offsetting nucleus positions in order to make them
 	// look like a bunch.
 	private int _bunchingCounter = 0;
+	
+	// Image type to use for the nuclei.
+	AtomicNucleusImageType _imageTypeForNuclei;
 
     //------------------------------------------------------------------------
     // Constructor
     //------------------------------------------------------------------------
 
-    public MultiNucleusDecayLinearTimeChart( MultiNucleusDecayModel model, AutopressRestButton canvas ) {
+    public MultiNucleusDecayLinearTimeChart( MultiNucleusDecayModel model, AutopressRestButton canvas, 
+    		AtomicNucleusImageType imageTypeForNuclei ) {
 
         _clock = model.getClock();
         _model = model;
         _canvas = canvas;
+        _imageTypeForNuclei = imageTypeForNuclei;
 
         // Register as a clock listener.
         _clock.addClockListener( new ClockAdapter() {
@@ -220,10 +226,16 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
             	NucleusDisplayInfo postDecayDisplayInfo = 
             		NucleusDisplayInfo.getDisplayInfoForNucleusType(AtomicNucleus.getPostDecayNuclei(_model.getNucleusType()).get(0));
 
-            	_pieChartValues[0].setColor(preDecayDisplayInfo.getDisplayColor());
-    			_pieChartValues[1].setColor(postDecayDisplayInfo.getDisplayColor());
+    	    	if (_imageTypeForNuclei == AtomicNucleusImageType.NUCLEONS_VISIBLE){
+    	    		_pieChartValues[0].setColor(preDecayDisplayInfo.getLabelColor());
+    	    		_pieChartValues[1].setColor(postDecayDisplayInfo.getLabelColor());
+    	    	}
+    	    	else{
+    	    		_pieChartValues[0].setColor(preDecayDisplayInfo.getDisplayColor());
+    	    		_pieChartValues[1].setColor(postDecayDisplayInfo.getDisplayColor());
+    	    	}
 
-            	update();
+    	    	update();
             };
             
             public void halfLifeChanged(){
@@ -356,7 +368,6 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
                 }
             }
         });
-
 
         // Create the label for the half life line.
         _halfLifeLabel = new PText( NuclearPhysicsStrings.HALF_LIFE_LABEL );
@@ -551,19 +562,32 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
     	// Set the text for these labels.
     	_numUndecayedNucleiLabel.setHtml("<html># <sup><font size=-1>" + preDecayDisplayInfo.getIsotopeNumberString() 
     			+ "</font></sup>" + preDecayDisplayInfo.getChemicalSymbol());
-    	_numUndecayedNucleiLabel.setColor(preDecayDisplayInfo.getDisplayColor());
     	_numDecayedNucleiLabel.setHtml("<html># <sup><font size=-1>" + postDecayDisplayInfo.getIsotopeNumberString() 
     			+ "</font></sup>" + postDecayDisplayInfo.getChemicalSymbol());
-    	_numDecayedNucleiLabel.setColor(postDecayDisplayInfo.getDisplayColor());
+    	
+    	// Set the label colors.
+    	if (_imageTypeForNuclei == AtomicNucleusImageType.NUCLEONS_VISIBLE){
+    		_numUndecayedNucleiLabel.setColor(preDecayDisplayInfo.getLabelColor());
+    		_numDecayedNucleiLabel.setColor(postDecayDisplayInfo.getLabelColor());
+    	}
+    	else{
+    		_numUndecayedNucleiLabel.setColor(preDecayDisplayInfo.getDisplayColor());
+    		_numDecayedNucleiLabel.setColor(postDecayDisplayInfo.getDisplayColor());
+    	}
     	
     	// Update the Y axis tick mark labels.
     	_yAxisUpperTickMarkLabel.setHtml("<html><sup><font size=-1>" + preDecayDisplayInfo.getIsotopeNumberString() 
     			+ "</font></sup>" + preDecayDisplayInfo.getChemicalSymbol());
-    	_yAxisUpperTickMarkLabel.setColor(preDecayDisplayInfo.getDisplayColor());
     	_yAxisLowerTickMarkLabel.setHtml("<html><sup><font size=-1>" + postDecayDisplayInfo.getIsotopeNumberString() 
     			+ "</font></sup>" + postDecayDisplayInfo.getChemicalSymbol());
-    	_yAxisLowerTickMarkLabel.setColor(postDecayDisplayInfo.getDisplayColor());
-    	
+    	if (_imageTypeForNuclei == AtomicNucleusImageType.NUCLEONS_VISIBLE){
+    		_yAxisUpperTickMarkLabel.setColor(preDecayDisplayInfo.getLabelColor());
+    		_yAxisLowerTickMarkLabel.setColor(postDecayDisplayInfo.getLabelColor());
+    	}
+    	else{
+    		_yAxisUpperTickMarkLabel.setColor(preDecayDisplayInfo.getDisplayColor());
+    		_yAxisLowerTickMarkLabel.setColor(postDecayDisplayInfo.getDisplayColor());
+    	}
     }
     
     /**
@@ -1092,7 +1116,12 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
     		NucleusDisplayInfo displayInfo = NucleusDisplayInfo.getDisplayInfoForNucleusConfig(
     				_nucleus.getNumProtons(), _nucleus.getNumNeutrons());
     		
-        	return new LabeledNucleusSphereNode( displayInfo ); 
+    		if (_imageTypeForNuclei == AtomicNucleusImageType.NUCLEONS_VISIBLE){
+    			return new LabeledNucleusImageNode( displayInfo );
+    		}
+    		else{
+    			return new LabeledNucleusSphereNode( displayInfo ); 
+    		}
     	}
     }
 }
