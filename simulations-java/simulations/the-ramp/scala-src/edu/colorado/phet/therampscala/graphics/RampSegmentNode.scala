@@ -40,7 +40,7 @@ class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2
   //todo: factor these methods together
   rampSegment.heatListeners += (()=>{
     val scaleFactor = 10000.0
-    val heatBetweenZeroAndOne = min(rampSegment.heat / scaleFactor,1)
+    val heatBetweenZeroAndOne = max(min(rampSegment.heat / scaleFactor,1),0)
     val r=new LinearFunction(0,1,defaultFill.getRed,hotColor.getRed).evaluate(heatBetweenZeroAndOne).toInt
     val g=new LinearFunction(0,1,defaultFill.getGreen,hotColor.getGreen).evaluate(heatBetweenZeroAndOne).toInt
     val b=new LinearFunction(0,1,defaultFill.getBlue,hotColor.getBlue).evaluate(heatBetweenZeroAndOne).toInt

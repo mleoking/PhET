@@ -9,20 +9,24 @@ import java.lang.Math._
 import scalacommon.Predef._
 
 /**Immutable memento for recording*/
-case class BeadState(position: Double, velocity: Double, mass: Double, staticFriction: Double, kineticFriction: Double, thermalEnergy: Double) {
+case class BeadState(position: Double, velocity: Double, mass: Double, staticFriction: Double, kineticFriction: Double, thermalEnergy: Double, crashEnergy:Double) {
   def translate(dx: Double) = setPosition(position + dx)
 
-  def setPosition(pos: Double) = new BeadState(pos, velocity, mass, staticFriction, kineticFriction, thermalEnergy)
+  def setPosition(pos: Double) = new BeadState(pos, velocity, mass, staticFriction, kineticFriction, thermalEnergy,crashEnergy)
 
-  def setVelocity(vel: Double) = new BeadState(position, vel, mass, staticFriction, kineticFriction, thermalEnergy)
+  def setVelocity(vel: Double) = new BeadState(position, vel, mass, staticFriction, kineticFriction, thermalEnergy,crashEnergy)
 
-  def setStaticFriction(value: Double) = new BeadState(position, velocity, mass, value, kineticFriction, thermalEnergy)
+  def setStaticFriction(value: Double) = new BeadState(position, velocity, mass, value, kineticFriction, thermalEnergy,crashEnergy)
 
-  def setKineticFriction(value: Double) = new BeadState(position, velocity, mass, staticFriction, value, thermalEnergy)
+  def setKineticFriction(value: Double) = new BeadState(position, velocity, mass, staticFriction, value, thermalEnergy,crashEnergy)
 
-  def setMass(m: Double) = new BeadState(position, velocity, m, staticFriction, kineticFriction, thermalEnergy)
+  def setMass(m: Double) = new BeadState(position, velocity, m, staticFriction, kineticFriction, thermalEnergy,crashEnergy)
 
-  def setThermalEnergy(value: Double) = new BeadState(position, velocity, mass, staticFriction, kineticFriction, value)
+  def setThermalEnergy(value: Double) = new BeadState(position, velocity, mass, staticFriction, kineticFriction, value,crashEnergy)
+
+  def setCrashEnergy(value:Double) = {
+    new BeadState(position, velocity, mass, staticFriction, kineticFriction, thermalEnergy,value)
+  }
 }
 
 case class Range(min: Double, max: Double)
@@ -211,6 +215,13 @@ class Bead(private var _state: BeadState,
 
   def getAppliedWork = 0.0
 
+  def setCrashEnergy(value:Double) = {
+    if (value != state.crashEnergy){
+      state=state.setCrashEnergy(value)
+      notifyListeners()
+    }
+  }
+
   def thermalEnergy_=(value: Double) = {
     if (value != state.thermalEnergy) {
       state = state.setThermalEnergy(value)
@@ -221,6 +232,7 @@ class Bead(private var _state: BeadState,
   def thermalEnergy = state.thermalEnergy
 
   def getThermalEnergy = state.thermalEnergy
+  def getCrashEnergy = state.crashEnergy
 
   def getFrictiveWork = -getThermalEnergy
 
@@ -332,14 +344,14 @@ class Bead(private var _state: BeadState,
       else new Vector2D
     }
 
-    case class SettableState(position: Double, velocity: Double, thermalEnergy: Double) {
-      def setPosition(p: Double) = new SettableState(p, velocity, thermalEnergy)
+    case class SettableState(position: Double, velocity: Double, thermalEnergy: Double,crashEnergy:Double) {
+      def setPosition(p: Double) = new SettableState(p, velocity, thermalEnergy,crashEnergy)
 
-      def setVelocity(v: Double) = new SettableState(position, v, thermalEnergy)
+      def setVelocity(v: Double) = new SettableState(position, v, thermalEnergy,crashEnergy)
 
-      def setThermalEnergy(t: Double) = new SettableState(position, velocity, t)
+      def setThermalEnergy(t: Double) = new SettableState(position, velocity, t,crashEnergy)
 
-      def setPositionAndVelocity(p: Double, v: Double) = new SettableState(p, v, thermalEnergy)
+      def setPositionAndVelocity(p: Double, v: Double) = new SettableState(p, v, thermalEnergy,crashEnergy)
 
       //todo: this is duplicated with code in Bead
       lazy val totalEnergy = ke + pe + thermalEnergy
@@ -362,6 +374,7 @@ class Bead(private var _state: BeadState,
       setPosition(newState.position)
       setVelocity(newState.velocity)
       thermalEnergy = newState.thermalEnergy
+      setCrashEnergy(newState.crashEnergy)
 
       notificationsEnabled = true;
       notifyListeners() //do as a batch, since it's a performance problem to do this several times in this method call
@@ -374,7 +387,7 @@ class Bead(private var _state: BeadState,
       //see docs in static friction computation
       val newVelocity = if ((origVel < 0 && desiredVel > 0) || (origVel > 0 && desiredVel < 0)) 0.0 else desiredVel
       val requestedPosition = position + newVelocity * dt
-      val stateAfterVelocityUpdate = new SettableState(requestedPosition, newVelocity, origState.thermalEnergy)
+      val stateAfterVelocityUpdate = new SettableState(requestedPosition, newVelocity, origState.thermalEnergy,origState.crashEnergy)
 
       val isKineticFriction = surfaceFriction() && kineticFriction > 0
       val leftBound = wallRange().min + width / 2
@@ -382,13 +395,14 @@ class Bead(private var _state: BeadState,
       val collidedLeft = requestedPosition <= leftBound && wallsExist
       val collidedRight = requestedPosition >= rightBound && wallsExist
       val collided = collidedLeft || collidedRight
-      val crashEnergy = stateAfterVelocityUpdate.ke
+      val crashEnergy = stateAfterVelocityUpdate.ke //this is the energy it would lose in a crash
+//      println("Crash energy from getNewState: "+crashEnergy)
 
       val stateAfterCollision = if (collidedLeft && isKineticFriction) {
-        new SettableState(leftBound, 0, stateAfterVelocityUpdate.thermalEnergy + crashEnergy)
+        new SettableState(leftBound, 0, stateAfterVelocityUpdate.thermalEnergy + crashEnergy,origState.crashEnergy + crashEnergy)
       }
       else if (collidedRight && isKineticFriction) {
-        new SettableState(rightBound, 0, stateAfterVelocityUpdate.thermalEnergy + crashEnergy)
+        new SettableState(rightBound, 0, stateAfterVelocityUpdate.thermalEnergy + crashEnergy,origState.crashEnergy + crashEnergy)
       }
       else if (collided) { //bounce
         stateAfterVelocityUpdate.setVelocity(-newVelocity)
