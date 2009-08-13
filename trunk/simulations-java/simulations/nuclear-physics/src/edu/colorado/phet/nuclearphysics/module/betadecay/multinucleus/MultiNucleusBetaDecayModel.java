@@ -89,6 +89,9 @@ public class MultiNucleusBetaDecayModel extends MultiNucleusDecayModel {
 			else if (_currentNucleusType == NucleusType.CARBON_14){
 				newNucleus = new Carbon14Nucleus(_clock);
 			}
+			else if (_currentNucleusType == NucleusType.LIGHT_CUSTOM){
+				newNucleus = new Carbon14Nucleus(_clock);
+			}
 			else{
 				System.err.println(getClass().getName() + "Other nuclei not yet implemented.");
 				newNucleus = new AdjustableHalfLifeNucleus(_clock);
