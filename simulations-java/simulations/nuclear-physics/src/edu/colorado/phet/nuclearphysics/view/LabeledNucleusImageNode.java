@@ -60,12 +60,20 @@ public class LabeledNucleusImageNode extends LabeledNucleusNode {
     /**
      * Constructor.
      * 
+     * @param displayInfo
+     */
+    public LabeledNucleusImageNode( NucleusDisplayInfo displayInfo ){
+    	this(displayInfo.getImageName(), displayInfo.getIsotopeNumberString(), displayInfo.getChemicalSymbol(),
+    			displayInfo.getLabelColor());
+    	
+    }
+    
+    /**
+     * Constructor.
+     * 
      * @param nucleusType
      */
     public LabeledNucleusImageNode( NucleusType nucleusType ){
-    	this(NucleusDisplayInfo.getDisplayInfoForNucleusType(nucleusType).getImageName(),
-    			NucleusDisplayInfo.getDisplayInfoForNucleusType(nucleusType).getIsotopeNumberString(),
-    			NucleusDisplayInfo.getDisplayInfoForNucleusType(nucleusType).getChemicalSymbol(),
-    			NucleusDisplayInfo.getDisplayInfoForNucleusType(nucleusType).getLabelColor());
+    	this(NucleusDisplayInfo.getDisplayInfoForNucleusType(nucleusType));
     }
 }
