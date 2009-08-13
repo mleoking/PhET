@@ -3,6 +3,8 @@ package edu.colorado.phet.therampscala.graphics
 import common.phetcommon.resources.PhetCommonResources
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import common.phetcommon.view.util.{SwingUtils}
+import common.piccolophet.nodes.GradientButtonNode
+import java.awt.Color
 import java.awt.geom.{Point2D}
 import javax.swing.{JFrame, JDialog}
 import common.piccolophet.PhetPCanvas
@@ -213,7 +215,19 @@ abstract class AbstractRampCanvas(model: RampModel, coordinateSystemModel: Coord
 
   addWorldChild(new RaindropView(model, this))
   addWorldChild(new FireDogView(model, this))
+  addWorldChild(new ClearHeatButton(model))
 
+}
+
+class ClearHeatButton(model:RampModel) extends GradientButtonNode("controls.clear-heat".translate,Color.yellow){
+  setOffset(RampDefaults.worldWidth/2.0-getFullBounds.getWidth/2,RampDefaults.worldHeight*0.1)
+  def updateVisibility() = setVisible(model.bead.getRampThermalEnergy > 2000)
+  updateVisibility()
+  model.addListener(updateVisibility)
+
+  addActionListener(new ActionListener(){
+    def actionPerformed(e: ActionEvent) = model.clearHeat()
+  })
 }
 
 class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, freeBodyDiagramModel: FreeBodyDiagramModel,

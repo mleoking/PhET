@@ -411,8 +411,7 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngl
     bead.stepInTime(dt)
     for (f <- fireDogs) f.stepInTime(dt)
     for (r <- raindrops) r.stepInTime(dt)
-    val rampHeat = bead.getThermalEnergy - bead.getCrashEnergy
-//    println("therm = "+bead.getThermalEnergy+", crash = "+bead.getCrashEnergy+", ramph="+rampHeat)
+    val rampHeat = bead.getRampThermalEnergy
     rampSegments(0).setHeat(rampHeat)
     rampSegments(1).setHeat(rampHeat)
     rampSegments(0).stepInTime(dt)
