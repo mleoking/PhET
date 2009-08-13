@@ -16,7 +16,7 @@ class FireDogView(rampModel: RampModel, canvas: AbstractRampCanvas) extends PNod
 
 class RaindropView(rampModel: RampModel, canvas: AbstractRampCanvas) extends PNode{
   rampModel.raindropAddedListeners += ((added: rampModel.Raindrop) => {
-    val node = new BeadNode(added.rainbead, canvas.transform, "drop3.gif".literal)
+    val node = new BeadNode(added.rainbead, canvas.transform, "raindrop.png".literal)
     addChild(node)
 
     //todo: add a listener to this exact drop

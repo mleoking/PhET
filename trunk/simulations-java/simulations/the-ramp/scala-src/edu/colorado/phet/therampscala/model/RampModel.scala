@@ -207,10 +207,10 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngl
     //todo: allow different values for different segments
     def getTotalFriction(objectFriction: Double) = new LinearFunction(0, 1, objectFriction, objectFriction * 0.75).evaluate(rampSegments(0).wetness)
   }
-  val bead = new Bead(new BeadState(defaultBeadPosition, 0, _selectedObject.mass, _selectedObject.staticFriction, _selectedObject.kineticFriction, 0.0),
+  val bead = new Bead(new BeadState(defaultBeadPosition, 0, _selectedObject.mass, _selectedObject.staticFriction, _selectedObject.kineticFriction, 0.0,0.0),
     _selectedObject.height, _selectedObject.width, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction, surfaceFrictionStrategy, walls, wallRange)
 
-  def createBead(x: Double, width: Double, height: Double) = new Bead(new BeadState(x, 0, 10, 0, 0, 0.0), height, width, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction, surfaceFrictionStrategy, walls, wallRange)
+  def createBead(x: Double, width: Double, height: Double) = new Bead(new BeadState(x, 0, 10, 0, 0, 0.0,0.0), height, width, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction, surfaceFrictionStrategy, walls, wallRange)
 
   def createBead(x: Double, width: Double): Bead = createBead(x, width, 3)
 
@@ -229,6 +229,7 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngl
     bead.setPosition(defaultBeadPosition)
     bead.parallelAppliedForce = 0
     bead.setVelocity(0)
+    bead.setCrashEnergy(0.0)
     bead.thermalEnergy = 0.0
     manBead.setPosition(defaultManPosition)
     bead.attach()
@@ -313,7 +314,9 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngl
   def rainCrashed() = {
     rampSegments(0).dropHit()
     rampSegments(1).dropHit()
-    bead.thermalEnergy = bead.thermalEnergy - totalThermalEnergyOnClear / (maxDrops / 2.0)
+    val reducedEnergy = totalThermalEnergyOnClear / (maxDrops / 2.0)
+    bead.thermalEnergy = bead.thermalEnergy - reducedEnergy
+    bead.setCrashEnergy( java.lang.Math.max(bead.getCrashEnergy - reducedEnergy,0))
     if (bead.thermalEnergy < 1) bead.thermalEnergy = 0.0
   }
 
@@ -408,8 +411,10 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngl
     bead.stepInTime(dt)
     for (f <- fireDogs) f.stepInTime(dt)
     for (r <- raindrops) r.stepInTime(dt)
-    rampSegments(0).setHeat(bead.getThermalEnergy)
-    rampSegments(1).setHeat(bead.getThermalEnergy)
+    val rampHeat = bead.getThermalEnergy - bead.getCrashEnergy
+//    println("therm = "+bead.getThermalEnergy+", crash = "+bead.getCrashEnergy+", ramph="+rampHeat)
+    rampSegments(0).setHeat(rampHeat)
+    rampSegments(1).setHeat(rampHeat)
     rampSegments(0).stepInTime(dt)
     rampSegments(1).stepInTime(dt)
     recordHistory += new DataPoint(getTime, new RecordedState(getRampAngle, selectedObject.state, bead.state, manBead.state, bead.parallelAppliedForce, walls))
