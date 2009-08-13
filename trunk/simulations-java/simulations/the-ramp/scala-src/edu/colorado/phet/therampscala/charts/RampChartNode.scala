@@ -101,7 +101,10 @@ class RampChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model:
   val frictionWorkSeries = new ControlGraphSeries(formatWork("work.friction".translate), frictionWorkColor, abbrevUnused, J, characterUnused, frictionWorkVariable)
 
   class RampGraph(defaultSeries: ControlGraphSeries) extends MotionControlGraph(canvas, defaultSeries, "".literal, "".literal, -2000, 2000, true, timeseriesModel, updateableObject) {
-    getJFreeChartNode.setBuffered(false)
+
+    getJFreeChartNode.getChart.getXYPlot.getRangeAxis.setTickLabelFont(new PhetFont(10,true))
+    getJFreeChartNode.getChart.getXYPlot.getDomainAxis.setTickLabelFont(new PhetFont(10,true))
+    getJFreeChartNode.setBuffered(true)
     getJFreeChartNode.setPiccoloSeries() //works better on an unbuffered chart
     override def createSliderNode(thumb: PNode, highlightColor: Color) = {
       new JFreeChartSliderNode(getJFreeChartNode, thumb, highlightColor) {
