@@ -30,22 +30,23 @@ class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2
   defineInvokeAndPass(rampSegment.addListenerByName) {
     line.setPathTo(mytransform.createTransformedShape(new BasicStroke(0.4f).createStrokedShape(rampSegment.toLine2D)))
   }
-  rampSegment.wetnessListeners += ( ()=>{
+  rampSegment.wetnessListeners += ( ()=>updateColor())
+  def updateColor() = {
     val r=new LinearFunction(0,1,defaultFill.getRed,wetColor.getRed).evaluate(rampSegment.wetness).toInt
     val g=new LinearFunction(0,1,defaultFill.getGreen,wetColor.getGreen).evaluate(rampSegment.wetness).toInt
     val b=new LinearFunction(0,1,defaultFill.getBlue,wetColor.getBlue).evaluate(rampSegment.wetness).toInt
-    paintColor = new Color(r,g,b)
-  })
+    val wetnessColor = new Color(r,g,b)
 
-  //todo: factor these methods together
-  rampSegment.heatListeners += (()=>{
     val scaleFactor = 10000.0
     val heatBetweenZeroAndOne = max(min(rampSegment.heat / scaleFactor,1),0)
-    val r=new LinearFunction(0,1,defaultFill.getRed,hotColor.getRed).evaluate(heatBetweenZeroAndOne).toInt
-    val g=new LinearFunction(0,1,defaultFill.getGreen,hotColor.getGreen).evaluate(heatBetweenZeroAndOne).toInt
-    val b=new LinearFunction(0,1,defaultFill.getBlue,hotColor.getBlue).evaluate(heatBetweenZeroAndOne).toInt
-    paintColor = new Color(r,g,b)
-  })
+    val r2=new LinearFunction(0,1,wetnessColor.getRed,hotColor.getRed).evaluate(heatBetweenZeroAndOne).toInt
+    val g2=new LinearFunction(0,1,wetnessColor.getGreen,hotColor.getGreen).evaluate(heatBetweenZeroAndOne).toInt
+    val b2=new LinearFunction(0,1,wetnessColor.getBlue,hotColor.getBlue).evaluate(heatBetweenZeroAndOne).toInt
+    paintColor = new Color(r2,g2,b2)
+  }
+
+  //todo: factor these methods together
+  rampSegment.heatListeners += (()=> updateColor())
 
   def paintColor_=(p: Paint) = line.setPaint(p)
 
