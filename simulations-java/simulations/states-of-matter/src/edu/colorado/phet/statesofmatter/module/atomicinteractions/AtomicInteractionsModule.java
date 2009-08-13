@@ -4,8 +4,14 @@ package edu.colorado.phet.statesofmatter.module.atomicinteractions;
 
 import java.awt.Frame;
 
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
+import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
+import edu.colorado.phet.common.timeseries.ui.TimeSpeedSlider;
+import edu.colorado.phet.greenhouse.GreenhouseResources;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 import edu.colorado.phet.statesofmatter.defaults.AtomicInteractionDefaults;
 import edu.colorado.phet.statesofmatter.model.DualAtomModel;
@@ -44,6 +50,19 @@ public class AtomicInteractionsModule extends PiccoloModule {
         
         // Control panel
         setControlPanel( new AtomicInteractionsControlPanel( this, parentFrame, enableHeterogeneousAtoms ) );
+        
+        // Add a slider for controlling speed to the clock controls.
+    	// Create the clock control panel, including slider.
+    	PiccoloClockControlPanel clockControlPanel = new PiccoloClockControlPanel( getClock() );
+    	final TimeSpeedSlider timeSpeedSlider = new TimeSpeedSlider(AtomicInteractionDefaults.CLOCK_DT / 5, 
+    			AtomicInteractionDefaults.CLOCK_DT * 2, "0.00", (ConstantDtClock)getClock(), "Blah blah");
+        timeSpeedSlider.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                ((ConstantDtClock)getClock()).setDt( timeSpeedSlider.getValue() );
+            }
+        } );
+    	clockControlPanel.addBetweenTimeDisplayAndButtons(timeSpeedSlider);
+        setClockControlPanel( clockControlPanel );
         
         // Help
         if ( hasHelp() ) {
