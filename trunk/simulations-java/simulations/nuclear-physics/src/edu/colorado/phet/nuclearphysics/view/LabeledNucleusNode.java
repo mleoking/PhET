@@ -35,10 +35,6 @@ public abstract class LabeledNucleusNode extends PComposite {
     // Constructor
     //------------------------------------------------------------------------
 
-    public ShadowHTMLNode getLabel() {
-		return _label;
-	}
-
 	public LabeledNucleusNode( String isotopeNumber, String chemicalSymbol, Color labelColor ){
 
     	// Create the "layers" where the representation and the label will reside.
@@ -86,46 +82,14 @@ public abstract class LabeledNucleusNode extends PComposite {
         setChildrenPickable(false);
     }
 
-	/**
-     * Constructor that takes a color instead of an image name and creates a
-     * sphere to represent the nucleus.
-     * 
-     * @param sphereColor - Desired color of the sphere the will represent the nucleus.
-     * @param isotopeNumber - Numerical isotope number, which will be displayed as a pre-script.
-     * @param chemicalSymbol - Chemical symbol for the nucleus.
-     * @param labelColor - Color that will be used to display the label.
-     */
-//    public LabeledNucleusNode( Color sphereColor, String isotopeNumber, String chemicalSymbol, Color labelColor ){
-//
-//    	// Create the gradient paint for the sphere in order to give it a 3D look.
-//		Paint spherePaint = new RoundGradientPaint( SPHERE_DIAMETER / 8, -SPHERE_DIAMETER / 8, 
-//				getHighlightColor( sphereColor ), new Point2D.Double( SPHERE_DIAMETER / 4, SPHERE_DIAMETER / 4 ),
-//				sphereColor );
-//
-//    	// Create and add the sphere node.
-//    	SphericalNode sphere = new SphericalNode(SPHERE_DIAMETER, spherePaint, false);
-//    	sphere.setOffset(SPHERE_DIAMETER / 2, SPHERE_DIAMETER / 2);
-//        addChild( sphere );
-//        
-//        // Create and add the shadowed label.
-//        String labelText = "<html><sup><font size=-2>" + isotopeNumber +
-//            " </font></sup>" + chemicalSymbol + "</html>";
-//        ShadowHTMLNode label = new ShadowHTMLNode( labelText );
-//        label.setColor( labelColor );
-//        label.setShadowColor( labelColor == Color.BLACK ? Color.WHITE : Color.BLACK );
-//        double scale = (SPHERE_DIAMETER / label.getFullBoundsReference().getWidth()) * 0.9;
-//        label.setScale( scale );
-//        label.setShadowOffset( 0.5, 0.5 );
-//        // Center the label over the nucleus.
-//        label.setOffset( ( sphere.getFullBoundsReference().getWidth() - label.getFullBoundsReference().getWidth() ) / 2, 
-//        		( sphere.getFullBoundsReference().getHeight() - label.getFullBoundsReference().getHeight() ) / 2);
-//        addChild(label);
-//        
-//        // Make sure we aren't pickable since we don't handle any mouse events.
-//        setPickable(false);
-//        setChildrenPickable(false);
-//    }
-    
+	//------------------------------------------------------------------------
+	// Public and Protected Methods
+	//------------------------------------------------------------------------
+	
+    public ShadowHTMLNode getLabel() {
+		return _label;
+	}
+
     protected PNode getRepresentationLayer() {
 		return _representationLayer;
 	}
@@ -156,10 +120,6 @@ public abstract class LabeledNucleusNode extends PComposite {
     	return highlightColor;
     	
     }
-    
-    //------------------------------------------------------------------------
-    // Public Methods
-    //------------------------------------------------------------------------
     
     /**
      * This main function is used to provide stand-alone testing of the class.
