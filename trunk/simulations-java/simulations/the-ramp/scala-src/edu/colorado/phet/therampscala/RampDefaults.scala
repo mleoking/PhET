@@ -11,13 +11,16 @@ object RampDefaults {
   val MIN_X = -10
   val MAX_X = 10
 
+  val worldWidth = (1024 * 0.81).toInt
+  val worldHeight = (768* 0.81).toInt
+
   val MAX_APPLIED_FORCE = 500.0
 
   val freeBodyDiagramWidth = 2000 // Full width (not distance from origin to edge) in Newtons
   val PLAY_AREA_VECTOR_SCALE = 0.005 //scale factor when converting from Newtons to meters in the play area
 
   val DT_DEFAULT = 30 / 1000.0
-  val DELAY = 30
+  val DELAY = 0 //there's a wait step, see the top of RampApplication.scala in AbstractRampModule
 
   val SKY_GRADIENT_BOTTOM = new Color(250, 250, 255)
   val EARTH_COLOR = new Color(200, 240, 200)
