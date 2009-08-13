@@ -6,13 +6,12 @@ import javax.swing.JComponent
 import _root_.edu.colorado.phet.common.piccolophet.PhetPCanvas.TransformStrategy
 import java.awt.geom.{AffineTransform, Rectangle2D}
 
-class CenteredBoxStrategy(modelWidth: Double, modelHeight: Double, canvas: JComponent) extends TransformStrategy {
-  //def this()=this(3,4,null)
+//use case class to avoid compilation errors
+case class CenteredBoxStrategy(modelWidth: Double, modelHeight: Double, canvas: JComponent) extends TransformStrategy {
   def getTransform(): AffineTransform = {
-
     if (canvas.getWidth > 0 && canvas.getHeight > 0) {
       val mv2d = getModelViewTransform2D
-      println("model dim=" + modelWidth + "x" + modelHeight + ", visible=" + getVisibleModelBounds)
+      //println("model dim=" + modelWidth + "x" + modelHeight + ", visible=" + getVisibleModelBounds)
       mv2d.getAffineTransform
     } else {
       new AffineTransform
