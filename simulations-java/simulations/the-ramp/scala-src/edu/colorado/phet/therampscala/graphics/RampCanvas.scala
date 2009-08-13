@@ -15,7 +15,7 @@ import umd.cs.piccolo.PNode
 import java.lang.Math._
 import RampResources._
 abstract class AbstractRampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, freeBodyDiagramModel: FreeBodyDiagramModel,
-                                  vectorViewModel: VectorViewModel, frame: JFrame) extends DefaultCanvas(22, 22) {
+                                  vectorViewModel: VectorViewModel, frame: JFrame) extends DefaultCanvas(22, 22,RampDefaults.worldWidth,RampDefaults.worldHeight) {
   setBackground(RampDefaults.SKY_GRADIENT_BOTTOM)
 
   addNode(new SkyNode(transform))
