@@ -76,7 +76,7 @@ public class MultiNucleusBetaDecayCanvas extends PhetPCanvas implements Autopres
     private final static int MAX_PLACEMENT_ATTEMPTS = 100;
     
     // Preferred distance between nucleus centers when placing them on the canvas.
-    private static final double PREFERRED_INTER_NUCLEUS_DISTANCE = 15;  // In femtometers.
+    private static final double PREFERRED_INTER_NUCLEUS_DISTANCE = 7;  // In femtometers.
     
     // Minimum distance between the center of a nucleus and a wall or other obstacle.
     private static final double MIN_NUCLEUS_TO_OBSTACLE_DISTANCE = 10;  // In femtometers.
