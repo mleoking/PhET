@@ -1,3 +1,4 @@
+Made ramp turn red when heated
 # 1.03.31 (34053) Aug 12, 2009
 Removed unused images
 Fixed: Selecting "frictionless" shouldn't change the "pause" icon to the "record" icon near the timeline controls
