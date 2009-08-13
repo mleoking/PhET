@@ -210,7 +210,7 @@ public class GradientButtonNode extends PhetPNode {
      * 
      * @param label - Text that will appear on button.
      */
-    GradientButtonNode(String label){
+    public GradientButtonNode(String label){
         this(label, DEFAULT_FONT_SIZE, DEFAULT_COLOR);
     }
     
@@ -220,7 +220,7 @@ public class GradientButtonNode extends PhetPNode {
      * @param label
      * @param color
      */
-    GradientButtonNode(String label, Color color){
+    public GradientButtonNode(String label, Color color){
         this(label, DEFAULT_FONT_SIZE, color);
     }
     
