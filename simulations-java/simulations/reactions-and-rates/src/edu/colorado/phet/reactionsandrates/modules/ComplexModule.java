@@ -10,7 +10,12 @@
  */
 package edu.colorado.phet.reactionsandrates.modules;
 
+import java.awt.geom.Rectangle2D;
+
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.view.clock.StopwatchPanel;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.reactionsandrates.MRConfig;
@@ -23,8 +28,6 @@ import edu.colorado.phet.reactionsandrates.view.charts.MoleculePopulationsPieCha
 import edu.colorado.phet.reactionsandrates.view.charts.StripChartNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolox.pswing.PSwing;
-
-import java.awt.geom.Rectangle2D;
 
 /**
  * ComplexModule
@@ -98,6 +101,13 @@ public class ComplexModule extends MRModule {
         } );
 
         getEnergyView().clearUpperPaneContent();
+        
+        IClock clock = getClock();
+        clock.addClockListener( new ClockAdapter() {
+            public void simulationTimeReset( ClockEvent clockEvent ) {
+                resetStripChart();
+            }
+        });
     }
 
     public boolean isTemperatureBeingAdjusted() {

@@ -14,6 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.reactionsandrates.MRConfig;
 import edu.colorado.phet.reactionsandrates.model.*;
 import edu.colorado.phet.reactionsandrates.util.ControlBorderFactory;
@@ -35,7 +36,7 @@ public class MoleculeInstanceControlPanel extends JPanel {
     private JLabel bcLabel = new JLabel();
     private final ClearContainerButton clearContainerButton;
 
-    public MoleculeInstanceControlPanel( final MRModel model ) {
+    public MoleculeInstanceControlPanel( final MRModel model, IClock clock ) {
 
         // Add a listener to the model that will update the icons if the energy profile changes
         model.addListener( new MRModel.ModelListenerAdapter() {
@@ -82,7 +83,7 @@ public class MoleculeInstanceControlPanel extends JPanel {
         gbc.gridx = 0;
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;
-        clearContainerButton = new ClearContainerButton( model );
+        clearContainerButton = new ClearContainerButton( model, clock );
         add( clearContainerButton, gbc );
     }
 
@@ -105,11 +106,12 @@ public class MoleculeInstanceControlPanel extends JPanel {
     }
     
     private static class ClearContainerButton extends JButton {
-        public ClearContainerButton( final MRModel model ) {
+        public ClearContainerButton( final MRModel model, final IClock clock ) {
             super( MRConfig.RESOURCES.getLocalizedString( "Control.clearContainer" ) );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     model.removeAllMolecules();
+                    clock.resetSimulationTime();
                 }
             });
         }
