@@ -1,0 +1,56 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: August 10-13, 2009 (Mon-Wed)
+
+ACCOMPLISHMENTS:
+
+  Acid Base Solutions:
+  - added "K=" button to strength control, opens dialog that displays K= expression
+  - made graph, reaction equations, and equilibrium expressions all viewable in the play area (mutually exclusive)
+  - added "tear off" control for discussion
+  - changed Save/Load and Reset All features to accommodate changes
+  - added sim description to Help->About
+  - published 0.01.29
+  
+  Reactions and Rates:
+  - fixed molecule count spinners, #1738
+  - completed all requested changes and fixes
+  - published dev versions for regression testing
+  
+  Glaciers:
+  - asked Wendy for instructions on remaining change requests
+  
+  common code:
+  - reviewed changes that occurred while I was on vacation
+  - discussed and tracked issue with PSwing visual artifacts, #1751
+  
+  translations:
+  - discussed Khmer issue with JB, #1750
+  
+  misc:
+  - caught up on 2 weeks worth of emails
+  - fixed @Override annotation issue
+  - discussed issues with migration to new production server
+  - reviewed and provided feedback on "Sim color scheme" Google doc
+  - followed Urchin vs Analytics discussion
+  
+WHAT'S NEXT:
+ 
+  - publish new version of Reactions and Rates to PheT site
+  - Acid Base Solutions change requests
+  - test new translation deployment process for JO
+  - finish Glaciers changes, test, publish new version to PhET site
+  - Translation Utility enhancements related to KSU
+  - start on Titration
+  
+ISSUES:
+
+  - none
+  
+DATES UNAVAILABLE:
+
+   August 27 - September 1
+   October 19-30
+  
+--
