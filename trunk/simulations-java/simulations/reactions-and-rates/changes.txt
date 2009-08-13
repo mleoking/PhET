@@ -1,3 +1,5 @@
+# 1.03.13 (34076) Aug 13, 2009
+8/13/09 regression testing of production release candidate
 8/13/09 #1753, turn off bonds on "Reset All"
 8/13/09 #1752, reset clock and clear strip chart when "Clear container" is pressed
 # 1.03.12 (34051) Aug 12, 2009
