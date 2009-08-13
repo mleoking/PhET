@@ -47,7 +47,7 @@ public class SingleNucleusBetaDecayCanvas extends PhetPCanvas {
     
     // Translation factors, used to set origin of canvas area.
     private final double WIDTH_TRANSLATION_FACTOR = 0.5;   // 0 = all the way left, 1 = all the way right.
-    private final double HEIGHT_TRANSLATION_FACTOR = 0.45; // 0 = all the way up, 1 = all the way down.
+    private final double HEIGHT_TRANSLATION_FACTOR = 0.60; // 0 = all the way up, 1 = all the way down.
     
     // Constants that control where the charts are placed.
     private final double TIME_CHART_FRACTION = 0.2;   // Fraction of canvas for time chart.
