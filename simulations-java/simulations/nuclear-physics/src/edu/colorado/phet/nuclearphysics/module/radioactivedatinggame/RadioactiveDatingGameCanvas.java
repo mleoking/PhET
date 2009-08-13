@@ -159,9 +159,19 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         SkyNode sky = new SkyNode(INITIAL_INTERMEDIATE_COORD_WIDTH * 4, INITIAL_INTERMEDIATE_COORD_HEIGHT * 1.5);
         sky.setOffset(_mvt.modelToViewXDouble(0), _mvt.modelToViewYDouble(0));
         _backgroundImageLayer.addChild(sky);
-
+        
+        // Add a couple of clouds to the background.
+        PImage cloud1 = NuclearPhysicsResources.getImageNode("cloud_1.png");
+        cloud1.setScale(0.65);
+        cloud1.setOffset(-200, 100);
+        _backgroundImageLayer.addChild(cloud1);
+        PImage cloud2 = NuclearPhysicsResources.getImageNode("cloud_1.png");
+        cloud2.setScale(0.4);
+        cloud2.setOffset(700, 250);
+        _backgroundImageLayer.addChild(cloud2);
+        
         // Load the background image.
-        BufferedImage bufferedImage = NuclearPhysicsResources.getImage( "green-hills-and-sky.png" );
+        BufferedImage bufferedImage = NuclearPhysicsResources.getImage( "dating_tab_background_only_ground.png" );
         _backgroundImage = new PImage( bufferedImage );
         _backgroundImage.scale(1.2);  // Empirically determined scaling factor, tweak as needed.
         _backgroundImage.setOffset(
