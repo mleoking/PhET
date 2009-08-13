@@ -169,6 +169,7 @@ public class ChartOptionsPanel extends JPanel implements Resetable {
         showStripChartBtn.setSelected( false );
         showNoneBtn.setSelected( true );
         showBondsBtn.setSelected( false );
+        module.setGraphicTypeVisible( showBondsBtn.isSelected() ); //#1753
         showStopwatchBtn.setSelected( false );
         setEnergyViewChartOptions();
     }
