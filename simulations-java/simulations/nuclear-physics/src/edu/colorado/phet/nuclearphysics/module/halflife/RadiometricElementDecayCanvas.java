@@ -155,7 +155,7 @@ public class RadiometricElementDecayCanvas extends PhetPCanvas implements Autopr
         });
 
         // Add the chart that shows the decay time.
-        _decayTimeChart = new MultiNucleusDecayLinearTimeChart(_model, this);
+        _decayTimeChart = new MultiNucleusDecayLinearTimeChart(_model, this, AtomicNucleusImageType.NUCLEONS_VISIBLE);
         setTimeSpanForChart();
         _chartLayer.addChild( _decayTimeChart );
         

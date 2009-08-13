@@ -165,7 +165,7 @@ public class MultiNucleusBetaDecayCanvas extends PhetPCanvas implements Autopres
         });
 
         // Add the chart that shows the decay time.
-        _decayTimeChart = new MultiNucleusDecayLinearTimeChart((MultiNucleusDecayModel)_model, this);
+        _decayTimeChart = new MultiNucleusDecayLinearTimeChart((MultiNucleusDecayModel)_model, this, AtomicNucleusImageType.NUCLEONS_VISIBLE);
         _chartLayer.addChild( _decayTimeChart );
         setTimeSpanForChart();
         
