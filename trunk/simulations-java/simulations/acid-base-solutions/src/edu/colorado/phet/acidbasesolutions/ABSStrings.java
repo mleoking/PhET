@@ -22,7 +22,6 @@ public class ABSStrings {
     public static final String TITLE_ERROR = PhetCommonResources.getString( "Common.title.error" );
     public static final String TITLE_STRENGTH = ABSResources.getString( "title.strength" );
     public static final String TITLE_SOLUTION = ABSResources.getString( "title.solution" );
-    public static final String TITLE_EQUILIBRIUM_EXPRESSIONS = ABSResources.getString( "title.equilibriumExpressions" );
     public static final String TITLE_EQUILIBRIUM_EXPRESSION = ABSResources.getString( "title.equilibriumExpression" );
     public static final String TITLE_REACTION_EQUATIONS = ABSResources.getString( "title.reactionEquations" );
     public static final String TITLE_SYMBOL_LEGEND = ABSResources.getString( "title.symbolLegend" );

@@ -21,6 +21,7 @@ TODO:
 - make symbol legend descriptions automatically wrap, so we don't need breaks in HTML markup
 
 DONE:
+8/13/09 fix title on "Equilibrium Expression" dialog
 # 0.01.29
 8/11/09 hide button to show K dialog for "no solute" so we don't see a button labeled "null="
 8/11/09 fix default config for Solutions tab
