@@ -13,6 +13,8 @@ SET search_path = public, pg_catalog;
 
 ALTER TABLE ONLY public.category_mapping DROP CONSTRAINT fkfce89e8daab0afa5;
 ALTER TABLE ONLY public.category_mapping DROP CONSTRAINT fkfce89e8d14e28f05;
+ALTER TABLE ONLY public.keyword_mapping DROP CONSTRAINT fkfbcce478ba10a9af;
+ALTER TABLE ONLY public.keyword_mapping DROP CONSTRAINT fkfbcce478aab0afa5;
 ALTER TABLE ONLY public.simulation DROP CONSTRAINT fkb3012607b7b702c7;
 ALTER TABLE ONLY public.localized_simulation DROP CONSTRAINT fk311e4d4b6b081b59;
 ALTER TABLE ONLY public.category DROP CONSTRAINT fk302bcfe34a093d9;
@@ -21,14 +23,20 @@ ALTER TABLE ONLY public.translation DROP CONSTRAINT translation_pkey;
 ALTER TABLE ONLY public.translated_string DROP CONSTRAINT translated_string_pkey;
 ALTER TABLE ONLY public.simulation DROP CONSTRAINT simulation_pkey;
 ALTER TABLE ONLY public.project DROP CONSTRAINT project_pkey;
+ALTER TABLE ONLY public.phet_user DROP CONSTRAINT phet_user_pkey;
 ALTER TABLE ONLY public.localized_simulation DROP CONSTRAINT localized_simulation_pkey;
+ALTER TABLE ONLY public.keyword DROP CONSTRAINT keyword_pkey;
+ALTER TABLE ONLY public.keyword_mapping DROP CONSTRAINT keyword_mapping_pkey;
 ALTER TABLE ONLY public.category DROP CONSTRAINT category_pkey;
 ALTER TABLE ONLY public.category_mapping DROP CONSTRAINT category_mapping_pkey;
 DROP TABLE public.translation;
 DROP TABLE public.translated_string;
 DROP TABLE public.simulation;
 DROP TABLE public.project;
+DROP TABLE public.phet_user;
 DROP TABLE public.localized_simulation;
+DROP TABLE public.keyword_mapping;
+DROP TABLE public.keyword;
 DROP TABLE public.category_mapping;
 DROP TABLE public.category;
 DROP PROCEDURAL LANGUAGE plpgsql;
@@ -94,6 +102,31 @@ CREATE TABLE category_mapping (
 ALTER TABLE public.category_mapping OWNER TO phet;
 
 --
+-- Name: keyword; Type: TABLE; Schema: public; Owner: phet; Tablespace: 
+--
+
+CREATE TABLE keyword (
+    id bigint NOT NULL,
+    key character varying(255)
+);
+
+
+ALTER TABLE public.keyword OWNER TO phet;
+
+--
+-- Name: keyword_mapping; Type: TABLE; Schema: public; Owner: phet; Tablespace: 
+--
+
+CREATE TABLE keyword_mapping (
+    simulation_id integer NOT NULL,
+    keyword_id bigint NOT NULL,
+    idx integer NOT NULL
+);
+
+
+ALTER TABLE public.keyword_mapping OWNER TO phet;
+
+--
 -- Name: localized_simulation; Type: TABLE; Schema: public; Owner: phet; Tablespace: 
 --
 
@@ -107,6 +140,20 @@ CREATE TABLE localized_simulation (
 
 
 ALTER TABLE public.localized_simulation OWNER TO phet;
+
+--
+-- Name: phet_user; Type: TABLE; Schema: public; Owner: phet; Tablespace: 
+--
+
+CREATE TABLE phet_user (
+    id bigint NOT NULL,
+    email character varying(255),
+    password character varying(255),
+    teammember boolean
+);
+
+
+ALTER TABLE public.phet_user OWNER TO phet;
 
 --
 -- Name: project; Type: TABLE; Schema: public; Owner: phet; Tablespace: 
@@ -373,6 +420,22 @@ COPY category_mapping (simulation_id, category_id, idx) FROM stdin;
 34	18	3
 28	18	4
 48	18	5
+\.
+
+
+--
+-- Data for Name: keyword; Type: TABLE DATA; Schema: public; Owner: phet
+--
+
+COPY keyword (id, key) FROM stdin;
+\.
+
+
+--
+-- Data for Name: keyword_mapping; Type: TABLE DATA; Schema: public; Owner: phet
+--
+
+COPY keyword_mapping (simulation_id, keyword_id, idx) FROM stdin;
 \.
 
 
@@ -1344,6 +1407,16 @@ COPY localized_simulation (id, locale, title, description, simulation) FROM stdi
 
 
 --
+-- Data for Name: phet_user; Type: TABLE DATA; Schema: public; Owner: phet
+--
+
+COPY phet_user (id, email, password, teammember) FROM stdin;
+1	olsonsjc@gmail.com	WH39ah79fP15QF79Tv0pOv0b/SY=	t
+2	guest@phet.colorado.edu	Wv1h/3k/QAX9JQts/TMbfvz9	f
+\.
+
+
+--
 -- Data for Name: project; Type: TABLE DATA; Schema: public; Owner: phet
 --
 
@@ -1503,9 +1576,11 @@ COPY simulation (id, name, type, project) FROM stdin;
 --
 
 COPY translated_string (id, key, value, translation) FROM stdin;
+65	home.header	互动科学模拟	79
+106	troubleshooting.main.q4.title	OIHSRLTNSLRKNTSLRKNT	80
+107	simulationPage.title	{0} ({1})	80
 63	nav.motion	运动	79
 64	language.name	中文	79
-65	home.header	互动科学模拟	79
 66	home.subheader	有趣，互动，以研究为基础的模拟物理现象从碧项目在科罗拉多大学	79
 67	home.playWithSims	玩模拟... >	79
 68	nav.home	家	79
@@ -1537,6 +1612,14 @@ COPY translated_string (id, key, value, translation) FROM stdin;
 94	simulationDisplay.title	{0} - PhET 模拟	79
 95	simulationPage.title	{0} ({1})	79
 97	language.dir	ltr	79
+98	nav.troubleshooting.main	疑难解答	79
+99	troubleshooting.main.title	疑难解答- PhET模拟	79
+100	troubleshooting.main.intro	此页将帮助您解决一些问题，人们普遍有运行我们的程序。如果你根本无法解决您的问题，请通过电子邮件通知我们在以下的电子邮件地址 {0}	79
+101	troubleshooting.main.java	Java的安装和故障检修	79
+102	troubleshooting.main.flash	闪光安装和故障检修	79
+103	troubleshooting.main.javascript	JavaScript的疑难解答（注：这是您的浏览器，而不是模拟）	79
+104	troubleshooting.main.q2.title	的系统要求是什么运行碧模拟？	79
+105	troubleshooting.main.q2.answer	<p><strong>Windows Systems</strong><br/>Intel Pentium processor<br/>Microsoft Windows 98SE/2000/XP/Vista<br/>256MB RAM minimum<br/>Approximately 97 MB available disk space (for full <a {0}>installation</a>)<br/>1024x768 screen resolution or better<br/>Sun Java 1.5.0_15 or later<br/>Macromedia Flash 8 or later<br/>Microsoft Internet Explorer 6 or later, Firefox 2 or later</p><p><strong>Macintosh Systems</strong><br/>G3, G4, G5 or Intel processor<br/>OS 10.4 or later<br/>256MB RAM minimum<br/>Approximately 86 MB available disk space (for full <a {0}>installation</a>)<br/>1024x768 screen resolution or better<br/>Apple Java 1.5.0_19 or later<br/>Macromedia Flash 8 or later<br/>Safari 2 or later, Firefox 2 or later</p><p><strong>Linux Systems</strong><br/>Intel Pentium processor<br/>256MB RAM minimum<br/>Approximately 81 MB disk space (for full <a {0}>installation</a>)<br/>1024x768 screen resolution or better<br/>Sun Java 1.5.0_15 or later<br/>Macromedia Flash 8 or later<br/>Firefox 2 or later<br/></p><p><strong>Support Software</strong></p><p>Some of our simulations use Java, and some use Flash. Both of these are available as free downloads, and our downloadable <a {0}>PhET Offline Website Installer</a> includes Java for those who need it.</p>	79
 \.
 
 
@@ -1545,6 +1628,7 @@ COPY translated_string (id, key, value, translation) FROM stdin;
 --
 
 COPY translation (id, locale) FROM stdin;
+80	nl_NL
 79	zh_CN
 \.
 
@@ -1566,11 +1650,35 @@ ALTER TABLE ONLY category
 
 
 --
+-- Name: keyword_mapping_pkey; Type: CONSTRAINT; Schema: public; Owner: phet; Tablespace: 
+--
+
+ALTER TABLE ONLY keyword_mapping
+    ADD CONSTRAINT keyword_mapping_pkey PRIMARY KEY (simulation_id, idx);
+
+
+--
+-- Name: keyword_pkey; Type: CONSTRAINT; Schema: public; Owner: phet; Tablespace: 
+--
+
+ALTER TABLE ONLY keyword
+    ADD CONSTRAINT keyword_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: localized_simulation_pkey; Type: CONSTRAINT; Schema: public; Owner: phet; Tablespace: 
 --
 
 ALTER TABLE ONLY localized_simulation
     ADD CONSTRAINT localized_simulation_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: phet_user_pkey; Type: CONSTRAINT; Schema: public; Owner: phet; Tablespace: 
+--
+
+ALTER TABLE ONLY phet_user
+    ADD CONSTRAINT phet_user_pkey PRIMARY KEY (id);
 
 
 --
@@ -1635,6 +1743,22 @@ ALTER TABLE ONLY localized_simulation
 
 ALTER TABLE ONLY simulation
     ADD CONSTRAINT fkb3012607b7b702c7 FOREIGN KEY (project) REFERENCES project(id);
+
+
+--
+-- Name: fkfbcce478aab0afa5; Type: FK CONSTRAINT; Schema: public; Owner: phet
+--
+
+ALTER TABLE ONLY keyword_mapping
+    ADD CONSTRAINT fkfbcce478aab0afa5 FOREIGN KEY (simulation_id) REFERENCES simulation(id);
+
+
+--
+-- Name: fkfbcce478ba10a9af; Type: FK CONSTRAINT; Schema: public; Owner: phet
+--
+
+ALTER TABLE ONLY keyword_mapping
+    ADD CONSTRAINT fkfbcce478ba10a9af FOREIGN KEY (keyword_id) REFERENCES keyword(id);
 
 
 --
