@@ -28,6 +28,7 @@
       <sourceFolder url="file://$MODULE_DIR$/scala-src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
+    <content url="file://$MODULE_DIR$/../../../../../../svn-working-copy/trunk/projects/phet" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="scala-2.7.5" level="project" />
@@ -269,6 +270,15 @@
       <library>
         <CLASSES>
           <root url="file://$MODULE_DIR$/../../common/timeseries/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../../build-tools/contrib/scala/scala-compiler.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
