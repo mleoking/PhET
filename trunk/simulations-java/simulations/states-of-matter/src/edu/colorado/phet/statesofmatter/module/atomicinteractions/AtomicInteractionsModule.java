@@ -41,7 +41,7 @@ public class AtomicInteractionsModule extends PiccoloModule {
                 AtomicInteractionDefaults.CLOCK_DT));
 
         // Model
-        m_model = new DualAtomModel( getClock() );
+        m_model = new DualAtomModel( (ConstantDtClock) getClock() );
 
         // Canvas
         m_canvas = new AtomicInteractionsCanvas( m_model );
@@ -53,7 +53,7 @@ public class AtomicInteractionsModule extends PiccoloModule {
         // Add a slider for controlling speed to the clock controls.
     	PiccoloClockControlPanel clockControlPanel = new PiccoloClockControlPanel( getClock() );
     	final TimeSpeedSlider timeSpeedSlider = new TimeSpeedSlider(AtomicInteractionDefaults.CLOCK_DT / 5, 
-    			AtomicInteractionDefaults.CLOCK_DT * 2, "0.00", (ConstantDtClock)getClock(),
+    			AtomicInteractionDefaults.CLOCK_DT, "0.00", (ConstantDtClock)getClock(),
     			StatesOfMatterStrings.CLOCK_SPEED_CONTROL_CAPTION);
         timeSpeedSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
