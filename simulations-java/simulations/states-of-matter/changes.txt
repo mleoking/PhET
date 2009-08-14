@@ -1,3 +1,5 @@
+# 1.04.06 (34119) Aug 14, 2009
+8/14/09 Implemented several changes based on results of first set of student interviews.
 # 1.04.05 (34116) Aug 14, 2009
 8/14/09 Made several changes that were requested after initial student interviews
 # 1.04.04 (33687) Jul 28, 2009
