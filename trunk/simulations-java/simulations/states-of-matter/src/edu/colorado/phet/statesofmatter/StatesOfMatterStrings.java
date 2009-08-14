@@ -74,6 +74,8 @@ public class StatesOfMatterStrings {
     public static final String INTERACTION_STRENGTH_CONTROL_TITLE = StatesOfMatterResources.getString("InteractionStrengthControl.Title");
     public static final String INTERACTION_STRENGTH_WEAK = StatesOfMatterResources.getString("InteractionStrengthControl.Weak");
     public static final String INTERACTION_STRENGTH_STRONG = StatesOfMatterResources.getString("InteractionStrengthControl.Strong");
-    
+
+    public static final String CLOCK_SPEED_CONTROL_CAPTION = StatesOfMatterResources.getString("ClockSpeedControlCaption");
+
     public static final String RESET = StatesOfMatterResources.getString("Reset");
 }
