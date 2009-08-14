@@ -1,0 +1,6 @@
+RewriteEngine on
+RewriteBase /services
+RewriteRule ^test$ test.php [L]
+RewriteRule ^phet-info$ phet-info.php [L]
+RewriteRule ^sim-jar-redirect$ sim-jar-redirect.php [L]
+RewriteRule ^sim-website-redirect$ sim-website-redirect.php [L]

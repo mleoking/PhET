@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:wicket="http://svn.apache.org/repos/asf/wicket/trunk/wicket/wicket-xhtml1-strict.dtd" xml:lang="en"
+      lang="en">
+<head>
+    <title wicket:id="page-title">[PREVIEW] AdminPage</title>
+    <wicket:remove>
+        <link rel="stylesheet" type="text/css" href="../../../../../../../root/css/preview.css"/>
+    </wicket:remove>
+    <wicket:head>
+        <style type="text/css">
+            .simulation-list-holder {
+                border: 1px solid black;
+                margin: 10px;
+                padding: 10px;
+                height: 300px;
+                overflow: auto;
+                width: 600px;
+            }
+
+            table.simulation-list-table {
+                border: 1px outset gray;
+                border-spacing: 2px;
+                border-collapse: collapse;
+                background-color: white;
+            }
+
+            table.simulation-list-table th {
+                border: 1px dotted gray;
+                padding: 1px 1px 1px 1px;
+                background-color: white;
+            }
+
+            table.simulation-list-table td {
+                border: 1px dotted gray;
+                padding: 1px 1px 1px 1px;
+                background-color: white;
+            }
+        </style>
+    </wicket:head>
+</head>
+<body wicket:message="dir:language.dir">
+
+<wicket:extend>
+    Simulations to view / modify
+    <div class="simulation-list-holder">
+        <table class="simulation-list-table">
+            <tr>
+                <th>Flavor</th>
+                <th>Project</th>
+                <th>Title (English)</th>
+            </tr>
+            <tr wicket:id="simulation-list">
+                <td>
+                    <a wicket:id="simulation-link"><span wicket:id="simulation-name">Simulation Name</span></a>
+                </td>
+                <td wicket:id="simulation-project">Simulation Project</td>
+                <td wicket:id="simulation-title">Simulation Title</td>
+            </tr>
+        </table>
+    </div>
+</wicket:extend>
+
+</body>
+</html>
+
