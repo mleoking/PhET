@@ -1,0 +1,77 @@
+img.spons {
+    float: left;
+    margin: 0px 3px 0px 0px;
+}
+
+a img.spons {
+    border: medium none;
+}
+
+#spons {
+    margin-top: 15px;
+    font-size: 12px;
+}
+
+#spons h4 {
+    color: #0d2973;
+    font-size: 14px;
+    margin: 1ex 0pt;
+    padding: 0pt;
+}
+
+#spons div.header {
+    width: 178px;
+    height: 8px;
+    background-color: transparent;
+    background-image: url(../images/relatedLinks_BG.gif);
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-position: bottom left;
+    padding: 0pt;
+    margin: 0pt auto;
+    border: medium none;
+}
+
+#spons dl {
+    width: 158px;
+    background-image: url(../images/relatedLinksBTTM_BG.gif);
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-position: bottom left;
+    background-color: #d8eaf4;
+    font-size: 0.9em;
+    padding: 0pt 10px 10px;
+    margin: 0pt auto;
+    border: medium none;
+}
+
+#spons dt, #spons dd {
+    margin: 0pt;
+    padding: 0pt 0pt 4px 18px;
+}
+
+#spons dd {
+    border-bottom: 1px solid #cccccc;
+    color: #313131;
+    line-height: 1.2em;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+}
+
+dl a:hover {
+    color: #cc6600;
+}
+
+#spons dt a, #spons dd a {
+    color: #294ca8;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+#spons dt {
+    background-color: transparent;
+    background-image: url(../images/circleArrow_Icon.gif);
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-position: left 3px;
+}

@@ -1,0 +1,18 @@
+.simulation-main-title {
+    color: #990000;
+    font-size: 18px;
+    font-weight: bold;
+    padding-bottom: 10px;
+}
+
+.simulation-main-link-run-main {
+    text-decoration: none;
+}
+
+.simulation-main-screenshot {
+    border: none;
+}
+
+.simulation-main-translation-list {
+    font-size: 12px;
+}
