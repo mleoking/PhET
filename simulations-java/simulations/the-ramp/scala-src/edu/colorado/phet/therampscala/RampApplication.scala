@@ -36,7 +36,8 @@ class AbstractRampModule(frame: JFrame, clock: ScalaClock, name: String, default
       Thread.sleep(toSleep)//todo: blocks swing event handler thread and paint thread, should run this clock loop in another thread
     }
   })
-
+  //This clock is always running; pausing just pauses the physics
+  //this repaint manager disables calls to repaint the animation area, since it is painted every time the clock ticks (even when sim is paused)
   val manager = new PSwingRepaintManager() {
     def isChild(parent: JComponent, child: Container): Boolean = {
       child != null && parent != null && (parent == child || isChild(parent, child.getParent))
