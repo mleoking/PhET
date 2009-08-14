@@ -8,7 +8,7 @@ import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.defaults.AtomicInteractionDefaults;
 import edu.colorado.phet.statesofmatter.model.particle.ConfigurableStatesOfMatterAtom;
@@ -59,17 +59,19 @@ public class DualAtomModel {
     private double m_bondedOscillationRightDistance;
     private double m_bondedOscillationLeftDistance;
     private double m_minPotentialDistance;
+    private ConstantDtClock m_clock;
     
     //----------------------------------------------------------------------------
     // Constructor
     //----------------------------------------------------------------------------
     
-    public DualAtomModel(IClock clock) {
+    public DualAtomModel(ConstantDtClock clock) {
         
-        m_timeStep = AtomicInteractionDefaults.CLOCK_DT / 1000 / CALCULATIONS_PER_TICK;
+    	m_clock = clock;
         m_motionPaused = false;
         m_ljPotentialCalculator = new LjPotentialCalculator( StatesOfMatterConstants.MIN_SIGMA, 
         		StatesOfMatterConstants.MIN_EPSILON ); // Initial values arbitrary, will be set during reset.
+        updateTimeStep();
         
         // Register as a clock listener.
         clock.addClockListener(new ClockAdapter(){
@@ -393,6 +395,7 @@ public class DualAtomModel {
     private void handleClockTicked(ClockEvent clockEvent) {
 
         m_shadowMovableAtom = (StatesOfMatterAtom)m_movableAtom.clone();
+        updateTimeStep();
         
     	// Update the forces and motion of the atoms.
         for (int i = 0; i < CALCULATIONS_PER_TICK; i++) {
@@ -468,6 +471,10 @@ public class DualAtomModel {
         		break;
         	}
         }
+    }
+    
+    private void updateTimeStep(){
+    	m_timeStep = m_clock.getDt() / 1000 / CALCULATIONS_PER_TICK;
     }
 
     /**
