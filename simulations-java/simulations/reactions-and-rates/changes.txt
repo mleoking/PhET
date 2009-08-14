@@ -1,3 +1,5 @@
+# 1.04.00 (34093) Aug 13, 2009
+8/13/09 production release
 > many minor bug fixes
 # 1.03.13 (34076) Aug 13, 2009
 8/13/09 regression testing of production release candidate
