@@ -106,7 +106,7 @@ EOT;
         <div id="home-page-spons">
             <div class="spon">
                 <a href="http://ecsme.ksu.edu.sa/en/index.cfm" title="Click here to visit the Excellence Center of Science and Mathematics Education at King Saud University">
-                    <img src="images/ECSME-combined-logo-small.jpg" height="28" alt="Excellence Center of Science and Mathematics Education at King Saud University Logo"/>
+                    <img src="images/ECSME-combined-logo-small.jpg" height="38" alt="Excellence Center of Science and Mathematics Education at King Saud University Logo"/>
                 </a>
                 <p>
                     <a href="http://ecsme.ksu.edu.sa/en/index.cfm" title="Click here to visit the Excellence Center of Science and Mathematics Education at King Saud University">
