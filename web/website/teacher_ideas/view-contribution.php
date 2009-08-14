@@ -248,8 +248,8 @@ EOT;
         print <<<EOT
             </div>
 
-            <h3>Nominations for Gold Star</h3>
-
+            <h3>Nominations for Gold Star 
+<img src="../images/gold-star.jpg" width="37" alt="Image of Gold Star" title="Gold Star Contribution: Nominate this contribution to receive a Gold Star for its quality and usefulness to many teachers." /></h3>
             <p><em>
                 Gold Star contributions are high quality inquiry-based activities that follow the
                 <a href="contribution-guidelines.php">PhET design guidelines</a>
