@@ -1,3 +1,4 @@
+> many minor bug fixes
 # 1.03.13 (34076) Aug 13, 2009
 8/13/09 regression testing of production release candidate
 8/13/09 #1753, turn off bonds on "Reset All"
@@ -5,6 +6,7 @@
 # 1.03.12 (34051) Aug 12, 2009
 8/12/09 regression testing of production release candiate
 # 1.03.11 (33960) Aug 10, 2009
+> improve the behavior of all spinner controls
 8/10/09 #1738, fix molecule count spinners
 # 1.03.10 (33541) Jul 22, 2009
 7/22/09 temporary fix for #1712, for Windows testing
@@ -21,6 +23,7 @@
 # 1.03.06 (33475) Jul 20, 2009
 7/20/09 publish dev version to review many bug fixes
 7/20/09 #1740, properly disabled spinners in "Rate Experiements" tab
+> added a "Clear container" button to the "Many Collisions" tab
 7/20/09 #1732, add a "Clear container" button to the "Many Collisions" tab
 7/20/09 #1730, clear the model when the reaction type is changed (instead of doing Reset All)
 7/20/09 #1710, #1711, clear the model when the initial temperature is changed (instead of doing nothing)
