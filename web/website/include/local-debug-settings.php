@@ -15,7 +15,10 @@ function setup_local_debug_settings() {
     //
     // Set defines that you want to take preceedance over
     // standard defines
-    if (!defined("PORTAL_ROOT")) define("PORTAL_ROOT", "../".SITE_ROOT);
+    if (!defined("PORTAL_ROOT")) define("PORTAL_ROOT", SITE_ROOT."../");
+    if (!defined("CACHE_ROOT")) define("CACHE_ROOT", SITE_ROOT."../_webfiles/");
+    if (!defined("SIMS_ROOT")) define("SIMS_ROOT", SITE_ROOT."../_webfiles/sims/");
+    if (!defined("PHET_DIST_ROOT")) define("PHET_DIST_ROOT", SITE_ROOT."../_webfiles/phet-dist/");
 
     //
     // Globals section
