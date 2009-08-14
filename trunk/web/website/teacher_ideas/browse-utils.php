@@ -11,6 +11,41 @@
     define("UP_ARROW",       SITE_ROOT."images/sorting-uarrow.gif");
     define("DOWN_ARROW",     SITE_ROOT."images/sorting-darrow.gif");
 
+    // Keep track of the filters specified in this session.  If the
+    // user hits the 'back' button within the specified number of
+    // seconds, use the same specified filters.  If not, use the
+    // defaults.
+    // Trying an initial value of 10 minutes
+    define("BROWSE_FILTER_TIME_SECS", 10 * 60);
+
+    function commit_browse_filters($Simulations, $Types, $Levels) {
+        session_start();
+        $_SESSION['browse_time'] = time();
+        $_SESSION['browse_sims'] = $Simulations;
+        $_SESSION['browse_types'] = $Types;
+        $_SESSION['browse_levels'] = $Levels;
+        session_write_close();
+    }
+
+    function valid_browse_timeframe($browse_filter) {
+        session_start();
+        if ((!isset($_SESSION['browse_time'])) ||
+            ((time() - $_SESSION['browse_time']) > BROWSE_FILTER_TIME_SECS) ||
+            (!isset($_SESSION[$browse_filter]))) {
+            // Either:
+            //    browse_time is NOT set
+            //    the time we last saw the filter is too long
+            //    the key we are interested in is not set
+            $ret = false;
+        }
+        else {
+            $ret = true; 	
+        }
+        session_write_close();
+
+        return $ret;
+    }
+
     function browse_sort_contributions($contributions, $sort_by, $order) {
         $keyed_contributions = array();
         $id_to_contribution  = array();

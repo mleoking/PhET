@@ -235,13 +235,24 @@ EOT;
             $this->next_order = 'desc';
         }
 
-        $this->Types = array( 'all' );
+        if (valid_browse_timeframe('browse_types')) {
+            $this->Types = $_SESSION['browse_types'];
+        }
+        else {
+            $this->Types = array( 'all' );
+        }
+
 
         if (isset($_REQUEST['Types'])) {
             $this->Types = $_REQUEST['Types'];
         }
 
-        $this->Simulations = array( 'all' );
+        if (valid_browse_timeframe('browse_sims')) {
+            $this->Simulations = $_SESSION['browse_sims'];
+        }
+        else {
+            $this->Simulations = array( 'all' );
+        }
 
         if (isset($_REQUEST['cat'])) {
             $this->Simulations = array();
@@ -275,7 +286,12 @@ EOT;
             }
         }
 
-        $this->Levels = array( 'all' );
+        if (valid_browse_timeframe('browse_levels')) {
+            $this->Levels = $_SESSION['browse_levels'];
+        }
+        else {
+            $this->Levels = array( 'all' );
+        }
 
         if (isset($_REQUEST['Levels'])) {
             $this->Levels = $_REQUEST['Levels'];
@@ -287,6 +303,9 @@ EOT;
     function render() {
         if (isset($_REQUEST['content_only']) || isset($content_only)) {
             $GLOBALS['g_content_only'] = true;
+
+            commit_browse_filters($this->Simulations, $this->Types, $this->Levels);
+
             $result =
                 browse_print_content_only($this->Simulations, $this->Types, $this->Levels,
                                           $this->sort_by, $this->order, $this->next_order, true);
