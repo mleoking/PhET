@@ -20,7 +20,11 @@ class TranslationInstructionsPage extends SitePage {
 
         print <<<EOT
             <p>
-                PLEASE READ THIS PAGE COMPLETELY BEFORE USING TRANSLATION UTILITY.
+                Check if your sim is <a href="{$this->prefix}simulations/translations.php">already translated</a>.
+            </p>
+
+            <p>
+                <strong>PLEASE READ THIS PAGE COMPLETELY BEFORE USING TRANSLATION UTILITY.</strong>
             </p>
             <p>The Translation Utility can be used to create a translation for a new language, or to edit an existing translation. In both cases, the instructions are the same.</p>
 
