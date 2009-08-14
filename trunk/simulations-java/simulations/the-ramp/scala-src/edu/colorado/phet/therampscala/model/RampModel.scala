@@ -277,9 +277,10 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngl
     private val incomingSpeed = 0.5
     private val outgoingSpeed = 1.0
     private val random = new java.util.Random()
+    private val stoppingDist = -5 +random.nextDouble*5-2.5
 
     def stepInTime(dt: Double) = {
-      if (dogbead.position < -5 && raindropCount < maxDrops) {
+      if (dogbead.position < stoppingDist && raindropCount < maxDrops) {
         dogbead.setPosition(dogbead.position + incomingSpeed)
       } else if (raindropCount < maxDrops) {
         val raindrop = new Raindrop(dogbead.position2D + new Vector2D(width / 2.0, height / 3.0), 10 + random.nextGaussian * 3, PI / 4 + random.nextGaussian() * PI / 16)
