@@ -414,7 +414,7 @@ EOT;
 
                     <dt>
                         <a href="http://ecsme.ksu.edu.sa/en/index.cfm" title="Click here to visit the Excellence Center of Science and Mathematics Education at King Saud University">
-                            <img src="{$prefix}images/ECSME-combined-logo-small.jpg" height="28" alt="Excellence Center of Science and Mathematics Education at King Saud University Logo"/>Excellence Center of Science and Mathematics Education at King Saud University</a>
+                            <img src="{$prefix}images/ECSME-combined-logo-small.jpg" height="38" alt="Excellence Center of Science and Mathematics Education at King Saud University Logo"/>Excellence Center of Science and Mathematics Education at King Saud University</a>
                     </dt>
 
                     <dd>
