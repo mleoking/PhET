@@ -21,9 +21,9 @@
     function commit_browse_filters($Simulations, $Types, $Levels) {
         session_start();
         $_SESSION['browse_time'] = time();
-        $_SESSION['browse_sims'] = $Simulations;
-        $_SESSION['browse_types'] = $Types;
-        $_SESSION['browse_levels'] = $Levels;
+        $_SESSION['browse_sims'] = WebUtils::inst()->toHtml($Simulations);
+        $_SESSION['browse_types'] = WebUtils::inst()->toHtml($Types);
+        $_SESSION['browse_levels'] = WebUtils::inst()->toHtml($Levels);
         session_write_close();
     }
 
