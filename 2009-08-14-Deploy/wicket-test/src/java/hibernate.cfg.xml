@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+
+    <session-factory>
+
+        <!-- Database connection settings -->
+        <!-- MySQL settings
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="connection.url">jdbc:mysql://localhost:3306/wickettest?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=UTF-8</property>
+        <property name="connection.username">phet</property>
+        <property name="connection.password">phetti0</property>
+        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+        -->
+        <!-- PostgreSQL settings -->
+        <property name="connection.driver_class">org.postgresql.Driver</property>
+        <property name="connection.url">jdbc:postgresql://localhost/wickettest</property>
+        <!-- TODO: DEV secure password information -->
+        <property name="connection.username">phet</property>
+        <property name="connection.password">phetti0</property>
+        <property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+
+        <property name="hibernate.c3p0.min_size">5</property>
+        <property name="hibernate.c3p0.max_size">20</property>
+        <property name="hibernate.c3p0.timeout">1800</property>
+        <property name="hibernate.c3p0.max_statements">50</property>
+
+        <!-- TODO: DEV add in EHCache configuration options -->
+        <property name="hibernate.cache.provider_class">net.sf.ehcache.hibernate.EhCacheProvider</property>
+
+        <!-- Enable Hibernate's automatic session context management -->
+        <property name="current_session_context_class">thread</property>
+
+        <property name="transaction.factory_class">org.hibernate.transaction.JDBCTransactionFactory</property>
+
+        <!--<property name="hibernate.show_sql">true</property>-->
+
+        <!-- Drop and re-create the database schema on startup -->
+        <property name="hbm2ddl.auto">update</property>
+        
+        <mapping resource="edu/colorado/phet/wickettest/data/Project.hbm.xml"/>
+        <mapping resource="edu/colorado/phet/wickettest/data/Simulation.hbm.xml"/>
+        <mapping resource="edu/colorado/phet/wickettest/data/LocalizedSimulation.hbm.xml"/>
+
+        <mapping resource="edu/colorado/phet/wickettest/data/Category.hbm.xml"/>
+
+        <mapping resource="edu/colorado/phet/wickettest/data/Translation.hbm.xml"/>
+        <mapping resource="edu/colorado/phet/wickettest/data/TranslatedString.hbm.xml"/>
+
+        <mapping resource="edu/colorado/phet/wickettest/data/Keyword.hbm.xml"/>
+
+        <mapping resource="edu/colorado/phet/wickettest/data/PhetUser.hbm.xml"/>
+
+    </session-factory>
+
+</hibernate-configuration>
