@@ -12,13 +12,13 @@ chdir(dirname(__FILE__));
     require_once('include/contrib-utils.php');
     
     $email_recipients =
-        array('"Loeblein Patricia J." <ploeblei@jeffco.k12.co.us>',
-              '"Marjorie Mildred Frankel" <marjorie.frankel@colorado.edu>',
+        array(//'"Loeblein Patricia J." <ploeblei@jeffco.k12.co.us>',
+              //'"Marjorie Mildred Frankel" <marjorie.frankel@colorado.edu>',
               '"Daniel McKagan" <daniel.mckagan@gmail.com>');
 
-    define('DEFAULT_INTERVAL', 100);
+    define('DEFAULT_INTERVAL', 7);
 
-    function get_new_contributions($interval = DEFAULT_INTERVAL) {
+    function get_new_contributions($interval) {
         $sql = 'SELECT * '.
             'FROM contribution '.
             'WHERE '.
@@ -26,7 +26,7 @@ chdir(dirname(__FILE__));
         return db_get_rows_custom_query($sql);
     }
 
-    function get_updated_contributions($interval = DEFAULT_INTERVAL) {
+    function get_updated_contributions($interval) {
         $sql = 'SELECT * '.
             'FROM contribution '.
             'WHERE '.
@@ -48,9 +48,9 @@ EOT;
         return join("\n---\n\n", $text);
     }
 
-    function main() {
-        $new_contributions = get_new_contributions();
-        $updated_contributions = get_updated_contributions();
+    function main($interval) {
+        $new_contributions = get_new_contributions($interval);
+        $updated_contributions = get_updated_contributions($interval);
         
         $num_new_contributions = count($new_contributions);
         $num_updated_contributions = count($updated_contributions);
@@ -58,14 +58,14 @@ EOT;
             $subject = 'PhET Website: No new or updated contributions this week';
             $message = <<<EOT
 There are no new or updated contributions to the Teacher Ideas & Activites
-section of the website this week.
+section of the website in the last {$interval} days.
 
 EOT;
         }
         else {
             $subject = "PhET Website: {$num_new_contributions} new, {$num_updated_contributions} updated contribution(s) this week";
             
-            $message = wordwrap("There is/are {$num_new_contributions} new and {$num_updated_contributions} updated contribution(s) this week to the Teacher Ideas & Activities section of the website this week.");
+            $message = wordwrap("There is/are {$num_new_contributions} new and {$num_updated_contributions} updated contribution(s) this week to the Teacher Ideas & Activities section of the website in the last {$interval}.");
             if ($num_new_contributions > 0) {
                 $message .= "\n\nNew Contributions:\n\n";
                 $message .= display_contributions($new_contributions);
@@ -85,16 +85,17 @@ EOT;
             $message .= "The PhET Website Contribution Checking Robot\n";
         }
 
+        global $email_recipients;
         $headers = 'From: dmckagan@tigercat.colorado.edu' . "\r\n" .
             'Reply-To: daniel.mckagan@gmail.com' . "\r\n" .
             'X-Mailer: PHP/' . phpversion();
-        email(
+        mail(
             join(',', $email_recipients),
             $subject,
             $message,
             $headers);
     }
 
-    main();
+    main(DEFAULT_INTERVAL);
 
 ?>
