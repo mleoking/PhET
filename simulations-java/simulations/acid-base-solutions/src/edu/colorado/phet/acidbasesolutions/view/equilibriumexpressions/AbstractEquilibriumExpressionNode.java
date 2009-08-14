@@ -11,13 +11,13 @@ import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.model.ConcentrationScaleModel;
 import edu.colorado.phet.acidbasesolutions.util.PNodeUtils;
+import edu.colorado.phet.acidbasesolutions.util.ScalingAnimator;
 import edu.colorado.phet.acidbasesolutions.view.SymbolNode;
 import edu.colorado.phet.common.phetcommon.util.TimesTenNumberFormat;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.FormattedNumberNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -81,6 +81,7 @@ public abstract class AbstractEquilibriumExpressionNode extends PComposite {
     private boolean scalingEnabled;
     private double leftNumeratorScale, rightNumeratorScale, denominatorScale;
     private final boolean kRepresentationVaries;
+    private ScalingAnimator leftNumeratorAnimator, rightNumeratorAnimator, denominatorAnimator;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -149,13 +150,46 @@ public abstract class AbstractEquilibriumExpressionNode extends PComposite {
         if ( enabled != scalingEnabled ) {
             scalingEnabled = enabled;
             if ( !enabled ) {
-                setUnityScale();
+                animateToUnityScale();
             }
             else {
-                setScaleAboutCenter( leftNumeratorNode, leftNumeratorScale );
-                setScaleAboutCenter( rightNumeratorNode, rightNumeratorScale );
-                setScaleAboutCenter( denominatorNode, denominatorScale );
+                animateToConcentrationScale();
             }
+        }
+    }
+    
+    private void animateToConcentrationScale() {
+        cancelScaleAnimation();
+        leftNumeratorAnimator = new ScalingAnimator( leftNumeratorNode, leftNumeratorScale );
+        rightNumeratorAnimator = new ScalingAnimator( rightNumeratorNode, rightNumeratorScale );
+        denominatorAnimator = new ScalingAnimator( denominatorNode, denominatorScale );
+        leftNumeratorAnimator.start();
+        rightNumeratorAnimator.start();
+        denominatorAnimator.start();
+    }
+    
+    private void animateToUnityScale() {
+        cancelScaleAnimation();
+        leftNumeratorAnimator = new ScalingAnimator( leftNumeratorNode, 1 );
+        rightNumeratorAnimator = new ScalingAnimator( rightNumeratorNode, 1 );
+        denominatorAnimator = new ScalingAnimator( denominatorNode, 1 );
+        leftNumeratorAnimator.start();
+        rightNumeratorAnimator.start();
+        denominatorAnimator.start();
+    }
+    
+    private void cancelScaleAnimation() {
+        if ( leftNumeratorAnimator != null ) {
+            leftNumeratorAnimator.stop();
+            leftNumeratorAnimator = null;
+        }
+        if ( rightNumeratorAnimator != null ) {
+            rightNumeratorAnimator.stop();
+            rightNumeratorAnimator = null;
+        }
+        if ( denominatorAnimator != null ) {
+            denominatorAnimator.stop();
+            denominatorAnimator = null;
         }
     }
     
@@ -175,10 +209,11 @@ public abstract class AbstractEquilibriumExpressionNode extends PComposite {
         denominatorScale = scaleTermToConcentration( denominatorNode, concentration );
     }
     
-    private double scaleTermToConcentration( PNode node, double concentration ) {
+    private double scaleTermToConcentration( TermNode termNode, double concentration ) {
         double scale = ConcentrationScaleModel.getFontSize( concentration ) / SYMBOL_FONT.getSize();
         if ( scalingEnabled ) {
-            setScaleAboutCenter( node, scale );
+            cancelScaleAnimation();  // if this method is called, cancel all animation of terms, the user is controlling scale
+            termNode.setScale( scale );
         }
         return scale;
     }
@@ -187,9 +222,9 @@ public abstract class AbstractEquilibriumExpressionNode extends PComposite {
      * Sets all scalable nodes to have unity scale.
      */
     private void setUnityScale() {
-        setScaleAboutCenter( leftNumeratorNode, 1.0 );
-        setScaleAboutCenter( rightNumeratorNode, 1.0 );
-        setScaleAboutCenter( denominatorNode, 1.0 );
+        leftNumeratorNode.setScale( 1.0 );
+        rightNumeratorNode.setScale( 1.0 );
+        denominatorNode.setScale( 1.0 );
     }
     
     /**
@@ -239,18 +274,6 @@ public abstract class AbstractEquilibriumExpressionNode extends PComposite {
         denominatorNode = new TermNode( text, color );
         addChild( denominatorNode );
         updateLayout();
-    }
-    
-    /*
-     * Scales a node about its center.
-     */
-    private void setScaleAboutCenter( PNode node, double scale ) {
-        PBounds boundsBefore = node.getFullBounds();
-        node.setScale( scale );
-        PBounds boundsAfter = node.getFullBounds();
-        double xOffset = node.getXOffset() - ( ( boundsAfter.getWidth() - boundsBefore.getWidth() ) / 2 );
-        double yOffset = node.getYOffset() - ( ( boundsAfter.getHeight() - boundsBefore.getHeight() ) / 2 );
-        node.setOffset( xOffset, yOffset );
     }
     
     /*
@@ -328,9 +351,9 @@ public abstract class AbstractEquilibriumExpressionNode extends PComposite {
         yOffset = rightEqualsNode.getFullBoundsReference().getCenterY() - ( largeValueNode.getFullBoundsReference().getHeight() / 2 ) - PNodeUtils.getOriginYOffset( largeValueNode );
         largeValueNode.setOffset( xOffset, yOffset );
         // restore scales
-        setScaleAboutCenter( leftNumeratorNode, leftNumeratorScale );
-        setScaleAboutCenter( rightNumeratorNode, rightNumeratorScale );
-        setScaleAboutCenter( denominatorNode, denominatorScale );
+        leftNumeratorNode.setScale( leftNumeratorScale );
+        rightNumeratorNode.setScale( rightNumeratorScale );
+        denominatorNode.setScale( denominatorScale );
     }
     
     //----------------------------------------------------------------------------
@@ -387,6 +410,18 @@ public abstract class AbstractEquilibriumExpressionNode extends PComposite {
             xOffset = symbolNode.getFullBoundsReference().getMaxX() + BRACKET_X_MARGIN;
             yOffset = leftBracketNode.getYOffset();
             rightBracketNode.setOffset( xOffset, yOffset );
+        }
+        
+        /**
+         * Terms scale about their center.
+         */
+        public void setScale( double scale ) {
+            PBounds boundsBefore = getFullBounds();
+            super.setScale( scale );
+            PBounds boundsAfter = getFullBounds();
+            double xOffset = getXOffset() - ( ( boundsAfter.getWidth() - boundsBefore.getWidth() ) / 2 );
+            double yOffset = getYOffset() - ( ( boundsAfter.getHeight() - boundsBefore.getHeight() ) / 2 );
+            setOffset( xOffset, yOffset );
         }
     }
     
