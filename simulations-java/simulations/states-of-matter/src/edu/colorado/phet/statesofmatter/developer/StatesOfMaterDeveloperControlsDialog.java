@@ -33,7 +33,7 @@ import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValu
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.statesofmatter.StatesOfMatterApplication;
+import edu.colorado.phet.statesofmatter.AbstractStatesOfMatterApp;
 import edu.colorado.phet.statesofmatter.control.GravityControlPanel;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
@@ -44,9 +44,9 @@ import edu.colorado.phet.statesofmatter.module.solidliquidgas.SolidLiquidGasModu
  * DeveloperControlsDialog is a dialog that contains "developer only" controls.
  * These controls will not be available to the user, and are not localized.
  *
- * @author Chris Malley (cmalley@pixelzoom.com)
+ * @author Chris Malley (cmalley@pixelzoom.com), John Blanco
  */
-public class DeveloperControlsDialog extends JDialog {
+public class StatesOfMaterDeveloperControlsDialog extends JDialog {
 
     //----------------------------------------------------------------------------
     // Class Data
@@ -57,7 +57,7 @@ public class DeveloperControlsDialog extends JDialog {
     // Instance Data
     //----------------------------------------------------------------------------
 
-    private StatesOfMatterApplication m_app;
+    private AbstractStatesOfMatterApp m_app;
     private MultipleParticleModel m_model;
     private LinearValueControl m_temperatureControl;
     private JLabel m_containterWidthInfo;
@@ -68,7 +68,7 @@ public class DeveloperControlsDialog extends JDialog {
     // Constructors
     //----------------------------------------------------------------------------
 
-    public DeveloperControlsDialog( Frame owner, StatesOfMatterApplication app ) {
+    public StatesOfMaterDeveloperControlsDialog( Frame owner, AbstractStatesOfMatterApp app ) {
         super( owner, "Developer Controls" );
         setResizable( false );
         setModal( false );
@@ -92,7 +92,7 @@ public class DeveloperControlsDialog extends JDialog {
             public void activeModuleChanged( ModuleEvent event ) {
                 // Since these developer controls are specific to the selected
                 // module, the controls should disappear if the module changes.
-                DeveloperControlsDialog.this.dispose();
+                StatesOfMaterDeveloperControlsDialog.this.dispose();
             }
 
             public void moduleRemoved( ModuleEvent event ) {
@@ -128,7 +128,7 @@ public class DeveloperControlsDialog extends JDialog {
 
     private JPanel createInputPanel() {
 
-        Frame parentFrame = PhetApplication.instance().getPhetFrame();
+        Frame parentFrame = PhetApplication.getInstance().getPhetFrame();
 
         Color controlPanelBackground = m_app.getControlPanelBackground();
         final ColorControl controlPanelColorControl = new ColorControl( parentFrame, "control panel background color: ", controlPanelBackground );

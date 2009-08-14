@@ -2,21 +2,14 @@
 
 package edu.colorado.phet.statesofmatter;
 
-import java.awt.Color;
 import java.awt.Frame;
 
 import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
-import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
-import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
-import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
-import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
-import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
-import edu.colorado.phet.statesofmatter.developer.DeveloperMenu;
 import edu.colorado.phet.statesofmatter.module.atomicinteractions.AtomicInteractionsModule;
 import edu.colorado.phet.statesofmatter.module.phasechanges.PhaseChangesModule;
 import edu.colorado.phet.statesofmatter.module.solidliquidgas.SolidLiquidGasModule;
@@ -26,7 +19,7 @@ import edu.colorado.phet.statesofmatter.module.solidliquidgas.SolidLiquidGasModu
  *
  * @author John Blanco
  */
-public class StatesOfMatterApplication extends PiccoloPhetApplication implements IProguardKeepClass {
+public class StatesOfMatterApplication extends AbstractStatesOfMatterApp implements IProguardKeepClass {
 
     //----------------------------------------------------------------------------
     // Class Data
@@ -39,7 +32,6 @@ public class StatesOfMatterApplication extends PiccoloPhetApplication implements
     private SolidLiquidGasModule m_solidLiquidGasModule;
     private PhaseChangesModule   m_phaseChangesModule;
     private AtomicInteractionsModule   m_interactionPotentialModule;
-    private static TabbedModulePanePiccolo m_tabbedModulePane;
     
     //----------------------------------------------------------------------------
     // Sole Constructor
@@ -57,21 +49,6 @@ public class StatesOfMatterApplication extends PiccoloPhetApplication implements
     //----------------------------------------------------------------------------
 
     /**
-     * Initializes the tabbed pane.
-     */
-    private void initTabbedPane() {
-
-        // Create our own tabbed pane type so we can set the tab color
-        TabbedPaneType tabbedPaneType = new TabbedPaneType(){
-            public ITabbedModulePane createTabbedPane() {
-                m_tabbedModulePane = new TabbedModulePanePiccolo();
-                return m_tabbedModulePane;
-            }
-        };
-        setTabbedPaneType( tabbedPaneType );
-    }
-    
-    /**
      * Initializes the modules.
      */
     private void initModules() {
@@ -88,51 +65,6 @@ public class StatesOfMatterApplication extends PiccoloPhetApplication implements
         addModule( m_interactionPotentialModule );
     }
 
-    /**
-     * Initializes the menu bar.
-     */
-    private void initMenubar( String[] args ) {
-
-        final PhetFrame frame = getPhetFrame();
-
-        // Developer menu
-        DeveloperMenu developerMenu = new DeveloperMenu( this );
-        if ( developerMenu.getMenuComponentCount() > 0 && isDeveloperControlsEnabled() ) {
-            frame.addMenu( developerMenu );
-        }
-    }
-    
-    //----------------------------------------------------------------------------
-    // Setters & getters
-    //----------------------------------------------------------------------------
-
-    public void setSelectedTabColor( Color color ) {
-        if ( m_tabbedModulePane != null ) {
-            m_tabbedModulePane.setSelectedTabColor( color );
-        }
-    }
-
-    public Color getSelectedTabColor() {
-        Color color = Color.WHITE; 
-        if ( m_tabbedModulePane != null ) {
-            color = m_tabbedModulePane.getSelectedTabColor();
-        }
-        return color;
-    }
-
-    public void setControlPanelBackground( Color color ) {
-        Module[] modules = getModules();
-        for ( int i = 0; i < modules.length; i++ ) {
-            modules[i].setControlPanelBackground( color );
-            modules[i].setClockControlPanelBackground( color );
-            modules[i].setHelpPanelBackground( color );
-        }
-    }
-
-    public Color getControlPanelBackground() {
-        return getModule( 0 ).getControlPanel().getBackground();
-    }
-    
     //----------------------------------------------------------------------------
     // main
     //----------------------------------------------------------------------------
