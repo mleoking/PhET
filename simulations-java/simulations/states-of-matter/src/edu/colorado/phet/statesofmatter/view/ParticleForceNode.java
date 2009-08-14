@@ -23,9 +23,9 @@ public class ParticleForceNode extends ParticleNode {
     // The following constants control some of the aspects of the appearance of
     // the force arrows.  The values are arbitrary and are chosen to look good
     // in this particular sim, so tweak them as needed for optimal appearance.
-    public static final Color ATTRACTIVE_FORCE_COLOR = Color.YELLOW;
-    public static final Color REPULSIVE_FORCE_COLOR = Color.ORANGE;
-    public static final Color TOTAL_FORCE_COLOR = Color.GREEN;
+    public static final Color ATTRACTIVE_FORCE_COLOR = new Color(255, 255, 0, 175);
+    public static final Color REPULSIVE_FORCE_COLOR = new Color(255, 200, 0, 175);
+    public static final Color TOTAL_FORCE_COLOR = new Color(0, 255, 0, 125);
     private static final double COMPONENT_FORCE_ARROW_REFERENCE_LENGTH = 500;
     private static final double COMPONENT_FORCE_ARROW_REFERENCE_MAGNITUDE = 1E-22;
     private static final double TOTAL_FORCE_ARROW_REFERENCE_LENGTH = 1000;
