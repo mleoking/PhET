@@ -1,1 +1,0 @@
-cp -R ../../../simulations/pendulum-lab/deploy/* .

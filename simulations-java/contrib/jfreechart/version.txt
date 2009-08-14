@@ -1,6 +1,0 @@
-jfreechart.jar 1.0.5
-jfreechart-experimental.jar 1.0.5
-jfreechart-swt.jar
-jfreechart-demo.jar 1.0.5
-jcommon.jar 1.0.9
-itext.jar 2.0.1
