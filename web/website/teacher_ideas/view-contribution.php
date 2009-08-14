@@ -283,10 +283,10 @@ EOT;
             <p>What do you think about this activity?
                 How did you use it or change it for your class?
                 Professionally constructive comments welcome.
-                (<a href="#" onclick="$(this).parent().next().toggle(300);return false;">add comment</a>)
+                <!-- (<a href="#" onclick="$(this).parent().next().toggle(300);return false;">add comment</a>) -->
             </p>
 
-            <div id="hidden_comment_box" style="display: none">
+            <div id="hidden_comment_box">
             <form method="get" action="add-comment.php" onsubmit="javascript:return false;">
                     <p>
                         <input type="hidden" name="contribution_id" value="{$contribution_id}" />
@@ -302,7 +302,6 @@ EOT;
                             <textarea name="contribution_comment_text" cols="40" rows="5" ></textarea>
                         </span>
 
-                        <span class="label">your comment</span>
                     </div>
 
                     <div class="field">
