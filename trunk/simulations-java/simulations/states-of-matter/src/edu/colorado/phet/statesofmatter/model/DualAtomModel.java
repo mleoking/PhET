@@ -41,7 +41,7 @@ public class DualAtomModel {
     // Instance Data
     //----------------------------------------------------------------------------
     
-    private ArrayList m_listeners = new ArrayList();
+    private ArrayList<Listener> m_listeners = new ArrayList<Listener>();
     private StatesOfMatterAtom m_fixedAtom;
     private StatesOfMatterAtom m_movableAtom;
     private StatesOfMatterAtom m_shadowMovableAtom;
@@ -132,82 +132,85 @@ public class DualAtomModel {
     
     public void setFixedAtomType(AtomType atomType){
     	
-    	if (!m_settingBothAtomTypes &&
-    		((atomType == AtomType.ADJUSTABLE && m_movableAtom.getType() != AtomType.ADJUSTABLE) ||
-    		 (atomType != AtomType.ADJUSTABLE && m_movableAtom.getType() == AtomType.ADJUSTABLE))){
-    		System.err.println(this.getClass().getName() + " - Error: Cannot set just one atom to be adjustable, ignoring request.");
-    		return;
+    	if (m_fixedAtom == null || m_fixedAtom.getType() != atomType){
+    		if (!m_settingBothAtomTypes &&
+  				((atomType == AtomType.ADJUSTABLE && m_movableAtom.getType() != AtomType.ADJUSTABLE) ||
+    			 (atomType != AtomType.ADJUSTABLE && m_movableAtom.getType() == AtomType.ADJUSTABLE))){
+    			System.err.println(this.getClass().getName() + " - Error: Cannot set just one atom to be adjustable, ignoring request.");
+    			return;
+    		}
+    		ensureValidAtomType( atomType );
+    		m_bondingState = BONDING_STATE_UNBONDED;
+    		
+    		// Inform any listeners of the removal of existing atoms.
+    		if (m_fixedAtom != null){
+    			notifyFixedAtomRemoved( m_fixedAtom );
+    			m_fixedAtom = null;
+    		}
+    		
+    		m_fixedAtom = AtomFactory.createAtom( atomType );
+    		
+    		// Set the value for sigma used in the LJ potential calculations.
+    		if (m_movableAtom != null){
+    			m_ljPotentialCalculator.setSigma( SigmaTable.getSigma(getFixedAtomType(), getMovableAtomType()) );
+    		}
+    		
+    		// If both atoms exist, set the value of epsilon.
+    		if ( m_movableAtom != null ){
+    			m_ljPotentialCalculator.setEpsilon(
+    					InteractionStrengthTable.getInteractionPotential( m_fixedAtom.getType(), m_movableAtom.getType() ) );
+    		}
+    		
+    		notifyFixedAtomAdded( m_fixedAtom );
+			notifyInteractionPotentialChanged();
+			notifyFixedAtomDiameterChanged();
+    		m_fixedAtom.setPosition( 0, 0 );
+    		resetMovableAtomPos();
     	}
-    	ensureValidAtomType( atomType );
-    	m_bondingState = BONDING_STATE_UNBONDED;
-
-    	// Inform any listeners of the removal of existing atoms.
-        if (m_fixedAtom != null){
-            notifyFixedAtomRemoved( m_fixedAtom );
-            m_fixedAtom = null;
-        }
-
-        m_fixedAtom = AtomFactory.createAtom( atomType );
-
-        // Set the value for sigma used in the LJ potential calculations.
-        if (m_movableAtom != null){
-            m_ljPotentialCalculator.setSigma( SigmaTable.getSigma(getFixedAtomType(), getMovableAtomType()) );
-        }
-        
-        // If both atoms exist, set the value of epsilon.
-        if ( m_movableAtom != null ){
-            m_ljPotentialCalculator.setEpsilon(
-                InteractionStrengthTable.getInteractionPotential( m_fixedAtom.getType(), m_movableAtom.getType() ) );
-        }
-
-        notifyFixedAtomAdded( m_fixedAtom );
-        notifyInteractionPotentialChanged();
-        notifyFixedAtomDiameterChanged();
-        m_fixedAtom.setPosition( 0, 0 );
-
-        resetMovableAtomPos();
     }
 
     public void setMovableAtomType(AtomType atomType){
-    	
-    	if (!m_settingBothAtomTypes &&
-       		((atomType == AtomType.ADJUSTABLE && m_movableAtom.getType() != AtomType.ADJUSTABLE) ||
-       		 (atomType != AtomType.ADJUSTABLE && m_movableAtom.getType() == AtomType.ADJUSTABLE))){
-    		System.err.println(this.getClass().getName() + " - Error: Cannot set just one atom to be adjustable, ignoring request.");
-    		return;
+
+    	if (m_movableAtom == null || m_movableAtom.getType() != atomType){
+    		
+    		if (!m_settingBothAtomTypes &&
+    			((atomType == AtomType.ADJUSTABLE && m_movableAtom.getType() != AtomType.ADJUSTABLE) ||
+    			 (atomType != AtomType.ADJUSTABLE && m_movableAtom.getType() == AtomType.ADJUSTABLE))){
+    			System.err.println(this.getClass().getName() + " - Error: Cannot set just one atom to be adjustable, ignoring request.");
+    			return;
+    		}
+    		
+    		ensureValidAtomType( atomType );
+    		m_bondingState = BONDING_STATE_UNBONDED;
+    		
+    		if (m_movableAtom != null){
+    			notifyMovableAtomRemoved( m_movableAtom );
+    			m_movableAtom.removeListener( m_movableAtomListener );
+    			m_movableAtom = null;
+    		}
+    		
+    		m_movableAtom = AtomFactory.createAtom(atomType);
+    		
+    		// Register to listen to motion of the movable atom so that we can
+    		// tell when the user is moving it.
+    		m_movableAtom.addListener( m_movableAtomListener );
+    		
+    		// Set the value for sigma used in the LJ potential calculations.
+    		if (m_movableAtom != null){
+    			m_ljPotentialCalculator.setSigma( SigmaTable.getSigma(getFixedAtomType(), getMovableAtomType()) );
+    		}
+    		
+    		// If both atoms exist, set the value of epsilon.
+    		if ( m_fixedAtom != null ){
+    			m_ljPotentialCalculator.setEpsilon(
+    					InteractionStrengthTable.getInteractionPotential( m_fixedAtom.getType(), m_movableAtom.getType() ) );
+    		}
+    		
+    		notifyMovableAtomAdded( m_movableAtom );
+    		notifyInteractionPotentialChanged();
+    		notifyMovableAtomDiameterChanged();
+    		resetMovableAtomPos();
     	}
-    	ensureValidAtomType( atomType );
-    	m_bondingState = BONDING_STATE_UNBONDED;
-
-    	if (m_movableAtom != null){
-            notifyMovableAtomRemoved( m_movableAtom );
-            m_movableAtom.removeListener( m_movableAtomListener );
-            m_movableAtom = null;
-        }
-    	
-    	m_movableAtom = AtomFactory.createAtom(atomType);
-    	
-        // Register to listen to motion of the movable atom so that we can
-        // tell when the user is moving it.
-        m_movableAtom.addListener( m_movableAtomListener );
-        
-        // Set the value for sigma used in the LJ potential calculations.
-        if (m_movableAtom != null){
-            m_ljPotentialCalculator.setSigma( SigmaTable.getSigma(getFixedAtomType(), getMovableAtomType()) );
-        }
-
-        // If both atoms exist, set the value of epsilon.
-        if ( m_fixedAtom != null ){
-            m_ljPotentialCalculator.setEpsilon(
-                InteractionStrengthTable.getInteractionPotential( m_fixedAtom.getType(), m_movableAtom.getType() ) );
-        }
-
-        resetMovableAtomPos();
-
-        notifyMovableAtomAdded( m_movableAtom );
-        notifyInteractionPotentialChanged();
-        notifyMovableAtomDiameterChanged();
-        resetMovableAtomPos();
     }
 
 	private void ensureValidAtomType(AtomType atomType) {
@@ -225,10 +228,13 @@ public class DualAtomModel {
 	
 	public void setBothAtomTypes(AtomType atomType){
         
-        m_settingBothAtomTypes = true;
-        setFixedAtomType(atomType);
-        setMovableAtomType(atomType);
-    	m_settingBothAtomTypes = false;
+		if (m_fixedAtom == null || m_movableAtom == null || m_fixedAtom.getType() != atomType || 
+				m_movableAtom.getType() != atomType){
+			m_settingBothAtomTypes = true;
+			setFixedAtomType(atomType);
+			setMovableAtomType(atomType);
+			m_settingBothAtomTypes = false;
+		}
     }
     
     /**
