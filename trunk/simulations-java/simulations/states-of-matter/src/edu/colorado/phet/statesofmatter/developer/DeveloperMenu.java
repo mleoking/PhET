@@ -13,6 +13,8 @@ import javax.swing.JDialog;
 import javax.swing.JMenu;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.statesofmatter.AbstractStatesOfMatterApp;
+import edu.colorado.phet.statesofmatter.AtomicInteractionsApplication;
 import edu.colorado.phet.statesofmatter.StatesOfMatterApplication;
 
 /**
@@ -23,11 +25,11 @@ import edu.colorado.phet.statesofmatter.StatesOfMatterApplication;
  */
 public class DeveloperMenu extends JMenu implements ActionListener {
 
-    private StatesOfMatterApplication _app;
+    private AbstractStatesOfMatterApp _app;
     private JCheckBoxMenuItem _developerControlsItem;
     private JDialog _developerControlsDialog;
 
-    public DeveloperMenu( StatesOfMatterApplication app ) {
+    public DeveloperMenu( AbstractStatesOfMatterApp app ) {
         super( "Developer" );
 
         _app = app;
@@ -40,9 +42,14 @@ public class DeveloperMenu extends JMenu implements ActionListener {
     public void actionPerformed( ActionEvent event ) {
         if ( event.getSource() == _developerControlsItem ) {
             if ( _developerControlsItem.isSelected() ) {
-                Frame owner = PhetApplication.instance().getPhetFrame();
-                _developerControlsDialog = new DeveloperControlsDialog( owner, _app );
-                _developerControlsDialog.show();
+                Frame owner = PhetApplication.getInstance().getPhetFrame();
+                if (_app instanceof StatesOfMatterApplication){
+                	_developerControlsDialog = new StatesOfMaterDeveloperControlsDialog( owner, _app );
+                }
+                else if (_app instanceof AtomicInteractionsApplication){
+                	_developerControlsDialog = new AtomicInteractionsDeveloperControlsDialog( owner, _app );
+                }
+                _developerControlsDialog.setVisible(true);
                 _developerControlsDialog.addWindowListener( new WindowAdapter() {
                     public void windowClosed( WindowEvent e ) {
                         cleanup();
