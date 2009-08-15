@@ -16,6 +16,8 @@ TODO:
 - make symbol legend descriptions automatically wrap, so we don't need breaks in HTML markup
 
 DONE:
+8/14/09 attempt to resolve issue with location of "Ka" button on Windows
+8/14/09 remove "=" from "Ka=" button label
 8/14/09 move Reset All button to bottom center of Comparing tab for consistency with other tabs
 8/14/09 use standard Reset All button, playing with insets and font looks odd on Mac OS 10.4
 8/14/09 don't animate scaling when switching solute, only when user changes "Animate" control

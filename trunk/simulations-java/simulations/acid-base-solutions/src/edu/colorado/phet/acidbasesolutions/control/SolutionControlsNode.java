@@ -159,7 +159,7 @@ public class SolutionControlsNode extends PhetPNode {
         yOffset = strengthLabelNode.getFullBoundsReference().getMaxY() - PNodeUtils.getOriginYOffset( strengthSliderNode );
         strengthSliderNode.setOffset( xOffset, yOffset );
         xOffset = strengthSliderNode.getFullBoundsReference().getMaxX() + 2;
-        yOffset = strengthSliderNode.getFullBoundsReference().getMaxY() - kButtonWrapper.getFullBoundsReference().getHeight();
+        yOffset = strengthLabelNode.getFullBoundsReference().getY();
         kButtonWrapper.setOffset( xOffset, yOffset );
         
         // separator
@@ -287,14 +287,14 @@ public class SolutionControlsNode extends PhetPNode {
     }
     
     /*
-     * Assembles the proper label for the strength slider and "K=" button.
+     * Assembles the proper label for the strength slider and "K" button.
      * For the strength slider label, acids use "Strength (Ka)", bases use "Strength (Kb)".
      * The strength control is hidden for pure water, so it doesn't concern us,
      * but fyi the label will be set to "Strength (null)".
      */
     private void setStrengthSymbol( Solute solute ) {
         strengthLabelNode.setHTML( MessageFormat.format( STRENGTH_LABEL_PATTERN, solute.getStrengthSymbol() ) );
-        kButton.setText( HTMLUtils.toHTMLString( solute.getStrengthSymbol() + "=" ) ); // this is an equation, i18n is not required
+        kButton.setText( HTMLUtils.toHTMLString( solute.getStrengthSymbol() ) ); // i18n is not required
     }
     
     private static class LabelNode extends HTMLNode {
