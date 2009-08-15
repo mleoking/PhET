@@ -201,9 +201,15 @@ public class ComparingCanvas extends ABSAbstractCanvas {
         yOffset = solutionControlsNodeRight.getFullBoundsReference().getMaxY() - PNodeUtils.getOriginYOffset( beakerNodeRight ) + 20;
         beakerNodeRight.setOffset( xOffset, yOffset );
         
+        // Reset All button at bottom center
+        PNode resetAllButton = getResetAllButton();
+        xOffset = viewControlsNode.getFullBoundsReference().getCenterX() - ( resetAllButton.getFullBoundsReference().getWidth() / 2 );
+        yOffset = beakerNodeLeft.getFullBoundsReference().getMaxY() - resetAllButton.getFullBoundsReference().getHeight();
+        resetAllButton.setOffset( xOffset , yOffset );
+        
         // beaker view controls, between beakers, centered on view controls
         xOffset = viewControlsNode.getFullBoundsReference().getCenterX() - ( beakerControlsNode.getFullBoundsReference().getWidth() / 2 );
-        yOffset = beakerNodeLeft.getFullBoundsReference().getMaxY() - beakerControlsNode.getFullBoundsReference().getHeight();
+        yOffset = resetAllButton.getFullBoundsReference().getY() - beakerControlsNode.getFullBoundsReference().getHeight() - 10;
         beakerControlsNode.setOffset( xOffset, yOffset );
         
         // left graph, left justified below left solution controls
@@ -230,12 +236,6 @@ public class ComparingCanvas extends ABSAbstractCanvas {
         xOffset = solutionControlsNodeRight.getFullBoundsReference().getMinX() - PNodeUtils.getOriginXOffset( equationsNodeRight );
         yOffset = equationScalingControlWrapper.getFullBoundsReference().getMaxY() - PNodeUtils.getOriginYOffset( equationsNodeRight ) + 20;
         equationsNodeRight.setOffset( xOffset, yOffset );
-        
-        // Reset All button centered below view controls
-        PNode resetAllButton = getResetAllButton();
-        xOffset = viewControlsNode.getXOffset() + ( ( viewControlsNode.getFullBoundsReference().getWidth() - resetAllButton.getFullBoundsReference().getWidth() ) / 2 );
-        yOffset = viewControlsNode.getFullBoundsReference().getMaxY() + 10;
-        resetAllButton.setOffset( xOffset , yOffset );
         
         centerRootNode();
     }
