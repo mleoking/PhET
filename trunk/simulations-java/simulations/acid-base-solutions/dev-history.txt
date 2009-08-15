@@ -5,7 +5,6 @@
 TODO:
 - location of "K=" button is wrong on Windows
 - Solutions canvas layout issues on Mac 10.4 with JWS
-- save/load locations of dialogs
 - duplicate code: ComparingEquationsNode = SolutionsReactionEquationsNode + SolutionsEquilibriumExpressionsNode - scaling controls
 - Spanish translation, to test i18n
 - implement "tear off" control? (pending interviews)
