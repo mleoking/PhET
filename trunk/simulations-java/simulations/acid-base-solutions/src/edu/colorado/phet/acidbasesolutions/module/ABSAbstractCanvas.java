@@ -11,6 +11,7 @@ import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.view.ResetAllButton;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -38,8 +39,10 @@ public class ABSAbstractCanvas extends PhetPCanvas {
         addWorldChild( rootNode );
         
         JComponent resetAllButton = new ResetAllButton( resettable, this );
+        resetAllButton.setOpaque( false ); // Mac OS 10.4
         resetAllButtonWrapper = new PSwing( resetAllButton );
         resetAllButtonWrapper.scale( ABSConstants.PSWING_SCALE );
+        resetAllButtonWrapper.addInputEventListener( new CursorHandler() );
         rootNode.addChild( resetAllButtonWrapper );
     }    
     
