@@ -1,3 +1,7 @@
+8/14/09 resolve some Reset All issues
+8/14/09 attempt to resolve some layout issues on Mac OS 10.4 with JWS
+8/14/09 attempt to resolve issue with location of "Ka" button on Windows
+8/14/09 make equations grow/shrink when "Animate" control is turned on/off
 # 0.01.29 (34016) Aug 11, 2009
 8/11/09 many change requests
 8/11/09 add "tear off" icons in Solutions tab (for discussion, they don't work)
