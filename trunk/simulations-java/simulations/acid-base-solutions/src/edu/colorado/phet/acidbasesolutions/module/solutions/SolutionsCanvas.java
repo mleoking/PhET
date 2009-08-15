@@ -30,6 +30,12 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class SolutionsCanvas extends ABSAbstractCanvas {
     
     //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    private static final double MAXIMIZE_CONTROL_WIDTH = 465;
+    
+    //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
@@ -90,15 +96,15 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         
         exclusiveControls = new ArrayList<MaximizeControlNode>();
         
-        graphMaximizeControlNode = new MaximizeControlNode( ABSStrings.BUTTON_GRAPH, new PDimension( 500, 560 ), concentrationGraphNode );
+        graphMaximizeControlNode = new MaximizeControlNode( ABSStrings.BUTTON_GRAPH, new PDimension( MAXIMIZE_CONTROL_WIDTH, 560 ), concentrationGraphNode );
         graphMaximizeControlNode.addChangeListener( changeListener );
         exclusiveControls.add( graphMaximizeControlNode );
         
-        reactionEquationsMaximizeControlNode = new MaximizeControlNode( ABSStrings.BUTTON_REACTION_EQUATIONS, new PDimension( 500, 450 ), reactionEquationsNode );
+        reactionEquationsMaximizeControlNode = new MaximizeControlNode( ABSStrings.BUTTON_REACTION_EQUATIONS, new PDimension( MAXIMIZE_CONTROL_WIDTH, 450 ), reactionEquationsNode );
         reactionEquationsMaximizeControlNode.addChangeListener( changeListener );
         exclusiveControls.add( reactionEquationsMaximizeControlNode );
         
-        equilibriumExpressionsMaximizeControlNode = new MaximizeControlNode( ABSStrings.BUTTON_EQUILIBRIUM_EXPRESSIONS, new PDimension( 500, 380 ), equilibriumExpressionsNode );
+        equilibriumExpressionsMaximizeControlNode = new MaximizeControlNode( ABSStrings.BUTTON_EQUILIBRIUM_EXPRESSIONS, new PDimension( MAXIMIZE_CONTROL_WIDTH, 380 ), equilibriumExpressionsNode );
         equilibriumExpressionsMaximizeControlNode.addChangeListener( changeListener );
         exclusiveControls.add( equilibriumExpressionsMaximizeControlNode );
         
