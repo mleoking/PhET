@@ -34,7 +34,8 @@ public abstract class AbstractReactionEquationNode extends PComposite {
     private static final Font PLUS_FONT = new PhetFont( Font.BOLD, FONT_SIZE );
     private static final Color PLUS_COLOR = Color.BLACK;
     
-    private final Term[] terms;
+    private final CenteredSymbolNode[] symbolNodes;
+    private final StructureNode[] structureNodes;
     private final double[] scales;
     private final PlusNode plusLHS, plusRHS;
     private PImage arrow;
@@ -52,11 +53,18 @@ public abstract class AbstractReactionEquationNode extends PComposite {
         structuresVisible = false;
         structuresEnabled = true;
         
-        terms = new Term[MAX_TERMS];
-        for ( int i = 0; i < terms.length; i++ ) {
-            terms[i] = new Term( new SymbolNode( "ABC" + i, SYMBOL_FONT, Color.BLACK ) );
-            addChild( terms[i].getSymbolNode() );
-            // don't add the Lewis structure, it's invisible by default
+        // symbols
+        symbolNodes = new CenteredSymbolNode[MAX_TERMS];
+        for ( int i = 0; i < symbolNodes.length; i++ ) {
+            symbolNodes[i] = new CenteredSymbolNode( "ABC" + i, SYMBOL_FONT, Color.BLACK );
+            addChild( symbolNodes[i] );
+        }
+        
+        // Lewis Structure diagrams
+        structureNodes = new StructureNode[MAX_TERMS];
+        for ( int i = 0; i < structureNodes.length; i++ ) {
+            structureNodes[i] = new StructureNode();
+            // don't add the Lewis structure to the scene graph, it's invisible by default
         }
         
         scalingEnabled = false;
@@ -110,7 +118,7 @@ public abstract class AbstractReactionEquationNode extends PComposite {
     }
     
     public int getNumberOfTerms() {
-        return terms.length;
+        return symbolNodes.length;
     }
     
     protected void scaleTermToConcentration( int index, double concentration ) {
@@ -121,28 +129,16 @@ public abstract class AbstractReactionEquationNode extends PComposite {
     private void setTermScale( int index, double scale ) {
         scales[index] = scale;
         if ( scalingEnabled ) {
-            setScaleAboutCenter( terms[index].getSymbolNode(), scale );
+            symbolNodes[index].setScale( scale );
         }
     }
     
     /*
-     * Scales a node about its center.
-     */
-    private void setScaleAboutCenter( PNode node, double scale ) {
-        PBounds boundsBefore = node.getFullBounds();
-        node.setScale( scale );
-        PBounds boundsAfter = node.getFullBounds();
-        double xOffset = node.getXOffset() - ( ( boundsAfter.getWidth() - boundsBefore.getWidth() ) / 2 );
-        double yOffset = node.getYOffset() - ( ( boundsAfter.getHeight() - boundsBefore.getHeight() ) / 2 );
-        node.setOffset( xOffset, yOffset );
-    }
-    
-    /*
-     * Sets all scalable nodes to have unity scale.
+     * Sets all terms to have unity scale.
      */
     private void setUnityScale() {
-        for ( int i = 0; i < terms.length; i++ ) {
-            setScaleAboutCenter( terms[i].getSymbolNode(), 1.0 );
+        for ( int i = 0; i < symbolNodes.length; i++ ) {
+            symbolNodes[i].setScale( 1.0 );
         }
     }
 
@@ -161,33 +157,33 @@ public abstract class AbstractReactionEquationNode extends PComposite {
      * Term 1 is typically H2O, which is not shown in the reaction equation for strong bases.
      */
     protected void setTerm1Visible( boolean visible ) {
-        terms[1].setVisible( visible );
+        symbolNodes[1].setVisible( visible );
+        structureNodes[1].setVisible( visible );
         plusLHS.setVisible( visible );
         updateLayout();
     }
     
     /*
-     * Changes a term.
+     * Changes a term (symbol and Lewis Structure diagram).
      */
     protected void setTerm( int index, String text, Color color, Image structureImage ) {
-        // remove old term
-        Term term = terms[index];
-        removeChild( term.getSymbolNode() );
-        removeChild( term.getStructureNode() );
-        // add new term
-        SymbolNode symbolNode = new SymbolNode( text, SYMBOL_FONT, color );
-        addChild( symbolNode );
-        StructureNode structureNode = new StructureNode( structureImage );
+        // remove old symbol & structure
+        removeChild( symbolNodes[index] );
+        removeChild( structureNodes[index] );
+        // add new symbol & structure
+        symbolNodes[index] = new CenteredSymbolNode( text, SYMBOL_FONT, color );
+        addChild( symbolNodes[index] );
+        structureNodes[index] = new StructureNode( structureImage );
         if ( structuresVisible && structuresEnabled ) {
-            addChild( structureNode );
+            addChild( structureNodes[index] );
         }
-        terms[index] = new Term( symbolNode, structureNode );
         updateLayout();
     }
     
     /**
      * Override to workaround Piccolo problem.
      */
+    @Override
     public PNode removeChild( PNode child ) {
         PNode nodeRemoved = null;
         if ( indexOfChild( child ) != -1 ) {
@@ -197,7 +193,7 @@ public abstract class AbstractReactionEquationNode extends PComposite {
     }
     
     protected void setTermColor( int index, Color color ) {
-        terms[index].getSymbolNode().setSymbolColor( color );
+        symbolNodes[index].setSymbolColor( color );
     }
     
     public void setStructuresEnabled( boolean enabled ) {
@@ -219,24 +215,22 @@ public abstract class AbstractReactionEquationNode extends PComposite {
     protected void setStructuresVisible( boolean visible ) {
         structuresVisible = visible;
         if ( structuresEnabled ) {
-            for ( int i = 0; i < terms.length; i++ ) {
+            for ( int i = 0; i < symbolNodes.length; i++ ) {
                 setStructureVisible( i, visible );
             }
         }
     }
     
     /*
-     * Changes the visibility of one term's Lewis structure diagram.
+     * Changes the visibility of one Lewis structure diagram.
      * Uses addChild/removeChild so that full bounds won't include an invisible structure.
      */
     private void setStructureVisible( int index, boolean visible ) {
-        Term term = terms[ index ];
-        StructureNode structureNode = term.getStructureNode();
         if ( visible ) {
-            addChild( structureNode );
+            addChild( structureNodes[index] );
         }
-        else if ( indexOfChild( structureNode ) != -1 ) {
-            removeChild( structureNode );
+        else {
+            removeChild( structureNodes[index] );
         }
         updateLayout();
     }
@@ -259,7 +253,7 @@ public abstract class AbstractReactionEquationNode extends PComposite {
         xOffset = layoutTerm( termIndex++, xOffset, structureYOffset );
         
         // term 1 is optional
-        if ( terms[termIndex].isVisible() ) {
+        if ( symbolNodes[termIndex].getVisible() ) {
             
             // plus sign
             yOffset = -plusLHS.getFullBoundsReference().getHeight() / 2;
@@ -303,14 +297,13 @@ public abstract class AbstractReactionEquationNode extends PComposite {
      */
     private double layoutTerm( int index, double xStart, double structureYOffset ) {
         double xOffset, yOffset;
-        Term term = terms[index];
         // symbol
-        SymbolNode symbolNode = term.getSymbolNode();
+        CenteredSymbolNode symbolNode = symbolNodes[index];
         xOffset = xStart;
         yOffset = -symbolNode.getCapHeight() / 2;
         symbolNode.setOffset( xOffset, yOffset );
         // structure
-        StructureNode structureNode = term.getStructureNode();
+        StructureNode structureNode = structureNodes[index];
         xOffset = symbolNode.getXOffset() + ( symbolNode.getFullBoundsReference().getWidth() - structureNode.getFullBoundsReference().getWidth() ) / 2;
         yOffset = structureYOffset;
         structureNode.setOffset( xOffset, yOffset );
@@ -324,8 +317,8 @@ public abstract class AbstractReactionEquationNode extends PComposite {
      */
     private double getMaxSymbolHeight() {
         double maxHeight = 0;
-        for ( int i = 0; i < terms.length; i++ ) {
-            PNode n = terms[i].getSymbolNode();
+        for ( int i = 0; i < symbolNodes.length; i++ ) {
+            PNode n = symbolNodes[i];
             if ( n != null ) {
                 maxHeight = Math.max( maxHeight, n.getFullBoundsReference().getHeight() );
             }
@@ -334,37 +327,25 @@ public abstract class AbstractReactionEquationNode extends PComposite {
     }
     
     /*
-     * Each term in the equation has a symbol and optional Lewis Structure diagram.
+     * A symbol that scales about its geometric center.
      */
-    private static class Term {
+    private static class CenteredSymbolNode extends SymbolNode {
 
-        public final SymbolNode symbolNode;
-        public final StructureNode structureNode;
-
-        public Term( SymbolNode symbolNode ) {
-            this( symbolNode, new StructureNode() );
+        public CenteredSymbolNode( String html, Font font, Color color ) {
+            super( html, font, color );
         }
         
-        public Term( SymbolNode symbolNode, StructureNode structureNode ) {
-            this.symbolNode = symbolNode;
-            this.structureNode = structureNode;
-        }
-        
-        public SymbolNode getSymbolNode() {
-            return symbolNode;
-        }
-
-        public StructureNode getStructureNode() {
-            return structureNode;
-        }
-        
-        public void setVisible( boolean visible ) {
-            symbolNode.setVisible( visible );
-            structureNode.setVisible( visible );
-        }
-        
-        public boolean isVisible() {
-            return symbolNode.getVisible() || structureNode.getVisible();
+        /*
+         * Scales about the node's center.
+         */
+        @Override
+        public void setScale( double scale ) {
+            PBounds boundsBefore = getFullBounds();
+            super.setScale( scale );
+            PBounds boundsAfter = getFullBounds();
+            double xOffset = getXOffset() - ( ( boundsAfter.getWidth() - boundsBefore.getWidth() ) / 2 );
+            double yOffset = getYOffset() - ( ( boundsAfter.getHeight() - boundsBefore.getHeight() ) / 2 );
+            setOffset( xOffset, yOffset );
         }
     }
     
