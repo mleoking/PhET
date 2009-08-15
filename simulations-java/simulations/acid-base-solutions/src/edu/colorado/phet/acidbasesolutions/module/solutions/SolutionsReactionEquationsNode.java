@@ -107,6 +107,7 @@ public class SolutionsReactionEquationsNode extends PhetPNode {
     }
 
     public void setScalingEnabled( boolean enabled, boolean animated ) {
+        scalingControl.setScalingEnabled( enabled );
         if ( soluteNode != null ) {
             soluteNode.setScalingEnabled( enabled, animated );
         }

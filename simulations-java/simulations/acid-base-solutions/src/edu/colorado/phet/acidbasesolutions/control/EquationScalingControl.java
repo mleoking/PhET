@@ -78,6 +78,7 @@ public class EquationScalingControl extends JPanel {
     public void setScalingEnabled( boolean enabled ) {
         if ( enabled != isScalingEnabled() ) {
             onRadioButton.setSelected( enabled );
+            offRadioButton.setSelected( !enabled ); // shouldn't be needed, but is needed on Mac OS 10.5
             notifyStateChanged();
         }
     }

@@ -5,7 +5,6 @@
 TODO:
 - location of "K=" button is wrong on Windows
 - Solutions canvas layout issues on Mac 10.4 with JWS
-- Reset All does not set scaling controls to "off" in Solutions tab
 - save/load locations of dialogs
 - save/load location of main frame?
 - duplicate code: ComparingEquationsNode = SolutionsReactionEquationsNode + SolutionsEquilibriumExpressionsNode - scaling controls
@@ -16,6 +15,7 @@ TODO:
 - make symbol legend descriptions automatically wrap, so we don't need breaks in HTML markup
 
 DONE:
+8/14/09 fix: Reset All does not set scaling controls to "off" in Solutions tab
 8/14/09 attempt to resolve Solutions canvas layout issues on Mac OS 10.4 with JWS
 8/14/09 attempt to resolve issue with location of "Ka" button on Windows
 8/14/09 remove "=" from "Ka=" button label
