@@ -12,6 +12,9 @@ TODO:
 - make symbol legend descriptions automatically wrap, so we don't need breaks in HTML markup
 
 DONE:
+# 0.01.32
+8/14/09 another attempt to resolve issue with location of "Ka" button on Windows
+# 0.01.31
 8/14/09 fix opacity of PSwing buttons on Mac OS 10.4
 8/14/09 another attempt to resolve issue with location of "Ka" button on Windows
 # 0.01.30
