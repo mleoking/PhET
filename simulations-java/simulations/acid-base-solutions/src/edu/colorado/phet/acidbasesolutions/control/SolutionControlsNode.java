@@ -8,7 +8,6 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import javax.swing.JButton;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -63,8 +62,7 @@ public class SolutionControlsNode extends PhetPNode {
     private final LabelNode concentrationLabelNode;
     private final LabelNode strengthLabelNode;
     private final StrengthSliderNode strengthSliderNode;
-    private final JButton kButton;
-    private final PSwing kButtonWrapper;
+    private final PSwingButton kButton;
     private final ArrayList<SolutionControlsListener> listeners;
     
     private KExpressionDialog kExpressionDialog;
@@ -128,15 +126,14 @@ public class SolutionControlsNode extends PhetPNode {
         addChild( strengthSliderNode );
         
         // K dialog button
-        kButton = new JButton(); // text is set by setStrengthSymbol
+        kButton = new PSwingButton(); // text is set by setStrengthSymbol
         kButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 openKExpressionDialog();
             }
         });
-        kButtonWrapper = new PSwing( kButton );
         if ( showKButton ) {
-            addChild( kButtonWrapper );
+            addChild( kButton );
         }
         
         // layout
@@ -160,7 +157,7 @@ public class SolutionControlsNode extends PhetPNode {
         strengthSliderNode.setOffset( xOffset, yOffset );
         xOffset = strengthSliderNode.getFullBoundsReference().getMaxX() + 2;
         yOffset = strengthLabelNode.getFullBoundsReference().getY();
-        kButtonWrapper.setOffset( xOffset, yOffset );
+        kButton.setOffset( xOffset, yOffset );
         
         // separator
         final double sepWidth = this.getFullBoundsReference().getWidth();
@@ -177,13 +174,14 @@ public class SolutionControlsNode extends PhetPNode {
         yOffset = strengthLabelNode.getFullBoundsReference().getMinY() - 3;
         sepNode2.setOffset( xOffset, yOffset );
         
-        // put a background behind the entire panel
-        PNode backgroundNode = new BackgroundNode( this );
-        addChild( 0, backgroundNode );
-        
         solution.addSolutionListener( new ModelViewController( solution, this ) );
         this.addSolutionControlsListener( new ViewModelController( this, solution ) );
         setSolute( solution.getSolute() );
+        
+        // put a background behind the entire panel
+        // do this after calling setSolute, so that labels are sized properly
+        PNode backgroundNode = new BackgroundNode( this );
+        addChild( 0, backgroundNode );
     }
     
     public void setSoluteComboBoxEnabled( boolean enabled ) {
@@ -283,7 +281,7 @@ public class SolutionControlsNode extends PhetPNode {
     private void setStrengthControlVisible( boolean visible ) {
         strengthLabelNode.setVisible( visible );
         strengthSliderNode.setVisible( visible );
-        kButtonWrapper.setVisible( visible );
+        kButton.setVisible( visible );
     }
     
     /*
