@@ -6,7 +6,6 @@ TODO:
 - location of "K=" button is wrong on Windows
 - Solutions canvas layout issues on Mac with JWS on Mac OS 10.4
 - Reset All does not set scaling controls to "off" in Solutions tab
-- move Reset All button to bottom center of Comparing tab for consistency with other tabs
 - save/load locations of dialogs
 - save/load location of main frame?
 - duplicate code: ComparingEquationsNode = SolutionsReactionEquationsNode + SolutionsEquilibriumExpressionsNode - scaling controls
@@ -17,6 +16,7 @@ TODO:
 - make symbol legend descriptions automatically wrap, so we don't need breaks in HTML markup
 
 DONE:
+8/14/09 move Reset All button to bottom center of Comparing tab for consistency with other tabs
 8/14/09 use standard Reset All button, playing with insets and font looks odd on Mac OS 10.4
 8/14/09 don't animate scaling when switching solute, only when user changes "Animate" control
 8/14/09 animate scaling on/off for terms in Reaction Equations
