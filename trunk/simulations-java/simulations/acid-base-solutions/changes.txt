@@ -1,3 +1,4 @@
+8/14/09 another attempt to resolve issue with location of "Ka" button on Windows
 # 0.01.31 (34135) Aug 14, 2009
 8/14/09 fix opacity of PSwing buttons on Mac OS 10.4
 8/14/09 another attempt to resolve issue with location of "Ka" button on Windows

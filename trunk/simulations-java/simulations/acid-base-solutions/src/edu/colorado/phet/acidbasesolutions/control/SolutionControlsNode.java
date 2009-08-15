@@ -126,7 +126,7 @@ public class SolutionControlsNode extends PhetPNode {
         addChild( strengthSliderNode );
         
         // K dialog button
-        kButton = new PSwingButton(); // text is set by setStrengthSymbol
+        kButton = new PSwingButton( "XXXXX" ); // something bigger than we need, actual text is set by setStrengthSymbol
         kButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 openKExpressionDialog();
@@ -155,7 +155,7 @@ public class SolutionControlsNode extends PhetPNode {
         xOffset = strengthLabelNode.getXOffset() + 15;
         yOffset = strengthLabelNode.getFullBoundsReference().getMaxY() - PNodeUtils.getOriginYOffset( strengthSliderNode );
         strengthSliderNode.setOffset( xOffset, yOffset );
-        xOffset = strengthSliderNode.getFullBoundsReference().getMaxX() + 2;
+        xOffset = strengthSliderNode.getFullBoundsReference().getMaxX() + 7;
         yOffset = strengthLabelNode.getFullBoundsReference().getY();
         kButton.setOffset( xOffset, yOffset );
         
