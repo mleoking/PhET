@@ -8,8 +8,8 @@ import javax.swing.JComponent;
 
 import edu.colorado.phet.acidbasesolutions.ABSColors;
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
-import edu.colorado.phet.acidbasesolutions.control.ABSResetAllButton;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.view.ResetAllButton;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -37,8 +37,9 @@ public class ABSAbstractCanvas extends PhetPCanvas {
         // add to "world" so that we get automatic scaling
         addWorldChild( rootNode );
         
-        JComponent resetAllButton = new ABSResetAllButton( resettable, this );
+        JComponent resetAllButton = new ResetAllButton( resettable, this );
         resetAllButtonWrapper = new PSwing( resetAllButton );
+        resetAllButtonWrapper.scale( ABSConstants.PSWING_SCALE );
         rootNode.addChild( resetAllButtonWrapper );
     }    
     
