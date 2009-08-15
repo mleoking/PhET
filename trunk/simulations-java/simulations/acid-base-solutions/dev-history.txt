@@ -19,6 +19,8 @@ TODO:
 - make symbol legend descriptions automatically wrap, so we don't need breaks in HTML markup
 
 DONE:
+8/14/09 don't animate scaling when switching solute, only when user changes "Animate" control
+8/14/09 animate scaling on/off for terms in Reaction Equations
 8/14/09 rewrite inner classes of AbstractReactionEquationNode so that scaling of symbols can be animated
 8/14/09 animate scaling on/off for terms in Equilibrium Expressions
 8/13/09 fix title on "Equilibrium Expression" dialog

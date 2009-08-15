@@ -6,6 +6,7 @@ import java.awt.Image;
 
 import edu.colorado.phet.acidbasesolutions.ABSImages;
 import edu.colorado.phet.acidbasesolutions.model.ConcentrationScaleModel;
+import edu.colorado.phet.acidbasesolutions.util.ScalingAnimator;
 import edu.colorado.phet.acidbasesolutions.view.SymbolNode;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.PNode;
@@ -37,6 +38,7 @@ public abstract class AbstractReactionEquationNode extends PComposite {
     private final CenteredSymbolNode[] symbolNodes;
     private final StructureNode[] structureNodes;
     private final double[] scales;
+    private ScalingAnimator[] animators;
     private final PlusNode plusLHS, plusRHS;
     private PImage arrow;
     private boolean scalingEnabled;
@@ -66,6 +68,9 @@ public abstract class AbstractReactionEquationNode extends PComposite {
             structureNodes[i] = new StructureNode();
             // don't add the Lewis structure to the scene graph, it's invisible by default
         }
+        
+        // symbol scaling animators
+        animators = new ScalingAnimator[MAX_TERMS];
         
         scalingEnabled = false;
         scales = new double[MAX_TERMS];
@@ -98,16 +103,14 @@ public abstract class AbstractReactionEquationNode extends PComposite {
      */
     protected abstract void updateH2OColor();
     
-    public void setScalingEnabled( boolean enabled ) {
+    public void setScalingEnabled( boolean enabled, boolean animated ) {
         if ( enabled != scalingEnabled ) {
             scalingEnabled = enabled;
-            if ( !enabled ) {
-                setUnityScale();
+            if ( enabled ) {
+                scaleToConcentration( animated );
             }
             else {
-                for ( int i = 0; i < scales.length; i++ ) {
-                    setTermScale( i, scales[i] );
-                }
+                scaleToUnity( animated );
             }
         }
         updateH2OColor();
@@ -117,11 +120,51 @@ public abstract class AbstractReactionEquationNode extends PComposite {
         return scalingEnabled;
     }
     
+    private void scaleToConcentration( boolean animated ) {
+        cancelScaleAnimation();
+        if ( animated ) {
+            for ( int i = 0; i < symbolNodes.length; i++ ) {
+                animators[i] = new ScalingAnimator( symbolNodes[i], scales[i] );
+                animators[i].start();
+            }
+        }
+        else {
+            for ( int i = 0; i < scales.length; i++ ) {
+                setTermScale( i, scales[i] );
+            }
+        }
+    }
+
+    private void scaleToUnity( boolean animated ) {
+        cancelScaleAnimation();
+        if ( animated ) {
+            for ( int i = 0; i < symbolNodes.length; i++ ) {
+                animators[i] = new ScalingAnimator( symbolNodes[i], 1 );
+                animators[i].start();
+            }
+        }
+        else {
+            for ( int i = 0; i < symbolNodes.length; i++ ) {
+                symbolNodes[i].setScale( 1.0 );
+            }
+        }
+    }
+    
+    private void cancelScaleAnimation() {
+        for ( int i = 0; i < animators.length; i++ ) {
+            if ( animators[i] != null ) {
+                animators[i].stop();
+                animators[i] = null;
+            }
+        }
+    }
+    
     public int getNumberOfTerms() {
         return symbolNodes.length;
     }
     
     protected void scaleTermToConcentration( int index, double concentration ) {
+        cancelScaleAnimation();  // if this method is called, cancel all animation of terms, the user is controlling scale
         double scale = ConcentrationScaleModel.getFontSize( concentration ) / SYMBOL_FONT.getSize();
         setTermScale( index, scale );
     }
@@ -133,15 +176,6 @@ public abstract class AbstractReactionEquationNode extends PComposite {
         }
     }
     
-    /*
-     * Sets all terms to have unity scale.
-     */
-    private void setUnityScale() {
-        for ( int i = 0; i < symbolNodes.length; i++ ) {
-            symbolNodes[i].setScale( 1.0 );
-        }
-    }
-
     protected void setBidirectional( boolean b ) {
         if ( b ) {
             arrow.setImage( ABSImages.ARROW_DOUBLE );
@@ -241,7 +275,7 @@ public abstract class AbstractReactionEquationNode extends PComposite {
     private void updateLayout() {
         
         // do the layout at unity scale
-        setUnityScale();
+        scaleToUnity( false /* animate */ );
         
         final double maxSymbolHeight = getMaxSymbolHeight();
         final double structureYOffset = ( maxSymbolHeight / 2 ) + Y_SPACING;
@@ -284,8 +318,10 @@ public abstract class AbstractReactionEquationNode extends PComposite {
         xOffset = layoutTerm( termIndex++, xOffset, structureYOffset );
         
         // restore scaling of each symbol
-        for ( int i = 0; i < scales.length; i++ ) {
-            setTermScale( i, scales[i] );
+        if ( scalingEnabled ) {
+            for ( int i = 0; i < scales.length; i++ ) {
+                setTermScale( i, scales[i] );
+            }
         }
     }
     

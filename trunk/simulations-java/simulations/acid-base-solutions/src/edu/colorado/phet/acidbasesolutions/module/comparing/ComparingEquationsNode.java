@@ -94,11 +94,11 @@ public class ComparingEquationsNode extends PhetPNode {
         if ( soluteReactionEquationNode != null ) {
             addChild( soluteReactionEquationNode );
             soluteReactionEquationNode.setStructuresEnabled( LEWIS_STRUCTURES_ENABLED );
-            soluteReactionEquationNode.setScalingEnabled( waterReactionEquationNode.isScalingEnabled() );
+            soluteReactionEquationNode.setScalingEnabled( waterReactionEquationNode.isScalingEnabled(), false /* animated */ );
         }
         if ( soluteEquilibriumExpressionNode != null ) {
             addChild( soluteEquilibriumExpressionNode );
-            soluteEquilibriumExpressionNode.setScalingEnabled( waterEquilibriumExpressionNode.isScalingEnabled() );
+            soluteEquilibriumExpressionNode.setScalingEnabled( waterEquilibriumExpressionNode.isScalingEnabled(), false /* animated */ );
         }
         
         // update the water equation
@@ -119,22 +119,22 @@ public class ComparingEquationsNode extends PhetPNode {
         waterEquilibriumExpressionNode.update();
     }
 
-    public void setScalingEnabled( boolean enabled ) {
+    public void setScalingEnabled( boolean enabled, boolean animated ) {
         if ( soluteReactionEquationNode != null ) {
-            soluteReactionEquationNode.setScalingEnabled( enabled );
+            soluteReactionEquationNode.setScalingEnabled( enabled, animated );
         }
         if ( soluteEquilibriumExpressionNode != null ) {
-            soluteEquilibriumExpressionNode.setScalingEnabled( enabled );
+            soluteEquilibriumExpressionNode.setScalingEnabled( enabled, animated );
         }
-        waterReactionEquationNode.setScalingEnabled( enabled );
-        waterEquilibriumExpressionNode.setScalingEnabled( enabled );
+        waterReactionEquationNode.setScalingEnabled( enabled, animated );
+        waterEquilibriumExpressionNode.setScalingEnabled( enabled, animated );
     }
     
     private void updateLayout() {
         
         // do layout with scaling off
         final boolean scalingWasEnabled = waterReactionEquationNode.isScalingEnabled();
-        setScalingEnabled( false );
+        setScalingEnabled( false /* enabled */, false /* animated */ );
         
         double xOffset = 0;
         double yOffset = 0;
@@ -160,6 +160,6 @@ public class ComparingEquationsNode extends PhetPNode {
         yOffset = waterEquilibriumExpressionNode.getFullBoundsReference().getMaxY() + Y_SPACING;
         
         // restore scaling
-        setScalingEnabled( scalingWasEnabled );
+        setScalingEnabled( scalingWasEnabled, false /* animated */ );
     }
 }

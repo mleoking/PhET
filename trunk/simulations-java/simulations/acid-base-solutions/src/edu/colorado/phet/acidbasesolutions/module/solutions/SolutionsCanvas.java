@@ -144,8 +144,8 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         return reactionEquationsMaximizeControlNode.isMaximized();
     }
     
-    public void setReactionEquationsScalingEnabled( boolean enabled ) {
-        reactionEquationsNode.setScalingEnabled( enabled );
+    public void setReactionEquationsScalingEnabled( boolean enabled, boolean animated ) {
+        reactionEquationsNode.setScalingEnabled( enabled, animated );
     }
     
     public boolean isReactionEquationsScalingEnabled() {
@@ -160,8 +160,8 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         return equilibriumExpressionsMaximizeControlNode.isMaximized();
     }
     
-    public void setEquilibriumExpressionsScalingEnabled( boolean enabled ) {
-        equilibriumExpressionsNode.setScalingEnabled( enabled );
+    public void setEquilibriumExpressionsScalingEnabled( boolean enabled, boolean animated ) {
+        equilibriumExpressionsNode.setScalingEnabled( enabled, animated );
     }
     
     public boolean isEquilibriumExpressionsScalingEnabled() {
