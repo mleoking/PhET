@@ -204,9 +204,11 @@ public class HTMLUtils {
         buffer.append( "<html>" );
         for ( int i = 0; i < strings.length; i++ ) {
             String string = strings[i];
-            string = string.replaceAll( "<html>", "" );
-            string = string.replaceAll( "</html>", "" );
-            buffer.append( string );
+            if ( string != null ) {
+                string = string.replaceAll( "<html>", "" );
+                string = string.replaceAll( "</html>", "" );
+                buffer.append( string );
+            }
         }
         buffer.append( "</html>" );
         return buffer.toString();
