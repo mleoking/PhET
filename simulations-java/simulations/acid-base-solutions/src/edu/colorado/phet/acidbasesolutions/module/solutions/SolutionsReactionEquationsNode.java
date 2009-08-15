@@ -53,7 +53,7 @@ public class SolutionsReactionEquationsNode extends PhetPNode {
         scalingControl = new EquationScalingControl();
         scalingControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                setScalingEnabled( scalingControl.isScalingEnabled() );
+                setScalingEnabled( scalingControl.isScalingEnabled(), true /* animated */ );
             }
         });
         scalingControlWrapper = new PSwing( scalingControl );
@@ -90,7 +90,7 @@ public class SolutionsReactionEquationsNode extends PhetPNode {
         if ( soluteNode != null ) {
             addChild( soluteNode );
             soluteNode.setStructuresEnabled( LEWIS_STRUCTURES_ENABLED );
-            soluteNode.setScalingEnabled( waterNode.isScalingEnabled() );
+            soluteNode.setScalingEnabled( waterNode.isScalingEnabled(), false /* animated */ );
         }
         
         // update the water equation
@@ -106,11 +106,11 @@ public class SolutionsReactionEquationsNode extends PhetPNode {
         waterNode.update();
     }
 
-    public void setScalingEnabled( boolean enabled ) {
+    public void setScalingEnabled( boolean enabled, boolean animated ) {
         if ( soluteNode != null ) {
-            soluteNode.setScalingEnabled( enabled );
+            soluteNode.setScalingEnabled( enabled, animated );
         }
-        waterNode.setScalingEnabled( enabled );
+        waterNode.setScalingEnabled( enabled, animated );
     }
     
     public boolean isScalingEnabled() {
@@ -121,7 +121,7 @@ public class SolutionsReactionEquationsNode extends PhetPNode {
         
         // do layout with scaling off
         final boolean scalingWasEnabled = waterNode.isScalingEnabled();
-        setScalingEnabled( false );
+        setScalingEnabled( false /* enabled */, false /* animated */ );
         
         scalingControlWrapper.setOffset( 0, Y_SPACING );
         
@@ -144,6 +144,6 @@ public class SolutionsReactionEquationsNode extends PhetPNode {
         yOffset = waterNode.getFullBoundsReference().getMaxY() - PNodeUtils.getOriginYOffset( waterNode ) + Y_SPACING;
         
         // restore scaling
-        setScalingEnabled( scalingWasEnabled );
+        setScalingEnabled( scalingWasEnabled, false /* animated */ );
     }
 }

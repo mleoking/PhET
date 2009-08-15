@@ -65,7 +65,9 @@ public class KExpressionDialog extends PaintImmediateDialog {
         scalingControl = new EquationScalingControl();
         scalingControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                setScalingEnabled( scalingControl.isScalingEnabled() );
+                if ( soluteNode != null ) {
+                    soluteNode.setScalingEnabled( scalingControl.isScalingEnabled(), true /* animated */ );
+                }
             }
         } );
         
@@ -126,7 +128,7 @@ public class KExpressionDialog extends PaintImmediateDialog {
         
         // add the new solute expression
         if ( soluteNode != null ) {
-            soluteNode.setScalingEnabled( isScalingEnabled() );
+            soluteNode.setScalingEnabled( isScalingEnabled(), false /* animated */ );
             canvas.getLayer().addChild( soluteNode );
             updateCanvasLayout();
         }
@@ -141,7 +143,7 @@ public class KExpressionDialog extends PaintImmediateDialog {
     public void setScalingEnabled( boolean enabled ) {
         scalingControl.setScalingEnabled( enabled );
         if ( soluteNode != null ) {
-            soluteNode.setScalingEnabled( enabled );
+            soluteNode.setScalingEnabled( enabled, false /* animated */ );
         }
     }
     
@@ -156,11 +158,11 @@ public class KExpressionDialog extends PaintImmediateDialog {
     private static void centerExpression( AbstractEquilibriumExpressionNode node, PCanvas canvas ) {
         if ( node != null ) {
             final boolean isScalingEnabled = node.isScalingEnabled();
-            node.setScalingEnabled( false ); // do the layout with scaling off
+            node.setScalingEnabled( false /* enabled */, false /* animated */ ); // do the layout with scaling off
             double xOffset = ( canvas.getWidth() - node.getFullBoundsReference().getWidth() ) / 2;
             double yOffset = ( ( canvas.getHeight() - node.getFullBoundsReference().getHeight() ) / 2 ) - PNodeUtils.getOriginYOffset( node );
             node.setOffset( xOffset, yOffset );
-            node.setScalingEnabled( isScalingEnabled ); // restore scaling
+            node.setScalingEnabled( isScalingEnabled, false /* animated */ ); // restore scaling
         }
     }
 }

@@ -82,7 +82,7 @@ public class ComparingCanvas extends ABSAbstractCanvas {
         equationScalingControl = new EquationScalingControl();
         equationScalingControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                updateEquationsScaling();
+                updateEquationsScaling( true /* animated */ );
             }
         });
         equationScalingControlWrapper = new PhetPNode(); // so that pickability changes with visibility
@@ -147,9 +147,9 @@ public class ComparingCanvas extends ABSAbstractCanvas {
         equationsNodeRight.setVisible( viewControlsNode.isEquationsSelected() );
     }
     
-    private void updateEquationsScaling() {
-        equationsNodeLeft.setScalingEnabled( equationScalingControl.isScalingEnabled() );
-        equationsNodeRight.setScalingEnabled( equationScalingControl.isScalingEnabled() );
+    private void updateEquationsScaling( boolean animated ) {
+        equationsNodeLeft.setScalingEnabled( equationScalingControl.isScalingEnabled(), animated );
+        equationsNodeRight.setScalingEnabled( equationScalingControl.isScalingEnabled(), animated );
     }
     
     //----------------------------------------------------------------------------

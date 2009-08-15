@@ -174,9 +174,9 @@ public class SolutionsModule extends ABSAbstractModule {
         // mutually exclusive views
         canvas.setGraphVisible( config.isGraphVisible() );
         canvas.setReactionEquationsVisible( config.isReactionEquationsVisible() );
-        canvas.setReactionEquationsScalingEnabled( config.isReactionEquationsScalingEnabled() );
+        canvas.setReactionEquationsScalingEnabled( config.isReactionEquationsScalingEnabled(), false /* animated */ );
         canvas.setEquilibriumExpressionsVisible( config.isEquilibriumExpressionsVisible() );
-        canvas.setEquilibriumExpressionsScalingEnabled( config.isEquilibriumExpressionsScalingEnabled() );
+        canvas.setEquilibriumExpressionsScalingEnabled( config.isEquilibriumExpressionsScalingEnabled(), false /* animated */ );
         
         // legend
         LegendControlNode legendControl = canvas.getLegendControlNode();
