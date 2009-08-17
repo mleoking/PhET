@@ -15,7 +15,7 @@ import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
 import edu.colorado.phet.nuclearphysics.common.NucleusType;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.NuclearDecayModelListener;
-import edu.colorado.phet.nuclearphysics.model.AdjustableHalfLifeNucleus;
+import edu.colorado.phet.nuclearphysics.model.HeavyAdjustableHalfLifeNucleus;
 import edu.colorado.phet.nuclearphysics.model.Polonium211Nucleus;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.NucleusTypeControl;
 
@@ -229,7 +229,7 @@ public class MultiNucleusDecayModel implements NucleusTypeControl {
 				newNucleus = new Polonium211Nucleus(_clock);
 			}
 			else{
-				newNucleus = new AdjustableHalfLifeNucleus(_clock);
+				newNucleus = new HeavyAdjustableHalfLifeNucleus(_clock);
 			}
 			_atomicNuclei.add( newNucleus );
 			_jitterOffsets[i] = new Point2D.Double();
