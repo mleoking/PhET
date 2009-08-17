@@ -9,6 +9,8 @@
         </id>
         <property name="key"/>
         <property name="value" length="4048"/>
+        <property name="createdAt" type="timestamp"/>
+        <property name="updatedAt" type="timestamp"/>
         <many-to-one name="translation" class="edu.colorado.phet.wickettest.data.Translation" column="translation"
                      not-null="true"/>
     </class>

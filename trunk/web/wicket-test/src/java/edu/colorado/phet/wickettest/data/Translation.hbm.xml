@@ -8,9 +8,14 @@
             <generator class="increment"/>
         </id>
         <property name="locale" type="locale"/>
+        <property name="visible"/>
         <set name="translatedStrings" inverse="true" cascade="all">
             <key column="translation" on-delete="cascade"/>
             <one-to-many class="edu.colorado.phet.wickettest.data.TranslatedString"/>
+        </set>
+        <set name="authorizedUsers" inverse="true" table="user_translation_mapping">
+            <key column="translation_id"/>
+            <many-to-many class="edu.colorado.phet.wickettest.data.PhetUser" column="user_id"/>
         </set>
     </class>
 </hibernate-mapping>

@@ -4,5 +4,7 @@ public class InitializeData {
     public static void main( String[] args ) {
         InitializeSimulations.main( args );
         InitializeCategories.main( args );
+        InitializeUsers.main( args );
+        InitializeTranslations.main( args );
     }
 }

@@ -1,6 +1,8 @@
 package edu.colorado.phet.wickettest.data;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 public class PhetUser implements Serializable {
 
@@ -8,7 +10,9 @@ public class PhetUser implements Serializable {
     private String email;
     private String password;
     private boolean teamMember;
+    private Set translations = new HashSet();
 
+    // TODO: don't allow users with the same email address!
     public PhetUser() {
     }
 
@@ -42,5 +46,13 @@ public class PhetUser implements Serializable {
 
     public void setTeamMember( boolean teamMember ) {
         this.teamMember = teamMember;
+    }
+
+    public Set getTranslations() {
+        return translations;
+    }
+
+    public void setTranslations( Set translations ) {
+        this.translations = translations;
     }
 }

@@ -6,7 +6,6 @@ import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import edu.colorado.phet.wickettest.components.PhetLink;
 import edu.colorado.phet.wickettest.components.StaticImage;
 import edu.colorado.phet.wickettest.content.SimulationDisplay;
-import edu.colorado.phet.wickettest.content.IndexPage;
 import edu.colorado.phet.wickettest.translation.TranslationMainPage;
 import edu.colorado.phet.wickettest.util.PageContext;
 
@@ -32,10 +31,9 @@ public class IndexPanel extends PhetPanel {
         add( HeaderContributor.forCss( "/css/home-v1.css" ) );
 
 
-        
-        add( SimulationDisplay.createLink( "on-line-link", context ));
+        add( SimulationDisplay.createLink( "on-line-link", context ) );
 
-        add( new StaticImage( "mini-screenshot", "/images/geometric-optics-screenshot.png", null) );
+        add( new StaticImage( "mini-screenshot", "/images/geometric-optics-screenshot.png", null ) );
     }
 
 }
