@@ -2,9 +2,7 @@ package edu.colorado.phet.wickettest.util;
 
 import java.util.*;
 
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import org.hibernate.*;
 import org.hibernate.cfg.Configuration;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
@@ -276,6 +274,54 @@ public class HibernateUtils {
             ret.add( translation );
         }
 
+        return ret;
+    }
+
+    /**
+     * Wraps an action within a session opening and transaction scope. Handles runtime exceptions.
+     * Use wrapTransaction directly if you have access to a requestcycle. This is mainly meant for use when initializing
+     * the application.
+     *
+     * @param task The task to run
+     * @return Success (false if task.run returns false OR a runtime exception occurs).
+     */
+    public static boolean wrapSession( HibernateTask task ) {
+        Session session = getInstance().openSession();
+        boolean ret = wrapTransaction( session, task );
+        session.close();
+        return ret;
+    }
+
+    /**
+     * Wraps an action within a transaction scope. Handles runtime exceptions.
+     *
+     * @param session Session to use
+     * @param task    Task to run
+     * @return Success (false if task.run returns false OR a runtime exception occurs).
+     */
+    public static boolean wrapTransaction( Session session, HibernateTask task ) {
+        Transaction tx = null;
+        boolean ret;
+        try {
+            tx = session.beginTransaction();
+
+            ret = task.run( session );
+
+            tx.commit();
+        }
+        catch( RuntimeException e ) {
+            ret = false;
+            System.out.println( "Exception: " + e );
+            if ( tx != null && tx.isActive() ) {
+                try {
+                    tx.rollback();
+                }
+                catch( HibernateException e1 ) {
+                    System.out.println( "ERROR: Error rolling back transaction" );
+                }
+                throw e;
+            }
+        }
         return ret;
     }
 
