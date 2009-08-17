@@ -8,9 +8,9 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.view.clock.TimeSpeedSlider;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
-import edu.colorado.phet.common.timeseries.ui.TimeSpeedSlider;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 import edu.colorado.phet.statesofmatter.defaults.AtomicInteractionDefaults;
 import edu.colorado.phet.statesofmatter.model.DualAtomModel;
