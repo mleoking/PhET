@@ -393,6 +393,10 @@ public abstract class AtomicNucleus implements NuclearDecayControl {
 			decayProducts.add(NucleusType.LEAD_207);
 			break;
 	
+		case LIGHT_CUSTOM:
+			decayProducts.add(NucleusType.LIGHT_CUSTOM_POST_DECAY);
+			break;
+	
 		case HEAVY_CUSTOM:
 			decayProducts.add(NucleusType.HEAVY_CUSTOM_POST_DECAY);
 			break;
