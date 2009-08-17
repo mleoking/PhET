@@ -15,7 +15,6 @@ import edu.colorado.phet.nuclearphysics.developer.DeveloperMenu;
 
 public class AbstractNuclearPhysicsApplication extends PiccoloPhetApplication {
 
-    private XMLPersistenceManager _persistenceManager;
     private static TabbedModulePanePiccolo _tabbedModulePane;
 
 
@@ -44,11 +43,7 @@ public class AbstractNuclearPhysicsApplication extends PiccoloPhetApplication {
     protected void initMenubar( String[] args ) {
     
         final PhetFrame frame = getPhetFrame();
-    
-        if ( _persistenceManager == null ) {
-            _persistenceManager = new XMLPersistenceManager( frame );
-        }
-    
+        
         // Developer menu
         DeveloperMenu developerMenu = new DeveloperMenu( this );
         if ( developerMenu.getMenuComponentCount() > 0 && isDeveloperControlsEnabled() ) {
