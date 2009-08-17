@@ -11,6 +11,8 @@ public class TranslatedString implements Serializable {
     private Date createdAt;
     private Date updatedAt;
 
+    // TODO: add translation string locking!!
+
     public void initializeNewString( Translation translation, String key, String value ) {
         createdAt = new Date();
         updatedAt = createdAt;

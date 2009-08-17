@@ -21,6 +21,7 @@ import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.wickettest.WicketApplication;
 import edu.colorado.phet.wickettest.authentication.AuthenticatedPage;
 import edu.colorado.phet.wickettest.content.IndexPage;
+import edu.colorado.phet.wickettest.data.PhetUser;
 import edu.colorado.phet.wickettest.data.Translation;
 import edu.colorado.phet.wickettest.util.PageContext;
 
@@ -154,7 +155,11 @@ public class TranslationMainPage extends AuthenticatedPage {
                     translation.setLocale( selectedLocaleModel.locale );
                     translation.setVisible( false );
 
+                    PhetUser user = (PhetUser) session.load( PhetUser.class, TranslationMainPage.this.getUser().getId() );
+                    translation.addUser( user );
+
                     session.save( translation );
+                    session.save( user );
 
                     tx.commit();
                 }

@@ -72,7 +72,8 @@ public class PhetSession extends WebSession {
         return signedIn;
     }
 
-    private static String hashPassword( final String password ) {
+    public static String hashPassword( final String password ) {
+        // TODO: possibly move hashPassword elsewhere?
         byte[] bytes;
         try {
             MessageDigest digest = MessageDigest.getInstance( "SHA-1" );
