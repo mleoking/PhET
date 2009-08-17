@@ -43,7 +43,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author John Blanco
  */
-public class RadiometricElementDecayCanvas extends PhetPCanvas implements AutopressRestButton {
+public class RadiometricElementDecayCanvas extends PhetPCanvas implements AutopressResetButton {
     
     //----------------------------------------------------------------------------
     // Class data
