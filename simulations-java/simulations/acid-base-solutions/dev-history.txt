@@ -10,6 +10,7 @@ TODO:
 - make symbol legend descriptions automatically wrap, so we don't need line breaks in HTML markup
 
 DONE:
+8/17/09 stress test i18n layout by making ABSResources.getString double the length of each string
 8/17/09 create a translation to test i18n coverage
 8/17/09 delete unused strings
 # 0.01.32
