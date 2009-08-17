@@ -157,16 +157,17 @@ public class TranslateEntityPanel extends PhetPanel {
                 tString = new TranslatedString();
                 tString.initializeNewString( translation, key, value );
                 session.save( tString );
+                session.update( translation );
             }
             else {
                 tString.setValue( value );
                 tString.setUpdatedAt( new Date() );
 
-                // if it's cached, change the cache entries so it doesn't fail
-                ( (PhetLocalizer) getLocalizer() ).updateCachedString( translation, key, value );
-
                 session.update( tString );
             }
+
+            // if it's cached, change the cache entries so it doesn't fail
+            ( (PhetLocalizer) getLocalizer() ).updateCachedString( translation, key, value );
 
             tx.commit();
         }

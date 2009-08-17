@@ -10,6 +10,7 @@ import edu.colorado.phet.wickettest.WicketApplication;
 import edu.colorado.phet.wickettest.data.Category;
 import edu.colorado.phet.wickettest.data.LocalizedSimulation;
 import edu.colorado.phet.wickettest.data.TranslatedString;
+import edu.colorado.phet.wickettest.data.Translation;
 
 public class HibernateUtils {
 
@@ -355,6 +356,21 @@ public class HibernateUtils {
         }
         return ret;
 
+    }
+
+    public static List<Translation> getVisibleTranslations( Session session ) {
+        List<Translation> ret = new LinkedList<Translation>();
+        List li = session.createQuery( "select t from Translation as t where t.visible = true" ).list();
+
+        for ( Object o : li ) {
+            Translation translation = (Translation) o;
+            if ( translation.getLocale().equals( WicketApplication.getDefaultLocale() ) ) {
+                continue;
+            }
+            ret.add( translation );
+        }
+
+        return ret;
     }
 
 }
