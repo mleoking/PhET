@@ -32,9 +32,6 @@ public class Carbon14Nucleus extends AbstractBetaDecayNucleus {
     // cause quicker decay.
     private static double DECAY_TIME_SCALING_FACTOR = 1500 / HALF_LIFE;
     
-    // Random number generator used for calculating decay time based on decay constant.
-    private static final Random RAND = new Random();
-    
     //------------------------------------------------------------------------
     // Instance Data
     //------------------------------------------------------------------------
@@ -63,14 +60,6 @@ public class Carbon14Nucleus extends AbstractBetaDecayNucleus {
     }
     
     //------------------------------------------------------------------------
-    // Accessor Methods
-    //------------------------------------------------------------------------
-    
-    public double getHalfLife(){
-    	return HALF_LIFE;
-    }
-    
-    //------------------------------------------------------------------------
     // Other Public Methods
     //------------------------------------------------------------------------
     
@@ -93,17 +82,6 @@ public class Carbon14Nucleus extends AbstractBetaDecayNucleus {
     }
     
     /**
-     * Activate the nucleus, meaning that it will now decay after some amount
-     * of time.
-     */
-    public void activateDecay(){
-    	// Only allow activation if the nucleus hasn't already decayed.
-    	if (_numNeutrons == ORIGINAL_NUM_NEUTRONS){
-    		_decayTime = _clock.getSimulationTime() + (calcDecayTime() * _decayTimeScalingFactor);
-    	}
-    }
-
-    /**
      * This override is for "hollywooding" purposes - it provides a diameter
      * that is nearly the same as Uranium so that we don't have to scale atoms
      * of very different scales appearing on the same canvas.
@@ -117,17 +95,4 @@ public class Carbon14Nucleus extends AbstractBetaDecayNucleus {
     		return (1.6 * Math.pow( 100, 0.362));
     	}
 	}
-
-	/**
-     * Return a value indicating whether or not the nucleus has decayed.
-     */
-    public boolean hasDecayed(){
-    	
-    	if (_numProtons != ORIGINAL_NUM_PROTONS){
-    		return true;
-    	}
-    	else{
-    		return false;
-    	}
-    }
 }
