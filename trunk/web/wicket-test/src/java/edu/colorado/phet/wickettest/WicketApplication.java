@@ -105,6 +105,10 @@ public class WicketApplication extends WebApplication {
         }
         session.close();
 
+        sortTranslations();
+    }
+
+    private void sortTranslations() {
         Collections.sort( translations, new Comparator<Translation>() {
             public int compare( Translation a, Translation b ) {
                 return a.getLocale().getDisplayName().compareTo( b.getLocale().getDisplayName() );
@@ -140,19 +144,29 @@ public class WicketApplication extends WebApplication {
     }
 
     public void addTranslation( Translation translation ) {
+        String localeString = LocaleUtils.localeToString( translation.getLocale() );
+        System.out.println( "Adding translation for " + localeString );
         getResourceSettings().getLocalizer().clearCache();
         translations.add( translation );
-        mount( new PhetUrlStrategy( LocaleUtils.localeToString( translation.getLocale() ), mapper ) );
+        mount( new PhetUrlStrategy( localeString, mapper ) );
+        sortTranslations();
     }
 
     public void removeTranslation( Translation translation ) {
+        String localeString = LocaleUtils.localeToString( translation.getLocale() );
+        System.out.println( "Removing translation for " + localeString );
         getResourceSettings().getLocalizer().clearCache();
+        int oldNumTranslations = translations.size();
         for ( Translation tr : translations ) {
             if ( tr.getId() == translation.getId() ) {
                 translations.remove( tr );
                 break;
             }
         }
-        unmount( LocaleUtils.localeToString( translation.getLocale() ) );
+        if ( translations.size() != oldNumTranslations - 1 ) {
+            throw new RuntimeException( "Did not correctly remove old translation" );
+        }
+        unmount( localeString );
+        sortTranslations();
     }
 }
