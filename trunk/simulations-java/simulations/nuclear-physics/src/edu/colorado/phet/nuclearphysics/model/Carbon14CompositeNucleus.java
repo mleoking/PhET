@@ -6,7 +6,6 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
 import edu.colorado.phet.nuclearphysics.common.NucleusType;
-import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusDecayModel;
 
 /**
  * This class defines the behavior of the nucleus of Carbon 14, which
@@ -88,22 +87,4 @@ public class Carbon14CompositeNucleus extends BetaDecayCompositeNucleus {
 	protected double calculateDecayTime(){
 		return calcDecayTime();
 	}
-
-    /**
-     * This method generates a value indicating the number of milliseconds for
-     * a hydrogen 3 nucleus to decay.  This calculation is based on the 
-     * standard exponential decay formula.
-     * 
-     * @return
-     */
-    private double calcDecayTime(){
-        double randomValue = _rand.nextDouble();
-        if (randomValue > 0.999){
-            // Limit the maximum time for decay so that the user isn't waiting
-            // around forever.
-            randomValue = 0.999;
-        }
-        double tunnelOutMilliseconds = (-(Math.log( 1 - randomValue ) / (0.693 / HALF_LIFE)));
-        return tunnelOutMilliseconds;
-    }
 }

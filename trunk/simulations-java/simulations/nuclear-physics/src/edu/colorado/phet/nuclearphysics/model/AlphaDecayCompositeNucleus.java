@@ -20,11 +20,9 @@ public abstract class AlphaDecayCompositeNucleus extends CompositeAtomicNucleus 
     // Instance data
     //------------------------------------------------------------------------
 
-	protected double   _timeUntilDecay = 0;
 	protected double   _startTime;         // Simulation time at which this nucleus was created or last reset.
 	protected double   _pauseStartTime;    // Time at which this nucleus was paused.
 	protected double   _preDecayLifeTime;  // Milliseconds of existence prior to decay.
-	private boolean    _hasDecayed = false;
 	
     //------------------------------------------------------------------------
     // Constructor
@@ -61,10 +59,6 @@ public abstract class AlphaDecayCompositeNucleus extends CompositeAtomicNucleus 
 		}
 	}
 	
-	public boolean hasDecayed(){
-		return _hasDecayed;
-	}
-
 	/**
 	 * Resets the nucleus to its original state, before any alpha decay has
 	 * occurred.
@@ -73,9 +67,8 @@ public abstract class AlphaDecayCompositeNucleus extends CompositeAtomicNucleus 
 	 */
 	public void reset(AlphaParticle alpha) {
 	    
-	    // Reset the decay time.
-	    _timeUntilDecay = calculateDecayTime();
-	    _hasDecayed = false;
+		super.reset();
+		
 	    _startTime = _clock.getSimulationTime();
 	    
 	    if (alpha != null){
@@ -92,68 +85,86 @@ public abstract class AlphaDecayCompositeNucleus extends CompositeAtomicNucleus 
 	        // Let the listeners know that the atomic weight has changed.
 	        notifyNucleusChangeEvent(null);
 	    }
-	}
-	
-	/**
-	 * This method lets this model element know that the clock has ticked.  In
-	 * response, the nucleus generally 'agitates' a bit, may also perform some
-	 * sort of decay, and may move.
-	 */
-	protected void handleClockTicked(ClockEvent clockEvent) {
-	    super.handleClockTicked( clockEvent );
 	    
-	    if (!_paused){
-		    // See if alpha decay should occur.
-		    if ((_timeUntilDecay != Double.POSITIVE_INFINITY) && (getTimeOfExistence() >= _timeUntilDecay))
-		    {
-		        // Pick an alpha particle to tunnel out and make it happen.
-		        for (int i = 0; i < _constituents.size(); i++)
-		        {
-		            if (_constituents.get( i ) instanceof AlphaParticle){
-		                
-		                // This one will do.  Make it tunnel.
-		                AlphaParticle tunnelingParticle = (AlphaParticle)_constituents.get( i );
-		                _constituents.remove( i );
-		                _numAlphas--;
-		                _numProtons -= 2;
-		                _numNeutrons -= 2;
-		                tunnelingParticle.tunnelOut( _position, _tunnelingRegionRadius + 1.0 );
-		                
-		                // Update our agitation factor.
-		                updateAgitationFactor();
-		                
-		                // Notify listeners of the change of atomic weight.
-		                ArrayList byProducts = new ArrayList(1);
-		                byProducts.add( tunnelingParticle );
-		                notifyNucleusChangeEvent(byProducts);
-		                break;
-		            }
-		        }
-		        
-		    	// Mark that decay has happened.
-		    	_hasDecayed = true;
-		    	_preDecayLifeTime = _timeUntilDecay;
-	
-		    	// Set the decay time to infinity to indicate that no more tunneling out
-		        // should occur.
-		        _timeUntilDecay = Double.POSITIVE_INFINITY;
-		    }
-	    }
+	    // On this tab, the nucleus activates right away.
+	    activateDecay();
 	}
 	
-	public void setPaused(boolean paused) {
-		if (_paused != paused){
-			super.setPaused(paused);
-			if (paused){
-				// Record the time at which the pause began.
-				_pauseStartTime = _clock.getSimulationTime();
-			}
-			else{
-				// Update the start time for this nucleus based on
-				// the amount of time that it was paused.
-				_startTime = _startTime + (_clock.getSimulationTime() - _pauseStartTime);
-			}
-		}
+//	/**
+//	 * This method lets this model element know that the clock has ticked.  In
+//	 * response, the nucleus generally 'agitates' a bit, may also perform some
+//	 * sort of decay, and may move.
+//	 */
+//	protected void handleClockTicked(ClockEvent clockEvent) {
+//	    super.handleClockTicked( clockEvent );
+//	    
+//	    if (!_paused){
+//		    // See if alpha decay should occur.
+//		    if ((_timeUntilDecay != Double.POSITIVE_INFINITY) && (getTimeOfExistence() >= _timeUntilDecay))
+//		    {
+//		        // Pick an alpha particle to tunnel out and make it happen.
+//		        for (int i = 0; i < _constituents.size(); i++)
+//		        {
+//		            if (_constituents.get( i ) instanceof AlphaParticle){
+//		                
+//		                // This one will do.  Make it tunnel.
+//		                AlphaParticle tunnelingParticle = (AlphaParticle)_constituents.get( i );
+//		                _constituents.remove( i );
+//		                _numAlphas--;
+//		                _numProtons -= 2;
+//		                _numNeutrons -= 2;
+//		                tunnelingParticle.tunnelOut( _position, _tunnelingRegionRadius + 1.0 );
+//		                
+//		                // Update our agitation factor.
+//		                updateAgitationFactor();
+//		                
+//		                // Notify listeners of the change of atomic weight.
+//		                ArrayList byProducts = new ArrayList(1);
+//		                byProducts.add( tunnelingParticle );
+//		                notifyNucleusChangeEvent(byProducts);
+//		                break;
+//		            }
+//		        }
+//		        
+//		    	// Mark that decay has happened.
+//		    	_hasDecayed = true;
+//		    	_preDecayLifeTime = _timeUntilDecay;
+//	
+//		    	// Set the decay time to infinity to indicate that no more tunneling out
+//		        // should occur.
+//		        _timeUntilDecay = Double.POSITIVE_INFINITY;
+//		    }
+//	    }
+//	}
+	
+	@Override
+	protected void decay(ClockEvent clockEvent) {
+		
+		super.decay(clockEvent);
+		
+        // Pick an alpha particle to tunnel out and make it happen.
+        for (int i = 0; i < _constituents.size(); i++)
+        {
+            if (_constituents.get( i ) instanceof AlphaParticle){
+                
+                // This one will do.  Make it tunnel.
+                AlphaParticle tunnelingParticle = (AlphaParticle)_constituents.get( i );
+                _constituents.remove( i );
+                _numAlphas--;
+                _numProtons -= 2;
+                _numNeutrons -= 2;
+                tunnelingParticle.tunnelOut( _position, _tunnelingRegionRadius + 1.0 );
+                
+                // Update our agitation factor.
+                updateAgitationFactor();
+                
+                // Notify listeners of the change of atomic weight.
+                ArrayList byProducts = new ArrayList(1);
+                byProducts.add( tunnelingParticle );
+                notifyNucleusChangeEvent(byProducts);
+                break;
+            }
+        }
 	}
 
 	/**
@@ -164,8 +175,4 @@ public abstract class AlphaDecayCompositeNucleus extends CompositeAtomicNucleus 
 	protected double getTimeOfExistence(){
 		return (_clock.getSimulationTime() - _startTime);
 	}
-
-	abstract protected void updateAgitationFactor();
-	abstract protected double calculateDecayTime();
-	abstract public double getHalfLife();
 }

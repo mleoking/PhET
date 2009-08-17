@@ -3,7 +3,6 @@
 package edu.colorado.phet.nuclearphysics.model;
 
 import java.awt.geom.Point2D;
-import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
@@ -29,9 +28,6 @@ public class Uranium238Nucleus extends AtomicNucleus {
     // don't really have to wait around thousands of years.  Smaller numbers
     // will bring about faster decay.
     private static double DECAY_TIME_SCALING_FACTOR = 2500 / HALF_LIFE;
-    
-    // Random number generator used for calculating decay time based on decay constant.
-    private static final Random RAND = new Random();
     
     //------------------------------------------------------------------------
     // Instance Data
@@ -133,30 +129,4 @@ public class Uranium238Nucleus extends AtomicNucleus {
         // should not occur again.
         _decayTime = 0;
 	}
-
-	public boolean hasDecayed() {
-    	if (_numProtons != ORIGINAL_NUM_PROTONS){
-    		return true;
-    	}
-    	else{
-    		return false;
-    	}
-	}
-	
-    /**
-     * Calculate a random decay time based on the decay constant for this
-     * type of nucleus.
-     * 
-     * @return
-     */
-    private double calcDecayTime(){
-        double randomValue = RAND.nextDouble();
-        if (randomValue > 0.999){
-            // Limit the maximum time for decay so that the user isn't waiting
-            // around forever.
-            randomValue = 0.999;
-        }
-        double decayMilliseconds = (-(Math.log( 1 - randomValue ) / (0.693 / HALF_LIFE)));
-        return decayMilliseconds;
-    }
 }

@@ -89,26 +89,4 @@ public class Hydrogen3Nucleus extends AbstractBetaDecayNucleus {
     		return false;
     	}
     }
-    
-    //------------------------------------------------------------------------
-    // Private and Protected Methods
-    //------------------------------------------------------------------------
-
-    /**
-     * This method generates a value indicating the number of milliseconds for
-     * a Hydrogen 3 nucleus to decay.  This calculation is based on the 
-     * exponential decay formula and uses the decay constant for Hydrogen 3.
-     * 
-     * @return
-     */
-    private double calcDecayTime(){
-        double randomValue = RAND.nextDouble();
-        if (randomValue > 0.999){
-            // Limit the maximum time for decay so that the user isn't waiting
-            // around forever.
-            randomValue = 0.999;
-        }
-        double tunnelOutMilliseconds = (-(Math.log( 1 - randomValue ) / (0.693 / getHalfLife())));
-        return tunnelOutMilliseconds;
-    }
 }

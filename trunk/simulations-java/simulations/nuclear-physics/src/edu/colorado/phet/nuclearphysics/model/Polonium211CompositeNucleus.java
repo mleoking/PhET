@@ -38,9 +38,6 @@ public class Polonium211CompositeNucleus extends AlphaDecayCompositeNucleus {
 
     public Polonium211CompositeNucleus(NuclearPhysicsClock clock, Point2D position){
         super(clock, position, ORIGINAL_NUM_PROTONS, ORIGINAL_NUM_NEUTRONS);
-        
-        // Decide when alpha decay will occur.
-        _timeUntilDecay = calcPolonium211DecayTime();
     }
     
     //------------------------------------------------------------------------
@@ -80,29 +77,4 @@ public class Polonium211CompositeNucleus extends AlphaDecayCompositeNucleus {
 	        assert(false);
 	    }        
 	}
-	
-	/**
-	 * Return a new value for the time at which this nucleus should decay.
-	 */
-	protected double calculateDecayTime(){
-		return calcPolonium211DecayTime();
-	}
-
-    /**
-     * This method generates a value indicating the number of milliseconds for
-     * a Polonium 211 nucleus to decay.  This calculation is based on the 
-     * exponential decay formula and uses the decay constant for Polonium 211.
-     * 
-     * @return
-     */
-    private double calcPolonium211DecayTime(){
-        double randomValue = _rand.nextDouble();
-        if (randomValue > 0.999){
-            // Limit the maximum time for decay so that the user isn't waiting
-            // around forever.
-            randomValue = 0.999;
-        }
-        double tunnelOutMilliseconds = (-(Math.log( 1 - randomValue ) / (0.693 / HALF_LIFE)));
-        return tunnelOutMilliseconds;
-    }
 }
