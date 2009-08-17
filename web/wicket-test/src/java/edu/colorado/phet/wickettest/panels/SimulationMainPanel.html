@@ -23,28 +23,32 @@
             Simulation Title
         </h1>
 
-        <div class="simulation-main-image-panel">
-            <a href="SimulationMainPanel.html#" wicket:id="simulation-main-link-run-main"
-               class="simulation-main-link-run-main">
-                <img wicket:id="simulation-main-screenshot" class="simulation-main-screenshot"
-                     src="../../../../../../../template-files/images/arithmetic-screenshot.png"/>
-            </a>
-            <a class="sim-download sim-button" href="#">Download</a>
-            <a class="sim-run-now sim-button" href="#">Run Now!</a>
-            <span class="sim-version">Version: 2.0</span>
-            <span class="sim-kb">308 kB</span>
-        </div>
-
-        <div class="simulation-main-description" wicket:id="simulation-main-description">
-            Play with one or two pendulums and discover how the period of a simple pendulum depends on the length of the
-            string, the mass of the pendulum bob, and the amplitude of the swing. It's easy to measure the period using
-            the photogate timer. You can vary friction and the strength of gravity. Use the pendulum to find the value
-            of g on planet X. Notice the anharmonic behavior at large amplitude.
-        </div>
+        <table class="simulation-main-table">
+            <tr>
+                <td width="300px">
+                    <div class="simulation-main-image-panel">
+                        <a href="SimulationMainPanel.html#" wicket:id="simulation-main-link-run-main"
+                           class="simulation-main-link-run-main">
+                            <img wicket:id="simulation-main-screenshot" class="simulation-main-screenshot"
+                                 src="../../../../../../../template-files/images/arithmetic-screenshot.png"/>
+                        </a>
+                        <a class="sim-download sim-button" href="#">Download</a>
+                        <a class="sim-run-now sim-button" href="#">Run Now!</a>
+                        <span class="sim-version">Version: 2.0</span>
+                        <span class="sim-kb">308 kB</span>
+                    </div>
+                </td>
+                <td class="simulation-main-description" wicket:id="simulation-main-description">
+                    Play with one or two pendulums and discover how the period of a simple pendulum depends on the
+                    length of the string, the mass of the pendulum bob, and the amplitude of the swing. It's easy to
+                    measure the period using the photogate timer. You can vary friction and the strength of gravity. Use
+                    the pendulum to find the value of g on planet X. Notice the anharmonic behavior at large amplitude.
+                </td>
+            </tr>
+        </table>
 
 
         <div>
-            <div class="sim-clear"></div>
             <h2>
                 <wicket:message key="simulationMainPanel.translatedVersions">Translated versions</wicket:message>
             </h2>
