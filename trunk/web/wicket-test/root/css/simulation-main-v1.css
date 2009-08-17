@@ -11,6 +11,11 @@
     width: 300px;
 }
 
+div.rtl .simulation-main-image-panel {
+    margin-right: 0;
+    margin-left: 20px;
+}
+
 .simulation-main-link-run-main {
     text-decoration: none;
 }
@@ -23,8 +28,14 @@
     font-size: 12px;
 }
 
+.simulation-main-table {
+    padding-bottom: 20px;
+}
+
 .simulation-main-description {
     line-height: 150%;
+    vertical-align: top;
+    padding: 0;
 }
 
 .sim-clear {
@@ -40,7 +51,7 @@
     text-transform: uppercase;
     font-variant: small-caps;
     letter-spacing: 1px;
-    margin: 0pt;
+    margin: 0 0 5px;
     padding-top: 5px;
     border-top: 1px solid #cc6600;
 }
