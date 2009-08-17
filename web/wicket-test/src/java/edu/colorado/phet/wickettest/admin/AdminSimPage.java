@@ -141,31 +141,18 @@ public class AdminSimPage extends AdminPage {
                     item.add( new Label( "keyword-english", new ResourceModel( keyword.getKey() ) ) );
                     item.add( new Link( "keyword-remove" ) {
                         public void onClick() {
-                            Transaction tx = null;
-                            try {
-                                Session session = getHibernateSession();
-                                tx = session.beginTransaction();
+                            boolean success = HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
+                                public boolean run( Session session ) {
+                                    Simulation sim = (Simulation) session.load( Simulation.class, simulation.getId() );
+                                    Keyword kword = (Keyword) session.load( Keyword.class, keyword.getId() );
 
-                                Simulation sim = (Simulation) session.load( Simulation.class, simulation.getId() );
-                                Keyword kword = (Keyword) session.load( Keyword.class, keyword.getId() );
-
-                                sim.getKeywords().remove( kword );
-                                simKeywords.remove( keyword );
-                                session.update( sim );
-
-                                tx.commit();
-                            }
-                            catch( RuntimeException e ) {
-                                System.out.println( "Exception: " + e );
-                                if ( tx != null && tx.isActive() ) {
-                                    try {
-                                        tx.rollback();
-                                    }
-                                    catch( HibernateException e1 ) {
-                                        System.out.println( "ERROR: Error rolling back transaction" );
-                                    }
-                                    throw e;
+                                    sim.getKeywords().remove( kword );
+                                    session.update( sim );
+                                    return true;
                                 }
+                            } );
+                            if ( success ) {
+                                simKeywords.remove( keyword );
                             }
                         }
                     } );
@@ -199,42 +186,33 @@ public class AdminSimPage extends AdminPage {
 
         @Override
         protected void onSubmit() {
-            int keywordId = Integer.valueOf( dropDownChoice.getModelValue() );
-            Transaction tx = null;
-            try {
-                Session session = getHibernateSession();
-                tx = session.beginTransaction();
+            final int keywordId = Integer.valueOf( dropDownChoice.getModelValue() );
+            final Keyword kword = new Keyword();
+            boolean success = HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
+                public boolean run( Session session ) {
+                    Simulation sim = (Simulation) session.load( Simulation.class, simulation.getId() );
+                    session.load( kword, keywordId );
 
-                Simulation sim = (Simulation) session.load( Simulation.class, simulation.getId() );
-                Keyword kword = (Keyword) session.load( Keyword.class, keywordId );
+                    boolean ok = true;
 
-                boolean ok = true;
-
-                // make sure the sim doesn't already have the keyword
-                for ( Object o : sim.getKeywords() ) {
-                    ok = ok && ( (Keyword) o ).getId() != keywordId;
-                }
-
-                if ( ok ) {
-                    sim.getKeywords().add( kword );
-                    simKeywords.add( kword );
-
-                    session.update( sim );
-                }
-
-                tx.commit();
-            }
-            catch( RuntimeException e ) {
-                System.out.println( "Exception: " + e );
-                if ( tx != null && tx.isActive() ) {
-                    try {
-                        tx.rollback();
+                    // make sure the sim doesn't already have the keyword
+                    for ( Object o : sim.getKeywords() ) {
+                        ok = ok && ( (Keyword) o ).getId() != keywordId;
                     }
-                    catch( HibernateException e1 ) {
-                        System.out.println( "ERROR: Error rolling back transaction" );
+
+                    if ( ok ) {
+                        sim.getKeywords().add( kword );
+                        session.update( sim );
+                        return true;
                     }
-                    throw e;
+                    else {
+                        // keyword was already in the list, so we don't want to double-add it to the model
+                        return false;
+                    }
                 }
+            } );
+            if ( success ) {
+                simKeywords.add( kword );
             }
         }
 
@@ -270,40 +248,28 @@ public class AdminSimPage extends AdminPage {
 
         @Override
         protected void onSubmit() {
-            String key = keyText.getModelObjectAsString();
-            String value = valueText.getModelObjectAsString();
-            String localizationKey = "keyword." + key;
+            final String key = keyText.getModelObjectAsString();
+            final String value = valueText.getModelObjectAsString();
+            final String localizationKey = "keyword." + key;
             boolean success = StringUtils.setEnglishString( getHibernateSession(), localizationKey, value );
             if ( success ) {
-                Transaction tx = null;
-                try {
-                    Session session = getHibernateSession();
-                    tx = session.beginTransaction();
-
-                    List sameKeywords = session.createQuery( "select k from Keyword as k where k.key = :key" ).setString( "key", key ).list();
-
-                    if ( sameKeywords.isEmpty() ) {
-                        Keyword keyword = new Keyword();
-                        keyword.setKey( localizationKey );
-                        session.save( keyword );
-
-                        allKeywords.add( keyword );
-                        sortKeywords( allKeywords );
-                    }
-
-                    tx.commit();
-                }
-                catch( RuntimeException e ) {
-                    System.out.println( "Exception: " + e );
-                    if ( tx != null && tx.isActive() ) {
-                        try {
-                            tx.rollback();
+                final Keyword keyword = new Keyword();
+                keyword.setKey( localizationKey );
+                success = HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
+                    public boolean run( Session session ) {
+                        List sameKeywords = session.createQuery( "select k from Keyword as k where k.key = :key" ).setString( "key", key ).list();
+                        if ( sameKeywords.isEmpty() ) {
+                            session.save( keyword );
+                            return true;
                         }
-                        catch( HibernateException e1 ) {
-                            System.out.println( "ERROR: Error rolling back transaction" );
+                        else {
+                            return false;
                         }
-                        throw e;
                     }
+                } );
+                if ( success ) {
+                    allKeywords.add( keyword );
+                    sortKeywords( allKeywords );
                 }
             }
         }
