@@ -10,6 +10,7 @@ TODO:
 - make symbol legend descriptions automatically wrap, so we don't need line breaks in HTML markup
 
 DONE:
+8/17/09 delete unused strings
 # 0.01.32
 8/14/09 another attempt to resolve issue with location of "Ka" button on Windows
 # 0.01.31
