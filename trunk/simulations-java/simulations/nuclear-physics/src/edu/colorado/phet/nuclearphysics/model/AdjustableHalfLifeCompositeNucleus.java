@@ -67,15 +67,6 @@ public class AdjustableHalfLifeCompositeNucleus extends AlphaDecayCompositeNucle
 	    }        
 	}
 	
-	public double getElapsedPreDecayTime() {
-		if (!hasDecayed()){
-			return getTimeOfExistence();
-		}
-		else{
-			return _preDecayLifeTime;
-		}
-	}
-
 	/**
 	 * Get the adjusted time for which this nucleus was active.  This is an
 	 * override because time changes exponentially for this particular atom.
@@ -83,29 +74,6 @@ public class AdjustableHalfLifeCompositeNucleus extends AlphaDecayCompositeNucle
 	@Override
 	public double getAdjustedActivatedTime() {
 		return convertSimTimeToExponentialTime( getActivatedSimTime() );
-	}
-	
-	/**
-	 * Get the length of time for which this nucleus has existed, meaning that
-	 * is has been moving towards decay.  This version maps simulation time
-	 * to an exponential time.
-	 * 
-	 * @return - Time of existence in milliseconds.
-	 */
-	protected double getTimeOfExistence(){
-		double simTimeOfExistence = 0;
-		if (_paused){
-			simTimeOfExistence = _pauseStartTime - _startTime;
-		}
-		else{
-			simTimeOfExistence = _clock.getSimulationTime() - _startTime;
-		}
-		
-		// Convert the linear simulation clock via an exponential function in
-		// order to figure out how long this nucleus has been in existence.
-		// Note that this is tweaked a bit to make the nucleus move along the
-		// time chart at a reasonable rate.
-		return Math.pow(10, simTimeOfExistence * 0.01) - 1;
 	}
 	
 	@Override
