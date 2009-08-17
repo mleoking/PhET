@@ -10,8 +10,6 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.link.StatelessLink;
 import org.apache.wicket.model.IModel;
-import org.hibernate.HibernateException;
-import org.hibernate.Transaction;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.wickettest.WicketApplication;
@@ -19,10 +17,7 @@ import edu.colorado.phet.wickettest.components.StaticImage;
 import edu.colorado.phet.wickettest.content.IndexPage;
 import edu.colorado.phet.wickettest.data.Translation;
 import edu.colorado.phet.wickettest.menu.NavMenu;
-import edu.colorado.phet.wickettest.util.InvisibleComponent;
-import edu.colorado.phet.wickettest.util.PageContext;
-import edu.colorado.phet.wickettest.util.PhetRequestCycle;
-import edu.colorado.phet.wickettest.util.PhetSession;
+import edu.colorado.phet.wickettest.util.*;
 
 public abstract class PhetPage extends WebPage {
 
@@ -81,28 +76,15 @@ public abstract class PhetPage extends WebPage {
             add( HeaderContributor.forCss( "/css/phetpage-v1.css" ) );
 
             if ( prefix.startsWith( "/translation" ) && getVariation() != null ) {
-                org.hibernate.Session session = getHibernateSession();
-                Translation translation = null;
-                Transaction tx = null;
-                try {
-                    tx = session.beginTransaction();
+                final Translation translation = new Translation();
 
-                    translation = (Translation) session.load( Translation.class, Integer.valueOf( getVariation() ) );
-
-                    tx.commit();
-                }
-                catch( RuntimeException e ) {
-                    System.out.println( "Exception: " + e );
-                    if ( tx != null && tx.isActive() ) {
-                        try {
-                            tx.rollback();
-                        }
-                        catch( HibernateException e1 ) {
-                            System.out.println( "ERROR: Error rolling back transaction" );
-                        }
-                        throw e;
+                HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
+                    public boolean run( org.hibernate.Session session ) {
+                        session.load( translation, Integer.valueOf( getVariation() ) );
+                        return true;
                     }
-                }
+                } );
+
                 add( new Label( "translation-preview-notification", "This is a preview for translation #" + getVariation() +
                                                                     " of " + translation.getLocale().getDisplayName() +
                                                                     " (" + LocaleUtils.localeToString( translation.getLocale() ) +
