@@ -82,11 +82,15 @@
             <table class="admin">
                 <tr>
                     <th>Keyword</th>
-                    <th></th>
+                    <th/>
+                    <th>Move up</th>
+                    <th>Move down</th>
                 </tr>
                 <tr wicket:id="keywords">
                     <td wicket:id="keyword-english">Mechanics</td>
                     <td><a href="#" wicket:id="keyword-remove">remove</a></td>
+                    <td><a href="#" wicket:id="keyword-move-up">up</a></td>
+                    <td><a href="#" wicket:id="keyword-move-down">down</a></td>
                 </tr>
                 <tr>
                     <td>
@@ -98,6 +102,8 @@
                     <td>
                         <input type="submit" name="submit" value="add keyword"/>
                     </td>
+                    <td/>
+                    <td/>
                 </tr>
             </table>
         </form>
