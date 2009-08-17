@@ -30,10 +30,11 @@ import edu.colorado.phet.nuclearphysics.model.AdjustableHalfLifeNucleus;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.NuclearDecayListenerAdapter;
 import edu.colorado.phet.nuclearphysics.model.Polonium211Nucleus;
+import edu.colorado.phet.nuclearphysics.module.halflife.AutopressResetButton;
 import edu.colorado.phet.nuclearphysics.view.AlphaParticleModelNode;
 import edu.colorado.phet.nuclearphysics.view.AutoPressGradientButtonNode;
 import edu.colorado.phet.nuclearphysics.view.BucketOfNucleiNode;
-import edu.colorado.phet.nuclearphysics.view.MultiNucleusAlphaDecayTimeChart;
+import edu.colorado.phet.nuclearphysics.view.MultiNucleusDecayLinearTimeChart;
 import edu.colorado.phet.nuclearphysics.view.NucleusImageFactory;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -44,7 +45,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author John Blanco
  */
-public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
+public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas implements AutopressResetButton {
     
     //----------------------------------------------------------------------------
     // Class data
@@ -80,7 +81,7 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private MultiNucleusAlphaDecayTimeChart _decayTimeChart;
+    private MultiNucleusDecayLinearTimeChart _decayTimeChart;
     private AutoPressGradientButtonNode _resetButtonNode;
     private GradientButtonNode _addTenButtonNode;
     private MultiNucleusAlphaDecayModel _model;
@@ -156,7 +157,8 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas {
         });
 
         // Add the chart that shows the decay time.
-        _decayTimeChart = new MultiNucleusAlphaDecayTimeChart(_model, this);
+        _decayTimeChart = new MultiNucleusDecayLinearTimeChart(_model, this, AtomicNucleusImageType.NUCLEONS_VISIBLE);
+        _decayTimeChart.setTimeSpan(3200);
         _chartLayer.addChild( _decayTimeChart );
         
         // Create and add the node the represents the bucket from which nuclei
