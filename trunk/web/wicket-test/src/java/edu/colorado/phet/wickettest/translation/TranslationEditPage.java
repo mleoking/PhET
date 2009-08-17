@@ -9,12 +9,11 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
-import edu.colorado.phet.wickettest.authentication.AuthenticatedPage;
 import edu.colorado.phet.wickettest.data.Translation;
 import edu.colorado.phet.wickettest.panels.PanelHolder;
 import edu.colorado.phet.wickettest.translation.entities.CommonEntity;
 
-public class TranslationEditPage extends AuthenticatedPage {
+public class TranslationEditPage extends TranslationPage {
     private int translationId;
     private PanelHolder panelHolder;
     private TranslateEntityPanel subPanel;
@@ -53,8 +52,6 @@ public class TranslationEditPage extends AuthenticatedPage {
             }
             throw e;
         }
-
-        addTitle( "Translation test page" );
 
         panelHolder = new PanelHolder( "translation-panel", getPageContext() );
         add( panelHolder );
