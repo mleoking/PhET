@@ -6,6 +6,7 @@ import java.awt.geom.Point2D;
 import java.util.Random;
 
 import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
+import edu.colorado.phet.nuclearphysics.common.NucleusType;
 
 /**
  * This class represents a non-composite Carbon 14 nucleus.  Because it is
@@ -25,7 +26,7 @@ public class Carbon14Nucleus extends AbstractBetaDecayNucleus {
     public static final int ORIGINAL_NUM_NEUTRONS = 8;
     
     // Half life for Carbon 14.
-    public static double HALF_LIFE = 1.81E14; // 5,730 years, converted into milliseconds.
+    public static double HALF_LIFE = HalfLifeInfo.getHalfLifeForNucleusType(NucleusType.CARBON_14);
     
     // Time scaling factor - scales the rate at which decay occurs so that we
     // don't really have to wait around thousands of years.  Smaller values
