@@ -20,10 +20,7 @@ public class ABSStrings {
     public static final String TITLE_COMPARING_MODULE = ABSResources.getString( "title.comparingModule" );
     public static final String TITLE_MATCHING_GAME_MODULE = ABSResources.getString( "title.matchingGameModule" );
     public static final String TITLE_ERROR = PhetCommonResources.getString( "Common.title.error" );
-    public static final String TITLE_STRENGTH = ABSResources.getString( "title.strength" );
-    public static final String TITLE_SOLUTION = ABSResources.getString( "title.solution" );
     public static final String TITLE_EQUILIBRIUM_EXPRESSION = ABSResources.getString( "title.equilibriumExpression" );
-    public static final String TITLE_REACTION_EQUATIONS = ABSResources.getString( "title.reactionEquations" );
     public static final String TITLE_SYMBOL_LEGEND = ABSResources.getString( "title.symbolLegend" );
     public static final String TITLE_VIEW = ABSResources.getString( "title.view" );
     
@@ -83,7 +80,6 @@ public class ABSStrings {
     
     // units
     public static final String UNITS_LITERS = ABSResources.getString( "units.liters" );
-    public static final String UNITS_MOLES = ABSResources.getString( "units.moles" );
     public static final String UNITS_MOLES_PER_LITER = ABSResources.getString( "units.molesPerLiter" );
     public static final String UNITS_MOLAR = ABSResources.getString( "units.molar" );
     
