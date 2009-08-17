@@ -15,7 +15,7 @@ import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
  *
  * @author John Blanco
  */
-public class AdjustableHalfLifeNucleus extends AbstractAlphaDecayNucleus {
+public class HeavyAdjustableHalfLifeNucleus extends AbstractAlphaDecayNucleus {
     
     //------------------------------------------------------------------------
     // Class Data
@@ -33,14 +33,14 @@ public class AdjustableHalfLifeNucleus extends AbstractAlphaDecayNucleus {
     // Instance Data
     //------------------------------------------------------------------------
 
-    public AdjustableHalfLifeNucleus(NuclearPhysicsClock clock, Point2D position){
+    public HeavyAdjustableHalfLifeNucleus(NuclearPhysicsClock clock, Point2D position){
 
         super(clock, position, ORIGINAL_NUM_PROTONS, ORIGINAL_NUM_NEUTRONS);
         
         _halfLife = DEFAULT_HALF_LIFE;
     }
     
-    public AdjustableHalfLifeNucleus(NuclearPhysicsClock clock){
+    public HeavyAdjustableHalfLifeNucleus(NuclearPhysicsClock clock){
 
         this(clock, new Point2D.Double(0, 0));
     }
