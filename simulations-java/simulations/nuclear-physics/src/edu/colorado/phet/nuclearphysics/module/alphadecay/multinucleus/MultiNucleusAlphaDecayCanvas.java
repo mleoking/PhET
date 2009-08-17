@@ -26,7 +26,7 @@ import edu.colorado.phet.nuclearphysics.common.model.NuclearDecayControl;
 import edu.colorado.phet.nuclearphysics.common.view.AbstractAtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusImageType;
 import edu.colorado.phet.nuclearphysics.common.view.GrabbableNucleusImageNode;
-import edu.colorado.phet.nuclearphysics.model.AdjustableHalfLifeNucleus;
+import edu.colorado.phet.nuclearphysics.model.HeavyAdjustableHalfLifeNucleus;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.NuclearDecayListenerAdapter;
 import edu.colorado.phet.nuclearphysics.model.Polonium211Nucleus;
@@ -212,8 +212,8 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas implements Autopre
         // Pre-generate the images for the custom nuclei and lead nuclei,
         // because otherwise there are noticeable pauses at various times
         // when the nuclei need to be generated.
-        NucleusImageFactory.getInstance().preGenerateNucleusImages(AdjustableHalfLifeNucleus.ORIGINAL_NUM_PROTONS,
-        		AdjustableHalfLifeNucleus.ORIGINAL_NUM_NEUTRONS, 25 );
+        NucleusImageFactory.getInstance().preGenerateNucleusImages(HeavyAdjustableHalfLifeNucleus.ORIGINAL_NUM_PROTONS,
+        		HeavyAdjustableHalfLifeNucleus.ORIGINAL_NUM_NEUTRONS, 25 );
         NucleusImageFactory.getInstance().preGenerateNucleusImages(Polonium211Nucleus.ORIGINAL_NUM_PROTONS - 2,
         		Polonium211Nucleus.ORIGINAL_NUM_NEUTRONS - 2, 25 );
     }
