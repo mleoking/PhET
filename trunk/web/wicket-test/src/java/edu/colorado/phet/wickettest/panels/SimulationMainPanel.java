@@ -1,6 +1,5 @@
 package edu.colorado.phet.wickettest.panels;
 
-import java.text.MessageFormat;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -10,6 +9,7 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.StringResourceModel;
 
 import edu.colorado.phet.wickettest.components.PhetLink;
 import edu.colorado.phet.wickettest.components.StaticImage;
@@ -23,14 +23,18 @@ public class SimulationMainPanel extends PhetPanel {
     public SimulationMainPanel( String id, LocalizedSimulation simulation, final PageContext context ) {
         super( id, context );
 
+        String simulationVersionString = simulation.getSimulation().getProject().getVersionString();
+
         add( new Label( "simulation-main-title", simulation.getTitle() ) );
 
         PhetLink link = new PhetLink( "simulation-main-link-run-main", simulation.getRunUrl() );
         // TODO: localize
-        link.add( new StaticImage( "simulation-main-screenshot", simulation.getSimulation().getImageUrl(), MessageFormat.format( "Screenshot of the simulation {0}", encode( simulation.getTitle() ) ) ) );
+        link.add( new StaticImage( "simulation-main-screenshot", simulation.getSimulation().getImageUrl(), null, new StringResourceModel( "simulationMainPanel.screenshot.alt", this, null, new String[]{encode( simulation.getTitle() )} ) ) );
         add( link );
 
         add( new Label( "simulation-main-description", simulation.getDescription() ) );
+        add( new Label( "simulationMainPanel.version", new StringResourceModel( "simulationMainPanel.version", this, null, new String[]{simulationVersionString} ) ) );
+        add( new Label( "simulationMainPanel.kilobytes", new StringResourceModel( "simulationMainPanel.kilobytes", this, null, new Object[]{simulation.getSimulation().getKilobytes()} ) ) );
 
 
         List<LocalizedSimulation> simulations = HibernateUtils.getLocalizedSimulationsMatching( getHibernateSession(), null, simulation.getSimulation().getName(), null );
