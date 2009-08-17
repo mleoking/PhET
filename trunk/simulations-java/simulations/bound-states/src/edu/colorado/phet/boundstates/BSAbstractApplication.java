@@ -2,10 +2,6 @@
 
 package edu.colorado.phet.boundstates;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 import edu.colorado.phet.boundstates.color.BSBlackColorScheme;
@@ -32,13 +28,6 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public abstract class BSAbstractApplication extends PiccoloPhetApplication {
-
-    //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-
-    // Save/Load feature enable
-    private static final boolean SAVE_LOAD_ENABLED = true;
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -81,36 +70,11 @@ public abstract class BSAbstractApplication extends PiccoloPhetApplication {
      */
     private void initMenubar() {
 
+        // File->Save/Load
         PhetFrame frame = getPhetFrame();
-
+        frame.addFileSaveLoadMenuItems();
         if ( _persistenceManager == null ) {
             _persistenceManager = new XMLPersistenceManager( frame );
-        }
-
-        // File menu
-        {
-            JMenuItem saveItem = new JMenuItem( BSResources.getString( "menu.file.save" ) );
-            saveItem.setMnemonic( BSResources.getChar( "menu.file.save.mnemonic", 'S' ) );
-            saveItem.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    save();
-                }
-            } );
-
-            JMenuItem loadItem = new JMenuItem( BSResources.getString( "menu.file.load" ) );
-            loadItem.setMnemonic( BSResources.getChar( "menu.file.load.mnemonic", 'L' ) );
-            loadItem.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    load();
-                }
-            } );
-
-            frame.addFileMenuItem( saveItem );
-            frame.addFileMenuItem( loadItem );
-            frame.addFileMenuSeparator();
-
-            saveItem.setEnabled( SAVE_LOAD_ENABLED );
-            loadItem.setEnabled( SAVE_LOAD_ENABLED );
         }
 
         // Colors menu
@@ -201,6 +165,7 @@ public abstract class BSAbstractApplication extends PiccoloPhetApplication {
     /**
      * Saves the simulation's configuration.
      */
+    @Override
     public void save() {
         
         BSConfig appConfig = new BSConfig();
@@ -240,6 +205,7 @@ public abstract class BSAbstractApplication extends PiccoloPhetApplication {
      *
      * @param config
      */
+    @Override
     public void load() {
 
         Object object = _persistenceManager.load();

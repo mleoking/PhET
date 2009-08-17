@@ -84,6 +84,10 @@ public class PhetCommonResources {
         return INSTANCE.getLocalizedString( key );
     }
     
+    public static final char getChar( String name, char defaultValue ) {
+        return INSTANCE.getLocalizedChar( name, defaultValue );
+    }
+    
     /**
      * Convenience method for accessing an image file from phetcommon.
      *

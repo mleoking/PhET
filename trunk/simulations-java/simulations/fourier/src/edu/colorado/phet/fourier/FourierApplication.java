@@ -12,18 +12,16 @@
 package edu.colorado.phet.fourier;
 
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
-import edu.colorado.phet.fourier.control.OptionsMenu;
+import edu.colorado.phet.fourier.control.FourierOptionsMenu;
 import edu.colorado.phet.fourier.module.D2CModule;
 import edu.colorado.phet.fourier.module.DiscreteModule;
 import edu.colorado.phet.fourier.module.GameModule;
@@ -94,37 +92,15 @@ public class FourierApplication extends PiccoloPhetApplication {
      */
     private void initMenubar() {
 
+        // File->Save/Load
         PhetFrame frame = getPhetFrame();
-        
+        frame.addFileSaveLoadMenuItems();
         if ( _persistenceManager == null ) {
             _persistenceManager = new XMLPersistenceManager( frame );
         }
 
-        // File menu
-        {
-            JMenuItem saveItem = new JMenuItem( FourierResources.getString( "FileMenu.save" ) );
-            saveItem.setMnemonic( FourierResources.getChar( "FileMenu.save.mnemonic", 'S' ) );
-            saveItem.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    save();
-                }
-            } );
-
-            JMenuItem loadItem = new JMenuItem( FourierResources.getString( "FileMenu.load" ) );
-            loadItem.setMnemonic( FourierResources.getChar( "FileMenu.load.mnemonic", 'L' ) );
-            loadItem.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    load();
-                }
-            } );
-
-            frame.addFileMenuItem( saveItem );
-            frame.addFileMenuItem( loadItem );
-            frame.addFileMenuSeparator();
-        }
-
         // Options menu
-        OptionsMenu optionsMenu = new OptionsMenu( this );
+        FourierOptionsMenu optionsMenu = new FourierOptionsMenu( this );
         getPhetFrame().addMenu( optionsMenu );
     }
 
@@ -132,7 +108,8 @@ public class FourierApplication extends PiccoloPhetApplication {
     // Persistence
     //----------------------------------------------------------------------------
     
-    private void save() {
+    @Override
+    public void save() {
 
         FourierConfig appConfig = new FourierConfig();
 
@@ -167,7 +144,8 @@ public class FourierApplication extends PiccoloPhetApplication {
         _persistenceManager.save( appConfig );
     }
     
-    private void load() {
+    @Override
+    public void load() {
         
         Object object = _persistenceManager.load();
         
@@ -194,8 +172,8 @@ public class FourierApplication extends PiccoloPhetApplication {
                 _d2cModule.load( appConfig.getD2CConfig() );
             }
             else {
-                String message = FourierResources.getString( "message.notAConfigFile" );
-                String title = FourierResources.getString( "title.error" );
+                String message = PhetCommonResources.getString( "XMLPersistenceManager.message.notAConfigFile" );
+                String title = PhetCommonResources.getString( "Common.title.error" );
                 JOptionPane.showMessageDialog( getPhetFrame(), message, title, JOptionPane.ERROR_MESSAGE );
             }
         }

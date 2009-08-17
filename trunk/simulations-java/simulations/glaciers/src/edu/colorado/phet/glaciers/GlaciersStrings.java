@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.glaciers;
 
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+
 
 /**
  * GlaciersStrings is a collection of localized strings used by this simulation.
@@ -51,14 +53,7 @@ public class GlaciersStrings {
     public static final String LABEL_DISTANCE = GlaciersResources.getString( "label.distance" );
     public static final String LABEL_UNITS = GlaciersResources.getString( "label.units" );
     
-    public static final String MENU_FILE_LOAD = GlaciersResources.getString( "menu.file.load" );
-    public static final char MENU_FILE_LOAD_MNEMONIC = GlaciersResources.getChar( "menu.file.load.mnemonic", 'L' );
-    public static final String MENU_FILE_SAVE = GlaciersResources.getString( "menu.file.save" );
-    public static final char MENU_FILE_SAVE_MNEMONIC = GlaciersResources.getChar( "menu.file.save.mnemonic", 'S' );
-    public static final String MENU_OPTIONS = GlaciersResources.getString( "menu.options" );
-    public static final char MENU_OPTIONS_MNEMONIC = GlaciersResources.getChar( "menu.options.mnemonic", 'O' );
-    
-    public static final String MESSAGE_NOT_A_CONFIG_FILE = GlaciersResources.getString( "message.notAConfigFile" );
+    public static final String MESSAGE_NOT_A_CONFIG_FILE = PhetCommonResources.getString( "XMLPersistenceManager.message.notAConfigFile" );
     
     public static final String RADIO_BUTTON_ENGLISH_UNITS = GlaciersResources.getString( "radioButton.englishUnits" );
     public static final String RADIO_BUTTON_METRIC_UNITS = GlaciersResources.getString( "radioButton.metricUnits" );
@@ -82,7 +77,7 @@ public class GlaciersStrings {
     public static final String TITLE_INTRO = GlaciersResources.getString( "title.introduction" );
     public static final String TITLE_CLIMATE_CONTROLS = GlaciersResources.getString( "title.climateControls" );
     public static final String TITLE_ELA_VERSUS_TIME = GlaciersResources.getString( "title.elaVersusTime" );
-    public static final String TITLE_ERROR = GlaciersResources.getString( "title.error" );
+    public static final String TITLE_ERROR = PhetCommonResources.getString( "Common.title.error" );
     public static final String TITLE_EXPERIMENTS = GlaciersResources.getString( "title.experiments" );
     public static final String TITLE_GRAPH_CONTROLS = GlaciersResources.getString( "title.graphControls" );
     public static final String TITLE_GLACIAL_BUDGET_VERSUS_ELEVATION = GlaciersResources.getString( "title.glacialBudgetVersusElevation" );

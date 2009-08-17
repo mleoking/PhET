@@ -393,4 +393,16 @@ public class PhetApplication
             return new JTabbedModulePane();
         }
     };
+    
+    /**
+     * Saves the simulation's configuration.
+     * Default implementation does nothing, subclasses should override.
+     */
+    public void save() {}
+    
+    /**
+     * Loads the simulation's configuration.
+     * Default implementation does nothing, subclasses should override.
+     */
+    public void load() {}
 }

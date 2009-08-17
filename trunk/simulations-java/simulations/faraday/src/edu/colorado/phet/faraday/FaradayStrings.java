@@ -38,13 +38,11 @@ public class FaradayStrings {
     public static final String LABEL_NUMBER_OF_LOOPS = FaradayResources.getString( "ElectromagnetPanel.numberOfLoops" );
     public static final String LABEL_STRENGTH = FaradayResources.getString( "BarMagnetPanel.strength" );
     
-    public static final String MENU_OPTIONS = FaradayResources.getString( "Menubar.options" );
     public static final String MENU_ITEM_BACKGROUND_COLOR = FaradayResources.getString( "Menubar.backgroundColor" );
     public static final String MENU_ITEM_GRID_CONTROLS = FaradayResources.getString( "Menubar.gridControls" );
     
     public static final char MNEMONIC_BACKGROUND_COLOR =FaradayResources.getChar( "Menubar.backgroundColor.mnemonic", '?' );
     public static final char MNEMONIC_GRID_CONTROLS = FaradayResources.getChar( "Menubar.gridControls.mnemonic", '?' );
-    public static final char MNEMONIC_OPTIONS = FaradayResources.getChar( "Menubar.options.mnemonic", '?' );
     
     public static final String RADIO_BUTTON_AC = FaradayResources.getString( "ElectromagnetPanel.ac" );
     public static final String RADIO_BUTTON_DC = FaradayResources.getString( "ElectromagnetPanel.dc" );

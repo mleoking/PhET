@@ -24,7 +24,7 @@ public class ABSStrings {
     public static final String TITLE_SYMBOL_LEGEND = ABSResources.getString( "title.symbolLegend" );
     public static final String TITLE_VIEW = ABSResources.getString( "title.view" );
     
-    public static final String MESSAGE_NOT_A_CONFIG = ABSResources.getString( "message.notAConfigFile" );
+    public static final String MESSAGE_NOT_A_CONFIG = PhetCommonResources.getString( "XMLPersistenceManager.message.notAConfigFile" );
     
     // labels
     public static final String LABEL_CONCENTRATION = ABSResources.getString( "label.concentration" );

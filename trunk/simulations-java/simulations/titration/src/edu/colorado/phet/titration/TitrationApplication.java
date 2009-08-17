@@ -2,15 +2,10 @@
 
 package edu.colorado.phet.titration;
 
-import java.awt.Color;
 import java.awt.Frame;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
-import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
@@ -20,7 +15,7 @@ import edu.colorado.phet.common.piccolophet.PhetTabbedPane;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.titration.developer.DeveloperMenu;
-import edu.colorado.phet.titration.menu.OptionsMenu;
+import edu.colorado.phet.titration.menu.TitrationOptionsMenu;
 import edu.colorado.phet.titration.module.advanced.AdvancedModule;
 import edu.colorado.phet.titration.module.compare.CompareModule;
 import edu.colorado.phet.titration.module.polyprotic.PolyproticModule;
@@ -111,37 +106,15 @@ public class TitrationApplication extends PiccoloPhetApplication {
      */
     private void initMenubar( String[] args ) {
 
+        // File->Save/Load
         final PhetFrame frame = getPhetFrame();
-
+        frame.addFileSaveLoadMenuItems();
         if ( persistenceManager == null ) {
             persistenceManager = new XMLPersistenceManager( frame );
         }
 
-        // File menu
-        {
-            JMenuItem saveItem = new JMenuItem( TitrationResources.getString( "menu.file.save" ) );
-            saveItem.setMnemonic( TitrationResources.getChar( "menu.file.save.mnemonic", 'S' ) );
-            saveItem.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    save();
-                }
-            } );
-
-            JMenuItem loadItem = new JMenuItem( TitrationResources.getString( "menu.file.load" ) );
-            loadItem.setMnemonic( TitrationResources.getChar( "menu.file.load.mnemonic", 'L' ) );
-            loadItem.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    load();
-                }
-            } );
-
-            frame.addFileMenuItem( saveItem );
-            frame.addFileMenuItem( loadItem );
-            frame.addFileMenuSeparator();
-        }
-
         // Options menu
-        OptionsMenu optionsMenu = new OptionsMenu();
+        TitrationOptionsMenu optionsMenu = new TitrationOptionsMenu();
         if ( optionsMenu.getMenuComponentCount() > 0 ) {
             frame.addMenu( optionsMenu );
         }
@@ -165,10 +138,11 @@ public class TitrationApplication extends PiccoloPhetApplication {
     // Persistence
     //----------------------------------------------------------------------------
 
-    /*
+    /**
      * Saves the simulation's configuration.
      */
-    private void save() {
+    @Override
+    public void save() {
         
         TitrationConfig appConfig = new TitrationConfig();
         
@@ -188,10 +162,11 @@ public class TitrationApplication extends PiccoloPhetApplication {
         persistenceManager.save( appConfig );
     }
 
-    /*
+    /**
      * Loads the simulation's configuration.
      */
-    private void load() {
+    @Override
+    public void load() {
         
         Object object = persistenceManager.load();
         if ( object != null ) {
@@ -203,8 +178,8 @@ public class TitrationApplication extends PiccoloPhetApplication {
                 titrateModule.load( exampleConfig );
             }
             else {
-                String message = TitrationResources.getString( "message.notAConfigFile" );
-                String title = TitrationResources.getString( "title.error" );
+                String message = TitrationStrings.MESSAGE_NOT_A_CONFIG;
+                String title = TitrationStrings.TITLE_ERROR;
                 JOptionPane.showMessageDialog( getPhetFrame(), message, title, JOptionPane.ERROR_MESSAGE );
             }
         }

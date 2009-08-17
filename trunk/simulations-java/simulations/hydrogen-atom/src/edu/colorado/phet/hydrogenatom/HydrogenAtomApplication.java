@@ -28,7 +28,7 @@ import edu.colorado.phet.common.phetcommon.view.menu.HelpMenu;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.hydrogenatom.dialog.TransitionsDialog;
 import edu.colorado.phet.hydrogenatom.menu.DeveloperMenu;
-import edu.colorado.phet.hydrogenatom.menu.OptionsMenu;
+import edu.colorado.phet.hydrogenatom.menu.HAOptionsMenu;
 import edu.colorado.phet.hydrogenatom.module.HAModule;
 import edu.colorado.phet.hydrogenatom.view.LegendPanel.LegendDialog;
 
@@ -84,7 +84,7 @@ public class HydrogenAtomApplication extends PiccoloPhetApplication {
         final PhetFrame frame = getPhetFrame();
 
         // Options menu
-        OptionsMenu optionsMenu = new OptionsMenu( _module );
+        HAOptionsMenu optionsMenu = new HAOptionsMenu( _module );
         if ( optionsMenu.getMenuComponentCount() > 0 ) {
             frame.addMenu( optionsMenu );
         }

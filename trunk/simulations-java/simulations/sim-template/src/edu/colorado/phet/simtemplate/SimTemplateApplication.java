@@ -4,10 +4,7 @@ package edu.colorado.phet.simtemplate;
 
 import java.awt.Color;
 import java.awt.Frame;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
@@ -16,11 +13,11 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
 import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
+import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.common.piccolophet.PhetTabbedPane;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.simtemplate.developer.DeveloperMenu;
-import edu.colorado.phet.simtemplate.menu.OptionsMenu;
 import edu.colorado.phet.simtemplate.module.example.ExampleModule;
 import edu.colorado.phet.simtemplate.persistence.ExampleConfig;
 import edu.colorado.phet.simtemplate.persistence.SimTemplateConfig;
@@ -104,37 +101,16 @@ public class SimTemplateApplication extends PiccoloPhetApplication {
      */
     private void initMenubar( String[] args ) {
 
+        // File->Save/Load
         final PhetFrame frame = getPhetFrame();
-
+        frame.addFileSaveLoadMenuItems();
         if ( persistenceManager == null ) {
             persistenceManager = new XMLPersistenceManager( frame );
         }
 
-        // File menu
-        {
-            JMenuItem saveItem = new JMenuItem( SimTemplateResources.getString( "menu.file.save" ) );
-            saveItem.setMnemonic( SimTemplateResources.getChar( "menu.file.save.mnemonic", 'S' ) );
-            saveItem.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    save();
-                }
-            } );
-
-            JMenuItem loadItem = new JMenuItem( SimTemplateResources.getString( "menu.file.load" ) );
-            loadItem.setMnemonic( SimTemplateResources.getChar( "menu.file.load.mnemonic", 'L' ) );
-            loadItem.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    load();
-                }
-            } );
-
-            frame.addFileMenuItem( saveItem );
-            frame.addFileMenuItem( loadItem );
-            frame.addFileMenuSeparator();
-        }
-
         // Options menu
         OptionsMenu optionsMenu = new OptionsMenu();
+        // add menu items here, or in a subclass on OptionsMenu
         if ( optionsMenu.getMenuComponentCount() > 0 ) {
             frame.addMenu( optionsMenu );
         }
@@ -171,10 +147,11 @@ public class SimTemplateApplication extends PiccoloPhetApplication {
     // Persistence
     //----------------------------------------------------------------------------
 
-    /*
+    /**
      * Saves the simulation's configuration.
      */
-    private void save() {
+    @Override
+    public void save() {
         
         SimTemplateConfig appConfig = new SimTemplateConfig();
         
@@ -190,10 +167,11 @@ public class SimTemplateApplication extends PiccoloPhetApplication {
         persistenceManager.save( appConfig );
     }
 
-    /*
+    /**
      * Loads the simulation's configuration.
      */
-    private void load() {
+    @Override
+    public void load() {
         
         Object object = persistenceManager.load();
         if ( object != null ) {
@@ -205,8 +183,8 @@ public class SimTemplateApplication extends PiccoloPhetApplication {
                 exampleModule.load( exampleConfig );
             }
             else {
-                String message = SimTemplateResources.getString( "message.notAConfigFile" );
-                String title = SimTemplateResources.getString( "title.error" );
+                String message = SimTemplateStrings.MESSAGE_NOT_A_CONFIG;
+                String title = SimTemplateStrings.TITLE_ERROR;
                 JOptionPane.showMessageDialog( getPhetFrame(), message, title, JOptionPane.ERROR_MESSAGE );
             }
         }

@@ -2,15 +2,15 @@
 
 package edu.colorado.phet.common.phetcommon.view;
 
-import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.Container;
+import java.awt.HeadlessException;
+import java.awt.event.*;
 
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.*;
 import edu.colorado.phet.common.phetcommon.preferences.PhetPreferences;
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.menu.HelpMenu;
 import edu.colorado.phet.common.phetcommon.view.menu.PhetFileMenu;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
@@ -316,6 +316,33 @@ public class PhetFrame extends JFrame {
      */
     public void removeMenu( JMenu menu ) {
         getJMenuBar().remove( menu );
+    }
+    
+    /**
+     * Adds the File->Save and File->Load menu items, and wires them up to the application.
+     * These menu items are not present by default, since many sims do not implement save/load.
+     */
+    public void addFileSaveLoadMenuItems() {
+        
+        JMenuItem saveItem = new JMenuItem( PhetCommonResources.getString( "Common.FileMenu.Save" ) );
+        saveItem.setMnemonic( PhetCommonResources.getChar( "Common.FileMenu.Save.mnemonic", 'S' ) );
+        saveItem.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                application.save();
+            }
+        } );
+
+        JMenuItem loadItem = new JMenuItem( PhetCommonResources.getString( "Common.FileMenu.Load" ) );
+        loadItem.setMnemonic( PhetCommonResources.getChar( "Common.FileMenu.Load.mnemonic", 'L' ) );
+        loadItem.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                application.load();
+            }
+        } );
+
+        addFileMenuItem( saveItem );
+        addFileMenuItem( loadItem );
+        addFileMenuSeparator();
     }
 
 }

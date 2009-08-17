@@ -4,14 +4,10 @@ package edu.colorado.phet.acidbasesolutions;
 
 import java.awt.Color;
 import java.awt.Frame;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 import edu.colorado.phet.acidbasesolutions.developer.DeveloperMenu;
-import edu.colorado.phet.acidbasesolutions.menu.OptionsMenu;
 import edu.colorado.phet.acidbasesolutions.module.comparing.ComparingModule;
 import edu.colorado.phet.acidbasesolutions.module.matchinggame.MatchingGameModule;
 import edu.colorado.phet.acidbasesolutions.module.solutions.SolutionsModule;
@@ -109,39 +105,11 @@ public class AcidBaseSolutionsApplication extends PiccoloPhetApplication {
      */
     private void initMenubar( String[] args ) {
 
+        // File->Save/Load
         final PhetFrame frame = getPhetFrame();
-
+        frame.addFileSaveLoadMenuItems();
         if ( persistenceManager == null ) {
             persistenceManager = new XMLPersistenceManager( frame );
-        }
-
-        // File menu
-        {
-            JMenuItem saveItem = new JMenuItem( ABSResources.getString( "menu.file.save" ) );
-            saveItem.setMnemonic( ABSResources.getChar( "menu.file.save.mnemonic", 'S' ) );
-            saveItem.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    save();
-                }
-            } );
-
-            JMenuItem loadItem = new JMenuItem( ABSResources.getString( "menu.file.load" ) );
-            loadItem.setMnemonic( ABSResources.getChar( "menu.file.load.mnemonic", 'L' ) );
-            loadItem.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    load();
-                }
-            } );
-
-            frame.addFileMenuItem( saveItem );
-            frame.addFileMenuItem( loadItem );
-            frame.addFileMenuSeparator();
-        }
-
-        // Options menu
-        OptionsMenu optionsMenu = new OptionsMenu();
-        if ( optionsMenu.getMenuComponentCount() > 0 ) {
-            frame.addMenu( optionsMenu );
         }
 
         // Developer menu
@@ -176,10 +144,11 @@ public class AcidBaseSolutionsApplication extends PiccoloPhetApplication {
     // Persistence
     //----------------------------------------------------------------------------
 
-    /*
+    /**
      * Saves the simulation's configuration.
      */
-    private void save() {
+    @Override
+    public void save() {
         
         ABSConfig appConfig = new ABSConfig();
         
@@ -201,10 +170,11 @@ public class AcidBaseSolutionsApplication extends PiccoloPhetApplication {
         persistenceManager.save( appConfig );
     }
 
-    /*
+    /**
      * Loads the simulation's configuration.
      */
-    private void load() {
+    @Override
+    public void load() {
         
         Object object = persistenceManager.load();
         if ( object != null ) {

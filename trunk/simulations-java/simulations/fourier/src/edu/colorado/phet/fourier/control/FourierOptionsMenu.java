@@ -1,22 +1,13 @@
 /* Copyright 2005, University of Colorado */
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
-
 package edu.colorado.phet.fourier.control;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
+import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.fourier.FourierApplication;
 import edu.colorado.phet.fourier.FourierResources;
 
@@ -27,7 +18,7 @@ import edu.colorado.phet.fourier.FourierResources;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class OptionsMenu extends JMenu {
+public class FourierOptionsMenu extends OptionsMenu {
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -44,14 +35,11 @@ public class OptionsMenu extends JMenu {
      * 
      * @param application
      */
-    public OptionsMenu( FourierApplication application ) {
-        
-        super( FourierResources.getString( "Menubar.options" ) );
+    public FourierOptionsMenu( FourierApplication application ) {
+        super();
         
         _application = application;
         
-        setMnemonic( FourierResources.getChar( "Menubar.options.mnemonic", 'O' ) );
-
         // Background Color menu item
         JMenuItem backgroundColorMenuItem = new JMenuItem( FourierResources.getString( "Menubar.harmonicColors" ) );
         backgroundColorMenuItem.setMnemonic( FourierResources.getChar( "Menubar.harmonicColors.mnemonic", 'H' ) );
@@ -73,6 +61,6 @@ public class OptionsMenu extends JMenu {
      */
     public void handleHarmonicColorsMenuItem() {
         HarmonicColorsDialog dialog = new HarmonicColorsDialog( _application );
-        dialog.show();
+        dialog.setVisible( true );
     }
 }
