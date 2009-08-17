@@ -19,46 +19,54 @@
 
 <wicket:panel>
     <div class="simulation-main-container" wicket:message="dir:language.dir">
-        <div class="simulation-main-title"><span wicket:id="simulation-main-title" class="simulation-main-title">Simulation Title</span>
-        </div>
+        <h1 wicket:id="simulation-main-title" class="simulation-main-title">
+            Simulation Title
+        </h1>
 
-        <div class="simulation-main-image">
+        <div class="simulation-main-image-panel">
             <a href="SimulationMainPanel.html#" wicket:id="simulation-main-link-run-main"
                class="simulation-main-link-run-main">
                 <img wicket:id="simulation-main-screenshot" class="simulation-main-screenshot"
                      src="../../../../../../../template-files/images/arithmetic-screenshot.png"/>
             </a>
+            <a class="sim-download sim-button" href="#">Download</a>
+            <a class="sim-run-now sim-button" href="#">Run Now!</a>
+            <span class="sim-version">Version: 2.0</span>
+            <span class="sim-kb">308 kB</span>
         </div>
 
         <div class="simulation-main-description" wicket:id="simulation-main-description">
-            This is a sample simulation description. It's probably longer than one sentence, usually just a few
-            sentences,
-            but it shouldn't really be too long. However, we need to handle translated languages that would make these
-            strings
-            much longer than they would be in English, so this length should help to test.
+            Play with one or two pendulums and discover how the period of a simple pendulum depends on the length of the
+            string, the mass of the pendulum bob, and the amplitude of the swing. It's easy to measure the period using
+            the photogate timer. You can vary friction and the strength of gravity. Use the pendulum to find the value
+            of g on planet X. Notice the anharmonic behavior at large amplitude.
         </div>
 
-        <h4>
-            <wicket:message key="simulationMainPanel.translatedVersions">Translated versions</wicket:message>
-        </h4>
 
-        <wicket:enclosure child="simulation-main-translation-list">
-            <table>
-                <tr wicket:id="simulation-main-translation-list" class="simulation-main-translation-list">
-                    <td>
-                        <a href="SimulationMainPanel.html#" wicket:id="simulation-main-translation-link">
-                            <span wicket:id="simulation-main-translation-locale-name">Pig Latin</span>
-                        </a>
-                    </td>
-                    <td>
-                        <span wicket:id="simulation-main-translation-locale-translated-name">Ig-pay Atin-lay</span>
-                    </td>
-                    <td>
-                        <span wicket:id="simulation-main-translation-title">Arithmetic-ay</span>
-                    </td>
-                </tr>
-            </table>
-        </wicket:enclosure>
+        <div>
+            <div class="sim-clear"></div>
+            <h2>
+                <wicket:message key="simulationMainPanel.translatedVersions">Translated versions</wicket:message>
+            </h2>
+
+            <wicket:enclosure child="simulation-main-translation-list">
+                <table>
+                    <tr wicket:id="simulation-main-translation-list" class="simulation-main-translation-list">
+                        <td>
+                            <a href="SimulationMainPanel.html#" wicket:id="simulation-main-translation-link">
+                                <span wicket:id="simulation-main-translation-locale-name">Pig Latin</span>
+                            </a>
+                        </td>
+                        <td>
+                            <span wicket:id="simulation-main-translation-locale-translated-name">Ig-pay Atin-lay</span>
+                        </td>
+                        <td>
+                            <span wicket:id="simulation-main-translation-title">Arithmetic-ay</span>
+                        </td>
+                    </tr>
+                </table>
+            </wicket:enclosure>
+        </div>
     </div>
 </wicket:panel>
 

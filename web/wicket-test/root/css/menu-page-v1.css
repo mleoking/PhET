@@ -9,11 +9,11 @@ div.rtl #side-panel {
 }
 
 div.ltr #main-content {
-    margin-left: 240px;
+    margin-left: 242px;
 }
 
 div.rtl #main-content {
-    margin-right: 240px;
+    margin-right: 242px;
 }
 
 div.main-footer {

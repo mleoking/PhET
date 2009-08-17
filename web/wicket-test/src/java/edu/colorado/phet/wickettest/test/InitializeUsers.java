@@ -6,6 +6,7 @@ import org.hibernate.Transaction;
 
 import edu.colorado.phet.wickettest.data.PhetUser;
 import edu.colorado.phet.wickettest.util.HibernateUtils;
+import edu.colorado.phet.wickettest.util.PhetSession;
 
 public class InitializeUsers {
 
@@ -24,6 +25,12 @@ public class InitializeUsers {
 
             // sets password hash, not the actual password
             user.setPassword( "WH39ah79fP15QF79Tv0pOv0b/SY=" );
+            session.save( user );
+
+            user = new PhetUser();
+            user.setTeamMember( false );
+            user.setEmail( "testguest@phet.colorado.edu" );
+            user.setPassword( PhetSession.hashPassword( "phetti0" ) );
             session.save( user );
 
             tx.commit();
