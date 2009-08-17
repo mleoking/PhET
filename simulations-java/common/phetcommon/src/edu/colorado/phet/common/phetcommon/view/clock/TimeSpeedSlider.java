@@ -1,16 +1,16 @@
 package edu.colorado.phet.common.phetcommon.view.clock;
 
+import java.awt.Font;
 import java.util.Hashtable;
-import java.awt.*;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
-import edu.colorado.phet.common.timeseries.ui.TimeseriesResources;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 /**
  * Author: Sam Reid
@@ -20,7 +20,8 @@ public class TimeSpeedSlider extends VerticalLayoutPanel {
     private LinearValueControl linearSlider;
 
     public TimeSpeedSlider( double min, double max, String textFieldPattern, final ConstantDtClock defaultClock ) {
-    	this( min, max, textFieldPattern, defaultClock, TimeseriesResources.getString( "Common.sim.speed" ) );
+//    	this( min, max, textFieldPattern, defaultClock, TimeseriesResources.getString( "Common.sim.speed" ) );
+    	this( min, max, textFieldPattern, defaultClock, "Simulation Speed" );
     }
 
     public TimeSpeedSlider( double min, double max, String textFieldPattern, final ConstantDtClock defaultClock,
@@ -28,8 +29,10 @@ public class TimeSpeedSlider extends VerticalLayoutPanel {
         linearSlider = new LinearValueControl( min, max, "", textFieldPattern, "" );
         linearSlider.setTextFieldVisible( false );
         Hashtable table = new Hashtable();
-        table.put( new Double( min ), new JLabel( TimeseriesResources.getString( "Common.time.slow" ) ) );
-        table.put( new Double( max ), new JLabel( TimeseriesResources.getString( "Common.time.fast" ) ) );
+//        table.put( new Double( min ), new JLabel( TimeseriesResources.getString( "Common.time.slow" ) ) );
+//        table.put( new Double( max ), new JLabel( TimeseriesResources.getString( "Common.time.fast" ) ) );
+        table.put( new Double( min ), new JLabel( "slow" ) );
+        table.put( new Double( max ), new JLabel( "fast" ) );
         final JLabel value = new JLabel(  title );
         value.setFont( new PhetFont( Font.ITALIC, PhetFont.getDefaultFontSize()) );
         table.put( new Double( ( max + min ) / 2 ), value );
