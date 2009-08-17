@@ -60,6 +60,9 @@ public class InitializeTranslations {
             addString( session, english, "simulationMainPanel.kilobytes", "{0} kB" );
             addString( session, english, "simulationMainPanel.runOffline", "Download" );
             addString( session, english, "simulationMainPanel.runOnline", "Run Now!" );
+            addString( session, english, "simulationMainPanel.topics", "Topics" );
+            addString( session, english, "simulationMainPanel.mainTopics", "Main Topics" );
+            addString( session, english, "simulationMainPanel.keywords", "Related Topics" );
 
             addString( session, english, "nav.home", "Home" );
             addString( session, english, "nav.simulations", "Simulations" );

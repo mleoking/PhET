@@ -56,6 +56,11 @@ div.rtl .simulation-main-image-panel {
     border-top: 1px solid #cc6600;
 }
 
+.simulation-main-container h3 {
+    color: #15337f;
+    font-size: 16px;
+}
+
 .sim-version {
     float: right;
     clear: both;
@@ -111,4 +116,16 @@ div.rtl .simulation-main-image-panel {
     border: 1px solid #006600;
     border-right-color: #aaffaa;
     border-bottom-color: #aaffaa;
+}
+
+.keyword-list-holder {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.keyword {
+    display: inline;
+    padding-left: 5px;
+    padding-right: 5px;
 }
