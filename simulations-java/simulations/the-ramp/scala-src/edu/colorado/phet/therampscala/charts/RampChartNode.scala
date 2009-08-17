@@ -11,7 +11,7 @@ import common.piccolophet.{PhetPCanvas}
 import common.timeseries.model.{RecordableModel, TimeSeriesModel}
 import java.awt.event.{FocusEvent, FocusListener, ActionEvent, ActionListener}
 import java.awt.geom.Point2D
-import java.awt.{Color}
+import java.awt.{FlowLayout, Color}
 import java.text.MessageFormat
 import javax.swing.{JTextField, JPanel, JLabel}
 import model.{RampModel}
@@ -146,7 +146,7 @@ class RampChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model:
   }
 
   def createEditableLabel(series: ControlGraphSeries) = {
-    val panel = new JPanel
+    val panel = new JPanel(new FlowLayout(FlowLayout.CENTER,0,0))
     val textField = new JTextField(6)
     textField.addActionListener(new ActionListener() {
       def actionPerformed(e: ActionEvent) = {
@@ -172,7 +172,6 @@ class RampChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model:
     def updateLabel() = textField.setText(new DefaultDecimalFormat("0.00".literal).format(series.getTemporalVariable.getValue))
 
     updateLabel()
-    textField
 
     panel.add(textField)
     val unitsLabel = new JLabel(series.getUnits)

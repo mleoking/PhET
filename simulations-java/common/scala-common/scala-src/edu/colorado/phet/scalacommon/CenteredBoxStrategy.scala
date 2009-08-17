@@ -1,13 +1,14 @@
 package edu.colorado.phet.scalacommon
 
-import _root_.edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
+import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
+import common.piccolophet.PhetPCanvas
 import java.awt.Rectangle
 import javax.swing.JComponent
-import _root_.edu.colorado.phet.common.piccolophet.PhetPCanvas.TransformStrategy
 import java.awt.geom.{AffineTransform, Rectangle2D}
+import umd.cs.piccolo.util.PDimension
 
-//use case class to avoid compilation errors
-case class CenteredBoxStrategy(modelWidth: Double, modelHeight: Double, canvas: JComponent) extends TransformStrategy {
+class CenteredBoxStrategy(modelWidth: Double, modelHeight: Double, canvas: JComponent) extends PhetPCanvas.TransformStrategy {
+  def this(dim:PDimension,canvas:JComponent) = this(dim.width,dim.height,canvas)
   def getTransform(): AffineTransform = {
     if (canvas.getWidth > 0 && canvas.getHeight > 0) {
       val mv2d = getModelViewTransform2D
