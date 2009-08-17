@@ -64,6 +64,7 @@ div.rtl .simulation-main-image-panel {
 
 .sim-kb {
     float: left;
+    clear: left;
     margin-top: 4px;
 }
 
