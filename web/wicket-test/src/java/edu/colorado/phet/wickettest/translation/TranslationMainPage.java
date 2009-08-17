@@ -205,14 +205,45 @@ public class TranslationMainPage extends AuthenticatedPage {
             }
             item.add( visibleLabel );
 
+
             if ( getUser().isTeamMember() ) {
                 item.add( new Link( "visible-toggle" ) {
                     public void onClick() {
-                        if ( translation.isVisible() ) {
-                            ( (WicketApplication) getApplication() ).removeTranslation( translation );
+                        Session session = getHibernateSession();
+                        Transaction tx = null;
+                        try {
+                            tx = session.beginTransaction();
+
+                            Translation tr = (Translation) session.load( Translation.class, translation.getId() );
+                            List otherTranslations = session.createQuery( "select t from Translation as t where t.visible = true and t.locale = :locale" ).setLocale( "locale", translation.getLocale() ).list();
+
+                            if ( !tr.isVisible() && !otherTranslations.isEmpty() ) {
+                                throw new RuntimeException( "There is already a visible translation of that locale" );
+                            }
+
+                            tr.setVisible( !tr.isVisible() );
+                            session.update( tr );
+
+                            tx.commit();
+
+                            if ( translation.isVisible() ) {
+                                ( (WicketApplication) getApplication() ).addTranslation( tr );
+                            }
+                            else {
+                                ( (WicketApplication) getApplication() ).removeTranslation( tr );
+                            }
                         }
-                        else {
-                            ( (WicketApplication) getApplication() ).addTranslation( translation );
+                        catch( RuntimeException e ) {
+                            System.out.println( "Exception: " + e );
+                            if ( tx != null && tx.isActive() ) {
+                                try {
+                                    tx.rollback();
+                                }
+                                catch( HibernateException e1 ) {
+                                    System.out.println( "ERROR: Error rolling back transaction" );
+                                }
+                                throw e;
+                            }
                         }
                     }
                 } );
