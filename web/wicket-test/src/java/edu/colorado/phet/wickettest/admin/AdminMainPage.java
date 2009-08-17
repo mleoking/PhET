@@ -16,14 +16,9 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
-import edu.colorado.phet.wickettest.WicketApplication;
-import edu.colorado.phet.wickettest.util.HibernateUtils;
-import edu.colorado.phet.wickettest.util.StringUtils;
 import edu.colorado.phet.wickettest.data.LocalizedSimulation;
 import edu.colorado.phet.wickettest.data.Simulation;
-import edu.colorado.phet.wickettest.data.TranslatedString;
-import edu.colorado.phet.wickettest.data.Translation;
-import edu.colorado.phet.wickettest.translation.PhetLocalizer;
+import edu.colorado.phet.wickettest.util.StringUtils;
 
 public class AdminMainPage extends AdminPage {
 

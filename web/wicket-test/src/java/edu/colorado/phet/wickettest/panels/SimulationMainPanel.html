@@ -62,21 +62,23 @@
                 <wicket:message key="simulationMainPanel.mainTopics">Main Topics</wicket:message>
             </h3>
 
-            <h3>
-                <wicket:message key="simulationMainPanel.keywords">Related Topics</wicket:message>
-            </h3>
 
-            <ul>
-                <li>
-                    <ul class="keyword-list-holder">
-                        <li class="keyword" wicket:id="keyword-list">
-                            <a wicket:id="keyword-link" href="#">
-                                <span wicket:id="keyword-label">Keyword</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>   
-            </ul>
+            <wicket:enclosure child="keyword-list">
+                <h3>
+                    <wicket:message key="simulationMainPanel.keywords">Related Topics</wicket:message>
+                </h3>
+                <ul>
+                    <li>
+                        <ul class="keyword-list-holder">
+                            <li class="keyword" wicket:id="keyword-list">
+                                <a wicket:id="keyword-link" href="#">
+                                    <span wicket:id="keyword-label">Keyword</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </wicket:enclosure>
 
             <h2>
                 <wicket:message key="simulationMainPanel.translatedVersions">Translated versions</wicket:message>

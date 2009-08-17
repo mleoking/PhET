@@ -126,6 +126,9 @@ public class SimulationMainPanel extends PhetPanel {
             }
         };
         add( keywordList );
+        if ( keywords.isEmpty() ) {
+            keywordList.setVisible( false );
+        }
 
         // so we don't emit an empty <table></table> that isn't XHTML Strict compatible
         if ( models.isEmpty() ) {
