@@ -10,6 +10,9 @@ public class Simulation implements Serializable {
     private String name;
     private int type;
     private Project project;
+
+    // TODO: put kilobytes into database
+    private int kilobytes;
     private Set localizedSimulations = new HashSet();
     private Set categories = new HashSet();
 
@@ -114,5 +117,13 @@ public class Simulation implements Serializable {
 
     public void setKeywords( List keywords ) {
         this.keywords = keywords;
+    }
+
+    public int getKilobytes() {
+        return kilobytes;
+    }
+
+    public void setKilobytes( int kilobytes ) {
+        this.kilobytes = kilobytes;
     }
 }

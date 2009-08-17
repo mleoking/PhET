@@ -32,10 +32,14 @@
                             <img wicket:id="simulation-main-screenshot" class="simulation-main-screenshot"
                                  src="../../../../../../../template-files/images/arithmetic-screenshot.png"/>
                         </a>
-                        <a class="sim-download sim-button" href="#">Download</a>
-                        <a class="sim-run-now sim-button" href="#">Run Now!</a>
-                        <span class="sim-version">Version: 2.0</span>
-                        <span class="sim-kb">308 kB</span>
+                        <a class="sim-download sim-button" href="#">
+                            <wicket:message key="simulationMainPanel.runOffline">Download</wicket:message>
+                        </a>
+                        <a class="sim-run-now sim-button" href="#">
+                            <wicket:message key="simulationMainPanel.runOnline">Run Now!</wicket:message>
+                        </a>
+                        <span class="sim-version" wicket:id="simulationMainPanel.version">Version: 2.0</span>
+                        <span class="sim-kb" wicket:id="simulationMainPanel.kilobytes">308 kB</span>
                     </div>
                 </td>
                 <td class="simulation-main-description" wicket:id="simulation-main-description">
