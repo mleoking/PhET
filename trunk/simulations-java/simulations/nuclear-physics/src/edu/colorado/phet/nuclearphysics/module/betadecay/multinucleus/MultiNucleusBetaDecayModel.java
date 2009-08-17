@@ -14,6 +14,7 @@ import edu.colorado.phet.nuclearphysics.common.model.SubatomicParticle;
 import edu.colorado.phet.nuclearphysics.model.HeavyAdjustableHalfLifeNucleus;
 import edu.colorado.phet.nuclearphysics.model.Carbon14Nucleus;
 import edu.colorado.phet.nuclearphysics.model.Hydrogen3Nucleus;
+import edu.colorado.phet.nuclearphysics.model.LightAdjustableHalfLifeNucleus;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusDecayModel;
 
 /**
@@ -90,7 +91,7 @@ public class MultiNucleusBetaDecayModel extends MultiNucleusDecayModel {
 				newNucleus = new Carbon14Nucleus(_clock);
 			}
 			else if (_currentNucleusType == NucleusType.LIGHT_CUSTOM){
-				newNucleus = new Carbon14Nucleus(_clock);
+				newNucleus = new LightAdjustableHalfLifeNucleus(_clock);
 			}
 			else{
 				System.err.println(getClass().getName() + "Other nuclei not yet implemented.");
