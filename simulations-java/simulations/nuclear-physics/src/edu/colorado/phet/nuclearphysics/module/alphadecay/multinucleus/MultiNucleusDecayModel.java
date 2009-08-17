@@ -184,38 +184,6 @@ public class MultiNucleusDecayModel implements NucleusTypeControl {
 	}
 	
 	/**
-	 * Convenience method for converting years to milliseconds, since
-	 * milliseconds is used throughout the simulation for timing.
-	 */
-	static public double convertYearsToMs( double years ){
-		return years * 3.1556926E10;
-	}
-	
-	/**
-	 * Convenience method for converting milliseconds to years, since
-	 * milliseconds is used throughout the simulation for timing.
-	 */
-	static public double convertMsToYears( double milliseconds ){
-		return milliseconds * 3.16887646E-11;
-	}
-	
-	/**
-	 * Convenience method for converting days to milliseconds, since
-	 * milliseconds is used throughout the simulation for timing.
-	 */
-	static public double convertDaysToMs( double days ){
-		return days * 86400000;
-	}
-	
-	/**
-	 * Convenience method for converting hours to milliseconds, since
-	 * milliseconds is used throughout the simulation for timing.
-	 */
-	static public double convertHoursToMs( double hours ){
-		return hours * 3600000;
-	}
-	
-	/**
 	 * Set up the object that will listen to notifications from the nuclei.
 	 * It will be common to override this is sub-classes which may need to
 	 * handle things like decay events differently.

@@ -5,7 +5,6 @@ package edu.colorado.phet.nuclearphysics.model;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
-import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusDecayModel;
 
 /**
  * This class defines the behavior of the nucleus of Hydrogen 3, which
@@ -24,7 +23,7 @@ public class Hydrogen3CompositeNucleus extends BetaDecayCompositeNucleus {
     public static final int ORIGINAL_NUM_NEUTRONS = 2;
     
     // Half life for this nucleus.
-    public static double HALF_LIFE = MultiNucleusDecayModel.convertDaysToMs(4500);
+    public static double HALF_LIFE = HalfLifeInfo.convertDaysToMs(4500);
 
     // The "agitation factor" for the various types of nucleus.  The amount of
     // agitation controls how dynamic the nucleus looks on the canvas.  Values

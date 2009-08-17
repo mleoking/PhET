@@ -33,6 +33,7 @@ import edu.colorado.phet.nuclearphysics.common.NucleusDisplayInfo;
 import edu.colorado.phet.nuclearphysics.common.NucleusType;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusImageType;
+import edu.colorado.phet.nuclearphysics.model.HalfLifeInfo;
 import edu.colorado.phet.nuclearphysics.model.NuclearDecayListenerAdapter;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusDecayModel;
 import edu.colorado.phet.nuclearphysics.module.halflife.AutopressResetButton;
@@ -745,9 +746,9 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
     			addXAxisTickMark(i * 1000, tickMarkText);
     		}
     	}
-    	else if (_timeSpan < MultiNucleusDecayModel.convertYearsToMs(100)){
+    	else if (_timeSpan < HalfLifeInfo.convertYearsToMs(100)){
     		// Tick marks are 10 yrs apart.
-    		numTickMarks = (int)(_timeSpan / MultiNucleusDecayModel.convertYearsToMs(10) + 1);
+    		numTickMarks = (int)(_timeSpan / HalfLifeInfo.convertYearsToMs(10) + 1);
     		
     		for (int i = 0; i < numTickMarks; i++){
     			String tickMarkText;
@@ -757,13 +758,13 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
     			else{
     				tickMarkText = Integer.toString(i * 10);
     			}
-    			addXAxisTickMark(i * MultiNucleusDecayModel.convertYearsToMs(10), tickMarkText);
+    			addXAxisTickMark(i * HalfLifeInfo.convertYearsToMs(10), tickMarkText);
     		}
     	}
-    	else if (_timeSpan < MultiNucleusDecayModel.convertYearsToMs(1E9)){
+    	else if (_timeSpan < HalfLifeInfo.convertYearsToMs(1E9)){
     		// Tick marks are 5000 yrs apart.  This is generally used for
     		// the Carbon 14 range.
-    		numTickMarks = (int)(_timeSpan / MultiNucleusDecayModel.convertYearsToMs(5000) + 1);
+    		numTickMarks = (int)(_timeSpan / HalfLifeInfo.convertYearsToMs(5000) + 1);
     		
     		for (int i = 0; i < numTickMarks; i++){
     			String tickMarkText;
@@ -773,15 +774,15 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
     			else{
     				tickMarkText = Integer.toString(i * 5000);
     			}
-    			addXAxisTickMark(i * MultiNucleusDecayModel.convertYearsToMs(5000), tickMarkText);
+    			addXAxisTickMark(i * HalfLifeInfo.convertYearsToMs(5000), tickMarkText);
     		}
     	}
     	else{
     		// Space the tick marks four billion years apart.
-    		numTickMarks = (int)(_timeSpan / MultiNucleusDecayModel.convertYearsToMs(4E9) + 1);
+    		numTickMarks = (int)(_timeSpan / HalfLifeInfo.convertYearsToMs(4E9) + 1);
     		
     		for (int i = 0; i < numTickMarks; i++){
-    			addXAxisTickMark(i * MultiNucleusDecayModel.convertYearsToMs(4E9),
+    			addXAxisTickMark(i * HalfLifeInfo.convertYearsToMs(4E9),
     					String.format("%.1f", (float)(i * 4)));
     		}
     	}
@@ -828,7 +829,7 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
     private String getXAxisUnitsText(){
     	
     	String unitsText;
-    	if (_timeSpan > MultiNucleusDecayModel.convertYearsToMs(100000)){
+    	if (_timeSpan > HalfLifeInfo.convertYearsToMs(100000)){
     		// Use billions of years for the units.
     		unitsText = NuclearPhysicsStrings.TIME_GRAPH_UNITS_BILLION_YRS;
     	}

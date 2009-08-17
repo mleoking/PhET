@@ -13,7 +13,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
 import edu.colorado.phet.nuclearphysics.defaults.RadiometricMeasurementDefaults;
-import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusDecayModel;
+import edu.colorado.phet.nuclearphysics.model.HalfLifeInfo;
 
 /**
  * This class defines a model (in the model-view-controller paradigm) that
@@ -45,9 +45,9 @@ public class RadiometricMeasurementModel implements ModelContainingDatableItems 
 	// Constants that control the conversion between simulation time (which is
 	// essentially real time) and model time, which is often thousands or
 	// billions of years in this model.
-	private static final double INITIAL_TREE_AGING_RATE = MultiNucleusDecayModel.convertYearsToMs(300) / 1000; // 300 years per second.
-	private static final double INITIAL_ROCK_AGING_RATE = MultiNucleusDecayModel.convertDaysToMs(90) / 10000; // 90 days over 10 seconds - this will be the total eruption time (~3 months). 
-	private static final double FINAL_ROCK_AGING_RATE = MultiNucleusDecayModel.convertYearsToMs(1E9) / 5000; // 1 billion years every 5 seconds.
+	private static final double INITIAL_TREE_AGING_RATE = HalfLifeInfo.convertYearsToMs(300) / 1000; // 300 years per second.
+	private static final double INITIAL_ROCK_AGING_RATE = HalfLifeInfo.convertDaysToMs(90) / 10000; // 90 days over 10 seconds - this will be the total eruption time (~3 months). 
+	private static final double FINAL_ROCK_AGING_RATE = HalfLifeInfo.convertYearsToMs(1E9) / 5000; // 1 billion years every 5 seconds.
 
 	// Boundaries for where the auxiliary flying rocks may be (auxiliary
 	// flying rocks are rocks that are NOT the primary datable rocks, but are
