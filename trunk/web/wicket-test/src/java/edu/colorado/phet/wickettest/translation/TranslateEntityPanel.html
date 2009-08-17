@@ -18,6 +18,12 @@
                 background-color: white;
             }
 
+            .string-english {
+                background-color: #cccccc;
+                margin-right: 785px;
+                padding: 3px;
+            }
+
             .string-value {
                 border: 1px solid blue;
                 margin-right: 785px;
@@ -65,6 +71,9 @@
         <div class="strings">
             <div wicket:id="translation-string-list">
                 <span wicket:id="translation-string-key">language.dir</span>:
+                <div class="string-english">
+                    <strong>English: </strong><span wicket:id="translation-string-english">This is some English text that will be translated below</span>
+                </div>
                 <div wicket:id="translation-string-value" class="string-value">
                     Blah blah blah now this is some really long text
                     that will take forever
