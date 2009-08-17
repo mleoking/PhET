@@ -222,6 +222,7 @@ public class TranslationMainPage extends AuthenticatedPage {
                             }
 
                             tr.setVisible( !tr.isVisible() );
+                            translation.setVisible( !translation.isVisible() );
                             session.update( tr );
 
                             tx.commit();
