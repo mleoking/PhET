@@ -7,7 +7,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
-import edu.colorado.phet.faraday.control.menu.OptionsMenu;
+import edu.colorado.phet.faraday.control.menu.FaradayOptionsMenu;
 import edu.colorado.phet.faraday.module.*;
 
 /**
@@ -57,7 +57,7 @@ public class GeneratorApplication extends PiccoloPhetApplication {
      */
     private void initMenubar() {
         // Options menu
-        OptionsMenu optionsMenu = new OptionsMenu( this );
+        FaradayOptionsMenu optionsMenu = new FaradayOptionsMenu( this );
         getPhetFrame().addMenu( optionsMenu );
     }
 

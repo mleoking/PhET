@@ -2,26 +2,29 @@
 
 package edu.colorado.phet.naturalselection;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Frame;
+import java.awt.Toolkit;
 import java.util.Enumeration;
 
-import javax.swing.*;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import javax.swing.UIDefaults;
+import javax.swing.UIManager;
 import javax.swing.plaf.FontUIResource;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
 import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetTabbedPane;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.naturalselection.developer.DeveloperMenu;
-import edu.colorado.phet.naturalselection.menu.OptionsMenu;
 import edu.colorado.phet.naturalselection.module.NaturalSelectionModule;
 import edu.colorado.phet.naturalselection.persistence.NaturalSelectionConfig;
 
@@ -93,39 +96,11 @@ public class NaturalSelectionApplication extends PiccoloPhetApplication {
      */
     private void initMenubar( String[] args ) {
 
+        // File->Save/Load
         final PhetFrame frame = getPhetFrame();
-
+        frame.addFileSaveLoadMenuItems();
         if ( persistenceManager == null ) {
             persistenceManager = new XMLPersistenceManager( frame );
-        }
-
-        // File menu
-        {
-            JMenuItem saveItem = new JMenuItem( NaturalSelectionResources.getString( "menu.file.save" ) );
-            saveItem.setMnemonic( NaturalSelectionResources.getChar( "menu.file.save.mnemonic", 'S' ) );
-            saveItem.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    save();
-                }
-            } );
-
-            JMenuItem loadItem = new JMenuItem( NaturalSelectionResources.getString( "menu.file.load" ) );
-            loadItem.setMnemonic( NaturalSelectionResources.getChar( "menu.file.load.mnemonic", 'L' ) );
-            loadItem.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    load();
-                }
-            } );
-
-            frame.addFileMenuItem( saveItem );
-            frame.addFileMenuItem( loadItem );
-            frame.addFileMenuSeparator();
-        }
-
-        // Options menu
-        OptionsMenu optionsMenu = new OptionsMenu();
-        if ( optionsMenu.getMenuComponentCount() > 0 ) {
-            frame.addMenu( optionsMenu );
         }
 
         // Developer menu
@@ -207,11 +182,11 @@ public class NaturalSelectionApplication extends PiccoloPhetApplication {
     // Persistence
     //----------------------------------------------------------------------------
 
-    /*
+    /**
      * Saves the simulation's configuration.
      */
-
-    private void save() {
+    @Override
+    public void save() {
 
         NaturalSelectionConfig appConfig = new NaturalSelectionConfig();
 
@@ -227,10 +202,11 @@ public class NaturalSelectionApplication extends PiccoloPhetApplication {
         persistenceManager.save( appConfig );
     }
 
-    /*
+    /**
      * Loads the simulation's configuration.
      */
-    private void load() {
+    @Override
+    public void load() {
 
         Object object = persistenceManager.load();
         if ( object != null ) {
@@ -241,8 +217,8 @@ public class NaturalSelectionApplication extends PiccoloPhetApplication {
                 ( (NaturalSelectionModule) getModule( 0 ) ).load( appConfig );
             }
             else {
-                String message = NaturalSelectionResources.getString( "message.notAConfigFile" );
-                String title = NaturalSelectionResources.getString( "title.error" );
+                String message = PhetCommonResources.getString( "XMLPersistenceManager.message.notAConfigFile" );
+                String title = PhetCommonResources.getString( "Common.title.error" );
                 JOptionPane.showMessageDialog( getPhetFrame(), message, title, JOptionPane.ERROR_MESSAGE );
             }
         }

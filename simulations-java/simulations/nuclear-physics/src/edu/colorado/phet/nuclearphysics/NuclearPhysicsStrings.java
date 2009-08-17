@@ -25,8 +25,6 @@ public class NuclearPhysicsStrings {
     public static final String TITLE_RADIOACTIVE_DATING_GAME = NuclearPhysicsResources.getString( "ModuleTitle.RadioactiveDatingGame" );
     public static final String TITLE_LOTS_OF_NUCLEI_DECAYING = NuclearPhysicsResources.getString( "ModuleTitle.LotsOfNucleiDecaying" );
 
-    public static final String MENU_OPTIONS = NuclearPhysicsResources.getString( "menu.options" );
-
     public static final String LEGEND_BORDER_LABEL = NuclearPhysicsResources.getString( "NuclearPhysicsControlPanel.LegendBorder" );
     public static final String NUCLEUS_SELECTION_BORDER_LABEL = NuclearPhysicsResources.getString( "AlphaDecayControlPanel.NucleusSelectionBorder" );
     public static final String ISOTOPE_SELECTION_BORDER_LABEL = NuclearPhysicsResources.getString( "HalfLifeControlPanel.IsotopeSelectionBorder" );

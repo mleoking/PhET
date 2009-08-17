@@ -4,10 +4,11 @@ package edu.colorado.phet.opticaltweezers;
 
 import javax.swing.JOptionPane;
 
+import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.opticaltweezers.module.dna.DNAModule;
@@ -120,8 +121,8 @@ public class OpticalTweezersApplication extends OTAbstractApplication {
                 _motorsModule.load( appConfig.getMotorsConfig() );
             }
             else {
-                String message = OTResources.getString( "message.notAConfigFile" );
-                String title = OTResources.getString( "title.error" );
+                String message = PhetCommonResources.getString( "XMLPersistenceManager.message.notAConfigFile" );
+                String title = PhetCommonResources.getString( "Common.title.error" );
                 JOptionPane.showMessageDialog( getPhetFrame(), message, title, JOptionPane.ERROR_MESSAGE );
             }
         }

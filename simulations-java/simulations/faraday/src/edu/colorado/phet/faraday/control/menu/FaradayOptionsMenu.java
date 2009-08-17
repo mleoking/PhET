@@ -8,10 +8,10 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import javax.swing.JDialog;
-import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.faraday.FaradayStrings;
 import edu.colorado.phet.faraday.control.dialog.BackgroundColorHandler;
 import edu.colorado.phet.faraday.control.dialog.GridControlsDialog;
@@ -22,7 +22,7 @@ import edu.colorado.phet.faraday.control.dialog.GridControlsDialog;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class OptionsMenu extends JMenu {
+public class FaradayOptionsMenu extends OptionsMenu {
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -33,11 +33,8 @@ public class OptionsMenu extends JMenu {
      * 
      * @param application
      */
-    public OptionsMenu( final PhetApplication application ) {
-        
-        super( FaradayStrings.MENU_OPTIONS );
-        
-        setMnemonic( FaradayStrings.MNEMONIC_OPTIONS );
+    public FaradayOptionsMenu( final PhetApplication application ) {
+        super();
 
         // Background Color menu item, disabled when dialog is open
         final JMenuItem backgroundColorMenuItem = new JMenuItem( FaradayStrings.MENU_ITEM_BACKGROUND_COLOR );

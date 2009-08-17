@@ -12,7 +12,6 @@ import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.nuclearphysics.developer.DeveloperMenu;
-import edu.colorado.phet.nuclearphysics.menu.OptionsMenu;
 
 public class AbstractNuclearPhysicsApplication extends PiccoloPhetApplication {
 
@@ -48,12 +47,6 @@ public class AbstractNuclearPhysicsApplication extends PiccoloPhetApplication {
     
         if ( _persistenceManager == null ) {
             _persistenceManager = new XMLPersistenceManager( frame );
-        }
-    
-        // Options menu
-        OptionsMenu optionsMenu = new OptionsMenu();
-        if ( optionsMenu.getMenuComponentCount() > 0 ) {
-            frame.addMenu( optionsMenu );
         }
     
         // Developer menu

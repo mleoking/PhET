@@ -3,10 +3,7 @@
 package edu.colorado.phet.glaciers;
 
 import java.awt.Frame;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
@@ -17,7 +14,6 @@ import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.glaciers.menu.DeveloperMenu;
-import edu.colorado.phet.glaciers.menu.OptionsMenu;
 import edu.colorado.phet.glaciers.module.advanced.AdvancedModule;
 import edu.colorado.phet.glaciers.module.intro.IntroModule;
 import edu.colorado.phet.glaciers.persistence.AdvancedConfig;
@@ -98,39 +94,11 @@ public class GlaciersApplication extends PiccoloPhetApplication {
      */
     private void initMenubar( String[] args ) {
 
+        // File->Save/Load
         final PhetFrame frame = getPhetFrame();
-
+        frame.addFileSaveLoadMenuItems();
         if ( _persistenceManager == null ) {
             _persistenceManager = new XMLPersistenceManager( frame );
-        }
-
-        // File menu
-        {
-            JMenuItem saveItem = new JMenuItem( GlaciersStrings.MENU_FILE_SAVE );
-            saveItem.setMnemonic( GlaciersStrings.MENU_FILE_SAVE_MNEMONIC );
-            saveItem.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    save();
-                }
-            } );
-
-            JMenuItem loadItem = new JMenuItem( GlaciersStrings.MENU_FILE_LOAD );
-            loadItem.setMnemonic( GlaciersStrings.MENU_FILE_LOAD_MNEMONIC );
-            loadItem.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    load();
-                }
-            } );
-
-            frame.addFileMenuItem( saveItem );
-            frame.addFileMenuItem( loadItem );
-            frame.addFileMenuSeparator();
-        }
-
-        // Options menu
-        OptionsMenu optionsMenu = new OptionsMenu();
-        if ( optionsMenu.getMenuComponentCount() > 0 ) {
-            frame.addMenu( optionsMenu );
         }
 
         // Developer menu
@@ -158,10 +126,11 @@ public class GlaciersApplication extends PiccoloPhetApplication {
     // Persistence
     //----------------------------------------------------------------------------
 
-    /*
+    /**
      * Saves the simulation's configuration.
      */
-    private void save() {
+    @Override
+    public void save() {
         
         GlaciersConfig appConfig = new GlaciersConfig();
         
@@ -180,10 +149,11 @@ public class GlaciersApplication extends PiccoloPhetApplication {
         _persistenceManager.save( appConfig );
     }
 
-    /*
+    /**
      * Loads the simulation's configuration.
      */
-    private void load() {
+    @Override
+    public void load() {
         
         Object object = _persistenceManager.load();
         if ( object != null ) {
