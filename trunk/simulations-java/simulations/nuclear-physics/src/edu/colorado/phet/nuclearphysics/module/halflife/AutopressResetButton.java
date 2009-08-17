@@ -1,6 +1,6 @@
 package edu.colorado.phet.nuclearphysics.module.halflife;
 
-public interface AutopressRestButton {
+public interface AutopressResetButton {
 
 	/**
 	 * Auto-press the reset button, i.e. make it look like someone or some
