@@ -39,6 +39,10 @@ public class HalfLifeInfo {
 			halfLife = HalfLifeInfo.convertYearsToMs( 5730 );
 			break;
 			
+		case LIGHT_CUSTOM:
+			halfLife = HalfLifeInfo.convertYearsToMs( 10 ); // Arbitrary value for sake of this sim.
+			break;
+			
 		case POLONIUM_211:
 			halfLife = 516;
 			break;
