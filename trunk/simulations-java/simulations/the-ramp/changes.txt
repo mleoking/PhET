@@ -1,3 +1,4 @@
+Improved layout for chart control panel
 Added feature: The ramp turns red when it heats up, as a cue of what is happening (thermal energy absorbed in ramp).
 Fixed: When there is a collision with a wall, this energy currently goes into thermal energy of the object; perhaps it should be kept separately
 Fixed: Ramp segments should be treated separately with respect to their thermal energies (for showing as red)
