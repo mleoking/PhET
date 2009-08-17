@@ -23,6 +23,7 @@ import edu.colorado.phet.wickettest.authentication.AuthenticatedPage;
 import edu.colorado.phet.wickettest.content.IndexPage;
 import edu.colorado.phet.wickettest.data.PhetUser;
 import edu.colorado.phet.wickettest.data.Translation;
+import edu.colorado.phet.wickettest.util.InvisibleComponent;
 import edu.colorado.phet.wickettest.util.PageContext;
 
 public class TranslationMainPage extends AuthenticatedPage {
@@ -206,7 +207,7 @@ public class TranslationMainPage extends AuthenticatedPage {
             item.add( visibleLabel );
 
 
-            if ( getUser().isTeamMember() ) {
+            if ( getUser().isTeamMember() && !( translation.isVisible() && translation.getLocale().equals( WicketApplication.getDefaultLocale() ) ) ) {
                 item.add( new Link( "visible-toggle" ) {
                     public void onClick() {
                         Session session = getHibernateSession();
@@ -268,37 +269,48 @@ public class TranslationMainPage extends AuthenticatedPage {
                     setResponsePage( TranslationEditPage.class, params );
                 }
             } );
-            item.add( new Link( "delete" ) {
-                public void onClick() {
-                    Session session = TranslationMainPage.this.getHibernateSession();
-                    Transaction tx = null;
-                    try {
-                        tx = session.beginTransaction();
 
-                        session.load( translation, translation.getId() );
+            if ( getUser().isTeamMember() && !( translation.isVisible() && translation.getLocale().equals( WicketApplication.getDefaultLocale() ) ) ) {
+                item.add( new Link( "delete" ) {
+                    public void onClick() {
+                        Session session = TranslationMainPage.this.getHibernateSession();
+                        Transaction tx = null;
+                        try {
+                            tx = session.beginTransaction();
 
-                        translations.remove( translation );
-                        for ( Object o : translation.getTranslatedStrings() ) {
-                            session.delete( o );
-                        }
-                        session.delete( translation );
+                            session.load( translation, translation.getId() );
 
-                        tx.commit();
-                    }
-                    catch( RuntimeException e ) {
-                        System.out.println( "Exception: " + e );
-                        if ( tx != null && tx.isActive() ) {
-                            try {
-                                tx.rollback();
+                            translations.remove( translation );
+                            for ( Object o : translation.getTranslatedStrings() ) {
+                                session.delete( o );
                             }
-                            catch( HibernateException e1 ) {
-                                System.out.println( "ERROR: Error rolling back transaction" );
+                            for ( Object o : translation.getAuthorizedUsers() ) {
+                                PhetUser user = (PhetUser) o;
+                                user.getTranslations().remove( translation );
+                                session.update( user );
                             }
-                            throw e;
+                            session.delete( translation );
+
+                            tx.commit();
+                        }
+                        catch( RuntimeException e ) {
+                            System.out.println( "Exception: " + e );
+                            if ( tx != null && tx.isActive() ) {
+                                try {
+                                    tx.rollback();
+                                }
+                                catch( HibernateException e1 ) {
+                                    System.out.println( "ERROR: Error rolling back transaction" );
+                                }
+                                throw e;
+                            }
                         }
                     }
-                }
-            } );
+                } );
+            }
+            else {
+                item.add( new InvisibleComponent( "delete" ) );
+            }
         }
     }
 }
