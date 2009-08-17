@@ -2,14 +2,15 @@ package edu.colorado.phet.wickettest.util;
 
 import java.util.*;
 
-import org.hibernate.*;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.wickettest.WicketApplication;
 import edu.colorado.phet.wickettest.data.Category;
 import edu.colorado.phet.wickettest.data.LocalizedSimulation;
-import edu.colorado.phet.wickettest.data.TranslatedString;
 import edu.colorado.phet.wickettest.data.Translation;
 
 public class HibernateUtils {

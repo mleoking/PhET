@@ -113,7 +113,7 @@ public class StringUtils {
 
     }
 
-    public static boolean  setEnglishString( Session session, String key, String value ) {
+    public static boolean setEnglishString( Session session, String key, String value ) {
         return setString( session, key, value, WicketApplication.getDefaultLocale() );
     }
 
