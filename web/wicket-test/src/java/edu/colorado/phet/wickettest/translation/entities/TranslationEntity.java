@@ -57,6 +57,7 @@ public abstract class TranslationEntity implements Serializable {
         entities.add( new SimulationMainEntity() );
         entities.add( new SponsorsEntity() );
         entities.add( new TroubleshootingMainEntity() );
+        entities.add( new KeywordsEntity() );
         entities.add( new AboutPhetEntity() );
         entities.add( new TitlesEntity() );
         return entities;
