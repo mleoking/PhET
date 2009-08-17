@@ -133,8 +133,9 @@ public class AdminSimPage extends AdminPage {
                                 Simulation sim = (Simulation) session.load( Simulation.class, simulation.getId() );
                                 Keyword kword = (Keyword) session.load( Keyword.class, keyword.getId() );
 
-                                sim.getKeywords().add( kword );
-                                simKeywords.add( keyword );
+                                sim.getKeywords().remove( kword );
+                                simKeywords.remove( keyword );
+                                session.update( sim );
 
                                 tx.commit();
                             }
