@@ -8,6 +8,7 @@ import org.apache.wicket.behavior.HeaderContributor;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.markup.html.link.StatelessLink;
 import org.apache.wicket.model.IModel;
 import org.hibernate.HibernateException;
 import org.hibernate.Transaction;
@@ -18,6 +19,7 @@ import edu.colorado.phet.wickettest.components.StaticImage;
 import edu.colorado.phet.wickettest.content.IndexPage;
 import edu.colorado.phet.wickettest.data.Translation;
 import edu.colorado.phet.wickettest.menu.NavMenu;
+import edu.colorado.phet.wickettest.util.InvisibleComponent;
 import edu.colorado.phet.wickettest.util.PageContext;
 import edu.colorado.phet.wickettest.util.PhetRequestCycle;
 import edu.colorado.phet.wickettest.util.PhetSession;
@@ -107,25 +109,21 @@ public abstract class PhetPage extends WebPage {
                                                                     ")" ) );
             }
             else {
-                Label label = new Label( "translation-preview-notification", "UNSEEN2" );
-                label.setVisible( false );
-                add( label );
+                add( new InvisibleComponent( "translation-preview-notification" ) );
             }
 
             // TODO: change sign out link to a mini panel with options (one of which will be to sign out)
             final PhetSession psession = PhetSession.get();
             if ( psession != null && psession.isSignedIn() ) {
-                add( new Link( "sign-out" ) {
+                add( new StatelessLink( "sign-out" ) {
                     public void onClick() {
-                        psession.invalidate();
+                        PhetSession.get().signOut();
                         setResponsePage( IndexPage.class );
                     }
                 } );
             }
             else {
-                Label label = new Label( "sign-out", "INVISIBLE" );
-                label.setVisible( false );
-                add( label );
+                add( new InvisibleComponent( "sign-out" ) );
             }
         }
 

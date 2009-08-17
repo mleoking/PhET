@@ -107,6 +107,11 @@ public class PhetSession extends WebSession {
         return ret.substring( 0, ret.length() - count ) + "==".substring( 0, count );
     }
 
+    public void signOut() {
+        signedIn = false;
+        invalidateNow();
+    }
+
     private static class Test {
         public static void main( String[] args ) {
             System.out.println( hashPassword( args[0] ) );
