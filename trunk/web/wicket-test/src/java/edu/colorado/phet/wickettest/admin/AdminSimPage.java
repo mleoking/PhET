@@ -26,6 +26,7 @@ import edu.colorado.phet.wickettest.data.LocalizedSimulation;
 import edu.colorado.phet.wickettest.data.Simulation;
 import edu.colorado.phet.wickettest.translation.PhetLocalizer;
 import edu.colorado.phet.wickettest.util.HibernateUtils;
+import edu.colorado.phet.wickettest.util.InvisibleComponent;
 import edu.colorado.phet.wickettest.util.StringUtils;
 
 public class AdminSimPage extends AdminPage {
@@ -111,6 +112,33 @@ public class AdminSimPage extends AdminPage {
         } );
     }
 
+    private void swapKeywordOrder( final List<Keyword> simKeywords, int a, int b ) {
+        Transaction tx = null;
+        try {
+            Session session = getHibernateSession();
+            tx = session.beginTransaction();
+
+            Simulation sim = (Simulation) session.load( Simulation.class, simulation.getId() );
+            Collections.swap( sim.getKeywords(), a, b );
+            Collections.swap( simKeywords, a, b );
+            session.update( sim );
+
+            tx.commit();
+        }
+        catch( RuntimeException e ) {
+            System.out.println( "Exception: " + e );
+            if ( tx != null && tx.isActive() ) {
+                try {
+                    tx.rollback();
+                }
+                catch( HibernateException e1 ) {
+                    System.out.println( "ERROR: Error rolling back transaction" );
+                }
+                throw e;
+            }
+        }
+    }
+
     private class AddKeywordForm extends Form {
         private AdminSimPage.AddKeywordForm.KeywordDropDownChoice dropDownChoice;
         private List<Keyword> simKeywords;
@@ -120,7 +148,7 @@ public class AdminSimPage extends AdminPage {
             this.simKeywords = simKeywords;
 
             add( new ListView( "keywords", simKeywords ) {
-                protected void populateItem( ListItem item ) {
+                protected void populateItem( final ListItem item ) {
                     final Keyword keyword = (Keyword) item.getModel().getObject();
                     item.add( new Label( "keyword-english", new ResourceModel( keyword.getKey() ) ) );
                     item.add( new Link( "keyword-remove" ) {
@@ -153,6 +181,26 @@ public class AdminSimPage extends AdminPage {
                             }
                         }
                     } );
+                    if ( item.getIndex() != 0 ) {
+                        item.add( new Link( "keyword-move-up" ) {
+                            public void onClick() {
+                                swapKeywordOrder( simKeywords, item.getIndex() - 1, item.getIndex() );
+                            }
+                        } );
+                    }
+                    else {
+                        item.add( new InvisibleComponent( "keyword-move-up" ) );
+                    }
+                    if ( item.getIndex() < simKeywords.size() - 1 ) {
+                        item.add( new Link( "keyword-move-down" ) {
+                            public void onClick() {
+                                swapKeywordOrder( simKeywords, item.getIndex(), item.getIndex() + 1 );
+                            }
+                        } );
+                    }
+                    else {
+                        item.add( new InvisibleComponent( "keyword-move-down" ) );
+                    }
                 }
             } );
 
