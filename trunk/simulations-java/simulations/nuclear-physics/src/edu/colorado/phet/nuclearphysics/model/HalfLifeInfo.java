@@ -2,7 +2,6 @@ package edu.colorado.phet.nuclearphysics.model;
 
 import edu.colorado.phet.nuclearphysics.common.NucleusType;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
-import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusDecayModel;
 
 /**
  * This very simple class acts as a central location where the half life of
@@ -33,11 +32,11 @@ public class HalfLifeInfo {
 		switch (nucleusType){
 		
 		case HYDROGEN_3:
-			halfLife = MultiNucleusDecayModel.convertDaysToMs( 4500 );
+			halfLife = HalfLifeInfo.convertDaysToMs( 4500 );
 			break;
 			
 		case CARBON_14:
-			halfLife = MultiNucleusDecayModel.convertYearsToMs( 5730 );
+			halfLife = HalfLifeInfo.convertYearsToMs( 5730 );
 			break;
 			
 		case POLONIUM_211:
@@ -45,11 +44,11 @@ public class HalfLifeInfo {
 			break;
 			
 		case URANIUM_235:
-			halfLife = MultiNucleusDecayModel.convertYearsToMs( 703800000 );
+			halfLife = HalfLifeInfo.convertYearsToMs( 703800000 );
 			break;
 			
 		case URANIUM_238:
-			halfLife = MultiNucleusDecayModel.convertYearsToMs( 4.46E9 );
+			halfLife = HalfLifeInfo.convertYearsToMs( 4.46E9 );
 			break;
 			
 		case HEAVY_CUSTOM:
@@ -68,5 +67,37 @@ public class HalfLifeInfo {
 	
 	public static double getHalfLifeForNucleusConfig(int numProtons, int numNeutrons){
 		return getHalfLifeForNucleusType(AtomicNucleus.identifyNucleus(numProtons, numNeutrons));
+	}
+
+	/**
+	 * Convenience method for converting years to milliseconds, since
+	 * milliseconds is used throughout the simulation for timing.
+	 */
+	static public double convertYearsToMs( double years ){
+		return years * 3.1556926E10;
+	}
+
+	/**
+	 * Convenience method for converting milliseconds to years, since
+	 * milliseconds is used throughout the simulation for timing.
+	 */
+	static public double convertMsToYears( double milliseconds ){
+		return milliseconds * 3.16887646E-11;
+	}
+
+	/**
+	 * Convenience method for converting days to milliseconds, since
+	 * milliseconds is used throughout the simulation for timing.
+	 */
+	static public double convertDaysToMs( double days ){
+		return days * 86400000;
+	}
+
+	/**
+	 * Convenience method for converting hours to milliseconds, since
+	 * milliseconds is used throughout the simulation for timing.
+	 */
+	static public double convertHoursToMs( double hours ){
+		return hours * 3600000;
 	}
 }

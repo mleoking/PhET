@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusDecayModel;
+import edu.colorado.phet.nuclearphysics.model.HalfLifeInfo;
 import edu.colorado.phet.nuclearphysics.module.radioactivedatinggame.AnimatedDatableItem.TimeUpdater;
 
 /**
@@ -49,7 +49,7 @@ public class AnimatedFlyingRock extends StaticAnimatedDatableItem {
     // will change as it ages.
     //------------------------------------------------------------------------
     protected AnimationSequence createAnimationSequence() {
-        TimeUpdater timeUpdater=new TimeUpdater(0, MultiNucleusDecayModel.convertHoursToMs( 10 ));
+        TimeUpdater timeUpdater=new TimeUpdater(0, HalfLifeInfo.convertHoursToMs( 10 ));
         ArrayList<ModelAnimationDelta> animationSequence = new ArrayList<ModelAnimationDelta>();
         Random rand = new Random();
         

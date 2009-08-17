@@ -38,7 +38,7 @@ import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.common.NucleusDisplayInfo;
 import edu.colorado.phet.nuclearphysics.common.NucleusType;
-import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusDecayModel;
+import edu.colorado.phet.nuclearphysics.model.HalfLifeInfo;
 import edu.colorado.phet.nuclearphysics.module.radioactivedatinggame.RadiometricDatingMeter.MeasurementMode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -78,10 +78,10 @@ public class RadiometricDatingMeterNode extends PNode {
 	// LOCALIZTION FILE.
 	// TODO: Localization.
 	private static final ValueStringPair [] HALF_LIFE_VALUE_STRING_PAIRS = {
-		new ValueStringPair(MultiNucleusDecayModel.convertYearsToMs(100E3), "100 ky"),
-		new ValueStringPair(MultiNucleusDecayModel.convertYearsToMs(1E6), "1 my"),
-		new ValueStringPair(MultiNucleusDecayModel.convertYearsToMs(10E6), "10 my"),
-		new ValueStringPair(MultiNucleusDecayModel.convertYearsToMs(100E6), "100 my"),
+		new ValueStringPair(HalfLifeInfo.convertYearsToMs(100E3), "100 ky"),
+		new ValueStringPair(HalfLifeInfo.convertYearsToMs(1E6), "1 my"),
+		new ValueStringPair(HalfLifeInfo.convertYearsToMs(10E6), "10 my"),
+		new ValueStringPair(HalfLifeInfo.convertYearsToMs(100E6), "100 my"),
 	};
 	
     //------------------------------------------------------------------------

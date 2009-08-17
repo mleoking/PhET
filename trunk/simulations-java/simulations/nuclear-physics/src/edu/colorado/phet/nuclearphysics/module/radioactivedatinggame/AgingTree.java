@@ -9,7 +9,7 @@ import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusDecayModel;
+import edu.colorado.phet.nuclearphysics.model.HalfLifeInfo;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -27,7 +27,7 @@ public class AgingTree extends AnimatedDatableItem {
 	
 	private static final double FULL_GROWN_TREE_HEIGHT = 22; // Model units, roughly meters.
 	private static final double GROWTH_RATE = 1.03; // High number for faster growth.
-	private static final double AGE_OF_NATURAL_DEATH = MultiNucleusDecayModel.convertYearsToMs(1000);
+	private static final double AGE_OF_NATURAL_DEATH = HalfLifeInfo.convertYearsToMs(1000);
 	private static final int FADE_TO_DEAD_TREE_COUNT = 30; // Controls how long it takes for tree to die.
 	private static final int SWAY_COUNT = 30; // Controls how long tree sways before falling over.
 	private static final double MAX_SWAY_DEFLECTION = 0.01; // In radians, controls amount of sway.

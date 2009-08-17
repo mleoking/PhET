@@ -24,7 +24,7 @@ import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.common.NucleusType;
-import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusDecayModel;
+import edu.colorado.phet.nuclearphysics.model.HalfLifeInfo;
 import edu.colorado.phet.nuclearphysics.view.NuclearDecayProportionChart;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -514,12 +514,12 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     	// Add a node that indicates to the user whether or not they guessed
     	// correctly.
     	AgeGuessResultNode guessResultNode = new AgeGuessResultNode(ageGuess,
-    		determineIfGuessIsGood(MultiNucleusDecayModel.convertYearsToMs(ageGuess), itemBeingTouched));
+    		determineIfGuessIsGood(HalfLifeInfo.convertYearsToMs(ageGuess), itemBeingTouched));
 		_mapDatableItemsToGuessResults.put(itemBeingTouched, guessResultNode);
 		guessResultNode.addListener(_clearResultListener);
 			
 		// Play a little sound to indicate whether the guess is good.
-		if (determineIfGuessIsGood(MultiNucleusDecayModel.convertYearsToMs(ageGuess), itemBeingTouched)){
+		if (determineIfGuessIsGood(HalfLifeInfo.convertYearsToMs(ageGuess), itemBeingTouched)){
 			// TODO: Need sound here.
 		}
 		else{
