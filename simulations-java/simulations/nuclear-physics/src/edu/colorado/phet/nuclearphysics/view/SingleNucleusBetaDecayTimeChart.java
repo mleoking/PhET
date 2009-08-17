@@ -522,7 +522,7 @@ public class SingleNucleusBetaDecayTimeChart extends PNode {
     				_nonPickableChartNode.addChild(_undecayedNucleusNode);
     			}
     			positionCurrentNucleus();
-    			_timeDisplay.setTime(_currentNucleus.getElapsedPreDecayTime());
+    			_timeDisplay.setTime(_currentNucleus.getAdjustedActivatedTime());
     		}
     		else{
     			if (_undecayedNucleusNode != null){
@@ -531,7 +531,7 @@ public class SingleNucleusBetaDecayTimeChart extends PNode {
     				// add it to the list of decayed nuclei.
         			EnhancedLabeledNucleusNode newlyDecayedNucleusNode = createNucleusNode(_currentNucleus);
         			_nonPickableChartNode.addChild(newlyDecayedNucleusNode);
-        			newlyDecayedNucleusNode.setDecayTime(_currentNucleus.getElapsedPreDecayTime());
+        			newlyDecayedNucleusNode.setDecayTime(_currentNucleus.getAdjustedActivatedTime());
         			newlyDecayedNucleusNode.startFalling();
         			_decayedNucleusNodes.add(newlyDecayedNucleusNode);
         			_nonPickableChartNode.removeChild(_undecayedNucleusNode);
@@ -795,11 +795,11 @@ public class SingleNucleusBetaDecayTimeChart extends PNode {
     	double yPos = _usableAreaOriginY + ( _usableHeight * PRE_DECAY_TIME_LINE_POS_FRACTION ) - _nucleusNodeRadius;
     	double xPos;
     	if (_exponentialMode){
-    		xPos = _exponentialTimeLine.mapTimeToHorizPixels(_currentNucleus.getElapsedPreDecayTime()) + 
+    		xPos = _exponentialTimeLine.mapTimeToHorizPixels(_currentNucleus.getAdjustedActivatedTime()) + 
     		       _graphOriginX + (TIME_ZERO_OFFSET * _msToPixelsFactor) - _nucleusNodeRadius;
     	}
     	else{
-        	xPos = _graphOriginX + ((_currentNucleus.getElapsedPreDecayTime() + TIME_ZERO_OFFSET) 
+        	xPos = _graphOriginX + ((_currentNucleus.getAdjustedActivatedTime() + TIME_ZERO_OFFSET) 
         	        * _msToPixelsFactor) - _nucleusNodeRadius;
     	}
 
@@ -817,11 +817,11 @@ public class SingleNucleusBetaDecayTimeChart extends PNode {
 		
 		// Set the X axis position based on the time at which decay occurred.
     	if (_exponentialMode){
-    		xPos = _exponentialTimeLine.mapTimeToHorizPixels(_currentNucleus.getElapsedPreDecayTime()) + 
+    		xPos = _exponentialTimeLine.mapTimeToHorizPixels(_currentNucleus.getAdjustedActivatedTime()) + 
     		       _graphOriginX + (TIME_ZERO_OFFSET * _msToPixelsFactor) - _nucleusNodeRadius;
     	}
     	else{
-        	xPos = _graphOriginX + ((_currentNucleus.getElapsedPreDecayTime() + TIME_ZERO_OFFSET) 
+        	xPos = _graphOriginX + ((_currentNucleus.getAdjustedActivatedTime() + TIME_ZERO_OFFSET) 
         	        * _msToPixelsFactor) - _nucleusNodeRadius;
     	}
     	
