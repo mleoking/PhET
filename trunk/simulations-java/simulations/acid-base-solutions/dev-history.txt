@@ -3,13 +3,11 @@
 ==================================================================================
 
 TODO:
-- location of "K=" button is wrong on Windows
 - duplicate code: ComparingEquationsNode = SolutionsReactionEquationsNode + SolutionsEquilibriumExpressionsNode - scaling controls
 - Spanish translation, to test i18n
 - implement "tear off" control? (pending interviews)
-- more complete legend for symbols and colors (pending interviews)
-- when equations are scaled, some symbols expand beyond the bounds of the window (pending interviews)
-- make symbol legend descriptions automatically wrap, so we don't need breaks in HTML markup
+- more complete legend for symbols and colors? (pending interviews)
+- make symbol legend descriptions automatically wrap, so we don't need line breaks in HTML markup
 
 DONE:
 # 0.01.32
