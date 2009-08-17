@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.wicket.behavior.AttributeAppender;
+import org.apache.wicket.behavior.HeaderContributor;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
@@ -58,5 +59,7 @@ public class NavMenuList extends Panel {
             }
         };
         add( listView );
+
+        add( HeaderContributor.forCss( "/css/navmenu-v1.css" ) );
     }
 }
