@@ -445,6 +445,11 @@ public abstract class AtomicNucleus implements NuclearDecayControl {
 			nucleusType = NucleusType.NITROGEN_14;
 			break;
 			
+		case 8:
+			// Oxygen, which is used in this sim as the light custom nucleus.
+			nucleusType = NucleusType.LIGHT_CUSTOM;
+			break;
+			
 		case 81:
 			// This is thallium, which we use as the post-decay custom nucleus.
 			nucleusType = NucleusType.HEAVY_CUSTOM_POST_DECAY;
