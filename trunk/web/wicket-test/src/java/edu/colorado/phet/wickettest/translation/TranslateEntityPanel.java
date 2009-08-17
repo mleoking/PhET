@@ -24,14 +24,13 @@ import org.hibernate.Transaction;
 
 import edu.colorado.phet.wickettest.WicketApplication;
 import edu.colorado.phet.wickettest.content.IndexPage;
+import edu.colorado.phet.wickettest.data.TranslatedString;
 import edu.colorado.phet.wickettest.panels.LocalizedLabel;
 import edu.colorado.phet.wickettest.panels.PanelHolder;
 import edu.colorado.phet.wickettest.panels.PhetPanel;
 import edu.colorado.phet.wickettest.panels.SponsorsPanel;
 import edu.colorado.phet.wickettest.translation.entities.TranslationEntity;
-import edu.colorado.phet.wickettest.util.PageContext;
-import edu.colorado.phet.wickettest.util.PhetRequestCycle;
-import edu.colorado.phet.wickettest.util.StringUtils;
+import edu.colorado.phet.wickettest.util.*;
 
 public class TranslateEntityPanel extends PhetPanel {
 
@@ -97,6 +96,9 @@ public class TranslateEntityPanel extends PhetPanel {
                 if ( !isStringSet( tString.getKey() ) ) {
                     editableLabel.add( new AttributeAppender( "class", true, new Model( "not-translated" ), " " ) );
                 }
+                else if ( !isStringUpToDate( tString.getKey() ) ) {
+                    editableLabel.add( new AttributeAppender( "class", true, new Model( "string-out-of-date" ), " " ) );
+                }
                 item.add( editableLabel );
             }
         };
@@ -107,6 +109,30 @@ public class TranslateEntityPanel extends PhetPanel {
         popupLink.setPopupSettings( new PopupSettings( PopupSettings.LOCATION_BAR | PopupSettings.MENU_BAR | PopupSettings.RESIZABLE
                                                        | PopupSettings.SCROLLBARS | PopupSettings.STATUS_BAR | PopupSettings.TOOL_BAR ) );
         add( popupLink );
+    }
+
+    public boolean isStringUpToDate( final String key ) {
+        boolean success = HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
+            public boolean run( Session session ) {
+                /*
+                Translation currentTranslation = (Translation) session.createQuery( "select t from Translation as t where t.id = :id" ).setInteger( "id", translationId ).uniqueResult();
+                if ( currentTranslation.isVisible() && currentTranslation.getLocale().equals( WicketApplication.getDefaultLocale() ) ) {
+                    // this is the English translation. Don't show a ton of orange, it is by definition up-to-date
+                    return true;
+                }
+                */
+                TranslatedString standard = (TranslatedString) session.createQuery( "select ts from TranslatedString as ts, Translation as t where ts.translation = t and t.visible = true and t.locale = :locale and ts.key = :key" )
+                        .setLocale( "locale", WicketApplication.getDefaultLocale() )
+                        .setString( "key", key )
+                        .uniqueResult();
+                TranslatedString current = (TranslatedString) session.createQuery( "select ts from TranslatedString as ts, Translation as t where ts.translation = t and t.id = :id and ts.key = :key" )
+                        .setInteger( "id", translationId )
+                        .setString( "key", key )
+                        .uniqueResult();
+                return current.getUpdatedAt().compareTo( standard.getUpdatedAt() ) >= 0;
+            }
+        } );
+        return success;
     }
 
     public boolean isStringSet( String key ) {
