@@ -11,8 +11,8 @@ import org.hibernate.Session;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.wickettest.WicketApplication;
 import edu.colorado.phet.wickettest.data.Translation;
-import edu.colorado.phet.wickettest.util.HibernateUtils;
 import edu.colorado.phet.wickettest.util.PhetRequestCycle;
+import edu.colorado.phet.wickettest.util.StringUtils;
 
 public class PhetLocalizer extends Localizer {
 
@@ -110,10 +110,10 @@ public class PhetLocalizer extends Localizer {
             //System.out.println( "Looking up main string" );
             // perform the lookup
             if ( translationId != null ) {
-                lookup = HibernateUtils.getString( session, key, translationId );
+                lookup = StringUtils.getString( session, key, translationId );
             }
             else {
-                lookup = HibernateUtils.getString( session, key, locale );
+                lookup = StringUtils.getString( session, key, locale );
             }
 
             //System.out.println( "First DB lookup: " + lookup );
@@ -163,7 +163,7 @@ public class PhetLocalizer extends Localizer {
         //System.out.println( "Looking up in default DB" );
 
         // perform a "default" lookup, which usually should give the English translation, if it exists
-        lookup = HibernateUtils.getString( session, key );
+        lookup = StringUtils.getString( session, key );
 
         //System.out.println( "Default DB lookup: " + lookup );
 

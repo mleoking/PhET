@@ -4,18 +4,31 @@ import java.util.*;
 
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.util.value.ValueMap;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
+import edu.colorado.phet.wickettest.WicketApplication;
+import edu.colorado.phet.wickettest.util.HibernateUtils;
+import edu.colorado.phet.wickettest.util.StringUtils;
 import edu.colorado.phet.wickettest.data.LocalizedSimulation;
 import edu.colorado.phet.wickettest.data.Simulation;
+import edu.colorado.phet.wickettest.data.TranslatedString;
+import edu.colorado.phet.wickettest.data.Translation;
+import edu.colorado.phet.wickettest.translation.PhetLocalizer;
 
 public class AdminMainPage extends AdminPage {
+
+    private TextField keyText;
+    private TextField valueText;
 
     public AdminMainPage( PageParameters parameters ) {
         super( parameters );
@@ -84,5 +97,28 @@ public class AdminMainPage extends AdminPage {
         };
 
         add( simulationList );
+
+        add( new SetStringForm( "set-string-form" ) );
     }
+
+    public final class SetStringForm extends Form {
+        private static final long serialVersionUID = 1L;
+
+        private final ValueMap properties = new ValueMap();
+
+        public SetStringForm( final String id ) {
+            super( id );
+
+            add( keyText = new TextField( "key", new PropertyModel( properties, "key" ) ) );
+            add( valueText = new TextField( "value", new PropertyModel( properties, "value" ) ) );
+        }
+
+        public final void onSubmit() {
+            String key = keyText.getModelObjectAsString();
+            String value = valueText.getModelObjectAsString();
+            System.out.println( "Submitted: " + key + " = " + value );
+            StringUtils.setEnglishString( getHibernateSession(), key, value );
+        }
+    }
+
 }

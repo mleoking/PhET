@@ -11,11 +11,11 @@
     <wicket:head>
         <style type="text/css">
             .simulation-list-holder {
-                border: 1px solid black;
+                /*border: 1px solid black;*/
                 margin: 10px;
                 padding: 10px;
-                height: 300px;
-                overflow: auto;
+                /*height: 300px;*/
+                /*overflow: auto;*/
                 width: 600px;
             }
 
@@ -37,14 +37,47 @@
                 padding: 1px 1px 1px 1px;
                 background-color: white;
             }
+
+            .admin-right-panel {
+                float: right;
+                padding: 10px;
+                margin: 10px;
+            }
         </style>
     </wicket:head>
 </head>
 <body wicket:message="dir:language.dir">
 
 <wicket:extend>
-    Simulations to view / modify
+
+    <div class="admin-right-panel">
+        <h2>Manually add an English string</h2>
+        <form wicket:id="set-string-form">
+            <table>
+                <tr>
+                    <td align="right">Key:</td>
+                    <td>
+                        <input wicket:id="key" type="text" value="" size="40"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">Value:</td>
+                    <td>
+                        <input wicket:id="value" type="text" value="" size="40"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="submit" name="submit" value="Add String"/>
+                        <input type="reset" value="Reset"/>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
     <div class="simulation-list-holder">
+        <h2>Simulations to view / modify</h2>
         <table class="simulation-list-table">
             <tr>
                 <th>Flavor</th>

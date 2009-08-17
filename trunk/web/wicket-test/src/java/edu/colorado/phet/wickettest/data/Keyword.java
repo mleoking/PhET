@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Keyword implements Serializable {
 
-    private long id;
+    private int id;
 
     /**
      * Localization key
@@ -14,11 +14,11 @@ public class Keyword implements Serializable {
     public Keyword() {
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId( long id ) {
+    public void setId( int id ) {
         this.id = id;
     }
 
