@@ -2,6 +2,7 @@ package edu.colorado.phet.unfuddletool.data;
 
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class DateTime {
     public String rawString;
@@ -11,6 +12,10 @@ public class DateTime {
     public DateTime( String raw ) {
         rawString = raw;
         //System.out.println( "Reading date: " + raw );
+        if( raw == null ) {
+            date = new Date();
+            return;
+        }
 
         if ( raw.endsWith( "Z" ) ) {
             SimpleDateFormat format = new SimpleDateFormat( "z yyyy-MM-dd-HH:mm:ss" );
