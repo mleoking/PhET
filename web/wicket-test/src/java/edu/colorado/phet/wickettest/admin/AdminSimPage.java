@@ -25,6 +25,7 @@ import edu.colorado.phet.wickettest.data.Keyword;
 import edu.colorado.phet.wickettest.data.LocalizedSimulation;
 import edu.colorado.phet.wickettest.data.Simulation;
 import edu.colorado.phet.wickettest.translation.PhetLocalizer;
+import edu.colorado.phet.wickettest.util.HibernateTask;
 import edu.colorado.phet.wickettest.util.HibernateUtils;
 import edu.colorado.phet.wickettest.util.InvisibleComponent;
 import edu.colorado.phet.wickettest.util.StringUtils;
@@ -112,30 +113,17 @@ public class AdminSimPage extends AdminPage {
         } );
     }
 
-    private void swapKeywordOrder( final List<Keyword> simKeywords, int a, int b ) {
-        Transaction tx = null;
-        try {
-            Session session = getHibernateSession();
-            tx = session.beginTransaction();
-
-            Simulation sim = (Simulation) session.load( Simulation.class, simulation.getId() );
-            Collections.swap( sim.getKeywords(), a, b );
-            Collections.swap( simKeywords, a, b );
-            session.update( sim );
-
-            tx.commit();
-        }
-        catch( RuntimeException e ) {
-            System.out.println( "Exception: " + e );
-            if ( tx != null && tx.isActive() ) {
-                try {
-                    tx.rollback();
-                }
-                catch( HibernateException e1 ) {
-                    System.out.println( "ERROR: Error rolling back transaction" );
-                }
-                throw e;
+    private void swapKeywordOrder( final List<Keyword> simKeywords, final int a, final int b ) {
+        boolean success = HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
+            public boolean run( Session session ) {
+                Simulation sim = (Simulation) session.load( Simulation.class, simulation.getId() );
+                Collections.swap( sim.getKeywords(), a, b );
+                session.update( sim );
+                return true;
             }
+        } );
+        if ( success ) {
+            Collections.swap( simKeywords, a, b );
         }
     }
 
