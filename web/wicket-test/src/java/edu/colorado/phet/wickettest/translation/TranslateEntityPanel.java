@@ -1,6 +1,9 @@
 package edu.colorado.phet.wickettest.translation;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -19,14 +22,13 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import edu.colorado.phet.wickettest.content.IndexPage;
-import edu.colorado.phet.wickettest.data.TranslatedString;
-import edu.colorado.phet.wickettest.data.Translation;
 import edu.colorado.phet.wickettest.panels.PanelHolder;
 import edu.colorado.phet.wickettest.panels.PhetPanel;
 import edu.colorado.phet.wickettest.panels.SponsorsPanel;
 import edu.colorado.phet.wickettest.translation.entities.TranslationEntity;
 import edu.colorado.phet.wickettest.util.PageContext;
 import edu.colorado.phet.wickettest.util.PhetRequestCycle;
+import edu.colorado.phet.wickettest.util.StringUtils;
 
 public class TranslateEntityPanel extends PhetPanel {
 
@@ -82,7 +84,8 @@ public class TranslateEntityPanel extends PhetPanel {
                     @Override
                     protected void onSubmit( AjaxRequestTarget target ) {
                         super.onSubmit( target );
-                        setString( tString.getKey(), (String) model.getObject() );
+                        //setString( tString.getKey(), (String) model.getObject() );
+                        StringUtils.setString( getHibernateSession(), tString.getKey(), (String) model.getObject(), translationId );
                         target.addComponent( TranslateEntityPanel.this );
                     }
                 };
@@ -132,57 +135,6 @@ public class TranslateEntityPanel extends PhetPanel {
             return false;
         }
         return true;
-    }
-
-    public void setString( String key, String value ) {
-        Session session = getHibernateSession();
-
-        value = value.replaceAll( "\r", "" );
-        value = value.replaceAll( "\n", "<br/>" );
-
-        Transaction tx = null;
-        try {
-            tx = session.beginTransaction();
-
-            Translation translation = (Translation) session.load( Translation.class, translationId );
-            TranslatedString tString = null;
-            for ( Object o : translation.getTranslatedStrings() ) {
-                TranslatedString ts = (TranslatedString) o;
-                if ( ts.getKey().equals( key ) ) {
-                    tString = ts;
-                    break;
-                }
-            }
-            if ( tString == null ) {
-                tString = new TranslatedString();
-                tString.initializeNewString( translation, key, value );
-                session.save( tString );
-                session.update( translation );
-            }
-            else {
-                tString.setValue( value );
-                tString.setUpdatedAt( new Date() );
-
-                session.update( tString );
-            }
-
-            // if it's cached, change the cache entries so it doesn't fail
-            ( (PhetLocalizer) getLocalizer() ).updateCachedString( translation, key, value );
-
-            tx.commit();
-        }
-        catch( RuntimeException e ) {
-            System.out.println( "Exception: " + e );
-            if ( tx != null && tx.isActive() ) {
-                try {
-                    tx.rollback();
-                }
-                catch( HibernateException e1 ) {
-                    System.out.println( "ERROR: Error rolling back transaction" );
-                }
-                throw e;
-            }
-        }
     }
 
     @Override

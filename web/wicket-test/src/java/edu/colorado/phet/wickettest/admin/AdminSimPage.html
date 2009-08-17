@@ -14,24 +14,34 @@
                 color: #660099;
             }
 
+            h3 {
+                color: #330055;
+                font-size: 16px;
+                font-weight: bold;
+            }
+
             .translations-holder {
                 width: 700px;
             }
 
-            table.translation-list-table {
+            .keywords-holder {
+                width: 700px;
+            }
+
+            table.admin {
                 border: 1px outset gray;
                 border-spacing: 2px;
                 border-collapse: collapse;
                 background-color: white;
             }
 
-            table.translation-list-table th {
+            table.admin th {
                 border: 1px dotted gray;
                 padding: 3px;
                 background-color: white;
             }
 
-            table.translation-list-table td {
+            table.admin td {
                 border: 1px dotted gray;
                 padding: 3px;
                 background-color: white;
@@ -48,9 +58,84 @@
             <a href="AdminMainPage.html">back</a>
         </div>
     </wicket:link>
+    <div class="topics-holder">
+        <h3>Main Topics</h3>
+        <table class="admin">
+            <tr>
+                <th>Topic</th>
+                <th></th>
+            </tr>
+            <tr>
+                <td>Mechanical Engineering</td>
+                <td><a href="#">remove</a></td>
+            </tr>
+        </table>
+    </div>
+    <div class="keywords-holder">
+        <h3>Keywords</h3>
+
+        <p>
+            These keywords will appear under "Related Topics" on simulation pages. They should make it easy to find
+            related simulations based on keywords (and in the future will be used for searches) </p>
+
+        <form wicket:id="add-keyword">
+            <table class="admin">
+                <tr>
+                    <th>Keyword</th>
+                    <th></th>
+                </tr>
+                <tr wicket:id="keywords">
+                    <td wicket:id="keyword-english">Mechanics</td>
+                    <td><a href="#" wicket:id="keyword-remove">remove</a></td>
+                </tr>
+                <tr>
+                    <td>
+                        <select wicket:id="current-keywords">
+                            <option>This is an option</option>
+                            <option>Another option</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="submit" name="submit" value="add keyword"/>
+                    </td>
+                </tr>
+            </table>
+        </form>
+        <h4>Create keyword</h4>
+
+        <p>
+            If you cannot find a suitable keyword in the list above, a keyword can be created. <strong>note: this will
+            create a string that others will need to translate, so try not to duplicate keywords!</strong> The
+            translation key should be something in "camel" notation like "electricity" for Electricity, or "newtonsLaws"
+            for Newton's Laws.
+        </p>
+
+        <form wicket:id="create-keyword">
+            <table>
+                <tr>
+                    <td align="right">English version</td>
+                    <td>
+                        <input wicket:id="value" type="text" value=""/>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">Translation key</td>
+                    <td>
+                        <input wicket:id="key" type="text" value=""/>
+                    </td>
+                </tr>
+                <tr>
+                    <td/>
+                    <td>
+                        <input type="submit" name="submit" value="create keyword"/>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
     <div class="translations-holder">
         <h3>Translated Versions</h3>
-        <table class="translation-list-table">
+        <table class="admin">
             <tr>
                 <th>Locale</th>
                 <th>Language</th>
