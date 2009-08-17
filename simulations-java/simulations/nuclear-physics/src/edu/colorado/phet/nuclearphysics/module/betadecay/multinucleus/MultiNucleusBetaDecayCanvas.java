@@ -35,7 +35,7 @@ import edu.colorado.phet.nuclearphysics.model.HalfLifeInfo;
 import edu.colorado.phet.nuclearphysics.model.NuclearDecayListenerAdapter;
 import edu.colorado.phet.nuclearphysics.model.Polonium211Nucleus;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusDecayModel;
-import edu.colorado.phet.nuclearphysics.module.halflife.AutopressRestButton;
+import edu.colorado.phet.nuclearphysics.module.halflife.AutopressResetButton;
 import edu.colorado.phet.nuclearphysics.view.AntineutrinoNode;
 import edu.colorado.phet.nuclearphysics.view.AutoPressGradientButtonNode;
 import edu.colorado.phet.nuclearphysics.view.BucketOfNucleiNode;
@@ -52,7 +52,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author John Blanco
  */
-public class MultiNucleusBetaDecayCanvas extends PhetPCanvas implements AutopressRestButton {
+public class MultiNucleusBetaDecayCanvas extends PhetPCanvas implements AutopressResetButton {
     
     //----------------------------------------------------------------------------
     // Class data
