@@ -15,6 +15,7 @@ import org.apache.wicket.resource.loader.ClassStringResourceLoader;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.wickettest.admin.AdminMainPage;
 import edu.colorado.phet.wickettest.content.*;
+import edu.colorado.phet.wickettest.data.Translation;
 import edu.colorado.phet.wickettest.menu.NavMenu;
 import edu.colorado.phet.wickettest.templates.StaticPage;
 import edu.colorado.phet.wickettest.translation.PhetLocalizer;
@@ -110,5 +111,13 @@ public class WicketApplication extends WebApplication {
 
     public static Locale getDefaultLocale() {
         return LocaleUtils.stringToLocale( "en" );
+    }
+
+    public void addTranslation( Translation translation ) {
+        getResourceSettings().getLocalizer().clearCache();
+    }
+
+    public void removeTranslation( Translation translation ) {
+        getResourceSettings().getLocalizer().clearCache();
     }
 }

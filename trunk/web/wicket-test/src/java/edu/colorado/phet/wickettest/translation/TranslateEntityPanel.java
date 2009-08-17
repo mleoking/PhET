@@ -1,9 +1,6 @@
 package edu.colorado.phet.wickettest.translation;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -158,14 +155,16 @@ public class TranslateEntityPanel extends PhetPanel {
             }
             if ( tString == null ) {
                 tString = new TranslatedString();
-                tString.setKey( key );
-                tString.setValue( value );
-                tString.setTranslation( translation );
-                translation.getTranslatedStrings().add( tString );
+                tString.initializeNewString( translation, key, value );
                 session.save( tString );
             }
             else {
                 tString.setValue( value );
+                tString.setUpdatedAt( new Date() );
+
+                // if it's cached, change the cache entries so it doesn't fail
+                ( (PhetLocalizer) getLocalizer() ).updateCachedString( translation, key, value );
+
                 session.update( tString );
             }
 
