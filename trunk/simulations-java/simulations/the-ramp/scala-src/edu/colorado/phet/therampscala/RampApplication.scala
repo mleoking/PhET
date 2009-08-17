@@ -65,8 +65,8 @@ class AbstractRampModule(frame: JFrame, clock: ScalaClock, name: String, default
 
   override def activate() = {
     super.activate()
-    println("my manager")
     RepaintManager.setCurrentManager(manager)
+    SwingUtilities.getWindowAncestor(getSimulationPanel).validate//apparently you have to validate or you get rendering artifacts after switching repaint managers
   }
 
   def resetRampModule(): Unit = {
