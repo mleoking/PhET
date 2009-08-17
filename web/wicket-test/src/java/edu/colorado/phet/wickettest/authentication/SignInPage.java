@@ -48,8 +48,7 @@ public class SignInPage extends PhetPage {
             final WebMarkupContainer rememberBox = new WebMarkupContainer( "remember" );
             add( rememberBox );
 
-            rememberBox.add( new CheckBox( "remember-check", new PropertyModel( SignInPage.this,
-                                                                                "remember" ) ) );
+            rememberBox.add( new CheckBox( "remember-check", new PropertyModel( SignInPage.this, "remember" ) ) );
 
             username.setPersistent( remember );
         }

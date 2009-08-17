@@ -29,6 +29,11 @@ public class Translation implements Serializable {
         str.setTranslation( this );
     }
 
+    public void addUser( PhetUser user ) {
+        authorizedUsers.add( user );
+        user.getTranslations().add( this );
+    }
+
     public Translation() {
     }
 
@@ -71,4 +76,5 @@ public class Translation implements Serializable {
     public void setVisible( boolean visible ) {
         this.visible = visible;
     }
+
 }
