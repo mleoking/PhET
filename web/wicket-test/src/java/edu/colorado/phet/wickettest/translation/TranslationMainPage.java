@@ -19,14 +19,13 @@ import org.hibernate.Transaction;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.wickettest.WicketApplication;
-import edu.colorado.phet.wickettest.authentication.AuthenticatedPage;
 import edu.colorado.phet.wickettest.content.IndexPage;
 import edu.colorado.phet.wickettest.data.PhetUser;
 import edu.colorado.phet.wickettest.data.Translation;
 import edu.colorado.phet.wickettest.util.InvisibleComponent;
 import edu.colorado.phet.wickettest.util.PageContext;
 
-public class TranslationMainPage extends AuthenticatedPage {
+public class TranslationMainPage extends TranslationPage {
 
     private LocaleModel selectedLocaleModel;
 
@@ -96,8 +95,6 @@ public class TranslationMainPage extends AuthenticatedPage {
         ListView tlist = new TranslationListView( translations, sizes );
 
         add( tlist );
-
-        addTitle( "Translation test page" );
     }
 
     private static class LocaleModel implements IModel {
