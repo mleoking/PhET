@@ -2,14 +2,14 @@ package edu.colorado.phet.wickettest.util;
 
 import java.util.*;
 
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import org.hibernate.*;
 import org.hibernate.cfg.Configuration;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
+import edu.colorado.phet.wickettest.WicketApplication;
 import edu.colorado.phet.wickettest.data.Category;
 import edu.colorado.phet.wickettest.data.LocalizedSimulation;
+import edu.colorado.phet.wickettest.data.TranslatedString;
 
 public class HibernateUtils {
 
@@ -233,6 +233,13 @@ public class HibernateUtils {
         } );
     }
 
+    /**
+     * Used for translation panels / etc, so this should preferably return a simulation in the preferredLocale if it exists
+     *
+     * @param session         Hibernate session
+     * @param preferredLocale Desired locale of the simulation
+     * @return A LocalizedSimulation instance
+     */
     public static LocalizedSimulation getExampleSimulation( Session session, Locale preferredLocale ) {
         LocalizedSimulation simulation = null;
         Query query = session.createQuery( "select ls from LocalizedSimulation as ls, Simulation as s where (ls.simulation = s and s.name = 'circuit-construction-kit-dc' and ls.locale = :locale)" );
@@ -255,5 +262,99 @@ public class HibernateUtils {
         return simulation;
     }
 
+    /**
+     * Returns a default (English) string from the database
+     *
+     * @param session Hibernate session (already open)
+     * @param key     Localization key
+     * @return Translated String (probably not translated though!)
+     */
+    public static String getString( Session session, String key ) {
+        return getString( session, key, WicketApplication.getDefaultLocale() );
+    }
+
+    /**
+     * Returns a string from the database for a visible translation (specified by a locale)
+     *
+     * @param session Hibernate session (already open)
+     * @param key     Localization key
+     * @param locale  Locale of the string
+     * @return Translated String
+     */
+    public static String getString( Session session, String key, Locale locale ) {
+        Transaction tx = null;
+        String ret = null;
+        try {
+            tx = session.beginTransaction();
+
+            Query query = session.createQuery( "select ts from TranslatedString as ts, Translation as t where (ts.translation = t and t.visible = true and t.locale = :locale and ts.key = :key)" );
+            query.setLocale( "locale", locale );
+            query.setString( "key", key );
+
+            TranslatedString translatedString = (TranslatedString) query.uniqueResult();
+
+            if ( translatedString != null ) {
+                ret = translatedString.getValue();
+            }
+
+            tx.commit();
+        }
+        catch( RuntimeException e ) {
+            System.out.println( "WARNING: exception:\n" + e );
+            if ( tx != null && tx.isActive() ) {
+                try {
+                    tx.rollback();
+                }
+                catch( HibernateException e1 ) {
+                    System.out.println( "ERROR: Error rolling back transaction" );
+                }
+                throw e;
+            }
+        }
+        return ret;
+
+    }
+
+    /**
+     * Returns a string from the database for any translation (by id)
+     *
+     * @param session       Hibernate Session (already open)
+     * @param key           Localization key
+     * @param translationId Translation ID
+     * @return Translated String
+     */
+    public static String getString( Session session, String key, int translationId ) {
+        Transaction tx = null;
+        String ret = null;
+        try {
+            tx = session.beginTransaction();
+
+            Query query = session.createQuery( "select ts from TranslatedString as ts, Translation as t where (ts.translation = t and t.visible = true and t.id = :id and ts.key = :key)" );
+            query.setInteger( "id", translationId );
+            query.setString( "key", key );
+
+            TranslatedString translatedString = (TranslatedString) query.uniqueResult();
+
+            if ( translatedString != null ) {
+                ret = translatedString.getValue();
+            }
+
+            tx.commit();
+        }
+        catch( RuntimeException e ) {
+            System.out.println( "WARNING: exception:\n" + e );
+            if ( tx != null && tx.isActive() ) {
+                try {
+                    tx.rollback();
+                }
+                catch( HibernateException e1 ) {
+                    System.out.println( "ERROR: Error rolling back transaction" );
+                }
+                throw e;
+            }
+        }
+        return ret;
+
+    }
 
 }

@@ -10,5 +10,9 @@
         <property name="email"/>
         <property name="password"/>
         <property name="teamMember"/>
+        <set name="translations" table="user_translation_mapping">
+            <key column="user_id"/>
+            <many-to-many class="edu.colorado.phet.wickettest.data.Translation" column="translation_id"/>
+        </set>
     </class>
 </hibernate-mapping>

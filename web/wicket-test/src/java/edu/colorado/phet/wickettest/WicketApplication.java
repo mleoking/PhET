@@ -2,6 +2,7 @@ package edu.colorado.phet.wickettest;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.wicket.Request;
 import org.apache.wicket.RequestCycle;
@@ -11,6 +12,7 @@ import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.protocol.http.WebRequest;
 import org.apache.wicket.resource.loader.ClassStringResourceLoader;
 
+import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.wickettest.admin.AdminMainPage;
 import edu.colorado.phet.wickettest.content.*;
 import edu.colorado.phet.wickettest.menu.NavMenu;
@@ -81,7 +83,8 @@ public class WicketApplication extends WebApplication {
     }
 
     public static List<String> getTranslations() {
-        return Arrays.asList( "ar", "es", "el" );
+        //return Arrays.asList( "ar", "es", "el" );
+        return Arrays.asList( "zh_CN" );
     }
 
     public NavMenu getMenu() {
@@ -103,5 +106,9 @@ public class WicketApplication extends WebApplication {
     @Override
     public RequestCycle newRequestCycle( Request request, Response response ) {
         return new PhetRequestCycle( this, (WebRequest) request, response );
+    }
+
+    public static Locale getDefaultLocale() {
+        return LocaleUtils.stringToLocale( "en" );
     }
 }
