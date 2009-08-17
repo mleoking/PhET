@@ -16,12 +16,15 @@ import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.model.ResourceModel;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import edu.colorado.phet.wickettest.WicketApplication;
 import edu.colorado.phet.wickettest.content.IndexPage;
+import edu.colorado.phet.wickettest.panels.LocalizedLabel;
 import edu.colorado.phet.wickettest.panels.PanelHolder;
 import edu.colorado.phet.wickettest.panels.PhetPanel;
 import edu.colorado.phet.wickettest.panels.SponsorsPanel;
@@ -80,11 +83,13 @@ public class TranslateEntityPanel extends PhetPanel {
                 }
 
                 item.add( new Label( "translation-string-key", tString.getKey() ) );
+
+                item.add( new LocalizedLabel( "translation-string-english", WicketApplication.getDefaultLocale(), new ResourceModel( tString.getKey() ) ) );
+
                 AjaxEditableMultiLineLabel editableLabel = new AjaxEditableMultiLineLabel( "translation-string-value", model ) {
                     @Override
                     protected void onSubmit( AjaxRequestTarget target ) {
                         super.onSubmit( target );
-                        //setString( tString.getKey(), (String) model.getObject() );
                         StringUtils.setString( getHibernateSession(), tString.getKey(), (String) model.getObject(), translationId );
                         target.addComponent( TranslateEntityPanel.this );
                     }
