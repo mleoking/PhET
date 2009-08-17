@@ -1,4 +1,4 @@
-package edu.colorado.phet.common.timeseries.ui;
+package edu.colorado.phet.common.phetcommon.view.clock;
 
 import java.util.Hashtable;
 import java.awt.*;
@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
+import edu.colorado.phet.common.timeseries.ui.TimeseriesResources;
 
 /**
  * Author: Sam Reid
