@@ -1,6 +1,5 @@
 package edu.colorado.phet.therampscala.charts
 
-
 import common.motion.graphs.ControlGraphSeries
 import swing.MyCheckBox
 import common.phetcommon.view.VerticalLayoutPanel
