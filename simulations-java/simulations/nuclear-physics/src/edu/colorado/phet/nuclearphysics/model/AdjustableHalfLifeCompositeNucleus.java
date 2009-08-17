@@ -4,6 +4,7 @@ package edu.colorado.phet.nuclearphysics.model;
 
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
 
 
@@ -31,35 +32,16 @@ public class AdjustableHalfLifeCompositeNucleus extends AlphaDecayCompositeNucle
     static final int POST_DECAY_AGITATION_FACTOR = 1;
 
     //------------------------------------------------------------------------
-    // Instance data
-    //------------------------------------------------------------------------
-    
-    private double _halfLife = Polonium211CompositeNucleus.HALF_LIFE;  // Use Polonium half life as default.
-    
-    //------------------------------------------------------------------------
     // Constructor(s)
     //------------------------------------------------------------------------
 
     public AdjustableHalfLifeCompositeNucleus(NuclearPhysicsClock clock, Point2D position){
         super(clock, position, ORIGINAL_NUM_PROTONS, ORIGINAL_NUM_NEUTRONS);
-        
-        // Decide when alpha decay will occur.
-        _timeUntilDecay = calculateDecayTime();
     }
     
     //------------------------------------------------------------------------
     // Methods
     //------------------------------------------------------------------------
-    
-    public double getHalfLife(){
-    	return _halfLife;
-    }
-    
-    public void setHalfLife(double halfLife){
-    	if (halfLife != _halfLife){
-    		_halfLife = halfLife;
-    	}
-    }
     
 	protected void updateAgitationFactor() {
 	    // Determine the amount of agitation that should be exhibited by this
@@ -93,6 +75,15 @@ public class AdjustableHalfLifeCompositeNucleus extends AlphaDecayCompositeNucle
 			return _preDecayLifeTime;
 		}
 	}
+
+	/**
+	 * Get the adjusted time for which this nucleus was active.  This is an
+	 * override because time changes exponentially for this particular atom.
+	 */
+	@Override
+	public double getAdjustedActivatedTime() {
+		return convertSimTimeToExponentialTime( getActivatedSimTime() );
+	}
 	
 	/**
 	 * Get the length of time for which this nucleus has existed, meaning that
@@ -116,25 +107,18 @@ public class AdjustableHalfLifeCompositeNucleus extends AlphaDecayCompositeNucle
 		// time chart at a reasonable rate.
 		return Math.pow(10, simTimeOfExistence * 0.01) - 1;
 	}
+	
+	@Override
+	protected boolean isTimeToDecay(ClockEvent clockEvent) {
+		double convertedActivatedLifetime = convertSimTimeToExponentialTime( getActivatedSimTime() );
+		return convertedActivatedLifetime > getTotalUndecayedLifetime();
+	}
 
 	/**
-	 * Return a new value for the time when this nucleus should decay.
+	 * Function for converting simulation time to time that this nucleus has
+	 * experienced.  This function is exponential in nature.
 	 */
-	protected double calculateDecayTime(){
-		if (_halfLife == 0){
-    		return 0;
-    	}
-    	if (_halfLife == Double.POSITIVE_INFINITY){
-    		return Double.POSITIVE_INFINITY;
-    	}
-    	
-    	double decayConstant = 0.693/_halfLife;
-        double randomValue = _rand.nextDouble();
-        if (randomValue > 0.999){
-            // Limit the maximum time for decay so that the user isn't waiting
-            // around forever.
-            randomValue = 0.999;
-        }
-        return -(Math.log( 1 - randomValue ) / decayConstant);
+	private double convertSimTimeToExponentialTime(double simTime){
+		return Math.pow(10, simTime * 0.01) - 1;
 	}
 }

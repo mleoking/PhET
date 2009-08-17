@@ -68,8 +68,9 @@ public abstract class AtomicNucleus implements NuclearDecayControl {
     private double _diameter;
 
     // Variables that describe and control the decay of the nucleus.
-	protected double _decayTime = 0;
-	protected double _activatedLifetime = 0;
+	protected double _decayTime = 0;         // Time at which nucleus should decay - in sim time.
+	protected double _activatedLifetime = 0; // Duration of activation (moving towards decay) in sim time.
+	protected double _totalUndecayedLifetime = 0; // Time, in real time, that this nucleus will live or did live.
 	protected double _halfLife = 0;
 	protected boolean _paused = false;
 	protected final double _decayTimeScalingFactor;
@@ -248,7 +249,8 @@ public abstract class AtomicNucleus implements NuclearDecayControl {
     public void activateDecay(){
     	// Only allow activation if the nucleus hasn't already decayed.
     	if (_numNeutrons == _origNumNeutrons){
-    		_decayTime = _clock.getSimulationTime() + (calcDecayTime() * _decayTimeScalingFactor);
+    		_totalUndecayedLifetime = calcDecayTime();
+    		_decayTime = _clock.getSimulationTime() + (_totalUndecayedLifetime * _decayTimeScalingFactor);
     	}
     }
 
@@ -540,7 +542,7 @@ public abstract class AtomicNucleus implements NuclearDecayControl {
 		     
 	    	if (!_paused){
 	        	// See if decay should occur.
-		        if (clockEvent.getSimulationTime() >= _decayTime ) {
+		        if ( isTimeToDecay(clockEvent) ) {
 		            // It is time to decay.
 		        	decay( clockEvent );
 		        }
@@ -562,7 +564,14 @@ public abstract class AtomicNucleus implements NuclearDecayControl {
 	 * implemented by all subclasses that exhibit decay behavior..
 	 */
 	protected void decay( ClockEvent clockEvent ){
-		// Does nothing by default.
+
+        // Set the final value of the time that this nucleus existed prior to
+        // decaying.
+        _activatedLifetime += clockEvent.getSimulationTimeChange();
+        
+        // Set the decay time to 0 to indicate that decay has occurred and
+        // should not occur again.
+        _decayTime = 0;
 	}
 	
     /**
@@ -572,7 +581,7 @@ public abstract class AtomicNucleus implements NuclearDecayControl {
      * 
      * @return - a time value in milliseconds
      */
-    private double calcDecayTime(){
+    protected double calcDecayTime(){
     	
     	double decayTime;
     	
@@ -595,7 +604,25 @@ public abstract class AtomicNucleus implements NuclearDecayControl {
     	
     	return decayTime;
     }
-
+    
+    /**
+     * Get the amount of time that this nucleus will or did exist without
+     * decaying in real time (NOT in simulation time).
+     * 
+     * @return
+     */
+    protected double getTotalUndecayedLifetime(){
+    	return _totalUndecayedLifetime;
+    }
+    
+    /**
+     * Returns true if it is time to decay, false if not.  Generally, this is
+     * true if the nucleus has existed longer than the decay time.  It may
+     * need to be overridden in cases where simulation time is not linear.
+     */
+    protected boolean isTimeToDecay(ClockEvent clockEvent){
+    	return clockEvent.getSimulationTime() >= _decayTime;
+    }
 	
     /**
      * Set ourself up to listen to the simulation clock.

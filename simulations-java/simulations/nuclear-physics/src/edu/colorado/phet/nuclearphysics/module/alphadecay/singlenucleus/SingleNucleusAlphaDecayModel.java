@@ -269,6 +269,9 @@ public class SingleNucleusAlphaDecayModel implements NucleusTypeControl {
 	        _atomicNucleus = new AdjustableHalfLifeCompositeNucleus(_clock, new Point2D.Double(0, 0));
 	        break;
 		}
+		
+		// Activate the nucleus right away so that it will decay.
+		_atomicNucleus.activateDecay();
         
         // Register as a listener for the nucleus so we can handle the
         // particles thrown off by alpha decay.

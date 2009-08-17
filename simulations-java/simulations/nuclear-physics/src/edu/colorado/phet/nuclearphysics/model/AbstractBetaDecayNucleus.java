@@ -32,6 +32,8 @@ public abstract class AbstractBetaDecayNucleus extends AtomicNucleus {
 	 * Take the actions that simulate alpha decay.
 	 */
 	protected void decay( ClockEvent clockEvent ){
+
+		super.decay(clockEvent);
 		
 		// Update the nucleus configuration.
 		_numNeutrons -= 1;
@@ -52,16 +54,8 @@ public abstract class AbstractBetaDecayNucleus extends AtomicNucleus {
         Antineutrino antineutrino = new Antineutrino(getPositionReference().getX(), getPositionReference().getY());
         antineutrino.setVelocity(xVel, yVel);
         byProducts.add(antineutrino);
-
-        // Set the final value of the time that this nucleus existed prior to
-        // decaying.
-        _activatedLifetime += clockEvent.getSimulationTimeChange();
         
         // Send out the decay event to all listeners.
         notifyNucleusChangeEvent(byProducts);
-        
-        // Set the decay time to 0 to indicate that decay has occurred and
-        // should not occur again.
-        _decayTime = 0;
 	}
 }

@@ -3,7 +3,6 @@
 package edu.colorado.phet.nuclearphysics.model;
 
 import java.awt.geom.Point2D;
-import java.util.Random;
 
 import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
 
@@ -26,9 +25,6 @@ public class AdjustableHalfLifeNucleus extends AbstractAlphaDecayNucleus {
     // values below are for Bismuth 208.
     public static final int ORIGINAL_NUM_PROTONS = 83;
     public static final int ORIGINAL_NUM_NEUTRONS = 125;
-    
-    // Random number generator used for calculating decay time based on half life.
-    private static final Random RAND = new Random();
     
     // Random number generator used for calculating decay time based on half life.
     private static final double DEFAULT_HALF_LIFE = 900;  // In milliseconds.
@@ -104,32 +100,5 @@ public class AdjustableHalfLifeNucleus extends AbstractAlphaDecayNucleus {
     	else{
     		return false;
     	}
-    }
-    
-    //------------------------------------------------------------------------
-    // Private and Protected Methods
-    //------------------------------------------------------------------------
-    
-    /**
-     * This method generates a value indicating the number of milliseconds for
-     * a nucleus decay based on the half life.  This calculation is based on the 
-     * exponential decay formula.
-     * 
-     * @return - a time value in milliseconds
-     */
-    private double calcDecayTime(){
-    	
-    	if (_halfLife == 0){
-    		return 0;
-    	}
-    	
-    	double decayConstant = 0.693/_halfLife;
-        double randomValue = RAND.nextDouble();
-        if (randomValue > 0.999){
-            // Limit the maximum time for decay so that the user isn't waiting
-            // around forever.
-            randomValue = 0.999;
-        }
-        return (-(Math.log( 1 - randomValue ) / decayConstant));
     }
 }

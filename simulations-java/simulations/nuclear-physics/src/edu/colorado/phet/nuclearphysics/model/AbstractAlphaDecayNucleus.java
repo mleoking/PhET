@@ -26,20 +26,15 @@ public abstract class AbstractAlphaDecayNucleus extends AtomicNucleus {
 	 * Take the actions that simulate alpha decay.
 	 */
 	protected void decay( ClockEvent clockEvent ){
+		
+		super.decay(clockEvent);
+		
+		_numNeutrons -= 2;
+		_numProtons -= 2;
         ArrayList byProducts = new ArrayList();
         byProducts.add( new AlphaParticle(_position.getX(), _position.getY()));
-        _numNeutrons -= 2;
-        _numProtons -= 2;
 
-        // Set the final value of the time that this nucleus existed prior to
-        // decaying.
-        _activatedLifetime += clockEvent.getSimulationTimeChange();
-        
         // Send out the decay event to all listeners.
         notifyNucleusChangeEvent(byProducts);
-        
-        // Set the decay time to 0 to indicate that decay has occurred and
-        // should not occur again.
-        _decayTime = 0;
 	}
 }

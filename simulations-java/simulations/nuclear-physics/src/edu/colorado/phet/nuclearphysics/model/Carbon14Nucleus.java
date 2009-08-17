@@ -5,7 +5,6 @@ package edu.colorado.phet.nuclearphysics.model;
 import java.awt.geom.Point2D;
 import java.util.Random;
 
-import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
 
 /**
@@ -130,26 +129,5 @@ public class Carbon14Nucleus extends AbstractBetaDecayNucleus {
     	else{
     		return false;
     	}
-    }
-    
-    //------------------------------------------------------------------------
-    // Private and Protected Methods
-    //------------------------------------------------------------------------
-
-    /**
-     * Calculate a random decay time based on the decay constant for this
-     * type of nucleus.
-     * 
-     * @return
-     */
-    private double calcDecayTime(){
-        double randomValue = RAND.nextDouble();
-        if (randomValue > 0.999){
-            // Limit the maximum time for decay so that the user isn't waiting
-            // around forever.
-            randomValue = 0.999;
-        }
-        double decayMilliseconds = (-(Math.log( 1 - randomValue ) / (0.693 / HALF_LIFE)));
-        return decayMilliseconds;
     }
 }
