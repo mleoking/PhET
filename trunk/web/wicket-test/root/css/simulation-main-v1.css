@@ -2,7 +2,13 @@
     color: #990000;
     font-size: 18px;
     font-weight: bold;
-    padding-bottom: 10px;
+    margin: 0 0 10px;
+}
+
+.simulation-main-image-panel {
+    float: left;
+    margin-right: 20px;
+    width: 300px;
 }
 
 .simulation-main-link-run-main {
@@ -15,4 +21,82 @@
 
 .simulation-main-translation-list {
     font-size: 12px;
+}
+
+.simulation-main-description {
+    line-height: 150%;
+}
+
+.sim-clear {
+    clear: left;
+    border: 1px solid red;
+    height: 20px;
+}
+
+.simulation-main-container h2 {
+    color: #cc6600;
+    font-size: 15px;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-variant: small-caps;
+    letter-spacing: 1px;
+    margin: 0pt;
+    padding-top: 5px;
+    border-top: 1px solid #cc6600;
+}
+
+.sim-version {
+    float: right;
+    clear: both;
+    margin-top: 4px;
+}
+
+.sim-kb {
+    float: left;
+    margin-top: 4px;
+}
+
+.sim-button {
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: bold;
+    color: black;
+    padding: 1px 10px;
+    margin-top: 4px;
+}
+
+.sim-download {
+    float: left;
+    background-color: #55caff;
+    border: 1px solid #99ffff;
+    border-right-color: #005577;
+    border-bottom-color: #005577;
+}
+
+.sim-download:hover {
+    background-color: #55aaff;
+}
+
+.sim-download:active {
+    border: 1px solid #005577;
+    border-right-color: #99ffff;
+    border-bottom-color: #99ffff;
+}
+
+.sim-run-now {
+    float: right;
+    background-color: #1fff01;
+    border: 1px solid #aaffaa;
+    border-right-color: #006600;
+    border-bottom-color: #006600;
+}
+
+.sim-run-now:hover {
+    background-color: #00cc00;
+}
+
+.sim-run-now:active {
+    border: 1px solid #006600;
+    border-right-color: #aaffaa;
+    border-bottom-color: #aaffaa;
 }
