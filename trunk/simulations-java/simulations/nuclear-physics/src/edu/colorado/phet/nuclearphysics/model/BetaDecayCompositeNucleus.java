@@ -43,29 +43,6 @@ public abstract class BetaDecayCompositeNucleus extends CompositeAtomicNucleus {
 	}
 
 	/**
-	 * Get a value that indicates how long this nucleus has existed without
-	 * having decayed, or the amount of time that it was around prior to
-	 * decay.
-	 * 
-	 * @return - pre-decay time of existence, in milliseconds.
-	 */
-	public double getElapsedPreDecayTime(){
-		if (hasDecayed()){
-			return _preDecayLifeTime;
-		}
-		else if (_paused){
-			return _pauseStartTime - _startTime;
-		}
-		else{
-			return _clock.getSimulationTime() - _startTime;
-		}
-	}
-	
-	public boolean hasDecayed(){
-		return _hasDecayed;
-	}
-
-	/**
 	 * Resets the nucleus to its original state, before any beta decay has
 	 * occurred.
 	 */
