@@ -1,4 +1,4 @@
-package edu.colorado.phet.wickettest.panels;
+package edu.colorado.phet.wickettest.content;
 
 import org.apache.wicket.behavior.HeaderContributor;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
@@ -6,7 +6,8 @@ import org.apache.wicket.markup.html.link.Link;
 
 import edu.colorado.phet.wickettest.components.PhetLink;
 import edu.colorado.phet.wickettest.components.StaticImage;
-import edu.colorado.phet.wickettest.content.*;
+import edu.colorado.phet.wickettest.panels.PhetPanel;
+import edu.colorado.phet.wickettest.panels.TranslationLinksPanel;
 import edu.colorado.phet.wickettest.translation.TranslationMainPage;
 import edu.colorado.phet.wickettest.util.PageContext;
 
