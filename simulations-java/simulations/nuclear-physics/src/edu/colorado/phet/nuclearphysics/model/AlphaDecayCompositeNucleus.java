@@ -21,7 +21,7 @@ public abstract class AlphaDecayCompositeNucleus extends CompositeAtomicNucleus 
     //------------------------------------------------------------------------
 
 	public AlphaDecayCompositeNucleus(NuclearPhysicsClock clock, Point2D position, int numProtons, int numNeutrons) {
-		super(clock, position, numProtons, numNeutrons);
+		super(clock, position, numProtons, numNeutrons, 1);
 	}
 
 	/**
