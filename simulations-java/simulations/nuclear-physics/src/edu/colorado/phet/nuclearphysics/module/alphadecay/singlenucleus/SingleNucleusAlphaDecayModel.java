@@ -204,7 +204,7 @@ public class SingleNucleusAlphaDecayModel implements NucleusTypeControl {
 		
 		// Verify that the current nucleus is custom.
 		if (_nucleusType != NucleusType.HEAVY_CUSTOM){
-			System.err.println("Warning: Can only set nucleus type for custom nucleus, ignoring request.");
+			System.err.println(getClass().getName() + "- Warning: Can only set nucleus type for custom nucleus, ignoring request.");
 			return;
 		}
 		
