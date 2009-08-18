@@ -1,3 +1,5 @@
+# 1.14.00 (34259) Aug 18, 2009
+8/18/09 redeploy after migrating translations of common strings
 # 1.13.00 (34254) Aug 18, 2009
 8/18/09 redeploy after adding common strings for migrate features in #1074
 # 1.12.00 (30667) Apr 21, 2009
