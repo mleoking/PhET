@@ -37,6 +37,14 @@ public class NavMenu {
         addLocation( online );
         getPhet.addChild( online );
 
+        NavLocation fullInstall = new NavLocation( getPhet, "get-phet.full-install", FullInstallPanel.getLinker() );
+        addLocation( fullInstall );
+        getPhet.addChild( fullInstall );
+
+        NavLocation oneAtATime = new NavLocation( getPhet, "get-phet.one-at-a-time", OneAtATimePanel.getLinker() );
+        addLocation( oneAtATime );
+        getPhet.addChild( oneAtATime );
+
         NavLocation troubleshooting = new NavLocation( null, "troubleshooting.main", TroubleshootingMainPanel.getLinker() );
         addMajorLocation( troubleshooting );
 
