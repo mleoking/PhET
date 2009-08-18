@@ -256,6 +256,10 @@ public class SingleNucleusBetaDecayModel implements NucleusTypeControl {
         // particles thrown off by beta decay.
         _atomicNucleus.addListener( _atomicNucleusAdapter );
         
+        // In this model, the nucleus is activated (so that it is moving
+        // towards decay) right away.
+        _atomicNucleus.activateDecay();
+        
         // Inform any listeners of the changes.
         notifyModelElementAdded(_atomicNucleus);
     }
