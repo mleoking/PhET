@@ -33,6 +33,10 @@ public class NavMenu {
         NavLocation getPhet = new NavLocation( null, "get-phet", RunOurSimulationsPanel.getLinker() );
         addMajorLocation( getPhet );
 
+        NavLocation online = new NavLocation( getPhet, "get-phet.on-line", SimulationDisplay.getLinker() );
+        addLocation( online );
+        getPhet.addChild( online );
+
         NavLocation troubleshooting = new NavLocation( null, "troubleshooting.main", TroubleshootingMainPanel.getLinker() );
         addMajorLocation( troubleshooting );
 
