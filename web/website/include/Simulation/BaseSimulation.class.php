@@ -461,6 +461,55 @@ abstract class BaseSimulation implements SimulationInterface {
         return $version;
     }
 
+
+    public function getChangelogFilename() {
+        $basename = "{$this->project_name}/changes.txt";
+        return self::sim_root.$basename;
+    }
+
+    public function getChangelog() {
+        // Returns an array:
+        
+        $res = array();
+        $lines = file($this->getChangelogFilename());
+        foreach ($lines as $line_num => $line) {
+            // Check for a commentstamp
+            $regs = array();
+            $match = preg_match('/^#\s*(([0-9]+)\.([0-9]+)\.([0-9]+))\s*\(([0-9]+)\)\s*(.*)/', $line, $regs);
+            if ($match) {
+                $res[] = array('version' => $regs, 'comments' => array());
+                $last_key = count($res) - 1;
+                continue;
+            }
+
+            $regs = array();
+            $match = preg_match('/^\s*([-\w]+:)?\s*(.*)/', $line, $regs);
+            if ($match) {
+                $for_this_sim = false;
+                if ($regs[1] != '') {
+                    $sim_name = substr($regs[1], 0, strlen($regs[1]) -1);
+                    if ($sim_name != $this->getSimName()) {
+                        continue;
+                    }
+                    else if ($sim_name == $this->getSimName()) {
+                        $for_this_sim = true;
+                    }
+                }
+
+                $comment = ltrim($regs[2], '0123456789/ ');
+                $comment_match = preg_match('/^\s*>/', $comment);
+                if ($comment_match) { 	
+                    $comment = ltrim($comment, ' >');
+                    $res[$last_key]['comments'][] = $comment;
+                }
+            }
+            
+            //print "<h1>NON CONFORMING LINE {$line}</h1>";
+        }
+
+        return $res;
+    }
+
     public function isReal() {
         return $this->is_real;
     }

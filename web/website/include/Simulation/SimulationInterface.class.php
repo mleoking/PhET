@@ -64,6 +64,9 @@ interface SimulationInterface {
 
     public function getVersion();
 
+    public function getChangelogFilename();
+    public function getChangelog();
+
     public function isReal();
 }
 
