@@ -30,9 +30,9 @@ public abstract class BetaDecayCompositeNucleus extends CompositeAtomicNucleus {
     // Constructor
     //------------------------------------------------------------------------
 
-	public BetaDecayCompositeNucleus(NuclearPhysicsClock clock,
-			Point2D position, int numProtons, int numNeutrons) {
-		super(clock, position, numProtons, numNeutrons);
+	public BetaDecayCompositeNucleus(NuclearPhysicsClock clock, Point2D position, int numProtons, int numNeutrons,
+			double decayTimeScalingFactor) {
+		super(clock, position, numProtons, numNeutrons, decayTimeScalingFactor);
 	}
 
 	/**
