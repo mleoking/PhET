@@ -20,6 +20,9 @@ import edu.colorado.phet.wickettest.data.LocalizedSimulation;
 import edu.colorado.phet.wickettest.data.Simulation;
 import edu.colorado.phet.wickettest.util.StringUtils;
 
+// TODO: move the simulation list panel to a separate page, so if something goes bad, this page is still accessible
+
+// TODO: add strings checks to make sure all translatable strings are contained in entities
 public class AdminMainPage extends AdminPage {
 
     private TextField keyText;
