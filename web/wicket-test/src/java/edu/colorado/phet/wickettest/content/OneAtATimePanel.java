@@ -43,6 +43,8 @@ public class OneAtATimePanel extends PhetPanel {
             }
         } );
 
+        add( TroubleshootingMainPanel.getLinker().getLink( "tech-support-link", context ) );
+
     }
 
     public static String getKey() {
