@@ -65,7 +65,7 @@ EOT;
         else {
             $subject = "PhET Website: {$num_new_contributions} new, {$num_updated_contributions} updated contribution(s) this week";
             
-            $message = wordwrap("There is/are {$num_new_contributions} new and {$num_updated_contributions} updated contribution(s) this week to the Teacher Ideas & Activities section of the website in the last {$interval}.");
+            $message = wordwrap("There is/are {$num_new_contributions} new and {$num_updated_contributions} updated contribution(s) this week to the Teacher Ideas & Activities section of the website in the last {$interval} day(s).");
             if ($num_new_contributions > 0) {
                 $message .= "\n\nNew Contributions:\n\n";
                 $message .= display_contributions($new_contributions);
