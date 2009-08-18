@@ -49,6 +49,7 @@ public class WicketApplication extends WebApplication {
         StaticPage.addPanel( AboutPhetPanel.class );
         StaticPage.addPanel( WorkshopsPanel.class );
         StaticPage.addPanel( ContributePanel.class );
+        StaticPage.addPanel( RunOurSimulationsPanel.class );
 
         // create a url mapper, and add the page classes to it
         mapper = new PhetUrlMapper();
