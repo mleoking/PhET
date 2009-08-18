@@ -33,6 +33,9 @@ public class NavMenu {
         NavLocation troubleshooting = new NavLocation( null, "troubleshooting.main", TroubleshootingMainPanel.getLinker() );
         addMajorLocation( troubleshooting );
 
+        NavLocation contribute = new NavLocation( null, "contribute", ContributePanel.getLinker() );
+        addMajorLocation( contribute );
+
         NavLocation about = new NavLocation( null, "about", AboutPhetPanel.getLinker() );
         addMajorLocation( about );
 

@@ -6,6 +6,7 @@ import org.apache.wicket.markup.html.link.Link;
 
 import edu.colorado.phet.wickettest.components.PhetLink;
 import edu.colorado.phet.wickettest.components.StaticImage;
+import edu.colorado.phet.wickettest.content.ContributePanel;
 import edu.colorado.phet.wickettest.content.SimulationDisplay;
 import edu.colorado.phet.wickettest.content.WorkshopsPanel;
 import edu.colorado.phet.wickettest.translation.TranslationMainPage;
@@ -30,6 +31,9 @@ public class IndexPanel extends PhetPanel {
         add( SimulationDisplay.createLink( "on-line-link", context ) );
 
         add( WorkshopsPanel.getLinker().getLink( "workshops-link", context ) );
+
+        add( ContributePanel.getLinker().getLink( "contribute-link", context ) );
+        add( ContributePanel.getLinker().getLink( "support-phet-link", context ) );
 
         add( SimulationDisplay.createLink( "browse-sims-link", context ) );
 
