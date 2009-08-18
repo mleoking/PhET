@@ -37,6 +37,7 @@ public class WicketApplication extends WebApplication {
     protected void init() {
         super.init();
 
+        // TODO: add the following page implementations
         //getApplicationSettings().setPageExpiredErrorPage( MyExpiredPage.class );
         //getApplicationSettings().setAccessDeniedPage( MyAccessDeniedPage.class );
         //getApplicationSettings().setInternalErrorPage( MyInternalErrorPage.class );
@@ -46,6 +47,7 @@ public class WicketApplication extends WebApplication {
         // NOTE: do this before adding StaticPage into the mapper
         StaticPage.addPanel( TroubleshootingMainPanel.class );
         StaticPage.addPanel( AboutPhetPanel.class );
+        StaticPage.addPanel( WorkshopsPanel.class );
 
         // create a url mapper, and add the page classes to it
         mapper = new PhetUrlMapper();

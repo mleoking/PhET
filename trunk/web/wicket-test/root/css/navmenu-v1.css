@@ -13,27 +13,31 @@
     color: #d36a04;
 }
 
+.nml-link-label {
+    display: block;
+}
+
 .nav0 {
     font-size: 15px;
     padding-bottom: 3px;
 }
 
-.nav0 div {
+.nav0 span {
     padding-left: 15px;
     width: 225px;
 }
 
-.nav1 div {
+.nav1 span {
     padding-left: 15px;
     width: 205px;
 }
 
-.nav2 div {
+.nav2 span {
     padding-left: 15px;
     width: 185px;
 }
 
-.nav3 div {
+.nav3 span {
     padding-left: 15px;
     width: 165px;
 }
