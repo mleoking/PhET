@@ -25,6 +25,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.nodes.ResizeArrowNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.common.NucleusDisplayInfo;
@@ -35,9 +36,12 @@ import edu.colorado.phet.nuclearphysics.model.NuclearDecayListenerAdapter;
 import edu.colorado.phet.nuclearphysics.module.betadecay.singlenucleus.SingleNucleusBetaDecayModel;
 import edu.colorado.phet.nuclearphysics.util.PhetButtonNode;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
+import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
@@ -56,6 +60,9 @@ public class SingleNucleusDecayTimeChart extends PNode {
 
     // Total amount of time in milliseconds represented by this chart.
     private static final double DEFAULT_TIME_SPAN = 3200;
+    
+    // Minimum allowable half life.
+    private static final double MIN_HALF_LIFE = 10; // In milliseconds.
     
     // Constants for controlling the appearance of the chart.
     private static final Color  BORDER_COLOR = Color.DARK_GRAY;
@@ -76,6 +83,7 @@ public class SingleNucleusDecayTimeChart extends PNode {
     private static final Color  HALF_LIFE_TEXT_COLOR = HALF_LIFE_LINE_COLOR;
     private static final Font   HALF_LIFE_FONT = new PhetFont( Font.BOLD, 16 );
 	private static final Color  TIME_LINE_BASE_COLOR = Color.BLUE;
+    private static final double RESIZE_HANDLE_SIZE = 35;
 
     // Constants that control the location of the origin.
     private static final double X_ORIGIN_PROPORTION_NORMAL_MODE = 0.27;
@@ -125,6 +133,7 @@ public class SingleNucleusDecayTimeChart extends PNode {
     private TimeDisplayNode _timeDisplay;
     private PText _decayTimeLabel;
     private LogarithmicTimeLineNode _exponentialTimeLine;
+    private ResizeArrowNode _halfLifeHandleNode;
 
     // Parent node that will be non-pickable and will contain all of the
     // non-interactive portions of the chart.
@@ -318,6 +327,34 @@ public class SingleNucleusDecayTimeChart extends PNode {
         _halfLifeMarkerLine.setStrokePaint( HALF_LIFE_LINE_COLOR );
         _halfLifeMarkerLine.setPaint( NuclearPhysicsConstants.CHART_BACKGROUND_COLOR );
         _nonPickableChartNode.addChild( _halfLifeMarkerLine );
+        
+        // Create the handle that will allow the user to control the half life.
+        _halfLifeHandleNode = new ResizeArrowNode(RESIZE_HANDLE_SIZE, 0, Color.GREEN, Color.YELLOW);
+        _pickableChartNode.addChild( _halfLifeHandleNode );
+        _halfLifeHandleNode.addInputEventListener(new PBasicInputEventHandler(){
+        	boolean halfLifeChanged;
+        	public void mousePressed(PInputEvent event) {
+        		halfLifeChanged = false;
+        		_model.getClock().setPaused(true);
+        	}
+        	public void mouseReleased(PInputEvent event) {
+        		_model.getClock().setPaused(false);
+        		if (halfLifeChanged){
+        			clearDecayedNuclei();
+        		}
+        	}
+            public void mouseDragged(PInputEvent event) {
+                PNode draggedNode = event.getPickedNode();
+                PDimension d = event.getDeltaRelativeTo(draggedNode);
+                draggedNode.localToParent(d);
+                double newHalfLife = _model.getHalfLife() + (d.width / _msToPixelsFactor);
+                System.out.println("newHalfLife = " + newHalfLife);
+                if (newHalfLife >= MIN_HALF_LIFE && newHalfLife <= (_timeSpan * 0.95)){
+	                _model.setHalfLife(newHalfLife);
+	        		halfLifeChanged = true;
+                }
+            }
+        });
 
         // Create the label for the half life line.
         _halfLifeLabel = new PText( NuclearPhysicsStrings.HALF_LIFE_LABEL );
@@ -743,13 +780,23 @@ public class SingleNucleusDecayTimeChart extends PNode {
     		}
     	}
     	else{
-    		halfLifeMarkerXPos = _graphOriginX + (TIME_ZERO_OFFSET + halfLife) * _msToPixelsFactor;
+//    		halfLifeMarkerXPos = _graphOriginX + (TIME_ZERO_OFFSET + halfLife) * _msToPixelsFactor;
+    		halfLifeMarkerXPos = _graphOriginX + ((TIME_ZERO_OFFSET_PROPORTION * _timeSpan) + halfLife) * _msToPixelsFactor;
     	}
         _halfLifeMarkerLine.reset();
         _halfLifeMarkerLine.moveTo( (float)halfLifeMarkerXPos, 
         		(float)(_graphOriginY + ((_usableHeight - _graphOriginY) * 0.4)) );
         _halfLifeMarkerLine.lineTo( (float)halfLifeMarkerXPos, 
         		(float) ( _usableAreaOriginY + ( 0.1 * _usableHeight ) ) );
+        
+        // If it is a custom nucleus, position and show the handle.
+        if ((_model.getNucleusType() == NucleusType.HEAVY_CUSTOM) || (_model.getNucleusType() == NucleusType.LIGHT_CUSTOM)){
+        	_halfLifeHandleNode.setVisible(true);
+        	_halfLifeHandleNode.setOffset( _halfLifeMarkerLine.getX(), _halfLifeMarkerLine.getY() + (_graphOriginY - _halfLifeMarkerLine.getY()) / 2 );
+        }
+        else{
+        	_halfLifeHandleNode.setVisible(false);
+        }
         
         // Position the textual label for the half life.
         _halfLifeLabel.setOffset( _halfLifeMarkerLine.getX() - (_halfLifeLabel.getFullBoundsReference().width / 2),
