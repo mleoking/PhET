@@ -5,7 +5,8 @@ package edu.colorado.phet.nuclearphysics.model;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.nuclearphysics.common.model.Neutron;
+import edu.colorado.phet.nuclearphysics.common.model.Nucleon;
+import edu.colorado.phet.nuclearphysics.common.model.Nucleon.NucleonType;
 
 /**
  * This class models the behavior of a neutron source, i.e. some sort of
@@ -85,13 +86,13 @@ public class NeutronSource {
     public static interface Listener {
         void positionChanged();
         void orientationChanged();
-        void neutronGenerated(Neutron newNeutron);
+        void neutronGenerated(Nucleon newNeutron);
     }
     
     public static class Adapter implements Listener {
         public void positionChanged(){};
         public void orientationChanged(){};
-        public void neutronGenerated(Neutron newNeutron){};
+        public void neutronGenerated(Nucleon newNeutron){};
     }
     
     public void notifyPositionChanged(){
@@ -106,7 +107,7 @@ public class NeutronSource {
         }
     }
 
-    public void notifyNeutronGenerated(Neutron newNeutron){
+    public void notifyNeutronGenerated(Nucleon newNeutron){
         for ( int i = 0; i < _listeners.size(); i++ ) {
             ((NeutronSource.Listener)_listeners.get( i )).neutronGenerated( newNeutron );            
         }
@@ -121,7 +122,7 @@ public class NeutronSource {
      */
     public void generateNeutron(){
         
-        Neutron newNeutron = new Neutron(_position.x, _position.y, NEUTRON_VELOCITY * Math.cos( _firingAngle ),
+        Nucleon newNeutron = new Nucleon(NucleonType.NEUTRON, _position.x, _position.y, NEUTRON_VELOCITY * Math.cos( _firingAngle ),
                 NEUTRON_VELOCITY * Math.sin( _firingAngle ), false);
         
         notifyNeutronGenerated( newNeutron );

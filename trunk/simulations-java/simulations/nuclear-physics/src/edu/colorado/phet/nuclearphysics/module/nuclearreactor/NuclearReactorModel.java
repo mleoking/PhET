@@ -14,7 +14,7 @@ import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.Neutron;
 import edu.colorado.phet.nuclearphysics.common.model.Nucleon;
-import edu.colorado.phet.nuclearphysics.common.model.Proton;
+import edu.colorado.phet.nuclearphysics.common.model.Nucleon.NucleonType;
 import edu.colorado.phet.nuclearphysics.model.Uranium235Nucleus;
 import edu.colorado.phet.nuclearphysics.model.Uranium238Nucleus;
 
@@ -258,7 +258,7 @@ public class NuclearReactorModel {
             double startVelY = NEUTRON_VELOCITY * Math.sin( angle );
             
             // Create the neutron and let any listeners know about it.
-            Neutron firedNeutron = new Neutron(startPosX, startPosY, startVelX, startVelY, false);
+            Nucleon firedNeutron = new Nucleon(NucleonType.NEUTRON, startPosX, startPosY, startVelX, startVelY, false);
             _freeNeutrons.add( firedNeutron );
             notifyModelElementAdded( firedNeutron );
             
@@ -654,7 +654,7 @@ public class NuclearReactorModel {
         	// Handle the by products.
             for (int i = 0; i < byProducts.size(); i++){
                 Object byProduct = byProducts.get( i );
-                if ((byProduct instanceof Neutron) || (byProduct instanceof Proton)){
+                if ( byProduct instanceof Nucleon ){
                     // Let any listeners know that a new element has appeared
                     // separately in the model.
                     notifyModelElementAdded(byProduct);

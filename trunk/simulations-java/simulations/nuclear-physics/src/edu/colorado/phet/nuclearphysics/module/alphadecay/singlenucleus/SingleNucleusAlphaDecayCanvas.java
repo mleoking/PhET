@@ -20,8 +20,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
-import edu.colorado.phet.nuclearphysics.common.model.Neutron;
-import edu.colorado.phet.nuclearphysics.common.model.Proton;
+import edu.colorado.phet.nuclearphysics.common.model.Nucleon;
 import edu.colorado.phet.nuclearphysics.common.view.AbstractAtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics.common.view.LabeledExplodingAtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics.model.AlphaDecayCompositeNucleus;
@@ -31,9 +30,8 @@ import edu.colorado.phet.nuclearphysics.model.NuclearDecayListenerAdapter;
 import edu.colorado.phet.nuclearphysics.view.AlphaDecayEnergyChart;
 import edu.colorado.phet.nuclearphysics.view.AlphaParticleModelNode;
 import edu.colorado.phet.nuclearphysics.view.AutoPressGradientButtonNode;
-import edu.colorado.phet.nuclearphysics.view.NeutronModelNode;
 import edu.colorado.phet.nuclearphysics.view.NucleonModelNode;
-import edu.colorado.phet.nuclearphysics.view.ProtonModelNode;
+import edu.colorado.phet.nuclearphysics.view.NucleonNode;
 import edu.colorado.phet.nuclearphysics.view.SingleNucleusAlphaDecayTimeChart;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -270,17 +268,11 @@ public class SingleNucleusAlphaDecayCanvas extends PhetPCanvas {
                 alphaNode.setVisible( true );
                 _nucleusLayer.addChild( alphaNode );
             }
-            else if (constituent instanceof Neutron){
-                // Add a visible representation of the neutron to the canvas.
-                NeutronModelNode neutronNode = new NeutronModelNode((Neutron)constituent);
-                neutronNode.setVisible( true );
-                _nucleusLayer.addChild( neutronNode );
-            }
-            else if (constituent instanceof Proton){
-                // Add a visible representation of the proton to the canvas.
-                ProtonModelNode protonNode = new ProtonModelNode((Proton)constituent);
-                protonNode.setVisible( true );
-                _nucleusLayer.addChild( protonNode );
+            else if (constituent instanceof Nucleon){
+                // Add a visible representation of the nucleon to the canvas.
+            	NucleonNode nucleonNode = new NucleonNode((Nucleon)constituent);
+            	nucleonNode.setVisible(true);
+            	_nucleusLayer.addChild(nucleonNode);
             }
             else {
                 // There is some unexpected object in the list of constituents

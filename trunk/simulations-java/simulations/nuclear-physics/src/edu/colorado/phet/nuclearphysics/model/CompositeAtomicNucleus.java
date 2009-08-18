@@ -11,8 +11,10 @@ import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.Neutron;
+import edu.colorado.phet.nuclearphysics.common.model.Nucleon;
 import edu.colorado.phet.nuclearphysics.common.model.Proton;
 import edu.colorado.phet.nuclearphysics.common.model.SubatomicParticle;
+import edu.colorado.phet.nuclearphysics.common.model.Nucleon.NucleonType;
 
 /**
  * This class represents an atomic nucleus model element that is composed of a
@@ -86,10 +88,10 @@ public abstract class CompositeAtomicNucleus extends AtomicNucleus {
                 _constituents.add( new AlphaParticle(0, 0) );
             }
             if (i < numFreeProtons){
-                _constituents.add( new Proton(0, 0, true) );
+                _constituents.add( new Nucleon(NucleonType.PROTON, 0, 0, true) );
             }
             if (i < numFreeNeutrons){
-                _constituents.add( new Neutron(0, 0, true) );
+                _constituents.add( new Nucleon(NucleonType.NEUTRON, 0, 0, true) );
             }
         }
         
@@ -122,11 +124,14 @@ public abstract class CompositeAtomicNucleus extends AtomicNucleus {
                 _numNeutrons += 2;
                 _numProtons += 2;
             }
-            else if (constituents.get( i ) instanceof Neutron){
-                _numNeutrons++;
-            }
-            else if (constituents.get( i ) instanceof Proton){
-                _numProtons++;
+            else if (constituents.get( i ) instanceof Nucleon){
+            	Nucleon nucleon = (Nucleon)constituents.get( i );
+            	if (nucleon.getNucleonType() == NucleonType.PROTON){
+            		_numNeutrons++;
+            	}
+            	else{
+            		_numProtons++;
+            	}
             }
             else{
                 // Should never happen, debug if it does.

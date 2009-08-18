@@ -24,7 +24,7 @@ import edu.colorado.phet.common.piccolophet.nodes.LiquidExpansionThermometerNode
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
-import edu.colorado.phet.nuclearphysics.common.model.Neutron;
+import edu.colorado.phet.nuclearphysics.common.model.Nucleon;
 import edu.colorado.phet.nuclearphysics.common.view.AbstractAtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusImageNode;
 import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusImageType;
@@ -269,9 +269,9 @@ public class NuclearReactorNode extends PNode {
             _nucleiAndFreeParticleNode.addChild( atomNode );
             _modelElementToNodeMap.put( modelElement, atomNode );
         }
-        else if (modelElement instanceof Neutron){
+        else if (modelElement instanceof Nucleon){
             // Add a corresponding neutron node for this guy.
-            PNode neutronNode = new NeutronModelNode((Neutron)modelElement);
+            PNode neutronNode = new NucleonNode((Nucleon)modelElement);
             _nucleiAndFreeParticleNode.addChild( neutronNode );
             _modelElementToNodeMap.put( modelElement, neutronNode );            
         }

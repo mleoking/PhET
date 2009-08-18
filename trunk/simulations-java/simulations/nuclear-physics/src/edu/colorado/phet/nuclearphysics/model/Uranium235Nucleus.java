@@ -10,6 +10,7 @@ import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.Neutron;
 import edu.colorado.phet.nuclearphysics.common.model.Nucleon;
+import edu.colorado.phet.nuclearphysics.common.model.Nucleon.NucleonType;
 
 /**
  * This class represents a non-composite Uranium235 nucleus.  In other words,
@@ -84,7 +85,9 @@ public class Uranium235Nucleus extends AtomicNucleus {
 
         boolean retval = false;
         
-        if ((freeParticle instanceof Neutron) && (_numNeutrons == ORIGINAL_NUM_NEUTRONS)){
+        if (freeParticle instanceof Nucleon && 
+        	((Nucleon)freeParticle).getNucleonType() == NucleonType.NEUTRON &&
+        	(_numNeutrons == ORIGINAL_NUM_NEUTRONS)){
             
             // Increase our neutron count.
             _numNeutrons++;
@@ -140,7 +143,7 @@ public class Uranium235Nucleus extends AtomicNucleus {
             // of this decay event.
             ArrayList byProducts = new ArrayList();
             for (int i = 0; i < 3; i++){
-                byProducts.add( new Neutron(_position.getX(), _position.getY(), false) );
+                byProducts.add( new Nucleon(NucleonType.NEUTRON, _position.getX(), _position.getY(), false) );
             }
             _numNeutrons -= 3;
 

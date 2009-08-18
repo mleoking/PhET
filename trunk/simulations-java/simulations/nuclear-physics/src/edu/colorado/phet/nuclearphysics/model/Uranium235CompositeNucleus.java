@@ -11,6 +11,7 @@ import edu.colorado.phet.nuclearphysics.common.model.Neutron;
 import edu.colorado.phet.nuclearphysics.common.model.Nucleon;
 import edu.colorado.phet.nuclearphysics.common.model.Proton;
 import edu.colorado.phet.nuclearphysics.common.model.SubatomicParticle;
+import edu.colorado.phet.nuclearphysics.common.model.Nucleon.NucleonType;
 
 /**
  * This class is used to model the atomic nucleus in the "Fission: One
@@ -126,7 +127,7 @@ public class Uranium235CompositeNucleus extends CompositeAtomicNucleus{
             if (freeNeutrons != null){
                 for (int i = 0; i < 2; i++){
                     if ( freeNeutrons.size() >= 2 ){
-                        Neutron neutron = (Neutron)freeNeutrons.get( freeNeutrons.size() - 1 - i );
+                        Nucleon neutron = (Nucleon)freeNeutrons.get( freeNeutrons.size() - 1 - i );
                         neutron.setVelocity( 0, 0 );
                         neutron.setPosition( _position );
                         neutron.setTunnelingEnabled( true );
@@ -155,11 +156,13 @@ public class Uranium235CompositeNucleus extends CompositeAtomicNucleus{
                         _numProtons += 2;
                         _numNeutrons += 2;
                     }
-                    else if (constituent instanceof Neutron){
-                        _numNeutrons++;
-                    }
-                    else if (constituent instanceof Proton){
-                        _numProtons++;
+                    else if (constituent instanceof Nucleon){
+                    	if (((Nucleon)constituent).getNucleonType() == NucleonType.PROTON){
+                    		_numProtons++;
+                    	}
+                    	else{
+                    		_numNeutrons++;
+                    	}
                     }
                     else{
                         // This should never happen, and needs to be debugged if
@@ -175,7 +178,7 @@ public class Uranium235CompositeNucleus extends CompositeAtomicNucleus{
             // We have been reset after having absorbed a neutron but before
             // fissioning.  Free a neutron to get back to our original state.
             for (int i = 0; i < _constituents.size(); i++){
-                if (_constituents.get( i ) instanceof Neutron){
+                if (_constituents.get( i ) instanceof Nucleon && ((Nucleon)_constituents.get(i)).getNucleonType() == NucleonType.NEUTRON){
                     // This one will do.
                     freeNeutrons.add( _constituents.get(i) );
                     _constituents.remove(i);
@@ -223,7 +226,7 @@ public class Uranium235CompositeNucleus extends CompositeAtomicNucleus{
             ArrayList byProducts = new ArrayList();
             int neutronByProductCount = 0;
             for (int i = 0; i < _constituents.size() && neutronByProductCount < 3; i++){
-                if (_constituents.get( i ) instanceof Neutron){
+                if (_constituents.get( i ) instanceof Nucleon && ((Nucleon)_constituents.get(i)).getNucleonType() == NucleonType.NEUTRON){
                     Object newlyFreedNeutron = _constituents.get( i );
                     byProducts.add( newlyFreedNeutron );
                     neutronByProductCount++;
@@ -246,12 +249,12 @@ public class Uranium235CompositeNucleus extends CompositeAtomicNucleus{
             for (int i = 0; i < _constituents.size(); i++){
                 Object constituent = _constituents.get( i );
                 
-                if ((numNeutronsNeeded > 0) && (constituent instanceof Neutron)){
+                if ((numNeutronsNeeded > 0) && (constituent instanceof Nucleon) && ((Nucleon)constituent).getNucleonType() == NucleonType.NEUTRON){
                     daughterNucleusConstituents.add( constituent );
                     numNeutronsNeeded--;
                     _numNeutrons--;
                 }
-                else if ((numProtonsNeeded > 0) && (constituent instanceof Proton)){
+                else if ((numProtonsNeeded > 0) && (constituent instanceof Nucleon) && ((Nucleon)constituent).getNucleonType() == NucleonType.PROTON){
                     daughterNucleusConstituents.add( constituent );
                     numProtonsNeeded--;
                     _numProtons--;

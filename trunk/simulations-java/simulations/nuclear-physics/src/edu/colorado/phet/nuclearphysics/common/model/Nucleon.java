@@ -15,9 +15,14 @@ import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
  * @author John Blanco
  */
 public class Nucleon extends SubatomicParticle {
+	
     //------------------------------------------------------------------------
     // Class data
     //------------------------------------------------------------------------
+	
+	// Possible types of nucleons.  Not done as subclasses since they can
+	// change into one another.
+	public enum NucleonType {PROTON, NEUTRON};
 
 	// Distance used for jittering the nucleons.
 	private static final double JITTER_DISTANCE = NuclearPhysicsConstants.NUCLEON_DIAMETER * 0.1;
@@ -28,6 +33,9 @@ public class Nucleon extends SubatomicParticle {
     //------------------------------------------------------------------------
     // Instance data
     //------------------------------------------------------------------------
+    
+    // Type of nucleon
+    private NucleonType _type;
     
     // Boolean that controls whether this particle should exhibit quantum
     // tunneling behavior.
@@ -42,31 +50,36 @@ public class Nucleon extends SubatomicParticle {
 
     /**
      * Construct a nucleon that is not moving.
-     * 
+     * @param nucleonType - Type of nucleon, either PROTON or NEUTRON.
      * @param xPos - Initial X position of this particle.
      * @param yPos - Initial Y position of this particle.
      * @param tunnelingEnabled - Controls whether this particle should exhibit
      * quantum tunneling behavior. 
      */
-    public Nucleon(double xPos, double yPos, boolean tunnelingEnabled)
+    public Nucleon(NucleonType nucleonType, double xPos, double yPos, boolean tunnelingEnabled)
     {
-        this(xPos, yPos, 0, 0, tunnelingEnabled);
+        this(nucleonType, xPos, yPos, 0, 0, tunnelingEnabled);
     }
     
     /**
      * Construct a nucleon.
-     * 
+     * @param nucleonType - Type of nucleon, either PROTON or NEUTRON.
      * @param xPos - Initial X position of this particle.
      * @param yPos - Initial Y position of this particle.
      * @param xVel - Initial velocity in the X direction.
      * @param yVel - Initial velocity in the Y direction.
      * @param tunnelingEnabled - Controls whether this particle should exhibit
      */
-    public Nucleon(double xPos, double yPos, double xVel, double yVel, boolean tunnelingEnabled){
+    public Nucleon(NucleonType nucleonType, double xPos, double yPos, double xVel, double yVel, boolean tunnelingEnabled){
     	super(xPos, yPos, xVel, yVel);
+    	_type = nucleonType;
         _tunnelingEnabled = tunnelingEnabled;
     }
     
+    //------------------------------------------------------------------------
+    // Accessor Methods
+    //------------------------------------------------------------------------
+
     public void setTunnelingEnabled(boolean tunnelingEnabled){
         _tunnelingEnabled = tunnelingEnabled;
     }
@@ -75,11 +88,22 @@ public class Nucleon extends SubatomicParticle {
         return _tunnelingEnabled;
     }
     
+    public void setNucleonType(NucleonType nucleonType){
+    	if (_type != nucleonType){
+    		_type = nucleonType;
+    		notifyNucleonTypeChanged();
+    	}
+    }
+    
+    public NucleonType getNucleonType(){
+    	return _type;
+    }
+        
     //------------------------------------------------------------------------
     // Behavior methods
     //------------------------------------------------------------------------
     
-    /**
+	/**
      * This method simulates the quantum tunneling behavior, which means that
      * it causes the particle to move to some new random location within the
      * confines of the supplied parameters.
@@ -131,5 +155,33 @@ public class Nucleon extends SubatomicParticle {
             setPosition(getPosition().x - _jitterOffset.x, getPosition().y - _jitterOffset.y);
             _jitterOffset.setLocation(0, 0);
     	}
+    }
+
+    //------------------------------------------------------------------------
+    // Private Methods
+    //------------------------------------------------------------------------
+    
+    protected void notifyNucleonTypeChanged(){
+        // Notify all listeners that are able to receive this message that the
+    	// nucleon type has changed.
+        for (Listener listener : _listeners)
+        {
+        	if (listener instanceof NucleonListener){
+        		((NucleonListener)listener).nucleonTypeChanged();
+        	}
+        }        
+    }
+
+    //------------------------------------------------------------------------
+    // Inner Classes and Interfaces
+    //------------------------------------------------------------------------
+    
+    public static interface NucleonListener extends SubatomicParticle.Listener{
+    	public void nucleonTypeChanged();
+    }
+    
+    public static class NucleonAdapter implements NucleonListener{
+		public void nucleonTypeChanged() {}
+		public void positionChanged(SubatomicParticle particle) {}
     }
 }
