@@ -28,6 +28,14 @@ import edu.colorado.phet.wickettest.util.HibernateUtils;
 import static edu.colorado.phet.wickettest.util.HtmlUtils.encode;
 import edu.colorado.phet.wickettest.util.PageContext;
 
+// TODO: add ratings (none / under construction / tested)
+// TODO: add optional guidance recommended
+// TODO: add main topics
+// TODO: add sample learning goals
+// TODO: add thanks to
+// TODO: add development team
+
+// TODO: add third party libraries
 public class SimulationMainPanel extends PhetPanel {
 
     private String title;

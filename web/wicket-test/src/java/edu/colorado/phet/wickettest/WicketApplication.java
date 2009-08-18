@@ -37,6 +37,12 @@ public class WicketApplication extends WebApplication {
     protected void init() {
         super.init();
 
+        // TODO: sims to add: Alpha Decay, Ladybug Motion 2D, Nuclear Fission, The Ramp, States of Matter
+
+        // TODO: reset simulation version numbers (add ability to do that in the admin panel)
+
+        // TODO: figure out location of a KSU credits page. Maybe under About PhET?
+
         // TODO: add the following page implementations
         //getApplicationSettings().setPageExpiredErrorPage( MyExpiredPage.class );
         //getApplicationSettings().setAccessDeniedPage( MyAccessDeniedPage.class );
@@ -52,6 +58,13 @@ public class WicketApplication extends WebApplication {
         StaticPage.addPanel( RunOurSimulationsPanel.class );
         StaticPage.addPanel( FullInstallPanel.class );
         StaticPage.addPanel( OneAtATimePanel.class );
+        // TODO: add other troubleshooting pages
+        // TODO: add research page
+        // TODO: add about (source code)
+        // TODO: add about (contact), with note: License stuff needs to stay there and [Wendy will] ask Hisham if he wants added to contact.
+        // TODO: add about (who we are) with note: rewrite to include partnership with KSU
+        // TODO: add about (licensing)
+
 
         // create a url mapper, and add the page classes to it
         mapper = new PhetUrlMapper();
