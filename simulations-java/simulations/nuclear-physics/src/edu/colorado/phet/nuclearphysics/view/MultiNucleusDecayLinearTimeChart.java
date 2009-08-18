@@ -693,7 +693,7 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
         }
         
         // If it is a custom nucleus, position and show the handle.
-        if (_model.getNucleusType() == NucleusType.HEAVY_CUSTOM){
+        if ((_model.getNucleusType() == NucleusType.HEAVY_CUSTOM) || (_model.getNucleusType() == NucleusType.LIGHT_CUSTOM)){
         	_halfLifeHandleNode.setVisible(true);
         	_halfLifeHandleNode.setOffset( _halfLifeMarkerLine.getX(), _halfLifeMarkerLine.getY() + (_graphOriginY - _halfLifeMarkerLine.getY()) / 2 );
         }
