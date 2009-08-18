@@ -57,9 +57,10 @@ public abstract class CompositeAtomicNucleus extends AtomicNucleus {
     // Constructor(s)
     //------------------------------------------------------------------------
 
-    public CompositeAtomicNucleus(NuclearPhysicsClock clock, Point2D position, int numProtons, int numNeutrons){
+    public CompositeAtomicNucleus(NuclearPhysicsClock clock, Point2D position, int numProtons, int numNeutrons, 
+    		double decayTimeScalingFactor){
         
-        super(clock, position, numProtons, numNeutrons);
+        super(clock, position, numProtons, numNeutrons, decayTimeScalingFactor);
         
         // Figure out the proportion of the protons and neutrons that will be
         // tied up in alpha particles.  This is not based on any formula, just
@@ -102,7 +103,7 @@ public abstract class CompositeAtomicNucleus extends AtomicNucleus {
     		ArrayList<SubatomicParticle> constituents)
     {
         // Create an empty nucleus.
-        this(clock, position, 0, 0);
+        this(clock, position, 0, 0, 1);
 
         // Figure out the makeup of the constituents.
         _numAlphas = 0;
