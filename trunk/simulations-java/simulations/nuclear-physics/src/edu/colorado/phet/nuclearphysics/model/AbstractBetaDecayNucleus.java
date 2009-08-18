@@ -29,7 +29,7 @@ public abstract class AbstractBetaDecayNucleus extends AtomicNucleus {
 	}
 	
 	/**
-	 * Take the actions that simulate alpha decay.
+	 * Take the actions that simulate beta decay.
 	 */
 	protected void decay( ClockEvent clockEvent ){
 
