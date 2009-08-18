@@ -24,9 +24,6 @@ public class SimulationDisplay extends PhetRegularPage {
     public SimulationDisplay( PageParameters parameters ) {
         super( parameters );
 
-        //addTitle( new ResourceModel( "simulationDisplay.simulations" ) );
-
-
         PageContext context = getPageContext();
 
         List<LocalizedSimulation> simulations = null;

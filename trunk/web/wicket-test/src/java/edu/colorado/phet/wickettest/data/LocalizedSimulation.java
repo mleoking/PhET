@@ -31,6 +31,19 @@ public class LocalizedSimulation implements Serializable {
         return str;
     }
 
+    public String getDownloadUrl() {
+        Simulation sim = getSimulation();
+        Project project = sim.getProject();
+        String str = "/sims/" + project.getName() + "/" + sim.getName() + "_" + getLocaleString();
+        if ( sim.isJava() || sim.isFlash() ) {
+            str += ".jar";
+        }
+        else {
+            throw new RuntimeException( "Handle more than java and flash" );
+        }
+        return str;
+    }
+
     public String getLocaleString() {
         return LocaleUtils.localeToString( getLocale() );
     }

@@ -12,7 +12,24 @@
 <body>
 
 <wicket:panel>
-    <div class="contribute standard-content">
+    <div class="one-at-a-time standard-content">
+        <p>
+            Click on the name of any simulation to download the simulation to your computer. To run the simulation,
+            double-click it. If you have difficulties, please see our technical support page.
+        </p>
+
+        <p>
+            You may copy the simulation to any place on your computer. You may also copy the simulation to a CD-ROM
+            Drive, USB Drive, or shared network location.
+        </p>
+
+        <ul>
+            <li wicket:id="simulation-list">
+                <a href="#" wicket:id="download-link">
+                    <span wicket:id="simulation-title">Simulation Title</span>
+                </a>
+            </li>
+        </ul>
     </div>
 </wicket:panel>
 </body>
