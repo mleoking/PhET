@@ -25,7 +25,6 @@ import edu.colorado.phet.nuclearphysics.model.CompositeAtomicNucleus;
 import edu.colorado.phet.nuclearphysics.model.NeutronSource;
 import edu.colorado.phet.nuclearphysics.view.AlphaParticleModelNode;
 import edu.colorado.phet.nuclearphysics.view.FissionEnergyChart;
-import edu.colorado.phet.nuclearphysics.view.NeutronModelNode;
 import edu.colorado.phet.nuclearphysics.view.NeutronSourceNode;
 import edu.colorado.phet.nuclearphysics.view.NucleonNode;
 import edu.umd.cs.piccolo.PNode;
