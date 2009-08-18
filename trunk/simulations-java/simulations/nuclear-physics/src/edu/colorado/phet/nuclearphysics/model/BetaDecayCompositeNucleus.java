@@ -24,7 +24,7 @@ public abstract class BetaDecayCompositeNucleus extends CompositeAtomicNucleus {
     //------------------------------------------------------------------------
 
 	private static final Random RAND = new Random();
-	private static final double EMISSION_SPEED = 1.5;  // Femtometers per clock tick.  Weird, I know.
+	private static final double EMISSION_SPEED = 1.1;  // Femtometers per clock tick.  Weird, I know.
 
     //------------------------------------------------------------------------
     // Constructor
@@ -43,15 +43,17 @@ public abstract class BetaDecayCompositeNucleus extends CompositeAtomicNucleus {
 	    
 		super.reset();
 	    
-	    // Change one proton into a neutron.
-	    _numNeutrons--;
-	    _numProtons++;
-	
-        // Update our agitation level.
-        updateAgitationFactor();
-	        
-        // Let the listeners know that the nucleus has changed.
-        notifyNucleusChangeEvent(null);
+		if (_numNeutrons != _origNumNeutrons || _numProtons != _origNumProtons){
+			// Change one proton into a neutron.
+			_numNeutrons = _origNumNeutrons;
+			_numProtons = _origNumProtons;
+			
+			// Update our agitation level.
+			updateAgitationFactor();
+			
+			// Let the listeners know that the nucleus has changed.
+			notifyNucleusChangeEvent(null);
+		}
 	}
 
 	/**
