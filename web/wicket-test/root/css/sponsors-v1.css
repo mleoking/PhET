@@ -12,11 +12,12 @@ a img.spons {
     font-size: 12px;
 }
 
-#spons h4 {
+#spons div.principalSponsors {
     color: #0d2973;
     font-size: 14px;
     margin: 1ex 0pt;
     padding: 0pt;
+    font-weight: bold;
 }
 
 #spons div.header {
