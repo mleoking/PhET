@@ -6,9 +6,7 @@ import org.apache.wicket.markup.html.link.Link;
 
 import edu.colorado.phet.wickettest.components.PhetLink;
 import edu.colorado.phet.wickettest.components.StaticImage;
-import edu.colorado.phet.wickettest.content.ContributePanel;
-import edu.colorado.phet.wickettest.content.SimulationDisplay;
-import edu.colorado.phet.wickettest.content.WorkshopsPanel;
+import edu.colorado.phet.wickettest.content.*;
 import edu.colorado.phet.wickettest.translation.TranslationMainPage;
 import edu.colorado.phet.wickettest.util.PageContext;
 
@@ -28,7 +26,10 @@ public class IndexPanel extends PhetPanel {
 
         add( SimulationDisplay.createLink( "play-sims-link", context ) );
 
+        add( RunOurSimulationsPanel.getLinker().getLink( "run-our-sims-link", context ) );
         add( SimulationDisplay.createLink( "on-line-link", context ) );
+        add( FullInstallPanel.getLinker().getLink( "full-install-link", context ) );
+        add( OneAtATimePanel.getLinker().getLink( "one-at-a-time-link", context ) );
 
         add( WorkshopsPanel.getLinker().getLink( "workshops-link", context ) );
 
