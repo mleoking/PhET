@@ -2451,7 +2451,6 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 15	home.translateSimulations	Translate Simulations	2009-08-17 03:48:19.897	2009-08-17 03:48:19.897	1
 16	home.browseSims	Browse Sims	2009-08-17 03:48:19.897	2009-08-17 03:48:19.897	1
 17	home.simulations	Simulations	2009-08-17 03:48:19.899	2009-08-17 03:48:19.899	1
-18	simulationPage.title	{0} ({1})	2009-08-17 03:48:19.899	2009-08-17 03:48:19.899	1
 19	simulationDisplay.title	{0} - PhET Simulations	2009-08-17 03:48:19.899	2009-08-17 03:48:19.899	1
 20	simulationMainPanel.translatedVersions	Translated Versions:	2009-08-17 03:48:19.899	2009-08-17 03:48:19.899	1
 21	simulationMainPanel.screenshot.alt	{0} Screenshot	2009-08-17 03:48:19.899	2009-08-17 03:48:19.899	1
@@ -2827,6 +2826,18 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 390	keyword.longitudinalWaves	Longitudinal Waves	2009-08-17 16:31:22.949	2009-08-17 16:31:22.949	1
 391	keyword.waves	Waves	2009-08-17 16:32:06.187	2009-08-17 16:32:06.187	1
 392	keyword.waveSpeed	Wave Speed	2009-08-17 16:32:17.224	2009-08-17 16:32:17.224	1
+393	nav.workshops	Workshops	2009-08-17 19:07:55.301	2009-08-17 19:07:55.301	1
+394	workshops.title	Workshops by PhET - How to Teach With Simulations	2009-08-17 19:08:23.885	2009-08-17 19:08:23.885	1
+395	nav.contribute	Contribute	2009-08-17 20:10:54.911	2009-08-17 20:10:54.911	1
+396	contribute.title	Contribute to PhET	2009-08-17 20:11:03.067	2009-08-17 20:11:03.067	1
+397	get-phet.title	Three Ways to Run Our Free Simulations	2009-08-17 20:39:14.373	2009-08-17 20:39:14.373	1
+398	nav.get-phet	Run our Simulations	2009-08-17 20:39:28.316	2009-08-17 20:39:28.316	1
+399	nav.get-phet.on-line	On Line	2009-08-17 22:13:52.583	2009-08-17 22:13:52.583	1
+400	nav.get-phet.full-install	Full Install	2009-08-17 22:27:16.13	2009-08-17 22:27:16.13	1
+401	nav.get-phet.one-at-a-time	One at a Time	2009-08-17 22:27:33.19	2009-08-17 22:27:33.19	1
+402	get-phet.one-at-a-time.title	Launch PhET Simulations One at a Time	2009-08-17 22:27:53.843	2009-08-17 22:27:53.843	1
+403	get-phet.full-install.title	PhET Offline Installer	2009-08-17 22:28:13.663	2009-08-17 22:28:13.663	1
+18	simulationPage.title	{0} - {1}, {2}, {3} - PhET	2009-08-17 03:48:19.899	2009-08-17 23:15:24.156	1
 \.
 
 
