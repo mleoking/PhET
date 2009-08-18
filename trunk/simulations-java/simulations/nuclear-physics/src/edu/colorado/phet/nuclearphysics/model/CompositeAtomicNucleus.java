@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.Neutron;
@@ -28,6 +29,9 @@ public abstract class CompositeAtomicNucleus extends AtomicNucleus {
     
     // Default value for agitation.
     protected static final int DEFAULT_AGITATION_FACTOR = 5;
+    
+    // Maximum value for agitation.
+    protected static final int MAX_AGITATION_FACTOR = 9;
     
     //------------------------------------------------------------------------
     // Instance Data
@@ -89,6 +93,9 @@ public abstract class CompositeAtomicNucleus extends AtomicNucleus {
             }
         }
         
+        // Set initial positions of all nucleons.
+        setInitialNucleonPositions();
+
         // Set the initial agitation factor.
         updateAgitationFactor();
     }
@@ -127,6 +134,7 @@ public abstract class CompositeAtomicNucleus extends AtomicNucleus {
                 System.err.println("Error: Unexpected nucleus constituent type.");
             }
         }
+        
         
         // Keep the array of constituents.
         _constituents = constituents;
@@ -188,27 +196,65 @@ public abstract class CompositeAtomicNucleus extends AtomicNucleus {
             // agitation, we don't necessarily move all particles every time.
             if (_agitationFactor > 0){
                 
-                // Calculate the increment to be used for creating the agitation
-                // effect.
-                
-                int agitationIncrement = 20 - (2 * _agitationFactor);
-                assert agitationIncrement > 0;
-                
-                if (agitationIncrement <= 0){
-                    agitationIncrement = 5;
+                if (_numNeutrons + _numProtons > 20){
+                	// Calculate the increment to be used for creating the agitation
+                	// effect.
+	                int agitationIncrement = 20 - (2 * _agitationFactor);
+	                assert agitationIncrement > 0;
+	                
+	                if (agitationIncrement <= 0){
+	                    agitationIncrement = 5;
+	                }
+	                    
+	                // Limit the tunneling distance, because otherwise it can
+	                // look like alpha particles are leaving the nucleus when
+	                // they aren't.
+	                double tunnelingRegion = Math.min(_tunnelingRegionRadius, getDiameter() * 1.5);
+	                for (int i = _agitationCount; i < _constituents.size(); i+=agitationIncrement)
+	                {
+	                    SubatomicParticle constituent = (SubatomicParticle)_constituents.get( i );
+	                   	constituent.tunnel( _position, 0, getDiameter()/2, tunnelingRegion );
+	                }
+	                _agitationCount = (_agitationCount + 1) % agitationIncrement;
                 }
-                    
-                // Limit the tunneling distance, because otherwise it can
-                // look like alpha particles are leaving the nucleus when
-                // they aren't.
-                double tunnelingRegion = Math.min(_tunnelingRegionRadius, getDiameter() * 1.5);
-                for (int i = _agitationCount; i < _constituents.size(); i+=agitationIncrement)
-                {
-                    SubatomicParticle constituent = (SubatomicParticle)_constituents.get( i );
-                    constituent.tunnel( _position, 0, getDiameter()/2, tunnelingRegion );
+                else{
+                	// Having a small number of nucleons tunneling looks
+                	// too weird, so these nucleons just vibrate a little
+                	// instead.
+                	_agitationCount++;
+                	if (_agitationCount > MAX_AGITATION_FACTOR - _agitationFactor){
+                		// Jitter all of the nucleons.
+                		for (SubatomicParticle particle : _constituents){
+                			particle.jitter();
+                		}
+                		_agitationCount = 0;
+                	}
                 }
-                _agitationCount = (_agitationCount + 1) % agitationIncrement;
             }
+    	}
+    }
+    
+    private void setInitialNucleonPositions(){
+    	if (_constituents.size() == 3){
+    		// This is a special case of a small nucleus.  Position all
+    		// nucleons to be initially visible.
+        	double rotationOffset = Math.PI;  // In radians, arbitrary and just for looks.
+        	double distanceFromCenter = NuclearPhysicsConstants.NUCLEON_DIAMETER / 2 / Math.cos(Math.PI / 6);
+        	for (int i = 0; i < 3; i++){
+        		double angle = ( Math.PI * 2 / 3 ) * i + rotationOffset;
+                double xOffset = Math.sin( angle ) * distanceFromCenter;
+                double yOffset = Math.cos( angle ) * distanceFromCenter;
+        		_constituents.get(i).setPosition( getPositionReference().getX() + xOffset,
+        				getPositionReference().getY() + yOffset );
+        	}
+    	}
+    	else{
+    		// Have each particle place itself radomly somewhere within the
+    		// radius of the nucleus.
+            double tunnelingRegion = Math.min(_tunnelingRegionRadius, getDiameter() * 1.5);
+    		for (SubatomicParticle particle : _constituents){
+            	particle.tunnel( _position, 0, getDiameter()/2, tunnelingRegion );
+    		}
     	}
     }
 }

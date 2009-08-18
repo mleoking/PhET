@@ -83,6 +83,9 @@ public abstract class BetaDecayCompositeNucleus extends CompositeAtomicNucleus {
 		Antineutrino antineutrino = new Antineutrino(getPositionReference().getX(), getPositionReference().getY());
 		antineutrino.setVelocity(xVel, yVel);
 		byProducts.add(antineutrino);
+		
+		// Update our agitation factor.
+		updateAgitationFactor();
 
 		// Send out the decay event to all listeners.
 		notifyNucleusChangeEvent(byProducts);

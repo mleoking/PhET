@@ -4,6 +4,7 @@ package edu.colorado.phet.nuclearphysics.common.model;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Abstract base class for subatomic particles.
@@ -15,10 +16,11 @@ public abstract class SubatomicParticle {
     //------------------------------------------------------------------------
     // Class data
     //------------------------------------------------------------------------
-
+	
     //------------------------------------------------------------------------
     // Instance data
     //------------------------------------------------------------------------
+	
     private ArrayList<Listener> _listeners = new ArrayList<Listener>();
     
     // Location in space of this particle.
@@ -80,8 +82,7 @@ public abstract class SubatomicParticle {
     
     public void setPosition(Point2D newPosition)
     {
-        _position.setLocation( newPosition );
-        notifyPositionChanged();
+        setPosition(newPosition.getX(), newPosition.getY());
     }
     
     public void setPosition(double xPos, double yPos)
@@ -141,7 +142,14 @@ public abstract class SubatomicParticle {
     public void tunnel(Point2D center, double minDistance, double maxDistance1, double maxDistance2){
     	// Does nothing in base class.
     }
-
+    
+    /**
+     * Jitter a little, meaning move a small amount from the current position
+     * then back.
+     */
+    public void jitter(){
+    	// Does nothing in the base class.
+    }
     
     //------------------------------------------------------------------------
     // Listener support
