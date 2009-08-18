@@ -8,18 +8,18 @@ import edu.colorado.phet.wickettest.panels.PhetPanel;
 import edu.colorado.phet.wickettest.util.Linkable;
 import edu.colorado.phet.wickettest.util.PageContext;
 
-public class WorkshopsPanel extends PhetPanel {
-    public WorkshopsPanel( String id, PageContext context ) {
+public class ContributePanel extends PhetPanel {
+    public ContributePanel( String id, PageContext context ) {
         super( id, context );
 
     }
 
     public static String getKey() {
-        return "workshops";
+        return "contribute";
     }
 
     public static String getUrl() {
-        return "workshops";
+        return "contribute";
     }
 
     public static Linkable getLinker() {
