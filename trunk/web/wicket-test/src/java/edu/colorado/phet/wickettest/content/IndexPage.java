@@ -5,7 +5,6 @@ import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.ResourceModel;
 
 import edu.colorado.phet.wickettest.components.PhetLink;
-import edu.colorado.phet.wickettest.panels.IndexPanel;
 import edu.colorado.phet.wickettest.templates.PhetPage;
 import edu.colorado.phet.wickettest.util.Linkable;
 import edu.colorado.phet.wickettest.util.PageContext;
