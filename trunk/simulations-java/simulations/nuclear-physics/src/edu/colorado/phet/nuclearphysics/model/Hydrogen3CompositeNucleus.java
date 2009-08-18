@@ -37,18 +37,11 @@ public class Hydrogen3CompositeNucleus extends BetaDecayCompositeNucleus {
 
     public Hydrogen3CompositeNucleus(NuclearPhysicsClock clock, Point2D position){
         super(clock, position, ORIGINAL_NUM_PROTONS, ORIGINAL_NUM_NEUTRONS);
-        
-        // Decide when alpha decay will occur.
-        _timeUntilDecay = calcDecayTime();
     }
     
     //------------------------------------------------------------------------
     // Methods
     //------------------------------------------------------------------------
-    
-    public double getHalfLife(){
-    	return HALF_LIFE;
-    }
     
 	protected void updateAgitationFactor() {
 	    // Determine the amount of agitation that should be exhibited by this
@@ -78,12 +71,5 @@ public class Hydrogen3CompositeNucleus extends BetaDecayCompositeNucleus {
 	        System.err.println("Error: Unexpected atomic weight in beta decay nucleus.");
 	        assert(false);
 	    }        
-	}
-	
-	/**
-	 * Return a new value for the time at which this nucleus should decay.
-	 */
-	protected double calculateDecayTime(){
-		return calcDecayTime();
 	}
 }
