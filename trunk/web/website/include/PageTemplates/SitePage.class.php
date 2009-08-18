@@ -167,13 +167,9 @@ EOT;
 EOT;
         }
 
-        $code .= <<<EOT
-    <script type="text/javascript" src="{$site_root}js/autoTracking_phet.js"></script>
-
-EOT;
-
         if ($ga_source != 2) {
             $code .= <<<EOT
+    <script type="text/javascript" src="{$site_root}js/autoTracking_phet.js"></script>
     <script type="text/javascript">
         var benchmarkTracker = _gat._getTracker("UA-5033201-1");
         benchmarkTracker._setDomainName('phet.colorado.edu');
