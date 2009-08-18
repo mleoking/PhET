@@ -70,3 +70,7 @@ div.rtl #page-header-title {
     font-size: 16px;
     color: #15337f;
 }
+
+.strike {
+    text-decoration: line-through;
+}
