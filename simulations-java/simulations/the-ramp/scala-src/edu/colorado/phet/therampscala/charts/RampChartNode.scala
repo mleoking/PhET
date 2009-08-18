@@ -32,7 +32,7 @@ class RampChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model:
   val parallelAppliedForceVariable = new DefaultTemporalVariable() {
     override def setValue(value: Double) = model.bead.parallelAppliedForce = value
   }
-  model.stepListeners += (() => parallelAppliedForceVariable.addValue(model.bead.appliedForce.dot(new Vector2D(model.bead.getVelocityVectorDirection)), model.getTime))
+  model.stepListeners += (() => parallelAppliedForceVariable.addValue(model.bead.appliedForce.dot(model.bead.getRampUnitVector), model.getTime))
 
   def createVariable(getter: () => Double) = {
     val variable = new DefaultTemporalVariable()
@@ -42,7 +42,7 @@ class RampChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model:
 
   def createParallelVariable(getter: () => Vector2D) = {
     val variable = new DefaultTemporalVariable()
-    model.stepListeners += (() => variable.addValue(getter().dot(new Vector2D(model.bead.getVelocityVectorDirection)), model.getTime))
+    model.stepListeners += (() => variable.addValue(getter().dot(model.bead.getRampUnitVector), model.getTime))
     variable
   }
 
