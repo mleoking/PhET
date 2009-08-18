@@ -10,10 +10,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import edu.colorado.phet.wickettest.components.PhetLink;
-import edu.colorado.phet.wickettest.content.AboutPhetPanel;
-import edu.colorado.phet.wickettest.content.IndexPage;
-import edu.colorado.phet.wickettest.content.SimulationDisplay;
-import edu.colorado.phet.wickettest.content.TroubleshootingMainPanel;
+import edu.colorado.phet.wickettest.content.*;
 import edu.colorado.phet.wickettest.data.Category;
 import edu.colorado.phet.wickettest.util.HibernateUtils;
 import edu.colorado.phet.wickettest.util.Linkable;
@@ -29,6 +26,9 @@ public class NavMenu {
 
         NavLocation simulations = new NavLocation( null, "simulations", SimulationDisplay.getLinker() );
         addMajorLocation( simulations );
+
+        NavLocation workshops = new NavLocation( null, "workshops", WorkshopsPanel.getLinker() );
+        addMajorLocation( workshops );
 
         NavLocation troubleshooting = new NavLocation( null, "troubleshooting.main", TroubleshootingMainPanel.getLinker() );
         addMajorLocation( troubleshooting );
