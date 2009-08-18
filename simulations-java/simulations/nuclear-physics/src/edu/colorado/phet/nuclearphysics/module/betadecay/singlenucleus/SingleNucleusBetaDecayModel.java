@@ -12,6 +12,7 @@ import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
 import edu.colorado.phet.nuclearphysics.common.NucleusType;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.NuclearDecayModelListener;
+import edu.colorado.phet.nuclearphysics.common.model.SubatomicParticle;
 import edu.colorado.phet.nuclearphysics.model.AdjustableHalfLifeCompositeNucleus;
 import edu.colorado.phet.nuclearphysics.model.Carbon14CompositeNucleus;
 import edu.colorado.phet.nuclearphysics.model.CompositeAtomicNucleus;
@@ -42,6 +43,7 @@ public class SingleNucleusBetaDecayModel implements NucleusTypeControl {
     private ArrayList _listeners = new ArrayList();
     private NucleusType _nucleusType;
     private AtomicNucleus.Adapter _atomicNucleusAdapter;
+	private ArrayList<SubatomicParticle> _emittedParticles = new ArrayList<SubatomicParticle>();
     
     //------------------------------------------------------------------------
     // Constructor
@@ -81,8 +83,20 @@ public class SingleNucleusBetaDecayModel implements NucleusTypeControl {
                     ArrayList byProducts){
                 
                 if (byProducts != null){
-                	// TODO: This needs to be implemented.
-                	System.out.println("Implement me.");
+                    // There are some byproducts of this event that need to be
+                    // managed by this object.
+                    for (int i = 0; i < byProducts.size(); i++){
+                        Object byProduct = byProducts.get( i );
+                        if (byProduct instanceof SubatomicParticle){
+                            _emittedParticles.add((SubatomicParticle)byProduct);
+                            notifyModelElementAdded(byProduct);
+                        }
+                        else {
+                            // We should never get here, debug it if it does.
+                            System.err.println("Error: Unexpected byproduct of decay event.");
+                            assert false;
+                        }
+                    }
                 }
             }
         };
@@ -206,24 +220,31 @@ public class SingleNucleusBetaDecayModel implements NucleusTypeControl {
     //------------------------------------------------------------------------
     
     private void handleClockTicked(ClockEvent clockEvent){
-    	// TODO: Need to handle the emitted particles here.
+		// Move any emitted particles that have been produced by decay events.
+		for (SubatomicParticle particle : _emittedParticles){
+			particle.translate();
+		}
     }
     
     private void removeCurrentNucleus(){
 
-    	if (_atomicNucleus == null){
-    		// Nothing to do.
-    		return;
+    	if (_atomicNucleus != null){
+    		// Remove listener from current nucleus.
+    		_atomicNucleus.removeListener(_atomicNucleusAdapter);
+    		
+    		// Remove the nucleus itself and inform any listeners of its demise.
+    		_atomicNucleus.removedFromModel();
+    		CompositeAtomicNucleus tempNucleus = _atomicNucleus;
+    		_atomicNucleus = null;
+    		notifyModelElementRemoved(tempNucleus);
     	}
-    	
-	    // Remove listener from current nucleus.
-		_atomicNucleus.removeListener(_atomicNucleusAdapter);
 		
-		// Remove the nucleus itself and inform any listeners of its demise.
-		_atomicNucleus.removedFromModel();
-		CompositeAtomicNucleus tempNucleus = _atomicNucleus;
-		_atomicNucleus = null;
-		notifyModelElementRemoved(tempNucleus);
+		// Remove any existing emitted particles and also let any listeners know
+		// of their demise.
+		for (int i = 0; i < _emittedParticles.size(); i++){
+			notifyModelElementRemoved( _emittedParticles.get(i) );
+		}
+		_emittedParticles.clear();
     }
 
     /**

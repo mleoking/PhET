@@ -10,22 +10,30 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
+import edu.colorado.phet.nuclearphysics.common.model.Antineutrino;
+import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
+import edu.colorado.phet.nuclearphysics.common.model.Electron;
 import edu.colorado.phet.nuclearphysics.common.model.Neutron;
 import edu.colorado.phet.nuclearphysics.common.model.Proton;
+import edu.colorado.phet.nuclearphysics.common.model.SubatomicParticle;
 import edu.colorado.phet.nuclearphysics.common.view.AbstractAtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics.common.view.LabeledExplodingAtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics.model.CompositeAtomicNucleus;
 import edu.colorado.phet.nuclearphysics.model.NuclearDecayListenerAdapter;
+import edu.colorado.phet.nuclearphysics.view.AntineutrinoNode;
 import edu.colorado.phet.nuclearphysics.view.AutoPressGradientButtonNode;
+import edu.colorado.phet.nuclearphysics.view.ElectronNode;
 import edu.colorado.phet.nuclearphysics.view.NeutronModelNode;
 import edu.colorado.phet.nuclearphysics.view.NucleonModelNode;
 import edu.colorado.phet.nuclearphysics.view.ProtonModelNode;
 import edu.colorado.phet.nuclearphysics.view.SingleNucleusBetaDecayTimeChart;
+import edu.colorado.phet.nuclearphysics.view.SubatomicParticleNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -62,6 +70,9 @@ public class SingleNucleusBetaDecayCanvas extends PhetPCanvas {
     private AutoPressGradientButtonNode _resetButtonNode;
 	private PNode _nucleusLayer;
 	private PNode _labelLayer;
+    private HashMap<SubatomicParticle, SubatomicParticleNode> _mapParticlesToNodes = 
+    	new HashMap<SubatomicParticle, SubatomicParticleNode>();
+    private HashMap _mapNucleiToNodes = new HashMap();
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -84,7 +95,7 @@ public class SingleNucleusBetaDecayCanvas extends PhetPCanvas {
         // Register for decay events from the model.
         _singleNucleusBetaDecayModel.addListener(new NuclearDecayListenerAdapter(){
             public void modelElementAdded(Object modelElement){
-            	createNucleusNodes();
+            	handleModelElementAdded(modelElement);
             }
             public void modelElementRemoved(Object modelElement){
             	if (modelElement instanceof CompositeAtomicNucleus){
@@ -165,42 +176,61 @@ public class SingleNucleusBetaDecayCanvas extends PhetPCanvas {
     //------------------------------------------------------------------------
 
     /**
-     * Create the nodes needed to represent the nucleus that is currently in
-     * the model.
+     * Create the nodes needed to represent the nucleus or subatomic particles
+     * that were added to the model.
+     * 
+     * @param modelElement
      */
-	private void createNucleusNodes() {
-		// Get the nucleus from the model and then get the constituents
-        // and create a visible node for each.
-        CompositeAtomicNucleus atomicNucleus = _singleNucleusBetaDecayModel.getAtomNucleus();
-        ArrayList nucleusConstituents = atomicNucleus.getConstituents();
-        
-        // Add a node for each particle that comprises the nucleus.
-        for (int i = 0; i < nucleusConstituents.size(); i++){
-            
-            Object constituent = nucleusConstituents.get( i );
-            
-            if (constituent instanceof Neutron){
-                // Add a visible representation of the neutron to the canvas.
-                NeutronModelNode neutronNode = new NeutronModelNode((Neutron)constituent);
-                neutronNode.setVisible( true );
-                _nucleusLayer.addChild( neutronNode );
-            }
-            else if (constituent instanceof Proton){
-                // Add a visible representation of the proton to the canvas.
-                ProtonModelNode protonNode = new ProtonModelNode((Proton)constituent);
-                protonNode.setVisible( true );
-                _nucleusLayer.addChild( protonNode );
-            }
-            else {
-                // There is some unexpected object in the list of constituents
-                // of the nucleus.  This should never happen and should be
-                // debugged if it does.
-                assert false;
-            }
-        }
+	private void handleModelElementAdded(Object modelElement) {
+		if (modelElement instanceof AtomicNucleus){
+			// Get the nucleus from the model and then get the constituents
+			// and create a visible node for each.
+			CompositeAtomicNucleus atomicNucleus = _singleNucleusBetaDecayModel.getAtomNucleus();
+			ArrayList nucleusConstituents = atomicNucleus.getConstituents();
 
-        _nucleusNode = new LabeledExplodingAtomicNucleusNode(atomicNucleus);
-        _labelLayer.addChild( _nucleusNode );
+			// Add a node for each particle that comprises the nucleus.
+			for (int i = 0; i < nucleusConstituents.size(); i++){
+
+				Object constituent = nucleusConstituents.get( i );
+
+				if (constituent instanceof Neutron){
+					// Add a visible representation of the neutron to the canvas.
+					NeutronModelNode neutronNode = new NeutronModelNode((Neutron)constituent);
+					neutronNode.setVisible( true );
+					_nucleusLayer.addChild( neutronNode );
+				}
+				else if (constituent instanceof Proton){
+					// Add a visible representation of the proton to the canvas.
+					ProtonModelNode protonNode = new ProtonModelNode((Proton)constituent);
+					protonNode.setVisible( true );
+					_nucleusLayer.addChild( protonNode );
+				}
+				else {
+					// There is some unexpected object in the list of constituents
+					// of the nucleus.  This should never happen and should be
+					// debugged if it does.
+					assert false;
+				}
+			}
+
+			_nucleusNode = new LabeledExplodingAtomicNucleusNode(atomicNucleus);
+			_labelLayer.addChild( _nucleusNode );
+		}
+    	else if (modelElement instanceof Electron){
+    		// Add a new electron node to track this electron.
+    		ElectronNode electronNode = new ElectronNode((Electron)modelElement);
+    		_mapParticlesToNodes.put((SubatomicParticle)modelElement, electronNode);
+    		_nucleusLayer.addChild(electronNode);
+    	}
+    	else if (modelElement instanceof Antineutrino){
+    		// Add a new antineutrino node to track this antineutrino.
+    		AntineutrinoNode antineutrinoNode = new AntineutrinoNode((Antineutrino)modelElement);
+    		_mapParticlesToNodes.put((SubatomicParticle)modelElement, antineutrinoNode);
+    		_nucleusLayer.addChild(antineutrinoNode);
+    	}
+    	else{
+    		System.err.println(getClass().getName() + " - Warning: Unrecognized model element added, unable to create node for canvas.");
+    	}
 	}
 	
     /**
