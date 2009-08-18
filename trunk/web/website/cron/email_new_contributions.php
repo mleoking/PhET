@@ -12,8 +12,8 @@ chdir(dirname(__FILE__));
     require_once('include/contrib-utils.php');
     
     $email_recipients =
-        array(//'"Loeblein Patricia J." <ploeblei@jeffco.k12.co.us>',
-              //'"Marjorie Mildred Frankel" <marjorie.frankel@colorado.edu>',
+        array('"Loeblein Patricia J." <ploeblei@jeffco.k12.co.us>',
+              '"Marjorie Mildred Frankel" <marjorie.frankel@colorado.edu>',
               '"Daniel McKagan" <daniel.mckagan@gmail.com>');
 
     define('DEFAULT_INTERVAL', 7);
