@@ -5,6 +5,8 @@ package edu.colorado.phet.nuclearphysics.common.model;
 import java.awt.geom.Point2D;
 import java.util.Random;
 
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
+
 
 /**
  * Class the implements the behavior of nucleon (i.e. proton and neutron)
@@ -17,8 +19,11 @@ public class Nucleon extends SubatomicParticle {
     // Class data
     //------------------------------------------------------------------------
 
+	// Distance used for jittering the nucleons.
+	private static final double JITTER_DISTANCE = NuclearPhysicsConstants.NUCLEON_DIAMETER * 0.1;
+	
     // Random number generator, used for creating some random behavior.
-    private static Random _rand = new Random();
+    private static final Random RAND = new Random();
 
     //------------------------------------------------------------------------
     // Instance data
@@ -27,6 +32,9 @@ public class Nucleon extends SubatomicParticle {
     // Boolean that controls whether this particle should exhibit quantum
     // tunneling behavior.
     private boolean _tunnelingEnabled;
+    
+    // Current jitter offset, used to create a vibrating motion effect.
+    private final Point2D.Double _jitterOffset = new Point2D.Double();
     
     //------------------------------------------------------------------------
     // Constructors
@@ -89,18 +97,18 @@ public class Nucleon extends SubatomicParticle {
             // be fairly evenly spread around the core of the nucleus and appear
             // occasionally at the outer reaches.
     
-            double multiplier = _rand.nextDouble();
+            double multiplier = RAND.nextDouble();
             
             if (multiplier > 0.8){
                 // Cause the distribution to tail off in the outer regions of the
                 // nucleus.
-                multiplier = _rand.nextDouble() * _rand.nextDouble();
+                multiplier = RAND.nextDouble() * RAND.nextDouble();
             }
             
             double newRadius = minDistance + (multiplier * (nucleusRadius - minDistance));
             
             // Calculate the new angle, in radians, from the origin.
-            double newAngle = _rand.nextDouble() * 2 * Math.PI;
+            double newAngle = RAND.nextDouble() * 2 * Math.PI;
             
             // Convert from polar to Cartesian coordinates.
             double xPos = Math.cos( newAngle ) * newRadius;
@@ -109,5 +117,19 @@ public class Nucleon extends SubatomicParticle {
             // Save the new position.
             setPosition( xPos + center.getX(), yPos + center.getY());
         }
+    }
+    
+    public void jitter(){
+    	if (_jitterOffset.getX() == 0 && _jitterOffset.getY() == 0){
+    		// Move away from the base position by a small amount.
+            double angle = RAND.nextDouble() * 2 * Math.PI;
+            _jitterOffset.setLocation( Math.cos( angle ) * JITTER_DISTANCE, Math.sin( angle ) * JITTER_DISTANCE);
+            setPosition(getPosition().x + _jitterOffset.x, getPosition().y + _jitterOffset.y);
+    	}
+    	else{
+    		// Move back to the base position.
+            setPosition(getPosition().x - _jitterOffset.x, getPosition().y - _jitterOffset.y);
+            _jitterOffset.setLocation(0, 0);
+    	}
     }
 }
