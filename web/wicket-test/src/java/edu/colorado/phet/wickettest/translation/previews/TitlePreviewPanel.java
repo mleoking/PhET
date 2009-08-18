@@ -44,7 +44,7 @@ public class TitlePreviewPanel extends PhetPanel {
         NavLocation location = getNavMenu().getLocationByKey( "motion" );
 
         add( new Label( "home", new ResourceModel( "home.title" ) ) );
-        add( new Label( "simulationPage", new StringResourceModel( "simulationPage.title", this, null, new String[]{simulation.getTitle(), simulation.getSimulation().getProject().getVersionString()} ) ) );
+        add( new Label( "simulationPage", new StringResourceModel( "simulationPage.title", this, null, new String[]{simulation.getTitle(), "Electricity", "Magnetism", "Faraday's Law"} ) ) );
         add( new Label( "simulationDisplay", new StringResourceModel( "simulationDisplay.title", this, null, new Object[]{new StringResourceModel( location.getLocalizationKey(), this, null )} ) ) );
     }
 }
