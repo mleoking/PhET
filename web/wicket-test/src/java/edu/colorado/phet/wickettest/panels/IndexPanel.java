@@ -2,6 +2,7 @@ package edu.colorado.phet.wickettest.panels;
 
 import org.apache.wicket.behavior.HeaderContributor;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
+import org.apache.wicket.markup.html.link.Link;
 
 import edu.colorado.phet.wickettest.components.PhetLink;
 import edu.colorado.phet.wickettest.components.StaticImage;
@@ -23,9 +24,16 @@ public class IndexPanel extends PhetPanel {
         add( imageLink );
         imageLink.add( new StaticImage( "index-animated-screenshot", "/images/mass-spring-lab-animated-screenshot.gif", null ) );
 
-        add( WorkshopsPanel.getLinker().getLink( "workshops-link", context ) );
 
         add( SimulationDisplay.createLink( "play-sims-link", context ) );
+
+        add( SimulationDisplay.createLink( "on-line-link", context ) );
+
+        add( WorkshopsPanel.getLinker().getLink( "workshops-link", context ) );
+
+        add( SimulationDisplay.createLink( "browse-sims-link", context ) );
+
+        add( SimulationDisplay.createLink( "below-simulations-link", context ) );
 
         add( new BookmarkablePageLink( "test-translation", TranslationMainPage.class ) );
 
@@ -33,10 +41,9 @@ public class IndexPanel extends PhetPanel {
 
         add( HeaderContributor.forCss( "/css/home-v1.css" ) );
 
-
-        add( SimulationDisplay.createLink( "on-line-link", context ) );
-
-        add( new StaticImage( "mini-screenshot", "/images/geometric-optics-screenshot.png", null ) );
+        Link miniLink = SimulationDisplay.createLink( "mini-screenshot-link", context );
+        add( miniLink );
+        miniLink.add( new StaticImage( "mini-screenshot", "/images/geometric-optics-screenshot.png", null ) );
     }
 
 }

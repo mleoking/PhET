@@ -129,16 +129,18 @@
             </dl>
 
             <dl class="last">
-                <dt><a href="simulations/index.php">
-                    <wicket:message key="home.browseSims">Browse Sims</wicket:message>
-                </a></dt>
-                <dd><a class="nolink" href="simulations/index.php"><img
+                <dt>
+                    <a href="simulations/index.php" wicket:id="browse-sims-link">
+                        <wicket:message key="home.browseSims">Browse Sims</wicket:message>
+                    </a>
+                </dt>
+                <dd><a class="nolink" href="simulations/index.php" wicket:id="mini-screenshot-link"><img
                         src="../../../../../../../root/images/geometric-optics-screenshot.png"
                         alt="Simulation Screenshot"
                         title="Search"
                         wicket:id="mini-screenshot"/></a></dd>
                 <dd class="readMore">
-                    <a href="simulations/index.php">
+                    <a href="simulations/index.php" wicket:id="below-simulations-link">
                         <wicket:message key="home.simulations">Simulations</wicket:message>
                     </a>
                 </dd>
