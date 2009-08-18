@@ -6,6 +6,7 @@ import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import edu.colorado.phet.wickettest.components.PhetLink;
 import edu.colorado.phet.wickettest.components.StaticImage;
 import edu.colorado.phet.wickettest.content.SimulationDisplay;
+import edu.colorado.phet.wickettest.content.WorkshopsPanel;
 import edu.colorado.phet.wickettest.translation.TranslationMainPage;
 import edu.colorado.phet.wickettest.util.PageContext;
 
@@ -21,6 +22,8 @@ public class IndexPanel extends PhetPanel {
         PhetLink imageLink = SimulationDisplay.createLink( "image-link", context );
         add( imageLink );
         imageLink.add( new StaticImage( "index-animated-screenshot", "/images/mass-spring-lab-animated-screenshot.gif", null ) );
+
+        add( WorkshopsPanel.getLinker().getLink( "workshops-link", context ) );
 
         add( SimulationDisplay.createLink( "play-sims-link", context ) );
 
