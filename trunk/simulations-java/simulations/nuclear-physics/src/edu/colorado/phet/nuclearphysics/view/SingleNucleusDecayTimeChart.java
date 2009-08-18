@@ -31,7 +31,6 @@ import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.common.NucleusDisplayInfo;
 import edu.colorado.phet.nuclearphysics.common.NucleusType;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
-import edu.colorado.phet.nuclearphysics.model.AlphaDecayCompositeNucleus;
 import edu.colorado.phet.nuclearphysics.model.HalfLifeInfo;
 import edu.colorado.phet.nuclearphysics.model.NuclearDecayListenerAdapter;
 import edu.colorado.phet.nuclearphysics.module.betadecay.singlenucleus.SingleNucleusBetaDecayModel;
@@ -104,7 +103,7 @@ public class SingleNucleusDecayTimeChart extends PNode {
     SingleNucleusBetaDecayModel _model;
     
     // Variables for tracking information about the nuclei.
-    AlphaDecayCompositeNucleus _currentNucleus;
+    AtomicNucleus _currentNucleus;
     EnhancedLabeledNucleusNode _undecayedNucleusNode;
     ArrayList _decayedNucleusNodes = new ArrayList();
     
@@ -606,7 +605,7 @@ public class SingleNucleusDecayTimeChart extends PNode {
      */
     private void handleClockTicked( ClockEvent clockEvent ) {
 
-    	if ((_currentNucleus != null) && (_currentNucleus.getPaused() == false)){
+    	if ((_currentNucleus != null) && (_currentNucleus.isPaused() == false)){
     		// There is an active nucleus that we are watching.  Make any updates.
     		if (!_currentNucleus.hasDecayed()){
     			if (_undecayedNucleusNode == null){
@@ -649,14 +648,14 @@ public class SingleNucleusDecayTimeChart extends PNode {
     
 	private void handleModelElementAdded(Object modelElement) {
     	
-    	if (modelElement instanceof AlphaDecayCompositeNucleus){
+    	if (modelElement instanceof AtomicNucleus){
     		if (_currentNucleus != null){
     			// Because of the overall design, we shouldn't get a notice of
     			// an element being added without the previous nucleus having
     			// been removed.
     			System.err.println("Error: Got nucleusAdded event before existing nucleus removed.");
     		}
-    		_currentNucleus = (AlphaDecayCompositeNucleus)modelElement;
+    		_currentNucleus = (AtomicNucleus)modelElement;
     		_undecayedNucleusNode = createNucleusNode(_currentNucleus);
     		_nonPickableChartNode.addChild(_undecayedNucleusNode);
     		positionHalfLifeMarker();
@@ -665,7 +664,7 @@ public class SingleNucleusDecayTimeChart extends PNode {
 
     private void handleModelElementRemoved(Object modelElement) {
     	
-    	if (modelElement instanceof AlphaDecayCompositeNucleus){
+    	if (modelElement instanceof AtomicNucleus){
     		if (_currentNucleus == null){
     			// This shouldn't be called when we don't have a nucleus, so
     			// there is a problem in the code that should be debugged.
@@ -854,44 +853,19 @@ public class SingleNucleusDecayTimeChart extends PNode {
 	private EnhancedLabeledNucleusNode createNucleusNode(AtomicNucleus nucleus){
     	
     	EnhancedLabeledNucleusNode nucleusNode;
-
-    	switch (nucleus.getNumProtons()){
-    	case 84:
-    		// Create a labeled nucleus representing Polonium.
-    		nucleusNode = new EnhancedLabeledNucleusNode("Polonium Nucleus Small.png",
-                    NuclearPhysicsStrings.POLONIUM_211_ISOTOPE_NUMBER, 
-                    NuclearPhysicsStrings.POLONIUM_211_CHEMICAL_SYMBOL, 
-                    NuclearPhysicsConstants.POLONIUM_LABEL_COLOR );
-    		break;
-    		
-    	case 83:
-    		// This nucleus is bismuth, which we use as the pre-decay custom
-    		// nucleus.
-    		nucleusNode = new EnhancedLabeledNucleusNode("Polonium Nucleus Small.png", 
-    				"", // No isotope number.
-                    NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL, 
-                    NuclearPhysicsConstants.CUSTOM_NUCLEUS_LABEL_COLOR );
-    		break;
-    		
-    	case 82:
-    		// Create a labeled nucleus representing Lead.
-    		nucleusNode = new EnhancedLabeledNucleusNode("Lead Nucleus Small.png",
-                    NuclearPhysicsStrings.LEAD_207_ISOTOPE_NUMBER, 
-                    NuclearPhysicsStrings.LEAD_207_CHEMICAL_SYMBOL, 
-                    NuclearPhysicsConstants.LEAD_LABEL_COLOR );
-    		break;
-    		
-    	case 81:
-    		// This is thallium, which we use as the post-decay custom nucleus.
-    		nucleusNode = new EnhancedLabeledNucleusNode("Lead Nucleus Small.png",
-    				"", // No isotope number.
-                    NuclearPhysicsStrings.CUSTOM_NUCLEUS_CHEMICAL_SYMBOL, 
-                    NuclearPhysicsConstants.CUSTOM_NUCLEUS_POST_DECAY_LABEL_COLOR );
-    		break;
-    		
-    	default:
-    		assert false;  // This is not a nucleus type that we know how to handle.
-    		throw new InvalidParameterException("Unrecognized nucleus type.");
+    	
+    	NucleusDisplayInfo displayInfo = NucleusDisplayInfo.getDisplayInfoForNucleusConfig(nucleus.getNumProtons(),
+    			nucleus.getNumNeutrons());
+    	
+    	if (displayInfo != null){
+    		nucleusNode = new EnhancedLabeledNucleusNode(displayInfo.getImageName(),
+                    displayInfo.getIsotopeNumberString(), 
+                    displayInfo.getChemicalSymbol(), 
+                    displayInfo.getLabelColor() );
+    	}
+    	else{
+    		System.err.println(getClass().getName() + " - Warning: Couldn't locate display info for nucleus.");
+    		nucleusNode = new EnhancedLabeledNucleusNode("Polonium Nucleus Small.png", "", "", Color.WHITE );
     	}
     	
     	if (_nucleusNodeRadius > 0){
@@ -905,7 +879,7 @@ public class SingleNucleusDecayTimeChart extends PNode {
 	 * Position the current nucleus on the time chart.
 	 */
 	private void positionCurrentNucleus(){
-		if (_currentNucleus == null || _currentNucleus.hasDecayed() || _currentNucleus.getPaused()){
+		if (_currentNucleus == null || _currentNucleus.hasDecayed() || _currentNucleus.isPaused()){
 			// Nothing to do.
 			return;
 		}
