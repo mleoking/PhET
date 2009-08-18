@@ -54,6 +54,7 @@ class AdminControlPanelPage extends SitePage {
                 <li><a href="cache-clear.php?cache=sims">Clear the simulation cache</a></li>
                 <li><a href="cache-clear.php?cache=teacher_ideas">Clear the activities cache</a></li>
                 <li><a href="cache-clear.php?cache=admin">Clear the admin directory cache</a></li>
+                <li><a href="cache-clear.php?cache=get_phet">Clear the get-phet directory cache</a> (keeps track of file sizes for installers)</li>
                 <li><a href="cache-clear.php?cache=all">Clear all the caches</a></li>
             </ul>
 
