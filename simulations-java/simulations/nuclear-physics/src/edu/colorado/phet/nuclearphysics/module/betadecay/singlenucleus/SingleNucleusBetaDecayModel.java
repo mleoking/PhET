@@ -153,8 +153,11 @@ public class SingleNucleusBetaDecayModel implements NucleusTypeControl {
 	 * Reset the currently active nucleus.
 	 */
 	public void resetNucleus(){
-        // Reset the nucleus.
-		// TODO: Need to implement this.
+        // Reset the nucleus
+        _atomicNucleus.reset();
+        
+        // Activate decay right away.
+        _atomicNucleus.activateDecay();
 	}
 	
 	/**

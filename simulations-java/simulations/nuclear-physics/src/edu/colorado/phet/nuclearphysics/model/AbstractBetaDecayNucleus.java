@@ -58,4 +58,16 @@ public abstract class AbstractBetaDecayNucleus extends AtomicNucleus {
         // Send out the decay event to all listeners.
         notifyNucleusChangeEvent(byProducts);
 	}
+
+	@Override
+	public void reset() {
+		super.reset();
+		
+		// Turn a proton back into a neutron.
+		_numNeutrons++;
+		_numProtons--;
+		
+		// Notify any listeners.
+		notifyNucleusChangeEvent(null);
+	}
 }
