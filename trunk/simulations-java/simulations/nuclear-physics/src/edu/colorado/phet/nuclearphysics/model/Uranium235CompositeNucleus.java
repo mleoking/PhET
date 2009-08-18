@@ -50,7 +50,7 @@ public class Uranium235CompositeNucleus extends CompositeAtomicNucleus{
     //------------------------------------------------------------------------
     
     public Uranium235CompositeNucleus(NuclearPhysicsClock clock, Point2D position, double fissionInterval){
-        super(clock, position, ORIGINAL_NUM_PROTONS, ORIGINAL_NUM_NEUTRONS);
+        super(clock, position, ORIGINAL_NUM_PROTONS, ORIGINAL_NUM_NEUTRONS, 1);
         
         _fissionInterval = fissionInterval;
         
