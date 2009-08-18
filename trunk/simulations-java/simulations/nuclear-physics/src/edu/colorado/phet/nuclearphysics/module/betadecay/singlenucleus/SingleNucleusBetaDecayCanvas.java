@@ -25,6 +25,7 @@ import edu.colorado.phet.nuclearphysics.common.model.SubatomicParticle;
 import edu.colorado.phet.nuclearphysics.common.view.AbstractAtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics.common.view.LabeledExplodingAtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics.model.CompositeAtomicNucleus;
+import edu.colorado.phet.nuclearphysics.model.HalfLifeInfo;
 import edu.colorado.phet.nuclearphysics.model.NuclearDecayListenerAdapter;
 import edu.colorado.phet.nuclearphysics.view.AntineutrinoNode;
 import edu.colorado.phet.nuclearphysics.view.AutoPressGradientButtonNode;
@@ -32,7 +33,7 @@ import edu.colorado.phet.nuclearphysics.view.ElectronNode;
 import edu.colorado.phet.nuclearphysics.view.NeutronModelNode;
 import edu.colorado.phet.nuclearphysics.view.NucleonModelNode;
 import edu.colorado.phet.nuclearphysics.view.ProtonModelNode;
-import edu.colorado.phet.nuclearphysics.view.SingleNucleusBetaDecayTimeChart;
+import edu.colorado.phet.nuclearphysics.view.SingleNucleusDecayTimeChart;
 import edu.colorado.phet.nuclearphysics.view.SubatomicParticleNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -66,7 +67,7 @@ public class SingleNucleusBetaDecayCanvas extends PhetPCanvas {
     
     private SingleNucleusBetaDecayModel _singleNucleusBetaDecayModel;
     private AbstractAtomicNucleusNode _nucleusNode;
-    private SingleNucleusBetaDecayTimeChart _betaDecayTimeChart;
+    private SingleNucleusDecayTimeChart _betaDecayTimeChart;
     private AutoPressGradientButtonNode _resetButtonNode;
 	private PNode _nucleusLayer;
 	private PNode _labelLayer;
@@ -94,15 +95,22 @@ public class SingleNucleusBetaDecayCanvas extends PhetPCanvas {
         
         // Register for decay events from the model.
         _singleNucleusBetaDecayModel.addListener(new NuclearDecayListenerAdapter(){
+			@Override
             public void modelElementAdded(Object modelElement){
             	handleModelElementAdded(modelElement);
             }
+			@Override
             public void modelElementRemoved(Object modelElement){
             	if (modelElement instanceof CompositeAtomicNucleus){
                 	removeNucleusNodes();
             	}
             	// TODO: JPB TBD - Need to handle removal of particles.
             }
+			@Override
+			public void nucleusTypeChanged() {
+				// Update the time span of the chart.
+				updateTimeSpanOfChart();
+			}
         });
         
         // Create the layer where nodes that comprise the nucleus will be placed.
@@ -132,7 +140,8 @@ public class SingleNucleusBetaDecayCanvas extends PhetPCanvas {
         });
 
         // Add the chart that shows the decay time.
-        _betaDecayTimeChart = new SingleNucleusBetaDecayTimeChart(_singleNucleusBetaDecayModel);
+        _betaDecayTimeChart = new SingleNucleusDecayTimeChart(_singleNucleusBetaDecayModel);
+        updateTimeSpanOfChart();
         addScreenChild( _betaDecayTimeChart );
         
         // Add a listener for when the canvas is resized.
@@ -175,6 +184,10 @@ public class SingleNucleusBetaDecayCanvas extends PhetPCanvas {
     // Private Methods
     //------------------------------------------------------------------------
 
+	private void updateTimeSpanOfChart(){
+		_betaDecayTimeChart.setTimeSpan(HalfLifeInfo.getHalfLifeForNucleusType(_singleNucleusBetaDecayModel.getNucleusType()) * 3.2);
+	}
+	
     /**
      * Create the nodes needed to represent the nucleus or subatomic particles
      * that were added to the model.
