@@ -18,6 +18,7 @@ import edu.colorado.phet.nuclearphysics.model.Carbon14CompositeNucleus;
 import edu.colorado.phet.nuclearphysics.model.CompositeAtomicNucleus;
 import edu.colorado.phet.nuclearphysics.model.Hydrogen3CompositeNucleus;
 import edu.colorado.phet.nuclearphysics.model.LightAdjustableCompositeNucleus;
+import edu.colorado.phet.nuclearphysics.model.LightAdjustableHalfLifeNucleus;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.NucleusTypeControl;
 
 /**
@@ -205,13 +206,13 @@ public class SingleNucleusBetaDecayModel implements NucleusTypeControl {
 	public void setHalfLife(double halfLife){
 		
 		// Verify that the current nucleus is custom.
-		if (_nucleusType != NucleusType.HEAVY_CUSTOM){
-			System.err.println("Warning: Can only set nucleus type for custom nucleus, ignoring request.");
+		if (_nucleusType != NucleusType.LIGHT_CUSTOM){
+			System.err.println(getClass().getName() + "- Warning: Can only set nucleus type for custom nucleus, ignoring request.");
 			return;
 		}
 		
 		// Set the new half life value.
-		AdjustableHalfLifeCompositeNucleus nucleus = (AdjustableHalfLifeCompositeNucleus)_atomicNucleus;
+		LightAdjustableCompositeNucleus nucleus = (LightAdjustableCompositeNucleus)_atomicNucleus;
 		nucleus.setHalfLife(halfLife);
 		resetNucleus();
 		
