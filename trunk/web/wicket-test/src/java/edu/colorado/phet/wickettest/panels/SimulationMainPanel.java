@@ -1,5 +1,6 @@
 package edu.colorado.phet.wickettest.panels;
 
+import java.text.MessageFormat;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -22,11 +23,14 @@ import edu.colorado.phet.wickettest.components.StaticImage;
 import edu.colorado.phet.wickettest.data.Keyword;
 import edu.colorado.phet.wickettest.data.LocalizedSimulation;
 import edu.colorado.phet.wickettest.data.Simulation;
+import edu.colorado.phet.wickettest.translation.PhetLocalizer;
 import edu.colorado.phet.wickettest.util.HibernateUtils;
 import static edu.colorado.phet.wickettest.util.HtmlUtils.encode;
 import edu.colorado.phet.wickettest.util.PageContext;
 
 public class SimulationMainPanel extends PhetPanel {
+
+    private String title;
 
     public SimulationMainPanel( String id, LocalizedSimulation simulation, final PageContext context ) {
         super( id, context );
@@ -83,6 +87,10 @@ public class SimulationMainPanel extends PhetPanel {
         };
         add( simulationList );
 
+        // TODO: move from direct links to page redirections, so bookmarkables will be minimized
+        add( new PhetLink( "run-online-link", simulation.getRunUrl() ) );
+        add( new PhetLink( "run-offline-link", simulation.getDownloadUrl() ) );
+
         List<Keyword> keywords = new LinkedList<Keyword>();
 
         Transaction tx = null;
@@ -136,6 +144,26 @@ public class SimulationMainPanel extends PhetPanel {
         }
 
         add( HeaderContributor.forCss( "/css/simulation-main-v1.css" ) );
+
+        //new StringResourceModel( "simulationPage.title", this, null, new String[]{simulation.getTitle(), simulation.getSimulation().getProject().getVersionString()} )
+        PhetLocalizer localizer = (PhetLocalizer) getLocalizer();
+
+        List<String> titleParams = new LinkedList<String>();
+        titleParams.add( simulation.getTitle() );
+        for ( Keyword keyword : keywords ) {
+            titleParams.add( localizer.getString( keyword.getKey(), this ) );
+        }
+
+        if ( keywords.size() < 3 ) {
+            title = simulation.getTitle();
+        }
+        else {
+            title = MessageFormat.format( localizer.getString( "simulationPage.title", this ), (Object[]) titleParams.toArray() );
+        }
+    }
+
+    public String getTitle() {
+        return title;
     }
 
 }
