@@ -34,7 +34,7 @@ public abstract class CompositeAtomicNucleus extends AtomicNucleus {
     //------------------------------------------------------------------------
     
     // List of the constituent particles that comprise this nucleus.
-    protected ArrayList _constituents;
+    protected ArrayList<SubatomicParticle> _constituents;
     
     // Used to implement the 'agitation' behavior, i.e. to make the nucleus
     // appear to be in constant dynamic motion.
@@ -71,7 +71,7 @@ public abstract class CompositeAtomicNucleus extends AtomicNucleus {
         // this in such a way that the particles are interspersed in the list,
         // particularly towards the end of the list, since this works out
         // better for the view.
-        _constituents = new ArrayList();
+        _constituents = new ArrayList<SubatomicParticle>();
         int numFreeProtons = _numProtons - (_numAlphas * 2);
         int numFreeNeutrons = _numNeutrons - (_numAlphas * 2);
         int maxParticles = Math.max( numFreeProtons, numFreeNeutrons );
@@ -98,7 +98,8 @@ public abstract class CompositeAtomicNucleus extends AtomicNucleus {
      * This is generally used to create a "daughter nucleus" when an existing
      * nucleus splits.
      */
-    public CompositeAtomicNucleus(NuclearPhysicsClock clock, Point2D position, ArrayList constituents)
+    public CompositeAtomicNucleus(NuclearPhysicsClock clock, Point2D position, 
+    		ArrayList<SubatomicParticle> constituents)
     {
         // Create an empty nucleus.
         this(clock, position, 0, 0);
