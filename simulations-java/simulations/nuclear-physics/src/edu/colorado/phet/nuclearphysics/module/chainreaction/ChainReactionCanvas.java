@@ -17,14 +17,15 @@ import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
-import edu.colorado.phet.nuclearphysics.common.model.Neutron;
+import edu.colorado.phet.nuclearphysics.common.model.Nucleon;
+import edu.colorado.phet.nuclearphysics.common.model.Nucleon.NucleonType;
 import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusImageNode;
 import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusImageType;
 import edu.colorado.phet.nuclearphysics.model.Uranium235CompositeNucleus;
 import edu.colorado.phet.nuclearphysics.view.AtomicBombGraphicNode;
 import edu.colorado.phet.nuclearphysics.view.ContainmentVesselNode;
-import edu.colorado.phet.nuclearphysics.view.NeutronModelNode;
 import edu.colorado.phet.nuclearphysics.view.NeutronSourceNode;
+import edu.colorado.phet.nuclearphysics.view.NucleonNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -200,9 +201,9 @@ public class ChainReactionCanvas extends PhetPCanvas {
             _nucleusLayer.addChild( atomNode );
             _modelElementToNodeMap.put( modelElement, atomNode );
         }
-        else if (modelElement instanceof Neutron){
+        else if (modelElement instanceof Nucleon && ((Nucleon)modelElement).getNucleonType() == NucleonType.NEUTRON){
             // Add a corresponding neutron node for this guy.
-            PNode neutronNode = new NeutronModelNode((Neutron)modelElement);
+            PNode neutronNode = new NucleonNode((Nucleon)modelElement);
             _nucleusLayer.addChild( neutronNode );
             _modelElementToNodeMap.put( modelElement, neutronNode );            
         }

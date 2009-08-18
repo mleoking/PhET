@@ -10,6 +10,9 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
 import edu.colorado.phet.nuclearphysics.common.model.Antineutrino;
 import edu.colorado.phet.nuclearphysics.common.model.Electron;
+import edu.colorado.phet.nuclearphysics.common.model.Nucleon;
+import edu.colorado.phet.nuclearphysics.common.model.SubatomicParticle;
+import edu.colorado.phet.nuclearphysics.common.model.Nucleon.NucleonType;
 
 /**
  * Base class for composite nuclei (i.e. nuclei that are made up of multiple
@@ -44,9 +47,18 @@ public abstract class BetaDecayCompositeNucleus extends CompositeAtomicNucleus {
 		super.reset();
 	    
 		if (_numNeutrons != _origNumNeutrons || _numProtons != _origNumProtons){
-			// Change one proton into a neutron.
+			
+			// Reset numerical configuration.
 			_numNeutrons = _origNumNeutrons;
 			_numProtons = _origNumProtons;
+			
+			// Change one of the protons into a neutron.
+			for (SubatomicParticle nucleon : _constituents){
+				if (nucleon instanceof Nucleon && ((Nucleon)nucleon).getNucleonType() == NucleonType.PROTON){
+					((Nucleon)nucleon).setNucleonType(NucleonType.NEUTRON);
+					break;
+				}
+			}
 			
 			// Update our agitation level.
 			updateAgitationFactor();
@@ -64,9 +76,17 @@ public abstract class BetaDecayCompositeNucleus extends CompositeAtomicNucleus {
 
 		super.decay(clockEvent);
 
-		// Update the nucleus configuration.
+		// Update the numerical nucleus configuration.
 		_numNeutrons -= 1;
 		_numProtons += 1;
+		
+		// Change one of the neutrons into a proton.
+		for (SubatomicParticle nucleon : _constituents){
+			if (nucleon instanceof Nucleon && ((Nucleon)nucleon).getNucleonType() == NucleonType.NEUTRON){
+				((Nucleon)nucleon).setNucleonType(NucleonType.PROTON);
+				break;
+			}
+		}
 
 		// Create the emitted particles, which are an electron and an
 		// antineutrino.

@@ -20,6 +20,7 @@ import edu.colorado.phet.nuclearphysics.common.model.Antineutrino;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.Electron;
 import edu.colorado.phet.nuclearphysics.common.model.Neutron;
+import edu.colorado.phet.nuclearphysics.common.model.Nucleon;
 import edu.colorado.phet.nuclearphysics.common.model.Proton;
 import edu.colorado.phet.nuclearphysics.common.model.SubatomicParticle;
 import edu.colorado.phet.nuclearphysics.common.view.AbstractAtomicNucleusNode;
@@ -32,6 +33,7 @@ import edu.colorado.phet.nuclearphysics.view.AutoPressGradientButtonNode;
 import edu.colorado.phet.nuclearphysics.view.ElectronNode;
 import edu.colorado.phet.nuclearphysics.view.NeutronModelNode;
 import edu.colorado.phet.nuclearphysics.view.NucleonModelNode;
+import edu.colorado.phet.nuclearphysics.view.NucleonNode;
 import edu.colorado.phet.nuclearphysics.view.ProtonModelNode;
 import edu.colorado.phet.nuclearphysics.view.SingleNucleusDecayTimeChart;
 import edu.colorado.phet.nuclearphysics.view.SubatomicParticleNode;
@@ -205,19 +207,13 @@ public class SingleNucleusBetaDecayCanvas extends PhetPCanvas {
 			for (int i = 0; i < nucleusConstituents.size(); i++){
 
 				Object constituent = nucleusConstituents.get( i );
-
-				if (constituent instanceof Neutron){
-					// Add a visible representation of the neutron to the canvas.
-					NeutronModelNode neutronNode = new NeutronModelNode((Neutron)constituent);
-					neutronNode.setVisible( true );
-					_nucleusLayer.addChild( neutronNode );
-				}
-				else if (constituent instanceof Proton){
-					// Add a visible representation of the proton to the canvas.
-					ProtonModelNode protonNode = new ProtonModelNode((Proton)constituent);
-					protonNode.setVisible( true );
-					_nucleusLayer.addChild( protonNode );
-				}
+				
+	            if (constituent instanceof Nucleon){
+	                // Add a visible representation of the nucleon to the canvas.
+	            	NucleonNode nucleonNode = new NucleonNode((Nucleon)constituent);
+	            	nucleonNode.setVisible(true);
+	            	_nucleusLayer.addChild(nucleonNode);
+	            }
 				else {
 					// There is some unexpected object in the list of constituents
 					// of the nucleus.  This should never happen and should be

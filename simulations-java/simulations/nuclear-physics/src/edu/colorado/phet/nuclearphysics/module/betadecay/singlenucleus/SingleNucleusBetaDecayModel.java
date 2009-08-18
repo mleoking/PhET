@@ -17,6 +17,7 @@ import edu.colorado.phet.nuclearphysics.model.AdjustableHalfLifeCompositeNucleus
 import edu.colorado.phet.nuclearphysics.model.Carbon14CompositeNucleus;
 import edu.colorado.phet.nuclearphysics.model.CompositeAtomicNucleus;
 import edu.colorado.phet.nuclearphysics.model.Hydrogen3CompositeNucleus;
+import edu.colorado.phet.nuclearphysics.model.LightAdjustableCompositeNucleus;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.NucleusTypeControl;
 
 /**
@@ -271,7 +272,7 @@ public class SingleNucleusBetaDecayModel implements NucleusTypeControl {
 	        break;
 			
 		case LIGHT_CUSTOM:
-	        _atomicNucleus = new Hydrogen3CompositeNucleus(_clock, new Point2D.Double(0, 0));
+	        _atomicNucleus = new LightAdjustableCompositeNucleus(_clock, new Point2D.Double(0, 0));
 	        break;
 			
 		}

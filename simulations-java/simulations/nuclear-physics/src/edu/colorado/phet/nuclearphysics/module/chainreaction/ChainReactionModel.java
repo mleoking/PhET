@@ -77,7 +77,7 @@ public class ChainReactionModel {
     private ArrayList _u238Nuclei = new ArrayList();
     private ArrayList _daughterNuclei = new ArrayList();
     private ArrayList _u239Nuclei = new ArrayList();
-    private ArrayList _freeNeutrons = new ArrayList();
+    private ArrayList<Nucleon> _freeNeutrons = new ArrayList<Nucleon>();
     private ArrayList _containedElements = new ArrayList();
     private Random _rand = new Random();
     private NeutronSource _neutronSource;
@@ -116,7 +116,7 @@ public class ChainReactionModel {
         // Register as a listener to the neutron source so that we know when
         // new neutrons are generated.
         _neutronSource.addListener( new NeutronSource.Adapter (){
-            public void neutronGenerated(Neutron neutron){
+            public void neutronGenerated(Nucleon neutron){
                 // Add this new neutron to the list of free particles and let
                 // any listeners know that it has come into existence.
                 _freeNeutrons.add( neutron );
@@ -728,7 +728,7 @@ public class ChainReactionModel {
         
         numElements = _freeNeutrons.size();
         for (i = numElements - 1; i >= 0; i--){
-            Neutron neutron = (Neutron)_freeNeutrons.get( i );
+            Nucleon neutron = (Nucleon)_freeNeutrons.get( i );
             if ( Math.abs( neutron.getPositionReference().getX() ) > (MAX_NUCLEUS_RANGE_X / 2) ||
                  Math.abs( neutron.getPositionReference().getY() ) > (MAX_NUCLEUS_RANGE_Y / 2)){
                 // Get rid of this element.
@@ -907,7 +907,7 @@ public class ChainReactionModel {
             // managed by this model.
             for (int i = 0; i < byProducts.size(); i++){
                 Object byProduct = byProducts.get( i );
-                if ((byProduct instanceof Neutron) || (byProduct instanceof Proton)){
+                if (byProduct instanceof Nucleon){
                     // Let any listeners know that a new element has appeared
                     // separately in the model.
                     notifyModelElementAdded(byProduct);
@@ -919,7 +919,7 @@ public class ChainReactionModel {
                     ((Nucleon)byProduct).setVelocity( xVel, yVel );
                     
                     // Add this new particle to our list.
-                    _freeNeutrons.add( byProduct );
+                    _freeNeutrons.add( (Nucleon)byProduct );
                 }
                 else if (byProduct instanceof AtomicNucleus){
                     // Save the new daughter and let any listeners

@@ -9,6 +9,7 @@ import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.Neutron;
 import edu.colorado.phet.nuclearphysics.common.model.Nucleon;
+import edu.colorado.phet.nuclearphysics.common.model.Nucleon.NucleonType;
 
 
 public class Uranium238Nucleus extends AtomicNucleus {
@@ -68,8 +69,11 @@ public class Uranium238Nucleus extends AtomicNucleus {
 
         boolean retval = false;
         
-        if ((freeParticle instanceof Neutron) && (_numNeutrons == ORIGINAL_NUM_NEUTRONS)){
-            
+        if (freeParticle instanceof Nucleon && 
+        	((Nucleon)freeParticle).getNucleonType() == NucleonType.NEUTRON &&
+        	(_numNeutrons == ORIGINAL_NUM_NEUTRONS)){
+
+
             // Increase our neutron count.
             _numNeutrons++;
             

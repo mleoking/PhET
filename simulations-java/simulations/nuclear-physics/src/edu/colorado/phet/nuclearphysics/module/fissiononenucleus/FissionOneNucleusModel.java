@@ -80,7 +80,7 @@ public class FissionOneNucleusModel {
         // Register as a listener to the neutron source so that we know when
         // new neutrons are generated.
         _neutronSource.addListener( new NeutronSource.Adapter (){
-            public void neutronGenerated(Neutron neutron){
+            public void neutronGenerated(Nucleon neutron){
                 // Add this new neutron to the list of free particles.  It
                 // should already be represented in the view and thus does
                 // not need to be added to it.
@@ -232,7 +232,7 @@ public class FissionOneNucleusModel {
             // managed by this object.
             for (int i = 0; i < byProducts.size(); i++){
                 Object byProduct = byProducts.get( i );
-                if ((byProduct instanceof Neutron) || (byProduct instanceof Proton)){
+                if ( byProduct instanceof Nucleon ){
                     // Set a direction and velocity for this neutron.
                     double angle = (_rand.nextDouble() * Math.PI / 3);
                     if (_rand.nextBoolean()){

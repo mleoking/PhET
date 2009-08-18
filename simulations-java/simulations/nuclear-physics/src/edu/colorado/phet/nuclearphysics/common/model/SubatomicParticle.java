@@ -4,7 +4,6 @@ package edu.colorado.phet.nuclearphysics.common.model;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * Abstract base class for subatomic particles.
@@ -21,7 +20,7 @@ public abstract class SubatomicParticle {
     // Instance data
     //------------------------------------------------------------------------
 	
-    private ArrayList<Listener> _listeners = new ArrayList<Listener>();
+    protected ArrayList<Listener> _listeners = new ArrayList<Listener>();
     
     // Location in space of this particle.
     private Point2D.Double _position;
