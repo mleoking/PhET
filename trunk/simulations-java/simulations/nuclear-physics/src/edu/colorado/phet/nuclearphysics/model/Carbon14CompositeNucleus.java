@@ -14,6 +14,7 @@ import edu.colorado.phet.nuclearphysics.common.NucleusType;
  * @author John Blanco
  */
 public class Carbon14CompositeNucleus extends BetaDecayCompositeNucleus {
+	
     //------------------------------------------------------------------------
     // Class data
     //------------------------------------------------------------------------
@@ -23,21 +24,23 @@ public class Carbon14CompositeNucleus extends BetaDecayCompositeNucleus {
     public static final int ORIGINAL_NUM_PROTONS = 6;
     public static final int ORIGINAL_NUM_NEUTRONS = 8;
     
-    // Half life for this nucleus.
-    public static double HALF_LIFE = HalfLifeInfo.getHalfLifeForNucleusType(NucleusType.CARBON_14);
-
     // The "agitation factor" for the various types of nucleus.  The amount of
     // agitation controls how dynamic the nucleus looks on the canvas.  Values
     // must be in the range 0-9.
     static final int CARBON_14_AGITATION_FACTOR = 5;
     static final int NITROGEN_14_AGITATION_FACTOR = 1;
+    
+    // Time scaling factor - scales the rate at which decay occurs so that we
+    // don't really have to wait around thousands of years.  Smaller values
+    // cause quicker decay.
+    private static double DECAY_TIME_SCALING_FACTOR = 1500 / HalfLifeInfo.getHalfLifeForNucleusType(NucleusType.CARBON_14);
 
     //------------------------------------------------------------------------
     // Instance data
     //------------------------------------------------------------------------
 
     public Carbon14CompositeNucleus(NuclearPhysicsClock clock, Point2D position){
-        super(clock, position, ORIGINAL_NUM_PROTONS, ORIGINAL_NUM_NEUTRONS);
+        super(clock, position, ORIGINAL_NUM_PROTONS, ORIGINAL_NUM_NEUTRONS, DECAY_TIME_SCALING_FACTOR);
     }
     
     //------------------------------------------------------------------------
