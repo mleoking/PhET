@@ -19,8 +19,8 @@ import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.view.LabeledNucleusImageNode;
-import edu.colorado.phet.nuclearphysics.view.NeutronNode;
-import edu.colorado.phet.nuclearphysics.view.ProtonNode;
+import edu.colorado.phet.nuclearphysics.view.StandaloneNeutronNode;
+import edu.colorado.phet.nuclearphysics.view.StandaloneProtonNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -64,10 +64,10 @@ public class ChainReactionLegendPanel extends JPanel {
         setLayout( new GridLayout(0, 2) );
 
         // Add the images and labels for the simple portion of the legend.
-        PNode neutron = new NeutronNode();
+        PNode neutron = new StandaloneNeutronNode();
         neutron.scale( PARTICLE_SCALE_FACTOR );
         addLegendItem( neutron.toImage(), NuclearPhysicsStrings.NEUTRON_LEGEND_LABEL ); 
-        PNode proton = new ProtonNode();
+        PNode proton = new StandaloneProtonNode();
         proton.scale( PARTICLE_SCALE_FACTOR );
         addLegendItem( proton.toImage(), NuclearPhysicsStrings.PROTON_LEGEND_LABEL ); 
         

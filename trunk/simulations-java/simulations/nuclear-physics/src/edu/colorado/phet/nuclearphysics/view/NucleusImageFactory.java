@@ -163,11 +163,11 @@ public class NucleusImageFactory {
         	for (int i = 0; i < 3; i++){
         		PNode nucleonNode = null;
         		if (neutronsToAdd > 0){
-        			nucleonNode = new NeutronNode();
+        			nucleonNode = new StandaloneNeutronNode();
         			neutronsToAdd--;
         		}
         		else{
-        			nucleonNode = new ProtonNode();
+        			nucleonNode = new StandaloneProtonNode();
         			protonsToAdd--;
         		}
         		nucleonNode.scale( pixelsPerFm );
@@ -237,7 +237,7 @@ public class NucleusImageFactory {
 
     private void addNeutron( PNode nucleus, double radius, double pixelsPerFm ) {
 
-        PNode neutron = new NeutronNode();
+        PNode neutron = new StandaloneNeutronNode();
         neutron.scale( pixelsPerFm );
         PImage neutronImage = new PImage( neutron.toImage() );
         setParticlePosition( radius, neutronImage, pixelsPerFm );
@@ -247,7 +247,7 @@ public class NucleusImageFactory {
 
     private void addProton( PNode nucleus, double radius, double pixelsPerFm ) {
 
-        PNode proton = new ProtonNode();
+        PNode proton = new StandaloneProtonNode();
         proton.scale( pixelsPerFm );
         PImage protonImage = new PImage( proton.toImage() );
         setParticlePosition( radius, protonImage, pixelsPerFm );
