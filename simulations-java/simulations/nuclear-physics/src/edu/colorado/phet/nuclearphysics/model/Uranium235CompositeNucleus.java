@@ -167,7 +167,7 @@ public class Uranium235CompositeNucleus extends CompositeAtomicNucleus{
                         assert false;
                     }
                     
-                    _constituents.add(constituent);
+                    _constituents.add((SubatomicParticle)constituent);
                 }
             }
         }
