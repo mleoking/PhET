@@ -25,24 +25,40 @@ class JavaSupportPage extends SitePage {
 
             <div id="faq">
                 <ul id="nav">
-                    <li class="faq"><a href="#q1">How do I get Java?</a></li>
+                    <li class="faq"><a href="#q1">(Mac users) When I click "run now" to start the simulation all I get is a text file that opens?</a></li>
 
-                    <li class="faq"><a href="#q2">Why do you use Java Web Start instead of Java?</a></li>
+                    <li class="faq"><a href="#q2">How do I get Java?</a></li>
 
-                    <li class="faq"><a href="#q3">Are there any problems running the simulations on a Mac?</a></li>
+                    <li class="faq"><a href="#q3">Why do you use Java Web Start instead of Java?</a></li>
 
-                    <li class="faq"><a href="#q4">How do I check my computer's current version of Java?</a></li>
+                    <li class="faq"><a href="#q4">Are there any problems running the simulations on a Mac?</a></li>
 
-                    <li class="faq"><a href="#q5">I have Windows 2000 and I can only get the Flash based simulations to work.</a></li>
+                    <li class="faq"><a href="#q5">How do I check my computer's current version of Java?</a></li>
 
-                    <li class="faq"><a href="#q6">General Java troubleshooting</a></li>
+                    <li class="faq"><a href="#q6">I have Windows 2000 and I can only get the Flash based simulations to work.</a></li>
 
-                    <li class="faq"><a href="#q7">Troubleshooting tips for networked computers</a></li>
+                    <li class="faq"><a href="#q7">General Java troubleshooting</a></li>
+
+                    <li class="faq"><a href="#q8">Troubleshooting tips for networked computers</a></li>
                 </ul>
             </div><br />
             <br />
 
-            <h3 id="q1" >How do I get Java?</h3>
+        <h3 id="q1">(Mac users) When I click "run now" to start the simulation all I get is a text file that opens?</h3>
+        <p>
+<img style="float: left;" src="{$this->prefix}images/unhappy-mac-jnlp-logo-small.jpg" alt="Unhappy JNLP Mac Logo" />
+        This problem will affect mac users who recently installed Apple's "Java for Mac OS X 10.5 Update 4". The update will typically be done via Software Update, or automatically. After installing this update, the problem appears: clicking on JNLP files in Safari or FireFox caused the JNLP file to open in TextEdit, instead of starting Java Web Start. </p>
+        <p>
+        The fix is:<br/>
+            1. Go to http://support.apple.com/downloads/Java_for_Mac_OS_X_10_5_Update_4<br/>
+            2. Click Download to download a .dmg file<br/>
+            3. When the .dmg has downloaded, double-click on it (if it doesn't mount automatically)<br/>
+            4. Quit all applications<br/>
+            5. Run the update installer
+        </p>
+        <p><a href="#top"><img src="{$this->prefix}images/top.gif" alt="Go to top" /></a></p>
+
+            <h3 id="q2" >How do I get Java?</h3>
 
             <p>To run the Java-based simulations you must have Java version {$java_min_version_generic} or higher installed on your computer. You can obtain the free downloads by clicking on the button below:<br />
             <a href="http://www.java.com/en/index.jsp"><img src="{$this->prefix}images/java-jump.gif" alt="Java Jump" /></a></p>
@@ -53,21 +69,23 @@ class JavaSupportPage extends SitePage {
 
             <p><a href="#faq_top"><img src="{$this->prefix}images/top.gif" alt="Go to top" /></a></p>
 
-            <h3 id="q2" >Why do you use Java Web Start instead of Java?</h3>
+            <h3 id="q3" >Why do you use Java Web Start instead of Java?</h3>
 
             <p>We use Java Web Start technology rather than Java Applets. Java Web Start, which is a free mechanism from Sun, is a more robust way of launching Java programs over the Web than applets. If you have had problems running applets in the past, you may well find that Java Web Start works much better. If you should have any problems, we will be happy to help you solve them. If the information on this page doesnít help, just send us email at <a href="mailto:{$phet_help_email}">{$phet_help_email}</a>.</p>
 
             <p><a href="#faq_top"><img src="{$this->prefix}images/top.gif" alt="Go to top" /></a></p>
 
-            <h3 id="q3" >Are there any problems running the simulations on a Mac?</h3>
+            <h3 id="q4" >Are there any problems running the simulations on a Mac?</h3>
 
             <p>Macintosh OS X 10.4 or higher is required to run our Java programs. You must have the latest version of Java (which will already be installed if you are using the auto-update feature of OS X). See http://www.apple.com/java/ for details.</p>
 
             <p>Versions of Apple's Safari browser below 2.0 (included with OS X 10.4) do not launch our Java-based applications reliably.</p>
 
+                                                                                             <p>If when you click "Run Now" to start a simulation and all you get is a text file that opens, see <a href="#q1">this answer</a>.</p>
+
             <p><a href="#faq_top"><img src="{$this->prefix}images/top.gif" alt="Go to top" /></a></p>
 
-            <h3 id="q4" >How do I check my computer's current version of Java?</h3>
+            <h3 id="q5" >How do I check my computer's current version of Java?</h3>
 
             <p><strong><em>Windows Vista users:</em></strong><br />
             From a command line (Start&nbsp;menu-&gt;All&nbsp;Programs-&gt;Accessories-&gt;Command&nbsp;Prompt), type: <strong>javaws&nbsp;-viewer</strong> followed by the enter key. You should see some text which will include something like "(build 1.4.2_05_05-b04)"; this number is the version of Java you are using. If you receive an error, Java is not properly installed (see above to reinstall).</p>
@@ -80,7 +98,7 @@ class JavaSupportPage extends SitePage {
 
             <p><a href="#faq_top"><img src="{$this->prefix}images/top.gif" alt="Go to top" /></a></p>
 
-            <h3 id="q5" >I have Windows 2000 and I can only get the Flash based simulations to work.</h3>
+            <h3 id="q6" >I have Windows 2000 and I can only get the Flash based simulations to work.</h3>
 
             <p>Some Windows 2000 systems have been reported to lack part of the necessary Java configuration. These systems will typically start our Flash-based simulations reliably, but will appear to do nothing when launching our Java-based simulations.</p>
 
@@ -99,7 +117,7 @@ class JavaSupportPage extends SitePage {
 
             <p><a href="#faq_top"><img src="{$this->prefix}images/top.gif" alt="Go to top" /></a></p>
 
-            <h3 id="q6" >General Java troubleshooting</h3>
+            <h3 id="q7" >General Java troubleshooting</h3>
 
             <p>The following are some general steps that you may wish to perform when attempting to solve Java-related problems:</p>
 
@@ -137,7 +155,7 @@ class JavaSupportPage extends SitePage {
 
             <p><a href="#faq_top"><img src="{$this->prefix}images/top.gif" alt="Go to top" /></a></p>
 
-            <h3 id="q7" >Troubleshooting tips for networked computers</h3>
+            <h3 id="q8" >Troubleshooting tips for networked computers</h3>
 
             <p><strong>Why do simulations run for admin but not all users?</strong></p>
 
