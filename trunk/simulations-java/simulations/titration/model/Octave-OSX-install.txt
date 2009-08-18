@@ -14,10 +14,15 @@ Installing Octave and Gnuplot on OSX
 4. Download and install Aquaterm, which renders Gnuplot graphs:
    http://sourceforge.net/projects/aquaterm/
 
-5. Run Gnuplot and set the renderer to "terminal aqua" (if it isn't already).
+5. Run Gnuplot and set the renderer to "terminal aqua" (if it isn't set to this already).
 
-6. Test Octave:
+6. Running Octave out of /Application gets to be a pain.
+   Create a symlink to Octave so that you can run it from the command line:
+   ln -s /Applications/Octave.app/Contents/Resources/bin/octave /usr/bin/octave
 
-   x = linspace( -pi, pi, 100 );
-   y = sin( x );
-   plot( x, y );
+7. Test:
+
+   % octave
+   > x = linspace( -pi, pi, 100 );
+   > y = sin( x );
+   > plot( x, y );
