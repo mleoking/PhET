@@ -3,7 +3,6 @@
 package edu.colorado.phet.nuclearphysics.common;
 
 import java.awt.Color;
-import java.security.InvalidParameterException;
 
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;

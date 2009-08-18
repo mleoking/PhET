@@ -3,7 +3,6 @@
 package edu.colorado.phet.nuclearphysics.model;
 
 import java.awt.geom.Point2D;
-import java.util.Random;
 
 import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
 import edu.colorado.phet.nuclearphysics.common.NucleusType;

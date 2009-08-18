@@ -9,7 +9,6 @@ import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.nuclearphysics.model.HalfLifeInfo;
-import edu.colorado.phet.nuclearphysics.module.radioactivedatinggame.AnimatedDatableItem.TimeUpdater;
 
 /**
  * This class implements the behavior of a model element that represents a

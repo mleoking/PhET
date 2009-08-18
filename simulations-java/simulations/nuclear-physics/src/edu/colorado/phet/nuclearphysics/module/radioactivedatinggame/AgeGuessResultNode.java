@@ -1,14 +1,8 @@
 package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 
 import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Image;
-import java.awt.Point;
-import java.awt.Toolkit;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
