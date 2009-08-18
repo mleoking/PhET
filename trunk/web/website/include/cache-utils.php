@@ -160,6 +160,11 @@
         return (cache_clear("simulations") && cache_clear("teacher_ideas"));
     }
 
+    function cache_clear_get_phet() {
+        // Teacher ideas and simulations both reference each other, need to clear both
+        return cache_clear("get_phet");
+    }
+
     /**
      * Cache the given resource
      *

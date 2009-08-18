@@ -16,6 +16,7 @@ $COMMANDS = array(
     "simulations" => "return cache_clear_simulations();",
     "admin" => "return cache_clear_admin();",
     "teacher_ideas" => "return cache_clear_teacher_ideas();",
+    "get_phet" => "return cache_clear_get_phet();",
     "all" => "return cache_clear_all();"
     );
 
