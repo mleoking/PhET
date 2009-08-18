@@ -262,7 +262,7 @@ public abstract class AtomicNucleus implements NuclearDecayControl {
 		// Not sure if this default implementation will apply to all types of
 		// decay, but it works for those implemented by the sim as of this
 		// writing.
-		if (_numProtons < _origNumProtons){
+		if (_numProtons != _origNumProtons){
 			return true;
 		}
 		else{
@@ -448,6 +448,11 @@ public abstract class AtomicNucleus implements NuclearDecayControl {
 		case 8:
 			// Oxygen, which is used in this sim as the light custom nucleus.
 			nucleusType = NucleusType.LIGHT_CUSTOM;
+			break;
+			
+		case 9:
+			// Flourine, which is used in this sim as the decayed light custom nucleus.
+			nucleusType = NucleusType.LIGHT_CUSTOM_POST_DECAY;
 			break;
 			
 		case 81:
