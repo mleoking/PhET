@@ -310,8 +310,8 @@ public class MultiNucleusDecayModel implements NucleusTypeControl {
 	public void setHalfLife(double halfLife) {
 		
 		// Verify that the current nucleus is custom.
-		if (_currentNucleusType != NucleusType.HEAVY_CUSTOM){
-			System.err.println("Warning: Can only set half life for custom nucleus, ignoring request.");
+		if (_currentNucleusType != NucleusType.HEAVY_CUSTOM && _currentNucleusType != NucleusType.LIGHT_CUSTOM){
+			System.err.println(getClass().getName() + " - Warning: Can only set half life for custom nucleus, ignoring request.");
 			return;
 		}
 		
