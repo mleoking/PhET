@@ -65,3 +65,8 @@ div.rtl #page-header-title {
 .sign-out a {
     color: white;
 }
+
+.standard-content h2 {
+    font-size: 16px;
+    color: #15337f;
+}
