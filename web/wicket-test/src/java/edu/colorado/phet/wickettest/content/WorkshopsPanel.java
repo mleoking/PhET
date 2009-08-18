@@ -1,6 +1,5 @@
 package edu.colorado.phet.wickettest.content;
 
-import org.apache.wicket.behavior.HeaderContributor;
 import org.apache.wicket.markup.html.link.Link;
 
 import edu.colorado.phet.wickettest.components.PhetLink;

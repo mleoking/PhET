@@ -30,6 +30,9 @@ public class NavMenu {
         NavLocation workshops = new NavLocation( null, "workshops", WorkshopsPanel.getLinker() );
         addMajorLocation( workshops );
 
+        NavLocation getPhet = new NavLocation( null, "get-phet", RunOurSimulationsPanel.getLinker() );
+        addMajorLocation( getPhet );
+
         NavLocation troubleshooting = new NavLocation( null, "troubleshooting.main", TroubleshootingMainPanel.getLinker() );
         addMajorLocation( troubleshooting );
 

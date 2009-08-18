@@ -1,0 +1,93 @@
+#get_phet {
+    width: 520px;
+    margin: 0px 0px 10px 0px;
+    padding: 0px 0px 0px 0px;
+    background: none;
+}
+
+#get_phet caption {
+    padding: 0 0 5px 0;
+    font: italic 11px "arial", Verdana, Arial, Helvetica, sans-serif;
+    text-align: left;
+}
+
+#get_phet table {
+    border-collapse: collapse;
+}
+
+#get_phet th.nobg {
+    border-top: 0;
+    border-left: 0;
+    border-right: 1px solid #C1DAD7;
+    background: none;
+}
+
+#get_phet table p {
+    margin: 0;
+    padding: 0.5ex;
+}
+
+#get_phet table tr th:first-child {
+    width: 12em;
+}
+
+#get_phet td.alt {
+    background: #F5FAFA;
+}
+
+#get_phet td.alt p {
+    color: #797268;
+}
+
+#get_phet th.spec {
+    border-left: 1px solid #C1DAD7;
+    border-top: 0;
+    background: #fff url("../images/bullet1.gif") no-repeat;
+}
+
+#get_phet th.spec p {
+    font: bold 10pt "arial", Verdana, Arial, Helvetica, sans-serif;
+}
+
+#get_phet th.spec-none {
+    border-left: 1px solid #C1DAD7;
+    border-top: 0;
+    background: #133078;
+}
+
+#get_phet th.spec-none p {
+    font: bold 10pt "arial", Verdana, Arial, Helvetica, sans-serif;
+    color: #fff;
+}
+
+#get_phet th.specalt {
+    border-left: 1px solid #C1DAD7;
+    border-top: 0;
+    background: #f5fafa url("../images/bullet2.gif") no-repeat;
+}
+
+#get_phet th.specalt p {
+    font: bold 10pt "arial", Verdana, Arial, Helvetica, sans-serif;
+    color: #797268;
+}
+
+#get_phet th.specalt-none {
+    border-left: 1px solid #C1DAD7;
+    border-top: 0;
+    background: #133078;
+    vertical-align: top;
+}
+
+#get_phet th.specalt-none p {
+    font: bold 10pt "arial", Verdana, Arial, Helvetica, sans-serif;
+    color: #fff;
+}
+
+#get_phet .click-here a {
+    /*padding-bottom: 10px;*/
+    /*color: red;*/
+    background-color: #3399ff;
+    text-decoration: none;
+    padding: 2px 5px;
+    color: white;
+}
