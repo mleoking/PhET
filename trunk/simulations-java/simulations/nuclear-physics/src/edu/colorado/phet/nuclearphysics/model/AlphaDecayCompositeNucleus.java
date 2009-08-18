@@ -17,22 +17,11 @@ import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
 public abstract class AlphaDecayCompositeNucleus extends CompositeAtomicNucleus {
 
     //------------------------------------------------------------------------
-    // Instance data
-    //------------------------------------------------------------------------
-
-	protected double   _pauseStartTime;    // Time at which this nucleus was paused.
-	protected double   _preDecayLifeTime;  // Milliseconds of existence prior to decay.
-	
-    //------------------------------------------------------------------------
     // Constructor
     //------------------------------------------------------------------------
 
 	public AlphaDecayCompositeNucleus(NuclearPhysicsClock clock, Point2D position, int numProtons, int numNeutrons) {
 		super(clock, position, numProtons, numNeutrons);
-	}
-
-	public AlphaDecayCompositeNucleus(NuclearPhysicsClock clock, Point2D position, ArrayList constituents) {
-		super(clock, position, constituents);
 	}
 
 	/**
@@ -63,7 +52,11 @@ public abstract class AlphaDecayCompositeNucleus extends CompositeAtomicNucleus 
 	    // On this tab, the nucleus activates right away.
 	    activateDecay();
 	}
-	
+
+	/**
+	 * Override of the decay function, needed because an alpha particle must
+	 * tunnel out of the nucleus upon decay. 
+	 */
 	@Override
 	protected void decay(ClockEvent clockEvent) {
 		
