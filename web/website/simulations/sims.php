@@ -98,22 +98,22 @@ class IndividualSimulationPage extends SitePage {
         return true;
     }
 
-    function get_sim_java_upgrade_html() {
+    function get_mac_warning_html() {
         return <<<EOT
             <div class="simupgrade">
                 <p>
-                    <a href="http://www.java.com/"><img src="{$this->prefix}images/javalogo52x88.gif" alt="Java Jump" /></a>
                 </p>
                 <div>
                     <p>
-                        <strong>PhET is upgrading to Java 1.5!</strong>
+                        <strong style="font-size:larger; color: red;">Warning for Mac users</strong>
                     </p>
                     <p>
-                        Effective <strong>May 1st, 2009</strong>, to run the Java-based simulations you will need to upgrade to Java version 1.5 or higher.
-                        <a href="http://www.java.com/">Upgrade now!</a>
-                    </p>
-                    <p>
-                        <a href="{$this->prefix}tech_support/support-java.php#q4">How do I check my computer's current version of Java?</a>
+<a href="{$this->prefix}tech_support/support-java.php#q1">
+<img src="{$this->prefix}images/unhappy-mac-jnlp-logo-small.jpg" alt="Unhappy JNLP Mac Logo" />
+</a>
+                                                  Users who installed Apple's recent "<strong>Java for Mac OS X 10.5 Update 4</strong>" may have a problem with simulations appearing as text files.  Apple knows about this problem and is working to fix it.</p>
+  <p style="clear: both;">You can work around this problem by following the directions in this question in our FAQ:<br />
+<a href="{$this->prefix}tech_support/support-java.php#q1">(Mac users) When I click "run now" to start the simulation all I get is a text file that opens?</a>
                     </p>
                 </div>
                 <div class="clear"></div>
@@ -122,6 +122,7 @@ class IndividualSimulationPage extends SitePage {
 EOT;
         // ' <-- That aprostrophe makes Emacs highlighting back to normal
     }
+
 
     function get_sim_not_found_html() {
         $html = '';
@@ -205,7 +206,7 @@ EOT;
         // TODO: Remove explicit class checking
         $sim_java_upgrade_html = "";
         if ($this->sim->getType() == 'Java') {
-            $sim_java_upgrade_html = $this->get_sim_java_upgrade_html();
+            $sim_java_upgrade_html = $this->get_mac_warning_html();
         }
 
         // TODO: Remove explicit class checking

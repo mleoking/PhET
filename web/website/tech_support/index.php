@@ -58,9 +58,11 @@ class TroubleshootingPage extends SitePage {
 
             <div id="faq">
                 <ul id="nav">
-                    <li class="faq"><a href="#q1">Why can I run some of the simulations but not all?</a></li>
+                    <li class="faq"><a href="#q1">(Mac users) When I click "run now" to start the simulation all I get is a text file that opens?</a></li>
 
-                    <li class="faq"><a href="#q2">What are the System Requirements for running PhET simulations?</a></li>
+                    <li class="faq"><a href="#q2">Why can I run some of the simulations but not all?</a></li>
+
+                    <li class="faq"><a href="#q3">What are the System Requirements for running PhET simulations?</a></li>
 
                     <li class="faq"><a href="#q4">I use Internet Explorer and the simulations do not run on my computer.</a></li>
 
@@ -80,14 +82,26 @@ class TroubleshootingPage extends SitePage {
 
                     <li class="faq"><a href="#q12">When I run simulations from the {$installer_name}, I am seeing a dialog that says "The application's digital signature has been verified.  Do you want to run the application?" (or something similar).  What does this mean?</a></li>
 
-                    <li class="faq"><a href="#q13">(MAC users) When I click "run now" to start the simulation all I get is a text file that opens?</a></li>
-
                     <li class="faq"><a href="{$this->prefix}about/licensing.php">What are Licensing requirements?</a></li>
                 </ul>
             </div><br />
             <br />
 
-            <h3 id="q1" >Why can I run some of the simulations but not all?</h3>
+            <h3 id="q1">(Mac users) When I click "run now" to start the simulation all I get is a text file that opens?</h3>
+            <p>
+            <img style="float: left;" src="{$this->prefix}images/unhappy-mac-jnlp-logo-small.jpg" alt="Unhappy JNLP Mac Logo" />
+            This problem will affect mac users who recently installed Apple's "Java for Mac OS X 10.5 Update 4". The update will typically be done via Software Update, or automatically. After installing this update, the problem appears: clicking on JNLP files in Safari or FireFox caused the JNLP file to open in TextEdit, instead of starting Java Web Start. </p>
+            <p>
+            The fix is:<br/>
+                1. Go to http://support.apple.com/downloads/Java_for_Mac_OS_X_10_5_Update_4<br/>
+                2. Click Download to download a .dmg file<br/>
+                3. When the .dmg has downloaded, double-click on it (if it doesn't mount automatically)<br/>
+                4. Quit all applications<br/>
+                5. Run the update installer
+            </p>
+            <p><a href="#top"><img src="{$this->prefix}images/top.gif" alt="Go to top" /></a></p>
+
+            <h3 id="q2" >Why can I run some of the simulations but not all?</h3>
 
             <p>Some of our simulations are Java Web Start based applications and others use Macromedia's Flash player. Flash comes with most computers while Java Web Start is a free application that can be downloaded from Sun Microsystems. To run the Java-based simulations you must have Java version {$java_min_version_generic} or higher installed on your computer.</p>
 
@@ -95,7 +109,7 @@ class TroubleshootingPage extends SitePage {
 
             <p><a href="#top"><img src="{$this->prefix}images/top.gif" alt="Go to top" /></a></p>
 
-            <h3 id="q2" >What are the System Requirements for running PhET simulations?</h3>
+            <h3 id="q3" >What are the System Requirements for running PhET simulations?</h3>
 
             <p><strong>Windows Systems</strong><br />
             Intel Pentium processor<br />
@@ -246,17 +260,6 @@ class TroubleshootingPage extends SitePage {
             <p>On most systems, it is possible to permanently accept the PhET certificate and thereby prevent this dialog from appearing each time a simulation is run locally.  Most Windows and Max OSX systems have a check box on the certificate acceptance dialog that says "Always trust content from this publisher".  Checking this box will configure your system in such a way that the dialog will no longer appear when starting up PhET simulations.</p>
             <p><a href="#top"><img src="{$this->prefix}images/top.gif" alt="Go to top" /></a></p>
 
-        <h3 id="q13">(MAC users) When I click "run now" to start the simulation all I get is a text file that opens?</h3>
-        <p>This problem will affect mac users who recently installed Apple's "Java for Mac OS X 10.5 Update 4". The update will typically be done via Software Update, or automatically. After installing this update, the problem appears: clicking on JNLP files in Safari or FireFox caused the JNLP file to open in TextEdit, instead of starting Java Web Start. </p>
-        <p>
-        The fix is:<br/>
-            1. Go to http://support.apple.com/downloads/Java_for_Mac_OS_X_10_5_Update_4<br/>
-            2. Click Download to download a .dmg file<br/>
-            3. When the .dmg has downloaded, double-click on it (if it doesn't mount automatically)<br/>
-            4. Quit all applications<br/>
-            5. Run the update installer
-        </p>
-        <p><a href="#top"><img src="{$this->prefix}images/top.gif" alt="Go to top" /></a></p>
 <br />
 <br />
 <br />
