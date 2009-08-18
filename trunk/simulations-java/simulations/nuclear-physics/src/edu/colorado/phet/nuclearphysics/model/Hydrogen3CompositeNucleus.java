@@ -26,7 +26,7 @@ public class Hydrogen3CompositeNucleus extends BetaDecayCompositeNucleus {
     // Time scaling factor - scales the rate at which decay occurs so that we
     // don't really have to wait around thousands of years.  Smaller values
     // cause quicker decay.
-    private static double DECAY_TIME_SCALING_FACTOR = 1500 / HalfLifeInfo.getHalfLifeForNucleusType(NucleusType.HYDROGEN_3);
+    private static double DECAY_TIME_SCALING_FACTOR = 100 / HalfLifeInfo.getHalfLifeForNucleusType(NucleusType.HYDROGEN_3);
     
     // The "agitation factor" for the various types of nucleus.  The amount of
     // agitation controls how dynamic the nucleus looks on the canvas.  Values
