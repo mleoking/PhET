@@ -254,6 +254,10 @@ EOT;
 
                 <div id="simtoolbar">
                     <div class="stats">
+                        <span class="size">
+                            <a href="changelog.php?sim={$this->sim->getWebEncodedName()}">See changelog</a>
+                        </span><br />
+
                         {$sim_version_html}
                         <span class="size">
                             {$this->sim->getSize()} KB

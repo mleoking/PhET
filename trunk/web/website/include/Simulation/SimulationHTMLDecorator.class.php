@@ -262,6 +262,14 @@ class SimulationHTMLDecorator implements SimulationInterface {
         return $version;
     }
 
+    public function getChangelogFilename() {
+        return WebUtils::inst()->toHtml($this->sim->getChangelogFilename());
+    }
+
+    public function getChangelog() {
+        return $this->sim->getChangelog();
+    }
+
     public function isReal() {
         return $this->sim->isReal();
     }
