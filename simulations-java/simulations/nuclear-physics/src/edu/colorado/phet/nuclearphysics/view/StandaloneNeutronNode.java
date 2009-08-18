@@ -6,13 +6,14 @@ import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 
 /**
- * Basic representation of a neutron in the view.
- *
+ * Representation of a neutron that doesn't track to anything in the model.
+ * This is intended primarily for use on control panels.
+ * 
  * @author John Blanco
  */
-public class NeutronNode extends SphericalNode {
+public class StandaloneNeutronNode extends SphericalNode {
 
-    public NeutronNode( ) {
+    public StandaloneNeutronNode( ) {
         super( NuclearPhysicsConstants.NUCLEON_DIAMETER, NuclearPhysicsConstants.NEUTRON_ROUND_GRADIENT, false );
     }
 }

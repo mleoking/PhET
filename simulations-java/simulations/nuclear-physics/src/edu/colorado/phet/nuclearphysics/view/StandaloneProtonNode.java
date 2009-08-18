@@ -6,13 +6,14 @@ import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 
 /**
- * Basic representation of a proton in the view.
+ * Representation of a proton that doesn't track to anything in the model.
+ * This is intended primarily for use on control panels.
  *
  * @author John Blanco
  */
-public class ProtonNode extends SphericalNode {
+public class StandaloneProtonNode extends SphericalNode {
 
-    public ProtonNode( ) {
+    public StandaloneProtonNode( ) {
         super( NuclearPhysicsConstants.NUCLEON_DIAMETER, NuclearPhysicsConstants.PROTON_ROUND_GRADIENT, false );
     }
 }
