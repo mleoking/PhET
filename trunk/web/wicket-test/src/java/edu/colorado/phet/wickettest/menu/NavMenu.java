@@ -11,6 +11,7 @@ import org.hibernate.Transaction;
 
 import edu.colorado.phet.wickettest.components.PhetLink;
 import edu.colorado.phet.wickettest.content.*;
+import edu.colorado.phet.wickettest.content.about.*;
 import edu.colorado.phet.wickettest.content.troubleshooting.TroubleshootingFlashPanel;
 import edu.colorado.phet.wickettest.content.troubleshooting.TroubleshootingJavaPanel;
 import edu.colorado.phet.wickettest.content.troubleshooting.TroubleshootingJavascriptPanel;
@@ -72,6 +73,22 @@ public class NavMenu {
 
         NavLocation about = new NavLocation( null, "about", AboutPhetPanel.getLinker() );
         addMajorLocation( about );
+
+        NavLocation aboutSourceCode = new NavLocation( about, "about.source-code", AboutSourceCodePanel.getLinker() );
+        addLocation( aboutSourceCode );
+        about.addChild( aboutSourceCode );
+
+        NavLocation aboutContact = new NavLocation( about, "about.contact", AboutContactPanel.getLinker() );
+        addLocation( aboutContact );
+        about.addChild( aboutContact );
+
+        NavLocation aboutWhoWeAre = new NavLocation( about, "about.who-we-are", AboutWhoWeArePanel.getLinker() );
+        addLocation( aboutWhoWeAre );
+        about.addChild( aboutWhoWeAre );
+
+        NavLocation aboutLicensing = new NavLocation( about, "about.licensing", AboutLicensingPanel.getLinker() );
+        addLocation( aboutLicensing );
+        about.addChild( aboutLicensing );
 
         Session session = HibernateUtils.getInstance().openSession();
         Transaction tx = null;

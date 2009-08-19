@@ -2897,6 +2897,14 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 409	nav.troubleshooting.javascript	JavaScript	2009-08-19 00:38:54.069	2009-08-19 00:38:54.069	1
 410	nav.troubleshooting.java	Java	2009-08-19 00:38:58.745	2009-08-19 00:38:58.745	1
 411	nav.troubleshooting.flash	Flash	2009-08-19 00:39:06.905	2009-08-19 00:39:06.905	1
+412	about.source-code.title	PhET Source Code	2009-08-19 01:32:35.704	2009-08-19 01:32:35.704	1
+413	nav.about.source-code	Source Code	2009-08-19 01:32:46.865	2009-08-19 01:32:46.865	1
+416	nav.about.contact	Contact	2009-08-19 01:34:06.066	2009-08-19 01:34:06.066	1
+417	about.contact.title	Contact	2009-08-19 01:34:10.998	2009-08-19 01:34:10.998	1
+418	about.who-we-are.title	Who We Are	2009-08-19 01:34:21.682	2009-08-19 01:34:21.682	1
+419	nav.about.who-we-are	Who We Are	2009-08-19 01:34:32.249	2009-08-19 01:34:32.249	1
+420	about.licensing.title	Licensing	2009-08-19 01:34:54.444	2009-08-19 01:34:54.444	1
+421	nav.about.licensing	Licensing	2009-08-19 01:35:02.894	2009-08-19 01:35:02.894	1
 \.
 
 

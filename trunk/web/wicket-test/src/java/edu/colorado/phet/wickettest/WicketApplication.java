@@ -15,6 +15,7 @@ import org.hibernate.Transaction;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.wickettest.admin.AdminMainPage;
 import edu.colorado.phet.wickettest.content.*;
+import edu.colorado.phet.wickettest.content.about.*;
 import edu.colorado.phet.wickettest.content.troubleshooting.TroubleshootingFlashPanel;
 import edu.colorado.phet.wickettest.content.troubleshooting.TroubleshootingJavaPanel;
 import edu.colorado.phet.wickettest.content.troubleshooting.TroubleshootingJavascriptPanel;
@@ -66,12 +67,11 @@ public class WicketApplication extends WebApplication {
         StaticPage.addPanel( TroubleshootingJavaPanel.class );
         StaticPage.addPanel( TroubleshootingFlashPanel.class );
         StaticPage.addPanel( TroubleshootingJavascriptPanel.class );
+        StaticPage.addPanel( AboutSourceCodePanel.class );
+        StaticPage.addPanel( AboutContactPanel.class );
+        StaticPage.addPanel( AboutWhoWeArePanel.class );
+        StaticPage.addPanel( AboutLicensingPanel.class );
         // TODO: organize the above list, or refactor to another function
-        // TODO: add about (source code)
-        // TODO: add about (contact), with note: License stuff needs to stay there and [Wendy will] ask Hisham if he wants added to contact.
-        // TODO: add about (who we are) with note: rewrite to include partnership with KSU
-        // TODO: add about (licensing)
-
 
         // create a url mapper, and add the page classes to it
         mapper = new PhetUrlMapper();
