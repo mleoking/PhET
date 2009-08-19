@@ -32,8 +32,8 @@ public class Hydrogen3CompositeNucleus extends BetaDecayCompositeNucleus {
     // The "agitation factor" for the various types of nucleus.  The amount of
     // agitation controls how dynamic the nucleus looks on the canvas.  Values
     // must be in the range 0-9.
-    static final int HYDROGEN_3_AGITATION_FACTOR = MAX_AGITATION_FACTOR;
-    static final int HELIUM_3_AGITATION_FACTOR = 6;
+    static final int HYDROGEN_3_AGITATION_FACTOR = 8;
+    static final int HELIUM_3_AGITATION_FACTOR = 2;
 
     //------------------------------------------------------------------------
     // Instance data
