@@ -69,8 +69,12 @@ public abstract class CompositeAtomicNucleus extends AtomicNucleus {
         // Figure out the proportion of the protons and neutrons that will be
         // tied up in alpha particles.  This is not based on any formula, just
         // worked out with the educators as something that looks good and is
-        // representative enough of reality to work for this sim.
-        _numAlphas = ((numProtons + numNeutrons) / 2) / 4;  // Assume half of all particles are tied up in alphas.
+        // representative enough of reality to work for this sim.  Note that
+        // below a certain atomic weight so don't put ANY nucleons into alpha
+        // particles.
+        if (_numProtons + _numNeutrons > 50){
+        	_numAlphas = ((numProtons + numNeutrons) / 2) / 4;  // Assume half of all particles are tied up in alphas.
+        }
         
         // Add the constituent particles that make up this nucleus.  We do
         // this in such a way that the particles are interspersed in the list,
