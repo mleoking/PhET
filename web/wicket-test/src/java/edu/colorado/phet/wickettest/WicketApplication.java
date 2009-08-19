@@ -15,6 +15,9 @@ import org.hibernate.Transaction;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.wickettest.admin.AdminMainPage;
 import edu.colorado.phet.wickettest.content.*;
+import edu.colorado.phet.wickettest.content.troubleshooting.TroubleshootingFlashPanel;
+import edu.colorado.phet.wickettest.content.troubleshooting.TroubleshootingJavaPanel;
+import edu.colorado.phet.wickettest.content.troubleshooting.TroubleshootingJavascriptPanel;
 import edu.colorado.phet.wickettest.data.Translation;
 import edu.colorado.phet.wickettest.menu.NavMenu;
 import edu.colorado.phet.wickettest.templates.StaticPage;
@@ -59,7 +62,10 @@ public class WicketApplication extends WebApplication {
         StaticPage.addPanel( FullInstallPanel.class );
         StaticPage.addPanel( OneAtATimePanel.class );
         StaticPage.addPanel( ResearchPanel.class );
-        // TODO: add other troubleshooting pages
+        StaticPage.addPanel( TroubleshootingJavaPanel.class );
+        StaticPage.addPanel( TroubleshootingFlashPanel.class );
+        StaticPage.addPanel( TroubleshootingJavascriptPanel.class );
+        // TODO: organize the above list, or refactor to another function
         // TODO: add about (source code)
         // TODO: add about (contact), with note: License stuff needs to stay there and [Wendy will] ask Hisham if he wants added to contact.
         // TODO: add about (who we are) with note: rewrite to include partnership with KSU

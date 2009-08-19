@@ -1,5 +1,6 @@
-package edu.colorado.phet.wickettest.content;
+package edu.colorado.phet.wickettest.content.troubleshooting;
 
+import org.apache.wicket.behavior.HeaderContributor;
 import org.apache.wicket.markup.html.link.Link;
 
 import edu.colorado.phet.wickettest.components.PhetLink;
@@ -7,18 +8,20 @@ import edu.colorado.phet.wickettest.panels.PhetPanel;
 import edu.colorado.phet.wickettest.util.Linkable;
 import edu.colorado.phet.wickettest.util.PageContext;
 
-public class ResearchPanel extends PhetPanel {
-    public ResearchPanel( String id, PageContext context ) {
+public class TroubleshootingFlashPanel extends PhetPanel {
+    public TroubleshootingFlashPanel( String id, PageContext context ) {
         super( id, context );
+
+        add( HeaderContributor.forCss( "/css/troubleshooting-v1.css" ) );
 
     }
 
     public static String getKey() {
-        return "research";
+        return "troubleshooting.flash";
     }
 
     public static String getUrl() {
-        return "research";
+        return "troubleshooting/flash";
     }
 
     public static Linkable getLinker() {
