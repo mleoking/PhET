@@ -12,7 +12,6 @@ import common.timeseries.model.{RecordableModel, TimeSeriesModel}
 import java.awt.event.{FocusEvent, FocusListener, ActionEvent, ActionListener}
 import java.awt.geom.Point2D
 import java.awt.{FlowLayout, Color}
-import java.text.MessageFormat
 import javax.swing.{JTextField, JPanel, JLabel}
 import model.{RampModel}
 import umd.cs.piccolo.PNode
@@ -101,8 +100,8 @@ class RampChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model:
   val frictionWorkSeries = new ControlGraphSeries(formatWork("work.friction".translate), frictionWorkColor, abbrevUnused, J, characterUnused, frictionWorkVariable)
 
   class RampGraph(defaultSeries: ControlGraphSeries) extends MotionControlGraph(canvas, defaultSeries, "".literal, "".literal, -2000, 2000, true, timeseriesModel, updateableObject) {
-    getJFreeChartNode.getChart.getXYPlot.getRangeAxis.setTickLabelFont(new PhetFont(18,true))
-    getJFreeChartNode.getChart.getXYPlot.getDomainAxis.setTickLabelFont(new PhetFont(18,true))
+    getJFreeChartNode.getChart.getXYPlot.getRangeAxis.setTickLabelFont(new PhetFont(18, true))
+    getJFreeChartNode.getChart.getXYPlot.getDomainAxis.setTickLabelFont(new PhetFont(18, true))
     getJFreeChartNode.setBuffered(false)
     getJFreeChartNode.setPiccoloSeries() //works better on an unbuffered chart
     override def createSliderNode(thumb: PNode, highlightColor: Color) = {
@@ -111,8 +110,19 @@ class RampChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model:
         text.setFont(new PhetFont(18, true))
         text.setColor(appliedForceSeries.getColor)
         text.rotate(-java.lang.Math.PI / 2)
-        text.setOffset(-text.getFullBounds.getWidth * 1.5, getGlobalFullBounds.getHeight / 4 - text.getFullBounds.getHeight / 2)
-        addChild(text)
+        val textParent = new PNode
+        textParent.addChild(text)
+        textParent.setPickable(false)
+        textParent.setChildrenPickable(false)
+        addChild(textParent)
+
+        override def updateLayout() = {
+          super.updateLayout()
+          if (textParent != null)
+            textParent.setOffset(getTrackFullBounds.getX-textParent.getFullBounds.getWidth-getThumbFullBounds.getWidth/2,
+              getTrackFullBounds.getY+textParent.getFullBounds.getHeight + getTrackFullBounds.getHeight/2-textParent.getFullBounds.getHeight/2)
+        }
+        updateLayout()
       }
     }
 
@@ -146,7 +156,7 @@ class RampChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model:
   }
 
   def createEditableLabel(series: ControlGraphSeries) = {
-    val panel = new JPanel(new FlowLayout(FlowLayout.CENTER,0,0))
+    val panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0))
     val textField = new JTextField(6)
     textField.addActionListener(new ActionListener() {
       def actionPerformed(e: ActionEvent) = {
