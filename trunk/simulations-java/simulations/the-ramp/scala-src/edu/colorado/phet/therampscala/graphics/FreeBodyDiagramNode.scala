@@ -294,15 +294,17 @@ class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val ta
   addChild(abbreviatonTextNode)
 
   //can't use def since eta-expansion makes == and array -= impossible
+  //todo: see if def eta-expansion causes problems elsewhere
   val update = () => {
     setVisible(vector.visible)
     if (vector.visible) { //skip expensive updates if not visible
       val viewTip = transform.modelToViewDouble(vector.getValue + tailLocation.getValue)
       arrowNode.setTipAndTailLocations(viewTip, transform.modelToViewDouble(tailLocation.getValue))
 
-      val vectorToLabel = if (vector.getValue.magnitude > maxDistToLabel) new Vector2D(vector.getValue.getAngle) * maxDistToLabel else vector.getValue
+      val proposedLocation = vector.getValue * 0.6
+      val vectorToLabel = if (proposedLocation.magnitude > maxDistToLabel) new Vector2D(vector.getValue.getAngle) * maxDistToLabel else proposedLocation
       val textLocation = transform.modelToViewDouble(vectorToLabel + tailLocation.getValue)
-      abbreviatonTextNode.setOffset(textLocation)
+      abbreviatonTextNode.setOffset(textLocation.x-abbreviatonTextNode.getFullBounds.getWidth/2,textLocation.y-abbreviatonTextNode.getFullBounds.getHeight/2)
       abbreviatonTextNode.setVisible(vectorToLabel.magnitude > 1E-2)
     }
   }
