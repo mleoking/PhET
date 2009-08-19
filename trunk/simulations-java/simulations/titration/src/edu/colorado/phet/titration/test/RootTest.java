@@ -5,8 +5,7 @@ import java.util.Date;
 import edu.colorado.phet.common.phetcommon.math.Complex;
 
 /**
- * Uses edu.colorado.phet.boundstates.util.Complex for complex numbers. Feel free to move stuff to phetcommon, change
- * things, etc.
+ * Feel free to move stuff to phetcommon, change things, etc.
  */
 public class RootTest {
     public static void main( String[] args ) {
