@@ -2583,7 +2583,6 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 93	language.name	中文	2009-08-17 03:48:19.904	2009-08-17 05:12:01.023	2
 148	keyword.opticalTweezers	Optical Tweezers	2009-08-17 05:23:52.505	2009-08-17 05:23:52.505	1
 149	keyword.laser	Laser	2009-08-17 05:24:16.534	2009-08-17 05:24:16.534	1
-150	keyword.quantum	Quantum	2009-08-17 05:25:14.52	2009-08-17 05:25:14.52	1
 152	keyword.dna	DNA	2009-08-17 05:25:51.932	2009-08-17 05:25:51.932	1
 153	keyword.molecularMotors	Molecular Motors	2009-08-17 05:26:07.814	2009-08-17 05:26:07.814	1
 154	keyword.climateChange	Climate Change	2009-08-17 05:26:43.99	2009-08-17 05:26:43.99	1
