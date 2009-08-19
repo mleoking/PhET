@@ -52,11 +52,11 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
     		INITIAL_INTERMEDIATE_COORD_HEIGHT );
     
     // Fraction of canvas width used for the proportions chart.
-    private static final double PROPORTIONS_CHART_WIDTH_FRACTION = 0.75;
+    private static final double PROPORTIONS_CHART_WIDTH_FRACTION = 0.80;
     
     // Proportions and location of the meter on the canvas.
-    private static final double PROPORTIONS_METER_WIDTH_FRACTION = 0.23;
-    private static final double PROPORTIONS_METER_HEIGHT_FRACTION = 0.25;
+    private static final double METER_WIDTH_FRACTION = 0.23;
+    private static final double CHART_AND_METER_HEIGHT_FRACTION = 0.30;
     private static final double METER_X_OFFSET = 70;
     
     // Fixed distance from very top of canvas where the meter and chart will
@@ -98,7 +98,7 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
         _mvt = new ModelViewTransform2D(
         		new Point2D.Double(0, 0), 
         		new Point(INITIAL_INTERMEDIATE_COORD_WIDTH / 2, 
-        				(int)Math.round(INITIAL_INTERMEDIATE_COORD_HEIGHT * 0.7)),
+        				(int)Math.round(INITIAL_INTERMEDIATE_COORD_HEIGHT * 0.75)),
         		20,
         		true);
         
@@ -195,16 +195,16 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
         // resizing call to be a part of the constructor for the chart (I think).
         _proportionsChart.componentResized( new Rectangle2D.Double( 0, 0, 
         		INITIAL_INTERMEDIATE_COORD_WIDTH * PROPORTIONS_CHART_WIDTH_FRACTION,
-        		INITIAL_INTERMEDIATE_COORD_HEIGHT * PROPORTIONS_METER_HEIGHT_FRACTION));
+        		INITIAL_INTERMEDIATE_COORD_HEIGHT * CHART_AND_METER_HEIGHT_FRACTION));
         _proportionsChart.setOffset(
-        		METER_X_OFFSET + INITIAL_INTERMEDIATE_COORD_WIDTH * PROPORTIONS_METER_WIDTH_FRACTION + 8,
+        		METER_X_OFFSET + INITIAL_INTERMEDIATE_COORD_WIDTH * METER_WIDTH_FRACTION + 8,
         		METER_AND_CHART_OFFSET_FROM_TOP);
         
         // Create the radiometric measuring device.
         _meterNode = new RadiometricDatingMeterNode( 
         		_model.getMeter(), 
-        		INITIAL_INTERMEDIATE_COORD_WIDTH * PROPORTIONS_METER_WIDTH_FRACTION,
-        		INITIAL_INTERMEDIATE_COORD_HEIGHT * PROPORTIONS_METER_HEIGHT_FRACTION, 
+        		INITIAL_INTERMEDIATE_COORD_WIDTH * METER_WIDTH_FRACTION,
+        		INITIAL_INTERMEDIATE_COORD_HEIGHT * CHART_AND_METER_HEIGHT_FRACTION, 
         		_mvt,
         		this,
         		false, 
