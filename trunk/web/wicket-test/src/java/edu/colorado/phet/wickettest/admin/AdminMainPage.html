@@ -4,7 +4,7 @@
       xmlns:wicket="http://svn.apache.org/repos/asf/wicket/trunk/wicket/wicket-xhtml1-strict.dtd" xml:lang="en"
       lang="en">
 <head>
-    <title wicket:id="page-title">[PREVIEW] AdminPage</title>
+    <title wicket:id="page-title">[PREVIEW] AdminMainPage</title>
     <wicket:remove>
         <link rel="stylesheet" type="text/css" href="../../../../../../../root/css/preview.css"/>
     </wicket:remove>
@@ -75,6 +75,12 @@
                 </tr>
             </table>
         </form>
+
+        <h2>
+            <wicket:link>
+                <a href="AdminOrphanStringReport.html">Check for Orphan Strings</a>
+            </wicket:link>
+        </h2>
     </div>
     <div class="simulation-list-holder">
         <h2>Simulations to view / modify</h2>

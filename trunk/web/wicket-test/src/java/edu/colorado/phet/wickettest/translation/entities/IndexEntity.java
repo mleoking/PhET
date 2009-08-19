@@ -11,6 +11,17 @@ public class IndexEntity extends TranslationEntity {
         addString( "home.header" );
         addString( "home.subheader" );
         addString( "home.playWithSims" );
+        addString( "home.runOurSims" );
+        addString( "home.onLine" );
+        addString( "home.fullInstallation" );
+        addString( "home.oneAtATime" );
+        addString( "home.teacherIdeasAndActivities" );
+        addString( "home.workshops" );
+        addString( "home.contribute" );
+        addString( "home.supportPhet" );
+        addString( "home.translateSimulations" );
+        addString( "home.browseSims" );
+        addString( "home.simulations" );
         addPreview( new PhetPanelFactory() {
             public PhetPanel getNewPanel( String id, PageContext context, PhetRequestCycle requestCycle ) {
                 return new IndexPanel( id, context );

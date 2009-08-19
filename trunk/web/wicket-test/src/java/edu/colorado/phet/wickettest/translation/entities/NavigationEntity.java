@@ -32,7 +32,13 @@ public class NavigationEntity extends TranslationEntity {
         addString( "nav.applications" );
         addString( "nav.cutting-edge-research" );
         addString( "nav.all" );
+        addString( "nav.workshops" );
+        addString( "nav.get-phet" );
+        addString( "nav.get-phet.on-line" );
+        addString( "nav.get-phet.full-install" );
+        addString( "nav.get-phet.one-at-a-time" );
         addString( "nav.troubleshooting.main" );
+        addString( "nav.contribute" );
         addString( "nav.about" );
         addPreview( new PhetPanelFactory() {
             public PhetPanel getNewPanel( String id, PageContext context, PhetRequestCycle requestCycle ) {
