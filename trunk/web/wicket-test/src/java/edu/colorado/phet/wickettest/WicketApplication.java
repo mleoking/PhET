@@ -58,8 +58,8 @@ public class WicketApplication extends WebApplication {
         StaticPage.addPanel( RunOurSimulationsPanel.class );
         StaticPage.addPanel( FullInstallPanel.class );
         StaticPage.addPanel( OneAtATimePanel.class );
+        StaticPage.addPanel( ResearchPanel.class );
         // TODO: add other troubleshooting pages
-        // TODO: add research page
         // TODO: add about (source code)
         // TODO: add about (contact), with note: License stuff needs to stay there and [Wendy will] ask Hisham if he wants added to contact.
         // TODO: add about (who we are) with note: rewrite to include partnership with KSU

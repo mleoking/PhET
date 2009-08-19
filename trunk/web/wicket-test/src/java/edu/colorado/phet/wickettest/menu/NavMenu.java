@@ -51,6 +51,9 @@ public class NavMenu {
         NavLocation contribute = new NavLocation( null, "contribute", ContributePanel.getLinker() );
         addMajorLocation( contribute );
 
+        NavLocation research = new NavLocation( null, "research", ResearchPanel.getLinker() );
+        addMajorLocation( research );
+
         NavLocation about = new NavLocation( null, "about", AboutPhetPanel.getLinker() );
         addMajorLocation( about );
 
