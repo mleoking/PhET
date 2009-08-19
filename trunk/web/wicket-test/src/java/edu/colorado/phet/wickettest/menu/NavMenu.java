@@ -11,6 +11,9 @@ import org.hibernate.Transaction;
 
 import edu.colorado.phet.wickettest.components.PhetLink;
 import edu.colorado.phet.wickettest.content.*;
+import edu.colorado.phet.wickettest.content.troubleshooting.TroubleshootingFlashPanel;
+import edu.colorado.phet.wickettest.content.troubleshooting.TroubleshootingJavaPanel;
+import edu.colorado.phet.wickettest.content.troubleshooting.TroubleshootingJavascriptPanel;
 import edu.colorado.phet.wickettest.data.Category;
 import edu.colorado.phet.wickettest.util.HibernateUtils;
 import edu.colorado.phet.wickettest.util.Linkable;
@@ -47,6 +50,18 @@ public class NavMenu {
 
         NavLocation troubleshooting = new NavLocation( null, "troubleshooting.main", TroubleshootingMainPanel.getLinker() );
         addMajorLocation( troubleshooting );
+
+        NavLocation troubleshootingJava = new NavLocation( troubleshooting, "troubleshooting.java", TroubleshootingJavaPanel.getLinker() );
+        addLocation( troubleshootingJava );
+        troubleshooting.addChild( troubleshootingJava );
+
+        NavLocation troubleshootingFlash = new NavLocation( troubleshooting, "troubleshooting.flash", TroubleshootingFlashPanel.getLinker() );
+        addLocation( troubleshootingFlash );
+        troubleshooting.addChild( troubleshootingFlash );
+
+        NavLocation troubleshootingJavascript = new NavLocation( troubleshooting, "troubleshooting.javascript", TroubleshootingJavascriptPanel.getLinker() );
+        addLocation( troubleshootingJavascript );
+        troubleshooting.addChild( troubleshootingJavascript );
 
         NavLocation contribute = new NavLocation( null, "contribute", ContributePanel.getLinker() );
         addMajorLocation( contribute );
