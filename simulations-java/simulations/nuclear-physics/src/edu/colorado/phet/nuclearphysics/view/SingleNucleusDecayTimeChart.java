@@ -780,7 +780,6 @@ public class SingleNucleusDecayTimeChart extends PNode {
     		}
     	}
     	else{
-//    		halfLifeMarkerXPos = _graphOriginX + (TIME_ZERO_OFFSET + halfLife) * _msToPixelsFactor;
     		halfLifeMarkerXPos = _graphOriginX + ((TIME_ZERO_OFFSET_PROPORTION * _timeSpan) + halfLife) * _msToPixelsFactor;
     	}
         _halfLifeMarkerLine.reset();
@@ -937,8 +936,8 @@ public class SingleNucleusDecayTimeChart extends PNode {
     		       _graphOriginX + (TIME_ZERO_OFFSET * _msToPixelsFactor) - _nucleusNodeRadius;
     	}
     	else{
-        	xPos = _graphOriginX + ((_currentNucleus.getAdjustedActivatedTime() + TIME_ZERO_OFFSET) 
-        	        * _msToPixelsFactor) - _nucleusNodeRadius;
+        	xPos = _graphOriginX + ((TIME_ZERO_OFFSET_PROPORTION * _timeSpan) + 
+        			_currentNucleus.getAdjustedActivatedTime()) * _msToPixelsFactor - _nucleusNodeRadius;
     	}
 
         _undecayedNucleusNode.setOffset(xPos, yPos);
@@ -959,8 +958,8 @@ public class SingleNucleusDecayTimeChart extends PNode {
     		       _graphOriginX + (TIME_ZERO_OFFSET * _msToPixelsFactor) - _nucleusNodeRadius;
     	}
     	else{
-        	xPos = _graphOriginX + ((_currentNucleus.getAdjustedActivatedTime() + TIME_ZERO_OFFSET) 
-        	        * _msToPixelsFactor) - _nucleusNodeRadius;
+        	xPos = _graphOriginX + ((TIME_ZERO_OFFSET_PROPORTION * _timeSpan) + 
+        			_currentNucleus.getAdjustedActivatedTime()) * _msToPixelsFactor - _nucleusNodeRadius;
     	}
     	
 		if (nucleusNode.getFallCount() != 0){
