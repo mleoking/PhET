@@ -480,13 +480,12 @@ public class SingleNucleusDecayTimeChart extends PNode {
         		((PNode)_xAxisTickMarkLabels.get(0)).getFullBoundsReference().getMaxY() );
         double yAxisLabelCenter = yAxisUpperTickMark.getY() + 
         	((yAxisLowerTickMark.getY() - yAxisUpperTickMark.getY()) / 2);
-        double biggestTickMarkLabelWidth = Math.max(_yAxisUpperTickMarkLabel.getFullBoundsReference().width,
-        		_yAxisLowerTickMarkLabel.getFullBoundsReference().width);
         _yAxisLabel.setScale(1);
         _yAxisLabel.setScale(calculateScaleForTargetSize(_yAxisLabel, 
         		new PDimension(Double.POSITIVE_INFINITY, _usableHeight * Y_ORIGIN_PROPORTION * 0.9)));
-        _yAxisLabel.setOffset( _yAxisLowerTickMarkLabel.getOffset().getX() - ( biggestTickMarkLabelWidth ),
-		yAxisLabelCenter + (_yAxisLabel.getFullBounds().height / 2) );
+        _yAxisLabel.setOffset( 
+        		_yAxisLowerTickMarkLabel.getOffset().getX() - ( _yAxisLabel.getFullBoundsReference().width * 1.2 ),
+        		yAxisLabelCenter + (_yAxisLabel.getFullBounds().height / 2) );
         
         // Update the exponential time line, including whether or not it is
         // visible.
