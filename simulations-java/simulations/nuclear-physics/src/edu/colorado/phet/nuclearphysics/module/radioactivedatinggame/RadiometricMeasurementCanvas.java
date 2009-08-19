@@ -458,7 +458,7 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
     private static class GroundNode extends PNode {
 
     	public static final double GROUND_WIDTH = INITIAL_INTERMEDIATE_COORD_WIDTH * 4;
-    	public static final double GROUND_HEIGHT = INITIAL_INTERMEDIATE_COORD_HEIGHT * 2;
+    	public static final double GROUND_HEIGHT = INITIAL_INTERMEDIATE_COORD_HEIGHT;
 		public GroundNode() {
 			PPath ground = new PPath( new Rectangle2D.Double( 0, 0, GROUND_WIDTH, GROUND_HEIGHT));
 			GradientPaint groundGradient = new GradientPaint(0, 0, new Color(0, 100, 0), 0, (float)GROUND_HEIGHT / 4, 
