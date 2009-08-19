@@ -256,11 +256,11 @@ public class AtomicInteractionsControlPanel extends ControlPanel {
     private class HeterogeneousAtomSelectionPanel extends VerticalLayoutPanel implements AtomSelectionPanel {
         
         private JRadioButton m_neonNeonRadioButton;
+        private JRadioButton m_argonArgonRadioButton;
+        private JRadioButton m_oxygenOxygenRadioButton;
         private JRadioButton m_neonArgonRadioButton;
         private JRadioButton m_neonOxygenRadioButton;
-        private JRadioButton m_argonArgonRadioButton;
         private JRadioButton m_argonOxygenRadioButton;
-        private JRadioButton m_oxygenOxygenRadioButton;
         private JRadioButton m_adjustableInteractionRadioButton;
         
         /**
@@ -346,11 +346,11 @@ public class AtomicInteractionsControlPanel extends ControlPanel {
 
             ButtonGroup buttonGroup = new ButtonGroup();
             buttonGroup.add( m_neonNeonRadioButton );
+            buttonGroup.add( m_argonArgonRadioButton );
+            buttonGroup.add( m_oxygenOxygenRadioButton );
             buttonGroup.add( m_neonArgonRadioButton );
             buttonGroup.add( m_neonOxygenRadioButton );
-            buttonGroup.add( m_argonArgonRadioButton );
             buttonGroup.add( m_argonOxygenRadioButton );
-            buttonGroup.add( m_oxygenOxygenRadioButton );
             buttonGroup.add( m_adjustableInteractionRadioButton );
             m_neonNeonRadioButton.setSelected( true );
 
@@ -375,15 +375,15 @@ public class AtomicInteractionsControlPanel extends ControlPanel {
             selectionPanel.setLayout(new GridLayout(0, 2));
             selectionPanel.add( m_neonNeonRadioButton );
             selectionPanel.add(new PhetJLabel(StatesOfMatterStrings.NEON_SELECTION_LABEL));
+            selectionPanel.add( m_argonArgonRadioButton );
+            selectionPanel.add(new PhetJLabel(StatesOfMatterStrings.ARGON_SELECTION_LABEL));
+            selectionPanel.add( m_oxygenOxygenRadioButton );
+            selectionPanel.add(new PhetJLabel(StatesOfMatterStrings.OXYGEN_SELECTION_LABEL));
             selectionPanel.add( m_neonArgonRadioButton );
             selectionPanel.add(new PhetJLabel(StatesOfMatterStrings.ARGON_SELECTION_LABEL));
             selectionPanel.add( m_neonOxygenRadioButton );
             selectionPanel.add(new PhetJLabel(StatesOfMatterStrings.OXYGEN_SELECTION_LABEL));
-            selectionPanel.add( m_argonArgonRadioButton );
-            selectionPanel.add(new PhetJLabel(StatesOfMatterStrings.ARGON_SELECTION_LABEL));
             selectionPanel.add( m_argonOxygenRadioButton );
-            selectionPanel.add(new PhetJLabel(StatesOfMatterStrings.OXYGEN_SELECTION_LABEL));
-            selectionPanel.add( m_oxygenOxygenRadioButton );
             selectionPanel.add(new PhetJLabel(StatesOfMatterStrings.OXYGEN_SELECTION_LABEL));
 
             // Put the adjustable atom in a panel by itself so that it doesn't
