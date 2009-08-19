@@ -1,0 +1,64 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: August 13-19, 2009 (Mon-Wed)
+
+ACCOMPLISHMENTS:
+
+  Acid Base Solutions:
+  - made equations grow/shrink when "Animate" control is turned on/off
+  - fixed location of Ka button on Windows
+  - fixed layout issues on Mac OS 10.4 with JWS
+  - fixed opacity of buttons on Mac OS 10.4
+  - deleted unused strings
+  - tested i18n
+  - published 0.01.30, 0.01.31, 0.01.32
+  - disabled developer controls in 0.01.32
+  - ready for interviews
+  
+  Reactions and Rates:
+  - fixed #1752, strip chart causes performance problems
+  - fixed #1753, Reset All doesn't reset bonds
+  - published 1.04 to PhET website
+  
+  Titration:
+  - design meeting
+  - reviewed Kelly's model
+  - installed Octave and Gnuplot on Mac OSX
+  - ran Kelly's model in Octave
+  - investigated and discussed methods of finding polynomial roots
+  - reviewed Jonathan's solution for polynomial roots
+  
+  common code:
+  - migrated Save/Load menu items to phetcommon, #1074
+  - migrated Options menu to phetcommon, #1074
+  - migrated Complex and MutableComplex to phetcommon, #128
+  - redeployed java-common-strings
+  
+  translations:
+  - wrote draft of "Technical Concerns" section for MPTL paper
+  
+  misc:
+  - discussed clock issues with Sam
+  - discussed force1d chart performance with Sam
+  - helped a user with Mac OSX JNLP problem, #1698
+  
+WHAT'S NEXT:
+ 
+  - prototype for Titration model
+  - Acid Base Solutions: what's next?
+  - test new translation deployment process for JO
+  - finish Glaciers (waiting for Wendy's feedback)
+  - Translation Utility enhancements related to KSU
+  - MPTL paper
+  
+ISSUES:
+
+  - none
+  
+DATES UNAVAILABLE:
+
+   August 27 - September 1
+   October 19-30
+  
+--
