@@ -39,7 +39,7 @@ public class MultiNucleusDecayModel implements NucleusTypeControl {
     //------------------------------------------------------------------------
 
 	static final int DEFAULT_NUCLEUS_TYPE = NuclearPhysicsConstants.NUCLEUS_ID_POLONIUM;
-	static final double MAX_JITTER_LENGTH = 1;
+	static final double DEFAULT_JITTER_LENGTH = 1;
 	static final int CLOCKS_PER_JITTER = 2;
 	
     //------------------------------------------------------------------------
@@ -57,6 +57,7 @@ public class MultiNucleusDecayModel implements NucleusTypeControl {
 	private int _jitterOffsetCount = 0;
 	protected final int _maxNuclei;
 	private boolean _jitterEnabled;
+	private double _maxJitterLength;
 
     //------------------------------------------------------------------------
     // Constructor(s)
@@ -72,6 +73,7 @@ public class MultiNucleusDecayModel implements NucleusTypeControl {
         _jitterEnabled = jitterEnabled;
         _atomicNuclei = new ArrayList();
         _jitterOffsets = new Point2D[_maxNuclei];
+        _maxJitterLength = 0;
 
         // Register as a listener to the clock.
         clock.addClockListener( new ClockAdapter(){
@@ -103,7 +105,12 @@ public class MultiNucleusDecayModel implements NucleusTypeControl {
 			// modified if a more general approach is needed.
 			addMaxNuclei();
 			
+			// Let listeners know about the change.
 			notifyNucleusTypeChanged();
+			
+			// Set jitter length to 0 so that it will be set correctly the
+			// next time a jitter offset is generated.
+			_maxJitterLength = 0;
 		}
 	}
 	
@@ -290,9 +297,19 @@ public class MultiNucleusDecayModel implements NucleusTypeControl {
 	 * @param point
 	 */
 	private void generateJitterOffset(Point2D point) {
-		double length = _rand.nextGaussian() * (MAX_JITTER_LENGTH / 2);
-		if (length > MAX_JITTER_LENGTH){
-			length = MAX_JITTER_LENGTH;
+		if (_maxJitterLength == 0){
+			// Calculate the maximum jitter length for the current nucleus.
+			if (_atomicNuclei.size() > 0){
+				_maxJitterLength = _atomicNuclei.get(0).getDiameter() / 16;
+			}
+			else{
+				// Shouldn't really get here, but just in case...
+				_maxJitterLength = DEFAULT_JITTER_LENGTH;
+			}
+		}
+		double length = _rand.nextDouble() * _maxJitterLength;
+		if (length > DEFAULT_JITTER_LENGTH){
+			length = DEFAULT_JITTER_LENGTH;
 		}
 		double angle = _rand.nextDouble() * Math.PI * 2;
 		point.setLocation(Math.cos(angle) * length, Math.sin(angle) * length);
