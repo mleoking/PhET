@@ -809,7 +809,7 @@ public class NuclearDecayProportionChart extends PNode {
 	        updateYAxisGridLineLabels();
 	        
 	        // Add the overall Y axis label.
-	        _yAxisLabel = new HTMLNode(NuclearPhysicsStrings.DECAY_PROPORTIONS_Y_AXIS_LABEL);
+	        _yAxisLabel = new HTMLNode();
 	        _yAxisLabel.rotate(-Math.PI / 2);
 	        _nonPickableGraphLayer.addChild(_yAxisLabel);
 	        
@@ -877,6 +877,12 @@ public class NuclearDecayProportionChart extends PNode {
 	        // Position and size the Y axis label, since it will affect the
 	        // graph's origin.  There is a tweak factor in here that controls
 	        // the relative size of the label.
+	        if (_chart._yAxisLabeledWithRatio){
+	        	_yAxisLabel.setHTML(NuclearPhysicsStrings.DECAY_PROPORTIONS_Y_AXIS_LABEL_RATIO_C14_TO_C12);
+	        }
+	        else{
+	        	_yAxisLabel.setHTML(NuclearPhysicsStrings.DECAY_PROPORTIONS_Y_AXIS_LABEL_PERCENT_PRESENT);
+	        }
 	        _yAxisLabel.setScale(1);
 	        scale = ((newHeight * 0.6) / _yAxisLabel.getFullBoundsReference().getHeight());
 	        _yAxisLabel.setScale(scale);
