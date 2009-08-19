@@ -9,6 +9,58 @@ SET check_function_bodies = false;
 SET client_min_messages = warning;
 SET escape_string_warning = off;
 
+SET search_path = public, pg_catalog;
+
+ALTER TABLE ONLY public.category_mapping DROP CONSTRAINT fkfce89e8daab0afa5;
+ALTER TABLE ONLY public.category_mapping DROP CONSTRAINT fkfce89e8d14e28f05;
+ALTER TABLE ONLY public.keyword_mapping DROP CONSTRAINT fkfbcce478ba10a9af;
+ALTER TABLE ONLY public.keyword_mapping DROP CONSTRAINT fkfbcce478aab0afa5;
+ALTER TABLE ONLY public.simulation DROP CONSTRAINT fkb3012607b7b702c7;
+ALTER TABLE ONLY public.user_translation_mapping DROP CONSTRAINT fk50f116ccf968c22f;
+ALTER TABLE ONLY public.user_translation_mapping DROP CONSTRAINT fk50f116cc5062452c;
+ALTER TABLE ONLY public.localized_simulation DROP CONSTRAINT fk311e4d4b6b081b59;
+ALTER TABLE ONLY public.category DROP CONSTRAINT fk302bcfe34a093d9;
+ALTER TABLE ONLY public.translated_string DROP CONSTRAINT fk1854a79ac047ff77;
+ALTER TABLE ONLY public.user_translation_mapping DROP CONSTRAINT user_translation_mapping_pkey;
+ALTER TABLE ONLY public.translation DROP CONSTRAINT translation_pkey;
+ALTER TABLE ONLY public.translated_string DROP CONSTRAINT translated_string_pkey;
+ALTER TABLE ONLY public.simulation DROP CONSTRAINT simulation_pkey;
+ALTER TABLE ONLY public.project DROP CONSTRAINT project_pkey;
+ALTER TABLE ONLY public.phet_user DROP CONSTRAINT phet_user_pkey;
+ALTER TABLE ONLY public.localized_simulation DROP CONSTRAINT localized_simulation_pkey;
+ALTER TABLE ONLY public.keyword DROP CONSTRAINT keyword_pkey;
+ALTER TABLE ONLY public.keyword_mapping DROP CONSTRAINT keyword_mapping_pkey;
+ALTER TABLE ONLY public.category DROP CONSTRAINT category_pkey;
+ALTER TABLE ONLY public.category_mapping DROP CONSTRAINT category_mapping_pkey;
+DROP TABLE public.user_translation_mapping;
+DROP TABLE public.translation;
+DROP TABLE public.translated_string;
+DROP TABLE public.simulation;
+DROP TABLE public.project;
+DROP TABLE public.phet_user;
+DROP TABLE public.localized_simulation;
+DROP TABLE public.keyword_mapping;
+DROP TABLE public.keyword;
+DROP TABLE public.category_mapping;
+DROP TABLE public.category;
+DROP PROCEDURAL LANGUAGE plpgsql;
+DROP SCHEMA public;
+--
+-- Name: public; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+CREATE SCHEMA public;
+
+
+ALTER SCHEMA public OWNER TO postgres;
+
+--
+-- Name: SCHEMA public; Type: COMMENT; Schema: -; Owner: postgres
+--
+
+COMMENT ON SCHEMA public IS 'standard public schema';
+
+
 --
 -- Name: plpgsql; Type: PROCEDURAL LANGUAGE; Schema: -; Owner: postgres
 --
@@ -2837,6 +2889,14 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 402	get-phet.one-at-a-time.title	Launch PhET Simulations One at a Time	2009-08-17 22:27:53.843	2009-08-17 22:27:53.843	1
 403	get-phet.full-install.title	PhET Offline Installer	2009-08-17 22:28:13.663	2009-08-17 22:28:13.663	1
 18	simulationPage.title	{0} - {1}, {2}, {3} - PhET	2009-08-17 03:48:19.899	2009-08-17 23:15:24.156	1
+404	research.title	Research	2009-08-19 00:19:29.708	2009-08-19 00:19:29.708	1
+405	nav.research	Research	2009-08-19 00:19:35.118	2009-08-19 00:19:35.118	1
+406	troubleshooting.java.title	Troubleshooting Java	2009-08-19 00:38:14.998	2009-08-19 00:38:14.998	1
+407	troubleshooting.flash.title	Troubleshooting Flash	2009-08-19 00:38:23.703	2009-08-19 00:38:23.703	1
+408	troubleshooting.javascript.title	Troubleshooting JavaScript	2009-08-19 00:38:35.355	2009-08-19 00:38:35.355	1
+409	nav.troubleshooting.javascript	JavaScript	2009-08-19 00:38:54.069	2009-08-19 00:38:54.069	1
+410	nav.troubleshooting.java	Java	2009-08-19 00:38:58.745	2009-08-19 00:38:58.745	1
+411	nav.troubleshooting.flash	Flash	2009-08-19 00:39:06.905	2009-08-19 00:39:06.905	1
 \.
 
 
