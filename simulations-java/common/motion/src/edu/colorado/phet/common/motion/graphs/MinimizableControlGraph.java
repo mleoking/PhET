@@ -28,6 +28,7 @@ public class MinimizableControlGraph extends PNode {
     private ArrayList listeners = new ArrayList();
     private ControlGraph controlGraph;
     private PSwing closeButton;
+    private final int buttonInsetX = 3;
 
     public MinimizableControlGraph( String label, ControlGraph controlGraph ) {
         this( label, controlGraph, false );
@@ -88,11 +89,12 @@ public class MinimizableControlGraph extends PNode {
     }
 
     private void updateCloseButton() {
-        int buttonInsetX = 3;
-        int buttonInsetY = 3;
-
         controlGraph.getJFreeChartNode().updateChartRenderingInfo();
-        closeButton.setOffset( controlGraph.getJFreeChartNode().getDataArea().getMaxX() - closeButton.getFullBounds().getWidth() - buttonInsetX + controlGraph.getJFreeChartNode().getOffset().getX(), controlGraph.getJFreeChartNode().getDataArea().getY() );
+        closeButton.setOffset( getButtonX(), controlGraph.getJFreeChartNode().getDataArea().getY() );
+    }
+
+    private double getButtonX() {
+        return controlGraph.getJFreeChartNode().getDataArea().getMaxX() - closeButton.getFullBounds().getWidth() - buttonInsetX + controlGraph.getJFreeChartNode().getOffset().getX();
     }
 
     public void setMinimized( boolean b ) {
@@ -127,7 +129,7 @@ public class MinimizableControlGraph extends PNode {
 
     private void relayout() {
         updateCloseButton();
-        stubChild.setOffset( controlGraph.getFullBounds().getMaxX() - stubChild.getFullBounds().getWidth(), 0 );
+        stubChild.setOffset( getButtonX()-stubChild.getFullBounds().getWidth()/2, controlGraph.getJFreeChartNode().getDataArea().getY() );
     }
 
     public double getFixedHeight() {
