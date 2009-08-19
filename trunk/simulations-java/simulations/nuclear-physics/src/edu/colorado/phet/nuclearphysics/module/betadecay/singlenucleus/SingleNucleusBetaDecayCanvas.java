@@ -16,6 +16,7 @@ import java.util.Iterator;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
+import edu.colorado.phet.nuclearphysics.common.NucleusType;
 import edu.colorado.phet.nuclearphysics.common.model.Antineutrino;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.Electron;
@@ -23,9 +24,11 @@ import edu.colorado.phet.nuclearphysics.common.model.Nucleon;
 import edu.colorado.phet.nuclearphysics.common.model.SubatomicParticle;
 import edu.colorado.phet.nuclearphysics.common.view.AbstractAtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics.common.view.LabeledExplodingAtomicNucleusNode;
+import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.CompositeAtomicNucleus;
 import edu.colorado.phet.nuclearphysics.model.HalfLifeInfo;
 import edu.colorado.phet.nuclearphysics.model.NuclearDecayListenerAdapter;
+import edu.colorado.phet.nuclearphysics.view.AlphaParticleModelNode;
 import edu.colorado.phet.nuclearphysics.view.AntineutrinoNode;
 import edu.colorado.phet.nuclearphysics.view.AutoPressGradientButtonNode;
 import edu.colorado.phet.nuclearphysics.view.ElectronNode;
@@ -71,7 +74,7 @@ public class SingleNucleusBetaDecayCanvas extends PhetPCanvas {
 	private PNode _labelLayer;
     private HashMap<SubatomicParticle, SubatomicParticleNode> _mapParticlesToNodes = 
     	new HashMap<SubatomicParticle, SubatomicParticleNode>();
-    private HashMap _mapNucleiToNodes = new HashMap();
+    private HashMap<AtomicNucleus, PNode> _mapNucleiToNodes = new HashMap<AtomicNucleus, PNode>();
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -99,10 +102,7 @@ public class SingleNucleusBetaDecayCanvas extends PhetPCanvas {
             }
 			@Override
             public void modelElementRemoved(Object modelElement){
-            	if (modelElement instanceof CompositeAtomicNucleus){
-                	removeNucleusNodes();
-            	}
-            	// TODO: JPB TBD - Need to handle removal of particles.
+				handleModelElementRemoved(modelElement);
             }
 			@Override
 			public void nucleusTypeChanged() {
@@ -183,7 +183,15 @@ public class SingleNucleusBetaDecayCanvas extends PhetPCanvas {
     //------------------------------------------------------------------------
 
 	private void updateTimeSpanOfChart(){
-		_betaDecayTimeChart.setTimeSpan(HalfLifeInfo.getHalfLifeForNucleusType(_singleNucleusBetaDecayModel.getNucleusType()) * 3.2);
+		if (_singleNucleusBetaDecayModel.getNucleusType() == NucleusType.CARBON_14){
+			_betaDecayTimeChart.setTimeSpan(HalfLifeInfo.getHalfLifeForNucleusType(_singleNucleusBetaDecayModel.getNucleusType()) * 2.6);
+		}
+		else if (_singleNucleusBetaDecayModel.getNucleusType() == NucleusType.HYDROGEN_3){
+			_betaDecayTimeChart.setTimeSpan(HalfLifeInfo.getHalfLifeForNucleusType(_singleNucleusBetaDecayModel.getNucleusType()) * 3.2);
+		}
+		else {
+			_betaDecayTimeChart.setTimeSpan(HalfLifeInfo.getHalfLifeForNucleusType(_singleNucleusBetaDecayModel.getNucleusType()) * 2.5);
+		}
 	}
 	
     /**
@@ -210,6 +218,12 @@ public class SingleNucleusBetaDecayCanvas extends PhetPCanvas {
 	            	nucleonNode.setVisible(true);
 	            	_nucleusLayer.addChild(nucleonNode);
 	            }
+	            else if (constituent instanceof AlphaParticle){
+	            	// Add a visible representation of the alpha particle to the canvas.
+	            	AlphaParticleModelNode alphaNode = new AlphaParticleModelNode((AlphaParticle)constituent);
+	            	alphaNode.setVisible( true );
+	            	_nucleusLayer.addChild( alphaNode );
+	            }
 				else {
 					// There is some unexpected object in the list of constituents
 					// of the nucleus.  This should never happen and should be
@@ -220,6 +234,7 @@ public class SingleNucleusBetaDecayCanvas extends PhetPCanvas {
 
 			_nucleusNode = new LabeledExplodingAtomicNucleusNode(atomicNucleus);
 			_labelLayer.addChild( _nucleusNode );
+			_mapNucleiToNodes.put(atomicNucleus, _nucleusNode);
 		}
     	else if (modelElement instanceof Electron){
     		// Add a new electron node to track this electron.
@@ -241,34 +256,52 @@ public class SingleNucleusBetaDecayCanvas extends PhetPCanvas {
     /**
      * Remove and dispose of the nodes that are currently representing the nucleus.
      */
-	private void removeNucleusNodes(){
+	private void handleModelElementRemoved(Object modelElement){
 
-		// Clean up the nodes that comprise the nucleus.
-		Collection nucleusLayerNodes = _nucleusLayer.getAllNodes();
-		Iterator itr = nucleusLayerNodes.iterator();
-		while( itr.hasNext() ){
-			Object node = itr.next();
-			if (node instanceof NucleonModelNode){
-				((NucleonModelNode)node).cleanup();
-			}
-			else{
-				// Should never get here, debug it if we do.
+		if (modelElement instanceof AtomicNucleus){
+			
+			// There should be only one nucleus, so the removed nucleus better
+			// map to the nucleus node.
+			if (!_mapNucleiToNodes.containsKey(modelElement)){
+				System.err.println(getClass().getName() + " - Error: Removed nucleus not found.");
 				assert false;
 			}
-		}
-		
-		// Clean up the nucleus node itself, which is just the label in this case.
-		Collection labelLayerNodes = _labelLayer.getAllNodes();
-		itr = labelLayerNodes.iterator();
-		while( itr.hasNext() ){
-			Object node = itr.next();
-			if (node instanceof LabeledExplodingAtomicNucleusNode){
-				((AbstractAtomicNucleusNode)node).cleanup();
+			
+			// Clean up the nodes that comprise the nucleus.
+			Iterator itr = _nucleusLayer.getChildrenIterator();
+			ArrayList<Object> nucleonNodesToRemove = new ArrayList<Object>();
+			while( itr.hasNext() ){
+				Object node = itr.next();
+				if (node instanceof NucleonNode){
+					((NucleonNode)node).cleanup();
+					nucleonNodesToRemove.add(node);
+				}
+				else if (node instanceof AlphaParticleModelNode){
+					((AlphaParticleModelNode)node).cleanup();
+					nucleonNodesToRemove.add(node);
+				}
 			}
+			_nucleusLayer.removeChildren(nucleonNodesToRemove);
+			
+			// Clean up & remove the nucleus node itself.
+			PNode nucleusNode = _mapNucleiToNodes.get(modelElement);
+			if (nucleusNode instanceof LabeledExplodingAtomicNucleusNode){
+				((AbstractAtomicNucleusNode)nucleusNode).cleanup();
+			}
+			_labelLayer.removeChild(nucleusNode);
+
+			// Remove the nucleus node from the map.
+			_mapNucleiToNodes.remove(modelElement);
 		}
-		
-		// TODO: JPB TBD - Not sure if this is sufficient or if it will cause memory leaks.
-		_nucleusLayer.removeAllChildren();
-		_labelLayer.removeAllChildren();
+		else if (modelElement instanceof SubatomicParticle){
+			SubatomicParticle particle = (SubatomicParticle)modelElement;
+			SubatomicParticleNode particleNode = _mapParticlesToNodes.get(particle);
+			particleNode.cleanup();
+			_nucleusLayer.removeChild(particleNode);
+		}
+		else{
+			System.err.println(getClass().getName() + " - Error: Unexpected model element type removed from model.");
+			assert false;
+		}
 	}
 }
