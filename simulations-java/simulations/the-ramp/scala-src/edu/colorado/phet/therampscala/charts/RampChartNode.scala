@@ -28,20 +28,34 @@ object Defaults {
 }
 
 class RampChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model: RampModel, showEnergyGraph: Boolean) extends PNode {
+  def inTimeRange(time: Double) = {
+//    println("time = "+time)
+    time <= 20.0
+  }
+
   val parallelAppliedForceVariable = new DefaultTemporalVariable() {
     override def setValue(value: Double) = model.bead.parallelAppliedForce = value
   }
-  model.stepListeners += (() => parallelAppliedForceVariable.addValue(model.bead.appliedForce.dot(model.bead.getRampUnitVector), model.getTime))
+  model.stepListeners += (() => {
+    if (inTimeRange(model.getTime))
+      parallelAppliedForceVariable.addValue(model.bead.appliedForce.dot(model.bead.getRampUnitVector), model.getTime)
+  })
 
   def createVariable(getter: () => Double) = {
     val variable = new DefaultTemporalVariable()
-    model.stepListeners += (() => variable.addValue(getter(), model.getTime))
+    model.stepListeners += (() => {
+      if (inTimeRange(model.getTime))
+        variable.addValue(getter(), model.getTime)
+    })
     variable
   }
 
   def createParallelVariable(getter: () => Vector2D) = {
     val variable = new DefaultTemporalVariable()
-    model.stepListeners += (() => variable.addValue(getter().dot(model.bead.getRampUnitVector), model.getTime))
+    model.stepListeners += (() => {
+      if (inTimeRange(model.getTime))
+        variable.addValue(getter().dot(model.bead.getRampUnitVector), model.getTime)
+    })
     variable
   }
 
@@ -119,8 +133,8 @@ class RampChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model:
         override def updateLayout() = {
           super.updateLayout()
           if (textParent != null)
-            textParent.setOffset(getTrackFullBounds.getX-textParent.getFullBounds.getWidth-getThumbFullBounds.getWidth/2,
-              getTrackFullBounds.getY+textParent.getFullBounds.getHeight + getTrackFullBounds.getHeight/2-textParent.getFullBounds.getHeight/2)
+            textParent.setOffset(getTrackFullBounds.getX - textParent.getFullBounds.getWidth - getThumbFullBounds.getWidth / 2,
+              getTrackFullBounds.getY + textParent.getFullBounds.getHeight + getTrackFullBounds.getHeight / 2 - textParent.getFullBounds.getHeight / 2)
         }
         updateLayout()
       }

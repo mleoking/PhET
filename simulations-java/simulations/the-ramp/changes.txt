@@ -1,3 +1,4 @@
+Fixed: When there is a lot of recorded chart data, the chart maximize/minimize buttons can go offscreen, see screenshot.
 Fixed: Vertical slider label should be centered in the graphs tabs
 Fixed: Domain chart labels go off the screen for the work/energy chart when both charts are enabled
 Fixed: All work/energy series are currently labeled with an "E", some should be labeled with a "W"
