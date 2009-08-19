@@ -224,13 +224,15 @@ public abstract class CompositeAtomicNucleus extends AtomicNucleus {
                 	// Having a small number of nucleons tunneling looks
                 	// too weird, so these nucleons just vibrate a little
                 	// instead.
-                	_agitationCount++;
-                	if (_agitationCount > MAX_AGITATION_FACTOR - _agitationFactor){
-                		// Jitter all of the nucleons.
-                		for (SubatomicParticle particle : _constituents){
-                			particle.jitter();
-                		}
-                		_agitationCount = 0;
+                	if (_agitationFactor > 0){
+		                int agitationIncrement = MAX_AGITATION_FACTOR - _agitationFactor + 1;
+		                
+		                for (int i = _agitationCount; i < _constituents.size(); i+=agitationIncrement)
+		                {
+		                    SubatomicParticle constituent = (SubatomicParticle)_constituents.get( i );
+		                   	constituent.jitter();
+		                }
+		                _agitationCount = (_agitationCount + 1) % agitationIncrement;
                 	}
                 }
             }
