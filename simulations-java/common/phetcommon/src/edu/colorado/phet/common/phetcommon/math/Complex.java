@@ -1,22 +1,17 @@
 /* Copyright 2006, University of Colorado */
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
-
-package edu.colorado.phet.boundstates.util;
+package edu.colorado.phet.common.phetcommon.math;
 
 
 /**
  * Complex is an immutable complex number.
+ * <p>
+ * DEVELOPERS: 
+ * Do NOT change this implementation to make this type mutable.
+ * Some sims rely on the immutability of this type.
+ * If you need a mutable complex number, use MutableComplex.
  * 
  * @author Chris Malley
- * @version $Revision$
  */
 
 public class Complex {

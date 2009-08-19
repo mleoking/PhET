@@ -2,7 +2,7 @@ package edu.colorado.phet.titration.test;
 
 import java.util.Date;
 
-import edu.colorado.phet.boundstates.util.Complex;
+import edu.colorado.phet.common.phetcommon.math.Complex;
 
 /**
  * Uses edu.colorado.phet.boundstates.util.Complex for complex numbers. Feel free to move stuff to phetcommon, change
@@ -134,7 +134,6 @@ public class RootTest {
      */
     public static String complexArrayToString( Complex[] poly ) {
         String out = "{ ";
-        boolean printed = false;
         for ( int i = 0; i < poly.length; i++ ) {
             out += String.valueOf( poly[i] ) + " ";
         }

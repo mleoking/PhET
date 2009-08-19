@@ -1,22 +1,12 @@
-/* Copyright 2006, University of Colorado */
+/* Copyright 2006-2009, University of Colorado */
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
-
-package edu.colorado.phet.boundstates.util;
+package edu.colorado.phet.common.phetcommon.math;
 
 
 /**
  * MutableComplex is a mutable complex number.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class MutableComplex extends Complex {
     

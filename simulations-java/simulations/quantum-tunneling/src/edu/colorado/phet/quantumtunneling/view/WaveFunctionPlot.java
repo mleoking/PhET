@@ -21,12 +21,12 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 import edu.colorado.phet.common.jfreechartphet.FastPathRenderer;
+import edu.colorado.phet.common.phetcommon.math.Complex;
 import edu.colorado.phet.quantumtunneling.QTConstants;
 import edu.colorado.phet.quantumtunneling.QTResources;
 import edu.colorado.phet.quantumtunneling.color.QTColorScheme;
 import edu.colorado.phet.quantumtunneling.enums.IRView;
 import edu.colorado.phet.quantumtunneling.model.*;
-import edu.colorado.phet.quantumtunneling.util.Complex;
 import edu.colorado.phet.quantumtunneling.util.LightweightComplex;
 
 
