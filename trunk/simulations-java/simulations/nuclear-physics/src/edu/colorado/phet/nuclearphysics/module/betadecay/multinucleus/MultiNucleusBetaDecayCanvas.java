@@ -70,7 +70,9 @@ public class MultiNucleusBetaDecayCanvas extends PhetPCanvas implements Autopres
     private final double TIME_CHART_FRACTION = 0.21;   // Fraction of canvas for time chart.
     
     // Base color for the buttons on the canvas.
-    private final static Color CANVAS_BUTTON_COLOR = new Color(0xDFE32D);
+//    private final static Color BUCKET_AND_BUTTON_COLOR = new Color(152, 251, 152);
+//    private final static Color BUCKET_AND_BUTTON_COLOR = new Color(240, 230, 140);
+    private final static Color BUCKET_AND_BUTTON_COLOR = new Color(255, 160, 122);
     
     // Number of tries for finding open nucleus location.
     private final static int MAX_PLACEMENT_ATTEMPTS = 100;
@@ -154,7 +156,7 @@ public class MultiNucleusBetaDecayCanvas extends PhetPCanvas implements Autopres
         
         // Add the button for resetting the nuclei to the canvas.
         _resetButtonNode = new AutoPressGradientButtonNode(NuclearPhysicsStrings.RESET_ALL_NUCLEI, 22, 
-        		CANVAS_BUTTON_COLOR);
+        		BUCKET_AND_BUTTON_COLOR);
         _chartLayer.addChild(_resetButtonNode);
         
         // Register to receive button pushes.
@@ -172,14 +174,14 @@ public class MultiNucleusBetaDecayCanvas extends PhetPCanvas implements Autopres
         // Create and add the node the represents the bucket from which nuclei
         // can be extracted and added to the play area.
         _bucketRect = _model.getBucketRectRef();
-        _bucketNode = new BucketOfNucleiNode( _bucketRect.getWidth(), _bucketRect.getHeight(), CANVAS_BUTTON_COLOR );
+        _bucketNode = new BucketOfNucleiNode( _bucketRect.getWidth(), _bucketRect.getHeight(), BUCKET_AND_BUTTON_COLOR );
         _nucleiLayer.addChild(_bucketNode);
         _bucketNode.setOffset( _bucketRect.getX(), _bucketRect.getY() );
         
         // Add the button that allows the user to add multiple nuclei at once.
         // Position it just under the bucket and scale it so that its size is
         // proportionate to the bucket.
-        _addTenButtonNode = new GradientButtonNode(NuclearPhysicsStrings.ADD_TEN, 12, CANVAS_BUTTON_COLOR);
+        _addTenButtonNode = new GradientButtonNode(NuclearPhysicsStrings.ADD_TEN, 12, BUCKET_AND_BUTTON_COLOR);
         double addTenButtonScale = (_bucketRect.getWidth() / _addTenButtonNode.getFullBoundsReference().width) * 0.4;
         _addTenButtonNode.scale(addTenButtonScale);
         _addTenButtonNode.setOffset(_bucketRect.getCenterX() - _addTenButtonNode.getFullBoundsReference().width / 2, 
