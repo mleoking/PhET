@@ -87,7 +87,7 @@ public class GraphSetNode extends PNode {
     }
 
     private void relayout() {
-        double yPad = 5;
+        double yPad = 3;
         double availableY = height;
         for ( MinimizableControlGraph minimizableControlGraph : graphComponents ) {
             availableY -= minimizableControlGraph.getFixedHeight();
@@ -103,7 +103,8 @@ public class GraphSetNode extends PNode {
             if ( numMaximized() > 0 ) {
                 minimizableControlGraph.setAvailableBounds( width, graphHeight );
             }
-            yOffset += minimizableControlGraph.getFullBounds().getHeight() + yPad;
+            yOffset += Math.min(graphHeight,//make sure the children pnodes don't overstep their bounds
+                                minimizableControlGraph.getFullBounds().getHeight())+ yPad;
         }
         relayoutControlGraphs();
 
