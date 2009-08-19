@@ -9,6 +9,7 @@ import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.geom.Point2D;
 
 import javax.swing.BorderFactory;
@@ -23,6 +24,7 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.common.NucleusDisplayInfo;
@@ -134,7 +136,16 @@ public class BetaDecayNucleusSelectionPanel extends JPanel {
         constraints.anchor = GridBagConstraints.WEST;
         constraints.gridx = 1;
         constraints.gridy = 0;
-        add( new JLabel(hydrogen3IconImage), constraints );
+        JLabel hydrogen3IconJLabel = new JLabel(hydrogen3IconImage);
+        add( hydrogen3IconJLabel, constraints );
+        
+        // Add a handler so that if the user clicks on this nucleus image,
+        // the corresponding nucleus type will be set.
+        hydrogen3IconJLabel.addMouseListener( new MouseAdapter(){
+        	public void mouseClicked(java.awt.event.MouseEvent arg0){
+        		_hydrogenRadioButton.doClick();
+        	}
+        });
         
         // Create and add the textual label for the Hydrogen nucleus.
         nucleusDisplayInfo = NucleusDisplayInfo.getDisplayInfoForNucleusType(NucleusType.HYDROGEN_3);
@@ -160,7 +171,16 @@ public class BetaDecayNucleusSelectionPanel extends JPanel {
         constraints.anchor = GridBagConstraints.WEST;
         constraints.gridx = 1;
         constraints.gridy = 2;
-        add( new JLabel(heliumIconImage), constraints );
+        JLabel helium3IconJLabel = new JLabel(heliumIconImage);
+        add( helium3IconJLabel, constraints );
+        
+        // Add a handler so that if the user clicks on this nucleus image,
+        // the corresponding nucleus type will be set.
+        helium3IconJLabel.addMouseListener( new MouseAdapter(){
+        	public void mouseClicked(java.awt.event.MouseEvent arg0){
+        		_hydrogenRadioButton.doClick();
+        	}
+        });
         
         // Create and add the textual label for the helium nucleus.
         nucleusDisplayInfo = NucleusDisplayInfo.getDisplayInfoForNucleusType(NucleusType.HELIUM_3);
@@ -190,7 +210,16 @@ public class BetaDecayNucleusSelectionPanel extends JPanel {
         constraints.anchor = GridBagConstraints.WEST;
         constraints.gridx = 1;
         constraints.gridy = 4;
-        add( new JLabel(carbon14IconImage), constraints );
+        JLabel carbon14IconJLabel = new JLabel(carbon14IconImage);
+        add( carbon14IconJLabel, constraints );
+        
+        // Add a handler so that if the user clicks on this nucleus image,
+        // the corresponding nucleus type will be set.
+        carbon14IconJLabel.addMouseListener( new MouseAdapter(){
+        	public void mouseClicked(java.awt.event.MouseEvent arg0){
+        		_carbonRadioButton.doClick();
+        	}
+        });
         
         // Create and add the textual label for the carbon-14 nucleus.
         nucleusDisplayInfo = NucleusDisplayInfo.getDisplayInfoForNucleusType(NucleusType.CARBON_14);
@@ -213,7 +242,16 @@ public class BetaDecayNucleusSelectionPanel extends JPanel {
         constraints.anchor = GridBagConstraints.WEST;
         constraints.gridx = 1;
         constraints.gridy = 6;
-        add( new JLabel(nitrogenIconImage), constraints );
+        JLabel nitrogen14IconJLabel = new JLabel(nitrogenIconImage);
+        add( nitrogen14IconJLabel, constraints );
+        
+        // Add a handler so that if the user clicks on this nucleus image,
+        // the corresponding nucleus type will be set.
+        nitrogen14IconJLabel.addMouseListener( new MouseAdapter(){
+        	public void mouseClicked(java.awt.event.MouseEvent arg0){
+        		_carbonRadioButton.doClick();
+        	}
+        });
         
         // Create and add the textual label for the nitrogen nucleus.
         nucleusDisplayInfo = NucleusDisplayInfo.getDisplayInfoForNucleusType(NucleusType.NITROGEN_14);
@@ -241,7 +279,16 @@ public class BetaDecayNucleusSelectionPanel extends JPanel {
         constraints.anchor = GridBagConstraints.WEST;
         constraints.gridx = 1;
         constraints.gridy = 8;
-        add( new JLabel(customNucleusIconImage), constraints );
+        JLabel customNucleusIconJLabel = new JLabel(customNucleusIconImage);
+        add( customNucleusIconJLabel, constraints );
+        
+        // Add a handler so that if the user clicks on this nucleus image,
+        // the corresponding nucleus type will be set.
+        customNucleusIconJLabel.addMouseListener( new MouseAdapter(){
+        	public void mouseClicked(java.awt.event.MouseEvent arg0){
+        		_customNucleusRadioButton.doClick();
+        	}
+        });
         
         // Create and add the textual label for the non-decayed custom nucleus.
         JLabel customNucleusLabel = new JLabel( NuclearPhysicsStrings.CUSTOM_NUCLEUS_LEGEND_LABEL ) ;
@@ -263,7 +310,16 @@ public class BetaDecayNucleusSelectionPanel extends JPanel {
         constraints.anchor = GridBagConstraints.WEST;
         constraints.gridx = 1;
         constraints.gridy = 10;
-        add( new JLabel(decayedCustomNucleusIconImage), constraints );
+        JLabel decayedCustomNucleusIconJLabel = new JLabel(decayedCustomNucleusIconImage);
+        add( decayedCustomNucleusIconJLabel, constraints );
+        
+        // Add a handler so that if the user clicks on this nucleus image,
+        // the corresponding nucleus type will be set.
+        decayedCustomNucleusIconJLabel.addMouseListener( new MouseAdapter(){
+        	public void mouseClicked(java.awt.event.MouseEvent arg0){
+        		_customNucleusRadioButton.doClick();
+        	}
+        });
         
         // Create and add the textual label for the decayed custom nucleus.
         JLabel decayedCustomNucleusLabel = new JLabel( NuclearPhysicsStrings.DECAYED_CUSTOM_NUCLEUS_LEGEND_LABEL ) ;
