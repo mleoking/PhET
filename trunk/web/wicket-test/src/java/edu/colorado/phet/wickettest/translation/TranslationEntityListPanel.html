@@ -21,6 +21,9 @@
                 display: block;
                 float: left;
                 padding: 3px;
+                /*text-decoration: underline;*/
+                border-right: 1px solid #aaaaaa;
+                border-bottom: 1px solid #aaaaaa;
             }
 
             ul.entity-list li a {
@@ -31,7 +34,16 @@
 
             ul.entity-list li.selected a {
                 font-weight: bold;
-                color: #d36a04;
+                /*color: #d36a04;*/
+                color: black;
+            }
+
+            .out-of-date {
+                color: orange;
+            }
+
+            .untranslated {
+                color: red;
             }
 
         </style>
@@ -44,10 +56,47 @@
         <li wicket:id="translation-entities">
             <a href="TranslationEntityListPanel.html#" wicket:id="translation-entity-link">
                 <span wicket:id="translation-entity-display-name">Common</span>
+                <span wicket:id="out-of-date" class="out-of-date">(1)</span>
+                <span wicket:id="untranslated" class="untranslated">(5)</span>
             </a>
         </li>
     </ul>
 </wicket:panel>
+<wicket:remove>
+    <p style="height: 200px"/>
+    <ul class="entity-list">
+        <li class="selected">
+            <a href="TranslationEntityListPanel.html#">
+                <span>Common</span>
+            </a>
+        </li>
+        <li>
+            <a href="TranslationEntityListPanel.html#">
+                <span>Home</span>
+            </a>
+        </li>
+        <li>
+            <a href="TranslationEntityListPanel.html#">
+                <span>Navigation</span>
+                <span class="out-of-date">(1)</span>
+                <span class="untranslated">(5)</span>
+            </a>
+        </li>
+        <li>
+            <a href="TranslationEntityListPanel.html#">
+                <span>Troubleshooting</span>
+            </a>
+        </li>
+        <li>
+            <a href="TranslationEntityListPanel.html#">
+                <span>Troubleshooting Java</span>
+            </a>
+        </li>
+    </ul>
+    <div style="
+                padding-top: 10px;
+                clear: both;"></div>
+</wicket:remove>
 
 </body>
 </html>
