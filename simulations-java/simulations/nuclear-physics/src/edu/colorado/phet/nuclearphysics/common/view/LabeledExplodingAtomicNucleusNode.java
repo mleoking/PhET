@@ -244,7 +244,8 @@ public class LabeledExplodingAtomicNucleusNode extends AbstractAtomicNucleusNode
 
         if (_explosionCounter > 0){
             // Step the explosion graphic.
-            double explosionRadius = (double)(EXPLOSION_COUNTER_RESET_VAL - _explosionCounter + 1) * 4;
+            double explosionRadius = (double)(EXPLOSION_COUNTER_RESET_VAL - _explosionCounter + 1) * 
+            	_atomicNucleus.getDiameter() / 2;
             _explosionShape.setFrameFromCenter( 0, 0, explosionRadius, explosionRadius );
             _explosion.setPathTo( _explosionShape );
             _explosion.setTransparency( 
