@@ -14,6 +14,7 @@ import edu.colorado.phet.wickettest.content.*;
 import edu.colorado.phet.wickettest.content.troubleshooting.TroubleshootingFlashPanel;
 import edu.colorado.phet.wickettest.content.troubleshooting.TroubleshootingJavaPanel;
 import edu.colorado.phet.wickettest.content.troubleshooting.TroubleshootingJavascriptPanel;
+import edu.colorado.phet.wickettest.content.troubleshooting.TroubleshootingMainPanel;
 import edu.colorado.phet.wickettest.data.Category;
 import edu.colorado.phet.wickettest.util.HibernateUtils;
 import edu.colorado.phet.wickettest.util.Linkable;

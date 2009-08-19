@@ -1,4 +1,4 @@
-package edu.colorado.phet.wickettest.content;
+package edu.colorado.phet.wickettest.content.troubleshooting;
 
 import org.apache.wicket.behavior.HeaderContributor;
 import org.apache.wicket.markup.html.link.Link;

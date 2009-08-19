@@ -16,6 +16,7 @@ import edu.colorado.phet.wickettest.util.HibernateTask;
 import edu.colorado.phet.wickettest.util.HibernateUtils;
 import edu.colorado.phet.wickettest.util.Linkable;
 import edu.colorado.phet.wickettest.util.PageContext;
+import edu.colorado.phet.wickettest.content.troubleshooting.TroubleshootingMainPanel;
 
 public class OneAtATimePanel extends PhetPanel {
     public OneAtATimePanel( String id, final PageContext context ) {
