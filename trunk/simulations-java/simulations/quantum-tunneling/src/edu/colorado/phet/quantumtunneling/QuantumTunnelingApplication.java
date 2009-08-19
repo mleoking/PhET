@@ -88,33 +88,11 @@ public class QuantumTunnelingApplication extends PhetApplication {
      */
     private void initMenubar( String[] args ) {
 
+        // File->Save/Load
         PhetFrame frame = getPhetFrame();
-
+        frame.addFileSaveLoadMenuItems();
         if ( _persistenceManager == null ) {
             _persistenceManager = new XMLPersistenceManager( frame );
-        }
-
-        // File menu
-        {
-            JMenuItem saveItem = new JMenuItem( QTResources.getString( "menu.file.save" ) );
-            saveItem.setMnemonic( QTResources.getChar( "menu.file.save.mnemonic", 'S' ) );
-            saveItem.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    save();
-                }
-            } );
-
-            JMenuItem loadItem = new JMenuItem( QTResources.getString( "menu.file.load" ) );
-            loadItem.setMnemonic( QTResources.getChar( "menu.file.load.mnemonic", 'L' ) );
-            loadItem.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    load();
-                }
-            } );
-
-            frame.addFileMenuItem( saveItem );
-            frame.addFileMenuItem( loadItem );
-            frame.addFileMenuSeparator();
         }
 
         // Options menu
