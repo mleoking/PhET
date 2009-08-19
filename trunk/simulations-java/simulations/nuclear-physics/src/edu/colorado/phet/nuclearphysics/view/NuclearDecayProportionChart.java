@@ -401,17 +401,16 @@ public class NuclearDecayProportionChart extends PNode {
         	// Several tweak factors in here for optimal appearance.  Change
         	// these numbers as needed for good appearance, but retest
         	// carefully.
-            _graph.update( (_usableAreaRect.getMaxX() - graphLeftEdge) * 0.98, _usableAreaRect.getHeight() * 0.9 );
+            _graph.update( (_usableAreaRect.getMaxX() - graphLeftEdge) * 0.98, _usableAreaRect.getHeight() * 0.95 );
             _graph.update( (_usableAreaRect.getMaxX() - graphLeftEdge) * 0.95, 
             		_usableAreaRect.getHeight() * (1 - (CARBON_OPTIONS_HEIGHT_PROPORTION * 0.75) ));
-            _graph.setOffset( graphLeftEdge + 5, _usableAreaRect.getCenterY() - (_graph.getFullBoundsReference().height / 2 ) );
+            _graph.setOffset( graphLeftEdge + 5, _usableAreaRect.getMaxY() - _graph.getFullBoundsReference().height );
         }
         else{
         	// Leave room above the graph for the movable percentage indicator.
             _graph.update( (_usableAreaRect.getMaxX() - graphLeftEdge) * 0.95, 
             		_usableAreaRect.getHeight() * (1 - MOVABLE_PERCENT_INDICATOR_HEIGHT_PROPORTION) );
-            _graph.setOffset( graphLeftEdge + 5, 
-            		_usableAreaRect.getMaxY() - _graph.getFullBoundsReference().height);
+            _graph.setOffset( graphLeftEdge + 5, _usableAreaRect.getMaxY() - _graph.getFullBoundsReference().height );
         }
         
         // Position the carbon selection panel if enabled.
