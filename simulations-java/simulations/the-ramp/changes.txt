@@ -1,3 +1,4 @@
+Fixed: All work/energy series are currently labeled with an "E", some should be labeled with a "W"
 Fixed: Make Fg label appear on the arrow instead of below it.
 Fixed: Problems when I am using the force slider and want to apply a force opposing the direction of motion. The slider jumps back to a positive/negative value because the direction of motion has changed; positive force should always be up and to the right
 Fixed: Make sure the displayed forces are not dotted into the direction of motion, but rather in the direction of the ramp at that point.
