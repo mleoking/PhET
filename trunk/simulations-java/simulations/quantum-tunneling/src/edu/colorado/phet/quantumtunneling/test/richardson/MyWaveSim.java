@@ -9,8 +9,8 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 
-import edu.colorado.phet.quantumtunneling.util.Complex;
-import edu.colorado.phet.quantumtunneling.util.MutableComplex;
+import edu.colorado.phet.common.phetcommon.math.Complex;
+import edu.colorado.phet.common.phetcommon.math.MutableComplex;
 
 /**
  * My version of Richardson's "WaveSim" applet, 

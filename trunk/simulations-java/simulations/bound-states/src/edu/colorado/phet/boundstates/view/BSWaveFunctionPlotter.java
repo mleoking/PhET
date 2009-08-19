@@ -21,8 +21,8 @@ import edu.colorado.phet.boundstates.model.BSModel;
 import edu.colorado.phet.boundstates.model.BSSuperpositionCoefficients;
 import edu.colorado.phet.boundstates.model.BSWaveFunctionCache;
 import edu.colorado.phet.boundstates.model.BSWaveFunctionCache.Item;
-import edu.colorado.phet.boundstates.util.Complex;
-import edu.colorado.phet.boundstates.util.MutableComplex;
+import edu.colorado.phet.common.phetcommon.math.Complex;
+import edu.colorado.phet.common.phetcommon.math.MutableComplex;
 
 
 /**

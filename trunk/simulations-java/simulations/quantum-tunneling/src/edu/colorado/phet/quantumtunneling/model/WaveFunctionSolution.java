@@ -11,7 +11,7 @@
 
 package edu.colorado.phet.quantumtunneling.model;
 
-import edu.colorado.phet.quantumtunneling.util.Complex;
+import edu.colorado.phet.common.phetcommon.math.Complex;
 
 
 /**

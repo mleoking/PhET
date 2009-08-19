@@ -11,8 +11,8 @@
 
 package edu.colorado.phet.quantumtunneling.model;
 
+import edu.colorado.phet.common.phetcommon.math.Complex;
 import edu.colorado.phet.quantumtunneling.enums.Direction;
-import edu.colorado.phet.quantumtunneling.util.Complex;
 
 /**
  * AbstractBarrierSolver is the base class for all classes that implement
