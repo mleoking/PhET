@@ -197,8 +197,19 @@ public class LabeledExplodingAtomicNucleusNode extends AbstractAtomicNucleusNode
         			_atomicNucleus.getDiameter() / _isotopeChemSymbol.getFullBoundsReference().getHeight() * 0.8); 
         }
         else if (chemSymbol != ""){
-        	scale = _atomicNucleus.getDiameter() / ( _isotopeChemSymbol.getFullBoundsReference().getWidth() + 
-        			_isotopeNumber.getFullBoundsReference().getWidth() );
+        	if (Integer.parseInt(_isotopeNumber.getText()) >= 100){
+        		// The isotope number is 3 digits, so let the label span the
+        		// entire diameter of the nucleus, simply because it looks
+        		// better.
+        		scale = _atomicNucleus.getDiameter() / ( _isotopeChemSymbol.getFullBoundsReference().getWidth() + 
+        				_isotopeNumber.getFullBoundsReference().getWidth() );
+        	}
+        	else{
+        		// Use a somewhat smaller scaling factor so that the label
+        		// does not dominate the image.
+        		scale = ( _atomicNucleus.getDiameter() / ( _isotopeChemSymbol.getFullBoundsReference().getWidth() + 
+        				_isotopeNumber.getFullBoundsReference().getWidth() ) ) * 0.7;
+        	}
         }
     	_isotopeChemSymbol.setScale( scale );
     	_isotopeChemSymbolShadow.setScale( scale );
