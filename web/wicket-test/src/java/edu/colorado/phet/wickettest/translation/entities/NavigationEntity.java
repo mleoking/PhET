@@ -38,13 +38,24 @@ public class NavigationEntity extends TranslationEntity {
         addString( "nav.get-phet.full-install" );
         addString( "nav.get-phet.one-at-a-time" );
         addString( "nav.troubleshooting.main" );
+        addString( "nav.troubleshooting.java" );
+        addString( "nav.troubleshooting.flash" );
+        addString( "nav.troubleshooting.javascript" );
         addString( "nav.contribute" );
+        addString( "nav.research" );
         addString( "nav.about" );
+        addString( "nav.about.source-code" );
+        addString( "nav.about.contact" );
+        addString( "nav.about.who-we-are" );
+        addString( "nav.about.licensing" );
         addPreview( new PhetPanelFactory() {
             public PhetPanel getNewPanel( String id, PageContext context, PhetRequestCycle requestCycle ) {
                 HashSet<NavLocation> locations = new HashSet<NavLocation>();
                 locations.add( ( (WicketApplication) requestCycle.getApplication() ).getMenu().getLocationByKey( "motion" ) );
                 locations.add( ( (WicketApplication) requestCycle.getApplication() ).getMenu().getLocationByKey( "tools" ) );
+                locations.add( ( (WicketApplication) requestCycle.getApplication() ).getMenu().getLocationByKey( "get-phet.full-install" ) );
+                locations.add( ( (WicketApplication) requestCycle.getApplication() ).getMenu().getLocationByKey( "troubleshooting.java" ) );
+                locations.add( ( (WicketApplication) requestCycle.getApplication() ).getMenu().getLocationByKey( "about.licensing" ) );
                 return new SideNavMenu( id, context, locations );
             }
         }, "default" );
