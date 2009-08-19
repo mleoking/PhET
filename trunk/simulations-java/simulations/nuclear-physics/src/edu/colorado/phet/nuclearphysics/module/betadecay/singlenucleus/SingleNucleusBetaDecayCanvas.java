@@ -60,7 +60,7 @@ public class SingleNucleusBetaDecayCanvas extends PhetPCanvas {
     private final double HEIGHT_TRANSLATION_FACTOR = 0.60; // 0 = all the way up, 1 = all the way down.
     
     // Constants that control where the charts are placed.
-    private final double TIME_CHART_FRACTION = 0.2;   // Fraction of canvas for time chart.
+    private final double TIME_CHART_FRACTION = 0.22;   // Fraction of canvas for time chart.
     
     //----------------------------------------------------------------------------
     // Instance Data
