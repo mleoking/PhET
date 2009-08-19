@@ -46,7 +46,7 @@ public class LabeledExplodingAtomicNucleusNode extends AbstractAtomicNucleusNode
     private static final float EXPLOSION_MIN_TRANSPARENCY = 0.4f;
     
     // Amount that shadow should be offset from the main text.
-    private static final double SHADOW_OFFSET = 0.2;
+    private static final double SHADOW_OFFSET = 0.5;
     
     //------------------------------------------------------------------------
     // Instance Data
@@ -146,11 +146,6 @@ public class LabeledExplodingAtomicNucleusNode extends AbstractAtomicNucleusNode
      */
     void setLabel(int numProtons, int numNeutrons){
         
-        if (_isotopeChemSymbol == null){
-            // Don't bother doing anything if there is no label to set.
-            return;
-        }
-        
         NucleusDisplayInfo displayInfo = NucleusDisplayInfo.getDisplayInfoForNucleusConfig(numProtons, numNeutrons);
         
         if (displayInfo == null){
@@ -233,17 +228,17 @@ public class LabeledExplodingAtomicNucleusNode extends AbstractAtomicNucleusNode
     	if (_isotopeNumber.getText().length() == 0){
     		// Handle the case where no isotope number is present.
         	_isotopeChemSymbol.setOffset(xPos, yPos);
-        	_isotopeChemSymbolShadow.setOffset( _isotopeChemSymbol.getOffset().getX() + SHADOW_OFFSET, 
-        			_isotopeChemSymbol.getOffset().getY() + SHADOW_OFFSET );
     	}
     	else{
         	_isotopeNumber.setOffset(xPos, yPos);
-            _isotopeNumberShadow.setOffset( _isotopeNumber.getOffset().getX() + SHADOW_OFFSET, 
-            		_isotopeNumber.getOffset().getY() + SHADOW_OFFSET );
+            _isotopeNumberShadow.setOffset( 
+            		_isotopeNumber.getOffset().getX() + SHADOW_OFFSET * _isotopeChemSymbol.getScale(), 
+            		_isotopeNumber.getOffset().getY() + SHADOW_OFFSET * _isotopeChemSymbol.getScale());
         	_isotopeChemSymbol.setOffset(_isotopeNumber.getFullBoundsReference().getMaxX(), yPos);
-        	_isotopeChemSymbolShadow.setOffset( _isotopeChemSymbol.getOffset().getX() + SHADOW_OFFSET, 
-        			_isotopeChemSymbol.getOffset().getY() + SHADOW_OFFSET );
     	}
+    	_isotopeChemSymbolShadow.setOffset( 
+    			_isotopeChemSymbol.getOffset().getX() + SHADOW_OFFSET * _isotopeChemSymbol.getScale(),
+    			_isotopeChemSymbol.getOffset().getY() + SHADOW_OFFSET * _isotopeChemSymbol.getScale());
     }
 
     /**
