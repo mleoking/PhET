@@ -27,8 +27,8 @@ public class Carbon14CompositeNucleus extends BetaDecayCompositeNucleus {
     // The "agitation factor" for the various types of nucleus.  The amount of
     // agitation controls how dynamic the nucleus looks on the canvas.  Values
     // must be in the range 0-9.
-    static final int CARBON_14_AGITATION_FACTOR = 5;
-    static final int NITROGEN_14_AGITATION_FACTOR = 1;
+    static final int CARBON_14_AGITATION_FACTOR = 8;
+    static final int NITROGEN_14_AGITATION_FACTOR = 2;
     
     // Time scaling factor - scales the rate at which decay occurs so that we
     // don't really have to wait around thousands of years.  Smaller values
