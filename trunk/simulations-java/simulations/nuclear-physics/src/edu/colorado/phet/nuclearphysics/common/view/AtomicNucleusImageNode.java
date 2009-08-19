@@ -131,7 +131,7 @@ public class AtomicNucleusImageNode extends LabeledExplodingAtomicNucleusNode {
     		
     	default:
     		// Unknown
-    		System.out.println("Warning: Don't have a color assignment for this element.");
+    		System.out.println(getClass().getName() + "Warning: Don't have a color assignment for this element.");
     		color = Color.BLACK;
     	    break;
     	}
