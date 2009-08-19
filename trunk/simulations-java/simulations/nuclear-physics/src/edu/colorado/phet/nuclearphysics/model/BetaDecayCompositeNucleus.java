@@ -52,8 +52,12 @@ public abstract class BetaDecayCompositeNucleus extends CompositeAtomicNucleus {
 			_numNeutrons = _origNumNeutrons;
 			_numProtons = _origNumProtons;
 			
-			// Change one of the protons into a neutron.
-			for (SubatomicParticle nucleon : _constituents){
+			// Change one of the protons into a neutron.  NOTE: We go backwards
+			// through the list because that tends to yield a neutron which is less
+			// likely to be obscured by other nucleons, just due to the way that
+			// construction works.
+			for (int i = _constituents.size() - 1; i >= 0; i--){
+				SubatomicParticle nucleon = _constituents.get(i);
 				if (nucleon instanceof Nucleon && ((Nucleon)nucleon).getNucleonType() == NucleonType.PROTON){
 					((Nucleon)nucleon).setNucleonType(NucleonType.NEUTRON);
 					break;
@@ -80,8 +84,12 @@ public abstract class BetaDecayCompositeNucleus extends CompositeAtomicNucleus {
 		_numNeutrons -= 1;
 		_numProtons += 1;
 		
-		// Change one of the neutrons into a proton.
-		for (SubatomicParticle nucleon : _constituents){
+		// Change one of the neutrons into a proton.  NOTE: We go backwards
+		// through the list because that tends to yield a proton which is less
+		// likely to be obscured by other nucleons, just due to the way that
+		// construction works.
+		for (int i = _constituents.size() - 1; i >= 0; i--){
+			SubatomicParticle nucleon = _constituents.get(i);
 			if (nucleon instanceof Nucleon && ((Nucleon)nucleon).getNucleonType() == NucleonType.NEUTRON){
 				((Nucleon)nucleon).setNucleonType(NucleonType.PROTON);
 				break;
