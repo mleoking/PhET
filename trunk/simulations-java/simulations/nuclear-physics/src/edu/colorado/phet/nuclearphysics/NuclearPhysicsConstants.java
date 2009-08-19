@@ -101,7 +101,7 @@ public class NuclearPhysicsConstants {
     public static final Color HYDROGEN_3_LABEL_COLOR = new Color(127, 255, 0);
     
     // Color for label used for the Helium 3 nucleus.
-    public static final Color HELIUM_3_LABEL_COLOR = new Color(238, 130, 238);
+    public static final Color HELIUM_3_LABEL_COLOR = new Color(255, 192, 203);
     
     // Color for label used for the Carbon 14 nucleus.
     public static final Color CARBON_14_LABEL_COLOR = Color.YELLOW;
