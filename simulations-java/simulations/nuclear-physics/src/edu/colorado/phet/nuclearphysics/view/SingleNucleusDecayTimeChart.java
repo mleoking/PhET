@@ -26,6 +26,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ResizeArrowNode;
+import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.common.NucleusDisplayInfo;
@@ -77,6 +78,8 @@ public class SingleNucleusDecayTimeChart extends PNode {
     private static final Font   TICK_MARK_LABEL_FONT = new PhetFont( Font.PLAIN, 12 );
     private static final Color  TICK_MARK_COLOR = AXES_LINE_COLOR;
     private static final Font   SMALL_LABEL_FONT = new PhetFont( Font.PLAIN, 14 );
+    private static final Font   LARGE_LABEL_FONT = new PhetFont( Font.BOLD, 18 );
+    private static final Font   ISOTOPE_LABEL_FONT = new PhetFont( Font.PLAIN, 20 );
     private static final float  HALF_LIFE_LINE_STROKE_WIDTH = 2.0f;
     private static final Stroke HALF_LIFE_LINE_STROKE = new BasicStroke( HALF_LIFE_LINE_STROKE_WIDTH, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 3.0f, 3.0f }, 0 );
     private static final Color  HALF_LIFE_LINE_COLOR = new Color (238, 0, 0);
@@ -112,7 +115,7 @@ public class SingleNucleusDecayTimeChart extends PNode {
     // Variables for tracking information about the nuclei.
     AtomicNucleus _currentNucleus;
     EnhancedLabeledNucleusNode _undecayedNucleusNode;
-    ArrayList _decayedNucleusNodes = new ArrayList();
+    ArrayList<PNode> _decayedNucleusNodes = new ArrayList<PNode>();
     
     // Time span covered by this chart, in milliseconds.
     private double _timeSpan = DEFAULT_TIME_SPAN;
@@ -125,11 +128,11 @@ public class SingleNucleusDecayTimeChart extends PNode {
     private ArrowNode _xAxisOfGraph;
     private ArrayList<PhetPPath> _xAxisTickMarks;
     private ArrayList<PText> _xAxisTickMarkLabels;
-    private ArrayList _yAxisTickMarks;
-    private ArrayList _yAxisTickMarkLabels;
+    private ArrayList<PhetPPath> _yAxisTickMarks;
+    private ShadowHTMLNode _yAxisUpperTickMarkLabel;
+    private ShadowHTMLNode _yAxisLowerTickMarkLabel;
     private PText _xAxisLabel;
-    private PText _yAxisLabel1;
-    private PText _yAxisLabel2;
+    private PText _yAxisLabel;
     private TimeDisplayNode _timeDisplay;
     private PText _decayTimeLabel;
     private LogarithmicTimeLineNode _exponentialTimeLine;
@@ -248,8 +251,8 @@ public class SingleNucleusDecayTimeChart extends PNode {
 
         // Add the tick marks and their labels to the X axis.
         int numTicksOnX = (int) Math.round( ( DEFAULT_TIME_SPAN / 1000 ) + 1 );
-        _xAxisTickMarks = new ArrayList( numTicksOnX );
-        _xAxisTickMarkLabels = new ArrayList( numTicksOnX );
+        _xAxisTickMarks = new ArrayList<PhetPPath>( numTicksOnX );
+        _xAxisTickMarkLabels = new ArrayList<PText>( numTicksOnX );
         DecimalFormat formatter = new DecimalFormat( "0.0" );
         for ( int i = 0; i < numTicksOnX; i++ ) {
             // Create the tick mark.  It will be positioned later.
@@ -269,44 +272,32 @@ public class SingleNucleusDecayTimeChart extends PNode {
         // Add the tick marks and their labels to the Y axis.  There are only
         // two, one for the weight of Polonium and one for the weight of Lead.
 
-        _yAxisTickMarks = new ArrayList( 2 );
+        _yAxisTickMarks = new ArrayList<PhetPPath>( 2 );
 
-        PPath yTickMark1 = new PPath();
-        yTickMark1.setStroke( TICK_MARK_STROKE );
-        yTickMark1.setStrokePaint( TICK_MARK_COLOR );
+        PhetPPath yTickMark1 = new PhetPPath( TICK_MARK_STROKE, TICK_MARK_COLOR );
         _yAxisTickMarks.add( yTickMark1 );
         _nonPickableChartNode.addChild( yTickMark1 );
 
-        PPath yTickMark2 = new PPath();
-        yTickMark2.setStroke( TICK_MARK_STROKE );
-        yTickMark2.setStrokePaint( TICK_MARK_COLOR );
+        PhetPPath yTickMark2 = new PhetPPath( TICK_MARK_STROKE, TICK_MARK_COLOR );
         _yAxisTickMarks.add( yTickMark2 );
         _nonPickableChartNode.addChild( yTickMark2 );
 
-        _yAxisTickMarkLabels = new ArrayList( 2 );
+        _yAxisUpperTickMarkLabel = new ShadowHTMLNode();
+        _yAxisUpperTickMarkLabel.setFont( ISOTOPE_LABEL_FONT );
+        _nonPickableChartNode.addChild( _yAxisUpperTickMarkLabel );
 
-        PText yTickMarkLabel1 = new PText();
-        yTickMarkLabel1.setFont( TICK_MARK_LABEL_FONT );
-        _yAxisTickMarkLabels.add( yTickMarkLabel1 );
-        _nonPickableChartNode.addChild( yTickMarkLabel1 );
-
-        PText yTickMarkLabel2 = new PText();
-        yTickMarkLabel2.setFont( TICK_MARK_LABEL_FONT );
-        _yAxisTickMarkLabels.add( yTickMarkLabel2 );
-        _nonPickableChartNode.addChild( yTickMarkLabel2 );
+        _yAxisLowerTickMarkLabel = new ShadowHTMLNode();
+        _yAxisLowerTickMarkLabel.setFont( ISOTOPE_LABEL_FONT );
+        _nonPickableChartNode.addChild( _yAxisLowerTickMarkLabel );
 
         // Add the text for the X & Y axes.
         _xAxisLabel = new PText( NuclearPhysicsStrings.DECAY_TIME_CHART_X_AXIS_LABEL + " (" + NuclearPhysicsStrings.DECAY_TIME_UNITS + ")" );
         _xAxisLabel.setFont( SMALL_LABEL_FONT );
         _nonPickableChartNode.addChild( _xAxisLabel );
-        _yAxisLabel1 = new PText( NuclearPhysicsStrings.DECAY_TIME_CHART_Y_AXIS_LABEL1 );
-        _yAxisLabel1.setFont( SMALL_LABEL_FONT );
-        _yAxisLabel1.rotate( 1.5 * Math.PI );
-        _nonPickableChartNode.addChild( _yAxisLabel1 );
-        _yAxisLabel2 = new PText( NuclearPhysicsStrings.DECAY_TIME_CHART_Y_AXIS_LABEL2 );
-        _yAxisLabel2.setFont( SMALL_LABEL_FONT );
-        _yAxisLabel2.rotate( 1.5 * Math.PI );
-        _nonPickableChartNode.addChild( _yAxisLabel2 );
+        _yAxisLabel = new PText( NuclearPhysicsStrings.DECAY_TIME_CHART_Y_AXIS_LABEL_ISOTOPE );
+        _yAxisLabel.setFont( LARGE_LABEL_FONT );
+        _yAxisLabel.rotate( 1.5 * Math.PI );
+        _nonPickableChartNode.addChild( _yAxisLabel );
 
         // Add the display of the decay time.
         _timeDisplay = new TimeDisplayNode();
@@ -348,7 +339,6 @@ public class SingleNucleusDecayTimeChart extends PNode {
                 PDimension d = event.getDeltaRelativeTo(draggedNode);
                 draggedNode.localToParent(d);
                 double newHalfLife = _model.getHalfLife() + (d.width / _msToPixelsFactor);
-                System.out.println("newHalfLife = " + newHalfLife);
                 if (newHalfLife >= MIN_HALF_LIFE && newHalfLife <= (_timeSpan * 0.95)){
 	                _model.setHalfLife(newHalfLife);
 	        		halfLifeChanged = true;
@@ -364,7 +354,6 @@ public class SingleNucleusDecayTimeChart extends PNode {
         
         // Create the "infinity indication" for the half life marker which is
         // used to indicate when the half life becomes essentially infinite.
-        // TODO: Make this into a resource if accepted and finalized.
         _halfLifeInfinityText = new PText( NuclearPhysicsStrings.INFINITY_SYMBOL );
         _halfLifeInfinityText.setFont( HALF_LIFE_FONT );
         _halfLifeInfinityText.setTextPaint( HALF_LIFE_TEXT_COLOR );
@@ -452,8 +441,7 @@ public class SingleNucleusDecayTimeChart extends PNode {
         updateXAxisTickMarksAndLabels();
 
         // Set the visibility of the Y axis label based on the chart mode.
-       	_yAxisLabel1.setVisible(!_exponentialMode);
-       	_yAxisLabel2.setVisible(!_exponentialMode);
+       	_yAxisLabel.setVisible(!_exponentialMode);
         
         // Position the tick marks and their labels on the Y axis.
         double preDecayPosY = _usableAreaOriginY + ( _usableHeight * PRE_DECAY_TIME_LINE_POS_FRACTION );
@@ -472,27 +460,25 @@ public class SingleNucleusDecayTimeChart extends PNode {
         yAxisUpperTickMark.setPathTo( new Line2D.Double( _graphOriginX - TICK_MARK_LENGTH, preDecayPosY, 
         		_graphOriginX, preDecayPosY ) );
 
-        setYAxisTickMarkLabelText();
+        updateNucleusGraphLabels();
         
-        PText yAxisLowerTickMarkLabel = (PText)_yAxisTickMarkLabels.get( 0 );
-        yAxisLowerTickMarkLabel.setOffset( _graphOriginX - yAxisLowerTickMark.getWidth() -
-        		( 1.15 * yAxisLowerTickMarkLabel.getWidth() ), 
-        		yAxisLowerTickMark.getY() - ( 0.5 * yAxisLowerTickMarkLabel.getHeight() ) );
+        _yAxisLowerTickMarkLabel.setOffset( 
+        		_graphOriginX - _yAxisLowerTickMarkLabel.getFullBoundsReference().getWidth() 
+        			- ( yAxisLowerTickMark.getWidth() * 1.5 ),
+        		yAxisLowerTickMark.getY() - ( 0.5 * _yAxisLowerTickMarkLabel.getFullBoundsReference().height ) );
 
-        PText yAxisUpperTickMarkLabel = (PText)_yAxisTickMarkLabels.get( 1 );
-        yAxisUpperTickMarkLabel.setOffset( _graphOriginX - yAxisUpperTickMark.getWidth() -
-        		( 1.15 * yAxisUpperTickMarkLabel.getWidth() ),
-        		yAxisUpperTickMark.getY() - ( 0.5 * yAxisUpperTickMarkLabel.getHeight() ) );
+        _yAxisUpperTickMarkLabel.setOffset( 
+        		_graphOriginX - _yAxisUpperTickMarkLabel.getFullBoundsReference().getWidth()
+        			- ( yAxisUpperTickMark.getWidth() * 1.5 ),
+        		yAxisUpperTickMark.getY() - ( 0.5 * _yAxisUpperTickMarkLabel.getFullBoundsReference().height ) );
 
         // Position the labels for the axes.
         _xAxisLabel.setOffset( _graphOriginX - (_xAxisLabel.getFullBoundsReference().width / 2),
         		((PNode)_xAxisTickMarkLabels.get(0)).getFullBoundsReference().getMaxY() );
         double yAxisLabelCenter = yAxisUpperTickMark.getY() 
-                + ((yAxisLowerTickMark.getY() - yAxisUpperTickMark.getY()) / 2);
-        _yAxisLabel2.setOffset( yAxisUpperTickMarkLabel.getOffset().getX() - ( 2.0 * _yAxisLabel1.getFont().getSize() ),
-        		yAxisLabelCenter + (_yAxisLabel2.getFullBounds().height / 2) );
-        _yAxisLabel1.setOffset( _yAxisLabel2.getOffset().getX() - ( 1.1 * _yAxisLabel2.getFont().getSize() ),
-        		yAxisLabelCenter + (_yAxisLabel1.getFullBounds().height / 2) );
+        + ((yAxisLowerTickMark.getY() - yAxisUpperTickMark.getY()) / 2);
+        _yAxisLabel.setOffset( _yAxisLowerTickMarkLabel.getOffset().getX() - ( 1.8 * _yAxisLabel.getFont().getSize() ),
+		yAxisLabelCenter + (_yAxisLabel.getFullBounds().height / 2) );
         
         // Update the exponential time line, including whether or not it is
         // visible.
@@ -723,7 +709,7 @@ public class SingleNucleusDecayTimeChart extends PNode {
 		clearDecayedNuclei();
     	if (_model.getNucleusType() == NucleusType.HEAVY_CUSTOM){
     		_exponentialMode = true;
-    		setYAxisTickMarkLabelText();
+    		updateNucleusGraphLabels();
     	}
     	else{
     		_exponentialMode = false;
@@ -732,34 +718,34 @@ public class SingleNucleusDecayTimeChart extends PNode {
     	update();
 	};
 	
-	private void setYAxisTickMarkLabelText(){
-		
-		String upperLabel, lowerLabel;
-		
-		NucleusType preDecayNucleusType = _model.getNucleusType();
-		NucleusDisplayInfo preDecayDisplayInfo = NucleusDisplayInfo.getDisplayInfoForNucleusType(preDecayNucleusType);
-		NucleusType postDecayNucleusType = AtomicNucleus.getPostDecayNuclei(preDecayNucleusType).get(0);
-		NucleusDisplayInfo postDecayDisplayInfo = NucleusDisplayInfo.getDisplayInfoForNucleusType(postDecayNucleusType);
+    private void updateNucleusGraphLabels(){
+    	
+    	// Get the display information for the current nuclei.
+    	NucleusDisplayInfo preDecayDisplayInfo = 
+    		NucleusDisplayInfo.getDisplayInfoForNucleusType(_model.getNucleusType());
+    	NucleusDisplayInfo postDecayDisplayInfo = 
+    		NucleusDisplayInfo.getDisplayInfoForNucleusType(AtomicNucleus.getPostDecayNuclei(_model.getNucleusType()).get(0));
 
 		if (preDecayDisplayInfo != null){
-			upperLabel = preDecayDisplayInfo.getChemicalSymbol();
+			_yAxisUpperTickMarkLabel.setHtml("<html><sup><font size=-1>" + preDecayDisplayInfo.getIsotopeNumberString() 
+					+ "</font></sup>" + preDecayDisplayInfo.getChemicalSymbol());
+			_yAxisUpperTickMarkLabel.setColor(preDecayDisplayInfo.getLabelColor());
 		}
 		else{
-			upperLabel = "";
+			_yAxisUpperTickMarkLabel.setHtml("X");
+			_yAxisUpperTickMarkLabel.setColor(Color.RED);
 		}
 		
 		if (postDecayDisplayInfo != null){
-			lowerLabel = preDecayDisplayInfo.getChemicalSymbol();
+			_yAxisLowerTickMarkLabel.setHtml("<html><sup><font size=-1>" + postDecayDisplayInfo.getIsotopeNumberString() 
+					+ "</font></sup>" + postDecayDisplayInfo.getChemicalSymbol());
+			_yAxisLowerTickMarkLabel.setColor(postDecayDisplayInfo.getLabelColor());
 		}
 		else{
-			lowerLabel = "";
+			_yAxisLowerTickMarkLabel.setHtml("X");
+			_yAxisLowerTickMarkLabel.setColor(Color.BLACK);
 		}
-		
-		if (_yAxisTickMarkLabels.size() >= 2){
-    		((PText)_yAxisTickMarkLabels.get(0)).setText(lowerLabel);
-    		((PText)_yAxisTickMarkLabels.get(1)).setText(upperLabel);
-		}
-	}
+    }
     
     /**
      * Position the half life marker on the chart based on the values of the
@@ -1230,15 +1216,12 @@ public class SingleNucleusDecayTimeChart extends PNode {
     private class EnhancedLabeledNucleusNode extends LabeledNucleusImageNode {
 
     	private int _fallCount;     // Counter used for making nucleus node fall incrementally from upper
-    	                            // to lower position on the graph.
-    	private double _decayTime;  // Time at which the associated nucleus decayed.
-    	
-		public EnhancedLabeledNucleusNode(String imageName, String isotopeNumber, String chemicalSymbol,
+    	                            
+    	public EnhancedLabeledNucleusNode(String imageName, String isotopeNumber, String chemicalSymbol,
 				Color labelColor) {
 			super(imageName, isotopeNumber, chemicalSymbol, labelColor);
 			
 			_fallCount = 0;
-			_decayTime = Double.POSITIVE_INFINITY;
 		}
 		
 		protected void startFalling(){
@@ -1259,12 +1242,7 @@ public class SingleNucleusDecayTimeChart extends PNode {
 			return _fallCount;
 		}
 
-		protected double getDecayTime() {
-			return _decayTime;
-		}
-
 		protected void setDecayTime(double time) {
-			_decayTime = time;
 		}
     }
     
@@ -1279,13 +1257,14 @@ public class SingleNucleusDecayTimeChart extends PNode {
     	public  static final double EXPONENTIAL_TIME_LINE_LENGTH = 3.2e22;  // Roughly a trillion years in milliseconds. 
     	private static final double LINE_HEIGHT_PROPORTION = 0.5; // Height of time line as a function of overall
     	                                                          // height of the node.
-    	private static final boolean SHOW_OUTLINE = false; // TODO: Remove when fully debugged. 
+    	
+    	private static final boolean SHOW_OUTLINE = false;        // For debugging.
 
     	private PPath _outline;
     	private double _timeToPositionMultiplier;
     	private int _width = 0;
     	private int _height = 0;
-    	private ArrayList _timeLineSections = new ArrayList();
+    	private ArrayList<PhetPPath> _timeLineSections = new ArrayList<PhetPPath>();
     	private double [] _timeLineSectionValues = { 
     			                                       1000,      /* milliseconds in a second */
     			                                       60000,     /* milliseconds in a minute */
@@ -1297,7 +1276,8 @@ public class SingleNucleusDecayTimeChart extends PNode {
     			                                       3.16e19,   /* milliseconds in a billion years */
     			                                       EXPONENTIAL_TIME_LINE_LENGTH
     			                                   };
-    	private ArrayList _sectionLabels = new ArrayList();
+    	
+    	private ArrayList<PText> _sectionLabels = new ArrayList<PText>();
 
     	/**
     	 * Constructor.
