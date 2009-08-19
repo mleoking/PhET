@@ -64,10 +64,12 @@ public abstract class AbstractBetaDecayNucleus extends AtomicNucleus {
 		super.reset();
 		
 		// Turn a proton back into a neutron.
-		_numNeutrons++;
-		_numProtons--;
-		
-		// Notify any listeners.
-		notifyNucleusChangeEvent(null);
+		if (_numNeutrons != _origNumNeutrons || _numProtons != _origNumProtons){
+			_numNeutrons++;
+			_numProtons--;
+
+			// Notify any listeners of the change.
+			notifyNucleusChangeEvent(null);
+		}
 	}
 }
