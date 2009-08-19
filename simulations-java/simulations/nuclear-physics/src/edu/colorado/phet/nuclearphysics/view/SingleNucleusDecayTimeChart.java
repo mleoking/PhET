@@ -9,6 +9,7 @@ import java.awt.GradientPaint;
 import java.awt.Stroke;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Dimension2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -79,7 +80,7 @@ public class SingleNucleusDecayTimeChart extends PNode {
     private static final Color  TICK_MARK_COLOR = AXES_LINE_COLOR;
     private static final Font   SMALL_LABEL_FONT = new PhetFont( Font.PLAIN, 14 );
     private static final Font   LARGE_LABEL_FONT = new PhetFont( Font.BOLD, 18 );
-    private static final Font   ISOTOPE_LABEL_FONT = new PhetFont( Font.PLAIN, 20 );
+    private static final Font   ISOTOPE_LABEL_FONT = new PhetFont( Font.BOLD, 20 );
     private static final float  HALF_LIFE_LINE_STROKE_WIDTH = 2.0f;
     private static final Stroke HALF_LIFE_LINE_STROKE = new BasicStroke( HALF_LIFE_LINE_STROKE_WIDTH, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 3.0f, 3.0f }, 0 );
     private static final Color  HALF_LIFE_LINE_COLOR = new Color (238, 0, 0);
@@ -87,6 +88,8 @@ public class SingleNucleusDecayTimeChart extends PNode {
     private static final Font   HALF_LIFE_FONT = new PhetFont( Font.BOLD, 16 );
 	private static final Color  TIME_LINE_BASE_COLOR = Color.BLUE;
     private static final double RESIZE_HANDLE_SIZE = 35;
+    private static final double MAX_ISOTOPE_LABEL_WIDTH_PROPORTION = 0.05;
+    private static final double MAX_ISOTOPE_LABEL_HEIGHT_PROPORTION = 0.2;
 
     // Constants that control the location of the origin.
     private static final double X_ORIGIN_PROPORTION_NORMAL_MODE = 0.27;
@@ -99,7 +102,7 @@ public class SingleNucleusDecayTimeChart extends PNode {
     private static final double POST_DECAY_TIME_LINE_POS_FRACTION_NORMAL = 0.50;
     private static final double POST_DECAY_TIME_LINE_POS_FRACTION_EXPONENTIAL = 0.42;
     private static final double TIME_ZERO_OFFSET = 100; // In milliseconds
-    private static final int INITIAL_FALL_COUNT = 5; // Number of clock ticks for nucleus to fall from upper to lower line.
+    private static final int    INITIAL_FALL_COUNT = 5; // Number of clock ticks for nucleus to fall from upper to lower line.
     private static final double TIME_ZERO_OFFSET_PROPORTION = 0.05; // Proportion of total time span
 
     // Constants that control the way the nuclei look.
@@ -475,9 +478,14 @@ public class SingleNucleusDecayTimeChart extends PNode {
         // Position the labels for the axes.
         _xAxisLabel.setOffset( _graphOriginX - (_xAxisLabel.getFullBoundsReference().width / 2),
         		((PNode)_xAxisTickMarkLabels.get(0)).getFullBoundsReference().getMaxY() );
-        double yAxisLabelCenter = yAxisUpperTickMark.getY() 
-        + ((yAxisLowerTickMark.getY() - yAxisUpperTickMark.getY()) / 2);
-        _yAxisLabel.setOffset( _yAxisLowerTickMarkLabel.getOffset().getX() - ( 1.8 * _yAxisLabel.getFont().getSize() ),
+        double yAxisLabelCenter = yAxisUpperTickMark.getY() + 
+        	((yAxisLowerTickMark.getY() - yAxisUpperTickMark.getY()) / 2);
+        double biggestTickMarkLabelWidth = Math.max(_yAxisUpperTickMarkLabel.getFullBoundsReference().width,
+        		_yAxisLowerTickMarkLabel.getFullBoundsReference().width);
+        _yAxisLabel.setScale(1);
+        _yAxisLabel.setScale(calculateScaleForTargetSize(_yAxisLabel, 
+        		new PDimension(Double.POSITIVE_INFINITY, _usableHeight * Y_ORIGIN_PROPORTION * 0.9)));
+        _yAxisLabel.setOffset( _yAxisLowerTickMarkLabel.getOffset().getX() - ( biggestTickMarkLabelWidth ),
 		yAxisLabelCenter + (_yAxisLabel.getFullBounds().height / 2) );
         
         // Update the exponential time line, including whether or not it is
@@ -730,6 +738,12 @@ public class SingleNucleusDecayTimeChart extends PNode {
 			_yAxisUpperTickMarkLabel.setHtml("<html><sup><font size=-1>" + preDecayDisplayInfo.getIsotopeNumberString() 
 					+ "</font></sup>" + preDecayDisplayInfo.getChemicalSymbol());
 			_yAxisUpperTickMarkLabel.setColor(preDecayDisplayInfo.getLabelColor());
+			if (preDecayDisplayInfo.getLabelColor() == Color.BLACK){
+				_yAxisUpperTickMarkLabel.setShadowColor(Color.WHITE);
+			}
+			else {
+				_yAxisUpperTickMarkLabel.setShadowColor(Color.BLACK);
+			}
 		}
 		else{
 			_yAxisUpperTickMarkLabel.setHtml("X");
@@ -740,11 +754,26 @@ public class SingleNucleusDecayTimeChart extends PNode {
 			_yAxisLowerTickMarkLabel.setHtml("<html><sup><font size=-1>" + postDecayDisplayInfo.getIsotopeNumberString() 
 					+ "</font></sup>" + postDecayDisplayInfo.getChemicalSymbol());
 			_yAxisLowerTickMarkLabel.setColor(postDecayDisplayInfo.getLabelColor());
+			if (postDecayDisplayInfo.getLabelColor() == Color.BLACK){
+				_yAxisLowerTickMarkLabel.setShadowColor(Color.WHITE);
+			}
+			else {
+				_yAxisLowerTickMarkLabel.setShadowColor(Color.BLACK);
+			}
 		}
 		else{
 			_yAxisLowerTickMarkLabel.setHtml("X");
 			_yAxisLowerTickMarkLabel.setColor(Color.BLACK);
 		}
+		
+		// Scale the labels.  This helps them to be more visible when the
+		// sim is enlarged.
+		Dimension2D size = new PDimension(_usableWidth * MAX_ISOTOPE_LABEL_WIDTH_PROPORTION, 
+				_usableHeight * MAX_ISOTOPE_LABEL_HEIGHT_PROPORTION);
+		_yAxisUpperTickMarkLabel.setScale(1);
+		_yAxisUpperTickMarkLabel.setScale(calculateScaleForTargetSize(_yAxisUpperTickMarkLabel, size));
+		_yAxisLowerTickMarkLabel.setScale(1);
+		_yAxisLowerTickMarkLabel.setScale(calculateScaleForTargetSize(_yAxisLowerTickMarkLabel, size));
     }
     
     /**
@@ -997,6 +1026,20 @@ public class SingleNucleusDecayTimeChart extends PNode {
 				_graphOriginY + (tickMarkLabel.getFullBoundsReference().height * 0.1));
 		_nonPickableChartNode.addChild(tickMarkLabel);
 		_xAxisTickMarkLabels.add(tickMarkLabel);
+    }
+    
+    /**
+     * Utility method for calculating the scale factor needed to make a PNode
+     * fit within the specified size.
+     */
+    private double calculateScaleForTargetSize(PNode node, Dimension2D desiredSize){
+    	
+    	PBounds bounds = node.getFullBounds();
+    	
+    	double xDimensionScale = desiredSize.getWidth() / bounds.width;
+    	double yDimensionScale = desiredSize.getHeight() / bounds.height;
+    	
+    	return Math.min(xDimensionScale, yDimensionScale);
     }
     
 	//------------------------------------------------------------------------
