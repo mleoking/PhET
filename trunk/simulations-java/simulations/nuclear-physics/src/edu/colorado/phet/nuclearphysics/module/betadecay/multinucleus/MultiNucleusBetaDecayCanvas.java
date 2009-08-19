@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.nuclearphysics.module.betadecay.multinucleus;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,6 +20,7 @@ import java.util.Set;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.common.NucleusType;
@@ -81,10 +83,13 @@ public class MultiNucleusBetaDecayCanvas extends PhetPCanvas implements Autopres
     private static final double PREFERRED_INTER_NUCLEUS_DISTANCE = 7;  // In femtometers.
     
     // Minimum distance between the center of a nucleus and a wall or other obstacle.
-    private static final double MIN_NUCLEUS_TO_OBSTACLE_DISTANCE = 10;  // In femtometers.
+    private static final double MIN_NUCLEUS_TO_OBSTACLE_DISTANCE = 2;  // In femtometers.
     
     // Scaling factor for nucleus nodes that are in the bucket.
     public static final double SCALING_FACTOR_FOR_NUCLEUS_NODES_IN_BUCKET = 0.6;
+    
+    // For debugging of nucleus placement, can be removed when working.
+    private static final boolean SHOW_PLACEMENT_RECT = false;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -104,6 +109,7 @@ public class MultiNucleusBetaDecayCanvas extends PhetPCanvas implements Autopres
     private AtomicNucleus.Listener _listenerAdapter;
     private PNode _nucleiLayer;
     private PNode _chartLayer;
+    private PhetPPath _nucleusPlacementRect = new PhetPPath(new BasicStroke(0.5f), Color.RED);
     
     // The following rectangles are used to define the locations where
     // randomly placed nuclei can and cannot be put.
@@ -177,6 +183,10 @@ public class MultiNucleusBetaDecayCanvas extends PhetPCanvas implements Autopres
         _bucketNode = new BucketOfNucleiNode( _bucketRect.getWidth(), _bucketRect.getHeight(), BUCKET_AND_BUTTON_COLOR );
         _nucleiLayer.addChild(_bucketNode);
         _bucketNode.setOffset( _bucketRect.getX(), _bucketRect.getY() );
+        
+        // Add node that shows where nuclei can be placed - for debugging.
+        _nucleiLayer.addChild(_nucleusPlacementRect);
+        _nucleusPlacementRect.setVisible(SHOW_PLACEMENT_RECT);
         
         // Add the button that allows the user to add multiple nuclei at once.
         // Position it just under the bucket and scale it so that its size is
@@ -259,6 +269,7 @@ public class MultiNucleusBetaDecayCanvas extends PhetPCanvas implements Autopres
       		+ MIN_NUCLEUS_TO_OBSTACLE_DISTANCE;
         double height = worldSize.getHeight() - chartSize.getHeight() - (MIN_NUCLEUS_TO_OBSTACLE_DISTANCE * 2);
         _nucleusPlacementAreaRect.setRect(x, y, width, height);
+        _nucleusPlacementRect.setPathTo(_nucleusPlacementAreaRect);
         
         // Update the rectangle that is used to prevent nuclei from being
         // placed where the reset button resides.
