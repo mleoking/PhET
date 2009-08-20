@@ -7,7 +7,7 @@ import java.awt.Frame;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 import edu.colorado.phet.simtemplate.SimTemplateApplication;
-import edu.colorado.phet.simexample.SimTemplateStrings;
+import edu.colorado.phet.simexample.SimExampleStrings;
 import edu.colorado.phet.simtemplate.defaults.ExampleDefaults;
 import edu.colorado.phet.simexample.model.ExampleModelElement;
 import edu.colorado.phet.simexample.model.SimTemplateClock;
@@ -34,7 +34,7 @@ public class ExampleModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     public ExampleModule( Frame parentFrame ) {
-        super( SimTemplateStrings.TITLE_EXAMPLE_MODULE, new SimTemplateClock( ExampleDefaults.CLOCK_FRAME_RATE, ExampleDefaults.CLOCK_DT ) );
+        super( SimExampleStrings.TITLE_EXAMPLE_MODULE, new SimTemplateClock( ExampleDefaults.CLOCK_FRAME_RATE, ExampleDefaults.CLOCK_DT ) );
 
         // Model
         SimTemplateClock clock = (SimTemplateClock) getClock();
@@ -52,7 +52,7 @@ public class ExampleModule extends PiccoloModule {
         clockControlPanel = new PiccoloClockControlPanel( getClock() );
         clockControlPanel.setRewindButtonVisible( true );
         clockControlPanel.setTimeDisplayVisible( true );
-        clockControlPanel.setUnits( SimTemplateStrings.UNITS_TIME );
+        clockControlPanel.setUnits( SimExampleStrings.UNITS_TIME );
         clockControlPanel.setTimeColumns( ExampleDefaults.CLOCK_TIME_COLUMNS );
         setClockControlPanel( clockControlPanel );
 

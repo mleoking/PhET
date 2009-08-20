@@ -16,10 +16,10 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class SimTemplateConstants {
+public class SimExampleConstants {
 
     /* Not intended for instantiation. */
-    private SimTemplateConstants() {}
+    private SimExampleConstants() {}
     
     //----------------------------------------------------------------------------
     // Debugging
@@ -32,7 +32,7 @@ public class SimTemplateConstants {
     // Application
     //----------------------------------------------------------------------------
     
-    public static final String PROJECT_NAME = "sim-template";
+    public static final String PROJECT_NAME = "sim-example";
 
     //----------------------------------------------------------------------------
     // Fonts
@@ -75,5 +75,5 @@ public class SimTemplateConstants {
     //----------------------------------------------------------------------------
     // Cursors
     //----------------------------------------------------------------------------
-    
+
 }

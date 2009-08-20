@@ -20,7 +20,7 @@ import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.simexample.developer.DeveloperMenu;
 import edu.colorado.phet.simexample.module.example.ExampleModule;
 import edu.colorado.phet.simexample.persistence.ExampleConfig;
-import edu.colorado.phet.simexample.persistence.SimTemplateConfig;
+import edu.colorado.phet.simexample.persistence.SimExampleConfig;
 
 /**
  * SimTemplateApplication is the main application for this simulation.
@@ -28,7 +28,7 @@ import edu.colorado.phet.simexample.persistence.SimTemplateConfig;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * 
  */
-public class SimTemplateApplication extends PiccoloPhetApplication {
+public class SimExampleApplication extends PiccoloPhetApplication {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -50,7 +50,7 @@ public class SimTemplateApplication extends PiccoloPhetApplication {
      *
      * @param config the configuration for this application
      */
-    public SimTemplateApplication( PhetApplicationConfig config )
+    public SimExampleApplication( PhetApplicationConfig config )
     {
         super( config );
         initTabbedPane();
@@ -153,7 +153,7 @@ public class SimTemplateApplication extends PiccoloPhetApplication {
     @Override
     public void save() {
         
-        SimTemplateConfig appConfig = new SimTemplateConfig();
+        SimExampleConfig appConfig = new SimExampleConfig();
         
         appConfig.setVersionString( getSimInfo().getVersion().toString() );
         appConfig.setVersionMajor( getSimInfo().getVersion().getMajor() );
@@ -176,15 +176,15 @@ public class SimTemplateApplication extends PiccoloPhetApplication {
         Object object = persistenceManager.load();
         if ( object != null ) {
             
-            if ( object instanceof SimTemplateConfig ) {
-                SimTemplateConfig appConfig = (SimTemplateConfig) object;
+            if ( object instanceof SimExampleConfig ) {
+                SimExampleConfig appConfig = (SimExampleConfig) object;
                 
                 ExampleConfig exampleConfig = appConfig.getExampleConfig();
                 exampleModule.load( exampleConfig );
             }
             else {
-                String message = SimTemplateStrings.MESSAGE_NOT_A_CONFIG;
-                String title = SimTemplateStrings.TITLE_ERROR;
+                String message = SimExampleStrings.MESSAGE_NOT_A_CONFIG;
+                String title = SimExampleStrings.TITLE_ERROR;
                 JOptionPane.showMessageDialog( getPhetFrame(), message, title, JOptionPane.ERROR_MESSAGE );
             }
         }
@@ -199,6 +199,6 @@ public class SimTemplateApplication extends PiccoloPhetApplication {
          * If you want to customize your application (look-&-feel, window size, etc) 
          * create your own PhetApplicationConfig and use one of the other launchSim methods
          */
-        new PhetApplicationLauncher().launchSim( args, SimTemplateConstants.PROJECT_NAME, SimTemplateApplication.class );
+        new PhetApplicationLauncher().launchSim( args, SimExampleConstants.PROJECT_NAME, SimExampleApplication.class );
     }
 }
