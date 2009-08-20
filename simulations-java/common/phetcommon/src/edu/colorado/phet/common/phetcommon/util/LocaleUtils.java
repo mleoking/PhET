@@ -76,6 +76,7 @@ public class LocaleUtils {
         System.out.println( localeToString( new Locale( "ZH", "cn" ) ) );
         System.out.println( stringToLocale( "zh" ) );
         System.out.println( stringToLocale( "zh_CN" ) );
+        System.out.println( stringToLocale( "test" ) );
         
         // these should fail
         String[] fail = { "CN", "zh_cn", "zh_", "_CN", "zn_CN_", "zn_CN_CN" };
