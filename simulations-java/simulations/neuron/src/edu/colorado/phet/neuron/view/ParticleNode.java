@@ -21,7 +21,7 @@ public class ParticleNode extends PNode {
 
 		});
 		
-		PhetPPath representation = new PhetPPath(new Ellipse2D.Double(-5, -5, 10, 10), Color.ORANGE);
+		PhetPPath representation = new PhetPPath(new Ellipse2D.Double(-50, -50, 100, 100), Color.ORANGE);
 		addChild(representation);
 	}
 

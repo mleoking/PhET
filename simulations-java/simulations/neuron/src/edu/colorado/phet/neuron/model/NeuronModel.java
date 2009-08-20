@@ -15,6 +15,7 @@ public class NeuronModel {
     //----------------------------------------------------------------------------
     
     private final NeuronClock clock;
+    private Particle particle = new Particle();
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -23,7 +24,9 @@ public class NeuronModel {
     public NeuronModel( NeuronClock clock ) {
         super();
         
-        this.clock = clock;        
+        this.clock = clock;   
+        
+        
     }
     
     //----------------------------------------------------------------------------
@@ -33,4 +36,8 @@ public class NeuronModel {
     public NeuronClock getClock() {
         return clock;
     }    
+    
+    public Particle getParticle(){
+    	return particle;
+    }
 }

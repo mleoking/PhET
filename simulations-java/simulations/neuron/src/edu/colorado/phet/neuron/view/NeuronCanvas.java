@@ -41,9 +41,10 @@ public class NeuronCanvas extends PhetPCanvas {
         // Root of our scene graph
         _rootNode = new PNode();
         addWorldChild( _rootNode );
+        
+        ParticleNode particleNode = new ParticleNode( model.getParticle() );
+        _rootNode.addChild(particleNode);
     }
-    
-
     
     //----------------------------------------------------------------------------
     // Accessors
