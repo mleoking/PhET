@@ -5,9 +5,9 @@ package edu.colorado.phet.simexample.module.example;
 import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.simtemplate.SimTemplateConstants;
+import edu.colorado.phet.simexample.SimExampleConstants;
 import edu.colorado.phet.simexample.defaults.ExampleDefaults;
-import edu.colorado.phet.simtemplate.view.ExampleNode;
+import edu.colorado.phet.simexample.view.ExampleNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -37,7 +37,7 @@ public class ExampleCanvas extends PhetPCanvas {
         
         this.model = model;
         
-        setBackground( SimTemplateConstants.CANVAS_BACKGROUND );
+        setBackground( SimExampleConstants.CANVAS_BACKGROUND );
         
         // Root of our scene graph
         _rootNode = new PNode();
@@ -71,7 +71,7 @@ public class ExampleCanvas extends PhetPCanvas {
             // canvas hasn't been sized, blow off layout
             return;
         }
-        else if ( SimTemplateConstants.DEBUG_CANVAS_UPDATE_LAYOUT ) {
+        else if ( SimExampleConstants.DEBUG_CANVAS_UPDATE_LAYOUT ) {
             System.out.println( "ExampleCanvas.updateLayout worldSize=" + worldSize );//XXX
         }
         

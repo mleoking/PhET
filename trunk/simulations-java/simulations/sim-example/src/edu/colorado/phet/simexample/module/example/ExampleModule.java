@@ -6,11 +6,11 @@ import java.awt.Frame;
 
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
-import edu.colorado.phet.simtemplate.SimTemplateApplication;
+import edu.colorado.phet.simexample.SimExampleApplication;
 import edu.colorado.phet.simexample.SimExampleStrings;
-import edu.colorado.phet.simtemplate.defaults.ExampleDefaults;
+import edu.colorado.phet.simexample.defaults.ExampleDefaults;
 import edu.colorado.phet.simexample.model.ExampleModelElement;
-import edu.colorado.phet.simexample.model.SimTemplateClock;
+import edu.colorado.phet.simexample.model.SimExampleClock;
 import edu.colorado.phet.simexample.persistence.ExampleConfig;
 
 /**
@@ -34,10 +34,10 @@ public class ExampleModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     public ExampleModule( Frame parentFrame ) {
-        super( SimExampleStrings.TITLE_EXAMPLE_MODULE, new SimTemplateClock( ExampleDefaults.CLOCK_FRAME_RATE, ExampleDefaults.CLOCK_DT ) );
+        super( SimExampleStrings.TITLE_EXAMPLE_MODULE, new SimExampleClock( ExampleDefaults.CLOCK_FRAME_RATE, ExampleDefaults.CLOCK_DT ) );
 
         // Model
-        SimTemplateClock clock = (SimTemplateClock) getClock();
+        SimExampleClock clock = (SimExampleClock) getClock();
         model = new ExampleModel( clock );
 
         // Canvas
@@ -75,7 +75,7 @@ public class ExampleModule extends PiccoloModule {
     public void reset() {
 
         // reset the clock
-        SimTemplateClock clock = model.getClock();
+        SimExampleClock clock = model.getClock();
         clock.resetSimulationTime();
         
         // load the default configuration
@@ -94,7 +94,7 @@ public class ExampleModule extends PiccoloModule {
         config.setActive( isActive() );
 
         // Clock
-        SimTemplateClock clock = model.getClock();
+        SimExampleClock clock = model.getClock();
         config.setClockDt( clock.getDt() );
         config.setClockRunning( getClockRunningWhenActive() );
 
@@ -113,11 +113,11 @@ public class ExampleModule extends PiccoloModule {
 
         // Module
         if ( config.isActive() ) {
-            SimTemplateApplication.getInstance().setActiveModule( this );
+            SimExampleApplication.getInstance().setActiveModule( this );
         }
 
         // Clock
-        SimTemplateClock clock = model.getClock();
+        SimExampleClock clock = model.getClock();
         clock.setDt( config.getClockDt() );
         setClockRunningWhenActive( config.isClockRunning() );
 
