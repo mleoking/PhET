@@ -1,6 +1,6 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.neuron;
+package edu.colorado.phet.simtemplate;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -32,7 +32,7 @@ public class NeuronConstants {
     // Application
     //----------------------------------------------------------------------------
     
-    public static final String PROJECT_NAME = "neuron";
+    public static final String PROJECT_NAME = "simtemplate";
 
     //----------------------------------------------------------------------------
     // Fonts

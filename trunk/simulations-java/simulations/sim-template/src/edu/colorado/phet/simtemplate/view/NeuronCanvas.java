@@ -5,7 +5,7 @@ package edu.colorado.phet.neuron.view;
 import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.neuron.NeuronConstants;
+import edu.colorado.phet.simtemplate.NeuronConstants;
 import edu.colorado.phet.neuron.model.NeuronModel;
 import edu.colorado.phet.neuron.module.NeuronDefaults;
 import edu.umd.cs.piccolo.PNode;

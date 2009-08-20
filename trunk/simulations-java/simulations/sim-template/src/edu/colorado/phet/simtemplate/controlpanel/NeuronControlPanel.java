@@ -5,7 +5,7 @@ package edu.colorado.phet.neuron.controlpanel;
 import java.awt.Frame;
 
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
-import edu.colorado.phet.neuron.NeuronResources;
+import edu.colorado.phet.simtemplate.NeuronResources;
 import edu.colorado.phet.neuron.model.NeuronModel;
 import edu.colorado.phet.neuron.module.NeuronModule;
 
