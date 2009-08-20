@@ -1,58 +1,58 @@
 /* Copyright 2007-2008, University of Colorado */
 
-package edu.colorado.phet.neuron.module;
+package edu.colorado.phet.simtemplate.module;
 
 import java.awt.Frame;
 
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
-import edu.colorado.phet.neuron.NeuronStrings;
-import edu.colorado.phet.neuron.controlpanel.NeuronControlPanel;
-import edu.colorado.phet.neuron.model.NeuronClock;
-import edu.colorado.phet.neuron.model.NeuronModel;
-import edu.colorado.phet.neuron.view.NeuronCanvas;
+import edu.colorado.phet.simtemplate.SimTemplateStrings;
+import edu.colorado.phet.simtemplate.controlpanel.SimTemplateControlPanel;
+import edu.colorado.phet.simtemplate.model.SimTemplateClock;
+import edu.colorado.phet.simtemplate.model.SimTemplateModel;
+import edu.colorado.phet.simtemplate.view.SimTemplateCanvas;
 
 /**
  * ExampleModule is the "Example" module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class NeuronModule extends PiccoloModule {
+public class SimTemplateModule extends PiccoloModule {
 
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
-    private NeuronModel model;
-    private NeuronCanvas canvas;
-    private NeuronControlPanel controlPanel;
+    private SimTemplateModel model;
+    private SimTemplateCanvas canvas;
+    private SimTemplateControlPanel controlPanel;
     private PiccoloClockControlPanel clockControlPanel;
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
 
-    public NeuronModule( Frame parentFrame ) {
-        super( NeuronStrings.TITLE_EXAMPLE_MODULE, new NeuronClock( NeuronDefaults.CLOCK_FRAME_RATE, NeuronDefaults.CLOCK_DT ) );
+    public SimTemplateModule( Frame parentFrame ) {
+        super( SimTemplateStrings.TITLE_EXAMPLE_MODULE, new SimTemplateClock( SimTemplateDefaults.CLOCK_FRAME_RATE, SimTemplateDefaults.CLOCK_DT ) );
 
         // Model
-        NeuronClock clock = (NeuronClock) getClock();
-        model = new NeuronModel( clock );
+        SimTemplateClock clock = (SimTemplateClock) getClock();
+        model = new SimTemplateModel( clock );
 
         // Canvas
-        canvas = new NeuronCanvas( model );
+        canvas = new SimTemplateCanvas( model );
         setSimulationPanel( canvas );
 
         // Control Panel
-        controlPanel = new NeuronControlPanel( this, parentFrame, model );
+        controlPanel = new SimTemplateControlPanel( this, parentFrame, model );
         setControlPanel( controlPanel );
         
         // Clock controls
         clockControlPanel = new PiccoloClockControlPanel( getClock() );
         clockControlPanel.setRewindButtonVisible( true );
         clockControlPanel.setTimeDisplayVisible( true );
-        clockControlPanel.setUnits( NeuronStrings.UNITS_TIME );
-        clockControlPanel.setTimeColumns( NeuronDefaults.CLOCK_TIME_COLUMNS );
+        clockControlPanel.setUnits( SimTemplateStrings.UNITS_TIME );
+        clockControlPanel.setTimeColumns( SimTemplateDefaults.CLOCK_TIME_COLUMNS );
         setClockControlPanel( clockControlPanel );
 
         // Help
@@ -74,7 +74,7 @@ public class NeuronModule extends PiccoloModule {
     public void reset() {
 
         // reset the clock
-        NeuronClock clock = model.getClock();
+        SimTemplateClock clock = model.getClock();
         clock.resetSimulationTime();
     }    
 }

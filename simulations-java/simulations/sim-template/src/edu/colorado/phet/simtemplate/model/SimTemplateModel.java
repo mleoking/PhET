@@ -1,6 +1,6 @@
 /* Copyright 2007-2008, University of Colorado */
 
-package edu.colorado.phet.neuron.model;
+package edu.colorado.phet.simtemplate.model;
 
 
 /**
@@ -8,29 +8,29 @@ package edu.colorado.phet.neuron.model;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class NeuronModel {
+public class SimTemplateModel {
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
-    private final NeuronClock clock;
+    private final SimTemplateClock clock;
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public NeuronModel( NeuronClock clock ) {
+    public SimTemplateModel( SimTemplateClock clock ) {
         super();
         
         this.clock = clock;        
     }
-    
+
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
     
-    public NeuronClock getClock() {
+    public SimTemplateClock getClock() {
         return clock;
     }    
 }

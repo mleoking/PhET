@@ -1,6 +1,6 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.neuron.developer;
+package edu.colorado.phet.simtemplate.developer;
 
 import java.awt.Color;
 import java.awt.Frame;
@@ -17,7 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.ColorControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.neuron.NeuronApplication;
+import edu.colorado.phet.simtemplate.SimTemplateApplication;
 
 /**
  * DeveloperControlsDialog is a dialog that contains "developer only" controls.
@@ -31,13 +31,13 @@ public class DeveloperControlsDialog extends JDialog {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private NeuronApplication app;
+    private SimTemplateApplication app;
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
 
-    public DeveloperControlsDialog( Frame owner, NeuronApplication app ) {
+    public DeveloperControlsDialog( Frame owner, SimTemplateApplication app ) {
         super( owner, "Developer Controls" );
         setResizable( false );
         setModal( false );
