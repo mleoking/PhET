@@ -4,6 +4,7 @@ package edu.colorado.phet.neuron.module;
 
 import java.awt.Dimension;
 
+import edu.umd.cs.piccolo.util.PDimension;
 
 
 /**
@@ -16,6 +17,7 @@ import java.awt.Dimension;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class NeuronDefaults {
+    public static final double CROSS_SECTION_RADIUS = 20;//micrometers
 
     /* Not intended for instantiation */
     private NeuronDefaults() {}
@@ -27,6 +29,6 @@ public class NeuronDefaults {
     public static final int CLOCK_TIME_COLUMNS = 10;
 
     // Model-view transform
-    public static final Dimension VIEW_SIZE = new Dimension( 1500, 1500 );
+    public static final PDimension INTERMEDIATE_RENDERING_SIZE = new PDimension( 600,600);
 
 }

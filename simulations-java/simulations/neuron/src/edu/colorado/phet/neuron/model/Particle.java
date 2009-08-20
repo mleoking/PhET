@@ -40,7 +40,7 @@ public class Particle {
     }
     
     public Particle(){
-    	
+    	this(0,0);
     }
     
     //------------------------------------------------------------------------
@@ -102,7 +102,15 @@ public class Particle {
     public void removeListener(Listener listener){
     	_listeners.remove(listener);
     }
-    
+
+    public double getX() {
+        return position.x;
+    }
+
+    public double getY(){
+        return position.y;
+    }
+
     public static interface Listener {
         void positionChanged();
     }
