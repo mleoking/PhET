@@ -1,6 +1,6 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.neuron.module;
+package edu.colorado.phet.simtemplate.module;
 
 import java.awt.Dimension;
 

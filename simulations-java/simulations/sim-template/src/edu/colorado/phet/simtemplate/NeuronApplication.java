@@ -16,7 +16,7 @@ import edu.colorado.phet.common.piccolophet.PhetTabbedPane;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.neuron.developer.DeveloperMenu;
-import edu.colorado.phet.neuron.module.NeuronModule;
+import edu.colorado.phet.simtemplate.module.NeuronModule;
 
 /**
  * SimTemplateApplication is the main application for this simulation.
