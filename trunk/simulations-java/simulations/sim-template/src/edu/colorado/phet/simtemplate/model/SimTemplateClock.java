@@ -1,6 +1,6 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.neuron.model;
+package edu.colorado.phet.simtemplate.model;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 
@@ -11,16 +11,16 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class NeuronClock extends ConstantDtClock {
+public class SimTemplateClock extends ConstantDtClock {
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public NeuronClock( int framesPerSecond, double dt ) {
+    public SimTemplateClock( int framesPerSecond, double dt ) {
         super( 1000 / framesPerSecond, dt );
     }
-    
+
     //----------------------------------------------------------------------------
     // Superclass overrides
     //----------------------------------------------------------------------------

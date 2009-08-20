@@ -16,10 +16,10 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class NeuronConstants {
+public class SimTemplateConstants {
 
     /* Not intended for instantiation. */
-    private NeuronConstants() {}
+    private SimTemplateConstants() {}
     
     //----------------------------------------------------------------------------
     // Debugging
@@ -75,5 +75,5 @@ public class NeuronConstants {
     //----------------------------------------------------------------------------
     // Cursors
     //----------------------------------------------------------------------------
-    
+
 }

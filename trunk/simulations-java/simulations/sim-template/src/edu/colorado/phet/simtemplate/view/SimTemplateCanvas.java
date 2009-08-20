@@ -1,13 +1,13 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.neuron.view;
+package edu.colorado.phet.simtemplate.view;
 
 import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.simtemplate.NeuronConstants;
-import edu.colorado.phet.neuron.model.NeuronModel;
-import edu.colorado.phet.neuron.module.NeuronDefaults;
+import edu.colorado.phet.simtemplate.SimTemplateConstants;
+import edu.colorado.phet.simtemplate.model.SimTemplateModel;
+import edu.colorado.phet.simtemplate.module.SimTemplateDefaults;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -15,14 +15,14 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class NeuronCanvas extends PhetPCanvas {
+public class SimTemplateCanvas extends PhetPCanvas {
 
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
     // Model
-    private NeuronModel model;
+    private SimTemplateModel model;
     
     // View 
     private PNode _rootNode;
@@ -31,20 +31,19 @@ public class NeuronCanvas extends PhetPCanvas {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public NeuronCanvas( NeuronModel model ) {
-        super( NeuronDefaults.VIEW_SIZE );
+    public SimTemplateCanvas( SimTemplateModel model ) {
+        super( SimTemplateDefaults.VIEW_SIZE );
         
         this.model = model;
         
-        setBackground( NeuronConstants.CANVAS_BACKGROUND );
+        setBackground( SimTemplateConstants.CANVAS_BACKGROUND );
         
         // Root of our scene graph
         _rootNode = new PNode();
         addWorldChild( _rootNode );
     }
-    
 
-    
+
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
@@ -63,7 +62,7 @@ public class NeuronCanvas extends PhetPCanvas {
             // canvas hasn't been sized, blow off layout
             return;
         }
-        else if ( NeuronConstants.DEBUG_CANVAS_UPDATE_LAYOUT ) {
+        else if ( SimTemplateConstants.DEBUG_CANVAS_UPDATE_LAYOUT ) {
             System.out.println( "ExampleCanvas.updateLayout worldSize=" + worldSize );//XXX
         }
         

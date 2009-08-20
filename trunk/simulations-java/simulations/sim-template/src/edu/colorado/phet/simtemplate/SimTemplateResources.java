@@ -1,6 +1,6 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.neuron;
+package edu.colorado.phet.simtemplate;
 
 import java.awt.image.BufferedImage;
 
@@ -15,13 +15,13 @@ import edu.umd.cs.piccolo.nodes.PImage;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class NeuronResources {
+public class SimTemplateResources {
     
-    private static final PhetResources RESOURCES = new PhetResources( NeuronConstants.PROJECT_NAME );
+    private static final PhetResources RESOURCES = new PhetResources( SimTemplateConstants.PROJECT_NAME );
     
     /* not intended for instantiation */
-    private NeuronResources() {}
-    
+    private SimTemplateResources() {}
+
     public static final PhetResources getResourceLoader() {
         return RESOURCES;
     }

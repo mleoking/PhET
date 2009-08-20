@@ -15,10 +15,10 @@ import java.awt.Dimension;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class NeuronDefaults {
+public class SimTemplateDefaults {
 
     /* Not intended for instantiation */
-    private NeuronDefaults() {}
+    private SimTemplateDefaults() {}
     
     // Clock
     public static final boolean CLOCK_RUNNING = true;

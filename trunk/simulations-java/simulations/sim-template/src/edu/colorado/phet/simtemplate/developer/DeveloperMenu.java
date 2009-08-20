@@ -1,6 +1,6 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.neuron.developer;
+package edu.colorado.phet.simtemplate.developer;
 
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
@@ -14,7 +14,7 @@ import javax.swing.JMenu;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedPanePropertiesDialog;
-import edu.colorado.phet.neuron.NeuronApplication;
+import edu.colorado.phet.simtemplate.SimTemplateApplication;
 
 /**
  * DeveloperMenu is the "Developer" menu that appears in the menu bar.
@@ -24,13 +24,13 @@ import edu.colorado.phet.neuron.NeuronApplication;
  */
 public class DeveloperMenu extends JMenu {
 
-    private NeuronApplication app;
+    private SimTemplateApplication app;
     private JCheckBoxMenuItem developerControlsItem;
     private JCheckBoxMenuItem tabPropertiesItem;
     private JDialog developerControlsDialog;
     private JDialog tabPropertiesDialog;
 
-    public DeveloperMenu( NeuronApplication app ) {
+    public DeveloperMenu( SimTemplateApplication app ) {
         super( "Developer" );
 
         this.app = app;

@@ -1,6 +1,6 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.neuron;
+package edu.colorado.phet.simtemplate;
 
 import java.awt.Color;
 import java.awt.Frame;
@@ -15,8 +15,8 @@ import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.common.piccolophet.PhetTabbedPane;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
-import edu.colorado.phet.neuron.developer.DeveloperMenu;
-import edu.colorado.phet.simtemplate.module.NeuronModule;
+import edu.colorado.phet.simtemplate.developer.DeveloperMenu;
+import edu.colorado.phet.simtemplate.module.SimTemplateModule;
 
 /**
  * SimTemplateApplication is the main application for this simulation.
@@ -24,13 +24,13 @@ import edu.colorado.phet.simtemplate.module.NeuronModule;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * 
  */
-public class NeuronApplication extends PiccoloPhetApplication {
+public class SimTemplateApplication extends PiccoloPhetApplication {
 
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
-    private NeuronModule exampleModule;
+    private SimTemplateModule exampleModule;
 
     // PersistanceManager is used to save/load simulation configurations.
     private XMLPersistenceManager persistenceManager;
@@ -46,7 +46,7 @@ public class NeuronApplication extends PiccoloPhetApplication {
      *
      * @param config the configuration for this application
      */
-    public NeuronApplication( PhetApplicationConfig config )
+    public SimTemplateApplication( PhetApplicationConfig config )
     {
         super( config );
         initTabbedPane();
@@ -83,13 +83,13 @@ public class NeuronApplication extends PiccoloPhetApplication {
         exampleModule = getFirstModule(parentFrame);
         addModule( exampleModule );
         
-        Module secondModule = new NeuronModule( parentFrame );
+        Module secondModule = new SimTemplateModule( parentFrame );
         secondModule.setName( "Another Example" );
         addModule( secondModule );
     }
 
-    protected NeuronModule getFirstModule(Frame parentFrame) {
-        return new NeuronModule( parentFrame );
+    protected SimTemplateModule getFirstModule(Frame parentFrame) {
+        return new SimTemplateModule( parentFrame );
     }
 
     /*
@@ -148,6 +148,6 @@ public class NeuronApplication extends PiccoloPhetApplication {
          * If you want to customize your application (look-&-feel, window size, etc) 
          * create your own PhetApplicationConfig and use one of the other launchSim methods
          */
-        new PhetApplicationLauncher().launchSim( args, NeuronConstants.PROJECT_NAME, NeuronApplication.class );
+        new PhetApplicationLauncher().launchSim( args, SimTemplateConstants.PROJECT_NAME, SimTemplateApplication.class );
     }
 }

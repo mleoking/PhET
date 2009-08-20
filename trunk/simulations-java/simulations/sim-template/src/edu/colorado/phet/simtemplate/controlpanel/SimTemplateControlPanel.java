@@ -1,20 +1,20 @@
 /* Copyright 2007-2008, University of Colorado */
 
-package edu.colorado.phet.neuron.controlpanel;
+package edu.colorado.phet.simtemplate.controlpanel;
 
 import java.awt.Frame;
 
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
-import edu.colorado.phet.simtemplate.NeuronResources;
-import edu.colorado.phet.neuron.model.NeuronModel;
-import edu.colorado.phet.neuron.module.NeuronModule;
+import edu.colorado.phet.simtemplate.SimTemplateResources;
+import edu.colorado.phet.simtemplate.model.SimTemplateModel;
+import edu.colorado.phet.simtemplate.module.SimTemplateModule;
 
 /**
  * ExampleControlPanel is the control panel for ExampleModule.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class NeuronControlPanel extends ControlPanel {
+public class SimTemplateControlPanel extends ControlPanel {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -30,11 +30,11 @@ public class NeuronControlPanel extends ControlPanel {
      * @param module
      * @param parentFrame parent frame, for creating dialogs
      */
-    public NeuronControlPanel( NeuronModule module, Frame parentFrame, NeuronModel model ) {
+    public SimTemplateControlPanel( SimTemplateModule module, Frame parentFrame, SimTemplateModel model ) {
         super();
         
         // Set the control panel's minimum width.
-        int minimumWidth = NeuronResources.getInt( "int.minControlPanelWidth", 215 );
+        int minimumWidth = SimTemplateResources.getInt( "int.minControlPanelWidth", 215 );
         setMinimumWidth( minimumWidth );
         
         // Layout
@@ -42,7 +42,7 @@ public class NeuronControlPanel extends ControlPanel {
             addResetAllButton( module );
         }
     }
-    
+
     //----------------------------------------------------------------------------
     // Setters and getters
     //----------------------------------------------------------------------------
