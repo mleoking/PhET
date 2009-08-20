@@ -1,11 +1,11 @@
 /* Copyright 2007-2008, University of Colorado */
 
-package edu.colorado.phet.simtemplate.defaults;
+package edu.colorado.phet.simexample.defaults;
 
 import java.awt.Dimension;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.simtemplate.persistence.ExampleConfig;
+import edu.colorado.phet.simexample.persistence.ExampleConfig;
 
 /**
  * ExampleDefaults contains default settings for ExampleModule.

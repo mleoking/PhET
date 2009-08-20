@@ -1,6 +1,6 @@
 /* Copyright 2007-2008, University of Colorado */
 
-package edu.colorado.phet.simtemplate.model;
+package edu.colorado.phet.simexample.model;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;

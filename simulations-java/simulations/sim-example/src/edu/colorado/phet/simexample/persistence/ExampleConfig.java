@@ -1,6 +1,6 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.simtemplate.persistence;
+package edu.colorado.phet.simexample.persistence;
 
 import java.awt.geom.Point2D;
 

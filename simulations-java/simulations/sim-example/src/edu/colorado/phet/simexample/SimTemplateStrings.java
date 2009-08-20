@@ -1,6 +1,6 @@
 /* Copyright 2008, University of Colorado */
 
-package edu.colorado.phet.simtemplate;
+package edu.colorado.phet.simexample;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 

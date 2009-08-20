@@ -1,10 +1,10 @@
 /* Copyright 2007-2008, University of Colorado */
 
-package edu.colorado.phet.simtemplate.module.example;
+package edu.colorado.phet.simexample.module.example;
 
 import edu.colorado.phet.simtemplate.defaults.ExampleDefaults;
-import edu.colorado.phet.simtemplate.model.ExampleModelElement;
-import edu.colorado.phet.simtemplate.model.SimTemplateClock;
+import edu.colorado.phet.simexample.model.ExampleModelElement;
+import edu.colorado.phet.simexample.model.SimTemplateClock;
 
 /**
  * ExampleModel is the model for ExampleModule.
