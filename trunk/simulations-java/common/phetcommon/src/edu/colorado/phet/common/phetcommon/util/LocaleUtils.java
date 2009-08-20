@@ -48,7 +48,10 @@ public class LocaleUtils {
     public static Locale stringToLocale( String localeString ) {
         assert localeString != null;
         Locale locale = null;
-        if ( localeString.matches( "[a-z][a-z]" ) ) { /* eg, "zh" */
+        if ( localeString.matches( "test" ) ) {
+            locale = new Locale( localeString ); /* #1756, support i18n testing */
+        }
+        else if ( localeString.matches( "[a-z][a-z]" ) ) { /* eg, "zh" */
             locale = new Locale( localeString );
         }
         else if ( localeString.matches( "[a-z][a-z](_[A-Z][A-Z])?" ) ) { /* eg, "zh_CN" */
