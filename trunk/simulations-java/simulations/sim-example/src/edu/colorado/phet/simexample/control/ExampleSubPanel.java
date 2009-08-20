@@ -12,7 +12,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
-import edu.colorado.phet.simexample.SimTemplateStrings;
+import edu.colorado.phet.simexample.SimExampleStrings;
 import edu.colorado.phet.simexample.model.ExampleModelElement;
 import edu.colorado.phet.simexample.model.ExampleModelElement.ExampleModelElementListener;
 
@@ -40,7 +40,7 @@ public class ExampleSubPanel extends JPanel {
         super();
         
         // Title
-        JLabel titleLabel = new JLabel( SimTemplateStrings.TITLE_EXAMPLE_CONTROL_PANEL );
+        JLabel titleLabel = new JLabel( SimExampleStrings.TITLE_EXAMPLE_CONTROL_PANEL );
         
         // Position display
         positionDisplay = new JLabel();
@@ -48,9 +48,9 @@ public class ExampleSubPanel extends JPanel {
         // Orientation control
         double min = 0;
         double max = 360;
-        String label = SimTemplateStrings.LABEL_ORIENTATION;
+        String label = SimExampleStrings.LABEL_ORIENTATION;
         String valuePattern = "##0";
-        String units = SimTemplateStrings.UNITS_ORIENTATION;
+        String units = SimExampleStrings.UNITS_ORIENTATION;
         orientationControl = new LinearValueControl( min, max, label, valuePattern, units );
         orientationControl.setValue( Math.toDegrees( modelElement.getOrientation() ) );
         orientationControl.setTextFieldEditable( true );
@@ -98,7 +98,7 @@ public class ExampleSubPanel extends JPanel {
     }
     
     private void setPosition( Point2D p ) {
-        String s = SimTemplateStrings.LABEL_POSITION + " (" + (int) p.getX() + "," + (int) p.getY() + ")";
+        String s = SimExampleStrings.LABEL_POSITION + " (" + (int) p.getX() + "," + (int) p.getY() + ")";
         positionDisplay.setText( s );
     }
 }
