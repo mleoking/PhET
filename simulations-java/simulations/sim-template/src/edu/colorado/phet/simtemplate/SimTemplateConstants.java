@@ -32,7 +32,7 @@ public class SimTemplateConstants {
     // Application
     //----------------------------------------------------------------------------
     
-    public static final String PROJECT_NAME = "simtemplate";
+    public static final String PROJECT_NAME = "sim-template";
 
     //----------------------------------------------------------------------------
     // Fonts
