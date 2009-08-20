@@ -1,6 +1,6 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.simtemplate.developer;
+package edu.colorado.phet.simexample.developer;
 
 import java.awt.Color;
 import java.awt.Frame;

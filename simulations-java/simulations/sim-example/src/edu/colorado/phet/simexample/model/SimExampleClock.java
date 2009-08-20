@@ -11,13 +11,13 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class SimTemplateClock extends ConstantDtClock {
+public class SimExampleClock extends ConstantDtClock {
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public SimTemplateClock( int framesPerSecond, double dt ) {
+    public SimExampleClock( int framesPerSecond, double dt ) {
         super( 1000 / framesPerSecond, dt );
     }
     

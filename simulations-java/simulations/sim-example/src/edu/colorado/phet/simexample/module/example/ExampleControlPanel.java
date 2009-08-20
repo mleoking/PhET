@@ -6,7 +6,7 @@ import java.awt.Frame;
 
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.simexample.SimExampleResources;
-import edu.colorado.phet.simtemplate.control.ExampleSubPanel;
+import edu.colorado.phet.simexample.control.ExampleSubPanel;
 
 /**
  * ExampleControlPanel is the control panel for ExampleModule.

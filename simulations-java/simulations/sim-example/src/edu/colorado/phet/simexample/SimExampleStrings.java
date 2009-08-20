@@ -5,7 +5,7 @@ package edu.colorado.phet.simexample;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 
 /**
- * TemplateStrings is the collection of localized strings used by this simulations.
+ * ExampleStrings is the collection of localized strings used by this simulations.
  * We load all strings as statics so that we will be warned at startup time of any missing strings.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
