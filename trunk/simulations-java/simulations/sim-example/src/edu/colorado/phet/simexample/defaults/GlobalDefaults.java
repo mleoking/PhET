@@ -1,6 +1,6 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.simtemplate.defaults;
+package edu.colorado.phet.simexample.defaults;
 
 
 

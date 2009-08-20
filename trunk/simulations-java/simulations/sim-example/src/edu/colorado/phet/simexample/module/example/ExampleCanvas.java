@@ -1,12 +1,12 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.simtemplate.module.example;
+package edu.colorado.phet.simexample.module.example;
 
 import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.simtemplate.SimTemplateConstants;
-import edu.colorado.phet.simtemplate.defaults.ExampleDefaults;
+import edu.colorado.phet.simexample.defaults.ExampleDefaults;
 import edu.colorado.phet.simtemplate.view.ExampleNode;
 import edu.umd.cs.piccolo.PNode;
 

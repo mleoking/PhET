@@ -1,11 +1,11 @@
 /* Copyright 2007-2008, University of Colorado */
 
-package edu.colorado.phet.simtemplate.module.example;
+package edu.colorado.phet.simexample.module.example;
 
 import java.awt.Frame;
 
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
-import edu.colorado.phet.simtemplate.SimTemplateResources;
+import edu.colorado.phet.simexample.SimTemplateResources;
 import edu.colorado.phet.simtemplate.control.ExampleSubPanel;
 
 /**

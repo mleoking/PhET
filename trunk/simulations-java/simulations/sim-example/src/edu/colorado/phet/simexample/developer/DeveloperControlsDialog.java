@@ -17,7 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.ColorControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.simtemplate.SimTemplateApplication;
+import edu.colorado.phet.simexample.SimTemplateApplication;
 
 /**
  * DeveloperControlsDialog is a dialog that contains "developer only" controls.

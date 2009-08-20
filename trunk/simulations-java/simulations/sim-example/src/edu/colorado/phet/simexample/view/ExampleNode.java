@@ -1,14 +1,14 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.simtemplate.view;
+package edu.colorado.phet.simexample.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.simtemplate.model.ExampleModelElement;
-import edu.colorado.phet.simtemplate.model.ExampleModelElement.ExampleModelElementListener;
+import edu.colorado.phet.simexample.model.ExampleModelElement;
+import edu.colorado.phet.simexample.model.ExampleModelElement.ExampleModelElementListener;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**

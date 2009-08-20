@@ -1,6 +1,6 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.simtemplate.model;
+package edu.colorado.phet.simexample.model;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 

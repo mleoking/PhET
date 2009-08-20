@@ -1,17 +1,17 @@
 /* Copyright 2007-2008, University of Colorado */
 
-package edu.colorado.phet.simtemplate.module.example;
+package edu.colorado.phet.simexample.module.example;
 
 import java.awt.Frame;
 
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 import edu.colorado.phet.simtemplate.SimTemplateApplication;
-import edu.colorado.phet.simtemplate.SimTemplateStrings;
+import edu.colorado.phet.simexample.SimTemplateStrings;
 import edu.colorado.phet.simtemplate.defaults.ExampleDefaults;
-import edu.colorado.phet.simtemplate.model.ExampleModelElement;
-import edu.colorado.phet.simtemplate.model.SimTemplateClock;
-import edu.colorado.phet.simtemplate.persistence.ExampleConfig;
+import edu.colorado.phet.simexample.model.ExampleModelElement;
+import edu.colorado.phet.simexample.model.SimTemplateClock;
+import edu.colorado.phet.simexample.persistence.ExampleConfig;
 
 /**
  * ExampleModule is the "Example" module.

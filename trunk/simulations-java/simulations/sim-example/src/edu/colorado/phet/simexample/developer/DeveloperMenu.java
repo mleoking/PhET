@@ -1,6 +1,6 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.simtemplate.developer;
+package edu.colorado.phet.simexample.developer;
 
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
@@ -14,7 +14,7 @@ import javax.swing.JMenu;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedPanePropertiesDialog;
-import edu.colorado.phet.simtemplate.SimTemplateApplication;
+import edu.colorado.phet.simexample.SimTemplateApplication;
 
 /**
  * DeveloperMenu is the "Developer" menu that appears in the menu bar.

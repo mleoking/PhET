@@ -1,6 +1,6 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.simtemplate;
+package edu.colorado.phet.simexample;
 
 import java.awt.Color;
 import java.awt.Frame;
@@ -17,10 +17,10 @@ import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.common.piccolophet.PhetTabbedPane;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
-import edu.colorado.phet.simtemplate.developer.DeveloperMenu;
-import edu.colorado.phet.simtemplate.module.example.ExampleModule;
-import edu.colorado.phet.simtemplate.persistence.ExampleConfig;
-import edu.colorado.phet.simtemplate.persistence.SimTemplateConfig;
+import edu.colorado.phet.simexample.developer.DeveloperMenu;
+import edu.colorado.phet.simexample.module.example.ExampleModule;
+import edu.colorado.phet.simexample.persistence.ExampleConfig;
+import edu.colorado.phet.simexample.persistence.SimTemplateConfig;
 
 /**
  * SimTemplateApplication is the main application for this simulation.
