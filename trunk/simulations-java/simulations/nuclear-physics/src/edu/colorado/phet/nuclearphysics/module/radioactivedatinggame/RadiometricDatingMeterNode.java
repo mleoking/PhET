@@ -18,6 +18,7 @@ import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
 
 import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JRadioButton;
 import javax.swing.Timer;
@@ -27,6 +28,7 @@ import javax.swing.border.TitledBorder;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
@@ -200,24 +202,45 @@ public class RadiometricDatingMeterNode extends PNode {
 			_halfLifeComboBox.setEnabled(false);
 		}
 		
+		// Add the panel that will allow the user to switch between measuring
+		// the air or measuring the datable items.
+		MeasurementSelectionPanel measurementSelectionPanel = new MeasurementSelectionPanel( meterModel, this);
+		PSwing measurementSelectionNode = new PSwing( measurementSelectionPanel );
+		// Scale the panel to be the same size as the element selection panel.
+		// For some reason, this needs a bit of a tweak factor to look correct.
+		measurementSelectionNode.setScale((_elementSelectionNode.getFullBoundsReference().width - 4) / 
+				measurementSelectionNode.getFullBoundsReference().width);
+		// Position the panel.
+		if (showCustom){
+			measurementSelectionNode.setOffset(
+					_meterBody.getFullBounds().width / 2 - measurementSelectionNode.getFullBounds().width / 2,
+					halfLifeComboBoxPSwing.getFullBoundsReference().getMaxY() );
+		}
+		else{
+			measurementSelectionNode.setOffset(
+					_meterBody.getFullBounds().width / 2 - measurementSelectionNode.getFullBounds().width / 2,
+					_elementSelectionNode.getFullBoundsReference().getMaxY() );
+		}
+		_meterBody.addChild(measurementSelectionNode);
+		
 		// Add the button that will switch between measuring objects or
 		// measuring the air.
-		_modeControlButton = new JButton();
-		_modeControlButton.setFont(BUTTON_FONT);
-		_modeControlButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				MeasurementMode targetMode;
-				if (_meterModel.getMeasurementMode() == MeasurementMode.AIR){
-					targetMode = MeasurementMode.OBJECTS;
-				}
-				else{
-					targetMode = MeasurementMode.AIR;
-				}
-				_animationTimer = new MeasurementModeToggleAnimationTimer(RadiometricDatingMeterNode.this, targetMode);
-			}
-		});
-		_modeControlButtonPSwing = new PSwing(_modeControlButton);
-		_meterBody.addChild(_modeControlButtonPSwing);
+//		_modeControlButton = new JButton();
+//		_modeControlButton.setFont(BUTTON_FONT);
+//		_modeControlButton.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				MeasurementMode targetMode;
+//				if (_meterModel.getMeasurementMode() == MeasurementMode.AIR){
+//					targetMode = MeasurementMode.OBJECTS;
+//				}
+//				else{
+//					targetMode = MeasurementMode.AIR;
+//				}
+//				_animationTimer = new MeasurementModeToggleAnimationTimer(RadiometricDatingMeterNode.this, targetMode);
+//			}
+//		});
+//		_modeControlButtonPSwing = new PSwing(_modeControlButton);
+//		_meterBody.addChild(_modeControlButtonPSwing);
 		
 		// Add the object probe.
 		_objectProbeNode = new ProbeNode( _meterModel.getProbeModel(), _mvt, probeDragBounds );
@@ -237,7 +260,7 @@ public class RadiometricDatingMeterNode extends PNode {
 
 		// Do initial state updates.
 		updateProbeVisibility();
-		updateModeButtonAppearance();
+//		updateModeButtonAppearance();
 		updateMeterReading();
 	}
 	
@@ -279,7 +302,7 @@ public class RadiometricDatingMeterNode extends PNode {
 	}
 	
 	private void handleMeasurementModeChanged(){
-		updateModeButtonAppearance();
+//		updateModeButtonAppearance();
 		updateProbeVisibility();
 	}
 	
@@ -354,6 +377,17 @@ public class RadiometricDatingMeterNode extends PNode {
 		else{
 			_percentageDisplay.setPercentage(_meterModel.getPercentageOfDatingElementRemaining());
 		}
+	}
+	
+	private void startProbeChangeAnimation(){
+		MeasurementMode targetMode;
+		if (_meterModel.getMeasurementMode() == MeasurementMode.AIR){
+			targetMode = MeasurementMode.OBJECTS;
+		}
+		else{
+			targetMode = MeasurementMode.AIR;
+		}
+		_animationTimer = new MeasurementModeToggleAnimationTimer(this, targetMode);
 	}
 
 	/**
@@ -695,6 +729,74 @@ public class RadiometricDatingMeterNode extends PNode {
 	            });
 	            customNucleusRadioButton.setSelected( meterModel.getNucleusTypeUsedForDating() == NucleusType.HEAVY_CUSTOM);
             }
+		}
+	}
+	
+	private static class MeasurementSelectionPanel extends HorizontalLayoutPanel {
+
+		static private final Font LABEL_FONT = new PhetFont(18, true);
+		private final RadiometricDatingMeter _meterModel;
+		private final JRadioButton _measureObjectsButton;
+		private final JRadioButton _measureAirButton;
+		
+		public MeasurementSelectionPanel(final RadiometricDatingMeter meterModel,
+				final RadiometricDatingMeterNode meterNode ){
+			
+			_meterModel = meterModel;
+			setBackground(BODY_COLOR);
+			
+			// TODO: Make this strings into resources.
+            // Add the border around the panel.
+            BevelBorder border = (BevelBorder)BorderFactory.createRaisedBevelBorder();
+            
+            setBorder( border );
+            
+            _measureObjectsButton = new JRadioButton(
+            		"Objects", true);
+            _measureObjectsButton.setBackground(BODY_COLOR);
+            _measureObjectsButton.setForeground(Color.WHITE);
+            _measureObjectsButton.setFont(LABEL_FONT);
+            _measureObjectsButton.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent e) {
+					if (_meterModel.getMeasurementMode() != MeasurementMode.OBJECTS){
+						meterNode.startProbeChangeAnimation();
+					}
+				}
+            });
+            add(_measureObjectsButton);
+            
+            _measureAirButton = new JRadioButton( "Air", true);
+            _measureAirButton.setBackground(BODY_COLOR);
+            _measureAirButton.setForeground(Color.WHITE);
+            _measureAirButton.setFont(LABEL_FONT);
+            _measureAirButton.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent e) {
+					if (_meterModel.getMeasurementMode() != MeasurementMode.AIR){
+						meterNode.startProbeChangeAnimation();
+					}
+					updateButtonState();
+				}
+            });
+            add(_measureAirButton);
+            
+            // Put these in a button group.
+            ButtonGroup buttonGroup = new ButtonGroup();
+            buttonGroup.add(_measureAirButton);
+            buttonGroup.add(_measureObjectsButton);
+            
+            meterModel.addListener(new RadiometricDatingMeter.Adapter(){
+            	@Override
+				public void measurementModeChanged() {
+            		updateButtonState();
+				}
+            });
+            
+            updateButtonState();
+		}
+		
+		private void updateButtonState(){
+			_measureAirButton.setSelected(_meterModel.getMeasurementMode() == MeasurementMode.AIR);
+			_measureObjectsButton.setSelected(_meterModel.getMeasurementMode() == MeasurementMode.OBJECTS);
 		}
 	}
 	
