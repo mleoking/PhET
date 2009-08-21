@@ -7,7 +7,7 @@ import edu.colorado.phet.common.phetcommon.math.Complex;
 /**
  * Test for computing roots of polynomials.
  * Feel free to move stuff to phetcommon, change things, etc.
- * 
+ *
  * @author Jonathan Olson
  */
 public class RootTest {
@@ -39,11 +39,16 @@ public class RootTest {
             findRootsDurandKerner( p3, 30 );
         }
         Date c = new Date();
+        for ( int i = 0; i < 100000; i++ ) {
+            findRootsOptimizedDurandKerner( p3, 30, 0.00001 );
+        }
+        Date d = new Date();
 
         // without thresholding, neither has a huge advantage with 30 iterations
 
         System.out.println( "Laguerre: " + ( b.getTime() - a.getTime() ) );
         System.out.println( "Durnand-Kerner: " + ( c.getTime() - b.getTime() ) );
+        System.out.println( "Optimized Durnand-Kerner: " + ( d.getTime() - c.getTime() ) );
 
     }
 
@@ -88,6 +93,46 @@ public class RootTest {
 
         return guess;
     }
+
+    public static Complex[] findRootsOptimizedDurandKerner( Complex[] polynomial, int iterations, double threshold ) {
+        Complex[] guess = new Complex[polynomial.length - 1];
+
+        // spread out the initial guesses
+        Complex initializer = new Complex( 0.4, 0.9 );
+        for ( int i = 0; i < guess.length; i++ ) {
+            guess[i] = initializer;
+            initializer = initializer.getMultiply( initializer );
+        }
+
+        for ( int i = 0; i < iterations; i++ ) {
+            Complex[] next = new Complex[guess.length];
+            boolean belowThreshold = true;
+            for ( int k = 0; k < guess.length; k++ ) {
+                Complex value = evaluate( polynomial, guess[k] );
+                if ( value.getAbs() > threshold ) {
+                    belowThreshold = false;
+                }
+                for ( int l = 0; l < guess.length; l++ ) {
+                    if ( l == k ) { continue;}
+
+                    // don't divide by zero
+                    if ( guess[l] == guess[k] ) {continue; }
+
+                    value = value.getDivide( guess[k].getSubtract( guess[l] ) );
+                }
+                next[k] = guess[k].getSubtract( value );
+            }
+            guess = next;
+
+            // already did the computation of the next guess, so use that (even though we were below the threshold before)
+            if( belowThreshold ) {
+                break;
+            }
+        }
+
+        return guess;
+    }
+
 
     /**
      * Finds all of the complex roots of a polynomial (in no particular order)

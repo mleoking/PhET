@@ -1,6 +1,6 @@
 package edu.colorado.phet.wickettest.translation.entities;
 
-import edu.colorado.phet.wickettest.content.about.AboutPhetPanel;
+import edu.colorado.phet.wickettest.content.about.AboutMainPanel;
 import edu.colorado.phet.wickettest.panels.PhetPanel;
 import edu.colorado.phet.wickettest.translation.PhetPanelFactory;
 import edu.colorado.phet.wickettest.util.PageContext;
@@ -14,7 +14,7 @@ public class AboutPhetEntity extends TranslationEntity {
         addString( "about.p4", "The text surrounded with <a {0}> and </a> will be linked to the main PhET site, and the text surrounded with <a {1}> and </a> will be linked to a page about Java technical support, and text surrounded with <a {2}> and </a> will be linked to a page about Flash technical support." );
         addPreview( new PhetPanelFactory() {
             public PhetPanel getNewPanel( String id, PageContext context, PhetRequestCycle requestCycle ) {
-                return new AboutPhetPanel( id, context );
+                return new AboutMainPanel( id, context );
             }
         }, "default" );
     }
