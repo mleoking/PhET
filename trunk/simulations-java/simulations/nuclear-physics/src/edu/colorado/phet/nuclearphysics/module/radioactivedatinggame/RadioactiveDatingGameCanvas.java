@@ -57,7 +57,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     private static final double PROPORTIONS_METER_WIDTH_FRACTION = 0.23;
     
     // Fraction of canvas width for the meter.
-    private static final double PROPORTIONS_METER_AND_CHART_HEIGHT_FRACTION = 0.29;
+    private static final double PROPORTIONS_METER_AND_CHART_HEIGHT_FRACTION = 0.32;
     
     // Fraction of canvas width used to portray the edge of the world.
     private static final double WORLD_EDGE_WIDTH_PROPORTION = 0.05;  
@@ -167,7 +167,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         _backgroundImageLayer.addChild(cloud1);
         PImage cloud2 = NuclearPhysicsResources.getImageNode("cloud_1.png");
         cloud2.setScale(0.4);
-        cloud2.setOffset(700, 250);
+        cloud2.setOffset(700, 270);
         _backgroundImageLayer.addChild(cloud2);
         
         // Load the background image.
