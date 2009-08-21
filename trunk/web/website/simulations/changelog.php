@@ -145,17 +145,14 @@ EOT;
 
             $date_version_info = $log_entry['version'];
             $version = $date_version_info[1];
-            if ($version == '') {
-                $version = 'N/A';
-            }
 
             $date = $date_version_info[6];
-            if ($date == '') {
-                $date = 'N/A';
+            if ($date != '') {
+                $date = '('.$date.')';
             }
 
             print <<<EOT
-                <li><strong>{$web->toHtml($version)} ({$web->toHtml($date)})</strong><br />
+                <li><strong>{$web->toHtml($version)} {$web->toHtml($date)}</strong><br />
                                           <ul>
 
 EOT;
