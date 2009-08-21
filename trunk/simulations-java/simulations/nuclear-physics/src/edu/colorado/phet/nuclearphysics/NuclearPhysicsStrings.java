@@ -194,4 +194,9 @@ public class NuclearPhysicsStrings {
     public static final String CHECK_AGE=NuclearPhysicsResources.getString("DatingGame.CheckAge");
     public static final String RESET_GUESSES = NuclearPhysicsResources.getString( "DatingGame.ResetGuesses" );
     
+    public static final String METER_PROBE_TYPE = NuclearPhysicsResources.getString( "Meter.ProbeType" );
+    public static final String METER_MEASURE_AIR = NuclearPhysicsResources.getString( "Meter.MeasureAir" );
+    public static final String METER_MEASURE_OBJECTS = NuclearPhysicsResources.getString( "Meter.MeasureObjects" );
+    public static final String METER_HALF_LIFE_EQUALS = NuclearPhysicsResources.getString( "Meter.HalfLifeEquals" );
+    
 }
