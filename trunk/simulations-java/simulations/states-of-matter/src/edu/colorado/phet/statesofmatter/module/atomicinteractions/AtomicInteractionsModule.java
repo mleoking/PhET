@@ -39,6 +39,11 @@ public class AtomicInteractionsModule extends PiccoloModule {
         super(StatesOfMatterStrings.TITLE_INTERACTION_POTENTIAL_MODULE, 
                 new ConstantDtClock(AtomicInteractionDefaults.CLOCK_FRAME_DELAY, 
                 AtomicInteractionDefaults.CLOCK_DT));
+        
+        // Remove the PhET logo.  This is done because the control panel was
+        // getting pushed off the bottom in some cases, and removing the
+        // logo creates more room.
+        setLogoPanel(null);
 
         // Model
         m_model = new DualAtomModel( (ConstantDtClock) getClock() );
