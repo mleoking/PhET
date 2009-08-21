@@ -1,3 +1,5 @@
+# 1.06.00 (34366) Aug 21, 2009
+8/21/09 Initial publication of the Atomic Interactions sim to the production web site.
 # 1.05.00 (34365) Aug 21, 2009
 8/21/09 Initial publication to the production server of the Atomic Interactions simulation.
 # 1.04.08 (34323) Aug 19, 2009
