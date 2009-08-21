@@ -57,7 +57,7 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
     // Proportions and location of the meter on the canvas.
     private static final double METER_WIDTH_FRACTION = 0.23;
     private static final double CHART_AND_METER_HEIGHT_FRACTION = 0.30;
-    private static final double METER_X_OFFSET = 70;
+    private static final double METER_X_OFFSET = 0;
     
     // Fixed distance from very top of canvas where the meter and chart will
     // be positioned.
