@@ -385,6 +385,12 @@ public class AtomicInteractionsControlPanel extends ControlPanel {
             selectionPanel.add(new PhetJLabel(StatesOfMatterStrings.OXYGEN_SELECTION_LABEL));
             selectionPanel.add( m_argonOxygenRadioButton );
             selectionPanel.add(new PhetJLabel(StatesOfMatterStrings.OXYGEN_SELECTION_LABEL));
+            
+            // Insert a spacer panel to make space between the combos and the
+            // adjustable selection.
+            JPanel spacePanel = new JPanel();
+            spacePanel.setLayout( new BoxLayout( spacePanel, BoxLayout.Y_AXIS ) );
+            spacePanel.add( Box.createVerticalStrut( 12 ) );
 
             // Put the adjustable atom in a panel by itself so that it doesn't
             // mess up the grid layout.
@@ -395,6 +401,7 @@ public class AtomicInteractionsControlPanel extends ControlPanel {
             // Add everything to the main panel.
             add( labelPanel );
             add( selectionPanel );
+            add( spacePanel );
             add( adjustableInterationPanel );
 
             // Make some updates.
@@ -479,8 +486,9 @@ public class AtomicInteractionsControlPanel extends ControlPanel {
      * prior to 8/14/2009.  Feedback from initial interviews indicated that
      * students often didn't try the Oxygen-Oxygen combination, which is not
      * a good thing.  Therefore, this panel is being replaced with one that
-     * contains a fixed set of combinations.  If this requested change sticks,
-     * the class below should be removed.
+     * contains a fixed set of combinations and hopefully improves the
+     * likelihood of students discovering the oxygen-oxygen combo.  If this
+     * requested change sticks, the class below should be removed.
      */
     private class HeterogeneousAtomSelectionPanel2 extends VerticalLayoutPanel implements AtomSelectionPanel {
         
