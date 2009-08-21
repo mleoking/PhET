@@ -837,7 +837,7 @@ public class NuclearDecayProportionChart extends PNode {
 			
 			if (_chart._showCarbonOptions && _chart._yAxisLabeledWithRatio){
 				// The Y axis is labeled with ratios of carbon-14 to carbon-12.
-				double initialRatio = 10E-12;
+				double initialRatio = 1.3E-12;
 		        for (int i = 0; i < 4; i++){
 		        	_yAxisGridLineLabels.get(i).setHTML(RATIO_FORMATTER.format((i + 1) * initialRatio / 4));
 		        }
@@ -1392,11 +1392,9 @@ public class NuclearDecayProportionChart extends PNode {
      */
     private static class CarbonOptionsPanel extends VerticalLayoutPanel {
 
-    	public enum Carbon14DisplayMode { PERCENT_C14_REMAINING, C14_TO_C12_RATIO };
     	private static final Font LABEL_FONT = new PhetFont(16, true);
     	
     	private NuclearDecayProportionChart _chart;
-    	private Carbon14DisplayMode _mode;
     	private JRadioButton _percentC14RadioButton;
     	private JRadioButton _c14C12RatioRadioButton;
     	
@@ -1437,12 +1435,7 @@ public class NuclearDecayProportionChart extends PNode {
 		}
     	
     	public void reset(){
-    		_mode = Carbon14DisplayMode.PERCENT_C14_REMAINING;
     		_percentC14RadioButton.setSelected(true);
-    	}
-    	
-    	public Carbon14DisplayMode getMode(){
-    		return _mode;
     	}
     }
     
