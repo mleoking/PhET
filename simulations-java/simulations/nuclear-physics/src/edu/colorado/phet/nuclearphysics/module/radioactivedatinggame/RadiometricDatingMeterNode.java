@@ -36,6 +36,7 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.common.NucleusDisplayInfo;
 import edu.colorado.phet.nuclearphysics.common.NucleusType;
 import edu.colorado.phet.nuclearphysics.model.HalfLifeInfo;
@@ -181,7 +182,7 @@ public class RadiometricDatingMeterNode extends PNode {
 	        		_elementSelectionNode.getFullBoundsReference().getMaxX() 
 	        		- halfLifeComboBoxPSwing.getFullBoundsReference().width, 
 	        		_elementSelectionNode.getFullBoundsReference().getMaxY());
-	        PText halfLifeSelectionLabel = new PText("Halflife = ");
+	        PText halfLifeSelectionLabel = new PText(NuclearPhysicsStrings.METER_HALF_LIFE_EQUALS);
 	        halfLifeSelectionLabel.setFont(HALF_LIFE_SELECTION_FONT);
 	        halfLifeSelectionLabel.setTextPaint(Color.WHITE);
 	        halfLifeSelectionLabel.setOffset(
@@ -607,7 +608,7 @@ public class RadiometricDatingMeterNode extends PNode {
             // Add the border around the panel.
             BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();
             TitledBorder titledBorder = BorderFactory.createTitledBorder( baseBorder,
-                    "Probe Type",
+                    NuclearPhysicsStrings.METER_PROBE_TYPE,
                     TitledBorder.CENTER,
                     TitledBorder.TOP,
                     LABEL_FONT,
@@ -692,14 +693,12 @@ public class RadiometricDatingMeterNode extends PNode {
 			_meterModel = meterModel;
 			setBackground(BODY_COLOR);
 			
-			// TODO: Make this strings into resources.
             // Add the border around the panel.
             BevelBorder border = (BevelBorder)BorderFactory.createRaisedBevelBorder();
             
             setBorder( border );
             
-            _measureObjectsButton = new JRadioButton(
-            		"Objects", true);
+            _measureObjectsButton = new JRadioButton( NuclearPhysicsStrings.MEASURE_OBJECTS, true);
             _measureObjectsButton.setBackground(BODY_COLOR);
             _measureObjectsButton.setForeground(Color.WHITE);
             _measureObjectsButton.setFont(LABEL_FONT);
@@ -712,7 +711,7 @@ public class RadiometricDatingMeterNode extends PNode {
             });
             add(_measureObjectsButton);
             
-            _measureAirButton = new JRadioButton( "Air", true);
+            _measureAirButton = new JRadioButton( NuclearPhysicsStrings.MEASURE_AIR, true);
             _measureAirButton.setBackground(BODY_COLOR);
             _measureAirButton.setForeground(Color.WHITE);
             _measureAirButton.setFont(LABEL_FONT);
