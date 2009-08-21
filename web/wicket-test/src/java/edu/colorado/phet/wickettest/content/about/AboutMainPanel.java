@@ -8,8 +8,8 @@ import edu.colorado.phet.wickettest.panels.PhetPanel;
 import edu.colorado.phet.wickettest.util.Linkable;
 import edu.colorado.phet.wickettest.util.PageContext;
 
-public class AboutPhetPanel extends PhetPanel {
-    public AboutPhetPanel( String id, PageContext context ) {
+public class AboutMainPanel extends PhetPanel {
+    public AboutMainPanel( String id, PageContext context ) {
         super( id, context );
 
         add( new LocalizedText( "about-p1", "about.p1", new String[]{"href=\"http://phet.colorado.edu/simulations/index.php\"", "href=\"http://phet.colorado.edu/research/index.php\""} ) );

@@ -57,7 +57,7 @@ public class WicketApplication extends WebApplication {
         // are not needed for each visual page.
         // NOTE: do this before adding StaticPage into the mapper
         StaticPage.addPanel( TroubleshootingMainPanel.class );
-        StaticPage.addPanel( AboutPhetPanel.class );
+        StaticPage.addPanel( AboutMainPanel.class );
         StaticPage.addPanel( WorkshopsPanel.class );
         StaticPage.addPanel( ContributePanel.class );
         StaticPage.addPanel( RunOurSimulationsPanel.class );
