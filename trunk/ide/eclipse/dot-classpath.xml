@@ -188,6 +188,8 @@
 	<classpathentry kind="src" path="simulations-java/simulations/semiconductor/data"/>
 	<classpathentry kind="src" path="simulations-java/simulations/signal-circuit/src"/>
 	<classpathentry kind="src" path="simulations-java/simulations/signal-circuit/data"/>
+    <classpathentry kind="src" path="simulations-java/simulations/sim-example/src"/>
+	<classpathentry kind="src" path="simulations-java/simulations/sim-example/data"/>
 	<classpathentry kind="src" path="simulations-java/simulations/sim-template/src"/>
 	<classpathentry kind="src" path="simulations-java/simulations/sim-template/data"/>
 	<classpathentry kind="src" path="simulations-java/simulations/soluble-salts/src"/>
