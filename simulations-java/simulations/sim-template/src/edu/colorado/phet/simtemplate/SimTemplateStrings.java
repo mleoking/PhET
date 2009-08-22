@@ -15,15 +15,10 @@ public class SimTemplateStrings {
     /* not intended for instantiation */
     private SimTemplateStrings() {}
     
-    public static final String LABEL_POSITION = SimTemplateResources.getString( "label.position");
-    public static final String LABEL_ORIENTATION = SimTemplateResources.getString( "label.orientation");
-    
     public static final String TITLE_EXAMPLE_CONTROL_PANEL = SimTemplateResources.getString( "title.exampleControlPanel");
     public static final String TITLE_EXAMPLE_MODULE = SimTemplateResources.getString( "title.exampleModule" );
     public static final String TITLE_ERROR = PhetCommonResources.getString( "Common.title.error" );
 
-    public static final String UNITS_DISTANCE = SimTemplateResources.getString( "units.distance");
-    public static final String UNITS_ORIENTATION = SimTemplateResources.getString( "units.orientation");
     public static final String UNITS_TIME = SimTemplateResources.getString( "units.time" );
     
     public static final String MESSAGE_NOT_A_CONFIG = PhetCommonResources.getString( "XMLPersistenceManager.message.notAConfigFile" );
