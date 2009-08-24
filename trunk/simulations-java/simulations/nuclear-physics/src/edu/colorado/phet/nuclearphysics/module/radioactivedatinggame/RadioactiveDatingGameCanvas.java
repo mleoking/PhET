@@ -394,8 +394,6 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     	
     	if (itemBeingTouched != null && itemBeingTouched != _model.getDatableAir()){
     		
-   			_soundState.play( "32_90.wav" );
-    		
 	    	AgeGuessResultNode previousGuessResultNode = _mapDatableItemsToGuessResults.get(itemBeingTouched);
 	    	if (previousGuessResultNode != null){
 	    		// The user has previously submitted a guess for this item.
@@ -520,7 +518,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
 			
 		// Play a little sound to indicate whether the guess is good.
 		if (determineIfGuessIsGood(HalfLifeInfo.convertYearsToMs(ageGuess), itemBeingTouched)){
-			// TODO: Need sound here.
+   			_soundState.play( "ding.wav" );
 		}
 		else{
 			_soundState.play("32_83.wav");
