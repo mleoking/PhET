@@ -22,6 +22,7 @@ import edu.colorado.phet.nuclearphysics.common.model.Nucleon.NucleonType;
 import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusImageNode;
 import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusImageType;
 import edu.colorado.phet.nuclearphysics.model.Uranium235CompositeNucleus;
+import edu.colorado.phet.nuclearphysics.module.betadecay.LabelVisibilityModel;
 import edu.colorado.phet.nuclearphysics.view.AtomicBombGraphicNode;
 import edu.colorado.phet.nuclearphysics.view.ContainmentVesselNode;
 import edu.colorado.phet.nuclearphysics.view.NeutronSourceNode;
@@ -197,7 +198,7 @@ public class ChainReactionCanvas extends PhetPCanvas {
         
         if ((modelElement instanceof AtomicNucleus)){
             // Add an atom node for this guy.
-            PNode atomNode = new AtomicNucleusImageNode( (AtomicNucleus)modelElement, AtomicNucleusImageType.NUCLEONS_VISIBLE );
+            PNode atomNode = new AtomicNucleusImageNode( (AtomicNucleus)modelElement, AtomicNucleusImageType.NUCLEONS_VISIBLE, new LabelVisibilityModel() );
             _nucleusLayer.addChild( atomNode );
             _modelElementToNodeMap.put( modelElement, atomNode );
         }

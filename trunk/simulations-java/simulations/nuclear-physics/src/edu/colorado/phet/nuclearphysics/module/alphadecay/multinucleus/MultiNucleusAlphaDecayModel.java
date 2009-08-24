@@ -13,6 +13,7 @@ import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.HeavyAdjustableHalfLifeNucleus;
 import edu.colorado.phet.nuclearphysics.model.Polonium211Nucleus;
+import edu.colorado.phet.nuclearphysics.module.betadecay.LabelVisibilityModel;
 
 /**
  * This class contains the Model portion of the Model-View-Controller 
@@ -50,7 +51,7 @@ public class MultiNucleusAlphaDecayModel extends MultiNucleusDecayModel {
      * @param clock
      */
     public MultiNucleusAlphaDecayModel(NuclearPhysicsClock clock) {
-    	super( clock, MAX_NUCLEI, DEFAULT_NUCLEUS_TYPE, true );
+    	super( clock, MAX_NUCLEI, DEFAULT_NUCLEUS_TYPE, true, new LabelVisibilityModel() );
     }
     
     //------------------------------------------------------------------------

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
+import edu.colorado.phet.nuclearphysics.module.betadecay.LabelVisibilityModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -29,8 +30,10 @@ public class GrabbableNucleusImageNode extends AtomicNucleusImageNode {
     // Constructor
     //------------------------------------------------------------------------
 
-	public GrabbableNucleusImageNode( AtomicNucleus atomicNucleus, AtomicNucleusImageType imageType ) {
-		super( atomicNucleus, imageType );
+	public GrabbableNucleusImageNode( AtomicNucleus atomicNucleus, AtomicNucleusImageType imageType, 
+			LabelVisibilityModel labelVisibilityModel ) {
+		
+		super( atomicNucleus, imageType, labelVisibilityModel );
 		
 		setPickable(true);
 		setChildrenPickable(true);

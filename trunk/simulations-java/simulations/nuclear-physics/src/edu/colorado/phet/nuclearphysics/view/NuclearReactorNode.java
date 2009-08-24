@@ -30,6 +30,7 @@ import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusImageNode;
 import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusImageType;
 import edu.colorado.phet.nuclearphysics.model.Uranium235Nucleus;
 import edu.colorado.phet.nuclearphysics.model.Uranium238Nucleus;
+import edu.colorado.phet.nuclearphysics.module.betadecay.LabelVisibilityModel;
 import edu.colorado.phet.nuclearphysics.module.nuclearreactor.ControlRod;
 import edu.colorado.phet.nuclearphysics.module.nuclearreactor.NuclearReactorModel;
 import edu.umd.cs.piccolo.PNode;
@@ -250,7 +251,7 @@ public class NuclearReactorNode extends PNode {
             // the reaction, but the educators have specified that these not
             // be shown since it makes the view too cluttered.
             if (nucleus instanceof Uranium235Nucleus){
-                AtomicNucleusImageNode atomNode = new AtomicNucleusImageNode( nucleus, AtomicNucleusImageType.NUCLEONS_VISIBLE );
+                AtomicNucleusImageNode atomNode = new AtomicNucleusImageNode( nucleus, AtomicNucleusImageType.NUCLEONS_VISIBLE, new LabelVisibilityModel() );
                 _nucleiAndFreeParticleNode.addChild( atomNode );
                 _modelElementToNodeMap.put( nucleus, atomNode );
             }
@@ -265,7 +266,7 @@ public class NuclearReactorNode extends PNode {
         
         if ((modelElement instanceof AtomicNucleus)){
             // Add an atom node for this guy.
-            PNode atomNode = new AtomicNucleusImageNode( (AtomicNucleus)modelElement, AtomicNucleusImageType.NUCLEONS_VISIBLE );
+            PNode atomNode = new AtomicNucleusImageNode( (AtomicNucleus)modelElement, AtomicNucleusImageType.NUCLEONS_VISIBLE, new LabelVisibilityModel() );
             _nucleiAndFreeParticleNode.addChild( atomNode );
             _modelElementToNodeMap.put( modelElement, atomNode );
         }
