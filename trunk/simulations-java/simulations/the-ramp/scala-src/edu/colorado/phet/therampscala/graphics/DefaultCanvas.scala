@@ -9,11 +9,13 @@ import scalacommon.CenteredBoxStrategy
 import umd.cs.piccolo.PNode
 import java.lang.Math._
 
-class DefaultCanvas(modelWidth: Double, modelHeight: Double, canvasWidth:Int,canvasHeight:Int) extends PhetPCanvas(new Dimension(canvasWidth,canvasHeight)) {
-  def this(modelWidth: Double, modelHeight: Double) = this(modelWidth,modelHeight,1024,768)
+class DefaultCanvas(modelWidth: Double, modelHeight: Double, canvasWidth:Int,canvasHeight:Int,modelOffsetY:Double)
+        extends PhetPCanvas(new Dimension(canvasWidth,canvasHeight)) {
+  def this(modelWidth: Double, modelHeight: Double) = this(modelWidth,modelHeight,1024,768,0)
   def canonicalBounds = new Rectangle(0, 0, min(canvasWidth,canvasHeight), min(canvasWidth,canvasHeight))
-  setWorldTransformStrategy(new CenteredBoxStrategy(canonicalBounds.width, canonicalBounds.height, this))
-  val transform: ModelViewTransform2D = new ModelViewTransform2D(new Rectangle2D.Double(-modelWidth / 2, -modelHeight / 2, modelWidth, modelHeight), canonicalBounds, true)
+  setWorldTransformStrategy(new CenteredBoxStrategy(canonicalBounds.width, canonicalBounds.height, this,modelOffsetY))
+  val transform: ModelViewTransform2D = new ModelViewTransform2D(new Rectangle2D.Double(-modelWidth / 2, -modelHeight / 2,
+    modelWidth, modelHeight), canonicalBounds, true)
   val worldNode = new PNode
   addWorldChild(worldNode)
 
