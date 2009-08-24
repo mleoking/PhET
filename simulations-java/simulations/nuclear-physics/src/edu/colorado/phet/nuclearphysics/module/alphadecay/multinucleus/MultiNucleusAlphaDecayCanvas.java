@@ -30,6 +30,7 @@ import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.HeavyAdjustableHalfLifeNucleus;
 import edu.colorado.phet.nuclearphysics.model.NuclearDecayListenerAdapter;
 import edu.colorado.phet.nuclearphysics.model.Polonium211Nucleus;
+import edu.colorado.phet.nuclearphysics.module.betadecay.LabelVisibilityModel;
 import edu.colorado.phet.nuclearphysics.module.halflife.AutopressResetButton;
 import edu.colorado.phet.nuclearphysics.view.AlphaParticleModelNode;
 import edu.colorado.phet.nuclearphysics.view.AutoPressGradientButtonNode;
@@ -290,7 +291,7 @@ public class MultiNucleusAlphaDecayCanvas extends PhetPCanvas implements Autopre
     		// A new nucleus has been added to the model.  Create a
     		// node for it and add it to the nucleus-to-node map.
     		GrabbableNucleusImageNode atomicNucleusNode = 
-    			new GrabbableNucleusImageNode( (AtomicNucleus)modelElement, AtomicNucleusImageType.NUCLEONS_VISIBLE );
+    			new GrabbableNucleusImageNode( (AtomicNucleus)modelElement, AtomicNucleusImageType.NUCLEONS_VISIBLE, new LabelVisibilityModel() );
     		
     		// Map this node and nucleus together.
     		_mapNucleiToNodes.put(modelElement, atomicNucleusNode);

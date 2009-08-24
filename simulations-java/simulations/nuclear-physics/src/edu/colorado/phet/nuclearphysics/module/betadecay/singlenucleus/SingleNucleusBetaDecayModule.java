@@ -44,7 +44,7 @@ public class SingleNucleusBetaDecayModule extends PiccoloModule {
         setSimulationPanel( _canvas );
 
         // Control Panel
-        _controlPanel = new BetaDecayControlPanel( this, parentFrame, _model );
+        _controlPanel = new BetaDecayControlPanel( this, parentFrame, _model, _model.getLabelVisibilityModel() );
         setControlPanel( _controlPanel );
         
         // Help

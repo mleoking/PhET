@@ -9,9 +9,11 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.common.NucleusDisplayInfo;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
+import edu.colorado.phet.nuclearphysics.module.betadecay.LabelVisibilityModel;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -73,14 +75,29 @@ public class LabeledExplodingAtomicNucleusNode extends AbstractAtomicNucleusNode
         }
     };
     
+    // Controls visibility of the label.
+    private LabelVisibilityModel _labelVisibilityModel;
+    
     //------------------------------------------------------------------------
-    // Constructor
+    // Constructor(s)
     //------------------------------------------------------------------------
 
     public LabeledExplodingAtomicNucleusNode(AtomicNucleus atomicNucleus)
     {
+    	this(atomicNucleus, new LabelVisibilityModel());
+    }
+    
+    public LabeledExplodingAtomicNucleusNode(AtomicNucleus atomicNucleus, LabelVisibilityModel labelVisibilityModel){
         super(atomicNucleus);
+        _labelVisibilityModel = labelVisibilityModel;
         _currentAtomicWeight = _atomicNucleus.getAtomicWeight();
+        
+        // Listen for changes in visibility.
+        _labelVisibilityModel.addObserver(new SimpleObserver() {
+			public void update() {
+				updateLabel();
+			}
+		});
         
         // Initialize the node that is used to display the explosion.
         _explosion = new PPath();
@@ -117,7 +134,7 @@ public class LabeledExplodingAtomicNucleusNode extends AbstractAtomicNucleusNode
         addChild(_isotopeChemSymbol);
         
         // Set the label based on the configuration of the nucleus.
-        setLabel(_atomicNucleus.getNumProtons(), _atomicNucleus.getNumNeutrons());
+        updateLabel();
         
         // Register as a listener for the model representation.
         _atomicNucleus.addListener(_atomicNucleusAdapter);
@@ -133,6 +150,7 @@ public class LabeledExplodingAtomicNucleusNode extends AbstractAtomicNucleusNode
         updatePosition();
     }
 
+
     //------------------------------------------------------------------------
     // Public Methods
     //------------------------------------------------------------------------
@@ -144,11 +162,13 @@ public class LabeledExplodingAtomicNucleusNode extends AbstractAtomicNucleusNode
      * @param numProtons - The total number of protons in the nucleus.
      * @param numNeutrons - The total number of neutrons in the nucleus.
      */
-    void setLabel(int numProtons, int numNeutrons){
+    private void updateLabel(){
         
+    	int numProtons = _atomicNucleus.getNumProtons();
+    	int numNeutrons = _atomicNucleus.getNumNeutrons();
         NucleusDisplayInfo displayInfo = NucleusDisplayInfo.getDisplayInfoForNucleusConfig(numProtons, numNeutrons);
         
-        if (displayInfo == null){
+        if (displayInfo == null || !_labelVisibilityModel.isVisible()){
         	// There is no display information available for this nucleus, so
         	// set the labels to be essentially nothing and thus invisible.
         	_isotopeChemSymbol.setText("");
@@ -282,7 +302,7 @@ public class LabeledExplodingAtomicNucleusNode extends AbstractAtomicNucleusNode
 	    _currentAtomicWeight = numProtons + numNeutrons;
 	    
 	    // Update the label to reflect the new element.
-	    setLabel(numProtons, numNeutrons);
+	    updateLabel();
 	    updateLabelPositions();
 	}
 

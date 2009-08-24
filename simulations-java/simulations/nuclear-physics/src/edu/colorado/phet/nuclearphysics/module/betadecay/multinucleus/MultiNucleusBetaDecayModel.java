@@ -16,6 +16,7 @@ import edu.colorado.phet.nuclearphysics.model.HeavyAdjustableHalfLifeNucleus;
 import edu.colorado.phet.nuclearphysics.model.Hydrogen3Nucleus;
 import edu.colorado.phet.nuclearphysics.model.LightAdjustableHalfLifeNucleus;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusDecayModel;
+import edu.colorado.phet.nuclearphysics.module.betadecay.LabelVisibilityModel;
 
 /**
  * This class contains the Model portion of the Model-View-Controller 
@@ -53,7 +54,7 @@ public class MultiNucleusBetaDecayModel extends MultiNucleusDecayModel {
      * @param clock
      */
     public MultiNucleusBetaDecayModel(NuclearPhysicsClock clock) {
-    	super( clock, MAX_NUCLEI, DEFAULT_NUCLEUS_TYPE, true );
+    	super( clock, MAX_NUCLEI, DEFAULT_NUCLEUS_TYPE, true, new LabelVisibilityModel() );
     }
     
     //------------------------------------------------------------------------

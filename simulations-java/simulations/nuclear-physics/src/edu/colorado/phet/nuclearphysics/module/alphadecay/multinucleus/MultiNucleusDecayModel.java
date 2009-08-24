@@ -10,7 +10,6 @@ import java.util.Random;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
 import edu.colorado.phet.nuclearphysics.common.NucleusType;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
@@ -18,6 +17,7 @@ import edu.colorado.phet.nuclearphysics.common.model.NuclearDecayModelListener;
 import edu.colorado.phet.nuclearphysics.model.HeavyAdjustableHalfLifeNucleus;
 import edu.colorado.phet.nuclearphysics.model.Polonium211Nucleus;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.NucleusTypeControl;
+import edu.colorado.phet.nuclearphysics.module.betadecay.LabelVisibilityModel;
 
 /**
  * Basic "container" sort of model element, meaning that the atomic nuclei
@@ -57,14 +57,16 @@ public class MultiNucleusDecayModel implements NucleusTypeControl {
 	protected final int _maxNuclei;
 	private boolean _jitterEnabled;
 	private double _maxJitterLength;
+	private LabelVisibilityModel _labelVisibilityModel;
 
     //------------------------------------------------------------------------
     // Constructor(s)
     //------------------------------------------------------------------------
 	
 	public MultiNucleusDecayModel( NuclearPhysicsClock clock, int maxNuclei, NucleusType initialNucleusType, 
-			boolean jitterEnabled ) {
+			boolean jitterEnabled, LabelVisibilityModel labelVisibilityModel ) {
 		
+		_labelVisibilityModel = labelVisibilityModel;
         _clock = clock;
         _initialNucleusType = initialNucleusType;  // Needed for reset.
         _currentNucleusType = initialNucleusType;
@@ -88,7 +90,7 @@ public class MultiNucleusDecayModel implements NucleusTypeControl {
         
         initializeNucleusListener();
 	}
-
+	
     //------------------------------------------------------------------------
     // Public and protected methods
     //------------------------------------------------------------------------
@@ -117,6 +119,12 @@ public class MultiNucleusDecayModel implements NucleusTypeControl {
 		return _currentNucleusType;
 	}
 	
+	
+	
+	public LabelVisibilityModel getLabelVisibilityModel() {
+		return _labelVisibilityModel;
+	}
+
 	/**
 	 * Turn the jittering of the atoms on/off.  This was added due to a need
 	 * to reduce the amount of processor time consumed in instances where

@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
+import edu.colorado.phet.nuclearphysics.module.betadecay.LabelVisibilityModel;
 import edu.colorado.phet.nuclearphysics.view.NucleusImageFactory;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -28,9 +29,10 @@ public class AtomicNucleusImageNode extends LabeledExplodingAtomicNucleusNode {
     private PNode _displayNode;
     private AtomicNucleusImageType _imageType;
     
-    public AtomicNucleusImageNode( AtomicNucleus atomicNucleus, AtomicNucleusImageType imageType ){
+    public AtomicNucleusImageNode( AtomicNucleus atomicNucleus, AtomicNucleusImageType imageType, 
+    		LabelVisibilityModel labelVisibilityModel ){
         
-        super(atomicNucleus);
+        super(atomicNucleus, labelVisibilityModel);
         
         _imageType = imageType;
         

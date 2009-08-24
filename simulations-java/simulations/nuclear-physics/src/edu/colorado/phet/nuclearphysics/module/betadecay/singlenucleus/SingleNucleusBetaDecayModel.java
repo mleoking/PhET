@@ -13,13 +13,12 @@ import edu.colorado.phet.nuclearphysics.common.NucleusType;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.NuclearDecayModelListener;
 import edu.colorado.phet.nuclearphysics.common.model.SubatomicParticle;
-import edu.colorado.phet.nuclearphysics.model.AdjustableHalfLifeCompositeNucleus;
 import edu.colorado.phet.nuclearphysics.model.Carbon14CompositeNucleus;
 import edu.colorado.phet.nuclearphysics.model.CompositeAtomicNucleus;
 import edu.colorado.phet.nuclearphysics.model.Hydrogen3CompositeNucleus;
 import edu.colorado.phet.nuclearphysics.model.LightAdjustableCompositeNucleus;
-import edu.colorado.phet.nuclearphysics.model.LightAdjustableHalfLifeNucleus;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.NucleusTypeControl;
+import edu.colorado.phet.nuclearphysics.module.betadecay.LabelVisibilityModel;
 
 /**
  * This class contains the Model portion of the Model-View-Controller 
@@ -46,12 +45,13 @@ public class SingleNucleusBetaDecayModel implements NucleusTypeControl {
     private NucleusType _nucleusType;
     private AtomicNucleus.Adapter _atomicNucleusAdapter;
 	private ArrayList<SubatomicParticle> _emittedParticles = new ArrayList<SubatomicParticle>();
+	private LabelVisibilityModel _labelVisibilityModel = new LabelVisibilityModel();
     
     //------------------------------------------------------------------------
     // Constructor
     //------------------------------------------------------------------------
     
-    public SingleNucleusBetaDecayModel(NuclearPhysicsClock clock)
+	public SingleNucleusBetaDecayModel(NuclearPhysicsClock clock)
     {
         _clock = clock;
         _nucleusType = DEFAULT_NUCLEUS_TYPE;
@@ -147,6 +147,10 @@ public class SingleNucleusBetaDecayModel implements NucleusTypeControl {
 		return _nucleusType;
 	}
     
+    public LabelVisibilityModel getLabelVisibilityModel() {
+		return _labelVisibilityModel;
+	}
+
     //------------------------------------------------------------------------
     // Other Public Methods
     //------------------------------------------------------------------------

@@ -311,7 +311,8 @@ public class MultiNucleusBetaDecayCanvas extends PhetPCanvas implements Autopres
     		// A new nucleus has been added to the model.  Create a
     		// node for it and add it to the nucleus-to-node map.
     		GrabbableNucleusImageNode atomicNucleusNode = 
-    			new GrabbableNucleusImageNode( (AtomicNucleus)modelElement, AtomicNucleusImageType.NUCLEONS_VISIBLE );
+    			new GrabbableNucleusImageNode( (AtomicNucleus)modelElement, AtomicNucleusImageType.NUCLEONS_VISIBLE,
+    					_model.getLabelVisibilityModel() );
     		
     		// Map this node and nucleus together.
     		_mapNucleiToNodes.put(modelElement, atomicNucleusNode);

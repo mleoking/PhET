@@ -3,6 +3,10 @@
 package edu.colorado.phet.nuclearphysics.module.betadecay;
 
 import java.awt.Frame;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JCheckBox;
 
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
@@ -23,7 +27,8 @@ public class BetaDecayControlPanel extends ControlPanel {
     
     private BetaDecayLegendPanel _legendPanel;
     private BetaDecayNucleusSelectionPanel _selectionPanel;
-    
+    private JCheckBox _labelsVisibleCheckBox;
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -35,7 +40,9 @@ public class BetaDecayControlPanel extends ControlPanel {
      * @param parentFrame parent frame, for creating dialogs
      * @param betaDecayModel 
      */
-    public BetaDecayControlPanel( PiccoloModule piccoloModule, Frame parentFrame, NucleusTypeControl betaDecayModel ) {
+    public BetaDecayControlPanel( PiccoloModule piccoloModule, Frame parentFrame, 
+    		final NucleusTypeControl betaDecayModel,
+    		final LabelVisibilityModel labelVisibilityModel ) {
         
         // Set the control panel's minimum width.
         int minimumWidth = NuclearPhysicsResources.getInt( "int.minControlPanelWidth", 215 );
@@ -50,6 +57,16 @@ public class BetaDecayControlPanel extends ControlPanel {
         
         // Add the selection panel.
         addControlFullWidth( _selectionPanel );
+        
+        // Add the check box for label visibility.
+        // TODO: i18n
+        _labelsVisibleCheckBox = new JCheckBox("Show Labels", labelVisibilityModel.isVisible());
+        _labelsVisibleCheckBox.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				labelVisibilityModel.setIsVisible(_labelsVisibleCheckBox.isSelected());
+			}
+		});
+        addControlFullWidth(_labelsVisibleCheckBox);
         
         // Add the Reset All button.
         addVerticalSpace( 10 );

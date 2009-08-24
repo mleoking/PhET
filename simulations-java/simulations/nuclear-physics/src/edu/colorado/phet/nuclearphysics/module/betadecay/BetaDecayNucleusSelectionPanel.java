@@ -17,6 +17,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -54,7 +55,6 @@ public class BetaDecayNucleusSelectionPanel extends JPanel {
     private JRadioButton _hydrogenRadioButton;
     private JRadioButton _carbonRadioButton;
     private JRadioButton _customNucleusRadioButton;
-
     //------------------------------------------------------------------------
     // Constructor
     //------------------------------------------------------------------------
@@ -327,6 +327,7 @@ public class BetaDecayNucleusSelectionPanel extends JPanel {
         constraints.gridx = 2;
         constraints.gridy = 10;
         add( decayedCustomNucleusLabel, constraints );
+        
     }
     
     /**

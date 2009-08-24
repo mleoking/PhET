@@ -14,6 +14,7 @@ import edu.colorado.phet.nuclearphysics.model.Carbon14Nucleus;
 import edu.colorado.phet.nuclearphysics.model.HeavyAdjustableHalfLifeNucleus;
 import edu.colorado.phet.nuclearphysics.model.Uranium238Nucleus;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusDecayModel;
+import edu.colorado.phet.nuclearphysics.module.betadecay.LabelVisibilityModel;
 
 /**
  * This class contains the Model portion of the Model-View-Controller 
@@ -56,7 +57,7 @@ public class DecayRatesModel extends MultiNucleusDecayModel {
      * @param clock
      */
     public DecayRatesModel(NuclearPhysicsClock clock) {
-    	super( clock, MAX_NUCLEI, DEFAULT_NUCLEUS_TYPE, false );
+    	super( clock, MAX_NUCLEI, DEFAULT_NUCLEUS_TYPE, false, new LabelVisibilityModel() );
     }
     
     //------------------------------------------------------------------------
