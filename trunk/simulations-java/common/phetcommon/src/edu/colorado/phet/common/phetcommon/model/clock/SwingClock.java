@@ -133,4 +133,23 @@ public class SwingClock extends Clock {
     protected Timer getTimer() {
         return timer;
     }
+
+    public static void main( String[] args ) {
+
+        final long startTime = System.currentTimeMillis();
+        Timer timer = new Timer( 1000,new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                System.out.println( "System.currentTimeMillis() = " + (System.currentTimeMillis()-startTime) );
+                try {
+                    Thread.sleep( 1100 );
+                }
+                catch( InterruptedException e1 ) {
+                    e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
+            }
+        } );
+        timer.setCoalesce( false );//should be false
+        timer.start();
+        new JFrame( ).setVisible( true );
+    }
 }
