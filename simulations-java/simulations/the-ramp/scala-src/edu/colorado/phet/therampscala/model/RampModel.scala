@@ -184,13 +184,13 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngl
     bead.setPosition(defaultBeadPosition)
     bead.parallelAppliedForce = 0
     bead.setVelocity(0)
+    bead.attach()
   }
 
   def resetBead() = {
     returnBead()
     bead.setCrashEnergy(0.0)
     bead.thermalEnergy = 0.0
-    bead.attach()
   }
 
   private var _walls = true
