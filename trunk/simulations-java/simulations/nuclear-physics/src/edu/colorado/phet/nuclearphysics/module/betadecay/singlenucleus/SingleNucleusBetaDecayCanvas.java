@@ -232,7 +232,7 @@ public class SingleNucleusBetaDecayCanvas extends PhetPCanvas {
 				}
 			}
 
-			_nucleusNode = new LabeledExplodingAtomicNucleusNode(atomicNucleus);
+			_nucleusNode = new LabeledExplodingAtomicNucleusNode(atomicNucleus, _singleNucleusBetaDecayModel.getLabelVisibilityModel());
 			_labelLayer.addChild( _nucleusNode );
 			_mapNucleiToNodes.put(atomicNucleus, _nucleusNode);
 		}
