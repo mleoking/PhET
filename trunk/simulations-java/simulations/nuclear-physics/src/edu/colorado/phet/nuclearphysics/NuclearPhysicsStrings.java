@@ -169,6 +169,10 @@ public class NuclearPhysicsStrings {
     
     public static final String MEASURE_OBJECTS= NuclearPhysicsResources.getString( "RadiometricMeter.MeasureObjects" );
     public static final String MEASURE_AIR= NuclearPhysicsResources.getString( "RadiometricMeter.MeasureAir" );
+    public static final String HALF_LIFE_100_THOUSAND_YEARS= NuclearPhysicsResources.getString( "RadiometricMeter.HalfLifeOneHundredThousandYears" );
+    public static final String HALF_LIFE_1_MILLION_YEARS= NuclearPhysicsResources.getString( "RadiometricMeter.HalfLifeOneMillionYears" );
+    public static final String HALF_LIFE_10_MILLION_YEARS= NuclearPhysicsResources.getString( "RadiometricMeter.HalfLifeTenMillionYears" );
+    public static final String HALF_LIFE_100_MILLION_YEARS= NuclearPhysicsResources.getString( "RadiometricMeter.HalfLifeOneHundredMillionYears" );
 
     public static final String INFINITY_SYMBOL= NuclearPhysicsResources.getString( "InfinitySymbol" );
 
