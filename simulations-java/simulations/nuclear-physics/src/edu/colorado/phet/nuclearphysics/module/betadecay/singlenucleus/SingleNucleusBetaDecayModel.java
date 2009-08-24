@@ -45,7 +45,7 @@ public class SingleNucleusBetaDecayModel implements NucleusTypeControl {
     private NucleusType _nucleusType;
     private AtomicNucleus.Adapter _atomicNucleusAdapter;
 	private ArrayList<SubatomicParticle> _emittedParticles = new ArrayList<SubatomicParticle>();
-	private LabelVisibilityModel _labelVisibilityModel = new LabelVisibilityModel();
+	private LabelVisibilityModel _labelVisibilityModel = new LabelVisibilityModel(true);
     
     //------------------------------------------------------------------------
     // Constructor
