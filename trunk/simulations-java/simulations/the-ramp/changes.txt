@@ -1,4 +1,5 @@
-Added add new panel "Friction", with radio buttons side by side each other "On", "Off" after the "Vectors" panel 
+Added a "return object" button appear when the object goes offscreen.
+Added add new panel "Friction", with radio buttons side by side each other "On", "Off" after the "Vectors" panel
 Made friction off by default in every tab
 Moved viewport north in Work/Energy/Force graphs tab so all series controls are visible
 Limited to one firedog at a time.

@@ -178,6 +178,21 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngl
 
   def stepRecord(): Unit = stepRecord(RampDefaults.DT_DEFAULT)
 
+  def beadInModelViewportRange = bead.position2D.x < RampDefaults.MIN_X || bead.position2D.x > RampDefaults.MAX_X
+
+  def returnBead() = {
+    bead.setPosition(defaultBeadPosition)
+    bead.parallelAppliedForce = 0
+    bead.setVelocity(0)
+  }
+
+  def resetBead() = {
+    returnBead()
+    bead.setCrashEnergy(0.0)
+    bead.thermalEnergy = 0.0
+    bead.attach()
+  }
+
   private var _walls = true
   private var _frictionless = true
   private var _selectedObject = RampDefaults.objects(0)
@@ -226,13 +241,9 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngl
     selectedObject = RampDefaults.objects(0)
     frictionless = false
     walls = true
-    bead.setPosition(defaultBeadPosition)
-    bead.parallelAppliedForce = 0
-    bead.setVelocity(0)
-    bead.setCrashEnergy(0.0)
-    bead.thermalEnergy = 0.0
+    resetBead()
     manBead.setPosition(defaultManPosition)
-    bead.attach()
+
     rampSegments(1).setAngle(initialAngle)
 
     rampSegments(0).setWetness(0.0)
