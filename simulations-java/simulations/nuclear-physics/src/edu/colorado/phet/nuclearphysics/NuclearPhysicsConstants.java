@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.nuclearphysics.model.HalfLifeInfo;
 
 
 /**
@@ -196,9 +197,7 @@ public class NuclearPhysicsConstants {
             -ELECTRON_DIAMETER/6, ELECTRON_HILITE_COLOR, new Point2D.Double( ELECTRON_DIAMETER/4, ELECTRON_DIAMETER/4 ),
             ELECTRON_COLOR );
     public static final Color ANTINEUTRINO_COLOR = Color.GREEN;
-    public static final int NUCLEUS_ID_POLONIUM = 1;
-    public static final int NUCLEUS_ID_CARBON_14 = 2;
-    public static final int NUCLEUS_ID_URANIUM_238 = 3;
-	public static final int NUCLEUS_ID_CUSTOM = 4;
+    
+    public static final double DEFAULT_CUSTOM_NUCLEUS_HALF_LIFE = HalfLifeInfo.convertYearsToMs(100E3);
 
 }

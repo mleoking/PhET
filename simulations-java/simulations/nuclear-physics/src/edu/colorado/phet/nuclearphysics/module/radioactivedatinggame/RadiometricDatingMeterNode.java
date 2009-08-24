@@ -35,6 +35,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.common.NucleusDisplayInfo;
@@ -76,9 +77,8 @@ public class RadiometricDatingMeterNode extends PNode {
 	// Array that maps values to the strings used for the custom nucleus half
 	// life.  THESE MUST BE MANUALLY KEPT IN SYNC WITH THE STRINGS IN THE
 	// LOCALIZATION FILE.
-	// TODO: Localization.
 	private static final ValueStringPair [] HALF_LIFE_VALUE_STRING_PAIRS = {
-		new ValueStringPair(HalfLifeInfo.convertYearsToMs(100E3), NuclearPhysicsStrings.HALF_LIFE_100_THOUSAND_YEARS),
+		new ValueStringPair(NuclearPhysicsConstants.DEFAULT_CUSTOM_NUCLEUS_HALF_LIFE, NuclearPhysicsStrings.HALF_LIFE_100_THOUSAND_YEARS),
 		new ValueStringPair(HalfLifeInfo.convertYearsToMs(1E6), NuclearPhysicsStrings.HALF_LIFE_1_MILLION_YEARS),
 		new ValueStringPair(HalfLifeInfo.convertYearsToMs(10E6), NuclearPhysicsStrings.HALF_LIFE_10_MILLION_YEARS),
 		new ValueStringPair(HalfLifeInfo.convertYearsToMs(100E6), NuclearPhysicsStrings.HALF_LIFE_100_MILLION_YEARS),
@@ -170,11 +170,8 @@ public class RadiometricDatingMeterNode extends PNode {
 		// panel, but problems with that approach necessitated its extraction
 		// into a separate PSwing.
 		if (showCustom){
-	        _halfLifeComboBox = new PComboBox();
+	        _halfLifeComboBox = new PComboBox(HALF_LIFE_VALUE_STRING_PAIRS);
 	        _halfLifeComboBox.setFont(HALF_LIFE_SELECTION_FONT);
-	        for (int i = 0; i < HALF_LIFE_VALUE_STRING_PAIRS.length; i++){
-	        	_halfLifeComboBox.insertItemAt(HALF_LIFE_VALUE_STRING_PAIRS[i].string, i);
-	        }
 	        halfLifeComboBoxPSwing = new PSwing( _halfLifeComboBox );
 	        _halfLifeComboBox.setEnvironment(halfLifeComboBoxPSwing, canvas);
 	        _meterBody.addChild(halfLifeComboBoxPSwing);
@@ -255,7 +252,7 @@ public class RadiometricDatingMeterNode extends PNode {
 	 * meter model.
 	 */
 	private void handleUserChangedHalfLife(){
-		_meterModel.setHalfLifeForDating(HALF_LIFE_VALUE_STRING_PAIRS[_halfLifeComboBox.getSelectedIndex()].value);
+		_meterModel.setHalfLifeForCustomNucleus(HALF_LIFE_VALUE_STRING_PAIRS[_halfLifeComboBox.getSelectedIndex()].value);
 	}
 	
 	/**
@@ -593,9 +590,9 @@ public class RadiometricDatingMeterNode extends PNode {
 	    }
 	}
 	
-	private static class ElementSelectionPanel extends VerticalLayoutPanel {
+	private class ElementSelectionPanel extends VerticalLayoutPanel {
 
-		static private final Font LABEL_FONT = new PhetFont(18, true);
+		private final Font LABEL_FONT = new PhetFont(18, true);
 		
 		public ElementSelectionPanel(int width, int height, final RadiometricDatingMeter meterModel, 
 				boolean showCustom){
@@ -753,6 +750,9 @@ public class RadiometricDatingMeterNode extends PNode {
 		public ValueStringPair(double value, String string) {
 			this.value = value;
 			this.string = string;
+		}
+		public String toString(){
+			return this.string;
 		}
 	}
 	

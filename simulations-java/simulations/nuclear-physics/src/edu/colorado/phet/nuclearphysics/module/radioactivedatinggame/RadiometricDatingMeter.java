@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.common.NucleusType;
 import edu.colorado.phet.nuclearphysics.model.HalfLifeInfo;
 
@@ -37,7 +38,7 @@ public class RadiometricDatingMeter {
 	private DatableItem _itemBeingTouched = null;
 	private ModelContainingDatableItems _model;
 	private NucleusType _nucleusTypeForDating;
-	private double _halfLifeOfCustomNucleus;
+	private double _halfLifeOfCustomNucleus = NuclearPhysicsConstants.DEFAULT_CUSTOM_NUCLEUS_HALF_LIFE;
 	private double _prevPercentageRemaining = Double.NaN;
 	protected ArrayList<Listener> _listeners = new ArrayList<Listener>();
 	private ClockAdapter _clockListener;
@@ -220,11 +221,7 @@ public class RadiometricDatingMeter {
 	 * 
 	 * @param halfLife - Half life in milliseconds.
 	 */
-	public void setHalfLifeForDating(double halfLife){
-		
-		// This can ONLY be called if a custom nucleus is being used for
-		// dating.
-		assert _nucleusTypeForDating == NucleusType.HEAVY_CUSTOM;
+	public void setHalfLifeForCustomNucleus(double halfLife){
 		
 		_halfLifeOfCustomNucleus = halfLife;
 		
