@@ -108,9 +108,9 @@ class AbstractRampModule(frame: JFrame, clock: ScalaClock, name: String, default
 
 class BasicRampModule(frame: JFrame, clock: ScalaClock, name: String,
                       coordinateSystemFeaturesEnabled: Boolean, useObjectComboBox: Boolean,
-                      defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngle: Double)
+                      defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngle: Double,modelOffsetY:Double)
         extends AbstractRampModule(frame, clock, name, defaultBeadPosition, pausedOnReset, initialAngle) {
-  val canvas = new RampCanvas(model, coordinateSystemModel, fbdModel, vectorViewModel, frame, !useObjectComboBox, initialAngle != 0.0)
+  val canvas = new RampCanvas(model, coordinateSystemModel, fbdModel, vectorViewModel, frame, !useObjectComboBox, initialAngle != 0.0,modelOffsetY)
   setSimulationPanel(canvas)
   val rampControlPanel = new RampControlPanel(model, wordModel, fbdModel, coordinateSystemModel, vectorViewModel,
     resetRampModule, coordinateSystemFeaturesEnabled, useObjectComboBox, model)
@@ -120,20 +120,20 @@ class BasicRampModule(frame: JFrame, clock: ScalaClock, name: String,
 
 import RampResources._
 
-class IntroRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "module.introduction".translate, false, false, -6, false, RampDefaults.defaultRampAngle)
+class IntroRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "module.introduction".translate, false, false, -6, false, RampDefaults.defaultRampAngle,0.0)
 
-class CoordinatesRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "module.coordinates".translate, true, false, -6, false, RampDefaults.defaultRampAngle) {
+class CoordinatesRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "module.coordinates".translate, true, false, -6, false, RampDefaults.defaultRampAngle,0.0) {
   coordinateSystemModel.adjustable = true
 }
 
-class ForceGraphsModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(frame, clock, "module.force-graphs".translate, false)
+class ForceGraphsModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(frame, clock, "module.force-graphs".translate, false,0.0)
 
-class GraphingModule(frame: JFrame, clock: ScalaClock, name: String, showEnergyGraph: Boolean) extends BasicRampModule(frame, clock, name, false, true, -6, true, RampDefaults.defaultRampAngle) {
+class GraphingModule(frame: JFrame, clock: ScalaClock, name: String, showEnergyGraph: Boolean,modelOffsetY:Double) extends BasicRampModule(frame, clock, name, false, true, -6, true, RampDefaults.defaultRampAngle,modelOffsetY) {
   coordinateSystemModel.adjustable = false
   canvas.addNodeAfter(canvas.earthNode, new RampChartNode(canvas.transform, canvas, model, showEnergyGraph))
 }
 
-class WorkEnergyModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(frame, clock, "module.work-energy".translate, true) {
+class WorkEnergyModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(frame, clock, "module.work-energy".translate, true,100.0) {
   val workEnergyChartModel = new WorkEnergyChartModel
   val jButton = new JButton("controls.showWorkEnergyCharts".translate)
   jButton.addActionListener(new ActionListener() {
@@ -141,7 +141,6 @@ class WorkEnergyModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(
   })
   rampControlPanel.addToBody(jButton)
   val chart = new WorkEnergyChart(workEnergyChartModel, model, frame)
-
   override def resetAll() = {super.reset(); workEnergyChartModel.reset()}
 }
 

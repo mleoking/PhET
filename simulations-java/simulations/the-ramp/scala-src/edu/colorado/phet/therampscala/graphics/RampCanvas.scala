@@ -16,8 +16,13 @@ import scalacommon.Predef._
 import umd.cs.piccolo.PNode
 import java.lang.Math._
 import RampResources._
-abstract class AbstractRampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, freeBodyDiagramModel: FreeBodyDiagramModel,
-                                  vectorViewModel: VectorViewModel, frame: JFrame) extends DefaultCanvas(22, 22,RampDefaults.worldWidth,RampDefaults.worldHeight) {
+abstract class AbstractRampCanvas(model: RampModel,
+                                  coordinateSystemModel: CoordinateSystemModel,
+                                  freeBodyDiagramModel: FreeBodyDiagramModel,
+                                  vectorViewModel: VectorViewModel,
+                                  frame: JFrame,
+                                  modelOffsetY:Double) 
+        extends DefaultCanvas(22, 22,RampDefaults.worldWidth,RampDefaults.worldHeight,modelOffsetY) {
   setBackground(RampDefaults.SKY_GRADIENT_BOTTOM)
 
   addNode(new SkyNode(transform))
@@ -231,8 +236,9 @@ class ClearHeatButton(model:RampModel) extends GradientButtonNode("controls.clea
 }
 
 class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, freeBodyDiagramModel: FreeBodyDiagramModel,
-                 vectorViewModel: VectorViewModel, frame: JFrame, showObjectSelectionNode: Boolean, rampAngleDraggable: Boolean)
-        extends AbstractRampCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame) {
+                 vectorViewModel: VectorViewModel, frame: JFrame, showObjectSelectionNode: Boolean,
+                 rampAngleDraggable: Boolean,modelOffsetY:Double)
+        extends AbstractRampCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame,modelOffsetY) {
   if (showObjectSelectionNode) {
     addNode(new ObjectSelectionNode(transform, model))
     addNode(indexOfChild(earthNode) + 1, new AppliedForceSliderNode(model.bead, transform))
