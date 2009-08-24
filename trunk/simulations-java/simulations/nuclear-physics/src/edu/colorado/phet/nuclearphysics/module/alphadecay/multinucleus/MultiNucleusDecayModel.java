@@ -38,7 +38,6 @@ public class MultiNucleusDecayModel implements NucleusTypeControl {
     // Class data
     //------------------------------------------------------------------------
 
-	static final int DEFAULT_NUCLEUS_TYPE = NuclearPhysicsConstants.NUCLEUS_ID_POLONIUM;
 	static final double DEFAULT_JITTER_LENGTH = 1;
 	static final int CLOCKS_PER_JITTER = 2;
 	
