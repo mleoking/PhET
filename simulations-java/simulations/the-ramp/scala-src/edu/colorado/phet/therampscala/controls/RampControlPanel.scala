@@ -9,6 +9,8 @@ import graphics._
 import java.awt._
 import geom.Rectangle2D
 import image.BufferedImage
+import java.awt.event.{MouseEvent, MouseAdapter}
+
 import javax.swing._
 import model._
 
@@ -74,8 +76,8 @@ class RampControlPanelBody(model: RampModel, wordModel: WordModel,
       ))
   }
 
-  class IconPanel(component: JComponent, icon:Icon) extends JPanel {
-    def this(component: JComponent, iconFilename: String) = this(component,new ImageIcon(RampResources.getImage(iconFilename)) )
+  class IconPanel(component: JComponent, icon: Icon) extends JPanel {
+    def this(component: JComponent, iconFilename: String) = this (component, new ImageIcon(RampResources.getImage(iconFilename)))
     setLayout(new BorderLayout)
     add(component, BorderLayout.WEST)
     add(new JLabel(icon), BorderLayout.EAST)
@@ -83,6 +85,7 @@ class RampControlPanelBody(model: RampModel, wordModel: WordModel,
 
   val vectorPanel = new SubControlPanel("vectors.title".translate) with IProguardKeepClass {
     def addWithIcon(iconFilename: String, component: JComponent) = add(new IconPanel(component, iconFilename))
+
     def addWithIcon(image: BufferedImage, component: JComponent) = add(new IconPanel(component, new ImageIcon(image)))
   }
   vectorPanel.add(new MyRadioButton("vectors.centered".translate, vectorViewModel.centered = true, vectorViewModel.centered, vectorViewModel.addListener))
@@ -101,24 +104,34 @@ class RampControlPanelBody(model: RampModel, wordModel: WordModel,
     val rect = new Rectangle2D.Double(0, 0, 1, 1)
     val vector = new Vector(RampDefaults.totalForceColor, "total-force".literal, "force.abbrev.total".translate, () => new Vector2D(50, 0), (v: Vector2D, c: Color) => {c})
     val vectorNode = new VectorNode(new ModelViewTransform2D(rect, rect), vector, new ConstantVectorValue(new Vector2D(50, 0)), 10)
-    val bufIm=BufferedImageUtils.toBufferedImage(vectorNode.toImage)
-    BufferedImageUtils.multiScaleToHeight(bufIm,40)
+    val bufIm = BufferedImageUtils.toBufferedImage(vectorNode.toImage)
+    BufferedImageUtils.multiScaleToHeight(bufIm, 40)
   }
 
   val frictionPanel = new SubControlPanel("controls.friction".translate)
-  val onButton = new MyRadioButton("On",model.frictionless = false, !model.frictionless,model.addListener)
-  val offButton = new MyRadioButton("Off",model.frictionless = true, model.frictionless,model.addListener)
-  val panel =new JPanel
+  val onButton = new MyRadioButton("On", model.frictionless = false, !model.frictionless, model.addListener)
+  val offButton = new MyRadioButton("Off", model.frictionless = true, model.frictionless, model.addListener)
+  val panel = new JPanel
   panel.add(onButton)
   panel.add(offButton)
   frictionPanel.add(panel)
   add(frictionPanel)
 
   val rampPanel = new SubControlPanel("ramp.controls.title".translate)
-//  rampPanel.add(new MyCheckBox("controls.frictionless".translate, model.frictionless_=, model.frictionless, model.addListener))
+  //  rampPanel.add(new MyCheckBox("controls.frictionless".translate, model.frictionless_=, model.frictionless, model.addListener))
 
   val positionSlider = new ScalaValueControl(RampDefaults.MIN_X, RampDefaults.MAX_X, "object.position".translate, "0.0".literal, "units.meters".translate,
-    () => model.bead.position, model.bead.setPosition, model.bead.addListener)
+    () => model.bead.position, x => model.bead.setPosition(x), model.bead.addListener)
+  positionSlider.getSlider.addMouseListener(new MouseAdapter() {
+    override def mousePressed(e: MouseEvent) = {
+      val x:Double = if (model.bead.position > RampDefaults.MAX_X) RampDefaults.MAX_X
+      else if (model.bead.position < RampDefaults.MIN_X) RampDefaults.MIN_X
+      else model.bead.position
+      model.bead.setPosition(x)
+      model.bead.attach()
+      model.bead.setVelocity(0.0)
+    }
+  })
   rampPanel.add(positionSlider)
 
   val angleSlider = new ScalaValueControl(0, 90, "property.ramp-angle".translate, "0.0".literal, "units.degrees".translate,

@@ -10,8 +10,8 @@ object RampDefaults {
 
   val FRICTIONLESS_DEFAULT = true
 
-  val MIN_X = -10
-  val MAX_X = 10
+  val MIN_X = -10.0
+  val MAX_X = 10.0
 
 //  val worldDefaultScale = 0.81
 //  val worldDefaultScale = 0.75
