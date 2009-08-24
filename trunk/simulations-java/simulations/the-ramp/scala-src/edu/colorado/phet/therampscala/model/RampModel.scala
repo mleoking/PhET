@@ -194,7 +194,7 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngl
   }
 
   private var _walls = true
-  private var _frictionless = true
+  private var _frictionless = RampDefaults.FRICTIONLESS_DEFAULT
   private var _selectedObject = RampDefaults.objects(0)
 
   val rampSegments = new ArrayBuffer[RampSegment]
@@ -239,7 +239,7 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngl
     super.resetAll()
     clearHistory()
     selectedObject = RampDefaults.objects(0)
-    frictionless = false
+    frictionless = RampDefaults.FRICTIONLESS_DEFAULT
     walls = true
     resetBead()
     manBead.setPosition(defaultManPosition)

@@ -8,6 +8,8 @@ object RampDefaults {
   val FBD_LABEL_MAX_OFFSET = 500
   val BODY_LABEL_MAX_OFFSET = 3
 
+  val FRICTIONLESS_DEFAULT = true
+
   val MIN_X = -10
   val MAX_X = 10
 
