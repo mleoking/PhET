@@ -179,7 +179,7 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngl
   def stepRecord(): Unit = stepRecord(RampDefaults.DT_DEFAULT)
 
   private var _walls = true
-  private var _frictionless = false
+  private var _frictionless = true
   private var _selectedObject = RampDefaults.objects(0)
 
   val rampSegments = new ArrayBuffer[RampSegment]

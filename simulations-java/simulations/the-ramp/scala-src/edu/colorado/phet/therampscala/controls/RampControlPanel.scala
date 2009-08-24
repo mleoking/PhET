@@ -15,6 +15,7 @@ import model._
 
 import scalacommon.math.Vector2D
 import scalacommon.swing.MyRadioButton
+import scalacommon.util.Observable
 import swing.{MyCheckBox, ScalaValueControl}
 import edu.colorado.phet.scalacommon.Predef._
 import RampResources._
@@ -104,8 +105,27 @@ class RampControlPanelBody(model: RampModel, wordModel: WordModel,
     BufferedImageUtils.multiScaleToHeight(bufIm,40)
   }
 
+//  class FrictionModel extends Observable{
+//    private var _value = false
+//    def value = _value
+//    def value_=(b:Boolean)={
+//      _value=b
+//      notifyListeners()
+//    }
+//  }
+//  val frictionModel =new FrictionModel
+  val frictionPanel = new SubControlPanel("ramp.controls.friction".translate)
+  val onButton = new MyRadioButton("On",model.frictionless = false, !model.frictionless,model.addListener)
+  val offButton = new MyRadioButton("Off",model.frictionless = true, model.frictionless,model.addListener)
+  val panel =new JPanel
+  panel.add(onButton)
+  panel.add(offButton)
+  frictionPanel.add(panel)
+//  frictionPanel.add(new MyCheckBox(""))
+  add(frictionPanel)
+
   val rampPanel = new SubControlPanel("ramp.controls.title".translate)
-  rampPanel.add(new MyCheckBox("controls.frictionless".translate, model.frictionless_=, model.frictionless, model.addListener))
+//  rampPanel.add(new MyCheckBox("controls.frictionless".translate, model.frictionless_=, model.frictionless, model.addListener))
 
   val positionSlider = new ScalaValueControl(RampDefaults.MIN_X, RampDefaults.MAX_X, "object.position".translate, "0.0".literal, "units.meters".translate,
     () => model.bead.position, model.bead.setPosition, model.bead.addListener)
