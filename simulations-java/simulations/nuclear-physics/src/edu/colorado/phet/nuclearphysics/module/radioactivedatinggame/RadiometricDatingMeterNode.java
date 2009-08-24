@@ -75,13 +75,13 @@ public class RadiometricDatingMeterNode extends PNode {
 	
 	// Array that maps values to the strings used for the custom nucleus half
 	// life.  THESE MUST BE MANUALLY KEPT IN SYNC WITH THE STRINGS IN THE
-	// LOCALIZTION FILE.
+	// LOCALIZATION FILE.
 	// TODO: Localization.
 	private static final ValueStringPair [] HALF_LIFE_VALUE_STRING_PAIRS = {
-		new ValueStringPair(HalfLifeInfo.convertYearsToMs(100E3), "100 ky"),
-		new ValueStringPair(HalfLifeInfo.convertYearsToMs(1E6), "1 my"),
-		new ValueStringPair(HalfLifeInfo.convertYearsToMs(10E6), "10 my"),
-		new ValueStringPair(HalfLifeInfo.convertYearsToMs(100E6), "100 my"),
+		new ValueStringPair(HalfLifeInfo.convertYearsToMs(100E3), NuclearPhysicsStrings.HALF_LIFE_100_THOUSAND_YEARS),
+		new ValueStringPair(HalfLifeInfo.convertYearsToMs(1E6), NuclearPhysicsStrings.HALF_LIFE_1_MILLION_YEARS),
+		new ValueStringPair(HalfLifeInfo.convertYearsToMs(10E6), NuclearPhysicsStrings.HALF_LIFE_10_MILLION_YEARS),
+		new ValueStringPair(HalfLifeInfo.convertYearsToMs(100E6), NuclearPhysicsStrings.HALF_LIFE_100_MILLION_YEARS),
 	};
 	
     //------------------------------------------------------------------------
