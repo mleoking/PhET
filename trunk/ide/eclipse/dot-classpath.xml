@@ -156,8 +156,10 @@
 	<classpathentry kind="src" path="simulations-java/simulations/mri/data"/>
 	<classpathentry kind="src" path="simulations-java/simulations/mvc-example/src"/>
 	<classpathentry kind="src" path="simulations-java/simulations/mvc-example/data"/>
-    <classpathentry kind="src" path="simulations-java/simulations/natural-selection/src"/>
+	<classpathentry kind="src" path="simulations-java/simulations/natural-selection/src"/>
 	<classpathentry kind="src" path="simulations-java/simulations/natural-selection/data"/>
+	<classpathentry kind="src" path="simulations-java/simulations/neuron/src"/>
+	<classpathentry kind="src" path="simulations-java/simulations/neuron/data"/>
 	<classpathentry kind="src" path="simulations-java/simulations/nuclear-physics/src"/>
 	<classpathentry kind="src" path="simulations-java/simulations/nuclear-physics/data"/>
 	<classpathentry kind="src" path="simulations-java/simulations/optical-quantum-control/src"/>
@@ -188,7 +190,7 @@
 	<classpathentry kind="src" path="simulations-java/simulations/semiconductor/data"/>
 	<classpathentry kind="src" path="simulations-java/simulations/signal-circuit/src"/>
 	<classpathentry kind="src" path="simulations-java/simulations/signal-circuit/data"/>
-    <classpathentry kind="src" path="simulations-java/simulations/sim-example/src"/>
+	<classpathentry kind="src" path="simulations-java/simulations/sim-example/src"/>
 	<classpathentry kind="src" path="simulations-java/simulations/sim-example/data"/>
 	<classpathentry kind="src" path="simulations-java/simulations/sim-template/src"/>
 	<classpathentry kind="src" path="simulations-java/simulations/sim-template/data"/>
