@@ -133,9 +133,6 @@ public class LabeledExplodingAtomicNucleusNode extends AbstractAtomicNucleusNode
         _isotopeChemSymbol.setScale( NORMAL_LABEL_SCALING_FACTOR );
         addChild(_isotopeChemSymbol);
         
-        // Set the label based on the configuration of the nucleus.
-        updateLabel();
-        
         // Register as a listener for the model representation.
         _atomicNucleus.addListener(_atomicNucleusAdapter);
         
@@ -146,7 +143,8 @@ public class LabeledExplodingAtomicNucleusNode extends AbstractAtomicNucleusNode
         setPickable( false );
         setChildrenPickable( false );
 
-        updateLabelPositions();
+        // Set the label based on the configuration of the nucleus.
+        updateLabel();
         updatePosition();
     }
 
@@ -230,13 +228,14 @@ public class LabeledExplodingAtomicNucleusNode extends AbstractAtomicNucleusNode
     	_isotopeChemSymbolShadow.setScale( scale );
     	_isotopeNumber.setScale( scale );
     	_isotopeNumberShadow.setScale( scale );
+    	
+    	updateLabelPositions();
     }
     
     /**
-     * Update the position of the labels within the node.  This is generally
-     * called when something 
+     * Update the position of the labels within the node.
      */
-    void updateLabelPositions(){
+    private void updateLabelPositions(){
     	
     	double totalWidth = _isotopeNumber.getFullBoundsReference().getWidth() +
     		_isotopeChemSymbol.getFullBoundsReference().getWidth();
@@ -303,7 +302,6 @@ public class LabeledExplodingAtomicNucleusNode extends AbstractAtomicNucleusNode
 	    
 	    // Update the label to reflect the new element.
 	    updateLabel();
-	    updateLabelPositions();
 	}
 
 	@Override
