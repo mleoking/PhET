@@ -236,8 +236,11 @@ class ReturnObjectButton(model:RampModel) extends GradientButtonNode("controls.r
 }
 
 class ClearHeatButton(model:RampModel) extends GradientButtonNode("controls.clear-heat".translate,Color.yellow){
-  setOffset(RampDefaults.worldWidth/2.0-getFullBounds.getWidth/2,RampDefaults.worldHeight*0.1)
-  def updateVisibility() = setVisible(model.bead.getRampThermalEnergy > 2000)
+  setOffset(RampDefaults.worldWidth/2.0-getFullBounds.getWidth/2,RampDefaults.worldHeight*0.25)
+  def updateVisibility() = {
+    println("model.bead.getRampThermalEnergy = "+model.bead.getRampThermalEnergy )
+    setVisible(model.bead.getRampThermalEnergy > 2000)
+  }
   updateVisibility()
   model.addListener(updateVisibility)
 
