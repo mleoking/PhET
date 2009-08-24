@@ -221,7 +221,18 @@ abstract class AbstractRampCanvas(model: RampModel,
   addWorldChild(new RaindropView(model, this))
   addWorldChild(new FireDogView(model, this))
   addWorldChild(new ClearHeatButton(model))
+  addWorldChild(new ReturnObjectButton(model))
+}
 
+class ReturnObjectButton(model:RampModel) extends GradientButtonNode("controls.return-object".translate,Color.orange){
+  setOffset(RampDefaults.worldWidth/2.0-getFullBounds.getWidth/2,RampDefaults.worldHeight*0.2)
+  def updateVisibility() = setVisible(model.beadInModelViewportRange)
+  updateVisibility()
+  model.addListener(updateVisibility)
+
+  addActionListener(new ActionListener(){
+    def actionPerformed(e: ActionEvent) = model.returnBead()
+  })
 }
 
 class ClearHeatButton(model:RampModel) extends GradientButtonNode("controls.clear-heat".translate,Color.yellow){
