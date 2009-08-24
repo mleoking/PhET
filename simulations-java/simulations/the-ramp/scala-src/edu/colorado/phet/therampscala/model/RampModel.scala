@@ -207,10 +207,10 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngl
     //todo: allow different values for different segments
     def getTotalFriction(objectFriction: Double) = new LinearFunction(0, 1, objectFriction, objectFriction * 0.75).evaluate(rampSegments(0).wetness)
   }
-  val bead = new Bead(new BeadState(defaultBeadPosition, 0, _selectedObject.mass, _selectedObject.staticFriction, _selectedObject.kineticFriction, 0.0,0.0),
+  val bead = new Bead(new BeadState(defaultBeadPosition, 0, _selectedObject.mass, _selectedObject.staticFriction, _selectedObject.kineticFriction, 0.0, 0.0),
     _selectedObject.height, _selectedObject.width, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction, surfaceFrictionStrategy, walls, wallRange)
 
-  def createBead(x: Double, width: Double, height: Double) = new Bead(new BeadState(x, 0, 10, 0, 0, 0.0,0.0), height, width, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction, surfaceFrictionStrategy, walls, wallRange)
+  def createBead(x: Double, width: Double, height: Double) = new Bead(new BeadState(x, 0, 10, 0, 0, 0.0, 0.0), height, width, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction, surfaceFrictionStrategy, walls, wallRange)
 
   def createBead(x: Double, width: Double): Bead = createBead(x, width, 3)
 
@@ -277,7 +277,7 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngl
     private val incomingSpeed = 0.5
     private val outgoingSpeed = 1.0
     private val random = new java.util.Random()
-    private val stoppingDist = -5 +random.nextDouble*5-2.5
+    private val stoppingDist = -5 + random.nextDouble * 5 - 2.5
 
     def stepInTime(dt: Double) = {
       if (dogbead.position < stoppingDist && raindropCount < maxDrops) {
@@ -304,10 +304,12 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngl
   var totalThermalEnergyOnClear = 0.0
 
   def clearHeat() = {
-    totalThermalEnergyOnClear = bead.thermalEnergy
-    val fireDog = new MyFireDog //cue the fire dog, which will eventually clear the thermal energy
-    fireDogs += fireDog //updates when clock ticks
-    fireDogAddedListeners.foreach(_(fireDog))
+    if (fireDogs.length == 0) {
+      totalThermalEnergyOnClear = bead.thermalEnergy
+      val fireDog = new MyFireDog //cue the fire dog, which will eventually clear the thermal energy
+      fireDogs += fireDog //updates when clock ticks
+      fireDogAddedListeners.foreach(_(fireDog))
+    }
   }
 
   private val maxDrops = 60
@@ -317,7 +319,7 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngl
     rampSegments(1).dropHit()
     val reducedEnergy = totalThermalEnergyOnClear / (maxDrops / 2.0)
     bead.thermalEnergy = bead.thermalEnergy - reducedEnergy
-    bead.setCrashEnergy( java.lang.Math.max(bead.getCrashEnergy - reducedEnergy,0))
+    bead.setCrashEnergy(java.lang.Math.max(bead.getCrashEnergy - reducedEnergy, 0))
     if (bead.thermalEnergy < 1) bead.thermalEnergy = 0.0
   }
 
@@ -441,7 +443,7 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngl
     while (elapsedTimeHistory.length > 100) elapsedTimeHistory.remove(0)
     val avg = elapsedTimeHistory.foldLeft(0L)(_ + _) / elapsedTimeHistory.length
     ()
-//    println("elapsed time average (ns) = "+avg)
+    //    println("elapsed time average (ns) = "+avg)
   }
 
   def stepRecord(dt: Double) = doStep(dt)
