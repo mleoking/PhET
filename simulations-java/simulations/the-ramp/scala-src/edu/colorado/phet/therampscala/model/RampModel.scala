@@ -170,8 +170,15 @@ class CoordinateFrameModel(snapToAngles: List[() => Double]) extends Observable 
   }
 }
 
+case class RampState(angle:Double,heat:Double,wetness:Double)
+
 //This class stores all state information used in record/playback
-case class RecordedState(angle: Double, selectedObject: ScalaRampObjectState, beadState: BeadState, manBeadState: BeadState, appliedForce: Double, walls: Boolean)
+case class RecordedState(rampState:RampState,
+                         selectedObject: ScalaRampObjectState,
+                         beadState: BeadState,
+                         manBeadState: BeadState,
+                         appliedForce: Double,
+                         walls: Boolean)
 
 class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngle: Double) extends RecordModel[RecordedState] with ObjectModel {
   setPaused(pausedOnReset)
@@ -335,7 +342,13 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngl
   }
 
   def setPlaybackState(state: RecordedState) = {
-    setRampAngle(state.angle)
+    setRampAngle(state.rampState.angle)
+    rampSegments(0).setHeat(state.rampState.heat)
+    rampSegments(1).setHeat(state.rampState.heat)
+
+    rampSegments(0).setWetness(state.rampState.wetness)
+    rampSegments(1).setWetness(state.rampState.wetness)
+
     selectedObject = state.selectedObject.toObject
     bead.state = state.beadState //nice code
     bead.parallelAppliedForce = state.appliedForce
@@ -430,7 +443,8 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngl
     rampSegments(1).setHeat(rampHeat)
     rampSegments(0).stepInTime(dt)
     rampSegments(1).stepInTime(dt)
-    recordHistory += new DataPoint(getTime, new RecordedState(getRampAngle, selectedObject.state, bead.state, manBead.state, bead.parallelAppliedForce, walls))
+    recordHistory += new DataPoint(getTime, new RecordedState(new RampState(getRampAngle,rampSegments(1).heat,rampSegments(1).wetness), 
+      selectedObject.state, bead.state, manBead.state, bead.parallelAppliedForce, walls))
     stepListeners.foreach(_())
     notifyListeners() //signify to the Timeline that more data has been added
   }
