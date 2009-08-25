@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.IdentityHashMap;
 import java.util.Iterator;
 
+import javax.swing.JOptionPane;
+
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
@@ -535,6 +537,28 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
 		if (_mapDatableItemsToGuessResults.size() > 0){
 			_resetGuessesButtonNode.setVisible(true);
 		}
+		
+		// See if there are guesses for every node and whether they are all
+		// correct.  If so, show a special dialog indicating that they got
+		// everything correct.
+		boolean allItemsGuessedAndGuessesCorrect = true;
+        for (DatableItem item : _model.getItemIterable()){
+        	if (_mapDatableItemsToGuessResults.containsKey(item)){
+        		if (!_mapDatableItemsToGuessResults.get(item).isGuessGood()){
+        			allItemsGuessedAndGuessesCorrect = false;
+        			break;
+        		}
+        	}
+        	else{
+        		allItemsGuessedAndGuessesCorrect = false;
+        		break;
+        	}
+        }
+        if (allItemsGuessedAndGuessesCorrect){
+        	// Put up the dialog.
+        	JOptionPane.showMessageDialog(this, NuclearPhysicsStrings.GUESSES_CORRECT_MESSAGE,
+        			NuclearPhysicsStrings.GUESSES_CORRECT_TITLE, JOptionPane.PLAIN_MESSAGE);
+        }
     }
     
     /**
