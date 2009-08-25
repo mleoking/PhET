@@ -60,16 +60,17 @@ public class BetaDecayControlPanel extends ControlPanel {
         
         // Add the check box for label visibility.
         // TODO: i18n
+        addVerticalSpace( 15 );
         _labelsVisibleCheckBox = new JCheckBox("Show Labels", labelVisibilityModel.isVisible());
         _labelsVisibleCheckBox.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				labelVisibilityModel.setIsVisible(_labelsVisibleCheckBox.isSelected());
 			}
 		});
-        addControlFullWidth(_labelsVisibleCheckBox);
+        addControl(_labelsVisibleCheckBox);
         
         // Add the Reset All button.
-        addVerticalSpace( 10 );
+        addVerticalSpace( 15 );
         addResetAllButton( piccoloModule );
     }
     
