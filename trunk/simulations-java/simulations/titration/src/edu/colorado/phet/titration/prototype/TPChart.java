@@ -65,7 +65,6 @@ public class TPChart extends JFreeChart {
         }
         
         public void addPoint( double x, double y ) {
-//            System.out.println( "TPPlot.add( " + x + "," + y + ")" );//XXX
             series.add( x, y );
         }
         
