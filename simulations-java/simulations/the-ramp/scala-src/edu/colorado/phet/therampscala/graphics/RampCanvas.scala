@@ -6,10 +6,10 @@ import common.phetcommon.view.util.{SwingUtils}
 import common.piccolophet.nodes.GradientButtonNode
 import java.awt.Color
 import java.awt.geom.{Point2D}
-import javax.swing.{JFrame, JDialog}
 import common.piccolophet.PhetPCanvas
 import java.awt.event._
 
+import javax.swing.{Timer, JFrame, JDialog}
 import model._
 import scalacommon.math.Vector2D
 import scalacommon.Predef._
@@ -70,6 +70,18 @@ abstract class AbstractRampCanvas(model: RampModel,
 
   val fbdWidth = RampDefaults.freeBodyDiagramWidth
   val fbdNode = new FreeBodyDiagramNode(freeBodyDiagramModel, 200, 200, fbdWidth, fbdWidth, model.coordinateFrameModel, coordinateSystemModel.adjustable, PhetCommonResources.getImage("buttons/maximizeButton.png".literal))
+
+  def updateFBDLocation() = {
+    if (getHeight>0 && getWidth>0)
+    fbdNode.setOffset(getVisibleModelBounds.getX+200,getVisibleModelBounds.getY)
+  }
+  addComponentListener(new ComponentAdapter(){
+    override def componentResized(e: ComponentEvent) = {
+      updateFBDLocation()
+    }
+  })
+  updateFBDLocation()
+  
   val fbdListener = (pt: Point2D) => {model.bead.parallelAppliedForce = pt.getX}
   fbdNode.addListener(fbdListener)
   fbdNode.setOffset(10, 10)
@@ -84,21 +96,21 @@ abstract class AbstractRampCanvas(model: RampModel,
   //create FBD canvas
   val windowFBDNode = new FreeBodyDiagramNode(freeBodyDiagramModel, 600, 600, fbdWidth, fbdWidth, model.coordinateFrameModel, coordinateSystemModel.adjustable, PhetCommonResources.getImage("buttons/minimizeButton.png".literal))
   windowFBDNode.addListener(fbdListener)
-  val canvas = new PhetPCanvas
-  canvas.addComponentListener(new ComponentAdapter {
+  val windowedFBDCanvas = new PhetPCanvas
+  windowedFBDCanvas.addComponentListener(new ComponentAdapter {
     override def componentResized(e: ComponentEvent) = updateNodeSize()
   })
   updateNodeSize()
   def updateNodeSize() = {
-    if (canvas.getWidth > 0 && canvas.getHeight > 0) {
-      val w = Math.min(canvas.getWidth, canvas.getHeight)
+    if (windowedFBDCanvas.getWidth > 0 && windowedFBDCanvas.getHeight > 0) {
+      val w = Math.min(windowedFBDCanvas.getWidth, windowedFBDCanvas.getHeight)
       val inset = 40
       windowFBDNode.setSize(w - inset * 2, w - inset * 2)
       windowFBDNode.setOffset(inset, inset)
     }
   }
-  canvas.addScreenChild(windowFBDNode)
-  fbdWindow.setContentPane(canvas)
+  windowedFBDCanvas.addScreenChild(windowFBDNode)
+  fbdWindow.setContentPane(windowedFBDCanvas)
 
   var initted = false
   defineInvokeAndPass(freeBodyDiagramModel.addListenerByName) {
