@@ -93,7 +93,7 @@ public class RadiometricDatingMeter {
 
 	public RadiometricDatingMeter( ModelContainingDatableItems model ) {
 		// Construct with the probe in a default location.
-		this(model, new Point2D.Double(-2, -7.5), false);
+		this(model, new Point2D.Double(-2, -5.0), false);
 	}
 
 	//----------------------------------------------------------------------------
