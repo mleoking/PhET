@@ -1,9 +1,8 @@
 /* Copyright 2009, University of Colorado */
 
-package edu.colorado.phet.nuclearphysics.module.alphadecay;
+package edu.colorado.phet.nuclearphysics.common.model;
 
 import edu.colorado.phet.nuclearphysics.common.NucleusType;
-import edu.colorado.phet.nuclearphysics.common.model.NuclearDecayModelListener;
 
 /**
  * This interface is used, generally by a control panel, to set the type of

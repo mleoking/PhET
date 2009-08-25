@@ -12,11 +12,11 @@ import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
 import edu.colorado.phet.nuclearphysics.common.NucleusType;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.NuclearDecayModelListener;
+import edu.colorado.phet.nuclearphysics.common.model.NucleusTypeControl;
 import edu.colorado.phet.nuclearphysics.model.AdjustableHalfLifeCompositeNucleus;
 import edu.colorado.phet.nuclearphysics.model.AlphaDecayCompositeNucleus;
 import edu.colorado.phet.nuclearphysics.model.AlphaParticle;
 import edu.colorado.phet.nuclearphysics.model.Polonium211CompositeNucleus;
-import edu.colorado.phet.nuclearphysics.module.alphadecay.NucleusTypeControl;
 
 /**
  * This class contains the Model portion of the Model-View-Controller 

@@ -12,12 +12,12 @@ import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
 import edu.colorado.phet.nuclearphysics.common.NucleusType;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.colorado.phet.nuclearphysics.common.model.NuclearDecayModelListener;
+import edu.colorado.phet.nuclearphysics.common.model.NucleusTypeControl;
 import edu.colorado.phet.nuclearphysics.common.model.SubatomicParticle;
 import edu.colorado.phet.nuclearphysics.model.Carbon14CompositeNucleus;
 import edu.colorado.phet.nuclearphysics.model.CompositeAtomicNucleus;
 import edu.colorado.phet.nuclearphysics.model.Hydrogen3CompositeNucleus;
 import edu.colorado.phet.nuclearphysics.model.LightAdjustableCompositeNucleus;
-import edu.colorado.phet.nuclearphysics.module.alphadecay.NucleusTypeControl;
 import edu.colorado.phet.nuclearphysics.module.betadecay.LabelVisibilityModel;
 
 /**

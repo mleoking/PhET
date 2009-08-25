@@ -1,6 +1,6 @@
 /* Copyright 2007-2008, University of Colorado */
 
-package edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus;
+package edu.colorado.phet.nuclearphysics.common.model;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -12,11 +12,8 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
 import edu.colorado.phet.nuclearphysics.common.NucleusType;
-import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
-import edu.colorado.phet.nuclearphysics.common.model.NuclearDecayModelListener;
 import edu.colorado.phet.nuclearphysics.model.HeavyAdjustableHalfLifeNucleus;
 import edu.colorado.phet.nuclearphysics.model.Polonium211Nucleus;
-import edu.colorado.phet.nuclearphysics.module.alphadecay.NucleusTypeControl;
 import edu.colorado.phet.nuclearphysics.module.betadecay.LabelVisibilityModel;
 
 /**
