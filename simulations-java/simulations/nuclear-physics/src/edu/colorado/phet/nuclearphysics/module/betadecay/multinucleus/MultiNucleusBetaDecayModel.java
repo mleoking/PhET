@@ -10,12 +10,12 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
 import edu.colorado.phet.nuclearphysics.common.NucleusType;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
+import edu.colorado.phet.nuclearphysics.common.model.MultiNucleusDecayModel;
 import edu.colorado.phet.nuclearphysics.common.model.SubatomicParticle;
 import edu.colorado.phet.nuclearphysics.model.Carbon14Nucleus;
 import edu.colorado.phet.nuclearphysics.model.HeavyAdjustableHalfLifeNucleus;
 import edu.colorado.phet.nuclearphysics.model.Hydrogen3Nucleus;
 import edu.colorado.phet.nuclearphysics.model.LightAdjustableHalfLifeNucleus;
-import edu.colorado.phet.nuclearphysics.module.alphadecay.multinucleus.MultiNucleusDecayModel;
 import edu.colorado.phet.nuclearphysics.module.betadecay.LabelVisibilityModel;
 
 /**

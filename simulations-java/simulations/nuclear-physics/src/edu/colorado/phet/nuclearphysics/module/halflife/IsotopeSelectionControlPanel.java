@@ -32,8 +32,8 @@ import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.common.NucleusDisplayInfo;
 import edu.colorado.phet.nuclearphysics.common.NucleusType;
+import edu.colorado.phet.nuclearphysics.common.model.NucleusTypeControl;
 import edu.colorado.phet.nuclearphysics.model.NuclearDecayListenerAdapter;
-import edu.colorado.phet.nuclearphysics.module.alphadecay.NucleusTypeControl;
 import edu.colorado.phet.nuclearphysics.view.LabeledNucleusSphereNode;
 import edu.umd.cs.piccolo.PNode;
 

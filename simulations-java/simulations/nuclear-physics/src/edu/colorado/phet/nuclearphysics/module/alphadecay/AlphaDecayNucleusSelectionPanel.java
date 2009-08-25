@@ -27,6 +27,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.common.NucleusType;
+import edu.colorado.phet.nuclearphysics.common.model.NucleusTypeControl;
 import edu.colorado.phet.nuclearphysics.model.NuclearDecayListenerAdapter;
 import edu.colorado.phet.nuclearphysics.view.LabeledNucleusImageNode;
 import edu.umd.cs.piccolo.PNode;

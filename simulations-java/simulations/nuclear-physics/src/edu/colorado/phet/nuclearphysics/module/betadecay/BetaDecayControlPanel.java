@@ -12,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
-import edu.colorado.phet.nuclearphysics.module.alphadecay.NucleusTypeControl;
+import edu.colorado.phet.nuclearphysics.common.model.NucleusTypeControl;
 
 /**
  * This class represents the control panel that presents the legend and allows
