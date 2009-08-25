@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.ArrayList;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -21,8 +22,10 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 public class TPControlPanel extends JPanel {
     
     private static final String VOLUME_UNITS = "mL";
-    private static final String K_UNITS = "";
+    private static final String CONCENTRATION_FORMAT = "0.0E0";
     private static final String CONCENTRATION_UNITS = "M";
+    private static final String K_FORMAT = "0.0E0";
+    private static final String K_UNITS = "";
     
     private static final double X_MIN = TPConstants.TITRANT_VOLUME_RANGE.getMin();
     private static final double X_MAX = TPConstants.TITRANT_VOLUME_RANGE.getMax();
@@ -45,15 +48,40 @@ public class TPControlPanel extends JPanel {
     
     private static class ConcentrationControl extends LogarithmicValueControl {
         public ConcentrationControl( String label ) {
-            super( TPConstants.CONCENTRATION_RANGE.getMin(), TPConstants.CONCENTRATION_RANGE.getMax(), label, "0.0E0", CONCENTRATION_UNITS );
+            super( TPConstants.CONCENTRATION_RANGE.getMin(), TPConstants.CONCENTRATION_RANGE.getMax(), label, CONCENTRATION_FORMAT, CONCENTRATION_UNITS );
             setValue( TPConstants.CONCENTRATION_RANGE.getMin() );
         }
     }
     
     private static class KControl extends LogarithmicValueControl {
+        
+        private ArrayList<ChangeListener> listeners;
+        
         public KControl( String label ) {
-            super( TPConstants.K_RANGE.getMin(), TPConstants.K_RANGE.getMax(), label, "0.0E0", K_UNITS );
+            super( TPConstants.K_RANGE.getMin(), TPConstants.K_RANGE.getMax(), label, K_FORMAT, K_UNITS );
             setValue( TPConstants.K_RANGE.getMin() );
+            listeners = new ArrayList<ChangeListener>();
+        }
+        
+        /**
+         * Changes the control's value without notifying listeners.
+         * @param value
+         */
+        public void setValueNoNotify( double value ) {
+            ArrayList<ChangeListener> listenersCopy = new ArrayList<ChangeListener>( listeners ); // avoid ConcurrentModificationException
+            for ( ChangeListener listener : listenersCopy ) {
+                removeChangeListener( listener );
+            }
+            setValue( value );
+            for ( ChangeListener listener : listenersCopy ) {
+                super.addChangeListener( listener );
+            }
+        }
+        
+        @Override
+        public void addChangeListener( ChangeListener listener ) {
+            super.addChangeListener( listener );
+            listeners.add( listener );
         }
     }
     
@@ -73,48 +101,54 @@ public class TPControlPanel extends JPanel {
         modelComboBox.addItemListener(  new ItemListener() {
             public void itemStateChanged( ItemEvent e ) {
                 if ( e.getStateChange() == ItemEvent.SELECTED ) {
-                    updateChart();
+                    update( e.getSource() );
                 }
             }
         });
         
-        // solution concentration is constant
+        // solution volume is constant
         JLabel solutionVolumeLabel = new JLabel( "solution: " + TPConstants.SOLUTION_VOLUME + " " + VOLUME_UNITS );
         solutionVolumeLabel.setBorder( new EmptyBorder( 0, 5, 0, 0 ) );
         
-        // soution and titrant concentrations are variable 
+        // solution concentration 
         solutionConcentrationControl = new ConcentrationControl( "solution:" );
         solutionConcentrationControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                updateChart();
-            }
-        });
-        titrantConcentrationControl = new ConcentrationControl( "titrant:" );
-        titrantConcentrationControl.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                updateChart();
+                update( e.getSource() );
             }
         });
         
-        // disassociation constants are variable
+        // titrant concentration
+        titrantConcentrationControl = new ConcentrationControl( "titrant:" );
+        titrantConcentrationControl.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                update( e.getSource() );
+            }
+        });
+        
+        // K1 disassociation constant
         k1Control = new KControl( "K1:" );
         k1Control.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                updateChart();
+                update( e.getSource() );
             }
-        });
+        } );
+        
+        // K2 disassociation constant
         k2Control = new KControl( "K2:" );
-        k1Control.addChangeListener( new ChangeListener() {
+        k2Control.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                updateChart();
+                update( e.getSource() );
             }
-        });
+        } );
+        
+        // K3 disassociation constant
         k3Control = new KControl( "K3:" );
-        k1Control.addChangeListener( new ChangeListener() {
+        k3Control.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                updateChart();
+                update( e.getSource() );
             }
-        });
+        } );
         
         // layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
@@ -136,10 +170,14 @@ public class TPControlPanel extends JPanel {
         layout.addFilledComponent( new JSeparator(), row++, column, GridBagConstraints.HORIZONTAL );
         layout.addComponent( k3Control, row++, column );
         
-        updateChart();
+        update( k1Control );
     }
     
-    private void updateChart() {
+    private void update( Object control ) {
+        
+        if ( control instanceof KControl ) {
+            adjustKControls( (KControl)control );
+        }
         
         Object choice = modelComboBox.getSelectedItem();
        
@@ -168,7 +206,6 @@ public class TPControlPanel extends JPanel {
         k1Control.setEnabled( false );
         k2Control.setEnabled( false );
         k3Control.setEnabled( false );
-        adjustKControls();
         // data points
         chart.clear();
         for ( double x = X_MIN; x <= X_MAX; x += X_DELTA ) {
@@ -186,7 +223,6 @@ public class TPControlPanel extends JPanel {
         k1Control.setEnabled( true );
         k2Control.setEnabled( false );
         k3Control.setEnabled( false );
-        adjustKControls();
         // data points
         chart.clear();
         for ( double x = X_MIN; x <= X_MAX; x += X_DELTA ) {
@@ -205,7 +241,6 @@ public class TPControlPanel extends JPanel {
         k1Control.setEnabled( false );
         k2Control.setEnabled( false );
         k3Control.setEnabled( false );
-        adjustKControls();
         // data points
         chart.clear();
         for ( double x = X_MIN; x <= X_MAX; x += X_DELTA ) {
@@ -223,7 +258,6 @@ public class TPControlPanel extends JPanel {
         k1Control.setEnabled( true );
         k2Control.setEnabled( false );
         k3Control.setEnabled( false );
-        adjustKControls();
         // data points
         chart.clear();
         for ( double x = X_MIN; x <= X_MAX; x += X_DELTA ) {
@@ -242,7 +276,6 @@ public class TPControlPanel extends JPanel {
         k1Control.setEnabled( true );
         k2Control.setEnabled( true );
         k3Control.setEnabled( false );
-        adjustKControls();
         // data points
         chart.clear();
         for ( double x = X_MIN; x <= X_MAX; x += X_DELTA ) {
@@ -262,7 +295,6 @@ public class TPControlPanel extends JPanel {
         k1Control.setEnabled( true );
         k2Control.setEnabled( true );
         k3Control.setEnabled( true );
-        adjustKControls();
         // data points
         chart.clear();
         for ( double x = X_MIN; x <= X_MAX; x += X_DELTA ) {
@@ -279,9 +311,41 @@ public class TPControlPanel extends JPanel {
     }
     
     /*
-     * Ensure that K3 <= K2 <= K1
+     * Each slider can be dragged throughout its full range.
+     * If the condition K3 <= K2 <= K1 is violated, then the
+     * sliders that are not being dragged are adjusted.
      */
-    private void adjustKControls() {
-        //XXX
+    private void adjustKControls( KControl controlChanged ) {
+        if ( controlChanged == k1Control ){
+            // adjust K2
+            if ( k1Control.getValue() < k2Control.getValue() ) {
+                k2Control.setValueNoNotify( k1Control.getValue() );
+            }
+            // adjust K3
+            if ( k2Control.getValue() < k3Control.getValue() ) {
+                k3Control.setValueNoNotify( k2Control.getValue() );
+            }
+        }
+        else if ( controlChanged == k2Control ) {
+            // adjust K1
+            if ( k2Control.getValue() > k1Control.getValue() ) {
+                k1Control.setValueNoNotify( k2Control.getValue() );
+            }
+            // adjust K3
+            if ( k2Control.getValue() < k3Control.getValue() ) {
+                k3Control.setValueNoNotify( k2Control.getValue() );
+            }
+        }
+        else if ( controlChanged == k3Control ) {
+            // adjust K2
+            if ( k3Control.getValue() > k2Control.getValue()  ) {
+                k2Control.setValueNoNotify( k3Control.getValue() );
+               
+            }
+            // adjust K1
+            if ( k2Control.getValue() > k1Control.getValue() ) {
+                k1Control.setValueNoNotify( k2Control.getValue() );
+            }
+        }
     }
 }
