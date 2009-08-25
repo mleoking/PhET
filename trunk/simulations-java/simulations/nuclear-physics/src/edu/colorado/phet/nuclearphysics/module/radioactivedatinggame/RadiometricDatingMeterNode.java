@@ -155,8 +155,8 @@ public class RadiometricDatingMeterNode extends PNode {
 		_percentageDisplay.setPercentage(100);
 		
 		// Add the selection panel.
-		_elementSelectionPanel = new ElementSelectionPanel((int)Math.round(width * 0.9),
-				(int)Math.round(height * 0.5), meterModel, showCustom);
+		_elementSelectionPanel = new ElementSelectionPanel(meterModel,
+				showCustom);
 		_elementSelectionNode = new PSwing(_elementSelectionPanel);
 		_elementSelectionNode.setOffset( 
 				_meterBody.getFullBounds().width / 2 - _elementSelectionNode.getFullBounds().width / 2,
@@ -590,14 +590,16 @@ public class RadiometricDatingMeterNode extends PNode {
 	    }
 	}
 	
+	/**
+	 * Panel that allows the user to select the element to user for performing
+	 * the dating.
+	 */
 	private class ElementSelectionPanel extends VerticalLayoutPanel {
 
-		private final Font LABEL_FONT = new PhetFont(18, true);
+		private final Font LABEL_FONT = new PhetFont(16, true);
 		
-		public ElementSelectionPanel(int width, int height, final RadiometricDatingMeter meterModel, 
-				boolean showCustom){
+		public ElementSelectionPanel(final RadiometricDatingMeter meterModel, boolean showCustom){
 			
-			setPreferredSize(new Dimension(width, height));
 			setBackground(BODY_COLOR);
 			
 			// TODO - JPB TBD: Need to make strings into resources once finalized.
