@@ -1,3 +1,5 @@
+# 3.13.07 (34432) Aug 25, 2009
+8/25/09 Added ability to disable labels, other minor changes.
 # 3.13.06 (34321) Aug 19, 2009
 8/19/09 Implementation largely complete, publishing for internal review
 # 3.13.05 (33811) Jul 31, 2009
