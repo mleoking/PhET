@@ -19,7 +19,7 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 public class TPControlPanel extends JPanel {
     
     private static final String VOLUME_UNITS = "mL";
-    private static final String CONCENTRATION_FORMAT = "0.0E0";
+    private static final String CONCENTRATION_FORMAT = "0.000";
     private static final String CONCENTRATION_UNITS = "M";
     private static final String K_FORMAT = "0.0E0";
     private static final String K_UNITS = "";
