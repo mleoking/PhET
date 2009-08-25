@@ -13,6 +13,7 @@ class CenteredBoxStrategy(modelWidth: Double,
                           modelOffsetY: Double)
         extends PhetPCanvas.TransformStrategy {
   def this(dim: PDimension, canvas: JComponent) = this (dim.width, dim.height, canvas,0)
+  def this(modelWidth:Double,modelHeight:Double, canvas: JComponent) = this (modelWidth,modelHeight,canvas,0.0)
 
   def getTransform(): AffineTransform = {
     if (canvas.getWidth > 0 && canvas.getHeight > 0) {
