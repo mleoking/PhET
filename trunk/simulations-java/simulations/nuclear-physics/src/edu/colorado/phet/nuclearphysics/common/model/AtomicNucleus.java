@@ -14,6 +14,7 @@ import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
 import edu.colorado.phet.nuclearphysics.common.NucleusDisplayInfo;
 import edu.colorado.phet.nuclearphysics.common.NucleusType;
 import edu.colorado.phet.nuclearphysics.model.HalfLifeInfo;
+import edu.colorado.phet.nuclearphysics.model.LightAdjustableHalfLifeNucleus;
 
 public abstract class AtomicNucleus implements NuclearDecayControl {
     
@@ -706,4 +707,38 @@ public abstract class AtomicNucleus implements NuclearDecayControl {
                 ArrayList byProducts){}
         public void tunnelingRadiusChanged(){};
     }
+    
+    /**
+     * A main for testing that the half life calculation is correct.
+     * 
+     * @param args
+     */
+    public static void main(String[] args) {
+		double totalDecayTime = 0;
+		int numDecays = 20000;
+		AtomicNucleus nucleus = new LightAdjustableHalfLifeNucleus(new NuclearPhysicsClock(24, 30));
+		double halfLife = 1000;
+		nucleus.setHalfLife(halfLife);
+		int decayedBeforeHalfLife = 0;
+		int decayedAfterHalfLife = 0;
+		int decayedAtHalfLife = 0;
+		for (int i = 0; i < numDecays; i++){
+			double decayTime = nucleus.calcDecayTime();
+			if (decayTime > halfLife){
+				decayedAfterHalfLife++;
+			}
+			else if (decayTime < halfLife){
+				decayedBeforeHalfLife++;
+			}
+			else{
+				decayedAtHalfLife++;
+			}
+			totalDecayTime += decayTime;
+			System.out.println("Decay time = " + decayTime);
+		}
+		System.out.println("Average = " + totalDecayTime / (double)numDecays);
+		System.out.println("Before: " + decayedBeforeHalfLife);
+		System.out.println("After: " + decayedAfterHalfLife);
+		System.out.println("At: " + decayedAtHalfLife);
+	}
 }
