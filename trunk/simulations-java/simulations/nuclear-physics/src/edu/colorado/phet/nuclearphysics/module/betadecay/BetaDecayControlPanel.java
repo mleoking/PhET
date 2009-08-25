@@ -11,6 +11,7 @@ import javax.swing.JCheckBox;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.module.alphadecay.NucleusTypeControl;
 
 /**
@@ -59,9 +60,9 @@ public class BetaDecayControlPanel extends ControlPanel {
         addControlFullWidth( _selectionPanel );
         
         // Add the check box for label visibility.
-        // TODO: i18n
         addVerticalSpace( 15 );
-        _labelsVisibleCheckBox = new JCheckBox("Show Labels", labelVisibilityModel.isVisible());
+        _labelsVisibleCheckBox = new JCheckBox(NuclearPhysicsStrings.SHOW_NUCLEUS_LABELS,
+        		labelVisibilityModel.isVisible());
         _labelsVisibleCheckBox.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				labelVisibilityModel.setIsVisible(_labelsVisibleCheckBox.isSelected());
