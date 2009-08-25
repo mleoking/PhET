@@ -77,7 +77,7 @@ public class TPChart extends JFreeChart {
     }
 
     public TPChart() {
-        super( "Titrant volume vs pH", new TPPlot() );
+        super( "Titrant volume vs pH", null, new TPPlot(), false /* createLegend */ );
     }
 
     public void addPoint( double x, double y ) {
