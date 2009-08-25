@@ -285,7 +285,7 @@ public class TPModel {
             polynomial[i] = new Complex( coefficients[i], 0 );
         }
         Complex[] roots = RootTest.findRootsOptimizedDurandKerner( polynomial, ROOTS_ITERATIONS, ROOTS_THRESHOLD );
-        System.out.println( "TPModel.pH: polynomial order = " + coefficients.length + ", number of roots = " + roots.length );//XXX
+//        System.out.println( "TPModel.pH: polynomial order = " + coefficients.length + ", number of roots = " + roots.length );//XXX
         Double[] rootsSorted = sortReal( roots );
         double H = rootsSorted[coefficients.length - 2];
         return -Math.log10( H );
