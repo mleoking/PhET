@@ -3,6 +3,7 @@
 ==================================================================================
 
 TODO:
+- screenshot
 - duplicate code: ComparingEquationsNode = SolutionsReactionEquationsNode + SolutionsEquilibriumExpressionsNode - scaling controls
 - easy/hard setting in Matching Challenge? (pending interviews)
 - implement "tear off" control? (pending interviews)
