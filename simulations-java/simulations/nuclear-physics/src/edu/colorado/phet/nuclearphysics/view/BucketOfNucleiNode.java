@@ -89,7 +89,6 @@ public class BucketOfNucleiNode extends PNode {
 	private double _nucleusWidth = 0;
 	private boolean _showLabel = true;             // Label is shown by default.
 	private boolean _showRadiationSymbol = true;   // Icon is shown by default.
-	private Color _baseColor;
 	private PSwing _sliderNode = null;
 	private NormalizedSlider _slider;
 	
@@ -113,7 +112,6 @@ public class BucketOfNucleiNode extends PNode {
 		_bucketWidth = width;
 		_shrinkAnimationTimers = new ArrayList();
 		_nucleusType = NucleusType.POLONIUM_211;
-		_baseColor = baseColor;
 		
 		// Create and add the background rectangle.
 		_bucketRect = new PPath(new Rectangle2D.Double(0, 0, width, height));
