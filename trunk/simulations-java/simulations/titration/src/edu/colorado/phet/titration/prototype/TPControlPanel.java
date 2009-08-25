@@ -6,10 +6,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JSeparator;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeEvent;
@@ -31,19 +28,22 @@ public class TPControlPanel extends JPanel {
     private static final double X_MAX = TPConstants.TITRANT_VOLUME_RANGE.getMax();
     private static final double X_DELTA = TPConstants.TITRANT_VOLUME_DELTA;
     
-    private static final String MODEL_NAME_STRONG_BASE = "strong base";
-    private static final String MODEL_NAME_WEAK_BASE = "weak base";
-    private static final String MODEL_NAME_STRONG_ACID = "strong acid";
-    private static final String MODEL_NAME_WEAK_ACID = "weak acid";
-    private static final String MODEL_NAME_DIPROTIC_ACID = "diprotic acid";
-    private static final String MODEL_NAME_TRIPROTIC_ACID = "triprotic acid";
-    private static final Object[] CHOICES = {
-        MODEL_NAME_STRONG_BASE,
-        MODEL_NAME_WEAK_BASE, 
-        MODEL_NAME_STRONG_ACID,
-        MODEL_NAME_WEAK_ACID,
-        MODEL_NAME_DIPROTIC_ACID,
-        MODEL_NAME_TRIPROTIC_ACID
+    private static final String TITRANT_STRONG_BASE = "strong base";
+    private static final String TITRANT_STRONG_ACID = "strong acid";
+    
+    private static final String SOLUTION_STRONG_BASE = "strong base";
+    private static final String SOLUTION_WEAK_BASE = "weak base";
+    private static final String SOLUTION_STRONG_ACID = "strong acid";
+    private static final String SOLUTION_WEAK_ACID = "weak acid";
+    private static final String SOLUTION_DIPROTIC_ACID = "diprotic acid";
+    private static final String SOLUTION_TRIPROTIC_ACID = "triprotic acid";
+    private static final Object[] SOLUTION_CHOICES = {
+        SOLUTION_STRONG_BASE,
+        SOLUTION_WEAK_BASE, 
+        SOLUTION_STRONG_ACID,
+        SOLUTION_WEAK_ACID,
+        SOLUTION_DIPROTIC_ACID,
+        SOLUTION_TRIPROTIC_ACID
     };
     
     private static class ConcentrationControl extends LogarithmicValueControl {
@@ -86,8 +86,9 @@ public class TPControlPanel extends JPanel {
     }
     
     private final TPChart chart;
-    private final JComboBox modelComboBox;
-    private final ConcentrationControl solutionConcentrationControl, titrantConcentrationControl;
+    private final JComboBox solutionComboBox;
+    private final JLabel titrantLabel;
+    private final ConcentrationControl caControl, cbControl;
     private final KControl k1Control, k2Control, k3Control;
     
     public TPControlPanel( TPChart chart ) {
@@ -96,38 +97,46 @@ public class TPControlPanel extends JPanel {
         
         this.chart = chart;
         
-        // model choice
-        modelComboBox = new JComboBox( CHOICES );
-        modelComboBox.addItemListener(  new ItemListener() {
+        // solution
+        JLabel solutionLabel = new JLabel( "solution:" );
+        solutionLabel.setBorder( new EmptyBorder( 0, 5, 0, 0 ) );
+        solutionComboBox = new JComboBox( SOLUTION_CHOICES );
+        solutionComboBox.addItemListener(  new ItemListener() {
             public void itemStateChanged( ItemEvent e ) {
                 if ( e.getStateChange() == ItemEvent.SELECTED ) {
                     update( e.getSource() );
                 }
             }
         });
+        JLabel solutionVolumeLabel = new JLabel( "(" + TPConstants.SOLUTION_VOLUME + " " + VOLUME_UNITS + ")" );
+        JPanel solutionPanel = new JPanel();
+        solutionPanel.setLayout( new BoxLayout( solutionPanel, BoxLayout.X_AXIS ) );
+        solutionPanel.add( solutionLabel );
+        solutionPanel.add( solutionComboBox );
+        solutionPanel.add( solutionVolumeLabel );
         
-        // solution volume is constant
-        JLabel solutionVolumeLabel = new JLabel( "solution: " + TPConstants.SOLUTION_VOLUME + " " + VOLUME_UNITS );
-        solutionVolumeLabel.setBorder( new EmptyBorder( 0, 5, 0, 0 ) );
+        // titrant
+        titrantLabel = new JLabel( "?" );
+        titrantLabel.setBorder( new EmptyBorder( 0, 5, 0, 0 ) );
         
         // solution concentration 
-        solutionConcentrationControl = new ConcentrationControl( "solution:" );
-        solutionConcentrationControl.addChangeListener( new ChangeListener() {
+        caControl = new ConcentrationControl( "Ca = " );
+        caControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 update( e.getSource() );
             }
         });
         
         // titrant concentration
-        titrantConcentrationControl = new ConcentrationControl( "titrant:" );
-        titrantConcentrationControl.addChangeListener( new ChangeListener() {
+        cbControl = new ConcentrationControl( "Cb = " );
+        cbControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 update( e.getSource() );
             }
         });
         
         // K1 disassociation constant
-        k1Control = new KControl( "K1:" );
+        k1Control = new KControl( "K1 = " );
         k1Control.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 update( e.getSource() );
@@ -135,7 +144,7 @@ public class TPControlPanel extends JPanel {
         } );
         
         // K2 disassociation constant
-        k2Control = new KControl( "K2:" );
+        k2Control = new KControl( "K2 = " );
         k2Control.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 update( e.getSource() );
@@ -143,7 +152,7 @@ public class TPControlPanel extends JPanel {
         } );
         
         // K3 disassociation constant
-        k3Control = new KControl( "K3:" );
+        k3Control = new KControl( "K3 = " );
         k3Control.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 update( e.getSource() );
@@ -156,13 +165,12 @@ public class TPControlPanel extends JPanel {
         setLayout( layout );
         int row = 0;
         int column = 0;
-        layout.addComponent( modelComboBox, row++, column );
+        layout.addComponent( solutionPanel, row++, column );
+        layout.addComponent( titrantLabel, row++, column );
         layout.addFilledComponent( new JSeparator(), row++, column, GridBagConstraints.HORIZONTAL );
-        layout.addComponent( solutionVolumeLabel, row++, column );
+        layout.addComponent( caControl, row++, column );
         layout.addFilledComponent( new JSeparator(), row++, column, GridBagConstraints.HORIZONTAL );
-        layout.addComponent( solutionConcentrationControl, row++, column );
-        layout.addFilledComponent( new JSeparator(), row++, column, GridBagConstraints.HORIZONTAL );
-        layout.addComponent( titrantConcentrationControl, row++, column );
+        layout.addComponent( cbControl, row++, column );
         layout.addFilledComponent( new JSeparator(), row++, column, GridBagConstraints.HORIZONTAL );
         layout.addComponent( k1Control, row++, column );
         layout.addFilledComponent( new JSeparator(), row++, column, GridBagConstraints.HORIZONTAL );
@@ -179,38 +187,42 @@ public class TPControlPanel extends JPanel {
             adjustKControls( (KControl)control );
         }
         
-        Object choice = modelComboBox.getSelectedItem();
+        Object choice = solutionComboBox.getSelectedItem();
        
-        if ( choice == MODEL_NAME_STRONG_BASE ) {
+        if ( choice == SOLUTION_STRONG_BASE ) {
             updateStrongBase();
          }
-        else if ( choice == MODEL_NAME_WEAK_BASE ) {
+        else if ( choice == SOLUTION_WEAK_BASE ) {
            updateWeakBase();
         }
-        else if ( choice == MODEL_NAME_STRONG_ACID ) {
+        else if ( choice == SOLUTION_STRONG_ACID ) {
             updateStrongAcid();
          }
-        else if ( choice == MODEL_NAME_WEAK_ACID ) {
+        else if ( choice == SOLUTION_WEAK_ACID ) {
             updateWeakAcid();
         }
-        else if ( choice == MODEL_NAME_DIPROTIC_ACID ) {
+        else if ( choice == SOLUTION_DIPROTIC_ACID ) {
             updateDiproticAcid();
         }
-        else if ( choice == MODEL_NAME_TRIPROTIC_ACID ) {
+        else if ( choice == SOLUTION_TRIPROTIC_ACID ) {
             updateTriproticAcid();
         }
     }
     
     private void updateStrongBase() {
         // controls
+        titrantLabel.setText(  "titrant: " + TITRANT_STRONG_ACID );
         k1Control.setEnabled( false );
+        k1Control.getValueLabel().setText( "N/A" );
         k2Control.setEnabled( false );
+        k2Control.getValueLabel().setText( "N/A" );
         k3Control.setEnabled( false );
+        k3Control.getValueLabel().setText( "N/A" );
         // data points
         chart.clear();
         for ( double x = X_MIN; x <= X_MAX; x += X_DELTA ) {
-            double Ca = titrantConcentrationControl.getValue();
-            double Cb = solutionConcentrationControl.getValue();
+            double Ca = caControl.getValue();
+            double Cb = cbControl.getValue();
             double Va = x;
             double Vb = TPConstants.SOLUTION_VOLUME;
             double y = TPModel.strongBase( Ca, Cb, Va, Vb );
@@ -220,14 +232,18 @@ public class TPControlPanel extends JPanel {
     
     private void updateWeakBase() {
         // controls
+        titrantLabel.setText(  "titrant: " + TITRANT_STRONG_ACID );
         k1Control.setEnabled( true );
+        k1Control.getValueLabel().setText( "Kb = " );
         k2Control.setEnabled( false );
+        k2Control.getValueLabel().setText( "N/A" );
         k3Control.setEnabled( false );
+        k3Control.getValueLabel().setText( "N/A" );
         // data points
         chart.clear();
         for ( double x = X_MIN; x <= X_MAX; x += X_DELTA ) {
-            double Ca = titrantConcentrationControl.getValue();
-            double Cb = solutionConcentrationControl.getValue();
+            double Ca = caControl.getValue();
+            double Cb = cbControl.getValue();
             double Va = x;
             double Vb = TPConstants.SOLUTION_VOLUME;
             double Ka = k1Control.getValue();
@@ -238,14 +254,18 @@ public class TPControlPanel extends JPanel {
     
     private void updateStrongAcid() {
         // controls
+        titrantLabel.setText(  "titrant: " + TITRANT_STRONG_BASE );
         k1Control.setEnabled( false );
+        k1Control.getValueLabel().setText( "N/A" );
         k2Control.setEnabled( false );
+        k2Control.getValueLabel().setText( "N/A" );
         k3Control.setEnabled( false );
+        k3Control.getValueLabel().setText( "N/A" );
         // data points
         chart.clear();
         for ( double x = X_MIN; x <= X_MAX; x += X_DELTA ) {
-            double Ca = solutionConcentrationControl.getValue();
-            double Cb = titrantConcentrationControl.getValue();
+            double Ca = caControl.getValue();
+            double Cb = cbControl.getValue();
             double Va = TPConstants.SOLUTION_VOLUME;
             double Vb = x;
             double y = TPModel.strongAcid( Ca, Cb, Va, Vb );
@@ -255,14 +275,18 @@ public class TPControlPanel extends JPanel {
     
     private void updateWeakAcid() {
         // controls
+        titrantLabel.setText(  "titrant: " + TITRANT_STRONG_BASE );
         k1Control.setEnabled( true );
+        k1Control.getValueLabel().setText( "Ka = " );
         k2Control.setEnabled( false );
+        k2Control.getValueLabel().setText( "N/A" );
         k3Control.setEnabled( false );
+        k3Control.getValueLabel().setText( "N/A" );
         // data points
         chart.clear();
         for ( double x = X_MIN; x <= X_MAX; x += X_DELTA ) {
-            double Ca = solutionConcentrationControl.getValue();
-            double Cb = titrantConcentrationControl.getValue();
+            double Ca = caControl.getValue();
+            double Cb = cbControl.getValue();
             double Va = TPConstants.SOLUTION_VOLUME;
             double Vb = x;
             double Ka = k1Control.getValue();
@@ -273,14 +297,18 @@ public class TPControlPanel extends JPanel {
     
     private void updateDiproticAcid() {
         // controls
+        titrantLabel.setText(  "titrant: " + TITRANT_STRONG_BASE );
         k1Control.setEnabled( true );
+        k1Control.getValueLabel().setText( "<html>Ka<sub>1</sub> = </html>" );
         k2Control.setEnabled( true );
+        k2Control.getValueLabel().setText( "<html>Ka<sub>2</sub> = </html>" );
         k3Control.setEnabled( false );
+        k3Control.getValueLabel().setText( "N/A" );
         // data points
         chart.clear();
         for ( double x = X_MIN; x <= X_MAX; x += X_DELTA ) {
-            double Ca = solutionConcentrationControl.getValue();
-            double Cb = titrantConcentrationControl.getValue();
+            double Ca = caControl.getValue();
+            double Cb = cbControl.getValue();
             double Va = TPConstants.SOLUTION_VOLUME;
             double Vb = x;
             double Ka1 = k1Control.getValue();
@@ -292,14 +320,18 @@ public class TPControlPanel extends JPanel {
     
     private void updateTriproticAcid() {
         // controls
+        titrantLabel.setText(  "titrant: " + TITRANT_STRONG_BASE );
         k1Control.setEnabled( true );
+        k1Control.getValueLabel().setText( "<html>Ka<sub>1</sub> = </html>" );
         k2Control.setEnabled( true );
+        k2Control.getValueLabel().setText( "<html>Ka<sub>2</sub> = </html>" );
         k3Control.setEnabled( true );
+        k3Control.getValueLabel().setText( "<html>Ka<sub>3</sub> = </html>" );
         // data points
         chart.clear();
         for ( double x = X_MIN; x <= X_MAX; x += X_DELTA ) {
-            double Ca = solutionConcentrationControl.getValue();
-            double Cb = titrantConcentrationControl.getValue();
+            double Ca = caControl.getValue();
+            double Cb = cbControl.getValue();
             double Va = TPConstants.SOLUTION_VOLUME;
             double Vb = x;
             double Ka1 = k1Control.getValue();
