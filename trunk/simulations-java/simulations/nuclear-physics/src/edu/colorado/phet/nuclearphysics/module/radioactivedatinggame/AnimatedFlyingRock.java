@@ -30,6 +30,9 @@ public class AnimatedFlyingRock extends StaticAnimatedDatableItem {
 	private static final double MAX_ROTATION_CHANGE = Math.PI/10;
 	private static final Random IMAGE_CHOICE_RAND = new Random();
 	
+	private static boolean firstOneCreated = true;
+	private static boolean manImageUsed = false;
+	
     //------------------------------------------------------------------------
     // Instance Data
     //------------------------------------------------------------------------
@@ -41,6 +44,7 @@ public class AnimatedFlyingRock extends StaticAnimatedDatableItem {
     public AnimatedFlyingRock( ConstantDtClock clock, Point2D center, double width, double timeConversionFactor ) {
         super( "Aging Rock", Arrays.asList( chooseInitialImage() ), center, width, 0, 
         		0, clock, timeConversionFactor, false );
+    	firstOneCreated = false;
     }
 
     //------------------------------------------------------------------------
@@ -68,7 +72,12 @@ public class AnimatedFlyingRock extends StaticAnimatedDatableItem {
     }
     
     private static String chooseInitialImage(){
-    	if (IMAGE_CHOICE_RAND.nextBoolean()){
+    	double prob = IMAGE_CHOICE_RAND.nextDouble();
+    	if (prob > 0.95 && !firstOneCreated && !manImageUsed){
+    		manImageUsed = true;
+    		return "moving-man.gif";
+    	}
+    	else if (prob > 0.5 ){
     		return "molten_rock.png";
     	}
     	else{
