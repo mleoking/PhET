@@ -167,6 +167,8 @@ public class NuclearPhysicsStrings {
     public static final String ERUPT_VOLCANO= NuclearPhysicsResources.getString( "RadiometericMeasurement.EruptVolcano" );
     public static final String COOL_ROCK= NuclearPhysicsResources.getString( "RadiometericMeasurement.CoolRock" );
     
+    public static final String SHOW_NUCLEUS_LABELS= NuclearPhysicsResources.getString( "ControlPanel.ShowNucleusLabels" );
+
     public static final String MEASURE_OBJECTS= NuclearPhysicsResources.getString( "RadiometricMeter.MeasureObjects" );
     public static final String MEASURE_AIR= NuclearPhysicsResources.getString( "RadiometricMeter.MeasureAir" );
     public static final String HALF_LIFE_100_THOUSAND_YEARS= NuclearPhysicsResources.getString( "RadiometricMeter.HalfLifeOneHundredThousandYears" );
