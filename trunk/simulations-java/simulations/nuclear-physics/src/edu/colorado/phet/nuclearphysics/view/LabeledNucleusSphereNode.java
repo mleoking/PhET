@@ -39,7 +39,9 @@ public class LabeledNucleusSphereNode extends LabeledNucleusNode {
         // Scale and position the label.
         double sphereWidth = sphere.getFullBoundsReference().getWidth();
         PNode label = getLabel();
-        double scale = (sphereWidth / label.getFullBoundsReference().getWidth()) * 0.9;
+        double scale = Math.min( ( sphereWidth / label.getFullBoundsReference().getWidth() ) * 0.9,
+            	( sphereWidth / label.getFullBoundsReference().getHeight() ) );
+
         label.setScale( scale );
         
         // Center the label over the nucleus image.
