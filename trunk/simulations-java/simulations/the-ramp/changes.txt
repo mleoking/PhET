@@ -1,4 +1,4 @@
-Made sure ramp color record and playback properly
+Added record/playback for ramp color and friction
 Fixed: clear heat button not appearing on work-energy tab
 Made object position slider control properly return object from crash mode
 Added a "return object" button appear when the object goes offscreen.
