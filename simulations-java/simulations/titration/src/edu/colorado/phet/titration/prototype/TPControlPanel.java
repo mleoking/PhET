@@ -269,7 +269,7 @@ public class TPControlPanel extends JPanel {
             double Va = TPConstants.SOLUTION_VOLUME;
             double Vb = x;
             double y = TPModel.strongAcid( Ca, Cb, Va, Vb );
-            chart.addPoint( y, x );
+            chart.addPoint( x, y );
         }
     }
     
