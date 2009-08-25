@@ -12,6 +12,8 @@ import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+
 
 public class TPChart extends JFreeChart {
 
@@ -77,7 +79,7 @@ public class TPChart extends JFreeChart {
     }
 
     public TPChart() {
-        super( "Titrant volume vs pH", null, new TPPlot(), false /* createLegend */ );
+        super( "Titrant volume vs pH", new PhetFont( 18 ), new TPPlot(), false /* createLegend */ );
     }
 
     public void addPoint( double x, double y ) {
