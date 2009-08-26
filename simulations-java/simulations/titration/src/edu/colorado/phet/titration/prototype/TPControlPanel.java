@@ -55,7 +55,7 @@ public class TPControlPanel extends JPanel {
     private static class ConcentrationControl extends LogarithmicValueControl {
         public ConcentrationControl( String label ) {
             super( TPConstants.CONCENTRATION_RANGE.getMin(), TPConstants.CONCENTRATION_RANGE.getMax(), label, CONCENTRATION_FORMAT, CONCENTRATION_UNITS, new HorizontalLayoutStrategy() );
-            setValue( TPConstants.CONCENTRATION_RANGE.getMin() );
+            setValue( TPConstants.CONCENTRATION_RANGE.getDefault() );
         }
     }
     
@@ -65,7 +65,7 @@ public class TPControlPanel extends JPanel {
         
         public KControl( String label ) {
             super( TPConstants.K_RANGE.getMin(), TPConstants.K_RANGE.getMax(), label, K_FORMAT, K_UNITS, new HorizontalLayoutStrategy() );
-            setValue( TPConstants.K_RANGE.getMin() );
+            setValue( TPConstants.K_RANGE.getDefault() );
             listeners = new ArrayList<ChangeListener>();
         }
         

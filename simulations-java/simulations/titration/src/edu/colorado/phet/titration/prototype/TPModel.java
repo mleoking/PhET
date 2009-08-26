@@ -16,8 +16,8 @@ public class TPModel {
     
     public static boolean ROOTS_DURRAND_KERNER = false;
     public static boolean ROOTS_OPTIMIZED = false;
-    public static int ROOTS_ITERATIONS = 30;
-    public static double ROOTS_THRESHOLD = 1E-40;
+    public static int ROOTS_ITERATIONS = TPConstants.ROOTS_ITERATIONS_RANGE.getDefault();
+    public static double ROOTS_THRESHOLD = TPConstants.ROOTS_THRESHOLD_RANGE.getDefault();
     
     private static final double Kw = TPConstants.Kw;
 
