@@ -314,7 +314,7 @@ public class TPControlPanel extends JPanel {
             double Ka1 = k1Control.getValue();
             double Ka2 = k2Control.getValue();
             double y = TPModel.diproticAcid( Ca, Cb, Va, Vb, Ka1, Ka2 );
-            chart.addPoint( y, x );
+            chart.addPoint( x, y );
         }
     }
     
@@ -338,7 +338,7 @@ public class TPControlPanel extends JPanel {
             double Ka2 = k2Control.getValue();
             double Ka3 = k3Control.getValue();
             double y = TPModel.triproticAcid( Ca, Cb, Va, Vb, Ka1, Ka2, Ka3 );
-            chart.addPoint( y, x );
+            chart.addPoint( x, y );
         }
     }
     
