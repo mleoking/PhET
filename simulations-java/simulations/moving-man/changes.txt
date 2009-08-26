@@ -1,3 +1,4 @@
+Added developer controls for smoothing window
 # 1.24.01 (33383) Jul 16, 2009
 7/16/09 Fixed an issue with number format for Arabic (and possibly other languages)
 # 1.24.00 (33092) Jul 7, 2009

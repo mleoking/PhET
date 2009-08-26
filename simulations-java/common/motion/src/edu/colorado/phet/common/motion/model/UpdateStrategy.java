@@ -136,7 +136,7 @@ public interface UpdateStrategy {
     }
 
     public static class VelocityDriven extends DefaultUpdateStrategy {
-        int velWindow = 10;
+        public static int velWindow = 10;
 
         public VelocityDriven() {
         }
