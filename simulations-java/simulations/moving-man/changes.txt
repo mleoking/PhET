@@ -1,3 +1,4 @@
+# 1.24.04 (34493) Aug 26, 2009
 Changed v-driven acceleration window from 4 to 3
 Converted from buffered immediate series to piccolo series to improve zoom performance
 # 1.24.03 (34458) Aug 26, 2009
