@@ -1,3 +1,4 @@
+# 1.24.03 (34458) Aug 26, 2009
 # 1.24.02 (34457) Aug 26, 2009
 8/26/09 Reduced smoothing windows to size 4
 Added developer controls for smoothing window
