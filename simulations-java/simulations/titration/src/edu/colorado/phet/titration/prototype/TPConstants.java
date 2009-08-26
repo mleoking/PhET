@@ -2,6 +2,7 @@ package edu.colorado.phet.titration.prototype;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 
 
 public class TPConstants {
@@ -17,4 +18,6 @@ public class TPConstants {
     public static final DoubleRange TITRANT_VOLUME_RANGE = new DoubleRange( 0, 100 ); // mL
     public static final double TITRANT_VOLUME_DELTA = 0.1; // mL
     public static final DoubleRange PH_RANGE = new DoubleRange( 0, 14 );
+    public static final IntegerRange ROOTS_ITERATIONS_RANGE = new IntegerRange( 3, 300 );
+    public static final DoubleRange ROOTS_THRESHOLD_RANGE = new DoubleRange( 1E-40, 1 );
 }
