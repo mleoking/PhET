@@ -1,0 +1,3 @@
+- for triprotic acid, pH=NaN at many volumes (displayed as discontinuities in curve)
+- Durand-Kerner isn't working
+- need an optimized version of Laguerre
