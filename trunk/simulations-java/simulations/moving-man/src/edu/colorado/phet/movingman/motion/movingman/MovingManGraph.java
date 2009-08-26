@@ -44,8 +44,8 @@ public class MovingManGraph extends MotionControlGraph {
         super( createMovingManJFreeChart( verticalTickUnit ), pSwingCanvas, series, label, title, min, max, editable, timeSeriesModel, updateStrategy, maxDomainValue, iPositionDriven );
         getJFreeChartNode().getChart().setBackgroundPaint( MotionProjectLookAndFeel.BACKGROUND_COLOR );
         getJFreeChartNode().getChart().getXYPlot().setBackgroundPaint( MotionProjectLookAndFeel.CHART_BACKGROUND_COLOR );
-        DynamicJFreeChartNode dj = (DynamicJFreeChartNode) getJFreeChartNode();
-        dj.updateAll();
+        getJFreeChartNode().updateAll();
+        getJFreeChartNode().setPiccoloSeries();
         addInputEventListener( new PBasicInputEventHandler() {
             public Point2D lastPlotPoint;
 
