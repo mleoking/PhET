@@ -8,7 +8,7 @@ import java.awt.geom.Rectangle2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.neuron.NeuronConstants;
-import edu.colorado.phet.neuron.model.NeuronModel;
+import edu.colorado.phet.neuron.model.Axon;
 import edu.colorado.phet.neuron.module.NeuronDefaults;
 import edu.umd.cs.piccolo.PNode;
 
@@ -24,7 +24,7 @@ public class NeuronCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
 
     // Model
-    private NeuronModel model;
+    private Axon model;
     
     // View 
     private PNode _rootNode;
@@ -33,7 +33,7 @@ public class NeuronCanvas extends PhetPCanvas {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public NeuronCanvas( NeuronModel model ) {
+    public NeuronCanvas( Axon model ) {
         super( NeuronDefaults.INTERMEDIATE_RENDERING_SIZE );
         setWorldTransformStrategy( new CenteringBoxStrategy( this, NeuronDefaults.INTERMEDIATE_RENDERING_SIZE ) );
         ModelViewTransform2D transform = new ModelViewTransform2D(
