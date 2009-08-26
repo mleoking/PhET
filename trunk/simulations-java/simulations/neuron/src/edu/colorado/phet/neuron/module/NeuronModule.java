@@ -9,7 +9,7 @@ import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockContr
 import edu.colorado.phet.neuron.NeuronStrings;
 import edu.colorado.phet.neuron.controlpanel.NeuronControlPanel;
 import edu.colorado.phet.neuron.model.NeuronClock;
-import edu.colorado.phet.neuron.model.NeuronModel;
+import edu.colorado.phet.neuron.model.Axon;
 import edu.colorado.phet.neuron.view.NeuronCanvas;
 
 /**
@@ -23,7 +23,7 @@ public class NeuronModule extends PiccoloModule {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private NeuronModel model;
+    private Axon model;
     private NeuronCanvas canvas;
     private NeuronControlPanel controlPanel;
     private PiccoloClockControlPanel clockControlPanel;
@@ -37,7 +37,7 @@ public class NeuronModule extends PiccoloModule {
 
         // Model
         NeuronClock clock = (NeuronClock) getClock();
-        model = new NeuronModel( clock );
+        model = new Axon( clock );
 
         // Canvas
         canvas = new NeuronCanvas( model );
