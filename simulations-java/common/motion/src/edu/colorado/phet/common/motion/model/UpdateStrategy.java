@@ -107,8 +107,8 @@ public interface UpdateStrategy {
     }
 
     public static class PositionDriven extends DefaultUpdateStrategy {
-        private int velocityWindow = 6;
-        private int accelerationWindow = 6;
+        private int velocityWindow = 4;
+        private int accelerationWindow = 4;
 
         public PositionDriven() {
         }
@@ -136,7 +136,7 @@ public interface UpdateStrategy {
     }
 
     public static class VelocityDriven extends DefaultUpdateStrategy {
-        public static int velWindow = 10;
+        public static int velWindow =4;
 
         public VelocityDriven() {
         }
