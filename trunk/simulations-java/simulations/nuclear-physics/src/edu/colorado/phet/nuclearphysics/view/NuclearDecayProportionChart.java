@@ -272,6 +272,10 @@ public class NuclearDecayProportionChart extends PNode {
 	public void setShowCarbonOptions(boolean enabled){
 		if (_showCarbonOptions != enabled){
 			_showCarbonOptions = enabled;
+//			if (enabled == false && _yAxisLabeledWithRatio == true){
+//				_yAxisLabeledWithRatio = false;
+//				_carbonOptionsPanel.reset();
+//			}
 			_graph.updateYAxisGridLineLabels();
 			updateLayout();
 		}
@@ -876,7 +880,7 @@ public class NuclearDecayProportionChart extends PNode {
 	        // Position and size the Y axis label, since it will affect the
 	        // graph's origin.  There is a tweak factor in here that controls
 	        // the relative size of the label.
-	        if (_chart._yAxisLabeledWithRatio){
+	        if (_chart._yAxisLabeledWithRatio && _chart._showCarbonOptions){
 	        	_yAxisLabel.setHTML(NuclearPhysicsStrings.DECAY_PROPORTIONS_Y_AXIS_LABEL_RATIO_C14_TO_C12);
 	        }
 	        else{
