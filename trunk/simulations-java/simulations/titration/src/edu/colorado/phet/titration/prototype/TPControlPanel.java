@@ -12,6 +12,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.HorizontalLayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LogarithmicValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 
@@ -48,7 +49,7 @@ public class TPControlPanel extends JPanel {
     
     private static class ConcentrationControl extends LogarithmicValueControl {
         public ConcentrationControl( String label ) {
-            super( TPConstants.CONCENTRATION_RANGE.getMin(), TPConstants.CONCENTRATION_RANGE.getMax(), label, CONCENTRATION_FORMAT, CONCENTRATION_UNITS );
+            super( TPConstants.CONCENTRATION_RANGE.getMin(), TPConstants.CONCENTRATION_RANGE.getMax(), label, CONCENTRATION_FORMAT, CONCENTRATION_UNITS, new HorizontalLayoutStrategy() );
             setValue( TPConstants.CONCENTRATION_RANGE.getMin() );
         }
     }
@@ -58,7 +59,7 @@ public class TPControlPanel extends JPanel {
         private ArrayList<ChangeListener> listeners;
         
         public KControl( String label ) {
-            super( TPConstants.K_RANGE.getMin(), TPConstants.K_RANGE.getMax(), label, K_FORMAT, K_UNITS );
+            super( TPConstants.K_RANGE.getMin(), TPConstants.K_RANGE.getMax(), label, K_FORMAT, K_UNITS, new HorizontalLayoutStrategy() );
             setValue( TPConstants.K_RANGE.getMin() );
             listeners = new ArrayList<ChangeListener>();
         }
