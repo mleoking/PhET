@@ -30,7 +30,7 @@ public class AbstractMotionSimPanel extends BufferedPhetPCanvas {
 
     private MovingManGraph getGraph( MovingManMotionModel forceModel, ControlGraphSeries series, String name, String shortCutName, UpdateStrategy strategy ) {
         return new MovingManGraph( this, series, MovingManResources.getString( name ), shortCutName, -11, 11,
-                                   forceModel, true, forceModel.getTimeSeriesModel(), strategy, MovingManMotionModel.MAX_T, forceModel );
+                                   true, forceModel.getTimeSeriesModel(), strategy, MovingManMotionModel.MAX_T, forceModel );
     }
 
 }
