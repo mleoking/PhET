@@ -14,3 +14,12 @@ see a change in the titration curve is 1e0 to 1e-14.  K1, K2 and K3
 are the same constants for diprotic and triprotic acids; they should
 really be called Ka1, Ka2 and Ka3.  They have the same range as Ka, 
 but K2 must be less than K1, and K3 must be less than K2.
+
+Some Octave tests:
+
+strongbase( 0.1, 0.1, 0:0.1:75, 25 )
+weakbase( 0.1, 0.1, 0:0.1:75, 25, 0.1 )
+strongacid( 0.1, 0.1, 25, 0:0.1:75 )
+weakacid( 0.1, 0.1, 25, 0:0.1:75, 1e-5 )
+diproticacid( 0.1, 0.1, 25, 0:0.1:75, 1e-5, 1e-6 )
+triproticacid( 0.1, 0.1, 25, 0:0.1:100, 1e-5, 1e-6, 1e-7 )
