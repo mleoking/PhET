@@ -1,3 +1,5 @@
+# 2.03.03 (34480) Aug 26, 2009
+8/26/09 Another test to try to enable Khmer language/font - added a strings file for km locale.
 # 2.03.02 (34475) Aug 26, 2009
 8/26/09 Deploying with new version of the preferred-fonts file in order to enable Khmer (hopefully)
 # 2.03.01 (34466) Aug 26, 2009
