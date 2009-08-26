@@ -11,6 +11,7 @@ import edu.colorado.phet.common.motion.model.*;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.movingman.MovingManResources;
+import edu.colorado.phet.movingman.MovingManDefaults;
 
 /**
  * Created by: Sam
@@ -31,8 +32,8 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
     private double max = 10;
 
 
-    private UpdateStrategy.PositionDriven positionDriven = new UpdateStrategy.PositionDriven( 4, 4, min, max );
-    private UpdateStrategy.VelocityDriven velocityDriven = new UpdateStrategy.VelocityDriven( 4, min, max );
+    private UpdateStrategy.PositionDriven positionDriven = new UpdateStrategy.PositionDriven( MovingManDefaults.SMOOTH_XV, MovingManDefaults.SMOOTH_XA, min, max );
+    private UpdateStrategy.VelocityDriven velocityDriven = new UpdateStrategy.VelocityDriven( MovingManDefaults.SMOOTH_VA, min, max );
     private UpdateStrategy.AccelerationDriven accelDriven = new UpdateStrategy.AccelerationDriven( min, max );
 
 //    private UpdateStrategy positionDriven = new UpdateStrategy() {
@@ -342,7 +343,7 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
         private Interpreter interpreter = new Interpreter();
 
         public MovingManExpressionUpdate( String text ) {
-            super( 4, 4, -100, 100 );
+            super( MovingManDefaults.SMOOTH_XV, MovingManDefaults.SMOOTH_XA, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY );
             this.text = text;
         }
 
