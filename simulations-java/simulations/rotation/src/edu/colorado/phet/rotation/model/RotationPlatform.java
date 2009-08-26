@@ -8,6 +8,7 @@ import edu.colorado.phet.common.motion.model.ITemporalVariable;
 import edu.colorado.phet.common.motion.model.MotionBody;
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 import edu.colorado.phet.rotation.torque.TorqueModel;
+import edu.colorado.phet.rotation.RotationDefaults;
 
 /**
  * Author: Sam Reid
@@ -20,7 +21,7 @@ public class RotationPlatform extends MotionBody {
     private DefaultTemporalVariable mass = new DefaultTemporalVariable( getDefaultMass() );//by default torque equals angular acceleration
 
     public RotationPlatform() {
-        super( RotationModel.getTimeSeriesFactory() );
+        super( RotationDefaults.SMOOTH_XV,RotationDefaults.SMOOTH_XA,RotationDefaults.SMOOTH_VA,RotationModel.getTimeSeriesFactory() );
     }
 
     private static double getDefaultMassValue( double innerRadius, double radius ) {

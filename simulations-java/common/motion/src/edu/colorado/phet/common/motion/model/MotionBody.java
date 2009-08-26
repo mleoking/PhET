@@ -11,23 +11,27 @@ public class MotionBody implements UpdateableObject, IMotionBody {
     private ITemporalVariable a;
 
     /*Different strategies for updating simulation variables*/
-    private UpdateStrategy.PositionDriven positionDriven = new UpdateStrategy.PositionDriven();
-    private UpdateStrategy.VelocityDriven velocityDriven = new UpdateStrategy.VelocityDriven();
-    private UpdateStrategy.AccelerationDriven accelDriven = new UpdateStrategy.AccelerationDriven();
-    private UpdateStrategy updateStrategy = positionDriven; //current strategy
+    private UpdateStrategy.PositionDriven positionDriven;
+    private UpdateStrategy.VelocityDriven velocityDriven;
+    private UpdateStrategy.AccelerationDriven accelDriven;
+    private UpdateStrategy updateStrategy;
 
-    public MotionBody() {
-        this( new DefaultTemporalVariable(), new DefaultTemporalVariable(), new DefaultTemporalVariable() );
+    public MotionBody(int smoothXV,int smoothXA,int smoothVA) {
+        this( smoothXV, smoothXA, smoothVA,new DefaultTemporalVariable(), new DefaultTemporalVariable(), new DefaultTemporalVariable() );
     }
 
-    public MotionBody( TimeSeriesFactory factory ) {
-        this( new DefaultTemporalVariable( factory ), new DefaultTemporalVariable( factory ), new DefaultTemporalVariable( factory ) );
+    public MotionBody( int smoothXV, int smoothXA,int smoothVA,TimeSeriesFactory factory ) {
+        this( smoothXV, smoothXA, smoothVA,new DefaultTemporalVariable( factory ), new DefaultTemporalVariable( factory ), new DefaultTemporalVariable( factory ) );
     }
 
-    public MotionBody( DefaultTemporalVariable x, DefaultTemporalVariable v, DefaultTemporalVariable a ) {
+    public MotionBody( int smoothXV, int smoothXA,int smoothVA, DefaultTemporalVariable x, DefaultTemporalVariable v, DefaultTemporalVariable a ) {
         this.x = x;
         this.v = v;
         this.a = a;
+        positionDriven = new UpdateStrategy.PositionDriven(smoothXV,smoothXA,Double.NEGATIVE_INFINITY,Double.POSITIVE_INFINITY);
+        velocityDriven = new UpdateStrategy.VelocityDriven(smoothVA,Double.NEGATIVE_INFINITY,Double.POSITIVE_INFINITY);
+        accelDriven = new UpdateStrategy.AccelerationDriven();
+        updateStrategy = positionDriven;
     }
 
     public void setTime( double time ) {

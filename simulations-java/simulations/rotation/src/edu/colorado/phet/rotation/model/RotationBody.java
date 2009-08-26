@@ -19,6 +19,7 @@ import edu.colorado.phet.common.motion.model.TimeData;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.rotation.RotationResources;
+import edu.colorado.phet.rotation.RotationDefaults;
 import edu.colorado.phet.rotation.tests.CircularRegression;
 
 /**
@@ -84,8 +85,8 @@ public class RotationBody {
                 platformOuterRadiusChanged();
             }
         };
-        xBody = new MotionBody( RotationModel.getTimeSeriesFactory() );
-        yBody = new MotionBody( RotationModel.getTimeSeriesFactory() );
+        xBody = new MotionBody( RotationDefaults.SMOOTH_XV,RotationDefaults.SMOOTH_XA,RotationDefaults.SMOOTH_VA,RotationModel.getTimeSeriesFactory() );
+        yBody = new MotionBody( RotationDefaults.SMOOTH_XV,RotationDefaults.SMOOTH_XA,RotationDefaults.SMOOTH_VA,RotationModel.getTimeSeriesFactory() );
 
         speed = new RotationTemporalVariable();
         accelMagnitude = new RotationTemporalVariable();

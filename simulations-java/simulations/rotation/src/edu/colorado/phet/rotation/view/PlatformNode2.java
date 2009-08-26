@@ -23,6 +23,7 @@ import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearSlider;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.rotation.model.RotationPlatform;
+import edu.colorado.phet.rotation.RotationDefaults;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PPanEventHandler;
@@ -337,7 +338,7 @@ public class PlatformNode2 extends PNode {
                 final LinearSlider slider = new LinearSlider( 0, Math.PI * 2, rotationPlatform.getPosition(), 1000 );
                 slider.addChangeListener( new ChangeListener() {
                     public void stateChanged( ChangeEvent e ) {
-                        rotationPlatform.setUpdateStrategy( new UpdateStrategy.PositionDriven() );
+                        rotationPlatform.setUpdateStrategy( new UpdateStrategy.PositionDriven( RotationDefaults.SMOOTH_XV,RotationDefaults.SMOOTH_XA,Double.NEGATIVE_INFINITY,Double.POSITIVE_INFINITY) );
                         final double value = slider.getModelValue();
                         System.out.println( "value = " + value );
                         rotationPlatform.setPosition( value );

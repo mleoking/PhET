@@ -6,7 +6,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.movingman.ArrowPanel;
 import edu.colorado.phet.movingman.MovingManApplication;
-import edu.colorado.phet.movingman.MovingManResources;
+import static edu.colorado.phet.movingman.MovingManResources.getString;
 import edu.colorado.phet.movingman.motion.AbstractMotionModule;
 
 /**
@@ -20,7 +20,7 @@ public class MovingManMotionModule extends AbstractMotionModule implements Arrow
     public static double MAX_DT = MovingManApplication.FRAME_DELAY_SEC * 2;
 
     public MovingManMotionModule( ConstantDtClock clock ) {
-        super( MovingManResources.getString( "moving-man.name" ), clock );
+        super( getString( "moving-man.name" ), clock );
         movingManMotionModel = new MovingManMotionModel( clock );
         movingManMotionModel.addListener( new MovingManMotionModel.Adapter() {
             public void crashedMin( double v ) {
@@ -60,8 +60,8 @@ public class MovingManMotionModule extends AbstractMotionModule implements Arrow
             return true;
         }
         int option = JOptionPane.showConfirmDialog( movingManMotionSimPanel,
-                                                    MovingManResources.getString( "plot.confirm-clear" ),
-                                                    MovingManResources.getString( "plot.confirm-reset" ),
+                                                    getString( "plot.confirm-clear" ),
+                                                    getString( "plot.confirm-reset" ),
                                                     JOptionPane.YES_NO_CANCEL_OPTION );
         return option == JOptionPane.OK_OPTION;
     }
