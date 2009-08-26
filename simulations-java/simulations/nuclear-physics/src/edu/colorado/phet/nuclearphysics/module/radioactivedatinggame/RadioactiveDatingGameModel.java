@@ -53,15 +53,15 @@ public class RadioactiveDatingGameModel implements ModelContainingDatableItems {
         }
         
         // Add the datable objects.
-        // Params:                             name, image file, location(x, y), size, rotation angle (radians), age (ms)
+        // Params:                             name, image file, location(x, y), size, rotation angle (radians), age (ms), is organic
         _datableObjects.add(new DatableItem("House", "house.png", new Point2D.Double(8, 4), 6, 0, HalfLifeInfo.convertYearsToMs(75), true));
-        _datableObjects.add(new DatableItem("Trilobyte", "trilobyte_fossil.png", new Point2D.Double(-8, -14.5), 3.5, 0, HalfLifeInfo.convertYearsToMs(500E6), false));
+        _datableObjects.add(new DatableItem("Trilobyte", "trilobyte_fossil.png", new Point2D.Double(-8, -14.5), 3.5, 0, HalfLifeInfo.convertYearsToMs(310E6), true));
     	_datableObjects.add(new DatableItem("Animal Skull", "skull_animal.png", new Point2D.Double(-26, 2), 3, Math.PI/4, HalfLifeInfo.convertYearsToMs(25), true));
     	_datableObjects.add(new DatableItem("Living Tree", "tree_1.png", new Point2D.Double(-21, 5), 5.5, 0, 0, true));
     	_datableObjects.add(new DatableItem("Distant Living Tree", "tree_1.png", new Point2D.Double(0, 3.5), 2, 0, 0, true));
-    	_datableObjects.add(new DatableItem("Fish Fossil", "fish_fossil.png", new Point2D.Double(-20, -8), 7, 0, HalfLifeInfo.convertYearsToMs(10E6), false));
+    	_datableObjects.add(new DatableItem("Fish Fossil 1", "fish_fossil.png", new Point2D.Double(-20, -8), 7, 0, HalfLifeInfo.convertYearsToMs(10E6), true));
     	_datableObjects.add(new DatableItem("Dead Tree", "tree_dead_no_space.png", new Point2D.Double(23, 2.5), 3, Math.PI/2, HalfLifeInfo.convertYearsToMs(125), true));
-    	_datableObjects.add(new DatableItem("Fish Bones", "fish_bones.png", new Point2D.Double(10, -14.5), 5, 0, HalfLifeInfo.convertYearsToMs(250E6), true));
+    	_datableObjects.add(new DatableItem("Fish Fossil 2", "fish_bones.png", new Point2D.Double(10, -14.5), 5, 0, HalfLifeInfo.convertYearsToMs(250E6), true));
     	_datableObjects.add(new DatableItem("Pottery", "pottery.png", new Point2D.Double(-18, -1.5), 2.8, Math.PI/2, HalfLifeInfo.convertYearsToMs(5000), true));
     	_datableObjects.add(new DatableItem("Rock 1", "rock_1.png", new Point2D.Double(-9.0, 2.5), 3, 0, HalfLifeInfo.convertYearsToMs(13E3), false));
     	_datableObjects.add(new DatableItem("Rock 2", "rock_2.png", new Point2D.Double(-4, -1.5), 1.5, 0, HalfLifeInfo.convertYearsToMs(1E4), false));
