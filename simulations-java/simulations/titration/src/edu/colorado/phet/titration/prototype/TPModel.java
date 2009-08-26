@@ -14,10 +14,10 @@ import edu.colorado.phet.titration.test.RootTest;
  */
 public class TPModel {
     
-    private static final boolean ROOTS_DURRAND_KERNER = false;
-    private static final boolean ROOTS_OPTIMIZED = false;
-    private static final int ROOTS_ITERATIONS = 300;
-    private static final double ROOTS_THRESHOLD = 1E-40;
+    public static boolean ROOTS_DURRAND_KERNER = false;
+    public static boolean ROOTS_OPTIMIZED = false;
+    public static int ROOTS_ITERATIONS = 30;
+    public static double ROOTS_THRESHOLD = 1E-40;
     
     private static final double Kw = TPConstants.Kw;
 

@@ -1,7 +1,10 @@
 package edu.colorado.phet.titration.prototype;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.GridBagConstraints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
@@ -9,10 +12,12 @@ import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.HorizontalLayoutStrategy;
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LogarithmicValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 
@@ -87,10 +92,18 @@ public class TPControlPanel extends JPanel {
     }
     
     private final TPChart chart;
+    
+    // controls for solution and titrant
     private final JComboBox solutionComboBox;
     private final JLabel titrantLabel;
     private final ConcentrationControl caControl, cbControl;
     private final KControl k1Control, k2Control, k3Control;
+    
+    // controls for polynomial roots
+    private final JRadioButton laguerreRadioButton, durandKernerRadioButton;
+    private final JCheckBox optimizedCheckBox;
+    private final LinearValueControl iterationsControl;
+    private final LogarithmicValueControl thresholdControl;
     
     public TPControlPanel( TPChart chart ) {
         super();
@@ -160,6 +173,81 @@ public class TPControlPanel extends JPanel {
             }
         } );
         
+        // polynomial roots controls
+        JPanel rootsPanel = new JPanel();
+        rootsPanel.setBorder( new TitledBorder( "polynomial roots" ) );
+        {
+            
+            laguerreRadioButton = new JRadioButton( "Laguerre" );
+            laguerreRadioButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    TPModel.ROOTS_DURRAND_KERNER = false;
+                    optimizedCheckBox.setEnabled( false );
+                    thresholdControl.setEnabled( optimizedCheckBox.isEnabled() && optimizedCheckBox.isSelected() );
+                    update( e.getSource() );
+                }
+            } );
+            
+            durandKernerRadioButton = new JRadioButton( "Durand-Kerner" );
+            durandKernerRadioButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    TPModel.ROOTS_DURRAND_KERNER = true;
+                    optimizedCheckBox.setEnabled( true );
+                    thresholdControl.setEnabled( optimizedCheckBox.isEnabled() && optimizedCheckBox.isSelected() );
+                    update( e.getSource() );
+                }
+            } );
+            
+            ButtonGroup group = new ButtonGroup();
+            group.add( laguerreRadioButton );
+            group.add( durandKernerRadioButton );
+            laguerreRadioButton.setSelected( !TPModel.ROOTS_DURRAND_KERNER );
+            durandKernerRadioButton.setSelected( TPModel.ROOTS_DURRAND_KERNER );
+            
+            iterationsControl = new LinearValueControl( 10, 3000, "iterations:", "###0", "", new HorizontalLayoutStrategy() );
+            iterationsControl.setValue( TPModel.ROOTS_ITERATIONS );
+            iterationsControl.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    TPModel.ROOTS_ITERATIONS = (int) iterationsControl.getValue();
+                    update( e.getSource() );
+                }
+            } );
+            
+            optimizedCheckBox = new JCheckBox( "optimized" );
+            optimizedCheckBox.setSelected( TPModel.ROOTS_OPTIMIZED );
+            optimizedCheckBox.setEnabled( durandKernerRadioButton.isSelected() );
+            optimizedCheckBox.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    TPModel.ROOTS_OPTIMIZED = optimizedCheckBox.isSelected();
+                    thresholdControl.setEnabled( optimizedCheckBox.isEnabled() && optimizedCheckBox.isSelected() );
+                    update( e.getSource() );
+                }
+            } );
+            
+            thresholdControl = new LogarithmicValueControl( 1E-40, 1, "threshold:", "0.0E0", "", new HorizontalLayoutStrategy() );
+            thresholdControl.setValue( TPModel.ROOTS_THRESHOLD );
+            thresholdControl.setEnabled( optimizedCheckBox.isEnabled() && optimizedCheckBox.isSelected() );
+            thresholdControl.addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    TPModel.ROOTS_THRESHOLD = (int) thresholdControl.getValue();
+                    update( e.getSource() );
+                }
+            } );
+            
+            // layout
+            EasyGridBagLayout layout = new EasyGridBagLayout( rootsPanel );
+            rootsPanel.setLayout( layout );
+            int row = 0;
+            int column = 0;
+            layout.addComponent( new JLabel( "method:"), row, column++ );
+            layout.addComponent( laguerreRadioButton, row, column++ );
+            layout.addComponent( durandKernerRadioButton, row++, column++ );
+            column = 0;
+            layout.addComponent( iterationsControl, row++, column, 3, 1 );
+            layout.addComponent( optimizedCheckBox, row++, column, 3, 1 );
+            layout.addComponent( thresholdControl, row++, column, 3, 1 );
+        }
+        
         // layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         layout.setAnchor( GridBagConstraints.WEST );
@@ -170,19 +258,20 @@ public class TPControlPanel extends JPanel {
         layout.addComponent( titrantLabel, row++, column );
         layout.addFilledComponent( new JSeparator(), row++, column, GridBagConstraints.HORIZONTAL );
         layout.addComponent( caControl, row++, column );
-        layout.addFilledComponent( new JSeparator(), row++, column, GridBagConstraints.HORIZONTAL );
         layout.addComponent( cbControl, row++, column );
         layout.addFilledComponent( new JSeparator(), row++, column, GridBagConstraints.HORIZONTAL );
         layout.addComponent( k1Control, row++, column );
-        layout.addFilledComponent( new JSeparator(), row++, column, GridBagConstraints.HORIZONTAL );
         layout.addComponent( k2Control, row++, column );
-        layout.addFilledComponent( new JSeparator(), row++, column, GridBagConstraints.HORIZONTAL );
         layout.addComponent( k3Control, row++, column );
+        layout.addFilledComponent( new JSeparator(), row++, column, GridBagConstraints.HORIZONTAL );
+        layout.addComponent( rootsPanel, row++, column );
         
         update( k1Control );
     }
     
     private void update( Object control ) {
+        
+        setCursor( new Cursor( Cursor.WAIT_CURSOR ) );
         
         if ( control instanceof KControl ) {
             adjustKControls( (KControl)control );
@@ -208,6 +297,8 @@ public class TPControlPanel extends JPanel {
         else if ( choice == SOLUTION_TRIPROTIC_ACID ) {
             updateTriproticAcid();
         }
+        
+        setCursor( new Cursor( Cursor.DEFAULT_CURSOR ) );
     }
     
     private void updateStrongBase() {
