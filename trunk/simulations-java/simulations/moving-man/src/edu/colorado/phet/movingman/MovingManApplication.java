@@ -25,10 +25,6 @@ public class MovingManApplication extends PiccoloPhetApplication {
         addModule( m );
 
         getPhetFrame().addMenu( new OptionsMenu( getPhetFrame(), m ) );
-
-        if ( isDeveloperControlsEnabled() ) {
-            getPhetFrame().addMenu( new MovingManDeveloperMenu() );
-        }
     }
 
     public static void main( final String[] args ) {
