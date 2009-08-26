@@ -17,9 +17,9 @@ import edu.colorado.phet.movingman.MovingManResources;
  * Dec 4, 2007 at 3:37:57 PM
  */
 public class MovingManMotionModel extends MotionModel implements UpdateableObject, IMovingManModel, IMotionBody, UpdateStrategy.DefaultUpdateStrategy.Listener {
-    private ITemporalVariable x;// = new DefaultTemporalVariable();
-    private ITemporalVariable v;// = new DefaultTemporalVariable();
-    private ITemporalVariable a;// = new DefaultTemporalVariable();
+    private ITemporalVariable x= new DefaultTemporalVariable();
+    private ITemporalVariable v= new DefaultTemporalVariable();
+    private ITemporalVariable a= new DefaultTemporalVariable();
 
     private ControlGraphSeries xSeries;
     private ControlGraphSeries vSeries;
@@ -65,19 +65,11 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
         velocityDriven.addListener( this );
         accelDriven.addListener( this );
 
-//        x = new DefaultTemporalVariable();
-//        v = x.getDerivative();
-//        a = v.getDerivative();
-        x = new DefaultTemporalVariable();
-        v = new DefaultTemporalVariable();
-        a = new DefaultTemporalVariable();
-
         addTemporalVariables( new ITemporalVariable[]{x, v, a} );
 
         xSeries = new ControlGraphSeries( MovingManResources.getString( "variables.position" ), Color.blue, MovingManResources.getString( "variables.position.abbreviation" ), MovingManResources.getString( "units.meters.abbreviation" ), new BasicStroke( 2 ), null, x, true );
         vSeries = new ControlGraphSeries( MovingManResources.getString( "variables.velocity" ), Color.red, MovingManResources.getString( "variables.velocity.abbreviation" ), MovingManResources.getString( "units.velocity.abbreviation" ), new BasicStroke( 2 ), null, v, true );
         aSeries = new ControlGraphSeries( MovingManResources.getString( "variables.acceleration" ), Color.green, MovingManResources.getString( "variables.acceleration.abbreviation" ), MovingManResources.getString( "units.acceleration.abbreviation" ), new BasicStroke( 2 ), null, a, true );
-//        v=x.getDerivative();
     }
 
     public void stepInTime( double dt ) {
