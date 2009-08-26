@@ -106,6 +106,7 @@ public class NuclearPhysicsStrings {
 
     public static final String RESET_NUCLEUS = NuclearPhysicsResources.getString( "SharedLabels.ResetNucleus" );
     public static final String RESET_NUCLEI = NuclearPhysicsResources.getString( "SharedLabels.ResetNuclei" );
+    public static final String SOUND_ENABLED = NuclearPhysicsResources.getString( "SharedLabels.SoundEnabled" );
     
     public static final String DECAY_ENERGY_PROFILE_X_AXIS_LABEL = NuclearPhysicsResources.getString( "DecayEnergyProfilePanel.XAxisLabel" );
     public static final String DECAY_ENERGY_PROFILE_Y_AXIS_LABEL = NuclearPhysicsResources.getString( "DecayEnergyProfilePanel.YAxisLabel" );
