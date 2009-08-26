@@ -34,7 +34,7 @@ public class OptionsMenu extends JMenu {
         add( jcbmi );
         addSeparator();
         JRadioButtonMenuItem closed = new JRadioButtonMenuItem( MovingManResources.getString( "options.walls" ), !module.isBoundaryOpen() );
-        JRadioButtonMenuItem open = new JRadioButtonMenuItem( MovingManResources.getString( "options.free-range" ), module.isBoundaryOpen());
+        JRadioButtonMenuItem open = new JRadioButtonMenuItem( MovingManResources.getString( "options.free-range" ), module.isBoundaryOpen() );
         open.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setBoundaryOpen( true );

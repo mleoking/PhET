@@ -1,25 +1,14 @@
 package edu.colorado.phet.movingman;
 
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
-import javax.swing.*;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
-
 import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
-import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
-import edu.colorado.phet.common.motion.model.UpdateStrategy;
 import edu.colorado.phet.movingman.motion.MotionProjectLookAndFeel;
 import edu.colorado.phet.movingman.motion.movingman.MovingManMotionModule;
 import edu.colorado.phet.movingman.motion.movingman.OptionsMenu;
-import edu.colorado.phet.simtemplate.developer.DeveloperMenu;
 
 /**
  * Author: Sam Reid

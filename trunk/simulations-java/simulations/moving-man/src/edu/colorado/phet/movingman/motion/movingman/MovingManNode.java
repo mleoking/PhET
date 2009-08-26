@@ -17,7 +17,7 @@ public class MovingManNode extends AbstractMovingManNode {
     private IMovingManModel motionModel;
 
     public MovingManNode( final IMovingManModel motionModel ) throws IOException {
-        this.motionModel=motionModel;
+        this.motionModel = motionModel;
         final PImage manImage = super.getManImage();
         manImage.addInputEventListener( new CursorHandler() );
         manImage.addInputEventListener( new PBasicInputEventHandler() {

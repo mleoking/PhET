@@ -17,9 +17,9 @@ import edu.colorado.phet.movingman.MovingManResources;
  * Dec 4, 2007 at 3:37:57 PM
  */
 public class MovingManMotionModel extends MotionModel implements UpdateableObject, IMovingManModel, IMotionBody, UpdateStrategy.DefaultUpdateStrategy.Listener {
-    private ITemporalVariable x= new DefaultTemporalVariable();
-    private ITemporalVariable v= new DefaultTemporalVariable();
-    private ITemporalVariable a= new DefaultTemporalVariable();
+    private ITemporalVariable x = new DefaultTemporalVariable();
+    private ITemporalVariable v = new DefaultTemporalVariable();
+    private ITemporalVariable a = new DefaultTemporalVariable();
 
     private ControlGraphSeries xSeries;
     private ControlGraphSeries vSeries;
@@ -233,7 +233,7 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
     public void setUpdateStrategy( UpdateStrategy updateStrategy ) {
         this.updateStrategy = updateStrategy;
         for ( Listener listener : listeners ) {
-             listener.updateStrategyChanged();
+            listener.updateStrategyChanged();
         }
     }
 
