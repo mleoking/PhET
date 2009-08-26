@@ -1,0 +1,1 @@
+Changed default window sizes to 4, based on Kathy's 8-26-2009 email
