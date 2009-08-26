@@ -17,29 +17,6 @@ import edu.colorado.phet.movingman.MovingManResources;
  * Dec 4, 2007 at 3:37:57 PM
  */
 public class MovingManMotionModel extends MotionModel implements UpdateableObject, IMovingManModel, IMotionBody, UpdateStrategy.DefaultUpdateStrategy.Listener {
-    /*
-
-     X.long-label=
-     X.short-label=
-     X.color=
-
-     x.isEqualTo(TemporalVariable.clamp(v.integrate().plus(x.lastValue(), 0, 12345));
-
-     v.isEqualTo(x.derivative()).and(a.integrate().plus(v.lastValue()));
-
-     a.isEqualTo(v.derivative());
-
-     Graph g = new Graph(new TemporalVariable[]{x, v, a});
-
-     g.setAdjustableVariable(x);
-
-     mu.isEqualTo(TemporalVariable.if(v.isZero()), MU_STATIC).and(TemporalVariable.if(v.isNonZero(), MU_DYNAMIC);
-
-
-
-
-    */
-
     private ITemporalVariable x;// = new DefaultTemporalVariable();
     private ITemporalVariable v;// = new DefaultTemporalVariable();
     private ITemporalVariable a;// = new DefaultTemporalVariable();
@@ -75,9 +52,9 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
 //    };
 
     private UpdateStrategy updateStrategy = positionDriven;
-    private ArrayList listeners = new ArrayList();
+    private ArrayList<Listener> listeners = new ArrayList<Listener>();
     private boolean boundaryOpen = false;
-    private ArrayList crashTimes = new ArrayList();
+    private ArrayList<Double> crashTimes = new ArrayList<Double>();
     private double lastPlaybackTime;
 
     public MovingManMotionModel( ConstantDtClock clock ) {
@@ -132,9 +109,8 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
             return false;
 
         }
-        for ( int i = 0; i < crashTimes.size(); i++ ) {
-            double t = ( (Double) crashTimes.get( i ) ).doubleValue();
-            if ( t >= t0 && t < t1 ) {
+        for ( Double crashTime : crashTimes ) {
+            if ( crashTime >= t0 && crashTime < t1 ) {
                 return true;
             }
         }
@@ -264,33 +240,33 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
 
     public void setUpdateStrategy( UpdateStrategy updateStrategy ) {
         this.updateStrategy = updateStrategy;
-        for ( int i = 0; i < listeners.size(); i++ ) {
-            ( (Listener) listeners.get( i ) ).updateStrategyChanged();
+        for ( Listener listener : listeners ) {
+             listener.updateStrategyChanged();
         }
     }
 
     public void crashedMin( double velocity ) {
         System.out.println( "MovingManMotionModel.crashedMin, v=" + velocity );
-        crashTimes.add( new Double( getTime() ) );
+        crashTimes.add( getTime() );
         notifyCrashedMin( velocity );
     }
 
     private void notifyCrashedMin( double velocity ) {
-        for ( int i = 0; i < listeners.size(); i++ ) {
-            ( (Listener) listeners.get( i ) ).crashedMin( velocity );
+        for ( Listener listener : listeners ) {
+            listener.crashedMin( velocity );
         }
     }
 
     public void crashedMax( double velocity ) {
         System.out.println( "MovingManMotionModel.crashedMax, v=" + velocity );
-        crashTimes.add( new Double( getTime() ) );
+        crashTimes.add( getTime() );
         notifyCrashedMax( velocity );
 
     }
 
     private void notifyCrashedMax( double velocity ) {
-        for ( int i = 0; i < listeners.size(); i++ ) {
-            ( (Listener) listeners.get( i ) ).crashedMax( velocity );
+        for ( Listener listener : listeners ) {
+            listener.crashedMax( velocity );
         }
     }
 
@@ -320,8 +296,8 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
     }
 
     private void notifyBoundaryChanged() {
-        for ( int i = 0; i < listeners.size(); i++ ) {
-            ( (Listener) listeners.get( i ) ).boundaryChanged();
+        for ( Listener listener : listeners ) {
+            listener.boundaryChanged();
         }
     }
 
