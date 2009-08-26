@@ -31,8 +31,8 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
     private double max = 10;
 
 
-    private UpdateStrategy.PositionDriven positionDriven = new UpdateStrategy.PositionDriven( min, max );
-    private UpdateStrategy.VelocityDriven velocityDriven = new UpdateStrategy.VelocityDriven( min, max );
+    private UpdateStrategy.PositionDriven positionDriven = new UpdateStrategy.PositionDriven( 4,4,min, max );
+    private UpdateStrategy.VelocityDriven velocityDriven = new UpdateStrategy.VelocityDriven( 4,min, max );
     private UpdateStrategy.AccelerationDriven accelDriven = new UpdateStrategy.AccelerationDriven( min, max );
 
 //    private UpdateStrategy positionDriven = new UpdateStrategy() {
@@ -342,6 +342,7 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
         private Interpreter interpreter = new Interpreter();
 
         public MovingManExpressionUpdate( String text ) {
+            super(4,4,-100,100);
             this.text = text;
         }
 

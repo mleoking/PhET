@@ -13,8 +13,8 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 
 public class TestConstantVelocity {
     public static void main( String[] args ) {
-        UpdateStrategy.PositionDriven updateRule = new UpdateStrategy.PositionDriven();
-        SingleBodyMotionModel model = new SingleBodyMotionModel( new ConstantDtClock( 30, 1 ) );
+        UpdateStrategy.PositionDriven updateRule = new UpdateStrategy.PositionDriven(4,4,Double.NEGATIVE_INFINITY,Double.POSITIVE_INFINITY);
+        SingleBodyMotionModel model = new SingleBodyMotionModel( 4,4,4,new ConstantDtClock( 30, 1 ) );
         model.setUpdateStrategy( updateRule );
         System.out.println( "init state=" + model );
         for ( int i = 0; i <= 100; i++ ) {

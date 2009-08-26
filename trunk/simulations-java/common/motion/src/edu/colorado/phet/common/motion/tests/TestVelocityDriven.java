@@ -30,8 +30,8 @@ public class TestVelocityDriven {
         frame.setSize( 600, 600 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
-        singleBodyMotionModel = new SingleBodyMotionModel( new ConstantDtClock( 30, 1 ) );
-        final UpdateStrategy.VelocityDriven updateStrategy = new UpdateStrategy.VelocityDriven();
+        singleBodyMotionModel = new SingleBodyMotionModel( 4,4,4,new ConstantDtClock( 30, 1 ) );
+        final UpdateStrategy.VelocityDriven updateStrategy = new UpdateStrategy.VelocityDriven(4,-10,10);
         singleBodyMotionModel.setUpdateStrategy( updateStrategy );
         final ModelSlider modelSlider = new ModelSlider( "Velocity", "m/s", -10, 10, singleBodyMotionModel.getMotionBody().getVelocity() );
         modelSlider.addChangeListener( new ChangeListener() {

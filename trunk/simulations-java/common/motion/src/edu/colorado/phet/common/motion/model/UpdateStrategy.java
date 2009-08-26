@@ -107,14 +107,13 @@ public interface UpdateStrategy {
     }
 
     public static class PositionDriven extends DefaultUpdateStrategy {
-        private int velocityWindow = 4;
-        private int accelerationWindow = 4;
+        private int velocityWindow ;
+        private int accelerationWindow ;
 
-        public PositionDriven() {
-        }
-
-        public PositionDriven( double minX, double maxX ) {
-            super( minX, maxX );
+        public PositionDriven(int velocityWindow,int accelerationWindow,double minX,double maxX) {
+            super(minX,maxX);
+            this.velocityWindow=velocityWindow;
+            this.accelerationWindow= accelerationWindow;
         }
 
         public TimeData getNewX( IMotionBody motionBody, double dt, double time ) {
@@ -136,13 +135,11 @@ public interface UpdateStrategy {
     }
 
     public static class VelocityDriven extends DefaultUpdateStrategy {
-        public static int velWindow =4;
+        private int velWindow;
 
-        public VelocityDriven() {
-        }
-
-        public VelocityDriven( double min, double max ) {
+        public VelocityDriven( int velWindow,double min, double max ) {
             super( min, max );
+            this.velWindow=velWindow;
         }
 
         public TimeData getNewV( IMotionBody motionBody, double dt, double time ) {
