@@ -66,7 +66,7 @@ public class TPChart extends JFreeChart {
         
         public void addPoint( double x, double y ) {
             if ( Double.isNaN( y ) ) {
-                System.out.println( "WARNING: x=" + x + " at y=" + y );
+                System.out.println( "WARNING: at volume=" + x + " pH=" + y );
             }
             series.add( x, y );
         }
