@@ -1,0 +1,43 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: August 20-26, 2009 (Thu-Wed)
+
+ACCOMPLISHMENTS:
+
+  Acid Base Solutions:
+  - changed "Matching Game" to "Matching Challenge"
+  - published 0.01.33
+  - ready for interviews
+  
+  Titration:
+  - Java prototype of Octave model, with user-interface controls for model parameters
+  - published 0.00.01
+  
+  translations:
+  - Khmer locale issues with JB, #1750
+  - answered questions about MPTL paper
+  
+  misc:
+  - dev meeting about website based on Wicket
+  - misc dev discussions and questions
+  
+WHAT'S NEXT:
+ 
+  - continue work on prototype for Titration model
+  - Acid Base Solutions: what's next?
+  - test new translation deployment process for JO
+  - finish Glaciers (waiting for Wendy's feedback)
+  - Translation Utility enhancements related to KSU
+  - MPTL paper
+  
+ISSUES:
+
+  - none
+  
+DATES UNAVAILABLE:
+
+   August 27 - September 1
+   October 19-30
+  
+--
