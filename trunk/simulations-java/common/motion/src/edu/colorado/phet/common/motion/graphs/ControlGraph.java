@@ -105,7 +105,6 @@ public class ControlGraph extends PNode {
         this.zoomControl = new ZoomSuiteNode();
         this.titleLayer = createTitleLayer();
 
-
         dynamicJFreeChartNode = new DynamicJFreeChartNode( pSwingCanvas, jFreeChart );
         dynamicJFreeChartNode.setBuffered( true );
         dynamicJFreeChartNode.setBounds( 0, 0, 300, 400 );
