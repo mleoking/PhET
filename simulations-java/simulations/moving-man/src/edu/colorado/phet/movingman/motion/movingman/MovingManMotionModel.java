@@ -10,8 +10,8 @@ import edu.colorado.phet.common.motion.graphs.ControlGraphSeries;
 import edu.colorado.phet.common.motion.model.*;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.movingman.MovingManResources;
 import edu.colorado.phet.movingman.MovingManDefaults;
+import edu.colorado.phet.movingman.MovingManResources;
 
 /**
  * Created by: Sam
@@ -27,31 +27,12 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
     private ControlGraphSeries aSeries;
 
     public static final int MAX_T = 20;
-
     private double min = -10;
     private double max = 10;
-
 
     private UpdateStrategy.PositionDriven positionDriven = new UpdateStrategy.PositionDriven( MovingManDefaults.SMOOTH_XV, MovingManDefaults.SMOOTH_XA, min, max );
     private UpdateStrategy.VelocityDriven velocityDriven = new UpdateStrategy.VelocityDriven( MovingManDefaults.SMOOTH_VA, min, max );
     private UpdateStrategy.AccelerationDriven accelDriven = new UpdateStrategy.AccelerationDriven( min, max );
-
-//    private UpdateStrategy positionDriven = new UpdateStrategy() {
-//        public void update( IMotionBody motionBody, double dt, double time ) {
-//            x.stepInTime( dt );
-//        }
-//    };
-//    private UpdateStrategy velocityDriven = new UpdateStrategy() {
-//        public void update( IMotionBody motionBody, double dt, double time ) {
-//            v.stepInTime( dt );
-//        }
-//    };
-//    private UpdateStrategy accelDriven = new UpdateStrategy() {
-//        public void update( IMotionBody motionBody, double dt, double time ) {
-//            a.stepInTime( dt );
-//        }
-//    };
-
     private UpdateStrategy updateStrategy = positionDriven;
     private ArrayList<Listener> listeners = new ArrayList<Listener>();
     private boolean boundaryOpen = false;
@@ -76,8 +57,6 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
     public void stepInTime( double dt ) {
         lastPlaybackTime = Double.NaN;
         super.stepInTime( dt );
-//        x.addValue( x.getValue(), getTime() );
-//        v.addValue( v.getValue(), getTime() );
         updateStrategy.update( this, dt, super.getTime() );
     }
 
@@ -201,10 +180,6 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
 
     public void setVelocity( double v ) {
         this.v.setValue( v );
-    }
-
-    public void startRecording() {
-        getTimeSeriesModel().startRecording();
     }
 
     public ControlGraphSeries getXSeries() {
