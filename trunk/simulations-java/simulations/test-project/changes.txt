@@ -1,3 +1,5 @@
+# 2.03.02 (34475) Aug 26, 2009
+8/26/09 Deploying with new version of the preferred-fonts file in order to enable Khmer (hopefully)
 # 2.03.01 (34466) Aug 26, 2009
 8/26/09 Temporary: Added a tab the tries to display Khmer characters so that support for this font can be easily tested
 # 2.03.00 (33245) Jul 11, 2009
