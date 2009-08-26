@@ -1,14 +1,16 @@
-/* Copyright 2007-2008, University of Colorado */
+/* Copyright 2009, University of Colorado */
 
 package edu.colorado.phet.neuron.model;
 
 
 /**
- * ExampleModel is the model for ExampleModule.
+ * This class represents the main class for modeling the axon.  It acts as the
+ * central location where the interaction between the membrane, the atoms
+ * (i.e. ions), and the gates is all governed.
  *
- * @author Chris Malley (cmalley@pixelzoom.com)
+ * @author John Blanco
  */
-public class NeuronModel {
+public class Axon {
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -21,12 +23,10 @@ public class NeuronModel {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public NeuronModel( NeuronClock clock ) {
+    public Axon( NeuronClock clock ) {
         super();
         
         this.clock = clock;   
-        
-        
     }
     
     //----------------------------------------------------------------------------
