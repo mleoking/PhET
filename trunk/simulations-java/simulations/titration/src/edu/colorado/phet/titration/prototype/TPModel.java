@@ -24,7 +24,8 @@ public class TPModel {
     private TPModel() {}
 
     /**
-     * Strong base titrated with a strong acid.
+     * Strong base titrated with a strong acid.   
+     * Octave implementation is in file strongbase.m
      */
     public static final double strongBase( double Ca, double Cb, double Va, double Vb ) {
         double a = -( Va + Vb );
@@ -37,6 +38,7 @@ public class TPModel {
 
     /**
      * Weak base titrated with a strong acid.
+     * Octave implementation is in file weakbase.m
      */
     public static double weakBase( double Ca, double Cb, double Va, double Vb, double Kb ) {
         double a = -( Va + Vb );
@@ -50,6 +52,7 @@ public class TPModel {
 
     /**
      * Strong acid titrated with a strong base.
+     * Octave implementation is in file strongacid.m
      */
     public static final double strongAcid( double Ca, double Cb, double Va, double Vb ) {
         double a = Va + Vb;
@@ -62,6 +65,7 @@ public class TPModel {
 
     /**
      * Weak acid titrated with a strong base.
+     * Octave implementation is in file weakacid.m
      */
     public static final double weakAcid( double Ca, double Cb, double Va, double Vb, double Ka ) {
         double a = Va + Vb;
@@ -73,32 +77,9 @@ public class TPModel {
         return pH;
     }
 
-    /*
-     ## diprotic acid/strong base
-
-    function diproticacid (Ca,Cb,Va,Vb,K1,K2)
-    Kw = 1e-14;
-
-    ## solve quartic eqn for H: a*H^4 + b*H^3 + c*H^2 + d*H + e = 0
-    a = Va + Vb;
-    b = Cb.*Vb + Va.*K1 + Vb.*K1;
-    c = Cb.*Vb.*K1 - Ca.*Va.*K1 + Va.*K1.*K2 + Vb.*K1.*K2 - Va.*Kw - Vb.*Kw;
-    d = Cb.*Vb.*K1.*K2 - 2*Ca.*Va.*K1.*K2 - Va.*K1.*Kw - Vb.*K1.*Kw;
-    e = -(K1.*K2.*Kw).*(Va + Vb);
-
-    for indx = 1:length(Vb)
-        x = roots([a(indx), b(indx), c(indx), d(indx), e(indx)]);
-        x = sort(x);
-        H4(indx) = x(4);
-    end
-
-    ## find pH at each Vb value
-    pH4 = -log10(H4);
-
-    ## plot pH versus Vb
-    plot(Vb,pH4); axis ([0,75,0,14]); xlabel('Vb'); ylabel('pH');
-
-    endfunction
+    /**
+     * Diprotic acid titrated with a strong base.
+     * Octave implementation is in file diproticacid.m
      */
     public static final double diproticAcid( double Ca, double Cb, double Va, double Vb, double Ka1, double Ka2 ) {
         double a = Va + Vb;
@@ -110,41 +91,9 @@ public class TPModel {
         return pH( coefficients );
     }
 
-    /*
-     ## triprotic acid/strong base
-
-    function triproticacid (Ca,Cb,Va,Vb,K1,K2,K3)
-    Kw = 1e-14;
-
-    ## solve 5th-order eqn for H: a*H^5 + b*H^4 + c*H^3 + d*H^2 + e*H + f = 0
-    a = Va + Vb;
-    b = Cb.*Vb + Va.*K1 + Vb.*K1;
-    c = -Ca.*Va.*K1 + Cb.*Vb.*K1 + Va.*K1.*K2 + Vb.*K1.*K2 - Va.*Kw - Vb.*Kw;
-    d = -2*Ca.*Va.*K1.*K2 + Cb.*Vb.*K1.*K2 + Va.*K1.*K2.*K3 + Vb.*K1.*K2.*K3 - Va.*K1.*Kw - Vb.*K1.*Kw;
-    e = -3*Ca.*Va.*K1.*K2.*K3 + Cb.*Vb.*K1.*K2.*K3 - Va.*K1.*K2.*Kw - Vb.*K1.*K2.*Kw;
-    f = -Va.*K1.*K2.*K3.*Kw - Vb.*K1.*K2.*K3.*Kw;
-
-    for indx = 1:length(Vb)
-        x = roots([a(indx), b(indx), c(indx), d(indx), e(indx), f(indx)]);
-        x = sort(x);
-        H5(indx) = x(5);
-    end
-
-    ## find pH at each Vb value
-    #pH1 = -log10(H1);
-    #pH2 = -log10(H2);
-    #pH3 = -log10(H3);
-    #pH4 = -log10(H4);
-    pH5 = -log10(H5);
-
-    ## plot pH versus Vb
-    #plot(Vb,pH1);
-    #plot(Vb,pH2);
-    #plot(Vb,pH3);
-    #plot(Vb,pH4);
-    plot(Vb,pH5); axis ([0,100,0,14]); xlabel('Vb'); ylabel('pH');
-
-    endfunction
+    /**
+     * Triprotic acid titrated with a strong base.
+     * Octave implementation is in file triproticacid.m
      */
     public static final double triproticAcid( double Ca, double Cb, double Va, double Vb, double Ka1, double Ka2, double Ka3 ) {
         double a = Va + Vb;
@@ -214,11 +163,5 @@ public class TPModel {
             System.out.print( " " + roots[i].getReal() );
         }
         System.out.println();
-    }
-    
-    public static void main( String[] args ) {
-        TPModel.weakBase( 0.1, 0.1, 10, 25, 0.1 );
-        double[] coeff = new double[] { 4, 3,2,1 };
-        pH( coeff );
     }
 }
