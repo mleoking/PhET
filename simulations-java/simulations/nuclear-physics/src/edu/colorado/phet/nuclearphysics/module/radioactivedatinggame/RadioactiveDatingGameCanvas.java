@@ -555,7 +555,11 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         	}
         }
         if (allItemsGuessedAndGuessesCorrect){
+        	
+   			_soundState.play( "short-fanfare.wav" );
+
         	// Put up the dialog.
+        	
         	JOptionPane.showMessageDialog(this, NuclearPhysicsStrings.GUESSES_CORRECT_MESSAGE,
         			NuclearPhysicsStrings.GUESSES_CORRECT_TITLE, JOptionPane.PLAIN_MESSAGE);
         }
