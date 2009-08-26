@@ -177,7 +177,6 @@ public class TPControlPanel extends JPanel {
         JPanel rootsPanel = new JPanel();
         rootsPanel.setBorder( new TitledBorder( "polynomial roots" ) );
         {
-            
             laguerreRadioButton = new JRadioButton( "Laguerre" );
             laguerreRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -204,7 +203,7 @@ public class TPControlPanel extends JPanel {
             laguerreRadioButton.setSelected( !TPModel.ROOTS_DURRAND_KERNER );
             durandKernerRadioButton.setSelected( TPModel.ROOTS_DURRAND_KERNER );
             
-            iterationsControl = new LinearValueControl( 10, 3000, "iterations:", "###0", "", new HorizontalLayoutStrategy() );
+            iterationsControl = new LinearValueControl( TPConstants.ROOTS_ITERATIONS_RANGE.getMin(), TPConstants.ROOTS_ITERATIONS_RANGE.getMax(), "iterations:", "###0", "", new HorizontalLayoutStrategy() );
             iterationsControl.setValue( TPModel.ROOTS_ITERATIONS );
             iterationsControl.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
@@ -224,7 +223,7 @@ public class TPControlPanel extends JPanel {
                 }
             } );
             
-            thresholdControl = new LogarithmicValueControl( 1E-40, 1, "threshold:", "0.0E0", "", new HorizontalLayoutStrategy() );
+            thresholdControl = new LogarithmicValueControl( TPConstants.ROOTS_THRESHOLD_RANGE.getMin(), TPConstants.ROOTS_THRESHOLD_RANGE.getMax(), "threshold:", "0.0E0", "", new HorizontalLayoutStrategy() );
             thresholdControl.setValue( TPModel.ROOTS_THRESHOLD );
             thresholdControl.setEnabled( optimizedCheckBox.isEnabled() && optimizedCheckBox.isSelected() );
             thresholdControl.addChangeListener( new ChangeListener() {
