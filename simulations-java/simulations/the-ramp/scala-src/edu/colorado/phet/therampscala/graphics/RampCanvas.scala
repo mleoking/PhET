@@ -72,7 +72,8 @@ abstract class AbstractRampCanvas(model: RampModel,
   val fbdNode = new FreeBodyDiagramNode(freeBodyDiagramModel, 200, 200, fbdWidth, fbdWidth, model.coordinateFrameModel, coordinateSystemModel.adjustable, PhetCommonResources.getImage("buttons/maximizeButton.png".literal))
 
   def updateFBDLocation() = {
-    if (getHeight>0 && getWidth>0)
+    fbdNode.setOffset(10,10)
+    if (getHeight>0 && getWidth>0 && !getVisibleModelBounds.contains(fbdNode.getFullBounds))
     fbdNode.setOffset(getVisibleModelBounds.getX+200,getVisibleModelBounds.getY)
   }
   addComponentListener(new ComponentAdapter(){
@@ -84,7 +85,6 @@ abstract class AbstractRampCanvas(model: RampModel,
   
   val fbdListener = (pt: Point2D) => {model.bead.parallelAppliedForce = pt.getX}
   fbdNode.addListener(fbdListener)
-  fbdNode.setOffset(10, 10)
   addNode(fbdNode)
   defineInvokeAndPass(freeBodyDiagramModel.addListenerByName) {
     fbdNode.setVisible(freeBodyDiagramModel.visible && !freeBodyDiagramModel.windowed)
