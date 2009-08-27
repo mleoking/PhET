@@ -13,7 +13,7 @@ class CBS(modelWidth: Double,
           modelHeight: Double,
           canvas: JComponent,
           modelOffsetY: Double)
-        extends PhetPCanvas.TransformStrategy {
+        extends PhetPCanvas.TransformStrategy() {
   def this(dim: PDimension, canvas: JComponent) = this (dim.width, dim.height, canvas, 0)
 
   def this(modelWidth: Double, modelHeight: Double, canvas: JComponent) = this (modelWidth, modelHeight, canvas, 0.0)
