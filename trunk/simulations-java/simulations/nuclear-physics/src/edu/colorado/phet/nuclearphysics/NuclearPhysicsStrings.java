@@ -198,7 +198,8 @@ public class NuclearPhysicsStrings {
     
     public static final String TIME_ABBREVIATION= NuclearPhysicsResources.getString( "TimeAbbreviation" );
     
-    public static final String CHECK_AGE=NuclearPhysicsResources.getString("DatingGame.CheckAge");
+    public static final String GUESS_PROMPT=NuclearPhysicsResources.getString("DatingGame.Prompt");
+    public static final String CHECK_GUESS=NuclearPhysicsResources.getString("DatingGame.CheckGuess");
     public static final String RESET_GUESSES = NuclearPhysicsResources.getString( "DatingGame.ResetGuesses" );
     public static final String GUESSES_CORRECT_TITLE = NuclearPhysicsResources.getString( "DatingGame.GuessesCorrectTitle" );
     public static final String GUESSES_CORRECT_MESSAGE = NuclearPhysicsResources.getString( "DatingGame.GuessesCorrectMessage" );

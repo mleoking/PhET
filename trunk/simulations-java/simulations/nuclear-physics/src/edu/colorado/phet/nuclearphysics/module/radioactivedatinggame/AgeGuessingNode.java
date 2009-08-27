@@ -51,10 +51,15 @@ public class AgeGuessingNode extends PNode {
 		background.setPaint(BACKGROUND_COLOR);
 		addChild(background);
 		
-		// Add the textual label.
-		PText title = new PText(item.getName());
-		title.setFont(TEXT_FONT);
-		background.addChild(title);
+		// Add the textual prompt at the top.
+		PText prompt = new PText(NuclearPhysicsStrings.GUESS_PROMPT);
+		prompt.setFont(TEXT_FONT);
+		background.addChild(prompt);
+		
+		// Add the label of the item being guessed.
+		PText itemName = new PText(item.getName());
+		itemName.setFont(TEXT_FONT);
+		background.addChild(itemName);
 		
 		// Create the sub-panel that will contain the edit box for entering
 		// the age, plus the units label.
@@ -81,7 +86,7 @@ public class AgeGuessingNode extends PNode {
 		background.addChild(ageEntryPSwing);
 		
 		// Create the sub-panel that contains the button. 
-		final JButton checkAgeButton = new JButton(NuclearPhysicsStrings.CHECK_AGE);
+		final JButton checkAgeButton = new JButton(NuclearPhysicsStrings.CHECK_GUESS);
 		checkAgeButton.setFont(TEXT_FONT);
 		checkAgeButton.setBackground(BACKGROUND_COLOR);
 		
@@ -101,17 +106,21 @@ public class AgeGuessingNode extends PNode {
 		// panel, but it looked weird.  The title was cut off, the edges
 		// would appear partially occluded, etc.  Hence the hand-rolled layout
 		// code that follows.
-		double width = Math.max(title.getFullBoundsReference().width,
-				Math.max(ageEntryPSwing.getFullBoundsReference().width, buttonPSwing.getFullBoundsReference().width));
+		double width = Math.max( prompt.getFullBoundsReference().width,
+				Math.max(itemName.getFullBoundsReference().width,
+				Math.max(ageEntryPSwing.getFullBoundsReference().width,
+				buttonPSwing.getFullBoundsReference().width)));
 		width = width * (1 + ENLARGEMENT_FACTOR);
-		double height = title.getFullBoundsReference().height + ageEntryPSwing.getFullBoundsReference().height
-			+ buttonPSwing.getFullBoundsReference().height;
+		double height = prompt.getFullBoundsReference().height + itemName.getFullBoundsReference().height + 
+			ageEntryPSwing.getFullBoundsReference().height + buttonPSwing.getFullBoundsReference().height;
 		double yOffset = height * (ENLARGEMENT_FACTOR / 2);
 		height = height * (1 + ENLARGEMENT_FACTOR);
 		background.setPathToRectangle(0, 0, (float)width, (float)height);
-		title.setOffset(width / 2 - title.getFullBoundsReference().width / 2, yOffset);
+		prompt.setOffset(width / 2 - prompt.getFullBoundsReference().width / 2, yOffset);
+		itemName.setOffset(width / 2 - itemName.getFullBoundsReference().width / 2,
+				prompt.getFullBoundsReference().getMaxY());
 		ageEntryPSwing.setOffset(width / 2 - ageEntryPSwing.getFullBoundsReference().width / 2,
-				title.getFullBoundsReference().getMaxY());
+				itemName.getFullBoundsReference().getMaxY());
 		buttonPSwing.setOffset(width / 2 - buttonPSwing.getFullBoundsReference().width / 2,
 				ageEntryPSwing.getFullBoundsReference().getMaxY());
 	}
