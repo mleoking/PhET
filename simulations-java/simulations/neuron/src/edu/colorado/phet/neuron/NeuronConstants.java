@@ -60,7 +60,7 @@ public class NeuronConstants {
     //----------------------------------------------------------------------------
     
     // Color of the "play area"
-    public static final Color CANVAS_BACKGROUND = Color.BLACK;
+    public static final Color CANVAS_BACKGROUND = new Color(204, 255, 249);
     
     // Color of labels placed directly on the play area
     public static final Color CANVAS_LABELS_COLOR = Color.BLACK;
