@@ -26,6 +26,8 @@ import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.common.NucleusType;
 import edu.colorado.phet.nuclearphysics.common.TimeDisplayNode;
+import edu.colorado.phet.nuclearphysics.module.radioactivedatinggame.RadiometricDatingMeter.MeasurementMode;
+import edu.colorado.phet.nuclearphysics.module.radioactivedatinggame.RadiometricMeasurementModel.SIMULATION_MODE;
 import edu.colorado.phet.nuclearphysics.view.NuclearDecayProportionChart;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -112,7 +114,23 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
         	};
         	public void touchedStateChanged(){
         		handleMeterTouchStateChanged();
-        	};
+        	}
+			@Override
+			public void measurementModeChanged() {
+            	// Most of the time the chart just shows unconnected data
+				// points so that gaps appear when no measurements were being
+				// made.  However, this looked weird in some cases, so we need
+				// the following special case.
+            	if (_model.getMeter().getNucleusTypeUsedForDating() == NucleusType.CARBON_14 &&
+            			_model.getMeter().getMeasurementMode() == MeasurementMode.AIR &&
+            			_model.getSimulationMode() == SIMULATION_MODE.ROCK){
+            		
+            		_proportionsChart.setLineModeEnabled(true);
+            	}
+            	else{
+            		_proportionsChart.setLineModeEnabled(false);
+            	}
+			};
         });
         
         // Register with the model for notifications of new elements coming
@@ -185,7 +203,7 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
         backgroundLayer.addChild(cloud2);
         
         // Create the chart that will display relative decay proportions.
-        _proportionsChart = new NuclearDecayProportionChart(false, false, false, false);
+        _proportionsChart = new NuclearDecayProportionChart(false, false, false, true);
         configureProportionsChart();
         _chartAndMeterLayer.addChild(_proportionsChart);
         

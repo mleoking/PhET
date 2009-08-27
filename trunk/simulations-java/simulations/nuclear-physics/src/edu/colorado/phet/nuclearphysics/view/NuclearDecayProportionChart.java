@@ -258,6 +258,10 @@ public class NuclearDecayProportionChart extends PNode {
 		_squareMode = enabled;
 	}
 	
+	public void setLineModeEnabled(boolean enabled){
+		_graph.setLineGraph(enabled);
+	}
+	
 	/**
 	 * Enable or disable the controls that allow the user to select whether
 	 * the graph shows the percentage of the dating element remaining or the
@@ -485,7 +489,7 @@ public class NuclearDecayProportionChart extends PNode {
 		
 		// Update the graph.
 		if (_squareMode && _decayEvents.size() > 0){
-			// Add an extra data point to made the graph have more of a square
+			// Add an extra data point to make the graph have more of a square
 			// appearance.  This was requested by Mike D and Kathy P.
 			Point2D previousDecayEvent = _decayEvents.get(_decayEvents.size() - 1);
 			Point2D fakeDecayEventForCorner = new Point2D.Double( time, previousDecayEvent.getY());
@@ -739,7 +743,7 @@ public class NuclearDecayProportionChart extends PNode {
 		
 		// Controls whether the points that are added to the graph are
 		// connected into a line or just drawn as discrete points.
-		private final boolean _lineGraph;
+		private boolean _lineGraph;
 
 		/**
 		 * Constructor
@@ -835,6 +839,10 @@ public class NuclearDecayProportionChart extends PNode {
 			_sizingRect.setPickable(false);
 			addChild(_sizingRect);
 			_sizingRect.setVisible(SIZING_RECT_VISIBLE);
+		}
+		
+		public void setLineGraph(boolean enabled){
+			_lineGraph = enabled;
 		}
 
 		public void updateYAxisGridLineLabels() {
