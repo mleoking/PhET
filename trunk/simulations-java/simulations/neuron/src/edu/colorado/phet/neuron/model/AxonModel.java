@@ -10,7 +10,7 @@ package edu.colorado.phet.neuron.model;
  *
  * @author John Blanco
  */
-public class Axon {
+public class AxonModel {
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -18,14 +18,13 @@ public class Axon {
     
     private final NeuronClock clock;
     private Particle particle = new Particle();
+    private AxonMembrane axonMembrane = new AxonMembrane();
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public Axon( NeuronClock clock ) {
-        super();
-        
+    public AxonModel( NeuronClock clock ) {
         this.clock = clock;   
     }
     
@@ -39,5 +38,9 @@ public class Axon {
     
     public Particle getParticle(){
     	return particle;
+    }
+    
+    public AxonMembrane getAxonMembrane(){
+    	return axonMembrane;
     }
 }
