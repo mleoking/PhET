@@ -3,7 +3,6 @@ package edu.colorado.phet.scalasimtemplate
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import common.piccolophet.PhetPCanvas
 import java.awt.{Rectangle, Dimension, Color}
-import scalacommon.CenteredBoxStrategy
 import java.awt.geom.Rectangle2D
 
 import umd.cs.piccolo.PNode

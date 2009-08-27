@@ -90,47 +90,7 @@ abstract class AbstractRampCanvas(model: RampModel,
     fbdNode.setVisible(freeBodyDiagramModel.visible && !freeBodyDiagramModel.windowed)
   }
 
-  val fbdWindow = new JDialog(frame, "display.free-body-diagram".translate, false)
-  fbdWindow.setSize(600, 600)
-
-  //create FBD canvas
-  val windowFBDNode = new FreeBodyDiagramNode(freeBodyDiagramModel, 600, 600, fbdWidth, fbdWidth, model.coordinateFrameModel, coordinateSystemModel.adjustable, PhetCommonResources.getImage("buttons/minimizeButton.png".literal))
-  windowFBDNode.addListener(fbdListener)
-  val windowedFBDCanvas = new PhetPCanvas
-  windowedFBDCanvas.addComponentListener(new ComponentAdapter {
-    override def componentResized(e: ComponentEvent) = updateNodeSize()
-  })
-  updateNodeSize()
-  def updateNodeSize() = {
-    if (windowedFBDCanvas.getWidth > 0 && windowedFBDCanvas.getHeight > 0) {
-      val w = Math.min(windowedFBDCanvas.getWidth, windowedFBDCanvas.getHeight)
-      val inset = 40
-      windowFBDNode.setSize(w - inset * 2, w - inset * 2)
-      windowFBDNode.setOffset(inset, inset)
-    }
-  }
-  windowedFBDCanvas.addScreenChild(windowFBDNode)
-  fbdWindow.setContentPane(windowedFBDCanvas)
-
-  var initted = false
-  defineInvokeAndPass(freeBodyDiagramModel.addListenerByName) {
-    val wasVisible = fbdWindow.isVisible
-    fbdWindow.setVisible(freeBodyDiagramModel.visible && freeBodyDiagramModel.windowed)
-    if (fbdWindow.isVisible && !wasVisible && !initted) {
-      initted = true
-      SwingUtils.centerDialogInParent(fbdWindow)
-    }
-    updateNodeSize()
-  }
-  fbdWindow.addWindowListener(new WindowAdapter {
-    override def windowClosing(e: WindowEvent) = {
-      if (!freeBodyDiagramModel.closable) {
-        freeBodyDiagramModel.windowed = false
-      } else {
-        freeBodyDiagramModel.visible = false
-      }
-    }
-  })
+  val windowFBDNode = new FBDDialog(frame,freeBodyDiagramModel,fbdWidth,model.coordinateFrameModel,coordinateSystemModel.adjustable,coordinateSystemModel,fbdListener)
 
   class VectorSetNode(transform: ModelViewTransform2D, bead: Bead) extends PNode {
     def addVector(a: Vector, offset: VectorValue) = {
