@@ -7,13 +7,16 @@ import javax.swing.JComponent
 import java.awt.geom.{AffineTransform, Rectangle2D}
 import umd.cs.piccolo.util.PDimension
 
-class CenteredBoxStrategy(modelWidth: Double,
-                          modelHeight: Double,
-                          canvas: JComponent,
-                          modelOffsetY: Double)
+//Trying a shorter name to see if it helps resolve this issue:
+//http://lampsvn.epfl.ch/trac/scala/ticket/735
+class CBS(modelWidth: Double,
+          modelHeight: Double,
+          canvas: JComponent,
+          modelOffsetY: Double)
         extends PhetPCanvas.TransformStrategy {
-  def this(dim: PDimension, canvas: JComponent) = this (dim.width, dim.height, canvas,0)
-  def this(modelWidth:Double,modelHeight:Double, canvas: JComponent) = this (modelWidth,modelHeight,canvas,0.0)
+  def this(dim: PDimension, canvas: JComponent) = this (dim.width, dim.height, canvas, 0)
+
+  def this(modelWidth: Double, modelHeight: Double, canvas: JComponent) = this (modelWidth, modelHeight, canvas, 0.0)
 
   def getTransform(): AffineTransform = {
     if (canvas.getWidth > 0 && canvas.getHeight > 0) {
