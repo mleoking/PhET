@@ -25,16 +25,15 @@ public class AxonMembraneNode extends PNode {
 	
 	AxonMembrane axonMembraneModel;
     private ModelViewTransform2D mvt;
-    private PhetPPath representation;
+    private PhetPPath outerMembrane;
+    private PhetPPath innerMembrane;
 
     public AxonMembraneNode( AxonMembrane axonMembraneModel, ModelViewTransform2D transform ) {
 		this.axonMembraneModel = axonMembraneModel;
         this.mvt = transform;
 
-        
-        representation = new PhetPPath( axonMembraneModel.getCrossSectionEllipseShape(), Color.GREEN);
-		addChild( representation );
-		
-		setOffset(mvt.modelToViewDouble(new Point2D.Double(0,0)));
+        Shape shape = mvt.createTransformedShape( axonMembraneModel.getCrossSectionEllipseShape() );
+        outerMembrane = new PhetPPath( shape, Color.GREEN);
+		addChild( outerMembrane );
 	}
 }

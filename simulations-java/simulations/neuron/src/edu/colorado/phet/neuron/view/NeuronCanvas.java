@@ -54,8 +54,8 @@ public class NeuronCanvas extends PhetPCanvas {
         mvt = new ModelViewTransform2D(
         		new Point2D.Double(0, 0), 
         		new Point(INITIAL_INTERMEDIATE_COORD_WIDTH / 2, 
-        				(int)Math.round(INITIAL_INTERMEDIATE_COORD_HEIGHT * 0.55 )),
-        		40,
+        				(int)Math.round(INITIAL_INTERMEDIATE_COORD_HEIGHT /2 )),
+        		7,
         		true);
         
         
