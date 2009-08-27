@@ -108,10 +108,12 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
         // changes any of the meter settings, since they need to be propagated
         // to the chart.
         _model.getMeter().addListener(new RadiometricDatingMeter.Adapter(){
+			@Override
         	public void datingElementChanged(){
         		configureProportionsChart();
         		update();
         	};
+			@Override
         	public void touchedStateChanged(){
         		handleMeterTouchStateChanged();
         	}
@@ -203,7 +205,7 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
         backgroundLayer.addChild(cloud2);
         
         // Create the chart that will display relative decay proportions.
-        _proportionsChart = new NuclearDecayProportionChart(false, false, false, true);
+        _proportionsChart = new NuclearDecayProportionChart(false, false, false, false);
         configureProportionsChart();
         _chartAndMeterLayer.addChild(_proportionsChart);
         
@@ -248,6 +250,9 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
         for (Object modelElement : modelElements){
         	handleModelElementAdded(modelElement);
         }
+        
+        // Set initial location for the probe.
+        initializeProbeLocation();
         
         // Add the node that define the bounds where the probe may be dragged.
         addWorldChild(_probeDragBounds);
@@ -343,6 +348,22 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
      */
     private void handleSimulationModeChanged(){
     	updateButtonState();
+    	initializeProbeLocation();
+    }
+    
+    /**
+     * Move the probe to the appropriate initial location.  These are
+	 * empirically determined to be on the tree or rock when they are
+	 * first created, and will need to be adjusted if the model were
+	 * changed to locate the trees and rocks differently.
+     */
+    private void initializeProbeLocation(){
+    	if (_model.getSimulationMode() == SIMULATION_MODE.TREE){
+    		_model.getMeter().getProbeModel().setTipLocation(new Point2D.Double(-12, -4));
+    	}
+    	else{
+    		_model.getMeter().getProbeModel().setTipLocation(new Point2D.Double(-6, -2));
+    	}
     }
     
     /**

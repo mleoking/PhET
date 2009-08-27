@@ -341,6 +341,12 @@ public class RadiometricDatingMeter {
             return new Point2D.Double( tipLocation.x, tipLocation.y );
         }
         
+        public void setTipLocation(Point2D location){
+        	tipLocation.x = location.getX();
+        	tipLocation.y = location.getY();
+        	notifyObservers();
+        }
+        
         public Shape getTipShape() {
             Rectangle2D.Double tip = new Rectangle2D.Double( tipLocation.x - tipWidth / 2, tipLocation.y, tipWidth, tipHeight );
             return AffineTransform.getRotateInstance( angle, tipLocation.x, tipLocation.y ).createTransformedShape( tip );
