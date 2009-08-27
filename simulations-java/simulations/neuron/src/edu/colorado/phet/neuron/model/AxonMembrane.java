@@ -14,7 +14,7 @@ import java.awt.geom.Ellipse2D;
 public class AxonMembrane {
 	
 	private static final double DEFAULT_MEMBRANE_THICKNESS = 7;  // In nanometers, obtained from web research.
-	private static final double DEFAULT_DIAMETER = 100; // In nanometers.
+	private static final double DEFAULT_DIAMETER = 80; // In nanometers.
 	
 	// Shape of the cross section of the membrane.
 	private Ellipse2D crossSectionEllipseShape = new Ellipse2D.Double(-DEFAULT_DIAMETER / 2, -DEFAULT_DIAMETER / 2,
