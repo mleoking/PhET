@@ -210,7 +210,7 @@ public class LabeledExplodingAtomicNucleusNode extends AbstractAtomicNucleusNode
         			_atomicNucleus.getDiameter() / _isotopeChemSymbol.getFullBoundsReference().getHeight() * 0.8); 
         }
         else if (chemSymbol != ""){
-        	if (Integer.parseInt(_isotopeNumber.getText()) >= 10){
+        	if (_isotopeNumber.getText().length() >= 2){
         		// The isotope number is 2 or more digits, so let the label
         		// span that entire diameter of the nucleus, simply because it
         		// looks better.
