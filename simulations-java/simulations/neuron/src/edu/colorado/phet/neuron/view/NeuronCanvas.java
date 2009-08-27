@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.neuron.view;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.geom.Dimension2D;
@@ -10,6 +11,7 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
 import edu.colorado.phet.neuron.NeuronConstants;
 import edu.colorado.phet.neuron.model.AxonModel;
 import edu.colorado.phet.neuron.module.NeuronDefaults;
@@ -55,7 +57,7 @@ public class NeuronCanvas extends PhetPCanvas {
         		new Point2D.Double(0, 0), 
         		new Point(INITIAL_INTERMEDIATE_COORD_WIDTH / 2, 
         				(int)Math.round(INITIAL_INTERMEDIATE_COORD_HEIGHT /2 )),
-        		7,
+        		9,
         		true);
         
         
@@ -67,6 +69,26 @@ public class NeuronCanvas extends PhetPCanvas {
         
         AxonMembraneNode axonMembraneNode = new AxonMembraneNode(model.getAxonMembrane(), mvt);
         addWorldChild(axonMembraneNode);
+        
+        SphericalNode redSphere1 = new SphericalNode(25, new Color(200,0,0), null, null, false);
+        redSphere1.setOffset(100, 100);
+        addWorldChild(redSphere1);
+        SphericalNode redSphere2 = new SphericalNode(25, new Color(200,0,0), null, null, false);
+        redSphere2.setOffset(65, 120);
+        addWorldChild(redSphere2);
+        SphericalNode redSphere3 = new SphericalNode(25, new Color(200,0,0), null, null, false);
+        redSphere3.setOffset(500, 90);
+        addWorldChild(redSphere3);
+        SphericalNode greenSphere1 = new SphericalNode(25, new Color(0,200,0), null, null, false);
+        greenSphere1.setOffset(300, 300);
+        addWorldChild(greenSphere1);
+        SphericalNode greenSphere2 = new SphericalNode(25, new Color(0,200,0), null, null, false);
+        greenSphere2.setOffset(450, 250);
+        addWorldChild(greenSphere2);
+        SphericalNode greenSphere3 = new SphericalNode(25, new Color(0,200,0), null, null, false);
+        greenSphere3.setOffset(500, 360);
+        addWorldChild(greenSphere3);
+        
     }
     
     //----------------------------------------------------------------------------
