@@ -15,16 +15,6 @@ public class NeuronStrings {
     /* not intended for instantiation */
     private NeuronStrings() {}
     
-    public static final String LABEL_POSITION = NeuronResources.getString( "label.position");
-    public static final String LABEL_ORIENTATION = NeuronResources.getString( "label.orientation");
-    
-    public static final String TITLE_EXAMPLE_CONTROL_PANEL = NeuronResources.getString( "title.exampleControlPanel");
-    public static final String TITLE_EXAMPLE_MODULE = NeuronResources.getString( "title.exampleModule" );
-    public static final String TITLE_ERROR = PhetCommonResources.getString( "Common.title.error" );
-
-    public static final String UNITS_DISTANCE = NeuronResources.getString( "units.distance");
-    public static final String UNITS_ORIENTATION = NeuronResources.getString( "units.orientation");
-    public static final String UNITS_TIME = NeuronResources.getString( "units.time" );
-    
-    public static final String MESSAGE_NOT_A_CONFIG = PhetCommonResources.getString( "XMLPersistenceManager.message.notAConfigFile" );
+    public static final String TITLE_MEMBRANE_DIFFUSION_MODULE = NeuronResources.getString( "ModuleTitle.MembraneDiffusionModule" );
+    public static final String TITLE_GATED_CHANNELS_MODULE = NeuronResources.getString( "ModuleTitle.GatedChannels" );
 }

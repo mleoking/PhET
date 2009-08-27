@@ -33,7 +33,7 @@ public class NeuronModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     public NeuronModule( Frame parentFrame ) {
-        super( NeuronStrings.TITLE_EXAMPLE_MODULE, new NeuronClock( NeuronDefaults.CLOCK_FRAME_RATE, NeuronDefaults.CLOCK_DT ) );
+        super( NeuronStrings.TITLE_MEMBRANE_DIFFUSION_MODULE, new NeuronClock( NeuronDefaults.CLOCK_FRAME_RATE, NeuronDefaults.CLOCK_DT ) );
 
         // Model
         NeuronClock clock = (NeuronClock) getClock();
@@ -49,10 +49,6 @@ public class NeuronModule extends PiccoloModule {
         
         // Clock controls
         clockControlPanel = new PiccoloClockControlPanel( getClock() );
-        clockControlPanel.setRewindButtonVisible( true );
-        clockControlPanel.setTimeDisplayVisible( true );
-        clockControlPanel.setUnits( NeuronStrings.UNITS_TIME );
-        clockControlPanel.setTimeColumns( NeuronDefaults.CLOCK_TIME_COLUMNS );
         setClockControlPanel( clockControlPanel );
 
         // Help
