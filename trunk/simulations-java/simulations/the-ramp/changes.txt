@@ -1,3 +1,4 @@
+Made sure free body diagram location is acceptable in all tabs, use the default location unless the default location goes offscreen.
 Added record/playback for ramp color and friction
 Fixed: clear heat button not appearing on work-energy tab
 Made object position slider control properly return object from crash mode
