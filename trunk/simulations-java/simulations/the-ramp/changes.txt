@@ -1,3 +1,4 @@
+Fixed location of FBD for robot moving company game
 # 1.03.33 (34503) Aug 27, 2009
 Made sure free body diagram location is acceptable in all tabs, use the default location unless the default location goes offscreen.
 Added record/playback for ramp color and friction

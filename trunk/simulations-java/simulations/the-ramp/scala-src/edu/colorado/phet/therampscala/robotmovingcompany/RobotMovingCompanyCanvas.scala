@@ -70,7 +70,13 @@ class RobotMovingCompanyCanvas(model: RampModel, coordinateSystemModel: Coordina
   addNode(pswingControlPanel)
 
   pswingControlPanel.setOffset(0, transform.modelToView(0, -1).y)
-  fbdNode.setOffset(pswingControlPanel.getFullBounds.getMaxX + 10, pswingControlPanel.getFullBounds.getY)
+
+   override def updateFBDLocation() = {
+     if (fbdNode!=null && pswingControlPanel!=null)
+    fbdNode.setOffset(pswingControlPanel.getFullBounds.getMaxX + 10, pswingControlPanel.getFullBounds.getY)
+  }
+  updateFBDLocation()
+
   freeBodyDiagramModel.visible = true
   freeBodyDiagramModel.closable = false
 
