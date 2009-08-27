@@ -27,7 +27,8 @@ public abstract class BetaDecayCompositeNucleus extends CompositeAtomicNucleus {
     //------------------------------------------------------------------------
 
 	private static final Random RAND = new Random();
-	private static final double EMISSION_SPEED = 0.8;  // Femtometers per clock tick.  Weird, I know.
+	private static final double ANTINEUTRINO_EMISSION_SPEED = 1.2;  // Femtometers per clock tick.  Weird, I know.
+	private static final double ELECTRON_EMISSION_SPEED = 0.7;  // Femtometers per clock tick.  Weird, I know.
 
     //------------------------------------------------------------------------
     // Constructor
@@ -99,15 +100,15 @@ public abstract class BetaDecayCompositeNucleus extends CompositeAtomicNucleus {
 		// Create the emitted particles, which are an electron and an
 		// antineutrino.
 		double angle = RAND.nextDouble() * Math.PI * 2;
-		double xVel = Math.cos(angle) * EMISSION_SPEED; 
-		double yVel = Math.sin(angle) * EMISSION_SPEED; 
-		ArrayList byProducts = new ArrayList();
+		double xVel = Math.cos(angle) * ELECTRON_EMISSION_SPEED; 
+		double yVel = Math.sin(angle) * ELECTRON_EMISSION_SPEED; 
+		ArrayList<SubatomicParticle> byProducts = new ArrayList<SubatomicParticle>();
 		Electron electron = new Electron(getPositionReference().getX(), getPositionReference().getY());
 		electron.setVelocity(xVel, yVel);
 		byProducts.add(electron);
 		angle = RAND.nextDouble() * Math.PI * 2;
-		xVel = Math.cos(angle) * EMISSION_SPEED; 
-		yVel = Math.sin(angle) * EMISSION_SPEED; 
+		xVel = Math.cos(angle) * ANTINEUTRINO_EMISSION_SPEED; 
+		yVel = Math.sin(angle) * ANTINEUTRINO_EMISSION_SPEED; 
 		Antineutrino antineutrino = new Antineutrino(getPositionReference().getX(), getPositionReference().getY());
 		antineutrino.setVelocity(xVel, yVel);
 		byProducts.add(antineutrino);
