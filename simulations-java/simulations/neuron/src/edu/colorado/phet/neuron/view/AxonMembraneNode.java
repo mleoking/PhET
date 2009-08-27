@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.neuron.view;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
@@ -32,8 +33,14 @@ public class AxonMembraneNode extends PNode {
 		this.axonMembraneModel = axonMembraneModel;
         this.mvt = transform;
 
-        Shape shape = mvt.createTransformedShape( axonMembraneModel.getCrossSectionEllipseShape() );
-        outerMembrane = new PhetPPath( shape, Color.GREEN);
+        double outerDiameter = axonMembraneModel.getCrossSectionDiameter() + axonMembraneModel.getMembraneThickness() / 2;
+        double innerDiameter = axonMembraneModel.getCrossSectionDiameter() - axonMembraneModel.getMembraneThickness() / 2;
+        
+        Shape outerDiameterEllipse = mvt.createTransformedShape(new Ellipse2D.Double(-outerDiameter / 2, -outerDiameter / 2, outerDiameter, outerDiameter));
+        Shape innerDiameterEllipse = mvt.createTransformedShape(new Ellipse2D.Double(-innerDiameter / 2, -innerDiameter / 2, innerDiameter, innerDiameter));
+        outerMembrane = new PhetPPath( outerDiameterEllipse, Color.YELLOW, new BasicStroke(3), Color.BLACK);
 		addChild( outerMembrane );
+        innerMembrane = new PhetPPath( innerDiameterEllipse, Color.PINK,  new BasicStroke(3), Color.BLACK);
+		addChild( innerMembrane );
 	}
 }
