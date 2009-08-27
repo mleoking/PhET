@@ -38,9 +38,9 @@ public class AxonMembraneNode extends PNode {
         
         Shape outerDiameterEllipse = mvt.createTransformedShape(new Ellipse2D.Double(-outerDiameter / 2, -outerDiameter / 2, outerDiameter, outerDiameter));
         Shape innerDiameterEllipse = mvt.createTransformedShape(new Ellipse2D.Double(-innerDiameter / 2, -innerDiameter / 2, innerDiameter, innerDiameter));
-        outerMembrane = new PhetPPath( outerDiameterEllipse, Color.YELLOW, new BasicStroke(3), Color.BLACK);
+        outerMembrane = new PhetPPath( outerDiameterEllipse, Color.YELLOW, new BasicStroke(4), Color.BLACK);
 		addChild( outerMembrane );
-        innerMembrane = new PhetPPath( innerDiameterEllipse, Color.PINK,  new BasicStroke(3), Color.BLACK);
+        innerMembrane = new PhetPPath( innerDiameterEllipse, Color.PINK,  new BasicStroke(4), Color.BLACK);
 		addChild( innerMembrane );
 	}
 }
