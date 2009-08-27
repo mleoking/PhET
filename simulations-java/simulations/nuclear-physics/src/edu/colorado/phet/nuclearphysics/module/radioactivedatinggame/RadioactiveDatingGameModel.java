@@ -73,7 +73,7 @@ public class RadioactiveDatingGameModel implements ModelContainingDatableItems {
     	_datableObjects.add(new DatableItem("Rock 8", "rock_8.png", new Point2D.Double(-15, -11), 2, 0, HalfLifeInfo.convertYearsToMs(3.45E9), false));
     	_datableObjects.add(new DatableItem("Dinosaur Skull", "skull_animal_2.png", new Point2D.Double(4, -11.0), 4.5, 0, HalfLifeInfo.convertYearsToMs(149E6), true));
     	_datableObjects.add(new DatableItem("Human Skull", "skull_human.png", new Point2D.Double(20, -1.5), 2.4, 0, HalfLifeInfo.convertYearsToMs(1170), true));
-    	_datableObjects.add(new DatableItem("Wooden Cup", "cup.png", new Point2D.Double(8, -2), 1.7,  -Math.PI / 3, HalfLifeInfo.convertYearsToMs(970), true));
+    	_datableObjects.add(new DatableItem("Wooden Cup", "cup.png", new Point2D.Double(8, -2), 1.7,  -Math.PI / 3, HalfLifeInfo.convertYearsToMs(1019), true));
     	_datableObjects.add(new DatableItem("Bone", "bone.png", new Point2D.Double(-3, -8), 4.5, 0, HalfLifeInfo.convertYearsToMs(34.35E6), false));
 	_datableObjects.add(new DatableItem("Human Skull", "skull_human.png", new Point2D.Double(-10, -4.5), 2, 1.0, HalfLifeInfo.convertYearsToMs(67E3), true));
 
