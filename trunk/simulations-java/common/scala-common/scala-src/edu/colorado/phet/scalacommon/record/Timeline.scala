@@ -25,9 +25,7 @@ class Timeline[T](model: RecordModel[T], canvas: PhetPCanvas, timelineColor: Col
   val shaded = new PhetPPath(timelineColor)
   val backgroundColor = new Color(190, 195, 195)
 
-  def darker(c: Color, del: Int) = {
-    new Color(c.getRed - del, c.getGreen - del, c.getBlue - del)
-  }
+  def darker(c: Color, delta: Int) = new Color(c.getRed - delta, c.getGreen - delta, c.getBlue - delta)
 
   val background = new PhetPPath(backgroundColor) {
     val topShade = new PhetPPath(new BasicStroke(2), darker(backgroundColor, 55))
