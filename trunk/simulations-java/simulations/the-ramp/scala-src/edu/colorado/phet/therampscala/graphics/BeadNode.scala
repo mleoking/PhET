@@ -16,14 +16,18 @@ import java.awt.image.BufferedImage
 import scalacommon.math.Vector2D
 import edu.colorado.phet.scalacommon.Predef._
 
-class DraggableBeadNode(bead: Bead, transform: ModelViewTransform2D, imageName: String) extends BeadNode(bead, transform, imageName) {
+class DraggableBeadNode(bead: Bead,
+                        transform: ModelViewTransform2D,
+                        imageName: String,
+                        dragListener: () => Unit) extends BeadNode(bead, transform, imageName) {
   addInputEventListener(new CursorHandler)
   addInputEventListener(new PBasicInputEventHandler() {
     override def mouseDragged(event: PInputEvent) = {
       val delta = event.getCanvasDelta
       val modelDelta = transform.viewToModelDifferential(delta.width, delta.height)
       val sign = modelDelta dot bead.getRampUnitVector
-      bead.parallelAppliedForce_=(bead.parallelAppliedForce + sign / RampDefaults.PLAY_AREA_VECTOR_SCALE)
+      bead.parallelAppliedForce = bead.parallelAppliedForce + sign / RampDefaults.PLAY_AREA_VECTOR_SCALE
+      dragListener()
     }
 
     override def mouseReleased(event: PInputEvent) = {
