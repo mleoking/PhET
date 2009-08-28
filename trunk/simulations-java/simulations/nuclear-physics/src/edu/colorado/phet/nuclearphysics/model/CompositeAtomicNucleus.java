@@ -245,7 +245,7 @@ public abstract class CompositeAtomicNucleus extends AtomicNucleus {
     
     private void setInitialNucleonPositions(){
     	if (_constituents.size() == 3){
-    		// This is a special case of a small nucleus.  Position all
+    		// This is a special case of a 3-neucleon nucleus.  Position all
     		// nucleons to be initially visible.
         	double rotationOffset = Math.PI;  // In radians, arbitrary and just for looks.
         	double distanceFromCenter = NuclearPhysicsConstants.NUCLEON_DIAMETER / 2 / Math.cos(Math.PI / 6);
@@ -257,13 +257,98 @@ public abstract class CompositeAtomicNucleus extends AtomicNucleus {
         				getPositionReference().getY() + yOffset );
         	}
     	}
+    	else if (_constituents.size() < 28){
+    		// Arrange the nuclei in such a way that the nucleus as a whole
+    		// ends up looking pretty round.
+    		double minDistance = NuclearPhysicsConstants.NUCLEON_DIAMETER / 4;
+    		double maxDistance = NuclearPhysicsConstants.NUCLEON_DIAMETER / 2;
+    		double distanceIncrement = NuclearPhysicsConstants.NUCLEON_DIAMETER / 5;
+    		int numberToPlacePerCycle = 2;
+    		int numberOfNucleiPlaced = 0;
+    		while (numberOfNucleiPlaced < _constituents.size()){
+    			for (int i = 0; i < numberToPlacePerCycle; i++){
+    				SubatomicParticle particle = _constituents.get(_constituents.size() - 1 - numberOfNucleiPlaced);
+    				placeNucleon(particle, _position, minDistance, maxDistance, 
+    						_placementZoneAngles[chooseNextPlacementZoneIndex()]);
+                	numberOfNucleiPlaced++;
+                	if (numberOfNucleiPlaced >= _constituents.size()){
+                		break;
+                	}
+    			}
+    			minDistance += distanceIncrement;
+    			maxDistance += distanceIncrement;
+    			numberToPlacePerCycle += 6;
+    		}
+    	}
     	else{
-    		// Have each particle place itself radomly somewhere within the
+    		// Have each particle place itself randomly somewhere within the
     		// radius of the nucleus.
             double tunnelingRegion = Math.min(_tunnelingRegionRadius, getDiameter() * 1.5);
     		for (SubatomicParticle particle : _constituents){
             	particle.tunnel( _position, 0, getDiameter()/2, tunnelingRegion );
     		}
+    	}
+    }
+    
+    private void placeNucleon(SubatomicParticle nucleon, Point2D centerPos, double minDistance, double maxDistance,
+    		PlacementZoneAngle placementZoneAngle ){
+    	
+    	double distance = minDistance + RAND.nextDouble() * (maxDistance - minDistance);
+    	double angle = placementZoneAngle.getMinAngle() + RAND.nextDouble() * 
+    		(placementZoneAngle.getMaxAngle() - placementZoneAngle.getMinAngle());
+    	double xPos = centerPos.getX() + Math.cos(angle) * distance;
+    	double yPos = centerPos.getY() + Math.sin(angle) * distance;
+    	nucleon.setPosition(xPos, yPos);
+    }
+    
+    /**
+     * Class used to define min and max angle for placing nuclei, used for
+     * initializing nucleus positions to a random yet structured
+     * configuration.
+     */
+    private static class PlacementZoneAngle {
+    	private final double minAngle;
+    	private final double maxAngle;
+    	
+		public PlacementZoneAngle(double minAngle, double maxAngle) {
+			this.minAngle = minAngle;
+			this.maxAngle = maxAngle;
+		}
+
+		public double getMinAngle() {
+			return minAngle;
+		}
+
+		public double getMaxAngle() {
+			return maxAngle;
+		}
+		
+		public String toString(){
+			return ("min = " + minAngle + ", max = " + maxAngle );
+		}
+    }
+    
+    private int currentPlacementZoneIndex = 0;
+    
+    private int chooseNextPlacementZoneIndex(){
+    	currentPlacementZoneIndex = (currentPlacementZoneIndex + 1 + _placementZoneAngles.length / 2) % _placementZoneAngles.length;
+    	return currentPlacementZoneIndex;
+    }
+    
+    private static PlacementZoneAngle [] _placementZoneAngles;
+    
+    static {
+    	// Initialize the placement zones to be on opposite sides of one
+    	// another.
+    	int numZones = 8;
+    	assert numZones % 2 == 0;
+    	_placementZoneAngles = new PlacementZoneAngle[numZones];
+    	double angleIncrement = 2 * Math.PI / (double)numZones;
+    	for (int i = 0; i < numZones; i++){
+    		_placementZoneAngles[i] = new PlacementZoneAngle(i * angleIncrement, (i+1) * angleIncrement);
+    	}
+    	for (int i = 0; i < numZones; i++){
+    		System.out.println(_placementZoneAngles[i]);
     	}
     }
 }
