@@ -55,9 +55,6 @@ class AbstractRampModule(frame: JFrame, clock: ScalaClock, name: String, default
   //pause on startup/reset, and unpause (and start recording) when the user applies a force
   model.setPaused(true)
 
-  //todo: this causes the sim to unpause when the user sets the slider during playback mode
-//  model.bead.parallelAppliedForceListeners += (() => {model.setPaused(false)})
-
   override def activate() = {
     super.activate()
     RepaintManager.setCurrentManager(manager)
