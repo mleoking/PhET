@@ -286,7 +286,7 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngl
       }
     }
   }
-  class MyFireDog {
+  class FireDog {
     val removedListeners = new ArrayBuffer[() => Unit]
     val height = 2
     val width = 2
@@ -315,8 +315,8 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngl
   }
 
   private val raindrops = new ArrayBuffer[Raindrop]
-  private val fireDogs = new ArrayBuffer[MyFireDog]
-  val fireDogAddedListeners = new ArrayBuffer[MyFireDog => Unit]
+  private val fireDogs = new ArrayBuffer[FireDog]
+  val fireDogAddedListeners = new ArrayBuffer[FireDog => Unit]
   val raindropAddedListeners = new ArrayBuffer[Raindrop => Unit]
 
   var totalThermalEnergyOnClear = 0.0
@@ -324,7 +324,7 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngl
   def clearHeat() = {
     if (fireDogs.length == 0) {
       totalThermalEnergyOnClear = bead.thermalEnergy
-      val fireDog = new MyFireDog //cue the fire dog, which will eventually clear the thermal energy
+      val fireDog = new FireDog //cue the fire dog, which will eventually clear the thermal energy
       fireDogs += fireDog //updates when clock ticks
       fireDogAddedListeners.foreach(_(fireDog))
     }
