@@ -29,7 +29,7 @@ object Defaults {
 
 class RampChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model: RampModel, showEnergyGraph: Boolean) extends PNode {
   def inTimeRange(time: Double) = {
-//    println("time = "+time)
+    //    println("time = "+time)
     time <= 20.0
   }
 

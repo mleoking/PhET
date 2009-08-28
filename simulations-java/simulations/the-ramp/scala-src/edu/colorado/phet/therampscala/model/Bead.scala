@@ -6,25 +6,23 @@ import common.phetcommon.math.MathUtil
 import scalacommon.math.Vector2D
 import scalacommon.util.Observable
 import java.lang.Math._
-import scalacommon.Predef._
-
 /**Immutable memento for recording*/
-case class BeadState(position: Double, velocity: Double, mass: Double, staticFriction: Double, kineticFriction: Double, thermalEnergy: Double, crashEnergy:Double) {
+case class BeadState(position: Double, velocity: Double, mass: Double, staticFriction: Double, kineticFriction: Double, thermalEnergy: Double, crashEnergy: Double) {
   def translate(dx: Double) = setPosition(position + dx)
 
-  def setPosition(pos: Double) = new BeadState(pos, velocity, mass, staticFriction, kineticFriction, thermalEnergy,crashEnergy)
+  def setPosition(pos: Double) = new BeadState(pos, velocity, mass, staticFriction, kineticFriction, thermalEnergy, crashEnergy)
 
-  def setVelocity(vel: Double) = new BeadState(position, vel, mass, staticFriction, kineticFriction, thermalEnergy,crashEnergy)
+  def setVelocity(vel: Double) = new BeadState(position, vel, mass, staticFriction, kineticFriction, thermalEnergy, crashEnergy)
 
-  def setStaticFriction(value: Double) = new BeadState(position, velocity, mass, value, kineticFriction, thermalEnergy,crashEnergy)
+  def setStaticFriction(value: Double) = new BeadState(position, velocity, mass, value, kineticFriction, thermalEnergy, crashEnergy)
 
-  def setKineticFriction(value: Double) = new BeadState(position, velocity, mass, staticFriction, value, thermalEnergy,crashEnergy)
+  def setKineticFriction(value: Double) = new BeadState(position, velocity, mass, staticFriction, value, thermalEnergy, crashEnergy)
 
-  def setMass(m: Double) = new BeadState(position, velocity, m, staticFriction, kineticFriction, thermalEnergy,crashEnergy)
+  def setMass(m: Double) = new BeadState(position, velocity, m, staticFriction, kineticFriction, thermalEnergy, crashEnergy)
 
-  def setThermalEnergy(value: Double) = new BeadState(position, velocity, mass, staticFriction, kineticFriction, value,crashEnergy)
+  def setThermalEnergy(value: Double) = new BeadState(position, velocity, mass, staticFriction, kineticFriction, value, crashEnergy)
 
-  def setCrashEnergy(value:Double) = new BeadState(position, velocity, mass, staticFriction, kineticFriction, thermalEnergy,value)
+  def setCrashEnergy(value: Double) = new BeadState(position, velocity, mass, staticFriction, kineticFriction, thermalEnergy, value)
 }
 
 case class Range(min: Double, max: Double)
@@ -113,10 +111,11 @@ class Bead(private var _state: BeadState,
 
   def parallelAppliedForce = _parallelAppliedForce
 
-  val parallelAppliedForceListeners = new ArrayBuffer[()=>Unit]
+  val parallelAppliedForceListeners = new ArrayBuffer[() => Unit]
+
   def parallelAppliedForce_=(value: Double) = {
     _parallelAppliedForce = value
-    parallelAppliedForceListeners.foreach( _())
+    parallelAppliedForceListeners.foreach(_())
     appliedForceVector.notifyListeners()
     notifyListeners()
   }
@@ -213,9 +212,9 @@ class Bead(private var _state: BeadState,
 
   def getAppliedWork = 0.0
 
-  def setCrashEnergy(value:Double) = {
-    if (value != state.crashEnergy){
-      state=state.setCrashEnergy(value)
+  def setCrashEnergy(value: Double) = {
+    if (value != state.crashEnergy) {
+      state = state.setCrashEnergy(value)
       notifyListeners()
     }
   }
@@ -230,7 +229,9 @@ class Bead(private var _state: BeadState,
   def thermalEnergy = state.thermalEnergy
 
   def getThermalEnergy = state.thermalEnergy
+
   def getRampThermalEnergy = getThermalEnergy - getCrashEnergy
+
   def getCrashEnergy = state.crashEnergy
 
   def getFrictiveWork = -getThermalEnergy
@@ -278,7 +279,9 @@ class Bead(private var _state: BeadState,
   }
   class Airborne(private var _position2D: Vector2D, private var _velocity2D: Vector2D, _angle: Double) extends MotionStrategy {
     def getAngle = _angle
+
     def velocity2D = _velocity2D
+
     override def stepInTime(dt: Double) = {
       val tf = totalForce
       val accel = totalForce / mass
@@ -315,7 +318,7 @@ class Bead(private var _state: BeadState,
       val leftBound = wallRange().min + width / 2
       val rightBound = wallRange().max - width / 2
       if (position <= leftBound && forceToParallelAcceleration(appliedForce) < 0 && wallsExist) appliedForce * -1
-      else if (position >= rightBound && forceToParallelAcceleration(appliedForce) > 0 && wallsExist) appliedForce * -1//todo: account for gravity force
+      else if (position >= rightBound && forceToParallelAcceleration(appliedForce) > 0 && wallsExist) appliedForce * -1 //todo: account for gravity force
       else new Vector2D
     }
 
@@ -343,14 +346,14 @@ class Bead(private var _state: BeadState,
       else new Vector2D
     }
 
-    case class SettableState(position: Double, velocity: Double, thermalEnergy: Double,crashEnergy:Double) {
-      def setPosition(p: Double) = new SettableState(p, velocity, thermalEnergy,crashEnergy)
+    case class SettableState(position: Double, velocity: Double, thermalEnergy: Double, crashEnergy: Double) {
+      def setPosition(p: Double) = new SettableState(p, velocity, thermalEnergy, crashEnergy)
 
-      def setVelocity(v: Double) = new SettableState(position, v, thermalEnergy,crashEnergy)
+      def setVelocity(v: Double) = new SettableState(position, v, thermalEnergy, crashEnergy)
 
-      def setThermalEnergy(t: Double) = new SettableState(position, velocity, t,crashEnergy)
+      def setThermalEnergy(t: Double) = new SettableState(position, velocity, t, crashEnergy)
 
-      def setPositionAndVelocity(p: Double, v: Double) = new SettableState(p, v, thermalEnergy,crashEnergy)
+      def setPositionAndVelocity(p: Double, v: Double) = new SettableState(p, v, thermalEnergy, crashEnergy)
 
       //todo: this is duplicated with code in Bead
       lazy val totalEnergy = ke + pe + thermalEnergy
@@ -386,7 +389,7 @@ class Bead(private var _state: BeadState,
       //see docs in static friction computation
       val newVelocity = if ((origVel < 0 && desiredVel > 0) || (origVel > 0 && desiredVel < 0)) 0.0 else desiredVel
       val requestedPosition = position + newVelocity * dt
-      val stateAfterVelocityUpdate = new SettableState(requestedPosition, newVelocity, origState.thermalEnergy,origState.crashEnergy)
+      val stateAfterVelocityUpdate = new SettableState(requestedPosition, newVelocity, origState.thermalEnergy, origState.crashEnergy)
 
       val isKineticFriction = surfaceFriction() && kineticFriction > 0
       val leftBound = wallRange().min + width / 2
@@ -395,13 +398,13 @@ class Bead(private var _state: BeadState,
       val collidedRight = requestedPosition >= rightBound && wallsExist
       val collided = collidedLeft || collidedRight
       val crashEnergy = stateAfterVelocityUpdate.ke //this is the energy it would lose in a crash
-//      println("Crash energy from getNewState: "+crashEnergy)
+      //      println("Crash energy from getNewState: "+crashEnergy)
 
       val stateAfterCollision = if (collidedLeft && isKineticFriction) {
-        new SettableState(leftBound, 0, stateAfterVelocityUpdate.thermalEnergy + crashEnergy,origState.crashEnergy + crashEnergy)
+        new SettableState(leftBound, 0, stateAfterVelocityUpdate.thermalEnergy + crashEnergy, origState.crashEnergy + crashEnergy)
       }
       else if (collidedRight && isKineticFriction) {
-        new SettableState(rightBound, 0, stateAfterVelocityUpdate.thermalEnergy + crashEnergy,origState.crashEnergy + crashEnergy)
+        new SettableState(rightBound, 0, stateAfterVelocityUpdate.thermalEnergy + crashEnergy, origState.crashEnergy + crashEnergy)
       }
       else if (collided) { //bounce
         stateAfterVelocityUpdate.setVelocity(-newVelocity)
@@ -419,7 +422,7 @@ class Bead(private var _state: BeadState,
       //todo: this may differ significantly from thermalFromWork
       val thermalFromEnergy = if (isKineticFriction && !collided)
         origEnergy - stateAfterCollision.ke - stateAfterCollision.pe + appliedEnergy
-      else if (collided){
+      else if (collided) {
         //choose thermal energy so energy is exactly conserved
         origEnergy + appliedEnergy - stateAfterCollision.ke - stateAfterCollision.pe
       }
@@ -472,11 +475,11 @@ class Bead(private var _state: BeadState,
       }
 
       val delta = patchPosition.totalEnergy - origEnergy - appliedEnergy
-      if (delta.abs> 1E-8) {
+      if (delta.abs > 1E-8) {
         println("failed to conserve energy, delta=".literal + delta)
       }
 
-//      println("iskineticfriction = "+ isKineticFriction +", "+frictionForce)
+      //      println("iskineticfriction = "+ isKineticFriction +", "+frictionForce)
       patchPosition
     }
   }

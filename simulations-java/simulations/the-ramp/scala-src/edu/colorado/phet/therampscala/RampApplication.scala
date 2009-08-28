@@ -6,7 +6,7 @@ import common.phetcommon.application.{PhetApplicationLauncher, Module, PhetAppli
 import common.piccolophet.{PiccoloPhetApplication}
 import graphics.RampCanvas
 import java.awt.event.{ActionEvent, ActionListener}
-import java.awt.{Container, Window, Color}
+import java.awt.{Container, Color}
 import javax.swing._
 import model._
 import controls.RampControlPanel
@@ -27,13 +27,13 @@ class AbstractRampModule(frame: JFrame, clock: ScalaClock, name: String, default
   clock.addClockListener(dt => {
     val startTime = System.currentTimeMillis
     model.update(dt)
-    getSimulationPanel.paintImmediately(0,0,getSimulationPanel.getWidth,getSimulationPanel.getHeight)
+    getSimulationPanel.paintImmediately(0, 0, getSimulationPanel.getWidth, getSimulationPanel.getHeight)
     val endTime = System.currentTimeMillis
     val elapsed = endTime - startTime
-    if (elapsed < 25){
-      val toSleep = 25- elapsed
-//      println("had excess time, sleeping: "+toSleep)
-      Thread.sleep(toSleep)//todo: blocks swing event handler thread and paint thread, should run this clock loop in another thread
+    if (elapsed < 25) {
+      val toSleep = 25 - elapsed
+      //      println("had excess time, sleeping: "+toSleep)
+      Thread.sleep(toSleep) //todo: blocks swing event handler thread and paint thread, should run this clock loop in another thread
     }
   })
   //This clock is always running; pausing just pauses the physics
@@ -46,7 +46,7 @@ class AbstractRampModule(frame: JFrame, clock: ScalaClock, name: String, default
     override def addDirtyRegion(c: JComponent, x: Int, y: Int, w: Int, h: Int) = {
       if (c == getSimulationPanel || isChild(getSimulationPanel, c)) {}
       else {
-//        println("forwarding dirty from " + c)
+        //        println("forwarding dirty from " + c)
         super.addDirtyRegion(c, x, y, w, h)
       }
     }
@@ -58,7 +58,7 @@ class AbstractRampModule(frame: JFrame, clock: ScalaClock, name: String, default
   override def activate() = {
     super.activate()
     RepaintManager.setCurrentManager(manager)
-    SwingUtilities.getWindowAncestor(getSimulationPanel).validate//apparently you have to validate or you get rendering artifacts after switching repaint managers
+    SwingUtilities.getWindowAncestor(getSimulationPanel).validate //apparently you have to validate or you get rendering artifacts after switching repaint managers
   }
 
   def resetRampModule(): Unit = {
@@ -77,9 +77,9 @@ class AbstractRampModule(frame: JFrame, clock: ScalaClock, name: String, default
 
 class BasicRampModule(frame: JFrame, clock: ScalaClock, name: String,
                       coordinateSystemFeaturesEnabled: Boolean, useObjectComboBox: Boolean,
-                      defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngle: Double,modelOffsetY:Double)
+                      defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngle: Double, modelOffsetY: Double)
         extends AbstractRampModule(frame, clock, name, defaultBeadPosition, pausedOnReset, initialAngle) {
-  val canvas = new RampCanvas(model, coordinateSystemModel, fbdModel, vectorViewModel, frame, !useObjectComboBox, initialAngle != 0.0,modelOffsetY)
+  val canvas = new RampCanvas(model, coordinateSystemModel, fbdModel, vectorViewModel, frame, !useObjectComboBox, initialAngle != 0.0, modelOffsetY)
   setSimulationPanel(canvas)
   val rampControlPanel = new RampControlPanel(model, wordModel, fbdModel, coordinateSystemModel, vectorViewModel,
     resetRampModule, coordinateSystemFeaturesEnabled, useObjectComboBox, model)
@@ -89,20 +89,20 @@ class BasicRampModule(frame: JFrame, clock: ScalaClock, name: String,
 
 import RampResources._
 
-class IntroRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "module.introduction".translate, false, false, -6, false, RampDefaults.defaultRampAngle,0.0)
+class IntroRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "module.introduction".translate, false, false, -6, false, RampDefaults.defaultRampAngle, 0.0)
 
-class CoordinatesRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "module.coordinates".translate, true, false, -6, false, RampDefaults.defaultRampAngle,0.0) {
+class CoordinatesRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "module.coordinates".translate, true, false, -6, false, RampDefaults.defaultRampAngle, 0.0) {
   coordinateSystemModel.adjustable = true
 }
 
-class ForceGraphsModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(frame, clock, "module.force-graphs".translate, false,0.0)
+class ForceGraphsModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(frame, clock, "module.force-graphs".translate, false, 0.0)
 
-class GraphingModule(frame: JFrame, clock: ScalaClock, name: String, showEnergyGraph: Boolean,modelOffsetY:Double) extends BasicRampModule(frame, clock, name, false, true, -6, true, RampDefaults.defaultRampAngle,modelOffsetY) {
+class GraphingModule(frame: JFrame, clock: ScalaClock, name: String, showEnergyGraph: Boolean, modelOffsetY: Double) extends BasicRampModule(frame, clock, name, false, true, -6, true, RampDefaults.defaultRampAngle, modelOffsetY) {
   coordinateSystemModel.adjustable = false
   canvas.addNodeAfter(canvas.earthNode, new RampChartNode(canvas.transform, canvas, model, showEnergyGraph))
 }
 
-class WorkEnergyModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(frame, clock, "module.work-energy".translate, true,100.0) {
+class WorkEnergyModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(frame, clock, "module.work-energy".translate, true, 100.0) {
   val workEnergyChartModel = new WorkEnergyChartModel
   val jButton = new JButton("controls.showWorkEnergyCharts".translate)
   jButton.addActionListener(new ActionListener() {
@@ -110,6 +110,7 @@ class WorkEnergyModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(
   })
   rampControlPanel.addToBody(jButton)
   val chart = new WorkEnergyChart(workEnergyChartModel, model, frame)
+
   override def resetAll() = {super.reset(); workEnergyChartModel.reset()}
 }
 

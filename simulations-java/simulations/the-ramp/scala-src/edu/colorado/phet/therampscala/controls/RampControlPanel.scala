@@ -13,11 +13,8 @@ import java.awt.event.{MouseEvent, MouseAdapter}
 
 import javax.swing._
 import model._
-
-
 import scalacommon.math.Vector2D
 import scalacommon.swing.MyRadioButton
-import scalacommon.util.Observable
 import swing.{MyCheckBox, ScalaValueControl}
 import edu.colorado.phet.scalacommon.Predef._
 import RampResources._
@@ -124,7 +121,7 @@ class RampControlPanelBody(model: RampModel, wordModel: WordModel,
     () => model.bead.position, x => model.bead.setPosition(x), model.bead.addListener)
   positionSlider.getSlider.addMouseListener(new MouseAdapter() {
     override def mousePressed(e: MouseEvent) = {
-      val x:Double = if (model.bead.position > RampDefaults.MAX_X) RampDefaults.MAX_X
+      val x: Double = if (model.bead.position > RampDefaults.MAX_X) RampDefaults.MAX_X
       else if (model.bead.position < RampDefaults.MIN_X) RampDefaults.MIN_X
       else model.bead.position
       model.bead.setPosition(x)

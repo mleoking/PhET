@@ -24,7 +24,7 @@ import RampResources._
 
 class RobotMovingCompanyCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, freeBodyDiagramModel: FreeBodyDiagramModel,
                                vectorViewModel: VectorViewModel, frame: JFrame, gameModel: RobotMovingCompanyGameModel)
-        extends AbstractRampCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame,0.0) {
+        extends AbstractRampCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame, 0.0) {
   beadNode.setVisible(false)
   vectorNode.setVisible(false)
   pusherNode.setVisible(false)
@@ -38,7 +38,7 @@ class RobotMovingCompanyCanvas(model: RampModel, coordinateSystemModel: Coordina
   })
   gameModel.addListener(() => {robotGoButton.setEnabled(!gameModel.launched)})
 
-  val appliedForceControl = new AppliedForceSlider(() => 0, value => 0, gameModel.addListener,()=>model.setPaused(false)) //todo: last param is a dummy
+  val appliedForceControl = new AppliedForceSlider(() => 0, value => 0, gameModel.addListener, () => model.setPaused(false)) //todo: last param is a dummy
   appliedForceControl.addChangeListener(new ChangeListener() {
     def stateChanged(e: ChangeEvent) = {
       gameModel.launched = true
@@ -71,9 +71,9 @@ class RobotMovingCompanyCanvas(model: RampModel, coordinateSystemModel: Coordina
 
   pswingControlPanel.setOffset(0, transform.modelToView(0, -1).y)
 
-   override def updateFBDLocation() = {
-     if (fbdNode!=null && pswingControlPanel!=null)
-    fbdNode.setOffset(pswingControlPanel.getFullBounds.getMaxX + 10, pswingControlPanel.getFullBounds.getY)
+  override def updateFBDLocation() = {
+    if (fbdNode != null && pswingControlPanel != null)
+      fbdNode.setOffset(pswingControlPanel.getFullBounds.getMaxX + 10, pswingControlPanel.getFullBounds.getY)
   }
   updateFBDLocation()
 
@@ -114,7 +114,7 @@ class RobotMovingCompanyCanvas(model: RampModel, coordinateSystemModel: Coordina
     val lastBead = _currentBead
     _currentBead = bead
 
-    val beadNode = new DraggableBeadNode(bead, transform, a.imageFilename,()=>model.setPaused(false))
+    val beadNode = new DraggableBeadNode(bead, transform, a.imageFilename, () => model.setPaused(false))
     addNode(beadNode)
 
     val roboBead = model.createBead(-10 - a.width / 2, 1)
@@ -272,7 +272,7 @@ class SummaryScreenNode(gm: RobotMovingCompanyGameModel, scalaRampObject: ScalaR
 
 object TestSummaryScreen {
   def main(args: Array[String]) {
-    val summaryScreenNode = new SummaryScreenNode(new RobotMovingCompanyGameModel(new RampModel(5, true,RampDefaults.defaultRampAngle), new ScalaClock(30, 30 / 1000.0)), RampDefaults.objects(0), new Result(true, false, 64, 100), a => {
+    val summaryScreenNode = new SummaryScreenNode(new RobotMovingCompanyGameModel(new RampModel(5, true, RampDefaults.defaultRampAngle), new ScalaClock(30, 30 / 1000.0)), RampDefaults.objects(0), new Result(true, false, 64, 100), a => {
       a.setVisible(false)
     }, "Ok".literal)
     val frame = new JFrame

@@ -96,7 +96,7 @@ class ObjectSelectionNode(transform: ModelViewTransform2D, model: ObjectModel) e
       }
     })
 
-    val getTooltipText = "object.tooltip-text.pattern.kinetic_static".translate.messageformat(o.kineticFriction.toString,o.staticFriction.toString) 
+    val getTooltipText = "object.tooltip-text.pattern.kinetic_static".translate.messageformat(o.kineticFriction.toString, o.staticFriction.toString)
 
     if (o.displayTooltip) {
       val tooltipNode = new ToolTipNode(getTooltipText, this)
