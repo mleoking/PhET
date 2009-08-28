@@ -331,8 +331,8 @@ class Bead(private var _state: BeadState,
           val fMax = abs(multiBodyFriction(staticFriction) * normalForce.magnitude)
           val netForceWithoutFriction = appliedForce + gravityForce + normalForce + wallForce
 
-          if (netForceWithoutFriction.magnitude >= fMax) new Vector2D(netForceWithoutFriction.getAngle + PI) * fMax
-          else new Vector2D(netForceWithoutFriction.getAngle + PI) * netForceWithoutFriction.magnitude
+          val magnitude = if (netForceWithoutFriction.magnitude >= fMax) fMax else netForceWithoutFriction.magnitude
+          new Vector2D(netForceWithoutFriction.getAngle + PI) * magnitude
         }
         else {
           //object is moving, just use kinetic friction
@@ -476,6 +476,7 @@ class Bead(private var _state: BeadState,
         println("failed to conserve energy, delta=".literal + delta)
       }
 
+      println("iskineticfriction = "+ isKineticFriction +", "+frictionForce)
       patchPosition
     }
   }
