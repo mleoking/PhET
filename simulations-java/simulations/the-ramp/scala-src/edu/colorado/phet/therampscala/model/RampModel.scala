@@ -170,10 +170,10 @@ class CoordinateFrameModel(snapToAngles: List[() => Double]) extends Observable 
   }
 }
 
-case class RampState(angle:Double,heat:Double,wetness:Double)
+case class RampState(angle: Double, heat: Double, wetness: Double)
 
 //This class stores all state information used in record/playback
-case class RecordedState(rampState:RampState,
+case class RecordedState(rampState: RampState,
                          selectedObject: ScalaRampObjectState,
                          beadState: BeadState,
                          manBeadState: BeadState,
@@ -280,10 +280,14 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngl
       val intersection = MathUtil.getLineSegmentsIntersection(origPosition, newPosition, rampSegments(1).startPoint, rampSegments(1).endPoint)
       val hitRamp = if (java.lang.Double.isNaN(intersection.x) || java.lang.Double.isNaN(intersection.y)) false else true
       if (hitRamp || didCrash) {
-        raindrops -= this
-        removedListeners.foreach(_())
+        remove()
         rainCrashed()
       }
+    }
+
+    def remove() = {
+      raindrops -= this
+      removedListeners.foreach(_())
     }
   }
   class FireDog {
@@ -308,9 +312,13 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngl
       } else if (dogbead.position > -15) {
         dogbead.setPosition(dogbead.position - outgoingSpeed)
       } else {
-        fireDogs -= this
-        removedListeners.foreach(_())
+        remove()
       }
+    }
+
+    def remove() = {
+      fireDogs -= this
+      removedListeners.foreach(_())
     }
   }
 
@@ -354,6 +362,13 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngl
     bead.parallelAppliedForce = state.appliedForce
     manBead.state = state.manBeadState
     walls = state.walls
+
+    //based on time constraints, decision was made to not record and playback firedogs + drops, just make sure they clear
+    while(raindrops.length>0)
+      raindrops(0).remove()
+
+    while(fireDogs.length>0)
+      fireDogs(0).remove()
   }
 
   def handleRecordStartedDuringPlayback() = {}
@@ -443,7 +458,7 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngl
     rampSegments(1).setHeat(rampHeat)
     rampSegments(0).stepInTime(dt)
     rampSegments(1).stepInTime(dt)
-    recordHistory += new DataPoint(getTime, new RecordedState(new RampState(getRampAngle,rampSegments(1).heat,rampSegments(1).wetness), 
+    recordHistory += new DataPoint(getTime, new RecordedState(new RampState(getRampAngle, rampSegments(1).heat, rampSegments(1).wetness),
       selectedObject.state, bead.state, manBead.state, bead.parallelAppliedForce, walls))
     stepListeners.foreach(_())
     notifyListeners() //signify to the Timeline that more data has been added
