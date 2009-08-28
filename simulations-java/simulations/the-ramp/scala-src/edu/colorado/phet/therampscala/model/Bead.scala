@@ -476,7 +476,7 @@ class Bead(private var _state: BeadState,
         println("failed to conserve energy, delta=".literal + delta)
       }
 
-      println("iskineticfriction = "+ isKineticFriction +", "+frictionForce)
+//      println("iskineticfriction = "+ isKineticFriction +", "+frictionForce)
       patchPosition
     }
   }
