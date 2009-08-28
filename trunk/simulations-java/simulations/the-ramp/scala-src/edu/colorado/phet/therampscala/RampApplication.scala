@@ -78,29 +78,6 @@ class AbstractRampModule(frame: JFrame, clock: ScalaClock, name: String, default
   def resetAll() = {}
 }
 
-//class DynamicClock(doWork:()=>Unit){
-//  val proposedDelayNS = 30000000 // 30 ms
-//  def step() = {
-//    val startTime = System.nanoTime
-//    SwingUtilities.invokeAndWait(new Runnable(){
-//      def run = doWork()
-//    })
-//    val endTime = System.nanoTime
-//    val elapsedNS = endTime - startTime
-//    val remaining = proposedDelayNS - elapsedNS
-//    println("remaining = "+remaining)
-//    if (remaining > 0 ){
-//      val ms = remaining / 1000000
-//      if (remaining > 999999) {
-//        println("ms = "+ms)
-//        Thread.sleep(ms,(remaining % 1000000L).toInt)
-//      }
-//      else Thread.sleep(0,remaining.toInt)
-//    }
-//  }
-//  def loop() = while (true) step()
-//}
-
 class BasicRampModule(frame: JFrame, clock: ScalaClock, name: String,
                       coordinateSystemFeaturesEnabled: Boolean, useObjectComboBox: Boolean,
                       defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngle: Double,modelOffsetY:Double)
