@@ -1,3 +1,4 @@
+Make sure timeline and charts don't record beyond the max time range, to reduce memory leaks
 Fixed: Drops don't get cleared on playback
 Fixed: Sim starts playing back after dragging the timeline slider thumb
 Removed unused string keys from previous versions from English localization file (50+ strings)

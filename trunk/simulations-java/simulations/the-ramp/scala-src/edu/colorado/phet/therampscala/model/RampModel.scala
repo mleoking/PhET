@@ -458,8 +458,10 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngl
     rampSegments(1).setHeat(rampHeat)
     rampSegments(0).stepInTime(dt)
     rampSegments(1).stepInTime(dt)
-    recordHistory += new DataPoint(getTime, new RecordedState(new RampState(getRampAngle, rampSegments(1).heat, rampSegments(1).wetness),
-      selectedObject.state, bead.state, manBead.state, bead.parallelAppliedForce, walls))
+    if (getTime < RampDefaults.MAX_RECORD_TIME) {
+      recordHistory += new DataPoint(getTime, new RecordedState(new RampState(getRampAngle, rampSegments(1).heat, rampSegments(1).wetness),
+        selectedObject.state, bead.state, manBead.state, bead.parallelAppliedForce, walls))
+    }
     stepListeners.foreach(_())
     notifyListeners() //signify to the Timeline that more data has been added
   }
