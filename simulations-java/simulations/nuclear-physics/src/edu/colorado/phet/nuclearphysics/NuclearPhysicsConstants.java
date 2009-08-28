@@ -196,7 +196,7 @@ public class NuclearPhysicsConstants {
     public static final Paint ELECTRON_ROUND_GRADIENT = new RoundGradientPaint( -ELECTRON_DIAMETER/6, 
             -ELECTRON_DIAMETER/6, ELECTRON_HILITE_COLOR, new Point2D.Double( ELECTRON_DIAMETER/4, ELECTRON_DIAMETER/4 ),
             ELECTRON_COLOR );
-    public static final Color ANTINEUTRINO_COLOR = new Color(0, 255, 0, 180);
+    public static final Color ANTINEUTRINO_COLOR = new Color(0, 220, 0);
     
     public static final double DEFAULT_CUSTOM_NUCLEUS_HALF_LIFE = HalfLifeInfo.convertYearsToMs(100E3);
 
