@@ -2,8 +2,7 @@ package edu.colorado.phet.therampscala.robotmovingcompany
 
 
 import collection.mutable.{HashMap, ArrayBuffer}
-import java.awt.Color
-import model.{SurfaceModel, SurfaceFrictionStrategy, RampModel, Bead}
+import model.{SurfaceModel, RampModel, Bead}
 import scalacommon.ScalaClock
 import scalacommon.util.Observable
 import scalacommon.math.Vector2D

@@ -304,7 +304,7 @@ class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val ta
       val proposedLocation = vector.getValue * 0.6
       val vectorToLabel = if (proposedLocation.magnitude > maxDistToLabel) new Vector2D(vector.getValue.getAngle) * maxDistToLabel else proposedLocation
       val textLocation = transform.modelToViewDouble(vectorToLabel + tailLocation.getValue)
-      abbreviatonTextNode.setOffset(textLocation.x-abbreviatonTextNode.getFullBounds.getWidth/2,textLocation.y-abbreviatonTextNode.getFullBounds.getHeight/2)
+      abbreviatonTextNode.setOffset(textLocation.x - abbreviatonTextNode.getFullBounds.getWidth / 2, textLocation.y - abbreviatonTextNode.getFullBounds.getHeight / 2)
       abbreviatonTextNode.setVisible(vectorToLabel.magnitude > 1E-2)
     }
   }

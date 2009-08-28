@@ -364,10 +364,10 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngl
     walls = state.walls
 
     //based on time constraints, decision was made to not record and playback firedogs + drops, just make sure they clear
-    while(raindrops.length>0)
+    while (raindrops.length > 0)
       raindrops(0).remove()
 
-    while(fireDogs.length>0)
+    while (fireDogs.length > 0)
       fireDogs(0).remove()
   }
 

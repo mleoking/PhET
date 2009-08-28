@@ -16,7 +16,7 @@ import RampResources._
 class AppliedForceSlider(getter: () => Double,
                          setter: Double => Unit,
                          addListener: (() => Unit) => Unit,
-                         mousePressHandler:()=>Unit)
+                         mousePressHandler: () => Unit)
         extends ScalaValueControl(-RampDefaults.MAX_APPLIED_FORCE, RampDefaults.MAX_APPLIED_FORCE, "controls.applied-force-x".translate, "0.0".literal, "units.abbr.newtons".translate, getter, setter, addListener) {
   setTextFieldColumns(5)
   //set applied force to zero on slider mouse release
@@ -35,9 +35,9 @@ class AppliedForceSlider(getter: () => Double,
 
 class AppliedForceSliderNode(bead: Bead,
                              transform: ModelViewTransform2D,
-                             mousePressHandler:()=>Unit) extends PNode {
+                             mousePressHandler: () => Unit) extends PNode {
   val max = RampDefaults.MAX_APPLIED_FORCE
-  val control = new AppliedForceSlider(() => bead.parallelAppliedForce, value => bead.parallelAppliedForce = value, bead.addListener,mousePressHandler)
+  val control = new AppliedForceSlider(() => bead.parallelAppliedForce, value => bead.parallelAppliedForce = value, bead.addListener, mousePressHandler)
   control.setSize(new Dimension(control.getPreferredSize.width, (control.getPreferredSize.height * 1.45).toInt))
   val pswing = new PSwing(control)
   addChild(pswing)

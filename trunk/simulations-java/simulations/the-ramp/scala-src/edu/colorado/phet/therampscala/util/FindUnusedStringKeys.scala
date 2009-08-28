@@ -17,8 +17,8 @@ object FindUnusedStringKeys {
       if (usages.length == 0) {
         println("unused key: " + key)
       }
-      else{
-        println("used key: "+key+": usages = "+usages.mkString(", "))
+      else {
+        println("used key: " + key + ": usages = " + usages.mkString(", "))
       }
     }
   }

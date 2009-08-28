@@ -9,10 +9,11 @@ import scalacommon.CBS
 import umd.cs.piccolo.PNode
 import java.lang.Math._
 
-class DefaultCanvas(modelWidth: Double, modelHeight: Double, canvasWidth:Int,canvasHeight:Int,modelOffsetY:Double)
-        extends PhetPCanvas(new Dimension(canvasWidth,canvasHeight)) {
-  def this(modelWidth: Double, modelHeight: Double) = this(modelWidth,modelHeight,1024,768,0)
-  def canonicalBounds = new Rectangle(0, 0, min(canvasWidth,canvasHeight), min(canvasWidth,canvasHeight))
+class DefaultCanvas(modelWidth: Double, modelHeight: Double, canvasWidth: Int, canvasHeight: Int, modelOffsetY: Double)
+        extends PhetPCanvas(new Dimension(canvasWidth, canvasHeight)) {
+  def this(modelWidth: Double, modelHeight: Double) = this (modelWidth, modelHeight, 1024, 768, 0)
+
+  def canonicalBounds = new Rectangle(0, 0, min(canvasWidth, canvasHeight), min(canvasWidth, canvasHeight))
 
   val centeredBoxStrategy = new CBS(canonicalBounds.width, canonicalBounds.height, this, modelOffsetY)
   setWorldTransformStrategy(centeredBoxStrategy)
@@ -30,6 +31,6 @@ class DefaultCanvas(modelWidth: Double, modelHeight: Double, canvasWidth:Int,can
   def addNodeAfter(preNode: PNode, newNode: PNode) = addNode(indexOfChild(preNode) + 1, newNode)
 
   def removeNode(node: PNode) = worldNode.removeChild(node)
-  
+
   def getVisibleModelBounds = centeredBoxStrategy.getVisibleModelBounds
 }

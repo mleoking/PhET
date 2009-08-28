@@ -2,31 +2,29 @@ package edu.colorado.phet.therampscala.graphics
 
 import common.phetcommon.resources.PhetCommonResources
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
-import common.phetcommon.view.util.{SwingUtils}
 import common.piccolophet.nodes.GradientButtonNode
 import java.awt.Color
 import java.awt.geom.{Point2D}
-import common.piccolophet.PhetPCanvas
 import java.awt.event._
 
-import javax.swing.{Timer, JFrame, JDialog}
+import javax.swing.{JFrame}
 import model._
 import scalacommon.math.Vector2D
 import scalacommon.Predef._
 import umd.cs.piccolo.PNode
 import java.lang.Math._
 import RampResources._
+
 abstract class AbstractRampCanvas(model: RampModel,
                                   coordinateSystemModel: CoordinateSystemModel,
                                   freeBodyDiagramModel: FreeBodyDiagramModel,
                                   vectorViewModel: VectorViewModel,
                                   frame: JFrame,
-                                  modelOffsetY:Double) 
-        extends DefaultCanvas(22, 22,RampDefaults.worldWidth,RampDefaults.worldHeight,modelOffsetY) {
+                                  modelOffsetY: Double)
+        extends DefaultCanvas(22, 22, RampDefaults.worldWidth, RampDefaults.worldHeight, modelOffsetY) {
   setBackground(RampDefaults.SKY_GRADIENT_BOTTOM)
 
   addNode(new SkyNode(transform))
-
 
   def useVectorNodeInPlayArea = true
 
@@ -51,7 +49,7 @@ abstract class AbstractRampCanvas(model: RampModel,
   def addWallsAndDecorations()
   addWallsAndDecorations()
 
-  val beadNode = new DraggableBeadNode(model.bead, transform, "cabinet.gif".literal,()=>model.setPaused(false))
+  val beadNode = new DraggableBeadNode(model.bead, transform, "cabinet.gif".literal, () => model.setPaused(false))
   model.addListenerByName(beadNode.setImage(RampResources.getImage(model.selectedObject.imageFilename)))
   addNode(beadNode)
 
@@ -72,17 +70,17 @@ abstract class AbstractRampCanvas(model: RampModel,
   val fbdNode = new FreeBodyDiagramNode(freeBodyDiagramModel, 200, 200, fbdWidth, fbdWidth, model.coordinateFrameModel, coordinateSystemModel.adjustable, PhetCommonResources.getImage("buttons/maximizeButton.png".literal))
 
   def updateFBDLocation() = {
-    fbdNode.setOffset(10,10)
-    if (getHeight>0 && getWidth>0 && !getVisibleModelBounds.contains(fbdNode.getFullBounds))
-    fbdNode.setOffset(getVisibleModelBounds.getX+200,getVisibleModelBounds.getY)
+    fbdNode.setOffset(10, 10)
+    if (getHeight > 0 && getWidth > 0 && !getVisibleModelBounds.contains(fbdNode.getFullBounds))
+      fbdNode.setOffset(getVisibleModelBounds.getX + 200, getVisibleModelBounds.getY)
   }
-  addComponentListener(new ComponentAdapter(){
+  addComponentListener(new ComponentAdapter() {
     override def componentResized(e: ComponentEvent) = {
       updateFBDLocation()
     }
   })
   updateFBDLocation()
-  
+
   val fbdListener = (pt: Point2D) => {model.bead.parallelAppliedForce = pt.getX}
   fbdNode.addListener(fbdListener)
   addNode(fbdNode)
@@ -90,7 +88,7 @@ abstract class AbstractRampCanvas(model: RampModel,
     fbdNode.setVisible(freeBodyDiagramModel.visible && !freeBodyDiagramModel.windowed)
   }
 
-  val windowFBDNode = new FBDDialog(frame,freeBodyDiagramModel,fbdWidth,model.coordinateFrameModel,coordinateSystemModel.adjustable,coordinateSystemModel,fbdListener)
+  val windowFBDNode = new FBDDialog(frame, freeBodyDiagramModel, fbdWidth, model.coordinateFrameModel, coordinateSystemModel.adjustable, coordinateSystemModel, fbdListener)
 
   class VectorSetNode(transform: ModelViewTransform2D, bead: Bead) extends PNode {
     def addVector(a: Vector, offset: VectorValue) = {
@@ -196,37 +194,37 @@ abstract class AbstractRampCanvas(model: RampModel,
   addWorldChild(new ReturnObjectButton(model))
 }
 
-class ReturnObjectButton(model:RampModel) extends GradientButtonNode("controls.return-object".translate,Color.orange){
-  setOffset(RampDefaults.worldWidth/2.0-getFullBounds.getWidth/2,RampDefaults.worldHeight*0.2)
+class ReturnObjectButton(model: RampModel) extends GradientButtonNode("controls.return-object".translate, Color.orange) {
+  setOffset(RampDefaults.worldWidth / 2.0 - getFullBounds.getWidth / 2, RampDefaults.worldHeight * 0.2)
   def updateVisibility() = setVisible(model.beadInModelViewportRange)
   updateVisibility()
   model.addListener(updateVisibility)
 
-  addActionListener(new ActionListener(){
+  addActionListener(new ActionListener() {
     def actionPerformed(e: ActionEvent) = model.returnBead()
   })
 }
 
-class ClearHeatButton(model:RampModel) extends GradientButtonNode("controls.clear-heat".translate,Color.yellow){
-  setOffset(RampDefaults.worldWidth/2.0-getFullBounds.getWidth/2,RampDefaults.worldHeight*0.25)
+class ClearHeatButton(model: RampModel) extends GradientButtonNode("controls.clear-heat".translate, Color.yellow) {
+  setOffset(RampDefaults.worldWidth / 2.0 - getFullBounds.getWidth / 2, RampDefaults.worldHeight * 0.25)
   def updateVisibility() = {
     setVisible(model.bead.getRampThermalEnergy > 2000)
   }
   updateVisibility()
   model.addListener(updateVisibility)
 
-  addActionListener(new ActionListener(){
+  addActionListener(new ActionListener() {
     def actionPerformed(e: ActionEvent) = model.clearHeat()
   })
 }
 
 class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, freeBodyDiagramModel: FreeBodyDiagramModel,
                  vectorViewModel: VectorViewModel, frame: JFrame, showObjectSelectionNode: Boolean,
-                 rampAngleDraggable: Boolean,modelOffsetY:Double)
-        extends AbstractRampCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame,modelOffsetY) {
+                 rampAngleDraggable: Boolean, modelOffsetY: Double)
+        extends AbstractRampCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame, modelOffsetY) {
   if (showObjectSelectionNode) {
     addNode(new ObjectSelectionNode(transform, model))
-    addNode(indexOfChild(earthNode) + 1, new AppliedForceSliderNode(model.bead, transform,()=>model.setPaused(false)))
+    addNode(indexOfChild(earthNode) + 1, new AppliedForceSliderNode(model.bead, transform, () => model.setPaused(false)))
   }
 
   override def addWallsAndDecorations() = {

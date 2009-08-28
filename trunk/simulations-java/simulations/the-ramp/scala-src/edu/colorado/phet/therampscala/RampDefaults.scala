@@ -13,12 +13,12 @@ object RampDefaults {
   val MIN_X = -10.0
   val MAX_X = 10.0
 
-//  val worldDefaultScale = 0.81
-//  val worldDefaultScale = 0.75
+  //  val worldDefaultScale = 0.81
+  //  val worldDefaultScale = 0.75
   val worldDefaultScale = 1.0
 
   val worldWidth = (1024 * worldDefaultScale).toInt
-  val worldHeight = (768* worldDefaultScale).toInt
+  val worldHeight = (768 * worldDefaultScale).toInt
 
   val MAX_APPLIED_FORCE = 500.0
 
@@ -51,8 +51,8 @@ object RampDefaults {
 
   import Color._
 
-  val myGold = new Color(255,235,0)
-  val myBrickRed = new Color(185,80,50)
+  val myGold = new Color(255, 235, 0)
+  val myBrickRed = new Color(185, 80, 50)
 
   val myGreen = new Color(0.0f, 0.8f, 0.1f);
   val lightBlue = new Color(160, 220, 255);
