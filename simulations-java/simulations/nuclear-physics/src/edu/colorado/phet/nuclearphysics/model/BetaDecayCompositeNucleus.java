@@ -27,8 +27,8 @@ public abstract class BetaDecayCompositeNucleus extends CompositeAtomicNucleus {
     //------------------------------------------------------------------------
 
 	private static final Random RAND = new Random();
-	private static final double ANTINEUTRINO_EMISSION_SPEED = 1.2;  // Femtometers per clock tick.  Weird, I know.
-	private static final double ELECTRON_EMISSION_SPEED = 0.7;  // Femtometers per clock tick.  Weird, I know.
+	private static final double ANTINEUTRINO_EMISSION_SPEED = 0.8;  // Femtometers per clock tick.  Weird, I know.
+	private static final double ELECTRON_EMISSION_SPEED = 0.4;  // Femtometers per clock tick.  Weird, I know.
 
     //------------------------------------------------------------------------
     // Constructor
