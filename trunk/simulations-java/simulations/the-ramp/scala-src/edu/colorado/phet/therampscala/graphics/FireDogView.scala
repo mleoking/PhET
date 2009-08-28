@@ -5,7 +5,7 @@ import umd.cs.piccolo.PNode
 import RampResources._
 
 class FireDogView(rampModel: RampModel, canvas: AbstractRampCanvas) extends PNode{
-  rampModel.fireDogAddedListeners += ((added: rampModel.MyFireDog) => {
+  rampModel.fireDogAddedListeners += ((added: rampModel.FireDog) => {
     val node = new BeadNode(added.dogbead, canvas.transform, "firedog.gif".literal)
     addChild(node)
 
