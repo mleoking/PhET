@@ -51,7 +51,7 @@ abstract class AbstractRampCanvas(model: RampModel,
   def addWallsAndDecorations()
   addWallsAndDecorations()
 
-  val beadNode = new DraggableBeadNode(model.bead, transform, "cabinet.gif".literal)
+  val beadNode = new DraggableBeadNode(model.bead, transform, "cabinet.gif".literal,()=>model.setPaused(false))
   model.addListenerByName(beadNode.setImage(RampResources.getImage(model.selectedObject.imageFilename)))
   addNode(beadNode)
 
@@ -226,7 +226,7 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
         extends AbstractRampCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame,modelOffsetY) {
   if (showObjectSelectionNode) {
     addNode(new ObjectSelectionNode(transform, model))
-    addNode(indexOfChild(earthNode) + 1, new AppliedForceSliderNode(model.bead, transform))
+    addNode(indexOfChild(earthNode) + 1, new AppliedForceSliderNode(model.bead, transform,()=>model.setPaused(false)))
   }
 
   override def addWallsAndDecorations() = {
