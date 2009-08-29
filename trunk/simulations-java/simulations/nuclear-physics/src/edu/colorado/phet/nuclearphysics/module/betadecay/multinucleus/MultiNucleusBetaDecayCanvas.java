@@ -33,8 +33,11 @@ import edu.colorado.phet.nuclearphysics.common.model.SubatomicParticle;
 import edu.colorado.phet.nuclearphysics.common.view.AbstractAtomicNucleusNode;
 import edu.colorado.phet.nuclearphysics.common.view.AtomicNucleusImageType;
 import edu.colorado.phet.nuclearphysics.common.view.GrabbableNucleusImageNode;
+import edu.colorado.phet.nuclearphysics.model.Carbon14Nucleus;
 import edu.colorado.phet.nuclearphysics.model.HalfLifeInfo;
 import edu.colorado.phet.nuclearphysics.model.HeavyAdjustableHalfLifeNucleus;
+import edu.colorado.phet.nuclearphysics.model.Hydrogen3Nucleus;
+import edu.colorado.phet.nuclearphysics.model.LightAdjustableHalfLifeNucleus;
 import edu.colorado.phet.nuclearphysics.model.NuclearDecayListenerAdapter;
 import edu.colorado.phet.nuclearphysics.model.Polonium211Nucleus;
 import edu.colorado.phet.nuclearphysics.module.halflife.AutopressResetButton;
@@ -232,10 +235,18 @@ public class MultiNucleusBetaDecayCanvas extends PhetPCanvas implements Autopres
         // Pre-generate the images for the custom nuclei and lead nuclei,
         // because otherwise there are noticeable pauses at various times
         // when the nuclei need to be generated.
-        NucleusImageFactory.getInstance().preGenerateNucleusImages(HeavyAdjustableHalfLifeNucleus.ORIGINAL_NUM_PROTONS,
-        		HeavyAdjustableHalfLifeNucleus.ORIGINAL_NUM_NEUTRONS, 25 );
-        NucleusImageFactory.getInstance().preGenerateNucleusImages(Polonium211Nucleus.ORIGINAL_NUM_PROTONS - 2,
-        		Polonium211Nucleus.ORIGINAL_NUM_NEUTRONS - 2, 25 );
+        NucleusImageFactory.getInstance().preGenerateNucleusImages(Hydrogen3Nucleus.ORIGINAL_NUM_PROTONS,
+        		Hydrogen3Nucleus.ORIGINAL_NUM_NEUTRONS, 25 );
+        NucleusImageFactory.getInstance().preGenerateNucleusImages(Hydrogen3Nucleus.ORIGINAL_NUM_PROTONS + 1,
+        		Hydrogen3Nucleus.ORIGINAL_NUM_NEUTRONS - 1, 25 );
+        NucleusImageFactory.getInstance().preGenerateNucleusImages(Carbon14Nucleus.ORIGINAL_NUM_PROTONS,
+        		Carbon14Nucleus.ORIGINAL_NUM_NEUTRONS, 25 );
+        NucleusImageFactory.getInstance().preGenerateNucleusImages(Carbon14Nucleus.ORIGINAL_NUM_PROTONS + 1,
+        		Carbon14Nucleus.ORIGINAL_NUM_NEUTRONS - 1, 25 );
+        NucleusImageFactory.getInstance().preGenerateNucleusImages(LightAdjustableHalfLifeNucleus.ORIGINAL_NUM_PROTONS,
+        		LightAdjustableHalfLifeNucleus.ORIGINAL_NUM_NEUTRONS, 25 );
+        NucleusImageFactory.getInstance().preGenerateNucleusImages(LightAdjustableHalfLifeNucleus.ORIGINAL_NUM_PROTONS + 1,
+        		LightAdjustableHalfLifeNucleus.ORIGINAL_NUM_NEUTRONS - 1, 25 );
     }
     
     /**
