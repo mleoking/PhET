@@ -347,8 +347,5 @@ public abstract class CompositeAtomicNucleus extends AtomicNucleus {
     	for (int i = 0; i < numZones; i++){
     		_placementZoneAngles[i] = new PlacementZoneAngle(i * angleIncrement, (i+1) * angleIncrement);
     	}
-    	for (int i = 0; i < numZones; i++){
-    		System.out.println(_placementZoneAngles[i]);
-    	}
     }
 }
