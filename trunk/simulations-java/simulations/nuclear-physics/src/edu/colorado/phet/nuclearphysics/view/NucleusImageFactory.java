@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Random;
 
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
+import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
@@ -133,6 +134,10 @@ public class NucleusImageFactory {
     			generateNucleusImage(numProtons, numNeutrons, pixelsPerFm);
     		}
     	}
+    }
+    
+    public void preGenerateNucleusImages( AtomicNucleus nucleus, double pixelsPerFm ){
+    	preGenerateNucleusImages(nucleus.getNumProtons(), nucleus.getNumNeutrons(), pixelsPerFm);
     }
 
     /**
