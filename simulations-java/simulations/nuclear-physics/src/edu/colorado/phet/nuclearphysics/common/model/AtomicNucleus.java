@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.common.NuclearPhysicsClock;
 import edu.colorado.phet.nuclearphysics.common.NucleusDisplayInfo;
 import edu.colorado.phet.nuclearphysics.common.NucleusType;
@@ -211,8 +212,26 @@ public abstract class AtomicNucleus implements NuclearDecayControl {
      */
     protected void updateDiameter(){
         // This calculation is based on an empirically derived formula that
-        // seems to give pretty reasonable values.
-        _diameter = (1.6 * Math.pow( (double)getAtomicWeight(), 0.362));        
+        // seems to give pretty reasonable values.  It has been hacked at bit
+    	// to work for the purpose of this family of sims.
+		
+    	switch (_numProtons + _numNeutrons){
+    	case 1:
+    		_diameter = NuclearPhysicsConstants.NUCLEON_DIAMETER;
+    		break;
+    	case 2:
+    		_diameter = 2 * NuclearPhysicsConstants.NUCLEON_DIAMETER;
+    		break;
+    	case 3:
+    		_diameter = 2 * NuclearPhysicsConstants.NUCLEON_DIAMETER;  // Not correct, but works better.
+    		break;
+    	case 4:
+    		_diameter = 3.5 * NuclearPhysicsConstants.NUCLEON_DIAMETER;
+    		break;
+    	default:
+    		_diameter = (1.6 * Math.pow( (double)getAtomicWeight(), 0.362));
+    		break;
+    	}
     }
     
     public ConstantDtClock getClock(){
