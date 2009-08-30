@@ -45,7 +45,6 @@ class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2
     paintColor = new Color(r2, g2, b2)
   }
 
-  //todo: factor these methods together
   rampSegment.heatListeners += (() => updateColor())
 
   def paintColor_=(p: Paint) = line.setPaint(p)
