@@ -146,9 +146,8 @@ class Grounded(bead: Bead) extends MotionStrategy(bead) {
       val wallCollisionForce = abs(mass * deltaV / dt - netForceWithoutWallForce.magnitude) * sign
 
       val resultWallForce = getRampUnitVector * wallCollisionForce
-//      println("proposedPosition = " + proposedPosition + ", wall collision force = " + wallCollisionForce + ", wall force = " + resultWallForce)
+      //      println("proposedPosition = " + proposedPosition + ", wall collision force = " + wallCollisionForce + ", wall force = " + resultWallForce)
       resultWallForce
-//      new Vector2D
     } else new Vector2D
   }
 
@@ -224,8 +223,8 @@ class Grounded(bead: Bead) extends MotionStrategy(bead) {
     val desiredVel = bead.netForceToParallelVelocity(totalForce, dt)
     //stepInTime samples at least one value less than 1E-12 on direction change to handle static friction
     //see docs in static friction computation
-    val newVelocityThatGoesThroughZero= if ((origVel < 0 && desiredVel > 0) || (origVel > 0 && desiredVel < 0)) 0.0 else desiredVel
-    val newVelocity = if (wallForce.magnitude>0) desiredVel else newVelocityThatGoesThroughZero
+    val newVelocityThatGoesThroughZero = if ((origVel < 0 && desiredVel > 0) || (origVel > 0 && desiredVel < 0)) 0.0 else desiredVel
+    val newVelocity = if (wallForce.magnitude > 0) desiredVel else newVelocityThatGoesThroughZero
     val requestedPosition = position + newVelocity * dt
     val stateAfterVelocityUpdate = new SettableState(requestedPosition, newVelocity, origState.thermalEnergy, origState.crashEnergy)
 
@@ -306,11 +305,10 @@ class Grounded(bead: Bead) extends MotionStrategy(bead) {
     }
 
     val delta = stateAfterFixingPosition.totalEnergy - origEnergy - appliedEnergy
-    if (delta.abs > 1E-8) {
-      println("failed to conserve energy, delta=".literal + delta)
+    if (delta.abs > 1E-6 && appliedEnergy.abs < 1E-4) {//assume applied energy could absorb some error
+      println("failed to conserve energy, delta=".literal + delta+", applied energy = "+appliedEnergy)
     }
 
-    //      println("iskineticfriction = "+ isKineticFriction +", "+frictionForce)
     stateAfterFixingPosition
   }
 }
