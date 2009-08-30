@@ -141,7 +141,7 @@ class RampChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model:
     }
 
     //todo: a more elegant solution would be to make MotionControlGraph use an interface, then to write an adapter
-    //todo: for the existing recording/playback model, instead of overriding bits and pieces to obtain this functionality
+    //for the existing recording/playback model, instead of overriding bits and pieces to obtain this functionality
 
     override def getCursorShouldBeVisible = model.isPlayback
     model addListener updateCursorVisible
