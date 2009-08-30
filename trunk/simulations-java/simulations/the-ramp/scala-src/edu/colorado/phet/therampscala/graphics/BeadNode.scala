@@ -37,7 +37,6 @@ class DraggableBeadNode(bead: Bead,
 }
 
 class BeadNode(bead: Bead, transform: ModelViewTransform2D, imageName: String) extends PNode {
-  val shapeNode = new PhetPPath(new BasicStroke(1), Color.green)
   val imageNode = new PImage(RampResources.getImage(imageName))
 
   def setImage(im: BufferedImage) = {
@@ -45,13 +44,9 @@ class BeadNode(bead: Bead, transform: ModelViewTransform2D, imageName: String) e
     update()
   }
   addChild(imageNode)
-  //  addChild(shapeNode) //TODO remove after debug done
 
   def update() = {
-
-    shapeNode.setPathTo(transform.createTransformedShape(new Circle(bead.position2D, bead.width / 2)))
-
-    //TODO consolidate/refactor with BugNode, similar graphics transform code
+    //TODO: consolidate/refactor with BugNode, similar graphics transform code
     imageNode.setTransform(new AffineTransform)
 
     val modelPosition = bead.position2D
