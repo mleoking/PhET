@@ -221,10 +221,6 @@ class Grounded(bead: Bead) extends MotionStrategy(bead) {
     val collidedRight = requestedPosition >= rightBound && wallsExist
     val collided = collidedLeft || collidedRight
     val crashEnergy = stateAfterVelocityUpdate.ke //this is the energy it would lose in a crash
-    //      println("Crash energy from getNewState: "+crashEnergy)
-    if (collidedRight) {
-      println("collided right")
-    }
     val stateAfterCollision = if (collidedLeft && isKineticFriction) {
       new SettableState(leftBound, 0, stateAfterVelocityUpdate.thermalEnergy + crashEnergy, origState.crashEnergy + crashEnergy)
     }
