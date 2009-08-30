@@ -181,7 +181,49 @@ case class RecordedState(rampState: RampState,
                          walls: Boolean)
 
 class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngle: Double) extends RecordModel[RecordedState] with ObjectModel {
+  private var _walls = true
+  private var _frictionless = RampDefaults.FRICTIONLESS_DEFAULT
+  private var _selectedObject = RampDefaults.objects(0)
+
+  val rampSegments = new ArrayBuffer[RampSegment]
+  val stepListeners = new ArrayBuffer[() => Unit]
+  val rampLength = 10
   setPaused(pausedOnReset)
+
+  rampSegments += new RampSegment(new Point2D.Double(-rampLength, 0), new Point2D.Double(0, 0))
+  rampSegments += new RampSegment(new Point2D.Double(0, 0), new Point2D.Double(rampLength * cos(initialAngle), rampLength * sin(initialAngle)))
+
+  val coordinateFrameModel = new CoordinateFrameModel((() => rampSegments(1).angle) :: (() => 0.0) :: Nil)
+
+  //Sends notification when any ramp segment changes
+  object rampChangeAdapter extends Observable //todo: perhaps we should just pass the addListener method to the beads
+  rampSegments(0).addListenerByName {rampChangeAdapter.notifyListeners}
+  rampSegments(1).addListenerByName {rampChangeAdapter.notifyListeners}
+  val surfaceFriction = () => !frictionless
+  //  val wallRange = () => if (walls) new Range(RampDefaults.MIN_X, RampDefaults.MAX_X) else new Range(-10000, RampDefaults.MAX_X)
+
+  val defaultManPosition = defaultBeadPosition - 1
+  val leftWall = createBead(-10, RampDefaults.wall.width, RampDefaults.wall.height)
+  val rightWall = createBead(10, RampDefaults.wall.width, RampDefaults.wall.height)
+  val manBead = createBead(defaultManPosition, 1)
+
+  val wallRange = () => {
+    if (walls)
+      new Range(leftWall.maxX, rightWall.minX)
+    else
+      new Range(-10000, RampDefaults.MAX_X)
+  }
+  val surfaceFrictionStrategy = new SurfaceFrictionStrategy() {
+    //todo: allow different values for different segments
+    def getTotalFriction(objectFriction: Double) = new LinearFunction(0, 1, objectFriction, objectFriction * 0.75).evaluate(rampSegments(0).wetness)
+  }
+  val bead = new Bead(new BeadState(defaultBeadPosition, 0, _selectedObject.mass, _selectedObject.staticFriction, _selectedObject.kineticFriction, 0.0, 0.0),
+    _selectedObject.height, _selectedObject.width, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction, surfaceFrictionStrategy, walls, wallRange)
+  updateDueToObjectChange()
+
+  def createBead(x: Double, width: Double, height: Double):Bead = new Bead(new BeadState(x, 0, 10, 0, 0, 0.0, 0.0), height, width, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction, surfaceFrictionStrategy, walls, wallRange)
+
+  def createBead(x: Double, width: Double): Bead = createBead(x, width, 3)
 
   def stepRecord(): Unit = stepRecord(RampDefaults.DT_DEFAULT)
 
@@ -199,48 +241,6 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngl
     bead.setCrashEnergy(0.0)
     bead.thermalEnergy = 0.0
   }
-
-  private var _walls = true
-  private var _frictionless = RampDefaults.FRICTIONLESS_DEFAULT
-  private var _selectedObject = RampDefaults.objects(0)
-
-  val rampSegments = new ArrayBuffer[RampSegment]
-  val stepListeners = new ArrayBuffer[() => Unit]
-
-  val rampLength = 10
-  rampSegments += new RampSegment(new Point2D.Double(-rampLength, 0), new Point2D.Double(0, 0))
-  rampSegments += new RampSegment(new Point2D.Double(0, 0), new Point2D.Double(rampLength * cos(initialAngle), rampLength * sin(initialAngle)))
-
-  val coordinateFrameModel = new CoordinateFrameModel((() => rampSegments(1).angle) :: (() => 0.0) :: Nil)
-
-  //Sends notification when any ramp segment changes
-  object rampChangeAdapter extends Observable //todo: perhaps we should just pass the addListener method to the beads
-  rampSegments(0).addListenerByName {rampChangeAdapter.notifyListeners}
-  rampSegments(1).addListenerByName {rampChangeAdapter.notifyListeners}
-  val surfaceFriction = () => !frictionless
-  //  val wallRange = () => if (walls) new Range(RampDefaults.MIN_X, RampDefaults.MAX_X) else new Range(-10000, RampDefaults.MAX_X)
-  val wallRange = () => {
-    if (walls)
-      new Range(leftWall.maxX, rightWall.minX)
-    else
-      new Range(-10000, RampDefaults.MAX_X)
-  }
-  val surfaceFrictionStrategy = new SurfaceFrictionStrategy() {
-    //todo: allow different values for different segments
-    def getTotalFriction(objectFriction: Double) = new LinearFunction(0, 1, objectFriction, objectFriction * 0.75).evaluate(rampSegments(0).wetness)
-  }
-  val bead = new Bead(new BeadState(defaultBeadPosition, 0, _selectedObject.mass, _selectedObject.staticFriction, _selectedObject.kineticFriction, 0.0, 0.0),
-    _selectedObject.height, _selectedObject.width, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction, surfaceFrictionStrategy, walls, wallRange)
-
-  def createBead(x: Double, width: Double, height: Double) = new Bead(new BeadState(x, 0, 10, 0, 0, 0.0, 0.0), height, width, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction, surfaceFrictionStrategy, walls, wallRange)
-
-  def createBead(x: Double, width: Double): Bead = createBead(x, width, 3)
-
-  val leftWall: Bead = createBead(-10, RampDefaults.wall.width, RampDefaults.wall.height)
-  val rightWall: Bead = createBead(10, RampDefaults.wall.width, RampDefaults.wall.height)
-  val defaultManPosition = defaultBeadPosition - 1
-  val manBead: Bead = createBead(defaultManPosition, 1)
-  updateDueToObjectChange()
 
   override def resetAll() = {
     super.resetAll()
@@ -435,7 +435,7 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngl
 
   def getRampAngle = rampSegments(1).angle
 
-  //TODO: this may need to be more general
+  //TODO: this may need to be more general if/when there are more/less ramp segments
   def positionMapper(particleLocation: Double) = {
     if (particleLocation <= 0) {
       val backwardsUnitVector = rampSegments(0).getUnitVector * -1 //go backwards since position is measure from origin
