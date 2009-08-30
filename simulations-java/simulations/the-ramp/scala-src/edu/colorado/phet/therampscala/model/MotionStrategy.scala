@@ -125,17 +125,23 @@ class Grounded(bead: Bead) extends MotionStrategy(bead) {
     new Vector2D(angle) * magnitude
   }
 
+  //is the block about to collide?
+  def collideLeft = position + velocity * dt < leftBound && wallsExist
+
+  def collideRight = position + velocity * dt > rightBound && wallsExist
+
+  def collide = collideLeft || collideRight
+
+  def leftBound = bead.wallRange().min + width / 2
+
+  def rightBound = bead.wallRange().max - width / 2
+
   override def wallForce = {
-    val leftBound = bead.wallRange().min + width / 2
-    val rightBound = bead.wallRange().max - width / 2
     val netForceWithoutWallForce = appliedForce + gravityForce + normalForce //+ frictionForce //todo: net force without wall force should include friction force, but creates a loop (in which friction force depends on wall force and vice versa
     val pressingLeft = position <= leftBound && bead.forceToParallelAcceleration(netForceWithoutWallForce) < 0 && wallsExist
     val pressingRight = position >= rightBound && bead.forceToParallelAcceleration(netForceWithoutWallForce) > 0 && wallsExist
-    val proposedPosition = position + velocity * dt
-    val collideLeft = proposedPosition < leftBound && wallsExist
-    val collideRight = proposedPosition > rightBound && wallsExist
     val pressing = pressingLeft || pressingRight
-    val collide = collideLeft || collideRight
+
     if (pressing)
       netForceWithoutWallForce * -1
     else if (collide) {
@@ -219,32 +225,24 @@ class Grounded(bead: Bead) extends MotionStrategy(bead) {
   def isKineticFriction = surfaceFriction() && kineticFriction > 0
 
   def getNewState(dt: Double, origState: BeadState, origEnergy: Double) = {
-    val origVel = velocity
     val desiredVel = bead.netForceToParallelVelocity(totalForce, dt)
     //stepInTime samples at least one value less than 1E-12 on direction change to handle static friction
     //see docs in static friction computation
-    val newVelocityThatGoesThroughZero = if ((origVel < 0 && desiredVel > 0) || (origVel > 0 && desiredVel < 0)) 0.0 else desiredVel
-    val newVelocity = if (wallForce.magnitude > 0) desiredVel else newVelocityThatGoesThroughZero
-    val requestedPosition = position + newVelocity * dt
-    val stateAfterVelocityUpdate = new SettableState(requestedPosition, newVelocity, origState.thermalEnergy, origState.crashEnergy)
+    val newVelocityThatGoesThroughZero = if ((velocity < 0 && desiredVel > 0) || (velocity > 0 && desiredVel < 0)) 0.0 else desiredVel
+    //make sure velocity is exactly zero or opposite after wall collision
+    val newVelocity = if (collide && bounce) -velocity else if (collide) 0.0 else newVelocityThatGoesThroughZero
+    val stateAfterVelocityUpdate = new SettableState(position + newVelocity * dt, newVelocity, origState.thermalEnergy, origState.crashEnergy)
 
-    val leftBound = bead.wallRange().min + width / 2
-    val rightBound = bead.wallRange().max - width / 2
-    val collidedLeft = requestedPosition <= leftBound && wallsExist
-    val collidedRight = requestedPosition >= rightBound && wallsExist
-    val collided = collidedLeft || collidedRight
-    val crashEnergy = stateAfterVelocityUpdate.ke //this is the energy it would lose in a crash
-    val stateAfterCollision = if (collidedLeft && !bounce) {
+    val crashEnergy = 0.5 * mass * velocity * velocity //this is the energy it would lose in a crash
+    val stateAfterCollision = if (collideLeft && !bounce) {
       new SettableState(leftBound, 0, stateAfterVelocityUpdate.thermalEnergy + crashEnergy, origState.crashEnergy + crashEnergy)
     }
-    else if (collidedRight && !bounce) {
+    else if (collideRight && !bounce) {
       new SettableState(rightBound, 0, stateAfterVelocityUpdate.thermalEnergy + crashEnergy, origState.crashEnergy + crashEnergy)
     }
     else {
       stateAfterVelocityUpdate
     }
-
-    //todo: make sure velocity is exactly zero or opposite after wall collision
 
     val dx = stateAfterCollision.position - origState.position
 
@@ -253,9 +251,9 @@ class Grounded(bead: Bead) extends MotionStrategy(bead) {
 
     //      val thermalFromWork = getThermalEnergy + abs((frictionForce dot getVelocityVectorUnitVector(stateAfterBounds.velocity)) * dx) //work done by friction force, absolute value
     //todo: this may differ significantly from thermalFromWork
-    val thermalFromEnergy = if (isKineticFriction && !collided)
+    val thermalFromEnergy = if (isKineticFriction && !collide)
       origEnergy - stateAfterCollision.ke - stateAfterCollision.pe + appliedEnergy
-    else if (isKineticFriction && collided) {
+    else if (isKineticFriction && collide) {
       //choose thermal energy so energy is exactly conserved
       origEnergy + appliedEnergy - stateAfterCollision.ke - stateAfterCollision.pe
     }
@@ -281,7 +279,7 @@ class Grounded(bead: Bead) extends MotionStrategy(bead) {
       val patch = stateAfterThermalEnergy.setThermalEnergy(origState.thermalEnergy).setVelocity(patchedVelocity)
       val dEPatch = stateAfterThermalEnergy.totalEnergy - origEnergy
       if (dEPatch.abs > 1E-8) {
-        println("applied energy = ".literal + appliedEnergy + ", dT = ".literal + dT + ", origVel=".literal + stateAfterThermalEnergy.velocity + ", newV=".literal + patchedVelocity + ", dE=".literal + dEPatch)
+        println("applied energy = ".literal + appliedEnergy + ", dT = ".literal + dT + ", velocity=".literal + stateAfterThermalEnergy.velocity + ", newV=".literal + patchedVelocity + ", dE=".literal + dEPatch)
         //accept some problem here
         //todo: should the state be changed, given that energy is problematic?
         patch
@@ -305,8 +303,8 @@ class Grounded(bead: Bead) extends MotionStrategy(bead) {
     }
 
     val delta = stateAfterFixingPosition.totalEnergy - origEnergy - appliedEnergy
-    if (delta.abs > 1E-6 && appliedEnergy.abs < 1E-4) {//assume applied energy could absorb some error
-      println("failed to conserve energy, delta=".literal + delta+", applied energy = "+appliedEnergy)
+    if (delta.abs > 1E-6 && appliedEnergy.abs < 1E-4) { //assume applied energy could absorb some error
+      println("failed to conserve energy, delta=".literal + delta + ", applied energy = " + appliedEnergy)
     }
 
     stateAfterFixingPosition
