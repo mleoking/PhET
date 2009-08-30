@@ -225,12 +225,15 @@ class Grounded(bead: Bead) extends MotionStrategy(bead) {
   def isKineticFriction = surfaceFriction() && kineticFriction > 0
 
   def getNewState(dt: Double, origState: BeadState, origEnergy: Double) = {
-    val desiredVel = bead.netForceToParallelVelocity(totalForce, dt)
-    //stepInTime samples at least one value less than 1E-12 on direction change to handle static friction
-    //see docs in static friction computation
-    val newVelocityThatGoesThroughZero = if ((velocity < 0 && desiredVel > 0) || (velocity > 0 && desiredVel < 0)) 0.0 else desiredVel
-    //make sure velocity is exactly zero or opposite after wall collision
-    val newVelocity = if (collide && bounce) -velocity else if (collide) 0.0 else newVelocityThatGoesThroughZero
+    val newVelocity = {
+      val desiredVel = bead.netForceToParallelVelocity(totalForce, dt)
+      //stepInTime samples at least one value less than 1E-12 on direction change to handle static friction
+      //see docs in static friction computation
+      val newVelocityThatGoesThroughZero = if ((velocity < 0 && desiredVel > 0) || (velocity > 0 && desiredVel < 0)) 0.0 else desiredVel
+      //make sure velocity is exactly zero or opposite after wall collision
+      if (collide && bounce) -velocity else if (collide) 0.0 else newVelocityThatGoesThroughZero
+    }
+
     val stateAfterVelocityUpdate = new SettableState(position + newVelocity * dt, newVelocity, origState.thermalEnergy, origState.crashEnergy)
 
     val crashEnergy = 0.5 * mass * velocity * velocity //this is the energy it would lose in a crash
