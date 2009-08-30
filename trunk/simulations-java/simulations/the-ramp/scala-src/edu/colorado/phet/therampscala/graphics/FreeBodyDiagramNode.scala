@@ -162,7 +162,7 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel, private va
 
   background.addInputEventListener(new PBasicInputEventHandler {
     def sendEvent(event: PInputEvent) = {
-      val viewPt = event.getPositionRelativeTo(background.getParent.getParent) //todo: do FreeBodyDiagramNode.this instead of background.getParent
+      val viewPt = event.getPositionRelativeTo(FreeBodyDiagramNode.this)
       val modelPt = transform.viewToModel(viewPt)
       listeners.foreach(_(modelPt))
     }
