@@ -12,8 +12,8 @@ import scalacommon.util.Observable
 import java.lang.Math._
 
 class WordModel extends Observable {
-  var _physicsWords = true
-  var _everydayWords = false
+  private var _physicsWords = true
+  private var _everydayWords = false
 
   resetAll()
   def resetAll() = {
@@ -327,7 +327,7 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngl
   val fireDogAddedListeners = new ArrayBuffer[FireDog => Unit]
   val raindropAddedListeners = new ArrayBuffer[Raindrop => Unit]
 
-  var totalThermalEnergyOnClear = 0.0
+  private var totalThermalEnergyOnClear = 0.0
 
   def clearHeat() = {
     if (fireDogs.length == 0) {

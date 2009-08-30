@@ -32,7 +32,7 @@ class FBDDialog(frame: JFrame, freeBodyDiagramModel: FreeBodyDiagramModel, fbdWi
   canvas.addScreenChild(fbdNode)
   dialog.setContentPane(canvas)
 
-  var initted = false
+  private var initted = false
   defineInvokeAndPass(freeBodyDiagramModel.addListenerByName) {
     val wasVisible = dialog.isVisible
     dialog.setVisible(freeBodyDiagramModel.visible && freeBodyDiagramModel.windowed)

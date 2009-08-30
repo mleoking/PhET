@@ -99,8 +99,8 @@ class RotationHandler(val mytransform: ModelViewTransform2D,
     rotatable.endPoint = newPt
   }
 
-  var totalDelta = 0.0
-  var origAngle = 0.0
+  private var totalDelta = 0.0
+  private var origAngle = 0.0
 
   override def mousePressed(event: PInputEvent) = {
     totalDelta = 0
