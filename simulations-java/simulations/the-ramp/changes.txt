@@ -1,3 +1,4 @@
+Fixed: Wall force on FBD doesn't update continuously
 Improved physics for wall force, and integrated with total force
 Incorporated gravity force into right-hand-side wall force
 Fixed: Thermal energy increases slightly during collision with frictionless mode
