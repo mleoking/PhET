@@ -129,15 +129,27 @@ class Grounded(bead: Bead) extends MotionStrategy(bead) {
     val leftBound = bead.wallRange().min + width / 2
     val rightBound = bead.wallRange().max - width / 2
     val netForceWithoutWallForce = appliedForce + gravityForce + normalForce //+ frictionForce //todo: net force without wall force should include friction force, but creates a loop (in which friction force depends on wall force and vice versa
-    if (position <= leftBound && bead.forceToParallelAcceleration(netForceWithoutWallForce) < 0 && wallsExist) {
+    val pressingLeft = position <= leftBound && bead.forceToParallelAcceleration(netForceWithoutWallForce) < 0 && wallsExist
+    val pressingRight = position >= rightBound && bead.forceToParallelAcceleration(netForceWithoutWallForce) > 0 && wallsExist
+    val proposedPosition = position + velocity * dt
+    val collideLeft = proposedPosition < leftBound && wallsExist
+    val collideRight = proposedPosition > rightBound && wallsExist
+    val pressing = pressingLeft || pressingRight
+    val collide = collideLeft || collideRight
+    if (pressing)
       netForceWithoutWallForce * -1
-    }
-    else if (position >= rightBound && bead.forceToParallelAcceleration(netForceWithoutWallForce) > 0 && wallsExist) {
-      netForceWithoutWallForce * -1
-    }
-    else {
+    else if (collide) {
+      //      val finalVelocity = if (bounce) -velocity else 0.0
+      //      val deltaV = finalVelocity - velocity
+      //      //Fnet = m dv/dt = Fw + F_{-w}
+      //      val sign = if (collideRight) -1.0 else +1.0
+      //      val wallCollisionForce = abs(mass * deltaV / dt - netForceWithoutWallForce.magnitude) * sign
+      //
+      //      val resultWallForce = getRampUnitVector * wallCollisionForce
+      //      println("proposedPosition = "+proposedPosition+", wall collision force = " + wallCollisionForce+", wall force = "+resultWallForce)
+      //      resultWallForce
       new Vector2D
-    }
+    } else new Vector2D
   }
 
   def multiBodyFriction(f: Double) = bead.surfaceFrictionStrategy.getTotalFriction(f)
@@ -179,11 +191,9 @@ class Grounded(bead: Bead) extends MotionStrategy(bead) {
     lazy val pe = mass * gravity.abs * positionMapper(position).y //assumes positionmapper doesn't change, which is true during stepintime
   }
 
-  def testingTester(dt: Double) = {
-    println("hello there")
-  }
-
+  var dt = 1.0 / 30.0 //using dummy value before getting actual value in case any computations are done
   override def stepInTime(dt: Double) = {
+    this.dt = dt
     bead.notificationsEnabled = false //make sure only to send notifications as a batch at the end; improves performance by 17%
     val origEnergy = getTotalEnergy
     val origState = state
@@ -205,6 +215,10 @@ class Grounded(bead: Bead) extends MotionStrategy(bead) {
     bead.notifyListeners() //do as a batch, since it's a performance problem to do this several times in this method call
   }
 
+  def bounce = !isKineticFriction
+
+  def isKineticFriction = surfaceFriction() && kineticFriction > 0
+
   def getNewState(dt: Double, origState: BeadState, origEnergy: Double) = {
     val origVel = velocity
     val desiredVel = bead.netForceToParallelVelocity(totalForce, dt)
@@ -214,17 +228,16 @@ class Grounded(bead: Bead) extends MotionStrategy(bead) {
     val requestedPosition = position + newVelocity * dt
     val stateAfterVelocityUpdate = new SettableState(requestedPosition, newVelocity, origState.thermalEnergy, origState.crashEnergy)
 
-    val isKineticFriction = surfaceFriction() && kineticFriction > 0
     val leftBound = bead.wallRange().min + width / 2
     val rightBound = bead.wallRange().max - width / 2
     val collidedLeft = requestedPosition <= leftBound && wallsExist
     val collidedRight = requestedPosition >= rightBound && wallsExist
     val collided = collidedLeft || collidedRight
     val crashEnergy = stateAfterVelocityUpdate.ke //this is the energy it would lose in a crash
-    val stateAfterCollision = if (collidedLeft && isKineticFriction) {
+    val stateAfterCollision = if (collidedLeft && !bounce) {
       new SettableState(leftBound, 0, stateAfterVelocityUpdate.thermalEnergy + crashEnergy, origState.crashEnergy + crashEnergy)
     }
-    else if (collidedRight && isKineticFriction) {
+    else if (collidedRight && !bounce) {
       new SettableState(rightBound, 0, stateAfterVelocityUpdate.thermalEnergy + crashEnergy, origState.crashEnergy + crashEnergy)
     }
     else if (collided) { //bounce
