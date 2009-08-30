@@ -1,11 +1,14 @@
 package edu.colorado.phet.wickettest.content;
 
 import org.apache.wicket.behavior.HeaderContributor;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.model.ResourceModel;
 
 import edu.colorado.phet.wickettest.components.PhetLink;
 import edu.colorado.phet.wickettest.components.StaticImage;
+import edu.colorado.phet.wickettest.components.LocalizedText;
 import edu.colorado.phet.wickettest.panels.PhetPanel;
 import edu.colorado.phet.wickettest.panels.TranslationLinksPanel;
 import edu.colorado.phet.wickettest.translation.TranslationMainPage;
@@ -24,6 +27,8 @@ public class IndexPanel extends PhetPanel {
         add( imageLink );
         imageLink.add( new StaticImage( "index-animated-screenshot", "/images/mass-spring-lab-animated-screenshot.gif", null ) );
 
+        // TODO: refactor out context.getPrefix(), etc
+        add( new LocalizedText( "index-main-text", "home.subheader", new Object[]{ "href=\"" + context.getPrefix() + ResearchPanel.getUrl() + "\"" } ) );
 
         add( SimulationDisplay.createLink( "play-sims-link", context ) );
 
