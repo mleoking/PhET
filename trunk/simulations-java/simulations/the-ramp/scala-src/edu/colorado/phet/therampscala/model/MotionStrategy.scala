@@ -196,7 +196,7 @@ class Grounded(bead: Bead) extends MotionStrategy(bead) {
     lazy val pe = mass * gravity.abs * positionMapper(position).y //assumes positionmapper doesn't change, which is true during stepintime
   }
 
-  var dt = 1.0 / 30.0 //using dummy value before getting actual value in case any computations are done
+  private var dt = 1.0 / 30.0 //using dummy value before getting actual value in case any computations are done
   override def stepInTime(dt: Double) = {
     this.dt = dt
     bead.notificationsEnabled = false //make sure only to send notifications as a batch at the end; improves performance by 17%
