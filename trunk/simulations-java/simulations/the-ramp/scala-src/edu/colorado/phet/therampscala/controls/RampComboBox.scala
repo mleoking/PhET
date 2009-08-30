@@ -5,6 +5,7 @@ import graphics.ObjectModel
 import java.util.Vector
 import javax.swing._
 import java.awt.event.{ItemListener, ItemEvent}
+import model.ScalaRampObject
 import RampResources._
 
 class RampComboBox(objectModel: ObjectModel) extends SubControlPanel("controls.choose-object".translate) {
@@ -12,7 +13,6 @@ class RampComboBox(objectModel: ObjectModel) extends SubControlPanel("controls.c
 
   val mylist = for (o <- RampDefaults.objects) yield {
     o match {
-    //      case jc: MutableRampObject => new CustomObjectItem(jc)
       case m: ScalaRampObject => new ObjectItem(o)
     }
   }

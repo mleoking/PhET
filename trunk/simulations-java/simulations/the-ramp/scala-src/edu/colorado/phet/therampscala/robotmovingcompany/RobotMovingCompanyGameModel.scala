@@ -2,7 +2,7 @@ package edu.colorado.phet.therampscala.robotmovingcompany
 
 
 import collection.mutable.{HashMap, ArrayBuffer}
-import model.{SurfaceModel, RampModel, Bead}
+import model.{ScalaRampObject, SurfaceModel, RampModel, Bead}
 import scalacommon.ScalaClock
 import scalacommon.util.Observable
 import scalacommon.math.Vector2D
