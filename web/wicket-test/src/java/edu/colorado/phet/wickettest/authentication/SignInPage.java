@@ -11,7 +11,6 @@ import org.apache.wicket.util.value.ValueMap;
 
 import edu.colorado.phet.wickettest.templates.PhetPage;
 import edu.colorado.phet.wickettest.util.PhetRequestCycle;
-import edu.colorado.phet.wickettest.util.PhetSession;
 
 public class SignInPage extends PhetPage {
 

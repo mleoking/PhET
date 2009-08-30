@@ -5,7 +5,6 @@ import org.apache.wicket.RestartResponseAtInterceptPageException;
 
 import edu.colorado.phet.wickettest.data.PhetUser;
 import edu.colorado.phet.wickettest.templates.PhetPage;
-import edu.colorado.phet.wickettest.util.PhetSession;
 
 public class AuthenticatedPage extends PhetPage {
     public AuthenticatedPage( PageParameters parameters ) {

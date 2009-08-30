@@ -4,9 +4,9 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import edu.colorado.phet.wickettest.authentication.PhetSession;
 import edu.colorado.phet.wickettest.data.PhetUser;
 import edu.colorado.phet.wickettest.util.HibernateUtils;
-import edu.colorado.phet.wickettest.util.PhetSession;
 
 public class InitializeUsers {
 

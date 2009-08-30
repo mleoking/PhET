@@ -1,0 +1,54 @@
+
+* Software Requirements
+
+1) Apache Tomcat 6.x  (could in the future be moved to different server software, but this is used right now)
+2) PostgreSQL (preferably 8.x, I'm using 8.4)
+
+* Installation
+
+Not covered here. Used http://www.ubuntugeek.com/tomcat-6-installation-on-ubuntu-feisty.html for Tomcat (ignoring the
+installing-java part), and used PostgreSQL's default installer. Thus $CATALINA_HOME$ is /usr/share/tomcat6 on
+phet-server and my development machines, and PostgreSQL is installed in /opt/PostgreSQL/8.4.
+
+* PostgreSQL configuration
+
+I will use "wickettest" for now as the name of the database.
+
+Create the database:
+/opt/PostgreSQL/8.4/bin/createdb --encoding=UTF-8 wickettest
+
+You can also create a specific user to access the database with, or use the default "postgres" user.
+
+To initialize the database with a dump file (ending in .sql, most likely wicket-test/postgresql-dump.sql):
+/opt/PostgreSQL/8.4/bin/psql -U <username> wickettest < /path/to/dump.sql
+
+* How to set up the JNDI datasource within Tomcat's $CATALINA_HOME$/conf/context.xml:
+
+Add the following inside the <context> element in context.xml, and replace the username, password, and any other
+settings for correct access to the database (like wickettest with the database name, localhost with the location of the
+database).
+
+    <Resource name="jdbc/phet"
+              global="jdbc/phet"
+              auth="Container"
+              type="javax.sql.DataSource"
+              username="XXXXX"
+              password="YYYYY"
+              driverClassName="org.postgresql.Driver"
+              url="jdbc:postgresql://localhost/wickettest"
+              maxActive="30"
+              maxIdle="10"/>
+
+* IDE setup
+
+Tomcat can be used with Eclipse and Intellij for testing. For Intellij, this includes creating a Web facet. The
+following directories are important:
+
+wicket-test/root: content root, so everything under this should be placed within the root directory of the WAR file that
+    is deployed.
+wicket-test/src/java: source root, so these classes
+
+Additionally, the following other sources should be added to the WAR:
+phetcommon
+
+
