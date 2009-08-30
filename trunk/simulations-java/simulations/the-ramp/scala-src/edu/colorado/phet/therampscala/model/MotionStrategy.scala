@@ -261,7 +261,7 @@ class Grounded(bead: Bead) extends MotionStrategy(bead) {
 
     //drop in thermal energy indicates a problem, since total thermal energy should never decrease
     //preliminary tests indicate this happens when switching between ramp segment 0 and 1
-    val stateAfterPatchup = if (dT < 0) {
+    val stateAfterFixingThermal = if (dT < 0) {
       val patchedVelocity = getVelocityToConserveEnergy(stateAfterThermalEnergy)
       val patch = stateAfterThermalEnergy.setThermalEnergy(origState.thermalEnergy).setVelocity(patchedVelocity)
       val dEPatch = stateAfterThermalEnergy.totalEnergy - origEnergy
@@ -276,25 +276,25 @@ class Grounded(bead: Bead) extends MotionStrategy(bead) {
       stateAfterThermalEnergy
     }
 
-    val finalState = if (abs(stateAfterPatchup.totalEnergy - origEnergy - appliedEnergy) > 1E-8 && stateAfterPatchup.velocity.abs > 1E-3) {
-      stateAfterPatchup.setVelocity(getVelocityToConserveEnergy(stateAfterThermalEnergy))
+    val stateAfterFixingVelocity = if (abs(stateAfterFixingThermal.totalEnergy - origEnergy - appliedEnergy) > 1E-8 && stateAfterFixingThermal.velocity.abs > 1E-3) {
+      stateAfterFixingThermal.setVelocity(getVelocityToConserveEnergy(stateAfterThermalEnergy))
     } else {
-      stateAfterPatchup
+      stateAfterFixingThermal
     }
 
-    val patchPosition = if (abs(finalState.totalEnergy - origEnergy) > 1E-8 && getAngle != 0.0) {
-      val x = (origEnergy + appliedEnergy - finalState.thermalEnergy - finalState.ke) / mass / gravity.abs / sin(getAngle)
-      stateAfterPatchup.setPosition(x)
+    val stateAfterFixingPosition = if (abs(stateAfterFixingVelocity.totalEnergy - origEnergy) > 1E-8 && getAngle != 0.0) {
+      val x = (origEnergy + appliedEnergy - stateAfterFixingVelocity.thermalEnergy - stateAfterFixingVelocity.ke) / mass / gravity.abs / sin(getAngle)
+      stateAfterFixingThermal.setPosition(x)
     } else {
-      finalState
+      stateAfterFixingVelocity
     }
 
-    val delta = patchPosition.totalEnergy - origEnergy - appliedEnergy
+    val delta = stateAfterFixingPosition.totalEnergy - origEnergy - appliedEnergy
     if (delta.abs > 1E-8) {
       println("failed to conserve energy, delta=".literal + delta)
     }
 
     //      println("iskineticfriction = "+ isKineticFriction +", "+frictionForce)
-    patchPosition
+    stateAfterFixingPosition
   }
 }
