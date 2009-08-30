@@ -6,7 +6,7 @@ import common.phetcommon.application.{PhetApplicationLauncher, Module, PhetAppli
 import common.piccolophet.{PiccoloPhetApplication}
 import graphics.RampCanvas
 import java.awt.event.{ActionEvent, ActionListener}
-import java.awt.{Container, Color}
+import java.awt.{Color}
 import javax.swing._
 import model._
 import controls.RampControlPanel
@@ -14,7 +14,6 @@ import robotmovingcompany.{RobotMovingCompanyGameModel, Result, RobotMovingCompa
 import scalacommon.record.{RecordModelControlPanel, PlaybackSpeedSlider}
 
 import scalacommon.ScalaClock
-import umd.cs.piccolox.pswing.PSwingRepaintManager
 
 class AbstractRampModule(frame: JFrame, clock: ScalaClock, name: String, defaultBeadPosition: Double, pausedOnReset: Boolean,
                          initialAngle: Double) extends Module(name, clock) {
@@ -24,42 +23,28 @@ class AbstractRampModule(frame: JFrame, clock: ScalaClock, name: String, default
   val coordinateSystemModel = new CoordinateSystemModel
   val vectorViewModel = new VectorViewModel
   coordinateSystemModel.addListenerByName(if (coordinateSystemModel.fixed) model.coordinateFrameModel.angle = 0)
+  private var lastTickTime = System.currentTimeMillis
+
+  //This clock is always running; pausing just pauses the physics
   clock.addClockListener(dt => {
+    val paintAndInputTime = System.currentTimeMillis - lastTickTime
+
     val startTime = System.currentTimeMillis
     model.update(dt)
-    getSimulationPanel.paintImmediately(0, 0, getSimulationPanel.getWidth, getSimulationPanel.getHeight)
-    val endTime = System.currentTimeMillis
-    val elapsed = endTime - startTime
+    RepaintManager.currentManager(getSimulationPanel).paintDirtyRegions()
+    val modelTime = System.currentTimeMillis - startTime
+
+    val elapsed = paintAndInputTime + modelTime
     if (elapsed < 25) {
       val toSleep = 25 - elapsed
-      //      println("had excess time, sleeping: "+toSleep)
+      //      println("had excess time, sleeping: " + toSleep)
       Thread.sleep(toSleep) //todo: blocks swing event handler thread and paint thread, should run this clock loop in another thread
     }
+    lastTickTime = System.currentTimeMillis
   })
-  //This clock is always running; pausing just pauses the physics
-  //this repaint manager disables calls to repaint the animation area, since it is painted every time the clock ticks (even when sim is paused)
-  val manager = new PSwingRepaintManager() {
-    def isChild(parent: JComponent, child: Container): Boolean = {
-      child != null && parent != null && (parent == child || isChild(parent, child.getParent))
-    }
-
-    override def addDirtyRegion(c: JComponent, x: Int, y: Int, w: Int, h: Int) = {
-      if (c == getSimulationPanel || isChild(getSimulationPanel, c)) {}
-      else {
-        //        println("forwarding dirty from " + c)
-        super.addDirtyRegion(c, x, y, w, h)
-      }
-    }
-  }
 
   //pause on startup/reset, and unpause (and start recording) when the user applies a force
   model.setPaused(true)
-
-  override def activate() = {
-    super.activate()
-    RepaintManager.setCurrentManager(manager)
-    SwingUtilities.getWindowAncestor(getSimulationPanel).validate //apparently you have to validate or you get rendering artifacts after switching repaint managers
-  }
 
   def resetRampModule(): Unit = {
     model.resetAll()
