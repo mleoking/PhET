@@ -14,6 +14,7 @@ import org.hibernate.Transaction;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.wickettest.admin.AdminMainPage;
+import edu.colorado.phet.wickettest.authentication.PhetSession;
 import edu.colorado.phet.wickettest.content.*;
 import edu.colorado.phet.wickettest.content.about.*;
 import edu.colorado.phet.wickettest.content.troubleshooting.TroubleshootingFlashPanel;
@@ -25,7 +26,10 @@ import edu.colorado.phet.wickettest.menu.NavMenu;
 import edu.colorado.phet.wickettest.templates.StaticPage;
 import edu.colorado.phet.wickettest.translation.PhetLocalizer;
 import edu.colorado.phet.wickettest.translation.TranslationUrlStrategy;
-import edu.colorado.phet.wickettest.util.*;
+import edu.colorado.phet.wickettest.util.HibernateUtils;
+import edu.colorado.phet.wickettest.util.PhetRequestCycle;
+import edu.colorado.phet.wickettest.util.PhetUrlMapper;
+import edu.colorado.phet.wickettest.util.PhetUrlStrategy;
 
 public class WicketApplication extends WebApplication {
 

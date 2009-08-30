@@ -1,2 +1,0 @@
-mysql --user=phet --password=phetti0 --default-character-set=utf8 wickettest < wickettest-db.sql
-mysql --user=phet --password=phetti0 --default-character-set=utf8 wickettest < wickettest-db-init.sql

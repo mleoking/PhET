@@ -4,19 +4,15 @@
         "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 
 <hibernate-configuration>
+    <!-- This file contains the information needed to initialize Hibernate -->
 
     <session-factory>
 
-        <!-- Database connection settings -->
-        <!-- Old PostgreSQL pre-JNDI data connection information
-        <property name="connection.driver_class">org.postgresql.Driver</property>
-        <property name="connection.url">jdbc:postgresql://localhost/wickettest</property>
-        <property name="connection.username">phet</property>
-        <property name="connection.password">phetti0</property>
-        -->
+        <!-- Database connection settings (Currently uses PostgreSQL) -->
         <property name="connection.datasource">java:comp/env/jdbc/phet</property>
         <property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>
 
+        <!-- Connection Pool Options -->
         <property name="hibernate.c3p0.min_size">5</property>
         <property name="hibernate.c3p0.max_size">20</property>
         <property name="hibernate.c3p0.timeout">1800</property>
@@ -30,11 +26,15 @@
 
         <property name="transaction.factory_class">org.hibernate.transaction.JDBCTransactionFactory</property>
 
+        <!-- Enable this (and the lines in log4j.properties) to show all of the SQL that is being executed -->
         <!--<property name="hibernate.show_sql">true</property>-->
 
         <!-- Drop and re-create the database schema on startup -->
         <property name="hbm2ddl.auto">update</property>
-        
+
+
+        <!-- Data mappings -->
+
         <mapping resource="edu/colorado/phet/wickettest/data/Project.hbm.xml"/>
         <mapping resource="edu/colorado/phet/wickettest/data/Simulation.hbm.xml"/>
         <mapping resource="edu/colorado/phet/wickettest/data/LocalizedSimulation.hbm.xml"/>

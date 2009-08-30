@@ -17,7 +17,6 @@ import org.hibernate.Transaction;
 
 import edu.colorado.phet.wickettest.data.PhetUser;
 import edu.colorado.phet.wickettest.templates.PhetPage;
-import edu.colorado.phet.wickettest.util.PhetSession;
 
 public class RegisterPage extends PhetPage {
 

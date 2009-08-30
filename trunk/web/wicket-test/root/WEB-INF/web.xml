@@ -16,11 +16,6 @@
            or "deployment". If no configuration is found, "development" is the default.
      -->
 
-    <!--<filter>
-        <filter-name>GzipFilter</filter-name>
-        <filter-class>com.jspbook.GzipFilter</filter-class>
-    </filter>-->
-
     <resource-ref>
         <description>PhET DB Connection</description>
         <res-ref-name>jdbc/phet</res-ref-name>
@@ -36,11 +31,6 @@
             <param-value>edu.colorado.phet.wickettest.WicketApplication</param-value>
         </init-param>
     </filter>
-
-    <!--<filter-mapping>
-        <filter-name>GzipFilter</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>-->
 
     <filter-mapping>
         <filter-name>wicket.wicket-test</filter-name>
