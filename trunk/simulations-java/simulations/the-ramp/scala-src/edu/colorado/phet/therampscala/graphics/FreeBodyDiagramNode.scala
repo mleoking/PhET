@@ -108,6 +108,7 @@ class ToggleListener(listener: PInputEventListener, isInteractive: => Boolean) e
     }
   }
 }
+
 class AxisNodeWithModel(transform: ModelViewTransform2D, label: String, val axisModel: AxisModel, isInteractive: => Boolean, minAngle: Double, maxAngle: Double)
         extends AxisNode(transform,
           transform.modelToViewDouble(axisModel.startPoint).x, transform.modelToViewDouble(axisModel.startPoint).y,

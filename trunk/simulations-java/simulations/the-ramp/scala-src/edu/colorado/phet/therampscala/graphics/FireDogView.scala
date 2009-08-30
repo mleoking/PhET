@@ -9,7 +9,6 @@ class FireDogView(rampModel: RampModel, canvas: AbstractRampCanvas) extends PNod
     val node = new BeadNode(added.dogbead, canvas.transform, "firedog.gif".literal)
     addChild(node)
 
-    //todo: add a listener to this exact model object, not the composite
     added.removedListeners += (() => removeChild(node)) //eleganter than ever
   })
 }
@@ -19,7 +18,6 @@ class RaindropView(rampModel: RampModel, canvas: AbstractRampCanvas) extends PNo
     val node = new BeadNode(added.rainbead, canvas.transform, "raindrop.png".literal)
     addChild(node)
 
-    //todo: add a listener to this exact drop
-    added.removedListeners += (() => removeChild(node)) //eleganter than ever
+    added.removedListeners += (() => removeChild(node))
   })
 }
