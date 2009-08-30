@@ -218,6 +218,7 @@ class Grounded(bead: Bead) extends MotionStrategy(bead) {
 
     bead.notificationsEnabled = true;
     bead.notifyListeners() //do as a batch, since it's a performance problem to do this several times in this method call
+    bead.wallForceVector.notifyListeners()
   }
 
   def bounce = !isKineticFriction
