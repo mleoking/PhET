@@ -1,5 +1,4 @@
-package edu.colorado.phet.therampscala.forcesandfriction
-
+package edu.colorado.phet.therampscala.forcesandmotion
 
 import common.phetcommon.view.controls.valuecontrol.LinearValueControl
 import java.awt.Dimension
