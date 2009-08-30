@@ -1,4 +1,4 @@
-package edu.colorado.phet.therampscala
+package edu.colorado.phet.therampscala.model
 
 import scalacommon.util.Observable
 import RampResources._

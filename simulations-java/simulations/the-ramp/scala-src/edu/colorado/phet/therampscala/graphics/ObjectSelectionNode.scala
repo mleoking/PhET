@@ -1,5 +1,7 @@
 package edu.colorado.phet.therampscala.graphics
 
+
+import model.{MutableRampObject, ScalaRampObject}
 import RampResources._
 import collection.mutable.ArrayBuffer
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D

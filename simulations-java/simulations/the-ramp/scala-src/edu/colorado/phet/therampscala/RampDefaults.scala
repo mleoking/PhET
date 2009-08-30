@@ -1,6 +1,7 @@
 package edu.colorado.phet.therampscala
 
 import java.awt.Color
+import model.{MutableRampObject, CustomTextRampObject, ScalaRampObject}
 
 object RampDefaults {
   val MAX_RECORD_TIME = 40
