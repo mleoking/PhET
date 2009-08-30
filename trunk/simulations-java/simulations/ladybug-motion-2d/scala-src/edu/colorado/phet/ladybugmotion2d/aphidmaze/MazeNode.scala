@@ -20,7 +20,6 @@ import edu.umd.cs.piccolo.PNode
 import umd.cs.piccolo.event.{PInputEventListener, PBasicInputEventHandler, PInputEvent}
 import umd.cs.piccolo.nodes.{PPath, PImage}
 import edu.colorado.phet.scalacommon.Predef._
-import util.ToggleListener
 
 class MazeNode(model: AphidMazeModel, transform: ModelViewTransform2D) extends PNode {
   model.ladybug.addListener(updateGraphics)

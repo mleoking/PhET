@@ -8,8 +8,8 @@ import model.{Ladybug, LadybugModel}
 
 import scalacommon.swing.MyRadioButton
 import scalacommon.util.Observable
+import scalacommon.view.ToggleListener
 import umd.cs.piccolo.event.{PInputEventListener, PBasicInputEventHandler, PInputEvent}
-import util.ToggleListener
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel
