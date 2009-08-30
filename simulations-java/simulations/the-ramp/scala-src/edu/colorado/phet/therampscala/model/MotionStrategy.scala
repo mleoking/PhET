@@ -139,16 +139,16 @@ class Grounded(bead: Bead) extends MotionStrategy(bead) {
     if (pressing)
       netForceWithoutWallForce * -1
     else if (collide) {
-      //      val finalVelocity = if (bounce) -velocity else 0.0
-      //      val deltaV = finalVelocity - velocity
-      //      //Fnet = m dv/dt = Fw + F_{-w}
-      //      val sign = if (collideRight) -1.0 else +1.0
-      //      val wallCollisionForce = abs(mass * deltaV / dt - netForceWithoutWallForce.magnitude) * sign
-      //
-      //      val resultWallForce = getRampUnitVector * wallCollisionForce
-      //      println("proposedPosition = "+proposedPosition+", wall collision force = " + wallCollisionForce+", wall force = "+resultWallForce)
-      //      resultWallForce
-      new Vector2D
+      val finalVelocity = if (bounce) -velocity else 0.0
+      val deltaV = finalVelocity - velocity
+      //Fnet = m dv/dt = Fw + F_{-w}
+      val sign = if (collideRight) -1.0 else +1.0
+      val wallCollisionForce = abs(mass * deltaV / dt - netForceWithoutWallForce.magnitude) * sign
+
+      val resultWallForce = getRampUnitVector * wallCollisionForce
+      println("proposedPosition = " + proposedPosition + ", wall collision force = " + wallCollisionForce + ", wall force = " + resultWallForce)
+      resultWallForce
+//      new Vector2D
     } else new Vector2D
   }
 
@@ -224,7 +224,8 @@ class Grounded(bead: Bead) extends MotionStrategy(bead) {
     val desiredVel = bead.netForceToParallelVelocity(totalForce, dt)
     //stepInTime samples at least one value less than 1E-12 on direction change to handle static friction
     //see docs in static friction computation
-    val newVelocity = if ((origVel < 0 && desiredVel > 0) || (origVel > 0 && desiredVel < 0)) 0.0 else desiredVel
+    val newVelocityThatGoesThroughZero= if ((origVel < 0 && desiredVel > 0) || (origVel > 0 && desiredVel < 0)) 0.0 else desiredVel
+    val newVelocity = if (wallForce.magnitude>0) desiredVel else newVelocityThatGoesThroughZero
     val requestedPosition = position + newVelocity * dt
     val stateAfterVelocityUpdate = new SettableState(requestedPosition, newVelocity, origState.thermalEnergy, origState.crashEnergy)
 
@@ -239,9 +240,6 @@ class Grounded(bead: Bead) extends MotionStrategy(bead) {
     }
     else if (collidedRight && !bounce) {
       new SettableState(rightBound, 0, stateAfterVelocityUpdate.thermalEnergy + crashEnergy, origState.crashEnergy + crashEnergy)
-    }
-    else if (collided) { //bounce
-      stateAfterVelocityUpdate.setVelocity(-newVelocity)
     }
     else {
       stateAfterVelocityUpdate
