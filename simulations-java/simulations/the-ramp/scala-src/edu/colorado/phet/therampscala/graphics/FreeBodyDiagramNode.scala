@@ -14,6 +14,7 @@ import layout.SwingLayoutNode
 import model.{FreeBodyDiagramModel, CoordinateFrameModel}
 import scalacommon.math.Vector2D
 import scalacommon.util.Observable
+import scalacommon.view.ToggleListener
 import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEventListener, PInputEvent}
 import umd.cs.piccolo.nodes.{PImage, PText}
 import umd.cs.piccolo.PNode
@@ -100,15 +101,6 @@ class AxisModel(private var _angle: Double, val length: Double, tail: Boolean) e
   def startPoint_=(newPt: Vector2D) = {}
 }
 
-//todo: coalesce with duplicates after code freeze
-class ToggleListener(listener: PInputEventListener, isInteractive: => Boolean) extends PInputEventListener {
-  def processEvent(aEvent: PInputEvent, t: Int) = {
-    if (isInteractive) {
-      listener.processEvent(aEvent, t)
-    }
-  }
-}
-
 class AxisNodeWithModel(transform: ModelViewTransform2D, label: String, val axisModel: AxisModel, isInteractive: => Boolean, minAngle: Double, maxAngle: Double)
         extends AxisNode(transform,
           transform.modelToViewDouble(axisModel.startPoint).x, transform.modelToViewDouble(axisModel.startPoint).y,
@@ -117,11 +109,11 @@ class AxisNodeWithModel(transform: ModelViewTransform2D, label: String, val axis
     setTipAndTailLocations(transform.modelToViewDouble(axisModel.getEndPoint), transform.modelToViewDouble(axisModel.startPoint))
     updateTextNodeLocation()
   }
-  hitNode.addInputEventListener(new ToggleListener(new CursorHandler, isInteractive))
-  hitNode.addInputEventListener(new ToggleListener(new RotationHandler(transform, hitNode, axisModel, minAngle, maxAngle), isInteractive))
+  hitNode.addInputEventListener(new ToggleListener(new CursorHandler, ()=>isInteractive))
+  hitNode.addInputEventListener(new ToggleListener(new RotationHandler(transform, hitNode, axisModel, minAngle, maxAngle), ()=>isInteractive))
   hitNode.addInputEventListener(new ToggleListener(new PBasicInputEventHandler {
     override def mouseReleased(event: PInputEvent) = axisModel.dropped()
-  }, isInteractive))
+  }, ()=>isInteractive))
 }
 
 class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel, private var _width: Double, private var _height: Double, val modelWidth: Double, val modelHeight: Double,

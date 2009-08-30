@@ -1,4 +1,4 @@
-package edu.colorado.phet.ladybugmotion2d.util
+package edu.colorado.phet.scalacommon.view
 
 import umd.cs.piccolo.event.{PInputEventListener, PInputEvent}
 

@@ -13,10 +13,10 @@ import java.awt.geom.{AffineTransform, Point2D}
 import model.{Ladybug, LadybugModel}
 
 
+import scalacommon.view.ToggleListener
 import umd.cs.piccolo.event.{PInputEventListener, PBasicInputEventHandler, PInputEvent}
 import umd.cs.piccolo.nodes.{PPath, PImage}
 import edu.colorado.phet.scalacommon.Predef._
-import util.ToggleListener
 
 class LadybugNode(model: LadybugModel,
                   ladybug: Ladybug,
