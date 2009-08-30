@@ -128,9 +128,16 @@ class Grounded(bead: Bead) extends MotionStrategy(bead) {
   override def wallForce = {
     val leftBound = bead.wallRange().min + width / 2
     val rightBound = bead.wallRange().max - width / 2
-    if (position <= leftBound && bead.forceToParallelAcceleration(appliedForce) < 0 && wallsExist) appliedForce * -1
-    else if (position >= rightBound && bead.forceToParallelAcceleration(appliedForce) > 0 && wallsExist) appliedForce * -1 //todo: account for gravity force
-    else new Vector2D
+    val netForceWithoutWallForce = appliedForce + gravityForce + normalForce //+ frictionForce //todo: net force without wall force should include friction force, but creates a loop (in which friction force depends on wall force and vice versa
+    if (position <= leftBound && bead.forceToParallelAcceleration(netForceWithoutWallForce) < 0 && wallsExist) {
+      netForceWithoutWallForce * -1
+    }
+    else if (position >= rightBound && bead.forceToParallelAcceleration(netForceWithoutWallForce) > 0 && wallsExist) {
+      netForceWithoutWallForce * -1
+    }
+    else {
+      new Vector2D
+    }
   }
 
   def multiBodyFriction(f: Double) = bead.surfaceFrictionStrategy.getTotalFriction(f)
