@@ -2,10 +2,8 @@ package edu.colorado.phet.therampscala.model
 
 import RampResources._
 import collection.mutable.ArrayBuffer
-import common.phetcommon.math.MathUtil
 import scalacommon.math.Vector2D
 import scalacommon.util.Observable
-import java.lang.Math._
 /**Immutable memento for recording*/
 case class BeadState(position: Double, velocity: Double, mass: Double, staticFriction: Double, kineticFriction: Double, thermalEnergy: Double, crashEnergy: Double) {
   def translate(dx: Double) = setPosition(position + dx)
@@ -47,8 +45,8 @@ class Bead(private var _state: BeadState,
            _wallsExist: => Boolean,
            val wallRange: () => Range)
         extends Observable {
-
   def wallsExist = _wallsExist
+
   val id = Bead.nextIndex()
   val crashListeners = new ArrayBuffer[() => Unit]
   val gravity = -9.8
