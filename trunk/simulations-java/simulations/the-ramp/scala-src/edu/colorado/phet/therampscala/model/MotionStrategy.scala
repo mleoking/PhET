@@ -240,7 +240,7 @@ class Grounded(bead: Bead) extends MotionStrategy(bead) {
     //todo: this may differ significantly from thermalFromWork
     val thermalFromEnergy = if (isKineticFriction && !collided)
       origEnergy - stateAfterCollision.ke - stateAfterCollision.pe + appliedEnergy
-    else if (collided) {
+    else if (isKineticFriction && collided) {
       //choose thermal energy so energy is exactly conserved
       origEnergy + appliedEnergy - stateAfterCollision.ke - stateAfterCollision.pe
     }
