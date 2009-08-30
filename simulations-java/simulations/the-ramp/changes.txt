@@ -1,4 +1,5 @@
-Fixed: File cabinet image disappears after airborne+record+playback
+Fixed: File cabinet image disappears after airborne => playback
+Fixed: Record/playback buttons don't always repaint when they should, fixed by reverting to asynchronous painting
 Fixed: Wall force on FBD doesn't update continuously
 Improved physics for wall force, and integrated with total force
 Incorporated gravity force into right-hand-side wall force
