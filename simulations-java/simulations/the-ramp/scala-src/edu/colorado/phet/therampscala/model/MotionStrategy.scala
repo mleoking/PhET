@@ -98,7 +98,7 @@ class Airborne(private var _position2D: Vector2D, private var _velocity2D: Vecto
     _velocity2D = _velocity2D + accel * dt
     _position2D = _position2D + _velocity2D * dt
     if (_position2D.y <= airborneFloor) {
-      bead.attachState = new Crashed(new Vector2D(_position2D.x, bead.airborneFloor), _angle, bead)
+      bead.motionStrategy = new Crashed(new Vector2D(_position2D.x, bead.airborneFloor), _angle, bead)
       crashListeners.foreach(_())
     }
     normalForceVector.notifyListeners() //since ramp segment or motion state might have changed; could improve performance on this by only sending notifications when we are sure the ramp segment has changed
@@ -205,7 +205,7 @@ class Grounded(bead: Bead) extends MotionStrategy(bead) {
     val newState = getNewState(dt, origState, origEnergy)
 
     if (newState.position > bead.wallRange().max + width / 2 && !wallsExist) {
-      bead.attachState = new Airborne(position2D, new Vector2D(getVelocityVectorDirection) * velocity, getAngle, bead)
+      bead.motionStrategy = new Airborne(position2D, new Vector2D(getVelocityVectorDirection) * velocity, getAngle, bead)
       bead.parallelAppliedForce = 0
     }
     val distanceVector = positionMapper(newState.position) - positionMapper(origState.position)

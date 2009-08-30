@@ -4,6 +4,7 @@ import RampResources._
 import collection.mutable.ArrayBuffer
 import scalacommon.math.Vector2D
 import scalacommon.util.Observable
+
 /**Immutable memento for recording*/
 case class BeadState(position: Double, velocity: Double, mass: Double, staticFriction: Double, kineticFriction: Double, thermalEnergy: Double, crashEnergy: Double) {
   def translate(dx: Double) = setPosition(position + dx)
@@ -55,9 +56,14 @@ class Bead(private var _state: BeadState,
 
   def state_=(s: BeadState) = {_state = s; notifyListeners()}
 
-  var _parallelAppliedForce = 0.0
-  //todo: privatize
-  var attachState: MotionStrategy = new Grounded(this)
+  private var _parallelAppliedForce = 0.0
+  private var _motionStrategy: MotionStrategy = new Grounded(this)
+
+  def motionStrategy = _motionStrategy
+
+  def motionStrategy_=(s: MotionStrategy) = {
+    _motionStrategy = s
+  }
 
   val gravityForceVector = new BeadVector(RampDefaults.gravityForceColor, "Gravity Force".literal, "force.abbrev.gravity".translate, false, () => gravityForce, (a, b) => b)
   val normalForceVector = new BeadVector(RampDefaults.normalForceColor, "Normal Force".literal, "force.abbrev.normal".translate, true, () => normalForce, (a, b) => b)
@@ -89,15 +95,15 @@ class Bead(private var _state: BeadState,
 
   def minX = position - _width / 2
 
-  def attach() = attachState = new Grounded(this)
+  def attach() = motionStrategy = new Grounded(this)
 
   def totalForce = gravityForce + normalForce + appliedForce + frictionForce + wallForce
 
-  def wallForce = attachState.wallForce
+  def wallForce = motionStrategy.wallForce
 
-  def frictionForce = attachState.frictionForce
+  def frictionForce = motionStrategy.frictionForce
 
-  def normalForce = attachState.normalForce
+  def normalForce = motionStrategy.normalForce
 
   def gravityForce = new Vector2D(0, gravity * mass)
 
@@ -122,7 +128,7 @@ class Bead(private var _state: BeadState,
 
   def appliedForce = getRampUnitVector * _parallelAppliedForce
 
-  def position2D = attachState.position2D
+  def position2D = motionStrategy.position2D
 
   def getRampUnitVector = rampSegmentAccessor(position).getUnitVector
 
@@ -244,7 +250,7 @@ class Bead(private var _state: BeadState,
 
   def getKineticEnergy = 1.0 / 2.0 * mass * velocity * velocity
 
-  def getAngle = attachState.getAngle
+  def getAngle = motionStrategy.getAngle
 
   def forceToParallelAcceleration(f: Vector2D) = (f dot getRampUnitVector) / mass
 
@@ -264,5 +270,5 @@ class Bead(private var _state: BeadState,
     }
   }
 
-  def stepInTime(dt: Double) = attachState.stepInTime(dt)
+  def stepInTime(dt: Double) = motionStrategy.stepInTime(dt)
 }

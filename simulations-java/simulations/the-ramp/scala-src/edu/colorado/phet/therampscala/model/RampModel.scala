@@ -265,13 +265,13 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngl
     val removedListeners = new ArrayBuffer[() => Unit]
     val rainbead = createBead(0.0, 0.3, 0.5)
     private var _angle = 0.0
-    rainbead.attachState = new Airborne(p, new Vector2D(angle) * rainSpeed, 0.0, rainbead) {
+    rainbead.motionStrategy = new Airborne(p, new Vector2D(angle) * rainSpeed, 0.0, rainbead) {
       override def getAngle = velocity2D.getAngle + PI / 2
     }
     def stepInTime(dt: Double) = {
       val origPosition = rainbead.position2D
       rainbead.stepInTime(dt)
-      val didCrash = rainbead.attachState match {
+      val didCrash = rainbead.motionStrategy match {
         case x: Crashed => true
         case _ => false
       }
