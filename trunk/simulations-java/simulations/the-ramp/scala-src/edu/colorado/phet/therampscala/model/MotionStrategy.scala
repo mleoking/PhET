@@ -146,7 +146,7 @@ class Grounded(bead: Bead) extends MotionStrategy(bead) {
       val wallCollisionForce = abs(mass * deltaV / dt - netForceWithoutWallForce.magnitude) * sign
 
       val resultWallForce = getRampUnitVector * wallCollisionForce
-      println("proposedPosition = " + proposedPosition + ", wall collision force = " + wallCollisionForce + ", wall force = " + resultWallForce)
+//      println("proposedPosition = " + proposedPosition + ", wall collision force = " + wallCollisionForce + ", wall force = " + resultWallForce)
       resultWallForce
 //      new Vector2D
     } else new Vector2D
@@ -244,6 +244,8 @@ class Grounded(bead: Bead) extends MotionStrategy(bead) {
     else {
       stateAfterVelocityUpdate
     }
+
+    //todo: make sure velocity is exactly zero or opposite after wall collision
 
     val dx = stateAfterCollision.position - origState.position
 
