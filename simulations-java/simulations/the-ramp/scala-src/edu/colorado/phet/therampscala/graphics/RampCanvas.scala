@@ -151,7 +151,7 @@ abstract class AbstractRampCanvas(model: RampModel,
         vectorViewModel.removeListener(listener)
       }
     }
-    //todo: make sure this adapter overrides other methods as well, such as getPaint and addListener
+    //todo: make sure this adapter overrides other methods as well such as addListener
     val playAreaAdapter = new Vector(vector.color, vector.name, vector.abbreviation, () => vector.getValue * RampDefaults.PLAY_AREA_VECTOR_SCALE, vector.painter) {
       vector.addListenerByName {
         notifyListeners()
@@ -161,13 +161,11 @@ abstract class AbstractRampCanvas(model: RampModel,
       override def visible_=(vis: Boolean) = vector.visible = vis
 
       override def getPaint = vector.getPaint
-
     }
 
     if (useVectorNodeInPlayArea) {
       vectorNode.addVector(playAreaAdapter, tailLocationInPlayArea)
     }
-    //todo: switch to removalListeners paradigm
     bead.removalListeners += (() => {
       fbdNode.removeVector(vector)
       windowFBDNode.removeVector(vector)
