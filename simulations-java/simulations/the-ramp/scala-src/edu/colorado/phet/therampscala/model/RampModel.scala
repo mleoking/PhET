@@ -178,7 +178,7 @@ case class RecordedState(rampState: RampState,
                          manBeadState: BeadState,
                          appliedForce: Double,
                          walls: Boolean,
-                         mode: () => MotionStrategy)
+                         motionStrategyMemento: MotionStrategyMemento)
 
 class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngle: Double) extends RecordModel[RecordedState] with ObjectModel {
   private var _walls = true
@@ -296,8 +296,8 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngl
     rampSegments(1).setWetness(state.rampState.wetness)
 
     selectedObject = state.selectedObject.toObject
-    bead.motionStrategy = state.mode()
-    println("recorded state: "+bead.motionStrategy)
+    bead.motionStrategy = state.motionStrategyMemento.getMotionStrategy(bead)
+    //println("playback state: "+bead.motionStrategy)
     bead.state = state.beadState //nice code
 
     bead.parallelAppliedForce = state.appliedForce
@@ -401,7 +401,7 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngl
     rampSegments(1).stepInTime(dt)
     if (getTime < RampDefaults.MAX_RECORD_TIME) {
       val mode = bead.motionStrategy.getFactory
-      println("recording mode: "+mode)
+      //println("recording mode: "+mode)
       recordHistory += new DataPoint(getTime, new RecordedState(new RampState(getRampAngle, rampSegments(1).heat, rampSegments(1).wetness),
         selectedObject.state, bead.state, manBead.state, bead.parallelAppliedForce, walls,mode))
     }

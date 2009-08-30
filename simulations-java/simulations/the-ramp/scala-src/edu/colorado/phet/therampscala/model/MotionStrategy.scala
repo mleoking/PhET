@@ -5,6 +5,11 @@ import scalacommon.math.Vector2D
 import java.lang.Math._
 import therampscala.Predef._
 
+//Used to save/restore motion strategies during record/playback
+trait MotionStrategyMemento {
+  def getMotionStrategy(bead: Bead): MotionStrategy
+}
+
 abstract class MotionStrategy(val bead: Bead) {
   def stepInTime(dt: Double)
 
@@ -18,7 +23,7 @@ abstract class MotionStrategy(val bead: Bead) {
 
   def getAngle: Double
 
-  def getFactory: ()=>MotionStrategy
+  def getFactory: MotionStrategyMemento
 
   //accessors/adapters for subclass convenience
   //This class was originally designed to be an inner class of Bead, but IntelliJ debugger didn't support debug into inner classes at the time
@@ -88,10 +93,16 @@ class Crashed(_position2D: Vector2D, _angle: Double, bead: Bead) extends MotionS
 
   def getAngle = _angle
 
-  def getFactory = {()=>new Crashed(_position2D,_angle,bead)}
+  def getFactory = {
+    new MotionStrategyMemento {
+      def getMotionStrategy(bead: Bead) = new Crashed(position2D, getAngle, bead)
+    }
+  }
 }
 
 class Airborne(private var _position2D: Vector2D, private var _velocity2D: Vector2D, _angle: Double, bead: Bead) extends MotionStrategy(bead: Bead) {
+  override def toString = "position = " + position2D
+
   def getAngle = _angle
 
   def velocity2D = _velocity2D
@@ -116,11 +127,21 @@ class Airborne(private var _position2D: Vector2D, private var _velocity2D: Vecto
 
   override def position2D = _position2D
 
-  def getFactory = {()=>new Airborne(_position2D + new Vector2D,_velocity2D,_angle,bead)}
+  def getFactory = new AirborneMemento(position2D, velocity2D, getAngle)
+}
+
+class AirborneMemento(p: Vector2D, v: Vector2D, a: Double) extends MotionStrategyMemento {
+  def getMotionStrategy(bead: Bead) = new Airborne(p, v, a, bead)
+
+  override def toString = "airborn motion strategy mode, p = " + p
 }
 
 class Grounded(bead: Bead) extends MotionStrategy(bead) {
-  def getFactory = {()=>new Grounded(bead)}
+  def getFactory = {
+    new MotionStrategyMemento {
+      def getMotionStrategy(bead: Bead) = new Grounded(bead)
+    }
+  }
 
   def position2D = positionMapper(position)
 

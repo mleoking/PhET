@@ -1,3 +1,4 @@
+Fixed: Airborne motion doesn't record/playback position and velocity
 Fixed: File cabinet image disappears after airborne => playback
 Fixed: Record/playback buttons don't always repaint when they should, fixed by reverting to asynchronous painting
 Fixed: Wall force on FBD doesn't update continuously
