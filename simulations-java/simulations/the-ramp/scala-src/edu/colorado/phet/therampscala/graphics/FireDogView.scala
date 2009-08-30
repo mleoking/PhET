@@ -1,11 +1,12 @@
 package edu.colorado.phet.therampscala.graphics
 
-import model.RampModel
+import model.{FireDog, Raindrop, RampModel}
 import umd.cs.piccolo.PNode
 import RampResources._
 
+//todo: factor out common code
 class FireDogView(rampModel: RampModel, canvas: AbstractRampCanvas) extends PNode {
-  rampModel.fireDogAddedListeners += ((added: rampModel.FireDog) => {
+  rampModel.fireDogAddedListeners += ((added: FireDog) => {
     val node = new BeadNode(added.dogbead, canvas.transform, "firedog.gif".literal)
     addChild(node)
 
@@ -14,7 +15,7 @@ class FireDogView(rampModel: RampModel, canvas: AbstractRampCanvas) extends PNod
 }
 
 class RaindropView(rampModel: RampModel, canvas: AbstractRampCanvas) extends PNode {
-  rampModel.raindropAddedListeners += ((added: rampModel.Raindrop) => {
+  rampModel.raindropAddedListeners += ((added: Raindrop) => {
     val node = new BeadNode(added.rainbead, canvas.transform, "raindrop.png".literal)
     addChild(node)
 
