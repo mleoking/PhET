@@ -21,6 +21,13 @@
         <filter-class>com.jspbook.GzipFilter</filter-class>
     </filter>-->
 
+    <resource-ref>
+        <description>PhET DB Connection</description>
+        <res-ref-name>jdbc/phet</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <res-auth>Container</res-auth>
+    </resource-ref>
+
     <filter>
         <filter-name>wicket.wicket-test</filter-name>
         <filter-class>org.apache.wicket.protocol.http.WicketFilter</filter-class>
