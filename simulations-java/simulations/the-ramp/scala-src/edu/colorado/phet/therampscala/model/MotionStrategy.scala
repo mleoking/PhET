@@ -18,6 +18,8 @@ abstract class MotionStrategy(val bead: Bead) {
 
   def getAngle: Double
 
+  def getFactory: ()=>MotionStrategy
+
   //accessors/adapters for subclass convenience
   //This class was originally designed to be an inner class of Bead, but IntelliJ debugger didn't support debug into inner classes at the time
   //so these classes were refactored to be top level classes to enable debugging.  They can be refactored back to inner classes when there is better debug support
@@ -85,6 +87,8 @@ class Crashed(_position2D: Vector2D, _angle: Double, bead: Bead) extends MotionS
   def position2D = _position2D
 
   def getAngle = _angle
+
+  def getFactory = {()=>new Crashed(_position2D,_angle,bead)}
 }
 
 class Airborne(private var _position2D: Vector2D, private var _velocity2D: Vector2D, _angle: Double, bead: Bead) extends MotionStrategy(bead: Bead) {
@@ -93,7 +97,6 @@ class Airborne(private var _position2D: Vector2D, private var _velocity2D: Vecto
   def velocity2D = _velocity2D
 
   override def stepInTime(dt: Double) = {
-    val tf = totalForce
     val accel = totalForce / mass
     _velocity2D = _velocity2D + accel * dt
     _position2D = _position2D + _velocity2D * dt
@@ -112,9 +115,13 @@ class Airborne(private var _position2D: Vector2D, private var _velocity2D: Vecto
   override def normalForce = new Vector2D
 
   override def position2D = _position2D
+
+  def getFactory = {()=>new Airborne(_position2D + new Vector2D,_velocity2D,_angle,bead)}
 }
 
 class Grounded(bead: Bead) extends MotionStrategy(bead) {
+  def getFactory = {()=>new Grounded(bead)}
+
   def position2D = positionMapper(position)
 
   def getAngle = rampSegmentAccessor(position).getUnitVector.getAngle
