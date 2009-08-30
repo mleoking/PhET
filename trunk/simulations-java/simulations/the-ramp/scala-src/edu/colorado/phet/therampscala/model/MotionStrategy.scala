@@ -247,7 +247,6 @@ class Grounded(bead: Bead) extends MotionStrategy(bead) {
     else
       origState.thermalEnergy
 
-
     def getVelocityToConserveEnergy(state: SettableState) = {
       val sign = MathUtil.getSign(state.velocity)
       sign * sqrt(abs(2.0 / mass * (origEnergy + appliedEnergy - state.pe - origState.thermalEnergy)))
@@ -257,13 +256,11 @@ class Grounded(bead: Bead) extends MotionStrategy(bead) {
     //however, it may lead to a decrease in thermal energy, which would be physically incorrect
     //      val stateAfterThermalEnergy = stateAfterBounds.setThermalEnergy(thermalFromWork)
     val stateAfterThermalEnergy = stateAfterCollision.setThermalEnergy(thermalFromEnergy)
-
     val dE = stateAfterThermalEnergy.totalEnergy - origEnergy
     val dT = stateAfterThermalEnergy.thermalEnergy - origState.thermalEnergy
 
     //drop in thermal energy indicates a problem, since total thermal energy should never decrease
     //preliminary tests indicate this happens when switching between ramp segment 0 and 1
-
     val stateAfterPatchup = if (dT < 0) {
       val patchedVelocity = getVelocityToConserveEnergy(stateAfterThermalEnergy)
       val patch = stateAfterThermalEnergy.setThermalEnergy(origState.thermalEnergy).setVelocity(patchedVelocity)
