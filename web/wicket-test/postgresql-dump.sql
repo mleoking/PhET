@@ -2490,7 +2490,6 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 1	language.dir	ltr	2009-08-17 03:48:19.896	2009-08-17 03:48:19.896	1
 3	home.title	PhET: Free online physics, chemistry, biology, earth science and math simulations	2009-08-17 03:48:19.897	2009-08-17 03:48:19.897	1
 4	home.header	Interactive Science Simulations	2009-08-17 03:48:19.897	2009-08-17 03:48:19.897	1
-5	home.subheader	Fun, interactive, research-based simulations of physical phenomena from the PhET project at the University of Colorado.	2009-08-17 03:48:19.897	2009-08-17 03:48:19.897	1
 6	home.playWithSims	Play with sims... >	2009-08-17 03:48:19.897	2009-08-17 03:48:19.897	1
 7	home.runOurSims	Run our Simulations	2009-08-17 03:48:19.897	2009-08-17 03:48:19.897	1
 8	home.onLine	On Line	2009-08-17 03:48:19.897	2009-08-17 03:48:19.897	1
@@ -2922,6 +2921,7 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 435	nav.get-phet.on-line	在线	2009-08-19 02:10:45.777	2009-08-19 02:11:11.01	2
 437	nav.contribute	贡献	2009-08-19 02:11:19.388	2009-08-19 02:11:19.388	2
 438	nav.get-phet.one-at-a-time	一次一个	2009-08-19 02:11:28.145	2009-08-19 02:11:28.145	2
+5	home.subheader	Fun, interactive, <a {0}>research-based</a> simulations of physical phenomena from the PhET project at the University of Colorado.	2009-08-17 03:48:19.897	2009-08-30 01:09:02.419	1
 \.
 
 
