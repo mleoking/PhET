@@ -1,5 +1,6 @@
-Extended floor segment in both directions when walls are removed 
-Removed angle indicator in Forces and Motion
+forces-and-motion: Removed Ramp Angle control from control panel
+forces-and-motion: Extended floor segment in both directions when walls are removed
+forces-and-motion: Removed angle indicator
 Fixed: Airborne motion doesn't record/playback position and velocity
 Fixed: File cabinet image disappears after airborne => playback
 Fixed: Record/playback buttons don't always repaint when they should, fixed by reverting to asynchronous painting

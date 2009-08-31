@@ -30,7 +30,7 @@ class BasicForcesAndMotionModule(frame: JFrame,
   val rampCanvas = new BasicForcesAndMotionCanvas(rampModel, coordinateSystemModel, fbdModel, vectorViewModel, frame, !useObjectComboBox, initialAngle != 0.0, modelOffsetY)
   setSimulationPanel(rampCanvas)
   val rampControlPanel = new RampControlPanel(rampModel, wordModel, fbdModel, coordinateSystemModel, vectorViewModel,
-    resetRampModule, coordinateSystemFeaturesEnabled, useObjectComboBox, rampModel)
+    resetRampModule, coordinateSystemFeaturesEnabled, useObjectComboBox, rampModel, false)
   setControlPanel(rampControlPanel)
   setClockControlPanel(new RecordModelControlPanel(rampModel, rampCanvas, () => new PlaybackSpeedSlider(rampModel), Color.blue, 20))
 }

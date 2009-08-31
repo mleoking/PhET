@@ -19,14 +19,18 @@ import swing.{MyCheckBox, ScalaValueControl}
 import edu.colorado.phet.scalacommon.Predef._
 import RampResources._
 
-class RampControlPanel(model: RampModel, wordModel: WordModel,
+class RampControlPanel(model: RampModel,
+                       wordModel: WordModel,
                        freeBodyDiagramModel: FreeBodyDiagramModel,
                        coordinateSystemModel: CoordinateSystemModel,
-                       vectorViewModel: VectorViewModel, resetHandler: () => Unit,
+                       vectorViewModel: VectorViewModel,
+                       resetHandler: () => Unit,
                        coordinateSystemFeaturesEnabled: Boolean,
-                       useObjectComboBox: Boolean, objectModel: ObjectModel) extends JPanel(new BorderLayout) {
+                       useObjectComboBox: Boolean,
+                       objectModel: ObjectModel,
+                       showAngleSlider: Boolean) extends JPanel(new BorderLayout) {
   val body = new RampControlPanelBody(model, wordModel, freeBodyDiagramModel, coordinateSystemModel, vectorViewModel, resetHandler,
-    coordinateSystemFeaturesEnabled, useObjectComboBox, objectModel)
+    coordinateSystemFeaturesEnabled, useObjectComboBox, objectModel, showAngleSlider)
 
   val southControlPanel = new JPanel()
   val resetButton = new ResetAllButton(this)
@@ -39,12 +43,15 @@ class RampControlPanel(model: RampModel, wordModel: WordModel,
   def addToBody(component: JComponent) = body.add(component)
 }
 
-class RampControlPanelBody(model: RampModel, wordModel: WordModel,
+class RampControlPanelBody(model: RampModel,
+                           wordModel: WordModel,
                            freeBodyDiagramModel: FreeBodyDiagramModel,
                            coordinateSystemModel: CoordinateSystemModel,
-                           vectorViewModel: VectorViewModel, resetHandler: () => Unit,
+                           vectorViewModel: VectorViewModel,
+                           resetHandler: () => Unit,
                            coordinateSystemFeaturesEnabled: Boolean,
-                           useObjectComboBox: Boolean, objectModel: ObjectModel) extends ControlPanel {
+                           useObjectComboBox: Boolean,
+                           objectModel: ObjectModel, showAngleSlider: Boolean) extends ControlPanel {
   getContentPanel.setAnchor(GridBagConstraints.WEST)
   getContentPanel.setFill(GridBagConstraints.HORIZONTAL)
   override def add(comp: Component) = {
@@ -114,9 +121,7 @@ class RampControlPanelBody(model: RampModel, wordModel: WordModel,
   frictionPanel.add(panel)
   add(frictionPanel)
 
-  val rampPanel = new SubControlPanel("ramp.controls.title".translate)
-  //  rampPanel.add(new MyCheckBox("controls.frictionless".translate, model.frictionless_=, model.frictionless, model.addListener))
-
+  val moreControlsPanel = new SubControlPanel("more.controls.title".translate)
   val positionSlider = new ScalaValueControl(RampDefaults.MIN_X, RampDefaults.MAX_X, "object.position".translate, "0.0".literal, "units.meters".translate,
     () => model.bead.position, x => model.bead.setPosition(x), model.bead.addListener)
   positionSlider.getSlider.addMouseListener(new MouseAdapter() {
@@ -129,14 +134,15 @@ class RampControlPanelBody(model: RampModel, wordModel: WordModel,
       model.bead.setVelocity(0.0)
     }
   })
-  rampPanel.add(positionSlider)
+  moreControlsPanel.add(positionSlider)
 
-  val angleSlider = new ScalaValueControl(0, 90, "property.ramp-angle".translate, "0.0".literal, "units.degrees".translate,
-    () => model.rampSegments(1).getUnitVector.getAngle.toDegrees, value => model.setRampAngle(value.toRadians), model.rampSegments(1).addListener)
+  if (showAngleSlider) {
+    val angleSlider = new ScalaValueControl(0, 90, "property.ramp-angle".translate, "0.0".literal, "units.degrees".translate,
+      () => model.rampSegments(1).getUnitVector.getAngle.toDegrees, value => model.setRampAngle(value.toRadians), model.rampSegments(1).addListener)
+    moreControlsPanel.add(angleSlider)
+  }
 
-  rampPanel.add(angleSlider)
-
-  add(rampPanel)
+  add(moreControlsPanel)
 
   if (useObjectComboBox) add(new RampComboBox(objectModel))
 
