@@ -140,6 +140,7 @@ class RobotMovingCompanyApplication(config: PhetApplicationConfig) extends Picco
 object RampApplicationMain {
   def main(args: Array[String]) = new PhetApplicationLauncher().launchSim(args, "the-ramp".literal, classOf[RampApplication])
 }
+
 object RampWorkEnergyApplicationMain {
   def main(args: Array[String]) = new PhetApplicationLauncher().launchSim(args, "the-ramp".literal, classOf[RampWorkEnergyApplication])
 }
