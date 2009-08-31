@@ -1,3 +1,4 @@
+forces-and-motion: Fixed: FBD's don't update on friction coefficient changes in Friction tab
 forces-and-motion: Fixed: FBD's don't update on mass/gravity changes in Friction tab
 forces-and-motion: Added adjustable friction, mass, and gravity with sliders
 forces-and-motion: Removed selectable object in Friction tab
