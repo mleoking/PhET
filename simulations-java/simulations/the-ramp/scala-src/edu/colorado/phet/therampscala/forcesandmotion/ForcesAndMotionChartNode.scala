@@ -28,12 +28,12 @@ class ForcesAndMotionChartNode(transform: ModelViewTransform2D, canvas: PhetPCan
 
   val parallelForceControlGraph = new RampGraph(appliedForceSeries, canvas, timeseriesModel, updateableObject, model) {
     for (s <- forceSeriesList.tail) addSeries(s)
+    addControl(new SeriesSelectionControl("forces.parallel-title-with-units".translate, 5) {
+      addToGrid(appliedForceSeries, createEditableLabel)
+      for (s <- forceSeriesList.tail) addToGrid(s)
+    })
   }
 
-  parallelForceControlGraph.addControl(new SeriesSelectionControl("forces.parallel-title-with-units".translate, 5) {
-    addToGrid(appliedForceSeries, createEditableLabel)
-    for (s <- forceSeriesList.tail) addToGrid(s)
-  })
   //
   //  val totalEnergySeries = new ControlGraphSeries(formatEnergy("energy.total".translate), totalEnergyColor, abbrevUnused, J, characterUnused, createVariable(() => model.bead.getTotalEnergy))
   //  val keSeries = new ControlGraphSeries(formatEnergy("energy.kinetic".translate), kineticEnergyColor, abbrevUnused, J, characterUnused, createVariable(() => model.bead.getKineticEnergy))
@@ -67,10 +67,10 @@ class ForcesAndMotionChartNode(transform: ModelViewTransform2D, canvas: PhetPCan
   val accelerationSeries = new ControlGraphSeries("Acceleration", RampDefaults.accelerationColor, "accel", "m/s/s", characterUnused, accelerationVariable)
   val accelerationGraph = new RampGraph(accelerationSeries, canvas, timeseriesModel, updateableObject, model) {
     setVerticalRange(-100, 100)
+    addControl(new SeriesSelectionControl("acceleration", 5) {
+      addToGrid(accelerationSeries, createEditableLabel)
+    })
   }
-  accelerationGraph.addControl(new SeriesSelectionControl("acceleration", 5) {
-    addToGrid(accelerationSeries, createEditableLabel)
-  })
 
   val velocityVariable = new DefaultTemporalVariable() {
     override def setValue(v: Double) = {
@@ -81,10 +81,10 @@ class ForcesAndMotionChartNode(transform: ModelViewTransform2D, canvas: PhetPCan
   val velocitySeries = new ControlGraphSeries("Velocity", RampDefaults.velocityColor, "vel", "m/s", characterUnused, velocityVariable)
   val velocityGraph = new RampGraph(velocitySeries, canvas, timeseriesModel, updateableObject, model) {
     setVerticalRange(-50, 50)
+    addControl(new SeriesSelectionControl("velocity", 5) {
+      addToGrid(velocitySeries, createEditableLabel)
+    })
   }
-  velocityGraph.addControl(new SeriesSelectionControl("velocity", 5) {
-    addToGrid(velocitySeries, createEditableLabel)
-  })
 
   val positionVariable = new DefaultTemporalVariable() {
     override def setValue(x: Double) = {
@@ -95,10 +95,10 @@ class ForcesAndMotionChartNode(transform: ModelViewTransform2D, canvas: PhetPCan
   val positionSeries = new ControlGraphSeries("Position", RampDefaults.positionColor, "x", "m", characterUnused, positionVariable)
   val positionGraph = new RampGraph(positionSeries, canvas, timeseriesModel, updateableObject, model) {
     setVerticalRange(-10, 10)
+    addControl(new SeriesSelectionControl("velocity", 5) {
+      addToGrid(positionSeries, createEditableLabel)
+    })
   }
-  positionGraph.addControl(new SeriesSelectionControl("velocity", 5) {
-    addToGrid(positionSeries, createEditableLabel)
-  })
 
   val parallelForcesString = "forces.parallel-title".translate
   val graphs = Array(new MinimizableControlGraph(parallelForcesString, parallelForceControlGraph)
