@@ -1,3 +1,4 @@
+forces-and-motion: Added graphs for force, acceleration, velocity, position
 Fixed: FBD axes and label block mouse events, even when non-rotatable
 forces-and-motion: Added combo box for object selection for graphing tab
 forces-and-motion: Fixed: FBD's don't update on friction coefficient changes in Friction tab

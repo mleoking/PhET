@@ -5,6 +5,7 @@ import model.{MutableRampObject, CustomTextRampObject, ScalaRampObject}
 
 object RampDefaults {
   val MAX_RECORD_TIME = 40
+  val MAX_CHART_DISPLAY_TIME = 20.0
   val defaultRampAngle = 30.0.toRadians
   //how far away the vector labels can be from the tip, in world coordinates
   val FBD_LABEL_MAX_OFFSET = 500
@@ -60,10 +61,9 @@ object RampDefaults {
 
   val myGold = new Color(255, 235, 0)
   val myBrickRed = new Color(185, 80, 50)
-
   val myGreen = new Color(0.0f, 0.8f, 0.1f);
-  val lightBlue = new Color(160, 220, 255);
-  val drabYellow = new Color(190, 190, 0);
+  val myLightBlue = new Color(160, 220, 255);
+  val myDrabYellow = new Color(190, 190, 0);
   val myOrange = new Color(236, 153, 55)
 
   val appliedForceColor = myOrange
@@ -82,6 +82,10 @@ object RampDefaults {
   val kineticEnergyColor = totalWorkColor
   val potentialEnergyColor = gravityWorkColor
   val thermalEnergyColor = frictionWorkColor
+
+  val accelerationColor = magenta
+  val velocityColor = red
+  val positionColor = blue
 
   /**
    * W_grav and deltaPE should be the same color:  Blue (sky blue, sky-high --get it?)
