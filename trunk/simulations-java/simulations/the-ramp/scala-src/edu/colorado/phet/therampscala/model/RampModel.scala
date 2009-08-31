@@ -201,7 +201,6 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngl
   rampSegments(0).addListenerByName {rampChangeAdapter.notifyListeners}
   rampSegments(1).addListenerByName {rampChangeAdapter.notifyListeners}
   val surfaceFriction = () => !frictionless
-  //  val wallRange = () => if (walls) new Range(RampDefaults.MIN_X, RampDefaults.MAX_X) else new Range(-10000, RampDefaults.MAX_X)
 
   val defaultManPosition = defaultBeadPosition - 1
   val leftWall = createBead(-10, RampDefaults.wall.width, RampDefaults.wall.height)
@@ -209,7 +208,8 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngl
   val manBead = createBead(defaultManPosition, 1)
 
   val wallRange = () => {
-    val onGround = rampSegments(1).angle == 0
+    val onGround = rampSegments(1).angle == 0 &&
+            rampSegments(0).angle == 0 //todo: remove this workaround that makes sure robot moving company game (in ramp scenario) has a cliff 
     if (walls)
       new Range(leftWall.maxX, rightWall.minX)
     else
