@@ -15,7 +15,7 @@ import model.{AdjustableCoordinateModel, FreeBodyDiagramModel, CoordinateFrameMo
 import scalacommon.math.Vector2D
 import scalacommon.util.Observable
 import scalacommon.view.ToggleListener
-import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEventListener, PInputEvent}
+import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
 import umd.cs.piccolo.nodes.{PImage, PText}
 import umd.cs.piccolo.PNode
 import scalacommon.Predef._
@@ -109,21 +109,21 @@ class AxisNodeWithModel(transform: ModelViewTransform2D, label: String, val axis
     setTipAndTailLocations(transform.modelToViewDouble(axisModel.getEndPoint), transform.modelToViewDouble(axisModel.startPoint))
     updateTextNodeLocation()
   }
-  defineInvokeAndPass(adjustableCoordinateModel.addListenerByName){
+  defineInvokeAndPass(adjustableCoordinateModel.addListenerByName) {
     setPickable(adjustableCoordinateModel.adjustable)
     setChildrenPickable(adjustableCoordinateModel.adjustable)
   }
-  hitNode.addInputEventListener(new ToggleListener(new CursorHandler, ()=>adjustableCoordinateModel.adjustable))
-  hitNode.addInputEventListener(new ToggleListener(new RotationHandler(transform, hitNode, axisModel, minAngle, maxAngle), ()=>adjustableCoordinateModel.adjustable))
+  hitNode.addInputEventListener(new ToggleListener(new CursorHandler, () => adjustableCoordinateModel.adjustable))
+  hitNode.addInputEventListener(new ToggleListener(new RotationHandler(transform, hitNode, axisModel, minAngle, maxAngle), () => adjustableCoordinateModel.adjustable))
   hitNode.addInputEventListener(new ToggleListener(new PBasicInputEventHandler {
     override def mouseReleased(event: PInputEvent) = axisModel.dropped()
-  }, ()=>adjustableCoordinateModel.adjustable))
+  }, () => adjustableCoordinateModel.adjustable))
 }
 
 class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel,
-                          private var _width: Double, private var _height: Double, 
+                          private var _width: Double, private var _height: Double,
                           val modelWidth: Double, val modelHeight: Double,
-                          coordinateFrameModel: CoordinateFrameModel, adjustableCoordinateModel:AdjustableCoordinateModel,
+                          coordinateFrameModel: CoordinateFrameModel, adjustableCoordinateModel: AdjustableCoordinateModel,
                           toggleWindowedButton: Image, vectors: Vector*) extends PNode {
   val transform = new ModelViewTransform2D(new Rectangle2D.Double(-modelWidth / 2, -modelHeight / 2, modelWidth, modelHeight),
     new Rectangle2D.Double(0, 0, _width, _height), true)

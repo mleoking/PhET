@@ -8,12 +8,11 @@ class ScalaValueControl(min: Double, max: Double, name: String, decimalFormat: S
                         private var _getter: () => Double,
                         private var _setter: Double => Unit,
                         addListener: (() => Unit) => Unit,
-                        layoutStrategy:ILayoutStrategy) extends LinearValueControl(min, max, name, decimalFormat, units,layoutStrategy) {
-
+                        layoutStrategy: ILayoutStrategy) extends LinearValueControl(min, max, name, decimalFormat, units, layoutStrategy) {
   def this(min: Double, max: Double, name: String, decimalFormat: String, units: String,
-                        _getter: () => Double,
-                        _setter: Double => Unit,
-                        addListener: (() => Unit) => Unit) = this(min,max,name,decimalFormat,units,_getter,_setter,addListener,new DefaultLayoutStrategy)
+           _getter: () => Double,
+           _setter: Double => Unit,
+           addListener: (() => Unit) => Unit) = this (min, max, name, decimalFormat, units, _getter, _setter, addListener, new DefaultLayoutStrategy)
   addListener(update)
   update()
   addChangeListener(new ChangeListener {

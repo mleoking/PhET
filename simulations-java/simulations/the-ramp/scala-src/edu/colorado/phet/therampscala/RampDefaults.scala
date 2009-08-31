@@ -35,7 +35,7 @@ object RampDefaults {
   val EARTH_COLOR = new Color(200, 240, 200)
 
   val earthGravity = 9.8
-  val moonGravity = 1.0/6.0 * earthGravity
+  val moonGravity = 1.0 / 6.0 * earthGravity
   val jupiterGravity = earthGravity * 2.5
   val sliderMaxGravity = 30.0
 

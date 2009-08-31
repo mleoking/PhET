@@ -62,28 +62,28 @@ class AbstractRampModule(frame: JFrame, clock: ScalaClock, name: String, default
 }
 
 class BasicRampModule(frame: JFrame, clock: ScalaClock, name: String,
-                      coordinateSystemFeaturesEnabled: Boolean, useObjectComboBox: Boolean, showAppliedForceSlider:Boolean,
+                      coordinateSystemFeaturesEnabled: Boolean, useObjectComboBox: Boolean, showAppliedForceSlider: Boolean,
                       defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngle: Double, modelOffsetY: Double)
         extends AbstractRampModule(frame, clock, name, defaultBeadPosition, pausedOnReset, initialAngle) {
-  val rampCanvas = new RampCanvas(rampModel, coordinateSystemModel, fbdModel, vectorViewModel, frame, !useObjectComboBox, showAppliedForceSlider,initialAngle != 0.0, modelOffsetY)
+  val rampCanvas = new RampCanvas(rampModel, coordinateSystemModel, fbdModel, vectorViewModel, frame, !useObjectComboBox, showAppliedForceSlider, initialAngle != 0.0, modelOffsetY)
   setSimulationPanel(rampCanvas)
   val rampControlPanel = new RampControlPanel(rampModel, wordModel, fbdModel, coordinateSystemModel, vectorViewModel,
-    resetRampModule, coordinateSystemFeaturesEnabled, useObjectComboBox, rampModel, true,true)
+    resetRampModule, coordinateSystemFeaturesEnabled, useObjectComboBox, rampModel, true, true)
   setControlPanel(rampControlPanel)
   setClockControlPanel(new RecordModelControlPanel(rampModel, rampCanvas, () => new PlaybackSpeedSlider(rampModel), Color.blue, 20))
 }
 
 import RampResources._
 
-class IntroRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "module.introduction".translate, false, false, true,-6, false, RampDefaults.defaultRampAngle, 0.0)
+class IntroRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "module.introduction".translate, false, false, true, -6, false, RampDefaults.defaultRampAngle, 0.0)
 
-class CoordinatesRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "module.coordinates".translate, true, false, true,-6, false, RampDefaults.defaultRampAngle, 0.0) {
+class CoordinatesRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "module.coordinates".translate, true, false, true, -6, false, RampDefaults.defaultRampAngle, 0.0) {
   coordinateSystemModel.adjustable = true
 }
 
 class ForceGraphsModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(frame, clock, "module.force-graphs".translate, false, 0.0)
 
-class GraphingModule(frame: JFrame, clock: ScalaClock, name: String, showEnergyGraph: Boolean, modelOffsetY: Double) extends BasicRampModule(frame, clock, name, false, true, false,-6, true, RampDefaults.defaultRampAngle, modelOffsetY) {
+class GraphingModule(frame: JFrame, clock: ScalaClock, name: String, showEnergyGraph: Boolean, modelOffsetY: Double) extends BasicRampModule(frame, clock, name, false, true, false, -6, true, RampDefaults.defaultRampAngle, modelOffsetY) {
   coordinateSystemModel.adjustable = false
   rampCanvas.addNodeAfter(rampCanvas.earthNode, new RampChartNode(rampCanvas.transform, rampCanvas, rampModel, showEnergyGraph))
 }

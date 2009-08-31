@@ -266,7 +266,7 @@ class Bead(private var _state: BeadState,
 
   def forceToParallelAcceleration(f: Vector2D) = (f dot getRampUnitVector) / mass
 
-  def getParallelComponent(f:Vector2D) = f dot getRampUnitVector
+  def getParallelComponent(f: Vector2D) = f dot getRampUnitVector
 
   def netForceToParallelVelocity(f: Vector2D, dt: Double) = velocity + forceToParallelAcceleration(f) * dt
 

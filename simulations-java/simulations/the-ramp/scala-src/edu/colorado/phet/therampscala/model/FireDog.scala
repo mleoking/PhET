@@ -5,7 +5,7 @@ import common.phetcommon.math.MathUtil
 import scalacommon.math.Vector2D
 import java.lang.Math._
 
-class FireDog(rampModel:RampModel) {
+class FireDog(rampModel: RampModel) {
   val removedListeners = new ArrayBuffer[() => Unit]
   val height = 2
   val width = 2
@@ -20,7 +20,7 @@ class FireDog(rampModel:RampModel) {
     if (dogbead.position < stoppingDist && raindropCount < rampModel.maxDrops) {
       dogbead.setPosition(dogbead.position + incomingSpeed)
     } else if (raindropCount < rampModel.maxDrops) {
-      val raindrop = new Raindrop(dogbead.position2D + new Vector2D(width / 2.0, height / 3.0), 10 + random.nextGaussian * 3, PI / 4 + random.nextGaussian() * PI / 16,rampModel)
+      val raindrop = new Raindrop(dogbead.position2D + new Vector2D(width / 2.0, height / 3.0), 10 + random.nextGaussian * 3, PI / 4 + random.nextGaussian() * PI / 16, rampModel)
       rampModel.raindrops += raindrop
       raindropCount = raindropCount + 1
       rampModel.raindropAddedListeners.foreach(_(raindrop))
@@ -37,7 +37,7 @@ class FireDog(rampModel:RampModel) {
   }
 }
 
-class Raindrop(p: Vector2D, rainSpeed: Double, angle: Double,rampModel:RampModel) {
+class Raindrop(p: Vector2D, rainSpeed: Double, angle: Double, rampModel: RampModel) {
   val removedListeners = new ArrayBuffer[() => Unit]
   val rainbead = rampModel.createBead(0.0, 0.3, 0.5)
   private var _angle = 0.0
