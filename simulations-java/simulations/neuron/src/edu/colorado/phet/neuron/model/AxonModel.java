@@ -3,6 +3,7 @@
 package edu.colorado.phet.neuron.model;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 
 /**
@@ -15,12 +16,22 @@ import java.util.ArrayList;
 public class AxonModel {
     
     //----------------------------------------------------------------------------
-    // Instance data
+    // Class Data
+    //----------------------------------------------------------------------------
+	
+	private static final Random RAND = new Random();
+	
+	private static final int TOTAL_INITIAL_ATOMS = 100;
+	
+    //----------------------------------------------------------------------------
+    // Instance Data
     //----------------------------------------------------------------------------
     
     private final NeuronClock clock;
-    private AxonMembrane axonMembrane = new AxonMembrane();
+    private final AxonMembrane axonMembrane = new AxonMembrane();
     private ArrayList<Atom> ions = new ArrayList<Atom>();
+    private final double crossSectionInnerDiameter;
+    private final double crossSectionOuterDiameter;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -29,13 +40,44 @@ public class AxonModel {
     public AxonModel( NeuronClock clock ) {
         this.clock = clock;
         
-        // TODO: Temp for testing ions.
-        Atom atom = new PotassiumIon();
-        atom.setPosition(20, 20);
-        ions.add(atom);
-        atom = new SodiumIon();
-        atom.setPosition(-20, -20);
-        ions.add(atom);
+        crossSectionInnerDiameter = axonMembrane.getCrossSectionDiameter() - (axonMembrane.getMembraneThickness() / 2); 
+        crossSectionOuterDiameter = axonMembrane.getCrossSectionDiameter() + (axonMembrane.getMembraneThickness() / 2); 
+        
+        // Add the atoms.
+        // TODO: This is probably not correct, and we will need to have some
+        // initial concentration grandient.  Assume 50% for now.
+        int i = TOTAL_INITIAL_ATOMS;
+        Atom newAtom;
+        while (true){
+        	newAtom = new PotassiumIon();
+        	positionAtomInsideMembrane(newAtom);
+        	ions.add(newAtom);
+        	i--;
+        	if (i == 0){
+        		break;
+        	}
+        	newAtom = new SodiumIon();
+        	positionAtomInsideMembrane(newAtom);
+        	ions.add(newAtom);
+        	i--;
+        	if (i == 0){
+        		break;
+        	}
+        	newAtom = new PotassiumIon();
+        	positionAtomOutsideMembrane(newAtom);
+        	ions.add(newAtom);
+        	i--;
+        	if (i == 0){
+        		break;
+        	}
+        	newAtom = new SodiumIon();
+        	positionAtomOutsideMembrane(newAtom);
+        	ions.add(newAtom);
+        	i--;
+        	if (i == 0){
+        		break;
+        	}
+        }
     }
     
     //----------------------------------------------------------------------------
@@ -52,5 +94,29 @@ public class AxonModel {
     
     public AxonMembrane getAxonMembrane(){
     	return axonMembrane;
+    }
+
+    //----------------------------------------------------------------------------
+    // Other Methods
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Place an atom at a random location inside the axon membrane.
+     */
+    private void positionAtomInsideMembrane(Atom atom){
+    	double distance = RAND.nextDouble() * (crossSectionInnerDiameter / 2 - atom.getDiameter());
+    	double angle = RAND.nextDouble() * Math.PI * 2;
+    	atom.setPosition(distance * Math.cos(angle), distance * Math.sin(angle));
+    }
+
+    /**
+     * Place an atom at a random location outside the axon membrane.
+     */
+    private void positionAtomOutsideMembrane(Atom atom){
+    	double maxDistance = crossSectionOuterDiameter * 0.6; // Arbitrary multiplier, tweak as needed.
+    	double distance = RAND.nextDouble() * (maxDistance - (crossSectionOuterDiameter / 2)) + 
+    		(crossSectionOuterDiameter / 2) + atom.getDiameter();
+    	double angle = RAND.nextDouble() * Math.PI * 2;
+    	atom.setPosition(distance * Math.cos(angle), distance * Math.sin(angle));
     }
 }
