@@ -3,10 +3,10 @@ package edu.colorado.phet.ladybugmotion2d.canvas
 import controlpanel.VectorVisibilityModel
 import model.Ladybug
 import scalacommon.math.Vector2D
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont
-import edu.colorado.phet.common.piccolophet.nodes.ArrowNode
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
-import edu.colorado.phet.common.piccolophet.nodes.ArrowNode
+import phet.common.phetcommon.view.util.PhetFont
+import phet.common.piccolophet.nodes.ArrowNode
+import phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
+import phet.common.piccolophet.nodes.ArrowNode
 import java.awt.geom.Point2D
 import java.awt.{BasicStroke, Color}
 
