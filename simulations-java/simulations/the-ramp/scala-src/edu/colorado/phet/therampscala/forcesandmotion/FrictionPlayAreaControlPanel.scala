@@ -1,6 +1,6 @@
 package edu.colorado.phet.therampscala.forcesandmotion
 
-import common.phetcommon.view.controls.valuecontrol.{HorizontalLayoutStrategy, LinearValueControl}
+import common.phetcommon.view.controls.valuecontrol.{AbstractValueControl, AlignedSliderSetLayoutStrategy, HorizontalLayoutStrategy, LinearValueControl}
 import common.phetcommon.view.VerticalLayoutPanel
 import javax.swing._
 import RampResources._
@@ -19,10 +19,9 @@ class FrictionPlayAreaControlPanel extends VerticalLayoutPanel {
   val kineticFriction = new MyValueControl(0.0, 5.0, 0.2, "Coefficient of kinetic friction", "0.0".literal, "".literal)
   val objectMass = new MyValueControl(0.0, 5.0, 0.2, "Object Mass", "0.0".literal, "kg")
   val gravity = new MyValueControl(0.0, 5.0, 0.2, "Gravity", "0.0".literal, "N/kg")
-  add(staticFriction)
-  add(kineticFriction)
-  add(objectMass)
-  add(gravity)
+  val sliderArray = Array[AbstractValueControl](staticFriction, kineticFriction, objectMass, gravity)
+  for (s <- sliderArray) add(s)
+//  new AlignedSliderSetLayoutStrategy(sliderArray).doLayout()//fails horribly
 
   //  val table = new Hashtable[Double, JComponent]
   //  class MyLabel(name: String, imageName: String) extends JLabel(name, SwingConstants.CENTER) {
