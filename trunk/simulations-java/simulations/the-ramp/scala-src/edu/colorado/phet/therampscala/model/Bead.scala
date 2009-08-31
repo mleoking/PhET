@@ -50,7 +50,14 @@ class Bead(private var _state: BeadState,
 
   val id = Bead.nextIndex()
   val crashListeners = new ArrayBuffer[() => Unit]
-  val gravity = -9.8
+  private var _gravity = -9.8
+
+  def gravity = _gravity
+
+  def gravity_=(value: Double) = {
+    _gravity = value
+    notifyListeners()
+  }
 
   def state = _state
 

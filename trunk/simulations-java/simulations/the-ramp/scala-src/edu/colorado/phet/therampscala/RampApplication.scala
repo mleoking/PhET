@@ -67,7 +67,7 @@ class BasicRampModule(frame: JFrame, clock: ScalaClock, name: String,
   val rampCanvas = new RampCanvas(rampModel, coordinateSystemModel, fbdModel, vectorViewModel, frame, !useObjectComboBox, showAppliedForceSlider,initialAngle != 0.0, modelOffsetY)
   setSimulationPanel(rampCanvas)
   val rampControlPanel = new RampControlPanel(rampModel, wordModel, fbdModel, coordinateSystemModel, vectorViewModel,
-    resetRampModule, coordinateSystemFeaturesEnabled, useObjectComboBox, rampModel, true)
+    resetRampModule, coordinateSystemFeaturesEnabled, useObjectComboBox, rampModel, true,true)
   setControlPanel(rampControlPanel)
   setClockControlPanel(new RecordModelControlPanel(rampModel, rampCanvas, () => new PlaybackSpeedSlider(rampModel), Color.blue, 20))
 }

@@ -1,26 +1,27 @@
 package edu.colorado.phet.therampscala.forcesandmotion
 
-import common.phetcommon.view.controls.valuecontrol.{AbstractValueControl, HorizontalLayoutStrategy, LinearValueControl}
+import common.phetcommon.view.controls.valuecontrol.{HorizontalLayoutStrategy, AbstractValueControl}
 import common.phetcommon.view.VerticalLayoutPanel
-import java.awt.Dimension
 import java.awt.image.BufferedImage
 import java.util.Hashtable
 import javax.swing._
+import model.Bead
 import RampResources._
 import RampDefaults._
+import swing.ScalaValueControl
 
-class MyValueControl(min: Double, max: Double, value: Double, title: String, numberFormat: String, units: String)
-        extends LinearValueControl(min, max, value, title, numberFormat, units, new HorizontalLayoutStrategy) {
+class MyValueControl(min: Double, max: Double, getter: () => Double, setter: Double => Unit, title: String, numberFormat: String, units: String, bead: Bead)
+        extends ScalaValueControl(min, max, title, numberFormat, units, getter, setter, bead.addListener, new HorizontalLayoutStrategy) {
   getSlider.setPaintTicks(false)
   getSlider.setPaintLabels(false)
 }
 
-class FrictionPlayAreaControlPanel extends VerticalLayoutPanel {
+class FrictionPlayAreaControlPanel(bead: Bead) extends VerticalLayoutPanel {
   setFillHorizontal()
-  val staticFriction = new MyValueControl(0.0, 5.0, 0.2, "Coefficient of static friction", "0.0".literal, "".literal)
-  val kineticFriction = new MyValueControl(0.0, 5.0, 0.2, "Coefficient of kinetic friction", "0.0".literal, "".literal)
-  val objectMass = new MyValueControl(0.0, 5.0, 0.2, "Object Mass", "0.0".literal, "kg")
-  val gravity = new MyValueControl(0.1, sliderMaxGravity, 0.2, "Gravity", "0.0".literal, "N/kg")
+  val staticFriction = new MyValueControl(0.0, 5.0, () => bead.staticFriction, bead.staticFriction = _, "Coefficient of static friction", "0.0".literal, "".literal, bead)
+  val kineticFriction = new MyValueControl(0.0, 5.0, () => bead.kineticFriction, bead.kineticFriction = _, "Coefficient of kinetic friction", "0.0".literal, "".literal, bead)
+  val objectMass = new MyValueControl(0.0, 200, () => bead.mass, bead.mass = _, "Object Mass", "0.0".literal, "kg", bead)
+  val gravity = new MyValueControl(0.1, sliderMaxGravity, () => bead.gravity.abs, x => bead.gravity = - x, "Gravity", "0.0".literal, "N/kg", bead)
   val sliderArray = Array[AbstractValueControl](staticFriction, kineticFriction, objectMass, gravity)
   //  new AlignedSliderSetLayoutStrategy(sliderArray).doLayout()//fails horribly
 
@@ -42,12 +43,12 @@ class FrictionPlayAreaControlPanel extends VerticalLayoutPanel {
   for (s <- sliderArray) add(s)
 }
 
-object TestSurfaceControlPanel {
-  def main(args: Array[String]) {
-    val frame = new JFrame
-    frame.setContentPane(new FrictionPlayAreaControlPanel)
-    frame.pack()
-    frame.setVisible(true)
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)
-  }
-}
+//object TestSurfaceControlPanel {
+//  def main(args: Array[String]) {
+//    val frame = new JFrame
+//    frame.setContentPane(new FrictionPlayAreaControlPanel(new Bead()))
+//    frame.pack()
+//    frame.setVisible(true)
+//    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)
+//  }
+//}

@@ -1,3 +1,5 @@
+forces-and-motion: Added adjustable friction, mass, and gravity with sliders
+forces-and-motion: Removed selectable object in Friction tab
 Renamed control panel subpanel titles to make more sense
 forces-and-motion: Removed Ramp Angle control from control panel
 forces-and-motion: Extended floor segment in both directions when walls are removed
