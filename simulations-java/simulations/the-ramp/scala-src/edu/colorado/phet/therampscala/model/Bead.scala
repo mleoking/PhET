@@ -268,6 +268,8 @@ class Bead(private var _state: BeadState,
 
   def netForceToParallelVelocity(f: Vector2D, dt: Double) = velocity + forceToParallelAcceleration(f) * dt
 
+  def acceleration = forceToParallelAcceleration(totalForce)
+
   val workListeners = new ArrayBuffer[Double => Unit]
 
   private var _notificationsEnabled = true

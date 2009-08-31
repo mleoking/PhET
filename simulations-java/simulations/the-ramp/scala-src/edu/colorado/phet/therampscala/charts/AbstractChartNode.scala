@@ -69,8 +69,6 @@ class RampChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model:
   val workEnergyGraph = new RampGraph(totalEnergySeries, canvas, timeseriesModel, updateableObject, model) {
     setEditable(false)
     setDomainUpperBound(20)
-    getJFreeChartNode.setBuffered(false)
-    getJFreeChartNode.setPiccoloSeries()
     for (s <- energyWorkSeriesList.tail) addSeries(s)
   }
   workEnergyGraph.addControl(new SeriesSelectionControl("forces.work-energy-title-with-units".translate, 7) {
@@ -194,6 +192,7 @@ class RampGraph(defaultSeries: ControlGraphSeries, canvas: PhetPCanvas, timeseri
   getJFreeChartNode.getChart.getXYPlot.getDomainAxis.setTickLabelFont(new PhetFont(18, true))
   getJFreeChartNode.setBuffered(false)
   getJFreeChartNode.setPiccoloSeries() //works better on an unbuffered chart
+  setDomainUpperBound(RampDefaults.MAX_CHART_DISPLAY_TIME)
   override def createSliderNode(thumb: PNode, highlightColor: Color) = {
     new JFreeChartSliderNode(getJFreeChartNode, thumb, highlightColor) {
       val text = new ShadowHTMLNode(defaultSeries.getTitle)
