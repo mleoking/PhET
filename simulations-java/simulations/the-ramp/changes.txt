@@ -1,3 +1,4 @@
+forces-and-motion: Added sliders for position, velocity, acceleration
 forces-and-motion: Changed so that force graph tab starts with only force graph open - acceleration, velocity, position are closed
 forces-and-motion: Added graphs for force, acceleration, velocity, position
 Fixed: FBD axes and label block mouse events, even when non-rotatable
