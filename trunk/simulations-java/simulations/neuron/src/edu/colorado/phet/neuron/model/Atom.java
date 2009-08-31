@@ -84,7 +84,7 @@ public abstract class Atom {
      * Get the diameter of this atom in nano meters.
      */
     public double getDiameter(){
-    	return 5;  // Default value, override if needed to support other atoms.
+    	return 3;  // Default value, override if needed to support other atoms.
     }
     
     public Vector2D getVelocity() {
