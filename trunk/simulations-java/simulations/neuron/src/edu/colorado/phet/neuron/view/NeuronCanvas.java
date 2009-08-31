@@ -104,10 +104,8 @@ public class NeuronCanvas extends PhetPCanvas {
         }
         else if ( NeuronConstants.DEBUG_CANVAS_UPDATE_LAYOUT ) {
             System.out.println( "getSize() = " + getSize() );
-            System.out.println( "ExampleCanvas.updateLayout worldSize=" + worldSize );//XXX
+            System.out.println( "ExampleCanvas.updateLayout worldSize=" + worldSize );
         }
-        
-        //XXX lay out nodes
     }
     
     private void addAtom(Atom atomToBeAdded){
