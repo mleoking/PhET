@@ -63,32 +63,10 @@ public class NeuronCanvas extends PhetPCanvas {
         
         this.model = model;
 
-        System.out.println( "transform.modelToView = " + mvt.modelToView(0,0) );
-        
         setBackground( NeuronConstants.CANVAS_BACKGROUND );
         
         AxonMembraneNode axonMembraneNode = new AxonMembraneNode(model.getAxonMembrane(), mvt);
         addWorldChild(axonMembraneNode);
-        
-        SphericalNode redSphere1 = new SphericalNode(25, new Color(200,0,0), null, null, false);
-        redSphere1.setOffset(100, 100);
-        addWorldChild(redSphere1);
-        SphericalNode redSphere2 = new SphericalNode(25, new Color(200,0,0), null, null, false);
-        redSphere2.setOffset(65, 120);
-        addWorldChild(redSphere2);
-        SphericalNode redSphere3 = new SphericalNode(25, new Color(200,0,0), null, null, false);
-        redSphere3.setOffset(500, 90);
-        addWorldChild(redSphere3);
-        SphericalNode greenSphere1 = new SphericalNode(25, new Color(0,200,0), null, null, false);
-        greenSphere1.setOffset(300, 300);
-        addWorldChild(greenSphere1);
-        SphericalNode greenSphere2 = new SphericalNode(25, new Color(0,200,0), null, null, false);
-        greenSphere2.setOffset(450, 250);
-        addWorldChild(greenSphere2);
-        SphericalNode greenSphere3 = new SphericalNode(25, new Color(0,200,0), null, null, false);
-        greenSphere3.setOffset(500, 360);
-        addWorldChild(greenSphere3);
-        
     }
     
     //----------------------------------------------------------------------------
