@@ -25,8 +25,8 @@ public class NeuronConstants {
     // Debugging
     //----------------------------------------------------------------------------
     
-    // enable debug output for canvas layout updates
-    public static final boolean DEBUG_CANVAS_UPDATE_LAYOUT = true;
+    // Enable debug output for canvas layout updates.
+    public static final boolean DEBUG_CANVAS_UPDATE_LAYOUT = false;
     
     //----------------------------------------------------------------------------
     // Application
