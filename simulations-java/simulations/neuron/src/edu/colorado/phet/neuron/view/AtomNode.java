@@ -7,21 +7,21 @@ import java.awt.geom.Ellipse2D;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.neuron.model.Particle;
+import edu.colorado.phet.neuron.model.Atom;
 import edu.colorado.phet.neuron.module.NeuronDefaults;
 import edu.umd.cs.piccolo.PNode;
 
-public class ParticleNode extends PNode {
+public class AtomNode extends PNode {
 	
-	Particle particle;
-    private ModelViewTransform2D transform;
+	Atom particle;
+    private ModelViewTransform2D modelViewTransform;
     private PhetPPath representation;
 
-    public ParticleNode( Particle particle, ModelViewTransform2D transform ) {
+    public AtomNode( Atom particle, ModelViewTransform2D modelViewTransform ) {
 		this.particle = particle;
-        this.transform = transform;
+        this.modelViewTransform = modelViewTransform;
 
-        particle.addListener(new Particle.Listener() {
+        particle.addListener(new Atom.Listener() {
 			public void positionChanged() {
 				updateOffset();
 			}
@@ -37,7 +37,7 @@ public class ParticleNode extends PNode {
         double r = NeuronDefaults.CROSS_SECTION_RADIUS ;
         Ellipse2D.Double modelShape = new Ellipse2D.Double( 0,0,
                                                             2 * r, 2 * r );
-        Shape transformedShape = transform.createTransformedShape( modelShape );
+        Shape transformedShape = modelViewTransform.createTransformedShape( modelShape );
         System.out.println( "transformedShape.getBounds = " + transformedShape.getBounds() );
         return AffineTransform.getTranslateInstance( -transformedShape.getBounds2D().getWidth()/2,-transformedShape.getBounds2D().getHeight()/2 ).createTransformedShape( transformedShape );
     }
@@ -48,7 +48,7 @@ public class ParticleNode extends PNode {
 	}
 
     private void updateOffset() {
-        representation.setOffset( transform.modelToView( particle.getPosition() ));
+        representation.setOffset( modelViewTransform.modelToView( particle.getPosition() ));
 //        representation.setOffset( particle.getPosition());
     }
 
