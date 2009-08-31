@@ -65,9 +65,10 @@ object RampDefaults {
   val myLightBlue = new Color(160, 220, 255);
   val myDrabYellow = new Color(190, 190, 0);
   val myOrange = new Color(236, 153, 55)
+  val myLightBlue = new Color(50, 130, 215)
 
   val appliedForceColor = myOrange
-  val gravityForceColor = new Color(50, 130, 215)
+  val gravityForceColor = myLightBlue
   val normalForceColor = myGold
   val frictionForceColor = red
   val totalForceColor = pink //used to be myGreen
