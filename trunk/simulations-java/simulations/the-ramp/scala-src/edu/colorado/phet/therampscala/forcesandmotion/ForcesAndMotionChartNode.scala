@@ -68,6 +68,9 @@ class ForcesAndMotionChartNode(transform: ModelViewTransform2D, canvas: PhetPCan
   val accelerationGraph = new RampGraph(accelerationSeries, canvas, timeseriesModel, updateableObject, model) {
     setVerticalRange(-100, 100)
   }
+  accelerationGraph.addControl(new SeriesSelectionControl("acceleration", 5) {
+    addToGrid(accelerationSeries, createEditableLabel)
+  })
 
   val velocityVariable = new DefaultTemporalVariable() {
     override def setValue(v: Double) = {
@@ -79,6 +82,9 @@ class ForcesAndMotionChartNode(transform: ModelViewTransform2D, canvas: PhetPCan
   val velocityGraph = new RampGraph(velocitySeries, canvas, timeseriesModel, updateableObject, model) {
     setVerticalRange(-50, 50)
   }
+  velocityGraph.addControl(new SeriesSelectionControl("velocity", 5) {
+    addToGrid(velocitySeries, createEditableLabel)
+  })
 
   val positionVariable = new DefaultTemporalVariable() {
     override def setValue(x: Double) = {
@@ -90,6 +96,9 @@ class ForcesAndMotionChartNode(transform: ModelViewTransform2D, canvas: PhetPCan
   val positionGraph = new RampGraph(positionSeries, canvas, timeseriesModel, updateableObject, model) {
     setVerticalRange(-10, 10)
   }
+  positionGraph.addControl(new SeriesSelectionControl("velocity", 5) {
+    addToGrid(positionSeries, createEditableLabel)
+  })
 
   val parallelForcesString = "forces.parallel-title".translate
   val graphs = Array(new MinimizableControlGraph(parallelForcesString, parallelForceControlGraph)
