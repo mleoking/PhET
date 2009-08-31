@@ -57,6 +57,7 @@ class RampChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model:
   val gravitySeries = new ControlGraphSeries(formatForce("forces.Gravity".translate), gravityForceColor, abbrevUnused, N, characterUnused, gravityForceVariable)
   val wallSeries = new ControlGraphSeries(formatForce("forces.Wall".translate), wallForceColor, abbrevUnused, N, characterUnused, wallForceVariable)
   val netForceSeries = new ControlGraphSeries(formatForce("forces.Net".translate), totalForceColor, abbrevUnused, N, characterUnused, netForceVariable)
+  val forceSeriesList = appliedForceSeries :: frictionSeries :: gravitySeries :: wallSeries :: netForceSeries :: Nil
 
   val totalEnergySeries = new ControlGraphSeries(formatEnergy("energy.total".translate), totalEnergyColor, abbrevUnused, J, characterUnused, energyVariable)
   val keSeries = new ControlGraphSeries(formatEnergy("energy.kinetic".translate), kineticEnergyColor, abbrevUnused, J, characterUnused, keVariable)
@@ -66,44 +67,27 @@ class RampChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model:
   val appliedWorkSeries = new ControlGraphSeries(formatWork("work.applied".translate), appliedWorkColor, abbrevUnused, J, characterUnused, appliedWorkVariable)
   val gravityWorkSeries = new ControlGraphSeries(formatWork("work.gravity".translate), gravityWorkColor, abbrevUnused, J, characterUnused, gravityWorkVariable)
   val frictionWorkSeries = new ControlGraphSeries(formatWork("work.friction".translate), frictionWorkColor, abbrevUnused, J, characterUnused, frictionWorkVariable)
+  val energyWorkSeriesList = totalEnergySeries :: keSeries :: peSeries :: thermalEnergySeries :: appliedWorkSeries :: gravityWorkSeries :: frictionWorkSeries :: Nil
 
-  val parallelForceControlGraph = new RampGraph(appliedForceSeries,canvas,timeseriesModel,updateableObject,model) {
+  val parallelForceControlGraph = new RampGraph(appliedForceSeries, canvas, timeseriesModel, updateableObject, model) {
     setDomainUpperBound(20)
-    addSeries(frictionSeries)
-    addSeries(gravitySeries)
-    addSeries(wallSeries)
-    addSeries(netForceSeries)
+    for (s <- forceSeriesList.tail) addSeries(s)
   }
-
 
   parallelForceControlGraph.addControl(new SeriesSelectionControl("forces.parallel-title-with-units".translate, 5) {
     addToGrid(appliedForceSeries, createEditableLabel)
-    addToGrid(frictionSeries)
-    addToGrid(gravitySeries)
-    addToGrid(wallSeries)
-    addToGrid(netForceSeries)
+    for (s <- forceSeriesList.tail) addToGrid(s)
   })
 
-  val workEnergyGraph = new RampGraph(totalEnergySeries,canvas,timeseriesModel,updateableObject,model) {
+  val workEnergyGraph = new RampGraph(totalEnergySeries, canvas, timeseriesModel, updateableObject, model) {
     setEditable(false)
     setDomainUpperBound(20)
     getJFreeChartNode.setBuffered(false)
     getJFreeChartNode.setPiccoloSeries()
-    addSeries(keSeries)
-    addSeries(peSeries)
-    addSeries(thermalEnergySeries)
-    addSeries(appliedWorkSeries)
-    addSeries(gravityWorkSeries)
-    addSeries(frictionWorkSeries)
+    for (s <- energyWorkSeriesList.tail) addSeries(s)
   }
   workEnergyGraph.addControl(new SeriesSelectionControl("forces.work-energy-title-with-units".translate, 7) {
-    addToGrid(totalEnergySeries)
-    addToGrid(keSeries)
-    addToGrid(peSeries)
-    addToGrid(thermalEnergySeries)
-    addToGrid(appliedWorkSeries)
-    addToGrid(gravityWorkSeries)
-    addToGrid(frictionWorkSeries)
+    for (s <- energyWorkSeriesList) addToGrid(s)
   })
 
   val parallelForcesString = "forces.parallel-title".translate
@@ -214,10 +198,10 @@ abstract class AbstractChartNode(transform: ModelViewTransform2D, canvas: PhetPC
     graphSetNode.setBounds(viewBounds.getX, viewLoc.y, viewBounds.getWidth, h)
   }
 
-  def graphSetNode:PNode
+  def graphSetNode: PNode
 }
 
-class RampGraph(defaultSeries: ControlGraphSeries,canvas:PhetPCanvas,timeseriesModel:TimeSeriesModel,updateableObject:UpdateableObject,model: RampModel)
+class RampGraph(defaultSeries: ControlGraphSeries, canvas: PhetPCanvas, timeseriesModel: TimeSeriesModel, updateableObject: UpdateableObject, model: RampModel)
         extends MotionControlGraph(canvas, defaultSeries, "".literal, "".literal, -2000, 2000, true, timeseriesModel, updateableObject) {
   getJFreeChartNode.getChart.getXYPlot.getRangeAxis.setTickLabelFont(new PhetFont(18, true))
   getJFreeChartNode.getChart.getXYPlot.getDomainAxis.setTickLabelFont(new PhetFont(18, true))
