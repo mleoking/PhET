@@ -100,7 +100,8 @@ class WorkEnergyModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(
   override def resetAll() = {super.reset(); workEnergyChartModel.reset()}
 }
 
-class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock) extends AbstractRampModule(frame, clock, "module.robotMovingCompany".translate, 5, false, RampDefaults.defaultRampAngle) {
+class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock)
+        extends AbstractRampModule(frame, clock, "module.robotMovingCompany".translate, 5, false, RampDefaults.defaultRampAngle) {
   val gameModel = new RobotMovingCompanyGameModel(rampModel, clock)
 
   gameModel.itemFinishedListeners += ((scalaRampObject, result) => {
