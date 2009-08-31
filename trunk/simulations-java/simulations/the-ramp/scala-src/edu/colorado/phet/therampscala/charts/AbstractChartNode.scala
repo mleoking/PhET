@@ -17,8 +17,6 @@ import model.{RampModel}
 import umd.cs.piccolo.PNode
 import scalacommon.math.Vector2D
 import RampResources._
-import RampDefaults._
-
 object Defaults {
   def createFont = new PhetFont(15, true)
 

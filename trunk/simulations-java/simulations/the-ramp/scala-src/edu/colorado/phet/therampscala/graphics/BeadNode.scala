@@ -5,11 +5,7 @@ import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import common.piccolophet.event.CursorHandler
 import model.{Bead}
 import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
-import java.awt.BasicStroke
-
-import common.piccolophet.nodes.PhetPPath
 import umd.cs.piccolo.PNode
-import java.awt.Color
 import java.awt.geom.AffineTransform
 import umd.cs.piccolo.nodes.PImage
 import java.awt.image.BufferedImage

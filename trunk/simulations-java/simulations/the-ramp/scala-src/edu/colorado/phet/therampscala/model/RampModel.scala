@@ -362,12 +362,12 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngl
 
     if (_walls) {
       rampSegments(0).startPoint = new Vector2D(-rampLength, 0)
-      rampSegments(1).endPoint = new Vector2D( rampSegments(1).angle) * rampLength
+      rampSegments(1).endPoint = new Vector2D(rampSegments(1).angle) * rampLength
     } else {
       val openBoundaryLength = 10000
       rampSegments(0).startPoint = new Vector2D(-openBoundaryLength, 0)
       val length = if (rampSegments(1).angle == 0) openBoundaryLength else rampLength
-      rampSegments(1).endPoint = new Vector2D( rampSegments(1).angle) * length
+      rampSegments(1).endPoint = new Vector2D(rampSegments(1).angle) * length
     }
 
     notifyListeners()
@@ -412,7 +412,7 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngl
       val mode = bead.motionStrategy.getFactory
       //println("recording mode: "+mode)
       recordHistory += new DataPoint(getTime, new RecordedState(new RampState(getRampAngle, rampSegments(1).heat, rampSegments(1).wetness),
-        selectedObject.state, bead.state, manBead.state, bead.parallelAppliedForce, walls,mode))
+        selectedObject.state, bead.state, manBead.state, bead.parallelAppliedForce, walls, mode))
     }
     stepListeners.foreach(_())
     notifyListeners() //signify to the Timeline that more data has been added
