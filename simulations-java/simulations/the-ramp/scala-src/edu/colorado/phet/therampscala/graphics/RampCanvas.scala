@@ -248,7 +248,6 @@ class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel,
   }
 
   def createEarthNode = new EarthNode(transform)
-
 }
 
 trait PointOfOriginVector {
