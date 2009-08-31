@@ -15,6 +15,7 @@ import scalacommon.record.{RecordModelControlPanel, PlaybackSpeedSlider}
 
 import scalacommon.ScalaClock
 
+//TODO: improve inheritance/composition scheme for different applications/modules/canvases/models
 class AbstractRampModule(frame: JFrame, clock: ScalaClock, name: String, defaultBeadPosition: Double, pausedOnReset: Boolean,
                          initialAngle: Double) extends Module(name, clock) {
   val rampModel = new RampModel(defaultBeadPosition, pausedOnReset, initialAngle)
