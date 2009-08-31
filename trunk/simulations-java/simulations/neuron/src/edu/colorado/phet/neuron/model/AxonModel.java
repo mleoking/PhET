@@ -5,6 +5,9 @@ package edu.colorado.phet.neuron.model;
 import java.util.ArrayList;
 import java.util.Random;
 
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+
 
 /**
  * This class represents the main class for modeling the axon.  It acts as the
@@ -23,25 +26,41 @@ public class AxonModel {
 	
 	private static final int TOTAL_INITIAL_ATOMS = 100;
 	
+	private static final double MAX_ATOM_VELOCITY = 500; // In nano meters per second.
+	
+	// The following constant defines how frequently atom motion is updated.
+	// A value of 1 means every clock tick for every atom, 2 means every other
+	// atom on each tick, etc.
+	private static final int ATOM_UPDATE_INCREMENT = 10; 
+	
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
     
     private final NeuronClock clock;
     private final AxonMembrane axonMembrane = new AxonMembrane();
-    private ArrayList<Atom> ions = new ArrayList<Atom>();
+    private ArrayList<Atom> atoms = new ArrayList<Atom>();
     private final double crossSectionInnerDiameter;
     private final double crossSectionOuterDiameter;
+    private int atomUpdateOffset = 0;
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
     public AxonModel( NeuronClock clock ) {
+    	
         this.clock = clock;
         
         crossSectionInnerDiameter = axonMembrane.getCrossSectionDiameter() - (axonMembrane.getMembraneThickness() / 2); 
-        crossSectionOuterDiameter = axonMembrane.getCrossSectionDiameter() + (axonMembrane.getMembraneThickness() / 2); 
+        crossSectionOuterDiameter = axonMembrane.getCrossSectionDiameter() + (axonMembrane.getMembraneThickness() / 2);
+        
+        clock.addClockListener(new ClockAdapter(){
+			@Override
+			public void clockTicked(ClockEvent clockEvent) {
+				handleClockTicked(clockEvent);
+			}
+        });
         
         // Add the atoms.
         // TODO: This is probably not correct, and we will need to have some
@@ -51,28 +70,28 @@ public class AxonModel {
         while (true){
         	newAtom = new PotassiumIon();
         	positionAtomInsideMembrane(newAtom);
-        	ions.add(newAtom);
+        	atoms.add(newAtom);
         	i--;
         	if (i == 0){
         		break;
         	}
         	newAtom = new SodiumIon();
         	positionAtomInsideMembrane(newAtom);
-        	ions.add(newAtom);
+        	atoms.add(newAtom);
         	i--;
         	if (i == 0){
         		break;
         	}
         	newAtom = new PotassiumIon();
         	positionAtomOutsideMembrane(newAtom);
-        	ions.add(newAtom);
+        	atoms.add(newAtom);
         	i--;
         	if (i == 0){
         		break;
         	}
         	newAtom = new SodiumIon();
         	positionAtomOutsideMembrane(newAtom);
-        	ions.add(newAtom);
+        	atoms.add(newAtom);
         	i--;
         	if (i == 0){
         		break;
@@ -89,7 +108,7 @@ public class AxonModel {
     }    
     
     public ArrayList<Atom> getAtoms(){
-    	return ions;
+    	return atoms;
     }
     
     public AxonMembrane getAxonMembrane(){
@@ -99,6 +118,25 @@ public class AxonModel {
     //----------------------------------------------------------------------------
     // Other Methods
     //----------------------------------------------------------------------------
+    
+    private void handleClockTicked(ClockEvent clockEvent){
+    	
+    	for (int i = atomUpdateOffset; i < atoms.size(); i += ATOM_UPDATE_INCREMENT){
+    		updateAtomVelocity(atoms.get(i));
+    	}
+    	
+    	atomUpdateOffset = (atomUpdateOffset + 1) % ATOM_UPDATE_INCREMENT;
+    	
+    	for (Atom atom : atoms){
+    		atom.stepInTime(clockEvent.getSimulationTimeChange());
+    	}
+    }
+    
+    private void updateAtomVelocity(Atom atom){
+    	double velocity = MAX_ATOM_VELOCITY * RAND.nextDouble();
+    	double angle = Math.PI * 2 * RAND.nextDouble();
+    	atom.setVelocity(velocity * Math.cos(angle), velocity * Math.sin(angle));
+    }
     
     /**
      * Place an atom at a random location inside the axon membrane.
