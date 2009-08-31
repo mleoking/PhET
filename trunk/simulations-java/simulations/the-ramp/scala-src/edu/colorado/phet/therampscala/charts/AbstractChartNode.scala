@@ -30,7 +30,7 @@ object Defaults {
 }
 
 class RampChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model: RampModel, showEnergyGraph: Boolean)
-        extends AbstractChartNode(transform, canvas, model, showEnergyGraph) {
+        extends AbstractChartNode(transform, canvas, model) {
   val parallelAppliedForceVariable = new DefaultTemporalVariable() {
     override def setValue(value: Double) = model.bead.parallelAppliedForce = value
   }
@@ -90,7 +90,7 @@ class RampChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model:
   updatePosition()
 }
 
-abstract class AbstractChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model: RampModel, showEnergyGraph: Boolean) extends PNode {
+abstract class AbstractChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model: RampModel) extends PNode {
   def inTimeRange(time: Double) = {
     //    println("time = "+time)
     time <= RampDefaults.MAX_RECORD_TIME
