@@ -18,10 +18,12 @@ public class AtomNode extends PNode {
     private ModelViewTransform2D modelViewTransform;
     private SphericalNode sphere;
     private PText label;
+    private PNode parentNode; // TODO: Use this to implement removal of nodes.
 
-    public AtomNode( Atom atom, ModelViewTransform2D modelViewTransform ) {
+    public AtomNode( Atom atom, PNode parentNode, ModelViewTransform2D modelViewTransform ) {
     	
 		this.atom = atom;
+		this.parentNode = parentNode;
         this.modelViewTransform = modelViewTransform;
 
         atom.addListener(new Atom.Listener() {
