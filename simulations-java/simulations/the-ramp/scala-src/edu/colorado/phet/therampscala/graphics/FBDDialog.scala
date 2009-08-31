@@ -10,11 +10,11 @@ import model.{AdjustableCoordinateModel, CoordinateFrameModel, FreeBodyDiagramMo
 import RampResources._
 import scalacommon.Predef._
 
-class FBDDialog(frame: JFrame, freeBodyDiagramModel: FreeBodyDiagramModel, fbdWidth: Double, coordinateFrameModel: CoordinateFrameModel, adjustable: Boolean, coordinateSystemModel: AdjustableCoordinateModel, fbdListener: Point2D => Unit) {
+class FBDDialog(frame: JFrame, freeBodyDiagramModel: FreeBodyDiagramModel, fbdWidth: Double, coordinateFrameModel: CoordinateFrameModel, adjustable: Boolean, adjustableCoordinateModel: AdjustableCoordinateModel, fbdListener: Point2D => Unit) {
   val dialog = new JDialog(frame, "display.free-body-diagram".translate, false)
   dialog.setSize(600, 600)
 
-  val fbdNode = new FreeBodyDiagramNode(freeBodyDiagramModel, 600, 600, fbdWidth, fbdWidth, coordinateFrameModel, coordinateSystemModel.adjustable, PhetCommonResources.getImage("buttons/minimizeButton.png".literal))
+  val fbdNode = new FreeBodyDiagramNode(freeBodyDiagramModel, 600, 600, fbdWidth, fbdWidth, coordinateFrameModel, adjustableCoordinateModel, PhetCommonResources.getImage("buttons/minimizeButton.png".literal))
   fbdNode.addListener(fbdListener)
   val canvas = new PhetPCanvas
   canvas.addComponentListener(new ComponentAdapter {

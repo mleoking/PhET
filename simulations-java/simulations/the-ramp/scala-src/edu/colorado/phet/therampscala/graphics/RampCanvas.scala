@@ -16,7 +16,7 @@ import java.lang.Math._
 import RampResources._
 
 abstract class AbstractRampCanvas(model: RampModel,
-                                  coordinateSystemModel: AdjustableCoordinateModel,
+                                  adjustableCoordinateModel: AdjustableCoordinateModel,
                                   freeBodyDiagramModel: FreeBodyDiagramModel,
                                   vectorViewModel: VectorViewModel,
                                   frame: JFrame,
@@ -56,7 +56,7 @@ abstract class AbstractRampCanvas(model: RampModel,
   val pusherNode = new PusherNode(transform, model.bead, model.manBead)
   addNode(pusherNode)
 
-  addNode(new CoordinateFrameNode(model, coordinateSystemModel, transform))
+  addNode(new CoordinateFrameNode(model, adjustableCoordinateModel, transform))
 
   private def compositeListener(listener: () => Unit) = {
     model.rampSegments(0).addListener(listener)
@@ -67,7 +67,7 @@ abstract class AbstractRampCanvas(model: RampModel,
   addNode(tickMarkSet)
 
   val fbdWidth = RampDefaults.freeBodyDiagramWidth
-  val fbdNode = new FreeBodyDiagramNode(freeBodyDiagramModel, 200, 200, fbdWidth, fbdWidth, model.coordinateFrameModel, coordinateSystemModel.adjustable, PhetCommonResources.getImage("buttons/maximizeButton.png".literal))
+  val fbdNode = new FreeBodyDiagramNode(freeBodyDiagramModel, 200, 200, fbdWidth, fbdWidth, model.coordinateFrameModel, adjustableCoordinateModel, PhetCommonResources.getImage("buttons/maximizeButton.png".literal))
 
   def updateFBDLocation() = {
     fbdNode.setOffset(10, 10)
@@ -88,7 +88,7 @@ abstract class AbstractRampCanvas(model: RampModel,
     fbdNode.setVisible(freeBodyDiagramModel.visible && !freeBodyDiagramModel.windowed)
   }
 
-  val windowFBDNode = new FBDDialog(frame, freeBodyDiagramModel, fbdWidth, model.coordinateFrameModel, coordinateSystemModel.adjustable, coordinateSystemModel, fbdListener)
+  val windowFBDNode = new FBDDialog(frame, freeBodyDiagramModel, fbdWidth, model.coordinateFrameModel, adjustableCoordinateModel.adjustable, adjustableCoordinateModel, fbdListener)
 
   class VectorSetNode(transform: ModelViewTransform2D, bead: Bead) extends PNode {
     def addVector(a: Vector, offset: VectorValue) = {
