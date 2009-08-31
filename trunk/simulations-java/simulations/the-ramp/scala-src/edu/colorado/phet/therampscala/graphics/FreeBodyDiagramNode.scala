@@ -11,7 +11,7 @@ import java.awt._
 import java.awt.geom.{Point2D, Rectangle2D}
 import javax.swing.JFrame
 import layout.SwingLayoutNode
-import model.{FreeBodyDiagramModel, CoordinateFrameModel}
+import model.{AdjustableCoordinateModel, FreeBodyDiagramModel, CoordinateFrameModel}
 import scalacommon.math.Vector2D
 import scalacommon.util.Observable
 import scalacommon.view.ToggleListener
@@ -101,7 +101,7 @@ class AxisModel(private var _angle: Double, val length: Double, tail: Boolean) e
   def startPoint_=(newPt: Vector2D) = {}
 }
 
-class AxisNodeWithModel(transform: ModelViewTransform2D, label: String, val axisModel: AxisModel, isInteractive: => Boolean, minAngle: Double, maxAngle: Double)
+class AxisNodeWithModel(transform: ModelViewTransform2D, label: String, val axisModel: AxisModel, adjustableCoordinateModel: AdjustableCoordinateModel, minAngle: Double, maxAngle: Double)
         extends AxisNode(transform,
           transform.modelToViewDouble(axisModel.startPoint).x, transform.modelToViewDouble(axisModel.startPoint).y,
           transform.modelToViewDouble(axisModel.getEndPoint).x, transform.modelToViewDouble(axisModel.getEndPoint).y, label) {
@@ -109,17 +109,21 @@ class AxisNodeWithModel(transform: ModelViewTransform2D, label: String, val axis
     setTipAndTailLocations(transform.modelToViewDouble(axisModel.getEndPoint), transform.modelToViewDouble(axisModel.startPoint))
     updateTextNodeLocation()
   }
-  hitNode.addInputEventListener(new ToggleListener(new CursorHandler, ()=>isInteractive))
-  hitNode.addInputEventListener(new ToggleListener(new RotationHandler(transform, hitNode, axisModel, minAngle, maxAngle), ()=>isInteractive))
+  defineInvokeAndPass(adjustableCoordinateModel.addListenerByName){
+    setPickable(adjustableCoordinateModel.adjustable)
+    setChildrenPickable(adjustableCoordinateModel.adjustable)
+  }
+  hitNode.addInputEventListener(new ToggleListener(new CursorHandler, ()=>adjustableCoordinateModel.adjustable))
+  hitNode.addInputEventListener(new ToggleListener(new RotationHandler(transform, hitNode, axisModel, minAngle, maxAngle), ()=>adjustableCoordinateModel.adjustable))
   hitNode.addInputEventListener(new ToggleListener(new PBasicInputEventHandler {
     override def mouseReleased(event: PInputEvent) = axisModel.dropped()
-  }, ()=>isInteractive))
+  }, ()=>adjustableCoordinateModel.adjustable))
 }
 
 class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel,
                           private var _width: Double, private var _height: Double, 
                           val modelWidth: Double, val modelHeight: Double,
-                          coordinateFrameModel: CoordinateFrameModel, isInteractive: => Boolean,
+                          coordinateFrameModel: CoordinateFrameModel, adjustableCoordinateModel:AdjustableCoordinateModel,
                           toggleWindowedButton: Image, vectors: Vector*) extends PNode {
   val transform = new ModelViewTransform2D(new Rectangle2D.Double(-modelWidth / 2, -modelHeight / 2, modelWidth, modelHeight),
     new Rectangle2D.Double(0, 0, _width, _height), true)
@@ -179,8 +183,8 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel,
 
   val xAxisModel = new SynchronizedAxisModel(0, modelWidth / 2 * 0.9, true, coordinateFrameModel)
   val yAxisModel = new SynchronizedAxisModel(PI / 2, modelWidth / 2 * 0.9, true, coordinateFrameModel)
-  addChild(new AxisNodeWithModel(transform, "coordinates.x".translate, xAxisModel, isInteractive, 0, PI / 2))
-  addChild(new AxisNodeWithModel(transform, "coordinates.y".translate, yAxisModel, isInteractive, PI / 2, PI))
+  addChild(new AxisNodeWithModel(transform, "coordinates.x".translate, xAxisModel, adjustableCoordinateModel, 0, PI / 2))
+  addChild(new AxisNodeWithModel(transform, "coordinates.y".translate, yAxisModel, adjustableCoordinateModel, PI / 2, PI))
   for (vector <- vectors) addVector(vector, RampDefaults.FBD_LABEL_MAX_OFFSET)
 
   updateSize()
@@ -321,7 +325,7 @@ object TestFBD extends Application {
   val frame = new JFrame
   val canvas = new PhetPCanvas
   val vector = new Vector(Color.blue, "Test Vector".literal, "Fv".literal, () => new Vector2D(5, 5), (a, b) => b)
-  canvas.addScreenChild(new FreeBodyDiagramNode(new FreeBodyDiagramModel, 200, 200, 20, 20, new CoordinateFrameModel(Nil), true,
+  canvas.addScreenChild(new FreeBodyDiagramNode(new FreeBodyDiagramModel, 200, 200, 20, 20, new CoordinateFrameModel(Nil), new AdjustableCoordinateModel,
     PhetCommonResources.getImage("buttons/maximizeButton.png".literal), vector))
   frame.setContentPane(canvas)
   frame.setSize(800, 600)
