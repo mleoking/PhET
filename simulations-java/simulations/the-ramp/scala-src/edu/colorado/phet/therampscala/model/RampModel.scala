@@ -180,7 +180,8 @@ case class RecordedState(rampState: RampState,
                          walls: Boolean,
                          motionStrategyMemento: MotionStrategyMemento)
 
-class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngle: Double) extends RecordModel[RecordedState] with ObjectModel {
+class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngle: Double)
+        extends RecordModel[RecordedState] with ObjectModel {
   private var _walls = true
   private var _frictionless = RampDefaults.FRICTIONLESS_DEFAULT
   private var _selectedObject = RampDefaults.objects(0)
@@ -208,17 +209,20 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngl
   val manBead = createBead(defaultManPosition, 1)
 
   val wallRange = () => {
+    val onGround = rampSegments(1).angle == 0
     if (walls)
       new Range(leftWall.maxX, rightWall.minX)
     else
-      new Range(-10000, RampDefaults.MAX_X)
+      new Range(-10000, if (onGround) 10000 else RampDefaults.MAX_X)
   }
   val surfaceFrictionStrategy = new SurfaceFrictionStrategy() {
     //todo: allow different values for different segments
     def getTotalFriction(objectFriction: Double) = new LinearFunction(0, 1, objectFriction, objectFriction * 0.75).evaluate(rampSegments(0).wetness)
   }
-  val bead = new Bead(new BeadState(defaultBeadPosition, 0, _selectedObject.mass, _selectedObject.staticFriction, _selectedObject.kineticFriction, 0.0, 0.0),
-    _selectedObject.height, _selectedObject.width, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction, surfaceFrictionStrategy, walls, wallRange)
+  val bead = new Bead(new BeadState(defaultBeadPosition, 0,
+    _selectedObject.mass, _selectedObject.staticFriction, _selectedObject.kineticFriction, 0.0, 0.0),
+    _selectedObject.height, _selectedObject.width, positionMapper,
+    rampSegmentAccessor, rampChangeAdapter, surfaceFriction, surfaceFrictionStrategy, walls, wallRange)
   updateDueToObjectChange()
 
   val raindrops = new ArrayBuffer[Raindrop]
@@ -352,13 +356,18 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngl
 
   def walls = _walls
 
+  //duplicates some work with wallrange
   def walls_=(b: Boolean) = {
     _walls = b
 
     if (_walls) {
       rampSegments(0).startPoint = new Vector2D(-rampLength, 0)
+      rampSegments(1).endPoint = new Vector2D( rampSegments(1).angle) * rampLength
     } else {
-      rampSegments(0).startPoint = new Vector2D(-10000, 0)
+      val openBoundaryLength = 10000
+      rampSegments(0).startPoint = new Vector2D(-openBoundaryLength, 0)
+      val length = if (rampSegments(1).angle == 0) openBoundaryLength else rampLength
+      rampSegments(1).endPoint = new Vector2D( rampSegments(1).angle) * length
     }
 
     notifyListeners()
