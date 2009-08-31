@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.neuron.model;
 
+import java.util.ArrayList;
+
 
 /**
  * This class represents the main class for modeling the axon.  It acts as the
@@ -18,13 +20,22 @@ public class AxonModel {
     
     private final NeuronClock clock;
     private AxonMembrane axonMembrane = new AxonMembrane();
+    private ArrayList<Atom> ions = new ArrayList<Atom>();
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
     public AxonModel( NeuronClock clock ) {
-        this.clock = clock;   
+        this.clock = clock;
+        
+        // TODO: Temp for testing ions.
+        Atom atom = new PotassiumIon();
+        atom.setPosition(20, 20);
+        ions.add(atom);
+        atom = new SodiumIon();
+        atom.setPosition(-20, -20);
+        ions.add(atom);
     }
     
     //----------------------------------------------------------------------------
@@ -35,8 +46,8 @@ public class AxonModel {
         return clock;
     }    
     
-    public Atom getParticle(){
-    	return null;
+    public ArrayList<Atom> getAtoms(){
+    	return ions;
     }
     
     public AxonMembrane getAxonMembrane(){
