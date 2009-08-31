@@ -180,11 +180,13 @@ class Bead(private var _state: BeadState,
 
   def staticFriction_=(value: Double) = {
     state = state.setStaticFriction(value)
+    frictionForceVector.notifyListeners()
     notifyListeners()
   }
 
   def kineticFriction_=(value: Double) = {
     state = state.setKineticFriction(value)
+    frictionForceVector.notifyListeners()
     notifyListeners()
   }
 
