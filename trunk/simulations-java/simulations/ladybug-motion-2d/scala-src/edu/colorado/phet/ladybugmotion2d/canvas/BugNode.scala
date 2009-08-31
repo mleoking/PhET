@@ -11,7 +11,6 @@ import umd.cs.piccolo.nodes.PImage
 import _root_.edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils
 import _root_.edu.colorado.phet.common.phetcommon.view.graphics.transforms.TransformListener
 import _root_.edu.colorado.phet.common.piccolophet.event.CursorHandler
-import util.ToggleListener
 import java.awt.geom.AffineTransform
 import umd.cs.piccolo.event.PInputEvent
 import umd.cs.piccolo.PNode
