@@ -7,6 +7,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.neuron.NeuronStrings;
 
 /**
  * Abstract base class for an atom.  It is intended that this be subclassed
@@ -79,6 +80,13 @@ public abstract class Atom {
         }        
     }
     
+    /**
+     * Get the diameter of this atom in nano meters.
+     */
+    public double getDiameter(){
+    	return 5;  // Default value, override if needed to support other atoms.
+    }
+    
     public Vector2D getVelocity() {
 		return velocity;
 	}
@@ -116,6 +124,32 @@ public abstract class Atom {
     public int getCharge(){
     	// Assume uncharged unless overridden.
     	return 0;
+    }
+    
+    /**
+     * Get the string representation for this atom's charge.
+     */
+    public String getChargeString(){
+    	
+    	String retVal = null;
+    	
+    	if (getCharge() == 0){
+    		retVal = "";
+    	}
+    	else if (getCharge() > 0){
+    		retVal = NeuronStrings.POSITIVE_ION_SYMBOL;
+    		if (getCharge() > 1){
+    			retVal += Integer.toString(getCharge());
+    		}
+    	}
+    	else if (getCharge() < 0){
+    		retVal = NeuronStrings.NEGATIVE_ION_SYMBOL;
+			if (getCharge() < -1){
+				retVal += Integer.toString(Math.abs(getCharge()));
+			}
+    	}
+    	
+    	return retVal;
     }
     
     //------------------------------------------------------------------------
