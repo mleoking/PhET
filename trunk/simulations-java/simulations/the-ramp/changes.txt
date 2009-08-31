@@ -1,3 +1,4 @@
+Renamed control panel subpanel titles to make more sense
 forces-and-motion: Removed Ramp Angle control from control panel
 forces-and-motion: Extended floor segment in both directions when walls are removed
 forces-and-motion: Removed angle indicator
