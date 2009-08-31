@@ -2,19 +2,16 @@
 
 package edu.colorado.phet.neuron.view;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
 import edu.colorado.phet.neuron.NeuronConstants;
+import edu.colorado.phet.neuron.model.Atom;
 import edu.colorado.phet.neuron.model.AxonModel;
-import edu.colorado.phet.neuron.module.NeuronDefaults;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -44,7 +41,11 @@ public class NeuronCanvas extends PhetPCanvas {
     private AxonModel model;
     
     // Model to view transform.
-    ModelViewTransform2D mvt;
+    private ModelViewTransform2D mvt;
+    
+    // Layers for the canvas.
+    private PNode atomLayer;
+    private PNode axonCrossSectionLayer;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -52,21 +53,35 @@ public class NeuronCanvas extends PhetPCanvas {
     
     public NeuronCanvas( AxonModel model ) {
 
+    	this.model = model;
+
+    	// Set up the canvas-screen transform.
     	setWorldTransformStrategy(new PhetPCanvas.CenterWidthScaleHeight(this, INITIAL_INTERMEDIATE_DIMENSION));
+    	
+    	// Set up the model-canvas transform.
         mvt = new ModelViewTransform2D(
         		new Point2D.Double(0, 0), 
         		new Point(INITIAL_INTERMEDIATE_COORD_WIDTH / 2, 
         				(int)Math.round(INITIAL_INTERMEDIATE_COORD_HEIGHT /2 )),
         		9,
         		true);
-        
-        
-        this.model = model;
 
         setBackground( NeuronConstants.CANVAS_BACKGROUND );
+
+        // Create the layers in the desired order.
+        axonCrossSectionLayer = new PNode();
+        addWorldChild(axonCrossSectionLayer);
+        atomLayer = new PNode();
+        addWorldChild(atomLayer);
         
+        // Add the axon cross section.
         AxonMembraneNode axonMembraneNode = new AxonMembraneNode(model.getAxonMembrane(), mvt);
-        addWorldChild(axonMembraneNode);
+        axonCrossSectionLayer.addChild(axonMembraneNode);
+        
+        // Add the atoms.
+        for (Atom atom : model.getAtoms()){
+        	addAtom(atom);
+        }
     }
     
     //----------------------------------------------------------------------------
@@ -93,5 +108,9 @@ public class NeuronCanvas extends PhetPCanvas {
         }
         
         //XXX lay out nodes
+    }
+    
+    private void addAtom(Atom atomToBeAdded){
+    	atomLayer.addChild(new AtomNode(atomToBeAdded, atomLayer, mvt));
     }
 }
