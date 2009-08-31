@@ -49,7 +49,7 @@ class FrictionModule(frame: JFrame, clock: ScalaClock) extends BasicForcesAndMot
   canvas.addScreenChild(frictionPlayAreaControlPanel)
   def updateFrictionControl() = {
     val s = canvas.getScale * 1.5
-    //todo: I'm unsure of the best layout strategy to use in each situation
+    //todo: not sure if this is the best layout strategy here
     frictionPlayAreaControlPanel.setScale(if (s > 0) s else 1.0)
     frictionPlayAreaControlPanel.setOffset(canvas.getWidth / 2 - frictionPlayAreaControlPanel.getFullBounds.getWidth / 2,
       canvas.getHeight - frictionPlayAreaControlPanel.getFullBounds.getHeight)
@@ -62,7 +62,7 @@ class FrictionModule(frame: JFrame, clock: ScalaClock) extends BasicForcesAndMot
   updateFrictionControl()
   rampModel.frictionless = false
 }
-class GraphingModule(frame: JFrame, clock: ScalaClock) extends BasicForcesAndMotionModule(frame, clock, "forces-and-friction.module.graphing.title".translate, false, true, false, false, -6, false, 0.0, 0.0,true)
+class GraphingModule(frame: JFrame, clock: ScalaClock) extends BasicForcesAndMotionModule(frame, clock, "forces-and-friction.module.graphing.title".translate, false, false, true, false, -6, false, 0.0, 0.0,true)
 class RobotMovingCompany1DModule(frame: JFrame, clock: ScalaClock) extends BasicForcesAndMotionModule(frame, clock, "forces-and-friction.module.robot-moving-company.title".translate, false, false, false, false, -6, false, 0.0, 0.0,true)
 
 class ForcesAndMotionApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
