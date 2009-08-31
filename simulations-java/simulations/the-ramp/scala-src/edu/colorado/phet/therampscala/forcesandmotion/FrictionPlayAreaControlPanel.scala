@@ -1,42 +1,45 @@
 package edu.colorado.phet.therampscala.forcesandmotion
 
-import common.phetcommon.view.controls.valuecontrol.{AbstractValueControl, AlignedSliderSetLayoutStrategy, HorizontalLayoutStrategy, LinearValueControl}
+import common.phetcommon.view.controls.valuecontrol.{AbstractValueControl, HorizontalLayoutStrategy, LinearValueControl}
 import common.phetcommon.view.VerticalLayoutPanel
+import java.awt.Dimension
+import java.awt.image.BufferedImage
+import java.util.Hashtable
 import javax.swing._
 import RampResources._
+import RampDefaults._
 
 class MyValueControl(min: Double, max: Double, value: Double, title: String, numberFormat: String, units: String)
         extends LinearValueControl(min, max, value, title, numberFormat, units, new HorizontalLayoutStrategy) {
-  setMinorTicksVisible(false)
-  setMajorTicksVisible(false)
+  getSlider.setPaintTicks(false)
+  getSlider.setPaintLabels(false)
 }
 
 class FrictionPlayAreaControlPanel extends VerticalLayoutPanel {
-  //  setFillHorizontal()
   setFillHorizontal()
-  //  add(new JLabel("controls.no-friction".translate))
   val staticFriction = new MyValueControl(0.0, 5.0, 0.2, "Coefficient of static friction", "0.0".literal, "".literal)
   val kineticFriction = new MyValueControl(0.0, 5.0, 0.2, "Coefficient of kinetic friction", "0.0".literal, "".literal)
   val objectMass = new MyValueControl(0.0, 5.0, 0.2, "Object Mass", "0.0".literal, "kg")
-  val gravity = new MyValueControl(0.0, 5.0, 0.2, "Gravity", "0.0".literal, "N/kg")
+  val gravity = new MyValueControl(0.1, sliderMaxGravity, 0.2, "Gravity", "0.0".literal, "N/kg")
   val sliderArray = Array[AbstractValueControl](staticFriction, kineticFriction, objectMass, gravity)
-  for (s <- sliderArray) add(s)
-//  new AlignedSliderSetLayoutStrategy(sliderArray).doLayout()//fails horribly
+  //  new AlignedSliderSetLayoutStrategy(sliderArray).doLayout()//fails horribly
 
-  //  val table = new Hashtable[Double, JComponent]
-  //  class MyLabel(name: String, imageName: String) extends JLabel(name, SwingConstants.CENTER) {
-  //    setIcon(new ImageIcon(RampResources.getImage(imageName)))
-  //    setVerticalTextPosition(SwingConstants.BOTTOM)
-  //    setHorizontalTextPosition(SwingConstants.CENTER)
-  //  }
-  //  val surfaceModel = new SurfaceModel
-  //  table.put(0.0, new MyLabel("surface.ice".translate, "robotmovingcompany/ice.gif".literal))
-  //  table.put(2.5, new MyLabel("surface.concrete".translate, "robotmovingcompany/concrete.gif".literal))
-  //  table.put(5.0, new MyLabel("surface.carpet".translate, "robotmovingcompany/carpet.gif".literal))
-  //  //  slider.setTickLabels(table)
-  //  //  slider.getSlider.setPreferredSize(new Dimension(400, slider.getPreferredSize.height))
-  //  //  add(slider)
-  //  add(new JLabel("controls.lots-of-friction".translate))
+  val table = new Hashtable[Double, JComponent]
+  class MyLabel(name: String, imageName: String) extends JLabel(name, SwingConstants.CENTER) {
+    if (imageName != null)
+      setIcon(new ImageIcon(RampResources.getImage(imageName)))
+    else
+      setIcon(new ImageIcon(new BufferedImage(2, 10, BufferedImage.TYPE_INT_RGB)))
+    setVerticalTextPosition(SwingConstants.BOTTOM)
+    setHorizontalTextPosition(SwingConstants.CENTER)
+  }
+  table.put(moonGravity, new MyLabel("moon", null))
+  table.put(earthGravity, new MyLabel("earth", null))
+  table.put(jupiterGravity, new MyLabel("jupiter", null))
+  gravity.getSlider.setPaintLabels(true)
+  gravity.setTickLabels(table)
+
+  for (s <- sliderArray) add(s)
 }
 
 object TestSurfaceControlPanel {
