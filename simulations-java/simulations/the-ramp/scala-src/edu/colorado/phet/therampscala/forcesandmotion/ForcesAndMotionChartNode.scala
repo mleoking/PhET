@@ -76,9 +76,9 @@ class ForcesAndMotionChartNode(transform: ModelViewTransform2D, canvas: PhetPCan
   val parallelForcesString = "forces.parallel-title".translate
   val graphs = Array(new MinimizableControlGraph(parallelForcesString, parallelForceControlGraph)
 //    ,new MinimizableControlGraph("forces.work-energy-title".translate, workEnergyGraph))
-  , new MinimizableControlGraph("acceleration",accelerationGraph)
-  , new MinimizableControlGraph("velocity",velocityGraph)
-  , new MinimizableControlGraph("position",positionGraph)
+  , new MinimizableControlGraph("acceleration",accelerationGraph,true)
+  , new MinimizableControlGraph("velocity",velocityGraph,true)
+  , new MinimizableControlGraph("position",positionGraph,true)
     )
 
   val graphSetNode = new GraphSetNode(new GraphSetModel(new GraphSuite(graphs))) {
