@@ -26,7 +26,7 @@ class SeriesSelectionControl(title: String, numRows: Int) extends VerticalLayout
 
   def addToGrid(series: ControlGraphSeries, labelMaker: ControlGraphSeries => JComponent): Unit = {
     grid.add(new SeriesControlSelectorBox(series))
-    grid.add(createLabel(series))
+    grid.add(labelMaker(series))
   }
 
   def createLabel(series: ControlGraphSeries) = {
