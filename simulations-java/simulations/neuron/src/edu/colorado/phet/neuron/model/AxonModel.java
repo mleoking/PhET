@@ -17,7 +17,6 @@ public class AxonModel {
     //----------------------------------------------------------------------------
     
     private final NeuronClock clock;
-    private Particle particle = new Particle();
     private AxonMembrane axonMembrane = new AxonMembrane();
 
     //----------------------------------------------------------------------------
@@ -36,8 +35,8 @@ public class AxonModel {
         return clock;
     }    
     
-    public Particle getParticle(){
-    	return particle;
+    public Atom getParticle(){
+    	return null;
     }
     
     public AxonMembrane getAxonMembrane(){
