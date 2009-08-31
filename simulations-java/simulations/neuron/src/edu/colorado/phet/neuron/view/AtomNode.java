@@ -41,8 +41,8 @@ public class AtomNode extends PNode {
         // Create the label.
         String labelText = MessageFormat.format("{0}{1}", atom.getChemicalSymbol(), atom.getChargeString());
         label = new PText(labelText);
-        label.setFont(new PhetFont());
-        sphere.addChild(label);
+        label.setFont(new PhetFont(12));
+        addChild(label);
         
         // Scale the label to fit within the sphere.
         double maxDimension = Math.max(label.getFullBoundsReference().width, label.getFullBoundsReference().height);
@@ -55,6 +55,6 @@ public class AtomNode extends PNode {
 	}
 
     private void updateOffset() {
-        sphere.setOffset( modelViewTransform.modelToView( atom.getPosition() ));
+        setOffset( modelViewTransform.modelToView( atom.getPosition() ));
     }
 }
