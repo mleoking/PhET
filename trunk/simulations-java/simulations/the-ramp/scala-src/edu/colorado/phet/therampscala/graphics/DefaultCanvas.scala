@@ -22,6 +22,8 @@ class DefaultCanvas(modelWidth: Double, modelHeight: Double, canvasWidth: Int, c
   val worldNode = new PNode
   addWorldChild(worldNode)
 
+  def getScale = centeredBoxStrategy.getScale
+
   def addNode(node: PNode) = worldNode.addChild(node)
 
   def addNode(index: Int, node: PNode) = worldNode.addChild(index, node)

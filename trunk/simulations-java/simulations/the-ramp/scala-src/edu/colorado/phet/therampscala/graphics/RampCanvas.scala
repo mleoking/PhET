@@ -217,11 +217,13 @@ class ClearHeatButton(model: RampModel) extends GradientButtonNode("controls.cle
 }
 
 class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, freeBodyDiagramModel: FreeBodyDiagramModel,
-                 vectorViewModel: VectorViewModel, frame: JFrame, showObjectSelectionNode: Boolean,
+                 vectorViewModel: VectorViewModel, frame: JFrame, showObjectSelectionNode: Boolean, showAppliedForceSlider:Boolean,
                  rampAngleDraggable: Boolean, modelOffsetY: Double)
         extends AbstractRampCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame, modelOffsetY) {
   if (showObjectSelectionNode) {
     addNode(new ObjectSelectionNode(transform, model))
+  }
+  if (showAppliedForceSlider){
     addNode(indexOfChild(earthNode) + 1, new AppliedForceSliderNode(model.bead, transform, () => model.setPaused(false)))
   }
 

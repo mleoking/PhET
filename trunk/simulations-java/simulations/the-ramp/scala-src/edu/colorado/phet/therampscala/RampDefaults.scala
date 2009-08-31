@@ -33,6 +33,11 @@ object RampDefaults {
   val SKY_GRADIENT_BOTTOM = new Color(250, 250, 255)
   val EARTH_COLOR = new Color(200, 240, 200)
 
+  val earthGravity = 9.8
+  val moonGravity = 1.0/6.0 * earthGravity
+  val jupiterGravity = earthGravity * 2.5
+  val sliderMaxGravity = 30.0
+
   //ScalaRampObject(name,mass,kineticFriction,staticFriction,image)
   import RampResources._
   val objects = new ScalaRampObject("object.file-cabinet".translate, 50, 0.2, 0.5, 2.25, "cabinet.gif".literal, 100) ::
