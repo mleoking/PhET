@@ -2,15 +2,19 @@
 
 package edu.colorado.phet.neuron.model;
 
+import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+
 /**
- * Abstract base class for a particle.
+ * Abstract base class for an atom.  It is intended that this be subclassed
+ * for each specific atom type used in the simulation.
  *
  * @author John Blanco
  */
-public class Particle {
+public abstract class Atom {
     
     //------------------------------------------------------------------------
     // Class data
@@ -22,8 +26,11 @@ public class Particle {
 	
     protected ArrayList<Listener> _listeners = new ArrayList<Listener>();
     
-    // Location in space of this particle.
+    // Location in space of this particle, units are nano-meters.
     private Point2D.Double position;
+    
+    // Velocity of this particle in nm/sec.
+    private Vector2D velocity = new Vector2D.Double(0, 0);
     
     //------------------------------------------------------------------------
     // Constructors
@@ -35,11 +42,11 @@ public class Particle {
      * @param xPos - Initial X position of this particle.
      * @param yPos - Initial Y position of this particle.
      */
-    public Particle(double xPos, double yPos) {
+    public Atom(double xPos, double yPos) {
     	position = new Point2D.Double(xPos, yPos);
     }
     
-    public Particle(){
+    public Atom(){
     	this(0,0);
     }
     
@@ -72,15 +79,59 @@ public class Particle {
         }        
     }
     
+    public Vector2D getVelocity() {
+		return velocity;
+	}
+
+	public void setVelocity(Vector2D velocity) {
+		setVelocity(velocity.getX(), velocity.getY());
+	}
+	
+	public void setVelocity(double xVel, double yVel) {
+		velocity.setComponents(xVel, yVel);
+	}
+
+	/**
+     * Chemical symbol for this atom, e.g. Pb or K.
+     */
+    abstract public String getChemicalSymbol();
+    
+    /**
+     * Get the base color to be used when representing this atom.
+     */
+    abstract public Color getRepresentationColor();
+
+    /**
+     * Ionic charge for this atom, in terms of electrons.
+     * 
+     * @return 0 for neutral atom, 1 for a 1-electron deficit, -1 for a one-
+     * electron surplus, etc.
+     * 
+     * Note: At the time of this writing, there is no requirement for an atom
+     * to ever change its charge within the sim, so it is assumed that for our
+     * purposes, this is essentially a permanent characteristic.  This is
+     * obviously not true in nature, and will need to change if the
+     * requirements of the simulation change.  
+     */
+    public int getCharge(){
+    	// Assume uncharged unless overridden.
+    	return 0;
+    }
+    
     //------------------------------------------------------------------------
     // Behavior methods
     //------------------------------------------------------------------------
     
     /**
      * Execute any time-based behavior.
+     * 
+     * @param dt - delta time in milliseconds.
      */
     public void stepInTime(double dt){
-    	// TODO: Strategy pattern will be here.
+    	// Update position based on velocity.
+    	double newPosX = position.getX() + (velocity.getX() * dt / 1000);
+    	double newPosY = position.getY() + (velocity.getY() * dt / 1000);
+    	setPosition(newPosX, newPosY);
     }
     
     //------------------------------------------------------------------------
