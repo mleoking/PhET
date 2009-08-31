@@ -4,8 +4,8 @@ import java.awt.Color
 import model.{MutableRampObject, CustomTextRampObject, ScalaRampObject}
 
 object RampDefaults {
-  val MAX_RECORD_TIME = 40
   val MAX_CHART_DISPLAY_TIME = 20.0
+  val MAX_RECORD_TIME = 40 //extra in case there are any discontinuities near the max chart display time
   val defaultRampAngle = 30.0.toRadians
   //how far away the vector labels can be from the tip, in world coordinates
   val FBD_LABEL_MAX_OFFSET = 500
