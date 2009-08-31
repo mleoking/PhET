@@ -38,5 +38,5 @@ class RampComboBox(objectModel: ObjectModel) extends SubControlPanel("controls.c
       setForeground(if (isSelected) list.getSelectionForeground else list.getForeground)
       this
     }
-  });
+  })
 }

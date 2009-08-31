@@ -9,7 +9,7 @@ class MyCheckBox(text: String, setter: Boolean => Unit, getter: => Boolean, addL
   update()
   peer.addActionListener(new ActionListener() {
     def actionPerformed(ae: ActionEvent) = setter(peer.isSelected)
-  });
+  })
   def update() = peer.setSelected(getter)
 }
 
@@ -19,6 +19,6 @@ class MyJCheckBox(text: String, setter: Boolean => Unit, getter: => Boolean, add
   update()
   addActionListener(new ActionListener() {
     def actionPerformed(ae: ActionEvent) = setter(isSelected)
-  });
+  })
   def update() = setSelected(getter)
 }

@@ -14,7 +14,7 @@ import model.RampModel
 import RampResources._
 
 class WorkEnergyChartModel extends Observable {
-  private var defaultVisible = false;
+  private var defaultVisible = false
   private var _visible = defaultVisible
 
   def visible = _visible
