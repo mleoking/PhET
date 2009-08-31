@@ -61,7 +61,7 @@ class FreeBodyDiagramModel extends Observable {
   def windowed = _windowed
 
   def visible_=(value: Boolean) = {
-    _visible = value;
+    _visible = value
     notifyListeners()
   }
 
@@ -113,7 +113,7 @@ class VectorViewModel extends Observable {
   def centered = _centered
 
   def centered_=(__centered: Boolean) = {
-    _centered = __centered;
+    _centered = __centered
     notifyListeners()
   }
 
