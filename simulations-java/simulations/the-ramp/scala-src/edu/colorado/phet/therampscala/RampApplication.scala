@@ -20,7 +20,7 @@ class AbstractRampModule(frame: JFrame, clock: ScalaClock, name: String, default
   val rampModel = new RampModel(defaultBeadPosition, pausedOnReset, initialAngle)
   val wordModel = new WordModel
   val fbdModel = new FreeBodyDiagramModel
-  val coordinateSystemModel = new CoordinateSystemModel
+  val coordinateSystemModel = new AdjustableCoordinateModel
   val vectorViewModel = new VectorViewModel
   coordinateSystemModel.addListenerByName(if (coordinateSystemModel.fixed) rampModel.coordinateFrameModel.angle = 0)
   private var lastTickTime = System.currentTimeMillis

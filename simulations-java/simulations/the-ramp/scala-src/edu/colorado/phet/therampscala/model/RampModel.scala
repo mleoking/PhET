@@ -71,7 +71,7 @@ class FreeBodyDiagramModel extends Observable {
   }
 
 }
-class CoordinateSystemModel extends Observable {
+class AdjustableCoordinateModel extends Observable {
   private var _fixed = true
 
   resetAll()

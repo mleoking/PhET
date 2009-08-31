@@ -16,7 +16,7 @@ import java.lang.Math._
 import RampResources._
 
 abstract class AbstractRampCanvas(model: RampModel,
-                                  coordinateSystemModel: CoordinateSystemModel,
+                                  coordinateSystemModel: AdjustableCoordinateModel,
                                   freeBodyDiagramModel: FreeBodyDiagramModel,
                                   vectorViewModel: VectorViewModel,
                                   frame: JFrame,
@@ -216,7 +216,7 @@ class ClearHeatButton(model: RampModel) extends GradientButtonNode("controls.cle
   })
 }
 
-class RampCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, freeBodyDiagramModel: FreeBodyDiagramModel,
+class RampCanvas(model: RampModel, coordinateSystemModel: AdjustableCoordinateModel, freeBodyDiagramModel: FreeBodyDiagramModel,
                  vectorViewModel: VectorViewModel, frame: JFrame, showObjectSelectionNode: Boolean, showAppliedForceSlider:Boolean,
                  rampAngleDraggable: Boolean, modelOffsetY: Double)
         extends AbstractRampCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame, modelOffsetY) {

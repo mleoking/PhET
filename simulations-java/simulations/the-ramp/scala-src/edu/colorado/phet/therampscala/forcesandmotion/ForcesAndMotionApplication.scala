@@ -5,7 +5,7 @@ import common.piccolophet.PiccoloPhetApplication
 import controls.RampControlPanel
 import java.awt.event.{ComponentEvent, ComponentAdapter}
 
-import model.{RampModel, CoordinateSystemModel, FreeBodyDiagramModel, VectorViewModel}
+import model.{RampModel, AdjustableCoordinateModel, FreeBodyDiagramModel, VectorViewModel}
 import graphics._
 import java.awt.Color
 import scalacommon.record.{RecordModelControlPanel, PlaybackSpeedSlider}
@@ -35,7 +35,7 @@ class BasicForcesAndMotionModule(frame: JFrame,
   setClockControlPanel(new RecordModelControlPanel(rampModel, canvas, () => new PlaybackSpeedSlider(rampModel), Color.blue, 20))
 }
 
-class BasicForcesAndMotionCanvas(model: RampModel, coordinateSystemModel: CoordinateSystemModel, freeBodyDiagramModel: FreeBodyDiagramModel,
+class BasicForcesAndMotionCanvas(model: RampModel, coordinateSystemModel: AdjustableCoordinateModel, freeBodyDiagramModel: FreeBodyDiagramModel,
                                  vectorViewModel: VectorViewModel, frame: JFrame, showObjectSelectionNode: Boolean, showAppliedForceSlider: Boolean,
                                  rampAngleDraggable: Boolean, modelOffsetY: Double)
         extends RampCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel,
