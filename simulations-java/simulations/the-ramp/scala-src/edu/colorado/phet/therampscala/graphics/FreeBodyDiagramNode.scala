@@ -116,8 +116,11 @@ class AxisNodeWithModel(transform: ModelViewTransform2D, label: String, val axis
   }, ()=>isInteractive))
 }
 
-class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel, private var _width: Double, private var _height: Double, val modelWidth: Double, val modelHeight: Double,
-                          coordinateFrameModel: CoordinateFrameModel, isInteractive: => Boolean, toggleWindowedButton: Image, vectors: Vector*) extends PNode {
+class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel,
+                          private var _width: Double, private var _height: Double, 
+                          val modelWidth: Double, val modelHeight: Double,
+                          coordinateFrameModel: CoordinateFrameModel, isInteractive: => Boolean,
+                          toggleWindowedButton: Image, vectors: Vector*) extends PNode {
   val transform = new ModelViewTransform2D(new Rectangle2D.Double(-modelWidth / 2, -modelHeight / 2, modelWidth, modelHeight),
     new Rectangle2D.Double(0, 0, _width, _height), true)
 
