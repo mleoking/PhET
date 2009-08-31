@@ -13,7 +13,7 @@ import java.awt.geom.Point2D.Double;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.neuron.model.AxonMembrane;
-import edu.colorado.phet.neuron.model.Particle;
+import edu.colorado.phet.neuron.model.Atom;
 import edu.colorado.phet.neuron.module.NeuronDefaults;
 import edu.umd.cs.piccolo.PNode;
 
