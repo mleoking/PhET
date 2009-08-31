@@ -62,7 +62,6 @@ object RampDefaults {
   val myGold = new Color(255, 235, 0)
   val myBrickRed = new Color(185, 80, 50)
   val myGreen = new Color(0.0f, 0.8f, 0.1f);
-  val myLightBlue = new Color(160, 220, 255);
   val myDrabYellow = new Color(190, 190, 0);
   val myOrange = new Color(236, 153, 55)
   val myLightBlue = new Color(50, 130, 215)
