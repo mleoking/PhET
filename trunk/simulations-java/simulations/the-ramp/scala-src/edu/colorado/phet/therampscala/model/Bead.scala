@@ -56,6 +56,8 @@ class Bead(private var _state: BeadState,
 
   def gravity_=(value: Double) = {
     _gravity = value
+    normalForceVector.notifyListeners()
+    gravityForceVector.notifyListeners()
     notifyListeners()
   }
 
@@ -197,6 +199,7 @@ class Bead(private var _state: BeadState,
   def mass_=(mass: Double) = {
     state = state.setMass(mass)
     gravityForceVector.notifyListeners()
+    normalForceVector.notifyListeners()
     notifyListeners()
   }
 
