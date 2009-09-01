@@ -148,8 +148,16 @@ public class AxonModel {
     	    	angle = theta + Math.PI;
     		}
     		else{
+    			// The following code creates a probabilistic bias that causes
+    			// the atom to tend to move toward the membrane.
+    			if (RAND.nextBoolean()){
+    				angle = theta;
+    				angle = Math.PI * RAND.nextDouble() - Math.PI / 2 + theta;
+    			}
+    			else{
+    				angle = Math.PI * 2 * RAND.nextDouble();
+    			}
     			velocity = MAX_ATOM_VELOCITY * RAND.nextDouble();
-    			angle = Math.PI * 2 * RAND.nextDouble();
     		}
     	}
     	else{
