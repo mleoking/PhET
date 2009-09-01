@@ -1,9 +1,11 @@
 package edu.colorado.phet.theramp.model
 
-import RampResources._
 import collection.mutable.ArrayBuffer
 import scalacommon.math.Vector2D
 import scalacommon.util.Observable
+import sims.theramp.RampDefaults
+import theramp.RampResources
+import theramp.Predef._
 
 /**Immutable memento for recording*/
 case class BeadState(position: Double, velocity: Double, mass: Double, staticFriction: Double, kineticFriction: Double, thermalEnergy: Double, crashEnergy: Double) {

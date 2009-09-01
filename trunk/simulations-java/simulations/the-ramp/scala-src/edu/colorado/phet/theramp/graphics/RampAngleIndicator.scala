@@ -2,6 +2,7 @@ package edu.colorado.phet.theramp.graphics
 
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import common.phetcommon.view.util.PhetFont
+import theramp.RampResources
 import umd.cs.piccolo.PNode
 import common.piccolophet.nodes.PhetPPath
 import java.awt.{BasicStroke, Color}

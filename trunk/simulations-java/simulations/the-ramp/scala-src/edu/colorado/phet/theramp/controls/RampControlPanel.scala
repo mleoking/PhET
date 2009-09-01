@@ -15,6 +15,9 @@ import javax.swing._
 import model._
 import scalacommon.math.Vector2D
 import scalacommon.swing.MyRadioButton
+import theramp.RampResources
+import sims.theramp.RampDefaults
+
 import swing.{MyCheckBox, ScalaValueControl}
 import edu.colorado.phet.scalacommon.Predef._
 import RampResources._

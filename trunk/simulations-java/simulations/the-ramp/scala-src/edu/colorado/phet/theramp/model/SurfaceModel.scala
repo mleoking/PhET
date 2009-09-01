@@ -3,6 +3,7 @@ package edu.colorado.phet.theramp.model
 import RampResources._
 import java.awt.Color
 import scalacommon.util.Observable
+import theramp.RampResources
 
 case class SurfaceType(name: String, imageFilename: String, strategy: Double => Double, color: Color) extends SurfaceFrictionStrategy {
   def getTotalFriction(objectFriction: Double) = strategy(objectFriction)

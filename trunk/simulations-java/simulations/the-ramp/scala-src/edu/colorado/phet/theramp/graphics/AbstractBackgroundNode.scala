@@ -5,6 +5,7 @@ import common.phetcommon.view.graphics.transforms.{TransformListener, ModelViewT
 import java.awt.geom.{Area, Rectangle2D}
 import java.awt.{Paint, Shape, GradientPaint, Color}
 
+import sims.theramp.RampDefaults
 import umd.cs.piccolo.PNode
 import common.piccolophet.nodes.PhetPPath
 

@@ -1,4 +1,4 @@
-package edu.colorado.phet.theramp.forcesandmotion
+package edu.colorado.phet.theramp.sims.forcesandmotion
 
 import charts.{SeriesControlTitleLabel, AbstractChartNode, SeriesSelectionControl, RampGraph}
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
@@ -6,8 +6,10 @@ import common.piccolophet.PhetPCanvas
 import model.RampModel
 import common.motion.model.DefaultTemporalVariable
 import common.motion.graphs._
-import RampDefaults._
+import phet.theramp.RampResources
 import RampResources._
+import theramp.RampDefaults
+import theramp.RampDefaults._
 
 class ForcesAndMotionChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model: RampModel)
         extends AbstractChartNode(transform, canvas, model) {

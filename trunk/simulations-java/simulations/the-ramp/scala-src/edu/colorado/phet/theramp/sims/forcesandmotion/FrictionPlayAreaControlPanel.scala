@@ -1,4 +1,4 @@
-package edu.colorado.phet.theramp.forcesandmotion
+package edu.colorado.phet.theramp.sims.forcesandmotion
 
 import common.phetcommon.view.controls.valuecontrol.{HorizontalLayoutStrategy, AbstractValueControl}
 import common.phetcommon.view.VerticalLayoutPanel
@@ -6,9 +6,10 @@ import java.awt.image.BufferedImage
 import java.util.Hashtable
 import javax.swing._
 import model.Bead
+import phet.theramp.RampResources
 import RampResources._
-import RampDefaults._
 import swing.ScalaValueControl
+import theramp.RampDefaults._
 
 class MyValueControl(min: Double, max: Double, getter: () => Double, setter: Double => Unit, title: String, numberFormat: String, units: String, bead: Bead)
         extends ScalaValueControl(min, max, title, numberFormat, units, getter, setter, bead.addListener, new HorizontalLayoutStrategy) {

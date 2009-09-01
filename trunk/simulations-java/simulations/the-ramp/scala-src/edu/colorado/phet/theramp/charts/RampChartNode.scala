@@ -6,7 +6,8 @@ import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import common.piccolophet.{PhetPCanvas}
 import model.{RampModel}
 import RampResources._
-import RampDefaults._
+import sims.theramp.RampDefaults._
+import theramp.RampResources
 
 class RampChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model: RampModel, showEnergyGraph: Boolean)
         extends AbstractChartNode(transform, canvas, model) {

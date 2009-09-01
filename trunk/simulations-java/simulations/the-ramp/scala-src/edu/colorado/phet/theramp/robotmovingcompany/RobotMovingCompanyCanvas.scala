@@ -11,6 +11,9 @@ import javax.swing.event.{ChangeEvent, ChangeListener}
 import javax.swing.{JButton, JOptionPane, JFrame}
 import scalacommon.ScalaClock
 import common.phetcommon.view.VerticalLayoutPanel
+import theramp.RampResources
+import sims.theramp.RampDefaults
+
 import umd.cs.piccolo.nodes.{PImage, PText}
 import umd.cs.piccolo.PNode
 import common.piccolophet.nodes.PhetPPath

@@ -4,6 +4,9 @@ package edu.colorado.phet.theramp.graphics
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import common.piccolophet.event.CursorHandler
 import model.{Bead}
+import theramp.RampResources
+import sims.theramp.RampDefaults
+
 import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
 import umd.cs.piccolo.PNode
 import java.awt.geom.AffineTransform

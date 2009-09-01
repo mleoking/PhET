@@ -3,6 +3,7 @@ package edu.colorado.phet.theramp.graphics
 import common.phetcommon.resources.PhetCommonResources
 import RampResources._
 import model.RampModel
+import theramp.RampResources
 import umd.cs.piccolo.nodes.PImage
 import common.piccolophet.event.CursorHandler
 import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}

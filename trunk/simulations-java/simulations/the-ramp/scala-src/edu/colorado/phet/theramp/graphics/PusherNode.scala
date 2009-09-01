@@ -6,6 +6,7 @@ import common.phetcommon.view.util.BufferedImageUtils
 import model.{Bead}
 import scalacommon.Predef._
 import java.lang.Math._
+import theramp.RampResources
 
 class PusherNode(transform: ModelViewTransform2D, targetBead: Bead, manBead: Bead)
         extends BeadNode(manBead, transform, "standing-man.png".literal) {

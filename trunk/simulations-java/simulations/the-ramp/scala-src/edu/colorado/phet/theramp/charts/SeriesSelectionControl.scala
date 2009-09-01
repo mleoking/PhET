@@ -8,7 +8,9 @@ import common.phetcommon.view.util.PhetFont
 import common.motion.model.ITemporalVariable
 import common.phetcommon.util.DefaultDecimalFormat
 import RampResources._
-import RampDefaults._
+import theramp.RampResources
+import sims.theramp.RampDefaults._
+
 import swing.{MyJCheckBox}
 
 class SeriesSelectionControl(title: String, numRows: Int) extends VerticalLayoutPanel {
