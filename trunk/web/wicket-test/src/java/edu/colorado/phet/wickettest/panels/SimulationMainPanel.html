@@ -19,6 +19,10 @@
 
 <wicket:panel>
     <div class="simulation-main-container" wicket:message="dir:language.dir">
+
+        <div wicket:id="sad-mac">
+        </div>
+
         <h1 wicket:id="simulation-main-title" class="simulation-main-title">
             Simulation Title
         </h1>
@@ -87,6 +91,35 @@
                     </li>
                 </ul>
             </wicket:enclosure>
+
+            <h2>
+                <wicket:message key="simulationMainPanel.softwareRequirements">Software Requirements</wicket:message>
+            </h2>
+
+            <table class="system-requirements-table">
+                <tr>
+                    <th>Windows</th>
+                    <th>Macintosh</th>
+                    <th>Linux</th>
+                </tr>
+                <tr>
+                    <td>
+                        Microsoft Windows
+                        <br/>
+                        98SE/2000/XP/Vista
+                        <br/>
+                        <span wicket:id="windows-req">Sun Java 1.5.0_15 or later</span>
+                    </td>
+                    <td>
+                        OS 10.4 or later
+                        <br/>
+                        <span wicket:id="mac-req">Apple Java 1.5.0_19 or later</span>
+                    </td>
+                    <td>
+                        <span wicket:id="linux-req">Sun Java 1.5.0_15 or later</span>
+                    </td>
+                </tr>
+            </table>
 
             <h2>
                 <wicket:message key="simulationMainPanel.translatedVersions">Translated versions</wicket:message>
