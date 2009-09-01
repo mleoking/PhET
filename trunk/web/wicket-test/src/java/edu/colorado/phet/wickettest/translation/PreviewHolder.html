@@ -15,12 +15,28 @@
                 padding-bottom: 10px;
             }
 
+            .preview-panel {
+                width: 765px;
+                padding-left: 5px;
+                padding-right: 5px;
+            }
+
             h3.preview-header {
             /*margin-bottom: 0;*/
             }
 
             .preview-top {
-                color: #990099;
+                background: black;
+                padding: 0.25em;
+            }
+
+            .preview-number {
+                color: white;
+            }
+
+            .preview-name {
+                color: white;
+                font-weight: bold;
             }
         </style>
     </wicket:head>
@@ -33,11 +49,12 @@
     <p wicket:id="previews-unavailable">Previews are unavailable for this section.</p>
 
     <div wicket:id="sub-panels" class="preview-sub-panel">
-        <span class="preview-top">Preview #<span wicket:id="preview-number">1</span>: </span><span
-            wicket:id="preview-name">About</span>
-        <br/><br/>
+        <div class="preview-top">
+            <span class="preview-number">Preview #<span wicket:id="preview-number">1</span>: </span><span
+            wicket:id="preview-name" class="preview-name">About</span></div>
+        <br/>
 
-        <div wicket:id="holder-sub-panel">
+        <div wicket:id="holder-sub-panel" class="preview-panel">
             Preview goes here
         </div>
     </div>
