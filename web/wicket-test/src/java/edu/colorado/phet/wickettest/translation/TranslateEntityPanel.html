@@ -12,21 +12,22 @@
         <style type="text/css">
 
             .translation-holder {
-                border: 2px solid gray;
+                border: 1px solid gray;
+                padding-left: 5px;
+                padding-right: 5px;
                 width: 765px;
                 float: right;
                 background-color: white;
             }
 
             .string-english {
-                background-color: #cccccc;
-                margin-right: 785px;
-                padding: 3px;
+                background-color: #cccccc; /*margin-right: 795px;*/
+                padding: 3px; /*min-width: 300px;*/
             }
 
             .string-value {
-                border: 1px solid blue;
-                margin-right: 785px;
+                border: 1px solid blue; /*margin-right: 795px;*/
+            /*min-width: 300px;*/
             }
 
             .string-value.not-translated {
@@ -39,7 +40,17 @@
 
             .string-notes {
                 font-size: 11px;
-                color: #727272;
+                color: #727272; /*margin-right: 795px;*/
+            /*min-width: 300px;*/
+            }
+
+            .strings {
+                margin-right: 795px;
+                min-width: 300px; /*float: left;*/
+            }
+
+            .string-bumper {
+                width: 300px;
             }
         </style>
     </wicket:head>
@@ -70,9 +81,11 @@
                     Panel to translate<br/>
                 </div>
             </div>
+            <div class="clear"/>
         </div>
 
         <div class="strings">
+            <div class="string-bumper"/>
             <div wicket:id="translation-string-list">
                 <span wicket:id="translation-string-key">language.dir</span>:
                 <div class="string-english">

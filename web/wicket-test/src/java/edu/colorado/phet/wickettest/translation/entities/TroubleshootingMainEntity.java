@@ -44,7 +44,7 @@ public class TroubleshootingMainEntity extends TranslationEntity {
             public PhetPanel getNewPanel( String id, PageContext context, PhetRequestCycle requestCycle ) {
                 return new TroubleshootingMainPanel( id, context );
             }
-        }, "default" );
+        }, "Troubleshooting (main)" );
     }
 
     public String getDisplayName() {

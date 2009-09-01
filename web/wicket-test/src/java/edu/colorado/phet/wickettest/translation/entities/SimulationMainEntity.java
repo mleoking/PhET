@@ -51,7 +51,7 @@ public class SimulationMainEntity extends TranslationEntity {
 
                 return new SimulationMainPanel( id, simulation, context );
             }
-        }, "default" );
+        }, "Main Simulation Page" );
     }
 
     public String getDisplayName() {

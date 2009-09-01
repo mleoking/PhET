@@ -26,7 +26,7 @@ public class IndexEntity extends TranslationEntity {
             public PhetPanel getNewPanel( String id, PageContext context, PhetRequestCycle requestCycle ) {
                 return new IndexPanel( id, context );
             }
-        }, "default" );
+        }, "Home Page" );
     }
 
     public String getDisplayName() {

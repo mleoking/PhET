@@ -13,7 +13,6 @@ import edu.colorado.phet.wickettest.data.Translation;
 import edu.colorado.phet.wickettest.panels.PanelHolder;
 import edu.colorado.phet.wickettest.translation.entities.CommonEntity;
 
-// TODO: add a string-summary for each entity (IE # OK, # needs updating, # needs translating)
 public class TranslationEditPage extends TranslationPage {
     private int translationId;
     private PanelHolder panelHolder;
