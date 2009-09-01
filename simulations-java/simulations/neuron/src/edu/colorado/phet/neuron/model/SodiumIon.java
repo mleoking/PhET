@@ -13,7 +13,7 @@ public class SodiumIon extends Atom {
 
 	@Override
 	public Color getRepresentationColor() {
-		return Color.GREEN;
+		return new Color(0, 240, 0);
 	}
 
 	@Override

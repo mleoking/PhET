@@ -13,7 +13,7 @@ public class PotassiumIon extends Atom {
 
 	@Override
 	public Color getRepresentationColor() {
-		return Color.RED;
+		return new Color(200, 0, 0);
 	}
 	
 	@Override
