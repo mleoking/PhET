@@ -13,129 +13,175 @@
 
 <wicket:panel>
     <div class="troubleshooting standard-content">
-        <h1>Troubleshooting JavaScript</h1>
+        <p>
+            <wicket:message key="troubleshooting.javascript.intro">
+                JavaScript is a programming language that is mostly used in web pages, usually to add features
+                that make the web page more interactive. JavaScript is required to submit information to PhET.
+            </wicket:message>
+        </p>
 
-        <p>JavaScript is a programming language that is mostly used in web pages, usually to add features
-            that make the web page more interactive. JavaScript is required to submit information to PhET.</p>
+        <p wicket:id="troubleshooting-javascript-notJava">
+            JavaScript is completely different than Sun Microsystems' Java Web Start that we use on our
+            simulations. For assistance with Sun Microsystems' Java, <a href="support-java.php">go here</a>.
+        </p>
 
-        <p>JavaScript is completely different than Sun Microsystems' Java Web Start that we use on our
-            simulations. For assistance with Sun Microsystems' Java, <a href="support-java.php">go here</a>.</p>
+        <p wicket:id="troubleshooting-javascript-notify">
+            If you can''t solve your problem here, please notify us by email at the following address: <a
+                href="mailto:phethelp@colorado.edu"><span class="red">phethelp@colorado.edu</span></a>.
+        </p>
 
-        <p>If you can't solve your problem here, please notify us by email at the following address: <a
-                href="mailto:phethelp@colorado.edu"><span class="red">phethelp@colorado.edu</span></a></p>
 
-
-        <h2 id="faq_top">FAQ's</h2>
+        <h2 id="faq_top">
+            <wicket:message key="troubleshooting.javascript.faqs">FAQs</wicket:message>
+        </h2>
 
         <div id="faq">
             <ul id="nav">
-                <li class="faq"><a href="#q1">Is JavaScript enabled on my
-                    browser?</a></li>
+                <li class="faq">
+                    <a href="#q1">
+                        <wicket:message key="troubleshooting.javascript.q1.title">
+                            Is JavaScript enabled on my browser?
+                        </wicket:message>
+                    </a>
+                </li>
 
-                <li class="faq"><a href="#q2">Why is JavaScript needed?</a></li>
+                <li class="faq">
+                    <a href="#q2">
+                        <wicket:message key="troubleshooting.javascript.q2.title">
+                            Why is JavaScript needed?
+                        </wicket:message>
+                    </a>
+                </li>
 
-                <li class="faq"><a href="#q3">How do I enable JavaScript on
-                    Firefox?</a></li>
+                <li class="faq">
+                    <a href="#q3">
+                        <wicket:message key="troubleshooting.javascript.q3.title">
+                            How do I enable JavaScript on Firefox?
+                        </wicket:message>
+                    </a>
+                </li>
 
-                <li class="faq"><a href="#q4">How do I enable JavaScript on Internet
-                    Explorer?</a></li>
+                <li class="faq">
+                    <a href="#q4">
+                        <wicket:message key="troubleshooting.javascript.q4.title">
+                            How do I enable JavaScript on Internet Explorer?
+                        </wicket:message>
+                    </a>
+                </li>
 
-                <li class="faq"><a href="#q5">How do I enable JavaScript on
-                    Safari?</a></li>
-
-                <!--
-                 <li class="faq"><a href="#q6">Q6: </a></li>
-
-                 <li class="faq"><a href="#q7">Q7: </a></li>
-                -->
+                <li class="faq">
+                    <a href="#q5">
+                        <wicket:message key="troubleshooting.javascript.q5.title">
+                            How do I enable JavaScript on Safari?
+                        </wicket:message>
+                    </a>
+                </li>
             </ul>
         </div>
         <br/>
         <br/>
 
-        <h3 id="q1">Is JavaScript enabled on by browser?</h3>
+        <h3 id="q1">
+            <wicket:message key="troubleshooting.javascript.q1.title">Is JavaScript enabled on by browser?
+            </wicket:message>
+        </h3>
 
-        <noscript><p>JavaScript is <strong>NOT</strong> enabled.</p></noscript>
-        <script type="text/javascript">
+        <noscript>
+            <wicket:message key="troubleshooting.javascript.q1.no">
+                <p>JavaScript is <strong>NOT</strong> enabled.</p>
+            </wicket:message>
+        </noscript>
+        <div id="javascript-ok" style="display: none;">
+
+        </div>
+        <script type="text/javascript" wicket:id="troubleshooting-javascript-q1-yes">
             /* <![CDATA[ */
-            document.write("<p>JavaScript <strong>IS</strong> enabled.</p>");
+            document.getElementById("javascript-ok").style.display = "block";
+            document.getElementById("javascript-ok").innerHTML = "<p>JavaScript <strong>IS</strong> enabled.</p>";
             /* ]]> */
         </script>
 
-        <p><a href="#faq_top"><img src="../images/top.gif" alt="Go to top"/></a></p>
-
-        <h3 id="q2">Why is JavaScript needed?</h3>
-
-        <p>JavaScript is used with many features on the website, including filtering routines and allowing for multiple
-            inputs of data. Howevery, many pages will work fine without JavaScript enabled.</p>
 
         <p><a href="#faq_top"><img src="../images/top.gif" alt="Go to top"/></a></p>
 
-        <h3 id="q3">How do I enable JavaScript on Firefox?</h3>
+        <h3 id="q2">
+            <wicket:message key="troubleshooting.javascript.q2.title">Why is JavaScript needed?</wicket:message>
+        </h3>
 
-        <ol>
-            <li>Go to the "Edit" menu and select "Preferences"</li>
-            <li>Select the "Content" tab at the top of the Preferences window</li>
-            <li>Make sure the "Enable JavaScript" checkbox is checked</li>
-
-            <li>Reload this page, and see <a href="#q1">question 1</a></li>
-        </ol>
-
-        <p><a href="#faq_top"><img src="../images/top.gif" alt="Go to top"/></a></p>
-
-        <h3 id="q4">How do I enable JavaScript on Internet Explorer?</h3>
-
-        <ol>
-            <li>Go to the <strong>Tools</strong> menu and select <strong>Internet Options...</strong></li>
-
-            <li>Select the <strong>Security</strong> tab</li>
-            <li>Select on the <strong>Custom Level...</strong> button</li>
-            <li>Scroll down until you see <strong>Active Scripting</strong> under the <strong>Scripting</strong> heading
-            </li>
-
-            <li>Make sure that it is set to <strong>Enabled</strong></li>
-            <li>You may be asked if you are sure <em>you want change the security settings for this zone.</em> You will
-                want to select the <strong>Yes</strong> button
-            </li>
-            <li>Select the <strong>OK</strong> button on the original <strong>Internet Options</strong> window</li>
-
-            <li>Reload the page (you can check if it worked by reading <a href="#q1">this
-                question</a>)
-            </li>
-        </ol>
+        <div wicket:id="troubleshooting-javascript-q2-answer">
+            <p>
+                JavaScript is used with many features on the website, including filtering routines and allowing for
+                multiple inputs of data. Howevery, many pages will work fine without JavaScript enabled.
+            </p>
+        </div>
 
         <p><a href="#faq_top"><img src="../images/top.gif" alt="Go to top"/></a></p>
 
-        <h3 id="q5">How do I enable JavaScript on Safari?</h3>
+        <h3 id="q3">
+            <wicket:message key="troubleshooting.javascript.q3.title">How do I enable JavaScript on Firefox?
+            </wicket:message>
+        </h3>
 
-        <ol>
+        <div wicket:id="troubleshooting-javascript-q3-answer">
+            <ol>
+                <li>Go to the "Edit" menu and select "Preferences"</li>
+                <li>Select the "Content" tab at the top of the Preferences window</li>
+                <li>Make sure the "Enable JavaScript" checkbox is checked</li>
 
-            <li>Select Preferences from the Safari menu.</li>
-            <li>Click Security.</li>
-            <li>Check Enable JavaScript.</li>
-            <li>Close the window.</li>
-            <li>Click Reload.</li>
-        </ol>
+                <li>Reload this page, and see <a href="#q1">question 1</a></li>
+            </ol>
+        </div>
 
         <p><a href="#faq_top"><img src="../images/top.gif" alt="Go to top"/></a></p>
 
-        <!--
-         <h3 id="q6" >Q6?</h3>
+        <h3 id="q4">
+            <wicket:message key="troubleshooting.javascript.q4.title">How do I enable JavaScript on Internet Explorer?
+            </wicket:message>
+        </h3>
 
-         <p>A6</p>
+        <div wicket:id="troubleshooting-javascript-q4-answer">
+            <ol>
+                <li>Go to the <strong>Tools</strong> menu and select <strong>Internet Options...</strong></li>
 
-         <p><a href="#faq_top"><img src="../images/top.gif" alt="Go to top" /></a></p>
+                <li>Select the <strong>Security</strong> tab</li>
+                <li>Select on the <strong>Custom Level...</strong> button</li>
+                <li>Scroll down until you see <strong>Active Scripting</strong> under the <strong>Scripting</strong>
+                    heading
+                </li>
 
-         <h3 id="q7" >Q7?</h3>
+                <li>Make sure that it is set to <strong>Enabled</strong></li>
+                <li>You may be asked if you are sure <em>you want change the security settings for this zone.</em> You
+                    will
+                    want to select the <strong>Yes</strong> button
+                </li>
+                <li>Select the <strong>OK</strong> button on the original <strong>Internet Options</strong> window</li>
 
-         <p>A7</p>
+                <li>Reload the page (you can check if it worked by reading <a href="#q1">this
+                    question</a>)
+                </li>
+            </ol>
+        </div>
 
-         <p><a href="#faq_top"><img src="../images/top.gif" alt="Go to top" /></a></p>
-        -->
-    </div>
+        <p><a href="#faq_top"><img src="../images/top.gif" alt="Go to top"/></a></p>
 
-    <div id="footer">
-        <p>&copy; 2009 University of Colorado. <a href="../about/licensing.php ">Some rights reserved.</a></p>
+        <h3 id="q5">
+            <wicket:message key="troubleshooting.javascript.q5.title">How do I enable JavaScript on Safari?
+            </wicket:message>
+        </h3>
+
+        <div wicket:id="troubleshooting-javascript-q5-answer">
+            <ol>
+
+                <li>Select Preferences from the Safari menu.</li>
+                <li>Click Security.</li>
+                <li>Check Enable JavaScript.</li>
+                <li>Close the window.</li>
+                <li>Click Reload.</li>
+            </ol>
+        </div>
+
+        <p><a href="#faq_top"><img src="../images/top.gif" alt="Go to top"/></a></p>
+
     </div>
 
 </wicket:panel>

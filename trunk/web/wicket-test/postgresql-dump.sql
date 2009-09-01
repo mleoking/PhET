@@ -2780,7 +2780,6 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 1	language.dir	ltr	2009-08-17 03:48:19.896	2009-08-17 03:48:19.896	1
 3	home.title	PhET: Free online physics, chemistry, biology, earth science and math simulations	2009-08-17 03:48:19.897	2009-08-17 03:48:19.897	1
 4	home.header	Interactive Science Simulations	2009-08-17 03:48:19.897	2009-08-17 03:48:19.897	1
-704	about.source-code.header	@about.source-code.header@	2009-08-31 16:37:48.847	2009-08-31 18:20:19.651	3
 6	home.playWithSims	Play with sims... >	2009-08-17 03:48:19.897	2009-08-17 03:48:19.897	1
 7	home.runOurSims	Run our Simulations	2009-08-17 03:48:19.897	2009-08-17 03:48:19.897	1
 8	home.onLine	On Line	2009-08-17 03:48:19.897	2009-08-17 03:48:19.897	1
@@ -2793,6 +2792,7 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 15	home.translateSimulations	Translate Simulations	2009-08-17 03:48:19.897	2009-08-17 03:48:19.897	1
 16	home.browseSims	Browse Sims	2009-08-17 03:48:19.897	2009-08-17 03:48:19.897	1
 17	home.simulations	Simulations	2009-08-17 03:48:19.899	2009-08-17 03:48:19.899	1
+704	about.source-code.header	@about.source-code.header@	2009-08-31 16:37:48.847	2009-08-31 18:20:19.651	3
 19	simulationDisplay.title	{0} - PhET Simulations	2009-08-17 03:48:19.899	2009-08-17 03:48:19.899	1
 20	simulationMainPanel.translatedVersions	Translated Versions:	2009-08-17 03:48:19.899	2009-08-17 03:48:19.899	1
 21	simulationMainPanel.screenshot.alt	{0} Screenshot	2009-08-17 03:48:19.899	2009-08-17 03:48:19.899	1
@@ -2841,6 +2841,7 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 104	nav.quantum-phenomena	量子现象	2009-08-17 03:48:19.904	2009-08-17 03:48:19.904	2
 105	nav.light-and-radiation	光及辐射	2009-08-17 03:48:19.904	2009-08-17 03:48:19.904	2
 117	sponsors.principalSponsors	主要提案国	2009-08-17 03:48:19.905	2009-08-17 03:48:19.905	2
+585	keyword.conductivity	@keyword.conductivity@	2009-08-31 14:41:38.736	2009-08-31 14:41:38.736	3
 62	troubleshooting.main.q4.answer	<p>We <strong>strongly</strong> recommend you use the latest version of Internet Explorer (IE8).</p><p><strong>Internet Explorer Security Settings</strong></p><p>Some installations of Internet Explorer, particularly under Windows XP SP2, have default security settings which can impede some aspects of how your locally installed PhET interface functions. For the best user experience while using our simulations installed on your computer, we recommend following the steps below:</p><ol><li>In Internet Explorer on your local workstation, choose Tools &gt; Internet Options.</li><li>Choose the Advanced tab, then scroll to the Security section.</li><li>Enable "Allow active content to run in files on my computer".</li><li>Choose OK.</li></ol>	2009-08-17 03:48:19.902	2009-08-17 03:48:19.902	1
 63	troubleshooting.main.q5.title	Why don't Flash simulations run on my computer?	2009-08-17 03:48:19.902	2009-08-17 03:48:19.902	1
 64	troubleshooting.main.q5.answer	<p><strong>QuickTime™ and Flash™ compatibility</strong></p><p>It has come to our attention that some of our users are unable to use our Flash-based simulations due to a compatibility issue between Apple Computer''s QuickTime&trade; and the Flash&trade; player. Some users have reported that uninstalling QuickTime resolves the issue.</p><p>We are aware that this is not an acceptable solution and are working to resolve this issue. If you are experiencing this problem, please contact us at at {0} and regularly check back here for more information.</p>	2009-08-17 03:48:19.902	2009-08-17 03:48:19.902	1
@@ -3188,7 +3189,6 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 411	nav.troubleshooting.flash	Flash	2009-08-19 00:39:06.905	2009-08-19 00:39:06.905	1
 412	about.source-code.title	PhET Source Code	2009-08-19 01:32:35.704	2009-08-19 01:32:35.704	1
 413	nav.about.source-code	Source Code	2009-08-19 01:32:46.865	2009-08-19 01:32:46.865	1
-708	sponsors.otherSponsors	@sponsors.otherSponsors@	2009-08-31 19:25:15.689	2009-08-31 19:25:33.756	3
 416	nav.about.contact	Contact	2009-08-19 01:34:06.066	2009-08-19 01:34:06.066	1
 417	about.contact.title	Contact	2009-08-19 01:34:10.998	2009-08-19 01:34:10.998	1
 418	about.who-we-are.title	Who We Are	2009-08-19 01:34:21.682	2009-08-19 01:34:21.682	1
@@ -3213,40 +3213,61 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 437	nav.contribute	贡献	2009-08-19 02:11:19.388	2009-08-19 02:11:19.388	2
 438	nav.get-phet.one-at-a-time	一次一个	2009-08-19 02:11:28.145	2009-08-19 02:11:28.145	2
 5	home.subheader	Fun, interactive, <a {0}>research-based</a> simulations of physical phenomena from the PhET project at the University of Colorado.	2009-08-17 03:48:19.897	2009-08-30 01:09:02.419	1
-706	about.source-code.flash-simulations	@about.source-code.flash-simulations@	2009-08-31 16:37:58.454	2009-08-31 16:37:58.454	3
+771	troubleshooting.java.faqs	FAQs	2009-09-01 01:08:44.28	2009-09-01 01:08:44.28	1
+832	troubleshooting.flash.intro	This page will help you solve some of the problems people commonly have running our programs. If you can't solve your problem here, please notify us by email at the following address:<a href="mailto:phethelp@colorado.edu"><span class="red">phethelp@colorado.edu</span></a>.	2009-09-01 01:23:54.848	2009-09-01 01:23:54.848	1
+833	troubleshooting.flash.toRun	To run the Flash-based simulations you must have Macromedia Flash 8 (available free) or newer installed on your computer.	2009-09-01 01:24:38.131	2009-09-01 01:24:38.131	1
+834	troubleshooting.flash.blankWindow	If you get a blank window when you try to launch a Flash simulation, you probably need a new version of the Flash player.	2009-09-01 01:25:20.954	2009-09-01 01:25:20.954	1
+835	troubleshooting.flash.olderVersions	Older versions of the Flash Player can cause problems. Updating your flash player is recommended if you receive an error similar to:	2009-09-01 01:26:22.296	2009-09-01 01:26:22.296	1
+836	troubleshooting.javascript.intro	JavaScript is a programming language that is mostly used in web pages, usually to add features that make the web page more interactive. JavaScript is required to submit information to PhET.	2009-09-01 01:33:01.375	2009-09-01 01:33:01.375	1
+841	troubleshooting.javascript.q1.no	<p>JavaScript is <strong>NOT</strong> enabled.</p>	2009-09-01 01:40:05.595	2009-09-01 01:40:05.595	1
+839	troubleshooting.javascript.faqs	FAQs	2009-09-01 01:36:51.51	2009-09-01 01:36:51.51	1
+840	troubleshooting.javascript.q1.yes	<p>JavaScript <strong>IS</strong> enabled.</p>	2009-09-01 01:39:59.768	2009-09-01 01:40:21.8	1
+838	troubleshooting.javascript.notify	If you can''t solve your problem here, please notify us by email at the following address: {0}.	2009-09-01 01:36:15.385	2009-09-01 02:41:08.035	1
+837	troubleshooting.javascript.notJava	JavaScript is completely different than Sun Microsystems'' Java Web Start that we use on our simulations. For assistance with Sun Microsystems'' Java, <a {0}>go here</a>.	2009-09-01 01:35:48.665	2009-09-01 02:41:18.006	1
+706	about.source-code.flash-simulations	@about.source-code.flash-simulations@	2009-08-31 16:37:58.454	2009-09-01 01:18:39.255	3
+708	sponsors.otherSponsors	@sponsors.otherSponsors@	2009-08-31 19:25:15.689	2009-08-31 19:25:33.756	3
+770	get-phet.one-at-a-time.downloadingSims	@get-phet.one-at-a-time.downloadingSims@	2009-09-01 01:08:24.162	2009-09-01 01:08:24.162	3
+772	troubleshooting.java.intro	@troubleshooting.java.intro@	2009-09-01 01:09:04.462	2009-09-01 01:09:27.109	3
+773	troubleshooting.java.faqs	@troubleshooting.java.faqs@	2009-09-01 01:10:01.78	2009-09-01 01:10:01.78	3
+774	troubleshooting.java.q1.title	@troubleshooting.java.q1.title@	2009-09-01 01:10:03.238	2009-09-01 01:10:03.238	3
+586	keyword.concentration	@keyword.concentration@	2009-08-31 14:41:42.096	2009-08-31 14:41:42.096	3
+842	troubleshooting.javascript.q1.title	Is JavaScript enabled on my browser?	2009-09-01 01:53:18.343	2009-09-01 01:53:18.343	1
+843	troubleshooting.javascript.q2.title	Why is JavaScript needed?	2009-09-01 01:53:41.85	2009-09-01 02:15:04.37	1
+844	troubleshooting.javascript.q3.title	How do I enable JavaScript on Firefox?	2009-09-01 02:15:17.275	2009-09-01 02:15:17.275	1
+845	troubleshooting.javascript.q4.title	How do I enable JavaScript on Internet Explorer?	2009-09-01 02:15:25.227	2009-09-01 02:15:25.227	1
+846	troubleshooting.javascript.q5.title	How do I enable JavaScript on Safari?	2009-09-01 02:15:35.122	2009-09-01 02:15:35.122	1
+847	troubleshooting.javascript.q2.answer	JavaScript is used with many features on the website, including filtering routines and allowing for multiple inputs of data. Howevery, many pages will work fine without JavaScript enabled.	2009-09-01 02:17:56.2	2009-09-01 02:17:56.2	1
+848	troubleshooting.javascript.q3.answer	<ol><li>Go to the "Edit" menu and select "Preferences"</li><li>Select the "Content" tab at the top of the Preferences window</li><li>Make sure the "Enable JavaScript" checkbox is checked</li><li>Reload this page, and see <a {0}>question 1</a></li></ol>	2009-09-01 02:19:23.196	2009-09-01 02:19:23.196	1
+849	troubleshooting.javascript.q4.answer	<ol><li>Go to the <strong>Tools</strong> menu and select <strong>Internet Options...</strong></li><li>Select the <strong>Security</strong> tab</li><li>Select on the <strong>Custom Level...</strong> button</li><li>Scroll down until you see <strong>Active Scripting</strong> under the <strong>Scripting</strong>heading</li><li>Make sure that it is set to <strong>Enabled</strong></li><li>You may be asked if you are sure <em>you want change the security settings for this zone.</em> You will want to select the <strong>Yes</strong> button</li><li>Select the <strong>OK</strong> button on the original <strong>Internet Options</strong> window</li><li>Reload the page (you can check if it worked by reading <a {0}>this question</a>)</li></ol>	2009-09-01 02:23:24.623	2009-09-01 02:23:24.623	1
+850	troubleshooting.javascript.q5.answer	<ol><li>Select Preferences from the Safari menu.</li><li>Click Security.</li><li>Check Enable JavaScript.</li><li>Close the window.</li><li>Click Reload.</li></ol>	2009-09-01 02:23:46.429	2009-09-01 02:23:46.429	1
+781	troubleshooting.java.q5.answer	@troubleshooting.java.q5.answer@	2009-09-01 01:10:12.896	2009-09-01 01:10:12.896	3
 709	nav.sponsors	Sponsors	2009-08-31 20:04:14.363	2009-08-31 20:04:14.363	1
+782	troubleshooting.java.q6.title	@troubleshooting.java.q6.title@	2009-09-01 01:10:14.472	2009-09-01 01:10:14.472	3
 710	sponsors.title	PhET Sponsors	2009-08-31 20:04:26.799	2009-08-31 20:04:26.799	1
-705	about.source-code.location	@about.source-code.location@	2009-08-31 16:37:56.22	2009-08-31 16:37:56.22	3
+783	troubleshooting.java.q6.answer	@troubleshooting.java.q6.answer@	2009-09-01 01:10:15.3	2009-09-01 01:10:15.3	3
+784	troubleshooting.java.q7.title	@troubleshooting.java.q7.title@	2009-09-01 01:10:17.074	2009-09-01 01:10:17.074	3
+785	troubleshooting.java.q7.answer	@troubleshooting.java.q7.answer@	2009-09-01 01:10:17.934	2009-09-01 01:10:17.934	3
+786	troubleshooting.java.q8.title	@troubleshooting.java.q8.title@	2009-09-01 01:10:19.923	2009-09-01 01:10:19.923	3
 643	keyword.gravity	@keyword.gravity@	2009-08-31 14:55:27.287	2009-08-31 14:55:27.287	3
-644	keyword.greenhouseEffect	@keyword.greenhouseEffect@	2009-08-31 14:55:31.648	2009-08-31 14:55:31.648	3
-645	keyword.harmonicMotion	@keyword.harmonicMotion@	2009-08-31 14:55:36.784	2009-08-31 14:55:36.784	3
-646	keyword.heat	@keyword.heat@	2009-08-31 14:55:40.371	2009-08-31 14:55:40.371	3
-647	keyword.hookesLaw	@keyword.hookesLaw@	2009-08-31 14:55:44.731	2009-08-31 14:55:44.731	3
-648	keyword.hydrogenAtom	@keyword.hydrogenAtom@	2009-08-31 14:55:49.902	2009-08-31 14:55:49.902	3
-649	keyword.hydronium	@keyword.hydronium@	2009-08-31 14:55:55.063	2009-08-31 14:55:55.063	3
-650	keyword.hydroxide	@keyword.hydroxide@	2009-08-31 14:55:59.094	2009-08-31 14:55:59.094	3
-651	keyword.idealGasLaw	@keyword.idealGasLaw@	2009-08-31 14:56:02.546	2009-08-31 14:56:02.546	3
-652	keyword.images	@keyword.images@	2009-08-31 14:56:06.496	2009-08-31 14:56:06.496	3
-653	keyword.indexOfRefraction	@keyword.indexOfRefraction@	2009-08-31 14:56:10.349	2009-08-31 14:56:10.349	3
-654	keyword.induction	@keyword.induction@	2009-08-31 14:56:14.139	2009-08-31 14:56:14.139	3
-655	keyword.inductor	@keyword.inductor@	2009-08-31 14:56:17.936	2009-08-31 14:56:17.936	3
-656	keyword.infrared	@keyword.infrared@	2009-08-31 14:56:22.097	2009-08-31 14:56:22.097	3
-657	keyword.insulators	@keyword.insulators@	2009-08-31 14:56:26.5	2009-08-31 14:56:26.5	3
-658	keyword.intensity	@keyword.intensity@	2009-08-31 14:56:30.295	2009-08-31 14:56:30.295	3
-659	keyword.interference	@keyword.interference@	2009-08-31 14:56:34.034	2009-08-31 14:56:34.034	3
-660	keyword.inverse	@keyword.inverse@	2009-08-31 14:56:38.429	2009-08-31 14:56:38.429	3
-661	keyword.ionicCompounds	@keyword.ionicCompounds@	2009-08-31 14:56:41.813	2009-08-31 14:56:41.813	3
-662	keyword.kinematics	@keyword.kinematics@	2009-08-31 14:56:45.15	2009-08-31 14:56:45.15	3
-663	keyword.kineticEnergy	@keyword.kineticEnergy@	2009-08-31 14:56:49.913	2009-08-31 14:56:49.913	3
-664	keyword.kirchoffsLaw	@keyword.kirchoffsLaw@	2009-08-31 14:56:53.8	2009-08-31 14:56:53.8	3
-665	keyword.ksp	@keyword.ksp@	2009-08-31 14:56:57.613	2009-08-31 14:56:57.613	3
-666	keyword.laser	@keyword.laser@	2009-08-31 14:57:02.05	2009-08-31 14:57:02.05	3
-667	keyword.lcCircuit	@keyword.lcCircuit@	2009-08-31 14:57:05.325	2009-08-31 14:57:05.325	3
-668	keyword.leChateliersPrinciple	@keyword.leChateliersPrinciple@	2009-08-31 14:57:08.746	2009-08-31 14:57:08.746	3
-669	keyword.leds	@keyword.leds@	2009-08-31 14:57:11.843	2009-08-31 14:57:11.843	3
-670	keyword.length	@keyword.length@	2009-08-31 14:57:15.764	2009-08-31 14:57:15.764	3
-671	keyword.lens	@keyword.lens@	2009-08-31 14:57:19.322	2009-08-31 14:57:19.322	3
-672	keyword.light	@keyword.light@	2009-08-31 14:57:23.306	2009-08-31 14:57:23.306	3
+587	keyword.conservationOfEnergy	@keyword.conservationOfEnergy@	2009-08-31 14:41:46.427	2009-08-31 14:41:46.427	3
+588	keyword.conductors	@keyword.conductors@	2009-08-31 14:41:50.172	2009-08-31 14:41:50.172	3
+589	keyword.correlation	@keyword.correlation@	2009-08-31 14:41:55.189	2009-08-31 14:41:55.189	3
+590	keyword.coulombsLaw	@keyword.coulombsLaw@	2009-08-31 14:41:58.712	2009-08-31 14:41:58.712	3
+591	keyword.covalentBonds	@keyword.covalentBonds@	2009-08-31 14:42:02.652	2009-08-31 14:42:02.652	3
+592	keyword.criticalExponent	@keyword.criticalExponent@	2009-08-31 14:42:07.597	2009-08-31 14:42:07.597	3
+593	keyword.criticalParameter	@keyword.criticalParameter@	2009-08-31 14:42:11.248	2009-08-31 14:42:11.248	3
+594	keyword.current	@keyword.current@	2009-08-31 14:42:15.014	2009-08-31 14:42:15.014	3
+595	keyword.curves	@keyword.curves@	2009-08-31 14:42:18.198	2009-08-31 14:42:18.198	3
+596	keyword.deBroglieWavelength	@keyword.deBroglieWavelength@	2009-08-31 14:42:21.586	2009-08-31 14:42:21.586	3
+597	keyword.diet	@keyword.diet@	2009-08-31 14:42:24.981	2009-08-31 14:42:24.981	3
+598	keyword.diffraction	@keyword.diffraction@	2009-08-31 14:42:28.55	2009-08-31 14:42:28.55	3
+599	keyword.dilution	@keyword.dilution@	2009-08-31 14:42:32.288	2009-08-31 14:42:32.288	3
+600	keyword.diodes	@keyword.diodes@	2009-08-31 14:42:35.933	2009-08-31 14:42:39.272	3
+601	keyword.dipole	@keyword.dipole@	2009-08-31 14:42:44.054	2009-08-31 14:42:44.054	3
+602	keyword.division	@keyword.division@	2009-08-31 14:42:47.168	2009-08-31 14:42:47.168	3
+603	keyword.dna	@keyword.dna@	2009-08-31 14:42:50.778	2009-08-31 14:42:50.778	3
+604	keyword.doping	@keyword.doping@	2009-08-31 14:42:54.497	2009-08-31 14:42:54.497	3
+605	keyword.doubleSlit	@keyword.doubleSlit@	2009-08-31 14:42:58.459	2009-08-31 14:42:58.459	3
 711	keyword.sun	Sun	2009-08-31 20:55:52.066	2009-08-31 20:55:52.066	1
 712	keyword.switches	Switches	2009-08-31 20:58:55.33	2009-08-31 20:58:55.33	1
 713	keyword.acVoltage	AC Voltage	2009-08-31 20:59:32.861	2009-08-31 20:59:32.861	1
@@ -3278,7 +3299,34 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 737	keyword.equilibrium	Equilibrium	2009-08-31 21:31:50.172	2009-08-31 21:31:50.172	1
 738	keyword.alphaParticles	Alpha Particles	2009-08-31 21:33:20.743	2009-08-31 21:33:20.743	1
 739	keyword.signalCircuits	Signal Circuits	2009-08-31 21:35:35.057	2009-08-31 21:35:35.057	1
+851	troubleshooting.flash.intro	@troubleshooting.flash.intro@	2009-09-01 02:42:05.095	2009-09-01 02:42:05.095	3
+852	troubleshooting.flash.toRun	@troubleshooting.flash.toRun@	2009-09-01 02:42:06.187	2009-09-01 02:42:06.187	3
+853	troubleshooting.flash.blankWindow	@troubleshooting.flash.blankWindow@	2009-09-01 02:42:07.514	2009-09-01 02:42:07.514	3
+854	troubleshooting.flash.olderVersions	@troubleshooting.flash.olderVersions@	2009-09-01 02:42:08.722	2009-09-01 02:42:08.722	3
+855	troubleshooting.javascript.intro	@troubleshooting.javascript.intro@	2009-09-01 02:42:11.018	2009-09-01 02:42:11.018	3
+856	troubleshooting.javascript.notJava	@troubleshooting.javascript.notJava@	2009-09-01 02:42:12.327	2009-09-01 02:42:12.327	3
 439	language.dir	ltr	2009-08-31 14:12:59.195	2009-08-31 17:32:04.41	3
+742	workshops.intro	Members of the PhET team regularly offer workshops on how to teach with our simulations throughout Colorado and at national meetings.	2009-08-31 23:56:26.054	2009-08-31 23:56:26.054	1
+743	workshops.upcomingWorkshops	Upcoming Workshops	2009-08-31 23:57:07.094	2009-08-31 23:57:07.094	1
+744	workshops.materials	Workshop Materials	2009-08-31 23:58:00.723	2009-08-31 23:58:00.723	1
+745	workshops.pastWorkshops	Schedule of Past Workshops	2009-08-31 23:58:41.953	2009-08-31 23:58:41.953	1
+830	troubleshooting.java.q3.title	@troubleshooting.java.q3.title@	2009-09-01 01:18:02.665	2009-09-01 01:18:11.914	3
+831	troubleshooting.java.q3.answer	@troubleshooting.java.q3.answer@	2009-09-01 01:18:21.073	2009-09-01 01:18:21.073	3
+857	troubleshooting.javascript.notify	@troubleshooting.javascript.notify@	2009-09-01 02:42:13.713	2009-09-01 02:42:13.713	3
+858	troubleshooting.javascript.faqs	@troubleshooting.javascript.faqs@	2009-09-01 02:42:15.736	2009-09-01 02:42:15.736	3
+859	troubleshooting.javascript.q1.title	@troubleshooting.javascript.q1.title@	2009-09-01 02:42:16.785	2009-09-01 02:42:16.785	3
+860	troubleshooting.javascript.q1.yes	@troubleshooting.javascript.q1.yes@	2009-09-01 02:42:17.865	2009-09-01 02:42:17.865	3
+861	troubleshooting.javascript.q1.no	@troubleshooting.javascript.q1.no@	2009-09-01 02:42:19.681	2009-09-01 02:42:19.681	3
+862	troubleshooting.javascript.q2.title	@troubleshooting.javascript.q2.title@	2009-09-01 02:42:21.569	2009-09-01 02:42:21.569	3
+863	troubleshooting.javascript.q2.answer	@troubleshooting.javascript.q2.answer@	2009-09-01 02:42:22.811	2009-09-01 02:42:22.811	3
+864	troubleshooting.javascript.q3.title	@troubleshooting.javascript.q3.title@	2009-09-01 02:42:24.73	2009-09-01 02:42:24.73	3
+865	troubleshooting.javascript.q3.answer	@troubleshooting.javascript.q3.answer@	2009-09-01 02:42:26.104	2009-09-01 02:42:26.104	3
+866	troubleshooting.javascript.q4.title	@troubleshooting.javascript.q4.title@	2009-09-01 02:42:27.907	2009-09-01 02:42:27.907	3
+867	troubleshooting.javascript.q4.answer	@troubleshooting.javascript.q4.answer@	2009-09-01 02:42:30.467	2009-09-01 02:42:30.467	3
+868	troubleshooting.javascript.q5.title	@troubleshooting.javascript.q5.title@	2009-09-01 02:42:35.372	2009-09-01 02:42:35.372	3
+869	troubleshooting.javascript.q5.answer	@troubleshooting.javascript.q5.answer@	2009-09-01 02:42:37.41	2009-09-01 02:42:37.41	3
+811	keyword.momentOfInertia	@keyword.momentOfInertia@	2009-09-01 01:12:27.733	2009-09-01 01:12:27.733	3
+812	keyword.monochromatic	@keyword.monochromatic@	2009-09-01 01:12:31.227	2009-09-01 01:12:31.227	3
 606	keyword.dynamicEquilibrium	@keyword.dynamicEquilibrium@	2009-08-31 14:48:53.315	2009-08-31 14:48:53.315	3
 607	keyword.dynamics	@keyword.dynamics@	2009-08-31 14:48:56.342	2009-08-31 14:48:56.342	3
 608	keyword.eating	@keyword.eating@	2009-08-31 14:48:59.702	2009-08-31 14:48:59.702	3
@@ -3286,7 +3334,6 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 610	keyword.electricForce	@keyword.electricForce@	2009-08-31 14:49:06.463	2009-08-31 14:49:06.463	3
 611	keyword.electricPotential	@keyword.electricPotential@	2009-08-31 14:49:09.482	2009-08-31 14:49:09.482	3
 612	keyword.electricity	@keyword.electricity@	2009-08-31 14:49:12.517	2009-08-31 14:49:12.517	3
-613	keyword.electromagnet	@keyword.electromagnet@	2009-08-31 14:49:16.122	2009-08-31 14:49:16.122	3
 614	keyword.electronDiffraction	@keyword.electronDiffraction@	2009-08-31 14:49:19.409	2009-08-31 14:49:19.409	3
 615	keyword.electrons	@keyword.electrons@	2009-08-31 14:49:23.325	2009-08-31 14:49:23.325	3
 616	keyword.electrostatics	@keyword.electrostatics@	2009-08-31 14:49:26.336	2009-08-31 14:49:26.336	3
@@ -3299,10 +3346,15 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 625	keyword.estimation	@keyword.estimation@	2009-08-31 14:49:54.227	2009-08-31 14:49:54.227	3
 740	sponsors.title	@sponsors.title@	2009-08-31 23:40:21.203	2009-08-31 23:40:21.203	3
 741	nav.sponsors	@nav.sponsors@	2009-08-31 23:40:34.721	2009-08-31 23:40:34.721	3
-742	workshops.intro	Members of the PhET team regularly offer workshops on how to teach with our simulations throughout Colorado and at national meetings.	2009-08-31 23:56:26.054	2009-08-31 23:56:26.054	1
-743	workshops.upcomingWorkshops	Upcoming Workshops	2009-08-31 23:57:07.094	2009-08-31 23:57:07.094	1
-744	workshops.materials	Workshop Materials	2009-08-31 23:58:00.723	2009-08-31 23:58:00.723	1
-745	workshops.pastWorkshops	Schedule of Past Workshops	2009-08-31 23:58:41.953	2009-08-31 23:58:41.953	1
+813	keyword.moon	@keyword.moon@	2009-09-01 01:12:34.214	2009-09-01 01:12:34.214	3
+814	keyword.motion	@keyword.motion@	2009-09-01 01:12:37.417	2009-09-01 01:12:37.417	3
+815	keyword.mri	@keyword.mri@	2009-09-01 01:12:40.6	2009-09-01 01:12:40.6	3
+816	keyword.multiplication	@keyword.multiplication@	2009-09-01 01:12:43.936	2009-09-01 01:12:43.936	3
+817	keyword.newtonsLaws	@keyword.newtonsLaws@	2009-09-01 01:12:47.068	2009-09-01 01:12:47.068	3
+818	keyword.ohmsLaw	@keyword.ohmsLaw@	2009-09-01 01:12:50.336	2009-09-01 01:12:50.336	3
+819	keyword.optical	@keyword.optical@	2009-09-01 01:12:53.478	2009-09-01 01:12:53.478	3
+820	keyword.opticalTweezers	@keyword.opticalTweezers@	2009-09-01 01:12:56.497	2009-09-01 01:12:56.497	3
+821	keyword.orderOfMagnitude	@keyword.orderOfMagnitude@	2009-09-01 01:12:59.736	2009-09-01 01:12:59.736	3
 628	keyword.factoring	@keyword.factoring@	2009-08-31 14:54:20.402	2009-08-31 14:54:20.402	3
 629	keyword.faradaysLaw	@keyword.faradaysLaw@	2009-08-31 14:54:23.953	2009-08-31 14:54:23.953	3
 630	keyword.fields	@keyword.fields@	2009-08-31 14:54:27.564	2009-08-31 14:54:27.564	3
@@ -3326,6 +3378,45 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 696	get-phet.full-install.title	@get-phet.full-install.title@	2009-08-31 14:58:39.181	2009-08-31 14:58:39.181	3
 697	research.title	@research.title@	2009-08-31 14:58:41.569	2009-08-31 14:58:41.569	3
 698	troubleshooting.java.title	@troubleshooting.java.title@	2009-08-31 14:58:46.922	2009-08-31 14:58:46.922	3
+650	keyword.hydroxide	@keyword.hydroxide@	2009-08-31 14:55:59.094	2009-08-31 14:55:59.094	3
+651	keyword.idealGasLaw	@keyword.idealGasLaw@	2009-08-31 14:56:02.546	2009-08-31 14:56:02.546	3
+652	keyword.images	@keyword.images@	2009-08-31 14:56:06.496	2009-08-31 14:56:06.496	3
+653	keyword.indexOfRefraction	@keyword.indexOfRefraction@	2009-08-31 14:56:10.349	2009-08-31 14:56:10.349	3
+654	keyword.induction	@keyword.induction@	2009-08-31 14:56:14.139	2009-08-31 14:56:14.139	3
+796	keyword.equilibrium	@keyword.equilibrium@	2009-09-01 01:11:23.775	2009-09-01 01:11:23.775	3
+797	keyword.food	@keyword.food@	2009-09-01 01:11:29.576	2009-09-01 01:11:29.576	3
+798	keyword.fuelConsumption	@keyword.fuelConsumption@	2009-09-01 01:11:35.034	2009-09-01 01:11:35.034	3
+799	keyword.greenhouseGases	@keyword.greenhouseGases@	2009-09-01 01:11:39.76	2009-09-01 01:11:39.76	3
+800	keyword.histograms	@keyword.histograms@	2009-09-01 01:11:43.621	2009-09-01 01:11:43.621	3
+801	keyword.initialSpeed	@keyword.initialSpeed@	2009-09-01 01:11:48.33	2009-09-01 01:11:48.33	3
+802	keyword.lunarLanding	@keyword.lunarLanding@	2009-09-01 01:11:55.857	2009-09-01 01:11:55.857	3
+803	keyword.mass	@keyword.mass@	2009-09-01 01:12:00.207	2009-09-01 01:12:00.207	3
+804	keyword.math	@keyword.math@	2009-09-01 01:12:03.809	2009-09-01 01:12:03.809	3
+805	keyword.measurement	@keyword.measurement@	2009-09-01 01:12:07.132	2009-09-01 01:12:07.132	3
+806	keyword.microwaves	@keyword.microwaves@	2009-09-01 01:12:10.436	2009-09-01 01:12:10.436	3
+807	keyword.molarity	@keyword.molarity@	2009-09-01 01:12:13.905	2009-09-01 01:12:13.905	3
+808	keyword.molecularMotors	@keyword.molecularMotors@	2009-09-01 01:12:17.534	2009-09-01 01:12:17.534	3
+809	keyword.molecules	@keyword.molecules@	2009-09-01 01:12:21.018	2009-09-01 01:12:21.018	3
+810	keyword.moles	@keyword.moles@	2009-09-01 01:12:24.422	2009-09-01 01:12:24.422	3
+626	keyword.excitation	@keyword.excitation@	2009-08-31 14:49:57.611	2009-08-31 14:49:57.611	3
+627	keyword.exercise	@keyword.exercise@	2009-08-31 14:54:16.455	2009-08-31 14:54:16.455	3
+440	language.name	@language.name@	2009-08-31 14:13:12.184	2009-08-31 14:47:19.092	3
+461	nav.sound-and-waves	@nav.sound-and-waves@	2009-08-31 14:14:30.606	2009-08-31 14:14:30.606	3
+462	nav.work-energy-and-power	@nav.work-energy-and-power@	2009-08-31 14:15:07.38	2009-08-31 14:15:07.38	3
+463	nav.heat-and-thermodynamics	@nav.heat-and-thermodynamics@	2009-08-31 14:15:10.32	2009-08-31 14:15:10.32	3
+464	nav.quantum-phenomena	@nav.quantum-phenomena@	2009-08-31 14:15:13.015	2009-08-31 14:15:13.015	3
+465	nav.light-and-radiation	@nav.light-and-radiation@	2009-08-31 14:15:15.353	2009-08-31 14:15:15.353	3
+466	nav.electricity-magnets-and-circuits	@nav.electricity-magnets-and-circuits@	2009-08-31 14:15:17.786	2009-08-31 14:15:17.786	3
+467	nav.biology	@nav.biology@	2009-08-31 14:15:21.177	2009-08-31 14:15:21.177	3
+468	nav.chemistry	@nav.chemistry@	2009-08-31 14:15:23.642	2009-08-31 14:15:23.642	3
+469	nav.earth-science	@nav.earth-science@	2009-08-31 14:15:26.523	2009-08-31 14:15:26.523	3
+470	nav.math	@nav.math@	2009-08-31 14:15:29.188	2009-08-31 14:15:29.188	3
+471	nav.tools	@nav.tools@	2009-08-31 14:15:31.639	2009-08-31 14:15:31.639	3
+472	nav.applications	@nav.applications@	2009-08-31 14:15:34.117	2009-08-31 14:15:34.117	3
+473	nav.cutting-edge-research	@nav.cutting-edge-research@	2009-08-31 14:15:36.254	2009-08-31 14:15:36.254	3
+474	nav.all	@nav.all@	2009-08-31 14:15:38.723	2009-08-31 14:15:38.723	3
+475	nav.workshops	@nav.workshops@	2009-08-31 14:15:40.554	2009-08-31 14:15:40.554	3
+476	nav.get-phet	@nav.get-phet@	2009-08-31 14:15:42.478	2009-08-31 14:15:42.478	3
 699	troubleshooting.flash.title	@troubleshooting.flash.title@	2009-08-31 14:58:49.293	2009-08-31 14:58:49.293	3
 700	troubleshooting.javascript.title	@troubleshooting.javascript.title@	2009-08-31 14:58:51.913	2009-08-31 14:58:51.913	3
 441	home.header	@home.header@	2009-08-31 14:13:34.21	2009-08-31 14:13:34.21	3
@@ -3348,27 +3439,10 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 458	nav.new	@nav.new@	2009-08-31 14:14:23.376	2009-08-31 14:14:23.376	3
 459	nav.physics	@nav.physics@	2009-08-31 14:14:25.485	2009-08-31 14:14:25.485	3
 460	nav.motion	@nav.motion@	2009-08-31 14:14:27.953	2009-08-31 14:14:27.953	3
+746	workshops.intro	@workshops.intro@	2009-09-01 00:08:58.54	2009-09-01 00:08:58.54	3
 623	keyword.equipotential	@keyword.equipotential@	2009-08-31 14:49:47.856	2009-08-31 14:49:47.856	3
 624	keyword.errorAnalysis	@keyword.errorAnalysis@	2009-08-31 14:49:50.861	2009-08-31 14:49:50.861	3
-626	keyword.excitation	@keyword.excitation@	2009-08-31 14:49:57.611	2009-08-31 14:49:57.611	3
-627	keyword.exercise	@keyword.exercise@	2009-08-31 14:54:16.455	2009-08-31 14:54:16.455	3
-440	language.name	@language.name@	2009-08-31 14:13:12.184	2009-08-31 14:47:19.092	3
-461	nav.sound-and-waves	@nav.sound-and-waves@	2009-08-31 14:14:30.606	2009-08-31 14:14:30.606	3
-462	nav.work-energy-and-power	@nav.work-energy-and-power@	2009-08-31 14:15:07.38	2009-08-31 14:15:07.38	3
-463	nav.heat-and-thermodynamics	@nav.heat-and-thermodynamics@	2009-08-31 14:15:10.32	2009-08-31 14:15:10.32	3
-464	nav.quantum-phenomena	@nav.quantum-phenomena@	2009-08-31 14:15:13.015	2009-08-31 14:15:13.015	3
-465	nav.light-and-radiation	@nav.light-and-radiation@	2009-08-31 14:15:15.353	2009-08-31 14:15:15.353	3
-466	nav.electricity-magnets-and-circuits	@nav.electricity-magnets-and-circuits@	2009-08-31 14:15:17.786	2009-08-31 14:15:17.786	3
-467	nav.biology	@nav.biology@	2009-08-31 14:15:21.177	2009-08-31 14:15:21.177	3
-468	nav.chemistry	@nav.chemistry@	2009-08-31 14:15:23.642	2009-08-31 14:15:23.642	3
-469	nav.earth-science	@nav.earth-science@	2009-08-31 14:15:26.523	2009-08-31 14:15:26.523	3
-470	nav.math	@nav.math@	2009-08-31 14:15:29.188	2009-08-31 14:15:29.188	3
-471	nav.tools	@nav.tools@	2009-08-31 14:15:31.639	2009-08-31 14:15:31.639	3
-472	nav.applications	@nav.applications@	2009-08-31 14:15:34.117	2009-08-31 14:15:34.117	3
-473	nav.cutting-edge-research	@nav.cutting-edge-research@	2009-08-31 14:15:36.254	2009-08-31 14:15:36.254	3
-474	nav.all	@nav.all@	2009-08-31 14:15:38.723	2009-08-31 14:15:38.723	3
-475	nav.workshops	@nav.workshops@	2009-08-31 14:15:40.554	2009-08-31 14:15:40.554	3
-476	nav.get-phet	@nav.get-phet@	2009-08-31 14:15:42.478	2009-08-31 14:15:42.478	3
+747	workshops.upcomingWorkshops	@workshops.upcomingWorkshops@	2009-09-01 00:09:05.428	2009-09-01 00:09:05.428	3
 477	nav.get-phet.on-line	@nav.get-phet.on-line@	2009-08-31 14:15:45.329	2009-08-31 14:15:45.329	3
 478	nav.get-phet.full-install	@nav.get-phet.full-install@	2009-08-31 14:15:47.515	2009-08-31 14:15:47.515	3
 479	nav.get-phet.one-at-a-time	@nav.get-phet.one-at-a-time@	2009-08-31 14:15:53.668	2009-08-31 14:15:53.668	3
@@ -3400,15 +3474,94 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 507	troubleshooting.main.flash	@troubleshooting.main.flash@	2009-08-31 14:17:32.923	2009-08-31 14:17:32.923	3
 508	troubleshooting.main.javascript	@troubleshooting.main.javascript@	2009-08-31 14:17:35.866	2009-08-31 14:17:35.866	3
 509	troubleshooting.main.faqs	@troubleshooting.main.faqs@	2009-08-31 14:17:38.304	2009-08-31 14:17:38.304	3
+702	about.source-code.location	The source code for all PhET simulations is hosted at <a {0}>Unfuddle</a> (login with username: guest and password: guest). The latest version can always be found there. To checkout the source code, you will need a Subversion client such as <a {1}>TortoiseSVN</a> (Windows-only) or <a {2}>SmartSVN</a> (all platforms), or a command-line client. To checkout the source code for all of PhET's Java simulations using a command-line client, use the following command:	2009-08-31 15:28:43.142	2009-08-31 18:27:04.021	1
+703	about.source-code.flash-simulations	To checkout the source code for all of PhET's Flash simulations, replace "simulations-java" with "simulations-flash" in the above command.	2009-08-31 15:30:00.02	2009-08-31 18:27:36.059	1
+750	get-phet.one-at-a-time.downloadingSims	You may copy the simulation to any place on your computer. You may also copy the simulation to a CD-ROM Drive, USB Drive, or shared network location.	2009-09-01 00:20:51.729	2009-09-01 00:20:51.729	1
+751	get-phet.one-at-a-time.runningSims	Click on the name of any simulation to download the simulation to your computer. To run the simulation, double-click it. If you have difficulties, please see our <a {0}>technical support</a> page.	2009-09-01 00:22:55.028	2009-09-01 00:22:55.028	1
+701	about.source-code.header	Where can I get the source code for the PhET simulations?	2009-08-31 15:25:46.913	2009-08-31 15:25:46.913	1
+769	get-phet.one-at-a-time.runningSims	@get-phet.one-at-a-time.runningSims@	2009-09-01 01:08:12.606	2009-09-01 01:08:12.606	3
+775	troubleshooting.java.q1.answer	@troubleshooting.java.q1.answer@	2009-09-01 01:10:04.705	2009-09-01 01:10:04.705	3
+776	troubleshooting.java.q2.title	@troubleshooting.java.q2.title@	2009-09-01 01:10:06.646	2009-09-01 01:10:06.646	3
+777	troubleshooting.java.q2.answer	@troubleshooting.java.q2.answer@	2009-09-01 01:10:07.766	2009-09-01 01:10:07.766	3
+778	troubleshooting.java.q4.title	@troubleshooting.java.q4.title@	2009-09-01 01:10:09.145	2009-09-01 01:10:09.145	3
+779	troubleshooting.java.q4.answer	@troubleshooting.java.q4.answer@	2009-09-01 01:10:10.661	2009-09-01 01:10:10.661	3
+780	troubleshooting.java.q5.title	@troubleshooting.java.q5.title@	2009-09-01 01:10:11.724	2009-09-01 01:10:11.724	3
+644	keyword.greenhouseEffect	@keyword.greenhouseEffect@	2009-08-31 14:55:31.648	2009-08-31 14:55:31.648	3
+645	keyword.harmonicMotion	@keyword.harmonicMotion@	2009-08-31 14:55:36.784	2009-08-31 14:55:36.784	3
+646	keyword.heat	@keyword.heat@	2009-08-31 14:55:40.371	2009-08-31 14:55:40.371	3
+647	keyword.hookesLaw	@keyword.hookesLaw@	2009-08-31 14:55:44.731	2009-08-31 14:55:44.731	3
+648	keyword.hydrogenAtom	@keyword.hydrogenAtom@	2009-08-31 14:55:49.902	2009-08-31 14:55:49.902	3
+649	keyword.hydronium	@keyword.hydronium@	2009-08-31 14:55:55.063	2009-08-31 14:55:55.063	3
+521	troubleshooting.main.q7.answer	@troubleshooting.main.q7.answer@	2009-08-31 14:19:01.114	2009-08-31 14:19:01.114	3
+705	about.source-code.location	@about.source-code.location@	2009-08-31 16:37:56.22	2009-09-01 01:18:37.067	3
+522	troubleshooting.main.q8.title	@troubleshooting.main.q8.title@	2009-08-31 14:19:03.721	2009-08-31 14:19:03.721	3
+523	troubleshooting.main.q8.answer	@troubleshooting.main.q8.answer@	2009-08-31 14:19:07.717	2009-08-31 14:19:07.717	3
+524	troubleshooting.main.q9.title	@troubleshooting.main.q9.title@	2009-08-31 14:19:10.152	2009-08-31 14:19:10.152	3
+525	troubleshooting.main.q9.answer	@troubleshooting.main.q9.answer@	2009-08-31 14:19:19.609	2009-08-31 14:19:19.609	3
+526	troubleshooting.main.q10.title	@troubleshooting.main.q10.title@	2009-08-31 14:19:25.261	2009-08-31 14:19:25.261	3
+528	troubleshooting.main.q11.title	@troubleshooting.main.q11.title@	2009-08-31 14:19:37.15	2009-08-31 14:19:37.15	3
+535	keyword.1d	@keyword.1d@	2009-08-31 14:22:48.856	2009-08-31 14:22:48.856	3
 510	troubleshooting.main.q1.title	@troubleshooting.main.q1.title@	2009-08-31 14:17:40.155	2009-08-31 14:17:40.155	3
 511	troubleshooting.main.q1.answer	@troubleshooting.main.q1.answer@	2009-08-31 14:17:54.331	2009-08-31 14:17:54.331	3
 512	troubleshooting.main.q2.title	@troubleshooting.main.q2.title@	2009-08-31 14:18:06.032	2009-08-31 14:18:06.032	3
-746	workshops.intro	@workshops.intro@	2009-09-01 00:08:58.54	2009-09-01 00:08:58.54	3
-747	workshops.upcomingWorkshops	@workshops.upcomingWorkshops@	2009-09-01 00:09:05.428	2009-09-01 00:09:05.428	3
 748	workshops.materials	@workshops.materials@	2009-09-01 00:09:12.601	2009-09-01 00:09:12.601	3
 749	workshops.pastWorkshops	@workshops.pastWorkshops@	2009-09-01 00:09:18.913	2009-09-01 00:09:18.913	3
+558	keyword.battery	@keyword.battery@	2009-08-31 14:39:54.347	2009-09-01 01:10:58.238	3
+822	keyword.orderParameter	@keyword.orderParameter@	2009-09-01 01:13:10.664	2009-09-01 01:13:13.216	3
+823	keyword.pH	@keyword.pH@	2009-09-01 01:13:18.351	2009-09-01 01:13:18.351	3
+824	keyword.parallelCircuit	@keyword.parallelCircuit@	2009-09-01 01:13:22.035	2009-09-01 01:13:22.035	3
+825	keyword.particles	@keyword.particles@	2009-09-01 01:13:26.136	2009-09-01 01:13:26.136	3
+826	keyword.pendulum	@keyword.pendulum@	2009-09-01 01:13:29.772	2009-09-01 01:13:29.772	3
+827	keyword.period	@keyword.period@	2009-09-01 01:13:36.872	2009-09-01 01:13:36.872	3
+828	keyword.periodicMotion	@keyword.periodicMotion@	2009-09-01 01:13:40.665	2009-09-01 01:13:40.665	3
+829	keyword.photoconductors	@keyword.photoconductors@	2009-09-01 01:13:45.519	2009-09-01 01:13:45.519	3
 514	troubleshooting.main.q4.title	@troubleshooting.main.q4.title@	2009-08-31 14:18:12.806	2009-08-31 14:18:12.806	3
 515	troubleshooting.main.q4.answer	@troubleshooting.main.q4.answer@	2009-08-31 14:18:18.85	2009-08-31 14:18:18.85	3
+752	troubleshooting.java.intro	PhET's Java-based simulations use Sun Microsystems' Java Web Start technology to launch the simulations. This page will help you ensure that you have Java installed properly, and address some of the problems people might have running our programs. If you can't solve your problem here, please notify us by email at the following address: <a {0}><span class="red">phethelp@colorado.edu</span></a>.	2009-09-01 00:34:04.883	2009-09-01 00:34:04.883	1
+753	troubleshooting.java.q1.title	(Mac users) When I click "run now" to start the simulation all I get is a text file that opens?	2009-09-01 00:37:43.557	2009-09-01 00:37:43.557	1
+754	troubleshooting.java.q2.title	How do I get Java?	2009-09-01 00:38:23.297	2009-09-01 00:38:23.297	1
+755	troubleshooting.java.q3.title	Why do you use Java Web Start instead of Java?	2009-09-01 00:39:11.115	2009-09-01 00:39:11.115	1
+756	troubleshooting.java.q4.title	Are there any problems running the simulations on a Mac?	2009-09-01 00:39:19.461	2009-09-01 00:39:19.461	1
+757	troubleshooting.java.q5.title	How do I check my computer's current version of Java?	2009-09-01 00:39:45.162	2009-09-01 00:39:45.162	1
+758	troubleshooting.java.q6.title	I have Windows 2000 and I can only get the Flash based simulations to work.	2009-09-01 00:39:52.882	2009-09-01 00:39:52.882	1
+759	troubleshooting.java.q7.title	General Java troubleshooting	2009-09-01 00:40:01.158	2009-09-01 00:40:01.158	1
+760	troubleshooting.java.q8.title	Troubleshooting tips for networked computers	2009-09-01 00:40:08.334	2009-09-01 00:40:08.334	1
+761	troubleshooting.java.q1.answer	<p>{0} This problem will affect mac users who recently installed Apple's "Java for Mac OS X 10.5 Update 4". The update will typically be done via Software Update, or automatically. After installing this update, the problem appears: clicking on JNLP files in Safari or FireFox caused the JNLP file to open in TextEdit, instead of starting Java Web Start.</p><p>The fix is:<br/>1. Go to http://support.apple.com/downloads/Java_for_Mac_OS_X_10_5_Update_4<br/>2. Click Download to download a .dmg file<br/>3. When the .dmg has downloaded, double-click on it (if it doesn't mount automatically)<br/>4. Quit all applications<br/>5. Run the update installer</p>	2009-09-01 00:44:20.655	2009-09-01 00:46:41.035	1
+762	troubleshooting.java.q2.answer	<p>To run the Java-based simulations you must have Java version 1.5 or higher installed on your computer. You can obtain the free downloads by clicking on the button below:<br/>{0}</p><p><strong>Note for Netscape Users</strong></p><p>After you have installed Java Web Start, you will need to close and re-open your browser for Java Web Start to work.</p>	2009-09-01 00:52:48.664	2009-09-01 00:52:48.664	1
+763	troubleshooting.java.q3.answer	<p>We use Java Web Start technology rather than Java Applets. Java Web Start, which is a free mechanism from Sun, is a more robust way of launching Java programs over the Web than applets. If you have had problems running applets in the past, you may well find that Java Web Start works much better. If you should have any problems, we will be happy to help you solve them. If the information on this page doesnít help, just send us email at {0}.</p>	2009-09-01 00:53:21.054	2009-09-01 00:53:21.054	1
+764	troubleshooting.java.q4.answer	<p>Macintosh OS X 10.4 or higher is required to run our Java programs. You must have the latest version of Java (which will already be installed if you are using the auto-update feature of OS X). See {0} for details.</p><p>Versions of Apple's Safari browser below 2.0 (included with OS X 10.4) do not launch our Java-based applications reliably.</p><p>If when you click "Run Now" to start a simulation and all you get is a text file that opens, see <a {1}>this answer</a>.</p>	2009-09-01 00:55:21.501	2009-09-01 00:55:21.501	1
+765	troubleshooting.java.q5.answer	<p><strong><em>Windows Vista users:</em></strong><br/>From a command line (Start&nbsp;menu-&gt;All&nbsp;Programs-&gt;Accessories-&gt;Command&nbsp;Prompt), type: <strong>javaws&nbsp;-viewer</strong> followed by the enter key. You should see some text which will include something like "(build 1.4.2_05_05-b04)"; this number is the version of Java you are using. If you receive an error, Java is not properly installed (see above to reinstall).</p><p><strong><em>Windows 98SE/2000/XP users:</em></strong><br/>From a command line (Start&nbsp;menu-&gt;All&nbsp;Programs-&gt;Accessories-&gt;Command&nbsp;Prompt), type: <strong>java&nbsp;-version</strong> followed by the enter key. You should see some text which will include something like "(build 1.4.2_05_05-b04)"; this number is the version of Java you are using. If you receive an error, Java is not properly installed (see above to reinstall).</p><p><strong><em>Macintosh users:</em></strong><br/>From the Apple menu, click on "About this Mac", then on "More Info...". You will find the Java software version under "Software-&gt;Applications".</p>	2009-09-01 00:57:19.556	2009-09-01 00:57:19.556	1
+766	troubleshooting.java.q6.answer	<p>Some Windows 2000 systems have been reported to lack part of the necessary Java configuration. These systems will typically start our Flash-based simulations reliably, but will appear to do nothing when launching our Java-based simulations.</p><p><strong>To resolve this situation, please perform the following steps:</strong></p><ol><li>From the desktop or start menu, open "My Computer"</li><li>Click on the "Folder Options" item in the "Tools" menu</li><li>Click on the "File Types" tab at the top of the window that appears</li><li>Locate "JNLP" in the "extensions" column, and click once on it to select the item</li><li>Click on the "change" button</li><li>When asked to choose which program to use to open JNLP files, select "Browse"</li><li>Locate the program "javaws" or "javaws.exe" in your Java installation folder (typically "C:\\Program Files\\Java\\j2re1.xxxx\\javaws", where "xxxx" is a series of numbers indicating the software version; choose the latest version)</li><li>Select the program file and then click "Open" to use the "javaws" program to open JNLP files.</li></ol>	2009-09-01 00:58:52.394	2009-09-01 00:58:52.394	1
+767	troubleshooting.java.q7.answer	<p>The following are some general steps that you may wish to perform when attempting to solve Java-related problems:</p><ul><li><strong>Empty Your Browser's Cache</strong><br/><table><thead><tr><td>Internet Explorer</td><td>Firefox</td></tr></thead><tbody><tr><td>Select "Tools-&gt;Options", then click on the "Delete Files..." button under "Temporary Internet Files"</td><td>Select "Tools-&gt;Options-&gt;Privacy", then click the "Clear" button next to "Cache".</td></tr></tbody></table></li><li><strong>Empty Java Web Start's Cache</strong><br/>From Windows' Start menu, select "Java Web Start", then select "Preferences" from the File menu. Click "Advanced", then click the "Clear Folder" button.</li><li><strong>Make Sure Windows can find Java and Java Web Start</strong><br/>From a command line (Start menu-&gt;Accessories-&gt;Command Prompt), type <em>java -version</em>followed by the enter key. If you receive an error, Java is not properly installed. Please try reinstalling Java (see above) after uninstalling any Java entries in your list of installed programs (Control Panel -&gt;Add/Remove Programs).</li></ul>	2009-09-01 01:00:17.961	2009-09-01 01:00:17.961	1
+655	keyword.inductor	@keyword.inductor@	2009-08-31 14:56:17.936	2009-08-31 14:56:17.936	3
+656	keyword.infrared	@keyword.infrared@	2009-08-31 14:56:22.097	2009-08-31 14:56:22.097	3
+657	keyword.insulators	@keyword.insulators@	2009-08-31 14:56:26.5	2009-08-31 14:56:26.5	3
+658	keyword.intensity	@keyword.intensity@	2009-08-31 14:56:30.295	2009-08-31 14:56:30.295	3
+659	keyword.interference	@keyword.interference@	2009-08-31 14:56:34.034	2009-08-31 14:56:34.034	3
+660	keyword.inverse	@keyword.inverse@	2009-08-31 14:56:38.429	2009-08-31 14:56:38.429	3
+661	keyword.ionicCompounds	@keyword.ionicCompounds@	2009-08-31 14:56:41.813	2009-08-31 14:56:41.813	3
+662	keyword.kinematics	@keyword.kinematics@	2009-08-31 14:56:45.15	2009-08-31 14:56:45.15	3
+663	keyword.kineticEnergy	@keyword.kineticEnergy@	2009-08-31 14:56:49.913	2009-08-31 14:56:49.913	3
+664	keyword.kirchoffsLaw	@keyword.kirchoffsLaw@	2009-08-31 14:56:53.8	2009-08-31 14:56:53.8	3
+665	keyword.ksp	@keyword.ksp@	2009-08-31 14:56:57.613	2009-08-31 14:56:57.613	3
+666	keyword.laser	@keyword.laser@	2009-08-31 14:57:02.05	2009-08-31 14:57:02.05	3
+667	keyword.lcCircuit	@keyword.lcCircuit@	2009-08-31 14:57:05.325	2009-08-31 14:57:05.325	3
+668	keyword.leChateliersPrinciple	@keyword.leChateliersPrinciple@	2009-08-31 14:57:08.746	2009-08-31 14:57:08.746	3
+669	keyword.leds	@keyword.leds@	2009-08-31 14:57:11.843	2009-08-31 14:57:11.843	3
+670	keyword.length	@keyword.length@	2009-08-31 14:57:15.764	2009-08-31 14:57:15.764	3
+671	keyword.lens	@keyword.lens@	2009-08-31 14:57:19.322	2009-08-31 14:57:19.322	3
+672	keyword.light	@keyword.light@	2009-08-31 14:57:23.306	2009-08-31 14:57:23.306	3
+787	troubleshooting.java.q8.answer	@troubleshooting.java.q8.answer@	2009-09-01 01:10:21.13	2009-09-01 01:10:21.13	3
+788	keyword.acVoltage	@keyword.acVoltage@	2009-09-01 01:10:35.173	2009-09-01 01:10:35.173	3
+789	keyword.acids	@keyword.acids@	2009-09-01 01:10:38.779	2009-09-01 01:10:38.779	3
+790	keyword.alphaParticles	@keyword.alphaParticles@	2009-09-01 01:10:42.658	2009-09-01 01:10:42.658	3
+791	keyword.ammonia	@keyword.ammonia@	2009-09-01 01:10:46.405	2009-09-01 01:10:46.405	3
+792	keyword.bases	@keyword.bases@	2009-09-01 01:10:51.563	2009-09-01 01:10:51.563	3
+793	keyword.biology	@keyword.biology@	2009-09-01 01:11:01.456	2009-09-01 01:11:01.456	3
+794	keyword.charlesLaw	@keyword.charlesLaw@	2009-09-01 01:11:06.502	2009-09-01 01:11:06.502	3
+795	keyword.cosines	@keyword.cosines@	2009-09-01 01:11:12.531	2009-09-01 01:11:12.531	3
+768	troubleshooting.java.q8.answer	<p><strong>Why do simulations run for admin but not all users?</strong></p><p>Java simulations may also fail to start on networked computers running Windows for some users while running properly for administrators. When Java Web Start tries to launch a simulation, it attempts to cache certain files in a "cache folder". This folder (or "directory") is determined when Java is installed, and may point to a folder that non-administrator accounts do not have access to, resulting in a launch failure. Correct this problem by setting the cache directory to one of your own choosing: Log on as an administrator.</p><p>Launch the Java Web Start Application Manager. This can be done in one of two ways. a) If the Java installation placed an icon either on your desktop or in the Start Menu -&gt; All Programs list titled "Java Web Start", click it to start the application. b) Use the Windows search function (located in the Start Menu) to search for the program "javaws.exe". Once it is found, click on the file to run the application. Once the Java Web Start Application Manager is up and running, choose File&gt;Preferences. In the Preferences dialog that appears, click on the Advanced tab. In this tab, you will find a text field labeled "Applications Folder". In this text field, put the name of an empty directory to which all users have write privileges. Note: This directory MUST be empty. All users should now be able to launch the Java simulations.</p><p><strong>Issue 3: Web Proxy Settings</strong><br/>Java simulations may fail to start if the proxy settings in Java Web Start's configuration panel (Start Menu-&gt;Java Web Start, File Menu-&gt;Preferences) do not match those your system is currently using. To identify settings being used on your system, see your web browser's proxy settings, or contact you network administrator.</p><p><strong>Local Install on Boot Drive Only</strong><br/>If you are operating in a networked environment, please ensure that both Java and the PhET simulations (if installed locally rather than running from our web site) are installed on local, non-networked drives. The PhET simulations must be installed on the boot drive.</p><p><strong>Network Firewalls</strong><br/>Please ensure that your firewall is configured to allow both Java and Java Web Start to communicate through the firewall.</p>	2009-09-01 01:01:45.087	2009-09-01 01:01:45.087	1
+613	keyword.electromagnet	@keyword.electromagnet@	2009-08-31 14:49:16.122	2009-09-01 01:11:18.936	3
 513	troubleshooting.main.q2.answer	@troubleshooting.main.q2.answer@	2009-08-31 14:18:10.379	2009-08-31 14:18:22.189	3
 516	troubleshooting.main.q5.title	@troubleshooting.main.q5.title@	2009-08-31 14:18:28.732	2009-08-31 14:18:28.732	3
 582	keyword.climate	@keyword.climate@	2009-08-31 14:41:28.357	2009-08-31 14:41:28.357	3
@@ -3428,7 +3581,6 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 555	keyword.atomicNuclei	@keyword.atomicNuclei@	2009-08-31 14:39:43.362	2009-08-31 14:39:43.362	3
 556	keyword.atomicStructure	@keyword.atomicStructure@	2009-08-31 14:39:47.553	2009-08-31 14:39:47.553	3
 557	keyword.atoms	@keyword.atoms@	2009-08-31 14:39:51.479	2009-08-31 14:39:51.479	3
-558	keyword.battery	@keyword.battery@	2009-08-31 14:39:54.347	2009-08-31 14:39:54.347	3
 559	keyword.binomialDistribution	@keyword.binomialDistribution@	2009-08-31 14:39:57.116	2009-08-31 14:39:57.116	3
 560	keyword.blackbody	@keyword.blackbody@	2009-08-31 14:40:00.463	2009-08-31 14:40:00.463	3
 561	keyword.bohrModel	@keyword.bohrModel@	2009-08-31 14:40:03.119	2009-08-31 14:40:03.119	3
@@ -3452,16 +3604,6 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 579	keyword.circuits	@keyword.circuits@	2009-08-31 14:41:18.388	2009-08-31 14:41:18.388	3
 580	keyword.circularMotion	@keyword.circularMotion@	2009-08-31 14:41:21.536	2009-08-31 14:41:21.536	3
 581	keyword.circularRevolution	@keyword.circularRevolution@	2009-08-31 14:41:25.044	2009-08-31 14:41:25.044	3
-702	about.source-code.location	The source code for all PhET simulations is hosted at <a {0}>Unfuddle</a> (login with username: guest and password: guest). The latest version can always be found there. To checkout the source code, you will need a Subversion client such as <a {1}>TortoiseSVN</a> (Windows-only) or <a {2}>SmartSVN</a> (all platforms), or a command-line client. To checkout the source code for all of PhET's Java simulations using a command-line client, use the following command:	2009-08-31 15:28:43.142	2009-08-31 18:27:04.021	1
-703	about.source-code.flash-simulations	To checkout the source code for all of PhET's Flash simulations, replace "simulations-java" with "simulations-flash" in the above command.	2009-08-31 15:30:00.02	2009-08-31 18:27:36.059	1
-701	about.source-code.header	Where can I get the source code for the PhET simulations?	2009-08-31 15:25:46.913	2009-08-31 15:25:46.913	1
-521	troubleshooting.main.q7.answer	@troubleshooting.main.q7.answer@	2009-08-31 14:19:01.114	2009-08-31 14:19:01.114	3
-522	troubleshooting.main.q8.title	@troubleshooting.main.q8.title@	2009-08-31 14:19:03.721	2009-08-31 14:19:03.721	3
-523	troubleshooting.main.q8.answer	@troubleshooting.main.q8.answer@	2009-08-31 14:19:07.717	2009-08-31 14:19:07.717	3
-524	troubleshooting.main.q9.title	@troubleshooting.main.q9.title@	2009-08-31 14:19:10.152	2009-08-31 14:19:10.152	3
-525	troubleshooting.main.q9.answer	@troubleshooting.main.q9.answer@	2009-08-31 14:19:19.609	2009-08-31 14:19:19.609	3
-526	troubleshooting.main.q10.title	@troubleshooting.main.q10.title@	2009-08-31 14:19:25.261	2009-08-31 14:19:25.261	3
-528	troubleshooting.main.q11.title	@troubleshooting.main.q11.title@	2009-08-31 14:19:37.15	2009-08-31 14:19:37.15	3
 529	troubleshooting.main.q11.answer	@troubleshooting.main.q11.answer@	2009-08-31 14:19:40.579	2009-08-31 14:19:40.579	3
 530	troubleshooting.main.q12.title	@troubleshooting.main.q12.title@	2009-08-31 14:19:42.71	2009-08-31 14:19:42.71	3
 531	troubleshooting.main.q12.answer	@troubleshooting.main.q12.answer@	2009-08-31 14:19:44.362	2009-08-31 14:19:44.362	3
@@ -3469,7 +3611,6 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 533	troubleshooting.main.q13.answer	@troubleshooting.main.q13.answer@	2009-08-31 14:19:49.07	2009-08-31 14:19:49.07	3
 534	troubleshooting.main.licensingRequirements	@troubleshooting.main.licensingRequirements@	2009-08-31 14:19:51.99	2009-08-31 14:19:51.99	3
 527	troubleshooting.main.q10.answer	@troubleshooting.main.q10.answer@	2009-08-31 14:19:34.268	2009-08-31 14:20:10.145	3
-535	keyword.1d	@keyword.1d@	2009-08-31 14:22:48.856	2009-08-31 14:22:48.856	3
 536	keyword.absorption	@keyword.absorption@	2009-08-31 14:22:51.834	2009-08-31 14:22:51.834	3
 537	keyword.acCircuits	@keyword.acCircuits@	2009-08-31 14:22:54.374	2009-08-31 14:22:54.374	3
 538	keyword.acceleration	@keyword.acceleration@	2009-08-31 14:22:56.987	2009-08-31 14:22:56.987	3
@@ -3502,27 +3643,6 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 545	keyword.angle	@keyword.angle@	2009-08-31 14:39:13.409	2009-08-31 14:39:13.409	3
 583	keyword.climateChange	@keyword.climateChange@	2009-08-31 14:41:32.39	2009-08-31 14:41:32.39	3
 584	keyword.compass	@keyword.compass@	2009-08-31 14:41:35.152	2009-08-31 14:41:35.152	3
-585	keyword.conductivity	@keyword.conductivity@	2009-08-31 14:41:38.736	2009-08-31 14:41:38.736	3
-586	keyword.concentration	@keyword.concentration@	2009-08-31 14:41:42.096	2009-08-31 14:41:42.096	3
-587	keyword.conservationOfEnergy	@keyword.conservationOfEnergy@	2009-08-31 14:41:46.427	2009-08-31 14:41:46.427	3
-588	keyword.conductors	@keyword.conductors@	2009-08-31 14:41:50.172	2009-08-31 14:41:50.172	3
-589	keyword.correlation	@keyword.correlation@	2009-08-31 14:41:55.189	2009-08-31 14:41:55.189	3
-590	keyword.coulombsLaw	@keyword.coulombsLaw@	2009-08-31 14:41:58.712	2009-08-31 14:41:58.712	3
-591	keyword.covalentBonds	@keyword.covalentBonds@	2009-08-31 14:42:02.652	2009-08-31 14:42:02.652	3
-592	keyword.criticalExponent	@keyword.criticalExponent@	2009-08-31 14:42:07.597	2009-08-31 14:42:07.597	3
-593	keyword.criticalParameter	@keyword.criticalParameter@	2009-08-31 14:42:11.248	2009-08-31 14:42:11.248	3
-594	keyword.current	@keyword.current@	2009-08-31 14:42:15.014	2009-08-31 14:42:15.014	3
-595	keyword.curves	@keyword.curves@	2009-08-31 14:42:18.198	2009-08-31 14:42:18.198	3
-596	keyword.deBroglieWavelength	@keyword.deBroglieWavelength@	2009-08-31 14:42:21.586	2009-08-31 14:42:21.586	3
-597	keyword.diet	@keyword.diet@	2009-08-31 14:42:24.981	2009-08-31 14:42:24.981	3
-598	keyword.diffraction	@keyword.diffraction@	2009-08-31 14:42:28.55	2009-08-31 14:42:28.55	3
-599	keyword.dilution	@keyword.dilution@	2009-08-31 14:42:32.288	2009-08-31 14:42:32.288	3
-600	keyword.diodes	@keyword.diodes@	2009-08-31 14:42:35.933	2009-08-31 14:42:39.272	3
-601	keyword.dipole	@keyword.dipole@	2009-08-31 14:42:44.054	2009-08-31 14:42:44.054	3
-602	keyword.division	@keyword.division@	2009-08-31 14:42:47.168	2009-08-31 14:42:47.168	3
-603	keyword.dna	@keyword.dna@	2009-08-31 14:42:50.778	2009-08-31 14:42:50.778	3
-604	keyword.doping	@keyword.doping@	2009-08-31 14:42:54.497	2009-08-31 14:42:54.497	3
-605	keyword.doubleSlit	@keyword.doubleSlit@	2009-08-31 14:42:58.459	2009-08-31 14:42:58.459	3
 \.
 
 
@@ -3533,7 +3653,7 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 COPY translation (id, locale, visible) FROM stdin;
 1	en	t
 2	zh_CN	t
-3	it	t
+3	it	f
 \.
 
 
