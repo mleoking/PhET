@@ -109,6 +109,9 @@ public class AdminMainPage extends AdminPage {
 
             add( keyText = new TextField( "key", new PropertyModel( properties, "key" ) ) );
             add( valueText = new TextField( "value", new PropertyModel( properties, "value" ) ) );
+
+            // don't turn <'s and other characters into HTML/XML entities!!!
+            valueText.setEscapeModelStrings( false );
         }
 
         public final void onSubmit() {
