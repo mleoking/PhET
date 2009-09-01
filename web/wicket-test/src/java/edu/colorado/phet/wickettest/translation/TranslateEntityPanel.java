@@ -22,9 +22,9 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import edu.colorado.phet.wickettest.WicketApplication;
+import edu.colorado.phet.wickettest.components.LocalizedLabel;
 import edu.colorado.phet.wickettest.content.IndexPage;
 import edu.colorado.phet.wickettest.data.TranslatedString;
-import edu.colorado.phet.wickettest.panels.LocalizedLabel;
 import edu.colorado.phet.wickettest.panels.PhetPanel;
 import edu.colorado.phet.wickettest.translation.entities.TranslationEntity;
 import edu.colorado.phet.wickettest.util.HibernateTask;
