@@ -16,7 +16,7 @@ public class SponsorsEntity extends TranslationEntity {
             public PhetPanel getNewPanel( String id, PageContext context, PhetRequestCycle requestCycle ) {
                 return new SponsorsPanel( id, context );
             }
-        }, "default" );
+        }, "Sponsors Panel" );
     }
 
     public String getDisplayName() {

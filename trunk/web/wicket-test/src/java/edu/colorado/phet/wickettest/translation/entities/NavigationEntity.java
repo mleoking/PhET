@@ -58,7 +58,7 @@ public class NavigationEntity extends TranslationEntity {
                 locations.add( ( (WicketApplication) requestCycle.getApplication() ).getMenu().getLocationByKey( "about.licensing" ) );
                 return new SideNavMenu( id, context, locations );
             }
-        }, "default" );
+        }, "Navigation Menu" );
     }
 
     public String getDisplayName() {

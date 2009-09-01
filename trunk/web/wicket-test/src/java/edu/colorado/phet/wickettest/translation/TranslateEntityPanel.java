@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.extensions.ajax.markup.html.AjaxEditableMultiLineLabel;
@@ -26,18 +25,18 @@ import edu.colorado.phet.wickettest.WicketApplication;
 import edu.colorado.phet.wickettest.content.IndexPage;
 import edu.colorado.phet.wickettest.data.TranslatedString;
 import edu.colorado.phet.wickettest.panels.LocalizedLabel;
-import edu.colorado.phet.wickettest.panels.PanelHolder;
 import edu.colorado.phet.wickettest.panels.PhetPanel;
-import edu.colorado.phet.wickettest.panels.SponsorsPanel;
 import edu.colorado.phet.wickettest.translation.entities.TranslationEntity;
-import edu.colorado.phet.wickettest.util.*;
+import edu.colorado.phet.wickettest.util.HibernateTask;
+import edu.colorado.phet.wickettest.util.HibernateUtils;
+import edu.colorado.phet.wickettest.util.PageContext;
+import edu.colorado.phet.wickettest.util.StringUtils;
 
 public class TranslateEntityPanel extends PhetPanel {
 
     private TranslationEntity entity;
     private int translationId;
-    private PanelHolder panel;
-    private Component subPanel;
+    private PreviewHolder panel;
     private Map<String, IModel> stringModelMap = new HashMap<String, IModel>();
 
     public TranslateEntityPanel( String id, final PageContext context, final TranslationEntity entity, final int translationId, final Locale testLocale ) {
@@ -51,15 +50,7 @@ public class TranslateEntityPanel extends PhetPanel {
 
         add( new Label( "translation-id", String.valueOf( translationId ) ) );
 
-        panel = new PanelHolder( "panel", externalContext );
-        subPanel = new SponsorsPanel( panel.getWicketId(), externalContext );
-        if ( entity.hasPreviews() ) {
-            subPanel = entity.getPreviews().get( 0 ).getNewPanel( panel.getWicketId(), externalContext, (PhetRequestCycle) getRequestCycle() );
-        }
-        else {
-            subPanel = new Label( panel.getWicketId(), "(Preview is not available)" );
-        }
-        panel.add( subPanel );
+        panel = new PreviewHolder( "panel", externalContext, entity );
         add( panel );
 
         ListView stringList = new ListView( "translation-string-list", entity.getStrings() ) {

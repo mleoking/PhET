@@ -29,7 +29,7 @@ public class TitlesEntity extends TranslationEntity {
             public PhetPanel getNewPanel( String id, PageContext context, PhetRequestCycle requestCycle ) {
                 return new TitlePreviewPanel( id, context );
             }
-        }, "default" );
+        }, "Assorted Titles" );
     }
 
     public String getDisplayName() {
