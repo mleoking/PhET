@@ -6,6 +6,7 @@ import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
+import java.awt.geom.Point2D.Double;
 
 /**
  * Model representation for the axon membrane.  Represents it as a cross
@@ -28,7 +29,7 @@ public class AxonMembrane {
 	private static final double DEFAULT_MEMBRANE_THICKNESS = 4;  // In nanometers, obtained from web research.
 	private static final double DEFAULT_DIAMETER = 80; // In nanometers.
 	private static final double BODY_LENGTH = DEFAULT_DIAMETER * 1.5;
-	private static final double BODY_TILT_ANGLE = Math.toRadians(45);
+	private static final double BODY_TILT_ANGLE = Math.PI/4;
 	
     //----------------------------------------------------------------------------
     // Instance Data
@@ -82,24 +83,53 @@ public class AxonMembrane {
     private Shape createAxonBodyShape(){
     	
     	GeneralPath axonBodyShape = new GeneralPath();
+
+    	// Define the vanishing point for the body.
+    	Point2D vanishingPoint = new Point2D.Double(BODY_LENGTH * Math.cos(BODY_TILT_ANGLE),
+    			BODY_LENGTH * Math.sin(BODY_TILT_ANGLE));
     	
     	// Find the two points at which the shape will intersect the outer
     	// edge of the cross section.
-    	Point2D vanishingPoint = new Point2D.Double(BODY_LENGTH * Math.cos(BODY_TILT_ANGLE),
-    			BODY_LENGTH * Math.sin(BODY_TILT_ANGLE));
     	double r = getCrossSectionDiameter() / 2 + getMembraneThickness() / 2;
-    	double theta = BODY_TILT_ANGLE - Math.toRadians(90);
+    	double theta = BODY_TILT_ANGLE + Math.toRadians(90);
     	Point2D intersectionPointA = new Point2D.Double(r * Math.cos(theta), r * Math.sin(theta));
     	theta += Math.PI;
     	Point2D intersectionPointB = new Point2D.Double(r * Math.cos(theta), r * Math.sin(theta));
     	
+    	// Define the control points for the two curves.  Note that there is
+    	// some tweaking in here, so change as needed to get the desired look.
+    	// If you can figure it out, that is.
+    	double ctrlPtRadius;
+    	double angleToVanishingPt = Math.atan2(vanishingPoint.getY() - intersectionPointA.getY(), 
+    			vanishingPoint.getX() - intersectionPointA.getX());
+    	ctrlPtRadius = intersectionPointA.distance(vanishingPoint) * 0.33;
+    	Point2D cntrlPtA1 = new Point2D.Double(
+    			intersectionPointA.getX() + ctrlPtRadius * Math.cos(angleToVanishingPt + 0.3), 
+    			intersectionPointA.getY() + ctrlPtRadius * Math.sin(angleToVanishingPt + 0.3));
+    	ctrlPtRadius = intersectionPointA.distance(vanishingPoint) * 0.67;
+    	Point2D cntrlPtA2 = new Point2D.Double( 
+    			intersectionPointA.getX() + ctrlPtRadius * Math.cos(angleToVanishingPt - 0.5), 
+    			intersectionPointA.getY() + ctrlPtRadius * Math.sin(angleToVanishingPt - 0.5));
+    	
+    	double angleToIntersectionPt = Math.atan2(intersectionPointB.getY() - vanishingPoint.getY(), 
+    			intersectionPointB.getX() - intersectionPointB.getX());
+    	ctrlPtRadius = intersectionPointB.distance(vanishingPoint) * 0.33;
+    	Point2D cntrlPtB1 = new Point2D.Double(
+    			vanishingPoint.getX() + ctrlPtRadius * Math.cos(angleToIntersectionPt + 0.1), 
+    			vanishingPoint.getY() + ctrlPtRadius * Math.sin(angleToIntersectionPt + 0.1));
+    	ctrlPtRadius = intersectionPointB.distance(vanishingPoint) * 0.67;
+    	Point2D cntrlPtB2 = new Point2D.Double( 
+    			vanishingPoint.getX() + ctrlPtRadius * Math.cos(angleToIntersectionPt - 0.25), 
+    			vanishingPoint.getY() + ctrlPtRadius * Math.sin(angleToIntersectionPt - 0.25));
+    	
+    	// Draw the curves.
     	axonBodyShape.moveTo(intersectionPointA.getX(), intersectionPointA.getY());
-    	axonBodyShape.lineTo(intersectionPointB.getX(), intersectionPointB.getY());
-    	axonBodyShape.lineTo(vanishingPoint.getX(), vanishingPoint.getY());
+    	axonBodyShape.curveTo(cntrlPtA1.getX(), cntrlPtA1.getY(), cntrlPtA2.getX(), cntrlPtA2.getY(),
+    			vanishingPoint.getX(), vanishingPoint.getY());
+    	axonBodyShape.curveTo(cntrlPtB1.getX(), cntrlPtB1.getY(), cntrlPtB2.getX(), cntrlPtB2.getY(),
+    			intersectionPointB.getX(), intersectionPointB.getY());
     	axonBodyShape.lineTo(intersectionPointA.getX(), intersectionPointA.getY());
     	
     	return axonBodyShape;
-    	
-    	
     }
 }
