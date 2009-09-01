@@ -18,12 +18,15 @@ ALTER TABLE ONLY public.keyword_mapping DROP CONSTRAINT fkfbcce478aab0afa5;
 ALTER TABLE ONLY public.simulation DROP CONSTRAINT fkb3012607b7b702c7;
 ALTER TABLE ONLY public.user_translation_mapping DROP CONSTRAINT fk50f116ccf968c22f;
 ALTER TABLE ONLY public.user_translation_mapping DROP CONSTRAINT fk50f116cc5062452c;
+ALTER TABLE ONLY public.topics_mapping DROP CONSTRAINT fk47534b3ba10a9af;
+ALTER TABLE ONLY public.topics_mapping DROP CONSTRAINT fk47534b3aab0afa5;
 ALTER TABLE ONLY public.localized_simulation DROP CONSTRAINT fk311e4d4b6b081b59;
 ALTER TABLE ONLY public.category DROP CONSTRAINT fk302bcfe34a093d9;
 ALTER TABLE ONLY public.translated_string DROP CONSTRAINT fk1854a79ac047ff77;
 ALTER TABLE ONLY public.user_translation_mapping DROP CONSTRAINT user_translation_mapping_pkey;
 ALTER TABLE ONLY public.translation DROP CONSTRAINT translation_pkey;
 ALTER TABLE ONLY public.translated_string DROP CONSTRAINT translated_string_pkey;
+ALTER TABLE ONLY public.topics_mapping DROP CONSTRAINT topics_mapping_pkey;
 ALTER TABLE ONLY public.simulation DROP CONSTRAINT simulation_pkey;
 ALTER TABLE ONLY public.project DROP CONSTRAINT project_pkey;
 ALTER TABLE ONLY public.phet_user DROP CONSTRAINT phet_user_pkey;
@@ -35,6 +38,7 @@ ALTER TABLE ONLY public.category_mapping DROP CONSTRAINT category_mapping_pkey;
 DROP TABLE public.user_translation_mapping;
 DROP TABLE public.translation;
 DROP TABLE public.translated_string;
+DROP TABLE public.topics_mapping;
 DROP TABLE public.simulation;
 DROP TABLE public.project;
 DROP TABLE public.phet_user;
@@ -189,6 +193,19 @@ CREATE TABLE simulation (
 
 
 ALTER TABLE public.simulation OWNER TO phet;
+
+--
+-- Name: topics_mapping; Type: TABLE; Schema: public; Owner: phet; Tablespace: 
+--
+
+CREATE TABLE topics_mapping (
+    simulation_id integer NOT NULL,
+    keyword_id integer NOT NULL,
+    idx integer NOT NULL
+);
+
+
+ALTER TABLE public.topics_mapping OWNER TO phet;
 
 --
 -- Name: translated_string; Type: TABLE; Schema: public; Owner: phet; Tablespace: 
@@ -706,6 +723,35 @@ COPY keyword (id, key) FROM stdin;
 259	keyword.longitudinalWaves
 260	keyword.waves
 261	keyword.waveSpeed
+262	keyword.sun
+263	keyword.switches
+264	keyword.acVoltage
+265	keyword.rainbows
+266	keyword.splitting
+267	keyword.ammonia
+268	keyword.spinHalfParticles
+269	keyword.biology
+270	keyword.food
+271	keyword.sines
+272	keyword.cosines
+273	keyword.charlesLaw
+274	keyword.greenhouseGases
+275	keyword.photonBeams
+276	keyword.lunarLanding
+277	keyword.thrust
+278	keyword.fuelConsumption
+279	keyword.measurement
+280	keyword.molecules
+281	keyword.pulses
+282	keyword.periodicMotion
+283	keyword.acids
+284	keyword.bases
+285	keyword.histograms
+286	keyword.initialSpeed
+287	keyword.quantumParticles
+288	keyword.equilibrium
+289	keyword.alphaParticles
+290	keyword.signalCircuits
 \.
 
 
@@ -2483,6 +2529,250 @@ COPY simulation (id, name, type, project) FROM stdin;
 
 
 --
+-- Data for Name: topics_mapping; Type: TABLE DATA; Schema: public; Owner: phet
+--
+
+COPY topics_mapping (simulation_id, keyword_id, idx) FROM stdin;
+57	32	0
+26	37	0
+26	42	1
+1	46	0
+4	59	0
+4	56	1
+4	1	2
+3	4	0
+3	9	1
+3	57	2
+2	10	0
+2	4	1
+2	9	2
+2	57	3
+58	64	0
+58	262	1
+58	62	2
+58	52	3
+59	66	0
+59	4	1
+59	68	2
+7	2	0
+7	8	1
+7	9	2
+7	263	3
+7	7	4
+7	6	5
+7	73	6
+7	75	7
+7	264	8
+8	2	0
+8	8	1
+8	9	2
+8	263	3
+8	7	4
+8	6	5
+9	79	0
+9	265	1
+9	81	2
+9	80	3
+10	56	0
+60	87	0
+60	89	1
+41	95	0
+5	99	0
+5	266	1
+42	183	3
+5	268	2
+5	267	3
+12	269	0
+12	270	1
+12	104	2
+12	108	3
+14	1	0
+14	47	1
+14	66	2
+13	1	0
+13	47	1
+13	66	2
+15	108	0
+15	109	1
+15	110	2
+15	111	3
+15	112	4
+61	28	0
+61	87	1
+61	90	2
+62	117	0
+19	123	0
+19	122	1
+19	126	2
+63	123	0
+63	122	1
+63	126	2
+20	131	0
+20	27	1
+20	25	2
+20	26	3
+21	260	0
+21	271	1
+21	272	2
+64	112	0
+64	38	1
+64	144	2
+25	37	0
+25	144	1
+25	38	2
+25	114	3
+25	39	4
+25	146	5
+25	45	6
+25	273	7
+17	129	0
+17	123	1
+17	122	2
+17	74	3
+65	148	0
+65	149	1
+65	19	2
+22	23	0
+22	156	1
+23	155	0
+23	274	1
+23	144	2
+23	38	3
+23	156	4
+55	46	0
+28	17	0
+28	275	1
+28	52	2
+66	276	0
+66	170	1
+66	171	2
+66	277	3
+66	278	4
+66	114	5
+18	122	0
+18	126	1
+18	128	2
+16	122	0
+16	126	1
+16	125	2
+67	172	0
+67	173	1
+67	109	2
+67	279	3
+29	27	0
+29	25	1
+29	26	2
+30	175	0
+30	144	1
+30	38	2
+30	280	3
+24	52	0
+24	177	1
+24	178	2
+24	180	3
+24	181	4
+31	24	0
+31	26	1
+31	25	2
+32	27	0
+32	25	1
+32	26	2
+68	24	0
+68	26	1
+68	25	2
+68	27	3
+68	114	4
+11	62	0
+11	57	1
+69	11	0
+69	2	1
+34	19	0
+34	281	1
+70	193	0
+70	282	1
+38	196	0
+38	203	1
+38	283	2
+38	284	3
+39	62	0
+39	52	1
+39	79	2
+71	207	0
+71	285	1
+72	210	0
+72	255	1
+72	286	2
+72	171	3
+72	211	4
+6	287	0
+6	58	1
+6	260	2
+6	54	3
+40	287	0
+40	99	1
+42	52	0
+42	79	1
+42	57	2
+42	214	4
+42	260	5
+43	216	0
+44	225	0
+44	29	1
+44	199	2
+44	288	3
+73	223	0
+73	5	1
+27	38	0
+27	40	1
+27	144	2
+27	37	3
+27	225	4
+27	65	5
+47	52	0
+47	227	1
+47	96	2
+47	183	3
+47	289	4
+47	47	5
+47	48	6
+47	228	7
+47	184	8
+51	229	0
+51	230	1
+51	231	2
+51	220	3
+51	232	4
+51	233	5
+51	234	6
+51	221	7
+48	214	0
+49	84	0
+49	241	1
+49	242	2
+50	290	0
+50	2	1
+50	263	2
+33	245	0
+52	248	0
+52	260	1
+74	52	0
+74	247	1
+74	213	2
+45	159	0
+45	251	1
+45	252	2
+45	253	3
+75	30	0
+75	254	1
+56	260	0
+56	248	1
+76	260	0
+76	138	1
+76	137	2
+\.
+
+
+--
 -- Data for Name: translated_string; Type: TABLE DATA; Schema: public; Owner: phet
 --
 
@@ -2624,7 +2914,6 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 137	keyword.voltmeter	Voltmeter	2009-08-17 03:50:43.377	2009-08-17 03:50:43.377	1
 138	keyword.ammeter	Ammeter	2009-08-17 03:50:54.17	2009-08-17 03:50:54.17	1
 139	keyword.lightBulbs	Light Bulbs	2009-08-17 03:51:00.408	2009-08-17 03:51:00.408	1
-140	keyword.battery	Battery	2009-08-17 03:51:08.067	2009-08-17 03:51:08.067	1
 141	keyword.resistor	Resistor	2009-08-17 03:51:15.968	2009-08-17 03:51:15.968	1
 142	keyword.ohmsLaw	Ohm&#039;s Law	2009-08-17 03:51:25.474	2009-08-17 03:51:25.474	1
 143	keyword.kirchoffsLaw	Kirchoff&#039;s Law	2009-08-17 03:51:42.176	2009-08-17 03:51:42.176	1
@@ -2664,6 +2953,7 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 177	keyword.atmosphere	Atmosphere	2009-08-17 14:20:20.281	2009-08-17 14:20:20.281	1
 178	keyword.boylesLaw	Boyle&#039;s Law	2009-08-17 14:20:33.71	2009-08-17 14:20:33.71	1
 179	keyword.staticElectricity	Static Electricity	2009-08-17 14:21:16.525	2009-08-17 14:21:16.525	1
+192	keyword.energyBand	Energy Bands	2009-08-17 14:35:07.139	2009-08-17 14:35:07.139	1
 181	keyword.electricForce	Electric Force	2009-08-17 14:21:58.914	2009-08-17 14:21:58.914	1
 182	keyword.coulombsLaw	Coulomb&#039;s Law	2009-08-17 14:22:14.905	2009-08-17 14:22:14.905	1
 183	keyword.polarization	Polarization	2009-08-17 14:22:35.417	2009-08-17 14:22:35.417	1
@@ -2675,7 +2965,6 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 189	keyword.conductivity	Conductivity	2009-08-17 14:33:47.731	2009-08-17 14:33:47.731	1
 190	keyword.electrons	Electrons	2009-08-17 14:34:02.566	2009-08-17 14:34:02.566	1
 191	keyword.potentialWells	Potential Wells	2009-08-17 14:34:19.643	2009-08-17 14:34:19.643	1
-192	keyword.energyBand	Energy Band	2009-08-17 14:35:07.139	2009-08-17 14:35:07.139	1
 193	keyword.energyGap	Energy Gap	2009-08-17 14:35:19.641	2009-08-17 14:35:19.641	1
 194	keyword.radiation	Radiation	2009-08-17 14:38:20.137	2009-08-17 14:38:20.137	1
 195	keyword.light	Light	2009-08-17 14:38:41.744	2009-08-17 14:38:41.744	1
@@ -2687,6 +2976,7 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 201	keyword.equipotential	Equipotential	2009-08-17 14:42:09.305	2009-08-17 14:42:09.305	1
 202	keyword.pointCharge	Point Charge	2009-08-17 14:42:37.995	2009-08-17 14:42:37.995	1
 151	keyword.optical	Optics	2009-08-17 05:25:34.157	2009-08-17 15:30:00.037	1
+140	keyword.battery	Batteries	2009-08-17 03:51:08.067	2009-08-31 20:58:33.195	1
 203	keyword.dipole	Dipole	2009-08-17 14:42:47.818	2009-08-17 14:42:47.818	1
 204	keyword.acCircuits	AC Circuits	2009-08-17 14:45:04.666	2009-08-17 14:45:04.666	1
 205	keyword.capacitance	Capacitance	2009-08-17 14:45:21.691	2009-08-17 14:45:21.691	1
@@ -2698,7 +2988,6 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 211	keyword.lcCircuit	LC Circuit	2009-08-17 14:47:32.007	2009-08-17 14:47:32.007	1
 212	keyword.photons	Photons	2009-08-17 14:50:56.912	2009-08-17 14:50:56.912	1
 213	keyword.whiteLight	White Light	2009-08-17 14:51:08.563	2009-08-17 14:51:08.563	1
-214	keyword.monochromatic	Monochromatic	2009-08-17 14:51:23.734	2009-08-17 14:51:23.734	1
 215	keyword.insulators	Insulators	2009-08-17 14:52:31.844	2009-08-17 14:52:31.844	1
 216	keyword.conductors	Conductors	2009-08-17 14:52:47.547	2009-08-17 14:52:47.547	1
 217	keyword.semiconductors	Semiconductors	2009-08-17 14:53:01.418	2009-08-17 14:53:01.418	1
@@ -2743,7 +3032,6 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 255	keyword.magneticField	Magnetic Field	2009-08-17 15:17:05.025	2009-08-17 15:17:05.025	1
 256	keyword.faradaysLaw	Faraday&#039;s Law	2009-08-17 15:17:23.989	2009-08-17 15:17:23.989	1
 257	keyword.power	Power	2009-08-17 15:17:36.231	2009-08-17 15:17:36.231	1
-258	keyword.electromagnet	Electromagnet	2009-08-17 15:17:56.273	2009-08-17 15:17:56.273	1
 259	keyword.magnets	Magnets	2009-08-17 15:18:20.327	2009-08-17 15:18:20.327	1
 260	keyword.transformer	Transformer	2009-08-17 15:18:35.113	2009-08-17 15:18:35.113	1
 261	keyword.compass	Compass	2009-08-17 15:18:49.345	2009-08-17 15:18:49.345	1
@@ -2959,6 +3247,37 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 670	keyword.length	@keyword.length@	2009-08-31 14:57:15.764	2009-08-31 14:57:15.764	3
 671	keyword.lens	@keyword.lens@	2009-08-31 14:57:19.322	2009-08-31 14:57:19.322	3
 672	keyword.light	@keyword.light@	2009-08-31 14:57:23.306	2009-08-31 14:57:23.306	3
+711	keyword.sun	Sun	2009-08-31 20:55:52.066	2009-08-31 20:55:52.066	1
+712	keyword.switches	Switches	2009-08-31 20:58:55.33	2009-08-31 20:58:55.33	1
+713	keyword.acVoltage	AC Voltage	2009-08-31 20:59:32.861	2009-08-31 20:59:32.861	1
+714	keyword.rainbows	Rainbows	2009-08-31 21:01:04.609	2009-08-31 21:01:04.609	1
+214	keyword.monochromatic	Monochromatic Light	2009-08-17 14:51:23.734	2009-08-31 21:01:49.574	1
+715	keyword.splitting	Splitting	2009-08-31 21:03:52.187	2009-08-31 21:03:52.187	1
+716	keyword.ammonia	Ammonia Molecules	2009-08-31 21:04:19.467	2009-08-31 21:04:19.467	1
+717	keyword.spinHalfParticles	Spin 1/2 Particles	2009-08-31 21:04:51.944	2009-08-31 21:04:51.944	1
+718	keyword.biology	Biology	2009-08-31 21:05:28.818	2009-08-31 21:05:28.818	1
+719	keyword.food	Food	2009-08-31 21:05:44.549	2009-08-31 21:05:44.549	1
+720	keyword.sines	Sines	2009-08-31 21:09:48.04	2009-08-31 21:09:48.04	1
+721	keyword.cosines	Cosines	2009-08-31 21:09:52.659	2009-08-31 21:09:52.659	1
+722	keyword.charlesLaw	Charles&#039; Law	2009-08-31 21:11:12.264	2009-08-31 21:11:12.264	1
+723	keyword.greenhouseGases	Greenhouse Gases	2009-08-31 21:13:59.617	2009-08-31 21:13:59.617	1
+724	keyword.photonBeams	Photon Beams	2009-08-31 21:14:55.787	2009-08-31 21:14:55.787	1
+725	keyword.lunarLanding	Lunar Landing	2009-08-31 21:15:28.512	2009-08-31 21:15:28.512	1
+726	keyword.thrust	Thrust	2009-08-31 21:15:48.829	2009-08-31 21:15:48.829	1
+727	keyword.fuelConsumption	Fuel Consumption	2009-08-31 21:16:05.756	2009-08-31 21:16:05.756	1
+258	keyword.electromagnet	Electromagnets	2009-08-17 15:17:56.273	2009-08-31 21:17:14.557	1
+728	keyword.measurement	Measurement	2009-08-31 21:19:12.102	2009-08-31 21:19:12.102	1
+729	keyword.molecules	Molecules	2009-08-31 21:21:59.294	2009-08-31 21:21:59.294	1
+730	keyword.pulses	Pulses	2009-08-31 21:25:13.851	2009-08-31 21:25:13.851	1
+731	keyword.periodicMotion	Periodic Motion	2009-08-31 21:26:00.778	2009-08-31 21:26:00.778	1
+732	keyword.acids	Acids	2009-08-31 21:27:04.55	2009-08-31 21:27:04.55	1
+733	keyword.bases	Bases	2009-08-31 21:27:10.323	2009-08-31 21:27:10.323	1
+734	keyword.histograms	Histograms	2009-08-31 21:28:21.048	2009-08-31 21:28:21.048	1
+735	keyword.initialSpeed	Initial Speed	2009-08-31 21:28:52.897	2009-08-31 21:28:52.897	1
+736	keyword.quantumParticles	Quantum Particles	2009-08-31 21:29:29.48	2009-08-31 21:29:29.48	1
+737	keyword.equilibrium	Equilibrium	2009-08-31 21:31:50.172	2009-08-31 21:31:50.172	1
+738	keyword.alphaParticles	Alpha Particles	2009-08-31 21:33:20.743	2009-08-31 21:33:20.743	1
+739	keyword.signalCircuits	Signal Circuits	2009-08-31 21:35:35.057	2009-08-31 21:35:35.057	1
 439	language.dir	ltr	2009-08-31 14:12:59.195	2009-08-31 17:32:04.41	3
 606	keyword.dynamicEquilibrium	@keyword.dynamicEquilibrium@	2009-08-31 14:48:53.315	2009-08-31 14:48:53.315	3
 607	keyword.dynamics	@keyword.dynamics@	2009-08-31 14:48:56.342	2009-08-31 14:48:56.342	3
@@ -3282,6 +3601,14 @@ ALTER TABLE ONLY simulation
 
 
 --
+-- Name: topics_mapping_pkey; Type: CONSTRAINT; Schema: public; Owner: phet; Tablespace: 
+--
+
+ALTER TABLE ONLY topics_mapping
+    ADD CONSTRAINT topics_mapping_pkey PRIMARY KEY (simulation_id, idx);
+
+
+--
 -- Name: translated_string_pkey; Type: CONSTRAINT; Schema: public; Owner: phet; Tablespace: 
 --
 
@@ -3327,6 +3654,22 @@ ALTER TABLE ONLY category
 
 ALTER TABLE ONLY localized_simulation
     ADD CONSTRAINT fk311e4d4b6b081b59 FOREIGN KEY (simulation) REFERENCES simulation(id);
+
+
+--
+-- Name: fk47534b3aab0afa5; Type: FK CONSTRAINT; Schema: public; Owner: phet
+--
+
+ALTER TABLE ONLY topics_mapping
+    ADD CONSTRAINT fk47534b3aab0afa5 FOREIGN KEY (simulation_id) REFERENCES simulation(id);
+
+
+--
+-- Name: fk47534b3ba10a9af; Type: FK CONSTRAINT; Schema: public; Owner: phet
+--
+
+ALTER TABLE ONLY topics_mapping
+    ADD CONSTRAINT fk47534b3ba10a9af FOREIGN KEY (keyword_id) REFERENCES keyword(id);
 
 
 --
