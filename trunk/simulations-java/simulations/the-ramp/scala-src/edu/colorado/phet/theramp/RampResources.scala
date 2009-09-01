@@ -4,12 +4,12 @@ import common.phetcommon.resources.PhetResources
 import java.text.MessageFormat
 
 object Predef {
-  implicit def toMyRichString(s: String) = new MyRichString(s)
+  implicit def toMyRichString(s: String) = new TranslatableString(s)
 }
 import Predef._
 
 object RampResources extends PhetResources("the-ramp".literal) {
-  implicit def toMyRichString(s: String) = new MyRichString(s)
+  implicit def toMyRichString(s: String) = new TranslatableString(s)
 
   val forcePattern = "force.pattern".translate
   val energyPattern = "energy.pattern".translate
@@ -22,7 +22,7 @@ object RampResources extends PhetResources("the-ramp".literal) {
   def formatWork(work: String) = MessageFormat.format(workPattern, work)
 }
 
-class MyRichString(s: String) {
+class TranslatableString(s: String) {
   lazy val literal = s
   lazy val translate = RampResources.getLocalizedString(s)
 
