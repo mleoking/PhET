@@ -41,6 +41,7 @@ public class AdminSimPage extends AdminPage {
 
         List<LocalizedSimulation> localizedSimulations = new LinkedList<LocalizedSimulation>();
         List<Keyword> simKeywords = new LinkedList<Keyword>();
+        List<Keyword> simTopics = new LinkedList<Keyword>();
         List<Keyword> allKeywords = new LinkedList<Keyword>();
 
         Session session = getHibernateSession();
@@ -59,6 +60,10 @@ public class AdminSimPage extends AdminPage {
 
             for ( Object o : simulation.getKeywords() ) {
                 simKeywords.add( (Keyword) o );
+            }
+
+            for ( Object o : simulation.getTopics() ) {
+                simTopics.add( (Keyword) o );
             }
 
             List allKeys = session.createQuery( "select k from Keyword as k" ).list();
@@ -90,6 +95,8 @@ public class AdminSimPage extends AdminPage {
 
         add( new AddKeywordForm( "add-keyword", simKeywords, allKeywords ) );
 
+        add( new AddTopicForm( "add-topic", simTopics, allKeywords ) );
+
         add( new CreateKeywordForm( "create-keyword", allKeywords ) );
 
         add( new ListView( "translation-list", localizedSimulations ) {
@@ -113,25 +120,39 @@ public class AdminSimPage extends AdminPage {
         } );
     }
 
-    private void swapKeywordOrder( final List<Keyword> simKeywords, final int a, final int b ) {
-        boolean success = HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
-            public boolean run( Session session ) {
-                Simulation sim = (Simulation) session.load( Simulation.class, simulation.getId() );
-                Collections.swap( sim.getKeywords(), a, b );
-                session.update( sim );
-                return true;
-            }
-        } );
-        if ( success ) {
-            Collections.swap( simKeywords, a, b );
+
+    private class AddKeywordForm extends AbstractKeywordForm {
+        private AddKeywordForm( String id, List<Keyword> simKeywords, List<Keyword> allKeywords ) {
+            super( id, simKeywords, allKeywords );
+        }
+
+        public List getKeywordList( Simulation simulation ) {
+            return simulation.getKeywords();
         }
     }
 
-    private class AddKeywordForm extends Form {
-        private AdminSimPage.AddKeywordForm.KeywordDropDownChoice dropDownChoice;
+    private class AddTopicForm extends AbstractKeywordForm {
+        private AddTopicForm( String id, List<Keyword> simKeywords, List<Keyword> allKeywords ) {
+            super( id, simKeywords, allKeywords );
+        }
+
+        public List getKeywordList( Simulation simulation ) {
+            return simulation.getTopics();
+        }
+    }
+
+    /**
+     * Form now abstract, so that we can duplicate the functionality for adding keywords and topics
+     */
+    private abstract class AbstractKeywordForm extends Form {
+        public AdminSimPage.AddKeywordForm.KeywordDropDownChoice dropDownChoice;
         private List<Keyword> simKeywords;
 
-        public AddKeywordForm( String id, final List<Keyword> simKeywords, List<Keyword> allKeywords ) {
+        public abstract List getKeywordList( Simulation simulation );
+
+        //public abstract void swapKeywordOrder( final List<Keyword> simKeywords, final int a, final int b );
+
+        public AbstractKeywordForm( String id, final List<Keyword> simKeywords, List<Keyword> allKeywords ) {
             super( id );
             this.simKeywords = simKeywords;
 
@@ -146,7 +167,7 @@ public class AdminSimPage extends AdminPage {
                                     Simulation sim = (Simulation) session.load( Simulation.class, simulation.getId() );
                                     Keyword kword = (Keyword) session.load( Keyword.class, keyword.getId() );
 
-                                    sim.getKeywords().remove( kword );
+                                    getKeywordList( sim ).remove( kword );
                                     session.update( sim );
                                     return true;
                                 }
@@ -184,6 +205,20 @@ public class AdminSimPage extends AdminPage {
             add( dropDownChoice );
         }
 
+        public void swapKeywordOrder( final List<Keyword> simKeywords, final int a, final int b ) {
+            boolean success = HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
+                public boolean run( Session session ) {
+                    Simulation sim = (Simulation) session.load( Simulation.class, simulation.getId() );
+                    Collections.swap( getKeywordList( sim ), a, b );
+                    session.update( sim );
+                    return true;
+                }
+            } );
+            if ( success ) {
+                Collections.swap( simKeywords, a, b );
+            }
+        }
+
         @Override
         protected void onSubmit() {
             final int keywordId = Integer.valueOf( dropDownChoice.getModelValue() );
@@ -196,12 +231,12 @@ public class AdminSimPage extends AdminPage {
                     boolean ok = true;
 
                     // make sure the sim doesn't already have the keyword
-                    for ( Object o : sim.getKeywords() ) {
+                    for ( Object o : getKeywordList( sim ) ) {
                         ok = ok && ( (Keyword) o ).getId() != keywordId;
                     }
 
                     if ( ok ) {
-                        sim.getKeywords().add( kword );
+                        getKeywordList( sim ).add( kword );
                         session.update( sim );
                         return true;
                     }
@@ -216,7 +251,7 @@ public class AdminSimPage extends AdminPage {
             }
         }
 
-        private class KeywordDropDownChoice extends DropDownChoice {
+        public class KeywordDropDownChoice extends DropDownChoice {
             public KeywordDropDownChoice( String id, List<Keyword> allKeywords ) {
                 super( id, new Model(), allKeywords, new IChoiceRenderer() {
                     public Object getDisplayValue( Object object ) {
