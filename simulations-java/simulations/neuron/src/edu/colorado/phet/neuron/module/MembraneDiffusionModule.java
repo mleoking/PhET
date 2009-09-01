@@ -1,4 +1,4 @@
-/* Copyright 2007-2008, University of Colorado */
+/* Copyright 2009, University of Colorado */
 
 package edu.colorado.phet.neuron.module;
 
@@ -13,11 +13,11 @@ import edu.colorado.phet.neuron.model.AxonModel;
 import edu.colorado.phet.neuron.view.NeuronCanvas;
 
 /**
- * ExampleModule is the "Example" module.
+ * Membrane Diffusion module.
  *
- * @author Chris Malley (cmalley@pixelzoom.com)
+ * @author John Blanco
  */
-public class NeuronModule extends PiccoloModule {
+public class MembraneDiffusionModule extends PiccoloModule {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -32,8 +32,9 @@ public class NeuronModule extends PiccoloModule {
     // Constructors
     //----------------------------------------------------------------------------
 
-    public NeuronModule( Frame parentFrame ) {
-        super( NeuronStrings.TITLE_MEMBRANE_DIFFUSION_MODULE, new NeuronClock( NeuronDefaults.CLOCK_FRAME_RATE, NeuronDefaults.CLOCK_DT ) );
+    public MembraneDiffusionModule( Frame parentFrame ) {
+        super( NeuronStrings.TITLE_MEMBRANE_DIFFUSION_MODULE, new NeuronClock( NeuronDefaults.CLOCK_FRAME_RATE,
+        		NeuronDefaults.CLOCK_DT ) );
 
         // Model
         NeuronClock clock = (NeuronClock) getClock();

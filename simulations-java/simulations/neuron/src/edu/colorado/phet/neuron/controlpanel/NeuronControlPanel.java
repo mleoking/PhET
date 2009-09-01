@@ -7,7 +7,7 @@ import java.awt.Frame;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.neuron.NeuronResources;
 import edu.colorado.phet.neuron.model.AxonModel;
-import edu.colorado.phet.neuron.module.NeuronModule;
+import edu.colorado.phet.neuron.module.MembraneDiffusionModule;
 
 /**
  * ExampleControlPanel is the control panel for ExampleModule.
@@ -30,7 +30,7 @@ public class NeuronControlPanel extends ControlPanel {
      * @param module
      * @param parentFrame parent frame, for creating dialogs
      */
-    public NeuronControlPanel( NeuronModule module, Frame parentFrame, AxonModel model ) {
+    public NeuronControlPanel( MembraneDiffusionModule module, Frame parentFrame, AxonModel model ) {
         super();
         
         // Set the control panel's minimum width.
