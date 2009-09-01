@@ -12,6 +12,7 @@ import org.apache.wicket.model.ResourceModel;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.wickettest.WicketApplication;
+import edu.colorado.phet.wickettest.components.LocalizedLabel;
 import edu.colorado.phet.wickettest.components.PhetLink;
 import edu.colorado.phet.wickettest.util.PageContext;
 

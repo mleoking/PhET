@@ -2490,6 +2490,7 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 1	language.dir	ltr	2009-08-17 03:48:19.896	2009-08-17 03:48:19.896	1
 3	home.title	PhET: Free online physics, chemistry, biology, earth science and math simulations	2009-08-17 03:48:19.897	2009-08-17 03:48:19.897	1
 4	home.header	Interactive Science Simulations	2009-08-17 03:48:19.897	2009-08-17 03:48:19.897	1
+704	about.source-code.header	@about.source-code.header@	2009-08-31 16:37:48.847	2009-08-31 18:20:19.651	3
 6	home.playWithSims	Play with sims... >	2009-08-17 03:48:19.897	2009-08-17 03:48:19.897	1
 7	home.runOurSims	Run our Simulations	2009-08-17 03:48:19.897	2009-08-17 03:48:19.897	1
 8	home.onLine	On Line	2009-08-17 03:48:19.897	2009-08-17 03:48:19.897	1
@@ -2502,7 +2503,6 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 15	home.translateSimulations	Translate Simulations	2009-08-17 03:48:19.897	2009-08-17 03:48:19.897	1
 16	home.browseSims	Browse Sims	2009-08-17 03:48:19.897	2009-08-17 03:48:19.897	1
 17	home.simulations	Simulations	2009-08-17 03:48:19.899	2009-08-17 03:48:19.899	1
-704	about.source-code.header	@about.source-code.header@	2009-08-31 16:37:48.847	2009-08-31 16:37:48.847	3
 19	simulationDisplay.title	{0} - PhET Simulations	2009-08-17 03:48:19.899	2009-08-17 03:48:19.899	1
 20	simulationMainPanel.translatedVersions	Translated Versions:	2009-08-17 03:48:19.899	2009-08-17 03:48:19.899	1
 21	simulationMainPanel.screenshot.alt	{0} Screenshot	2009-08-17 03:48:19.899	2009-08-17 03:48:19.899	1
@@ -2593,6 +2593,7 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 90	sponsors.ksu	King Saud University seeks to become a leader in educational and technological innovation, scientific discovery and creativity through fostering an atmosphere of intellectual inspiration and partnership for the prosperity of society.	2009-08-17 03:48:19.903	2009-08-17 03:48:19.903	1
 91	home.header	互动科学模拟	2009-08-17 03:48:19.904	2009-08-17 03:48:19.904	2
 92	nav.motion	运动	2009-08-17 03:48:19.904	2009-08-17 03:48:19.904	2
+707	sponsors.otherSponsors	Other Sponsors &gt;&gt;	2009-08-31 19:24:42.677	2009-08-31 19:24:42.677	1
 94	home.subheader	有趣，互动，以研究为基础的模拟物理现象从碧项目在科罗拉多大学	2009-08-17 03:48:19.904	2009-08-17 03:48:19.904	2
 95	home.playWithSims	玩模拟... >	2009-08-17 03:48:19.904	2009-08-17 03:48:19.904	2
 96	nav.home	家	2009-08-17 03:48:19.904	2009-08-17 03:48:19.904	2
@@ -2899,7 +2900,7 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 411	nav.troubleshooting.flash	Flash	2009-08-19 00:39:06.905	2009-08-19 00:39:06.905	1
 412	about.source-code.title	PhET Source Code	2009-08-19 01:32:35.704	2009-08-19 01:32:35.704	1
 413	nav.about.source-code	Source Code	2009-08-19 01:32:46.865	2009-08-19 01:32:46.865	1
-706	about.source-code.flash-simulations	@about.source-code.flash-simulations@	2009-08-31 16:37:58.454	2009-08-31 16:37:58.454	3
+708	sponsors.otherSponsors	@sponsors.otherSponsors@	2009-08-31 19:25:15.689	2009-08-31 19:25:33.756	3
 416	nav.about.contact	Contact	2009-08-19 01:34:06.066	2009-08-19 01:34:06.066	1
 417	about.contact.title	Contact	2009-08-19 01:34:10.998	2009-08-19 01:34:10.998	1
 418	about.who-we-are.title	Who We Are	2009-08-19 01:34:21.682	2009-08-19 01:34:21.682	1
@@ -2924,6 +2925,7 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 437	nav.contribute	贡献	2009-08-19 02:11:19.388	2009-08-19 02:11:19.388	2
 438	nav.get-phet.one-at-a-time	一次一个	2009-08-19 02:11:28.145	2009-08-19 02:11:28.145	2
 5	home.subheader	Fun, interactive, <a {0}>research-based</a> simulations of physical phenomena from the PhET project at the University of Colorado.	2009-08-17 03:48:19.897	2009-08-30 01:09:02.419	1
+706	about.source-code.flash-simulations	@about.source-code.flash-simulations@	2009-08-31 16:37:58.454	2009-08-31 16:37:58.454	3
 705	about.source-code.location	@about.source-code.location@	2009-08-31 16:37:56.22	2009-08-31 16:37:56.22	3
 643	keyword.gravity	@keyword.gravity@	2009-08-31 14:55:27.287	2009-08-31 14:55:27.287	3
 644	keyword.greenhouseEffect	@keyword.greenhouseEffect@	2009-08-31 14:55:31.648	2009-08-31 14:55:31.648	3
@@ -2955,6 +2957,42 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 670	keyword.length	@keyword.length@	2009-08-31 14:57:15.764	2009-08-31 14:57:15.764	3
 671	keyword.lens	@keyword.lens@	2009-08-31 14:57:19.322	2009-08-31 14:57:19.322	3
 672	keyword.light	@keyword.light@	2009-08-31 14:57:23.306	2009-08-31 14:57:23.306	3
+439	language.dir	ltr	2009-08-31 14:12:59.195	2009-08-31 17:32:04.41	3
+606	keyword.dynamicEquilibrium	@keyword.dynamicEquilibrium@	2009-08-31 14:48:53.315	2009-08-31 14:48:53.315	3
+607	keyword.dynamics	@keyword.dynamics@	2009-08-31 14:48:56.342	2009-08-31 14:48:56.342	3
+608	keyword.eating	@keyword.eating@	2009-08-31 14:48:59.702	2009-08-31 14:48:59.702	3
+609	keyword.electricField	@keyword.electricField@	2009-08-31 14:49:03.536	2009-08-31 14:49:03.536	3
+610	keyword.electricForce	@keyword.electricForce@	2009-08-31 14:49:06.463	2009-08-31 14:49:06.463	3
+611	keyword.electricPotential	@keyword.electricPotential@	2009-08-31 14:49:09.482	2009-08-31 14:49:09.482	3
+612	keyword.electricity	@keyword.electricity@	2009-08-31 14:49:12.517	2009-08-31 14:49:12.517	3
+613	keyword.electromagnet	@keyword.electromagnet@	2009-08-31 14:49:16.122	2009-08-31 14:49:16.122	3
+614	keyword.electronDiffraction	@keyword.electronDiffraction@	2009-08-31 14:49:19.409	2009-08-31 14:49:19.409	3
+615	keyword.electrons	@keyword.electrons@	2009-08-31 14:49:23.325	2009-08-31 14:49:23.325	3
+616	keyword.electrostatics	@keyword.electrostatics@	2009-08-31 14:49:26.336	2009-08-31 14:49:26.336	3
+617	keyword.ellipticalMotion	@keyword.ellipticalMotion@	2009-08-31 14:49:29.661	2009-08-31 14:49:29.661	3
+618	keyword.emission	@keyword.emission@	2009-08-31 14:49:32.379	2009-08-31 14:49:32.379	3
+619	keyword.energy	@keyword.energy@	2009-08-31 14:49:35.521	2009-08-31 14:49:35.521	3
+620	keyword.energyBand	@keyword.energyBand@	2009-08-31 14:49:38.456	2009-08-31 14:49:38.456	3
+621	keyword.energyGap	@keyword.energyGap@	2009-08-31 14:49:41.539	2009-08-31 14:49:41.539	3
+622	keyword.energyLevels	@keyword.energyLevels@	2009-08-31 14:49:44.477	2009-08-31 14:49:44.477	3
+625	keyword.estimation	@keyword.estimation@	2009-08-31 14:49:54.227	2009-08-31 14:49:54.227	3
+628	keyword.factoring	@keyword.factoring@	2009-08-31 14:54:20.402	2009-08-31 14:54:20.402	3
+629	keyword.faradaysLaw	@keyword.faradaysLaw@	2009-08-31 14:54:23.953	2009-08-31 14:54:23.953	3
+630	keyword.fields	@keyword.fields@	2009-08-31 14:54:27.564	2009-08-31 14:54:27.564	3
+631	keyword.focalLength	@keyword.focalLength@	2009-08-31 14:54:30.921	2009-08-31 14:54:30.921	3
+632	keyword.force	@keyword.force@	2009-08-31 14:54:34.456	2009-08-31 14:54:34.456	3
+633	keyword.fourierAnalysis	@keyword.fourierAnalysis@	2009-08-31 14:54:37.788	2009-08-31 14:54:37.788	3
+634	keyword.fourierSeries	@keyword.fourierSeries@	2009-08-31 14:54:40.788	2009-08-31 14:54:40.788	3
+635	keyword.frequency	@keyword.frequency@	2009-08-31 14:54:43.78	2009-08-31 14:54:43.78	3
+636	keyword.friction	@keyword.friction@	2009-08-31 14:54:47.461	2009-08-31 14:54:47.461	3
+637	keyword.galton	@keyword.galton@	2009-08-31 14:54:53.229	2009-08-31 14:54:57.823	3
+638	keyword.gas	@keyword.gas@	2009-08-31 14:55:01.466	2009-08-31 14:55:01.466	3
+639	keyword.generator	@keyword.generator@	2009-08-31 14:55:04.427	2009-08-31 14:55:04.427	3
+640	keyword.glaciers	@keyword.glaciers@	2009-08-31 14:55:07.09	2009-08-31 14:55:07.09	3
+497	simulationMainPanel.topics	@simulationMainPanel.topics@	2009-08-31 14:16:50.1	2009-08-31 14:16:50.1	3
+498	simulationMainPanel.mainTopics	@simulationMainPanel.mainTopics@	2009-08-31 14:16:53.053	2009-08-31 14:16:53.053	3
+499	simulationMainPanel.keywords	@simulationMainPanel.keywords@	2009-08-31 14:16:55.898	2009-08-31 14:16:55.898	3
+641	keyword.graphing	@keyword.graphing@	2009-08-31 14:55:16.312	2009-08-31 14:55:16.312	3
 673	keyword.lightBulbs	@keyword.lightBulbs@	2009-08-31 14:57:26.872	2009-08-31 14:57:26.872	3
 693	contribute.title	@contribute.title@	2009-08-31 14:58:31.872	2009-08-31 14:58:31.872	3
 695	get-phet.one-at-a-time.title	@get-phet.one-at-a-time.title@	2009-08-31 14:58:36.828	2009-08-31 14:58:36.828	3
@@ -2978,25 +3016,6 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 453	home.browseSims	@home.browseSims@	2009-08-31 14:14:05.896	2009-08-31 14:14:05.896	3
 454	home.simulations	@home.simulations@	2009-08-31 14:14:09.274	2009-08-31 14:14:09.274	3
 455	nav.home	@nav.home@	2009-08-31 14:14:15.842	2009-08-31 14:14:15.842	3
-606	keyword.dynamicEquilibrium	@keyword.dynamicEquilibrium@	2009-08-31 14:48:53.315	2009-08-31 14:48:53.315	3
-607	keyword.dynamics	@keyword.dynamics@	2009-08-31 14:48:56.342	2009-08-31 14:48:56.342	3
-608	keyword.eating	@keyword.eating@	2009-08-31 14:48:59.702	2009-08-31 14:48:59.702	3
-439	language.dir	@language.dir@	2009-08-31 14:12:59.195	2009-08-31 14:47:22.579	3
-609	keyword.electricField	@keyword.electricField@	2009-08-31 14:49:03.536	2009-08-31 14:49:03.536	3
-610	keyword.electricForce	@keyword.electricForce@	2009-08-31 14:49:06.463	2009-08-31 14:49:06.463	3
-611	keyword.electricPotential	@keyword.electricPotential@	2009-08-31 14:49:09.482	2009-08-31 14:49:09.482	3
-612	keyword.electricity	@keyword.electricity@	2009-08-31 14:49:12.517	2009-08-31 14:49:12.517	3
-613	keyword.electromagnet	@keyword.electromagnet@	2009-08-31 14:49:16.122	2009-08-31 14:49:16.122	3
-614	keyword.electronDiffraction	@keyword.electronDiffraction@	2009-08-31 14:49:19.409	2009-08-31 14:49:19.409	3
-615	keyword.electrons	@keyword.electrons@	2009-08-31 14:49:23.325	2009-08-31 14:49:23.325	3
-616	keyword.electrostatics	@keyword.electrostatics@	2009-08-31 14:49:26.336	2009-08-31 14:49:26.336	3
-617	keyword.ellipticalMotion	@keyword.ellipticalMotion@	2009-08-31 14:49:29.661	2009-08-31 14:49:29.661	3
-618	keyword.emission	@keyword.emission@	2009-08-31 14:49:32.379	2009-08-31 14:49:32.379	3
-619	keyword.energy	@keyword.energy@	2009-08-31 14:49:35.521	2009-08-31 14:49:35.521	3
-620	keyword.energyBand	@keyword.energyBand@	2009-08-31 14:49:38.456	2009-08-31 14:49:38.456	3
-621	keyword.energyGap	@keyword.energyGap@	2009-08-31 14:49:41.539	2009-08-31 14:49:41.539	3
-622	keyword.energyLevels	@keyword.energyLevels@	2009-08-31 14:49:44.477	2009-08-31 14:49:44.477	3
-625	keyword.estimation	@keyword.estimation@	2009-08-31 14:49:54.227	2009-08-31 14:49:54.227	3
 456	nav.simulations	@nav.simulations@	2009-08-31 14:14:18.273	2009-08-31 14:14:18.273	3
 457	nav.featured	@nav.featured@	2009-08-31 14:14:20.786	2009-08-31 14:14:20.786	3
 458	nav.new	@nav.new@	2009-08-31 14:14:23.376	2009-08-31 14:14:23.376	3
@@ -3043,23 +3062,6 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 494	simulationMainPanel.kilobytes	@simulationMainPanel.kilobytes@	2009-08-31 14:16:40.792	2009-08-31 14:16:40.792	3
 495	simulationMainPanel.runOffline	@simulationMainPanel.runOffline@	2009-08-31 14:16:44.563	2009-08-31 14:16:44.563	3
 496	simulationMainPanel.runOnline	@simulationMainPanel.runOnline@	2009-08-31 14:16:47.776	2009-08-31 14:16:47.776	3
-628	keyword.factoring	@keyword.factoring@	2009-08-31 14:54:20.402	2009-08-31 14:54:20.402	3
-629	keyword.faradaysLaw	@keyword.faradaysLaw@	2009-08-31 14:54:23.953	2009-08-31 14:54:23.953	3
-630	keyword.fields	@keyword.fields@	2009-08-31 14:54:27.564	2009-08-31 14:54:27.564	3
-631	keyword.focalLength	@keyword.focalLength@	2009-08-31 14:54:30.921	2009-08-31 14:54:30.921	3
-632	keyword.force	@keyword.force@	2009-08-31 14:54:34.456	2009-08-31 14:54:34.456	3
-633	keyword.fourierAnalysis	@keyword.fourierAnalysis@	2009-08-31 14:54:37.788	2009-08-31 14:54:37.788	3
-634	keyword.fourierSeries	@keyword.fourierSeries@	2009-08-31 14:54:40.788	2009-08-31 14:54:40.788	3
-635	keyword.frequency	@keyword.frequency@	2009-08-31 14:54:43.78	2009-08-31 14:54:43.78	3
-636	keyword.friction	@keyword.friction@	2009-08-31 14:54:47.461	2009-08-31 14:54:47.461	3
-637	keyword.galton	@keyword.galton@	2009-08-31 14:54:53.229	2009-08-31 14:54:57.823	3
-638	keyword.gas	@keyword.gas@	2009-08-31 14:55:01.466	2009-08-31 14:55:01.466	3
-639	keyword.generator	@keyword.generator@	2009-08-31 14:55:04.427	2009-08-31 14:55:04.427	3
-640	keyword.glaciers	@keyword.glaciers@	2009-08-31 14:55:07.09	2009-08-31 14:55:07.09	3
-497	simulationMainPanel.topics	@simulationMainPanel.topics@	2009-08-31 14:16:50.1	2009-08-31 14:16:50.1	3
-498	simulationMainPanel.mainTopics	@simulationMainPanel.mainTopics@	2009-08-31 14:16:53.053	2009-08-31 14:16:53.053	3
-499	simulationMainPanel.keywords	@simulationMainPanel.keywords@	2009-08-31 14:16:55.898	2009-08-31 14:16:55.898	3
-641	keyword.graphing	@keyword.graphing@	2009-08-31 14:55:16.312	2009-08-31 14:55:16.312	3
 642	keyword.gravitationalForce	@keyword.gravitationalForce@	2009-08-31 14:55:23.721	2009-08-31 14:55:23.721	3
 500	sponsors.principalSponsors	@sponsors.principalSponsors@	2009-08-31 14:17:04.468	2009-08-31 14:17:04.468	3
 501	sponsors.hewlett	@sponsors.hewlett@	2009-08-31 14:17:07.955	2009-08-31 14:17:07.955	3
@@ -3083,27 +3085,6 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 518	troubleshooting.main.q6.title	@troubleshooting.main.q6.title@	2009-08-31 14:18:40.743	2009-08-31 14:18:40.743	3
 519	troubleshooting.main.q6.answer	@troubleshooting.main.q6.answer@	2009-08-31 14:18:45.308	2009-08-31 14:18:45.308	3
 520	troubleshooting.main.q7.title	@troubleshooting.main.q7.title@	2009-08-31 14:18:57.404	2009-08-31 14:18:57.404	3
-521	troubleshooting.main.q7.answer	@troubleshooting.main.q7.answer@	2009-08-31 14:19:01.114	2009-08-31 14:19:01.114	3
-522	troubleshooting.main.q8.title	@troubleshooting.main.q8.title@	2009-08-31 14:19:03.721	2009-08-31 14:19:03.721	3
-523	troubleshooting.main.q8.answer	@troubleshooting.main.q8.answer@	2009-08-31 14:19:07.717	2009-08-31 14:19:07.717	3
-524	troubleshooting.main.q9.title	@troubleshooting.main.q9.title@	2009-08-31 14:19:10.152	2009-08-31 14:19:10.152	3
-525	troubleshooting.main.q9.answer	@troubleshooting.main.q9.answer@	2009-08-31 14:19:19.609	2009-08-31 14:19:19.609	3
-526	troubleshooting.main.q10.title	@troubleshooting.main.q10.title@	2009-08-31 14:19:25.261	2009-08-31 14:19:25.261	3
-528	troubleshooting.main.q11.title	@troubleshooting.main.q11.title@	2009-08-31 14:19:37.15	2009-08-31 14:19:37.15	3
-529	troubleshooting.main.q11.answer	@troubleshooting.main.q11.answer@	2009-08-31 14:19:40.579	2009-08-31 14:19:40.579	3
-530	troubleshooting.main.q12.title	@troubleshooting.main.q12.title@	2009-08-31 14:19:42.71	2009-08-31 14:19:42.71	3
-531	troubleshooting.main.q12.answer	@troubleshooting.main.q12.answer@	2009-08-31 14:19:44.362	2009-08-31 14:19:44.362	3
-532	troubleshooting.main.q13.title	@troubleshooting.main.q13.title@	2009-08-31 14:19:47.361	2009-08-31 14:19:47.361	3
-533	troubleshooting.main.q13.answer	@troubleshooting.main.q13.answer@	2009-08-31 14:19:49.07	2009-08-31 14:19:49.07	3
-534	troubleshooting.main.licensingRequirements	@troubleshooting.main.licensingRequirements@	2009-08-31 14:19:51.99	2009-08-31 14:19:51.99	3
-527	troubleshooting.main.q10.answer	@troubleshooting.main.q10.answer@	2009-08-31 14:19:34.268	2009-08-31 14:20:10.145	3
-535	keyword.1d	@keyword.1d@	2009-08-31 14:22:48.856	2009-08-31 14:22:48.856	3
-536	keyword.absorption	@keyword.absorption@	2009-08-31 14:22:51.834	2009-08-31 14:22:51.834	3
-537	keyword.acCircuits	@keyword.acCircuits@	2009-08-31 14:22:54.374	2009-08-31 14:22:54.374	3
-538	keyword.acceleration	@keyword.acceleration@	2009-08-31 14:22:56.987	2009-08-31 14:22:56.987	3
-539	keyword.activationEnergy	@keyword.activationEnergy@	2009-08-31 14:23:00.078	2009-08-31 14:23:00.078	3
-540	keyword.airResistance	@keyword.airResistance@	2009-08-31 14:23:03.131	2009-08-31 14:23:03.131	3
-541	keyword.algebra	@keyword.algebra@	2009-08-31 14:23:05.421	2009-08-31 14:23:05.421	3
 546	keyword.angularAcceleration	@keyword.angularAcceleration@	2009-08-31 14:39:16.277	2009-08-31 14:39:16.277	3
 547	keyword.angularMomentum	@keyword.angularMomentum@	2009-08-31 14:39:19.144	2009-08-31 14:39:19.144	3
 548	keyword.angularPosition	@keyword.angularPosition@	2009-08-31 14:39:22.717	2009-08-31 14:39:22.717	3
@@ -3140,6 +3121,30 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 579	keyword.circuits	@keyword.circuits@	2009-08-31 14:41:18.388	2009-08-31 14:41:18.388	3
 580	keyword.circularMotion	@keyword.circularMotion@	2009-08-31 14:41:21.536	2009-08-31 14:41:21.536	3
 581	keyword.circularRevolution	@keyword.circularRevolution@	2009-08-31 14:41:25.044	2009-08-31 14:41:25.044	3
+702	about.source-code.location	The source code for all PhET simulations is hosted at <a {0}>Unfuddle</a> (login with username: guest and password: guest). The latest version can always be found there. To checkout the source code, you will need a Subversion client such as <a {1}>TortoiseSVN</a> (Windows-only) or <a {2}>SmartSVN</a> (all platforms), or a command-line client. To checkout the source code for all of PhET's Java simulations using a command-line client, use the following command:	2009-08-31 15:28:43.142	2009-08-31 18:27:04.021	1
+703	about.source-code.flash-simulations	To checkout the source code for all of PhET's Flash simulations, replace "simulations-java" with "simulations-flash" in the above command.	2009-08-31 15:30:00.02	2009-08-31 18:27:36.059	1
+701	about.source-code.header	Where can I get the source code for the PhET simulations?	2009-08-31 15:25:46.913	2009-08-31 15:25:46.913	1
+521	troubleshooting.main.q7.answer	@troubleshooting.main.q7.answer@	2009-08-31 14:19:01.114	2009-08-31 14:19:01.114	3
+522	troubleshooting.main.q8.title	@troubleshooting.main.q8.title@	2009-08-31 14:19:03.721	2009-08-31 14:19:03.721	3
+523	troubleshooting.main.q8.answer	@troubleshooting.main.q8.answer@	2009-08-31 14:19:07.717	2009-08-31 14:19:07.717	3
+524	troubleshooting.main.q9.title	@troubleshooting.main.q9.title@	2009-08-31 14:19:10.152	2009-08-31 14:19:10.152	3
+525	troubleshooting.main.q9.answer	@troubleshooting.main.q9.answer@	2009-08-31 14:19:19.609	2009-08-31 14:19:19.609	3
+526	troubleshooting.main.q10.title	@troubleshooting.main.q10.title@	2009-08-31 14:19:25.261	2009-08-31 14:19:25.261	3
+528	troubleshooting.main.q11.title	@troubleshooting.main.q11.title@	2009-08-31 14:19:37.15	2009-08-31 14:19:37.15	3
+529	troubleshooting.main.q11.answer	@troubleshooting.main.q11.answer@	2009-08-31 14:19:40.579	2009-08-31 14:19:40.579	3
+530	troubleshooting.main.q12.title	@troubleshooting.main.q12.title@	2009-08-31 14:19:42.71	2009-08-31 14:19:42.71	3
+531	troubleshooting.main.q12.answer	@troubleshooting.main.q12.answer@	2009-08-31 14:19:44.362	2009-08-31 14:19:44.362	3
+532	troubleshooting.main.q13.title	@troubleshooting.main.q13.title@	2009-08-31 14:19:47.361	2009-08-31 14:19:47.361	3
+533	troubleshooting.main.q13.answer	@troubleshooting.main.q13.answer@	2009-08-31 14:19:49.07	2009-08-31 14:19:49.07	3
+534	troubleshooting.main.licensingRequirements	@troubleshooting.main.licensingRequirements@	2009-08-31 14:19:51.99	2009-08-31 14:19:51.99	3
+527	troubleshooting.main.q10.answer	@troubleshooting.main.q10.answer@	2009-08-31 14:19:34.268	2009-08-31 14:20:10.145	3
+535	keyword.1d	@keyword.1d@	2009-08-31 14:22:48.856	2009-08-31 14:22:48.856	3
+536	keyword.absorption	@keyword.absorption@	2009-08-31 14:22:51.834	2009-08-31 14:22:51.834	3
+537	keyword.acCircuits	@keyword.acCircuits@	2009-08-31 14:22:54.374	2009-08-31 14:22:54.374	3
+538	keyword.acceleration	@keyword.acceleration@	2009-08-31 14:22:56.987	2009-08-31 14:22:56.987	3
+539	keyword.activationEnergy	@keyword.activationEnergy@	2009-08-31 14:23:00.078	2009-08-31 14:23:00.078	3
+540	keyword.airResistance	@keyword.airResistance@	2009-08-31 14:23:03.131	2009-08-31 14:23:03.131	3
+541	keyword.algebra	@keyword.algebra@	2009-08-31 14:23:05.421	2009-08-31 14:23:05.421	3
 674	keyword.linearMotion	@keyword.linearMotion@	2009-08-31 14:57:30.825	2009-08-31 14:57:30.825	3
 675	keyword.longitudinalWaves	@keyword.longitudinalWaves@	2009-08-31 14:57:34.349	2009-08-31 14:57:34.349	3
 676	keyword.magneticField	@keyword.magneticField@	2009-08-31 14:57:38.937	2009-08-31 14:57:38.937	3
@@ -3159,9 +3164,6 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 690	about.who-we-are.title	@about.who-we-are.title@	2009-08-31 14:58:24.724	2009-08-31 14:58:24.724	3
 691	about.licensing.title	@about.licensing.title@	2009-08-31 14:58:27.206	2009-08-31 14:58:27.206	3
 692	workshops.title	@workshops.title@	2009-08-31 14:58:29.565	2009-08-31 14:58:29.565	3
-701	about.source-code.header	Where can I get the source code for the PhET simulations?	2009-08-31 15:25:46.913	2009-08-31 15:25:46.913	1
-702	about.source-code.location	The source code for all PhET simulations is hosted at &lt;a {0}&gt;Unfuddle&lt;/a&gt; (login with username: guest and password: guest). The latest version can always be found there. To checkout the source code, you will need a Subversion client such as &lt;a {1}&gt;TortoiseSVN&lt;/a&gt; (Windows-only) or &lt;a {2}&gt;SmartSVN&lt;/a&gt; (all platforms), or a command-line client. To checkout the source code for all of PhET&#039;s Java simulations using a command-line client, use the following command:	2009-08-31 15:28:43.142	2009-08-31 15:28:43.142	1
-703	about.source-code.flash-simulations	To checkout the source code for all of PhET&#039;s Flash simulations, replace &quot;simulations-java&quot; with &quot;simulations-flash&quot; in the above command.	2009-08-31 15:30:00.02	2009-08-31 15:30:00.02	1
 694	get-phet.title	@get-phet.title@	2009-08-31 14:58:34.294	2009-08-31 14:58:34.294	3
 542	keyword.alternatingCurrent	@keyword.alternatingCurrent@	2009-08-31 14:23:08.542	2009-08-31 14:23:08.542	3
 543	keyword.ammeter	@keyword.ammeter@	2009-08-31 14:39:05.771	2009-08-31 14:39:05.771	3

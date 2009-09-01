@@ -1,4 +1,4 @@
-package edu.colorado.phet.wickettest.panels;
+package edu.colorado.phet.wickettest.components;
 
 import java.util.Locale;
 

@@ -76,3 +76,54 @@ dl a:hover {
     background-attachment: scroll;
     background-position: left 3px;
 }
+
+.other-sponsors-holder {
+    margin: 10px auto 0;
+    height: 24px;
+}
+
+.other-sponsors-table {
+    margin: 0 auto;
+    height: 24px;
+    padding: 0;
+}
+
+.other-sponsors-table tr {
+    margin: 0;
+    padding: 0;
+}
+
+.other-sponsors-table td {
+    padding: 0;
+}
+
+.other-sponsors-middle {
+    text-align: center;
+    vertical-align: middle;
+    height: 24px;
+    background-image: url(../images/small-button-middle.gif);
+}
+
+#spons .other-sponsors-middle a {
+    height: 24px;
+    font-size: 10px;
+    line-height: 19px;
+    text-decoration: none;
+    color: #FFFFFF;
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+.other-sponsors-left {
+    padding: 0;
+    width: 5px;
+    height: 24px;
+    background-image: url(../images/small-button-left.gif);
+}
+
+.other-sponsors-right {
+    padding: 0;
+    width: 5px;
+    height: 24px;
+    background-image: url(../images/small-button-right.gif);
+}

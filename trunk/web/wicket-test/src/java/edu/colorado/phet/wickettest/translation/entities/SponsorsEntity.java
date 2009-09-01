@@ -12,6 +12,7 @@ public class SponsorsEntity extends TranslationEntity {
         addString( "sponsors.hewlett" );
         addString( "sponsors.nsf" );
         addString( "sponsors.ksu" );
+        addString( "sponsors.otherSponsors" );
         addPreview( new PhetPanelFactory() {
             public PhetPanel getNewPanel( String id, PageContext context, PhetRequestCycle requestCycle ) {
                 return new SponsorsPanel( id, context );
