@@ -9,6 +9,7 @@ import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.hibernate.Session;
 
+import edu.colorado.phet.wickettest.components.LocalizedText;
 import edu.colorado.phet.wickettest.components.PhetLink;
 import edu.colorado.phet.wickettest.content.troubleshooting.TroubleshootingMainPanel;
 import edu.colorado.phet.wickettest.data.LocalizedSimulation;
@@ -44,7 +45,11 @@ public class OneAtATimePanel extends PhetPanel {
             }
         } );
 
-        add( TroubleshootingMainPanel.getLinker().getLink( "tech-support-link", context ) );
+        //add( TroubleshootingMainPanel.getLinker().getLink( "tech-support-link", context ) );
+
+        add( new LocalizedText( "running-sims", "get-phet.one-at-a-time.runningSims", new Object[]{
+                "href=\"" + context.getPrefix() + TroubleshootingMainPanel.getUrl() + "\""
+        } ) );
 
     }
 

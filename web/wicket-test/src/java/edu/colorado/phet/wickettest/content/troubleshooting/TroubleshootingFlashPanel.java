@@ -3,6 +3,7 @@ package edu.colorado.phet.wickettest.content.troubleshooting;
 import org.apache.wicket.behavior.HeaderContributor;
 import org.apache.wicket.markup.html.link.Link;
 
+import edu.colorado.phet.wickettest.components.LocalizedText;
 import edu.colorado.phet.wickettest.components.PhetLink;
 import edu.colorado.phet.wickettest.panels.PhetPanel;
 import edu.colorado.phet.wickettest.util.Linkable;
@@ -13,6 +14,10 @@ public class TroubleshootingFlashPanel extends PhetPanel {
         super( id, context );
 
         add( HeaderContributor.forCss( "/css/troubleshooting-v1.css" ) );
+
+        add( new LocalizedText( "troubleshooting-flash-intro", "troubleshooting.flash.intro", new Object[]{
+                "<a href=\"mailto:phethelp@colorado.edu\"><span class=\"red\">phethelp@colorado.edu</span></a>"
+        } ) );
 
     }
 

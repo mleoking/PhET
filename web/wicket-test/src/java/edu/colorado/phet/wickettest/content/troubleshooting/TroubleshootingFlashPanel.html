@@ -13,18 +13,17 @@
 
 <wicket:panel>
     <div class="troubleshooting standard-content">
-        <p>
+        <p wicket:id="troubleshooting-flash-intro">
             This page will help you solve some of the problems people commonly have running our programs. If you
             can't solve your problem here, please notify us by email at the following address:
-            <a href="mailto:phethelp@colorado.edu">
-
-                <span class="red">phethelp@colorado.edu</span>
-            </a>.
+            <a href="mailto:phethelp@colorado.edu"><span class="red">phethelp@colorado.edu</span></a>.
         </p>
 
         <p>
-            To run the Flash-based simulations you must have Macromedia Flash 8 (available free) or newer
-            installed on your computer.
+            <wicket:message key="troubleshooting.flash.toRun">
+                To run the Flash-based simulations you must have Macromedia Flash 8 (available free) or newer
+                installed on your computer.
+            </wicket:message>
         </p>
 
         <div style="margin: 0 auto; text-align: center;">
@@ -34,13 +33,17 @@
         </div>
 
         <p>
-            If you get a blank window when you try to launch a Flash simulation, you probably need a new version
-            of the Flash player.
+            <wicket:message key="troubleshooting.flash.blankWindow">
+                If you get a blank window when you try to launch a Flash simulation, you probably need a new version
+                of the Flash player.
+            </wicket:message>
         </p>
 
         <p>
-            Older versions of the Flash Player can cause problems. Updating your flash player is recommended if
-            you receive an error similar to:
+            <wicket:message key="troubleshooting.flash.olderVersions">
+                Older versions of the Flash Player can cause problems. Updating your flash player is recommended if
+                you receive an error similar to:
+            </wicket:message>
             <br/>
             <br/>
             <img class="centered" src="../images/flash-error.gif" alt="Image of a Flash error message"/>

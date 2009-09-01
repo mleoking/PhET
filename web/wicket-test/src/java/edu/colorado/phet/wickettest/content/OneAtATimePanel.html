@@ -13,15 +13,17 @@
 
 <wicket:panel>
     <div class="one-at-a-time standard-content">
-        <p>
+        <p wicket:id="running-sims">
             Click on the name of any simulation to download the simulation to your computer. To run the simulation,
             double-click it. If you have difficulties, please see our
-            <a href="#" wicket:id="tech-support-link">technical support</a> page.
+            <a href="#">technical support</a> page.
         </p>
 
         <p>
-            You may copy the simulation to any place on your computer. You may also copy the simulation to a CD-ROM
-            Drive, USB Drive, or shared network location.
+            <wicket:message key="get-phet.one-at-a-time.downloadingSims">
+                You may copy the simulation to any place on your computer. You may also copy the simulation to a CD-ROM
+                Drive, USB Drive, or shared network location.
+            </wicket:message>
         </p>
 
         <ul>
