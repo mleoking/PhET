@@ -2926,6 +2926,8 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 438	nav.get-phet.one-at-a-time	一次一个	2009-08-19 02:11:28.145	2009-08-19 02:11:28.145	2
 5	home.subheader	Fun, interactive, <a {0}>research-based</a> simulations of physical phenomena from the PhET project at the University of Colorado.	2009-08-17 03:48:19.897	2009-08-30 01:09:02.419	1
 706	about.source-code.flash-simulations	@about.source-code.flash-simulations@	2009-08-31 16:37:58.454	2009-08-31 16:37:58.454	3
+709	nav.sponsors	Sponsors	2009-08-31 20:04:14.363	2009-08-31 20:04:14.363	1
+710	sponsors.title	PhET Sponsors	2009-08-31 20:04:26.799	2009-08-31 20:04:26.799	1
 705	about.source-code.location	@about.source-code.location@	2009-08-31 16:37:56.22	2009-08-31 16:37:56.22	3
 643	keyword.gravity	@keyword.gravity@	2009-08-31 14:55:27.287	2009-08-31 14:55:27.287	3
 644	keyword.greenhouseEffect	@keyword.greenhouseEffect@	2009-08-31 14:55:31.648	2009-08-31 14:55:31.648	3
