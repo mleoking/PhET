@@ -1,13 +1,13 @@
 package edu.colorado.phet.theramp.graphics
 
 
-import common.phetcommon.view.graphics.transforms.{TransformListener, ModelViewTransform2D}
+import phet.common.phetcommon.view.graphics.transforms.{TransformListener, ModelViewTransform2D}
 import java.awt.geom.{Area, Rectangle2D}
 import java.awt.{Paint, Shape, GradientPaint, Color}
 
 import sims.theramp.RampDefaults
 import umd.cs.piccolo.PNode
-import common.piccolophet.nodes.PhetPPath
+import phet.common.piccolophet.nodes.PhetPPath
 
 
 class AbstractBackgroundNode(getPaint: => Paint, getModelShape: => Shape, transform: ModelViewTransform2D) extends PNode {

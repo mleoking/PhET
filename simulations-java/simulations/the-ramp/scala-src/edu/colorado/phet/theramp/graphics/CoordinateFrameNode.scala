@@ -1,9 +1,8 @@
 package edu.colorado.phet.theramp.graphics
 
 import RampResources._
-import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
+import phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import model.{AdjustableCoordinateModel, CoordinateFrameModel, RampModel}
-import theramp.RampResources
 import umd.cs.piccolo.PNode
 import java.lang.Math._
 import scalacommon.Predef._

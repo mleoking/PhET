@@ -1,8 +1,8 @@
 package edu.colorado.phet.theramp.graphics
 
 import RampResources._
-import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
-import common.phetcommon.view.util.BufferedImageUtils
+import phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
+import phet.common.phetcommon.view.util.BufferedImageUtils
 import model.{Bead}
 import scalacommon.Predef._
 import java.lang.Math._

@@ -1,6 +1,6 @@
 package edu.colorado.phet.theramp
 
-import common.phetcommon.resources.PhetResources
+import phet.common.phetcommon.resources.PhetResources
 import java.text.MessageFormat
 
 object Predef {

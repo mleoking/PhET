@@ -1,7 +1,7 @@
 package edu.colorado.phet.theramp.graphics
 
-import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
-import common.piccolophet.PhetPCanvas
+import phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
+import phet.common.piccolophet.PhetPCanvas
 import java.awt.{Rectangle, Dimension}
 import java.awt.geom.Rectangle2D
 

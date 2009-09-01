@@ -1,11 +1,11 @@
 package edu.colorado.phet.theramp.sims.forcesandmotion
 
 import charts.{SeriesControlTitleLabel, AbstractChartNode, SeriesSelectionControl, RampGraph}
-import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
-import common.piccolophet.PhetPCanvas
+import phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
+import phet.common.piccolophet.PhetPCanvas
 import model.RampModel
-import common.motion.model.DefaultTemporalVariable
-import common.motion.graphs._
+import phet.common.motion.model.DefaultTemporalVariable
+import phet.common.motion.graphs._
 import phet.theramp.RampResources
 import RampResources._
 import theramp.RampDefaults
@@ -70,7 +70,7 @@ class ForcesAndMotionChartNode(transform: ModelViewTransform2D, canvas: PhetPCan
   val accelerationGraph = new RampGraph(accelerationSeries, canvas, timeseriesModel, updateableObject, model) {
     setVerticalRange(-100, 100)
     addControl(new SeriesSelectionControl("", 1) {
-      addComponentsToGrid(new SeriesControlTitleLabel(accelerationSeries),createEditableLabel(accelerationSeries))
+      addComponentsToGrid(new SeriesControlTitleLabel(accelerationSeries), createEditableLabel(accelerationSeries))
     })
   }
 

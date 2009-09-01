@@ -1,10 +1,10 @@
 package edu.colorado.phet.theramp.controls
 
-import common.phetcommon.model.Resettable
-import common.phetcommon.util.IProguardKeepClass
-import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
-import common.phetcommon.view.util.{BufferedImageUtils, PhetFont}
-import common.phetcommon.view.{ControlPanel, VerticalLayoutPanel, ResetAllButton}
+import phet.common.phetcommon.model.Resettable
+import phet.common.phetcommon.util.IProguardKeepClass
+import phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
+import phet.common.phetcommon.view.util.{BufferedImageUtils, PhetFont}
+import phet.common.phetcommon.view.{ControlPanel, VerticalLayoutPanel, ResetAllButton}
 import graphics._
 import java.awt._
 import geom.Rectangle2D

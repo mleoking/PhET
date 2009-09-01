@@ -1,16 +1,14 @@
 package edu.colorado.phet.theramp.graphics
 
-import common.phetcommon.resources.PhetCommonResources
+import phet.common.phetcommon.resources.PhetCommonResources
 import java.awt.event.{WindowEvent, ComponentAdapter, ComponentEvent, WindowAdapter}
-import common.phetcommon.view.util.SwingUtils
-import common.piccolophet.PhetPCanvas
+import phet.common.phetcommon.view.util.SwingUtils
+import phet.common.piccolophet.PhetPCanvas
 import java.awt.geom.Point2D
 import javax.swing.{JFrame, JDialog}
 import model.{AdjustableCoordinateModel, CoordinateFrameModel, FreeBodyDiagramModel}
 import RampResources._
 import scalacommon.Predef._
-import theramp.RampResources
-
 class FBDDialog(frame: JFrame, freeBodyDiagramModel: FreeBodyDiagramModel, fbdWidth: Double, coordinateFrameModel: CoordinateFrameModel, adjustable: Boolean, adjustableCoordinateModel: AdjustableCoordinateModel, fbdListener: Point2D => Unit) {
   val dialog = new JDialog(frame, "display.free-body-diagram".translate, false)
   dialog.setSize(600, 600)

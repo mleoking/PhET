@@ -1,9 +1,9 @@
 package edu.colorado.phet.theramp.graphics
 
 
-import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
-import common.phetcommon.view.util.PhetFont
-import common.piccolophet.nodes.PhetPPath
+import phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
+import phet.common.phetcommon.view.util.PhetFont
+import phet.common.piccolophet.nodes.PhetPPath
 import java.awt.Color
 import java.awt.geom.{Rectangle2D, Point2D}
 import java.text.DecimalFormat

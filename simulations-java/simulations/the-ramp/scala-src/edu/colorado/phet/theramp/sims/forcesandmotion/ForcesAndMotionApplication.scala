@@ -1,7 +1,7 @@
 package edu.colorado.phet.theramp.sims.forcesandmotion
 
-import common.phetcommon.application.{PhetApplicationConfig, PhetApplicationLauncher}
-import common.piccolophet.PiccoloPhetApplication
+import phet.common.phetcommon.application.{PhetApplicationConfig, PhetApplicationLauncher}
+import phet.common.piccolophet.PiccoloPhetApplication
 import controls.RampControlPanel
 import java.awt.event.{ComponentEvent, ComponentAdapter}
 

@@ -1,14 +1,14 @@
 package edu.colorado.phet.theramp.charts
 
-import common.phetcommon.util.DefaultDecimalFormat
-import common.phetcommon.view.util.{PhetFont}
-import common.motion.graphs._
-import common.motion.model._
-import common.phetcommon.model.clock.ConstantDtClock
-import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
-import common.piccolophet.nodes.{ShadowHTMLNode}
-import common.piccolophet.{PhetPCanvas}
-import common.timeseries.model.{RecordableModel, TimeSeriesModel}
+import phet.common.phetcommon.util.DefaultDecimalFormat
+import phet.common.phetcommon.view.util.{PhetFont}
+import phet.common.motion.graphs._
+import phet.common.motion.model._
+import phet.common.phetcommon.model.clock.ConstantDtClock
+import phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
+import phet.common.piccolophet.nodes.{ShadowHTMLNode}
+import phet.common.piccolophet.{PhetPCanvas}
+import phet.common.timeseries.model.{RecordableModel, TimeSeriesModel}
 import java.awt.event.{FocusEvent, FocusListener, ActionEvent, ActionListener}
 import java.awt.geom.Point2D
 import java.awt.{FlowLayout, Color}
@@ -20,6 +20,7 @@ import sims.theramp.RampDefaults
 import umd.cs.piccolo.PNode
 import scalacommon.math.Vector2D
 import RampResources._
+
 object Defaults {
   def createFont = new PhetFont(15, true)
 

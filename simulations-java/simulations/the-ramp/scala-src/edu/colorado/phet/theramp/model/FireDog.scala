@@ -1,7 +1,7 @@
 package edu.colorado.phet.theramp.model
 
 import collection.mutable.ArrayBuffer
-import common.phetcommon.math.MathUtil
+import phet.common.phetcommon.math.MathUtil
 import scalacommon.math.Vector2D
 import java.lang.Math._
 

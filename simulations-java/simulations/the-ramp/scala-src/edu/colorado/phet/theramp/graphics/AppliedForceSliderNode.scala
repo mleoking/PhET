@@ -1,7 +1,7 @@
 package edu.colorado.phet.theramp.graphics
 
 
-import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
+import phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import java.awt.Dimension
 import java.awt.event.{MouseAdapter, MouseEvent}
 

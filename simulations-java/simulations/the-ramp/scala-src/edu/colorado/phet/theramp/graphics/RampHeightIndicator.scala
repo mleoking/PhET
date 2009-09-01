@@ -1,11 +1,10 @@
 package edu.colorado.phet.theramp.graphics
 
 import RampResources._
-import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
-import common.phetcommon.view.util.PhetFont
-import theramp.RampResources
+import phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
+import phet.common.phetcommon.view.util.PhetFont
 import umd.cs.piccolo.PNode
-import common.piccolophet.nodes.PhetPPath
+import phet.common.piccolophet.nodes.PhetPPath
 import java.awt.{BasicStroke, Color}
 
 import umd.cs.piccolo.nodes.PText

@@ -1,14 +1,13 @@
 package edu.colorado.phet.theramp.charts
 
-import common.motion.graphs.ControlGraphSeries
+import phet.common.motion.graphs.ControlGraphSeries
 import java.awt._
 import javax.swing._
-import common.phetcommon.view.VerticalLayoutPanel
-import common.phetcommon.view.util.PhetFont
-import common.motion.model.ITemporalVariable
-import common.phetcommon.util.DefaultDecimalFormat
+import phet.common.phetcommon.view.VerticalLayoutPanel
+import phet.common.phetcommon.view.util.PhetFont
+import phet.common.motion.model.ITemporalVariable
+import phet.common.phetcommon.util.DefaultDecimalFormat
 import RampResources._
-import theramp.RampResources
 import sims.theramp.RampDefaults._
 
 import swing.{MyJCheckBox}

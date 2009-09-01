@@ -1,7 +1,7 @@
 package edu.colorado.phet.theramp.swing
 
 
-import common.phetcommon.view.controls.valuecontrol.{ILayoutStrategy, DefaultLayoutStrategy, LinearValueControl}
+import phet.common.phetcommon.view.controls.valuecontrol.{ILayoutStrategy, DefaultLayoutStrategy, LinearValueControl}
 import javax.swing.event.{ChangeListener, ChangeEvent}
 
 class ScalaValueControl(min: Double, max: Double, name: String, decimalFormat: String, units: String,

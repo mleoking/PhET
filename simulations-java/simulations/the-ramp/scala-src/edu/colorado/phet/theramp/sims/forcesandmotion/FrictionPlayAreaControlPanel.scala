@@ -1,7 +1,7 @@
 package edu.colorado.phet.theramp.sims.forcesandmotion
 
-import common.phetcommon.view.controls.valuecontrol.{HorizontalLayoutStrategy, AbstractValueControl}
-import common.phetcommon.view.VerticalLayoutPanel
+import phet.common.phetcommon.view.controls.valuecontrol.{HorizontalLayoutStrategy, AbstractValueControl}
+import phet.common.phetcommon.view.VerticalLayoutPanel
 import java.awt.image.BufferedImage
 import java.util.Hashtable
 import javax.swing._

@@ -1,9 +1,8 @@
 package edu.colorado.phet.theramp.model
 
-import common.phetcommon.math.MathUtil
+import phet.common.phetcommon.math.MathUtil
 import scalacommon.math.Vector2D
 import java.lang.Math._
-import theramp.Predef
 import theramp.Predef._
 
 //Used to save/restore motion strategies during record/playback

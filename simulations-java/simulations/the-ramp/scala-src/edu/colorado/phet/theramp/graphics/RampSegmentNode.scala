@@ -1,14 +1,14 @@
 package edu.colorado.phet.theramp.graphics
 
 
-import common.phetcommon.math.Function.LinearFunction
-import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
+import phet.common.phetcommon.math.Function.LinearFunction
+import phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import java.awt.{Paint, Color, BasicStroke}
 import scalacommon.util.Observable
 import umd.cs.piccolo.PNode
-import common.piccolophet.nodes.PhetPPath
+import phet.common.piccolophet.nodes.PhetPPath
 import model.RampSegment
-import common.piccolophet.event.CursorHandler
+import phet.common.piccolophet.event.CursorHandler
 
 import scalacommon.math.Vector2D
 import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}

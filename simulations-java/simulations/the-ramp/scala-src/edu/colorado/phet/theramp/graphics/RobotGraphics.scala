@@ -2,8 +2,8 @@ package edu.colorado.phet.theramp.graphics
 
 import RampResources._
 import collection.mutable.ArrayBuffer
-import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
-import common.piccolophet.nodes.PhetPPath
+import phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
+import phet.common.piccolophet.nodes.PhetPPath
 import java.awt.geom.{Point2D, Line2D, Rectangle2D}
 import java.awt.{BasicStroke, Color}
 import sims.theramp.robotmovingcompany.RobotMovingCompanyGameModel

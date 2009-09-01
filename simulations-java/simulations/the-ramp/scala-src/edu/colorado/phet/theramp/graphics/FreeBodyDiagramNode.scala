@@ -1,12 +1,12 @@
 package edu.colorado.phet.theramp.graphics
 
 import collection.mutable.ArrayBuffer
-import common.phetcommon.resources.PhetCommonResources
-import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
-import common.phetcommon.view.util.PhetFont
-import common.piccolophet.event.CursorHandler
-import common.piccolophet.nodes._
-import common.piccolophet.PhetPCanvas
+import phet.common.phetcommon.resources.PhetCommonResources
+import phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
+import phet.common.phetcommon.view.util.PhetFont
+import phet.common.piccolophet.event.CursorHandler
+import phet.common.piccolophet.nodes._
+import phet.common.piccolophet.PhetPCanvas
 import java.awt._
 import java.awt.geom.{Point2D, Rectangle2D}
 import javax.swing.JFrame

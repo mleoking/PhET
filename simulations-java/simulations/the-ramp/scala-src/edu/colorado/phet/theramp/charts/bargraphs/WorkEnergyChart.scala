@@ -1,9 +1,9 @@
 package edu.colorado.phet.theramp.charts.bargraphs
 
-import common.phetcommon.view.util.SwingUtils
-import common.piccolophet.nodes.barchart.BarChartNode
-import common.piccolophet.nodes.ZoomControlNode
-import common.piccolophet.PhetPCanvas
+import phet.common.phetcommon.view.util.SwingUtils
+import phet.common.piccolophet.nodes.barchart.BarChartNode
+import phet.common.piccolophet.nodes.ZoomControlNode
+import phet.common.piccolophet.PhetPCanvas
 import java.awt.Color
 import java.awt.event.{ComponentEvent, ComponentAdapter, WindowEvent, WindowAdapter}
 import javax.swing.{JDialog, JFrame}
