@@ -1,4 +1,6 @@
 # 1.24.04 (34493) Aug 26, 2009
+> Improved physics for acceleration spikes during sudden changes in velocity
+> Improved performance of zoom in/out on charts
 Changed v-driven acceleration window from 4 to 3
 Converted from buffered immediate series to piccolo series to improve zoom performance
 # 1.24.03 (34458) Aug 26, 2009
