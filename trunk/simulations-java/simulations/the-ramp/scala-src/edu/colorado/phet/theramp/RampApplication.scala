@@ -18,7 +18,8 @@ import scalacommon.ScalaClock
 //TODO: improve inheritance/composition scheme for different applications/modules/canvases/models
 class AbstractRampModule(frame: JFrame, clock: ScalaClock, name: String, defaultBeadPosition: Double, pausedOnReset: Boolean,
                          initialAngle: Double) extends Module(name, clock) {
-  val rampModel = new RampModel(defaultBeadPosition, pausedOnReset, initialAngle)
+  val rampModel = createRampModel(defaultBeadPosition, pausedOnReset, initialAngle)
+  def createRampModel(defaultBeadPosition:Double,pausedOnReset:Boolean,initialAngle:Double) = new RampModel(defaultBeadPosition,pausedOnReset,initialAngle)
   val wordModel = new WordModel
   val fbdModel = new FreeBodyDiagramModel
   val coordinateSystemModel = new AdjustableCoordinateModel
@@ -102,6 +103,24 @@ class WorkEnergyModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(
 
 class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock)
         extends AbstractRampModule(frame, clock, "module.robotMovingCompany".translate, 5, false, RampDefaults.defaultRampAngle) {
+  override def reset() = {
+    super.reset()
+    rampModel.frictionless = false
+  }
+
+  override def resetAll() = {
+    super.resetAll()
+    rampModel.frictionless = false
+  }
+
+  override def createRampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngle: Double) = {
+    new RampModel(defaultBeadPosition,pausedOnReset,initialAngle){
+      override def updateSegmentLengths() = setSegmentLengths(rampLength, rampLength)
+      frictionless = false
+    }
+
+  }
+
   val gameModel = new RobotMovingCompanyGameModel(rampModel, clock)
 
   gameModel.itemFinishedListeners += ((scalaRampObject, result) => {

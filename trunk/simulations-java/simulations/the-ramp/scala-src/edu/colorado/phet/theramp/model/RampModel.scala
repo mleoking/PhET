@@ -208,12 +208,7 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngl
   val manBead = createBead(defaultManPosition, 1)
 
   val wallRange = () => {
-    val onGround = rampSegments(1).angle == 0 &&
-            rampSegments(0).angle == 0 //todo: remove this workaround that makes sure robot moving company game (in ramp scenario) has a cliff 
-    if (walls)
-      new Range(leftWall.maxX, rightWall.minX)
-    else
-      new Range(-10000, if (onGround) 10000 else RampDefaults.MAX_X)
+    new Range(-rampSegments(0).length, rampSegments(1).length)
   }
   val surfaceFrictionStrategy = new SurfaceFrictionStrategy() {
     //todo: allow different values for different segments
@@ -356,21 +351,26 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngl
 
   def walls = _walls
 
-  //duplicates some work with wallrange
   def walls_=(b: Boolean) = {
     _walls = b
-
-    if (_walls) {
-      rampSegments(0).startPoint = new Vector2D(-rampLength, 0)
-      rampSegments(1).endPoint = new Vector2D(rampSegments(1).angle) * rampLength
-    } else {
-      val openBoundaryLength = 10000
-      rampSegments(0).startPoint = new Vector2D(-openBoundaryLength, 0)
-      val length = if (rampSegments(1).angle == 0) openBoundaryLength else rampLength
-      rampSegments(1).endPoint = new Vector2D(rampSegments(1).angle) * length
-    }
-
+    updateSegmentLengths()
     notifyListeners()
+  }
+
+  //duplicates some work with wallrange
+  //todo: call this method when ramp angle changes, since it depends on ramp angle
+  def updateSegmentLengths() = {
+    val seg0Length = if (rampSegments(0).angle > 0 || _walls) rampLength else 10000
+    val seg1Length = if (rampSegments(1).angle > 0 || _walls) rampLength else 10000
+    setSegmentLengths(seg0Length, seg1Length)
+  }
+
+  def setSegmentLengths(seg0Length: Double, seg1Length: Double) = {
+    rampSegments(0).startPoint = new Vector2D(-seg0Length, 0)
+    rampSegments(0).endPoint = new Vector2D(0, 0)
+
+    rampSegments(1).startPoint = new Vector2D(0, 0)
+    rampSegments(1).endPoint = new Vector2D(rampSegments(1).angle) * seg1Length
   }
 
   def frictionless_=(b: Boolean) = {
