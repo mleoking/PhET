@@ -3299,6 +3299,10 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 625	keyword.estimation	@keyword.estimation@	2009-08-31 14:49:54.227	2009-08-31 14:49:54.227	3
 740	sponsors.title	@sponsors.title@	2009-08-31 23:40:21.203	2009-08-31 23:40:21.203	3
 741	nav.sponsors	@nav.sponsors@	2009-08-31 23:40:34.721	2009-08-31 23:40:34.721	3
+742	workshops.intro	Members of the PhET team regularly offer workshops on how to teach with our simulations throughout Colorado and at national meetings.	2009-08-31 23:56:26.054	2009-08-31 23:56:26.054	1
+743	workshops.upcomingWorkshops	Upcoming Workshops	2009-08-31 23:57:07.094	2009-08-31 23:57:07.094	1
+744	workshops.materials	Workshop Materials	2009-08-31 23:58:00.723	2009-08-31 23:58:00.723	1
+745	workshops.pastWorkshops	Schedule of Past Workshops	2009-08-31 23:58:41.953	2009-08-31 23:58:41.953	1
 628	keyword.factoring	@keyword.factoring@	2009-08-31 14:54:20.402	2009-08-31 14:54:20.402	3
 629	keyword.faradaysLaw	@keyword.faradaysLaw@	2009-08-31 14:54:23.953	2009-08-31 14:54:23.953	3
 630	keyword.fields	@keyword.fields@	2009-08-31 14:54:27.564	2009-08-31 14:54:27.564	3
@@ -3399,6 +3403,10 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 510	troubleshooting.main.q1.title	@troubleshooting.main.q1.title@	2009-08-31 14:17:40.155	2009-08-31 14:17:40.155	3
 511	troubleshooting.main.q1.answer	@troubleshooting.main.q1.answer@	2009-08-31 14:17:54.331	2009-08-31 14:17:54.331	3
 512	troubleshooting.main.q2.title	@troubleshooting.main.q2.title@	2009-08-31 14:18:06.032	2009-08-31 14:18:06.032	3
+746	workshops.intro	@workshops.intro@	2009-09-01 00:08:58.54	2009-09-01 00:08:58.54	3
+747	workshops.upcomingWorkshops	@workshops.upcomingWorkshops@	2009-09-01 00:09:05.428	2009-09-01 00:09:05.428	3
+748	workshops.materials	@workshops.materials@	2009-09-01 00:09:12.601	2009-09-01 00:09:12.601	3
+749	workshops.pastWorkshops	@workshops.pastWorkshops@	2009-09-01 00:09:18.913	2009-09-01 00:09:18.913	3
 514	troubleshooting.main.q4.title	@troubleshooting.main.q4.title@	2009-08-31 14:18:12.806	2009-08-31 14:18:12.806	3
 515	troubleshooting.main.q4.answer	@troubleshooting.main.q4.answer@	2009-08-31 14:18:18.85	2009-08-31 14:18:18.85	3
 513	troubleshooting.main.q2.answer	@troubleshooting.main.q2.answer@	2009-08-31 14:18:10.379	2009-08-31 14:18:22.189	3
