@@ -171,7 +171,7 @@ public class AxonModel {
      * Place an atom at a random location inside the axon membrane.
      */
     private void positionAtomInsideMembrane(Atom atom){
-    	double distance = RAND.nextDouble() * (crossSectionInnerRadius / 2 - atom.getDiameter());
+    	double distance = RAND.nextDouble() * (crossSectionInnerRadius - atom.getDiameter());
     	double angle = RAND.nextDouble() * Math.PI * 2;
     	atom.setPosition(distance * Math.cos(angle), distance * Math.sin(angle));
     }
