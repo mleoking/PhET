@@ -6,7 +6,7 @@ import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import common.piccolophet.nodes.PhetPPath
 import java.awt.geom.{Point2D, Line2D, Rectangle2D}
 import java.awt.{BasicStroke, Color}
-import robotmovingcompany.RobotMovingCompanyGameModel
+import sims.theramp.robotmovingcompany.RobotMovingCompanyGameModel
 import theramp.RampResources
 import umd.cs.piccolo.nodes.{PImage}
 import umd.cs.piccolo.PNode
