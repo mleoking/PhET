@@ -41,7 +41,8 @@ public class AtomNode extends PNode {
         // Create the label.
         String labelText = MessageFormat.format("{0}{1}", atom.getChemicalSymbol(), atom.getChargeString());
         label = new PText(labelText);
-        label.setFont(new PhetFont(12));
+        label.setFont(new PhetFont(12, true));
+        label.setTextPaint(atom.getLabelColor());
         addChild(label);
         
         // Scale the label to fit within the sphere.
