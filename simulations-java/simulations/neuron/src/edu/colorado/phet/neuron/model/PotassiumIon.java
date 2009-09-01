@@ -15,6 +15,11 @@ public class PotassiumIon extends Atom {
 	public Color getRepresentationColor() {
 		return Color.RED;
 	}
+	
+	@Override
+	public Color getLabelColor() {
+		return Color.WHITE;
+	}
 
 	@Override
 	public int getCharge() {

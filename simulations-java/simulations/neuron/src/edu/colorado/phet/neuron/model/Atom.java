@@ -110,6 +110,13 @@ public abstract class Atom {
     abstract public Color getRepresentationColor();
 
     /**
+     * Get the color to be used for the textual labels of this atom.
+     */
+    public Color getLabelColor(){
+    	return Color.BLACK;
+    }
+    
+    /**
      * Ionic charge for this atom, in terms of electrons.
      * 
      * @return 0 for neutral atom, 1 for a 1-electron deficit, -1 for a one-
