@@ -1,3 +1,4 @@
+# 1.25.00 (34665) Aug 31, 2009
 # 1.24.04 (34493) Aug 26, 2009
 > Improved physics for acceleration spikes during sudden changes in velocity
 > Improved performance of zoom in/out on charts
