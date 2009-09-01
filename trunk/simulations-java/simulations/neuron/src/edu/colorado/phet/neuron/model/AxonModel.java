@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.neuron.model;
 
+import java.awt.Shape;
+import java.awt.geom.GeneralPath;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -31,7 +33,7 @@ public class AxonModel {
 	// The following constant defines how frequently atom motion is updated.
 	// A value of 1 means every clock tick for every atom, 2 means every other
 	// atom on each tick, etc.
-	private static final int ATOM_UPDATE_INCREMENT = 4; 
+	private static final int ATOM_UPDATE_INCREMENT = 4;
 	
     //----------------------------------------------------------------------------
     // Instance Data
@@ -52,8 +54,8 @@ public class AxonModel {
     	
         this.clock = clock;
         
-        crossSectionInnerRadius = (axonMembrane.getCrossSectionDiameter() - (axonMembrane.getMembraneThickness() / 2)) / 2; 
-        crossSectionOuterRadius = (axonMembrane.getCrossSectionDiameter() + (axonMembrane.getMembraneThickness() / 2)) / 2;
+        crossSectionInnerRadius = (axonMembrane.getCrossSectionDiameter() - axonMembrane.getMembraneThickness()) / 2; 
+        crossSectionOuterRadius = (axonMembrane.getCrossSectionDiameter() + axonMembrane.getMembraneThickness()) / 2;
         
         clock.addClockListener(new ClockAdapter(){
 			@Override
@@ -113,6 +115,10 @@ public class AxonModel {
     
     public AxonMembrane getAxonMembrane(){
     	return axonMembrane;
+    }
+    
+    public Shape getBodyShape(){
+    	return new GeneralPath();
     }
 
     //----------------------------------------------------------------------------
