@@ -127,3 +127,47 @@ dl a:hover {
     height: 24px;
     background-image: url(../images/small-button-right.gif);
 }
+
+
+/* Sponsors page stuff */
+
+#sponsors-people ul {
+    margin-top: 10px;
+    font-size: 15px;
+    padding: 0;
+    margin-left: 2em;
+    margin-right: 2em;
+}
+
+#sponsors-people ul li {
+    position: relative;
+    border-bottom: 1px solid #E3E3E3;
+    clear: right;
+}
+
+#sponsors-people ul li.simple {
+    position: relative;
+    border-bottom: none;
+    clear: right;
+}
+
+#sponsors-people ul li.platinum,#sponsors-people ul li.gold {
+    font-size: 14px;
+    position: relative;
+    border-bottom: 1px solid #E3E3E3;
+    background: none;
+    padding: 10px 0px 30px 0px;
+}
+
+#sponsors-people img.spons {
+    float: right;
+    margin-bottom: 1em;
+}
+
+#sponsors-people img.bordered_spons {
+    border-style: solid;
+    border-color: gray;
+    border-width: 1px;
+    float: right;
+    margin-bottom: 1em;
+}

@@ -90,6 +90,10 @@ public class NavMenu {
         addLocation( aboutLicensing );
         about.addChild( aboutLicensing );
 
+        NavLocation aboutSponsors = new NavLocation( about, "sponsors", AboutSponsors.getLinker() );
+        addLocation( aboutSponsors );
+        about.addChild( aboutSponsors );
+
         Session session = HibernateUtils.getInstance().openSession();
         Transaction tx = null;
         try {
