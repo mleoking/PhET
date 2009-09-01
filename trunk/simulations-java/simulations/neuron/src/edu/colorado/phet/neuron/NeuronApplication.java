@@ -1,4 +1,4 @@
-/* Copyright 2007, University of Colorado */
+/* Copyright 2009, University of Colorado */
 
 package edu.colorado.phet.neuron;
 
@@ -8,7 +8,6 @@ import java.awt.Frame;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
-import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
 import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
@@ -16,13 +15,12 @@ import edu.colorado.phet.common.piccolophet.PhetTabbedPane;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.neuron.developer.DeveloperMenu;
-import edu.colorado.phet.neuron.module.NeuronModule;
+import edu.colorado.phet.neuron.module.MembraneDiffusionModule;
 
 /**
- * SimTemplateApplication is the main application for this simulation.
+ * NeuronApplication is the main application for this simulation.
  *
- * @author Chris Malley (cmalley@pixelzoom.com)
- * 
+ * @author John Blanco
  */
 public class NeuronApplication extends PiccoloPhetApplication {
 
@@ -30,12 +28,8 @@ public class NeuronApplication extends PiccoloPhetApplication {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private NeuronModule exampleModule;
-
-    // PersistanceManager is used to save/load simulation configurations.
-    private XMLPersistenceManager persistenceManager;
-
-    private static TabbedModulePanePiccolo tabbedModulePane;
+	private static TabbedModulePanePiccolo tabbedModulePane;
+    private MembraneDiffusionModule membraneDiffusionModule;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -58,7 +52,7 @@ public class NeuronApplication extends PiccoloPhetApplication {
     // Initialization
     //----------------------------------------------------------------------------
 
-    /*
+    /**
      * Initializes the tabbed pane.
      */
     private void initTabbedPane() {
@@ -73,36 +67,27 @@ public class NeuronApplication extends PiccoloPhetApplication {
         setTabbedPaneType( tabbedPaneType );
     }
     
-    /*
+    /**
      * Initializes the modules.
      */
     private void initModules() {
         
         Frame parentFrame = getPhetFrame();
 
-        exampleModule = getFirstModule(parentFrame);
-        addModule( exampleModule );
-        
-        Module secondModule = new NeuronModule( parentFrame );
-        secondModule.setName( "Another Example" );
-        addModule( secondModule );
+        membraneDiffusionModule = getFirstModule(parentFrame);
+        addModule( membraneDiffusionModule );
     }
 
-    protected NeuronModule getFirstModule(Frame parentFrame) {
-        return new NeuronModule( parentFrame );
+    protected MembraneDiffusionModule getFirstModule(Frame parentFrame) {
+        return new MembraneDiffusionModule( parentFrame );
     }
 
-    /*
+    /**
      * Initializes the menubar.
      */
     private void initMenubar( String[] args ) {
 
-        // File->Save/Load
         final PhetFrame frame = getPhetFrame();
-        frame.addFileSaveLoadMenuItems();
-        if ( persistenceManager == null ) {
-            persistenceManager = new XMLPersistenceManager( frame );
-        }
 
         // Options menu
         OptionsMenu optionsMenu = new OptionsMenu();
@@ -143,6 +128,9 @@ public class NeuronApplication extends PiccoloPhetApplication {
     // main
     //----------------------------------------------------------------------------
 
+    /**
+     * Main entry point for this simulation.
+     */
     public static void main( final String[] args ) throws ClassNotFoundException {
         /* 
          * If you want to customize your application (look-&-feel, window size, etc) 
