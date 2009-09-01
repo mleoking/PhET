@@ -2,10 +2,10 @@ package edu.colorado.phet.wickettest.content.about;
 
 import org.apache.wicket.markup.html.link.Link;
 
-import edu.colorado.phet.wickettest.util.PageContext;
-import edu.colorado.phet.wickettest.util.Linkable;
 import edu.colorado.phet.wickettest.components.PhetLink;
 import edu.colorado.phet.wickettest.panels.PhetPanel;
+import edu.colorado.phet.wickettest.util.Linkable;
+import edu.colorado.phet.wickettest.util.PageContext;
 
 public class AboutSponsors extends PhetPanel {
     public AboutSponsors( String id, PageContext context ) {

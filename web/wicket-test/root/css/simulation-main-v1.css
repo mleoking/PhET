@@ -129,3 +129,18 @@ div.rtl .simulation-main-image-panel {
     margin: 0;
     padding: 0 5px 0 0;
 }
+
+table.system-requirements-table {
+    margin: 5px 10px 15px;
+}
+
+table.system-requirements-table th {
+    text-align: left;
+    border-bottom: 1px solid #bbbbbb;
+    padding-bottom: 3px;
+}
+
+table.system-requirements-table td {
+    vertical-align: top;
+    padding-right: 15px;
+}

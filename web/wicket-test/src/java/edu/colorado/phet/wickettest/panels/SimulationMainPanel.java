@@ -18,6 +18,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import edu.colorado.phet.wickettest.components.InvisibleComponent;
 import edu.colorado.phet.wickettest.components.PhetLink;
 import edu.colorado.phet.wickettest.components.StaticImage;
 import edu.colorado.phet.wickettest.data.Keyword;
@@ -161,6 +162,31 @@ public class SimulationMainPanel extends PhetPanel {
         add( keywordList );
         if ( keywords.isEmpty() ) {
             keywordList.setVisible( false );
+        }
+
+        // system requirements
+        if ( simulation.getSimulation().isJava() ) {
+            add( new Label( "windows-req", "Sun Java 1.5.0_15 or later" ) );
+            add( new Label( "mac-req", "Sun Java 1.5.0_19 or later" ) );
+            add( new Label( "linux-req", "Sun Java 1.5.0_15 or later" ) );
+        }
+        else if ( simulation.getSimulation().isFlash() ) {
+            add( new Label( "windows-req", "Macromedia Flash 8 or later" ) );
+            add( new Label( "mac-req", "Macromedia Flash 8 or later" ) );
+            add( new Label( "linux-req", "Macromedia Flash 8 or later" ) );
+        }
+        else {
+            add( new InvisibleComponent( "windows-req" ) );
+            add( new InvisibleComponent( "mac-req" ) );
+            add( new InvisibleComponent( "linux-req" ) );
+        }
+
+        // MAC warning
+        if ( simulation.getSimulation().isJava() ) {
+            add( new MacWarning( "sad-mac", context ) );
+        }
+        else {
+            add( new InvisibleComponent( "sad-mac" ) );
         }
 
         // so we don't emit an empty <table></table> that isn't XHTML Strict compatible
