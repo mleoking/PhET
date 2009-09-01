@@ -31,7 +31,7 @@ public class AxonModel {
 	// The following constant defines how frequently atom motion is updated.
 	// A value of 1 means every clock tick for every atom, 2 means every other
 	// atom on each tick, etc.
-	private static final int ATOM_UPDATE_INCREMENT = 10; 
+	private static final int ATOM_UPDATE_INCREMENT = 4; 
 	
     //----------------------------------------------------------------------------
     // Instance Data
@@ -40,8 +40,8 @@ public class AxonModel {
     private final NeuronClock clock;
     private final AxonMembrane axonMembrane = new AxonMembrane();
     private ArrayList<Atom> atoms = new ArrayList<Atom>();
-    private final double crossSectionInnerDiameter;
-    private final double crossSectionOuterDiameter;
+    private final double crossSectionInnerRadius;
+    private final double crossSectionOuterRadius;
     private int atomUpdateOffset = 0;
 
     //----------------------------------------------------------------------------
@@ -52,8 +52,8 @@ public class AxonModel {
     	
         this.clock = clock;
         
-        crossSectionInnerDiameter = axonMembrane.getCrossSectionDiameter() - (axonMembrane.getMembraneThickness() / 2); 
-        crossSectionOuterDiameter = axonMembrane.getCrossSectionDiameter() + (axonMembrane.getMembraneThickness() / 2);
+        crossSectionInnerRadius = (axonMembrane.getCrossSectionDiameter() - (axonMembrane.getMembraneThickness() / 2)) / 2; 
+        crossSectionOuterRadius = (axonMembrane.getCrossSectionDiameter() + (axonMembrane.getMembraneThickness() / 2)) / 2;
         
         clock.addClockListener(new ClockAdapter(){
 			@Override
@@ -133,8 +133,37 @@ public class AxonModel {
     }
     
     private void updateAtomVelocity(Atom atom){
-    	double velocity = MAX_ATOM_VELOCITY * RAND.nextDouble();
-    	double angle = Math.PI * 2 * RAND.nextDouble();
+    	
+    	// Convert the position to polar coordinates.
+    	double r = Math.sqrt(atom.getX() * atom.getX() + atom.getY() * atom.getY());
+    	double theta = Math.atan2(atom.getY(), atom.getX());
+    	double angle;
+    	double velocity;
+    	
+    	if (r < axonMembrane.getCrossSectionDiameter() / 2){
+    		// Atom is inside the membrane.
+    		if (crossSectionInnerRadius - r <= atom.getDiameter()){
+    			// This atom is near the membrane wall, so should be repelled.
+    	    	velocity = MAX_ATOM_VELOCITY * RAND.nextDouble();
+    	    	angle = theta + Math.PI;
+    		}
+    		else{
+    			velocity = MAX_ATOM_VELOCITY * RAND.nextDouble();
+    			angle = Math.PI * 2 * RAND.nextDouble();
+    		}
+    	}
+    	else{
+    		// Atom is outside the membrane.
+    		if (r - crossSectionOuterRadius <= atom.getDiameter()){
+    			// This atom is near the membrane wall, so should be repelled.
+    	    	velocity = MAX_ATOM_VELOCITY * RAND.nextDouble();
+    	    	angle = theta;
+    		}
+    		else{
+    			velocity = MAX_ATOM_VELOCITY * RAND.nextDouble();
+    			angle = Math.PI * 2 * RAND.nextDouble();
+    		}
+    	}
     	atom.setVelocity(velocity * Math.cos(angle), velocity * Math.sin(angle));
     }
     
@@ -142,7 +171,7 @@ public class AxonModel {
      * Place an atom at a random location inside the axon membrane.
      */
     private void positionAtomInsideMembrane(Atom atom){
-    	double distance = RAND.nextDouble() * (crossSectionInnerDiameter / 2 - atom.getDiameter());
+    	double distance = RAND.nextDouble() * (crossSectionInnerRadius / 2 - atom.getDiameter());
     	double angle = RAND.nextDouble() * Math.PI * 2;
     	atom.setPosition(distance * Math.cos(angle), distance * Math.sin(angle));
     }
@@ -151,9 +180,9 @@ public class AxonModel {
      * Place an atom at a random location outside the axon membrane.
      */
     private void positionAtomOutsideMembrane(Atom atom){
-    	double maxDistance = crossSectionOuterDiameter * 0.6; // Arbitrary multiplier, tweak as needed.
-    	double distance = RAND.nextDouble() * (maxDistance - (crossSectionOuterDiameter / 2)) + 
-    		(crossSectionOuterDiameter / 2) + atom.getDiameter();
+    	double maxDistance = crossSectionOuterRadius * 1.2; // Arbitrary multiplier, tweak as needed.
+    	double distance = RAND.nextDouble() * (maxDistance - crossSectionOuterRadius) + crossSectionOuterRadius +
+    		atom.getDiameter();
     	double angle = RAND.nextDouble() * Math.PI * 2;
     	atom.setPosition(distance * Math.cos(angle), distance * Math.sin(angle));
     }
