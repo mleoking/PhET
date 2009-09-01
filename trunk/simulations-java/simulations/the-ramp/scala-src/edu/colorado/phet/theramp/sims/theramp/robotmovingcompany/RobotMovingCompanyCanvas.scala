@@ -1,4 +1,4 @@
-package edu.colorado.phet.theramp.robotmovingcompany
+package edu.colorado.phet.theramp.sims.theramp.robotmovingcompany
 
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import common.phetcommon.view.util.{BufferedImageUtils, PhetFont}
@@ -7,13 +7,10 @@ import common.piccolophet.PhetPCanvas
 import java.awt._
 import geom.{Line2D, RoundRectangle2D}
 import javax.swing.event.{ChangeEvent, ChangeListener}
-
 import javax.swing.{JButton, JOptionPane, JFrame}
 import scalacommon.ScalaClock
 import common.phetcommon.view.VerticalLayoutPanel
-import theramp.RampResources
 import sims.theramp.RampDefaults
-
 import umd.cs.piccolo.nodes.{PImage, PText}
 import umd.cs.piccolo.PNode
 import common.piccolophet.nodes.PhetPPath
