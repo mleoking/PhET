@@ -2,11 +2,11 @@ package edu.colorado.phet.theramp.graphics
 
 import model.{MutableRampObject, ScalaRampObject}
 import collection.mutable.ArrayBuffer
-import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
-import common.phetcommon.view.util.{BufferedImageUtils, PhetFont}
-import common.phetcommon.view.VerticalLayoutPanel
-import common.piccolophet.event.CursorHandler
-import common.piccolophet.nodes.{HTMLNode, ToolTipNode, PhetPPath}
+import phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
+import phet.common.phetcommon.view.util.{BufferedImageUtils, PhetFont}
+import phet.common.phetcommon.view.VerticalLayoutPanel
+import phet.common.piccolophet.event.CursorHandler
+import phet.common.piccolophet.nodes.{HTMLNode, ToolTipNode, PhetPPath}
 import java.awt.{BasicStroke, Color}
 import javax.swing.{Timer}
 import scalacommon.util.Observable

@@ -1,6 +1,6 @@
 package edu.colorado.phet.theramp.sims.forcesandmotion
 
-import common.phetcommon.view.controls.valuecontrol.LinearValueControl
+import phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl
 import java.awt.Dimension
 import java.util.Hashtable
 import javax.swing._

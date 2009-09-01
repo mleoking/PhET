@@ -2,7 +2,7 @@ package edu.colorado.phet.theramp.model
 
 
 import collection.mutable.ArrayBuffer
-import common.phetcommon.math.Function.LinearFunction
+import phet.common.phetcommon.math.Function.LinearFunction
 import graphics.ObjectModel
 import scalacommon.math.Vector2D
 import java.awt.geom.Point2D

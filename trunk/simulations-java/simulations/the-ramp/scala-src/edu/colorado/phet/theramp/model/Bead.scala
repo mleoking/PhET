@@ -4,7 +4,6 @@ import collection.mutable.ArrayBuffer
 import scalacommon.math.Vector2D
 import scalacommon.util.Observable
 import sims.theramp.RampDefaults
-import theramp.RampResources
 import theramp.Predef._
 
 /**Immutable memento for recording*/

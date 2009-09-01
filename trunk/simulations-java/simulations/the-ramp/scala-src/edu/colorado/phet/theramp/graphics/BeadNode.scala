@@ -1,8 +1,8 @@
 package edu.colorado.phet.theramp.graphics
 
 
-import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
-import common.piccolophet.event.CursorHandler
+import phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
+import phet.common.piccolophet.event.CursorHandler
 import model.{Bead}
 import theramp.RampResources
 import sims.theramp.RampDefaults

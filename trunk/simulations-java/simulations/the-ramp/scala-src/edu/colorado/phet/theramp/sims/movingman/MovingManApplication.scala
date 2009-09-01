@@ -1,9 +1,9 @@
 package edu.colorado.phet.theramp.sims.movingman
 
-import common.phetcommon.application.{PhetApplicationConfig, PhetApplicationLauncher}
-import common.piccolophet.PiccoloPhetApplication
+import phet.common.phetcommon.application.{PhetApplicationConfig, PhetApplicationLauncher}
+import phet.common.piccolophet.PiccoloPhetApplication
 import controls.RampControlPanel
-import forcesandmotion.{ForcesAndMotionApplication, ForcesAndMotionChartNode}
+import forcesandmotion.{ForcesAndMotionChartNode}
 
 import model.{RampModel, AdjustableCoordinateModel, FreeBodyDiagramModel, VectorViewModel}
 import graphics._

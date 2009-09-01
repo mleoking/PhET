@@ -1,8 +1,8 @@
 package edu.colorado.phet.theramp.graphics
 
-import common.phetcommon.resources.PhetCommonResources
-import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
-import common.piccolophet.nodes.GradientButtonNode
+import phet.common.phetcommon.resources.PhetCommonResources
+import phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
+import phet.common.piccolophet.nodes.GradientButtonNode
 import java.awt.Color
 import java.awt.geom.{Point2D}
 import java.awt.event._

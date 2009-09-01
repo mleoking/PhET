@@ -2,8 +2,8 @@ package edu.colorado.phet.theramp.sims.theramp
 
 import charts.bargraphs.{WorkEnergyChartModel, WorkEnergyChart}
 import charts.RampChartNode
-import common.phetcommon.application.{PhetApplicationLauncher, Module, PhetApplicationConfig}
-import common.piccolophet.{PiccoloPhetApplication}
+import phet.common.phetcommon.application.{PhetApplicationLauncher, Module, PhetApplicationConfig}
+import phet.common.piccolophet.{PiccoloPhetApplication}
 import graphics.RampCanvas
 import java.awt.event.{ActionEvent, ActionListener}
 import java.awt.{Color}
@@ -19,7 +19,9 @@ import scalacommon.ScalaClock
 class AbstractRampModule(frame: JFrame, clock: ScalaClock, name: String, defaultBeadPosition: Double, pausedOnReset: Boolean,
                          initialAngle: Double) extends Module(name, clock) {
   val rampModel = createRampModel(defaultBeadPosition, pausedOnReset, initialAngle)
-  def createRampModel(defaultBeadPosition:Double,pausedOnReset:Boolean,initialAngle:Double) = new RampModel(defaultBeadPosition,pausedOnReset,initialAngle)
+
+  def createRampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngle: Double) = new RampModel(defaultBeadPosition, pausedOnReset, initialAngle)
+
   val wordModel = new WordModel
   val fbdModel = new FreeBodyDiagramModel
   val coordinateSystemModel = new AdjustableCoordinateModel
@@ -114,7 +116,7 @@ class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock)
   }
 
   override def createRampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngle: Double) = {
-    new RampModel(defaultBeadPosition,pausedOnReset,initialAngle){
+    new RampModel(defaultBeadPosition, pausedOnReset, initialAngle) {
       override def updateSegmentLengths() = setSegmentLengths(rampLength, rampLength)
       frictionless = false
     }
