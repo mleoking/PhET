@@ -1,4 +1,4 @@
-package edu.colorado.phet.theramp
+package edu.colorado.phet.theramp.sims.theramp
 
 import charts.bargraphs.{WorkEnergyChartModel, WorkEnergyChart}
 import charts.RampChartNode

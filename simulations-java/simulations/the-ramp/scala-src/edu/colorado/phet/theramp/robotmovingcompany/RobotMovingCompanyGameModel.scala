@@ -7,6 +7,7 @@ import scalacommon.ScalaClock
 import scalacommon.util.Observable
 import scalacommon.math.Vector2D
 import java.lang.Math._
+import sims.theramp.RampDefaults
 
 class RobotMovingCompanyGameModel(val model: RampModel, clock: ScalaClock) extends Observable {
   private val DEFAULT_ROBOT_ENERGY = 3000.0

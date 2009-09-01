@@ -9,6 +9,7 @@ import java.awt.geom.Point2D
 import scalacommon.record.{DataPoint, RecordModel}
 import scalacommon.util.Observable
 import java.lang.Math._
+import sims.theramp.RampDefaults
 
 class WordModel extends Observable {
   private var _physicsWords = true

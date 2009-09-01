@@ -1,10 +1,11 @@
-package edu.colorado.phet.theramp.forcesandmotion
+package edu.colorado.phet.theramp.sims.forcesandmotion
 
 import common.phetcommon.view.controls.valuecontrol.LinearValueControl
 import java.awt.Dimension
 import java.util.Hashtable
 import javax.swing._
 import model.SurfaceModel
+import phet.theramp.{RampResources}
 import RampResources._
 
 class SurfaceControlPanel extends JPanel {

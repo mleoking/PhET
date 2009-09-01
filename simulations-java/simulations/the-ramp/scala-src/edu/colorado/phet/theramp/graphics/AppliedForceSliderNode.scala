@@ -7,6 +7,9 @@ import java.awt.event.{MouseAdapter, MouseEvent}
 
 import java.awt.geom.Point2D
 import model.{Bead}
+import theramp.RampResources
+import sims.theramp.{RampDefaults}
+
 import umd.cs.piccolo.PNode
 import swing.ScalaValueControl
 import umd.cs.piccolox.pswing.PSwing

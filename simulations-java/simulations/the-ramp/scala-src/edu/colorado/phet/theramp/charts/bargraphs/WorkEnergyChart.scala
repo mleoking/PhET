@@ -8,6 +8,9 @@ import java.awt.Color
 import java.awt.event.{ComponentEvent, ComponentAdapter, WindowEvent, WindowAdapter}
 import javax.swing.{JDialog, JFrame}
 import scalacommon.swing.MyJButton
+import theramp.RampResources
+import sims.theramp.RampDefaults
+
 import umd.cs.piccolox.pswing.PSwing
 import scalacommon.util.Observable
 import model.RampModel

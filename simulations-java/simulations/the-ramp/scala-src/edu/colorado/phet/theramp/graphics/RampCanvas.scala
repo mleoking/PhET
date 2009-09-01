@@ -11,6 +11,9 @@ import javax.swing.{JFrame}
 import model._
 import scalacommon.math.Vector2D
 import scalacommon.Predef._
+import theramp.RampResources
+import sims.theramp.{RampDefaults}
+
 import umd.cs.piccolo.PNode
 import java.lang.Math._
 import RampResources._

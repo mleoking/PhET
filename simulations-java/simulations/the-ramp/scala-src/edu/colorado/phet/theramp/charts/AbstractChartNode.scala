@@ -14,6 +14,9 @@ import java.awt.geom.Point2D
 import java.awt.{FlowLayout, Color}
 import javax.swing.{JTextField, JPanel, JLabel}
 import model.{RampModel}
+import theramp.RampResources
+import sims.theramp.RampDefaults
+
 import umd.cs.piccolo.PNode
 import scalacommon.math.Vector2D
 import RampResources._
