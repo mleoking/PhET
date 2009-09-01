@@ -1,3 +1,5 @@
+forces-and-motion: Removed checkboxes from x,v,a chart readouts
+forces-and-motion: Removed extraneous title boxes from x,v,a readouts
 forces-and-motion: Added feature: Can enter values for F_applied, acceleration, velocity, position in boxes on left of graphs
 forces-and-motion: Added sliders for position, velocity, acceleration
 forces-and-motion: Changed so that force graph tab starts with only force graph open - acceleration, velocity, position are closed

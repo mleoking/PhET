@@ -1,6 +1,6 @@
 package edu.colorado.phet.theramp.forcesandmotion
 
-import charts.{AbstractChartNode, SeriesSelectionControl, RampGraph}
+import charts.{SeriesControlTitleLabel, AbstractChartNode, SeriesSelectionControl, RampGraph}
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import common.piccolophet.PhetPCanvas
 import model.RampModel
@@ -67,8 +67,8 @@ class ForcesAndMotionChartNode(transform: ModelViewTransform2D, canvas: PhetPCan
   val accelerationSeries = new ControlGraphSeries("Acceleration", RampDefaults.accelerationColor, "accel", "m/s/s", characterUnused, accelerationVariable)
   val accelerationGraph = new RampGraph(accelerationSeries, canvas, timeseriesModel, updateableObject, model) {
     setVerticalRange(-100, 100)
-    addControl(new SeriesSelectionControl("acceleration", 5) {
-      addToGrid(accelerationSeries, createEditableLabel)
+    addControl(new SeriesSelectionControl("", 1) {
+      addComponentsToGrid(new SeriesControlTitleLabel(accelerationSeries),createEditableLabel(accelerationSeries))
     })
   }
 
@@ -81,7 +81,7 @@ class ForcesAndMotionChartNode(transform: ModelViewTransform2D, canvas: PhetPCan
   val velocitySeries = new ControlGraphSeries("Velocity", RampDefaults.velocityColor, "vel", "m/s", characterUnused, velocityVariable)
   val velocityGraph = new RampGraph(velocitySeries, canvas, timeseriesModel, updateableObject, model) {
     setVerticalRange(-50, 50)
-    addControl(new SeriesSelectionControl("velocity", 5) {
+    addControl(new SeriesSelectionControl("", 1) {
       addToGrid(velocitySeries, createEditableLabel)
     })
   }
@@ -95,7 +95,7 @@ class ForcesAndMotionChartNode(transform: ModelViewTransform2D, canvas: PhetPCan
   val positionSeries = new ControlGraphSeries("Position", RampDefaults.positionColor, "x", "m", characterUnused, positionVariable)
   val positionGraph = new RampGraph(positionSeries, canvas, timeseriesModel, updateableObject, model) {
     setVerticalRange(-10, 10)
-    addControl(new SeriesSelectionControl("velocity", 5) {
+    addControl(new SeriesSelectionControl("", 1) {
       addToGrid(positionSeries, createEditableLabel)
     })
   }

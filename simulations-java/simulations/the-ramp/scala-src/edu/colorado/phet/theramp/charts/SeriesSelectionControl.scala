@@ -19,14 +19,16 @@ class SeriesSelectionControl(title: String, numRows: Int) extends VerticalLayout
   add(titleLabel)
   val grid = new JPanel(new GridLayout(numRows, 2))
   grid.setBackground(EARTH_COLOR)
+  add(grid)
 
-  def addToGrid(series: ControlGraphSeries): Unit = {
-    addToGrid(series, createLabel)
-  }
+  def addToGrid(series: ControlGraphSeries): Unit = addToGrid(series, createLabel)
 
-  def addToGrid(series: ControlGraphSeries, labelMaker: ControlGraphSeries => JComponent): Unit = {
-    grid.add(new SeriesControlSelectorBox(series))
-    grid.add(labelMaker(series))
+  def addToGrid(series: ControlGraphSeries, labelMaker: ControlGraphSeries => JComponent): Unit =
+    addComponentsToGrid(new SeriesControlSelectorBox(series), labelMaker(series))
+
+  def addComponentsToGrid(component1: JComponent, component2: JComponent) = {
+    grid.add(component1)
+    grid.add(component2)
   }
 
   def createLabel(series: ControlGraphSeries) = {
@@ -44,13 +46,25 @@ class SeriesSelectionControl(title: String, numRows: Int) extends VerticalLayout
     updateLabel()
     label
   }
-
-  add(grid)
 }
 
-class SeriesControlSelectorBox(series: ControlGraphSeries) extends MyJCheckBox(series.getTitle, series.setVisible(_), series.isVisible, Defaults.addListener(series, _)) {
-  setFont(Defaults.createFont)
+trait TitleElement extends JComponent {
+  def init() = {
+    setFont(Defaults.createFont)
+    setForeground(series.getColor)
+    setBackground(EARTH_COLOR)
+  }
+
+  def series: ControlGraphSeries
+}
+
+class SeriesControlTitleLabel(val series: ControlGraphSeries) extends JLabel(series.getTitle) with TitleElement {
+  //todo: factor out this code with a trait?
+  init()
+}
+
+class SeriesControlSelectorBox(val series: ControlGraphSeries)
+        extends MyJCheckBox(series.getTitle, series.setVisible(_), series.isVisible, Defaults.addListener(series, _)) with TitleElement {
   setMargin(new Insets(0, 0, 0, 0)) //allows buttons to fit closer together
-  setForeground(series.getColor)
-  setBackground(EARTH_COLOR)
+  init()
 }
