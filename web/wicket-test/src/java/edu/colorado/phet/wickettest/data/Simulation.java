@@ -16,7 +16,7 @@ public class Simulation implements Serializable {
     private Set localizedSimulations = new HashSet();
     private Set categories = new HashSet();
 
-    //    private List topics = new LinkedList();
+    private List topics = new LinkedList();
     private List keywords = new LinkedList();
 //    private List learningGoalKey = new LinkedList();
 
@@ -125,5 +125,13 @@ public class Simulation implements Serializable {
 
     public void setKilobytes( int kilobytes ) {
         this.kilobytes = kilobytes;
+    }
+
+    public List getTopics() {
+        return topics;
+    }
+
+    public void setTopics( List topics ) {
+        this.topics = topics;
     }
 }

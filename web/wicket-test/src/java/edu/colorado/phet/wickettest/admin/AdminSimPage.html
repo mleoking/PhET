@@ -56,23 +56,48 @@
 
     <div class="topics-holder">
         <h3>Main Topics</h3>
-        <table class="admin">
-            <tr>
-                <th>Topic</th>
-                <th></th>
-            </tr>
-            <tr>
-                <td>Mechanical Engineering</td>
-                <td><a href="#">remove</a></td>
-            </tr>
-        </table>
+
+        <p>
+            These keywords will appear under "Main Topics" on simulation pages.
+        </p>
+
+        <form wicket:id="add-topic">
+            <table class="admin">
+                <tr>
+                    <th>keyword</th>
+                    <th/>
+                    <th>Move up</th>
+                    <th>Move down</th>
+                </tr>
+                <tr wicket:id="keywords">
+                    <td wicket:id="keyword-english">Mechanics</td>
+                    <td><a href="#" wicket:id="keyword-remove">remove</a></td>
+                    <td><a href="#" wicket:id="keyword-move-up">up</a></td>
+                    <td><a href="#" wicket:id="keyword-move-down">down</a></td>
+                </tr>
+                <tr>
+                    <td>
+                        <select wicket:id="current-keywords">
+                            <option>This is an option</option>
+                            <option>Another option</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="submit" name="submit" value="add keyword"/>
+                    </td>
+                    <td/>
+                    <td/>
+                </tr>
+            </table>
+        </form>
     </div>
     <div class="keywords-holder">
-        <h3>Keywords</h3>
+        <h3>Related Topics</h3>
 
         <p>
             These keywords will appear under "Related Topics" on simulation pages. They should make it easy to find
-            related simulations based on keywords (and in the future will be used for searches) </p>
+            related simulations based on keywords (and in the future will be used for searches)
+        </p>
 
         <form wicket:id="add-keyword">
             <table class="admin">

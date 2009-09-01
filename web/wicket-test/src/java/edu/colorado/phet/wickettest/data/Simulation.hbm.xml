@@ -18,6 +18,11 @@
             <key column="simulation_id"/>
             <many-to-many class="edu.colorado.phet.wickettest.data.Category" column="category_id"/>
         </set>
+        <list name="topics" table="topics_mapping">
+            <key column="simulation_id"/>
+            <list-index column="idx"/>
+            <many-to-many class="edu.colorado.phet.wickettest.data.Keyword" column="keyword_id"/>
+        </list>
         <list name="keywords" table="keyword_mapping">
             <key column="simulation_id"/>
             <list-index column="idx"/>

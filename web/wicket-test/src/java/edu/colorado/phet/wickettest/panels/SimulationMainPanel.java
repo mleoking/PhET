@@ -100,6 +100,7 @@ public class SimulationMainPanel extends PhetPanel {
         add( new PhetLink( "run-offline-link", simulation.getDownloadUrl() ) );
 
         List<Keyword> keywords = new LinkedList<Keyword>();
+        List<Keyword> topics = new LinkedList<Keyword>();
 
         Transaction tx = null;
         try {
@@ -107,11 +108,16 @@ public class SimulationMainPanel extends PhetPanel {
             tx = session.beginTransaction();
 
             Simulation sim = (Simulation) session.load( Simulation.class, simulation.getSimulation().getId() );
-            System.out.println( "Simulation keywords for " + sim.getName() );
+            //System.out.println( "Simulation keywords for " + sim.getName() );
             for ( Object o : sim.getKeywords() ) {
                 Keyword keyword = (Keyword) o;
                 keywords.add( keyword );
-                System.out.println( keyword.getKey() );
+                //System.out.println( keyword.getKey() );
+            }
+            for ( Object o : sim.getTopics() ) {
+                Keyword keyword = (Keyword) o;
+                topics.add( keyword );
+                //System.out.println( keyword.getKey() );
             }
 
             tx.commit();
@@ -127,6 +133,17 @@ public class SimulationMainPanel extends PhetPanel {
                 }
                 throw e;
             }
+        }
+
+        ListView topicList = new ListView( "topic-list", topics ) {
+            protected void populateItem( ListItem item ) {
+                Keyword keyword = (Keyword) item.getModel().getObject();
+                item.add( new Label( "topic-label", new ResourceModel( keyword.getKey() ) ) );
+            }
+        };
+        add( topicList );
+        if ( topics.isEmpty() ) {
+            topicList.setVisible( false );
         }
 
         ListView keywordList = new ListView( "keyword-list", keywords ) {

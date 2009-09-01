@@ -58,9 +58,17 @@
                 <wicket:message key="simulationMainPanel.topics">Topics</wicket:message>
             </h2>
 
-            <h3>
-                <wicket:message key="simulationMainPanel.mainTopics">Main Topics</wicket:message>
-            </h3>
+            <wicket:enclosure child="topic-list">
+                <h3>
+                    <wicket:message key="simulationMainPanel.mainTopics">Main Topics</wicket:message>
+                </h3>
+                <ul>
+                    <li wicket:id="topic-list">
+                        <span wicket:id="topic-label">
+                        </span>
+                    </li>
+                </ul>
+            </wicket:enclosure>
 
 
             <wicket:enclosure child="keyword-list">
