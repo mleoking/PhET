@@ -28,14 +28,21 @@ public class AxonMembraneNode extends PNode {
     private ModelViewTransform2D mvt;
     private PhetPPath outerMembrane;
     private PhetPPath innerMembrane;
+    private PhetPPath axonBody;
 
     public AxonMembraneNode( AxonMembrane axonMembraneModel, ModelViewTransform2D transform ) {
 		this.axonMembraneModel = axonMembraneModel;
         this.mvt = transform;
-
-        double outerDiameter = axonMembraneModel.getCrossSectionDiameter() + axonMembraneModel.getMembraneThickness() / 2;
-        double innerDiameter = axonMembraneModel.getCrossSectionDiameter() - axonMembraneModel.getMembraneThickness() / 2;
         
+        // Add the axon body.
+        Shape axonBodyShape = mvt.createTransformedShape(axonMembraneModel.getAxonBodyShape());
+        axonBody = new PhetPPath( axonBodyShape, Color.YELLOW, new BasicStroke(4), Color.BLACK );
+        addChild( axonBody );
+
+        double outerDiameter = axonMembraneModel.getCrossSectionDiameter() + axonMembraneModel.getMembraneThickness();
+        double innerDiameter = axonMembraneModel.getCrossSectionDiameter() - axonMembraneModel.getMembraneThickness();
+        
+        // Add the cross section.
         Shape outerDiameterEllipse = mvt.createTransformedShape(new Ellipse2D.Double(-outerDiameter / 2, -outerDiameter / 2, outerDiameter, outerDiameter));
         Shape innerDiameterEllipse = mvt.createTransformedShape(new Ellipse2D.Double(-innerDiameter / 2, -innerDiameter / 2, innerDiameter, innerDiameter));
         outerMembrane = new PhetPPath( outerDiameterEllipse, Color.YELLOW, new BasicStroke(4), Color.BLACK);
