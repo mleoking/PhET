@@ -1,0 +1,18 @@
+This directory contains the scripts necessary for a specialized installer
+created for KSU.  The scripts and other files included here are essentially
+copies of the files that are used by the standard installer builder, with
+modifications made to support KSU's particular requirements.  A decision was
+made not to try to generalize the existing installer builder in order to
+meet KSU's needs, at least not at this time.  At some point, if another 
+university needs this kind of a specailized and translated installer, it
+would probably make sense to go ahead and generalize the installer builder to
+handle all such cases.
+
+The basic approach for this effort was to copy only the needed files from the
+main installer-builder directory, modify them only as much as needed to get
+the job done, and to leave the major tools (i.e. HTTrack and BitRock) in the
+main intaller builder directory and point to them from here (so as not to
+duplicate them).
+
+JP Blanco, August 31, 2009
+
