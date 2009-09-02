@@ -27,24 +27,29 @@ abstract class MotionSeriesCanvas(model: RampModel,
         extends DefaultCanvas(22, 22, RampDefaults.worldWidth, RampDefaults.worldHeight, modelOffsetY) {
   setBackground(RampDefaults.SKY_GRADIENT_BOTTOM)
 
-  addNode(new SkyNode(transform))
+  val playAreaNode = new PNode
+
+  addNode(playAreaNode)
+//  addScreenChild(playAreaNode)
+
+  playAreaNode.addChild(new SkyNode(transform))
 
   def useVectorNodeInPlayArea = true
 
   def createEarthNode: PNode
 
   val earthNode = createEarthNode
-  addNode(earthNode)
+  playAreaNode.addChild(earthNode)
 
   def createLeftSegmentNode: HasPaint
 
   val leftSegmentNode = createLeftSegmentNode
-  addNode(leftSegmentNode)
+  playAreaNode.addChild(leftSegmentNode)
 
   def createRightSegmentNode: HasPaint
 
   val rightSegmentNode = createRightSegmentNode
-  addNode(rightSegmentNode)
+  playAreaNode.addChild(rightSegmentNode)
 
   def addHeightAndAngleIndicators()
   addHeightAndAngleIndicators()
@@ -54,12 +59,12 @@ abstract class MotionSeriesCanvas(model: RampModel,
 
   val beadNode = new DraggableBeadNode(model.bead, transform, "cabinet.gif".literal, () => model.setPaused(false))
   model.addListenerByName(beadNode.setImage(RampResources.getImage(model.selectedObject.imageFilename)))
-  addNode(beadNode)
+  playAreaNode.addChild(beadNode)
 
   val pusherNode = new PusherNode(transform, model.bead, model.manBead)
-  addNode(pusherNode)
+  playAreaNode.addChild(pusherNode)
 
-  addNode(new CoordinateFrameNode(model, adjustableCoordinateModel, transform))
+  playAreaNode.addChild(new CoordinateFrameNode(model, adjustableCoordinateModel, transform))
 
   private def compositeListener(listener: () => Unit) = {
     model.rampSegments(0).addListener(listener)
@@ -67,7 +72,7 @@ abstract class MotionSeriesCanvas(model: RampModel,
   }
 
   val tickMarkSet = new TickMarkSet(transform, model.positionMapper, compositeListener) //todo: listen to both segments for game
-  addNode(tickMarkSet)
+  playAreaNode.addChild(tickMarkSet)
 
   val fbdWidth = RampDefaults.freeBodyDiagramWidth
   val fbdNode = new FreeBodyDiagramNode(freeBodyDiagramModel, 200, 200, fbdWidth, fbdWidth, model.coordinateFrameModel, adjustableCoordinateModel, PhetCommonResources.getImage("buttons/maximizeButton.png".literal))
@@ -86,7 +91,7 @@ abstract class MotionSeriesCanvas(model: RampModel,
 
   val fbdListener = (pt: Point2D) => {model.bead.parallelAppliedForce = pt.getX}
   fbdNode.addListener(fbdListener)
-  addNode(fbdNode)
+  playAreaNode.addChild(fbdNode)
   defineInvokeAndPass(freeBodyDiagramModel.addListenerByName) {
     fbdNode.setVisible(freeBodyDiagramModel.visible && !freeBodyDiagramModel.windowed)
   }
@@ -108,7 +113,7 @@ abstract class MotionSeriesCanvas(model: RampModel,
   }
 
   val vectorNode = new VectorSetNode(transform, model.bead)
-  addNode(vectorNode)
+  playAreaNode.addChild(vectorNode)
   def addVectorAllComponents(bead: Bead, beadVector: BeadVector with PointOfOriginVector, offsetFBD: VectorValue,
                              offsetPlayArea: Double, selectedVectorVisible: () => Boolean) = {
     addVector(bead, beadVector, offsetFBD, offsetPlayArea)
