@@ -123,12 +123,12 @@ public class AxonMembrane {
     			vanishingPoint.getY() + ctrlPtRadius * Math.sin(angleToIntersectionPt - 0.25));
     	
     	// Draw the curves.
-    	axonBodyShape.moveTo(intersectionPointA.getX(), intersectionPointA.getY());
-    	axonBodyShape.curveTo(cntrlPtA1.getX(), cntrlPtA1.getY(), cntrlPtA2.getX(), cntrlPtA2.getY(),
-    			vanishingPoint.getX(), vanishingPoint.getY());
-    	axonBodyShape.curveTo(cntrlPtB1.getX(), cntrlPtB1.getY(), cntrlPtB2.getX(), cntrlPtB2.getY(),
-    			intersectionPointB.getX(), intersectionPointB.getY());
-    	axonBodyShape.lineTo(intersectionPointA.getX(), intersectionPointA.getY());
+    	axonBodyShape.moveTo((float)intersectionPointA.getX(), (float)intersectionPointA.getY());
+    	axonBodyShape.curveTo((float)cntrlPtA1.getX(), (float)cntrlPtA1.getY(), (float)cntrlPtA2.getX(), (float)cntrlPtA2.getY(),
+    			(float)vanishingPoint.getX(), (float)vanishingPoint.getY());
+    	axonBodyShape.curveTo((float)cntrlPtB1.getX(), (float)cntrlPtB1.getY(), (float)cntrlPtB2.getX(), (float)cntrlPtB2.getY(),
+    	        (float)intersectionPointB.getX(), (float)intersectionPointB.getY());
+    	axonBodyShape.lineTo((float)intersectionPointA.getX(), (float)intersectionPointA.getY());
     	
     	return axonBodyShape;
     }
