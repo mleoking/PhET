@@ -1,1 +1,2 @@
+9-2-2009: Update to Java 1.5
 Changed default window sizes to 4, based on Kathy's 8-26-2009 email
