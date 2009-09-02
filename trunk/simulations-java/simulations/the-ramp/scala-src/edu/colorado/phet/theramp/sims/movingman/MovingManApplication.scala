@@ -44,20 +44,22 @@ class BasicMovingManCanvas(model: RampModel, coordinateSystemModel: AdjustableCo
   override def addHeightAndAngleIndicators() = {}
 }
 
-class IntroModule(frame: JFrame, clock: ScalaClock) extends BasicMovingManModule(frame, clock, "forces-and-friction.module.intro.title".translate, false, true, false, true, -6, false, 0.0, 0.0, true)
-class GraphingModule(frame: JFrame, clock: ScalaClock) extends BasicMovingManModule(frame, clock, "forces-and-friction.module.graphing.title".translate, false, false, true, false, -6, false, 0.0, 0.0, true) {
+class IntroModule(frame: JFrame, clock: ScalaClock) extends BasicMovingManModule(frame, clock, "moving-man.module.intro.title".translate, false, true, false, true, -6, false, 0.0, 0.0, true)
+
+class GraphingModule(frame: JFrame, clock: ScalaClock) extends BasicMovingManModule(frame, clock, "moving-man.module.graphing.title".translate, false, false, true, false, -6, false, 0.0, 0.0, true) {
   coordinateSystemModel.adjustable = false
   canvas.addNodeAfter(canvas.earthNode, new ForcesAndMotionChartNode(canvas.transform, canvas, rampModel))
 }
-class RobotMovingCompany1DModule(frame: JFrame, clock: ScalaClock) extends BasicMovingManModule(frame, clock, "forces-and-friction.module.robot-moving-company.title".translate, false, false, false, false, -6, false, 0.0, 0.0, true)
+
+class MovingManGameModule(frame: JFrame, clock: ScalaClock) extends BasicMovingManModule(frame, clock, "moving-man.module.game.title".translate, false, false, false, false, -6, false, 0.0, 0.0, true)
 
 class MovingManApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
   def newClock = new ScalaClock(RampDefaults.DELAY, RampDefaults.DT_DEFAULT)
   addModule(new IntroModule(getPhetFrame, newClock))
   addModule(new GraphingModule(getPhetFrame, newClock))
-  addModule(new RobotMovingCompany1DModule(getPhetFrame, newClock))
+  addModule(new MovingManGameModule(getPhetFrame, newClock))
 }
 
 object MovingManApplicationMain {
-  def main(args: Array[String]) = new PhetApplicationLauncher().launchSim(args, "the-ramp".literal, "forces-and-friction".literal, classOf[MovingManApplication])
+  def main(args: Array[String]) = new PhetApplicationLauncher().launchSim(args, "the-ramp".literal, "moving-man".literal, classOf[MovingManApplication])
 }
