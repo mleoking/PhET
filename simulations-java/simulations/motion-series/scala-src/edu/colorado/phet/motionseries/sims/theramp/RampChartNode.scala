@@ -1,6 +1,7 @@
 package edu.colorado.phet.motionseries.sims.theramp
 
 import charts.{AbstractChartNode, RampGraph, SeriesSelectionControl}
+import graphics.MotionSeriesCanvas
 import phet.common.motion.graphs._
 import phet.common.motion.model._
 import phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
@@ -9,7 +10,7 @@ import model.{RampModel}
 import RampResources._
 import sims.theramp.RampDefaults._
 
-class RampChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model: RampModel, showEnergyGraph: Boolean)
+class RampChartNode(transform: ModelViewTransform2D, canvas: MotionSeriesCanvas, model: RampModel, showEnergyGraph: Boolean)
         extends AbstractChartNode(transform, canvas, model) {
   val parallelAppliedForceVariable = new DefaultTemporalVariable() {
     override def setValue(value: Double) = model.bead.parallelAppliedForce = value
@@ -65,5 +66,5 @@ class RampChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model:
   }
 
   addChild(graphSetNode)
-  updatePosition()
+  updateLayout()
 }

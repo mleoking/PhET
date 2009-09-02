@@ -1,5 +1,7 @@
 package edu.colorado.phet.motionseries.charts
 
+import graphics.MotionSeriesCanvas
+import java.awt.event._
 import phet.common.phetcommon.util.DefaultDecimalFormat
 import phet.common.phetcommon.view.util.{PhetFont}
 import phet.common.motion.graphs._
@@ -9,12 +11,12 @@ import phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import phet.common.piccolophet.nodes.{ShadowHTMLNode}
 import phet.common.piccolophet.{PhetPCanvas}
 import phet.common.timeseries.model.{RecordableModel, TimeSeriesModel}
-import java.awt.event.{FocusEvent, FocusListener, ActionEvent, ActionListener}
 import java.awt.geom.Point2D
 import java.awt.{FlowLayout, Color}
 import javax.swing.{JTextField, JPanel, JLabel}
 import model.{RampModel}
 import motionseries.RampResources
+import sims.forcesandmotion.BasicForcesAndMotionCanvas
 import sims.theramp.RampDefaults
 
 import umd.cs.piccolo.PNode
@@ -31,7 +33,7 @@ object Defaults {
   }
 }
 
-abstract class AbstractChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model: RampModel) extends PNode {
+abstract class AbstractChartNode(transform: ModelViewTransform2D, canvas: MotionSeriesCanvas, model: RampModel) extends PNode {
   def inTimeRange(time: Double) = {
     //    println("time = "+time)
     time <= RampDefaults.MAX_RECORD_TIME
@@ -119,11 +121,12 @@ abstract class AbstractChartNode(transform: ModelViewTransform2D, canvas: PhetPC
     panel
   }
 
-  def updatePosition() = {
-    val viewLoc = transform.modelToView(new Point2D.Double(0, -1))
-    val viewBounds = transform.getViewBounds
-    val h = viewBounds.getHeight - viewLoc.y
-    graphSetNode.setBounds(viewBounds.getX, viewLoc.y, viewBounds.getWidth, h)
+  canvas.addComponentListener(new ComponentAdapter(){override def componentResized(e: ComponentEvent) = {updateLayout()}})
+
+  def updateLayout() = {
+    val y = canvas.rampLayoutStrut.getGlobalFullBounds.getMaxY
+    val h = canvas.getHeight - y
+    graphSetNode.setBounds(0,y,canvas.getWidth,h)
   }
 
   def graphSetNode: PNode

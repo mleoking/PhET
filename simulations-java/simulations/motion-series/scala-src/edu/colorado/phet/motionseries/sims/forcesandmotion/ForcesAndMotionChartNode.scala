@@ -1,6 +1,7 @@
 package edu.colorado.phet.motionseries.sims.forcesandmotion
 
 import charts.{SeriesControlTitleLabel, AbstractChartNode, SeriesSelectionControl, RampGraph}
+import graphics.MotionSeriesCanvas
 import phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import phet.common.piccolophet.PhetPCanvas
 import model.RampModel
@@ -11,7 +12,7 @@ import RampResources._
 import motionseries.sims.theramp.RampDefaults
 import motionseries.sims.theramp.RampDefaults._
 
-class ForcesAndMotionChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model: RampModel)
+class ForcesAndMotionChartNode(transform: ModelViewTransform2D, canvas: MotionSeriesCanvas, model: RampModel)
         extends AbstractChartNode(transform, canvas, model) {
   val parallelAppliedForceVariable = new DefaultTemporalVariable() {
     override def setValue(value: Double) = model.bead.parallelAppliedForce = value
@@ -116,5 +117,5 @@ class ForcesAndMotionChartNode(transform: ModelViewTransform2D, canvas: PhetPCan
   }
 
   addChild(graphSetNode)
-  updatePosition()
+  updateLayout()
 }
