@@ -126,7 +126,13 @@ public class TPModel {
         Complex[] roots = roots( coefficients );
         Double[] rootsSorted = sortReal( roots );
         double H = rootsSorted[coefficients.length - 2];
-        return -Math.log10( H );
+        double pH = -Math.log10( H );
+        if ( Double.isNaN( pH ) ) {
+            System.out.println( "WARNING: pH = " + pH );
+            debugPrintCoefficients( coefficients );
+            debugPrintRealRoots( roots );
+        }
+        return pH;
     }
     
     private static Complex[] roots( double[] coefficients ) {
