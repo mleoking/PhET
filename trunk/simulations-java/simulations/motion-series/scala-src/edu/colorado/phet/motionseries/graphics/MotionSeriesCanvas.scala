@@ -84,20 +84,13 @@ abstract class MotionSeriesCanvas(model: RampModel,
   val fbdNode = new FreeBodyDiagramNode(freeBodyDiagramModel, 200, 200, fbdWidth, fbdWidth, model.coordinateFrameModel, adjustableCoordinateModel, PhetCommonResources.getImage("buttons/maximizeButton.png".literal))
 
   def updateFBDLocation() = {
-    fbdNode.setOffset(10, 10)
-    if (getHeight > 0 && getWidth > 0 && !getVisibleModelBounds.contains(fbdNode.getFullBounds))
-      fbdNode.setOffset(getVisibleModelBounds.getX + 200, getVisibleModelBounds.getY)
+    fbdNode.setScale(getScale)
+    fbdNode.setOffset(50,10)
   }
-  addComponentListener(new ComponentAdapter() {
-    override def componentResized(e: ComponentEvent) = {
-      updateFBDLocation()
-    }
-  })
-  updateFBDLocation()
 
   val fbdListener = (pt: Point2D) => {model.bead.parallelAppliedForce = pt.getX}
   fbdNode.addListener(fbdListener)
-  playAreaNode.addChild(fbdNode)
+  addScreenChild(fbdNode)
   defineInvokeAndPass(freeBodyDiagramModel.addListenerByName) {
     fbdNode.setVisible(freeBodyDiagramModel.visible && !freeBodyDiagramModel.windowed)
   }
@@ -116,6 +109,8 @@ abstract class MotionSeriesCanvas(model: RampModel,
     val s = getWidth / rampLayoutStrut.getGlobalFullBounds.width
     if (s > 0) playAreaNode.setScale(getWidth / rampLayoutStrut.getGlobalFullBounds.width)
     playAreaNode.setOffset(-rampLayoutStrut.getGlobalFullBounds.x, -rampLayoutStrut.getGlobalFullBounds.y)
+
+    updateFBDLocation()
   }
 
   class VectorSetNode(transform: ModelViewTransform2D, bead: Bead) extends PNode {
