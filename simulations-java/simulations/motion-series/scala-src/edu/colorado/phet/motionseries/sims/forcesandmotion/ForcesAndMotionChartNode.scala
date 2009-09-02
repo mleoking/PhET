@@ -1,6 +1,6 @@
 package edu.colorado.phet.motionseries.sims.forcesandmotion
 
-import charts.{SeriesControlTitleLabel, AbstractChartNode, SeriesSelectionControl, RampGraph}
+import charts.{SeriesControlTitleLabel, AbstractChartNode, SeriesSelectionControl, MotionSeriesGraph}
 import graphics.MotionSeriesCanvas
 import phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import phet.common.piccolophet.PhetPCanvas
@@ -29,7 +29,7 @@ class ForcesAndMotionChartNode(transform: ModelViewTransform2D, canvas: MotionSe
   val netForceSeries = new ControlGraphSeries(formatForce("forces.Net".translate), totalForceColor, abbrevUnused, N, characterUnused, createParallelVariable(() => model.bead.totalForce))
   val forceSeriesList = appliedForceSeries :: frictionSeries :: gravitySeries :: wallSeries :: netForceSeries :: Nil
 
-  val parallelForceControlGraph = new RampGraph(appliedForceSeries, canvas, timeseriesModel, updateableObject, model) {
+  val parallelForceControlGraph = new MotionSeriesGraph(appliedForceSeries, canvas, timeseriesModel, updateableObject, model) {
     for (s <- forceSeriesList.tail) addSeries(s)
     addControl(new SeriesSelectionControl("forces.parallel-title-with-units".translate, 5) {
       addToGrid(appliedForceSeries, createEditableLabel)
@@ -68,7 +68,7 @@ class ForcesAndMotionChartNode(transform: ModelViewTransform2D, canvas: MotionSe
   }
   model.stepListeners += (() => {if (inTimeRange(model.getTime)) accelerationVariable.addValue(model.bead.acceleration, model.getTime)})
   val accelerationSeries = new ControlGraphSeries("Acceleration", RampDefaults.accelerationColor, "accel", "m/s/s", characterUnused, accelerationVariable)
-  val accelerationGraph = new RampGraph(accelerationSeries, canvas, timeseriesModel, updateableObject, model) {
+  val accelerationGraph = new MotionSeriesGraph(accelerationSeries, canvas, timeseriesModel, updateableObject, model) {
     setVerticalRange(-100, 100)
     addControl(new SeriesSelectionControl("", 1) {
       addComponentsToGrid(new SeriesControlTitleLabel(accelerationSeries), createEditableLabel(accelerationSeries))
@@ -82,7 +82,7 @@ class ForcesAndMotionChartNode(transform: ModelViewTransform2D, canvas: MotionSe
   }
   model.stepListeners += (() => {if (inTimeRange(model.getTime)) velocityVariable.addValue(model.bead.velocity, model.getTime)})
   val velocitySeries = new ControlGraphSeries("Velocity", RampDefaults.velocityColor, "vel", "m/s", characterUnused, velocityVariable)
-  val velocityGraph = new RampGraph(velocitySeries, canvas, timeseriesModel, updateableObject, model) {
+  val velocityGraph = new MotionSeriesGraph(velocitySeries, canvas, timeseriesModel, updateableObject, model) {
     setVerticalRange(-50, 50)
     addControl(new SeriesSelectionControl("", 1) {
       addToGrid(velocitySeries, createEditableLabel)
@@ -96,7 +96,7 @@ class ForcesAndMotionChartNode(transform: ModelViewTransform2D, canvas: MotionSe
   }
   model.stepListeners += (() => {if (inTimeRange(model.getTime)) positionVariable.addValue(model.bead.position, model.getTime)})
   val positionSeries = new ControlGraphSeries("Position", RampDefaults.positionColor, "x", "m", characterUnused, positionVariable)
-  val positionGraph = new RampGraph(positionSeries, canvas, timeseriesModel, updateableObject, model) {
+  val positionGraph = new MotionSeriesGraph(positionSeries, canvas, timeseriesModel, updateableObject, model) {
     setVerticalRange(-10, 10)
     addControl(new SeriesSelectionControl("", 1) {
       addToGrid(positionSeries, createEditableLabel)

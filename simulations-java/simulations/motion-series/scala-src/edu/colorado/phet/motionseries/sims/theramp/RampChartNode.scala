@@ -1,6 +1,6 @@
 package edu.colorado.phet.motionseries.sims.theramp
 
-import charts.{AbstractChartNode, RampGraph, SeriesSelectionControl}
+import charts.{AbstractChartNode, MotionSeriesGraph, SeriesSelectionControl}
 import graphics.MotionSeriesCanvas
 import phet.common.motion.graphs._
 import phet.common.motion.model._
@@ -37,7 +37,7 @@ class RampChartNode(transform: ModelViewTransform2D, canvas: MotionSeriesCanvas,
   val frictionWorkSeries = new ControlGraphSeries(formatWork("work.friction".translate), frictionWorkColor, abbrevUnused, J, characterUnused, createVariable(() => model.bead.getFrictiveWork))
   val energyWorkSeriesList = totalEnergySeries :: keSeries :: peSeries :: thermalEnergySeries :: appliedWorkSeries :: gravityWorkSeries :: frictionWorkSeries :: Nil
 
-  val parallelForceControlGraph = new RampGraph(appliedForceSeries, canvas, timeseriesModel, updateableObject, model) {
+  val parallelForceControlGraph = new MotionSeriesGraph(appliedForceSeries, canvas, timeseriesModel, updateableObject, model) {
     setDomainUpperBound(20)
     for (s <- forceSeriesList.tail) addSeries(s)
   }
@@ -47,7 +47,7 @@ class RampChartNode(transform: ModelViewTransform2D, canvas: MotionSeriesCanvas,
     for (s <- forceSeriesList.tail) addToGrid(s)
   })
 
-  val workEnergyGraph = new RampGraph(totalEnergySeries, canvas, timeseriesModel, updateableObject, model) {
+  val workEnergyGraph = new MotionSeriesGraph(totalEnergySeries, canvas, timeseriesModel, updateableObject, model) {
     setEditable(false)
     setDomainUpperBound(20)
     for (s <- energyWorkSeriesList.tail) addSeries(s)
