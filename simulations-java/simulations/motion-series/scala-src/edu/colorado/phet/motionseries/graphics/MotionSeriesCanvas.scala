@@ -30,8 +30,6 @@ abstract class MotionSeriesCanvas(model: RampModel,
   setBackground(RampDefaults.SKY_GRADIENT_BOTTOM)
 
   val playAreaNode = new PNode
-
-  //  addStageNode(playAreaNode)
   addScreenChild(playAreaNode)
 
   class LayoutStrut(modelRect: Rectangle2D) extends PhetPPath(transform.modelToViewDouble(modelRect)) {

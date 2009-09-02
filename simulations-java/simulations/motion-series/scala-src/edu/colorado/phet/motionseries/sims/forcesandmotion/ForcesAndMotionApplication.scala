@@ -50,7 +50,7 @@ class BasicForcesAndMotionCanvas(model: RampModel, coordinateSystemModel: Adjust
 }
 
 class IntroModule(frame: JFrame, clock: ScalaClock) extends BasicForcesAndMotionModule(frame, clock, "forces-and-friction.module.intro.title".translate, false, true, false, true, -6, false, 0.0, 0.0, true,RampDefaults.defaultRampLayoutArea)
-class FrictionModule(frame: JFrame, clock: ScalaClock) extends BasicForcesAndMotionModule(frame, clock, "forces-and-friction.module.friction.title".translate, false, false, false, true, -6, false, 0.0, 0.0, false,RampDefaults.defaultRampLayoutArea) {
+class FrictionModule(frame: JFrame, clock: ScalaClock) extends BasicForcesAndMotionModule(frame, clock, "forces-and-friction.module.friction.title".translate, false, false, false, true, -6, false, 0.0, 0.0, false,RampDefaults.frictionRampLayoutArea) {
   val frictionPlayAreaControlPanel = new PSwing(new FrictionPlayAreaControlPanel(rampModel.bead))
   canvas.addScreenChild(frictionPlayAreaControlPanel)
   def updateFrictionControl() = {
@@ -68,9 +68,9 @@ class FrictionModule(frame: JFrame, clock: ScalaClock) extends BasicForcesAndMot
   updateFrictionControl()
   rampModel.frictionless = false
 }
-class GraphingModule(frame: JFrame, clock: ScalaClock) extends BasicForcesAndMotionModule(frame, clock, "forces-and-friction.module.graphing.title".translate, false, false, true, false, -6, false, 0.0, 0.0, true,RampDefaults.defaultRampLayoutArea) {
+class GraphingModule(frame: JFrame, clock: ScalaClock) extends BasicForcesAndMotionModule(frame, clock, "forces-and-friction.module.graphing.title".translate, false, false, true, false, -6, false, 0.0, 0.0, true,RampDefaults.forceEnergyGraphRampLayoutArea) {
   coordinateSystemModel.adjustable = false
-  canvas.addStageNodeAfter(canvas.earthNode, new ForcesAndMotionChartNode(canvas.transform, canvas, rampModel))
+  canvas.addScreenChild(new ForcesAndMotionChartNode(canvas.transform, canvas, rampModel))
 }
 class RobotMovingCompany1DModule(frame: JFrame, clock: ScalaClock) extends BasicForcesAndMotionModule(frame, clock, "forces-and-friction.module.robot-moving-company.title".translate, false, false, false, false, -6, false, 0.0, 0.0, true,RampDefaults.defaultRampLayoutArea)
 
