@@ -1,5 +1,6 @@
 package edu.colorado.phet.motionseries.sims.forcesandmotion
 
+import java.awt.geom.Rectangle2D
 import phet.common.phetcommon.application.{PhetApplicationConfig, PhetApplicationLauncher}
 import phet.common.piccolophet.PiccoloPhetApplication
 import controls.RampControlPanel
@@ -29,9 +30,10 @@ class BasicForcesAndMotionModule(frame: JFrame,
                                  pausedOnReset: Boolean,
                                  initialAngle: Double,
                                  modelOffsetY: Double,
-                                 showFrictionControl: Boolean)
+                                 showFrictionControl: Boolean,rampLayoutArea:Rectangle2D)
         extends AbstractRampModule(frame, clock, name, defaultBeadPosition, pausedOnReset, initialAngle) {
-  val canvas = new BasicForcesAndMotionCanvas(rampModel, coordinateSystemModel, fbdModel, vectorViewModel, frame, showObjectSelectionNode, showAppliedForceSlider, initialAngle != 0.0, modelOffsetY)
+  val canvas = new BasicForcesAndMotionCanvas(rampModel, coordinateSystemModel, fbdModel, vectorViewModel, frame,
+    showObjectSelectionNode, showAppliedForceSlider, initialAngle != 0.0, modelOffsetY,rampLayoutArea)
   setSimulationPanel(canvas)
   val controlPanel = new RampControlPanel(rampModel, wordModel, fbdModel, coordinateSystemModel, vectorViewModel,
     resetRampModule, coordinateSystemFeaturesEnabled, useObjectComboBox, rampModel, false, showFrictionControl)
@@ -41,14 +43,14 @@ class BasicForcesAndMotionModule(frame: JFrame,
 
 class BasicForcesAndMotionCanvas(model: RampModel, coordinateSystemModel: AdjustableCoordinateModel, freeBodyDiagramModel: FreeBodyDiagramModel,
                                  vectorViewModel: VectorViewModel, frame: JFrame, showObjectSelectionNode: Boolean, showAppliedForceSlider: Boolean,
-                                 rampAngleDraggable: Boolean, modelOffsetY: Double)
+                                 rampAngleDraggable: Boolean, modelOffsetY: Double,rampLayoutArea:Rectangle2D)
         extends RampCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel,
-          frame, showObjectSelectionNode, showAppliedForceSlider, rampAngleDraggable, modelOffsetY) {
+          frame, showObjectSelectionNode, showAppliedForceSlider, rampAngleDraggable, modelOffsetY,rampLayoutArea) {
   override def addHeightAndAngleIndicators() = {}
 }
 
-class IntroModule(frame: JFrame, clock: ScalaClock) extends BasicForcesAndMotionModule(frame, clock, "forces-and-friction.module.intro.title".translate, false, true, false, true, -6, false, 0.0, 0.0, true)
-class FrictionModule(frame: JFrame, clock: ScalaClock) extends BasicForcesAndMotionModule(frame, clock, "forces-and-friction.module.friction.title".translate, false, false, false, true, -6, false, 0.0, 0.0, false) {
+class IntroModule(frame: JFrame, clock: ScalaClock) extends BasicForcesAndMotionModule(frame, clock, "forces-and-friction.module.intro.title".translate, false, true, false, true, -6, false, 0.0, 0.0, true,RampDefaults.defaultRampLayoutArea)
+class FrictionModule(frame: JFrame, clock: ScalaClock) extends BasicForcesAndMotionModule(frame, clock, "forces-and-friction.module.friction.title".translate, false, false, false, true, -6, false, 0.0, 0.0, false,RampDefaults.defaultRampLayoutArea) {
   val frictionPlayAreaControlPanel = new PSwing(new FrictionPlayAreaControlPanel(rampModel.bead))
   canvas.addScreenChild(frictionPlayAreaControlPanel)
   def updateFrictionControl() = {
@@ -66,11 +68,11 @@ class FrictionModule(frame: JFrame, clock: ScalaClock) extends BasicForcesAndMot
   updateFrictionControl()
   rampModel.frictionless = false
 }
-class GraphingModule(frame: JFrame, clock: ScalaClock) extends BasicForcesAndMotionModule(frame, clock, "forces-and-friction.module.graphing.title".translate, false, false, true, false, -6, false, 0.0, 0.0, true) {
+class GraphingModule(frame: JFrame, clock: ScalaClock) extends BasicForcesAndMotionModule(frame, clock, "forces-and-friction.module.graphing.title".translate, false, false, true, false, -6, false, 0.0, 0.0, true,RampDefaults.defaultRampLayoutArea) {
   coordinateSystemModel.adjustable = false
   canvas.addStageNodeAfter(canvas.earthNode, new ForcesAndMotionChartNode(canvas.transform, canvas, rampModel))
 }
-class RobotMovingCompany1DModule(frame: JFrame, clock: ScalaClock) extends BasicForcesAndMotionModule(frame, clock, "forces-and-friction.module.robot-moving-company.title".translate, false, false, false, false, -6, false, 0.0, 0.0, true)
+class RobotMovingCompany1DModule(frame: JFrame, clock: ScalaClock) extends BasicForcesAndMotionModule(frame, clock, "forces-and-friction.module.robot-moving-company.title".translate, false, false, false, false, -6, false, 0.0, 0.0, true,RampDefaults.defaultRampLayoutArea)
 
 class ForcesAndMotionApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
   def newClock = new ScalaClock(RampDefaults.DELAY, RampDefaults.DT_DEFAULT)

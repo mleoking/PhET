@@ -5,7 +5,7 @@ import phet.common.phetcommon.view.util.{BufferedImageUtils, PhetFont}
 import phet.common.piccolophet.nodes.layout.SwingLayoutNode
 import phet.common.piccolophet.PhetPCanvas
 import java.awt._
-import geom.{Line2D, RoundRectangle2D}
+import geom.{Rectangle2D, Line2D, RoundRectangle2D}
 import javax.swing.event.{ChangeEvent, ChangeListener}
 import javax.swing.{JButton, JOptionPane, JFrame}
 import scalacommon.ScalaClock
@@ -24,7 +24,7 @@ import RampResources._
 
 class RobotMovingCompanyCanvas(model: RampModel, coordinateSystemModel: AdjustableCoordinateModel, freeBodyDiagramModel: FreeBodyDiagramModel,
                                vectorViewModel: VectorViewModel, frame: JFrame, gameModel: RobotMovingCompanyGameModel)
-        extends MotionSeriesCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame, 0.0) {
+        extends MotionSeriesCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame, 0.0,RampDefaults.defaultRampLayoutArea) {
   beadNode.setVisible(false)
   vectorNode.setVisible(false)
   pusherNode.setVisible(false)
