@@ -1,3 +1,6 @@
+Switched to screen coordinates layout
+Fixed: Angle readout is too large
+Fixed: Height readout is too large
 # 1.03.35 (34662) Aug 31, 2009
 forces-and-motion: Removed checkboxes from x,v,a chart readouts
 forces-and-motion: Removed extraneous title boxes from x,v,a readouts
