@@ -6,10 +6,10 @@ import phet.common.piccolophet.PhetPCanvas
 import model.RampModel
 import phet.common.motion.model.DefaultTemporalVariable
 import phet.common.motion.graphs._
-import phet.theramp.RampResources
+import phet.motionseries.RampResources
 import RampResources._
-import theramp.RampDefaults
-import theramp.RampDefaults._
+import motionseries.sims.theramp.RampDefaults
+import motionseries.sims.theramp.RampDefaults._
 
 class ForcesAndMotionChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model: RampModel)
         extends AbstractChartNode(transform, canvas, model) {

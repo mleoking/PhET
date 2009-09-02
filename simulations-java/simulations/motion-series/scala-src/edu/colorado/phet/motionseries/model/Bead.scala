@@ -4,7 +4,7 @@ import collection.mutable.ArrayBuffer
 import scalacommon.math.Vector2D
 import scalacommon.util.Observable
 import sims.theramp.RampDefaults
-import theramp.Predef._
+import motionseries.Predef._
 
 /**Immutable memento for recording*/
 case class BeadState(position: Double, velocity: Double, mass: Double, staticFriction: Double, kineticFriction: Double, thermalEnergy: Double, crashEnergy: Double) {

@@ -1,8 +1,8 @@
 package edu.colorado.phet.motionseries.model
 
 import scalacommon.util.Observable
-import theramp.RampResources
-import theramp.RampResources._
+import motionseries.RampResources
+import motionseries.RampResources._
 
 //immutable memento for recording
 case class ScalaRampObjectState(name: String, mass: Double, kinFric: Double, statFric: Double, height: Double,

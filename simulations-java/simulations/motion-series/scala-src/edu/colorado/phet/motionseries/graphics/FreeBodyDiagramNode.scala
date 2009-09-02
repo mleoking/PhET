@@ -15,7 +15,7 @@ import model.{AdjustableCoordinateModel, FreeBodyDiagramModel, CoordinateFrameMo
 import scalacommon.math.Vector2D
 import scalacommon.util.Observable
 import scalacommon.view.ToggleListener
-import theramp.RampResources
+import motionseries.RampResources
 import sims.theramp.RampDefaults
 
 import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}

@@ -1,7 +1,7 @@
 package edu.colorado.phet.motionseries.graphics
 
 import model.{FireDog, Raindrop, RampModel}
-import theramp.RampResources
+import motionseries.RampResources
 import umd.cs.piccolo.PNode
 import RampResources._
 

@@ -4,7 +4,7 @@ package edu.colorado.phet.motionseries.graphics
 import phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import phet.common.piccolophet.event.CursorHandler
 import model.{Bead}
-import theramp.RampResources
+import motionseries.RampResources
 import sims.theramp.RampDefaults
 
 import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}

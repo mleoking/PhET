@@ -3,7 +3,7 @@ package edu.colorado.phet.motionseries.model
 import phet.common.phetcommon.math.MathUtil
 import scalacommon.math.Vector2D
 import java.lang.Math._
-import theramp.Predef._
+import motionseries.Predef._
 
 //Used to save/restore motion strategies during record/playback
 trait MotionStrategyMemento {
