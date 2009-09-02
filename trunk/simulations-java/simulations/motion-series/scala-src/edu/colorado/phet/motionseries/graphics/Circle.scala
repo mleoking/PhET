@@ -1,4 +1,4 @@
-package edu.colorado.phet.theramp.graphics
+package edu.colorado.phet.motionseries.graphics
 
 import java.awt.geom.Ellipse2D
 import scalacommon.math.Vector2D

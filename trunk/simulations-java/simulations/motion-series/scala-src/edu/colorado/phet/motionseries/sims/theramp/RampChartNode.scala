@@ -1,4 +1,4 @@
-package edu.colorado.phet.theramp.sims.theramp
+package edu.colorado.phet.motionseries.sims.theramp
 
 import charts.{AbstractChartNode, RampGraph, SeriesSelectionControl}
 import phet.common.motion.graphs._

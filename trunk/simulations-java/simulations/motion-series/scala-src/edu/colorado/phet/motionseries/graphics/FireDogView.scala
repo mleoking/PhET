@@ -1,4 +1,4 @@
-package edu.colorado.phet.theramp.graphics
+package edu.colorado.phet.motionseries.graphics
 
 import model.{FireDog, Raindrop, RampModel}
 import theramp.RampResources

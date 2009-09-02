@@ -1,4 +1,4 @@
-package edu.colorado.phet.theramp.charts
+package edu.colorado.phet.motionseries.charts
 
 import phet.common.phetcommon.util.DefaultDecimalFormat
 import phet.common.phetcommon.view.util.{PhetFont}

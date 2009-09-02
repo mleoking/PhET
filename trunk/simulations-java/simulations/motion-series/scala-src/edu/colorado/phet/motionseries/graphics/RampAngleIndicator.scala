@@ -1,4 +1,4 @@
-package edu.colorado.phet.theramp.graphics
+package edu.colorado.phet.motionseries.graphics
 
 import phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import phet.common.phetcommon.view.util.PhetFont

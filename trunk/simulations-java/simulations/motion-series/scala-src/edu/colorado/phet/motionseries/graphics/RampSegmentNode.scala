@@ -1,4 +1,4 @@
-package edu.colorado.phet.theramp.graphics
+package edu.colorado.phet.motionseries.graphics
 
 
 import phet.common.phetcommon.math.Function.LinearFunction

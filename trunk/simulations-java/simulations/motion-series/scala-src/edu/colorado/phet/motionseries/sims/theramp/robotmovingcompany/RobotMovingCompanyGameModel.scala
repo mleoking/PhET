@@ -1,4 +1,4 @@
-package edu.colorado.phet.theramp.sims.theramp.robotmovingcompany
+package edu.colorado.phet.motionseries.sims.theramp.robotmovingcompany
 
 import collection.mutable.{HashMap, ArrayBuffer}
 import model.{ScalaRampObject, SurfaceModel, RampModel, Bead}

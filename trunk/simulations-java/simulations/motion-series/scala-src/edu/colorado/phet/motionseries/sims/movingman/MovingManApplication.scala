@@ -1,4 +1,4 @@
-package edu.colorado.phet.theramp.sims.movingman
+package edu.colorado.phet.motionseries.sims.movingman
 
 import phet.common.phetcommon.application.{PhetApplicationConfig, PhetApplicationLauncher}
 import phet.common.piccolophet.PiccoloPhetApplication
@@ -61,5 +61,5 @@ class MovingManApplication(config: PhetApplicationConfig) extends PiccoloPhetApp
 }
 
 object MovingManApplicationMain {
-  def main(args: Array[String]) = new PhetApplicationLauncher().launchSim(args, "the-ramp".literal, "moving-man".literal, classOf[MovingManApplication])
+  def main(args: Array[String]) = new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "moving-man".literal, classOf[MovingManApplication])
 }

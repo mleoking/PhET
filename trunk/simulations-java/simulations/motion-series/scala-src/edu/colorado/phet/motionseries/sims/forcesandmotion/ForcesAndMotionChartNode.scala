@@ -1,4 +1,4 @@
-package edu.colorado.phet.theramp.sims.forcesandmotion
+package edu.colorado.phet.motionseries.sims.forcesandmotion
 
 import charts.{SeriesControlTitleLabel, AbstractChartNode, SeriesSelectionControl, RampGraph}
 import phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D

@@ -1,4 +1,4 @@
-package edu.colorado.phet.theramp.sims.theramp
+package edu.colorado.phet.motionseries.sims.theramp
 
 import java.awt.Color
 import model.{MutableRampObject, CustomTextRampObject, ScalaRampObject}

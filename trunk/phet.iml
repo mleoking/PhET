@@ -108,7 +108,7 @@
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/sound/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/states-of-matter/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/test-project/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/the-ramp/scala-src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/motion-series/scala-src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/titration/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/travoltage/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/wave-interference/src" isTestSource="false" />
@@ -238,7 +238,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="file://$MODULE_DIR$/simulations-java/simulations/the-ramp/data" />
+          <root url="file://$MODULE_DIR$/simulations-java/simulations/motion-series/data" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

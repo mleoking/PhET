@@ -1,4 +1,4 @@
-package edu.colorado.phet.theramp.charts.bargraphs
+package edu.colorado.phet.motionseries.charts.bargraphs
 
 import phet.common.phetcommon.view.util.SwingUtils
 import phet.common.piccolophet.nodes.barchart.BarChartNode

@@ -1,4 +1,4 @@
-package edu.colorado.phet.theramp.graphics
+package edu.colorado.phet.motionseries.graphics
 
 import collection.mutable.ArrayBuffer
 import phet.common.phetcommon.resources.PhetCommonResources

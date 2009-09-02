@@ -1,4 +1,4 @@
-package edu.colorado.phet.theramp.sims.theramp.robotmovingcompany
+package edu.colorado.phet.motionseries.sims.theramp.robotmovingcompany
 
 import phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import phet.common.phetcommon.view.util.{BufferedImageUtils, PhetFont}
