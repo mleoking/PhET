@@ -132,7 +132,7 @@ abstract class AbstractChartNode(transform: ModelViewTransform2D, canvas: Motion
   def graphSetNode: PNode
 }
 
-class RampGraph(defaultSeries: ControlGraphSeries, canvas: PhetPCanvas, timeseriesModel: TimeSeriesModel, updateableObject: UpdateableObject, model: RampModel)
+class MotionSeriesGraph(defaultSeries: ControlGraphSeries, canvas: PhetPCanvas, timeseriesModel: TimeSeriesModel, updateableObject: UpdateableObject, model: RampModel)
         extends MotionControlGraph(canvas, defaultSeries, "".literal, "".literal, -2000, 2000, true, timeseriesModel, updateableObject) {
   getJFreeChartNode.getChart.getXYPlot.getRangeAxis.setTickLabelFont(new PhetFont(18, true))
   getJFreeChartNode.getChart.getXYPlot.getDomainAxis.setTickLabelFont(new PhetFont(18, true))
