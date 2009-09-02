@@ -1,3 +1,4 @@
+Removed blue layout debug box
 Switched to screen coordinates layout
 Fixed: Angle readout is too large
 Fixed: Height readout is too large
