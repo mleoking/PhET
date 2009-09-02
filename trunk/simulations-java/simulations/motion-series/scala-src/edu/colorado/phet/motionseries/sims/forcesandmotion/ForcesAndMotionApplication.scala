@@ -8,12 +8,13 @@ import java.awt.event.{ComponentEvent, ComponentAdapter}
 import model.{RampModel, AdjustableCoordinateModel, FreeBodyDiagramModel, VectorViewModel}
 import graphics._
 import java.awt.Color
-import phet.theramp.RampResources
+import phet.motionseries.RampResources
 import scalacommon.record.{RecordModelControlPanel, PlaybackSpeedSlider}
 import javax.swing.JFrame
 import scalacommon.ScalaClock
 import RampResources._
-import theramp.{AbstractRampModule, RampDefaults}
+import theramp.{RampDefaults, AbstractRampModule}
+
 
 import umd.cs.piccolox.pswing.PSwing
 

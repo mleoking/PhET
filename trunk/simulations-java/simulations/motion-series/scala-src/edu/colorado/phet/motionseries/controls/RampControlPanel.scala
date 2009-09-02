@@ -15,7 +15,7 @@ import javax.swing._
 import model._
 import scalacommon.math.Vector2D
 import scalacommon.swing.MyRadioButton
-import theramp.RampResources
+import motionseries.RampResources
 import sims.theramp.RampDefaults
 
 import swing.{MyCheckBox, ScalaValueControl}

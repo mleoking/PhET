@@ -5,7 +5,7 @@ import java.awt.{Color}
 import javax.swing._
 import model.SurfaceModel
 import scalacommon.swing.MyRadioButton
-import theramp.RampResources
+import motionseries.RampResources
 import sims.theramp.RampDefaults
 
 import umd.cs.piccolo.PNode

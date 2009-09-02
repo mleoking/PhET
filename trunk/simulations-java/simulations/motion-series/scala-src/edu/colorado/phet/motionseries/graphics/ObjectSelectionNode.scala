@@ -12,7 +12,7 @@ import javax.swing.{Timer}
 import scalacommon.util.Observable
 import sims.theramp.RampDefaults
 import swing.ScalaValueControl
-import theramp.RampResources
+import motionseries.RampResources
 import umd.cs.piccolo.util.{PBounds, PDimension}
 import umd.cs.piccolox.nodes.PClip
 import umd.cs.piccolox.pswing.PSwing
@@ -22,7 +22,7 @@ import java.awt.geom.Rectangle2D
 import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
 import edu.colorado.phet.scalacommon.Predef._
 import java.lang.Math._
-import theramp.Predef._
+import motionseries.Predef._
 
 trait ObjectModel {
   def selectedObject: ScalaRampObject

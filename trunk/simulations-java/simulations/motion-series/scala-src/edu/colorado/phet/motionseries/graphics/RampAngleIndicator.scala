@@ -2,7 +2,7 @@ package edu.colorado.phet.motionseries.graphics
 
 import phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import phet.common.phetcommon.view.util.PhetFont
-import theramp.RampResources
+import motionseries.RampResources
 import umd.cs.piccolo.PNode
 import phet.common.piccolophet.nodes.PhetPPath
 import java.awt.{BasicStroke, Color}

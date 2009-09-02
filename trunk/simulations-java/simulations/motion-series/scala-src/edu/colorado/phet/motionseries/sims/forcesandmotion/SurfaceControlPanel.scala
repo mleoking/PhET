@@ -5,7 +5,7 @@ import java.awt.Dimension
 import java.util.Hashtable
 import javax.swing._
 import model.SurfaceModel
-import phet.theramp.{RampResources}
+import phet.motionseries.{RampResources}
 import RampResources._
 
 class SurfaceControlPanel extends JPanel {
