@@ -25,7 +25,7 @@ public class MinimizableControlGraph extends PNode {
     private PNode graphChild;
     private PNode stubChild;
 
-    private ArrayList listeners = new ArrayList();
+    private ArrayList<Listener> listeners = new ArrayList<Listener>();
     private ControlGraph controlGraph;
     private PSwing closeButton;
     private final int buttonInsetX = 3;
@@ -177,8 +177,7 @@ public class MinimizableControlGraph extends PNode {
     }
 
     public void notifyListeners() {
-        for ( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener) listeners.get( i );
+        for ( Listener listener : listeners ) {
             listener.minimizeStateChanged();
         }
     }
