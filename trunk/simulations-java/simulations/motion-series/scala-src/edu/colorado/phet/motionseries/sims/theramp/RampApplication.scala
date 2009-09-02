@@ -87,7 +87,7 @@ class CoordinatesRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampM
 
 class GraphingModule(frame: JFrame, clock: ScalaClock, name: String, showEnergyGraph: Boolean, modelOffsetY: Double) extends BasicRampModule(frame, clock, name, false, true, false, -6, true, RampDefaults.defaultRampAngle, modelOffsetY,RampDefaults.graphRampLayoutArea) {
   coordinateSystemModel.adjustable = false
-  rampCanvas.playAreaNode.addChild(new RampChartNode(rampCanvas.transform, rampCanvas, rampModel, showEnergyGraph))
+  rampCanvas.addScreenChild(new RampChartNode(rampCanvas.transform, rampCanvas, rampModel, showEnergyGraph))
 }
 
 class ForceGraphsModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(frame, clock, "module.force-graphs".translate, false, 0.0)
