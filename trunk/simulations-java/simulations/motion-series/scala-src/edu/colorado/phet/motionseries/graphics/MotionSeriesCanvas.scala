@@ -252,6 +252,7 @@ class RampCanvas(model: RampModel, coordinateSystemModel: AdjustableCoordinateMo
   if (showObjectSelectionNode) {
     val objectSelectionNode = new ObjectSelectionNode(transform, model)
     layoutUnits += (() => {
+      //todo: better layout paradigm or implementation?
       objectSelectionNode.setScale(1.0)
       objectSelectionNode.setOffset(0, 0)
       if (getScale > 0) objectSelectionNode.setScale(getScale * 0.8)
