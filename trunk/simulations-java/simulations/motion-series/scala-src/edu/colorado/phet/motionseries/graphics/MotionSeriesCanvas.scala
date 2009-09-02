@@ -29,8 +29,8 @@ abstract class MotionSeriesCanvas(model: RampModel,
 
   val playAreaNode = new PNode
 
-  addNode(playAreaNode)
-//  addScreenChild(playAreaNode)
+//  addStageNode(playAreaNode)
+  addScreenChild(playAreaNode)
 
   playAreaNode.addChild(new SkyNode(transform))
 
@@ -229,17 +229,17 @@ class RampCanvas(model: RampModel, coordinateSystemModel: AdjustableCoordinateMo
                  rampAngleDraggable: Boolean, modelOffsetY: Double)
         extends MotionSeriesCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame, modelOffsetY) {
   if (showObjectSelectionNode) {
-    addNode(new ObjectSelectionNode(transform, model))
+    addStageNode(new ObjectSelectionNode(transform, model))
   }
   if (showAppliedForceSlider) {
-    addNode(indexOfChild(earthNode) + 1, new AppliedForceSliderNode(model.bead, transform, () => model.setPaused(false)))
+    addStageNode(indexOfChild(earthNode) + 1, new AppliedForceSliderNode(model.bead, transform, () => model.setPaused(false)))
   }
 
   override def addWallsAndDecorations() = {
-    addNode(new BeadNode(model.leftWall, transform, "wall.jpg".literal) with CloseButton {
+    addStageNode(new BeadNode(model.leftWall, transform, "wall.jpg".literal) with CloseButton {
       def model = RampCanvas.this.model
     })
-    addNode(new BeadNode(model.rightWall, transform, "wall.jpg".literal) with CloseButton {
+    addStageNode(new BeadNode(model.rightWall, transform, "wall.jpg".literal) with CloseButton {
       def model = RampCanvas.this.model
     })
   }
@@ -253,8 +253,8 @@ class RampCanvas(model: RampModel, coordinateSystemModel: AdjustableCoordinateMo
       new RampSegmentNode(model.rampSegments(1), transform)
 
   def addHeightAndAngleIndicators() = {
-    addNode(new RampHeightIndicator(model.rampSegments(1), transform))
-    addNode(new RampAngleIndicator(model.rampSegments(1), transform))
+    addStageNode(new RampHeightIndicator(model.rampSegments(1), transform))
+    addStageNode(new RampAngleIndicator(model.rampSegments(1), transform))
   }
 
   def createEarthNode = new EarthNode(transform)

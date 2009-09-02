@@ -63,11 +63,11 @@ class RobotMovingCompanyCanvas(model: RampModel, coordinateSystemModel: Adjustab
     }, if (gameModel.isLastObject(scalaRampObject)) "Show Summary" else "Ok")
     summaryScreen.setOffset(canonicalBounds.getCenterX - summaryScreen.getFullBounds.width / 2,
       canonicalBounds.getCenterY - summaryScreen.getFullBounds.height / 2)
-    addNode(summaryScreen)
+    addStageNode(summaryScreen)
   })
 
   val pswingControlPanel = new PSwing(controlPanel)
-  addNode(pswingControlPanel)
+  addStageNode(pswingControlPanel)
 
   pswingControlPanel.setOffset(0, transform.modelToView(0, -1).y)
 
@@ -82,19 +82,19 @@ class RobotMovingCompanyCanvas(model: RampModel, coordinateSystemModel: Adjustab
 
   val surfaceChooser = new SurfaceChooser(gameModel.surfaceModel)
   surfaceChooser.setOffset(fbdNode.getFullBounds.getMaxX + 10, fbdNode.getFullBounds.getY)
-  addNode(surfaceChooser)
+  addStageNode(surfaceChooser)
 
-  addNode(new BeadNode(gameModel.house, transform, RampDefaults.house.imageFilename))
+  addStageNode(new BeadNode(gameModel.house, transform, RampDefaults.house.imageFilename))
 
   val scoreboard = new ScoreboardNode(transform, gameModel)
-  addNode(scoreboard)
+  addStageNode(scoreboard)
 
   val energyMeter = new RobotEnergyMeter(transform, gameModel)
   energyMeter.setOffset(scoreboard.getFullBounds.getX + 5, scoreboard.getFullBounds.getMaxY + 5)
-  addNode(energyMeter)
+  addStageNode(energyMeter)
 
   val robotGraphics = new RobotGraphics(transform, gameModel)
-  addNode(2, robotGraphics) //behind ramp
+  addStageNode(2, robotGraphics) //behind ramp
 
   gameModel.beadCreatedListeners += init
   init(gameModel.bead, gameModel.selectedObject)
@@ -115,12 +115,12 @@ class RobotMovingCompanyCanvas(model: RampModel, coordinateSystemModel: Adjustab
     _currentBead = bead
 
     val beadNode = new DraggableBeadNode(bead, transform, a.imageFilename, () => model.setPaused(false))
-    addNode(beadNode)
+    addStageNode(beadNode)
 
     val roboBead = model.createBead(-10 - a.width / 2, 1)
 
     val pusherNode = new RobotPusherNode(transform, bead, roboBead)
-    addNode(pusherNode)
+    addStageNode(pusherNode)
 
     bead.removalListeners += (() => {
       removeNode(beadNode)
@@ -159,8 +159,8 @@ class RobotMovingCompanyCanvas(model: RampModel, coordinateSystemModel: Adjustab
   def createRightSegmentNode = new RampSegmentNode(model.rampSegments(1), transform)
 
   def addHeightAndAngleIndicators() = {
-    addNode(new RampHeightIndicator(new Reverse(model.rampSegments(0)).reverse, transform))
-    addNode(new RampAngleIndicator(new Reverse(model.rampSegments(0)).reverse, transform))
+    addStageNode(new RampHeightIndicator(new Reverse(model.rampSegments(0)).reverse, transform))
+    addStageNode(new RampAngleIndicator(new Reverse(model.rampSegments(0)).reverse, transform))
   }
 
   def createEarthNode = new EarthNodeWithCliff(transform, model.rampSegments(1).length, gameModel.airborneFloor)
