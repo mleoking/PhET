@@ -1,10 +1,10 @@
 package edu.colorado.phet.motionseries.graphics
 
+import common.piccolophet.nodes.{PhetPPath, GradientButtonNode}
+import java.awt.geom.{Rectangle2D, Point2D}
+import java.awt.{BasicStroke, Color}
 import phet.common.phetcommon.resources.PhetCommonResources
 import phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
-import phet.common.piccolophet.nodes.GradientButtonNode
-import java.awt.Color
-import java.awt.geom.{Point2D}
 import java.awt.event._
 
 import javax.swing.{JFrame}
@@ -29,8 +29,19 @@ abstract class MotionSeriesCanvas(model: RampModel,
 
   val playAreaNode = new PNode
 
-//  addStageNode(playAreaNode)
+  //  addStageNode(playAreaNode)
   addScreenChild(playAreaNode)
+
+  addComponentListener(new ComponentAdapter() {
+    override def componentResized(e: ComponentEvent) = {
+      updatePlayAreaNode()
+    }
+  })
+
+  class LayoutStrut(modelRect: Rectangle2D) extends PhetPPath(transform.modelToViewDouble(modelRect)) {
+    setStroke(new BasicStroke(5f))
+    setStrokePaint(Color.blue)
+  }
 
   playAreaNode.addChild(new SkyNode(transform))
 
@@ -97,6 +108,19 @@ abstract class MotionSeriesCanvas(model: RampModel,
   }
 
   val windowFBDNode = new FBDDialog(frame, freeBodyDiagramModel, fbdWidth, model.coordinateFrameModel, adjustableCoordinateModel.adjustable, adjustableCoordinateModel, fbdListener)
+
+  val rampLayoutStrut = new LayoutStrut(new Rectangle2D.Double(-11, -1, 22, 11))
+//  val rampLayoutStrut = new LayoutStrut(new Rectangle2D.Double(0,0,1,1))
+  playAreaNode.addChild(rampLayoutStrut)
+
+  updatePlayAreaNode()
+  def updatePlayAreaNode() = {
+    playAreaNode.setScale(1.0)
+    playAreaNode.setOffset(0.0,0.0)
+    val s = getWidth / rampLayoutStrut.getGlobalFullBounds.width
+    if (s > 0) playAreaNode.setScale(getWidth / rampLayoutStrut.getGlobalFullBounds.width)
+    playAreaNode.setOffset(-rampLayoutStrut.getGlobalFullBounds.x,-rampLayoutStrut.getGlobalFullBounds.y)
+  }
 
   class VectorSetNode(transform: ModelViewTransform2D, bead: Bead) extends PNode {
     def addVector(a: Vector, offset: VectorValue) = {
@@ -229,17 +253,17 @@ class RampCanvas(model: RampModel, coordinateSystemModel: AdjustableCoordinateMo
                  rampAngleDraggable: Boolean, modelOffsetY: Double)
         extends MotionSeriesCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame, modelOffsetY) {
   if (showObjectSelectionNode) {
-    addStageNode(new ObjectSelectionNode(transform, model))
+    playAreaNode.addChild(new ObjectSelectionNode(transform, model))
   }
   if (showAppliedForceSlider) {
     addStageNode(indexOfChild(earthNode) + 1, new AppliedForceSliderNode(model.bead, transform, () => model.setPaused(false)))
   }
 
   override def addWallsAndDecorations() = {
-    addStageNode(new BeadNode(model.leftWall, transform, "wall.jpg".literal) with CloseButton {
+    playAreaNode.addChild(new BeadNode(model.leftWall, transform, "wall.jpg".literal) with CloseButton {
       def model = RampCanvas.this.model
     })
-    addStageNode(new BeadNode(model.rightWall, transform, "wall.jpg".literal) with CloseButton {
+    playAreaNode.addChild(new BeadNode(model.rightWall, transform, "wall.jpg".literal) with CloseButton {
       def model = RampCanvas.this.model
     })
   }
