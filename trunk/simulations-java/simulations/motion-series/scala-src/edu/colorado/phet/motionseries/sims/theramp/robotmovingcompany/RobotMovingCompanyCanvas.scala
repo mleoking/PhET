@@ -55,7 +55,7 @@ class RobotMovingCompanyCanvas(model: RampModel, coordinateSystemModel: Adjustab
 
   gameModel.itemFinishedListeners += ((scalaRampObject: ScalaRampObject, result: Result) => {
     val summaryScreen = new SummaryScreenNode(gameModel, scalaRampObject, result, node => {
-      removeNode(node)
+      removeStageNode(node)
       if (gameModel.isLastObject(scalaRampObject))
         showGameSummary()
       else
@@ -123,8 +123,8 @@ class RobotMovingCompanyCanvas(model: RampModel, coordinateSystemModel: Adjustab
     addStageNode(pusherNode)
 
     bead.removalListeners += (() => {
-      removeNode(beadNode)
-      removeNode(pusherNode)
+      removeStageNode(beadNode)
+      removeStageNode(pusherNode)
     })
 
     fbdNode.clearVectors()

@@ -87,7 +87,7 @@ class ForceGraphsModule(frame: JFrame, clock: ScalaClock) extends GraphingModule
 
 class GraphingModule(frame: JFrame, clock: ScalaClock, name: String, showEnergyGraph: Boolean, modelOffsetY: Double) extends BasicRampModule(frame, clock, name, false, true, false, -6, true, RampDefaults.defaultRampAngle, modelOffsetY) {
   coordinateSystemModel.adjustable = false
-  rampCanvas.addNodeAfter(rampCanvas.earthNode, new RampChartNode(rampCanvas.transform, rampCanvas, rampModel, showEnergyGraph))
+  rampCanvas.addStageNodeAfter(rampCanvas.earthNode, new RampChartNode(rampCanvas.transform, rampCanvas, rampModel, showEnergyGraph))
 }
 
 class WorkEnergyModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(frame, clock, "module.work-energy".translate, true, 100.0) {

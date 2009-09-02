@@ -256,7 +256,7 @@ class RampCanvas(model: RampModel, coordinateSystemModel: AdjustableCoordinateMo
     playAreaNode.addChild(new ObjectSelectionNode(transform, model))
   }
   if (showAppliedForceSlider) {
-    addStageNode(indexOfChild(earthNode) + 1, new AppliedForceSliderNode(model.bead, transform, () => model.setPaused(false)))
+    addStageNode(indexOfStageNode(earthNode) + 1, new AppliedForceSliderNode(model.bead, transform, () => model.setPaused(false)))
   }
 
   override def addWallsAndDecorations() = {
