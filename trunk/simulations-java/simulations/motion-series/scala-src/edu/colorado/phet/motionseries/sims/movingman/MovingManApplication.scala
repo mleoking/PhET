@@ -13,6 +13,7 @@ import javax.swing.JFrame
 import scalacommon.ScalaClock
 import RampResources._
 import theramp.{RampDefaults, AbstractRampModule}
+
 class BasicMovingManModule(frame: JFrame,
                            clock: ScalaClock,
                            name: String,

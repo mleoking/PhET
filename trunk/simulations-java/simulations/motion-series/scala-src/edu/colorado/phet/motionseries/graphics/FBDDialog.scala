@@ -9,6 +9,7 @@ import javax.swing.{JFrame, JDialog}
 import model.{AdjustableCoordinateModel, CoordinateFrameModel, FreeBodyDiagramModel}
 import RampResources._
 import scalacommon.Predef._
+
 class FBDDialog(frame: JFrame, freeBodyDiagramModel: FreeBodyDiagramModel, fbdWidth: Double, coordinateFrameModel: CoordinateFrameModel, adjustable: Boolean, adjustableCoordinateModel: AdjustableCoordinateModel, fbdListener: Point2D => Unit) {
   val dialog = new JDialog(frame, "display.free-body-diagram".translate, false)
   dialog.setSize(600, 600)

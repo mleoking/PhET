@@ -48,7 +48,7 @@ class WorkEnergyChart(workEnergyChartModel: WorkEnergyChartModel, model: RampMod
     appliedWorkVariable, frictionWorkVariable, gravityWorkVariable))
   val canvas = new PhetPCanvas
   val clearButton = new PSwing(new MyJButton("controls.clear-heat".translate, () => model.clearHeat()))
-  val zoomButton = new MyZoomButton() {
+  val zoomButton = new ZoomControlNode(ZoomControlNode.VERTICAL) {
     addZoomListener(new ZoomControlNode.ZoomListener() {
       val myscale = 1.5
 
@@ -86,5 +86,3 @@ class WorkEnergyChart(workEnergyChartModel: WorkEnergyChartModel, model: RampMod
     barChartNode.update()
   }
 }
-
-class MyZoomButton extends ZoomControlNode(ZoomControlNode.VERTICAL)
