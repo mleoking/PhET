@@ -20,15 +20,21 @@ public class RootTest {
 
         // mathematica says: {{x->2.74722},{x->-0.481112-0.506256 i},{x->-0.481112+0.506256 i},{x->0.457504-0.559537 i},{x->0.457504+0.559537 i}}
         Complex[] p3 = new Complex[]{new Complex( 10, 0 ), new Complex( -27, 0 ), new Complex( 0, 0 ), new Complex( -3, 0 ), new Complex( 1, 0 ), new Complex( -7, 0 )};
+        
+        // Laguerre returns NaN for some roots
+        Complex[] p4 = new Complex[]{new Complex( 33.79999999999998,0 ), new Complex( 4.259999999999997, 0),  new Complex( 0.1759999999996617, 0 ), new Complex( -0.007400000000033827, 0 ), new Complex( -0.006620000000003383, 0 ), new Complex( -3.3799999999999987E-16, 0 )};
 
-        System.out.println( "roots of p1: " + complexArrayToString( findRootsLaguerre( p1, 30 ) ) );
-        System.out.println( "roots of p1: " + complexArrayToString( findRootsDurandKerner( p1, 30 ) ) );
+        System.out.println( "Laguerre roots of p1: " + complexArrayToString( findRootsLaguerre( p1, 30 ) ) );
+        System.out.println( "Durand-Kerner roots of p1: " + complexArrayToString( findRootsDurandKerner( p1, 30 ) ) );
 
-        System.out.println( "roots of p2: " + complexArrayToString( findRootsLaguerre( p2, 30 ) ) );
-        System.out.println( "roots of p2: " + complexArrayToString( findRootsDurandKerner( p2, 30 ) ) );
+        System.out.println( "Laguerre roots of p2: " + complexArrayToString( findRootsLaguerre( p2, 30 ) ) );
+        System.out.println( "Durand-Kerner roots of p2: " + complexArrayToString( findRootsDurandKerner( p2, 30 ) ) );
 
-        System.out.println( "roots of p3: " + complexArrayToString( findRootsLaguerre( p3, 30 ) ) );
-        System.out.println( "roots of p3: " + complexArrayToString( findRootsDurandKerner( p3, 30 ) ) );
+        System.out.println( "Laguerre roots of p3: " + complexArrayToString( findRootsLaguerre( p3, 30 ) ) );
+        System.out.println( "Durand-Kerner roots of p3: " + complexArrayToString( findRootsDurandKerner( p3, 30 ) ) );
+        
+        System.out.println( "Laguerre roots of p4: " + complexArrayToString( findRootsLaguerre( p4, 30 ) ) );
+        System.out.println( "Durand-Kerner roots of p4: " + complexArrayToString( findRootsDurandKerner( p4, 30 ) ) );
 
         Date a = new Date();
         for ( int i = 0; i < 100000; i++ ) {
