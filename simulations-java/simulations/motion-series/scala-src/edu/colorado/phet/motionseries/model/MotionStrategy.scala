@@ -1,4 +1,4 @@
-package edu.colorado.phet.theramp.model
+package edu.colorado.phet.motionseries.model
 
 import phet.common.phetcommon.math.MathUtil
 import scalacommon.math.Vector2D

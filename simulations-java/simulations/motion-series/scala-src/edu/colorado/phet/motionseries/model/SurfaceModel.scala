@@ -1,4 +1,4 @@
-package edu.colorado.phet.theramp.model
+package edu.colorado.phet.motionseries.model
 
 import RampResources._
 import java.awt.Color

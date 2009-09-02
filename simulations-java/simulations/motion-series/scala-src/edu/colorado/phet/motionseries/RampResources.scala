@@ -1,4 +1,4 @@
-package edu.colorado.phet.theramp
+package edu.colorado.phet.motionseries
 
 import phet.common.phetcommon.resources.PhetResources
 import java.text.MessageFormat
@@ -8,7 +8,7 @@ object Predef {
 }
 import Predef._
 
-object RampResources extends PhetResources("the-ramp".literal) {
+object RampResources extends PhetResources("motion-series".literal) {
   implicit def toMyRichString(s: String) = new TranslatableString(s)
 
   val forcePattern = "force.pattern".translate

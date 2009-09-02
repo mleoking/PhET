@@ -1,4 +1,4 @@
-package edu.colorado.phet.theramp.charts
+package edu.colorado.phet.motionseries.charts
 
 import phet.common.motion.graphs.ControlGraphSeries
 import java.awt._

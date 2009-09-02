@@ -1,4 +1,4 @@
-package edu.colorado.phet.theramp.controls
+package edu.colorado.phet.motionseries.controls
 
 import phet.common.phetcommon.view.util.BufferedImageUtils
 import graphics.ObjectModel

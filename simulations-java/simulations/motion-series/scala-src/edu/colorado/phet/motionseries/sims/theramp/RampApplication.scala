@@ -1,7 +1,6 @@
-package edu.colorado.phet.theramp.sims.theramp
+package edu.colorado.phet.motionseries.sims.theramp
 
 import charts.bargraphs.{WorkEnergyChartModel, WorkEnergyChart}
-import charts.RampChartNode
 import phet.common.phetcommon.application.{PhetApplicationLauncher, Module, PhetApplicationConfig}
 import phet.common.piccolophet.{PiccoloPhetApplication}
 import graphics.RampCanvas
@@ -160,14 +159,13 @@ class RobotMovingCompanyApplication(config: PhetApplicationConfig) extends Picco
 
 //Current IntelliJ plugin has trouble finding main for classes with a companion object, so we use a different name 
 object RampApplicationMain {
-  def main(args: Array[String]) = new PhetApplicationLauncher().launchSim(args, "the-ramp".literal, classOf[RampApplication])
+  def main(args: Array[String]) = new PhetApplicationLauncher().launchSim(args, "motion-series".literal, classOf[RampApplication])
 }
 
 object RampWorkEnergyApplicationMain {
-  def main(args: Array[String]) = new PhetApplicationLauncher().launchSim(args, "the-ramp".literal, classOf[RampWorkEnergyApplication])
+  def main(args: Array[String]) = new PhetApplicationLauncher().launchSim(args, "motion-series".literal, classOf[RampWorkEnergyApplication])
 }
 
 object RobotMovingCompanyApplicationMain {
-  def main(args: Array[String]) = new PhetApplicationLauncher().launchSim(args, "the-ramp".literal, "robot-moving-company".literal, classOf[RobotMovingCompanyApplication])
+  def main(args: Array[String]) = new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "robot-moving-company".literal, classOf[RobotMovingCompanyApplication])
 }
-

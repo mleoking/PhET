@@ -1,4 +1,4 @@
-package edu.colorado.phet.theramp.swing
+package edu.colorado.phet.motionseries.swing
 
 
 import phet.common.phetcommon.view.controls.valuecontrol.{ILayoutStrategy, DefaultLayoutStrategy, LinearValueControl}

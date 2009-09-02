@@ -1,4 +1,4 @@
-package edu.colorado.phet.theramp.graphics
+package edu.colorado.phet.motionseries.graphics
 
 import RampResources._
 import phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D

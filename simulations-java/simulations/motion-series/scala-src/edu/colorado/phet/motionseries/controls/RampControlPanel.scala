@@ -1,4 +1,4 @@
-package edu.colorado.phet.theramp.controls
+package edu.colorado.phet.motionseries.controls
 
 import phet.common.phetcommon.model.Resettable
 import phet.common.phetcommon.util.IProguardKeepClass

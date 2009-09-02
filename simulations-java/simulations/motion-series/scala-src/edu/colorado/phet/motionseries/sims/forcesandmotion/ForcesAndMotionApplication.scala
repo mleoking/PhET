@@ -1,4 +1,4 @@
-package edu.colorado.phet.theramp.sims.forcesandmotion
+package edu.colorado.phet.motionseries.sims.forcesandmotion
 
 import phet.common.phetcommon.application.{PhetApplicationConfig, PhetApplicationLauncher}
 import phet.common.piccolophet.PiccoloPhetApplication
@@ -80,5 +80,5 @@ class ForcesAndMotionApplication(config: PhetApplicationConfig) extends PiccoloP
 }
 
 object ForcesAndMotionApplicationMain {
-  def main(args: Array[String]) = new PhetApplicationLauncher().launchSim(args, "the-ramp".literal, "forces-and-friction".literal, classOf[ForcesAndMotionApplication])
+  def main(args: Array[String]) = new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "forces-and-friction".literal, classOf[ForcesAndMotionApplication])
 }

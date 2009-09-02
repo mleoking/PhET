@@ -1,4 +1,4 @@
-package edu.colorado.phet.theramp.graphics
+package edu.colorado.phet.motionseries.graphics
 
 import model.{MutableRampObject, ScalaRampObject}
 import collection.mutable.ArrayBuffer

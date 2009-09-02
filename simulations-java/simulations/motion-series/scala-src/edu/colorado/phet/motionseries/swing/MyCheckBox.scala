@@ -1,4 +1,4 @@
-package edu.colorado.phet.theramp.swing
+package edu.colorado.phet.motionseries.swing
 
 import java.awt.event.{ActionListener, ActionEvent}
 import javax.swing.JCheckBox

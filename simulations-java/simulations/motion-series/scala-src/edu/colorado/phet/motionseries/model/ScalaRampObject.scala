@@ -1,4 +1,4 @@
-package edu.colorado.phet.theramp.model
+package edu.colorado.phet.motionseries.model
 
 import scalacommon.util.Observable
 import theramp.RampResources
