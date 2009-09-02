@@ -11,12 +11,10 @@ import phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import phet.common.piccolophet.nodes.{ShadowHTMLNode}
 import phet.common.piccolophet.{PhetPCanvas}
 import phet.common.timeseries.model.{RecordableModel, TimeSeriesModel}
-import java.awt.geom.Point2D
 import java.awt.{FlowLayout, Color}
 import javax.swing.{JTextField, JPanel, JLabel}
 import model.{RampModel}
 import motionseries.RampResources
-import sims.forcesandmotion.BasicForcesAndMotionCanvas
 import sims.theramp.RampDefaults
 
 import umd.cs.piccolo.PNode
@@ -121,12 +119,14 @@ abstract class AbstractChartNode(transform: ModelViewTransform2D, canvas: Motion
     panel
   }
 
-  canvas.addComponentListener(new ComponentAdapter(){override def componentResized(e: ComponentEvent) = {updateLayout()}})
+  canvas.addComponentListener(new ComponentAdapter() {override def componentResized(e: ComponentEvent) = {updateLayout()}})
 
   def updateLayout() = {
     val y = canvas.rampLayoutStrut.getGlobalFullBounds.getMaxY
     val h = canvas.getHeight - y
-    graphSetNode.setBounds(0,y,canvas.getWidth,h)
+    val padX = 2
+    val padY = padX
+    graphSetNode.setBounds(padX, y + padY, canvas.getWidth - padX * 2, h - padY * 2)
   }
 
   def graphSetNode: PNode
