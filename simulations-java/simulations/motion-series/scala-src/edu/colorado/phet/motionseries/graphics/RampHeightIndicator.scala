@@ -28,4 +28,6 @@ class RampHeightIndicator(rampSegment: Rotatable, transform: ModelViewTransform2
     val heightValue = new DecimalFormat("0.0".literal).format(rampSegment.endPoint.y)
     readout.setText("ramp.height-indicator".translate.messageformat(heightValue))
   }
+  setPickable(false)
+  setChildrenPickable(false)
 }
