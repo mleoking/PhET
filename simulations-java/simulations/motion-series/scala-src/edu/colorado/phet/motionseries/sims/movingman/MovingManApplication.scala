@@ -47,7 +47,7 @@ class IntroModule(frame: JFrame, clock: ScalaClock) extends BasicMovingManModule
 
 class GraphingModule(frame: JFrame, clock: ScalaClock) extends BasicMovingManModule(frame, clock, "moving-man.module.graphing.title".translate, false, false, true, false, -6, false, 0.0, 0.0, true) {
   coordinateSystemModel.adjustable = false
-  canvas.addNodeAfter(canvas.earthNode, new ForcesAndMotionChartNode(canvas.transform, canvas, rampModel))
+  canvas.addStageNodeAfter(canvas.earthNode, new ForcesAndMotionChartNode(canvas.transform, canvas, rampModel))
 }
 
 class MovingManGameModule(frame: JFrame, clock: ScalaClock) extends BasicMovingManModule(frame, clock, "moving-man.module.game.title".translate, false, false, false, false, -6, false, 0.0, 0.0, true)
