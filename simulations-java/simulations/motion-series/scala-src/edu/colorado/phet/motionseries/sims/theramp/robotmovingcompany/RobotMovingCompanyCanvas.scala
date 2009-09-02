@@ -24,7 +24,7 @@ import RampResources._
 
 class RobotMovingCompanyCanvas(model: RampModel, coordinateSystemModel: AdjustableCoordinateModel, freeBodyDiagramModel: FreeBodyDiagramModel,
                                vectorViewModel: VectorViewModel, frame: JFrame, gameModel: RobotMovingCompanyGameModel)
-        extends AbstractRampCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame, 0.0) {
+        extends MotionSeriesCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame, 0.0) {
   beadNode.setVisible(false)
   vectorNode.setVisible(false)
   pusherNode.setVisible(false)

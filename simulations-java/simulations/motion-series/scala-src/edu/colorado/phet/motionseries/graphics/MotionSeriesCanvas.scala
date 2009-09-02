@@ -18,7 +18,7 @@ import umd.cs.piccolo.PNode
 import java.lang.Math._
 import RampResources._
 
-abstract class AbstractRampCanvas(model: RampModel,
+abstract class MotionSeriesCanvas(model: RampModel,
                                   adjustableCoordinateModel: AdjustableCoordinateModel,
                                   freeBodyDiagramModel: FreeBodyDiagramModel,
                                   vectorViewModel: VectorViewModel,
@@ -222,7 +222,7 @@ class ClearHeatButton(model: RampModel) extends GradientButtonNode("controls.cle
 class RampCanvas(model: RampModel, coordinateSystemModel: AdjustableCoordinateModel, freeBodyDiagramModel: FreeBodyDiagramModel,
                  vectorViewModel: VectorViewModel, frame: JFrame, showObjectSelectionNode: Boolean, showAppliedForceSlider: Boolean,
                  rampAngleDraggable: Boolean, modelOffsetY: Double)
-        extends AbstractRampCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame, modelOffsetY) {
+        extends MotionSeriesCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame, modelOffsetY) {
   if (showObjectSelectionNode) {
     addNode(new ObjectSelectionNode(transform, model))
   }
