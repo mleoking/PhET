@@ -8,6 +8,7 @@ import phet.common.piccolophet.{PhetPCanvas}
 import model.{RampModel}
 import RampResources._
 import sims.theramp.RampDefaults._
+
 class RampChartNode(transform: ModelViewTransform2D, canvas: PhetPCanvas, model: RampModel, showEnergyGraph: Boolean)
         extends AbstractChartNode(transform, canvas, model) {
   val parallelAppliedForceVariable = new DefaultTemporalVariable() {

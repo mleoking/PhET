@@ -7,6 +7,7 @@ import java.awt.{Paint, TexturePaint, Color, Graphics2D}
 import java.awt.image.BufferedImage
 import java.lang.Math._
 import scalacommon.math.Vector2D
+
 class BeadVector(color: Color,
                  name: String,
                  override val abbreviation: String,
