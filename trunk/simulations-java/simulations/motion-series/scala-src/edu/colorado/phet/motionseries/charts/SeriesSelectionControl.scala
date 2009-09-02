@@ -15,7 +15,7 @@ import swing.{MyJCheckBox}
 class SeriesSelectionControl(title: String, numRows: Int) extends VerticalLayoutPanel {
   setBackground(EARTH_COLOR)
   val titleLabel = new JLabel(title)
-  titleLabel.setFont(new PhetFont(18, true))
+  titleLabel.setFont(new PhetFont(16, true))
   titleLabel.setBackground(EARTH_COLOR)
   add(titleLabel)
   val grid = new JPanel(new GridLayout(numRows, 2))
