@@ -1,12 +1,15 @@
 package edu.colorado.phet.motionseries.sims.theramp
 
 import java.awt.Color
+import java.awt.geom.Rectangle2D
 import model.{MutableRampObject, CustomTextRampObject, ScalaRampObject}
 
 object RampDefaults {
   val MAX_CHART_DISPLAY_TIME = 20.0
   val MAX_RECORD_TIME = 20.0
   val defaultRampAngle = 30.0.toRadians
+  val defaultRampLayoutArea = new Rectangle2D.Double(-11, -1, 22, 11)
+  val graphRampLayoutArea = new Rectangle2D.Double(-11, -1, 22, 8)
   //how far away the vector labels can be from the tip, in world coordinates
   val FBD_LABEL_MAX_OFFSET = 500
   val BODY_LABEL_MAX_OFFSET = 3

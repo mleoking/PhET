@@ -1,6 +1,7 @@
 package edu.colorado.phet.motionseries.sims.theramp
 
 import charts.bargraphs.{WorkEnergyChartModel, WorkEnergyChart}
+import java.awt.geom.Rectangle2D
 import phet.common.phetcommon.application.{PhetApplicationLauncher, Module, PhetApplicationConfig}
 import phet.common.piccolophet.{PiccoloPhetApplication}
 import graphics.RampCanvas
@@ -65,9 +66,10 @@ class AbstractRampModule(frame: JFrame, clock: ScalaClock, name: String, default
 
 class BasicRampModule(frame: JFrame, clock: ScalaClock, name: String,
                       coordinateSystemFeaturesEnabled: Boolean, useObjectComboBox: Boolean, showAppliedForceSlider: Boolean,
-                      defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngle: Double, modelOffsetY: Double)
+                      defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngle: Double, modelOffsetY: Double,rampLayoutArea:Rectangle2D)
         extends AbstractRampModule(frame, clock, name, defaultBeadPosition, pausedOnReset, initialAngle) {
-  val rampCanvas = new RampCanvas(rampModel, coordinateSystemModel, fbdModel, vectorViewModel, frame, !useObjectComboBox, showAppliedForceSlider, initialAngle != 0.0, modelOffsetY)
+  val rampCanvas = new RampCanvas(rampModel, coordinateSystemModel, fbdModel, vectorViewModel, frame,
+    !useObjectComboBox, showAppliedForceSlider, initialAngle != 0.0, modelOffsetY,rampLayoutArea)
   setSimulationPanel(rampCanvas)
   val rampControlPanel = new RampControlPanel(rampModel, wordModel, fbdModel, coordinateSystemModel, vectorViewModel,
     resetRampModule, coordinateSystemFeaturesEnabled, useObjectComboBox, rampModel, true, true)
@@ -77,18 +79,18 @@ class BasicRampModule(frame: JFrame, clock: ScalaClock, name: String,
 
 import RampResources._
 
-class IntroRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "module.introduction".translate, false, false, true, -6, false, RampDefaults.defaultRampAngle, 0.0)
+class IntroRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "module.introduction".translate, false, false, true, -6, false, RampDefaults.defaultRampAngle, 0.0,RampDefaults.defaultRampLayoutArea)
 
-class CoordinatesRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "module.coordinates".translate, true, false, true, -6, false, RampDefaults.defaultRampAngle, 0.0) {
+class CoordinatesRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "module.coordinates".translate, true, false, true, -6, false, RampDefaults.defaultRampAngle, 0.0,RampDefaults.defaultRampLayoutArea) {
   coordinateSystemModel.adjustable = true
 }
 
-class ForceGraphsModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(frame, clock, "module.force-graphs".translate, false, 0.0)
-
-class GraphingModule(frame: JFrame, clock: ScalaClock, name: String, showEnergyGraph: Boolean, modelOffsetY: Double) extends BasicRampModule(frame, clock, name, false, true, false, -6, true, RampDefaults.defaultRampAngle, modelOffsetY) {
+class GraphingModule(frame: JFrame, clock: ScalaClock, name: String, showEnergyGraph: Boolean, modelOffsetY: Double) extends BasicRampModule(frame, clock, name, false, true, false, -6, true, RampDefaults.defaultRampAngle, modelOffsetY,RampDefaults.graphRampLayoutArea) {
   coordinateSystemModel.adjustable = false
-  rampCanvas.addStageNodeAfter(rampCanvas.earthNode, new RampChartNode(rampCanvas.transform, rampCanvas, rampModel, showEnergyGraph))
+  rampCanvas.playAreaNode.addChild(new RampChartNode(rampCanvas.transform, rampCanvas, rampModel, showEnergyGraph))
 }
+
+class ForceGraphsModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(frame, clock, "module.force-graphs".translate, false, 0.0)
 
 class WorkEnergyModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(frame, clock, "module.work-energy".translate, true, 100.0) {
   val workEnergyChartModel = new WorkEnergyChartModel

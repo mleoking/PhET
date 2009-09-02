@@ -24,7 +24,8 @@ abstract class MotionSeriesCanvas(model: RampModel,
                                   freeBodyDiagramModel: FreeBodyDiagramModel,
                                   vectorViewModel: VectorViewModel,
                                   frame: JFrame,
-                                  modelOffsetY: Double)
+                                  modelOffsetY: Double,
+                                  rampLayoutArea:Rectangle2D)
         extends DefaultCanvas(22, 22, RampDefaults.worldWidth, RampDefaults.worldHeight, modelOffsetY) {
   setBackground(RampDefaults.SKY_GRADIENT_BOTTOM)
 
@@ -97,8 +98,7 @@ abstract class MotionSeriesCanvas(model: RampModel,
 
   val windowFBDNode = new FBDDialog(frame, freeBodyDiagramModel, fbdWidth, model.coordinateFrameModel, adjustableCoordinateModel.adjustable, adjustableCoordinateModel, fbdListener)
 
-  val rampLayoutStrut = new LayoutStrut(new Rectangle2D.Double(-11, -1, 22, 11))
-  //  val rampLayoutStrut = new LayoutStrut(new Rectangle2D.Double(0,0,1,1))
+  val rampLayoutStrut = new LayoutStrut(rampLayoutArea)
   playAreaNode.addChild(rampLayoutStrut)
 
   addComponentListener(new ComponentAdapter() {override def componentResized(e: ComponentEvent) = {updateLayout()}})
@@ -241,8 +241,8 @@ class ClearHeatButton(model: RampModel) extends GradientButtonNode("controls.cle
 
 class RampCanvas(model: RampModel, coordinateSystemModel: AdjustableCoordinateModel, freeBodyDiagramModel: FreeBodyDiagramModel,
                  vectorViewModel: VectorViewModel, frame: JFrame, showObjectSelectionNode: Boolean, showAppliedForceSlider: Boolean,
-                 rampAngleDraggable: Boolean, modelOffsetY: Double)
-        extends MotionSeriesCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame, modelOffsetY) {
+                 rampAngleDraggable: Boolean, modelOffsetY: Double,rampLayoutArea:Rectangle2D)
+        extends MotionSeriesCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame, modelOffsetY,rampLayoutArea) {
   val layoutUnits = new ArrayBuffer[() => Unit]
   if (showObjectSelectionNode) {
     val objectSelectionNode = new ObjectSelectionNode(transform, model)
@@ -250,7 +250,7 @@ class RampCanvas(model: RampModel, coordinateSystemModel: AdjustableCoordinateMo
       //todo: better layout paradigm or implementation?
       objectSelectionNode.setScale(1.0)
       objectSelectionNode.setOffset(0, 0)
-      if (getScale > 0) objectSelectionNode.setScale(getScale * 0.8)
+      objectSelectionNode.setScale(getScale * 0.8)
       objectSelectionNode.setOffset(getWidth / 2 - objectSelectionNode.getFullBounds.getWidth / 2 - objectSelectionNode.getFullBounds.getX,
         getHeight - objectSelectionNode.getFullBounds.getHeight - objectSelectionNode.getFullBounds.y)
     })
@@ -261,7 +261,7 @@ class RampCanvas(model: RampModel, coordinateSystemModel: AdjustableCoordinateMo
     layoutUnits += (() => {
       appliedForceSliderNode.setScale(1.0)
       appliedForceSliderNode.setOffset(0, 0)
-      if (getScale > 0) appliedForceSliderNode.setScale(getScale)
+      appliedForceSliderNode.setScale(getScale)
       appliedForceSliderNode.setOffset(rampLayoutStrut.getGlobalBounds.getCenterX - appliedForceSliderNode.getFullBounds.getWidth / 2 - appliedForceSliderNode.getFullBounds.getX,
         rampLayoutStrut.getGlobalBounds.getMaxY - appliedForceSliderNode.getFullBounds.y)
     })
