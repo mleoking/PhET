@@ -209,10 +209,10 @@ abstract class MotionSeriesCanvas(model: RampModel,
   }
   addAllVectors(model.bead)
 
-  addWorldChild(new RaindropView(model, this))
-  addWorldChild(new FireDogView(model, this))
-  addWorldChild(new ClearHeatButton(model))
-  addWorldChild(new ReturnObjectButton(model))
+  playAreaNode.addChild(new RaindropView(model, this))
+  playAreaNode.addChild(new FireDogView(model, this))
+  playAreaNode.addChild(new ClearHeatButton(model))
+  playAreaNode.addChild(new ReturnObjectButton(model))
 }
 
 class ReturnObjectButton(model: RampModel) extends GradientButtonNode("controls.return-object".translate, Color.orange) {
