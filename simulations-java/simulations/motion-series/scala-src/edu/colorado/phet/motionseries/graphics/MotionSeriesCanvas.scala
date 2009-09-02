@@ -35,8 +35,9 @@ abstract class MotionSeriesCanvas(model: RampModel,
   addScreenChild(playAreaNode)
 
   class LayoutStrut(modelRect: Rectangle2D) extends PhetPPath(transform.modelToViewDouble(modelRect)) {
-    setStroke(new BasicStroke(5f))
-    setStrokePaint(Color.blue)
+    setStroke(new BasicStroke(2f))
+//    setStrokePaint(Color.blue)//enable this for debugging
+    setStrokePaint(null)
   }
 
   playAreaNode.addChild(new SkyNode(transform))
