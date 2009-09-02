@@ -19,20 +19,20 @@ class DefaultCanvas(modelWidth: Double, modelHeight: Double, canvasWidth: Int, c
   setWorldTransformStrategy(centeredBoxStrategy)
   val transform: ModelViewTransform2D = new ModelViewTransform2D(new Rectangle2D.Double(-modelWidth / 2, -modelHeight / 2,
     modelWidth, modelHeight), canonicalBounds, true)
-  val worldNode = new PNode
-  addWorldChild(worldNode)
+  val stageNode = new PNode
+  addWorldChild(stageNode)
 
   def getScale = centeredBoxStrategy.getScale
 
-  def addNode(node: PNode) = worldNode.addChild(node)
+  def addStageNode(node: PNode) = stageNode.addChild(node)
 
-  def addNode(index: Int, node: PNode) = worldNode.addChild(index, node)
+  def addStageNode(index: Int, node: PNode) = stageNode.addChild(index, node)
 
-  def indexOfChild(node: PNode) = worldNode.indexOfChild(node)
+  def indexOfChild(node: PNode) = stageNode.indexOfChild(node)
 
-  def addNodeAfter(preNode: PNode, newNode: PNode) = addNode(indexOfChild(preNode) + 1, newNode)
+  def addNodeAfter(preNode: PNode, newNode: PNode) = addStageNode(indexOfChild(preNode) + 1, newNode)
 
-  def removeNode(node: PNode) = worldNode.removeChild(node)
+  def removeNode(node: PNode) = stageNode.removeChild(node)
 
   def getVisibleModelBounds = centeredBoxStrategy.getVisibleModelBounds
 }
