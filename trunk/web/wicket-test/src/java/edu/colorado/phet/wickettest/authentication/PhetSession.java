@@ -94,6 +94,42 @@ public class PhetSession extends WebSession {
         return base64Encode( new String( bytes ) );
     }
 
+    public static String compatibleHashPassword( final String password ) {
+        // TODO: possibly move hashPassword elsewhere?
+        byte[] bytes;
+        try {
+            MessageDigest digest = MessageDigest.getInstance( "MD5" );
+            digest.reset();
+            digest.update( ( password + "_phetx1225" ).getBytes( "UTF-8" ) );
+            bytes = digest.digest();
+        }
+        catch( NoSuchAlgorithmException e ) {
+            e.printStackTrace();
+            throw new RuntimeException( "No such algorithm", e );
+        }
+        catch( UnsupportedEncodingException e ) {
+            e.printStackTrace();
+            throw new RuntimeException( e );
+        }
+
+        //return base64Encode( new String( bytes ) );
+        return hexEncode( bytes );
+    }
+
+    private static String hexEncode( byte[] bytes ) {
+        StringBuffer buffer = new StringBuffer();
+        for ( byte b : bytes ) {
+            buffer.append( byteToHex( b ) );
+        }
+        return buffer.toString();
+    }
+
+    private static String byteToHex( byte b ) {
+        char hexDigit[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+        char[] array = {hexDigit[( b >> 4 ) & 0x0f], hexDigit[b & 0x0f]};
+        return new String( array );
+    }
+
     private static String base64Data = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
 
@@ -116,6 +152,7 @@ public class PhetSession extends WebSession {
     private static class Test {
         public static void main( String[] args ) {
             System.out.println( hashPassword( args[0] ) );
+            System.out.println( compatibleHashPassword( args[0] ) );
         }
     }
 }
