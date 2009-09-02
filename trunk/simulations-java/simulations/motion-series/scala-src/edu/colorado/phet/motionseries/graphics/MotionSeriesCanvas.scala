@@ -1,5 +1,6 @@
 package edu.colorado.phet.motionseries.graphics
 
+import collection.mutable.ArrayBuffer
 import common.piccolophet.nodes.{PhetPPath, GradientButtonNode}
 import java.awt.geom.{Rectangle2D, Point2D}
 import java.awt.{BasicStroke, Color}
@@ -31,12 +32,6 @@ abstract class MotionSeriesCanvas(model: RampModel,
 
   //  addStageNode(playAreaNode)
   addScreenChild(playAreaNode)
-
-  addComponentListener(new ComponentAdapter() {
-    override def componentResized(e: ComponentEvent) = {
-      updatePlayAreaNode()
-    }
-  })
 
   class LayoutStrut(modelRect: Rectangle2D) extends PhetPPath(transform.modelToViewDouble(modelRect)) {
     setStroke(new BasicStroke(5f))
@@ -110,16 +105,17 @@ abstract class MotionSeriesCanvas(model: RampModel,
   val windowFBDNode = new FBDDialog(frame, freeBodyDiagramModel, fbdWidth, model.coordinateFrameModel, adjustableCoordinateModel.adjustable, adjustableCoordinateModel, fbdListener)
 
   val rampLayoutStrut = new LayoutStrut(new Rectangle2D.Double(-11, -1, 22, 11))
-//  val rampLayoutStrut = new LayoutStrut(new Rectangle2D.Double(0,0,1,1))
+  //  val rampLayoutStrut = new LayoutStrut(new Rectangle2D.Double(0,0,1,1))
   playAreaNode.addChild(rampLayoutStrut)
 
-  updatePlayAreaNode()
-  def updatePlayAreaNode() = {
+  addComponentListener(new ComponentAdapter() {override def componentResized(e: ComponentEvent) = {updateLayout()}})
+  updateLayout()
+  override def updateLayout() = {
     playAreaNode.setScale(1.0)
-    playAreaNode.setOffset(0.0,0.0)
+    playAreaNode.setOffset(0.0, 0.0)
     val s = getWidth / rampLayoutStrut.getGlobalFullBounds.width
     if (s > 0) playAreaNode.setScale(getWidth / rampLayoutStrut.getGlobalFullBounds.width)
-    playAreaNode.setOffset(-rampLayoutStrut.getGlobalFullBounds.x,-rampLayoutStrut.getGlobalFullBounds.y)
+    playAreaNode.setOffset(-rampLayoutStrut.getGlobalFullBounds.x, -rampLayoutStrut.getGlobalFullBounds.y)
   }
 
   class VectorSetNode(transform: ModelViewTransform2D, bead: Bead) extends PNode {
@@ -252,11 +248,26 @@ class RampCanvas(model: RampModel, coordinateSystemModel: AdjustableCoordinateMo
                  vectorViewModel: VectorViewModel, frame: JFrame, showObjectSelectionNode: Boolean, showAppliedForceSlider: Boolean,
                  rampAngleDraggable: Boolean, modelOffsetY: Double)
         extends MotionSeriesCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame, modelOffsetY) {
+  val layoutUnits = new ArrayBuffer[() => Unit]
   if (showObjectSelectionNode) {
     playAreaNode.addChild(new ObjectSelectionNode(transform, model))
   }
   if (showAppliedForceSlider) {
-    addStageNode(indexOfStageNode(earthNode) + 1, new AppliedForceSliderNode(model.bead, transform, () => model.setPaused(false)))
+    val appliedForceSliderNode = new AppliedForceSliderNode(model.bead, transform, () => model.setPaused(false))
+    layoutUnits += (() => {
+      appliedForceSliderNode.setScale(1.0)
+      appliedForceSliderNode.setOffset(0, 0)
+      if (getScale > 0) appliedForceSliderNode.setScale(getScale)
+      appliedForceSliderNode.setOffset(rampLayoutStrut.getGlobalBounds.getCenterX - appliedForceSliderNode.getFullBounds.getWidth / 2 - appliedForceSliderNode.getFullBounds.getX,
+        rampLayoutStrut.getGlobalBounds.getMaxY - appliedForceSliderNode.getFullBounds.y)
+    })
+    addScreenChild(appliedForceSliderNode)
+    updateLayout()
+  }
+
+  override def updateLayout() = {
+    super.updateLayout()
+    if (layoutUnits != null) for (lu <- layoutUnits) lu()
   }
 
   override def addWallsAndDecorations() = {
@@ -277,8 +288,8 @@ class RampCanvas(model: RampModel, coordinateSystemModel: AdjustableCoordinateMo
       new RampSegmentNode(model.rampSegments(1), transform)
 
   def addHeightAndAngleIndicators() = {
-    addStageNode(new RampHeightIndicator(model.rampSegments(1), transform))
-    addStageNode(new RampAngleIndicator(model.rampSegments(1), transform))
+    playAreaNode.addChild(new RampHeightIndicator(model.rampSegments(1), transform))
+    playAreaNode.addChild(new RampAngleIndicator(model.rampSegments(1), transform))
   }
 
   def createEarthNode = new EarthNode(transform)
