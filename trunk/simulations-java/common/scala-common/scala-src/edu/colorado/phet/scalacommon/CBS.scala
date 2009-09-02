@@ -32,7 +32,10 @@ class CBS(modelWidth: Double,
 
   def sy = canvas.getHeight / modelHeight
 
-  def getScale = if (sx < sy) sx else sy
+  def getScale = {
+    val preferredScale = if (sx < sy) sx else sy
+    if (preferredScale <= 0) 1.0 else preferredScale
+  }
 
   def getModelViewTransform2D: ModelViewTransform2D = {
     //use the smaller
