@@ -30,4 +30,6 @@ class RampAngleIndicator(rampSegment: Rotatable, transform: ModelViewTransform2D
     val degrees = new DecimalFormat("0.0".literal).format(getDegrees)
     readout.setText("ramp.angle-readout".translate.messageformat(degrees))
   }
+  setPickable(false)
+  setChildrenPickable(false)
 }

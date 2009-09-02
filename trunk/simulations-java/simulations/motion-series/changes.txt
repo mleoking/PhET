@@ -1,3 +1,5 @@
+Fixed: Ramp angle indicator blocks mouse input
+Fixed: Height indicator graphic blocks mouse input
 Removed blue layout debug box
 Switched to screen coordinates layout
 Fixed: Angle readout is too large
