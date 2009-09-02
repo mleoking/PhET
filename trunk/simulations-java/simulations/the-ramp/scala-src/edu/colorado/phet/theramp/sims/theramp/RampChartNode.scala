@@ -1,5 +1,6 @@
-package edu.colorado.phet.theramp.charts
+package edu.colorado.phet.theramp.sims.theramp
 
+import charts.{AbstractChartNode, RampGraph, SeriesSelectionControl}
 import phet.common.motion.graphs._
 import phet.common.motion.model._
 import phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
