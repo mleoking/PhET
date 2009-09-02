@@ -250,7 +250,15 @@ class RampCanvas(model: RampModel, coordinateSystemModel: AdjustableCoordinateMo
         extends MotionSeriesCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame, modelOffsetY) {
   val layoutUnits = new ArrayBuffer[() => Unit]
   if (showObjectSelectionNode) {
-    playAreaNode.addChild(new ObjectSelectionNode(transform, model))
+    val objectSelectionNode = new ObjectSelectionNode(transform, model)
+    layoutUnits += (() => {
+      objectSelectionNode.setScale(1.0)
+      objectSelectionNode.setOffset(0, 0)
+      if (getScale > 0) objectSelectionNode.setScale(getScale * 0.8)
+      objectSelectionNode.setOffset(getWidth / 2 - objectSelectionNode.getFullBounds.getWidth / 2 - objectSelectionNode.getFullBounds.getX,
+        getHeight - objectSelectionNode.getFullBounds.getHeight - objectSelectionNode.getFullBounds.y)
+    })
+    addScreenChild(objectSelectionNode)
   }
   if (showAppliedForceSlider) {
     val appliedForceSliderNode = new AppliedForceSliderNode(model.bead, transform, () => model.setPaused(false))
