@@ -6,15 +6,15 @@ import phet.common.piccolophet.PiccoloPhetApplication
 import controls.RampControlPanel
 import java.awt.event.{ComponentEvent, ComponentAdapter}
 
-import model.{RampModel, AdjustableCoordinateModel, FreeBodyDiagramModel, VectorViewModel}
+import model.{MotionSeriesModel, AdjustableCoordinateModel, FreeBodyDiagramModel, VectorViewModel}
 import graphics._
 import java.awt.Color
-import phet.motionseries.RampResources
+import motionseries.MotionSeriesResources
 import scalacommon.record.{RecordModelControlPanel, PlaybackSpeedSlider}
 import javax.swing.JFrame
 import scalacommon.ScalaClock
-import RampResources._
-import theramp.{RampDefaults, AbstractRampModule}
+import motionseries.MotionSeriesResources._
+import theramp.{MotionSeriesDefaults, AbstractRampModule}
 
 
 import umd.cs.piccolox.pswing.PSwing
@@ -41,7 +41,7 @@ class BasicForcesAndMotionModule(frame: JFrame,
   setClockControlPanel(new RecordModelControlPanel(rampModel, canvas, () => new PlaybackSpeedSlider(rampModel), Color.blue, 20))
 }
 
-class BasicForcesAndMotionCanvas(model: RampModel, coordinateSystemModel: AdjustableCoordinateModel, freeBodyDiagramModel: FreeBodyDiagramModel,
+class BasicForcesAndMotionCanvas(model: MotionSeriesModel, coordinateSystemModel: AdjustableCoordinateModel, freeBodyDiagramModel: FreeBodyDiagramModel,
                                  vectorViewModel: VectorViewModel, frame: JFrame, showObjectSelectionNode: Boolean, showAppliedForceSlider: Boolean,
                                  rampAngleDraggable: Boolean, modelViewport: Rectangle2D)
         extends RampCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel,
@@ -49,24 +49,24 @@ class BasicForcesAndMotionCanvas(model: RampModel, coordinateSystemModel: Adjust
   override def addHeightAndAngleIndicators() = {}
 }
 
-class IntroModule(frame: JFrame, clock: ScalaClock) extends BasicForcesAndMotionModule(frame, clock, "forces-and-friction.module.intro.title".translate, false, true, false, true, -6, false, 0.0, true, RampDefaults.forceMotionViewport)
+class IntroModule(frame: JFrame, clock: ScalaClock) extends BasicForcesAndMotionModule(frame, clock, "forces-and-friction.module.intro.title".translate, false, true, false, true, -6, false, 0.0, true, MotionSeriesDefaults.forceMotionViewport)
 
-class FrictionModule(frame: JFrame, clock: ScalaClock) extends BasicForcesAndMotionModule(frame, clock, "forces-and-friction.module.friction.title".translate, false, false, false, true, -6, false, 0.0, false, RampDefaults.frictionViewport) {
+class FrictionModule(frame: JFrame, clock: ScalaClock) extends BasicForcesAndMotionModule(frame, clock, "forces-and-friction.module.friction.title".translate, false, false, false, true, -6, false, 0.0, false, MotionSeriesDefaults.frictionViewport) {
   val frictionPlayAreaControlPanel = new PSwing(new FrictionPlayAreaControlPanel(rampModel.bead))
   frictionPlayAreaControlPanel.setOffset(canvas.stage.width / 2 - frictionPlayAreaControlPanel.getFullBounds.getWidth / 2, canvas.stage.height - frictionPlayAreaControlPanel.getFullBounds.getHeight - 2)
   canvas.addStageNode(frictionPlayAreaControlPanel)
   rampModel.frictionless = false
 }
 
-class GraphingModule(frame: JFrame, clock: ScalaClock) extends BasicForcesAndMotionModule(frame, clock, "forces-and-friction.module.graphing.title".translate, false, false, true, false, -6, false, 0.0, true, RampDefaults.forceEnergyGraphViewport) {
+class GraphingModule(frame: JFrame, clock: ScalaClock) extends BasicForcesAndMotionModule(frame, clock, "forces-and-friction.module.graphing.title".translate, false, false, true, false, -6, false, 0.0, true, MotionSeriesDefaults.forceEnergyGraphViewport) {
   coordinateSystemModel.adjustable = false
   canvas.addScreenNode(new ForcesAndMotionChartNode(canvas, rampModel))
 }
 
-class RobotMovingCompany1DModule(frame: JFrame, clock: ScalaClock) extends BasicForcesAndMotionModule(frame, clock, "forces-and-friction.module.robot-moving-company.title".translate, false, false, false, false, -6, false, 0.0, true, RampDefaults.defaultViewport)
+class RobotMovingCompany1DModule(frame: JFrame, clock: ScalaClock) extends BasicForcesAndMotionModule(frame, clock, "forces-and-friction.module.robot-moving-company.title".translate, false, false, false, false, -6, false, 0.0, true, MotionSeriesDefaults.defaultViewport)
 
 class ForcesAndMotionApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
-  def newClock = new ScalaClock(RampDefaults.DELAY, RampDefaults.DT_DEFAULT)
+  def newClock = new ScalaClock(MotionSeriesDefaults.DELAY, MotionSeriesDefaults.DT_DEFAULT)
   addModule(new IntroModule(getPhetFrame, newClock))
   addModule(new FrictionModule(getPhetFrame, newClock))
   addModule(new GraphingModule(getPhetFrame, newClock))

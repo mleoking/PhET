@@ -2,8 +2,8 @@ package edu.colorado.phet.motionseries.graphics
 
 import phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import phet.common.phetcommon.view.util.PhetFont
-import motionseries.RampResources
-import sims.theramp.RampDefaults
+import motionseries.MotionSeriesResources
+import motionseries.MotionSeriesDefaults
 import umd.cs.piccolo.PNode
 import phet.common.piccolophet.nodes.PhetPPath
 import java.awt.{BasicStroke, Color}
@@ -12,13 +12,13 @@ import umd.cs.piccolo.nodes.PText
 import java.awt.geom.Arc2D
 import java.text.DecimalFormat
 import edu.colorado.phet.scalacommon.Predef._
-import RampResources._
+import motionseries.MotionSeriesResources._
 
 //todo: consider coalescing with RampHeightIndicator
 class RampAngleIndicator(rampSegment: Rotatable, transform: ModelViewTransform2D) extends PNode {
   val line = new PhetPPath(new BasicStroke(2f), Color.black)
   val readout = new PText
-  readout.setFont(RampDefaults.rampIndicatorFont)
+  readout.setFont(MotionSeriesDefaults.rampIndicatorFont)
   addChild(line)
   addChild(readout)
   def getDegrees = rampSegment.getUnitVector.getAngle.toDegrees

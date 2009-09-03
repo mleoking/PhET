@@ -2,12 +2,12 @@ package edu.colorado.phet.motionseries.sims.forcesandmotion
 
 import charts._
 import graphics.MotionSeriesCanvas
-import model.RampModel
+import model.MotionSeriesModel
 import phet.common.motion.graphs._
-import phet.motionseries.RampResources
-import RampResources._
+import motionseries.MotionSeriesResources
+import motionseries.MotionSeriesResources._
 
-class ForcesAndMotionChartNode(canvas: MotionSeriesCanvas, model: RampModel) extends MotionSeriesChartNode(canvas, model) {
+class ForcesAndMotionChartNode(canvas: MotionSeriesCanvas, model: MotionSeriesModel) extends MotionSeriesChartNode(canvas, model) {
   val graphs = Array(
     new MinimizableControlGraph("forces.parallel-title".translate, forceGraph),
     new MinimizableControlGraph("acceleration", accelerationGraph, true),

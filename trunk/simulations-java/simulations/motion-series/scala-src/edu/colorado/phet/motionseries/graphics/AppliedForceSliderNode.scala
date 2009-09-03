@@ -7,19 +7,19 @@ import java.awt.event.{MouseAdapter, MouseEvent}
 
 import java.awt.geom.Point2D
 import model.{Bead}
-import sims.theramp.{RampDefaults}
+import sims.theramp.{MotionSeriesDefaults}
 
 import umd.cs.piccolo.PNode
 import swing.ScalaValueControl
 import umd.cs.piccolox.pswing.PSwing
 import edu.colorado.phet.scalacommon.Predef._
-import motionseries.RampResources._
+import motionseries.MotionSeriesResources._
 
 class AppliedForceSlider(getter: () => Double,
                          setter: Double => Unit,
                          addListener: (() => Unit) => Unit,
                          mousePressHandler: () => Unit)
-        extends ScalaValueControl(-RampDefaults.MAX_APPLIED_FORCE, RampDefaults.MAX_APPLIED_FORCE, "controls.applied-force-x".translate, "0.0".literal, "units.abbr.newtons".translate, getter, setter, addListener) {
+        extends ScalaValueControl(-MotionSeriesDefaults.MAX_APPLIED_FORCE, MotionSeriesDefaults.MAX_APPLIED_FORCE, "controls.applied-force-x".translate, "0.0".literal, "units.abbr.newtons".translate, getter, setter, addListener) {
   setTextFieldColumns(5)
   //set applied force to zero on slider mouse release
   getSlider.addMouseListener(new MouseAdapter {
@@ -36,7 +36,7 @@ class AppliedForceSlider(getter: () => Double,
 }
 
 class AppliedForceSliderNode(bead: Bead, mousePressHandler: () => Unit) extends PNode {
-  val max = RampDefaults.MAX_APPLIED_FORCE
+  val max = MotionSeriesDefaults.MAX_APPLIED_FORCE
   val control = new AppliedForceSlider(() => bead.parallelAppliedForce, value => bead.parallelAppliedForce = value, bead.addListener, mousePressHandler)
   control.setSize(new Dimension(control.getPreferredSize.width, (control.getPreferredSize.height * 1.45).toInt))
   val pswing = new PSwing(control)

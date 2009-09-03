@@ -15,15 +15,15 @@ import model.{AdjustableCoordinateModel, FreeBodyDiagramModel, CoordinateFrameMo
 import scalacommon.math.Vector2D
 import scalacommon.util.Observable
 import scalacommon.view.ToggleListener
-import motionseries.RampResources
-import sims.theramp.RampDefaults
+import motionseries.MotionSeriesResources
+import motionseries.MotionSeriesDefaults
 
 import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
 import umd.cs.piccolo.nodes.{PImage, PText}
 import umd.cs.piccolo.PNode
 import scalacommon.Predef._
 import java.lang.Math._
-import RampResources._
+import motionseries.MotionSeriesResources._
 
 class Vector(val color: Color,
              val name: String,
@@ -188,7 +188,7 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel,
   val yAxisModel = new SynchronizedAxisModel(PI / 2, modelWidth / 2 * 0.9, true, coordinateFrameModel)
   addChild(new AxisNodeWithModel(transform, "coordinates.x".translate, xAxisModel, adjustableCoordinateModel, 0, PI / 2))
   addChild(new AxisNodeWithModel(transform, "coordinates.y".translate, yAxisModel, adjustableCoordinateModel, PI / 2, PI))
-  for (vector <- vectors) addVector(vector, RampDefaults.FBD_LABEL_MAX_OFFSET)
+  for (vector <- vectors) addVector(vector, MotionSeriesDefaults.FBD_LABEL_MAX_OFFSET)
 
   updateSize()
 

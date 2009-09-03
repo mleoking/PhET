@@ -5,15 +5,15 @@ import java.awt.Dimension
 import java.util.Hashtable
 import javax.swing._
 import model.SurfaceModel
-import phet.motionseries.{RampResources}
-import RampResources._
+import phet.motionseries.{MotionSeriesResources}
+import motionseries.MotionSeriesResources._
 
 class SurfaceControlPanel extends JPanel {
   add(new JLabel("controls.no-friction".translate))
   val slider = new LinearValueControl(0.0, 5.0, "forces.friction".translate, "0.0".literal, "".literal)
   val table = new Hashtable[Double, JComponent]
   class MyLabel(name: String, imageName: String) extends JLabel(name, SwingConstants.CENTER) {
-    setIcon(new ImageIcon(RampResources.getImage(imageName)))
+    setIcon(new ImageIcon(MotionSeriesResources.getImage(imageName)))
     setVerticalTextPosition(SwingConstants.BOTTOM)
     setHorizontalTextPosition(SwingConstants.CENTER)
   }

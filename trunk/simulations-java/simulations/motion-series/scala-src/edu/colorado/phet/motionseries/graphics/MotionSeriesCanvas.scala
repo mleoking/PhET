@@ -11,21 +11,21 @@ import javax.swing.{JFrame}
 import model._
 import scalacommon.math.Vector2D
 import scalacommon.Predef._
-import motionseries.RampResources
-import sims.theramp.{RampDefaults}
+import motionseries.MotionSeriesResources
+import sims.theramp.{MotionSeriesDefaults}
 
 import tests.MyCanvas
 import umd.cs.piccolo.PNode
 import java.lang.Math._
-import RampResources._
+import motionseries.MotionSeriesResources._
 
-abstract class MotionSeriesCanvas(model: RampModel,
+abstract class MotionSeriesCanvas(model: MotionSeriesModel,
                                   adjustableCoordinateModel: AdjustableCoordinateModel,
                                   freeBodyDiagramModel: FreeBodyDiagramModel,
                                   vectorViewModel: VectorViewModel,
                                   frame: JFrame,
                                   modelViewport: Rectangle2D) extends MyCanvas(800, modelViewport) { //max y should be about 10 in default case
-  setBackground(RampDefaults.SKY_GRADIENT_BOTTOM)
+  setBackground(MotionSeriesDefaults.SKY_GRADIENT_BOTTOM)
 
   val playAreaNode = new PNode
   addStageNode(playAreaNode)
@@ -62,7 +62,7 @@ abstract class MotionSeriesCanvas(model: RampModel,
   addWallsAndDecorations()
 
   val beadNode = new DraggableBeadNode(model.bead, transform, "cabinet.gif".literal, () => model.setPaused(false))
-  model.addListenerByName(beadNode.setImage(RampResources.getImage(model.selectedObject.imageFilename)))
+  model.addListenerByName(beadNode.setImage(MotionSeriesResources.getImage(model.selectedObject.imageFilename)))
   playAreaNode.addChild(beadNode)
 
   val pusherNode = new PusherNode(transform, model.bead, model.manBead)
@@ -78,7 +78,7 @@ abstract class MotionSeriesCanvas(model: RampModel,
   val tickMarkSet = new TickMarkSet(transform, model.positionMapper, compositeListener) //todo: listen to both segments for game
   playAreaNode.addChild(tickMarkSet)
 
-  val fbdWidth = RampDefaults.freeBodyDiagramWidth
+  val fbdWidth = MotionSeriesDefaults.freeBodyDiagramWidth
   val fbdNode = new FreeBodyDiagramNode(freeBodyDiagramModel, 200, 200, fbdWidth, fbdWidth, model.coordinateFrameModel, adjustableCoordinateModel, PhetCommonResources.getImage("buttons/maximizeButton.png".literal))
 
   def updateFBDLocation() = {
@@ -109,7 +109,7 @@ abstract class MotionSeriesCanvas(model: RampModel,
     }
   }
 
-  class BodyVectorNode(transform: ModelViewTransform2D, vector: Vector, offset: VectorValue) extends VectorNode(transform, vector, offset, RampDefaults.BODY_LABEL_MAX_OFFSET) {
+  class BodyVectorNode(transform: ModelViewTransform2D, vector: Vector, offset: VectorValue) extends VectorNode(transform, vector, offset, MotionSeriesDefaults.BODY_LABEL_MAX_OFFSET) {
     model.bead.addListenerByName {
       setOffset(model.bead.position2D)
       update()
@@ -142,8 +142,8 @@ abstract class MotionSeriesCanvas(model: RampModel,
   }
 
   def addVector(bead: Bead, vector: Vector with PointOfOriginVector, offsetFBD: VectorValue, offsetPlayArea: Double) = {
-    fbdNode.addVector(vector, offsetFBD, RampDefaults.FBD_LABEL_MAX_OFFSET)
-    windowFBDNode.addVector(vector, offsetFBD, RampDefaults.FBD_LABEL_MAX_OFFSET)
+    fbdNode.addVector(vector, offsetFBD, MotionSeriesDefaults.FBD_LABEL_MAX_OFFSET)
+    windowFBDNode.addVector(vector, offsetFBD, MotionSeriesDefaults.FBD_LABEL_MAX_OFFSET)
 
     val tailLocationInPlayArea = new VectorValue() {
       def addListener(listener: () => Unit) = {
@@ -164,7 +164,7 @@ abstract class MotionSeriesCanvas(model: RampModel,
       }
     }
     //todo: make sure this adapter overrides other methods as well such as addListener
-    val playAreaAdapter = new Vector(vector.color, vector.name, vector.abbreviation, () => vector.getValue * RampDefaults.PLAY_AREA_VECTOR_SCALE, vector.painter) {
+    val playAreaAdapter = new Vector(vector.color, vector.name, vector.abbreviation, () => vector.getValue * MotionSeriesDefaults.PLAY_AREA_VECTOR_SCALE, vector.painter) {
       vector.addListenerByName {
         notifyListeners()
       }
@@ -210,7 +210,7 @@ abstract class MotionSeriesCanvas(model: RampModel,
   addStageNode(returnObjectButton)
 }
 
-class ReturnObjectButton(model: RampModel) extends GradientButtonNode("controls.return-object".translate, Color.orange) {
+class ReturnObjectButton(model: MotionSeriesModel) extends GradientButtonNode("controls.return-object".translate, Color.orange) {
   def updateVisibility() = setVisible(model.beadInModelViewportRange)
   updateVisibility()
   model.addListener(updateVisibility)
@@ -220,7 +220,7 @@ class ReturnObjectButton(model: RampModel) extends GradientButtonNode("controls.
   })
 }
 
-class ClearHeatButton(model: RampModel) extends GradientButtonNode("controls.clear-heat".translate, Color.yellow) {
+class ClearHeatButton(model: MotionSeriesModel) extends GradientButtonNode("controls.clear-heat".translate, Color.yellow) {
   def updateVisibility() = {
     setVisible(model.bead.getRampThermalEnergy > 2000)
   }
@@ -232,7 +232,7 @@ class ClearHeatButton(model: RampModel) extends GradientButtonNode("controls.cle
   })
 }
 
-class RampCanvas(model: RampModel, coordinateSystemModel: AdjustableCoordinateModel, freeBodyDiagramModel: FreeBodyDiagramModel,
+class RampCanvas(model: MotionSeriesModel, coordinateSystemModel: AdjustableCoordinateModel, freeBodyDiagramModel: FreeBodyDiagramModel,
                  vectorViewModel: VectorViewModel, frame: JFrame, showObjectSelectionNode: Boolean, showAppliedForceSlider: Boolean,
                  rampAngleDraggable: Boolean, modelViewport: Rectangle2D)
         extends MotionSeriesCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame, modelViewport) {

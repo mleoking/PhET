@@ -1,8 +1,8 @@
 package edu.colorado.phet.motionseries.model
 
 import scalacommon.util.Observable
-import motionseries.RampResources
-import motionseries.RampResources._
+import motionseries.MotionSeriesResources
+import motionseries.MotionSeriesResources._
 
 //immutable memento for recording
 case class ScalaRampObjectState(name: String, mass: Double, kinFric: Double, statFric: Double, height: Double,
@@ -44,7 +44,7 @@ class ScalaRampObject(_name: String,
 
   def height = _height
 
-  val bufferedImage = RampResources.getImage(imageFilename)
+  val bufferedImage = MotionSeriesResources.getImage(imageFilename)
 
   def width = bufferedImage.getWidth * height / bufferedImage.getHeight.toDouble
 

@@ -20,7 +20,7 @@ class AbstractRampModule(frame: JFrame, clock: ScalaClock, name: String, default
                          initialAngle: Double) extends Module(name, clock) {
   val rampModel = createRampModel(defaultBeadPosition, pausedOnReset, initialAngle)
 
-  def createRampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngle: Double) = new RampModel(defaultBeadPosition, pausedOnReset, initialAngle)
+  def createRampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngle: Double) = new MotionSeriesModel(defaultBeadPosition, pausedOnReset, initialAngle)
 
   val wordModel = new WordModel
   val fbdModel = new FreeBodyDiagramModel
@@ -77,24 +77,24 @@ class BasicRampModule(frame: JFrame, clock: ScalaClock, name: String,
   setClockControlPanel(new RecordModelControlPanel(rampModel, rampCanvas, () => new PlaybackSpeedSlider(rampModel), Color.blue, 20))
 }
 
-import RampResources._
+import motionseries.MotionSeriesResources._
 
-class IntroRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "module.introduction".translate, false, false, true, -6, false, RampDefaults.defaultRampAngle, RampDefaults.defaultViewport)
+class IntroRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "module.introduction".translate, false, false, true, -6, false, MotionSeriesDefaults.defaultRampAngle, MotionSeriesDefaults.defaultViewport)
 
-class CoordinatesRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "module.coordinates".translate, true, false, true, -6, false, RampDefaults.defaultRampAngle, RampDefaults.defaultViewport) {
+class CoordinatesRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "module.coordinates".translate, true, false, true, -6, false, MotionSeriesDefaults.defaultRampAngle, MotionSeriesDefaults.defaultViewport) {
   coordinateSystemModel.adjustable = true
 }
 
 class GraphingModule(frame: JFrame, clock: ScalaClock, name: String, showEnergyGraph: Boolean, rampLayoutArea:Rectangle2D)
-        extends BasicRampModule(frame, clock, name, false, true, false, -6, true, RampDefaults.defaultRampAngle, rampLayoutArea) {
+        extends BasicRampModule(frame, clock, name, false, true, false, -6, true, MotionSeriesDefaults.defaultRampAngle, rampLayoutArea) {
   coordinateSystemModel.adjustable = false
 }
 
-class ForceGraphsModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(frame, clock, "module.force-graphs".translate, false, RampDefaults.forceGraphViewport){
+class ForceGraphsModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(frame, clock, "module.force-graphs".translate, false, MotionSeriesDefaults.forceGraphViewport){
   rampCanvas.addScreenNode(new RampForceChartNode(rampCanvas, rampModel))
 }
 
-class WorkEnergyModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(frame, clock, "module.work-energy".translate, true, RampDefaults.forceEnergyGraphViewport) {
+class WorkEnergyModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(frame, clock, "module.work-energy".translate, true, MotionSeriesDefaults.forceEnergyGraphViewport) {
   rampCanvas.addScreenNode(new RampForceEnergyChartNode(rampCanvas, rampModel))
   val workEnergyChartModel = new WorkEnergyChartModel
   val workEnergyChartButton = new JButton("controls.showWorkEnergyCharts".translate)
@@ -108,7 +108,7 @@ class WorkEnergyModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(
 }
 
 class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock)
-        extends AbstractRampModule(frame, clock, "module.robotMovingCompany".translate, 5, false, RampDefaults.defaultRampAngle) {
+        extends AbstractRampModule(frame, clock, "module.robotMovingCompany".translate, 5, false, MotionSeriesDefaults.defaultRampAngle) {
   override def reset() = {
     super.reset()
     rampModel.frictionless = false
@@ -120,7 +120,7 @@ class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock)
   }
 
   override def createRampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngle: Double) = {
-    new RampModel(defaultBeadPosition, pausedOnReset, initialAngle) {
+    new MotionSeriesModel(defaultBeadPosition, pausedOnReset, initialAngle) {
       override def updateSegmentLengths() = setSegmentLengths(rampLength, rampLength)
       frictionless = false
     }
@@ -136,7 +136,7 @@ class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock)
       case Result(false, false, _, _) => Some("tintagel/PERSONAL.WAV".literal)
       case _ => None
     }
-    if (!audioClip.isEmpty) RampResources.getAudioClip(audioClip.get).play()
+    if (!audioClip.isEmpty) MotionSeriesResources.getAudioClip(audioClip.get).play()
   })
 
   val canvas = new RobotMovingCompanyCanvas(rampModel, coordinateSystemModel, fbdModel, vectorViewModel, frame, gameModel)
@@ -146,7 +146,7 @@ class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock)
 }
 
 class RampApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
-  def newClock = new ScalaClock(RampDefaults.DELAY, RampDefaults.DT_DEFAULT)
+  def newClock = new ScalaClock(MotionSeriesDefaults.DELAY, MotionSeriesDefaults.DT_DEFAULT)
   addModule(new IntroRampModule(getPhetFrame, newClock))
   addModule(new CoordinatesRampModule(getPhetFrame, newClock))
   addModule(new ForceGraphsModule(getPhetFrame, newClock))
@@ -154,10 +154,10 @@ class RampApplication(config: PhetApplicationConfig) extends PiccoloPhetApplicat
   addModule(new RobotMovingCompanyModule(getPhetFrame, newClock))
 }
 class RampWorkEnergyApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
-  def newClock = new ScalaClock(RampDefaults.DELAY, RampDefaults.DT_DEFAULT)
+  def newClock = new ScalaClock(MotionSeriesDefaults.DELAY, MotionSeriesDefaults.DT_DEFAULT)
   addModule(new WorkEnergyModule(getPhetFrame, newClock))
 }
 
 class RobotMovingCompanyApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
-  addModule(new RobotMovingCompanyModule(getPhetFrame, new ScalaClock(RampDefaults.DELAY, RampDefaults.DT_DEFAULT)))
+  addModule(new RobotMovingCompanyModule(getPhetFrame, new ScalaClock(MotionSeriesDefaults.DELAY, MotionSeriesDefaults.DT_DEFAULT)))
 }

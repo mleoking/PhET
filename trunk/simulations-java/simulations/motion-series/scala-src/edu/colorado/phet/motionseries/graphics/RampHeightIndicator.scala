@@ -1,9 +1,9 @@
 package edu.colorado.phet.motionseries.graphics
 
-import RampResources._
+import motionseries.MotionSeriesResources._
 import phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import phet.common.phetcommon.view.util.PhetFont
-import sims.theramp.RampDefaults
+import motionseries.MotionSeriesDefaults
 import umd.cs.piccolo.PNode
 import phet.common.piccolophet.nodes.PhetPPath
 import java.awt.{BasicStroke, Color}
@@ -19,7 +19,7 @@ class RampHeightIndicator(rampSegment: Rotatable, transform: ModelViewTransform2
   addChild(line)
 
   val readout = new PText
-  readout.setFont(RampDefaults.rampIndicatorFont)
+  readout.setFont(MotionSeriesDefaults.rampIndicatorFont)
   addChild(readout)
   def getLine = new Line2D.Double(new Vector2D(rampSegment.endPoint.x, 0), rampSegment.endPoint)
   defineInvokeAndPass(rampSegment.addListenerByName) {

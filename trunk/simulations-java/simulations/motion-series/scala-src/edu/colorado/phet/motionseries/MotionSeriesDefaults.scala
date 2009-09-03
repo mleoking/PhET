@@ -1,11 +1,11 @@
-package edu.colorado.phet.motionseries.sims.theramp
+package edu.colorado.phet.motionseries
 
 import common.phetcommon.view.util.PhetFont
 import java.awt.Color
 import java.awt.geom.Rectangle2D
 import model.{MutableRampObject, CustomTextRampObject, ScalaRampObject}
 
-object RampDefaults {
+object MotionSeriesDefaults {
   def rampIndicatorFont = new PhetFont(13, true)
 
   val MAX_CHART_DISPLAY_TIME = 20.0
@@ -51,7 +51,7 @@ object RampDefaults {
   val sliderMaxGravity = 30.0
 
   //ScalaRampObject(name,mass,kineticFriction,staticFriction,image)
-  import RampResources._
+  import motionseries.MotionSeriesResources._
   val objects = new ScalaRampObject("object.file-cabinet".translate, 50, 0.2, 0.5, 2.25, "cabinet.gif".literal, 100) ::
           new ScalaRampObject("object.dog".translate, 25, 0.5, 0.5, 1.25, "ollie.gif".literal, 500) ::
           new ScalaRampObject("object.small-crate".translate, 100, 0.3, 0.5, 1.5, "crate.gif".literal, 200) ::

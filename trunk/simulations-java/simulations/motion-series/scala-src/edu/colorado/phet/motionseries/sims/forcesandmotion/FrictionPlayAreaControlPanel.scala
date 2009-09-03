@@ -6,10 +6,10 @@ import java.awt.image.BufferedImage
 import java.util.Hashtable
 import javax.swing._
 import model.Bead
-import phet.motionseries.RampResources
-import RampResources._
+import motionseries.MotionSeriesResources
+import motionseries.MotionSeriesResources._
 import swing.ScalaValueControl
-import motionseries.sims.theramp.RampDefaults._
+import motionseries.MotionSeriesDefaults._
 
 class MyValueControl(min: Double, max: Double, getter: () => Double, setter: Double => Unit, title: String, numberFormat: String, units: String, bead: Bead)
         extends ScalaValueControl(min, max, title, numberFormat, units, getter, setter, bead.addListener, new HorizontalLayoutStrategy) {
@@ -29,7 +29,7 @@ class FrictionPlayAreaControlPanel(bead: Bead) extends VerticalLayoutPanel {
   val table = new Hashtable[Double, JComponent]
   class MyLabel(name: String, imageName: String) extends JLabel(name, SwingConstants.CENTER) {
     if (imageName != null)
-      setIcon(new ImageIcon(RampResources.getImage(imageName)))
+      setIcon(new ImageIcon(MotionSeriesResources.getImage(imageName)))
     else
       setIcon(new ImageIcon(new BufferedImage(2, 10, BufferedImage.TYPE_INT_RGB)))
     setVerticalTextPosition(SwingConstants.BOTTOM)

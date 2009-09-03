@@ -7,8 +7,8 @@ import phet.common.phetcommon.view.VerticalLayoutPanel
 import phet.common.phetcommon.view.util.PhetFont
 import phet.common.motion.model.ITemporalVariable
 import phet.common.phetcommon.util.DefaultDecimalFormat
-import RampResources._
-import sims.theramp.RampDefaults._
+import motionseries.MotionSeriesResources._
+import motionseries.MotionSeriesDefaults._
 
 import swing.{MyJCheckBox}
 

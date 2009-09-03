@@ -7,7 +7,7 @@ import phet.common.piccolophet.PhetPCanvas
 import java.awt.geom.Point2D
 import javax.swing.{JFrame, JDialog}
 import model.{AdjustableCoordinateModel, CoordinateFrameModel, FreeBodyDiagramModel}
-import RampResources._
+import motionseries.MotionSeriesResources._
 import scalacommon.Predef._
 
 class FBDDialog(frame: JFrame, freeBodyDiagramModel: FreeBodyDiagramModel, fbdWidth: Double, coordinateFrameModel: CoordinateFrameModel, adjustable: Boolean, adjustableCoordinateModel: AdjustableCoordinateModel, fbdListener: Point2D => Unit) {

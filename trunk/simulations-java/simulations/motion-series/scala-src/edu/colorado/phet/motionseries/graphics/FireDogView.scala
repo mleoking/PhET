@@ -1,12 +1,12 @@
 package edu.colorado.phet.motionseries.graphics
 
-import model.{FireDog, Raindrop, RampModel}
-import motionseries.RampResources
+import model.{FireDog, Raindrop, MotionSeriesModel}
+import motionseries.MotionSeriesResources
 import umd.cs.piccolo.PNode
-import RampResources._
+import motionseries.MotionSeriesResources._
 
 //todo: factor out common code
-class FireDogView(rampModel: RampModel, canvas: MotionSeriesCanvas) extends PNode {
+class FireDogView(rampModel: MotionSeriesModel, canvas: MotionSeriesCanvas) extends PNode {
   rampModel.fireDogAddedListeners += ((added: FireDog) => {
     val node = new BeadNode(added.dogbead, canvas.transform, "firedog.gif".literal)
     addChild(node)
@@ -15,7 +15,7 @@ class FireDogView(rampModel: RampModel, canvas: MotionSeriesCanvas) extends PNod
   })
 }
 
-class RaindropView(rampModel: RampModel, canvas: MotionSeriesCanvas) extends PNode {
+class RaindropView(rampModel: MotionSeriesModel, canvas: MotionSeriesCanvas) extends PNode {
   rampModel.raindropAddedListeners += ((added: Raindrop) => {
     val node = new BeadNode(added.rainbead, canvas.transform, "raindrop.png".literal)
     addChild(node)
