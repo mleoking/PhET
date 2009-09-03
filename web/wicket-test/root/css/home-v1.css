@@ -22,12 +22,11 @@ div.index-holder {
 }
 
 #right-middle {
-    /*margin-left: 310px;*/
-    /*position: relative;*/
+/*margin-left: 310px;*/
+/*position: relative;*/
     position: absolute;
     width: 425px;
-    left: 310px;
-    /*left: 300px;*/
+    left: 310px; /*left: 300px;*/
 }
 
 #index-middle-div {
@@ -120,10 +119,8 @@ div.index-holder {
     background-image: url(../images/blank-button-right.gif);
 }
 
-/* overridden left property in ie6fix.css */
 #sponsors {
-border: 1px solid red;
-    /*clear: left;*/
+    /*border: 1px solid red;*/
     position: absolute;
     height: 70px;
     width: 425px;
@@ -132,18 +129,22 @@ border: 1px solid red;
 }
 
 .sponsor {
-/*border: 1px solid blue;*/
     height: 70px;
     width: 100px;
     margin-right: 10px;
-    /*float: right;*/
     text-align: center;
     font-size: 10px;
+}
+
+td.sponsor {
+    vertical-align: top;
+
 }
 
 .sponsor a {
     text-decoration: none;
     color: #990000;
+    text-align: center;
 }
 
 .sponsor img {
@@ -213,7 +214,6 @@ div.rtl div.practices dl dt a {
     padding-left: 0;
     padding-right: 9px;
 }
-
 
 div.practices dl dd {
     margin: 0;
