@@ -1,10 +1,10 @@
 package edu.colorado.phet.motionseries.tests
 
+import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import common.piccolophet.nodes.PhetPPath
 import common.piccolophet.PhetPCanvas
 import java.awt.event.{ComponentEvent, ComponentAdapter}
-
-import java.awt.geom.Rectangle2D
+import java.awt.geom.{Ellipse2D, Rectangle2D}
 import java.awt.{Color, BasicStroke, Component}
 import javax.swing.JFrame
 import umd.cs.piccolo.nodes.PText
@@ -37,17 +37,36 @@ class StageNode(stageWidth: Int, stageHeight: Int, canvas: Component, node: PNod
   }
 }
 
-class MyPText(str: String, x: Int, y: Int) extends PText(str) {
+class ModelNode(transform: ModelViewTransform2D, node: PNode) extends PNode {
+  addChild(node)
+  setTransform(transform.getAffineTransform)
+}
+
+class MyPText(str: String, x: Double, y: Double, scale: Double) extends PText(str) {
+  def this(str: String, x: Double, y: Double) = this (str, x, y, 1.0)
+  setScale(scale)
   setOffset(x, y)
 }
 
 class StartTest {
   def start() = {
-    val phetCanvas = new PhetPCanvas()
-    phetCanvas.getLayer.addChild(new MyPText("Hello from screen at 50,50", 50, 50))
-    phetCanvas.getLayer.addChild(new StageNode(200, 100, phetCanvas, new MyPText("Hello from Stage at 100,50", 100, 50)))
-    phetCanvas.getLayer.addChild(new StageNode(200, 100, phetCanvas, new PhetPPath(new Rectangle2D.Double(0, 0, 200, 100), new BasicStroke(2), Color.yellow)))
-    phetCanvas.getLayer.addChild(new MyPText("Hello from screen at 100,100", 100, 100))
+    val stageWidth = 200
+    val stageHeight = 100
+    val worldBounds = new Rectangle2D.Double(0, 0, 2E-6, 1E-6)
+    val transform = new ModelViewTransform2D(worldBounds, new Rectangle2D.Double(0, 0, stageWidth, stageHeight), true)
+    val phetCanvas = new PhetPCanvas() {
+      def addPixelNode(node: PNode) = getLayer.addChild(node)
+
+      def addStageNode(node: PNode) = addPixelNode(new StageNode(stageWidth, stageHeight, this, node))
+
+      def addModelNode(node: PNode) = addStageNode(new ModelNode(transform, node))
+    }
+    phetCanvas.addPixelNode(new MyPText("Hello from screen at 50,50", 50, 50))
+    phetCanvas.addStageNode(new MyPText("Hello from Stage at 100,50", 100, 50, 0.5))
+    phetCanvas.addStageNode(new PhetPPath(new Rectangle2D.Double(0, 0, stageWidth, stageHeight), new BasicStroke(2), Color.yellow))
+    phetCanvas.addPixelNode(new MyPText("Hello from screen at 100,100", 100, 100))
+    phetCanvas.addModelNode(new PhetPPath(new Ellipse2D.Double(0, 0, 0.5E-6, 0.5E-6), Color.blue))
+    phetCanvas.addModelNode(new MyPText("hello from left edge of world bounds", worldBounds.getMinX, worldBounds.getCenterY, 1E-6/100))
 
     val frame = new JFrame
     frame.setContentPane(phetCanvas)
