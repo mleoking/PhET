@@ -63,6 +63,7 @@ public abstract class TranslationEntity implements Serializable {
         entities.add( new TroubleshootingFlashEntity() );
         entities.add( new TroubleshootingJavascriptEntity() );
         entities.add( new KeywordsEntity() );
+        entities.add( new ContributeEntity() );
         entities.add( new AboutPhetEntity() );
         entities.add( new TitlesEntity() );
         return entities;

@@ -1,6 +1,7 @@
 package edu.colorado.phet.wickettest.panels;
 
 import java.text.MessageFormat;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -211,6 +212,43 @@ public class SimulationMainPanel extends PhetPanel {
         else {
             title = MessageFormat.format( localizer.getString( "simulationPage.title", this ), (Object[]) titleParams.toArray() );
         }
+
+        List designTeam = Arrays.asList( "One Person", "Another Person" );
+        List libraries = Arrays.asList( "Everyone" );
+        List thanks = Arrays.asList( "Some Library" );
+
+        ListView designView = new ListView( "design-list", designTeam ) {
+            protected void populateItem( ListItem item ) {
+                String str = item.getModelObjectAsString();
+                item.add( new Label( "design-item", str ) );
+            }
+        };
+        if( designTeam.isEmpty() ) {
+            designView.setVisible( false );
+        }
+        add( designView );
+
+        ListView libraryView = new ListView( "library-list", libraries ) {
+            protected void populateItem( ListItem item ) {
+                String str = item.getModelObjectAsString();
+                item.add( new Label( "library-item", str ) );
+            }
+        };
+        if( libraries.isEmpty() ) {
+            libraryView.setVisible( false );
+        }
+        add( libraryView );
+
+        ListView thanksView = new ListView( "thanks-list", thanks ) {
+            protected void populateItem( ListItem item ) {
+                String str = item.getModelObjectAsString();
+                item.add( new Label( "thanks-item", str ) );
+            }
+        };
+        if( thanks.isEmpty() ) {
+            thanksView.setVisible( false );
+        }
+        add( thanksView );
     }
 
     public String getTitle() {

@@ -132,6 +132,7 @@ div.rtl .simulation-main-image-panel {
 
 table.system-requirements-table {
     margin: 5px 10px 15px;
+    width: 505px;
 }
 
 table.system-requirements-table th {
@@ -143,4 +144,47 @@ table.system-requirements-table th {
 table.system-requirements-table td {
     vertical-align: top;
     padding-right: 15px;
+}
+
+table.credits-table {
+    margin: 5px 10px 15px;
+    width: 505px;
+}
+
+table.credits-table th {
+    text-align: left;
+    border-bottom: 1px solid #bbbbbb;
+    padding-bottom: 3px;
+}
+
+table.credits-table td {
+    vertical-align: top;
+    padding-right: 15px;
+}
+
+table.credits-table ul {
+    margin: 0;
+    padding: 0;
+    list-style-position: inside;
+}
+
+table.translations-table {
+    margin: 5px 10px 15px;
+    width: 505px;
+}
+
+table.translations-table th {
+    text-align: left;
+    border-bottom: 1px solid #bbbbbb;
+    padding-bottom: 3px;
+}
+
+table.translations-table td {
+    vertical-align: top;
+    padding-right: 15px;
+}
+
+table.simulation-main-translations-table {
+    margin: 5px 10px 15px;
+    width: 505px;
 }

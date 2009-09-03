@@ -2795,6 +2795,7 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 15	home.translateSimulations	Translate Simulations	2009-08-17 03:48:19.897	2009-08-17 03:48:19.897	1
 16	home.browseSims	Browse Sims	2009-08-17 03:48:19.897	2009-08-17 03:48:19.897	1
 17	home.simulations	Simulations	2009-08-17 03:48:19.899	2009-08-17 03:48:19.899	1
+532	troubleshooting.main.q13.title	@troubleshooting.main.q13.title@	2009-08-31 14:19:47.361	2009-08-31 14:19:47.361	3
 19	simulationDisplay.title	{0} - PhET Simulations	2009-08-17 03:48:19.899	2009-08-17 03:48:19.899	1
 20	simulationMainPanel.translatedVersions	Translated Versions:	2009-08-17 03:48:19.899	2009-08-17 03:48:19.899	1
 21	simulationMainPanel.screenshot.alt	{0} Screenshot	2009-08-17 03:48:19.899	2009-08-17 03:48:19.899	1
@@ -2980,7 +2981,6 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 202	keyword.pointCharge	Point Charge	2009-08-17 14:42:37.995	2009-08-17 14:42:37.995	1
 151	keyword.optical	Optics	2009-08-17 05:25:34.157	2009-08-17 15:30:00.037	1
 140	keyword.battery	Batteries	2009-08-17 03:51:08.067	2009-08-31 20:58:33.195	1
-740	sponsors.title	@sponsors.title@	2009-08-31 23:40:21.203	2009-08-31 23:40:21.203	3
 203	keyword.dipole	Dipole	2009-08-17 14:42:47.818	2009-08-17 14:42:47.818	1
 204	keyword.acCircuits	AC Circuits	2009-08-17 14:45:04.666	2009-08-17 14:45:04.666	1
 205	keyword.capacitance	Capacitance	2009-08-17 14:45:21.691	2009-08-17 14:45:21.691	1
@@ -3193,7 +3193,7 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 411	nav.troubleshooting.flash	Flash	2009-08-19 00:39:06.905	2009-08-19 00:39:06.905	1
 412	about.source-code.title	PhET Source Code	2009-08-19 01:32:35.704	2009-08-19 01:32:35.704	1
 413	nav.about.source-code	Source Code	2009-08-19 01:32:46.865	2009-08-19 01:32:46.865	1
-1053	footer.someRightsReserved	@footer.someRightsReserved	2009-09-03 13:20:28.773	2009-09-03 13:20:28.773	3
+1054	simulationMainPanel.softwareRequirements	Software Requirements	2009-09-03 15:06:57.928	2009-09-03 15:06:57.928	1
 416	nav.about.contact	Contact	2009-08-19 01:34:06.066	2009-08-19 01:34:06.066	1
 417	about.contact.title	Contact	2009-08-19 01:34:10.998	2009-08-19 01:34:10.998	1
 418	about.who-we-are.title	Who We Are	2009-08-19 01:34:21.682	2009-08-19 01:34:21.682	1
@@ -3218,8 +3218,12 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 437	nav.contribute	贡献	2009-08-19 02:11:19.388	2009-08-19 02:11:19.388	2
 438	nav.get-phet.one-at-a-time	一次一个	2009-08-19 02:11:28.145	2009-08-19 02:11:28.145	2
 5	home.subheader	Fun, interactive, <a {0}>research-based</a> simulations of physical phenomena from the PhET project at the University of Colorado.	2009-08-17 03:48:19.897	2009-08-30 01:09:02.419	1
+1055	simulationMainPanel.sampleLearningGoals	Sample Learning Goals	2009-09-03 15:16:26.07	2009-09-03 15:16:26.07	1
 771	troubleshooting.java.faqs	FAQs	2009-09-01 01:08:44.28	2009-09-01 01:08:44.28	1
+1056	simulationMainPanel.credits	Credits	2009-09-03 15:19:12.891	2009-09-03 15:19:12.891	1
 832	troubleshooting.flash.intro	This page will help you solve some of the problems people commonly have running our programs. If you can't solve your problem here, please notify us by email at the following address:<a href="mailto:phethelp@colorado.edu"><span class="red">phethelp@colorado.edu</span></a>.	2009-09-01 01:23:54.848	2009-09-01 01:23:54.848	1
+1057	simulationMainPanel.designTeam	Design Team	2009-09-03 15:31:37.976	2009-09-03 15:31:37.976	1
+1058	simulationMainPanel.thirdPartyLibraries	Third-party Libraries	2009-09-03 15:31:48.164	2009-09-03 15:31:48.164	1
 833	troubleshooting.flash.toRun	To run the Flash-based simulations you must have Macromedia Flash 8 (available free) or newer installed on your computer.	2009-09-01 01:24:38.131	2009-09-01 01:24:38.131	1
 834	troubleshooting.flash.blankWindow	If you get a blank window when you try to launch a Flash simulation, you probably need a new version of the Flash player.	2009-09-01 01:25:20.954	2009-09-01 01:25:20.954	1
 835	troubleshooting.flash.olderVersions	Older versions of the Flash Player can cause problems. Updating your flash player is recommended if you receive an error similar to:	2009-09-01 01:26:22.296	2009-09-01 01:26:22.296	1
@@ -3234,6 +3238,7 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 840	troubleshooting.javascript.q1.yes	<p>JavaScript <strong>IS</strong> enabled.</p>	2009-09-01 01:39:59.768	2009-09-01 01:40:21.8	1
 838	troubleshooting.javascript.notify	If you can''t solve your problem here, please notify us by email at the following address: {0}.	2009-09-01 01:36:15.385	2009-09-01 02:41:08.035	1
 837	troubleshooting.javascript.notJava	JavaScript is completely different than Sun Microsystems'' Java Web Start that we use on our simulations. For assistance with Sun Microsystems'' Java, <a {0}>go here</a>.	2009-09-01 01:35:48.665	2009-09-01 02:41:18.006	1
+1053	footer.someRightsReserved	@footer.someRightsReserved@	2009-09-03 13:20:28.773	2009-09-03 13:20:28.773	3
 842	troubleshooting.javascript.q1.title	Is JavaScript enabled on my browser?	2009-09-01 01:53:18.343	2009-09-01 01:53:18.343	1
 843	troubleshooting.javascript.q2.title	Why is JavaScript needed?	2009-09-01 01:53:41.85	2009-09-01 02:15:04.37	1
 844	troubleshooting.javascript.q3.title	How do I enable JavaScript on Firefox?	2009-09-01 02:15:17.275	2009-09-01 02:15:17.275	1
@@ -3243,8 +3248,16 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 848	troubleshooting.javascript.q3.answer	<ol><li>Go to the "Edit" menu and select "Preferences"</li><li>Select the "Content" tab at the top of the Preferences window</li><li>Make sure the "Enable JavaScript" checkbox is checked</li><li>Reload this page, and see <a {0}>question 1</a></li></ol>	2009-09-01 02:19:23.196	2009-09-01 02:19:23.196	1
 849	troubleshooting.javascript.q4.answer	<ol><li>Go to the <strong>Tools</strong> menu and select <strong>Internet Options...</strong></li><li>Select the <strong>Security</strong> tab</li><li>Select on the <strong>Custom Level...</strong> button</li><li>Scroll down until you see <strong>Active Scripting</strong> under the <strong>Scripting</strong>heading</li><li>Make sure that it is set to <strong>Enabled</strong></li><li>You may be asked if you are sure <em>you want change the security settings for this zone.</em> You will want to select the <strong>Yes</strong> button</li><li>Select the <strong>OK</strong> button on the original <strong>Internet Options</strong> window</li><li>Reload the page (you can check if it worked by reading <a {0}>this question</a>)</li></ol>	2009-09-01 02:23:24.623	2009-09-01 02:23:24.623	1
 850	troubleshooting.javascript.q5.answer	<ol><li>Select Preferences from the Safari menu.</li><li>Click Security.</li><li>Check Enable JavaScript.</li><li>Close the window.</li><li>Click Reload.</li></ol>	2009-09-01 02:23:46.429	2009-09-01 02:23:46.429	1
+1059	simulationMainPanel.thanksTo	Thanks To	2009-09-03 15:31:55.46	2009-09-03 15:31:56.771	1
 709	nav.sponsors	Sponsors	2009-08-31 20:04:14.363	2009-08-31 20:04:14.363	1
+533	troubleshooting.main.q13.answer	@troubleshooting.main.q13.answer@	2009-08-31 14:19:49.07	2009-08-31 14:19:49.07	3
 710	sponsors.title	PhET Sponsors	2009-08-31 20:04:26.799	2009-08-31 20:04:26.799	1
+534	troubleshooting.main.licensingRequirements	@troubleshooting.main.licensingRequirements@	2009-08-31 14:19:51.99	2009-08-31 14:19:51.99	3
+527	troubleshooting.main.q10.answer	@troubleshooting.main.q10.answer@	2009-08-31 14:19:34.268	2009-08-31 14:20:10.145	3
+537	keyword.acCircuits	@keyword.acCircuits@	2009-08-31 14:22:54.374	2009-08-31 14:22:54.374	3
+538	keyword.acceleration	@keyword.acceleration@	2009-08-31 14:22:56.987	2009-08-31 14:22:56.987	3
+539	keyword.activationEnergy	@keyword.activationEnergy@	2009-08-31 14:23:00.078	2009-08-31 14:23:00.078	3
+540	keyword.airResistance	@keyword.airResistance@	2009-08-31 14:23:03.131	2009-08-31 14:23:03.131	3
 878	home.oneAtATime	في وقت واحد	2009-09-03 10:45:56.788	2009-09-03 10:45:56.788	4
 879	home.teacherIdeasAndActivities	المعلم الأفكار والنشاطا	2009-09-03 10:46:05.404	2009-09-03 10:46:05.404	4
 880	home.workshops	حلقات العمل	2009-09-03 10:46:13.826	2009-09-03 10:46:13.826	4
@@ -3252,6 +3265,25 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 882	home.supportPhet	PhET الدعم	2009-09-03 10:46:35.008	2009-09-03 10:46:35.008	4
 883	home.translateSimulations	ترجمة المحاكاة	2009-09-03 10:46:46.243	2009-09-03 10:46:46.243	4
 884	home.browseSims	استعرض سيمز	2009-09-03 10:46:55.144	2009-09-03 10:46:55.144	4
+541	keyword.algebra	@keyword.algebra@	2009-08-31 14:23:05.421	2009-08-31 14:23:05.421	3
+674	keyword.linearMotion	@keyword.linearMotion@	2009-08-31 14:57:30.825	2009-08-31 14:57:30.825	3
+675	keyword.longitudinalWaves	@keyword.longitudinalWaves@	2009-08-31 14:57:34.349	2009-08-31 14:57:34.349	3
+676	keyword.magneticField	@keyword.magneticField@	2009-08-31 14:57:38.937	2009-08-31 14:57:38.937	3
+677	keyword.magneticMoment	@keyword.magneticMoment@	2009-08-31 14:57:42.765	2009-08-31 14:57:42.765	3
+678	keyword.magnetism	@keyword.magnetism@	2009-08-31 14:57:45.893	2009-08-31 14:57:45.893	3
+679	keyword.magnets	@keyword.magnets@	2009-08-31 14:57:50	2009-08-31 14:57:50	3
+680	about.p1	@about.p1@	2009-08-31 14:57:56.527	2009-08-31 14:57:56.527	3
+681	about.p2	@about.p2@	2009-08-31 14:57:58.798	2009-08-31 14:57:58.798	3
+682	about.p3	@about.p3@	2009-08-31 14:58:01.086	2009-08-31 14:58:01.086	3
+683	about.p4	@about.p4@	2009-08-31 14:58:03.941	2009-08-31 14:58:03.941	3
+684	home.title	@home.title@	2009-08-31 14:58:08.464	2009-08-31 14:58:08.464	3
+685	simulationPage.title	@simulationPage.title@	2009-08-31 14:58:12.027	2009-08-31 14:58:12.027	3
+686	simulationDisplay.title	@simulationDisplay.title@	2009-08-31 14:58:14.465	2009-08-31 14:58:14.465	3
+687	about.title	@about.title@	2009-08-31 14:58:16.919	2009-08-31 14:58:16.919	3
+688	about.source-code.title	@about.source-code.title@	2009-08-31 14:58:19.166	2009-08-31 14:58:19.166	3
+689	about.contact.title	@about.contact.title@	2009-08-31 14:58:22.712	2009-08-31 14:58:22.712	3
+690	about.who-we-are.title	@about.who-we-are.title@	2009-08-31 14:58:24.724	2009-08-31 14:58:24.724	3
+691	about.licensing.title	@about.licensing.title@	2009-08-31 14:58:27.206	2009-08-31 14:58:27.206	3
 885	home.simulations	المحاكاة	2009-09-03 10:47:03.361	2009-09-03 10:47:03.361	4
 886	nav.home	منزل	2009-09-03 10:47:33.133	2009-09-03 10:47:33.133	4
 887	nav.simulations	المحاكاة	2009-09-03 10:47:39.228	2009-09-03 10:47:39.228	4
@@ -3277,6 +3309,12 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 711	keyword.sun	Sun	2009-08-31 20:55:52.066	2009-08-31 20:55:52.066	1
 712	keyword.switches	Switches	2009-08-31 20:58:55.33	2009-08-31 20:58:55.33	1
 713	keyword.acVoltage	AC Voltage	2009-08-31 20:59:32.861	2009-08-31 20:59:32.861	1
+1060	simulationMainPanel.language	Language	2009-09-03 15:52:50.58	2009-09-03 15:52:50.58	1
+1061	simulationMainPanel.languageTranslated	Language (Translated)	2009-09-03 15:53:02.934	2009-09-03 15:53:02.934	1
+1062	simulationMainPanel.simulationTitleTranslated	Simulation Title (Translated)	2009-09-03 15:53:11.797	2009-09-03 15:53:11.797	1
+692	workshops.title	@workshops.title@	2009-08-31 14:58:29.565	2009-08-31 14:58:29.565	3
+694	get-phet.title	@get-phet.title@	2009-08-31 14:58:34.294	2009-08-31 14:58:34.294	3
+542	keyword.alternatingCurrent	@keyword.alternatingCurrent@	2009-08-31 14:23:08.542	2009-08-31 14:23:08.542	3
 907	nav.get-phet	لدينا تشغيل المحاكاة	2009-09-03 10:50:59.481	2009-09-03 10:50:59.481	4
 908	nav.get-phet.on-line	على الانترن	2009-09-03 10:51:08.403	2009-09-03 10:51:08.403	4
 909	nav.get-phet.full-install	التثبيت الكامل	2009-09-03 10:51:18.07	2009-09-03 10:51:18.07	4
@@ -3318,6 +3356,7 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 738	keyword.alphaParticles	Alpha Particles	2009-08-31 21:33:20.743	2009-08-31 21:33:20.743	1
 739	keyword.signalCircuits	Signal Circuits	2009-08-31 21:35:35.057	2009-08-31 21:35:35.057	1
 919	nav.about.contact	جهة اتصال	2009-09-03 10:52:30.719	2009-09-03 10:52:30.719	4
+543	keyword.ammeter	@keyword.ammeter@	2009-08-31 14:39:05.771	2009-08-31 14:39:05.771	3
 920	nav.about.who-we-are	من نحن	2009-09-03 10:52:38.623	2009-09-03 10:52:38.623	4
 921	nav.about.licensing	الترخيص	2009-09-03 10:52:46.145	2009-09-03 10:52:46.145	4
 922	nav.sponsors	مقدمو	2009-09-03 10:52:54.721	2009-09-03 10:52:54.721	4
@@ -3371,109 +3410,22 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 949	troubleshooting.main.q1.title	لماذا يمكنني تشغيل بعض من عمليات المحاكاة ولكن ليس كلها؟	2009-09-03 11:07:44.534	2009-09-03 11:07:44.534	4
 951	troubleshooting.main.q2.title	ما هي متطلبات النظام لتشغيل محاكيات PhET؟	2009-09-03 11:08:38.67	2009-09-03 11:08:38.67	4
 1033	sponsors.bitrock.desc	For providing for our installer builder	2009-09-03 12:51:39.675	2009-09-03 12:51:39.675	1
+1063	simulationMainPanel.softwareRequirements	@simulationMainPanel.softwareRequirements@	2009-09-03 16:14:57.512	2009-09-03 16:14:57.512	3
+1064	simulationMainPanel.sampleLearningGoals	@simulationMainPanel.sampleLearningGoals@	2009-09-03 16:15:00.102	2009-09-03 16:15:00.102	3
+1065	simulationMainPanel.credits	@simulationMainPanel.credits@	2009-09-03 16:15:02.092	2009-09-03 16:15:02.092	3
+740	sponsors.title	@sponsors.title@	2009-08-31 23:40:21.203	2009-08-31 23:40:21.203	3
+1066	simulationMainPanel.language	@simulationMainPanel.language@	2009-09-03 16:15:03.865	2009-09-03 16:15:03.865	3
+1067	simulationMainPanel.languageTranslated	@simulationMainPanel.languageTranslated@	2009-09-03 16:15:05.543	2009-09-03 16:15:05.543	3
 812	keyword.monochromatic	@keyword.monochromatic@	2009-09-01 01:12:31.227	2009-09-01 01:12:31.227	3
+1068	simulationMainPanel.simulationTitleTranslated	@simulationMainPanel.simulationTitleTranslated@	2009-09-03 16:15:07.58	2009-09-03 16:15:07.58	3
+1069	simulationMainPanel.designTeam	@simulationMainPanel.designTeam@	2009-09-03 16:15:09.599	2009-09-03 16:15:09.599	3
+1070	simulationMainPanel.thirdPartyLibraries	@simulationMainPanel.thirdPartyLibraries@	2009-09-03 16:15:12.426	2009-09-03 16:15:12.426	3
+1071	simulationMainPanel.thanksTo	@simulationMainPanel.thanksTo@	2009-09-03 16:15:14.909	2009-09-03 16:15:14.909	3
+1072	contribute.financialContributions	@contribute.financialContributions@	2009-09-03 16:15:20.506	2009-09-03 16:15:20.506	3
+1073	contribute.main	@contribute.main@	2009-09-03 16:15:23.119	2009-09-03 16:15:23.119	3
+1074	contribute.thanks	@contribute.thanks@	2009-09-03 16:15:24.953	2009-09-03 16:15:24.953	3
+1075	keyword.photonBeams	@keyword.photonBeams@	2009-09-03 16:15:40.623	2009-09-03 16:15:40.623	3
 470	nav.math	@nav.math@	2009-08-31 14:15:29.188	2009-08-31 14:15:29.188	3
-952	troubleshooting.main.q4.title	كنت تستخدم انترنت اكسبلورر والمحاكاة لا تعمل على جهاز الكمبيوتر الخاص بي.	2009-09-03 11:08:45.411	2009-09-03 11:08:45.411	4
-953	troubleshooting.main.q5.title	لماذا لا يتم تشغيل فلاش محاكاة على الكمبيوتر؟	2009-09-03 11:08:48.148	2009-09-03 11:08:48.148	4
-954	troubleshooting.main.q6.title	ما هو المثل الأعلى دقة الشاشة لتشغيل محاكيات PhET؟	2009-09-03 11:08:50.511	2009-09-03 11:08:50.511	4
-955	troubleshooting.main.q7.title	لقد ويندوز 2000 ويمكن تشغيل محاكيات فلاش وجافا ولكن المحاكاة لا تعمل.	2009-09-03 11:08:53.415	2009-09-03 11:08:53.415	4
-956	troubleshooting.main.q8.title	لماذا لا يعمل بشكل أبطأ PhET محاكاة على الكمبيوتر المحمول من على سطح المكتب؟	2009-09-03 11:08:56.148	2009-09-03 11:08:56.148	4
-957	troubleshooting.main.q9.title	لماذا لا تعطل جهاز الكمبيوتر الخاص بي عندما أقوم بتشغيل واحدة من عمليات المحاكاة التي الصوت؟	2009-09-03 11:08:58.711	2009-09-03 11:08:58.711	4
-958	troubleshooting.main.q10.title	وأود أن تترجم PhET المحاكاة الى لغات اخرى. وهذا يمكن القيام به بسهولة؟	2009-09-03 11:09:02.549	2009-09-03 11:09:02.549	4
-959	troubleshooting.main.q11.title	لقد تم تحميل وتثبيت موقع PhET دون المثبت ، وأحصل على إنذار على كل صفحة. لماذا؟	2009-09-03 11:09:04.763	2009-09-03 11:09:04.763	4
-1034	sponsors.royalinteractive.desc	For original site concept	2009-09-03 12:52:11.04	2009-09-03 12:52:11.04	1
-1035	sponsors.dynamicalSystems.desc	For providing one of their tutorials	2009-09-03 12:52:50.087	2009-09-03 12:52:50.087	1
-704	about.source-code.header	@about.source-code.header@	2009-08-31 16:37:48.847	2009-08-31 18:20:19.651	3
-585	keyword.conductivity	@keyword.conductivity@	2009-08-31 14:41:38.736	2009-08-31 14:41:38.736	3
-706	about.source-code.flash-simulations	@about.source-code.flash-simulations@	2009-08-31 16:37:58.454	2009-09-01 01:18:39.255	3
-441	home.header	@home.header@	2009-08-31 14:13:34.21	2009-08-31 14:13:34.21	3
-702	about.source-code.location	The source code for all PhET simulations is hosted at <a {0}>Unfuddle</a> (login with username: guest and password: guest). The latest version can always be found there. To checkout the source code, you will need a Subversion client such as <a {1}>TortoiseSVN</a> (Windows-only) or <a {2}>SmartSVN</a> (all platforms), or a command-line client. To checkout the source code for all of PhET's Java simulations using a command-line client, use the following command:	2009-08-31 15:28:43.142	2009-08-31 18:27:04.021	1
-703	about.source-code.flash-simulations	To checkout the source code for all of PhET's Flash simulations, replace "simulations-java" with "simulations-flash" in the above command.	2009-08-31 15:30:00.02	2009-08-31 18:27:36.059	1
-750	get-phet.one-at-a-time.downloadingSims	You may copy the simulation to any place on your computer. You may also copy the simulation to a CD-ROM Drive, USB Drive, or shared network location.	2009-09-01 00:20:51.729	2009-09-01 00:20:51.729	1
-751	get-phet.one-at-a-time.runningSims	Click on the name of any simulation to download the simulation to your computer. To run the simulation, double-click it. If you have difficulties, please see our <a {0}>technical support</a> page.	2009-09-01 00:22:55.028	2009-09-01 00:22:55.028	1
-960	troubleshooting.main.q12.title	عند تشغيل محاكيات من دون PhET موقع المثبت ، وأنا رؤية الحوار الذي يقول &quot;إن تطبيق التوقيع الرقمي قد تحققت. هل تريد تشغيل التطبيق؟&quot; (أو ما شابه). ماذا يعني هذا؟	2009-09-03 11:09:08.88	2009-09-03 11:09:20.607	4
-701	about.source-code.header	Where can I get the source code for the PhET simulations?	2009-08-31 15:25:46.913	2009-08-31 15:25:46.913	1
-961	troubleshooting.main.q13.title	(مستخدمي ماك) عندما أقوم بالنقر فوق &quot;تشغيل الآن&quot; لبدء محاكاة كل ما نحصل عليه هو أن يفتح ملف نصي؟	2009-09-03 11:09:25.98	2009-09-03 11:09:34.023	4
-962	troubleshooting.main.licensingRequirements	ما هي متطلبات الترخيص؟	2009-09-03 11:09:37.483	2009-09-03 11:09:37.483	4
-963	troubleshooting.java.intro	PhET جاوة القائم على المحاكاة استخدام صن مايكروسيستمز 'جافا ويب ستارت لإطلاق تكنولوجيا المحاكاة. هذه الصفحة سوف تساعدك على ضمان أن يكون لديك جافا مثبتة بشكل صحيح ، ومعالجة بعض المشاكل التي تشغل الناس قد يكون لدينا برامج. إذا كنت لا تستطيع حل مشكلتك هنا ، يرجى إعلامنا عن طريق البريد الالكتروني على العنوان التال <a {0}><span class="red">phethelp@colorado.edu</span></a>.	2009-09-03 11:10:05.298	2009-09-03 11:10:05.298	4
-964	troubleshooting.java.faqs	أسئلة وأجوبة	2009-09-03 11:10:22.524	2009-09-03 11:10:22.524	4
-965	troubleshooting.java.q1.title	(مستخدمي أجهزة ماكنتوش) عندما أقوم بالنقر فوق &quot;تشغيل الآن&quot; لبدء محاكاة كل ما نحصل عليه هو أن يفتح ملف نصي؟	2009-09-03 11:10:25.496	2009-09-03 11:10:34.599	4
-966	troubleshooting.java.q2.title	كيف يمكنني الحصول على جافا؟	2009-09-03 11:10:37.663	2009-09-03 11:10:37.663	4
-967	troubleshooting.java.q3.title	لماذا استخدام جافا ويب ستارت بدلا من جافا؟	2009-09-03 11:10:40.472	2009-09-03 11:10:40.472	4
-968	troubleshooting.java.q4.title	هل هناك أي مشاكل في تشغيل المحاكاة على ماك؟	2009-09-03 11:10:42.748	2009-09-03 11:10:42.748	4
-708	sponsors.otherSponsors	@sponsors.otherSponsors@	2009-08-31 19:25:15.689	2009-08-31 19:25:33.756	3
-752	troubleshooting.java.intro	PhET's Java-based simulations use Sun Microsystems' Java Web Start technology to launch the simulations. This page will help you ensure that you have Java installed properly, and address some of the problems people might have running our programs. If you can't solve your problem here, please notify us by email at the following address: <a {0}><span class="red">phethelp@colorado.edu</span></a>.	2009-09-01 00:34:04.883	2009-09-01 00:34:04.883	1
-753	troubleshooting.java.q1.title	(Mac users) When I click "run now" to start the simulation all I get is a text file that opens?	2009-09-01 00:37:43.557	2009-09-01 00:37:43.557	1
-754	troubleshooting.java.q2.title	How do I get Java?	2009-09-01 00:38:23.297	2009-09-01 00:38:23.297	1
-755	troubleshooting.java.q3.title	Why do you use Java Web Start instead of Java?	2009-09-01 00:39:11.115	2009-09-01 00:39:11.115	1
-756	troubleshooting.java.q4.title	Are there any problems running the simulations on a Mac?	2009-09-01 00:39:19.461	2009-09-01 00:39:19.461	1
-757	troubleshooting.java.q5.title	How do I check my computer's current version of Java?	2009-09-01 00:39:45.162	2009-09-01 00:39:45.162	1
-758	troubleshooting.java.q6.title	I have Windows 2000 and I can only get the Flash based simulations to work.	2009-09-01 00:39:52.882	2009-09-01 00:39:52.882	1
-759	troubleshooting.java.q7.title	General Java troubleshooting	2009-09-01 00:40:01.158	2009-09-01 00:40:01.158	1
-760	troubleshooting.java.q8.title	Troubleshooting tips for networked computers	2009-09-01 00:40:08.334	2009-09-01 00:40:08.334	1
-761	troubleshooting.java.q1.answer	<p>{0} This problem will affect mac users who recently installed Apple's "Java for Mac OS X 10.5 Update 4". The update will typically be done via Software Update, or automatically. After installing this update, the problem appears: clicking on JNLP files in Safari or FireFox caused the JNLP file to open in TextEdit, instead of starting Java Web Start.</p><p>The fix is:<br/>1. Go to http://support.apple.com/downloads/Java_for_Mac_OS_X_10_5_Update_4<br/>2. Click Download to download a .dmg file<br/>3. When the .dmg has downloaded, double-click on it (if it doesn't mount automatically)<br/>4. Quit all applications<br/>5. Run the update installer</p>	2009-09-01 00:44:20.655	2009-09-01 00:46:41.035	1
-762	troubleshooting.java.q2.answer	<p>To run the Java-based simulations you must have Java version 1.5 or higher installed on your computer. You can obtain the free downloads by clicking on the button below:<br/>{0}</p><p><strong>Note for Netscape Users</strong></p><p>After you have installed Java Web Start, you will need to close and re-open your browser for Java Web Start to work.</p>	2009-09-01 00:52:48.664	2009-09-01 00:52:48.664	1
-763	troubleshooting.java.q3.answer	<p>We use Java Web Start technology rather than Java Applets. Java Web Start, which is a free mechanism from Sun, is a more robust way of launching Java programs over the Web than applets. If you have had problems running applets in the past, you may well find that Java Web Start works much better. If you should have any problems, we will be happy to help you solve them. If the information on this page doesnít help, just send us email at {0}.</p>	2009-09-01 00:53:21.054	2009-09-01 00:53:21.054	1
-764	troubleshooting.java.q4.answer	<p>Macintosh OS X 10.4 or higher is required to run our Java programs. You must have the latest version of Java (which will already be installed if you are using the auto-update feature of OS X). See {0} for details.</p><p>Versions of Apple's Safari browser below 2.0 (included with OS X 10.4) do not launch our Java-based applications reliably.</p><p>If when you click "Run Now" to start a simulation and all you get is a text file that opens, see <a {1}>this answer</a>.</p>	2009-09-01 00:55:21.501	2009-09-01 00:55:21.501	1
-765	troubleshooting.java.q5.answer	<p><strong><em>Windows Vista users:</em></strong><br/>From a command line (Start&nbsp;menu-&gt;All&nbsp;Programs-&gt;Accessories-&gt;Command&nbsp;Prompt), type: <strong>javaws&nbsp;-viewer</strong> followed by the enter key. You should see some text which will include something like "(build 1.4.2_05_05-b04)"; this number is the version of Java you are using. If you receive an error, Java is not properly installed (see above to reinstall).</p><p><strong><em>Windows 98SE/2000/XP users:</em></strong><br/>From a command line (Start&nbsp;menu-&gt;All&nbsp;Programs-&gt;Accessories-&gt;Command&nbsp;Prompt), type: <strong>java&nbsp;-version</strong> followed by the enter key. You should see some text which will include something like "(build 1.4.2_05_05-b04)"; this number is the version of Java you are using. If you receive an error, Java is not properly installed (see above to reinstall).</p><p><strong><em>Macintosh users:</em></strong><br/>From the Apple menu, click on "About this Mac", then on "More Info...". You will find the Java software version under "Software-&gt;Applications".</p>	2009-09-01 00:57:19.556	2009-09-01 00:57:19.556	1
-766	troubleshooting.java.q6.answer	<p>Some Windows 2000 systems have been reported to lack part of the necessary Java configuration. These systems will typically start our Flash-based simulations reliably, but will appear to do nothing when launching our Java-based simulations.</p><p><strong>To resolve this situation, please perform the following steps:</strong></p><ol><li>From the desktop or start menu, open "My Computer"</li><li>Click on the "Folder Options" item in the "Tools" menu</li><li>Click on the "File Types" tab at the top of the window that appears</li><li>Locate "JNLP" in the "extensions" column, and click once on it to select the item</li><li>Click on the "change" button</li><li>When asked to choose which program to use to open JNLP files, select "Browse"</li><li>Locate the program "javaws" or "javaws.exe" in your Java installation folder (typically "C:\\Program Files\\Java\\j2re1.xxxx\\javaws", where "xxxx" is a series of numbers indicating the software version; choose the latest version)</li><li>Select the program file and then click "Open" to use the "javaws" program to open JNLP files.</li></ol>	2009-09-01 00:58:52.394	2009-09-01 00:58:52.394	1
-767	troubleshooting.java.q7.answer	<p>The following are some general steps that you may wish to perform when attempting to solve Java-related problems:</p><ul><li><strong>Empty Your Browser's Cache</strong><br/><table><thead><tr><td>Internet Explorer</td><td>Firefox</td></tr></thead><tbody><tr><td>Select "Tools-&gt;Options", then click on the "Delete Files..." button under "Temporary Internet Files"</td><td>Select "Tools-&gt;Options-&gt;Privacy", then click the "Clear" button next to "Cache".</td></tr></tbody></table></li><li><strong>Empty Java Web Start's Cache</strong><br/>From Windows' Start menu, select "Java Web Start", then select "Preferences" from the File menu. Click "Advanced", then click the "Clear Folder" button.</li><li><strong>Make Sure Windows can find Java and Java Web Start</strong><br/>From a command line (Start menu-&gt;Accessories-&gt;Command Prompt), type <em>java -version</em>followed by the enter key. If you receive an error, Java is not properly installed. Please try reinstalling Java (see above) after uninstalling any Java entries in your list of installed programs (Control Panel -&gt;Add/Remove Programs).</li></ul>	2009-09-01 01:00:17.961	2009-09-01 01:00:17.961	1
-969	troubleshooting.java.q5.title	كيف يمكنني التحقق من جهاز الكمبيوتر الخاص بي في الإصدار الحالي من جافا؟	2009-09-03 11:10:45.78	2009-09-03 11:10:45.78	4
-970	troubleshooting.java.q6.title	لقد ويندوز 2000 وأنا لا يمكن إلا أن الحصول على محاكاة تستند فلاش للعمل.	2009-09-03 11:10:49.918	2009-09-03 11:10:49.918	4
-768	troubleshooting.java.q8.answer	<p><strong>Why do simulations run for admin but not all users?</strong></p><p>Java simulations may also fail to start on networked computers running Windows for some users while running properly for administrators. When Java Web Start tries to launch a simulation, it attempts to cache certain files in a "cache folder". This folder (or "directory") is determined when Java is installed, and may point to a folder that non-administrator accounts do not have access to, resulting in a launch failure. Correct this problem by setting the cache directory to one of your own choosing: Log on as an administrator.</p><p>Launch the Java Web Start Application Manager. This can be done in one of two ways. a) If the Java installation placed an icon either on your desktop or in the Start Menu -&gt; All Programs list titled "Java Web Start", click it to start the application. b) Use the Windows search function (located in the Start Menu) to search for the program "javaws.exe". Once it is found, click on the file to run the application. Once the Java Web Start Application Manager is up and running, choose File&gt;Preferences. In the Preferences dialog that appears, click on the Advanced tab. In this tab, you will find a text field labeled "Applications Folder". In this text field, put the name of an empty directory to which all users have write privileges. Note: This directory MUST be empty. All users should now be able to launch the Java simulations.</p><p><strong>Issue 3: Web Proxy Settings</strong><br/>Java simulations may fail to start if the proxy settings in Java Web Start's configuration panel (Start Menu-&gt;Java Web Start, File Menu-&gt;Preferences) do not match those your system is currently using. To identify settings being used on your system, see your web browser's proxy settings, or contact you network administrator.</p><p><strong>Local Install on Boot Drive Only</strong><br/>If you are operating in a networked environment, please ensure that both Java and the PhET simulations (if installed locally rather than running from our web site) are installed on local, non-networked drives. The PhET simulations must be installed on the boot drive.</p><p><strong>Network Firewalls</strong><br/>Please ensure that your firewall is configured to allow both Java and Java Web Start to communicate through the firewall.</p>	2009-09-01 01:01:45.087	2009-09-01 01:01:45.087	1
-971	troubleshooting.java.q7.title	عموما جافا مخرج	2009-09-03 11:10:53.282	2009-09-03 11:10:53.282	4
-972	troubleshooting.java.q8.title	نصائح للمخرج شبكات الكمبيوتر	2009-09-03 11:10:55.773	2009-09-03 11:10:55.773	4
-973	troubleshooting.flash.toRun	فلاش لتشغيل نماذج المحاكاة التي تعتمد عليك ماكروميديا فلاش 8 (متاحة مجانا) أو أحدث مثبتا على جهاز الكمبيوتر.	2009-09-03 11:11:08.411	2009-09-03 11:11:08.411	4
-974	troubleshooting.flash.blankWindow	إذا كنت تحصل على نافذة فارغة عند محاولة اطلاق محاكاة فلاش ، وربما كنت بحاجة لنسخة جديدة من مشغل فلاش.	2009-09-03 11:11:10.5	2009-09-03 11:11:10.5	4
-975	troubleshooting.flash.olderVersions	الإصدارات القديمة من فلاش لاعب يمكن أن يسبب مشاكل. تحديث مشغل فلاش بك يوصى إذا كنت تتلقى خطأ مشابهة إلى ما يلي :	2009-09-03 11:11:12.076	2009-09-03 11:11:12.076	4
-976	troubleshooting.flash.intro	هذه الصفحة سوف تساعدك على حل بعض مشاكل الناس عادة يكون لدينا برامج تشغيل. إذا كنت لا تستطيع حل مشكلتك هنا ، يرجى إعلامنا عن طريق البريد الالكتروني على العنوان التالي <a href="mailto:phethelp@colorado.edu"><span class="red">phethelp@colorado.edu</span></a>.	2009-09-03 11:11:32.674	2009-09-03 11:11:32.674	4
-977	troubleshooting.javascript.intro	جافا سكريبت هي لغة البرمجة التي تستخدم في الغالب في صفحات الويب ، وعادة ما يكون لإضافة الميزات التي تجعل من صفحة الويب أكثر تفاعلا. مطلوب جافا سكريبت لتقديم معلومات إلى PhET.	2009-09-03 11:11:39.565	2009-09-03 11:11:39.565	4
-978	troubleshooting.javascript.notJava	جافا سكريبت هي مختلفة تماما عن شركة صن مايكروسيستمز جافا ويب ستارت التي نحن على استخدام المحاكاة. للحصول على المساعدة مع شركة صن مايكروسيستمز Java, <a {0}>اذهب هنا</a>.	2009-09-03 11:12:03.164	2009-09-03 11:12:15.777	4
-979	troubleshooting.javascript.notify	إذا كنت لا تستطيع حل مشكلتك هنا ، يرجى إعلامنا عن طريق البريد الالكتروني على العنوان التالي {0}.	2009-09-03 11:12:35.051	2009-09-03 11:12:35.051	4
-980	troubleshooting.javascript.faqs	أسئلة وأجوبة	2009-09-03 11:12:38.523	2009-09-03 11:12:38.523	4
-981	troubleshooting.javascript.q1.title	هو سكريبت في المتصفح الخاص بي؟	2009-09-03 11:12:40.744	2009-09-03 11:12:40.744	4
-982	troubleshooting.javascript.q2.title	لماذا جافا سكريبت هو المطلوب؟	2009-09-03 11:12:46.167	2009-09-03 11:12:46.167	4
-983	troubleshooting.javascript.q3.title	كيف يمكنني تمكين جافا سكريبت على فايرفوكس؟	2009-09-03 11:12:47.548	2009-09-03 11:12:47.548	4
-984	troubleshooting.javascript.q4.title	كيف يمكنني تمكين جافا سكريبت في إنترنت إكسبلورر؟	2009-09-03 11:12:50.222	2009-09-03 11:12:50.222	4
-985	troubleshooting.javascript.q5.title	كيف يمكنني تمكين جافا سكريبت على سفري؟	2009-09-03 11:12:54.29	2009-09-03 11:12:54.29	4
-655	keyword.inductor	@keyword.inductor@	2009-08-31 14:56:17.936	2009-08-31 14:56:17.936	3
-656	keyword.infrared	@keyword.infrared@	2009-08-31 14:56:22.097	2009-08-31 14:56:22.097	3
-986	about.p2	من أجل مساعدة الطلاب على فهم هذه المفاهيم بصريا ، PhET محاكاة تحريك ما هو غير مرئية للعين من خلال استخدام الرسومات وضوابط بديهية مثل النقر والسحب والتلاعب ، والمتزلجون وأزرار الراديو. من أجل مزيد من تشجيع التنقيب عن الكمية ، وعمليات المحاكاة كما تقدم أدوات القياس بما في ذلك الحكام وتوقف watchs ، الفولتميترات والحرارة. كمستخدم تعالج هذه الأدوات التفاعلية ، والاستجابات على الفور الرسوم المتحركة بشكل فعال مما يوضح السبب والآثار ، فضلا عن العلاقات تمثيلات مرتبطة متعددة (الحركة من الأشياء ، والرسوم البيانية ، وقراءات عدة ، الخ..).	2009-09-03 11:13:16.004	2009-09-03 11:13:16.004	4
-989	about.p4	جميع المحاكاة PhET هي متاحة بحرية من <a {0}> PhET الموقع </a> وتعتبر سهلة الاستخدام إدراج في الصفوف الدراسية. أنها مكتوبة باللغة <a {1}> جافا </a> و <a {2}> فلاش </a> ، ويمكن تشغيلها باستخدام متصفح الإنترنت القياسية طالما <a {2}> فلاش </a> و <a {1}> جافا </a> يتم تثبيتها.	2009-09-03 11:15:21.528	2009-09-03 11:16:37.496	4
-990	about.source-code.header	أين يمكنني الحصول على شفرة المصدر لمحاكاة PhET؟	2009-09-03 11:16:42.517	2009-09-03 11:16:42.517	4
-987	about.p1	PhET المحاكاة التفاعلية هو جهد مستمر لتوفير مجموعة واسعة من عمليات المحاكاة لتحسين الطريقة التي الفيزياء والكيمياء والبيولوجيا وعلوم الأرض والرياضيات وتعليمه وتعلمها. أل <a {0}> المحاكاة </a> هي الأدوات التفاعلية التي تمكن الطلبة من إجراء اتصالات بين ظواهر الحياة الحقيقية والكامنة وراء العلم الذي يفسر هذه الظواهر. لدينا فريق من العلماء والمهندسين والبرمجيات ومدرسي العلوم استخدام <a {1}> البحوث النهج القائم </a> -- إدماج النتائج المستخلصة من البحوث السابقة وتجاربنا الخاصة -- لخلق المحاكاة التي تدعم التعامل مع الطلاب وفهم المفاهيم العلمية.	2009-09-03 11:13:44.758	2009-09-03 11:14:12.153	4
-988	about.p3	لضمان فعالية التعليم والاستخدام ، وجميع من محاكاة على نطاق واسع اختبارها وتقييمها. هذه التجارب تشمل مقابلات الطالب بالإضافة إلى الاستخدام الفعلي للمحاكاة في مجموعة متنوعة من البيئات ، بما في ذلك المحاضرات وفريق العمل ، والواجبات المنزلية والعمل في المعمل. ملكنا <a {0}> نظام التصنيف </a> ما يشير إلى مستوى الاختبار قد اكتملت على كل المحاكاة.	2009-09-03 11:14:24.896	2009-09-03 11:14:38.968	4
-994	simulationPage.title	{0} - {1}, {2}, {3} - PhET	2009-09-03 11:18:21.481	2009-09-03 11:18:21.481	4
-991	about.source-code.flash-simulations	اطلب الآن شفرة المصدر لجميع PhET لمحاكاة فلاش ، يستعاض عن عبارة &quot;المحاكاة - جافا&quot; مع &quot;المحاكاة فلاش&quot; في الأمر أعلاه.	2009-09-03 11:16:45.794	2009-09-03 11:17:02.534	4
-995	simulationDisplay.title	{0} - PhET Simulations	2009-09-03 11:18:34.969	2009-09-03 11:18:34.969	4
-992	about.source-code.location	شفرة المصدر لجميع عمليات المحاكاة PhET يتم استضافتها في <a {0}> Unfuddle </a> (اسم المستخدم : كلمة المرور والضيف : الضيف). ويمكن أن يكون دائما أحدث نسخة وجدت هناك. اطلب الآن شفرة المصدر ، سوف تحتاج إلى العميل مثل التخريب <a {1}> تورتويز إس </a> (ويندوز فقط) أو <a {2}> SmartSVN </a> (جميع المنابر) ، أو سطر الأوامر العميل. اطلب الآن شفرة المصدر لجميع من عمليات المحاكاة PhET جاوة باستخدام سطر الأوامر العميل ، استخدم الأمر التالي :	2009-09-03 11:17:25.695	2009-09-03 11:18:04.214	4
-993	home.title	PhET : مجاني على الانترنت الفيزياء والكيمياء والبيولوجيا وعلوم الارض والرياضيات المحاكاة	2009-09-03 11:18:11.227	2009-09-03 11:18:11.227	4
-996	about.title	حول PhET	2009-09-03 11:18:37.635	2009-09-03 11:18:37.635	4
-997	about.source-code.title	PhET المصدر مدونة	2009-09-03 11:18:38.795	2009-09-03 11:18:38.795	4
-998	about.contact.title	جهة اتصال	2009-09-03 11:18:39.8	2009-09-03 11:18:39.8	4
-999	about.who-we-are.title	من نحن	2009-09-03 11:18:42.49	2009-09-03 11:18:42.49	4
-1000	about.licensing.title	الترخيص	2009-09-03 11:18:43.237	2009-09-03 11:18:43.237	4
-1001	sponsors.title	PhET الرعاة	2009-09-03 11:18:44.077	2009-09-03 11:18:44.077	4
-1002	workshops.title	حلقات عمل عن طريق PhET -- كيفية تدريس والمحاكاة	2009-09-03 11:18:45.635	2009-09-03 11:18:45.635	4
-1003	contribute.title	المساهمة في PhET	2009-09-03 11:18:48.3	2009-09-03 11:18:48.3	4
-1004	get-phet.title	ثلاثة لدينا وسائل لتشغيل مجاني المحاكاة	2009-09-03 11:18:49.862	2009-09-03 11:18:49.862	4
-1005	get-phet.one-at-a-time.title	إطلاق PhET المحاكاة واحد في وقت	2009-09-03 11:18:50.706	2009-09-03 11:18:50.706	4
-1006	get-phet.full-install.title	PhET اتصال المثبت	2009-09-03 11:18:51.706	2009-09-03 11:18:51.706	4
-1007	research.title	بحث	2009-09-03 11:18:54.276	2009-09-03 11:18:54.276	4
-1008	troubleshooting.java.title	مخرج جافا	2009-09-03 11:18:55.235	2009-09-03 11:18:55.235	4
-1009	troubleshooting.flash.title	مخرج فلاش	2009-09-03 11:18:56.606	2009-09-03 11:18:56.606	4
-1010	troubleshooting.javascript.title	مخرج جافا سكريبت	2009-09-03 11:18:57.772	2009-09-03 11:18:57.772	4
-1011	keyword.1d	1D	2009-09-03 11:19:06.702	2009-09-03 11:19:06.702	4
-1012	keyword.absorption	الاستيعاب	2009-09-03 11:19:12.26	2009-09-03 11:19:12.26	4
-1013	keyword.acCircuits	دوائرالتيارالمتردد	2009-09-03 11:19:16.044	2009-09-03 11:19:16.044	4
-1014	keyword.acVoltage	جهد التيار المتناوب	2009-09-03 11:19:18.935	2009-09-03 11:19:18.935	4
-1015	keyword.acceleration	تسارع	2009-09-03 11:19:22.276	2009-09-03 11:19:22.276	4
-1016	keyword.acids	الأحماض	2009-09-03 11:19:26.27	2009-09-03 11:19:26.27	4
-770	get-phet.one-at-a-time.downloadingSims	@get-phet.one-at-a-time.downloadingSims@	2009-09-01 01:08:24.162	2009-09-01 01:08:24.162	3
-772	troubleshooting.java.intro	@troubleshooting.java.intro@	2009-09-01 01:09:04.462	2009-09-01 01:09:27.109	3
-773	troubleshooting.java.faqs	@troubleshooting.java.faqs@	2009-09-01 01:10:01.78	2009-09-01 01:10:01.78	3
-774	troubleshooting.java.q1.title	@troubleshooting.java.q1.title@	2009-09-01 01:10:03.238	2009-09-01 01:10:03.238	3
-586	keyword.concentration	@keyword.concentration@	2009-08-31 14:41:42.096	2009-08-31 14:41:42.096	3
 781	troubleshooting.java.q5.answer	@troubleshooting.java.q5.answer@	2009-09-01 01:10:12.896	2009-09-01 01:10:12.896	3
 782	troubleshooting.java.q6.title	@troubleshooting.java.q6.title@	2009-09-01 01:10:14.472	2009-09-01 01:10:14.472	3
 783	troubleshooting.java.q6.answer	@troubleshooting.java.q6.answer@	2009-09-01 01:10:15.3	2009-09-01 01:10:15.3	3
@@ -3535,11 +3487,13 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 617	keyword.ellipticalMotion	@keyword.ellipticalMotion@	2009-08-31 14:49:29.661	2009-08-31 14:49:29.661	3
 618	keyword.emission	@keyword.emission@	2009-08-31 14:49:32.379	2009-08-31 14:49:32.379	3
 619	keyword.energy	@keyword.energy@	2009-08-31 14:49:35.521	2009-08-31 14:49:35.521	3
+704	about.source-code.header	@about.source-code.header@	2009-08-31 16:37:48.847	2009-08-31 18:20:19.651	3
+585	keyword.conductivity	@keyword.conductivity@	2009-08-31 14:41:38.736	2009-08-31 14:41:38.736	3
+706	about.source-code.flash-simulations	@about.source-code.flash-simulations@	2009-08-31 16:37:58.454	2009-09-01 01:18:39.255	3
+441	home.header	@home.header@	2009-08-31 14:13:34.21	2009-08-31 14:13:34.21	3
 620	keyword.energyBand	@keyword.energyBand@	2009-08-31 14:49:38.456	2009-08-31 14:49:38.456	3
 621	keyword.energyGap	@keyword.energyGap@	2009-08-31 14:49:41.539	2009-08-31 14:49:41.539	3
 622	keyword.energyLevels	@keyword.energyLevels@	2009-08-31 14:49:44.477	2009-08-31 14:49:44.477	3
-1017	contribute.financialContributions	Financial Contributions	2009-09-03 12:29:21.388	2009-09-03 12:29:21.388	1
-625	keyword.estimation	@keyword.estimation@	2009-08-31 14:49:54.227	2009-08-31 14:49:54.227	3
 741	nav.sponsors	@nav.sponsors@	2009-08-31 23:40:34.721	2009-08-31 23:40:34.721	3
 813	keyword.moon	@keyword.moon@	2009-09-01 01:12:34.214	2009-09-01 01:12:34.214	3
 814	keyword.motion	@keyword.motion@	2009-09-01 01:12:37.417	2009-09-01 01:12:37.417	3
@@ -3592,6 +3546,21 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 807	keyword.molarity	@keyword.molarity@	2009-09-01 01:12:13.905	2009-09-01 01:12:13.905	3
 808	keyword.molecularMotors	@keyword.molecularMotors@	2009-09-01 01:12:17.534	2009-09-01 01:12:17.534	3
 809	keyword.molecules	@keyword.molecules@	2009-09-01 01:12:21.018	2009-09-01 01:12:21.018	3
+952	troubleshooting.main.q4.title	كنت تستخدم انترنت اكسبلورر والمحاكاة لا تعمل على جهاز الكمبيوتر الخاص بي.	2009-09-03 11:08:45.411	2009-09-03 11:08:45.411	4
+953	troubleshooting.main.q5.title	لماذا لا يتم تشغيل فلاش محاكاة على الكمبيوتر؟	2009-09-03 11:08:48.148	2009-09-03 11:08:48.148	4
+954	troubleshooting.main.q6.title	ما هو المثل الأعلى دقة الشاشة لتشغيل محاكيات PhET؟	2009-09-03 11:08:50.511	2009-09-03 11:08:50.511	4
+955	troubleshooting.main.q7.title	لقد ويندوز 2000 ويمكن تشغيل محاكيات فلاش وجافا ولكن المحاكاة لا تعمل.	2009-09-03 11:08:53.415	2009-09-03 11:08:53.415	4
+956	troubleshooting.main.q8.title	لماذا لا يعمل بشكل أبطأ PhET محاكاة على الكمبيوتر المحمول من على سطح المكتب؟	2009-09-03 11:08:56.148	2009-09-03 11:08:56.148	4
+957	troubleshooting.main.q9.title	لماذا لا تعطل جهاز الكمبيوتر الخاص بي عندما أقوم بتشغيل واحدة من عمليات المحاكاة التي الصوت؟	2009-09-03 11:08:58.711	2009-09-03 11:08:58.711	4
+958	troubleshooting.main.q10.title	وأود أن تترجم PhET المحاكاة الى لغات اخرى. وهذا يمكن القيام به بسهولة؟	2009-09-03 11:09:02.549	2009-09-03 11:09:02.549	4
+959	troubleshooting.main.q11.title	لقد تم تحميل وتثبيت موقع PhET دون المثبت ، وأحصل على إنذار على كل صفحة. لماذا؟	2009-09-03 11:09:04.763	2009-09-03 11:09:04.763	4
+1034	sponsors.royalinteractive.desc	For original site concept	2009-09-03 12:52:11.04	2009-09-03 12:52:11.04	1
+1035	sponsors.dynamicalSystems.desc	For providing one of their tutorials	2009-09-03 12:52:50.087	2009-09-03 12:52:50.087	1
+702	about.source-code.location	The source code for all PhET simulations is hosted at <a {0}>Unfuddle</a> (login with username: guest and password: guest). The latest version can always be found there. To checkout the source code, you will need a Subversion client such as <a {1}>TortoiseSVN</a> (Windows-only) or <a {2}>SmartSVN</a> (all platforms), or a command-line client. To checkout the source code for all of PhET's Java simulations using a command-line client, use the following command:	2009-08-31 15:28:43.142	2009-08-31 18:27:04.021	1
+703	about.source-code.flash-simulations	To checkout the source code for all of PhET's Flash simulations, replace "simulations-java" with "simulations-flash" in the above command.	2009-08-31 15:30:00.02	2009-08-31 18:27:36.059	1
+750	get-phet.one-at-a-time.downloadingSims	You may copy the simulation to any place on your computer. You may also copy the simulation to a CD-ROM Drive, USB Drive, or shared network location.	2009-09-01 00:20:51.729	2009-09-01 00:20:51.729	1
+751	get-phet.one-at-a-time.runningSims	Click on the name of any simulation to download the simulation to your computer. To run the simulation, double-click it. If you have difficulties, please see our <a {0}>technical support</a> page.	2009-09-01 00:22:55.028	2009-09-01 00:22:55.028	1
+708	sponsors.otherSponsors	@sponsors.otherSponsors@	2009-08-31 19:25:15.689	2009-08-31 19:25:33.756	3
 810	keyword.moles	@keyword.moles@	2009-09-01 01:12:24.422	2009-09-01 01:12:24.422	3
 626	keyword.excitation	@keyword.excitation@	2009-08-31 14:49:57.611	2009-08-31 14:49:57.611	3
 627	keyword.exercise	@keyword.exercise@	2009-08-31 14:54:16.455	2009-08-31 14:54:16.455	3
@@ -3605,6 +3574,8 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 467	nav.biology	@nav.biology@	2009-08-31 14:15:21.177	2009-08-31 14:15:21.177	3
 468	nav.chemistry	@nav.chemistry@	2009-08-31 14:15:23.642	2009-08-31 14:15:23.642	3
 469	nav.earth-science	@nav.earth-science@	2009-08-31 14:15:26.523	2009-08-31 14:15:26.523	3
+960	troubleshooting.main.q12.title	عند تشغيل محاكيات من دون PhET موقع المثبت ، وأنا رؤية الحوار الذي يقول &quot;إن تطبيق التوقيع الرقمي قد تحققت. هل تريد تشغيل التطبيق؟&quot; (أو ما شابه). ماذا يعني هذا؟	2009-09-03 11:09:08.88	2009-09-03 11:09:20.607	4
+701	about.source-code.header	Where can I get the source code for the PhET simulations?	2009-08-31 15:25:46.913	2009-08-31 15:25:46.913	1
 471	nav.tools	@nav.tools@	2009-08-31 14:15:31.639	2009-08-31 14:15:31.639	3
 472	nav.applications	@nav.applications@	2009-08-31 14:15:34.117	2009-08-31 14:15:34.117	3
 473	nav.cutting-edge-research	@nav.cutting-edge-research@	2009-08-31 14:15:36.254	2009-08-31 14:15:36.254	3
@@ -3623,18 +3594,45 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 449	home.workshops	@home.workshops@	2009-08-31 14:13:55.218	2009-08-31 14:13:55.218	3
 450	home.contribute	@home.contribute@	2009-08-31 14:13:58.055	2009-08-31 14:13:58.055	3
 451	home.supportPhet	@home.supportPhet@	2009-08-31 14:14:00.164	2009-08-31 14:14:00.164	3
+961	troubleshooting.main.q13.title	(مستخدمي ماك) عندما أقوم بالنقر فوق &quot;تشغيل الآن&quot; لبدء محاكاة كل ما نحصل عليه هو أن يفتح ملف نصي؟	2009-09-03 11:09:25.98	2009-09-03 11:09:34.023	4
 452	home.translateSimulations	@home.translateSimulations@	2009-08-31 14:14:03.787	2009-08-31 14:14:03.787	3
+962	troubleshooting.main.licensingRequirements	ما هي متطلبات الترخيص؟	2009-09-03 11:09:37.483	2009-09-03 11:09:37.483	4
+963	troubleshooting.java.intro	PhET جاوة القائم على المحاكاة استخدام صن مايكروسيستمز 'جافا ويب ستارت لإطلاق تكنولوجيا المحاكاة. هذه الصفحة سوف تساعدك على ضمان أن يكون لديك جافا مثبتة بشكل صحيح ، ومعالجة بعض المشاكل التي تشغل الناس قد يكون لدينا برامج. إذا كنت لا تستطيع حل مشكلتك هنا ، يرجى إعلامنا عن طريق البريد الالكتروني على العنوان التال <a {0}><span class="red">phethelp@colorado.edu</span></a>.	2009-09-03 11:10:05.298	2009-09-03 11:10:05.298	4
+964	troubleshooting.java.faqs	أسئلة وأجوبة	2009-09-03 11:10:22.524	2009-09-03 11:10:22.524	4
+965	troubleshooting.java.q1.title	(مستخدمي أجهزة ماكنتوش) عندما أقوم بالنقر فوق &quot;تشغيل الآن&quot; لبدء محاكاة كل ما نحصل عليه هو أن يفتح ملف نصي؟	2009-09-03 11:10:25.496	2009-09-03 11:10:34.599	4
+966	troubleshooting.java.q2.title	كيف يمكنني الحصول على جافا؟	2009-09-03 11:10:37.663	2009-09-03 11:10:37.663	4
 453	home.browseSims	@home.browseSims@	2009-08-31 14:14:05.896	2009-08-31 14:14:05.896	3
 454	home.simulations	@home.simulations@	2009-08-31 14:14:09.274	2009-08-31 14:14:09.274	3
 455	nav.home	@nav.home@	2009-08-31 14:14:15.842	2009-08-31 14:14:15.842	3
 456	nav.simulations	@nav.simulations@	2009-08-31 14:14:18.273	2009-08-31 14:14:18.273	3
 457	nav.featured	@nav.featured@	2009-08-31 14:14:20.786	2009-08-31 14:14:20.786	3
-458	nav.new	@nav.new@	2009-08-31 14:14:23.376	2009-08-31 14:14:23.376	3
 459	nav.physics	@nav.physics@	2009-08-31 14:14:25.485	2009-08-31 14:14:25.485	3
 460	nav.motion	@nav.motion@	2009-08-31 14:14:27.953	2009-08-31 14:14:27.953	3
 746	workshops.intro	@workshops.intro@	2009-09-01 00:08:58.54	2009-09-01 00:08:58.54	3
 623	keyword.equipotential	@keyword.equipotential@	2009-08-31 14:49:47.856	2009-08-31 14:49:47.856	3
 624	keyword.errorAnalysis	@keyword.errorAnalysis@	2009-08-31 14:49:50.861	2009-08-31 14:49:50.861	3
+967	troubleshooting.java.q3.title	لماذا استخدام جافا ويب ستارت بدلا من جافا؟	2009-09-03 11:10:40.472	2009-09-03 11:10:40.472	4
+968	troubleshooting.java.q4.title	هل هناك أي مشاكل في تشغيل المحاكاة على ماك؟	2009-09-03 11:10:42.748	2009-09-03 11:10:42.748	4
+752	troubleshooting.java.intro	PhET's Java-based simulations use Sun Microsystems' Java Web Start technology to launch the simulations. This page will help you ensure that you have Java installed properly, and address some of the problems people might have running our programs. If you can't solve your problem here, please notify us by email at the following address: <a {0}><span class="red">phethelp@colorado.edu</span></a>.	2009-09-01 00:34:04.883	2009-09-01 00:34:04.883	1
+753	troubleshooting.java.q1.title	(Mac users) When I click "run now" to start the simulation all I get is a text file that opens?	2009-09-01 00:37:43.557	2009-09-01 00:37:43.557	1
+754	troubleshooting.java.q2.title	How do I get Java?	2009-09-01 00:38:23.297	2009-09-01 00:38:23.297	1
+755	troubleshooting.java.q3.title	Why do you use Java Web Start instead of Java?	2009-09-01 00:39:11.115	2009-09-01 00:39:11.115	1
+756	troubleshooting.java.q4.title	Are there any problems running the simulations on a Mac?	2009-09-01 00:39:19.461	2009-09-01 00:39:19.461	1
+757	troubleshooting.java.q5.title	How do I check my computer's current version of Java?	2009-09-01 00:39:45.162	2009-09-01 00:39:45.162	1
+758	troubleshooting.java.q6.title	I have Windows 2000 and I can only get the Flash based simulations to work.	2009-09-01 00:39:52.882	2009-09-01 00:39:52.882	1
+759	troubleshooting.java.q7.title	General Java troubleshooting	2009-09-01 00:40:01.158	2009-09-01 00:40:01.158	1
+760	troubleshooting.java.q8.title	Troubleshooting tips for networked computers	2009-09-01 00:40:08.334	2009-09-01 00:40:08.334	1
+761	troubleshooting.java.q1.answer	<p>{0} This problem will affect mac users who recently installed Apple's "Java for Mac OS X 10.5 Update 4". The update will typically be done via Software Update, or automatically. After installing this update, the problem appears: clicking on JNLP files in Safari or FireFox caused the JNLP file to open in TextEdit, instead of starting Java Web Start.</p><p>The fix is:<br/>1. Go to http://support.apple.com/downloads/Java_for_Mac_OS_X_10_5_Update_4<br/>2. Click Download to download a .dmg file<br/>3. When the .dmg has downloaded, double-click on it (if it doesn't mount automatically)<br/>4. Quit all applications<br/>5. Run the update installer</p>	2009-09-01 00:44:20.655	2009-09-01 00:46:41.035	1
+762	troubleshooting.java.q2.answer	<p>To run the Java-based simulations you must have Java version 1.5 or higher installed on your computer. You can obtain the free downloads by clicking on the button below:<br/>{0}</p><p><strong>Note for Netscape Users</strong></p><p>After you have installed Java Web Start, you will need to close and re-open your browser for Java Web Start to work.</p>	2009-09-01 00:52:48.664	2009-09-01 00:52:48.664	1
+763	troubleshooting.java.q3.answer	<p>We use Java Web Start technology rather than Java Applets. Java Web Start, which is a free mechanism from Sun, is a more robust way of launching Java programs over the Web than applets. If you have had problems running applets in the past, you may well find that Java Web Start works much better. If you should have any problems, we will be happy to help you solve them. If the information on this page doesnít help, just send us email at {0}.</p>	2009-09-01 00:53:21.054	2009-09-01 00:53:21.054	1
+764	troubleshooting.java.q4.answer	<p>Macintosh OS X 10.4 or higher is required to run our Java programs. You must have the latest version of Java (which will already be installed if you are using the auto-update feature of OS X). See {0} for details.</p><p>Versions of Apple's Safari browser below 2.0 (included with OS X 10.4) do not launch our Java-based applications reliably.</p><p>If when you click "Run Now" to start a simulation and all you get is a text file that opens, see <a {1}>this answer</a>.</p>	2009-09-01 00:55:21.501	2009-09-01 00:55:21.501	1
+765	troubleshooting.java.q5.answer	<p><strong><em>Windows Vista users:</em></strong><br/>From a command line (Start&nbsp;menu-&gt;All&nbsp;Programs-&gt;Accessories-&gt;Command&nbsp;Prompt), type: <strong>javaws&nbsp;-viewer</strong> followed by the enter key. You should see some text which will include something like "(build 1.4.2_05_05-b04)"; this number is the version of Java you are using. If you receive an error, Java is not properly installed (see above to reinstall).</p><p><strong><em>Windows 98SE/2000/XP users:</em></strong><br/>From a command line (Start&nbsp;menu-&gt;All&nbsp;Programs-&gt;Accessories-&gt;Command&nbsp;Prompt), type: <strong>java&nbsp;-version</strong> followed by the enter key. You should see some text which will include something like "(build 1.4.2_05_05-b04)"; this number is the version of Java you are using. If you receive an error, Java is not properly installed (see above to reinstall).</p><p><strong><em>Macintosh users:</em></strong><br/>From the Apple menu, click on "About this Mac", then on "More Info...". You will find the Java software version under "Software-&gt;Applications".</p>	2009-09-01 00:57:19.556	2009-09-01 00:57:19.556	1
+766	troubleshooting.java.q6.answer	<p>Some Windows 2000 systems have been reported to lack part of the necessary Java configuration. These systems will typically start our Flash-based simulations reliably, but will appear to do nothing when launching our Java-based simulations.</p><p><strong>To resolve this situation, please perform the following steps:</strong></p><ol><li>From the desktop or start menu, open "My Computer"</li><li>Click on the "Folder Options" item in the "Tools" menu</li><li>Click on the "File Types" tab at the top of the window that appears</li><li>Locate "JNLP" in the "extensions" column, and click once on it to select the item</li><li>Click on the "change" button</li><li>When asked to choose which program to use to open JNLP files, select "Browse"</li><li>Locate the program "javaws" or "javaws.exe" in your Java installation folder (typically "C:\\Program Files\\Java\\j2re1.xxxx\\javaws", where "xxxx" is a series of numbers indicating the software version; choose the latest version)</li><li>Select the program file and then click "Open" to use the "javaws" program to open JNLP files.</li></ol>	2009-09-01 00:58:52.394	2009-09-01 00:58:52.394	1
+767	troubleshooting.java.q7.answer	<p>The following are some general steps that you may wish to perform when attempting to solve Java-related problems:</p><ul><li><strong>Empty Your Browser's Cache</strong><br/><table><thead><tr><td>Internet Explorer</td><td>Firefox</td></tr></thead><tbody><tr><td>Select "Tools-&gt;Options", then click on the "Delete Files..." button under "Temporary Internet Files"</td><td>Select "Tools-&gt;Options-&gt;Privacy", then click the "Clear" button next to "Cache".</td></tr></tbody></table></li><li><strong>Empty Java Web Start's Cache</strong><br/>From Windows' Start menu, select "Java Web Start", then select "Preferences" from the File menu. Click "Advanced", then click the "Clear Folder" button.</li><li><strong>Make Sure Windows can find Java and Java Web Start</strong><br/>From a command line (Start menu-&gt;Accessories-&gt;Command Prompt), type <em>java -version</em>followed by the enter key. If you receive an error, Java is not properly installed. Please try reinstalling Java (see above) after uninstalling any Java entries in your list of installed programs (Control Panel -&gt;Add/Remove Programs).</li></ul>	2009-09-01 01:00:17.961	2009-09-01 01:00:17.961	1
+969	troubleshooting.java.q5.title	كيف يمكنني التحقق من جهاز الكمبيوتر الخاص بي في الإصدار الحالي من جافا؟	2009-09-03 11:10:45.78	2009-09-03 11:10:45.78	4
+970	troubleshooting.java.q6.title	لقد ويندوز 2000 وأنا لا يمكن إلا أن الحصول على محاكاة تستند فلاش للعمل.	2009-09-03 11:10:49.918	2009-09-03 11:10:49.918	4
+655	keyword.inductor	@keyword.inductor@	2009-08-31 14:56:17.936	2009-08-31 14:56:17.936	3
+656	keyword.infrared	@keyword.infrared@	2009-08-31 14:56:22.097	2009-08-31 14:56:22.097	3
 747	workshops.upcomingWorkshops	@workshops.upcomingWorkshops@	2009-09-01 00:09:05.428	2009-09-01 00:09:05.428	3
 477	nav.get-phet.on-line	@nav.get-phet.on-line@	2009-08-31 14:15:45.329	2009-08-31 14:15:45.329	3
 478	nav.get-phet.full-install	@nav.get-phet.full-install@	2009-08-31 14:15:47.515	2009-08-31 14:15:47.515	3
@@ -3659,6 +3657,51 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 642	keyword.gravitationalForce	@keyword.gravitationalForce@	2009-08-31 14:55:23.721	2009-08-31 14:55:23.721	3
 500	sponsors.principalSponsors	@sponsors.principalSponsors@	2009-08-31 14:17:04.468	2009-08-31 14:17:04.468	3
 501	sponsors.hewlett	@sponsors.hewlett@	2009-08-31 14:17:07.955	2009-08-31 14:17:07.955	3
+768	troubleshooting.java.q8.answer	<p><strong>Why do simulations run for admin but not all users?</strong></p><p>Java simulations may also fail to start on networked computers running Windows for some users while running properly for administrators. When Java Web Start tries to launch a simulation, it attempts to cache certain files in a "cache folder". This folder (or "directory") is determined when Java is installed, and may point to a folder that non-administrator accounts do not have access to, resulting in a launch failure. Correct this problem by setting the cache directory to one of your own choosing: Log on as an administrator.</p><p>Launch the Java Web Start Application Manager. This can be done in one of two ways. a) If the Java installation placed an icon either on your desktop or in the Start Menu -&gt; All Programs list titled "Java Web Start", click it to start the application. b) Use the Windows search function (located in the Start Menu) to search for the program "javaws.exe". Once it is found, click on the file to run the application. Once the Java Web Start Application Manager is up and running, choose File&gt;Preferences. In the Preferences dialog that appears, click on the Advanced tab. In this tab, you will find a text field labeled "Applications Folder". In this text field, put the name of an empty directory to which all users have write privileges. Note: This directory MUST be empty. All users should now be able to launch the Java simulations.</p><p><strong>Issue 3: Web Proxy Settings</strong><br/>Java simulations may fail to start if the proxy settings in Java Web Start's configuration panel (Start Menu-&gt;Java Web Start, File Menu-&gt;Preferences) do not match those your system is currently using. To identify settings being used on your system, see your web browser's proxy settings, or contact you network administrator.</p><p><strong>Local Install on Boot Drive Only</strong><br/>If you are operating in a networked environment, please ensure that both Java and the PhET simulations (if installed locally rather than running from our web site) are installed on local, non-networked drives. The PhET simulations must be installed on the boot drive.</p><p><strong>Network Firewalls</strong><br/>Please ensure that your firewall is configured to allow both Java and Java Web Start to communicate through the firewall.</p>	2009-09-01 01:01:45.087	2009-09-01 01:01:45.087	1
+971	troubleshooting.java.q7.title	عموما جافا مخرج	2009-09-03 11:10:53.282	2009-09-03 11:10:53.282	4
+972	troubleshooting.java.q8.title	نصائح للمخرج شبكات الكمبيوتر	2009-09-03 11:10:55.773	2009-09-03 11:10:55.773	4
+973	troubleshooting.flash.toRun	فلاش لتشغيل نماذج المحاكاة التي تعتمد عليك ماكروميديا فلاش 8 (متاحة مجانا) أو أحدث مثبتا على جهاز الكمبيوتر.	2009-09-03 11:11:08.411	2009-09-03 11:11:08.411	4
+974	troubleshooting.flash.blankWindow	إذا كنت تحصل على نافذة فارغة عند محاولة اطلاق محاكاة فلاش ، وربما كنت بحاجة لنسخة جديدة من مشغل فلاش.	2009-09-03 11:11:10.5	2009-09-03 11:11:10.5	4
+975	troubleshooting.flash.olderVersions	الإصدارات القديمة من فلاش لاعب يمكن أن يسبب مشاكل. تحديث مشغل فلاش بك يوصى إذا كنت تتلقى خطأ مشابهة إلى ما يلي :	2009-09-03 11:11:12.076	2009-09-03 11:11:12.076	4
+976	troubleshooting.flash.intro	هذه الصفحة سوف تساعدك على حل بعض مشاكل الناس عادة يكون لدينا برامج تشغيل. إذا كنت لا تستطيع حل مشكلتك هنا ، يرجى إعلامنا عن طريق البريد الالكتروني على العنوان التالي <a href="mailto:phethelp@colorado.edu"><span class="red">phethelp@colorado.edu</span></a>.	2009-09-03 11:11:32.674	2009-09-03 11:11:32.674	4
+977	troubleshooting.javascript.intro	جافا سكريبت هي لغة البرمجة التي تستخدم في الغالب في صفحات الويب ، وعادة ما يكون لإضافة الميزات التي تجعل من صفحة الويب أكثر تفاعلا. مطلوب جافا سكريبت لتقديم معلومات إلى PhET.	2009-09-03 11:11:39.565	2009-09-03 11:11:39.565	4
+978	troubleshooting.javascript.notJava	جافا سكريبت هي مختلفة تماما عن شركة صن مايكروسيستمز جافا ويب ستارت التي نحن على استخدام المحاكاة. للحصول على المساعدة مع شركة صن مايكروسيستمز Java, <a {0}>اذهب هنا</a>.	2009-09-03 11:12:03.164	2009-09-03 11:12:15.777	4
+979	troubleshooting.javascript.notify	إذا كنت لا تستطيع حل مشكلتك هنا ، يرجى إعلامنا عن طريق البريد الالكتروني على العنوان التالي {0}.	2009-09-03 11:12:35.051	2009-09-03 11:12:35.051	4
+980	troubleshooting.javascript.faqs	أسئلة وأجوبة	2009-09-03 11:12:38.523	2009-09-03 11:12:38.523	4
+981	troubleshooting.javascript.q1.title	هو سكريبت في المتصفح الخاص بي؟	2009-09-03 11:12:40.744	2009-09-03 11:12:40.744	4
+982	troubleshooting.javascript.q2.title	لماذا جافا سكريبت هو المطلوب؟	2009-09-03 11:12:46.167	2009-09-03 11:12:46.167	4
+983	troubleshooting.javascript.q3.title	كيف يمكنني تمكين جافا سكريبت على فايرفوكس؟	2009-09-03 11:12:47.548	2009-09-03 11:12:47.548	4
+984	troubleshooting.javascript.q4.title	كيف يمكنني تمكين جافا سكريبت في إنترنت إكسبلورر؟	2009-09-03 11:12:50.222	2009-09-03 11:12:50.222	4
+985	troubleshooting.javascript.q5.title	كيف يمكنني تمكين جافا سكريبت على سفري؟	2009-09-03 11:12:54.29	2009-09-03 11:12:54.29	4
+986	about.p2	من أجل مساعدة الطلاب على فهم هذه المفاهيم بصريا ، PhET محاكاة تحريك ما هو غير مرئية للعين من خلال استخدام الرسومات وضوابط بديهية مثل النقر والسحب والتلاعب ، والمتزلجون وأزرار الراديو. من أجل مزيد من تشجيع التنقيب عن الكمية ، وعمليات المحاكاة كما تقدم أدوات القياس بما في ذلك الحكام وتوقف watchs ، الفولتميترات والحرارة. كمستخدم تعالج هذه الأدوات التفاعلية ، والاستجابات على الفور الرسوم المتحركة بشكل فعال مما يوضح السبب والآثار ، فضلا عن العلاقات تمثيلات مرتبطة متعددة (الحركة من الأشياء ، والرسوم البيانية ، وقراءات عدة ، الخ..).	2009-09-03 11:13:16.004	2009-09-03 11:13:16.004	4
+989	about.p4	جميع المحاكاة PhET هي متاحة بحرية من <a {0}> PhET الموقع </a> وتعتبر سهلة الاستخدام إدراج في الصفوف الدراسية. أنها مكتوبة باللغة <a {1}> جافا </a> و <a {2}> فلاش </a> ، ويمكن تشغيلها باستخدام متصفح الإنترنت القياسية طالما <a {2}> فلاش </a> و <a {1}> جافا </a> يتم تثبيتها.	2009-09-03 11:15:21.528	2009-09-03 11:16:37.496	4
+990	about.source-code.header	أين يمكنني الحصول على شفرة المصدر لمحاكاة PhET؟	2009-09-03 11:16:42.517	2009-09-03 11:16:42.517	4
+987	about.p1	PhET المحاكاة التفاعلية هو جهد مستمر لتوفير مجموعة واسعة من عمليات المحاكاة لتحسين الطريقة التي الفيزياء والكيمياء والبيولوجيا وعلوم الأرض والرياضيات وتعليمه وتعلمها. أل <a {0}> المحاكاة </a> هي الأدوات التفاعلية التي تمكن الطلبة من إجراء اتصالات بين ظواهر الحياة الحقيقية والكامنة وراء العلم الذي يفسر هذه الظواهر. لدينا فريق من العلماء والمهندسين والبرمجيات ومدرسي العلوم استخدام <a {1}> البحوث النهج القائم </a> -- إدماج النتائج المستخلصة من البحوث السابقة وتجاربنا الخاصة -- لخلق المحاكاة التي تدعم التعامل مع الطلاب وفهم المفاهيم العلمية.	2009-09-03 11:13:44.758	2009-09-03 11:14:12.153	4
+988	about.p3	لضمان فعالية التعليم والاستخدام ، وجميع من محاكاة على نطاق واسع اختبارها وتقييمها. هذه التجارب تشمل مقابلات الطالب بالإضافة إلى الاستخدام الفعلي للمحاكاة في مجموعة متنوعة من البيئات ، بما في ذلك المحاضرات وفريق العمل ، والواجبات المنزلية والعمل في المعمل. ملكنا <a {0}> نظام التصنيف </a> ما يشير إلى مستوى الاختبار قد اكتملت على كل المحاكاة.	2009-09-03 11:14:24.896	2009-09-03 11:14:38.968	4
+994	simulationPage.title	{0} - {1}, {2}, {3} - PhET	2009-09-03 11:18:21.481	2009-09-03 11:18:21.481	4
+991	about.source-code.flash-simulations	اطلب الآن شفرة المصدر لجميع PhET لمحاكاة فلاش ، يستعاض عن عبارة &quot;المحاكاة - جافا&quot; مع &quot;المحاكاة فلاش&quot; في الأمر أعلاه.	2009-09-03 11:16:45.794	2009-09-03 11:17:02.534	4
+995	simulationDisplay.title	{0} - PhET Simulations	2009-09-03 11:18:34.969	2009-09-03 11:18:34.969	4
+992	about.source-code.location	شفرة المصدر لجميع عمليات المحاكاة PhET يتم استضافتها في <a {0}> Unfuddle </a> (اسم المستخدم : كلمة المرور والضيف : الضيف). ويمكن أن يكون دائما أحدث نسخة وجدت هناك. اطلب الآن شفرة المصدر ، سوف تحتاج إلى العميل مثل التخريب <a {1}> تورتويز إس </a> (ويندوز فقط) أو <a {2}> SmartSVN </a> (جميع المنابر) ، أو سطر الأوامر العميل. اطلب الآن شفرة المصدر لجميع من عمليات المحاكاة PhET جاوة باستخدام سطر الأوامر العميل ، استخدم الأمر التالي :	2009-09-03 11:17:25.695	2009-09-03 11:18:04.214	4
+993	home.title	PhET : مجاني على الانترنت الفيزياء والكيمياء والبيولوجيا وعلوم الارض والرياضيات المحاكاة	2009-09-03 11:18:11.227	2009-09-03 11:18:11.227	4
+996	about.title	حول PhET	2009-09-03 11:18:37.635	2009-09-03 11:18:37.635	4
+997	about.source-code.title	PhET المصدر مدونة	2009-09-03 11:18:38.795	2009-09-03 11:18:38.795	4
+998	about.contact.title	جهة اتصال	2009-09-03 11:18:39.8	2009-09-03 11:18:39.8	4
+999	about.who-we-are.title	من نحن	2009-09-03 11:18:42.49	2009-09-03 11:18:42.49	4
+1000	about.licensing.title	الترخيص	2009-09-03 11:18:43.237	2009-09-03 11:18:43.237	4
+1001	sponsors.title	PhET الرعاة	2009-09-03 11:18:44.077	2009-09-03 11:18:44.077	4
+1002	workshops.title	حلقات عمل عن طريق PhET -- كيفية تدريس والمحاكاة	2009-09-03 11:18:45.635	2009-09-03 11:18:45.635	4
+1003	contribute.title	المساهمة في PhET	2009-09-03 11:18:48.3	2009-09-03 11:18:48.3	4
+1004	get-phet.title	ثلاثة لدينا وسائل لتشغيل مجاني المحاكاة	2009-09-03 11:18:49.862	2009-09-03 11:18:49.862	4
+1005	get-phet.one-at-a-time.title	إطلاق PhET المحاكاة واحد في وقت	2009-09-03 11:18:50.706	2009-09-03 11:18:50.706	4
+1006	get-phet.full-install.title	PhET اتصال المثبت	2009-09-03 11:18:51.706	2009-09-03 11:18:51.706	4
+1007	research.title	بحث	2009-09-03 11:18:54.276	2009-09-03 11:18:54.276	4
+1008	troubleshooting.java.title	مخرج جافا	2009-09-03 11:18:55.235	2009-09-03 11:18:55.235	4
+1009	troubleshooting.flash.title	مخرج فلاش	2009-09-03 11:18:56.606	2009-09-03 11:18:56.606	4
+1010	troubleshooting.javascript.title	مخرج جافا سكريبت	2009-09-03 11:18:57.772	2009-09-03 11:18:57.772	4
+1011	keyword.1d	1D	2009-09-03 11:19:06.702	2009-09-03 11:19:06.702	4
+1012	keyword.absorption	الاستيعاب	2009-09-03 11:19:12.26	2009-09-03 11:19:12.26	4
+1013	keyword.acCircuits	دوائرالتيارالمتردد	2009-09-03 11:19:16.044	2009-09-03 11:19:16.044	4
+1014	keyword.acVoltage	جهد التيار المتناوب	2009-09-03 11:19:18.935	2009-09-03 11:19:18.935	4
 502	sponsors.nsf	@sponsors.nsf@	2009-08-31 14:17:11.966	2009-08-31 14:17:11.966	3
 503	sponsors.ksu	@sponsors.ksu@	2009-08-31 14:17:15.095	2009-08-31 14:17:15.095	3
 504	troubleshooting.main.title	@troubleshooting.main.title@	2009-08-31 14:17:22.059	2009-08-31 14:17:22.059	3
@@ -3669,6 +3712,15 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 509	troubleshooting.main.faqs	@troubleshooting.main.faqs@	2009-08-31 14:17:38.304	2009-08-31 14:17:38.304	3
 769	get-phet.one-at-a-time.runningSims	@get-phet.one-at-a-time.runningSims@	2009-09-01 01:08:12.606	2009-09-01 01:08:12.606	3
 775	troubleshooting.java.q1.answer	@troubleshooting.java.q1.answer@	2009-09-01 01:10:04.705	2009-09-01 01:10:04.705	3
+1015	keyword.acceleration	تسارع	2009-09-03 11:19:22.276	2009-09-03 11:19:22.276	4
+1016	keyword.acids	الأحماض	2009-09-03 11:19:26.27	2009-09-03 11:19:26.27	4
+770	get-phet.one-at-a-time.downloadingSims	@get-phet.one-at-a-time.downloadingSims@	2009-09-01 01:08:24.162	2009-09-01 01:08:24.162	3
+772	troubleshooting.java.intro	@troubleshooting.java.intro@	2009-09-01 01:09:04.462	2009-09-01 01:09:27.109	3
+773	troubleshooting.java.faqs	@troubleshooting.java.faqs@	2009-09-01 01:10:01.78	2009-09-01 01:10:01.78	3
+774	troubleshooting.java.q1.title	@troubleshooting.java.q1.title@	2009-09-01 01:10:03.238	2009-09-01 01:10:03.238	3
+586	keyword.concentration	@keyword.concentration@	2009-08-31 14:41:42.096	2009-08-31 14:41:42.096	3
+1017	contribute.financialContributions	Financial Contributions	2009-09-03 12:29:21.388	2009-09-03 12:29:21.388	1
+625	keyword.estimation	@keyword.estimation@	2009-08-31 14:49:54.227	2009-08-31 14:49:54.227	3
 776	troubleshooting.java.q2.title	@troubleshooting.java.q2.title@	2009-09-01 01:10:06.646	2009-09-01 01:10:06.646	3
 777	troubleshooting.java.q2.answer	@troubleshooting.java.q2.answer@	2009-09-01 01:10:07.766	2009-09-01 01:10:07.766	3
 778	troubleshooting.java.q4.title	@troubleshooting.java.q4.title@	2009-09-01 01:10:09.145	2009-09-01 01:10:09.145	3
@@ -3748,6 +3800,7 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 1050	sponsors.royalinteractive.desc	@sponsors.royalinteractive.desc@	2009-09-03 13:13:36.386	2009-09-03 13:13:36.386	3
 1051	sponsors.dynamicalSystems.desc	@sponsors.dynamicalSystems.desc@	2009-09-03 13:13:38.077	2009-09-03 13:13:38.077	3
 513	troubleshooting.main.q2.answer	@troubleshooting.main.q2.answer@	2009-08-31 14:18:10.379	2009-08-31 14:18:22.189	3
+458	nav.new	@nav.new@	2009-08-31 14:14:23.376	2009-08-31 14:14:23.376	3
 516	troubleshooting.main.q5.title	@troubleshooting.main.q5.title@	2009-08-31 14:18:28.732	2009-08-31 14:18:28.732	3
 582	keyword.climate	@keyword.climate@	2009-08-31 14:41:28.357	2009-08-31 14:41:28.357	3
 517	troubleshooting.main.q5.answer	@troubleshooting.main.q5.answer@	2009-08-31 14:18:34.132	2009-08-31 14:18:37.813	3
@@ -3792,38 +3845,7 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 529	troubleshooting.main.q11.answer	@troubleshooting.main.q11.answer@	2009-08-31 14:19:40.579	2009-08-31 14:19:40.579	3
 530	troubleshooting.main.q12.title	@troubleshooting.main.q12.title@	2009-08-31 14:19:42.71	2009-08-31 14:19:42.71	3
 531	troubleshooting.main.q12.answer	@troubleshooting.main.q12.answer@	2009-08-31 14:19:44.362	2009-08-31 14:19:44.362	3
-532	troubleshooting.main.q13.title	@troubleshooting.main.q13.title@	2009-08-31 14:19:47.361	2009-08-31 14:19:47.361	3
-533	troubleshooting.main.q13.answer	@troubleshooting.main.q13.answer@	2009-08-31 14:19:49.07	2009-08-31 14:19:49.07	3
-534	troubleshooting.main.licensingRequirements	@troubleshooting.main.licensingRequirements@	2009-08-31 14:19:51.99	2009-08-31 14:19:51.99	3
-527	troubleshooting.main.q10.answer	@troubleshooting.main.q10.answer@	2009-08-31 14:19:34.268	2009-08-31 14:20:10.145	3
 536	keyword.absorption	@keyword.absorption@	2009-08-31 14:22:51.834	2009-08-31 14:22:51.834	3
-537	keyword.acCircuits	@keyword.acCircuits@	2009-08-31 14:22:54.374	2009-08-31 14:22:54.374	3
-538	keyword.acceleration	@keyword.acceleration@	2009-08-31 14:22:56.987	2009-08-31 14:22:56.987	3
-539	keyword.activationEnergy	@keyword.activationEnergy@	2009-08-31 14:23:00.078	2009-08-31 14:23:00.078	3
-540	keyword.airResistance	@keyword.airResistance@	2009-08-31 14:23:03.131	2009-08-31 14:23:03.131	3
-541	keyword.algebra	@keyword.algebra@	2009-08-31 14:23:05.421	2009-08-31 14:23:05.421	3
-674	keyword.linearMotion	@keyword.linearMotion@	2009-08-31 14:57:30.825	2009-08-31 14:57:30.825	3
-675	keyword.longitudinalWaves	@keyword.longitudinalWaves@	2009-08-31 14:57:34.349	2009-08-31 14:57:34.349	3
-676	keyword.magneticField	@keyword.magneticField@	2009-08-31 14:57:38.937	2009-08-31 14:57:38.937	3
-677	keyword.magneticMoment	@keyword.magneticMoment@	2009-08-31 14:57:42.765	2009-08-31 14:57:42.765	3
-678	keyword.magnetism	@keyword.magnetism@	2009-08-31 14:57:45.893	2009-08-31 14:57:45.893	3
-679	keyword.magnets	@keyword.magnets@	2009-08-31 14:57:50	2009-08-31 14:57:50	3
-680	about.p1	@about.p1@	2009-08-31 14:57:56.527	2009-08-31 14:57:56.527	3
-681	about.p2	@about.p2@	2009-08-31 14:57:58.798	2009-08-31 14:57:58.798	3
-682	about.p3	@about.p3@	2009-08-31 14:58:01.086	2009-08-31 14:58:01.086	3
-683	about.p4	@about.p4@	2009-08-31 14:58:03.941	2009-08-31 14:58:03.941	3
-684	home.title	@home.title@	2009-08-31 14:58:08.464	2009-08-31 14:58:08.464	3
-685	simulationPage.title	@simulationPage.title@	2009-08-31 14:58:12.027	2009-08-31 14:58:12.027	3
-686	simulationDisplay.title	@simulationDisplay.title@	2009-08-31 14:58:14.465	2009-08-31 14:58:14.465	3
-687	about.title	@about.title@	2009-08-31 14:58:16.919	2009-08-31 14:58:16.919	3
-688	about.source-code.title	@about.source-code.title@	2009-08-31 14:58:19.166	2009-08-31 14:58:19.166	3
-689	about.contact.title	@about.contact.title@	2009-08-31 14:58:22.712	2009-08-31 14:58:22.712	3
-690	about.who-we-are.title	@about.who-we-are.title@	2009-08-31 14:58:24.724	2009-08-31 14:58:24.724	3
-691	about.licensing.title	@about.licensing.title@	2009-08-31 14:58:27.206	2009-08-31 14:58:27.206	3
-692	workshops.title	@workshops.title@	2009-08-31 14:58:29.565	2009-08-31 14:58:29.565	3
-694	get-phet.title	@get-phet.title@	2009-08-31 14:58:34.294	2009-08-31 14:58:34.294	3
-542	keyword.alternatingCurrent	@keyword.alternatingCurrent@	2009-08-31 14:23:08.542	2009-08-31 14:23:08.542	3
-543	keyword.ammeter	@keyword.ammeter@	2009-08-31 14:39:05.771	2009-08-31 14:39:05.771	3
 544	keyword.amplitude	@keyword.amplitude@	2009-08-31 14:39:09.896	2009-08-31 14:39:09.896	3
 545	keyword.angle	@keyword.angle@	2009-08-31 14:39:13.409	2009-08-31 14:39:13.409	3
 583	keyword.climateChange	@keyword.climateChange@	2009-08-31 14:41:32.39	2009-08-31 14:41:32.39	3
