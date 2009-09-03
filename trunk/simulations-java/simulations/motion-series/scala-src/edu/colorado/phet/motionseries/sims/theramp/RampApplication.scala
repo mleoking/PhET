@@ -88,12 +88,14 @@ class CoordinatesRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampM
 class GraphingModule(frame: JFrame, clock: ScalaClock, name: String, showEnergyGraph: Boolean, rampLayoutArea:Rectangle2D)
         extends BasicRampModule(frame, clock, name, false, true, false, -6, true, RampDefaults.defaultRampAngle, rampLayoutArea) {
   coordinateSystemModel.adjustable = false
-  rampCanvas.addScreenNode(new RampChartNode(rampCanvas, rampModel, showEnergyGraph))
 }
 
-class ForceGraphsModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(frame, clock, "module.force-graphs".translate, false, RampDefaults.forceGraphViewport)
+class ForceGraphsModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(frame, clock, "module.force-graphs".translate, false, RampDefaults.forceGraphViewport){
+  rampCanvas.addScreenNode(new RampForceChartNode(rampCanvas, rampModel))
+}
 
 class WorkEnergyModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(frame, clock, "module.work-energy".translate, true, RampDefaults.forceEnergyGraphViewport) {
+  rampCanvas.addScreenNode(new RampForceEnergyChartNode(rampCanvas, rampModel))
   val workEnergyChartModel = new WorkEnergyChartModel
   val workEnergyChartButton = new JButton("controls.showWorkEnergyCharts".translate)
   workEnergyChartButton.addActionListener(new ActionListener() {
