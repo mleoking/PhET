@@ -1,12 +1,12 @@
 package edu.colorado.phet.motionseries.sims.theramp.robotmovingcompany
 
-
 import javax.swing.JFrame
 import model.MotionSeriesModel
 import scalacommon.ScalaClock
+import motionseries.Predef._
 
 class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock)
-        extends AbstractRampModule(frame, clock, "module.robotMovingCompany".translate, 5, false, MotionSeriesDefaults.defaultRampAngle) {
+        extends MotionSeriesModule(frame, clock, "module.robotMovingCompany".translate, 5, false, MotionSeriesDefaults.defaultRampAngle) {
   override def reset() = {
     super.reset()
     rampModel.frictionless = false
