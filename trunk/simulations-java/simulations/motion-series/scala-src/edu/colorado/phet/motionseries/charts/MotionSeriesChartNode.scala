@@ -64,6 +64,7 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
   def accelerationGraph = {
     val accelerationVariable = new DefaultTemporalVariable() {
       override def setValue(accel: Double) = {
+        model.bead.setAccelerationMode()
         val desiredTotalForce = accel * model.bead.mass
         val currentTotalForceWithoutAppliedForce = model.bead.getParallelComponent(model.bead.totalForce - model.bead.appliedForce)
         val appliedForce = desiredTotalForce - currentTotalForceWithoutAppliedForce
@@ -84,7 +85,10 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
   def velocityGraph = {
     val velocityVariable = new DefaultTemporalVariable() {
       override def setValue(v: Double) = {
+        model.bead.setVelocityMode()
         model.bead.setVelocity(v)
+        //todo: switch into a mode where position is computed by integration and acceleration is computed by derivative
+        //we already have integration for position by default
       }
     }
     model.stepListeners += (() => {if (inTimeRange(model.getTime)) velocityVariable.addValue(model.bead.velocity, model.getTime)})
@@ -101,6 +105,7 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
   def positionGraph = {
     val positionVariable = new DefaultTemporalVariable() {
       override def setValue(x: Double) = {
+        model.bead.setPositionMode()
         model.bead.setPosition(x)
       }
     }

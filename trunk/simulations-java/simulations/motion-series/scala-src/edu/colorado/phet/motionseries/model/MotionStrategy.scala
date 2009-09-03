@@ -1,5 +1,7 @@
 package edu.colorado.phet.motionseries.model
 
+import common.motion.model.TimeData
+import common.motion.MotionMath
 import phet.common.phetcommon.math.MathUtil
 import scalacommon.math.Vector2D
 import java.lang.Math._
@@ -230,6 +232,12 @@ class Grounded(bead: Bead) extends MotionStrategy(bead) {
     bead.notificationsEnabled = false //make sure only to send notifications as a batch at the end; improves performance by 17%
     val origEnergy = getTotalEnergy
     val origState = state
+    if (bead.mode == bead.velocityMode) {
+      bead.parallelAppliedForce = 0.0
+    }
+    if (bead.mode == bead.positionMode) {
+      bead.setVelocity(0.0)
+    }
     val newState = getNewState(dt, origState, origEnergy)
 
     if (newState.position > bead.wallRange().max + width / 2 && !wallsExist) {
@@ -239,10 +247,26 @@ class Grounded(bead: Bead) extends MotionStrategy(bead) {
     val distanceVector = positionMapper(newState.position) - positionMapper(origState.position)
     val work = appliedForce dot distanceVector
     workListeners.foreach(_(work))
+    bead.setTime(bead.time + dt)
     bead.setPosition(newState.position)
     bead.setVelocity(newState.velocity)
     bead.thermalEnergy = newState.thermalEnergy
     bead.setCrashEnergy(newState.crashEnergy)
+
+    if (bead.mode == bead.velocityMode) {
+      //compute acceleration as derivative of velocity
+      val acceleration = (bead.velocity - origState.velocity) / dt
+      bead.parallelAppliedForce = acceleration * bead.mass
+    } else if (bead.mode == bead.positionMode) {
+
+      //todo: move closer to bead computation of acceleration derivatives
+      val timeData = for (i <- 0 until java.lang.Math.min(10, bead.stateHistory.length))
+      yield new TimeData(bead.stateHistory(bead.stateHistory.length - 1 - i).position, bead.stateHistory(bead.stateHistory.length - 1 - i).time)
+      val vel = MotionMath.estimateDerivative(timeData.toArray)
+      println("estimated vel = "+ vel)
+
+      bead.setVelocity(vel)
+    }
 
     bead.notificationsEnabled = true
     bead.notifyListeners() //do as a batch, since it's a performance problem to do this several times in this method call
