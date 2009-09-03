@@ -85,6 +85,7 @@ class MyCanvas(stageWidth: Double, stageHeight: Double, modelBounds: Rectangle2D
     setVisible(false)
     setPickable(false)
   }
+  addStageNode(utilityStageNode)
 
   def modelToScreen(x: Double, y: Double) = utilityStageNode.localToGlobal(transform.modelToView(x, y))
 
