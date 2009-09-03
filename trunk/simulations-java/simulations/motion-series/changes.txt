@@ -1,3 +1,5 @@
+# 1.03.38 (34811) Sep 3, 2009
+9/3/09 Fixes for missing string lookups
 # 1.03.37 (34809) Sep 3, 2009
 Removed robot moving company standalone sim (appears in last tab)
 Made it so you can drag the man character in moving man
