@@ -24,7 +24,7 @@ class MotionSeriesModule(frame: JFrame, clock: ScalaClock, name: String, default
 
     val startTime = System.currentTimeMillis
     motionSeriesModel.update(dt)
-    RepaintManager.currentManager(getSimulationPanel).paintDirtyRegions()
+    RepaintManager.currentManager(getSimulationPanel).paintDirtyRegions()//todo: this still shows clipping of incorrect regions, maybe we need to repaint the entire area
     val modelTime = System.currentTimeMillis - startTime
 
     val elapsed = paintAndInputTime + modelTime
