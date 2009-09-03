@@ -1,7 +1,7 @@
 package edu.colorado.phet.motionseries.sims.theramp.robotmovingcompany
 
 import collection.mutable.{HashMap, ArrayBuffer}
-import model.{ScalaRampObject, SurfaceModel, MotionSeriesModel, Bead}
+import model.{MotionSeriesObject, SurfaceModel, MotionSeriesModel, Bead}
 import scalacommon.ScalaClock
 import scalacommon.util.Observable
 import scalacommon.math.Vector2D
@@ -16,11 +16,11 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel, clock: ScalaCloc
 
   private var _launched = false
   private var _objectIndex = 0
-  private val resultMap = new HashMap[ScalaRampObject, Result]
+  private val resultMap = new HashMap[MotionSeriesObject, Result]
 
   //Event notifications
-  val beadCreatedListeners = new ArrayBuffer[(Bead, ScalaRampObject) => Unit]
-  val itemFinishedListeners = new ArrayBuffer[(ScalaRampObject, Result) => Unit]
+  val beadCreatedListeners = new ArrayBuffer[(Bead, MotionSeriesObject) => Unit]
+  val itemFinishedListeners = new ArrayBuffer[(MotionSeriesObject, Result) => Unit]
   val gameFinishListeners = new ArrayBuffer[() => Unit]
 
   val objectList = MotionSeriesDefaults.objects
@@ -94,7 +94,7 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel, clock: ScalaCloc
     bead.parallelAppliedForce = 0 //make sure applied force slider sets to zero, have to do this after listeners are attached
   }
 
-  def containsKey(a: ScalaRampObject) = resultMap.contains(a)
+  def containsKey(a: MotionSeriesObject) = resultMap.contains(a)
 
   def launched_=(b: Boolean) = {_launched = b; notifyListeners()}
 
@@ -109,7 +109,7 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel, clock: ScalaCloc
 
   def nextObject() = setObjectIndex(_objectIndex + 1)
 
-  def itemFinished(o: ScalaRampObject, r: Result) = {
+  def itemFinished(o: MotionSeriesObject, r: Result) = {
     resultMap += o -> r
     itemFinishedListeners.foreach(_(o, r))
     if (resultMap.size == objectList.length)
@@ -119,13 +119,13 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel, clock: ScalaCloc
     notifyListeners()
   }
 
-  def isLastObject(o: ScalaRampObject) = objectList(objectList.length - 1) eq o
+  def isLastObject(o: MotionSeriesObject) = objectList(objectList.length - 1) eq o
 
-  def itemLostOffCliff(o: ScalaRampObject) = itemFinished(o, Result(false, true, o.points, robotEnergy.toInt))
+  def itemLostOffCliff(o: MotionSeriesObject) = itemFinished(o, Result(false, true, o.points, robotEnergy.toInt))
 
-  def itemLost(o: ScalaRampObject) = itemFinished(o, Result(false, false, o.points, robotEnergy.toInt))
+  def itemLost(o: MotionSeriesObject) = itemFinished(o, Result(false, false, o.points, robotEnergy.toInt))
 
-  def itemMoved(o: ScalaRampObject) = itemFinished(o, Result(true, false, o.points, robotEnergy.toInt))
+  def itemMoved(o: MotionSeriesObject) = itemFinished(o, Result(true, false, o.points, robotEnergy.toInt))
 
   def count(b: Boolean) = if (b) 1 else 0
 

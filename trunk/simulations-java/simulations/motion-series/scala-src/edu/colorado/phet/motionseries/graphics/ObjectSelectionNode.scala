@@ -1,7 +1,7 @@
 package edu.colorado.phet.motionseries.graphics
 
 import java.awt.geom.{Point2D, Rectangle2D}
-import model.{MutableRampObject, ScalaRampObject}
+import model.{MutableMotionSeriesObject, MotionSeriesObject}
 import collection.mutable.ArrayBuffer
 import phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import phet.common.phetcommon.view.util.{BufferedImageUtils, PhetFont}
@@ -25,9 +25,9 @@ import java.lang.Math._
 import motionseries.Predef._
 
 trait ObjectModel {
-  def selectedObject: ScalaRampObject
+  def selectedObject: MotionSeriesObject
 
-  def selectedObject_=(ro: ScalaRampObject): Unit
+  def selectedObject_=(ro: MotionSeriesObject): Unit
 
   def addListenerByName(listener: => Unit): Unit
 
@@ -39,8 +39,8 @@ class ObjectSelectionNode(model: ObjectModel) extends PNode {
 
   val nodes = for (o <- MotionSeriesDefaults.objects) yield {
     o match {
-      case jc: MutableRampObject => new CustomObjectSelectionIcon(jc)
-      case m: ScalaRampObject => new ObjectSelectionIcon(o)
+      case jc: MutableMotionSeriesObject => new CustomObjectSelectionIcon(jc)
+      case m: MotionSeriesObject => new ObjectSelectionIcon(o)
     }
   }
   val cellDim = nodes.foldLeft(new PDimension)((a, b) => new PDimension(max(a.width, b.getLayoutBounds.width), max(a.height, b.getLayoutBounds.height)))
@@ -60,7 +60,7 @@ class ObjectSelectionNode(model: ObjectModel) extends PNode {
   val offY = -getFullBounds.getY
   for (i <- 0 until getChildrenCount) getChild(i).translate(offX,offY)//so that our origin is (0,0) like a well-behaved pnode
 
-  class ObjectSelectionIcon(o: ScalaRampObject) extends PNode {
+  class ObjectSelectionIcon(o: MotionSeriesObject) extends PNode {
     val textNode = new HTMLNode(o.getDisplayTextHTML.toString)
     val imageNode = new PImage(BufferedImageUtils.multiScaleToHeight(MotionSeriesResources.getImage(o.iconFilename), 100))
     imageNode.scale(0.65f)
@@ -106,7 +106,7 @@ class ObjectSelectionNode(model: ObjectModel) extends PNode {
       addChild(tooltipNode)
     }
   }
-  class CustomObjectSelectionIcon(o: MutableRampObject) extends ObjectSelectionIcon(o) {
+  class CustomObjectSelectionIcon(o: MutableMotionSeriesObject) extends ObjectSelectionIcon(o) {
     private var expand = false
     private val timer = new Timer(20, () => {})
     private var added = false

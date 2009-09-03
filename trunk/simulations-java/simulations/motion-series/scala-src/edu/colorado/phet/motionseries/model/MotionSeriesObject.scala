@@ -5,12 +5,12 @@ import motionseries.MotionSeriesResources
 import motionseries.MotionSeriesResources._
 
 //immutable memento for recording
-case class ScalaRampObjectState(name: String, mass: Double, kinFric: Double, statFric: Double, height: Double,
-                                imageFilename: String, iconFilename: String, customizable: Boolean, points: Int, objectType: ScalaRampObjectState => ScalaRampObject) {
+case class MotionSeriesObjectState(name: String, mass: Double, kinFric: Double, statFric: Double, height: Double,
+                                imageFilename: String, iconFilename: String, customizable: Boolean, points: Int, objectType: MotionSeriesObjectState => MotionSeriesObject) {
   def toObject = objectType(this)
 }
 
-class ScalaRampObject(_name: String,
+class MotionSeriesObject(_name: String,
                       protected var _mass: Double,
                       protected var _kineticFriction: Double,
                       protected var _staticFriction: Double,
@@ -22,10 +22,10 @@ class ScalaRampObject(_name: String,
   val customizable = _customizable
   val name = _name
 
-  def state = new ScalaRampObjectState(name, mass, kineticFriction, staticFriction, height,
+  def state = new MotionSeriesObjectState(name, mass, kineticFriction, staticFriction, height,
     imageFilename, iconFilename, customizable, points, createFactory)
 
-  def createFactory(state: ScalaRampObjectState) = new ScalaRampObject(state.name, state.mass, state.kinFric, state.statFric, state.height,
+  def createFactory(state: MotionSeriesObjectState) = new MotionSeriesObject(state.name, state.mass, state.kinFric, state.statFric, state.height,
     state.imageFilename, state.iconFilename, state.customizable, state.points)
 
   def kineticFriction = _kineticFriction
@@ -52,7 +52,7 @@ class ScalaRampObject(_name: String,
 
   override def equals(obj: Any) = {
     obj match {
-      case a: ScalaRampObject => a.name == name && a.mass == mass && a.height == height && a.kineticFriction == kineticFriction
+      case a: MotionSeriesObject => a.name == name && a.mass == mass && a.height == height && a.kineticFriction == kineticFriction
       case _ => false
     }
   }
@@ -60,8 +60,8 @@ class ScalaRampObject(_name: String,
   override def hashCode = mass.hashCode + name.hashCode * 17
 }
 
-class CustomTextRampObject(name: String, mass: Double, kineticFriction: Double, staticFriction: Double, height: Double, imageFilename: String, points: Int, iconFilename: String, customizable: Boolean)
-        extends ScalaRampObject(name, mass, kineticFriction, staticFriction, height, imageFilename, iconFilename, customizable, points) {
+class CustomTextMotionSeriesObject(name: String, mass: Double, kineticFriction: Double, staticFriction: Double, height: Double, imageFilename: String, points: Int, iconFilename: String, customizable: Boolean)
+        extends MotionSeriesObject(name, mass, kineticFriction, staticFriction, height, imageFilename, iconFilename, customizable, points) {
   override def getDisplayText = name
 
   override def getDisplayTextHTML = "object.custom.description.html.pattern.name".translate.messageformat(name)
@@ -69,8 +69,8 @@ class CustomTextRampObject(name: String, mass: Double, kineticFriction: Double, 
   override def displayTooltip = false
 }
 
-class MutableRampObject(name: String, __mass: Double, kineticFriction: Double, staticFriction: Double, height: Double, imageFilename: String, points: Int, iconFilename: String, customizable: Boolean)
-        extends CustomTextRampObject(name, __mass, kineticFriction, staticFriction, height, imageFilename, points, iconFilename, customizable) with Observable {
+class MutableMotionSeriesObject(name: String, __mass: Double, kineticFriction: Double, staticFriction: Double, height: Double, imageFilename: String, points: Int, iconFilename: String, customizable: Boolean)
+        extends CustomTextMotionSeriesObject(name, __mass, kineticFriction, staticFriction, height, imageFilename, points, iconFilename, customizable) with Observable {
   def mass_=(m: Double) = {
     _mass = m
     notifyListeners()

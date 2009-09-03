@@ -5,7 +5,7 @@ import graphics.ObjectModel
 import java.util.Vector
 import javax.swing._
 import java.awt.event.{ItemListener, ItemEvent}
-import model.ScalaRampObject
+import model.MotionSeriesObject
 import motionseries.MotionSeriesResources._
 import motionseries.MotionSeriesDefaults
 
@@ -14,10 +14,10 @@ class RampComboBox(objectModel: ObjectModel) extends SubControlPanel("controls.c
 
   val mylist = for (o <- MotionSeriesDefaults.objects) yield {
     o match {
-      case m: ScalaRampObject => new ObjectItem(o)
+      case m: MotionSeriesObject => new ObjectItem(o)
     }
   }
-  class ObjectItem(val rampObject: ScalaRampObject) {
+  class ObjectItem(val rampObject: MotionSeriesObject) {
     override def toString = rampObject.getDisplayText
   }
   for (elm <- mylist) vec.add(elm)

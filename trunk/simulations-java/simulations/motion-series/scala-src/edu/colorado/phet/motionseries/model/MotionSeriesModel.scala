@@ -174,7 +174,7 @@ case class RampState(angle: Double, heat: Double, wetness: Double)
 
 //This class stores all state information used in record/playback
 case class RecordedState(rampState: RampState,
-                         selectedObject: ScalaRampObjectState,
+                         selectedObject: MotionSeriesObjectState,
                          beadState: BeadState,
                          manBeadState: BeadState,
                          appliedForce: Double,
@@ -318,7 +318,7 @@ class MotionSeriesModel(defaultBeadPosition: Double, pausedOnReset: Boolean, ini
 
   def selectedObject = _selectedObject
 
-  def selectedObject_=(obj: ScalaRampObject) = {
+  def selectedObject_=(obj: MotionSeriesObject) = {
     if (_selectedObject != obj) {
       _selectedObject = obj
       updateDueToObjectChange()
@@ -334,7 +334,7 @@ class MotionSeriesModel(defaultBeadPosition: Double, pausedOnReset: Boolean, ini
 
     //todo: remove listeners on object selection change
     _selectedObject match {
-      case o: MutableRampObject => {
+      case o: MutableMotionSeriesObject => {
         o.addListenerByName {
           bead.height = o.height
           bead.mass = o.mass

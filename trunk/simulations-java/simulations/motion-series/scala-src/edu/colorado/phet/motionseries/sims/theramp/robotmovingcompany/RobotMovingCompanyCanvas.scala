@@ -53,7 +53,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel, coordinateSystemModel: 
     gameModel.resetAll()
   }
 
-  gameModel.itemFinishedListeners += ((scalaRampObject: ScalaRampObject, result: Result) => {
+  gameModel.itemFinishedListeners += ((scalaRampObject: MotionSeriesObject, result: Result) => {
     val summaryScreen = new SummaryScreenNode(gameModel, scalaRampObject, result, node => {
       removeStageNode(node)
       if (gameModel.isLastObject(scalaRampObject))
@@ -110,7 +110,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel, coordinateSystemModel: 
 
   override def useVectorNodeInPlayArea = false
 
-  def init(bead: Bead, a: ScalaRampObject) = {
+  def init(bead: Bead, a: MotionSeriesObject) = {
     val lastBead = _currentBead
     _currentBead = bead
 
@@ -227,7 +227,7 @@ class ScoreboardNode(transform: ModelViewTransform2D, gameModel: RobotMovingComp
   setOffset(transform.getViewBounds.getCenterX - getFullBounds.getWidth / 2, 0)
 }
 
-class SummaryScreenNode(gm: RobotMovingCompanyGameModel, scalaRampObject: ScalaRampObject, result: Result, okPressed: SummaryScreenNode => Unit, okButtonText: String) extends PNode {
+class SummaryScreenNode(gm: RobotMovingCompanyGameModel, scalaRampObject: MotionSeriesObject, result: Result, okPressed: SummaryScreenNode => Unit, okButtonText: String) extends PNode {
   val background = new PhetPPath(new RoundRectangle2D.Double(0, 0, 400, 400, 20, 20), new Color(192, 192, 192, 245), new BasicStroke(2), Color.darkGray)
   addChild(background)
   val text = result match {
