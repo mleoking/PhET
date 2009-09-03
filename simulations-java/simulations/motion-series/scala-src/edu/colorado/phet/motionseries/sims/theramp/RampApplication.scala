@@ -159,16 +159,3 @@ class RampWorkEnergyApplication(config: PhetApplicationConfig) extends PiccoloPh
 class RobotMovingCompanyApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
   addModule(new RobotMovingCompanyModule(getPhetFrame, new ScalaClock(RampDefaults.DELAY, RampDefaults.DT_DEFAULT)))
 }
-
-//Current IntelliJ plugin has trouble finding main for classes with a companion object, so we use a different name 
-object RampApplicationMain {
-  def main(args: Array[String]) = new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "the-ramp".literal, classOf[RampApplication])
-}
-
-object RampWorkEnergyApplicationMain {
-  def main(args: Array[String]) = new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "the-ramp".literal, classOf[RampWorkEnergyApplication])
-}
-
-object RobotMovingCompanyApplicationMain {
-  def main(args: Array[String]) = new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "robot-moving-company".literal, classOf[RobotMovingCompanyApplication])
-}
