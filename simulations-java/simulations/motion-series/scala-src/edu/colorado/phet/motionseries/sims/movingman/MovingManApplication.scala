@@ -46,12 +46,12 @@ class BasicMovingManCanvas(model: RampModel, coordinateSystemModel: AdjustableCo
 
 class IntroModule(frame: JFrame, clock: ScalaClock) extends BasicMovingManModule(frame, clock, "moving-man.module.intro.title".translate, false, true, false, true, -6, false, 0.0, true,RampDefaults.defaultViewport)
 
-class GraphingModule(frame: JFrame, clock: ScalaClock) extends BasicMovingManModule(frame, clock, "moving-man.module.graphing.title".translate, false, false, true, false, -6, false, 0.0, true,RampDefaults.defaultViewport) {
+class GraphingModule(frame: JFrame, clock: ScalaClock) extends BasicMovingManModule(frame, clock, "moving-man.module.graphing.title".translate, false, false, true, false, -6, false, 0.0, true,RampDefaults.forceMotionViewport) {
   coordinateSystemModel.adjustable = false
-  canvas.addScreenNode(new ForcesAndMotionChartNode(canvas, rampModel))
+  canvas.addScreenNode(new MovingManChartNode(canvas, rampModel))
 }
 
-class MovingManGameModule(frame: JFrame, clock: ScalaClock) extends BasicMovingManModule(frame, clock, "moving-man.module.game.title".translate, false, false, false, false, -6, false, 0.0, true,RampDefaults.defaultViewport)
+class MovingManGameModule(frame: JFrame, clock: ScalaClock) extends BasicMovingManModule(frame, clock, "moving-man.module.game.title".translate, false, false, false, false, -6, false, 0.0, true,RampDefaults.forceMotionViewport)
 
 class MovingManApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
   def newClock = new ScalaClock(RampDefaults.DELAY, RampDefaults.DT_DEFAULT)
