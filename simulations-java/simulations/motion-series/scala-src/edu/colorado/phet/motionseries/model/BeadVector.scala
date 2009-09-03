@@ -1,6 +1,6 @@
 package edu.colorado.phet.motionseries.model
 
-import RampResources._
+import motionseries.MotionSeriesResources._
 import graphics.{Vector, PointOfOriginVector}
 import java.awt.geom.Rectangle2D
 import java.awt.{Paint, TexturePaint, Color, Graphics2D}

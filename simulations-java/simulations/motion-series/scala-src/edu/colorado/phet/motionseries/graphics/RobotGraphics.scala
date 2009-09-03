@@ -1,13 +1,13 @@
 package edu.colorado.phet.motionseries.graphics
 
-import RampResources._
+import motionseries.MotionSeriesResources._
 import collection.mutable.ArrayBuffer
 import phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import phet.common.piccolophet.nodes.PhetPPath
 import java.awt.geom.{Point2D, Line2D, Rectangle2D}
 import java.awt.{BasicStroke, Color}
 import sims.theramp.robotmovingcompany.RobotMovingCompanyGameModel
-import motionseries.RampResources
+import motionseries.MotionSeriesResources
 import umd.cs.piccolo.nodes.{PImage}
 import umd.cs.piccolo.PNode
 import scalacommon.Predef._
@@ -17,10 +17,10 @@ class RobotGraphics(transform: ModelViewTransform2D, gameModel: RobotMovingCompa
   val struts = new Struts()
   addChild(struts)
 
-  val truckWheels = new PImage(RampResources.getImage("robotmovingcompany/truck_wheels.gif".literal))
+  val truckWheels = new PImage(MotionSeriesResources.getImage("robotmovingcompany/truck_wheels.gif".literal))
   addChild(truckWheels)
 
-  val truckTop = new PImage(RampResources.getImage("robotmovingcompany/truck_top.gif".literal))
+  val truckTop = new PImage(MotionSeriesResources.getImage("robotmovingcompany/truck_top.gif".literal))
   addChild(truckTop)
 
   gameModel.model.rampSegments(0).addListener(update)

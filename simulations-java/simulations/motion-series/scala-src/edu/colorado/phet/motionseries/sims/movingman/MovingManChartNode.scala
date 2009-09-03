@@ -2,10 +2,10 @@ package edu.colorado.phet.motionseries.sims.movingman
 
 import charts._
 import graphics.MotionSeriesCanvas
-import model.RampModel
+import model.MotionSeriesModel
 import phet.common.motion.graphs._
 
-class MovingManChartNode(canvas: MotionSeriesCanvas, model: RampModel) extends MotionSeriesChartNode(canvas, model) {
+class MovingManChartNode(canvas: MotionSeriesCanvas, model: MotionSeriesModel) extends MotionSeriesChartNode(canvas, model) {
   val graphs = Array(
     new MinimizableControlGraph("position", positionGraph, false),
     new MinimizableControlGraph("velocity", velocityGraph, false),

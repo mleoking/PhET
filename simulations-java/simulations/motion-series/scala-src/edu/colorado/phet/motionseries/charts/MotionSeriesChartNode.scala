@@ -2,16 +2,16 @@ package edu.colorado.phet.motionseries.charts
 
 import charts.{SeriesControlTitleLabel, AbstractChartNode, SeriesSelectionControl, MotionSeriesGraph}
 import graphics.MotionSeriesCanvas
-import model.RampModel
+import model.MotionSeriesModel
 import phet.common.motion.model.DefaultTemporalVariable
 import phet.common.motion.graphs._
-import phet.motionseries.RampResources
-import RampResources._
-import motionseries.sims.theramp.RampDefaults
-import motionseries.sims.theramp.RampDefaults._
+import motionseries.MotionSeriesResources
+import motionseries.MotionSeriesResources._
+import motionseries.MotionSeriesDefaults
+import motionseries.MotionSeriesDefaults._
 
 //This adds information about charts and chart serieses
-abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: RampModel)
+abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSeriesModel)
         extends AbstractChartNode(canvas, model) {
   def forceGraph = {
     val parallelAppliedForceVariable = new DefaultTemporalVariable() {
@@ -72,7 +72,7 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: RampMode
       }
     }
     model.stepListeners += (() => {if (inTimeRange(model.getTime)) accelerationVariable.addValue(model.bead.acceleration, model.getTime)})
-    val accelerationSeries = new ControlGraphSeries("Acceleration", RampDefaults.accelerationColor, "accel", "m/s/s", characterUnused, accelerationVariable)
+    val accelerationSeries = new ControlGraphSeries("Acceleration", MotionSeriesDefaults.accelerationColor, "accel", "m/s/s", characterUnused, accelerationVariable)
     val accelerationGraph = new MotionSeriesGraph(accelerationSeries, canvas, timeseriesModel, updateableObject, model) {
       setVerticalRange(-100, 100)
       addControl(new SeriesSelectionControl("", 1) {
@@ -89,7 +89,7 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: RampMode
       }
     }
     model.stepListeners += (() => {if (inTimeRange(model.getTime)) velocityVariable.addValue(model.bead.velocity, model.getTime)})
-    val velocitySeries = new ControlGraphSeries("Velocity", RampDefaults.velocityColor, "vel", "m/s", characterUnused, velocityVariable)
+    val velocitySeries = new ControlGraphSeries("Velocity", MotionSeriesDefaults.velocityColor, "vel", "m/s", characterUnused, velocityVariable)
     val velocityGraph = new MotionSeriesGraph(velocitySeries, canvas, timeseriesModel, updateableObject, model) {
       setVerticalRange(-50, 50)
       addControl(new SeriesSelectionControl("", 1) {
@@ -106,7 +106,7 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: RampMode
       }
     }
     model.stepListeners += (() => {if (inTimeRange(model.getTime)) positionVariable.addValue(model.bead.position, model.getTime)})
-    val positionSeries = new ControlGraphSeries("Position", RampDefaults.positionColor, "x", "m", characterUnused, positionVariable)
+    val positionSeries = new ControlGraphSeries("Position", MotionSeriesDefaults.positionColor, "x", "m", characterUnused, positionVariable)
     val positionGraph = new MotionSeriesGraph(positionSeries, canvas, timeseriesModel, updateableObject, model) {
       setVerticalRange(-10, 10)
       addControl(new SeriesSelectionControl("", 1) {

@@ -3,7 +3,7 @@ package edu.colorado.phet.motionseries.graphics
 import phet.common.phetcommon.view.graphics.transforms.{TransformListener, ModelViewTransform2D}
 import java.awt.geom.{Area, Rectangle2D}
 import java.awt.{Paint, Shape, GradientPaint, Color}
-import sims.theramp.RampDefaults
+import motionseries.MotionSeriesDefaults
 import umd.cs.piccolo.PNode
 import phet.common.piccolophet.nodes.PhetPPath
 
@@ -23,11 +23,11 @@ class AbstractBackgroundNode(getPaint: => Paint, getModelShape: => Shape, transf
 }
 
 class SkyNode(transform: ModelViewTransform2D)
-        extends AbstractBackgroundNode(new GradientPaint(transform.modelToView(0, 0), RampDefaults.SKY_GRADIENT_BOTTOM,
+        extends AbstractBackgroundNode(new GradientPaint(transform.modelToView(0, 0), MotionSeriesDefaults.SKY_GRADIENT_BOTTOM,
           transform.modelToView(0, 10), new Color(202, 187, 255)), new Rectangle2D.Double(-100, 0, 200, 200), transform)
 
 class EarthNode(transform: ModelViewTransform2D)
-        extends AbstractBackgroundNode(RampDefaults.EARTH_COLOR, new Rectangle2D.Double(-100, -200, 200, 200), transform)
+        extends AbstractBackgroundNode(MotionSeriesDefaults.EARTH_COLOR, new Rectangle2D.Double(-100, -200, 200, 200), transform)
 
 object EarthNodeWithCliff {
   def getArea(maxX: Double, lowerGroundY: Double) = {

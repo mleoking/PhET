@@ -8,7 +8,7 @@ object Predef {
 }
 import Predef._
 
-object RampResources extends PhetResources("motion-series".literal) {
+object MotionSeriesResources extends PhetResources("motion-series".literal) {
   implicit def toMyRichString(s: String) = new TranslatableString(s)
 
   val forcePattern = "force.pattern".translate
@@ -24,7 +24,7 @@ object RampResources extends PhetResources("motion-series".literal) {
 
 class TranslatableString(s: String) {
   lazy val literal = s
-  lazy val translate = RampResources.getLocalizedString(s)
+  lazy val translate = MotionSeriesResources.getLocalizedString(s)
 
   def messageformat(x: Object*) = MessageFormat.format(s, x: _*)
 }

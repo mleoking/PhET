@@ -1,14 +1,14 @@
 package edu.colorado.phet.motionseries.sims.theramp.robotmovingcompany
 
 import collection.mutable.{HashMap, ArrayBuffer}
-import model.{ScalaRampObject, SurfaceModel, RampModel, Bead}
+import model.{ScalaRampObject, SurfaceModel, MotionSeriesModel, Bead}
 import scalacommon.ScalaClock
 import scalacommon.util.Observable
 import scalacommon.math.Vector2D
 import java.lang.Math._
-import sims.theramp.RampDefaults
+import motionseries.MotionSeriesDefaults
 
-class RobotMovingCompanyGameModel(val model: RampModel, clock: ScalaClock) extends Observable {
+class RobotMovingCompanyGameModel(val model: MotionSeriesModel, clock: ScalaClock) extends Observable {
   private val DEFAULT_ROBOT_ENERGY = 3000.0
   private var _robotEnergy = DEFAULT_ROBOT_ENERGY
   val surfaceModel = new SurfaceModel
@@ -23,9 +23,9 @@ class RobotMovingCompanyGameModel(val model: RampModel, clock: ScalaClock) exten
   val itemFinishedListeners = new ArrayBuffer[(ScalaRampObject, Result) => Unit]
   val gameFinishListeners = new ArrayBuffer[() => Unit]
 
-  val objectList = RampDefaults.objects
+  val objectList = MotionSeriesDefaults.objects
   val housePosition = 6
-  val house = model.createBead(housePosition, RampDefaults.house.width, RampDefaults.house.height)
+  val house = model.createBead(housePosition, MotionSeriesDefaults.house.width, MotionSeriesDefaults.house.height)
   private var _bead: Bead = null
 
   clock.addClockListener(dt => if (!model.isPaused && _bead != null) _bead.stepInTime(dt))

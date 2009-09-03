@@ -13,13 +13,13 @@ import phet.common.piccolophet.{PhetPCanvas}
 import phet.common.timeseries.model.{RecordableModel, TimeSeriesModel}
 import java.awt.{FlowLayout, Color}
 import javax.swing.{JTextField, JPanel, JLabel}
-import model.{RampModel}
-import motionseries.RampResources
-import sims.theramp.RampDefaults
+import model.{MotionSeriesModel}
+import motionseries.MotionSeriesResources
+import motionseries.MotionSeriesDefaults
 
 import umd.cs.piccolo.PNode
 import scalacommon.math.Vector2D
-import RampResources._
+import motionseries.MotionSeriesResources._
 
 object Defaults {
   def createFont = new PhetFont(12, true)
@@ -31,10 +31,10 @@ object Defaults {
   }
 }
 
-abstract class AbstractChartNode(canvas: MotionSeriesCanvas, model: RampModel) extends PNode {
+abstract class AbstractChartNode(canvas: MotionSeriesCanvas, model: MotionSeriesModel) extends PNode {
   def inTimeRange(time: Double) = {
     //    println("time = "+time)
-    time <= RampDefaults.MAX_RECORD_TIME
+    time <= MotionSeriesDefaults.MAX_RECORD_TIME
   }
 
   def createVariable(getter: () => Double) = {
@@ -75,7 +75,7 @@ abstract class AbstractChartNode(canvas: MotionSeriesCanvas, model: RampModel) e
   val updateableObject = new UpdateableObject {
     def setUpdateStrategy(updateStrategy: UpdateStrategy) = {}
   }
-  import RampResources._
+  import motionseries.MotionSeriesResources._
   val N = "units.abbr.newtons".translate
   val J = "units.abbr.joules".translate
   val characterUnused = "".literal
@@ -113,9 +113,9 @@ abstract class AbstractChartNode(canvas: MotionSeriesCanvas, model: RampModel) e
     val unitsLabel = new JLabel(series.getUnits)
     unitsLabel.setFont(Defaults.createFont)
     unitsLabel.setForeground(series.getColor)
-    unitsLabel.setBackground(RampDefaults.EARTH_COLOR)
+    unitsLabel.setBackground(MotionSeriesDefaults.EARTH_COLOR)
     panel.add(unitsLabel)
-    panel.setBackground(RampDefaults.EARTH_COLOR)
+    panel.setBackground(MotionSeriesDefaults.EARTH_COLOR)
     panel
   }
 
@@ -132,7 +132,7 @@ abstract class AbstractChartNode(canvas: MotionSeriesCanvas, model: RampModel) e
   def graphSetNode: PNode
 }
 
-class MotionSeriesGraph(defaultSeries: ControlGraphSeries, canvas: PhetPCanvas, timeseriesModel: TimeSeriesModel, updateableObject: UpdateableObject, model: RampModel)
+class MotionSeriesGraph(defaultSeries: ControlGraphSeries, canvas: PhetPCanvas, timeseriesModel: TimeSeriesModel, updateableObject: UpdateableObject, model: MotionSeriesModel)
         extends MotionControlGraph(canvas, defaultSeries, "".literal, "".literal, -2000, 2000, true, timeseriesModel, updateableObject) {
   getJFreeChartNode.getChart.getXYPlot.getRangeAxis.setTickLabelFont(new PhetFont(14, true))
   getJFreeChartNode.getChart.getXYPlot.getDomainAxis.setTickLabelFont(new PhetFont(14, true))
@@ -140,7 +140,7 @@ class MotionSeriesGraph(defaultSeries: ControlGraphSeries, canvas: PhetPCanvas, 
   getJFreeChartNode.getChart.getXYPlot.setRangeGridlinePaint(Color.gray)
   getJFreeChartNode.setBuffered(false)
   getJFreeChartNode.setPiccoloSeries() //works better on an unbuffered chart
-  setDomainUpperBound(RampDefaults.MAX_CHART_DISPLAY_TIME)
+  setDomainUpperBound(MotionSeriesDefaults.MAX_CHART_DISPLAY_TIME)
   override def createSliderNode(thumb: PNode, highlightColor: Color) = {
     new JFreeChartSliderNode(getJFreeChartNode, thumb, highlightColor) {
       val text = new ShadowHTMLNode(defaultSeries.getTitle)

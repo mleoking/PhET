@@ -15,14 +15,14 @@ import javax.swing._
 import model._
 import scalacommon.math.Vector2D
 import scalacommon.swing.MyRadioButton
-import motionseries.RampResources
-import sims.theramp.RampDefaults
+import motionseries.MotionSeriesResources
+import motionseries.MotionSeriesDefaults
 
 import swing.{MyCheckBox, ScalaValueControl}
 import edu.colorado.phet.scalacommon.Predef._
-import RampResources._
+import motionseries.MotionSeriesResources._
 
-class RampControlPanel(model: RampModel,
+class RampControlPanel(model: MotionSeriesModel,
                        wordModel: WordModel,
                        freeBodyDiagramModel: FreeBodyDiagramModel,
                        coordinateSystemModel: AdjustableCoordinateModel,
@@ -47,7 +47,7 @@ class RampControlPanel(model: RampModel,
   def addToBody(component: JComponent) = body.add(component)
 }
 
-class RampControlPanelBody(model: RampModel,
+class RampControlPanelBody(model: MotionSeriesModel,
                            wordModel: WordModel,
                            freeBodyDiagramModel: FreeBodyDiagramModel,
                            coordinateSystemModel: AdjustableCoordinateModel,
@@ -87,7 +87,7 @@ class RampControlPanelBody(model: RampModel,
   }
 
   class IconPanel(component: JComponent, icon: Icon) extends JPanel {
-    def this(component: JComponent, iconFilename: String) = this (component, new ImageIcon(RampResources.getImage(iconFilename)))
+    def this(component: JComponent, iconFilename: String) = this (component, new ImageIcon(MotionSeriesResources.getImage(iconFilename)))
     setLayout(new BorderLayout)
     add(component, BorderLayout.WEST)
     add(new JLabel(icon), BorderLayout.EAST)
@@ -112,7 +112,7 @@ class RampControlPanelBody(model: RampModel,
 
   def createSumForceIcon = {
     val rect = new Rectangle2D.Double(0, 0, 1, 1)
-    val vector = new Vector(RampDefaults.totalForceColor, "total-force".literal, "force.abbrev.total".translate, () => new Vector2D(50, 0), (v: Vector2D, c: Color) => {c})
+    val vector = new Vector(MotionSeriesDefaults.totalForceColor, "total-force".literal, "force.abbrev.total".translate, () => new Vector2D(50, 0), (v: Vector2D, c: Color) => {c})
     val vectorNode = new VectorNode(new ModelViewTransform2D(rect, rect), vector, new ConstantVectorValue(new Vector2D(50, 0)), 10)
     val bufIm = BufferedImageUtils.toBufferedImage(vectorNode.toImage)
     BufferedImageUtils.multiScaleToHeight(bufIm, 40)
@@ -130,12 +130,12 @@ class RampControlPanelBody(model: RampModel,
   }
 
   val moreControlsPanel = new SubControlPanel("more.controls.title".translate)
-  val positionSlider = new ScalaValueControl(RampDefaults.MIN_X, RampDefaults.MAX_X, "object.position".translate, "0.0".literal, "units.meters".translate,
+  val positionSlider = new ScalaValueControl(MotionSeriesDefaults.MIN_X, MotionSeriesDefaults.MAX_X, "object.position".translate, "0.0".literal, "units.meters".translate,
     () => model.bead.position, x => model.bead.setPosition(x), model.bead.addListener)
   positionSlider.getSlider.addMouseListener(new MouseAdapter() {
     override def mousePressed(e: MouseEvent) = {
-      val x: Double = if (model.bead.position > RampDefaults.MAX_X) RampDefaults.MAX_X
-      else if (model.bead.position < RampDefaults.MIN_X) RampDefaults.MIN_X
+      val x: Double = if (model.bead.position > MotionSeriesDefaults.MAX_X) MotionSeriesDefaults.MAX_X
+      else if (model.bead.position < MotionSeriesDefaults.MIN_X) MotionSeriesDefaults.MIN_X
       else model.bead.position
       model.bead.setPosition(x)
       model.bead.attach()

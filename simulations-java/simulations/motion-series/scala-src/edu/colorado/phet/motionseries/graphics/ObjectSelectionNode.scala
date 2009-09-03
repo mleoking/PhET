@@ -11,9 +11,9 @@ import phet.common.piccolophet.nodes.{HTMLNode, ToolTipNode, PhetPPath}
 import java.awt.{BasicStroke, Color}
 import javax.swing.{Timer}
 import scalacommon.util.Observable
-import sims.theramp.RampDefaults
+import motionseries.MotionSeriesDefaults
 import swing.ScalaValueControl
-import motionseries.RampResources
+import motionseries.MotionSeriesResources
 import umd.cs.piccolo.util.{PBounds, PDimension}
 import umd.cs.piccolox.nodes.PClip
 import umd.cs.piccolox.pswing.PSwing
@@ -37,7 +37,7 @@ trait ObjectModel {
 class ObjectSelectionNode(model: ObjectModel) extends PNode {
   val rows = new ArrayBuffer[ArrayBuffer[PNode]]
 
-  val nodes = for (o <- RampDefaults.objects) yield {
+  val nodes = for (o <- MotionSeriesDefaults.objects) yield {
     o match {
       case jc: MutableRampObject => new CustomObjectSelectionIcon(jc)
       case m: ScalaRampObject => new ObjectSelectionIcon(o)
@@ -48,8 +48,8 @@ class ObjectSelectionNode(model: ObjectModel) extends PNode {
   val modelCellDimPt = new Point2D.Double(cellDim.width,cellDim.height)
   //y is down, so modelCellDimPt.y is negative
   for (i <- 0 until nodes.length) {
-    val row = i / RampDefaults.iconsPerRow
-    val column = i % RampDefaults.iconsPerRow
+    val row = i / MotionSeriesDefaults.iconsPerRow
+    val column = i % MotionSeriesDefaults.iconsPerRow
 
     val n = nodes(i)
     n.backgroundNode.setPathTo(new Rectangle2D.Double(0, 0, cellDim.width, cellDim.height))
@@ -62,7 +62,7 @@ class ObjectSelectionNode(model: ObjectModel) extends PNode {
 
   class ObjectSelectionIcon(o: ScalaRampObject) extends PNode {
     val textNode = new HTMLNode(o.getDisplayTextHTML.toString)
-    val imageNode = new PImage(BufferedImageUtils.multiScaleToHeight(RampResources.getImage(o.iconFilename), 100))
+    val imageNode = new PImage(BufferedImageUtils.multiScaleToHeight(MotionSeriesResources.getImage(o.iconFilename), 100))
     imageNode.scale(0.65f)
     textNode.setOffset(imageNode.getFullBounds.getWidth + 3, 0)
     textNode.setFont(new PhetFont(18, true))

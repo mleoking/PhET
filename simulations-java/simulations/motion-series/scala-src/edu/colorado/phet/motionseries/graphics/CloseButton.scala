@@ -1,8 +1,8 @@
 package edu.colorado.phet.motionseries.graphics
 
 import phet.common.phetcommon.resources.PhetCommonResources
-import RampResources._
-import model.RampModel
+import motionseries.MotionSeriesResources._
+import model.MotionSeriesModel
 import umd.cs.piccolo.nodes.PImage
 import phet.common.piccolophet.event.CursorHandler
 import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
@@ -19,7 +19,7 @@ trait CloseButton extends BeadNode {
   addChild(openButton)
   update()
 
-  def model: RampModel
+  def model: MotionSeriesModel
 
   override def update() = {
     super.update()

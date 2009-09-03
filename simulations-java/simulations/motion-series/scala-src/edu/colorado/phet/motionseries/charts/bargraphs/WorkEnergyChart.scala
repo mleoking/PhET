@@ -8,13 +8,13 @@ import java.awt.Color
 import java.awt.event.{ComponentEvent, ComponentAdapter, WindowEvent, WindowAdapter}
 import javax.swing.{JDialog, JFrame}
 import scalacommon.swing.MyJButton
-import motionseries.RampResources
-import sims.theramp.RampDefaults
+import motionseries.MotionSeriesResources
+import motionseries.MotionSeriesDefaults
 
 import umd.cs.piccolox.pswing.PSwing
 import scalacommon.util.Observable
-import model.RampModel
-import RampResources._
+import model.MotionSeriesModel
+import motionseries.MotionSeriesResources._
 
 class WorkEnergyChartModel extends Observable {
   private var defaultVisible = false
@@ -27,14 +27,14 @@ class WorkEnergyChartModel extends Observable {
   def reset() = {visible = defaultVisible}
 }
 
-class WorkEnergyChart(workEnergyChartModel: WorkEnergyChartModel, model: RampModel, owner: JFrame) {
+class WorkEnergyChart(workEnergyChartModel: WorkEnergyChartModel, model: MotionSeriesModel, owner: JFrame) {
   val dialog = new JDialog(owner, "controls.work-energy-charts".translate, false)
 
   def updateDialogVisible() = dialog.setVisible(workEnergyChartModel.visible)
   workEnergyChartModel.addListenerByName {updateDialogVisible()}
   updateDialogVisible()
   val barChartNode = new BarChartNode("forces.work-energy-title".translate, 0.05, Color.white)
-  import RampDefaults._
+  import MotionSeriesDefaults._
   val totalEnergyVariable = new BarChartNode.Variable("energy.total-energy".translate, 0.0, totalEnergyColor)
   val kineticEnergyVariable = new BarChartNode.Variable("energy.kinetic-energy".translate, 0.0, kineticEnergyColor)
   val potentialEnergyVariable = new BarChartNode.Variable("energy.potential-energy".translate, 0.0, potentialEnergyColor)

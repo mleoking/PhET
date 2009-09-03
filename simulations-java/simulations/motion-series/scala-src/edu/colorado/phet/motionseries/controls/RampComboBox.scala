@@ -6,13 +6,13 @@ import java.util.Vector
 import javax.swing._
 import java.awt.event.{ItemListener, ItemEvent}
 import model.ScalaRampObject
-import RampResources._
-import sims.theramp.RampDefaults
+import motionseries.MotionSeriesResources._
+import motionseries.MotionSeriesDefaults
 
 class RampComboBox(objectModel: ObjectModel) extends SubControlPanel("controls.choose-object".translate) {
   val vec = new Vector[ObjectItem]
 
-  val mylist = for (o <- RampDefaults.objects) yield {
+  val mylist = for (o <- MotionSeriesDefaults.objects) yield {
     o match {
       case m: ScalaRampObject => new ObjectItem(o)
     }
@@ -28,7 +28,7 @@ class RampComboBox(objectModel: ObjectModel) extends SubControlPanel("controls.c
   })
   add(comboBox)
 
-  objectModel.addListener(() => {comboBox.setSelectedIndex(RampDefaults.objects.indexOf(objectModel.selectedObject))})
+  objectModel.addListener(() => {comboBox.setSelectedIndex(MotionSeriesDefaults.objects.indexOf(objectModel.selectedObject))})
   comboBox.setRenderer(new JLabel with ListCellRenderer {
     setOpaque(true)
 

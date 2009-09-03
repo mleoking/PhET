@@ -10,7 +10,7 @@ import javax.swing.event.{ChangeEvent, ChangeListener}
 import javax.swing.{JButton, JOptionPane, JFrame}
 import scalacommon.ScalaClock
 import phet.common.phetcommon.view.VerticalLayoutPanel
-import sims.theramp.RampDefaults
+import motionseries.MotionSeriesDefaults
 import umd.cs.piccolo.nodes.{PImage, PText}
 import umd.cs.piccolo.PNode
 import phet.common.piccolophet.nodes.PhetPPath
@@ -20,11 +20,11 @@ import model._
 import swing.{ScalaButton}
 import umd.cs.piccolox.pswing.PSwing
 import scalacommon.Predef._
-import RampResources._
+import motionseries.MotionSeriesResources._
 
-class RobotMovingCompanyCanvas(model: RampModel, coordinateSystemModel: AdjustableCoordinateModel, freeBodyDiagramModel: FreeBodyDiagramModel,
+class RobotMovingCompanyCanvas(model: MotionSeriesModel, coordinateSystemModel: AdjustableCoordinateModel, freeBodyDiagramModel: FreeBodyDiagramModel,
                                vectorViewModel: VectorViewModel, frame: JFrame, gameModel: RobotMovingCompanyGameModel)
-        extends MotionSeriesCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame, RampDefaults.defaultViewport) {
+        extends MotionSeriesCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame, MotionSeriesDefaults.defaultViewport) {
   beadNode.setVisible(false)
   vectorNode.setVisible(false)
   pusherNode.setVisible(false)
@@ -84,7 +84,7 @@ class RobotMovingCompanyCanvas(model: RampModel, coordinateSystemModel: Adjustab
   surfaceChooser.setOffset(fbdNode.getFullBounds.getMaxX + 10, fbdNode.getFullBounds.getY)
   addStageNode(surfaceChooser)
 
-  addStageNode(new BeadNode(gameModel.house, transform, RampDefaults.house.imageFilename))
+  addStageNode(new BeadNode(gameModel.house, transform, MotionSeriesDefaults.house.imageFilename))
 
   val scoreboard = new ScoreboardNode(transform, gameModel)
   addStageNode(scoreboard)
@@ -241,7 +241,7 @@ class SummaryScreenNode(gm: RobotMovingCompanyGameModel, scalaRampObject: ScalaR
   addChild(pText)
   pText.setOffset(background.getFullBounds.getCenterX - pText.getFullBounds.width / 2, 20)
 
-  val image = new PImage(BufferedImageUtils.rescaleYMaintainAspectRatio(RampResources.getImage(scalaRampObject.imageFilename), 150))
+  val image = new PImage(BufferedImageUtils.rescaleYMaintainAspectRatio(MotionSeriesResources.getImage(scalaRampObject.imageFilename), 150))
   image.setOffset(background.getFullBounds.getCenterX - image.getFullBounds.width / 2, pText.getFullBounds.getMaxY + 20)
   addChild(image)
 
@@ -272,7 +272,7 @@ class SummaryScreenNode(gm: RobotMovingCompanyGameModel, scalaRampObject: ScalaR
 
 object TestSummaryScreen {
   def main(args: Array[String]) {
-    val summaryScreenNode = new SummaryScreenNode(new RobotMovingCompanyGameModel(new RampModel(5, true, RampDefaults.defaultRampAngle), new ScalaClock(30, 30 / 1000.0)), RampDefaults.objects(0), new Result(true, false, 64, 100), a => {
+    val summaryScreenNode = new SummaryScreenNode(new RobotMovingCompanyGameModel(new MotionSeriesModel(5, true, MotionSeriesDefaults.defaultRampAngle), new ScalaClock(30, 30 / 1000.0)), MotionSeriesDefaults.objects(0), new Result(true, false, 64, 100), a => {
       a.setVisible(false)
     }, "Ok".literal)
     val frame = new JFrame

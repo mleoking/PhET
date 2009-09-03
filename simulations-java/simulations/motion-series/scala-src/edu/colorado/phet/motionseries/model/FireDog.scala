@@ -5,7 +5,7 @@ import phet.common.phetcommon.math.MathUtil
 import scalacommon.math.Vector2D
 import java.lang.Math._
 
-class FireDog(rampModel: RampModel) {
+class FireDog(rampModel: MotionSeriesModel) {
   val removedListeners = new ArrayBuffer[() => Unit]
   val height = 2
   val width = 2
@@ -37,7 +37,7 @@ class FireDog(rampModel: RampModel) {
   }
 }
 
-class Raindrop(p: Vector2D, rainSpeed: Double, angle: Double, rampModel: RampModel) {
+class Raindrop(p: Vector2D, rainSpeed: Double, angle: Double, rampModel: MotionSeriesModel) {
   val removedListeners = new ArrayBuffer[() => Unit]
   val rainbead = rampModel.createBead(0.0, 0.3, 0.5)
   private var _angle = 0.0

@@ -1,8 +1,8 @@
 package edu.colorado.phet.motionseries.graphics
 
-import RampResources._
+import motionseries.MotionSeriesResources._
 import phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
-import model.{AdjustableCoordinateModel, CoordinateFrameModel, RampModel}
+import model.{AdjustableCoordinateModel, CoordinateFrameModel, MotionSeriesModel}
 import umd.cs.piccolo.PNode
 import java.lang.Math._
 import scalacommon.Predef._
@@ -19,7 +19,7 @@ class SynchronizedAxisModel(_ang: Double, length: Double, tail: Boolean, coordin
   }
 }
 
-class CoordinateFrameNode(val model: RampModel, coordinateSystemModel: AdjustableCoordinateModel, val transform: ModelViewTransform2D) extends PNode {
+class CoordinateFrameNode(val model: MotionSeriesModel, coordinateSystemModel: AdjustableCoordinateModel, val transform: ModelViewTransform2D) extends PNode {
   val yAxisModel = new SynchronizedAxisModel(PI / 2, 7, false, model.coordinateFrameModel)
   val yAxis = new AxisNodeWithModel(transform, "coordinates.y".translate, yAxisModel, coordinateSystemModel, PI / 2, PI)
   addChild(yAxis)

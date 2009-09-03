@@ -9,7 +9,7 @@ import java.awt.geom.Point2D
 import scalacommon.record.{DataPoint, RecordModel}
 import scalacommon.util.Observable
 import java.lang.Math._
-import sims.theramp.RampDefaults
+import motionseries.MotionSeriesDefaults
 
 class WordModel extends Observable {
   private var _physicsWords = true
@@ -181,11 +181,11 @@ case class RecordedState(rampState: RampState,
                          walls: Boolean,
                          motionStrategyMemento: MotionStrategyMemento)
 
-class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngle: Double)
+class MotionSeriesModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngle: Double)
         extends RecordModel[RecordedState] with ObjectModel {
   private var _walls = true
-  private var _frictionless = RampDefaults.FRICTIONLESS_DEFAULT
-  private var _selectedObject = RampDefaults.objects(0)
+  private var _frictionless = MotionSeriesDefaults.FRICTIONLESS_DEFAULT
+  private var _selectedObject = MotionSeriesDefaults.objects(0)
 
   val rampSegments = new ArrayBuffer[RampSegment]
   val stepListeners = new ArrayBuffer[() => Unit]
@@ -204,8 +204,8 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngl
   val surfaceFriction = () => !frictionless
 
   val defaultManPosition = defaultBeadPosition - 1
-  val leftWall = createBead(-10, RampDefaults.wall.width, RampDefaults.wall.height)
-  val rightWall = createBead(10, RampDefaults.wall.width, RampDefaults.wall.height)
+  val leftWall = createBead(-10, MotionSeriesDefaults.wall.width, MotionSeriesDefaults.wall.height)
+  val rightWall = createBead(10, MotionSeriesDefaults.wall.width, MotionSeriesDefaults.wall.height)
   val manBead = createBead(defaultManPosition, 1)
 
   val wallRange = () => {
@@ -233,9 +233,9 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngl
 
   def createBead(x: Double, width: Double): Bead = createBead(x, width, 3)
 
-  def stepRecord(): Unit = stepRecord(RampDefaults.DT_DEFAULT)
+  def stepRecord(): Unit = stepRecord(MotionSeriesDefaults.DT_DEFAULT)
 
-  def beadInModelViewportRange = bead.position2D.x < RampDefaults.MIN_X || bead.position2D.x > RampDefaults.MAX_X
+  def beadInModelViewportRange = bead.position2D.x < MotionSeriesDefaults.MIN_X || bead.position2D.x > MotionSeriesDefaults.MAX_X
 
   def returnBead() = {
     bead.setPosition(defaultBeadPosition)
@@ -253,8 +253,8 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngl
   override def resetAll() = {
     super.resetAll()
     clearHistory()
-    selectedObject = RampDefaults.objects(0)
-    frictionless = RampDefaults.FRICTIONLESS_DEFAULT
+    selectedObject = MotionSeriesDefaults.objects(0)
+    frictionless = MotionSeriesDefaults.FRICTIONLESS_DEFAULT
     walls = true
     resetBead()
     manBead.setPosition(defaultManPosition)
@@ -409,7 +409,7 @@ class RampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngl
     rampSegments(1).setHeat(rampHeat)
     rampSegments(0).stepInTime(dt)
     rampSegments(1).stepInTime(dt)
-    if (getTime < RampDefaults.MAX_RECORD_TIME) {
+    if (getTime < MotionSeriesDefaults.MAX_RECORD_TIME) {
       val mode = bead.motionStrategy.getFactory
       //println("recording mode: "+mode)
       recordHistory += new DataPoint(getTime, new RecordedState(new RampState(getRampAngle, rampSegments(1).heat, rampSegments(1).wetness),

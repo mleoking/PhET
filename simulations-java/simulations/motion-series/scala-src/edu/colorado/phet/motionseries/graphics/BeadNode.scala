@@ -4,8 +4,8 @@ package edu.colorado.phet.motionseries.graphics
 import phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import phet.common.piccolophet.event.CursorHandler
 import model.{Bead}
-import motionseries.RampResources
-import sims.theramp.RampDefaults
+import motionseries.MotionSeriesResources
+import motionseries.MotionSeriesDefaults
 
 import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
 import umd.cs.piccolo.PNode
@@ -25,7 +25,7 @@ class DraggableBeadNode(bead: Bead,
       val delta = event.getCanvasDelta
       val modelDelta = transform.viewToModelDifferential(delta.width, delta.height)
       val sign = modelDelta dot bead.getRampUnitVector
-      bead.parallelAppliedForce = bead.parallelAppliedForce + sign / RampDefaults.PLAY_AREA_VECTOR_SCALE
+      bead.parallelAppliedForce = bead.parallelAppliedForce + sign / MotionSeriesDefaults.PLAY_AREA_VECTOR_SCALE
       dragListener()
     }
 
@@ -36,7 +36,7 @@ class DraggableBeadNode(bead: Bead,
 }
 
 class BeadNode(bead: Bead, transform: ModelViewTransform2D, imageName: String) extends PNode {
-  val imageNode = new PImage(RampResources.getImage(imageName))
+  val imageNode = new PImage(MotionSeriesResources.getImage(imageName))
 
   def setImage(im: BufferedImage) = {
     imageNode.setImage(im)

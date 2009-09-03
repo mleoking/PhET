@@ -1,6 +1,6 @@
 package edu.colorado.phet.motionseries.model
 
-import RampResources._
+import motionseries.MotionSeriesResources._
 import java.awt.Color
 import scalacommon.util.Observable
 
