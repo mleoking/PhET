@@ -1,5 +1,6 @@
 package edu.colorado.phet.motionseries.graphics
 
+import java.awt.geom.{Point2D, Rectangle2D}
 import model.{MutableRampObject, ScalaRampObject}
 import collection.mutable.ArrayBuffer
 import phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
@@ -18,7 +19,6 @@ import umd.cs.piccolox.nodes.PClip
 import umd.cs.piccolox.pswing.PSwing
 import umd.cs.piccolo.PNode
 import umd.cs.piccolo.nodes.{PImage}
-import java.awt.geom.Rectangle2D
 import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
 import edu.colorado.phet.scalacommon.Predef._
 import java.lang.Math._
@@ -34,7 +34,7 @@ trait ObjectModel {
   def addListener(listener: () => Unit): Unit
 }
 
-class ObjectSelectionNode(transform: ModelViewTransform2D, model: ObjectModel) extends PNode {
+class ObjectSelectionNode(model: ObjectModel) extends PNode {
   val rows = new ArrayBuffer[ArrayBuffer[PNode]]
 
   val nodes = for (o <- RampDefaults.objects) yield {
@@ -45,7 +45,7 @@ class ObjectSelectionNode(transform: ModelViewTransform2D, model: ObjectModel) e
   }
   val cellDim = nodes.foldLeft(new PDimension)((a, b) => new PDimension(max(a.width, b.getLayoutBounds.width), max(a.height, b.getLayoutBounds.height)))
 
-  val modelCellDimPt = transform.viewToModelDifferential(cellDim.width, cellDim.height)
+  val modelCellDimPt = new Point2D.Double(cellDim.width,cellDim.height)
   //y is down, so modelCellDimPt.y is negative
   for (i <- 0 until nodes.length) {
     val row = i / RampDefaults.iconsPerRow
@@ -53,11 +53,12 @@ class ObjectSelectionNode(transform: ModelViewTransform2D, model: ObjectModel) e
 
     val n = nodes(i)
     n.backgroundNode.setPathTo(new Rectangle2D.Double(0, 0, cellDim.width, cellDim.height))
-    n.setOffset(transform.modelToView(column * modelCellDimPt.x - 11, -10 + row * modelCellDimPt.y - 2 * modelCellDimPt.y + 0.5))
+    n.setOffset(column * modelCellDimPt.x - 11, -10 + row * modelCellDimPt.y - 2 * modelCellDimPt.y + 0.5)
     addChild(n)
   }
-  setOffset(transform.getViewBounds.getCenterX - getFullBounds.getCenterX,
-    transform.getViewBounds.getMaxY - getFullBounds.getMaxY - 2)
+  val offX = -getFullBounds.getX
+  val offY = -getFullBounds.getY
+  for (i <- 0 until getChildrenCount) getChild(i).translate(offX,offY)//so that our origin is (0,0) like a well-behaved pnode
 
   class ObjectSelectionIcon(o: ScalaRampObject) extends PNode {
     val textNode = new HTMLNode(o.getDisplayTextHTML.toString)
