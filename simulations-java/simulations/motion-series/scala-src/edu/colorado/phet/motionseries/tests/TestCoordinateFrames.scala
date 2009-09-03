@@ -69,7 +69,10 @@ class Stage(private var _width: Double, private var _height: Double) extends Obs
   }
 }
 
-class MyCanvas(stageWidth: Int, stageHeight: Int, modelBounds: Rectangle2D.Double) extends PhetPCanvas {
+class MyCanvas(stageWidth: Double, stageHeight: Double, modelBounds: Rectangle2D.Double) extends PhetPCanvas {
+  //Create a MyCanvas with scale sx = sy
+  def this(stageWidth: Int, modelBounds: Rectangle2D.Double) = this(stageWidth, modelBounds.getHeight / modelBounds.getWidth * stageWidth, modelBounds)
+
   val stage = new Stage(stageWidth, stageHeight)
   val transform = new ModelViewTransform2D(modelBounds, new Rectangle2D.Double(0, 0, stageWidth, stageHeight))
 
@@ -85,6 +88,8 @@ class MyCanvas(stageWidth: Int, stageHeight: Int, modelBounds: Rectangle2D.Doubl
   def addModelNode(node: PNode) = addStageNode(new ModelNode(transform, node))
 
   def panModelViewport(dx: Double, dy: Double) = transform.panModelViewport(dx, dy)
+
+  def addStageAreaDisplay() = addStageNode(new PhetPPath(new Rectangle2D.Double(0,0,stage.width,stage.height),new BasicStroke(6,BasicStroke.CAP_BUTT,BasicStroke.JOIN_MITER,1f,Array(6f,4f),0f),Color.red))
 }
 
 class StartTest {
