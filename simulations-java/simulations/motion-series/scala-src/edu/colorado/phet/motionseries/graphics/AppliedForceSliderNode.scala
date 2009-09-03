@@ -35,20 +35,10 @@ class AppliedForceSlider(getter: () => Double,
   override def isValueInRange(value: Double) = true
 }
 
-class AppliedForceSliderNode(bead: Bead,
-                             transform: ModelViewTransform2D,
-                             mousePressHandler: () => Unit) extends PNode {
+class AppliedForceSliderNode(bead: Bead, mousePressHandler: () => Unit) extends PNode {
   val max = RampDefaults.MAX_APPLIED_FORCE
   val control = new AppliedForceSlider(() => bead.parallelAppliedForce, value => bead.parallelAppliedForce = value, bead.addListener, mousePressHandler)
   control.setSize(new Dimension(control.getPreferredSize.width, (control.getPreferredSize.height * 1.45).toInt))
   val pswing = new PSwing(control)
   addChild(pswing)
-  def updatePosition() = {
-    val viewLoc = transform.modelToView(new Point2D.Double(0, -1))
-    val scale = 1.2f * 1.2f
-    val x = transform.getViewBounds
-    pswing.setScale(scale)
-    pswing.setOffset(x.getCenterX - pswing.getFullBounds.getWidth / 2, viewLoc.y)
-  }
-  updatePosition()
 }
