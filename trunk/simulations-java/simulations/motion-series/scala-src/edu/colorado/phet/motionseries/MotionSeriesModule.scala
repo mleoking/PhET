@@ -8,15 +8,14 @@ import model._
 //TODO: improve inheritance/composition scheme for different applications/modules/canvases/models
 class MotionSeriesModule(frame: JFrame, clock: ScalaClock, name: String, defaultBeadPosition: Double, pausedOnReset: Boolean,
                          initialAngle: Double) extends Module(name, clock) {
-  val rampModel = createRampModel(defaultBeadPosition, pausedOnReset, initialAngle)
+  def createMotionSeriesModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngle: Double) = new MotionSeriesModel(defaultBeadPosition, pausedOnReset, initialAngle)
 
-  def createRampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngle: Double) = new MotionSeriesModel(defaultBeadPosition, pausedOnReset, initialAngle)
-
+  val motionSeriesModel = createMotionSeriesModel(defaultBeadPosition, pausedOnReset, initialAngle)
   val wordModel = new WordModel
   val fbdModel = new FreeBodyDiagramModel
   val coordinateSystemModel = new AdjustableCoordinateModel
   val vectorViewModel = new VectorViewModel
-  coordinateSystemModel.addListenerByName(if (coordinateSystemModel.fixed) rampModel.coordinateFrameModel.angle = 0)
+  coordinateSystemModel.addListenerByName(if (coordinateSystemModel.fixed) motionSeriesModel.coordinateFrameModel.angle = 0)
   private var lastTickTime = System.currentTimeMillis
 
   //This clock is always running; pausing just pauses the physics
@@ -24,7 +23,7 @@ class MotionSeriesModule(frame: JFrame, clock: ScalaClock, name: String, default
     val paintAndInputTime = System.currentTimeMillis - lastTickTime
 
     val startTime = System.currentTimeMillis
-    rampModel.update(dt)
+    motionSeriesModel.update(dt)
     RepaintManager.currentManager(getSimulationPanel).paintDirtyRegions()
     val modelTime = System.currentTimeMillis - startTime
 
@@ -38,16 +37,16 @@ class MotionSeriesModule(frame: JFrame, clock: ScalaClock, name: String, default
   })
 
   //pause on start/reset, and unpause (and start recording) when the user applies a force
-  rampModel.setPaused(true)
+  motionSeriesModel.setPaused(true)
 
   def resetRampModule(): Unit = {
-    rampModel.resetAll()
+    motionSeriesModel.resetAll()
     wordModel.resetAll()
     fbdModel.resetAll()
     coordinateSystemModel.resetAll()
     vectorViewModel.resetAll()
     //pause on startup/reset, and unpause (and start recording) when the user applies a force
-    rampModel.setPaused(true)
+    motionSeriesModel.setPaused(true)
     resetAll()
   }
 

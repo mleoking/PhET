@@ -9,15 +9,15 @@ class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock)
         extends MotionSeriesModule(frame, clock, "module.robotMovingCompany".translate, 5, false, MotionSeriesDefaults.defaultRampAngle) {
   override def reset() = {
     super.reset()
-    rampModel.frictionless = false
+    motionSeriesModel.frictionless = false
   }
 
   override def resetAll() = {
     super.resetAll()
-    rampModel.frictionless = false
+    motionSeriesModel.frictionless = false
   }
 
-  override def createRampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngle: Double) = {
+  override def createMotionSeriesModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngle: Double) = {
     new MotionSeriesModel(defaultBeadPosition, pausedOnReset, initialAngle) {
       override def updateSegmentLengths() = setSegmentLengths(rampLength, rampLength)
       frictionless = false
@@ -25,7 +25,7 @@ class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock)
 
   }
 
-  val gameModel = new RobotMovingCompanyGameModel(rampModel, clock)
+  val gameModel = new RobotMovingCompanyGameModel(motionSeriesModel, clock)
 
   gameModel.itemFinishedListeners += ((scalaRampObject, result) => {
     val audioClip = result match {
@@ -37,7 +37,7 @@ class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock)
     if (!audioClip.isEmpty) MotionSeriesResources.getAudioClip(audioClip.get).play()
   })
 
-  val canvas = new RobotMovingCompanyCanvas(rampModel, coordinateSystemModel, fbdModel, vectorViewModel, frame, gameModel)
+  val canvas = new RobotMovingCompanyCanvas(motionSeriesModel, coordinateSystemModel, fbdModel, vectorViewModel, frame, gameModel)
 
   setSimulationPanel(canvas)
   setLogoPanelVisible(false)
