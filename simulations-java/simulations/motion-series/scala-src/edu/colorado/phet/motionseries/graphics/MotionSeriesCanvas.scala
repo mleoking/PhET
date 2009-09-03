@@ -24,7 +24,6 @@ abstract class MotionSeriesCanvas(model: RampModel,
                                   freeBodyDiagramModel: FreeBodyDiagramModel,
                                   vectorViewModel: VectorViewModel,
                                   frame: JFrame,
-                                  modelOffsetY: Double,
                                   rampLayoutArea: Rectangle2D) extends MyCanvas(800, new Rectangle2D.Double(-11, -6, 23, 16)) { //max y should be about 10 in default case
   setBackground(RampDefaults.SKY_GRADIENT_BOTTOM)
 
@@ -234,8 +233,8 @@ class ClearHeatButton(model: RampModel) extends GradientButtonNode("controls.cle
 
 class RampCanvas(model: RampModel, coordinateSystemModel: AdjustableCoordinateModel, freeBodyDiagramModel: FreeBodyDiagramModel,
                  vectorViewModel: VectorViewModel, frame: JFrame, showObjectSelectionNode: Boolean, showAppliedForceSlider: Boolean,
-                 rampAngleDraggable: Boolean, modelOffsetY: Double, rampLayoutArea: Rectangle2D)
-        extends MotionSeriesCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame, modelOffsetY, rampLayoutArea) {
+                 rampAngleDraggable: Boolean, rampLayoutArea: Rectangle2D)
+        extends MotionSeriesCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame, rampLayoutArea) {
   if (showAppliedForceSlider) {
     val appliedForceSliderNode = new AppliedForceSliderNode(model.bead, () => model.setPaused(false))
     appliedForceSliderNode.setOffset(stage.width / 2 - appliedForceSliderNode.getFullBounds.getWidth / 2, transform.modelToView(0, -1).getY)

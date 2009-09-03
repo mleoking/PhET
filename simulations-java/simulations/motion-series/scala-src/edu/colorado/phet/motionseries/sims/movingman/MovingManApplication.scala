@@ -25,11 +25,10 @@ class BasicMovingManModule(frame: JFrame,
                            defaultBeadPosition: Double,
                            pausedOnReset: Boolean,
                            initialAngle: Double,
-                           modelOffsetY: Double,
                            showFrictionControl: Boolean,
                            rampLayoutArea:Rectangle2D)
         extends AbstractRampModule(frame, clock, name, defaultBeadPosition, pausedOnReset, initialAngle) {
-  val canvas = new BasicMovingManCanvas(rampModel, coordinateSystemModel, fbdModel, vectorViewModel, frame, showObjectSelectionNode, showAppliedForceSlider, initialAngle != 0.0, modelOffsetY,rampLayoutArea)
+  val canvas = new BasicMovingManCanvas(rampModel, coordinateSystemModel, fbdModel, vectorViewModel, frame, showObjectSelectionNode, showAppliedForceSlider, initialAngle != 0.0, rampLayoutArea)
   setSimulationPanel(canvas)
   val controlPanel = new RampControlPanel(rampModel, wordModel, fbdModel, coordinateSystemModel, vectorViewModel,
     resetRampModule, coordinateSystemFeaturesEnabled, useObjectComboBox, rampModel, false, showFrictionControl)
@@ -39,20 +38,20 @@ class BasicMovingManModule(frame: JFrame,
 
 class BasicMovingManCanvas(model: RampModel, coordinateSystemModel: AdjustableCoordinateModel, freeBodyDiagramModel: FreeBodyDiagramModel,
                            vectorViewModel: VectorViewModel, frame: JFrame, showObjectSelectionNode: Boolean, showAppliedForceSlider: Boolean,
-                           rampAngleDraggable: Boolean, modelOffsetY: Double,rampLayoutArea:Rectangle2D)
+                           rampAngleDraggable: Boolean, rampLayoutArea:Rectangle2D)
         extends RampCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel,
-          frame, showObjectSelectionNode, showAppliedForceSlider, rampAngleDraggable, modelOffsetY,rampLayoutArea) {
+          frame, showObjectSelectionNode, showAppliedForceSlider, rampAngleDraggable, rampLayoutArea) {
   override def addHeightAndAngleIndicators() = {}
 }
 
-class IntroModule(frame: JFrame, clock: ScalaClock) extends BasicMovingManModule(frame, clock, "moving-man.module.intro.title".translate, false, true, false, true, -6, false, 0.0, 0.0, true,RampDefaults.defaultRampLayoutArea)
+class IntroModule(frame: JFrame, clock: ScalaClock) extends BasicMovingManModule(frame, clock, "moving-man.module.intro.title".translate, false, true, false, true, -6, false, 0.0, true,RampDefaults.defaultRampLayoutArea)
 
-class GraphingModule(frame: JFrame, clock: ScalaClock) extends BasicMovingManModule(frame, clock, "moving-man.module.graphing.title".translate, false, false, true, false, -6, false, 0.0, 0.0, true,RampDefaults.defaultRampLayoutArea) {
+class GraphingModule(frame: JFrame, clock: ScalaClock) extends BasicMovingManModule(frame, clock, "moving-man.module.graphing.title".translate, false, false, true, false, -6, false, 0.0, true,RampDefaults.defaultRampLayoutArea) {
   coordinateSystemModel.adjustable = false
   canvas.addScreenNode(new ForcesAndMotionChartNode(canvas.transform, canvas, rampModel))
 }
 
-class MovingManGameModule(frame: JFrame, clock: ScalaClock) extends BasicMovingManModule(frame, clock, "moving-man.module.game.title".translate, false, false, false, false, -6, false, 0.0, 0.0, true,RampDefaults.defaultRampLayoutArea)
+class MovingManGameModule(frame: JFrame, clock: ScalaClock) extends BasicMovingManModule(frame, clock, "moving-man.module.game.title".translate, false, false, false, false, -6, false, 0.0, true,RampDefaults.defaultRampLayoutArea)
 
 class MovingManApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
   def newClock = new ScalaClock(RampDefaults.DELAY, RampDefaults.DT_DEFAULT)
