@@ -38,14 +38,14 @@
     define("PHET_ROOT_URL",                     "http://phet-server.colorado.edu:8080/".LOCALE."/");
     define("PHET_WEBSITE_URL",                  PHET_ROOT_URL);
     define("PHET_SIMS_SUBDIR",                  "sims/");
-    // Definition of the filter, which specifies what to exclude from the rip.
-    //define("PHET_RIPPER_FILTER",                '"-*wickettest*"');
-    // The definition below for the PHET_RIPPER_FILTER can be used to create a
-    // very small rip of the website that excludes sims and a lot of other
-    // things.  This is useful for testing, since it rips much more quickly
-    // that the "real" rip.  To use it, uncomment it, and comment out any
-    // other definitions of the same constant.
-    define("PHET_RIPPER_FILTER",                '"-*/get-phet/*" "-*/workshops/*" "-*/simulations/*" "-*wickettest*"');
+    // Definition of the filter, which specifies what to include/exclude from
+    // the rip.  This one define the full rip.
+    define("PHET_RIPPER_FILTER",                '"-*wickettest*" "+phet-server.colorado.edu:8080/sims/*"');
+    // Filter definition for a "light" rip, meaning one that rips less than
+    // the full web site.  This is generally swapped in for the full rip
+    // filters when doing testing that requires a lot of iterations, since 
+    // this will generally be much quicker than a full rip.
+    define("PHET_LIGHT_RIPPER_FILTER",                '"-*/get-phet/*" "-*/workshops/*" "-*/simulations/*" "-*/simulation/*" "-*wickettest*" "+/simulation/faraday/*"');
     define("PHET_WEBSITE_ROOT_PARTIAL_PATTERN", '[^"]+colorado\.edu');
     define("PHET_WEBSITE_ROOT_PATTERN",         '/'.PHET_WEBSITE_ROOT_PARTIAL_PATTERN.'/');
 
@@ -101,13 +101,13 @@
     define("BITROCK_INSTALLDIR_MACRO",  '@@INSTALLDIR@@');
 
     // KSU Installer Note: Some of the bitrock files - such as the executable
-    // itself - is maintained in the main installer directory, and some of the
+    // itself - are maintained in the main installer directory, and some of the
     // KSU-specific files are maintained in a separate location.  Hence, some
     // of the contants below point to one place and some point to another.
     define("BITROCK_DIR",               file_cleanup_local_filename(PARENT_DIR."BitRock/"));
     define("BITROCK_KSU_DIR",           file_cleanup_local_filename(ROOT_DIR."BitRock/"));
     define("BITROCK_BUILDFILE_DIR",     file_cleanup_local_filename(BITROCK_KSU_DIR."projects/"));
-    define("BITROCK_BUILDFILE",         file_cleanup_local_filename(BITROCK_BUILDFILE_DIR."phet-ksu-installer-buildfile.xml"));
+    define("BITROCK_BUILDFILE",         file_cleanup_local_filename(BITROCK_BUILDFILE_DIR."mini-ksu-installer-buildfile.xml"));
     define("BITROCK_EXE_DIR",           file_cleanup_local_filename(BITROCK_DIR));
     define("BITROCK_EXE_Linux",         "bitrock.sh");
     define("BITROCK_EXE_WINNT",         "bitrock.bat");
