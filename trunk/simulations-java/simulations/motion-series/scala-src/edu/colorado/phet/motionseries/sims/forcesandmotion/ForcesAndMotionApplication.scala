@@ -59,7 +59,7 @@ class FrictionModule(frame: JFrame, clock: ScalaClock) extends BasicForcesAndMot
 
 class GraphingModule(frame: JFrame, clock: ScalaClock) extends BasicForcesAndMotionModule(frame, clock, "forces-and-friction.module.graphing.title".translate, false, false, true, false, -6, false, 0.0, true, RampDefaults.forceEnergyGraphRampLayoutArea) {
   coordinateSystemModel.adjustable = false
-  canvas.addScreenNode(new ForcesAndMotionChartNode(canvas.transform, canvas, rampModel))
+  canvas.addScreenNode(new ForcesAndMotionChartNode(canvas, rampModel))
 }
 
 class RobotMovingCompany1DModule(frame: JFrame, clock: ScalaClock) extends BasicForcesAndMotionModule(frame, clock, "forces-and-friction.module.robot-moving-company.title".translate, false, false, false, false, -6, false, 0.0, true, RampDefaults.defaultRampLayoutArea)

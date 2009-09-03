@@ -69,13 +69,20 @@ class Stage(private var _width: Double, private var _height: Double) extends Obs
   }
 }
 
-class MyCanvas(stageWidth: Double, stageHeight: Double, modelBounds: Rectangle2D.Double) extends PhetPCanvas {
+class MyCanvas(stageWidth: Double, stageHeight: Double, modelBounds: Rectangle2D) extends PhetPCanvas {
   //Create a MyCanvas with scale sx = sy
-  def this(stageWidth: Int, modelBounds: Rectangle2D.Double) = this (stageWidth, modelBounds.getHeight / modelBounds.getWidth * stageWidth, modelBounds)
+  def this(stageWidth: Int, modelBounds: Rectangle2D) = this (stageWidth, modelBounds.getHeight / modelBounds.getWidth * stageWidth, modelBounds)
 
   val stage = new Stage(stageWidth, stageHeight)
   val transform = new ModelViewTransform2D(modelBounds, new Rectangle2D.Double(0, 0, stageWidth, stageHeight))
+  private val utilityStageNode = new PText("Utility node"){ //to facilitate transforms
+    setVisible(false)
+    setPickable(false)
+  }
+  addStageNode(utilityStageNode)
 
+  def modelToScreen(x:Double,y:Double) = utilityStageNode.localToGlobal(transform.modelToView(x, y))
+  
   def setStageBounds(w: Double, h: Double) = {
     stage.setSize(w, h)
     transform.setViewBounds(new Rectangle2D.Double(0, 0, w, h))

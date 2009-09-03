@@ -10,10 +10,12 @@ object RampDefaults {
   val MAX_CHART_DISPLAY_TIME = 20.0
   val MAX_RECORD_TIME = 20.0
   val defaultRampAngle = 30.0.toRadians
-  val defaultRampLayoutArea = new Rectangle2D.Double(-11, -1, 23, 11)
-  val frictionRampLayoutArea= new Rectangle2D.Double(-11, -1, 23, 8)
-  val forceGraphRampLayoutArea = new Rectangle2D.Double(-11, -1, 23, 8)
-  val forceEnergyGraphRampLayoutArea = new Rectangle2D.Double(-11, -1, 23, 4)
+
+  //this value looked good for default ramps new Rectangle2D.Double(-11, -6, 23, 16)
+  val defaultRampLayoutArea = new Rectangle2D.Double(-11, -6, 23, 16)
+  val frictionRampLayoutArea= new Rectangle2D.Double(-11, -6, 23, 16 - 3)
+  val forceGraphRampLayoutArea = new Rectangle2D.Double(-11, -6, 23, 16 - 5)
+  val forceEnergyGraphRampLayoutArea = new Rectangle2D.Double(-11, -6, 23, 16 - 7)
   //how far away the vector labels can be from the tip, in world coordinates
   val FBD_LABEL_MAX_OFFSET = 500
   val BODY_LABEL_MAX_OFFSET = 3

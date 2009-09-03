@@ -31,7 +31,7 @@ object Defaults {
   }
 }
 
-abstract class AbstractChartNode(transform: ModelViewTransform2D, canvas: MotionSeriesCanvas, model: RampModel) extends PNode {
+abstract class AbstractChartNode(canvas: MotionSeriesCanvas, model: RampModel) extends PNode {
   def inTimeRange(time: Double) = {
     //    println("time = "+time)
     time <= RampDefaults.MAX_RECORD_TIME
@@ -122,7 +122,7 @@ abstract class AbstractChartNode(transform: ModelViewTransform2D, canvas: Motion
   canvas.addComponentListener(new ComponentAdapter() {override def componentResized(e: ComponentEvent) = {updateLayout()}})
 
   def updateLayout() = {
-    val y = canvas.rampLayoutStrut.getGlobalFullBounds.getMaxY
+    val y= canvas.modelToScreen(0,-1).getY
     val h = canvas.getHeight - y
     val padX = 2
     val padY = padX
