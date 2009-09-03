@@ -1,3 +1,4 @@
+Fixed: Some play area control panels overlap depending on aspect ratio
 # 1.03.36 (34763) Sep 3, 2009
 Renamed project from "the-ramp" to "motion-series"
 Fixed: Ramp angle indicator blocks mouse input
