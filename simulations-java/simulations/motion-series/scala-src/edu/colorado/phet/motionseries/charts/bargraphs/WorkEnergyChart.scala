@@ -8,7 +8,6 @@ import java.awt.Color
 import java.awt.event.{ComponentEvent, ComponentAdapter, WindowEvent, WindowAdapter}
 import javax.swing.{JDialog, JFrame}
 import scalacommon.swing.MyJButton
-import motionseries.MotionSeriesResources
 import motionseries.MotionSeriesDefaults
 
 import umd.cs.piccolox.pswing.PSwing

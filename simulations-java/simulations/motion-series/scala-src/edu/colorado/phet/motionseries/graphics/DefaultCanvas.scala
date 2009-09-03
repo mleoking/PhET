@@ -19,7 +19,7 @@ class DefaultCanvas(modelWidth: Double, modelHeight: Double, canvasWidth: Int, c
   setWorldTransformStrategy(centeredBoxStrategy)
   val transform: ModelViewTransform2D = new ModelViewTransform2D(new Rectangle2D.Double(-modelWidth / 2, -modelHeight / 2,
     modelWidth, modelHeight), canonicalBounds, true)
-  val stageNode = new PNode//call it the stage in analogy with flash
+  val stageNode = new PNode //call it the stage in analogy with flash
   addWorldChild(stageNode)
 
   def getScale = centeredBoxStrategy.getScale

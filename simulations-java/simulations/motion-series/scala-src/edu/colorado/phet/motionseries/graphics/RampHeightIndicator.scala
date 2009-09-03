@@ -2,7 +2,6 @@ package edu.colorado.phet.motionseries.graphics
 
 import motionseries.MotionSeriesResources._
 import phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
-import phet.common.phetcommon.view.util.PhetFont
 import motionseries.MotionSeriesDefaults
 import umd.cs.piccolo.PNode
 import phet.common.piccolophet.nodes.PhetPPath

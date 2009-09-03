@@ -15,7 +15,6 @@ import model.{AdjustableCoordinateModel, FreeBodyDiagramModel, CoordinateFrameMo
 import scalacommon.math.Vector2D
 import scalacommon.util.Observable
 import scalacommon.view.ToggleListener
-import motionseries.MotionSeriesResources
 import motionseries.MotionSeriesDefaults
 
 import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}

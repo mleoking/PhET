@@ -1,7 +1,6 @@
 package edu.colorado.phet.motionseries.graphics
 
 import model.{FireDog, Raindrop, MotionSeriesModel}
-import motionseries.MotionSeriesResources
 import umd.cs.piccolo.PNode
 import motionseries.MotionSeriesResources._
 

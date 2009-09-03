@@ -3,7 +3,6 @@ package edu.colorado.phet.motionseries.graphics
 import java.awt.geom.{Point2D, Rectangle2D}
 import model.{MutableMotionSeriesObject, MotionSeriesObject}
 import collection.mutable.ArrayBuffer
-import phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import phet.common.phetcommon.view.util.{BufferedImageUtils, PhetFont}
 import phet.common.phetcommon.view.VerticalLayoutPanel
 import phet.common.piccolophet.event.CursorHandler
@@ -45,7 +44,7 @@ class ObjectSelectionNode(model: ObjectModel) extends PNode {
   }
   val cellDim = nodes.foldLeft(new PDimension)((a, b) => new PDimension(max(a.width, b.getLayoutBounds.width), max(a.height, b.getLayoutBounds.height)))
 
-  val modelCellDimPt = new Point2D.Double(cellDim.width,cellDim.height)
+  val modelCellDimPt = new Point2D.Double(cellDim.width, cellDim.height)
   //y is down, so modelCellDimPt.y is negative
   for (i <- 0 until nodes.length) {
     val row = i / MotionSeriesDefaults.iconsPerRow
@@ -58,7 +57,7 @@ class ObjectSelectionNode(model: ObjectModel) extends PNode {
   }
   val offX = -getFullBounds.getX
   val offY = -getFullBounds.getY
-  for (i <- 0 until getChildrenCount) getChild(i).translate(offX,offY)//so that our origin is (0,0) like a well-behaved pnode
+  for (i <- 0 until getChildrenCount) getChild(i).translate(offX, offY) //so that our origin is (0,0) like a well-behaved pnode
 
   class ObjectSelectionIcon(o: MotionSeriesObject) extends PNode {
     val textNode = new HTMLNode(o.getDisplayTextHTML.toString)

@@ -9,7 +9,7 @@ class MovingManChartNode(canvas: MotionSeriesCanvas, model: MotionSeriesModel) e
   val graphs = Array(
     new MinimizableControlGraph("position", positionGraph, false),
     new MinimizableControlGraph("velocity", velocityGraph, false),
-    new MinimizableControlGraph("acceleration", accelerationGraph, true) )
+    new MinimizableControlGraph("acceleration", accelerationGraph, true))
 
   val graphSetNode = new GraphSetNode(new GraphSetModel(new GraphSuite(graphs))) {
     override def getMaxAvailableHeight(availableHeight: Double) = availableHeight

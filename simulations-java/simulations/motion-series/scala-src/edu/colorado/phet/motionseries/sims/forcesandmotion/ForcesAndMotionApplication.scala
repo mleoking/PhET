@@ -4,19 +4,14 @@ import java.awt.geom.Rectangle2D
 import phet.common.phetcommon.application.{PhetApplicationConfig, PhetApplicationLauncher}
 import phet.common.piccolophet.PiccoloPhetApplication
 import controls.RampControlPanel
-import java.awt.event.{ComponentEvent, ComponentAdapter}
-
 import model.{MotionSeriesModel, AdjustableCoordinateModel, FreeBodyDiagramModel, VectorViewModel}
 import graphics._
 import java.awt.Color
-import motionseries.MotionSeriesResources
 import scalacommon.record.{RecordModelControlPanel, PlaybackSpeedSlider}
 import javax.swing.JFrame
 import scalacommon.ScalaClock
 import motionseries.MotionSeriesResources._
-import theramp.{MotionSeriesDefaults, AbstractRampModule}
-
-
+import theramp.AbstractRampModule
 import umd.cs.piccolox.pswing.PSwing
 
 class BasicForcesAndMotionModule(frame: JFrame,

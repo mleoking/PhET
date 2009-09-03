@@ -2,7 +2,7 @@ package edu.colorado.phet.motionseries.sims.theramp
 
 import charts.bargraphs.{WorkEnergyChartModel, WorkEnergyChart}
 import java.awt.geom.Rectangle2D
-import phet.common.phetcommon.application.{PhetApplicationLauncher, Module, PhetApplicationConfig}
+import phet.common.phetcommon.application.{Module, PhetApplicationConfig}
 import phet.common.piccolophet.{PiccoloPhetApplication}
 import graphics.RampCanvas
 import java.awt.event.{ActionEvent, ActionListener}
@@ -66,7 +66,7 @@ class AbstractRampModule(frame: JFrame, clock: ScalaClock, name: String, default
 
 class BasicRampModule(frame: JFrame, clock: ScalaClock, name: String,
                       coordinateSystemFeaturesEnabled: Boolean, useObjectComboBox: Boolean, showAppliedForceSlider: Boolean,
-                      defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngle: Double, rampLayoutArea:Rectangle2D)
+                      defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngle: Double, rampLayoutArea: Rectangle2D)
         extends AbstractRampModule(frame, clock, name, defaultBeadPosition, pausedOnReset, initialAngle) {
   val rampCanvas = new RampCanvas(rampModel, coordinateSystemModel, fbdModel, vectorViewModel, frame,
     !useObjectComboBox, showAppliedForceSlider, initialAngle != 0.0, rampLayoutArea)
@@ -85,12 +85,12 @@ class CoordinatesRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampM
   coordinateSystemModel.adjustable = true
 }
 
-class GraphingModule(frame: JFrame, clock: ScalaClock, name: String, showEnergyGraph: Boolean, rampLayoutArea:Rectangle2D)
+class GraphingModule(frame: JFrame, clock: ScalaClock, name: String, showEnergyGraph: Boolean, rampLayoutArea: Rectangle2D)
         extends BasicRampModule(frame, clock, name, false, true, false, -6, true, MotionSeriesDefaults.defaultRampAngle, rampLayoutArea) {
   coordinateSystemModel.adjustable = false
 }
 
-class ForceGraphsModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(frame, clock, "module.force-graphs".translate, false, MotionSeriesDefaults.forceGraphViewport){
+class ForceGraphsModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(frame, clock, "module.force-graphs".translate, false, MotionSeriesDefaults.forceGraphViewport) {
   rampCanvas.addScreenNode(new RampForceChartNode(rampCanvas, rampModel))
 }
 
