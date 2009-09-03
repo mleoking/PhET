@@ -1,28 +1,32 @@
 package edu.colorado.phet.motionseries.model
 
 import collection.mutable.ArrayBuffer
+import common.motion.model.TimeData
+import common.motion.MotionMath
 import scalacommon.math.Vector2D
 import scalacommon.util.Observable
 import motionseries.MotionSeriesDefaults
 import motionseries.Predef._
 
 /**Immutable memento for recording*/
-case class BeadState(position: Double, velocity: Double, mass: Double, staticFriction: Double, kineticFriction: Double, thermalEnergy: Double, crashEnergy: Double) {
+case class BeadState(position: Double, velocity: Double, mass: Double, staticFriction: Double, kineticFriction: Double, thermalEnergy: Double, crashEnergy: Double, time: Double) {
   def translate(dx: Double) = setPosition(position + dx)
 
-  def setPosition(pos: Double) = new BeadState(pos, velocity, mass, staticFriction, kineticFriction, thermalEnergy, crashEnergy)
+  def setPosition(pos: Double) = new BeadState(pos, velocity, mass, staticFriction, kineticFriction, thermalEnergy, crashEnergy, time)
 
-  def setVelocity(vel: Double) = new BeadState(position, vel, mass, staticFriction, kineticFriction, thermalEnergy, crashEnergy)
+  def setVelocity(vel: Double) = new BeadState(position, vel, mass, staticFriction, kineticFriction, thermalEnergy, crashEnergy, time)
 
-  def setStaticFriction(value: Double) = new BeadState(position, velocity, mass, value, kineticFriction, thermalEnergy, crashEnergy)
+  def setStaticFriction(value: Double) = new BeadState(position, velocity, mass, value, kineticFriction, thermalEnergy, crashEnergy, time)
 
-  def setKineticFriction(value: Double) = new BeadState(position, velocity, mass, staticFriction, value, thermalEnergy, crashEnergy)
+  def setKineticFriction(value: Double) = new BeadState(position, velocity, mass, staticFriction, value, thermalEnergy, crashEnergy, time)
 
-  def setMass(m: Double) = new BeadState(position, velocity, m, staticFriction, kineticFriction, thermalEnergy, crashEnergy)
+  def setMass(m: Double) = new BeadState(position, velocity, m, staticFriction, kineticFriction, thermalEnergy, crashEnergy, time)
 
-  def setThermalEnergy(value: Double) = new BeadState(position, velocity, mass, staticFriction, kineticFriction, value, crashEnergy)
+  def setThermalEnergy(value: Double) = new BeadState(position, velocity, mass, staticFriction, kineticFriction, value, crashEnergy, time)
 
-  def setCrashEnergy(value: Double) = new BeadState(position, velocity, mass, staticFriction, kineticFriction, thermalEnergy, value)
+  def setCrashEnergy(value: Double) = new BeadState(position, velocity, mass, staticFriction, kineticFriction, thermalEnergy, value, time)
+
+  def setTime(value: Double) = new BeadState(position, velocity, mass, staticFriction, kineticFriction, thermalEnergy, crashEnergy, value)
 }
 
 case class Range(min: Double, max: Double)
@@ -191,6 +195,27 @@ class Bead(private var _state: BeadState,
     notifyListeners()
   }
 
+  //todo privatize
+  object velocityMode
+  object positionMode
+  object accelerationMode
+
+  private var _mode: AnyRef = accelerationMode
+
+  def mode = _mode
+
+  def setAccelerationMode() = {
+    _mode = accelerationMode
+  }
+
+  def setVelocityMode() = {
+    _mode = velocityMode
+  }
+
+  def setPositionMode() = {
+    _mode = positionMode
+  }
+
   def setVelocity(velocity: Double) = {
     if (velocity != state.velocity) {
       state = state.setVelocity(velocity)
@@ -204,6 +229,12 @@ class Bead(private var _state: BeadState,
     gravityForceVector.notifyListeners()
     normalForceVector.notifyListeners()
     notifyListeners()
+  }
+
+  def time = state.time
+
+  def setTime(t: Double) = {
+    state = state.setTime(t)
   }
 
   def setPosition(position: Double) = {
@@ -271,7 +302,24 @@ class Bead(private var _state: BeadState,
 
   def netForceToParallelVelocity(f: Vector2D, dt: Double) = velocity + forceToParallelAcceleration(f) * dt
 
-  def acceleration = forceToParallelAcceleration(totalForce)
+  def acceleration = {
+    if (mode == positionMode) {
+      val timeData = for (i <- 0 until java.lang.Math.min(10, stateHistory.length))
+      yield new TimeData(stateHistory(stateHistory.length - 1 - i).position, stateHistory(stateHistory.length - 1 - i).time)
+      MotionMath.getSecondDerivative(timeData.toArray).getValue
+      //      10.0
+    }
+    else if (mode == velocityMode) {
+      //todo: maybe better to estimate 2nd derivative of position instead of 1st derivative of velocity?
+      val timeData = for (i <- 0 until java.lang.Math.min(10, stateHistory.length))
+      yield new TimeData(stateHistory(stateHistory.length - 1 - i).velocity, stateHistory(stateHistory.length - 1 - i).time)
+      MotionMath.estimateDerivative(timeData.toArray)
+    }
+    else //if (mode == accelerationMode)
+      {
+        forceToParallelAcceleration(totalForce)
+      }
+  }
 
   val workListeners = new ArrayBuffer[Double => Unit]
 
@@ -287,5 +335,9 @@ class Bead(private var _state: BeadState,
     }
   }
 
-  def stepInTime(dt: Double) = motionStrategy.stepInTime(dt)
+  val stateHistory = new ArrayBuffer[BeadState] //todo: memory leak
+  def stepInTime(dt: Double) = {
+    stateHistory += state
+    motionStrategy.stepInTime(dt)
+  }
 }
