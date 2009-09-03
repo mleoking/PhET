@@ -200,12 +200,17 @@ abstract class MotionSeriesCanvas(model: RampModel,
 
   playAreaNode.addChild(new RaindropView(model, this))
   playAreaNode.addChild(new FireDogView(model, this))
-  playAreaNode.addChild(new ClearHeatButton(model))
-  playAreaNode.addChild(new ReturnObjectButton(model))
+
+  val clearHeatButton = new ClearHeatButton(model)
+  clearHeatButton.setOffset(stage.width/2-clearHeatButton.getFullBounds.getWidth/2,stage.height/4)
+  addStageNode(clearHeatButton)
+
+  val returnObjectButton = new ReturnObjectButton(model)
+  returnObjectButton.setOffset(clearHeatButton.getFullBounds.getCenterX - returnObjectButton.getFullBounds.getWidth/2,clearHeatButton.getFullBounds.getMaxY + 10)
+  addStageNode(returnObjectButton)
 }
 
 class ReturnObjectButton(model: RampModel) extends GradientButtonNode("controls.return-object".translate, Color.orange) {
-  setOffset(RampDefaults.worldWidth / 2.0 - getFullBounds.getWidth / 2, RampDefaults.worldHeight * 0.2)
   def updateVisibility() = setVisible(model.beadInModelViewportRange)
   updateVisibility()
   model.addListener(updateVisibility)
@@ -216,7 +221,6 @@ class ReturnObjectButton(model: RampModel) extends GradientButtonNode("controls.
 }
 
 class ClearHeatButton(model: RampModel) extends GradientButtonNode("controls.clear-heat".translate, Color.yellow) {
-  setOffset(RampDefaults.worldWidth / 2.0 - getFullBounds.getWidth / 2, RampDefaults.worldHeight * 0.25)
   def updateVisibility() = {
     setVisible(model.bead.getRampThermalEnergy > 2000)
   }
