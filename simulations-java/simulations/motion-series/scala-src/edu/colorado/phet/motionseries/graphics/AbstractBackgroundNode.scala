@@ -1,14 +1,11 @@
 package edu.colorado.phet.motionseries.graphics
 
-
 import phet.common.phetcommon.view.graphics.transforms.{TransformListener, ModelViewTransform2D}
 import java.awt.geom.{Area, Rectangle2D}
 import java.awt.{Paint, Shape, GradientPaint, Color}
-
 import sims.theramp.RampDefaults
 import umd.cs.piccolo.PNode
 import phet.common.piccolophet.nodes.PhetPPath
-
 
 class AbstractBackgroundNode(getPaint: => Paint, getModelShape: => Shape, transform: ModelViewTransform2D) extends PNode {
   val node = new PhetPPath(getPaint)
@@ -24,8 +21,13 @@ class AbstractBackgroundNode(getPaint: => Paint, getModelShape: => Shape, transf
     def transformChanged(mvt: ModelViewTransform2D) = updatePath()
   })
 }
-class SkyNode(transform: ModelViewTransform2D) extends AbstractBackgroundNode(new GradientPaint(transform.modelToView(0, 0), RampDefaults.SKY_GRADIENT_BOTTOM, transform.modelToView(0, 10), new Color(202, 187, 255)), new Rectangle2D.Double(-100, 0, 200, 200), transform)
-class EarthNode(transform: ModelViewTransform2D) extends AbstractBackgroundNode(RampDefaults.EARTH_COLOR, new Rectangle2D.Double(-100, -200, 200, 200), transform)
+
+class SkyNode(transform: ModelViewTransform2D)
+        extends AbstractBackgroundNode(new GradientPaint(transform.modelToView(0, 0), RampDefaults.SKY_GRADIENT_BOTTOM,
+          transform.modelToView(0, 10), new Color(202, 187, 255)), new Rectangle2D.Double(-100, 0, 200, 200), transform)
+
+class EarthNode(transform: ModelViewTransform2D)
+        extends AbstractBackgroundNode(RampDefaults.EARTH_COLOR, new Rectangle2D.Double(-100, -200, 200, 200), transform)
 
 object EarthNodeWithCliff {
   def getArea(maxX: Double, lowerGroundY: Double) = {
