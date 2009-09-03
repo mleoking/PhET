@@ -281,7 +281,7 @@
         flushing_echo("Copying installers to ".OUTPUT_DIR);
 
         // Now move everything in the BitRock directory to the output directory:
-        file_copy(BITROCK_DIST_DIR, OUTPUT_DIR, true);
+        file_dircopy(BITROCK_DIST_DIR, OUTPUT_DIR, true);
 
         return true;
     }
