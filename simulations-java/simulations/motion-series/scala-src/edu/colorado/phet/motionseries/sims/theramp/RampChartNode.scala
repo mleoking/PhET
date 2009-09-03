@@ -10,8 +10,8 @@ import model.{RampModel}
 import RampResources._
 import sims.theramp.RampDefaults._
 
-class RampChartNode(transform: ModelViewTransform2D, canvas: MotionSeriesCanvas, model: RampModel, showEnergyGraph: Boolean)
-        extends AbstractChartNode(transform, canvas, model) {
+class RampChartNode(canvas: MotionSeriesCanvas, model: RampModel, showEnergyGraph: Boolean)
+        extends AbstractChartNode(canvas, model) {
   val parallelAppliedForceVariable = new DefaultTemporalVariable() {
     override def setValue(value: Double) = model.bead.parallelAppliedForce = value
   }

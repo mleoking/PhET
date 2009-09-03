@@ -24,7 +24,7 @@ abstract class MotionSeriesCanvas(model: RampModel,
                                   freeBodyDiagramModel: FreeBodyDiagramModel,
                                   vectorViewModel: VectorViewModel,
                                   frame: JFrame,
-                                  rampLayoutArea: Rectangle2D) extends MyCanvas(800, new Rectangle2D.Double(-11, -6, 23, 16)) { //max y should be about 10 in default case
+                                  rampLayoutArea: Rectangle2D) extends MyCanvas(800, rampLayoutArea) { //max y should be about 10 in default case
   setBackground(RampDefaults.SKY_GRADIENT_BOTTOM)
 
   val playAreaNode = new PNode
@@ -93,9 +93,6 @@ abstract class MotionSeriesCanvas(model: RampModel,
   }
 
   val windowFBDNode = new FBDDialog(frame, freeBodyDiagramModel, fbdWidth, model.coordinateFrameModel, adjustableCoordinateModel.adjustable, adjustableCoordinateModel, fbdListener)
-
-  val rampLayoutStrut = new LayoutStrut(rampLayoutArea)
-  playAreaNode.addChild(rampLayoutStrut)
 
   addComponentListener(new ComponentAdapter() {override def componentResized(e: ComponentEvent) = {updateLayout()}})
   updateLayout()
