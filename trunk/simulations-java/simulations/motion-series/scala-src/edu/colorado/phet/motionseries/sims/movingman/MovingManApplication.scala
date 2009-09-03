@@ -20,7 +20,7 @@ class BasicMovingManModule(frame: JFrame,
                            name: String,
                            coordinateSystemFeaturesEnabled: Boolean,
                            showObjectSelectionNode: Boolean,
-                           useObjectComboBox: Boolean,
+                           useObjectComboBox: Boolean,//todo: unused
                            showAppliedForceSlider: Boolean,
                            defaultBeadPosition: Double,
                            pausedOnReset: Boolean,
@@ -31,7 +31,7 @@ class BasicMovingManModule(frame: JFrame,
   val canvas = new BasicMovingManCanvas(rampModel, coordinateSystemModel, fbdModel, vectorViewModel, frame, showObjectSelectionNode, showAppliedForceSlider, initialAngle != 0.0, rampLayoutArea)
   setSimulationPanel(canvas)
   val controlPanel = new RampControlPanel(rampModel, wordModel, fbdModel, coordinateSystemModel, vectorViewModel,
-    resetRampModule, coordinateSystemFeaturesEnabled, useObjectComboBox, rampModel, false, showFrictionControl)
+    resetRampModule, coordinateSystemFeaturesEnabled, false, rampModel, false, showFrictionControl)
   setControlPanel(controlPanel)
   setClockControlPanel(new RecordModelControlPanel(rampModel, canvas, () => new PlaybackSpeedSlider(rampModel), Color.blue, 20))
   rampModel.selectedObject = RampDefaults.movingMan
