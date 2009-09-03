@@ -5,7 +5,6 @@ import graphics.MotionSeriesCanvas
 import model.MotionSeriesModel
 import phet.common.motion.model.DefaultTemporalVariable
 import phet.common.motion.graphs._
-import motionseries.MotionSeriesResources
 import motionseries.MotionSeriesResources._
 import motionseries.MotionSeriesDefaults
 import motionseries.MotionSeriesDefaults._

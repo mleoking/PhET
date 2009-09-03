@@ -1,18 +1,11 @@
 package edu.colorado.phet.motionseries.graphics
 
-
-import phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import java.awt.Dimension
 import java.awt.event.{MouseAdapter, MouseEvent}
-
-import java.awt.geom.Point2D
 import model.{Bead}
-import sims.theramp.{MotionSeriesDefaults}
-
 import umd.cs.piccolo.PNode
 import swing.ScalaValueControl
 import umd.cs.piccolox.pswing.PSwing
-import edu.colorado.phet.scalacommon.Predef._
 import motionseries.MotionSeriesResources._
 
 class AppliedForceSlider(getter: () => Double,

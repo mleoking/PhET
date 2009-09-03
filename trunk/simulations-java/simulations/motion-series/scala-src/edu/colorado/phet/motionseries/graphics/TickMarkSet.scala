@@ -7,7 +7,6 @@ import phet.common.piccolophet.nodes.PhetPPath
 import java.awt.Color
 import java.awt.geom.{Rectangle2D, Point2D}
 import java.text.DecimalFormat
-import motionseries.MotionSeriesResources
 import umd.cs.piccolo.nodes.PText
 import umd.cs.piccolo.PNode
 import motionseries.MotionSeriesResources._

@@ -6,14 +6,11 @@ import java.awt.{BasicStroke, Color}
 import phet.common.phetcommon.resources.PhetCommonResources
 import phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import java.awt.event._
-
 import javax.swing.{JFrame}
 import model._
 import scalacommon.math.Vector2D
 import scalacommon.Predef._
 import motionseries.MotionSeriesResources
-import sims.theramp.{MotionSeriesDefaults}
-
 import tests.MyCanvas
 import umd.cs.piccolo.PNode
 import java.lang.Math._
@@ -100,7 +97,7 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
     super.updateLayout()
     updateFBDLocation()
   }
-//  addStageAreaDisplay()
+  //  addStageAreaDisplay()
 
   class VectorSetNode(transform: ModelViewTransform2D, bead: Bead) extends PNode {
     def addVector(a: Vector, offset: VectorValue) = {
@@ -202,11 +199,11 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
   playAreaNode.addChild(new FireDogView(model, this))
 
   val clearHeatButton = new ClearHeatButton(model)
-  clearHeatButton.setOffset(stage.width/2-clearHeatButton.getFullBounds.getWidth/2,stage.height/4)
+  clearHeatButton.setOffset(stage.width / 2 - clearHeatButton.getFullBounds.getWidth / 2, stage.height / 4)
   addStageNode(clearHeatButton)
 
   val returnObjectButton = new ReturnObjectButton(model)
-  returnObjectButton.setOffset(clearHeatButton.getFullBounds.getCenterX - returnObjectButton.getFullBounds.getWidth/2,clearHeatButton.getFullBounds.getMaxY + 10)
+  returnObjectButton.setOffset(clearHeatButton.getFullBounds.getCenterX - returnObjectButton.getFullBounds.getWidth / 2, clearHeatButton.getFullBounds.getMaxY + 10)
   addStageNode(returnObjectButton)
 }
 

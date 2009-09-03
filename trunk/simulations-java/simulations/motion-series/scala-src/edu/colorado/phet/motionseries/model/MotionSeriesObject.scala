@@ -6,19 +6,19 @@ import motionseries.MotionSeriesResources._
 
 //immutable memento for recording
 case class MotionSeriesObjectState(name: String, mass: Double, kinFric: Double, statFric: Double, height: Double,
-                                imageFilename: String, iconFilename: String, customizable: Boolean, points: Int, objectType: MotionSeriesObjectState => MotionSeriesObject) {
+                                   imageFilename: String, iconFilename: String, customizable: Boolean, points: Int, objectType: MotionSeriesObjectState => MotionSeriesObject) {
   def toObject = objectType(this)
 }
 
 class MotionSeriesObject(_name: String,
-                      protected var _mass: Double,
-                      protected var _kineticFriction: Double,
-                      protected var _staticFriction: Double,
-                      _height: Double,
-                      _imageFilename: String,
-                      val iconFilename: String,
-                      _customizable: Boolean,
-                      val points: Int) {
+                         protected var _mass: Double,
+                         protected var _kineticFriction: Double,
+                         protected var _staticFriction: Double,
+                         _height: Double,
+                         _imageFilename: String,
+                         val iconFilename: String,
+                         _customizable: Boolean,
+                         val points: Int) {
   val customizable = _customizable
   val name = _name
 

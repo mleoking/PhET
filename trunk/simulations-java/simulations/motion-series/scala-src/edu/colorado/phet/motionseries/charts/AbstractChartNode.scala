@@ -7,14 +7,12 @@ import phet.common.phetcommon.view.util.{PhetFont}
 import phet.common.motion.graphs._
 import phet.common.motion.model._
 import phet.common.phetcommon.model.clock.ConstantDtClock
-import phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import phet.common.piccolophet.nodes.{ShadowHTMLNode}
 import phet.common.piccolophet.{PhetPCanvas}
 import phet.common.timeseries.model.{RecordableModel, TimeSeriesModel}
 import java.awt.{FlowLayout, Color}
 import javax.swing.{JTextField, JPanel, JLabel}
 import model.{MotionSeriesModel}
-import motionseries.MotionSeriesResources
 import motionseries.MotionSeriesDefaults
 
 import umd.cs.piccolo.PNode
@@ -122,7 +120,7 @@ abstract class AbstractChartNode(canvas: MotionSeriesCanvas, model: MotionSeries
   canvas.addComponentListener(new ComponentAdapter() {override def componentResized(e: ComponentEvent) = {updateLayout()}})
 
   def updateLayout() = {
-    val y= canvas.modelToScreen(0,-1).getY
+    val y = canvas.modelToScreen(0, -1).getY
     val h = canvas.getHeight - y
     val padX = 2
     val padY = padX

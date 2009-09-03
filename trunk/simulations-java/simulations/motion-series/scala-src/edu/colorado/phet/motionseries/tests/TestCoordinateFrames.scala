@@ -75,14 +75,14 @@ class MyCanvas(stageWidth: Double, stageHeight: Double, modelBounds: Rectangle2D
 
   val stage = new Stage(stageWidth, stageHeight)
   val transform = new ModelViewTransform2D(modelBounds, new Rectangle2D.Double(0, 0, stageWidth, stageHeight))
-  private val utilityStageNode = new PText("Utility node"){ //to facilitate transforms
+  private val utilityStageNode = new PText("Utility node") { //to facilitate transforms
     setVisible(false)
     setPickable(false)
   }
   addStageNode(utilityStageNode)
 
-  def modelToScreen(x:Double,y:Double) = utilityStageNode.localToGlobal(transform.modelToView(x, y))
-  
+  def modelToScreen(x: Double, y: Double) = utilityStageNode.localToGlobal(transform.modelToView(x, y))
+
   def setStageBounds(w: Double, h: Double) = {
     stage.setSize(w, h)
     transform.setViewBounds(new Rectangle2D.Double(0, 0, w, h))
@@ -98,7 +98,7 @@ class MyCanvas(stageWidth: Double, stageHeight: Double, modelBounds: Rectangle2D
 
   def addModelNode(node: PNode) = addStageNode(new ModelNode(transform, node))
 
-  def removeModelNode(node:PNode) = removeStageNode(new ModelNode(transform,node))
+  def removeModelNode(node: PNode) = removeStageNode(new ModelNode(transform, node))
 
   def panModelViewport(dx: Double, dy: Double) = transform.panModelViewport(dx, dy)
 

@@ -5,7 +5,7 @@ import phet.common.phetcommon.view.util.{BufferedImageUtils, PhetFont}
 import phet.common.piccolophet.nodes.layout.SwingLayoutNode
 import phet.common.piccolophet.PhetPCanvas
 import java.awt._
-import geom.{Rectangle2D, Line2D, RoundRectangle2D}
+import geom.{Line2D, RoundRectangle2D}
 import javax.swing.event.{ChangeEvent, ChangeListener}
 import javax.swing.{JButton, JOptionPane, JFrame}
 import scalacommon.ScalaClock
@@ -61,8 +61,8 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel, coordinateSystemModel: 
       else
         gameModel.nextObject()
     }, if (gameModel.isLastObject(scalaRampObject)) "Show Summary" else "Ok")
-    summaryScreen.setOffset(stage.width/2 - summaryScreen.getFullBounds.width / 2,
-      stage.height/2 - summaryScreen.getFullBounds.height / 2)
+    summaryScreen.setOffset(stage.width / 2 - summaryScreen.getFullBounds.width / 2,
+      stage.height / 2 - summaryScreen.getFullBounds.height / 2)
     addStageNode(summaryScreen)
   })
 
