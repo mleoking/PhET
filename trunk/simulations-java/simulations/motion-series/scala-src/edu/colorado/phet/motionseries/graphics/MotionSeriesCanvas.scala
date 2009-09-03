@@ -1,6 +1,5 @@
 package edu.colorado.phet.motionseries.graphics
 
-import collection.mutable.ArrayBuffer
 import common.piccolophet.nodes.{PhetPPath, GradientButtonNode}
 import java.awt.geom.{Rectangle2D, Point2D}
 import java.awt.{BasicStroke, Color}
@@ -15,6 +14,7 @@ import scalacommon.Predef._
 import motionseries.RampResources
 import sims.theramp.{RampDefaults}
 
+import tests.MyCanvas
 import umd.cs.piccolo.PNode
 import java.lang.Math._
 import RampResources._
@@ -25,12 +25,11 @@ abstract class MotionSeriesCanvas(model: RampModel,
                                   vectorViewModel: VectorViewModel,
                                   frame: JFrame,
                                   modelOffsetY: Double,
-                                  rampLayoutArea: Rectangle2D)
-        extends DefaultCanvas(22, 22, RampDefaults.worldWidth, RampDefaults.worldHeight, modelOffsetY) {
+                                  rampLayoutArea: Rectangle2D) extends MyCanvas(800, new Rectangle2D.Double(-11, -6, 23, 16)) { //max y should be about 10
   setBackground(RampDefaults.SKY_GRADIENT_BOTTOM)
 
   val playAreaNode = new PNode
-  addScreenChild(playAreaNode)
+  addStageNode(playAreaNode)
 
   class LayoutStrut(modelRect: Rectangle2D) extends PhetPPath(transform.modelToViewDouble(modelRect)) {
     setStroke(new BasicStroke(2f))
@@ -84,13 +83,12 @@ abstract class MotionSeriesCanvas(model: RampModel,
   val fbdNode = new FreeBodyDiagramNode(freeBodyDiagramModel, 200, 200, fbdWidth, fbdWidth, model.coordinateFrameModel, adjustableCoordinateModel, PhetCommonResources.getImage("buttons/maximizeButton.png".literal))
 
   def updateFBDLocation() = {
-    fbdNode.setScale(getScale)
     fbdNode.setOffset(50, 10)
   }
 
   val fbdListener = (pt: Point2D) => {model.bead.parallelAppliedForce = pt.getX}
   fbdNode.addListener(fbdListener)
-  addScreenChild(fbdNode)
+  addStageNode(fbdNode)
   defineInvokeAndPass(freeBodyDiagramModel.addListenerByName) {
     fbdNode.setVisible(freeBodyDiagramModel.visible && !freeBodyDiagramModel.windowed)
   }
@@ -103,14 +101,10 @@ abstract class MotionSeriesCanvas(model: RampModel,
   addComponentListener(new ComponentAdapter() {override def componentResized(e: ComponentEvent) = {updateLayout()}})
   updateLayout()
   override def updateLayout() = {
-    playAreaNode.setScale(1.0)
-    playAreaNode.setOffset(0.0, 0.0)
-    val preferredScale = getWidth / rampLayoutStrut.getGlobalFullBounds.width
-    if (preferredScale > 0) playAreaNode.setScale(preferredScale)
-    playAreaNode.setOffset(-rampLayoutStrut.getGlobalFullBounds.x, -rampLayoutStrut.getGlobalFullBounds.y)
-
+    super.updateLayout()
     updateFBDLocation()
   }
+  addStageAreaDisplay()
 
   class VectorSetNode(transform: ModelViewTransform2D, bead: Bead) extends PNode {
     def addVector(a: Vector, offset: VectorValue) = {
@@ -242,35 +236,17 @@ class RampCanvas(model: RampModel, coordinateSystemModel: AdjustableCoordinateMo
                  vectorViewModel: VectorViewModel, frame: JFrame, showObjectSelectionNode: Boolean, showAppliedForceSlider: Boolean,
                  rampAngleDraggable: Boolean, modelOffsetY: Double, rampLayoutArea: Rectangle2D)
         extends MotionSeriesCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame, modelOffsetY, rampLayoutArea) {
-  val layoutUnits = new ArrayBuffer[() => Unit]
-  if (showObjectSelectionNode) {
-    //todo: how to specify that this control appears below other controls and that the parent node should scale so that everything fits onscreen?
-    //This seems like the same idea as using a stage coordinate frame (with non-square stage)
-    val objectSelectionNode = new ObjectSelectionNode(transform, model)
-    val viewPt = transform.modelToView(-10, -4)
-    objectSelectionNode.setOffset(0, 0)
-    objectSelectionNode.setScale(0.8)
-    val x = objectSelectionNode.getFullBounds.getX
-    val y = objectSelectionNode.getFullBounds.getY
-    objectSelectionNode.setOffset(viewPt.x - x, viewPt.y - y)
-    playAreaNode.addChild(objectSelectionNode)
-  }
   if (showAppliedForceSlider) {
-    val appliedForceSliderNode = new AppliedForceSliderNode(model.bead, transform, () => model.setPaused(false))
-    appliedForceSliderNode.setOffset(0, 0)
-    appliedForceSliderNode.setScale(0.8)
-    val viewPt = transform.modelToView(0, -1)
-    val x = appliedForceSliderNode.getFullBounds.getX
-    val y = appliedForceSliderNode.getFullBounds.getY
-    appliedForceSliderNode.setOffset(viewPt.x - x, viewPt.y - y)
-    playAreaNode.addChild(appliedForceSliderNode)
-
-    updateLayout()
+    val appliedForceSliderNode = new AppliedForceSliderNode(model.bead, () => model.setPaused(false))
+    appliedForceSliderNode.setOffset(stage.width / 2 - appliedForceSliderNode.getFullBounds.getWidth / 2, transform.modelToView(0, -1).getY)
+    addStageNode(appliedForceSliderNode)
   }
 
-  override def updateLayout() = {
-    super.updateLayout()
-    if (layoutUnits != null) for (lu <- layoutUnits) lu()
+  if (showObjectSelectionNode) {
+    val objectSelectionNode = new ObjectSelectionNode(model)
+    objectSelectionNode.setScale(stage.width / (objectSelectionNode.getFullBounds.getWidth + 150))
+    objectSelectionNode.setOffset(stage.width / 2 - objectSelectionNode.getFullBounds.getWidth / 2, stage.height - objectSelectionNode.getFullBounds.getHeight - 2)
+    addStageNode(objectSelectionNode)
   }
 
   override def addWallsAndDecorations() = {
