@@ -44,17 +44,6 @@
             <selected>1</selected>
             <show>1</show>
             <componentSelectionValidationActionList/>
-            <desktopShortcutList>
-                <fileShortcut>
-                     <comment>Launches local mirror of the PhET website.</comment>
-                     <filePath>${installdir}/index.html</filePath>
-                     <icon>${installdir}/phet-logo-48x48.png</icon>
-                     <name>PhET Simulations</name>
-                     <platforms>windows</platforms>
-                     <runInTerminal>0</runInTerminal>
-                     <windowsIcon>${installdir}/phet-icon.ico</windowsIcon>
-                </fileShortcut>
-            </desktopShortcutList>
             <folderList>
                 <folder>
                     <description>Program Files</description>
@@ -63,52 +52,52 @@
                     <platforms>all</platforms>
                     <distributionFileList>
                         <distributionDirectory>
-                            <origin>../../temp/website/phet-server.colorado.edu_8080/about</origin>
+                            <origin>../../temp/website/phet-server.colorado.edu_8080/ar/about</origin>
                         </distributionDirectory>
                         <distributionDirectory>
-                            <origin>../../temp/website/phet-server.colorado.edu_8080/admin</origin>
+                            <origin>../../temp/website/phet-server.colorado.edu_8080/ar/admin</origin>
                         </distributionDirectory>
                         <distributionDirectory>
-                            <origin>../../temp/website/phet-server.colorado.edu_8080/contribute</origin>
+                            <origin>../../temp/website/phet-server.colorado.edu_8080/ar/contribute</origin>
                         </distributionDirectory>
                         <distributionDirectory>
-                            <origin>../../temp/website/phet-server.colorado.edu_8080/css</origin>
+                            <origin>../../temp/website/phet-server.colorado.edu_8080/ar/css</origin>
                         </distributionDirectory>
                         <distributionDirectory>
-                            <origin>../../temp/website/phet-server.colorado.edu_8080/get_phet</origin>
+                            <origin>../../temp/website/phet-server.colorado.edu_8080/ar/get_phet</origin>
                         </distributionDirectory>
                         <distributionDirectory>
-                            <origin>../../temp/website/phet-server.colorado.edu_8080/images</origin>
+                            <origin>../../temp/website/phet-server.colorado.edu_8080/ar/images</origin>
                         </distributionDirectory>
                         <distributionDirectory>
-                            <origin>../../temp/website/phet-server.colorado.edu_8080/js</origin>
+                            <origin>../../temp/website/phet-server.colorado.edu_8080/ar/js</origin>
                         </distributionDirectory>
                         <distributionDirectory>
-                            <origin>../../temp/website/phet-server.colorado.edu_8080/research</origin>
+                            <origin>../../temp/website/phet-server.colorado.edu_8080/ar/research</origin>
                         </distributionDirectory>
                         <distributionDirectory>
-                            <origin>../../temp/website/phet-server.colorado.edu_8080/sims</origin>
+                            <origin>../../temp/website/phet-server.colorado.edu_8080/ar/sims</origin>
                         </distributionDirectory>
                         <distributionDirectory>
-                            <origin>../../temp/website/phet-server.colorado.edu_8080/simulations</origin>
+                            <origin>../../temp/website/phet-server.colorado.edu_8080/ar/simulations</origin>
                         </distributionDirectory>
                         <distributionDirectory>
-                            <origin>../../temp/website/phet-server.colorado.edu_8080/sponsors</origin>
+                            <origin>../../temp/website/phet-server.colorado.edu_8080/ar/sponsors</origin>
                         </distributionDirectory>
                         <distributionDirectory>
-                            <origin>../../temp/website/phet-server.colorado.edu_8080/teacher_ideas</origin>
+                            <origin>../../temp/website/phet-server.colorado.edu_8080/ar/teacher_ideas</origin>
                         </distributionDirectory>
                         <distributionDirectory>
-                            <origin>../../temp/website/phet-server.colorado.edu_8080/tech_support</origin>
+                            <origin>../../temp/website/phet-server.colorado.edu_8080/ar/tech_support</origin>
                         </distributionDirectory>
                         <distributionFile>
-                            <origin>../../temp/website/phet-server.colorado.edu_8080/index-2.html</origin>
+                            <origin>../../temp/website/phet-server.colorado.edu_8080/ar/index-2.html</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../../temp/website/phet-server.colorado.edu_8080/index.html</origin>
+                            <origin>../../temp/website/phet-server.colorado.edu_8080/ar/index.html</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../../temp/website/phet-server.colorado.edu_8080/version.html</origin>
+                            <origin>../../temp/website/phet-server.colorado.edu_8080/ar/version.html</origin>
                         </distributionFile>
                         <distributionFile>
                             <origin>../../Installer-Resources/Install-Path/phet-icon.ico</origin>
@@ -117,33 +106,9 @@
                             <origin>../../Installer-Resources/Install-Path/phet-logo-48x48.png</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>../../temp/website/phet-server.colorado.edu_8080/random-thumbnail.gif</origin>
+                            <origin>../../temp/website/phet-server.colorado.edu_8080/ar/random-thumbnail.gif</origin>
                         </distributionFile>
                     </distributionFileList>
-                    <shortcutList>
-                        <shortcut>
-                            <comment>Uninstall</comment>
-                            <exec>${installdir}/${uninstallerName}</exec>
-                            <icon></icon>
-                            <name>Uninstall ${product_fullname}</name>
-                            <path>${installdir}</path>
-                            <platforms>all</platforms>
-                            <runInTerminal>0</runInTerminal>
-                            <windowsExec>${installdir}/${uninstallerName}.exe</windowsExec>
-                            <windowsExecArgs></windowsExecArgs>
-                            <windowsIcon></windowsIcon>
-                            <windowsPath>${installdir}</windowsPath>
-                        </shortcut>
-                        <fileShortcut>
-                            <comment>Launches the local mirror of the PhET website, containing all the PhET simulations.</comment>
-                            <filePath>${installdir}/index.html</filePath>
-                            <icon>${installdir}/phet-logo-48x48.png</icon>
-                            <name>PhET Simulations</name>
-                            <platforms>all</platforms>
-                            <runInTerminal>0</runInTerminal>
-                            <windowsIcon>${installdir}/phet-icon.ico</windowsIcon>
-                        </fileShortcut>
-                    </shortcutList>
 
                     <actionList>
                         <substitute>
@@ -163,40 +128,11 @@
                     <name>programfileslinux</name>
                     <platforms>linux</platforms>
                 </folder>
-                <folder>
-                    <description>Program Files</description>
-                    <destination>${installdir}</destination>
-                    <name>programfileswindows</name>
-                    <platforms>windows</platforms>
-                    <distributionFileList>
-                        <distributionFile>
-                            <origin>../../Installer-Resources/Install-Path/jre-windows.exe</origin>
-                        </distributionFile>
-                    </distributionFileList>
-                </folder>
             </folderList>
             <initializationActionList/>
             <postInstallationActionList/>
             <postUninstallationActionList/>
             <readyToInstallActionList/>
-            <startMenuShortcutList>
-                <startMenuShortcut>
-                    <comment>Uninstall ${product_fullname}</comment>
-                    <name>Uninstall ${product_fullname}</name>
-                    <runInTerminal>0</runInTerminal>
-                    <windowsExec>${installdir}/uninstall.exe</windowsExec>
-                    <windowsExecArgs></windowsExecArgs>
-                    <windowsIcon></windowsIcon>
-                    <windowsPath>${installdir}/</windowsPath>
-                </startMenuShortcut>
-                <startMenuFileShortcut>
-                    <comment>Launches the local mirror of the PhET website, containing all the PhET simulations.</comment>
-                    <filePath>${installdir}/index.html</filePath>
-                    <name>PhET Simulations</name>
-                    <runInTerminal>0</runInTerminal>
-                    <windowsIcon>${installdir}/phet-icon.ico</windowsIcon>
-                </startMenuFileShortcut>
-            </startMenuShortcutList>
         </component>
     </componentList>
     <customLanguageFileList/>
@@ -252,77 +188,6 @@
             </substitutionList>
         </substitute>
 
-        <!-- Set the variable that will be set to the JRE path if it is present.  -->
-        <setInstallerVariable>
-            <name>java_executable</name>
-            <value>none</value>
-        </setInstallerVariable>
-
-        <!--Detect whether a reasonably current version of Java is present -->
-        <autodetectJava>
-            <validVersionList>
-                <validVersion>
-                    <maxVersion></maxVersion>
-                    <minVersion>1.4.2</minVersion>
-                    <vendor></vendor>
-                </validVersion>
-            </validVersionList>
-            <showMessageOnError>0</showMessageOnError>
-            <promptUser>0</promptUser>
-            <abortOnError>0</abortOnError>
-        </autodetectJava>
-
-        <actionGroup>
-            <actionList>
-                <logMessage>
-                   <text>java_executable value = ${java_executable}</text>
-                </logMessage>
-            </actionList>
-        </actionGroup>
-
-        <actionGroup>
-            <actionList>
-                <!--If Java is not installed, ask the user if they want it installed now -->
-                <showQuestion>
-                    <text>A current version of Java does not appear to be installed on this computer.  Would you like to install it now?  (Java is necessary for running most PhET simulations.)</text>
-                    <variable>install_java</variable>
-                </showQuestion>
-            </actionList>
-            <ruleList>
-                 <compareText>
-                     <text>${java_executable}</text>
-                     <logic>equals</logic>
-                     <value>none</value>
-                 </compareText>
-                 <platformTest>
-                     <type>windows</type>
-                 </platformTest>
-            </ruleList>
-        </actionGroup>
-        
-        <actionGroup>
-            <actionList>
-                <!--If Java is not installed and the user wants it, install it now -->
-                <logMessage>
-                   <text>Installing Java on this machine.</text>
-                </logMessage>
-                <runProgram>
-                    <program>${installdir}/jre-windows.exe</program>
-                </runProgram>
-            </actionList>
-            <ruleList>
-                <platformTest>
-                    <type>windows</type>
-                </platformTest>
-
-                <compareText>
-                    <text>${install_java}</text>
-                    <value>yes</value>
-                    <logic>equals</logic>
-                </compareText>
-            </ruleList>
-        </actionGroup>
-        
     </postInstallationActionList>
 
     <postUninstallationActionList/>
