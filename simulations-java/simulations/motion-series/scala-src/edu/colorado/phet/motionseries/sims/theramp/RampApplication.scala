@@ -79,9 +79,9 @@ class BasicRampModule(frame: JFrame, clock: ScalaClock, name: String,
 
 import RampResources._
 
-class IntroRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "module.introduction".translate, false, false, true, -6, false, RampDefaults.defaultRampAngle, RampDefaults.defaultRampLayoutArea)
+class IntroRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "module.introduction".translate, false, false, true, -6, false, RampDefaults.defaultRampAngle, RampDefaults.defaultViewport)
 
-class CoordinatesRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "module.coordinates".translate, true, false, true, -6, false, RampDefaults.defaultRampAngle, RampDefaults.defaultRampLayoutArea) {
+class CoordinatesRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "module.coordinates".translate, true, false, true, -6, false, RampDefaults.defaultRampAngle, RampDefaults.defaultViewport) {
   coordinateSystemModel.adjustable = true
 }
 
@@ -91,9 +91,9 @@ class GraphingModule(frame: JFrame, clock: ScalaClock, name: String, showEnergyG
   rampCanvas.addScreenNode(new RampChartNode(rampCanvas, rampModel, showEnergyGraph))
 }
 
-class ForceGraphsModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(frame, clock, "module.force-graphs".translate, false, RampDefaults.forceGraphRampLayoutArea)
+class ForceGraphsModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(frame, clock, "module.force-graphs".translate, false, RampDefaults.forceGraphViewport)
 
-class WorkEnergyModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(frame, clock, "module.work-energy".translate, true, RampDefaults.forceEnergyGraphRampLayoutArea) {
+class WorkEnergyModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(frame, clock, "module.work-energy".translate, true, RampDefaults.forceEnergyGraphViewport) {
   val workEnergyChartModel = new WorkEnergyChartModel
   val workEnergyChartButton = new JButton("controls.showWorkEnergyCharts".translate)
   workEnergyChartButton.addActionListener(new ActionListener() {
