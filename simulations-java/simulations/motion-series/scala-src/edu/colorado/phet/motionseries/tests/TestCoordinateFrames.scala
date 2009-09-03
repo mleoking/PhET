@@ -107,9 +107,8 @@ class StartTest {
     //todo: compute stage bounds dynamically, based on contents of the stage
     //todo: maybe stage bounds should be mutable, since it is preferable to create the nodes as children of the canvas
 
-    //todo: how to implement pan/zoom with this paradigm
-
-    canvas.setStageBounds(200,200)
+    //todo: how to implement pan/zoom with this paradigm?  This would probably entail changing the ModelViewTransform2D's model bounds (i.e. viewport).
+//    canvas.setStageBounds(200,200)
 
     val frame = new JFrame
     frame.setContentPane(canvas)
