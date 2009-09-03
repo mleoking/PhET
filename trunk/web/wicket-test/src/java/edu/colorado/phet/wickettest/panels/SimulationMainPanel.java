@@ -213,9 +213,36 @@ public class SimulationMainPanel extends PhetPanel {
             title = MessageFormat.format( localizer.getString( "simulationPage.title", this ), (Object[]) titleParams.toArray() );
         }
 
-        List designTeam = Arrays.asList( "One Person", "Another Person" );
-        List libraries = Arrays.asList( "Everyone" );
-        List thanks = Arrays.asList( "Some Library" );
+        List<String> designTeam = new LinkedList<String>();
+        List<String> libraries = new LinkedList<String>();
+        List<String> thanks = new LinkedList<String>();
+
+        String rawDesignTeam = simulation.getSimulation().getDesignTeam();
+        if( rawDesignTeam != null ) {
+            for ( String item : rawDesignTeam.split( "<br/>" ) ) {
+                if( item != null && item.length() > 0 ) {
+                    designTeam.add( item );
+                }
+            }
+        }
+
+        String rawLibraries = simulation.getSimulation().getLibraries();
+        if( rawLibraries != null ) {
+            for ( String item : rawLibraries.split( "<br/>" ) ) {
+                if( item != null && item.length() > 0 ) {
+                    libraries.add( item );
+                }
+            }
+        }
+
+        String rawThanks = simulation.getSimulation().getThanksTo();
+        if( rawThanks != null ) {
+            for ( String item : rawThanks.split( "<br/>" ) ) {
+                if( item != null && item.length() > 0 ) {
+                    thanks.add( item );
+                }
+            }
+        }
 
         ListView designView = new ListView( "design-list", designTeam ) {
             protected void populateItem( ListItem item ) {
