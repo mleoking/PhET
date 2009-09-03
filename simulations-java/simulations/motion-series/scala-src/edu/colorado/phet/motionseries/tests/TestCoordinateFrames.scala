@@ -1,12 +1,13 @@
 package edu.colorado.phet.motionseries.tests
 
-import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
+import common.phetcommon.view.graphics.transforms.{TransformListener, ModelViewTransform2D}
 import common.piccolophet.nodes.PhetPPath
 import common.piccolophet.PhetPCanvas
-import java.awt.event.{ComponentEvent, ComponentAdapter}
+import java.awt.event.{ActionEvent, ActionListener, ComponentEvent, ComponentAdapter}
+
 import java.awt.geom.{Ellipse2D, Rectangle2D}
 import java.awt.{Color, BasicStroke, Component}
-import javax.swing.JFrame
+import javax.swing.{Timer, JFrame}
 import scalacommon.util.Observable
 import umd.cs.piccolo.nodes.PText
 import umd.cs.piccolo.PNode
@@ -41,7 +42,13 @@ class StageNode(stage: Stage, canvas: Component, node: PNode) extends PNode {
 
 class ModelNode(transform: ModelViewTransform2D, node: PNode) extends PNode {
   addChild(node)
-  setTransform(transform.getAffineTransform)
+  transform.addTransformListener(new TransformListener() {
+    def transformChanged(mvt: ModelViewTransform2D) = {
+      updateTransform()
+    }
+  })
+  updateTransform()
+  def updateTransform() = setTransform(transform.getAffineTransform)
 }
 
 class MyPText(str: String, x: Double, y: Double, scale: Double) extends PText(str) {
@@ -76,6 +83,8 @@ class MyCanvas(stageWidth: Int, stageHeight: Int, modelBounds: Rectangle2D.Doubl
   def addStageNode(node: PNode) = addScreenNode(new StageNode(stage, this, node))
 
   def addModelNode(node: PNode) = addStageNode(new ModelNode(transform, node))
+
+  def panModelViewport(dx: Double, dy: Double) = transform.panModelViewport(dx, dy)
 }
 
 class StartTest {
@@ -108,12 +117,19 @@ class StartTest {
     //todo: maybe stage bounds should be mutable, since it is preferable to create the nodes as children of the canvas
 
     //todo: how to implement pan/zoom with this paradigm?  This would probably entail changing the ModelViewTransform2D's model bounds (i.e. viewport).
-//    canvas.setStageBounds(200,200)
+    //    canvas.setStageBounds(200,200)
 
     val frame = new JFrame
     frame.setContentPane(canvas)
     frame.setSize(800, 600)
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)
     frame.setVisible(true)
+
+    val timer = new Timer(30, new ActionListener() {
+      def actionPerformed(e: ActionEvent) = {
+        canvas.panModelViewport(-1E-8, -1E-8)
+      }
+    })
+    timer.start()
   }
 }

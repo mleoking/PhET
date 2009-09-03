@@ -119,6 +119,10 @@ public class ModelViewTransform2D {
         listeners.transformChanged( this );
     }
 
+    public void panModelViewport(double dx,double dy){
+        setModelBounds( new Rectangle2D.Double( modelBounds.getX()+dx,modelBounds.getY()+dy,modelBounds.getWidth(),modelBounds.getHeight() ) );
+    }
+
     public Rectangle2D getModelBounds() {
         return modelBounds;
     }
