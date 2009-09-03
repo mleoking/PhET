@@ -6,9 +6,8 @@
     <shortName>PhET</shortName>
     <fullName>PhET</fullName>
     <version>$VERSION$</version>
-    <installerFilename>${product_shortname}-Installer_${platform_name}.${platform_exec_suffix}</installerFilename>
-    <readmeFile>../../../Installer-Resources/Install-Path/${platform_name}/readme.txt</readmeFile>
-    <licenseFile>../../../Installer-Resources/Install-Path/license.txt</licenseFile>
+    <installerFilename>${product_shortname}-Installer-ksu_${platform_name}.${platform_exec_suffix}</installerFilename>
+    <readmeFile>../../resources/ksu-linux-readme.txt</readmeFile>
     <installationLogFile>${installdir}/install_log.txt</installationLogFile>
     <wrapLicenseFileText>1</wrapLicenseFileText>
     <leftImage></leftImage>
