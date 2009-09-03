@@ -48,27 +48,43 @@ class MyPText(str: String, x: Double, y: Double, scale: Double) extends PText(st
   setOffset(x, y)
 }
 
+class MyCanvas(stageWidth: Int, stageHeight: Int, modelBounds: Rectangle2D.Double) extends PhetPCanvas {
+  val transform = new ModelViewTransform2D(modelBounds, new Rectangle2D.Double(0, 0, stageWidth, stageHeight))
+
+  def addScreenNode(node: PNode) = getLayer.addChild(node)
+
+  def addStageNode(node: PNode) = addScreenNode(new StageNode(stageWidth, stageHeight, this, node))
+
+  def addModelNode(node: PNode) = addStageNode(new ModelNode(transform, node))
+}
+
 class StartTest {
   def start() = {
     val stageWidth = 200
     val stageHeight = 100
     val modelBounds = new Rectangle2D.Double(0, 0, 2E-6, 1E-6)
-    val transform = new ModelViewTransform2D(modelBounds, new Rectangle2D.Double(0, 0, stageWidth, stageHeight), true)
-    val phetCanvas = new PhetPCanvas() {
-      def addPixelNode(node: PNode) = getLayer.addChild(node)
-
-      def addStageNode(node: PNode) = addPixelNode(new StageNode(stageWidth, stageHeight, this, node))
-
-      def addModelNode(node: PNode) = addStageNode(new ModelNode(transform, node))
-    }
-    phetCanvas.addPixelNode(new MyPText("Hello from screen at 50,50", 50, 50))
-    phetCanvas.addStageNode(new MyPText("Hello from Stage at 100,50", 100, 50, 0.5))
+    val phetCanvas = new MyCanvas(stageWidth, stageHeight, modelBounds)
+    phetCanvas.addScreenNode(new MyPText("Hello from screen at 50,50", 50, 50))
+    val stageText = new MyPText("Hello from Stage at 100,50", 100, 50, 0.5)
+    phetCanvas.addStageNode(stageText)
     phetCanvas.addStageNode(new PhetPPath(new Rectangle2D.Double(0, 0, stageWidth, stageHeight), new BasicStroke(2), Color.yellow))
-    phetCanvas.addPixelNode(new MyPText("Hello from screen at 100,100", 100, 100))
+    phetCanvas.addScreenNode(new MyPText("Hello from screen at 100,100", 100, 100))
     phetCanvas.addModelNode(new PhetPPath(new Ellipse2D.Double(0, 0, 0.5E-6, 0.5E-6), Color.blue))
     phetCanvas.addModelNode(new MyPText("hello from left edge of world bounds", modelBounds.getMinX, modelBounds.getCenterY, 1E-6 / 100))
 
-    //todo: center one node beneath another, though they be in different coordinate frames
+    //center one node beneath another, though they be in different coordinate frames
+    val rectNode = new PhetPPath(new Rectangle2D.Double(0, 0, 50, 10), Color.red)
+    phetCanvas.addScreenNode(rectNode)
+    def updateRectNodeLocation() = {
+      val globalFullBounds = stageText.getGlobalFullBounds
+      var rectNodeBounds = rectNode.globalToLocal(globalFullBounds)
+      rectNodeBounds = rectNode.localToParent(rectNodeBounds)
+      rectNode.setOffset(rectNodeBounds.getCenterX - rectNode.getFullBounds.getWidth / 2, rectNodeBounds.getMaxY)
+    }
+    updateRectNodeLocation()
+    //coordinates can change, so need to update when they do
+    phetCanvas.addComponentListener(new ComponentAdapter() {override def componentResized(e: ComponentEvent) = {updateRectNodeLocation()}})
+
     //todo: compute stage bounds dynamically, based on contents of the stage
 
     val frame = new JFrame
@@ -76,8 +92,5 @@ class StartTest {
     frame.setSize(800, 600)
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)
     frame.setVisible(true)
-    //    getLayer.addChild(new PText("Hello")) //specified in pixels
-    //    getLayer.addChild(new StageNode(stageWidth,stageHeight,canvas,pnode))
-    //    getLayer.addChild(new StageNode(stageWidth,stageHeight,canvas,new WorldChild("ptext")))
   }
 }
