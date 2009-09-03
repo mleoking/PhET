@@ -244,7 +244,7 @@
         }
     }
 
-	function file_copy($srcdir, $dstdir, $verbose = false) {
+	function file_dircopy($srcdir, $dstdir, $verbose = false) {
 		if (is_file($srcdir)) {
 			copy($srcdir, $dstdir);
 			
@@ -295,7 +295,7 @@
 							}                   
 						}
 						else if (is_dir($srcfile)) {
-							$num += dircopy($srcfile, $dstfile, $verbose);
+							$num += file_dircopy($srcfile, $dstfile, $verbose);
 						}
 					}
 				}
