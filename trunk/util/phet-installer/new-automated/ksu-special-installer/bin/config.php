@@ -34,7 +34,14 @@
     define("PHET_ROOT_URL",                     "http://phet-server.colorado.edu:8080/zh_CN/");
     define("PHET_WEBSITE_URL",                  PHET_ROOT_URL);
     define("PHET_SIMS_SUBDIR",                  "sims/");
-    define("PHET_RIPPER_FILTER",                '"+*phet-server.colorado.edu*" "+*phet-server.colorado.edu/sims*" "-*get-upload.php?contribution_file_id=*" "-*view-contribution.php*" "-*download-archive.php*" "-*/phet-dist/*" "-*search.php*" "-*get-run-offline.php*" "-*login-and-redirect.php*" "-*do-ajax-login.php*" "-*get-member-file.php*" "-*/teacher_ideas/browse.php?*" "-*digg.com*" "-*stumbleupon.com*" ');
+    // Definition of the filter, which specifies what to exclude from the rip.
+    //define("PHET_RIPPER_FILTER",                '"-*wickettest*"');
+    // The definition below for the PHET_RIPPER_FILTER can be used to create a
+    // very small rip of the website that excludes sims and a lot of other
+    // things.  This is useful for testing, since it rips much more quickly
+    // that the "real" rip.  To use it, uncomment it, and comment out any
+    // other definitions of the same constant.
+    define("PHET_RIPPER_FILTER",                '"-*/get-phet/*" "-*/workshops/*" "-*/simulations/*" "-*wickettest*"');
     define("PHET_WEBSITE_ROOT_PARTIAL_PATTERN", '[^"]+colorado\.edu');
     define("PHET_WEBSITE_ROOT_PATTERN",         '/'.PHET_WEBSITE_ROOT_PARTIAL_PATTERN.'/');
 
