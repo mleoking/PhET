@@ -21,19 +21,14 @@
     // Function for building installers for all of the supported platforms.
     //--------------------------------------------------------------------------
     function installer_build_linux() {
+
         flushing_echo("Building linux installer...");
 
         // Create output directory:
         file_mkdirs(OUTPUT_DIR);
 
         // Build Windows, Linux, Mac installers:
-        installer_build_installers("all");
-
-        // Build CD-ROM distribution:
-        installer_build_cd_rom_distribution();
-
-        // Clean up autorun files:
-        autorun_cleanup_files();
+        installer_build_linux_installer();
     }
 
     //--------------------------------------------------------------------------
@@ -277,7 +272,7 @@
         flushing_echo("Copying installers to ".OUTPUT_DIR);
 
         // Now move everything in the BitRock directory to the output directory:
-        file_copy(BITROCK_DIST_DIR, OUTPUT_DIR, true);
+        file_dircopy(BITROCK_DIST_DIR, OUTPUT_DIR, true);
 
         return true;
     }
@@ -331,7 +326,7 @@
         flushing_echo("Copying installers to ".OUTPUT_DIR);
 
         // Now move everything in the BitRock directory to the output directory:
-        file_copy(BITROCK_DIST_DIR, OUTPUT_DIR, true);
+        file_dircopy(BITROCK_DIST_DIR, OUTPUT_DIR, true);
 
         return true;
     }
