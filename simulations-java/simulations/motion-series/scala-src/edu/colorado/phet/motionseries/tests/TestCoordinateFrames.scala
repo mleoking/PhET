@@ -3,20 +3,13 @@ package edu.colorado.phet.motionseries.tests
 import common.phetcommon.view.graphics.transforms.{TransformListener, ModelViewTransform2D}
 import common.piccolophet.nodes.PhetPPath
 import common.piccolophet.PhetPCanvas
-import java.awt.event.{ActionEvent, ActionListener, ComponentEvent, ComponentAdapter}
-
+import java.awt.event._
 import java.awt.geom.{Ellipse2D, Rectangle2D}
 import java.awt.{Color, BasicStroke, Component}
 import javax.swing.{Timer, JFrame}
 import scalacommon.util.Observable
 import umd.cs.piccolo.nodes.PText
 import umd.cs.piccolo.PNode
-
-object TestCoordinateFrames {
-  def main(args: Array[String]) {
-    new StartTest().start()
-  }
-}
 
 case class StageNode(stage: Stage, canvas: Component, node: PNode) extends PNode {
   addChild(node)
@@ -74,17 +67,30 @@ class MyCanvas(stageWidth: Double, stageHeight: Double, modelBounds: Rectangle2D
   def this(stageWidth: Int, modelBounds: Rectangle2D) = this (stageWidth, modelBounds.getHeight / modelBounds.getWidth * stageWidth, modelBounds)
 
   val stage = new Stage(stageWidth, stageHeight)
+
+  //todo: add toggle
+  //  val stageBoundsDebugRegion = new PhetPPath(new Rectangle2D.Double(0, 0, stage.width, stage.height), new BasicStroke(6, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1f, Array(6f, 4f), 0f), Color.red)
+  //  stageBoundsDebugRegion.setVisible(false)
+  //  addStageNode(stageBoundsDebugRegion)
+
   val transform = new ModelViewTransform2D(modelBounds, new Rectangle2D.Double(0, 0, stageWidth, stageHeight))
+  addKeyListener(new KeyAdapter() {
+    override def keyPressed(e: KeyEvent) = {
+      //todo: add toggle
+      val stageBoundsDebugRegion = new PhetPPath(new Rectangle2D.Double(0, 0, stage.width, stage.height), new BasicStroke(6, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1f, Array(6f, 4f), 0f), Color.red)
+      addStageNode(stageBoundsDebugRegion)
+    }
+  })
   private val utilityStageNode = new PText("Utility node") { //to facilitate transforms
     setVisible(false)
     setPickable(false)
   }
-  addStageNode(utilityStageNode)
 
   def modelToScreen(x: Double, y: Double) = utilityStageNode.localToGlobal(transform.modelToView(x, y))
 
   def setStageBounds(w: Double, h: Double) = {
     stage.setSize(w, h)
+    //    stageBoundsDebugRegion.setPathTo(new Rectangle2D.Double(0, 0, w, h))
     transform.setViewBounds(new Rectangle2D.Double(0, 0, w, h))
   }
 
@@ -101,8 +107,6 @@ class MyCanvas(stageWidth: Double, stageHeight: Double, modelBounds: Rectangle2D
   def removeModelNode(node: PNode) = removeStageNode(new ModelNode(transform, node))
 
   def panModelViewport(dx: Double, dy: Double) = transform.panModelViewport(dx, dy)
-
-  def addStageAreaDisplay() = addStageNode(new PhetPPath(new Rectangle2D.Double(0, 0, stage.width, stage.height), new BasicStroke(6, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1f, Array(6f, 4f), 0f), Color.red))
 }
 
 class StartTest {
@@ -149,5 +153,11 @@ class StartTest {
       }
     })
     timer.start()
+  }
+}
+
+object TestCoordinateFrames {
+  def main(args: Array[String]) {
+    new StartTest().start()
   }
 }
