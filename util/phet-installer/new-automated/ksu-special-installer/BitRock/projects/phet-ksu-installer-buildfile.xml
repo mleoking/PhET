@@ -2,8 +2,8 @@
     <shortName>PhET</shortName>
     <fullName>PhET</fullName>
     <version>$VERSION$</version>
-    <installerFilename>${product_shortname}-Installer_${platform_name}.${platform_exec_suffix}</installerFilename>
-    <readmeFile>../../../Installer-Resources/Install-Path/${platform_name}/readme.txt</readmeFile>
+    <installerFilename>${product_shortname}-Installer-ksu_${platform_name}.${platform_exec_suffix}</installerFilename>
+    <readmeFile>../../resources/ksu-linux-readme.txt</readmeFile>
     <licenseFile>../../../Installer-Resources/Install-Path/license.txt</licenseFile>
     <installationLogFile>${installdir}/install_log.txt</installationLogFile>
     <wrapLicenseFileText>1</wrapLicenseFileText>
@@ -22,7 +22,8 @@
     <defaultUnixDirectoryPermissions>755</defaultUnixDirectoryPermissions>
     <defaultUnixFilePermissions>644</defaultUnixFilePermissions>
     <description>The PhET Website Mirror</description>
-    <outputDirectory>${installbuilder_install_root}/output</outputDirectory>
+    <!-- Note the path here for getting the installer into the KSU directory.  -->
+    <outputDirectory>${installbuilder_install_root}/../ksu-special-installer/BitRock/output</outputDirectory>
     <projectSchemaVersion>1.2</projectSchemaVersion>
     <saveRelativePaths>1</saveRelativePaths>
     <slideShowLoop>1</slideShowLoop>
