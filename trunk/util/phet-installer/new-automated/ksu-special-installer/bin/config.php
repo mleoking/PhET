@@ -29,9 +29,13 @@
     }
 
     // *****************************************************************************
+    // Locale-specific configuration.
+    define("LOCALE",     "ar");
+    
+    // *****************************************************************************
     // PhET Website Configuration
     define("PHET_VERSION",                      "1.0");
-    define("PHET_ROOT_URL",                     "http://phet-server.colorado.edu:8080/zh_CN/");
+    define("PHET_ROOT_URL",                     "http://phet-server.colorado.edu:8080/".LOCALE."/");
     define("PHET_WEBSITE_URL",                  PHET_ROOT_URL);
     define("PHET_SIMS_SUBDIR",                  "sims/");
     // Definition of the filter, which specifies what to exclude from the rip.
@@ -63,7 +67,7 @@
     define("RIPPER_DIR_NAME",    "HTTrack");
 
     define("RIPPED_WEBSITE_ROOT", file_cleanup_local_filename(TEMP_DIR."website/"));
-    define("RIPPED_WEBSITE_TOP",  file_cleanup_local_filename(RIPPED_WEBSITE_ROOT."phet-server.colorado.edu_8080/"));
+    define("RIPPED_WEBSITE_TOP",  file_cleanup_local_filename(RIPPED_WEBSITE_ROOT."phet-server.colorado.edu_8080/".LOCALE."/"));
 
     // The ripper executable itself:
 
