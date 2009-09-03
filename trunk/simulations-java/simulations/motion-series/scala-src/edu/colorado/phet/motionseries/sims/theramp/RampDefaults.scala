@@ -6,16 +6,17 @@ import java.awt.geom.Rectangle2D
 import model.{MutableRampObject, CustomTextRampObject, ScalaRampObject}
 
 object RampDefaults {
-  def rampIndicatorFont = new PhetFont(13,true)
+  def rampIndicatorFont = new PhetFont(13, true)
+
   val MAX_CHART_DISPLAY_TIME = 20.0
   val MAX_RECORD_TIME = 20.0
   val defaultRampAngle = 30.0.toRadians
 
   //this value looked good for default ramps new Rectangle2D.Double(-11, -6, 23, 16)
   val defaultRampLayoutArea = new Rectangle2D.Double(-11, -6, 23, 16)
-  val frictionRampLayoutArea= new Rectangle2D.Double(-11, -6, 23, 16 - 3)
+  val frictionRampLayoutArea = new Rectangle2D.Double(-11, -6, 23, 16 - 3)
   val forceGraphRampLayoutArea = new Rectangle2D.Double(-11, -6, 23, 16 - 5)
-  val forceEnergyGraphRampLayoutArea = new Rectangle2D.Double(-11, -6, 23, 16 - 7)
+  val forceEnergyGraphRampLayoutArea = new Rectangle2D.Double(-11, -6, 23, 16 - 13.65)
   //how far away the vector labels can be from the tip, in world coordinates
   val FBD_LABEL_MAX_OFFSET = 500
   val BODY_LABEL_MAX_OFFSET = 3
