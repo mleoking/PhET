@@ -77,6 +77,8 @@ public class TranslateEntityPanel extends PhetPanel {
                 }
 
                 if ( ( (PhetSession) getSession() ).getUser().isTeamMember() ) {
+                    item.add( new InvisibleComponent( "translate-auto" ) );
+                    /*
                     // TODO: remove after development
                     item.add( new AjaxLink( "translate-auto" ) {
                         public void onClick( AjaxRequestTarget target ) {
@@ -84,6 +86,7 @@ public class TranslateEntityPanel extends PhetPanel {
                             target.addComponent( TranslateEntityPanel.this );
                         }
                     } );
+                    */
                 }
                 else {
                     item.add( new InvisibleComponent( "translate-auto" ) );
