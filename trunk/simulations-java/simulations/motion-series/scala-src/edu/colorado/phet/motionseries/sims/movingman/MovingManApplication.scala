@@ -34,6 +34,10 @@ class BasicMovingManModule(frame: JFrame,
     resetRampModule, coordinateSystemFeaturesEnabled, useObjectComboBox, rampModel, false, showFrictionControl)
   setControlPanel(controlPanel)
   setClockControlPanel(new RecordModelControlPanel(rampModel, canvas, () => new PlaybackSpeedSlider(rampModel), Color.blue, 20))
+  rampModel.selectedObject = RampDefaults.movingMan
+  vectorViewModel.xyComponentsVisible = false
+  vectorViewModel.originalVectors = false
+  vectorViewModel.parallelComponents = false
 }
 
 class BasicMovingManCanvas(model: RampModel, coordinateSystemModel: AdjustableCoordinateModel, freeBodyDiagramModel: FreeBodyDiagramModel,
