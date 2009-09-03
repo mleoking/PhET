@@ -14,7 +14,8 @@ object RampDefaults {
 
   //this value looked good for default ramps new Rectangle2D.Double(-11, -6, 23, 16)
   val defaultViewport = new Rectangle2D.Double(-11, -6, 23, 16)
-  val frictionViewport = new Rectangle2D.Double(-11, -6, 23, 16 - 5)
+  val frictionViewport = new Rectangle2D.Double(-11, -8, 22, 16 - 5)
+  val forceMotionViewport = new Rectangle2D.Double(-11, -8, 22, 16 - 5)
   val forceGraphViewport = new Rectangle2D.Double(-11, -6, 23, 16 - 5)
   val forceEnergyGraphViewport = new Rectangle2D.Double(-11, -6, 23, 16 - 13.65)
   //how far away the vector labels can be from the tip, in world coordinates
