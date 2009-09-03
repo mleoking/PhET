@@ -10,7 +10,7 @@ import java.awt.{Color}
 import javax.swing._
 import model._
 import controls.RampControlPanel
-import robotmovingcompany.{RobotMovingCompanyGameModel, Result, RobotMovingCompanyCanvas}
+import robotmovingcompany.{RobotMovingCompanyModule, RobotMovingCompanyGameModel, Result, RobotMovingCompanyCanvas}
 import scalacommon.record.{RecordModelControlPanel, PlaybackSpeedSlider}
 
 import scalacommon.ScalaClock
@@ -105,44 +105,6 @@ class WorkEnergyModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(
   val workEnergyChart = new WorkEnergyChart(workEnergyChartModel, rampModel, frame)
 
   override def resetAll() = {super.reset(); workEnergyChartModel.reset()}
-}
-
-class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock)
-        extends AbstractRampModule(frame, clock, "module.robotMovingCompany".translate, 5, false, MotionSeriesDefaults.defaultRampAngle) {
-  override def reset() = {
-    super.reset()
-    rampModel.frictionless = false
-  }
-
-  override def resetAll() = {
-    super.resetAll()
-    rampModel.frictionless = false
-  }
-
-  override def createRampModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngle: Double) = {
-    new MotionSeriesModel(defaultBeadPosition, pausedOnReset, initialAngle) {
-      override def updateSegmentLengths() = setSegmentLengths(rampLength, rampLength)
-      frictionless = false
-    }
-
-  }
-
-  val gameModel = new RobotMovingCompanyGameModel(rampModel, clock)
-
-  gameModel.itemFinishedListeners += ((scalaRampObject, result) => {
-    val audioClip = result match {
-      case Result(_, true, _, _) => Some("smash0.wav".literal)
-      case Result(true, false, _, _) => Some("tintagel/DIAMOND.WAV".literal)
-      case Result(false, false, _, _) => Some("tintagel/PERSONAL.WAV".literal)
-      case _ => None
-    }
-    if (!audioClip.isEmpty) MotionSeriesResources.getAudioClip(audioClip.get).play()
-  })
-
-  val canvas = new RobotMovingCompanyCanvas(rampModel, coordinateSystemModel, fbdModel, vectorViewModel, frame, gameModel)
-
-  setSimulationPanel(canvas)
-  setLogoPanelVisible(false)
 }
 
 class RampApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
