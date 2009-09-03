@@ -68,6 +68,9 @@ class StartTest {
     phetCanvas.addModelNode(new PhetPPath(new Ellipse2D.Double(0, 0, 0.5E-6, 0.5E-6), Color.blue))
     phetCanvas.addModelNode(new MyPText("hello from left edge of world bounds", modelBounds.getMinX, modelBounds.getCenterY, 1E-6 / 100))
 
+    //todo: center one node beneath another, though they be in different coordinate frames
+    //todo: compute stage bounds dynamically, based on contents of the stage
+
     val frame = new JFrame
     frame.setContentPane(phetCanvas)
     frame.setSize(800, 600)
