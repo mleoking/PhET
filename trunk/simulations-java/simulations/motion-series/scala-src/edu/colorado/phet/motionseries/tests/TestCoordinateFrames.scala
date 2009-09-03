@@ -52,8 +52,8 @@ class StartTest {
   def start() = {
     val stageWidth = 200
     val stageHeight = 100
-    val worldBounds = new Rectangle2D.Double(0, 0, 2E-6, 1E-6)
-    val transform = new ModelViewTransform2D(worldBounds, new Rectangle2D.Double(0, 0, stageWidth, stageHeight), true)
+    val modelBounds = new Rectangle2D.Double(0, 0, 2E-6, 1E-6)
+    val transform = new ModelViewTransform2D(modelBounds, new Rectangle2D.Double(0, 0, stageWidth, stageHeight), true)
     val phetCanvas = new PhetPCanvas() {
       def addPixelNode(node: PNode) = getLayer.addChild(node)
 
@@ -66,7 +66,7 @@ class StartTest {
     phetCanvas.addStageNode(new PhetPPath(new Rectangle2D.Double(0, 0, stageWidth, stageHeight), new BasicStroke(2), Color.yellow))
     phetCanvas.addPixelNode(new MyPText("Hello from screen at 100,100", 100, 100))
     phetCanvas.addModelNode(new PhetPPath(new Ellipse2D.Double(0, 0, 0.5E-6, 0.5E-6), Color.blue))
-    phetCanvas.addModelNode(new MyPText("hello from left edge of world bounds", worldBounds.getMinX, worldBounds.getCenterY, 1E-6/100))
+    phetCanvas.addModelNode(new MyPText("hello from left edge of world bounds", modelBounds.getMinX, modelBounds.getCenterY, 1E-6 / 100))
 
     val frame = new JFrame
     frame.setContentPane(phetCanvas)
