@@ -25,7 +25,7 @@ abstract class MotionSeriesCanvas(model: RampModel,
                                   vectorViewModel: VectorViewModel,
                                   frame: JFrame,
                                   modelOffsetY: Double,
-                                  rampLayoutArea: Rectangle2D) extends MyCanvas(800, new Rectangle2D.Double(-11, -6, 23, 16)) { //max y should be about 10
+                                  rampLayoutArea: Rectangle2D) extends MyCanvas(800, new Rectangle2D.Double(-11, -6, 23, 16)) { //max y should be about 10 in default case
   setBackground(RampDefaults.SKY_GRADIENT_BOTTOM)
 
   val playAreaNode = new PNode
