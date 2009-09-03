@@ -58,7 +58,10 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
   def addWallsAndDecorations()
   addWallsAndDecorations()
 
-  val beadNode = new DraggableBeadNode(model.bead, transform, "cabinet.gif".literal, () => model.setPaused(false))
+  val beadNode = createBeadNode(model.bead, transform, "cabinet.gif".literal, () => model.setPaused(false))
+
+  def createBeadNode(b: Bead, t: ModelViewTransform2D, s: String, listener: () => Unit): BeadNode = new ForceDragBeadNode(b, t, s, listener)
+
   model.addListenerByName(beadNode.setImage(MotionSeriesResources.getImage(model.selectedObject.imageFilename)))
   playAreaNode.addChild(beadNode)
 

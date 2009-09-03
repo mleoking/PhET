@@ -1,12 +1,10 @@
 package edu.colorado.phet.motionseries.graphics
 
-
 import phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import phet.common.piccolophet.event.CursorHandler
 import model.{Bead}
 import motionseries.MotionSeriesResources
 import motionseries.MotionSeriesDefaults
-
 import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
 import umd.cs.piccolo.PNode
 import java.awt.geom.AffineTransform
@@ -15,7 +13,7 @@ import java.awt.image.BufferedImage
 import scalacommon.math.Vector2D
 import edu.colorado.phet.scalacommon.Predef._
 
-class DraggableBeadNode(bead: Bead,
+class ForceDragBeadNode(bead: Bead,
                         transform: ModelViewTransform2D,
                         imageName: String,
                         dragListener: () => Unit) extends BeadNode(bead, transform, imageName) {
@@ -26,6 +24,26 @@ class DraggableBeadNode(bead: Bead,
       val modelDelta = transform.viewToModelDifferential(delta.width, delta.height)
       val sign = modelDelta dot bead.getRampUnitVector
       bead.parallelAppliedForce = bead.parallelAppliedForce + sign / MotionSeriesDefaults.PLAY_AREA_VECTOR_SCALE
+      dragListener()
+    }
+
+    override def mouseReleased(event: PInputEvent) = {
+      bead.parallelAppliedForce = 0.0
+    }
+  })
+}
+
+class PositionDragBeadNode(bead: Bead,
+                           transform: ModelViewTransform2D,
+                           imageName: String,
+                           dragListener: () => Unit) extends BeadNode(bead, transform, imageName) {
+  addInputEventListener(new CursorHandler)
+  addInputEventListener(new PBasicInputEventHandler() {
+    override def mouseDragged(event: PInputEvent) = {
+      bead.setPositionMode()
+      val delta = event.getCanvasDelta
+      val modelDelta = transform.viewToModelDifferential(delta.width, delta.height)
+      bead.setPosition(bead.position + modelDelta.x)
       dragListener()
     }
 
