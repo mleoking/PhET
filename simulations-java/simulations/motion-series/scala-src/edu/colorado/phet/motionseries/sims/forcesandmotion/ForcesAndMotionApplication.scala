@@ -26,13 +26,13 @@ class BasicForcesAndMotionModule(frame: JFrame,
                                  showFrictionControl: Boolean,
                                  modelViewport: Rectangle2D)
         extends MotionSeriesModule(frame, clock, name, defaultBeadPosition, pausedOnReset, initialAngle) {
-  val canvas = new BasicForcesAndMotionCanvas(rampModel, coordinateSystemModel, fbdModel, vectorViewModel, frame,
+  val canvas = new BasicForcesAndMotionCanvas(motionSeriesModel, coordinateSystemModel, fbdModel, vectorViewModel, frame,
     showObjectSelectionNode, showAppliedForceSlider, initialAngle != 0.0, modelViewport)
   setSimulationPanel(canvas)
-  val controlPanel = new RampControlPanel(rampModel, wordModel, fbdModel, coordinateSystemModel, vectorViewModel,
-    resetRampModule, coordinateSystemFeaturesEnabled, useObjectComboBox, rampModel, false, showFrictionControl)
+  val controlPanel = new RampControlPanel(motionSeriesModel, wordModel, fbdModel, coordinateSystemModel, vectorViewModel,
+    resetRampModule, coordinateSystemFeaturesEnabled, useObjectComboBox, motionSeriesModel, false, showFrictionControl)
   setControlPanel(controlPanel)
-  setClockControlPanel(new RecordModelControlPanel(rampModel, canvas, () => new PlaybackSpeedSlider(rampModel), Color.blue, 20))
+  setClockControlPanel(new RecordModelControlPanel(motionSeriesModel, canvas, () => new PlaybackSpeedSlider(motionSeriesModel), Color.blue, 20))
 }
 
 class BasicForcesAndMotionCanvas(model: MotionSeriesModel, coordinateSystemModel: AdjustableCoordinateModel, freeBodyDiagramModel: FreeBodyDiagramModel,
@@ -46,15 +46,15 @@ class BasicForcesAndMotionCanvas(model: MotionSeriesModel, coordinateSystemModel
 class IntroModule(frame: JFrame, clock: ScalaClock) extends BasicForcesAndMotionModule(frame, clock, "forces-and-friction.module.intro.title".translate, false, true, false, true, -6, false, 0.0, true, MotionSeriesDefaults.forceMotionViewport)
 
 class FrictionModule(frame: JFrame, clock: ScalaClock) extends BasicForcesAndMotionModule(frame, clock, "forces-and-friction.module.friction.title".translate, false, false, false, true, -6, false, 0.0, false, MotionSeriesDefaults.frictionViewport) {
-  val frictionPlayAreaControlPanel = new PSwing(new FrictionPlayAreaControlPanel(rampModel.bead))
+  val frictionPlayAreaControlPanel = new PSwing(new FrictionPlayAreaControlPanel(motionSeriesModel.bead))
   frictionPlayAreaControlPanel.setOffset(canvas.stage.width / 2 - frictionPlayAreaControlPanel.getFullBounds.getWidth / 2, canvas.stage.height - frictionPlayAreaControlPanel.getFullBounds.getHeight - 2)
   canvas.addStageNode(frictionPlayAreaControlPanel)
-  rampModel.frictionless = false
+  motionSeriesModel.frictionless = false
 }
 
 class GraphingModule(frame: JFrame, clock: ScalaClock) extends BasicForcesAndMotionModule(frame, clock, "forces-and-friction.module.graphing.title".translate, false, false, true, false, -6, false, 0.0, true, MotionSeriesDefaults.forceEnergyGraphViewport) {
   coordinateSystemModel.adjustable = false
-  canvas.addScreenNode(new ForcesAndMotionChartNode(canvas, rampModel))
+  canvas.addScreenNode(new ForcesAndMotionChartNode(canvas, motionSeriesModel))
 }
 
 class RobotMovingCompany1DModule(frame: JFrame, clock: ScalaClock) extends BasicForcesAndMotionModule(frame, clock, "forces-and-friction.module.robot-moving-company.title".translate, false, false, false, false, -6, false, 0.0, true, MotionSeriesDefaults.defaultViewport)

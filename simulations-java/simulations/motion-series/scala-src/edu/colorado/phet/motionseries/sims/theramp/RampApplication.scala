@@ -19,13 +19,13 @@ class BasicRampModule(frame: JFrame, clock: ScalaClock, name: String,
                       coordinateSystemFeaturesEnabled: Boolean, useObjectComboBox: Boolean, showAppliedForceSlider: Boolean,
                       defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngle: Double, rampLayoutArea: Rectangle2D)
         extends MotionSeriesModule(frame, clock, name, defaultBeadPosition, pausedOnReset, initialAngle) {
-  val rampCanvas = new RampCanvas(rampModel, coordinateSystemModel, fbdModel, vectorViewModel, frame,
+  val rampCanvas = new RampCanvas(motionSeriesModel, coordinateSystemModel, fbdModel, vectorViewModel, frame,
     !useObjectComboBox, showAppliedForceSlider, initialAngle != 0.0, rampLayoutArea)
   setSimulationPanel(rampCanvas)
-  val rampControlPanel = new RampControlPanel(rampModel, wordModel, fbdModel, coordinateSystemModel, vectorViewModel,
-    resetRampModule, coordinateSystemFeaturesEnabled, useObjectComboBox, rampModel, true, true)
+  val rampControlPanel = new RampControlPanel(motionSeriesModel, wordModel, fbdModel, coordinateSystemModel, vectorViewModel,
+    resetRampModule, coordinateSystemFeaturesEnabled, useObjectComboBox, motionSeriesModel, true, true)
   setControlPanel(rampControlPanel)
-  setClockControlPanel(new RecordModelControlPanel(rampModel, rampCanvas, () => new PlaybackSpeedSlider(rampModel), Color.blue, 20))
+  setClockControlPanel(new RecordModelControlPanel(motionSeriesModel, rampCanvas, () => new PlaybackSpeedSlider(motionSeriesModel), Color.blue, 20))
 }
 
 import motionseries.MotionSeriesResources._
@@ -42,18 +42,18 @@ class GraphingModule(frame: JFrame, clock: ScalaClock, name: String, showEnergyG
 }
 
 class ForceGraphsModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(frame, clock, "module.force-graphs".translate, false, MotionSeriesDefaults.forceGraphViewport) {
-  rampCanvas.addScreenNode(new RampForceChartNode(rampCanvas, rampModel))
+  rampCanvas.addScreenNode(new RampForceChartNode(rampCanvas, motionSeriesModel))
 }
 
 class WorkEnergyModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(frame, clock, "module.work-energy".translate, true, MotionSeriesDefaults.forceEnergyGraphViewport) {
-  rampCanvas.addScreenNode(new RampForceEnergyChartNode(rampCanvas, rampModel))
+  rampCanvas.addScreenNode(new RampForceEnergyChartNode(rampCanvas, motionSeriesModel))
   val workEnergyChartModel = new WorkEnergyChartModel
   val workEnergyChartButton = new JButton("controls.showWorkEnergyCharts".translate)
   workEnergyChartButton.addActionListener(new ActionListener() {
     def actionPerformed(e: ActionEvent) = {workEnergyChartModel.visible = true}
   })
   rampControlPanel.addToBody(workEnergyChartButton)
-  val workEnergyChart = new WorkEnergyChart(workEnergyChartModel, rampModel, frame)
+  val workEnergyChart = new WorkEnergyChart(workEnergyChartModel, motionSeriesModel, frame)
 
   override def resetAll() = {super.reset(); workEnergyChartModel.reset()}
 }
