@@ -100,7 +100,7 @@ abstract class MotionSeriesCanvas(model: RampModel,
     super.updateLayout()
     updateFBDLocation()
   }
-  addStageAreaDisplay()
+//  addStageAreaDisplay()
 
   class VectorSetNode(transform: ModelViewTransform2D, bead: Bead) extends PNode {
     def addVector(a: Vector, offset: VectorValue) = {
