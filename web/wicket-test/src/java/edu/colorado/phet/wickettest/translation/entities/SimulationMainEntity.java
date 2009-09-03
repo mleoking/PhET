@@ -23,6 +23,15 @@ public class SimulationMainEntity extends TranslationEntity {
         addString( "simulationMainPanel.topics" );
         addString( "simulationMainPanel.mainTopics" );
         addString( "simulationMainPanel.keywords" );
+        addString( "simulationMainPanel.softwareRequirements" );
+        addString( "simulationMainPanel.sampleLearningGoals" );
+        addString( "simulationMainPanel.credits" );
+        addString( "simulationMainPanel.language" );
+        addString( "simulationMainPanel.languageTranslated" );
+        addString( "simulationMainPanel.simulationTitleTranslated" );
+        addString( "simulationMainPanel.designTeam" );
+        addString( "simulationMainPanel.thirdPartyLibraries" );
+        addString( "simulationMainPanel.thanksTo" );
         addPreview( new PhetPanelFactory() {
             public PhetPanel getNewPanel( String id, PageContext context, PhetRequestCycle requestCycle ) {
 

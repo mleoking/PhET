@@ -92,6 +92,10 @@
                 </ul>
             </wicket:enclosure>
 
+            <h3>
+                <wicket:message key="simulationMainPanel.sampleLearningGoals">Sample Learning Goals</wicket:message>
+            </h3>
+
             <h2>
                 <wicket:message key="simulationMainPanel.softwareRequirements">Software Requirements</wicket:message>
             </h2>
@@ -126,7 +130,21 @@
             </h2>
 
             <wicket:enclosure child="simulation-main-translation-list">
-                <table>
+                <table class="translations-table">
+                    <tr>
+                        <th>
+                            <wicket:message key="simulationMainPanel.language">Language</wicket:message>
+                        </th>
+                        <th>
+                            <wicket:message key="simulationMainPanel.languageTranslated">Language (Translated)
+                            </wicket:message>
+                        </th>
+                        <th>
+                            <wicket:message key="simulationMainPanel.simulationTitleTranslated">Simulation Title
+                                (Translated)
+                            </wicket:message>
+                        </th>
+                    </tr>
                     <tr wicket:id="simulation-main-translation-list" class="simulation-main-translation-list">
                         <td>
                             <a href="SimulationMainPanel.html#" wicket:id="simulation-main-translation-link">
@@ -142,6 +160,48 @@
                     </tr>
                 </table>
             </wicket:enclosure>
+
+            <h2>
+                <wicket:message key="simulationMainPanel.credits">Credits</wicket:message>
+            </h2>
+
+            <table class="credits-table">
+                <tr>
+                    <th>
+                        <wicket:message key="simulationMainPanel.designTeam">Design Team</wicket:message>
+                    </th>
+                    <th>
+                        <wicket:message key="simulationMainPanel.thirdPartyLibraries">Third-party Libraries
+                        </wicket:message>
+                    </th>
+                    <th>
+                        <wicket:message key="simulationMainPanel.thanksTo">Thanks To</wicket:message>
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        <wicket:enclosure child="design-list">
+                            <ul>
+                                <li wicket:id="design-list"><span wicket:id="design-item">A person</span></li>
+                            </ul>
+                        </wicket:enclosure>
+                    </td>
+                    <td>
+                        <wicket:enclosure child="library-list">
+                            <ul>
+                                <li wicket:id="library-list"><span wicket:id="library-item">Some library</span></li>
+                            </ul>
+                        </wicket:enclosure>
+                    </td>
+                    <td>
+                        <wicket:enclosure child="thanks-list">
+                            <ul>
+                                <li wicket:id="thanks-list"><span wicket:id="thanks-item">Everyone</span></li>
+                            </ul>
+                        </wicket:enclosure>
+                    </td>
+                </tr>
+            </table>
         </div>
     </div>
 </wicket:panel>
