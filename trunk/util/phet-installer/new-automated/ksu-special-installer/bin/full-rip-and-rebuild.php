@@ -45,21 +45,19 @@
         ripper_download_sims();
 
         // Make sure permissions of the ripped website are correct.
-        file_chmod_recursive( RIPPED_WEBSITE_ROOT, 0664, 0774 );
+        file_chmod_recursive( RIPPED_WEBSITE_ROOT, 0775, 0775 );
 
         // Incorporate the timestamp information that indicates when this
         // version of the installer was created.
         installer_create_marker_file();
         installer_insert_installer_creation_time();
 
-        /*
         // Rebuild the installers.
-        installer_build_all();
+        installer_build_linux();
 
         // Output the time of completion.
         $end_time = exec("date");
         flushing_echo("\nCompleted rebuild at time $end_time");
-        */
 
         // Release the lock.
         file_unlock( LOCK_FILE_STEM_NAME );
