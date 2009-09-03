@@ -6,6 +6,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.extensions.ajax.markup.html.AjaxEditableMultiLineLabel;
 import org.apache.wicket.markup.html.basic.Label;
@@ -22,6 +23,9 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import edu.colorado.phet.wickettest.WicketApplication;
+import edu.colorado.phet.wickettest.test.TestTranslateString;
+import edu.colorado.phet.wickettest.authentication.PhetSession;
+import edu.colorado.phet.wickettest.components.InvisibleComponent;
 import edu.colorado.phet.wickettest.components.LocalizedLabel;
 import edu.colorado.phet.wickettest.content.IndexPage;
 import edu.colorado.phet.wickettest.data.TranslatedString;
@@ -70,6 +74,19 @@ public class TranslateEntityPanel extends PhetPanel {
                 else {
                     Label label = new Label( "translation-string-notes", tString.getNotes() );
                     item.add( label );
+                }
+
+                if ( ( (PhetSession) getSession() ).getUser().isTeamMember() ) {
+                    // TODO: remove after development
+                    item.add( new AjaxLink( "translate-auto" ) {
+                        public void onClick( AjaxRequestTarget target ) {
+                            StringUtils.setString( getHibernateSession(), tString.getKey(), TestTranslateString.translate( (String) model.getObject(), "en", "ar" ), translationId );
+                            target.addComponent( TranslateEntityPanel.this );
+                        }
+                    } );
+                }
+                else {
+                    item.add( new InvisibleComponent( "translate-auto" ) );
                 }
 
                 item.add( new Label( "translation-string-key", tString.getKey() ) );

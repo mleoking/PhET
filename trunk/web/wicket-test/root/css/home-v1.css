@@ -22,12 +22,17 @@ div.index-holder {
 }
 
 #right-middle {
-    margin-left: 310px;
-    position: relative;
+    /*margin-left: 310px;*/
+    /*position: relative;*/
+    position: absolute;
+    width: 425px;
+    left: 310px;
+    /*left: 300px;*/
 }
 
 #index-middle-div {
 /*height: 199px;*/
+    position: relative;
     height: 215px;
     background-image: url(../images/home-background-1.png);
     background-position: bottom left;
@@ -117,8 +122,8 @@ div.index-holder {
 
 /* overridden left property in ie6fix.css */
 #sponsors {
-/*border: 1px solid red;*/
-    clear: left;
+border: 1px solid red;
+    /*clear: left;*/
     position: absolute;
     height: 70px;
     width: 425px;
@@ -131,7 +136,7 @@ div.index-holder {
     height: 70px;
     width: 100px;
     margin-right: 10px;
-    float: right;
+    /*float: right;*/
     text-align: center;
     font-size: 10px;
 }
