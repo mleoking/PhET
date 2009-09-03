@@ -20,9 +20,9 @@ public class Simulation implements Serializable {
     private List keywords = new LinkedList();
 //    private List learningGoalKey = new LinkedList();
 
-//    private List designTeam = new LinkedList();
-//    private List libraries = new LinkedList();
-//    private List thanksTo = new LinkedList();
+    private String designTeam;
+    private String libraries;
+    private String thanksTo;
 
     public static final int TYPE_JAVA = 0;
     public static final int TYPE_FLASH = 1;
@@ -133,5 +133,29 @@ public class Simulation implements Serializable {
 
     public void setTopics( List topics ) {
         this.topics = topics;
+    }
+
+    public String getDesignTeam() {
+        return designTeam;
+    }
+
+    public void setDesignTeam( String designTeam ) {
+        this.designTeam = designTeam;
+    }
+
+    public String getLibraries() {
+        return libraries;
+    }
+
+    public void setLibraries( String libraries ) {
+        this.libraries = libraries;
+    }
+
+    public String getThanksTo() {
+        return thanksTo;
+    }
+
+    public void setThanksTo( String thanksTo ) {
+        this.thanksTo = thanksTo;
     }
 }

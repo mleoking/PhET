@@ -9,6 +9,9 @@
         </id>
         <property name="name"/>
         <property name="type"/>
+        <property name="designTeam"/>
+        <property name="libraries"/>
+        <property name="thanksTo"/>
         <many-to-one name="project" class="edu.colorado.phet.wickettest.data.Project" lazy="false"/>
         <set name="localizedSimulations" inverse="true">
             <key column="simulation"/>
