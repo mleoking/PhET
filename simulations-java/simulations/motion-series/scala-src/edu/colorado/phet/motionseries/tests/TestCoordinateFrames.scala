@@ -76,8 +76,7 @@ class StartTest {
     val rectNode = new PhetPPath(new Rectangle2D.Double(0, 0, 50, 10), Color.red)
     phetCanvas.addScreenNode(rectNode)
     def updateRectNodeLocation() = {
-      val globalFullBounds = stageText.getGlobalFullBounds
-      var rectNodeBounds = rectNode.globalToLocal(globalFullBounds)
+      var rectNodeBounds = rectNode.globalToLocal(stageText.getGlobalFullBounds)
       rectNodeBounds = rectNode.localToParent(rectNodeBounds)
       rectNode.setOffset(rectNodeBounds.getCenterX - rectNode.getFullBounds.getWidth / 2, rectNodeBounds.getMaxY)
     }
