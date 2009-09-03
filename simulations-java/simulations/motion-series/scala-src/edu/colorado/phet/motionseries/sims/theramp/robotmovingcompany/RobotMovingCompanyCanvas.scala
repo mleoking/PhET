@@ -61,8 +61,8 @@ class RobotMovingCompanyCanvas(model: RampModel, coordinateSystemModel: Adjustab
       else
         gameModel.nextObject()
     }, if (gameModel.isLastObject(scalaRampObject)) "Show Summary" else "Ok")
-    summaryScreen.setOffset(canonicalBounds.getCenterX - summaryScreen.getFullBounds.width / 2,
-      canonicalBounds.getCenterY - summaryScreen.getFullBounds.height / 2)
+    summaryScreen.setOffset(stage.width/2 - summaryScreen.getFullBounds.width / 2,
+      stage.height/2 - summaryScreen.getFullBounds.height / 2)
     addStageNode(summaryScreen)
   })
 
@@ -94,7 +94,7 @@ class RobotMovingCompanyCanvas(model: RampModel, coordinateSystemModel: Adjustab
   addStageNode(energyMeter)
 
   val robotGraphics = new RobotGraphics(transform, gameModel)
-  addStageNode(2, robotGraphics) //behind ramp
+  addStageNode(robotGraphics) //TODO: move behind ramp
 
   gameModel.beadCreatedListeners += init
   init(gameModel.bead, gameModel.selectedObject)

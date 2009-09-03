@@ -18,7 +18,7 @@ object TestCoordinateFrames {
   }
 }
 
-class StageNode(stage: Stage, canvas: Component, node: PNode) extends PNode {
+case class StageNode(stage: Stage, canvas: Component, node: PNode) extends PNode {
   addChild(node)
   canvas.addComponentListener(new ComponentAdapter() {
     override def componentResized(e: ComponentEvent) = updateLayout()
@@ -40,7 +40,7 @@ class StageNode(stage: Stage, canvas: Component, node: PNode) extends PNode {
   }
 }
 
-class ModelNode(transform: ModelViewTransform2D, node: PNode) extends PNode {
+case class ModelNode(transform: ModelViewTransform2D, node: PNode) extends PNode {
   addChild(node)
   transform.addTransformListener(new TransformListener() {
     def transformChanged(mvt: ModelViewTransform2D) = {
@@ -71,7 +71,7 @@ class Stage(private var _width: Double, private var _height: Double) extends Obs
 
 class MyCanvas(stageWidth: Double, stageHeight: Double, modelBounds: Rectangle2D.Double) extends PhetPCanvas {
   //Create a MyCanvas with scale sx = sy
-  def this(stageWidth: Int, modelBounds: Rectangle2D.Double) = this(stageWidth, modelBounds.getHeight / modelBounds.getWidth * stageWidth, modelBounds)
+  def this(stageWidth: Int, modelBounds: Rectangle2D.Double) = this (stageWidth, modelBounds.getHeight / modelBounds.getWidth * stageWidth, modelBounds)
 
   val stage = new Stage(stageWidth, stageHeight)
   val transform = new ModelViewTransform2D(modelBounds, new Rectangle2D.Double(0, 0, stageWidth, stageHeight))
@@ -83,13 +83,19 @@ class MyCanvas(stageWidth: Double, stageHeight: Double, modelBounds: Rectangle2D
 
   def addScreenNode(node: PNode) = getLayer.addChild(node)
 
+  def removeScreenNode(node: PNode) = getLayer.removeChild(node)
+
   def addStageNode(node: PNode) = addScreenNode(new StageNode(stage, this, node))
+
+  def removeStageNode(node: PNode) = removeScreenNode(new StageNode(stage, this, node)) //todo: will this work?
 
   def addModelNode(node: PNode) = addStageNode(new ModelNode(transform, node))
 
+  def removeModelNode(node:PNode) = removeStageNode(new ModelNode(transform,node))
+
   def panModelViewport(dx: Double, dy: Double) = transform.panModelViewport(dx, dy)
 
-  def addStageAreaDisplay() = addStageNode(new PhetPPath(new Rectangle2D.Double(0,0,stage.width,stage.height),new BasicStroke(6,BasicStroke.CAP_BUTT,BasicStroke.JOIN_MITER,1f,Array(6f,4f),0f),Color.red))
+  def addStageAreaDisplay() = addStageNode(new PhetPPath(new Rectangle2D.Double(0, 0, stage.width, stage.height), new BasicStroke(6, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1f, Array(6f, 4f), 0f), Color.red))
 }
 
 class StartTest {
