@@ -114,7 +114,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel, coordinateSystemModel: 
     val lastBead = _currentBead
     _currentBead = bead
 
-    val beadNode = new DraggableBeadNode(bead, transform, a.imageFilename, () => model.setPaused(false))
+    val beadNode = new ForceDragBeadNode(bead, transform, a.imageFilename, () => model.setPaused(false))
     addStageNode(beadNode)
 
     val roboBead = model.createBead(-10 - a.width / 2, 1)

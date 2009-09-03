@@ -263,8 +263,6 @@ class Grounded(bead: Bead) extends MotionStrategy(bead) {
       val timeData = for (i <- 0 until java.lang.Math.min(10, bead.stateHistory.length))
       yield new TimeData(bead.stateHistory(bead.stateHistory.length - 1 - i).position, bead.stateHistory(bead.stateHistory.length - 1 - i).time)
       val vel = MotionMath.estimateDerivative(timeData.toArray)
-      println("estimated vel = "+ vel)
-
       bead.setVelocity(vel)
     }
 
