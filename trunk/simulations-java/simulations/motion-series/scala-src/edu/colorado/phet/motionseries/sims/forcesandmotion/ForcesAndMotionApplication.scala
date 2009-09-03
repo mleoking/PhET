@@ -11,7 +11,6 @@ import scalacommon.record.{RecordModelControlPanel, PlaybackSpeedSlider}
 import javax.swing.JFrame
 import scalacommon.ScalaClock
 import motionseries.MotionSeriesResources._
-import theramp.AbstractRampModule
 import umd.cs.piccolox.pswing.PSwing
 
 class BasicForcesAndMotionModule(frame: JFrame,
@@ -26,7 +25,7 @@ class BasicForcesAndMotionModule(frame: JFrame,
                                  initialAngle: Double,
                                  showFrictionControl: Boolean,
                                  modelViewport: Rectangle2D)
-        extends AbstractRampModule(frame, clock, name, defaultBeadPosition, pausedOnReset, initialAngle) {
+        extends MotionSeriesModule(frame, clock, name, defaultBeadPosition, pausedOnReset, initialAngle) {
   val canvas = new BasicForcesAndMotionCanvas(rampModel, coordinateSystemModel, fbdModel, vectorViewModel, frame,
     showObjectSelectionNode, showAppliedForceSlider, initialAngle != 0.0, modelViewport)
   setSimulationPanel(canvas)

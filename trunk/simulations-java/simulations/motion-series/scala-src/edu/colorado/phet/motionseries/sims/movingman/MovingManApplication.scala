@@ -11,7 +11,6 @@ import scalacommon.record.{RecordModelControlPanel, PlaybackSpeedSlider}
 import javax.swing.JFrame
 import scalacommon.ScalaClock
 import motionseries.MotionSeriesResources._
-import theramp.AbstractRampModule
 
 class BasicMovingManModule(frame: JFrame,
                            clock: ScalaClock,
@@ -25,7 +24,7 @@ class BasicMovingManModule(frame: JFrame,
                            initialAngle: Double,
                            showFrictionControl: Boolean,
                            rampLayoutArea: Rectangle2D)
-        extends AbstractRampModule(frame, clock, name, defaultBeadPosition, pausedOnReset, initialAngle) {
+        extends MotionSeriesModule(frame, clock, name, defaultBeadPosition, pausedOnReset, initialAngle) {
   val canvas = new BasicMovingManCanvas(rampModel, coordinateSystemModel, fbdModel, vectorViewModel, frame, showObjectSelectionNode, showAppliedForceSlider, initialAngle != 0.0, rampLayoutArea)
   setSimulationPanel(canvas)
   val controlPanel = new RampControlPanel(rampModel, wordModel, fbdModel, coordinateSystemModel, vectorViewModel,
