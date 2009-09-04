@@ -3,7 +3,7 @@ package edu.colorado.phet.forcelawlab
 import collection.mutable.ArrayBuffer
 import common.phetcommon.application.{PhetApplicationConfig, PhetApplicationLauncher, Module}
 import common.phetcommon.model.Resettable
-import common.phetcommon.view.util.{BufferedImageUtils, DoubleGeneralPath, PhetFont}
+import common.phetcommon.view.util.{DoubleGeneralPath, PhetFont}
 import common.phetcommon.view.{PhetFrame, VerticalLayoutPanel, ControlPanel}
 import common.piccolophet.nodes._
 import common.piccolophet.PiccoloPhetApplication
@@ -11,12 +11,12 @@ import common.phetcommon.view.graphics.RoundGradientPaint
 import common.piccolophet.event.CursorHandler
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import java.awt._
-import geom.{Rectangle2D, Line2D, Ellipse2D, Point2D}
+import geom.{Ellipse2D, Point2D}
 import java.text._
 import javax.swing.border.TitledBorder
 import scalacommon.swing.{MyRadioButton}
 import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
-import umd.cs.piccolo.nodes.{PImage, PText}
+import umd.cs.piccolo.nodes.{PText}
 import umd.cs.piccolo.util.PDimension
 import umd.cs.piccolo.PNode
 import scalacommon.math.Vector2D
@@ -75,15 +75,16 @@ class MassNode(mass: Mass, transform: ModelViewTransform2D, color: Color, magnif
   addChild(label)
   addChild(centerIndicator)
 }
-class DraggableMassNode(mass: Mass, transform: ModelViewTransform2D, color: Color, minDragX: Double, maxDragX: () => Double, magnification: Magnification, textOffset: () => Double) extends MassNode(mass, transform, color, magnification, textOffset) {
-  var dragging = false
 
-  addInputEventListener(new PBasicInputEventHandler {
+class DragHandler(mass:Mass,
+                  transform:ModelViewTransform2D,
+                  minDragX: () => Double, maxDragX: () => Double,node:PNode) extends PBasicInputEventHandler{
+  var dragging = false
     override def mouseDragged(event: PInputEvent) = {
       implicit def pdimensionToPoint2D(dim: PDimension) = new Point2D.Double(dim.width, dim.height)
-      mass.position = mass.position + new Vector2D(transform.viewToModelDifferential(event.getDeltaRelativeTo(DraggableMassNode.this.getParent)).x, 0)
-      if (mass.position.x < minDragX)
-        mass.position = new Vector2D(minDragX, 0)
+      mass.position = mass.position + new Vector2D(transform.viewToModelDifferential(event.getDeltaRelativeTo(node.getParent)).x, 0)
+      if (mass.position.x < minDragX())
+        mass.position = new Vector2D(minDragX(), 0)
       if (mass.position.x > maxDragX())
         mass.position = new Vector2D(maxDragX(), 0)
     }
@@ -91,7 +92,13 @@ class DraggableMassNode(mass: Mass, transform: ModelViewTransform2D, color: Colo
     override def mousePressed(event: PInputEvent) = dragging = true
 
     override def mouseReleased(event: PInputEvent) = dragging = false
-  })
+}
+
+class DraggableMassNode(mass: Mass, transform: ModelViewTransform2D,
+                        color: Color, minDragX: () => Double, maxDragX: () => Double,
+                        magnification: Magnification, textOffset: () => Double)
+        extends MassNode(mass, transform, color, magnification, textOffset) {
+  addInputEventListener(new DragHandler(mass,transform,minDragX,maxDragX,this))
   addInputEventListener(new CursorHandler)
 }
 
@@ -133,11 +140,13 @@ class ForceLawLabCanvas(model: ForceLawLabModel, modelWidth: Double, mass1Color:
 
   def opposite(c: Color) = new Color(255 - c.getRed, 255 - c.getGreen, 255 - c.getBlue)
 
-  addNode(new CharacterNode(model.m1, model.m2, transform, true, () => model.getGravityForce.magnitude))
-  addNode(new CharacterNode(model.m2, model.m1, transform, false, () => model.getGravityForce.magnitude))
+  val minDragX = () => transform.viewToModelX(getVisibleModelBounds.getMinX)
+  val maxDragX = () => transform.viewToModelX(getVisibleModelBounds.getMaxX)
 
-  addNode(new DraggableMassNode(model.m1, transform, mass1Color, -100, () => transform.viewToModelX(getVisibleModelBounds.getMaxX), magnification, () => 10))
-  addNode(new DraggableMassNode(model.m2, transform, mass2Color, -100, () => transform.viewToModelX(getVisibleModelBounds.getMaxX), magnification, () => -10))
+  addNode(new CharacterNode(model.m1, model.m2, transform, true, () => model.getGravityForce.magnitude,minDragX,model.mass1MaxX))
+  addNode(new CharacterNode(model.m2, model.m1, transform, false, () => model.getGravityForce.magnitude,model.mass2MinX,maxDragX))
+  addNode(new DraggableMassNode(model.m1, transform, mass1Color, minDragX, model.mass1MaxX, magnification, () => 10))
+  addNode(new DraggableMassNode(model.m2, transform, mass2Color, model.mass2MinX, maxDragX, magnification, () => -10))
   addNode(new ForceLabelNode(model.m1, model.m2, transform, model, opposite(backgroundColor), forceLabelScale, forceArrowNumberFormat, 100, true))
   addNode(new ForceLabelNode(model.m2, model.m1, transform, model, opposite(backgroundColor), forceLabelScale, forceArrowNumberFormat, 200, false))
   rulerNode.addInputEventListener(new PBasicInputEventHandler {
@@ -155,8 +164,16 @@ class MyDoubleGeneralPath(pt: Point2D) extends DoubleGeneralPath(pt) {
 
 class ForceLawLabControlPanel(model: ForceLawLabModel, resetFunction: () => Unit) extends ControlPanel {
   import ForceLawLabResources._
-  add(new ForceLawLabScalaValueControl(0.01, 100, model.m1.name, "0.00", getLocalizedString("units.kg"), model.m1.mass, model.m1.mass = _, model.m1.addListener))
-  add(new ForceLawLabScalaValueControl(0.01, 100, model.m2.name, "0.00", getLocalizedString("units.kg"), model.m2.mass, model.m2.mass = _, model.m2.addListener))
+  val m1Update = (x:Double) => {
+    model.m1.mass = x
+    model.m1.position = new Vector2D(java.lang.Math.min(model.mass1MaxX(),model.m1.position.x), model.m1.position.y)
+  }
+  val m2Update = (x:Double) => {
+    model.m2.mass = x
+    model.m2.position = new Vector2D(java.lang.Math.max(model.mass2MinX(),model.m2.position.x), model.m2.position.y)
+  }
+  add(new ForceLawLabScalaValueControl(0.01, 100, model.m1.name, "0.00", getLocalizedString("units.kg"), model.m1.mass, m1Update, model.m1.addListener))
+  add(new ForceLawLabScalaValueControl(0.01, 100, model.m2.name, "0.00", getLocalizedString("units.kg"), model.m2.mass, m2Update, model.m2.addListener))
   addResetAllButton(new Resettable() {
     def reset = {
       model.reset()
@@ -254,6 +271,12 @@ class ForceLawLabModel(mass1: Double, mass2: Double,
         ) extends Observable {
   val m1 = new Mass(mass1, new Vector2D(mass1Position, 0), mass1Name, mass1Radius)
   val m2 = new Mass(mass2, new Vector2D(mass2Position, 0), mass2Name, mass2Radius)
+
+  val minDistanceBetweenMasses = 0.1 //so that they won't be touching at their closest point
+  //todo: turn into defs
+  val mass1MaxX = () => m2.position.x - m2.radius - m1.radius - minDistanceBetweenMasses
+  val mass2MinX = () => m1.position.x + m1.radius + m2.radius + minDistanceBetweenMasses
+
   private var isDraggingControl = false
   m1.addListenerByName(notifyListeners())
   m2.addListenerByName(notifyListeners())

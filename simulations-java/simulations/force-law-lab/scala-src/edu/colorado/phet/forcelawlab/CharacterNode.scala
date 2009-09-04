@@ -1,6 +1,7 @@
 package edu.colorado.phet.forcelawlab
 
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
+import common.piccolophet.event.CursorHandler
 import java.awt.geom.{Ellipse2D, Line2D, Rectangle2D}
 import umd.cs.piccolo.nodes.PImage
 import common.phetcommon.view.util.BufferedImageUtils
@@ -10,7 +11,8 @@ import java.awt.{Color, BasicStroke, TexturePaint}
 import scalacommon.math.Vector2D
 import scalacommon.Predef._
 
-class CharacterNode(mass: Mass, mass2: Mass, transform: ModelViewTransform2D, leftOfObject: Boolean, gravityForce: () => Double) extends PNode {
+class CharacterNode(mass: Mass, mass2: Mass, transform: ModelViewTransform2D, leftOfObject: Boolean, gravityForce: () => Double,
+                    minDragX: () => Double, maxDragX: () => Double) extends PNode {
   val shadowNode = new PhetPPath(Color.gray)
   addChild(shadowNode)
 
@@ -18,6 +20,9 @@ class CharacterNode(mass: Mass, mass2: Mass, transform: ModelViewTransform2D, le
   addChild(ropeNode)
   mass2.addListener(update)
   mass.addListener(update)
+
+  addInputEventListener(new DragHandler(mass,transform,minDragX,maxDragX,this))
+  addInputEventListener(new CursorHandler)
 
   def update() = {
     updateRopeNode()
