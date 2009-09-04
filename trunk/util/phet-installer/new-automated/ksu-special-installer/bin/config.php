@@ -30,22 +30,22 @@
 
     // *****************************************************************************
     // Locale-specific configuration.
-    define("LOCALE",     "ar");
+    define("LOCALE_STRING",     "ar");
     
     // *****************************************************************************
     // PhET Website Configuration
     define("PHET_VERSION",                      "1.0");
-    define("PHET_ROOT_URL",                     "http://phet-server.colorado.edu:8080/".LOCALE."/");
-    define("PHET_WEBSITE_URL",                  PHET_ROOT_URL);
+    define("PHET_ROOT_URL",                     "http://phet-server.colorado.edu:8080/");
+    define("PHET_TRANSLATED_WEBSITE_URL",       PHET_ROOT_URL.LOCALE_STRING."/");
     define("PHET_SIMS_SUBDIR",                  "sims/");
     // Definition of the filter, which specifies what to include/exclude from
     // the rip.  This one define the full rip.
     define("PHET_RIPPER_FILTER",                '"-*wickettest*" "+phet-server.colorado.edu:8080/sims/*"');
-    // Filter definition for a "light" rip, meaning one that rips less than
+    // Filter definition for a "lite" rip, meaning one that rips less than
     // the full web site.  This is generally swapped in for the full rip
     // filters when doing testing that requires a lot of iterations, since 
     // this will generally be much quicker than a full rip.
-    define("PHET_LIGHT_RIPPER_FILTER",                '"-*/get-phet/*" "-*/workshops/*" "-*/simulations/*" "-*/simulation/*" "-*wickettest*" "+/simulation/faraday/*"');
+    define("PHET_LITE_RIPPER_FILTER",                '"-*/get-phet/*" "-*/workshops/*" "-*wickettest*" "+phet-server.colorado.edu:8080/sims/faraday/*"');
     define("PHET_WEBSITE_ROOT_PARTIAL_PATTERN", '[^"]+colorado\.edu');
     define("PHET_WEBSITE_ROOT_PATTERN",         '/'.PHET_WEBSITE_ROOT_PARTIAL_PATTERN.'/');
 
@@ -67,7 +67,7 @@
     define("RIPPER_DIR_NAME",    "HTTrack");
 
     define("RIPPED_WEBSITE_ROOT", file_cleanup_local_filename(TEMP_DIR."website/"));
-    define("RIPPED_WEBSITE_TOP",  file_cleanup_local_filename(RIPPED_WEBSITE_ROOT."phet-server.colorado.edu_8080/".LOCALE."/"));
+    define("RIPPED_WEBSITE_TOP",  file_cleanup_local_filename(RIPPED_WEBSITE_ROOT."phet-server.colorado.edu_8080/".LOCALE_STRING."/"));
 
     // The ripper executable itself:
 
@@ -80,7 +80,7 @@
     define("RIPPER_EXE",  RIPPER_DIR.GET_OS_BOUND_NAME("RIPPER_EXE"));
 
     // Command-line args of the ripper:
-    define("RIPPER_ARGS", '"'.PHET_WEBSITE_URL.'" -O "'.RIPPED_WEBSITE_ROOT.'" '.PHET_RIPPER_FILTER.' -j %q0 -%e0');
+    define("RIPPER_ARGS", '"'.PHET_TRANSLATED_WEBSITE_URL.'" -O "'.RIPPED_WEBSITE_ROOT.'" '.PHET_LITE_RIPPER_FILTER.' -j %q0 -%e0');
 
     // File used for preventing simultaneous builds.
     define("LOCK_FILE_STEM_NAME", "installer-builder");
