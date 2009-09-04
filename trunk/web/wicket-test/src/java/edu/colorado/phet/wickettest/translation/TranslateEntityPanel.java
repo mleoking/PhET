@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.behavior.AttributeAppender;
@@ -55,11 +56,16 @@ public class TranslateEntityPanel extends PhetPanel {
         add( new Label( "translation-id", String.valueOf( translationId ) ) );
 
         panel = new PreviewHolder( "panel", externalContext, entity );
+        panel.setOutputMarkupId( true );
         add( panel );
 
         ListView stringList = new ListView( "translation-string-list", entity.getStrings() ) {
-            protected void populateItem( ListItem item ) {
+            protected void populateItem( final ListItem item ) {
                 final TranslationEntityString tString = (TranslationEntityString) item.getModel().getObject();
+
+                item.setOutputMarkupId( true );
+                String markupId = "id_string_" + tString.getKey().replaceAll( "\\.", "_" );
+                item.setMarkupId( markupId );
 
                 String initString = getLocalizer().getString( tString.getKey(), TranslateEntityPanel.this );
                 initString = initString.replaceAll( "<br/>", "\n" );
@@ -76,6 +82,29 @@ public class TranslateEntityPanel extends PhetPanel {
                     item.add( label );
                 }
 
+                item.add( new Label( "translation-string-key", tString.getKey() ) );
+
+                item.add( new LocalizedLabel( "translation-string-english", WicketApplication.getDefaultLocale(), new ResourceModel( tString.getKey() ) ) );
+
+                final AjaxEditableMultiLineLabel editableLabel = new AjaxEditableMultiLineLabel( "translation-string-value", model ) {
+                    @Override
+                    protected void onSubmit( AjaxRequestTarget target ) {
+                        super.onSubmit( target );
+                        StringUtils.setString( getHibernateSession(), tString.getKey(), (String) model.getObject(), translationId );
+                        //target.addComponent( TranslateEntityPanel.this );
+                        target.addComponent( panel );
+                        target.addComponent( item );
+                        add( new AttributeModifier( "class", new Model( "string-value" ) ) );
+                    }
+                };
+                if ( !isStringSet( tString.getKey() ) ) {
+                    editableLabel.add( new AttributeAppender( "class", true, new Model( "not-translated" ), " " ) );
+                }
+                else if ( !isStringUpToDate( tString.getKey() ) ) {
+                    editableLabel.add( new AttributeAppender( "class", true, new Model( "string-out-of-date" ), " " ) );
+                }
+                item.add( editableLabel );
+
                 if ( ( (PhetSession) getSession() ).getUser().isTeamMember() ) {
                     //item.add( new InvisibleComponent( "translate-auto" ) );
 
@@ -86,7 +115,10 @@ public class TranslateEntityPanel extends PhetPanel {
                             if ( value != null ) {
                                 StringUtils.setString( getHibernateSession(), tString.getKey(), value, translationId );
                             }
-                            target.addComponent( TranslateEntityPanel.this );
+                            target.addComponent( panel );
+                            target.addComponent( item );
+                            editableLabel.add( new AttributeModifier( "class", new Model( "string-value" ) ) );
+                            model.setObject( value );
                         }
                     } );
 
@@ -94,26 +126,6 @@ public class TranslateEntityPanel extends PhetPanel {
                 else {
                     item.add( new InvisibleComponent( "translate-auto" ) );
                 }
-
-                item.add( new Label( "translation-string-key", tString.getKey() ) );
-
-                item.add( new LocalizedLabel( "translation-string-english", WicketApplication.getDefaultLocale(), new ResourceModel( tString.getKey() ) ) );
-
-                AjaxEditableMultiLineLabel editableLabel = new AjaxEditableMultiLineLabel( "translation-string-value", model ) {
-                    @Override
-                    protected void onSubmit( AjaxRequestTarget target ) {
-                        super.onSubmit( target );
-                        StringUtils.setString( getHibernateSession(), tString.getKey(), (String) model.getObject(), translationId );
-                        target.addComponent( TranslateEntityPanel.this );
-                    }
-                };
-                if ( !isStringSet( tString.getKey() ) ) {
-                    editableLabel.add( new AttributeAppender( "class", true, new Model( "not-translated" ), " " ) );
-                }
-                else if ( !isStringUpToDate( tString.getKey() ) ) {
-                    editableLabel.add( new AttributeAppender( "class", true, new Model( "string-out-of-date" ), " " ) );
-                }
-                item.add( editableLabel );
             }
         };
         add( stringList );
