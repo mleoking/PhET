@@ -3503,8 +3503,8 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 1905	about.licensing.gplSims	الفرقة محاكاة هيكل مزدوج ويلز والرابطة التساهمية محاكاة الكم منضم الدول المحاكاة ، والكم النفقي والموج حزم محاكاة	2009-09-04 15:12:27.107	2009-09-04 15:12:27.107	4
 1906	about.licensing.optionA	الخيار ألف : الإبداع التوفيقية -- الإسناد	2009-09-04 15:12:31.141	2009-09-04 15:12:31.141	4
 1907	about.licensing.taxDeductibleDonation	يرجى النظر في المساهمة في التبرع للخصم الضرائب الى PhET للمساعدة فى الحفاظ على المشروع الذهاب.	2009-09-04 15:12:34.476	2009-09-04 15:12:34.476	4
-1871	about.licensing.options	@about.licensing.options@	2009-09-04 15:07:01.552	2009-09-04 15:07:01.552	3
 1908	about.licensing.contactPhet	الاتصال PhET في {0}.	2009-09-04 15:12:38.076	2009-09-04 15:12:45.063	4
+1871	about.licensing.options	@about.licensing.options@	2009-09-04 15:07:01.552	2009-09-04 15:07:01.552	3
 1104	language.names.it	Italian	2009-09-03 18:56:41.783	2009-09-03 18:56:41.783	1
 1105	language.names.tr_TR	Turkish (Turkey)	2009-09-03 18:56:41.789	2009-09-03 18:56:41.789	1
 1106	language.names.zh	Chinese	2009-09-03 18:56:41.823	2009-09-03 18:56:41.823	1
@@ -3547,6 +3547,8 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 1912	about.licensing.bothOptionsRequire	كلا الخيارين الرخصة يتطلب إسناد العمل إلى ما يلي :	2009-09-04 15:12:54.549	2009-09-04 15:12:54.549	4
 1876	about.licensing.letUsKnow	@about.licensing.letUsKnow@	2009-09-04 15:07:10.305	2009-09-04 15:07:10.305	3
 1878	about.licensing.contactPhet	@about.licensing.contactPhet@	2009-09-04 15:07:13.701	2009-09-04 15:07:13.701	3
+1958	get-phet.full-install.updatedFrequently	هذه المثبتات من المحاكاة PhET يتم تحديثها بشكل متكرر. نقترح إلغاء بك الإصدارات قبل تثبيت واحد جديد.	2009-09-04 16:25:32.365	2009-09-04 16:25:32.365	4
+1959	get-phet.full-install.downloadWindows	المثبت لتحميل ويندوز (ويشمل جافا)	2009-09-04 16:25:33.847	2009-09-04 16:25:33.847	4
 961	troubleshooting.main.q13.title	(مستخدمي ماك) عندما أقوم بالنقر فوق &quot;تشغيل الآن&quot; لبدء محاكاة كل ما نحصل عليه هو أن يفتح ملف نصي؟	2009-09-03 11:09:25.98	2009-09-03 11:09:34.023	4
 962	troubleshooting.main.licensingRequirements	ما هي متطلبات الترخيص؟	2009-09-03 11:09:37.483	2009-09-03 11:09:37.483	4
 963	troubleshooting.java.intro	PhET جاوة القائم على المحاكاة استخدام صن مايكروسيستمز 'جافا ويب ستارت لإطلاق تكنولوجيا المحاكاة. هذه الصفحة سوف تساعدك على ضمان أن يكون لديك جافا مثبتة بشكل صحيح ، ومعالجة بعض المشاكل التي تشغل الناس قد يكون لدينا برامج. إذا كنت لا تستطيع حل مشكلتك هنا ، يرجى إعلامنا عن طريق البريد الالكتروني على العنوان التال <a {0}><span class="red">phethelp@colorado.edu</span></a>.	2009-09-03 11:10:05.298	2009-09-03 11:10:05.298	4
@@ -3640,9 +3642,10 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 1914	about.licensing.options	الترخيص خيارات	2009-09-04 15:12:59.836	2009-09-04 15:12:59.836	4
 1015	keyword.acceleration	تسارع	2009-09-03 11:19:22.276	2009-09-03 11:19:22.276	4
 1016	keyword.acids	الأحماض	2009-09-03 11:19:26.27	2009-09-03 11:19:26.27	4
-1885	about.licensing.optionB	@about.licensing.optionB@	2009-09-04 15:07:24.331	2009-09-04 15:07:24.331	3
-1791	get-phet.install.howToGet	@get-phet.install.howToGet@	2009-09-04 00:39:27.411	2009-09-04 00:39:27.411	3
+1960	get-phet.full-install.downloadMac	تحميل المثبت للماكنتوش	2009-09-04 16:25:35.505	2009-09-04 16:25:35.505	4
+1916	get-phet.full-install.header	PhET Offline Website Installer - Full Install	2009-09-04 15:45:47.574	2009-09-04 15:45:47.574	1
 1915	about.licensing.ccaFulltext	النص الكامل للجميل الترخيص سمات يمكن العثور عليها <a {0}>هنا</a>	2009-09-04 15:13:19.193	2009-09-04 15:13:50.195	4
+1885	about.licensing.optionB	@about.licensing.optionB@	2009-09-04 15:07:24.331	2009-09-04 15:07:24.331	3
 1112	language.names.lt	Lithuanian	2009-09-03 18:56:41.857	2009-09-03 18:56:41.857	1
 1113	language.names.ro	Romanian	2009-09-03 18:56:41.862	2009-09-03 18:56:41.862	1
 1114	language.names.en_NZ	English (New Zealand)	2009-09-03 18:56:41.867	2009-09-03 18:56:41.867	1
@@ -3725,6 +3728,34 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 1192	language.names.zh_HK	Chinese (Hong Kong)	2009-09-03 18:56:42.378	2009-09-03 18:56:42.378	1
 1193	language.names.ja	Japanese	2009-09-03 18:56:42.382	2009-09-03 18:56:42.382	1
 1017	contribute.financialContributions	Financial Contributions	2009-09-03 12:29:21.388	2009-09-03 12:29:21.388	1
+1918	get-phet.full-install.getJava	Java is included in the Windows download. Mac OS X users already have Java preinstalled. Linux users are recommended to find a suitable version for their system.	2009-09-04 15:49:29.069	2009-09-04 16:25:11.45	1
+1961	get-phet.full-install.downloadLinux	المثبت تحميل لينكس	2009-09-04 16:25:36.694	2009-09-04 16:25:36.694	4
+1962	get-phet.full-install.downloadInMB	- {0} MB	2009-09-04 16:25:39.552	2009-09-04 16:25:39.552	4
+1963	get-phet.full-install.helpAndTroubleshooting	مساعدة واستكشاف الأخطاء وإصلاحها	2009-09-04 16:25:42.532	2009-09-04 16:25:42.532	4
+1964	get-phet.full-install.supportSoftware	دعم البرامج	2009-09-04 16:25:46.597	2009-09-04 16:25:46.597	4
+1965	get-phet.full-install.creatingInstallationCD	تهيئة القرص المضغوط التثبيت	2009-09-04 16:25:48.71	2009-09-04 16:25:48.71	4
+1966	get-phet.full-install.creatingInstallationCD.instructions	اتبع التعليمات التالية :	2009-09-04 16:26:09.918	2009-09-04 16:26:09.918	4
+1917	get-phet.full-install.installerDescription	The full PhET Offline Website Installer package installs a copy of the PhET website onto your computer. Once installed, you do not need to be connected to the Internet to view or run any of the simulations (as long as you have <a {0}>Java</a>, <a {1}>Flash</a>, and a web browser such as <a {2}>Firefox</a> or <a {3}>Internet Explorer</a>).	2009-09-04 15:48:44.505	2009-09-04 15:48:44.505	1
+1919	get-phet.full-install.updatedFrequently	These installers of the PhET simulations are updated frequently. We suggest uninstalling your earlier versions before installing a new one.	2009-09-04 15:50:13.246	2009-09-04 15:50:13.246	1
+1920	get-phet.full-install.downloadWindows	Download installer for Windows (includes Java)	2009-09-04 15:51:58.578	2009-09-04 15:51:58.578	1
+1921	get-phet.full-install.downloadMac	Download installer for Mac OS X	2009-09-04 15:52:08.033	2009-09-04 15:55:52.233	1
+1922	get-phet.full-install.downloadLinux	Download installer for Linux	2009-09-04 15:56:08.59	2009-09-04 15:56:08.59	1
+1923	get-phet.full-install.downloadInMB	- {0} MB	2009-09-04 15:59:26.011	2009-09-04 15:59:26.011	1
+1924	get-phet.full-install.contactForCD	If you have an Internet connection that is too slow, we can send you a CD with the full installation package. Click <a {0}>here to contact us</a>.	2009-09-04 16:02:14.954	2009-09-04 16:02:14.954	1
+1925	get-phet.full-install.helpAndTroubleshooting	Help &amp; Troubleshooting	2009-09-04 16:03:04.737	2009-09-04 16:03:04.737	1
+1926	get-phet.full-install.troubleshootingInfo	For assistance with installation and compatibility issues, please visit our <a {0}>troubleshooting and support page</a>.	2009-09-04 16:04:47.705	2009-09-04 16:04:47.705	1
+1927	get-phet.full-install.supportSoftware	Support Software	2009-09-04 16:05:23.871	2009-09-04 16:05:23.871	1
+1928	get-phet.full-install.requirements	Our simulations require Java 1.5 or newer and Flash 8 or newer, both of which are available at no cost. If you don't have them on your computer or aren't sure about your versions, <a {0}>click here</a>.	2009-09-04 16:06:52.637	2009-09-04 16:06:52.637	1
+1929	get-phet.full-install.creatingInstallationCD	Creating an Installation CD-ROM	2009-09-04 16:07:24.843	2009-09-04 16:07:24.843	1
+1930	get-phet.full-install.creatingInstallationCD.intro	You can make a CD-ROM for doing the full PhET installation on computers without Internet access. You will need a computer equipped with a CD writer, a blank CD, and an Internet connection. Please <a {0}>contact PhET</a> help with any questions.	2009-09-04 16:09:03.96	2009-09-04 16:09:03.96	1
+1931	get-phet.full-install.creatingInstallationCD.instructions	Follow the instructions below:	2009-09-04 16:09:31.733	2009-09-04 16:09:31.733	1
+1932	get-phet.full-install.creatingInstallationCD.step1	Download the <a {0}>PhET CD-ROM Distribution archive</a> onto your computer ({1} MB).	2009-09-04 16:12:33.76	2009-09-04 16:12:33.76	1
+1933	get-phet.full-install.creatingInstallationCD.step2	Extract the contents of the archive (on most operating systems, this is done by double-clicking the downloaded file).	2009-09-04 16:13:18.187	2009-09-04 16:13:18.187	1
+1967	get-phet.full-install.creatingInstallationCD.step2	استخراج محتويات المحفوظات (على معظم أنظمة التشغيل ، ويتم ذلك عن طريق النقر المزدوج على الملف الذي تم تنزيله).	2009-09-04 16:26:13.063	2009-09-04 16:26:13.063	4
+1968	get-phet.full-install.creatingInstallationCD.step3	نسخ كافة الملفات على القرص المضغوط.	2009-09-04 16:26:14.602	2009-09-04 16:26:14.602	4
+1969	get-phet.full-install.creatingInstallationCD.step4	من فضلك تذكر لفحص دوري للإصدارات محدثة من المحاكاة PhET.	2009-09-04 16:26:16.334	2009-09-04 16:26:16.334	4
+1934	get-phet.full-install.creatingInstallationCD.step3	Copy all the files to the CD-ROM.	2009-09-04 16:13:26.791	2009-09-04 16:13:26.791	1
+1935	get-phet.full-install.creatingInstallationCD.step4	Please remember to periodically check for updated versions of the PhET simulations.	2009-09-04 16:13:34.747	2009-09-04 16:13:34.747	1
 1886	about.licensing.cca.intro	@about.licensing.cca.intro@	2009-09-04 15:07:25.799	2009-09-04 15:07:25.799	3
 1887	about.licensing.gplIntro	@about.licensing.gplIntro@	2009-09-04 15:07:27.226	2009-09-04 15:07:27.226	3
 1888	about.licensing.gpl.thisMeans	@about.licensing.gpl.thisMeans@	2009-09-04 15:07:29.548	2009-09-04 15:07:29.548	3
@@ -3738,13 +3769,6 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 1896	about.licensing.softwareAgreementFullText	@about.licensing.softwareAgreementFullText@	2009-09-04 15:07:42.537	2009-09-04 15:07:42.537	3
 1795	get-phet.offline.header	@get-phet.offline.header@	2009-09-04 00:39:33.89	2009-09-04 00:39:33.89	3
 1796	get-phet.offline.howLarge	@get-phet.offline.howLarge@	2009-09-04 00:39:35.548	2009-09-04 00:39:35.548	3
-1797	get-phet.offline.howOften	@get-phet.offline.howOften@	2009-09-04 00:39:37.093	2009-09-04 00:39:37.093	3
-1798	get-phet.offline.howToGet	@get-phet.offline.howToGet@	2009-09-04 00:39:39.13	2009-09-04 00:39:39.13	3
-1799	get-phet.offline.needInternet	@get-phet.offline.needInternet@	2009-09-04 00:39:40.439	2009-09-04 00:39:40.439	3
-1800	get-phet.offline.whatSims	@get-phet.offline.whatSims@	2009-09-04 00:39:41.658	2009-09-04 00:39:41.658	3
-1801	get-phet.offline.whereCanISave	@get-phet.offline.whereCanISave@	2009-09-04 00:39:43.591	2009-09-04 00:39:43.591	3
-1802	get-phet.online.header	@get-phet.online.header@	2009-09-04 00:39:44.962	2009-09-04 00:39:44.962	3
-1803	get-phet.online.howLarge	@get-phet.online.howLarge@	2009-09-04 00:39:46.774	2009-09-04 00:39:46.774	3
 1194	language.names.iw_IL	Hebrew (Israel)	2009-09-03 18:56:42.387	2009-09-03 18:56:42.387	1
 1195	language.names.bg_BG	Bulgarian (Bulgaria)	2009-09-03 18:56:42.403	2009-09-03 18:56:42.403	1
 1196	language.names.in	Indonesian	2009-09-03 18:56:42.408	2009-09-03 18:56:42.408	1
@@ -3998,7 +4022,6 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 1246	language.names.be	البيلوروسية	2009-09-03 19:24:34.551	2009-09-03 19:24:34.551	4
 1247	language.names.be_BY	البيلوروسية (بيلاروس)	2009-09-03 19:24:38.103	2009-09-03 19:24:38.103	4
 1248	language.names.bg	البلغارية	2009-09-03 19:24:41.615	2009-09-03 19:24:41.615	4
-1872	about.licensing.intro	@about.licensing.intro@	2009-09-04 15:07:03.096	2009-09-04 15:07:03.096	3
 1249	language.names.ca	الكاتالوينية	2009-09-03 19:24:45.25	2009-09-03 19:24:45.25	4
 1250	language.names.cs	التشيكية	2009-09-03 19:24:56.606	2009-09-03 19:24:56.606	4
 1251	language.names.da	الدانماركية	2009-09-03 19:25:00.323	2009-09-03 19:25:00.323	4
@@ -4029,53 +4052,9 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 1276	language.names.no	النرويجية	2009-09-03 19:27:00.807	2009-09-03 19:27:00.807	4
 1277	language.names.pl	البولندية	2009-09-03 19:27:03.396	2009-09-03 19:27:03.396	4
 1278	language.names.pt	البرتغالية	2009-09-03 19:27:07.16	2009-09-03 19:27:07.16	4
-1873	about.licensing.bothOptionsRequire	@about.licensing.bothOptionsRequire@	2009-09-04 15:07:05.297	2009-09-04 15:07:05.297	3
-1874	about.licensing.phetInteractiveSimulations	@about.licensing.phetInteractiveSimulations@	2009-09-04 15:07:07.398	2009-09-04 15:07:07.398	3
-1875	about.licensing.universityOfColorado	@about.licensing.universityOfColorado@	2009-09-04 15:07:09.049	2009-09-04 15:07:09.049	3
-1877	about.licensing.taxDeductibleDonation	@about.licensing.taxDeductibleDonation@	2009-09-04 15:07:11.61	2009-09-04 15:07:11.61	3
-1879	about.licensing.optionA	@about.licensing.optionA@	2009-09-04 15:07:15.129	2009-09-04 15:07:15.129	3
-1880	about.licensing.gplSims	@about.licensing.gplSims@	2009-09-04 15:07:16.291	2009-09-04 15:07:16.291	3
-1881	about.licensing.ccaFulltext	@about.licensing.ccaFulltext@	2009-09-04 15:07:17.818	2009-09-04 15:07:17.818	3
-1882	about.licensing.whatDoesThisMean	@about.licensing.whatDoesThisMean@	2009-09-04 15:07:19.526	2009-09-04 15:07:19.526	3
-474	nav.all	@nav.all@	2009-08-31 14:15:38.723	2009-08-31 14:15:38.723	3
-1883	about.licensing.cca.thisMeans	@about.licensing.cca.thisMeans@	2009-09-04 15:07:20.757	2009-09-04 15:07:20.757	3
-1884	about.licensing.cca.sourceOptionB	@about.licensing.cca.sourceOptionB@	2009-09-04 15:07:22.687	2009-09-04 15:07:22.687	3
-1804	get-phet.online.howOften	@get-phet.online.howOften@	2009-09-04 00:39:48.233	2009-09-04 00:39:48.233	3
-1805	get-phet.online.howToGet	@get-phet.online.howToGet@	2009-09-04 00:39:49.546	2009-09-04 00:39:49.546	3
-1806	get-phet.online.needInternet	@get-phet.online.needInternet@	2009-09-04 00:39:51.469	2009-09-04 00:39:51.469	3
-1807	get-phet.online.whatSims	@get-phet.online.whatSims@	2009-09-04 00:39:52.888	2009-09-04 00:39:52.888	3
-1808	get-phet.online.whereCanISave	@get-phet.online.whereCanISave@	2009-09-04 00:39:54.376	2009-09-04 00:39:54.376	3
-1809	get-phet.row.howLarge	@get-phet.row.howLarge@	2009-09-04 00:39:56.225	2009-09-04 00:39:56.225	3
-1810	get-phet.row.howOften	@get-phet.row.howOften@	2009-09-04 00:39:57.578	2009-09-04 00:39:57.578	3
-1811	get-phet.row.howToGet	@get-phet.row.howToGet@	2009-09-04 00:39:59.226	2009-09-04 00:39:59.226	3
-1812	get-phet.row.needInternet	@get-phet.row.needInternet@	2009-09-04 00:40:01.661	2009-09-04 00:40:01.661	3
-1813	get-phet.row.whatSims	@get-phet.row.whatSims@	2009-09-04 00:40:04.213	2009-09-04 00:40:04.213	3
-1814	get-phet.row.whereCanISave	@get-phet.row.whereCanISave@	2009-09-04 00:40:06.083	2009-09-04 00:40:06.083	3
-1815	research.intro	@research.intro@	2009-09-04 00:40:11.073	2009-09-04 00:40:11.073	3
-1816	research.additional	@research.additional@	2009-09-04 00:40:12.433	2009-09-04 00:40:12.433	3
-1817	research.immediateInterests	@research.immediateInterests@	2009-09-04 00:40:14.709	2009-09-04 00:40:14.709	3
-1818	research.simsAffectStudents	@research.simsAffectStudents@	2009-09-04 00:40:16.129	2009-09-04 00:40:16.129	3
-1819	research.simsAffectStudents.point1	@research.simsAffectStudents.point1@	2009-09-04 00:40:18.646	2009-09-04 00:40:18.646	3
-1820	research.simsAffectStudents.point2	@research.simsAffectStudents.point2@	2009-09-04 00:40:20.534	2009-09-04 00:40:20.534	3
-1827	research.aboutPhet	@research.aboutPhet@	2009-09-04 00:40:33.741	2009-09-04 00:40:33.741	3
-1786	get-phet.clickHere	@get-phet.clickHere@	2009-09-04 00:39:19.958	2009-09-04 00:39:19.958	3
-1787	get-phet.header	@get-phet.header@	2009-09-04 00:39:21.376	2009-09-04 00:39:21.376	3
-1070	simulationMainPanel.thirdPartyLibraries	@simulationMainPanel.thirdPartyLibraries@	2009-09-03 16:15:12.426	2009-09-03 16:15:12.426	3
-1071	simulationMainPanel.thanksTo	@simulationMainPanel.thanksTo@	2009-09-03 16:15:14.909	2009-09-03 16:15:14.909	3
-1072	contribute.financialContributions	@contribute.financialContributions@	2009-09-03 16:15:20.506	2009-09-03 16:15:20.506	3
-1073	contribute.main	@contribute.main@	2009-09-03 16:15:23.119	2009-09-03 16:15:23.119	3
-1074	contribute.thanks	@contribute.thanks@	2009-09-03 16:15:24.953	2009-09-03 16:15:24.953	3
-1075	keyword.photonBeams	@keyword.photonBeams@	2009-09-03 16:15:40.623	2009-09-03 16:15:40.623	3
-781	troubleshooting.java.q5.answer	@troubleshooting.java.q5.answer@	2009-09-01 01:10:12.896	2009-09-01 01:10:12.896	3
-782	troubleshooting.java.q6.title	@troubleshooting.java.q6.title@	2009-09-01 01:10:14.472	2009-09-01 01:10:14.472	3
-1695	macwarning.title	@macwarning.title@	2009-09-03 22:29:32.794	2009-09-03 22:29:32.794	3
 1280	language.names.ro	الرومانية	2009-09-03 19:27:32.061	2009-09-03 19:27:32.061	4
 1281	language.names.ru	الروسية	2009-09-03 19:27:37.03	2009-09-03 19:27:37.03	4
 1282	language.names.sk	السلوفاكية	2009-09-03 19:27:40.047	2009-09-03 19:27:40.047	4
-1696	macwarning.problem	@macwarning.problem@	2009-09-03 22:29:35.976	2009-09-03 22:29:35.976	3
-1697	macwarning.solution	@macwarning.solution@	2009-09-03 22:29:38.111	2009-09-03 22:29:38.111	3
-596	keyword.deBroglieWavelength	@keyword.deBroglieWavelength@	2009-08-31 14:42:21.586	2009-08-31 14:42:21.586	3
-597	keyword.diet	@keyword.diet@	2009-08-31 14:42:24.981	2009-08-31 14:42:24.981	3
 1283	language.names.sl	السلوفانية	2009-09-03 19:27:44.105	2009-09-03 19:27:44.105	4
 1284	language.names.sq	الألبانية	2009-09-03 19:27:47.982	2009-09-03 19:27:47.982	4
 1285	language.names.sr	الصربية	2009-09-03 19:27:51.716	2009-09-03 19:27:51.716	4
@@ -4291,6 +4270,71 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 1691	language.names.uk_UA	الأوكرانية (أوكرانيا)	2009-09-03 22:04:37.264	2009-09-03 22:04:37.264	4
 1692	language.names.vi_VN	الفيتنامية (فيتنام)	2009-09-03 22:04:39.123	2009-09-03 22:04:39.123	4
 598	keyword.diffraction	@keyword.diffraction@	2009-08-31 14:42:28.55	2009-08-31 14:42:28.55	3
+1693	contribute.main	فلسفتنا هو جعل المحاكاة PhET متاحة مجانا لجميع المستخدمين في جميع أنحاء العالم. لديهم الآن تم تشغيل الملايين من المرات من موقعنا على الشبكة العالمية ، وكامل PhET جناح وقد تم تثبيتها على الالاف من اجهزة الكمبيوتر. لكن في حين أن المحاكاة قد تكون مجانية للمستخدمين ، فهي غالية الثمن بالنسبة لنا لإنشاء واختبار وصيانة ، ودعمنا المالي محدود. إذا كنت ترغب في مساعدة تجعل من الممكن بالنسبة لنا للمزيد من تطوير وتحسين عمليات المحاكاة ، يرجى الاتصال {0} أو الهاتف (303-492-4367) لمعرفة كيف يمكن أن تقدم مساهمة معفاة من الضرائب.	2009-09-03 22:08:45.92	2009-09-03 22:08:58.654	4
+1694	troubleshooting.javascript.q2.answer	جافا سكريبت يتم استخدامه مع الكثير من الميزات الموجودة على الموقع ، بما في ذلك إجراءات الترشيح ، والسماح للمدخلات متعددة من البيانات. Howevery ، العديد من الصفحات وسوف تعمل بشكل جيد بدون جافا سكريبت.	2009-09-03 22:09:11.347	2009-09-03 22:09:11.347	4
+680	about.p1	@about.p1@	2009-08-31 14:57:56.527	2009-08-31 14:57:56.527	3
+535	keyword.1d	@keyword.1d@	2009-08-31 14:22:48.856	2009-08-31 14:22:48.856	3
+1956	get-phet.full-install.header	PhET اتصال موقع المثبت -- تثبيت كامل	2009-09-04 16:24:40.209	2009-09-04 16:24:40.209	4
+1957	get-phet.full-install.getJava	جافا يتم تضمينها في تنزيل ويندوز. ماكنتوش المستخدمين لديها بالفعل جافا المثبتة مسبقا. مستخدمي لينكس هي أوصت لايجاد صيغة مناسبة لنظامهم.	2009-09-04 16:24:43.295	2009-09-04 16:25:28.84	4
+691	about.licensing.title	@about.licensing.title@	2009-08-31 14:58:27.206	2009-08-31 14:58:27.206	3
+692	workshops.title	@workshops.title@	2009-08-31 14:58:29.565	2009-08-31 14:58:29.565	3
+694	get-phet.title	@get-phet.title@	2009-08-31 14:58:34.294	2009-08-31 14:58:34.294	3
+542	keyword.alternatingCurrent	@keyword.alternatingCurrent@	2009-08-31 14:23:08.542	2009-08-31 14:23:08.542	3
+543	keyword.ammeter	@keyword.ammeter@	2009-08-31 14:39:05.771	2009-08-31 14:39:05.771	3
+1791	get-phet.install.howToGet	@get-phet.install.howToGet@	2009-09-04 00:39:27.411	2009-09-04 00:39:27.411	3
+1797	get-phet.offline.howOften	@get-phet.offline.howOften@	2009-09-04 00:39:37.093	2009-09-04 00:39:37.093	3
+1798	get-phet.offline.howToGet	@get-phet.offline.howToGet@	2009-09-04 00:39:39.13	2009-09-04 00:39:39.13	3
+1799	get-phet.offline.needInternet	@get-phet.offline.needInternet@	2009-09-04 00:39:40.439	2009-09-04 00:39:40.439	3
+1800	get-phet.offline.whatSims	@get-phet.offline.whatSims@	2009-09-04 00:39:41.658	2009-09-04 00:39:41.658	3
+1801	get-phet.offline.whereCanISave	@get-phet.offline.whereCanISave@	2009-09-04 00:39:43.591	2009-09-04 00:39:43.591	3
+1802	get-phet.online.header	@get-phet.online.header@	2009-09-04 00:39:44.962	2009-09-04 00:39:44.962	3
+1803	get-phet.online.howLarge	@get-phet.online.howLarge@	2009-09-04 00:39:46.774	2009-09-04 00:39:46.774	3
+1872	about.licensing.intro	@about.licensing.intro@	2009-09-04 15:07:03.096	2009-09-04 15:07:03.096	3
+1873	about.licensing.bothOptionsRequire	@about.licensing.bothOptionsRequire@	2009-09-04 15:07:05.297	2009-09-04 15:07:05.297	3
+1874	about.licensing.phetInteractiveSimulations	@about.licensing.phetInteractiveSimulations@	2009-09-04 15:07:07.398	2009-09-04 15:07:07.398	3
+1875	about.licensing.universityOfColorado	@about.licensing.universityOfColorado@	2009-09-04 15:07:09.049	2009-09-04 15:07:09.049	3
+1877	about.licensing.taxDeductibleDonation	@about.licensing.taxDeductibleDonation@	2009-09-04 15:07:11.61	2009-09-04 15:07:11.61	3
+1879	about.licensing.optionA	@about.licensing.optionA@	2009-09-04 15:07:15.129	2009-09-04 15:07:15.129	3
+1880	about.licensing.gplSims	@about.licensing.gplSims@	2009-09-04 15:07:16.291	2009-09-04 15:07:16.291	3
+1881	about.licensing.ccaFulltext	@about.licensing.ccaFulltext@	2009-09-04 15:07:17.818	2009-09-04 15:07:17.818	3
+1882	about.licensing.whatDoesThisMean	@about.licensing.whatDoesThisMean@	2009-09-04 15:07:19.526	2009-09-04 15:07:19.526	3
+474	nav.all	@nav.all@	2009-08-31 14:15:38.723	2009-08-31 14:15:38.723	3
+1883	about.licensing.cca.thisMeans	@about.licensing.cca.thisMeans@	2009-09-04 15:07:20.757	2009-09-04 15:07:20.757	3
+1884	about.licensing.cca.sourceOptionB	@about.licensing.cca.sourceOptionB@	2009-09-04 15:07:22.687	2009-09-04 15:07:22.687	3
+1804	get-phet.online.howOften	@get-phet.online.howOften@	2009-09-04 00:39:48.233	2009-09-04 00:39:48.233	3
+1805	get-phet.online.howToGet	@get-phet.online.howToGet@	2009-09-04 00:39:49.546	2009-09-04 00:39:49.546	3
+1806	get-phet.online.needInternet	@get-phet.online.needInternet@	2009-09-04 00:39:51.469	2009-09-04 00:39:51.469	3
+1807	get-phet.online.whatSims	@get-phet.online.whatSims@	2009-09-04 00:39:52.888	2009-09-04 00:39:52.888	3
+1808	get-phet.online.whereCanISave	@get-phet.online.whereCanISave@	2009-09-04 00:39:54.376	2009-09-04 00:39:54.376	3
+1809	get-phet.row.howLarge	@get-phet.row.howLarge@	2009-09-04 00:39:56.225	2009-09-04 00:39:56.225	3
+1810	get-phet.row.howOften	@get-phet.row.howOften@	2009-09-04 00:39:57.578	2009-09-04 00:39:57.578	3
+1811	get-phet.row.howToGet	@get-phet.row.howToGet@	2009-09-04 00:39:59.226	2009-09-04 00:39:59.226	3
+1812	get-phet.row.needInternet	@get-phet.row.needInternet@	2009-09-04 00:40:01.661	2009-09-04 00:40:01.661	3
+1813	get-phet.row.whatSims	@get-phet.row.whatSims@	2009-09-04 00:40:04.213	2009-09-04 00:40:04.213	3
+1814	get-phet.row.whereCanISave	@get-phet.row.whereCanISave@	2009-09-04 00:40:06.083	2009-09-04 00:40:06.083	3
+1815	research.intro	@research.intro@	2009-09-04 00:40:11.073	2009-09-04 00:40:11.073	3
+1816	research.additional	@research.additional@	2009-09-04 00:40:12.433	2009-09-04 00:40:12.433	3
+1817	research.immediateInterests	@research.immediateInterests@	2009-09-04 00:40:14.709	2009-09-04 00:40:14.709	3
+1818	research.simsAffectStudents	@research.simsAffectStudents@	2009-09-04 00:40:16.129	2009-09-04 00:40:16.129	3
+1819	research.simsAffectStudents.point1	@research.simsAffectStudents.point1@	2009-09-04 00:40:18.646	2009-09-04 00:40:18.646	3
+1820	research.simsAffectStudents.point2	@research.simsAffectStudents.point2@	2009-09-04 00:40:20.534	2009-09-04 00:40:20.534	3
+1827	research.aboutPhet	@research.aboutPhet@	2009-09-04 00:40:33.741	2009-09-04 00:40:33.741	3
+1786	get-phet.clickHere	@get-phet.clickHere@	2009-09-04 00:39:19.958	2009-09-04 00:39:19.958	3
+1787	get-phet.header	@get-phet.header@	2009-09-04 00:39:21.376	2009-09-04 00:39:21.376	3
+1070	simulationMainPanel.thirdPartyLibraries	@simulationMainPanel.thirdPartyLibraries@	2009-09-03 16:15:12.426	2009-09-03 16:15:12.426	3
+1071	simulationMainPanel.thanksTo	@simulationMainPanel.thanksTo@	2009-09-03 16:15:14.909	2009-09-03 16:15:14.909	3
+1072	contribute.financialContributions	@contribute.financialContributions@	2009-09-03 16:15:20.506	2009-09-03 16:15:20.506	3
+1073	contribute.main	@contribute.main@	2009-09-03 16:15:23.119	2009-09-03 16:15:23.119	3
+1074	contribute.thanks	@contribute.thanks@	2009-09-03 16:15:24.953	2009-09-03 16:15:24.953	3
+1075	keyword.photonBeams	@keyword.photonBeams@	2009-09-03 16:15:40.623	2009-09-03 16:15:40.623	3
+781	troubleshooting.java.q5.answer	@troubleshooting.java.q5.answer@	2009-09-01 01:10:12.896	2009-09-01 01:10:12.896	3
+782	troubleshooting.java.q6.title	@troubleshooting.java.q6.title@	2009-09-01 01:10:14.472	2009-09-01 01:10:14.472	3
+1695	macwarning.title	@macwarning.title@	2009-09-03 22:29:32.794	2009-09-03 22:29:32.794	3
+1936	get-phet.full-install.header	@get-phet.full-install.header@	2009-09-04 16:23:45.88	2009-09-04 16:23:45.88	3
+1696	macwarning.problem	@macwarning.problem@	2009-09-03 22:29:35.976	2009-09-03 22:29:35.976	3
+1697	macwarning.solution	@macwarning.solution@	2009-09-03 22:29:38.111	2009-09-03 22:29:38.111	3
+596	keyword.deBroglieWavelength	@keyword.deBroglieWavelength@	2009-08-31 14:42:21.586	2009-08-31 14:42:21.586	3
+597	keyword.diet	@keyword.diet@	2009-08-31 14:42:24.981	2009-08-31 14:42:24.981	3
 599	keyword.dilution	@keyword.dilution@	2009-08-31 14:42:32.288	2009-08-31 14:42:32.288	3
 600	keyword.diodes	@keyword.diodes@	2009-08-31 14:42:35.933	2009-08-31 14:42:39.272	3
 601	keyword.dipole	@keyword.dipole@	2009-08-31 14:42:44.054	2009-08-31 14:42:44.054	3
@@ -4304,8 +4348,6 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 854	troubleshooting.flash.olderVersions	@troubleshooting.flash.olderVersions@	2009-09-01 02:42:08.722	2009-09-01 02:42:08.722	3
 855	troubleshooting.javascript.intro	@troubleshooting.javascript.intro@	2009-09-01 02:42:11.018	2009-09-01 02:42:11.018	3
 856	troubleshooting.javascript.notJava	@troubleshooting.javascript.notJava@	2009-09-01 02:42:12.327	2009-09-01 02:42:12.327	3
-1693	contribute.main	فلسفتنا هو جعل المحاكاة PhET متاحة مجانا لجميع المستخدمين في جميع أنحاء العالم. لديهم الآن تم تشغيل الملايين من المرات من موقعنا على الشبكة العالمية ، وكامل PhET جناح وقد تم تثبيتها على الالاف من اجهزة الكمبيوتر. لكن في حين أن المحاكاة قد تكون مجانية للمستخدمين ، فهي غالية الثمن بالنسبة لنا لإنشاء واختبار وصيانة ، ودعمنا المالي محدود. إذا كنت ترغب في مساعدة تجعل من الممكن بالنسبة لنا للمزيد من تطوير وتحسين عمليات المحاكاة ، يرجى الاتصال {0} أو الهاتف (303-492-4367) لمعرفة كيف يمكن أن تقدم مساهمة معفاة من الضرائب.	2009-09-03 22:08:45.92	2009-09-03 22:08:58.654	4
-1694	troubleshooting.javascript.q2.answer	جافا سكريبت يتم استخدامه مع الكثير من الميزات الموجودة على الموقع ، بما في ذلك إجراءات الترشيح ، والسماح للمدخلات متعددة من البيانات. Howevery ، العديد من الصفحات وسوف تعمل بشكل جيد بدون جافا سكريبت.	2009-09-03 22:09:11.347	2009-09-03 22:09:11.347	4
 532	troubleshooting.main.q13.title	@troubleshooting.main.q13.title@	2009-08-31 14:19:47.361	2009-08-31 14:19:47.361	3
 1053	footer.someRightsReserved	@footer.someRightsReserved@	2009-09-03 13:20:28.773	2009-09-03 13:20:28.773	3
 533	troubleshooting.main.q13.answer	@troubleshooting.main.q13.answer@	2009-08-31 14:19:49.07	2009-08-31 14:19:49.07	3
@@ -4347,6 +4389,9 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 617	keyword.ellipticalMotion	@keyword.ellipticalMotion@	2009-08-31 14:49:29.661	2009-08-31 14:49:29.661	3
 618	keyword.emission	@keyword.emission@	2009-08-31 14:49:32.379	2009-08-31 14:49:32.379	3
 619	keyword.energy	@keyword.energy@	2009-08-31 14:49:35.521	2009-08-31 14:49:35.521	3
+1937	get-phet.full-install.installerDescription	@get-phet.full-install.installerDescription@	2009-09-04 16:23:52.421	2009-09-04 16:23:52.421	3
+1938	get-phet.full-install.getJava	@get-phet.full-install.getJava@	2009-09-04 16:23:55.6	2009-09-04 16:23:55.6	3
+1939	get-phet.full-install.updatedFrequently	@get-phet.full-install.updatedFrequently@	2009-09-04 16:23:59.303	2009-09-04 16:23:59.303	3
 704	about.source-code.header	@about.source-code.header@	2009-08-31 16:37:48.847	2009-08-31 18:20:19.651	3
 585	keyword.conductivity	@keyword.conductivity@	2009-08-31 14:41:38.736	2009-08-31 14:41:38.736	3
 706	about.source-code.flash-simulations	@about.source-code.flash-simulations@	2009-08-31 16:37:58.454	2009-09-01 01:18:39.255	3
@@ -4355,6 +4400,9 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 621	keyword.energyGap	@keyword.energyGap@	2009-08-31 14:49:41.539	2009-08-31 14:49:41.539	3
 622	keyword.energyLevels	@keyword.energyLevels@	2009-08-31 14:49:44.477	2009-08-31 14:49:44.477	3
 741	nav.sponsors	@nav.sponsors@	2009-08-31 23:40:34.721	2009-08-31 23:40:34.721	3
+1940	get-phet.full-install.downloadWindows	@get-phet.full-install.downloadWindows@	2009-09-04 16:24:00.394	2009-09-04 16:24:00.394	3
+1941	get-phet.full-install.downloadMac	@get-phet.full-install.downloadMac@	2009-09-04 16:24:01.422	2009-09-04 16:24:01.422	3
+1942	get-phet.full-install.downloadLinux	@get-phet.full-install.downloadLinux@	2009-09-04 16:24:02.531	2009-09-04 16:24:02.531	3
 813	keyword.moon	@keyword.moon@	2009-09-01 01:12:34.214	2009-09-01 01:12:34.214	3
 814	keyword.motion	@keyword.motion@	2009-09-01 01:12:37.417	2009-09-01 01:12:37.417	3
 815	keyword.mri	@keyword.mri@	2009-09-01 01:12:40.6	2009-09-01 01:12:40.6	3
@@ -4419,7 +4467,6 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 677	keyword.magneticMoment	@keyword.magneticMoment@	2009-08-31 14:57:42.765	2009-08-31 14:57:42.765	3
 678	keyword.magnetism	@keyword.magnetism@	2009-08-31 14:57:45.893	2009-08-31 14:57:45.893	3
 679	keyword.magnets	@keyword.magnets@	2009-08-31 14:57:50	2009-08-31 14:57:50	3
-680	about.p1	@about.p1@	2009-08-31 14:57:56.527	2009-08-31 14:57:56.527	3
 681	about.p2	@about.p2@	2009-08-31 14:57:58.798	2009-08-31 14:57:58.798	3
 682	about.p3	@about.p3@	2009-08-31 14:58:01.086	2009-08-31 14:58:01.086	3
 683	about.p4	@about.p4@	2009-08-31 14:58:03.941	2009-08-31 14:58:03.941	3
@@ -4452,7 +4499,17 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 808	keyword.molecularMotors	@keyword.molecularMotors@	2009-09-01 01:12:17.534	2009-09-01 01:12:17.534	3
 809	keyword.molecules	@keyword.molecules@	2009-09-01 01:12:21.018	2009-09-01 01:12:21.018	3
 708	sponsors.otherSponsors	@sponsors.otherSponsors@	2009-08-31 19:25:15.689	2009-08-31 19:25:33.756	3
+1830	about.contact.thePhetProject	The PhET Project:	2009-09-04 00:46:08.054	2009-09-04 00:46:08.054	1
+1831	about.contact.licenseInformation	License Information:	2009-09-04 00:46:58.433	2009-09-04 00:46:58.433	1
+1832	about.contact.email	Email:	2009-09-04 00:47:31.868	2009-09-04 00:47:38.065	1
+1833	about.contact.licensingText	<a {0}>Click here</a> to access the licensing information for the interactive simulations and their source code.	2009-09-04 00:49:51.48	2009-09-04 00:49:51.48	1
+1834	about.contact.correspondence	Please address all electronic correspondence to: {0} Information on contributing to PhET can be found <a {1}>here.</a>	2009-09-04 00:52:08.046	2009-09-04 00:52:08.046	1
+1835	about.contact.thePhetProject	مشروع PhET :	2009-09-04 00:56:09.152	2009-09-04 00:56:10.355	4
+1836	about.contact.licenseInformation	معلومات الترخيص :	2009-09-04 00:56:11.611	2009-09-04 00:56:11.611	4
+1837	about.contact.email	البريد الإلكتروني :	2009-09-04 00:56:12.797	2009-09-04 00:56:12.797	4
+1838	about.contact.licensingText	<a {0}>انقر هنا</a> للوصول إلى المعلومات ترخيص لمحاكاة تفاعلية وشفرة المصدر.	2009-09-04 00:56:20.872	2009-09-04 00:56:36.112	4
 810	keyword.moles	@keyword.moles@	2009-09-01 01:12:24.422	2009-09-01 01:12:24.422	3
+1839	about.contact.correspondence	يرجى معالجة جميع المراسلات الالكترونية ل: {0} معلومات عن المساهمة في PhET يمكن العثور عليها <a {1}>هنا.</a>	2009-09-04 00:56:56.942	2009-09-04 00:57:25.758	4
 626	keyword.excitation	@keyword.excitation@	2009-08-31 14:49:57.611	2009-08-31 14:49:57.611	3
 627	keyword.exercise	@keyword.exercise@	2009-08-31 14:54:16.455	2009-08-31 14:54:16.455	3
 440	language.name	@language.name@	2009-08-31 14:13:12.184	2009-08-31 14:47:19.092	3
@@ -4521,6 +4578,7 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 501	sponsors.hewlett	@sponsors.hewlett@	2009-08-31 14:17:07.955	2009-08-31 14:17:07.955	3
 502	sponsors.nsf	@sponsors.nsf@	2009-08-31 14:17:11.966	2009-08-31 14:17:11.966	3
 503	sponsors.ksu	@sponsors.ksu@	2009-08-31 14:17:15.095	2009-08-31 14:17:15.095	3
+1943	get-phet.full-install.downloadInMB	@get-phet.full-install.downloadInMB@	2009-09-04 16:24:04.986	2009-09-04 16:24:04.986	3
 504	troubleshooting.main.title	@troubleshooting.main.title@	2009-08-31 14:17:22.059	2009-08-31 14:17:22.059	3
 505	troubleshooting.main.intro	@troubleshooting.main.intro@	2009-08-31 14:17:24.346	2009-08-31 14:17:28.103	3
 506	troubleshooting.main.java	@troubleshooting.main.java@	2009-08-31 14:17:30.757	2009-08-31 14:17:30.757	3
@@ -4531,6 +4589,7 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 775	troubleshooting.java.q1.answer	@troubleshooting.java.q1.answer@	2009-09-01 01:10:04.705	2009-09-01 01:10:04.705	3
 770	get-phet.one-at-a-time.downloadingSims	@get-phet.one-at-a-time.downloadingSims@	2009-09-01 01:08:24.162	2009-09-01 01:08:24.162	3
 773	troubleshooting.java.faqs	@troubleshooting.java.faqs@	2009-09-01 01:10:01.78	2009-09-01 01:10:01.78	3
+1038	sponsors.platinum	@sponsors.platinum@	2009-09-03 13:12:46.455	2009-09-03 13:12:46.455	3
 774	troubleshooting.java.q1.title	@troubleshooting.java.q1.title@	2009-09-01 01:10:03.238	2009-09-01 01:10:03.238	3
 586	keyword.concentration	@keyword.concentration@	2009-08-31 14:41:42.096	2009-08-31 14:41:42.096	3
 625	keyword.estimation	@keyword.estimation@	2009-08-31 14:49:54.227	2009-08-31 14:49:54.227	3
@@ -4552,7 +4611,6 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 525	troubleshooting.main.q9.answer	@troubleshooting.main.q9.answer@	2009-08-31 14:19:19.609	2009-08-31 14:19:19.609	3
 526	troubleshooting.main.q10.title	@troubleshooting.main.q10.title@	2009-08-31 14:19:25.261	2009-08-31 14:19:25.261	3
 528	troubleshooting.main.q11.title	@troubleshooting.main.q11.title@	2009-08-31 14:19:37.15	2009-08-31 14:19:37.15	3
-535	keyword.1d	@keyword.1d@	2009-08-31 14:22:48.856	2009-08-31 14:22:48.856	3
 510	troubleshooting.main.q1.title	@troubleshooting.main.q1.title@	2009-08-31 14:17:40.155	2009-08-31 14:17:40.155	3
 511	troubleshooting.main.q1.answer	@troubleshooting.main.q1.answer@	2009-08-31 14:17:54.331	2009-08-31 14:17:54.331	3
 512	troubleshooting.main.q2.title	@troubleshooting.main.q2.title@	2009-08-31 14:18:06.032	2009-08-31 14:18:06.032	3
@@ -4601,11 +4659,6 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 1040	sponsors.bronze	@sponsors.bronze@	2009-09-03 13:13:18.803	2009-09-03 13:13:18.803	3
 1041	sponsors.technicalSupport	@sponsors.technicalSupport@	2009-09-03 13:13:20.311	2009-09-03 13:13:20.311	3
 1042	sponsors.piccolo.desc	@sponsors.piccolo.desc@	2009-09-03 13:13:21.773	2009-09-03 13:13:21.773	3
-691	about.licensing.title	@about.licensing.title@	2009-08-31 14:58:27.206	2009-08-31 14:58:27.206	3
-692	workshops.title	@workshops.title@	2009-08-31 14:58:29.565	2009-08-31 14:58:29.565	3
-694	get-phet.title	@get-phet.title@	2009-08-31 14:58:34.294	2009-08-31 14:58:34.294	3
-542	keyword.alternatingCurrent	@keyword.alternatingCurrent@	2009-08-31 14:23:08.542	2009-08-31 14:23:08.542	3
-543	keyword.ammeter	@keyword.ammeter@	2009-08-31 14:39:05.771	2009-08-31 14:39:05.771	3
 1063	simulationMainPanel.softwareRequirements	@simulationMainPanel.softwareRequirements@	2009-09-03 16:14:57.512	2009-09-03 16:14:57.512	3
 1064	simulationMainPanel.sampleLearningGoals	@simulationMainPanel.sampleLearningGoals@	2009-09-03 16:15:00.102	2009-09-03 16:15:00.102	3
 1065	simulationMainPanel.credits	@simulationMainPanel.credits@	2009-09-03 16:15:02.092	2009-09-03 16:15:02.092	3
@@ -4653,17 +4706,18 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 1842	about.contact.email	@about.contact.email@	2009-09-04 00:57:58.139	2009-09-04 00:57:58.139	3
 1843	about.contact.licensingText	@about.contact.licensingText@	2009-09-04 00:57:59.418	2009-09-04 00:57:59.418	3
 1844	about.contact.correspondence	@about.contact.correspondence@	2009-09-04 00:58:00.449	2009-09-04 00:58:00.449	3
-1830	about.contact.thePhetProject	The PhET Project:	2009-09-04 00:46:08.054	2009-09-04 00:46:08.054	1
-1831	about.contact.licenseInformation	License Information:	2009-09-04 00:46:58.433	2009-09-04 00:46:58.433	1
-1832	about.contact.email	Email:	2009-09-04 00:47:31.868	2009-09-04 00:47:38.065	1
-1833	about.contact.licensingText	<a {0}>Click here</a> to access the licensing information for the interactive simulations and their source code.	2009-09-04 00:49:51.48	2009-09-04 00:49:51.48	1
-1834	about.contact.correspondence	Please address all electronic correspondence to: {0} Information on contributing to PhET can be found <a {1}>here.</a>	2009-09-04 00:52:08.046	2009-09-04 00:52:08.046	1
-1835	about.contact.thePhetProject	مشروع PhET :	2009-09-04 00:56:09.152	2009-09-04 00:56:10.355	4
-1836	about.contact.licenseInformation	معلومات الترخيص :	2009-09-04 00:56:11.611	2009-09-04 00:56:11.611	4
-1837	about.contact.email	البريد الإلكتروني :	2009-09-04 00:56:12.797	2009-09-04 00:56:12.797	4
-1838	about.contact.licensingText	<a {0}>انقر هنا</a> للوصول إلى المعلومات ترخيص لمحاكاة تفاعلية وشفرة المصدر.	2009-09-04 00:56:20.872	2009-09-04 00:56:36.112	4
-1839	about.contact.correspondence	يرجى معالجة جميع المراسلات الالكترونية ل: {0} معلومات عن المساهمة في PhET يمكن العثور عليها <a {1}>هنا.</a>	2009-09-04 00:56:56.942	2009-09-04 00:57:25.758	4
-1038	sponsors.platinum	@sponsors.platinum@	2009-09-03 13:12:46.455	2009-09-03 13:12:46.455	3
+1944	get-phet.full-install.contactForCD	@get-phet.full-install.contactForCD@	2009-09-04 16:24:06.111	2009-09-04 16:24:06.111	3
+1945	get-phet.full-install.helpAndTroubleshooting	@get-phet.full-install.helpAndTroubleshooting@	2009-09-04 16:24:07.525	2009-09-04 16:24:07.525	3
+1946	get-phet.full-install.troubleshootingInfo	@get-phet.full-install.troubleshootingInfo@	2009-09-04 16:24:09.214	2009-09-04 16:24:09.214	3
+1947	get-phet.full-install.supportSoftware	@get-phet.full-install.supportSoftware@	2009-09-04 16:24:11.071	2009-09-04 16:24:11.071	3
+1948	get-phet.full-install.requirements	@get-phet.full-install.requirements@	2009-09-04 16:24:12.168	2009-09-04 16:24:12.168	3
+1949	get-phet.full-install.creatingInstallationCD	@get-phet.full-install.creatingInstallationCD@	2009-09-04 16:24:14.049	2009-09-04 16:24:14.049	3
+1950	get-phet.full-install.creatingInstallationCD.intro	@get-phet.full-install.creatingInstallationCD.intro@	2009-09-04 16:24:15.224	2009-09-04 16:24:15.224	3
+1951	get-phet.full-install.creatingInstallationCD.instructions	@get-phet.full-install.creatingInstallationCD.instructions@	2009-09-04 16:24:17.183	2009-09-04 16:24:17.183	3
+1952	get-phet.full-install.creatingInstallationCD.step1	@get-phet.full-install.creatingInstallationCD.step1@	2009-09-04 16:24:18.393	2009-09-04 16:24:18.393	3
+1953	get-phet.full-install.creatingInstallationCD.step2	@get-phet.full-install.creatingInstallationCD.step2@	2009-09-04 16:24:19.558	2009-09-04 16:24:19.558	3
+1954	get-phet.full-install.creatingInstallationCD.step3	@get-phet.full-install.creatingInstallationCD.step3@	2009-09-04 16:24:21.44	2009-09-04 16:24:21.44	3
+1955	get-phet.full-install.creatingInstallationCD.step4	@get-phet.full-install.creatingInstallationCD.step4@	2009-09-04 16:24:22.518	2009-09-04 16:24:22.518	3
 1068	simulationMainPanel.simulationTitleTranslated	@simulationMainPanel.simulationTitleTranslated@	2009-09-03 16:15:07.58	2009-09-03 16:15:07.58	3
 1069	simulationMainPanel.designTeam	@simulationMainPanel.designTeam@	2009-09-03 16:15:09.599	2009-09-03 16:15:09.599	3
 470	nav.math	@nav.math@	2009-08-31 14:15:29.188	2009-08-31 14:15:29.188	3

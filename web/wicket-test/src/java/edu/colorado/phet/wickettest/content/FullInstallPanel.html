@@ -12,9 +12,141 @@
 <body>
 
 <wicket:panel>
-    <div class="contribute standard-content">
-        <h2>This will be replaced by KSU's material</h2>
+    <div class="full-install standard-content">
+        <h2>
+            <wicket:message key="get-phet.full-install.header">PhET Offline Website Installer - Full Install
+            </wicket:message>
+        </h2>
+
+        <p wicket:id="text-installer-description">
+            The full PhET Offline Website Installer package installs a copy of the PhET website onto your computer. Once
+            installed, you do not need to be connected to the Internet
+            to view or run any of the simulations (as long as you have <a href="http://www.java.com/">Java</a>, <a
+                href="http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=shockwaveFlash">Flash</a>,
+            and a web browser such as <a href="http://www.mozilla.com/en-US/">Firefox</a> or <a
+                href="http://www.microsoft.com/windows/products/winfamily/ie/default.mspx">Internet Explorer</a>).
+        </p>
+
+        <p>
+            <wicket:message key="get-phet.full-install.getJava">
+                Java is included in the Windows download. Mac OS X users alroady have Java preinstalled. Linux users are
+                recommended to find a suitable version for their system.
+            </wicket:message>
+        </p>
+
+        <p>
+            <wicket:message key="get-phet.full-install.updatedFrequently">
+                These installers of the PhET simulations are updated frequently. We suggest uninstalling your earlier
+                versions before installing a new one.
+            </wicket:message>
+        </p>
+
+        <ul>
+            <li>
+                <a href="../PhET-Installer_windows.exe">
+                    <wicket:message key="get-phet.full-install.downloadWindows">
+                        Download installer for Windows (includes Java)
+                    </wicket:message>
+                </a>
+                <span wicket:id="size-win">
+                    - 91 MB
+                </span>
+            </li>
+
+            <li>
+                <a href="../PhET-Installer_osx.zip">
+                    <wicket:message key="get-phet.full-install.downloadMac">
+                        Download installer for Mac OS X
+                    </wicket:message>
+                </a>
+                <span wicket:id="size-mac">
+                    - 80 MB
+                </span>
+            </li>
+
+            <li>
+                <a href="../PhET-Installer_linux.bin">
+                    <wicket:message key="get-phet.full-install.downloadLinux">
+                        Download installer for Linux
+                    </wicket:message>
+                </a>
+                <span wicket:id="size-lnx">
+                    - 75 MB
+                </span>
+            </li>
+        </ul>
+
+        <hr/>
+
+        <p wicket:id="contact-for-cd-link">
+            If you have an Internet connection that is too slow, we can send you a CD with the full installation
+            package. Click <a href="../about/contact.php">here to contact us</a>.
+        </p>
+
+        <h2>
+            <wicket:message key="get-phet.full-install.helpAndTroubleshooting">Help &amp; Troubleshooting
+            </wicket:message>
+        </h2>
+
+        <p wicket:id="troubleshooting-link">
+            For assistance with installation and compatibility issues, please visit our
+            <a href="../tech_support/index.php">troubleshooting and support page</a>.
+        </p>
+
+        <h2>
+            <wicket:message key="get-phet.full-install.supportSoftware">Support Software</wicket:message>
+        </h2>
+
+        <p wicket:id="requirements">
+            Our simulations require Java 1.5 or newer and Flash 8 or newer, both of which are available at no cost. If
+            you don't have them on your computer or aren't sure about your versions, <a
+                href="../tech_support/index.php">click here</a>.
+        </p>
+
+        <h2>
+            <wicket:message key="get-phet.full-install.creatingInstallationCD">Creating an Installation CD-ROM
+            </wicket:message>
+        </h2>
+
+        <p wicket:id="cd-intro">
+            You can make a CD-ROM for doing the full PhET installation on computers without Internet access. You will
+            need a computer equipped with a CD writer, a blank CD, and an Internet connection. Please <a
+                href="../about/contact.php">contact PhET</a> help with any questions.
+        </p>
+
+        <p>
+            <wicket:message key="get-phet.full-install.creatingInstallationCD.instructions">Follow the instructions
+                below:
+            </wicket:message>
+        </p>
+
+        <ul>
+            <li wicket:id="step1">Download the <a
+                    href="../PhET-Installer_cdrom.zip">PhET
+                CD-ROM Distribution archive</a> onto your computer (246 MB).
+            </li>
+
+            <li>
+                <wicket:message key="get-phet.full-install.creatingInstallationCD.step2">
+                    Extract the contents of the archive (on most operating systems, this is done by double-clicking the
+                    downloaded file).
+                </wicket:message>
+            </li>
+
+            <li>
+                <wicket:message key="get-phet.full-install.creatingInstallationCD.step3">
+                    Copy all the files to the CD-ROM.
+                </wicket:message>
+            </li>
+
+            <li>
+                <wicket:message key="get-phet.full-install.creatingInstallationCD.step4">
+                    Please remember to periodically check for updated versions of the PhET simulations.
+                </wicket:message>
+            </li>
+        </ul>
     </div>
+
 </wicket:panel>
 </body>
 </html>
