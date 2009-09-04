@@ -2984,6 +2984,7 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 202	keyword.pointCharge	Point Charge	2009-08-17 14:42:37.995	2009-08-17 14:42:37.995	1
 151	keyword.optical	Optics	2009-08-17 05:25:34.157	2009-08-17 15:30:00.037	1
 140	keyword.battery	Batteries	2009-08-17 03:51:08.067	2009-08-31 20:58:33.195	1
+1076	language.names.ja_JP	Japanese (Japan)	2009-09-03 18:56:40.944	2009-09-03 18:56:40.944	1
 203	keyword.dipole	Dipole	2009-08-17 14:42:47.818	2009-08-17 14:42:47.818	1
 204	keyword.acCircuits	AC Circuits	2009-08-17 14:45:04.666	2009-08-17 14:45:04.666	1
 205	keyword.capacitance	Capacitance	2009-08-17 14:45:21.691	2009-08-17 14:45:21.691	1
@@ -3241,7 +3242,9 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 840	troubleshooting.javascript.q1.yes	<p>JavaScript <strong>IS</strong> enabled.</p>	2009-09-01 01:39:59.768	2009-09-01 01:40:21.8	1
 838	troubleshooting.javascript.notify	If you can''t solve your problem here, please notify us by email at the following address: {0}.	2009-09-01 01:36:15.385	2009-09-01 02:41:08.035	1
 837	troubleshooting.javascript.notJava	JavaScript is completely different than Sun Microsystems'' Java Web Start that we use on our simulations. For assistance with Sun Microsystems'' Java, <a {0}>go here</a>.	2009-09-01 01:35:48.665	2009-09-01 02:41:18.006	1
+1077	language.names.es_PE	Spanish (Peru)	2009-09-03 18:56:41.249	2009-09-03 18:56:41.249	1
 1053	footer.someRightsReserved	@footer.someRightsReserved@	2009-09-03 13:20:28.773	2009-09-03 13:20:28.773	3
+1078	language.names.en	English	2009-09-03 18:56:41.303	2009-09-03 18:56:41.303	1
 842	troubleshooting.javascript.q1.title	Is JavaScript enabled on my browser?	2009-09-01 01:53:18.343	2009-09-01 01:53:18.343	1
 843	troubleshooting.javascript.q2.title	Why is JavaScript needed?	2009-09-01 01:53:41.85	2009-09-01 02:15:04.37	1
 844	troubleshooting.javascript.q3.title	How do I enable JavaScript on Firefox?	2009-09-01 02:15:17.275	2009-09-01 02:15:17.275	1
@@ -3405,6 +3408,9 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 945	troubleshooting.main.java	جافا تثبيت واستكشاف الأخطاء وإصلاحها	2009-09-03 11:07:36.615	2009-09-03 11:07:36.615	4
 941	get-phet.one-at-a-time.runningSims	انقر على اسم أي محاكاة لتحميل محاكاة على الكمبيوتر. لتشغيل المحاكاة ، انقر نقرا مزدوجا فوقه. إذا كان لديك صعوبات ، يرجى الاطلاع على <a {0}> الدعم التقني </a> صفحة.	2009-09-03 11:05:47.402	2009-09-03 11:06:17.053	4
 942	get-phet.one-at-a-time.downloadingSims	كنت قد نسخ المحاكاة إلى أي مكان على الكمبيوتر. يمكنك أيضا نسخ المحاكاة إلى محرك الأقراص المضغوطة ،... حملة ، أو موقع في شبكة مشتركة.	2009-09-03 11:06:21.034	2009-09-03 11:06:21.034	4
+1079	language.names.ja_JP_JP	Japanese (Japan,JP)	2009-09-03 18:56:41.33	2009-09-03 18:56:41.33	1
+1080	language.names.es_PA	Spanish (Panama)	2009-09-03 18:56:41.36	2009-09-03 18:56:41.36	1
+1081	language.names.sr_BA	Serbian (Bosnia and Herzegovina)	2009-09-03 18:56:41.436	2009-09-03 18:56:41.436	1
 943	troubleshooting.main.title	مخرج -- PhET المحاكاة	2009-09-03 11:06:31.034	2009-09-03 11:06:31.034	4
 946	troubleshooting.main.flash	فلاش تثبيت واستكشاف الأخطاء وإصلاحها	2009-09-03 11:07:39.286	2009-09-03 11:07:39.286	4
 950	troubleshooting.main.q1.answer	<p>بعض من عمليات المحاكاة هي بدء جاوة الويب وغيرها من التطبيقات القائمة على استخدام Macromedia' فلاش لاعب. فلاش يأتي مع معظم أجهزة الكمبيوتر في حين بدء جاوة الويب هو تطبيق المجانية التي يمكن تحميلها من صن مايكروسيستمز. لتشغيل جافا القائمة على المحاكاة يجب أن يكون جافا الإصدار 1.5 أو أعلى مثبتة على جهاز الكمبيوتر الخاص بك.</p><p><a {0}>تعلم جافا التثبيت واستكشاف هنا</a></p>	2009-09-03 11:08:29.152	2009-09-03 11:08:29.152	4
@@ -3413,9 +3419,30 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 949	troubleshooting.main.q1.title	لماذا يمكنني تشغيل بعض من عمليات المحاكاة ولكن ليس كلها؟	2009-09-03 11:07:44.534	2009-09-03 11:07:44.534	4
 951	troubleshooting.main.q2.title	ما هي متطلبات النظام لتشغيل محاكيات PhET؟	2009-09-03 11:08:38.67	2009-09-03 11:08:38.67	4
 1033	sponsors.bitrock.desc	For providing for our installer builder	2009-09-03 12:51:39.675	2009-09-03 12:51:39.675	1
+1082	language.names.mk	Macedonian	2009-09-03 18:56:41.535	2009-09-03 18:56:41.535	1
+1083	language.names.es_GT	Spanish (Guatemala)	2009-09-03 18:56:41.569	2009-09-03 18:56:41.569	1
+1084	language.names.ar_AE	Arabic (United Arab Emirates)	2009-09-03 18:56:41.578	2009-09-03 18:56:41.578	1
+1085	language.names.no_NO	Norwegian (Norway)	2009-09-03 18:56:41.591	2009-09-03 18:56:41.591	1
+1086	language.names.sq_AL	Albanian (Albania)	2009-09-03 18:56:41.608	2009-09-03 18:56:41.608	1
+1087	language.names.bg	Bulgarian	2009-09-03 18:56:41.619	2009-09-03 18:56:41.619	1
+1088	language.names.ar_IQ	Arabic (Iraq)	2009-09-03 18:56:41.63	2009-09-03 18:56:41.63	1
+1089	language.names.ar_YE	Arabic (Yemen)	2009-09-03 18:56:41.642	2009-09-03 18:56:41.642	1
+1090	language.names.hu	Hungarian	2009-09-03 18:56:41.675	2009-09-03 18:56:41.675	1
 1063	simulationMainPanel.softwareRequirements	@simulationMainPanel.softwareRequirements@	2009-09-03 16:14:57.512	2009-09-03 16:14:57.512	3
 1064	simulationMainPanel.sampleLearningGoals	@simulationMainPanel.sampleLearningGoals@	2009-09-03 16:15:00.102	2009-09-03 16:15:00.102	3
 1065	simulationMainPanel.credits	@simulationMainPanel.credits@	2009-09-03 16:15:02.092	2009-09-03 16:15:02.092	3
+1091	language.names.pt_PT	Portuguese (Portugal)	2009-09-03 18:56:41.681	2009-09-03 18:56:41.681	1
+1092	language.names.el_CY	Greek (Cyprus)	2009-09-03 18:56:41.687	2009-09-03 18:56:41.687	1
+1093	language.names.ar_QA	Arabic (Qatar)	2009-09-03 18:56:41.705	2009-09-03 18:56:41.705	1
+1094	language.names.mk_MK	Macedonian (Macedonia)	2009-09-03 18:56:41.71	2009-09-03 18:56:41.71	1
+1095	language.names.sv	Swedish	2009-09-03 18:56:41.722	2009-09-03 18:56:41.722	1
+1096	language.names.de_CH	German (Switzerland)	2009-09-03 18:56:41.727	2009-09-03 18:56:41.727	1
+1097	language.names.en_US	English (United States)	2009-09-03 18:56:41.736	2009-09-03 18:56:41.736	1
+1098	language.names.fi_FI	Finnish (Finland)	2009-09-03 18:56:41.743	2009-09-03 18:56:41.743	1
+1099	language.names.is	Icelandic	2009-09-03 18:56:41.753	2009-09-03 18:56:41.753	1
+1100	language.names.cs	Czech	2009-09-03 18:56:41.758	2009-09-03 18:56:41.758	1
+1101	language.names.en_MT	English (Malta)	2009-09-03 18:56:41.765	2009-09-03 18:56:41.765	1
+1102	language.names.sl_SI	Slovenian (Slovenia)	2009-09-03 18:56:41.77	2009-09-03 18:56:41.77	1
 740	sponsors.title	@sponsors.title@	2009-08-31 23:40:21.203	2009-08-31 23:40:21.203	3
 1066	simulationMainPanel.language	@simulationMainPanel.language@	2009-09-03 16:15:03.865	2009-09-03 16:15:03.865	3
 1067	simulationMainPanel.languageTranslated	@simulationMainPanel.languageTranslated@	2009-09-03 16:15:05.543	2009-09-03 16:15:05.543	3
@@ -3490,6 +3517,7 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 617	keyword.ellipticalMotion	@keyword.ellipticalMotion@	2009-08-31 14:49:29.661	2009-08-31 14:49:29.661	3
 618	keyword.emission	@keyword.emission@	2009-08-31 14:49:32.379	2009-08-31 14:49:32.379	3
 619	keyword.energy	@keyword.energy@	2009-08-31 14:49:35.521	2009-08-31 14:49:35.521	3
+1103	language.names.sk_SK	Slovak (Slovakia)	2009-09-03 18:56:41.778	2009-09-03 18:56:41.778	1
 704	about.source-code.header	@about.source-code.header@	2009-08-31 16:37:48.847	2009-08-31 18:20:19.651	3
 585	keyword.conductivity	@keyword.conductivity@	2009-08-31 14:41:38.736	2009-08-31 14:41:38.736	3
 706	about.source-code.flash-simulations	@about.source-code.flash-simulations@	2009-08-31 16:37:58.454	2009-09-01 01:18:39.255	3
@@ -3549,6 +3577,11 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 807	keyword.molarity	@keyword.molarity@	2009-09-01 01:12:13.905	2009-09-01 01:12:13.905	3
 808	keyword.molecularMotors	@keyword.molecularMotors@	2009-09-01 01:12:17.534	2009-09-01 01:12:17.534	3
 809	keyword.molecules	@keyword.molecules@	2009-09-01 01:12:21.018	2009-09-01 01:12:21.018	3
+1104	language.names.it	Italian	2009-09-03 18:56:41.783	2009-09-03 18:56:41.783	1
+1105	language.names.tr_TR	Turkish (Turkey)	2009-09-03 18:56:41.789	2009-09-03 18:56:41.789	1
+1106	language.names.zh	Chinese	2009-09-03 18:56:41.823	2009-09-03 18:56:41.823	1
+1107	language.names.th	Thai	2009-09-03 18:56:41.831	2009-09-03 18:56:41.831	1
+1108	language.names.ar_SA	Arabic (Saudi Arabia)	2009-09-03 18:56:41.836	2009-09-03 18:56:41.836	1
 952	troubleshooting.main.q4.title	كنت تستخدم انترنت اكسبلورر والمحاكاة لا تعمل على جهاز الكمبيوتر الخاص بي.	2009-09-03 11:08:45.411	2009-09-03 11:08:45.411	4
 953	troubleshooting.main.q5.title	لماذا لا يتم تشغيل فلاش محاكاة على الكمبيوتر؟	2009-09-03 11:08:48.148	2009-09-03 11:08:48.148	4
 954	troubleshooting.main.q6.title	ما هو المثل الأعلى دقة الشاشة لتشغيل محاكيات PhET؟	2009-09-03 11:08:50.511	2009-09-03 11:08:50.511	4
@@ -3614,6 +3647,7 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 746	workshops.intro	@workshops.intro@	2009-09-01 00:08:58.54	2009-09-01 00:08:58.54	3
 623	keyword.equipotential	@keyword.equipotential@	2009-08-31 14:49:47.856	2009-08-31 14:49:47.856	3
 624	keyword.errorAnalysis	@keyword.errorAnalysis@	2009-08-31 14:49:50.861	2009-08-31 14:49:50.861	3
+1109	language.names.no	Norwegian	2009-09-03 18:56:41.841	2009-09-03 18:56:41.841	1
 967	troubleshooting.java.q3.title	لماذا استخدام جافا ويب ستارت بدلا من جافا؟	2009-09-03 11:10:40.472	2009-09-03 11:10:40.472	4
 968	troubleshooting.java.q4.title	هل هناك أي مشاكل في تشغيل المحاكاة على ماك؟	2009-09-03 11:10:42.748	2009-09-03 11:10:42.748	4
 752	troubleshooting.java.intro	PhET's Java-based simulations use Sun Microsystems' Java Web Start technology to launch the simulations. This page will help you ensure that you have Java installed properly, and address some of the problems people might have running our programs. If you can't solve your problem here, please notify us by email at the following address: <a {0}><span class="red">phethelp@colorado.edu</span></a>.	2009-09-01 00:34:04.883	2009-09-01 00:34:04.883	1
@@ -3660,7 +3694,9 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 642	keyword.gravitationalForce	@keyword.gravitationalForce@	2009-08-31 14:55:23.721	2009-08-31 14:55:23.721	3
 500	sponsors.principalSponsors	@sponsors.principalSponsors@	2009-08-31 14:17:04.468	2009-08-31 14:17:04.468	3
 501	sponsors.hewlett	@sponsors.hewlett@	2009-08-31 14:17:07.955	2009-08-31 14:17:07.955	3
+1110	language.names.en_GB	English (United Kingdom)	2009-09-03 18:56:41.847	2009-09-03 18:56:41.847	1
 768	troubleshooting.java.q8.answer	<p><strong>Why do simulations run for admin but not all users?</strong></p><p>Java simulations may also fail to start on networked computers running Windows for some users while running properly for administrators. When Java Web Start tries to launch a simulation, it attempts to cache certain files in a "cache folder". This folder (or "directory") is determined when Java is installed, and may point to a folder that non-administrator accounts do not have access to, resulting in a launch failure. Correct this problem by setting the cache directory to one of your own choosing: Log on as an administrator.</p><p>Launch the Java Web Start Application Manager. This can be done in one of two ways. a) If the Java installation placed an icon either on your desktop or in the Start Menu -&gt; All Programs list titled "Java Web Start", click it to start the application. b) Use the Windows search function (located in the Start Menu) to search for the program "javaws.exe". Once it is found, click on the file to run the application. Once the Java Web Start Application Manager is up and running, choose File&gt;Preferences. In the Preferences dialog that appears, click on the Advanced tab. In this tab, you will find a text field labeled "Applications Folder". In this text field, put the name of an empty directory to which all users have write privileges. Note: This directory MUST be empty. All users should now be able to launch the Java simulations.</p><p><strong>Issue 3: Web Proxy Settings</strong><br/>Java simulations may fail to start if the proxy settings in Java Web Start's configuration panel (Start Menu-&gt;Java Web Start, File Menu-&gt;Preferences) do not match those your system is currently using. To identify settings being used on your system, see your web browser's proxy settings, or contact you network administrator.</p><p><strong>Local Install on Boot Drive Only</strong><br/>If you are operating in a networked environment, please ensure that both Java and the PhET simulations (if installed locally rather than running from our web site) are installed on local, non-networked drives. The PhET simulations must be installed on the boot drive.</p><p><strong>Network Firewalls</strong><br/>Please ensure that your firewall is configured to allow both Java and Java Web Start to communicate through the firewall.</p>	2009-09-01 01:01:45.087	2009-09-01 01:01:45.087	1
+1111	language.names.sr_CS	Serbian (Serbia and Montenegro)	2009-09-03 18:56:41.852	2009-09-03 18:56:41.852	1
 971	troubleshooting.java.q7.title	عموما جافا مخرج	2009-09-03 11:10:53.282	2009-09-03 11:10:53.282	4
 972	troubleshooting.java.q8.title	نصائح للمخرج شبكات الكمبيوتر	2009-09-03 11:10:55.773	2009-09-03 11:10:55.773	4
 973	troubleshooting.flash.toRun	فلاش لتشغيل نماذج المحاكاة التي تعتمد عليك ماكروميديا فلاش 8 (متاحة مجانا) أو أحدث مثبتا على جهاز الكمبيوتر.	2009-09-03 11:11:08.411	2009-09-03 11:11:08.411	4
@@ -3722,6 +3758,88 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 773	troubleshooting.java.faqs	@troubleshooting.java.faqs@	2009-09-01 01:10:01.78	2009-09-01 01:10:01.78	3
 774	troubleshooting.java.q1.title	@troubleshooting.java.q1.title@	2009-09-01 01:10:03.238	2009-09-01 01:10:03.238	3
 586	keyword.concentration	@keyword.concentration@	2009-08-31 14:41:42.096	2009-08-31 14:41:42.096	3
+1112	language.names.lt	Lithuanian	2009-09-03 18:56:41.857	2009-09-03 18:56:41.857	1
+1113	language.names.ro	Romanian	2009-09-03 18:56:41.862	2009-09-03 18:56:41.862	1
+1114	language.names.en_NZ	English (New Zealand)	2009-09-03 18:56:41.867	2009-09-03 18:56:41.867	1
+1115	language.names.no_NO_NY	Norwegian (Norway,Nynorsk)	2009-09-03 18:56:41.872	2009-09-03 18:56:41.872	1
+1116	language.names.lt_LT	Lithuanian (Lithuania)	2009-09-03 18:56:41.877	2009-09-03 18:56:41.877	1
+1117	language.names.es_NI	Spanish (Nicaragua)	2009-09-03 18:56:41.891	2009-09-03 18:56:41.891	1
+1118	language.names.nl	Dutch	2009-09-03 18:56:41.9	2009-09-03 18:56:41.9	1
+1119	language.names.ga_IE	Irish (Ireland)	2009-09-03 18:56:41.937	2009-09-03 18:56:41.937	1
+1120	language.names.fr_BE	French (Belgium)	2009-09-03 18:56:41.943	2009-09-03 18:56:41.943	1
+1121	language.names.es_ES	Spanish (Spain)	2009-09-03 18:56:41.95	2009-09-03 18:56:41.95	1
+1122	language.names.ar_LB	Arabic (Lebanon)	2009-09-03 18:56:41.956	2009-09-03 18:56:41.956	1
+1123	language.names.ko	Korean	2009-09-03 18:56:41.961	2009-09-03 18:56:41.961	1
+1124	language.names.fr_CA	French (Canada)	2009-09-03 18:56:41.965	2009-09-03 18:56:41.965	1
+1125	language.names.et_EE	Estonian (Estonia)	2009-09-03 18:56:41.974	2009-09-03 18:56:41.974	1
+1126	language.names.ar_KW	Arabic (Kuwait)	2009-09-03 18:56:41.978	2009-09-03 18:56:41.978	1
+1127	language.names.es_US	Spanish (United States)	2009-09-03 18:56:41.983	2009-09-03 18:56:41.983	1
+1128	language.names.es_MX	Spanish (Mexico)	2009-09-03 18:56:41.993	2009-09-03 18:56:41.993	1
+1129	language.names.ar_SD	Arabic (Sudan)	2009-09-03 18:56:42.002	2009-09-03 18:56:42.002	1
+1130	language.names.in_ID	Indonesian (Indonesia)	2009-09-03 18:56:42.008	2009-09-03 18:56:42.008	1
+1131	language.names.ru	Russian	2009-09-03 18:56:42.013	2009-09-03 18:56:42.013	1
+1132	language.names.lv	Latvian	2009-09-03 18:56:42.019	2009-09-03 18:56:42.019	1
+1133	language.names.es_UY	Spanish (Uruguay)	2009-09-03 18:56:42.024	2009-09-03 18:56:42.024	1
+1134	language.names.lv_LV	Latvian (Latvia)	2009-09-03 18:56:42.03	2009-09-03 18:56:42.03	1
+1135	language.names.iw	Hebrew	2009-09-03 18:56:42.035	2009-09-03 18:56:42.035	1
+1136	language.names.pt_BR	Portuguese (Brazil)	2009-09-03 18:56:42.041	2009-09-03 18:56:42.041	1
+1137	language.names.ar_SY	Arabic (Syria)	2009-09-03 18:56:42.045	2009-09-03 18:56:42.045	1
+1138	language.names.hr	Croatian	2009-09-03 18:56:42.051	2009-09-03 18:56:42.051	1
+1139	language.names.et	Estonian	2009-09-03 18:56:42.056	2009-09-03 18:56:42.056	1
+1140	language.names.es_DO	Spanish (Dominican Republic)	2009-09-03 18:56:42.061	2009-09-03 18:56:42.061	1
+1141	language.names.fr_CH	French (Switzerland)	2009-09-03 18:56:42.072	2009-09-03 18:56:42.072	1
+1142	language.names.hi_IN	Hindi (India)	2009-09-03 18:56:42.077	2009-09-03 18:56:42.077	1
+1143	language.names.es_VE	Spanish (Venezuela)	2009-09-03 18:56:42.082	2009-09-03 18:56:42.082	1
+1144	language.names.ar_BH	Arabic (Bahrain)	2009-09-03 18:56:42.087	2009-09-03 18:56:42.087	1
+1145	language.names.en_PH	English (Philippines)	2009-09-03 18:56:42.092	2009-09-03 18:56:42.092	1
+1146	language.names.ar_TN	Arabic (Tunisia)	2009-09-03 18:56:42.101	2009-09-03 18:56:42.101	1
+1147	language.names.fi	Finnish	2009-09-03 18:56:42.106	2009-09-03 18:56:42.106	1
+1148	language.names.de_AT	German (Austria)	2009-09-03 18:56:42.111	2009-09-03 18:56:42.111	1
+1149	language.names.es	Spanish	2009-09-03 18:56:42.117	2009-09-03 18:56:42.117	1
+1150	language.names.nl_NL	Dutch (Netherlands)	2009-09-03 18:56:42.121	2009-09-03 18:56:42.121	1
+1151	language.names.es_EC	Spanish (Ecuador)	2009-09-03 18:56:42.126	2009-09-03 18:56:42.126	1
+1152	language.names.zh_TW	Chinese (Taiwan)	2009-09-03 18:56:42.134	2009-09-03 18:56:42.134	1
+1153	language.names.ar_JO	Arabic (Jordan)	2009-09-03 18:56:42.139	2009-09-03 18:56:42.139	1
+1154	language.names.be	Belarusian	2009-09-03 18:56:42.144	2009-09-03 18:56:42.144	1
+1155	language.names.is_IS	Icelandic (Iceland)	2009-09-03 18:56:42.149	2009-09-03 18:56:42.149	1
+1156	language.names.es_CO	Spanish (Colombia)	2009-09-03 18:56:42.154	2009-09-03 18:56:42.154	1
+1157	language.names.es_CR	Spanish (Costa Rica)	2009-09-03 18:56:42.158	2009-09-03 18:56:42.158	1
+1158	language.names.es_CL	Spanish (Chile)	2009-09-03 18:56:42.162	2009-09-03 18:56:42.162	1
+1159	language.names.ar_EG	Arabic (Egypt)	2009-09-03 18:56:42.167	2009-09-03 18:56:42.167	1
+1160	language.names.en_ZA	English (South Africa)	2009-09-03 18:56:42.172	2009-09-03 18:56:42.172	1
+1161	language.names.th_TH	Thai (Thailand)	2009-09-03 18:56:42.176	2009-09-03 18:56:42.176	1
+1162	language.names.el_GR	Greek (Greece)	2009-09-03 18:56:42.181	2009-09-03 18:56:42.181	1
+1163	language.names.it_IT	Italian (Italy)	2009-09-03 18:56:42.185	2009-09-03 18:56:42.185	1
+1164	language.names.ca	Catalan	2009-09-03 18:56:42.19	2009-09-03 18:56:42.19	1
+1165	language.names.hu_HU	Hungarian (Hungary)	2009-09-03 18:56:42.198	2009-09-03 18:56:42.198	1
+1166	language.names.fr	French	2009-09-03 18:56:42.205	2009-09-03 18:56:42.205	1
+1167	language.names.en_IE	English (Ireland)	2009-09-03 18:56:42.21	2009-09-03 18:56:42.21	1
+1168	language.names.uk_UA	Ukrainian (Ukraine)	2009-09-03 18:56:42.216	2009-09-03 18:56:42.216	1
+1169	language.names.pl_PL	Polish (Poland)	2009-09-03 18:56:42.221	2009-09-03 18:56:42.221	1
+1170	language.names.fr_LU	French (Luxembourg)	2009-09-03 18:56:42.225	2009-09-03 18:56:42.225	1
+1171	language.names.nl_BE	Dutch (Belgium)	2009-09-03 18:56:42.23	2009-09-03 18:56:42.23	1
+1172	language.names.en_IN	English (India)	2009-09-03 18:56:42.234	2009-09-03 18:56:42.234	1
+1173	language.names.ca_ES	Catalan (Spain)	2009-09-03 18:56:42.246	2009-09-03 18:56:42.246	1
+1174	language.names.ar_MA	Arabic (Morocco)	2009-09-03 18:56:42.251	2009-09-03 18:56:42.251	1
+1175	language.names.es_BO	Spanish (Bolivia)	2009-09-03 18:56:42.255	2009-09-03 18:56:42.255	1
+1176	language.names.en_AU	English (Australia)	2009-09-03 18:56:42.261	2009-09-03 18:56:42.261	1
+1177	language.names.sr	Serbian	2009-09-03 18:56:42.268	2009-09-03 18:56:42.268	1
+1178	language.names.zh_SG	Chinese (Singapore)	2009-09-03 18:56:42.276	2009-09-03 18:56:42.276	1
+1179	language.names.pt	Portuguese	2009-09-03 18:56:42.299	2009-09-03 18:56:42.299	1
+1180	language.names.uk	Ukrainian	2009-09-03 18:56:42.306	2009-09-03 18:56:42.306	1
+1181	language.names.es_SV	Spanish (El Salvador)	2009-09-03 18:56:42.313	2009-09-03 18:56:42.313	1
+1182	language.names.ru_RU	Russian (Russia)	2009-09-03 18:56:42.319	2009-09-03 18:56:42.319	1
+1183	language.names.ko_KR	Korean (South Korea)	2009-09-03 18:56:42.327	2009-09-03 18:56:42.327	1
+1184	language.names.vi	Vietnamese	2009-09-03 18:56:42.339	2009-09-03 18:56:42.339	1
+1185	language.names.ar_DZ	Arabic (Algeria)	2009-09-03 18:56:42.344	2009-09-03 18:56:42.344	1
+1186	language.names.vi_VN	Vietnamese (Vietnam)	2009-09-03 18:56:42.35	2009-09-03 18:56:42.35	1
+1187	language.names.sq	Albanian	2009-09-03 18:56:42.355	2009-09-03 18:56:42.355	1
+1188	language.names.ar_LY	Arabic (Libya)	2009-09-03 18:56:42.359	2009-09-03 18:56:42.359	1
+1189	language.names.ar	Arabic	2009-09-03 18:56:42.363	2009-09-03 18:56:42.363	1
+1190	language.names.zh_CN	Chinese (China)	2009-09-03 18:56:42.369	2009-09-03 18:56:42.369	1
+1191	language.names.be_BY	Belarusian (Belarus)	2009-09-03 18:56:42.373	2009-09-03 18:56:42.373	1
+1192	language.names.zh_HK	Chinese (Hong Kong)	2009-09-03 18:56:42.378	2009-09-03 18:56:42.378	1
+1193	language.names.ja	Japanese	2009-09-03 18:56:42.382	2009-09-03 18:56:42.382	1
 1017	contribute.financialContributions	Financial Contributions	2009-09-03 12:29:21.388	2009-09-03 12:29:21.388	1
 625	keyword.estimation	@keyword.estimation@	2009-08-31 14:49:54.227	2009-08-31 14:49:54.227	3
 776	troubleshooting.java.q2.title	@troubleshooting.java.q2.title@	2009-09-01 01:10:06.646	2009-09-01 01:10:06.646	3
@@ -3803,6 +3921,38 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 1050	sponsors.royalinteractive.desc	@sponsors.royalinteractive.desc@	2009-09-03 13:13:36.386	2009-09-03 13:13:36.386	3
 1051	sponsors.dynamicalSystems.desc	@sponsors.dynamicalSystems.desc@	2009-09-03 13:13:38.077	2009-09-03 13:13:38.077	3
 513	troubleshooting.main.q2.answer	@troubleshooting.main.q2.answer@	2009-08-31 14:18:10.379	2009-08-31 14:18:22.189	3
+1194	language.names.iw_IL	Hebrew (Israel)	2009-09-03 18:56:42.387	2009-09-03 18:56:42.387	1
+1195	language.names.bg_BG	Bulgarian (Bulgaria)	2009-09-03 18:56:42.403	2009-09-03 18:56:42.403	1
+1196	language.names.in	Indonesian	2009-09-03 18:56:42.408	2009-09-03 18:56:42.408	1
+1197	language.names.mt_MT	Maltese (Malta)	2009-09-03 18:56:42.433	2009-09-03 18:56:42.433	1
+1198	language.names.es_PY	Spanish (Paraguay)	2009-09-03 18:56:42.439	2009-09-03 18:56:42.439	1
+1199	language.names.sl	Slovenian	2009-09-03 18:56:42.446	2009-09-03 18:56:42.446	1
+1200	language.names.fr_FR	French (France)	2009-09-03 18:56:42.453	2009-09-03 18:56:42.453	1
+1201	language.names.cs_CZ	Czech (Czech Republic)	2009-09-03 18:56:42.461	2009-09-03 18:56:42.461	1
+1202	language.names.it_CH	Italian (Switzerland)	2009-09-03 18:56:42.467	2009-09-03 18:56:42.467	1
+1203	language.names.ro_RO	Romanian (Romania)	2009-09-03 18:56:42.473	2009-09-03 18:56:42.473	1
+1204	language.names.es_PR	Spanish (Puerto Rico)	2009-09-03 18:56:42.48	2009-09-03 18:56:42.48	1
+1205	language.names.en_CA	English (Canada)	2009-09-03 18:56:42.485	2009-09-03 18:56:42.485	1
+1206	language.names.de_DE	German (Germany)	2009-09-03 18:56:42.489	2009-09-03 18:56:42.489	1
+1207	language.names.ga	Irish	2009-09-03 18:56:42.495	2009-09-03 18:56:42.495	1
+1208	language.names.de_LU	German (Luxembourg)	2009-09-03 18:56:42.502	2009-09-03 18:56:42.502	1
+1209	language.names.de	German	2009-09-03 18:56:42.515	2009-09-03 18:56:42.515	1
+1210	language.names.es_AR	Spanish (Argentina)	2009-09-03 18:56:42.522	2009-09-03 18:56:42.522	1
+1211	language.names.sk	Slovak	2009-09-03 18:56:42.527	2009-09-03 18:56:42.527	1
+1212	language.names.ms_MY	Malay (Malaysia)	2009-09-03 18:56:42.533	2009-09-03 18:56:42.533	1
+1213	language.names.hr_HR	Croatian (Croatia)	2009-09-03 18:56:42.539	2009-09-03 18:56:42.539	1
+1214	language.names.en_SG	English (Singapore)	2009-09-03 18:56:42.544	2009-09-03 18:56:42.544	1
+1215	language.names.da	Danish	2009-09-03 18:56:42.55	2009-09-03 18:56:42.55	1
+1216	language.names.mt	Maltese	2009-09-03 18:56:42.558	2009-09-03 18:56:42.558	1
+1217	language.names.pl	Polish	2009-09-03 18:56:42.565	2009-09-03 18:56:42.565	1
+1218	language.names.ar_OM	Arabic (Oman)	2009-09-03 18:56:42.572	2009-09-03 18:56:42.572	1
+1219	language.names.tr	Turkish	2009-09-03 18:56:42.577	2009-09-03 18:56:42.577	1
+1220	language.names.th_TH_TH	Thai (Thailand,TH)	2009-09-03 18:56:42.582	2009-09-03 18:56:42.582	1
+1221	language.names.el	Greek	2009-09-03 18:56:42.625	2009-09-03 18:56:42.625	1
+1222	language.names.ms	Malay	2009-09-03 18:56:42.654	2009-09-03 18:56:42.654	1
+1223	language.names.sv_SE	Swedish (Sweden)	2009-09-03 18:56:42.659	2009-09-03 18:56:42.659	1
+1224	language.names.da_DK	Danish (Denmark)	2009-09-03 18:56:42.682	2009-09-03 18:56:42.682	1
+1225	language.names.es_HN	Spanish (Honduras)	2009-09-03 18:56:42.693	2009-09-03 18:56:42.693	1
 458	nav.new	@nav.new@	2009-08-31 14:14:23.376	2009-08-31 14:14:23.376	3
 516	troubleshooting.main.q5.title	@troubleshooting.main.q5.title@	2009-08-31 14:18:28.732	2009-08-31 14:18:28.732	3
 582	keyword.climate	@keyword.climate@	2009-08-31 14:41:28.357	2009-08-31 14:41:28.357	3
