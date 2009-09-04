@@ -192,13 +192,14 @@ class CharacterNode(mass: Mass, mass2: Mass, transform: ModelViewTransform2D, le
     (a max 0) min 14
   }
 
+  val scale = 0.5
   def getImage = {
     val im = ForceLawLabResources.getImage("pull-figure/pull_figure_" + forceAmount + ".png")
     val flipIm = if (leftOfObject) BufferedImageUtils.flipX(im) else im
-    flipIm
+    BufferedImageUtils.multiScale(flipIm,0.5)
   }
 
-  val ropeHeightFromImageBase = 103
+  val ropeHeightFromImageBase = 103 * scale
   val characterImageNode = new PImage(getImage)
   addChild(characterImageNode)
   update()
@@ -207,8 +208,8 @@ class CharacterNode(mass: Mass, mass2: Mass, transform: ModelViewTransform2D, le
     characterImageNode.setOffset(ropeEnd)
     characterImageNode.translate(0, ropeHeightFromImageBase - characterImageNode.getFullBounds.getHeight)
     if (leftOfObject) characterImageNode.translate(-characterImageNode.getFullBounds.getWidth, 0)
-    characterImageNode.translate(-40 * sign, 0) //move closer to rope, since graphic offset increases as force increases
-    characterImageNode.translate(- forceAmount * sign * 1.5, 0)  //step closer to rope, to keep rope constant length
+    characterImageNode.translate(-40 * sign * scale , 0) //move closer to rope, since graphic offset increases as force increases
+    characterImageNode.translate(- forceAmount * sign * 1.5 * scale, 0)  //step closer to rope, to keep rope constant length
   }
 }
 
