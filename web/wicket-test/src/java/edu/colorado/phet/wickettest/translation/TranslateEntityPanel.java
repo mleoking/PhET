@@ -6,7 +6,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.extensions.ajax.markup.html.AjaxEditableMultiLineLabel;
 import org.apache.wicket.markup.html.basic.Label;
@@ -23,7 +22,6 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import edu.colorado.phet.wickettest.WicketApplication;
-import edu.colorado.phet.wickettest.test.TestTranslateString;
 import edu.colorado.phet.wickettest.authentication.PhetSession;
 import edu.colorado.phet.wickettest.components.InvisibleComponent;
 import edu.colorado.phet.wickettest.components.LocalizedLabel;

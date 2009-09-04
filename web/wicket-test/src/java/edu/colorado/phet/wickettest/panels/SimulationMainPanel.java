@@ -1,7 +1,6 @@
 package edu.colorado.phet.wickettest.panels;
 
 import java.text.MessageFormat;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -218,27 +217,27 @@ public class SimulationMainPanel extends PhetPanel {
         List<String> thanks = new LinkedList<String>();
 
         String rawDesignTeam = simulation.getSimulation().getDesignTeam();
-        if( rawDesignTeam != null ) {
+        if ( rawDesignTeam != null ) {
             for ( String item : rawDesignTeam.split( "<br/>" ) ) {
-                if( item != null && item.length() > 0 ) {
+                if ( item != null && item.length() > 0 ) {
                     designTeam.add( item );
                 }
             }
         }
 
         String rawLibraries = simulation.getSimulation().getLibraries();
-        if( rawLibraries != null ) {
+        if ( rawLibraries != null ) {
             for ( String item : rawLibraries.split( "<br/>" ) ) {
-                if( item != null && item.length() > 0 ) {
+                if ( item != null && item.length() > 0 ) {
                     libraries.add( item );
                 }
             }
         }
 
         String rawThanks = simulation.getSimulation().getThanksTo();
-        if( rawThanks != null ) {
+        if ( rawThanks != null ) {
             for ( String item : rawThanks.split( "<br/>" ) ) {
-                if( item != null && item.length() > 0 ) {
+                if ( item != null && item.length() > 0 ) {
                     thanks.add( item );
                 }
             }
@@ -250,7 +249,7 @@ public class SimulationMainPanel extends PhetPanel {
                 item.add( new Label( "design-item", str ) );
             }
         };
-        if( designTeam.isEmpty() ) {
+        if ( designTeam.isEmpty() ) {
             designView.setVisible( false );
         }
         add( designView );
@@ -261,7 +260,7 @@ public class SimulationMainPanel extends PhetPanel {
                 item.add( new Label( "library-item", str ) );
             }
         };
-        if( libraries.isEmpty() ) {
+        if ( libraries.isEmpty() ) {
             libraryView.setVisible( false );
         }
         add( libraryView );
@@ -272,7 +271,7 @@ public class SimulationMainPanel extends PhetPanel {
                 item.add( new Label( "thanks-item", str ) );
             }
         };
-        if( thanks.isEmpty() ) {
+        if ( thanks.isEmpty() ) {
             thanksView.setVisible( false );
         }
         add( thanksView );

@@ -1,13 +1,13 @@
 package edu.colorado.phet.wickettest.admin;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.StringReader;
 import java.util.*;
 
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.form.DropDownChoice;
-import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.IChoiceRenderer;
-import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.form.*;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
@@ -98,6 +98,12 @@ public class AdminSimPage extends AdminPage {
         add( new AddTopicForm( "add-topic", simTopics, allKeywords ) );
 
         add( new CreateKeywordForm( "create-keyword", allKeywords ) );
+
+        add( new DesignTeamForm( "design-team" ) );
+
+        add( new LibrariesForm( "libraries" ) );
+
+        add( new ThanksForm( "thanks-to" ) );
 
         add( new ListView( "translation-list", localizedSimulations ) {
             protected void populateItem( ListItem item ) {
@@ -307,6 +313,111 @@ public class AdminSimPage extends AdminPage {
                     sortKeywords( allKeywords );
                 }
             }
+        }
+    }
+
+    public class DesignTeamForm extends TextSetForm {
+
+        public DesignTeamForm( String id ) {
+            super( id );
+        }
+
+        public void handleString( final String str ) {
+            HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
+                public boolean run( Session session ) {
+                    Simulation sim = (Simulation) session.load( Simulation.class, simulation.getId() );
+                    sim.setDesignTeam( str );
+                    session.update( sim );
+                    return true;
+                }
+            } );
+        }
+    }
+
+    public class LibrariesForm extends TextSetForm {
+
+        public LibrariesForm( String id ) {
+            super( id );
+        }
+
+        public void handleString( final String str ) {
+            HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
+                public boolean run( Session session ) {
+                    Simulation sim = (Simulation) session.load( Simulation.class, simulation.getId() );
+                    sim.setLibraries( str );
+                    session.update( sim );
+                    return true;
+                }
+            } );
+        }
+    }
+
+    public class ThanksForm extends TextSetForm {
+
+        public ThanksForm( String id ) {
+            super( id );
+        }
+
+        public void handleString( final String str ) {
+            HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
+                public boolean run( Session session ) {
+                    Simulation sim = (Simulation) session.load( Simulation.class, simulation.getId() );
+                    sim.setThanksTo( str );
+                    session.update( sim );
+                    return true;
+                }
+            } );
+        }
+    }
+
+    private abstract class TextSetForm extends Form {
+
+        private TextArea value;
+
+        public abstract void handleString( String str );
+
+        public TextSetForm( String id ) {
+            super( id );
+
+            value = new TextArea( "value", new Model( simulation.getDesignTeam() ) );
+            add( value );
+        }
+
+        @Override
+        protected void onSubmit() {
+            super.onSubmit();
+            String text = value.getModelObjectAsString();
+
+            List<String> strings = new LinkedList<String>();
+            String str;
+
+            BufferedReader reader = new BufferedReader( new StringReader( text ) );
+
+            try {
+                while ( ( str = reader.readLine() ) != null ) {
+                    if ( str.length() > 0 ) {
+                        strings.add( str );
+                    }
+                }
+            }
+            catch( IOException e ) {
+                e.printStackTrace();
+            }
+
+            String ret = "";
+
+            boolean start = true;
+            for ( String string : strings ) {
+                if ( !start ) {
+                    ret += "<br/>";
+                }
+                start = false;
+                ret += string;
+            }
+
+            System.out.println( "Submitted:\n" + ret + "\nEND" );
+
+            handleString( ret );
         }
     }
 }

@@ -1,6 +1,5 @@
 package edu.colorado.phet.wickettest.translation.entities;
 
-import edu.colorado.phet.wickettest.content.IndexPanel;
 import edu.colorado.phet.wickettest.content.ContributePanel;
 import edu.colorado.phet.wickettest.panels.PhetPanel;
 import edu.colorado.phet.wickettest.translation.PhetPanelFactory;
