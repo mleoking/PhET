@@ -53,62 +53,11 @@
                     <platforms>all</platforms>
                     <distributionFileList>
                         <distributionDirectory>
-                            <origin>../../temp/website/phet-server.colorado.edu_8080/ar/about</origin>
+                            <origin>../../temp/website/phet-server.colorado.edu_8080/ar</origin>
                         </distributionDirectory>
                         <distributionDirectory>
-                            <origin>../../temp/website/phet-server.colorado.edu_8080/ar/admin</origin>
+                            <origin>../../temp/website/phet-server.colorado.edu_8080/sims</origin>
                         </distributionDirectory>
-                        <distributionDirectory>
-                            <origin>../../temp/website/phet-server.colorado.edu_8080/ar/contribute</origin>
-                        </distributionDirectory>
-                        <distributionDirectory>
-                            <origin>../../temp/website/phet-server.colorado.edu_8080/ar/css</origin>
-                        </distributionDirectory>
-                        <distributionDirectory>
-                            <origin>../../temp/website/phet-server.colorado.edu_8080/ar/get_phet</origin>
-                        </distributionDirectory>
-                        <distributionDirectory>
-                            <origin>../../temp/website/phet-server.colorado.edu_8080/ar/images</origin>
-                        </distributionDirectory>
-                        <distributionDirectory>
-                            <origin>../../temp/website/phet-server.colorado.edu_8080/ar/js</origin>
-                        </distributionDirectory>
-                        <distributionDirectory>
-                            <origin>../../temp/website/phet-server.colorado.edu_8080/ar/research</origin>
-                        </distributionDirectory>
-                        <distributionDirectory>
-                            <origin>../../temp/website/phet-server.colorado.edu_8080/ar/sims</origin>
-                        </distributionDirectory>
-                        <distributionDirectory>
-                            <origin>../../temp/website/phet-server.colorado.edu_8080/ar/simulations</origin>
-                        </distributionDirectory>
-                        <distributionDirectory>
-                            <origin>../../temp/website/phet-server.colorado.edu_8080/ar/sponsors</origin>
-                        </distributionDirectory>
-                        <distributionDirectory>
-                            <origin>../../temp/website/phet-server.colorado.edu_8080/ar/teacher_ideas</origin>
-                        </distributionDirectory>
-                        <distributionDirectory>
-                            <origin>../../temp/website/phet-server.colorado.edu_8080/ar/tech_support</origin>
-                        </distributionDirectory>
-                        <distributionFile>
-                            <origin>../../temp/website/phet-server.colorado.edu_8080/ar/index-2.html</origin>
-                        </distributionFile>
-                        <distributionFile>
-                            <origin>../../temp/website/phet-server.colorado.edu_8080/ar/index.html</origin>
-                        </distributionFile>
-                        <distributionFile>
-                            <origin>../../temp/website/phet-server.colorado.edu_8080/ar/version.html</origin>
-                        </distributionFile>
-                        <distributionFile>
-                            <origin>../../Installer-Resources/Install-Path/phet-icon.ico</origin>
-                        </distributionFile>
-                        <distributionFile>
-                            <origin>../../Installer-Resources/Install-Path/phet-logo-48x48.png</origin>
-                        </distributionFile>
-                        <distributionFile>
-                            <origin>../../temp/website/phet-server.colorado.edu_8080/ar/random-thumbnail.gif</origin>
-                        </distributionFile>
                     </distributionFileList>
 
                     <actionList>
@@ -116,8 +65,8 @@
                             <files>*/*.jnlp</files>
                             <substitutionList>
                                 <substitution>
-                                    <pattern>@@INSTALLDIR@@</pattern>
-                                    <value>${installdir}</value>
+                                    <pattern>@@SIM_URL@@</pattern>
+                                    <value>${base_url}</value>
                                 </substitution>
                             </substitutionList>
                         </substitute>
@@ -157,6 +106,14 @@
             <mustExist>0</mustExist>
             <width>40</width>
         </directoryParameter>
+        <stringParameter>
+            <name>base_url</name>
+            <default>http://phet.colorado.edu/</default>
+            <value></value>
+            <ask>1</ask>
+            <description>Base URL</description>
+            <explanation>Please enter the URL that will correspond to the location on the server's file system where this mirror is being installed.</explanation>
+        </stringParameter>
     </parameterList>
     <platformOptionsList/>
 
