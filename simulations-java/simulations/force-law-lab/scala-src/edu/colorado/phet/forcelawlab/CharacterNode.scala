@@ -1,16 +1,19 @@
 package edu.colorado.phet.forcelawlab
 
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
+import java.awt.geom.{Ellipse2D, Line2D, Rectangle2D}
 import umd.cs.piccolo.nodes.PImage
 import common.phetcommon.view.util.BufferedImageUtils
 import umd.cs.piccolo.PNode
 import common.piccolophet.nodes.PhetPPath
 import java.awt.{Color, BasicStroke, TexturePaint}
 import scalacommon.math.Vector2D
-import java.awt.geom.{Line2D, Rectangle2D}
 import scalacommon.Predef._
 
 class CharacterNode(mass: Mass, mass2: Mass, transform: ModelViewTransform2D, leftOfObject: Boolean, gravityForce: () => Double) extends PNode {
+  val shadowNode = new PhetPPath(Color.gray)
+  addChild(shadowNode)
+
   val ropeNode = new PhetPPath(new BasicStroke(5), Color.black)
   addChild(ropeNode)
   mass2.addListener(update)
@@ -19,6 +22,10 @@ class CharacterNode(mass: Mass, mass2: Mass, transform: ModelViewTransform2D, le
   def update() = {
     updateRopeNode()
     updateCharacterNode()
+    val b = characterImageNode.getFullBounds
+    val shadowHeight = b.getHeight / 14.0
+    val expandX = 5
+    shadowNode.setPathTo(new Ellipse2D.Double(b.x - expandX, b.getMaxY - shadowHeight, b.width+ expandX * 2, shadowHeight))
   }
 
   def ropeStart = transform.modelToView(mass.position)
@@ -69,4 +76,5 @@ class CharacterNode(mass: Mass, mass2: Mass, transform: ModelViewTransform2D, le
     characterImageNode.translate(-40 * sign * scale, 0) //move closer to rope, since graphic offset increases as force increases
     characterImageNode.translate(-forceAmount * sign * 1.5 * scale, 0) //step closer to rope, to keep rope constant length
   }
+
 }
