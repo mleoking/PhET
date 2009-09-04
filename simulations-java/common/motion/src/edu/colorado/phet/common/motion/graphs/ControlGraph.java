@@ -211,6 +211,14 @@ public class ControlGraph extends PNode {
         return new JFreeChartSliderNode( dynamicJFreeChartNode, thumb == null ? new PPath() : thumb, highlightColor );//todo: better support for non-controllable graphs
     }
 
+    public void setDomain(Range r){
+        setDomain( r.getLowerBound(), r.getUpperBound() );
+    }
+
+    public Range getDomain(){
+        return jFreeChart.getXYPlot().getDomainAxis().getRange();
+    }
+
     public void setDomain( double min, double max ) {
         if ( !jFreeChart.getXYPlot().getDomainAxis().getRange().equals( new Range( min, max ) ) ) {
             jFreeChart.getXYPlot().getDomainAxis().setRange( min, max );
