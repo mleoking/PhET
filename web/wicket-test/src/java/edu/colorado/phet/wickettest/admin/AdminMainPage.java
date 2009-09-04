@@ -19,7 +19,6 @@ import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.wickettest.data.LocalizedSimulation;
 import edu.colorado.phet.wickettest.data.Simulation;
 import edu.colorado.phet.wickettest.util.StringUtils;
-import edu.colorado.phet.wickettest.test.LocaleTest;
 
 // TODO: move the simulation list panel to a separate page, so if something goes bad, this page is still accessible
 
@@ -103,7 +102,7 @@ public class AdminMainPage extends AdminPage {
             public void onClick() {
                 //LocaleTest.main( new String[]{} );
             }
-        });
+        } );
     }
 
     public final class SetStringForm extends Form {

@@ -127,7 +127,7 @@ public class PhetLocalizer extends Localizer {
 
         // at this point, we know it is not in the first translation we looked at
 
-        if( !checkDefault ) {
+        if ( !checkDefault ) {
             // return either null or the default value, since we won't check the default language
             return defaultValue;
         }

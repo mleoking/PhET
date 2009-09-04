@@ -2797,7 +2797,7 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 15	home.translateSimulations	Translate Simulations	2009-08-17 03:48:19.897	2009-08-17 03:48:19.897	1
 16	home.browseSims	Browse Sims	2009-08-17 03:48:19.897	2009-08-17 03:48:19.897	1
 17	home.simulations	Simulations	2009-08-17 03:48:19.899	2009-08-17 03:48:19.899	1
-532	troubleshooting.main.q13.title	@troubleshooting.main.q13.title@	2009-08-31 14:19:47.361	2009-08-31 14:19:47.361	3
+1698	get-phet.header	Three Ways to Run Our Free Simulations	2009-09-03 23:19:38.994	2009-09-03 23:19:38.994	1
 19	simulationDisplay.title	{0} - PhET Simulations	2009-08-17 03:48:19.899	2009-08-17 03:48:19.899	1
 20	simulationMainPanel.translatedVersions	Translated Versions:	2009-08-17 03:48:19.899	2009-08-17 03:48:19.899	1
 21	simulationMainPanel.screenshot.alt	{0} Screenshot	2009-08-17 03:48:19.899	2009-08-17 03:48:19.899	1
@@ -3242,7 +3242,6 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 838	troubleshooting.javascript.notify	If you can''t solve your problem here, please notify us by email at the following address: {0}.	2009-09-01 01:36:15.385	2009-09-01 02:41:08.035	1
 837	troubleshooting.javascript.notJava	JavaScript is completely different than Sun Microsystems'' Java Web Start that we use on our simulations. For assistance with Sun Microsystems'' Java, <a {0}>go here</a>.	2009-09-01 01:35:48.665	2009-09-01 02:41:18.006	1
 1077	language.names.es_PE	Spanish (Peru)	2009-09-03 18:56:41.249	2009-09-03 18:56:41.249	1
-1053	footer.someRightsReserved	@footer.someRightsReserved@	2009-09-03 13:20:28.773	2009-09-03 13:20:28.773	3
 1078	language.names.en	English	2009-09-03 18:56:41.303	2009-09-03 18:56:41.303	1
 842	troubleshooting.javascript.q1.title	Is JavaScript enabled on my browser?	2009-09-01 01:53:18.343	2009-09-01 01:53:18.343	1
 843	troubleshooting.javascript.q2.title	Why is JavaScript needed?	2009-09-01 01:53:41.85	2009-09-01 02:15:04.37	1
@@ -3255,14 +3254,14 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 850	troubleshooting.javascript.q5.answer	<ol><li>Select Preferences from the Safari menu.</li><li>Click Security.</li><li>Check Enable JavaScript.</li><li>Close the window.</li><li>Click Reload.</li></ol>	2009-09-01 02:23:46.429	2009-09-01 02:23:46.429	1
 1059	simulationMainPanel.thanksTo	Thanks To	2009-09-03 15:31:55.46	2009-09-03 15:31:56.771	1
 709	nav.sponsors	Sponsors	2009-08-31 20:04:14.363	2009-08-31 20:04:14.363	1
-533	troubleshooting.main.q13.answer	@troubleshooting.main.q13.answer@	2009-08-31 14:19:49.07	2009-08-31 14:19:49.07	3
+1699	get-phet.online.header	Use the PhET website while connected to the web	2009-09-03 23:31:03.794	2009-09-03 23:31:03.794	1
 710	sponsors.title	PhET Sponsors	2009-08-31 20:04:26.799	2009-08-31 20:04:26.799	1
-534	troubleshooting.main.licensingRequirements	@troubleshooting.main.licensingRequirements@	2009-08-31 14:19:51.99	2009-08-31 14:19:51.99	3
-527	troubleshooting.main.q10.answer	@troubleshooting.main.q10.answer@	2009-08-31 14:19:34.268	2009-08-31 14:20:10.145	3
-537	keyword.acCircuits	@keyword.acCircuits@	2009-08-31 14:22:54.374	2009-08-31 14:22:54.374	3
-538	keyword.acceleration	@keyword.acceleration@	2009-08-31 14:22:56.987	2009-08-31 14:22:56.987	3
-539	keyword.activationEnergy	@keyword.activationEnergy@	2009-08-31 14:23:00.078	2009-08-31 14:23:00.078	3
-540	keyword.airResistance	@keyword.airResistance@	2009-08-31 14:23:03.131	2009-08-31 14:23:03.131	3
+1700	get-phet.install.header	Download the <strong>entire</strong> website onto your computer, USB, or CD	2009-09-03 23:31:17.126	2009-09-03 23:31:17.126	1
+1701	get-phet.offline.header	Download <strong>one or more</strong> simulations to your computer, USB, or CD	2009-09-03 23:31:29.645	2009-09-03 23:31:29.645	1
+1702	get-phet.clickHere	Click Here &gt;&gt;	2009-09-03 23:32:01.079	2009-09-03 23:32:01.079	1
+1703	get-phet.row.howToGet	How do I get the simulations?	2009-09-03 23:32:17.257	2009-09-03 23:32:17.257	1
+1704	get-phet.online.howToGet	Click on the simulation icon on the web page of the simulation you want to run.	2009-09-03 23:32:28.358	2009-09-03 23:32:28.358	1
+1705	get-phet.row.whatSims	What simulations are installed?	2009-09-03 23:32:40.659	2009-09-03 23:32:40.659	1
 878	home.oneAtATime	في وقت واحد	2009-09-03 10:45:56.788	2009-09-03 10:45:56.788	4
 879	home.teacherIdeasAndActivities	المعلم الأفكار والنشاطا	2009-09-03 10:46:05.404	2009-09-03 10:46:05.404	4
 880	home.workshops	حلقات العمل	2009-09-03 10:46:13.826	2009-09-03 10:46:13.826	4
@@ -3270,25 +3269,19 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 882	home.supportPhet	PhET الدعم	2009-09-03 10:46:35.008	2009-09-03 10:46:35.008	4
 883	home.translateSimulations	ترجمة المحاكاة	2009-09-03 10:46:46.243	2009-09-03 10:46:46.243	4
 884	home.browseSims	استعرض سيمز	2009-09-03 10:46:55.144	2009-09-03 10:46:55.144	4
-541	keyword.algebra	@keyword.algebra@	2009-08-31 14:23:05.421	2009-08-31 14:23:05.421	3
-674	keyword.linearMotion	@keyword.linearMotion@	2009-08-31 14:57:30.825	2009-08-31 14:57:30.825	3
-675	keyword.longitudinalWaves	@keyword.longitudinalWaves@	2009-08-31 14:57:34.349	2009-08-31 14:57:34.349	3
-676	keyword.magneticField	@keyword.magneticField@	2009-08-31 14:57:38.937	2009-08-31 14:57:38.937	3
-677	keyword.magneticMoment	@keyword.magneticMoment@	2009-08-31 14:57:42.765	2009-08-31 14:57:42.765	3
-678	keyword.magnetism	@keyword.magnetism@	2009-08-31 14:57:45.893	2009-08-31 14:57:45.893	3
-679	keyword.magnets	@keyword.magnets@	2009-08-31 14:57:50	2009-08-31 14:57:50	3
-680	about.p1	@about.p1@	2009-08-31 14:57:56.527	2009-08-31 14:57:56.527	3
-681	about.p2	@about.p2@	2009-08-31 14:57:58.798	2009-08-31 14:57:58.798	3
-682	about.p3	@about.p3@	2009-08-31 14:58:01.086	2009-08-31 14:58:01.086	3
-683	about.p4	@about.p4@	2009-08-31 14:58:03.941	2009-08-31 14:58:03.941	3
-684	home.title	@home.title@	2009-08-31 14:58:08.464	2009-08-31 14:58:08.464	3
-685	simulationPage.title	@simulationPage.title@	2009-08-31 14:58:12.027	2009-08-31 14:58:12.027	3
-686	simulationDisplay.title	@simulationDisplay.title@	2009-08-31 14:58:14.465	2009-08-31 14:58:14.465	3
-687	about.title	@about.title@	2009-08-31 14:58:16.919	2009-08-31 14:58:16.919	3
-688	about.source-code.title	@about.source-code.title@	2009-08-31 14:58:19.166	2009-08-31 14:58:19.166	3
-689	about.contact.title	@about.contact.title@	2009-08-31 14:58:22.712	2009-08-31 14:58:22.712	3
-690	about.who-we-are.title	@about.who-we-are.title@	2009-08-31 14:58:24.724	2009-08-31 14:58:24.724	3
-691	about.licensing.title	@about.licensing.title@	2009-08-31 14:58:27.206	2009-08-31 14:58:27.206	3
+1706	get-phet.online.whatSims	The simulations you use are temporarily installed.	2009-09-03 23:32:50.412	2009-09-03 23:32:50.412	1
+1707	get-phet.install.whatSims	All simulations.	2009-09-03 23:33:00.778	2009-09-03 23:33:00.778	1
+1708	get-phet.offline.whatSims	Only the ones you want.	2009-09-03 23:33:10.081	2009-09-03 23:33:10.081	1
+1709	get-phet.row.howLarge	How large is the download?	2009-09-03 23:33:19.679	2009-09-03 23:33:19.679	1
+1710	get-phet.online.howLarge	Under 1.5 MB for each simulation.	2009-09-03 23:33:28.595	2009-09-03 23:33:28.595	1
+1711	get-phet.install.howLarge	Approximately 40MB if you already have Java, or 65MB if you do not.	2009-09-03 23:33:38.656	2009-09-03 23:33:38.656	1
+1712	get-phet.offline.howLarge	Under 1.5 MB for each simulation.	2009-09-03 23:33:48.31	2009-09-03 23:33:48.31	1
+1713	get-phet.row.howOften	How often are updates made available?	2009-09-03 23:33:56.396	2009-09-03 23:33:56.396	1
+1714	get-phet.online.howOften	As soon as new or updated simulations are posted on the web site.	2009-09-03 23:34:09.137	2009-09-03 23:34:09.137	1
+1715	get-phet.install.howOften	Three or four times a year.	2009-09-03 23:34:20.809	2009-09-03 23:34:29.14	1
+1716	get-phet.offline.howOften	If you connect to the Internet, new or updated simulations are available.	2009-09-03 23:34:40.074	2009-09-03 23:34:40.074	1
+1717	get-phet.row.needInternet	Is an Internet connection required to run simulations?	2009-09-03 23:34:49.746	2009-09-03 23:34:49.746	1
+1718	get-phet.online.needInternet	Yes	2009-09-03 23:34:59.871	2009-09-03 23:34:59.871	1
 885	home.simulations	المحاكاة	2009-09-03 10:47:03.361	2009-09-03 10:47:03.361	4
 886	nav.home	منزل	2009-09-03 10:47:33.133	2009-09-03 10:47:33.133	4
 887	nav.simulations	المحاكاة	2009-09-03 10:47:39.228	2009-09-03 10:47:39.228	4
@@ -3317,9 +3310,9 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 1060	simulationMainPanel.language	Language	2009-09-03 15:52:50.58	2009-09-03 15:52:50.58	1
 1061	simulationMainPanel.languageTranslated	Language (Translated)	2009-09-03 15:53:02.934	2009-09-03 15:53:02.934	1
 1062	simulationMainPanel.simulationTitleTranslated	Simulation Title (Translated)	2009-09-03 15:53:11.797	2009-09-03 15:53:11.797	1
-692	workshops.title	@workshops.title@	2009-08-31 14:58:29.565	2009-08-31 14:58:29.565	3
-694	get-phet.title	@get-phet.title@	2009-08-31 14:58:34.294	2009-08-31 14:58:34.294	3
-542	keyword.alternatingCurrent	@keyword.alternatingCurrent@	2009-08-31 14:23:08.542	2009-08-31 14:23:08.542	3
+1719	get-phet.install.needInternet	No	2009-09-03 23:35:25.222	2009-09-03 23:35:25.222	1
+1720	get-phet.offline.needInternet	No	2009-09-03 23:35:41.37	2009-09-03 23:35:41.37	1
+1721	get-phet.row.whereCanISave	Where can I save them to on my computer?	2009-09-03 23:35:51.922	2009-09-03 23:35:51.922	1
 907	nav.get-phet	لدينا تشغيل المحاكاة	2009-09-03 10:50:59.481	2009-09-03 10:50:59.481	4
 908	nav.get-phet.on-line	على الانترن	2009-09-03 10:51:08.403	2009-09-03 10:51:08.403	4
 909	nav.get-phet.full-install	التثبيت الكامل	2009-09-03 10:51:18.07	2009-09-03 10:51:18.07	4
@@ -3361,7 +3354,6 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 738	keyword.alphaParticles	Alpha Particles	2009-08-31 21:33:20.743	2009-08-31 21:33:20.743	1
 739	keyword.signalCircuits	Signal Circuits	2009-08-31 21:35:35.057	2009-08-31 21:35:35.057	1
 919	nav.about.contact	جهة اتصال	2009-09-03 10:52:30.719	2009-09-03 10:52:30.719	4
-543	keyword.ammeter	@keyword.ammeter@	2009-08-31 14:39:05.771	2009-08-31 14:39:05.771	3
 920	nav.about.who-we-are	من نحن	2009-09-03 10:52:38.623	2009-09-03 10:52:38.623	4
 921	nav.about.licensing	الترخيص	2009-09-03 10:52:46.145	2009-09-03 10:52:46.145	4
 922	nav.sponsors	مقدمو	2009-09-03 10:52:54.721	2009-09-03 10:52:54.721	4
@@ -3407,7 +3399,9 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 945	troubleshooting.main.java	جافا تثبيت واستكشاف الأخطاء وإصلاحها	2009-09-03 11:07:36.615	2009-09-03 11:07:36.615	4
 941	get-phet.one-at-a-time.runningSims	انقر على اسم أي محاكاة لتحميل محاكاة على الكمبيوتر. لتشغيل المحاكاة ، انقر نقرا مزدوجا فوقه. إذا كان لديك صعوبات ، يرجى الاطلاع على <a {0}> الدعم التقني </a> صفحة.	2009-09-03 11:05:47.402	2009-09-03 11:06:17.053	4
 942	get-phet.one-at-a-time.downloadingSims	كنت قد نسخ المحاكاة إلى أي مكان على الكمبيوتر. يمكنك أيضا نسخ المحاكاة إلى محرك الأقراص المضغوطة ،... حملة ، أو موقع في شبكة مشتركة.	2009-09-03 11:06:21.034	2009-09-03 11:06:21.034	4
+1722	get-phet.online.whereCanISave	Flash applets cannot be saved. Java applications are automatically stored in your computer's WebStart cache, but cannot be moved.	2009-09-03 23:36:15.573	2009-09-03 23:36:15.573	1
 1079	language.names.ja_JP_JP	Japanese (Japan,JP)	2009-09-03 18:56:41.33	2009-09-03 18:56:41.33	1
+1723	get-phet.install.whereCanISave	CD, USB or hard drive.	2009-09-03 23:36:25.244	2009-09-03 23:36:25.244	1
 1080	language.names.es_PA	Spanish (Panama)	2009-09-03 18:56:41.36	2009-09-03 18:56:41.36	1
 1081	language.names.sr_BA	Serbian (Bosnia and Herzegovina)	2009-09-03 18:56:41.436	2009-09-03 18:56:41.436	1
 943	troubleshooting.main.title	مخرج -- PhET المحاكاة	2009-09-03 11:06:31.034	2009-09-03 11:06:31.034	4
@@ -3427,9 +3421,6 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 1088	language.names.ar_IQ	Arabic (Iraq)	2009-09-03 18:56:41.63	2009-09-03 18:56:41.63	1
 1089	language.names.ar_YE	Arabic (Yemen)	2009-09-03 18:56:41.642	2009-09-03 18:56:41.642	1
 1090	language.names.hu	Hungarian	2009-09-03 18:56:41.675	2009-09-03 18:56:41.675	1
-1063	simulationMainPanel.softwareRequirements	@simulationMainPanel.softwareRequirements@	2009-09-03 16:14:57.512	2009-09-03 16:14:57.512	3
-1064	simulationMainPanel.sampleLearningGoals	@simulationMainPanel.sampleLearningGoals@	2009-09-03 16:15:00.102	2009-09-03 16:15:00.102	3
-1065	simulationMainPanel.credits	@simulationMainPanel.credits@	2009-09-03 16:15:02.092	2009-09-03 16:15:02.092	3
 1091	language.names.pt_PT	Portuguese (Portugal)	2009-09-03 18:56:41.681	2009-09-03 18:56:41.681	1
 1092	language.names.el_CY	Greek (Cyprus)	2009-09-03 18:56:41.687	2009-09-03 18:56:41.687	1
 1093	language.names.ar_QA	Arabic (Qatar)	2009-09-03 18:56:41.705	2009-09-03 18:56:41.705	1
@@ -3442,140 +3433,39 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 1100	language.names.cs	Czech	2009-09-03 18:56:41.758	2009-09-03 18:56:41.758	1
 1101	language.names.en_MT	English (Malta)	2009-09-03 18:56:41.765	2009-09-03 18:56:41.765	1
 1102	language.names.sl_SI	Slovenian (Slovenia)	2009-09-03 18:56:41.77	2009-09-03 18:56:41.77	1
-740	sponsors.title	@sponsors.title@	2009-08-31 23:40:21.203	2009-08-31 23:40:21.203	3
-1066	simulationMainPanel.language	@simulationMainPanel.language@	2009-09-03 16:15:03.865	2009-09-03 16:15:03.865	3
-1067	simulationMainPanel.languageTranslated	@simulationMainPanel.languageTranslated@	2009-09-03 16:15:05.543	2009-09-03 16:15:05.543	3
-812	keyword.monochromatic	@keyword.monochromatic@	2009-09-01 01:12:31.227	2009-09-01 01:12:31.227	3
-1068	simulationMainPanel.simulationTitleTranslated	@simulationMainPanel.simulationTitleTranslated@	2009-09-03 16:15:07.58	2009-09-03 16:15:07.58	3
-1069	simulationMainPanel.designTeam	@simulationMainPanel.designTeam@	2009-09-03 16:15:09.599	2009-09-03 16:15:09.599	3
-1070	simulationMainPanel.thirdPartyLibraries	@simulationMainPanel.thirdPartyLibraries@	2009-09-03 16:15:12.426	2009-09-03 16:15:12.426	3
-1071	simulationMainPanel.thanksTo	@simulationMainPanel.thanksTo@	2009-09-03 16:15:14.909	2009-09-03 16:15:14.909	3
-1072	contribute.financialContributions	@contribute.financialContributions@	2009-09-03 16:15:20.506	2009-09-03 16:15:20.506	3
-1073	contribute.main	@contribute.main@	2009-09-03 16:15:23.119	2009-09-03 16:15:23.119	3
-1074	contribute.thanks	@contribute.thanks@	2009-09-03 16:15:24.953	2009-09-03 16:15:24.953	3
-1075	keyword.photonBeams	@keyword.photonBeams@	2009-09-03 16:15:40.623	2009-09-03 16:15:40.623	3
-470	nav.math	@nav.math@	2009-08-31 14:15:29.188	2009-08-31 14:15:29.188	3
-781	troubleshooting.java.q5.answer	@troubleshooting.java.q5.answer@	2009-09-01 01:10:12.896	2009-09-01 01:10:12.896	3
-782	troubleshooting.java.q6.title	@troubleshooting.java.q6.title@	2009-09-01 01:10:14.472	2009-09-01 01:10:14.472	3
-783	troubleshooting.java.q6.answer	@troubleshooting.java.q6.answer@	2009-09-01 01:10:15.3	2009-09-01 01:10:15.3	3
-784	troubleshooting.java.q7.title	@troubleshooting.java.q7.title@	2009-09-01 01:10:17.074	2009-09-01 01:10:17.074	3
-785	troubleshooting.java.q7.answer	@troubleshooting.java.q7.answer@	2009-09-01 01:10:17.934	2009-09-01 01:10:17.934	3
-786	troubleshooting.java.q8.title	@troubleshooting.java.q8.title@	2009-09-01 01:10:19.923	2009-09-01 01:10:19.923	3
-643	keyword.gravity	@keyword.gravity@	2009-08-31 14:55:27.287	2009-08-31 14:55:27.287	3
-587	keyword.conservationOfEnergy	@keyword.conservationOfEnergy@	2009-08-31 14:41:46.427	2009-08-31 14:41:46.427	3
-588	keyword.conductors	@keyword.conductors@	2009-08-31 14:41:50.172	2009-08-31 14:41:50.172	3
-589	keyword.correlation	@keyword.correlation@	2009-08-31 14:41:55.189	2009-08-31 14:41:55.189	3
-590	keyword.coulombsLaw	@keyword.coulombsLaw@	2009-08-31 14:41:58.712	2009-08-31 14:41:58.712	3
-591	keyword.covalentBonds	@keyword.covalentBonds@	2009-08-31 14:42:02.652	2009-08-31 14:42:02.652	3
-592	keyword.criticalExponent	@keyword.criticalExponent@	2009-08-31 14:42:07.597	2009-08-31 14:42:07.597	3
-593	keyword.criticalParameter	@keyword.criticalParameter@	2009-08-31 14:42:11.248	2009-08-31 14:42:11.248	3
-594	keyword.current	@keyword.current@	2009-08-31 14:42:15.014	2009-08-31 14:42:15.014	3
-595	keyword.curves	@keyword.curves@	2009-08-31 14:42:18.198	2009-08-31 14:42:18.198	3
-596	keyword.deBroglieWavelength	@keyword.deBroglieWavelength@	2009-08-31 14:42:21.586	2009-08-31 14:42:21.586	3
-597	keyword.diet	@keyword.diet@	2009-08-31 14:42:24.981	2009-08-31 14:42:24.981	3
-598	keyword.diffraction	@keyword.diffraction@	2009-08-31 14:42:28.55	2009-08-31 14:42:28.55	3
-599	keyword.dilution	@keyword.dilution@	2009-08-31 14:42:32.288	2009-08-31 14:42:32.288	3
-600	keyword.diodes	@keyword.diodes@	2009-08-31 14:42:35.933	2009-08-31 14:42:39.272	3
-601	keyword.dipole	@keyword.dipole@	2009-08-31 14:42:44.054	2009-08-31 14:42:44.054	3
-602	keyword.division	@keyword.division@	2009-08-31 14:42:47.168	2009-08-31 14:42:47.168	3
-603	keyword.dna	@keyword.dna@	2009-08-31 14:42:50.778	2009-08-31 14:42:50.778	3
-604	keyword.doping	@keyword.doping@	2009-08-31 14:42:54.497	2009-08-31 14:42:54.497	3
-605	keyword.doubleSlit	@keyword.doubleSlit@	2009-08-31 14:42:58.459	2009-08-31 14:42:58.459	3
-851	troubleshooting.flash.intro	@troubleshooting.flash.intro@	2009-09-01 02:42:05.095	2009-09-01 02:42:05.095	3
-852	troubleshooting.flash.toRun	@troubleshooting.flash.toRun@	2009-09-01 02:42:06.187	2009-09-01 02:42:06.187	3
-853	troubleshooting.flash.blankWindow	@troubleshooting.flash.blankWindow@	2009-09-01 02:42:07.514	2009-09-01 02:42:07.514	3
-854	troubleshooting.flash.olderVersions	@troubleshooting.flash.olderVersions@	2009-09-01 02:42:08.722	2009-09-01 02:42:08.722	3
-855	troubleshooting.javascript.intro	@troubleshooting.javascript.intro@	2009-09-01 02:42:11.018	2009-09-01 02:42:11.018	3
-856	troubleshooting.javascript.notJava	@troubleshooting.javascript.notJava@	2009-09-01 02:42:12.327	2009-09-01 02:42:12.327	3
-830	troubleshooting.java.q3.title	@troubleshooting.java.q3.title@	2009-09-01 01:18:02.665	2009-09-01 01:18:11.914	3
-831	troubleshooting.java.q3.answer	@troubleshooting.java.q3.answer@	2009-09-01 01:18:21.073	2009-09-01 01:18:21.073	3
-857	troubleshooting.javascript.notify	@troubleshooting.javascript.notify@	2009-09-01 02:42:13.713	2009-09-01 02:42:13.713	3
-858	troubleshooting.javascript.faqs	@troubleshooting.javascript.faqs@	2009-09-01 02:42:15.736	2009-09-01 02:42:15.736	3
-859	troubleshooting.javascript.q1.title	@troubleshooting.javascript.q1.title@	2009-09-01 02:42:16.785	2009-09-01 02:42:16.785	3
-860	troubleshooting.javascript.q1.yes	@troubleshooting.javascript.q1.yes@	2009-09-01 02:42:17.865	2009-09-01 02:42:17.865	3
-861	troubleshooting.javascript.q1.no	@troubleshooting.javascript.q1.no@	2009-09-01 02:42:19.681	2009-09-01 02:42:19.681	3
-862	troubleshooting.javascript.q2.title	@troubleshooting.javascript.q2.title@	2009-09-01 02:42:21.569	2009-09-01 02:42:21.569	3
-863	troubleshooting.javascript.q2.answer	@troubleshooting.javascript.q2.answer@	2009-09-01 02:42:22.811	2009-09-01 02:42:22.811	3
-864	troubleshooting.javascript.q3.title	@troubleshooting.javascript.q3.title@	2009-09-01 02:42:24.73	2009-09-01 02:42:24.73	3
-865	troubleshooting.javascript.q3.answer	@troubleshooting.javascript.q3.answer@	2009-09-01 02:42:26.104	2009-09-01 02:42:26.104	3
-866	troubleshooting.javascript.q4.title	@troubleshooting.javascript.q4.title@	2009-09-01 02:42:27.907	2009-09-01 02:42:27.907	3
-867	troubleshooting.javascript.q4.answer	@troubleshooting.javascript.q4.answer@	2009-09-01 02:42:30.467	2009-09-01 02:42:30.467	3
-868	troubleshooting.javascript.q5.title	@troubleshooting.javascript.q5.title@	2009-09-01 02:42:35.372	2009-09-01 02:42:35.372	3
-869	troubleshooting.javascript.q5.answer	@troubleshooting.javascript.q5.answer@	2009-09-01 02:42:37.41	2009-09-01 02:42:37.41	3
-811	keyword.momentOfInertia	@keyword.momentOfInertia@	2009-09-01 01:12:27.733	2009-09-01 01:12:27.733	3
-606	keyword.dynamicEquilibrium	@keyword.dynamicEquilibrium@	2009-08-31 14:48:53.315	2009-08-31 14:48:53.315	3
-607	keyword.dynamics	@keyword.dynamics@	2009-08-31 14:48:56.342	2009-08-31 14:48:56.342	3
-608	keyword.eating	@keyword.eating@	2009-08-31 14:48:59.702	2009-08-31 14:48:59.702	3
-609	keyword.electricField	@keyword.electricField@	2009-08-31 14:49:03.536	2009-08-31 14:49:03.536	3
-610	keyword.electricForce	@keyword.electricForce@	2009-08-31 14:49:06.463	2009-08-31 14:49:06.463	3
-611	keyword.electricPotential	@keyword.electricPotential@	2009-08-31 14:49:09.482	2009-08-31 14:49:09.482	3
-612	keyword.electricity	@keyword.electricity@	2009-08-31 14:49:12.517	2009-08-31 14:49:12.517	3
-614	keyword.electronDiffraction	@keyword.electronDiffraction@	2009-08-31 14:49:19.409	2009-08-31 14:49:19.409	3
-615	keyword.electrons	@keyword.electrons@	2009-08-31 14:49:23.325	2009-08-31 14:49:23.325	3
-616	keyword.electrostatics	@keyword.electrostatics@	2009-08-31 14:49:26.336	2009-08-31 14:49:26.336	3
-617	keyword.ellipticalMotion	@keyword.ellipticalMotion@	2009-08-31 14:49:29.661	2009-08-31 14:49:29.661	3
-618	keyword.emission	@keyword.emission@	2009-08-31 14:49:32.379	2009-08-31 14:49:32.379	3
-619	keyword.energy	@keyword.energy@	2009-08-31 14:49:35.521	2009-08-31 14:49:35.521	3
+1724	get-phet.offline.whereCanISave	CD, USB or hard drive.	2009-09-03 23:36:30.413	2009-09-03 23:36:30.413	1
+1725	get-phet.install.howToGet	<a {0}>Click here</a> to go to the download page.	2009-09-03 23:50:22.947	2009-09-03 23:50:22.947	1
+1726	get-phet.offline.howToGet	<a {0}>Click here</a> to go to the all-simulations download page.	2009-09-03 23:50:45.494	2009-09-03 23:50:45.494	1
 1103	language.names.sk_SK	Slovak (Slovakia)	2009-09-03 18:56:41.778	2009-09-03 18:56:41.778	1
-704	about.source-code.header	@about.source-code.header@	2009-08-31 16:37:48.847	2009-08-31 18:20:19.651	3
-585	keyword.conductivity	@keyword.conductivity@	2009-08-31 14:41:38.736	2009-08-31 14:41:38.736	3
-706	about.source-code.flash-simulations	@about.source-code.flash-simulations@	2009-08-31 16:37:58.454	2009-09-01 01:18:39.255	3
-441	home.header	@home.header@	2009-08-31 14:13:34.21	2009-08-31 14:13:34.21	3
-620	keyword.energyBand	@keyword.energyBand@	2009-08-31 14:49:38.456	2009-08-31 14:49:38.456	3
-621	keyword.energyGap	@keyword.energyGap@	2009-08-31 14:49:41.539	2009-08-31 14:49:41.539	3
-622	keyword.energyLevels	@keyword.energyLevels@	2009-08-31 14:49:44.477	2009-08-31 14:49:44.477	3
-741	nav.sponsors	@nav.sponsors@	2009-08-31 23:40:34.721	2009-08-31 23:40:34.721	3
-813	keyword.moon	@keyword.moon@	2009-09-01 01:12:34.214	2009-09-01 01:12:34.214	3
-814	keyword.motion	@keyword.motion@	2009-09-01 01:12:37.417	2009-09-01 01:12:37.417	3
-815	keyword.mri	@keyword.mri@	2009-09-01 01:12:40.6	2009-09-01 01:12:40.6	3
-816	keyword.multiplication	@keyword.multiplication@	2009-09-01 01:12:43.936	2009-09-01 01:12:43.936	3
-817	keyword.newtonsLaws	@keyword.newtonsLaws@	2009-09-01 01:12:47.068	2009-09-01 01:12:47.068	3
-818	keyword.ohmsLaw	@keyword.ohmsLaw@	2009-09-01 01:12:50.336	2009-09-01 01:12:50.336	3
-819	keyword.optical	@keyword.optical@	2009-09-01 01:12:53.478	2009-09-01 01:12:53.478	3
-820	keyword.opticalTweezers	@keyword.opticalTweezers@	2009-09-01 01:12:56.497	2009-09-01 01:12:56.497	3
-821	keyword.orderOfMagnitude	@keyword.orderOfMagnitude@	2009-09-01 01:12:59.736	2009-09-01 01:12:59.736	3
-628	keyword.factoring	@keyword.factoring@	2009-08-31 14:54:20.402	2009-08-31 14:54:20.402	3
-629	keyword.faradaysLaw	@keyword.faradaysLaw@	2009-08-31 14:54:23.953	2009-08-31 14:54:23.953	3
-630	keyword.fields	@keyword.fields@	2009-08-31 14:54:27.564	2009-08-31 14:54:27.564	3
-631	keyword.focalLength	@keyword.focalLength@	2009-08-31 14:54:30.921	2009-08-31 14:54:30.921	3
-632	keyword.force	@keyword.force@	2009-08-31 14:54:34.456	2009-08-31 14:54:34.456	3
-633	keyword.fourierAnalysis	@keyword.fourierAnalysis@	2009-08-31 14:54:37.788	2009-08-31 14:54:37.788	3
-634	keyword.fourierSeries	@keyword.fourierSeries@	2009-08-31 14:54:40.788	2009-08-31 14:54:40.788	3
-635	keyword.frequency	@keyword.frequency@	2009-08-31 14:54:43.78	2009-08-31 14:54:43.78	3
-636	keyword.friction	@keyword.friction@	2009-08-31 14:54:47.461	2009-08-31 14:54:47.461	3
-637	keyword.galton	@keyword.galton@	2009-08-31 14:54:53.229	2009-08-31 14:54:57.823	3
-638	keyword.gas	@keyword.gas@	2009-08-31 14:55:01.466	2009-08-31 14:55:01.466	3
-639	keyword.generator	@keyword.generator@	2009-08-31 14:55:04.427	2009-08-31 14:55:04.427	3
-640	keyword.glaciers	@keyword.glaciers@	2009-08-31 14:55:07.09	2009-08-31 14:55:07.09	3
-497	simulationMainPanel.topics	@simulationMainPanel.topics@	2009-08-31 14:16:50.1	2009-08-31 14:16:50.1	3
-498	simulationMainPanel.mainTopics	@simulationMainPanel.mainTopics@	2009-08-31 14:16:53.053	2009-08-31 14:16:53.053	3
-499	simulationMainPanel.keywords	@simulationMainPanel.keywords@	2009-08-31 14:16:55.898	2009-08-31 14:16:55.898	3
-641	keyword.graphing	@keyword.graphing@	2009-08-31 14:55:16.312	2009-08-31 14:55:16.312	3
-673	keyword.lightBulbs	@keyword.lightBulbs@	2009-08-31 14:57:26.872	2009-08-31 14:57:26.872	3
-693	contribute.title	@contribute.title@	2009-08-31 14:58:31.872	2009-08-31 14:58:31.872	3
-695	get-phet.one-at-a-time.title	@get-phet.one-at-a-time.title@	2009-08-31 14:58:36.828	2009-08-31 14:58:36.828	3
-696	get-phet.full-install.title	@get-phet.full-install.title@	2009-08-31 14:58:39.181	2009-08-31 14:58:39.181	3
-697	research.title	@research.title@	2009-08-31 14:58:41.569	2009-08-31 14:58:41.569	3
-698	troubleshooting.java.title	@troubleshooting.java.title@	2009-08-31 14:58:46.922	2009-08-31 14:58:46.922	3
-650	keyword.hydroxide	@keyword.hydroxide@	2009-08-31 14:55:59.094	2009-08-31 14:55:59.094	3
-651	keyword.idealGasLaw	@keyword.idealGasLaw@	2009-08-31 14:56:02.546	2009-08-31 14:56:02.546	3
-652	keyword.images	@keyword.images@	2009-08-31 14:56:06.496	2009-08-31 14:56:06.496	3
-653	keyword.indexOfRefraction	@keyword.indexOfRefraction@	2009-08-31 14:56:10.349	2009-08-31 14:56:10.349	3
-654	keyword.induction	@keyword.induction@	2009-08-31 14:56:14.139	2009-08-31 14:56:14.139	3
-796	keyword.equilibrium	@keyword.equilibrium@	2009-09-01 01:11:23.775	2009-09-01 01:11:23.775	3
-797	keyword.food	@keyword.food@	2009-09-01 01:11:29.576	2009-09-01 01:11:29.576	3
-798	keyword.fuelConsumption	@keyword.fuelConsumption@	2009-09-01 01:11:35.034	2009-09-01 01:11:35.034	3
-799	keyword.greenhouseGases	@keyword.greenhouseGases@	2009-09-01 01:11:39.76	2009-09-01 01:11:39.76	3
-800	keyword.histograms	@keyword.histograms@	2009-09-01 01:11:43.621	2009-09-01 01:11:43.621	3
-801	keyword.initialSpeed	@keyword.initialSpeed@	2009-09-01 01:11:48.33	2009-09-01 01:11:48.33	3
-802	keyword.lunarLanding	@keyword.lunarLanding@	2009-09-01 01:11:55.857	2009-09-01 01:11:55.857	3
-803	keyword.mass	@keyword.mass@	2009-09-01 01:12:00.207	2009-09-01 01:12:00.207	3
-804	keyword.math	@keyword.math@	2009-09-01 01:12:03.809	2009-09-01 01:12:03.809	3
-805	keyword.measurement	@keyword.measurement@	2009-09-01 01:12:07.132	2009-09-01 01:12:07.132	3
-806	keyword.microwaves	@keyword.microwaves@	2009-09-01 01:12:10.436	2009-09-01 01:12:10.436	3
-807	keyword.molarity	@keyword.molarity@	2009-09-01 01:12:13.905	2009-09-01 01:12:13.905	3
-808	keyword.molecularMotors	@keyword.molecularMotors@	2009-09-01 01:12:17.534	2009-09-01 01:12:17.534	3
-809	keyword.molecules	@keyword.molecules@	2009-09-01 01:12:21.018	2009-09-01 01:12:21.018	3
+1745	get-phet.online.howOften	حالما جديدة أو محدثة المحاكاة يتم نشرها على موقع على شبكة الإنترنت.	2009-09-04 00:05:37.283	2009-09-04 00:05:37.283	4
+1746	get-phet.online.howToGet	انقر على أيقونة المحاكاة في صفحة الويب من المحاكاة التي تريد تشغيلها.	2009-09-04 00:05:38.599	2009-09-04 00:05:38.599	4
+1747	get-phet.online.needInternet	نعم	2009-09-04 00:05:39.628	2009-09-04 00:05:39.628	4
+1727	get-phet.clickHere	&lt;&lt; انقر هنا	2009-09-04 00:02:20.781	2009-09-04 00:02:54.267	4
+1728	get-phet.header	ثلاثة لدينا وسائل لتشغيل مجاني المحاكاة	2009-09-04 00:03:00.514	2009-09-04 00:03:00.514	4
+1748	get-phet.online.whatSims	ويمكنك استخدام المحاكاة بشكل مؤقت مثبت.	2009-09-04 00:05:41.329	2009-09-04 00:05:41.329	4
+1729	get-phet.install.header	تحميل <strong>كامل</strong> موقع على جهاز الكمبيوتر الخاص بك ، [أوسب] ، أو مؤتمر نزع السلاح	2009-09-04 00:03:35.458	2009-09-04 00:03:53.585	4
+1730	get-phet.install.howLarge	حوالي 40MB إذا كان لديك جافا ، أو 65MB إذا كنت لا.	2009-09-04 00:03:57.425	2009-09-04 00:03:57.425	4
+1731	get-phet.install.howOften	ثلاث أو أربع مرات في السنة.	2009-09-04 00:03:58.902	2009-09-04 00:03:58.902	4
+1749	get-phet.online.whereCanISave	يمكن للتطبيقات فلاش لا يتم حفظها. تطبيقات جافا يتم تلقائيا المخزنة في جهاز الكمبيوتر الخاص بك WebStart مخبأ ، ولكن لا يمكن نقلها.	2009-09-04 00:05:44.057	2009-09-04 00:05:44.057	4
+1750	get-phet.row.howLarge	ما هو حجم التحميل؟	2009-09-04 00:05:45.477	2009-09-04 00:05:45.477	4
+1732	get-phet.install.howToGet	<a {0}> انقر هنا </a> للذهاب إلى صفحة التحميل.	2009-09-04 00:04:07.285	2009-09-04 00:04:21.849	4
+1733	get-phet.install.needInternet	لا	2009-09-04 00:04:24.697	2009-09-04 00:04:26.03	4
+1734	get-phet.install.whatSims	جميع عمليات المحاكاة.	2009-09-04 00:04:27.531	2009-09-04 00:04:27.531	4
+1735	get-phet.install.whereCanISave	مؤتمر نزع السلاح ، [أوسب أو القرص الصلب.	2009-09-04 00:04:29.457	2009-09-04 00:04:29.457	4
+1751	get-phet.row.howOften	كيف كثيرا ما هي التحديثات المتاحة؟	2009-09-04 00:05:46.998	2009-09-04 00:05:46.998	4
+1736	get-phet.offline.header	تنزيل <strong>واحد أو أكثر</strong> المحاكاة بالكمبيوتر ، [أوسب] ، أو مؤتمر نزع السلاح	2009-09-04 00:04:37.437	2009-09-04 00:04:54.518	4
+1737	get-phet.offline.howLarge	تحت 1.5 ميغابايت لكل المحاكاة.	2009-09-04 00:04:59.867	2009-09-04 00:04:59.867	4
+1738	get-phet.offline.howOften	إذا كنت متصلا بشبكة الإنترنت ، جديدة أو محدثة المحاكاة المتوفرة.	2009-09-04 00:05:01.987	2009-09-04 00:05:01.987	4
+1752	get-phet.row.howToGet	كيف يمكنني الحصول على المحاكاة؟	2009-09-04 00:05:48.464	2009-09-04 00:05:48.464	4
+1739	get-phet.offline.howToGet	<a {0}>انقر هنا</a> للذهاب إلى جميع محاكاة صفحة التحميل.	2009-09-04 00:05:09.349	2009-09-04 00:05:23.868	4
+1740	get-phet.offline.needInternet	لا	2009-09-04 00:05:28.85	2009-09-04 00:05:28.85	4
+1741	get-phet.offline.whatSims	فقط تلك التي تريد.	2009-09-04 00:05:30.011	2009-09-04 00:05:30.011	4
+1742	get-phet.offline.whereCanISave	مؤتمر نزع السلاح ، [أوسب أو القرص الصلب.	2009-09-04 00:05:30.86	2009-09-04 00:05:30.86	4
+1743	get-phet.online.header	استخدام الموقع PhET بينما تكون متصلا على شبكة الإنترنت	2009-09-04 00:05:32.92	2009-09-04 00:05:32.92	4
+1744	get-phet.online.howLarge	تحت 1.5 ميغابايت لكل المحاكاة.	2009-09-04 00:05:34.621	2009-09-04 00:05:34.621	4
+1753	get-phet.row.needInternet	هو اتصال بإنترنت المطلوبة لتشغيل المحاكاة؟	2009-09-04 00:05:50.507	2009-09-04 00:05:50.507	4
+1754	get-phet.row.whatSims	ما المحاكاة المثبتة؟	2009-09-04 00:05:51.582	2009-09-04 00:05:51.582	4
+1755	get-phet.row.whereCanISave	أين أستطيع أن ينقذهم من على الكمبيوتر؟	2009-09-04 00:05:53.181	2009-09-04 00:05:53.181	4
 1104	language.names.it	Italian	2009-09-03 18:56:41.783	2009-09-03 18:56:41.783	1
 1105	language.names.tr_TR	Turkish (Turkey)	2009-09-03 18:56:41.789	2009-09-03 18:56:41.789	1
 1106	language.names.zh	Chinese	2009-09-03 18:56:41.823	2009-09-03 18:56:41.823	1
@@ -3595,58 +3485,16 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 703	about.source-code.flash-simulations	To checkout the source code for all of PhET's Flash simulations, replace "simulations-java" with "simulations-flash" in the above command.	2009-08-31 15:30:00.02	2009-08-31 18:27:36.059	1
 750	get-phet.one-at-a-time.downloadingSims	You may copy the simulation to any place on your computer. You may also copy the simulation to a CD-ROM Drive, USB Drive, or shared network location.	2009-09-01 00:20:51.729	2009-09-01 00:20:51.729	1
 751	get-phet.one-at-a-time.runningSims	Click on the name of any simulation to download the simulation to your computer. To run the simulation, double-click it. If you have difficulties, please see our <a {0}>technical support</a> page.	2009-09-01 00:22:55.028	2009-09-01 00:22:55.028	1
-708	sponsors.otherSponsors	@sponsors.otherSponsors@	2009-08-31 19:25:15.689	2009-08-31 19:25:33.756	3
-810	keyword.moles	@keyword.moles@	2009-09-01 01:12:24.422	2009-09-01 01:12:24.422	3
-626	keyword.excitation	@keyword.excitation@	2009-08-31 14:49:57.611	2009-08-31 14:49:57.611	3
-627	keyword.exercise	@keyword.exercise@	2009-08-31 14:54:16.455	2009-08-31 14:54:16.455	3
-440	language.name	@language.name@	2009-08-31 14:13:12.184	2009-08-31 14:47:19.092	3
-461	nav.sound-and-waves	@nav.sound-and-waves@	2009-08-31 14:14:30.606	2009-08-31 14:14:30.606	3
-462	nav.work-energy-and-power	@nav.work-energy-and-power@	2009-08-31 14:15:07.38	2009-08-31 14:15:07.38	3
-463	nav.heat-and-thermodynamics	@nav.heat-and-thermodynamics@	2009-08-31 14:15:10.32	2009-08-31 14:15:10.32	3
-464	nav.quantum-phenomena	@nav.quantum-phenomena@	2009-08-31 14:15:13.015	2009-08-31 14:15:13.015	3
-465	nav.light-and-radiation	@nav.light-and-radiation@	2009-08-31 14:15:15.353	2009-08-31 14:15:15.353	3
-466	nav.electricity-magnets-and-circuits	@nav.electricity-magnets-and-circuits@	2009-08-31 14:15:17.786	2009-08-31 14:15:17.786	3
-467	nav.biology	@nav.biology@	2009-08-31 14:15:21.177	2009-08-31 14:15:21.177	3
-468	nav.chemistry	@nav.chemistry@	2009-08-31 14:15:23.642	2009-08-31 14:15:23.642	3
-469	nav.earth-science	@nav.earth-science@	2009-08-31 14:15:26.523	2009-08-31 14:15:26.523	3
 960	troubleshooting.main.q12.title	عند تشغيل محاكيات من دون PhET موقع المثبت ، وأنا رؤية الحوار الذي يقول &quot;إن تطبيق التوقيع الرقمي قد تحققت. هل تريد تشغيل التطبيق؟&quot; (أو ما شابه). ماذا يعني هذا؟	2009-09-03 11:09:08.88	2009-09-03 11:09:20.607	4
 701	about.source-code.header	Where can I get the source code for the PhET simulations?	2009-08-31 15:25:46.913	2009-08-31 15:25:46.913	1
-471	nav.tools	@nav.tools@	2009-08-31 14:15:31.639	2009-08-31 14:15:31.639	3
-472	nav.applications	@nav.applications@	2009-08-31 14:15:34.117	2009-08-31 14:15:34.117	3
-473	nav.cutting-edge-research	@nav.cutting-edge-research@	2009-08-31 14:15:36.254	2009-08-31 14:15:36.254	3
-474	nav.all	@nav.all@	2009-08-31 14:15:38.723	2009-08-31 14:15:38.723	3
-475	nav.workshops	@nav.workshops@	2009-08-31 14:15:40.554	2009-08-31 14:15:40.554	3
-476	nav.get-phet	@nav.get-phet@	2009-08-31 14:15:42.478	2009-08-31 14:15:42.478	3
-699	troubleshooting.flash.title	@troubleshooting.flash.title@	2009-08-31 14:58:49.293	2009-08-31 14:58:49.293	3
-700	troubleshooting.javascript.title	@troubleshooting.javascript.title@	2009-08-31 14:58:51.913	2009-08-31 14:58:51.913	3
-442	home.subheader	@home.subheader@	2009-08-31 14:13:36.195	2009-08-31 14:13:36.195	3
-443	home.playWithSims	@home.playWithSims@	2009-08-31 14:13:38.529	2009-08-31 14:13:38.529	3
-444	home.runOurSims	@home.runOurSims@	2009-08-31 14:13:40.596	2009-08-31 14:13:40.596	3
-445	home.onLine	@home.onLine@	2009-08-31 14:13:43.237	2009-08-31 14:13:43.237	3
-446	home.fullInstallation	@home.fullInstallation@	2009-08-31 14:13:45.6	2009-08-31 14:13:45.6	3
-447	home.oneAtATime	@home.oneAtATime@	2009-08-31 14:13:47.98	2009-08-31 14:13:47.98	3
-448	home.teacherIdeasAndActivities	@home.teacherIdeasAndActivities@	2009-08-31 14:13:50.386	2009-08-31 14:13:50.386	3
-449	home.workshops	@home.workshops@	2009-08-31 14:13:55.218	2009-08-31 14:13:55.218	3
-450	home.contribute	@home.contribute@	2009-08-31 14:13:58.055	2009-08-31 14:13:58.055	3
-451	home.supportPhet	@home.supportPhet@	2009-08-31 14:14:00.164	2009-08-31 14:14:00.164	3
 961	troubleshooting.main.q13.title	(مستخدمي ماك) عندما أقوم بالنقر فوق &quot;تشغيل الآن&quot; لبدء محاكاة كل ما نحصل عليه هو أن يفتح ملف نصي؟	2009-09-03 11:09:25.98	2009-09-03 11:09:34.023	4
-452	home.translateSimulations	@home.translateSimulations@	2009-08-31 14:14:03.787	2009-08-31 14:14:03.787	3
 962	troubleshooting.main.licensingRequirements	ما هي متطلبات الترخيص؟	2009-09-03 11:09:37.483	2009-09-03 11:09:37.483	4
 963	troubleshooting.java.intro	PhET جاوة القائم على المحاكاة استخدام صن مايكروسيستمز 'جافا ويب ستارت لإطلاق تكنولوجيا المحاكاة. هذه الصفحة سوف تساعدك على ضمان أن يكون لديك جافا مثبتة بشكل صحيح ، ومعالجة بعض المشاكل التي تشغل الناس قد يكون لدينا برامج. إذا كنت لا تستطيع حل مشكلتك هنا ، يرجى إعلامنا عن طريق البريد الالكتروني على العنوان التال <a {0}><span class="red">phethelp@colorado.edu</span></a>.	2009-09-03 11:10:05.298	2009-09-03 11:10:05.298	4
 964	troubleshooting.java.faqs	أسئلة وأجوبة	2009-09-03 11:10:22.524	2009-09-03 11:10:22.524	4
 965	troubleshooting.java.q1.title	(مستخدمي أجهزة ماكنتوش) عندما أقوم بالنقر فوق &quot;تشغيل الآن&quot; لبدء محاكاة كل ما نحصل عليه هو أن يفتح ملف نصي؟	2009-09-03 11:10:25.496	2009-09-03 11:10:34.599	4
 966	troubleshooting.java.q2.title	كيف يمكنني الحصول على جافا؟	2009-09-03 11:10:37.663	2009-09-03 11:10:37.663	4
-453	home.browseSims	@home.browseSims@	2009-08-31 14:14:05.896	2009-08-31 14:14:05.896	3
-454	home.simulations	@home.simulations@	2009-08-31 14:14:09.274	2009-08-31 14:14:09.274	3
-455	nav.home	@nav.home@	2009-08-31 14:14:15.842	2009-08-31 14:14:15.842	3
-456	nav.simulations	@nav.simulations@	2009-08-31 14:14:18.273	2009-08-31 14:14:18.273	3
-457	nav.featured	@nav.featured@	2009-08-31 14:14:20.786	2009-08-31 14:14:20.786	3
-459	nav.physics	@nav.physics@	2009-08-31 14:14:25.485	2009-08-31 14:14:25.485	3
-460	nav.motion	@nav.motion@	2009-08-31 14:14:27.953	2009-08-31 14:14:27.953	3
-746	workshops.intro	@workshops.intro@	2009-09-01 00:08:58.54	2009-09-01 00:08:58.54	3
-623	keyword.equipotential	@keyword.equipotential@	2009-08-31 14:49:47.856	2009-08-31 14:49:47.856	3
-624	keyword.errorAnalysis	@keyword.errorAnalysis@	2009-08-31 14:49:50.861	2009-08-31 14:49:50.861	3
 1109	language.names.no	Norwegian	2009-09-03 18:56:41.841	2009-09-03 18:56:41.841	1
+474	nav.all	@nav.all@	2009-08-31 14:15:38.723	2009-08-31 14:15:38.723	3
 967	troubleshooting.java.q3.title	لماذا استخدام جافا ويب ستارت بدلا من جافا؟	2009-09-03 11:10:40.472	2009-09-03 11:10:40.472	4
 968	troubleshooting.java.q4.title	هل هناك أي مشاكل في تشغيل المحاكاة على ماك؟	2009-09-03 11:10:42.748	2009-09-03 11:10:42.748	4
 752	troubleshooting.java.intro	PhET's Java-based simulations use Sun Microsystems' Java Web Start technology to launch the simulations. This page will help you ensure that you have Java installed properly, and address some of the problems people might have running our programs. If you can't solve your problem here, please notify us by email at the following address: <a {0}><span class="red">phethelp@colorado.edu</span></a>.	2009-09-01 00:34:04.883	2009-09-01 00:34:04.883	1
@@ -3667,32 +3515,6 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 767	troubleshooting.java.q7.answer	<p>The following are some general steps that you may wish to perform when attempting to solve Java-related problems:</p><ul><li><strong>Empty Your Browser's Cache</strong><br/><table><thead><tr><td>Internet Explorer</td><td>Firefox</td></tr></thead><tbody><tr><td>Select "Tools-&gt;Options", then click on the "Delete Files..." button under "Temporary Internet Files"</td><td>Select "Tools-&gt;Options-&gt;Privacy", then click the "Clear" button next to "Cache".</td></tr></tbody></table></li><li><strong>Empty Java Web Start's Cache</strong><br/>From Windows' Start menu, select "Java Web Start", then select "Preferences" from the File menu. Click "Advanced", then click the "Clear Folder" button.</li><li><strong>Make Sure Windows can find Java and Java Web Start</strong><br/>From a command line (Start menu-&gt;Accessories-&gt;Command Prompt), type <em>java -version</em>followed by the enter key. If you receive an error, Java is not properly installed. Please try reinstalling Java (see above) after uninstalling any Java entries in your list of installed programs (Control Panel -&gt;Add/Remove Programs).</li></ul>	2009-09-01 01:00:17.961	2009-09-01 01:00:17.961	1
 969	troubleshooting.java.q5.title	كيف يمكنني التحقق من جهاز الكمبيوتر الخاص بي في الإصدار الحالي من جافا؟	2009-09-03 11:10:45.78	2009-09-03 11:10:45.78	4
 970	troubleshooting.java.q6.title	لقد ويندوز 2000 وأنا لا يمكن إلا أن الحصول على محاكاة تستند فلاش للعمل.	2009-09-03 11:10:49.918	2009-09-03 11:10:49.918	4
-655	keyword.inductor	@keyword.inductor@	2009-08-31 14:56:17.936	2009-08-31 14:56:17.936	3
-656	keyword.infrared	@keyword.infrared@	2009-08-31 14:56:22.097	2009-08-31 14:56:22.097	3
-747	workshops.upcomingWorkshops	@workshops.upcomingWorkshops@	2009-09-01 00:09:05.428	2009-09-01 00:09:05.428	3
-477	nav.get-phet.on-line	@nav.get-phet.on-line@	2009-08-31 14:15:45.329	2009-08-31 14:15:45.329	3
-478	nav.get-phet.full-install	@nav.get-phet.full-install@	2009-08-31 14:15:47.515	2009-08-31 14:15:47.515	3
-479	nav.get-phet.one-at-a-time	@nav.get-phet.one-at-a-time@	2009-08-31 14:15:53.668	2009-08-31 14:15:53.668	3
-480	nav.troubleshooting.main	@nav.troubleshooting.main@	2009-08-31 14:15:55.739	2009-08-31 14:15:55.739	3
-481	nav.troubleshooting.java	@nav.troubleshooting.java@	2009-08-31 14:15:57.475	2009-08-31 14:15:57.475	3
-482	nav.troubleshooting.flash	@nav.troubleshooting.flash@	2009-08-31 14:16:00.509	2009-08-31 14:16:00.509	3
-483	nav.troubleshooting.javascript	@nav.troubleshooting.javascript@	2009-08-31 14:16:02.483	2009-08-31 14:16:02.483	3
-484	nav.contribute	@nav.contribute@	2009-08-31 14:16:05.413	2009-08-31 14:16:05.413	3
-485	nav.research	@nav.research@	2009-08-31 14:16:08.181	2009-08-31 14:16:08.181	3
-486	nav.about	@nav.about@	2009-08-31 14:16:10.516	2009-08-31 14:16:10.516	3
-487	nav.about.source-code	@nav.about.source-code@	2009-08-31 14:16:12.327	2009-08-31 14:16:12.327	3
-488	nav.about.contact	@nav.about.contact@	2009-08-31 14:16:14.817	2009-08-31 14:16:14.817	3
-489	nav.about.who-we-are	@nav.about.who-we-are@	2009-08-31 14:16:17.32	2009-08-31 14:16:17.32	3
-490	nav.about.licensing	@nav.about.licensing@	2009-08-31 14:16:19.803	2009-08-31 14:16:19.803	3
-491	simulationMainPanel.translatedVersions	@simulationMainPanel.translatedVersions@	2009-08-31 14:16:30.157	2009-08-31 14:16:30.157	3
-492	simulationMainPanel.screenshot.alt	@simulationMainPanel.screenshot.alt@	2009-08-31 14:16:34.073	2009-08-31 14:16:34.073	3
-493	simulationMainPanel.version	@simulationMainPanel.version@	2009-08-31 14:16:37.96	2009-08-31 14:16:37.96	3
-494	simulationMainPanel.kilobytes	@simulationMainPanel.kilobytes@	2009-08-31 14:16:40.792	2009-08-31 14:16:40.792	3
-495	simulationMainPanel.runOffline	@simulationMainPanel.runOffline@	2009-08-31 14:16:44.563	2009-08-31 14:16:44.563	3
-496	simulationMainPanel.runOnline	@simulationMainPanel.runOnline@	2009-08-31 14:16:47.776	2009-08-31 14:16:47.776	3
-642	keyword.gravitationalForce	@keyword.gravitationalForce@	2009-08-31 14:55:23.721	2009-08-31 14:55:23.721	3
-500	sponsors.principalSponsors	@sponsors.principalSponsors@	2009-08-31 14:17:04.468	2009-08-31 14:17:04.468	3
-501	sponsors.hewlett	@sponsors.hewlett@	2009-08-31 14:17:07.955	2009-08-31 14:17:07.955	3
 1110	language.names.en_GB	English (United Kingdom)	2009-09-03 18:56:41.847	2009-09-03 18:56:41.847	1
 768	troubleshooting.java.q8.answer	<p><strong>Why do simulations run for admin but not all users?</strong></p><p>Java simulations may also fail to start on networked computers running Windows for some users while running properly for administrators. When Java Web Start tries to launch a simulation, it attempts to cache certain files in a "cache folder". This folder (or "directory") is determined when Java is installed, and may point to a folder that non-administrator accounts do not have access to, resulting in a launch failure. Correct this problem by setting the cache directory to one of your own choosing: Log on as an administrator.</p><p>Launch the Java Web Start Application Manager. This can be done in one of two ways. a) If the Java installation placed an icon either on your desktop or in the Start Menu -&gt; All Programs list titled "Java Web Start", click it to start the application. b) Use the Windows search function (located in the Start Menu) to search for the program "javaws.exe". Once it is found, click on the file to run the application. Once the Java Web Start Application Manager is up and running, choose File&gt;Preferences. In the Preferences dialog that appears, click on the Advanced tab. In this tab, you will find a text field labeled "Applications Folder". In this text field, put the name of an empty directory to which all users have write privileges. Note: This directory MUST be empty. All users should now be able to launch the Java simulations.</p><p><strong>Issue 3: Web Proxy Settings</strong><br/>Java simulations may fail to start if the proxy settings in Java Web Start's configuration panel (Start Menu-&gt;Java Web Start, File Menu-&gt;Preferences) do not match those your system is currently using. To identify settings being used on your system, see your web browser's proxy settings, or contact you network administrator.</p><p><strong>Local Install on Boot Drive Only</strong><br/>If you are operating in a networked environment, please ensure that both Java and the PhET simulations (if installed locally rather than running from our web site) are installed on local, non-networked drives. The PhET simulations must be installed on the boot drive.</p><p><strong>Network Firewalls</strong><br/>Please ensure that your firewall is configured to allow both Java and Java Web Start to communicate through the firewall.</p>	2009-09-01 01:01:45.087	2009-09-01 01:01:45.087	1
 1111	language.names.sr_CS	Serbian (Serbia and Montenegro)	2009-09-03 18:56:41.852	2009-09-03 18:56:41.852	1
@@ -3740,23 +3562,8 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 1012	keyword.absorption	الاستيعاب	2009-09-03 11:19:12.26	2009-09-03 11:19:12.26	4
 1013	keyword.acCircuits	دوائرالتيارالمتردد	2009-09-03 11:19:16.044	2009-09-03 11:19:16.044	4
 1014	keyword.acVoltage	جهد التيار المتناوب	2009-09-03 11:19:18.935	2009-09-03 11:19:18.935	4
-502	sponsors.nsf	@sponsors.nsf@	2009-08-31 14:17:11.966	2009-08-31 14:17:11.966	3
-503	sponsors.ksu	@sponsors.ksu@	2009-08-31 14:17:15.095	2009-08-31 14:17:15.095	3
-504	troubleshooting.main.title	@troubleshooting.main.title@	2009-08-31 14:17:22.059	2009-08-31 14:17:22.059	3
-505	troubleshooting.main.intro	@troubleshooting.main.intro@	2009-08-31 14:17:24.346	2009-08-31 14:17:28.103	3
-506	troubleshooting.main.java	@troubleshooting.main.java@	2009-08-31 14:17:30.757	2009-08-31 14:17:30.757	3
-507	troubleshooting.main.flash	@troubleshooting.main.flash@	2009-08-31 14:17:32.923	2009-08-31 14:17:32.923	3
-508	troubleshooting.main.javascript	@troubleshooting.main.javascript@	2009-08-31 14:17:35.866	2009-08-31 14:17:35.866	3
-509	troubleshooting.main.faqs	@troubleshooting.main.faqs@	2009-08-31 14:17:38.304	2009-08-31 14:17:38.304	3
-769	get-phet.one-at-a-time.runningSims	@get-phet.one-at-a-time.runningSims@	2009-09-01 01:08:12.606	2009-09-01 01:08:12.606	3
-775	troubleshooting.java.q1.answer	@troubleshooting.java.q1.answer@	2009-09-01 01:10:04.705	2009-09-01 01:10:04.705	3
 1015	keyword.acceleration	تسارع	2009-09-03 11:19:22.276	2009-09-03 11:19:22.276	4
 1016	keyword.acids	الأحماض	2009-09-03 11:19:26.27	2009-09-03 11:19:26.27	4
-770	get-phet.one-at-a-time.downloadingSims	@get-phet.one-at-a-time.downloadingSims@	2009-09-01 01:08:24.162	2009-09-01 01:08:24.162	3
-772	troubleshooting.java.intro	@troubleshooting.java.intro@	2009-09-01 01:09:04.462	2009-09-01 01:09:27.109	3
-773	troubleshooting.java.faqs	@troubleshooting.java.faqs@	2009-09-01 01:10:01.78	2009-09-01 01:10:01.78	3
-774	troubleshooting.java.q1.title	@troubleshooting.java.q1.title@	2009-09-01 01:10:03.238	2009-09-01 01:10:03.238	3
-586	keyword.concentration	@keyword.concentration@	2009-08-31 14:41:42.096	2009-08-31 14:41:42.096	3
 1112	language.names.lt	Lithuanian	2009-09-03 18:56:41.857	2009-09-03 18:56:41.857	1
 1113	language.names.ro	Romanian	2009-09-03 18:56:41.862	2009-09-03 18:56:41.862	1
 1114	language.names.en_NZ	English (New Zealand)	2009-09-03 18:56:41.867	2009-09-03 18:56:41.867	1
@@ -3838,87 +3645,8 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 1191	language.names.be_BY	Belarusian (Belarus)	2009-09-03 18:56:42.373	2009-09-03 18:56:42.373	1
 1192	language.names.zh_HK	Chinese (Hong Kong)	2009-09-03 18:56:42.378	2009-09-03 18:56:42.378	1
 1193	language.names.ja	Japanese	2009-09-03 18:56:42.382	2009-09-03 18:56:42.382	1
+772	troubleshooting.java.intro	@troubleshooting.java.intro@	2009-09-01 01:09:04.462	2009-09-01 01:09:27.109	3
 1017	contribute.financialContributions	Financial Contributions	2009-09-03 12:29:21.388	2009-09-03 12:29:21.388	1
-625	keyword.estimation	@keyword.estimation@	2009-08-31 14:49:54.227	2009-08-31 14:49:54.227	3
-776	troubleshooting.java.q2.title	@troubleshooting.java.q2.title@	2009-09-01 01:10:06.646	2009-09-01 01:10:06.646	3
-777	troubleshooting.java.q2.answer	@troubleshooting.java.q2.answer@	2009-09-01 01:10:07.766	2009-09-01 01:10:07.766	3
-778	troubleshooting.java.q4.title	@troubleshooting.java.q4.title@	2009-09-01 01:10:09.145	2009-09-01 01:10:09.145	3
-779	troubleshooting.java.q4.answer	@troubleshooting.java.q4.answer@	2009-09-01 01:10:10.661	2009-09-01 01:10:10.661	3
-780	troubleshooting.java.q5.title	@troubleshooting.java.q5.title@	2009-09-01 01:10:11.724	2009-09-01 01:10:11.724	3
-644	keyword.greenhouseEffect	@keyword.greenhouseEffect@	2009-08-31 14:55:31.648	2009-08-31 14:55:31.648	3
-645	keyword.harmonicMotion	@keyword.harmonicMotion@	2009-08-31 14:55:36.784	2009-08-31 14:55:36.784	3
-646	keyword.heat	@keyword.heat@	2009-08-31 14:55:40.371	2009-08-31 14:55:40.371	3
-647	keyword.hookesLaw	@keyword.hookesLaw@	2009-08-31 14:55:44.731	2009-08-31 14:55:44.731	3
-648	keyword.hydrogenAtom	@keyword.hydrogenAtom@	2009-08-31 14:55:49.902	2009-08-31 14:55:49.902	3
-649	keyword.hydronium	@keyword.hydronium@	2009-08-31 14:55:55.063	2009-08-31 14:55:55.063	3
-521	troubleshooting.main.q7.answer	@troubleshooting.main.q7.answer@	2009-08-31 14:19:01.114	2009-08-31 14:19:01.114	3
-705	about.source-code.location	@about.source-code.location@	2009-08-31 16:37:56.22	2009-09-01 01:18:37.067	3
-522	troubleshooting.main.q8.title	@troubleshooting.main.q8.title@	2009-08-31 14:19:03.721	2009-08-31 14:19:03.721	3
-523	troubleshooting.main.q8.answer	@troubleshooting.main.q8.answer@	2009-08-31 14:19:07.717	2009-08-31 14:19:07.717	3
-524	troubleshooting.main.q9.title	@troubleshooting.main.q9.title@	2009-08-31 14:19:10.152	2009-08-31 14:19:10.152	3
-525	troubleshooting.main.q9.answer	@troubleshooting.main.q9.answer@	2009-08-31 14:19:19.609	2009-08-31 14:19:19.609	3
-526	troubleshooting.main.q10.title	@troubleshooting.main.q10.title@	2009-08-31 14:19:25.261	2009-08-31 14:19:25.261	3
-528	troubleshooting.main.q11.title	@troubleshooting.main.q11.title@	2009-08-31 14:19:37.15	2009-08-31 14:19:37.15	3
-535	keyword.1d	@keyword.1d@	2009-08-31 14:22:48.856	2009-08-31 14:22:48.856	3
-510	troubleshooting.main.q1.title	@troubleshooting.main.q1.title@	2009-08-31 14:17:40.155	2009-08-31 14:17:40.155	3
-511	troubleshooting.main.q1.answer	@troubleshooting.main.q1.answer@	2009-08-31 14:17:54.331	2009-08-31 14:17:54.331	3
-512	troubleshooting.main.q2.title	@troubleshooting.main.q2.title@	2009-08-31 14:18:06.032	2009-08-31 14:18:06.032	3
-748	workshops.materials	@workshops.materials@	2009-09-01 00:09:12.601	2009-09-01 00:09:12.601	3
-749	workshops.pastWorkshops	@workshops.pastWorkshops@	2009-09-01 00:09:18.913	2009-09-01 00:09:18.913	3
-558	keyword.battery	@keyword.battery@	2009-08-31 14:39:54.347	2009-09-01 01:10:58.238	3
-822	keyword.orderParameter	@keyword.orderParameter@	2009-09-01 01:13:10.664	2009-09-01 01:13:13.216	3
-823	keyword.pH	@keyword.pH@	2009-09-01 01:13:18.351	2009-09-01 01:13:18.351	3
-824	keyword.parallelCircuit	@keyword.parallelCircuit@	2009-09-01 01:13:22.035	2009-09-01 01:13:22.035	3
-825	keyword.particles	@keyword.particles@	2009-09-01 01:13:26.136	2009-09-01 01:13:26.136	3
-826	keyword.pendulum	@keyword.pendulum@	2009-09-01 01:13:29.772	2009-09-01 01:13:29.772	3
-827	keyword.period	@keyword.period@	2009-09-01 01:13:36.872	2009-09-01 01:13:36.872	3
-828	keyword.periodicMotion	@keyword.periodicMotion@	2009-09-01 01:13:40.665	2009-09-01 01:13:40.665	3
-829	keyword.photoconductors	@keyword.photoconductors@	2009-09-01 01:13:45.519	2009-09-01 01:13:45.519	3
-514	troubleshooting.main.q4.title	@troubleshooting.main.q4.title@	2009-08-31 14:18:12.806	2009-08-31 14:18:12.806	3
-515	troubleshooting.main.q4.answer	@troubleshooting.main.q4.answer@	2009-08-31 14:18:18.85	2009-08-31 14:18:18.85	3
-657	keyword.insulators	@keyword.insulators@	2009-08-31 14:56:26.5	2009-08-31 14:56:26.5	3
-658	keyword.intensity	@keyword.intensity@	2009-08-31 14:56:30.295	2009-08-31 14:56:30.295	3
-659	keyword.interference	@keyword.interference@	2009-08-31 14:56:34.034	2009-08-31 14:56:34.034	3
-660	keyword.inverse	@keyword.inverse@	2009-08-31 14:56:38.429	2009-08-31 14:56:38.429	3
-661	keyword.ionicCompounds	@keyword.ionicCompounds@	2009-08-31 14:56:41.813	2009-08-31 14:56:41.813	3
-662	keyword.kinematics	@keyword.kinematics@	2009-08-31 14:56:45.15	2009-08-31 14:56:45.15	3
-663	keyword.kineticEnergy	@keyword.kineticEnergy@	2009-08-31 14:56:49.913	2009-08-31 14:56:49.913	3
-664	keyword.kirchoffsLaw	@keyword.kirchoffsLaw@	2009-08-31 14:56:53.8	2009-08-31 14:56:53.8	3
-665	keyword.ksp	@keyword.ksp@	2009-08-31 14:56:57.613	2009-08-31 14:56:57.613	3
-666	keyword.laser	@keyword.laser@	2009-08-31 14:57:02.05	2009-08-31 14:57:02.05	3
-667	keyword.lcCircuit	@keyword.lcCircuit@	2009-08-31 14:57:05.325	2009-08-31 14:57:05.325	3
-668	keyword.leChateliersPrinciple	@keyword.leChateliersPrinciple@	2009-08-31 14:57:08.746	2009-08-31 14:57:08.746	3
-669	keyword.leds	@keyword.leds@	2009-08-31 14:57:11.843	2009-08-31 14:57:11.843	3
-670	keyword.length	@keyword.length@	2009-08-31 14:57:15.764	2009-08-31 14:57:15.764	3
-671	keyword.lens	@keyword.lens@	2009-08-31 14:57:19.322	2009-08-31 14:57:19.322	3
-672	keyword.light	@keyword.light@	2009-08-31 14:57:23.306	2009-08-31 14:57:23.306	3
-787	troubleshooting.java.q8.answer	@troubleshooting.java.q8.answer@	2009-09-01 01:10:21.13	2009-09-01 01:10:21.13	3
-788	keyword.acVoltage	@keyword.acVoltage@	2009-09-01 01:10:35.173	2009-09-01 01:10:35.173	3
-789	keyword.acids	@keyword.acids@	2009-09-01 01:10:38.779	2009-09-01 01:10:38.779	3
-790	keyword.alphaParticles	@keyword.alphaParticles@	2009-09-01 01:10:42.658	2009-09-01 01:10:42.658	3
-791	keyword.ammonia	@keyword.ammonia@	2009-09-01 01:10:46.405	2009-09-01 01:10:46.405	3
-792	keyword.bases	@keyword.bases@	2009-09-01 01:10:51.563	2009-09-01 01:10:51.563	3
-793	keyword.biology	@keyword.biology@	2009-09-01 01:11:01.456	2009-09-01 01:11:01.456	3
-794	keyword.charlesLaw	@keyword.charlesLaw@	2009-09-01 01:11:06.502	2009-09-01 01:11:06.502	3
-795	keyword.cosines	@keyword.cosines@	2009-09-01 01:11:12.531	2009-09-01 01:11:12.531	3
-613	keyword.electromagnet	@keyword.electromagnet@	2009-08-31 14:49:16.122	2009-09-01 01:11:18.936	3
-1037	sponsors.financialSupport	@sponsors.financialSupport@	2009-09-03 13:12:44.489	2009-09-03 13:13:08.995	3
-1038	sponsors.platinum	@sponsors.platinum@	2009-09-03 13:12:46.455	2009-09-03 13:12:46.455	3
-1036	sponsors.header	@sponsors.header@	2009-09-03 13:12:42.273	2009-09-03 13:12:54.513	3
-1039	sponsors.gold	@sponsors.gold@	2009-09-03 13:13:16.218	2009-09-03 13:13:16.218	3
-1040	sponsors.bronze	@sponsors.bronze@	2009-09-03 13:13:18.803	2009-09-03 13:13:18.803	3
-1041	sponsors.technicalSupport	@sponsors.technicalSupport@	2009-09-03 13:13:20.311	2009-09-03 13:13:20.311	3
-1042	sponsors.piccolo.desc	@sponsors.piccolo.desc@	2009-09-03 13:13:21.773	2009-09-03 13:13:21.773	3
-1043	sponsors.jfreechart.desc	@sponsors.jfreechart.desc@	2009-09-03 13:13:23.375	2009-09-03 13:13:23.375	3
-1044	sponsors.jade.desc	@sponsors.jade.desc@	2009-09-03 13:13:25.966	2009-09-03 13:13:25.966	3
-1045	sponsors.sourceforge.desc	@sponsors.sourceforge.desc@	2009-09-03 13:13:28.032	2009-09-03 13:13:28.032	3
-1046	sponsors.proguard.desc	@sponsors.proguard.desc@	2009-09-03 13:13:29.516	2009-09-03 13:13:29.516	3
-1047	sponsors.jetbrains.desc	@sponsors.jetbrains.desc@	2009-09-03 13:13:31.138	2009-09-03 13:13:31.138	3
-1048	sponsors.ej.desc	@sponsors.ej.desc@	2009-09-03 13:13:33.164	2009-09-03 13:13:33.164	3
-1049	sponsors.bitrock.desc	@sponsors.bitrock.desc@	2009-09-03 13:13:34.761	2009-09-03 13:13:34.761	3
-1050	sponsors.royalinteractive.desc	@sponsors.royalinteractive.desc@	2009-09-03 13:13:36.386	2009-09-03 13:13:36.386	3
-1051	sponsors.dynamicalSystems.desc	@sponsors.dynamicalSystems.desc@	2009-09-03 13:13:38.077	2009-09-03 13:13:38.077	3
-513	troubleshooting.main.q2.answer	@troubleshooting.main.q2.answer@	2009-08-31 14:18:10.379	2009-08-31 14:18:22.189	3
 1194	language.names.iw_IL	Hebrew (Israel)	2009-09-03 18:56:42.387	2009-09-03 18:56:42.387	1
 1195	language.names.bg_BG	Bulgarian (Bulgaria)	2009-09-03 18:56:42.403	2009-09-03 18:56:42.403	1
 1196	language.names.in	Indonesian	2009-09-03 18:56:42.408	2009-09-03 18:56:42.408	1
@@ -4083,7 +3811,6 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 1497	keyword.motion	اقتراح	2009-09-03 21:58:32.276	2009-09-03 21:58:32.276	4
 1498	keyword.mri	التصوير بالرنين المغناطيسي	2009-09-03 21:58:33.116	2009-09-03 21:58:33.116	4
 1499	keyword.multiplication	الضرب	2009-09-03 21:58:35.333	2009-09-03 21:58:35.333	4
-458	nav.new	@nav.new@	2009-08-31 14:14:23.376	2009-08-31 14:14:23.376	3
 1500	keyword.newtonsLaws	قوانين نيوتن	2009-09-03 21:58:36.611	2009-09-03 21:58:36.611	4
 1501	keyword.ohmsLaw	قانون أوم	2009-09-03 21:58:37.403	2009-09-03 21:58:37.403	4
 1502	keyword.optical	البصريات	2009-09-03 21:58:38.371	2009-09-03 21:58:38.371	4
@@ -4203,58 +3930,10 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 1276	language.names.no	النرويجية	2009-09-03 19:27:00.807	2009-09-03 19:27:00.807	4
 1277	language.names.pl	البولندية	2009-09-03 19:27:03.396	2009-09-03 19:27:03.396	4
 1278	language.names.pt	البرتغالية	2009-09-03 19:27:07.16	2009-09-03 19:27:07.16	4
-516	troubleshooting.main.q5.title	@troubleshooting.main.q5.title@	2009-08-31 14:18:28.732	2009-08-31 14:18:28.732	3
-582	keyword.climate	@keyword.climate@	2009-08-31 14:41:28.357	2009-08-31 14:41:28.357	3
-517	troubleshooting.main.q5.answer	@troubleshooting.main.q5.answer@	2009-08-31 14:18:34.132	2009-08-31 14:18:37.813	3
-518	troubleshooting.main.q6.title	@troubleshooting.main.q6.title@	2009-08-31 14:18:40.743	2009-08-31 14:18:40.743	3
-519	troubleshooting.main.q6.answer	@troubleshooting.main.q6.answer@	2009-08-31 14:18:45.308	2009-08-31 14:18:45.308	3
-520	troubleshooting.main.q7.title	@troubleshooting.main.q7.title@	2009-08-31 14:18:57.404	2009-08-31 14:18:57.404	3
-546	keyword.angularAcceleration	@keyword.angularAcceleration@	2009-08-31 14:39:16.277	2009-08-31 14:39:16.277	3
-547	keyword.angularMomentum	@keyword.angularMomentum@	2009-08-31 14:39:19.144	2009-08-31 14:39:19.144	3
-548	keyword.angularPosition	@keyword.angularPosition@	2009-08-31 14:39:22.717	2009-08-31 14:39:22.717	3
-549	keyword.angularVelocity	@keyword.angularVelocity@	2009-08-31 14:39:25.19	2009-08-31 14:39:25.19	3
-550	keyword.area	@keyword.area@	2009-08-31 14:39:28.671	2009-08-31 14:39:28.671	3
-551	keyword.arithmetic	@keyword.arithmetic@	2009-08-31 14:39:31.302	2009-08-31 14:39:31.302	3
-552	keyword.arrheniusParameters	@keyword.arrheniusParameters@	2009-08-31 14:39:34.381	2009-08-31 14:39:34.381	3
-553	keyword.astronomy	@keyword.astronomy@	2009-08-31 14:39:37.612	2009-08-31 14:39:37.612	3
-554	keyword.atmosphere	@keyword.atmosphere@	2009-08-31 14:39:40.684	2009-08-31 14:39:40.684	3
-555	keyword.atomicNuclei	@keyword.atomicNuclei@	2009-08-31 14:39:43.362	2009-08-31 14:39:43.362	3
-556	keyword.atomicStructure	@keyword.atomicStructure@	2009-08-31 14:39:47.553	2009-08-31 14:39:47.553	3
-557	keyword.atoms	@keyword.atoms@	2009-08-31 14:39:51.479	2009-08-31 14:39:51.479	3
-559	keyword.binomialDistribution	@keyword.binomialDistribution@	2009-08-31 14:39:57.116	2009-08-31 14:39:57.116	3
-560	keyword.blackbody	@keyword.blackbody@	2009-08-31 14:40:00.463	2009-08-31 14:40:00.463	3
-561	keyword.bohrModel	@keyword.bohrModel@	2009-08-31 14:40:03.119	2009-08-31 14:40:03.119	3
-562	keyword.boltzmannDistribution	@keyword.boltzmannDistribution@	2009-08-31 14:40:06.685	2009-08-31 14:40:06.685	3
-563	keyword.bonds	@keyword.bonds@	2009-08-31 14:40:09.825	2009-08-31 14:40:09.825	3
-564	keyword.boylesLaw	@keyword.boylesLaw@	2009-08-31 14:40:12.552	2009-08-31 14:40:12.552	3
-565	keyword.buoyancy	@keyword.buoyancy@	2009-08-31 14:40:15.535	2009-08-31 14:40:15.535	3
-566	keyword.calculation	@keyword.calculation@	2009-08-31 14:40:26.722	2009-08-31 14:40:26.722	3
-567	keyword.calories	@keyword.calories@	2009-08-31 14:40:35.234	2009-08-31 14:40:35.234	3
-568	keyword.capacitance	@keyword.capacitance@	2009-08-31 14:40:38.446	2009-08-31 14:40:38.446	3
-569	keyword.capacitor	@keyword.capacitor@	2009-08-31 14:40:41.428	2009-08-31 14:40:41.428	3
-570	keyword.catalysts	@keyword.catalysts@	2009-08-31 14:40:46.064	2009-08-31 14:40:46.064	3
-571	keyword.cathodeRayTube	@keyword.cathodeRayTube@	2009-08-31 14:40:49.544	2009-08-31 14:40:49.544	3
-572	keyword.charges	@keyword.charges@	2009-08-31 14:40:52.74	2009-08-31 14:40:52.74	3
-573	keyword.chemicalEquilibrium	@keyword.chemicalEquilibrium@	2009-08-31 14:40:56.32	2009-08-31 14:40:56.32	3
-574	keyword.chemicalFormula	@keyword.chemicalFormula@	2009-08-31 14:40:59.962	2009-08-31 14:40:59.962	3
-575	keyword.chemistry	@keyword.chemistry@	2009-08-31 14:41:03.487	2009-08-31 14:41:03.487	3
-576	keyword.chi	@keyword.chi@	2009-08-31 14:41:06.872	2009-08-31 14:41:06.872	3
-577	keyword.chiSquare	@keyword.chiSquare@	2009-08-31 14:41:10.417	2009-08-31 14:41:10.417	3
-578	keyword.chiSquared	@keyword.chiSquared@	2009-08-31 14:41:13.847	2009-08-31 14:41:13.847	3
-579	keyword.circuits	@keyword.circuits@	2009-08-31 14:41:18.388	2009-08-31 14:41:18.388	3
-580	keyword.circularMotion	@keyword.circularMotion@	2009-08-31 14:41:21.536	2009-08-31 14:41:21.536	3
-581	keyword.circularRevolution	@keyword.circularRevolution@	2009-08-31 14:41:25.044	2009-08-31 14:41:25.044	3
-529	troubleshooting.main.q11.answer	@troubleshooting.main.q11.answer@	2009-08-31 14:19:40.579	2009-08-31 14:19:40.579	3
-530	troubleshooting.main.q12.title	@troubleshooting.main.q12.title@	2009-08-31 14:19:42.71	2009-08-31 14:19:42.71	3
-531	troubleshooting.main.q12.answer	@troubleshooting.main.q12.answer@	2009-08-31 14:19:44.362	2009-08-31 14:19:44.362	3
-536	keyword.absorption	@keyword.absorption@	2009-08-31 14:22:51.834	2009-08-31 14:22:51.834	3
 1280	language.names.ro	الرومانية	2009-09-03 19:27:32.061	2009-09-03 19:27:32.061	4
+516	troubleshooting.main.q5.title	@troubleshooting.main.q5.title@	2009-08-31 14:18:28.732	2009-08-31 14:18:28.732	3
 1281	language.names.ru	الروسية	2009-09-03 19:27:37.03	2009-09-03 19:27:37.03	4
 1282	language.names.sk	السلوفاكية	2009-09-03 19:27:40.047	2009-09-03 19:27:40.047	4
-544	keyword.amplitude	@keyword.amplitude@	2009-08-31 14:39:09.896	2009-08-31 14:39:09.896	3
-545	keyword.angle	@keyword.angle@	2009-08-31 14:39:13.409	2009-08-31 14:39:13.409	3
-583	keyword.climateChange	@keyword.climateChange@	2009-08-31 14:41:32.39	2009-08-31 14:41:32.39	3
-584	keyword.compass	@keyword.compass@	2009-08-31 14:41:35.152	2009-08-31 14:41:35.152	3
 1283	language.names.sl	السلوفانية	2009-09-03 19:27:44.105	2009-09-03 19:27:44.105	4
 1284	language.names.sq	الألبانية	2009-09-03 19:27:47.982	2009-09-03 19:27:47.982	4
 1285	language.names.sr	الصربية	2009-09-03 19:27:51.716	2009-09-03 19:27:51.716	4
@@ -4469,8 +4148,390 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 1690	language.names.tr_TR	التركية (تركيا)	2009-09-03 22:04:35.597	2009-09-03 22:04:35.597	4
 1691	language.names.uk_UA	الأوكرانية (أوكرانيا)	2009-09-03 22:04:37.264	2009-09-03 22:04:37.264	4
 1692	language.names.vi_VN	الفيتنامية (فيتنام)	2009-09-03 22:04:39.123	2009-09-03 22:04:39.123	4
+783	troubleshooting.java.q6.answer	@troubleshooting.java.q6.answer@	2009-09-01 01:10:15.3	2009-09-01 01:10:15.3	3
+784	troubleshooting.java.q7.title	@troubleshooting.java.q7.title@	2009-09-01 01:10:17.074	2009-09-01 01:10:17.074	3
+785	troubleshooting.java.q7.answer	@troubleshooting.java.q7.answer@	2009-09-01 01:10:17.934	2009-09-01 01:10:17.934	3
+786	troubleshooting.java.q8.title	@troubleshooting.java.q8.title@	2009-09-01 01:10:19.923	2009-09-01 01:10:19.923	3
+643	keyword.gravity	@keyword.gravity@	2009-08-31 14:55:27.287	2009-08-31 14:55:27.287	3
+587	keyword.conservationOfEnergy	@keyword.conservationOfEnergy@	2009-08-31 14:41:46.427	2009-08-31 14:41:46.427	3
+588	keyword.conductors	@keyword.conductors@	2009-08-31 14:41:50.172	2009-08-31 14:41:50.172	3
+589	keyword.correlation	@keyword.correlation@	2009-08-31 14:41:55.189	2009-08-31 14:41:55.189	3
+590	keyword.coulombsLaw	@keyword.coulombsLaw@	2009-08-31 14:41:58.712	2009-08-31 14:41:58.712	3
+591	keyword.covalentBonds	@keyword.covalentBonds@	2009-08-31 14:42:02.652	2009-08-31 14:42:02.652	3
+592	keyword.criticalExponent	@keyword.criticalExponent@	2009-08-31 14:42:07.597	2009-08-31 14:42:07.597	3
+593	keyword.criticalParameter	@keyword.criticalParameter@	2009-08-31 14:42:11.248	2009-08-31 14:42:11.248	3
+594	keyword.current	@keyword.current@	2009-08-31 14:42:15.014	2009-08-31 14:42:15.014	3
+595	keyword.curves	@keyword.curves@	2009-08-31 14:42:18.198	2009-08-31 14:42:18.198	3
 1693	contribute.main	فلسفتنا هو جعل المحاكاة PhET متاحة مجانا لجميع المستخدمين في جميع أنحاء العالم. لديهم الآن تم تشغيل الملايين من المرات من موقعنا على الشبكة العالمية ، وكامل PhET جناح وقد تم تثبيتها على الالاف من اجهزة الكمبيوتر. لكن في حين أن المحاكاة قد تكون مجانية للمستخدمين ، فهي غالية الثمن بالنسبة لنا لإنشاء واختبار وصيانة ، ودعمنا المالي محدود. إذا كنت ترغب في مساعدة تجعل من الممكن بالنسبة لنا للمزيد من تطوير وتحسين عمليات المحاكاة ، يرجى الاتصال {0} أو الهاتف (303-492-4367) لمعرفة كيف يمكن أن تقدم مساهمة معفاة من الضرائب.	2009-09-03 22:08:45.92	2009-09-03 22:08:58.654	4
 1694	troubleshooting.javascript.q2.answer	جافا سكريبت يتم استخدامه مع الكثير من الميزات الموجودة على الموقع ، بما في ذلك إجراءات الترشيح ، والسماح للمدخلات متعددة من البيانات. Howevery ، العديد من الصفحات وسوف تعمل بشكل جيد بدون جافا سكريبت.	2009-09-03 22:09:11.347	2009-09-03 22:09:11.347	4
+532	troubleshooting.main.q13.title	@troubleshooting.main.q13.title@	2009-08-31 14:19:47.361	2009-08-31 14:19:47.361	3
+1053	footer.someRightsReserved	@footer.someRightsReserved@	2009-09-03 13:20:28.773	2009-09-03 13:20:28.773	3
+533	troubleshooting.main.q13.answer	@troubleshooting.main.q13.answer@	2009-08-31 14:19:49.07	2009-08-31 14:19:49.07	3
+534	troubleshooting.main.licensingRequirements	@troubleshooting.main.licensingRequirements@	2009-08-31 14:19:51.99	2009-08-31 14:19:51.99	3
+527	troubleshooting.main.q10.answer	@troubleshooting.main.q10.answer@	2009-08-31 14:19:34.268	2009-08-31 14:20:10.145	3
+537	keyword.acCircuits	@keyword.acCircuits@	2009-08-31 14:22:54.374	2009-08-31 14:22:54.374	3
+538	keyword.acceleration	@keyword.acceleration@	2009-08-31 14:22:56.987	2009-08-31 14:22:56.987	3
+539	keyword.activationEnergy	@keyword.activationEnergy@	2009-08-31 14:23:00.078	2009-08-31 14:23:00.078	3
+540	keyword.airResistance	@keyword.airResistance@	2009-08-31 14:23:03.131	2009-08-31 14:23:03.131	3
+541	keyword.algebra	@keyword.algebra@	2009-08-31 14:23:05.421	2009-08-31 14:23:05.421	3
+674	keyword.linearMotion	@keyword.linearMotion@	2009-08-31 14:57:30.825	2009-08-31 14:57:30.825	3
+675	keyword.longitudinalWaves	@keyword.longitudinalWaves@	2009-08-31 14:57:34.349	2009-08-31 14:57:34.349	3
+676	keyword.magneticField	@keyword.magneticField@	2009-08-31 14:57:38.937	2009-08-31 14:57:38.937	3
+677	keyword.magneticMoment	@keyword.magneticMoment@	2009-08-31 14:57:42.765	2009-08-31 14:57:42.765	3
+678	keyword.magnetism	@keyword.magnetism@	2009-08-31 14:57:45.893	2009-08-31 14:57:45.893	3
+679	keyword.magnets	@keyword.magnets@	2009-08-31 14:57:50	2009-08-31 14:57:50	3
+680	about.p1	@about.p1@	2009-08-31 14:57:56.527	2009-08-31 14:57:56.527	3
+681	about.p2	@about.p2@	2009-08-31 14:57:58.798	2009-08-31 14:57:58.798	3
+682	about.p3	@about.p3@	2009-08-31 14:58:01.086	2009-08-31 14:58:01.086	3
+683	about.p4	@about.p4@	2009-08-31 14:58:03.941	2009-08-31 14:58:03.941	3
+684	home.title	@home.title@	2009-08-31 14:58:08.464	2009-08-31 14:58:08.464	3
+685	simulationPage.title	@simulationPage.title@	2009-08-31 14:58:12.027	2009-08-31 14:58:12.027	3
+686	simulationDisplay.title	@simulationDisplay.title@	2009-08-31 14:58:14.465	2009-08-31 14:58:14.465	3
+687	about.title	@about.title@	2009-08-31 14:58:16.919	2009-08-31 14:58:16.919	3
+688	about.source-code.title	@about.source-code.title@	2009-08-31 14:58:19.166	2009-08-31 14:58:19.166	3
+689	about.contact.title	@about.contact.title@	2009-08-31 14:58:22.712	2009-08-31 14:58:22.712	3
+690	about.who-we-are.title	@about.who-we-are.title@	2009-08-31 14:58:24.724	2009-08-31 14:58:24.724	3
+691	about.licensing.title	@about.licensing.title@	2009-08-31 14:58:27.206	2009-08-31 14:58:27.206	3
+692	workshops.title	@workshops.title@	2009-08-31 14:58:29.565	2009-08-31 14:58:29.565	3
+694	get-phet.title	@get-phet.title@	2009-08-31 14:58:34.294	2009-08-31 14:58:34.294	3
+542	keyword.alternatingCurrent	@keyword.alternatingCurrent@	2009-08-31 14:23:08.542	2009-08-31 14:23:08.542	3
+543	keyword.ammeter	@keyword.ammeter@	2009-08-31 14:39:05.771	2009-08-31 14:39:05.771	3
+1063	simulationMainPanel.softwareRequirements	@simulationMainPanel.softwareRequirements@	2009-09-03 16:14:57.512	2009-09-03 16:14:57.512	3
+1064	simulationMainPanel.sampleLearningGoals	@simulationMainPanel.sampleLearningGoals@	2009-09-03 16:15:00.102	2009-09-03 16:15:00.102	3
+1065	simulationMainPanel.credits	@simulationMainPanel.credits@	2009-09-03 16:15:02.092	2009-09-03 16:15:02.092	3
+740	sponsors.title	@sponsors.title@	2009-08-31 23:40:21.203	2009-08-31 23:40:21.203	3
+1066	simulationMainPanel.language	@simulationMainPanel.language@	2009-09-03 16:15:03.865	2009-09-03 16:15:03.865	3
+1067	simulationMainPanel.languageTranslated	@simulationMainPanel.languageTranslated@	2009-09-03 16:15:05.543	2009-09-03 16:15:05.543	3
+812	keyword.monochromatic	@keyword.monochromatic@	2009-09-01 01:12:31.227	2009-09-01 01:12:31.227	3
+1068	simulationMainPanel.simulationTitleTranslated	@simulationMainPanel.simulationTitleTranslated@	2009-09-03 16:15:07.58	2009-09-03 16:15:07.58	3
+1069	simulationMainPanel.designTeam	@simulationMainPanel.designTeam@	2009-09-03 16:15:09.599	2009-09-03 16:15:09.599	3
+1070	simulationMainPanel.thirdPartyLibraries	@simulationMainPanel.thirdPartyLibraries@	2009-09-03 16:15:12.426	2009-09-03 16:15:12.426	3
+1071	simulationMainPanel.thanksTo	@simulationMainPanel.thanksTo@	2009-09-03 16:15:14.909	2009-09-03 16:15:14.909	3
+1072	contribute.financialContributions	@contribute.financialContributions@	2009-09-03 16:15:20.506	2009-09-03 16:15:20.506	3
+1073	contribute.main	@contribute.main@	2009-09-03 16:15:23.119	2009-09-03 16:15:23.119	3
+1074	contribute.thanks	@contribute.thanks@	2009-09-03 16:15:24.953	2009-09-03 16:15:24.953	3
+1075	keyword.photonBeams	@keyword.photonBeams@	2009-09-03 16:15:40.623	2009-09-03 16:15:40.623	3
+470	nav.math	@nav.math@	2009-08-31 14:15:29.188	2009-08-31 14:15:29.188	3
+781	troubleshooting.java.q5.answer	@troubleshooting.java.q5.answer@	2009-09-01 01:10:12.896	2009-09-01 01:10:12.896	3
+782	troubleshooting.java.q6.title	@troubleshooting.java.q6.title@	2009-09-01 01:10:14.472	2009-09-01 01:10:14.472	3
+1695	macwarning.title	@macwarning.title@	2009-09-03 22:29:32.794	2009-09-03 22:29:32.794	3
+1696	macwarning.problem	@macwarning.problem@	2009-09-03 22:29:35.976	2009-09-03 22:29:35.976	3
+1697	macwarning.solution	@macwarning.solution@	2009-09-03 22:29:38.111	2009-09-03 22:29:38.111	3
+596	keyword.deBroglieWavelength	@keyword.deBroglieWavelength@	2009-08-31 14:42:21.586	2009-08-31 14:42:21.586	3
+597	keyword.diet	@keyword.diet@	2009-08-31 14:42:24.981	2009-08-31 14:42:24.981	3
+598	keyword.diffraction	@keyword.diffraction@	2009-08-31 14:42:28.55	2009-08-31 14:42:28.55	3
+599	keyword.dilution	@keyword.dilution@	2009-08-31 14:42:32.288	2009-08-31 14:42:32.288	3
+600	keyword.diodes	@keyword.diodes@	2009-08-31 14:42:35.933	2009-08-31 14:42:39.272	3
+601	keyword.dipole	@keyword.dipole@	2009-08-31 14:42:44.054	2009-08-31 14:42:44.054	3
+602	keyword.division	@keyword.division@	2009-08-31 14:42:47.168	2009-08-31 14:42:47.168	3
+603	keyword.dna	@keyword.dna@	2009-08-31 14:42:50.778	2009-08-31 14:42:50.778	3
+604	keyword.doping	@keyword.doping@	2009-08-31 14:42:54.497	2009-08-31 14:42:54.497	3
+605	keyword.doubleSlit	@keyword.doubleSlit@	2009-08-31 14:42:58.459	2009-08-31 14:42:58.459	3
+851	troubleshooting.flash.intro	@troubleshooting.flash.intro@	2009-09-01 02:42:05.095	2009-09-01 02:42:05.095	3
+852	troubleshooting.flash.toRun	@troubleshooting.flash.toRun@	2009-09-01 02:42:06.187	2009-09-01 02:42:06.187	3
+853	troubleshooting.flash.blankWindow	@troubleshooting.flash.blankWindow@	2009-09-01 02:42:07.514	2009-09-01 02:42:07.514	3
+854	troubleshooting.flash.olderVersions	@troubleshooting.flash.olderVersions@	2009-09-01 02:42:08.722	2009-09-01 02:42:08.722	3
+855	troubleshooting.javascript.intro	@troubleshooting.javascript.intro@	2009-09-01 02:42:11.018	2009-09-01 02:42:11.018	3
+856	troubleshooting.javascript.notJava	@troubleshooting.javascript.notJava@	2009-09-01 02:42:12.327	2009-09-01 02:42:12.327	3
+830	troubleshooting.java.q3.title	@troubleshooting.java.q3.title@	2009-09-01 01:18:02.665	2009-09-01 01:18:11.914	3
+831	troubleshooting.java.q3.answer	@troubleshooting.java.q3.answer@	2009-09-01 01:18:21.073	2009-09-01 01:18:21.073	3
+857	troubleshooting.javascript.notify	@troubleshooting.javascript.notify@	2009-09-01 02:42:13.713	2009-09-01 02:42:13.713	3
+858	troubleshooting.javascript.faqs	@troubleshooting.javascript.faqs@	2009-09-01 02:42:15.736	2009-09-01 02:42:15.736	3
+859	troubleshooting.javascript.q1.title	@troubleshooting.javascript.q1.title@	2009-09-01 02:42:16.785	2009-09-01 02:42:16.785	3
+860	troubleshooting.javascript.q1.yes	@troubleshooting.javascript.q1.yes@	2009-09-01 02:42:17.865	2009-09-01 02:42:17.865	3
+861	troubleshooting.javascript.q1.no	@troubleshooting.javascript.q1.no@	2009-09-01 02:42:19.681	2009-09-01 02:42:19.681	3
+862	troubleshooting.javascript.q2.title	@troubleshooting.javascript.q2.title@	2009-09-01 02:42:21.569	2009-09-01 02:42:21.569	3
+863	troubleshooting.javascript.q2.answer	@troubleshooting.javascript.q2.answer@	2009-09-01 02:42:22.811	2009-09-01 02:42:22.811	3
+864	troubleshooting.javascript.q3.title	@troubleshooting.javascript.q3.title@	2009-09-01 02:42:24.73	2009-09-01 02:42:24.73	3
+865	troubleshooting.javascript.q3.answer	@troubleshooting.javascript.q3.answer@	2009-09-01 02:42:26.104	2009-09-01 02:42:26.104	3
+866	troubleshooting.javascript.q4.title	@troubleshooting.javascript.q4.title@	2009-09-01 02:42:27.907	2009-09-01 02:42:27.907	3
+867	troubleshooting.javascript.q4.answer	@troubleshooting.javascript.q4.answer@	2009-09-01 02:42:30.467	2009-09-01 02:42:30.467	3
+868	troubleshooting.javascript.q5.title	@troubleshooting.javascript.q5.title@	2009-09-01 02:42:35.372	2009-09-01 02:42:35.372	3
+869	troubleshooting.javascript.q5.answer	@troubleshooting.javascript.q5.answer@	2009-09-01 02:42:37.41	2009-09-01 02:42:37.41	3
+811	keyword.momentOfInertia	@keyword.momentOfInertia@	2009-09-01 01:12:27.733	2009-09-01 01:12:27.733	3
+606	keyword.dynamicEquilibrium	@keyword.dynamicEquilibrium@	2009-08-31 14:48:53.315	2009-08-31 14:48:53.315	3
+607	keyword.dynamics	@keyword.dynamics@	2009-08-31 14:48:56.342	2009-08-31 14:48:56.342	3
+608	keyword.eating	@keyword.eating@	2009-08-31 14:48:59.702	2009-08-31 14:48:59.702	3
+609	keyword.electricField	@keyword.electricField@	2009-08-31 14:49:03.536	2009-08-31 14:49:03.536	3
+610	keyword.electricForce	@keyword.electricForce@	2009-08-31 14:49:06.463	2009-08-31 14:49:06.463	3
+611	keyword.electricPotential	@keyword.electricPotential@	2009-08-31 14:49:09.482	2009-08-31 14:49:09.482	3
+612	keyword.electricity	@keyword.electricity@	2009-08-31 14:49:12.517	2009-08-31 14:49:12.517	3
+614	keyword.electronDiffraction	@keyword.electronDiffraction@	2009-08-31 14:49:19.409	2009-08-31 14:49:19.409	3
+615	keyword.electrons	@keyword.electrons@	2009-08-31 14:49:23.325	2009-08-31 14:49:23.325	3
+616	keyword.electrostatics	@keyword.electrostatics@	2009-08-31 14:49:26.336	2009-08-31 14:49:26.336	3
+617	keyword.ellipticalMotion	@keyword.ellipticalMotion@	2009-08-31 14:49:29.661	2009-08-31 14:49:29.661	3
+618	keyword.emission	@keyword.emission@	2009-08-31 14:49:32.379	2009-08-31 14:49:32.379	3
+619	keyword.energy	@keyword.energy@	2009-08-31 14:49:35.521	2009-08-31 14:49:35.521	3
+704	about.source-code.header	@about.source-code.header@	2009-08-31 16:37:48.847	2009-08-31 18:20:19.651	3
+585	keyword.conductivity	@keyword.conductivity@	2009-08-31 14:41:38.736	2009-08-31 14:41:38.736	3
+706	about.source-code.flash-simulations	@about.source-code.flash-simulations@	2009-08-31 16:37:58.454	2009-09-01 01:18:39.255	3
+441	home.header	@home.header@	2009-08-31 14:13:34.21	2009-08-31 14:13:34.21	3
+620	keyword.energyBand	@keyword.energyBand@	2009-08-31 14:49:38.456	2009-08-31 14:49:38.456	3
+621	keyword.energyGap	@keyword.energyGap@	2009-08-31 14:49:41.539	2009-08-31 14:49:41.539	3
+622	keyword.energyLevels	@keyword.energyLevels@	2009-08-31 14:49:44.477	2009-08-31 14:49:44.477	3
+741	nav.sponsors	@nav.sponsors@	2009-08-31 23:40:34.721	2009-08-31 23:40:34.721	3
+813	keyword.moon	@keyword.moon@	2009-09-01 01:12:34.214	2009-09-01 01:12:34.214	3
+814	keyword.motion	@keyword.motion@	2009-09-01 01:12:37.417	2009-09-01 01:12:37.417	3
+815	keyword.mri	@keyword.mri@	2009-09-01 01:12:40.6	2009-09-01 01:12:40.6	3
+816	keyword.multiplication	@keyword.multiplication@	2009-09-01 01:12:43.936	2009-09-01 01:12:43.936	3
+817	keyword.newtonsLaws	@keyword.newtonsLaws@	2009-09-01 01:12:47.068	2009-09-01 01:12:47.068	3
+818	keyword.ohmsLaw	@keyword.ohmsLaw@	2009-09-01 01:12:50.336	2009-09-01 01:12:50.336	3
+819	keyword.optical	@keyword.optical@	2009-09-01 01:12:53.478	2009-09-01 01:12:53.478	3
+820	keyword.opticalTweezers	@keyword.opticalTweezers@	2009-09-01 01:12:56.497	2009-09-01 01:12:56.497	3
+821	keyword.orderOfMagnitude	@keyword.orderOfMagnitude@	2009-09-01 01:12:59.736	2009-09-01 01:12:59.736	3
+628	keyword.factoring	@keyword.factoring@	2009-08-31 14:54:20.402	2009-08-31 14:54:20.402	3
+629	keyword.faradaysLaw	@keyword.faradaysLaw@	2009-08-31 14:54:23.953	2009-08-31 14:54:23.953	3
+630	keyword.fields	@keyword.fields@	2009-08-31 14:54:27.564	2009-08-31 14:54:27.564	3
+631	keyword.focalLength	@keyword.focalLength@	2009-08-31 14:54:30.921	2009-08-31 14:54:30.921	3
+632	keyword.force	@keyword.force@	2009-08-31 14:54:34.456	2009-08-31 14:54:34.456	3
+633	keyword.fourierAnalysis	@keyword.fourierAnalysis@	2009-08-31 14:54:37.788	2009-08-31 14:54:37.788	3
+634	keyword.fourierSeries	@keyword.fourierSeries@	2009-08-31 14:54:40.788	2009-08-31 14:54:40.788	3
+635	keyword.frequency	@keyword.frequency@	2009-08-31 14:54:43.78	2009-08-31 14:54:43.78	3
+636	keyword.friction	@keyword.friction@	2009-08-31 14:54:47.461	2009-08-31 14:54:47.461	3
+637	keyword.galton	@keyword.galton@	2009-08-31 14:54:53.229	2009-08-31 14:54:57.823	3
+638	keyword.gas	@keyword.gas@	2009-08-31 14:55:01.466	2009-08-31 14:55:01.466	3
+639	keyword.generator	@keyword.generator@	2009-08-31 14:55:04.427	2009-08-31 14:55:04.427	3
+640	keyword.glaciers	@keyword.glaciers@	2009-08-31 14:55:07.09	2009-08-31 14:55:07.09	3
+497	simulationMainPanel.topics	@simulationMainPanel.topics@	2009-08-31 14:16:50.1	2009-08-31 14:16:50.1	3
+498	simulationMainPanel.mainTopics	@simulationMainPanel.mainTopics@	2009-08-31 14:16:53.053	2009-08-31 14:16:53.053	3
+499	simulationMainPanel.keywords	@simulationMainPanel.keywords@	2009-08-31 14:16:55.898	2009-08-31 14:16:55.898	3
+641	keyword.graphing	@keyword.graphing@	2009-08-31 14:55:16.312	2009-08-31 14:55:16.312	3
+673	keyword.lightBulbs	@keyword.lightBulbs@	2009-08-31 14:57:26.872	2009-08-31 14:57:26.872	3
+693	contribute.title	@contribute.title@	2009-08-31 14:58:31.872	2009-08-31 14:58:31.872	3
+695	get-phet.one-at-a-time.title	@get-phet.one-at-a-time.title@	2009-08-31 14:58:36.828	2009-08-31 14:58:36.828	3
+696	get-phet.full-install.title	@get-phet.full-install.title@	2009-08-31 14:58:39.181	2009-08-31 14:58:39.181	3
+697	research.title	@research.title@	2009-08-31 14:58:41.569	2009-08-31 14:58:41.569	3
+698	troubleshooting.java.title	@troubleshooting.java.title@	2009-08-31 14:58:46.922	2009-08-31 14:58:46.922	3
+650	keyword.hydroxide	@keyword.hydroxide@	2009-08-31 14:55:59.094	2009-08-31 14:55:59.094	3
+651	keyword.idealGasLaw	@keyword.idealGasLaw@	2009-08-31 14:56:02.546	2009-08-31 14:56:02.546	3
+652	keyword.images	@keyword.images@	2009-08-31 14:56:06.496	2009-08-31 14:56:06.496	3
+653	keyword.indexOfRefraction	@keyword.indexOfRefraction@	2009-08-31 14:56:10.349	2009-08-31 14:56:10.349	3
+654	keyword.induction	@keyword.induction@	2009-08-31 14:56:14.139	2009-08-31 14:56:14.139	3
+796	keyword.equilibrium	@keyword.equilibrium@	2009-09-01 01:11:23.775	2009-09-01 01:11:23.775	3
+797	keyword.food	@keyword.food@	2009-09-01 01:11:29.576	2009-09-01 01:11:29.576	3
+798	keyword.fuelConsumption	@keyword.fuelConsumption@	2009-09-01 01:11:35.034	2009-09-01 01:11:35.034	3
+799	keyword.greenhouseGases	@keyword.greenhouseGases@	2009-09-01 01:11:39.76	2009-09-01 01:11:39.76	3
+800	keyword.histograms	@keyword.histograms@	2009-09-01 01:11:43.621	2009-09-01 01:11:43.621	3
+801	keyword.initialSpeed	@keyword.initialSpeed@	2009-09-01 01:11:48.33	2009-09-01 01:11:48.33	3
+802	keyword.lunarLanding	@keyword.lunarLanding@	2009-09-01 01:11:55.857	2009-09-01 01:11:55.857	3
+803	keyword.mass	@keyword.mass@	2009-09-01 01:12:00.207	2009-09-01 01:12:00.207	3
+804	keyword.math	@keyword.math@	2009-09-01 01:12:03.809	2009-09-01 01:12:03.809	3
+805	keyword.measurement	@keyword.measurement@	2009-09-01 01:12:07.132	2009-09-01 01:12:07.132	3
+806	keyword.microwaves	@keyword.microwaves@	2009-09-01 01:12:10.436	2009-09-01 01:12:10.436	3
+807	keyword.molarity	@keyword.molarity@	2009-09-01 01:12:13.905	2009-09-01 01:12:13.905	3
+808	keyword.molecularMotors	@keyword.molecularMotors@	2009-09-01 01:12:17.534	2009-09-01 01:12:17.534	3
+809	keyword.molecules	@keyword.molecules@	2009-09-01 01:12:21.018	2009-09-01 01:12:21.018	3
+708	sponsors.otherSponsors	@sponsors.otherSponsors@	2009-08-31 19:25:15.689	2009-08-31 19:25:33.756	3
+810	keyword.moles	@keyword.moles@	2009-09-01 01:12:24.422	2009-09-01 01:12:24.422	3
+626	keyword.excitation	@keyword.excitation@	2009-08-31 14:49:57.611	2009-08-31 14:49:57.611	3
+627	keyword.exercise	@keyword.exercise@	2009-08-31 14:54:16.455	2009-08-31 14:54:16.455	3
+440	language.name	@language.name@	2009-08-31 14:13:12.184	2009-08-31 14:47:19.092	3
+461	nav.sound-and-waves	@nav.sound-and-waves@	2009-08-31 14:14:30.606	2009-08-31 14:14:30.606	3
+462	nav.work-energy-and-power	@nav.work-energy-and-power@	2009-08-31 14:15:07.38	2009-08-31 14:15:07.38	3
+463	nav.heat-and-thermodynamics	@nav.heat-and-thermodynamics@	2009-08-31 14:15:10.32	2009-08-31 14:15:10.32	3
+464	nav.quantum-phenomena	@nav.quantum-phenomena@	2009-08-31 14:15:13.015	2009-08-31 14:15:13.015	3
+465	nav.light-and-radiation	@nav.light-and-radiation@	2009-08-31 14:15:15.353	2009-08-31 14:15:15.353	3
+466	nav.electricity-magnets-and-circuits	@nav.electricity-magnets-and-circuits@	2009-08-31 14:15:17.786	2009-08-31 14:15:17.786	3
+467	nav.biology	@nav.biology@	2009-08-31 14:15:21.177	2009-08-31 14:15:21.177	3
+468	nav.chemistry	@nav.chemistry@	2009-08-31 14:15:23.642	2009-08-31 14:15:23.642	3
+469	nav.earth-science	@nav.earth-science@	2009-08-31 14:15:26.523	2009-08-31 14:15:26.523	3
+471	nav.tools	@nav.tools@	2009-08-31 14:15:31.639	2009-08-31 14:15:31.639	3
+472	nav.applications	@nav.applications@	2009-08-31 14:15:34.117	2009-08-31 14:15:34.117	3
+473	nav.cutting-edge-research	@nav.cutting-edge-research@	2009-08-31 14:15:36.254	2009-08-31 14:15:36.254	3
+475	nav.workshops	@nav.workshops@	2009-08-31 14:15:40.554	2009-08-31 14:15:40.554	3
+476	nav.get-phet	@nav.get-phet@	2009-08-31 14:15:42.478	2009-08-31 14:15:42.478	3
+699	troubleshooting.flash.title	@troubleshooting.flash.title@	2009-08-31 14:58:49.293	2009-08-31 14:58:49.293	3
+700	troubleshooting.javascript.title	@troubleshooting.javascript.title@	2009-08-31 14:58:51.913	2009-08-31 14:58:51.913	3
+442	home.subheader	@home.subheader@	2009-08-31 14:13:36.195	2009-08-31 14:13:36.195	3
+443	home.playWithSims	@home.playWithSims@	2009-08-31 14:13:38.529	2009-08-31 14:13:38.529	3
+444	home.runOurSims	@home.runOurSims@	2009-08-31 14:13:40.596	2009-08-31 14:13:40.596	3
+445	home.onLine	@home.onLine@	2009-08-31 14:13:43.237	2009-08-31 14:13:43.237	3
+446	home.fullInstallation	@home.fullInstallation@	2009-08-31 14:13:45.6	2009-08-31 14:13:45.6	3
+447	home.oneAtATime	@home.oneAtATime@	2009-08-31 14:13:47.98	2009-08-31 14:13:47.98	3
+448	home.teacherIdeasAndActivities	@home.teacherIdeasAndActivities@	2009-08-31 14:13:50.386	2009-08-31 14:13:50.386	3
+449	home.workshops	@home.workshops@	2009-08-31 14:13:55.218	2009-08-31 14:13:55.218	3
+450	home.contribute	@home.contribute@	2009-08-31 14:13:58.055	2009-08-31 14:13:58.055	3
+451	home.supportPhet	@home.supportPhet@	2009-08-31 14:14:00.164	2009-08-31 14:14:00.164	3
+452	home.translateSimulations	@home.translateSimulations@	2009-08-31 14:14:03.787	2009-08-31 14:14:03.787	3
+453	home.browseSims	@home.browseSims@	2009-08-31 14:14:05.896	2009-08-31 14:14:05.896	3
+454	home.simulations	@home.simulations@	2009-08-31 14:14:09.274	2009-08-31 14:14:09.274	3
+455	nav.home	@nav.home@	2009-08-31 14:14:15.842	2009-08-31 14:14:15.842	3
+456	nav.simulations	@nav.simulations@	2009-08-31 14:14:18.273	2009-08-31 14:14:18.273	3
+457	nav.featured	@nav.featured@	2009-08-31 14:14:20.786	2009-08-31 14:14:20.786	3
+459	nav.physics	@nav.physics@	2009-08-31 14:14:25.485	2009-08-31 14:14:25.485	3
+460	nav.motion	@nav.motion@	2009-08-31 14:14:27.953	2009-08-31 14:14:27.953	3
+746	workshops.intro	@workshops.intro@	2009-09-01 00:08:58.54	2009-09-01 00:08:58.54	3
+623	keyword.equipotential	@keyword.equipotential@	2009-08-31 14:49:47.856	2009-08-31 14:49:47.856	3
+624	keyword.errorAnalysis	@keyword.errorAnalysis@	2009-08-31 14:49:50.861	2009-08-31 14:49:50.861	3
+655	keyword.inductor	@keyword.inductor@	2009-08-31 14:56:17.936	2009-08-31 14:56:17.936	3
+656	keyword.infrared	@keyword.infrared@	2009-08-31 14:56:22.097	2009-08-31 14:56:22.097	3
+747	workshops.upcomingWorkshops	@workshops.upcomingWorkshops@	2009-09-01 00:09:05.428	2009-09-01 00:09:05.428	3
+477	nav.get-phet.on-line	@nav.get-phet.on-line@	2009-08-31 14:15:45.329	2009-08-31 14:15:45.329	3
+478	nav.get-phet.full-install	@nav.get-phet.full-install@	2009-08-31 14:15:47.515	2009-08-31 14:15:47.515	3
+479	nav.get-phet.one-at-a-time	@nav.get-phet.one-at-a-time@	2009-08-31 14:15:53.668	2009-08-31 14:15:53.668	3
+480	nav.troubleshooting.main	@nav.troubleshooting.main@	2009-08-31 14:15:55.739	2009-08-31 14:15:55.739	3
+481	nav.troubleshooting.java	@nav.troubleshooting.java@	2009-08-31 14:15:57.475	2009-08-31 14:15:57.475	3
+482	nav.troubleshooting.flash	@nav.troubleshooting.flash@	2009-08-31 14:16:00.509	2009-08-31 14:16:00.509	3
+483	nav.troubleshooting.javascript	@nav.troubleshooting.javascript@	2009-08-31 14:16:02.483	2009-08-31 14:16:02.483	3
+484	nav.contribute	@nav.contribute@	2009-08-31 14:16:05.413	2009-08-31 14:16:05.413	3
+485	nav.research	@nav.research@	2009-08-31 14:16:08.181	2009-08-31 14:16:08.181	3
+486	nav.about	@nav.about@	2009-08-31 14:16:10.516	2009-08-31 14:16:10.516	3
+487	nav.about.source-code	@nav.about.source-code@	2009-08-31 14:16:12.327	2009-08-31 14:16:12.327	3
+488	nav.about.contact	@nav.about.contact@	2009-08-31 14:16:14.817	2009-08-31 14:16:14.817	3
+489	nav.about.who-we-are	@nav.about.who-we-are@	2009-08-31 14:16:17.32	2009-08-31 14:16:17.32	3
+490	nav.about.licensing	@nav.about.licensing@	2009-08-31 14:16:19.803	2009-08-31 14:16:19.803	3
+491	simulationMainPanel.translatedVersions	@simulationMainPanel.translatedVersions@	2009-08-31 14:16:30.157	2009-08-31 14:16:30.157	3
+492	simulationMainPanel.screenshot.alt	@simulationMainPanel.screenshot.alt@	2009-08-31 14:16:34.073	2009-08-31 14:16:34.073	3
+493	simulationMainPanel.version	@simulationMainPanel.version@	2009-08-31 14:16:37.96	2009-08-31 14:16:37.96	3
+494	simulationMainPanel.kilobytes	@simulationMainPanel.kilobytes@	2009-08-31 14:16:40.792	2009-08-31 14:16:40.792	3
+495	simulationMainPanel.runOffline	@simulationMainPanel.runOffline@	2009-08-31 14:16:44.563	2009-08-31 14:16:44.563	3
+496	simulationMainPanel.runOnline	@simulationMainPanel.runOnline@	2009-08-31 14:16:47.776	2009-08-31 14:16:47.776	3
+642	keyword.gravitationalForce	@keyword.gravitationalForce@	2009-08-31 14:55:23.721	2009-08-31 14:55:23.721	3
+500	sponsors.principalSponsors	@sponsors.principalSponsors@	2009-08-31 14:17:04.468	2009-08-31 14:17:04.468	3
+501	sponsors.hewlett	@sponsors.hewlett@	2009-08-31 14:17:07.955	2009-08-31 14:17:07.955	3
+502	sponsors.nsf	@sponsors.nsf@	2009-08-31 14:17:11.966	2009-08-31 14:17:11.966	3
+503	sponsors.ksu	@sponsors.ksu@	2009-08-31 14:17:15.095	2009-08-31 14:17:15.095	3
+504	troubleshooting.main.title	@troubleshooting.main.title@	2009-08-31 14:17:22.059	2009-08-31 14:17:22.059	3
+505	troubleshooting.main.intro	@troubleshooting.main.intro@	2009-08-31 14:17:24.346	2009-08-31 14:17:28.103	3
+506	troubleshooting.main.java	@troubleshooting.main.java@	2009-08-31 14:17:30.757	2009-08-31 14:17:30.757	3
+507	troubleshooting.main.flash	@troubleshooting.main.flash@	2009-08-31 14:17:32.923	2009-08-31 14:17:32.923	3
+508	troubleshooting.main.javascript	@troubleshooting.main.javascript@	2009-08-31 14:17:35.866	2009-08-31 14:17:35.866	3
+509	troubleshooting.main.faqs	@troubleshooting.main.faqs@	2009-08-31 14:17:38.304	2009-08-31 14:17:38.304	3
+769	get-phet.one-at-a-time.runningSims	@get-phet.one-at-a-time.runningSims@	2009-09-01 01:08:12.606	2009-09-01 01:08:12.606	3
+775	troubleshooting.java.q1.answer	@troubleshooting.java.q1.answer@	2009-09-01 01:10:04.705	2009-09-01 01:10:04.705	3
+770	get-phet.one-at-a-time.downloadingSims	@get-phet.one-at-a-time.downloadingSims@	2009-09-01 01:08:24.162	2009-09-01 01:08:24.162	3
+773	troubleshooting.java.faqs	@troubleshooting.java.faqs@	2009-09-01 01:10:01.78	2009-09-01 01:10:01.78	3
+774	troubleshooting.java.q1.title	@troubleshooting.java.q1.title@	2009-09-01 01:10:03.238	2009-09-01 01:10:03.238	3
+586	keyword.concentration	@keyword.concentration@	2009-08-31 14:41:42.096	2009-08-31 14:41:42.096	3
+625	keyword.estimation	@keyword.estimation@	2009-08-31 14:49:54.227	2009-08-31 14:49:54.227	3
+776	troubleshooting.java.q2.title	@troubleshooting.java.q2.title@	2009-09-01 01:10:06.646	2009-09-01 01:10:06.646	3
+777	troubleshooting.java.q2.answer	@troubleshooting.java.q2.answer@	2009-09-01 01:10:07.766	2009-09-01 01:10:07.766	3
+778	troubleshooting.java.q4.title	@troubleshooting.java.q4.title@	2009-09-01 01:10:09.145	2009-09-01 01:10:09.145	3
+779	troubleshooting.java.q4.answer	@troubleshooting.java.q4.answer@	2009-09-01 01:10:10.661	2009-09-01 01:10:10.661	3
+780	troubleshooting.java.q5.title	@troubleshooting.java.q5.title@	2009-09-01 01:10:11.724	2009-09-01 01:10:11.724	3
+644	keyword.greenhouseEffect	@keyword.greenhouseEffect@	2009-08-31 14:55:31.648	2009-08-31 14:55:31.648	3
+645	keyword.harmonicMotion	@keyword.harmonicMotion@	2009-08-31 14:55:36.784	2009-08-31 14:55:36.784	3
+646	keyword.heat	@keyword.heat@	2009-08-31 14:55:40.371	2009-08-31 14:55:40.371	3
+647	keyword.hookesLaw	@keyword.hookesLaw@	2009-08-31 14:55:44.731	2009-08-31 14:55:44.731	3
+648	keyword.hydrogenAtom	@keyword.hydrogenAtom@	2009-08-31 14:55:49.902	2009-08-31 14:55:49.902	3
+649	keyword.hydronium	@keyword.hydronium@	2009-08-31 14:55:55.063	2009-08-31 14:55:55.063	3
+521	troubleshooting.main.q7.answer	@troubleshooting.main.q7.answer@	2009-08-31 14:19:01.114	2009-08-31 14:19:01.114	3
+705	about.source-code.location	@about.source-code.location@	2009-08-31 16:37:56.22	2009-09-01 01:18:37.067	3
+522	troubleshooting.main.q8.title	@troubleshooting.main.q8.title@	2009-08-31 14:19:03.721	2009-08-31 14:19:03.721	3
+523	troubleshooting.main.q8.answer	@troubleshooting.main.q8.answer@	2009-08-31 14:19:07.717	2009-08-31 14:19:07.717	3
+524	troubleshooting.main.q9.title	@troubleshooting.main.q9.title@	2009-08-31 14:19:10.152	2009-08-31 14:19:10.152	3
+525	troubleshooting.main.q9.answer	@troubleshooting.main.q9.answer@	2009-08-31 14:19:19.609	2009-08-31 14:19:19.609	3
+526	troubleshooting.main.q10.title	@troubleshooting.main.q10.title@	2009-08-31 14:19:25.261	2009-08-31 14:19:25.261	3
+528	troubleshooting.main.q11.title	@troubleshooting.main.q11.title@	2009-08-31 14:19:37.15	2009-08-31 14:19:37.15	3
+535	keyword.1d	@keyword.1d@	2009-08-31 14:22:48.856	2009-08-31 14:22:48.856	3
+510	troubleshooting.main.q1.title	@troubleshooting.main.q1.title@	2009-08-31 14:17:40.155	2009-08-31 14:17:40.155	3
+511	troubleshooting.main.q1.answer	@troubleshooting.main.q1.answer@	2009-08-31 14:17:54.331	2009-08-31 14:17:54.331	3
+512	troubleshooting.main.q2.title	@troubleshooting.main.q2.title@	2009-08-31 14:18:06.032	2009-08-31 14:18:06.032	3
+748	workshops.materials	@workshops.materials@	2009-09-01 00:09:12.601	2009-09-01 00:09:12.601	3
+749	workshops.pastWorkshops	@workshops.pastWorkshops@	2009-09-01 00:09:18.913	2009-09-01 00:09:18.913	3
+558	keyword.battery	@keyword.battery@	2009-08-31 14:39:54.347	2009-09-01 01:10:58.238	3
+822	keyword.orderParameter	@keyword.orderParameter@	2009-09-01 01:13:10.664	2009-09-01 01:13:13.216	3
+823	keyword.pH	@keyword.pH@	2009-09-01 01:13:18.351	2009-09-01 01:13:18.351	3
+824	keyword.parallelCircuit	@keyword.parallelCircuit@	2009-09-01 01:13:22.035	2009-09-01 01:13:22.035	3
+825	keyword.particles	@keyword.particles@	2009-09-01 01:13:26.136	2009-09-01 01:13:26.136	3
+826	keyword.pendulum	@keyword.pendulum@	2009-09-01 01:13:29.772	2009-09-01 01:13:29.772	3
+827	keyword.period	@keyword.period@	2009-09-01 01:13:36.872	2009-09-01 01:13:36.872	3
+828	keyword.periodicMotion	@keyword.periodicMotion@	2009-09-01 01:13:40.665	2009-09-01 01:13:40.665	3
+829	keyword.photoconductors	@keyword.photoconductors@	2009-09-01 01:13:45.519	2009-09-01 01:13:45.519	3
+514	troubleshooting.main.q4.title	@troubleshooting.main.q4.title@	2009-08-31 14:18:12.806	2009-08-31 14:18:12.806	3
+515	troubleshooting.main.q4.answer	@troubleshooting.main.q4.answer@	2009-08-31 14:18:18.85	2009-08-31 14:18:18.85	3
+657	keyword.insulators	@keyword.insulators@	2009-08-31 14:56:26.5	2009-08-31 14:56:26.5	3
+658	keyword.intensity	@keyword.intensity@	2009-08-31 14:56:30.295	2009-08-31 14:56:30.295	3
+659	keyword.interference	@keyword.interference@	2009-08-31 14:56:34.034	2009-08-31 14:56:34.034	3
+660	keyword.inverse	@keyword.inverse@	2009-08-31 14:56:38.429	2009-08-31 14:56:38.429	3
+661	keyword.ionicCompounds	@keyword.ionicCompounds@	2009-08-31 14:56:41.813	2009-08-31 14:56:41.813	3
+662	keyword.kinematics	@keyword.kinematics@	2009-08-31 14:56:45.15	2009-08-31 14:56:45.15	3
+663	keyword.kineticEnergy	@keyword.kineticEnergy@	2009-08-31 14:56:49.913	2009-08-31 14:56:49.913	3
+664	keyword.kirchoffsLaw	@keyword.kirchoffsLaw@	2009-08-31 14:56:53.8	2009-08-31 14:56:53.8	3
+665	keyword.ksp	@keyword.ksp@	2009-08-31 14:56:57.613	2009-08-31 14:56:57.613	3
+666	keyword.laser	@keyword.laser@	2009-08-31 14:57:02.05	2009-08-31 14:57:02.05	3
+667	keyword.lcCircuit	@keyword.lcCircuit@	2009-08-31 14:57:05.325	2009-08-31 14:57:05.325	3
+668	keyword.leChateliersPrinciple	@keyword.leChateliersPrinciple@	2009-08-31 14:57:08.746	2009-08-31 14:57:08.746	3
+669	keyword.leds	@keyword.leds@	2009-08-31 14:57:11.843	2009-08-31 14:57:11.843	3
+670	keyword.length	@keyword.length@	2009-08-31 14:57:15.764	2009-08-31 14:57:15.764	3
+671	keyword.lens	@keyword.lens@	2009-08-31 14:57:19.322	2009-08-31 14:57:19.322	3
+672	keyword.light	@keyword.light@	2009-08-31 14:57:23.306	2009-08-31 14:57:23.306	3
+787	troubleshooting.java.q8.answer	@troubleshooting.java.q8.answer@	2009-09-01 01:10:21.13	2009-09-01 01:10:21.13	3
+788	keyword.acVoltage	@keyword.acVoltage@	2009-09-01 01:10:35.173	2009-09-01 01:10:35.173	3
+789	keyword.acids	@keyword.acids@	2009-09-01 01:10:38.779	2009-09-01 01:10:38.779	3
+790	keyword.alphaParticles	@keyword.alphaParticles@	2009-09-01 01:10:42.658	2009-09-01 01:10:42.658	3
+791	keyword.ammonia	@keyword.ammonia@	2009-09-01 01:10:46.405	2009-09-01 01:10:46.405	3
+792	keyword.bases	@keyword.bases@	2009-09-01 01:10:51.563	2009-09-01 01:10:51.563	3
+793	keyword.biology	@keyword.biology@	2009-09-01 01:11:01.456	2009-09-01 01:11:01.456	3
+794	keyword.charlesLaw	@keyword.charlesLaw@	2009-09-01 01:11:06.502	2009-09-01 01:11:06.502	3
+795	keyword.cosines	@keyword.cosines@	2009-09-01 01:11:12.531	2009-09-01 01:11:12.531	3
+613	keyword.electromagnet	@keyword.electromagnet@	2009-08-31 14:49:16.122	2009-09-01 01:11:18.936	3
+1037	sponsors.financialSupport	@sponsors.financialSupport@	2009-09-03 13:12:44.489	2009-09-03 13:13:08.995	3
+1038	sponsors.platinum	@sponsors.platinum@	2009-09-03 13:12:46.455	2009-09-03 13:12:46.455	3
+1036	sponsors.header	@sponsors.header@	2009-09-03 13:12:42.273	2009-09-03 13:12:54.513	3
+1039	sponsors.gold	@sponsors.gold@	2009-09-03 13:13:16.218	2009-09-03 13:13:16.218	3
+1040	sponsors.bronze	@sponsors.bronze@	2009-09-03 13:13:18.803	2009-09-03 13:13:18.803	3
+1041	sponsors.technicalSupport	@sponsors.technicalSupport@	2009-09-03 13:13:20.311	2009-09-03 13:13:20.311	3
+1042	sponsors.piccolo.desc	@sponsors.piccolo.desc@	2009-09-03 13:13:21.773	2009-09-03 13:13:21.773	3
+1043	sponsors.jfreechart.desc	@sponsors.jfreechart.desc@	2009-09-03 13:13:23.375	2009-09-03 13:13:23.375	3
+1044	sponsors.jade.desc	@sponsors.jade.desc@	2009-09-03 13:13:25.966	2009-09-03 13:13:25.966	3
+1045	sponsors.sourceforge.desc	@sponsors.sourceforge.desc@	2009-09-03 13:13:28.032	2009-09-03 13:13:28.032	3
+1046	sponsors.proguard.desc	@sponsors.proguard.desc@	2009-09-03 13:13:29.516	2009-09-03 13:13:29.516	3
+1047	sponsors.jetbrains.desc	@sponsors.jetbrains.desc@	2009-09-03 13:13:31.138	2009-09-03 13:13:31.138	3
+1048	sponsors.ej.desc	@sponsors.ej.desc@	2009-09-03 13:13:33.164	2009-09-03 13:13:33.164	3
+1049	sponsors.bitrock.desc	@sponsors.bitrock.desc@	2009-09-03 13:13:34.761	2009-09-03 13:13:34.761	3
+1050	sponsors.royalinteractive.desc	@sponsors.royalinteractive.desc@	2009-09-03 13:13:36.386	2009-09-03 13:13:36.386	3
+1051	sponsors.dynamicalSystems.desc	@sponsors.dynamicalSystems.desc@	2009-09-03 13:13:38.077	2009-09-03 13:13:38.077	3
+513	troubleshooting.main.q2.answer	@troubleshooting.main.q2.answer@	2009-08-31 14:18:10.379	2009-08-31 14:18:22.189	3
+458	nav.new	@nav.new@	2009-08-31 14:14:23.376	2009-08-31 14:14:23.376	3
+582	keyword.climate	@keyword.climate@	2009-08-31 14:41:28.357	2009-08-31 14:41:28.357	3
+517	troubleshooting.main.q5.answer	@troubleshooting.main.q5.answer@	2009-08-31 14:18:34.132	2009-08-31 14:18:37.813	3
+518	troubleshooting.main.q6.title	@troubleshooting.main.q6.title@	2009-08-31 14:18:40.743	2009-08-31 14:18:40.743	3
+519	troubleshooting.main.q6.answer	@troubleshooting.main.q6.answer@	2009-08-31 14:18:45.308	2009-08-31 14:18:45.308	3
+520	troubleshooting.main.q7.title	@troubleshooting.main.q7.title@	2009-08-31 14:18:57.404	2009-08-31 14:18:57.404	3
+546	keyword.angularAcceleration	@keyword.angularAcceleration@	2009-08-31 14:39:16.277	2009-08-31 14:39:16.277	3
+547	keyword.angularMomentum	@keyword.angularMomentum@	2009-08-31 14:39:19.144	2009-08-31 14:39:19.144	3
+548	keyword.angularPosition	@keyword.angularPosition@	2009-08-31 14:39:22.717	2009-08-31 14:39:22.717	3
+549	keyword.angularVelocity	@keyword.angularVelocity@	2009-08-31 14:39:25.19	2009-08-31 14:39:25.19	3
+550	keyword.area	@keyword.area@	2009-08-31 14:39:28.671	2009-08-31 14:39:28.671	3
+551	keyword.arithmetic	@keyword.arithmetic@	2009-08-31 14:39:31.302	2009-08-31 14:39:31.302	3
+552	keyword.arrheniusParameters	@keyword.arrheniusParameters@	2009-08-31 14:39:34.381	2009-08-31 14:39:34.381	3
+553	keyword.astronomy	@keyword.astronomy@	2009-08-31 14:39:37.612	2009-08-31 14:39:37.612	3
+554	keyword.atmosphere	@keyword.atmosphere@	2009-08-31 14:39:40.684	2009-08-31 14:39:40.684	3
+555	keyword.atomicNuclei	@keyword.atomicNuclei@	2009-08-31 14:39:43.362	2009-08-31 14:39:43.362	3
+556	keyword.atomicStructure	@keyword.atomicStructure@	2009-08-31 14:39:47.553	2009-08-31 14:39:47.553	3
+557	keyword.atoms	@keyword.atoms@	2009-08-31 14:39:51.479	2009-08-31 14:39:51.479	3
+559	keyword.binomialDistribution	@keyword.binomialDistribution@	2009-08-31 14:39:57.116	2009-08-31 14:39:57.116	3
+560	keyword.blackbody	@keyword.blackbody@	2009-08-31 14:40:00.463	2009-08-31 14:40:00.463	3
+561	keyword.bohrModel	@keyword.bohrModel@	2009-08-31 14:40:03.119	2009-08-31 14:40:03.119	3
+562	keyword.boltzmannDistribution	@keyword.boltzmannDistribution@	2009-08-31 14:40:06.685	2009-08-31 14:40:06.685	3
+563	keyword.bonds	@keyword.bonds@	2009-08-31 14:40:09.825	2009-08-31 14:40:09.825	3
+564	keyword.boylesLaw	@keyword.boylesLaw@	2009-08-31 14:40:12.552	2009-08-31 14:40:12.552	3
+565	keyword.buoyancy	@keyword.buoyancy@	2009-08-31 14:40:15.535	2009-08-31 14:40:15.535	3
+566	keyword.calculation	@keyword.calculation@	2009-08-31 14:40:26.722	2009-08-31 14:40:26.722	3
+567	keyword.calories	@keyword.calories@	2009-08-31 14:40:35.234	2009-08-31 14:40:35.234	3
+568	keyword.capacitance	@keyword.capacitance@	2009-08-31 14:40:38.446	2009-08-31 14:40:38.446	3
+569	keyword.capacitor	@keyword.capacitor@	2009-08-31 14:40:41.428	2009-08-31 14:40:41.428	3
+570	keyword.catalysts	@keyword.catalysts@	2009-08-31 14:40:46.064	2009-08-31 14:40:46.064	3
+571	keyword.cathodeRayTube	@keyword.cathodeRayTube@	2009-08-31 14:40:49.544	2009-08-31 14:40:49.544	3
+572	keyword.charges	@keyword.charges@	2009-08-31 14:40:52.74	2009-08-31 14:40:52.74	3
+573	keyword.chemicalEquilibrium	@keyword.chemicalEquilibrium@	2009-08-31 14:40:56.32	2009-08-31 14:40:56.32	3
+574	keyword.chemicalFormula	@keyword.chemicalFormula@	2009-08-31 14:40:59.962	2009-08-31 14:40:59.962	3
+575	keyword.chemistry	@keyword.chemistry@	2009-08-31 14:41:03.487	2009-08-31 14:41:03.487	3
+576	keyword.chi	@keyword.chi@	2009-08-31 14:41:06.872	2009-08-31 14:41:06.872	3
+577	keyword.chiSquare	@keyword.chiSquare@	2009-08-31 14:41:10.417	2009-08-31 14:41:10.417	3
+578	keyword.chiSquared	@keyword.chiSquared@	2009-08-31 14:41:13.847	2009-08-31 14:41:13.847	3
+579	keyword.circuits	@keyword.circuits@	2009-08-31 14:41:18.388	2009-08-31 14:41:18.388	3
+580	keyword.circularMotion	@keyword.circularMotion@	2009-08-31 14:41:21.536	2009-08-31 14:41:21.536	3
+581	keyword.circularRevolution	@keyword.circularRevolution@	2009-08-31 14:41:25.044	2009-08-31 14:41:25.044	3
+529	troubleshooting.main.q11.answer	@troubleshooting.main.q11.answer@	2009-08-31 14:19:40.579	2009-08-31 14:19:40.579	3
+530	troubleshooting.main.q12.title	@troubleshooting.main.q12.title@	2009-08-31 14:19:42.71	2009-08-31 14:19:42.71	3
+531	troubleshooting.main.q12.answer	@troubleshooting.main.q12.answer@	2009-08-31 14:19:44.362	2009-08-31 14:19:44.362	3
+536	keyword.absorption	@keyword.absorption@	2009-08-31 14:22:51.834	2009-08-31 14:22:51.834	3
+544	keyword.amplitude	@keyword.amplitude@	2009-08-31 14:39:09.896	2009-08-31 14:39:09.896	3
+545	keyword.angle	@keyword.angle@	2009-08-31 14:39:13.409	2009-08-31 14:39:13.409	3
+583	keyword.climateChange	@keyword.climateChange@	2009-08-31 14:41:32.39	2009-08-31 14:41:32.39	3
+584	keyword.compass	@keyword.compass@	2009-08-31 14:41:35.152	2009-08-31 14:41:35.152	3
 \.
 
 
@@ -4481,8 +4542,8 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 COPY translation (id, locale, visible) FROM stdin;
 1	en	t
 4	ar	t
-3	it	f
 2	zh_CN	f
+3	it	t
 \.
 
 
