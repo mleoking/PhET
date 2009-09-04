@@ -3953,6 +3953,9 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 1224	language.names.da_DK	Danish (Denmark)	2009-09-03 18:56:42.682	2009-09-03 18:56:42.682	1
 1225	language.names.es_HN	Spanish (Honduras)	2009-09-03 18:56:42.693	2009-09-03 18:56:42.693	1
 1136	language.names.pt_BR	Brazilian Portuguese	2009-09-03 18:56:42.041	2009-09-03 19:47:50.492	1
+1321	macwarning.title	Warning for Mac users	2009-09-03 20:06:27.035	2009-09-03 20:06:27.035	1
+1322	macwarning.problem	Users who installed Apple's recent "<strong>Java for Mac OS X 10.5 Update 4</strong>" may have a problem with simulations appearing as text files. Apple knows about this problem and is working to fix it.	2009-09-03 20:12:48.784	2009-09-03 20:12:48.784	1
+1323	macwarning.solution	You can work around this problem by following the directions in this question in our FAQ:	2009-09-03 20:13:01.955	2009-09-03 20:13:01.955	1
 1226	footer.someRightsReserved	بعض الحقوق محفوظة.	2009-09-03 19:19:34.187	2009-09-03 19:19:34.187	4
 1227	contribute.financialContributions	المساهمات المالية	2009-09-03 19:19:39.665	2009-09-03 19:19:39.665	4
 1228	language.names.ar	العربية	2009-09-03 19:19:49.087	2009-09-03 19:19:49.087	4
@@ -3966,6 +3969,9 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 1236	language.names.ar_LB	العربية (لبنان)	2009-09-03 19:20:22.543	2009-09-03 19:20:22.543	4
 1237	language.names.ar_LY	العربية (ليبيا)	2009-09-03 19:20:25.091	2009-09-03 19:20:25.091	4
 1238	language.names.ar_MA	العربية (المغرب)	2009-09-03 19:20:27.649	2009-09-03 19:20:27.649	4
+1324	macwarning.title	تحذير لمستخدمي ماك	2009-09-03 20:20:35.173	2009-09-03 20:20:35.173	4
+1325	macwarning.solution	يمكنك العمل حول هذه المشكلة عن طريق اتباع الإرشادات الموجودة في هذه المسألة في الأسئلة الشائعة لدينا :	2009-09-03 20:20:38.082	2009-09-03 20:20:38.082	4
+1326	macwarning.problem	المستخدمين الذين تثبيت آبل الأخيرة <strong>جافا لماكنتوش 10.5 تحديث 4</strong> قد تكون المشكلة مع عمليات المحاكاة التي تظهر على شكل ملفات نصية. التفاح ويعرف عن هذه المشكلة وتعمل على حلها.	2009-09-03 20:20:59.73	2009-09-03 20:21:16.773	4
 458	nav.new	@nav.new@	2009-08-31 14:14:23.376	2009-08-31 14:14:23.376	3
 1239	language.names.ar_OM	العربية (عمان)	2009-09-03 19:20:31.027	2009-09-03 19:20:31.027	4
 1240	language.names.ar_QA	العربية (قطر)	2009-09-03 19:20:33.003	2009-09-03 19:20:33.003	4
