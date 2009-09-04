@@ -49,7 +49,8 @@ class PositionDragBeadNode(bead: Bead,
       //todo: make it so we can get this information (a) more easily and (b) without a reference to the canvas:MyCanvas
       val screenDelta = canvas.canvasToStageDelta(delta.getWidth,delta.getHeight)
       val modelDelta = canvas.transform.viewToModelDifferential(screenDelta.getWidth(), screenDelta.getHeight())
-      bead.setPosition(bead.position + modelDelta.x)
+      bead.setDesiredPosition(bead.desiredPosition+modelDelta.x)
+//      bead.setPosition(bead.position + modelDelta.x)
       dragListener()
     }
 
