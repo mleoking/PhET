@@ -237,6 +237,13 @@ class Bead(private var _state: BeadState,
     state = state.setTime(t)
   }
 
+  private var _desiredPosition = 0.0
+  def desiredPosition = _desiredPosition
+  //so we can use a filter
+  def setDesiredPosition(position:Double) = {
+    _desiredPosition = position
+  }
+
   def setPosition(position: Double) = {
     if (position != state.position) {
       state = state.setPosition(position)
