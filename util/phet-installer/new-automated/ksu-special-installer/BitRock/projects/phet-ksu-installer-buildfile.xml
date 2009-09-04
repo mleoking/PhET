@@ -112,7 +112,7 @@
             <value></value>
             <ask>1</ask>
             <description>Base URL</description>
-            <explanation>Please enter the URL that will correspond to the location on the server's file system where this mirror is being installed.</explanation>
+            <explanation>Please enter the URL that will correspond to the location on the server's file system where this mirror is being installed, for example, http://phet.colorado.edu.  Do not place a "/" (slash) at the end of the URL.</explanation>
         </stringParameter>
     </parameterList>
     <platformOptionsList/>
