@@ -3502,6 +3502,7 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 960	troubleshooting.main.q12.title	عند تشغيل محاكيات من دون PhET موقع المثبت ، وأنا رؤية الحوار الذي يقول &quot;إن تطبيق التوقيع الرقمي قد تحققت. هل تريد تشغيل التطبيق؟&quot; (أو ما شابه). ماذا يعني هذا؟	2009-09-03 11:09:08.88	2009-09-03 11:09:20.607	4
 701	about.source-code.header	Where can I get the source code for the PhET simulations?	2009-08-31 15:25:46.913	2009-08-31 15:25:46.913	1
 1770	research.studentBeliefs	Student Beliefs and Learning	2009-09-04 00:24:31.034	2009-09-04 00:24:31.034	1
+474	nav.all	@nav.all@	2009-08-31 14:15:38.723	2009-08-31 14:15:38.723	3
 961	troubleshooting.main.q13.title	(مستخدمي ماك) عندما أقوم بالنقر فوق &quot;تشغيل الآن&quot; لبدء محاكاة كل ما نحصل عليه هو أن يفتح ملف نصي؟	2009-09-03 11:09:25.98	2009-09-03 11:09:34.023	4
 962	troubleshooting.main.licensingRequirements	ما هي متطلبات الترخيص؟	2009-09-03 11:09:37.483	2009-09-03 11:09:37.483	4
 963	troubleshooting.java.intro	PhET جاوة القائم على المحاكاة استخدام صن مايكروسيستمز 'جافا ويب ستارت لإطلاق تكنولوجيا المحاكاة. هذه الصفحة سوف تساعدك على ضمان أن يكون لديك جافا مثبتة بشكل صحيح ، ومعالجة بعض المشاكل التي تشغل الناس قد يكون لدينا برامج. إذا كنت لا تستطيع حل مشكلتك هنا ، يرجى إعلامنا عن طريق البريد الالكتروني على العنوان التال <a {0}><span class="red">phethelp@colorado.edu</span></a>.	2009-09-03 11:10:05.298	2009-09-03 11:10:05.298	4
@@ -3509,7 +3510,6 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 965	troubleshooting.java.q1.title	(مستخدمي أجهزة ماكنتوش) عندما أقوم بالنقر فوق &quot;تشغيل الآن&quot; لبدء محاكاة كل ما نحصل عليه هو أن يفتح ملف نصي؟	2009-09-03 11:10:25.496	2009-09-03 11:10:34.599	4
 966	troubleshooting.java.q2.title	كيف يمكنني الحصول على جافا؟	2009-09-03 11:10:37.663	2009-09-03 11:10:37.663	4
 1109	language.names.no	Norwegian	2009-09-03 18:56:41.841	2009-09-03 18:56:41.841	1
-474	nav.all	@nav.all@	2009-08-31 14:15:38.723	2009-08-31 14:15:38.723	3
 967	troubleshooting.java.q3.title	لماذا استخدام جافا ويب ستارت بدلا من جافا؟	2009-09-03 11:10:40.472	2009-09-03 11:10:40.472	4
 968	troubleshooting.java.q4.title	هل هناك أي مشاكل في تشغيل المحاكاة على ماك؟	2009-09-03 11:10:42.748	2009-09-03 11:10:42.748	4
 752	troubleshooting.java.intro	PhET's Java-based simulations use Sun Microsystems' Java Web Start technology to launch the simulations. This page will help you ensure that you have Java installed properly, and address some of the problems people might have running our programs. If you can't solve your problem here, please notify us by email at the following address: <a {0}><span class="red">phethelp@colorado.edu</span></a>.	2009-09-01 00:34:04.883	2009-09-01 00:34:04.883	1
@@ -3594,6 +3594,7 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 1785	research.studentBeliefs	طالب المعتقدات والتعلم	2009-09-04 00:37:38.438	2009-09-04 00:37:38.438	4
 1015	keyword.acceleration	تسارع	2009-09-03 11:19:22.276	2009-09-03 11:19:22.276	4
 1016	keyword.acids	الأحماض	2009-09-03 11:19:26.27	2009-09-03 11:19:26.27	4
+1791	get-phet.install.howToGet	@get-phet.install.howToGet@	2009-09-04 00:39:27.411	2009-09-04 00:39:27.411	3
 1112	language.names.lt	Lithuanian	2009-09-03 18:56:41.857	2009-09-03 18:56:41.857	1
 1113	language.names.ro	Romanian	2009-09-03 18:56:41.862	2009-09-03 18:56:41.862	1
 1114	language.names.en_NZ	English (New Zealand)	2009-09-03 18:56:41.867	2009-09-03 18:56:41.867	1
@@ -3675,9 +3676,35 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 1191	language.names.be_BY	Belarusian (Belarus)	2009-09-03 18:56:42.373	2009-09-03 18:56:42.373	1
 1192	language.names.zh_HK	Chinese (Hong Kong)	2009-09-03 18:56:42.378	2009-09-03 18:56:42.378	1
 1193	language.names.ja	Japanese	2009-09-03 18:56:42.382	2009-09-03 18:56:42.382	1
-772	troubleshooting.java.intro	@troubleshooting.java.intro@	2009-09-01 01:09:04.462	2009-09-01 01:09:27.109	3
 1017	contribute.financialContributions	Financial Contributions	2009-09-03 12:29:21.388	2009-09-03 12:29:21.388	1
+1795	get-phet.offline.header	@get-phet.offline.header@	2009-09-04 00:39:33.89	2009-09-04 00:39:33.89	3
+1796	get-phet.offline.howLarge	@get-phet.offline.howLarge@	2009-09-04 00:39:35.548	2009-09-04 00:39:35.548	3
+1797	get-phet.offline.howOften	@get-phet.offline.howOften@	2009-09-04 00:39:37.093	2009-09-04 00:39:37.093	3
+1798	get-phet.offline.howToGet	@get-phet.offline.howToGet@	2009-09-04 00:39:39.13	2009-09-04 00:39:39.13	3
+1799	get-phet.offline.needInternet	@get-phet.offline.needInternet@	2009-09-04 00:39:40.439	2009-09-04 00:39:40.439	3
+1800	get-phet.offline.whatSims	@get-phet.offline.whatSims@	2009-09-04 00:39:41.658	2009-09-04 00:39:41.658	3
+1801	get-phet.offline.whereCanISave	@get-phet.offline.whereCanISave@	2009-09-04 00:39:43.591	2009-09-04 00:39:43.591	3
+1802	get-phet.online.header	@get-phet.online.header@	2009-09-04 00:39:44.962	2009-09-04 00:39:44.962	3
+1803	get-phet.online.howLarge	@get-phet.online.howLarge@	2009-09-04 00:39:46.774	2009-09-04 00:39:46.774	3
+1804	get-phet.online.howOften	@get-phet.online.howOften@	2009-09-04 00:39:48.233	2009-09-04 00:39:48.233	3
+1805	get-phet.online.howToGet	@get-phet.online.howToGet@	2009-09-04 00:39:49.546	2009-09-04 00:39:49.546	3
+1806	get-phet.online.needInternet	@get-phet.online.needInternet@	2009-09-04 00:39:51.469	2009-09-04 00:39:51.469	3
+1807	get-phet.online.whatSims	@get-phet.online.whatSims@	2009-09-04 00:39:52.888	2009-09-04 00:39:52.888	3
+1808	get-phet.online.whereCanISave	@get-phet.online.whereCanISave@	2009-09-04 00:39:54.376	2009-09-04 00:39:54.376	3
+1809	get-phet.row.howLarge	@get-phet.row.howLarge@	2009-09-04 00:39:56.225	2009-09-04 00:39:56.225	3
+1810	get-phet.row.howOften	@get-phet.row.howOften@	2009-09-04 00:39:57.578	2009-09-04 00:39:57.578	3
+1811	get-phet.row.howToGet	@get-phet.row.howToGet@	2009-09-04 00:39:59.226	2009-09-04 00:39:59.226	3
+1812	get-phet.row.needInternet	@get-phet.row.needInternet@	2009-09-04 00:40:01.661	2009-09-04 00:40:01.661	3
+1813	get-phet.row.whatSims	@get-phet.row.whatSims@	2009-09-04 00:40:04.213	2009-09-04 00:40:04.213	3
 1194	language.names.iw_IL	Hebrew (Israel)	2009-09-03 18:56:42.387	2009-09-03 18:56:42.387	1
+1814	get-phet.row.whereCanISave	@get-phet.row.whereCanISave@	2009-09-04 00:40:06.083	2009-09-04 00:40:06.083	3
+1815	research.intro	@research.intro@	2009-09-04 00:40:11.073	2009-09-04 00:40:11.073	3
+1816	research.additional	@research.additional@	2009-09-04 00:40:12.433	2009-09-04 00:40:12.433	3
+1817	research.immediateInterests	@research.immediateInterests@	2009-09-04 00:40:14.709	2009-09-04 00:40:14.709	3
+1818	research.simsAffectStudents	@research.simsAffectStudents@	2009-09-04 00:40:16.129	2009-09-04 00:40:16.129	3
+1819	research.simsAffectStudents.point1	@research.simsAffectStudents.point1@	2009-09-04 00:40:18.646	2009-09-04 00:40:18.646	3
+1820	research.simsAffectStudents.point2	@research.simsAffectStudents.point2@	2009-09-04 00:40:20.534	2009-09-04 00:40:20.534	3
+1827	research.aboutPhet	@research.aboutPhet@	2009-09-04 00:40:33.741	2009-09-04 00:40:33.741	3
 1195	language.names.bg_BG	Bulgarian (Bulgaria)	2009-09-03 18:56:42.403	2009-09-03 18:56:42.403	1
 1196	language.names.in	Indonesian	2009-09-03 18:56:42.408	2009-09-03 18:56:42.408	1
 1197	language.names.mt_MT	Maltese (Malta)	2009-09-03 18:56:42.433	2009-09-03 18:56:42.433	1
@@ -3960,8 +3987,9 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 1276	language.names.no	النرويجية	2009-09-03 19:27:00.807	2009-09-03 19:27:00.807	4
 1277	language.names.pl	البولندية	2009-09-03 19:27:03.396	2009-09-03 19:27:03.396	4
 1278	language.names.pt	البرتغالية	2009-09-03 19:27:07.16	2009-09-03 19:27:07.16	4
+1786	get-phet.clickHere	@get-phet.clickHere@	2009-09-04 00:39:19.958	2009-09-04 00:39:19.958	3
+1787	get-phet.header	@get-phet.header@	2009-09-04 00:39:21.376	2009-09-04 00:39:21.376	3
 1280	language.names.ro	الرومانية	2009-09-03 19:27:32.061	2009-09-03 19:27:32.061	4
-516	troubleshooting.main.q5.title	@troubleshooting.main.q5.title@	2009-08-31 14:18:28.732	2009-08-31 14:18:28.732	3
 1281	language.names.ru	الروسية	2009-09-03 19:27:37.03	2009-09-03 19:27:37.03	4
 1282	language.names.sk	السلوفاكية	2009-09-03 19:27:40.047	2009-09-03 19:27:40.047	4
 1283	language.names.sl	السلوفانية	2009-09-03 19:27:44.105	2009-09-03 19:27:44.105	4
@@ -4178,20 +4206,6 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 1690	language.names.tr_TR	التركية (تركيا)	2009-09-03 22:04:35.597	2009-09-03 22:04:35.597	4
 1691	language.names.uk_UA	الأوكرانية (أوكرانيا)	2009-09-03 22:04:37.264	2009-09-03 22:04:37.264	4
 1692	language.names.vi_VN	الفيتنامية (فيتنام)	2009-09-03 22:04:39.123	2009-09-03 22:04:39.123	4
-783	troubleshooting.java.q6.answer	@troubleshooting.java.q6.answer@	2009-09-01 01:10:15.3	2009-09-01 01:10:15.3	3
-784	troubleshooting.java.q7.title	@troubleshooting.java.q7.title@	2009-09-01 01:10:17.074	2009-09-01 01:10:17.074	3
-785	troubleshooting.java.q7.answer	@troubleshooting.java.q7.answer@	2009-09-01 01:10:17.934	2009-09-01 01:10:17.934	3
-786	troubleshooting.java.q8.title	@troubleshooting.java.q8.title@	2009-09-01 01:10:19.923	2009-09-01 01:10:19.923	3
-643	keyword.gravity	@keyword.gravity@	2009-08-31 14:55:27.287	2009-08-31 14:55:27.287	3
-587	keyword.conservationOfEnergy	@keyword.conservationOfEnergy@	2009-08-31 14:41:46.427	2009-08-31 14:41:46.427	3
-588	keyword.conductors	@keyword.conductors@	2009-08-31 14:41:50.172	2009-08-31 14:41:50.172	3
-589	keyword.correlation	@keyword.correlation@	2009-08-31 14:41:55.189	2009-08-31 14:41:55.189	3
-590	keyword.coulombsLaw	@keyword.coulombsLaw@	2009-08-31 14:41:58.712	2009-08-31 14:41:58.712	3
-591	keyword.covalentBonds	@keyword.covalentBonds@	2009-08-31 14:42:02.652	2009-08-31 14:42:02.652	3
-592	keyword.criticalExponent	@keyword.criticalExponent@	2009-08-31 14:42:07.597	2009-08-31 14:42:07.597	3
-593	keyword.criticalParameter	@keyword.criticalParameter@	2009-08-31 14:42:11.248	2009-08-31 14:42:11.248	3
-594	keyword.current	@keyword.current@	2009-08-31 14:42:15.014	2009-08-31 14:42:15.014	3
-595	keyword.curves	@keyword.curves@	2009-08-31 14:42:18.198	2009-08-31 14:42:18.198	3
 1693	contribute.main	فلسفتنا هو جعل المحاكاة PhET متاحة مجانا لجميع المستخدمين في جميع أنحاء العالم. لديهم الآن تم تشغيل الملايين من المرات من موقعنا على الشبكة العالمية ، وكامل PhET جناح وقد تم تثبيتها على الالاف من اجهزة الكمبيوتر. لكن في حين أن المحاكاة قد تكون مجانية للمستخدمين ، فهي غالية الثمن بالنسبة لنا لإنشاء واختبار وصيانة ، ودعمنا المالي محدود. إذا كنت ترغب في مساعدة تجعل من الممكن بالنسبة لنا للمزيد من تطوير وتحسين عمليات المحاكاة ، يرجى الاتصال {0} أو الهاتف (303-492-4367) لمعرفة كيف يمكن أن تقدم مساهمة معفاة من الضرائب.	2009-09-03 22:08:45.92	2009-09-03 22:08:58.654	4
 1694	troubleshooting.javascript.q2.answer	جافا سكريبت يتم استخدامه مع الكثير من الميزات الموجودة على الموقع ، بما في ذلك إجراءات الترشيح ، والسماح للمدخلات متعددة من البيانات. Howevery ، العديد من الصفحات وسوف تعمل بشكل جيد بدون جافا سكريبت.	2009-09-03 22:09:11.347	2009-09-03 22:09:11.347	4
 532	troubleshooting.main.q13.title	@troubleshooting.main.q13.title@	2009-08-31 14:19:47.361	2009-08-31 14:19:47.361	3
@@ -4206,21 +4220,7 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 541	keyword.algebra	@keyword.algebra@	2009-08-31 14:23:05.421	2009-08-31 14:23:05.421	3
 674	keyword.linearMotion	@keyword.linearMotion@	2009-08-31 14:57:30.825	2009-08-31 14:57:30.825	3
 675	keyword.longitudinalWaves	@keyword.longitudinalWaves@	2009-08-31 14:57:34.349	2009-08-31 14:57:34.349	3
-676	keyword.magneticField	@keyword.magneticField@	2009-08-31 14:57:38.937	2009-08-31 14:57:38.937	3
-677	keyword.magneticMoment	@keyword.magneticMoment@	2009-08-31 14:57:42.765	2009-08-31 14:57:42.765	3
-678	keyword.magnetism	@keyword.magnetism@	2009-08-31 14:57:45.893	2009-08-31 14:57:45.893	3
-679	keyword.magnets	@keyword.magnets@	2009-08-31 14:57:50	2009-08-31 14:57:50	3
-680	about.p1	@about.p1@	2009-08-31 14:57:56.527	2009-08-31 14:57:56.527	3
-681	about.p2	@about.p2@	2009-08-31 14:57:58.798	2009-08-31 14:57:58.798	3
-682	about.p3	@about.p3@	2009-08-31 14:58:01.086	2009-08-31 14:58:01.086	3
-683	about.p4	@about.p4@	2009-08-31 14:58:03.941	2009-08-31 14:58:03.941	3
-684	home.title	@home.title@	2009-08-31 14:58:08.464	2009-08-31 14:58:08.464	3
-685	simulationPage.title	@simulationPage.title@	2009-08-31 14:58:12.027	2009-08-31 14:58:12.027	3
-686	simulationDisplay.title	@simulationDisplay.title@	2009-08-31 14:58:14.465	2009-08-31 14:58:14.465	3
-687	about.title	@about.title@	2009-08-31 14:58:16.919	2009-08-31 14:58:16.919	3
-688	about.source-code.title	@about.source-code.title@	2009-08-31 14:58:19.166	2009-08-31 14:58:19.166	3
-689	about.contact.title	@about.contact.title@	2009-08-31 14:58:22.712	2009-08-31 14:58:22.712	3
-690	about.who-we-are.title	@about.who-we-are.title@	2009-08-31 14:58:24.724	2009-08-31 14:58:24.724	3
+697	research.title	@research.title@	2009-08-31 14:58:41.569	2009-08-31 14:58:41.569	3
 691	about.licensing.title	@about.licensing.title@	2009-08-31 14:58:27.206	2009-08-31 14:58:27.206	3
 692	workshops.title	@workshops.title@	2009-08-31 14:58:29.565	2009-08-31 14:58:29.565	3
 694	get-phet.title	@get-phet.title@	2009-08-31 14:58:34.294	2009-08-31 14:58:34.294	3
@@ -4233,6 +4233,17 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 1066	simulationMainPanel.language	@simulationMainPanel.language@	2009-09-03 16:15:03.865	2009-09-03 16:15:03.865	3
 1067	simulationMainPanel.languageTranslated	@simulationMainPanel.languageTranslated@	2009-09-03 16:15:05.543	2009-09-03 16:15:05.543	3
 812	keyword.monochromatic	@keyword.monochromatic@	2009-09-01 01:12:31.227	2009-09-01 01:12:31.227	3
+1830	about.contact.thePhetProject	The PhET Project:	2009-09-04 00:46:08.054	2009-09-04 00:46:08.054	1
+1831	about.contact.licenseInformation	License Information:	2009-09-04 00:46:58.433	2009-09-04 00:46:58.433	1
+1832	about.contact.email	Email:	2009-09-04 00:47:31.868	2009-09-04 00:47:38.065	1
+1833	about.contact.licensingText	<a {0}>Click here</a> to access the licensing information for the interactive simulations and their source code.	2009-09-04 00:49:51.48	2009-09-04 00:49:51.48	1
+1834	about.contact.correspondence	Please address all electronic correspondence to: {0} Information on contributing to PhET can be found <a {1}>here.</a>	2009-09-04 00:52:08.046	2009-09-04 00:52:08.046	1
+1835	about.contact.thePhetProject	مشروع PhET :	2009-09-04 00:56:09.152	2009-09-04 00:56:10.355	4
+1836	about.contact.licenseInformation	معلومات الترخيص :	2009-09-04 00:56:11.611	2009-09-04 00:56:11.611	4
+1837	about.contact.email	البريد الإلكتروني :	2009-09-04 00:56:12.797	2009-09-04 00:56:12.797	4
+1838	about.contact.licensingText	<a {0}>انقر هنا</a> للوصول إلى المعلومات ترخيص لمحاكاة تفاعلية وشفرة المصدر.	2009-09-04 00:56:20.872	2009-09-04 00:56:36.112	4
+1839	about.contact.correspondence	يرجى معالجة جميع المراسلات الالكترونية ل: {0} معلومات عن المساهمة في PhET يمكن العثور عليها <a {1}>هنا.</a>	2009-09-04 00:56:56.942	2009-09-04 00:57:25.758	4
+1038	sponsors.platinum	@sponsors.platinum@	2009-09-03 13:12:46.455	2009-09-03 13:12:46.455	3
 1068	simulationMainPanel.simulationTitleTranslated	@simulationMainPanel.simulationTitleTranslated@	2009-09-03 16:15:07.58	2009-09-03 16:15:07.58	3
 1069	simulationMainPanel.designTeam	@simulationMainPanel.designTeam@	2009-09-03 16:15:09.599	2009-09-03 16:15:09.599	3
 1070	simulationMainPanel.thirdPartyLibraries	@simulationMainPanel.thirdPartyLibraries@	2009-09-03 16:15:12.426	2009-09-03 16:15:12.426	3
@@ -4330,7 +4341,51 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 693	contribute.title	@contribute.title@	2009-08-31 14:58:31.872	2009-08-31 14:58:31.872	3
 695	get-phet.one-at-a-time.title	@get-phet.one-at-a-time.title@	2009-08-31 14:58:36.828	2009-08-31 14:58:36.828	3
 696	get-phet.full-install.title	@get-phet.full-install.title@	2009-08-31 14:58:39.181	2009-08-31 14:58:39.181	3
-697	research.title	@research.title@	2009-08-31 14:58:41.569	2009-08-31 14:58:41.569	3
+1788	get-phet.install.header	@get-phet.install.header@	2009-09-04 00:39:22.691	2009-09-04 00:39:22.691	3
+1789	get-phet.install.howLarge	@get-phet.install.howLarge@	2009-09-04 00:39:24.01	2009-09-04 00:39:24.01	3
+1790	get-phet.install.howOften	@get-phet.install.howOften@	2009-09-04 00:39:25.936	2009-09-04 00:39:25.936	3
+1792	get-phet.install.needInternet	@get-phet.install.needInternet@	2009-09-04 00:39:29.709	2009-09-04 00:39:29.709	3
+1793	get-phet.install.whatSims	@get-phet.install.whatSims@	2009-09-04 00:39:31.057	2009-09-04 00:39:31.057	3
+1794	get-phet.install.whereCanISave	@get-phet.install.whereCanISave@	2009-09-04 00:39:32.786	2009-09-04 00:39:32.786	3
+772	troubleshooting.java.intro	@troubleshooting.java.intro@	2009-09-01 01:09:04.462	2009-09-01 01:09:27.109	3
+1821	research.simsAffectStudents.point3	@research.simsAffectStudents.point3@	2009-09-04 00:40:22.149	2009-09-04 00:40:22.149	3
+1822	research.simsEnvironments	@research.simsEnvironments@	2009-09-04 00:40:24.013	2009-09-04 00:40:24.013	3
+1823	research.simsEnvironments.point1	@research.simsEnvironments.point1@	2009-09-04 00:40:26.462	2009-09-04 00:40:26.462	3
+1824	research.simsEnvironments.point2	@research.simsEnvironments.point2@	2009-09-04 00:40:27.977	2009-09-04 00:40:27.977	3
+1825	research.simsEnvironments.point3	@research.simsEnvironments.point3@	2009-09-04 00:40:30.071	2009-09-04 00:40:30.071	3
+1826	research.publicationsAndPresentations	@research.publicationsAndPresentations@	2009-09-04 00:40:31.892	2009-09-04 00:40:31.892	3
+1828	research.effectivenessStudies	@research.effectivenessStudies@	2009-09-04 00:40:36.11	2009-09-04 00:40:36.11	3
+1829	research.studentBeliefs	@research.studentBeliefs@	2009-09-04 00:40:38.386	2009-09-04 00:40:38.386	3
+516	troubleshooting.main.q5.title	@troubleshooting.main.q5.title@	2009-08-31 14:18:28.732	2009-08-31 14:18:28.732	3
+783	troubleshooting.java.q6.answer	@troubleshooting.java.q6.answer@	2009-09-01 01:10:15.3	2009-09-01 01:10:15.3	3
+784	troubleshooting.java.q7.title	@troubleshooting.java.q7.title@	2009-09-01 01:10:17.074	2009-09-01 01:10:17.074	3
+785	troubleshooting.java.q7.answer	@troubleshooting.java.q7.answer@	2009-09-01 01:10:17.934	2009-09-01 01:10:17.934	3
+786	troubleshooting.java.q8.title	@troubleshooting.java.q8.title@	2009-09-01 01:10:19.923	2009-09-01 01:10:19.923	3
+643	keyword.gravity	@keyword.gravity@	2009-08-31 14:55:27.287	2009-08-31 14:55:27.287	3
+587	keyword.conservationOfEnergy	@keyword.conservationOfEnergy@	2009-08-31 14:41:46.427	2009-08-31 14:41:46.427	3
+588	keyword.conductors	@keyword.conductors@	2009-08-31 14:41:50.172	2009-08-31 14:41:50.172	3
+589	keyword.correlation	@keyword.correlation@	2009-08-31 14:41:55.189	2009-08-31 14:41:55.189	3
+590	keyword.coulombsLaw	@keyword.coulombsLaw@	2009-08-31 14:41:58.712	2009-08-31 14:41:58.712	3
+591	keyword.covalentBonds	@keyword.covalentBonds@	2009-08-31 14:42:02.652	2009-08-31 14:42:02.652	3
+592	keyword.criticalExponent	@keyword.criticalExponent@	2009-08-31 14:42:07.597	2009-08-31 14:42:07.597	3
+593	keyword.criticalParameter	@keyword.criticalParameter@	2009-08-31 14:42:11.248	2009-08-31 14:42:11.248	3
+594	keyword.current	@keyword.current@	2009-08-31 14:42:15.014	2009-08-31 14:42:15.014	3
+595	keyword.curves	@keyword.curves@	2009-08-31 14:42:18.198	2009-08-31 14:42:18.198	3
+676	keyword.magneticField	@keyword.magneticField@	2009-08-31 14:57:38.937	2009-08-31 14:57:38.937	3
+677	keyword.magneticMoment	@keyword.magneticMoment@	2009-08-31 14:57:42.765	2009-08-31 14:57:42.765	3
+678	keyword.magnetism	@keyword.magnetism@	2009-08-31 14:57:45.893	2009-08-31 14:57:45.893	3
+679	keyword.magnets	@keyword.magnets@	2009-08-31 14:57:50	2009-08-31 14:57:50	3
+680	about.p1	@about.p1@	2009-08-31 14:57:56.527	2009-08-31 14:57:56.527	3
+681	about.p2	@about.p2@	2009-08-31 14:57:58.798	2009-08-31 14:57:58.798	3
+682	about.p3	@about.p3@	2009-08-31 14:58:01.086	2009-08-31 14:58:01.086	3
+683	about.p4	@about.p4@	2009-08-31 14:58:03.941	2009-08-31 14:58:03.941	3
+684	home.title	@home.title@	2009-08-31 14:58:08.464	2009-08-31 14:58:08.464	3
+685	simulationPage.title	@simulationPage.title@	2009-08-31 14:58:12.027	2009-08-31 14:58:12.027	3
+686	simulationDisplay.title	@simulationDisplay.title@	2009-08-31 14:58:14.465	2009-08-31 14:58:14.465	3
+687	about.title	@about.title@	2009-08-31 14:58:16.919	2009-08-31 14:58:16.919	3
+688	about.source-code.title	@about.source-code.title@	2009-08-31 14:58:19.166	2009-08-31 14:58:19.166	3
+689	about.contact.title	@about.contact.title@	2009-08-31 14:58:22.712	2009-08-31 14:58:22.712	3
+690	about.who-we-are.title	@about.who-we-are.title@	2009-08-31 14:58:24.724	2009-08-31 14:58:24.724	3
 698	troubleshooting.java.title	@troubleshooting.java.title@	2009-08-31 14:58:46.922	2009-08-31 14:58:46.922	3
 650	keyword.hydroxide	@keyword.hydroxide@	2009-08-31 14:55:59.094	2009-08-31 14:55:59.094	3
 651	keyword.idealGasLaw	@keyword.idealGasLaw@	2009-08-31 14:56:02.546	2009-08-31 14:56:02.546	3
@@ -4497,7 +4552,6 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 795	keyword.cosines	@keyword.cosines@	2009-09-01 01:11:12.531	2009-09-01 01:11:12.531	3
 613	keyword.electromagnet	@keyword.electromagnet@	2009-08-31 14:49:16.122	2009-09-01 01:11:18.936	3
 1037	sponsors.financialSupport	@sponsors.financialSupport@	2009-09-03 13:12:44.489	2009-09-03 13:13:08.995	3
-1038	sponsors.platinum	@sponsors.platinum@	2009-09-03 13:12:46.455	2009-09-03 13:12:46.455	3
 1036	sponsors.header	@sponsors.header@	2009-09-03 13:12:42.273	2009-09-03 13:12:54.513	3
 1039	sponsors.gold	@sponsors.gold@	2009-09-03 13:13:16.218	2009-09-03 13:13:16.218	3
 1040	sponsors.bronze	@sponsors.bronze@	2009-09-03 13:13:18.803	2009-09-03 13:13:18.803	3
@@ -4562,6 +4616,11 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 545	keyword.angle	@keyword.angle@	2009-08-31 14:39:13.409	2009-08-31 14:39:13.409	3
 583	keyword.climateChange	@keyword.climateChange@	2009-08-31 14:41:32.39	2009-08-31 14:41:32.39	3
 584	keyword.compass	@keyword.compass@	2009-08-31 14:41:35.152	2009-08-31 14:41:35.152	3
+1840	about.contact.thePhetProject	@about.contact.thePhetProject@	2009-09-04 00:57:56.135	2009-09-04 00:57:56.135	3
+1841	about.contact.licenseInformation	@about.contact.licenseInformation@	2009-09-04 00:57:57.088	2009-09-04 00:57:57.088	3
+1842	about.contact.email	@about.contact.email@	2009-09-04 00:57:58.139	2009-09-04 00:57:58.139	3
+1843	about.contact.licensingText	@about.contact.licensingText@	2009-09-04 00:57:59.418	2009-09-04 00:57:59.418	3
+1844	about.contact.correspondence	@about.contact.correspondence@	2009-09-04 00:58:00.449	2009-09-04 00:58:00.449	3
 \.
 
 
