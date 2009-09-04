@@ -1,5 +1,6 @@
 package edu.colorado.phet.motionseries.graphics
 
+import common.phetcommon.view.util.BufferedImageUtils
 import phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import phet.common.piccolophet.event.CursorHandler
 import model.{Bead}
@@ -36,6 +37,7 @@ class ForceDragBeadNode(bead: Bead,
 class PositionDragBeadNode(bead: Bead,
                            transform: ModelViewTransform2D,
                            imageName: String,
+                           leftImageName: String,
                            dragListener: () => Unit) extends BeadNode(bead, transform, imageName) {
   addInputEventListener(new CursorHandler)
   addInputEventListener(new PBasicInputEventHandler() {
@@ -51,6 +53,14 @@ class PositionDragBeadNode(bead: Bead,
       bead.parallelAppliedForce = 0.0
     }
   })
+  bead.addListener(() => updateImage())
+  updateImage()
+
+  def updateImage() = {
+    if (bead.averageVelocity < 0) setImage(MotionSeriesResources.getImage(leftImageName))
+    else if (bead.averageVelocity > 0) setImage(BufferedImageUtils.flipX(MotionSeriesResources.getImage(leftImageName)))
+    else setImage(MotionSeriesResources.getImage(imageName))
+  }
 }
 
 class BeadNode(bead: Bead, transform: ModelViewTransform2D, imageName: String) extends PNode {

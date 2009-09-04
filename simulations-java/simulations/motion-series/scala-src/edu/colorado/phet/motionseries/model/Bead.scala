@@ -340,4 +340,11 @@ class Bead(private var _state: BeadState,
     stateHistory += state
     motionStrategy.stepInTime(dt)
   }
+
+  def averageVelocity = {
+    val velocities = for (i <- 0 until java.lang.Math.min(10, stateHistory.length)) yield stateHistory(stateHistory.length - 1 - i).velocity
+    val sum = velocities.foldLeft( 0.0)(_ + _)
+    println("velocities = "+velocities.toList)
+    sum / velocities.size
+  }
 }
