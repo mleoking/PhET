@@ -229,7 +229,16 @@
             }
 
             // Replace the codebase with a macro which can be replaced during the install process:
-            $jnlp = jnlp_replace_codebase_with_local_file_macro($jnlp, PHET_WEBSITE_ROOT_PARTIAL_PATTERN, BITROCK_INSTALLDIR_MACRO);
+            // TODO: This is where code will need to be added to determine
+            // whether the set of local mirror installers or the KSU Linux 
+            // installer is being created.
+            if (1){
+                $jnlp = jnlp_replace_codebase_with_macro($jnlp, PHET_WEBSITE_ROOT_PARTIAL_PATTERN, BITROCK_SIM_URL_MACRO);
+            }
+            else{
+                $jnlp = jnlp_replace_codebase_with_macro($jnlp, PHET_WEBSITE_ROOT_PARTIAL_PATTERN, 'file:///'.BITROCK_INSTALLDIR_MACRO);
+            }
+
 
             // Replace any remaining 'http' href links with macro:
             $jnlp = jnlp_replace_absolute_links_with_local_file_macro($jnlp, PHET_WEBSITE_ROOT_PARTIAL_PATTERN, BITROCK_INSTALLDIR_MACRO);
