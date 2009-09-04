@@ -13,38 +13,50 @@
 
 <wicket:panel>
     <div wicket:message="dir:language.dir" class="about-licensing-panel standard-content">
-        <h2>Licensing Options</h2>
+        <h2>
+            <wicket:message key="about.licensing.options">Licensing Options</wicket:message>
+        </h2>
         <blockquote>
             <p>
-
-                The PhET Interactive Simulations Project at the University of Colorado
-                (PhET) distributes these simulations under the Creative
-                Commons-Attribution 3.0 license and the Creative Commons GNU General
-                Public License as detailed below. The user is responsible for choosing
-                which of the two licensing options will govern their use of these
-                simulations.
+                <wicket:message key="about.licensing.intro">
+                    The PhET Interactive Simulations Project at the University of Colorado
+                    (PhET) distributes these simulations under the Creative
+                    Commons-Attribution 3.0 license and the Creative Commons GNU General
+                    Public License as detailed below. The user is responsible for choosing
+                    which of the two licensing options will govern their use of these
+                    simulations.
+                </wicket:message>
             </p>
 
             <p>
-                Both license options require attributing the work to:<br/>
-        <span class="extra-indentation">
-        PhET Interactive Simulations<br/>
-        University of Colorado<br/>
-        <a href="http://phet.colorado.edu">http://phet.colorado.edu</a>.
-        </span>
+                <wicket:message key="about.licensing.bothOptionsRequire">Both license options require attributing the
+                    work to:
+                </wicket:message>
+                <br/>
+                <span class="extra-indentation">
+                    <wicket:message key="about.licensing.phetInteractiveSimulations">PhET Interactive Simulations
+                    </wicket:message><br/>
+                    <wicket:message key="about.licensing.universityOfColorado">University of Colorado
+                    </wicket:message><br/>
+                    <a href="http://phet.colorado.edu">http://phet.colorado.edu</a>.
+                </span>
             </p>
 
             <p>
-
-                If your use includes redistribution of the simulations, please let us know! This type of information is
-                very useful when writing proposals for future funding.
+                <wicket:message key="about.licensing.letUsKnow">
+                    If your use includes redistribution of the simulations, please let us know! This type of information
+                    is
+                    very useful when writing proposals for future funding.
+                </wicket:message>
             </p>
 
             <p>
-                Please consider contributing a tax-deductible donation to PhET to help keep the project going.
+                <wicket:message key="about.licensing.taxDeductibleDonation">
+                    Please consider contributing a tax-deductible donation to PhET to help keep the project going.
+                </wicket:message>
             </p>
 
-            <p>
+            <p wicket:id="about-licensing-contact-phet">
                 Contact PhET at <a href="mailto:phethelp@colorado.edu">phethelp@colorado.edu</a>.
             </p>
 
@@ -53,87 +65,91 @@
                     <td><a rel="license" href="http://creativecommons.org/licenses/by/3.0/us/"><img
                             alt="Creative Commons License" style="border-width:0"
                             src="http://i.creativecommons.org/l/by/3.0/us/88x31.png"/></a></td>
-                    <td><strong>OPTION A: CREATIVE COMMONS - ATTRIBUTION</strong></td>
+                    <td><strong>
+                        <wicket:message key="about.licensing.optionA">OPTION A: CREATIVE COMMONS - ATTRIBUTION
+                        </wicket:message>
+                    </strong></td>
 
                 </tr>
             </table>
-            <!--
-            <table width="486" border="0">
-             <tr><td width="32"><a rel="license" href="http://creativecommons.org/licenses/by/3.0/us/"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by/3.0/us/88x31.png" /></a></td>
-             <td width="578"><strong>OPTION A: CREATIVE COMMONS - ATTRIBUTION</strong></td>
-             </tr>
-             </table>
-            -->
-
             <p>
-                The <strong>executable</strong> versions of all <span xmlns:dc="http://purl.org/dc/elements/1.1/"
-                                                                      href="http://purl.org/dc/dcmitype/InteractiveResource"
-                                                                      property="dc:title" rel="dc:type">PhET Interactive Simulations</span>
-                by <a xmlns:cc="http://creativecommons.org/ns#" href="http://phet.colorado.edu"
-                      property="cc:attributionName" rel="cc:attributionURL">PhET, University of Colorado</a> (the *.jar
-                files, the *.jnlp files, the *.swf files) are licensed under a <a rel="license"
-                                                                                  href="http://creativecommons.org/licenses/by/3.0/us/">Creative
-                Commons Attribution 3.0 United States License</a>, with the exception of the following simulations which
-                are only released under CC - GNU GPL: <br/>
+                <span wicket:id="about-licensing-cca-intro">
+                    The <strong>executable</strong> versions of all >PhET Interactive Simulations
+                    by <a href="http://phet.colorado.edu">PhET, University of Colorado</a> (the *.jar
+                    files, the *.jnlp files, the *.swf files) are licensed under a
+                    <a href="http://creativecommons.org/licenses/by/3.0/us/">Creative
+                        Commons Attribution 3.0 United States License</a>, with the exception of the following simulations which
+                    are only released under CC - GNU GPL:
+                </span>
+                <br/>
 
-        <span class="extra-indentation">
-        Band Structure Simulation<br/>
-        Double Wells and Covalent Bonds Simulation<br/>
-        Quantum Bound States Simulation, and<br/>
-        Quantum Tunneling and Wave Packets Simulation<br/>
-        </span>
+                <span class="extra-indentation" wicket:id="about-licensing-gpl-sims">
+                    Band Structure Simulation<br/>
+                    Double Wells and Covalent Bonds Simulation<br/>
+                    Quantum Bound States Simulation, and<br/>
+                    Quantum Tunneling and Wave Packets Simulation<br/>
+                </span>
             </p>
 
-            <p>
+            <p wicket:id="about-licensing-cca-fulltext">
                 The full text of the Creative Commons Attribution license can be found <a
                     href="http://creativecommons.org/licenses/by/3.0/us/legalcode">here</a>.
             </p>
 
-            <p><em>What does this mean? </em><br/>
-                The interactive simulations developed by PhET Interactive Simulations (with exceptions listed above) may
-                be freely used and/or redistributed by third parties (e.g. students, educators, school districts,
-                museums, publishers, vendors, etc.). Non-commercial or commercial use is allowed. All uses require
-                attribution of the work as describe above.<br/>
-                Parties wishing to modify the source code must use Option B.
+            <p><em>
+                <wicket:message key="about.licensing.whatDoesThisMean">What does this mean?</wicket:message>
+            </em><br/>
+                <wicket:message key="about.licensing.cca.thisMeans">
+                    The interactive simulations developed by PhET Interactive Simulations (with exceptions listed above)
+                    may
+                    be freely used and/or redistributed by third parties (e.g. students, educators, school districts,
+                    museums, publishers, vendors, etc.). Non-commercial or commercial use is allowed. All uses require
+                    attribution of the work as describe above.
+                </wicket:message>
+                <br/>
+                <wicket:message key="about.licensing.cca.sourceOptionB">Parties wishing to modify the source code must
+                    use Option B.
+                </wicket:message>
             </p>
             <table border="0">
                 <tr>
                     <td><a rel="license" href="http://creativecommons.org/licenses/GPL/2.0/"><img
                             alt="Creative Commons License" style="border-width:0"
                             src="http://i.creativecommons.org/l/GPL/2.0/88x62.png"/></a></td>
-                    <td><strong>OPTION B: CREATIVE COMMONS - GNU GENERAL PUBLIC LICENSE</strong></td>
+                    <td><strong>
+                        <wicket:message key="about.licensing.optionB">
+                            OPTION B: CREATIVE COMMONS - GNU GENERAL PUBLIC LICENSE
+                        </wicket:message>
+                    </strong></td>
                 </tr>
             </table>
-            <!--
-            <table width="486" border="0">
-             <tr><td width="32"><a rel="license" href="http://creativecommons.org/licenses/GPL/2.0/"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/GPL/2.0/88x62.png" /></a></td>
-             <td width="578"><strong>OPTION B: CREATIVE COMMONS - GNU GENERAL PUBLIC LICENSE</strong></td>
-             </tr>
-             </table>
-            -->
-
-            <p>
+            <p wicket:id="about-licensing-gpl-intro">
                 The <strong>source code</strong> and <strong>executable</strong> versions of all simulations by <a
                     href="http://phet.colorado.edu">PhET Interactive Simulations, University of Colorado</a> are
-                licensed under a <a href="http://creativecommons.org/licenses/GPL/2.0/" rel="license">Creative Commons
+                licensed under a <a href="http://creativecommons.org/licenses/GPL/2.0/">Creative Commons
                 GNU General Public License</a>.
             </p>
 
-            <p>
+            <p wicket:id="about-licensing-gpl-fulltext">
                 The full text of the GNU General Public License can be found <a
                     href="http://www.gnu.org/licenses/old-licenses/gpl-2.0.html">here</a>.
 
             </p>
 
             <p>
-                <em> What does this mean? </em><br/>
-                The interactive simulations developed by PhET Interactive Simulations may be freely used and/or
-                redistributed by third parties (e.g. students, educators, school districts, museums, publishers,
-                vendors, etc.). Non-commercial or commercial use is allowed. All uses require attribution of the
-                work.<br/>
+                <em>
+                    <wicket:message key="about.licensing.whatDoesThisMean">What does this mean?</wicket:message>
+                </em><br/>
+                <wicket:message key="about.licensing.gpl.thisMeans">
+                    The interactive simulations developed by PhET Interactive Simulations may be freely used and/or
+                    redistributed by third parties (e.g. students, educators, school districts, museums, publishers,
+                    vendors, etc.). Non-commercial or commercial use is allowed. All uses require attribution of the
+                    work.
+                </wicket:message>
+                <br/>
             </p>
 
-            <p>
+            <p wicket:id="about-licensing-gpl-source-code">
                 In addition, the source code for all PhET simulations is available for use and/or modification. For
                 directions about how to access the source code, go
                 <a href="http://phet.colorado.edu/about/source-code.php">here</a>. Anyone can have access to the source
@@ -143,28 +159,34 @@
 
             <p>
 
-                <strong>ALTERNATIVE LICENSES</strong><br/>
+                <strong>
+                    <wicket:message key="about.licensing.alternativeLicenses">ALTERNATIVE LICENSES</wicket:message>
+                </strong><br/>
+                <span wicket:id="about-licensing-alternative-license-options">
                 If you are interested in alternative license options, please contact PhET at <a
-                    href="mailto:phethelp@colorado.edu">phethelp@colorado.edu</a>.
+                        href="mailto:phethelp@colorado.edu">phethelp@colorado.edu</a>.
+                    </span>
             </p>
 
         </blockquote>
 
-        <h2>Source Code</h2>
+        <h2>
+            <wicket:message key="about.licensing.sourceCodeSection">Source Code</wicket:message>
+        </h2>
 
         <blockquote>
-            <p>
-
+            <p wicket:id="about-licensing-source-code-link">
                 For information on accessing PhET source code, please see <a href="../about/source-code.php">here</a>.
             </p>
         </blockquote>
 
-        <h2>Software Agreement</h2>
+        <h2>
+            <wicket:message key="about.licensing.softwareAgreementSection">Software Agreement</wicket:message>
+        </h2>
 
         <blockquote>
-            <p>
-                The full text of the PhET Software Agreement is available
-                <a href="../about/software-agreement_v7.htm">here</a>.
+            <p wicket:id="about-licensing-agreement-full-text">
+                The full text of the PhET Software Agreement is available <a href="/about/software-agreement_v7.htm">here</a>.
             </p>
         </blockquote>
 
