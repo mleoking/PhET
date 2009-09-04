@@ -5,3 +5,4 @@
 
 push-pin.png source=microsoft clip art
 earth-v1-plain.png comments=copied from natural selection
+rope-pattern.png source=microsoft clip art comments=subsampled from j0385413.jpg 

@@ -3,7 +3,7 @@ package edu.colorado.phet.forcelawlab
 import collection.mutable.ArrayBuffer
 import common.phetcommon.application.{PhetApplicationConfig, PhetApplicationLauncher, Module}
 import common.phetcommon.model.Resettable
-import common.phetcommon.view.util.{DoubleGeneralPath, PhetFont}
+import common.phetcommon.view.util.{BufferedImageUtils, DoubleGeneralPath, PhetFont}
 import common.phetcommon.view.{PhetFrame, VerticalLayoutPanel, ControlPanel}
 import common.piccolophet.nodes._
 import common.piccolophet.PiccoloPhetApplication
@@ -11,12 +11,12 @@ import common.phetcommon.view.graphics.RoundGradientPaint
 import common.piccolophet.event.CursorHandler
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import java.awt._
-import geom.{Ellipse2D, Point2D}
+import geom.{Rectangle2D, Line2D, Ellipse2D, Point2D}
 import java.text._
 import javax.swing.border.TitledBorder
 import scalacommon.swing.{MyRadioButton}
-import umd.cs.piccolo.nodes.{PText}
 import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
+import umd.cs.piccolo.nodes.{PImage, PText}
 import umd.cs.piccolo.util.PDimension
 import umd.cs.piccolo.PNode
 import scalacommon.math.Vector2D
@@ -132,8 +132,11 @@ class ForceLawLabCanvas(model: ForceLawLabModel, modelWidth: Double, mass1Color:
   updateRulerVisible()
 
   def opposite(c: Color) = new Color(255 - c.getRed, 255 - c.getGreen, 255 - c.getBlue)
-  addNode(new MassNode(model.m1, transform, mass1Color, magnification, () => 10))
-  addNode(new SpringNode(model, transform, opposite(backgroundColor)))
+
+  addNode(new CharacterNode(model.m1, model.m2, transform, true, () => model.getGravityForce.magnitude))
+  addNode(new CharacterNode(model.m2, model.m1, transform, false, () => model.getGravityForce.magnitude))
+
+  addNode(new DraggableMassNode(model.m1, transform, mass1Color, -100, () => transform.viewToModelX(getVisibleModelBounds.getMaxX), magnification, () => 10))
   addNode(new DraggableMassNode(model.m2, transform, mass2Color, -100, () => transform.viewToModelX(getVisibleModelBounds.getMaxX), magnification, () => -10))
   addNode(new ForceLabelNode(model.m1, model.m2, transform, model, opposite(backgroundColor), forceLabelScale, forceArrowNumberFormat, 100, true))
   addNode(new ForceLabelNode(model.m2, model.m1, transform, model, opposite(backgroundColor), forceLabelScale, forceArrowNumberFormat, 200, false))
@@ -150,30 +153,63 @@ class MyDoubleGeneralPath(pt: Point2D) extends DoubleGeneralPath(pt) {
   def curveTo(control1: Vector2D, control2: Vector2D, dest: Vector2D) = super.curveTo(control1.x, control1.y, control2.x, control2.y, dest.x, dest.y)
 }
 
-class SpringNode(model: ForceLawLabModel, transform: ModelViewTransform2D, color: Color) extends PNode {
-  //  val path = new PhetPPath(new BasicStroke(2), color)
-  //  addChild(path)
-  //  defineInvokeAndPass(model.addListenerByName) {
-  //    val startPt = transform.modelToView(model.wall.maxX, 0)
-  //    val endPt = transform.modelToView(model.m1.position)
-  //
-  //    if (endPt.getX < startPt.getX) {
-  //      path.setPathTo(new Line2D.Double(startPt, startPt))
-  //    }
-  //    else {
-  //      val unitVector = (startPt - endPt).normalize
-  //      val distance = (startPt - endPt).magnitude
-  //      val p = new MyDoubleGeneralPath(startPt)
-  //      val springCurveHeight = 60
-  //      p.lineTo(startPt + new Vector2D(distance / 6, 0))
-  //      for (i <- 1 to 5) {
-  //        p.curveTo(p.getCurrentPoint + new Vector2D(0, -springCurveHeight), p.getCurrentPoint + new Vector2D(distance / 6, -springCurveHeight), p.getCurrentPoint + new Vector2D(distance / 6, 0))
-  //        p.curveTo(p.getCurrentPoint + new Vector2D(0, springCurveHeight), p.getCurrentPoint + new Vector2D(-distance / 12, springCurveHeight), p.getCurrentPoint + new Vector2D(-distance / 12, 0))
-  //      }
-  //      p.lineTo(endPt - new Vector2D(transform.modelToViewDifferentialXDouble(model.m1.radius), 0))
-  //      path.setPathTo(p.getGeneralPath)
-  //    }
-  //  }
+class CharacterNode(mass: Mass, mass2: Mass, transform: ModelViewTransform2D, leftOfObject: Boolean, gravityForce: () => Double) extends PNode {
+  val ropeNode = new PhetPPath(new BasicStroke(5), Color.black)
+  addChild(ropeNode)
+  mass2.addListener(update)
+  mass.addListener(update)
+
+  def update() = {
+    updateRopeNode()
+    updateCharacterNode()
+  }
+
+  def ropeStart = transform.modelToView(mass.position)
+
+  lazy val sign = if (leftOfObject) -1 else 1
+
+  def ropeEnd = {
+    val length = transform.modelToViewDifferentialX(mass.radius) + 100
+    ropeStart + new Vector2D(length * sign, 0)
+  }
+
+  def updateRopeNode() = {
+    //    ropeNode.setPathTo(new Line2D.Double(ropeStart, ropeEnd))
+
+    ropeNode.setStroke(null)
+    ropeNode.setStrokePaint(null)
+    ropeNode.setPathTo(new BasicStroke(5).createStrokedShape(new Line2D.Double(ropeStart, ropeEnd)))
+    val im = BufferedImageUtils.multiScaleToHeight(ForceLawLabResources.getImage("rope-pattern.png"), 5)
+
+    val texturePaint = new TexturePaint(im, new Rectangle2D.Double(ropeEnd.x, 0, im.getWidth, im.getHeight))
+    ropeNode.setPaint(texturePaint)
+  }
+
+  def forceAmount = {
+    val minForceToShow = 0.00000000064
+    val maxForceToShow = 0.00000000989
+    val a = new common.phetcommon.math.Function.LinearFunction(minForceToShow, maxForceToShow, 0, 14).evaluate(gravityForce()).toInt
+    (a max 0) min 14
+  }
+
+  def getImage = {
+    val im = ForceLawLabResources.getImage("pull-figure/pull_figure_" + forceAmount + ".png")
+    val flipIm = if (leftOfObject) BufferedImageUtils.flipX(im) else im
+    flipIm
+  }
+
+  val ropeHeightFromImageBase = 103
+  val characterImageNode = new PImage(getImage)
+  addChild(characterImageNode)
+  update()
+  def updateCharacterNode() = {
+    characterImageNode.setImage(getImage)
+    characterImageNode.setOffset(ropeEnd)
+    characterImageNode.translate(0, ropeHeightFromImageBase - characterImageNode.getFullBounds.getHeight)
+    if (leftOfObject) characterImageNode.translate(-characterImageNode.getFullBounds.getWidth, 0)
+    characterImageNode.translate(-40 * sign, 0) //move closer to rope, since graphic offset increases as force increases
+    characterImageNode.translate(- forceAmount * sign * 1.5, 0)  //step closer to rope, to keep rope constant length
+  }
 }
 
 class ForceLawLabControlPanel(model: ForceLawLabModel, resetFunction: () => Unit) extends ControlPanel {
@@ -301,7 +337,7 @@ class ForceLawLabModel(mass1: Double, mass2: Double,
 
   def setDragging(b: Boolean) = this.isDraggingControl = b
 
-  def update(dt: Double) = { }
+  def update(dt: Double) = {}
 }
 
 class TinyDecimalFormat extends DecimalFormat("0.00000000000") {
