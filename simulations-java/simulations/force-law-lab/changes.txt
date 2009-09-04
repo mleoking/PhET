@@ -1,3 +1,4 @@
+> Converted to use character graphics to indicate force strength
 # 0.01.12 (33442) Jul 19, 2009
 > Ensure the spring is hidden if the first mass is left of the wall
 # 0.01.11 (33435) Jul 18, 2009
