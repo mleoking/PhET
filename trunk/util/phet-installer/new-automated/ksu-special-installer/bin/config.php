@@ -67,7 +67,8 @@
     define("RIPPER_DIR_NAME",    "HTTrack");
 
     define("RIPPED_WEBSITE_ROOT", file_cleanup_local_filename(TEMP_DIR."website/"));
-    define("RIPPED_WEBSITE_TOP",  file_cleanup_local_filename(RIPPED_WEBSITE_ROOT."phet-server.colorado.edu_8080/".LOCALE_STRING."/"));
+    define("RIPPED_WEBSITE_SIMS_PARENT_DIR",  file_cleanup_local_filename(RIPPED_WEBSITE_ROOT."phet-server.colorado.edu_8080/"));
+    define("RIPPED_TRANSLATED_WEBSITE_ROOT",  file_cleanup_local_filename(RIPPED_WEBSITE_ROOT."phet-server.colorado.edu_8080/".LOCALE_STRING."/"));
 
     // The ripper executable itself:
 
@@ -108,7 +109,7 @@
     define("BITROCK_DIR",               file_cleanup_local_filename(PARENT_DIR."BitRock/"));
     define("BITROCK_KSU_DIR",           file_cleanup_local_filename(ROOT_DIR."BitRock/"));
     define("BITROCK_BUILDFILE_DIR",     file_cleanup_local_filename(BITROCK_KSU_DIR."projects/"));
-    define("BITROCK_BUILDFILE",         file_cleanup_local_filename(BITROCK_BUILDFILE_DIR."mini-ksu-installer-buildfile.xml"));
+    define("BITROCK_BUILDFILE",         file_cleanup_local_filename(BITROCK_BUILDFILE_DIR."phet-ksu-installer-buildfile.xml"));
     define("BITROCK_EXE_DIR",           file_cleanup_local_filename(BITROCK_DIR));
     define("BITROCK_EXE_Linux",         "bitrock.sh");
     define("BITROCK_EXE_WINNT",         "bitrock.bat");
