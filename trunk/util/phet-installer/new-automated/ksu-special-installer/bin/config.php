@@ -99,6 +99,7 @@
 
     define("BITROCK_PRODUCT_VERSION",   PHET_VERSION);
     define("BITROCK_INSTALLDIR_MACRO",  '@@INSTALLDIR@@');
+    define("BITROCK_SIM_URL_MACRO",     '@@SIM_URL@@');
 
     // KSU Installer Note: Some of the bitrock files - such as the executable
     // itself - are maintained in the main installer directory, and some of the
