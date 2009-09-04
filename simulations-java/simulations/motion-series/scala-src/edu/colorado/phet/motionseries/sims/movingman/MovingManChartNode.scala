@@ -19,3 +19,17 @@ class MovingManChartNode(canvas: MotionSeriesCanvas, model: MotionSeriesModel) e
   addChild(graphSetNode)
   updateLayout()
 }
+
+class MovingManEnergyChartNode(canvas: MotionSeriesCanvas, model: MotionSeriesModel) extends MotionSeriesChartNode(canvas, model) {
+  val graphs = Array(
+    new MinimizableControlGraph("velocity", velocityGraph, false),
+    new MinimizableControlGraph("kinetic energy", kineticEnergyGraph, false))
+
+  val graphSetNode = new GraphSetNode(new GraphSetModel(new GraphSuite(graphs))) {
+    override def getMaxAvailableHeight(availableHeight: Double) = availableHeight
+    setAlignedLayout()
+  }
+
+  addChild(graphSetNode)
+  updateLayout()
+}
