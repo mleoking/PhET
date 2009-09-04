@@ -2,13 +2,12 @@ package edu.colorado.phet.wickettest.content.troubleshooting;
 
 import org.apache.wicket.behavior.HeaderContributor;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.link.Link;
 
 import edu.colorado.phet.wickettest.components.LocalizedText;
-import edu.colorado.phet.wickettest.components.PhetLink;
 import edu.colorado.phet.wickettest.panels.PhetPanel;
-import edu.colorado.phet.wickettest.util.Linkable;
 import edu.colorado.phet.wickettest.util.PageContext;
+import edu.colorado.phet.wickettest.util.links.AbstractLinker;
+import edu.colorado.phet.wickettest.util.links.RawLinkable;
 
 public class TroubleshootingJavascriptPanel extends PhetPanel {
     public TroubleshootingJavascriptPanel( String id, PageContext context ) {
@@ -17,7 +16,7 @@ public class TroubleshootingJavascriptPanel extends PhetPanel {
         add( HeaderContributor.forCss( "/css/troubleshooting-v1.css" ) );
 
         add( new LocalizedText( "troubleshooting-javascript-notJava", "troubleshooting.javascript.notJava", new Object[]{
-                "href=\"support-java.php\""
+                TroubleshootingJavaPanel.getLinker().getHref( context )
         } ) );
 
         add( new LocalizedText( "troubleshooting-javascript-notify", "troubleshooting.javascript.notify", new Object[]{
@@ -55,10 +54,10 @@ public class TroubleshootingJavascriptPanel extends PhetPanel {
         return "troubleshooting/javascript";
     }
 
-    public static Linkable getLinker() {
-        return new Linkable() {
-            public Link getLink( String id, PageContext context ) {
-                return new PhetLink( id, context.getPrefix() + getUrl() );
+    public static RawLinkable getLinker() {
+        return new AbstractLinker() {
+            public String getSubUrl( PageContext context ) {
+                return getUrl();
             }
         };
     }

@@ -1,6 +1,6 @@
 package edu.colorado.phet.wickettest.translation.entities;
 
-import edu.colorado.phet.wickettest.content.about.AboutSponsors;
+import edu.colorado.phet.wickettest.content.about.AboutSponsorsPanel;
 import edu.colorado.phet.wickettest.panels.PhetPanel;
 import edu.colorado.phet.wickettest.panels.SponsorsPanel;
 import edu.colorado.phet.wickettest.translation.PhetPanelFactory;
@@ -39,7 +39,7 @@ public class SponsorsEntity extends TranslationEntity {
         }, "Sponsors Panel" );
         addPreview( new PhetPanelFactory() {
             public PhetPanel getNewPanel( String id, PageContext context, PhetRequestCycle requestCycle ) {
-                return new AboutSponsors( id, context );
+                return new AboutSponsorsPanel( id, context );
             }
         }, "Sponsors Page" );
     }

@@ -1,13 +1,14 @@
 package edu.colorado.phet.wickettest.content.troubleshooting;
 
 import org.apache.wicket.behavior.HeaderContributor;
-import org.apache.wicket.markup.html.link.Link;
 
 import edu.colorado.phet.wickettest.components.LocalizedText;
-import edu.colorado.phet.wickettest.components.PhetLink;
+import edu.colorado.phet.wickettest.content.ContributePanel;
+import edu.colorado.phet.wickettest.content.FullInstallPanel;
 import edu.colorado.phet.wickettest.panels.PhetPanel;
-import edu.colorado.phet.wickettest.util.Linkable;
 import edu.colorado.phet.wickettest.util.PageContext;
+import edu.colorado.phet.wickettest.util.links.AbstractLinker;
+import edu.colorado.phet.wickettest.util.links.RawLinkable;
 
 public class TroubleshootingMainPanel extends PhetPanel {
     public TroubleshootingMainPanel( String id, PageContext context ) {
@@ -19,12 +20,11 @@ public class TroubleshootingMainPanel extends PhetPanel {
         } ) );
 
         add( new LocalizedText( "troubleshooting-main-q1-answer", "troubleshooting.main.q1.answer", new Object[]{
-                "href=\"../tech_support/support-java.php\"",
-                ""
+                TroubleshootingJavaPanel.getLinker().getHref( context )
         } ) );
 
         add( new LocalizedText( "troubleshooting-main-q2-answer", "troubleshooting.main.q2.answer", new Object[]{
-                "href=\"../get_phet/full_install.php\""
+                FullInstallPanel.getLinker().getHref( context )
         } ) );
 
         add( new LocalizedText( "troubleshooting-main-q4-answer", "troubleshooting.main.q4.answer" ) );
@@ -48,11 +48,11 @@ public class TroubleshootingMainPanel extends PhetPanel {
         } ) );
 
         add( new LocalizedText( "troubleshooting-main-q10-answer", "troubleshooting.main.q10.answer", new Object[]{
-                "href=\"../contribute/index.php\""
+                ContributePanel.getLinker().getHref( context )
         } ) );
 
         add( new LocalizedText( "troubleshooting-main-q11-answer", "troubleshooting.main.q11.answer", new Object[]{
-                "href=\"../get_phet/full_install.php\""
+                FullInstallPanel.getLinker().getHref( context )
         } ) );
 
         add( new LocalizedText( "troubleshooting-main-q12-answer", "troubleshooting.main.q12.answer" ) );
@@ -71,10 +71,10 @@ public class TroubleshootingMainPanel extends PhetPanel {
         return "troubleshooting";
     }
 
-    public static Linkable getLinker() {
-        return new Linkable() {
-            public Link getLink( String id, PageContext context ) {
-                return new PhetLink( id, context.getPrefix() + getUrl() );
+    public static RawLinkable getLinker() {
+        return new AbstractLinker() {
+            public String getSubUrl( PageContext context ) {
+                return getUrl();
             }
         };
     }

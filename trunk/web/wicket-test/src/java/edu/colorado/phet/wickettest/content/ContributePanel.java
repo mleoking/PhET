@@ -1,12 +1,11 @@
 package edu.colorado.phet.wickettest.content;
 
-import org.apache.wicket.markup.html.link.Link;
-
 import edu.colorado.phet.wickettest.components.LocalizedText;
-import edu.colorado.phet.wickettest.components.PhetLink;
+import edu.colorado.phet.wickettest.content.about.AboutSponsorsPanel;
 import edu.colorado.phet.wickettest.panels.PhetPanel;
-import edu.colorado.phet.wickettest.util.Linkable;
 import edu.colorado.phet.wickettest.util.PageContext;
+import edu.colorado.phet.wickettest.util.links.AbstractLinker;
+import edu.colorado.phet.wickettest.util.links.RawLinkable;
 
 public class ContributePanel extends PhetPanel {
     public ContributePanel( String id, PageContext context ) {
@@ -17,7 +16,7 @@ public class ContributePanel extends PhetPanel {
         } ) );
 
         add( new LocalizedText( "contribute-thanks", "contribute.thanks", new Object[]{
-                "href=\"/about/sponsors\"",
+                AboutSponsorsPanel.getLinker().getHref( context ),
                 "href=\"http://www.royalinteractive.com/\""
         } ) );
     }
@@ -30,10 +29,10 @@ public class ContributePanel extends PhetPanel {
         return "contribute";
     }
 
-    public static Linkable getLinker() {
-        return new Linkable() {
-            public Link getLink( String id, PageContext context ) {
-                return new PhetLink( id, context.getPrefix() + getUrl() );
+    public static RawLinkable getLinker() {
+        return new AbstractLinker() {
+            public String getSubUrl( PageContext context ) {
+                return getUrl();
             }
         };
     }
