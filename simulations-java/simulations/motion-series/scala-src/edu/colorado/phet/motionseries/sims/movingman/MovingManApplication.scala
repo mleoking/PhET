@@ -44,7 +44,7 @@ class BasicMovingManCanvas(model: MotionSeriesModel, coordinateSystemModel: Adju
         extends RampCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel,
           frame, showObjectSelectionNode, showAppliedForceSlider, rampAngleDraggable, rampLayoutArea) {
   override def addHeightAndAngleIndicators() = {}
-  override def createBeadNode(b: Bead, t: ModelViewTransform2D, s: String, listener: () => Unit) = new PositionDragBeadNode(b, t, s,"moving-man/moving-man-left.gif",listener)
+  override def createBeadNode(b: Bead, t: ModelViewTransform2D, s: String, listener: () => Unit) = new PositionDragBeadNode(b, t, "moving-man/moving-man-standing.gif","moving-man/moving-man-left.gif",listener,this)
 }
 
 class IntroModule(frame: JFrame, clock: ScalaClock) extends BasicMovingManModule(frame, clock, "moving-man.module.intro.title".translate, false, true, false, true, -6, false, 0.0, true, MotionSeriesDefaults.defaultViewport)

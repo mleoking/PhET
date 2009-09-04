@@ -63,7 +63,8 @@ object MotionSeriesDefaults {
           Nil
   val iconsPerRow = 4
 
-  lazy val movingMan = new MotionSeriesObject("object.moving-man".translate, 85, 0.3, 0.5, 2, "moving-man/moving-man-standing.gif".literal, 1000)
+  lazy val movingMan = new MotionSeriesObject("object.moving-man".translate, 85, 0.3, 0.5, 2.8,//is some empty padding in the image? looks better at large size, with a 20m wide play area
+    "moving-man/moving-man-standing.gif".literal, 1000)
 
   val wall = new MotionSeriesObject("wall".literal, 1000, 1000, 1000, 3.5, "wall.jpg".literal, 100)
   val house = new MotionSeriesObject("house".literal, 1000, 1000, 1000, 5, "robotmovingcompany/house.gif".literal, 100)
