@@ -19,6 +19,8 @@ import umd.cs.piccolo.PNode
 import scalacommon.math.Vector2D
 import motionseries.MotionSeriesResources._
 
+case class Graph(title: String, graph: MotionControlGraph, minimized: Boolean)
+
 object Defaults {
   def createFont = new PhetFont(12, true)
 
@@ -124,10 +126,33 @@ abstract class AbstractChartNode(canvas: MotionSeriesCanvas, model: MotionSeries
     val h = canvas.getHeight - y
     val padX = 2
     val padY = padX
-    graphSetNode.setBounds(padX, y + padY, canvas.getWidth - padX * 2, h - padY * 2)
+    _graphSetNode.setBounds(padX, y + padY, canvas.getWidth - padX * 2, h - padY * 2)
   }
 
-  def graphSetNode: PNode
+//  def graphSetNode: PNode
+  private var _graphSetNode:GraphSetNode = null
+
+  def minimGraphs(graphs: Seq[Graph]) = (for (g <- graphs) yield new MinimizableControlGraph(g.title, g.graph, g.minimized)).toArray
+
+  def correlateDomains(graphs: Seq[Graph]) = {
+    for (a <- graphs; g = a.graph) {
+      g.addListener(new MotionControlGraph.Listener() {
+        def horizontalZoomChanged(source: MotionControlGraph) = {
+          for (otherGraphs <- graphs; other = otherGraphs.graph) other.setDomain(g.getDomain)
+        }
+      })
+    }
+  }
+
+  def init(graphs: Seq[Graph]) = {
+    correlateDomains(graphs)
+    _graphSetNode = new GraphSetNode(new GraphSetModel(new GraphSuite(minimGraphs(graphs)))) {
+      override def getMaxAvailableHeight(availableHeight: Double) = availableHeight
+      setAlignedLayout()
+    }
+    addChild(_graphSetNode)
+    updateLayout()
+  }
 }
 
 class MotionSeriesGraph(defaultSeries: ControlGraphSeries, canvas: PhetPCanvas, timeseriesModel: TimeSeriesModel, updateableObject: UpdateableObject, model: MotionSeriesModel)
