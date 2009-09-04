@@ -3196,6 +3196,7 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 411	nav.troubleshooting.flash	Flash	2009-08-19 00:39:06.905	2009-08-19 00:39:06.905	1
 412	about.source-code.title	PhET Source Code	2009-08-19 01:32:35.704	2009-08-19 01:32:35.704	1
 413	nav.about.source-code	Source Code	2009-08-19 01:32:46.865	2009-08-19 01:32:46.865	1
+1845	about.licensing.options	Licensing Options	2009-09-04 13:44:03.172	2009-09-04 13:44:03.172	1
 1054	simulationMainPanel.softwareRequirements	Software Requirements	2009-09-03 15:06:57.928	2009-09-03 15:06:57.928	1
 416	nav.about.contact	Contact	2009-08-19 01:34:06.066	2009-08-19 01:34:06.066	1
 417	about.contact.title	Contact	2009-08-19 01:34:10.998	2009-08-19 01:34:10.998	1
@@ -3436,6 +3437,39 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 1724	get-phet.offline.whereCanISave	CD, USB or hard drive.	2009-09-03 23:36:30.413	2009-09-03 23:36:30.413	1
 1725	get-phet.install.howToGet	<a {0}>Click here</a> to go to the download page.	2009-09-03 23:50:22.947	2009-09-03 23:50:22.947	1
 1726	get-phet.offline.howToGet	<a {0}>Click here</a> to go to the all-simulations download page.	2009-09-03 23:50:45.494	2009-09-03 23:50:45.494	1
+1846	about.licensing.intro	The PhET Interactive Simulations Project at the University of Colorado (PhET) distributes these simulations under the Creative Commons-Attribution 3.0 license and the Creative Commons GNU General Public License as detailed below. The user is responsible for choosing which of the two licensing options will govern their use of these simulations.	2009-09-04 13:45:20.867	2009-09-04 13:45:20.867	1
+1847	about.licensing.bothOptionsRequire	Both license options require attributing the work to:	2009-09-04 13:46:20.144	2009-09-04 13:46:20.144	1
+1848	about.licensing.phetInteractiveSimulations	PhET Interactive Simulations	2009-09-04 13:46:51.538	2009-09-04 13:46:51.538	1
+1849	about.licensing.universityOfColorado	University of Colorado	2009-09-04 13:47:30.814	2009-09-04 13:47:30.814	1
+1850	about.licensing.letUsKnow	If your use includes redistribution of the simulations, please let us know! This type of information is very useful when writing proposals for future funding.	2009-09-04 13:48:17.156	2009-09-04 13:48:17.156	1
+1851	about.licensing.taxDeductibleDonation	Please consider contributing a tax-deductible donation to PhET to help keep the project going.	2009-09-04 13:55:16.953	2009-09-04 13:55:16.953	1
+1852	about.licensing.contactPhet	Contact PhET at {0}.	2009-09-04 14:18:10.497	2009-09-04 14:18:10.497	1
+1853	about.licensing.optionA	OPTION A: CREATIVE COMMONS - ATTRIBUTION	2009-09-04 14:18:50.215	2009-09-04 14:18:50.215	1
+1855	about.licensing.gplSims	Band Structure Simulation<br/>Double Wells and Covalent Bonds Simulation<br/>Quantum Bound States Simulation, and<br/>Quantum Tunneling and Wave Packets Simulation<br/>	2009-09-04 14:31:30.881	2009-09-04 14:31:30.881	1
+1856	about.licensing.ccaFulltext	The full text of the Creative Commons Attribution license can be found <a {0}>here</a>.	2009-09-04 14:34:18.678	2009-09-04 14:34:18.678	1
+1857	about.licensing.whatDoesThisMean	What does this mean?	2009-09-04 14:34:49.255	2009-09-04 14:34:49.255	1
+1858	about.licensing.cca.thisMeans	The interactive simulations developed by PhET Interactive Simulations (with exceptions listed above) may be freely used and/or redistributed by third parties (e.g. students, educators, school districts, museums, publishers, vendors, etc.). Non-commercial or commercial use is allowed. All uses require attribution of the work as describe above.	2009-09-04 14:35:48.724	2009-09-04 14:35:48.724	1
+1859	about.licensing.cca.sourceOptionB	Parties wishing to modify the source code must use Option B.	2009-09-04 14:36:21.015	2009-09-04 14:36:21.015	1
+1860	about.licensing.optionB	OPTION B: CREATIVE COMMONS - GNU GENERAL PUBLIC LICENSE	2009-09-04 14:36:56.451	2009-09-04 14:36:56.451	1
+1854	about.licensing.gplIntro	The <strong>source code</strong> and <strong>executable</strong> versions of all simulations by <a {0}>PhET Interactive Simulations, University of Colorado</a> are licensed under a <a {1}>Creative Commons GNU General Public License</a>.	2009-09-04 14:30:22.339	2009-09-04 14:40:02.749	1
+1862	about.licensing.gpl.thisMeans	The interactive simulations developed by PhET Interactive Simulations may be freely used and/or redistributed by third parties (e.g. students, educators, school districts, museums, publishers, vendors, etc.). Non-commercial or commercial use is allowed. All uses require attribution of the work.	2009-09-04 14:40:58.025	2009-09-04 14:40:58.025	1
+1863	about.licensing.gpl.fullText	The full text of the GNU General Public License can be found <a {0}>here</a>.	2009-09-04 14:42:21.904	2009-09-04 14:42:21.904	1
+1865	about.licensing.alternativeLicenses	ALTERNATIVE LICENSES	2009-09-04 14:44:40.325	2009-09-04 14:44:40.325	1
+1866	about.licensing.alternativeLicenseOptions	If you are interested in alternative license options, please contact PhET at {0}.	2009-09-04 14:46:03.547	2009-09-04 14:46:03.547	1
+1867	about.licensing.sourceCodeSection	Source Code	2009-09-04 14:46:40.581	2009-09-04 14:46:40.581	1
+1868	about.licensing.sourceCodeLink	For information on accessing PhET source code, please see <a {0}>here</a>.	2009-09-04 14:47:51.073	2009-09-04 14:47:51.073	1
+1869	about.licensing.softwareAgreementSection	Software Agreement	2009-09-04 14:48:15.779	2009-09-04 14:48:15.779	1
+1870	about.licensing.softwareAgreementFullText	The full text of the PhET Software Agreement is available <a {0}>here</a>.	2009-09-04 14:57:07.025	2009-09-04 14:57:07.025	1
+1861	about.licensing.cca.intro	The <strong>executable</strong> versions of all PhET Interactive Simulations by <a {0}>PhET, University of Colorado</a> (the *.jar files, the *.jnlp files, the *.swf files) are licensed under a <a {1}>Creative Commons Attribution 3.0 United States License</a>, with the exception of the following simulations which are only released under CC - GNU GPL:	2009-09-04 14:39:18.03	2009-09-04 15:05:09.458	1
+1864	about.licensing.gpl.sourceCode	In addition, the source code for all PhET simulations is available for use and/or modification. For directions about how to access the source code, go <a {0}>here</a>. Anyone can have access to the source code and make modifications. The source code for any changes someone makes to the software must, in turn, be made publicly available by the party that makes the changes.	2009-09-04 14:44:07.849	2009-09-04 15:06:06.587	1
+1897	about.licensing.softwareAgreementSection	البرمجيات الاتفاق	2009-09-04 15:12:00.141	2009-09-04 15:12:00.141	4
+1898	about.licensing.sourceCodeSection	مصدر القانون	2009-09-04 15:12:01.243	2009-09-04 15:12:01.243	4
+1899	about.licensing.alternativeLicenses	تراخيص بديلة	2009-09-04 15:12:03.045	2009-09-04 15:12:03.045	4
+1900	about.licensing.gpl.thisMeans	ويمكن محاكاة تفاعلية وضعتها PhET المحاكاة التفاعلية يمكن استخدامها بحرية و / أو إعادة توزيعها من قبل أطراف ثالثة (مثل الطلاب ، والمعلمين ، ومناطق المدارس والمتاحف ودور النشر ، والبائعين ، الخ). غير التجارية أو الاستخدام التجاري هو مسموح به. جميع استخدامات تتطلب إسناد العمل.	2009-09-04 15:12:08.113	2009-09-04 15:12:08.113	4
+1901	about.licensing.optionB	الخيار باء : الإبداع التوفيقية -- رخصة جنو العمومية	2009-09-04 15:12:11.895	2009-09-04 15:12:11.895	4
+1902	about.licensing.cca.sourceOptionB	الأطراف الراغبة في تعديل شفرة المصدر ويجب استخدام الخيار باء.	2009-09-04 15:12:13.323	2009-09-04 15:12:13.323	4
+1903	about.licensing.cca.thisMeans	ويمكن محاكاة تفاعلية وضعتها PhET المحاكاة التفاعلية (مع بعض الاستثناءات المذكورة أعلاه) يمكن استخدامها بحرية و / أو إعادة توزيعها من قبل أطراف ثالثة (مثل الطلاب ، والمعلمين ، ومناطق المدارس والمتاحف ودور النشر ، والبائعين ، الخ). غير التجارية أو الاستخدام التجاري هو مسموح به. جميع استخدامات تتطلب إسناد العمل كما وصف أعلاه.	2009-09-04 15:12:16.704	2009-09-04 15:12:16.704	4
+1904	about.licensing.whatDoesThisMean	ماذا يعني هذا؟	2009-09-04 15:12:18.254	2009-09-04 15:12:18.254	4
 1103	language.names.sk_SK	Slovak (Slovakia)	2009-09-03 18:56:41.778	2009-09-03 18:56:41.778	1
 1745	get-phet.online.howOften	حالما جديدة أو محدثة المحاكاة يتم نشرها على موقع على شبكة الإنترنت.	2009-09-04 00:05:37.283	2009-09-04 00:05:37.283	4
 1746	get-phet.online.howToGet	انقر على أيقونة المحاكاة في صفحة الويب من المحاكاة التي تريد تشغيلها.	2009-09-04 00:05:38.599	2009-09-04 00:05:38.599	4
@@ -3466,6 +3500,11 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 1753	get-phet.row.needInternet	هو اتصال بإنترنت المطلوبة لتشغيل المحاكاة؟	2009-09-04 00:05:50.507	2009-09-04 00:05:50.507	4
 1754	get-phet.row.whatSims	ما المحاكاة المثبتة؟	2009-09-04 00:05:51.582	2009-09-04 00:05:51.582	4
 1755	get-phet.row.whereCanISave	أين أستطيع أن ينقذهم من على الكمبيوتر؟	2009-09-04 00:05:53.181	2009-09-04 00:05:53.181	4
+1905	about.licensing.gplSims	الفرقة محاكاة هيكل مزدوج ويلز والرابطة التساهمية محاكاة الكم منضم الدول المحاكاة ، والكم النفقي والموج حزم محاكاة	2009-09-04 15:12:27.107	2009-09-04 15:12:27.107	4
+1906	about.licensing.optionA	الخيار ألف : الإبداع التوفيقية -- الإسناد	2009-09-04 15:12:31.141	2009-09-04 15:12:31.141	4
+1907	about.licensing.taxDeductibleDonation	يرجى النظر في المساهمة في التبرع للخصم الضرائب الى PhET للمساعدة فى الحفاظ على المشروع الذهاب.	2009-09-04 15:12:34.476	2009-09-04 15:12:34.476	4
+1871	about.licensing.options	@about.licensing.options@	2009-09-04 15:07:01.552	2009-09-04 15:07:01.552	3
+1908	about.licensing.contactPhet	الاتصال PhET في {0}.	2009-09-04 15:12:38.076	2009-09-04 15:12:45.063	4
 1104	language.names.it	Italian	2009-09-03 18:56:41.783	2009-09-03 18:56:41.783	1
 1105	language.names.tr_TR	Turkish (Turkey)	2009-09-03 18:56:41.789	2009-09-03 18:56:41.789	1
 1106	language.names.zh	Chinese	2009-09-03 18:56:41.823	2009-09-03 18:56:41.823	1
@@ -3502,7 +3541,12 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 960	troubleshooting.main.q12.title	عند تشغيل محاكيات من دون PhET موقع المثبت ، وأنا رؤية الحوار الذي يقول &quot;إن تطبيق التوقيع الرقمي قد تحققت. هل تريد تشغيل التطبيق؟&quot; (أو ما شابه). ماذا يعني هذا؟	2009-09-03 11:09:08.88	2009-09-03 11:09:20.607	4
 701	about.source-code.header	Where can I get the source code for the PhET simulations?	2009-08-31 15:25:46.913	2009-08-31 15:25:46.913	1
 1770	research.studentBeliefs	Student Beliefs and Learning	2009-09-04 00:24:31.034	2009-09-04 00:24:31.034	1
-474	nav.all	@nav.all@	2009-08-31 14:15:38.723	2009-08-31 14:15:38.723	3
+1909	about.licensing.letUsKnow	إذا كان لديك استخدام يتضمن إعادة توزيع للمحاكاة ، يرجى إعلامنا! هذا النوع من المعلومات أمر مفيد للغاية عند كتابة مقترحات التمويل في المستقبل.	2009-09-04 15:12:49.96	2009-09-04 15:12:49.96	4
+1910	about.licensing.universityOfColorado	جامعة كولورادو	2009-09-04 15:12:51.128	2009-09-04 15:12:51.128	4
+1911	about.licensing.phetInteractiveSimulations	PhET المحاكاة التفاعلية	2009-09-04 15:12:52.486	2009-09-04 15:12:52.486	4
+1912	about.licensing.bothOptionsRequire	كلا الخيارين الرخصة يتطلب إسناد العمل إلى ما يلي :	2009-09-04 15:12:54.549	2009-09-04 15:12:54.549	4
+1876	about.licensing.letUsKnow	@about.licensing.letUsKnow@	2009-09-04 15:07:10.305	2009-09-04 15:07:10.305	3
+1878	about.licensing.contactPhet	@about.licensing.contactPhet@	2009-09-04 15:07:13.701	2009-09-04 15:07:13.701	3
 961	troubleshooting.main.q13.title	(مستخدمي ماك) عندما أقوم بالنقر فوق &quot;تشغيل الآن&quot; لبدء محاكاة كل ما نحصل عليه هو أن يفتح ملف نصي؟	2009-09-03 11:09:25.98	2009-09-03 11:09:34.023	4
 962	troubleshooting.main.licensingRequirements	ما هي متطلبات الترخيص؟	2009-09-03 11:09:37.483	2009-09-03 11:09:37.483	4
 963	troubleshooting.java.intro	PhET جاوة القائم على المحاكاة استخدام صن مايكروسيستمز 'جافا ويب ستارت لإطلاق تكنولوجيا المحاكاة. هذه الصفحة سوف تساعدك على ضمان أن يكون لديك جافا مثبتة بشكل صحيح ، ومعالجة بعض المشاكل التي تشغل الناس قد يكون لدينا برامج. إذا كنت لا تستطيع حل مشكلتك هنا ، يرجى إعلامنا عن طريق البريد الالكتروني على العنوان التال <a {0}><span class="red">phethelp@colorado.edu</span></a>.	2009-09-03 11:10:05.298	2009-09-03 11:10:05.298	4
@@ -3592,9 +3636,13 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 1783	research.aboutPhet	حول PhET	2009-09-04 00:37:34.159	2009-09-04 00:37:34.159	4
 1784	research.effectivenessStudies	دراسات PhET فعالية	2009-09-04 00:37:36.978	2009-09-04 00:37:36.978	4
 1785	research.studentBeliefs	طالب المعتقدات والتعلم	2009-09-04 00:37:38.438	2009-09-04 00:37:38.438	4
+1913	about.licensing.intro	وPhET المحاكاة التفاعلية المشروع في جامعة كولورادو (PhET) توزع هذه المحاكاة تحت الإبداعي - الإسناد 3.0 الترخيص وجميل رخصة جنو العمومية كما هو مفصل أدناه. المستخدم هو المسؤول عن اختيار أي من الخيارين الترخيص سوف تحكم استخدامها من هذه المحاكاة.	2009-09-04 15:12:58.71	2009-09-04 15:12:58.71	4
+1914	about.licensing.options	الترخيص خيارات	2009-09-04 15:12:59.836	2009-09-04 15:12:59.836	4
 1015	keyword.acceleration	تسارع	2009-09-03 11:19:22.276	2009-09-03 11:19:22.276	4
 1016	keyword.acids	الأحماض	2009-09-03 11:19:26.27	2009-09-03 11:19:26.27	4
+1885	about.licensing.optionB	@about.licensing.optionB@	2009-09-04 15:07:24.331	2009-09-04 15:07:24.331	3
 1791	get-phet.install.howToGet	@get-phet.install.howToGet@	2009-09-04 00:39:27.411	2009-09-04 00:39:27.411	3
+1915	about.licensing.ccaFulltext	النص الكامل للجميل الترخيص سمات يمكن العثور عليها <a {0}>هنا</a>	2009-09-04 15:13:19.193	2009-09-04 15:13:50.195	4
 1112	language.names.lt	Lithuanian	2009-09-03 18:56:41.857	2009-09-03 18:56:41.857	1
 1113	language.names.ro	Romanian	2009-09-03 18:56:41.862	2009-09-03 18:56:41.862	1
 1114	language.names.en_NZ	English (New Zealand)	2009-09-03 18:56:41.867	2009-09-03 18:56:41.867	1
@@ -3677,6 +3725,17 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 1192	language.names.zh_HK	Chinese (Hong Kong)	2009-09-03 18:56:42.378	2009-09-03 18:56:42.378	1
 1193	language.names.ja	Japanese	2009-09-03 18:56:42.382	2009-09-03 18:56:42.382	1
 1017	contribute.financialContributions	Financial Contributions	2009-09-03 12:29:21.388	2009-09-03 12:29:21.388	1
+1886	about.licensing.cca.intro	@about.licensing.cca.intro@	2009-09-04 15:07:25.799	2009-09-04 15:07:25.799	3
+1887	about.licensing.gplIntro	@about.licensing.gplIntro@	2009-09-04 15:07:27.226	2009-09-04 15:07:27.226	3
+1888	about.licensing.gpl.thisMeans	@about.licensing.gpl.thisMeans@	2009-09-04 15:07:29.548	2009-09-04 15:07:29.548	3
+1889	about.licensing.gpl.fullText	@about.licensing.gpl.fullText@	2009-09-04 15:07:31.042	2009-09-04 15:07:31.042	3
+1890	about.licensing.gpl.sourceCode	@about.licensing.gpl.sourceCode@	2009-09-04 15:07:32.366	2009-09-04 15:07:32.366	3
+1891	about.licensing.alternativeLicenses	@about.licensing.alternativeLicenses@	2009-09-04 15:07:34.792	2009-09-04 15:07:34.792	3
+1892	about.licensing.alternativeLicenseOptions	@about.licensing.alternativeLicenseOptions@	2009-09-04 15:07:36.1	2009-09-04 15:07:36.1	3
+1893	about.licensing.sourceCodeSection	@about.licensing.sourceCodeSection@	2009-09-04 15:07:38.095	2009-09-04 15:07:38.095	3
+1894	about.licensing.sourceCodeLink	@about.licensing.sourceCodeLink@	2009-09-04 15:07:39.401	2009-09-04 15:07:39.401	3
+1895	about.licensing.softwareAgreementSection	@about.licensing.softwareAgreementSection@	2009-09-04 15:07:41.327	2009-09-04 15:07:41.327	3
+1896	about.licensing.softwareAgreementFullText	@about.licensing.softwareAgreementFullText@	2009-09-04 15:07:42.537	2009-09-04 15:07:42.537	3
 1795	get-phet.offline.header	@get-phet.offline.header@	2009-09-04 00:39:33.89	2009-09-04 00:39:33.89	3
 1796	get-phet.offline.howLarge	@get-phet.offline.howLarge@	2009-09-04 00:39:35.548	2009-09-04 00:39:35.548	3
 1797	get-phet.offline.howOften	@get-phet.offline.howOften@	2009-09-04 00:39:37.093	2009-09-04 00:39:37.093	3
@@ -3686,25 +3745,7 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 1801	get-phet.offline.whereCanISave	@get-phet.offline.whereCanISave@	2009-09-04 00:39:43.591	2009-09-04 00:39:43.591	3
 1802	get-phet.online.header	@get-phet.online.header@	2009-09-04 00:39:44.962	2009-09-04 00:39:44.962	3
 1803	get-phet.online.howLarge	@get-phet.online.howLarge@	2009-09-04 00:39:46.774	2009-09-04 00:39:46.774	3
-1804	get-phet.online.howOften	@get-phet.online.howOften@	2009-09-04 00:39:48.233	2009-09-04 00:39:48.233	3
-1805	get-phet.online.howToGet	@get-phet.online.howToGet@	2009-09-04 00:39:49.546	2009-09-04 00:39:49.546	3
-1806	get-phet.online.needInternet	@get-phet.online.needInternet@	2009-09-04 00:39:51.469	2009-09-04 00:39:51.469	3
-1807	get-phet.online.whatSims	@get-phet.online.whatSims@	2009-09-04 00:39:52.888	2009-09-04 00:39:52.888	3
-1808	get-phet.online.whereCanISave	@get-phet.online.whereCanISave@	2009-09-04 00:39:54.376	2009-09-04 00:39:54.376	3
-1809	get-phet.row.howLarge	@get-phet.row.howLarge@	2009-09-04 00:39:56.225	2009-09-04 00:39:56.225	3
-1810	get-phet.row.howOften	@get-phet.row.howOften@	2009-09-04 00:39:57.578	2009-09-04 00:39:57.578	3
-1811	get-phet.row.howToGet	@get-phet.row.howToGet@	2009-09-04 00:39:59.226	2009-09-04 00:39:59.226	3
-1812	get-phet.row.needInternet	@get-phet.row.needInternet@	2009-09-04 00:40:01.661	2009-09-04 00:40:01.661	3
-1813	get-phet.row.whatSims	@get-phet.row.whatSims@	2009-09-04 00:40:04.213	2009-09-04 00:40:04.213	3
 1194	language.names.iw_IL	Hebrew (Israel)	2009-09-03 18:56:42.387	2009-09-03 18:56:42.387	1
-1814	get-phet.row.whereCanISave	@get-phet.row.whereCanISave@	2009-09-04 00:40:06.083	2009-09-04 00:40:06.083	3
-1815	research.intro	@research.intro@	2009-09-04 00:40:11.073	2009-09-04 00:40:11.073	3
-1816	research.additional	@research.additional@	2009-09-04 00:40:12.433	2009-09-04 00:40:12.433	3
-1817	research.immediateInterests	@research.immediateInterests@	2009-09-04 00:40:14.709	2009-09-04 00:40:14.709	3
-1818	research.simsAffectStudents	@research.simsAffectStudents@	2009-09-04 00:40:16.129	2009-09-04 00:40:16.129	3
-1819	research.simsAffectStudents.point1	@research.simsAffectStudents.point1@	2009-09-04 00:40:18.646	2009-09-04 00:40:18.646	3
-1820	research.simsAffectStudents.point2	@research.simsAffectStudents.point2@	2009-09-04 00:40:20.534	2009-09-04 00:40:20.534	3
-1827	research.aboutPhet	@research.aboutPhet@	2009-09-04 00:40:33.741	2009-09-04 00:40:33.741	3
 1195	language.names.bg_BG	Bulgarian (Bulgaria)	2009-09-03 18:56:42.403	2009-09-03 18:56:42.403	1
 1196	language.names.in	Indonesian	2009-09-03 18:56:42.408	2009-09-03 18:56:42.408	1
 1197	language.names.mt_MT	Maltese (Malta)	2009-09-03 18:56:42.433	2009-09-03 18:56:42.433	1
@@ -3957,6 +3998,7 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 1246	language.names.be	البيلوروسية	2009-09-03 19:24:34.551	2009-09-03 19:24:34.551	4
 1247	language.names.be_BY	البيلوروسية (بيلاروس)	2009-09-03 19:24:38.103	2009-09-03 19:24:38.103	4
 1248	language.names.bg	البلغارية	2009-09-03 19:24:41.615	2009-09-03 19:24:41.615	4
+1872	about.licensing.intro	@about.licensing.intro@	2009-09-04 15:07:03.096	2009-09-04 15:07:03.096	3
 1249	language.names.ca	الكاتالوينية	2009-09-03 19:24:45.25	2009-09-03 19:24:45.25	4
 1250	language.names.cs	التشيكية	2009-09-03 19:24:56.606	2009-09-03 19:24:56.606	4
 1251	language.names.da	الدانماركية	2009-09-03 19:25:00.323	2009-09-03 19:25:00.323	4
@@ -3987,11 +4029,53 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 1276	language.names.no	النرويجية	2009-09-03 19:27:00.807	2009-09-03 19:27:00.807	4
 1277	language.names.pl	البولندية	2009-09-03 19:27:03.396	2009-09-03 19:27:03.396	4
 1278	language.names.pt	البرتغالية	2009-09-03 19:27:07.16	2009-09-03 19:27:07.16	4
+1873	about.licensing.bothOptionsRequire	@about.licensing.bothOptionsRequire@	2009-09-04 15:07:05.297	2009-09-04 15:07:05.297	3
+1874	about.licensing.phetInteractiveSimulations	@about.licensing.phetInteractiveSimulations@	2009-09-04 15:07:07.398	2009-09-04 15:07:07.398	3
+1875	about.licensing.universityOfColorado	@about.licensing.universityOfColorado@	2009-09-04 15:07:09.049	2009-09-04 15:07:09.049	3
+1877	about.licensing.taxDeductibleDonation	@about.licensing.taxDeductibleDonation@	2009-09-04 15:07:11.61	2009-09-04 15:07:11.61	3
+1879	about.licensing.optionA	@about.licensing.optionA@	2009-09-04 15:07:15.129	2009-09-04 15:07:15.129	3
+1880	about.licensing.gplSims	@about.licensing.gplSims@	2009-09-04 15:07:16.291	2009-09-04 15:07:16.291	3
+1881	about.licensing.ccaFulltext	@about.licensing.ccaFulltext@	2009-09-04 15:07:17.818	2009-09-04 15:07:17.818	3
+1882	about.licensing.whatDoesThisMean	@about.licensing.whatDoesThisMean@	2009-09-04 15:07:19.526	2009-09-04 15:07:19.526	3
+474	nav.all	@nav.all@	2009-08-31 14:15:38.723	2009-08-31 14:15:38.723	3
+1883	about.licensing.cca.thisMeans	@about.licensing.cca.thisMeans@	2009-09-04 15:07:20.757	2009-09-04 15:07:20.757	3
+1884	about.licensing.cca.sourceOptionB	@about.licensing.cca.sourceOptionB@	2009-09-04 15:07:22.687	2009-09-04 15:07:22.687	3
+1804	get-phet.online.howOften	@get-phet.online.howOften@	2009-09-04 00:39:48.233	2009-09-04 00:39:48.233	3
+1805	get-phet.online.howToGet	@get-phet.online.howToGet@	2009-09-04 00:39:49.546	2009-09-04 00:39:49.546	3
+1806	get-phet.online.needInternet	@get-phet.online.needInternet@	2009-09-04 00:39:51.469	2009-09-04 00:39:51.469	3
+1807	get-phet.online.whatSims	@get-phet.online.whatSims@	2009-09-04 00:39:52.888	2009-09-04 00:39:52.888	3
+1808	get-phet.online.whereCanISave	@get-phet.online.whereCanISave@	2009-09-04 00:39:54.376	2009-09-04 00:39:54.376	3
+1809	get-phet.row.howLarge	@get-phet.row.howLarge@	2009-09-04 00:39:56.225	2009-09-04 00:39:56.225	3
+1810	get-phet.row.howOften	@get-phet.row.howOften@	2009-09-04 00:39:57.578	2009-09-04 00:39:57.578	3
+1811	get-phet.row.howToGet	@get-phet.row.howToGet@	2009-09-04 00:39:59.226	2009-09-04 00:39:59.226	3
+1812	get-phet.row.needInternet	@get-phet.row.needInternet@	2009-09-04 00:40:01.661	2009-09-04 00:40:01.661	3
+1813	get-phet.row.whatSims	@get-phet.row.whatSims@	2009-09-04 00:40:04.213	2009-09-04 00:40:04.213	3
+1814	get-phet.row.whereCanISave	@get-phet.row.whereCanISave@	2009-09-04 00:40:06.083	2009-09-04 00:40:06.083	3
+1815	research.intro	@research.intro@	2009-09-04 00:40:11.073	2009-09-04 00:40:11.073	3
+1816	research.additional	@research.additional@	2009-09-04 00:40:12.433	2009-09-04 00:40:12.433	3
+1817	research.immediateInterests	@research.immediateInterests@	2009-09-04 00:40:14.709	2009-09-04 00:40:14.709	3
+1818	research.simsAffectStudents	@research.simsAffectStudents@	2009-09-04 00:40:16.129	2009-09-04 00:40:16.129	3
+1819	research.simsAffectStudents.point1	@research.simsAffectStudents.point1@	2009-09-04 00:40:18.646	2009-09-04 00:40:18.646	3
+1820	research.simsAffectStudents.point2	@research.simsAffectStudents.point2@	2009-09-04 00:40:20.534	2009-09-04 00:40:20.534	3
+1827	research.aboutPhet	@research.aboutPhet@	2009-09-04 00:40:33.741	2009-09-04 00:40:33.741	3
 1786	get-phet.clickHere	@get-phet.clickHere@	2009-09-04 00:39:19.958	2009-09-04 00:39:19.958	3
 1787	get-phet.header	@get-phet.header@	2009-09-04 00:39:21.376	2009-09-04 00:39:21.376	3
+1070	simulationMainPanel.thirdPartyLibraries	@simulationMainPanel.thirdPartyLibraries@	2009-09-03 16:15:12.426	2009-09-03 16:15:12.426	3
+1071	simulationMainPanel.thanksTo	@simulationMainPanel.thanksTo@	2009-09-03 16:15:14.909	2009-09-03 16:15:14.909	3
+1072	contribute.financialContributions	@contribute.financialContributions@	2009-09-03 16:15:20.506	2009-09-03 16:15:20.506	3
+1073	contribute.main	@contribute.main@	2009-09-03 16:15:23.119	2009-09-03 16:15:23.119	3
+1074	contribute.thanks	@contribute.thanks@	2009-09-03 16:15:24.953	2009-09-03 16:15:24.953	3
+1075	keyword.photonBeams	@keyword.photonBeams@	2009-09-03 16:15:40.623	2009-09-03 16:15:40.623	3
+781	troubleshooting.java.q5.answer	@troubleshooting.java.q5.answer@	2009-09-01 01:10:12.896	2009-09-01 01:10:12.896	3
+782	troubleshooting.java.q6.title	@troubleshooting.java.q6.title@	2009-09-01 01:10:14.472	2009-09-01 01:10:14.472	3
+1695	macwarning.title	@macwarning.title@	2009-09-03 22:29:32.794	2009-09-03 22:29:32.794	3
 1280	language.names.ro	الرومانية	2009-09-03 19:27:32.061	2009-09-03 19:27:32.061	4
 1281	language.names.ru	الروسية	2009-09-03 19:27:37.03	2009-09-03 19:27:37.03	4
 1282	language.names.sk	السلوفاكية	2009-09-03 19:27:40.047	2009-09-03 19:27:40.047	4
+1696	macwarning.problem	@macwarning.problem@	2009-09-03 22:29:35.976	2009-09-03 22:29:35.976	3
+1697	macwarning.solution	@macwarning.solution@	2009-09-03 22:29:38.111	2009-09-03 22:29:38.111	3
+596	keyword.deBroglieWavelength	@keyword.deBroglieWavelength@	2009-08-31 14:42:21.586	2009-08-31 14:42:21.586	3
+597	keyword.diet	@keyword.diet@	2009-08-31 14:42:24.981	2009-08-31 14:42:24.981	3
 1283	language.names.sl	السلوفانية	2009-09-03 19:27:44.105	2009-09-03 19:27:44.105	4
 1284	language.names.sq	الألبانية	2009-09-03 19:27:47.982	2009-09-03 19:27:47.982	4
 1285	language.names.sr	الصربية	2009-09-03 19:27:51.716	2009-09-03 19:27:51.716	4
@@ -4206,60 +4290,6 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 1690	language.names.tr_TR	التركية (تركيا)	2009-09-03 22:04:35.597	2009-09-03 22:04:35.597	4
 1691	language.names.uk_UA	الأوكرانية (أوكرانيا)	2009-09-03 22:04:37.264	2009-09-03 22:04:37.264	4
 1692	language.names.vi_VN	الفيتنامية (فيتنام)	2009-09-03 22:04:39.123	2009-09-03 22:04:39.123	4
-1693	contribute.main	فلسفتنا هو جعل المحاكاة PhET متاحة مجانا لجميع المستخدمين في جميع أنحاء العالم. لديهم الآن تم تشغيل الملايين من المرات من موقعنا على الشبكة العالمية ، وكامل PhET جناح وقد تم تثبيتها على الالاف من اجهزة الكمبيوتر. لكن في حين أن المحاكاة قد تكون مجانية للمستخدمين ، فهي غالية الثمن بالنسبة لنا لإنشاء واختبار وصيانة ، ودعمنا المالي محدود. إذا كنت ترغب في مساعدة تجعل من الممكن بالنسبة لنا للمزيد من تطوير وتحسين عمليات المحاكاة ، يرجى الاتصال {0} أو الهاتف (303-492-4367) لمعرفة كيف يمكن أن تقدم مساهمة معفاة من الضرائب.	2009-09-03 22:08:45.92	2009-09-03 22:08:58.654	4
-1694	troubleshooting.javascript.q2.answer	جافا سكريبت يتم استخدامه مع الكثير من الميزات الموجودة على الموقع ، بما في ذلك إجراءات الترشيح ، والسماح للمدخلات متعددة من البيانات. Howevery ، العديد من الصفحات وسوف تعمل بشكل جيد بدون جافا سكريبت.	2009-09-03 22:09:11.347	2009-09-03 22:09:11.347	4
-532	troubleshooting.main.q13.title	@troubleshooting.main.q13.title@	2009-08-31 14:19:47.361	2009-08-31 14:19:47.361	3
-1053	footer.someRightsReserved	@footer.someRightsReserved@	2009-09-03 13:20:28.773	2009-09-03 13:20:28.773	3
-533	troubleshooting.main.q13.answer	@troubleshooting.main.q13.answer@	2009-08-31 14:19:49.07	2009-08-31 14:19:49.07	3
-534	troubleshooting.main.licensingRequirements	@troubleshooting.main.licensingRequirements@	2009-08-31 14:19:51.99	2009-08-31 14:19:51.99	3
-527	troubleshooting.main.q10.answer	@troubleshooting.main.q10.answer@	2009-08-31 14:19:34.268	2009-08-31 14:20:10.145	3
-537	keyword.acCircuits	@keyword.acCircuits@	2009-08-31 14:22:54.374	2009-08-31 14:22:54.374	3
-538	keyword.acceleration	@keyword.acceleration@	2009-08-31 14:22:56.987	2009-08-31 14:22:56.987	3
-539	keyword.activationEnergy	@keyword.activationEnergy@	2009-08-31 14:23:00.078	2009-08-31 14:23:00.078	3
-540	keyword.airResistance	@keyword.airResistance@	2009-08-31 14:23:03.131	2009-08-31 14:23:03.131	3
-541	keyword.algebra	@keyword.algebra@	2009-08-31 14:23:05.421	2009-08-31 14:23:05.421	3
-674	keyword.linearMotion	@keyword.linearMotion@	2009-08-31 14:57:30.825	2009-08-31 14:57:30.825	3
-675	keyword.longitudinalWaves	@keyword.longitudinalWaves@	2009-08-31 14:57:34.349	2009-08-31 14:57:34.349	3
-697	research.title	@research.title@	2009-08-31 14:58:41.569	2009-08-31 14:58:41.569	3
-691	about.licensing.title	@about.licensing.title@	2009-08-31 14:58:27.206	2009-08-31 14:58:27.206	3
-692	workshops.title	@workshops.title@	2009-08-31 14:58:29.565	2009-08-31 14:58:29.565	3
-694	get-phet.title	@get-phet.title@	2009-08-31 14:58:34.294	2009-08-31 14:58:34.294	3
-542	keyword.alternatingCurrent	@keyword.alternatingCurrent@	2009-08-31 14:23:08.542	2009-08-31 14:23:08.542	3
-543	keyword.ammeter	@keyword.ammeter@	2009-08-31 14:39:05.771	2009-08-31 14:39:05.771	3
-1063	simulationMainPanel.softwareRequirements	@simulationMainPanel.softwareRequirements@	2009-09-03 16:14:57.512	2009-09-03 16:14:57.512	3
-1064	simulationMainPanel.sampleLearningGoals	@simulationMainPanel.sampleLearningGoals@	2009-09-03 16:15:00.102	2009-09-03 16:15:00.102	3
-1065	simulationMainPanel.credits	@simulationMainPanel.credits@	2009-09-03 16:15:02.092	2009-09-03 16:15:02.092	3
-740	sponsors.title	@sponsors.title@	2009-08-31 23:40:21.203	2009-08-31 23:40:21.203	3
-1066	simulationMainPanel.language	@simulationMainPanel.language@	2009-09-03 16:15:03.865	2009-09-03 16:15:03.865	3
-1067	simulationMainPanel.languageTranslated	@simulationMainPanel.languageTranslated@	2009-09-03 16:15:05.543	2009-09-03 16:15:05.543	3
-812	keyword.monochromatic	@keyword.monochromatic@	2009-09-01 01:12:31.227	2009-09-01 01:12:31.227	3
-1830	about.contact.thePhetProject	The PhET Project:	2009-09-04 00:46:08.054	2009-09-04 00:46:08.054	1
-1831	about.contact.licenseInformation	License Information:	2009-09-04 00:46:58.433	2009-09-04 00:46:58.433	1
-1832	about.contact.email	Email:	2009-09-04 00:47:31.868	2009-09-04 00:47:38.065	1
-1833	about.contact.licensingText	<a {0}>Click here</a> to access the licensing information for the interactive simulations and their source code.	2009-09-04 00:49:51.48	2009-09-04 00:49:51.48	1
-1834	about.contact.correspondence	Please address all electronic correspondence to: {0} Information on contributing to PhET can be found <a {1}>here.</a>	2009-09-04 00:52:08.046	2009-09-04 00:52:08.046	1
-1835	about.contact.thePhetProject	مشروع PhET :	2009-09-04 00:56:09.152	2009-09-04 00:56:10.355	4
-1836	about.contact.licenseInformation	معلومات الترخيص :	2009-09-04 00:56:11.611	2009-09-04 00:56:11.611	4
-1837	about.contact.email	البريد الإلكتروني :	2009-09-04 00:56:12.797	2009-09-04 00:56:12.797	4
-1838	about.contact.licensingText	<a {0}>انقر هنا</a> للوصول إلى المعلومات ترخيص لمحاكاة تفاعلية وشفرة المصدر.	2009-09-04 00:56:20.872	2009-09-04 00:56:36.112	4
-1839	about.contact.correspondence	يرجى معالجة جميع المراسلات الالكترونية ل: {0} معلومات عن المساهمة في PhET يمكن العثور عليها <a {1}>هنا.</a>	2009-09-04 00:56:56.942	2009-09-04 00:57:25.758	4
-1038	sponsors.platinum	@sponsors.platinum@	2009-09-03 13:12:46.455	2009-09-03 13:12:46.455	3
-1068	simulationMainPanel.simulationTitleTranslated	@simulationMainPanel.simulationTitleTranslated@	2009-09-03 16:15:07.58	2009-09-03 16:15:07.58	3
-1069	simulationMainPanel.designTeam	@simulationMainPanel.designTeam@	2009-09-03 16:15:09.599	2009-09-03 16:15:09.599	3
-1070	simulationMainPanel.thirdPartyLibraries	@simulationMainPanel.thirdPartyLibraries@	2009-09-03 16:15:12.426	2009-09-03 16:15:12.426	3
-1071	simulationMainPanel.thanksTo	@simulationMainPanel.thanksTo@	2009-09-03 16:15:14.909	2009-09-03 16:15:14.909	3
-1072	contribute.financialContributions	@contribute.financialContributions@	2009-09-03 16:15:20.506	2009-09-03 16:15:20.506	3
-1073	contribute.main	@contribute.main@	2009-09-03 16:15:23.119	2009-09-03 16:15:23.119	3
-1074	contribute.thanks	@contribute.thanks@	2009-09-03 16:15:24.953	2009-09-03 16:15:24.953	3
-1075	keyword.photonBeams	@keyword.photonBeams@	2009-09-03 16:15:40.623	2009-09-03 16:15:40.623	3
-470	nav.math	@nav.math@	2009-08-31 14:15:29.188	2009-08-31 14:15:29.188	3
-781	troubleshooting.java.q5.answer	@troubleshooting.java.q5.answer@	2009-09-01 01:10:12.896	2009-09-01 01:10:12.896	3
-782	troubleshooting.java.q6.title	@troubleshooting.java.q6.title@	2009-09-01 01:10:14.472	2009-09-01 01:10:14.472	3
-1695	macwarning.title	@macwarning.title@	2009-09-03 22:29:32.794	2009-09-03 22:29:32.794	3
-1696	macwarning.problem	@macwarning.problem@	2009-09-03 22:29:35.976	2009-09-03 22:29:35.976	3
-1697	macwarning.solution	@macwarning.solution@	2009-09-03 22:29:38.111	2009-09-03 22:29:38.111	3
-596	keyword.deBroglieWavelength	@keyword.deBroglieWavelength@	2009-08-31 14:42:21.586	2009-08-31 14:42:21.586	3
-597	keyword.diet	@keyword.diet@	2009-08-31 14:42:24.981	2009-08-31 14:42:24.981	3
 598	keyword.diffraction	@keyword.diffraction@	2009-08-31 14:42:28.55	2009-08-31 14:42:28.55	3
 599	keyword.dilution	@keyword.dilution@	2009-08-31 14:42:32.288	2009-08-31 14:42:32.288	3
 600	keyword.diodes	@keyword.diodes@	2009-08-31 14:42:35.933	2009-08-31 14:42:39.272	3
@@ -4274,6 +4304,20 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 854	troubleshooting.flash.olderVersions	@troubleshooting.flash.olderVersions@	2009-09-01 02:42:08.722	2009-09-01 02:42:08.722	3
 855	troubleshooting.javascript.intro	@troubleshooting.javascript.intro@	2009-09-01 02:42:11.018	2009-09-01 02:42:11.018	3
 856	troubleshooting.javascript.notJava	@troubleshooting.javascript.notJava@	2009-09-01 02:42:12.327	2009-09-01 02:42:12.327	3
+1693	contribute.main	فلسفتنا هو جعل المحاكاة PhET متاحة مجانا لجميع المستخدمين في جميع أنحاء العالم. لديهم الآن تم تشغيل الملايين من المرات من موقعنا على الشبكة العالمية ، وكامل PhET جناح وقد تم تثبيتها على الالاف من اجهزة الكمبيوتر. لكن في حين أن المحاكاة قد تكون مجانية للمستخدمين ، فهي غالية الثمن بالنسبة لنا لإنشاء واختبار وصيانة ، ودعمنا المالي محدود. إذا كنت ترغب في مساعدة تجعل من الممكن بالنسبة لنا للمزيد من تطوير وتحسين عمليات المحاكاة ، يرجى الاتصال {0} أو الهاتف (303-492-4367) لمعرفة كيف يمكن أن تقدم مساهمة معفاة من الضرائب.	2009-09-03 22:08:45.92	2009-09-03 22:08:58.654	4
+1694	troubleshooting.javascript.q2.answer	جافا سكريبت يتم استخدامه مع الكثير من الميزات الموجودة على الموقع ، بما في ذلك إجراءات الترشيح ، والسماح للمدخلات متعددة من البيانات. Howevery ، العديد من الصفحات وسوف تعمل بشكل جيد بدون جافا سكريبت.	2009-09-03 22:09:11.347	2009-09-03 22:09:11.347	4
+532	troubleshooting.main.q13.title	@troubleshooting.main.q13.title@	2009-08-31 14:19:47.361	2009-08-31 14:19:47.361	3
+1053	footer.someRightsReserved	@footer.someRightsReserved@	2009-09-03 13:20:28.773	2009-09-03 13:20:28.773	3
+533	troubleshooting.main.q13.answer	@troubleshooting.main.q13.answer@	2009-08-31 14:19:49.07	2009-08-31 14:19:49.07	3
+534	troubleshooting.main.licensingRequirements	@troubleshooting.main.licensingRequirements@	2009-08-31 14:19:51.99	2009-08-31 14:19:51.99	3
+527	troubleshooting.main.q10.answer	@troubleshooting.main.q10.answer@	2009-08-31 14:19:34.268	2009-08-31 14:20:10.145	3
+537	keyword.acCircuits	@keyword.acCircuits@	2009-08-31 14:22:54.374	2009-08-31 14:22:54.374	3
+538	keyword.acceleration	@keyword.acceleration@	2009-08-31 14:22:56.987	2009-08-31 14:22:56.987	3
+539	keyword.activationEnergy	@keyword.activationEnergy@	2009-08-31 14:23:00.078	2009-08-31 14:23:00.078	3
+540	keyword.airResistance	@keyword.airResistance@	2009-08-31 14:23:03.131	2009-08-31 14:23:03.131	3
+541	keyword.algebra	@keyword.algebra@	2009-08-31 14:23:05.421	2009-08-31 14:23:05.421	3
+674	keyword.linearMotion	@keyword.linearMotion@	2009-08-31 14:57:30.825	2009-08-31 14:57:30.825	3
+675	keyword.longitudinalWaves	@keyword.longitudinalWaves@	2009-08-31 14:57:34.349	2009-08-31 14:57:34.349	3
 830	troubleshooting.java.q3.title	@troubleshooting.java.q3.title@	2009-09-01 01:18:02.665	2009-09-01 01:18:11.914	3
 831	troubleshooting.java.q3.answer	@troubleshooting.java.q3.answer@	2009-09-01 01:18:21.073	2009-09-01 01:18:21.073	3
 857	troubleshooting.javascript.notify	@troubleshooting.javascript.notify@	2009-09-01 02:42:13.713	2009-09-01 02:42:13.713	3
@@ -4393,6 +4437,7 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 653	keyword.indexOfRefraction	@keyword.indexOfRefraction@	2009-08-31 14:56:10.349	2009-08-31 14:56:10.349	3
 654	keyword.induction	@keyword.induction@	2009-08-31 14:56:14.139	2009-08-31 14:56:14.139	3
 796	keyword.equilibrium	@keyword.equilibrium@	2009-09-01 01:11:23.775	2009-09-01 01:11:23.775	3
+697	research.title	@research.title@	2009-08-31 14:58:41.569	2009-08-31 14:58:41.569	3
 797	keyword.food	@keyword.food@	2009-09-01 01:11:29.576	2009-09-01 01:11:29.576	3
 798	keyword.fuelConsumption	@keyword.fuelConsumption@	2009-09-01 01:11:35.034	2009-09-01 01:11:35.034	3
 799	keyword.greenhouseGases	@keyword.greenhouseGases@	2009-09-01 01:11:39.76	2009-09-01 01:11:39.76	3
@@ -4496,7 +4541,6 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 780	troubleshooting.java.q5.title	@troubleshooting.java.q5.title@	2009-09-01 01:10:11.724	2009-09-01 01:10:11.724	3
 644	keyword.greenhouseEffect	@keyword.greenhouseEffect@	2009-08-31 14:55:31.648	2009-08-31 14:55:31.648	3
 645	keyword.harmonicMotion	@keyword.harmonicMotion@	2009-08-31 14:55:36.784	2009-08-31 14:55:36.784	3
-646	keyword.heat	@keyword.heat@	2009-08-31 14:55:40.371	2009-08-31 14:55:40.371	3
 647	keyword.hookesLaw	@keyword.hookesLaw@	2009-08-31 14:55:44.731	2009-08-31 14:55:44.731	3
 648	keyword.hydrogenAtom	@keyword.hydrogenAtom@	2009-08-31 14:55:49.902	2009-08-31 14:55:49.902	3
 649	keyword.hydronium	@keyword.hydronium@	2009-08-31 14:55:55.063	2009-08-31 14:55:55.063	3
@@ -4557,6 +4601,18 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 1040	sponsors.bronze	@sponsors.bronze@	2009-09-03 13:13:18.803	2009-09-03 13:13:18.803	3
 1041	sponsors.technicalSupport	@sponsors.technicalSupport@	2009-09-03 13:13:20.311	2009-09-03 13:13:20.311	3
 1042	sponsors.piccolo.desc	@sponsors.piccolo.desc@	2009-09-03 13:13:21.773	2009-09-03 13:13:21.773	3
+691	about.licensing.title	@about.licensing.title@	2009-08-31 14:58:27.206	2009-08-31 14:58:27.206	3
+692	workshops.title	@workshops.title@	2009-08-31 14:58:29.565	2009-08-31 14:58:29.565	3
+694	get-phet.title	@get-phet.title@	2009-08-31 14:58:34.294	2009-08-31 14:58:34.294	3
+542	keyword.alternatingCurrent	@keyword.alternatingCurrent@	2009-08-31 14:23:08.542	2009-08-31 14:23:08.542	3
+543	keyword.ammeter	@keyword.ammeter@	2009-08-31 14:39:05.771	2009-08-31 14:39:05.771	3
+1063	simulationMainPanel.softwareRequirements	@simulationMainPanel.softwareRequirements@	2009-09-03 16:14:57.512	2009-09-03 16:14:57.512	3
+1064	simulationMainPanel.sampleLearningGoals	@simulationMainPanel.sampleLearningGoals@	2009-09-03 16:15:00.102	2009-09-03 16:15:00.102	3
+1065	simulationMainPanel.credits	@simulationMainPanel.credits@	2009-09-03 16:15:02.092	2009-09-03 16:15:02.092	3
+740	sponsors.title	@sponsors.title@	2009-08-31 23:40:21.203	2009-08-31 23:40:21.203	3
+1066	simulationMainPanel.language	@simulationMainPanel.language@	2009-09-03 16:15:03.865	2009-09-03 16:15:03.865	3
+1067	simulationMainPanel.languageTranslated	@simulationMainPanel.languageTranslated@	2009-09-03 16:15:05.543	2009-09-03 16:15:05.543	3
+812	keyword.monochromatic	@keyword.monochromatic@	2009-09-01 01:12:31.227	2009-09-01 01:12:31.227	3
 1043	sponsors.jfreechart.desc	@sponsors.jfreechart.desc@	2009-09-03 13:13:23.375	2009-09-03 13:13:23.375	3
 1044	sponsors.jade.desc	@sponsors.jade.desc@	2009-09-03 13:13:25.966	2009-09-03 13:13:25.966	3
 1045	sponsors.sourceforge.desc	@sponsors.sourceforge.desc@	2009-09-03 13:13:28.032	2009-09-03 13:13:28.032	3
@@ -4564,30 +4620,6 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 1047	sponsors.jetbrains.desc	@sponsors.jetbrains.desc@	2009-09-03 13:13:31.138	2009-09-03 13:13:31.138	3
 1048	sponsors.ej.desc	@sponsors.ej.desc@	2009-09-03 13:13:33.164	2009-09-03 13:13:33.164	3
 1049	sponsors.bitrock.desc	@sponsors.bitrock.desc@	2009-09-03 13:13:34.761	2009-09-03 13:13:34.761	3
-1050	sponsors.royalinteractive.desc	@sponsors.royalinteractive.desc@	2009-09-03 13:13:36.386	2009-09-03 13:13:36.386	3
-1051	sponsors.dynamicalSystems.desc	@sponsors.dynamicalSystems.desc@	2009-09-03 13:13:38.077	2009-09-03 13:13:38.077	3
-513	troubleshooting.main.q2.answer	@troubleshooting.main.q2.answer@	2009-08-31 14:18:10.379	2009-08-31 14:18:22.189	3
-458	nav.new	@nav.new@	2009-08-31 14:14:23.376	2009-08-31 14:14:23.376	3
-582	keyword.climate	@keyword.climate@	2009-08-31 14:41:28.357	2009-08-31 14:41:28.357	3
-517	troubleshooting.main.q5.answer	@troubleshooting.main.q5.answer@	2009-08-31 14:18:34.132	2009-08-31 14:18:37.813	3
-518	troubleshooting.main.q6.title	@troubleshooting.main.q6.title@	2009-08-31 14:18:40.743	2009-08-31 14:18:40.743	3
-519	troubleshooting.main.q6.answer	@troubleshooting.main.q6.answer@	2009-08-31 14:18:45.308	2009-08-31 14:18:45.308	3
-520	troubleshooting.main.q7.title	@troubleshooting.main.q7.title@	2009-08-31 14:18:57.404	2009-08-31 14:18:57.404	3
-546	keyword.angularAcceleration	@keyword.angularAcceleration@	2009-08-31 14:39:16.277	2009-08-31 14:39:16.277	3
-547	keyword.angularMomentum	@keyword.angularMomentum@	2009-08-31 14:39:19.144	2009-08-31 14:39:19.144	3
-548	keyword.angularPosition	@keyword.angularPosition@	2009-08-31 14:39:22.717	2009-08-31 14:39:22.717	3
-549	keyword.angularVelocity	@keyword.angularVelocity@	2009-08-31 14:39:25.19	2009-08-31 14:39:25.19	3
-550	keyword.area	@keyword.area@	2009-08-31 14:39:28.671	2009-08-31 14:39:28.671	3
-551	keyword.arithmetic	@keyword.arithmetic@	2009-08-31 14:39:31.302	2009-08-31 14:39:31.302	3
-552	keyword.arrheniusParameters	@keyword.arrheniusParameters@	2009-08-31 14:39:34.381	2009-08-31 14:39:34.381	3
-553	keyword.astronomy	@keyword.astronomy@	2009-08-31 14:39:37.612	2009-08-31 14:39:37.612	3
-554	keyword.atmosphere	@keyword.atmosphere@	2009-08-31 14:39:40.684	2009-08-31 14:39:40.684	3
-555	keyword.atomicNuclei	@keyword.atomicNuclei@	2009-08-31 14:39:43.362	2009-08-31 14:39:43.362	3
-556	keyword.atomicStructure	@keyword.atomicStructure@	2009-08-31 14:39:47.553	2009-08-31 14:39:47.553	3
-557	keyword.atoms	@keyword.atoms@	2009-08-31 14:39:51.479	2009-08-31 14:39:51.479	3
-559	keyword.binomialDistribution	@keyword.binomialDistribution@	2009-08-31 14:39:57.116	2009-08-31 14:39:57.116	3
-560	keyword.blackbody	@keyword.blackbody@	2009-08-31 14:40:00.463	2009-08-31 14:40:00.463	3
-561	keyword.bohrModel	@keyword.bohrModel@	2009-08-31 14:40:03.119	2009-08-31 14:40:03.119	3
 562	keyword.boltzmannDistribution	@keyword.boltzmannDistribution@	2009-08-31 14:40:06.685	2009-08-31 14:40:06.685	3
 563	keyword.bonds	@keyword.bonds@	2009-08-31 14:40:09.825	2009-08-31 14:40:09.825	3
 564	keyword.boylesLaw	@keyword.boylesLaw@	2009-08-31 14:40:12.552	2009-08-31 14:40:12.552	3
@@ -4621,6 +4653,45 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 1842	about.contact.email	@about.contact.email@	2009-09-04 00:57:58.139	2009-09-04 00:57:58.139	3
 1843	about.contact.licensingText	@about.contact.licensingText@	2009-09-04 00:57:59.418	2009-09-04 00:57:59.418	3
 1844	about.contact.correspondence	@about.contact.correspondence@	2009-09-04 00:58:00.449	2009-09-04 00:58:00.449	3
+1830	about.contact.thePhetProject	The PhET Project:	2009-09-04 00:46:08.054	2009-09-04 00:46:08.054	1
+1831	about.contact.licenseInformation	License Information:	2009-09-04 00:46:58.433	2009-09-04 00:46:58.433	1
+1832	about.contact.email	Email:	2009-09-04 00:47:31.868	2009-09-04 00:47:38.065	1
+1833	about.contact.licensingText	<a {0}>Click here</a> to access the licensing information for the interactive simulations and their source code.	2009-09-04 00:49:51.48	2009-09-04 00:49:51.48	1
+1834	about.contact.correspondence	Please address all electronic correspondence to: {0} Information on contributing to PhET can be found <a {1}>here.</a>	2009-09-04 00:52:08.046	2009-09-04 00:52:08.046	1
+1835	about.contact.thePhetProject	مشروع PhET :	2009-09-04 00:56:09.152	2009-09-04 00:56:10.355	4
+1836	about.contact.licenseInformation	معلومات الترخيص :	2009-09-04 00:56:11.611	2009-09-04 00:56:11.611	4
+1837	about.contact.email	البريد الإلكتروني :	2009-09-04 00:56:12.797	2009-09-04 00:56:12.797	4
+1838	about.contact.licensingText	<a {0}>انقر هنا</a> للوصول إلى المعلومات ترخيص لمحاكاة تفاعلية وشفرة المصدر.	2009-09-04 00:56:20.872	2009-09-04 00:56:36.112	4
+1839	about.contact.correspondence	يرجى معالجة جميع المراسلات الالكترونية ل: {0} معلومات عن المساهمة في PhET يمكن العثور عليها <a {1}>هنا.</a>	2009-09-04 00:56:56.942	2009-09-04 00:57:25.758	4
+1038	sponsors.platinum	@sponsors.platinum@	2009-09-03 13:12:46.455	2009-09-03 13:12:46.455	3
+1068	simulationMainPanel.simulationTitleTranslated	@simulationMainPanel.simulationTitleTranslated@	2009-09-03 16:15:07.58	2009-09-03 16:15:07.58	3
+1069	simulationMainPanel.designTeam	@simulationMainPanel.designTeam@	2009-09-03 16:15:09.599	2009-09-03 16:15:09.599	3
+470	nav.math	@nav.math@	2009-08-31 14:15:29.188	2009-08-31 14:15:29.188	3
+646	keyword.heat	@keyword.heat@	2009-08-31 14:55:40.371	2009-08-31 14:55:40.371	3
+1050	sponsors.royalinteractive.desc	@sponsors.royalinteractive.desc@	2009-09-03 13:13:36.386	2009-09-03 13:13:36.386	3
+1051	sponsors.dynamicalSystems.desc	@sponsors.dynamicalSystems.desc@	2009-09-03 13:13:38.077	2009-09-03 13:13:38.077	3
+513	troubleshooting.main.q2.answer	@troubleshooting.main.q2.answer@	2009-08-31 14:18:10.379	2009-08-31 14:18:22.189	3
+458	nav.new	@nav.new@	2009-08-31 14:14:23.376	2009-08-31 14:14:23.376	3
+582	keyword.climate	@keyword.climate@	2009-08-31 14:41:28.357	2009-08-31 14:41:28.357	3
+517	troubleshooting.main.q5.answer	@troubleshooting.main.q5.answer@	2009-08-31 14:18:34.132	2009-08-31 14:18:37.813	3
+518	troubleshooting.main.q6.title	@troubleshooting.main.q6.title@	2009-08-31 14:18:40.743	2009-08-31 14:18:40.743	3
+519	troubleshooting.main.q6.answer	@troubleshooting.main.q6.answer@	2009-08-31 14:18:45.308	2009-08-31 14:18:45.308	3
+520	troubleshooting.main.q7.title	@troubleshooting.main.q7.title@	2009-08-31 14:18:57.404	2009-08-31 14:18:57.404	3
+546	keyword.angularAcceleration	@keyword.angularAcceleration@	2009-08-31 14:39:16.277	2009-08-31 14:39:16.277	3
+547	keyword.angularMomentum	@keyword.angularMomentum@	2009-08-31 14:39:19.144	2009-08-31 14:39:19.144	3
+548	keyword.angularPosition	@keyword.angularPosition@	2009-08-31 14:39:22.717	2009-08-31 14:39:22.717	3
+549	keyword.angularVelocity	@keyword.angularVelocity@	2009-08-31 14:39:25.19	2009-08-31 14:39:25.19	3
+550	keyword.area	@keyword.area@	2009-08-31 14:39:28.671	2009-08-31 14:39:28.671	3
+551	keyword.arithmetic	@keyword.arithmetic@	2009-08-31 14:39:31.302	2009-08-31 14:39:31.302	3
+552	keyword.arrheniusParameters	@keyword.arrheniusParameters@	2009-08-31 14:39:34.381	2009-08-31 14:39:34.381	3
+553	keyword.astronomy	@keyword.astronomy@	2009-08-31 14:39:37.612	2009-08-31 14:39:37.612	3
+554	keyword.atmosphere	@keyword.atmosphere@	2009-08-31 14:39:40.684	2009-08-31 14:39:40.684	3
+555	keyword.atomicNuclei	@keyword.atomicNuclei@	2009-08-31 14:39:43.362	2009-08-31 14:39:43.362	3
+556	keyword.atomicStructure	@keyword.atomicStructure@	2009-08-31 14:39:47.553	2009-08-31 14:39:47.553	3
+557	keyword.atoms	@keyword.atoms@	2009-08-31 14:39:51.479	2009-08-31 14:39:51.479	3
+559	keyword.binomialDistribution	@keyword.binomialDistribution@	2009-08-31 14:39:57.116	2009-08-31 14:39:57.116	3
+560	keyword.blackbody	@keyword.blackbody@	2009-08-31 14:40:00.463	2009-08-31 14:40:00.463	3
+561	keyword.bohrModel	@keyword.bohrModel@	2009-08-31 14:40:03.119	2009-08-31 14:40:03.119	3
 \.
 
 
