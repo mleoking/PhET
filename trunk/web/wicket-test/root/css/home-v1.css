@@ -162,9 +162,11 @@ div.practices {
     margin-top: 15px;
     margin-bottom: 10px;
     clear: both;
+    position: relative;
 }
 
 div.practices dl {
+    position: relative;
     width: 185px;
     float: left;
     margin-right: 1px;
