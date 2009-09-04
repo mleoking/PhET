@@ -61,6 +61,22 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
     workEnergyGraph
   }
 
+  def kineticEnergyGraph = {
+    val keSeries = new ControlGraphSeries(formatEnergy("energy.kinetic".translate), kineticEnergyColor, abbrevUnused, J, characterUnused, createVariable(() => model.bead.getKineticEnergy))
+
+    val keGraph = new MotionSeriesGraph(keSeries, canvas, timeseriesModel, updateableObject, model) {
+      setEditable(false)
+      setDomainUpperBound(20)
+      setVerticalRange(-10000,10000)
+      getJFreeChartNode.setBuffered(false)
+      getJFreeChartNode.setPiccoloSeries()
+    }
+    keGraph.addControl(new SeriesSelectionControl("forces.work-energy-title-with-units".translate, 7) {
+      addToGrid(keSeries)
+    })
+    keGraph
+  }
+
   def accelerationGraph = {
     val accelerationVariable = new DefaultTemporalVariable() {
       override def setValue(accel: Double) = {
