@@ -131,7 +131,9 @@ div.rtl .simulation-main-image-panel {
 }
 
 table.system-requirements-table {
-    margin: 5px 10px 15px;
+    margin: 5px 0px 15px;
+    position: relative;
+    left: 5px;
     width: 505px;
 }
 
@@ -147,7 +149,9 @@ table.system-requirements-table td {
 }
 
 table.credits-table {
-    margin: 5px 10px 15px;
+    margin: 5px 0px 15px;
+    position: relative;
+    left: 5px;
     width: 505px;
 }
 
@@ -169,7 +173,9 @@ table.credits-table ul {
 }
 
 table.translations-table {
-    margin: 5px 10px 15px;
+    margin: 5px 0px 15px;
+    position: relative;
+    left: 5px;
     width: 505px;
 }
 
