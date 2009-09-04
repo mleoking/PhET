@@ -23,13 +23,13 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import edu.colorado.phet.wickettest.WicketApplication;
-import edu.colorado.phet.wickettest.test.TestTranslateString;
 import edu.colorado.phet.wickettest.authentication.PhetSession;
 import edu.colorado.phet.wickettest.components.InvisibleComponent;
 import edu.colorado.phet.wickettest.components.LocalizedLabel;
 import edu.colorado.phet.wickettest.content.IndexPage;
 import edu.colorado.phet.wickettest.data.TranslatedString;
 import edu.colorado.phet.wickettest.panels.PhetPanel;
+import edu.colorado.phet.wickettest.test.TestTranslateString;
 import edu.colorado.phet.wickettest.translation.entities.TranslationEntity;
 import edu.colorado.phet.wickettest.util.HibernateTask;
 import edu.colorado.phet.wickettest.util.HibernateUtils;
@@ -82,11 +82,14 @@ public class TranslateEntityPanel extends PhetPanel {
                     // TODO: remove after development
                     item.add( new AjaxLink( "translate-auto" ) {
                         public void onClick( AjaxRequestTarget target ) {
-                            StringUtils.setString( getHibernateSession(), tString.getKey(), TestTranslateString.translate( (String) model.getObject(), "en", testLocale.getLanguage() ), translationId );
+                            String value = TestTranslateString.translate( (String) model.getObject(), "en", testLocale.getLanguage() );
+                            if ( value != null ) {
+                                StringUtils.setString( getHibernateSession(), tString.getKey(), value, translationId );
+                            }
                             target.addComponent( TranslateEntityPanel.this );
                         }
                     } );
-                    
+
                 }
                 else {
                     item.add( new InvisibleComponent( "translate-auto" ) );

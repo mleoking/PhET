@@ -28,6 +28,7 @@ public class TestTranslateString {
             return matcher.group( 1 );
         }
         else {
+            System.out.println( "Translation error in: " + result );
             return null;
         }
     }

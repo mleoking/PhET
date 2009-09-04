@@ -18,6 +18,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.wickettest.components.InvisibleComponent;
 import edu.colorado.phet.wickettest.components.PhetLink;
 import edu.colorado.phet.wickettest.components.StaticImage;
@@ -88,7 +89,10 @@ public class SimulationMainPanel extends PhetPanel {
                 LocalizedSimulation simulation = (LocalizedSimulation) ( ( (IModel) ( item.getModel().getObject() ) ).getObject() );
                 Locale simLocale = simulation.getLocale();
                 PhetLink link = new PhetLink( "simulation-main-translation-link", simulation.getRunUrl() );
-                link.add( new Label( "simulation-main-translation-locale-name", simLocale.getDisplayName( context.getLocale() ) ) );
+                //link.add( new Label( "simulation-main-translation-locale-name", simLocale.getDisplayName( context.getLocale() ) ) );
+                String defaultLanguageName = simLocale.getDisplayName( context.getLocale() );
+                String languageName = ( (PhetLocalizer) getLocalizer() ).getString( "language.names." + LocaleUtils.localeToString( simLocale ), this, null, defaultLanguageName, false );
+                link.add( new Label( "simulation-main-translation-locale-name", languageName ) );
                 item.add( link );
                 item.add( new Label( "simulation-main-translation-locale-translated-name", simLocale.getDisplayName( simLocale ) ) );
                 item.add( new Label( "simulation-main-translation-title", simulation.getTitle() ) );
