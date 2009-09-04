@@ -1,6 +1,5 @@
 package edu.colorado.phet.forcelawlab
 
-
 import collection.mutable.ArrayBuffer
 import common.phetcommon.application.{PhetApplicationConfig, PhetApplicationLauncher, Module}
 import common.phetcommon.math.MathUtil
@@ -187,7 +186,7 @@ class SpringNode(model: ForceLawLabModel, transform: ModelViewTransform2D, color
     val endPt = transform.modelToView(model.m1.position)
 
     if (endPt.getX < startPt.getX) {
-      path.setPathTo(new Line2D.Double(startPt,startPt))
+      path.setPathTo(new Line2D.Double(startPt, startPt))
     }
     else {
       val unitVector = (startPt - endPt).normalize
@@ -575,6 +574,8 @@ class SolarModule(clock: ScalaClock, phetFrame: PhetFrame) extends Module(ForceL
 }
 
 class Circle(center: Vector2D, radius: Double) extends Ellipse2D.Double(center.x - radius, center.y - radius, radius * 2, radius * 2)
+
+class ForceLawLabApplication //todo
 
 class GravityForceLabApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
   addModule(new ForceLawsModule(new ScalaClock(30, 30 / 1000.0)))
