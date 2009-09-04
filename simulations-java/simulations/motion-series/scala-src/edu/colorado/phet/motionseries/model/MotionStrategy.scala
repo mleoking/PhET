@@ -260,6 +260,10 @@ class Grounded(bead: Bead) extends MotionStrategy(bead) {
     } else if (bead.mode == bead.positionMode) {
       println("position = "+bead.position+", desired = "+bead.desiredPosition)
       bead.setPosition((bead.desiredPosition + bead.position )/2)//attempt at filtering
+
+      //maybe a better assumption is constant velocity or constant acceleration
+//      val velocity
+
       //todo: move closer to bead computation of acceleration derivatives
       val timeData = for (i <- 0 until java.lang.Math.min(10, bead.stateHistory.length))
       yield new TimeData(bead.stateHistory(bead.stateHistory.length - 1 - i).position, bead.stateHistory(bead.stateHistory.length - 1 - i).time)
