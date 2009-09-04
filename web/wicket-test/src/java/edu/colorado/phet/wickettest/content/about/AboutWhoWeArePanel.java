@@ -1,11 +1,9 @@
 package edu.colorado.phet.wickettest.content.about;
 
-import org.apache.wicket.markup.html.link.Link;
-
-import edu.colorado.phet.wickettest.components.PhetLink;
 import edu.colorado.phet.wickettest.panels.PhetPanel;
-import edu.colorado.phet.wickettest.util.Linkable;
 import edu.colorado.phet.wickettest.util.PageContext;
+import edu.colorado.phet.wickettest.util.links.AbstractLinker;
+import edu.colorado.phet.wickettest.util.links.RawLinkable;
 
 public class AboutWhoWeArePanel extends PhetPanel {
     public AboutWhoWeArePanel( String id, PageContext context ) {
@@ -21,10 +19,10 @@ public class AboutWhoWeArePanel extends PhetPanel {
         return "about/who-we-are";
     }
 
-    public static Linkable getLinker() {
-        return new Linkable() {
-            public Link getLink( String id, PageContext context ) {
-                return new PhetLink( id, context.getPrefix() + getUrl() );
+    public static RawLinkable getLinker() {
+        return new AbstractLinker() {
+            public String getSubUrl( PageContext context ) {
+                return getUrl();
             }
         };
     }

@@ -75,7 +75,7 @@ public class WicketApplication extends WebApplication {
         StaticPage.addPanel( AboutContactPanel.class );
         StaticPage.addPanel( AboutWhoWeArePanel.class );
         StaticPage.addPanel( AboutLicensingPanel.class );
-        StaticPage.addPanel( AboutSponsors.class );
+        StaticPage.addPanel( AboutSponsorsPanel.class );
         // TODO: organize the above list, or refactor to another function
 
         // create a url mapper, and add the page classes to it

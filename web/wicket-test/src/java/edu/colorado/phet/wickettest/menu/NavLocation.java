@@ -6,8 +6,8 @@ import java.util.List;
 
 import org.apache.wicket.markup.html.link.Link;
 
-import edu.colorado.phet.wickettest.util.Linkable;
 import edu.colorado.phet.wickettest.util.PageContext;
+import edu.colorado.phet.wickettest.util.links.Linkable;
 
 public class NavLocation implements Serializable {
 

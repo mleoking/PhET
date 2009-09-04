@@ -18,8 +18,8 @@ import edu.colorado.phet.wickettest.content.troubleshooting.TroubleshootingJavas
 import edu.colorado.phet.wickettest.content.troubleshooting.TroubleshootingMainPanel;
 import edu.colorado.phet.wickettest.data.Category;
 import edu.colorado.phet.wickettest.util.HibernateUtils;
-import edu.colorado.phet.wickettest.util.Linkable;
 import edu.colorado.phet.wickettest.util.PageContext;
+import edu.colorado.phet.wickettest.util.links.Linkable;
 
 public class NavMenu {
     private HashMap<String, NavLocation> cache = new HashMap<String, NavLocation>();
@@ -90,7 +90,7 @@ public class NavMenu {
         addLocation( aboutLicensing );
         about.addChild( aboutLicensing );
 
-        NavLocation aboutSponsors = new NavLocation( about, "sponsors", AboutSponsors.getLinker() );
+        NavLocation aboutSponsors = new NavLocation( about, "sponsors", AboutSponsorsPanel.getLinker() );
         addLocation( aboutSponsors );
         about.addChild( aboutSponsors );
 

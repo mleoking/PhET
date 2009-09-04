@@ -1,11 +1,10 @@
 package edu.colorado.phet.wickettest.translation.entities;
 
-import edu.colorado.phet.wickettest.translation.PhetPanelFactory;
+import edu.colorado.phet.wickettest.content.ResearchPanel;
 import edu.colorado.phet.wickettest.panels.PhetPanel;
+import edu.colorado.phet.wickettest.translation.PhetPanelFactory;
 import edu.colorado.phet.wickettest.util.PageContext;
 import edu.colorado.phet.wickettest.util.PhetRequestCycle;
-import edu.colorado.phet.wickettest.content.RunOurSimulationsPanel;
-import edu.colorado.phet.wickettest.content.ResearchPanel;
 
 public class ResearchEntity extends TranslationEntity {
 

@@ -16,9 +16,9 @@ import edu.colorado.phet.wickettest.menu.NavLocation;
 import edu.colorado.phet.wickettest.panels.SimulationDisplayPanel;
 import edu.colorado.phet.wickettest.templates.PhetRegularPage;
 import edu.colorado.phet.wickettest.util.HibernateUtils;
-import edu.colorado.phet.wickettest.util.Linkable;
 import edu.colorado.phet.wickettest.util.PageContext;
 import edu.colorado.phet.wickettest.util.PhetUrlMapper;
+import edu.colorado.phet.wickettest.util.links.Linkable;
 
 public class SimulationDisplay extends PhetRegularPage {
     public SimulationDisplay( PageParameters parameters ) {

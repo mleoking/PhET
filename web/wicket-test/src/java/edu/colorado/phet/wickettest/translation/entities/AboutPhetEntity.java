@@ -1,8 +1,8 @@
 package edu.colorado.phet.wickettest.translation.entities;
 
+import edu.colorado.phet.wickettest.content.about.AboutContactPanel;
 import edu.colorado.phet.wickettest.content.about.AboutMainPanel;
 import edu.colorado.phet.wickettest.content.about.AboutSourceCodePanel;
-import edu.colorado.phet.wickettest.content.about.AboutContactPanel;
 import edu.colorado.phet.wickettest.panels.PhetPanel;
 import edu.colorado.phet.wickettest.translation.PhetPanelFactory;
 import edu.colorado.phet.wickettest.util.PageContext;

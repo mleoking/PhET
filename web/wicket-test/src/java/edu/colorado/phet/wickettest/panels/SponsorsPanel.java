@@ -2,7 +2,7 @@ package edu.colorado.phet.wickettest.panels;
 
 import org.apache.wicket.behavior.HeaderContributor;
 
-import edu.colorado.phet.wickettest.content.about.AboutSponsors;
+import edu.colorado.phet.wickettest.content.about.AboutSponsorsPanel;
 import edu.colorado.phet.wickettest.util.PageContext;
 
 public class SponsorsPanel extends PhetPanel {
@@ -11,6 +11,6 @@ public class SponsorsPanel extends PhetPanel {
 
         add( HeaderContributor.forCss( "/css/sponsors-v1.css" ) );
 
-        add( AboutSponsors.getLinker().getLink( "sponsors-link", context ) );
+        add( AboutSponsorsPanel.getLinker().getLink( "sponsors-link", context ) );
     }
 }

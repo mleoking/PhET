@@ -16,8 +16,9 @@ import edu.colorado.phet.wickettest.data.LocalizedSimulation;
 import edu.colorado.phet.wickettest.panels.PhetPanel;
 import edu.colorado.phet.wickettest.util.HibernateTask;
 import edu.colorado.phet.wickettest.util.HibernateUtils;
-import edu.colorado.phet.wickettest.util.Linkable;
 import edu.colorado.phet.wickettest.util.PageContext;
+import edu.colorado.phet.wickettest.util.links.AbstractLinker;
+import edu.colorado.phet.wickettest.util.links.RawLinkable;
 
 public class OneAtATimePanel extends PhetPanel {
     public OneAtATimePanel( String id, final PageContext context ) {
@@ -48,7 +49,7 @@ public class OneAtATimePanel extends PhetPanel {
         //add( TroubleshootingMainPanel.getLinker().getLink( "tech-support-link", context ) );
 
         add( new LocalizedText( "running-sims", "get-phet.one-at-a-time.runningSims", new Object[]{
-                "href=\"" + context.getPrefix() + TroubleshootingMainPanel.getUrl() + "\""
+                TroubleshootingMainPanel.getLinker().getHref( context )
         } ) );
 
     }
@@ -61,10 +62,10 @@ public class OneAtATimePanel extends PhetPanel {
         return "get-phet/one-at-a-time";
     }
 
-    public static Linkable getLinker() {
-        return new Linkable() {
-            public Link getLink( String id, PageContext context ) {
-                return new PhetLink( id, context.getPrefix() + getUrl() );
+    public static RawLinkable getLinker() {
+        return new AbstractLinker() {
+            public String getSubUrl( PageContext context ) {
+                return getUrl();
             }
         };
     }
