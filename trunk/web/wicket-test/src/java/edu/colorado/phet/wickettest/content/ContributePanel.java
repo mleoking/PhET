@@ -19,7 +19,7 @@ public class ContributePanel extends PhetPanel {
         add( new LocalizedText( "contribute-thanks", "contribute.thanks", new Object[]{
                 "href=\"/about/sponsors\"",
                 "href=\"http://www.royalinteractive.com/\""
-        }));
+        } ) );
     }
 
     public static String getKey() {

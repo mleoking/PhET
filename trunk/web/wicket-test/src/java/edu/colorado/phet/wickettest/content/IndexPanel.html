@@ -12,176 +12,177 @@
 <body>
 
 <wicket:panel>
-<div class="index-content" wicket:message="dir:language.dir">
-<div id="index-middle-div">
-    <div id="index-animated-screenshot-holder">
-        <a href="IndexPanel.html#" wicket:id="image-link">
-            <img wicket:id="index-animated-screenshot" id="index-animated-screenshot"
-                 src="../../../../../../../root/images/mass-spring-lab-animated-screenshot.gif"
-                 alt="Simulation Screenshot" style="border: none;"/>
-        </a>
-    </div>
-    <div id="right-middle">
-        <div id="index-header">
-            <wicket:message key="home.header">Interactive Science Simulations</wicket:message>
+    <div class="index-content" wicket:message="dir:language.dir">
+        <div id="index-middle-div">
+            <div id="index-animated-screenshot-holder">
+                <a href="IndexPanel.html#" wicket:id="image-link">
+                    <img wicket:id="index-animated-screenshot" id="index-animated-screenshot"
+                         src="../../../../../../../root/images/mass-spring-lab-animated-screenshot.gif"
+                         alt="Simulation Screenshot" style="border: none;"/>
+                </a>
+            </div>
+            <div id="right-middle">
+                <div id="index-header">
+                    <wicket:message key="home.header">Interactive Science Simulations</wicket:message>
+                </div>
+                <div id="index-main-text" wicket:id="index-main-text">
+                    Fun, interactive, research-based simulations of physical phenomena from the PhET project at the
+                    University of Colorado.
+                </div>
+                <div class="pws-holder" dir="ltr">
+                    <table class="pws-table" cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td class="pws-left">
+
+                            </td>
+                            <td class="pws-middle">
+                                <a href="#" wicket:id="play-sims-link">
+                                    <wicket:message key="home.playWithSims">Play with sims... &gt;</wicket:message>
+                                </a>
+                            </td>
+                            <td class="pws-right">
+
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div id="sponsors" class="ie6sponsors">
+                    <table cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td width="80" class="sponsor">
+                                <a href="http://www.ksu.edu.sa/" wicket:message="dir:language.dir">
+                                    <img wicket:id="ksu-logo"
+                                         src="../../../../../../../root/images/sponsors/ECSME-combined-logo-small.jpg"
+                                         alt="King Saud Univeristy logo"/>
+                                    <br/>
+                                    ECSME at King Saud University
+                                </a>
+                            </td>
+                            <td width="60" class="sponsor">
+                                <a href="http://www.nsf.gov/" wicket:message="dir:language.dir">
+                                    <img wicket:id="nsf-logo"
+                                         src="../../../../../../../root/images/sponsors/nsf-logo-small.gif"
+                                         alt="NSF Logo"/>
+                                    <br/>
+                                    National Science Foundation
+                                </a>
+                            </td>
+                            <td width="70" class="sponsor">
+                                <a href="http://jila-amo.colorado.edu/" wicket:message="dir:language.dir">
+                                    <img wicket:id="jila-logo"
+                                         src="../../../../../../../root/images/sponsors/jila_logo_small.gif"
+                                         alt="JILA Logo"/>
+                                    <br/>
+                                    JILA Center for Atomic, Molecular, & Optical Physics
+                                </a>
+                            </td>
+                            <td width="120" class="sponsor">
+                                <a href="http://www.hewlett.org/" wicket:message="dir:language.dir">
+                                    <img wicket:id="hewlett-logo"
+                                         src="../../../../../../../root/images/sponsors/hewlett-logo-small.jpg"
+                                         alt="Hewlett Foundation logo"/>
+                                    The William and Flora Hewlett Foundation
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
         </div>
-        <div id="index-main-text" wicket:id="index-main-text">
-            Fun, interactive, research-based simulations of physical phenomena from the PhET project at the
-            University of Colorado.
+
+        <div class="practices">
+            <dl>
+                <dt>
+                    <a href="get_phet/index.php" wicket:id="run-our-sims-link">
+                        <wicket:message key="home.runOurSims">Run our Simulations</wicket:message>
+                    </a>
+                </dt>
+                <dd>
+                    <a href="simulations/index.php" wicket:id="on-line-link">
+                        <wicket:message key="home.onLine">On Line</wicket:message>
+                    </a>
+                </dd>
+                <dd>
+                    <a href="get_phet/full_install.php" wicket:id="full-install-link">
+                        <wicket:message key="home.fullInstallation">Full Installation</wicket:message>
+                    </a>
+                </dd>
+                <dd>
+                    <a href="get_phet/simlauncher.php" wicket:id="one-at-a-time-link">
+                        <wicket:message key="home.oneAtATime">One at a Time</wicket:message>
+                    </a>
+                </dd>
+            </dl>
+
+            <dl>
+                <dt>
+                    <a href="/activities">
+                        <wicket:message key="home.teacherIdeasAndActivities">Teacher Ideas &amp;
+                            Activities
+                        </wicket:message>
+                    </a>
+                </dt>
+                <dd>
+                    <a href="teacher_ideas/workshops.php" wicket:id="workshops-link">
+                        <wicket:message key="home.workshops">Workshops</wicket:message>
+                    </a>
+                </dd>
+            </dl>
+
+            <dl>
+                <dt>
+                    <a href="contribute/index.php" wicket:id="contribute-link">
+                        <wicket:message key="home.contribute">Contribute</wicket:message>
+                    </a>
+                </dt>
+                <dd>
+                    <a href="contribute/index.php" wicket:id="support-phet-link">
+                        <wicket:message key="home.supportPhet">Support PhET</wicket:message>
+                    </a>
+                </dd>
+                <!--<dd>-->
+                <!--<a href="contribute/translation-utility.php">-->
+                <!--<wicket:message key="home.translateSimulations">Translate Simulations</wicket:message>-->
+                <!--</a>-->
+                <!--</dd>-->
+            </dl>
+
+            <dl class="last">
+                <dt>
+                    <a href="simulations/index.php" wicket:id="browse-sims-link">
+                        <wicket:message key="home.browseSims">Browse Sims</wicket:message>
+                    </a>
+                </dt>
+                <dd><a class="nolink" href="simulations/index.php" wicket:id="mini-screenshot-link"><img
+                        src="../../../../../../../root/images/geometric-optics-screenshot.png"
+                        alt="Simulation Screenshot"
+                        title="Search"
+                        wicket:id="mini-screenshot"/></a></dd>
+                <dd class="readMore">
+                    <a href="simulations/index.php" wicket:id="below-simulations-link">
+                        <wicket:message key="home.simulations">Simulations</wicket:message>
+                    </a>
+                </dd>
+            </dl>
+            <div class="clear">
+
+            </div>
         </div>
-        <div class="pws-holder" dir="ltr">
-            <table class="pws-table" cellpadding="0" cellspacing="0">
-                <tr>
-                    <td class="pws-left">
 
-                    </td>
-                    <td class="pws-middle">
-                        <a href="#" wicket:id="play-sims-link">
-                            <wicket:message key="home.playWithSims">Play with sims... &gt;</wicket:message>
-                        </a>
-                    </td>
-                    <td class="pws-right">
+        <div class="clear">
 
-                    </td>
-                </tr>
-            </table>
         </div>
 
-        <div id="sponsors" class="ie6sponsors">
-            <table cellpadding="0" cellspacing="0">
-                <tr>
-                    <td width="80" class="sponsor">
-                        <a href="http://www.ksu.edu.sa/" wicket:message="dir:language.dir">
-                            <img wicket:id="ksu-logo"
-                                 src="../../../../../../../root/images/sponsors/ECSME-combined-logo-small.jpg"
-                                 alt="King Saud Univeristy logo"/>
-                            <br/>
-                            ECSME at King Saud University
-                        </a>
-                    </td>
-                    <td width="60" class="sponsor">
-                        <a href="http://www.nsf.gov/" wicket:message="dir:language.dir">
-                            <img wicket:id="nsf-logo" src="../../../../../../../root/images/sponsors/nsf-logo-small.gif"
-                                 alt="NSF Logo"/>
-                            <br/>
-                            National Science Foundation
-                        </a>
-                    </td>
-                    <td width="70" class="sponsor">
-                        <a href="http://jila-amo.colorado.edu/" wicket:message="dir:language.dir">
-                            <img wicket:id="jila-logo"
-                                 src="../../../../../../../root/images/sponsors/jila_logo_small.gif"
-                                 alt="JILA Logo"/>
-                            <br/>
-                            JILA Center for Atomic, Molecular, & Optical Physics
-                        </a>
-                    </td>
-                    <td width="120" class="sponsor">
-                        <a href="http://www.hewlett.org/" wicket:message="dir:language.dir">
-                            <img wicket:id="hewlett-logo"
-                                 src="../../../../../../../root/images/sponsors/hewlett-logo-small.jpg"
-                                 alt="Hewlett Foundation logo"/>
-                            The William and Flora Hewlett Foundation
-                        </a>
-                    </td>
-                </tr>
-            </table>
-        </div>
-    </div>
-</div>
-
-<div class="practices">
-    <dl>
-        <dt>
-            <a href="get_phet/index.php" wicket:id="run-our-sims-link">
-                <wicket:message key="home.runOurSims">Run our Simulations</wicket:message>
-            </a>
-        </dt>
-        <dd>
-            <a href="simulations/index.php" wicket:id="on-line-link">
-                <wicket:message key="home.onLine">On Line</wicket:message>
-            </a>
-        </dd>
-        <dd>
-            <a href="get_phet/full_install.php" wicket:id="full-install-link">
-                <wicket:message key="home.fullInstallation">Full Installation</wicket:message>
-            </a>
-        </dd>
-        <dd>
-            <a href="get_phet/simlauncher.php" wicket:id="one-at-a-time-link">
-                <wicket:message key="home.oneAtATime">One at a Time</wicket:message>
-            </a>
-        </dd>
-    </dl>
-
-    <dl>
-        <dt>
-            <a href="/activities">
-                <wicket:message key="home.teacherIdeasAndActivities">Teacher Ideas &amp;
-                    Activities
-                </wicket:message>
-            </a>
-        </dt>
-        <dd>
-            <a href="teacher_ideas/workshops.php" wicket:id="workshops-link">
-                <wicket:message key="home.workshops">Workshops</wicket:message>
-            </a>
-        </dd>
-    </dl>
-
-    <dl>
-        <dt>
-            <a href="contribute/index.php" wicket:id="contribute-link">
-                <wicket:message key="home.contribute">Contribute</wicket:message>
-            </a>
-        </dt>
-        <dd>
-            <a href="contribute/index.php" wicket:id="support-phet-link">
-                <wicket:message key="home.supportPhet">Support PhET</wicket:message>
-            </a>
-        </dd>
-        <!--<dd>-->
-        <!--<a href="contribute/translation-utility.php">-->
-        <!--<wicket:message key="home.translateSimulations">Translate Simulations</wicket:message>-->
-        <!--</a>-->
-        <!--</dd>-->
-    </dl>
-
-    <dl class="last">
-        <dt>
-            <a href="simulations/index.php" wicket:id="browse-sims-link">
-                <wicket:message key="home.browseSims">Browse Sims</wicket:message>
-            </a>
-        </dt>
-        <dd><a class="nolink" href="simulations/index.php" wicket:id="mini-screenshot-link"><img
-                src="../../../../../../../root/images/geometric-optics-screenshot.png"
-                alt="Simulation Screenshot"
-                title="Search"
-                wicket:id="mini-screenshot"/></a></dd>
-        <dd class="readMore">
-            <a href="simulations/index.php" wicket:id="below-simulations-link">
-                <wicket:message key="home.simulations">Simulations</wicket:message>
-            </a>
-        </dd>
-    </dl>
-    <div class="clear">
-
-    </div>
-</div>
-
-<div class="clear">
-
-</div>
-
-<div class="index-footer" style="text-align: center; margin-top: 5px;">
-    <a href="IndexPanel.html#" wicket:id="test-translation" class="langlink">Translation Test</a>
-    <br/>
-    <!--<span wicket:id="test-en">(English)</span> <span wicket:id="test-ar">(Arabic)</span>-->
+        <div class="index-footer" style="text-align: center; margin-top: 5px;">
+            <a href="IndexPanel.html#" wicket:id="test-translation" class="langlink">Translation Test</a>
+            <br/>
+            <!--<span wicket:id="test-en">(English)</span> <span wicket:id="test-ar">(Arabic)</span>-->
             <span wicket:id="translation-links">
                 Translation links go here
             </span>
-</div>
-</div>
+        </div>
+    </div>
 </wicket:panel>
 
 </body>

@@ -188,7 +188,10 @@ CREATE TABLE simulation (
     id integer NOT NULL,
     name character varying(255),
     type integer,
-    project integer
+    project integer,
+    designteam character varying(255),
+    libraries character varying(255),
+    thanksto character varying(255)
 );
 
 
@@ -2449,83 +2452,83 @@ COPY project (id, name, versionmajor, versionminor, versiondev, versionrevision,
 -- Data for Name: simulation; Type: TABLE DATA; Schema: public; Owner: phet
 --
 
-COPY simulation (id, name, type, project) FROM stdin;
-1	balloons	0	1
-2	battery-resistor-circuit	0	2
-3	battery-voltage	0	3
-4	band-structure	0	4
-5	covalent-bonds	0	4
-6	bound-states	0	4
-7	circuit-construction-kit-ac	0	5
-8	circuit-construction-kit-dc	0	5
-9	color-vision	0	6
-10	conductivity	0	7
-11	discharge-lamps	0	8
-12	eating-and-exercise	0	9
-13	efield	0	10
-14	electric-hockey	0	11
-15	energy-skate-park	0	12
-16	magnets-and-electromagnets	0	13
-17	generator	0	13
-18	magnet-and-compass	0	13
-19	faraday	0	13
-20	forces-1d	0	14
-21	fourier	0	15
-22	glaciers	0	16
-23	greenhouse	0	17
-24	hydrogen-atom	0	18
-25	gas-properties	0	19
-26	balloons-and-buoyancy	0	19
-27	reversible-reactions	0	19
-28	lasers	0	20
-29	maze-game	0	21
-30	microwaves	0	22
-31	motion-2d	0	23
-32	moving-man	0	24
-33	mri	0	25
-34	optical-quantum-control	0	26
-35	molecular-motors	0	27
-36	stretching-dna	0	27
-37	optical-tweezers	0	27
-38	ph-scale	0	28
-39	photoelectric	0	29
-40	quantum-tunneling	0	30
-41	davisson-germer	0	31
-42	quantum-wave-interference	0	31
-43	radio-waves	0	32
-44	reactions-and-rates	0	33
-45	torque	0	34
-46	rotation	0	34
-47	rutherford-scattering	0	35
-48	self-driven-particle-model	0	36
-49	semiconductor	0	37
-50	signal-circuit	0	38
-51	soluble-salts	0	39
-52	sound	0	40
-53	sim2	0	41
-54	sim1	0	41
-55	travoltage	0	42
-56	wave-interference	0	43
-57	arithmetic	1	44
-58	blackbody-spectrum	1	45
-59	charges-and-fields	1	46
-60	curve-fitting	1	47
-61	equation-grapher	1	48
-62	estimation	1	49
-63	faradays-law	1	50
-64	friction	1	51
-65	geometric-optics	1	52
-66	lunar-lander	1	53
-67	mass-spring-lab	1	54
-68	my-solar-system	1	55
-69	ohms-law	1	56
-70	pendulum-lab	1	57
-71	plinko-probability	1	58
-72	projectile-motion	1	59
-73	resistance-in-a-wire	1	60
-74	stern-gerlach	1	61
-75	vector-addition	1	62
-76	wave-on-a-string	1	63
+COPY simulation (id, name, type, project, designteam, libraries, thanksto) FROM stdin;
+2	battery-resistor-circuit	0	2	\N	\N	\N
+3	battery-voltage	0	3	\N	\N	\N
+4	band-structure	0	4	\N	\N	\N
+5	covalent-bonds	0	4	\N	\N	\N
+6	bound-states	0	4	\N	\N	\N
+7	circuit-construction-kit-ac	0	5	\N	\N	\N
+8	circuit-construction-kit-dc	0	5	\N	\N	\N
+9	color-vision	0	6	\N	\N	\N
+10	conductivity	0	7	\N	\N	\N
+11	discharge-lamps	0	8	\N	\N	\N
+12	eating-and-exercise	0	9	\N	\N	\N
+13	efield	0	10	\N	\N	\N
+14	electric-hockey	0	11	\N	\N	\N
+15	energy-skate-park	0	12	\N	\N	\N
+16	magnets-and-electromagnets	0	13	\N	\N	\N
+17	generator	0	13	\N	\N	\N
+18	magnet-and-compass	0	13	\N	\N	\N
+19	faraday	0	13	\N	\N	\N
+20	forces-1d	0	14	\N	\N	\N
+21	fourier	0	15	\N	\N	\N
+23	greenhouse	0	17	\N	\N	\N
+24	hydrogen-atom	0	18	\N	\N	\N
+25	gas-properties	0	19	\N	\N	\N
+26	balloons-and-buoyancy	0	19	\N	\N	\N
+27	reversible-reactions	0	19	\N	\N	\N
+28	lasers	0	20	\N	\N	\N
+29	maze-game	0	21	\N	\N	\N
+30	microwaves	0	22	\N	\N	\N
+31	motion-2d	0	23	\N	\N	\N
+32	moving-man	0	24	\N	\N	\N
+33	mri	0	25	\N	\N	\N
+34	optical-quantum-control	0	26	\N	\N	\N
+35	molecular-motors	0	27	\N	\N	\N
+36	stretching-dna	0	27	\N	\N	\N
+37	optical-tweezers	0	27	\N	\N	\N
+38	ph-scale	0	28	\N	\N	\N
+39	photoelectric	0	29	\N	\N	\N
+40	quantum-tunneling	0	30	\N	\N	\N
+41	davisson-germer	0	31	\N	\N	\N
+42	quantum-wave-interference	0	31	\N	\N	\N
+43	radio-waves	0	32	\N	\N	\N
+44	reactions-and-rates	0	33	\N	\N	\N
+45	torque	0	34	\N	\N	\N
+46	rotation	0	34	\N	\N	\N
+47	rutherford-scattering	0	35	\N	\N	\N
+48	self-driven-particle-model	0	36	\N	\N	\N
+49	semiconductor	0	37	\N	\N	\N
+50	signal-circuit	0	38	\N	\N	\N
+51	soluble-salts	0	39	\N	\N	\N
+52	sound	0	40	\N	\N	\N
+53	sim2	0	41	\N	\N	\N
+54	sim1	0	41	\N	\N	\N
+55	travoltage	0	42	\N	\N	\N
+56	wave-interference	0	43	\N	\N	\N
+58	blackbody-spectrum	1	45	\N	\N	\N
+59	charges-and-fields	1	46	\N	\N	\N
+60	curve-fitting	1	47	\N	\N	\N
+61	equation-grapher	1	48	\N	\N	\N
+62	estimation	1	49	\N	\N	\N
+63	faradays-law	1	50	\N	\N	\N
+64	friction	1	51	\N	\N	\N
+65	geometric-optics	1	52	\N	\N	\N
+66	lunar-lander	1	53	\N	\N	\N
+67	mass-spring-lab	1	54	\N	\N	\N
+68	my-solar-system	1	55	\N	\N	\N
+69	ohms-law	1	56	\N	\N	\N
+70	pendulum-lab	1	57	\N	\N	\N
+71	plinko-probability	1	58	\N	\N	\N
+72	projectile-motion	1	59	\N	\N	\N
+73	resistance-in-a-wire	1	60	\N	\N	\N
+74	stern-gerlach	1	61	\N	\N	\N
+75	vector-addition	1	62	\N	\N	\N
+76	wave-on-a-string	1	63	\N	\N	\N
+57	arithmetic	1	44	Michael Dubson (developer/lead)<br/>Trish Loeblein	\N	\N
+1	balloons	0	1	Sam Reid (developer/lead)<br/>Interviewer: Wendy Adams	\N	\N
+22	glaciers	0	16	Wendy Adams<br/>Bob Anderson<br/>Andrea Blair<br/>Chris Malley (developer)<br/>Archie Paulson (lead)<br/>Kathy Perkins<br/>Dylan Ward	JFreeChart<br/>Piccolo	\N
 \.
 
 
