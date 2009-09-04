@@ -130,6 +130,7 @@ div.rtl .simulation-main-image-panel {
     padding: 0 5px 0 0;
 }
 
+/* TODO: Clean up this table CSS */
 table.system-requirements-table {
     margin: 5px 0px 15px;
     position: relative;
@@ -193,4 +194,8 @@ table.translations-table td {
 table.simulation-main-translations-table {
     margin: 5px 10px 15px;
     width: 505px;
+}
+
+div.rtl table.translations-table th, div.rtl table.credits-table th, div.rtl table.system-requirements-table th {
+    text-align: right;
 }
