@@ -66,7 +66,10 @@ public class PhetLocalizer extends Localizer {
 
     @Override
     public String getString( String key, Component component, IModel model, String defaultValue ) throws MissingResourceException {
-        //System.out.println( "******************************\nBeginning string lookup: " + key );
+        return getString( key, component, model, defaultValue, true );
+    }
+
+    public String getString( String key, Component component, IModel model, String defaultValue, boolean checkDefault ) throws MissingResourceException {
         String lookup = null;
         Integer translationId = null;
         if ( component.getVariation() != null ) {
@@ -80,17 +83,13 @@ public class PhetLocalizer extends Localizer {
         String mainCacheKey;
 
         if ( lookupById ) {
-            //System.out.println( "Looking up by translation ID: " + String.valueOf( translationId ) );
             mainCacheKey = mapCacheKey( key, translationId );
             lookup = getFromCache( mainCacheKey );
         }
         else {
-            //System.out.println( "Looking up by locale: " + LocaleUtils.localeToString( locale ) );
             mainCacheKey = mapCacheKey( key, locale );
             lookup = getFromCache( mainCacheKey );
         }
-
-        //System.out.println( "First cache lookup: " + lookup );
 
         // if the cache lookup says the value is not translated, we don't want to look it up in the database
         boolean untranslated = false;
@@ -107,7 +106,6 @@ public class PhetLocalizer extends Localizer {
 
         // if the value isn't in the cache for the main lookup, request it from the DB
         if ( !untranslated ) {
-            //System.out.println( "Looking up main string" );
             // perform the lookup
             if ( translationId != null ) {
                 lookup = StringUtils.getString( session, key, translationId );
@@ -115,8 +113,6 @@ public class PhetLocalizer extends Localizer {
             else {
                 lookup = StringUtils.getString( session, key, locale );
             }
-
-            //System.out.println( "First DB lookup: " + lookup );
 
             // if the lookup is found, put it in the cache and return it
             if ( lookup != null ) {
@@ -131,15 +127,16 @@ public class PhetLocalizer extends Localizer {
 
         // at this point, we know it is not in the first translation we looked at
 
+        if( !checkDefault ) {
+            // return either null or the default value, since we won't check the default language
+            return defaultValue;
+        }
+
         Locale defaultLocale = WicketApplication.getDefaultLocale();
         String defaultCacheKey = mapCacheKey( key, defaultLocale );
 
-        //System.out.println( "Looking up for default cache" );
-
         // perform a cache lookup for the default value
         lookup = getFromCache( defaultCacheKey );
-
-        //System.out.println( "Second cache lookup: " + lookup );
 
         untranslated = false;
 
@@ -160,12 +157,8 @@ public class PhetLocalizer extends Localizer {
             throw new RuntimeException( "Could not find any translation for the key " + key );
         }
 
-        //System.out.println( "Looking up in default DB" );
-
         // perform a "default" lookup, which usually should give the English translation, if it exists
         lookup = StringUtils.getString( session, key );
-
-        //System.out.println( "Default DB lookup: " + lookup );
 
         if ( lookup != null ) {
             putIntoCache( defaultCacheKey, lookup );
@@ -181,4 +174,5 @@ public class PhetLocalizer extends Localizer {
             throw new RuntimeException( "Could not find any translation for the key " + key );
         }
     }
+
 }
