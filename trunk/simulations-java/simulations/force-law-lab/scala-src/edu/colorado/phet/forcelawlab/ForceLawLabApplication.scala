@@ -15,7 +15,6 @@ import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import java.awt._
 import geom.{Line2D, Ellipse2D, Rectangle2D, Point2D}
 import java.awt.event.{MouseAdapter, MouseEvent}
-
 import java.text._
 import javax.swing._
 import border.TitledBorder
@@ -23,7 +22,6 @@ import scalacommon.swing.{MyRadioButton}
 import umd.cs.piccolo.nodes.{PImage, PText}
 import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
 import umd.cs.piccolo.util.PDimension
-
 import umd.cs.piccolo.PNode
 import scalacommon.math.Vector2D
 import scalacommon.Predef._
@@ -56,6 +54,7 @@ class ForceLabelNode(target: Mass, source: Mass, transform: ModelViewTransform2D
   addChild(arrowNode)
   addChild(label)
 }
+
 class MassNode(mass: Mass, transform: ModelViewTransform2D, color: Color, magnification: Magnification, textOffset: () => Double) extends PNode {
   val image = new SphericalNode(mass.radius * 2, color, false)
   val label = new ShadowPText(mass.name, Color.white, new PhetFont(16, true))
@@ -170,7 +169,7 @@ class ForceLawLabCanvas(model: ForceLawLabModel, modelWidth: Double, mass1Color:
   })
   rulerNode.addInputEventListener(new CursorHandler)
 
-  addNode(new WallNode(model.wall, transform, opposite(backgroundColor)))
+//  addNode(new WallNode(model.wall, transform, opposite(backgroundColor)))
   addNode(rulerNode)
 }
 
@@ -201,19 +200,20 @@ class SpringNode(model: ForceLawLabModel, transform: ModelViewTransform2D, color
       p.lineTo(endPt - new Vector2D(transform.modelToViewDifferentialXDouble(model.m1.radius), 0))
       path.setPathTo(p.getGeneralPath)
     }
-
-
   }
 }
+
 class Wall(width: Double, height: Double, _maxX: Double) {
   def getShape = new Rectangle2D.Double(-width + _maxX, -height / 2, width, height)
 
   def maxX: Double = getShape.getBounds2D.getMaxX
 }
-class WallNode(wall: Wall, transform: ModelViewTransform2D, color: Color) extends PNode {
-  val wallPath = new PhetPPath(transform.createTransformedShape(wall.getShape), color, new BasicStroke(2f), Color.gray)
-  addChild(wallPath)
-}
+
+//class WallNode(wall: Wall, transform: ModelViewTransform2D, color: Color) extends PNode {
+//  val wallPath = new PhetPPath(transform.createTransformedShape(wall.getShape), color, new BasicStroke(2f), Color.gray)
+//  addChild(wallPath)
+//}
+
 class ForceLawLabControlPanel(model: ForceLawLabModel, resetFunction: () => Unit) extends ControlPanel {
   import ForceLawLabResources._
   add(new ForceLawLabScalaValueControl(0.01, 100, model.m1.name, "0.00", getLocalizedString("units.kg"), model.m1.mass, model.m1.mass = _, model.m1.addListener))
@@ -320,7 +320,6 @@ class SunPlanetControlPanel(model: ForceLawLabModel, m: Magnification, units: Un
   addFullWidth(new UnitsControl(units, phetFrame))
 
   //  addFullWidth(Box.createRigidArea(new Dimension(100, 100))) //spacer
-  addFullWidth(new LinkToMySolarSystem)
 
   addResetAllButton(new Resettable() {
     def reset = {
@@ -330,20 +329,6 @@ class SunPlanetControlPanel(model: ForceLawLabModel, m: Magnification, units: Un
       resetFunction()
     }
   })
-}
-
-class LinkToMySolarSystem extends VerticalLayoutPanel {
-  setBorder(ForceLawBorders.createTitledBorder("related.sims"))
-  val jLabel = new JLabel(ForceLawLabResources.getLocalizedString("my.solar.system"), new ImageIcon(ForceLawLabResources.getImage("my-solar-system-thumbnail.jpg")), SwingConstants.CENTER)
-  jLabel.setFont(new PhetFont(14, true))
-  jLabel.setForeground(Color.red)
-  jLabel.setHorizontalTextPosition(SwingConstants.CENTER)
-  jLabel.setVerticalTextPosition(SwingConstants.BOTTOM)
-  jLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR))
-  jLabel.addMouseListener(new MouseAdapter() {
-    override def mousePressed(e: MouseEvent) = PhetServiceManager.showSimPage("my-solar-system", "my-solar-system")
-  })
-  add(jLabel)
 }
 
 class UnitsControl(units: UnitsContainer, phetFrame: PhetFrame) extends VerticalLayoutPanel {
