@@ -28,9 +28,9 @@ class BasicMovingManModule(frame: JFrame,
         extends MotionSeriesModule(frame, clock, name, defaultBeadPosition, pausedOnReset, initialAngle) {
   val canvas = new BasicMovingManCanvas(motionSeriesModel, coordinateSystemModel, fbdModel, vectorViewModel, frame, showObjectSelectionNode, showAppliedForceSlider, initialAngle != 0.0, rampLayoutArea)
   setSimulationPanel(canvas)
-  val controlPanel = new RampControlPanel(motionSeriesModel, wordModel, fbdModel, coordinateSystemModel, vectorViewModel,
-    resetRampModule, coordinateSystemFeaturesEnabled, false, motionSeriesModel, false, showFrictionControl)
-  setControlPanel(controlPanel)
+//  val controlPanel = new RampControlPanel(motionSeriesModel, wordModel, fbdModel, coordinateSystemModel, vectorViewModel,
+//    resetRampModule, coordinateSystemFeaturesEnabled, false, motionSeriesModel, false, showFrictionControl)
+//  setControlPanel(controlPanel)
   setClockControlPanel(new RecordModelControlPanel(motionSeriesModel, canvas, () => new PlaybackSpeedSlider(motionSeriesModel), Color.blue, 20))
   motionSeriesModel.selectedObject = MotionSeriesDefaults.movingMan
   vectorViewModel.xyComponentsVisible = false
@@ -47,9 +47,13 @@ class BasicMovingManCanvas(model: MotionSeriesModel, coordinateSystemModel: Adju
   override def createBeadNode(b: Bead, t: ModelViewTransform2D, s: String, listener: () => Unit) = new PositionDragBeadNode(b, t, "moving-man/moving-man-standing.gif","moving-man/moving-man-left.gif",listener,this)
 }
 
-class IntroModule(frame: JFrame, clock: ScalaClock) extends BasicMovingManModule(frame, clock, "moving-man.module.intro.title".translate, false, true, false, true, -6, false, 0.0, true, MotionSeriesDefaults.defaultViewport)
+class IntroModule(frame: JFrame, clock: ScalaClock)
+        extends BasicMovingManModule(frame, clock, "moving-man.module.intro.title".translate, false, false, false, false,
+          -6, false, 0.0, true, MotionSeriesDefaults.movingManIntroViewport)
 
-class GraphingModule(frame: JFrame, clock: ScalaClock) extends BasicMovingManModule(frame, clock, "moving-man.module.graphing.title".translate, false, false, true, false, -6, false, 0.0, true, MotionSeriesDefaults.forceMotionViewport) {
+class GraphingModule(frame: JFrame, clock: ScalaClock)
+        extends BasicMovingManModule(frame, clock, "moving-man.module.graphing.title".translate, false, false, true, false,
+  -6, false, 0.0, true, MotionSeriesDefaults.forceMotionViewport) {
   coordinateSystemModel.adjustable = false
   canvas.addScreenNode(new MovingManChartNode(canvas, motionSeriesModel))
 }
