@@ -51,7 +51,7 @@
 
         // Make sure that the specified sim already exists.  If not,
         // refreshing it is not allowed.
-        $full_path_to_sim = RIPPED_WEBSITE_TOP.PHET_SIMS_SUBDIR.$sim_name;
+        $full_path_to_sim = RIPPED_WEBSITE_SIMS_PARENT_DIR.PHET_SIMS_SUBDIR.$sim_name;
         if ( !file_exists( $full_path_to_sim ) ) {
             flushing_echo( "Error: Unable to locate sim: ".$sim_name.", aborting." );
             return false;
@@ -121,7 +121,7 @@
     function ripper_copy_sim_into_full_mirror( $sim_name ) {
 
         $single_sim_rip_path = SINGLE_SIM_RIP_TOP.PHET_SIMS_SUBDIR.$sim_name;
-        $full_rip_sim_path = RIPPED_WEBSITE_TOP.PHET_SIMS_SUBDIR.$sim_name.'/';
+        $full_rip_sim_path = RIPPED_WEBSITE_SIMS_PARENT_DIR.PHET_SIMS_SUBDIR.$sim_name.'/';
 
         // The httrack ripper produces an index file, and though there is
         // supposed to be an option that prevents it from being created, it
@@ -342,10 +342,10 @@
     function ripper_download_sims() {
 
         // Get the resources for the Java sims.
-        ripper_download_java_rsrcs( RIPPED_WEBSITE_ROOT );
+        ripper_download_java_rsrcs( RIPPED_WEBSITE_SIMS_PARENT_DIR );
 
         // Get the resources for the Flash sims.
-        ripper_download_flash_rsrcs( RIPPED_WEBSITE_ROOT );
+        ripper_download_flash_rsrcs( RIPPED_WEBSITE_SIMS_PARENT_DIR );
 
         // Add the marker file, needed for sim usage tracking.
         installer_create_marker_file();
