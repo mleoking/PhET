@@ -107,8 +107,14 @@ EOT;
         }
     }
 
-    function jnlp_replace_codebase_with_local_file_macro($jnlp_file, $codebase_pattern, $macro_name) {
-        return preg_replace('/codebase *= *"'.$codebase_pattern.'/', 'codebase="file:///'.$macro_name, $jnlp_file);
+    //-------------------------------------------------------------------------
+    // This function replaces the "codebase" directive in the JNLP file with
+    // the specified pattern.  This is done to allow the JNLP files to be
+    // updated when installed on the user's system to point to the correct
+    // location, which isn't known until install time.
+    //-------------------------------------------------------------------------
+    function jnlp_replace_codebase_with_macro($jnlp_file, $codebase_pattern, $macro_name) {
+        return preg_replace('/codebase *= *"'.$codebase_pattern.'/', 'codebase="'.$macro_name, $jnlp_file);
     }
 
     function jnlp_add_permissions_request($jnlp_file) {
