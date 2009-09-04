@@ -81,7 +81,7 @@
     // Function for ripping a single Java sim from the web site.
     //-------------------------------------------------------------------------
     function ripper_rip_java_sim( $sim_name ) {
-        $java_rip_command = RIPPER_EXE." ".'"'.PHET_WEBSITE_URL.PHET_SIMS_SUBDIR.$sim_name.'"'.' -I0 -q -v'." -O ".SINGLE_SIM_RIP_DIR.' \'-*\''.' \'+*.jnlp\''.' \'+*screenshot*\''.' \'+*thumbnail*\'';
+        $java_rip_command = RIPPER_EXE." ".'"'.PHET_ROOT_URL.PHET_SIMS_SUBDIR.$sim_name.'"'.' -I0 -q -v'." -O ".SINGLE_SIM_RIP_DIR.' \'-*\''.' \'+*.jnlp\''.' \'+*screenshot*\''.' \'+*thumbnail*\'';
         flushing_echo("Ripping files for sim ".$sim_name." with command: ".$java_rip_command);
         system( $java_rip_command );
 
@@ -105,7 +105,7 @@
     // Function for ripping a single flash sim from the web site.
     //-------------------------------------------------------------------------
     function ripper_rip_flash_sim( $sim_name ) {
-        $flash_rip_command = RIPPER_EXE." ".'"'.PHET_WEBSITE_URL.PHET_SIMS_SUBDIR.$sim_name.'"'.' -I0 -q -v'." -O ".SINGLE_SIM_RIP_DIR.' \'-*\''.' \'+*.swf\''.' \'+*.html\''.' \'+*screenshot*\''.' \'+*thumbnail*\'';
+        $flash_rip_command = RIPPER_EXE." ".'"'.PHET_ROOT_URL.PHET_SIMS_SUBDIR.$sim_name.'"'.' -I0 -q -v'." -O ".SINGLE_SIM_RIP_DIR.' \'-*\''.' \'+*.swf\''.' \'+*.html\''.' \'+*screenshot*\''.' \'+*thumbnail*\'';
         flushing_echo("Ripping files for sim ".$sim_name." with command: ".$flash_rip_command);
         system( $flash_rip_command );
 
@@ -157,7 +157,7 @@
     // to the full ripper function.  Just don't forget to swap it back.
     //--------------------------------------------------------------------------
     function ripper_rip_website_subset() {
-        define("SUBSET_RIPPER_ARGS", '"'.PHET_WEBSITE_URL.'" -O "'.RIPPED_WEBSITE_ROOT.'" '.'"+*'.PHET_ROOT_URL.'sims*"'.' -E30 -v %q0 -%e0'); 
+        define("SUBSET_RIPPER_ARGS", '"'.PHET_TRANSLATED_WEBSITE_URL.'" -O "'.RIPPED_WEBSITE_ROOT.'" '.'"+*'.PHET_ROOT_URL.'sims*"'.' -E30 -v %q0 -%e0'); 
         flushing_echo("Ripping subset of website with ".RIPPER_EXE." ".SUBSET_RIPPER_ARGS);
 
         $result = exec(RIPPER_EXE." ".SUBSET_RIPPER_ARGS);
@@ -272,7 +272,7 @@
             // Obtain a listing of all files in the corresponding directory
             // of the web site.  Note that this requires htaccess to be
             // turned on for this directory.
-            $flash_resource_dir_listing = file_get_contents(PHET_WEBSITE_URL.PHET_SIMS_SUBDIR.$core_filename);
+            $flash_resource_dir_listing = file_get_contents(PHET_ROOT_URL.PHET_SIMS_SUBDIR.$core_filename);
 
             // Go through the listing and extract the names of all .xml files,
             // and then copy them into the local directory containing the
@@ -291,7 +291,7 @@
                     $xml_file_name = str_ireplace("href=\"", "", $xml_href);
                     $xml_file_name = str_ireplace("\"", "", $xml_file_name);
                     flushing_echo("Retrieving file $xml_file_name");
-                    $xml_file_url = PHET_WEBSITE_URL.PHET_SIMS_SUBDIR.$core_filename."/".$xml_file_name;
+                    $xml_file_url = PHET_ROOT_URL.PHET_SIMS_SUBDIR.$core_filename."/".$xml_file_name;
                     $xml_local_name = $destination_dir."/".$xml_file_name;
                     $xml_file_contents = file_get_contents($xml_file_url);
                     file_put_contents_anywhere($xml_local_name, $xml_file_contents);
@@ -315,7 +315,7 @@
                     $properties_file_name = str_ireplace("href=\"", "", $properties_href);
                     $properties_file_name = str_ireplace("\"", "", $properties_file_name);
                     flushing_echo("Retrieving file $properties_file_name");
-                    $properties_file_url = PHET_WEBSITE_URL.PHET_SIMS_SUBDIR.$core_filename."/".$properties_file_name;
+                    $properties_file_url = PHET_ROOT_URL.PHET_SIMS_SUBDIR.$core_filename."/".$properties_file_name;
                     $properties_local_name = $destination_dir."/".$properties_file_name;
                     $properties_file_contents = file_get_contents($properties_file_url);
                     file_put_contents_anywhere($properties_local_name, $properties_file_contents);
@@ -333,10 +333,10 @@
     function ripper_download_sims() {
 
         // Get the resources for the Java sims.
-        ripper_download_java_rsrcs( RIPPED_WEBSITE_TOP );
+        ripper_download_java_rsrcs( RIPPED_WEBSITE_ROOT );
 
         // Get the resources for the Flash sims.
-        ripper_download_flash_rsrcs( RIPPED_WEBSITE_TOP );
+        ripper_download_flash_rsrcs( RIPPED_WEBSITE_ROOT );
 
         // Add the marker file, needed for sim usage tracking.
         installer_create_marker_file();
