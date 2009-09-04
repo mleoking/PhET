@@ -20,17 +20,26 @@
 <wicket:panel>
     <div class="mac-warning-holder" wicket:message="dir:language.dir">
         <div class="mac-warning">
-            <div class="mac-warning-text">Warning for Mac users</div>
+            <div class="mac-warning-text">
+                <wicket:message key="macwarning.title">Warning for Mac users</wicket:message>
+            </div>
             <div class="sad-mac">
                 <a href="#"><img src="/images/unhappy-mac-jnlp-logo-small.jpg" alt="Sad mac logo"/></a>
             </div>
-            Users who installed Apple's recent "<strong>Java for Mac OS X 10.5 Update 4</strong>" may have a problem
-            with simulations appearing as text files. Apple knows about this problem and is working to fix it.
+            <wicket:message key="macwarning.problem">
+                Users who installed Apple's recent "<strong>Java for Mac OS X 10.5 Update 4</strong>" may have a problem
+                with simulations appearing as text files. Apple knows about this problem and is working to fix it.
+            </wicket:message>
             <p>
-                You can work around this problem by following the directions in this question in our FAQ:
+                <wicket:message key="macwarning.solution">
+                    You can work around this problem by following the directions in this question in our FAQ:
+                </wicket:message>
             </p>
-            <a href="#">(Mac users) When I click "run now" to start the simulation all I get is a text file that
-                opens?</a>
+            <a href="#" wicket:id="troubleshooting-link">
+                <wicket:message key="troubleshooting.java.q1.title">
+                    (Mac users) When I click "run now" to start the simulation all I get is a text file that opens?
+                </wicket:message>
+            </a>
         </div>
     </div>
 </wicket:panel>

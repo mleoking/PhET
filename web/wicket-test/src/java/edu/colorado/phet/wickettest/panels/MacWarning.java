@@ -2,6 +2,7 @@ package edu.colorado.phet.wickettest.panels;
 
 import org.apache.wicket.behavior.HeaderContributor;
 
+import edu.colorado.phet.wickettest.content.troubleshooting.TroubleshootingJavaPanel;
 import edu.colorado.phet.wickettest.util.PageContext;
 
 public class MacWarning extends PhetPanel {
@@ -9,5 +10,7 @@ public class MacWarning extends PhetPanel {
         super( id, context );
 
         add( HeaderContributor.forCss( "/css/warning-v1.css" ) );
+
+        add( TroubleshootingJavaPanel.getLinker().getLink( "troubleshooting-link", context ) );
     }
 }
