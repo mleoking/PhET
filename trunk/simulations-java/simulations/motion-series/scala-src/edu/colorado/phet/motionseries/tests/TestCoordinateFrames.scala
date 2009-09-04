@@ -10,6 +10,7 @@ import javax.swing.{Timer, JFrame}
 import scalacommon.util.Observable
 import umd.cs.piccolo.nodes.PText
 import umd.cs.piccolo.PNode
+import umd.cs.piccolo.util.PDimension
 
 case class StageNode(stage: Stage, canvas: Component, node: PNode) extends PNode {
   addChild(node)
@@ -88,6 +89,9 @@ class MyCanvas(stageWidth: Double, stageHeight: Double, modelBounds: Rectangle2D
   addStageNode(utilityStageNode)
 
   def modelToScreen(x: Double, y: Double) = utilityStageNode.localToGlobal(transform.modelToView(x, y))
+//  def modelToScreenDelta(dx:Double,dy:Double) = utilityStageNode.localToGlobal(new PDimension(dx,dy))
+//  def canvasToScreenDelta(dx:Double,dy:Double) = utilityStageNode.localToGlobal(new PDimension(dx,dy))
+  def canvasToStageDelta(dx:Double,dy:Double) = utilityStageNode.globalToLocal(new PDimension(dx,dy)) 
 
   def setStageBounds(w: Double, h: Double) = {
     stage.setSize(w, h)

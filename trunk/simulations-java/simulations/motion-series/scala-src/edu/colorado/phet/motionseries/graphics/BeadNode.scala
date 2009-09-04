@@ -6,6 +6,7 @@ import phet.common.piccolophet.event.CursorHandler
 import model.{Bead}
 import motionseries.MotionSeriesResources
 import motionseries.MotionSeriesDefaults
+import tests.MyCanvas
 import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
 import umd.cs.piccolo.PNode
 import java.awt.geom.AffineTransform
@@ -38,13 +39,16 @@ class PositionDragBeadNode(bead: Bead,
                            transform: ModelViewTransform2D,
                            imageName: String,
                            leftImageName: String,
-                           dragListener: () => Unit) extends BeadNode(bead, transform, imageName) {
+                           dragListener: () => Unit,canvas:MyCanvas) extends BeadNode(bead, transform, imageName) {
   addInputEventListener(new CursorHandler)
   addInputEventListener(new PBasicInputEventHandler() {
     override def mouseDragged(event: PInputEvent) = {
+      bead.parallelAppliedForce = 0.0//todo: move this into setPositionMode()?
       bead.setPositionMode()
       val delta = event.getCanvasDelta
-      val modelDelta = transform.viewToModelDifferential(delta.width, delta.height)
+      //todo: make it so we can get this information (a) more easily and (b) without a reference to the canvas:MyCanvas
+      val screenDelta = canvas.canvasToStageDelta(delta.getWidth,delta.getHeight)
+      val modelDelta = canvas.transform.viewToModelDifferential(screenDelta.getWidth(), screenDelta.getHeight())
       bead.setPosition(bead.position + modelDelta.x)
       dragListener()
     }
@@ -53,13 +57,19 @@ class PositionDragBeadNode(bead: Bead,
       bead.parallelAppliedForce = 0.0
     }
   })
-  bead.addListener(() => updateImage())
-  updateImage()
+  update()
+
+  override def update() = {
+    updateImage()//update image first in case superclass uses its size to do layout things
+    super.update()
+  }
 
   def updateImage() = {
-    if (bead.averageVelocity < 0) setImage(MotionSeriesResources.getImage(leftImageName))
-    else if (bead.averageVelocity > 0) setImage(BufferedImageUtils.flipX(MotionSeriesResources.getImage(leftImageName)))
-    else setImage(MotionSeriesResources.getImage(imageName))
+//    println("using bead.velocity = "+bead.velocity)
+    val image =  if (bead.velocity < -1E-8) MotionSeriesResources.getImage(leftImageName)
+    else if (bead.velocity > 1E-8) BufferedImageUtils.flipX(MotionSeriesResources.getImage(leftImageName))
+    else MotionSeriesResources.getImage(imageName)
+    imageNode.setImage(image)
   }
 }
 

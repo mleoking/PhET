@@ -58,6 +58,7 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
   def addWallsAndDecorations()
   addWallsAndDecorations()
 
+  //todo: why is cabinet hard coded here?
   val beadNode = createBeadNode(model.bead, transform, "cabinet.gif".literal, () => model.setPaused(false))
 
   def createBeadNode(b: Bead, t: ModelViewTransform2D, s: String, listener: () => Unit): BeadNode = new ForceDragBeadNode(b, t, s, listener)
