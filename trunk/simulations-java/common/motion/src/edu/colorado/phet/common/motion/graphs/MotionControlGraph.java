@@ -18,7 +18,7 @@ import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
  * @author Sam Reid
  */
 public class MotionControlGraph extends ControlGraph {
-    private ArrayList listeners = new ArrayList();
+    private ArrayList<Listener> listeners = new ArrayList<Listener>();
     private JFreeChartCursorNode jFreeChartCursorNode;
     private UpdateableObject updateableObject;
     private UpdateStrategy updateStrategy;
@@ -154,8 +154,8 @@ public class MotionControlGraph extends ControlGraph {
 
     public void notifyZoomChanged() {
         if ( listeners != null ) {
-            for ( int i = 0; i < listeners.size(); i++ ) {
-                ( (Listener) listeners.get( i ) ).horizontalZoomChanged( this );
+            for ( Listener listener : listeners ) {
+                listener.horizontalZoomChanged( this );
             }
         }
     }
