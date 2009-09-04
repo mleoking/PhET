@@ -118,6 +118,7 @@ public class StringUtils {
     }
 
     public static boolean setString( Session session, String key, String value, Locale locale ) {
+        // TODO: read in lines in different ways OR test in Mac?
         value = value.replaceAll( "\r", "" );
         value = value.replaceAll( "\n", "<br/>" );
 
