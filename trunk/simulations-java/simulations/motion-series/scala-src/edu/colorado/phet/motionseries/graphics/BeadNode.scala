@@ -57,6 +57,10 @@ class PositionDragBeadNode(bead: Bead,
     override def mouseReleased(event: PInputEvent) = {
       bead.parallelAppliedForce = 0.0
     }
+
+    override def mousePressed(event: PInputEvent) = {
+      bead.setDesiredPosition(bead.position)
+    }
   })
   update()
 
