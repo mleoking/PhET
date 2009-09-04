@@ -38,7 +38,7 @@
     // unfuddle ticket #875 for more information.
     //--------------------------------------------------------------------------
     function installer_create_marker_file(){
-        $marker_file_name = RIPPED_WEBSITE_TOP.PHET_SIMS_SUBDIR.MARKER_FILE_NAME;
+        $marker_file_name = RIPPED_WEBSITE_SIMS_PARENT_DIR.PHET_SIMS_SUBDIR.MARKER_FILE_NAME;
         flushing_echo("Marker file name = $marker_file_name");
         $contents = "# DO NOT DELETE THIS FILE.\n# This file identifies this installation of PhET.\n\n";
         file_put_contents_anywhere($marker_file_name, $contents);
@@ -59,7 +59,7 @@
         flushing_echo( "Creation Timestamp = $time" );
  
         // Add the time stamp to the marker file, used by the Java sims.
-        $marker_file_name = RIPPED_WEBSITE_TOP.PHET_SIMS_SUBDIR.MARKER_FILE_NAME;
+        $marker_file_name = RIPPED_WEBSITE_SIMS_PARENT_DIR.PHET_SIMS_SUBDIR.MARKER_FILE_NAME;
         if ( !( $fp = fopen( $marker_file_name, 'a' ) ) ) {
             flushing_echo('Error: Cannot open marker file, time stamp not added.');
         }
@@ -70,7 +70,7 @@
 
         // Add the timestamp to each of the HTML files used to launch Flash 
         // sims.  If the timestamp is already present, update it.
-        $html_file_names = glob( RIPPED_WEBSITE_TOP.PHET_SIMS_SUBDIR."*/*.html" );
+        $html_file_names = glob( RIPPED_WEBSITE_SIMS_PARENT_DIR.PHET_SIMS_SUBDIR."*/*.html" );
         foreach ( $html_file_names as $html_file_name ) {
             $html_file_contents = file_get_contents( $html_file_name );
             if ( strstr( $html_file_contents, '@@INSTALLER_CREATION_TIMESTAMP@@' ) != false ){
@@ -95,7 +95,7 @@
 
         // Write the timestamp into an HTML file that can be used to determine
         // the version of the sim installed.
-        $version_info_file_name = RIPPED_WEBSITE_TOP.VERSION_INFO_FILE_NAME;
+        $version_info_file_name = RIPPED_TRANSLATED_WEBSITE_ROOT.VERSION_INFO_FILE_NAME;
         $version_info_html = "<html>\n<body>\n\n<p>Timestamp: ".$time."</p>\n<p>Date: ".$date."</p>\n\n</body>\n</html>";
         file_put_contents_anywhere( $version_info_file_name, $version_info_html );
         
