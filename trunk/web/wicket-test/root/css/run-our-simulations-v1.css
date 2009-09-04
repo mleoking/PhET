@@ -1,8 +1,10 @@
 #get_phet {
-    width: 520px;
-    margin: 0px 0px 10px 0px;
-    padding: 0px 0px 0px 0px;
+    width: 515px;
+    margin: 1px 1px 10px 1px;
+    padding: 0;
+    border: 2px solid black;
     background: none;
+    font-size: 12px;
 }
 
 #get_phet caption {
@@ -40,54 +42,61 @@
 }
 
 #get_phet th.spec {
-    border-left: 1px solid #C1DAD7;
+    border-left: 1px solid gray;
     border-top: 0;
-    background: #fff url("../images/bullet1.gif") no-repeat;
+    background: #fff;
 }
 
 #get_phet th.spec p {
-    font: bold 10pt "arial", Verdana, Arial, Helvetica, sans-serif;
 }
 
 #get_phet th.spec-none {
-    border-left: 1px solid #C1DAD7;
     border-top: 0;
     background: #133078;
+    border-top: 1px solid black;
 }
 
 #get_phet th.spec-none p {
-    font: bold 10pt "arial", Verdana, Arial, Helvetica, sans-serif;
     color: #fff;
 }
 
 #get_phet th.specalt {
-    border-left: 1px solid #C1DAD7;
+    border-left: 1px solid gray;
     border-top: 0;
-    background: #f5fafa url("../images/bullet2.gif") no-repeat;
+    background: #f5fafa;
 }
 
 #get_phet th.specalt p {
-    font: bold 10pt "arial", Verdana, Arial, Helvetica, sans-serif;
     color: #797268;
 }
 
 #get_phet th.specalt-none {
-    border-left: 1px solid #C1DAD7;
+    border-left: 1px solid gray;
     border-top: 0;
     background: #133078;
-    vertical-align: top;
+}
+
+div.rtl #get_phet th.specalt-none {
+    border-left: none;
+    border-right: 1px solid gray;
 }
 
 #get_phet th.specalt-none p {
-    font: bold 10pt "arial", Verdana, Arial, Helvetica, sans-serif;
     color: #fff;
 }
 
 #get_phet .click-here a {
-    /*padding-bottom: 10px;*/
-    /*color: red;*/
-    background-color: #3399ff;
+    background-color: #000000;
+    border: 1px solid gray;
     text-decoration: none;
     padding: 2px 5px;
     color: white;
+}
+
+#get_phet .click-here {
+    padding-bottom: 5px;
+}
+
+#get_phet th {
+    font-weight: normal;
 }

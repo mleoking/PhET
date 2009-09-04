@@ -9,7 +9,6 @@ import org.hibernate.Session;
 
 import edu.colorado.phet.wickettest.WicketApplication;
 import edu.colorado.phet.wickettest.data.TranslatedString;
-import edu.colorado.phet.wickettest.data.Translation;
 import edu.colorado.phet.wickettest.util.HibernateTask;
 import edu.colorado.phet.wickettest.util.HibernateUtils;
 
