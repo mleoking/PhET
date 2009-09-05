@@ -122,7 +122,7 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
     val positionVariable = new DefaultTemporalVariable() {
       override def setValue(x: Double) = {
         model.bead.setPositionMode()
-        model.bead.setPosition(x)
+        model.bead.setDesiredPosition(x)
       }
     }
     model.stepListeners += (() => {if (inTimeRange(model.getTime)) positionVariable.addValue(model.bead.position, model.getTime)})
