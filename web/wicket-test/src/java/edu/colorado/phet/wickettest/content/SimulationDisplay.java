@@ -3,7 +3,6 @@ package edu.colorado.phet.wickettest.content;
 import java.util.*;
 
 import org.apache.wicket.PageParameters;
-import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.StringResourceModel;
 import org.hibernate.HibernateException;
 import org.hibernate.Transaction;
@@ -18,7 +17,8 @@ import edu.colorado.phet.wickettest.templates.PhetRegularPage;
 import edu.colorado.phet.wickettest.util.HibernateUtils;
 import edu.colorado.phet.wickettest.util.PageContext;
 import edu.colorado.phet.wickettest.util.PhetUrlMapper;
-import edu.colorado.phet.wickettest.util.links.Linkable;
+import edu.colorado.phet.wickettest.util.links.AbstractLinker;
+import edu.colorado.phet.wickettest.util.links.RawLinkable;
 
 public class SimulationDisplay extends PhetRegularPage {
     public SimulationDisplay( PageParameters parameters ) {
@@ -110,11 +110,19 @@ public class SimulationDisplay extends PhetRegularPage {
         return new PhetLink( id, str );
     }
 
-    public static Linkable getLinker() {
-        return new Linkable() {
-            public Link getLink( String id, PageContext context ) {
-                return new PhetLink( id, context.getPrefix() + "simulations/category/featured" );
+    public static RawLinkable getLinker() {
+        return new AbstractLinker() {
+            public String getSubUrl( PageContext context ) {
+                return "simulations/category/featured";
             }
         };
     }
+
+//    public static Linkable getLinker() {
+//        return new Linkable() {
+//            public Link getLink( String id, PageContext context ) {
+//                return new PhetLink( id, context.getPrefix() + "simulations/category/featured" );
+//            }
+//        };
+//    }
 }
