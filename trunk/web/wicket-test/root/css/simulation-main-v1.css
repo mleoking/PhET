@@ -196,6 +196,11 @@ table.simulation-main-translations-table {
     width: 505px;
 }
 
+div.rtl table.translations-table, div.rtl table.credits-table, div.rtl table.system-requirements-table {
+    left: auto;
+    right: 5px;
+}
+
 div.rtl table.translations-table th, div.rtl table.credits-table th, div.rtl table.system-requirements-table th {
     text-align: right;
 }
