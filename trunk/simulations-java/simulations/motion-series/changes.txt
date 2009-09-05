@@ -1,3 +1,4 @@
+# 1.03.39 (34866) Sep 4, 2009
 moving-man: removed extraneous control panels
 Added correlation between chart domain axes
 # 1.03.38 (34811) Sep 3, 2009
