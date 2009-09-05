@@ -23,7 +23,12 @@ public class NavLocation implements Serializable {
     }
 
     public String getLocalizationKey() {
-        return "nav." + getKey();
+        if ( getKey().startsWith( "keyword" ) ) {
+            return getKey();
+        }
+        else {
+            return "nav." + getKey();
+        }
     }
 
     public String getBaseKey() {

@@ -33,6 +33,7 @@ public class NavigationEntity extends TranslationEntity {
         addString( "nav.cutting-edge-research" );
         addString( "nav.all" );
         addString( "nav.simulations.translated" );
+        addString( "nav.simulations.by-keyword" );
         addString( "nav.workshops" );
         addString( "nav.get-phet" );
         addString( "nav.get-phet.on-line" );

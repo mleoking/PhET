@@ -12,6 +12,15 @@ public class Keyword implements Serializable {
      */
     private String key;
 
+    public String getSubKey() {
+        if ( key.startsWith( "keyword." ) ) {
+            return key.substring( "keyword.".length() );
+        }
+        else {
+            return key;
+        }
+    }
+
     public Keyword() {
     }
 
