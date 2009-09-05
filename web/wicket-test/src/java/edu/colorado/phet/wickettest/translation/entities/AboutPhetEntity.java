@@ -1,9 +1,6 @@
 package edu.colorado.phet.wickettest.translation.entities;
 
-import edu.colorado.phet.wickettest.content.about.AboutContactPanel;
-import edu.colorado.phet.wickettest.content.about.AboutMainPanel;
-import edu.colorado.phet.wickettest.content.about.AboutSourceCodePanel;
-import edu.colorado.phet.wickettest.content.about.AboutLicensingPanel;
+import edu.colorado.phet.wickettest.content.about.*;
 import edu.colorado.phet.wickettest.panels.PhetPanel;
 import edu.colorado.phet.wickettest.translation.PhetPanelFactory;
 import edu.colorado.phet.wickettest.util.PageContext;
@@ -53,6 +50,11 @@ public class AboutPhetEntity extends TranslationEntity {
         addString( "about.licensing.softwareAgreementSection" );
         addString( "about.licensing.softwareAgreementFullText" );
 
+        addString( "about.contact.backRow" );
+        addString( "about.contact.middleRow" );
+        addString( "about.contact.frontRow" );
+        addString( "about.contact.phetTeam" );
+
         addPreview( new PhetPanelFactory() {
             public PhetPanel getNewPanel( String id, PageContext context, PhetRequestCycle requestCycle ) {
                 return new AboutMainPanel( id, context );
@@ -76,6 +78,12 @@ public class AboutPhetEntity extends TranslationEntity {
                 return new AboutLicensingPanel( id, context );
             }
         }, "About (licensing)" );
+
+        addPreview( new PhetPanelFactory() {
+            public PhetPanel getNewPanel( String id, PageContext context, PhetRequestCycle requestCycle ) {
+                return new AboutWhoWeArePanel( id, context );
+            }
+        }, "About (who we are)" );
     }
 
     public String getDisplayName() {
