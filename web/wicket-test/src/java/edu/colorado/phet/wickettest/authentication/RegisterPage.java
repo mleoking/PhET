@@ -88,7 +88,7 @@ public class RegisterPage extends PhetPage {
                         PhetUser user = new PhetUser();
                         user.setTeamMember( false );
                         user.setEmail( email );
-                        user.setPassword( PhetSession.hashPassword( pass ) );
+                        user.setPassword( PhetSession.compatibleHashPassword( pass ) );
                         session.save( user );
                     }
 
