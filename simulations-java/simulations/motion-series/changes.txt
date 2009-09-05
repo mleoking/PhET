@@ -1,3 +1,4 @@
+Fixed: Return object button doesn't work when using position smoothing
 Improved the location of heat button
 Improved the location of return object button
 # 1.03.39 (34866) Sep 4, 2009

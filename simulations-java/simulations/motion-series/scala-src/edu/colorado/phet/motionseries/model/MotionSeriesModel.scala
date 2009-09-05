@@ -238,6 +238,7 @@ class MotionSeriesModel(defaultBeadPosition: Double, pausedOnReset: Boolean, ini
   def beadInModelViewportRange = bead.position2D.x < MotionSeriesDefaults.MIN_X || bead.position2D.x > MotionSeriesDefaults.MAX_X
 
   def returnBead() = {
+    bead.setDesiredPosition(defaultBeadPosition)
     bead.setPosition(defaultBeadPosition)
     bead.parallelAppliedForce = 0
     bead.setVelocity(0)
