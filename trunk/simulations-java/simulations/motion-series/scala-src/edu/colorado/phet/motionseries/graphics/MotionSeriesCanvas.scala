@@ -203,7 +203,8 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
   playAreaNode.addChild(new FireDogView(model, this))
 
   val clearHeatButton = new ClearHeatButton(model)
-  clearHeatButton.setOffset(stage.width / 2 - clearHeatButton.getFullBounds.getWidth / 2, stage.height / 4)
+  val viewPt = transform.modelToView(5, 2)//show near the right side of the ramp, just above it so that it is visible in every sim+module
+  clearHeatButton.setOffset(viewPt.x - clearHeatButton.getFullBounds.getWidth / 2, viewPt.y)
   addStageNode(clearHeatButton)
 
   val returnObjectButton = new ReturnObjectButton(model)
