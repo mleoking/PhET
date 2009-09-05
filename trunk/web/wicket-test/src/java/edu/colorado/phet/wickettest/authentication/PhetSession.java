@@ -34,10 +34,12 @@ public class PhetSession extends WebSession {
         try {
             tx = session.beginTransaction();
             String hash = hashPassword( password );
+            String compatibleHash = compatibleHashPassword( password );
 
-            Query query = session.createQuery( "select u from PhetUser as u where (u.email = :email and u.password = :password)" );
+            Query query = session.createQuery( "select u from PhetUser as u where (u.email = :email and (u.password = :password or u.password = :compatiblePassword))" );
             query.setString( "email", username );
             query.setString( "password", hash );
+            query.setString( "compatiblePassword", compatibleHash );
 
             System.out.println( "Attempting to authenticate " + username + " with " + hash );
 
