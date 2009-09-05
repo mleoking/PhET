@@ -105,13 +105,15 @@ public class TranslatedSimsPanel extends PhetPanel {
             protected void populateItem( ListItem item ) {
                 final Locale locale = (Locale) item.getModel().getObject();
 
+                item.setMarkupId( LocaleUtils.localeToString( locale ) );
+                item.setOutputMarkupId( true );
+
                 // TODO: localize order of translated title: {0} - {1} ex.
                 item.add( new Label( "locale-header", locale.getDisplayName( locale ) + " " + localeNames.get( locale ) ) );
                 item.add( new ListView( "translations", localeMap.get( locale ) ) {
                     protected void populateItem( ListItem subItem ) {
                         LocalizedSimulation lsim = (LocalizedSimulation) subItem.getModel().getObject();
-                        subItem.setMarkupId( LocaleUtils.localeToString( locale ) );
-                        subItem.setOutputMarkupId( true );
+
                         subItem.add( new Label( "title-translated", lsim.getTitle() ) );
                         String otherTitle = simNameDefault.get( lsim.getSimulation() );
                         if ( otherTitle == null ) {

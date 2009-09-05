@@ -46,7 +46,7 @@ public class Translation implements Serializable {
 
     @Override
     public int hashCode() {
-        return (id * 475165) % 2567;
+        return ( id * 475165 ) % 2567;
     }
 
     public Translation() {

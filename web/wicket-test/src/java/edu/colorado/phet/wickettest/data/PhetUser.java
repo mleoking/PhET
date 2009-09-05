@@ -19,7 +19,7 @@ public class PhetUser implements Serializable {
 
     @Override
     public int hashCode() {
-        return (id * 475165) % 2567;
+        return ( id * 475165 ) % 2567;
     }
 
     // TODO: don't allow users with the same email address!

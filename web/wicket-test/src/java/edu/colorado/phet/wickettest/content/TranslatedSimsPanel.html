@@ -12,13 +12,23 @@
 <body>
 
 <wicket:panel>
-    <div class="translated-sims standard-content">
-        <h2>All Translations</h2>
+    <div class="translated-sims standard-content" wicket:message="dir:language.dir">
+        <h2>
+            <wicket:message key="simulations.translated.allTranslations">All Translations</wicket:message>
+        </h2>
         <table class="t-locales">
             <tr class="t-header">
-                <td>Language</td>
-                <td>Language (translated)</td>
-                <td class="number-of-translations">Number of translations</td>
+                <td>
+                    <wicket:message key="simulations.translated.language">Language</wicket:message>
+                </td>
+                <td>
+                    <wicket:message key="simulations.translated.languageTranslated">Language (translated)
+                    </wicket:message>
+                </td>
+                <td class="number-of-translations">
+                    <wicket:message key="simulations.translated.numberofTranslations">Number of translations
+                    </wicket:message>
+                </td>
             </tr>
             <tr wicket:id="locale-list">
                 <td>
@@ -48,12 +58,12 @@
                     </td>
                     <td>
                         <a href="#" wicket:id="run-now-link">
-                            Run&nbsp;Now
+                            <wicket:message key="simulations.translated.runNow">Run&nbsp;Now</wicket:message>
                         </a>
                     </td>
                     <td>
                         <a href="#" wicket:id="download-link">
-                            Download
+                            <wicket:message key="simulations.translated.download">Download</wicket:message>
                         </a>
                     </td>
                 </tr>

@@ -8,6 +8,11 @@ td.number-of-translations {
     left: 10px;
 }
 
+div.rtl .translated-sims table {
+    left: auto;
+    right: 10px;
+}
+
 .translated-sims tr.highlight-background {
     background-color: #eeeeee;
 }

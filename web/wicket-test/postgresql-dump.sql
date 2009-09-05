@@ -4678,6 +4678,20 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 1189	language.names.ar	Arabic	2009-09-03 18:56:42.363	2009-09-04 21:46:17.823	1
 1999	language.names.ak	Akan	2009-09-04 21:47:05.385	2009-09-04 21:47:05.385	1
 2000	language.names.ak	اكان	2009-09-04 21:47:17.156	2009-09-04 21:47:17.156	4
+2001	simulations.translated.allTranslations	All Translations	2009-09-04 23:48:54.087	2009-09-04 23:50:48.599	1
+2002	simulations.translated.language	Language	2009-09-04 23:53:49.638	2009-09-04 23:53:49.638	1
+2003	simulations.translated.languageTranslated	Language (translated)	2009-09-04 23:53:58.953	2009-09-04 23:53:58.953	1
+2004	simulations.translated.numberofTranslations	Number of translations	2009-09-04 23:54:08.347	2009-09-04 23:54:08.347	1
+2005	nav.simulations.translated	ترجم سيمز	2009-09-04 23:57:53.068	2009-09-04 23:57:53.068	4
+2006	simulations.translated.allTranslations	كل ترجمات	2009-09-04 23:58:05.342	2009-09-04 23:58:05.342	4
+2007	simulations.translated.language	لغة	2009-09-04 23:58:12.124	2009-09-04 23:58:12.124	4
+2008	simulations.translated.languageTranslated	لغة (الكلمة)	2009-09-04 23:58:20.159	2009-09-04 23:58:20.159	4
+2009	simulations.translated.numberofTranslations	عدد من الترجمات	2009-09-04 23:58:28.152	2009-09-04 23:58:28.152	4
+2010	simulations.translated.runNow	Run&nbsp;Now	2009-09-04 23:59:44.143	2009-09-04 23:59:44.143	1
+2011	simulations.translated.download	Download	2009-09-04 23:59:51.825	2009-09-04 23:59:51.825	1
+2013	simulations.translated.download	تنزيل	2009-09-05 00:01:14.67	2009-09-05 00:01:14.67	4
+2012	simulations.translated.runNow	تشغيل&nbsp;الآن	2009-09-05 00:01:04.684	2009-09-05 00:01:37.48	4
+2014	simulations.translated.title	PhET وترجمت المحاكاة	2009-09-05 00:03:10.466	2009-09-05 00:03:10.466	4
 1830	about.contact.thePhetProject	The PhET Project:	2009-09-04 00:46:08.054	2009-09-04 00:46:08.054	1
 1831	about.contact.licenseInformation	License Information:	2009-09-04 00:46:58.433	2009-09-04 00:46:58.433	1
 1832	about.contact.email	Email:	2009-09-04 00:47:31.868	2009-09-04 00:47:38.065	1
@@ -4789,8 +4803,8 @@ COPY translation (id, locale, visible) FROM stdin;
 1	en	t
 4	ar	t
 2	zh_CN	f
-3	it	t
 5	es	f
+3	it	f
 \.
 
 
