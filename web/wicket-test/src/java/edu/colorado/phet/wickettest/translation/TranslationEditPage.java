@@ -3,6 +3,8 @@ package edu.colorado.phet.wickettest.translation;
 import java.util.Locale;
 
 import org.apache.wicket.PageParameters;
+import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.markup.html.link.PopupSettings;
 import org.apache.wicket.authorization.AuthorizationException;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -12,6 +14,8 @@ import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.wickettest.data.Translation;
 import edu.colorado.phet.wickettest.panels.PanelHolder;
 import edu.colorado.phet.wickettest.translation.entities.CommonEntity;
+import edu.colorado.phet.wickettest.content.IndexPage;
+import edu.colorado.phet.wickettest.util.PageContext;
 
 public class TranslationEditPage extends TranslationPage {
     private int translationId;
@@ -63,6 +67,7 @@ public class TranslationEditPage extends TranslationPage {
         add( new TranslationEntityListPanel( "entity-list-panel", getPageContext(), this ) );
 
         add( new TranslationUserPanel( "user-panel", getPageContext(), translationId ) );
+        
     }
 
     public int getTranslationId() {
