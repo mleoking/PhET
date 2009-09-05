@@ -20,6 +20,12 @@
                 clear: both;
             }
 
+            div.above-entity-list {
+                border-bottom: 1px solid black;
+                margin: 0;
+                padding: 0;
+            }
+
         </style>
     </wicket:head>
 </head>
@@ -28,6 +34,9 @@
 <wicket:extend>
     <div class="translation-edit-content">
         <h2>Edit Translation</h2>
+
+        <div class="above-entity-list">
+        </div>
 
         <div wicket:id="entity-list-panel"></div>
 
