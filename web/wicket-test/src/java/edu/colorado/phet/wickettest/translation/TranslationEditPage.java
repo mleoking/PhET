@@ -61,6 +61,8 @@ public class TranslationEditPage extends TranslationPage {
         panelHolder.add( subPanel );
 
         add( new TranslationEntityListPanel( "entity-list-panel", getPageContext(), this ) );
+
+        add( new TranslationUserPanel( "user-panel", getPageContext(), translationId ) );
     }
 
     public int getTranslationId() {

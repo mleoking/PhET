@@ -34,6 +34,21 @@ public class Translation implements Serializable {
         user.getTranslations().add( this );
     }
 
+    public void removeUser( PhetUser user ) {
+        authorizedUsers.remove( user );
+        user.getTranslations().remove( this );
+    }
+
+    @Override
+    public boolean equals( Object o ) {
+        return o != null && o instanceof Translation && ( (Translation) o ).getId() == getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return (id * 475165) % 2567;
+    }
+
     public Translation() {
     }
 

@@ -6,21 +6,31 @@ import java.util.Set;
 
 public class PhetUser implements Serializable {
 
-    private long id;
+    private int id;
     private String email;
     private String password;
     private boolean teamMember;
     private Set translations = new HashSet();
 
+    @Override
+    public boolean equals( Object o ) {
+        return o != null && o instanceof PhetUser && ( (PhetUser) o ).getId() == getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return (id * 475165) % 2567;
+    }
+
     // TODO: don't allow users with the same email address!
     public PhetUser() {
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId( long id ) {
+    public void setId( int id ) {
         this.id = id;
     }
 
