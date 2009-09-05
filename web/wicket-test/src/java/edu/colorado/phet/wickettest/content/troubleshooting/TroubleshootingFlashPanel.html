@@ -12,7 +12,7 @@
 <body>
 
 <wicket:panel>
-    <div class="troubleshooting standard-content">
+    <div class="troubleshooting standard-content" id="faq_top">
         <p wicket:id="troubleshooting-flash-intro">
             This page will help you solve some of the problems people commonly have running our programs. If you
             can't solve your problem here, please notify us by email at the following address:
@@ -50,7 +50,10 @@
 
         </p>
 
-        <p><a href="#top"><img src="../images/top.gif" alt="Back to the Top"/></a></p>
+        <p class="to-top">
+            <a href="#faq_top"><span class="to-top-text"><wicket:message key="troubleshooting.top">top</wicket:message></span><span
+                    class="to-top-arrow">&#9650;</span></a>
+        </p>
 
     </div>
 </wicket:panel>

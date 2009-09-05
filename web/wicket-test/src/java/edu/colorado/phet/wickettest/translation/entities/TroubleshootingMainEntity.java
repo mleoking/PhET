@@ -15,6 +15,7 @@ public class TroubleshootingMainEntity extends TranslationEntity {
         addString( "troubleshooting.main.flash" );
         addString( "troubleshooting.main.javascript" );
         addString( "troubleshooting.main.faqs" );
+        addString( "troubleshooting.top" );
         addString( "troubleshooting.main.q1.title" );
         addString( "troubleshooting.main.q1.answer" );
         addString( "troubleshooting.main.q2.title" );
