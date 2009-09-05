@@ -1,3 +1,4 @@
+Fixed: Position slider is buggy after implementation of position smoothing
 Fixed: Return object button doesn't work when using position smoothing
 Improved the location of heat button
 Improved the location of return object button
