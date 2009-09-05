@@ -131,13 +131,17 @@ public class NavMenu {
             buildCategoryMenu( subLocation, subCategory );
         }
         if ( category.isRoot() ) {
-            NavLocation subLocation = new NavLocation( location, "all", new Linkable() {
+            NavLocation allLocation = new NavLocation( location, "all", new Linkable() {
                 public Link getLink( String id, PageContext context ) {
                     return new PhetLink( id, context.getPrefix() + "simulations" );
                 }
             } );
-            addLocation( subLocation );
-            location.addChild( subLocation );
+            addLocation( allLocation );
+            location.addChild( allLocation );
+
+            NavLocation translatedSimsLocation = new NavLocation( location, "simulations.translated", TranslatedSimsPanel.getLinker() );
+            addLocation( translatedSimsLocation );
+            location.addChild( translatedSimsLocation );
         }
     }
 

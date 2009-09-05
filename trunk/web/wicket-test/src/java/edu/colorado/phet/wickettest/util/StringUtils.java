@@ -8,7 +8,9 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.wickettest.WicketApplication;
+import edu.colorado.phet.wickettest.components.LocalizedLabel;
 import edu.colorado.phet.wickettest.data.TranslatedString;
 import edu.colorado.phet.wickettest.data.Translation;
 import edu.colorado.phet.wickettest.translation.PhetLocalizer;
@@ -220,5 +222,11 @@ public class StringUtils {
             return false;
         }
         return true;
+    }
+
+    public static String getLocaleTitle( Locale locale, Locale targetLocale, PhetLocalizer localizer ) {
+        String defaultLanguageName = locale.getDisplayName( targetLocale );
+        String languageName = localizer.getString( "language.names." + LocaleUtils.localeToString( locale ), new LocalizedLabel( "toss", targetLocale, "toss" ), null, defaultLanguageName, false );
+        return languageName;
     }
 }

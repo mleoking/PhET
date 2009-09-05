@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Locale;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
+import edu.colorado.phet.wickettest.components.PhetLink;
 
 public class LocalizedSimulation implements Serializable {
     private int id;
@@ -13,6 +14,14 @@ public class LocalizedSimulation implements Serializable {
     private Simulation simulation;
 
     public LocalizedSimulation() {
+    }
+
+    public PhetLink getRunLink( String id ) {
+        return new PhetLink( id, getRunUrl() );
+    }
+
+    public PhetLink getDownloadLink( String id ) {
+        return new PhetLink( id, getDownloadUrl() );
     }
 
     public String getRunUrl() {
