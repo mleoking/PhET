@@ -145,10 +145,18 @@ dl a:hover {
     clear: right;
 }
 
+div.rtl #sponsors-people ul li {
+    clear: left;
+}
+
 #sponsors-people ul li.simple {
     position: relative;
     border-bottom: none;
     clear: right;
+}
+
+div.rtl #sponsors-people ul li.simple {
+    clear: left;
 }
 
 #sponsors-people ul li.platinum,#sponsors-people ul li.gold {
@@ -164,10 +172,18 @@ dl a:hover {
     margin-bottom: 1em;
 }
 
+div.rtl #sponsors-people img.spons {
+    float: left;
+}
+
 #sponsors-people img.bordered_spons {
     border-style: solid;
     border-color: gray;
     border-width: 1px;
     float: right;
     margin-bottom: 1em;
+}
+
+div.rtl #sponsors-people img.bordered_spons {
+    float: left;
 }
