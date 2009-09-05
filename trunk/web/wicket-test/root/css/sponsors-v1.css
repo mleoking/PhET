@@ -147,6 +147,7 @@ dl a:hover {
 
 div.rtl #sponsors-people ul li {
     clear: left;
+    /*zoom: 1;*/
 }
 
 #sponsors-people ul li.simple {
@@ -164,7 +165,7 @@ div.rtl #sponsors-people ul li.simple {
     position: relative;
     border-bottom: 1px solid #E3E3E3;
     background: none;
-    padding: 10px 0px 30px 0px;
+    padding: 10px 0 30px 0;
 }
 
 #sponsors-people img.spons {
