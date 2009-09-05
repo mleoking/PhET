@@ -2373,6 +2373,7 @@ COPY phet_user (id, email, password, teammember) FROM stdin;
 1	olsonsjc@gmail.com	WH39ah79fP15QF79Tv0pOv0b/SY=	t
 2	testguest@phet.colorado.edu	G/z9BCEXRv0cSv0l/XoD/P1n/Q==	f
 3	tester@phet.colorado.edu	/g/9KAYhAhP9/iL9/kf9SC4o/Q==	f
+4	temp@colorado.edu	/mj9Hvz9/fz9Avz9Mvz9ApZk	f
 \.
 
 
@@ -3505,6 +3506,7 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 1907	about.licensing.taxDeductibleDonation	يرجى النظر في المساهمة في التبرع للخصم الضرائب الى PhET للمساعدة فى الحفاظ على المشروع الذهاب.	2009-09-04 15:12:34.476	2009-09-04 15:12:34.476	4
 1871	about.licensing.options	@about.licensing.options@	2009-09-04 15:07:01.552	2009-09-04 15:07:01.552	3
 1908	about.licensing.contactPhet	الاتصال PhET في {0}.	2009-09-04 15:12:38.076	2009-09-04 15:12:45.063	4
+1982	language.dir	ltr	2009-09-04 17:17:56.4	2009-09-04 17:17:56.4	5
 1104	language.names.it	Italian	2009-09-03 18:56:41.783	2009-09-03 18:56:41.783	1
 1105	language.names.tr_TR	Turkish (Turkey)	2009-09-03 18:56:41.789	2009-09-03 18:56:41.789	1
 1106	language.names.zh	Chinese	2009-09-03 18:56:41.823	2009-09-03 18:56:41.823	1
@@ -3541,8 +3543,10 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 960	troubleshooting.main.q12.title	عند تشغيل محاكيات من دون PhET موقع المثبت ، وأنا رؤية الحوار الذي يقول &quot;إن تطبيق التوقيع الرقمي قد تحققت. هل تريد تشغيل التطبيق؟&quot; (أو ما شابه). ماذا يعني هذا؟	2009-09-03 11:09:08.88	2009-09-03 11:09:20.607	4
 701	about.source-code.header	Where can I get the source code for the PhET simulations?	2009-08-31 15:25:46.913	2009-08-31 15:25:46.913	1
 1770	research.studentBeliefs	Student Beliefs and Learning	2009-09-04 00:24:31.034	2009-09-04 00:24:31.034	1
+1983	language.name	Inglés	2009-09-04 17:18:22.273	2009-09-04 17:18:22.273	5
 1909	about.licensing.letUsKnow	إذا كان لديك استخدام يتضمن إعادة توزيع للمحاكاة ، يرجى إعلامنا! هذا النوع من المعلومات أمر مفيد للغاية عند كتابة مقترحات التمويل في المستقبل.	2009-09-04 15:12:49.96	2009-09-04 15:12:49.96	4
 1910	about.licensing.universityOfColorado	جامعة كولورادو	2009-09-04 15:12:51.128	2009-09-04 15:12:51.128	4
+1984	footer.someRightsReserved	Algunos derechos reservados.	2009-09-04 17:18:24.675	2009-09-04 17:18:24.675	5
 1911	about.licensing.phetInteractiveSimulations	PhET المحاكاة التفاعلية	2009-09-04 15:12:52.486	2009-09-04 15:12:52.486	4
 1912	about.licensing.bothOptionsRequire	كلا الخيارين الرخصة يتطلب إسناد العمل إلى ما يلي :	2009-09-04 15:12:54.549	2009-09-04 15:12:54.549	4
 1958	get-phet.full-install.updatedFrequently	هذه المثبتات من المحاكاة PhET يتم تحديثها بشكل متكرر. نقترح إلغاء بك الإصدارات قبل تثبيت واحد جديد.	2009-09-04 16:25:32.365	2009-09-04 16:25:32.365	4
@@ -3642,6 +3646,7 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 1016	keyword.acids	الأحماض	2009-09-03 11:19:26.27	2009-09-03 11:19:26.27	4
 1960	get-phet.full-install.downloadMac	تحميل المثبت للماكنتوش	2009-09-04 16:25:35.505	2009-09-04 16:25:35.505	4
 1885	about.licensing.optionB	@about.licensing.optionB@	2009-09-04 15:07:24.331	2009-09-04 15:07:24.331	3
+1985	home.header	Interactivo de Ciencia Simulaciones	2009-09-04 17:18:50.904	2009-09-04 17:18:50.904	5
 1916	get-phet.full-install.header	PhET Offline Website Installer - Full Install	2009-09-04 15:45:47.574	2009-09-04 15:45:47.574	1
 1915	about.licensing.ccaFulltext	النص الكامل للجميل الترخيص سمات يمكن العثور عليها <a {0}>هنا</a>	2009-09-04 15:13:19.193	2009-09-04 15:13:50.195	4
 1112	language.names.lt	Lithuanian	2009-09-03 18:56:41.857	2009-09-03 18:56:41.857	1
@@ -3720,12 +3725,12 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 1186	language.names.vi_VN	Vietnamese (Vietnam)	2009-09-03 18:56:42.35	2009-09-03 18:56:42.35	1
 1187	language.names.sq	Albanian	2009-09-03 18:56:42.355	2009-09-03 18:56:42.355	1
 1188	language.names.ar_LY	Arabic (Libya)	2009-09-03 18:56:42.359	2009-09-03 18:56:42.359	1
-1189	language.names.ar	Arabic	2009-09-03 18:56:42.363	2009-09-03 18:56:42.363	1
 1190	language.names.zh_CN	Chinese (China)	2009-09-03 18:56:42.369	2009-09-03 18:56:42.369	1
 1191	language.names.be_BY	Belarusian (Belarus)	2009-09-03 18:56:42.373	2009-09-03 18:56:42.373	1
 1192	language.names.zh_HK	Chinese (Hong Kong)	2009-09-03 18:56:42.378	2009-09-03 18:56:42.378	1
 1193	language.names.ja	Japanese	2009-09-03 18:56:42.382	2009-09-03 18:56:42.382	1
 1017	contribute.financialContributions	Financial Contributions	2009-09-03 12:29:21.388	2009-09-03 12:29:21.388	1
+1986	home.runOurSims	Ejecutar las simulaciones	2009-09-04 17:18:57.364	2009-09-04 17:18:57.364	5
 1918	get-phet.full-install.getJava	Java is included in the Windows download. Mac OS X users already have Java preinstalled. Linux users are recommended to find a suitable version for their system.	2009-09-04 15:49:29.069	2009-09-04 16:25:11.45	1
 1961	get-phet.full-install.downloadLinux	المثبت تحميل لينكس	2009-09-04 16:25:36.694	2009-09-04 16:25:36.694	4
 1962	get-phet.full-install.downloadInMB	- {0} MB	2009-09-04 16:25:39.552	2009-09-04 16:25:39.552	4
@@ -3854,7 +3859,6 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 1475	keyword.length	طول	2009-09-03 21:58:02.075	2009-09-03 21:58:02.075	4
 1226	footer.someRightsReserved	بعض الحقوق محفوظة.	2009-09-03 19:19:34.187	2009-09-03 19:19:34.187	4
 1227	contribute.financialContributions	المساهمات المالية	2009-09-03 19:19:39.665	2009-09-03 19:19:39.665	4
-1228	language.names.ar	العربية	2009-09-03 19:19:49.087	2009-09-03 19:19:49.087	4
 1230	language.names.ar_BH	العربية (البحرين)	2009-09-03 19:19:54.501	2009-09-03 19:19:54.501	4
 1229	language.names.ar_AE	العربية (الإمارات العربية المتحدة)	2009-09-03 19:19:51.87	2009-09-03 19:20:05.248	4
 1231	language.names.ar_DZ	العربية (الجزائر)	2009-09-03 19:20:07.778	2009-09-03 19:20:07.778	4
@@ -4055,6 +4059,8 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 1979	about.contact.middleRow	@about.contact.middleRow@	2009-09-04 17:12:13.21	2009-09-04 17:12:13.21	3
 1980	about.contact.frontRow	@about.contact.frontRow@	2009-09-04 17:12:15.41	2009-09-04 17:12:15.41	3
 1981	about.contact.phetTeam	@about.contact.phetTeam@	2009-09-04 17:12:17.178	2009-09-04 17:12:17.178	3
+1987	nav.simulations.translated	Translated Sims	2009-09-04 19:53:33.995	2009-09-04 19:53:33.995	1
+1988	simulations.translated.title	PhET's Translated Simulations	2009-09-04 19:53:51.918	2009-09-04 19:53:51.918	1
 1280	language.names.ro	الرومانية	2009-09-03 19:27:32.061	2009-09-03 19:27:32.061	4
 1281	language.names.ru	الروسية	2009-09-03 19:27:37.03	2009-09-03 19:27:37.03	4
 1282	language.names.sk	السلوفاكية	2009-09-03 19:27:40.047	2009-09-03 19:27:40.047	4
@@ -4588,9 +4594,11 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 777	troubleshooting.java.q2.answer	@troubleshooting.java.q2.answer@	2009-09-01 01:10:07.766	2009-09-01 01:10:07.766	3
 778	troubleshooting.java.q4.title	@troubleshooting.java.q4.title@	2009-09-01 01:10:09.145	2009-09-01 01:10:09.145	3
 779	troubleshooting.java.q4.answer	@troubleshooting.java.q4.answer@	2009-09-01 01:10:10.661	2009-09-01 01:10:10.661	3
+1989	language.names.mn	Mongolian	2009-09-04 21:39:00.308	2009-09-04 21:39:00.308	1
 780	troubleshooting.java.q5.title	@troubleshooting.java.q5.title@	2009-09-01 01:10:11.724	2009-09-01 01:10:11.724	3
 644	keyword.greenhouseEffect	@keyword.greenhouseEffect@	2009-08-31 14:55:31.648	2009-08-31 14:55:31.648	3
 1956	get-phet.full-install.header	PhET اتصال موقع المثبت -- تثبيت كامل	2009-09-04 16:24:40.209	2009-09-04 16:24:40.209	4
+1990	language.names.nb	Norwegian Bokmål	2009-09-04 21:39:20.564	2009-09-04 21:39:20.564	1
 1957	get-phet.full-install.getJava	جافا يتم تضمينها في تنزيل ويندوز. ماكنتوش المستخدمين لديها بالفعل جافا المثبتة مسبقا. مستخدمي لينكس هي أوصت لايجاد صيغة مناسبة لنظامهم.	2009-09-04 16:24:43.295	2009-09-04 16:25:28.84	4
 691	about.licensing.title	@about.licensing.title@	2009-08-31 14:58:27.206	2009-08-31 14:58:27.206	3
 692	workshops.title	@workshops.title@	2009-08-31 14:58:29.565	2009-08-31 14:58:29.565	3
@@ -4652,12 +4660,24 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 795	keyword.cosines	@keyword.cosines@	2009-09-01 01:11:12.531	2009-09-01 01:11:12.531	3
 613	keyword.electromagnet	@keyword.electromagnet@	2009-08-31 14:49:16.122	2009-09-01 01:11:18.936	3
 1037	sponsors.financialSupport	@sponsors.financialSupport@	2009-09-03 13:12:44.489	2009-09-03 13:13:08.995	3
+1991	language.names.fa	Persian	2009-09-04 21:39:30.367	2009-09-04 21:39:30.367	1
+1992	language.names.si	Sinhalese	2009-09-04 21:39:40.356	2009-09-04 21:39:49.156	1
+1993	language.names.tn	Tswana	2009-09-04 21:40:00.496	2009-09-04 21:40:00.496	1
 1036	sponsors.header	@sponsors.header@	2009-09-03 13:12:42.273	2009-09-03 13:12:54.513	3
 1039	sponsors.gold	@sponsors.gold@	2009-09-03 13:13:16.218	2009-09-03 13:13:16.218	3
 1040	sponsors.bronze	@sponsors.bronze@	2009-09-03 13:13:18.803	2009-09-03 13:13:18.803	3
 1041	sponsors.technicalSupport	@sponsors.technicalSupport@	2009-09-03 13:13:20.311	2009-09-03 13:13:20.311	3
 1042	sponsors.piccolo.desc	@sponsors.piccolo.desc@	2009-09-03 13:13:21.773	2009-09-03 13:13:21.773	3
 1063	simulationMainPanel.softwareRequirements	@simulationMainPanel.softwareRequirements@	2009-09-03 16:14:57.512	2009-09-03 16:14:57.512	3
+1994	language.names.si	السنهالية	2009-09-04 21:40:56.953	2009-09-04 21:40:58.372	4
+1995	language.names.nb	البوكمالية النرويجية	2009-09-04 21:41:02.006	2009-09-04 21:41:02.006	4
+1996	language.names.mn	المنغولية	2009-09-04 21:41:04.986	2009-09-04 21:41:04.986	4
+1997	language.names.fa	الفارسية	2009-09-04 21:41:10.908	2009-09-04 21:41:10.908	4
+1998	language.names.tn	التسوانية	2009-09-04 21:41:27.142	2009-09-04 21:41:27.142	4
+1228	language.names.ar	العربية	2009-09-03 19:19:49.087	2009-09-04 21:46:50.269	4
+1189	language.names.ar	Arabic	2009-09-03 18:56:42.363	2009-09-04 21:46:17.823	1
+1999	language.names.ak	Akan	2009-09-04 21:47:05.385	2009-09-04 21:47:05.385	1
+2000	language.names.ak	اكان	2009-09-04 21:47:17.156	2009-09-04 21:47:17.156	4
 1830	about.contact.thePhetProject	The PhET Project:	2009-09-04 00:46:08.054	2009-09-04 00:46:08.054	1
 1831	about.contact.licenseInformation	License Information:	2009-09-04 00:46:58.433	2009-09-04 00:46:58.433	1
 1832	about.contact.email	Email:	2009-09-04 00:47:31.868	2009-09-04 00:47:38.065	1
@@ -4770,6 +4790,7 @@ COPY translation (id, locale, visible) FROM stdin;
 4	ar	t
 2	zh_CN	f
 3	it	t
+5	es	f
 \.
 
 
@@ -4780,6 +4801,7 @@ COPY translation (id, locale, visible) FROM stdin;
 COPY user_translation_mapping (translation_id, user_id) FROM stdin;
 3	1
 4	1
+5	4
 \.
 
 

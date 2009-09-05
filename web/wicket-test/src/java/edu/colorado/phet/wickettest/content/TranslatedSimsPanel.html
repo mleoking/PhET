@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:wicket="http://svn.apache.org/repos/asf/wicket/trunk/wicket/wicket-xhtml1-strict.dtd" xml:lang="en"
+      lang="en">
+<head>
+    <title>[PREVIEW] TranslatedSimsPanel</title>
+    <wicket:remove>
+        <link rel="stylesheet" type="text/css" href="../../../../../../../root/css/preview.css"/>
+    </wicket:remove>
+</head>
+<body>
+
+<wicket:panel>
+    <div class="translated-sims standard-content">
+        <h2>All Translations</h2>
+        <table class="t-locales">
+            <tr class="t-header">
+                <td>Language</td>
+                <td>Language (translated)</td>
+                <td class="number-of-translations">Number of translations</td>
+            </tr>
+            <tr wicket:id="locale-list">
+                <td>
+                    <a href="#" wicket:id="locale-link">
+                        <span wicket:id="locale-title">
+                            Polish
+                        </span>
+                    </a>
+                </td>
+                <td wicket:id="locale-title-translated">
+                    polski
+                </td>
+                <td wicket:id="number-of-translations" class="number-of-translations">
+                    28
+                </td>
+            </tr>
+        </table>
+        <div class="translation-locales" wicket:id="translation-locales">
+            <h3 wicket:id="locale-header" style="border-top: 1px solid #aaaaaa;">polski - Polish</h3>
+            <table class="t-translations">
+                <tr wicket:id="translations">
+                    <td>
+                        <span wicket:id="title-translated">Title in sub language</span>
+                    </td>
+                    <td>
+                        <span wicket:id="title">Title in overall language</span>
+                    </td>
+                    <td>
+                        <a href="#" wicket:id="run-now-link">
+                            Run&nbsp;Now
+                        </a>
+                    </td>
+                    <td>
+                        <a href="#" wicket:id="download-link">
+                            Download
+                        </a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</wicket:panel>
+
+</body>
+</html>
