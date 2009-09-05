@@ -1,3 +1,5 @@
+Improved the location of heat button
+Improved the location of return object button
 # 1.03.39 (34866) Sep 4, 2009
 moving-man: removed extraneous control panels
 Added correlation between chart domain axes
