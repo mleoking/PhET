@@ -29,6 +29,7 @@ import edu.colorado.phet.wickettest.translation.PhetLocalizer;
 import edu.colorado.phet.wickettest.util.HibernateUtils;
 import static edu.colorado.phet.wickettest.util.HtmlUtils.encode;
 import edu.colorado.phet.wickettest.util.PageContext;
+import edu.colorado.phet.wickettest.content.SimsByKeywordPage;
 
 // TODO: add ratings (none / under construction / tested)
 // TODO: add optional guidance recommended
@@ -154,11 +155,12 @@ public class SimulationMainPanel extends PhetPanel {
         ListView keywordList = new ListView( "keyword-list", keywords ) {
             protected void populateItem( ListItem item ) {
                 Keyword keyword = (Keyword) item.getModel().getObject();
-                Link link = new StatelessLink( "keyword-link" ) {
-                    public void onClick() {
-                        // TODO: fill in keyword links!
-                    }
-                };
+                Link link = SimsByKeywordPage.getLinker( keyword.getSubKey() ).getLink( "keyword-link", context );
+//                Link link = new StatelessLink( "keyword-link" ) {
+//                    public void onClick() {
+//                        // TODO: fill in keyword links!
+//                    }
+//                };
                 link.add( new Label( "keyword-label", new ResourceModel( keyword.getKey() ) ) );
                 item.add( link );
             }

@@ -85,6 +85,7 @@ public class WicketApplication extends WebApplication {
         SimulationPage.addToMapper( mapper );
         StaticPage.addToMapper( mapper );
         IndexPage.addToMapper( mapper );
+        SimsByKeywordPage.addToMapper( mapper );
 
         // set up the custom localizer
         getResourceSettings().setLocalizer( new PhetLocalizer() );

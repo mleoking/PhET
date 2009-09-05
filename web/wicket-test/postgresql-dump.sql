@@ -4704,8 +4704,10 @@ COPY translated_string (id, key, value, createdat, updatedat, translation) FROM 
 1839	about.contact.correspondence	يرجى معالجة جميع المراسلات الالكترونية ل: {0} معلومات عن المساهمة في PhET يمكن العثور عليها <a {1}>هنا.</a>	2009-09-04 00:56:56.942	2009-09-04 00:57:25.758	4
 440	language.name	@language.name@	2009-08-31 14:13:12.184	2009-08-31 14:47:19.092	3
 461	nav.sound-and-waves	@nav.sound-and-waves@	2009-08-31 14:14:30.606	2009-08-31 14:14:30.606	3
+2015	nav.simulations.by-keyword	Simulations by Keyword	2009-09-05 00:33:01.008	2009-09-05 00:33:01.008	1
 462	nav.work-energy-and-power	@nav.work-energy-and-power@	2009-08-31 14:15:07.38	2009-08-31 14:15:07.38	3
 463	nav.heat-and-thermodynamics	@nav.heat-and-thermodynamics@	2009-08-31 14:15:10.32	2009-08-31 14:15:10.32	3
+2016	nav.simulations.by-keyword	المحاكاة بواسطة كلمة	2009-09-05 00:54:27.266	2009-09-05 00:54:27.266	4
 1064	simulationMainPanel.sampleLearningGoals	@simulationMainPanel.sampleLearningGoals@	2009-09-03 16:15:00.102	2009-09-03 16:15:00.102	3
 1065	simulationMainPanel.credits	@simulationMainPanel.credits@	2009-09-03 16:15:02.092	2009-09-03 16:15:02.092	3
 740	sponsors.title	@sponsors.title@	2009-08-31 23:40:21.203	2009-08-31 23:40:21.203	3

@@ -94,6 +94,11 @@ public class NavMenu {
         addLocation( aboutSponsors );
         about.addChild( aboutSponsors );
 
+        // unconnected locations
+
+        NavLocation byKeyword = new NavLocation( null, "simulations.by-keyword", SimulationDisplay.getLinker() );
+        addLocation( byKeyword );
+
         Session session = HibernateUtils.getInstance().openSession();
         Transaction tx = null;
         try {
