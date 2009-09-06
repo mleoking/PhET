@@ -101,9 +101,11 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
   }
   //  addStageAreaDisplay()
 
+  val playAreaVectorNode = new PlayAreaVectorNode(transform,model.bead)
+  playAreaNode.addChild(playAreaVectorNode)
+
   val vectorView = new VectorView(transform, model.bead, vectorViewModel, useVectorNodeInPlayArea, model.coordinateFrameModel,
-    fbdWidth, fbdNode, windowFBDNode)
-  playAreaNode.addChild(vectorView)
+    fbdWidth, fbdNode, windowFBDNode, playAreaVectorNode)
   playAreaNode.addChild(new RaindropView(model, this))
   playAreaNode.addChild(new FireDogView(model, this))
 
@@ -184,3 +186,7 @@ class RampCanvas(model: MotionSeriesModel, coordinateSystemModel: AdjustableCoor
 trait PointOfOriginVector {
   def getPointOfOriginOffset(defaultCenter: Double): Double
 }
+
+class PlayAreaVectorNode(transform:ModelViewTransform2D,bead:Bead) extends PNode{
+    def addVector(a: Vector, offset: VectorValue) = addChild(new BodyVectorNode(transform, a, offset, bead))
+  }
