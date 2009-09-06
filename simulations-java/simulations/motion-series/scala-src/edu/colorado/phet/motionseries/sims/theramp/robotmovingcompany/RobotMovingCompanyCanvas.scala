@@ -26,7 +26,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel, coordinateSystemModel: 
                                vectorViewModel: VectorViewModel, frame: JFrame, gameModel: RobotMovingCompanyGameModel)
         extends MotionSeriesCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame, MotionSeriesDefaults.defaultViewport) {
   beadNode.setVisible(false)
-  vectorView.setVisible(false)
+  playAreaVectorNode.setVisible(false)
   pusherNode.setVisible(false)
 
   val controlPanel = new VerticalLayoutPanel

@@ -12,12 +12,8 @@ class VectorView(transform:ModelViewTransform2D,
                  coordinateFrameModel:CoordinateFrameModel,
                  fbdWidth:Int,
                  fbdNode:FreeBodyDiagramNode,
-                 windowFBDNode:FBDDialog)
-        extends PNode{
-  val vectorNode = new PNode {
-    def addVector(a: Vector, offset: VectorValue) = addChild(new BodyVectorNode(transform, a, offset, bead))
-  }
-  addChild(vectorNode)
+                 windowFBDNode:FBDDialog,
+                 playAreaVectorNode:PlayAreaVectorNode){
 
   def addVectorAllComponents(bead: Bead,
                              beadVector: BeadVector with PointOfOriginVector,
@@ -81,7 +77,7 @@ class VectorView(transform:ModelViewTransform2D,
     }
 
     if (useVectorNodeInPlayArea) {
-      vectorNode.addVector(playAreaAdapter, tailLocationInPlayArea)
+      playAreaVectorNode.addVector(playAreaAdapter, tailLocationInPlayArea)
     }
     bead.removalListeners += (() => {
       fbdNode.removeVector(vector)
@@ -101,5 +97,4 @@ class VectorView(transform:ModelViewTransform2D,
     addVectorAllComponents(bead, bead.totalForceVector, new ConstantVectorValue(new Vector2D(0, fbdWidth / 4)), 2, () => vectorViewModel.sumOfForcesVector) //no need to add a separate listener, since it is already contained in vectorviewmodel
   }
   addAllVectors(bead)
-
 }
