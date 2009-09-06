@@ -42,6 +42,11 @@ public class TranslatedSimsPanel extends PhetPanel {
 
                 for ( Object lsim : lsims ) {
                     LocalizedSimulation localizedSimulation = (LocalizedSimulation) lsim;
+
+                    if ( !localizedSimulation.getSimulation().getProject().isVisible() ) {
+                        continue;
+                    }
+
                     localizedSimulations.add( localizedSimulation );
 
                     List<LocalizedSimulation> localeSimList = localeMap.get( localizedSimulation.getLocale() );

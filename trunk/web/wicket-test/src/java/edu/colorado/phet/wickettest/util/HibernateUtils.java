@@ -127,8 +127,8 @@ public class HibernateUtils {
         return ret;
     }
 
-    public static List<LocalizedSimulation> getAllSimulationsWithLocale( Session session, Locale locale ) {
-        List simulations = session.createQuery( "select l from LocalizedSimulation as l where l.locale = :locale" ).setLocale( "locale", locale ).list();
+    public static List<LocalizedSimulation> getAllVisibleSimulationsWithLocale( Session session, Locale locale ) {
+        List simulations = session.createQuery( "select l from LocalizedSimulation as l where l.locale = :locale and l.simulation.project.visible = true" ).setLocale( "locale", locale ).list();
         List<LocalizedSimulation> ret = new LinkedList<LocalizedSimulation>();
         for ( Object simulation : simulations ) {
             ret.add( (LocalizedSimulation) simulation );

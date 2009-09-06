@@ -13,7 +13,7 @@ public class Project implements Serializable {
     private int versionDev;
     private int versionRevision;
     private long versionTimestamp;
-    private int type;
+    private boolean visible;
 
     public Project() {
     }
@@ -92,5 +92,13 @@ public class Project implements Serializable {
 
     public void setVersionTimestamp( long versionTimestamp ) {
         this.versionTimestamp = versionTimestamp;
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible( boolean visible ) {
+        this.visible = visible;
     }
 }
