@@ -126,7 +126,10 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel,
                           private var _width: Double, private var _height: Double,
                           val modelWidth: Double, val modelHeight: Double,
                           coordinateFrameModel: CoordinateFrameModel, adjustableCoordinateModel: AdjustableCoordinateModel,
-                          toggleWindowedButton: Image, vectors: Vector*) extends PNode {
+                          toggleWindowedButton: Image, vectors: Vector*) extends PNode with VectorDisplay{
+  def addVector(vector: Vector with PointOfOriginVector, offsetFBD: VectorValue, maxOffset: Int, offsetPlayArea: Double) :Unit =
+    addVector(vector,offsetFBD,maxOffset)
+
   val transform = new ModelViewTransform2D(new Rectangle2D.Double(-modelWidth / 2, -modelHeight / 2, modelWidth, modelHeight),
     new Rectangle2D.Double(0, 0, _width, _height), true)
 
