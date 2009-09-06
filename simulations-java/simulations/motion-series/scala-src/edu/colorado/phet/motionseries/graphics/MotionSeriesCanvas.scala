@@ -105,10 +105,10 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
   val playAreaVectorNode = new PlayAreaVectorNode(transform, model.bead, vectorViewModel)
   playAreaNode.addChild(playAreaVectorNode)
 
-  val vectorView = new VectorView(transform, model.bead, vectorViewModel, useVectorNodeInPlayArea, model.coordinateFrameModel, fbdWidth)
+  val vectorView = new VectorView(model.bead, vectorViewModel, model.coordinateFrameModel, fbdWidth)
   vectorView.addAllVectors(model.bead,fbdNode)
   vectorView.addAllVectors(model.bead,windowFBDNode)
-  vectorView.addAllVectors(model.bead,playAreaVectorNode)
+  if (useVectorNodeInPlayArea) vectorView.addAllVectors(model.bead,playAreaVectorNode)
   
   playAreaNode.addChild(new RaindropView(model, this))
   playAreaNode.addChild(new FireDogView(model, this))

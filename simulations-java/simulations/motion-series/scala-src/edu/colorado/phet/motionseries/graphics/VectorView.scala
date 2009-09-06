@@ -4,10 +4,8 @@ import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import model._
 import scalacommon.math.Vector2D
 
-class VectorView(transform: ModelViewTransform2D,
-                 bead: Bead,
+class VectorView(bead: Bead,
                  vectorViewModel: VectorViewModel,
-                 useVectorNodeInPlayArea: Boolean,
                  coordinateFrameModel: CoordinateFrameModel,
                  fbdWidth: Int) {
   def addVectorAllComponents(bead: Bead,

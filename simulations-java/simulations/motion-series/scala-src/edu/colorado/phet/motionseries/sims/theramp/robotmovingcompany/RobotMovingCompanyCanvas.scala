@@ -134,6 +134,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel, coordinateSystemModel: 
     def setter(x: Double) = if (gameModel.robotEnergy > 0) bead.parallelAppliedForce = x else {}
     appliedForceControl.setModel(() => bead.parallelAppliedForce, setter, removeListenerFunction, bead.addListener)
 
+    //todo: why are these 2 lines necessary?
     vectorView.addAllVectors(bead,fbdNode)
     vectorView.addAllVectors(bead,windowFBDNode)
     //don't show play area vectors
