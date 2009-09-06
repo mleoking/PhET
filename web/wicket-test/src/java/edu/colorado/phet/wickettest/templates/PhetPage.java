@@ -66,9 +66,9 @@ public abstract class PhetPage extends WebPage {
         System.out.println( "path of this page is: " + path );
         System.out.println( "Session id is: " + wicketSession.getId() );
 
-        for ( Object o : parameters.keySet() ) {
-            System.out.println( "[" + o.toString() + "] = " + parameters.get( o ).toString() );
-        }
+//        for ( Object o : parameters.keySet() ) {
+//            System.out.println( "[" + o.toString() + "] = " + parameters.get( o ).toString() );
+//        }
 
         // visual display
         if ( addTemplateBindings ) {
@@ -114,7 +114,7 @@ public abstract class PhetPage extends WebPage {
             }
         }
 
-        System.out.println( "request cycle is a : " + getRequestCycle().getClass().getSimpleName() );
+//        System.out.println( "request cycle is a : " + getRequestCycle().getClass().getSimpleName() );
     }
 
     public Locale getMyLocale() {
@@ -165,7 +165,7 @@ public abstract class PhetPage extends WebPage {
 
     @Override
     protected void onDetach() {
-        System.out.println( "Detaching page" );
+//        System.out.println( "Detaching page" );
         super.onDetach();
     }
 
