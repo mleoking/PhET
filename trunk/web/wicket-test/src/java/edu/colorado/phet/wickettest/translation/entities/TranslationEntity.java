@@ -17,6 +17,11 @@ public abstract class TranslationEntity implements Serializable {
 
     public abstract String getDisplayName();
 
+    public int getMinDisplaySize() {
+        //return 765;
+        return 525;
+    }
+
     protected void addString( String key ) {
         strings.add( new TranslationEntityString( key ) );
     }

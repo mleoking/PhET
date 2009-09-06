@@ -41,6 +41,7 @@ public class TranslationEntityListPanel extends PhetPanel {
                         target.addComponent( panelHolder );
                         target.addComponent( TranslationEntityListPanel.this );
                         page.setSelectedEntityName( entity.getDisplayName() );
+                        //target.appendJavascript( "document.getElementById('translation-holder').style.width = 200;" );
                     }
                 };
                 if ( page.getSelectedEntityName().equals( entity.getDisplayName() ) ) {
