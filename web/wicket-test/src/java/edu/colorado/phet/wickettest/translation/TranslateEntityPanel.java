@@ -206,4 +206,18 @@ public class TranslateEntityPanel extends PhetPanel {
         return new Integer( translationId ).toString();
     }
 
+    private Long renderStart;
+
+    @Override
+    protected void onBeforeRender() {
+        super.onBeforeRender();
+        renderStart = System.currentTimeMillis();
+    }
+
+    @Override
+    protected void onAfterRender() {
+        super.onAfterRender();
+        System.out.println( "TranslateEntityPanel Render: " + ( System.currentTimeMillis() - renderStart ) + " ms" );
+    }
+
 }

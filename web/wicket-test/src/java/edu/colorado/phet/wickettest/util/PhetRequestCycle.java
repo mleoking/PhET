@@ -9,6 +9,7 @@ import org.hibernate.Session;
 public class PhetRequestCycle extends WebRequestCycle {
 
     private Session session;
+    private Long start;
 
     public PhetRequestCycle( WebApplication webApplication, WebRequest webRequest, Response response ) {
         super( webApplication, webRequest, response );
@@ -17,6 +18,7 @@ public class PhetRequestCycle extends WebRequestCycle {
     @Override
     protected void onBeginRequest() {
 //        System.out.println( "onBeginRequest" );
+        start = System.currentTimeMillis();
         System.out.println( "----------" );
         session = HibernateUtils.getInstance().openSession();
         super.onBeginRequest();
@@ -25,6 +27,7 @@ public class PhetRequestCycle extends WebRequestCycle {
     @Override
     protected void onEndRequest() {
 //        System.out.println( "onEndRequest" );
+        System.out.println( "Request cycle: " + ( System.currentTimeMillis() - start ) + " ms" );
         session.close();
         super.onEndRequest();
     }
