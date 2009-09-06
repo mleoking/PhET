@@ -43,7 +43,7 @@ public class LocalizedText extends WebComponent {
                 body = "*error*";
             }
         }
-        System.out.println( "body:\n" + body + "\n" );
+        //System.out.println( "body:\n" + body + "\n" );
         replaceComponentTagBody( markupStream, openTag, body );
     }
 

@@ -31,11 +31,15 @@ public abstract class PhetPage extends WebPage {
     private String path;
     private String variation;
 
+    private Long initStart;
+
     public PhetPage( PageParameters parameters ) {
         this( parameters, true );
     }
 
     public PhetPage( PageParameters parameters, boolean addTemplateBindings ) {
+
+        initStart = System.currentTimeMillis();
 
         if ( parameters.get( "locale" ) != null ) {
             myLocale = (Locale) parameters.get( "locale" );
@@ -157,10 +161,20 @@ public abstract class PhetPage extends WebPage {
         return ( (WicketApplication) getApplication() ).getMenu();
     }
 
+    private Long renderStart;
+
     @Override
     protected void onBeforeRender() {
         super.onBeforeRender();
+        renderStart = System.currentTimeMillis();
         System.out.println( "Debug: page stateless = " + isPageStateless() );
+        System.out.println( "Pre-render: " + ( renderStart - initStart ) + " ms" );
+    }
+
+    @Override
+    protected void onAfterRender() {
+        super.onAfterRender();
+        System.out.println( "Render: " + ( System.currentTimeMillis() - renderStart ) + " ms" );
     }
 
     @Override
