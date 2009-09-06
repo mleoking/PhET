@@ -26,7 +26,7 @@ class BasicMovingManModule(frame: JFrame,
                            showFrictionControl: Boolean,
                            rampLayoutArea: Rectangle2D)
         extends MotionSeriesModule(frame, clock, name, defaultBeadPosition, pausedOnReset, initialAngle) {
-  val canvas = new BasicMovingManCanvas(motionSeriesModel, coordinateSystemModel, fbdModel, vectorViewModel, frame, showObjectSelectionNode, showAppliedForceSlider, initialAngle != 0.0, rampLayoutArea)
+  val canvas = new MovingManCanvas(motionSeriesModel, coordinateSystemModel, fbdModel, vectorViewModel, frame, showObjectSelectionNode, showAppliedForceSlider, initialAngle != 0.0, rampLayoutArea)
   setSimulationPanel(canvas)
 //  val controlPanel = new RampControlPanel(motionSeriesModel, wordModel, fbdModel, coordinateSystemModel, vectorViewModel,
 //    resetRampModule, coordinateSystemFeaturesEnabled, false, motionSeriesModel, false, showFrictionControl)
@@ -38,13 +38,14 @@ class BasicMovingManModule(frame: JFrame,
   vectorViewModel.parallelComponents = false
 }
 
-class BasicMovingManCanvas(model: MotionSeriesModel, coordinateSystemModel: AdjustableCoordinateModel, freeBodyDiagramModel: FreeBodyDiagramModel,
+class MovingManCanvas(model: MotionSeriesModel, coordinateSystemModel: AdjustableCoordinateModel, freeBodyDiagramModel: FreeBodyDiagramModel,
                            vectorViewModel: VectorViewModel, frame: JFrame, showObjectSelectionNode: Boolean, showAppliedForceSlider: Boolean,
                            rampAngleDraggable: Boolean, rampLayoutArea: Rectangle2D)
         extends RampCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel,
           frame, showObjectSelectionNode, showAppliedForceSlider, rampAngleDraggable, rampLayoutArea) {
   override def addHeightAndAngleIndicators() = {}
   override def createBeadNode(b: Bead, t: ModelViewTransform2D, s: String, listener: () => Unit) = new PositionDragBeadNode(b, t, "moving-man/moving-man-standing.gif","moving-man/moving-man-left.gif",listener,this)
+//  playAreaVectorNode.addVector(model.bead.velocityVector,new VectorValue(){})
 }
 
 class IntroModule(frame: JFrame, clock: ScalaClock)

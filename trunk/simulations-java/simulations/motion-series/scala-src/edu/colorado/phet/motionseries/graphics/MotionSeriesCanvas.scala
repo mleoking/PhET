@@ -106,10 +106,10 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
   playAreaNode.addChild(playAreaVectorNode)
 
   val vectorView = new VectorView(model.bead, vectorViewModel, model.coordinateFrameModel, fbdWidth)
-  vectorView.addAllVectors(model.bead,fbdNode)
-  vectorView.addAllVectors(model.bead,windowFBDNode)
-  if (useVectorNodeInPlayArea) vectorView.addAllVectors(model.bead,playAreaVectorNode)
-  
+  vectorView.addAllVectors(model.bead, fbdNode)
+  vectorView.addAllVectors(model.bead, windowFBDNode)
+  if (useVectorNodeInPlayArea) vectorView.addAllVectors(model.bead, playAreaVectorNode)
+
   playAreaNode.addChild(new RaindropView(model, this))
   playAreaNode.addChild(new FireDogView(model, this))
 
@@ -192,43 +192,43 @@ trait PointOfOriginVector {
 }
 
 class PlayAreaVectorNode(transform: ModelViewTransform2D, bead: Bead, vectorViewModel: VectorViewModel) extends PNode with VectorDisplay {
+  def addVector(a: Vector, offset: VectorValue): Unit = addChild(new BodyVectorNode(transform, a, offset, bead))
 
-  def addVector(a: Vector, offset: VectorValue):Unit = addChild(new BodyVectorNode(transform, a, offset, bead))
-
-  def addVector(vector: Vector with PointOfOriginVector, offsetFBD: VectorValue, maxOffset: Int, offsetPlayArea: Double):Unit = {
-    val tailLocationInPlayArea = new VectorValue() {
-      def addListener(listener: () => Unit) = {
-        bead.addListener(listener)
-        vectorViewModel.addListener(listener)
-      }
-
-      def getValue = {
-        val defaultCenter = bead.height / 2.0
-        bead.position2D + new Vector2D(bead.getAngle + java.lang.Math.PI / 2) *
-                (offsetPlayArea + (if (vectorViewModel.centered) defaultCenter else vector.getPointOfOriginOffset(defaultCenter)))
-      }
-
-
-      def removeListener(listener: () => Unit) = {
-        bead.removeListener(listener)
-        vectorViewModel.removeListener(listener)
-      }
-    }
-    //todo: make sure this adapter overrides other methods as well such as addListener
-    val playAreaAdapter = new Vector(vector.color, vector.name, vector.abbreviation,
-      () => vector.getValue * MotionSeriesDefaults.PLAY_AREA_VECTOR_SCALE, vector.painter) {
-      vector.addListenerByName {
-        notifyListeners()
-      }
-      override def visible = vector.visible
-
-      override def visible_=(vis: Boolean) = vector.visible = vis
-
-      override def getPaint = vector.getPaint
-    }
-
-    addVector(playAreaAdapter, tailLocationInPlayArea)
+  def addVector(vector: Vector with PointOfOriginVector, offsetFBD: VectorValue, maxOffset: Int, offsetPlayArea: Double): Unit = {
+    addVector(new PlayAreaAdapter(vector), new TailLocationInPlayArea(bead, vectorViewModel, offsetPlayArea, vector))
   }
 
   def removeVector(vector: Vector) = null
+}
+
+//todo: make sure this adapter overrides other methods as well such as addListener
+class PlayAreaAdapter(vector: Vector) extends Vector(vector.color, vector.name, vector.abbreviation,
+  () => vector.getValue * MotionSeriesDefaults.PLAY_AREA_VECTOR_SCALE, vector.painter) {
+  vector.addListenerByName {
+    notifyListeners()
+  }
+  override def visible = vector.visible
+
+  override def visible_=(vis: Boolean) = vector.visible = vis
+
+  override def getPaint = vector.getPaint
+}
+
+class TailLocationInPlayArea(bead: Bead, vectorViewModel: VectorViewModel, offsetPlayArea: Double, vector: Vector with PointOfOriginVector) extends VectorValue {
+  def addListener(listener: () => Unit) = {
+    bead.addListener(listener)
+    vectorViewModel.addListener(listener)
+  }
+
+  def getValue = {
+    val defaultCenter = bead.height / 2.0
+    bead.position2D + new Vector2D(bead.getAngle + java.lang.Math.PI / 2) *
+            (offsetPlayArea + (if (vectorViewModel.centered) defaultCenter else vector.getPointOfOriginOffset(defaultCenter)))
+  }
+
+
+  def removeListener(listener: () => Unit) = {
+    bead.removeListener(listener)
+    vectorViewModel.removeListener(listener)
+  }
 }
