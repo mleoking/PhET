@@ -13,5 +13,6 @@
         <property name="versionDev"/>
         <property name="versionRevision"/>
         <property name="versionTimestamp"/>
+        <property name="visible"/>
     </class>
 </hibernate-mapping>

@@ -39,7 +39,7 @@ public class SimulationDisplay extends PhetRegularPage {
                 addSimulationsFromCategory( simulations, getMyLocale(), category );
             }
             else {
-                simulations = HibernateUtils.getAllSimulationsWithLocale( getHibernateSession(), context.getLocale() );
+                simulations = HibernateUtils.getAllVisibleSimulationsWithLocale( getHibernateSession(), context.getLocale() );
                 HibernateUtils.orderSimulations( simulations, context.getLocale() );
             }
             tx.commit();
@@ -83,7 +83,7 @@ public class SimulationDisplay extends PhetRegularPage {
             for ( Object p : sim.getLocalizedSimulations() ) {
                 LocalizedSimulation lsim = (LocalizedSimulation) p;
                 if ( lsim.getLocale().equals( locale ) ) {
-                    if ( !used.contains( lsim.getId() ) ) {
+                    if ( !used.contains( lsim.getId() ) && lsim.getSimulation().getProject().isVisible() ) {
                         simulations.add( lsim );
                         used.add( lsim.getId() );
                     }
