@@ -195,15 +195,15 @@ class PlayAreaVectorNode(transform: ModelViewTransform2D, bead: Bead, vectorView
   def addVector(a: Vector, offset: VectorValue): Unit = addChild(new BodyVectorNode(transform, a, offset, bead))
 
   def addVector(vector: Vector with PointOfOriginVector, offsetFBD: VectorValue, maxOffset: Int, offsetPlayArea: Double): Unit = {
-    addVector(new PlayAreaAdapter(vector), new TailLocationInPlayArea(bead, vectorViewModel, offsetPlayArea, vector))
+    addVector(new PlayAreaAdapter(vector,MotionSeriesDefaults.PLAY_AREA_FORCE_VECTOR_SCALE), new TailLocationInPlayArea(bead, vectorViewModel, offsetPlayArea, vector))
   }
 
   def removeVector(vector: Vector) = null
 }
 
 //todo: make sure this adapter overrides other methods as well such as addListener
-class PlayAreaAdapter(vector: Vector) extends Vector(vector.color, vector.name, vector.abbreviation,
-  () => vector.getValue * MotionSeriesDefaults.PLAY_AREA_VECTOR_SCALE, vector.painter) {
+class PlayAreaAdapter(vector: Vector,scale:Double) extends Vector(vector.color, vector.name, vector.abbreviation,
+  () => vector.getValue * scale, vector.painter) {
   vector.addListenerByName {
     notifyListeners()
   }

@@ -38,7 +38,9 @@ object MotionSeriesDefaults {
   val MAX_APPLIED_FORCE = 500.0
 
   val freeBodyDiagramWidth = 2000 // Full width (not distance from origin to edge) in Newtons
-  val PLAY_AREA_VECTOR_SCALE = 0.005 //scale factor when converting from Newtons to meters in the play area
+  val PLAY_AREA_FORCE_VECTOR_SCALE = 0.005 //scale factor when converting from Newtons to meters in the play area
+  val PLAY_AREA_VELOCITY_VECTOR_SCALE = 0.5
+  val PLAY_AREA_ACCELERATION_VECTOR_SCALE = 0.03
 
   val DT_DEFAULT = 30 / 1000.0
   val DELAY = 0 //there's a wait step, see the top of RampApplication.scala in AbstractRampModule

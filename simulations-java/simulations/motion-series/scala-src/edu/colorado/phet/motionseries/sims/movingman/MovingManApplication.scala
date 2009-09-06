@@ -5,7 +5,6 @@ import model._
 import java.awt.geom.Rectangle2D
 import phet.common.phetcommon.application.{PhetApplicationConfig, PhetApplicationLauncher}
 import phet.common.piccolophet.PiccoloPhetApplication
-import controls.RampControlPanel
 import graphics._
 import java.awt.Color
 import scalacommon.record.{RecordModelControlPanel, PlaybackSpeedSlider}
@@ -28,9 +27,9 @@ class BasicMovingManModule(frame: JFrame,
         extends MotionSeriesModule(frame, clock, name, defaultBeadPosition, pausedOnReset, initialAngle) {
   val canvas = new MovingManCanvas(motionSeriesModel, coordinateSystemModel, fbdModel, vectorViewModel, frame, showObjectSelectionNode, showAppliedForceSlider, initialAngle != 0.0, rampLayoutArea)
   setSimulationPanel(canvas)
-//  val controlPanel = new RampControlPanel(motionSeriesModel, wordModel, fbdModel, coordinateSystemModel, vectorViewModel,
-//    resetRampModule, coordinateSystemFeaturesEnabled, false, motionSeriesModel, false, showFrictionControl)
-//  setControlPanel(controlPanel)
+  //  val controlPanel = new RampControlPanel(motionSeriesModel, wordModel, fbdModel, coordinateSystemModel, vectorViewModel,
+  //    resetRampModule, coordinateSystemFeaturesEnabled, false, motionSeriesModel, false, showFrictionControl)
+  //  setControlPanel(controlPanel)
   setClockControlPanel(new RecordModelControlPanel(motionSeriesModel, canvas, () => new PlaybackSpeedSlider(motionSeriesModel), Color.blue, 20))
   motionSeriesModel.selectedObject = MotionSeriesDefaults.movingMan
   vectorViewModel.xyComponentsVisible = false
@@ -39,13 +38,19 @@ class BasicMovingManModule(frame: JFrame,
 }
 
 class MovingManCanvas(model: MotionSeriesModel, coordinateSystemModel: AdjustableCoordinateModel, freeBodyDiagramModel: FreeBodyDiagramModel,
-                           vectorViewModel: VectorViewModel, frame: JFrame, showObjectSelectionNode: Boolean, showAppliedForceSlider: Boolean,
-                           rampAngleDraggable: Boolean, rampLayoutArea: Rectangle2D)
+                      vectorViewModel: VectorViewModel, frame: JFrame, showObjectSelectionNode: Boolean, showAppliedForceSlider: Boolean,
+                      rampAngleDraggable: Boolean, rampLayoutArea: Rectangle2D)
         extends RampCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel,
           frame, showObjectSelectionNode, showAppliedForceSlider, rampAngleDraggable, rampLayoutArea) {
   override def addHeightAndAngleIndicators() = {}
-  override def createBeadNode(b: Bead, t: ModelViewTransform2D, s: String, listener: () => Unit) = new PositionDragBeadNode(b, t, "moving-man/moving-man-standing.gif","moving-man/moving-man-left.gif",listener,this)
-//  playAreaVectorNode.addVector(model.bead.velocityVector,new VectorValue(){})
+
+  override def createBeadNode(b: Bead, t: ModelViewTransform2D, s: String, listener: () => Unit) = new PositionDragBeadNode(b, t, "moving-man/moving-man-standing.gif", "moving-man/moving-man-left.gif", listener, this)
+
+  playAreaVectorNode.addVector(new PlayAreaAdapter(model.bead.velocityVector, MotionSeriesDefaults.PLAY_AREA_VELOCITY_VECTOR_SCALE),
+    new TailLocationInPlayArea(model.bead, vectorViewModel, 0.5, model.bead.velocityVector))
+
+  playAreaVectorNode.addVector(new PlayAreaAdapter(model.bead.accelerationVector, MotionSeriesDefaults.PLAY_AREA_ACCELERATION_VECTOR_SCALE),
+    new TailLocationInPlayArea(model.bead, vectorViewModel, 3, model.bead.accelerationVector))
 }
 
 class IntroModule(frame: JFrame, clock: ScalaClock)
@@ -54,7 +59,7 @@ class IntroModule(frame: JFrame, clock: ScalaClock)
 
 class GraphingModule(frame: JFrame, clock: ScalaClock)
         extends BasicMovingManModule(frame, clock, "moving-man.module.graphing.title".translate, false, false, true, false,
-  -6, false, 0.0, true, MotionSeriesDefaults.forceMotionViewport) {
+          -6, false, 0.0, true, MotionSeriesDefaults.forceMotionViewport) {
   coordinateSystemModel.adjustable = false
   canvas.addScreenNode(new MovingManChartNode(canvas, motionSeriesModel))
 }
