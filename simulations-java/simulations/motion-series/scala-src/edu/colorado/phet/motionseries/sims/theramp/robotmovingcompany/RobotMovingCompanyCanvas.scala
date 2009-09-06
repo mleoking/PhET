@@ -26,7 +26,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel, coordinateSystemModel: 
                                vectorViewModel: VectorViewModel, frame: JFrame, gameModel: RobotMovingCompanyGameModel)
         extends MotionSeriesCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame, MotionSeriesDefaults.defaultViewport) {
   beadNode.setVisible(false)
-  vectorNode.setVisible(false)
+  vectorView.setVisible(false)
   pusherNode.setVisible(false)
 
   val controlPanel = new VerticalLayoutPanel
@@ -134,7 +134,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel, coordinateSystemModel: 
     def setter(x: Double) = if (gameModel.robotEnergy > 0) bead.parallelAppliedForce = x else {}
     appliedForceControl.setModel(() => bead.parallelAppliedForce, setter, removeListenerFunction, bead.addListener)
 
-    addAllVectors(bead)
+    vectorView.addAllVectors(bead)
     //todo: remove vector nodes when bead is removed
     //todo: switch to removalListeners paradigm
   }
