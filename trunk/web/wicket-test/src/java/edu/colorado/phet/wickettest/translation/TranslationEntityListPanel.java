@@ -1,16 +1,24 @@
 package edu.colorado.phet.wickettest.translation;
 
+import java.io.Serializable;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 import org.hibernate.Session;
 
 import edu.colorado.phet.wickettest.WicketApplication;
 import edu.colorado.phet.wickettest.components.InvisibleComponent;
+import edu.colorado.phet.wickettest.data.TranslatedString;
+import edu.colorado.phet.wickettest.data.Translation;
 import edu.colorado.phet.wickettest.panels.PanelHolder;
 import edu.colorado.phet.wickettest.panels.PhetPanel;
 import edu.colorado.phet.wickettest.translation.entities.TranslationEntity;
@@ -19,8 +27,11 @@ import edu.colorado.phet.wickettest.util.HibernateUtils;
 import edu.colorado.phet.wickettest.util.PageContext;
 
 public class TranslationEntityListPanel extends PhetPanel {
+
     public TranslationEntityListPanel( String id, PageContext context, final TranslationEditPage page ) {
         super( id, context );
+
+        setModel( new StringMapModel( page.getTranslationId() ) );
 
         setOutputMarkupId( true );
 
@@ -56,6 +67,7 @@ public class TranslationEntityListPanel extends PhetPanel {
 
                 final int[] counts = new int[2];
 
+                /*
                 HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
                     public boolean run( Session session ) {
                         boolean yet = false;
@@ -94,6 +106,24 @@ public class TranslationEntityListPanel extends PhetPanel {
                         return true;
                     }
                 } );
+                */
+
+                counts[0] = 0;
+                counts[1] = 0;
+
+                Map<String, StringDat> map = (Map<String, StringDat>) TranslationEntityListPanel.this.getModel().getObject();
+
+                for ( TranslationEntityString string : entity.getStrings() ) {
+                    StringDat dat = map.get( string.getKey() );
+                    if ( dat == null ) {
+                        counts[1]++;
+                    }
+                    else if ( dat.getLocalDate().compareTo( dat.getEnglishDate() ) < 0 ) {
+                        counts[0]++;
+                    }
+                }
+
+                /// END TEST
 
                 int numOutOfDate = counts[0];
                 int numUntranslated = counts[1];
@@ -113,5 +143,71 @@ public class TranslationEntityListPanel extends PhetPanel {
             }
         };
         add( entities );
+    }
+
+    private class StringMapModel extends LoadableDetachableModel {
+        private int translationId;
+
+        private StringMapModel( int translationId ) {
+            this.translationId = translationId;
+        }
+
+        protected Object load() {
+            final Map<String, StringDat> map = new HashMap<String, StringDat>();
+            HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
+                public boolean run( Session session ) {
+                    Translation localTranslation = (Translation) session.load( Translation.class, translationId );
+                    Translation englishTranslation = (Translation) session.createQuery( "select t from Translation as t where t.visible = true and t.locale = :locale" ).setLocale( "locale", WicketApplication.getDefaultLocale() ).uniqueResult();
+                    for ( Object o : localTranslation.getTranslatedStrings() ) {
+                        TranslatedString string = (TranslatedString) o;
+                        map.put( string.getKey(), new StringDat( string.getKey(), string.getUpdatedAt() ) );
+                    }
+                    for ( Object o : englishTranslation.getTranslatedStrings() ) {
+                        TranslatedString string = (TranslatedString) o;
+                        StringDat dat = map.get( string.getKey() );
+                        if ( dat != null ) {
+                            dat.setEnglishDate( string.getUpdatedAt() );
+                        }
+                    }
+                    return true;
+                }
+            } );
+            return map;
+        }
+    }
+
+    private static class StringDat implements Serializable {
+        private String key;
+        private Date englishDate;
+        private Date localDate;
+
+        private StringDat( String key, Date localDate ) {
+            this.key = key;
+            this.localDate = localDate;
+        }
+
+        public String getKey() {
+            return key;
+        }
+
+        public void setKey( String key ) {
+            this.key = key;
+        }
+
+        public Date getEnglishDate() {
+            return englishDate;
+        }
+
+        public void setEnglishDate( Date englishDate ) {
+            this.englishDate = englishDate;
+        }
+
+        public Date getLocalDate() {
+            return localDate;
+        }
+
+        public void setLocalDate( Date localDate ) {
+            this.localDate = localDate;
+        }
     }
 }
