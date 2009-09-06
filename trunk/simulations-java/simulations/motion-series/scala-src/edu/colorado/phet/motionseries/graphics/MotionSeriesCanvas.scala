@@ -103,14 +103,15 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
   }
   //  addStageAreaDisplay()
 
-  class VectorSetNode(transform: ModelViewTransform2D, bead: Bead) extends PNode {
-    def addVector(a: Vector, offset: VectorValue) = addChild(new BodyVectorNode(transform, a, offset,bead))
+  val vectorNode = new PNode{
+    def addVector(a: Vector, offset: VectorValue) = addChild(new BodyVectorNode(transform, a, offset,model.bead))
   }
-
-  val vectorNode = new VectorSetNode(transform, model.bead)
   playAreaNode.addChild(vectorNode)
-  def addVectorAllComponents(bead: Bead, beadVector: BeadVector with PointOfOriginVector, offsetFBD: VectorValue,
-                             offsetPlayArea: Double, selectedVectorVisible: () => Boolean) = {
+  def addVectorAllComponents(bead: Bead,
+                             beadVector: BeadVector with PointOfOriginVector, 
+                             offsetFBD: VectorValue,
+                             offsetPlayArea: Double,
+                             selectedVectorVisible: () => Boolean) = {
     addVector(bead, beadVector, offsetFBD, offsetPlayArea)
     val parallelComponent = new ParallelComponent(beadVector, bead)
     val perpComponent = new PerpendicularComponent(beadVector, bead)
@@ -174,7 +175,6 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
       windowFBDNode.removeVector(vector)
       //      vectorNode.removeVector(playAreaAdapter) //todo: don't use vectorNode for game module but remove it if non-game module
     })
-
   }
 
   def addVectorAllComponents(bead: Bead, a: BeadVector): Unit = addVectorAllComponents(bead, a, new ConstantVectorValue, 0, () => true)
