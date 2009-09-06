@@ -16,14 +16,15 @@ public class PhetRequestCycle extends WebRequestCycle {
 
     @Override
     protected void onBeginRequest() {
-        System.out.println( "onBeginRequest" );
+//        System.out.println( "onBeginRequest" );
+        System.out.println( "----------" );
         session = HibernateUtils.getInstance().openSession();
         super.onBeginRequest();
     }
 
     @Override
     protected void onEndRequest() {
-        System.out.println( "onEndRequest" );
+//        System.out.println( "onEndRequest" );
         session.close();
         super.onEndRequest();
     }

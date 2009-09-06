@@ -332,6 +332,10 @@ public class AdminSimPage extends AdminPage {
                 }
             } );
         }
+
+        public String getCurrentValue() {
+            return simulation.getDesignTeam();
+        }
     }
 
     public class LibrariesForm extends TextSetForm {
@@ -349,6 +353,10 @@ public class AdminSimPage extends AdminPage {
                     return true;
                 }
             } );
+        }
+
+        public String getCurrentValue() {
+            return simulation.getLibraries();
         }
     }
 
@@ -368,6 +376,10 @@ public class AdminSimPage extends AdminPage {
                 }
             } );
         }
+
+        public String getCurrentValue() {
+            return simulation.getThanksTo();
+        }
     }
 
     private abstract class TextSetForm extends Form {
@@ -376,10 +388,16 @@ public class AdminSimPage extends AdminPage {
 
         public abstract void handleString( String str );
 
+        public abstract String getCurrentValue();
+
         public TextSetForm( String id ) {
             super( id );
 
-            value = new TextArea( "value", new Model( simulation.getDesignTeam() ) );
+            String curValue = getCurrentValue();
+            if( curValue == null ) {
+                curValue = "";
+            }
+            value = new TextArea( "value", new Model( curValue.replaceAll( "<br/>", "\n") ) );
             add( value );
         }
 

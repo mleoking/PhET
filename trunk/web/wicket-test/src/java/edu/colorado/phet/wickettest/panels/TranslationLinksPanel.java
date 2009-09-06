@@ -22,7 +22,11 @@ public class TranslationLinksPanel extends PhetPanel {
 
         Locale englishLocale = LocaleUtils.stringToLocale( "en" );
         PageContext englishContext = context.withNewLocale( englishLocale );
-        Link englishLink = new PhetLink( "translation-link", englishContext.getPrefix() + englishContext.getPath() );
+        String linkTo = englishContext.getPrefix() + englishContext.getPath();
+        if ( linkTo.equals( "/en/" ) ) {
+            linkTo = "/";
+        }
+        Link englishLink = new PhetLink( "translation-link", linkTo );
         LocalizedLabel englishLabel = new LocalizedLabel( "translation-label", englishLocale, new ResourceModel( "language.name" ) );
         englishLink.add( englishLabel );
         if ( context.getLocale().equals( englishLocale ) ) {

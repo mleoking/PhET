@@ -35,7 +35,7 @@ public class LocalizedText extends WebComponent {
         String body = getLocalizer().getString( key, this );
         if ( args != null ) {
             try {
-                System.out.println( "formatting: " + body );
+//                System.out.println( "formatting: " + body );
                 body = MessageFormat.format( body, args );
             }
             catch( RuntimeException e ) {
