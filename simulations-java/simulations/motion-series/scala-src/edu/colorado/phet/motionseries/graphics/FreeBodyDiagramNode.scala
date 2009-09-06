@@ -1,6 +1,7 @@
 package edu.colorado.phet.motionseries.graphics
 
 import collection.mutable.ArrayBuffer
+import model.{Bead, AdjustableCoordinateModel, FreeBodyDiagramModel, CoordinateFrameModel}
 import phet.common.phetcommon.resources.PhetCommonResources
 import phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import phet.common.phetcommon.view.util.PhetFont
@@ -11,7 +12,6 @@ import java.awt._
 import java.awt.geom.{Point2D, Rectangle2D}
 import javax.swing.JFrame
 import layout.SwingLayoutNode
-import model.{AdjustableCoordinateModel, FreeBodyDiagramModel, CoordinateFrameModel}
 import scalacommon.math.Vector2D
 import scalacommon.util.Observable
 import scalacommon.view.ToggleListener
@@ -281,6 +281,19 @@ trait VectorValue {
   def addListener(listener: () => Unit): Unit
 
   def removeListener(listener: () => Unit): Unit
+}
+
+class BodyVectorNode(transform: ModelViewTransform2D, vector: Vector, offset: VectorValue,bead:Bead)
+        extends VectorNode(transform, vector, offset, MotionSeriesDefaults.BODY_LABEL_MAX_OFFSET) {
+  def doUpdate() = {
+    setOffset(bead.position2D)
+    update()
+  }
+
+  bead.addListenerByName {
+    doUpdate()
+  }
+  doUpdate()
 }
 
 //todo: could improve performance by passing isContainerVisible:()=>Boolean and addContainerVisibleListener:(()=>Unit)=>Unit

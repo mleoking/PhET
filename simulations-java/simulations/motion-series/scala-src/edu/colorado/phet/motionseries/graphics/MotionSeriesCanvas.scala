@@ -104,17 +104,7 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
   //  addStageAreaDisplay()
 
   class VectorSetNode(transform: ModelViewTransform2D, bead: Bead) extends PNode {
-    def addVector(a: Vector, offset: VectorValue) = {
-      val node = new BodyVectorNode(transform, a, offset)
-      addChild(node)
-    }
-  }
-
-  class BodyVectorNode(transform: ModelViewTransform2D, vector: Vector, offset: VectorValue) extends VectorNode(transform, vector, offset, MotionSeriesDefaults.BODY_LABEL_MAX_OFFSET) {
-    model.bead.addListenerByName {
-      setOffset(model.bead.position2D)
-      update()
-    }
+    def addVector(a: Vector, offset: VectorValue) = addChild(new BodyVectorNode(transform, a, offset,bead))
   }
 
   val vectorNode = new VectorSetNode(transform, model.bead)
