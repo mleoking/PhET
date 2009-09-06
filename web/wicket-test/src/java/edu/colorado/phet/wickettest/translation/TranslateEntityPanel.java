@@ -59,6 +59,13 @@ public class TranslateEntityPanel extends PhetPanel {
         panel.setOutputMarkupId( true );
         add( panel );
 
+        if ( entity.getMinDisplaySize() <= 225 ) {
+            add( new AttributeAppender( "class", new Model( "preview-small" ), " " ) );
+        }
+        else if ( entity.getMinDisplaySize() <= 525 ) {
+            add( new AttributeAppender( "class", new Model( "preview-medium" ), " " ) );
+        }
+
         ListView stringList = new ListView( "translation-string-list", entity.getStrings() ) {
             protected void populateItem( final ListItem item ) {
                 final TranslationEntityString tString = (TranslationEntityString) item.getModel().getObject();

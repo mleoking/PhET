@@ -19,13 +19,17 @@
             }
 
             .string-english {
-                background-color: #cccccc; /*margin-right: 795px;*/
-                padding: 3px; /*min-width: 300px;*/
+                background-color: #cccccc;
+                padding: 3px;
             }
 
             .string-value {
-                border: 1px solid blue; /*margin-right: 795px;*/
-            /*min-width: 300px;*/
+                border: 1px solid blue;
+            }
+
+            .string-value p {
+                margin: 0;
+                padding: 0.5em;
             }
 
             .string-value.not-translated {
@@ -38,17 +42,32 @@
 
             .string-notes {
                 font-size: 11px;
-                color: #727272; /*margin-right: 795px;*/
-            /*min-width: 300px;*/
+                color: #727272;
             }
 
             .strings {
                 margin-right: 795px;
-                min-width: 300px; /*float: left;*/
+                min-width: 300px;
             }
 
             .string-bumper {
                 width: 300px;
+            }
+
+            .preview-medium .translation-holder {
+                width: 527px;
+            }
+
+            .preview-medium .strings {
+                margin-right: 547px;
+            }
+
+            .preview-small .translation-holder {
+                width: 227px;
+            }
+
+            .preview-small .strings {
+                margin-right: 247px;
             }
         </style>
     </wicket:head>
@@ -64,7 +83,7 @@
         <br/>
 
 
-        <div class="translation-holder">
+        <div class="translation-holder" id="translation-holder">
             <div wicket:message="class:language.dir">
                 <div wicket:id="panel">
                     Panel to translate<br/>
@@ -92,8 +111,10 @@
                     <strong>English: </strong><span wicket:id="translation-string-english">This is some English text that will be translated below</span>
                 </div>
                 <div wicket:id="translation-string-value" class="string-value" wicket:message="dir:language.dir">
-                    Blah blah blah now this is some really long text
-                    that will take forever
+                    <p>
+                        Blah blah blah now this is some really long text
+                        that will take forever
+                    </p>
                 </div>
                 <div wicket:id="translation-string-notes" class="string-notes">
                     This is a much longer note than the other notes that had preceeded it in the testing version. This

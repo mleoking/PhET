@@ -32,4 +32,9 @@ public class IndexEntity extends TranslationEntity {
     public String getDisplayName() {
         return "Home";
     }
+
+    @Override
+    public int getMinDisplaySize() {
+        return 765;
+    }
 }
