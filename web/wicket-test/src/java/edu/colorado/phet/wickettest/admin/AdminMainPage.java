@@ -79,17 +79,24 @@ public class AdminMainPage extends AdminPage {
             protected void populateItem( ListItem item ) {
                 final Simulation simulation = (Simulation) item.getModel().getObject();
                 LocalizedSimulation lsim = englishSims.get( simulation );
-                //Link link = new PhetLink( "simulation-link", "#" );
-                Link link = new Link( "simulation-link" ) {
+                Link simLink = new Link( "simulation-link" ) {
                     public void onClick() {
                         PageParameters params = new PageParameters();
                         params.put( "simulationId", simulation.getId() );
                         setResponsePage( AdminSimPage.class, params );
                     }
                 };
-                link.add( new Label( "simulation-name", simulation.getName() ) );
-                item.add( link );
-                item.add( new Label( "simulation-project", simulation.getProject().getName() ) );
+                simLink.add( new Label( "simulation-name", simulation.getName() ) );
+                item.add( simLink );
+                Link projectLink = new Link( "project-link" ) {
+                    public void onClick() {
+                        PageParameters params = new PageParameters();
+                        params.put( "projectId", simulation.getProject().getId() );
+                        setResponsePage( AdminProjectPage.class, params );
+                    }
+                };
+                projectLink.add( new Label( "project-name", simulation.getProject().getName() ) );
+                item.add( projectLink );
                 item.add( new Label( "simulation-title", lsim.getTitle() ) );
             }
         };

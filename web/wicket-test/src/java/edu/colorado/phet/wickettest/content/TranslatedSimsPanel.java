@@ -96,7 +96,6 @@ public class TranslatedSimsPanel extends PhetPanel {
                 link.add( new Label( "locale-title", localeNames.get( locale ) ) );
                 item.add( link );
 
-                // TODO: localize
                 item.add( new Label( "number-of-translations", String.valueOf( localeMap.get( locale ).size() ) ) );
 
                 if ( item.getIndex() % 2 == 0 ) {
