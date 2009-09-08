@@ -40,7 +40,6 @@ public class RadioactiveDatingGameApplication extends AbstractNuclearPhysicsAppl
     public RadioactiveDatingGameApplication( PhetApplicationConfig config )
     {
         super( config );
-        initTabbedPane();
         
         Frame parentFrame = getPhetFrame();
 

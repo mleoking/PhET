@@ -11,6 +11,7 @@ import java.awt.event.WindowEvent;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.piccolophet.PhetTabbedPane;
 import edu.colorado.phet.common.piccolophet.TabbedPanePropertiesDialog;
 import edu.colorado.phet.naturalselection.NaturalSelectionApplication;
 
@@ -41,18 +42,20 @@ public class DeveloperMenu extends JMenu {
             }
         } );
 
-        _tabPropertiesItem = new JCheckBoxMenuItem( "Tabbed Pane properties..." );
-        add( _tabPropertiesItem );
-        _tabPropertiesItem.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent event ) {
-                handleTabProperties();
-            }
-        } );
+        if ( app.getTabbedModulePane() instanceof PhetTabbedPane ) {
+            _tabPropertiesItem = new JCheckBoxMenuItem( "Tabbed Pane properties..." );
+            add( _tabPropertiesItem );
+            _tabPropertiesItem.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent event ) {
+                    handleTabProperties();
+                }
+            } );
+        }
     }
 
     private void handleDeveloperControls() {
         if ( _developerControlsItem.isSelected() ) {
-            Frame owner = PhetApplication.instance().getPhetFrame();
+            Frame owner = PhetApplication.getInstance().getPhetFrame();
             _developerControlsDialog = new DeveloperControlsDialog( owner, _app );
             _developerControlsDialog.setVisible( true );
             _developerControlsDialog.addWindowListener( new WindowAdapter() {
@@ -78,8 +81,8 @@ public class DeveloperMenu extends JMenu {
 
     private void handleTabProperties() {
         if ( _tabPropertiesItem.isSelected() ) {
-            Frame owner = PhetApplication.instance().getPhetFrame();
-            _tabPropertiesDialog = new TabbedPanePropertiesDialog( owner, _app.getTabbedPane() );
+            Frame owner = PhetApplication.getInstance().getPhetFrame();
+            _tabPropertiesDialog = new TabbedPanePropertiesDialog( owner, (PhetTabbedPane)_app.getTabbedModulePane() );
             _tabPropertiesDialog.setVisible( true );
             _tabPropertiesDialog.addWindowListener( new WindowAdapter() {
 

@@ -8,12 +8,9 @@ import java.awt.Frame;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
-import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
-import edu.colorado.phet.common.piccolophet.PhetTabbedPane;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
-import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.neuron.developer.DeveloperMenu;
 import edu.colorado.phet.neuron.module.MembraneDiffusionModule;
 
@@ -28,7 +25,6 @@ public class NeuronApplication extends PiccoloPhetApplication {
     // Instance data
     //----------------------------------------------------------------------------
 
-	private static TabbedModulePanePiccolo tabbedModulePane;
     private MembraneDiffusionModule membraneDiffusionModule;
 
     //----------------------------------------------------------------------------
@@ -43,7 +39,6 @@ public class NeuronApplication extends PiccoloPhetApplication {
     public NeuronApplication( PhetApplicationConfig config )
     {
         super( config );
-        initTabbedPane();
         initModules();
         initMenubar( config.getCommandLineArgs() );
     }
@@ -52,21 +47,6 @@ public class NeuronApplication extends PiccoloPhetApplication {
     // Initialization
     //----------------------------------------------------------------------------
 
-    /**
-     * Initializes the tabbed pane.
-     */
-    private void initTabbedPane() {
-
-        // Create our own tabbed pane type so we can set the tab color
-        TabbedPaneType tabbedPaneType = new TabbedPaneType(){
-            public ITabbedModulePane createTabbedPane() {
-                tabbedModulePane = new TabbedModulePanePiccolo();
-                return tabbedModulePane;
-            }
-        };
-        setTabbedPaneType( tabbedPaneType );
-    }
-    
     /**
      * Initializes the modules.
      */
@@ -118,10 +98,6 @@ public class NeuronApplication extends PiccoloPhetApplication {
 
     public Color getControlPanelBackground() {
         return getModule( 0 ).getControlPanel().getBackground();
-    }
-
-    public PhetTabbedPane getTabbedPane() {
-        return tabbedModulePane;
     }
 
     //----------------------------------------------------------------------------

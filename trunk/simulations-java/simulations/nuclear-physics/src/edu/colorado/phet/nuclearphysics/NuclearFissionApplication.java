@@ -38,7 +38,6 @@ public class NuclearFissionApplication extends AbstractNuclearPhysicsApplication
     public NuclearFissionApplication( PhetApplicationConfig config )
     {
         super( config );
-        initTabbedPane();
         
         Frame parentFrame = getPhetFrame();
 

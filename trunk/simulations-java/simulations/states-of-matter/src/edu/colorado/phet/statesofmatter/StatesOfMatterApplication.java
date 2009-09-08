@@ -39,7 +39,6 @@ public class StatesOfMatterApplication extends AbstractStatesOfMatterApp impleme
     
     public StatesOfMatterApplication( PhetApplicationConfig config ) {
         super( config );
-        initTabbedPane();
         initModules();
         initMenubar( config.getCommandLineArgs() );
     }

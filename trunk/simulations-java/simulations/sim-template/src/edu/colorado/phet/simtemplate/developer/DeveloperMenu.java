@@ -13,6 +13,7 @@ import javax.swing.JDialog;
 import javax.swing.JMenu;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.piccolophet.PhetTabbedPane;
 import edu.colorado.phet.common.piccolophet.TabbedPanePropertiesDialog;
 import edu.colorado.phet.simtemplate.SimTemplateApplication;
 
@@ -43,13 +44,15 @@ public class DeveloperMenu extends JMenu {
             }
         });
         
-        tabPropertiesItem = new JCheckBoxMenuItem( "Tabbed Pane properties..." );
-        add( tabPropertiesItem );
-        tabPropertiesItem.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent event ) {
-                handleTabProperties();
-            }
-        });
+        if ( app.getTabbedModulePane() instanceof PhetTabbedPane ) {
+            tabPropertiesItem = new JCheckBoxMenuItem( "Tabbed Pane properties..." );
+            add( tabPropertiesItem );
+            tabPropertiesItem.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent event ) {
+                    handleTabProperties();
+                }
+            } );
+        }
     }
 
     private void handleDeveloperControls() {
@@ -81,7 +84,7 @@ public class DeveloperMenu extends JMenu {
     private void handleTabProperties() {
         if ( tabPropertiesItem.isSelected() ) {
             Frame owner = PhetApplication.getInstance().getPhetFrame();
-            tabPropertiesDialog = new TabbedPanePropertiesDialog( owner, app.getTabbedPane() );
+            tabPropertiesDialog = new TabbedPanePropertiesDialog( owner, (PhetTabbedPane) app.getTabbedModulePane() );
             tabPropertiesDialog.setVisible( true );
             tabPropertiesDialog.addWindowListener( new WindowAdapter() {
 

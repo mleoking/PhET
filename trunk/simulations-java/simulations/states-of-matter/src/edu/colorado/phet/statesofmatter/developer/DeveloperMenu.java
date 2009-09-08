@@ -26,9 +26,10 @@ import edu.colorado.phet.statesofmatter.StatesOfMatterApplication;
 public class DeveloperMenu extends JMenu implements ActionListener {
 
     private AbstractStatesOfMatterApp _app;
+    
     private JCheckBoxMenuItem _developerControlsItem;
     private JDialog _developerControlsDialog;
-
+    
     public DeveloperMenu( AbstractStatesOfMatterApp app ) {
         super( "Developer" );
 

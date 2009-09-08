@@ -6,10 +6,8 @@ import java.awt.Color;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
-import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.opticaltweezers.menu.DeveloperMenu;
 import edu.colorado.phet.opticaltweezers.module.OTAbstractModule;
 
@@ -19,12 +17,6 @@ import edu.colorado.phet.opticaltweezers.module.OTAbstractModule;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public abstract class OTAbstractApplication extends PiccoloPhetApplication {
-
-    //----------------------------------------------------------------------------
-    // Instance data
-    //----------------------------------------------------------------------------
-
-    private static TabbedModulePanePiccolo _tabbedModulePane;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -38,7 +30,6 @@ public abstract class OTAbstractApplication extends PiccoloPhetApplication {
     public OTAbstractApplication( PhetApplicationConfig config )
     {
         super( config );
-        initTabbedPane();
         initModules();
         initMenubar( config.getCommandLineArgs() );
     }
@@ -46,21 +37,6 @@ public abstract class OTAbstractApplication extends PiccoloPhetApplication {
     //----------------------------------------------------------------------------
     // Initialization
     //----------------------------------------------------------------------------
-
-    /*
-     * Initializes the tabbed pane.
-     */
-    private void initTabbedPane() {
-
-        // Create our own tabbed pane type so we can set the tab color
-        TabbedPaneType tabbedPaneType = new TabbedPaneType(){
-            public ITabbedModulePane createTabbedPane() {
-                _tabbedModulePane = new TabbedModulePanePiccolo();
-                return _tabbedModulePane;
-            }
-        };
-        setTabbedPaneType( tabbedPaneType );
-    }
 
     /*
      * Initializes the modules.
@@ -86,14 +62,6 @@ public abstract class OTAbstractApplication extends PiccoloPhetApplication {
     //----------------------------------------------------------------------------
     // Setters & getters
     //----------------------------------------------------------------------------
-
-    public void setSelectedTabColor( Color color ) {
-        _tabbedModulePane.setSelectedTabColor( color );
-    }
-
-    public Color getSelectedTabColor() {
-        return _tabbedModulePane.getSelectedTabColor();
-    }
 
     public void setControlPanelBackground( Color color ) {
         Module[] modules = getModules();

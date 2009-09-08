@@ -57,21 +57,13 @@ public class DeveloperControlsDialog extends JDialog {
 
     private JPanel createInputPanel() {
 
-        Frame parentFrame = PhetApplication.instance().getPhetFrame();
+        Frame parentFrame = PhetApplication.getInstance().getPhetFrame();
 
         Color controlPanelBackground = _app.getControlPanelBackground();
         final ColorControl controlPanelColorControl = new ColorControl( parentFrame, "control panel background color: ", controlPanelBackground );
         controlPanelColorControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
                 _app.setControlPanelBackground( controlPanelColorControl.getColor() );
-            }
-        } );
-
-        Color selectedTabColor = _app.getSelectedTabColor();
-        final ColorControl selectedTabColorControl = new ColorControl( parentFrame, "selected module tab color: ", selectedTabColor );
-        selectedTabColorControl.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent event ) {
-                _app.setSelectedTabColor( selectedTabColorControl.getColor() );
             }
         } );
 
@@ -84,7 +76,6 @@ public class DeveloperControlsDialog extends JDialog {
         int row = 0;
         int column = 0;
         layout.addComponent( controlPanelColorControl, row++, column );
-        layout.addComponent( selectedTabColorControl, row++, column );
 
         return panel;
     }

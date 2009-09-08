@@ -138,14 +138,6 @@ public class StatesOfMaterDeveloperControlsDialog extends JDialog {
             }
         } );
 
-        Color selectedTabColor = m_app.getSelectedTabColor();
-        final ColorControl selectedTabColorControl = new ColorControl( parentFrame, "selected module tab color: ", selectedTabColor );
-        selectedTabColorControl.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent event ) {
-                m_app.setSelectedTabColor( selectedTabColorControl.getColor() );
-            }
-        } );
-
         // Thermostat selection.
         ThermostatSelectionPanel thermostatSelectionPanel = new ThermostatSelectionPanel();
         
@@ -203,7 +195,6 @@ public class StatesOfMaterDeveloperControlsDialog extends JDialog {
         int row = 0;
         int column = 0;
         layout.addComponent( controlPanelColorControl, row++, column );
-        layout.addComponent( selectedTabColorControl, row++, column );
         layout.addComponent( thermostatSelectionPanel, row++, column );
         layout.addComponent( m_temperatureControl, row++, column );
         layout.addComponent( gravityControlPanel, row++, column );
