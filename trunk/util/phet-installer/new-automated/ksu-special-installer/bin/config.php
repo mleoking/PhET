@@ -45,7 +45,7 @@
     // the full web site.  This is generally swapped in for the full rip
     // filters when doing testing that requires a lot of iterations, since 
     // this will generally be much quicker than a full rip.
-    define("PHET_LITE_RIPPER_FILTER",                '"-*/get-phet/*" "-*/workshops/*" "-*wickettest*" "+phet-server.colorado.edu:8080/sims/faraday/*"');
+    define("PHET_LITE_RIPPER_FILTER",                '"-*/get-phet/*" "-*/workshops/*" "-*wickettest*" "+phet-server.colorado.edu:8080/sims/faraday/*" "+phet-server.colorado.edu:8080/sims/arithmetic/*"');
     define("PHET_WEBSITE_ROOT_PARTIAL_PATTERN", '[^"]+colorado\.edu');
     define("PHET_WEBSITE_ROOT_PATTERN",         '/'.PHET_WEBSITE_ROOT_PARTIAL_PATTERN.'/');
 
@@ -109,7 +109,10 @@
     define("BITROCK_DIR",               file_cleanup_local_filename(PARENT_DIR."BitRock/"));
     define("BITROCK_KSU_DIR",           file_cleanup_local_filename(ROOT_DIR."BitRock/"));
     define("BITROCK_BUILDFILE_DIR",     file_cleanup_local_filename(BITROCK_KSU_DIR."projects/"));
-    define("BITROCK_BUILDFILE",         file_cleanup_local_filename(BITROCK_BUILDFILE_DIR."phet-ksu-installer-buildfile.xml"));
+    // Project file for building the "web mirror installer", meaning the
+    // installer that allows for installation on a server that can then serve
+    // the mirror's contents to the web.
+    define("BITROCK_BUILDFILE",         file_cleanup_local_filename(BITROCK_BUILDFILE_DIR."ksu-web-mirror-installer-buildfile.xml"));
     define("BITROCK_EXE_DIR",           file_cleanup_local_filename(BITROCK_DIR));
     define("BITROCK_EXE_Linux",         "bitrock.sh");
     define("BITROCK_EXE_WINNT",         "bitrock.bat");
