@@ -317,7 +317,8 @@ class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val ta
     setVisible(vector.visible)
     if (vector.visible) { //skip expensive updates if not visible
       val viewTip = transform.modelToViewDouble(vector.getValue + tailLocation.getValue)
-      arrowNode.setTipAndTailLocations(viewTip, transform.modelToViewDouble(tailLocation.getValue))
+      val viewTail = transform.modelToViewDouble(tailLocation.getValue)
+      arrowNode.setTipAndTailLocations(viewTip, viewTail)
 
       val proposedLocation = vector.getValue * 0.6
       val vectorToLabel = if (proposedLocation.magnitude > maxDistToLabel) new Vector2D(vector.getValue.getAngle) * maxDistToLabel else proposedLocation
