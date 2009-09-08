@@ -9,10 +9,8 @@ import javax.swing.JOptionPane;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
-import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
-import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.glaciers.menu.DeveloperMenu;
 import edu.colorado.phet.glaciers.module.advanced.AdvancedModule;
 import edu.colorado.phet.glaciers.module.intro.IntroModule;
@@ -37,8 +35,6 @@ public class GlaciersApplication extends PiccoloPhetApplication {
     // PersistanceManager is used to save/load simulation configurations.
     private XMLPersistenceManager _persistenceManager;
 
-    private static TabbedModulePanePiccolo _tabbedModulePane;
-
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -51,7 +47,6 @@ public class GlaciersApplication extends PiccoloPhetApplication {
     public GlaciersApplication( PhetApplicationConfig config )
     {
         super( config );
-        initTabbedPane();
         initModules();
         initMenubar( config.getCommandLineArgs() );
     }
@@ -60,21 +55,6 @@ public class GlaciersApplication extends PiccoloPhetApplication {
     // Initialization
     //----------------------------------------------------------------------------
 
-    /*
-     * Initializes the tabbed pane.
-     */
-    private void initTabbedPane() {
-
-        // Create our own tabbed pane type so we can set the tab color
-        TabbedPaneType tabbedPaneType = new TabbedPaneType(){
-            public ITabbedModulePane createTabbedPane() {
-                _tabbedModulePane = new TabbedModulePanePiccolo();
-                return _tabbedModulePane;
-            }
-        };
-        setTabbedPaneType( tabbedPaneType );
-    }
-    
     /*
      * Initializes the modules.
      */

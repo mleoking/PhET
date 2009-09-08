@@ -19,11 +19,8 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
-import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
-import edu.colorado.phet.common.piccolophet.PhetTabbedPane;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
-import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.naturalselection.developer.DeveloperMenu;
 import edu.colorado.phet.naturalselection.module.NaturalSelectionModule;
 import edu.colorado.phet.naturalselection.persistence.NaturalSelectionConfig;
@@ -37,8 +34,6 @@ public class NaturalSelectionApplication extends PiccoloPhetApplication {
     // PersistanceManager is used to save/load simulation configurations.
     private XMLPersistenceManager persistenceManager;
 
-    private static TabbedModulePanePiccolo _tabbedModulePane;
-
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -50,7 +45,6 @@ public class NaturalSelectionApplication extends PiccoloPhetApplication {
      */
     public NaturalSelectionApplication( PhetApplicationConfig config ) {
         super( config );
-        initTabbedPane();
         initModules();
         initMenubar( config.getCommandLineArgs() );
         //if ( isHighContrast() ) {
@@ -61,22 +55,6 @@ public class NaturalSelectionApplication extends PiccoloPhetApplication {
     //----------------------------------------------------------------------------
     // Initialization
     //----------------------------------------------------------------------------
-
-    /*
-     * Initializes the tabbed pane.
-     */
-
-    private void initTabbedPane() {
-
-        // Create our own tabbed pane type so we can set the tab color
-        TabbedPaneType tabbedPaneType = new TabbedPaneType() {
-            public ITabbedModulePane createTabbedPane() {
-                _tabbedModulePane = new TabbedModulePanePiccolo();
-                return _tabbedModulePane;
-            }
-        };
-        setTabbedPaneType( tabbedPaneType );
-    }
 
     /*
     * Initializes the modules.
@@ -125,10 +103,6 @@ public class NaturalSelectionApplication extends PiccoloPhetApplication {
 
     public Color getControlPanelBackground() {
         return getModule( 0 ).getControlPanel().getBackground();
-    }
-
-    public PhetTabbedPane getTabbedPane() {
-        return _tabbedModulePane;
     }
 
     public static boolean isHighContrast() {

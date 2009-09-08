@@ -43,8 +43,6 @@ public class TitrationApplication extends PiccoloPhetApplication {
     // PersistanceManager is used to save/load simulation configurations.
     private XMLPersistenceManager persistenceManager;
 
-    private static TabbedModulePanePiccolo tabbedModulePane;
-
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -57,7 +55,6 @@ public class TitrationApplication extends PiccoloPhetApplication {
     public TitrationApplication( PhetApplicationConfig config )
     {
         super( config );
-        initTabbedPane();
         initModules();
         initMenubar( config.getCommandLineArgs() );
     }
@@ -66,21 +63,6 @@ public class TitrationApplication extends PiccoloPhetApplication {
     // Initialization
     //----------------------------------------------------------------------------
 
-    /*
-     * Initializes the tabbed pane.
-     */
-    private void initTabbedPane() {
-
-        // Create our own tabbed pane type so we can set the tab color
-        TabbedPaneType tabbedPaneType = new TabbedPaneType(){
-            public ITabbedModulePane createTabbedPane() {
-                tabbedModulePane = new TabbedModulePanePiccolo();
-                return tabbedModulePane;
-            }
-        };
-        setTabbedPaneType( tabbedPaneType );
-    }
-    
     /*
      * Initializes the modules.
      */
@@ -126,14 +108,6 @@ public class TitrationApplication extends PiccoloPhetApplication {
         }
     }
 
-    //----------------------------------------------------------------------------
-    // Setters & getters
-    //----------------------------------------------------------------------------
-
-    public PhetTabbedPane getTabbedPane() {
-        return tabbedModulePane;
-    }
-    
     //----------------------------------------------------------------------------
     // Persistence
     //----------------------------------------------------------------------------

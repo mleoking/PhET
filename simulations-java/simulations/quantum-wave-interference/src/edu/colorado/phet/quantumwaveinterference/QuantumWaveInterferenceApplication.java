@@ -35,19 +35,16 @@ public class QuantumWaveInterferenceApplication extends PiccoloPhetApplication {
     private IntensityModule intensityModule;
     private SingleParticleModule singleParticleModule;
     private MandelModule mandelModule;
+    
+    private static class QWTTabbedModulePane extends TabbedModulePanePiccolo {
+        //workaround for bug: "High Intensity" module tab renders as "High      " under Java 1.4
+        public void addTab( Module module ) {
+            super.addTab( "<html>" + module.getName() + "</html>", module.getModulePanel() );
+        }
+    }
 
     public QuantumWaveInterferenceApplication( PhetApplicationConfig config ) {
-        super( config );
-        setTabbedPaneType( new TabbedPaneType() {
-            public ITabbedModulePane createTabbedPane() {
-                return new TabbedModulePanePiccolo() {
-                    //workaround for bug: "High Intensity" module tab renders as "High      " under Java 1.4
-                    public void addTab( Module module ) {
-                        super.addTab( "<html>" + module.getName() + "</html>", module.getModulePanel() );
-                    }
-                };
-            }
-        } );
+        super( config, new QWTTabbedModulePane() );
 //        super.setPhetLookAndFeel( new QWILookAndFeel());
 
         intensityModule = new IntensityModule( this, createClock() );

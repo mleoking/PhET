@@ -86,14 +86,6 @@ public class AtomicInteractionsDeveloperControlsDialog extends JDialog {
             }
         } );
 
-        Color selectedTabColor = m_app.getSelectedTabColor();
-        final ColorControl selectedTabColorControl = new ColorControl( parentFrame, "selected module tab color: ", selectedTabColor );
-        selectedTabColorControl.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent event ) {
-                m_app.setSelectedTabColor( selectedTabColorControl.getColor() );
-            }
-        } );
-
         // Layout
         JPanel panel = new JPanel();
         panel.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
@@ -103,7 +95,6 @@ public class AtomicInteractionsDeveloperControlsDialog extends JDialog {
         int row = 0;
         int column = 0;
         layout.addComponent( controlPanelColorControl, row++, column );
-        layout.addComponent( selectedTabColorControl, row++, column );
 
         return panel;
     }    

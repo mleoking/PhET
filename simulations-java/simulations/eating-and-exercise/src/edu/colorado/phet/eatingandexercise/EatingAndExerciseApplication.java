@@ -2,21 +2,19 @@
 
 package edu.colorado.phet.eatingandexercise;
 
-import java.awt.*;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.JMenuItem;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
-import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.PhetFrameWorkaround;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
-import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.eatingandexercise.developer.DeveloperFrame;
 import edu.colorado.phet.eatingandexercise.developer.DeveloperMenu;
 import edu.colorado.phet.eatingandexercise.module.eatingandexercise.EatingAndExerciseModule;
@@ -32,15 +30,12 @@ public class EatingAndExerciseApplication extends PiccoloPhetApplication {
     // PersistanceManager is used to save/load simulation configurations.
     private XMLPersistenceManager _persistenceManager;
 
-    private static TabbedModulePanePiccolo _tabbedModulePane;
-
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
 
     public EatingAndExerciseApplication( PhetApplicationConfig config ) {
         super( config );
-        initTabbedPane();
         eatingAndExerciseModule = new EatingAndExerciseModule( getPhetFrame() );
         addModule( eatingAndExerciseModule );
         initMenubar( config.getCommandLineArgs() );
@@ -53,22 +48,6 @@ public class EatingAndExerciseApplication extends PiccoloPhetApplication {
     //----------------------------------------------------------------------------
     // Initialization
     //----------------------------------------------------------------------------
-
-    /*
-     * Initializes the tabbed pane.
-     */
-
-    private void initTabbedPane() {
-
-        // Create our own tabbed pane type so we can set the tab color
-        TabbedPaneType tabbedPaneType = new TabbedPaneType() {
-            public ITabbedModulePane createTabbedPane() {
-                _tabbedModulePane = new TabbedModulePanePiccolo();
-                return _tabbedModulePane;
-            }
-        };
-        setTabbedPaneType( tabbedPaneType );
-    }
 
     /*
      * Initializes the menubar.
@@ -99,20 +78,6 @@ public class EatingAndExerciseApplication extends PiccoloPhetApplication {
     //----------------------------------------------------------------------------
     // Setters & getters
     //----------------------------------------------------------------------------
-
-    public void setSelectedTabColor( Color color ) {
-        if ( _tabbedModulePane != null ) {
-            _tabbedModulePane.setSelectedTabColor( color );
-        }
-    }
-
-    public Color getSelectedTabColor() {
-        Color color = Color.WHITE;
-        if ( _tabbedModulePane != null ) {
-            color = _tabbedModulePane.getSelectedTabColor();
-        }
-        return color;
-    }
 
     public void setControlPanelBackground( Color color ) {
         Module[] modules = getModules();

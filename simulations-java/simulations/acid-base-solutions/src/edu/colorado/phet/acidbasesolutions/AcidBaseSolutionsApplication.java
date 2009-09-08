@@ -19,11 +19,8 @@ import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
-import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
-import edu.colorado.phet.common.piccolophet.PhetTabbedPane;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
-import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 
 /**
  * Main application for this simulation.
@@ -44,8 +41,6 @@ public class AcidBaseSolutionsApplication extends PiccoloPhetApplication {
     // PersistanceManager is used to save/load simulation configurations.
     private XMLPersistenceManager persistenceManager;
 
-    private static TabbedModulePanePiccolo tabbedModulePane;
-
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -58,7 +53,6 @@ public class AcidBaseSolutionsApplication extends PiccoloPhetApplication {
     public AcidBaseSolutionsApplication( PhetApplicationConfig config )
     {
         super( config );
-        initTabbedPane();
         initModules();
         initMenubar( config.getCommandLineArgs() );
     }
@@ -67,22 +61,6 @@ public class AcidBaseSolutionsApplication extends PiccoloPhetApplication {
     // Initialization
     //----------------------------------------------------------------------------
 
-    /*
-     * Initializes the tabbed pane.
-     */
-    private void initTabbedPane() {
-
-        // Create our own tabbed pane type so we can set the tab color
-        TabbedPaneType tabbedPaneType = new TabbedPaneType(){
-            public ITabbedModulePane createTabbedPane() {
-                tabbedModulePane = new TabbedModulePanePiccolo();
-                tabbedModulePane.setLogoVisible( false );
-                return tabbedModulePane;
-            }
-        };
-        setTabbedPaneType( tabbedPaneType );
-    }
-    
     /*
      * Initializes the modules.
      */
@@ -132,10 +110,6 @@ public class AcidBaseSolutionsApplication extends PiccoloPhetApplication {
         }
     }
 
-    public PhetTabbedPane getTabbedPane() {
-        return tabbedModulePane;
-    }
-    
     public SolutionsModule dev_getSolutionsModule() {
         return solutionsModule;
     }

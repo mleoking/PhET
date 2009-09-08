@@ -6,8 +6,6 @@ import java.awt.Color;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
-import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
@@ -20,21 +18,6 @@ public class AbstractNuclearPhysicsApplication extends PiccoloPhetApplication {
 
     public AbstractNuclearPhysicsApplication( PhetApplicationConfig config ) {
         super( config );
-    }
-
-    /**
-     * Initializes the tabbed pane.
-     */
-    protected void initTabbedPane() {
-    
-        // Create our own tabbed pane type so we can set the tab color
-        TabbedPaneType tabbedPaneType = new TabbedPaneType(){
-            public ITabbedModulePane createTabbedPane() {
-                _tabbedModulePane = new TabbedModulePanePiccolo();
-                return _tabbedModulePane;
-            }
-        };
-        setTabbedPaneType( tabbedPaneType );
     }
 
     /**

@@ -26,27 +26,15 @@ import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
  * </ul>
  *
  * @author Ron LeMaster
- * @version $Revision:14676 $
  */
 public class PiccoloPhetApplication extends PhetApplication {
 
-    //--------------------------------------------------------------------------------------------------
-    // Class fields and methods and inner classes
-    //--------------------------------------------------------------------------------------------------
-
-    // Graphical PhetTabbedPanes
-    public static final PhetApplication.TabbedPaneType PHET_TABBED_PANE = new PhetApplication.TabbedPaneType() {
-        public ITabbedModulePane createTabbedPane() {
-            return new TabbedModulePanePiccolo();
-        }
-    };
-
-    //--------------------------------------------------------------------------------------------------
-    // Instance fields and methods
-    //--------------------------------------------------------------------------------------------------
-
     public PiccoloPhetApplication( PhetApplicationConfig config ) {
-        super( config, PHET_TABBED_PANE );
+        this( config, new TabbedModulePanePiccolo() );
+    }
+    
+    public PiccoloPhetApplication( PhetApplicationConfig config, ITabbedModulePane tabbedModulePane ) {
+        super( config, tabbedModulePane );
     }
 
 }

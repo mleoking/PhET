@@ -25,13 +25,13 @@ public class PhetApplication
     //----------------------------------------------------------------
 
     public static final String DEVELOPER_CONTROLS_COMMAND_LINE_ARG = "-dev";//Command line argument to enable developer-only features
-    private static ArrayList phetApplications = new ArrayList();
+    private static ArrayList<PhetApplication> phetApplications = new ArrayList<PhetApplication>();
 
     //----------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------
 
-    private TabbedPaneType tabbedPaneType;
+    private ITabbedModulePane tabbedModulePane;
     private PhetApplicationConfig phetApplicationConfig;
 
     private PhetFrame phetFrame;
@@ -44,12 +44,12 @@ public class PhetApplication
     //----------------------------------------------------------------
 
     public PhetApplication( PhetApplicationConfig config ) {
-        this( config, JTABBED_PANE_TYPE );
+        this( config, new JTabbedModulePane() );
     }
 
-    protected PhetApplication( PhetApplicationConfig phetApplicationConfig, TabbedPaneType tabbedPaneType ) {
+    protected PhetApplication( PhetApplicationConfig phetApplicationConfig, ITabbedModulePane tabbedPane ) {
         this.phetApplicationConfig = phetApplicationConfig;
-        this.tabbedPaneType = tabbedPaneType;
+        this.tabbedModulePane = tabbedPane;
 
         this.moduleManager = new ModuleManager( this );
         phetFrame = createPhetFrame();
@@ -64,6 +64,10 @@ public class PhetApplication
     //----------------------------------------------------------------
     // 
     //----------------------------------------------------------------
+    
+    public ITabbedModulePane getTabbedModulePane() {
+        return tabbedModulePane;
+    }
 
     /**
      * Are developer controls enabled?
@@ -184,15 +188,6 @@ public class PhetApplication
     //----------------------------------------------------------------
     // Module-related methods
     //----------------------------------------------------------------
-
-    /**
-     * Creates the tabbed pane for the modules in the application.
-     *
-     * @return a tabbed module pane
-     */
-    public ITabbedModulePane createTabbedPane() {
-        return tabbedPaneType.createTabbedPane();
-    }
 
     /**
      * Sets the modules in the application
@@ -372,28 +367,6 @@ public class PhetApplication
         }
     }
 
-    public void setTabbedPaneType( TabbedPaneType tabbedPaneType ) {
-        this.tabbedPaneType = tabbedPaneType;
-    }
-
-    /**
-     * Enumeration class used to specify the type of tabbed panes the application is to use in
-     * its Module instances
-     */
-    public abstract static class TabbedPaneType {
-        protected TabbedPaneType() {
-        }
-
-        public abstract ITabbedModulePane createTabbedPane();
-    }
-
-    // Standard Swing JTabbedPanes
-    public static final TabbedPaneType JTABBED_PANE_TYPE = new TabbedPaneType() {
-        public ITabbedModulePane createTabbedPane() {
-            return new JTabbedModulePane();
-        }
-    };
-    
     /**
      * Saves the simulation's configuration.
      * Default implementation does nothing, subclasses should override.

@@ -136,7 +136,7 @@ public class PhetFrame extends JFrame {
             return module.getModulePanel();
         }
         else if ( contentPanel instanceof ModulePanel ) {
-            ITabbedModulePane tabbedModulePane = application.createTabbedPane();
+            ITabbedModulePane tabbedModulePane = application.getTabbedModulePane();
             tabbedModulePane.init( application, new Module[]{lastAdded, module} );
             return tabbedModulePane.getComponent();
         }

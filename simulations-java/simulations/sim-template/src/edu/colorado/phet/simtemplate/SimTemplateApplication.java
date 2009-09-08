@@ -9,7 +9,6 @@ import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
-import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.common.piccolophet.PhetTabbedPane;
@@ -35,8 +34,6 @@ public class SimTemplateApplication extends PiccoloPhetApplication {
     // PersistanceManager is used to save/load simulation configurations.
     private XMLPersistenceManager persistenceManager;
 
-    private static TabbedModulePanePiccolo tabbedModulePane;
-
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -49,7 +46,6 @@ public class SimTemplateApplication extends PiccoloPhetApplication {
     public SimTemplateApplication( PhetApplicationConfig config )
     {
         super( config );
-        initTabbedPane();
         initModules();
         initMenubar( config.getCommandLineArgs() );
     }
@@ -58,21 +54,6 @@ public class SimTemplateApplication extends PiccoloPhetApplication {
     // Initialization
     //----------------------------------------------------------------------------
 
-    /*
-     * Initializes the tabbed pane.
-     */
-    private void initTabbedPane() {
-
-        // Create our own tabbed pane type so we can set the tab color
-        TabbedPaneType tabbedPaneType = new TabbedPaneType(){
-            public ITabbedModulePane createTabbedPane() {
-                tabbedModulePane = new TabbedModulePanePiccolo();
-                return tabbedModulePane;
-            }
-        };
-        setTabbedPaneType( tabbedPaneType );
-    }
-    
     /*
      * Initializes the modules.
      */
@@ -133,10 +114,6 @@ public class SimTemplateApplication extends PiccoloPhetApplication {
 
     public Color getControlPanelBackground() {
         return getModule( 0 ).getControlPanel().getBackground();
-    }
-
-    public PhetTabbedPane getTabbedPane() {
-        return tabbedModulePane;
     }
 
     //----------------------------------------------------------------------------

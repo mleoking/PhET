@@ -2,13 +2,15 @@
 
 package edu.colorado.phet.eatingandexercise.developer;
 
-import java.awt.*;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import javax.swing.*;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JDialog;
+import javax.swing.JMenu;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseApplication;
@@ -22,9 +24,10 @@ import edu.colorado.phet.eatingandexercise.EatingAndExerciseApplication;
 public class DeveloperMenu extends JMenu implements ActionListener {
 
     private EatingAndExerciseApplication _app;
+    
     private JCheckBoxMenuItem _developerControlsItem;
     private JDialog _developerControlsDialog;
-
+    
     public DeveloperMenu( EatingAndExerciseApplication app ) {
         super( "Developer" );
 
@@ -38,9 +41,9 @@ public class DeveloperMenu extends JMenu implements ActionListener {
     public void actionPerformed( ActionEvent event ) {
         if ( event.getSource() == _developerControlsItem ) {
             if ( _developerControlsItem.isSelected() ) {
-                Frame owner = PhetApplication.instance().getPhetFrame();
+                Frame owner = PhetApplication.getInstance().getPhetFrame();
                 _developerControlsDialog = new DeveloperControlsDialog( owner, _app );
-                _developerControlsDialog.show();
+                _developerControlsDialog.setVisible( true );
                 _developerControlsDialog.addWindowListener( new WindowAdapter() {
                     public void windowClosed( WindowEvent e ) {
                         cleanup();
