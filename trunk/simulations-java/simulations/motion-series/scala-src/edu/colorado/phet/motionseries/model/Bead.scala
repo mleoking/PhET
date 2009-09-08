@@ -316,7 +316,6 @@ class Bead(private var _state: BeadState,
       val timeData = for (i <- 0 until java.lang.Math.min(10, stateHistory.length))
       yield new TimeData(stateHistory(stateHistory.length - 1 - i).position, stateHistory(stateHistory.length - 1 - i).time)
       MotionMath.getSecondDerivative(timeData.toArray).getValue
-      //      10.0
     }
     else if (mode == velocityMode) {
       //todo: maybe better to estimate 2nd derivative of position instead of 1st derivative of velocity?

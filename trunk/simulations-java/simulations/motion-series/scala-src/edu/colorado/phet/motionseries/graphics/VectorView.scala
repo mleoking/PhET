@@ -3,6 +3,7 @@ package edu.colorado.phet.motionseries.graphics
 import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import model._
 import scalacommon.math.Vector2D
+import umd.cs.piccolo.PNode
 
 class VectorView(bead: Bead,
                  vectorViewModel: VectorViewModel,
@@ -71,4 +72,49 @@ trait VectorDisplay {
   def addVector(vector:Vector with PointOfOriginVector,offsetFBD:VectorValue,maxOffset:Int,offsetPlayArea:Double):Unit
   def removeVector(vector:Vector):Unit
 //  vectorDisplay.addVector(vector,offsetFBD,MotionSeriesDefaults.FBD_LABEL_MAX_OFFSET,offsetPlayArea)
+}
+
+trait PointOfOriginVector {
+  def getPointOfOriginOffset(defaultCenter: Double): Double
+}
+
+class PlayAreaVectorNode(transform: ModelViewTransform2D, bead: Bead, vectorViewModel: VectorViewModel) extends PNode with VectorDisplay {
+  def addVector(a: Vector, offset: VectorValue): Unit = addChild(new BodyVectorNode(transform, a, offset, bead))
+
+  def addVector(vector: Vector with PointOfOriginVector, offsetFBD: VectorValue, maxOffset: Int, offsetPlayArea: Double): Unit = {
+    addVector(new PlayAreaVector(vector,MotionSeriesDefaults.PLAY_AREA_FORCE_VECTOR_SCALE), new PlayAreaOffset(bead, vectorViewModel, offsetPlayArea, vector))
+  }
+
+  def removeVector(vector: Vector) = null
+}
+
+//todo: make sure this adapter overrides other methods as well such as addListener
+class PlayAreaVector(vector: Vector,scale:Double)
+        extends Vector(vector.color, vector.name, vector.abbreviation, () => vector.getValue * scale, vector.painter) {
+  //println("created play area vector: "+vector.name)
+  vector.addListener( notifyListeners )
+  override def visible = vector.visible
+
+  override def visible_=(vis: Boolean) = vector.visible = vis
+
+  override def getPaint = vector.getPaint
+}
+
+class PlayAreaOffset(bead: Bead, vectorViewModel: VectorViewModel, offsetPlayArea: Double, offset: PointOfOriginVector)
+        extends VectorValue {
+  def addListener(listener: () => Unit) = {
+    bead.addListener(listener)
+    vectorViewModel.addListener(listener)
+  }
+
+  def getValue = {
+    val defaultCenter = bead.height / 2.0
+    bead.position2D + new Vector2D(bead.getAngle + java.lang.Math.PI / 2) *
+            (offsetPlayArea + (if (vectorViewModel.centered) defaultCenter else offset.getPointOfOriginOffset(defaultCenter)))
+  }
+
+  def removeListener(listener: () => Unit) = {
+    bead.removeListener(listener)
+    vectorViewModel.removeListener(listener)
+  }
 }
