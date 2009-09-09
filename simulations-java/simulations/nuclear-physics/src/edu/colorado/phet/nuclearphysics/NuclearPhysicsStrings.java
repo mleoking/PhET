@@ -95,8 +95,7 @@ public class NuclearPhysicsStrings {
     public static final String DAUGHTER_NUCLEI_LABEL = getString( "NuclearPhysicsControlPanel.DaughterNucleiLabel" );
 
     public static final String DECAY_TIME_CHART_X_AXIS_LABEL = getString( "DecayTimeChart.XAxisLabel" );
-    public static final String DECAY_TIME_CHART_Y_AXIS_LABEL1 = getString( "DecayTimeChart.YAxisLabel1" );
-    public static final String DECAY_TIME_CHART_Y_AXIS_LABEL2 = getString( "DecayTimeChart.YAxisLabel2" );
+    public static final String DECAY_TIME_CHART_LABEL_ATOMIC_WEIGHT = getString( "DecayTimeChart.AtomicWeight" );
     public static final String DECAY_TIME_CHART_Y_AXIS_LABEL_ISOTOPE = getString( "DecayTimeChart.Isotope" );
     public static final String DECAY_TIME_LABEL = getString( "DecayTimeChart.DecayTimeLabel" );
     public static final String DECAY_TIME_UNITS = getString( "DecayTimeChart.DecayTimeUnits" );

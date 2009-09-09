@@ -48,6 +48,7 @@ import edu.colorado.phet.nuclearphysics.view.ElectronNode;
 import edu.colorado.phet.nuclearphysics.view.MultiNucleusDecayLinearTimeChart;
 import edu.colorado.phet.nuclearphysics.view.NucleusImageFactory;
 import edu.colorado.phet.nuclearphysics.view.SubatomicParticleNode;
+import edu.colorado.phet.nuclearphysics.view.MultiNucleusDecayLinearTimeChart.YAxisLabelMode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -176,7 +177,8 @@ public class MultiNucleusBetaDecayCanvas extends PhetPCanvas implements Autopres
         });
 
         // Add the chart that shows the decay time.
-        _decayTimeChart = new MultiNucleusDecayLinearTimeChart((MultiNucleusDecayModel)_model, this, AtomicNucleusImageType.NUCLEONS_VISIBLE);
+        _decayTimeChart = new MultiNucleusDecayLinearTimeChart((MultiNucleusDecayModel)_model, this, AtomicNucleusImageType.NUCLEONS_VISIBLE, 
+        		YAxisLabelMode.ISOTOPE_SYMBOL);
         _chartLayer.addChild( _decayTimeChart );
         setTimeSpanForChart();
         
