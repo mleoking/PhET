@@ -286,11 +286,11 @@ public class SingleNucleusAlphaDecayTimeChart extends PNode {
         _xAxisLabel = new PText( NuclearPhysicsStrings.DECAY_TIME_CHART_X_AXIS_LABEL + " (" + NuclearPhysicsStrings.DECAY_TIME_UNITS + ")" );
         _xAxisLabel.setFont( SMALL_LABEL_FONT );
         _nonPickableChartNode.addChild( _xAxisLabel );
-        _yAxisLabel1 = new PText( NuclearPhysicsStrings.DECAY_TIME_CHART_Y_AXIS_LABEL1 );
+        _yAxisLabel1 = new PText( NuclearPhysicsStrings.DECAY_TIME_CHART_LABEL_ATOMIC_WEIGHT );
         _yAxisLabel1.setFont( SMALL_LABEL_FONT );
         _yAxisLabel1.rotate( 1.5 * Math.PI );
         _nonPickableChartNode.addChild( _yAxisLabel1 );
-        _yAxisLabel2 = new PText( NuclearPhysicsStrings.DECAY_TIME_CHART_Y_AXIS_LABEL2 );
+        _yAxisLabel2 = new PText( NuclearPhysicsStrings.DECAY_TIME_CHART_LABEL_ATOMIC_WEIGHT );
         _yAxisLabel2.setFont( SMALL_LABEL_FONT );
         _yAxisLabel2.rotate( 1.5 * Math.PI );
         _nonPickableChartNode.addChild( _yAxisLabel2 );

@@ -35,6 +35,7 @@ import edu.colorado.phet.nuclearphysics.view.AlphaParticleModelNode;
 import edu.colorado.phet.nuclearphysics.view.AutoPressGradientButtonNode;
 import edu.colorado.phet.nuclearphysics.view.BucketOfNucleiNode;
 import edu.colorado.phet.nuclearphysics.view.MultiNucleusDecayLinearTimeChart;
+import edu.colorado.phet.nuclearphysics.view.MultiNucleusDecayLinearTimeChart.YAxisLabelMode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -156,7 +157,8 @@ public class RadiometricElementDecayCanvas extends PhetPCanvas implements Autopr
         });
 
         // Add the chart that shows the decay time.
-        _decayTimeChart = new MultiNucleusDecayLinearTimeChart(_model, this, AtomicNucleusImageType.GRADIENT_SPHERE);
+        _decayTimeChart = new MultiNucleusDecayLinearTimeChart(_model, this, AtomicNucleusImageType.GRADIENT_SPHERE,
+        		YAxisLabelMode.ISOTOPE_SYMBOL);
         setTimeSpanForChart();
         _chartLayer.addChild( _decayTimeChart );
         
