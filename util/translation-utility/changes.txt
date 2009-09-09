@@ -1,3 +1,4 @@
+9/9/09 #1680, add locale for ar_SA (Arabic, Saudi Arabia)
 # 2.01.00 (31673) May 14, 2009
 5/14/09 deploy to tigercat to include new preferred fonts
 5/14/09 #1653, when testing translations use phetcommon-fonts.properties from translation-utility.jar
