@@ -17,9 +17,8 @@ import java.util.ArrayList;
 import java.util.IdentityHashMap;
 import java.util.Iterator;
 
-import javax.swing.JOptionPane;
-
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.GradientButtonNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
@@ -554,14 +553,14 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         		break;
         	}
         }
-        if (allItemsGuessedAndGuessesCorrect){
+        if (!allItemsGuessedAndGuessesCorrect){
         	
    			_soundState.play( "short-fanfare.wav" );
 
         	// Put up the dialog.
         	
-        	JOptionPane.showMessageDialog(this, NuclearPhysicsStrings.GUESSES_CORRECT_MESSAGE,
-        			NuclearPhysicsStrings.GUESSES_CORRECT_TITLE, JOptionPane.PLAIN_MESSAGE);
+        	PhetOptionPane.showMessageDialog(this, NuclearPhysicsStrings.GUESSES_CORRECT_MESSAGE,
+        			NuclearPhysicsStrings.GUESSES_CORRECT_TITLE);
         }
     }
     
