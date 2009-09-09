@@ -6,10 +6,8 @@ import java.awt.Color;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
-import edu.colorado.phet.nuclearphysics.developer.DeveloperMenu;
 
 public class AbstractNuclearPhysicsApplication extends PiccoloPhetApplication {
 
@@ -18,20 +16,6 @@ public class AbstractNuclearPhysicsApplication extends PiccoloPhetApplication {
 
     public AbstractNuclearPhysicsApplication( PhetApplicationConfig config ) {
         super( config );
-    }
-
-    /**
-     * Initializes the menu bar.
-     */
-    protected void initMenubar( String[] args ) {
-    
-        final PhetFrame frame = getPhetFrame();
-        
-        // Developer menu
-        DeveloperMenu developerMenu = new DeveloperMenu( this );
-        if ( developerMenu.getMenuComponentCount() > 0 && isDeveloperControlsEnabled() ) {
-            frame.addMenu( developerMenu );
-        }
     }
 
     public void setSelectedTabColor( Color color ) {

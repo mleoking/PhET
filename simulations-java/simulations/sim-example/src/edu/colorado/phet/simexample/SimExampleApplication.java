@@ -5,6 +5,7 @@ package edu.colorado.phet.simexample;
 import java.awt.Color;
 import java.awt.Frame;
 
+import javax.swing.JMenu;
 import javax.swing.JOptionPane;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
@@ -14,7 +15,6 @@ import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManage
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
-import edu.colorado.phet.simexample.developer.DeveloperMenu;
 import edu.colorado.phet.simexample.module.example.ExampleModule;
 import edu.colorado.phet.simexample.persistence.ExampleConfig;
 import edu.colorado.phet.simexample.persistence.SimExampleConfig;
@@ -95,10 +95,8 @@ public class SimExampleApplication extends PiccoloPhetApplication {
         }
 
         // Developer menu
-        DeveloperMenu developerMenu = new DeveloperMenu( this );
-        if ( developerMenu.getMenuComponentCount() > 0 && isDeveloperControlsEnabled() ) {
-            frame.addMenu( developerMenu );
-        }
+        JMenu developerMenu = frame.getDeveloperMenu();
+        // add items to the Developer menu here...
     }
 
     //----------------------------------------------------------------------------

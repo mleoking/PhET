@@ -36,7 +36,6 @@ public class AtomicInteractionsApplication extends AbstractStatesOfMatterApp imp
     public AtomicInteractionsApplication( PhetApplicationConfig config ) {
         super( config );
         initModules();
-        initMenubar( config.getCommandLineArgs() );
     }
 
     //----------------------------------------------------------------------------

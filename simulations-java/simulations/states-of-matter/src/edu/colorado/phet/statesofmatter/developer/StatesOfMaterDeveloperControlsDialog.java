@@ -2,21 +2,12 @@
 
 package edu.colorado.phet.statesofmatter.developer;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Frame;
-import java.awt.GridLayout;
-import java.awt.Insets;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 
-import javax.swing.BorderFactory;
-import javax.swing.ButtonGroup;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
+import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
@@ -28,7 +19,6 @@ import edu.colorado.phet.common.phetcommon.application.ModuleEvent;
 import edu.colorado.phet.common.phetcommon.application.ModuleObserver;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
-import edu.colorado.phet.common.phetcommon.view.controls.ColorControl;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -130,14 +120,6 @@ public class StatesOfMaterDeveloperControlsDialog extends JDialog {
 
         Frame parentFrame = PhetApplication.getInstance().getPhetFrame();
 
-        Color controlPanelBackground = m_app.getControlPanelBackground();
-        final ColorControl controlPanelColorControl = new ColorControl( parentFrame, "control panel background color: ", controlPanelBackground );
-        controlPanelColorControl.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent event ) {
-                m_app.setControlPanelBackground( controlPanelColorControl.getColor() );
-            }
-        } );
-
         // Thermostat selection.
         ThermostatSelectionPanel thermostatSelectionPanel = new ThermostatSelectionPanel();
         
@@ -194,7 +176,6 @@ public class StatesOfMaterDeveloperControlsDialog extends JDialog {
         panel.setLayout( layout );
         int row = 0;
         int column = 0;
-        layout.addComponent( controlPanelColorControl, row++, column );
         layout.addComponent( thermostatSelectionPanel, row++, column );
         layout.addComponent( m_temperatureControl, row++, column );
         layout.addComponent( gravityControlPanel, row++, column );

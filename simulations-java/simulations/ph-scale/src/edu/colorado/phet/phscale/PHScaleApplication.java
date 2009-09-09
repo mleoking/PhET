@@ -2,13 +2,15 @@
 
 package edu.colorado.phet.phscale;
 
+import javax.swing.JMenu;
+
+import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
-import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
-import edu.colorado.phet.phscale.developer.DeveloperMenu;
+import edu.colorado.phet.phscale.developer.LiquidColorsMenuItem;
+import edu.colorado.phet.phscale.developer.ParticleControlsMenuItem;
 
 /**
  * PHScaleApplication is the main application for this simulation.
@@ -52,14 +54,10 @@ public class PHScaleApplication extends PiccoloPhetApplication {
      * Initializes the menubar.
      */
     private void initMenubar( String[] args ) {
-
-        final PhetFrame frame = getPhetFrame();
-
         // Developer menu
-        DeveloperMenu developerMenu = new DeveloperMenu( this );
-        if ( developerMenu.getMenuComponentCount() > 0 && isDeveloperControlsEnabled() ) {
-            frame.addMenu( developerMenu );
-        }
+        JMenu developerMenu = getPhetFrame().getDeveloperMenu();
+        developerMenu.add( new ParticleControlsMenuItem( this ) );
+        developerMenu.add( new LiquidColorsMenuItem( this ) );
     }
 
     public PHScaleModule getModule() {

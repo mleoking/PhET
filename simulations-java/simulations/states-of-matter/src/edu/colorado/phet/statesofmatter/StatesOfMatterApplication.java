@@ -4,12 +4,15 @@ package edu.colorado.phet.statesofmatter;
 
 import java.awt.Frame;
 
+import javax.swing.JMenu;
+
 import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
+import edu.colorado.phet.statesofmatter.developer.DeveloperControlsMenuItem;
 import edu.colorado.phet.statesofmatter.module.atomicinteractions.AtomicInteractionsModule;
 import edu.colorado.phet.statesofmatter.module.phasechanges.PhaseChangesModule;
 import edu.colorado.phet.statesofmatter.module.solidliquidgas.SolidLiquidGasModule;
@@ -40,13 +43,22 @@ public class StatesOfMatterApplication extends AbstractStatesOfMatterApp impleme
     public StatesOfMatterApplication( PhetApplicationConfig config ) {
         super( config );
         initModules();
-        initMenubar( config.getCommandLineArgs() );
+        initMenubar();
     }
 
     //----------------------------------------------------------------------------
     // Initialization
     //----------------------------------------------------------------------------
 
+    /**
+     * Initializes the menu bar.
+     */
+    protected void initMenubar() {
+        // Developer menu
+        JMenu developerMenu = getPhetFrame().getDeveloperMenu();
+        developerMenu.add( new DeveloperControlsMenuItem( this ) );
+    }
+    
     /**
      * Initializes the modules.
      */

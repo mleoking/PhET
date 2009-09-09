@@ -11,7 +11,6 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
-import edu.colorado.phet.neuron.developer.DeveloperMenu;
 import edu.colorado.phet.neuron.module.MembraneDiffusionModule;
 
 /**
@@ -74,12 +73,6 @@ public class NeuronApplication extends PiccoloPhetApplication {
         // add menu items here, or in a subclass on OptionsMenu
         if ( optionsMenu.getMenuComponentCount() > 0 ) {
             frame.addMenu( optionsMenu );
-        }
-
-        // Developer menu
-        DeveloperMenu developerMenu = new DeveloperMenu( this );
-        if ( developerMenu.getMenuComponentCount() > 0 && isDeveloperControlsEnabled() ) {
-            frame.addMenu( developerMenu );
         }
     }
 

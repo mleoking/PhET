@@ -7,7 +7,6 @@ import java.awt.Frame;
 
 import javax.swing.JOptionPane;
 
-import edu.colorado.phet.acidbasesolutions.developer.DeveloperMenu;
 import edu.colorado.phet.acidbasesolutions.module.comparing.ComparingModule;
 import edu.colorado.phet.acidbasesolutions.module.matchinggame.MatchingGameModule;
 import edu.colorado.phet.acidbasesolutions.module.solutions.SolutionsModule;
@@ -88,12 +87,6 @@ public class AcidBaseSolutionsApplication extends PiccoloPhetApplication {
         frame.addFileSaveLoadMenuItems();
         if ( persistenceManager == null ) {
             persistenceManager = new XMLPersistenceManager( frame );
-        }
-
-        // Developer menu
-        DeveloperMenu developerMenu = new DeveloperMenu( this );
-        if ( developerMenu.getMenuComponentCount() > 0 && isDeveloperControlsEnabled() ) {
-            frame.addMenu( developerMenu );
         }
     }
 

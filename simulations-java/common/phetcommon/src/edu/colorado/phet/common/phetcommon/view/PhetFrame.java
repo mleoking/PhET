@@ -11,6 +11,7 @@ import javax.swing.*;
 import edu.colorado.phet.common.phetcommon.application.*;
 import edu.colorado.phet.common.phetcommon.preferences.PhetPreferences;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.view.menu.DeveloperMenu;
 import edu.colorado.phet.common.phetcommon.view.menu.HelpMenu;
 import edu.colorado.phet.common.phetcommon.view.menu.PhetFileMenu;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
@@ -22,12 +23,15 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  * @version $Revision:14677 $
  */
 public class PhetFrame extends JFrame {
-    private HelpMenu helpMenu;
-    private JMenu defaultFileMenu;
+    
     private PhetApplication application;
     private Container contentPanel;
     private Module lastAdded;
-
+    
+    private JMenu defaultFileMenu;
+    private JMenu developerMenu;
+    private HelpMenu helpMenu;
+    
     /**
      * Constructs a PhetFrame for the specified PhetApplication.
      *
@@ -55,12 +59,20 @@ public class PhetFrame extends JFrame {
             }
         } );
 
+        // menu bar
         JMenuBar menuBar = new JMenuBar();
-        this.helpMenu = new HelpMenu( application );
+        setJMenuBar( menuBar );
+        // File menu
         defaultFileMenu = new PhetFileMenu( this, application.getSimInfo() );
         menuBar.add( defaultFileMenu );
+        // Developer menu
+        developerMenu = new DeveloperMenu( application );
+        if ( application.isDeveloperControlsEnabled() ) {
+            menuBar.add( developerMenu );
+        }
+        // Help menu
+        helpMenu = new HelpMenu( application );
         menuBar.add( helpMenu );
-        setJMenuBar( menuBar );
 
         application.addModuleObserver( new ModuleObserver() {
             public void moduleAdded( ModuleEvent event ) {
@@ -298,6 +310,10 @@ public class PhetFrame extends JFrame {
             return (PhetFileMenu) testMenu;
         }
         return null;
+    }
+    
+    public JMenu getDeveloperMenu() {
+        return developerMenu;
     }
 
     /**

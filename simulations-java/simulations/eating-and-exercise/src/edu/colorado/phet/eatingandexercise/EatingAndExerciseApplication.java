@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
@@ -16,7 +17,6 @@ import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.PhetFrameWorkaround;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.eatingandexercise.developer.DeveloperFrame;
-import edu.colorado.phet.eatingandexercise.developer.DeveloperMenu;
 import edu.colorado.phet.eatingandexercise.module.eatingandexercise.EatingAndExerciseModule;
 
 public class EatingAndExerciseApplication extends PiccoloPhetApplication {
@@ -61,7 +61,7 @@ public class EatingAndExerciseApplication extends PiccoloPhetApplication {
         }
 
         // Developer menu
-        DeveloperMenu developerMenu = new DeveloperMenu( this );
+        JMenu developerMenu = getPhetFrame().getDeveloperMenu();
         JMenuItem menuItem = new JMenuItem( "Show Model Controls..." );
         menuItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

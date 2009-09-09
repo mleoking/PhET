@@ -541,31 +541,43 @@ public abstract class Module implements Resettable {
     public void updateGraphics( ClockEvent event ) {
     }
     
-    public void setClockControlPanelBackground( Color color ) {
-        Class[] excludedClasses = { JTextComponent.class }; // default excluded classes, what we want in most cases
-        setClockControlPanelBackground( color, excludedClasses );
-    }
-    
     public void setControlPanelBackground( Color color ) {
-        Class[] excludedClasses = { JTextComponent.class }; // default excluded classes, what we want in most cases
-        setControlPanelBackground( color, excludedClasses );
+        if ( getControlPanel() != null ) {
+            Class[] excludedClasses = { JTextComponent.class }; // default excluded classes, what we want in most cases
+            setControlPanelBackground( color, excludedClasses );
+        }
     }
     
     public void setControlPanelBackground( Color color, Class[] excludedClasses ) {
-        SwingUtils.setBackgroundDeep( getControlPanel(), color, excludedClasses, false /* processContentsOfExcludedContainers */ );
+        if ( getControlPanel() != null ) {
+            SwingUtils.setBackgroundDeep( getControlPanel(), color, excludedClasses, false /* processContentsOfExcludedContainers */);
+        }
+    }
+    
+    public void setClockControlPanelBackground( Color color ) {
+        if ( getClockControlPanel() != null ) {
+            Class[] excludedClasses = { JTextComponent.class }; // default excluded classes, what we want in most cases
+            setClockControlPanelBackground( color, excludedClasses );
+        }
     }
     
     public void setClockControlPanelBackground( Color color, Class[] excludedClasses ) {
-        SwingUtils.setBackgroundDeep( getClockControlPanel(), color, excludedClasses, false /* processContentsOfExcludedContainers */ );
+        if ( getClockControlPanel() != null ) {
+            SwingUtils.setBackgroundDeep( getClockControlPanel(), color, excludedClasses, false /* processContentsOfExcludedContainers */);
+        }
     }
     
     public void setHelpPanelBackground( Color color ) {
-        Class[] excludedClasses = { JTextComponent.class }; // default excluded classes, what we want in most cases
-        setHelpPanelBackground( color, excludedClasses );
+        if ( getHelpPanel() != null ) {
+            Class[] excludedClasses = { JTextComponent.class }; // default excluded classes, what we want in most cases
+            setHelpPanelBackground( color, excludedClasses );
+        }
     }
     
     public void setHelpPanelBackground( Color color, Class[] excludedClasses ) {
-        SwingUtils.setBackgroundDeep( getHelpPanel(), color, excludedClasses, false /* processContentsOfExcludedContainers */ );
+        if ( getHelpPanel() != null ) {
+            SwingUtils.setBackgroundDeep( getHelpPanel(), color, excludedClasses, false /* processContentsOfExcludedContainers */);
+        }
     }
     
     //----------------------------------------------------------------------------

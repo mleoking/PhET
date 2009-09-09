@@ -12,6 +12,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.ColorControl;
@@ -25,7 +26,7 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class TabbedPanePropertiesDialog extends JDialog {
+public class TabbedPanePropertiesDialog extends PaintImmediateDialog {
 
     public TabbedPanePropertiesDialog( Frame owner, PhetTabbedPane tabbedPane ) {
         super( owner, "Tabbed Pane properties" );
