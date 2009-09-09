@@ -1,3 +1,4 @@
+#!/web/chroot/phet/usr/local/php/bin/php
 <?php
 
 chdir(dirname(__FILE__));
@@ -12,8 +13,8 @@ chdir(dirname(__FILE__));
     require_once('include/contrib-utils.php');
     
     $email_recipients =
-        array('"Loeblein Patricia J." <ploeblei@jeffco.k12.co.us>',
-              '"Marjorie Mildred Frankel" <marjorie.frankel@colorado.edu>',
+        array(//'"Loeblein Patricia J." <ploeblei@jeffco.k12.co.us>',
+              //'"Marjorie Mildred Frankel" <marjorie.frankel@colorado.edu>',
               '"Daniel McKagan" <daniel.mckagan@gmail.com>');
 
     define('DEFAULT_INTERVAL', 7);
@@ -22,7 +23,11 @@ chdir(dirname(__FILE__));
         $sql = 'SELECT * '.
             'FROM contribution '.
             'WHERE '.
-            "contribution_date_created > (NOW() - INTERVAL {$interval} DAY)";
+            "(contribution_date_created > (NOW() - INTERVAL {$interval} DAY)) AND ".
+            "(contribution_id != ".
+                "(SELECT contribution_id FROM temporary_partial_contribution_track)".
+                ")";
+
         return db_get_rows_custom_query($sql);
     }
 
