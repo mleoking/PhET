@@ -1,6 +1,5 @@
-/* Copyright 2007, University of Colorado */
+package edu.colorado.phet.common.phetcommon.view.menu;
 
-package edu.colorado.phet.simtemplate.developer;
 
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
@@ -13,9 +12,9 @@ import javax.swing.JDialog;
 import javax.swing.JMenu;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.piccolophet.ModuleBackgroundColorsDialog;
 import edu.colorado.phet.common.piccolophet.PhetTabbedPane;
 import edu.colorado.phet.common.piccolophet.TabbedPanePropertiesDialog;
-import edu.colorado.phet.simtemplate.SimTemplateApplication;
 
 /**
  * DeveloperMenu is the "Developer" menu that appears in the menu bar.
@@ -25,24 +24,18 @@ import edu.colorado.phet.simtemplate.SimTemplateApplication;
  */
 public class DeveloperMenu extends JMenu {
 
-    private SimTemplateApplication app;
-    private JCheckBoxMenuItem developerControlsItem;
+    private PhetApplication app;
+    
     private JCheckBoxMenuItem tabPropertiesItem;
-    private JDialog developerControlsDialog;
     private JDialog tabPropertiesDialog;
-
-    public DeveloperMenu( SimTemplateApplication app ) {
+    
+    private JCheckBoxMenuItem controlPanelBackgroundColorItem;
+    private JDialog controlPanelBackgroundColorDialog;
+    
+    public DeveloperMenu( PhetApplication app ) {
         super( "Developer" );
 
         this.app = app;
-
-        developerControlsItem = new JCheckBoxMenuItem( "Developer Controls..." );
-        add( developerControlsItem );
-        developerControlsItem.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent event ) {
-                handleDeveloperControls();
-            }
-        });
         
         if ( app.getTabbedModulePane() instanceof PhetTabbedPane ) {
             tabPropertiesItem = new JCheckBoxMenuItem( "Tabbed Pane properties..." );
@@ -53,34 +46,16 @@ public class DeveloperMenu extends JMenu {
                 }
             } );
         }
+        
+        controlPanelBackgroundColorItem = new JCheckBoxMenuItem( "Control panels background color..." );
+        add( controlPanelBackgroundColorItem );
+        controlPanelBackgroundColorItem.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent event ) {
+                handleControlPanelsBackgroundColor();
+            }
+        } );
     }
 
-    private void handleDeveloperControls() {
-        if ( developerControlsItem.isSelected() ) {
-            Frame owner = PhetApplication.getInstance().getPhetFrame();
-            developerControlsDialog = new DeveloperControlsDialog( owner, app );
-            developerControlsDialog.setVisible( true );
-            developerControlsDialog.addWindowListener( new WindowAdapter() {
-
-                public void windowClosed( WindowEvent e ) {
-                    cleanup();
-                }
-
-                public void windowClosing( WindowEvent e ) {
-                    cleanup();
-                }
-
-                private void cleanup() {
-                    developerControlsItem.setSelected( false );
-                    developerControlsDialog = null;
-                }
-            } );
-        }
-        else {
-            developerControlsDialog.dispose();
-        }
-    }
-    
     private void handleTabProperties() {
         if ( tabPropertiesItem.isSelected() ) {
             Frame owner = PhetApplication.getInstance().getPhetFrame();
@@ -104,6 +79,32 @@ public class DeveloperMenu extends JMenu {
         }
         else {
             tabPropertiesDialog.dispose();
+        }
+    }
+    
+    private void handleControlPanelsBackgroundColor() {
+        if ( controlPanelBackgroundColorItem.isSelected() ) {
+            Frame owner = PhetApplication.getInstance().getPhetFrame();
+            controlPanelBackgroundColorDialog = new ModuleBackgroundColorsDialog( app );
+            controlPanelBackgroundColorDialog.setVisible( true );
+            controlPanelBackgroundColorDialog.addWindowListener( new WindowAdapter() {
+
+                public void windowClosed( WindowEvent e ) {
+                    cleanup();
+                }
+
+                public void windowClosing( WindowEvent e ) {
+                    cleanup();
+                }
+
+                private void cleanup() {
+                    controlPanelBackgroundColorItem.setSelected( false );
+                    controlPanelBackgroundColorDialog = null;
+                }
+            } );
+        }
+        else {
+            controlPanelBackgroundColorDialog.dispose();
         }
     }
 }

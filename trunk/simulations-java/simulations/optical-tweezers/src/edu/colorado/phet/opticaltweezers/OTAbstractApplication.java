@@ -8,7 +8,6 @@ import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
-import edu.colorado.phet.opticaltweezers.menu.DeveloperMenu;
 import edu.colorado.phet.opticaltweezers.module.OTAbstractModule;
 
 /**
@@ -51,12 +50,6 @@ public abstract class OTAbstractApplication extends PiccoloPhetApplication {
         // File->Save/Load
         final PhetFrame frame = getPhetFrame();
         frame.addFileSaveLoadMenuItems();
-
-        // Developer menu
-        DeveloperMenu developerMenu = new DeveloperMenu( this );
-        if ( developerMenu.getMenuComponentCount() > 0 && isDeveloperControlsEnabled() ) {
-            frame.addMenu( developerMenu );
-        }
     }
 
     //----------------------------------------------------------------------------

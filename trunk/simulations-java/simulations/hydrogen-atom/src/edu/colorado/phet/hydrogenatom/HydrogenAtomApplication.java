@@ -17,17 +17,18 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import javax.swing.JDialog;
+import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
+import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.menu.HelpMenu;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.hydrogenatom.dialog.TransitionsDialog;
-import edu.colorado.phet.hydrogenatom.menu.DeveloperMenu;
+import edu.colorado.phet.hydrogenatom.menu.DeveloperControlsMenuItem;
 import edu.colorado.phet.hydrogenatom.menu.HAOptionsMenu;
 import edu.colorado.phet.hydrogenatom.module.HAModule;
 import edu.colorado.phet.hydrogenatom.view.LegendPanel.LegendDialog;
@@ -90,10 +91,8 @@ public class HydrogenAtomApplication extends PiccoloPhetApplication {
         }
 
         // Developer menu
-        if ( isDeveloperControlsEnabled() ) {
-            DeveloperMenu developerMenu = new DeveloperMenu( _module );
-            getPhetFrame().addMenu( developerMenu );
-        }
+        JMenu developerMenu = getPhetFrame().getDeveloperMenu();
+        developerMenu.add( new DeveloperControlsMenuItem( _module ) );
 
         // Help menu additions
         {

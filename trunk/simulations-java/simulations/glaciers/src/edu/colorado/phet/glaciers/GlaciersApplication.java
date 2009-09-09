@@ -3,7 +3,11 @@
 package edu.colorado.phet.glaciers;
 
 import java.awt.Frame;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JMenu;
 import javax.swing.JOptionPane;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
@@ -11,7 +15,6 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
-import edu.colorado.phet.glaciers.menu.DeveloperMenu;
 import edu.colorado.phet.glaciers.module.advanced.AdvancedModule;
 import edu.colorado.phet.glaciers.module.intro.IntroModule;
 import edu.colorado.phet.glaciers.persistence.AdvancedConfig;
@@ -82,10 +85,21 @@ public class GlaciersApplication extends PiccoloPhetApplication {
         }
 
         // Developer menu
-        DeveloperMenu developerMenu = new DeveloperMenu( this );
-        if ( developerMenu.getMenuComponentCount() > 0 && isDeveloperControlsEnabled() ) {
-            frame.addMenu( developerMenu );
-        }
+        JMenu developerMenu = frame.getDeveloperMenu();
+        final JCheckBoxMenuItem evolutionStateDialogItem = new JCheckBoxMenuItem( "Glacier Evolution State..." );
+        developerMenu.add( evolutionStateDialogItem );
+        evolutionStateDialogItem.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                setEvolutionStateDialogVisible( evolutionStateDialogItem.isSelected() );
+            }
+        } );
+        final JCheckBoxMenuItem modelConstantsDialogItem = new JCheckBoxMenuItem( "Model Constants..." );
+        developerMenu.add( modelConstantsDialogItem );
+        modelConstantsDialogItem.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                setModelConstantsDialogVisible( modelConstantsDialogItem.isSelected() );
+            }
+        } );
     }
     
     //----------------------------------------------------------------------------

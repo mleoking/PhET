@@ -49,8 +49,6 @@ public class NuclearFissionApplication extends AbstractNuclearPhysicsApplication
     
         _nuclearReactorModule = new NuclearReactorModule( parentFrame );
         addModule( _nuclearReactorModule );
-
-        initMenubar( config.getCommandLineArgs() );
     }
 
     /**

@@ -9,12 +9,8 @@ import javax.swing.JOptionPane;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
-import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
-import edu.colorado.phet.common.piccolophet.PhetTabbedPane;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
-import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
-import edu.colorado.phet.titration.developer.DeveloperMenu;
 import edu.colorado.phet.titration.menu.TitrationOptionsMenu;
 import edu.colorado.phet.titration.module.advanced.AdvancedModule;
 import edu.colorado.phet.titration.module.compare.CompareModule;
@@ -99,12 +95,6 @@ public class TitrationApplication extends PiccoloPhetApplication {
         TitrationOptionsMenu optionsMenu = new TitrationOptionsMenu();
         if ( optionsMenu.getMenuComponentCount() > 0 ) {
             frame.addMenu( optionsMenu );
-        }
-
-        // Developer menu
-        DeveloperMenu developerMenu = new DeveloperMenu( this );
-        if ( developerMenu.getMenuComponentCount() > 0 && isDeveloperControlsEnabled() ) {
-            frame.addMenu( developerMenu );
         }
     }
 

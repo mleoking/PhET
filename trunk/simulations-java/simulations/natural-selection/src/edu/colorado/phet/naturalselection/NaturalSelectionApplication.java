@@ -8,10 +8,7 @@ import java.awt.Frame;
 import java.awt.Toolkit;
 import java.util.Enumeration;
 
-import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
-import javax.swing.UIDefaults;
-import javax.swing.UIManager;
+import javax.swing.*;
 import javax.swing.plaf.FontUIResource;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
@@ -21,7 +18,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
-import edu.colorado.phet.naturalselection.developer.DeveloperMenu;
+import edu.colorado.phet.naturalselection.developer.DeveloperControlsMenuItem;
 import edu.colorado.phet.naturalselection.module.NaturalSelectionModule;
 import edu.colorado.phet.naturalselection.persistence.NaturalSelectionConfig;
 
@@ -82,10 +79,8 @@ public class NaturalSelectionApplication extends PiccoloPhetApplication {
         }
 
         // Developer menu
-        DeveloperMenu developerMenu = new DeveloperMenu( this );
-        if ( developerMenu.getMenuComponentCount() > 0 && isDeveloperControlsEnabled() ) {
-            frame.addMenu( developerMenu );
-        }
+        JMenu developerMenu = getPhetFrame().getDeveloperMenu();
+        developerMenu.add( new DeveloperControlsMenuItem( this ) );
     }
 
     //----------------------------------------------------------------------------

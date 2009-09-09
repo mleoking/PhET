@@ -54,8 +54,6 @@ public class RadioactiveDatingGameApplication extends AbstractNuclearPhysicsAppl
     
         _radioactiveDatingGameModule = new RadioactiveDatingGameModule( parentFrame );
         addModule( _radioactiveDatingGameModule );
-
-        initMenubar( config.getCommandLineArgs() );
     }
 
     /**

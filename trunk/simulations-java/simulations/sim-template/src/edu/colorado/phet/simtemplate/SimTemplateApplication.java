@@ -5,16 +5,15 @@ package edu.colorado.phet.simtemplate;
 import java.awt.Color;
 import java.awt.Frame;
 
+import javax.swing.JMenu;
+
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
-import edu.colorado.phet.common.piccolophet.PhetTabbedPane;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
-import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
-import edu.colorado.phet.simtemplate.developer.DeveloperMenu;
 import edu.colorado.phet.simtemplate.module.SimTemplateModule;
 
 /**
@@ -93,15 +92,9 @@ public class SimTemplateApplication extends PiccoloPhetApplication {
         }
 
         // Developer menu
-        DeveloperMenu developerMenu = new DeveloperMenu( this );
-        if ( developerMenu.getMenuComponentCount() > 0 && isDeveloperControlsEnabled() ) {
-            frame.addMenu( developerMenu );
-        }
+        JMenu developerMenu = frame.getDeveloperMenu();
+        // add items to the Developer menu here...
     }
-
-    //----------------------------------------------------------------------------
-    // Setters & getters
-    //----------------------------------------------------------------------------
 
     public void setControlPanelBackground( Color color ) {
         Module[] modules = getModules();
