@@ -1,3 +1,5 @@
+# 2.04.00 (34913) Sep 9, 2009
+9/9/09 test PGB for any affects of #1769 (remove sim descriptions)
 # 2.03.03 (34480) Aug 26, 2009
 8/26/09 Another test to try to enable Khmer language/font - added a strings file for km locale.
 # 2.03.02 (34475) Aug 26, 2009
