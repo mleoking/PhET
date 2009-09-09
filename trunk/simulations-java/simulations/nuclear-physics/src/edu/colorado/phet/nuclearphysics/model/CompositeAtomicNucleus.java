@@ -281,8 +281,8 @@ public abstract class CompositeAtomicNucleus extends AtomicNucleus {
     		}
     	}
     	else{
-    		// Have each particle place itself randomly somewhere within the
-    		// radius of the nucleus.
+    		// This is a relatively large nucleus.  Have each particle place
+    		// itself randomly somewhere within the radius of the nucleus.
             double tunnelingRegion = Math.min(_tunnelingRegionRadius, getDiameter() * 1.5);
     		for (SubatomicParticle particle : _constituents){
             	particle.tunnel( _position, 0, getDiameter()/2, tunnelingRegion );
