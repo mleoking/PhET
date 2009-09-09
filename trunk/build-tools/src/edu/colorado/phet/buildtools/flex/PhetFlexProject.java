@@ -19,7 +19,7 @@ public class PhetFlexProject extends PhetProject {
     }
 
     public Simulation getSimulation( String simulationName, Locale locale ) {
-        return new Simulation( getName(), getName(), "?", new String[0], null );
+        return new Simulation( getName(), getName(), "?", new String[0] );
     }
 
     public Locale[] getLocales() {

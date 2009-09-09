@@ -485,7 +485,7 @@ public class FlashSimulationProject extends PhetProject {
     }
 
     public Simulation getSimulation( String simulationName, Locale locale ) {
-        return new Simulation( simulationName, getSimulationTitle( locale ), "mainclass", new String[0], new File( "screenshot.gif" ) );
+        return new Simulation( simulationName, getSimulationTitle( locale ), "mainclass", new String[0] );
     }
 
     public Locale[] getLocales() {
