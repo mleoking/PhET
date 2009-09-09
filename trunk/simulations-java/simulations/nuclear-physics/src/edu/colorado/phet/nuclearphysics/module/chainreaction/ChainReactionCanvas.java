@@ -27,6 +27,7 @@ import edu.colorado.phet.nuclearphysics.view.AtomicBombGraphicNode;
 import edu.colorado.phet.nuclearphysics.view.ContainmentVesselNode;
 import edu.colorado.phet.nuclearphysics.view.NeutronSourceNode;
 import edu.colorado.phet.nuclearphysics.view.NucleonNode;
+import edu.colorado.phet.nuclearphysics.view.NucleusImageFactory;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -112,6 +113,23 @@ public class ChainReactionCanvas extends PhetPCanvas {
         
         // Set the background color.
         setBackground( NuclearPhysicsConstants.CANVAS_BACKGROUND );
+        
+        // Have the nucleus image factory pre-generate images for the nuclei
+        // that we may need.  It is better to do it now, during
+        // initialization, or the image generation causes pauses during the
+        // simulation's execution.
+        // U235
+        NucleusImageFactory.getInstance().preGenerateNucleusImages(92, 143, NucleusImageFactory.DEEFAULT_PIXELS_PER_FM);
+        // U236
+        NucleusImageFactory.getInstance().preGenerateNucleusImages(92, 144, NucleusImageFactory.DEEFAULT_PIXELS_PER_FM);
+        // U238
+        NucleusImageFactory.getInstance().preGenerateNucleusImages(92, 146, NucleusImageFactory.DEEFAULT_PIXELS_PER_FM);
+        // U239
+        NucleusImageFactory.getInstance().preGenerateNucleusImages(92, 147, NucleusImageFactory.DEEFAULT_PIXELS_PER_FM);
+        // K92
+        NucleusImageFactory.getInstance().preGenerateNucleusImages(36, 56, NucleusImageFactory.DEEFAULT_PIXELS_PER_FM);
+        // Br141
+        NucleusImageFactory.getInstance().preGenerateNucleusImages(56, 85, NucleusImageFactory.DEEFAULT_PIXELS_PER_FM);
         
         // Add a PNode that will act as a sort of 'layer' where the nuclei
         // will be added.
