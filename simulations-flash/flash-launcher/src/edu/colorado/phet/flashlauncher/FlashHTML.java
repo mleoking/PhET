@@ -181,10 +181,6 @@ public class FlashHTML {
         return extractStringFromXML( xmlFile, "simTitle" );
     }
 
-    public static String extractDescriptionFromXML( File xmlFile ) {
-        return extractStringFromXML( xmlFile, "simDescription" );
-    }
-
     public static String extractStringFromXML( File xmlFile, String keyString ) {
         try {
             String xmlString = rawFile( xmlFile );

@@ -8,15 +8,13 @@ import java.util.Arrays;
  */
 public class Simulation {
     private String name;
-    private String description;
     private String[] args;
     private String mainclass;
     private File screenshot;
     private String title;
 
-    public Simulation( String name, String title, String description, String mainclass, String[] args, File screenshot ) {
+    public Simulation( String name, String title, String mainclass, String[] args, File screenshot ) {
         this.name = name;
-        this.description = description;
         this.args = args;
         this.mainclass = mainclass;
         this.screenshot = screenshot;
@@ -25,10 +23,6 @@ public class Simulation {
 
     public String getName() {
         return name;
-    }
-
-    public String getDescription() {
-        return description;
     }
 
     public File getScreenshot() {
@@ -48,7 +42,7 @@ public class Simulation {
     }
 
     public String toString() {
-        return "" + title + ": description=" + description + ", mainclass=" + mainclass + ", args=" + Arrays.asList( args ) + ", screenshot=" + screenshot;
+        return "title=" + title + ", mainclass=" + mainclass + ", args=" + Arrays.asList( args ) + ", screenshot=" + screenshot;
     }
 
     public String getJavaStyleName() {

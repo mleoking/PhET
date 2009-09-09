@@ -7,7 +7,6 @@ import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 public interface ISimInfo {
     
     String getName();
-    String getDescription();
     PhetVersion getVersion();
     
     /**

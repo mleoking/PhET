@@ -100,10 +100,6 @@ public class BuildPropertiesFile extends AbstractPropertiesFile {
         return getProperty( "project.name" );
     }
 
-    public String getDescriptionDefault() {
-        return getProperty( "project.description" );
-    }
-
     //TODO: this should be moved to some general utility class
     private String[] split( String str, String delimiters ) {
         ArrayList out = new ArrayList();

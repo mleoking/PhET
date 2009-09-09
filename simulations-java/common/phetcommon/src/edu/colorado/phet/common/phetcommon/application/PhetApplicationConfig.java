@@ -148,15 +148,6 @@ public class PhetApplicationConfig implements ISimInfo {
         return resourceLoader.getName( flavor );
     }
 
-    /**
-     * Gets the localized simulation description.
-     *
-     * @return description
-     */
-    public String getDescription() {
-        return resourceLoader.getDescription( flavor );
-    }
-
     public String getVersionForTitleBar() {
         return getVersion().formatForTitleBar();
     }

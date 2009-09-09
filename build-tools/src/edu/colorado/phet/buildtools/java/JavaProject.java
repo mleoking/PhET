@@ -149,7 +149,6 @@ public abstract class JavaProject extends PhetProject {
         try {
             File localizationFile = getLocalizationFile( locale );
             String title = null;
-            String description = null;
             if ( localizationFile.exists() ) {
                 localizedProperties.load( new FileInputStream( localizationFile ) );//TODO: handle locale (graceful support for missing strings in locale)
                 String titleKey = simulationName + ".name";
@@ -165,35 +164,17 @@ public abstract class JavaProject extends PhetProject {
                     }
                     inputStream.close();
                 }
-                String descriptionKey = simulationName + ".description";
-                description = localizedProperties.getProperty( descriptionKey );
-                if ( description == null ) {
-                    Properties englishProperties = new Properties();
-                    FileInputStream inputStream = new FileInputStream( getLocalizationFile( new Locale( "en" ) ) );
-                    englishProperties.load( inputStream );
-                    description = englishProperties.getProperty( descriptionKey );
-                    System.out.println( "PhetProject.getSimulation: missing description for simulation: key=" + descriptionKey + ", locale=" + locale + ", using English" );
-                    if ( description == null ) {
-                        description = descriptionKey;
-                    }
-                    inputStream.close();
-                }
             }
             else {
                 System.out.println( "PhetProject.getSimulation: localization file doesn't exist: " + localizationFile.getAbsolutePath() );
                 title = buildPropertiesFile.getTitleDefault();
-                description = buildPropertiesFile.getDescriptionDefault();
                 if ( title == null ) {
                     System.out.println( "PhetProject.getSimulation: project.name not found, using: " + getName() );
                     title = getName();
                 }
-                if ( description == null ) {
-                    System.out.println( "PhetProject.getSimulation: project.description not found, using empty string" );
-                    description = "";
-                }
             }
 
-            return new Simulation( simulationName, title, description, mainclass, args, screenshot );
+            return new Simulation( simulationName, title, mainclass, args, screenshot );
         }
         catch( IOException e ) {
             e.printStackTrace();

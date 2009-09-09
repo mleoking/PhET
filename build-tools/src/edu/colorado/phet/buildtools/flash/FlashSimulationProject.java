@@ -484,20 +484,8 @@ public class FlashSimulationProject extends PhetProject {
         return ret;
     }
 
-    private String getSimulationDescription( Locale locale ) {
-        File simXMLFile = getTranslationFile( locale );
-        if ( !simXMLFile.exists() ) {
-            simXMLFile = getTranslationFile( new Locale( "en" ) ); // TODO: standardize "en" locale somewhere? LocaleUtils?
-            if ( !simXMLFile.exists() ) {
-                System.out.println( "Warning: could not find sim XML for either locale or en" );
-                return getName();
-            }
-        }
-        return FlashHTML.extractDescriptionFromXML( simXMLFile );
-    }
-
     public Simulation getSimulation( String simulationName, Locale locale ) {
-        return new Simulation( simulationName, getSimulationTitle( locale ), getSimulationDescription( locale ), "mainclass", new String[0], new File( "screenshot.gif" ) );
+        return new Simulation( simulationName, getSimulationTitle( locale ), "mainclass", new String[0], new File( "screenshot.gif" ) );
     }
 
     public Locale[] getLocales() {

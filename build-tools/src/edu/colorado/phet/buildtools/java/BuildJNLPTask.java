@@ -39,7 +39,6 @@ public class BuildJNLPTask {
         HashMap map = new HashMap();
         map.put( "PROJECT.NAME", StringEscapeUtils.escapeHtml( simulation.getTitle() ) );
         map.put( "JNLP.NAME", getJNLPFileName( simulationName, locale ) );
-        map.put( "PROJECT.DESCRIPTION", StringEscapeUtils.escapeHtml( simulation.getDescription() ) );
         map.put( "PROJECT.JAR", project.getJarFile().getName() );
         map.put( "PROJECT.SCREENSHOT", "http://phet.colorado.edu/Design/Assets/images/Phet-Kavli-logo.jpg" );//TODO: map this to correct sim-specific (possibly online) URL
         map.put( "PROJECT.MAINCLASS", simulation.getMainclass() );
