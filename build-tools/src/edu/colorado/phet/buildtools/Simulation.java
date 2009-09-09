@@ -1,6 +1,5 @@
 package edu.colorado.phet.buildtools;
 
-import java.io.File;
 import java.util.Arrays;
 
 /**
@@ -10,23 +9,17 @@ public class Simulation {
     private String name;
     private String[] args;
     private String mainclass;
-    private File screenshot;
     private String title;
 
-    public Simulation( String name, String title, String mainclass, String[] args, File screenshot ) {
+    public Simulation( String name, String title, String mainclass, String[] args ) {
         this.name = name;
         this.args = args;
         this.mainclass = mainclass;
-        this.screenshot = screenshot;
         this.title = title;
     }
 
     public String getName() {
         return name;
-    }
-
-    public File getScreenshot() {
-        return screenshot;
     }
 
     public String getTitle() {
@@ -42,7 +35,7 @@ public class Simulation {
     }
 
     public String toString() {
-        return "title=" + title + ", mainclass=" + mainclass + ", args=" + Arrays.asList( args ) + ", screenshot=" + screenshot;
+        return "title=" + title + ", mainclass=" + mainclass + ", args=" + Arrays.asList( args );
     }
 
     public String getJavaStyleName() {

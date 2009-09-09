@@ -141,8 +141,6 @@ public abstract class JavaProject extends PhetProject {
             throw new RuntimeException( "Mainclass was null for project=" + getName() + ", simulation=" + simulationName );
         }
         String[] args = buildPropertiesFile.getArgs( simulationName );
-        String screenshotPathname = buildPropertiesFile.getScreenshot( simulationName );
-        File screenshot = new File( screenshotPathname == null ? "screenshot.gif" : screenshotPathname );
 
         //If we reuse PhetResources class, we should move Proguard usage out, so GPL doesn't virus over
         Properties localizedProperties = new Properties();
@@ -167,14 +165,10 @@ public abstract class JavaProject extends PhetProject {
             }
             else {
                 System.out.println( "PhetProject.getSimulation: localization file doesn't exist: " + localizationFile.getAbsolutePath() );
-                title = buildPropertiesFile.getTitleDefault();
-                if ( title == null ) {
-                    System.out.println( "PhetProject.getSimulation: project.name not found, using: " + getName() );
-                    title = getName();
-                }
+                title = getName();
             }
 
-            return new Simulation( simulationName, title, mainclass, args, screenshot );
+            return new Simulation( simulationName, title, mainclass, args );
         }
         catch( IOException e ) {
             e.printStackTrace();

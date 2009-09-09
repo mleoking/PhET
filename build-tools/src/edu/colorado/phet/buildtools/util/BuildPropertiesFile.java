@@ -92,14 +92,6 @@ public class BuildPropertiesFile extends AbstractPropertiesFile {
         return getProperty( "project.flavor." + simulationName + ".mxml" );
     }
 
-    public String getScreenshot( String simulationName ) {
-        return getProperty( "project.flavor." + simulationName + ".screenshot" );
-    }
-
-    public String getTitleDefault() {
-        return getProperty( "project.name" );
-    }
-
     //TODO: this should be moved to some general utility class
     private String[] split( String str, String delimiters ) {
         ArrayList out = new ArrayList();
