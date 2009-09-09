@@ -1,3 +1,5 @@
+# 2.05.00 (34918) Sep 9, 2009
+9/9/09 test #1771, cleanup of build.properties files
 # 2.04.00 (34913) Sep 9, 2009
 9/9/09 test PGB for any affects of #1769 (remove sim descriptions)
 # 2.03.03 (34480) Aug 26, 2009
