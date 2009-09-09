@@ -12,7 +12,6 @@ public class Sim1Application extends PiccoloPhetApplication {
         super( config );
         addModule( new EmptyModule( TestProjectResources.getString( "sim1.module1" ) ) );
         addModule( new EmptyModule( TestProjectResources.getString( "sim1.module2" ) ) );
-        addModule( new EmptyModule( "Khmer Test: \u1780\u1781\u1782\u1783" ) );
     }
 
     public static void main( String[] args ) {
