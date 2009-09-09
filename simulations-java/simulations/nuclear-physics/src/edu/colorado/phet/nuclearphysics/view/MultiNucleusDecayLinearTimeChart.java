@@ -83,7 +83,7 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
     private static final Font   SMALL_LABEL_FONT = new PhetFont( Font.BOLD, 14 );
     private static final Font   LARGE_LABEL_FONT = new PhetFont( Font.BOLD, 18 );
     private static final Font   ISOTOPE_LABEL_FONT = new PhetFont( Font.PLAIN, 20 );
-    private static final Font   ATOMIC_WEIGHT_LABEL_FONT = new PhetFont( Font.PLAIN, 16 );
+    private static final Font   ATOMIC_WEIGHT_LABEL_FONT = new PhetFont( Font.BOLD, 16 );
     private static final float  HALF_LIFE_LINE_STROKE_WIDTH = 2.0f;
     private static final Stroke HALF_LIFE_LINE_STROKE = new BasicStroke( HALF_LIFE_LINE_STROKE_WIDTH, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 3.0f, 3.0f }, 0 );
     private static final Color  HALF_LIFE_LINE_COLOR = new Color (238, 0, 0);
@@ -625,7 +625,11 @@ public class MultiNucleusDecayLinearTimeChart extends PNode {
     	}
     	else{
     		// Label the tick marks with atomic weight.
+    		_yAxisUpperTickMarkLabel.setColor(Color.BLACK);
+    		_yAxisUpperTickMarkLabel.setShadowColor(NuclearPhysicsConstants.CHART_BACKGROUND_COLOR);
     		_yAxisUpperTickMarkLabel.setHtml("<html>" + preDecayDisplayInfo.getIsotopeNumberString() + "</html>");
+    		_yAxisLowerTickMarkLabel.setColor(Color.BLACK);
+    		_yAxisLowerTickMarkLabel.setShadowColor(NuclearPhysicsConstants.CHART_BACKGROUND_COLOR);
     		_yAxisLowerTickMarkLabel.setHtml("<html>" + postDecayDisplayInfo.getIsotopeNumberString() + "</html>");
     	}
     }
