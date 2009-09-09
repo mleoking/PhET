@@ -917,12 +917,8 @@ public abstract class PhetProject {
                     Simulation simulation = getSimulation( simulationName, locale );
                     str += "<simulation name=\"" + simulation.getName() + "\" locale=\"" + LocaleUtils.localeToString( locale ) + "\">\n";
                     String title = simulation.getTitle();
-                    String description = simulation.getDescription();
                     if ( title != null ) {
                         str += "<title><![CDATA[" + title + "]]></title>\n";
-                    }
-                    if ( description != null ) {
-                        str += "<description><![CDATA[" + description + "]]></description>\n";
                     }
                     str += "</simulation>\n";
                 }

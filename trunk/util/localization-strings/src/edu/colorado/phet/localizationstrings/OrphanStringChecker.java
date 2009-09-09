@@ -161,11 +161,10 @@ public class OrphanStringChecker {
 			// show up in the source files but that are known to be used elsewhere.
 			// These include:
 			// *.name is a required property, the simulation's user-visible name
-			// *.description is a required property, the simulation's description in the About dialog
 			// *.dynamic is a convention used to denote property names that are programmatically generated
 			while (iter.hasNext()){
 				String propName = (String)iter.next();
-				if (propName.endsWith(".name") || propName.endsWith(".description") || propName.endsWith(".dynamic")){
+				if (propName.endsWith(".name") || propName.endsWith(".dynamic")){
 					iter.remove();
 				}
 			}

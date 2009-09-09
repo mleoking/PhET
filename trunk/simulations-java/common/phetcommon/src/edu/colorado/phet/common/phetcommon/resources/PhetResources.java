@@ -46,7 +46,6 @@ public class PhetResources {
     
     // Standard localized properties:
     private static final String PROPERTY_NAME = "name";
-    private static final String PROPERTY_DESCRIPTION = "description";
 
     // Standard non-localized properties:
     public static final String PROPERTY_VERSION_MAJOR = "version.major";
@@ -314,13 +313,6 @@ public class PhetResources {
      */
     public String getName( String flavor ) {
         return localizedProperties.getProperty( flavor + "." + PROPERTY_NAME );
-    }
-    
-    /**
-     * Gets the localized description of the sim (required property).
-     */
-    public String getDescription( String flavor ) {
-        return localizedProperties.getProperty( flavor + "." + PROPERTY_DESCRIPTION );
     }
     
     /**

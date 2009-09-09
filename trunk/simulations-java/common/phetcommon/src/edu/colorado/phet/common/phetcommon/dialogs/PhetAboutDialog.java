@@ -50,9 +50,8 @@ public class PhetAboutDialog extends PaintImmediateDialog {
     private static final String OS_VERSION = PhetCommonResources.getString( "Common.About.OSVersion" );
     private static final String CREDITS_BUTTON = PhetCommonResources.getString( "Common.About.CreditsButton" );
     private static final String CLOSE_BUTTON = PhetCommonResources.getString( "Common.choice.close" );
-
-    private String titleString, descriptionString, versionString, buildDate, distributionTag;
-    private ISimInfo config;
+    
+    private final ISimInfo config;
 
     /**
      * Constructs the dialog.
@@ -73,22 +72,14 @@ public class PhetAboutDialog extends PaintImmediateDialog {
     protected PhetAboutDialog( Frame owner, ISimInfo config ) {
         super( owner );
         setResizable( false );
-        this.config=config;
+        
+        this.config = config;
 
-        titleString = config.getName();
-        descriptionString = config.getDescription();
-        if ( descriptionString == null ) {
-            new Exception( "null description string, continuing" ).printStackTrace();
-            descriptionString = "";
-        }
-        versionString = config.getVersion().formatForAboutDialog();
-        buildDate = config.getVersion().formatTimestamp();
-        distributionTag = config.getDistributionTag();
-
+        String titleString = config.getName();
         setTitle( TITLE + " " + titleString );
 
         JPanel logoPanel = createLogoPanel();
-        JPanel infoPanel = createInfoPanel();
+        JPanel infoPanel = createInfoPanel( config );
         JPanel buttonPanel = createButtonPanel( config.isStatisticsFeatureIncluded() );
 
         VerticalLayoutPanel contentPanel = new VerticalLayoutPanel();
@@ -134,7 +125,12 @@ public class PhetAboutDialog extends PaintImmediateDialog {
     /*
      * Creates the panel that displays info specific to the simulation.
      */
-    private JPanel createInfoPanel() {
+    private JPanel createInfoPanel( ISimInfo config ) {
+        
+        String titleString = config.getName();
+        String versionString = config.getVersion().formatForAboutDialog();
+        String buildDate = config.getVersion().formatTimestamp();
+        String distributionTag = config.getDistributionTag();
 
         VerticalLayoutPanel infoPanel = new VerticalLayoutPanel();
 
@@ -142,23 +138,6 @@ public class PhetAboutDialog extends PaintImmediateDialog {
         JLabel titleLabel = new JLabel( titleString );
         Font f = titleLabel.getFont();
         titleLabel.setFont( new Font( f.getFontName(), Font.BOLD, f.getSize() ) );
-
-        // Simulation description
-        JTextArea descriptionTextArea = new JTextArea( descriptionString );
-        FontMetrics fontMetrics = descriptionTextArea.getFontMetrics( descriptionTextArea.getFont() );
-        final int columns = 35;
-        descriptionTextArea.setColumns( columns );
-        
-        // Swing's notion of a text "column" is weakly defined. Short of implementing our own word wrapping,
-        // using FontMetrics provides the closest approximation to the number of rows that we need.
-        // Since we want a bit of space between the description and the stuff below it, having an
-        // extra (blank) row is generally OK.
-        int rows = ( ( fontMetrics.stringWidth( descriptionString ) / fontMetrics.charWidth( 'm' ) ) / columns ) + 2;
-        descriptionTextArea.setRows( rows );
-        descriptionTextArea.setBackground( infoPanel.getBackground() );
-        descriptionTextArea.setEditable( false );
-        descriptionTextArea.setLineWrap( true );
-        descriptionTextArea.setWrapStyleWord( true );
 
         // Simulation version
         JLabel versionLabel = new JLabel( SIM_VERSION + " " + versionString );
@@ -186,10 +165,6 @@ public class PhetAboutDialog extends PaintImmediateDialog {
         infoPanel.setInsets( new Insets( 0, xMargin, 0, xMargin ) ); // top,left,bottom,right
         infoPanel.add( Box.createVerticalStrut( ySpacing ) );
         infoPanel.add( titleLabel );
-        infoPanel.add( Box.createVerticalStrut( ySpacing ) );
-        infoPanel.add( descriptionTextArea );
-        infoPanel.add( Box.createVerticalStrut( ySpacing ) );
-        infoPanel.add( new JSeparator());
         infoPanel.add( Box.createVerticalStrut( ySpacing ) );
         infoPanel.add( versionLabel );
         infoPanel.add( buildDateLabel );

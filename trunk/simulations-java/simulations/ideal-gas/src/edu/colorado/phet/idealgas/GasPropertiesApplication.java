@@ -21,11 +21,6 @@ public class GasPropertiesApplication extends PhetApplication {
 
     public GasPropertiesApplication( PhetApplicationConfig config) {
         super(config);
-//        super( args,
-//               IdealGasResources.getString( "gas-properties.name" ),
-//               IdealGasResources.getString( "gas-properties.description" ),
-//               IdealGasConfig.getVersion().formatForTitleBar(),
-//               IdealGasConfig.FRAME_SETUP );
 
         IdealGasClock clock = new IdealGasClock( IdealGasConfig.WAIT_TIME, IdealGasConfig.TIME_STEP );
 
