@@ -35,7 +35,7 @@ public class NucleusImageFactory {
     //------------------------------------------------------------------------
 
     public static final int NUM_IMAGES_TO_CACHE = 4;
-    private static final double DEEFAULT_PIXELS_PER_FM = 20;
+    public static final double DEEFAULT_PIXELS_PER_FM = 20;
 
     private static NucleusImageFactory _instance = null;
     private static Random _rand = new Random();
@@ -49,34 +49,6 @@ public class NucleusImageFactory {
     // corresponding nucleus.
     private HashMap<Integer, HashMap<Integer, ImageList>> mapNumProtonsToNeutronMap = 
     	new HashMap<Integer, HashMap<Integer, ImageList>>();
-
-    //------------------------------------------------------------------------
-    // Constructor
-    //------------------------------------------------------------------------
-
-    /**
-     * Constructor for this singleton class, should never be invoked directly
-     * by another object.
-     */
-    private NucleusImageFactory() {
-        // During construction we fill the cache for several of the more
-        // common nuclei.  This saves us from doing it during run time, which
-        // was found to create pauses in the simulation.
-        for ( int i = 0; i < NUM_IMAGES_TO_CACHE; i++ ) {
-            // U235
-            getNucleusImage( 92, 143, DEEFAULT_PIXELS_PER_FM );
-            // U236
-            getNucleusImage( 92, 144, DEEFAULT_PIXELS_PER_FM );
-            // U238
-            getNucleusImage( 92, 146, DEEFAULT_PIXELS_PER_FM );
-            // U239
-            getNucleusImage( 92, 147, DEEFAULT_PIXELS_PER_FM );
-            // K92
-            getNucleusImage( 36, 56, DEEFAULT_PIXELS_PER_FM );
-            // Br141
-            getNucleusImage( 56, 85, DEEFAULT_PIXELS_PER_FM );
-        }
-    }
 
     //------------------------------------------------------------------------
     // Public Methods
