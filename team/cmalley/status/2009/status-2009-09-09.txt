@@ -19,7 +19,7 @@ ACCOMPLISHMENTS:
   
   common:
   - standardized Developer menu, #1074
-  - cleaned up clock in sim-tempate, #1074
+  - cleaned up clock in sim-template, #1074
   - removed sim description from all sims, #1769
   - verified DefaultDecimalFormat, #1078
   
@@ -43,6 +43,6 @@ ISSUES:
 DATES UNAVAILABLE:
 
    August 27 - September 1
-   October 19-30
+   October 15-27
   
 --
