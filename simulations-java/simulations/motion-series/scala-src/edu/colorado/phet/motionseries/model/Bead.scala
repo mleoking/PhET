@@ -185,16 +185,23 @@ class Bead(private var _state: BeadState,
 
   def kineticFriction = state.kineticFriction
 
-  def staticFriction_=(value: Double) = {
+  def staticFriction_=(value: Double) {
     state = state.setStaticFriction(value)
     frictionForceVector.notifyListeners()
     notifyListeners()
+
+    if (kineticFriction > staticFriction)
+      kineticFriction = staticFriction
   }
 
-  def kineticFriction_=(value: Double) = {
+  def kineticFriction_=(value: Double) {
     state = state.setKineticFriction(value)
     frictionForceVector.notifyListeners()
     notifyListeners()
+
+    //NP says to Increase static when you increase kinetic so that static >= kinetic.
+    if (staticFriction < kineticFriction)
+      staticFriction = kineticFriction
   }
 
   //todo privatize

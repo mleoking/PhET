@@ -1,3 +1,5 @@
+Made it so when the user changes kinetic friction, that static is changed so that static >= kinetic
+Made it so when the user changes static friction, that kinetic is changed so that static >= kinetic
 Made sim have friction by default
 moving-man: Added velocity and acceleration vectors
 Fixed: Position slider is buggy after implementation of position smoothing
