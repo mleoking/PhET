@@ -1,15 +1,6 @@
-/* Copyright 2005, University of Colorado */
+/* Copyright 2006-2009, University of Colorado */
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
-
-package edu.colorado.phet.quantumtunneling.control;
+package edu.colorado.phet.common.phetcommon.view.controls;
 
 import java.awt.Dimension;
 import java.awt.event.FocusEvent;
@@ -21,33 +12,29 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
 
 
-/**
+/*
  * DoubleSpinner is a spinner that contains a double precision value.
- *
+ * 
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class DoubleSpinner extends JSpinner implements FocusListener {
 
-    private JFormattedTextField _textField;
+    private JFormattedTextField textField;
 
     public DoubleSpinner( double value, double min, double max, double step, String format, Dimension size ) {
         super();
 
-        // Spinner 
-        {
-            // model
-            SpinnerNumberModel model = new SpinnerNumberModel( value, min, max, step );
-            setModel( model );
-            // editor
-            NumberEditor numberEditor = new NumberEditor( this, format );
-            setEditor( numberEditor );
-            _textField = numberEditor.getTextField();
-            _textField.addFocusListener( this );
-            // size
-            setPreferredSize( size );
-            setMinimumSize( size );
-        }
+        // model
+        SpinnerNumberModel model = new SpinnerNumberModel( value, min, max, step );
+        setModel( model );
+        // editor
+        NumberEditor numberEditor = new NumberEditor( this, format );
+        setEditor( numberEditor );
+        textField = numberEditor.getTextField();
+        textField.addFocusListener( this );
+        // size
+        setPreferredSize( size );
+        setMinimumSize( size );
     }
 
     public double getDoubleValue() {
@@ -59,7 +46,7 @@ public class DoubleSpinner extends JSpinner implements FocusListener {
     }
 
     public JFormattedTextField getFormattedTextField() {
-        return _textField;
+        return textField;
     }
 
     /*
@@ -71,9 +58,8 @@ public class DoubleSpinner extends JSpinner implements FocusListener {
      */
     public void focusGained( FocusEvent e ) {
         SwingUtilities.invokeLater( new Runnable() {
-
             public void run() {
-                _textField.selectAll();
+                textField.selectAll();
             }
         } );
     }
