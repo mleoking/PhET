@@ -204,3 +204,7 @@ div.rtl table.translations-table, div.rtl table.credits-table, div.rtl table.sys
 div.rtl table.translations-table th, div.rtl table.credits-table th, div.rtl table.system-requirements-table th {
     text-align: right;
 }
+
+.untranslated-sim-text {
+    color: red;
+}

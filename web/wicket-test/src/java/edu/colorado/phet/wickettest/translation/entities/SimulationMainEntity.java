@@ -32,6 +32,7 @@ public class SimulationMainEntity extends TranslationEntity {
         addString( "simulationMainPanel.designTeam" );
         addString( "simulationMainPanel.thirdPartyLibraries" );
         addString( "simulationMainPanel.thanksTo" );
+        addString( "simulationMainPanel.untranslatedMessage" );
         addString( "macwarning.title" );
         addString( "macwarning.problem" );
         addString( "macwarning.solution" );

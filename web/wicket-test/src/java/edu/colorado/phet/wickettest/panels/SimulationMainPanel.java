@@ -19,6 +19,7 @@ import org.hibernate.Transaction;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.wickettest.components.InvisibleComponent;
+import edu.colorado.phet.wickettest.components.LocalizedText;
 import edu.colorado.phet.wickettest.components.PhetLink;
 import edu.colorado.phet.wickettest.components.StaticImage;
 import edu.colorado.phet.wickettest.content.SimsByKeywordPage;
@@ -48,6 +49,13 @@ public class SimulationMainPanel extends PhetPanel {
         String simulationVersionString = simulation.getSimulation().getProject().getVersionString();
 
         add( new Label( "simulation-main-title", simulation.getTitle() ) );
+
+        if ( simulation.getLocale().equals( context.getLocale() ) ) {
+            add( new InvisibleComponent( "untranslated-sim-text" ) );
+        }
+        else {
+            add( new LocalizedText( "untranslated-sim-text", "simulationMainPanel.untranslatedMessage" ) );
+        }
 
         PhetLink link = new PhetLink( "simulation-main-link-run-main", simulation.getRunUrl() );
         // TODO: localize

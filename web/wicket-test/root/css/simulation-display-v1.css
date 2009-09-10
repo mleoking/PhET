@@ -19,6 +19,10 @@
     text-decoration: none;
 }
 
+.untranslated-sim .simulation-list-title {
+    color: #888888;
+}
+
 .simulation-link {
     text-decoration: none;
 }

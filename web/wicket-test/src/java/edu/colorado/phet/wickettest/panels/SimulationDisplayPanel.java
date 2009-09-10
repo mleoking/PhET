@@ -4,12 +4,14 @@ import java.text.MessageFormat;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.behavior.HeaderContributor;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.GridView;
 import org.apache.wicket.markup.repeater.data.IDataProvider;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
 
 import edu.colorado.phet.wickettest.components.PhetLink;
 import edu.colorado.phet.wickettest.components.StaticImage;
@@ -35,6 +37,10 @@ public class SimulationDisplayPanel extends PhetPanel {
                 LocalizedSimulation simulation = (LocalizedSimulation) item.getModelObject();
                 PhetLink link = SimulationPage.createLink( "simulation-link", context, simulation );
                 link.add( new Label( "title", simulation.getTitle() ) );
+                if ( !simulation.getLocale().equals( context.getLocale() ) ) {
+                    // sim isn't translated
+                    link.add( new AttributeAppender( "class", new Model( "untranslated-sim" ), " " ) );
+                }
                 link.add( new StaticImage( "thumbnail", simulation.getSimulation().getThumbnailUrl(), MessageFormat.format( "Screenshot of the simulation {0}", encode( simulation.getTitle() ) ) ) );
                 item.add( link );
             }
