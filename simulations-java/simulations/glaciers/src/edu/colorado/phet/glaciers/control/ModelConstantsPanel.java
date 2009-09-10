@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.view.controls.DoubleSpinner;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.glaciers.model.Glacier;
 
@@ -37,7 +38,7 @@ public class ModelConstantsPanel extends JPanel {
         final DoubleSpinner mSpinner = new DoubleSpinner( _defaultAccelerationM, 0.01, 0.05, 0.00001, "0.00000", new Dimension( 100, 22 ) );
         mSpinner.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                glacier.debug_setAccelerationM( mSpinner.getValue() );
+                glacier.debug_setAccelerationM( mSpinner.getDoubleValue() );
             }
         });
         JLabel mRangeLabel = new JLabel( "( 0.01, 0.05 )" ); //WARNING! hard-coded label
@@ -47,7 +48,7 @@ public class ModelConstantsPanel extends JPanel {
         final DoubleSpinner bSpinner = new DoubleSpinner( _defaultAccelerationB, -136, -100, 0.01, "0.00", new Dimension( 100, 22 ) );
         bSpinner.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                glacier.debug_setAccelerationB( bSpinner.getValue() );
+                glacier.debug_setAccelerationB( bSpinner.getDoubleValue() );
             }
         });
         JLabel bRangeLabel = new JLabel( "( -136, -100 )" ); //WARNING! hard-coded label
