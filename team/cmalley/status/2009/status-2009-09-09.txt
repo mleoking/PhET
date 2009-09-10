@@ -1,0 +1,48 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: September 2-9, 2009 (Wed-Wed)
+
+ACCOMPLISHMENTS:
+
+  Titration:
+  - investigated issues with polynomial root-finding methods
+  - increased Kmax to 1000
+  - published 0.00.02
+  
+  translations:
+  - reviewed Serbian (sr) translations of Java common strings
+  - reviewed MPTL paper
+  - added locale  "Arabic, Saudi Arabia (ar_SA)"
+  - discussed Khmer preferred-font issue with JB
+  - deployed Translation Utility 2.02
+  
+  common:
+  - standardized Developer menu, #1074
+  - cleaned up clock in sim-tempate, #1074
+  - removed sim description from all sims, #1769
+  - verified DefaultDecimalFormat, #1078
+  
+  misc:
+  - fixed Java 6 dependencies in neurons
+  - cleaned up build properties files, #1771
+  
+WHAT'S NEXT:
+ 
+  - resolve polynomial root-finding issues in Titration model
+  - migrate features to common code, #1074
+  - Translation Utility enhancements related to KSU
+  - "Technical Concerns" paper related to MPTL
+  - test new translation deployment process for JO
+  - finish Glaciers (waiting for Wendy's feedback)
+  
+ISSUES:
+
+  - I have no sim work.
+  
+DATES UNAVAILABLE:
+
+   August 27 - September 1
+   October 19-30
+  
+--
