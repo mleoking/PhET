@@ -1,3 +1,4 @@
+Made sim have friction by default
 moving-man: Added velocity and acceleration vectors
 Fixed: Position slider is buggy after implementation of position smoothing
 Fixed: Return object button doesn't work when using position smoothing
