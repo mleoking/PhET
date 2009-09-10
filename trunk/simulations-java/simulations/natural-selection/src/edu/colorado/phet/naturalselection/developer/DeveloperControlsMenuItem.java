@@ -15,10 +15,8 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.naturalselection.NaturalSelectionApplication;
 
 /**
- * DeveloperMenu is the "Developer" menu that appears in the menu bar.
- * This menu contains global developer-only features for tuning and debugging.
- *
- * @author Chris Malley (cmalley@pixelzoom.com)
+ * Menu item that provides access to developer controls.
+ * Not internationalized.
  */
 public class DeveloperControlsMenuItem extends JCheckBoxMenuItem {
 
