@@ -1,4 +1,4 @@
-/* Copyright 2005-2008, University of Colorado */
+/* Copyright 2005-2009, University of Colorado */
 
 package edu.colorado.phet.quantumtunneling.control;
 
@@ -26,6 +26,7 @@ import org.jfree.ui.RectangleInsets;
 import org.jfree.ui.TextAnchor;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.view.controls.DoubleSpinner;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.quantumtunneling.QTConstants;

@@ -21,11 +21,11 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.BSResources;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
-import edu.colorado.phet.boundstates.control.DoubleSpinner;
 import edu.colorado.phet.boundstates.model.BSEigenstate;
 import edu.colorado.phet.boundstates.model.BSModel;
 import edu.colorado.phet.boundstates.model.BSSuperpositionCoefficients;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.view.controls.DoubleSpinner;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 
 
