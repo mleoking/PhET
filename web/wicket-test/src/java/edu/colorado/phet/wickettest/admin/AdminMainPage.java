@@ -97,7 +97,11 @@ public class AdminMainPage extends AdminPage {
                 };
                 projectLink.add( new Label( "project-name", simulation.getProject().getName() ) );
                 item.add( projectLink );
-                item.add( new Label( "simulation-title", lsim.getTitle() ) );
+                if ( lsim == null ) {
+                    item.add( new Label( "simulation-title", "?" ) );
+                } else {
+                    item.add( new Label( "simulation-title", lsim.getTitle() ) );
+                }
             }
         };
 

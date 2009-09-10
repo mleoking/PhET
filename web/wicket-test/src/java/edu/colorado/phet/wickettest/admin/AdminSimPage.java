@@ -31,7 +31,8 @@ import edu.colorado.phet.wickettest.util.HibernateUtils;
 import edu.colorado.phet.wickettest.util.StringUtils;
 
 public class AdminSimPage extends AdminPage {
-    Simulation simulation = null;
+    private Simulation simulation = null;
+    private List<LocalizedSimulation> localizedSimulations;
 
     public AdminSimPage( PageParameters parameters ) {
         super( parameters );
@@ -39,7 +40,7 @@ public class AdminSimPage extends AdminPage {
         int simulationId = parameters.getInt( "simulationId" );
 
 
-        List<LocalizedSimulation> localizedSimulations = new LinkedList<LocalizedSimulation>();
+        localizedSimulations = new LinkedList<LocalizedSimulation>();
         List<Keyword> simKeywords = new LinkedList<Keyword>();
         List<Keyword> simTopics = new LinkedList<Keyword>();
         List<Keyword> allKeywords = new LinkedList<Keyword>();
@@ -105,14 +106,32 @@ public class AdminSimPage extends AdminPage {
 
         add( new ThanksForm( "thanks-to" ) );
 
+        add( new ModifyTranslationForm( "add-set-translation" ) );
+
         add( new ListView( "translation-list", localizedSimulations ) {
             protected void populateItem( ListItem item ) {
-                LocalizedSimulation lsim = (LocalizedSimulation) item.getModel().getObject();
+                final LocalizedSimulation lsim = (LocalizedSimulation) item.getModel().getObject();
                 item.add( new Label( "locale", LocaleUtils.localeToString( lsim.getLocale() ) ) );
                 item.add( new Label( "lang-en", lsim.getLocale().getDisplayName( english ) ) );
                 item.add( new Label( "lang-locale", lsim.getLocale().getDisplayName( lsim.getLocale() ) ) );
                 item.add( new Label( "title", lsim.getTitle() ) );
                 item.add( new Label( "description", lsim.getDescription() ) );
+                item.add( new Link( "remove" ) {
+                    public void onClick() {
+                        boolean success = HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
+                            public boolean run( Session session ) {
+                                LocalizedSimulation localizedSimulation = (LocalizedSimulation) session.load( LocalizedSimulation.class, lsim.getId() );
+                                Simulation simulation = localizedSimulation.getSimulation();
+                                simulation.getLocalizedSimulations().remove( localizedSimulation );
+                                session.delete( localizedSimulation );
+                                return true;
+                            }
+                        } );
+                        if ( success ) {
+                            localizedSimulations.remove( lsim );
+                        }
+                    }
+                } );
             }
         } );
     }
@@ -394,10 +413,10 @@ public class AdminSimPage extends AdminPage {
             super( id );
 
             String curValue = getCurrentValue();
-            if( curValue == null ) {
+            if ( curValue == null ) {
                 curValue = "";
             }
-            value = new TextArea( "value", new Model( curValue.replaceAll( "<br/>", "\n") ) );
+            value = new TextArea( "value", new Model( curValue.replaceAll( "<br/>", "\n" ) ) );
             add( value );
         }
 
@@ -436,6 +455,65 @@ public class AdminSimPage extends AdminPage {
             System.out.println( "Submitted:\n" + ret + "\nEND" );
 
             handleString( ret );
+        }
+    }
+
+    private class ModifyTranslationForm extends Form {
+
+        private TextField localeField;
+        private TextField titleField;
+        private TextArea descriptionArea;
+
+        public ModifyTranslationForm( String id ) {
+            super( id );
+
+            localeField = new TextField( "locale", new Model( "" ) );
+            localeField.setEscapeModelStrings( false );
+            add( localeField );
+            titleField = new TextField( "title", new Model( "" ) );
+            add( titleField );
+            descriptionArea = new TextArea( "description", new Model( "" ) );
+            add( descriptionArea );
+        }
+
+        @Override
+        protected void onSubmit() {
+            super.onSubmit();
+
+            final Locale locale = LocaleUtils.stringToLocale( localeField.getModelObjectAsString() );
+            final String title = titleField.getModelObjectAsString();
+            final String description = descriptionArea.getModelObjectAsString();
+
+            HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
+                public boolean run( Session session ) {
+                    List matching = session.createQuery( "select ls from LocalizedSimulation as ls, Simulation as s where s.id = :simId and ls.simulation = s and ls.locale = :locale" )
+                            .setInteger( "simId", simulation.getId() ).setLocale( "locale", locale ).list();
+                    if ( matching.isEmpty() ) {
+                        // we are adding a new translation for this sim
+                        LocalizedSimulation lsim = new LocalizedSimulation();
+                        lsim.setLocale( locale );
+                        lsim.setTitle( title );
+                        lsim.setDescription( description );
+                        lsim.setSimulation( (Simulation) session.load( Simulation.class, simulation.getId() ) );
+                        session.save( lsim );
+                        localizedSimulations.add( lsim );
+                        HibernateUtils.orderSimulations( localizedSimulations, WicketApplication.getDefaultLocale() );
+                    }
+                    else {
+                        LocalizedSimulation lsim = (LocalizedSimulation) matching.get( 0 );
+                        lsim.setTitle( title );
+                        lsim.setDescription( description );
+                        session.update( lsim );
+                        for ( LocalizedSimulation s : localizedSimulations ) {
+                            if ( s.getLocale().equals( locale ) ) {
+                                s.setTitle( title );
+                                s.setDescription( description );
+                            }
+                        }
+                    }
+                    return true;
+                }
+            } );
         }
     }
 }
