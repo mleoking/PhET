@@ -12,7 +12,8 @@ import motionseries.MotionSeriesDefaults._
 //This adds information about charts and chart serieses
 abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSeriesModel)
         extends AbstractChartNode(canvas, model) {
-  def forceGraph = {
+  def forceGraph:MotionSeriesGraph = forceGraph(true)
+  def forceGraph(showGravityWallNormal: Boolean):MotionSeriesGraph= {
     val parallelAppliedForceVariable = new DefaultTemporalVariable() {
       override def setValue(value: Double) = model.bead.parallelAppliedForce = value
     }
@@ -23,10 +24,13 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
 
     val appliedForceSeries = new ControlGraphSeries(formatForce("forces.applied".translate), appliedForceColor, abbrevUnused, N, characterUnused, parallelAppliedForceVariable)
     val frictionSeries = new ControlGraphSeries(formatForce("forces.friction".translate), frictionForceColor, abbrevUnused, N, characterUnused, createParallelVariable(() => model.bead.frictionForce))
-    val gravitySeries = new ControlGraphSeries(formatForce("forces.Gravity".translate), gravityForceColor, abbrevUnused, N, characterUnused, createParallelVariable(() => model.bead.gravityForce))
-    val wallSeries = new ControlGraphSeries(formatForce("forces.Wall".translate), wallForceColor, abbrevUnused, N, characterUnused, createParallelVariable(() => model.bead.wallForce))
     val netForceSeries = new ControlGraphSeries(formatForce("forces.Net".translate), totalForceColor, abbrevUnused, N, characterUnused, createParallelVariable(() => model.bead.totalForce))
-    val forceSeriesList = appliedForceSeries :: frictionSeries :: gravitySeries :: wallSeries :: netForceSeries :: Nil
+    val forceSeriesList = if (showGravityWallNormal) {
+      val gravitySeries = new ControlGraphSeries(formatForce("forces.Gravity".translate), gravityForceColor, abbrevUnused, N, characterUnused, createParallelVariable(() => model.bead.gravityForce))
+      val wallSeries = new ControlGraphSeries(formatForce("forces.Wall".translate), wallForceColor, abbrevUnused, N, characterUnused, createParallelVariable(() => model.bead.wallForce))
+      appliedForceSeries :: frictionSeries :: gravitySeries :: wallSeries :: netForceSeries :: Nil
+    }
+    else appliedForceSeries :: frictionSeries :: netForceSeries :: Nil
 
     val parallelForceControlGraph = new MotionSeriesGraph(appliedForceSeries, canvas, timeseriesModel, updateableObject, model) {
       for (s <- forceSeriesList.tail) addSeries(s)
@@ -67,7 +71,7 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
     val keGraph = new MotionSeriesGraph(keSeries, canvas, timeseriesModel, updateableObject, model) {
       setEditable(false)
       setDomainUpperBound(20)
-      setVerticalRange(-10000,10000)
+      setVerticalRange(-10000, 10000)
       getJFreeChartNode.setBuffered(false)
       getJFreeChartNode.setPiccoloSeries()
     }
