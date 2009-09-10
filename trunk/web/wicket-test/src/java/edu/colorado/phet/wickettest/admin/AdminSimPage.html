@@ -197,6 +197,7 @@
                 <th>Language</th>
                 <th>Language (native)</th>
                 <th>Title (native)</th>
+                <th>Remove</th>
             </tr>
             <wicket:container wicket:id="translation-list">
                 <tr>
@@ -204,10 +205,11 @@
                     <td wicket:id="lang-en">Spanish</td>
                     <td wicket:id="lang-locale">Espa&ntilde;ol</td>
                     <td wicket:id="title">Some sim title</td>
+                    <td><a href="#" wicket:id="remove">remove</a></td>
                 </tr>
                 <tr>
                     <td colspan="2"></td>
-                    <td colspan="2" wicket:id="description">
+                    <td colspan="3" wicket:id="description">
                         This is some description of everything, and so it must be very very long. This is more like it.
                         This is some description of everything, and so it must be very very long. This is more like it.
                         This is some description of everything, and so it must be very very long. This is more like it.
@@ -218,6 +220,29 @@
                 </tr>
             </wicket:container>
         </table>
+    </div>
+    <div>
+        <h3>Add / Modify a Translated Version</h3>
+
+        <form wicket:id="add-set-translation" style="vertical-align: top;">
+            <table class="admin">
+                <tr>
+                    <td>Locale</td>
+                    <td><input type="text" wicket:id="locale"/></td>
+                </tr>
+                <tr>
+                    <td>Title</td>
+                    <td><input type="text" wicket:id="title"/></td>
+                </tr>
+                <tr>
+                    <td>Description</td>
+                    <td><textarea rows="7" cols="70" wicket:id="description"></textarea></td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: center;"><input type="submit" name="submit" value="submit"/></td>
+                </tr>
+            </table>
+        </form>
     </div>
 </wicket:extend>
 
