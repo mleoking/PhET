@@ -8,6 +8,7 @@ import org.hibernate.Session;
 
 import edu.colorado.phet.wickettest.components.PhetLink;
 import edu.colorado.phet.wickettest.data.LocalizedSimulation;
+import edu.colorado.phet.wickettest.data.Simulation;
 import edu.colorado.phet.wickettest.menu.NavLocation;
 import edu.colorado.phet.wickettest.panels.SimulationDisplayPanel;
 import edu.colorado.phet.wickettest.templates.PhetRegularPage;
@@ -27,16 +28,15 @@ public class SimsByKeywordPage extends PhetRegularPage {
 
         initializeLocation( new NavLocation( getNavMenu().getLocationByKey( "simulations.by-keyword" ), key, SimsByKeywordPage.getLinker( keyword ) ) );
 
-        //add( new Label( "simulation-display-panel", "This is a label!" ) );
-
         final List<LocalizedSimulation> simulations = new LinkedList<LocalizedSimulation>();
 
         HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
             public boolean run( Session session ) {
-                List sims = session.createQuery( "select ls from LocalizedSimulation as ls, Simulation as s, Keyword as k where k.key = :keyword and (k member of s.keywords) and ls.simulation = s and ls.locale = :locale" )
-                        .setString( "keyword", key ).setLocale( "locale", getPageContext().getLocale() ).list();
+                List sims = session.createQuery( "select s from Simulation as s, Keyword as k where k.key = :keyword and (k member of s.keywords)" )
+                        .setString( "keyword", key ).list();
                 for ( Object sim : sims ) {
-                    simulations.add( (LocalizedSimulation) sim );
+                    Simulation simulation = (Simulation) sim;
+                    simulations.add( HibernateUtils.pickBestTranslation( simulation, getPageContext().getLocale() ) );
                 }
                 return true;
             }

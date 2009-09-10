@@ -9,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.wickettest.WicketApplication;
 import edu.colorado.phet.wickettest.data.Category;
 import edu.colorado.phet.wickettest.data.LocalizedSimulation;
+import edu.colorado.phet.wickettest.data.Simulation;
 import edu.colorado.phet.wickettest.data.Translation;
 
 public class HibernateUtils {
@@ -192,6 +193,17 @@ public class HibernateUtils {
         Collections.sort( list, new Comparator<LocalizedSimulation>() {
             public int compare( LocalizedSimulation a, LocalizedSimulation b ) {
 
+                boolean aTranslated = a.getLocale().equals( locale );
+                boolean bTranslated = b.getLocale().equals( locale );
+
+                if( !bTranslated && aTranslated ) {
+                    return -1;
+                }
+
+                if( !aTranslated && bTranslated ) {
+                    return 1;
+                }
+
                 if ( a.getSimulation().getName().equals( b.getSimulation().getName() ) ) {
                     if ( a.getLocale().equals( locale ) ) {
                         return -1;
@@ -274,6 +286,30 @@ public class HibernateUtils {
             ret.add( translation );
         }
 
+        return ret;
+    }
+
+    public static LocalizedSimulation pickBestTranslation( Simulation sim, Locale locale ) {
+        LocalizedSimulation defaultSim = null;
+        for ( Object o : sim.getLocalizedSimulations() ) {
+            LocalizedSimulation lsim = (LocalizedSimulation) o;
+            if ( lsim.getLocale().equals( locale ) ) {
+                return lsim;
+            }
+            else if ( lsim.getLocale().equals( WicketApplication.getDefaultLocale() ) ) {
+                defaultSim = lsim;
+            }
+        }
+        return defaultSim;
+    }
+
+    public static List<LocalizedSimulation> preferredFullSimulationList( Session session, Locale locale ) {
+        List sims = session.createQuery( "select s from Simulation as s where s.project.visible = true" ).list();
+        LinkedList<LocalizedSimulation> ret = new LinkedList<LocalizedSimulation>();
+        for ( Object sim : sims ) {
+            Simulation simulation = (Simulation) sim;
+            ret.add( pickBestTranslation( simulation, locale ) );
+        }
         return ret;
     }
 
