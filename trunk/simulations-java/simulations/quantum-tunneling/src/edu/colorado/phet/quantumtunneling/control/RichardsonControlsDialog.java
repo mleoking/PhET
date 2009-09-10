@@ -26,6 +26,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.quantumtunneling.model.RichardsonSolver;
 
 
@@ -159,6 +160,7 @@ public class RichardsonControlsDialog extends JDialog {
         
         getContentPane().add( panel );
         pack();
+        SwingUtils.centerDialogInParent( this );
 
         // Interactivity
         EventListener _eventListener = new EventListener();
