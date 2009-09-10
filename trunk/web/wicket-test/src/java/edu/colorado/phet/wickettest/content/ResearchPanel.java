@@ -11,7 +11,7 @@ public class ResearchPanel extends PhetPanel {
         super( id, context );
 
         add( new LocalizedText( "research-additional", "research.additional", new Object[]{
-                "href=\"http://phet.colorado.edu/phet-dist/publications/PhET Look and Feel.pdf\""
+                "href=\"/publications/PhET%20Look%20and%20Feel.pdf\""
         } ) );
 
     }
