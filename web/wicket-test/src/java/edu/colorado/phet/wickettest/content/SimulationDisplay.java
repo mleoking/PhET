@@ -7,6 +7,7 @@ import org.apache.wicket.model.StringResourceModel;
 import org.hibernate.HibernateException;
 import org.hibernate.Transaction;
 
+import edu.colorado.phet.wickettest.WicketApplication;
 import edu.colorado.phet.wickettest.components.PhetLink;
 import edu.colorado.phet.wickettest.data.Category;
 import edu.colorado.phet.wickettest.data.LocalizedSimulation;
@@ -39,7 +40,7 @@ public class SimulationDisplay extends PhetRegularPage {
                 addSimulationsFromCategory( simulations, getMyLocale(), category );
             }
             else {
-                simulations = HibernateUtils.getAllVisibleSimulationsWithLocale( getHibernateSession(), context.getLocale() );
+                simulations = HibernateUtils.preferredFullSimulationList( getHibernateSession(), context.getLocale() );
                 HibernateUtils.orderSimulations( simulations, context.getLocale() );
             }
             tx.commit();
@@ -80,16 +81,29 @@ public class SimulationDisplay extends PhetRegularPage {
     private static void addSimulationsFromCategory( List<LocalizedSimulation> simulations, Locale locale, Category category, Set<Integer> used ) {
         for ( Object o : category.getSimulations() ) {
             Simulation sim = (Simulation) o;
+            if( !sim.getProject().isVisible() ) {
+                continue;
+            }
+            LocalizedSimulation englishSim = null;
+            boolean added = false;
             for ( Object p : sim.getLocalizedSimulations() ) {
                 LocalizedSimulation lsim = (LocalizedSimulation) p;
                 if ( lsim.getLocale().equals( locale ) ) {
-                    if ( !used.contains( lsim.getId() ) && lsim.getSimulation().getProject().isVisible() ) {
+                    added = true;
+                    if ( !used.contains( lsim.getId() ) ) {
                         simulations.add( lsim );
                         used.add( lsim.getId() );
                     }
 
                     break;
                 }
+                else if ( lsim.getLocale().equals( WicketApplication.getDefaultLocale() ) ) {
+                    englishSim = lsim;
+                }
+            }
+            if( !added && englishSim != null ) {
+                simulations.add( englishSim );
+                used.add( englishSim.getId() );
             }
         }
         if ( category.isAuto() ) {

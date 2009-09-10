@@ -172,8 +172,10 @@ public class WicketApplication extends WebApplication {
         return new PhetRequestCycle( this, (WebRequest) request, response );
     }
 
+    private static Locale defaultLocale = LocaleUtils.stringToLocale( "en" );
+
     public static Locale getDefaultLocale() {
-        return LocaleUtils.stringToLocale( "en" );
+        return defaultLocale;
     }
 
     public void addTranslation( Translation translation ) {

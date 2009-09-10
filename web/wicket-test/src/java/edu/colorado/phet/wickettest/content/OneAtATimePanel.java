@@ -28,7 +28,7 @@ public class OneAtATimePanel extends PhetPanel {
 
         HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
             public boolean run( Session session ) {
-                List<LocalizedSimulation> sims = HibernateUtils.getAllVisibleSimulationsWithLocale( session, context.getLocale() );
+                List<LocalizedSimulation> sims = HibernateUtils.preferredFullSimulationList( session, context.getLocale() );
                 HibernateUtils.orderSimulations( sims, context.getLocale() );
                 for ( LocalizedSimulation sim : sims ) {
                     simulations.add( sim );
