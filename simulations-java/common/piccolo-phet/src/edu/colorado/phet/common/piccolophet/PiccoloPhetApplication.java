@@ -27,14 +27,10 @@ public class PiccoloPhetApplication extends PhetApplication {
         this( config, new TabbedModulePanePiccolo() );
     }
     
-    public PiccoloPhetApplication( PhetApplicationConfig config, ITabbedModulePane tabbedModulePane ) {
+    public PiccoloPhetApplication( PhetApplicationConfig config, TabbedModulePanePiccolo tabbedModulePane ) {
         super( config, tabbedModulePane );
         
         // Add Piccolo-specific items to the developer menu
-        if ( tabbedModulePane instanceof PhetTabbedPane ) {
-            JMenu developerMenu = getPhetFrame().getDeveloperMenu();
-            developerMenu.add( new TabbedPanePropertiesMenuItem( getPhetFrame(), (PhetTabbedPane)tabbedModulePane ) );
-        }
+        getPhetFrame().getDeveloperMenu().add( new TabbedPanePropertiesMenuItem( getPhetFrame(), tabbedModulePane ) );
     }
-
 }
