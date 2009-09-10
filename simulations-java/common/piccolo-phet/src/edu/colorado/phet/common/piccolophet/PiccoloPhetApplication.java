@@ -1,14 +1,8 @@
 /* Copyright 2003-2004, University of Colorado */
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author:samreid $
- * Revision : $Revision:14676 $
- * Date modified : $Date:2007-04-17 02:58:50 -0500 (Tue, 17 Apr 2007) $
- */
 package edu.colorado.phet.common.piccolophet;
+
+import javax.swing.JMenu;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
@@ -35,6 +29,12 @@ public class PiccoloPhetApplication extends PhetApplication {
     
     public PiccoloPhetApplication( PhetApplicationConfig config, ITabbedModulePane tabbedModulePane ) {
         super( config, tabbedModulePane );
+        
+        // Add Piccolo-specific items to the developer menu
+        if ( tabbedModulePane instanceof PhetTabbedPane ) {
+            JMenu developerMenu = getPhetFrame().getDeveloperMenu();
+            developerMenu.add( new TabbedPanePropertiesMenuItem( getPhetFrame(), (PhetTabbedPane)tabbedModulePane ) );
+        }
     }
 
 }

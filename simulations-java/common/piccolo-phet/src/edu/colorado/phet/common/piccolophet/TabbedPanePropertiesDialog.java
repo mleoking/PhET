@@ -6,34 +6,31 @@ import java.awt.Color;
 import java.awt.Frame;
 import java.awt.Insets;
 
-import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.ColorControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 /**
- * TabPropertiesDialog is a dialog that contains developer controls for 
- * the properties of PhetTabbedPane.
- * These controls will not be available to the user, and are not localized.
+ * Developer controls for the properties of PhetTabbedPane.
+ * These are developer controls and are therefore not internationalized.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class TabbedPanePropertiesDialog extends PaintImmediateDialog {
 
-    public TabbedPanePropertiesDialog( Frame owner, PhetTabbedPane tabbedPane ) {
-        super( owner, "Tabbed Pane properties" );
+    public TabbedPanePropertiesDialog( final Frame parent, PhetTabbedPane tabbedPane ) {
+        super( parent, "Tabbed Pane properties" );
         setResizable( false );
         setModal( false );
         
-        JPanel inputPanel = createInputPanel( tabbedPane );
+        JPanel inputPanel = createInputPanel( parent, tabbedPane );
 
         VerticalLayoutPanel panel = new VerticalLayoutPanel();
         panel.setFillHorizontal();
@@ -44,13 +41,11 @@ public class TabbedPanePropertiesDialog extends PaintImmediateDialog {
         SwingUtils.centerDialogInParent( this );
     }
 
-    private JPanel createInputPanel( final PhetTabbedPane tabbedPane ) {
-
-        Frame parentFrame = PhetApplication.instance().getPhetFrame();
+    private JPanel createInputPanel( Frame parent, final PhetTabbedPane tabbedPane ) {
 
         // background color
         Color backgroundColor = tabbedPane.getBackground();
-        final ColorControl backgroundColorControl = new ColorControl( parentFrame, "background color: ", backgroundColor );
+        final ColorControl backgroundColorControl = new ColorControl( parent, "background color: ", backgroundColor );
         backgroundColorControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
                 tabbedPane.setBackground( backgroundColorControl.getColor() );
@@ -59,7 +54,7 @@ public class TabbedPanePropertiesDialog extends PaintImmediateDialog {
 
         // selected tab color
         Color selectedTabColor = tabbedPane.getSelectedTabColor();
-        final ColorControl selectedTabColorControl = new ColorControl( parentFrame, "tab color (selected): ", selectedTabColor );
+        final ColorControl selectedTabColorControl = new ColorControl( parent, "tab color (selected): ", selectedTabColor );
         selectedTabColorControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
                 tabbedPane.setSelectedTabColor( selectedTabColorControl.getColor() );
@@ -68,7 +63,7 @@ public class TabbedPanePropertiesDialog extends PaintImmediateDialog {
         
         // unselected tab color
         Color unselectedTabColor = tabbedPane.getUnselectedTabColor();
-        final ColorControl unselectedTabColorControl = new ColorControl( parentFrame, "tab color (unselected): ", unselectedTabColor );
+        final ColorControl unselectedTabColorControl = new ColorControl( parent, "tab color (unselected): ", unselectedTabColor );
         unselectedTabColorControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
                 tabbedPane.setUnselectedTabColor( unselectedTabColorControl.getColor() );
@@ -77,7 +72,7 @@ public class TabbedPanePropertiesDialog extends PaintImmediateDialog {
 
         // selected text color
         Color selectedTextColor = tabbedPane.getSelectedTextColor();
-        final ColorControl selectedTextColorControl = new ColorControl( parentFrame, "text color (selected): ", selectedTextColor );
+        final ColorControl selectedTextColorControl = new ColorControl( parent, "text color (selected): ", selectedTextColor );
         selectedTextColorControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
                 tabbedPane.setSelectedTextColor( selectedTextColorControl.getColor() );
@@ -86,7 +81,7 @@ public class TabbedPanePropertiesDialog extends PaintImmediateDialog {
         
         // unselected text color
         Color unselectedTextColor = tabbedPane.getUnselectedTextColor();
-        final ColorControl unselectedTextColorControl = new ColorControl( parentFrame, "text color (unselected): ", unselectedTextColor );
+        final ColorControl unselectedTextColorControl = new ColorControl( parent, "text color (unselected): ", unselectedTextColor );
         unselectedTextColorControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
                 tabbedPane.setUnselectedTextColor( unselectedTextColorControl.getColor() );
