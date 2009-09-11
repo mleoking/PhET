@@ -62,13 +62,18 @@ class Stage(private var _width: Double, private var _height: Double) extends Obs
   }
 }
 
-trait DefaultStageContainer extends StageContainer{
-  def stageWidth:Double
-  def stageHeight:Double
-  def modelBounds:Rectangle2D
-  def addChild(node:PNode):Unit
-  def removeChild(node:PNode):Unit
-  def containsChild(node:PNode):Boolean//getLayer.getChildrenReference.contains
+trait DefaultStageContainer extends StageContainer {
+  def stageWidth: Double
+
+  def stageHeight: Double
+
+  def modelBounds: Rectangle2D
+
+  def addChild(node: PNode): Unit
+
+  def removeChild(node: PNode): Unit
+
+  def containsChild(node: PNode): Boolean //getLayer.getChildrenReference.contains
 
   val stage = new Stage(stageWidth, stageHeight)
 
@@ -81,8 +86,11 @@ trait DefaultStageContainer extends StageContainer{
   //get the rectangle that entails the stage, but in screen coordinates
   def stageInScreenCoordinates = stageToScreen(new Rectangle2D.Double(0, 0, stage.width, stage.height))
 
+  def screenInScreenCoordinates = new Rectangle2D.Double(0, 0, containerWidth, containerHeight)
+
   //use screen coordinates instead of stage coordinates to keep stroke a fixed width
-  val stageBoundsDebugRegion = new PhetPPath(stageInScreenCoordinates, new BasicStroke(4, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1f, Array(20f, 8f), 0f), Color.red)
+  val stageContainerDebugRegion = new PhetPPath(screenInScreenCoordinates, new BasicStroke(6, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1f, Array(20f, 8f), 0f), Color.blue)
+  val stageBoundsDebugRegion = new PhetPPath(stageInScreenCoordinates, new BasicStroke(4, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1f, Array(17f, 5f), 0f), Color.red)
   val transform = new ModelViewTransform2D(modelBounds, new Rectangle2D.Double(0, 0, stageWidth, stageHeight))
 
   def modelToScreen(x: Double, y: Double) = utilityStageNode.localToGlobal(transform.modelToView(x, y))
@@ -95,6 +103,12 @@ trait DefaultStageContainer extends StageContainer{
     stage.setSize(w, h)
     stageBoundsDebugRegion.setPathTo(stageInScreenCoordinates)
     transform.setViewBounds(new Rectangle2D.Double(0, 0, w, h))
+  }
+
+  def toggleScreenNode(node: PNode) = {
+    if (!containsScreenNode(node))
+      addScreenNode(node)
+    else removeScreenNode(node)
   }
 
   def addScreenNode(node: PNode) = addChild(node)
@@ -132,18 +146,22 @@ class MyCanvas(val stageWidth: Double, val stageHeight: Double, val modelBounds:
   def containerWidth = getWidth
 
   addComponentListener(new ComponentAdapter() {
-    override def componentResized(e: ComponentEvent) = stageBoundsDebugRegion.setPathTo(stageInScreenCoordinates)
+    override def componentResized(e: ComponentEvent) = {
+      stageBoundsDebugRegion.setPathTo(stageInScreenCoordinates)
+      stageContainerDebugRegion.setPathTo(screenInScreenCoordinates)
+    }
   })
   addKeyListener(new KeyAdapter() {
     override def keyPressed(e: KeyEvent) = {
       if (e.getKeyCode == KeyEvent.VK_S) {
-        if (!containsScreenNode(stageBoundsDebugRegion))
-          addScreenNode(stageBoundsDebugRegion)
-        else removeScreenNode(stageBoundsDebugRegion)
+        toggleScreenNode(stageContainerDebugRegion)
+        toggleScreenNode(stageBoundsDebugRegion)
       }
     }
   })
-  def containsChild(node:PNode) = getLayer.getChildrenReference.contains(node)
-  def removeChild(node:PNode) = getLayer.removeChild(node)
-  def addChild(node:PNode) = getLayer.addChild(node)
+  def containsChild(node: PNode) = getLayer.getChildrenReference.contains(node)
+
+  def removeChild(node: PNode) = getLayer.removeChild(node)
+
+  def addChild(node: PNode) = getLayer.addChild(node)
 }
