@@ -11,16 +11,20 @@ import umd.cs.piccolo.nodes.PText
 import umd.cs.piccolo.PNode
 import umd.cs.piccolo.util.PDimension
 
-case class StageNode(stage: Stage, canvas: Component, node: PNode) extends PNode {
+trait StageContainer{
+  def containerWidth:Double
+  def containerHeight:Double
+  def addListener( listener:()=>Unit):Unit
+}
+
+case class StageNode(stage: Stage, stageContainer:StageContainer, node: PNode) extends PNode {
   addChild(node)
-  canvas.addComponentListener(new ComponentAdapter() {
-    override def componentResized(e: ComponentEvent) = updateLayout()
-  })
+  stageContainer.addListener( ()=>updateLayout())
   stage.addListener(() => updateLayout())
   updateLayout()
   def updateLayout() = {
-    val canvasWidth = canvas.getWidth
-    val canvasHeight = canvas.getHeight
+    val canvasWidth = stageContainer.containerWidth
+    val canvasHeight = stageContainer.containerHeight
     val widthScale = canvasWidth.toDouble / stage.width
     val heightScale = canvasHeight.toDouble / stage.height
     val scale = Math.min(widthScale, heightScale)
@@ -56,8 +60,19 @@ class Stage(private var _width: Double, private var _height: Double) extends Obs
   }
 }
 
-class MyCanvas(stageWidth: Double, stageHeight: Double, modelBounds: Rectangle2D) extends PhetPCanvas {
+class MyCanvas(stageWidth: Double, stageHeight: Double, modelBounds: Rectangle2D) extends PhetPCanvas with StageContainer {
+
   //Create a MyCanvas with scale sx = sy
+  def addListener(listener: () => Unit) = {
+    addComponentListener(new ComponentAdapter(){
+      override def componentResized(e: ComponentEvent) = listener()
+    })
+  }
+
+  def containerHeight = getHeight
+
+  def containerWidth = getWidth
+
   def this(stageWidth: Int, modelBounds: Rectangle2D) = this (stageWidth, modelBounds.getHeight / modelBounds.getWidth * stageWidth, modelBounds)
 
   val stage = new Stage(stageWidth, stageHeight)
