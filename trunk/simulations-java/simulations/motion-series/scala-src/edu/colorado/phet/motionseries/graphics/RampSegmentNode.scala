@@ -1,9 +1,10 @@
 package edu.colorado.phet.motionseries.graphics
 
 
+import java.awt._
+import geom.Rectangle2D
 import phet.common.phetcommon.math.Function.LinearFunction
 import phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
-import java.awt.{Paint, Color, BasicStroke}
 import scalacommon.util.Observable
 import umd.cs.piccolo.PNode
 import phet.common.piccolophet.nodes.PhetPPath
@@ -44,6 +45,7 @@ class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2
     line.setPathTo(mytransform.createTransformedShape(new BasicStroke(0.4f).createStrokedShape(rampSegment.toLine2D)))
   }
   rampSegment.wetnessListeners += (() => updateColor())
+  updateColor()
   def updateColor() = {
     val r = new LinearFunction(0, 1, baseColor.getRed, wetColor.getRed).evaluate(rampSegment.wetness).toInt
     val g = new LinearFunction(0, 1, baseColor.getGreen, wetColor.getGreen).evaluate(rampSegment.wetness).toInt
@@ -60,7 +62,11 @@ class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2
 
   rampSegment.heatListeners += (() => updateColor())
 
-  def paintColor_=(p: Paint) = line.setPaint(p)
+  def paintColor_=(p: Paint) = {
+//    val iceImage  = MotionSeriesResources.getImage("ice.gif")
+//    val mp = new TexturePaint(iceImage,new Rectangle2D.Double(0,0,iceImage.getWidth,iceImage.getHeight))
+    line.setPaint(p)
+  }
 
   def paintColor = line.getPaint
 }
