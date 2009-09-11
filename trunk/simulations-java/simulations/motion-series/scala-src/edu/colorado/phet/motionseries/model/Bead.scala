@@ -47,6 +47,7 @@ class Bead(private var _state: BeadState,
            val rampSegmentAccessor: Double => RampSegment,
            model: Observable,
            val surfaceFriction: () => Boolean,
+           val wallsBounce: () => Boolean,
            __surfaceFrictionStrategy: SurfaceFrictionStrategy,
            _wallsExist: => Boolean,
            val wallRange: () => Range)

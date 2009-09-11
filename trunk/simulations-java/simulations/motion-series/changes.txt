@@ -1,3 +1,5 @@
+Added a control for wall bounce independent of surface friction
+Renamed "frictionless" control to "surface"
 # 1.03.40 (34937) Sep 10, 2009
 forces-and-motion: Removed gravity and wall force from chart 
 Made it so when the user changes kinetic friction, that static is changed so that static >= kinetic
