@@ -144,9 +144,15 @@ class ClearHeatButton(model: MotionSeriesModel) extends GradientButtonNode("cont
   })
 }
 
-class RampCanvas(model: MotionSeriesModel, coordinateSystemModel: AdjustableCoordinateModel, freeBodyDiagramModel: FreeBodyDiagramModel,
-                 vectorViewModel: VectorViewModel, frame: JFrame, showObjectSelectionNode: Boolean, showAppliedForceSlider: Boolean,
-                 rampAngleDraggable: Boolean, modelViewport: Rectangle2D)
+class RampCanvas(model: MotionSeriesModel,
+                 coordinateSystemModel: AdjustableCoordinateModel,
+                 freeBodyDiagramModel: FreeBodyDiagramModel,
+                 vectorViewModel: VectorViewModel,
+                 frame: JFrame,
+                 showObjectSelectionNode: Boolean,
+                 showAppliedForceSlider: Boolean,
+                 rampAngleDraggable: Boolean,
+                 modelViewport: Rectangle2D)
         extends MotionSeriesCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame, modelViewport) {
   if (showAppliedForceSlider) {
     val appliedForceSliderNode = new AppliedForceSliderNode(model.bead, () => model.setPaused(false))
