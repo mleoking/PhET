@@ -8,7 +8,6 @@ import phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import java.awt.event._
 import javax.swing.{JFrame}
 import model._
-import scalacommon.math.Vector2D
 import scalacommon.Predef._
 import motionseries.MotionSeriesResources
 import tests.MyCanvas
@@ -171,13 +170,13 @@ class RampCanvas(model: MotionSeriesModel, coordinateSystemModel: AdjustableCoor
     })
   }
 
-  def createLeftSegmentNode = new RampSegmentNode(model.rampSegments(0), transform)
+  def createLeftSegmentNode = new RampSegmentNode(model.rampSegments(0), transform, model)
 
   def createRightSegmentNode =
     if (rampAngleDraggable)
-      new RotatableSegmentNode(model.rampSegments(1), transform)
+      new RotatableSegmentNode(model.rampSegments(1), transform, model)
     else
-      new RampSegmentNode(model.rampSegments(1), transform)
+      new RampSegmentNode(model.rampSegments(1), transform, model)
 
   def addHeightAndAngleIndicators() = {
     playAreaNode.addChild(new RampHeightIndicator(model.rampSegments(1), transform))

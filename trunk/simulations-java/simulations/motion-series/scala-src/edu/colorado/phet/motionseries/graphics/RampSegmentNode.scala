@@ -21,20 +21,33 @@ trait HasPaint extends PNode {
   def paintColor: Paint
 }
 
-class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2D) extends PNode with HasPaint {
-  val defaultFill = new Color(184, 131, 24)
+trait RampSurfaceModel extends Observable {
+  def frictionless: Boolean
+}
+
+class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2D, rampSurfaceModel: RampSurfaceModel) extends PNode with HasPaint {
+  val woodColor = new Color(184, 131, 24)
+  val woodStrokeColor = new Color(91, 78, 49)
+
+  //todo: user should set a base color and an interpolation strategy, final paint should be interpolate(base)
+  private var baseColor = woodColor
   val wetColor = new Color(150, 211, 238)
   val hotColor = new Color(255, 0, 0)
-  val line = new PhetPPath(defaultFill, new BasicStroke(2f), new Color(91, 78, 49))
+  val line = new PhetPPath(baseColor, new BasicStroke(2f), woodStrokeColor)
   addChild(line)
+  rampSurfaceModel.addListener(() => {
+    baseColor = if (rampSurfaceModel.frictionless) Color.white else woodColor
+    line.setStrokePaint(if (rampSurfaceModel.frictionless) Color.lightGray else woodStrokeColor)
+    updateColor()
+  })
   defineInvokeAndPass(rampSegment.addListenerByName) {
     line.setPathTo(mytransform.createTransformedShape(new BasicStroke(0.4f).createStrokedShape(rampSegment.toLine2D)))
   }
   rampSegment.wetnessListeners += (() => updateColor())
   def updateColor() = {
-    val r = new LinearFunction(0, 1, defaultFill.getRed, wetColor.getRed).evaluate(rampSegment.wetness).toInt
-    val g = new LinearFunction(0, 1, defaultFill.getGreen, wetColor.getGreen).evaluate(rampSegment.wetness).toInt
-    val b = new LinearFunction(0, 1, defaultFill.getBlue, wetColor.getBlue).evaluate(rampSegment.wetness).toInt
+    val r = new LinearFunction(0, 1, baseColor.getRed, wetColor.getRed).evaluate(rampSegment.wetness).toInt
+    val g = new LinearFunction(0, 1, baseColor.getGreen, wetColor.getGreen).evaluate(rampSegment.wetness).toInt
+    val b = new LinearFunction(0, 1, baseColor.getBlue, wetColor.getBlue).evaluate(rampSegment.wetness).toInt
     val wetnessColor = new Color(r, g, b)
 
     val scaleFactor = 10000.0
@@ -111,12 +124,12 @@ class RotationHandler(val mytransform: ModelViewTransform2D,
   }
 }
 
-class RotatableSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2D) extends RampSegmentNode(rampSegment, mytransform) {
+class RotatableSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2D, rampSurfaceModel: RampSurfaceModel) extends RampSegmentNode(rampSegment, mytransform, rampSurfaceModel) {
   line.addInputEventListener(new CursorHandler)
   line.addInputEventListener(new RotationHandler(mytransform, line, rampSegment, 0, PI / 2))
 }
 
-class ReverseRotatableSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2D) extends RampSegmentNode(rampSegment, mytransform) {
+class ReverseRotatableSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2D, rampSurfaceModel: RampSurfaceModel) extends RampSegmentNode(rampSegment, mytransform, rampSurfaceModel) {
   line.addInputEventListener(new CursorHandler)
   line.addInputEventListener(new RotationHandler(mytransform, line, new Reverse(rampSegment).reverse, PI / 2 + 1E-6, PI - (1E-6))) //todo: atan2 returns angle between -pi and +pi, so end behavior is incorrect
 }

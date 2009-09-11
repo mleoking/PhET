@@ -19,7 +19,6 @@ import motionseries.MotionSeriesResources
 import motionseries.MotionSeriesDefaults
 
 import swing.{MyCheckBox, ScalaValueControl}
-import edu.colorado.phet.scalacommon.Predef._
 import motionseries.MotionSeriesResources._
 
 class RampControlPanel(model: MotionSeriesModel,
@@ -33,9 +32,9 @@ class RampControlPanel(model: MotionSeriesModel,
                        objectModel: ObjectModel,
                        showAngleSlider: Boolean,
                        showFrictionControl: Boolean,
-                       showBounceControl:Boolean) extends JPanel(new BorderLayout) {
+                       showBounceControl: Boolean) extends JPanel(new BorderLayout) {
   val body = new RampControlPanelBody(model, wordModel, freeBodyDiagramModel, coordinateSystemModel, vectorViewModel, resetHandler,
-    coordinateSystemFeaturesEnabled, useObjectComboBox, objectModel, showAngleSlider, showFrictionControl,showBounceControl)
+    coordinateSystemFeaturesEnabled, useObjectComboBox, objectModel, showAngleSlider, showFrictionControl, showBounceControl)
 
   val southControlPanel = new JPanel()
   val resetButton = new ResetAllButton(this)
@@ -59,7 +58,7 @@ class RampControlPanelBody(model: MotionSeriesModel,
                            objectModel: ObjectModel,
                            showAngleSlider: Boolean,
                            showFrictionControl: Boolean,
-                           showBounceControl:Boolean) extends ControlPanel {
+                           showBounceControl: Boolean) extends ControlPanel {
   getContentPanel.setAnchor(GridBagConstraints.WEST)
   getContentPanel.setFill(GridBagConstraints.HORIZONTAL)
   override def add(comp: Component) = {
@@ -122,8 +121,8 @@ class RampControlPanelBody(model: MotionSeriesModel,
 
   if (showFrictionControl) {
     val frictionPanel = new SubControlPanel("controls.friction".translate)
-    val onButton = new MyRadioButton("Ice (no friction)", model.frictionless = false, !model.frictionless, model.addListener)
-    val offButton = new MyRadioButton("Wood", model.frictionless = true, model.frictionless, model.addListener)
+    val onButton = new MyRadioButton("Ice (no friction)", model.frictionless = true, model.frictionless, model.addListener)
+    val offButton = new MyRadioButton("Wood", model.frictionless = false, !model.frictionless, model.addListener)
     val panel = new JPanel
     panel.add(onButton)
     panel.add(offButton)
@@ -131,7 +130,7 @@ class RampControlPanelBody(model: MotionSeriesModel,
     add(frictionPanel)
   }
 
-  if (showBounceControl){
+  if (showBounceControl) {
     val bouncePanel = new SubControlPanel("walls.type".translate)
     val onButton = new MyRadioButton("Brick", model.bounce = false, !model.bounce, model.addListener)
     val offButton = new MyRadioButton("Bouncy", model.bounce = true, model.bounce, model.addListener)

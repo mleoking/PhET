@@ -135,10 +135,10 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel, coordinateSystemModel: 
     appliedForceControl.setModel(() => bead.parallelAppliedForce, setter, removeListenerFunction, bead.addListener)
 
     //todo: why are these 2 lines necessary?
-    vectorView.addAllVectors(bead,fbdNode)
-    vectorView.addAllVectors(bead,windowFBDNode)
+    vectorView.addAllVectors(bead, fbdNode)
+    vectorView.addAllVectors(bead, windowFBDNode)
     //don't show play area vectors
-    
+
     //todo: remove vector nodes when bead is removed
     //todo: switch to removalListeners paradigm
   }
@@ -158,9 +158,9 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel, coordinateSystemModel: 
 
   override def addWallsAndDecorations() = {}
 
-  def createLeftSegmentNode = new ReverseRotatableSegmentNode(model.rampSegments(0), transform)
+  def createLeftSegmentNode = new ReverseRotatableSegmentNode(model.rampSegments(0), transform, model)
 
-  def createRightSegmentNode = new RampSegmentNode(model.rampSegments(1), transform)
+  def createRightSegmentNode = new RampSegmentNode(model.rampSegments(1), transform, model)
 
   def addHeightAndAngleIndicators() = {
     addStageNode(new RampHeightIndicator(new Reverse(model.rampSegments(0)).reverse, transform))
