@@ -67,7 +67,7 @@ public class RadiometricDatingMeterNode extends PNode {
     //------------------------------------------------------------------------
 
 	private static final Color BODY_COLOR = Color.DARK_GRAY;
-	private static final double READOUT_WIDTH_PROPORTION = 0.75;
+	private static final double READOUT_WIDTH_PROPORTION = 0.80;
 	private static final double READOUT_HEIGHT_PROPORTION = 0.16;
 	private static final double PROBE_SIZE_SCALE_FACTOR = 0.45;  // Adjust in order to change size of probe.
 	private static final Font HALF_LIFE_SELECTION_FONT = new PhetFont(16);
@@ -158,6 +158,12 @@ public class RadiometricDatingMeterNode extends PNode {
 		_elementSelectionPanel = new ElementSelectionPanel(meterModel,
 				showCustom);
 		_elementSelectionNode = new PSwing(_elementSelectionPanel);
+		double scale = Math.min(
+				_meterBody.getFullBoundsReference().width * READOUT_WIDTH_PROPORTION / 
+					_elementSelectionNode.getFullBoundsReference().width,
+				_meterBody.getFullBoundsReference().height * 0.5 / 
+					_elementSelectionNode.getFullBoundsReference().height);
+		_elementSelectionNode.setScale(scale);
 		_elementSelectionNode.setOffset( 
 				_meterBody.getFullBounds().width / 2 - _elementSelectionNode.getFullBounds().width / 2,
 				_percentageDisplay.getFullBounds().getMaxY());
@@ -202,19 +208,15 @@ public class RadiometricDatingMeterNode extends PNode {
 		PSwing measurementSelectionNode = new PSwing( measurementSelectionPanel );
 		// Scale the panel to be the same size as the element selection panel.
 		// For some reason, this needs a bit of a tweak factor to look correct.
-		measurementSelectionNode.setScale((_elementSelectionNode.getFullBoundsReference().width - 4) / 
+		measurementSelectionNode.setScale(_meterBody.getFullBoundsReference().width * READOUT_WIDTH_PROPORTION / 
 				measurementSelectionNode.getFullBoundsReference().width);
 		// Position the panel.
-		if (showCustom){
-			measurementSelectionNode.setOffset(
-					_meterBody.getFullBounds().width / 2 - measurementSelectionNode.getFullBounds().width / 2,
-					halfLifeComboBoxPSwing.getFullBoundsReference().getMaxY() );
-		}
-		else{
-			measurementSelectionNode.setOffset(
-					_meterBody.getFullBounds().width / 2 - measurementSelectionNode.getFullBounds().width / 2,
-					_elementSelectionNode.getFullBoundsReference().getMaxY() );
-		}
+		measurementSelectionNode.setOffset( 
+			_meterBody.getFullBoundsReference().width / 2 -
+				measurementSelectionNode.getFullBoundsReference().width / 2,
+			_meterBody.getFullBoundsReference().getMaxY() - 
+				measurementSelectionNode.getFullBoundsReference().height * 1.1 );
+		
 		_meterBody.addChild(measurementSelectionNode);
 		
 		// Add the object probe.
@@ -679,6 +681,9 @@ public class RadiometricDatingMeterNode extends PNode {
 		}
 	}
 	
+	/**
+	 * Panel that allows selection between measuring air or objects.
+	 */
 	private static class MeasurementSelectionPanel extends HorizontalLayoutPanel {
 
 		static private final Font LABEL_FONT = new PhetFont(18, true);
