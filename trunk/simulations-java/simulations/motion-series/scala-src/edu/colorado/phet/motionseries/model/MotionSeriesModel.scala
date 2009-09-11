@@ -208,6 +208,10 @@ class MotionSeriesModel(defaultBeadPosition: Double, pausedOnReset: Boolean, ini
   val defaultManPosition = defaultBeadPosition - 1
   val leftWall = createBead(-10, MotionSeriesDefaults.wall.width, MotionSeriesDefaults.wall.height)
   val rightWall = createBead(10, MotionSeriesDefaults.wall.width, MotionSeriesDefaults.wall.height)
+
+  val leftWallRightEdge = createBead(-10+MotionSeriesDefaults.wall.width/2,MotionSeriesDefaults.SPRING_WIDTH,MotionSeriesDefaults.SPRING_HEIGHT)
+  val rightWallLeftEdge= createBead(10-MotionSeriesDefaults.wall.width/2,MotionSeriesDefaults.SPRING_WIDTH,MotionSeriesDefaults.SPRING_HEIGHT)
+
   val manBead = createBead(defaultManPosition, 1)
 
   val wallRange = () => {

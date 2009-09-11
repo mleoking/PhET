@@ -3,6 +3,7 @@
 # Automatically generated on Fri Aug 08 00:08:03 MDT 2008
 ###################################
 
+spring.png source=microsoft notes=j0386688.jpg
 arrow-2.gif author=PhET 
 arrow-2.png author=PhET 
 arrow-down.gif author=PhET 

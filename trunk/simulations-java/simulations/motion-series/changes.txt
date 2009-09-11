@@ -1,3 +1,4 @@
+Added spring graphics for bouncy walls
 Improved ramp color for ice mode
 Added a control for wall bounce independent of surface friction
 Renamed "frictionless" control to "surface"
