@@ -12,9 +12,7 @@ import umd.cs.piccolo.PNode
 import umd.cs.piccolo.util.PDimension
 
 trait StageContainer {
-  def containerWidth: Double
-
-  def containerHeight: Double
+  def containerBounds: Rectangle2D
 
   def addListener(listener: () => Unit): Unit
 }
@@ -25,8 +23,10 @@ case class StageNode(stage: Stage, stageContainer: StageContainer, node: PNode) 
   stage.addListener(() => updateLayout())
   updateLayout()
   def updateLayout() = {
-    val canvasWidth = stageContainer.containerWidth
-    val canvasHeight = stageContainer.containerHeight
+    val canvasX = stageContainer.containerBounds.getX
+    val canvasY = stageContainer.containerBounds.getY
+    val canvasWidth = stageContainer.containerBounds.getWidth
+    val canvasHeight = stageContainer.containerBounds.getHeight
     val widthScale = canvasWidth.toDouble / stage.width
     val heightScale = canvasHeight.toDouble / stage.height
     val scale = Math.min(widthScale, heightScale)
@@ -35,7 +35,7 @@ case class StageNode(stage: Stage, stageContainer: StageContainer, node: PNode) 
 
     val scaledWidth = patchedScale * stage.width
     val scaledHeight = patchedScale * stage.height
-    setOffset(canvasWidth / 2 - scaledWidth / 2, canvasHeight / 2 - scaledHeight / 2)
+    setOffset(canvasWidth / 2 - scaledWidth / 2 + canvasX, canvasHeight / 2 - scaledHeight / 2 + canvasY)
   }
 }
 
@@ -86,10 +86,8 @@ trait DefaultStageContainer extends StageContainer {
   //get the rectangle that entails the stage, but in screen coordinates
   def stageInScreenCoordinates = stageToScreen(new Rectangle2D.Double(0, 0, stage.width, stage.height))
 
-  def screenInScreenCoordinates = new Rectangle2D.Double(0, 0, containerWidth, containerHeight)
-
   //use screen coordinates instead of stage coordinates to keep stroke a fixed width
-  val stageContainerDebugRegion = new PhetPPath(screenInScreenCoordinates, new BasicStroke(6, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1f, Array(20f, 8f), 0f), Color.blue)
+  val stageContainerDebugRegion = new PhetPPath(containerBounds, new BasicStroke(6, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1f, Array(20f, 8f), 0f), Color.blue)
   val stageBoundsDebugRegion = new PhetPPath(stageInScreenCoordinates, new BasicStroke(4, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1f, Array(17f, 5f), 0f), Color.red)
   val transform = new ModelViewTransform2D(modelBounds, new Rectangle2D.Double(0, 0, stageWidth, stageHeight))
 
@@ -141,14 +139,12 @@ class MyCanvas(val stageWidth: Double, val stageHeight: Double, val modelBounds:
     })
   }
 
-  def containerHeight = getHeight
-
-  def containerWidth = getWidth
+  def containerBounds = new Rectangle2D.Double(0, 0, getWidth, getHeight)
 
   addComponentListener(new ComponentAdapter() {
     override def componentResized(e: ComponentEvent) = {
       stageBoundsDebugRegion.setPathTo(stageInScreenCoordinates)
-      stageContainerDebugRegion.setPathTo(screenInScreenCoordinates)
+      stageContainerDebugRegion.setPathTo(containerBounds)
     }
   })
   addKeyListener(new KeyAdapter() {
