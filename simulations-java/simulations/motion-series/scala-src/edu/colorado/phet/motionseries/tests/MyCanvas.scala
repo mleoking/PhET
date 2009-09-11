@@ -106,7 +106,8 @@ trait DefaultStageContainer extends StageContainer {
   def toggleScreenNode(node: PNode) = {
     if (!containsScreenNode(node))
       addScreenNode(node)
-    else removeScreenNode(node)
+    else
+      removeScreenNode(node)
   }
 
   def addScreenNode(node: PNode) = addChild(node)
@@ -115,7 +116,7 @@ trait DefaultStageContainer extends StageContainer {
 
   def addStageNode(node: PNode) = addScreenNode(new StageNode(stage, this, node))
 
-  def removeStageNode(node: PNode) = removeScreenNode(new StageNode(stage, this, node)) //todo: will this work?
+  def removeStageNode(node: PNode) = removeScreenNode(new StageNode(stage, this, node))
 
   def addModelNode(node: PNode) = addStageNode(new ModelNode(transform, node))
 
