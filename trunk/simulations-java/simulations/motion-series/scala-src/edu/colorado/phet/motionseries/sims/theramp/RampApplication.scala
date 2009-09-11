@@ -42,11 +42,11 @@ class BasicRampModule(frame: JFrame,
 
 import motionseries.MotionSeriesResources._
 
-class IntroRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "module.introduction".translate, false, false, true, -6, false, MotionSeriesDefaults.defaultRampAngle, MotionSeriesDefaults.defaultViewport,MotionSeriesDefaults.fullScreen)
+class IntroRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "module.introduction".translate, false, false, true, -6, false, MotionSeriesDefaults.defaultRampAngle, MotionSeriesDefaults.defaultViewport,MotionSeriesDefaults.fullScreenArea)
 
 class CoordinatesRampModule(frame: JFrame,
                             clock: ScalaClock)
-        extends BasicRampModule(frame, clock, "module.coordinates".translate, true, false, true, -6, false, MotionSeriesDefaults.defaultRampAngle, MotionSeriesDefaults.defaultViewport,MotionSeriesDefaults.fullScreen) {
+        extends BasicRampModule(frame, clock, "module.coordinates".translate, true, false, true, -6, false, MotionSeriesDefaults.defaultRampAngle, MotionSeriesDefaults.defaultViewport,MotionSeriesDefaults.fullScreenArea) {
   coordinateSystemModel.adjustable = true
 }
 

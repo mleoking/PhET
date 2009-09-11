@@ -56,21 +56,21 @@ class MovingManCanvas(model: MotionSeriesModel, coordinateSystemModel: Adjustabl
 
 class IntroModule(frame: JFrame, clock: ScalaClock)
         extends BasicMovingManModule(frame, clock, "moving-man.module.intro.title".translate, false, false, false, false,
-          -6, false, 0.0, true, MotionSeriesDefaults.movingManIntroViewport,MotionSeriesDefaults.fullScreen)
+          -6, false, 0.0, true, MotionSeriesDefaults.movingManIntroViewport,MotionSeriesDefaults.fullScreenArea)
 
 class GraphingModule(frame: JFrame, clock: ScalaClock)
         extends BasicMovingManModule(frame, clock, "moving-man.module.graphing.title".translate, false, false, true, false,
-          -6, false, 0.0, true, MotionSeriesDefaults.forceMotionViewport,MotionSeriesDefaults.fullScreen) {
+          -6, false, 0.0, true, MotionSeriesDefaults.forceMotionViewport,MotionSeriesDefaults.fullScreenArea) {
   coordinateSystemModel.adjustable = false
   canvas.addScreenNode(new MovingManChartNode(canvas, motionSeriesModel))
 }
 
-class EnergyModule(frame: JFrame, clock: ScalaClock) extends BasicMovingManModule(frame, clock, "moving-man.module.energy.title".translate, false, false, true, false, -6, false, 0.0, true, MotionSeriesDefaults.forceMotionViewport,MotionSeriesDefaults.fullScreen) {
+class EnergyModule(frame: JFrame, clock: ScalaClock) extends BasicMovingManModule(frame, clock, "moving-man.module.energy.title".translate, false, false, true, false, -6, false, 0.0, true, MotionSeriesDefaults.forceMotionViewport,MotionSeriesDefaults.fullScreenArea) {
   coordinateSystemModel.adjustable = false
   canvas.addScreenNode(new MovingManEnergyChartNode(canvas, motionSeriesModel))
 }
 
-class MovingManGameModule(frame: JFrame, clock: ScalaClock) extends BasicMovingManModule(frame, clock, "moving-man.module.game.title".translate, false, false, false, false, -6, false, 0.0, true, MotionSeriesDefaults.forceMotionViewport,MotionSeriesDefaults.fullScreen)
+class MovingManGameModule(frame: JFrame, clock: ScalaClock) extends BasicMovingManModule(frame, clock, "moving-man.module.game.title".translate, false, false, false, false, -6, false, 0.0, true, MotionSeriesDefaults.forceMotionViewport,MotionSeriesDefaults.fullScreenArea)
 
 class MovingManApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
   def newClock = new ScalaClock(MotionSeriesDefaults.DELAY, MotionSeriesDefaults.DT_DEFAULT)
