@@ -69,17 +69,16 @@ class MyCanvas(stageWidth: Double, stageHeight: Double, modelBounds: Rectangle2D
 
   val stage = new Stage(stageWidth, stageHeight)
 
-  //todo: add toggle
-  //  val stageBoundsDebugRegion = new PhetPPath(new Rectangle2D.Double(0, 0, stage.width, stage.height), new BasicStroke(6, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1f, Array(6f, 4f), 0f), Color.red)
-  //  stageBoundsDebugRegion.setVisible(false)
-  //  addStageNode(stageBoundsDebugRegion)
+  val stageBoundsDebugRegion = new PhetPPath(new Rectangle2D.Double(0, 0, stage.width, stage.height), new BasicStroke(6, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1f, Array(6f, 4f), 0f), Color.red)
 
   val transform = new ModelViewTransform2D(modelBounds, new Rectangle2D.Double(0, 0, stageWidth, stageHeight))
   addKeyListener(new KeyAdapter() {
     override def keyPressed(e: KeyEvent) = {
-      //todo: add toggle
-      val stageBoundsDebugRegion = new PhetPPath(new Rectangle2D.Double(0, 0, stage.width, stage.height), new BasicStroke(6, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1f, Array(6f, 4f), 0f), Color.red)
-      addStageNode(stageBoundsDebugRegion)
+      if (e.getKeyCode == KeyEvent.VK_S) {
+        if (!containsStageNode(stageBoundsDebugRegion))
+          addStageNode(stageBoundsDebugRegion)
+        else removeStageNode(stageBoundsDebugRegion)
+      }
     }
   })
   private val utilityStageNode = new PText("Utility node") { //to facilitate transforms
@@ -89,9 +88,7 @@ class MyCanvas(stageWidth: Double, stageHeight: Double, modelBounds: Rectangle2D
   addStageNode(utilityStageNode)
 
   def modelToScreen(x: Double, y: Double) = utilityStageNode.localToGlobal(transform.modelToView(x, y))
-//  def modelToScreenDelta(dx:Double,dy:Double) = utilityStageNode.localToGlobal(new PDimension(dx,dy))
-//  def canvasToScreenDelta(dx:Double,dy:Double) = utilityStageNode.localToGlobal(new PDimension(dx,dy))
-  def canvasToStageDelta(dx:Double,dy:Double) = utilityStageNode.globalToLocal(new PDimension(dx,dy)) 
+  def canvasToStageDelta(dx: Double, dy: Double) = utilityStageNode.globalToLocal(new PDimension(dx, dy))
 
   def setStageBounds(w: Double, h: Double) = {
     stage.setSize(w, h)
@@ -112,6 +109,8 @@ class MyCanvas(stageWidth: Double, stageHeight: Double, modelBounds: Rectangle2D
   def removeModelNode(node: PNode) = removeStageNode(new ModelNode(transform, node))
 
   def panModelViewport(dx: Double, dy: Double) = transform.panModelViewport(dx, dy)
+
+  def containsStageNode(node:PNode) = getLayer.getChildrenReference.contains(new StageNode(stage,this,node))
 }
 
 class StartTest {
