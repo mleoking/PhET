@@ -44,12 +44,6 @@ case class ModelNode(transform: ModelViewTransform2D, node: PNode) extends PNode
   def updateTransform() = setTransform(transform.getAffineTransform)
 }
 
-class MyPText(str: String, x: Double, y: Double, scale: Double) extends PText(str) {
-  def this(str: String, x: Double, y: Double) = this (str, x, y, 1.0)
-  setScale(scale)
-  setOffset(x, y)
-}
-
 class Stage(private var _width: Double, private var _height: Double) extends Observable {
   def width = _width
 
