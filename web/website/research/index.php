@@ -46,31 +46,64 @@ class ResearchPage extends SitePage {
         $phet_dist_root = PHET_DIST_ROOT;
 
         print <<<EOT
-            <p>We direct our research at assessing the effectiveness of our interactive simulations in a variety of educational environments, particularly physics courses, and as stand-alone, informal educational tools.</p>
+            PhET conducts research on both the <strong>design</strong> and <strong>use</strong> of interactive simulations to better understand:
+            <ol>
+                <li>Which characteristics make these tools effective for learning and why</li>
+                <li>How students engage and interact with these tools to learn, and what influences this process</li>
+                <li>When, how, and why these tools are effective in a variety of learning environments</li>
+            </ol>
+            The PhET simulation design principles are based on research on how students learn (Bransford et al., 2000) and from our simulation interviews (see <a href="../phet-dist/publications/phet_design_process.pdf">PhET Design Process</a>). Between four and six think-aloud style interviews with individual students are done with each simulation. These interviews provide a rich data source for studying interface design and student learning. The <a href="../phet-dist/publications/PhET%20Look%20and%20Feel.pdf">PhET Look and Feel</a> briefly describes our interface design principles and a complete discussion is found in the pair of papers by Adams et al., 2008.
+            <br>
+            <div class="citation">
+                Bransford, J.D., Brown, A. L. And Cocking, R. R. (2000). <em>How People Learn, Brain, Mind, Experience, and School</em>. Washington, D.C.: National Academy Press
+                </font>
+            </div>
+            <br>
 
-            <p>In addition, we are focusing our efforts to better understand how students learn from the simulations, and what implications this may have for designing effective in-class activities, homework and labs.  Please see our <a href="{$phet_dist_root}publications/PhET Look and Feel.pdf">PhET Look and Feel</a> guide.</p>
+            <h2>Research answers to commonly asked questions:</h2>
+            <div class="research-question">"Can PhET sims replace real lab equipment?"</div>
+            <div class="research-answer">
+                Our studies have shown that PhET sims are more effective for conceptual understanding; however, there are many goals of hands-on labs that simulations do not address. For example, specific skills relating to the functioning of equipment. Depending on the goals of your laboratory, it may be more effective to use just sims or a combination of sims and real equipment
+            </div>
+            <br/>
 
-            <h2>Our immediate interests are:</h2><br />
+            <div class="research-question">"Do students learn if I just tell them to go home and play with a sim?"</div>
+            <div class="research-answer">
+                Most students do not have the necessary drive to spend time playing with a science simulation (they're fun, but not that fun) on their own time unless there is a <em>direct</em> motivation such as their grade. This is one of the reasons we are pursuing the project of how to best integrate sims into homework.
+            </div>
+            <br/>
 
-            <h3>How the simulations affect the students'...</h3>
+            <div class="research-question">"Where is the best place to use PhET sims in my course?"</div>
+            <div class="research-answer">
+                We have found PhET sims to be very effective in lecture, in class activities, lab and homework. They are designed with minimal text so that they can easily be integrated into every aspect of a course.
+            </div>
 
-            <ul class="content-points">
-                <li>ability to solve conceptual and quantitative problems;</li>
+            <br>
+            <br>
 
-                <li>attitudes about learning physics; and</li>
+            <h2>Our immediate interests are:</h2>
 
-                <li>perceptions of their own learning and of the simulations themselves.</li>
-            </ul>
+            <p>
+                <strong>Use of analogy to construct understanding:</strong> Students use analogies in sims to make sense of unfamiliar phenomena. Representations play a key role in student use of analogy.
+            </p>
 
-            <h3>Simulation effectiveness in different environments</h3>
+            <p>
+                <strong>Simulations as tools for changing classroom norms:</strong> Sims are shaped by socio-cultural norms of science, but can also be used to change the traditional norms of how students engage in the classroom.
+            </p>
 
-            <ul class="content-points">
-                <li>How might these simulations be used in labs? Can they replace traditional hands-on experiments?</li>
+            <p>
+                <strong>Specific features of sims that promote learning and engaged exploration:</strong> Our design principles identify key characteristics of sims that make them productive tools for student engagement. Now we wish to study in detail how each feature impacts student understanding.
+            </p>
 
-                <li>When students use simulations as preparation activities for class, how do they compare to traditional class preparation activities such as reading the text or doing homework problems?</li>
+            <p>
+                <strong>Integrating simulations into homework:</strong> Simulations have unique features that are not available in most learning tools (interactivity, animation, dynamic feedback, allow for productive exploration).
+            </p>
 
-                <li>Are the simulations more effective standalone (as an open play area) or wrapped with a guiding tutorial?</li>
-            </ul>
+            <p>
+                <strong>Effectiveness of Chemistry simulations:</strong> We have just begun investigating the envelope of where and how chemistry simulations can be effective learning tools.
+            </p>
+
+            <br>
 
             <h2>Publications and Presentations</h2>
 
