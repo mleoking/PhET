@@ -22,6 +22,10 @@ class SeriesSelectionControl(title: String, numRows: Int) extends VerticalLayout
   grid.setBackground(EARTH_COLOR)
   add(grid)
 
+  val nongrid = new VerticalLayoutPanel()
+  nongrid.setBackground(EARTH_COLOR)
+  add(nongrid)
+
   def addToGrid(series: ControlGraphSeries): Unit = addToGrid(series, createLabel)
 
   def addToGrid(series: ControlGraphSeries, labelMaker: ControlGraphSeries => JComponent): Unit =
@@ -30,6 +34,10 @@ class SeriesSelectionControl(title: String, numRows: Int) extends VerticalLayout
   def addComponentsToGrid(component1: JComponent, component2: JComponent) = {
     grid.add(component1)
     grid.add(component2)
+  }
+
+  def addComponent(component:JComponent) {
+    nongrid.add(component)
   }
 
   def createLabel(series: ControlGraphSeries) = {
