@@ -75,15 +75,15 @@ class RampControlPanelBody(model: MotionSeriesModel,
 
   add(new TitleLabel("display.free-body-diagram".translate))
   add(boxLayout(
-    new MyRadioButton("controls.show".translate, freeBodyDiagramModel.visible = true, freeBodyDiagramModel.visible, freeBodyDiagramModel.addListener),
-    new MyRadioButton("controls.hide".translate, freeBodyDiagramModel.visible = false, !freeBodyDiagramModel.visible, freeBodyDiagramModel.addListener)
+    new MyRadioButton("controls.show".translate, freeBodyDiagramModel.visible = true, freeBodyDiagramModel.visible, freeBodyDiagramModel.addListener).peer,
+    new MyRadioButton("controls.hide".translate, freeBodyDiagramModel.visible = false, !freeBodyDiagramModel.visible, freeBodyDiagramModel.addListener).peer
     ))
 
   if (coordinateSystemFeaturesEnabled) {
     add(new TitleLabel("coordinates.coordinate-system".translate))
     add(boxLayout(
-      new MyRadioButton("coordinates.fixed".translate, coordinateSystemModel.fixed = true, coordinateSystemModel.fixed, coordinateSystemModel.addListener),
-      new MyRadioButton("coordinates.adjustable".translate, coordinateSystemModel.adjustable = true, coordinateSystemModel.adjustable, coordinateSystemModel.addListener)
+      new MyRadioButton("coordinates.fixed".translate, coordinateSystemModel.fixed = true, coordinateSystemModel.fixed, coordinateSystemModel.addListener).peer,
+      new MyRadioButton("coordinates.adjustable".translate, coordinateSystemModel.adjustable = true, coordinateSystemModel.adjustable, coordinateSystemModel.addListener).peer
       ))
   }
 
@@ -99,16 +99,16 @@ class RampControlPanelBody(model: MotionSeriesModel,
 
     def addWithIcon(image: BufferedImage, component: JComponent) = add(new IconPanel(component, new ImageIcon(image)))
   }
-  vectorPanel.add(new MyRadioButton("vectors.centered".translate, vectorViewModel.centered = true, vectorViewModel.centered, vectorViewModel.addListener))
-  vectorPanel.add(new MyRadioButton("vectors.point-of-origin".translate, vectorViewModel.centered = false, !vectorViewModel.centered, vectorViewModel.addListener))
+  vectorPanel.add(new MyRadioButton("vectors.centered".translate, vectorViewModel.centered = true, vectorViewModel.centered, vectorViewModel.addListener).peer)
+  vectorPanel.add(new MyRadioButton("vectors.point-of-origin".translate, vectorViewModel.centered = false, !vectorViewModel.centered, vectorViewModel.addListener).peer)
   vectorPanel.add(Box.createRigidArea(new Dimension(10, 10)))
-  vectorPanel.add(new MyCheckBox("vectors.force-vectors".translate, vectorViewModel.originalVectors_=, vectorViewModel.originalVectors, vectorViewModel.addListener))
+  vectorPanel.add(new MyCheckBox("vectors.force-vectors".translate, vectorViewModel.originalVectors_=, vectorViewModel.originalVectors, vectorViewModel.addListener).peer)
   if (coordinateSystemFeaturesEnabled) {
-    vectorPanel.addWithIcon("parallel_components_icon.gif".literal, new MyCheckBox("vectors.parallel-components".translate, vectorViewModel.parallelComponents_=, vectorViewModel.parallelComponents, vectorViewModel.addListener))
-    vectorPanel.addWithIcon("xy_components_icon.gif".literal, new MyCheckBox("vectors.x-y-components".translate, vectorViewModel.xyComponentsVisible = _, vectorViewModel.xyComponentsVisible, vectorViewModel.addListener))
+    vectorPanel.addWithIcon("parallel_components_icon.gif".literal, new MyCheckBox("vectors.parallel-components".translate, vectorViewModel.parallelComponents_=, vectorViewModel.parallelComponents, vectorViewModel.addListener).peer)
+    vectorPanel.addWithIcon("xy_components_icon.gif".literal, new MyCheckBox("vectors.x-y-components".translate, vectorViewModel.xyComponentsVisible = _, vectorViewModel.xyComponentsVisible, vectorViewModel.addListener).peer)
   }
   vectorPanel.add(Box.createRigidArea(new Dimension(10, 10)))
-  vectorPanel.addWithIcon(createSumForceIcon, new MyCheckBox("vectors.sum-of-forces".translate, vectorViewModel.sumOfForcesVector_=, vectorViewModel.sumOfForcesVector, vectorViewModel.addListener))
+  vectorPanel.addWithIcon(createSumForceIcon, new MyCheckBox("vectors.sum-of-forces".translate, vectorViewModel.sumOfForcesVector_=, vectorViewModel.sumOfForcesVector, vectorViewModel.addListener).peer)
   add(vectorPanel)
 
   def createSumForceIcon = {
@@ -124,8 +124,8 @@ class RampControlPanelBody(model: MotionSeriesModel,
     val onButton = new MyRadioButton("Ice (no friction)", model.frictionless = true, model.frictionless, model.addListener)
     val offButton = new MyRadioButton("Wood", model.frictionless = false, !model.frictionless, model.addListener)
     val panel = new JPanel
-    panel.add(onButton)
-    panel.add(offButton)
+    panel.add(onButton.peer)
+    panel.add(offButton.peer)
     frictionPanel.add(panel)
     add(frictionPanel)
   }
@@ -135,8 +135,8 @@ class RampControlPanelBody(model: MotionSeriesModel,
     val onButton = new MyRadioButton("Brick", model.bounce = false, !model.bounce, model.addListener)
     val offButton = new MyRadioButton("Bouncy", model.bounce = true, model.bounce, model.addListener)
     val panel = new JPanel
-    panel.add(onButton)
-    panel.add(offButton)
+    panel.add(onButton.peer)
+    panel.add(offButton.peer)
     bouncePanel.add(panel)
     add(bouncePanel)
   }
