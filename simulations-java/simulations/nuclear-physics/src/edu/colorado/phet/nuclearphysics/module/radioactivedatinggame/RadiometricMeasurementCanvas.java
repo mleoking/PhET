@@ -359,7 +359,7 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
      */
     private void initializeProbeLocation(){
     	if (_model.getSimulationMode() == SIMULATION_MODE.TREE){
-    		_model.getMeter().getProbeModel().setTipLocation(new Point2D.Double(-12, -4));
+    		_model.getMeter().getProbeModel().setTipLocation(new Point2D.Double(0, -4));
     	}
     	else{
     		_model.getMeter().getProbeModel().setTipLocation(new Point2D.Double(-6, -2));
