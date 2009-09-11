@@ -210,4 +210,25 @@ public class NuclearPhysicsStrings {
     public static final String METER_MEASURE_OBJECTS = getString( "Meter.MeasureObjects" );
     public static final String METER_HALF_LIFE_EQUALS = getString( "Meter.HalfLifeEquals" );
     
+    public static final String DATABLE_ITEM_HOUSE = getString( "DatableItem.House" );
+    public static final String DATABLE_ITEM_TRILOBYTE = getString( "DatableItem.Trilobyte" );
+    public static final String DATABLE_ITEM_ANIMAL_SKULL = getString( "DatableItem.AnimalSkull" );
+    public static final String DATABLE_ITEM_LIVING_TREE = getString( "DatableItem.LivingTree" );
+ 	public static final String DATABLE_ITEM_DISTANT_LIVING_TREE = getString( "DatableItem.DistantLivingTree" );
+ 	public static final String DATABLE_ITEM_FISH_FOSSIL_1 = getString( "DatableItem.FishFossil1" );
+ 	public static final String DATABLE_ITEM_DEAD_TREE = getString( "DatableItem.DeadTree" );
+ 	public static final String DATABLE_ITEM_FISH_FOSSIL_2 = getString( "DatableItem.FishFossil2" );
+ 	public static final String DATABLE_ITEM_POTTERY = getString( "DatableItem.Pottery" );
+ 	public static final String DATABLE_ITEM_ROCK1 = getString( "DatableItem.Rock1" );
+    public static final String DATABLE_ITEM_ROCK2 = getString( "DatableItem.Rock2" );
+    public static final String DATABLE_ITEM_ROCK3 = getString( "DatableItem.Rock3" );
+    public static final String DATABLE_ITEM_ROCK4 = getString( "DatableItem.Rock4" );
+    public static final String DATABLE_ITEM_ROCK5 = getString( "DatableItem.Rock5" );
+    public static final String DATABLE_ITEM_ROCK6 = getString( "DatableItem.Rock6" );
+    public static final String DATABLE_ITEM_ROCK7 = getString( "DatableItem.Rock7" );
+    public static final String DATABLE_ITEM_ROCK8 = getString( "DatableItem.Rock8" );
+    public static final String DATABLE_ITEM_DINOSAUR_SKULL = getString( "DatableItem.DinosaurSkull" );
+    public static final String DATABLE_ITEM_HUMAN_SKULL = getString( "DatableItem.HumanSkull" );
+    public static final String DATABLE_ITEM_WOODEN_CUP = getString( "DatableItem.WoodenCup" );
+    public static final String DATABLE_ITEM_BONE = getString( "DatableItem.Bone" );
 }

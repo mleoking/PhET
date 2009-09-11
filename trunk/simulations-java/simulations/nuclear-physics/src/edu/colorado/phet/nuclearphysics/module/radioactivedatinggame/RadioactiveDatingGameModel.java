@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.model.HalfLifeInfo;
 
 /**
@@ -54,28 +55,28 @@ public class RadioactiveDatingGameModel implements ModelContainingDatableItems {
         
         // Add the datable objects.
         // Params:                             name, image file, location(x, y), size, rotation angle (radians), age (ms), is organic
-        _datableObjects.add(new DatableItem("House", "house.png", new Point2D.Double(8, 4), 6, 0, HalfLifeInfo.convertYearsToMs(70), true));
-        _datableObjects.add(new DatableItem("Trilobyte", "trilobyte_fossil.png", new Point2D.Double(-8, -14.5), 3.5, 0, HalfLifeInfo.convertYearsToMs(310.3E6), true));
-    	_datableObjects.add(new DatableItem("Animal Skull", "skull_animal.png", new Point2D.Double(-26, 2), 3, Math.PI/4, HalfLifeInfo.convertYearsToMs(135), true));
-    	_datableObjects.add(new DatableItem("Living Tree", "tree_1.png", new Point2D.Double(-21, 5), 5.5, 0, 0, true));
-    	_datableObjects.add(new DatableItem("Distant Living Tree", "tree_1.png", new Point2D.Double(0, 3.5), 2, 0, 0, true));
-    	_datableObjects.add(new DatableItem("Fish Fossil 1", "fish_fossil.png", new Point2D.Double(-20, -8), 7, 0, HalfLifeInfo.convertYearsToMs(28E6), true));
-    	_datableObjects.add(new DatableItem("Dead Tree", "tree_dead_no_space.png", new Point2D.Double(23, 2.5), 3, Math.PI/2, HalfLifeInfo.convertYearsToMs(235), true));
-    	_datableObjects.add(new DatableItem("Fish Fossil 2", "fish_bones.png", new Point2D.Double(10, -14.5), 5, 0, HalfLifeInfo.convertYearsToMs(251E6), true));
-    	_datableObjects.add(new DatableItem("Pottery", "pottery.png", new Point2D.Double(-18, -1.5), 2.8, Math.PI/2, HalfLifeInfo.convertYearsToMs(4975), true));
-    	_datableObjects.add(new DatableItem("Rock 1", "rock_1.png", new Point2D.Double(-6.0, -1.5), 3, 0, HalfLifeInfo.convertYearsToMs(493.3E6), false));
-    	_datableObjects.add(new DatableItem("Rock 2", "rock_2.png", new Point2D.Double(6, -4.5), 1.5, 0, HalfLifeInfo.convertYearsToMs(910.1E6), false));
-    	_datableObjects.add(new DatableItem("Rock 3", "rock_3.png", new Point2D.Double(-22, -14.5), 2.5, 0, HalfLifeInfo.convertYearsToMs(120E6), false));
-    	_datableObjects.add(new DatableItem("Rock 4", "rock_4.png", new Point2D.Double(18, -11), 1.5, 0, HalfLifeInfo.convertYearsToMs(1.61E9), false));
-    	_datableObjects.add(new DatableItem("Rock 5", "rock_4.png", new Point2D.Double(18, -4.5), 2, 0, HalfLifeInfo.convertYearsToMs(2.05E6), false));
-    	_datableObjects.add(new DatableItem("Rock 6", "rock_6.png", new Point2D.Double(20, -7.5), 1.5, 0, HalfLifeInfo.convertYearsToMs(52E6), false));
-    	_datableObjects.add(new DatableItem("Rock 7", "rock_7.png", new Point2D.Double(25, -15), 2.5, 0, HalfLifeInfo.convertYearsToMs(3E9), false));
-    	_datableObjects.add(new DatableItem("Rock 8", "rock_8.png", new Point2D.Double(-15, -11), 2, 0, HalfLifeInfo.convertYearsToMs(3.45E9), false));
-    	_datableObjects.add(new DatableItem("Dinosaur Skull", "skull_animal_2.png", new Point2D.Double(4, -11.0), 4.5, 0, HalfLifeInfo.convertYearsToMs(149E6), true));
-    	_datableObjects.add(new DatableItem("Human Skull", "skull_human.png", new Point2D.Double(20, -1.5), 2.4, 0, HalfLifeInfo.convertYearsToMs(1135), true));
-    	_datableObjects.add(new DatableItem("Wooden Cup", "cup.png", new Point2D.Double(8, -2), 1.7,  -Math.PI / 3, HalfLifeInfo.convertYearsToMs(1019), true));
-    	_datableObjects.add(new DatableItem("Bone", "bone.png", new Point2D.Double(-3, -8), 4.5, 0, HalfLifeInfo.convertYearsToMs(34.35E6), false));
-	_datableObjects.add(new DatableItem("Human Skull", "skull_human.png", new Point2D.Double(-10, -4.5), 2, 1.0, HalfLifeInfo.convertYearsToMs(66.2E3), true));
+        _datableObjects.add(new DatableItem(NuclearPhysicsStrings.DATABLE_ITEM_HOUSE, "house.png", new Point2D.Double(8, 4), 6, 0, HalfLifeInfo.convertYearsToMs(70), true));
+        _datableObjects.add(new DatableItem(NuclearPhysicsStrings.DATABLE_ITEM_TRILOBYTE, "trilobyte_fossil.png", new Point2D.Double(-8, -14.5), 3.5, 0, HalfLifeInfo.convertYearsToMs(310.3E6), true));
+    	_datableObjects.add(new DatableItem(NuclearPhysicsStrings.DATABLE_ITEM_ANIMAL_SKULL, "skull_animal.png", new Point2D.Double(-26, 2), 3, Math.PI/4, HalfLifeInfo.convertYearsToMs(135), true));
+    	_datableObjects.add(new DatableItem(NuclearPhysicsStrings.DATABLE_ITEM_LIVING_TREE, "tree_1.png", new Point2D.Double(-21, 5), 5.5, 0, 0, true));
+    	_datableObjects.add(new DatableItem(NuclearPhysicsStrings.DATABLE_ITEM_DISTANT_LIVING_TREE, "tree_1.png", new Point2D.Double(0, 3.5), 2, 0, 0, true));
+    	_datableObjects.add(new DatableItem(NuclearPhysicsStrings.DATABLE_ITEM_FISH_FOSSIL_1, "fish_fossil.png", new Point2D.Double(-20, -8), 7, 0, HalfLifeInfo.convertYearsToMs(28E6), true));
+    	_datableObjects.add(new DatableItem(NuclearPhysicsStrings.DATABLE_ITEM_DEAD_TREE, "tree_dead_no_space.png", new Point2D.Double(23, 2.5), 3, Math.PI/2, HalfLifeInfo.convertYearsToMs(235), true));
+    	_datableObjects.add(new DatableItem(NuclearPhysicsStrings.DATABLE_ITEM_FISH_FOSSIL_2, "fish_bones.png", new Point2D.Double(10, -14.5), 5, 0, HalfLifeInfo.convertYearsToMs(251E6), true));
+    	_datableObjects.add(new DatableItem(NuclearPhysicsStrings.DATABLE_ITEM_POTTERY, "pottery.png", new Point2D.Double(-18, -1.5), 2.8, Math.PI/2, HalfLifeInfo.convertYearsToMs(4975), true));
+    	_datableObjects.add(new DatableItem(NuclearPhysicsStrings.DATABLE_ITEM_ROCK1, "rock_1.png", new Point2D.Double(-6.0, -1.5), 3, 0, HalfLifeInfo.convertYearsToMs(493.3E6), false));
+    	_datableObjects.add(new DatableItem(NuclearPhysicsStrings.DATABLE_ITEM_ROCK2, "rock_2.png", new Point2D.Double(6, -4.5), 1.5, 0, HalfLifeInfo.convertYearsToMs(910.1E6), false));
+    	_datableObjects.add(new DatableItem(NuclearPhysicsStrings.DATABLE_ITEM_ROCK3, "rock_3.png", new Point2D.Double(-22, -14.5), 2.5, 0, HalfLifeInfo.convertYearsToMs(120E6), false));
+    	_datableObjects.add(new DatableItem(NuclearPhysicsStrings.DATABLE_ITEM_ROCK4, "rock_4.png", new Point2D.Double(18, -11), 1.5, 0, HalfLifeInfo.convertYearsToMs(1.61E9), false));
+    	_datableObjects.add(new DatableItem(NuclearPhysicsStrings.DATABLE_ITEM_ROCK5, "rock_4.png", new Point2D.Double(18, -4.5), 2, 0, HalfLifeInfo.convertYearsToMs(2.05E6), false));
+    	_datableObjects.add(new DatableItem(NuclearPhysicsStrings.DATABLE_ITEM_ROCK6, "rock_6.png", new Point2D.Double(20, -7.5), 1.5, 0, HalfLifeInfo.convertYearsToMs(52E6), false));
+    	_datableObjects.add(new DatableItem(NuclearPhysicsStrings.DATABLE_ITEM_ROCK7, "rock_7.png", new Point2D.Double(25, -15), 2.5, 0, HalfLifeInfo.convertYearsToMs(3E9), false));
+    	_datableObjects.add(new DatableItem(NuclearPhysicsStrings.DATABLE_ITEM_ROCK8, "rock_8.png", new Point2D.Double(-15, -11), 2, 0, HalfLifeInfo.convertYearsToMs(3.45E9), false));
+    	_datableObjects.add(new DatableItem(NuclearPhysicsStrings.DATABLE_ITEM_DINOSAUR_SKULL, "skull_animal_2.png", new Point2D.Double(4, -11.0), 4.5, 0, HalfLifeInfo.convertYearsToMs(149E6), true));
+    	_datableObjects.add(new DatableItem(NuclearPhysicsStrings.DATABLE_ITEM_HUMAN_SKULL, "skull_human.png", new Point2D.Double(20, -1.5), 2.4, 0, HalfLifeInfo.convertYearsToMs(1135), true));
+    	_datableObjects.add(new DatableItem(NuclearPhysicsStrings.DATABLE_ITEM_WOODEN_CUP, "cup.png", new Point2D.Double(8, -2), 1.7,  -Math.PI / 3, HalfLifeInfo.convertYearsToMs(1019), true));
+    	_datableObjects.add(new DatableItem(NuclearPhysicsStrings.DATABLE_ITEM_BONE, "bone.png", new Point2D.Double(-3, -8), 4.5, 0, HalfLifeInfo.convertYearsToMs(34.35E6), false));
+    	_datableObjects.add(new DatableItem(NuclearPhysicsStrings.DATABLE_ITEM_HUMAN_SKULL, "skull_human.png", new Point2D.Double(-10, -4.5), 2, 1.0, HalfLifeInfo.convertYearsToMs(66.2E3), true));
 
     	// Add the meter and register for user-initiated movements.
     	_meter = new RadiometricDatingMeter( this );
