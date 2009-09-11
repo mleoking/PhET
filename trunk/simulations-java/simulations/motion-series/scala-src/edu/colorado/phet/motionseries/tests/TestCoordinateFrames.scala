@@ -5,6 +5,13 @@ import java.awt.event._
 import java.awt.geom.{Ellipse2D, Rectangle2D}
 import java.awt.{Color, BasicStroke}
 import javax.swing.{Timer, JFrame}
+import umd.cs.piccolo.nodes.PText
+
+class MyPText(str: String, x: Double, y: Double, scale: Double) extends PText(str) {
+  def this(str: String, x: Double, y: Double) = this (str, x, y, 1.0)
+  setScale(scale)
+  setOffset(x, y)
+}
 
 class StartTest {
   def start() = {
