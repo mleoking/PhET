@@ -553,7 +553,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         		break;
         	}
         }
-        if (!allItemsGuessedAndGuessesCorrect){
+        if (allItemsGuessedAndGuessesCorrect){
         	
    			_soundState.play( "short-fanfare.wav" );
 
