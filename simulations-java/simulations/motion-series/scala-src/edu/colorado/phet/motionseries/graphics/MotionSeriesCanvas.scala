@@ -168,6 +168,14 @@ class RampCanvas(model: MotionSeriesModel, coordinateSystemModel: AdjustableCoor
     playAreaNode.addChild(new BeadNode(model.rightWall, transform, "wall.jpg".literal) with CloseButton {
       def model = RampCanvas.this.model
     })
+
+    class SpringNode(bead:Bead) extends BeadNode(bead,transform, "spring.png".literal){
+      defineInvokeAndPass(model.addListenerByName){
+        setVisible(model.wallsBounce())
+      }
+    }
+    playAreaNode.addChild(new SpringNode(model.leftWallRightEdge))
+    playAreaNode.addChild(new SpringNode(model.rightWallLeftEdge))
   }
 
   def createLeftSegmentNode = new RampSegmentNode(model.rampSegments(0), transform, model)

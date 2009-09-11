@@ -78,8 +78,9 @@ class PositionDragBeadNode(bead: Bead,
   }
 }
 
-class BeadNode(bead: Bead, transform: ModelViewTransform2D, imageName: String) extends PNode {
-  val imageNode = new PImage(MotionSeriesResources.getImage(imageName))
+class BeadNode(bead: Bead, transform: ModelViewTransform2D, image:BufferedImage) extends PNode {
+  def this(bead:Bead,transform:ModelViewTransform2D, imageName: String) = this(bead,transform,MotionSeriesResources.getImage(imageName))
+  val imageNode = new PImage(image)
 
   def setImage(im: BufferedImage) = {
     imageNode.setImage(im)
