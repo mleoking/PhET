@@ -13,31 +13,30 @@ object MotionSeriesDefaults {
   val MAX_RECORD_TIME = 20.0
   val defaultRampAngle = 30.0.toRadians
 
-  val fullScreenArea = new StageContainerArea(){
-    def getBounds(w: Double, h: Double) = new Rectangle2D.Double(0,0,w,h)
+  val fullScreenArea = new StageContainerArea() {
+    def getBounds(w: Double, h: Double) = new Rectangle2D.Double(0, 0, w, h)
   }
-  val forceGraphArea = new StageContainerArea(){
-    def getBounds(w: Double, h: Double) = new Rectangle2D.Double(0,0,w,h/2)
+  val forceGraphArea = new StageContainerArea() {
+    def getBounds(w: Double, h: Double) = new Rectangle2D.Double(0, 0, w, h / 2)
   }
-  val forceEnergyGraphArea = new StageContainerArea(){
-    def getBounds(w: Double, h: Double) = new Rectangle2D.Double(0,0,w,h/3)
+  val forceEnergyGraphArea = new StageContainerArea() {
+    def getBounds(w: Double, h: Double) = new Rectangle2D.Double(0, 0, w, h / 3)
   }
-  val forceMotionArea = new StageContainerArea(){
-    def getBounds(w: Double, h: Double) = new Rectangle2D.Double(0,h/4,w,h/2)
+  val forceMotionArea = new StageContainerArea() {
+    def getBounds(w: Double, h: Double) = new Rectangle2D.Double(0, 0, w, h)
   }
-  val forceMotionFrictionArea = new StageContainerArea(){
-    def getBounds(w: Double, h: Double) = new Rectangle2D.Double(0,0,w,h)
+  val forceMotionFrictionArea = new StageContainerArea() {
+    def getBounds(w: Double, h: Double) = new Rectangle2D.Double(0, 0, w, h)
   }
 
-  //this value looked good for default ramps new Rectangle2D.Double(-11, -6, 23, 16)
   val defaultViewport = new Rectangle2D.Double(-11, -6, 23, 16)
-  val forceGraphViewport = new Rectangle2D.Double(-11, -1, 23, 16 - 8)
-  val forceEnergyGraphViewport = new Rectangle2D.Double(-11, -1, 23, 16 - 10)
+  val forceGraphViewport = new Rectangle2D.Double(-11, -1, 23, 8)
+  val forceEnergyGraphViewport = new Rectangle2D.Double(-11, -1, 23, 6)
 
-  val forceMotionGraphViewport = new Rectangle2D.Double(-11, -1, 23, 16 - 10-1)
-  val forceMotionViewport = new Rectangle2D.Double(-11, -3, 22, 3+3)
-  val forceMotionFrictionViewport = new Rectangle2D.Double(-11, -8, 22, 16 - 4)
-  val movingManIntroViewport = new Rectangle2D.Double(-11, -5, 22, 16-4)
+  val forceMotionGraphViewport = new Rectangle2D.Double(-11, -1, 23, 9)
+  val forceMotionViewport = new Rectangle2D.Double(-11, -7, 22, 11)
+  val forceMotionFrictionViewport = new Rectangle2D.Double(-11, -8, 22, 12)
+  val movingManIntroViewport = new Rectangle2D.Double(-11, -5, 22, 12)
 
   //how far away the vector labels can be from the tip, in world coordinates
   val FBD_LABEL_MAX_OFFSET = 500
@@ -87,7 +86,7 @@ object MotionSeriesDefaults {
           Nil
   val iconsPerRow = 4
 
-  lazy val movingMan = new MotionSeriesObject("object.moving-man".translate, 85, 0.3, 0.5, 2.8,//is some empty padding in the image? looks better at large size, with a 20m wide play area
+  lazy val movingMan = new MotionSeriesObject("object.moving-man".translate, 85, 0.3, 0.5, 2.8, //is some empty padding in the image? looks better at large size, with a 20m wide play area
     "moving-man/moving-man-standing.gif".literal, 1000)
 
   val wall = new MotionSeriesObject("wall".literal, 1000, 1000, 1000, 3.5, "wall.jpg".literal, 100)

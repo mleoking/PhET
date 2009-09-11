@@ -166,7 +166,7 @@ class RampCanvas(model: MotionSeriesModel,
     val objectSelectionNode = new ObjectSelectionNode(model)
     objectSelectionNode.setScale(stage.width / (objectSelectionNode.getFullBounds.getWidth + 150))
     objectSelectionNode.setOffset(stage.width / 2 - objectSelectionNode.getFullBounds.getWidth / 2,
-      stage.height + 2)
+      stage.height - objectSelectionNode.getFullBounds.getHeight + 2)
     addStageNode(objectSelectionNode)
   }
 
