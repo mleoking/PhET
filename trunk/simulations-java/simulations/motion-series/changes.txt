@@ -1,3 +1,4 @@
+Fixed: Velocity and position series controls shouldn't have checkboxes.
 Added the wall force to the forces and motion series charts
 Added spring graphics for bouncy walls
 Improved ramp color for ice mode
