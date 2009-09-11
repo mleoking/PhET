@@ -1,3 +1,5 @@
+Fix layout for ramp: work/energy tab, play area is unusable for some aspect ratios
+Make sure all play areas are visible on the stage
 Fixed: For charts with a single series, should have the text label above the text box and units to improve layout
 Fixed: Velocity and position series controls shouldn't have checkboxes.
 Added the wall force to the forces and motion series charts
