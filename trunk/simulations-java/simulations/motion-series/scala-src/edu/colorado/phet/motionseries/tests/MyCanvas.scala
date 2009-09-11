@@ -5,21 +5,23 @@ import common.piccolophet.nodes.PhetPPath
 import common.piccolophet.PhetPCanvas
 import java.awt.event._
 import java.awt.geom.{Rectangle2D}
-import java.awt.{Color, BasicStroke, Component}
+import java.awt.{Color, BasicStroke}
 import scalacommon.util.Observable
 import umd.cs.piccolo.nodes.PText
 import umd.cs.piccolo.PNode
 import umd.cs.piccolo.util.PDimension
 
-trait StageContainer{
-  def containerWidth:Double
-  def containerHeight:Double
-  def addListener( listener:()=>Unit):Unit
+trait StageContainer {
+  def containerWidth: Double
+
+  def containerHeight: Double
+
+  def addListener(listener: () => Unit): Unit
 }
 
-case class StageNode(stage: Stage, stageContainer:StageContainer, node: PNode) extends PNode {
+case class StageNode(stage: Stage, stageContainer: StageContainer, node: PNode) extends PNode {
   addChild(node)
-  stageContainer.addListener( ()=>updateLayout())
+  stageContainer.addListener(() => updateLayout())
   stage.addListener(() => updateLayout())
   updateLayout()
   def updateLayout() = {
@@ -63,8 +65,12 @@ class Stage(private var _width: Double, private var _height: Double) extends Obs
 class MyCanvas(stageWidth: Double, stageHeight: Double, modelBounds: Rectangle2D) extends PhetPCanvas with StageContainer {
 
   //Create a MyCanvas with scale sx = sy
+  def this(stageWidth: Int, modelBounds: Rectangle2D) = this (stageWidth, modelBounds.getHeight / modelBounds.getWidth * stageWidth, modelBounds)
+
+  val stage = new Stage(stageWidth, stageHeight)
+
   def addListener(listener: () => Unit) = {
-    addComponentListener(new ComponentAdapter(){
+    addComponentListener(new ComponentAdapter() {
       override def componentResized(e: ComponentEvent) = listener()
     })
   }
@@ -72,10 +78,6 @@ class MyCanvas(stageWidth: Double, stageHeight: Double, modelBounds: Rectangle2D
   def containerHeight = getHeight
 
   def containerWidth = getWidth
-
-  def this(stageWidth: Int, modelBounds: Rectangle2D) = this (stageWidth, modelBounds.getHeight / modelBounds.getWidth * stageWidth, modelBounds)
-
-  val stage = new Stage(stageWidth, stageHeight)
 
   private val utilityStageNode = new PText("Utility node") { //to facilitate transforms
     setVisible(false)
