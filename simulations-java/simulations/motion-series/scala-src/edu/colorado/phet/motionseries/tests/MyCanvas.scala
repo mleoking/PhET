@@ -126,6 +126,16 @@ trait DefaultStageContainer extends StageContainer {
   def containsStageNode(node: PNode) = containsChild(new StageNode(stage, this, node))
 
   def containsScreenNode(node: PNode) = containsChild(node)
+
+  def updateRegions() = {
+    stageBoundsDebugRegion.setPathTo(stageInScreenCoordinates)
+    stageContainerDebugRegion.setPathTo(containerBounds)
+  }
+
+  def toggleDebugs() = {
+    toggleScreenNode(stageContainerDebugRegion)
+    toggleScreenNode(stageBoundsDebugRegion)
+  }
 }
 
 class MyCanvas(val stageWidth: Double, val stageHeight: Double, val modelBounds: Rectangle2D) extends PhetPCanvas with DefaultStageContainer {
@@ -139,21 +149,15 @@ class MyCanvas(val stageWidth: Double, val stageHeight: Double, val modelBounds:
     })
   }
 
-  def containerBounds = new Rectangle2D.Double(0, 0, getWidth, getHeight)
+  def containerBounds = new Rectangle2D.Double(100, 100, getWidth - 100, getHeight - 100)
 
   addComponentListener(new ComponentAdapter() {
     override def componentResized(e: ComponentEvent) = {
-      stageBoundsDebugRegion.setPathTo(stageInScreenCoordinates)
-      stageContainerDebugRegion.setPathTo(containerBounds)
+      updateRegions()
     }
   })
   addKeyListener(new KeyAdapter() {
-    override def keyPressed(e: KeyEvent) = {
-      if (e.getKeyCode == KeyEvent.VK_S) {
-        toggleScreenNode(stageContainerDebugRegion)
-        toggleScreenNode(stageBoundsDebugRegion)
-      }
-    }
+    override def keyPressed(e: KeyEvent) = if (e.getKeyCode == KeyEvent.VK_S)  toggleDebugs()
   })
   def containsChild(node: PNode) = getLayer.getChildrenReference.contains(node)
 
