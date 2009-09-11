@@ -116,7 +116,7 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
     val velocityGraph = new MotionSeriesGraph(velocitySeries, canvas, timeseriesModel, updateableObject, model) {
       setVerticalRange(-50, 50)
       addControl(new SeriesSelectionControl("", 1) {
-        addToGrid(velocitySeries, createEditableLabel)
+        addComponentsToGrid(new SeriesControlTitleLabel(velocitySeries), createEditableLabel(velocitySeries))
       })
     }
     velocityGraph
@@ -134,7 +134,7 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
     val positionGraph = new MotionSeriesGraph(positionSeries, canvas, timeseriesModel, updateableObject, model) {
       setVerticalRange(-10, 10)
       addControl(new SeriesSelectionControl("", 1) {
-        addToGrid(positionSeries, createEditableLabel)
+        addComponentsToGrid(new SeriesControlTitleLabel(positionSeries), createEditableLabel(positionSeries))
       })
     }
     positionGraph
