@@ -150,7 +150,7 @@ class MyCanvas(val stageWidth: Double, val stageHeight: Double, val modelBounds:
     })
   }
 
-  def containerBounds = new Rectangle2D.Double(0, 0, getWidth, getHeight)
+  def containerBounds:Rectangle2D = new Rectangle2D.Double(0, 0, getWidth, getHeight)
 
   addComponentListener(new ComponentAdapter() {
     override def componentResized(e: ComponentEvent) = {

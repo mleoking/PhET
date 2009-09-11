@@ -10,6 +10,7 @@ import javax.swing.{JFrame}
 import model._
 import scalacommon.Predef._
 import motionseries.MotionSeriesResources
+import sims.theramp.StageContainerArea
 import tests.MyCanvas
 import umd.cs.piccolo.PNode
 import motionseries.MotionSeriesResources._
@@ -152,7 +153,8 @@ class RampCanvas(model: MotionSeriesModel,
                  showObjectSelectionNode: Boolean,
                  showAppliedForceSlider: Boolean,
                  rampAngleDraggable: Boolean,
-                 modelViewport: Rectangle2D)
+                 modelViewport: Rectangle2D,
+                 stageContainerArea:StageContainerArea)
         extends MotionSeriesCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame, modelViewport) {
   if (showAppliedForceSlider) {
     val appliedForceSliderNode = new AppliedForceSliderNode(model.bead, () => model.setPaused(false))
@@ -166,6 +168,8 @@ class RampCanvas(model: MotionSeriesModel,
     objectSelectionNode.setOffset(stage.width / 2 - objectSelectionNode.getFullBounds.getWidth / 2, stage.height - objectSelectionNode.getFullBounds.getHeight - 2)
     addStageNode(objectSelectionNode)
   }
+
+  override def containerBounds = stageContainerArea.getBounds(getWidth,getHeight)
 
   override def addWallsAndDecorations() = {
     playAreaNode.addChild(new BeadNode(model.leftWall, transform, "wall.jpg".literal) with CloseButton {

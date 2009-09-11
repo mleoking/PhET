@@ -15,12 +15,24 @@ import scalacommon.record.{RecordModelControlPanel, PlaybackSpeedSlider}
 
 import scalacommon.ScalaClock
 
-class BasicRampModule(frame: JFrame, clock: ScalaClock, name: String,
-                      coordinateSystemFeaturesEnabled: Boolean, useObjectComboBox: Boolean, showAppliedForceSlider: Boolean,
-                      defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngle: Double, rampLayoutArea: Rectangle2D)
+trait StageContainerArea{
+  def getBounds(w:Double,h:Double):Rectangle2D
+}
+
+class BasicRampModule(frame: JFrame,
+                      clock: ScalaClock,
+                      name: String,
+                      coordinateSystemFeaturesEnabled: Boolean,
+                      useObjectComboBox: Boolean,
+                      showAppliedForceSlider: Boolean,
+                      defaultBeadPosition: Double,
+                      pausedOnReset: Boolean,
+                      initialAngle: Double,
+                      rampLayoutArea: Rectangle2D,
+                      stageContainerArea:StageContainerArea)
         extends MotionSeriesModule(frame, clock, name, defaultBeadPosition, pausedOnReset, initialAngle) {
   val rampCanvas = new RampCanvas(motionSeriesModel, coordinateSystemModel, fbdModel, vectorViewModel, frame,
-    !useObjectComboBox, showAppliedForceSlider, initialAngle != 0.0, rampLayoutArea)
+    !useObjectComboBox, showAppliedForceSlider, initialAngle != 0.0, rampLayoutArea,stageContainerArea)
   setSimulationPanel(rampCanvas)
   val rampControlPanel = new RampControlPanel(motionSeriesModel, wordModel, fbdModel, coordinateSystemModel, vectorViewModel,
     resetRampModule, coordinateSystemFeaturesEnabled, useObjectComboBox, motionSeriesModel, true, true,true)
@@ -30,22 +42,29 @@ class BasicRampModule(frame: JFrame, clock: ScalaClock, name: String,
 
 import motionseries.MotionSeriesResources._
 
-class IntroRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "module.introduction".translate, false, false, true, -6, false, MotionSeriesDefaults.defaultRampAngle, MotionSeriesDefaults.defaultViewport)
+class IntroRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "module.introduction".translate, false, false, true, -6, false, MotionSeriesDefaults.defaultRampAngle, MotionSeriesDefaults.defaultViewport,MotionSeriesDefaults.fullScreen)
 
-class CoordinatesRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "module.coordinates".translate, true, false, true, -6, false, MotionSeriesDefaults.defaultRampAngle, MotionSeriesDefaults.defaultViewport) {
+class CoordinatesRampModule(frame: JFrame,
+                            clock: ScalaClock)
+        extends BasicRampModule(frame, clock, "module.coordinates".translate, true, false, true, -6, false, MotionSeriesDefaults.defaultRampAngle, MotionSeriesDefaults.defaultViewport,MotionSeriesDefaults.fullScreen) {
   coordinateSystemModel.adjustable = true
 }
 
-class GraphingModule(frame: JFrame, clock: ScalaClock, name: String, showEnergyGraph: Boolean, rampLayoutArea: Rectangle2D)
-        extends BasicRampModule(frame, clock, name, false, true, false, -6, true, MotionSeriesDefaults.defaultRampAngle, rampLayoutArea) {
+class GraphingModule(frame: JFrame,
+                     clock: ScalaClock,
+                     name: String,
+                     showEnergyGraph: Boolean,
+                     rampLayoutArea: Rectangle2D,
+                     stageContainerArea:StageContainerArea)
+        extends BasicRampModule(frame, clock, name, false, true, false, -6, true, MotionSeriesDefaults.defaultRampAngle, rampLayoutArea,stageContainerArea) {
   coordinateSystemModel.adjustable = false
 }
 
-class ForceGraphsModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(frame, clock, "module.force-graphs".translate, false, MotionSeriesDefaults.forceGraphViewport) {
+class ForceGraphsModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(frame, clock, "module.force-graphs".translate, false, MotionSeriesDefaults.forceGraphViewport,MotionSeriesDefaults.forceGraphArea) {
   rampCanvas.addScreenNode(new RampForceChartNode(rampCanvas, motionSeriesModel))
 }
 
-class WorkEnergyModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(frame, clock, "module.work-energy".translate, true, MotionSeriesDefaults.forceEnergyGraphViewport) {
+class WorkEnergyModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(frame, clock, "module.work-energy".translate, true, MotionSeriesDefaults.forceEnergyGraphViewport,MotionSeriesDefaults.forceEnergyGraphArea) {
   rampCanvas.addScreenNode(new RampForceEnergyChartNode(rampCanvas, motionSeriesModel))
   val workEnergyChartModel = new WorkEnergyChartModel
   val workEnergyChartButton = new JButton("controls.showWorkEnergyCharts".translate)
