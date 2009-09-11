@@ -4,7 +4,6 @@ package edu.colorado.phet.nuclearphysics.module.radioactivedatinggame;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
@@ -98,10 +97,12 @@ public class RadiometricDatingMeterNode extends PNode {
 	private ElementSelectionPanel _elementSelectionPanel;
 	private PSwing _elementSelectionNode;
 	private PComboBox _halfLifeComboBox;
-	private PSwing halfLifeComboBoxPSwing = null;
+	private PSwing _halfLifeComboBoxPSwing = null;
 	private PNode _airProbeNode;
 	@SuppressWarnings("unused")
 	private MeasurementModeToggleAnimationTimer _animationTimer = null;
+	private PText _halfLifeSelectionLabel;
+	private boolean _showCustom = false;
 	
     //------------------------------------------------------------------------
     // Constructor
@@ -112,6 +113,7 @@ public class RadiometricDatingMeterNode extends PNode {
 		
 		_meterModel = meterModel;
 		_mvt = mvt;
+		_showCustom = showCustom;
 		
 		// Register with the model to find out when something new is being touched.
 		_meterModel.addListener(new RadiometricDatingMeter.Adapter(){
@@ -155,8 +157,7 @@ public class RadiometricDatingMeterNode extends PNode {
 		_percentageDisplay.setPercentage(100);
 		
 		// Add the selection panel.
-		_elementSelectionPanel = new ElementSelectionPanel(meterModel,
-				showCustom);
+		_elementSelectionPanel = new ElementSelectionPanel(meterModel, _showCustom);
 		_elementSelectionNode = new PSwing(_elementSelectionPanel);
 		double scale = Math.min(
 				_meterBody.getFullBoundsReference().width * READOUT_WIDTH_PROPORTION / 
@@ -175,23 +176,23 @@ public class RadiometricDatingMeterNode extends PNode {
 		// Ideally, this combo box would be part of the element selection
 		// panel, but problems with that approach necessitated its extraction
 		// into a separate PSwing.
-		if (showCustom){
+		if (_showCustom){
 	        _halfLifeComboBox = new PComboBox(HALF_LIFE_VALUE_STRING_PAIRS);
 	        _halfLifeComboBox.setFont(HALF_LIFE_SELECTION_FONT);
-	        halfLifeComboBoxPSwing = new PSwing( _halfLifeComboBox );
-	        _halfLifeComboBox.setEnvironment(halfLifeComboBoxPSwing, canvas);
-	        _meterBody.addChild(halfLifeComboBoxPSwing);
-	        halfLifeComboBoxPSwing.setOffset(
+	        _halfLifeComboBoxPSwing = new PSwing( _halfLifeComboBox );
+	        _halfLifeComboBox.setEnvironment(_halfLifeComboBoxPSwing, canvas);
+	        _meterBody.addChild(_halfLifeComboBoxPSwing);
+	        _halfLifeComboBoxPSwing.setOffset(
 	        		_elementSelectionNode.getFullBoundsReference().getMaxX() 
-	        		- halfLifeComboBoxPSwing.getFullBoundsReference().width, 
+	        		- _halfLifeComboBoxPSwing.getFullBoundsReference().width, 
 	        		_elementSelectionNode.getFullBoundsReference().getMaxY());
-	        PText halfLifeSelectionLabel = new PText(NuclearPhysicsStrings.METER_HALF_LIFE_EQUALS);
-	        halfLifeSelectionLabel.setFont(HALF_LIFE_SELECTION_FONT);
-	        halfLifeSelectionLabel.setTextPaint(Color.WHITE);
-	        halfLifeSelectionLabel.setOffset(
-	        		halfLifeComboBoxPSwing.getXOffset() - halfLifeSelectionLabel.getFullBoundsReference().width,
+	        _halfLifeSelectionLabel = new PText(NuclearPhysicsStrings.METER_HALF_LIFE_EQUALS);
+	        _halfLifeSelectionLabel.setFont(HALF_LIFE_SELECTION_FONT);
+	        _halfLifeSelectionLabel.setTextPaint(Color.WHITE);
+	        _halfLifeSelectionLabel.setOffset(
+	        		_halfLifeComboBoxPSwing.getXOffset() - _halfLifeSelectionLabel.getFullBoundsReference().width,
 	        		_elementSelectionNode.getFullBoundsReference().getMaxY() );
-	        _meterBody.addChild(halfLifeSelectionLabel);
+	        _meterBody.addChild(_halfLifeSelectionLabel);
 
 	        // Hook up the handler for changes to the custom half life setting.
 			_halfLifeComboBox.addActionListener(new ActionListener(){
@@ -238,6 +239,7 @@ public class RadiometricDatingMeterNode extends PNode {
 		// Do initial state updates.
 		updateProbeVisibility();
 		updateMeterReading();
+		updateHalfLifeSelectorVisibility();
 	}
 	
     //------------------------------------------------------------------------
@@ -275,6 +277,14 @@ public class RadiometricDatingMeterNode extends PNode {
 		}
 		
 		updateMeterReading();
+		updateHalfLifeSelectorVisibility();
+	}
+	
+	private void updateHalfLifeSelectorVisibility(){
+		if (_showCustom){
+			_halfLifeComboBoxPSwing.setVisible(_meterModel.getNucleusTypeUsedForDating() == NucleusType.HEAVY_CUSTOM);
+			_halfLifeSelectionLabel.setVisible(_meterModel.getNucleusTypeUsedForDating() == NucleusType.HEAVY_CUSTOM);
+		}
 	}
 	
 	private void handleMeasurementModeChanged(){
