@@ -17,19 +17,15 @@ class WhoWeArePage extends SitePage {
         $is_team_member = (isset($this->user)) ? $this->user["contributor_is_team_member"] : 0;
 
         print <<<EOT
-        <img src="{$this->prefix}images/contact-page.jpg" class="imageOne" alt="Image of the PhET Team" width="578"/>
+        <img src="{$this->prefix}images/phet-group-2009-08-20-scaled.jpg" class="imageOne" alt="Image of the PhET Team" width="578"/>
 
         <div>
             <div class="caption">
-                <span style="font-weight: bold; text-decoration: underline; font-style: italic;">Back Row:</span> Noah Finkelstein, John Blanco, Sam Reid, Chris Malley, Wendy Adams
+                <span style="font-weight: bold; text-decoration: underline; font-style: italic;">Back Row:</span>Linda Wellman, Michael Dubson, Jonathan Olson, Sam Reid, Chris Malley, Robert Parson, John Blanco, Carl Wieman
             </div>
 
             <div class="caption">
-                <span style="font-weight: bold; text-decoration: underline; font-style: italic;">Middle Row:</span> Carl Wieman, Mike Dubson, Kathy Perkins, Alex Adams
-            </div>
-
-            <div class="caption">
-                <span style="font-weight: bold; text-decoration: underline; font-style: italic;">Front Row:</span> Sarah Borenstein, Archie Paulson, Trish Loeblein, Noah Podolefsky, Marj Frankel
+                <span style="font-weight: bold; text-decoration: underline; font-style: italic;">Front Row:</span> Marj Frankel, Kelly Lancaster, Trish Loeblein, Kathy Perkins, Noah Podolefsky, Alex Adams, Wendy Adams, Noah Finkelstein
             </div>
 
             <p>&nbsp;</p>
