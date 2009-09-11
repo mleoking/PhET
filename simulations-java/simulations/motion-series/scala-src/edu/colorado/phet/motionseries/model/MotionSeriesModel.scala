@@ -185,6 +185,7 @@ class MotionSeriesModel(defaultBeadPosition: Double, pausedOnReset: Boolean, ini
         extends RecordModel[RecordedState] with ObjectModel {
   private var _walls = true
   private var _frictionless = MotionSeriesDefaults.FRICTIONLESS_DEFAULT
+  private var _bounce = MotionSeriesDefaults.BOUNCE_DEFAULT
   private var _selectedObject = MotionSeriesDefaults.objects(0)
 
   val rampSegments = new ArrayBuffer[RampSegment]
@@ -202,6 +203,7 @@ class MotionSeriesModel(defaultBeadPosition: Double, pausedOnReset: Boolean, ini
   rampSegments(0).addListenerByName {rampChangeAdapter.notifyListeners}
   rampSegments(1).addListenerByName {rampChangeAdapter.notifyListeners}
   val surfaceFriction = () => !frictionless
+  val wallsBounce = () => bounce
 
   val defaultManPosition = defaultBeadPosition - 1
   val leftWall = createBead(-10, MotionSeriesDefaults.wall.width, MotionSeriesDefaults.wall.height)
@@ -218,7 +220,7 @@ class MotionSeriesModel(defaultBeadPosition: Double, pausedOnReset: Boolean, ini
   val bead = new Bead(new BeadState(defaultBeadPosition, 0,
     _selectedObject.mass, _selectedObject.staticFriction, _selectedObject.kineticFriction, 0.0, 0.0, 0.0),
     _selectedObject.height, _selectedObject.width, positionMapper,
-    rampSegmentAccessor, rampChangeAdapter, surfaceFriction, surfaceFrictionStrategy, walls, wallRange)
+    rampSegmentAccessor, rampChangeAdapter, surfaceFriction, wallsBounce,surfaceFrictionStrategy, walls, wallRange)
   updateDueToObjectChange()
 
   val raindrops = new ArrayBuffer[Raindrop]
@@ -229,7 +231,7 @@ class MotionSeriesModel(defaultBeadPosition: Double, pausedOnReset: Boolean, ini
   val maxDrops = 60
   val elapsedTimeHistory = new ArrayBuffer[Long]
 
-  def createBead(x: Double, width: Double, height: Double): Bead = new Bead(new BeadState(x, 0, 10, 0, 0, 0.0, 0.0, 0.0), height, width, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction, surfaceFrictionStrategy, walls, wallRange)
+  def createBead(x: Double, width: Double, height: Double): Bead = new Bead(new BeadState(x, 0, 10, 0, 0, 0.0, 0.0, 0.0), height, width, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction, wallsBounce,surfaceFrictionStrategy, walls, wallRange)
 
   def createBead(x: Double, width: Double): Bead = createBead(x, width, 3)
 
@@ -349,6 +351,8 @@ class MotionSeriesModel(defaultBeadPosition: Double, pausedOnReset: Boolean, ini
     notifyListeners()
   }
 
+  def bounce = _bounce
+
   def frictionless = _frictionless
 
   def walls = _walls
@@ -373,6 +377,12 @@ class MotionSeriesModel(defaultBeadPosition: Double, pausedOnReset: Boolean, ini
 
     rampSegments(1).startPoint = new Vector2D(0, 0)
     rampSegments(1).endPoint = new Vector2D(rampSegments(1).angle) * seg1Length
+  }
+
+  def bounce_=(b:Boolean) = {
+    _bounce = b
+    rampChangeAdapter.notifyListeners()
+    notifyListeners()
   }
 
   def frictionless_=(b: Boolean) = {
