@@ -46,21 +46,21 @@ class BasicForcesAndMotionCanvas(model: MotionSeriesModel, coordinateSystemModel
   override def addHeightAndAngleIndicators() = {}
 }
 
-class IntroModule(frame: JFrame, clock: ScalaClock) extends BasicForcesAndMotionModule(frame, clock, "forces-and-motion.module.intro.title".translate, false, true, false, true, -6, false, 0.0, true, true,MotionSeriesDefaults.forceMotionViewport,MotionSeriesDefaults.fullScreen)
+class IntroModule(frame: JFrame, clock: ScalaClock) extends BasicForcesAndMotionModule(frame, clock, "forces-and-motion.module.intro.title".translate, false, true, false, true, -6, false, 0.0, true, true,MotionSeriesDefaults.forceMotionViewport,MotionSeriesDefaults.forceMotionArea)
 
-class FrictionModule(frame: JFrame, clock: ScalaClock) extends BasicForcesAndMotionModule(frame, clock, "forces-and-motion.module.friction.title".translate, false, false, false, true, -6, false, 0.0, false, true,MotionSeriesDefaults.frictionViewport,MotionSeriesDefaults.fullScreen) {
+class FrictionModule(frame: JFrame, clock: ScalaClock) extends BasicForcesAndMotionModule(frame, clock, "forces-and-motion.module.friction.title".translate, false, false, false, true, -6, false, 0.0, false, true,MotionSeriesDefaults.forceMotionFrictionViewport,MotionSeriesDefaults.forceMotionFrictionArea) {
   val frictionPlayAreaControlPanel = new PSwing(new FrictionPlayAreaControlPanel(motionSeriesModel.bead))
   frictionPlayAreaControlPanel.setOffset(canvas.stage.width / 2 - frictionPlayAreaControlPanel.getFullBounds.getWidth / 2, canvas.stage.height - frictionPlayAreaControlPanel.getFullBounds.getHeight - 2)
   canvas.addStageNode(frictionPlayAreaControlPanel)
   motionSeriesModel.frictionless = false
 }
 
-class GraphingModule(frame: JFrame, clock: ScalaClock) extends BasicForcesAndMotionModule(frame, clock, "forces-and-motion.module.graphing.title".translate, false, false, true, false, -6, false, 0.0, true, true,MotionSeriesDefaults.forceEnergyGraphViewport,MotionSeriesDefaults.fullScreen) {
+class GraphingModule(frame: JFrame, clock: ScalaClock) extends BasicForcesAndMotionModule(frame, clock, "forces-and-motion.module.graphing.title".translate, false, false, true, false, -6, false, 0.0, true, true,MotionSeriesDefaults.forceMotionGraphViewport,MotionSeriesDefaults.forceEnergyGraphArea) {
   coordinateSystemModel.adjustable = false
   canvas.addScreenNode(new ForcesAndMotionChartNode(canvas, motionSeriesModel))
 }
 
-class RobotMovingCompany1DModule(frame: JFrame, clock: ScalaClock) extends BasicForcesAndMotionModule(frame, clock, "forces-and-motion.module.robot-moving-company.title".translate, false, false, false, false, -6, false, 0.0, true, true,MotionSeriesDefaults.defaultViewport,MotionSeriesDefaults.fullScreen)
+class RobotMovingCompany1DModule(frame: JFrame, clock: ScalaClock) extends BasicForcesAndMotionModule(frame, clock, "forces-and-motion.module.robot-moving-company.title".translate, false, false, false, false, -6, false, 0.0, true, true,MotionSeriesDefaults.defaultViewport,MotionSeriesDefaults.fullScreenArea)
 
 class ForcesAndMotionApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
   def newClock = new ScalaClock(MotionSeriesDefaults.DELAY, MotionSeriesDefaults.DT_DEFAULT)
