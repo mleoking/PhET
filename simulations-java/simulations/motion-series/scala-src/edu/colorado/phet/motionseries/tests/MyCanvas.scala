@@ -150,7 +150,7 @@ class MyCanvas(val stageWidth: Double, val stageHeight: Double, val modelBounds:
     })
   }
 
-  def containerBounds = new Rectangle2D.Double(100, 100, getWidth - 100, getHeight - 100)
+  def containerBounds = new Rectangle2D.Double(0, 0, getWidth, getHeight)
 
   addComponentListener(new ComponentAdapter() {
     override def componentResized(e: ComponentEvent) = {
@@ -158,7 +158,7 @@ class MyCanvas(val stageWidth: Double, val stageHeight: Double, val modelBounds:
     }
   })
   addKeyListener(new KeyAdapter() {
-    override def keyPressed(e: KeyEvent) = if (e.getKeyCode == KeyEvent.VK_S)  toggleDebugs()
+    override def keyPressed(e: KeyEvent) = if (e.getKeyCode == KeyEvent.VK_S) toggleDebugs()
   })
   def containsChild(node: PNode) = getLayer.getChildrenReference.contains(node)
 
