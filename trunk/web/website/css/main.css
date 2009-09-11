@@ -32,7 +32,6 @@ h2 {
 }
 
 p,*.p-indentation {
-    line-height: 19px;
     color: #000;
     padding-left: 0;
     padding-right: 0;
@@ -1416,6 +1415,22 @@ div.research .publication_pdflink {
 
 div.research .publication_htmllink {
 
+}
+
+.research-question {
+    margin: 0 50px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.research-answer {
+    text-indent: 50px;
+    margin: 0 50px;
+}
+
+.citation {
+    margin: 20px 50px;
+    font-size: 11px;
 }
 
 /******** =localNav ********/ /* The navigation bar */
