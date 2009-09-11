@@ -69,30 +69,41 @@ class MyCanvas(stageWidth: Double, stageHeight: Double, modelBounds: Rectangle2D
 
   val stage = new Stage(stageWidth, stageHeight)
 
-  val stageBoundsDebugRegion = new PhetPPath(new Rectangle2D.Double(0, 0, stage.width, stage.height), new BasicStroke(6, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1f, Array(6f, 4f), 0f), Color.red)
-
-  val transform = new ModelViewTransform2D(modelBounds, new Rectangle2D.Double(0, 0, stageWidth, stageHeight))
-  addKeyListener(new KeyAdapter() {
-    override def keyPressed(e: KeyEvent) = {
-      if (e.getKeyCode == KeyEvent.VK_S) {
-        if (!containsStageNode(stageBoundsDebugRegion))
-          addStageNode(stageBoundsDebugRegion)
-        else removeStageNode(stageBoundsDebugRegion)
-      }
-    }
-  })
   private val utilityStageNode = new PText("Utility node") { //to facilitate transforms
     setVisible(false)
     setPickable(false)
   }
   addStageNode(utilityStageNode)
 
+  //get the rectangle that entails the stage, but in screen coordinates
+  def stageInScreenCoordinates = stageToScreen(new Rectangle2D.Double(0, 0, stage.width, stage.height))
+
+  //use screen coordinates instead of stage coordinates to keep stroke a fixed width
+  val stageBoundsDebugRegion = new PhetPPath(stageInScreenCoordinates, new BasicStroke(4, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1f, Array(20f, 8f), 0f), Color.red)
+  addComponentListener(new ComponentAdapter(){
+    override def componentResized(e: ComponentEvent) = stageBoundsDebugRegion.setPathTo(stageInScreenCoordinates)
+  })
+
+  val transform = new ModelViewTransform2D(modelBounds, new Rectangle2D.Double(0, 0, stageWidth, stageHeight))
+  addKeyListener(new KeyAdapter() {
+    override def keyPressed(e: KeyEvent) = {
+      if (e.getKeyCode == KeyEvent.VK_S) {
+        if (!containsScreenNode(stageBoundsDebugRegion))
+          addScreenNode(stageBoundsDebugRegion)
+        else removeScreenNode(stageBoundsDebugRegion)
+      }
+    }
+  })
+
   def modelToScreen(x: Double, y: Double) = utilityStageNode.localToGlobal(transform.modelToView(x, y))
+
   def canvasToStageDelta(dx: Double, dy: Double) = utilityStageNode.globalToLocal(new PDimension(dx, dy))
+
+  def stageToScreen(shape:Rectangle2D) = utilityStageNode.localToGlobal(shape)
 
   def setStageBounds(w: Double, h: Double) = {
     stage.setSize(w, h)
-    //    stageBoundsDebugRegion.setPathTo(new Rectangle2D.Double(0, 0, w, h))
+    stageBoundsDebugRegion.setPathTo(stageInScreenCoordinates)
     transform.setViewBounds(new Rectangle2D.Double(0, 0, w, h))
   }
 
@@ -110,7 +121,9 @@ class MyCanvas(stageWidth: Double, stageHeight: Double, modelBounds: Rectangle2D
 
   def panModelViewport(dx: Double, dy: Double) = transform.panModelViewport(dx, dy)
 
-  def containsStageNode(node:PNode) = getLayer.getChildrenReference.contains(new StageNode(stage,this,node))
+  def containsStageNode(node: PNode) = getLayer.getChildrenReference.contains(new StageNode(stage, this, node))
+
+  def containsScreenNode(node: PNode) = getLayer.getChildrenReference.contains(node)
 }
 
 class StartTest {
