@@ -178,6 +178,7 @@ class MotionSeriesGraph(defaultSeries: ControlGraphSeries, canvas: PhetPCanvas, 
       addChild(textParent)
 
       override def updateLayout() = {
+        if (textParent!=null) setSliderDecorationInset(textParent.getFullBounds.getWidth+5)
         super.updateLayout()
         if (textParent != null)
           textParent.setOffset(getTrackFullBounds.getX - textParent.getFullBounds.getWidth - getThumbFullBounds.getWidth / 2,

@@ -1,3 +1,4 @@
+9-11-2009: Added ability to increase padding between series controls and slider, didn't change default behavior
 9-11-2009: Added ability to center additional controls, only enabled for aligned layout, didn't change default behavior
 9-4-2009: Added getter/setter for domain
 9-4-2009: Update to Java 1.5
