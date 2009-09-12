@@ -561,7 +561,7 @@ public class ControlGraph extends PNode {
                 public double getValue( MinimizableControlGraph minimizableControlGraph ) {
                     double maxControlNodeWidth = minimizableControlGraph.getControlGraph().graphTimeControlNode.getFullBounds().getWidth();
                     double maxAdditionalControlWidth = minimizableControlGraph.getControlGraph().additionalControls.getFullBounds().getWidth();
-                    System.out.println( "maxControlNodeWidth = " + maxControlNodeWidth +", maxadd'l = "+maxAdditionalControlWidth);
+//                    System.out.println( "maxControlNodeWidth = " + maxControlNodeWidth +", maxadd'l = "+maxAdditionalControlWidth);
                     return Math.max( maxAdditionalControlWidth, maxControlNodeWidth ) + sliderDecorationInset;
 //                    return maxControlNodeWidth;
                 }
