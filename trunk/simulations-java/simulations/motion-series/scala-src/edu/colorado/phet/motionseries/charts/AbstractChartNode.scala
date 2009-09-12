@@ -157,6 +157,7 @@ abstract class AbstractChartNode(canvas: MotionSeriesCanvas, model: MotionSeries
 
 class MotionSeriesGraph(defaultSeries: ControlGraphSeries, canvas: PhetPCanvas, timeseriesModel: TimeSeriesModel, updateableObject: UpdateableObject, model: MotionSeriesModel)
         extends MotionControlGraph(canvas, defaultSeries, "".literal, "".literal, -2000, 2000, true, timeseriesModel, updateableObject) {
+  setCenterControls(true)
   getJFreeChartNode.getChart.getXYPlot.getRangeAxis.setTickLabelFont(new PhetFont(14, true))
   getJFreeChartNode.getChart.getXYPlot.getDomainAxis.setTickLabelFont(new PhetFont(14, true))
   getJFreeChartNode.getChart.getXYPlot.setDomainGridlinePaint(Color.gray)
