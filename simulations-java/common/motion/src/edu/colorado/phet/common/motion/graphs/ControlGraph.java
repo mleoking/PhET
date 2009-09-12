@@ -70,6 +70,8 @@ public class ControlGraph extends PNode {
     private double minViewableX = 0;
     private double maxViewableX;
 
+    private boolean centerControls=false;//todo: currently only applied for aligned layout
+
     public ControlGraph( PhetPCanvas pSwingCanvas, final ITemporalVariable temporalVariable,
                          String title, double minY, double maxY, TimeSeriesModel timeSeriesModel ) {
         this( pSwingCanvas, new ControlGraphSeries( temporalVariable ), title, minY, maxY, timeSeriesModel );
@@ -189,6 +191,14 @@ public class ControlGraph extends PNode {
             addSeries( series );
         }
         updateSliderValue();
+    }
+
+    public boolean isCenterControls() {
+        return centerControls;
+    }
+
+    public void setCenterControls( boolean centerControls ) {
+        this.centerControls = centerControls;
     }
 
     public static JFreeChartDecorator createDefaultChart( String title ) {
@@ -536,7 +546,12 @@ public class ControlGraph extends PNode {
 //            System.out.println( "ControlGraph$AlignedLayout.layout: " + ControlGraph.this );
             double dx = 5;
             graphTimeControlNode.setOffset( 0, 0 );
-            additionalControls.setOffset( 0, graphTimeControlNode.getFullBounds().getMaxY() );
+            if ( centerControls ) {
+                additionalControls.setOffset( 0, graphTimeControlNode.getFullBounds().getMaxY() + getBounds().getHeight() / 2 - additionalControls.getFullBounds().getHeight() / 2 );
+            }
+            else {
+                additionalControls.setOffset( 0, graphTimeControlNode.getFullBounds().getMaxY() );
+            }
             LayoutFunction controlNodeMaxX = new LayoutFunction() {
                 public double getValue( MinimizableControlGraph minimizableControlGraph ) {
                     double maxControlNodeWidth = minimizableControlGraph.getControlGraph().graphTimeControlNode.getFullBounds().getWidth();
