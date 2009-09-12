@@ -1,3 +1,4 @@
+Made it so the chart series controls and units labels don't overlap with the vertical text label on the slider.
 Fixed: Chart series controls should be centered on the chart, not against the top of the chart (esp. if only one control); this will help improve layouts
 Fix layout for ramp: work/energy tab, play area is unusable for some aspect ratios
 Make sure all play areas are visible on the stage
