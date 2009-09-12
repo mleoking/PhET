@@ -71,6 +71,7 @@ public class ControlGraph extends PNode {
     private double maxViewableX;
 
     private boolean centerControls=false;//todo: currently only applied for aligned layout
+    private double sliderDecorationInset= 0.0; //ability to increase padding between series controls and slider
 
     public ControlGraph( PhetPCanvas pSwingCanvas, final ITemporalVariable temporalVariable,
                          String title, double minY, double maxY, TimeSeriesModel timeSeriesModel ) {
@@ -195,6 +196,10 @@ public class ControlGraph extends PNode {
 
     public boolean isCenterControls() {
         return centerControls;
+    }
+
+    public void setSliderDecorationInset( double sliderDecorationInset ) {
+        this.sliderDecorationInset = sliderDecorationInset;
     }
 
     public void setCenterControls( boolean centerControls ) {
@@ -556,7 +561,8 @@ public class ControlGraph extends PNode {
                 public double getValue( MinimizableControlGraph minimizableControlGraph ) {
                     double maxControlNodeWidth = minimizableControlGraph.getControlGraph().graphTimeControlNode.getFullBounds().getWidth();
                     double maxAdditionalControlWidth = minimizableControlGraph.getControlGraph().additionalControls.getFullBounds().getWidth();
-                    return Math.max( maxAdditionalControlWidth, maxControlNodeWidth );
+                    System.out.println( "maxControlNodeWidth = " + maxControlNodeWidth +", maxadd'l = "+maxAdditionalControlWidth);
+                    return Math.max( maxAdditionalControlWidth, maxControlNodeWidth ) + sliderDecorationInset;
 //                    return maxControlNodeWidth;
                 }
             };
