@@ -12,8 +12,9 @@ import motionseries.MotionSeriesDefaults._
 //This adds information about charts and chart serieses
 abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSeriesModel)
         extends AbstractChartNode(canvas, model) {
-  def forceGraph:MotionSeriesGraph = forceGraph(true)
-  def forceGraph(showGravitySeries: Boolean):MotionSeriesGraph= {
+  def forceGraph: MotionSeriesGraph = forceGraph(true)
+
+  def forceGraph(showGravitySeries: Boolean): MotionSeriesGraph = {
     val parallelAppliedForceVariable = new DefaultTemporalVariable() {
       override def setValue(value: Double) = model.bead.parallelAppliedForce = value
     }
@@ -58,10 +59,11 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
       getJFreeChartNode.setBuffered(false)
       getJFreeChartNode.setPiccoloSeries()
       for (s <- energyWorkSeriesList.tail) addSeries(s)
+      addControl(new SeriesSelectionControl("forces.work-energy-title-with-units".translate, 7) {
+        for (s <- energyWorkSeriesList) addToGrid(s)
+      })
     }
-    workEnergyGraph.addControl(new SeriesSelectionControl("forces.work-energy-title-with-units".translate, 7) {
-      for (s <- energyWorkSeriesList) addToGrid(s)
-    })
+
     workEnergyGraph
   }
 
@@ -74,10 +76,10 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
       setVerticalRange(-10000, 10000)
       getJFreeChartNode.setBuffered(false)
       getJFreeChartNode.setPiccoloSeries()
+      addControl(new SeriesSelectionControl("forces.work-energy-title-with-units".translate, 7) {
+        addToGrid(keSeries)
+      })
     }
-    keGraph.addControl(new SeriesSelectionControl("forces.work-energy-title-with-units".translate, 7) {
-      addToGrid(keSeries)
-    })
     keGraph
   }
 
