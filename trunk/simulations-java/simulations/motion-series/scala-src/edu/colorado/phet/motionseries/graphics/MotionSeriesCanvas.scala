@@ -138,7 +138,8 @@ class ClearHeatButton(model: MotionSeriesModel) extends GradientButtonNode("cont
     setVisible(model.bead.getRampThermalEnergy > 2000)
   }
   updateVisibility()
-  model.addListener(updateVisibility)
+  model.addListener(updateVisibility)//todo: perhaps this line is unnecessary
+  model.bead.addListener(updateVisibility)
 
   addActionListener(new ActionListener() {
     def actionPerformed(e: ActionEvent) = model.clearHeat()

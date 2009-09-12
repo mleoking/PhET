@@ -209,8 +209,8 @@ class MotionSeriesModel(defaultBeadPosition: Double, pausedOnReset: Boolean, ini
   val leftWall = createBead(-10, MotionSeriesDefaults.wall.width, MotionSeriesDefaults.wall.height)
   val rightWall = createBead(10, MotionSeriesDefaults.wall.width, MotionSeriesDefaults.wall.height)
 
-  val leftWallRightEdge = createBead(-10+MotionSeriesDefaults.wall.width/2,MotionSeriesDefaults.SPRING_WIDTH,MotionSeriesDefaults.SPRING_HEIGHT)
-  val rightWallLeftEdge= createBead(10-MotionSeriesDefaults.wall.width/2,MotionSeriesDefaults.SPRING_WIDTH,MotionSeriesDefaults.SPRING_HEIGHT)
+  val leftWallRightEdge = createBead(-10 + MotionSeriesDefaults.wall.width / 2, MotionSeriesDefaults.SPRING_WIDTH, MotionSeriesDefaults.SPRING_HEIGHT)
+  val rightWallLeftEdge = createBead(10 - MotionSeriesDefaults.wall.width / 2, MotionSeriesDefaults.SPRING_WIDTH, MotionSeriesDefaults.SPRING_HEIGHT)
 
   val manBead = createBead(defaultManPosition, 1)
 
@@ -277,11 +277,19 @@ class MotionSeriesModel(defaultBeadPosition: Double, pausedOnReset: Boolean, ini
   }
 
   def clearHeat() = {
-    if (fireDogs.length == 0) {
-      totalThermalEnergyOnClear = bead.thermalEnergy
-      val fireDog = new FireDog(this) //cue the fire dog, which will eventually clear the thermal energy
-      fireDogs += fireDog //updates when clock ticks
-      fireDogAddedListeners.foreach(_(fireDog))
+    if (isPaused) {
+      rampSegments(0).setWetness(0.0)
+      rampSegments(0).setHeat(0.0)
+      rampSegments(1).setWetness(0.0)
+      rampSegments(1).setHeat(0.0)
+      bead.thermalEnergy = 0.0
+    } else {
+      if (fireDogs.length == 0) {
+        totalThermalEnergyOnClear = bead.thermalEnergy
+        val fireDog = new FireDog(this) //cue the fire dog, which will eventually clear the thermal energy
+        fireDogs += fireDog //updates when clock ticks
+        fireDogAddedListeners.foreach(_(fireDog))
+      }
     }
   }
 
