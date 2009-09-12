@@ -33,7 +33,7 @@ object MotionSeriesDefaults {
   val forceGraphViewport = new Rectangle2D.Double(-11, -1, 23, 8)
   val forceEnergyGraphViewport = new Rectangle2D.Double(-11, -1, 23, 6)
 
-  val forceMotionGraphViewport = new Rectangle2D.Double(-11, -1, 23, 9)
+  val forceMotionGraphViewport = new Rectangle2D.Double(-11, -1, 22, 4)
   val forceMotionViewport = new Rectangle2D.Double(-11, -7, 22, 11)
   val forceMotionFrictionViewport = new Rectangle2D.Double(-11, -8, 22, 12)
   val movingManIntroViewport = new Rectangle2D.Double(-11, -5, 22, 12)
