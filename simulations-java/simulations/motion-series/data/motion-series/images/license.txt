@@ -3,6 +3,7 @@
 # Automatically generated on Fri Aug 08 00:08:03 MDT 2008
 ###################################
 
+icicles.gif source = open clip art notes = http://openclipart.org/media/search/results
 ice.gif source=microsoft notes=j0438800.jpg
 spring.png source=microsoft notes=j0386688.jpg
 arrow-2.gif author=PhET 

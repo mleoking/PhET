@@ -1,11 +1,12 @@
 package edu.colorado.phet.motionseries.graphics
 
 
+import common.phetcommon.view.util.BufferedImageUtils
 import java.awt._
-import geom.Rectangle2D
 import phet.common.phetcommon.math.Function.LinearFunction
 import phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import scalacommon.util.Observable
+import umd.cs.piccolo.nodes.PImage
 import umd.cs.piccolo.PNode
 import phet.common.piccolophet.nodes.PhetPPath
 import model.RampSegment
@@ -30,8 +31,8 @@ class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2
   val woodColor = new Color(184, 131, 24)
   val woodStrokeColor = new Color(91, 78, 49)
 
-  val iceColor = new Color(186,228,255)
-  val iceStrokeColor = new Color(223,236,244)
+  val iceColor = new Color(186, 228, 255)
+  val iceStrokeColor = new Color(223, 236, 244)
 
   //todo: user should set a base color and an interpolation strategy, final paint should be interpolate(base)
   private var baseColor = woodColor
@@ -42,17 +43,27 @@ class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2
   rampSurfaceModel.addListener(() => {
     updateBaseColor()
     updateColor()
+    updateDecorations()
   })
+  val icicleImageNode = new PImage(BufferedImageUtils.multiScaleToHeight(MotionSeriesResources.getImage("icicles.gif"),80))
+
   def updateBaseColor() = {
     baseColor = if (rampSurfaceModel.frictionless) iceColor else woodColor
     line.setStrokePaint(if (rampSurfaceModel.frictionless) iceStrokeColor else woodStrokeColor)
+
+    if (rampSurfaceModel.frictionless && !getChildrenReference.contains(icicleImageNode))
+      addChild(icicleImageNode)
+    else if (!rampSurfaceModel.frictionless && getChildrenReference.contains(icicleImageNode))
+      removeChild(icicleImageNode)
   }
   defineInvokeAndPass(rampSegment.addListenerByName) {
     line.setPathTo(mytransform.createTransformedShape(new BasicStroke(0.4f).createStrokedShape(rampSegment.toLine2D)))
   }
   rampSegment.wetnessListeners += (() => updateColor())
+  rampSegment.addListener (()=>updateDecorations())
   updateBaseColor()
   updateColor()
+  updateDecorations()
   def updateColor() = {
     val r = new LinearFunction(0, 1, baseColor.getRed, wetColor.getRed).evaluate(rampSegment.wetness).toInt
     val g = new LinearFunction(0, 1, baseColor.getGreen, wetColor.getGreen).evaluate(rampSegment.wetness).toInt
@@ -67,13 +78,20 @@ class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2
     paintColor = new Color(r2, g2, b2)
   }
 
+  val iceX = java.lang.Math.random*0.8
+  def updateDecorations() = {
+    if (getChildrenReference.contains(icicleImageNode)) {
+      val delta = (rampSegment.endPoint - rampSegment.startPoint).normalize
+      val alpha = iceX * rampSegment.length 
+      val pt = rampSegment.startPoint + delta * alpha
+      icicleImageNode.setOffset(mytransform.modelToView(pt))
+      icicleImageNode.setRotation(-rampSegment.angle)
+    }
+  }
+
   rampSegment.heatListeners += (() => updateColor())
 
-  def paintColor_=(p: Paint) = {
-//    val iceImage  = MotionSeriesResources.getImage("ice.gif")
-//    val mp = new TexturePaint(iceImage,new Rectangle2D.Double(0,0,iceImage.getWidth,iceImage.getHeight))
-    line.setPaint(p)
-  }
+  def paintColor_=(p: Paint) = line.setPaint(p)
 
   def paintColor = line.getPaint
 }
