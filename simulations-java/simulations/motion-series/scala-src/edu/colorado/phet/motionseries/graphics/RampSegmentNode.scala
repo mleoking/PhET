@@ -30,6 +30,9 @@ class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2
   val woodColor = new Color(184, 131, 24)
   val woodStrokeColor = new Color(91, 78, 49)
 
+  val iceColor = new Color(186,228,255)
+  val iceStrokeColor = new Color(223,236,244)
+
   //todo: user should set a base color and an interpolation strategy, final paint should be interpolate(base)
   private var baseColor = woodColor
   val wetColor = new Color(150, 211, 238)
@@ -37,14 +40,18 @@ class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2
   val line = new PhetPPath(baseColor, new BasicStroke(2f), woodStrokeColor)
   addChild(line)
   rampSurfaceModel.addListener(() => {
-    baseColor = if (rampSurfaceModel.frictionless) Color.white else woodColor
-    line.setStrokePaint(if (rampSurfaceModel.frictionless) Color.lightGray else woodStrokeColor)
+    updateBaseColor()
     updateColor()
   })
+  def updateBaseColor() = {
+    baseColor = if (rampSurfaceModel.frictionless) iceColor else woodColor
+    line.setStrokePaint(if (rampSurfaceModel.frictionless) iceStrokeColor else woodStrokeColor)
+  }
   defineInvokeAndPass(rampSegment.addListenerByName) {
     line.setPathTo(mytransform.createTransformedShape(new BasicStroke(0.4f).createStrokedShape(rampSegment.toLine2D)))
   }
   rampSegment.wetnessListeners += (() => updateColor())
+  updateBaseColor()
   updateColor()
   def updateColor() = {
     val r = new LinearFunction(0, 1, baseColor.getRed, wetColor.getRed).evaluate(rampSegment.wetness).toInt

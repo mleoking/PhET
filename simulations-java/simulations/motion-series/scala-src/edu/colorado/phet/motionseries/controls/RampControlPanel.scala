@@ -7,7 +7,7 @@ import phet.common.phetcommon.view.util.{BufferedImageUtils, PhetFont}
 import phet.common.phetcommon.view.{ControlPanel, VerticalLayoutPanel, ResetAllButton}
 import graphics._
 import java.awt._
-import geom.Rectangle2D
+import geom.{Point2D, Rectangle2D}
 import image.BufferedImage
 import java.awt.event.{MouseEvent, MouseAdapter}
 
@@ -121,11 +121,39 @@ class RampControlPanelBody(model: MotionSeriesModel,
 
   if (showFrictionControl) {
     val frictionPanel = new SubControlPanel("controls.friction".translate)
+
+    def getSegmentIcon(_frictionless:Boolean)={
+      val dummyModelBounds = new Rectangle2D.Double(0,0,10,10)
+      val dummyViewBounds= new Rectangle2D.Double(0,0,800,600)
+      val surfaceModel = new RampSurfaceModel{def frictionless = _frictionless}
+
+      val segment = new RampSegment(new Point2D.Double(0, 0), new Point2D.Double(3, 0))
+      val node = new RampSegmentNode(segment,new ModelViewTransform2D(dummyModelBounds,dummyViewBounds,false),surfaceModel)
+      node.toImage(75,55,new Color(255,255,255,0))
+//      node.toImage
+    }
+
+    def getIceIcon = getSegmentIcon(true)
+
+    def getWoodIcon = getSegmentIcon(false)
+
     val onButton = new MyRadioButton("Ice (no friction)", model.frictionless = true, model.frictionless, model.addListener)
+
+    val onButtonPanel = new JPanel(){
+      add(onButton.peer)
+      add(new JLabel(new ImageIcon(getIceIcon)))
+    }
+
     val offButton = new MyRadioButton("Wood", model.frictionless = false, !model.frictionless, model.addListener)
-    val panel = new JPanel
-    panel.add(onButton.peer)
-    panel.add(offButton.peer)
+
+    val offButtonPanel = new JPanel(){
+      add(offButton.peer)
+      add(new JLabel(new ImageIcon(getWoodIcon)))
+    }
+
+    val panel = new VerticalLayoutPanel
+    panel.add(onButtonPanel)
+    panel.add(offButtonPanel)
     frictionPanel.add(panel)
     add(frictionPanel)
   }
