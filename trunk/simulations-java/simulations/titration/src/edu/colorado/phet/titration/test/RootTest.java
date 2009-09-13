@@ -22,6 +22,10 @@ public class RootTest {
         Complex[] p3 = new Complex[]{new Complex( 10, 0 ), new Complex( -27, 0 ), new Complex( 0, 0 ), new Complex( -3, 0 ), new Complex( 1, 0 ), new Complex( -7, 0 )};
         
         // Laguerre returns NaN for some roots
+        // mathematica says:
+        //  -0.788172 +- 0.554086 i
+        //  0.266144 +- 0.896483 i
+        //  0.91802
         Complex[] p4 = new Complex[]{new Complex( 33.79999999999998,0 ), new Complex( 4.259999999999997, 0),  new Complex( 0.1759999999996617, 0 ), new Complex( -0.007400000000033827, 0 ), new Complex( -0.006620000000003383, 0 ), new Complex( -3.3799999999999987E-16, 0 )};
 
         System.out.println( "Laguerre roots of p1: " + complexArrayToString( findRootsLaguerre( p1, 30 ) ) );
@@ -33,8 +37,8 @@ public class RootTest {
         System.out.println( "Laguerre roots of p3: " + complexArrayToString( findRootsLaguerre( p3, 30 ) ) );
         System.out.println( "Durand-Kerner roots of p3: " + complexArrayToString( findRootsDurandKerner( p3, 30 ) ) );
         
-        System.out.println( "Laguerre roots of p4: " + complexArrayToString( findRootsLaguerre( p4, 30 ) ) );
-        System.out.println( "Durand-Kerner roots of p4: " + complexArrayToString( findRootsDurandKerner( p4, 30 ) ) );
+        System.out.println( "Laguerre roots of p4: " + complexArrayToString( findRootsLaguerre( p4, 300 ) ) );
+        System.out.println( "Durand-Kerner roots of p4: " + complexArrayToString( findRootsDurandKerner( p4, 300 ) ) );
 
         Date a = new Date();
         for ( int i = 0; i < 100000; i++ ) {
