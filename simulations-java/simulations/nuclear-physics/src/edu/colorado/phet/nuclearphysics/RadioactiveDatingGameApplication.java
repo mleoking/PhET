@@ -9,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
+import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.nuclearphysics.module.decayrates.DecayRatesModule;
 import edu.colorado.phet.nuclearphysics.module.halflife.RadiometricElementDecayModule;
 import edu.colorado.phet.nuclearphysics.module.radioactivedatinggame.RadioactiveDatingGameModule;
@@ -22,7 +23,7 @@ import edu.colorado.phet.nuclearphysics.module.radioactivedatinggame.Radiometric
  * @author John Blanco
  * 
  */
-public class RadioactiveDatingGameApplication extends AbstractNuclearPhysicsApplication {
+public class RadioactiveDatingGameApplication extends PiccoloPhetApplication {
 
     //----------------------------------------------------------------------------
     // Instance data
