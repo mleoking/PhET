@@ -53,12 +53,11 @@ class ResearchPage extends SitePage {
                 <li>When, how, and why these tools are effective in a variety of learning environments</li>
             </ol>
             The PhET simulation design principles are based on research on how students learn (Bransford et al., 2000) and from our simulation interviews (see <a href="../phet-dist/publications/phet_design_process.pdf">PhET Design Process</a>). Between four and six think-aloud style interviews with individual students are done with each simulation. These interviews provide a rich data source for studying interface design and student learning. The <a href="../phet-dist/publications/PhET%20Look%20and%20Feel.pdf">PhET Look and Feel</a> briefly describes our interface design principles and a complete discussion is found in the pair of papers by Adams et al., 2008.
-            <br>
+            <br />
             <div class="citation">
                 Bransford, J.D., Brown, A. L. And Cocking, R. R. (2000). <em>How People Learn, Brain, Mind, Experience, and School</em>. Washington, D.C.: National Academy Press
-                </font>
             </div>
-            <br>
+            <br />
 
             <h2>Research answers to commonly asked questions:</h2>
             <div class="research-question">"Can PhET sims replace real lab equipment?"</div>
@@ -78,8 +77,8 @@ class ResearchPage extends SitePage {
                 We have found PhET sims to be very effective in lecture, in class activities, lab and homework. They are designed with minimal text so that they can easily be integrated into every aspect of a course.
             </div>
 
-            <br>
-            <br>
+            <br />
+            <br />
 
             <h2>Our immediate interests are:</h2>
 
@@ -103,7 +102,7 @@ class ResearchPage extends SitePage {
                 <strong>Effectiveness of Chemistry simulations:</strong> We have just begun investigating the envelope of where and how chemistry simulations can be effective learning tools.
             </p>
 
-            <br>
+            <br />
 
             <h2>Publications and Presentations</h2>
 
