@@ -111,9 +111,9 @@ class IndividualSimulationPage extends SitePage {
 <a href="{$this->prefix}tech_support/support-java.php#q1">
 <img src="{$this->prefix}images/unhappy-mac-jnlp-logo-small.jpg" alt="Unhappy JNLP Mac Logo" />
 </a>
-                                                  Users who installed Apple's recent "<strong>Java for Mac OS X 10.5 Update 4</strong>" may have a problem with simulations appearing as text files.  Apple knows about this problem and is working to fix it.</p>
-  <p style="clear: both;">You can work around this problem by following the directions in this question in our FAQ:<br />
-<a href="{$this->prefix}tech_support/support-java.php#q1">(Mac users) When I click "run now" to start the simulation all I get is a text file that opens?</a>
+                                                  Users who installed Apple's recent "<strong>Java for Mac OS X 10.5 Update 4</strong>" may experience simulations appearing as text files.  Apple knows about this problem and is working to fix it.</p>
+<p>
+Please see <a href="{$this->prefix}tech_support/support-java.php#q1">this section of the FAQ</a> for a workaround.
                     </p>
                 </div>
                 <div class="clear"></div>
