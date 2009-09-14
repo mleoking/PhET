@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.simtemplate;
 
-import java.awt.Color;
 import java.awt.Frame;
 
 import javax.swing.JMenu;
@@ -27,8 +26,6 @@ public class SimTemplateApplication extends PiccoloPhetApplication {
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-
-    private SimTemplateModule exampleModule;
 
     // PersistanceManager is used to save/load simulation configurations.
     private XMLPersistenceManager persistenceManager;
@@ -60,16 +57,12 @@ public class SimTemplateApplication extends PiccoloPhetApplication {
         
         Frame parentFrame = getPhetFrame();
 
-        exampleModule = getFirstModule(parentFrame);
-        addModule( exampleModule );
-        
+        Module firstModule = new SimTemplateModule( parentFrame );
+        addModule( firstModule );
+
         Module secondModule = new SimTemplateModule( parentFrame );
         secondModule.setName( "Another Example" );
         addModule( secondModule );
-    }
-
-    protected SimTemplateModule getFirstModule(Frame parentFrame) {
-        return new SimTemplateModule( parentFrame );
     }
 
     /*
@@ -94,19 +87,6 @@ public class SimTemplateApplication extends PiccoloPhetApplication {
         // Developer menu
         JMenu developerMenu = frame.getDeveloperMenu();
         // add items to the Developer menu here...
-    }
-
-    public void setControlPanelBackground( Color color ) {
-        Module[] modules = getModules();
-        for ( int i = 0; i < modules.length; i++ ) {
-            modules[i].setControlPanelBackground( color );
-            modules[i].setClockControlPanelBackground( color );
-            modules[i].setHelpPanelBackground( color );
-        }
-    }
-
-    public Color getControlPanelBackground() {
-        return getModule( 0 ).getControlPanel().getBackground();
     }
 
     //----------------------------------------------------------------------------
