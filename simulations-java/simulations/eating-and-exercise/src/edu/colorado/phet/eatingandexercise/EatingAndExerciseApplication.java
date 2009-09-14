@@ -2,14 +2,12 @@
 
 package edu.colorado.phet.eatingandexercise;
 
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
-import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
@@ -78,19 +76,6 @@ public class EatingAndExerciseApplication extends PiccoloPhetApplication {
     //----------------------------------------------------------------------------
     // Setters & getters
     //----------------------------------------------------------------------------
-
-    public void setControlPanelBackground( Color color ) {
-        Module[] modules = getModules();
-        for ( int i = 0; i < modules.length; i++ ) {
-            modules[i].setControlPanelBackground( color );
-            modules[i].setClockControlPanelBackground( color );
-            modules[i].setHelpPanelBackground( color );
-        }
-    }
-
-    public Color getControlPanelBackground() {
-        return getModule( 0 ).getSimulationPanel().getBackground();
-    }
 
     public void startApplication() {
         super.startApplication();

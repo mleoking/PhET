@@ -2,10 +2,8 @@
 
 package edu.colorado.phet.neuron;
 
-import java.awt.Color;
 import java.awt.Frame;
 
-import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
@@ -74,23 +72,6 @@ public class NeuronApplication extends PiccoloPhetApplication {
         if ( optionsMenu.getMenuComponentCount() > 0 ) {
             frame.addMenu( optionsMenu );
         }
-    }
-
-    //----------------------------------------------------------------------------
-    // Setters & getters
-    //----------------------------------------------------------------------------
-
-    public void setControlPanelBackground( Color color ) {
-        Module[] modules = getModules();
-        for ( int i = 0; i < modules.length; i++ ) {
-            modules[i].setControlPanelBackground( color );
-            modules[i].setClockControlPanelBackground( color );
-            modules[i].setHelpPanelBackground( color );
-        }
-    }
-
-    public Color getControlPanelBackground() {
-        return getModule( 0 ).getControlPanel().getBackground();
     }
 
     //----------------------------------------------------------------------------

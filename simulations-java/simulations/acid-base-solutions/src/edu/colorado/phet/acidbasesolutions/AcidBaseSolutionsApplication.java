@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.acidbasesolutions;
 
-import java.awt.Color;
 import java.awt.Frame;
 
 import javax.swing.JOptionPane;
@@ -14,7 +13,6 @@ import edu.colorado.phet.acidbasesolutions.persistence.ABSConfig;
 import edu.colorado.phet.acidbasesolutions.persistence.ComparingConfig;
 import edu.colorado.phet.acidbasesolutions.persistence.MatchingGameConfig;
 import edu.colorado.phet.acidbasesolutions.persistence.SolutionsConfig;
-import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
@@ -90,23 +88,6 @@ public class AcidBaseSolutionsApplication extends PiccoloPhetApplication {
         }
     }
 
-    //----------------------------------------------------------------------------
-    // Setters & getters
-    //----------------------------------------------------------------------------
-
-    public void setControlPanelBackground( Color color ) {
-        Module[] modules = getModules();
-        for ( int i = 0; i < modules.length; i++ ) {
-            modules[i].setControlPanelBackground( color );
-            modules[i].setClockControlPanelBackground( color );
-            modules[i].setHelpPanelBackground( color );
-        }
-    }
-
-    public SolutionsModule dev_getSolutionsModule() {
-        return solutionsModule;
-    }
-    
     //----------------------------------------------------------------------------
     // Persistence
     //----------------------------------------------------------------------------

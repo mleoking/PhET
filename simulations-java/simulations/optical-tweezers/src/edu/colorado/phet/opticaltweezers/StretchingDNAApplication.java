@@ -58,8 +58,6 @@ public class StretchingDNAApplication extends OTAbstractApplication {
         
         _dnaModule = new DNAModule( frame );
         addModule( _dnaModule );
-
-        setControlPanelBackground( OTConstants.CONTROL_PANEL_COLOR );
     }
 
     //----------------------------------------------------------------------------

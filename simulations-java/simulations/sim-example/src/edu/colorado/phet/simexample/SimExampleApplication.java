@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.simexample;
 
-import java.awt.Color;
 import java.awt.Frame;
 
 import javax.swing.JMenu;
@@ -97,23 +96,6 @@ public class SimExampleApplication extends PiccoloPhetApplication {
         // Developer menu
         JMenu developerMenu = frame.getDeveloperMenu();
         // add items to the Developer menu here...
-    }
-
-    //----------------------------------------------------------------------------
-    // Setters & getters
-    //----------------------------------------------------------------------------
-
-    public void setControlPanelBackground( Color color ) {
-        Module[] modules = getModules();
-        for ( int i = 0; i < modules.length; i++ ) {
-            modules[i].setControlPanelBackground( color );
-            modules[i].setClockControlPanelBackground( color );
-            modules[i].setHelpPanelBackground( color );
-        }
-    }
-
-    public Color getControlPanelBackground() {
-        return getModule( 0 ).getControlPanel().getBackground();
     }
 
     //----------------------------------------------------------------------------
