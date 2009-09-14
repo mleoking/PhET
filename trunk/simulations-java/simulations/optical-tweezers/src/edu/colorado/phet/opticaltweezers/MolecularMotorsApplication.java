@@ -58,8 +58,6 @@ public class MolecularMotorsApplication extends OTAbstractApplication {
         
         _motorsModule = new MotorsModule( frame );
         addModule( _motorsModule );
-
-        setControlPanelBackground( OTConstants.CONTROL_PANEL_COLOR );
     }
 
     //----------------------------------------------------------------------------

@@ -87,19 +87,6 @@ public class NaturalSelectionApplication extends PiccoloPhetApplication {
     // Setters & getters
     //----------------------------------------------------------------------------
 
-    public void setControlPanelBackground( Color color ) {
-        Module[] modules = getModules();
-        for ( int i = 0; i < modules.length; i++ ) {
-            modules[i].setControlPanelBackground( color );
-            modules[i].setClockControlPanelBackground( color );
-            modules[i].setHelpPanelBackground( color );
-        }
-    }
-
-    public Color getControlPanelBackground() {
-        return getModule( 0 ).getControlPanel().getBackground();
-    }
-
     public static boolean isHighContrast() {
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Boolean ret = (Boolean) toolkit.getDesktopProperty( "win.highContrast.on" );
