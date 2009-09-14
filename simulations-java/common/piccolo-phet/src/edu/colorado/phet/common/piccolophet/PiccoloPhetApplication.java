@@ -2,17 +2,13 @@
 
 package edu.colorado.phet.common.piccolophet;
 
-import javax.swing.JMenu;
-
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 
 /**
  * PiccoloPhetApplication
  * <p/>
  * Allows for the use of components and graphics that require Piccolo support.
- * <p/>
  * Piccolo-dependent items that can be specified:
  * <ul>
  * <li>PhetTabbedPane is used in Module instances. (JTabbedPane can be specified in the constructor, if
