@@ -23,7 +23,6 @@ import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValu
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.statesofmatter.AbstractStatesOfMatterApp;
 import edu.colorado.phet.statesofmatter.control.GravityControlPanel;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterAtom;
@@ -47,7 +46,7 @@ public class StatesOfMaterDeveloperControlsDialog extends JDialog {
     // Instance Data
     //----------------------------------------------------------------------------
 
-    private AbstractStatesOfMatterApp m_app;
+    private final PhetApplication m_app;
     private MultipleParticleModel m_model;
     private LinearValueControl m_temperatureControl;
     private JLabel m_containterWidthInfo;
@@ -58,7 +57,7 @@ public class StatesOfMaterDeveloperControlsDialog extends JDialog {
     // Constructors
     //----------------------------------------------------------------------------
 
-    public StatesOfMaterDeveloperControlsDialog( Frame owner, AbstractStatesOfMatterApp app ) {
+    public StatesOfMaterDeveloperControlsDialog( Frame owner, PhetApplication app ) {
         super( owner, "Developer Controls" );
         setResizable( false );
         setModal( false );

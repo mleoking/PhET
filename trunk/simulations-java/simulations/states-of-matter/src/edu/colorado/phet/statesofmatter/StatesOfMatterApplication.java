@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
+import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.statesofmatter.developer.DeveloperControlsMenuItem;
 import edu.colorado.phet.statesofmatter.module.atomicinteractions.AtomicInteractionsModule;
 import edu.colorado.phet.statesofmatter.module.phasechanges.PhaseChangesModule;
@@ -22,7 +23,7 @@ import edu.colorado.phet.statesofmatter.module.solidliquidgas.SolidLiquidGasModu
  *
  * @author John Blanco
  */
-public class StatesOfMatterApplication extends AbstractStatesOfMatterApp implements IProguardKeepClass {
+public class StatesOfMatterApplication extends PiccoloPhetApplication implements IProguardKeepClass {
 
     //----------------------------------------------------------------------------
     // Class Data

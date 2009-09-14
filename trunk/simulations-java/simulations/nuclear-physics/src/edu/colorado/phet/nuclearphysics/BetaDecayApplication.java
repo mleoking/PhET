@@ -9,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
+import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.nuclearphysics.module.betadecay.multinucleus.MultiNucleusBetaDecayModule;
 import edu.colorado.phet.nuclearphysics.module.betadecay.singlenucleus.SingleNucleusBetaDecayModule;
 
@@ -17,7 +18,7 @@ import edu.colorado.phet.nuclearphysics.module.betadecay.singlenucleus.SingleNuc
  * 
  * @author John Blanco
  */
-public class BetaDecayApplication extends AbstractNuclearPhysicsApplication {
+public class BetaDecayApplication extends PiccoloPhetApplication {
 
     private MultiNucleusBetaDecayModule  _multiNucleusAlphaDecayModule;
     private SingleNucleusBetaDecayModule _singleNucleusAlphaDecayModule;

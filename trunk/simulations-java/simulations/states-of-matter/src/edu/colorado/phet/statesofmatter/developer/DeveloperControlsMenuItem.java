@@ -12,7 +12,6 @@ import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JDialog;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.statesofmatter.AbstractStatesOfMatterApp;
 import edu.colorado.phet.statesofmatter.StatesOfMatterApplication;
 
 /**
@@ -21,11 +20,11 @@ import edu.colorado.phet.statesofmatter.StatesOfMatterApplication;
  */
 public class DeveloperControlsMenuItem extends JCheckBoxMenuItem {
 
-    private AbstractStatesOfMatterApp _app;
+    private final PhetApplication _app;
 
     private JDialog _developerControlsDialog;
 
-    public DeveloperControlsMenuItem( AbstractStatesOfMatterApp app ) {
+    public DeveloperControlsMenuItem( PhetApplication app ) {
         super( "Developer controls..." );
 
         _app = app;

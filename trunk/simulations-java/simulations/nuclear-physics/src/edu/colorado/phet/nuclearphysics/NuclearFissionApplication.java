@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
+import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.nuclearphysics.module.chainreaction.ChainReactionModule;
 import edu.colorado.phet.nuclearphysics.module.fissiononenucleus.FissionOneNucleusModule;
 import edu.colorado.phet.nuclearphysics.module.nuclearreactor.NuclearReactorModule;
@@ -21,7 +22,7 @@ import edu.colorado.phet.nuclearphysics.module.nuclearreactor.NuclearReactorModu
  * @author John Blanco
  * 
  */
-public class NuclearFissionApplication extends AbstractNuclearPhysicsApplication {
+public class NuclearFissionApplication extends PiccoloPhetApplication {
 
     //----------------------------------------------------------------------------
     // Instance data
