@@ -206,6 +206,7 @@ public class RadiometricDatingMeter {
 	}
 	
 	public void setNucleusTypeUsedForDating(NucleusType nucleusType){
+		System.out.println("meter set: " + System.currentTimeMillis());
 		_nucleusTypeForDating = nucleusType;
 		notifyDatingElementChanged();
 	}

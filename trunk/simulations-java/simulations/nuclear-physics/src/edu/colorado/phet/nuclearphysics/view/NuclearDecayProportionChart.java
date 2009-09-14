@@ -208,7 +208,6 @@ public class NuclearDecayProportionChart extends PNode {
     	_timeSpan = totalTimeSpan;
 		_halfLife = halfLife;
     	updateLayout();
-    	
     }
     
     /**
@@ -1012,14 +1011,56 @@ public class NuclearDecayProportionChart extends PNode {
 			double deltaTime = Double.POSITIVE_INFINITY;
 			
 			// Find the closest data point for a given time value.
-	    	for ( Iterator it = _chart._decayEvents.iterator(); it.hasNext();){
-	    		Point2D decayEvent = (Point2D)it.next();
-	    		if (Math.abs(time - decayEvent.getX()) < deltaTime){
-	    			deltaTime = Math.abs( time - decayEvent.getX() );
-	    			returnValue = decayEvent.getY();
+//	    	for ( Iterator it = _chart._decayEvents.iterator(); it.hasNext();){
+//	    		Point2D decayEvent = (Point2D)it.next();
+//	    		if (Math.abs(time - decayEvent.getX()) < deltaTime){
+//	    			deltaTime = Math.abs( time - decayEvent.getX() );
+//	    			returnValue = decayEvent.getY();
+//	    		}
+//	    	}
+	    	
+	    	if (_chart._decayEvents.size() == 0){
+	    		// There are no data points, so return 0.
+	    		returnValue = 0;
+	    	}
+	    	else if (time < _chart._decayEvents.get(0).getX()){
+	    		// The request is for the space prior to the first data point,
+	    		// so return the value for the first point.
+	    		returnValue = _chart._decayEvents.get(0).getY();
+	    	}
+	    	else{
+	    		// Find the enclosing data points.
+	    		Point2D leftPoint = null, rightPoint = null;
+	    		for ( int i = 0; i < _chart._decayEvents.size(); i++ ){
+	    			leftPoint = _chart._decayEvents.get(i);
+	    			if (i == _chart._decayEvents.size() - 1){
+	    				// We are at the end of the chart, and there are no
+	    				// more points to be used, so use the last point for
+	    				// both the left and right points.
+	    				rightPoint = leftPoint;
+	    			}
+	    			else{
+	    				rightPoint = _chart._decayEvents.get(i + 1);
+	    				if (time >= leftPoint.getX() && time < rightPoint.getX()){
+	    					// This is the pair of points we are looking for.
+	    					break;
+	    				}
+	    			}
+	    		}
+	    		
+	    		// Perform a linear interpolation between the two points to
+	    		// obtain the data value.
+//	    		returnValue = leftPoint.getY() + ((time - leftPoint.getX()) * (rightPoint.getY() - leftPoint.getY()) /
+//	    				(rightPoint.getX() - leftPoint.getX()));
+	    		// Pick the closest of the two points.
+	    		if (time - leftPoint.getX() <= rightPoint.getX() - time){
+	    			returnValue = leftPoint.getY();
+	    		}
+	    		else{
+	    			returnValue = rightPoint.getY();
 	    		}
 	    	}
-
+	    	
 			return returnValue;
 		}
 		

@@ -70,7 +70,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     private static final double AGE_GUESS_TOLERANCE_PERCENTAGE = 20;
     
     // Resolution of the decay chart.
-    private static final double NUM_SAMPLES_ON_DECAY_CHART = 250;
+    private static final double NUM_SAMPLES_ON_DECAY_CHART = 500;
     
     // Constant for the color of the reset button that resides on the canvas.
     private static final Color RESET_GUESSES_BUTTON_COLOR = new Color(0xff9900);
@@ -125,6 +125,7 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
         // to the chart.
         _model.getMeter().addListener(new RadiometricDatingMeter.Adapter(){
         	public void datingElementChanged(){
+        		_proportionsChart.clear();
         		configureProportionsChart();
         		drawDecayCurveOnChart();
         		update();
@@ -323,6 +324,8 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     }
     
     private void drawDecayCurveOnChart(){
+    	double startTime = System.currentTimeMillis();
+    	System.out.println("start: " + startTime);
         double halfLife = _model.getMeter().getHalfLifeForDating();
     	_proportionsChart.clear();
     	double timeSpan = halfLife * 3.2;
@@ -330,11 +333,11 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     	double lambda = Math.log(2)/halfLife;
     	for ( double time = 0; time < timeSpan; time += timeIncrement ){
     		// Calculate the proportion of the element that should be decayed at this point in time.
-    		double amountDecayed = NUM_SAMPLES_ON_DECAY_CHART - (NUM_SAMPLES_ON_DECAY_CHART * Math.exp(-time*lambda));
-    		_proportionsChart.addDataPoint(time, (int)Math.round(NUM_SAMPLES_ON_DECAY_CHART - amountDecayed), 
-    				(int)Math.round(amountDecayed));
+    		double percentageDecayed = Math.exp(-time*lambda) * 100;
+    		_proportionsChart.addDataPoint(time, percentageDecayed);
     	}
     	_proportionsChart.updateMarkerText();
+    	System.out.println("duration: " + (System.currentTimeMillis() - startTime));
     }
     
     /**
