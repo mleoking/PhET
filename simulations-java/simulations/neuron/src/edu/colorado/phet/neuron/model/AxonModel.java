@@ -145,31 +145,34 @@ public class AxonModel {
     	double theta = Math.atan2(atom.getY(), atom.getX());
     	double angle;
     	double velocity;
-    	
+
+    	// Generate the angle of travel for the atom.
     	if (r < axonMembrane.getCrossSectionDiameter() / 2){
     		// Atom is inside the membrane.
     		if (crossSectionInnerRadius - r <= atom.getDiameter()){
     			// This atom is near the membrane wall, so should be repelled.
-    	    	velocity = MAX_ATOM_VELOCITY * RAND.nextDouble();
     	    	angle = theta + Math.PI;
     		}
-    		else{
-    			// The following code creates a probabilistic bias that causes
-    			// the atom to tend to move toward the membrane.
-    			if (RAND.nextBoolean()){
+    		else if (crossSectionInnerRadius - r <= crossSectionInnerRadius / 2){
+    			// This is in the "zone of attraction" where it should tend to
+    			// move toward the membrane.  The following code creates a
+    			// probabilistic bias to make it tend to move that way.
+    			if (RAND.nextDouble() > 0.8){
     				angle = Math.PI * RAND.nextDouble() - Math.PI / 2 + theta;
     			}
     			else{
     				angle = Math.PI * 2 * RAND.nextDouble();
     			}
-    			velocity = MAX_ATOM_VELOCITY * RAND.nextDouble();
+    		}
+    		else{
+    			// It's near the center, so it should just do a random walk.
+   				angle = Math.PI * 2 * RAND.nextDouble();
     		}
     	}
     	else{
     		// Atom is outside the membrane.
     		if (r - crossSectionOuterRadius <= atom.getDiameter()){
     			// This atom is near the membrane wall, so should be repelled.
-    	    	velocity = MAX_ATOM_VELOCITY * RAND.nextDouble();
     	    	angle = theta;
     		}
     		else{
@@ -181,9 +184,13 @@ public class AxonModel {
     			else{
     				angle = Math.PI * 2 * RAND.nextDouble();
     			}
-    			velocity = MAX_ATOM_VELOCITY * RAND.nextDouble();
     		}
     	}
+    	
+    	// Generate the new overall velocity.
+		velocity = MAX_ATOM_VELOCITY * RAND.nextDouble();
+		
+		// Set the atom's new velocity. 
     	atom.setVelocity(velocity * Math.cos(angle), velocity * Math.sin(angle));
     }
     
