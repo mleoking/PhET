@@ -276,13 +276,17 @@ class MotionSeriesModel(defaultBeadPosition: Double, pausedOnReset: Boolean, ini
     setPaused(pausedOnReset)
   }
 
+  def clearHeatInstantly() {
+    rampSegments(0).setWetness(0.0)
+    rampSegments(0).setHeat(0.0)
+    rampSegments(1).setWetness(0.0)
+    rampSegments(1).setHeat(0.0)
+    bead.thermalEnergy = 0.0
+  }
+
   def clearHeat() = {
     if (isPaused) {
-      rampSegments(0).setWetness(0.0)
-      rampSegments(0).setHeat(0.0)
-      rampSegments(1).setWetness(0.0)
-      rampSegments(1).setHeat(0.0)
-      bead.thermalEnergy = 0.0
+      clearHeatInstantly()
     } else {
       if (fireDogs.length == 0) {
         totalThermalEnergyOnClear = bead.thermalEnergy
@@ -400,6 +404,7 @@ class MotionSeriesModel(defaultBeadPosition: Double, pausedOnReset: Boolean, ini
   def frictionless_=(b: Boolean) = {
     _frictionless = b
     rampChangeAdapter.notifyListeners()
+    if (_frictionless) clearHeatInstantly()
     notifyListeners()
   }
 

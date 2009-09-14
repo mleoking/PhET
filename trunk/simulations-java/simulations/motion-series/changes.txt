@@ -1,3 +1,4 @@
+Fixed: Switching to ice should clear heat
 Added icicles to the frozen ramp graphics
 Added icons for wood and ice surface radio buttons
 Made clear heat instant if sim is paused, otherwise sends a fire dog
