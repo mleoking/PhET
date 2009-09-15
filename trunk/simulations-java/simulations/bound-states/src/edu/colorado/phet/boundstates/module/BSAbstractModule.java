@@ -993,7 +993,7 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
      * @return JFrame
      */
     public JFrame getFrame() {
-        return PhetApplication.instance().getPhetFrame();
+        return PhetApplication.getInstance().getPhetFrame();
     }
 
     /**

@@ -89,7 +89,7 @@ public class PhysicsControlPanel extends OTAbstractControlPanel {
             addSeparator();
             addControlFullWidth( _miscControlPanel );
             addSeparator();
-            if ( PiccoloPhetApplication.instance().isDeveloperControlsEnabled() ) {
+            if ( PiccoloPhetApplication.getInstance().isDeveloperControlsEnabled() ) {
                 addControlFullWidth( _developerControlPanel );
                 addSeparator();
             }

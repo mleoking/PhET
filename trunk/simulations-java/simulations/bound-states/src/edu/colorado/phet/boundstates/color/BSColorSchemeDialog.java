@@ -75,11 +75,11 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
      * @param app the application
      */
     public BSColorSchemeDialog( BSAbstractApplication app, BSColorScheme scheme ) {
-        super( PhetApplication.instance().getPhetFrame() );
+        super( PhetApplication.getInstance().getPhetFrame() );
         super.setTitle( BSResources.getString( "title.colorScheme" ) );
         super.setModal( false );
         super.setResizable( false );
-        _parent = PhetApplication.instance().getPhetFrame();
+        _parent = PhetApplication.getInstance().getPhetFrame();
         _app = app;
         _scheme = scheme;
         _restoreScheme = new BSColorScheme( scheme );

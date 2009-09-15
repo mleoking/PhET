@@ -93,16 +93,6 @@ public class PhetApplication
     }
 
     /**
-     * Get the last created PhetApplication.
-     *
-     * @return last created PhetApplication.
-     * @deprecated use getInstance
-     */
-    public static PhetApplication instance() {
-        return getInstance();
-    }
-
-    /**
      * Creates the PhetFrame for the application
      * <p/>
      * Concrete subclasses implement this

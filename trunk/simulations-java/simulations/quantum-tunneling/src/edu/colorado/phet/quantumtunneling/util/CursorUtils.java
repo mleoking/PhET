@@ -37,7 +37,7 @@ public class CursorUtils {
      * @param enabled true or false
      */
     public static void setWaitCursorEnabled( boolean enabled ) {
-        PhetFrame frame = PhetApplication.instance().getPhetFrame();
+        PhetFrame frame = PhetApplication.getInstance().getPhetFrame();
         if ( enabled ) {
             frame.setCursor( WAIT_CURSOR );
         }

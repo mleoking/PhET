@@ -117,7 +117,7 @@ public class BaseLaserModule extends PhetGraphicsModule {
         createMirrors();
 
         // Create the power meter
-        PowerMeterGraphic powerMeter = new PowerMeterGraphic( PhetApplication.instance().getPhetFrame(),
+        PowerMeterGraphic powerMeter = new PowerMeterGraphic( PhetApplication.getInstance().getPhetFrame(),
                                                               getLaserModel(),
                                                               rightMirror );
         powerMeter.setLocation( new Point( 175, 430 ) );

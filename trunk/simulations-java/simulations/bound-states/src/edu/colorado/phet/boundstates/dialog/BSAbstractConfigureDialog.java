@@ -81,7 +81,7 @@ public abstract class BSAbstractConfigureDialog extends JDialog implements Obser
         _potential = potential;
         _potential.addObserver( this );
 
-        _clock = PhetApplication.instance().getActiveModule().getClock();
+        _clock = PhetApplication.getInstance().getActiveModule().getClock();
         _clockWasRunning = false;
         _isSliderDragging = false;
     }

@@ -441,10 +441,10 @@ public class TestSinePlotPerformance {
          */
         private void setWaitCursorEnabled( boolean enabled ) {
             if ( enabled ) {
-                PhetApplication.instance().getPhetFrame().setCursor( Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR ) );
+                PhetApplication.getInstance().getPhetFrame().setCursor( Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR ) );
             }
             else {
-                PhetApplication.instance().getPhetFrame().setCursor( Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR ) );
+                PhetApplication.getInstance().getPhetFrame().setCursor( Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR ) );
             }
         }
     }

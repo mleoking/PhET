@@ -466,7 +466,7 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
 
         closeColorChooser();
         String title = "Color Chooser";
-        Component parent = PhetApplication.instance().getPhetFrame();
+        Component parent = PhetApplication.getInstance().getPhetFrame();
         _colorChooserDialog = ColorChooserFactory.createDialog( title, parent, initialColor, this );
         _colorChooserDialog.show();
 

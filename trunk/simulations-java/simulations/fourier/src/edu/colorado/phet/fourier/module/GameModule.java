@@ -297,7 +297,7 @@ public class GameModule extends FourierAbstractModule implements ApparatusPanel2
                 _instructionsHaveBeenDisplayed = true;
                 String message = FourierResources.getString( "GameInstructionsDialog.message" );
                 String title = FourierResources.getString( "GameInstructionsDialog.title" );
-                JOptionPane.showMessageDialog( PhetApplication.instance().getPhetFrame(), message, title, JOptionPane.PLAIN_MESSAGE );
+                JOptionPane.showMessageDialog( PhetApplication.getInstance().getPhetFrame(), message, title, JOptionPane.PLAIN_MESSAGE );
             }
         }
     }

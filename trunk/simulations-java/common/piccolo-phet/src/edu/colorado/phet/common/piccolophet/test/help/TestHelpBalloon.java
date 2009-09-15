@@ -418,7 +418,7 @@ public class TestHelpBalloon extends PhetApplication {
         }
 
         public JFrame getFrame() {
-            return PhetApplication.instance().getPhetFrame();
+            return PhetApplication.getInstance().getPhetFrame();
         }
     }
 

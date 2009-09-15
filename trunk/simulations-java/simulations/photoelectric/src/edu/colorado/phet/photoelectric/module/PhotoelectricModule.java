@@ -208,7 +208,7 @@ public class PhotoelectricModule extends BaseLaserModule {
             final JCheckBoxMenuItem currentDisplayMI = new JCheckBoxMenuItem( "Show meters" );
             optionsMenu.add( currentDisplayMI );
 
-            final JDialog meterDlg = new JDialog( PhetApplication.instance().getPhetFrame(), false );
+            final JDialog meterDlg = new JDialog( PhetApplication.getInstance().getPhetFrame(), false );
 
             final AmmeterView ammeterView = new AmmeterView( getPhotoelectricModel().getAmmeter() );
             final IntensityView intensityView = new IntensityView( getPhotoelectricModel().getBeamIntensityMeter() );

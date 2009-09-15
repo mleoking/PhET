@@ -96,7 +96,7 @@ public class UniversalLaserControlPanel extends LaserControlPanel {
         JButton resetBtn = new JButton( LasersResources.getString( "LaserControlPanel.Reset" ) );
         resetBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                int choice = JOptionPane.showConfirmDialog( PhetApplication.instance().getPhetFrame(),
+                int choice = JOptionPane.showConfirmDialog( PhetApplication.getInstance().getPhetFrame(),
                                                             LasersResources.getString( "ResetAll.confirmationMessage" ) );
                 if ( choice == JOptionPane.OK_OPTION ) {
                     module.reset();

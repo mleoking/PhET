@@ -96,7 +96,7 @@ public class ParticlesNode extends PComposite {
         addChild( _particlesParent );
         
         // developer only, display particle counts in lower left of container
-        if ( PHScaleApplication.instance().isDeveloperControlsEnabled() ) {
+        if ( PHScaleApplication.getInstance().isDeveloperControlsEnabled() ) {
             _numbersNode = new HTMLNode( "?" );
             _numbersNode.setFont( new PhetFont() );
             addChild( _numbersNode );

@@ -252,7 +252,7 @@ public abstract class MicrowaveModule extends Module {
         private JTextField dTF;
 
         PhysicalParamsDlg() {
-            super( PhetApplication.instance().getPhetFrame() );
+            super( PhetApplication.getInstance().getPhetFrame() );
             SwingUtils.centerDialogInParent( this );
 
             // Parameter controls for testing

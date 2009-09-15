@@ -41,7 +41,7 @@ public class MeasuringTape extends MouseInputAdapter {
         this.panel = panel;
 
         // Lay out the display
-        Frame frame = PhetApplication.instance().getPhetFrame();
+        Frame frame = PhetApplication.getInstance().getPhetFrame();
         dialog = new JDialog( frame, MicrowavesResources.getString( "MeasuringTape.DialogTitle" ) );
         dialog.setUndecorated( true );
         Container contentPane = dialog.getContentPane();

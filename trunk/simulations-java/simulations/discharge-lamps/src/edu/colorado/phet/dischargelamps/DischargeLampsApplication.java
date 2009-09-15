@@ -58,7 +58,7 @@ public class DischargeLampsApplication extends PiccoloPhetApplication {
         JMenuItem simulationSpeedMI = new JMenuItem( DischargeLampsResources.getString( "simulation.speed" ));
         simulationSpeedMI.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                final IClock clock = PhetApplication.instance().getActiveModule().getClock();
+                final IClock clock = PhetApplication.getInstance().getActiveModule().getClock();
                 double dt = clock.getSimulationTimeChange();
                 final JSlider clockTickSlider = new JSlider( 1, 15, (int) DischargeLampsConfig.DT );
                 clockTickSlider.setMajorTickSpacing( 2 );

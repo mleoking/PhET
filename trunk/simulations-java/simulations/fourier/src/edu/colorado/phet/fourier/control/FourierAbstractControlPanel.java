@@ -77,7 +77,7 @@ public abstract class FourierAbstractControlPanel extends ControlPanel {
      * @param enabled true or false
      */
     public void setWaitCursorEnabled( boolean enabled ) {
-        PhetFrame frame = PhetApplication.instance().getPhetFrame();
+        PhetFrame frame = PhetApplication.getInstance().getPhetFrame();
         if ( enabled ) {
             frame.setCursor( FourierConstants.WAIT_CURSOR );
         }

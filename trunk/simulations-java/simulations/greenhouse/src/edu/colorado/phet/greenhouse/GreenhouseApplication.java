@@ -49,7 +49,7 @@ public class GreenhouseApplication extends PiccoloPhetApplication {
     }
 
     public static void paintContentImmediately() {
-        Container contentPane = PhetApplication.instance().getPhetFrame().getContentPane();
+        Container contentPane = PhetApplication.getInstance().getPhetFrame().getContentPane();
         if ( contentPane instanceof JComponent ) {
             JComponent jComponent = (JComponent) contentPane;
             jComponent.paintImmediately( 0, 0, jComponent.getWidth(), jComponent.getHeight() );

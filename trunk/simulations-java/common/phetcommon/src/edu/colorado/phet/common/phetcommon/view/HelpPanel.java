@@ -61,7 +61,7 @@ public class HelpPanel extends JPanel {
                 }
                 module.setHelpEnabled( miniHelpShowing );
                 // Synchronize the Help menu item.
-                PhetApplication.instance().getPhetFrame().getHelpMenu().setHelpSelected( miniHelpShowing );
+                PhetApplication.getInstance().getPhetFrame().getHelpMenu().setHelpSelected( miniHelpShowing );
             }
         } );
         megaHelpBtn.addActionListener( new ActionListener() {

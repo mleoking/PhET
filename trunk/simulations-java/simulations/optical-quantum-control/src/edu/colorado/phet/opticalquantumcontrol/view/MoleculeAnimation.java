@@ -406,7 +406,7 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
         _isAdjusting = true;
 
         // Tell the user they won.
-        JFrame frame = PhetApplication.instance().getPhetFrame();
+        JFrame frame = PhetApplication.getInstance().getPhetFrame();
         String message = OQCResources.WIN_DIALOG_MESSAGE;
         String title = OQCResources.WIN_DIALOG_TITLE;
         JOptionPane.showMessageDialog( frame, message, title, JOptionPane.PLAIN_MESSAGE );

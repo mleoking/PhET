@@ -52,7 +52,7 @@ public abstract class QTAbstractModule extends PiccoloModule {
      * @return JFrame
      */
     public JFrame getFrame() {
-        return PhetApplication.instance().getPhetFrame();
+        return PhetApplication.getInstance().getPhetFrame();
     }
 
     /**

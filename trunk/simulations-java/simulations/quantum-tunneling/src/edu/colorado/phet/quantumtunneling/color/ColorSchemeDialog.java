@@ -75,11 +75,11 @@ public class ColorSchemeDialog extends JDialog implements ColorChooserFactory.Li
      * @param app the application
      */
     public ColorSchemeDialog( QTModule module, QTColorScheme scheme ) {
-        super( PhetApplication.instance().getPhetFrame() );
+        super( PhetApplication.getInstance().getPhetFrame() );
         super.setTitle( QTResources.getString( "title.colorScheme" ) );
         super.setModal( false );
         super.setResizable( false );
-        _parent = PhetApplication.instance().getPhetFrame();
+        _parent = PhetApplication.getInstance().getPhetFrame();
         _module = module;
         _scheme = scheme;
         _restoreScheme = new QTColorScheme( scheme );

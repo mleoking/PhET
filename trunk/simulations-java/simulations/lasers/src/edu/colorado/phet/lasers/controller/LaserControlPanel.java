@@ -60,7 +60,7 @@ public class LaserControlPanel extends ControlPanel {
         JButton btn = new JButton( "Debug controls" );
         btn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                JDialog dlg = new JDialog( PhetApplication.instance().getPhetFrame(),
+                JDialog dlg = new JDialog( PhetApplication.getInstance().getPhetFrame(),
                                            "Debug controls", false );
                 dlg.setContentPane( new DebugPanel( module ) );
                 dlg.pack();

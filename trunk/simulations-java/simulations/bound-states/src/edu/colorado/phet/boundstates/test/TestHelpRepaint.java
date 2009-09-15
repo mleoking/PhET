@@ -237,7 +237,7 @@ public class TestHelpRepaint {
         /* When the help state is changed, immediately repaint everything */
         public void setHelpEnabled( boolean enabled ) {
             super.setHelpEnabled( enabled );
-            PhetFrame frame = PhetApplication.instance().getPhetFrame();
+            PhetFrame frame = PhetApplication.getInstance().getPhetFrame();
             paintImmediately( frame );
         }
 
