@@ -1,3 +1,4 @@
+9-15-2009: Nuclear Physics (3.16) - First publication of two new variations (i.e. "flavors"): Radioactive Dating Game and Beta Decay.
 8-13-2009: Reactions & Rates (1.04) - misc bug fixes, added "Clear container" button
 6-8-2009: Alpha Decay (3.13) - fixed issues with how Lead 207 was labeled, improved translatability.
 4-13-2009: Charges and Fields (2.02) - localizations with country codes
