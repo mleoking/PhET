@@ -325,7 +325,6 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     
     private void drawDecayCurveOnChart(){
     	double startTime = System.currentTimeMillis();
-    	System.out.println("start: " + startTime);
         double halfLife = _model.getMeter().getHalfLifeForDating();
     	_proportionsChart.clear();
     	double timeSpan = halfLife * 3.2;
@@ -337,7 +336,6 @@ public class RadioactiveDatingGameCanvas extends PhetPCanvas {
     		_proportionsChart.addDataPoint(time, percentageDecayed);
     	}
     	_proportionsChart.updateMarkerText();
-    	System.out.println("duration: " + (System.currentTimeMillis() - startTime));
     }
     
     /**
