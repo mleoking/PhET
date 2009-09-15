@@ -231,7 +231,7 @@ public class EmfModule extends PiccoloModule {
 
     public JDialog setStripChartEnabled( boolean isEnabled ) {
         if ( isEnabled && stripChartDlg == null ) {
-            JFrame frame = PhetApplication.instance().getPhetFrame();
+            JFrame frame = PhetApplication.getInstance().getPhetFrame();
             stripChartDlg = new JDialog( frame, false );
             //            stripChartDlg.setUndecorated( true );
             //            stripChartDlg.getRootPane().setWindowDecorationStyle( JRootPane.PLAIN_DIALOG );
@@ -344,7 +344,7 @@ public class EmfModule extends PiccoloModule {
     }
 
     public void showMegaHelp() {
-        final JDialog imageFrame = new JDialog( PhetApplication.instance().getPhetFrame(), false );
+        final JDialog imageFrame = new JDialog( PhetApplication.getInstance().getPhetFrame(), false );
         try {
             final BufferedImage image = ImageLoader.loadBufferedImage( "radio-waves/images/emf.gif" );
             final JPanel panel = new JPanel() {

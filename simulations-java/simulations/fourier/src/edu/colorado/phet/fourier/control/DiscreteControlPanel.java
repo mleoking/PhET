@@ -407,7 +407,7 @@ public class DiscreteControlPanel extends FourierAbstractControlPanel implements
         addControlFullWidth( audioControlsPanel );
 
         // Dialogs
-        Frame parentFrame = PhetApplication.instance().getPhetFrame();
+        Frame parentFrame = PhetApplication.getInstance().getPhetFrame();
         _expandSumDialog = new ExpandSumDialog( parentFrame, _fourierSeries );
 
         // Set the state of the controls.

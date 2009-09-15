@@ -210,7 +210,7 @@ public class LiquidControlNode extends PNode {
      * @return true or false
      */
     private boolean confirmChangeLiquid() {
-        Frame parent = PHScaleApplication.instance().getPhetFrame();
+        Frame parent = PHScaleApplication.getInstance().getPhetFrame();
         ConfirmChangeLiquidDialog dialog = new ConfirmChangeLiquidDialog( parent );
         SwingUtils.centerDialogInParent( dialog );
         dialog.setVisible( true );

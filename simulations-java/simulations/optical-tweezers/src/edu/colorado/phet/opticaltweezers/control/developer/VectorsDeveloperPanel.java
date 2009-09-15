@@ -53,7 +53,7 @@ public class VectorsDeveloperPanel extends JPanel {
         border.setTitleFont( titleFont );
         this.setBorder( border );
 
-        Frame parentFrame = PhetApplication.instance().getPhetFrame();
+        Frame parentFrame = PhetApplication.getInstance().getPhetFrame();
 
         Paint trapForcePaint = _trapForceNode.getArrowFillPaint();
         Color trapForceColor = ( trapForcePaint instanceof Color ) ? ( (Color)trapForcePaint ) : Color.BLACK;

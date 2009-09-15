@@ -131,7 +131,7 @@ public class MeasurementDialog extends JDialog {
         public StopwatchControl() {
             final JCheckBox stopwatchCB = new JCheckBox( IdealGasResources.getString( "MeasurementControlPanel.Stopwatch" ), false );
             stopwatchCB.addActionListener( new ActionListener() {
-                PhetFrame frame = PhetApplication.instance().getPhetFrame();
+                PhetFrame frame = PhetApplication.getInstance().getPhetFrame();
 
                 public void actionPerformed( ActionEvent e ) {
                     module.setStopwatchEnabled( stopwatchCB.isSelected() );

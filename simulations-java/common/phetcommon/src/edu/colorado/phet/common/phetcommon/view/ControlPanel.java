@@ -236,7 +236,7 @@ public class ControlPanel extends JPanel {
      * @param resettables
      */
     public JButton addResetAllButton( final Resettable[] resettables ) {
-        JButton resetAllButton = new ResetAllButton( resettables, PhetApplication.instance().getPhetFrame() );
+        JButton resetAllButton = new ResetAllButton( resettables, PhetApplication.getInstance().getPhetFrame() );
         addControl( resetAllButton );
         return resetAllButton;
     }

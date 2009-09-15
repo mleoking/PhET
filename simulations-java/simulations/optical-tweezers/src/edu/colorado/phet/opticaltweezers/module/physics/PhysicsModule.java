@@ -283,7 +283,7 @@ public class PhysicsModule extends OTAbstractModule {
 
         // Module
         if ( config.isActive() ) {
-            PhetApplication.instance().setActiveModule( this );
+            PhetApplication.getInstance().setActiveModule( this );
         }
 
         // Model

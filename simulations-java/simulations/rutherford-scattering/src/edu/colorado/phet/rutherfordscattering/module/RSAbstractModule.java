@@ -50,7 +50,7 @@ public abstract class RSAbstractModule extends PiccoloModule {
      * @return JFrame
      */
     public JFrame getFrame() {
-        return PhetApplication.instance().getPhetFrame();
+        return PhetApplication.getInstance().getPhetFrame();
     }
 
     //----------------------------------------------------------------------------

@@ -181,7 +181,7 @@ public class PersistenceManager implements IProguardKeepClass {
      */
     private void saveJNLP( Serializable object ) throws Exception {
 
-        final JFrame frame = PhetApplication.instance().getPhetFrame();
+        final JFrame frame = PhetApplication.getInstance().getPhetFrame();
 
         // XML encode into a byte output stream.
         ByteArrayOutputStream baos = new ByteArrayOutputStream();

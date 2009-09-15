@@ -94,7 +94,7 @@ public class LiquidNode extends PComposite {
         _rgbaNode = new PText( "Color=[255,255,255,255]" );
         _rgbaNode.setFont( new PhetFont() );
         _rgbaNode.setOffset( maxSize.getWidth() - _rgbaNode.getWidth() - 15, maxSize.getHeight() - _rgbaNode.getHeight() - 5 );
-        if ( PHScaleApplication.instance().isDeveloperControlsEnabled() ) {
+        if ( PHScaleApplication.getInstance().isDeveloperControlsEnabled() ) {
             addChild( _rgbaNode );
         }
         

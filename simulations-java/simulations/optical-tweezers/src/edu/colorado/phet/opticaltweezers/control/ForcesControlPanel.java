@@ -396,7 +396,7 @@ public class ForcesControlPanel extends JPanel implements Observer {
                 else {
                     // if the bead is outside the trap, tell the user why this feature can't be turned on
                     _keepTrapForceConstantCheckBox.setSelected( false );
-                    Component parent = PiccoloPhetApplication.instance().getPhetFrame();
+                    Component parent = PiccoloPhetApplication.getInstance().getPhetFrame();
                     String message = OTResources.getString( "message.keepTrapForceConstantInfoDialog" );
                     String title = OTResources.getString( "title.keepTrapForceConstantInfoDialog" );
                     JOptionPane.showMessageDialog( parent, message, title, JOptionPane.INFORMATION_MESSAGE );

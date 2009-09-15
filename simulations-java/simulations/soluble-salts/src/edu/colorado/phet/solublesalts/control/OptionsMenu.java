@@ -65,7 +65,7 @@ public class OptionsMenu extends JMenu {
             public void actionPerformed( ActionEvent e ) {
                 final JDialog dlg = new JDialog( frame, SolubleSaltResources.getString( "options.menu.random-walk-adjustment" ), false );
                 dlg.getContentPane().setLayout( new BorderLayout() );
-                final SolubleSaltsModel model = (SolubleSaltsModel) PhetApplication.instance().getActiveModule().getModel();
+                final SolubleSaltsModel model = (SolubleSaltsModel) PhetApplication.getInstance().getActiveModule().getModel();
                 final JSlider sldr = new JSlider( 0, 360, (int) model.getRandomWalkAgent().getTheta() );
                 sldr.setMajorTickSpacing( 45 );
                 sldr.setMinorTickSpacing( 15 );

@@ -131,7 +131,7 @@ public class TestAppStartup extends PhetTestApplication {
                 parentNode.addChild( _pButton );
                 jButton.addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
-                        Frame frame = PhetApplication.instance().getPhetFrame();
+                        Frame frame = PhetApplication.getInstance().getPhetFrame();
                         JOptionPane.showMessageDialog( frame, "Press OK" );
                     }
                 } );
@@ -185,7 +185,7 @@ public class TestAppStartup extends PhetTestApplication {
                 resetButton.addActionListener( new ActionListener() {
                     // reset after confirming
                     public void actionPerformed( ActionEvent e ) {
-                        Frame frame = PhetApplication.instance().getPhetFrame();
+                        Frame frame = PhetApplication.getInstance().getPhetFrame();
                         int rval = JOptionPane.showConfirmDialog( frame, "Reset all settings?", "Confirm", JOptionPane.YES_NO_OPTION );
                         if( rval == JOptionPane.YES_OPTION ) {
                             // TODO reset controls here...

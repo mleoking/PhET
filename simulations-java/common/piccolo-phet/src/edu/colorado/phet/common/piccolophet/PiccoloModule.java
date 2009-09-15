@@ -61,7 +61,7 @@ public class PiccoloModule extends Module {
     public PiccoloModule( String name, IClock clock, boolean startsPaused ) {
         super( name, clock, startsPaused );
         if ( hasHelp() ) {
-            helpPane = new HelpPane( PhetApplication.instance().getPhetFrame() );
+            helpPane = new HelpPane( PhetApplication.getInstance().getPhetFrame() );
         }
     }
 
@@ -187,7 +187,7 @@ public class PiccoloModule extends Module {
      * @return Component
      */
     private Component getGlassPane() {
-        return PhetApplication.instance().getPhetFrame().getGlassPane();
+        return PhetApplication.getInstance().getPhetFrame().getGlassPane();
     }
 
     /*
@@ -197,7 +197,7 @@ public class PiccoloModule extends Module {
     private void setGlassPane( Component component ) {
         if ( component != null ) {
             restoreGlassPane = getGlassPane();
-            PhetApplication.instance().getPhetFrame().setGlassPane( component );
+            PhetApplication.getInstance().getPhetFrame().setGlassPane( component );
         }
     }
 

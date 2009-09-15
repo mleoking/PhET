@@ -56,7 +56,7 @@ public class PumpHandleGraphic extends CompositePhetGraphic {
             lastYPumped = yNew;
 
             // If the simulation is paused, unpause it
-            IClock clock = PhetApplication.instance().getActiveModule().getClock();
+            IClock clock = PhetApplication.getInstance().getActiveModule().getClock();
             if( clock.isPaused() == true ) {
                 clock.pause();
             }

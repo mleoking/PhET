@@ -96,7 +96,7 @@ public class BaseIdealGasApparatusPanel extends ApparatusPanel2 {
      * @return
      */
     protected GasPropertiesApplication getIdealGasApplication() {
-        return (GasPropertiesApplication)PhetApplication.instance();
+        return (GasPropertiesApplication)PhetApplication.getInstance();
     }
 
     /**

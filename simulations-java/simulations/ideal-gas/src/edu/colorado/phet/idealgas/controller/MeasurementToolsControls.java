@@ -106,7 +106,7 @@ public class MeasurementToolsControls {
         StopwatchControl( final IdealGasModule module ) {
             super( IdealGasResources.getString( "MeasurementControlPanel.Stopwatch" ), false );
             addActionListener( new ActionListener() {
-                PhetFrame frame = PhetApplication.instance().getPhetFrame();
+                PhetFrame frame = PhetApplication.getInstance().getPhetFrame();
 
                 public void actionPerformed( ActionEvent e ) {
                     module.setStopwatchEnabled( isSelected() );

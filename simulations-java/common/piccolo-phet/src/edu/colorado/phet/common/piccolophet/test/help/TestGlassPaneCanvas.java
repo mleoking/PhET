@@ -239,7 +239,7 @@ public class TestGlassPaneCanvas extends PhetApplication {
 
             // Help (glass pane)  -----------------------------------
 
-            JFrame frame = PhetApplication.instance().getPhetFrame();
+            JFrame frame = PhetApplication.getInstance().getPhetFrame();
             JComponent glassPane = new MyGlassPane( frame );
             setHelpPane( glassPane );
         }
@@ -348,7 +348,7 @@ public class TestGlassPaneCanvas extends PhetApplication {
         }
 
         private void showMessage( String message ) {
-            JOptionPane.showMessageDialog( PhetApplication.instance().getPhetFrame(), message );
+            JOptionPane.showMessageDialog( PhetApplication.getInstance().getPhetFrame(), message );
         }
     }
 }

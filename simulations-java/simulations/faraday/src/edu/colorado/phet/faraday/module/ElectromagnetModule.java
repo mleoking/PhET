@@ -195,7 +195,7 @@ public class ElectromagnetModule extends FaradayModule {
             controlPanel.addControlFullWidth( _electromagnetPanel );
             
             // Scaling calibration
-            if ( PhetApplication.instance().isDeveloperControlsEnabled() ) {
+            if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
                 controlPanel.addVerticalSpace( FaradayControlPanel.DEFAULT_VERTICAL_SPACE );
                 
                 DeveloperControlsPanel developerControlsPanel = new DeveloperControlsPanel( null, null, null, null, _electromagnetGraphic, null );
