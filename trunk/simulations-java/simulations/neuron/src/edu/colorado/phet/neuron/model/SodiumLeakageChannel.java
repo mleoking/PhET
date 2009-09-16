@@ -10,7 +10,7 @@ public class SodiumLeakageChannel extends AbstractMembraneChannel {
     // Class Data
     //----------------------------------------------------------------------------
 	
-	private static final double CHANNEL_WIDTH = 100; // In nanometers.
+	private static final double CHANNEL_WIDTH = AxonMembrane.MEMBRANE_THICKNESS * 0.75; // In nanometers.
 	
     //----------------------------------------------------------------------------
     // Instance Data
