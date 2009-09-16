@@ -61,7 +61,6 @@
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/color-vision/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/conductivity/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/density/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/density/src-xith" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/discharge-lamps/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/eating-and-exercise/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/efield/src" isTestSource="false" />
@@ -124,15 +123,13 @@
       <sourceFolder url="file://$MODULE_DIR$/util/translation-strings-diff/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/util/translation-utility/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/util/unfuddle/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/web/lift-test/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/web/tomcat-test/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/web/wicket-test/contrib/jspbook/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/web/wicket-test/src/java" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.manager" />
       <excludeFolder url="file://$MODULE_DIR$/bin" />
       <excludeFolder url="file://$MODULE_DIR$/build-tools/ant_output" />
       <excludeFolder url="file://$MODULE_DIR$/simulations-flash/ant_output" />
       <excludeFolder url="file://$MODULE_DIR$/simulations-java/ant_output" />
+      <excludeFolder url="file://$MODULE_DIR$/web/wicket-test/src/java" />
     </content>
     <orderEntry type="jdk" jdkName="1.6" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
@@ -1824,6 +1821,15 @@
       <library>
         <CLASSES>
           <root url="file://$MODULE_DIR$/simulations-java/simulations/titration/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/simulations-java/contrib/jmonkeyengine/lib/jogl/jogl.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
