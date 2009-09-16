@@ -10,6 +10,7 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.neuron.NeuronConstants;
+import edu.colorado.phet.neuron.model.AbstractMembraneChannel;
 import edu.colorado.phet.neuron.model.Atom;
 import edu.colorado.phet.neuron.model.AxonModel;
 import edu.umd.cs.piccolo.PNode;
@@ -82,6 +83,11 @@ public class NeuronCanvas extends PhetPCanvas {
         for (Atom atom : model.getAtoms()){
         	addAtom(atom);
         }
+        
+        // Add the channels.
+        for (AbstractMembraneChannel channel : model.getMembraneChannels()){
+        	addChannel(channel);
+        }
     }
     
     //----------------------------------------------------------------------------
@@ -110,5 +116,9 @@ public class NeuronCanvas extends PhetPCanvas {
     
     private void addAtom(Atom atomToBeAdded){
     	atomLayer.addChild(new AtomNode(atomToBeAdded, atomLayer, mvt));
+    }
+    
+    private void addChannel(AbstractMembraneChannel channelToBeAdded){
+    	axonCrossSectionLayer.addChild(new MembraneChannelNode(channelToBeAdded, axonCrossSectionLayer, mvt));
     }
 }
