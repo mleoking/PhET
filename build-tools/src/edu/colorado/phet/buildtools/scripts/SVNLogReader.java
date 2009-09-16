@@ -5,8 +5,7 @@ import edu.colorado.phet.buildtools.BuildLocalProperties;
 import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.util.ProcessOutputReader;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
@@ -48,7 +47,7 @@ public class SVNLogReader {
         public String toString() {
             String s = project.getName() + "\n";
             for (int i = 0; i < changeSet.entries.length; i++) {
-                  s+= "\t"+changeSet.entries[i]+"\n";
+                s += "\t" + changeSet.entries[i] + "\n";
             }
             return s;
         }
@@ -56,17 +55,47 @@ public class SVNLogReader {
 
     private ArrayList<Log> getLog(String project) {
         PhetProject proj = getProject(project);
-        int since = 34844 + 1;//add 1 so we skip the commit of the version for last deploy
-        //todo: determine version automatically
+        int since = getLastDeploy(proj) +1;
+        System.out.println("Getting info since revision: "+since);
+
+        return getLogs(proj, since);
+    }
+
+    //automatically identify revision based on last deploy indicated in changelog
+    private int getLastDeploy(PhetProject proj) {
+        File f = proj.getChangesFile();
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(f));
+            String line = bufferedReader.readLine();
+            while (line != null) {
+                //use lines of the form # 0.01.14 (34844) Sep 4, 2009
+                if (line.trim().startsWith("#") && line.indexOf('(')>0 && line.indexOf(')')>0){
+                    return getSVNNumber(line);
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (IOException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+        throw new RuntimeException("Last deploy not found");
+    }
+
+    private int getSVNNumber(String line) {
+        String substring = line.substring(line.indexOf('(')+1,line.indexOf(')'));
+        return Integer.parseInt(substring); 
+    }
+
+    private ArrayList<Log> getLogs(PhetProject proj, int since) {
         PhetProject[] dependencies = proj.getAllDependencies();
         ArrayList<Log> changeSets = new ArrayList<Log>();
         for (int i = 0; i < dependencies.length; i++) {
-            changeSets.add(new Log(dependencies[i], getLog(dependencies[i], since)));
+            changeSets.add(new Log(dependencies[i], getChangeSet(dependencies[i], since)));
         }
         return changeSets;
     }
 
-    private ChangeSet getLog(PhetProject dependency, int since) {
+    private ChangeSet getChangeSet(PhetProject dependency, int since) {
         try {
             BuildLocalProperties.initRelativeToTrunk(trunk);
         } catch (IllegalStateException ise) {
@@ -74,7 +103,7 @@ public class SVNLogReader {
         BuildLocalProperties properties = BuildLocalProperties.getInstance();
         AuthenticationInfo auth = properties.getRespositoryAuthenticationInfo();
         String[] args = new String[]{"svn", "log", "-r", "HEAD:" + since, "--username", auth.getUsername(), "--password", auth.getPassword()};
-        System.out.print("Getting log for "+dependency.getName()+"...");
+        System.out.print("Getting log for " + dependency.getName() + "...");
         ProcessOutputReader.ProcessExecResult output = exec(args, dependency.getProjectDir());
         StringTokenizer st = new StringTokenizer(output.getOut(), "\n");
         ArrayList<String> entries = new ArrayList<String>();
