@@ -86,7 +86,7 @@ public class NeuronCanvas extends PhetPCanvas {
         
         // Add the channels.
         for (AbstractMembraneChannel channel : model.getMembraneChannels()){
-        	addChannel(channel);
+        	addChannelNode(channel);
         }
     }
     
@@ -118,7 +118,7 @@ public class NeuronCanvas extends PhetPCanvas {
     	atomLayer.addChild(new AtomNode(atomToBeAdded, atomLayer, mvt));
     }
     
-    private void addChannel(AbstractMembraneChannel channelToBeAdded){
+    private void addChannelNode(AbstractMembraneChannel channelToBeAdded){
     	axonCrossSectionLayer.addChild(new MembraneChannelNode(channelToBeAdded, axonCrossSectionLayer, mvt));
     }
 }
