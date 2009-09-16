@@ -6,7 +6,6 @@ import java.awt.Color;
 import java.awt.Stroke;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.GeneralPath;
-import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
@@ -78,12 +77,6 @@ public class MembraneChannelNode extends PNode{
 		float width = (float)size.getWidth();
 		float height = (float)size.getHeight();
 
-//		path.moveTo(0, -height / 4);
-//		path.curveTo(0, 0, width, 0, width, -height / 4);
-//		path.lineTo(width, -height * 3 / 4);
-//		path.curveTo(width, -height, 0, -height, 0, -height * 3 / 4);
-//		path.closePath();
-		
 		path.moveTo(-width / 2, height / 4);
 		path.curveTo(-width / 2, height / 2, width / 2, height / 2, width / 2, height / 4);
 		path.lineTo(width / 2, -height / 4);
@@ -101,7 +94,7 @@ public class MembraneChannelNode extends PNode{
 		
 		// Make the node a bit bigger than the channel so that the edges can
 		// be placed over it with no gaps.
-		float oversizeFactor = 1.25f;
+		float oversizeFactor = 1.1f;
 		
 		float width = (float)size.getWidth() * oversizeFactor;
 		float height = (float)size.getHeight() * oversizeFactor;
