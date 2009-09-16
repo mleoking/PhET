@@ -229,10 +229,10 @@
             }
 
             // Replace the codebase with a macro which can be replaced during the install process:
-            $jnlp = jnlp_replace_codebase_with_macro($jnlp, PHET_WEBSITE_ROOT_PARTIAL_PATTERN, BITROCK_INSTALLDIR_MACRO);
+            $jnlp = jnlp_replace_codebase_with_macro($jnlp, PHET_WEBSITE_ROOT_PARTIAL_PATTERN, BITROCK_CODEBASE_MACRO);
 
             // Replace any remaining 'http' href links with macro:
-            $jnlp = jnlp_replace_absolute_links_with_local_file_macro($jnlp, PHET_WEBSITE_ROOT_PARTIAL_PATTERN, BITROCK_INSTALLDIR_MACRO);
+            $jnlp = jnlp_replace_absolute_links_with_local_file_macro($jnlp, PHET_WEBSITE_ROOT_PARTIAL_PATTERN, BITROCK_CODEBASE_MACRO);
 
             // Add the permissions request to the JNLP files.
             $jnlp = jnlp_add_permissions_request( $jnlp );
