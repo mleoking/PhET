@@ -52,7 +52,16 @@
         installer_create_marker_file();
         installer_insert_installer_creation_time();
 
-        // Rebuild the web mirror installer.
+        // Build the full set of local mirror installers.
+        installer_build_local_mirror_installers();
+
+        // Move the installers into the location within the ripped web site
+        // where they need to be in order to be incorporated within the web
+        // mirror installer.
+        // TODO
+
+        // Rebuild the web mirror installer, meaning an installer that can be
+        // used to set up a remotely hosted copy of the web site.
         installer_build_linux_web_mirror_installer();
 
         // Output the time of completion.
