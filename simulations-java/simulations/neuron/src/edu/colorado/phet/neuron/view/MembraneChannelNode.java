@@ -9,6 +9,7 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.neuron.model.AbstractMembraneChannel;
 import edu.umd.cs.piccolo.PNode;
@@ -61,9 +62,6 @@ public class MembraneChannelNode extends PNode{
 		representation.rotate(-membraneChannelModel.getRotationalAngle() + Math.PI / 2);
 		addChild(representation);
 		
-//		channel.rotate(-membraneChannelModel.getRotationalAngle() + Math.PI / 2);
-//		System.out.println("Angle = " + membraneChannelModel.getRotationalAngle() * 180 / Math.PI);
-		
 		// TODO: Positioning node, uncomment when needed, remove eventually.
 //		PPath positioningNode = new PhetPPath(new Ellipse2D.Double(-10, -10, 20, 20), Color.PINK);
 //		addChild(positioningNode);
@@ -86,6 +84,7 @@ public class MembraneChannelNode extends PNode{
 		
 		PPath edgeNode = new PPath(path);
 		edgeNode.setPaint(color);
+		edgeNode.setStrokePaint(ColorUtils.darkerColor(color, 0.3));
 		
 		return edgeNode;
 	}
