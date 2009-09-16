@@ -18,6 +18,8 @@ public class TroubleshootingFlashPanel extends PhetPanel {
                 "<a href=\"mailto:phethelp@colorado.edu\"><span class=\"red\">phethelp@colorado.edu</span></a>"
         } ) );
 
+        add( new LocalizedText( "troubleshooting-flash-q1-answer", "troubleshooting.flash.q1.answer" ) );
+
     }
 
     public static String getKey() {

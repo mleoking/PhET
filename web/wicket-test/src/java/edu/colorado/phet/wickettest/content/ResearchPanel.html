@@ -14,80 +14,118 @@
 <wicket:panel>
 <div class="research standard-content">
 
-PhET conducts research on both the <strong>design</strong> and <strong>use</strong> of interactive simulations
-to better understand:
+<span wicket:id="research-top">
+    PhET conducts research on both the <strong>design</strong> and <strong>use</strong> of interactive simulations
+    to better understand:
+</span>
 <ol>
-    <li>Which characteristics make these tools effective for learning and why</li>
-    <li>How students engage and interact with these tools to learn, and what influences this process</li>
-    <li>When, how, and why these tools are effective in a variety of learning environments</li>
+    <li>
+        <wicket:message key="research.understand.1">
+            Which characteristics make these tools effective for learning and why
+        </wicket:message>
+    </li>
+    <li>
+        <wicket:message key="research.understand.2">
+            How students engage and interact with these tools to learn, and what influences this process
+        </wicket:message>
+    </li>
+    <li>
+        <wicket:message key="research.understand.3">
+            When, how, and why these tools are effective in a variety of learning environments
+        </wicket:message>
+    </li>
 </ol>
-The PhET simulation design principles are based on research on how students learn (Bransford et al., 2000) and from our
-simulation interviews (see <a href="/publications/PhET%20Design%20Process.pdf">PhET Design Process</a>). Between four
-and six think-aloud style interviews with individual students are done with each simulation. These interviews provide
-a rich data source for studying interface design and student learning. The
-<a href="/publications/PhET%20Look%20and%20Feel.pdf">PhET Look and Feel</a> briefly describes our interface design
-principles and a complete discussion is found in the pair of papers by <a href="#pub_1">Adams et al., 2008</a>.
+<div wicket:id="research-intro">
+    The PhET simulation design principles are based on research on how students learn (Bransford et al., 2000) and from
+    our simulation interviews (see <a href="/publications/PhET%20Design%20Process.pdf">PhET Design Process</a>). Between
+    four and six think-aloud style interviews with individual students are done with each simulation. These interviews
+    provide a rich data source for studying interface design and student learning. The
+    <a href="/publications/PhET%20Look%20and%20Feel.pdf">PhET Look and Feel</a> briefly describes our interface design
+    principles and a complete discussion is found in the pair of papers by <a href="#pub_1">Adams et al., 2008</a>.
+</div>
 <p>
     Bransford, J.D., Brown, A. L. And Cocking, R. R. (2000). <em>How People Learn, Brain, Mind, Experience, and
     School</em>. Washington, D.C.: National Academy Press
 </p>
 
-<h2>Research answers to commonly asked questions:</h2>
+<h2>
+    <wicket:message key="research.commonQuestions">Research answers to commonly asked questions:</wicket:message>
+</h2>
 
-<div class="research-question">"Can PhET sims replace real lab equipment?"</div>
-<div class="research-answer">
-    Our studies have shown that PhET sims are more effective for conceptual understanding; however, there are many goals
-    of hands-on labs that simulations do not address. For example, specific skills relating to the functioning of
-    equipment. Depending on the goals of your laboratory, it may be more effective to use just sims or a
+<div class="research-question">
+    <wicket:message key="research.question.1.title">
+        "Can PhET sims replace real lab equipment?"
+    </wicket:message>
+</div>
+<div class="research-answer" wicket:id="research-question-1-answer">
+    Our studies have shown that PhET sims are more effective for conceptual understanding; however, there are many
+    goals of hands-on labs that simulations do not address. For example, specific skills relating to the functioning
+    of equipment. Depending on the goals of your laboratory, it may be more effective to use just sims or a
     combination of sims and real equipment
 </div>
 <br/>
 
-<div class="research-question">"Do students learn if I just tell them to go home and play with a sim?"</div>
-<div class="research-answer">
-    Most students do not have the necessary drive to spend time playing with a science simulation (they're fun, but not
-    that fun) on their own time unless there is a <em>direct</em> motivation such as their grade. This is one of the
-    reasons we are pursuing the project of how to best integrate sims into homework.
+<div class="research-question">
+    <wicket:message key="research.question.2.title">
+        "Do students learn if I just tell them to go home and play with a sim?"
+    </wicket:message>
+</div>
+<div class="research-answer" wicket:id="research-question-2-answer">
+    Most students do not have the necessary drive to spend time playing with a science simulation (they're fun, but
+    not that fun) on their own time unless there is a <em>direct</em> motivation such as their grade. This is one of
+    the reasons we are pursuing the project of how to best integrate sims into homework.
 </div>
 <br/>
 
-<div class="research-question">"Where is the best place to use PhET sims in my course?"</div>
-<div class="research-answer">
-    We have found PhET sims to be very effective in lecture, in class activities, lab and homework. They are designed
-    with minimal text so that they can easily be integrated into every aspect of a course.
+<div class="research-question">
+    <wicket:message key="research.question.3.title">
+        "Where is the best place to use PhET sims in my course?"
+    </wicket:message>
+</div>
+<div class="research-answer" wicket:id="research-question-3-answer">
+    We have found PhET sims to be very effective in lecture, in class activities, lab and homework. They are
+    designed with minimal text so that they can easily be integrated into every aspect of a course.
 </div>
 
-<h2>Our immediate interests are:</h2>
+<h2>
+    <wicket:message key="research.immediateInterests">Our immediate interests are:</wicket:message>
+</h2>
 
-<p>
+<p wicket:id="research-interest-analogy">
     <strong>Use of analogy to construct understanding:</strong> Students use analogies in sims to make sense of
     unfamiliar phenomena. Representations play a key role in student use of analogy.
 </p>
 
-<p>
+<p wicket:id="research-interest-norms">
     <strong>Simulations as tools for changing classroom norms:</strong> Sims are shaped by socio-cultural norms of
     science, but can also be used to change the traditional norms of how students engage in the classroom.
 </p>
 
-<p>
+<p wicket:id="research-interest-exploration">
     <strong>Specific features of sims that promote learning and engaged exploration:</strong> Our design principles
     identify key characteristics of sims that make them productive tools for student engagement. Now we wish to study
     in detail how each feature impacts student understanding.
 </p>
 
-<p>
+<p wicket:id="research-interest-homework">
     <strong>Integrating simulations into homework:</strong> Simulations have unique features that are not available in
     most learning tools (interactivity, animation, dynamic feedback, allow for productive exploration)
 </p>
 
-<p>
+<p wicket:id="research-interest-chemistry">
     <strong>Effectiveness of Chemistry simulations:</strong> We have just begun investigating the envelope of where and
     how chemistry simulations can be effective learning tools.
 </p>
 
-<h2>Publications and Presentations</h2>
+<h2>
+    <wicket:message key="research.publicationsAndPresentations">Publications and Presentations</wicket:message>
+</h2>
 
-<h3>Important features for effective simulation design (predominantly interview data)</h3>
+<h3>
+    <wicket:message key="research.publications.design">
+        Important features for effective simulation design (predominantly interview data)
+    </wicket:message>
+</h3>
 <ul class="content-points">
     <li>
         <div class="research">
@@ -180,7 +218,9 @@ principles and a complete discussion is found in the pair of papers by <a href="
     </li>
 </ul>
 
-<h3>Research on in-class use</h3>
+<h3>
+    <wicket:message key="research.publications.use">Research on in-class use</wicket:message>
+</h3>
 <ul class="content-points">
     <li>
         <div class="research">
@@ -256,7 +296,9 @@ principles and a complete discussion is found in the pair of papers by <a href="
     </li>
 </ul>
 
-<h3>About PhET sims</h3>
+<h3>
+    <wicket:message key="research.publications.sims">About PhET sims</wicket:message>
+</h3>
 <ul class="content-points">
     <li>
         <div class="research">
@@ -312,7 +354,9 @@ principles and a complete discussion is found in the pair of papers by <a href="
     </li>
 </ul>
 
-<h3>Students Perceptions About Learning</h3>
+<h3>
+    <wicket:message key="research.publications.perceptions">Students Perceptions About Learning</wicket:message>
+</h3>
 <ul class="content-points">
     <li>
         <div class="research">
@@ -438,136 +482,136 @@ principles and a complete discussion is found in the pair of papers by <a href="
     </li>
 </ul>
 
-<h3>Uncategorized (maybe to remove?)</h3>
-<ul class="content-points">
-    <li>
-        <div class="research">
-            <span class="title"><a
-                    href="/publications/Teaching_physics_using_PhET_TPT.pdf">Teaching
-                Physics using PhET Simulations</a></span>,
+<!--<h3>Uncategorized (maybe to remove?)</h3>-->
+<!--<ul class="content-points">-->
+<!--<li>-->
+<!--<div class="research">-->
+<!--<span class="title"><a-->
+<!--href="/publications/Teaching_physics_using_PhET_TPT.pdf">Teaching-->
+<!--Physics using PhET Simulations</a></span>,-->
 
-            <span class="authors">C. Wieman, W. Adams, P. Loeblein, and K. Perkins</span>,
+<!--<span class="authors">C. Wieman, W. Adams, P. Loeblein, and K. Perkins</span>,-->
 
-            <span class="publication_name">The Physics Teacher</span>,
+<!--<span class="publication_name">The Physics Teacher</span>,-->
 
-                                <span class="publication_lookup">
-                    in press
-                </span>,
-
-
-            <span class="publication_date">2010</span>.
+<!--<span class="publication_lookup">-->
+<!--in press-->
+<!--</span>,-->
 
 
-        </div>
-
-    </li>
+<!--<span class="publication_date">2010</span>.-->
 
 
-    <li>
-        <div class="research">
-            <span class="title"><a
-                    href="http://ptonline.aip.org/getabs/servlet/GetabsServlet?prog=normal&amp;id=PHTOAD000058000011000036000001&amp;idtype=cvips&amp;gifs=Yes">Transforming
-                Physics Education</a></span>,
+<!--</div>-->
 
-            <span class="authors">C. E. Wieman and K. K. Perkins</span>,
-
-            <span class="publication_name">Physics Today</span>,
+<!--</li>-->
 
 
-            <span class="publication_date">November 2005</span>.
+<!--<li>-->
+<!--<div class="research">-->
+<!--<span class="title"><a-->
+<!--href="http://ptonline.aip.org/getabs/servlet/GetabsServlet?prog=normal&amp;id=PHTOAD000058000011000036000001&amp;idtype=cvips&amp;gifs=Yes">Transforming-->
+<!--Physics Education</a></span>,-->
 
-                                <span class="publication_pdflink">
-                    <a href="http://phet.colorado.edu/web-pages/publications/PhysicsTodayFinal.pdf">pdf</a>
-                </span>
+<!--<span class="authors">C. E. Wieman and K. K. Perkins</span>,-->
 
-            )
-        </div>
-    </li>
-    <li>
-        <div class="research">
-            <span class="title"><a href="/publications/pe5_1_m04.pdf">Free On-line
-                Resource Connects Real-life Phenomena to Science</a></span>,
-
-            <span class="authors">K. K. Perkins and C. E. Wieman</span>,
-
-            <span class="publication_name">Physics Education</span>,
-
-                                <span class="publication_lookup">
-                    p. 93-95
-                </span>,
+<!--<span class="publication_name">Physics Today</span>,-->
 
 
-            <span class="publication_date">January 2005</span>.
+<!--<span class="publication_date">November 2005</span>.-->
+
+<!--<span class="publication_pdflink">-->
+<!--<a href="http://phet.colorado.edu/web-pages/publications/PhysicsTodayFinal.pdf">pdf</a>-->
+<!--</span>-->
+
+<!--)-->
+<!--</div>-->
+<!--</li>-->
+<!--<li>-->
+<!--<div class="research">-->
+<!--<span class="title"><a href="/publications/pe5_1_m04.pdf">Free On-line-->
+<!--Resource Connects Real-life Phenomena to Science</a></span>,-->
+
+<!--<span class="authors">K. K. Perkins and C. E. Wieman</span>,-->
+
+<!--<span class="publication_name">Physics Education</span>,-->
+
+<!--<span class="publication_lookup">-->
+<!--p. 93-95-->
+<!--</span>,-->
 
 
-        </div>
-
-    </li>
-    <li>
-        <div class="research">
-            <span class="title"><a href="/publications/Dubson-AAPT-2004.pdf">Should a
-                Fortran-savvy educator learn Java, Flash, both, or neither?</a></span>,
-
-            <span class="authors">M. Dubson</span>,
-
-            <span class="publication_name">Talk presented at AAPT Summer Meeting</span>,
+<!--<span class="publication_date">January 2005</span>.-->
 
 
-            <span class="publication_date">2004</span>.
+<!--</div>-->
+
+<!--</li>-->
+<!--<li>-->
+<!--<div class="research">-->
+<!--<span class="title"><a href="/publications/Dubson-AAPT-2004.pdf">Should a-->
+<!--Fortran-savvy educator learn Java, Flash, both, or neither?</a></span>,-->
+
+<!--<span class="authors">M. Dubson</span>,-->
+
+<!--<span class="publication_name">Talk presented at AAPT Summer Meeting</span>,-->
 
 
-        </div>
-    </li>
-    <li>
-        <div class="research">
-            <span class="title"><a href="/publications/phet_aapt_04.pdf">The Physics
-                Education Technology Project: A New Suite of Physics Simulations</a></span>,
-
-            <span class="authors">K. K. Perkins, W. K. Adams, N. Finkelstein, R. LeMaster, S. Reid, M. Dubson, N. Podolefsky, K. Beck and C. Wieman</span>,
-
-            <span class="publication_name">Poster Presented at AAPT Summer Meeting</span>,
+<!--<span class="publication_date">2004</span>.-->
 
 
-            <span class="publication_date">2004</span>.
+<!--</div>-->
+<!--</li>-->
+<!--<li>-->
+<!--<div class="research">-->
+<!--<span class="title"><a href="/publications/phet_aapt_04.pdf">The Physics-->
+<!--Education Technology Project: A New Suite of Physics Simulations</a></span>,-->
+
+<!--<span class="authors">K. K. Perkins, W. K. Adams, N. Finkelstein, R. LeMaster, S. Reid, M. Dubson, N. Podolefsky, K. Beck and C. Wieman</span>,-->
+
+<!--<span class="publication_name">Poster Presented at AAPT Summer Meeting</span>,-->
 
 
-        </div>
-
-    </li>
-    <li>
-        <div class="research">
-            <span class="title"><a
-                    href="/publications/Simulation%20Design%20AAPT%2004.pdf">Research-Based
-                Design Features of Web-based Simulations</a></span>,
-
-            <span class="authors">W. K. Adams, N. D. Finkelstein, S. Reid, M. Dubson, N. Podolefsky, C. E. Wieman, R. LeMaster</span>,
-
-            <span class="publication_name">Talk presented at AAPT Summer Meeting</span>,
+<!--<span class="publication_date">2004</span>.-->
 
 
-            <span class="publication_date">2004</span>.
+<!--</div>-->
+
+<!--</li>-->
+<!--<li>-->
+<!--<div class="research">-->
+<!--<span class="title"><a-->
+<!--href="/publications/Simulation%20Design%20AAPT%2004.pdf">Research-Based-->
+<!--Design Features of Web-based Simulations</a></span>,-->
+
+<!--<span class="authors">W. K. Adams, N. D. Finkelstein, S. Reid, M. Dubson, N. Podolefsky, C. E. Wieman, R. LeMaster</span>,-->
+
+<!--<span class="publication_name">Talk presented at AAPT Summer Meeting</span>,-->
 
 
-        </div>
-    </li>
-    <li>
-        <div class="research">
-            <span class="title"><a href="/publications/Perkins-AAPT-2004.pdf">Incorporating
-                Simulations in the Classroom - A survey of Research Results from the Physics Education Technology
-                Project</a></span>,
-
-            <span class="authors">K. K. Perkins, W. K. Adams, N. D. Finkelstein, M. Dubson, S. Reid, R. LeMaster and C. E. Wieman</span>,
-
-            <span class="publication_name">Talk presented at AAPT Summer Meeting</span>,
+<!--<span class="publication_date">2004</span>.-->
 
 
-            <span class="publication_date">2004</span>.
+<!--</div>-->
+<!--</li>-->
+<!--<li>-->
+<!--<div class="research">-->
+<!--<span class="title"><a href="/publications/Perkins-AAPT-2004.pdf">Incorporating-->
+<!--Simulations in the Classroom - A survey of Research Results from the Physics Education Technology-->
+<!--Project</a></span>,-->
+
+<!--<span class="authors">K. K. Perkins, W. K. Adams, N. D. Finkelstein, M. Dubson, S. Reid, R. LeMaster and C. E. Wieman</span>,-->
+
+<!--<span class="publication_name">Talk presented at AAPT Summer Meeting</span>,-->
 
 
-        </div>
+<!--<span class="publication_date">2004</span>.-->
 
-    </li>
-</ul>
+
+<!--</div>-->
+
+<!--</li>-->
+<!--</ul>-->
 
 </div>
 </wicket:panel>

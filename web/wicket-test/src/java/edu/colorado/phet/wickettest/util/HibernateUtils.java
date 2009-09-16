@@ -196,11 +196,11 @@ public class HibernateUtils {
                 boolean aTranslated = a.getLocale().equals( locale );
                 boolean bTranslated = b.getLocale().equals( locale );
 
-                if( !bTranslated && aTranslated ) {
+                if ( !bTranslated && aTranslated ) {
                     return -1;
                 }
 
-                if( !aTranslated && bTranslated ) {
+                if ( !aTranslated && bTranslated ) {
                     return 1;
                 }
 
