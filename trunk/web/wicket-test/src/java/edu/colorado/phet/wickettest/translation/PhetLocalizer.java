@@ -129,6 +129,7 @@ public class PhetLocalizer extends Localizer {
 
         if ( !checkDefault ) {
             // return either null or the default value, since we won't check the default language
+            System.out.println( "Shortcut default value on " + key + ": " + defaultValue );
             return defaultValue;
         }
 
