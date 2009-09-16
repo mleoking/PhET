@@ -22,7 +22,7 @@ public abstract class AbstractMembraneChannel {
     // Class Data
     //----------------------------------------------------------------------------
 	
-	private static final double SIDE_HEIGHT_TO_CHANNEL_HEIGHT_RATIO = 1.4;
+	private static final double SIDE_HEIGHT_TO_CHANNEL_HEIGHT_RATIO = 1.6;
 
     //----------------------------------------------------------------------------
     // Instance Data
