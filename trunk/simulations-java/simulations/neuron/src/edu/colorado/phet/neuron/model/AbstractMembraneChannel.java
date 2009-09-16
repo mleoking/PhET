@@ -3,9 +3,11 @@
 package edu.colorado.phet.neuron.model;
 
 import java.awt.Color;
+import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+
+import edu.umd.cs.piccolo.util.PDimension;
 
 
 /**
@@ -34,17 +36,17 @@ public abstract class AbstractMembraneChannel {
 	
 	// Member variables that control the size and position of the channel.
 	private Point2D centerLocation = new Point2D.Double();
-	private double rotationAngle; // In radians.
-	private Rectangle2D channelRect = new Rectangle2D.Double();
-	private Rectangle2D sideRect = new Rectangle2D.Double();
+	private double rotationalAngle; // In radians.
+	private Dimension2D channelSize = new PDimension(); // Size of channel only, i.e. where the atoms pass through.
+	private Dimension2D overallSize = new PDimension(); // Size including edges.
 	
     //----------------------------------------------------------------------------
     // Constructor
     //----------------------------------------------------------------------------
 	
 	public AbstractMembraneChannel(double channelWidth, double channelHeight){
-		channelRect.setFrame(0, 0, channelWidth, channelHeight);
-		sideRect.setFrame(0, 0, channelWidth, channelHeight * SIDE_HEIGHT_TO_CHANNEL_HEIGHT_RATIO);
+		channelSize.setSize(channelWidth, channelHeight);
+		overallSize.setSize(channelWidth * 3, channelHeight * SIDE_HEIGHT_TO_CHANNEL_HEIGHT_RATIO);
 	}
 	
     //----------------------------------------------------------------------------
@@ -82,28 +84,37 @@ public abstract class AbstractMembraneChannel {
 		return new ArrayList<Atom>(ownedAtoms);
 	}
 	
-	public Rectangle2D getChannelRect(){
-		return channelRect;
+	public Dimension2D getChannelSize(){
+		return new PDimension(channelSize);
 	}
 	
 	public Point2D getCenterLocation(){
-		return centerLocation;
+		return new Point2D.Double(centerLocation.getX(), centerLocation.getY());
+	}
+	
+	public void setCenterLocation(Point2D newCenterLocation) {
+		centerLocation.setLocation(newCenterLocation);
+	}
+
+	public void setRotationalAngle(double rotationalAngle){
+		this.rotationalAngle = rotationalAngle;
 	}
 	
 	public double getRotationalAngle(){
-		return rotationAngle;
+		return rotationalAngle;
 	}
 	
 	/**
-	 * Get the rectangle that defines the size of the sides of the channel.
+	 * Get the 2D size of the edges of the channel.  Even though there are
+	 * two sides 
 	 * Even though there are two sides, the channel is assumed to be
 	 * symmetric, so there is only one side rectangle supplied, and callers
 	 * are expected to use it twice.
 	 * 
 	 * @return
 	 */
-	public Rectangle2D getSideRect(){
-		return sideRect;
+	public Dimension2D getOverallSize(){
+		return overallSize;
 	}
 	
 	public Color getChannelColor(){
