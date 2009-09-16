@@ -91,7 +91,12 @@ public class TranslateEntityPanel extends PhetPanel {
 
                 item.add( new Label( "translation-string-key", tString.getKey() ) );
 
-                item.add( new LocalizedLabel( "translation-string-english", WicketApplication.getDefaultLocale(), new ResourceModel( tString.getKey() ) ) );
+                if ( testLocale.equals( WicketApplication.getDefaultLocale() ) ) {
+                    item.add( new InvisibleComponent( "translation-string-english" ) );
+                }
+                else {
+                    item.add( new LocalizedLabel( "translation-string-english", WicketApplication.getDefaultLocale(), new ResourceModel( tString.getKey() ) ) );
+                }
 
                 final AjaxEditableMultiLineLabel editableLabel = new AjaxEditableMultiLineLabel( "translation-string-value", model ) {
                     @Override
@@ -104,6 +109,7 @@ public class TranslateEntityPanel extends PhetPanel {
                         add( new AttributeModifier( "class", new Model( "string-value" ) ) );
                     }
                 };
+                editableLabel.setCols( 80 );
                 if ( !isStringSet( tString.getKey() ) ) {
                     editableLabel.add( new AttributeAppender( "class", true, new Model( "not-translated" ), " " ) );
                 }
