@@ -5,6 +5,7 @@ package edu.colorado.phet.neuron.model;
 import java.awt.Shape;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
+import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -219,11 +220,29 @@ public class AxonModel {
     		break;
     	}
     	
+    	// Find a position that is not too close to an existing channel.
+    	double minInterChannelDistance = 10; // Nanometers, arbitrarily chosen to look okay.
+    	double angle = 0;
+    	Point2D newLocation = new Point2D.Double();
+    	double radius = axonMembrane.getCrossSectionDiameter() / 2; 
+    	boolean openLocationFound = false;
+    	while (!openLocationFound){
+    		angle = RAND.nextDouble() * Math.PI * 2;
+    		// Convert to cartesian.
+    		newLocation = new Point2D.Double(radius * Math.cos(angle), radius * Math.sin(angle));
+    		openLocationFound = true;
+    		for (AbstractMembraneChannel channel : channels ){
+    			if (channel.getCenterLocation().distance(newLocation) < minInterChannelDistance){
+    				// Too close.
+    				openLocationFound = false;
+    				System.out.println("Location rejected.");
+    			}
+    		}
+    	}
+    	
     	// Position the channel randomly on the membrane.
-    	double angle = RAND.nextDouble() * Math.PI * 2;
-    	double radius = axonMembrane.getCrossSectionDiameter() / 2;
     	membraneChannel.setRotationalAngle(angle);
-    	membraneChannel.setCenterLocation(new Point2D.Double(radius * Math.cos(angle), radius * Math.sin(angle)));
+    	membraneChannel.setCenterLocation(newLocation);
     	
     	channels.add(membraneChannel);
     }
