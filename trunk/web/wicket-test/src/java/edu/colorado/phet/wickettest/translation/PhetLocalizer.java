@@ -155,7 +155,9 @@ public class PhetLocalizer extends Localizer {
             }
 
             // we can find NO translation for this string?!? throw an error
-            throw new RuntimeException( "Could not find any translation for the key " + key );
+            //throw new RuntimeException( "Could not find any translation for the key " + key );
+
+            return "***" + key + "***";
         }
 
         // perform a "default" lookup, which usually should give the English translation, if it exists
@@ -172,7 +174,8 @@ public class PhetLocalizer extends Localizer {
                 return defaultValue;
             }
 
-            throw new RuntimeException( "Could not find any translation for the key " + key );
+            //throw new RuntimeException( "Could not find any translation for the key " + key );
+            return "***" + key + "***";
         }
     }
 
