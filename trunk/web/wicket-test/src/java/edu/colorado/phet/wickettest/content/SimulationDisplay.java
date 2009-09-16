@@ -81,7 +81,7 @@ public class SimulationDisplay extends PhetRegularPage {
     private static void addSimulationsFromCategory( List<LocalizedSimulation> simulations, Locale locale, Category category, Set<Integer> used ) {
         for ( Object o : category.getSimulations() ) {
             Simulation sim = (Simulation) o;
-            if( !sim.getProject().isVisible() ) {
+            if ( !sim.getProject().isVisible() ) {
                 continue;
             }
             LocalizedSimulation englishSim = null;
@@ -101,7 +101,7 @@ public class SimulationDisplay extends PhetRegularPage {
                     englishSim = lsim;
                 }
             }
-            if( !added && englishSim != null ) {
+            if ( !added && englishSim != null ) {
                 simulations.add( englishSim );
                 used.add( englishSim.getId() );
             }

@@ -13,6 +13,8 @@ public class TroubleshootingFlashEntity extends TranslationEntity {
         addString( "troubleshooting.flash.toRun" );
         addString( "troubleshooting.flash.blankWindow" );
         addString( "troubleshooting.flash.olderVersions" );
+        addString( "troubleshooting.flash.q1.title" );
+        addString( "troubleshooting.flash.q1.answer" );
         addPreview( new PhetPanelFactory() {
             public PhetPanel getNewPanel( String id, PageContext context, PhetRequestCycle requestCycle ) {
                 return new TroubleshootingFlashPanel( id, context );
