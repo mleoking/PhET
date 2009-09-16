@@ -100,7 +100,7 @@
                             <substitutionList>
                                 <substitution>
                                     <pattern>@@INSTALLDIR@@</pattern>
-                                    <value>${installdir}</value>
+                                    <value>file:///${installdir}</value>
                                 </substitution>
                             </substitutionList>
                         </substitute>
