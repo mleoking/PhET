@@ -99,7 +99,7 @@
                             <files>*/*.jnlp</files>
                             <substitutionList>
                                 <substitution>
-                                    <pattern>@@INSTALLDIR@@</pattern>
+                                    <pattern>@@CODEBASE@@</pattern>
                                     <value>file:///${installdir}</value>
                                 </substitution>
                             </substitutionList>
