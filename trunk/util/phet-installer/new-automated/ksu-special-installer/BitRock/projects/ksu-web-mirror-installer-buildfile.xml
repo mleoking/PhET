@@ -30,7 +30,7 @@
     <slideShowTiming>5</slideShowTiming>
     <startMenuGroupName>${product_fullname}</startMenuGroupName>
     <style>standard</style>
-    <summary>The PhET Website Mirror is an offline copy of the PhET website, containing all the simulations on the website.</summary>
+    <summary>The PhET Website Mirror is a copy of the primary PhET website, containing all the simulations on the website.</summary>
     <uninstallerDirectory>${installdir}</uninstallerDirectory>
     <uninstallerName></uninstallerName>
     <validatorProgram></validatorProgram>
@@ -53,10 +53,10 @@
                     <platforms>all</platforms>
                     <distributionFileList>
                         <distributionDirectory>
-                            <origin>../../temp/website/phet-server.colorado.edu_8080/ar</origin>
+                            <origin>../../temp/website/phetsims.colorado.edu/ar</origin>
                         </distributionDirectory>
                         <distributionDirectory>
-                            <origin>../../temp/website/phet-server.colorado.edu_8080/sims</origin>
+                            <origin>../../temp/website/phetsims.colorado.edu/sims</origin>
                         </distributionDirectory>
                     </distributionFileList>
 
@@ -65,7 +65,7 @@
                             <files>*/*.jnlp</files>
                             <substitutionList>
                                 <substitution>
-                                    <pattern>@@SIM_URL@@</pattern>
+                                    <pattern>@@INSTALLDIR@@</pattern>
                                     <value>${base_url}</value>
                                 </substitution>
                             </substitutionList>
