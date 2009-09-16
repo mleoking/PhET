@@ -4,6 +4,7 @@ package edu.colorado.phet.neuron.model;
 
 import java.awt.Shape;
 import java.awt.geom.GeneralPath;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -102,7 +103,7 @@ public class AxonModel {
         }
         
         // Add a channel.
-        channels.add(new SodiumLeakageChannel());
+        addChannel(MembraneChannelTypes.SODIUM_LEAKAGE_CHANNEL);
     }
     
     //----------------------------------------------------------------------------
@@ -200,6 +201,28 @@ public class AxonModel {
 		
 		// Set the atom's new velocity. 
     	atom.setVelocity(velocity * Math.cos(angle), velocity * Math.sin(angle));
+    }
+    
+    private void addChannel(MembraneChannelTypes channelType){
+    	AbstractMembraneChannel membraneChannel = null;
+    	
+    	switch (channelType){
+    	case SODIUM_LEAKAGE_CHANNEL:
+    		membraneChannel = new SodiumLeakageChannel();
+    		break;
+    		
+    	case POTASSIUM_LEAKAGE_CHANNEL:
+    		// TODO.
+    		break;
+    	}
+    	
+    	// Position the channel randomly on the membrane.
+    	double angle = RAND.nextDouble() * Math.PI * 2;
+    	double radius = axonMembrane.getCrossSectionDiameter() / 2;
+    	membraneChannel.setRotationalAngle(angle);
+    	membraneChannel.setCenterLocation(new Point2D.Double(radius * Math.cos(angle), radius * Math.sin(angle)));
+    	
+    	channels.add(membraneChannel);
     }
     
     /**
