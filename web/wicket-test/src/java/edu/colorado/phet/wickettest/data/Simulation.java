@@ -30,6 +30,14 @@ public class Simulation implements Serializable {
     public Simulation() {
     }
 
+    public String getDescriptionKey() {
+        return "simulation." + name + ".description";
+    }
+
+    public String getLearningGoalsKey() {
+        return "simulation." + name + ".learningGoals";
+    }
+
     public LocalizedSimulation getBestLocalizedSimulation( Locale bestLocale ) {
         LocalizedSimulation englishSimulation = null;
         Locale englishLocale = LocaleUtils.stringToLocale( "en" );

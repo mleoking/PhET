@@ -16,11 +16,10 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
-import edu.colorado.phet.translationutility.TULocales;
-import edu.colorado.phet.wickettest.WicketApplication;
 import edu.colorado.phet.wickettest.data.LocalizedSimulation;
 import edu.colorado.phet.wickettest.data.Simulation;
-import edu.colorado.phet.wickettest.translation.PhetLocalizer;
+import edu.colorado.phet.wickettest.util.HibernateTask;
+import edu.colorado.phet.wickettest.util.HibernateUtils;
 import edu.colorado.phet.wickettest.util.StringUtils;
 
 // TODO: move the simulation list panel to a separate page, so if something goes bad, this page is still accessible
@@ -124,6 +123,23 @@ public class AdminMainPage extends AdminPage {
 //                    System.out.println( LocaleUtils.localeToString( locale ) + " new: " + name );
 //                    StringUtils.setEnglishString( getHibernateSession(), "language.names." + LocaleUtils.localeToString( locale ), name );
 //                }
+
+                final List<LocalizedSimulation> sims = new LinkedList<LocalizedSimulation>();
+                HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
+                    public boolean run( Session session ) {
+                        List lsims = session.createQuery( "select ls from LocalizedSimulation as ls where ls.locale = :locale" ).setLocale( "locale", LocaleUtils.stringToLocale( "ar" ) ).list();
+                        for ( Object lsim : lsims ) {
+                            sims.add( (LocalizedSimulation) lsim );
+                        }
+                        return true;
+                    }
+                } );
+                for ( LocalizedSimulation sim : sims ) {
+                    String desc = sim.getDescription();
+                    if ( desc != null ) {
+                        StringUtils.setString( getHibernateSession(), sim.getSimulation().getDescriptionKey(), desc, 4 );
+                    }
+                }
             }
         } );
     }

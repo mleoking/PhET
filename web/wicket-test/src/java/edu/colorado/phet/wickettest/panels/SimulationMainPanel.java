@@ -62,7 +62,8 @@ public class SimulationMainPanel extends PhetPanel {
         link.add( new StaticImage( "simulation-main-screenshot", simulation.getSimulation().getImageUrl(), null, new StringResourceModel( "simulationMainPanel.screenshot.alt", this, null, new String[]{encode( simulation.getTitle() )} ) ) );
         add( link );
 
-        add( new Label( "simulation-main-description", simulation.getDescription() ) );
+        //add( new Label( "simulation-main-description", simulation.getDescription() ) );
+        add( new LocalizedText( "simulation-main-description", simulation.getSimulation().getDescriptionKey() ) );
         add( new Label( "simulationMainPanel.version", new StringResourceModel( "simulationMainPanel.version", this, null, new String[]{simulationVersionString} ) ) );
         add( new Label( "simulationMainPanel.kilobytes", new StringResourceModel( "simulationMainPanel.kilobytes", this, null, new Object[]{simulation.getSimulation().getKilobytes()} ) ) );
 
@@ -228,6 +229,7 @@ public class SimulationMainPanel extends PhetPanel {
         List<String> designTeam = new LinkedList<String>();
         List<String> libraries = new LinkedList<String>();
         List<String> thanks = new LinkedList<String>();
+        List<String> learningGoals = new LinkedList<String>();
 
         String rawDesignTeam = simulation.getSimulation().getDesignTeam();
         if ( rawDesignTeam != null ) {
@@ -252,6 +254,15 @@ public class SimulationMainPanel extends PhetPanel {
             for ( String item : rawThanks.split( "<br/>" ) ) {
                 if ( item != null && item.length() > 0 ) {
                     thanks.add( item );
+                }
+            }
+        }
+
+        String rawLearningGoals = getLocalizer().getString( simulation.getSimulation().getLearningGoalsKey(), this );
+        if( rawLearningGoals != null ) {
+            for ( String item : rawLearningGoals.split( "<br/>" ) ) {
+                if( item != null && item.length() > 0 ) {
+                    learningGoals.add( item );
                 }
             }
         }
@@ -288,6 +299,18 @@ public class SimulationMainPanel extends PhetPanel {
             thanksView.setVisible( false );
         }
         add( thanksView );
+
+        // TODO: consolidate common behavior for these lists
+        ListView learningGoalsView = new ListView( "learning-goals", learningGoals ) {
+            protected void populateItem( ListItem item ) {
+                String str = item.getModelObjectAsString();
+                item.add( new Label( "goal", str ) );
+            }
+        };
+        if ( learningGoals.isEmpty() ) {
+            learningGoalsView.setVisible( false );
+        }
+        add( learningGoalsView );
     }
 
     public String getTitle() {
