@@ -42,6 +42,7 @@ public class AxonModel {
     private final NeuronClock clock;
     private final AxonMembrane axonMembrane = new AxonMembrane();
     private ArrayList<Atom> atoms = new ArrayList<Atom>();
+    private ArrayList<AbstractMembraneChannel> channels = new ArrayList<AbstractMembraneChannel>();
     private final double crossSectionInnerRadius;
     private final double crossSectionOuterRadius;
     private int atomUpdateOffset = 0;
@@ -99,6 +100,9 @@ public class AxonModel {
         		break;
         	}
         }
+        
+        // Add a channel.
+        channels.add(new SodiumLeakageChannel());
     }
     
     //----------------------------------------------------------------------------
@@ -119,6 +123,10 @@ public class AxonModel {
     
     public Shape getBodyShape(){
     	return new GeneralPath();
+    }
+    
+    public ArrayList<AbstractMembraneChannel> getMembraneChannels(){
+    	return new ArrayList<AbstractMembraneChannel>(channels);
     }
 
     //----------------------------------------------------------------------------

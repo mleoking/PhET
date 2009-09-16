@@ -26,7 +26,7 @@ public class AxonMembrane {
 	private static final Point2D CROSS_SECTION_CENTER = new Point2D.Double(0, 0);
 
 	// Fixed membrane characteristics.
-	private static final double DEFAULT_MEMBRANE_THICKNESS = 4;  // In nanometers, obtained from web research.
+	public static final double MEMBRANE_THICKNESS = 4;  // In nanometers, obtained from web research.
 	private static final double DEFAULT_DIAMETER = 80; // In nanometers.
 	private static final double BODY_LENGTH = DEFAULT_DIAMETER * 1.5;
 	private static final double BODY_TILT_ANGLE = Math.PI/4;
@@ -63,7 +63,7 @@ public class AxonMembrane {
 	}
 	
 	public double getMembraneThickness(){
-		return DEFAULT_MEMBRANE_THICKNESS;
+		return MEMBRANE_THICKNESS;
 	}
 	
 	public double getCrossSectionDiameter(){
