@@ -84,11 +84,15 @@ public class JavaSimulation extends AbstractSimulation {
         }
         return properties;
     }
+    
+    public String getStringFileSuffix() {
+        return ".properties";
+    }
 
     public void saveStrings( Properties properties, File file ) throws SimulationException {
         try {
             String projectName = getProjectName();
-            String projectVersion = getProjectVersion( projectName + TUConstants.RESOURCE_PATH_SEPARATOR + projectName + ".properties" ); // eg, faraday/faraday.properties
+            String projectVersion = getProjectVersion( projectName + TUConstants.RESOURCE_PATH_SEPARATOR + projectName + getStringFileSuffix() ); // eg, faraday/faraday.properties
             String header = getTranslationFileHeader( file.getName(), projectName, projectVersion );
             PropertiesIO.write( properties, header, file );
         }
@@ -97,7 +101,7 @@ public class JavaSimulation extends AbstractSimulation {
         }
     }
     
-    public String getSubmitBasename( Locale locale ) {
+    public String getStringFileName( Locale locale ) {
         return getStringsName( getProjectName(), locale );
     }
     
@@ -123,7 +127,7 @@ public class JavaSimulation extends AbstractSimulation {
      * Gets the path to the fallback JAR resource that contains 
      * English strings for a specified project.
      */
-    private static String getFallbackStringsPath( String projectName ) {
+    private String getFallbackStringsPath( String projectName ) {
         return getStringsPath( projectName, null /* locale */ );
     }
     
@@ -132,7 +136,7 @@ public class JavaSimulation extends AbstractSimulation {
      * a specified project and locale. If locale is null, the fallback resource
      * path is returned. 
      */
-    private static String getStringsPath( String projectName, Locale locale ) {
+    private String getStringsPath( String projectName, Locale locale ) {
         String dirName = getStringsBasename( projectName );
         String fileName = getStringsName( projectName, locale );
         return dirName + TUConstants.RESOURCE_PATH_SEPARATOR + "localization" + TUConstants.RESOURCE_PATH_SEPARATOR + fileName;
@@ -150,15 +154,15 @@ public class JavaSimulation extends AbstractSimulation {
      * All Java simulations should migrate to the convention of including "en" in the 
      * resource name of English localization files.
      */
-    private static String getStringsName( String projectName, Locale locale ) {
+    private String getStringsName( String projectName, Locale locale ) {
         String stringsBasename = getStringsBasename( projectName );
         String basename = null;
         if ( locale == null ) {
-            basename = stringsBasename + "-strings" + ".properties"; // fallback basename contains no language code
+            basename = stringsBasename + "-strings" + getStringFileSuffix(); // fallback basename contains no language code
         }
         else {
             String localeString = LocaleUtils.localeToString( locale );
-            basename = stringsBasename + "-strings_" + localeString + ".properties";
+            basename = stringsBasename + "-strings_" + localeString + getStringFileSuffix();
         }
         return basename;
     }

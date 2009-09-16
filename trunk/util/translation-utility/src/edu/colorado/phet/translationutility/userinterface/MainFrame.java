@@ -163,25 +163,38 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
      * Opens a "save" file chooser that allows the user to save the current translations to a properties file.
      */
     public void handleSave() {
-        JFileChooser chooser = new JFileChooser( _currentDirectory );
+        File defaultFile = new File( _currentDirectory, _simulation.getStringFileName( _targetLocale ) );
+        JFileChooser chooser = new JFileChooser();
+        chooser.setSelectedFile( defaultFile );
         int option = chooser.showSaveDialog( this );
         _currentDirectory = chooser.getCurrentDirectory();
         if ( option == JFileChooser.APPROVE_OPTION ) {
-            Properties properties = _translationPanel.getTargetProperties();
             File outFile = chooser.getSelectedFile();
-            if ( outFile.exists() ) {
-                Object[] args = { outFile.getAbsolutePath() };
-                String message = MessageFormat.format( CONFIRM_OVERWRITE_MESSAGE, args );
-                int selection = JOptionPane.showConfirmDialog( this, message, CONFIRM_OVERWRITE_TITLE, JOptionPane.YES_NO_OPTION );
-                if ( selection != JOptionPane.YES_OPTION ) {
-                    return;
+            if ( outFile.getName().endsWith( _simulation.getStringFileSuffix() ) ) {
+                // file suffix is appropriate, proceed with Save operation
+                Properties properties = _translationPanel.getTargetProperties();
+                if ( outFile.exists() ) {
+                    // confirm that it's OK to overwrite a file that already exists
+                    Object[] args = { outFile.getAbsolutePath() };
+                    String message = MessageFormat.format( CONFIRM_OVERWRITE_MESSAGE, args );
+                    int selection = JOptionPane.showConfirmDialog( this, message, CONFIRM_OVERWRITE_TITLE, JOptionPane.YES_NO_OPTION );
+                    if ( selection != JOptionPane.YES_OPTION ) {
+                        return;
+                    }
+                }
+                try {
+                    _simulation.saveStrings( properties, outFile );
+                }
+                catch ( SimulationException e ) {
+                    ExceptionHandler.handleNonFatalException( e );
                 }
             }
-            try {
-                _simulation.saveStrings( properties, outFile );
-            }
-            catch ( SimulationException e ) {
-                ExceptionHandler.handleNonFatalException( e );
+            else {
+                // file suffix is inappropriate, tell the user and try again
+                TULogger.log( "Save attempted with bogus filename: " + outFile.getAbsolutePath() );
+                String message = "<html>You are saving a string file.<br>The file name must end with " + _simulation.getStringFileSuffix() + "</html>";
+                JOptionPane.showMessageDialog( this, message, "Error", JOptionPane.ERROR_MESSAGE );
+                handleSave();
             }
         }
     }
@@ -217,7 +230,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
         Properties properties = _translationPanel.getTargetProperties();
         
         // export properties to a file
-        String baseName = _simulation.getSubmitBasename( _targetLocale );
+        String baseName = _simulation.getStringFileName( _targetLocale );
         String fileName = _saveDirName + File.separatorChar + baseName;
         File outFile = new File( fileName );
         if ( outFile.exists() ) {

@@ -72,10 +72,16 @@ public interface ISimulation {
     public void saveStrings( Properties properties, File file ) throws SimulationException;
     
     /**
-     * Gets the base name of the file for submitting localized strings to PhET.
+     * Gets the name of the string file for a specified locale.
      * 
      * @param locale
      * @return
      */
-    public String getSubmitBasename( Locale locale );
+    public String getStringFileName( Locale locale );
+    
+    /**
+     * Gets the suffix used for string files.
+     * @return
+     */
+    public String getStringFileSuffix();
 }

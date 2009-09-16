@@ -92,7 +92,7 @@ public class FlashSimulation extends AbstractSimulation {
         }
     }
 
-    public String getSubmitBasename( Locale locale ) {
+    public String getStringFileName( Locale locale ) {
         return getStringsName( getProjectName(), locale );
     }
     
@@ -128,7 +128,7 @@ public class FlashSimulation extends AbstractSimulation {
     /*
      * Gets the path to the JAR resource that contains localized strings.
      */
-    private static String getStringPath( String projectName, Locale locale ) {
+    private String getStringPath( String projectName, Locale locale ) {
         // XML resources are at the top-level of the JAR, so resource path is the same as resource name
         return getStringsName( projectName, locale );
     }
@@ -136,11 +136,15 @@ public class FlashSimulation extends AbstractSimulation {
     /*
      * Gets the name of of the JAR resource for an XML document.
      */
-    private static String getStringsName( String projectName, Locale locale ) {
+    private String getStringsName( String projectName, Locale locale ) {
         String stringsBasename = getStringsBasename( projectName );
-        String format = "{0}-strings_{1}.xml";  // eg, curve-fit-strings_en.xml
+        String format = "{0}-strings_{1}" + getStringFileSuffix();  // eg, curve-fit-strings_en.xml
         Object[] args = { stringsBasename, locale };
         return MessageFormat.format( format, args );
+    }
+    
+    public String getStringFileSuffix() {
+        return ".xml";
     }
     
     /*
