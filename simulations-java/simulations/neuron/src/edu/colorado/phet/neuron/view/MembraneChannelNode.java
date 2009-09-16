@@ -51,12 +51,13 @@ public class MembraneChannelNode extends PNode{
 				-mvt.modelToViewDifferentialYDouble(edgeNodeHeight));
 				
 		PNode leftEdgeNode = createEdgeNode(transformedEdgeNodeSize, membraneChannelModel.getEdgeColor());
-		leftEdgeNode.setOffset(-transformedChannelSize.getWidth() / 2 - leftEdgeNode.getFullBoundsReference().width,
-				leftEdgeNode.getFullBoundsReference().height / 2);
+		leftEdgeNode.setOffset(
+				-transformedChannelSize.getWidth() / 2 - leftEdgeNode.getFullBoundsReference().width / 2, 0);
 		representation.addChild(leftEdgeNode);
 		
 		PNode rightEdgeNode = createEdgeNode(transformedEdgeNodeSize, membraneChannelModel.getEdgeColor());
-		rightEdgeNode.setOffset(transformedChannelSize.getWidth() / 2, rightEdgeNode.getFullBoundsReference().height / 2);
+		rightEdgeNode.setOffset(
+				transformedChannelSize.getWidth() / 2 + rightEdgeNode.getFullBoundsReference().width / 2, 0);
 		representation.addChild(rightEdgeNode);
 
 		representation.rotate(-membraneChannelModel.getRotationalAngle() + Math.PI / 2);
@@ -76,12 +77,19 @@ public class MembraneChannelNode extends PNode{
 		
 		float width = (float)size.getWidth();
 		float height = (float)size.getHeight();
-		path.moveTo(0, -height / 4);
-		path.quadTo(width / 2, height / 4, width, -height / 4);
-		path.lineTo(width, -height * 3 / 4);
-		path.quadTo(width/2, -height * 5 / 4, 0, -height * 3 / 4);
-		path.closePath();
+
+//		path.moveTo(0, -height / 4);
+//		path.curveTo(0, 0, width, 0, width, -height / 4);
+//		path.lineTo(width, -height * 3 / 4);
+//		path.curveTo(width, -height, 0, -height, 0, -height * 3 / 4);
+//		path.closePath();
 		
+		path.moveTo(-width / 2, height / 4);
+		path.curveTo(-width / 2, height / 2, width / 2, height / 2, width / 2, height / 4);
+		path.lineTo(width / 2, -height / 4);
+		path.curveTo(width / 2, -height / 2, -width / 2, -height / 2, -width / 2, -height / 4);
+		path.closePath();
+
 		PPath edgeNode = new PPath(path);
 		edgeNode.setPaint(color);
 		edgeNode.setStrokePaint(ColorUtils.darkerColor(color, 0.3));
