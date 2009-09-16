@@ -102,7 +102,10 @@ public class AxonModel {
         	}
         }
         
-        // Add a channel.
+        // Add some channels.  TODO - This is temporary, to be replaced by
+        // explicit additions and removals by the user.
+        addChannel(MembraneChannelTypes.SODIUM_LEAKAGE_CHANNEL);
+        addChannel(MembraneChannelTypes.SODIUM_LEAKAGE_CHANNEL);
         addChannel(MembraneChannelTypes.SODIUM_LEAKAGE_CHANNEL);
     }
     
