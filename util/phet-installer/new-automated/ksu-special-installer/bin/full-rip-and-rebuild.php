@@ -52,8 +52,8 @@
         installer_create_marker_file();
         installer_insert_installer_creation_time();
 
-        // Rebuild the installers.
-        installer_build_linux();
+        // Rebuild the web mirror installer.
+        installer_build_linux_web_mirror_installer();
 
         // Output the time of completion.
         $end_time = exec("date");

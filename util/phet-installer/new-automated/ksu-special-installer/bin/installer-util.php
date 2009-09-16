@@ -277,18 +277,18 @@
         return true;
     }
     
-    function installer_build_linux_installer($macro_map = array()) {
+    function installer_build_linux_web_mirror_installer($macro_map = array()) {
 
         global $g_bitrock_dists;
 
-        $build_prefix  = "PhET-dist-linux";
-        $buildfile_ext = file_get_extension(BITROCK_BUILDFILE);
+        $build_prefix  = "PhET-web-mirror-linux";
+        $buildfile_ext = file_get_extension(BITROCK_WEB_MIRROR_BUILDFILE);
 
         $new_buildfile = BITROCK_BUILDFILE_DIR."${build_prefix}.${buildfile_ext}";
 
         file_create_parents_of_file($new_buildfile);
 
-        if (!copy(BITROCK_BUILDFILE, $new_buildfile)) {
+        if (!copy(BITROCK_WEB_MIRROR_BUILDFILE, $new_buildfile)) {
             return false;
         }
 
@@ -318,12 +318,12 @@
         system($cmd_line, $return_var);
 
         if ($return_var != 0) {
-            flushing_echo("BitRock failed to build installer for ".BITROCK_PLATFORM_LINUX.".");
+            flushing_echo("BitRock failed to build web mirror installer for ".BITROCK_PLATFORM_LINUX.".");
         }
 
         chdir($cwd);
 
-        flushing_echo("Copying installers to ".OUTPUT_DIR);
+        flushing_echo("Copying web mirror installer to ".OUTPUT_DIR);
 
         // Now move everything in the BitRock directory to the output directory:
         file_dircopy(BITROCK_DIST_DIR, OUTPUT_DIR, true);
