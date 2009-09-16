@@ -223,7 +223,13 @@ public class SimulationMainPanel extends PhetPanel {
             title = simulation.getTitle();
         }
         else {
-            title = MessageFormat.format( localizer.getString( "simulationPage.title", this ), (Object[]) titleParams.toArray() );
+            try {
+                title = MessageFormat.format( localizer.getString( "simulationPage.title", this ), (Object[]) titleParams.toArray() );
+            }
+            catch( RuntimeException e ) {
+                e.printStackTrace();
+                title = simulation.getTitle();
+            }
         }
 
         List<String> designTeam = new LinkedList<String>();
@@ -259,9 +265,9 @@ public class SimulationMainPanel extends PhetPanel {
         }
 
         String rawLearningGoals = getLocalizer().getString( simulation.getSimulation().getLearningGoalsKey(), this );
-        if( rawLearningGoals != null ) {
+        if ( rawLearningGoals != null ) {
             for ( String item : rawLearningGoals.split( "<br/>" ) ) {
-                if( item != null && item.length() > 0 ) {
+                if ( item != null && item.length() > 0 ) {
                     learningGoals.add( item );
                 }
             }

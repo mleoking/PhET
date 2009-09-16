@@ -41,7 +41,15 @@ public class SimulationDisplayPanel extends PhetPanel {
                     // sim isn't translated
                     link.add( new AttributeAppender( "class", new Model( "untranslated-sim" ), " " ) );
                 }
-                link.add( new StaticImage( "thumbnail", simulation.getSimulation().getThumbnailUrl(), MessageFormat.format( "Screenshot of the simulation {0}", encode( simulation.getTitle() ) ) ) );
+                String alt;
+                try {
+                    alt = MessageFormat.format( "Screenshot of the simulation {0}", encode( simulation.getTitle() ) );
+                }
+                catch( RuntimeException e ) {
+                    e.printStackTrace();
+                    alt = "Screenshot of the simulation";
+                }
+                link.add( new StaticImage( "thumbnail", simulation.getSimulation().getThumbnailUrl(), alt ) );
                 item.add( link );
             }
         };
