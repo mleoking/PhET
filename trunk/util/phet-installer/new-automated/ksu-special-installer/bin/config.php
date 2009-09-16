@@ -35,17 +35,17 @@
     // *****************************************************************************
     // PhET Website Configuration
     define("PHET_VERSION",                      "1.0");
-    define("PHET_ROOT_URL",                     "http://phet-server.colorado.edu:8080/");
+    define("PHET_ROOT_URL",                     "http://phetsims.colorado.edu/");
     define("PHET_TRANSLATED_WEBSITE_URL",       PHET_ROOT_URL.LOCALE_STRING."/");
     define("PHET_SIMS_SUBDIR",                  "sims/");
     // Definition of the filter, which specifies what to include/exclude from
     // the rip.  This one define the full rip.
-    define("PHET_RIPPER_FILTER",                '"-*wickettest*" "+phet-server.colorado.edu:8080/sims/*"');
+    define("PHET_RIPPER_FILTER",                '"-*wickettest*" "+phetsims.colorado.edu/sims/*"');
     // Filter definition for a "lite" rip, meaning one that rips less than
     // the full web site.  This is generally swapped in for the full rip
     // filters when doing testing that requires a lot of iterations, since 
     // this will generally be much quicker than a full rip.
-    define("PHET_LITE_RIPPER_FILTER",                '"-*/get-phet/*" "-*/workshops/*" "-*wickettest*" "+phet-server.colorado.edu:8080/sims/faraday/*" "+phet-server.colorado.edu:8080/sims/arithmetic/*"');
+    define("PHET_LITE_RIPPER_FILTER",                '"-*/get-phet/*" "-*/workshops/*" "-*wickettest*" "+phetsims.colorado.edu/sims/faraday/*" "+phetsims.colorado.edu/sims/arithmetic/*"');
     define("PHET_WEBSITE_ROOT_PARTIAL_PATTERN", '[^"]+colorado\.edu');
     define("PHET_WEBSITE_ROOT_PATTERN",         '/'.PHET_WEBSITE_ROOT_PARTIAL_PATTERN.'/');
 
@@ -67,8 +67,8 @@
     define("RIPPER_DIR_NAME",    "HTTrack");
 
     define("RIPPED_WEBSITE_ROOT", file_cleanup_local_filename(TEMP_DIR."website/"));
-    define("RIPPED_WEBSITE_SIMS_PARENT_DIR",  file_cleanup_local_filename(RIPPED_WEBSITE_ROOT."phet-server.colorado.edu_8080/"));
-    define("RIPPED_TRANSLATED_WEBSITE_ROOT",  file_cleanup_local_filename(RIPPED_WEBSITE_ROOT."phet-server.colorado.edu_8080/".LOCALE_STRING."/"));
+    define("RIPPED_WEBSITE_SIMS_PARENT_DIR",  file_cleanup_local_filename(RIPPED_WEBSITE_ROOT."phetsims.colorado.edu/"));
+    define("RIPPED_TRANSLATED_WEBSITE_ROOT",  file_cleanup_local_filename(RIPPED_WEBSITE_ROOT."phetsims.colorado.edu/".LOCALE_STRING."/"));
 
     // The ripper executable itself:
 
@@ -99,8 +99,7 @@
     define("BITROCK_PLATFORM_LINUX",    "linux");
 
     define("BITROCK_PRODUCT_VERSION",   PHET_VERSION);
-    define("BITROCK_INSTALLDIR_MACRO",  '@@INSTALLDIR@@');
-    define("BITROCK_SIM_URL_MACRO",     '@@SIM_URL@@');
+    define("BITROCK_CODEBASE_MACRO",  '@@CODEBASE@@');
 
     // KSU Installer Note: Some of the bitrock files - such as the executable
     // itself - are maintained in the main installer directory, and some of the
