@@ -124,4 +124,12 @@ public abstract class AbstractMembraneChannel {
 	public Color getEdgeColor(){
 		return Color.RED;
 	}
+	
+	/**
+	 * Get a reference to the list of owned atoms.
+	 * @return
+	 */
+	protected ArrayList<Atom> getOwnedAtomsRef(){
+		return ownedAtoms;
+	}
 }
