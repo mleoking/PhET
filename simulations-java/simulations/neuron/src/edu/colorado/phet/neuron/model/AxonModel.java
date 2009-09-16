@@ -149,6 +149,10 @@ public class AxonModel {
     	for (Atom atom : atoms){
     		atom.stepInTime(clockEvent.getSimulationTimeChange());
     	}
+    	
+    	for (AbstractMembraneChannel channel : channels){
+    		channel.checkTakeControlAtoms(atoms);
+    	}
     }
     
     private void updateAtomVelocity(Atom atom){
