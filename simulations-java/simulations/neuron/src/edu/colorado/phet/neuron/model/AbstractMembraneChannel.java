@@ -22,7 +22,7 @@ public abstract class AbstractMembraneChannel {
     // Class Data
     //----------------------------------------------------------------------------
 	
-	private static final double SIDE_HEIGHT_TO_CHANNEL_HEIGHT_RATIO = 1.2;
+	private static final double SIDE_HEIGHT_TO_CHANNEL_HEIGHT_RATIO = 1.4;
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -46,7 +46,7 @@ public abstract class AbstractMembraneChannel {
 	
 	public AbstractMembraneChannel(double channelWidth, double channelHeight){
 		channelSize.setSize(channelWidth, channelHeight);
-		overallSize.setSize(channelWidth * 3, channelHeight * SIDE_HEIGHT_TO_CHANNEL_HEIGHT_RATIO);
+		overallSize.setSize(channelWidth * 2.5, channelHeight * SIDE_HEIGHT_TO_CHANNEL_HEIGHT_RATIO);
 	}
 	
     //----------------------------------------------------------------------------
