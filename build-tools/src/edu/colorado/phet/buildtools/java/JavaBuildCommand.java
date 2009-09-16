@@ -112,9 +112,9 @@ public class JavaBuildCommand {
         Scalac scalac = new Scalac();
         scalac.setClasspath( new Path( antTaskRunner.getProject(), toString( project.getAllJarFiles() ) +
                                                                    " : " + project.getClassesDirectory().getAbsolutePath() ) );
-        ArrayList all = new ArrayList( Arrays.asList( project.getAllScalaSourceRoots() ) );
+        ArrayList<File> all = new ArrayList<File>( Arrays.asList( project.getAllScalaSourceRoots() ) );
         all.addAll( Arrays.asList( project.getAllJavaSourceRoots() ) );
-        scalac.setSrcdir( new Path( antTaskRunner.getProject(), toString( (File[]) all.toArray( new File[all.size()] ) ) ) );
+        scalac.setSrcdir( new Path( antTaskRunner.getProject(), toString(all.toArray( new File[all.size()] )) ) );
         scalac.setIncludes( "**/*.scala, **/*.java" );
         scalac.setTarget( BuildToolsConstants.SIM_SCALA_VERSION );//see Scalac.Target, allows targeting 1.4 jvm
         scalac.setDestdir( project.getClassesDirectory() );
@@ -147,9 +147,9 @@ public class JavaBuildCommand {
         //This block enables compilation of mixed java-scala sources by pointing the java compiler at the compiled scala source
         // see http://www.codecommit.com/blog/scala/joint-compilation-of-scala-and-java-sources
         if ( project.containsScalaSource() ) {
-            ArrayList all = new ArrayList( Arrays.asList( classpath ) );
+            ArrayList<File> all = new ArrayList<File>( Arrays.asList( classpath ) );
             all.add( project.getClassesDirectory() );
-            classpath = (File[]) all.toArray( new File[all.size()] );
+            classpath = all.toArray( new File[all.size()] );
         }
         javac.setClasspath( new Path( antTaskRunner.getProject(), toString( classpath ) ) );
 
@@ -174,6 +174,8 @@ public class JavaBuildCommand {
         javac.setDebugLevel( "lines,source" );
         javac.setDebug( true );
 
+        //if this fails, you may need to add Sun's tools.jar to you working copy (ignored from svn for legal reasons)
+        //see trunk/build-tools/contrib/sun-tools/readme.txt
         antTaskRunner.runTask( javac );
 
         PhetBuildUtils.antEcho( antTaskRunner, "Finished compiling java version checker for " + project.getName() + ".", getClass() );
