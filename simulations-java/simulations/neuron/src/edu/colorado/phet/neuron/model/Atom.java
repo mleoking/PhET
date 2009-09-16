@@ -55,6 +55,8 @@ public abstract class Atom {
     // Accessor methods
     //------------------------------------------------------------------------
     
+    public abstract AtomType getType(); 
+    
     public Point2D.Double getPosition() {
         return new Point2D.Double(position.getX(), position.getY());
     }
