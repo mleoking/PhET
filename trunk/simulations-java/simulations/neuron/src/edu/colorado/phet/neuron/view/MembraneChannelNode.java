@@ -3,11 +3,13 @@
 package edu.colorado.phet.neuron.view;
 
 import java.awt.Color;
+import java.awt.Stroke;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.neuron.model.AbstractMembraneChannel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -33,15 +35,13 @@ public class MembraneChannelNode extends PNode{
 		PNode representation = new PNode();
 		
 		Dimension2D channelSize = membraneChannelModel.getChannelSize();
-		Rectangle2D transformedChannelRect = new Rectangle2D.Double(
-				-mvt.modelToViewDifferentialXDouble(channelSize.getWidth()) / 2,
-				mvt.modelToViewDifferentialYDouble(channelSize.getHeight()) / 2,
+		Dimension2D transformedChannelSize = new PDimension(
 				mvt.modelToViewDifferentialXDouble(channelSize.getWidth()),
 				-mvt.modelToViewDifferentialYDouble(channelSize.getHeight()));
-		PPath channel = new PPath(transformedChannelRect);
-		channel.setPaint(membraneChannelModel.getChannelColor());
+		PPath channel = createChannelNode(transformedChannelSize, membraneChannelModel.getChannelColor());
+		channel.setOffset(-channel.getFullBoundsReference().width / 2, channel.getFullBoundsReference().height / 2);
 		representation.addChild(channel);
-		
+
 		double edgeNodeWidth = (membraneChannelModel.getOverallSize().getWidth() - 
 				membraneChannelModel.getChannelSize().getWidth()) / 2;
 		double edgeNodeHeight = membraneChannelModel.getOverallSize().getHeight();
@@ -50,13 +50,12 @@ public class MembraneChannelNode extends PNode{
 				-mvt.modelToViewDifferentialYDouble(edgeNodeHeight));
 				
 		PNode leftEdgeNode = createEdgeNode(transformedEdgeNodeSize, membraneChannelModel.getEdgeColor());
-		leftEdgeNode.setOffset(channel.getFullBoundsReference().getMinX() - leftEdgeNode.getFullBoundsReference().width,
+		leftEdgeNode.setOffset(-transformedChannelSize.getWidth() / 2 - leftEdgeNode.getFullBoundsReference().width,
 				leftEdgeNode.getFullBoundsReference().height / 2);
 		representation.addChild(leftEdgeNode);
 		
 		PNode rightEdgeNode = createEdgeNode(transformedEdgeNodeSize, membraneChannelModel.getEdgeColor());
-		rightEdgeNode.setOffset(channel.getFullBoundsReference().getMaxX(),
-				rightEdgeNode.getFullBoundsReference().height / 2);
+		rightEdgeNode.setOffset(transformedChannelSize.getWidth() / 2, rightEdgeNode.getFullBoundsReference().height / 2);
 		representation.addChild(rightEdgeNode);
 
 		representation.rotate(-membraneChannelModel.getRotationalAngle() + Math.PI / 2);
@@ -89,5 +88,24 @@ public class MembraneChannelNode extends PNode{
 		edgeNode.setPaint(color);
 		
 		return edgeNode;
+	}
+	
+	private PPath createChannelNode(Dimension2D size, Color color){
+		
+		// Make the node a bit bigger than the channel so that the edges can
+		// be placed over it with no gaps.
+		float oversizeFactor = 1.25f;
+		
+		float width = (float)size.getWidth() * oversizeFactor;
+		float height = (float)size.getHeight() * oversizeFactor;
+		
+		GeneralPath path = new GeneralPath();
+		path.moveTo(0, 0);
+		path.quadTo(width / 2, -height / 8, width, 0);
+		path.lineTo(width, -height);
+		path.quadTo(width/2, -height * 7 / 8, 0, -height);
+		path.closePath();
+		
+		return( new PhetPPath(path, color, (Stroke)null, color) );
 	}
 }
