@@ -18,17 +18,28 @@
     require_once("xml-util.php");
 
     //--------------------------------------------------------------------------
-    // Function for building installers for all of the supported platforms.
+    // Function for building local mirror installers (as opposed to an
+    // installer that can be used to host a web site) for all of the supported
+    // platforms.
     //--------------------------------------------------------------------------
-    function installer_build_linux() {
+    function installer_build_local_mirror_installers() {
 
-        flushing_echo("Building linux installer...");
+        flushing_echo("Building all local mirror installers...");
 
         // Create output directory:
         file_mkdirs(OUTPUT_DIR);
 
+        // Make the autorun file for Windows CD-ROM (this copies installer stuff):
+        autorun_create_autorun_file(basename(BITROCK_DIST_SRC_WINNT));
+
         // Build Windows, Linux, Mac installers:
-        installer_build_linux_installer();
+        installer_build_installers("all");
+
+        // Build CD-ROM distribution:
+        installer_build_cd_rom_distribution();
+
+        // Clean up autorun files:
+        autorun_cleanup_files();
     }
 
     //--------------------------------------------------------------------------
@@ -216,13 +227,13 @@
         global $g_bitrock_dists;
 
         $build_prefix  = installer_get_full_dist_name($dist);
-        $buildfile_ext = file_get_extension(BITROCK_BUILDFILE);
+        $buildfile_ext = file_get_extension(BITROCK_LOCAL_MIRROR_BUILDFILE);
 
         $new_buildfile = BITROCK_BUILDFILE_DIR."${build_prefix}.${buildfile_ext}";
 
         file_create_parents_of_file($new_buildfile);
 
-        if (!copy(BITROCK_BUILDFILE, $new_buildfile)) {
+        if (!copy(BITROCK_LOCAL_MIRROR_BUILDFILE, $new_buildfile)) {
             return false;
         }
 
