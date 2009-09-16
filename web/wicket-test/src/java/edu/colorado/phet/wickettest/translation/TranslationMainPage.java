@@ -18,6 +18,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
+import edu.colorado.phet.translationutility.TULocales;
 import edu.colorado.phet.wickettest.WicketApplication;
 import edu.colorado.phet.wickettest.components.InvisibleComponent;
 import edu.colorado.phet.wickettest.content.IndexPage;
@@ -28,25 +29,32 @@ import edu.colorado.phet.wickettest.util.PageContext;
 public class TranslationMainPage extends TranslationPage {
 
     private LocaleModel selectedLocaleModel;
+    private TULocales tuLocales;
 
     public TranslationMainPage( PageParameters parameters ) {
         super( parameters );
 
+        tuLocales = ( (WicketApplication) getApplication() ).getSupportedLocales();
+
         Form createTranslationForm = new CreateTranslationForm();
 
-        Locale[] localeArray = Locale.getAvailableLocales();
         List<LocaleModel> models = new LinkedList<LocaleModel>();
-        for ( Locale locale : localeArray ) {
-            models.add( new LocaleModel( locale ) );
+//        Locale[] localeArray = Locale.getAvailableLocales();
+//        for ( Locale locale : localeArray ) {
+//            models.add( new LocaleModel( locale ) );
+//        }
+//        Collections.sort( models, new Comparator<LocaleModel>() {
+//            public int compare( LocaleModel a, LocaleModel b ) {
+//                return a.getObject().toString().compareTo( b.getObject().toString() );
+//            }
+//        } );
+
+        for ( String name : tuLocales.getSortedNames() ) {
+            Locale locale = tuLocales.getLocale( name );
+            models.add( new LocaleModel( locale, name ) );
         }
 
-        Collections.sort( models, new Comparator<LocaleModel>() {
-            public int compare( LocaleModel a, LocaleModel b ) {
-                return a.getObject().toString().compareTo( b.getObject().toString() );
-            }
-        } );
-
-        selectedLocaleModel = new LocaleModel( LocaleUtils.stringToLocale( "en" ) );
+        selectedLocaleModel = new LocaleModel( LocaleUtils.stringToLocale( "en" ), "English" );
 
         DropDownChoice localeChoice = new DropDownChoice( "locales", selectedLocaleModel, models );
         createTranslationForm.add( localeChoice );
@@ -99,9 +107,11 @@ public class TranslationMainPage extends TranslationPage {
 
     private static class LocaleModel implements IModel {
         private Locale locale;
+        private String name;
 
-        private LocaleModel( Locale locale ) {
+        private LocaleModel( Locale locale, String name ) {
             this.locale = locale;
+            this.name = name;
         }
 
         public Object getObject() {
@@ -126,7 +136,7 @@ public class TranslationMainPage extends TranslationPage {
 
         @Override
         public String toString() {
-            return locale.getDisplayName() + "  ( " + LocaleUtils.localeToString( locale ) + " )";
+            return name + "  ( " + LocaleUtils.localeToString( locale ) + " )";
         }
     }
 
@@ -195,7 +205,7 @@ public class TranslationMainPage extends TranslationPage {
         protected void populateItem( ListItem item ) {
             final Translation translation = (Translation) item.getModel().getObject();
             item.add( new Label( "id", String.valueOf( translation.getId() ) ) );
-            item.add( new Label( "locale", translation.getLocale().getDisplayName() + " (" + LocaleUtils.localeToString( translation.getLocale() ) + ")" ) );
+            item.add( new Label( "locale", tuLocales.getName( translation.getLocale() ) + " (" + LocaleUtils.localeToString( translation.getLocale() ) + ")" ) );
             item.add( new Label( "num-strings", String.valueOf( sizes.get( translation ) ) ) );
             Label visibleLabel = new Label( "visible-label", String.valueOf( translation.isVisible() ) );
             if ( translation.isVisible() ) {

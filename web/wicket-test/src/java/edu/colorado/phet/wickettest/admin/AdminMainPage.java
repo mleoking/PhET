@@ -16,8 +16,11 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
+import edu.colorado.phet.translationutility.TULocales;
+import edu.colorado.phet.wickettest.WicketApplication;
 import edu.colorado.phet.wickettest.data.LocalizedSimulation;
 import edu.colorado.phet.wickettest.data.Simulation;
+import edu.colorado.phet.wickettest.translation.PhetLocalizer;
 import edu.colorado.phet.wickettest.util.StringUtils;
 
 // TODO: move the simulation list panel to a separate page, so if something goes bad, this page is still accessible
@@ -112,7 +115,15 @@ public class AdminMainPage extends AdminPage {
 
         add( new Link( "debug-action" ) {
             public void onClick() {
-                //LocaleTest.main( new String[]{} );
+//                TULocales locales = ( (WicketApplication) getApplication() ).getSupportedLocales();
+//                String[] names = locales.getSortedNames();
+//                for ( String name : names ) {
+//                    Locale locale = locales.getLocale( name );
+//                    String title = StringUtils.getLocaleTitle( locale, WicketApplication.getDefaultLocale(), (PhetLocalizer) getLocalizer() );
+//                    System.out.println( LocaleUtils.localeToString( locale ) + " old: " + title );
+//                    System.out.println( LocaleUtils.localeToString( locale ) + " new: " + name );
+//                    StringUtils.setEnglishString( getHibernateSession(), "language.names." + LocaleUtils.localeToString( locale ), name );
+//                }
             }
         } );
     }

@@ -1,6 +1,7 @@
 package edu.colorado.phet.wickettest;
 
 import java.util.*;
+import java.io.IOException;
 
 import org.apache.wicket.Request;
 import org.apache.wicket.RequestCycle;
@@ -13,6 +14,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Transaction;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
+import edu.colorado.phet.translationutility.TULocales;
 import edu.colorado.phet.wickettest.admin.AdminMainPage;
 import edu.colorado.phet.wickettest.authentication.PhetSession;
 import edu.colorado.phet.wickettest.content.*;
@@ -112,6 +114,22 @@ public class WicketApplication extends WebApplication {
         // get rid of wicket:id's and other related tags in the produced HTML.
         getMarkupSettings().setStripWicketTags( true );
 
+    }
+
+    private TULocales supportedLocales = null;
+
+    public TULocales getSupportedLocales() {
+        if( supportedLocales == null ) {
+            Properties p = new Properties();
+            try {
+                p.load( getServletContext().getResourceAsStream( "/translation-utility/locales.properties" ));
+            }
+            catch( IOException e ) {
+                e.printStackTrace();
+            }
+            supportedLocales = TULocales.getInstance( p );
+        }
+        return supportedLocales;
     }
 
     private void initializeTranslations() {
