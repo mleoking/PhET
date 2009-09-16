@@ -4,11 +4,10 @@ package edu.colorado.phet.neuron.view;
 
 import java.awt.Color;
 import java.awt.geom.Dimension2D;
-import java.awt.geom.Ellipse2D;
+import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.neuron.model.AbstractMembraneChannel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -52,14 +51,15 @@ public class MembraneChannelNode extends PNode{
 				
 		PNode leftEdgeNode = createEdgeNode(transformedEdgeNodeSize, membraneChannelModel.getEdgeColor());
 		leftEdgeNode.setOffset(channel.getFullBoundsReference().getMinX() - leftEdgeNode.getFullBoundsReference().width,
-				-leftEdgeNode.getFullBoundsReference().height / 2);
+				leftEdgeNode.getFullBoundsReference().height / 2);
 		representation.addChild(leftEdgeNode);
 		
 		PNode rightEdgeNode = createEdgeNode(transformedEdgeNodeSize, membraneChannelModel.getEdgeColor());
 		rightEdgeNode.setOffset(channel.getFullBoundsReference().getMaxX(),
-				-rightEdgeNode.getFullBoundsReference().height / 2);
+				rightEdgeNode.getFullBoundsReference().height / 2);
 		representation.addChild(rightEdgeNode);
-		
+
+		representation.rotate(-membraneChannelModel.getRotationalAngle() + Math.PI / 2);
 		addChild(representation);
 		
 //		channel.rotate(-membraneChannelModel.getRotationalAngle() + Math.PI / 2);
@@ -75,8 +75,17 @@ public class MembraneChannelNode extends PNode{
 	
 	private PPath createEdgeNode(Dimension2D size, Color color){
 		
-		PPath edgeNode = new PPath();
-		edgeNode.setPathTo(new Rectangle2D.Double(0, 0, size.getWidth(), size.getHeight()));
+		GeneralPath path = new GeneralPath();
+		
+		float width = (float)size.getWidth();
+		float height = (float)size.getHeight();
+		path.moveTo(0, -height / 4);
+		path.quadTo(width / 2, height / 4, width, -height / 4);
+		path.lineTo(width, -height * 3 / 4);
+		path.quadTo(width/2, -height * 5 / 4, 0, -height * 3 / 4);
+		path.closePath();
+		
+		PPath edgeNode = new PPath(path);
 		edgeNode.setPaint(color);
 		
 		return edgeNode;
