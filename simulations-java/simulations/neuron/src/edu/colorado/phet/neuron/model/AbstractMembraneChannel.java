@@ -121,7 +121,7 @@ public abstract class AbstractMembraneChannel {
 		return Color.MAGENTA;
 	}
 	
-	public Color getSideColor(){
+	public Color getEdgeColor(){
 		return Color.RED;
 	}
 }
