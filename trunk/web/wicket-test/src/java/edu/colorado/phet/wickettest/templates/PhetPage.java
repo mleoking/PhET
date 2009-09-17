@@ -67,7 +67,7 @@ public abstract class PhetPage extends WebPage {
 
         System.out.println( "Loading " + this.getClass().getCanonicalName() + " with Locale: " + LocaleUtils.localeToString( myLocale ) );
         //System.out.println( "prefix of this page is: " + prefix );
-        //System.out.println( "path of this page is: " + path );
+        System.out.println( "path of this page is: " + path );
         //System.out.println( "Session id is: " + wicketSession.getId() );
 
 //        for ( Object o : parameters.keySet() ) {
