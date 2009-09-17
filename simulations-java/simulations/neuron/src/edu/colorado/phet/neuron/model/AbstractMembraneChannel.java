@@ -81,6 +81,11 @@ public abstract class AbstractMembraneChannel {
 	abstract public void stepInTime(double dt);
 	
 	/**
+	 * Get the identifier for this channel type.
+	 */
+	abstract public MembraneChannelTypes getChannelType();
+	
+	/**
 	 * Return a list of the atoms "owned" (meaning that their motion is
 	 * controlled by) this channel.  Getting this list does NOT cause the
 	 * atoms to be released by the channel.
@@ -89,6 +94,13 @@ public abstract class AbstractMembraneChannel {
 	 */
 	public ArrayList<Atom> getOwnedAtoms(){
 		return new ArrayList<Atom>(ownedAtoms);
+	}
+	
+	public void forceReleaseAllAtoms(ArrayList<Atom> freeAtoms){
+		for (Atom atom : ownedAtoms){
+			freeAtoms.add(atom);
+		}
+		ownedAtoms.clear();
 	}
 	
 	public Dimension2D getChannelSize(){
