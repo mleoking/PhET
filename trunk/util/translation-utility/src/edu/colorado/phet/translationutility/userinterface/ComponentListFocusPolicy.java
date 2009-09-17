@@ -16,7 +16,7 @@ import java.util.ArrayList;
  */
 public class ComponentListFocusPolicy extends FocusTraversalPolicy {
 
-    private ArrayList _components; // array of JTextArea
+    private ArrayList _components; // array of Component
     
     public ComponentListFocusPolicy( ArrayList components ) {
         assert( components.size() > 0 );

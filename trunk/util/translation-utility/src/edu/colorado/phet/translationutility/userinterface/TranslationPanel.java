@@ -46,8 +46,8 @@ public class TranslationPanel extends JPanel implements FindListener {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private ArrayList _targetTextAreas; // array of TargetTextArea, the right column of the table ordered from top to bottom
-    private ArrayList _findTextAreas; // array of JTextArea, all the JTextAreas that Find will search in
+    private ArrayList<TargetTextArea> _targetTextAreas; // the right column of the table ordered from top to bottom
+    private ArrayList<JTextArea> _findTextAreas; // all the JTextAreas that Find will search in
     private String _previousFindText; // text we previously search for in findNext or findPrevious
     private int _previousFindTextAreaIndex; // index into _findTextArea, identifies the JTextArea in which text was found
     private int _previousFindSelectionIndex; // index into a JTextArea's text, identifies where in the JTextArea the text was found
@@ -82,7 +82,7 @@ public class TranslationPanel extends JPanel implements FindListener {
      * They are searchable and editable.
      * Pressing tab or shift-tab moves focus forward or backward.
      */
-    private static class TargetTextArea extends JTextArea {
+    public static class TargetTextArea extends JTextArea {
 
         private final String _key;
 
@@ -138,8 +138,8 @@ public class TranslationPanel extends JPanel implements FindListener {
             Locale targetLocale, Properties targetProperties ) {
         super();
         
-        _targetTextAreas = new ArrayList();
-        _findTextAreas = new ArrayList();
+        _targetTextAreas = new ArrayList<TargetTextArea>();
+        _findTextAreas = new ArrayList<JTextArea>();
         _previousFindText = null;
         _previousFindTextAreaIndex = -1;
         _previousFindSelectionIndex = -1;
@@ -171,8 +171,8 @@ public class TranslationPanel extends JPanel implements FindListener {
         row++;
 
         // sort the keys in ascending order
-        Enumeration keys = sourceProperties.propertyNames();
-        TreeSet sortedSet = new TreeSet();
+        Enumeration<?> keys = sourceProperties.propertyNames();
+        TreeSet<String> sortedSet = new TreeSet<String>();
         while ( keys.hasMoreElements() ) {
             String key = (String) keys.nextElement();
             sortedSet.add( key );
@@ -181,10 +181,10 @@ public class TranslationPanel extends JPanel implements FindListener {
         // create the table
         Font sourceFont = PhetFont.getPreferredFont( sourceLocale );
         Font targetFont = PhetFont.getPreferredFont( targetLocale );
-        Iterator i = sortedSet.iterator();
+        Iterator<String> i = sortedSet.iterator();
         while ( i.hasNext() ) {
 
-            String key = (String) i.next();
+            String key = i.next();
             String sourceValue = sourceProperties.getProperty( key );
             String targetValue = targetProperties.getProperty( key );
 
@@ -223,9 +223,9 @@ public class TranslationPanel extends JPanel implements FindListener {
      */
     public Properties getTargetProperties() {
         Properties properties = new Properties();
-        Iterator i = _targetTextAreas.iterator();
+        Iterator<TargetTextArea> i = _targetTextAreas.iterator();
         while ( i.hasNext() ) {
-            TargetTextArea targetTextArea = (TargetTextArea) i.next();
+            TargetTextArea targetTextArea = i.next();
             String key = targetTextArea.getKey();
             String targetValue = targetTextArea.getText();
             // only add properties that have values
@@ -242,9 +242,9 @@ public class TranslationPanel extends JPanel implements FindListener {
      * @param targetProperties
      */
     public void setTargetProperties( Properties targetProperties ) {
-        Iterator i = _targetTextAreas.iterator();
+        Iterator<TargetTextArea> i = _targetTextAreas.iterator();
         while ( i.hasNext() ) {
-            TargetTextArea targetTextArea = (TargetTextArea) i.next();
+            TargetTextArea targetTextArea = i.next();
             String key = targetTextArea.getKey();
             String value = targetProperties.getProperty( key );
             targetTextArea.setText( value );
