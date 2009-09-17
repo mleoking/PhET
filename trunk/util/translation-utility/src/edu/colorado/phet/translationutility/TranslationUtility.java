@@ -59,14 +59,13 @@ public class TranslationUtility extends JFrame {
         }
         TULogger.log( "TranslationUtility: simulation type is " + simulation.getClass().getName() );
         
-        // save "submitted" files in the same directory as the JAR
-        String saveDirName = new File( jarFileName ).getParent();
-        if ( saveDirName == null || saveDirName.length() == 0 ) {
-            saveDirName = ".";
+        String jarDirName = new File( jarFileName ).getParent();
+        if ( jarDirName == null || jarDirName.length() == 0 ) {
+            jarDirName = ".";
         }
         
         // open the primary user interface
-        JFrame mainFrame = new MainFrame( simulation, SOURCE_LOCALE, targetLocale, saveDirName );
+        JFrame mainFrame = new MainFrame( simulation, SOURCE_LOCALE, targetLocale, jarDirName );
         mainFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         mainFrame.setVisible( true );
     }
