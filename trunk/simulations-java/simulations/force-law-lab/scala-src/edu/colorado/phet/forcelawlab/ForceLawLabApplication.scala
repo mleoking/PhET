@@ -76,29 +76,30 @@ class MassNode(mass: Mass, transform: ModelViewTransform2D, color: Color, magnif
   addChild(centerIndicator)
 }
 
-class DragHandler(mass:Mass,
-                  transform:ModelViewTransform2D,
-                  minDragX: () => Double, maxDragX: () => Double,node:PNode) extends PBasicInputEventHandler{
+class DragHandler(mass: Mass,
+                  transform: ModelViewTransform2D,
+                  minDragX: () => Double, maxDragX: () => Double, node: PNode) extends PBasicInputEventHandler {
   var dragging = false
-    override def mouseDragged(event: PInputEvent) = {
-      implicit def pdimensionToPoint2D(dim: PDimension) = new Point2D.Double(dim.width, dim.height)
-      mass.position = mass.position + new Vector2D(transform.viewToModelDifferential(event.getDeltaRelativeTo(node.getParent)).x, 0)
-      if (mass.position.x < minDragX())
-        mass.position = new Vector2D(minDragX(), 0)
-      if (mass.position.x > maxDragX())
-        mass.position = new Vector2D(maxDragX(), 0)
-    }
 
-    override def mousePressed(event: PInputEvent) = dragging = true
+  override def mouseDragged(event: PInputEvent) = {
+    implicit def pdimensionToPoint2D(dim: PDimension) = new Point2D.Double(dim.width, dim.height)
+    mass.position = mass.position + new Vector2D(transform.viewToModelDifferential(event.getDeltaRelativeTo(node.getParent)).x, 0)
+    if (mass.position.x < minDragX())
+      mass.position = new Vector2D(minDragX(), 0)
+    if (mass.position.x > maxDragX())
+      mass.position = new Vector2D(maxDragX(), 0)
+  }
 
-    override def mouseReleased(event: PInputEvent) = dragging = false
+  override def mousePressed(event: PInputEvent) = dragging = true
+
+  override def mouseReleased(event: PInputEvent) = dragging = false
 }
 
 class DraggableMassNode(mass: Mass, transform: ModelViewTransform2D,
                         color: Color, minDragX: () => Double, maxDragX: () => Double,
                         magnification: Magnification, textOffset: () => Double)
         extends MassNode(mass, transform, color, magnification, textOffset) {
-  addInputEventListener(new DragHandler(mass,transform,minDragX,maxDragX,this))
+  addInputEventListener(new DragHandler(mass, transform, minDragX, maxDragX, this))
   addInputEventListener(new CursorHandler)
 }
 
@@ -143,8 +144,8 @@ class ForceLawLabCanvas(model: ForceLawLabModel, modelWidth: Double, mass1Color:
   val minDragX = () => transform.viewToModelX(getVisibleModelBounds.getMinX)
   val maxDragX = () => transform.viewToModelX(getVisibleModelBounds.getMaxX)
 
-  addNode(new CharacterNode(model.m1, model.m2, transform, true, () => model.getGravityForce.magnitude,minDragX,model.mass1MaxX))
-  addNode(new CharacterNode(model.m2, model.m1, transform, false, () => model.getGravityForce.magnitude,model.mass2MinX,maxDragX))
+  addNode(new CharacterNode(model.m1, model.m2, transform, true, () => model.getGravityForce.magnitude, minDragX, model.mass1MaxX))
+  addNode(new CharacterNode(model.m2, model.m1, transform, false, () => model.getGravityForce.magnitude, model.mass2MinX, maxDragX))
   addNode(new DraggableMassNode(model.m1, transform, mass1Color, minDragX, model.mass1MaxX, magnification, () => 10))
   addNode(new DraggableMassNode(model.m2, transform, mass2Color, model.mass2MinX, maxDragX, magnification, () => -10))
   addNode(new ForceLabelNode(model.m1, model.m2, transform, model, opposite(backgroundColor), forceLabelScale, forceArrowNumberFormat, 100, true))
@@ -164,13 +165,13 @@ class MyDoubleGeneralPath(pt: Point2D) extends DoubleGeneralPath(pt) {
 
 class ForceLawLabControlPanel(model: ForceLawLabModel, resetFunction: () => Unit) extends ControlPanel {
   import ForceLawLabResources._
-  val m1Update = (x:Double) => {
+  val m1Update = (x: Double) => {
     model.m1.mass = x
-    model.m1.position = new Vector2D(java.lang.Math.min(model.mass1MaxX(),model.m1.position.x), model.m1.position.y)
+    model.m1.position = new Vector2D(java.lang.Math.min(model.mass1MaxX(), model.m1.position.x), model.m1.position.y)
   }
-  val m2Update = (x:Double) => {
+  val m2Update = (x: Double) => {
     model.m2.mass = x
-    model.m2.position = new Vector2D(java.lang.Math.max(model.mass2MinX(),model.m2.position.x), model.m2.position.y)
+    model.m2.position = new Vector2D(java.lang.Math.max(model.mass2MinX(), model.m2.position.x), model.m2.position.y)
   }
   add(new ForceLawLabScalaValueControl(0.01, 100, model.m1.name, "0.00", getLocalizedString("units.kg"), model.m1.mass, m1Update, model.m1.addListener))
   add(new ForceLawLabScalaValueControl(0.01, 100, model.m2.name, "0.00", getLocalizedString("units.kg"), model.m2.mass, m2Update, model.m2.addListener))
@@ -262,13 +263,19 @@ class Mass(private var _mass: Double, private var _position: Vector2D, val name:
   }
 }
 
-class ForceLawLabModel(mass1: Double, mass2: Double,
-                       mass1Position: Double, mass2Position: Double,
-                       mass1Radius: Double => Double, mass2Radius: Double => Double,
-                       k: Double, springRestingLength: Double,
-                       wallWidth: Double, wallHeight: Double, wallMaxX: Double,
-                       mass1Name: String, mass2Name: String
-        ) extends Observable {
+class ForceLawLabModel(mass1: Double,
+                       mass2: Double,
+                       mass1Position: Double,
+                       mass2Position: Double,
+                       mass1Radius: Double => Double,
+                       mass2Radius: Double => Double,
+                       k: Double,
+                       springRestingLength: Double,
+                       wallWidth: Double,
+                       wallHeight: Double,
+                       wallMaxX: Double,
+                       mass1Name: String,
+                       mass2Name: String) extends Observable {
   val m1 = new Mass(mass1, new Vector2D(mass1Position, 0), mass1Name, mass1Radius)
   val m2 = new Mass(mass2, new Vector2D(mass2Position, 0), mass2Name, mass2Radius)
 
@@ -326,7 +333,13 @@ class SunPlanetDecimalFormat extends DecimalFormat("#,###,###,###,###,###,##0.0"
 }
 
 class ForceLawsModule(clock: ScalaClock) extends Module(ForceLawLabResources.getLocalizedString("module.force-laws.name"), clock) {
-  val model = new ForceLawLabModel(10, 25, -1, 2, mass => mass / 30, mass => mass / 30, 9E-10, 0.0, 50, 50, -4, ForceLawLabResources.getLocalizedString("mass-1"), ForceLawLabResources.getLocalizedString("mass-2"))
+  def massToRadiusFn(m: Double) = {
+    val x = Math.pow(m,1/3.0) / 10.0*4.0
+//    println("mass = "+m+", radius = "+x)
+    x
+  }
+
+  val model = new ForceLawLabModel(10, 25, -1, 2, massToRadiusFn, massToRadiusFn, 9E-10, 0.0, 50, 50, -4, ForceLawLabResources.getLocalizedString("mass-1"), ForceLawLabResources.getLocalizedString("mass-2"))
   val canvas = new ForceLawLabCanvas(model, 10, Color.blue, Color.red, Color.white, 10, 10,
     ForceLawLabResources.getLocalizedString("units.m"), _.toString, 1E10,
     new TinyDecimalFormat(), new Magnification(false), new UnitsContainer(new Units("meters", 1)))
