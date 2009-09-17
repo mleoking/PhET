@@ -16,15 +16,15 @@ import java.awt.event.{ActionEvent, ComponentAdapter, ComponentEvent, ActionList
 import javax.swing._
 import java.util.{Hashtable, Dictionary}
 import javax.swing._
-import scalacommon.util.Observable
-import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
-import umd.cs.piccolo.nodes.{PImage, PText}
-import umd.cs.piccolo.PNode
-import umd.cs.piccolo.util.PBounds
-import umd.cs.piccolox.pswing.PSwing
+import edu.colorado.phet.scalacommon.util.Observable
+import edu.umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
+import edu.umd.cs.piccolo.nodes.{PImage, PText}
+import edu.umd.cs.piccolo.PNode
+import edu.umd.cs.piccolo.util.PBounds
+import edu.umd.cs.piccolox.pswing.PSwing
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloTimeControlPanel.BackgroundNode
 import edu.colorado.phet.scalacommon.Predef._
-import common.phetcommon.resources.PhetCommonResources._
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources._
 
 class RecordModelControlPanel[T](model: RecordModel[T], simPanel: JComponent, createRightControl: () => PNode, timelineColor: Color, maxTime: Double) extends PhetPCanvas {
   private class MyButtonNode(text: String, icon: Icon, action: () => Unit) extends PText(text) {

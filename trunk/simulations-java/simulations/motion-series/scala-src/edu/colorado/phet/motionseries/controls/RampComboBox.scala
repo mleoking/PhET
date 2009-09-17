@@ -1,13 +1,13 @@
 package edu.colorado.phet.motionseries.controls
 
-import phet.common.phetcommon.view.util.BufferedImageUtils
-import graphics.ObjectModel
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils
+import edu.colorado.phet.motionseries.graphics.ObjectModel
 import java.util.Vector
 import javax.swing._
 import java.awt.event.{ItemListener, ItemEvent}
-import model.MotionSeriesObject
-import motionseries.MotionSeriesResources._
-import motionseries.MotionSeriesDefaults
+import edu.colorado.phet.motionseries.model.MotionSeriesObject
+import edu.colorado.phet.motionseries.MotionSeriesResources._
+import edu.colorado.phet.motionseries.MotionSeriesDefaults
 
 class RampComboBox(objectModel: ObjectModel) extends SubControlPanel("controls.choose-object".translate) {
   val vec = new Vector[ObjectItem]

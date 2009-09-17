@@ -1,19 +1,20 @@
 package edu.colorado.phet.motionseries.graphics
 
-import common.piccolophet.nodes.{PhetPPath, GradientButtonNode}
+import edu.colorado.phet.common.piccolophet.nodes.{PhetPPath, GradientButtonNode}
 import java.awt.geom.{Rectangle2D, Point2D}
 import java.awt.{BasicStroke, Color}
-import phet.common.phetcommon.resources.PhetCommonResources
-import phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import java.awt.event._
 import javax.swing.{JFrame}
-import model._
-import scalacommon.Predef._
-import motionseries.MotionSeriesResources
-import sims.theramp.StageContainerArea
-import tests.MyCanvas
-import umd.cs.piccolo.PNode
-import motionseries.MotionSeriesResources._
+import edu.colorado.phet.motionseries.model._
+import edu.colorado.phet.scalacommon.Predef._
+import edu.colorado.phet.motionseries.MotionSeriesResources
+import edu.colorado.phet.motionseries.sims.theramp.StageContainerArea
+import edu.umd.cs.piccolo.PNode
+import edu.colorado.phet.motionseries.MotionSeriesResources._
+import edu.colorado.phet.motionseries.MotionSeriesDefaults
+import edu.colorado.phet.motionseries.tests.MyCanvas
 
 abstract class MotionSeriesCanvas(model: MotionSeriesModel,
                                   adjustableCoordinateModel: AdjustableCoordinateModel,

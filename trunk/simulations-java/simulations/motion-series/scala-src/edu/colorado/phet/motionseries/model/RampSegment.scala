@@ -1,11 +1,11 @@
 package edu.colorado.phet.motionseries.model
 
 import collection.mutable.ArrayBuffer
-import graphics.Rotatable
+import edu.colorado.phet.motionseries.graphics.Rotatable
 import java.awt.geom.{Point2D, Line2D}
-import scalacommon.util.Observable
-import scalacommon.Predef._
-import scalacommon.math.Vector2D
+import edu.colorado.phet.scalacommon.util.Observable
+import edu.colorado.phet.scalacommon.Predef._
+import edu.colorado.phet.scalacommon.math.Vector2D
 
 case class RampSegmentState(startPoint: Vector2D, endPoint: Vector2D) { //don't use Point2D since it's not immutable
   def setStartPoint(newStartPoint: Vector2D) = new RampSegmentState(newStartPoint, endPoint)

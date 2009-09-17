@@ -1,12 +1,12 @@
 package edu.colorado.phet.motionseries.graphics
 
-import phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
-import phet.common.piccolophet.PhetPCanvas
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
+import edu.colorado.phet.common.piccolophet.PhetPCanvas
 import java.awt.{Rectangle, Dimension}
 import java.awt.geom.Rectangle2D
 
-import scalacommon.CBS
-import umd.cs.piccolo.PNode
+import edu.colorado.phet.scalacommon.CBS
+import edu.umd.cs.piccolo.PNode
 import java.lang.Math._
 
 class DefaultCanvas(modelWidth: Double, modelHeight: Double, canvasWidth: Int, canvasHeight: Int, modelOffsetY: Double)

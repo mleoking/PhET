@@ -1,7 +1,7 @@
 package edu.colorado.phet.scalacommon
 
-import common.phetcommon.application._
-import common.phetcommon.view.PhetLookAndFeel
+import edu.colorado.phet.common.phetcommon.application._
+import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel
 import javax.swing.UIManager
 
 /**

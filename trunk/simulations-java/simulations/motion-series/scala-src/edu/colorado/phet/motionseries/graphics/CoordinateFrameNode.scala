@@ -1,11 +1,11 @@
 package edu.colorado.phet.motionseries.graphics
 
-import motionseries.MotionSeriesResources._
-import phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
-import model.{AdjustableCoordinateModel, CoordinateFrameModel, MotionSeriesModel}
-import umd.cs.piccolo.PNode
+import edu.colorado.phet.motionseries.MotionSeriesResources._
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
+import edu.colorado.phet.motionseries.model.{AdjustableCoordinateModel, CoordinateFrameModel, MotionSeriesModel}
+import edu.umd.cs.piccolo.PNode
 import java.lang.Math._
-import scalacommon.Predef._
+import edu.colorado.phet.scalacommon.Predef._
 
 class SynchronizedAxisModel(_ang: Double, length: Double, tail: Boolean, coordinateFrameModel: CoordinateFrameModel) extends AxisModel(_ang, length, tail) {
   val offset = _ang

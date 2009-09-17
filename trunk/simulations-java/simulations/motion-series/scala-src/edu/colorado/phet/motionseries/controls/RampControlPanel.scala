@@ -1,25 +1,25 @@
 package edu.colorado.phet.motionseries.controls
 
-import phet.common.phetcommon.model.Resettable
-import phet.common.phetcommon.util.IProguardKeepClass
-import phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
-import phet.common.phetcommon.view.util.{BufferedImageUtils, PhetFont}
-import phet.common.phetcommon.view.{ControlPanel, VerticalLayoutPanel, ResetAllButton}
-import graphics._
+import edu.colorado.phet.common.phetcommon.model.Resettable
+import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
+import edu.colorado.phet.common.phetcommon.view.util.{BufferedImageUtils, PhetFont}
+import edu.colorado.phet.common.phetcommon.view.{ControlPanel, VerticalLayoutPanel, ResetAllButton}
+import edu.colorado.phet.motionseries.graphics._
 import java.awt._
 import geom.{Point2D, Rectangle2D}
 import image.BufferedImage
 import java.awt.event.{MouseEvent, MouseAdapter}
 
 import javax.swing._
-import model._
-import scalacommon.math.Vector2D
-import scalacommon.swing.MyRadioButton
-import motionseries.MotionSeriesResources
-import motionseries.MotionSeriesDefaults
+import edu.colorado.phet.motionseries.model._
+import edu.colorado.phet.scalacommon.math.Vector2D
+import edu.colorado.phet.scalacommon.swing.MyRadioButton
+import edu.colorado.phet.motionseries.MotionSeriesResources
+import edu.colorado.phet.motionseries.MotionSeriesDefaults
 
 import swing.{MyCheckBox, ScalaValueControl}
-import motionseries.MotionSeriesResources._
+import edu.colorado.phet.motionseries.MotionSeriesResources._
 
 class RampControlPanel(model: MotionSeriesModel,
                        wordModel: WordModel,

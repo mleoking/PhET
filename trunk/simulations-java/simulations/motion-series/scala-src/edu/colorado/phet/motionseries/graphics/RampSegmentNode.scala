@@ -1,20 +1,20 @@
 package edu.colorado.phet.motionseries.graphics
 
 
-import common.phetcommon.view.util.BufferedImageUtils
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils
 import java.awt._
-import phet.common.phetcommon.math.Function.LinearFunction
-import phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
-import scalacommon.util.Observable
-import umd.cs.piccolo.nodes.PImage
-import umd.cs.piccolo.PNode
-import phet.common.piccolophet.nodes.PhetPPath
-import model.RampSegment
-import phet.common.piccolophet.event.CursorHandler
+import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
+import edu.colorado.phet.scalacommon.util.Observable
+import edu.umd.cs.piccolo.nodes.PImage
+import edu.umd.cs.piccolo.PNode
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
+import edu.colorado.phet.motionseries.model.RampSegment
+import edu.colorado.phet.common.piccolophet.event.CursorHandler
 
-import scalacommon.math.Vector2D
-import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
-import scalacommon.Predef._
+import edu.colorado.phet.scalacommon.math.Vector2D
+import edu.umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
+import edu.colorado.phet.scalacommon.Predef._
 import java.lang.Math._
 
 trait HasPaint extends PNode {

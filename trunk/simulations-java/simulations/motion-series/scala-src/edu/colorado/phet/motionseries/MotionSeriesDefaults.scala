@@ -1,10 +1,10 @@
 package edu.colorado.phet.motionseries
 
-import common.phetcommon.view.util.PhetFont
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont
 import java.awt.Color
 import java.awt.geom.Rectangle2D
-import model.{MutableMotionSeriesObject, CustomTextMotionSeriesObject, MotionSeriesObject}
-import sims.theramp.StageContainerArea
+import edu.colorado.phet.motionseries.model.{MutableMotionSeriesObject, CustomTextMotionSeriesObject, MotionSeriesObject}
+import edu.colorado.phet.motionseries.sims.theramp.StageContainerArea
 
 object MotionSeriesDefaults {
   def rampIndicatorFont = new PhetFont(13, true)
@@ -74,7 +74,7 @@ object MotionSeriesDefaults {
   val sliderMaxGravity = 30.0
 
   //ScalaRampObject(name,mass,kineticFriction,staticFriction,image)
-  import motionseries.MotionSeriesResources._
+  import edu.colorado.phet.motionseries.MotionSeriesResources._
   val objects = new MotionSeriesObject("object.file-cabinet".translate, 50, 0.2, 0.5, 2.25, "cabinet.gif".literal, 100) ::
           new MotionSeriesObject("object.dog".translate, 25, 0.5, 0.5, 1.25, "ollie.gif".literal, 500) ::
           new MotionSeriesObject("object.small-crate".translate, 100, 0.3, 0.5, 1.5, "crate.gif".literal, 200) ::

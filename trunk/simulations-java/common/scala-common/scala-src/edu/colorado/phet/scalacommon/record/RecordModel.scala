@@ -1,7 +1,7 @@
 package edu.colorado.phet.scalacommon.record
 
 import _root_.edu.colorado.phet.common.phetcommon.math.Function.LinearFunction
-import scalacommon.util.Observable
+import edu.colorado.phet.scalacommon.util.Observable
 import _root_.scala.collection.mutable.ArrayBuffer
 
 object RecordModelDefaults {

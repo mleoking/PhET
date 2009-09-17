@@ -1,14 +1,14 @@
 package edu.colorado.phet.motionseries.graphics
 
-import phet.common.phetcommon.resources.PhetCommonResources
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources
 import java.awt.event.{WindowEvent, ComponentAdapter, ComponentEvent, WindowAdapter}
-import phet.common.phetcommon.view.util.SwingUtils
-import phet.common.piccolophet.PhetPCanvas
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils
+import edu.colorado.phet.common.piccolophet.PhetPCanvas
 import java.awt.geom.Point2D
 import javax.swing.{JFrame, JDialog}
-import model.{AdjustableCoordinateModel, CoordinateFrameModel, FreeBodyDiagramModel}
-import motionseries.MotionSeriesResources._
-import scalacommon.Predef._
+import edu.colorado.phet.motionseries.model.{AdjustableCoordinateModel, CoordinateFrameModel, FreeBodyDiagramModel}
+import edu.colorado.phet.motionseries.MotionSeriesResources._
+import edu.colorado.phet.scalacommon.Predef._
 
 class FBDDialog(frame: JFrame,
                 freeBodyDiagramModel: FreeBodyDiagramModel,

@@ -1,11 +1,11 @@
 package edu.colorado.phet.motionseries.tests
 
-import common.piccolophet.nodes.PhetPPath
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
 import java.awt.event._
 import java.awt.geom.{Ellipse2D, Rectangle2D}
 import java.awt.{Color, BasicStroke}
 import javax.swing.{Timer, JFrame}
-import umd.cs.piccolo.nodes.PText
+import edu.umd.cs.piccolo.nodes.PText
 
 class MyPText(str: String, x: Double, y: Double, scale: Double) extends PText(str) {
   def this(str: String, x: Double, y: Double) = this (str, x, y, 1.0)

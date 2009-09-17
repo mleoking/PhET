@@ -1,12 +1,12 @@
 package edu.colorado.phet.motionseries.sims.theramp.robotmovingcompany
 
 import collection.mutable.{HashMap, ArrayBuffer}
-import model.{MotionSeriesObject, SurfaceModel, MotionSeriesModel, Bead}
-import scalacommon.ScalaClock
-import scalacommon.util.Observable
-import scalacommon.math.Vector2D
+import edu.colorado.phet.motionseries.model.{MotionSeriesObject, SurfaceModel, MotionSeriesModel, Bead}
+import edu.colorado.phet.scalacommon.ScalaClock
+import edu.colorado.phet.scalacommon.util.Observable
+import edu.colorado.phet.scalacommon.math.Vector2D
 import java.lang.Math._
-import motionseries.MotionSeriesDefaults
+import edu.colorado.phet.motionseries.MotionSeriesDefaults
 
 class RobotMovingCompanyGameModel(val model: MotionSeriesModel, clock: ScalaClock) extends Observable {
   private val DEFAULT_ROBOT_ENERGY = 3000.0

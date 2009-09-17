@@ -1,12 +1,12 @@
 package edu.colorado.phet.motionseries.model
 
-import motionseries.MotionSeriesResources._
-import graphics.{Vector, PointOfOriginVector}
+import edu.colorado.phet.motionseries.MotionSeriesResources._
+import edu.colorado.phet.motionseries.graphics.{Vector, PointOfOriginVector}
 import java.awt.geom.Rectangle2D
 import java.awt.{Paint, TexturePaint, Color, Graphics2D}
 import java.awt.image.BufferedImage
 import java.lang.Math._
-import scalacommon.math.Vector2D
+import edu.colorado.phet.scalacommon.math.Vector2D
 
 class BeadVector(color: Color,
                  name: String,

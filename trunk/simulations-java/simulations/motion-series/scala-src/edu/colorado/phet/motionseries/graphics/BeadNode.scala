@@ -1,18 +1,18 @@
 package edu.colorado.phet.motionseries.graphics
 
-import common.phetcommon.view.util.BufferedImageUtils
-import phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
-import phet.common.piccolophet.event.CursorHandler
-import model.{Bead}
-import motionseries.MotionSeriesResources
-import motionseries.MotionSeriesDefaults
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
+import edu.colorado.phet.common.piccolophet.event.CursorHandler
+import edu.colorado.phet.motionseries.model.{Bead}
+import edu.colorado.phet.motionseries.MotionSeriesResources
+import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import tests.MyCanvas
-import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
-import umd.cs.piccolo.PNode
+import edu.umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
+import edu.umd.cs.piccolo.PNode
 import java.awt.geom.AffineTransform
-import umd.cs.piccolo.nodes.PImage
+import edu.umd.cs.piccolo.nodes.PImage
 import java.awt.image.BufferedImage
-import scalacommon.math.Vector2D
+import edu.colorado.phet.scalacommon.math.Vector2D
 import edu.colorado.phet.scalacommon.Predef._
 
 class ForceDragBeadNode(bead: Bead,

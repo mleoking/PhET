@@ -1,8 +1,8 @@
 package edu.colorado.phet.motionseries.graphics
 
-import model.{FireDog, Raindrop, MotionSeriesModel}
-import umd.cs.piccolo.PNode
-import motionseries.MotionSeriesResources._
+import edu.colorado.phet.motionseries.model.{FireDog, Raindrop, MotionSeriesModel}
+import edu.umd.cs.piccolo.PNode
+import edu.colorado.phet.motionseries.MotionSeriesResources._
 
 //todo: factor out common code
 class FireDogView(rampModel: MotionSeriesModel, canvas: MotionSeriesCanvas) extends PNode {

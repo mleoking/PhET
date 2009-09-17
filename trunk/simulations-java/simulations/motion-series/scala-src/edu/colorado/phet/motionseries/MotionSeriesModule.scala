@@ -1,9 +1,9 @@
 package edu.colorado.phet.motionseries
 
-import common.phetcommon.application.Module
+import edu.colorado.phet.common.phetcommon.application.Module
 import javax.swing.{JFrame, RepaintManager}
-import scalacommon.ScalaClock
-import model._
+import edu.colorado.phet.scalacommon.ScalaClock
+import edu.colorado.phet.motionseries.model._
 
 //TODO: improve inheritance/composition scheme for different applications/modules/canvases/models
 class MotionSeriesModule(frame: JFrame, clock: ScalaClock, name: String, defaultBeadPosition: Double, pausedOnReset: Boolean,

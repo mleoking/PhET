@@ -1,11 +1,11 @@
 package edu.colorado.phet.motionseries.model
 
-import common.motion.model.TimeData
-import common.motion.MotionMath
-import phet.common.phetcommon.math.MathUtil
-import scalacommon.math.Vector2D
+import edu.colorado.phet.common.motion.model.TimeData
+import edu.colorado.phet.common.motion.MotionMath
+import edu.colorado.phet.common.phetcommon.math.MathUtil
+import edu.colorado.phet.scalacommon.math.Vector2D
 import java.lang.Math._
-import motionseries.Predef._
+import edu.colorado.phet.motionseries.Predef._
 
 //Used to save/restore motion strategies during record/playback
 trait MotionStrategyMemento {

@@ -1,12 +1,12 @@
 package edu.colorado.phet.motionseries.graphics
 
-import motionseries.MotionSeriesResources._
-import phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
-import phet.common.phetcommon.view.util.BufferedImageUtils
-import model.{Bead}
-import scalacommon.Predef._
+import edu.colorado.phet.motionseries.MotionSeriesResources._
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils
+import edu.colorado.phet.motionseries.model.{Bead}
+import edu.colorado.phet.scalacommon.Predef._
 import java.lang.Math._
-import motionseries.MotionSeriesResources
+import edu.colorado.phet.motionseries.MotionSeriesResources
 
 class PusherNode(transform: ModelViewTransform2D, targetBead: Bead, manBead: Bead)
         extends BeadNode(manBead, transform, "standing-man.png".literal) {

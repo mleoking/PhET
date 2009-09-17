@@ -1,26 +1,26 @@
 package edu.colorado.phet.motionseries.sims.theramp.robotmovingcompany
 
-import phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
-import phet.common.phetcommon.view.util.{BufferedImageUtils, PhetFont}
-import phet.common.piccolophet.nodes.layout.SwingLayoutNode
-import phet.common.piccolophet.PhetPCanvas
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
+import edu.colorado.phet.common.phetcommon.view.util.{BufferedImageUtils, PhetFont}
+import edu.colorado.phet.common.piccolophet.nodes.layout.SwingLayoutNode
+import edu.colorado.phet.common.piccolophet.PhetPCanvas
 import java.awt._
 import geom.{Line2D, RoundRectangle2D}
 import javax.swing.event.{ChangeEvent, ChangeListener}
 import javax.swing.{JButton, JOptionPane, JFrame}
-import scalacommon.ScalaClock
-import phet.common.phetcommon.view.VerticalLayoutPanel
-import motionseries.MotionSeriesDefaults
-import umd.cs.piccolo.nodes.{PImage, PText}
-import umd.cs.piccolo.PNode
-import phet.common.piccolophet.nodes.PhetPPath
-import scalacommon.math.Vector2D
-import graphics._
-import model._
+import edu.colorado.phet.scalacommon.ScalaClock
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel
+import edu.colorado.phet.motionseries.MotionSeriesDefaults
+import edu.umd.cs.piccolo.nodes.{PImage, PText}
+import edu.umd.cs.piccolo.PNode
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
+import edu.colorado.phet.scalacommon.math.Vector2D
+import edu.colorado.phet.motionseries.graphics._
+import edu.colorado.phet.motionseries.model._
 import swing.{ScalaButton}
-import umd.cs.piccolox.pswing.PSwing
-import scalacommon.Predef._
-import motionseries.MotionSeriesResources._
+import edu.umd.cs.piccolox.pswing.PSwing
+import edu.colorado.phet.scalacommon.Predef._
+import edu.colorado.phet.motionseries.MotionSeriesResources._
 
 class RobotMovingCompanyCanvas(model: MotionSeriesModel, coordinateSystemModel: AdjustableCoordinateModel, freeBodyDiagramModel: FreeBodyDiagramModel,
                                vectorViewModel: VectorViewModel, frame: JFrame, gameModel: RobotMovingCompanyGameModel)
