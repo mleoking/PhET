@@ -136,7 +136,33 @@ public class AxonModel {
     public ArrayList<AbstractMembraneChannel> getMembraneChannels(){
     	return new ArrayList<AbstractMembraneChannel>(channels);
     }
+    
+    public int getNumMembraneChannels(MembraneChannelTypes channelType){
+    	
+    	int numChannels = 0;
+    	
+    	for (AbstractMembraneChannel channel : channels){
+    		if (channel.getChannelType() == channelType){
+    			numChannels++;
+    		}
+    	}
+    	
+    	return numChannels;
+    }
 
+    public void setNumMembraneChannels(MembraneChannelTypes channelType, int numChannels){
+    	if (numChannels > getNumMembraneChannels(channelType)){
+    		// Need to remove a channel.
+    	}
+    	else if (numChannels < getNumMembraneChannels(channelType)){
+    		// Need to add a channel.
+    		addChannel(channelType);
+    	}
+    	else{
+    		// Don't need to do nuthin'.
+    	}
+    }
+    
     //----------------------------------------------------------------------------
     // Other Methods
     //----------------------------------------------------------------------------
@@ -254,6 +280,26 @@ public class AxonModel {
     	membraneChannel.setCenterLocation(newLocation);
     	
     	channels.add(membraneChannel);
+    }
+    
+    private void removeChannel(MembraneChannelTypes channelType){
+    	// Make sure there is at least one to remove.
+    	if (getNumMembraneChannels(channelType) < 1 ){
+    		System.err.println(getClass().getName() + ": Error - No channel of this type to remove, type = " + channelType);
+    		return;
+    	}
+    	
+    	AbstractMembraneChannel channelToRemove = null;
+    	for (int i = 0; i < channels.size(); i++){
+    		if (channels.get(i).getChannelType() == channelType){
+    			channelToRemove = channels.get(i);
+    		}
+    	}
+    	
+    	if (channelToRemove != null){
+    		channelToRemove.forceReleaseAllAtoms(atoms);
+    		channels.remove(channelToRemove);
+    	}
     }
     
     /**
