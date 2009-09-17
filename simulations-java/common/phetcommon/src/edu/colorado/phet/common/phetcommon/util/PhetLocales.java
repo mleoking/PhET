@@ -1,51 +1,43 @@
 /* Copyright 2007-2009, University of Colorado */
 
-package edu.colorado.phet.translationutility;
+package edu.colorado.phet.common.phetcommon.util;
 
-import java.util.*;
 import java.io.Serializable;
+import java.util.*;
 
-import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
+import edu.colorado.phet.translationutility.TUResources;
 
 
 /**
- * TULocales is a collection of locale codes and their English names.
+ * A collection of locales supported by PhET.
  * This information is read from a resource file.
  * Locales are based on ISO-standard language and country codes.
  *
- * Updated to be used by the Wicket-based translation area
- *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class TULocales implements Serializable {
+public class PhetLocales implements Serializable {
 
-    private static final String PROPERTIES_RESOURCE_NAME = "locales.properties";
+    private static final String PROPERTIES_RESOURCE_NAME = "localization/phetcommon-locales.properties";
     private static final String LOCALES_SEPARATOR = ",";
 
-    private static TULocales _singleton;
+    private static PhetLocales _singleton;
 
     private HashMap<Locale, String> _localeToNameMap;
     private HashMap<String, Locale> _nameToLocaleMap;
 
     /* singleton */
-    public static TULocales getInstance() {
-        return getInstance( TUResources.getProperties( PROPERTIES_RESOURCE_NAME ) );
-    }
-
-    // JO: modified to accept a properties file from another location
-    // this makes it so we don't have to add a J2EE dependency to Translation Utility.
-    public static TULocales getInstance( Properties p ) {
+    public static PhetLocales getInstance() {
         if ( _singleton == null ) {
-            _singleton = new TULocales( p );
+            _singleton = new PhetLocales();
         }
         return _singleton;
     }
 
     /* singleton */
-    private TULocales( Properties p ) {
+    private PhetLocales() {
         _nameToLocaleMap = new HashMap<String, Locale>();
         _localeToNameMap = new HashMap<Locale, String>();
-        loadCodes( p );
+        loadCodes( TUResources.getCommonProperties( PROPERTIES_RESOURCE_NAME ) );
     }
 
     private void loadCodes( Properties p ) {

@@ -13,9 +13,9 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 
+import edu.colorado.phet.common.phetcommon.util.PhetLocales;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.translationutility.TULocales;
 import edu.colorado.phet.translationutility.TUResources;
 import edu.colorado.phet.translationutility.userinterface.FindDialog.FindListener;
 
@@ -78,7 +78,7 @@ public class TranslationPanel extends JPanel implements FindListener {
         layout.setInsets( new Insets( 2, 5, 2, 5 ) ); // top, left, bottom, right
         int row = 0;
         
-        TULocales lc = TULocales.getInstance();
+        PhetLocales lc = PhetLocales.getInstance();
         JLabel projectNameLabel = new JLabel( projectName );
         projectNameLabel.setFont( TITLE_FONT );
         layout.addAnchoredComponent( projectNameLabel, row, KEY_COLUMN, GridBagConstraints.WEST );

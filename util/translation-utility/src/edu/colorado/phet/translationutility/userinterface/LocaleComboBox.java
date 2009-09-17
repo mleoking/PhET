@@ -11,7 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
-import edu.colorado.phet.translationutility.TULocales;
+import edu.colorado.phet.common.phetcommon.util.PhetLocales;
 import edu.colorado.phet.translationutility.TUResources;
 
 
@@ -75,7 +75,7 @@ public class LocaleComboBox extends JComboBox {
         
         addItem( new LocaleChoice( SELECT_NAME, null ) );
         
-        TULocales locales = TULocales.getInstance();
+        PhetLocales locales = PhetLocales.getInstance();
         String[] names = locales.getSortedNames();
         for ( int i = 0; i < names.length; i++ ) {
             String name = names[i];
