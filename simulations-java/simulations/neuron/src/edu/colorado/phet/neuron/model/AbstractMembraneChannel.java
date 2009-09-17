@@ -40,6 +40,8 @@ public abstract class AbstractMembraneChannel {
 	private Dimension2D channelSize = new PDimension(); // Size of channel only, i.e. where the atoms pass through.
 	private Dimension2D overallSize = new PDimension(); // Size including edges.
 	
+	private ArrayList<Listener> listeners = new ArrayList<Listener>();
+	
     //----------------------------------------------------------------------------
     // Constructor
     //----------------------------------------------------------------------------
@@ -55,7 +57,7 @@ public abstract class AbstractMembraneChannel {
 	
 	/**
 	 * Check the supplied list of atoms to see if any are in a location where
-	 * this membrane wants to take control of them.
+	 * this channel wants to take control of them.
 	 * 
 	 * @param freeAtoms - List of atoms that can be potentially taken.  Any
 	 * atoms that are taken are removed from the list.
@@ -150,5 +152,27 @@ public abstract class AbstractMembraneChannel {
 	 */
 	protected ArrayList<Atom> getOwnedAtomsRef(){
 		return ownedAtoms;
+	}
+	
+	public void addListener(Listener listener){
+		listeners.add(listener);
+	}
+	
+	public void removeListener(Listener listener){
+		listeners.remove(listener);
+	}
+	
+	public void remove(){
+		notifyRemoved();
+	}
+	
+	private void notifyRemoved(){
+		for (Listener listener : listeners){
+			listener.removed();
+		}
+	}
+	
+	public static interface Listener{
+		void removed();
 	}
 }

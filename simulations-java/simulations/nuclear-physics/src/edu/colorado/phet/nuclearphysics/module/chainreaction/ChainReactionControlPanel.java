@@ -47,6 +47,7 @@ public class ChainReactionControlPanel extends ControlPanel {
         // Add the controls that allow the user to set the number of various
         // nuclei in the sim.
         _controlsPanel = new ChainReactionControlsSubPanel(chainReactionModule.getChainReactionModel());
+        
         addControlFullWidth( _controlsPanel );
         
         // Add the Reset All button.
