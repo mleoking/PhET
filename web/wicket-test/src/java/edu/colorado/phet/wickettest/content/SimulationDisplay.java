@@ -64,7 +64,7 @@ public class SimulationDisplay extends PhetRegularPage {
 
         if ( parameters.containsKey( "query-string" ) ) {
             System.out.println( "Query string: " + parameters.getString( "query-string" ) );
-            if ( parameters.getString( "query-string" ).equals( "index" ) ) {
+            if ( parameters.getString( "query-string" ).equals( "/index" ) ) {
                 showIndex = true;
             }
         }
@@ -148,7 +148,7 @@ public class SimulationDisplay extends PhetRegularPage {
     public static void addToMapper( PhetUrlMapper mapper ) {
         mapper.addMap( "^simulations$", SimulationDisplay.class );
         mapper.addMap( "^simulations/(index)$", SimulationDisplay.class, new String[]{"query-string"} );
-        mapper.addMap( "^simulations/category/([^/]+)([/](.*))?$", SimulationDisplay.class, new String[]{"categories", null, "query-string"} );
+        mapper.addMap( "^simulations/category/(.+?)(/index)?$", SimulationDisplay.class, new String[]{"categories", "query-string"} );
     }
 
     public static PhetLink createLink( String id, PageContext context ) {
