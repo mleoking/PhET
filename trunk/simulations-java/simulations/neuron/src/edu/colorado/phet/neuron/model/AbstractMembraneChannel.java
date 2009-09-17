@@ -74,6 +74,13 @@ public abstract class AbstractMembraneChannel {
 	abstract public void checkReleaseControlAtoms(ArrayList<Atom> freeAtoms);
 	
 	/**
+	 * Implements the time-dependent behavior of the gate.
+	 * 
+	 * @param dt - Amount of time step, in milliseconds.
+	 */
+	abstract public void stepInTime(double dt);
+	
+	/**
 	 * Return a list of the atoms "owned" (meaning that their motion is
 	 * controlled by) this channel.  Getting this list does NOT cause the
 	 * atoms to be released by the channel.
