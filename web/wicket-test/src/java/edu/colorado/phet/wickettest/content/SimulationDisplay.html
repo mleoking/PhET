@@ -12,6 +12,35 @@
 <body>
 
 <wicket:extend>
+    <wicket:enclosure child="to-index-view">
+        <table style="margin: 5px auto; border: none; padding: 0; width: 500px;" cellpadding="0" cellspacing="0">
+            <tr>
+                <td class="text-right-classic">
+                    <a href="#" wicket:id="to-index-view">
+                        <wicket:message key="simulationDisplay.indexView">Switch to Index</wicket:message>
+                    </a>
+                </td>
+            </tr>
+        </table>
+    </wicket:enclosure>
+    <wicket:enclosure child="to-thumbnail-view">
+        <table style="margin: 5px auto; border: none; padding: 0; width: 500px;" cellpadding="0" cellspacing="0">
+            <tr>
+                <td class="text-left-classic">
+                    <div wicket:id="letter-links">
+                        A B C D E F
+                    </div>
+                </td>
+                <td class="text-right-classic">
+                    <div style="margin-top: 5px;">
+                        <a href="#" wicket:id="to-thumbnail-view">
+                            <wicket:message key="simulationDisplay.thumbnailView">Switch to Thumbnails</wicket:message>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </wicket:enclosure>
     <div wicket:id="simulation-display-panel" wicket:message="dir:language.dir"/>
 </wicket:extend>
 

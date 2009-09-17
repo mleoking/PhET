@@ -8,12 +8,15 @@ import org.hibernate.HibernateException;
 import org.hibernate.Transaction;
 
 import edu.colorado.phet.wickettest.WicketApplication;
+import edu.colorado.phet.wickettest.components.InvisibleComponent;
 import edu.colorado.phet.wickettest.components.PhetLink;
 import edu.colorado.phet.wickettest.data.Category;
 import edu.colorado.phet.wickettest.data.LocalizedSimulation;
 import edu.colorado.phet.wickettest.data.Simulation;
 import edu.colorado.phet.wickettest.menu.NavLocation;
+import edu.colorado.phet.wickettest.panels.IndexLetterLinks;
 import edu.colorado.phet.wickettest.panels.SimulationDisplayPanel;
+import edu.colorado.phet.wickettest.panels.SimulationIndexPanel;
 import edu.colorado.phet.wickettest.templates.PhetRegularPage;
 import edu.colorado.phet.wickettest.util.HibernateUtils;
 import edu.colorado.phet.wickettest.util.PageContext;
@@ -57,6 +60,18 @@ public class SimulationDisplay extends PhetRegularPage {
             }
         }
 
+        boolean showIndex = false;
+
+        if ( parameters.containsKey( "query-string" ) ) {
+            System.out.println( "Query string: " + parameters.getString( "query-string" ) );
+            if ( parameters.getString( "query-string" ).equals( "index" ) ) {
+                showIndex = true;
+            }
+        }
+        else {
+            System.out.println( "No query string" );
+        }
+
         NavLocation location;
 
         if ( category == null ) {
@@ -70,7 +85,23 @@ public class SimulationDisplay extends PhetRegularPage {
 
         addTitle( new StringResourceModel( "simulationDisplay.title", this, null, new Object[]{new StringResourceModel( location.getLocalizationKey(), this, null )} ) );
 
-        add( new SimulationDisplayPanel( "simulation-display-panel", getPageContext(), simulations ) );
+        if ( showIndex ) {
+            HibernateUtils.orderSimulations( simulations, context.getLocale() );
+            SimulationIndexPanel indexPanel = new SimulationIndexPanel( "simulation-display-panel", getPageContext(), simulations );
+            add( indexPanel );
+
+            add( new InvisibleComponent( "to-index-view" ) );
+            String path = getMyPath();
+            add( new PhetLink( "to-thumbnail-view", context.getPrefix() + path.substring( 0, path.length() - 6 ) ) );
+            add( new IndexLetterLinks( "letter-links", context, indexPanel.getLetters() ) );
+        }
+        else {
+            add( new SimulationDisplayPanel( "simulation-display-panel", getPageContext(), simulations ) );
+
+            add( new PhetLink( "to-index-view", context.getPrefix() + getMyPath() + "/index" ) );
+            add( new InvisibleComponent( "to-thumbnail-view" ) );
+            add( new InvisibleComponent( "letter-links" ) );
+        }
     }
 
     // NOTE: must be in a transaction
@@ -116,7 +147,8 @@ public class SimulationDisplay extends PhetRegularPage {
 
     public static void addToMapper( PhetUrlMapper mapper ) {
         mapper.addMap( "^simulations$", SimulationDisplay.class );
-        mapper.addMap( "^simulations/category/([^?]+)([?](.*))?$", SimulationDisplay.class, new String[]{"categories", null, "query-string"} );
+        mapper.addMap( "^simulations/(index)$", SimulationDisplay.class, new String[]{"query-string"} );
+        mapper.addMap( "^simulations/category/([^/]+)([/](.*))?$", SimulationDisplay.class, new String[]{"categories", null, "query-string"} );
     }
 
     public static PhetLink createLink( String id, PageContext context ) {
@@ -132,11 +164,4 @@ public class SimulationDisplay extends PhetRegularPage {
         };
     }
 
-//    public static Linkable getLinker() {
-//        return new Linkable() {
-//            public Link getLink( String id, PageContext context ) {
-//                return new PhetLink( id, context.getPrefix() + "simulations/category/featured" );
-//            }
-//        };
-//    }
 }

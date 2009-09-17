@@ -41,7 +41,7 @@ public class PhetSession extends WebSession {
             query.setString( "password", hash );
             query.setString( "compatiblePassword", compatibleHash );
 
-            System.out.println( "Attempting to authenticate " + username + " with " + hash );
+            //System.out.println( "Attempting to authenticate " + username + " with " + hash );
 
             user = (PhetUser) query.uniqueResult();
 

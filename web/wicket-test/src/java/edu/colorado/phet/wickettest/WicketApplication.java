@@ -1,7 +1,7 @@
 package edu.colorado.phet.wickettest;
 
-import java.util.*;
 import java.io.IOException;
+import java.util.*;
 
 import org.apache.wicket.Request;
 import org.apache.wicket.RequestCycle;
@@ -119,10 +119,10 @@ public class WicketApplication extends WebApplication {
     private TULocales supportedLocales = null;
 
     public TULocales getSupportedLocales() {
-        if( supportedLocales == null ) {
+        if ( supportedLocales == null ) {
             Properties p = new Properties();
             try {
-                p.load( getServletContext().getResourceAsStream( "/translation-utility/locales.properties" ));
+                p.load( getServletContext().getResourceAsStream( "/translation-utility/locales.properties" ) );
             }
             catch( IOException e ) {
                 e.printStackTrace();

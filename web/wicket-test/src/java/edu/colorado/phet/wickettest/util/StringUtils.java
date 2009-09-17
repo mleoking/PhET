@@ -173,7 +173,7 @@ public class StringUtils {
 
     public static boolean setString( Session session, String key, String value, int translationId ) {
         System.out.println( "Request to set string with key=" + key + " and value=" + value );
-        if( value == null ) {
+        if ( value == null ) {
             return false;
         }
         // TODO: refactor this somehow with setString with locale

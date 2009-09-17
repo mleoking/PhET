@@ -138,7 +138,7 @@ public class NavMenu {
         if ( category.isRoot() ) {
             NavLocation allLocation = new NavLocation( location, "all", new Linkable() {
                 public Link getLink( String id, PageContext context ) {
-                    return new PhetLink( id, context.getPrefix() + "simulations" );
+                    return new PhetLink( id, context.getPrefix() + "simulations/index" );
                 }
             } );
             addLocation( allLocation );
