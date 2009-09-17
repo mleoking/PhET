@@ -28,7 +28,7 @@ public class AxonModel {
 	
 	private static final Random RAND = new Random();
 	
-	private static final int TOTAL_INITIAL_ATOMS = 100;
+	private static final int TOTAL_INITIAL_ATOMS = 150;
 	
 	private static final double MAX_ATOM_VELOCITY = 500; // In nano meters per second.
 	
@@ -299,6 +299,7 @@ public class AxonModel {
     	if (channelToRemove != null){
     		channelToRemove.forceReleaseAllAtoms(atoms);
     		channels.remove(channelToRemove);
+    		channelToRemove.remove();
     	}
     }
     

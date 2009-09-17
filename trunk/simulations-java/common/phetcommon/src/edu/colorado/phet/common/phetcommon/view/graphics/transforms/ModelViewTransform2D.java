@@ -105,11 +105,18 @@ public class ModelViewTransform2D {
     	this.invertY=invertY;
     }
 
+    /**
+     * Create an identity transform.
+     */
+    public ModelViewTransform2D() {
+    	this(new Rectangle2D.Double(0,0,1,1), new Rectangle2D.Double(0,0,1,1), false);
+	}
+
     //----------------------------------------------------------------------------
     // Bounds methods
     //----------------------------------------------------------------------------
 
-    public void setModelBounds( Rectangle2D modelBounds ) {
+	public void setModelBounds( Rectangle2D modelBounds ) {
         if ( modelBounds.getWidth() <= 0 || modelBounds.getHeight() <= 0 ) {
             throw new RuntimeException( "modelBounds dimensons must be > 0 : " + modelBounds );
         }

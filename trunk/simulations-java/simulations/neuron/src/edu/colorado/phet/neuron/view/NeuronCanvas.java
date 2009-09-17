@@ -119,6 +119,12 @@ public class NeuronCanvas extends PhetPCanvas {
     }
     
     private void addChannelNode(AbstractMembraneChannel channelToBeAdded){
-    	axonCrossSectionLayer.addChild(new MembraneChannelNode(channelToBeAdded, axonCrossSectionLayer, mvt));
+    	final MembraneChannelNode channelNode = new MembraneChannelNode(channelToBeAdded, mvt);
+    	axonCrossSectionLayer.addChild(channelNode);
+    	channelToBeAdded.addListener(new AbstractMembraneChannel.Listener() {
+			public void removed() {
+				axonCrossSectionLayer.removeChild(channelNode);
+			}
+		});
     }
 }

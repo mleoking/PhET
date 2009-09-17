@@ -22,15 +22,11 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class MembraneChannelNode extends PNode{
 	
-    private PNode parentNode; // TODO: Use this to implement removal of nodes.
-
     //----------------------------------------------------------------------------
     // Constructor
     //----------------------------------------------------------------------------
 
-	public MembraneChannelNode(AbstractMembraneChannel membraneChannelModel, PNode parentNode, ModelViewTransform2D mvt){
-
-		this.parentNode = parentNode;
+	public MembraneChannelNode(AbstractMembraneChannel membraneChannelModel, ModelViewTransform2D mvt){
 
 		PNode representation = new PNode();
 		
