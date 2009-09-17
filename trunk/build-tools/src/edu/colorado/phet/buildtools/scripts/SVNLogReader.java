@@ -19,10 +19,14 @@ public class SVNLogReader {
     public static void main(String[] args) {
         String trunk = args[0];
         String project = args[1];
-        ArrayList<Log> logs = new SVNLogReader(new File(trunk)).getLog(project);
-        for (int i = 0; i < logs.size(); i++) {
-            Log log = logs.get(i);
-            System.out.println(log);
+        {
+            ArrayList<Log> logs = new SVNLogReader(new File(trunk)).getLog(project, "log");
+            for (int i = 0; i < logs.size(); i++) System.out.println(logs.get(i));
+        }
+
+        {
+            ArrayList<Log> logs = new SVNLogReader(new File(trunk)).getLog(project, "diff");
+            for (int i = 0; i < logs.size(); i++) System.out.println(logs.get(i));
         }
     }
 
@@ -53,12 +57,12 @@ public class SVNLogReader {
         }
     }
 
-    private ArrayList<Log> getLog(String project) {
+    private ArrayList<Log> getLog(String project, String command) {
         PhetProject proj = getProject(project);
-        int since = getLastDeploy(proj) +1;
-        System.out.println("Getting info since revision: "+since);
+        int since = getLastDeploy(proj) + 1;
+        System.out.println("Getting info since revision: " + since);
 
-        return getLogs(proj, since);
+        return getLogs(proj, since, command);
     }
 
     //automatically identify revision based on last deploy indicated in changelog
@@ -69,7 +73,7 @@ public class SVNLogReader {
             String line = bufferedReader.readLine();
             while (line != null) {
                 //use lines of the form # 0.01.14 (34844) Sep 4, 2009
-                if (line.trim().startsWith("#") && line.indexOf('(')>0 && line.indexOf(')')>0){
+                if (line.trim().startsWith("#") && line.indexOf('(') > 0 && line.indexOf(')') > 0) {
                     return getSVNNumber(line);
                 }
             }
@@ -82,28 +86,28 @@ public class SVNLogReader {
     }
 
     private int getSVNNumber(String line) {
-        String substring = line.substring(line.indexOf('(')+1,line.indexOf(')'));
-        return Integer.parseInt(substring); 
+        String substring = line.substring(line.indexOf('(') + 1, line.indexOf(')'));
+        return Integer.parseInt(substring);
     }
 
-    private ArrayList<Log> getLogs(PhetProject proj, int since) {
+    private ArrayList<Log> getLogs(PhetProject proj, int since, String command) {
         PhetProject[] dependencies = proj.getAllDependencies();
         ArrayList<Log> changeSets = new ArrayList<Log>();
         for (int i = 0; i < dependencies.length; i++) {
-            changeSets.add(new Log(dependencies[i], getChangeSet(dependencies[i], since)));
+            changeSets.add(new Log(dependencies[i], getChangeSet(dependencies[i], since, command)));
         }
         return changeSets;
     }
 
-    private ChangeSet getChangeSet(PhetProject dependency, int since) {
+    private ChangeSet getChangeSet(PhetProject dependency, int since, String command) {
         try {
             BuildLocalProperties.initRelativeToTrunk(trunk);
         } catch (IllegalStateException ise) {
         }
         BuildLocalProperties properties = BuildLocalProperties.getInstance();
         AuthenticationInfo auth = properties.getRespositoryAuthenticationInfo();
-        String[] args = new String[]{"svn", "log", "-r", "HEAD:" + since, "--username", auth.getUsername(), "--password", auth.getPassword()};
-        System.out.print("Getting log for " + dependency.getName() + "...");
+        String[] args = new String[]{"svn", command, "-r", "HEAD:" + since, "--username", auth.getUsername(), "--password", auth.getPassword()};
+        System.out.print("Getting "+command+" for " + dependency.getName() + "...");
         ProcessOutputReader.ProcessExecResult output = exec(args, dependency.getProjectDir());
         StringTokenizer st = new StringTokenizer(output.getOut(), "\n");
         ArrayList<String> entries = new ArrayList<String>();
