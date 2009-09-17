@@ -69,7 +69,7 @@ public class TUResources {
      * @return String
      */
     public static String getTitle() {
-        String[] titleFormatArgs = { 
+        Object[] titleFormatArgs = { 
                 TUResources.getString( "translation-utility.name" ),
                 TUResources.getString( "label.version" ),
                 getVersion(),
