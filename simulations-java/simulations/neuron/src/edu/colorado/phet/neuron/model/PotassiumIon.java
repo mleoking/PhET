@@ -5,8 +5,6 @@ import java.awt.Color;
 import edu.colorado.phet.neuron.NeuronStrings;
 
 public class PotassiumIon extends Atom {
-	
-	
 
 	@Override
 	public AtomType getType() {
@@ -30,6 +28,6 @@ public class PotassiumIon extends Atom {
 
 	@Override
 	public int getCharge() {
-		return -1;
+		return 1;
 	}
 }
