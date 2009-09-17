@@ -2,12 +2,16 @@
 
 package edu.colorado.phet.translationutility.userinterface;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import java.awt.Toolkit;
 import java.util.*;
 
-import javax.swing.*;
-import javax.swing.border.Border;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.JTextArea;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -30,17 +34,10 @@ public class TranslationPanel extends JPanel implements FindListener {
     
     private static final Font DEFAULT_FONT = new JLabel().getFont();
     private static final Font TITLE_FONT = new Font( DEFAULT_FONT.getName(), Font.BOLD,  DEFAULT_FONT.getSize() + 4 );
-    private static final Color SOURCE_BACKGROUND = new JPanel().getBackground();
-    private static final Color SELECTION_COLOR = Color.GREEN;
     
     private static final int KEY_COLUMN = 0;
     private static final int SOURCE_COLUMN = 1;
     private static final int TARGET_COLUMN = 2;
-    
-    private static final int TEXT_AREA_COLUMNS = 20;
-    private static final Border TEXT_AREA_BORDER = BorderFactory.createCompoundBorder( 
-            /* outside */ BorderFactory.createLineBorder( Color.BLACK, 1 ), 
-            /* inside */ BorderFactory.createEmptyBorder( 2, 2, 2, 2 ) );
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -51,75 +48,6 @@ public class TranslationPanel extends JPanel implements FindListener {
     private String _previousFindText; // text we previously search for in findNext or findPrevious
     private int _previousFindTextAreaIndex; // index into _findTextArea, identifies the JTextArea in which text was found
     private int _previousFindSelectionIndex; // index into a JTextArea's text, identifies where in the JTextArea the text was found
-    
-    //----------------------------------------------------------------------------
-    // Inner classes
-    //----------------------------------------------------------------------------
-    
-    /*
-     * SourceTextArea contain a string in the source language.
-     * Source strings appear in the middle column of the interface.
-     * They are searchable but not editable.
-     */
-    private static class SourceTextArea extends JTextArea {
-        
-        public SourceTextArea( String value ) {
-            super( value );
-            setColumns( TEXT_AREA_COLUMNS );
-            setLineWrap( true );
-            setWrapStyleWord( true );
-            setEditable( false );
-            setFocusable( true ); // must be true for Find selection to work
-            setBorder( TEXT_AREA_BORDER );
-            setBackground( SOURCE_BACKGROUND );
-            setSelectionColor( SELECTION_COLOR );
-        }
-    }
-    
-    /*
-     * TargetTextArea contains a string in the target language, associated with a key.
-     * Target strings appear in the right column of the interface.
-     * They are searchable and editable.
-     * Pressing tab or shift-tab moves focus forward or backward.
-     */
-    public static class TargetTextArea extends JTextArea {
-
-        private final String _key;
-
-        public static final Action NEXT_FOCUS_ACTION = new AbstractAction( "Move Focus Forwards" ) {
-            public void actionPerformed( ActionEvent evt ) {
-                ( (Component) evt.getSource() ).transferFocus();
-            }
-        };
-        
-        public static final Action PREVIOUS_FOCUS_ACTION = new AbstractAction( "Move Focus Backwards" ) {
-            public void actionPerformed( ActionEvent evt ) {
-                ( (Component) evt.getSource() ).transferFocusBackward();
-            }
-        };
-        
-        public TargetTextArea( String key, String value ) {
-            super( value );
-            
-            _key = key;
-            
-            setLineWrap( true );
-            setWrapStyleWord( true );
-            setEditable( true );
-            setBorder( TEXT_AREA_BORDER );
-            setSelectionColor( SELECTION_COLOR );
-            
-            // tab or shift-tab will move you to the next or previous text field
-            getInputMap( JComponent.WHEN_FOCUSED ).put( KeyStroke.getKeyStroke( "TAB" ), NEXT_FOCUS_ACTION.getValue( Action.NAME ) );
-            getInputMap( JComponent.WHEN_FOCUSED ).put( KeyStroke.getKeyStroke( "shift TAB" ), PREVIOUS_FOCUS_ACTION.getValue( Action.NAME ) );
-            getActionMap().put( NEXT_FOCUS_ACTION.getValue( Action.NAME ), NEXT_FOCUS_ACTION );
-            getActionMap().put( PREVIOUS_FOCUS_ACTION.getValue( Action.NAME ), PREVIOUS_FOCUS_ACTION );
-        }
-
-        public String getKey() {
-            return _key;
-        }
-    }
     
     //----------------------------------------------------------------------------
     // Constructors
