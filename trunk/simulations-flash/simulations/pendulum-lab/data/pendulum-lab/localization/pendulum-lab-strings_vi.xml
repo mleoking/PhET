@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--pendulum-lab-strings_vi.xml created Thu Sep 17 08:23:35 ICT 2009 using: pendulum-lab 2.00.00 (30671), translation-utility 2.02.00 (34911) thg 9 9, 2009-->
+<SimStrings>
+<string key="resetStopwatch" value="Reset"/>
+<string key="earth" value="Trái đất"/>
+<string key="showPhotoGateTimer" value="Đồng hồ"/>
+<string key="planetX" value="Hành tinh X:"/>
+<string key="acceleration" value="Gia tốc"/>
+<string key="showEnergyOf" value="Hiển thị năng lượng của:"/>
+<string key="PE" value="PE"/>
+<string key="velocity" value="Vận tốc"/>
+<string key="realTime" value="Thời gian thực"/>
+<string key="length" value="Chiều dài"/>
+<string key="lots" value="nhiều"/>
+<string key="friction" value="Ma sát"/>
+<string key="showSecondPendulum" value="Hiển thị con lắc thứ 2"/>
+<string key="start" value="Bắt đầu"/>
+<string key="mass_unit" value="kg"/>
+<string key="jupiter" value="Mộc Tinh"/>
+<string key="moon" value="Mặt Trăng"/>
+<string key="energyOf" value="Năng lượng của"/>
+<string key="period" value="Chu kỳ:"/>
+<string key="simStrings" value="Phòng thí nghiệm Con lắc đơn"/>
+<string key="noneFriction" value="0"/>
+<string key="total" value="Tổng"/>
+<string key="mass2" value="Khối lượng 2:"/>
+<string key="pendulum" value="Con lắc đơn"/>
+<string key="startPauseStopwatch" value="Bắt đầu/Ngừng"/>
+<string key="show" value="Hiển thị:"/>
+<string key="length2" value="Chiều dài  2:"/>
+<string key="photoGateTimer" value="Đồng hồ"/>
+<string key="thermal" value="Nhiệt"/>
+<string key="pausePlay" value="Ngừng/Hoạt động"/>
+<string key="reset" value="Reset"/>
+<string key="mass" value="Khối lượng"/>
+<string key="quarterTime" value="1/4 tg thực"/>
+<string key="KE" value="KE"/>
+<string key="gEqZero" value="g=0"/>
+<string key="length_unit" value="m"/>
+<string key="noneEnergy" value="0"/>
+<string key="otherTools" value="Dụng cụ khác"/>
+<string key="angleUnit" value="độ"/>
+<string key="paused" value="ngừng"/>
+<string key="sixteenthTime" value="1/16 tg thực"/>
+</SimStrings>
