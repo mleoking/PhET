@@ -43,10 +43,10 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
     
     private final ISimulation _simulation;
     private final Locale _targetLocale;
-    private final String _saveDirName;
+    private final String _submitDirName;
     
     private final TranslationPanel _translationPanel;
-    private File _currentDirectory;
+    private File _saveLoadDirectory;
     private FindDialog _findDialog;
     private String _previousFindText;
     
@@ -56,16 +56,16 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
      * @param simulation
      * @param sourceLocale
      * @param targetLocale
-     * @param saveDirName
+     * @param jarDirName directory where the sim JAR file resides
      */
-    public MainFrame( ISimulation simulation, Locale sourceLocale, Locale targetLocale, String saveDirName ) {
+    public MainFrame( ISimulation simulation, Locale sourceLocale, Locale targetLocale, String jarDirName ) {
         super( TUResources.getTitle() );
         
         _simulation = simulation;
         _targetLocale = targetLocale;
-        _saveDirName = saveDirName;
+        _submitDirName = jarDirName;  // save submitted files to the same dir as the sim JAR
         
-        _currentDirectory = null;
+        _saveLoadDirectory = new File( jarDirName ); // start save/load file chooser in same dir as the sim JAR
         _findDialog = null;
         _previousFindText = null;
         
@@ -163,11 +163,11 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
      * Opens a "save" file chooser that allows the user to save the current translations to a properties file.
      */
     public void handleSave() {
-        File defaultFile = new File( _currentDirectory, _simulation.getStringFileName( _targetLocale ) );
+        File defaultFile = new File( _saveLoadDirectory, _simulation.getStringFileName( _targetLocale ) );
         JFileChooser chooser = new JFileChooser();
         chooser.setSelectedFile( defaultFile );
         int option = chooser.showSaveDialog( this );
-        _currentDirectory = chooser.getCurrentDirectory();
+        _saveLoadDirectory = chooser.getCurrentDirectory();
         if ( option == JFileChooser.APPROVE_OPTION ) {
             File outFile = chooser.getSelectedFile();
             if ( outFile.getName().endsWith( _simulation.getStringFileSuffix() ) ) {
@@ -205,9 +205,9 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
      * The contents of that properties file are loaded into the target text fields.
      */
     public void handleLoad() {
-        JFileChooser chooser = new JFileChooser( _currentDirectory );
+        JFileChooser chooser = new JFileChooser( _saveLoadDirectory );
         int option = chooser.showOpenDialog( this );
-        _currentDirectory = chooser.getCurrentDirectory();
+        _saveLoadDirectory = chooser.getCurrentDirectory();
         if ( option == JFileChooser.APPROVE_OPTION ) {
             File inFile = chooser.getSelectedFile();
             Properties properties = null;
@@ -230,11 +230,9 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
         Properties properties = _translationPanel.getTargetProperties();
         
         // export properties to a file
-        String baseName = _simulation.getStringFileName( _targetLocale );
-        String fileName = _saveDirName + File.separatorChar + baseName;
-        File outFile = new File( fileName );
+        File outFile = new File( _submitDirName, _simulation.getStringFileName( _targetLocale ) );
         if ( outFile.exists() ) {
-            Object[] args = { fileName };
+            Object[] args = { outFile.getAbsolutePath() };
             String message = MessageFormat.format( CONFIRM_OVERWRITE_MESSAGE, args );
             int selection = JOptionPane.showConfirmDialog( this, message, CONFIRM_OVERWRITE_TITLE, JOptionPane.YES_NO_OPTION );
             if ( selection != JOptionPane.YES_OPTION ) {
@@ -253,7 +251,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
         // Use a JEditorPane so that it's possible to copy-paste the filename and email address.
         JEditorPane submitText = new JEditorPane();
         submitText.setEditorKit( new HTMLEditorKit() );
-        Object[] args = { fileName };
+        Object[] args = { outFile.getAbsolutePath() };
         String html = MessageFormat.format( SUBMIT_MESSAGE, args );
         submitText.setText( html );
         submitText.setEditable( false );
