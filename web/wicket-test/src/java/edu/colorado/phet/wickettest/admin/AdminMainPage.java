@@ -114,15 +114,6 @@ public class AdminMainPage extends AdminPage {
 
         add( new Link( "debug-action" ) {
             public void onClick() {
-//                TULocales locales = ( (WicketApplication) getApplication() ).getSupportedLocales();
-//                String[] names = locales.getSortedNames();
-//                for ( String name : names ) {
-//                    Locale locale = locales.getLocale( name );
-//                    String title = StringUtils.getLocaleTitle( locale, WicketApplication.getDefaultLocale(), (PhetLocalizer) getLocalizer() );
-//                    System.out.println( LocaleUtils.localeToString( locale ) + " old: " + title );
-//                    System.out.println( LocaleUtils.localeToString( locale ) + " new: " + name );
-//                    StringUtils.setEnglishString( getHibernateSession(), "language.names." + LocaleUtils.localeToString( locale ), name );
-//                }
 
                 final List<LocalizedSimulation> sims = new LinkedList<LocalizedSimulation>();
                 HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
