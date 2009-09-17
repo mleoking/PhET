@@ -78,9 +78,9 @@ public class JarUpdate {
 
                 // Loop through the jar entries and add them to the temp jar,
                 // skipping the entry that was added to the temp jar already.
-                for ( Enumeration entries = jar.entries(); entries.hasMoreElements(); ) {
+                for ( Enumeration<JarEntry> entries = jar.entries(); entries.hasMoreElements(); ) {
                     // Get the next entry.
-                    JarEntry entry = (JarEntry) entries.nextElement();
+                    JarEntry entry = entries.nextElement();
                     // If the entry has not been added already, add it.
                     if ( !entry.getName().equals( fileName ) ) {
                         // Get an input stream for the entry.

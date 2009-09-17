@@ -82,7 +82,7 @@ public class DocumentAdapter {
             document.appendChild( rootElement );
 
             // add all key-value pairs to the document
-            Enumeration keys = properties.propertyNames();
+            Enumeration<?> keys = properties.propertyNames();
             while ( keys.hasMoreElements() ) {
                 String key = (String) keys.nextElement();
                 String value = properties.getProperty( key );
