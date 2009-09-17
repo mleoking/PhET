@@ -24,19 +24,16 @@ public class TULocales implements Serializable {
 
     private static TULocales _singleton;
 
-    private HashMap _localeToNameMap; // Locale -> String
-    private HashMap _nameToLocaleMap; // String -> Locale
+    private HashMap<Locale, String> _localeToNameMap;
+    private HashMap<String, Locale> _nameToLocaleMap;
 
     /* singleton */
     public static TULocales getInstance() {
-        if ( _singleton == null ) {
-            _singleton = new TULocales();
-        }
-        return _singleton;
+        return getInstance( TUResources.getProperties( PROPERTIES_RESOURCE_NAME ) );
     }
 
-    // modified to accept a properties file from another location
-    // this makes it so we don't have to add a J2EE dependency to translation utility
+    // JO: modified to accept a properties file from another location
+    // this makes it so we don't have to add a J2EE dependency to Translation Utility.
     public static TULocales getInstance( Properties p ) {
         if ( _singleton == null ) {
             _singleton = new TULocales( p );
@@ -45,15 +42,9 @@ public class TULocales implements Serializable {
     }
 
     /* singleton */
-    private TULocales() {
-        _nameToLocaleMap = new HashMap();
-        _localeToNameMap = new HashMap();
-        loadCodes( TUResources.getProperties( PROPERTIES_RESOURCE_NAME ) );
-    }
-
     private TULocales( Properties p ) {
-        _nameToLocaleMap = new HashMap();
-        _localeToNameMap = new HashMap();
+        _nameToLocaleMap = new HashMap<String, Locale>();
+        _localeToNameMap = new HashMap<Locale, String>();
         loadCodes( p );
     }
 
@@ -102,7 +93,7 @@ public class TULocales implements Serializable {
     }
 
     public String[] getSortedNames() {
-        List list = new ArrayList( _nameToLocaleMap.keySet() );
+        List<String> list = new ArrayList<String>( _nameToLocaleMap.keySet() );
         Collections.sort( list );
         return (String[]) list.toArray( new String[list.size()] );
     }
