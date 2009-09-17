@@ -17,7 +17,7 @@ public class SodiumLeakageChannel extends AbstractMembraneChannel {
 	private static final double CHANNEL_HEIGHT = AxonMembrane.MEMBRANE_THICKNESS * 1.5; // In nanometers.
 	private static final double CHANNEL_WIDTH = AxonMembrane.MEMBRANE_THICKNESS * 0.75; // In nanometers.
 	
-	private static final double CAPTURE_DISTANCE = 4; // In nanometers.
+	private static final double CAPTURE_DISTANCE = 4.5; // In nanometers.
 	
     //----------------------------------------------------------------------------
     // Instance Data
@@ -126,4 +126,10 @@ public class SodiumLeakageChannel extends AbstractMembraneChannel {
 			atom.setVelocity(velocity * Math.cos(getRotationalAngle()), velocity * Math.sin(getRotationalAngle()));
 		}
 	}
+	
+	@Override
+	public MembraneChannelTypes getChannelType() {
+		return MembraneChannelTypes.SODIUM_LEAKAGE_CHANNEL;
+	}
+
 }
