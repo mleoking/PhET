@@ -15,9 +15,9 @@ import javax.swing.text.html.HTMLEditorKit;
 
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
+import edu.colorado.phet.common.phetcommon.util.PhetLocales;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.translationutility.TULocales;
 import edu.colorado.phet.translationutility.TUResources;
 import edu.colorado.phet.translationutility.util.FileChooserFactory;
 
@@ -307,7 +307,7 @@ public class InitializationDialog extends JDialog {
             Locale locale = getTargetLocale();
             if ( _localeComboBox.isCustomSelected() ) {
                 // if "custom" is selected, then the locale shouldn't be one of the standard codes
-                TULocales lc = TULocales.getInstance();
+                PhetLocales lc = PhetLocales.getInstance();
                 String name = lc.getName( locale );
                 if ( name != null ) {
                     error = true;

@@ -43,8 +43,8 @@ public class TUResources {
         return PhetCommonResources.getInstance().getImage( name );
     }
     
-    public static final Properties getProperties( String name ) {
-        return RESOURCES.getProperties( name );
+    public static final Properties getCommonProperties( String name ) {
+        return PhetCommonResources.getInstance().getProperties( name );
     }
     
     /**
