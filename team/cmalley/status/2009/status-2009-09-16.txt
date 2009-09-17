@@ -1,0 +1,49 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: September 10-16, 2009 (Thu-Wed)
+
+ACCOMPLISHMENTS:
+
+  translations:
+  - reviewed MPTL "Challenges and Solutions" paper
+  - revised MPTL "Technical Concerns" paper
+  - discussed i18n issues related to number formats
+  - identified issue that Khmer translator was having with Translation Utility "Save" feature, #1781
+  - Translation Utility enhancements to Save feature, #1781
+  
+  common:
+  - fixed Piccolo dependency in Developer menu, #1074
+  - removed duplicate Developer menu from quantum-tunneling, #1074
+  - deleted obsolete code from sims that was migrated to common, #1074
+  - discussed links to related sims with Sam, #1768
+  - discussed PhetApplication singleton issues with Sam, #1779
+  - investigated Flash right-to-left issues on Mac OS, #1783
+  - followed up on Mac OS JSpinner problem, #1785
+    
+  misc:
+  - migrated duplicate DoubleSpinner code from sims to common, #979
+  - discussed sim design process with Kelly
+  - followed up on Java Update 4 issue with Apple, #1689
+  - discussed KSU installer and ability to send statistics
+  - estimated faraday feature request, #1335
+  - reviewed recommendations of CHEM advisory board
+  - cleaned up changelog and TODO list for Acid Base Solutions, revisit in future
+  
+WHAT'S NEXT:
+
+  - Translation Utility enhancements related to KSU 
+  - migrate features to common code, #1074
+  - resolve polynomial root-finding issues in Titration model
+  - test new translation deployment process for JO
+  - finish Glaciers (waiting for Wendy's feedback)
+  
+ISSUES:
+
+  - I have no sim work.
+  
+DATES UNAVAILABLE:
+
+   October 15-27
+  
+--
