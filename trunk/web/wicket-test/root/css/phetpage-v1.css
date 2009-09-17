@@ -78,3 +78,43 @@ div.rtl #page-header-title {
 a:hover {
     cursor: hand;
 }
+
+.float-classic-left {
+    float: left;
+}
+
+div.rtl .flat-classic-left {
+    float: right;
+}
+
+.float-classic-right {
+    float: right;
+}
+
+div.rtl .flat-classic-right {
+    float: left;
+}
+
+.clear-classic {
+    clear: right;
+}
+
+div.rtl .clear-classic {
+    clear: left;
+}
+
+.text-left-classic {
+    text-align: left;
+}
+
+div.rtl .text-left-classic {
+    text-align: right;
+}
+
+.text-right-classic {
+    text-align: right;
+}
+
+div.rtl .text-right-classic {
+    text-align: left;
+}

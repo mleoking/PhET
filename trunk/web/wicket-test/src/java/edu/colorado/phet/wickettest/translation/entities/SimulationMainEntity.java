@@ -36,6 +36,8 @@ public class SimulationMainEntity extends TranslationEntity {
         addString( "macwarning.title" );
         addString( "macwarning.problem" );
         addString( "macwarning.solution" );
+        addString( "simulationDisplay.indexView" );
+        addString( "simulationDisplay.thumbnailView" );
         addPreview( new PhetPanelFactory() {
             public PhetPanel getNewPanel( String id, PageContext context, PhetRequestCycle requestCycle ) {
 

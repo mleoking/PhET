@@ -66,9 +66,9 @@ public abstract class PhetPage extends WebPage {
 
 
         System.out.println( "Loading " + this.getClass().getCanonicalName() + " with Locale: " + LocaleUtils.localeToString( myLocale ) );
-        System.out.println( "prefix of this page is: " + prefix );
-        System.out.println( "path of this page is: " + path );
-        System.out.println( "Session id is: " + wicketSession.getId() );
+        //System.out.println( "prefix of this page is: " + prefix );
+        //System.out.println( "path of this page is: " + path );
+        //System.out.println( "Session id is: " + wicketSession.getId() );
 
 //        for ( Object o : parameters.keySet() ) {
 //            System.out.println( "[" + o.toString() + "] = " + parameters.get( o ).toString() );
@@ -167,7 +167,7 @@ public abstract class PhetPage extends WebPage {
     protected void onBeforeRender() {
         super.onBeforeRender();
         renderStart = System.currentTimeMillis();
-        System.out.println( "Debug: page stateless = " + isPageStateless() );
+        //System.out.println( "Debug: page stateless = " + isPageStateless() );
         System.out.println( "Pre-render: " + ( renderStart - initStart ) + " ms" );
     }
 

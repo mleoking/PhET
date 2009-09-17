@@ -168,6 +168,18 @@ public class HibernateUtils {
         throw new RuntimeException( "WARNING: matches more than 2 simulations!" );
     }
 
+    private static final String[] ignoreWords = {"The", "La", "El"};
+
+    public static String getLeadingSimCharacter( String name, Locale locale ) {
+        String str = name;
+        for ( String ignoreWord : ignoreWords ) {
+            if ( str.startsWith( ignoreWord + " " ) ) {
+                str = str.substring( ignoreWord.length() + 1 );
+            }
+        }
+        return str.substring( 0, 1 ).toUpperCase( locale );
+    }
+
     /**
      * Sort a list of localized simulations for a particular locale. This means simulations will be sorted
      * first by the title in the locale parameter (if there is a title), then by locale.
@@ -221,7 +233,7 @@ public class HibernateUtils {
                 boolean bGlobal = bGlobalTitle != null;
 
                 if ( aGlobal && bGlobal ) {
-                    final String[] ignoreWords = {"The", "La", "El"};
+
                     for ( String ignoreWord : ignoreWords ) {
                         if ( aGlobalTitle.startsWith( ignoreWord + " " ) ) {
                             aGlobalTitle = aGlobalTitle.substring( ignoreWord.length() + 1 );
