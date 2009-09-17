@@ -13,7 +13,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Transaction;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
-import edu.colorado.phet.translationutility.TULocales;
+import edu.colorado.phet.common.phetcommon.util.PhetLocales;
 import edu.colorado.phet.wickettest.admin.AdminMainPage;
 import edu.colorado.phet.wickettest.authentication.PhetSession;
 import edu.colorado.phet.wickettest.content.*;
@@ -115,11 +115,11 @@ public class WicketApplication extends WebApplication {
 
     }
 
-    private TULocales supportedLocales = null;
+    private PhetLocales supportedLocales = null;
 
-    public TULocales getSupportedLocales() {
+    public PhetLocales getSupportedLocales() {
         if ( supportedLocales == null ) {
-            supportedLocales = TULocales.getInstance();
+            supportedLocales = PhetLocales.getInstance();
         }
         return supportedLocales;
     }

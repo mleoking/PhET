@@ -18,7 +18,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
-import edu.colorado.phet.translationutility.TULocales;
+import edu.colorado.phet.common.phetcommon.util.PhetLocales;
 import edu.colorado.phet.wickettest.WicketApplication;
 import edu.colorado.phet.wickettest.components.InvisibleComponent;
 import edu.colorado.phet.wickettest.content.IndexPage;
@@ -29,12 +29,12 @@ import edu.colorado.phet.wickettest.util.PageContext;
 public class TranslationMainPage extends TranslationPage {
 
     private LocaleModel selectedLocaleModel;
-    private TULocales tuLocales;
+    private PhetLocales phetLocales;
 
     public TranslationMainPage( PageParameters parameters ) {
         super( parameters );
 
-        tuLocales = ( (WicketApplication) getApplication() ).getSupportedLocales();
+        phetLocales = ( (WicketApplication) getApplication() ).getSupportedLocales();
 
         Form createTranslationForm = new CreateTranslationForm();
 
@@ -49,8 +49,8 @@ public class TranslationMainPage extends TranslationPage {
 //            }
 //        } );
 
-        for ( String name : tuLocales.getSortedNames() ) {
-            Locale locale = tuLocales.getLocale( name );
+        for ( String name : phetLocales.getSortedNames() ) {
+            Locale locale = phetLocales.getLocale( name );
             models.add( new LocaleModel( locale, name ) );
         }
 
@@ -205,7 +205,7 @@ public class TranslationMainPage extends TranslationPage {
         protected void populateItem( ListItem item ) {
             final Translation translation = (Translation) item.getModel().getObject();
             item.add( new Label( "id", String.valueOf( translation.getId() ) ) );
-            item.add( new Label( "locale", tuLocales.getName( translation.getLocale() ) + " (" + LocaleUtils.localeToString( translation.getLocale() ) + ")" ) );
+            item.add( new Label( "locale", phetLocales.getName( translation.getLocale() ) + " (" + LocaleUtils.localeToString( translation.getLocale() ) + ")" ) );
             item.add( new Label( "num-strings", String.valueOf( sizes.get( translation ) ) ) );
             Label visibleLabel = new Label( "visible-label", String.valueOf( translation.isVisible() ) );
             if ( translation.isVisible() ) {
