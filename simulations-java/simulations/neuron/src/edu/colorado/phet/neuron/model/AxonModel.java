@@ -151,7 +151,9 @@ public class AxonModel {
     	}
     	
     	for (AbstractMembraneChannel channel : channels){
+    		channel.stepInTime(clockEvent.getSimulationTimeChange());
     		channel.checkTakeControlAtoms(atoms);
+    		channel.checkReleaseControlAtoms(atoms);
     	}
     }
     
