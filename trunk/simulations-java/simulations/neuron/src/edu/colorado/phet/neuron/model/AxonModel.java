@@ -108,6 +108,9 @@ public class AxonModel {
         addChannel(MembraneChannelTypes.SODIUM_LEAKAGE_CHANNEL);
         addChannel(MembraneChannelTypes.SODIUM_LEAKAGE_CHANNEL);
         addChannel(MembraneChannelTypes.SODIUM_LEAKAGE_CHANNEL);
+        addChannel(MembraneChannelTypes.POTASSIUM_LEAKAGE_CHANNEL);
+        addChannel(MembraneChannelTypes.POTASSIUM_LEAKAGE_CHANNEL);
+        addChannel(MembraneChannelTypes.POTASSIUM_LEAKAGE_CHANNEL);
     }
     
     //----------------------------------------------------------------------------
@@ -222,7 +225,7 @@ public class AxonModel {
     		break;
     		
     	case POTASSIUM_LEAKAGE_CHANNEL:
-    		// TODO.
+    		membraneChannel = new PotassiumLeakageChannel();
     		break;
     	}
     	
