@@ -2,11 +2,11 @@ package edu.colorado.phet.motionseries.graphics
 
 import java.awt.Dimension
 import java.awt.event.{MouseAdapter, MouseEvent}
-import model.{Bead}
-import umd.cs.piccolo.PNode
+import edu.colorado.phet.motionseries.model.{Bead}
+import edu.umd.cs.piccolo.PNode
 import swing.ScalaValueControl
-import umd.cs.piccolox.pswing.PSwing
-import motionseries.MotionSeriesResources._
+import edu.umd.cs.piccolox.pswing.PSwing
+import edu.colorado.phet.motionseries.MotionSeriesResources._
 
 class AppliedForceSlider(getter: () => Double,
                          setter: Double => Unit,

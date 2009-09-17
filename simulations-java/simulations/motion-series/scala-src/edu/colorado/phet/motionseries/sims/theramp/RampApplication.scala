@@ -2,18 +2,18 @@ package edu.colorado.phet.motionseries.sims.theramp
 
 import charts.bargraphs.{WorkEnergyChartModel, WorkEnergyChart}
 import java.awt.geom.Rectangle2D
-import phet.common.phetcommon.application.{Module, PhetApplicationConfig}
-import phet.common.piccolophet.{PiccoloPhetApplication}
-import graphics.RampCanvas
+import edu.colorado.phet.common.phetcommon.application.{Module, PhetApplicationConfig}
+import edu.colorado.phet.common.piccolophet.{PiccoloPhetApplication}
+import edu.colorado.phet.motionseries.graphics.RampCanvas
 import java.awt.event.{ActionEvent, ActionListener}
 import java.awt.{Color}
 import javax.swing._
-import model._
+import edu.colorado.phet.motionseries.model._
 import controls.RampControlPanel
 import robotmovingcompany.{RobotMovingCompanyModule, RobotMovingCompanyGameModel, Result, RobotMovingCompanyCanvas}
-import scalacommon.record.{RecordModelControlPanel, PlaybackSpeedSlider}
+import edu.colorado.phet.scalacommon.record.{RecordModelControlPanel, PlaybackSpeedSlider}
 
-import scalacommon.ScalaClock
+import edu.colorado.phet.scalacommon.ScalaClock
 
 trait StageContainerArea{
   def getBounds(w:Double,h:Double):Rectangle2D
@@ -40,7 +40,7 @@ class BasicRampModule(frame: JFrame,
   setClockControlPanel(new RecordModelControlPanel(motionSeriesModel, rampCanvas, () => new PlaybackSpeedSlider(motionSeriesModel), Color.blue, 20))
 }
 
-import motionseries.MotionSeriesResources._
+import edu.colorado.phet.motionseries.MotionSeriesResources._
 
 class IntroRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "module.introduction".translate, false, false, true, -6, false, MotionSeriesDefaults.defaultRampAngle, MotionSeriesDefaults.defaultViewport,MotionSeriesDefaults.fullScreenArea)
 

@@ -1,8 +1,8 @@
 package edu.colorado.phet.motionseries.sims.movingman
 
 import charts._
-import graphics.MotionSeriesCanvas
-import model.MotionSeriesModel
+import edu.colorado.phet.motionseries.graphics.MotionSeriesCanvas
+import edu.colorado.phet.motionseries.model.MotionSeriesModel
 
 class MovingManChartNode(canvas: MotionSeriesCanvas, model: MotionSeriesModel) extends MotionSeriesChartNode(canvas, model) {
   init(Graph("position", positionGraph, false) ::

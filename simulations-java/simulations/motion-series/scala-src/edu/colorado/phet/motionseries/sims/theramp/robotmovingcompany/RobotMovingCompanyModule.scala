@@ -1,9 +1,9 @@
 package edu.colorado.phet.motionseries.sims.theramp.robotmovingcompany
 
 import javax.swing.JFrame
-import model.MotionSeriesModel
-import scalacommon.ScalaClock
-import motionseries.Predef._
+import edu.colorado.phet.motionseries.model.MotionSeriesModel
+import edu.colorado.phet.scalacommon.ScalaClock
+import edu.colorado.phet.motionseries.Predef._
 
 class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock)
         extends MotionSeriesModule(frame, clock, "module.robotMovingCompany".translate, 5, false, MotionSeriesDefaults.defaultRampAngle) {

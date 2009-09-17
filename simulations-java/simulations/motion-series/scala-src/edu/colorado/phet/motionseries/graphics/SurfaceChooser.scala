@@ -3,13 +3,13 @@ package edu.colorado.phet.motionseries.graphics
 
 import java.awt.{Color}
 import javax.swing._
-import model.SurfaceModel
-import scalacommon.swing.MyRadioButton
-import motionseries.MotionSeriesResources
-import motionseries.MotionSeriesDefaults
+import edu.colorado.phet.motionseries.model.SurfaceModel
+import edu.colorado.phet.scalacommon.swing.MyRadioButton
+import edu.colorado.phet.motionseries.MotionSeriesResources
+import edu.colorado.phet.motionseries.MotionSeriesDefaults
 
-import umd.cs.piccolo.PNode
-import umd.cs.piccolox.pswing.PSwing
+import edu.umd.cs.piccolo.PNode
+import edu.umd.cs.piccolox.pswing.PSwing
 
 class SurfaceChooser(surfaceModel: SurfaceModel) extends PNode {
   val panel = new JPanel

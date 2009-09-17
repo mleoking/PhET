@@ -1,11 +1,11 @@
 package edu.colorado.phet.motionseries.graphics
 
-import phet.common.phetcommon.view.graphics.transforms.{TransformListener, ModelViewTransform2D}
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.{TransformListener, ModelViewTransform2D}
 import java.awt.geom.{Area, Rectangle2D}
 import java.awt.{Paint, Shape, GradientPaint, Color}
-import motionseries.MotionSeriesDefaults
-import umd.cs.piccolo.PNode
-import phet.common.piccolophet.nodes.PhetPPath
+import edu.colorado.phet.motionseries.MotionSeriesDefaults
+import edu.umd.cs.piccolo.PNode
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
 
 class AbstractBackgroundNode(getPaint: => Paint, getModelShape: => Shape, transform: ModelViewTransform2D) extends PNode {
   val node = new PhetPPath(getPaint)

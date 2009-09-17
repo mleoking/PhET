@@ -1,15 +1,15 @@
 package edu.colorado.phet.motionseries.sims.forcesandmotion
 
-import phet.common.phetcommon.view.controls.valuecontrol.{HorizontalLayoutStrategy, AbstractValueControl}
-import phet.common.phetcommon.view.VerticalLayoutPanel
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.{HorizontalLayoutStrategy, AbstractValueControl}
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel
 import java.awt.image.BufferedImage
 import java.util.Hashtable
 import javax.swing._
-import model.Bead
-import motionseries.MotionSeriesResources
-import motionseries.MotionSeriesResources._
+import edu.colorado.phet.motionseries.model.Bead
+import edu.colorado.phet.motionseries.MotionSeriesResources
+import edu.colorado.phet.motionseries.MotionSeriesResources._
 import swing.ScalaValueControl
-import motionseries.MotionSeriesDefaults._
+import edu.colorado.phet.motionseries.MotionSeriesDefaults._
 
 class MyValueControl(min: Double, max: Double, getter: () => Double, setter: Double => Unit, title: String, numberFormat: String, units: String, bead: Bead)
         extends ScalaValueControl(min, max, title, numberFormat, units, getter, setter, bead.addListener, new HorizontalLayoutStrategy) {

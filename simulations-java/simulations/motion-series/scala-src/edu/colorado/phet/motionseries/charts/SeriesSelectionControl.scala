@@ -1,14 +1,14 @@
 package edu.colorado.phet.motionseries.charts
 
-import phet.common.motion.graphs.ControlGraphSeries
+import edu.colorado.phet.common.motion.graphs.ControlGraphSeries
 import java.awt._
 import javax.swing._
-import phet.common.phetcommon.view.VerticalLayoutPanel
-import phet.common.phetcommon.view.util.PhetFont
-import phet.common.motion.model.ITemporalVariable
-import phet.common.phetcommon.util.DefaultDecimalFormat
-import motionseries.MotionSeriesResources._
-import motionseries.MotionSeriesDefaults._
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont
+import edu.colorado.phet.common.motion.model.ITemporalVariable
+import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat
+import edu.colorado.phet.motionseries.MotionSeriesResources._
+import edu.colorado.phet.motionseries.MotionSeriesDefaults._
 
 import swing.{MyJCheckBox}
 

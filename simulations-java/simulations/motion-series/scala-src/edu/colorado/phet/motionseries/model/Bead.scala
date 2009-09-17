@@ -1,12 +1,12 @@
 package edu.colorado.phet.motionseries.model
 
 import collection.mutable.ArrayBuffer
-import common.motion.model.TimeData
-import common.motion.MotionMath
-import scalacommon.math.Vector2D
-import scalacommon.util.Observable
-import motionseries.MotionSeriesDefaults
-import motionseries.Predef._
+import edu.colorado.phet.common.motion.model.TimeData
+import edu.colorado.phet.common.motion.MotionMath
+import edu.colorado.phet.scalacommon.math.Vector2D
+import edu.colorado.phet.scalacommon.util.Observable
+import edu.colorado.phet.motionseries.MotionSeriesDefaults
+import edu.colorado.phet.motionseries.Predef._
 
 /**Immutable memento for recording*/
 case class BeadState(position: Double, velocity: Double, mass: Double, staticFriction: Double, kineticFriction: Double, thermalEnergy: Double, crashEnergy: Double, time: Double) {

@@ -1,8 +1,8 @@
 package edu.colorado.phet.motionseries.model
 
-import scalacommon.util.Observable
-import motionseries.MotionSeriesResources
-import motionseries.MotionSeriesResources._
+import edu.colorado.phet.scalacommon.util.Observable
+import edu.colorado.phet.motionseries.MotionSeriesResources
+import edu.colorado.phet.motionseries.MotionSeriesResources._
 
 //immutable memento for recording
 case class MotionSeriesObjectState(name: String, mass: Double, kinFric: Double, statFric: Double, height: Double,

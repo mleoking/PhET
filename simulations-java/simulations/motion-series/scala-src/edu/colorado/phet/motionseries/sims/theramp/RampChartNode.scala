@@ -1,9 +1,9 @@
 package edu.colorado.phet.motionseries.sims.theramp
 
 import charts.{Graph, MotionSeriesChartNode}
-import graphics.MotionSeriesCanvas
-import model.{MotionSeriesModel}
-import motionseries.MotionSeriesResources._
+import edu.colorado.phet.motionseries.graphics.MotionSeriesCanvas
+import edu.colorado.phet.motionseries.model.{MotionSeriesModel}
+import edu.colorado.phet.motionseries.MotionSeriesResources._
 
 class RampForceEnergyChartNode(canvas: MotionSeriesCanvas, model: MotionSeriesModel) extends MotionSeriesChartNode(canvas, model) {
   init(Graph("forces.parallel-title".translate, forceGraph, false) ::

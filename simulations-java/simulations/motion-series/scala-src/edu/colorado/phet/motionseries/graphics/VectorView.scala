@@ -1,9 +1,9 @@
 package edu.colorado.phet.motionseries.graphics
 
-import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
-import model._
-import scalacommon.math.Vector2D
-import umd.cs.piccolo.PNode
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
+import edu.colorado.phet.motionseries.model._
+import edu.colorado.phet.scalacommon.math.Vector2D
+import edu.umd.cs.piccolo.PNode
 
 class VectorView(bead: Bead,
                  vectorViewModel: VectorViewModel,

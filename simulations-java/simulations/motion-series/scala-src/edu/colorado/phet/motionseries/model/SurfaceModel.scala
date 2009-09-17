@@ -1,8 +1,8 @@
 package edu.colorado.phet.motionseries.model
 
-import motionseries.MotionSeriesResources._
+import edu.colorado.phet.motionseries.MotionSeriesResources._
 import java.awt.Color
-import scalacommon.util.Observable
+import edu.colorado.phet.scalacommon.util.Observable
 
 case class SurfaceType(name: String, imageFilename: String, strategy: Double => Double, color: Color) extends SurfaceFrictionStrategy {
   def getTotalFriction(objectFriction: Double) = strategy(objectFriction)

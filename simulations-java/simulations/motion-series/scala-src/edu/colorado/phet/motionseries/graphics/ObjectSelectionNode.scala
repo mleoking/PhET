@@ -1,27 +1,27 @@
 package edu.colorado.phet.motionseries.graphics
 
 import java.awt.geom.{Point2D, Rectangle2D}
-import model.{MutableMotionSeriesObject, MotionSeriesObject}
+import edu.colorado.phet.motionseries.model.{MutableMotionSeriesObject, MotionSeriesObject}
 import collection.mutable.ArrayBuffer
-import phet.common.phetcommon.view.util.{BufferedImageUtils, PhetFont}
-import phet.common.phetcommon.view.VerticalLayoutPanel
-import phet.common.piccolophet.event.CursorHandler
-import phet.common.piccolophet.nodes.{HTMLNode, ToolTipNode, PhetPPath}
+import edu.colorado.phet.common.phetcommon.view.util.{BufferedImageUtils, PhetFont}
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel
+import edu.colorado.phet.common.piccolophet.event.CursorHandler
+import edu.colorado.phet.common.piccolophet.nodes.{HTMLNode, ToolTipNode, PhetPPath}
 import java.awt.{BasicStroke, Color}
 import javax.swing.{Timer}
-import scalacommon.util.Observable
-import motionseries.MotionSeriesDefaults
+import edu.colorado.phet.scalacommon.util.Observable
+import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import swing.ScalaValueControl
-import motionseries.MotionSeriesResources
-import umd.cs.piccolo.util.{PBounds, PDimension}
-import umd.cs.piccolox.nodes.PClip
-import umd.cs.piccolox.pswing.PSwing
-import umd.cs.piccolo.PNode
-import umd.cs.piccolo.nodes.{PImage}
-import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
+import edu.colorado.phet.motionseries.MotionSeriesResources
+import edu.umd.cs.piccolo.util.{PBounds, PDimension}
+import edu.umd.cs.piccolox.nodes.PClip
+import edu.umd.cs.piccolox.pswing.PSwing
+import edu.umd.cs.piccolo.PNode
+import edu.umd.cs.piccolo.nodes.{PImage}
+import edu.umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
 import edu.colorado.phet.scalacommon.Predef._
 import java.lang.Math._
-import motionseries.Predef._
+import edu.colorado.phet.motionseries.Predef._
 
 trait ObjectModel {
   def selectedObject: MotionSeriesObject

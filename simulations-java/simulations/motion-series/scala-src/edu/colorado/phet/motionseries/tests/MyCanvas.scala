@@ -1,15 +1,15 @@
 package edu.colorado.phet.motionseries.tests
 
-import common.phetcommon.view.graphics.transforms.{TransformListener, ModelViewTransform2D}
-import common.piccolophet.nodes.PhetPPath
-import common.piccolophet.PhetPCanvas
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.{TransformListener, ModelViewTransform2D}
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
+import edu.colorado.phet.common.piccolophet.PhetPCanvas
 import java.awt.event._
 import java.awt.geom.{Rectangle2D}
 import java.awt.{Color, BasicStroke}
-import scalacommon.util.Observable
-import umd.cs.piccolo.nodes.PText
-import umd.cs.piccolo.PNode
-import umd.cs.piccolo.util.PDimension
+import edu.colorado.phet.scalacommon.util.Observable
+import edu.umd.cs.piccolo.nodes.PText
+import edu.umd.cs.piccolo.PNode
+import edu.umd.cs.piccolo.util.PDimension
 
 trait StageContainer {
   def containerBounds: Rectangle2D

@@ -1,16 +1,16 @@
 package edu.colorado.phet.motionseries.graphics
 
-import phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
-import motionseries.MotionSeriesDefaults
-import umd.cs.piccolo.PNode
-import phet.common.piccolophet.nodes.PhetPPath
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
+import edu.colorado.phet.motionseries.MotionSeriesDefaults
+import edu.umd.cs.piccolo.PNode
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
 import java.awt.{BasicStroke, Color}
 
-import umd.cs.piccolo.nodes.PText
+import edu.umd.cs.piccolo.nodes.PText
 import java.awt.geom.Arc2D
 import java.text.DecimalFormat
 import edu.colorado.phet.scalacommon.Predef._
-import motionseries.MotionSeriesResources._
+import edu.colorado.phet.motionseries.MotionSeriesResources._
 
 //todo: consider coalescing with RampHeightIndicator
 class RampAngleIndicator(rampSegment: Rotatable, transform: ModelViewTransform2D) extends PNode {

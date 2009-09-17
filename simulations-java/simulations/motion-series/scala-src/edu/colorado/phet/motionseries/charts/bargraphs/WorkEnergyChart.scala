@@ -1,19 +1,19 @@
 package edu.colorado.phet.motionseries.charts.bargraphs
 
-import phet.common.phetcommon.view.util.SwingUtils
-import phet.common.piccolophet.nodes.barchart.BarChartNode
-import phet.common.piccolophet.nodes.ZoomControlNode
-import phet.common.piccolophet.PhetPCanvas
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils
+import edu.colorado.phet.common.piccolophet.nodes.barchart.BarChartNode
+import edu.colorado.phet.common.piccolophet.nodes.ZoomControlNode
+import edu.colorado.phet.common.piccolophet.PhetPCanvas
 import java.awt.Color
 import java.awt.event.{ComponentEvent, ComponentAdapter, WindowEvent, WindowAdapter}
 import javax.swing.{JDialog, JFrame}
-import scalacommon.swing.MyJButton
-import motionseries.MotionSeriesDefaults
+import edu.colorado.phet.scalacommon.swing.MyJButton
+import edu.colorado.phet.motionseries.MotionSeriesDefaults
 
-import umd.cs.piccolox.pswing.PSwing
-import scalacommon.util.Observable
-import model.MotionSeriesModel
-import motionseries.MotionSeriesResources._
+import edu.umd.cs.piccolox.pswing.PSwing
+import edu.colorado.phet.scalacommon.util.Observable
+import edu.colorado.phet.motionseries.model.MotionSeriesModel
+import edu.colorado.phet.motionseries.MotionSeriesResources._
 
 class WorkEnergyChartModel extends Observable {
   private var defaultVisible = false

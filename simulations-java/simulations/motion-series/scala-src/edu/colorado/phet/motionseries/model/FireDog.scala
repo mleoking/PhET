@@ -1,8 +1,8 @@
 package edu.colorado.phet.motionseries.model
 
 import collection.mutable.ArrayBuffer
-import phet.common.phetcommon.math.MathUtil
-import scalacommon.math.Vector2D
+import edu.colorado.phet.common.phetcommon.math.MathUtil
+import edu.colorado.phet.scalacommon.math.Vector2D
 import java.lang.Math._
 
 class FireDog(rampModel: MotionSeriesModel) {
@@ -52,7 +52,7 @@ class Raindrop(p: Vector2D, rainSpeed: Double, angle: Double, rampModel: MotionS
       case _ => false
     }
     val newPosition = rainbead.position2D
-    import scalacommon.Predef._
+    import edu.colorado.phet.scalacommon.Predef._
     val intersection = MathUtil.getLineSegmentsIntersection(origPosition, newPosition, rampModel.rampSegments(1).startPoint, rampModel.rampSegments(1).endPoint)
     val hitRamp = if (java.lang.Double.isNaN(intersection.x) || java.lang.Double.isNaN(intersection.y)) false else true
     if (hitRamp || didCrash) {

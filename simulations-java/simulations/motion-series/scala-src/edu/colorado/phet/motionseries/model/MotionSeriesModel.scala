@@ -2,14 +2,14 @@ package edu.colorado.phet.motionseries.model
 
 
 import collection.mutable.ArrayBuffer
-import graphics.{RampSurfaceModel, ObjectModel}
-import phet.common.phetcommon.math.Function.LinearFunction
-import scalacommon.math.Vector2D
+import edu.colorado.phet.motionseries.graphics.{RampSurfaceModel, ObjectModel}
+import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction
+import edu.colorado.phet.scalacommon.math.Vector2D
 import java.awt.geom.Point2D
-import scalacommon.record.{DataPoint, RecordModel}
-import scalacommon.util.Observable
+import edu.colorado.phet.scalacommon.record.{DataPoint, RecordModel}
+import edu.colorado.phet.scalacommon.util.Observable
 import java.lang.Math._
-import motionseries.MotionSeriesDefaults
+import edu.colorado.phet.motionseries.MotionSeriesDefaults
 
 class WordModel extends Observable {
   private var _physicsWords = true

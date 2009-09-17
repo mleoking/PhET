@@ -1,12 +1,12 @@
 package edu.colorado.phet.motionseries.sims.forcesandmotion
 
-import phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl
 import java.awt.Dimension
 import java.util.Hashtable
 import javax.swing._
-import model.SurfaceModel
-import phet.motionseries.{MotionSeriesResources}
-import motionseries.MotionSeriesResources._
+import edu.colorado.phet.motionseries.model.SurfaceModel
+import edu.colorado.phet.motionseries.{MotionSeriesResources}
+import edu.colorado.phet.motionseries.MotionSeriesResources._
 
 class SurfaceControlPanel extends JPanel {
   add(new JLabel("controls.no-friction".translate))

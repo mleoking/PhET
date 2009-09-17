@@ -1,12 +1,12 @@
 package edu.colorado.phet.motionseries.graphics
 
-import phet.common.phetcommon.resources.PhetCommonResources
-import motionseries.MotionSeriesResources._
-import model.MotionSeriesModel
-import umd.cs.piccolo.nodes.PImage
-import phet.common.piccolophet.event.CursorHandler
-import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
-import scalacommon.Predef._
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources
+import edu.colorado.phet.motionseries.MotionSeriesResources._
+import edu.colorado.phet.motionseries.model.MotionSeriesModel
+import edu.umd.cs.piccolo.nodes.PImage
+import edu.colorado.phet.common.piccolophet.event.CursorHandler
+import edu.umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
+import edu.colorado.phet.scalacommon.Predef._
 
 trait CloseButton extends BeadNode {
   val closeButton = new PImage(PhetCommonResources.getImage("buttons/closeButton.png".literal))

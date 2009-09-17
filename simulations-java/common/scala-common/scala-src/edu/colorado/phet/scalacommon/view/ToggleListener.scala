@@ -1,6 +1,6 @@
 package edu.colorado.phet.scalacommon.view
 
-import umd.cs.piccolo.event.{PInputEventListener, PInputEvent}
+import edu.umd.cs.piccolo.event.{PInputEventListener, PInputEvent}
 
 //decorator
 class ToggleListener(listener: PInputEventListener, isInteractive: () => Boolean) extends PInputEventListener {

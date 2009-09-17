@@ -9,12 +9,12 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas
 import java.awt.event.{ComponentAdapter, ComponentEvent}
 
 import java.awt.geom.{Line2D}
-import umd.cs.piccolo.nodes.{PImage}
-import umd.cs.piccolo.PNode
+import edu.umd.cs.piccolo.nodes.{PImage}
+import edu.umd.cs.piccolo.PNode
 import edu.colorado.phet.scalacommon.Predef._
 
 
-import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
+import edu.umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
 
 class Timeline[T](model: RecordModel[T], canvas: PhetPCanvas, timelineColor: Color, maxTime: Double) extends PNode {
   val pathOffsetY = 4

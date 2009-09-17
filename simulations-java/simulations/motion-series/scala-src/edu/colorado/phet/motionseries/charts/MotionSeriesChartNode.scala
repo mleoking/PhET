@@ -1,13 +1,13 @@
 package edu.colorado.phet.motionseries.charts
 
 import charts.{SeriesControlTitleLabel, AbstractChartNode, SeriesSelectionControl, MotionSeriesGraph}
-import graphics.MotionSeriesCanvas
-import model.MotionSeriesModel
-import phet.common.motion.model.DefaultTemporalVariable
-import phet.common.motion.graphs._
-import motionseries.MotionSeriesResources._
-import motionseries.MotionSeriesDefaults
-import motionseries.MotionSeriesDefaults._
+import edu.colorado.phet.motionseries.graphics.MotionSeriesCanvas
+import edu.colorado.phet.motionseries.model.MotionSeriesModel
+import edu.colorado.phet.common.motion.model.DefaultTemporalVariable
+import edu.colorado.phet.common.motion.graphs._
+import edu.colorado.phet.motionseries.MotionSeriesResources._
+import edu.colorado.phet.motionseries.MotionSeriesDefaults
+import edu.colorado.phet.motionseries.MotionSeriesDefaults._
 
 //This adds information about charts and chart serieses
 abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSeriesModel)

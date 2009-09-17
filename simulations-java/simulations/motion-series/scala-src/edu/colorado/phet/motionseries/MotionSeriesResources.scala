@@ -1,6 +1,6 @@
 package edu.colorado.phet.motionseries
 
-import phet.common.phetcommon.resources.PhetResources
+import edu.colorado.phet.common.phetcommon.resources.PhetResources
 import java.text.MessageFormat
 
 object Predef {

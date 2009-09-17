@@ -1,23 +1,23 @@
 package edu.colorado.phet.motionseries.charts
 
-import graphics.MotionSeriesCanvas
+import edu.colorado.phet.motionseries.graphics.MotionSeriesCanvas
 import java.awt.event._
-import phet.common.phetcommon.util.DefaultDecimalFormat
-import phet.common.phetcommon.view.util.{PhetFont}
-import phet.common.motion.graphs._
-import phet.common.motion.model._
-import phet.common.phetcommon.model.clock.ConstantDtClock
-import phet.common.piccolophet.nodes.{ShadowHTMLNode}
-import phet.common.piccolophet.{PhetPCanvas}
-import phet.common.timeseries.model.{RecordableModel, TimeSeriesModel}
+import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat
+import edu.colorado.phet.common.phetcommon.view.util.{PhetFont}
+import edu.colorado.phet.common.motion.graphs._
+import edu.colorado.phet.common.motion.model._
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock
+import edu.colorado.phet.common.piccolophet.nodes.{ShadowHTMLNode}
+import edu.colorado.phet.common.piccolophet.{PhetPCanvas}
+import edu.colorado.phet.common.timeseries.model.{RecordableModel, TimeSeriesModel}
 import java.awt.{FlowLayout, Color}
 import javax.swing.{JTextField, JPanel, JLabel}
-import model.{MotionSeriesModel}
-import motionseries.MotionSeriesDefaults
+import edu.colorado.phet.motionseries.model.{MotionSeriesModel}
+import edu.colorado.phet.motionseries.MotionSeriesDefaults
 
-import umd.cs.piccolo.PNode
-import scalacommon.math.Vector2D
-import motionseries.MotionSeriesResources._
+import edu.umd.cs.piccolo.PNode
+import edu.colorado.phet.scalacommon.math.Vector2D
+import edu.colorado.phet.motionseries.MotionSeriesResources._
 
 case class Graph(title: String, graph: MotionControlGraph, minimized: Boolean)
 
@@ -75,7 +75,7 @@ abstract class AbstractChartNode(canvas: MotionSeriesCanvas, model: MotionSeries
   val updateableObject = new UpdateableObject {
     def setUpdateStrategy(updateStrategy: UpdateStrategy) = {}
   }
-  import motionseries.MotionSeriesResources._
+  import edu.colorado.phet.motionseries.MotionSeriesResources._
   val N = "units.abbr.newtons".translate
   val J = "units.abbr.joules".translate
   val characterUnused = "".literal

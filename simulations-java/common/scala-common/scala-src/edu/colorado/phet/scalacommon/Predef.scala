@@ -2,10 +2,10 @@ package edu.colorado.phet.scalacommon
 
 import java.awt.event.{ActionEvent, ActionListener}
 import javax.swing.JButton
-import scalacommon.math.Vector2D
+import edu.colorado.phet.scalacommon.math.Vector2D
 import scala.swing.Component
 import java.awt.geom.Point2D
-import umd.cs.piccolo.util.PDimension
+import edu.umd.cs.piccolo.util.PDimension
 import view.MyButton
 
 object Predef {

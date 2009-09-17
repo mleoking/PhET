@@ -1,15 +1,15 @@
 package edu.colorado.phet.motionseries.graphics
 
 
-import phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
-import phet.common.phetcommon.view.util.PhetFont
-import phet.common.piccolophet.nodes.PhetPPath
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
 import java.awt.Color
 import java.awt.geom.{Rectangle2D, Point2D}
 import java.text.DecimalFormat
-import umd.cs.piccolo.nodes.PText
-import umd.cs.piccolo.PNode
-import motionseries.MotionSeriesResources._
+import edu.umd.cs.piccolo.nodes.PText
+import edu.umd.cs.piccolo.PNode
+import edu.colorado.phet.motionseries.MotionSeriesResources._
 
 class TickMarkSet(transform: ModelViewTransform2D, positionMapper: Double => Point2D, addListener: (() => Unit) => Unit) extends PNode {
   for (x <- -10 to 10 by 2) {

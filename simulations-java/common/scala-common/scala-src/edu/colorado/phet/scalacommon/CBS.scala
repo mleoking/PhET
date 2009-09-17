@@ -1,11 +1,11 @@
 package edu.colorado.phet.scalacommon
 
-import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
-import common.piccolophet.PhetPCanvas
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
+import edu.colorado.phet.common.piccolophet.PhetPCanvas
 import java.awt.Rectangle
 import javax.swing.JComponent
 import java.awt.geom.{AffineTransform, Rectangle2D}
-import umd.cs.piccolo.util.PDimension
+import edu.umd.cs.piccolo.util.PDimension
 
 //Trying a shorter name to see if it helps resolve this issue:
 //http://lampsvn.epfl.ch/trac/scala/ticket/735

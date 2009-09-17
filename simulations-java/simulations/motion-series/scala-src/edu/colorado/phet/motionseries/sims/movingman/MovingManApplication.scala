@@ -1,16 +1,16 @@
 package edu.colorado.phet.motionseries.sims.movingman
 
-import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
-import model._
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
+import edu.colorado.phet.motionseries.model._
 import java.awt.geom.Rectangle2D
-import phet.common.phetcommon.application.{PhetApplicationConfig, PhetApplicationLauncher}
-import phet.common.piccolophet.PiccoloPhetApplication
-import graphics._
+import edu.colorado.phet.common.phetcommon.application.{PhetApplicationConfig, PhetApplicationLauncher}
+import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication
+import edu.colorado.phet.motionseries.graphics._
 import java.awt.Color
-import scalacommon.record.{RecordModelControlPanel, PlaybackSpeedSlider}
+import edu.colorado.phet.scalacommon.record.{RecordModelControlPanel, PlaybackSpeedSlider}
 import javax.swing.JFrame
-import scalacommon.ScalaClock
-import motionseries.MotionSeriesResources._
+import edu.colorado.phet.scalacommon.ScalaClock
+import edu.colorado.phet.motionseries.MotionSeriesResources._
 import theramp.StageContainerArea
 
 class BasicMovingManModule(frame: JFrame,
