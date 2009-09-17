@@ -17,7 +17,7 @@ public class PotassiumLeakageChannel extends AbstractMembraneChannel {
 	private static final double CHANNEL_HEIGHT = AxonMembrane.MEMBRANE_THICKNESS * 1.5; // In nanometers.
 	private static final double CHANNEL_WIDTH = AxonMembrane.MEMBRANE_THICKNESS * 0.75; // In nanometers.
 	
-	private static final double CAPTURE_DISTANCE = 4; // In nanometers.
+	private static final double CAPTURE_DISTANCE = 4.5; // In nanometers.
 	
     //----------------------------------------------------------------------------
     // Instance Data
@@ -125,5 +125,10 @@ public class PotassiumLeakageChannel extends AbstractMembraneChannel {
 			// outside to the inside of the membrane.
 			atom.setVelocity(velocity * Math.cos(getRotationalAngle()), velocity * Math.sin(getRotationalAngle()));
 		}
+	}
+
+	@Override
+	public MembraneChannelTypes getChannelType() {
+		return MembraneChannelTypes.POTASSIUM_LEAKAGE_CHANNEL;
 	}
 }
