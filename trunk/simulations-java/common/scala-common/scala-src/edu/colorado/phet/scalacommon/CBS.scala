@@ -9,6 +9,16 @@ import edu.umd.cs.piccolo.util.PDimension
 
 //Trying a shorter name to see if it helps resolve this issue:
 //http://lampsvn.epfl.ch/trac/scala/ticket/735
+//now the error reads:
+/*
+Information:Compilation completed with 2 errors and 0 warnings
+Information:2 errors
+Information:0 warnings
+Error: error while loading CBS, Missing dependency 'class edu.colorado.phet.common.piccolophet.PhetPCanvas$TransformStrategy', required by C:\workingcopy\phet\out-test\production\phet\edu\colorado\phet\scalacommon\CBS.class
+C:\workingcopy\phet\svn\trunk\simulations-java\simulations\force-law-lab\scala-src\edu\colorado\phet\forcelawlab\DefaultCanvas.scala
+    Error:Error:line (14)error: edu.colorado.phet.scalacommon.CBS does not have a constructor
+val centeredBoxStrategy = new CBS(768, 768, this)
+ */
 class CBS(modelWidth: Double,
           modelHeight: Double,
           canvas: JComponent,

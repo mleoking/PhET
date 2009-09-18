@@ -1,18 +1,16 @@
 package edu.colorado.phet.ladybugmotion2d
 
-import canvas.LadybugCanvas
 import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel
 import java.awt.event.{ActionListener, KeyAdapter, ActionEvent, KeyEvent}
-
 import javax.swing._
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher
 import edu.colorado.phet.common.phetcommon.application.PhetApplication
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig
-import scalacommon.record.RecordModelDefaults
-import scalacommon.ScalaClock
-import model.LadybugModel
+import edu.colorado.phet.scalacommon.record.RecordModelDefaults
+import edu.colorado.phet.scalacommon.ScalaClock
+import edu.colorado.phet.ladybugmotion2d.model.LadybugModel
 
 object DevLauncher {
   def main(args: Array[String]) = {

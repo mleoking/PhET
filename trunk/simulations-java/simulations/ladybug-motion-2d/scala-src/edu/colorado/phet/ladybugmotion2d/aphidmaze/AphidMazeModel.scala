@@ -1,10 +1,10 @@
 package edu.colorado.phet.ladybugmotion2d.aphidmaze
 
-import model.LadybugModel
-import scala.collection.mutable.ArrayBuffer
-import scalacommon.math.Vector2D
-import model.aphidmaze.BarrierSet
 import edu.colorado.phet.scalacommon.Predef._
+import collection.mutable.ArrayBuffer
+import edu.colorado.phet.ladybugmotion2d.model.aphidmaze.BarrierSet
+import edu.colorado.phet.ladybugmotion2d.model.LadybugModel
+import edu.colorado.phet.scalacommon.math.Vector2D
 
 class AphidMazeModel extends LadybugModel {
   val maze = new BarrierSet

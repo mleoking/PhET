@@ -1,22 +1,18 @@
 package edu.colorado.phet.scalasimtemplate
 
 import _root_.scala.collection.mutable.ArrayBuffer
-import common.phetcommon.application.{PhetApplicationLauncher, PhetApplicationConfig, Module}
-import common.phetcommon.model.BaseModel
-import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
-import common.phetcommon.view.util.PhetFont
-import common.phetcommon.view.VerticalLayoutPanel
-import common.piccolophet.event.CursorHandler
-import common.piccolophet.{PiccoloPhetApplication, PhetPCanvas}
-import java.awt.geom.Rectangle2D
-import java.awt.{Rectangle, Dimension, Color}
+import edu.colorado.phet.common.phetcommon.application.{PhetApplicationLauncher, PhetApplicationConfig, Module}
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont
+import edu.colorado.phet.common.piccolophet.event.CursorHandler
+import java.awt.{Color}
 import edu.colorado.phet.scalacommon.Predef._
 import javax.swing.{JButton, BoxLayout, JPanel}
-import scalacommon.math.Vector2D
-import scalacommon.util.Observable
-import umd.cs.piccolo.nodes.PText
-import umd.cs.piccolo.PNode
-import scalacommon.{CBS, ScalaApplicationLauncher, ScalaClock}
+import edu.colorado.phet.scalacommon.math.Vector2D
+import edu.colorado.phet.scalacommon.util.Observable
+import edu.umd.cs.piccolo.nodes.PText
+import edu.colorado.phet.common.piccolophet.{PiccoloPhetApplication}
+import edu.colorado.phet.scalacommon.{ScalaClock}
 
 class BlockState(val position: Vector2D, val velocity: Vector2D) {
   def translate(delta: Vector2D) = new BlockState(position + delta, velocity)

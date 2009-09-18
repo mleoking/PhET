@@ -1,6 +1,6 @@
 package edu.colorado.phet.motionseries.graphics
 
-
+import edu.colorado.phet.motionseries.MotionSeriesResources
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils
 import java.awt._
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction
@@ -11,7 +11,6 @@ import edu.umd.cs.piccolo.PNode
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
 import edu.colorado.phet.motionseries.model.RampSegment
 import edu.colorado.phet.common.piccolophet.event.CursorHandler
-
 import edu.colorado.phet.scalacommon.math.Vector2D
 import edu.umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
 import edu.colorado.phet.scalacommon.Predef._

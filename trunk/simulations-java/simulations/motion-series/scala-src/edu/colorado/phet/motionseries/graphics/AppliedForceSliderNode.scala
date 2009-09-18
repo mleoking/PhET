@@ -4,9 +4,10 @@ import java.awt.Dimension
 import java.awt.event.{MouseAdapter, MouseEvent}
 import edu.colorado.phet.motionseries.model.{Bead}
 import edu.umd.cs.piccolo.PNode
-import swing.ScalaValueControl
 import edu.umd.cs.piccolox.pswing.PSwing
 import edu.colorado.phet.motionseries.MotionSeriesResources._
+import edu.colorado.phet.motionseries.MotionSeriesDefaults
+import edu.colorado.phet.motionseries.swing.ScalaValueControl
 
 class AppliedForceSlider(getter: () => Double,
                          setter: Double => Unit,

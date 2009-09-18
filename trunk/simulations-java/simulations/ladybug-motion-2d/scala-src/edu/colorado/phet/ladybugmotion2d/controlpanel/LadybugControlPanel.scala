@@ -7,17 +7,17 @@ import edu.colorado.phet.common.phetcommon.view.ControlPanel
 import edu.colorado.phet.common.phetcommon.view.ResetAllButton
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont
 import javax.swing.border.TitledBorder
-
 import scala.swing._
 import scala.swing.event.ButtonClicked
 import java.awt.Dimension
 import java.awt.event.{ActionEvent, ActionListener}
 import javax.swing.{Box, JButton, JRadioButton, JLabel}
 import edu.colorado.phet.scalacommon.Predef._
-import scalacommon.swing.MyRadioButton
-import scalacommon.util.Observable
 import java.awt.GridBagConstraints._
-import LadybugMotion2DResources._
+import edu.colorado.phet.ladybugmotion2d.LadybugModule
+import edu.colorado.phet.ladybugmotion2d.LadybugMotion2DResources._
+import edu.colorado.phet.scalacommon.swing.MyRadioButton
+import edu.colorado.phet.scalacommon.util.Observable
 
 class LadybugControlPanel[M <: LadybugModel](module: LadybugModule[M]) extends ControlPanel(module) {
   val myModule = module;

@@ -9,8 +9,7 @@ import edu.colorado.phet.common.motion.model.ITemporalVariable
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 import edu.colorado.phet.motionseries.MotionSeriesDefaults._
-
-import swing.{MyJCheckBox}
+import edu.colorado.phet.motionseries.swing.MyJCheckBox
 
 class SeriesSelectionControl(title: String, numRows: Int) extends VerticalLayoutPanel {
   setBackground(EARTH_COLOR)

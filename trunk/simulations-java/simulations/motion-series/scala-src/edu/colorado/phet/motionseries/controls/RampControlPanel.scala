@@ -6,19 +6,17 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.{BufferedImageUtils, PhetFont}
 import edu.colorado.phet.common.phetcommon.view.{ControlPanel, VerticalLayoutPanel, ResetAllButton}
 import edu.colorado.phet.motionseries.graphics._
-import java.awt._
-import geom.{Point2D, Rectangle2D}
-import image.BufferedImage
 import java.awt.event.{MouseEvent, MouseAdapter}
-
+import java.awt._
+import java.awt.geom._
+import java.awt.image._
 import javax.swing._
 import edu.colorado.phet.motionseries.model._
+import edu.colorado.phet.motionseries.swing._
 import edu.colorado.phet.scalacommon.math.Vector2D
 import edu.colorado.phet.scalacommon.swing.MyRadioButton
 import edu.colorado.phet.motionseries.MotionSeriesResources
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
-
-import swing.{MyCheckBox, ScalaValueControl}
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 
 class RampControlPanel(model: MotionSeriesModel,

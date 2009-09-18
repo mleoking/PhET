@@ -8,8 +8,8 @@ import javax.swing._
 import edu.colorado.phet.motionseries.model.Bead
 import edu.colorado.phet.motionseries.MotionSeriesResources
 import edu.colorado.phet.motionseries.MotionSeriesResources._
-import swing.ScalaValueControl
 import edu.colorado.phet.motionseries.MotionSeriesDefaults._
+import edu.colorado.phet.motionseries.swing._
 
 class MyValueControl(min: Double, max: Double, getter: () => Double, setter: Double => Unit, title: String, numberFormat: String, units: String, bead: Bead)
         extends ScalaValueControl(min, max, title, numberFormat, units, getter, setter, bead.addListener, new HorizontalLayoutStrategy) {

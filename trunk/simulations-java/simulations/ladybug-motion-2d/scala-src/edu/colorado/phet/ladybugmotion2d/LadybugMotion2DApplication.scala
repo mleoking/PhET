@@ -1,7 +1,7 @@
 package edu.colorado.phet.ladybugmotion2d
 
 import model.LadybugModel
-import scalacommon.{ScalaApplicationLauncher, ScalaClock}
+import edu.colorado.phet.scalacommon.{ScalaClock, ScalaApplicationLauncher}
 
 object LadybugMotion2DApplication {
   def main(args: Array[String]) = {

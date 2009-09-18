@@ -5,14 +5,9 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
 import java.awt.geom.{Line2D, GeneralPath, Point2D}
 import java.awt.{Point, BasicStroke, Color}
 import java.lang.Math._
-import model.{LadybugState, LadybugModel}
-
-import phet.common.phetcommon.util.QuickProfiler
-import scalacommon.math.Vector2D
-import scalacommon.record.DataPoint
-import scalacommon.util.Observable
-import umd.cs.piccolo.PNode
-
+import edu.colorado.phet.ladybugmotion2d.model.{LadybugModel, LadybugState}
+import edu.colorado.phet.scalacommon.record.DataPoint
+import edu.colorado.phet.scalacommon.util.Observable
 //This class is computationally demanding and therefore contains several optimizations
 class LadybugFadeTraceNode(model: LadybugModel, transform: ModelViewTransform2D, shouldBeVisible: () => Boolean, observable: Observable, maxFade: Double) extends LadybugTraceNode(model, transform, shouldBeVisible, observable) {
   val stroke = new BasicStroke(6, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1.0f)

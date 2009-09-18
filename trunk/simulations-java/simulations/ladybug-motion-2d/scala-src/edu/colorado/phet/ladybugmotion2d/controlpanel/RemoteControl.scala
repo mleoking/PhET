@@ -3,13 +3,6 @@ package edu.colorado.phet.ladybugmotion2d.controlpanel
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont
 import edu.colorado.phet.common.piccolophet.event.CursorHandler
 import javax.swing.border.BevelBorder
-import model.{Ladybug, LadybugModel}
-
-
-import scalacommon.swing.MyRadioButton
-import scalacommon.util.Observable
-import scalacommon.view.ToggleListener
-import umd.cs.piccolo.event.{PInputEventListener, PBasicInputEventHandler, PInputEvent}
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel
@@ -20,11 +13,20 @@ import java.awt.geom.{Rectangle2D, Ellipse2D, Point2D, Dimension2D}
 import java.awt.{Rectangle, Dimension, Color}
 import javax.swing._
 import javax.swing.event.MouseInputAdapter
-import umd.cs.piccolo.PNode
-import scalacommon.math.Vector2D
-import umd.cs.piccolo.util.PDimension
 import edu.colorado.phet.scalacommon.Predef._
-import LadybugMotion2DResources._
+import edu.colorado.phet.ladybugmotion2d.model.LadybugModel
+import edu.colorado.phet.ladybugmotion2d.model.Ladybug
+import edu.colorado.phet.ladybugmotion2d.LadybugColorSet
+import edu.colorado.phet.ladybugmotion2d.LadybugDefaults
+import edu.colorado.phet.ladybugmotion2d.LadybugMotion2DResources._
+import edu.colorado.phet.scalacommon.util.Observable
+import edu.umd.cs.piccolo.util.PDimension
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler
+import edu.umd.cs.piccolo.event.PInputEvent
+import edu.colorado.phet.scalacommon.swing.MyRadioButton
+import edu.umd.cs.piccolo.PNode
+import edu.colorado.phet.scalacommon.view.ToggleListener
+import edu.colorado.phet.scalacommon.math.Vector2D
 
 class RemoteControl(model: LadybugModel, setMotionManual: () => Unit) extends VerticalLayoutPanel with Observable {
   def mode = _mode

@@ -17,10 +17,11 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
 import edu.colorado.phet.scalacommon.math.Vector2D
 import edu.colorado.phet.motionseries.graphics._
 import edu.colorado.phet.motionseries.model._
-import swing.{ScalaButton}
 import edu.umd.cs.piccolox.pswing.PSwing
 import edu.colorado.phet.scalacommon.Predef._
 import edu.colorado.phet.motionseries.MotionSeriesResources._
+import edu.colorado.phet.motionseries.MotionSeriesResources
+import edu.colorado.phet.motionseries.swing._
 
 class RobotMovingCompanyCanvas(model: MotionSeriesModel, coordinateSystemModel: AdjustableCoordinateModel, freeBodyDiagramModel: FreeBodyDiagramModel,
                                vectorViewModel: VectorViewModel, frame: JFrame, gameModel: RobotMovingCompanyGameModel)
@@ -130,9 +131,12 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel, coordinateSystemModel: 
     fbdNode.clearVectors()
     windowFBDNode.clearVectors()
 
-    val removeListenerFunction = if (lastBead == null) gameModel.removeListener _ else lastBead.removeListener _
+    def removeTheListener(listener:()=>Unit){
+      if (lastBead == null) gameModel.removeListener(listener) else lastBead.removeListener(listener)
+    }
+//    def removeListenerFunction():Unit = if (lastBead == null) gameModel.removeListener _ else lastBead.removeListener _
     def setter(x: Double) = if (gameModel.robotEnergy > 0) bead.parallelAppliedForce = x else {}
-    appliedForceControl.setModel(() => bead.parallelAppliedForce, setter, removeListenerFunction, bead.addListener)
+    appliedForceControl.setModel(() => bead.parallelAppliedForce, setter, removeTheListener, bead.addListener)
 
     //todo: why are these 2 lines necessary?
     vectorView.addAllVectors(bead, fbdNode)

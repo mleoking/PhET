@@ -1,9 +1,10 @@
 package edu.colorado.phet.ladybugmotion2d.aphidmaze
 
 import _root_.edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
-import canvas.BugNode
-import umd.cs.piccolo.PNode
 import edu.colorado.phet.scalacommon.Predef._
+import edu.colorado.phet.ladybugmotion2d.LadybugMotion2DResources
+import edu.colorado.phet.ladybugmotion2d.canvas.BugNode
+import edu.umd.cs.piccolo.PNode
 
 class AphidSetNode(model: AphidMazeModel, transform: ModelViewTransform2D) extends PNode {
   val update = defineInvokeAndPass(model.addListenerByName) {

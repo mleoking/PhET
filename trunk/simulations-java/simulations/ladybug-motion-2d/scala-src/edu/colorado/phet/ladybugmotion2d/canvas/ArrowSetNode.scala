@@ -1,19 +1,19 @@
 package edu.colorado.phet.ladybugmotion2d.canvas
 
-import controlpanel.VectorVisibilityModel
-import model.Ladybug
-import scalacommon.math.Vector2D
-import phet.common.phetcommon.view.util.PhetFont
-import phet.common.piccolophet.nodes.ArrowNode
-import phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
-import phet.common.piccolophet.nodes.ArrowNode
 import java.awt.geom.Point2D
 import java.awt.{BasicStroke, Color}
 
-import umd.cs.piccolo.nodes.PText
-import umd.cs.piccolo.PNode
 import edu.colorado.phet.scalacommon.Predef._
-import LadybugMotion2DResources._
+import edu.colorado.phet.ladybugmotion2d.model.Ladybug
+import edu.colorado.phet.ladybugmotion2d._
+import edu.colorado.phet.ladybugmotion2d.LadybugMotion2DResources._
+import edu.colorado.phet.scalacommon.math.Vector2D
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont
+import edu.umd.cs.piccolo.nodes.PText
+import edu.colorado.phet.common.piccolophet.nodes.ArrowNode
+import edu.umd.cs.piccolo.PNode
+import controlpanel.VectorVisibilityModel
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 
 class ArrowSetNode(ladybug: Ladybug, transform: ModelViewTransform2D, vectorVisibilityModel: VectorVisibilityModel) extends PNode {
   class LabeledArrowNode(color: Color, name: String) extends PNode {

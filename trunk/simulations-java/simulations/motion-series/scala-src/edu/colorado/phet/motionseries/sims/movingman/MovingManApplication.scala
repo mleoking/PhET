@@ -11,7 +11,8 @@ import edu.colorado.phet.scalacommon.record.{RecordModelControlPanel, PlaybackSp
 import javax.swing.JFrame
 import edu.colorado.phet.scalacommon.ScalaClock
 import edu.colorado.phet.motionseries.MotionSeriesResources._
-import theramp.StageContainerArea
+import edu.colorado.phet.motionseries.sims.theramp.StageContainerArea
+import edu.colorado.phet.motionseries.{MotionSeriesModule, MotionSeriesDefaults}
 
 class BasicMovingManModule(frame: JFrame,
                            clock: ScalaClock,

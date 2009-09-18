@@ -2,6 +2,7 @@ package edu.colorado.phet.motionseries.graphics
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import edu.colorado.phet.motionseries.model._
+import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.colorado.phet.scalacommon.math.Vector2D
 import edu.umd.cs.piccolo.PNode
 

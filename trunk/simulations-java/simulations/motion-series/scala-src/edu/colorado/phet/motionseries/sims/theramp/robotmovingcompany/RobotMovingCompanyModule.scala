@@ -4,6 +4,7 @@ import javax.swing.JFrame
 import edu.colorado.phet.motionseries.model.MotionSeriesModel
 import edu.colorado.phet.scalacommon.ScalaClock
 import edu.colorado.phet.motionseries.Predef._
+import edu.colorado.phet.motionseries.{MotionSeriesResources, MotionSeriesDefaults, MotionSeriesModule}
 
 class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock)
         extends MotionSeriesModule(frame, clock, "module.robotMovingCompany".translate, 5, false, MotionSeriesDefaults.defaultRampAngle) {
