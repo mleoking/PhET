@@ -58,16 +58,11 @@ class MassNode(mass: Mass, transform: ModelViewTransform2D, color: Color, magnif
     image.setOffset(transform.modelToView(mass.position))
     val viewRadius = transform.modelToViewDifferentialXDouble(mass.radius)
     image.setDiameter(viewRadius * 2)
-    image.setPaint(new RoundGradientPaint(viewRadius, -viewRadius, Color.WHITE,
-      new Point2D.Double(-viewRadius, viewRadius), color))
+    image.setPaint(new RoundGradientPaint(viewRadius, -viewRadius, Color.WHITE,new Point2D.Double(-viewRadius, viewRadius), color))
     label.setOffset(transform.modelToView(mass.position) - new Vector2D(label.getFullBounds.getWidth / 2, label.getFullBounds.getHeight / 2))
     label.translate(0, textOffset())
-    //    if (image.getFullBounds.getHeight < label.getFullBounds.getHeight)
-    //      label.translate(0, -label.getFullBounds.getHeight * 1.2) //gets notification from mass
-
     centerIndicator.setOffset(transform.modelToView(mass.position))
     centerIndicator.setVisible(centerIndicator.getFullBounds.getWidth < image.getFullBounds.getWidth)
-    //    println("updated mass node, radius=" + mass.radius + ", viewRadius=" + viewRadius + ", globalfullbounds=" + image.getGlobalFullBounds)
   }
 
 
