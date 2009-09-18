@@ -5,7 +5,7 @@ package edu.colorado.phet.common.phetcommon.util;
 import java.io.Serializable;
 import java.util.*;
 
-import edu.colorado.phet.translationutility.TUResources;
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 
 
 /**
@@ -37,7 +37,7 @@ public class PhetLocales implements Serializable {
     private PhetLocales() {
         _nameToLocaleMap = new HashMap<String, Locale>();
         _localeToNameMap = new HashMap<Locale, String>();
-        loadCodes( TUResources.getCommonProperties( PROPERTIES_RESOURCE_NAME ) );
+        loadCodes( PhetCommonResources.getInstance().getProperties( PROPERTIES_RESOURCE_NAME ) );
     }
 
     private void loadCodes( Properties p ) {
