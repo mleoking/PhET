@@ -185,7 +185,7 @@ class ForceLawLabScalaValueControl(min: Double, max: Double, name: String, decim
 }
 
 class UnitsControl(units: UnitsContainer, phetFrame: PhetFrame) extends VerticalLayoutPanel {
-  setBorder(ForceLawBorders.createTitledBorder("units"))
+  setBorder(ForceLawBorders.createTitledBorder("units"))//todo: translate when used
   for (u <- UnitsCollection.values) add(new MyRadioButton(u.name, units.units = u, units.units == u, units.addListener))
 }
 
