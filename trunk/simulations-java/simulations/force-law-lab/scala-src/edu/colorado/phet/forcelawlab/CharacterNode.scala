@@ -56,7 +56,7 @@ class CharacterNode(mass: Mass, mass2: Mass, transformMV: ModelViewTransform2D, 
 
   def forceAmount = {
     val minForceToShow = 0.00000000064
-    val maxForceToShow = 0.00000000989
+    val maxForceToShow = 0.00000000989*2
     val a = new edu.colorado.phet.common.phetcommon.math.Function.LinearFunction(minForceToShow, maxForceToShow, 0, 14).evaluate(gravityForce()).toInt
     (a max 0) min 14
   }
