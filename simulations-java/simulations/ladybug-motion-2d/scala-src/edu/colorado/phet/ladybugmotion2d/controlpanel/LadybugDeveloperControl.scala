@@ -4,8 +4,9 @@ import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValu
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel
 import java.awt.event.{ActionEvent, ActionListener}
 import javax.swing.event.{ChangeListener, ChangeEvent}
+import edu.colorado.phet.ladybugmotion2d.{LadybugDefaults, LadybugModule}
+import edu.colorado.phet.ladybugmotion2d.model.LadybugModel
 import javax.swing.JCheckBox
-import model.LadybugModel
 
 class LadybugDeveloperControl[M <: LadybugModel](module: LadybugModule[M]) extends VerticalLayoutPanel {
   setFillNone

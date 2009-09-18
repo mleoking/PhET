@@ -3,8 +3,9 @@ package edu.colorado.phet.ladybugmotion2d.model
 import java.awt.geom.Ellipse2D
 import scala.collection.mutable.ArrayBuffer
 import edu.colorado.phet.scalacommon.Predef._
-import scalacommon.math.Vector2D
-import scalacommon.util.Observable
+import edu.colorado.phet.scalacommon.util.Observable
+import edu.colorado.phet.scalacommon.math.Vector2D
+import edu.colorado.phet.ladybugmotion2d.LadybugDefaults
 
 case class LadybugState(_position: Vector2D, _velocity: Vector2D, _acceleration: Vector2D, _angle: Double) {
   val position = _position

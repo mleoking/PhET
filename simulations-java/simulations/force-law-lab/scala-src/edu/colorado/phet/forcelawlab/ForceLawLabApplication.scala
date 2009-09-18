@@ -1,29 +1,29 @@
 package edu.colorado.phet.forcelawlab
 
 import collection.mutable.ArrayBuffer
-import common.phetcommon.application.{PhetApplicationConfig, PhetApplicationLauncher, Module}
-import common.phetcommon.model.Resettable
-import common.phetcommon.view.util.{DoubleGeneralPath, PhetFont}
-import common.phetcommon.view.{PhetFrame, VerticalLayoutPanel, ControlPanel}
-import common.piccolophet.nodes._
-import common.piccolophet.PiccoloPhetApplication
-import common.phetcommon.view.graphics.RoundGradientPaint
-import common.piccolophet.event.CursorHandler
-import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
-import java.awt._
-import geom.{Ellipse2D, Point2D}
-import java.text._
-import javax.swing.border.TitledBorder
-import scalacommon.swing.{MyRadioButton}
-import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
-import umd.cs.piccolo.nodes.{PText}
-import umd.cs.piccolo.util.PDimension
-import umd.cs.piccolo.PNode
-import scalacommon.math.Vector2D
-import scalacommon.Predef._
-import scalacommon.ScalaClock
-import scalacommon.util.Observable
 import java.lang.Math._
+import edu.umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
+import edu.umd.cs.piccolo.nodes.PText
+import edu.colorado.phet.common.phetcommon.model.Resettable
+import edu.colorado.phet.common.phetcommon.view.{VerticalLayoutPanel, PhetFrame, ControlPanel}
+import edu.colorado.phet.common.phetcommon.view.util.{DoubleGeneralPath, PhetFont}
+import java.awt.{Font, Color}
+import edu.colorado.phet.common.piccolophet.nodes._
+import edu.colorado.phet.common.piccolophet.event.CursorHandler
+import edu.umd.cs.piccolo.util.PDimension
+import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint
+import java.awt.geom.{Ellipse2D, Point2D}
+import edu.colorado.phet.scalacommon.math.Vector2D
+import edu.umd.cs.piccolo.PNode
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
+import java.text.{DecimalFormatSymbols, DecimalFormat, FieldPosition, NumberFormat}
+import edu.colorado.phet.scalacommon.swing.MyRadioButton
+import edu.colorado.phet.scalacommon.util.Observable
+import edu.colorado.phet.scalacommon.ScalaClock
+import edu.colorado.phet.scalacommon.Predef._
+import edu.colorado.phet.common.phetcommon.application.{PhetApplicationLauncher, PhetApplicationConfig, Module}
+import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication
+import javax.swing.border.TitledBorder
 
 class ForceLabelNode(target: Mass, source: Mass, transform: ModelViewTransform2D, model: ForceLawLabModel,
                      color: Color, scale: Double, format: NumberFormat, offsetY: Double, right: Boolean) extends PNode {

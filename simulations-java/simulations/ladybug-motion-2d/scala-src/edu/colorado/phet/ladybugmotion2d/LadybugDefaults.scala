@@ -6,7 +6,7 @@
  */
 package edu.colorado.phet.ladybugmotion2d
 
-import scalacommon.math.Vector2D
+import edu.colorado.phet.scalacommon.math.Vector2D
 
 object LadybugDefaults {
   var defaultDT = 30 / 1000.0

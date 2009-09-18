@@ -1,6 +1,6 @@
 package edu.colorado.phet.motionseries.sims.theramp
 
-import charts.bargraphs.{WorkEnergyChartModel, WorkEnergyChart}
+import edu.colorado.phet.motionseries.charts.bargraphs.{WorkEnergyChartModel, WorkEnergyChart}
 import java.awt.geom.Rectangle2D
 import edu.colorado.phet.common.phetcommon.application.{Module, PhetApplicationConfig}
 import edu.colorado.phet.common.piccolophet.{PiccoloPhetApplication}
@@ -9,11 +9,13 @@ import java.awt.event.{ActionEvent, ActionListener}
 import java.awt.{Color}
 import javax.swing._
 import edu.colorado.phet.motionseries.model._
-import controls.RampControlPanel
+import edu.colorado.phet.motionseries.controls.RampControlPanel
 import robotmovingcompany.{RobotMovingCompanyModule, RobotMovingCompanyGameModel, Result, RobotMovingCompanyCanvas}
 import edu.colorado.phet.scalacommon.record.{RecordModelControlPanel, PlaybackSpeedSlider}
 
 import edu.colorado.phet.scalacommon.ScalaClock
+import edu.colorado.phet.motionseries.charts.bargraphs._
+import edu.colorado.phet.motionseries.{MotionSeriesDefaults, MotionSeriesModule}
 
 trait StageContainerArea{
   def getBounds(w:Double,h:Double):Rectangle2D

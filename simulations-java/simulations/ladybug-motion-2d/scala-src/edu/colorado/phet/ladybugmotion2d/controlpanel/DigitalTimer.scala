@@ -4,10 +4,10 @@ import _root_.edu.colorado.phet.common.phetcommon.view.util.PhetFont
 import _root_.edu.colorado.phet.common.piccolophet.nodes.PhetPPath
 import java.awt.{BasicStroke, Color}
 import java.text.DecimalFormat
-import model.LadybugModel
-import umd.cs.piccolo.nodes.{PPath, PText}
-import umd.cs.piccolo.PNode
 import edu.colorado.phet.scalacommon.Predef._
+import edu.umd.cs.piccolo.nodes.{PText, PPath}
+import edu.umd.cs.piccolo.PNode
+import edu.colorado.phet.ladybugmotion2d.model.LadybugModel
 
 class DigitalTimer(model: LadybugModel) extends PNode {
   val text = new PText("123.27 sec")

@@ -1,7 +1,8 @@
 package edu.colorado.phet.ladybugmotion2d.aphidmaze
 
 import _root_.scala.runtime.RichInt
-import scala.collection.mutable.{HashSet, ArrayBuffer}
+import collection.mutable.HashSet
+import collection.mutable.ArrayBuffer
 
 case class Wall(x: Double, y: Double, dx: Double, dy: Double)
 class MazeGenerator(dim: Int) {

@@ -1,7 +1,6 @@
 package edu.colorado.phet.ladybugmotion2d.canvas
 
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils
-import controlpanel.VectorVisibilityModel
 import java.awt.image.BufferedImage
 import java.awt.{Point, Color, Cursor}
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.TransformListener
@@ -10,13 +9,13 @@ import edu.colorado.phet.common.piccolophet.util.PImageFactory
 import edu.colorado.phet.common.piccolophet.event.CursorHandler
 import edu.umd.cs.piccolo.PNode
 import java.awt.geom.{AffineTransform, Point2D}
-import model.{Ladybug, LadybugModel}
-
-
-import scalacommon.view.ToggleListener
-import umd.cs.piccolo.event.{PInputEventListener, PBasicInputEventHandler, PInputEvent}
-import umd.cs.piccolo.nodes.{PPath, PImage}
 import edu.colorado.phet.scalacommon.Predef._
+import edu.colorado.phet.ladybugmotion2d.model.{LadybugModel, Ladybug}
+import edu.umd.cs.piccolo.event.{PInputEvent, PBasicInputEventHandler, PInputEventListener}
+import edu.umd.cs.piccolo.nodes.{PImage, PPath}
+import edu.colorado.phet.ladybugmotion2d.controlpanel.VectorVisibilityModel
+import edu.colorado.phet.ladybugmotion2d.{LadybugDefaults, LadybugMotion2DResources}
+import edu.colorado.phet.scalacommon.view.ToggleListener
 
 class LadybugNode(model: LadybugModel,
                   ladybug: Ladybug,

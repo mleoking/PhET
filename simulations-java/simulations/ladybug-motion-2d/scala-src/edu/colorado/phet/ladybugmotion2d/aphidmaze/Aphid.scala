@@ -1,11 +1,10 @@
 package edu.colorado.phet.ladybugmotion2d.aphidmaze
 
 import java.awt.geom.Rectangle2D
-import model.Bug
-import scalacommon.math.Vector2D
-
 import edu.colorado.phet.scalacommon.Predef._
-import scalacommon.util.Observable
+import edu.colorado.phet.ladybugmotion2d.model.Bug
+import edu.colorado.phet.scalacommon.math.Vector2D
+import edu.colorado.phet.scalacommon.util.Observable
 
 class Aphid(x: Double, y: Double) extends Bug with Observable {
   def getPosition = new Vector2D(x, y)

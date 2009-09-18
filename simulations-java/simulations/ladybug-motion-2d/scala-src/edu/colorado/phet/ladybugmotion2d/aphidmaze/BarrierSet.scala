@@ -5,11 +5,12 @@ import _root_.edu.colorado.phet.common.phetcommon.view.util.RectangleUtils
 import edu.colorado.phet.ladybugmotion2d.aphidmaze.MazeGenerator
 import edu.colorado.phet.ladybugmotion2d.aphidmaze.Wall
 import java.awt.geom.{Line2D, Rectangle2D}
-import scala.collection.mutable.ArrayBuffer
 import edu.colorado.phet.scalacommon.Predef._
 import java.lang.Math._
-import scalacommon.util.Observable
-import scalacommon.math.Vector2D
+import edu.colorado.phet.scalacommon.math.Vector2D
+import edu.colorado.phet.ladybugmotion2d.model.Ladybug
+import collection.mutable.ArrayBuffer
+import edu.colorado.phet.scalacommon.util.Observable
 
 class BarrierSet extends Observable {
   val rectangles = new ArrayBuffer[Rectangle2D]

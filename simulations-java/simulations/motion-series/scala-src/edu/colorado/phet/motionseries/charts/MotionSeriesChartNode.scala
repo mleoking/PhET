@@ -1,6 +1,5 @@
 package edu.colorado.phet.motionseries.charts
 
-import charts.{SeriesControlTitleLabel, AbstractChartNode, SeriesSelectionControl, MotionSeriesGraph}
 import edu.colorado.phet.motionseries.graphics.MotionSeriesCanvas
 import edu.colorado.phet.motionseries.model.MotionSeriesModel
 import edu.colorado.phet.common.motion.model.DefaultTemporalVariable

@@ -7,30 +7,33 @@
 package edu.colorado.phet.chargesandfields
 
 import _root_.scala.collection.mutable.ArrayBuffer
-import common.phetcommon.application.Module
-import common.phetcommon.model.BaseModel
-import common.phetcommon.view.controls.valuecontrol.LinearValueControl
-import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
-import common.phetcommon.view.util.PhetFont
-import common.phetcommon.view.VerticalLayoutPanel
-import common.piccolophet.event.CursorHandler
-import common.piccolophet.PhetPCanvas
+import edu.colorado.phet.common.phetcommon.application.Module
+import edu.colorado.phet.common.phetcommon.model.BaseModel
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel
+import edu.colorado.phet.common.piccolophet.event.CursorHandler
+import edu.colorado.phet.common.piccolophet.PhetPCanvas
 import java.awt.geom.Rectangle2D
 import java.awt.{Rectangle, Dimension, Color}
 import edu.colorado.phet.scalacommon.Predef._
 import javax.swing.event.{ChangeListener, ChangeEvent}
 import javax.swing.{JButton, BoxLayout, JPanel}
-import scalacommon.math.Vector2D
-import scalacommon.util.Observable
-import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
-import umd.cs.piccolo.nodes.PText
-import umd.cs.piccolo.PNode
-import umd.cs.piccolo.util.PBounds
-import scalacommon.{ScalaApplicationLauncher, ScalaClock}
-import umd.cs.piccolo.util.PPaintContext
+import edu.colorado.phet.scalacommon.math.Vector2D
+import edu.colorado.phet.scalacommon.util.Observable
+import edu.umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
+import edu.umd.cs.piccolo.nodes.PText
+import edu.umd.cs.piccolo.PNode
+import edu.umd.cs.piccolo.util.PBounds
+import edu.colorado.phet.scalacommon.{ScalaApplicationLauncher, ScalaClock}
+import edu.umd.cs.piccolo.util.PPaintContext
 import javax.swing.JComponent
 import _root_.edu.colorado.phet.common.piccolophet.PhetPCanvas.TransformStrategy
 import java.awt.geom.{AffineTransform, Rectangle2D}
+import edu.colorado.phet.common.piccolophet.PhetPCanvas
+import edu.umd.cs.piccolo.event._
+import edu.colorado.phet.scalacommon._
 
 class DefaultScreenCanvas(modelWidth: Double, modelHeight: Double) extends PhetPCanvas(new Dimension(1024, 768)) {
   val worldNode = new PNode

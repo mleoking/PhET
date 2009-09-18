@@ -11,7 +11,6 @@ import java.awt.{BasicStroke, Color}
 import javax.swing.{Timer}
 import edu.colorado.phet.scalacommon.util.Observable
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
-import swing.ScalaValueControl
 import edu.colorado.phet.motionseries.MotionSeriesResources
 import edu.umd.cs.piccolo.util.{PBounds, PDimension}
 import edu.umd.cs.piccolox.nodes.PClip
@@ -22,6 +21,7 @@ import edu.umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
 import edu.colorado.phet.scalacommon.Predef._
 import java.lang.Math._
 import edu.colorado.phet.motionseries.Predef._
+import edu.colorado.phet.motionseries.swing._
 
 trait ObjectModel {
   def selectedObject: MotionSeriesObject

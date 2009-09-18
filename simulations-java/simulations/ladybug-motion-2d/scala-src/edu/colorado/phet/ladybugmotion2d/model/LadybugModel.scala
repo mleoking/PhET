@@ -3,12 +3,12 @@ package edu.colorado.phet.ladybugmotion2d.model
 
 import _root_.java.awt.geom.{Point2D, Rectangle2D}
 import edu.colorado.phet.common.motion.model.TimeData
-import ladybugmotion2d.Motion2DModel
 import scala.collection.mutable.ArrayBuffer
 import edu.colorado.phet.scalacommon.Predef._
 import edu.colorado.phet.common.motion._
-import scalacommon.math.Vector2D
-import scalacommon.record.{DataPoint, RecordModel}
+import edu.colorado.phet.scalacommon.record.{DataPoint, RecordModel}
+import edu.colorado.phet.ladybugmotion2d.{Motion2DModel, LadybugDefaults}
+import edu.colorado.phet.scalacommon.math.Vector2D
 
 /**
  * This class is the main model for Ladybug2DApplication.  It contains both a model for the current state as well as the history.

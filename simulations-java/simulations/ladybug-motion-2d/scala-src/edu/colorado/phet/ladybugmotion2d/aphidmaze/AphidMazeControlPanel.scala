@@ -1,10 +1,10 @@
 package edu.colorado.phet.ladybugmotion2d.aphidmaze
 
 import _root_.edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl
-import controlpanel.LadybugControlPanel
 import javax.swing.event.{ChangeListener, ChangeEvent}
-
 import javax.swing.JButton
+import edu.colorado.phet.ladybugmotion2d.controlpanel.LadybugControlPanel
+import edu.colorado.phet.ladybugmotion2d.LadybugModule
 
 class AphidMazeControlPanel(module: LadybugModule[AphidMazeModel]) extends LadybugControlPanel[AphidMazeModel](module) {
   motionControlPanel.peer.setVisible(false)

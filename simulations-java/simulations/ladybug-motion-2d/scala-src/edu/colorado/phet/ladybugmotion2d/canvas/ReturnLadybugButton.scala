@@ -2,18 +2,15 @@ package edu.colorado.phet.ladybugmotion2d.canvas
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont
 import edu.colorado.phet.common.piccolophet.PhetPNode
-import scala.swing.Button
 import java.awt.event.{ActionEvent, ComponentAdapter, ComponentEvent, ActionListener}
 import java.awt.geom.Point2D
 import java.awt.{Rectangle, Graphics2D, Graphics}
 import javax.swing.JButton
-import model.LadybugModel
-import umd.cs.piccolo.nodes.PText
-import umd.cs.piccolo.PNode
 import edu.colorado.phet.scalacommon.Predef._
-import umd.cs.piccolox.pswing.PSwing
 import java.awt.Color._
-import LadybugMotion2DResources._
+import edu.umd.cs.piccolox.pswing.PSwing
+import edu.colorado.phet.ladybugmotion2d.model.LadybugModel
+import edu.colorado.phet.ladybugmotion2d.LadybugMotion2DResources._
 
 class ReturnLadybugButton(model: LadybugModel, canvas: LadybugCanvas) extends PhetPNode {
   private val button = new JButton(getLocalizedString("return.ladybug"))

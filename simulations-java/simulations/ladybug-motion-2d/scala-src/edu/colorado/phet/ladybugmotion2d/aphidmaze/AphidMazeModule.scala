@@ -1,8 +1,8 @@
 package edu.colorado.phet.ladybugmotion2d.aphidmaze
 
-import canvas.LadybugCanvas
-import controlpanel.DigitalTimer
-import scalacommon.ScalaClock
+import edu.colorado.phet.scalacommon.ScalaClock
+import edu.colorado.phet.ladybugmotion2d.controlpanel.DigitalTimer
+import edu.colorado.phet.ladybugmotion2d.LadybugModule
 
 class AphidMazeModule(clock: ScalaClock) extends LadybugModule[AphidMazeModel](
   "aphid-maze",

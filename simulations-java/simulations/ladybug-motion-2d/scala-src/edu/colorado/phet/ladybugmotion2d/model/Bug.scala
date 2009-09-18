@@ -1,7 +1,7 @@
 package edu.colorado.phet.ladybugmotion2d.model
 
 import java.awt.geom.Rectangle2D
-import scalacommon.math.Vector2D
+import edu.colorado.phet.scalacommon.math.Vector2D
 
 trait Bug {
   def addListener(listener: () => Unit)

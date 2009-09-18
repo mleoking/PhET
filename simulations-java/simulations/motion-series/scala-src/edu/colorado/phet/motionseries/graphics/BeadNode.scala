@@ -6,7 +6,6 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler
 import edu.colorado.phet.motionseries.model.{Bead}
 import edu.colorado.phet.motionseries.MotionSeriesResources
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
-import tests.MyCanvas
 import edu.umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
 import edu.umd.cs.piccolo.PNode
 import java.awt.geom.AffineTransform
@@ -14,6 +13,7 @@ import edu.umd.cs.piccolo.nodes.PImage
 import java.awt.image.BufferedImage
 import edu.colorado.phet.scalacommon.math.Vector2D
 import edu.colorado.phet.scalacommon.Predef._
+import edu.colorado.phet.motionseries.tests.MyCanvas
 
 class ForceDragBeadNode(bead: Bead,
                         transform: ModelViewTransform2D,

@@ -1,19 +1,20 @@
 package edu.colorado.phet.ladybugmotion2d.canvas
 
-import controlpanel.{PathVisibilityModel, VectorVisibilityModel}
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import edu.colorado.phet.common.piccolophet.PhetPCanvas
 import java.awt.event.{ComponentAdapter, ComponentEvent}
 import java.awt.geom.{AffineTransform, Rectangle2D, Point2D}
 import java.awt.{Rectangle, Dimension, Color}
 import javax.swing.JComponent
-import model.LadybugModel
-import scalacommon.CBS
-import umd.cs.piccolo.PNode
+import edu.umd.cs.piccolo.PNode
 import edu.colorado.phet.common.piccolophet.PhetPCanvas.RenderingSizeStrategy
 import edu.colorado.phet.common.piccolophet.PhetPCanvas.TransformStrategy
 import edu.colorado.phet.common.piccolophet.PhetPCanvas.ViewportStrategy
-import umd.cs.piccolo.util.PDimension
+import edu.umd.cs.piccolo.util.PDimension
+import edu.colorado.phet.ladybugmotion2d.LadybugDefaults
+import edu.colorado.phet.scalacommon.CBS
+import edu.colorado.phet.ladybugmotion2d.controlpanel.{PathVisibilityModel, VectorVisibilityModel}
+import edu.colorado.phet.ladybugmotion2d.model.LadybugModel
 
 class LadybugCanvas(model: LadybugModel,
                     vectorVisibilityModel: VectorVisibilityModel,

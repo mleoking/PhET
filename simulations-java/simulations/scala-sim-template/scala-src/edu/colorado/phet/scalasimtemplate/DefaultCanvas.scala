@@ -1,11 +1,10 @@
 package edu.colorado.phet.scalasimtemplate
 
-import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
-import common.piccolophet.PhetPCanvas
 import java.awt.{Rectangle, Dimension, Color}
 import java.awt.geom.Rectangle2D
-
-import umd.cs.piccolo.PNode
+import edu.umd.cs.piccolo.PNode
+import edu.colorado.phet.common.piccolophet.PhetPCanvas
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 
 class DefaultCanvas(modelWidth: Double, modelHeight: Double) extends PhetPCanvas(new Dimension(1024, 768)) {
 //  setWorldTransformStrategy(new CenteredBoxStrategy(768, 768, this))

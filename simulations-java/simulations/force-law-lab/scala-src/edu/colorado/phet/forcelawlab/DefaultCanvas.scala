@@ -1,15 +1,13 @@
 package edu.colorado.phet.forcelawlab
 
-import common.phetcommon.view.controls.valuecontrol.LinearValueControl
-import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
-import common.piccolophet.PhetPCanvas
 import java.awt.{Dimension, Rectangle}
 import javax.swing.event.{ChangeListener, ChangeEvent}
-
 import java.awt.geom.Rectangle2D
-
-import scalacommon.CBS
-import umd.cs.piccolo.PNode
+import edu.colorado.phet.scalacommon.CBS
+import edu.colorado.phet.common.piccolophet.PhetPCanvas
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl
+import edu.umd.cs.piccolo.PNode
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 
 //TODO: factor out common DefaultCanvas class for scalacommon
 class DefaultCanvas(modelWidth: Double, modelHeight: Double) extends PhetPCanvas(new Dimension(1024, 768)) {

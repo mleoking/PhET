@@ -26,7 +26,9 @@ import edu.colorado.phet.motionseries.MotionSeriesResources._
 
 class Vector(val color: Color,
              val name: String,
-             val abbreviation: String, val valueAccessor: () => Vector2D, val painter: (Vector2D, Color) => Paint) extends Observable with VectorValue {
+             val abbreviation: String,
+             val valueAccessor: () => Vector2D,
+             val painter: (Vector2D, Color) => Paint) extends Observable with VectorValue {
   private var _visible = true
 
   def getValue = valueAccessor()

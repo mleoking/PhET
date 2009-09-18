@@ -4,11 +4,10 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
 import java.awt.geom.{GeneralPath, Point2D}
 import java.awt.{BasicStroke, Color}
-import model.{LadybugState, LadybugModel}
-
-import scalacommon.util.Observable
-import scalacommon.record.{DataPoint, RecordModel}
-import umd.cs.piccolo.PNode
+import edu.colorado.phet.ladybugmotion2d.model.{LadybugState, LadybugModel}
+import edu.colorado.phet.scalacommon.record.DataPoint
+import edu.colorado.phet.scalacommon.util.Observable
+import edu.colorado.phet.ladybugmotion2d.LadybugColorSet
 
 class LadybugSolidTraceNode(model: LadybugModel, transform: ModelViewTransform2D, shouldBeVisible: () => Boolean, observable: Observable) extends LadybugTraceNode(model, transform, shouldBeVisible, observable) {
   val path = new PhetPPath(new BasicStroke(4), LadybugColorSet.position)

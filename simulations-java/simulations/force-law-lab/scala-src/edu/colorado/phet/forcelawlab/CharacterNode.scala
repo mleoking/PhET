@@ -1,17 +1,17 @@
 package edu.colorado.phet.forcelawlab
 
-import common.phetcommon.view.graphics.transforms.ModelViewTransform2D
-import common.piccolophet.event.CursorHandler
-import java.awt.geom.{Ellipse2D, Line2D, Rectangle2D}
-import umd.cs.piccolo.nodes.PImage
-import common.phetcommon.view.util.BufferedImageUtils
-import umd.cs.piccolo.PNode
-import common.piccolophet.nodes.PhetPPath
-import java.awt.{Color, BasicStroke, TexturePaint}
-import scalacommon.math.Vector2D
-import scalacommon.Predef._
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils
+import java.awt.{TexturePaint, Color, BasicStroke}
+import edu.colorado.phet.common.piccolophet.event.CursorHandler
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
+import edu.colorado.phet.scalacommon.math.Vector2D
+import edu.colorado.phet.scalacommon.Predef._
+import edu.umd.cs.piccolo.PNode
+import edu.umd.cs.piccolo.nodes.PImage
+import java.awt.geom.{Point2D, Rectangle2D, Ellipse2D, Line2D}
 
-class CharacterNode(mass: Mass, mass2: Mass, transform: ModelViewTransform2D, leftOfObject: Boolean, gravityForce: () => Double,
+class CharacterNode(mass: Mass, mass2: Mass, transformMV: ModelViewTransform2D, leftOfObject: Boolean, gravityForce: () => Double,
                     minDragX: () => Double, maxDragX: () => Double) extends PNode {
   val shadowNode = new PhetPPath(Color.gray)
   addChild(shadowNode)
@@ -21,7 +21,7 @@ class CharacterNode(mass: Mass, mass2: Mass, transform: ModelViewTransform2D, le
   mass2.addListener(update)
   mass.addListener(update)
 
-  addInputEventListener(new DragHandler(mass,transform,minDragX,maxDragX,this))
+  addInputEventListener(new DragHandler(mass,transformMV,minDragX,maxDragX,this))
   addInputEventListener(new CursorHandler)
 
   def update() = {
@@ -33,12 +33,12 @@ class CharacterNode(mass: Mass, mass2: Mass, transform: ModelViewTransform2D, le
     shadowNode.setPathTo(new Ellipse2D.Double(b.x - expandX, b.getMaxY - shadowHeight, b.width+ expandX * 2, shadowHeight))
   }
 
-  def ropeStart = transform.modelToView(mass.position)
+  def ropeStart = transformMV.modelToView(mass.position)
 
   lazy val sign = if (leftOfObject) -1 else 1
 
   def ropeEnd = {
-    val length = transform.modelToViewDifferentialX(mass.radius) + 100
+    val length = transformMV.modelToViewDifferentialX(mass.radius) + 100
     ropeStart + new Vector2D(length * sign, 0)
   }
 
@@ -57,7 +57,7 @@ class CharacterNode(mass: Mass, mass2: Mass, transform: ModelViewTransform2D, le
   def forceAmount = {
     val minForceToShow = 0.00000000064
     val maxForceToShow = 0.00000000989
-    val a = new common.phetcommon.math.Function.LinearFunction(minForceToShow, maxForceToShow, 0, 14).evaluate(gravityForce()).toInt
+    val a = new edu.colorado.phet.common.phetcommon.math.Function.LinearFunction(minForceToShow, maxForceToShow, 0, 14).evaluate(gravityForce()).toInt
     (a max 0) min 14
   }
 

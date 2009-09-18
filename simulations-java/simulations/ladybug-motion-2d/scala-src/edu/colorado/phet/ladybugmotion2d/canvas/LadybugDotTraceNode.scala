@@ -3,16 +3,14 @@ package edu.colorado.phet.ladybugmotion2d.canvas
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
 import java.awt.geom.{Ellipse2D, GeneralPath, Point2D}
-import model.{LadybugState, LadybugModel}
-
-import scalacommon.math.Vector2D
-import scalacommon.util.Observable
-import scalacommon.record.{DataPoint, RecordModel}
-import umd.cs.piccolo.nodes.PPath
-import umd.cs.piccolo.PNode
 import java.awt.{BasicStroke, Color}
 import java.lang.Math._
-import scalacommon.Predef._
+import edu.colorado.phet.ladybugmotion2d.model.{LadybugState, LadybugModel}
+import edu.colorado.phet.scalacommon.record.DataPoint
+import edu.colorado.phet.scalacommon.math.Vector2D
+import edu.colorado.phet.scalacommon.Predef._
+import edu.umd.cs.piccolo.PNode
+import edu.colorado.phet.scalacommon.util.Observable
 
 class LadybugDotTraceNode(model: LadybugModel, transform: ModelViewTransform2D,
                           shouldBeVisible: () => Boolean, observable: Observable, maxFade: Double)
