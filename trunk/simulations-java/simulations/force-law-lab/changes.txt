@@ -1,3 +1,4 @@
+Fixed: force labels show up in the wrong location on startup
 Increased the range for character force display by a factor of 2
 # 0.01.19 (35124) Sep 17, 2009
 # 0.01.18 (35123) Sep 17, 2009

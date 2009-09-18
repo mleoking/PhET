@@ -342,6 +342,7 @@ class ForceLawsModule(clock: ScalaClock) extends Module(ForceLawLabResources.get
   clock.addClockListener(model.update(_))
   setControlPanel(new ForceLawLabControlPanel(model, () => {canvas.resetRulerLocation}))
   setClockControlPanel(null)
+  model.notifyListeners()//this workaround ensures all view components update; this is necessary because one of them has an incorrect transform on startup, and is not observing the transform object
 }
 
 object ForceLawLabDefaults {
