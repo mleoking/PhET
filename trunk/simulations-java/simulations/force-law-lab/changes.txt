@@ -1,3 +1,4 @@
+Changed the default mass sizes and locations so there is a better range of display for the character graphics on startup
 Fixed: force labels show up in the wrong location on startup
 Increased the range for character force display by a factor of 2
 # 0.01.19 (35124) Sep 17, 2009

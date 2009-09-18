@@ -334,7 +334,7 @@ class ForceLawsModule(clock: ScalaClock) extends Module(ForceLawLabResources.get
     x
   }
 
-  val model = new ForceLawLabModel(10, 25, -1, 2, massToRadiusFn, massToRadiusFn, 9E-10, 0.0, 50, 50, -4, ForceLawLabResources.getLocalizedString("mass-1"), ForceLawLabResources.getLocalizedString("mass-2"))
+  val model = new ForceLawLabModel(38, 25, -2, 2, massToRadiusFn, massToRadiusFn, 9E-10, 0.0, 50, 50, -4, ForceLawLabResources.getLocalizedString("mass-1"), ForceLawLabResources.getLocalizedString("mass-2"))
   val canvas = new ForceLawLabCanvas(model, 10, Color.blue, Color.red, Color.white, 10, 10,
     ForceLawLabResources.getLocalizedString("units.m"), _.toString, 1E10,
     new TinyDecimalFormat(), new Magnification(false), new UnitsContainer(new Units("meters", 1)))
