@@ -113,6 +113,10 @@ public class WicketApplication extends WebApplication {
         // get rid of wicket:id's and other related tags in the produced HTML.
         getMarkupSettings().setStripWicketTags( true );
 
+        PhetUrlMapper errorMapper = new PhetUrlMapper();
+        NotFoundPage.addToMapper( errorMapper );
+        mount( new PhetUrlStrategy( "error", errorMapper ) );
+
     }
 
     private PhetLocales supportedLocales = null;

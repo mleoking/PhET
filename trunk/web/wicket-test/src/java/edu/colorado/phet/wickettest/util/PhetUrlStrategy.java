@@ -7,6 +7,7 @@ import org.apache.wicket.request.target.coding.IRequestTargetUrlCodingStrategy;
 import org.apache.wicket.request.target.component.BookmarkablePageRequestTarget;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
+import edu.colorado.phet.wickettest.WicketApplication;
 
 public class PhetUrlStrategy implements IRequestTargetUrlCodingStrategy {
     private String prefix;
@@ -40,7 +41,12 @@ public class PhetUrlStrategy implements IRequestTargetUrlCodingStrategy {
         params.add( "path", strippedPath );
         params.add( "localeString", prefix );
         params.add( "prefixString", "/" + prefix + "/" );
-        params.put( "locale", LocaleUtils.stringToLocale( prefix ) );
+        if ( prefix.equals( "error" ) ) {
+            params.put( "locale", WicketApplication.getDefaultLocale() );
+        }
+        else {
+            params.put( "locale", LocaleUtils.stringToLocale( prefix ) );
+        }
         Class toClass = mapper.getMappedClass( strippedPath, params );
         return new BookmarkablePageRequestTarget( toClass, params );
     }
