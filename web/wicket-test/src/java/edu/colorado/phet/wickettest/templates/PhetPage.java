@@ -56,6 +56,10 @@ public abstract class PhetPage extends WebPage {
             prefix = "/" + LocaleUtils.localeToString( myLocale ) + "/";
         }
 
+        if( prefix.equals("/error/") ) {
+            prefix = "/";
+        }
+
         path = parameters.getString( "path" );
 
         // should usually default to null
