@@ -146,8 +146,8 @@ public class SimulationDisplay extends PhetRegularPage {
     }
 
     public static void addToMapper( PhetUrlMapper mapper ) {
-        mapper.addMap( "^simulations$", SimulationDisplay.class );
-        mapper.addMap( "^simulations/(index)$", SimulationDisplay.class, new String[]{"query-string"} );
+        //mapper.addMap( "^simulations$", SimulationDisplay.class );
+        mapper.addMap( "^simulations(/index)?$", SimulationDisplay.class, new String[]{"query-string"} );
         mapper.addMap( "^simulations/category/(.+?)(/index)?$", SimulationDisplay.class, new String[]{"categories", "query-string"} );
     }
 

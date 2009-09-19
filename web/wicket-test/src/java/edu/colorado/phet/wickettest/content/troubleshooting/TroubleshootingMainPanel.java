@@ -14,6 +14,10 @@ public class TroubleshootingMainPanel extends PhetPanel {
     public TroubleshootingMainPanel( String id, PageContext context ) {
         super( id, context );
 
+        add( TroubleshootingJavaPanel.getLinker().getLink( "to-java", context ) );
+        add( TroubleshootingFlashPanel.getLinker().getLink( "to-flash", context ) );
+        add( TroubleshootingJavascriptPanel.getLinker().getLink( "to-javascript", context ) );
+
         add( new LocalizedText( "troubleshooting-main-intro", "troubleshooting.main.intro", new Object[]{
                 "<a href=\"mailto:phethelp@colorado.edu?Subject=Help\"><span class=\"red\">phethelp@colorado.edu</span></a>",
                 ""

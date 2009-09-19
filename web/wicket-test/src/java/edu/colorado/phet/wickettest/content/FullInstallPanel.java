@@ -40,7 +40,7 @@ public class FullInstallPanel extends PhetPanel {
         } ) );
 
         add( new LocalizedText( "step1", "get-phet.full-install.creatingInstallationCD.step1", new Object[]{
-                "href=\"../PhET-Installer_cdrom.zip\"",
+                "href=\"/PhET-Installer_cdrom.zip\"",
                 "246"
         } ) );
 
