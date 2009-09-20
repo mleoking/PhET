@@ -4,8 +4,8 @@ package edu.colorado.phet.piccoloscala
 import collection.mutable.ArrayBuffer
 import java.beans.{PropertyChangeListener, PropertyChangeEvent}
 import javax.swing.{SwingUtilities, JFrame}
-import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
-import umd.cs.piccolo.{PCanvas, PNode}
+import edu.umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
+import edu.umd.cs.piccolo.{PCanvas, PNode}
 import java.awt.Container
 
 class SCanvas extends PCanvas {

@@ -4,7 +4,6 @@ import collection.mutable.{HashMap, HashSet, ArrayBuffer}
 import Jama.Matrix
 import org.scalatest.FunSuite
 import java.lang.Math._
-
 import util.parsing.combinator.JavaTokenParsers
 import util.Sorting
 
@@ -188,7 +187,7 @@ case class Circuit(batteries: Seq[Battery], resistors: Seq[Resistor], currentSou
 
   private def getConnectedNodes(visited: HashSet[Int], toVisit: HashSet[Int]): Unit = {
     while (toVisit.size > 0) {
-      val n = toVisit.toArray(0)
+      val n = toVisit.toList(0)
       visited += n
       for (e <- getElements) {
         if (e.containsNode(n) && !visited.contains(e.getOpposite(n))) {

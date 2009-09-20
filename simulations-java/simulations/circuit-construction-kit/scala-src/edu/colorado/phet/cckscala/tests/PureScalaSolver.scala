@@ -1,10 +1,11 @@
 package edu.colorado.phet.cckscala.tests
 
-import circuitconstructionkit.model.analysis.CircuitSolver
-import circuitconstructionkit.model.components.{Branch, Wire, Inductor => CCKInductor, Capacitor => CCKCapacitor, Battery => CCKBattery, Resistor => CCKResistor, Filament, Switch, Bulb, SeriesAmmeter}
-import circuitconstructionkit.model.{Circuit => CCKCircuit}
+import edu.colorado.phet.circuitconstructionkit.model.analysis.CircuitSolver
+import edu.colorado.phet.circuitconstructionkit.model.components.{Branch, Wire, Inductor => CCKInductor, Capacitor => CCKCapacitor, Battery => CCKBattery, Resistor => CCKResistor, Filament, Switch, Bulb, SeriesAmmeter}
+import edu.colorado.phet.circuitconstructionkit.model.{Circuit => CCKCircuit}
 import collection.mutable.ArrayBuffer
-import common.phetcommon.util.IProguardKeepClass
+import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass
+import edu.colorado.phet.circuitconstructionkit.model.components.{Bulb, SeriesAmmeter}
 
 class PureScalaSolver extends CircuitSolver
         with IProguardKeepClass { //loaded with reflection, see CCKModel

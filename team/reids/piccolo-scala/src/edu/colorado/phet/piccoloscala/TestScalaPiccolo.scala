@@ -1,15 +1,16 @@
 package edu.colorado.phet.piccoloscala
 
-import common.piccolophet.event.CursorHandler
-import common.piccolophet.nodes.PhetPPath
 import java.awt.geom.Ellipse2D
 import java.awt.{BasicStroke, Color, Dimension}
-import umd.cs.piccolo.nodes.PText
 import edu.colorado.phet.piccoloscala.Predef._
 import Color._
 import javax.swing.JFrame._
+import edu.colorado.phet.common.piccolophet.event.CursorHandler
+import edu.umd.cs.piccolo.nodes.PText
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
 
 object TestScalaPiccolo {
+
   def main(args: Array[String]) = {
     runInSwingThread {
       new MyJFrame {
