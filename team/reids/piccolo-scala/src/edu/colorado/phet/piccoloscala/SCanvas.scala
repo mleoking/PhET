@@ -4,9 +4,10 @@ package edu.colorado.phet.piccoloscala
 import collection.mutable.ArrayBuffer
 import java.beans.{PropertyChangeListener, PropertyChangeEvent}
 import javax.swing.{SwingUtilities, JFrame}
-import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEventListener, PInputEvent}
+import umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
 import umd.cs.piccolo.{PCanvas, PNode}
 import java.awt.Container
+
 class SCanvas extends PCanvas {
   setPanEventHandler(null)
   def addNode(node: PNode) = {
@@ -25,6 +26,14 @@ class MyJFrame extends JFrame {
   def contentPane_=(c: Container) = super.setContentPane(c)
 
   def contentPane = super.getContentPane
+
+  def _width = super.getWidth
+
+  def _width_=(w: Int) = super.setSize(w, getHeight)
+
+  def _height = super.getHeight
+
+  def _height_=(h: Int) = super.setSize(getWidth, h)
 }
 
 object Predef {
@@ -35,21 +44,28 @@ object Predef {
         def propertyChange(evt: PropertyChangeEvent) =
           updateLocation()
       })
-      node.addPropertyChangeListener(PNode.PROPERTY_FULL_BOUNDS,new PropertyChangeListener(){
+      node.addPropertyChangeListener(PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
         def propertyChange(evt: PropertyChangeEvent) = updateLocation()
       })
       updateLocation()
-}
-    def addDragListener( listener: (Double,Double)=>Unit) = {
-      node.addInputEventListener(new PBasicInputEventHandler(){
-        override def mouseDragged(event: PInputEvent) = listener(event.getDelta.getWidth,event.getDelta.getHeight)
+    }
+
+    def addDragListener(listener: (Double, Double) => Unit) = {
+      node.addInputEventListener(new PBasicInputEventHandler() {
+        override def mouseDragged(event: PInputEvent) = listener(event.getDelta.getWidth, event.getDelta.getHeight)
+      })
+    }
+
+    def addMousePressListener(listener: () => Unit) = {
+      node.addInputEventListener(new PBasicInputEventHandler() {
+        override def mousePressed(event: PInputEvent) = listener()
       })
     }
   }
   implicit def nodeToMyNode(node: PNode) = new MyPNode(node)
 
-  def runInSwingThread(runnable: =>Unit) = {
-    SwingUtilities.invokeLater( new Runnable(){
+  def runInSwingThread(runnable: => Unit) = {
+    SwingUtilities.invokeLater(new Runnable() {
       def run = runnable
     })
   }
