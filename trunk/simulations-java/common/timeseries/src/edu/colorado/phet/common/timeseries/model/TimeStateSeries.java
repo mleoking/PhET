@@ -9,11 +9,10 @@ import java.util.ArrayList;
  * Time: 12:38:31 AM
  */
 public class TimeStateSeries {
-    private ArrayList pts = new ArrayList();
+    private ArrayList<TimeState> pts = new ArrayList<TimeState>();
 
     public void addPoint( Object value, double time ) {
-        TimeState timePoint = new TimeState( value, time );
-        this.pts.add( timePoint );
+        pts.add( new TimeState( value, time ));
     }
 
     public TimeState getLastPoint() {
@@ -30,7 +29,7 @@ public class TimeStateSeries {
     }
 
     public void clear() {
-        this.pts = new ArrayList();
+        this.pts = new ArrayList<TimeState>();
     }
 
     public TimeState lastPointAt( int i ) {
@@ -38,7 +37,7 @@ public class TimeStateSeries {
     }
 
     public TimeState pointAt( int i ) {
-        return ( (TimeState) pts.get( i ) );
+        return pts.get( i );
     }
 
     public int numPoints() {
