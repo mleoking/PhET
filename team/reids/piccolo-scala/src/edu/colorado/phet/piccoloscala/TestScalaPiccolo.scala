@@ -17,7 +17,7 @@ object TestScalaPiccolo {
           val circle = add {
             new PhetPPath(new Ellipse2D.Double(0, 0, 100, 100), blue, new BasicStroke(6), yellow) {
               addInputEventListener(new CursorHandler)
-              this.addDragListener((event: PInputEvent) => translate(event.getDelta.getWidth, event.getDelta.getHeight))
+              this.addDragListener((dx:Double,dy:Double) => translate(dx,dy))
             }
           }
           val text = add {new PText("Hello")}

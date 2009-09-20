@@ -40,9 +40,9 @@ object Predef {
       })
       updateLocation()
 }
-    def addDragListener( listener: PInputEvent=>Unit) = {
+    def addDragListener( listener: (Double,Double)=>Unit) = {
       node.addInputEventListener(new PBasicInputEventHandler(){
-        override def mouseDragged(event: PInputEvent) = listener(event)
+        override def mouseDragged(event: PInputEvent) = listener(event.getDelta.getWidth,event.getDelta.getHeight)
       })
     }
   }
