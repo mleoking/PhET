@@ -20,7 +20,8 @@ object TestScalaPiccolo {
             setOffset(200,200)
           }
           val text = this add new PText("Hello"){
-            this.addMousePressListener( ()=>setText("Mouse Pressed"))
+            var numTimes = 0
+            this.addMousePressListener( ()=>{numTimes = numTimes + 1; setText("Mouse Pressed "+numTimes+" times")})
           }
           text centered_below circle
           this add new PText("Another text")
