@@ -1,3 +1,7 @@
+Removed all references to "work" in the work/energy tab of The Ramp, including graphs and bar charts
+Removed the force graph from the work/energy tab of The Ramp
+Renamed the "work/energy" ramp tab to "Energy"
+Fixed the layout of the "Energy" tab to match the "Force Graphs" tab
 # 1.03.41 (35095) Sep 17, 2009
 Fixed: Physics errors when frictionless + brick (inelastic collision); object jumps through wall or gains a great deal of velocity, especially when at an angle
 Fixed: Switching to ice should clear heat

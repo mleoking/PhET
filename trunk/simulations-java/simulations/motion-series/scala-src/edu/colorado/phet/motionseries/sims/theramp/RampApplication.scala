@@ -62,14 +62,14 @@ class GraphingModule(frame: JFrame,
   coordinateSystemModel.adjustable = false
 }
 
-class ForceGraphsModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(frame, clock, "module.force-graphs".translate, false, MotionSeriesDefaults.forceGraphViewport,MotionSeriesDefaults.forceGraphArea) {
+class ForceGraphsModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(frame, clock, "module.force-graphs".translate, false, MotionSeriesDefaults.oneGraphViewport,MotionSeriesDefaults.oneGraphArea) {
   rampCanvas.addScreenNode(new RampForceChartNode(rampCanvas, motionSeriesModel))
 }
 
-class WorkEnergyModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(frame, clock, "module.work-energy".translate, true, MotionSeriesDefaults.forceEnergyGraphViewport,MotionSeriesDefaults.forceEnergyGraphArea) {
+class WorkEnergyModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(frame, clock, "module.energy".translate, true, MotionSeriesDefaults.oneGraphViewport,MotionSeriesDefaults.oneGraphArea) {
   rampCanvas.addScreenNode(new RampForceEnergyChartNode(rampCanvas, motionSeriesModel))
   val workEnergyChartModel = new WorkEnergyChartModel
-  val workEnergyChartButton = new JButton("controls.showWorkEnergyCharts".translate)
+  val workEnergyChartButton = new JButton("controls.show-energy-chart".translate)
   workEnergyChartButton.addActionListener(new ActionListener() {
     def actionPerformed(e: ActionEvent) = {workEnergyChartModel.visible = true}
   })

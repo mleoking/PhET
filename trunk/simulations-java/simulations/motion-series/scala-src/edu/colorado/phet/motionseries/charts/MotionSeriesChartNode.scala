@@ -47,6 +47,27 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
     val keSeries = new ControlGraphSeries(formatEnergy("energy.kinetic".translate), kineticEnergyColor, abbrevUnused, J, characterUnused, createVariable(() => model.bead.getKineticEnergy))
     val peSeries = new ControlGraphSeries(formatEnergy("energy.potential".translate), potentialEnergyColor, abbrevUnused, J, characterUnused, createVariable(() => model.bead.getPotentialEnergy))
     val thermalEnergySeries = new ControlGraphSeries(formatEnergy("energy.thermal".translate), thermalEnergyColor, abbrevUnused, J, characterUnused, createVariable(() => model.bead.getThermalEnergy))
+    val energySeriesList = totalEnergySeries :: keSeries :: peSeries :: thermalEnergySeries :: Nil
+
+    val theEnergyGraph = new MotionSeriesGraph(totalEnergySeries, canvas, timeseriesModel, updateableObject, model) {
+      setEditable(false)
+      setDomainUpperBound(20)
+      getJFreeChartNode.setBuffered(false)
+      getJFreeChartNode.setPiccoloSeries()
+      for (s <- energySeriesList.tail) addSeries(s)
+      addControl(new SeriesSelectionControl("forces.energy-title-with-units".translate, 7) {
+        for (s <- energySeriesList) addToGrid(s)
+      })
+    }
+
+    theEnergyGraph
+  }
+
+  def workEnergyGraph = {
+    val totalEnergySeries = new ControlGraphSeries(formatEnergy("energy.total".translate), totalEnergyColor, abbrevUnused, J, characterUnused, createVariable(() => model.bead.getTotalEnergy))
+    val keSeries = new ControlGraphSeries(formatEnergy("energy.kinetic".translate), kineticEnergyColor, abbrevUnused, J, characterUnused, createVariable(() => model.bead.getKineticEnergy))
+    val peSeries = new ControlGraphSeries(formatEnergy("energy.potential".translate), potentialEnergyColor, abbrevUnused, J, characterUnused, createVariable(() => model.bead.getPotentialEnergy))
+    val thermalEnergySeries = new ControlGraphSeries(formatEnergy("energy.thermal".translate), thermalEnergyColor, abbrevUnused, J, characterUnused, createVariable(() => model.bead.getThermalEnergy))
     val appliedWorkSeries = new ControlGraphSeries(formatWork("work.applied".translate), appliedWorkColor, abbrevUnused, J, characterUnused, createVariable(() => model.bead.getAppliedWork))
     val gravityWorkSeries = new ControlGraphSeries(formatWork("work.gravity".translate), gravityWorkColor, abbrevUnused, J, characterUnused, createVariable(() => model.bead.getGravityWork))
     val frictionWorkSeries = new ControlGraphSeries(formatWork("work.friction".translate), frictionWorkColor, abbrevUnused, J, characterUnused, createVariable(() => model.bead.getFrictiveWork))
