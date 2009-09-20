@@ -16,7 +16,7 @@ object MotionSeriesDefaults {
   val fullScreenArea = new StageContainerArea() {
     def getBounds(w: Double, h: Double) = new Rectangle2D.Double(0, 0, w, h)
   }
-  val forceGraphArea = new StageContainerArea() {
+  val oneGraphArea = new StageContainerArea() {
     def getBounds(w: Double, h: Double) = new Rectangle2D.Double(0, 0, w, h / 2)
   }
   val forceEnergyGraphArea = new StageContainerArea() {
@@ -30,7 +30,7 @@ object MotionSeriesDefaults {
   }
 
   val defaultViewport = new Rectangle2D.Double(-11, -6, 23, 16)
-  val forceGraphViewport = new Rectangle2D.Double(-11, -1, 23, 8)
+  val oneGraphViewport = new Rectangle2D.Double(-11, -1, 23, 8)
   val forceEnergyGraphViewport = new Rectangle2D.Double(-11, -1, 23, 6)
 
   val forceMotionGraphViewport = new Rectangle2D.Double(-11, -1, 22, 4)

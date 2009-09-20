@@ -27,24 +27,25 @@ class WorkEnergyChartModel extends Observable {
 }
 
 class WorkEnergyChart(workEnergyChartModel: WorkEnergyChartModel, model: MotionSeriesModel, owner: JFrame) {
-  val dialog = new JDialog(owner, "controls.work-energy-charts".translate, false)
+  val dialog = new JDialog(owner, "controls.energy-chart".translate, false)
 
   def updateDialogVisible() = dialog.setVisible(workEnergyChartModel.visible)
   workEnergyChartModel.addListenerByName {updateDialogVisible()}
   updateDialogVisible()
-  val barChartNode = new BarChartNode("forces.work-energy-title".translate, 0.05, Color.white)
+  val barChartNode = new BarChartNode("forces.energy-title".translate, 0.05, Color.white)
   import MotionSeriesDefaults._
   val totalEnergyVariable = new BarChartNode.Variable("energy.total-energy".translate, 0.0, totalEnergyColor)
   val kineticEnergyVariable = new BarChartNode.Variable("energy.kinetic-energy".translate, 0.0, kineticEnergyColor)
   val potentialEnergyVariable = new BarChartNode.Variable("energy.potential-energy".translate, 0.0, potentialEnergyColor)
   val thermalEnergyVariable = new BarChartNode.Variable("energy.thermal-energy".translate, 0.0, thermalEnergyColor)
 
-  val appliedWorkVariable = new BarChartNode.Variable("work.applied-work".translate, 0.0, appliedWorkColor)
-  val frictionWorkVariable = new BarChartNode.Variable("work.friction-work".translate, 0.0, frictionWorkColor)
-  val gravityWorkVariable = new BarChartNode.Variable("work.gravity-work".translate, 0.0, gravityWorkColor)
+//  val appliedWorkVariable = new BarChartNode.Variable("work.applied-work".translate, 0.0, appliedWorkColor)
+//  val frictionWorkVariable = new BarChartNode.Variable("work.friction-work".translate, 0.0, frictionWorkColor)
+//  val gravityWorkVariable = new BarChartNode.Variable("work.gravity-work".translate, 0.0, gravityWorkColor)
 
-  barChartNode.init(Array(totalEnergyVariable, kineticEnergyVariable, potentialEnergyVariable, thermalEnergyVariable,
-    appliedWorkVariable, frictionWorkVariable, gravityWorkVariable))
+  barChartNode.init(Array(totalEnergyVariable, kineticEnergyVariable, potentialEnergyVariable, thermalEnergyVariable
+//    ,appliedWorkVariable, frictionWorkVariable, gravityWorkVariable
+    ))
   val canvas = new PhetPCanvas
   val clearButton = new PSwing(new MyJButton("controls.clear-heat".translate, () => model.clearHeat()))
   val zoomButton = new ZoomControlNode(ZoomControlNode.VERTICAL) {
@@ -63,7 +64,7 @@ class WorkEnergyChart(workEnergyChartModel: WorkEnergyChartModel, model: MotionS
   canvas.addWorldChild(clearButton)
   canvas.addWorldChild(zoomButton)
   dialog.setContentPane(canvas)
-  dialog.setSize(300, 768)
+  dialog.setSize(175, 768)
   canvas.addComponentListener(new ComponentAdapter() {override def componentResized(e: ComponentEvent) = updateButtonLocations()})
   def updateButtonLocations() = {
     clearButton.setOffset(0, canvas.getHeight - clearButton.getFullBounds.getHeight)
@@ -79,9 +80,9 @@ class WorkEnergyChart(workEnergyChartModel: WorkEnergyChartModel, model: MotionS
     potentialEnergyVariable.setValue(bead.getPotentialEnergy)
     thermalEnergyVariable.setValue(bead.getThermalEnergy)
 
-    appliedWorkVariable.setValue(bead.getAppliedWork)
-    frictionWorkVariable.setValue(bead.getFrictiveWork)
-    gravityWorkVariable.setValue(bead.getGravityWork)
+//    appliedWorkVariable.setValue(bead.getAppliedWork)
+//    frictionWorkVariable.setValue(bead.getFrictiveWork)
+//    gravityWorkVariable.setValue(bead.getGravityWork)
     barChartNode.update()
   }
 }
