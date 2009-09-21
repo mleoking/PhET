@@ -11,6 +11,7 @@ import edu.colorado.phet.wickettest.data.Category;
 import edu.colorado.phet.wickettest.data.LocalizedSimulation;
 import edu.colorado.phet.wickettest.data.Simulation;
 import edu.colorado.phet.wickettest.data.Translation;
+import edu.colorado.phet.wickettest.translation.PhetLocalizer;
 
 public class HibernateUtils {
 
@@ -198,6 +199,7 @@ public class HibernateUtils {
      */
     public static void orderSimulations( List<LocalizedSimulation> list, final Locale locale ) {
         final HashMap<String, String> map = new HashMap<String, String>();
+        final PhetLocalizer phetLocalizer = (PhetLocalizer) WicketApplication.get().getResourceSettings().getLocalizer();
 
         for ( LocalizedSimulation sim : list ) {
             boolean correctLocale = locale.equals( sim.getLocale() );
@@ -232,7 +234,10 @@ public class HibernateUtils {
                     if ( b.getLocale().equals( locale ) ) {
                         return 1;
                     }
-                    return a.getLocale().getDisplayName( locale ).compareToIgnoreCase( b.getLocale().getDisplayName( locale ) );
+
+                    String localeA = StringUtils.getLocaleTitle( a.getLocale(), locale, phetLocalizer );
+                    String localeB = StringUtils.getLocaleTitle( b.getLocale(), locale, phetLocalizer );
+                    return localeA.compareToIgnoreCase( localeB );
                 }
 
                 String aGlobalTitle = map.get( a.getSimulation().getName() );
