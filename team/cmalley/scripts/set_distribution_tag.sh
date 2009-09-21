@@ -56,7 +56,7 @@ echo "${TAG_NAME}=${TAG_VALUE}" >> ${PROPERTIES}
 echo "**** updating JAR with new properties file"
 jar uvf ${JAR} ${PROPERTIES}
 
-echo "**** signing JAR (this prompts for password!)"
+echo "**** signing JAR (jarsigner prompts for password!)"
 jarsigner -keystore ${KEYSTORE} -storetype pkcs12 ${JAR} ${ALIAS}
 
 echo "**** running JAR, look for tag in About dialog"
