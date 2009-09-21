@@ -1,17 +1,17 @@
 #!/bin/bash
 #--------------------------------------------------------------------------
 #
-# Adds a distribution tag to a simulation JAR.
+# Sets the distribution tag for an existing simulation JAR.
 # This works for both Java and Flash sims.
 # You will be prompted for the keystore password.
 #
 # General usage:
 #
-# add_distribution_tag.sh jar project tag keystore
+# set_distribution_tag.sh jar project tag keystore
 #
 # Example usage:
 #
-# add_distribution_tag.sh glaciers_en.jar glaciers KSU phet-certificate.p12
+# set_distribution_tag.sh glaciers_en.jar glaciers KSU phet-certificate.p12
 #
 #--------------------------------------------------------------------------
 
