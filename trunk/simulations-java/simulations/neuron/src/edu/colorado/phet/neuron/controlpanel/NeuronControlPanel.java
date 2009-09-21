@@ -13,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValu
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.neuron.NeuronResources;
 import edu.colorado.phet.neuron.model.AxonModel;
+import edu.colorado.phet.neuron.model.MembraneChannelTypes;
 import edu.colorado.phet.neuron.model.SodiumLeakageChannel;
 import edu.colorado.phet.neuron.module.MembraneDiffusionModule;
 import edu.colorado.phet.neuron.view.MembraneChannelNode;
@@ -25,9 +26,13 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class NeuronControlPanel extends ControlPanel {
 
-    //----------------------------------------------------------------------------
+
+	//----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
+	private AxonModel axonModel;
+	private LeakChannelSlider sodiumLeakChannelControl;
+	private LeakChannelSlider potassiumLeakChannelControl;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -39,30 +44,45 @@ public class NeuronControlPanel extends ControlPanel {
      * @param module
      * @param parentFrame parent frame, for creating dialogs
      */
-    public NeuronControlPanel( MembraneDiffusionModule module, Frame parentFrame, AxonModel model ) {
+    public NeuronControlPanel( MembraneDiffusionModule module, Frame parentFrame, AxonModel axonModel ) {
         super();
+        
+        this.axonModel = axonModel;
         
         // Set the control panel's minimum width.
         int minimumWidth = NeuronResources.getInt( "int.minControlPanelWidth", 215 );
         setMinimumWidth( minimumWidth );
         
-//        LeakChannelSlider sodiumLeakChannelControl = new LeakChannelSlider("Sodium Leak Channels", 
-//        		new MembraneChannelNode(new SodiumLeakageChannel(), new ModelViewTransform2D()));
-//        addControlFullWidth(sodiumLeakChannelControl);
+        // TODO: Internationalize.
+        sodiumLeakChannelControl = new LeakChannelSlider("Sodium Leak Channels", 
+        		new MembraneChannelNode(new SodiumLeakageChannel(), new ModelViewTransform2D()));
+        addControlFullWidth(sodiumLeakChannelControl);
+        potassiumLeakChannelControl = new LeakChannelSlider("Potassium Leak Channels", 
+        		new MembraneChannelNode(new SodiumLeakageChannel(), new ModelViewTransform2D()));
+        addControlFullWidth(potassiumLeakChannelControl);
         
         // Layout
         {
             addResetAllButton( module );
         }
+        
+        updateSliders();
     }
     
     //----------------------------------------------------------------------------
-    // Setters and getters
+    // Methods
     //----------------------------------------------------------------------------
     
-    public void closeAllDialogs() {
-        //XXX close any dialogs created via the control panel
+    private void updateSliders(){
+    	
+    	sodiumLeakChannelControl.setValue(axonModel.getNumMembraneChannels(MembraneChannelTypes.SODIUM_LEAKAGE_CHANNEL));
+    	potassiumLeakChannelControl.setValue(axonModel.getNumMembraneChannels(MembraneChannelTypes.SODIUM_LEAKAGE_CHANNEL));
+    	
     }
+    
+    //----------------------------------------------------------------------------
+    // Inner Classes and Interfaces
+    //----------------------------------------------------------------------------
     
     private static class LeakChannelSlider extends LinearValueControl{
     	
@@ -75,17 +95,7 @@ public class NeuronControlPanel extends ControlPanel {
             setMinorTicksVisible(false);
             setBorder( BorderFactory.createEtchedBorder() );
             setValueLabelIcon(new ImageIcon(icon.toImage(50, 50, new Color(0,0,0,0))));
-//            setValue( _model.getNumU235Nuclei() );
-//            addChangeListener( new ChangeListener() {
-//
-//    			public void stateChanged( ChangeEvent e ) {
-//                    if (_ignoreStateChanges == false){
-//                    	// Set the new value for U235 nuclei.
-//                        _model.setNumU235Nuclei( (int)Math.round(getValue()) );
-//                    }
-//                }
-//            });
+            setSnapToTicks(true);
 		}
-        
     }
 }
