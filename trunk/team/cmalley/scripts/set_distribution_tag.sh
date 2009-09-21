@@ -7,17 +7,17 @@
 #
 # General usage:
 #
-# set_distribution_tag.sh jar project tag keystore
+# set_distribution_tag.sh jar project tag keystore alias tsa_url
 #
 # Example usage:
 #
-# set_distribution_tag.sh glaciers_en.jar glaciers KSU phet-certificate.p12
+# set_distribution_tag.sh glaciers_en.jar glaciers KSU phet-certificate.p12 *** https://mytsa
 #
 #--------------------------------------------------------------------------
 
 # validate command line syntax
-if [ "${#}" -ne "4" ] ; then
-    echo "usage: ${0} jar project tag_value keystore";
+if [ "${#}" -ne "6" ] ; then
+    echo "usage: ${0} jar project tag_value keystore alias tsa_url";
     exit 1;
 fi
 
@@ -26,13 +26,12 @@ JAR=${1}
 PROJECT=${2}
 TAG_VALUE=${3}
 KEYSTORE=${4}
-STOREPASS=${5}
+ALIAS=${5}
+TSA_URL={$6}
 
 # constants
 TAG_NAME=distribution.tag
 TMPFILE=/tmp/phet$$
-TSA_URL=https://timestamp.geotrust.com/tsa
-CERT_ALIAS=6490e8eee085a22be42778bc0943698a_50e417e0-e461-474b-96e2-077b80325612
 
 echo -n "**** determining sim type: "
 PROPERTIES=${PROJECT}/${PROJECT}.properties
@@ -58,7 +57,7 @@ echo "**** updating JAR with new properties file"
 jar uvf ${JAR} ${PROPERTIES}
 
 echo "**** signing JAR (this prompts for password!)"
-jarsigner -keystore ${KEYSTORE} -storetype pkcs12 ${JAR} ${CERT_ALIAS}
+jarsigner -keystore ${KEYSTORE} -storetype pkcs12 ${JAR} ${ALIAS}
 
 echo "**** running JAR, look for tag in About dialog"
 java -jar ${JAR}
