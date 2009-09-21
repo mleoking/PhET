@@ -5,7 +5,6 @@ package edu.colorado.phet.neuron.model;
 import java.awt.Shape;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
-import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -151,10 +150,11 @@ public class AxonModel {
     }
 
     public void setNumMembraneChannels(MembraneChannelTypes channelType, int numChannels){
-    	if (numChannels > getNumMembraneChannels(channelType)){
+    	if (numChannels < getNumMembraneChannels(channelType)){
     		// Need to remove a channel.
+    		removeChannel(channelType);
     	}
-    	else if (numChannels < getNumMembraneChannels(channelType)){
+    	else if (numChannels > getNumMembraneChannels(channelType)){
     		// Need to add a channel.
     		addChannel(channelType);
     	}
@@ -275,7 +275,7 @@ public class AxonModel {
     		}
     	}
     	
-    	// Position the channel randomly on the membrane.
+    	// Position the channel on the membrane.
     	membraneChannel.setRotationalAngle(angle);
     	membraneChannel.setCenterLocation(newLocation);
     	
@@ -293,6 +293,7 @@ public class AxonModel {
     	for (int i = 0; i < channels.size(); i++){
     		if (channels.get(i).getChannelType() == channelType){
     			channelToRemove = channels.get(i);
+    			break;
     		}
     	}
     	

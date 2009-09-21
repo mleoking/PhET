@@ -7,6 +7,8 @@ import java.awt.Frame;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
@@ -44,10 +46,10 @@ public class NeuronControlPanel extends ControlPanel {
      * @param module
      * @param parentFrame parent frame, for creating dialogs
      */
-    public NeuronControlPanel( MembraneDiffusionModule module, Frame parentFrame, AxonModel axonModel ) {
+    public NeuronControlPanel( MembraneDiffusionModule module, Frame parentFrame, AxonModel model ) {
         super();
         
-        this.axonModel = axonModel;
+        this.axonModel = model;
         
         // Set the control panel's minimum width.
         int minimumWidth = NeuronResources.getInt( "int.minControlPanelWidth", 215 );
@@ -56,6 +58,14 @@ public class NeuronControlPanel extends ControlPanel {
         // TODO: Internationalize.
         sodiumLeakChannelControl = new LeakChannelSlider("Sodium Leak Channels", 
         		new MembraneChannelNode(new SodiumLeakageChannel(), new ModelViewTransform2D()));
+        sodiumLeakChannelControl.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				int value = (int)Math.round(sodiumLeakChannelControl.getValue());
+				if ( value != axonModel.getNumMembraneChannels(MembraneChannelTypes.SODIUM_LEAKAGE_CHANNEL) ){
+					axonModel.setNumMembraneChannels(MembraneChannelTypes.SODIUM_LEAKAGE_CHANNEL, value);
+				}
+			}
+		});
         addControlFullWidth(sodiumLeakChannelControl);
         potassiumLeakChannelControl = new LeakChannelSlider("Potassium Leak Channels", 
         		new MembraneChannelNode(new SodiumLeakageChannel(), new ModelViewTransform2D()));
@@ -75,9 +85,18 @@ public class NeuronControlPanel extends ControlPanel {
     
     private void updateSliders(){
     	
-    	sodiumLeakChannelControl.setValue(axonModel.getNumMembraneChannels(MembraneChannelTypes.SODIUM_LEAKAGE_CHANNEL));
-    	potassiumLeakChannelControl.setValue(axonModel.getNumMembraneChannels(MembraneChannelTypes.SODIUM_LEAKAGE_CHANNEL));
-    	
+    	if (sodiumLeakChannelControl.getValue() != 
+    		axonModel.getNumMembraneChannels(MembraneChannelTypes.SODIUM_LEAKAGE_CHANNEL)){
+    		
+    		sodiumLeakChannelControl.setValue(
+    				axonModel.getNumMembraneChannels(MembraneChannelTypes.SODIUM_LEAKAGE_CHANNEL));
+    	}
+    	if (potassiumLeakChannelControl.getValue() != 
+    		axonModel.getNumMembraneChannels(MembraneChannelTypes.POTASSIUM_LEAKAGE_CHANNEL)){
+    		
+    		potassiumLeakChannelControl.setValue(
+    				axonModel.getNumMembraneChannels(MembraneChannelTypes.POTASSIUM_LEAKAGE_CHANNEL));
+    	}
     }
     
     //----------------------------------------------------------------------------
