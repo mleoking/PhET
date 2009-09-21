@@ -16,7 +16,7 @@
 #--------------------------------------------------------------------------
 
 # validate command line syntax
-if [ "${#}" -ne "6" ] ; then
+if [ "${#}" -ne "5" ] ; then
     echo "usage: ${0} jar project tag_value keystore alias";
     exit 1;
 fi
