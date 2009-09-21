@@ -52,13 +52,18 @@ public class PhetUrlStrategy implements IRequestTargetUrlCodingStrategy {
     }
 
     private String stripPath( String path ) {
-        if ( path.startsWith( "/" + prefix ) ) {
-            return path.substring( prefix.length() + 2 );
+        try {
+            if ( path.startsWith( "/" + prefix ) ) {
+                return path.substring( prefix.length() + 2 );
+            }
+            else if ( path.startsWith( prefix ) ) {
+                return path.substring( prefix.length() + 1 );
+            }
+            else {
+                return path;
+            }
         }
-        else if ( path.startsWith( prefix ) ) {
-            return path.substring( prefix.length() + 1 );
-        }
-        else {
+        catch( RuntimeException e ) {
             return path;
         }
     }

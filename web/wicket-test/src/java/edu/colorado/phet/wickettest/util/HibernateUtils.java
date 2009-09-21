@@ -180,6 +180,15 @@ public class HibernateUtils {
         return str.substring( 0, 1 ).toUpperCase( locale );
     }
 
+    public static String encodeCharacterId( String chr ) {
+        StringBuffer buf = new StringBuffer();
+        byte[] bytes = chr.getBytes();
+        for ( Byte b : bytes ) {
+            buf.append( Integer.toHexString( b.intValue() ) );
+        }
+        return buf.toString();
+    }
+
     /**
      * Sort a list of localized simulations for a particular locale. This means simulations will be sorted
      * first by the title in the locale parameter (if there is a title), then by locale.
