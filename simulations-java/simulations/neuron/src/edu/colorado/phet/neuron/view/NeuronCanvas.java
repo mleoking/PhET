@@ -67,6 +67,13 @@ public class NeuronCanvas extends PhetPCanvas {
         		7,  // Scale factor - smaller numbers "zoom out", bigger ones "zoom in".
         		true);
 
+        // Register for events from the model.
+        this.model.addListener(new AxonModel.Listener() {
+			public void channelAdded(AbstractMembraneChannel channel) {
+				addChannelNode(channel);
+			}
+		});
+        
         setBackground( NeuronConstants.CANVAS_BACKGROUND );
 
         // Create the layers in the desired order.
