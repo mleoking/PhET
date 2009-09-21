@@ -17,5 +17,6 @@ public class SourceTextArea extends TUTextArea {
         super( value );
         setEditable( false );
         setBackground( SOURCE_BACKGROUND );
+        setRequestFocusEnabled( false );
     }
 }
