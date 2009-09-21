@@ -7,17 +7,17 @@
 #
 # General usage:
 #
-# set_distribution_tag.sh jar project tag keystore alias tsa_url
+# set_distribution_tag.sh jar project tag keystore alias
 #
 # Example usage:
 #
-# set_distribution_tag.sh glaciers_en.jar glaciers KSU phet-certificate.p12 *** https://mytsa
+# set_distribution_tag.sh glaciers_en.jar glaciers KSU phet-certificate.p12 ***
 #
 #--------------------------------------------------------------------------
 
 # validate command line syntax
 if [ "${#}" -ne "6" ] ; then
-    echo "usage: ${0} jar project tag_value keystore alias tsa_url";
+    echo "usage: ${0} jar project tag_value keystore alias";
     exit 1;
 fi
 
@@ -27,7 +27,6 @@ PROJECT=${2}
 TAG_VALUE=${3}
 KEYSTORE=${4}
 ALIAS=${5}
-TSA_URL={$6}
 
 # constants
 TAG_NAME=distribution.tag
