@@ -16,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.neuron.NeuronResources;
 import edu.colorado.phet.neuron.model.AxonModel;
 import edu.colorado.phet.neuron.model.MembraneChannelTypes;
+import edu.colorado.phet.neuron.model.PotassiumLeakageChannel;
 import edu.colorado.phet.neuron.model.SodiumLeakageChannel;
 import edu.colorado.phet.neuron.module.MembraneDiffusionModule;
 import edu.colorado.phet.neuron.view.MembraneChannelNode;
@@ -67,8 +68,17 @@ public class NeuronControlPanel extends ControlPanel {
 			}
 		});
         addControlFullWidth(sodiumLeakChannelControl);
+        
         potassiumLeakChannelControl = new LeakChannelSlider("Potassium Leak Channels", 
-        		new MembraneChannelNode(new SodiumLeakageChannel(), new ModelViewTransform2D()));
+        		new MembraneChannelNode(new PotassiumLeakageChannel(), new ModelViewTransform2D()));
+        potassiumLeakChannelControl.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				int value = (int)Math.round(potassiumLeakChannelControl.getValue());
+				if ( value != axonModel.getNumMembraneChannels(MembraneChannelTypes.POTASSIUM_LEAKAGE_CHANNEL) ){
+					axonModel.setNumMembraneChannels(MembraneChannelTypes.POTASSIUM_LEAKAGE_CHANNEL, value);
+				}
+			}
+		});
         addControlFullWidth(potassiumLeakChannelControl);
         
         // Layout
