@@ -63,9 +63,6 @@
     // *****************************************************************************
     // Website Ripper Configuration
 
-    // The name of the HTTrack directory:
-    define("RIPPER_DIR_NAME",    "HTTrack");
-
     define("RIPPED_WEBSITE_ROOT", file_cleanup_local_filename(TEMP_DIR."website/"));
     define("RIPPED_WEBSITE_SIMS_PARENT_DIR",  file_cleanup_local_filename(RIPPED_WEBSITE_ROOT."phetsims.colorado.edu/"));
     define("RIPPED_TRANSLATED_WEBSITE_ROOT",  file_cleanup_local_filename(RIPPED_WEBSITE_ROOT."phetsims.colorado.edu/".LOCALE_STRING."/"));
@@ -77,7 +74,8 @@
     define("RIPPER_EXE_WINNT",   "httrack.exe");
     define("RIPPER_EXE_Darwin",  "httrack");
 
-    define("RIPPER_DIR",  file_cleanup_local_filename(PARENT_DIR.RIPPER_DIR_NAME."/".PHP_OS."/"));
+    // The location of the httrack executable.
+    define("RIPPER_DIR",  file_cleanup_local_filename("/usr/local/httrack/bin/"));
     define("RIPPER_EXE",  RIPPER_DIR.GET_OS_BOUND_NAME("RIPPER_EXE"));
 
     // Command-line args of the ripper:
