@@ -61,7 +61,8 @@ public class Category implements Serializable {
         String categoryName = categories[categoryIndex];
         category = HibernateUtils.getCategoryByName( session, categoryName );
         if ( category == null ) {
-            throw new RuntimeException( "Couldn't find category" );
+            System.out.println( "WARNING: attempt to access category " + categoriesString + " resulted in failure" );
+            return category;
         }
 
         System.out.println( "category path: " + category.getCategoryPath() );

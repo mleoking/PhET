@@ -182,12 +182,15 @@ public class HibernateUtils {
     }
 
     public static String encodeCharacterId( String chr ) {
+        /*
         StringBuffer buf = new StringBuffer();
         byte[] bytes = chr.getBytes();
         for ( Byte b : bytes ) {
             buf.append( Integer.toHexString( b.intValue() ) );
         }
         return buf.toString();
+        */
+        return chr;
     }
 
     /**
