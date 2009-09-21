@@ -12,6 +12,16 @@ public class ErrorPage extends PhetPage {
         //addTitle( getLocalizer().getString( "error.pageNotFound", this ) );
     }
 
+    @Override
+    public boolean isVersioned() {
+        return false;
+    }
+
+    @Override
+    public boolean isErrorPage() {
+        return true;
+    }
+
     public static void addToMapper( PhetUrlMapper mapper ) {
         mapper.addMap( "^$", ErrorPage.class );
     }

@@ -8,6 +8,7 @@ import org.apache.wicket.Response;
 import org.apache.wicket.Session;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.protocol.http.WebRequest;
+import org.apache.wicket.request.target.coding.HybridUrlCodingStrategy;
 import org.apache.wicket.resource.loader.ClassStringResourceLoader;
 import org.hibernate.HibernateException;
 import org.hibernate.Transaction;
@@ -105,9 +106,8 @@ public class WicketApplication extends WebApplication {
         // get rid of wicket:id's and other related tags in the produced HTML.
         getMarkupSettings().setStripWicketTags( true );
 
-        PhetUrlMapper errorMapper = new PhetUrlMapper();
-        NotFoundPage.addToMapper( errorMapper );
-        mount( new PhetUrlStrategy( "error", errorMapper ) );
+        mount( new HybridUrlCodingStrategy( "/error", ErrorPage.class ) );
+        mount( new HybridUrlCodingStrategy( "/error/404", NotFoundPage.class ) );
 
     }
 

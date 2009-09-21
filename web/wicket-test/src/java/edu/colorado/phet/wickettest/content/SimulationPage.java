@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.wicket.PageParameters;
-import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.RestartResponseAtInterceptPageException;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -35,9 +35,11 @@ public class SimulationPage extends PhetMenuPage {
         try {
             tx = session.beginTransaction();
             simulation = HibernateUtils.getBestSimulation( session, getMyLocale(), projectName, flavorName );
-            for ( Object o : simulation.getSimulation().getCategories() ) {
-                Category category = (Category) o;
-                locations.add( category.getNavLocation( getNavMenu() ) );
+            if ( simulation != null ) {
+                for ( Object o : simulation.getSimulation().getCategories() ) {
+                    Category category = (Category) o;
+                    locations.add( category.getNavLocation( getNavMenu() ) );
+                }
             }
             tx.commit();
         }
@@ -54,20 +56,14 @@ public class SimulationPage extends PhetMenuPage {
         }
 
         if ( simulation == null ) {
-            // TODO: localize
-            addTitle( "Unknown Simulation" );
-            add( new Label( "simulation-main-panel", "The simulation you specified could not be found." ) );
-
-            initializeLocation( null );
+            throw new RestartResponseAtInterceptPageException( NotFoundPage.class );
         }
-        else {
-            SimulationMainPanel simPanel = new SimulationMainPanel( "simulation-main-panel", simulation, getPageContext() );
-            add( simPanel );
-            //addTitle( new StringResourceModel( "simulationPage.title", this, null, new String[]{simulation.getTitle(), simulation.getSimulation().getProject().getVersionString()} ) );
-            addTitle( simPanel.getTitle() );
 
-            initializeLocationWithSet( locations );
-        }
+        SimulationMainPanel simPanel = new SimulationMainPanel( "simulation-main-panel", simulation, getPageContext() );
+        add( simPanel );
+        addTitle( simPanel.getTitle() );
+
+        initializeLocationWithSet( locations );
 
     }
 

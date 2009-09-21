@@ -1,5 +1,7 @@
 package edu.colorado.phet.wickettest.content;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.wicket.PageParameters;
 
 import edu.colorado.phet.wickettest.templates.PhetPage;
@@ -10,6 +12,22 @@ public class NotFoundPage extends PhetPage {
         super( parameters, true );
 
         addTitle( getLocalizer().getString( "error.pageNotFound", this ) );
+    }
+
+    @Override
+    protected void configureResponse() {
+        super.configureResponse();
+        getWebRequestCycle().getWebResponse().getHttpServletResponse().setStatus( HttpServletResponse.SC_NOT_FOUND );
+    }
+
+    @Override
+    public boolean isVersioned() {
+        return false;
+    }
+
+    @Override
+    public boolean isErrorPage() {
+        return true;
     }
 
     public static void addToMapper( PhetUrlMapper mapper ) {

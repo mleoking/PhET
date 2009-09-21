@@ -3,6 +3,7 @@ package edu.colorado.phet.wickettest.content;
 import java.util.*;
 
 import org.apache.wicket.PageParameters;
+import org.apache.wicket.RestartResponseAtInterceptPageException;
 import org.apache.wicket.model.StringResourceModel;
 import org.hibernate.HibernateException;
 import org.hibernate.Transaction;
@@ -38,9 +39,10 @@ public class SimulationDisplay extends PhetRegularPage {
             tx = getHibernateSession().beginTransaction();
             if ( parameters.containsKey( "categories" ) ) {
                 category = Category.getCategoryFromPath( getHibernateSession(), parameters.getString( "categories" ) );
-
-                simulations = new LinkedList<LocalizedSimulation>();
-                addSimulationsFromCategory( simulations, getMyLocale(), category );
+                if ( category != null ) {
+                    simulations = new LinkedList<LocalizedSimulation>();
+                    addSimulationsFromCategory( simulations, getMyLocale(), category );
+                }
             }
             else {
                 simulations = HibernateUtils.preferredFullSimulationList( getHibernateSession(), context.getLocale() );
@@ -60,12 +62,20 @@ public class SimulationDisplay extends PhetRegularPage {
             }
         }
 
+        if ( category == null ) {
+            // didn't find the category
+            throw new RestartResponseAtInterceptPageException( NotFoundPage.class );
+        }
+
         boolean showIndex = false;
 
         if ( parameters.containsKey( "query-string" ) ) {
             System.out.println( "Query string: " + parameters.getString( "query-string" ) );
             if ( parameters.getString( "query-string" ).equals( "/index" ) ) {
                 showIndex = true;
+            }
+            else {
+                setResponsePage( NotFoundPage.class );
             }
         }
         else {
