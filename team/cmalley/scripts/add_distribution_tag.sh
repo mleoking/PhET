@@ -3,6 +3,7 @@
 #
 # Adds a distribution tag to a simulation JAR.
 # This works for both Java and Flash sims.
+# You will be prompted for the keystore password.
 #
 # General usage:
 #
