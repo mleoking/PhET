@@ -47,7 +47,7 @@ public class SimulationIndexPanel extends PhetPanel {
             protected void populateItem( ListItem item ) {
                 String letter = item.getModelObjectAsString();
                 item.setOutputMarkupId( true );
-                item.setMarkupId( letter );
+                item.setMarkupId( HibernateUtils.encodeCharacterId( letter ) );
                 item.add( new Label( "letter", letter ) );
                 item.add( new ListView( "sim-entry", lettermap.get( letter ) ) {
                     protected void populateItem( ListItem subItem ) {

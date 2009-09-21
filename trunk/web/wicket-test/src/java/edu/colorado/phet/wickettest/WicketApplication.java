@@ -47,16 +47,9 @@ public class WicketApplication extends WebApplication {
     protected void init() {
         super.init();
 
-        // TODO: sims to add: Alpha Decay, Ladybug Motion 2D, Nuclear Fission, The Ramp, States of Matter
-
-        // TODO: reset simulation version numbers (add ability to do that in the admin panel)
-
-        // TODO: figure out location of a KSU credits page. Maybe under About PhET?
-
-        // TODO: add the following page implementations
-        //getApplicationSettings().setPageExpiredErrorPage( MyExpiredPage.class );
-        //getApplicationSettings().setAccessDeniedPage( MyAccessDeniedPage.class );
-        //getApplicationSettings().setInternalErrorPage( MyInternalErrorPage.class );
+        getApplicationSettings().setPageExpiredErrorPage( ErrorPage.class );
+        getApplicationSettings().setAccessDeniedPage( ErrorPage.class );
+        getApplicationSettings().setInternalErrorPage( ErrorPage.class );
 
         // add static pages, that are accessed through reflection. this is used so that separate page AND panel classes
         // are not needed for each visual page.
@@ -78,7 +71,6 @@ public class WicketApplication extends WebApplication {
         StaticPage.addPanel( AboutLicensingPanel.class );
         StaticPage.addPanel( AboutSponsorsPanel.class );
         StaticPage.addPanel( TranslatedSimsPanel.class );
-        // TODO: organize the above list, or refactor to another function
 
         // create a url mapper, and add the page classes to it
         mapper = new PhetUrlMapper();
