@@ -1,3 +1,5 @@
+# 2.02.01 (35168) Sep 21, 2009
+9/21/09 publish dev version to verify changes
 9/17/09 convert usage of collections to Java 5
 9/17/09 #1787, use sim JAR directory as default for Save/Load
 9/16/09 #1781, changes to prevent confusion about Save feature
