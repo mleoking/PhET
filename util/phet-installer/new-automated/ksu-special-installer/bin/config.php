@@ -79,7 +79,7 @@
     define("RIPPER_EXE",  RIPPER_DIR.GET_OS_BOUND_NAME("RIPPER_EXE"));
 
     // Command-line args of the ripper:
-    define("RIPPER_ARGS", '"'.PHET_TRANSLATED_WEBSITE_URL.'" -O "'.RIPPED_WEBSITE_ROOT.'" '.PHET_LITE_RIPPER_FILTER.' -j %q0 -%e0');
+    define("RIPPER_ARGS", '"'.PHET_TRANSLATED_WEBSITE_URL.'" -O "'.RIPPED_WEBSITE_ROOT.'" '.PHET_LITE_RIPPER_FILTER.' -j %q0 -%e0 -r10');
 
     // File used for preventing simultaneous builds.
     define("LOCK_FILE_STEM_NAME", "installer-builder");
