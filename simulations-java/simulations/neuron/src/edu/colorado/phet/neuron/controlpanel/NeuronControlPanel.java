@@ -46,9 +46,9 @@ public class NeuronControlPanel extends ControlPanel {
         int minimumWidth = NeuronResources.getInt( "int.minControlPanelWidth", 215 );
         setMinimumWidth( minimumWidth );
         
-        LeakChannelSlider sodiumLeakChannelControl = new LeakChannelSlider("Sodium Leak Channels", 
-        		new MembraneChannelNode(new SodiumLeakageChannel(), new ModelViewTransform2D()));
-        addControlFullWidth(sodiumLeakChannelControl);
+//        LeakChannelSlider sodiumLeakChannelControl = new LeakChannelSlider("Sodium Leak Channels", 
+//        		new MembraneChannelNode(new SodiumLeakageChannel(), new ModelViewTransform2D()));
+//        addControlFullWidth(sodiumLeakChannelControl);
         
         // Layout
         {
