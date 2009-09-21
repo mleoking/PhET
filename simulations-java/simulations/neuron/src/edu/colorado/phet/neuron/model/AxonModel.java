@@ -47,6 +47,7 @@ public class AxonModel {
     private final double crossSectionInnerRadius;
     private final double crossSectionOuterRadius;
     private int atomUpdateOffset = 0;
+    private ArrayList<Listener> listeners = new ArrayList<Listener>();
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -186,6 +187,20 @@ public class AxonModel {
     	}
     }
     
+	public void addListener(Listener listener){
+		listeners.add(listener);
+	}
+	
+	public void removeListener(Listener listener){
+		listeners.remove(listener);
+	}
+	
+	private void notifyChannelAdded(AbstractMembraneChannel channel){
+		for (Listener listener : listeners){
+			listener.channelAdded(channel);
+		}
+	}
+	
     private void updateAtomVelocity(Atom atom){
     	
     	// Convert the position to polar coordinates.
@@ -280,6 +295,7 @@ public class AxonModel {
     	membraneChannel.setCenterLocation(newLocation);
     	
     	channels.add(membraneChannel);
+    	notifyChannelAdded(membraneChannel);
     }
     
     private void removeChannel(MembraneChannelTypes channelType){
@@ -322,5 +338,13 @@ public class AxonModel {
     		atom.getDiameter();
     	double angle = RAND.nextDouble() * Math.PI * 2;
     	atom.setPosition(distance * Math.cos(angle), distance * Math.sin(angle));
+    }
+    
+    //----------------------------------------------------------------------------
+    // Inner Classes and Interfaces
+    //----------------------------------------------------------------------------
+    
+    public interface Listener{
+    	public void channelAdded(AbstractMembraneChannel channel);
     }
 }
