@@ -8,8 +8,8 @@ import java.util.List;
  * Jun 25, 2007, 11:31:28 PM
  */
 public class DefaultTimeSeries {
-    private ArrayList data = new ArrayList();
-    private ArrayList listeners = new ArrayList();
+    private ArrayList<TimeData> data = new ArrayList<TimeData>();
+    private ArrayList<ITemporalVariable.Listener> listeners = new ArrayList<ITemporalVariable.Listener>();
 
     public DefaultTimeSeries() {
     }
@@ -23,7 +23,7 @@ public class DefaultTimeSeries {
     }
 
     public TimeData getData( int index ) {
-        return (TimeData) data.get( index );
+        return data.get( index );
     }
 
     public TimeData getRecentData( int index ) {
@@ -38,7 +38,7 @@ public class DefaultTimeSeries {
         if ( data.size() > 0 ) {
             data.clear();
             for ( int i = 0; i < listeners.size(); i++ ) {
-                ( (ITemporalVariable.Listener) listeners.get( i ) ).dataCleared();
+                listeners.get( i ).dataCleared();
             }
         }
     }
@@ -51,7 +51,7 @@ public class DefaultTimeSeries {
 
     private void notifyObservers( TimeData o ) {
         for ( int i = 0; i < listeners.size(); i++ ) {
-            ITemporalVariable.Listener observableTimeSeriesListener = (ITemporalVariable.Listener) listeners.get( i );
+            ITemporalVariable.Listener observableTimeSeriesListener = listeners.get( i );
             observableTimeSeriesListener.dataAdded( o );
         }
     }
@@ -81,8 +81,8 @@ public class DefaultTimeSeries {
     }
 
     public TimeData[] getRecentSeries( int numPts ) {
-        List subList = data.subList( data.size() - numPts, data.size() );
-        return (TimeData[]) subList.toArray( new TimeData[0] );
+        List<TimeData> subList = data.subList( data.size() - numPts, data.size() );
+        return subList.toArray( new TimeData[0] );
     }
 
     //todo: could interpolate
@@ -120,13 +120,13 @@ public class DefaultTimeSeries {
     }
 
     public TimeData[] getData( double startTime, double endTime ) {
-        ArrayList inrange = new ArrayList();
+        ArrayList<TimeData> inrange = new ArrayList<TimeData>();
         for ( int i = 0; i < data.size(); i++ ) {
-            TimeData timeData = (TimeData) data.get( i );
+            TimeData timeData = data.get( i );
             if ( timeData.getTime() >= startTime && timeData.getTime() <= endTime ) {
                 inrange.add( timeData );
             }
         }
-        return (TimeData[]) inrange.toArray( new TimeData[inrange.size()] );
+        return inrange.toArray( new TimeData[inrange.size()] );
     }
 }
