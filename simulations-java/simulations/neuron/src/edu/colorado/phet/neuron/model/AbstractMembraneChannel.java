@@ -36,7 +36,7 @@ public abstract class AbstractMembraneChannel {
 	
 	// Member variables that control the size and position of the channel.
 	private Point2D centerLocation = new Point2D.Double();
-	private double rotationalAngle; // In radians.
+	private double rotationalAngle = 0; // In radians.
 	private Dimension2D channelSize = new PDimension(); // Size of channel only, i.e. where the atoms pass through.
 	private Dimension2D overallSize = new PDimension(); // Size including edges.
 	
@@ -136,6 +136,11 @@ public abstract class AbstractMembraneChannel {
 	 */
 	public Dimension2D getOverallSize(){
 		return overallSize;
+	}
+	
+	public void setDimensions( Dimension2D overallSize, Dimension2D channelSize ){
+		this.overallSize.setSize(overallSize);
+		this.channelSize.setSize(channelSize);
 	}
 	
 	public Color getChannelColor(){
