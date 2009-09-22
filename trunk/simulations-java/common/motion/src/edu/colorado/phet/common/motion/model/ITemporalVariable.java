@@ -5,6 +5,7 @@ package edu.colorado.phet.common.motion.model;
  * Jun 25, 2007, 11:31:03 PM
  */
 public interface ITemporalVariable extends IVariable {
+    TimeData[] getData( double startTime, double endTime ) ;
     TimeData[] getRecentSeries( int numPts );
 
     TimeData getData( int index );
