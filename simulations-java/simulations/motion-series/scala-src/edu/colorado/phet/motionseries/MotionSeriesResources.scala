@@ -8,7 +8,9 @@ object Predef {
 }
 import Predef._
 
-object MotionSeriesResources extends PhetResources("motion-series".literal) {
+//putting a .literal call on the following line causes this exception in Scala 2.8
+//java.lang.VerifyError: (class: edu/colorado/phet/motionseries/MotionSeriesResources$, method: <init> signature: ()V) Expecting to find object/array on stack
+object MotionSeriesResources extends PhetResources("motion-series") {
   implicit def toMyRichString(s: String) = new TranslatableString(s)
 
   val forcePattern = "force.pattern".translate
