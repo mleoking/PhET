@@ -76,11 +76,14 @@ abstract class RecordModel[T] extends Observable {
     }
   }
 
+  val historyRemainderClearListeners = new ArrayBuffer[()=>Unit]
+  
   def clearHistoryRemainder() = {
     val earlyEnoughRecordData = recordHistory.filter(_.time < time)
     recordHistory.clear
     recordHistory.appendAll(earlyEnoughRecordData)
     //todo: notify listeners?
+    for (listener <- historyRemainderClearListeners) listener()
   }
 
   def stepPlayback() = {
