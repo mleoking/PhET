@@ -87,7 +87,7 @@ public class StringUtils {
         try {
             tx = session.beginTransaction();
 
-            Query query = session.createQuery( "select ts from TranslatedString as ts, Translation as t where (ts.translation = t and t.visible = true and t.id = :id and ts.key = :key)" );
+            Query query = session.createQuery( "select ts from TranslatedString as ts, Translation as t where (ts.translation = t and t.id = :id and ts.key = :key)" );
             query.setInteger( "id", translationId );
             query.setString( "key", key );
 
@@ -113,6 +113,60 @@ public class StringUtils {
         }
         return ret;
 
+    }
+
+    public static final int STRING_TRANSLATED = 0;
+    public static final int STRING_UNTRANSLATED = 1;
+    public static final int STRING_OUT_OF_DATE = 2;
+
+    public static int stringStatus( Session session, final String key, final int translationId ) {
+        StatusTask task = new StatusTask( translationId, key );
+        HibernateUtils.wrapTransaction( session, task );
+        return task.status;
+    }
+
+    private static class StatusTask implements HibernateTask {
+        public int status;
+        private final int translationId;
+        private final String key;
+
+        public StatusTask( int translationId, String key ) {
+            this.translationId = translationId;
+            this.key = key;
+            status = STRING_UNTRANSLATED;
+        }
+
+        public boolean run( Session session ) {
+            // should hit an error and return false if it doesn't exist
+            TranslatedString string = (TranslatedString) session.createQuery(
+                    "select ts from TranslatedString as ts where ts.translation.id = :id and ts.key = :key" )
+                    .setInteger( "id", translationId ).setString( "key", key ).uniqueResult();
+            if ( string != null ) {
+                status = STRING_TRANSLATED;
+            }
+            else {
+                return true;
+            }
+            TranslatedString englishString = (TranslatedString) session.createQuery(
+                    "select ts from TranslatedString as ts where ts.translation.visible = true and ts.translation.locale = :locale and ts.key = :key" )
+                    .setLocale( "locale", WicketApplication.getDefaultLocale() ).setString( "key", key ).uniqueResult();
+            if ( string.getUpdatedAt().compareTo( englishString.getUpdatedAt() ) < 0 ) {
+                status = STRING_OUT_OF_DATE;
+            }
+            return true;
+        }
+    }
+
+    public static boolean isStringSet( Session session, final String key, final int translationId ) {
+        return HibernateUtils.wrapTransaction( session, new HibernateTask() {
+            public boolean run( Session session ) {
+                // should hit an error and return false if it doesn't exist
+                TranslatedString string = (TranslatedString) session.createQuery(
+                        "select ts from TranslatedString as ts where ts.translation.id = :id and ts.key = :key" )
+                        .setInteger( "id", translationId ).setString( "key", key ).uniqueResult();
+                return string != null;
+            }
+        } );
     }
 
     public static boolean setEnglishString( Session session, String key, String value ) {

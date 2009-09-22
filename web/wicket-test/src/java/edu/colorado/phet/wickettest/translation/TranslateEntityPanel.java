@@ -104,11 +104,18 @@ public class TranslateEntityPanel extends PhetPanel {
                     @Override
                     protected void onSubmit( AjaxRequestTarget target ) {
                         super.onSubmit( target );
+                        int status = StringUtils.stringStatus( getHibernateSession(), tString.getKey(), translationId );
                         StringUtils.setString( getHibernateSession(), tString.getKey(), (String) model.getObject(), translationId );
                         //target.addComponent( TranslateEntityPanel.this );
                         target.addComponent( panel );
                         target.addComponent( item );
-                        page.getEntityListPanel().updateEntity( entity );
+                        //page.getEntityListPanel().updateEntity( entity );
+                        if ( status == StringUtils.STRING_OUT_OF_DATE ) {
+                            entity.getOutOfDateMap().put( translationId, entity.getOutOfDateMap().get( translationId ) - 1 );
+                        }
+                        else if ( status == StringUtils.STRING_UNTRANSLATED ) {
+                            entity.getUntranslatedMap().put( translationId, entity.getUntranslatedMap().get( translationId ) - 1 );
+                        }
                         target.addComponent( page.getEntityListPanel() );
                         add( new AttributeModifier( "class", new Model( "string-value" ) ) );
                     }
@@ -129,12 +136,20 @@ public class TranslateEntityPanel extends PhetPanel {
                     item.add( new AjaxLink( "translate-auto" ) {
                         public void onClick( AjaxRequestTarget target ) {
                             String value = TestTranslateString.translate( (String) model.getObject(), "en", testLocale.getLanguage() );
+                            int status = StringUtils.stringStatus( getHibernateSession(), tString.getKey(), translationId );
                             if ( value != null ) {
                                 StringUtils.setString( getHibernateSession(), tString.getKey(), value, translationId );
                             }
                             target.addComponent( panel );
                             target.addComponent( item );
-                            page.getEntityListPanel().updateEntity( entity );
+                            // TODO: consolidate with above functions
+                            //page.getEntityListPanel().updateEntity( entity );
+                            if ( value != null && status == StringUtils.STRING_OUT_OF_DATE ) {
+                                entity.getOutOfDateMap().put( translationId, entity.getOutOfDateMap().get( translationId ) - 1 );
+                            }
+                            else if ( value != null && status == StringUtils.STRING_UNTRANSLATED ) {
+                                entity.getUntranslatedMap().put( translationId, entity.getUntranslatedMap().get( translationId ) - 1 );
+                            }
                             target.addComponent( page.getEntityListPanel() );
                             editableLabel.add( new AttributeModifier( "class", new Model( "string-value" ) ) );
                             model.setObject( value );
