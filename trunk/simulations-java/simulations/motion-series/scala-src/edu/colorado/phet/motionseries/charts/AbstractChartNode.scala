@@ -43,6 +43,12 @@ abstract class AbstractChartNode(canvas: MotionSeriesCanvas, model: MotionSeries
       if (inTimeRange(model.getTime))
         variable.addValue(getter(), model.getTime)
     })
+
+    model.historyRemainderClearListeners += (() => {
+//      val timeData = variable.keepOnly(0, model.getTime)
+//      variable.clear()
+//      for (i <- 0 until timeData.size) variable.addValue(timeData.get(i))
+    })
     variable
   }
 
@@ -52,6 +58,13 @@ abstract class AbstractChartNode(canvas: MotionSeriesCanvas, model: MotionSeries
       if (inTimeRange(model.getTime))
         variable.addValue(getter().dot(model.bead.getRampUnitVector), model.getTime)
     })
+
+    model.historyRemainderClearListeners += (() => {
+//      val timeData = variable.keepOnly(0, model.getTime)
+//      variable.clear()
+//      for (i <- 0 until timeData.size) variable.addValue(timeData.get(i))
+    })
+
     variable
   }
 
@@ -71,6 +84,10 @@ abstract class AbstractChartNode(canvas: MotionSeriesCanvas, model: MotionSeries
     override def setPlaybackTime(requestedTime: Double) = model.setPlaybackTime(requestedTime) //skip bounds checking in parent
   }
   model.historyClearListeners += (() => timeseriesModel.clear(true))
+  model.historyRemainderClearListeners += (() => {
+    //    timeseriesModel.clear(true) //todo: how did this clear the serieses?  By listener chaining.
+    //    for (pt <- model.recordHistory) timeseriesModel.addSeriesPoint(pt.state,pt.time)
+  })
 
   val updateableObject = new UpdateableObject {
     def setUpdateStrategy(updateStrategy: UpdateStrategy) = {}
@@ -129,8 +146,8 @@ abstract class AbstractChartNode(canvas: MotionSeriesCanvas, model: MotionSeries
     _graphSetNode.setBounds(padX, y + padY, canvas.getWidth - padX * 2, h - padY * 2)
   }
 
-//  def graphSetNode: PNode
-  private var _graphSetNode:GraphSetNode = null
+  //  def graphSetNode: PNode
+  private var _graphSetNode: GraphSetNode = null
 
   def minimGraphs(graphs: Seq[Graph]) = (for (g <- graphs) yield new MinimizableControlGraph(g.title, g.graph, g.minimized)).toArray
 
@@ -178,7 +195,7 @@ class MotionSeriesGraph(defaultSeries: ControlGraphSeries, canvas: PhetPCanvas, 
       addChild(textParent)
 
       override def updateLayout() = {
-        if (textParent!=null) setSliderDecorationInset(textParent.getFullBounds.getWidth+5)
+        if (textParent != null) setSliderDecorationInset(textParent.getFullBounds.getWidth + 5)
         super.updateLayout()
         if (textParent != null)
           textParent.setOffset(getTrackFullBounds.getX - textParent.getFullBounds.getWidth - getThumbFullBounds.getWidth / 2,
