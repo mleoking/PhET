@@ -278,10 +278,10 @@
 
         chdir($cwd);
 
-        flushing_echo("Copying installers to ".OUTPUT_DIR);
+        flushing_echo("Moving installers to ".OUTPUT_DIR);
 
         // Now move everything in the BitRock directory to the output directory:
-        file_dircopy(BITROCK_DIST_DIR, OUTPUT_DIR, true);
+        file_move_all(BITROCK_DIST_DIR, OUTPUT_DIR);
 
         return true;
     }
