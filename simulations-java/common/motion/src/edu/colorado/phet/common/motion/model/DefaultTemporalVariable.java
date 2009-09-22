@@ -139,7 +139,7 @@ public class DefaultTemporalVariable implements ITemporalVariable {
     /*
     * Get all data between the specified times.
      */
-    private TimeData[] getData( double startTime, double endTime ) {
+    public TimeData[] getData( double startTime, double endTime ) {
         return series.getData( startTime, endTime );
     }
 
