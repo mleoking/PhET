@@ -32,8 +32,8 @@ public class MembraneChannelNode extends PNode{
 		
 		Dimension2D channelSize = membraneChannelModel.getChannelSize();
 		Dimension2D transformedChannelSize = new PDimension(
-				mvt.modelToViewDifferentialXDouble(channelSize.getWidth()),
-				-mvt.modelToViewDifferentialYDouble(channelSize.getHeight()));
+				Math.abs(mvt.modelToViewDifferentialXDouble(channelSize.getWidth())),
+				Math.abs(mvt.modelToViewDifferentialYDouble(channelSize.getHeight())));
 		PPath channel = createChannelNode(transformedChannelSize, membraneChannelModel.getChannelColor());
 		channel.setOffset(-channel.getFullBoundsReference().width / 2, channel.getFullBoundsReference().height / 2);
 		representation.addChild(channel);
@@ -42,8 +42,9 @@ public class MembraneChannelNode extends PNode{
 				membraneChannelModel.getChannelSize().getWidth()) / 2;
 		double edgeNodeHeight = membraneChannelModel.getOverallSize().getHeight();
 		
-		Dimension2D transformedEdgeNodeSize = new PDimension(mvt.modelToViewDifferentialXDouble(edgeNodeWidth),
-				-mvt.modelToViewDifferentialYDouble(edgeNodeHeight));
+		Dimension2D transformedEdgeNodeSize = new PDimension(
+				Math.abs(mvt.modelToViewDifferentialXDouble(edgeNodeWidth)),
+				Math.abs(mvt.modelToViewDifferentialYDouble(edgeNodeHeight)));
 				
 		PNode leftEdgeNode = createEdgeNode(transformedEdgeNodeSize, membraneChannelModel.getEdgeColor());
 		leftEdgeNode.setOffset(
