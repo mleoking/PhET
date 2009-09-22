@@ -295,7 +295,7 @@
 							}                   
 						}
 						else if (is_dir($srcfile)) {
-							$num += file_dircopy($srcfile, $dstdir, $verbose);
+							$num += file_dircopy($srcfile, $dstfile, $verbose);
 						}
 					}
 				}
