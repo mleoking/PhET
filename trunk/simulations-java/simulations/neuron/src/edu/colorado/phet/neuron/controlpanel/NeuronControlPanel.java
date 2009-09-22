@@ -4,6 +4,7 @@ package edu.colorado.phet.neuron.controlpanel;
 
 import java.awt.Color;
 import java.awt.Frame;
+import java.awt.geom.Dimension2D;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -21,6 +22,7 @@ import edu.colorado.phet.neuron.model.SodiumLeakageChannel;
 import edu.colorado.phet.neuron.module.MembraneDiffusionModule;
 import edu.colorado.phet.neuron.view.MembraneChannelNode;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Control panel for the neuron sim.
@@ -29,9 +31,15 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class NeuronControlPanel extends ControlPanel {
 
+	//----------------------------------------------------------------------------
+    // Class Data
+    //----------------------------------------------------------------------------
+	
+	private static final Dimension2D OVERALL_SIZE_OF_LEAK_CHANNEL_ICON = new PDimension(40, 50);
+	private static final Dimension2D CHANNEL_SIZE_OF_LEAK_CHANNEL_ICON = new PDimension(18, 30);
 
 	//----------------------------------------------------------------------------
-    // Instance data
+    // Instance Data
     //----------------------------------------------------------------------------
 	private AxonModel axonModel;
 	private LeakChannelSlider sodiumLeakChannelControl;
@@ -57,8 +65,10 @@ public class NeuronControlPanel extends ControlPanel {
         setMinimumWidth( minimumWidth );
         
         // TODO: Internationalize.
+        SodiumLeakageChannel sodiumLeakageChannel = new SodiumLeakageChannel();
+        sodiumLeakageChannel.setRotationalAngle(Math.PI / 2);
         sodiumLeakChannelControl = new LeakChannelSlider("Sodium Leak Channels", 
-        		new MembraneChannelNode(new SodiumLeakageChannel(), new ModelViewTransform2D()));
+        		new MembraneChannelNode(sodiumLeakageChannel, new ModelViewTransform2D()));
         sodiumLeakChannelControl.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				int value = (int)Math.round(sodiumLeakChannelControl.getValue());
@@ -69,8 +79,11 @@ public class NeuronControlPanel extends ControlPanel {
 		});
         addControlFullWidth(sodiumLeakChannelControl);
         
+        PotassiumLeakageChannel potassiumLeakChannel = new PotassiumLeakageChannel();
+        potassiumLeakChannel.setDimensions( OVERALL_SIZE_OF_LEAK_CHANNEL_ICON, CHANNEL_SIZE_OF_LEAK_CHANNEL_ICON );
+        potassiumLeakChannel.setRotationalAngle(-Math.PI / 2);
         potassiumLeakChannelControl = new LeakChannelSlider("Potassium Leak Channels", 
-        		new MembraneChannelNode(new PotassiumLeakageChannel(), new ModelViewTransform2D()));
+        		new MembraneChannelNode(potassiumLeakChannel, new ModelViewTransform2D()));
         potassiumLeakChannelControl.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				int value = (int)Math.round(potassiumLeakChannelControl.getValue());
