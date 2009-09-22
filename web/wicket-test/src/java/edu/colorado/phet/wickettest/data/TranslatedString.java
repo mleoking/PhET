@@ -23,6 +23,16 @@ public class TranslatedString implements Serializable {
         translation.addString( this );
     }
 
+    @Override
+    public int hashCode() {
+        return ( id + 47 ) * ( id - 7 ) * ( id % 7 );
+    }
+
+    @Override
+    public boolean equals( Object o ) {
+        return ( o instanceof TranslatedString ) && id == ( (TranslatedString) o ).id;
+    }
+
     public TranslatedString() {
     }
 

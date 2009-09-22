@@ -1,8 +1,10 @@
 package edu.colorado.phet.wickettest.translation.entities;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import edu.colorado.phet.wickettest.panels.PhetPanel;
 import edu.colorado.phet.wickettest.translation.PhetPanelFactory;
@@ -15,10 +17,13 @@ public abstract class TranslationEntity implements Serializable {
     private List<TranslationEntityString> strings = new LinkedList<TranslationEntityString>();
     private List<PhetPanelPreview> previews = new LinkedList<PhetPanelPreview>();
 
+    // translation id => value
+    private Map<Integer, Integer> untranslatedMap = new HashMap<Integer, Integer>();
+    private Map<Integer, Integer> outOfDateMap = new HashMap<Integer, Integer>();
+
     public abstract String getDisplayName();
 
     public int getMinDisplaySize() {
-        //return 765;
         return 525;
     }
 
@@ -46,6 +51,14 @@ public abstract class TranslationEntity implements Serializable {
         return !previews.isEmpty();
     }
 
+    public Map<Integer, Integer> getUntranslatedMap() {
+        return untranslatedMap;
+    }
+
+    public Map<Integer, Integer> getOutOfDateMap() {
+        return outOfDateMap;
+    }
+
     public List<PhetPanelPreview> getPreviews() {
         return previews;
     }
@@ -54,28 +67,32 @@ public abstract class TranslationEntity implements Serializable {
         return strings;
     }
 
-    public static List<TranslationEntity> getTranslationEntities() {
-        List<TranslationEntity> entities = new LinkedList<TranslationEntity>();
-        entities.add( new CommonEntity() );
-        entities.add( new IndexEntity() );
-        entities.add( new NavigationEntity() );
-        entities.add( new SimulationMainEntity() );
-        entities.add( new TranslatedSimsEntity() );
-        entities.add( new WorkshopsEntity() );
-        entities.add( new SponsorsEntity() );
-        entities.add( new RunSimulationsEntity() );
-        entities.add( new FullInstallEntity() );
-        entities.add( new ResearchEntity() );
-        entities.add( new TroubleshootingMainEntity() );
-        entities.add( new TroubleshootingJavaEntity() );
-        entities.add( new TroubleshootingFlashEntity() );
-        entities.add( new TroubleshootingJavascriptEntity() );
-        entities.add( new KeywordsEntity() );
-        entities.add( new ContributeEntity() );
-        entities.add( new AboutPhetEntity() );
-        entities.add( new TitlesEntity() );
-        entities.add( new LanguagesEntity() );
-        entities.add( new SimulationsEntity() );
-        return entities;
+    private static List<TranslationEntity> cachedEntities = null;
+
+    public static synchronized List<TranslationEntity> getTranslationEntities() {
+        if ( cachedEntities == null ) {
+            cachedEntities = new LinkedList<TranslationEntity>();
+            cachedEntities.add( new CommonEntity() );
+            cachedEntities.add( new IndexEntity() );
+            cachedEntities.add( new NavigationEntity() );
+            cachedEntities.add( new SimulationMainEntity() );
+            cachedEntities.add( new TranslatedSimsEntity() );
+            cachedEntities.add( new WorkshopsEntity() );
+            cachedEntities.add( new SponsorsEntity() );
+            cachedEntities.add( new RunSimulationsEntity() );
+            cachedEntities.add( new FullInstallEntity() );
+            cachedEntities.add( new ResearchEntity() );
+            cachedEntities.add( new TroubleshootingMainEntity() );
+            cachedEntities.add( new TroubleshootingJavaEntity() );
+            cachedEntities.add( new TroubleshootingFlashEntity() );
+            cachedEntities.add( new TroubleshootingJavascriptEntity() );
+            cachedEntities.add( new KeywordsEntity() );
+            cachedEntities.add( new ContributeEntity() );
+            cachedEntities.add( new AboutPhetEntity() );
+            cachedEntities.add( new TitlesEntity() );
+            cachedEntities.add( new LanguagesEntity() );
+            cachedEntities.add( new SimulationsEntity() );
+        }
+        return cachedEntities;
     }
 }
