@@ -17,6 +17,7 @@ public class TranslationEditPage extends TranslationPage {
     private int translationId;
     private PanelHolder panelHolder;
     private TranslateEntityPanel subPanel;
+    private TranslationEntityListPanel entityListPanel;
     private Locale testLocale;
     private String selectedEntityName = null;
 
@@ -57,10 +58,11 @@ public class TranslationEditPage extends TranslationPage {
         add( panelHolder );
         CommonEntity commonEntity = new CommonEntity();
         selectedEntityName = commonEntity.getDisplayName();
-        subPanel = new TranslateEntityPanel( panelHolder.getWicketId(), getPageContext(), commonEntity, translationId, testLocale );
+        subPanel = new TranslateEntityPanel( panelHolder.getWicketId(), getPageContext(), this, commonEntity, translationId, testLocale );
         panelHolder.add( subPanel );
 
-        add( new TranslationEntityListPanel( "entity-list-panel", getPageContext(), this ) );
+        entityListPanel = new TranslationEntityListPanel( "entity-list-panel", getPageContext(), this );
+        add( entityListPanel );
 
         add( new TranslationUserPanel( "user-panel", getPageContext(), translationId ) );
 
@@ -90,4 +92,7 @@ public class TranslationEditPage extends TranslationPage {
         this.selectedEntityName = selectedEntityName;
     }
 
+    public TranslationEntityListPanel getEntityListPanel() {
+        return entityListPanel;
+    }
 }

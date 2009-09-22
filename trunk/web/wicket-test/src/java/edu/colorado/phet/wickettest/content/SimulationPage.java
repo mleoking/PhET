@@ -19,7 +19,6 @@ import edu.colorado.phet.wickettest.util.HibernateUtils;
 import edu.colorado.phet.wickettest.util.PageContext;
 import edu.colorado.phet.wickettest.util.PhetUrlMapper;
 
-// TODO: add simulation keywords to title
 public class SimulationPage extends PhetMenuPage {
     public SimulationPage( PageParameters parameters ) {
         super( parameters );

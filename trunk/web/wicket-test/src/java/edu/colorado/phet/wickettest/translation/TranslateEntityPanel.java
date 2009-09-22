@@ -43,11 +43,13 @@ public class TranslateEntityPanel extends PhetPanel {
     private int translationId;
     private PreviewHolder panel;
     private Map<String, IModel> stringModelMap = new HashMap<String, IModel>();
+    private TranslationEditPage page;
 
-    public TranslateEntityPanel( String id, final PageContext context, final TranslationEntity entity, final int translationId, final Locale testLocale ) {
+    public TranslateEntityPanel( String id, final PageContext context, final TranslationEditPage page, final TranslationEntity entity, final int translationId, final Locale testLocale ) {
         super( id, context );
         this.entity = entity;
         this.translationId = translationId;
+        this.page = page;
 
         final PageContext externalContext = new PageContext( "/translation/" + String.valueOf( translationId ) + "/", "", testLocale );
 
@@ -106,6 +108,8 @@ public class TranslateEntityPanel extends PhetPanel {
                         //target.addComponent( TranslateEntityPanel.this );
                         target.addComponent( panel );
                         target.addComponent( item );
+                        page.getEntityListPanel().updateEntity( entity );
+                        target.addComponent( page.getEntityListPanel() );
                         add( new AttributeModifier( "class", new Model( "string-value" ) ) );
                     }
                 };
@@ -130,6 +134,8 @@ public class TranslateEntityPanel extends PhetPanel {
                             }
                             target.addComponent( panel );
                             target.addComponent( item );
+                            page.getEntityListPanel().updateEntity( entity );
+                            target.addComponent( page.getEntityListPanel() );
                             editableLabel.add( new AttributeModifier( "class", new Model( "string-value" ) ) );
                             model.setObject( value );
                         }

@@ -1,9 +1,7 @@
 package edu.colorado.phet.wickettest.translation;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
@@ -28,8 +26,14 @@ import edu.colorado.phet.wickettest.util.PageContext;
 
 public class TranslationEntityListPanel extends PhetPanel {
 
+    private int translationId;
+
     public TranslationEntityListPanel( String id, PageContext context, final TranslationEditPage page ) {
         super( id, context );
+
+        translationId = page.getTranslationId();
+
+        initializeEntities();
 
         setModel( new StringMapModel( page.getTranslationId() ) );
 
@@ -41,18 +45,17 @@ public class TranslationEntityListPanel extends PhetPanel {
 
             protected void populateItem( final ListItem item ) {
                 final TranslationEntity entity = (TranslationEntity) item.getModel().getObject();
-                //System.out.println( "Populating with Entity " + entity.getDisplayName() );
+
                 AjaxLink link = new AjaxLink( "translation-entity-link" ) {
                     public void onClick( AjaxRequestTarget target ) {
                         PanelHolder panelHolder = page.getPanelHolder();
                         TranslateEntityPanel subPanel = page.getSubPanel();
                         panelHolder.remove( subPanel );
-                        subPanel = new TranslateEntityPanel( panelHolder.getWicketId(), page.getPageContext(), entity, page.getTranslationId(), page.getTestLocale() );
+                        subPanel = new TranslateEntityPanel( panelHolder.getWicketId(), page.getPageContext(), page, entity, page.getTranslationId(), page.getTestLocale() );
                         panelHolder.add( subPanel );
                         target.addComponent( panelHolder );
                         target.addComponent( TranslationEntityListPanel.this );
                         page.setSelectedEntityName( entity.getDisplayName() );
-                        //target.appendJavascript( "document.getElementById('translation-holder').style.width = 200;" );
                     }
                 };
                 if ( page.getSelectedEntityName().equals( entity.getDisplayName() ) ) {
@@ -65,68 +68,9 @@ public class TranslationEntityListPanel extends PhetPanel {
                 }
                 link.add( new Label( "translation-entity-display-name", entity.getDisplayName() ) );
 
-                final int[] counts = new int[2];
+                int numOutOfDate = entity.getOutOfDateMap().get( translationId );
+                int numUntranslated = entity.getUntranslatedMap().get( translationId );
 
-                /*
-                HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
-                    public boolean run( Session session ) {
-                        boolean yet = false;
-                        String match = "";
-                        for ( TranslationEntityString string : entity.getStrings() ) {
-                            if ( yet == true ) {
-                                match += " or ";
-                            }
-                            else {
-                                yet = true;
-                            }
-                            match += "ts.key = '" + string.getKey() + "'";
-                        }
-                        if ( !yet ) {
-                            match = "true";
-                        }
-
-                        // TODO: remove possible security risk here, although one would need access to the admin panel or database anyways!
-                        String query = "select count(ts) from Translation as t, TranslatedString as ts where ts.translation = t and t.id = :id and (" + match + ")";
-                        counts[1] = entity.getStrings().size() - ( (Long) session.createQuery( query ).setInteger( "id", page.getTranslationId() ).iterate().next() ).intValue();
-
-                        String uQuery = "select count(distinct ts) from Translation as t, Translation as e, TranslatedString as ts, TranslatedString as es" +
-                                        " where" +
-                                        " ts.translation = t and" +
-                                        " es.translation = e and" +
-                                        " t.id = :id and" +
-                                        " e.visible = true and" +
-                                        " e.locale = :locale and" +
-                                        " ts.key = es.key and" +
-                                        " ts.updatedAt < es.updatedAt and" +
-                                        " (" + match + ")";
-                        counts[0] = ( (Long) session.createQuery( uQuery )
-                                .setLocale( "locale", WicketApplication.getDefaultLocale() )
-                                .setInteger( "id", page.getTranslationId() ).iterate().next() ).intValue();
-
-                        return true;
-                    }
-                } );
-                */
-
-                counts[0] = 0;
-                counts[1] = 0;
-
-                Map<String, StringDat> map = (Map<String, StringDat>) TranslationEntityListPanel.this.getModel().getObject();
-
-                for ( TranslationEntityString string : entity.getStrings() ) {
-                    StringDat dat = map.get( string.getKey() );
-                    if ( dat == null ) {
-                        counts[1]++;
-                    }
-                    else if ( dat.getLocalDate().compareTo( dat.getEnglishDate() ) < 0 ) {
-                        counts[0]++;
-                    }
-                }
-
-                /// END TEST
-
-                int numOutOfDate = counts[0];
-                int numUntranslated = counts[1];
                 if ( numOutOfDate == 0 ) {
                     link.add( new InvisibleComponent( "out-of-date" ) );
                 }
@@ -143,6 +87,90 @@ public class TranslationEntityListPanel extends PhetPanel {
             }
         };
         add( entities );
+    }
+
+    public void updateEntity( final TranslationEntity entity ) {
+        HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
+            public boolean run( Session session ) {
+                Translation english = (Translation) session.createQuery( "select t from Translation as t where t.visible = true and t.locale = :locale" )
+                        .setLocale( "locale", WicketApplication.getDefaultLocale() ).uniqueResult();
+                Translation other = (Translation) session.load( Translation.class, translationId );
+
+                int untranslated = 0;
+                int outOfDate = 0;
+                for ( TranslationEntityString string : entity.getStrings() ) {
+                    List results = session.createQuery( "select ts from TranslatedString as ts where ts.translation.id = :tid and ts.key = :key" )
+                            .setInteger( "tid", other.getId() ).setString( "key", string.getKey() ).list();
+                    if ( results.isEmpty() ) {
+                        untranslated++;
+                        continue;
+                    }
+                    TranslatedString a = (TranslatedString) results.get( 0 );
+                    results = session.createQuery( "select ts from TranslatedString as ts where ts.translation.id = :tid and ts.key = :key" )
+                            .setInteger( "tid", english.getId() ).setString( "key", string.getKey() ).list();
+                    if ( results.isEmpty() ) {
+                        continue;
+                    }
+                    TranslatedString e = (TranslatedString) results.get( 0 );
+                    if ( a.getUpdatedAt().compareTo( e.getUpdatedAt() ) < 0 ) {
+                        outOfDate++;
+                    }
+                }
+
+                entity.getUntranslatedMap().put( translationId, untranslated );
+                entity.getOutOfDateMap().put( translationId, outOfDate );
+
+                return true;
+            }
+        } );
+    }
+
+    private void initializeEntities() {
+        final List<TranslationEntity> entities = TranslationEntity.getTranslationEntities();
+
+        HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
+            public boolean run( Session session ) {
+                Translation english = (Translation) session.createQuery( "select t from Translation as t where t.visible = true and t.locale = :locale" )
+                        .setLocale( "locale", WicketApplication.getDefaultLocale() ).uniqueResult();
+                Translation other = (Translation) session.load( Translation.class, translationId );
+
+                Set englishStrings = english.getTranslatedStrings();
+                Set otherStrings = other.getTranslatedStrings();
+
+                Map<String, TranslatedString> englishMap = new HashMap<String, TranslatedString>();
+                Map<String, TranslatedString> otherMap = new HashMap<String, TranslatedString>();
+
+                for ( Object string : englishStrings ) {
+                    englishMap.put( ( (TranslatedString) string ).getKey(), ( (TranslatedString) string ) );
+                }
+
+                for ( Object string : otherStrings ) {
+                    otherMap.put( ( (TranslatedString) string ).getKey(), ( (TranslatedString) string ) );
+                }
+
+                for ( TranslationEntity entity : entities ) {
+                    int untranslated = 0;
+                    int outOfDate = 0;
+                    for ( TranslationEntityString string : entity.getStrings() ) {
+                        TranslatedString a = otherMap.get( string.getKey() );
+                        if ( a == null ) {
+                            untranslated++;
+                            continue;
+                        }
+                        TranslatedString e = englishMap.get( string.getKey() );
+                        if ( e == null ) {
+                            continue;
+                        }
+                        if ( a.getUpdatedAt().compareTo( e.getUpdatedAt() ) < 0 ) {
+                            outOfDate++;
+                        }
+                    }
+                    entity.getUntranslatedMap().put( translationId, untranslated );
+                    entity.getOutOfDateMap().put( translationId, outOfDate );
+                }
+                return true;
+            }
+        } );
     }
 
     private class StringMapModel extends LoadableDetachableModel {
