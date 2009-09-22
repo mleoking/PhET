@@ -6,9 +6,13 @@ import java.util.ArrayList;
 
 /**
  * Validates a target (translated) string by comparing it to a source (English) string.
+ * <p>
  * To be valid, the target string must contain all of the MessageFormat placeholders 
  * that are present in the English string.  A subset of MessageFormat syntax is supported,
  * eg, "{0} went to the {1} to buy {2}."
+ * <p>
+ * Null or zero-length target strings are considered valid, since they will default to
+ * the English string in a runtime sim.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -18,18 +22,15 @@ public class MessageFormatValidator {
     private static final char PLACEHOLDER_END_CHAR = '}';
     private static final int UNDEFINED_INDEX = -1;
 
-    private final String key;
     private final String sourceString;
     private final ArrayList<String> placeholders;
 
     /**
      * Constructor.
-     * @param key localization lookup key
      * @param sourceString source string used to validate target strings
      */
-    public MessageFormatValidator( String key, String sourceString ) {
+    public MessageFormatValidator( String sourceString ) {
         super();
-        this.key = key;
         this.sourceString = sourceString;
         placeholders = parsePlaceholders( sourceString );
     }
@@ -62,14 +63,6 @@ public class MessageFormatValidator {
     }
 
     /**
-     * Gets the localization lookup key for this string.
-     * @return
-     */
-    public String getKey() {
-        return key;
-    }
-
-    /**
      * Gets the source (English) string used to validate strings.
      * @return
      */
@@ -88,12 +81,14 @@ public class MessageFormatValidator {
      */
     public ArrayList<String> validate( String targetString ) {
         ArrayList<String> missingPlaceholders = null;
-        for ( String placeholder : placeholders ) {
-            if ( !targetString.contains( placeholder ) ) {
-                if ( missingPlaceholders == null ) {
-                    missingPlaceholders = new ArrayList<String>();
+        if ( targetString != null && targetString.length() > 0 ) {
+            for ( String placeholder : placeholders ) {
+                if ( !targetString.contains( placeholder ) ) {
+                    if ( missingPlaceholders == null ) {
+                        missingPlaceholders = new ArrayList<String>();
+                    }
+                    missingPlaceholders.add( placeholder );
                 }
-                missingPlaceholders.add( placeholder );
             }
         }
         return missingPlaceholders;
@@ -101,8 +96,8 @@ public class MessageFormatValidator {
 
     /* test */
     public static void main( String[] args ) {
-        MessageFormatValidator v1 = new MessageFormatValidator( "key", "{0} is a {1} or a {2}." );
-        MessageFormatValidator v2 = new MessageFormatValidator( "key", "hello world" );
+        MessageFormatValidator v1 = new MessageFormatValidator( "{0} is a {1} or a {2}." );
+        MessageFormatValidator v2 = new MessageFormatValidator( "hello world" );
         System.out.println( v1.validate( "{0} foo is a {1} bar or a {2} baz" ) ); // null
         System.out.println( v1.validate( "{0} foo is a bar or a {2} baz" ) ); // [{1}]
         System.out.println( v1.validate( "{0} foo is a {1} bar or a {3} baz" ) ); // [{2}]
