@@ -15,6 +15,7 @@
     require_once("web-util.php");
     require_once("jar-util.php");
     require_once("jnlp.php");
+    require_once("autorun.php");
     require_once("xml-util.php");
 
     //--------------------------------------------------------------------------
