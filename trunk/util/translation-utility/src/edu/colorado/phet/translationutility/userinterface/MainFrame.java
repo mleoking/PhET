@@ -89,7 +89,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
         if ( targetProperties == null ) {
             targetProperties = new Properties();
         }
-        _translationPanel = new TranslationPanel( _simulation.getProjectName(), sourceLocale, sourceProperties, targetLocale, targetProperties );
+        _translationPanel = new TranslationPanel( this, _simulation.getProjectName(), sourceLocale, sourceProperties, targetLocale, targetProperties );
         JScrollPane scrollPane = new JScrollPane( _translationPanel );
         
         // make Component with focus visible in the scroll pane

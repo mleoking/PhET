@@ -8,10 +8,7 @@ import java.awt.Insets;
 import java.awt.Toolkit;
 import java.util.*;
 
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JSeparator;
-import javax.swing.JTextArea;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.util.PhetLocales;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
@@ -48,6 +45,7 @@ public class TranslationPanel extends JPanel implements FindListener {
     private String _previousFindText; // text we previously search for in findNext or findPrevious
     private int _previousFindTextAreaIndex; // index into _findTextArea, identifies the JTextArea in which text was found
     private int _previousFindSelectionIndex; // index into a JTextArea's text, identifies where in the JTextArea the text was found
+    private final ValidationErrorHandler validationErrorHandler;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -61,7 +59,7 @@ public class TranslationPanel extends JPanel implements FindListener {
      * @param targetLocale
      * @param targetProperties
      */
-    public TranslationPanel( String projectName, 
+    public TranslationPanel( JFrame parent, String projectName, 
             Locale sourceLocale, Properties sourceProperties, 
             Locale targetLocale, Properties targetProperties ) {
         super();
@@ -71,6 +69,7 @@ public class TranslationPanel extends JPanel implements FindListener {
         _previousFindText = null;
         _previousFindTextAreaIndex = -1;
         _previousFindSelectionIndex = -1;
+        validationErrorHandler = new ValidationErrorHandler( parent );
         
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         setLayout( layout );
@@ -121,10 +120,11 @@ public class TranslationPanel extends JPanel implements FindListener {
             JTextArea sourceTextArea = new SourceTextArea( sourceValue );
             sourceTextArea.setFont( sourceFont );
 
-            TargetTextArea targetTextArea = new TargetTextArea( key, targetValue );
+            TargetTextArea targetTextArea = new TargetTextArea( key, sourceValue, targetValue );
             targetTextArea.setFont( targetFont );
             targetTextArea.setColumns( sourceTextArea.getColumns() );
             targetTextArea.setRows( sourceTextArea.getLineCount() );
+            targetTextArea.addValidationErrorListener( validationErrorHandler );
             _targetTextAreas.add( targetTextArea );
 
             _findTextAreas.add( sourceTextArea );
@@ -177,6 +177,10 @@ public class TranslationPanel extends JPanel implements FindListener {
             String value = targetProperties.getProperty( key );
             targetTextArea.setText( value );
         }
+    }
+    
+    public boolean isHandlingError() {
+        return validationErrorHandler.isHandlingError();
     }
     
     //----------------------------------------------------------------------------

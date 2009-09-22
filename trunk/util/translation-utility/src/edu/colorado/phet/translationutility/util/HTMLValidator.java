@@ -6,12 +6,16 @@ import java.util.ArrayList;
 
 /**
  * Validates a target (translated) string by comparing it to a source (English) string.
+ * <p>
  * The source string is parsed for an required HTML tags.
  * To be valid, the target string must contain all required HTML tags that are 
  * found in the source string.  Not all HTML markup is required, since things like <br>
  * may need to vary in the target string.  And it's OK if the target is HTML when 
  * the source is not, since the translation may need to break things like labels
  * into multiple lines.
+ * <p>
+ * Null or zero-length target strings are considered valid, since they will default to
+ * the English string in a runtime sim.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -20,17 +24,14 @@ public class HTMLValidator {
     private static final String HTML_BEGIN = "<html>";
     private static final String HTML_END = "</html>";
     
-    private final String key;
     private final String sourceString;
     private final ArrayList<String> tags;
     
     /**
      * Constructor.
-     * @param key localization lookup key
      * @param sourceString source string used to validate target strings
      */
-    public HTMLValidator( String key, String sourceString ) {
-        this.key = key;
+    public HTMLValidator( String sourceString ) {
         this.sourceString = sourceString;
         tags = parseTags( sourceString );
     }
@@ -47,21 +48,13 @@ public class HTMLValidator {
     }
     
     /**
-     * Gets the localization lookup key for this string.
-     * @return
-     */
-    public String getKey() {
-        return key;
-    }
-
-    /**
      * Gets the source (English) string used to validate strings.
      * @return
      */
     public String getSourceString() {
         return sourceString;
     }
-    
+
     /**
      * Validates a specified target string, looking for required HTML tags that are in the source.
      * Returns a list of tags that were missing, or null if all required tags were found.
@@ -70,12 +63,14 @@ public class HTMLValidator {
      */
     public ArrayList<String> validate( String targetString ) {
         ArrayList<String> missingTags = null;
-        for ( String tag : tags ) {
-            if ( !targetString.contains( tag ) ) {
-                if ( missingTags == null ) {
-                    missingTags = new ArrayList<String>();
+        if ( targetString != null && targetString.length() > 0 ) {
+            for ( String tag : tags ) {
+                if ( !targetString.contains( tag ) ) {
+                    if ( missingTags == null ) {
+                        missingTags = new ArrayList<String>();
+                    }
+                    missingTags.add( tag );
                 }
-                missingTags.add( tag );
             }
         }
         return missingTags;
@@ -83,8 +78,8 @@ public class HTMLValidator {
     
     /* test */
     public static void main( String[] args ) {
-        HTMLValidator v1 = new HTMLValidator( "key", "<html>foo is bar</html>" );
-        HTMLValidator v2 = new HTMLValidator( "key", "foo is bar" );
+        HTMLValidator v1 = new HTMLValidator( "<html>foo is bar</html>" );
+        HTMLValidator v2 = new HTMLValidator( "foo is bar" );
         System.out.println( v1.validate( "<html>aaa bbb</html>" ) ); // null
         System.out.println( v1.validate( "<html>aaa bbb</html>") ); // null
         System.out.println( v1.validate( "<html>aaa bbb") ); // [</html>]
