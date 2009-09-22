@@ -106,11 +106,13 @@ public class TranslationPanel extends JPanel implements FindListener {
             sortedSet.add( key );
         }
         
-        // create the table
+        // get locale-specific fonts
         Font sourceFont = PhetFont.getPreferredFont( sourceLocale );
         Font targetFont = PhetFont.getPreferredFont( targetLocale );
         TULogger.log( "TranslationPanel, sourceFont=" + sourceFont );
         TULogger.log( "TranslationPanel, targetFont=" + targetFont );
+        
+        // create the table
         Iterator<String> i = sortedSet.iterator();
         while ( i.hasNext() ) {
 
