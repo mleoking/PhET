@@ -25,6 +25,10 @@ import javax.swing.{JFrame, Timer}
 //7. Easier to add piccolo-ish artifacts inside the chart, such as tick labels, an arrow for an axis, game icons for moving man, etc.
 //8. Eaiser to draw (or interact with) chart data as in calculus grapher.
 
+//I noticed we already went down the path of writing our own chart library here:
+//simulations-java\common\charts\src\edu\colorado\phet\common\charts\Chart.java
+//This library was used in sims such as Fourier; probably would have been better to use JFreeChart there, but would have created some other difficulties 
+
 case class DataPoint(x: Double, y: Double)
 class DataSeries(name: String) {
   val data = new ArrayBuffer[DataPoint] //todo: make private and iterate with map
