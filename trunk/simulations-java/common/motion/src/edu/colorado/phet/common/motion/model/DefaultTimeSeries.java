@@ -51,8 +51,7 @@ public class DefaultTimeSeries {
 
     private void notifyObservers( TimeData o ) {
         for ( int i = 0; i < listeners.size(); i++ ) {
-            ITemporalVariable.Listener observableTimeSeriesListener = listeners.get( i );
-            observableTimeSeriesListener.dataAdded( o );
+            listeners.get( i ).dataAdded( o );
         }
     }
 

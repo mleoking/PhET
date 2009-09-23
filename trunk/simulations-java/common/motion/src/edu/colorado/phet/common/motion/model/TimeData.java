@@ -2,15 +2,9 @@ package edu.colorado.phet.common.motion.model;
 
 import java.text.DecimalFormat;
 
-/**
- * User: Sam Reid
- * Date: Dec 30, 2006
- * Time: 12:04:53 AM
- */
-
 public class TimeData {
-    private double value;
-    private double time;
+    private final double value;
+    private final double time;
 
     public TimeData( double value, double time ) {
         if ( Double.isNaN( value ) ) {
