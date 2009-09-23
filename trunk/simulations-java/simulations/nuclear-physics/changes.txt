@@ -1,3 +1,5 @@
+# 3.17.00 (35228) Sep 23, 2009
+9/23/09 Adjusted ages and positions of datable items based on feedback from geology dept
 # 3.16.00 (35017) Sep 15, 2009
 9/15/09 Retrying previous deployment (the one with screenshots for new flavors) because last attempt appeared to fail.
 # 3.15.00 (35016) Sep 15, 2009
