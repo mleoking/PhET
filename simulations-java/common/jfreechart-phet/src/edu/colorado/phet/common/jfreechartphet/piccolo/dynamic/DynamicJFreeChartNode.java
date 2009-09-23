@@ -110,6 +110,10 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
         getSeries( series ).addValue( x, y );
     }
 
+    public void clearSeries(int series){
+        getSeries(series).clear();
+    }
+
     public void addSeries( String title, Color color ) {
         addSeries( title, color, BufferedSeriesView.DEFAULT_STROKE );
     }

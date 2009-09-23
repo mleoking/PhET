@@ -240,4 +240,12 @@ public class DefaultTemporalVariable implements ITemporalVariable {
     public double getLastTime() {
         return getSampleCount() == 0 ? 0 : getRecentData( 0 ).getTime();
     }
+
+    public void keepRange(double t0,double t1){
+        TimeData[] toKeep = getData(t0,t1);
+        clear();
+        for (TimeData timeData : toKeep) {
+            addValue(timeData);
+        }
+    }
 }

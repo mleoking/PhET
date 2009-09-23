@@ -38,34 +38,20 @@ abstract class AbstractChartNode(canvas: MotionSeriesCanvas, model: MotionSeries
   }
 
   def createVariable(getter: () => Double) = {
-    val variable = new DefaultTemporalVariable()
+    val variable = new MotionSeriesDefaultTemporalVariable(model)
     model.stepListeners += (() => {
       if (inTimeRange(model.getTime))
         variable.addValue(getter(), model.getTime)
     })
 
-    model.historyRemainderClearListeners += (() => {
-//      val timeData = variable.keepOnly(0, model.getTime)
-//      variable.clear()
-//      for (i <- 0 until timeData.size) variable.addValue(timeData.get(i))
-    })
     variable
   }
 
   def createParallelVariable(getter: () => Vector2D) = {
-    val variable = new DefaultTemporalVariable()
+    val variable = new MotionSeriesDefaultTemporalVariable(model)
     model.stepListeners += (() => {
       if (inTimeRange(model.getTime))
         variable.addValue(getter().dot(model.bead.getRampUnitVector), model.getTime)
-    })
-
-    model.historyRemainderClearListeners += (() => {
-      //TODO: this is broken and needs to be fixed
-//      val toKeep = for (point <- variable.getData(0.0,model.getTime)) yield point
-//      variable.clear()
-//      println("clearing series, keeping "+toKeep.length+" points on :"+variable.hashCode)
-//      for (point <- toKeep) variable.addValue(point)
-//      println("variable kept: \n"+toKeep.mkString("\n"))
     })
 
     variable

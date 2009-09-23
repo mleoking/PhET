@@ -429,7 +429,7 @@ public class ControlGraph extends PNode {
             }
 
             public void dataCleared() {
-                clear();
+                handleDataCleared( getSeriesIndex( series ));
             }
         } );
 
@@ -454,6 +454,10 @@ public class ControlGraph extends PNode {
 
     protected void handleDataAdded( int seriesIndex, TimeData timeData ) {
         addValue( seriesIndex, timeData.getTime(), timeData.getValue() );
+    }
+
+        protected void handleDataCleared( int seriesIndex) {
+        dynamicJFreeChartNode.clearSeries( seriesIndex);
     }
 
     protected int getSeriesIndex( ControlGraphSeries series ) {
