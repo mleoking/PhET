@@ -45,7 +45,7 @@
     // the full web site.  This is generally swapped in for the full rip
     // filters when doing testing that requires a lot of iterations, since 
     // this will generally be much quicker than a full rip.
-    define("PHET_LITE_RIPPER_FILTER",                '"-*/get-phet/*" "-*/workshops/*" "-*wickettest*" "+phetsims.colorado.edu/sims/faraday/*" "+phetsims.colorado.edu/sims/arithmetic/*"');
+    define("PHET_LITE_RIPPER_FILTER",                '"-*/get-phet/*" "-*/workshops/*" "-*wickettest*" "+phetsims.colorado.edu/sims/faraday/*.jnlp" "+phetsims.colorado.edu/sims/faraday/*_all.jar" "+phetsims.colorado.edu/sims/faraday/*.jpg" "+phetsims.colorado.edu/sims/arithmetic/*.html" "+phetsims.colorado.edu/sims/arithmetic/*.swf" "+phetsims.colorado.edu/sims/arithmetic/*.jpg" "+phetsims.colorado.edu/sims/arithmetic/*.properties" "+phetsims.colorado.edu/sims/arithmetic/*.png" "+phetsims.colorado.edu/sims/arithmetic/*.xml"');
     define("PHET_WEBSITE_ROOT_PARTIAL_PATTERN", '[^"]+colorado\.edu');
     define("PHET_WEBSITE_ROOT_PATTERN",         '/'.PHET_WEBSITE_ROOT_PARTIAL_PATTERN.'/');
 
@@ -53,7 +53,7 @@
     // CD-ROM Configuration
     define("AUTORUN_FILENAME",                     'autorun.inf');
     define("AUTORUN_ICON_NAME",                 'phet-icon.ico');
-    define("AUTORUN_ICON_SRC",                     file_cleanup_local_filename(ROOT_DIR."Installer-Resources/Install-Path/".AUTORUN_ICON_NAME));
+    define("AUTORUN_ICON_SRC",                     file_cleanup_local_filename(PARENT_DIR."Installer-Resources/Install-Path/".AUTORUN_ICON_NAME));
     define("AUTORUN_ICON_DEST",                 file_cleanup_local_filename(OUTPUT_DIR.AUTORUN_ICON_NAME));
     define("AUTORUN_FILE_DEST",                 file_cleanup_local_filename(OUTPUT_DIR.AUTORUN_FILENAME));
 
@@ -78,8 +78,13 @@
     define("RIPPER_DIR",  file_cleanup_local_filename("/usr/local/httrack/bin/"));
     define("RIPPER_EXE",  RIPPER_DIR.GET_OS_BOUND_NAME("RIPPER_EXE"));
 
+    // User agent to indicate when ripping.  This is used to make the web site
+    // react somewhat differently (generally filtering out some links) when it
+    // is being ripped for the installers.
+    define("RIPPER_USER_AGENT",  "httrack-web-mirror-ar");
+
     // Command-line args of the ripper:
-    define("RIPPER_ARGS", '"'.PHET_TRANSLATED_WEBSITE_URL.'" -O "'.RIPPED_WEBSITE_ROOT.'" '.PHET_LITE_RIPPER_FILTER.' -j %q0 -%e0 -r10');
+    define("RIPPER_ARGS", '"'.PHET_TRANSLATED_WEBSITE_URL.'" -O "'.RIPPED_WEBSITE_ROOT.'" '.PHET_LITE_RIPPER_FILTER." -F ".RIPPER_USER_AGENT.' -j %q0 -%e0 -r10');
 
     // File used for preventing simultaneous builds.
     define("LOCK_FILE_STEM_NAME", "installer-builder");
