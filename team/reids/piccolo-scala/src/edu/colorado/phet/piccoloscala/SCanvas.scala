@@ -16,7 +16,7 @@ class SCanvas extends PCanvas {
 
   def nodes = new ArrayBuffer[PNode]
 
-  def add(noder: => PNode) = {
+  def add[T <: PNode](noder: => T) = {
     val createdNode = noder
     addNode(createdNode)
     createdNode
