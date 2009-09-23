@@ -81,7 +81,7 @@
     // User agent to indicate when ripping.  This is used to make the web site
     // react somewhat differently (generally filtering out some links) when it
     // is being ripped for the installers.
-    define("RIPPER_USER_AGENT",  "httrack-web-mirror-ar");
+    define("RIPPER_USER_AGENT",  '"httrack-web-mirror-ar"');
 
     // Command-line args of the ripper:
     define("RIPPER_ARGS", '"'.PHET_TRANSLATED_WEBSITE_URL.'" -O "'.RIPPED_WEBSITE_ROOT.'" '.PHET_LITE_RIPPER_FILTER." -F ".RIPPER_USER_AGENT.' -j %q0 -%e0 -r10');
