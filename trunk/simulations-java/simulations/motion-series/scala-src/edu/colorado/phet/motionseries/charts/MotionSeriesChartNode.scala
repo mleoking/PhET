@@ -14,7 +14,7 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
   def forceGraph: MotionSeriesGraph = forceGraph(true)
 
   def forceGraph(showGravitySeries: Boolean): MotionSeriesGraph = {
-    val parallelAppliedForceVariable = new DefaultTemporalVariable() {
+    val parallelAppliedForceVariable = new MotionSeriesDefaultTemporalVariable(model) {
       override def setValue(value: Double) = model.bead.parallelAppliedForce = value
     }
     model.stepListeners += (() => {
@@ -104,7 +104,7 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
   }
 
   def accelerationGraph = {
-    val accelerationVariable = new DefaultTemporalVariable() {
+    val accelerationVariable = new MotionSeriesDefaultTemporalVariable(model) {
       override def setValue(accel: Double) = {
         model.bead.setAccelerationMode()
         val desiredTotalForce = accel * model.bead.mass
@@ -126,7 +126,7 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
   }
 
   def velocityGraph = {
-    val velocityVariable = new DefaultTemporalVariable() {
+    val velocityVariable = new MotionSeriesDefaultTemporalVariable(model) {
       override def setValue(v: Double) = {
         model.bead.setVelocityMode()
         model.bead.setVelocity(v)
@@ -147,7 +147,7 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
   }
 
   def positionGraph = {
-    val positionVariable = new DefaultTemporalVariable() {
+    val positionVariable = new MotionSeriesDefaultTemporalVariable(model) {
       override def setValue(x: Double) = {
         model.bead.setPositionMode()
         model.bead.setDesiredPosition(x)
