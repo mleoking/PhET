@@ -17,12 +17,12 @@ import org.jfree.chart.{JFreeChart, ChartFrame, ChartFactory}
 import javax.swing.{JFrame, Timer}
 //This chart is a feasibility test to attempt the following features for a chart library:
 //1. Easy integration with piccolo, including ease of layouts
-//2. High performance, including during scrolling, panning and zooming
-//3. Assumption of XY data series, so easier configuration
-//4. Better MVC pattern (improve over ControlGraph.addSeries)
+//2. High performance, including during scrolling, panning and zooming (may not improve over a decoration-less jfreechart)
+//3. Assumption of XY data series, so easier configuration and no casting to XYPlot
+//4. Better MVC pattern (improvement over ControlGraph.addSeries, not over JFreeChart)
 //5. Rendering improvements over JFreechart piccolo wrapper, such as chart boundaries not lining up properly, and tick labels getting cropped off
 //6. Interaction like dragging the chart to pan
-//7. Easier to add piccolo-ish artifacts inside the chart, such as tick labels, an arrow for an axis, etc.
+//7. Easier to add piccolo-ish artifacts inside the chart, such as tick labels, an arrow for an axis, game icons for moving man, etc.
 //8. Eaiser to draw (or interact with) chart data as in calculus grapher.
 
 case class DataPoint(x: Double, y: Double)
@@ -101,6 +101,7 @@ object TestPiccoloChart {
   }
 }
 
+//This feasibility test indicates comparable performance to the PiccoloChart above, when all decorations are disabled.
 object TestJFC {
   def main(args: Array[String]) {
     runInSwingThread {
