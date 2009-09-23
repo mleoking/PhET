@@ -73,6 +73,12 @@
                         <distributionDirectory>
                             <origin>../../temp/website/phetsims.colorado.edu/sims</origin>
                         </distributionDirectory>
+                        <distributionFile>
+                            <origin>../../../Installer-Resources/Install-Path/phet-icon.ico</origin>
+                        </distributionFile>
+                        <distributionFile>
+                            <origin>../../../Installer-Resources/Install-Path/phet-logo-48x48.png</origin>
+                        </distributionFile>
                     </distributionFileList>
                     <shortcutList>
                         <shortcut>
