@@ -91,7 +91,7 @@
                         </shortcut>
                         <fileShortcut>
                             <comment>Launches the local mirror of the PhET website, containing all the PhET simulations.</comment>
-                            <filePath>${installdir}/index.html</filePath>
+                            <filePath>${installdir}/ar/index.html</filePath>
                             <icon>${installdir}/phet-logo-48x48.png</icon>
                             <name>PhET Simulations</name>
                             <platforms>all</platforms>
@@ -146,7 +146,7 @@
                 </startMenuShortcut>
                 <startMenuFileShortcut>
                     <comment>Launches the local mirror of the PhET website, containing all the PhET simulations.</comment>
-                    <filePath>${installdir}/index.html</filePath>
+                    <filePath>${installdir}/ar/index.html</filePath>
                     <name>PhET Simulations</name>
                     <runInTerminal>0</runInTerminal>
                     <windowsIcon>${installdir}/phet-icon.ico</windowsIcon>
