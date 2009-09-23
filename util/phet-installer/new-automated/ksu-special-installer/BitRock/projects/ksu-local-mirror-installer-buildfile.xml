@@ -35,6 +35,11 @@
     <validatorProgram></validatorProgram>
     <vendor>PhET</vendor>
     <enableRollback>0</enableRollback>
+    <!-- Set a variable that will contain the locale information.  -->
+    <setInstallerVariable>
+        <name>locale</name>
+        <value>ar</value>
+    </setInstallerVariable>
     <componentList>
         <component>
             <name>default</name>
@@ -47,7 +52,7 @@
             <desktopShortcutList>
                 <fileShortcut>
                      <comment>Launches local mirror of the PhET website.</comment>
-                     <filePath>${installdir}/index.html</filePath>
+                     <filePath>${installdir}/${locale}/index.html</filePath>
                      <icon>${installdir}/phet-logo-48x48.png</icon>
                      <name>PhET Simulations</name>
                      <platforms>windows</platforms>
