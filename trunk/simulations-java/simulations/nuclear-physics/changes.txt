@@ -1,3 +1,5 @@
+# 3.18.00 (35229) Sep 23, 2009
+9/23/09 Updated positions and ages of datable items based on feedback from geology dept
 # 3.17.00 (35228) Sep 23, 2009
 9/23/09 Adjusted ages and positions of datable items based on feedback from geology dept
 # 3.16.00 (35017) Sep 15, 2009
