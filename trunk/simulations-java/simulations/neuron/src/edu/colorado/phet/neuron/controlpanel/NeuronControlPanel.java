@@ -66,7 +66,8 @@ public class NeuronControlPanel extends ControlPanel {
         
         // TODO: Internationalize.
         SodiumLeakageChannel sodiumLeakageChannel = new SodiumLeakageChannel();
-        sodiumLeakageChannel.setRotationalAngle(Math.PI / 2);
+        sodiumLeakageChannel.setDimensions( OVERALL_SIZE_OF_LEAK_CHANNEL_ICON, CHANNEL_SIZE_OF_LEAK_CHANNEL_ICON );
+        sodiumLeakageChannel.setRotationalAngle(-Math.PI / 2);
         sodiumLeakChannelControl = new LeakChannelSlider("Sodium Leak Channels", 
         		new MembraneChannelNode(sodiumLeakageChannel, new ModelViewTransform2D()));
         sodiumLeakChannelControl.addChangeListener(new ChangeListener() {
