@@ -3,10 +3,12 @@ package edu.colorado.phet.translationutility.test;
 
 import java.awt.Color;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 /**
@@ -29,45 +31,57 @@ public class TestValidation extends JFrame {
 
     public TestValidation() {
         super( "TestValidation" );
-
+        
         // controls
-        IntegerControl control1 = new IntegerControl();
-        IntegerControl control2 = new IntegerControl();
+        IntegerTextField control1 = new IntegerTextField();
+        IntegerTextField control2 = new IntegerTextField();
         JButton button = new DoSomethingButton();
+        
+        // wiring for validation
+        ValidationErrorListener listener = new ValidationErrorListener() {
+            public void validationError( JTextField textField, String errorMessage ) {
+                JOptionPane.showMessageDialog( TestValidation.this, errorMessage, "Error", JOptionPane.ERROR_MESSAGE );
+            }
+        };
+        control1.addValidationErrorListener( listener );
+        control2.addValidationErrorListener( listener );
 
         // layout
-        Box box = new Box( BoxLayout.Y_AXIS );
-        box.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
-        box.add( control1 );
-        box.add( control2 );
-        box.add( button );
-        setContentPane( box );
+        JPanel panel = new JPanel();
+        panel.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
+        EasyGridBagLayout layout = new EasyGridBagLayout( panel );
+        panel.setLayout( layout );
+        layout.addComponent( new JLabel( "Integer A:" ), 0, 0 );
+        layout.addComponent( control1, 0, 1 );
+        layout.addComponent( new JLabel( "Integer B:" ), 1, 0 );
+        layout.addComponent( control2, 1, 1 );
+        layout.addComponent( button, 2, 0, 2, 1 );
+        setContentPane( panel );
 
         pack();
         setResizable( false );
         SwingUtils.centerWindowOnScreen( this );
     }
-
-    private static class IntegerControl extends Box {
-
-        public IntegerControl() {
-            super( BoxLayout.X_AXIS );
-            JLabel label = new JLabel( "Enter an integer:" );
-            JTextField textField = new IntegerTextField();
-            add( label );
-            add( textField );
-        }
+    
+    private interface ValidationErrorListener {
+        public void validationError( JTextField textField, String errorMessage );
     }
 
     private static class IntegerTextField extends JTextField {
+        
+        private static final Color OK_COLOR = Color.WHITE;
+        private static final Color ERROR_COLOR = Color.RED;
+        
+        private final ArrayList<ValidationErrorListener> listeners;
 
         public IntegerTextField() {
             super();
+            listeners = new ArrayList<ValidationErrorListener>();
             setColumns( 10 );
-            setBackground( Color.WHITE );
+            setBackground( OK_COLOR );
             addKeyListener( new KeyAdapter() {
                 public void keyPressed( KeyEvent e ) {
-                    setBackground( Color.WHITE );
+                    setBackground( OK_COLOR );
                 }
             } );
             addFocusListener( new FocusAdapter() {
@@ -84,10 +98,23 @@ public class TestValidation extends JFrame {
                     Integer.parseInt( s );
                 }
                 catch ( NumberFormatException e ) {
-                    setBackground( Color.RED );
-                    String message = s + " is not an integer.";
-                    JOptionPane.showMessageDialog( this, message, "Error", JOptionPane.ERROR_MESSAGE );
+                    setBackground( ERROR_COLOR );
+                    fireValidationError( s + " is not an integer." );
                 }
+            }
+        }
+        
+        public void addValidationErrorListener( ValidationErrorListener listener ) {
+            listeners.add( listener );
+        }
+        
+        public void removeValidationErrorListener( ValidationErrorListener listener ) {
+            listeners.remove( listener );
+        }
+        
+        private void fireValidationError( String errorMessage ) {
+            for ( ValidationErrorListener listener : listeners ) {
+                listener.validationError( this, errorMessage );
             }
         }
     }
