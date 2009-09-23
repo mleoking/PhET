@@ -1,4 +1,4 @@
-package edu.colorado.phet.ladybugmotion2d.model.aphidmaze
+package edu.colorado.phet.ladybugmotion2d.aphidmaze
 
 import _root_.edu.colorado.phet.common.phetcommon.math.MathUtil
 import _root_.edu.colorado.phet.common.phetcommon.view.util.RectangleUtils

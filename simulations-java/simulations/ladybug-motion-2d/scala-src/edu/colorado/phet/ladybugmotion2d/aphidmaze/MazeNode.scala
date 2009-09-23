@@ -1,4 +1,4 @@
-package edu.colorado.phet.ladybugmotion2d.canvas.aphidmaze
+package edu.colorado.phet.ladybugmotion2d.aphidmaze
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
