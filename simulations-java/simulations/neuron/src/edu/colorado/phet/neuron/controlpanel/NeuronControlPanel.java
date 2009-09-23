@@ -8,6 +8,7 @@ import java.awt.geom.Dimension2D;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -35,8 +36,8 @@ public class NeuronControlPanel extends ControlPanel {
     // Class Data
     //----------------------------------------------------------------------------
 	
-	private static final Dimension2D OVERALL_SIZE_OF_LEAK_CHANNEL_ICON = new PDimension(40, 50);
-	private static final Dimension2D CHANNEL_SIZE_OF_LEAK_CHANNEL_ICON = new PDimension(18, 30);
+	private static final Dimension2D OVERALL_SIZE_OF_LEAK_CHANNEL_ICON = new PDimension(38, 50);
+	private static final Dimension2D CHANNEL_SIZE_OF_LEAK_CHANNEL_ICON = new PDimension(15, 30);
 
 	//----------------------------------------------------------------------------
     // Instance Data
@@ -132,13 +133,20 @@ public class NeuronControlPanel extends ControlPanel {
         public LeakChannelSlider(String title, PNode icon) {
             super( 0, 5, title, "0", "");
             setUpDownArrowDelta( 1 );
-            setTextFieldEditable( false );
+            setTextFieldVisible(false);
             setTickPattern( "0" );
             setMajorTickSpacing( 1 );
             setMinorTicksVisible(false);
             setBorder( BorderFactory.createEtchedBorder() );
-            setValueLabelIcon(new ImageIcon(icon.toImage(50, 50, new Color(0,0,0,0))));
             setSnapToTicks(true);
+            
+            // Set the icon and the text alignment in a way that works well
+            // for this particular control.
+            JLabel _valueLabel = getValueLabel();
+            _valueLabel.setIcon( new ImageIcon(icon.toImage(40, 40, new Color(0,0,0,0))) );
+            _valueLabel.setVerticalTextPosition( JLabel.CENTER );
+            _valueLabel.setHorizontalTextPosition( JLabel.LEFT );
+
 		}
     }
 }
