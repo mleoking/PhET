@@ -3,12 +3,12 @@
     <fullName>PhET</fullName>
     <version>$VERSION$</version>
     <installerFilename>${product_shortname}-Installer_${platform_name}.${platform_exec_suffix}</installerFilename>
-    <readmeFile>../../Installer-Resources/Install-Path/${platform_name}/readme.txt</readmeFile>
-    <licenseFile>../../Installer-Resources/Install-Path/license.txt</licenseFile>
+    <readmeFile>../../../Installer-Resources/Install-Path/${platform_name}/readme.txt</readmeFile>
+    <licenseFile>../../../Installer-Resources/Install-Path/license.txt</licenseFile>
     <installationLogFile>${installdir}/install_log.txt</installationLogFile>
     <wrapLicenseFileText>1</wrapLicenseFileText>
     <leftImage></leftImage>
-    <logoImage>../../Installer-Resources/Install-Path/phet-logo-48x48.png</logoImage>
+    <logoImage>../../../Installer-Resources/Install-Path/phet-logo-48x48.png</logoImage>
     <splashImage></splashImage>
     <defaultLanguage>en</defaultLanguage>
     <allowLanguageSelection>0</allowLanguageSelection>
@@ -22,7 +22,7 @@
     <defaultUnixDirectoryPermissions>755</defaultUnixDirectoryPermissions>
     <defaultUnixFilePermissions>644</defaultUnixFilePermissions>
     <description>The PhET Website Mirror</description>
-    <outputDirectory>${installbuilder_install_root}/output</outputDirectory>
+    <outputDirectory>${installbuilder_install_root}/../ksu-special-installer/BitRock/output</outputDirectory>
     <projectSchemaVersion>1.2</projectSchemaVersion>
     <saveRelativePaths>1</saveRelativePaths>
     <slideShowLoop>1</slideShowLoop>
@@ -119,7 +119,7 @@
                     <platforms>windows</platforms>
                     <distributionFileList>
                         <distributionFile>
-                            <origin>../../Installer-Resources/Install-Path/jre-windows.exe</origin>
+                            <origin>../../../Installer-Resources/Install-Path/jre-windows.exe</origin>
                         </distributionFile>
                     </distributionFileList>
                 </folder>
