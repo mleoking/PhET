@@ -60,9 +60,12 @@ abstract class AbstractChartNode(canvas: MotionSeriesCanvas, model: MotionSeries
     })
 
     model.historyRemainderClearListeners += (() => {
-//      val timeData = variable.keepOnly(0, model.getTime)
+      //TODO: this is broken and needs to be fixed
+//      val toKeep = for (point <- variable.getData(0.0,model.getTime)) yield point
 //      variable.clear()
-//      for (i <- 0 until timeData.size) variable.addValue(timeData.get(i))
+//      println("clearing series, keeping "+toKeep.length+" points on :"+variable.hashCode)
+//      for (point <- toKeep) variable.addValue(point)
+//      println("variable kept: \n"+toKeep.mkString("\n"))
     })
 
     variable
