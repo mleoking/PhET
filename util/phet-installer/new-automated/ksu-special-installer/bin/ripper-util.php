@@ -336,7 +336,9 @@
         ripper_download_java_rsrcs( RIPPED_WEBSITE_SIMS_PARENT_DIR );
 
         // Get the resources for the Flash sims.
-        ripper_download_flash_rsrcs( RIPPED_WEBSITE_SIMS_PARENT_DIR );
+        // TODO: Commenting this out because, based on a conversation with JO
+        // on 9/22/2009, it may not be needed.
+        //ripper_download_flash_rsrcs( RIPPED_WEBSITE_SIMS_PARENT_DIR );
 
         // Add the marker file, needed for sim usage tracking.
         installer_create_marker_file();
