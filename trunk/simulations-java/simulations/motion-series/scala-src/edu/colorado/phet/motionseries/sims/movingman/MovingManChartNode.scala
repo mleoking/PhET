@@ -5,12 +5,12 @@ import edu.colorado.phet.motionseries.model.MotionSeriesModel
 import edu.colorado.phet.motionseries.charts.{Graph, MotionSeriesChartNode}
 
 class MovingManChartNode(canvas: MotionSeriesCanvas, model: MotionSeriesModel) extends MotionSeriesChartNode(canvas, model) {
-  init(Graph("position", positionGraph, false) ::
-          Graph("velocity", velocityGraph, false) ::
-          Graph("acceleration", accelerationGraph, true) :: Nil)
+  init(Graph("position", positionGraph(true), false) ::
+          Graph("velocity", velocityGraph(true), false) ::
+          Graph("acceleration", accelerationGraph( true), true) :: Nil)
 }
 
 class MovingManEnergyChartNode(canvas: MotionSeriesCanvas, model: MotionSeriesModel) extends MotionSeriesChartNode(canvas, model) {
-  init(Graph("velocity", velocityGraph, false) ::
+  init(Graph("velocity", velocityGraph(true), false) ::
           Graph("kinetic energy", kineticEnergyGraph, false) :: Nil)
 }

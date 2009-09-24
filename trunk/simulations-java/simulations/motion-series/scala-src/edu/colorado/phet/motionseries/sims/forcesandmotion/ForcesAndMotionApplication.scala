@@ -57,7 +57,8 @@ class FrictionModule(frame: JFrame, clock: ScalaClock) extends BasicForcesAndMot
   motionSeriesModel.frictionless = false
 }
 
-class GraphingModule(frame: JFrame, clock: ScalaClock) extends BasicForcesAndMotionModule(frame, clock, "forces-and-motion.module.graphing.title".translate, false, false, true, false, -6, false, 0.0, true, true,MotionSeriesDefaults.forceMotionGraphViewport,MotionSeriesDefaults.forceEnergyGraphArea) {
+class GraphingModule(frame: JFrame, clock: ScalaClock)
+        extends BasicForcesAndMotionModule(frame, clock, "forces-and-motion.module.graphing.title".translate, false, false, true, false, -6, false, 0.0, true, true,MotionSeriesDefaults.forceMotionGraphViewport,MotionSeriesDefaults.forceEnergyGraphArea) {
   coordinateSystemModel.adjustable = false
   canvas.addScreenNode(new ForcesAndMotionChartNode(canvas, motionSeriesModel))
 }

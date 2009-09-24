@@ -100,7 +100,7 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
     keGraph
   }
 
-  def accelerationGraph = {
+  def accelerationGraph(editable:Boolean) = {
     val accelerationVariable = new MotionSeriesDefaultTemporalVariable(model) {
       override def setValue(accel: Double) = {
         model.bead.setAccelerationMode()
@@ -118,11 +118,12 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
         addComponent(new SeriesControlTitleLabel(accelerationSeries))
         addComponent(createEditableLabel(accelerationSeries))
       })
+      setEditable(editable)
     }
     accelerationGraph
   }
 
-  def velocityGraph = {
+  def velocityGraph(editable:Boolean) = {
     val velocityVariable = new MotionSeriesDefaultTemporalVariable(model) {
       override def setValue(v: Double) = {
         model.bead.setVelocityMode()
@@ -139,11 +140,12 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
         addComponent(new SeriesControlTitleLabel(velocitySeries))
         addComponent(createEditableLabel(velocitySeries))
       })
+      setEditable(editable)
     }
     velocityGraph
   }
 
-  def positionGraph = {
+  def positionGraph(editable:Boolean) = {
     val positionVariable = new MotionSeriesDefaultTemporalVariable(model) {
       override def setValue(x: Double) = {
         model.bead.setPositionMode()
@@ -158,6 +160,7 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
         addComponent(new SeriesControlTitleLabel(positionSeries))
         addComponent(createEditableLabel(positionSeries))
       })
+      setEditable(editable)
     }
     positionGraph
   }
