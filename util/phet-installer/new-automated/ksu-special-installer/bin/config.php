@@ -39,8 +39,10 @@
     define("PHET_TRANSLATED_WEBSITE_URL",       PHET_ROOT_URL.LOCALE_STRING."/");
     define("PHET_SIMS_SUBDIR",                  "sims/");
     // Definition of the filter, which specifies what to include/exclude from
-    // the rip.  This one define the full rip.
-    define("PHET_RIPPER_FILTER",                '"-*wickettest*" "+phetsims.colorado.edu/sims/*"');
+    // the rip.  This one defines a filter that is used when doing a rip that
+    // is meant to capture the entire web site.
+    // TODO: Make the URL into a variable and figure out how to incorporate into the filter definitions.
+    define("PHET_RIPPER_FILTER",                '"-*wickettest*" "+phetsims.colorado.edu/sims/*/*.jnlp" "+phetsims.colorado.edu/sims/*/*_all.jar" "+phetsims.colorado.edu/sims/*/*.jpg" "+phetsims.colorado.edu/sims/*/*.html" "+phetsims.colorado.edu/sims/*/*.swf" "+phetsims.colorado.edu/sims/*/*.png" "+phetsims.colorado.edu/activities/*" "+phetsims.colorado.edu/publications/*" "+phetsims.colorado.edu/installer/*');
     // Filter definition for a "lite" rip, meaning one that rips less than
     // the full web site.  This is generally swapped in for the full rip
     // filters when doing testing that requires a lot of iterations, since 
@@ -84,7 +86,7 @@
     define("RIPPER_USER_AGENT",  '"httrack-web-mirror-ar"');
 
     // Command-line args of the ripper:
-    define("RIPPER_ARGS", '"'.PHET_TRANSLATED_WEBSITE_URL.'" -O "'.RIPPED_WEBSITE_ROOT.'" '.PHET_LITE_RIPPER_FILTER." -F ".RIPPER_USER_AGENT.' -j %q0 -%e0 -r10');
+    define("RIPPER_ARGS", '"'.PHET_TRANSLATED_WEBSITE_URL.'" -O "'.RIPPED_WEBSITE_ROOT.'" '.PHET_RIPPER_FILTER." -F ".RIPPER_USER_AGENT.' -j %q0 -%e0 -r10');
 
     // File used for preventing simultaneous builds.
     define("LOCK_FILE_STEM_NAME", "installer-builder");
