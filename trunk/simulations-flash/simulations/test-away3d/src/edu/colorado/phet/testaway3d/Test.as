@@ -26,12 +26,11 @@
 		var scene:Scene3D;
 		var camera:HoverCamera3D;
 		var fogfilter:FogFilter;
-		var renderer:BasicRenderer;
+		var renderer:IRenderer;
 		var view:View3D;
 		
 		//scene objects
 		var cube:Cube;
-		var marker1:Sphere;
 		
 		//navigation variables
 		var move:Boolean = false;
@@ -39,19 +38,26 @@
 		var startMouseY:Number;
 		var startMiddle : Number3D;
 		
+		var poolWidth : Number = 1000;
+		var poolHeight : Number = 500;
+		var poolDepth : Number = 500;
+		var waterHeight: Number = 420;
+		var far : Number = 5000;
+		
+		var poolTop : Plane;
+		var poolFront : Plane;
+		
 		public function Test() {
 			init();
 		}
 		
-		public function init():void
-		{
+		public function init():void {
 			initEngine();
 			initObjects();
 			initListeners();
 		}
 		
-		public function initEngine():void
-		{
+		public function initEngine():void {
 			scene = new Scene3D();
 			
 			//camera = new HoverCamera3D({focus:50, distance:1000, mintiltangle:0, maxtiltangle:90});
@@ -70,7 +76,9 @@
 			fogfilter.minZ = 500;
 			fogfilter.maxZ = 20000;
 			
-			renderer = new BasicRenderer( fogfilter );
+			//renderer = new BasicRenderer( fogfilter );
+			//renderer = new BasicRenderer();
+			renderer = Renderer.INTERSECTING_OBJECTS;
 			
 			//view = new View3D({scene:scene, camera:camera, renderer:renderer});
 			view = new View3D();
@@ -82,30 +90,47 @@
 			addChild(view);
 		}
 		
-		public function initObjects():void
-		{
-			var plane:Plane;
-			plane = new Plane({ y: -250, z:150, width: 1000, height: 500, segmentsW: 20, segmentsH: 20, rotationX: 90 });
+		public function updateWater() : void {
+			poolFront.y = -poolHeight + waterHeight / 2;
+			poolFront.height = waterHeight;
+			poolTop.y = -poolHeight + waterHeight;
+		}
+		
+		public function initObjects():void {
 			
-			scene.addChild(plane);
+			poolFront = new Plane({ y: -poolHeight + waterHeight / 2, width: poolWidth, height: waterHeight, rotationX: 90, material: new ShadingColorMaterial( 0x0088FF, {alpha: 0.4} ) });			
+			scene.addChild( poolFront );
+			poolFront.mouseEnabled = false;
+			poolTop = new Plane({ y: -poolHeight + waterHeight, z: poolDepth / 2, width: poolWidth, height: poolDepth, material: new ShadingColorMaterial( 0x0088FF, {alpha: 0.4} ) });
+			scene.addChild( poolTop );
+			poolTop.mouseEnabled = false;
 			
-			//cube = new Cube({x:300, y:160, z:-80, width:200, height:200, depth:200});
-			cube = new Cube();
-			cube.x = 300;
-			cube.y = 160;
-			cube.z = 0;
-			cube.width = 100;
-			cube.height = 100;
-			cube.depth = 100;
-			cube.material = new ShadingColorMaterial( 0xFF0000, {ambient: 0xFF0000, specular:0xFFFFFF});
+			// back of pool
+			scene.addChild( new Plane({ y: -poolHeight / 2, z:poolDepth, width: poolWidth, height: poolHeight, rotationX: 90, material: new ShadingColorMaterial( 0xAAAAAA ) }) );			
 			
+			// bottom of pool
+			scene.addChild( new Plane({ y: -poolHeight, z:poolDepth / 2, width: poolWidth, height: poolDepth, material: new ShadingColorMaterial( 0xAAAAAA ) }) );			
+			
+			// sides of pool
+			scene.addChild( new Plane({ x: poolWidth / 2, y: -poolHeight / 2, z: poolDepth / 2, width: poolHeight, height: poolDepth, rotationZ: 90, material: new ShadingColorMaterial( 0xAAAAAA ) }) );			
+			scene.addChild( new Plane({ x: -poolWidth / 2, y: -poolHeight / 2, z: poolDepth / 2, width: poolHeight, height: poolDepth, rotationZ: -90, material: new ShadingColorMaterial( 0xAAAAAA ) }) );			
+			
+			// ground behind pool
+			scene.addChild( new Plane({ z: ( (far - poolDepth) / 2 ) + poolDepth, width: poolWidth, height: far - poolDepth, material: new ShadingColorMaterial( 0x00AA00 ) }) );
+			
+			// ground to the sides of the pool
+			scene.addChild( new Plane({ x: far / 2 + poolWidth / 2, z: far / 2, width: far, height: far, material: new ShadingColorMaterial( 0x00AA00 ) }) );
+			scene.addChild( new Plane({ x: -far / 2 - poolWidth / 2, z: far / 2, width: far, height: far, material: new ShadingColorMaterial( 0x00AA00 ) }) );
+			
+			// front of earth beneath the pool
+			scene.addChild( new Plane({ y: -far / 2 - poolHeight, width: poolWidth, height: far, rotationX: 90, material: new ShadingColorMaterial( 0xAA7733 ) }) );
+			
+			// front of earth to the sides
+			scene.addChild( new Plane({ x: far / 2 + poolWidth / 2, y: -far / 2, width: far, height: far, rotationX: 90, material: new ShadingColorMaterial( 0xAA7733 ) }) );
+			scene.addChild( new Plane({ x: -far / 2 - poolWidth / 2, y: -far / 2, width: far, height: far, rotationX: 90, material: new ShadingColorMaterial( 0xAA7733 ) }) );
+			
+			cube = new Cube({ x: 300, y: 160, z: 101, width: 100, height: 100, depth: 100, segmentsW: 10, segmentsH: 10, material: new ShadingColorMaterial( 0xFF0000, {ambient: 0xFF0000, specular:0xFFFFFF}) });
 			scene.addChild(cube);
-			
-			marker1 = new Sphere();
-			marker1.x = 0;
-			marker1.y = 0;
-			marker1.z = 0;
-			marker1.radius = 50;
 			
 			var light:DirectionalLight3D = new DirectionalLight3D({color:0xFFFFFF, ambient:0.2, diffuse:0.75, specular:0.1});
 			light.x = 10000;
@@ -113,16 +138,9 @@
 			light.y = 50000;
 			scene.addChild(light);
 			
-			scene.addChild( marker1 );
-			
 		}
 		
-		/**
-		 * Initialise the listeners
-		 */
-		public function initListeners():void
-		{
-			//scene.addOnMouseUp(onSceneMouseUp);
+		public function initListeners():void {
 			scene.addEventListener(MouseEvent3D.MOUSE_UP, onSceneMouseUp);
 			
 			addEventListener(Event.ENTER_FRAME, onEnterFrame);
@@ -162,39 +180,24 @@
 			return new Number3D( kx / num, ky / num, kz / num );
 		}
 		
-		/**
-		 * Mouse up listener for the 3d scene
-		 */
-		public function onSceneMouseUp(e:MouseEvent3D):void
-		{
+		public function onSceneMouseUp( e: MouseEvent3D ) : void {
 			//if (e.object is Mesh) {
 				//var mesh:Mesh = e.object as Mesh;
 				//mesh.material = new WireColorMaterial();
 			//}
 		}
 		
-		/**
-		 * Navigation and render loop
-		 */
-		public function onEnterFrame(event:Event):void
-		{			
+		public function onEnterFrame(event:Event):void {			
 			camera.hover();  
 			view.render();
 		}
 		
-		/**
-		 * Mouse down listener for navigation
-		 */
-		public function onMouseDown(event:MouseEvent):void
-		{
-			//lastPanAngle = camera.targetpanangle;
-			//lastTiltAngle = camera.targettiltangle;
+		public function onMouseDown( event:MouseEvent ) : void {
 			startMouseX = stage.mouseX;
 			startMouseY = stage.mouseY;
 			if( view.mouseObject == cube ) {
 				move = true;
 				startMiddle = medianScreenPoint( cube );
-				trace( "offset: " + String( startMouseX - startMiddle.x ) + ", " + String( startMouseY - startMiddle.y ) );
 			}
 			stage.addEventListener(Event.MOUSE_LEAVE, onStageMouseLeave);
 		}
@@ -203,7 +206,6 @@
 			if( move ) {
 				var curCenter : Number3D = cube.position;
 				var projected : Number3D = camera.unproject( stage.mouseX - view.x, stage.mouseY - view.y );
-				//var projectedMod : Number3D = camera.unproject( stage.mouseX - view.x, stage.mouseY - view.y);
 				projected.add( projected, new Number3D( camera.x, camera.y, camera.z ) );
 				var cameraVertex : Vertex = new Vertex( camera.x, camera.y, camera.z );
 				var rayVertex : Vertex = new Vertex( projected.x, projected.y, projected.z );
@@ -219,38 +221,22 @@
 				trace( cameraVertex );
 				trace( rayVertex );
 				trace( "intersect: " + String( intersection ) );
-				//marker1.x = intersection.x;
-				//marker1.y = intersection.y;
-				//marker1.z = intersection.z;
 				cube.x = intersection.x;
 				cube.y = intersection.y;
-				cube.z = intersection.z;
 			}
 		}
 		
-		/**
-		 * Mouse up listener for navigation
-		 */
-		public function onMouseUp(event:MouseEvent):void
-		{
+		public function onMouseUp( event:MouseEvent ) : void {
 			move = false;
 			stage.removeEventListener(Event.MOUSE_LEAVE, onStageMouseLeave);     
 		}
 		
-		/**
-		 * Mouse stage leave listener for navigation
-		 */
-		public function onStageMouseLeave(event:Event):void
-		{
+		public function onStageMouseLeave( event:Event ) : void {
 			move = false;
 			stage.removeEventListener(Event.MOUSE_LEAVE, onStageMouseLeave);     
 		}
 		
-		/**
-		 * Stage listener for resize events
-		 */
-		public function onResize(event:Event = null):void
-		{
+		public function onResize( event:Event = null ) : void {
 			view.x = stage.stageWidth / 2;
 			view.y = stage.stageHeight / 2;
 		}
