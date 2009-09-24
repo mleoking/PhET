@@ -46,7 +46,6 @@ public class TranslationPanel extends JPanel implements FindListener {
     private String _previousFindText; // text we previously search for in findNext or findPrevious
     private int _previousFindTextAreaIndex; // index into _findTextArea, identifies the JTextArea in which text was found
     private int _previousFindSelectionIndex; // index into a JTextArea's text, identifies where in the JTextArea the text was found
-    private final ValidationErrorHandler validationErrorHandler;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -70,7 +69,6 @@ public class TranslationPanel extends JPanel implements FindListener {
         _previousFindText = null;
         _previousFindTextAreaIndex = -1;
         _previousFindSelectionIndex = -1;
-        validationErrorHandler = new ValidationErrorHandler( parent );
         
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         setLayout( layout );
@@ -128,7 +126,6 @@ public class TranslationPanel extends JPanel implements FindListener {
             TargetTextArea targetTextArea = new TargetTextArea( key, sourceValue, targetValue );
             targetTextArea.setFont( targetFont );
             targetTextArea.setRows( sourceTextArea.getLineCount() );
-            targetTextArea.addValidationErrorListener( validationErrorHandler );
             _targetTextAreas.add( targetTextArea );
 
             _findTextAreas.add( sourceTextArea );
@@ -142,6 +139,18 @@ public class TranslationPanel extends JPanel implements FindListener {
         
         setFocusTraversalPolicy( new ComponentListFocusPolicy( _targetTextAreas ) );
         setFocusCycleRoot( true ); // enable this container as a FocusCycleRoot, so that custom FocusTraversalPolicy will work
+        
+        validateTargets();
+    }
+    
+    public boolean validateTargets() {
+        boolean valid = true;
+        for ( TargetTextArea target : _targetTextAreas ) {
+            if ( !target.isValid() ) {
+                valid = false;
+            }
+        }
+        return valid;
     }
     
     //----------------------------------------------------------------------------
@@ -181,10 +190,6 @@ public class TranslationPanel extends JPanel implements FindListener {
             String value = targetProperties.getProperty( key );
             targetTextArea.setText( value );
         }
-    }
-    
-    public boolean isHandlingError() {
-        return validationErrorHandler.isHandlingError();
     }
     
     //----------------------------------------------------------------------------
