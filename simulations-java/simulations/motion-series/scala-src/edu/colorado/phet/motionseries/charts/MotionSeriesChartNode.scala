@@ -116,7 +116,7 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
       setVerticalRange(-100, 100)
       addControl(new SeriesSelectionControl("", 1) {
         addComponent(new SeriesControlTitleLabel(accelerationSeries))
-        addComponent(createEditableLabel(accelerationSeries))
+        addComponent(if (editable) createEditableLabel(accelerationSeries) else createLabel(accelerationSeries))
       })
       setEditable(editable)
     }
@@ -138,7 +138,7 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
       setVerticalRange(-50, 50)
       addControl(new SeriesSelectionControl("", 1) {
         addComponent(new SeriesControlTitleLabel(velocitySeries))
-        addComponent(createEditableLabel(velocitySeries))
+        addComponent(if (editable) createEditableLabel(velocitySeries) else createLabel(velocitySeries))
       })
       setEditable(editable)
     }
@@ -158,7 +158,7 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
       setVerticalRange(-10, 10)
       addControl(new SeriesSelectionControl("", 1) {
         addComponent(new SeriesControlTitleLabel(positionSeries))
-        addComponent(createEditableLabel(positionSeries))
+        addComponent(if (editable) createEditableLabel(positionSeries) else createLabel(positionSeries))
       })
       setEditable(editable)
     }
