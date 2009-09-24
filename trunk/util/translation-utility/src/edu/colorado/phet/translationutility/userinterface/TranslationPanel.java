@@ -41,7 +41,7 @@ public class TranslationPanel extends JPanel implements FindListener {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private ArrayList<TargetTextArea> _targetTextAreas; // the right column of the table ordered from top to bottom
+    private ArrayList<TargetTextPanel> _targetTextPanels; // the right column of the table ordered from top to bottom
     private ArrayList<JTextArea> _findTextAreas; // all the JTextAreas that Find will search in
     private String _previousFindText; // text we previously search for in findNext or findPrevious
     private int _previousFindTextAreaIndex; // index into _findTextArea, identifies the JTextArea in which text was found
@@ -64,7 +64,7 @@ public class TranslationPanel extends JPanel implements FindListener {
             Locale targetLocale, Properties targetProperties ) {
         super();
         
-        _targetTextAreas = new ArrayList<TargetTextArea>();
+        _targetTextPanels = new ArrayList<TargetTextPanel>();
         _findTextAreas = new ArrayList<JTextArea>();
         _previousFindText = null;
         _previousFindTextAreaIndex = -1;
@@ -112,6 +112,7 @@ public class TranslationPanel extends JPanel implements FindListener {
         
         // create the table
         Iterator<String> i = sortedSet.iterator();
+        ArrayList<TargetTextArea> targetTextAreas = new ArrayList<TargetTextArea>();
         while ( i.hasNext() ) {
 
             String key = i.next();
@@ -123,21 +124,21 @@ public class TranslationPanel extends JPanel implements FindListener {
             JTextArea sourceTextArea = new SourceTextArea( sourceValue );
             sourceTextArea.setFont( sourceFont );
 
-            TargetTextArea targetTextArea = new TargetTextArea( key, sourceValue, targetValue );
-            targetTextArea.setFont( targetFont );
-            targetTextArea.setRows( sourceTextArea.getLineCount() );
-            _targetTextAreas.add( targetTextArea );
+            TargetTextPanel targetTextPanel = new TargetTextPanel( key, sourceValue, targetValue );
+            targetTextPanel.setFont( targetFont );
+            _targetTextPanels.add( targetTextPanel );
+            targetTextAreas.add( targetTextPanel.getTextArea() );
 
             _findTextAreas.add( sourceTextArea );
-            _findTextAreas.add( targetTextArea );
+            _findTextAreas.add( targetTextPanel.getTextArea() );
             
             layout.addAnchoredComponent( keyLabel, row, KEY_COLUMN, GridBagConstraints.EAST );
             layout.addComponent( sourceTextArea, row, SOURCE_COLUMN );
-            layout.addComponent( targetTextArea, row, TARGET_COLUMN );
+            layout.addComponent( targetTextPanel, row, TARGET_COLUMN );
             row++;
         }
         
-        setFocusTraversalPolicy( new ComponentListFocusPolicy( _targetTextAreas ) );
+        setFocusTraversalPolicy( new ComponentListFocusPolicy( targetTextAreas ) );
         setFocusCycleRoot( true ); // enable this container as a FocusCycleRoot, so that custom FocusTraversalPolicy will work
         
         validateTargets();
@@ -145,7 +146,7 @@ public class TranslationPanel extends JPanel implements FindListener {
     
     public boolean validateTargets() {
         boolean valid = true;
-        for ( TargetTextArea target : _targetTextAreas ) {
+        for ( TargetTextPanel target : _targetTextPanels ) {
             if ( !target.isValid() ) {
                 valid = false;
             }
@@ -164,11 +165,10 @@ public class TranslationPanel extends JPanel implements FindListener {
      */
     public Properties getTargetProperties() {
         Properties properties = new Properties();
-        Iterator<TargetTextArea> i = _targetTextAreas.iterator();
-        while ( i.hasNext() ) {
-            TargetTextArea targetTextArea = i.next();
-            String key = targetTextArea.getKey();
-            String targetValue = targetTextArea.getText();
+        for ( TargetTextPanel panel : _targetTextPanels ) {
+            TargetTextArea textArea = panel.getTextArea();
+            String key = textArea.getKey();
+            String targetValue = textArea.getText();
             // only add properties that have values
             if ( targetValue != null && targetValue.length() != 0 ) {
                 properties.put( key, targetValue );
@@ -183,12 +183,11 @@ public class TranslationPanel extends JPanel implements FindListener {
      * @param targetProperties
      */
     public void setTargetProperties( Properties targetProperties ) {
-        Iterator<TargetTextArea> i = _targetTextAreas.iterator();
-        while ( i.hasNext() ) {
-            TargetTextArea targetTextArea = i.next();
-            String key = targetTextArea.getKey();
+        for ( TargetTextPanel panel : _targetTextPanels ) {
+            TargetTextArea textArea = panel.getTextArea();
+            String key = textArea.getKey();
             String value = targetProperties.getProperty( key );
-            targetTextArea.setText( value );
+            textArea.setText( value );
         }
     }
     
