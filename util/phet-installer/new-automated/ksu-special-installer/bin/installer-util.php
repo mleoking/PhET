@@ -337,9 +337,6 @@
 
         flushing_echo("Copying web mirror installer to ".OUTPUT_DIR);
 
-        // Now move everything in the BitRock directory to the output directory:
-        file_dircopy(BITROCK_DIST_DIR, OUTPUT_DIR, true);
-
         return true;
     }
 
