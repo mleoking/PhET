@@ -47,7 +47,7 @@ public class TranslationUtility extends JFrame {
         String jarFileName = initDialog.getJarFileName();
         Locale targetLocale = initDialog.getTargetLocale();
         TULogger.log( "TranslationUtility: jar=" + jarFileName );
-        TULogger.log( "TranslationUtility: language=" + targetLocale.toString() );
+        TULogger.log( "TranslationUtility: targetLocale=" + targetLocale.toString() );
         
         // create a Simulation
         ISimulation simulation = null;
