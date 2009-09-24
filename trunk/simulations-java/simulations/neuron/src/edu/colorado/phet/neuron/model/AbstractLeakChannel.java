@@ -19,6 +19,9 @@ public abstract class AbstractLeakChannel extends AbstractMembraneChannel {
 	
 	private static final double PROBABILITY_OF_DOMINANT_MOTION = 0.8;
 	
+	// Value used to prevent atoms from being recaptured as soon as they are released.
+	private static final int ATOM_RECAPTURE_COUNTER = 500;
+	
 	//----------------------------------------------------------------------------
 	// Instance Data
 	//----------------------------------------------------------------------------
@@ -26,6 +29,7 @@ public abstract class AbstractLeakChannel extends AbstractMembraneChannel {
 	private MembraneChannelFlowDirection flowDirection = MembraneChannelFlowDirection.NONE;
 	private int atomMotionUpdateCounter = 0;
 	private final AtomType allowedAtom; // Atom that can move through this channel.
+	private ArrayList<AtomCountdownPair> recentlyReleaseAtoms = new ArrayList<AtomCountdownPair>();
 	
 	//----------------------------------------------------------------------------
 	// Constructor
@@ -43,18 +47,15 @@ public abstract class AbstractLeakChannel extends AbstractMembraneChannel {
 	@Override
 	public void checkReleaseControlAtoms(ArrayList<Atom> freeAtoms) {
 		Atom atom = null;
-		boolean release = false;
 		for (int i = 0; i < getOwnedAtomsRef().size(); i++){
 			atom = getOwnedAtomsRef().get(i);
-			if (atom.getPositionReference().distance(getCenterLocation()) > CAPTURE_DISTANCE * 1.3){
+			if (atom.getPositionReference().distance(getCenterLocation()) > CAPTURE_DISTANCE * 1.25){
 				// Atom is far enough away that it can be released.
-				release = true;
+				getOwnedAtomsRef().remove(atom);
+				freeAtoms.add(atom);
+				recentlyReleaseAtoms.add(new AtomCountdownPair(atom, ATOM_RECAPTURE_COUNTER));
 				break;
 			}
-		}
-		if (release){
-			getOwnedAtomsRef().remove(atom);
-			freeAtoms.add(atom);
 		}
 	}
 
@@ -65,20 +66,17 @@ public abstract class AbstractLeakChannel extends AbstractMembraneChannel {
 		
 		// Only move one atom at a time.
 		if (ownedAtoms.size() == 0){
-			boolean capture = false;
 			Atom atom = null;
 			for (int i = 0; i < freeAtoms.size(); i++){
 				// See if this atom is in the right place to be captured.
 				atom = freeAtoms.get(i);
 				if ( atom.getType() == allowedAtom && 
-					 atom.getPosition().distance(getCenterLocation()) < CAPTURE_DISTANCE ){
+					 atom.getPosition().distance(getCenterLocation()) < CAPTURE_DISTANCE &&
+					 !recentlyCaptured(atom)){
 					// Capture this guy.
-					capture = true;
+					captureAtom(atom, freeAtoms, ownedAtoms);
 					break;
 				}
-			}
-			if (capture && atom != null){
-				captureAtom(atom, freeAtoms, ownedAtoms);
 			}
 		}
 	}
@@ -92,6 +90,7 @@ public abstract class AbstractLeakChannel extends AbstractMembraneChannel {
 	@Override
 	public void stepInTime(double dt) {
 		if (!getOwnedAtomsRef().isEmpty()){
+			// This channel has at least one atom in it, so update the atom motion.
 			atomMotionUpdateCounter = (atomMotionUpdateCounter + 1) % ATOM_MOTION_UPDATE_PERIOD;
 			if (atomMotionUpdateCounter == 0){
 				// Time to update the motion of the atoms in this channel.
@@ -102,6 +101,20 @@ public abstract class AbstractLeakChannel extends AbstractMembraneChannel {
 				atom.stepInTime(dt);
 			}
 		}
+		
+		// Update the data structure that keeps track of recently released
+		// atoms.
+		ArrayList<AtomCountdownPair> atomsToRemoveFromList = new ArrayList<AtomCountdownPair>();
+		for (AtomCountdownPair atomCountdownPair : recentlyReleaseAtoms){
+			if (atomCountdownPair.coundownComplete()){
+				// It has been long enough - remove this guy from the list.
+				atomsToRemoveFromList.add(atomCountdownPair);
+			}
+			else{
+				atomCountdownPair.decrementCount();
+			}
+		}
+		recentlyReleaseAtoms.removeAll(atomsToRemoveFromList);
 	}
 	
 	private void captureAtom(Atom atom, ArrayList<Atom> freeAtoms, ArrayList<Atom> ownedAtoms){
@@ -145,6 +158,17 @@ public abstract class AbstractLeakChannel extends AbstractMembraneChannel {
 		}
 	}
 	
+	private boolean recentlyCaptured(Atom atom){
+		boolean recentlyCaptured = false;
+		for (AtomCountdownPair atomCountdownPair : recentlyReleaseAtoms){
+			if (atomCountdownPair.getAtom() == atom){
+				recentlyCaptured = true;
+				break;
+			}
+		}
+		return recentlyCaptured;
+	}
+	
 	private void updateMotionOfAtoms(){
 		
 		if (getOwnedAtoms().size() == 0){
@@ -184,6 +208,31 @@ public abstract class AbstractLeakChannel extends AbstractMembraneChannel {
 			// Update the motion of the atom.
 			double velocity = MAX_ATOM_VELOCITY * RAND.nextDouble() * directionMultiplier;
 			atom.setVelocity(velocity * Math.cos(getRotationalAngle()), velocity * Math.sin(getRotationalAngle()));
+		}
+	}
+	
+	private static class AtomCountdownPair{
+		
+		Atom atom = null;
+		int count = 0;
+		
+		public AtomCountdownPair(Atom atom, int initialCount) {
+			this.atom = atom;
+			this.count = initialCount;
+		}
+		
+		public void decrementCount(){
+			if (count > 0){
+				count--;
+			}
+		}
+		
+		public boolean coundownComplete(){
+			return (count == 0);
+		}
+		
+		public Atom getAtom(){
+			return atom;
 		}
 	}
 }
