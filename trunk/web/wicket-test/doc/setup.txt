@@ -39,6 +39,22 @@ database).
               maxActive="30"
               maxIdle="10"/>
 
+* Tomcat configuration
+
+In $CATALINA_HOME$/conf/server.xml, make sure the Connector elements being used have useBodyEncodingForURI="true",
+otherwise UTF-8 characters sent through translation that aren't in the Basic Multilingual Plane will be clobbered.
+
+For a development machine, add this line to $CATALINA_HOME$/conf/context.xml within the Context element:
+<Parameter name="configuration" value="development" override="false"/>
+
+For a production machine, use this line instead:
+<Parameter name="configuration" value="deployment" override="false"/>
+
+The configuration parameter above will trigger either the "development" or "deployment" mode for Wicket.
+
+Additionally, the temp dir (usually $CATALINA_HOME$/temp) should definitely be writable by the Tomcat daemon, since
+this is the location of EHCache's temporary files.
+
 * IDE setup
 
 Tomcat can be used with Eclipse and Intellij for testing. For Intellij, this includes creating a Web facet. The
@@ -50,5 +66,6 @@ wicket-test/src/java: source root, so these classes
 
 Additionally, the following other sources should be added to the WAR:
 phetcommon
+(phetcommon's data directory)
 
 
