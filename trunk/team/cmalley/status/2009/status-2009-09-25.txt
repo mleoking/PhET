@@ -1,0 +1,46 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: September 17-25, 2009 (Thu-Wed)
+
+ACCOMPLISHMENTS:
+
+  translations:
+  - 1784, move locale-related code to phetcommon, for use by Wicket website
+  - 1787, set default directory for Save/Load
+  - 1629, create validators for verifying translations that contain MessageFormat and HTML markup
+  - 1629, design and work on user interface for notification of validation errors (not done)
+  - 1765, Arabic font issues with SR
+  - converted misc code to Java 5
+  - published 2.02.01 for verification of Save/Load feature changes
+  
+  Limiting Reagents:
+  - reviewed design document
+  
+  installer:
+  - discussed distribution id issues with JB
+  - created bash script for tagging a sim jar (Java or Flash) with a distribution id
+    
+  misc:
+  - weekly status meeting
+  - 1790, graphics break apart for quantum sims
+  - 1782, test moving man problem on Mac
+  
+WHAT'S NEXT:
+
+  - Translation Utility enhancements related to KSU 
+  - finalize design for Limiting Reagents
+  - migrate features to common code, #1074
+  - resolve polynomial root-finding issues in Titration model
+  - test new translation deployment process for JO
+  - finish Glaciers (waiting for Wendy's feedback)
+  
+ISSUES:
+
+  - I have no sim work.
+  
+DATES UNAVAILABLE:
+
+   October 15-27
+  
+--
