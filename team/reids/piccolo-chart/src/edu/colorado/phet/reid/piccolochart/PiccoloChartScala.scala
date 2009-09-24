@@ -23,7 +23,7 @@ import javax.swing.{JFrame, Timer}
 //5. Rendering improvements over JFreechart piccolo wrapper, such as chart boundaries not lining up properly, and tick labels getting cropped off
 //6. Interaction like dragging the chart to pan
 //7. Easier to add piccolo-ish artifacts inside the chart, such as tick labels, an arrow for an axis, game icons for moving man, etc.
-//8. Eaiser to draw (or interact with) chart data as in calculus grapher.
+//8. Easier to draw (or interact with) chart data as in calculus grapher.
 
 //I noticed we already went down the path of writing our own chart library here:
 //simulations-java\common\charts\src\edu\colorado\phet\common\charts\Chart.java
