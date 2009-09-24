@@ -20,7 +20,7 @@
     src/java/                   Main source root for website
     src/java/log4j.properties   Logging properties. Controls logging options for Wicket, Hibernate, and Tomcat
     template-files/             Files that are NOT deployed to the website, but used in HTML previews
-    postgresql-dump.sql         The (hopefully-latest) DEVELOPMENT dump of the database. May not include latest strings
+    postgresql-dump.sql         OUT OF DATE database dump, since before password hashes needed to be included in the DB
 
 * Source Code Organization (under src/java with package edu.colorado.phet.wickettest)
 
