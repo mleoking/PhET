@@ -19,9 +19,20 @@ public class SodiumLeakageChannel extends AbstractMembraneChannel {
 	
 	private static final double CAPTURE_DISTANCE = 4.5; // In nanometers.
 	
+	private static final int ATOM_MOTION_UPDATE_PERIOD = 4; // Controls frequency at which motion of atoms inside
+	                                                        // this channel is updated.  Lower numbers mean more
+	                                                        // frequent updates, 1 is min value.
+	
+	private static final double MAX_ATOM_VELOCITY = 100; // In nanometers per second, I think.
+	
+	private static final double PROBABILITY_OF_DOMINANT_MOTION = 0.8;
+	
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
+	
+	private MembraneChannelFlowDirection flowDirection = MembraneChannelFlowDirection.NONE;
+	private int atomMotionUpdateCounter = 0;
 	
     //----------------------------------------------------------------------------
     // Constructor
@@ -86,6 +97,12 @@ public class SodiumLeakageChannel extends AbstractMembraneChannel {
 	@Override
 	public void stepInTime(double dt) {
 		if (!getOwnedAtomsRef().isEmpty()){
+			atomMotionUpdateCounter = (atomMotionUpdateCounter + 1) % ATOM_MOTION_UPDATE_PERIOD;
+			if (atomMotionUpdateCounter == 0){
+				// Time to update the motion of the atoms in this channel.
+				updateMotionOfAtoms();
+			}
+			
 			for (Atom atom : getOwnedAtomsRef()){
 				atom.stepInTime(dt);
 			}
@@ -97,8 +114,6 @@ public class SodiumLeakageChannel extends AbstractMembraneChannel {
 		// Transfer the atom to the list of atoms "owned" by this channel.
 		freeAtoms.remove(atom);
 		ownedAtoms.add(atom);
-		
-		double velocity = 100; // Arbitrary - working on this.
 		
 		// Move the atom so that it is exactly at the entrance of the channel.
 		if ( atom.getPositionReference().distance(new Point2D.Double(0, 0)) >
@@ -112,7 +127,11 @@ public class SodiumLeakageChannel extends AbstractMembraneChannel {
 			
 			// Set the velocity of the atom such that it is moving from the
 			// outside to the inside of the membrane.
-			atom.setVelocity(-velocity * Math.cos(getRotationalAngle()), -velocity * Math.sin(getRotationalAngle()));
+			atom.setVelocity(-MAX_ATOM_VELOCITY * Math.cos(getRotationalAngle()),
+					-MAX_ATOM_VELOCITY * Math.sin(getRotationalAngle()));
+			
+			// Set the direction of flow.
+			flowDirection = MembraneChannelFlowDirection.IN;
 		}
 		else{
 			// Atom is inside of the membrane, so move it to the inner
@@ -123,7 +142,11 @@ public class SodiumLeakageChannel extends AbstractMembraneChannel {
 			
 			// Set the velocity of the atom such that it is moving from the
 			// outside to the inside of the membrane.
-			atom.setVelocity(velocity * Math.cos(getRotationalAngle()), velocity * Math.sin(getRotationalAngle()));
+			atom.setVelocity(MAX_ATOM_VELOCITY * Math.cos(getRotationalAngle()),
+					MAX_ATOM_VELOCITY * Math.sin(getRotationalAngle()));
+
+			// Set the direction of flow.
+			flowDirection = MembraneChannelFlowDirection.OUT;
 		}
 	}
 	
@@ -131,5 +154,46 @@ public class SodiumLeakageChannel extends AbstractMembraneChannel {
 	public MembraneChannelTypes getChannelType() {
 		return MembraneChannelTypes.SODIUM_LEAKAGE_CHANNEL;
 	}
-
+	
+	private void updateMotionOfAtoms(){
+		
+		if (getOwnedAtoms().size() == 0){
+			// No atoms to update, so bail now.
+			return;
+		}
+		
+		for (Atom atom : getOwnedAtomsRef()){
+			
+			// Decide on the direction of motion, which will tend towards the
+			// current flow direction, but has a probability to move the opposite
+			// way.  This creates an appearance of somewhat random motion, which
+			// is what we're after.
+			double directionMultiplier;
+			if (flowDirection == MembraneChannelFlowDirection.IN){
+				if (RAND.nextDouble() < PROBABILITY_OF_DOMINANT_MOTION){
+					directionMultiplier = -1;
+				}
+				else{
+					directionMultiplier = 1;
+				}
+			}
+			else if (flowDirection == MembraneChannelFlowDirection.OUT){
+				if (RAND.nextDouble() < PROBABILITY_OF_DOMINANT_MOTION){
+					directionMultiplier = 1;
+				}
+				else{
+					directionMultiplier = -1;
+				}
+			}
+			else{
+				System.err.println(getClass().getName() + " - Error: Unexpected flow direction.");
+				assert false;
+				directionMultiplier = 1;
+			}
+			
+			// Update the motion of the atom.
+			double velocity = MAX_ATOM_VELOCITY * RAND.nextDouble() * directionMultiplier;
+			atom.setVelocity(velocity * Math.cos(getRotationalAngle()), velocity * Math.sin(getRotationalAngle()));
+		}
+	}
 }
