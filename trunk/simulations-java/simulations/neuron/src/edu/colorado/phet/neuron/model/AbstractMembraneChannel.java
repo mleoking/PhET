@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Random;
 
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -23,6 +24,7 @@ public abstract class AbstractMembraneChannel {
     //----------------------------------------------------------------------------
 	
 	private static final double SIDE_HEIGHT_TO_CHANNEL_HEIGHT_RATIO = 1.6;
+	protected static final Random RAND = new Random();
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -40,6 +42,7 @@ public abstract class AbstractMembraneChannel {
 	private Dimension2D channelSize = new PDimension(); // Size of channel only, i.e. where the atoms pass through.
 	private Dimension2D overallSize = new PDimension(); // Size including edges.
 	
+	// Array of listeners.
 	private ArrayList<Listener> listeners = new ArrayList<Listener>();
 	
     //----------------------------------------------------------------------------
