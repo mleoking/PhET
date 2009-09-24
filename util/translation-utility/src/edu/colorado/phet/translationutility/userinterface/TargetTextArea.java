@@ -22,10 +22,14 @@ import edu.colorado.phet.translationutility.util.MessageFormatValidator;
  */
 public class TargetTextArea extends TUTextArea {
     
+    private static final Color OK_COLOR = Color.WHITE;
+    private static final Color INVALID_COLOR = Color.RED;
+    
     private final String key;
     private final MessageFormatValidator messageFormatValidator;
     private final HTMLValidator htmlValidator;
-    private final ArrayList<ValidationErrorListener> listeners;
+    private String errorMessage;
+    private boolean isValid;
 
     public static final Action NEXT_FOCUS_ACTION = new AbstractAction( "Move Focus Forwards" ) {
         public void actionPerformed( ActionEvent evt ) {
@@ -43,9 +47,9 @@ public class TargetTextArea extends TUTextArea {
         super( value );
         
         this.key = key;
-        listeners = new ArrayList<ValidationErrorListener>();
         
         setEditable( true );
+        setBackground( OK_COLOR );
         
         // tab or shift-tab will move you to the next or previous text field
         getInputMap( JComponent.WHEN_FOCUSED ).put( KeyStroke.getKeyStroke( "TAB" ), NEXT_FOCUS_ACTION.getValue( Action.NAME ) );
@@ -61,12 +65,28 @@ public class TargetTextArea extends TUTextArea {
         
         addKeyListener( new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
-                setBackground( Color.WHITE );
+                clearError();
             }
         } );
         
         messageFormatValidator = new MessageFormatValidator( sourceValue );
         htmlValidator = new HTMLValidator( sourceValue );
+        validateValue();
+    }
+    
+    private void clearError() {
+        isValid = true;
+        setBackground( OK_COLOR );
+        errorMessage = null;
+    }
+    
+    public boolean isValid() {
+        validateValue();
+        return isValid;
+    }
+    
+    public String getErrorMessage() {
+        return errorMessage;
     }
 
     public String getKey() {
@@ -78,6 +98,8 @@ public class TargetTextArea extends TUTextArea {
      * Notifies interested listeners if there are validation errors.
      */
     public void validateValue() {
+        
+        clearError();
 
         // validate
         String targetString = getText();
@@ -86,29 +108,33 @@ public class TargetTextArea extends TUTextArea {
 
         // report errors
         if ( missingPlaceholders != null || missingTags != null ) {
-            setBackground( Color.RED );
-            fireValidationError( key, missingPlaceholders, missingTags );
+            isValid = false;
+            setBackground( INVALID_COLOR );
+            errorMessage = createErrorMessage( missingPlaceholders, missingTags );
         }
     }
     
-    /**
-     * Interface for notifying about validation errors.
-     */
-    public interface ValidationErrorListener {
-        public void validationError( String key, ArrayList<String> missingPlaceholders, ArrayList<String> missingTags );
-    }
-    
-    public void addValidationErrorListener( ValidationErrorListener listener ) {
-        listeners.add( listener );
-    }
-    
-    public void removeValidationErrorListener( ValidationErrorListener listener ) {
-        listeners.remove( listener );
-    }
-    
-    private void fireValidationError( String key, ArrayList<String> missingPlaceholders, ArrayList<String> missingTags ) {
-        for ( ValidationErrorListener listener : listeners ) {
-            listener.validationError( key, missingPlaceholders, missingTags );
+    private String createErrorMessage( ArrayList<String> missingPlaceholders, ArrayList<String> missingTags ) {
+        
+        String message = "Translation with key=" + key + " has errors:";
+
+        if ( missingPlaceholders != null ) {
+            message += "\n";
+            message += "missing MessageFormat placeholders:";
+            for ( String placeholder : missingPlaceholders ) {
+                message += " " + placeholder;
+            }
         }
+
+        if ( missingTags != null ) {
+            message += "\n";
+            message += "missing HTML tags:";
+            for ( String tag : missingTags ) {
+                message += " " + tag;
+            }
+        }
+
+        return message;
+        
     }
 }

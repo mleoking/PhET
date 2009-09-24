@@ -20,6 +20,7 @@ import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.translationutility.TUResources;
+import edu.colorado.phet.translationutility.TUStrings;
 import edu.colorado.phet.translationutility.simulations.ISimulation;
 import edu.colorado.phet.translationutility.simulations.ISimulation.SimulationException;
 import edu.colorado.phet.translationutility.userinterface.FindDialog.FindListener;
@@ -149,6 +150,16 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
      * Add the current translations to a temporary JAR file, then runs that JAR file.
      */
     public void handleTest() {
+        
+        // if there are validation errors, warn the user, and confirm that they want to continue with Test
+        if ( _translationPanel.validateTargets() == false ) {
+            String message = TUStrings.VALIDATION_ERROR_MESSAGE + "\n" + "Do you want to continue with this test?";
+            int response = JOptionPane.showConfirmDialog( this, message, "Error", JOptionPane.YES_NO_OPTION );
+            if ( response != JOptionPane.OK_OPTION ) {
+                return;
+            }
+        }
+        
         Properties properties = _translationPanel.getTargetProperties();
         try {
             _simulation.testStrings( properties, _targetLocale );
@@ -163,6 +174,16 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
      * Opens a "save" file chooser that allows the user to save the current translations to a properties file.
      */
     public void handleSave() {
+        
+        // if there are validation errors, warn the user, and confirm that they want to continue with Save
+        if ( _translationPanel.validateTargets() == false ) {
+            String message = TUStrings.VALIDATION_ERROR_MESSAGE + "\n" + "Do you want to continue with this Save?";
+            int response = JOptionPane.showConfirmDialog( this, message, "Error", JOptionPane.YES_NO_OPTION );
+            if ( response != JOptionPane.OK_OPTION ) {
+                return;
+            }
+        }
+        
         File defaultFile = new File( _saveLoadDirectory, _simulation.getStringFileName( _targetLocale ) );
         JFileChooser chooser = new JFileChooser();
         chooser.setSelectedFile( defaultFile );
@@ -226,6 +247,13 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
      * Saves the currrent translations to a properties file, then notifies the user of what to do.
      */
     public void handleSubmit() {
+        
+        // if there are validation errors, warn the user, and prevent them from sending to PhET
+        if ( _translationPanel.validateTargets() == false ) {
+            String message = TUStrings.VALIDATION_ERROR_MESSAGE + "\n" + "You cannot send to PhET until errors are corrected.";
+            JOptionPane.showMessageDialog( this, message, "Error", JOptionPane.ERROR_MESSAGE );
+            return;
+        }
         
         Properties properties = _translationPanel.getTargetProperties();
         
