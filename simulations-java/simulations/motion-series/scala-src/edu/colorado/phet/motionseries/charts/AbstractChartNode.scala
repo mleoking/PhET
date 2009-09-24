@@ -32,27 +32,16 @@ object Defaults {
 }
 
 abstract class AbstractChartNode(canvas: MotionSeriesCanvas, model: MotionSeriesModel) extends PNode {
-  def inTimeRange(time: Double) = {
-    //    println("time = "+time)
-    time <= MotionSeriesDefaults.MAX_RECORD_TIME
-  }
 
   def createVariable(getter: () => Double) = {
     val variable = new MotionSeriesDefaultTemporalVariable(model)
-    model.stepListeners += (() => {
-      if (inTimeRange(model.getTime))
-        variable.addValue(getter(), model.getTime)
-    })
-
+    model.stepListeners += (() =>  variable.doAddValue(getter(), model.getTime))
     variable
   }
 
   def createParallelVariable(getter: () => Vector2D) = {
     val variable = new MotionSeriesDefaultTemporalVariable(model)
-    model.stepListeners += (() => {
-      if (inTimeRange(model.getTime))
-        variable.addValue(getter().dot(model.bead.getRampUnitVector), model.getTime)
-    })
+    model.stepListeners += (() =>  variable.doAddValue(getter().dot(model.bead.getRampUnitVector), model.getTime) )
 
     variable
   }
