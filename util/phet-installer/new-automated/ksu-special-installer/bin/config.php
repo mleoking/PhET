@@ -42,7 +42,7 @@
     // the rip.  This one defines a filter that is used when doing a rip that
     // is meant to capture the entire web site.
     // TODO: Make the URL into a variable and figure out how to incorporate into the filter definitions.
-    define("PHET_RIPPER_FILTER",                '"-*wickettest*" "+phetsims.colorado.edu/sims/*/*.jnlp" "+phetsims.colorado.edu/sims/*/*_all.jar" "+phetsims.colorado.edu/sims/*/*.jpg" "+phetsims.colorado.edu/sims/*/*.html" "+phetsims.colorado.edu/sims/*/*.swf" "+phetsims.colorado.edu/sims/*/*.png" "+phetsims.colorado.edu/activities/*" "+phetsims.colorado.edu/publications/*" "+phetsims.colorado.edu/installer/*');
+    define("PHET_RIPPER_FILTER",                '"-*wickettest*" "+phetsims.colorado.edu/sims/*/*.jnlp" "+phetsims.colorado.edu/sims/*/*_all.jar" "+phetsims.colorado.edu/sims/*/*.jpg" "+phetsims.colorado.edu/sims/*/*.html" "+phetsims.colorado.edu/sims/*/*.swf" "+phetsims.colorado.edu/sims/*/*.png" "+phetsims.colorado.edu/activities/*" "+phetsims.colorado.edu/publications/*" "+phetsims.colorado.edu/installer/*"');
     // Filter definition for a "lite" rip, meaning one that rips less than
     // the full web site.  This is generally swapped in for the full rip
     // filters when doing testing that requires a lot of iterations, since 
