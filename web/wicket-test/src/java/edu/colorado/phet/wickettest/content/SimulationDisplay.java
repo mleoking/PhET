@@ -62,7 +62,7 @@ public class SimulationDisplay extends PhetRegularPage {
             }
         }
 
-        if ( category == null ) {
+        if ( category == null && parameters.containsKey( "categories" ) ) {
             // didn't find the category
             throw new RestartResponseAtInterceptPageException( NotFoundPage.class );
         }
