@@ -2,7 +2,6 @@ package edu.colorado.phet.ladybugmotion2d.aphidmaze
 
 import edu.colorado.phet.scalacommon.Predef._
 import collection.mutable.ArrayBuffer
-import edu.colorado.phet.ladybugmotion2d.model.aphidmaze.BarrierSet
 import edu.colorado.phet.ladybugmotion2d.model.LadybugModel
 import edu.colorado.phet.scalacommon.math.Vector2D
 
