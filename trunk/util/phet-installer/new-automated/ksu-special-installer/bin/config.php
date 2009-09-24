@@ -67,6 +67,7 @@
 
     define("RIPPED_WEBSITE_ROOT", file_cleanup_local_filename(TEMP_DIR."website/"));
     define("RIPPED_WEBSITE_SIMS_PARENT_DIR",  file_cleanup_local_filename(RIPPED_WEBSITE_ROOT."phetsims.colorado.edu/"));
+    define("RIPPED_WEBSITE_INSTALLER_DIR",  file_cleanup_local_filename(RIPPED_WEBSITE_ROOT."phetsims.colorado.edu/installer/"));
     define("RIPPED_TRANSLATED_WEBSITE_ROOT",  file_cleanup_local_filename(RIPPED_WEBSITE_ROOT."phetsims.colorado.edu/".LOCALE_STRING."/"));
 
     // The ripper executable itself:
