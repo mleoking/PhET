@@ -23,7 +23,7 @@ public class SodiumLeakageChannel extends AbstractMembraneChannel {
 	                                                        // this channel is updated.  Lower numbers mean more
 	                                                        // frequent updates, 1 is min value.
 	
-	private static final double MAX_ATOM_VELOCITY = 100; // In nanometers per second, I think.
+	private static final double MAX_ATOM_VELOCITY = 300; // In nanometers per second, I think.
 	
 	private static final double PROBABILITY_OF_DOMINANT_MOTION = 0.8;
 	
