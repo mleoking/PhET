@@ -17,10 +17,7 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
     val parallelAppliedForceVariable = new MotionSeriesDefaultTemporalVariable(model) {
       override def setValue(value: Double) = model.bead.parallelAppliedForce = value
     }
-    model.stepListeners += (() => {
-      if (inTimeRange(model.getTime))
-        parallelAppliedForceVariable.addValue(model.bead.appliedForce.dot(model.bead.getRampUnitVector), model.getTime)
-    })
+    model.stepListeners += (() => parallelAppliedForceVariable.doAddValue(model.bead.appliedForce.dot(model.bead.getRampUnitVector), model.getTime))
 
     val appliedForceSeries = new ControlGraphSeries(formatForce("forces.applied".translate), appliedForceColor, abbrevUnused, N, characterUnused, parallelAppliedForceVariable)
     val frictionSeries = new ControlGraphSeries(formatForce("forces.friction".translate), frictionForceColor, abbrevUnused, N, characterUnused, createParallelVariable(() => model.bead.frictionForce))
@@ -113,7 +110,7 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
         model.bead.parallelAppliedForce = appliedForce
       }
     }
-    model.stepListeners += (() => {if (inTimeRange(model.getTime)) accelerationVariable.addValue(model.bead.acceleration, model.getTime)})
+    model.stepListeners += (() => accelerationVariable.doAddValue(model.bead.acceleration, model.getTime))
     val accelerationSeries = new ControlGraphSeries("Acceleration", MotionSeriesDefaults.accelerationColor, "accel", "m/s/s", characterUnused, accelerationVariable)
     val accelerationGraph = new MotionSeriesGraph(accelerationSeries, canvas, timeseriesModel, updateableObject, model) {
       setVerticalRange(-100, 100)
@@ -134,7 +131,7 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
         //we already have integration for position by default
       }
     }
-    model.stepListeners += (() => {if (inTimeRange(model.getTime)) velocityVariable.addValue(model.bead.velocity, model.getTime)})
+    model.stepListeners += (() => velocityVariable.doAddValue(model.bead.velocity, model.getTime))
     val velocitySeries = new ControlGraphSeries("Velocity", MotionSeriesDefaults.velocityColor, "vel", "m/s", characterUnused, velocityVariable)
     val velocityGraph = new MotionSeriesGraph(velocitySeries, canvas, timeseriesModel, updateableObject, model) {
       setVerticalRange(-50, 50)
@@ -153,7 +150,7 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
         model.bead.setDesiredPosition(x)
       }
     }
-    model.stepListeners += (() => {if (inTimeRange(model.getTime)) positionVariable.addValue(model.bead.position, model.getTime)})
+    model.stepListeners += (() => positionVariable.doAddValue(model.bead.position, model.getTime))
     val positionSeries = new ControlGraphSeries("Position", MotionSeriesDefaults.positionColor, "x", "m", characterUnused, positionVariable)
     val positionGraph = new MotionSeriesGraph(positionSeries, canvas, timeseriesModel, updateableObject, model) {
       setVerticalRange(-10, 10)

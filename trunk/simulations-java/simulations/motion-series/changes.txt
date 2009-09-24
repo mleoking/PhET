@@ -1,3 +1,4 @@
+Fixed: Chart text boxes should always show correct values, even after charts are full.
 Removed all references to "work" in the work/energy tab of The Ramp, including graphs and bar charts
 Removed the force graph from the work/energy tab of The Ramp
 Renamed the "work/energy" ramp tab to "Energy"
