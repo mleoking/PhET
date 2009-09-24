@@ -5,6 +5,9 @@
 	import flash.display.Sprite;
     import flash.events.Event;
 	import flash.events.MouseEvent;
+	import flash.geom.Rectangle;
+	import flash.text.TextField;
+	import flash.text.TextFormat;
 	
 	import away3d.cameras.*;
 	import away3d.containers.*;
@@ -38,14 +41,17 @@
 		var startMouseY:Number;
 		var startMiddle : Number3D;
 		
-		var poolWidth : Number = 1000;
-		var poolHeight : Number = 500;
+		var poolWidth : Number = 1500;
+		var poolHeight : Number = 750;
 		var poolDepth : Number = 500;
-		var waterHeight: Number = 420;
+		var waterHeight: Number = 550;
+		var volume : Number = poolWidth * poolDepth * waterHeight;
 		var far : Number = 5000;
 		
 		var poolTop : Plane;
 		var poolFront : Plane;
+		
+		var invalid : Boolean = true;
 		
 		public function Test() {
 			init();
@@ -70,6 +76,8 @@
 			camera.targetpanangle = camera.panangle = 180;
 			camera.targettiltangle = camera.tiltangle = 10;
 			
+			camera.hover();
+			
 			//fogfilter = new FogFilter({material:new ColorMaterial(0x000000), minZ:500, maxZ:2000});
 			fogfilter = new FogFilter();
 			fogfilter.material = new ColorMaterial(0x000000);
@@ -91,6 +99,21 @@
 		}
 		
 		public function updateWater() : void {
+			var cubeVolume : Number = cube.width * cube.height * cube.depth;
+			var idealHeight : Number = volume / (poolWidth * poolDepth);
+			var highestHeight : Number = (volume + cubeVolume) / (poolWidth * poolDepth);
+			
+			if( cube.y - cube.height / 2 > -poolHeight + idealHeight ) {
+				waterHeight = idealHeight;
+			} else if( cube.y + cube.height / 2 < -poolHeight + highestHeight ) {
+				waterHeight = highestHeight;
+			} else {
+				var bottomHeight : Number = poolHeight + (cube.y - cube.height / 2);
+				var partialVolume : Number = volume - (bottomHeight * poolWidth * poolDepth);
+				var partialHeight : Number = partialVolume / (poolWidth * poolDepth - cube.width * cube.depth);
+				waterHeight = bottomHeight + partialHeight;
+			}
+			
 			poolFront.y = -poolHeight + waterHeight / 2;
 			poolFront.height = waterHeight;
 			poolTop.y = -poolHeight + waterHeight;
@@ -129,7 +152,25 @@
 			scene.addChild( new Plane({ x: far / 2 + poolWidth / 2, y: -far / 2, width: far, height: far, rotationX: 90, material: new ShadingColorMaterial( 0xAA7733 ) }) );
 			scene.addChild( new Plane({ x: -far / 2 - poolWidth / 2, y: -far / 2, width: far, height: far, rotationX: 90, material: new ShadingColorMaterial( 0xAA7733 ) }) );
 			
-			cube = new Cube({ x: 300, y: 160, z: 101, width: 100, height: 100, depth: 100, segmentsW: 10, segmentsH: 10, material: new ShadingColorMaterial( 0xFF0000, {ambient: 0xFF0000, specular:0xFFFFFF}) });
+			cube = new Cube({ x: 300, y: 160, z: 201, width: 200, height: 200, depth: 200, segmentsW: 10, segmentsH: 10, material: new ShadingColorMaterial( 0xFF0000, {ambient: 0xFF0000, specular:0xFFFFFF}) });
+			var sp : Sprite = new Sprite();
+			sp.graphics.beginFill( 0xAA0000 );
+			sp.graphics.drawRect( 0, 0, 100, 100 );
+			sp.graphics.endFill();
+			var tf : TextField = new TextField();
+			tf.text = "50 kg";
+			tf.height = 100;
+			tf.width = 100;
+			var format : TextFormat = new TextFormat();
+			format.size = 30;
+			format.bold = true;
+			format.font = "Arial";
+			tf.multiline = true;
+			tf.setTextFormat( format );
+			sp.addChild( tf );
+			var cubeMat : MovieMaterial = new MovieMaterial( sp );
+			cube.cubeMaterials.back = cubeMat;
+			cube.useHandCursor = true;
 			scene.addChild(cube);
 			
 			var light:DirectionalLight3D = new DirectionalLight3D({color:0xFFFFFF, ambient:0.2, diffuse:0.75, specular:0.1});
@@ -188,8 +229,10 @@
 		}
 		
 		public function onEnterFrame(event:Event):void {			
-			camera.hover();  
-			view.render();
+			if( invalid ) {
+				invalid = false;
+				view.render();
+			}
 		}
 		
 		public function onMouseDown( event:MouseEvent ) : void {
@@ -211,19 +254,14 @@
 				var rayVertex : Vertex = new Vertex( projected.x, projected.y, projected.z );
 				var cubePlane : Plane3D = new Plane3D();
 				cubePlane.fromNormalAndPoint( new Number3D( 0, 0, 1 ), new Number3D( 0, 0, 0 ) );
-				trace( cubePlane.a );
-				trace( cubePlane.b );
-				trace( cubePlane.c );
-				trace( cubePlane.d );
 				var intersection : Vertex = cubePlane.getIntersectionLine( cameraVertex, rayVertex );
-				trace( "-" );
-				trace( "box: " + String( curCenter ) );
-				trace( cameraVertex );
-				trace( rayVertex );
-				trace( "intersect: " + String( intersection ) );
 				cube.x = intersection.x;
 				cube.y = intersection.y;
+				
+				updateWater();
+				invalid = true;
 			}
+			invalid = true;
 		}
 		
 		public function onMouseUp( event:MouseEvent ) : void {
