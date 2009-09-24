@@ -1,3 +1,4 @@
+Removed sliders from x,v,a graphs in Forces and Motion
 # 1.03.42 (35247) Sep 24, 2009
 # 1.03.42 (35245) Sep 24, 2009
 Fixed: Prevent the chart from drawing lines "back in time" when pressing record in the middle of a playback sequence
