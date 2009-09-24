@@ -5,7 +5,6 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
 import java.awt.Color
 import java.awt.geom.Rectangle2D
 import edu.colorado.phet.ladybugmotion2d.controlpanel.{VectorVisibilityModel, PathVisibilityModel}
-import edu.colorado.phet.ladybugmotion2d.canvas.aphidmaze.MazeNode
 import edu.colorado.phet.ladybugmotion2d.model.LadybugModel
 import edu.colorado.phet.ladybugmotion2d.canvas.LadybugCanvas
 
