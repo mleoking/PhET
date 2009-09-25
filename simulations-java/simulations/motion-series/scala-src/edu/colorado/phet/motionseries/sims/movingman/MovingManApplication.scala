@@ -66,19 +66,13 @@ class GraphingModule(frame: JFrame, clock: ScalaClock)
   canvas.addScreenNode(new MovingManChartNode(canvas, motionSeriesModel))
 }
 
-class EnergyModule(frame: JFrame, clock: ScalaClock) extends BasicMovingManModule(frame, clock, "moving-man.module.energy.title".translate, false, false, true, false, -6, false, 0.0, true, MotionSeriesDefaults.forceMotionViewport,MotionSeriesDefaults.fullScreenArea) {
-  coordinateSystemModel.adjustable = false
-  canvas.addScreenNode(new MovingManEnergyChartNode(canvas, motionSeriesModel))
-}
-
 class MovingManGameModule(frame: JFrame, clock: ScalaClock) extends BasicMovingManModule(frame, clock, "moving-man.module.game.title".translate, false, false, false, false, -6, false, 0.0, true, MotionSeriesDefaults.forceMotionViewport,MotionSeriesDefaults.fullScreenArea)
 
 class MovingManApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
   def newClock = new ScalaClock(MotionSeriesDefaults.DELAY, MotionSeriesDefaults.DT_DEFAULT)
   addModule(new IntroModule(getPhetFrame, newClock))
   addModule(new GraphingModule(getPhetFrame, newClock))
-  addModule(new EnergyModule(getPhetFrame, newClock))
-  addModule(new MovingManGameModule(getPhetFrame, newClock))
+//  addModule(new MovingManGameModule(getPhetFrame, newClock))
 }
 
 object MovingManApplicationMain {
