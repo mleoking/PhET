@@ -337,6 +337,33 @@ public class AxonModel {
     	atom.setPosition(distance * Math.cos(angle), distance * Math.sin(angle));
     }
     
+    /**
+     * Determine whether the given atom is considered to be inside or outside
+     * of the axon.  IMPORTANT NOTE - If an atom is in a channel, it is
+     * considered to be inside the membrane.
+     * 
+     * @param atom
+     * @return
+     */
+    private boolean isAtomInside(Atom atom){
+    	
+    	boolean inside = false;
+    	
+    	if (atoms.contains(atom)){
+    		inside = true;
+    	}
+    	else{
+    		for (AbstractMembraneChannel channel : channels){
+    			if (channel.getOwnedAtoms().contains(atom)){
+    				inside = true;
+    				break;
+    			}
+    		}
+    	}
+    	
+    	return inside;
+    }
+    
     //----------------------------------------------------------------------------
     // Inner Classes and Interfaces
     //----------------------------------------------------------------------------
