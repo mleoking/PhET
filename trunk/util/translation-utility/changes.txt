@@ -1,3 +1,6 @@
+9/25/09 #1794, limit displayed key name length to 40 chars, show elipsis in middle for longer keys
+9/25/09 #110, prevent unwanted scrollpane autoscrolling by deleting listener in MainFrame
+9/25/09 #1629, validate MessageFormat and HTML translations, user-interface for accessing validation error details
 # 2.02.01 (35168) Sep 21, 2009
 9/21/09 publish dev version to verify changes
 9/17/09 convert usage of collections to Java 5
