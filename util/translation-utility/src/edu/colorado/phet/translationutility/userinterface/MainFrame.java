@@ -35,6 +35,8 @@ import edu.colorado.phet.translationutility.util.TULogger;
  */
 public class MainFrame extends JFrame implements ToolBarListener, FindListener {
     
+    private static final int WINDOWS_TASK_BAR_HEIGHT = 200;
+    
     private static final String CONFIRM_OVERWRITE_TITLE = TUResources.getString( "title.confirmOverwrite" );
     private static final String CONFIRM_OVERWRITE_MESSAGE = TUResources.getString( "message.confirmOverwrite" );
     private static final String SUBMIT_MESSAGE = TUResources.getString( "message.submit" );
@@ -110,20 +112,23 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
      */
     private void fixFrameBounds() {
         
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        
         //WORKAROUND: decrease the height to account for Windows task bar
         if ( PhetUtilities.isWindows() ) {
-            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-            final int taskBarHeight = 200;
-            int overlap = (int) ( getBounds().getHeight() - ( screenSize.getHeight() - taskBarHeight ) );
+            int overlap = getBounds().height - screenSize.height - WINDOWS_TASK_BAR_HEIGHT;
             if ( overlap > 0 ) {
-                setBounds( (int) getBounds().getX(), (int) getBounds().getY(), 
-                        (int) getBounds().getWidth(), (int) getBounds().getHeight() - overlap );
+                setBounds( getBounds().x, getBounds().y, getBounds().width, getBounds().height - overlap );
             }
         }
         
         //WORKAROUND: increase the width so we don't get a horizontal scrollbar
-        setBounds( (int) getBounds().getX(), (int) getBounds().getY(),
-                (int) getBounds().getWidth() + 30, (int) getBounds().getHeight() );
+        setBounds( getBounds().x, getBounds().y, getBounds().width + 30, getBounds().height );
+        
+        // make sure we didn't exceed the screenwidth
+        if ( getBounds().getWidth() > screenSize.getWidth() ) {
+            setBounds( getBounds().x, getBounds().y, screenSize.width, getBounds().height );
+        }
         
         // center on the screen
         SwingUtils.centerWindowOnScreen( this );
