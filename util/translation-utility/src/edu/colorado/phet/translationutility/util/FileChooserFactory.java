@@ -7,8 +7,6 @@ import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
 
-import edu.colorado.phet.translationutility.TUResources;
-
 /**
  * FileChooserFactory is a factory for creating file choosers.
  *
@@ -16,9 +14,6 @@ import edu.colorado.phet.translationutility.TUResources;
  */
 public class FileChooserFactory {
 
-    private static final String JAR_FILE_FILTER_NAME = TUResources.getString( "fileFilter.jar" );
-    private static final String PROPERTIES_FILE_FILTER_NAME = TUResources.getString( "fileFilter.properties" );
-    
     /**
      * Create a JAR file chooser (for files with a .jar suffix).
      * 
@@ -29,43 +24,18 @@ public class FileChooserFactory {
         return new JarFileChooser( currentDirectory );
     }
     
-    /**
-     * Creates a properties file chooser (for files with .properties suffix).
-     * 
-     * @param currentDirectory
-     * @return PropertiesFileChooser
-     */
-    public static PropertiesFileChooser createPropertiesFileChooser( File currentDirectory ) {
-        return new PropertiesFileChooser( currentDirectory );
-    }
-    
     private static class JarFileFilter extends FileFilter {
         public boolean accept( File f ) {
             return f.isDirectory() || f.getName().endsWith( ".jar" );
         }
         public String getDescription() {
-            return JAR_FILE_FILTER_NAME;
+            return "JAR files";
         }
     }
 
     public static class JarFileChooser extends FilteredFileChooser {
         private JarFileChooser( File currentDirectory ) {
             super( currentDirectory, new JarFileFilter() );
-        }
-    }
-    
-    private static class PropertiesFileFilter extends FileFilter {
-        public boolean accept( File f ) {
-            return f.isDirectory() || f.getName().endsWith( ".properties" );
-        }
-        public String getDescription() {
-            return PROPERTIES_FILE_FILTER_NAME;
-        }
-    }
-
-    public static class PropertiesFileChooser extends FilteredFileChooser {
-        private PropertiesFileChooser( File currentDirectory ) {
-            super( currentDirectory, new PropertiesFileFilter() );
         }
     }
     

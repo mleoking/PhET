@@ -246,4 +246,19 @@ public class HTMLUtils {
         String[] s = { string };
         return toHTMLString( s );
     }
+    
+    /**
+     * Replaces '<' and '>' with their escape entities.
+     * Useful when HTML tags need to appear in a user-visible message
+     * that is implemented using HTML.
+     * 
+     * @param html
+     * @return
+     */
+    public static String escape( String html ) {
+        String s = new String( html );
+        s = s.replace( "<", "&lt;" );
+        s = s.replace( ">", "&gt;" );
+        return s;
+    }
 }

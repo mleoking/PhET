@@ -10,7 +10,7 @@ import javax.swing.border.EmptyBorder;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.translationutility.TUResources;
+import edu.colorado.phet.translationutility.TUImages;
 
 /**
  * Test bed for Translation Utility user interface issues related to Unfuddle #1629. 
@@ -89,7 +89,7 @@ public class TestValidation extends JFrame {
                 }
             } );
             
-            errorDetailsButton = new JLabel( TUResources.getIcon( "errorIcon.png" ) );
+            errorDetailsButton = new JLabel( TUImages.ERROR_ICON );
             errorDetailsButton.setCursor( new Cursor( Cursor.HAND_CURSOR ) );
             errorDetailsButton.addMouseListener( new MouseAdapter() {
                 public void mousePressed( MouseEvent event ) {

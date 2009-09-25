@@ -35,12 +35,6 @@ public class UpdateManager {
     
     private static final String SVN_REVISION_KEY = "version.revision";
 
-    private static final String CHECKING_DIALOG_MESSAGE = TUResources.getString( "checkingDialog.message" );
-    private static final String UPDATE_DIALOG_TITLE = TUResources.getString( "updateDialog.title" );
-    private static final String UPDATE_DIALOG_MESSAGE = TUResources.getString( "updateDialog.message" );
-    private static final String GET_NEW_VERSION_BUTTON =  TUResources.getString( "updateDialog.button.getNewVersion" );
-    private static final String CONTINUE_BUTTON = TUResources.getString( "updateDialog.button.continue" );
-
     /* not intended for instantiation */
     private UpdateManager() {}
 
@@ -132,7 +126,7 @@ public class UpdateManager {
         public CheckingDialog( Frame owner ) {
             super( owner, false /* modal */ );
             setResizable( false );
-            JLabel messageLabel = new JLabel( CHECKING_DIALOG_MESSAGE );
+            JLabel messageLabel = new JLabel( TUStrings.CHECKING_FOR_UPDATE_MESSAGE );
             JPanel panel = new JPanel();
             final int margin = 15;
             panel.setBorder( BorderFactory.createEmptyBorder( margin, margin, margin, margin ) );
@@ -149,14 +143,14 @@ public class UpdateManager {
 
         public UpdateDialog( Frame owner ) {
             super( owner, true /* modal */);
-            setTitle( UPDATE_DIALOG_TITLE );
+            setTitle( TUStrings.UPDATE_DIALOG_TITLE );
             setResizable( false );
 
             // message
-            JLabel messageLabel = new JLabel( UPDATE_DIALOG_MESSAGE );
+            JLabel messageLabel = new JLabel( TUStrings.UPDATE_AVAILABLE_MESSAGE );
             messageLabel.setFont( new PhetFont( 14 ) );
 
-            JButton getNewVersionButton = new JButton( GET_NEW_VERSION_BUTTON );
+            JButton getNewVersionButton = new JButton( TUStrings.GET_NEW_VERSION_BUTTON );
             getNewVersionButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     PhetServiceManager.showWebPage( URL_HOME );
@@ -164,7 +158,7 @@ public class UpdateManager {
                 }
             } );
             
-            JButton continueButton = new JButton( CONTINUE_BUTTON );
+            JButton continueButton = new JButton( TUStrings.CONTINUE_WITH_OLD_VERSION_BUTTON );
             continueButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     dispose();

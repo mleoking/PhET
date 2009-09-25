@@ -17,6 +17,7 @@ import javax.swing.border.EmptyBorder;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.translationutility.TUResources;
+import edu.colorado.phet.translationutility.TUStrings;
 
 /**
  * ExceptionDialog notifies the user of an exception, and shows important information
@@ -32,14 +33,15 @@ public class ExceptionDialog extends JDialog {
         setTitle( title );
         setResizable( false );
         
-        JLabel errorMessage = new JLabel( "ERROR: " + e.getMessage() );
+        JLabel errorMessage = new JLabel( TUStrings.ERROR_LABEL + " " + e.getMessage() );
         
-        JLabel reportLabel = new JLabel( "<html>To report this problem, send an email to phethelp@colorado.edu.<br>Copy-&-paste the information shown below, and describe how to reproduce the problem." );
+        JLabel reportLabel = new JLabel( TUStrings.ERROR_REPORTING_MESSAGE );
         
         String infoString = "Translation Utility version: " + TUResources.getVersion() + "\n";
         infoString += "OS version: " + System.getProperty( "os.name" ) + " " + System.getProperty( "os.version" ) + "\n";
         infoString += "Java version: " + System.getProperty( "java.version" ) + "\n";
-        infoString += "\nStack trace:\n";
+        infoString += "\n";
+        infoString += "Stack trace:\n";
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter( sw );
         e.printStackTrace( pw );
@@ -63,7 +65,7 @@ public class ExceptionDialog extends JDialog {
         infoLayout.addComponent( Box.createVerticalStrut( 15 ), row++, column );
         infoLayout.addComponent( scrollPane, row++, column, 2, 1 );
         
-        JButton closeButton = new JButton( "Close" );
+        JButton closeButton = new JButton( TUStrings.CLOSE_BUTTON );
         closeButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 dispose();

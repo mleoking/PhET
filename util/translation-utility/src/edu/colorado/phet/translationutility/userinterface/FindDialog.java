@@ -13,7 +13,8 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.EventListenerList;
 
-import edu.colorado.phet.translationutility.TUResources;
+import edu.colorado.phet.translationutility.TUImages;
+import edu.colorado.phet.translationutility.TUStrings;
 
 /**
  * FindDialog is a dialog that lets you specify a string to find.
@@ -22,14 +23,6 @@ import edu.colorado.phet.translationutility.TUResources;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class FindDialog extends JDialog {
-    
-    private static final String FIND_LABEL = TUResources.getString( "label.find" );
-    private static final String NEXT_LABEL = TUResources.getString( "button.next" );
-    private static final String PREVIOUS_LABEL = TUResources.getString( "button.previous" );
-    private static final String CLOSE_LABEL = TUResources.getString( "button.close" );
-    
-    private static final Icon NEXT_ICON = TUResources.getIcon( "nextArrow.png" );
-    private static final Icon PREVIOUS_ICON = TUResources.getIcon( "previousArrow.png" );
     
     private JTextField _textField;
     private JButton _nextButton;
@@ -55,7 +48,7 @@ public class FindDialog extends JDialog {
     public FindDialog( Frame owner, String defaultText, Font textFieldFont ) {
         super( owner );
         
-        setTitle( TUResources.getString( "title.findDialog" ) );
+        setTitle( TUStrings.FIND_TITLE );
         setModal( false );
         setResizable( false );
         
@@ -64,7 +57,7 @@ public class FindDialog extends JDialog {
         // create the panel where the user inputs information
         JPanel inputPanel = new JPanel();
         {
-            JLabel findLabel = new JLabel( FIND_LABEL );
+            JLabel findLabel = new JLabel( TUStrings.FIND_LABEL );
 
             _textField = new JTextField( defaultText );
             _textField.setFont( textFieldFont );
@@ -88,21 +81,21 @@ public class FindDialog extends JDialog {
         // create the panel that contains action buttons
         JPanel buttonPanel = new JPanel();
         {
-            _nextButton = new JButton( NEXT_LABEL, NEXT_ICON );
+            _nextButton = new JButton( TUStrings.NEXT_BUTTON, TUImages.NEXT_ICON );
             _nextButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent event ) {
                     fireNext();
                 }
             } );
 
-            _previousButton = new JButton( PREVIOUS_LABEL, PREVIOUS_ICON );
+            _previousButton = new JButton( TUStrings.PREVIOUS_BUTTON, TUImages.PREVIOUS_ICON );
             _previousButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent event ) {
                     firePrevious();
                 }
             } );
             
-            JButton closeButton = new JButton( CLOSE_LABEL );
+            JButton closeButton = new JButton( TUStrings.CLOSE_BUTTON );
             closeButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent event ) {
                     dispose();

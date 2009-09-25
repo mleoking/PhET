@@ -17,8 +17,10 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.text.html.HTMLEditorKit;
 
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
+import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.translationutility.TUConstants;
 import edu.colorado.phet.translationutility.TUResources;
 import edu.colorado.phet.translationutility.TUStrings;
 import edu.colorado.phet.translationutility.simulations.ISimulation;
@@ -34,15 +36,6 @@ import edu.colorado.phet.translationutility.util.TULogger;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class MainFrame extends JFrame implements ToolBarListener, FindListener {
-    
-    private static final int WINDOWS_TASK_BAR_HEIGHT = 200;
-    
-    private static final String CONFIRM_OVERWRITE_TITLE = TUResources.getString( "title.confirmOverwrite" );
-    private static final String CONFIRM_OVERWRITE_MESSAGE = TUResources.getString( "message.confirmOverwrite" );
-    private static final String SUBMIT_MESSAGE = TUResources.getString( "message.submit" );
-    private static final String SUBMIT_TITLE = TUResources.getString( "title.submitDialog" );
-    private static final String HELP_TITLE = TUResources.getString( "title.help" );
-    private static final String HELP_MESSAGE = TUResources.getString( "help.translation" );
     
     private final ISimulation _simulation;
     private final Locale _targetLocale;
@@ -116,7 +109,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
         
         //WORKAROUND: decrease the height to account for Windows task bar
         if ( PhetUtilities.isWindows() ) {
-            int overlap = getBounds().height - screenSize.height - WINDOWS_TASK_BAR_HEIGHT;
+            int overlap = getBounds().height - screenSize.height - TUConstants.WINDOWS_TASK_BAR_HEIGHT;
             if ( overlap > 0 ) {
                 setBounds( getBounds().x, getBounds().y, getBounds().width, getBounds().height - overlap );
             }
@@ -146,7 +139,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
         
         // if there are validation errors, warn the user, and confirm that they want to continue with Test
         if ( _translationPanel.validateTargets() == false ) {
-            String message = TUStrings.VALIDATION_ERROR_MESSAGE + "\n" + "Do you want to continue with this test?";
+            String message = HTMLUtils.toHTMLString( TUStrings.ERROR_VALIDATION + "<br><br>" + "Do you want to continue with this test?" );
             int response = JOptionPane.showConfirmDialog( this, message, "Error", JOptionPane.YES_NO_OPTION );
             if ( response != JOptionPane.OK_OPTION ) {
                 return;
@@ -170,7 +163,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
         
         // if there are validation errors, warn the user, and confirm that they want to continue with Save
         if ( _translationPanel.validateTargets() == false ) {
-            String message = TUStrings.VALIDATION_ERROR_MESSAGE + "\n" + "Do you want to continue with this Save?";
+            String message = HTMLUtils.toHTMLString( TUStrings.ERROR_VALIDATION + "<br><br>" + "Do you want to continue with this Save?" );
             int response = JOptionPane.showConfirmDialog( this, message, "Error", JOptionPane.YES_NO_OPTION );
             if ( response != JOptionPane.OK_OPTION ) {
                 return;
@@ -190,8 +183,8 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
                 if ( outFile.exists() ) {
                     // confirm that it's OK to overwrite a file that already exists
                     Object[] args = { outFile.getAbsolutePath() };
-                    String message = MessageFormat.format( CONFIRM_OVERWRITE_MESSAGE, args );
-                    int selection = JOptionPane.showConfirmDialog( this, message, CONFIRM_OVERWRITE_TITLE, JOptionPane.YES_NO_OPTION );
+                    String message = MessageFormat.format( TUStrings.CONFIRM_OVERWRITE_MESSAGE, args );
+                    int selection = JOptionPane.showConfirmDialog( this, message, TUStrings.CONFIRM_TITLE, JOptionPane.YES_NO_OPTION );
                     if ( selection != JOptionPane.YES_OPTION ) {
                         return;
                     }
@@ -243,7 +236,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
         
         // if there are validation errors, warn the user, and prevent them from sending to PhET
         if ( _translationPanel.validateTargets() == false ) {
-            String message = TUStrings.VALIDATION_ERROR_MESSAGE + "\n" + "You cannot send to PhET until errors are corrected.";
+            String message = HTMLUtils.toHTMLString( TUStrings.ERROR_VALIDATION + "<br><br>" + "You cannot send to PhET until errors are corrected." );
             JOptionPane.showMessageDialog( this, message, "Error", JOptionPane.ERROR_MESSAGE );
             return;
         }
@@ -254,8 +247,8 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
         File outFile = new File( _submitDirName, _simulation.getStringFileName( _targetLocale ) );
         if ( outFile.exists() ) {
             Object[] args = { outFile.getAbsolutePath() };
-            String message = MessageFormat.format( CONFIRM_OVERWRITE_MESSAGE, args );
-            int selection = JOptionPane.showConfirmDialog( this, message, CONFIRM_OVERWRITE_TITLE, JOptionPane.YES_NO_OPTION );
+            String message = MessageFormat.format( TUStrings.CONFIRM_OVERWRITE_MESSAGE, args );
+            int selection = JOptionPane.showConfirmDialog( this, message, TUStrings.CONFIRM_TITLE, JOptionPane.YES_NO_OPTION );
             if ( selection != JOptionPane.YES_OPTION ) {
                 return;
             }
@@ -273,13 +266,13 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
         JEditorPane submitText = new JEditorPane();
         submitText.setEditorKit( new HTMLEditorKit() );
         Object[] args = { outFile.getAbsolutePath() };
-        String html = MessageFormat.format( SUBMIT_MESSAGE, args );
+        String html = MessageFormat.format( TUStrings.SUBMIT_MESSAGE, args );
         submitText.setText( html );
         submitText.setEditable( false );
         submitText.setBackground( new JLabel().getBackground() );
         submitText.setFont( new JLabel().getFont() );
         
-        JOptionPane.showMessageDialog( this, submitText, SUBMIT_TITLE, JOptionPane.INFORMATION_MESSAGE );
+        JOptionPane.showMessageDialog( this, submitText, TUStrings.SUBMIT_TITLE, JOptionPane.INFORMATION_MESSAGE );
     }
     
     /**
@@ -313,7 +306,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
      * Opens a dialog that contains help information.
      */
     public void handleHelp() {
-        JOptionPane.showMessageDialog( this, HELP_MESSAGE, HELP_TITLE, JOptionPane.INFORMATION_MESSAGE );
+        JOptionPane.showMessageDialog( this, TUStrings.HELP_MESSAGE, TUStrings.HELP_TITLE, JOptionPane.INFORMATION_MESSAGE );
     }
     
     //----------------------------------------------------------------------------
