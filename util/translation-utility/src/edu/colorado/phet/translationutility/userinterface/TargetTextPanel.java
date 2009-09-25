@@ -15,7 +15,12 @@ import edu.colorado.phet.translationutility.TUResources;
 import edu.colorado.phet.translationutility.util.HTMLValidator;
 import edu.colorado.phet.translationutility.util.MessageFormatValidator;
 
-
+/**
+ * Panel that combines a target text field and validation error icon.
+ * This panel handles validation of the text field, and visibility of the icon.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class TargetTextPanel extends JPanel {
 
     private static final Color OK_COLOR = Color.WHITE;
