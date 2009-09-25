@@ -24,8 +24,8 @@ import edu.colorado.phet.motionseries.MotionSeriesResources
 import edu.colorado.phet.motionseries.swing._
 
 class RobotMovingCompanyCanvas(model: MotionSeriesModel, coordinateSystemModel: AdjustableCoordinateModel, freeBodyDiagramModel: FreeBodyDiagramModel,
-                               vectorViewModel: VectorViewModel, frame: JFrame, gameModel: RobotMovingCompanyGameModel)
-        extends MotionSeriesCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame, MotionSeriesDefaults.defaultViewport) {
+                               vectorViewModel: VectorViewModel, frame: JFrame, gameModel: RobotMovingCompanyGameModel,stageContainerArea:StageContainerArea)
+        extends MotionSeriesCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame, MotionSeriesDefaults.defaultViewport,stageContainerArea) {
   beadNode.setVisible(false)
   playAreaVectorNode.setVisible(false)
   pusherNode.setVisible(false)
@@ -162,17 +162,16 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel, coordinateSystemModel: 
 
   override def addWallsAndDecorations() = {}
 
-  def createLeftSegmentNode = new ReverseRotatableSegmentNode(model.rampSegments(0), transform, model)
+  override def createLeftSegmentNode = new ReverseRotatableSegmentNode(model.rampSegments(0), transform, model)
 
-  def createRightSegmentNode = new RampSegmentNode(model.rampSegments(1), transform, model)
+  override def createRightSegmentNode = new RampSegmentNode(model.rampSegments(1), transform, model)
 
   def addHeightAndAngleIndicators() = {
     addStageNode(new RampHeightIndicator(new Reverse(model.rampSegments(0)).reverse, transform))
     addStageNode(new RampAngleIndicator(new Reverse(model.rampSegments(0)).reverse, transform))
   }
 
-  def createEarthNode = new EarthNodeWithCliff(transform, model.rampSegments(1).length, gameModel.airborneFloor)
-
+  override def createEarthNode = new EarthNodeWithCliff(transform, model.rampSegments(1).length, gameModel.airborneFloor)
 }
 
 class ItemReadout(text: String, gameModel: RobotMovingCompanyGameModel, counter: () => Int) extends PNode {
