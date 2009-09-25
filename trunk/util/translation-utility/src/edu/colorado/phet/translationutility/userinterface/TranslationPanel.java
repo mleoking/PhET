@@ -119,7 +119,7 @@ public class TranslationPanel extends JPanel implements FindListener {
             String sourceValue = sourceProperties.getProperty( key );
             String targetValue = targetProperties.getProperty( key );
 
-            JLabel keyLabel = new JLabel( key );
+            JLabel keyLabel = new KeyLabel( key );
 
             JTextArea sourceTextArea = new SourceTextArea( sourceValue );
             sourceTextArea.setFont( sourceFont );
