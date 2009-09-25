@@ -367,7 +367,7 @@ public class TranslationPanel extends JPanel implements FindListener {
     private void setSelection( int index, int startIndex, int length ) {
         if ( index >= 0 && index < _findTextAreas.size() ) {
             JTextArea textArea = (JTextArea) _findTextAreas.get( index );
-            textArea.requestFocus(); // not recommended by Javadoc, but necessary here
+            textArea.requestFocus(); // not recommended according to Javadoc, but necessary here
             textArea.select( startIndex, startIndex + length );
         }
     }
