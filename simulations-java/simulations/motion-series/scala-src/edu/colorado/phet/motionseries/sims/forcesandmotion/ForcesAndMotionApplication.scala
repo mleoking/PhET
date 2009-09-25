@@ -31,7 +31,7 @@ class BasicForcesAndMotionModule(frame: JFrame,
                                  modelViewport: Rectangle2D,
                                  stageContainerArea:StageContainerArea)
         extends MotionSeriesModule(frame, clock, name, defaultBeadPosition, pausedOnReset, initialAngle) {
-  val canvas = new BasicForcesAndMotionCanvas(motionSeriesModel, coordinateSystemModel, fbdModel, vectorViewModel, frame,
+  val canvas = new ForcesAndMotionCanvas(motionSeriesModel, coordinateSystemModel, fbdModel, vectorViewModel, frame,
     showObjectSelectionNode, showAppliedForceSlider, initialAngle != 0.0, modelViewport,stageContainerArea)
   setSimulationPanel(canvas)
   val controlPanel = new RampControlPanel(motionSeriesModel, wordModel, fbdModel, coordinateSystemModel, vectorViewModel,
@@ -40,7 +40,7 @@ class BasicForcesAndMotionModule(frame: JFrame,
   setClockControlPanel(new RecordModelControlPanel(motionSeriesModel, canvas, () => new PlaybackSpeedSlider(motionSeriesModel), Color.blue, 20))
 }
 
-class BasicForcesAndMotionCanvas(model: MotionSeriesModel, coordinateSystemModel: AdjustableCoordinateModel, freeBodyDiagramModel: FreeBodyDiagramModel,
+class ForcesAndMotionCanvas(model: MotionSeriesModel, coordinateSystemModel: AdjustableCoordinateModel, freeBodyDiagramModel: FreeBodyDiagramModel,
                                  vectorViewModel: VectorViewModel, frame: JFrame, showObjectSelectionNode: Boolean, showAppliedForceSlider: Boolean,
                                  rampAngleDraggable: Boolean, modelViewport: Rectangle2D,stageContainerArea:StageContainerArea)
         extends MotionSeriesCanvasDecorator(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel,
