@@ -84,9 +84,6 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
   model.addListenerByName(beadNode.setImage(MotionSeriesResources.getImage(model.selectedObject.imageFilename)))
   playAreaNode.addChild(beadNode)
 
-  val pusherNode = new PusherNode(transform, model.bead, model.manBead)
-  playAreaNode.addChild(pusherNode)
-
   playAreaNode.addChild(new CoordinateFrameNode(model, adjustableCoordinateModel, transform))
 
   private def compositeListener(listener: () => Unit) = {
@@ -176,6 +173,10 @@ abstract class MotionSeriesCanvasDecorator(model: MotionSeriesModel,
                  modelViewport: Rectangle2D,
                  stageContainerArea:StageContainerArea)
         extends MotionSeriesCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame, modelViewport,stageContainerArea) {
+
+  val pusherNode = new PusherNode(transform, model.bead, model.manBead)
+  playAreaNode.addChild(pusherNode)
+
   if (showAppliedForceSlider) {
     val appliedForceSliderNode = new AppliedForceSliderNode(model.bead, () => model.setPaused(false))
     appliedForceSliderNode.setOffset(stage.width / 2 - appliedForceSliderNode.getFullBounds.getWidth / 2, transform.modelToView(0, -1).getY)

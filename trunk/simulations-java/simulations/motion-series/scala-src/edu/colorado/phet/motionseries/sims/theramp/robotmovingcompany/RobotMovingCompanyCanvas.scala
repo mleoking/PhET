@@ -26,7 +26,7 @@ import edu.colorado.phet.motionseries.sims.theramp.StageContainerArea
 
 class RobotMovingCompanyCanvas(model: MotionSeriesModel, coordinateSystemModel: AdjustableCoordinateModel, freeBodyDiagramModel: FreeBodyDiagramModel,
                                vectorViewModel: VectorViewModel, frame: JFrame, gameModel: RobotMovingCompanyGameModel,stageContainerArea:StageContainerArea)
-        extends MotionSeriesCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame, MotionSeriesDefaults.defaultViewport,stageContainerArea) {
+        extends RampCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame, false,true,true,MotionSeriesDefaults.defaultViewport,stageContainerArea) {
   beadNode.setVisible(false)
   playAreaVectorNode.setVisible(false)
   pusherNode.setVisible(false)
@@ -167,7 +167,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel, coordinateSystemModel: 
 
   override def createRightSegmentNode = new RampSegmentNode(model.rampSegments(1), transform, model)
 
-  def addHeightAndAngleIndicators() = {
+  override def addHeightAndAngleIndicators() = {
     addStageNode(new RampHeightIndicator(new Reverse(model.rampSegments(0)).reverse, transform))
     addStageNode(new RampAngleIndicator(new Reverse(model.rampSegments(0)).reverse, transform))
   }
