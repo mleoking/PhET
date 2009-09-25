@@ -1,3 +1,4 @@
+/* Copyright 2009, University of Colorado */
 
 package edu.colorado.phet.translationutility.userinterface;
 
@@ -11,7 +12,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
-import edu.colorado.phet.translationutility.TUResources;
+import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
+import edu.colorado.phet.translationutility.TUImages;
+import edu.colorado.phet.translationutility.TUStrings;
 import edu.colorado.phet.translationutility.util.HTMLValidator;
 import edu.colorado.phet.translationutility.util.MessageFormatValidator;
 
@@ -53,7 +56,7 @@ public class TargetTextPanel extends JPanel {
         } );
 
         // icon that provides access to error message
-        errorIcon = new JLabel( TUResources.getIcon( "errorIcon.png" ) );
+        errorIcon = new JLabel( TUImages.ERROR_ICON );
         errorIcon.setCursor( new Cursor( Cursor.HAND_CURSOR ) );
         errorIcon.addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent event ) {
@@ -113,25 +116,24 @@ public class TargetTextPanel extends JPanel {
 
     private String createErrorMessage( ArrayList<String> missingPlaceholders, ArrayList<String> missingTags ) {
 
-        String message = "This translation has the following errors:";
+        String message = TUStrings.VALIDATION_MESSAGE;
 
         if ( missingPlaceholders != null ) {
-            message += "\n";
-            message += "missing MessageFormat placeholders:";
+            message += "<br><br>";
+            message += TUStrings.VALIDATION_MESSAGE_FORMAT;
             for ( String placeholder : missingPlaceholders ) {
                 message += " " + placeholder;
             }
         }
 
         if ( missingTags != null ) {
-            message += "\n";
-            message += "missing HTML tags:";
+            message += "<br><br>";
+            message += TUStrings.VALIDATION_HTML;
             for ( String tag : missingTags ) {
-                message += " " + tag;
+                message += " " + HTMLUtils.escape( tag );
             }
         }
 
-        return message;
+        return HTMLUtils.toHTMLString( message );
     }
-
 }

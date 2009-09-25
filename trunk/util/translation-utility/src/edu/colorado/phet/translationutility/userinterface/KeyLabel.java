@@ -1,3 +1,5 @@
+/* Copyright 2009, University of Colorado */
+
 package edu.colorado.phet.translationutility.userinterface;
 
 import javax.swing.JLabel;

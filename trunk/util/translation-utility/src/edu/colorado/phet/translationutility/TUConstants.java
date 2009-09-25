@@ -17,4 +17,7 @@ public class TUConstants {
     
     // use this separator for creating paths to resources in the JAR file
     public static final String RESOURCE_PATH_SEPARATOR = "/";
+    
+    // hack for avoiding the Windows task bar in most cases
+    public static final int WINDOWS_TASK_BAR_HEIGHT = 200;
 }

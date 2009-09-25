@@ -13,7 +13,7 @@ import javax.swing.*;
 import edu.colorado.phet.common.phetcommon.util.PhetLocales;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.translationutility.TUResources;
+import edu.colorado.phet.translationutility.TUStrings;
 import edu.colorado.phet.translationutility.userinterface.FindDialog.FindListener;
 import edu.colorado.phet.translationutility.util.TULogger;
 
@@ -86,7 +86,7 @@ public class TranslationPanel extends JPanel implements FindListener {
         layout.addAnchoredComponent( sourceLanguageLabel, row, SOURCE_COLUMN, GridBagConstraints.WEST );
         String targetName = lc.getName( targetLocale );
         if ( targetName == null ) {
-            targetName = TUResources.getString( "label.custom" );
+            targetName = TUStrings.CUSTOM_LOCALE_LABEL;
         }
         String targetText = targetName + " (" + targetLocale + ")";
         JLabel targetLanguageLabel = new JLabel( targetText );

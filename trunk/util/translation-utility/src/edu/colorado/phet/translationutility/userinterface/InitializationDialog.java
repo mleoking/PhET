@@ -16,9 +16,10 @@ import javax.swing.text.html.HTMLEditorKit;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.common.phetcommon.util.PhetLocales;
-import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.translationutility.TUImages;
 import edu.colorado.phet.translationutility.TUResources;
+import edu.colorado.phet.translationutility.TUStrings;
 import edu.colorado.phet.translationutility.util.FileChooserFactory;
 
 /**
@@ -29,21 +30,6 @@ import edu.colorado.phet.translationutility.util.FileChooserFactory;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class InitializationDialog extends JDialog {
-    
-    private static final String JAR_PATH_LABEL = TUResources.getString( "label.jarPath" );
-    private static final String BROWSE_BUTTON_LABEL = TUResources.getString( "button.browse" );
-    private static final String CANCEL_BUTTON_LABEL = TUResources.getString( "button.cancel" );
-    private static final String CONTINUE_BUTTON_LABEL = TUResources.getString( "button.continue" );
-    private static final String LOCALE_LABEL = TUResources.getString( "label.locale" );
-    
-    private static final String ERROR_TITLE = TUResources.getString( "title.errorDialog" );
-    
-    private static final String ERROR_NO_SUCH_JAR = "JAR file does not exist";
-    private static final String ERROR_NOT_CUSTOM_LOCALE = "<html>{0} is not a custom locale code.<br>It is the code for {1}.</html>";
-    
-    private static final String HELP_TITLE = TUResources.getString( "title.help" );
-    private static final String HELP_JAR_FILE = TUResources.getString( "help.jarFile" );
-    private static final String HELP_LANGUAGE_CODE = TUResources.getString( "help.locale" );
     
     private static final Font TITLE_FONT = new PhetFont( 32, true /* bold */ );
     
@@ -81,9 +67,9 @@ public class InitializationDialog extends JDialog {
         JPanel titlePanel = new JPanel();
         titlePanel.setLayout( new FlowLayout( FlowLayout.LEFT ) );
         {
-            Image titleImage = TUResources.getCommonImage( PhetLookAndFeel.PHET_LOGO_120x50 );
+            Image titleImage = TUImages.PHET_LOGO;
             JLabel titleImageLabel = new JLabel( new ImageIcon( titleImage ) );
-            JLabel titleLabel = new JLabel( TUResources.getString( "translation-utility.name" ) );
+            JLabel titleLabel = new JLabel( TUStrings.TRANSLATION_UTILITY_NAME );
             titleLabel.setFont( TITLE_FONT );
             titlePanel.add( titleImageLabel );
             titlePanel.add( titleLabel );
@@ -93,7 +79,7 @@ public class InitializationDialog extends JDialog {
         JPanel jarFilePanel = new JPanel();
         jarFilePanel.setLayout( new FlowLayout( FlowLayout.LEFT ) );
         {
-            JLabel jarFileLabel = new JLabel( JAR_PATH_LABEL );
+            JLabel jarFileLabel = new JLabel( TUStrings.JAR_PATH_LABEL );
             
             _jarFileTextField = new JTextField();
             _jarFileTextField.setColumns( 30 );
@@ -103,16 +89,15 @@ public class InitializationDialog extends JDialog {
                 }
             } );
             
-            Icon helpIcon = TUResources.getIcon( "helpButton.png" );
-            JLabel helpLabel = new JLabel( helpIcon );
+            JLabel helpLabel = new JLabel( TUImages.HELP_ICON );
             helpLabel.addMouseListener( new MouseAdapter() {
                 public void mouseReleased( MouseEvent event ) {
-                    showHelp( HELP_JAR_FILE );
+                    showHelp( TUStrings.HELP_JAR_MESSAGE );
                 }
             } );
             helpLabel.setCursor( new Cursor( Cursor.HAND_CURSOR ) );
 
-            JButton _browseButton = new JButton( BROWSE_BUTTON_LABEL );
+            JButton _browseButton = new JButton( TUStrings.BROWSE_BUTTON );
             _browseButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent event ) {
                     handleJarBrowse();
@@ -129,7 +114,7 @@ public class InitializationDialog extends JDialog {
         JPanel localePanel = new JPanel();
         localePanel.setLayout( new FlowLayout( FlowLayout.LEFT ) );
         {
-            JLabel localeLabel = new JLabel( LOCALE_LABEL );
+            JLabel localeLabel = new JLabel( TUStrings.LOCALE_LABEL );
             
             _localeComboBox = new LocaleComboBox( sourceLocale );
             _localeComboBox.setMaximumRowCount( 10 );
@@ -150,11 +135,10 @@ public class InitializationDialog extends JDialog {
                 }
             } );
             
-            Icon helpIcon = TUResources.getIcon( "helpButton.png" );
-            JLabel helpLabel = new JLabel( helpIcon );
+            JLabel helpLabel = new JLabel( TUImages.HELP_ICON );
             helpLabel.addMouseListener( new MouseAdapter() {
                 public void mouseReleased( MouseEvent event ) {
-                    showHelp( HELP_LANGUAGE_CODE );
+                    showHelp( TUStrings.HELP_LOCALE_MESSAGE );
                 }
             } );
             helpLabel.setCursor( new Cursor( Cursor.HAND_CURSOR ) );
@@ -168,8 +152,7 @@ public class InitializationDialog extends JDialog {
         // buttons at the bottom of the dialog
         JPanel buttonPanel = new JPanel();
         {
-            Icon continueIcon = TUResources.getIcon( "continueButton.png" );
-            _continueButton = new JButton( CONTINUE_BUTTON_LABEL, continueIcon );
+            _continueButton = new JButton( TUStrings.CONTINUE_BUTTON, TUImages.CONTINUE_ICON );
             _continueButton.setEnabled( false );
             _continueButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent event ) {
@@ -177,8 +160,7 @@ public class InitializationDialog extends JDialog {
                 }
             } );
 
-            Icon cancelIcon = TUResources.getIcon( "cancelButton.png" );
-            JButton cancelButton = new JButton( CANCEL_BUTTON_LABEL, cancelIcon );
+            JButton cancelButton = new JButton( TUStrings.CANCEL_BUTTON, TUImages.CANCEL_ICON );
             cancelButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent event ) {
                     handleCancelButton();
@@ -301,7 +283,7 @@ public class InitializationDialog extends JDialog {
         File jarFile = new File( _jarFileTextField.getText() );
         if ( !jarFile.exists() ) {
             error = true;
-            showErrorDialog( ERROR_NO_SUCH_JAR );
+            showErrorDialog( TUStrings.ERROR_NO_SUCH_JAR );
         }
         else {
             Locale locale = getTargetLocale();
@@ -312,7 +294,7 @@ public class InitializationDialog extends JDialog {
                 if ( name != null ) {
                     error = true;
                     Object[] args = { locale, name };
-                    String message = MessageFormat.format( ERROR_NOT_CUSTOM_LOCALE, args );
+                    String message = MessageFormat.format( TUStrings.ERROR_NOT_CUSTOM_LOCALE, args );
                     showErrorDialog( message );
                 }
             }
@@ -328,7 +310,7 @@ public class InitializationDialog extends JDialog {
      * Displays a modal error dialog.
      */
     private void showErrorDialog( String message ) {
-        JOptionPane.showMessageDialog( InitializationDialog.this, message, ERROR_TITLE, JOptionPane.ERROR_MESSAGE );
+        JOptionPane.showMessageDialog( InitializationDialog.this, message, TUStrings.ERROR_TITLE, JOptionPane.ERROR_MESSAGE );
     }
     
     /*
@@ -360,6 +342,6 @@ public class InitializationDialog extends JDialog {
             }
         } );
         
-        JOptionPane.showMessageDialog( this, editorPane, HELP_TITLE, JOptionPane.INFORMATION_MESSAGE );
+        JOptionPane.showMessageDialog( this, editorPane, TUStrings.HELP_TITLE, JOptionPane.INFORMATION_MESSAGE );
     }
 }

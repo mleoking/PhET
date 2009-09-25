@@ -12,14 +12,11 @@ import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
 import edu.colorado.phet.common.phetcommon.util.PhetLocales;
-import edu.colorado.phet.translationutility.TUResources;
+import edu.colorado.phet.translationutility.TUStrings;
 
 
 public class LocaleComboBox extends JComboBox {
     
-    public static final String SELECT_NAME = TUResources.getString( "label.selectLocale" );
-    public static final String CUSTOM_NAME = TUResources.getString( "label.custom" );
-
     private static class LocaleChoice {
 
         private final String _name;
@@ -73,7 +70,7 @@ public class LocaleComboBox extends JComboBox {
         
         setRenderer( new LocaleRenderer() );
         
-        addItem( new LocaleChoice( SELECT_NAME, null ) );
+        addItem( new LocaleChoice( TUStrings.SELECT_LOCALE_LABEL, null ) );
         
         PhetLocales locales = PhetLocales.getInstance();
         String[] names = locales.getSortedNames();
@@ -86,12 +83,12 @@ public class LocaleComboBox extends JComboBox {
             }
         }
         
-        addItem( new LocaleChoice( CUSTOM_NAME, null ) );
+        addItem( new LocaleChoice( TUStrings.CUSTOM_LOCALE_LABEL, null ) );
     }
     
     private boolean isLocaleSelected() {
         LocaleChoice choice = (LocaleChoice) getSelectedItem();
-        return ! ( choice.getName().equals( SELECT_NAME ) || choice.getName().equals( CUSTOM_NAME ) );
+        return ! ( choice.getName().equals( TUStrings.SELECT_LOCALE_LABEL ) || choice.getName().equals( TUStrings.CUSTOM_LOCALE_LABEL ) );
     }
     
     public Locale getSelectedLocale() {
@@ -115,6 +112,6 @@ public class LocaleComboBox extends JComboBox {
     public boolean isCustomSelected() {
         LocaleChoice choice = (LocaleChoice) getSelectedItem();
         String name = choice.getName();
-        return ( name.equals( CUSTOM_NAME ) );
+        return ( name.equals( TUStrings.CUSTOM_LOCALE_LABEL ) );
     }
 }

@@ -8,12 +8,12 @@ import java.awt.event.ActionListener;
 import java.util.EventListener;
 
 import javax.swing.Box;
-import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.event.EventListenerList;
 
-import edu.colorado.phet.translationutility.TUResources;
+import edu.colorado.phet.translationutility.TUImages;
+import edu.colorado.phet.translationutility.TUStrings;
 
 /**
  * ToolBar is the tool bar in the main window.
@@ -22,13 +22,6 @@ import edu.colorado.phet.translationutility.TUResources;
  */
 public class ToolBar extends JPanel {
 
-    private static final String SAVE_BUTTON_LABEL = TUResources.getString( "button.save" );
-    private static final String LOAD_BUTTON_LABEL = TUResources.getString( "button.load" );
-    private static final String TEST_BUTTON_LABEL = TUResources.getString( "button.test" );
-    private static final String SUBMIT_BUTTON_LABEL = TUResources.getString( "button.submit" );
-    private static final String FIND_BUTTON_LABEL = TUResources.getString( "button.find" );
-    private static final String HELP_BUTTON_LABEL = TUResources.getString( "button.help" );
-    
     /**
      * FindListener is the interface implemented by all listeners who 
      * want to be notified when the Next or Previous buttons are pushed.
@@ -51,48 +44,42 @@ public class ToolBar extends JPanel {
         
         _listenerList = new EventListenerList();
         
-        Icon testIcon = TUResources.getIcon( "testButton.png" );
-        JButton testButton = new JButton( TEST_BUTTON_LABEL, testIcon );
+        JButton testButton = new JButton( TUStrings.TEST_BUTTON, TUImages.TEST_ICON );
         testButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 fireTest();
             }
         } );
         
-        Icon saveIcon = TUResources.getIcon( "saveButton.png" );
-        JButton saveButton = new JButton( SAVE_BUTTON_LABEL, saveIcon );
+        JButton saveButton = new JButton( TUStrings.SAVE_BUTTON, TUImages.SAVE_ICON );
         saveButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 fireSave();
             }
         } );
        
-        Icon loadIcon = TUResources.getIcon( "loadButton.png" );
-        JButton loadButton = new JButton( LOAD_BUTTON_LABEL, loadIcon );
+        JButton loadButton = new JButton( TUStrings.LOAD_BUTTON, TUImages.LOAD_ICON );
         loadButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 fireLoad();
             }
         } );
         
-        Icon submitIcon = TUResources.getIcon( "submitButton.png" );
-        JButton submitButton = new JButton( SUBMIT_BUTTON_LABEL, submitIcon );
+        JButton submitButton = new JButton( TUStrings.SUBMIT_BUTTON, TUImages.SUBMIT_ICON );
         submitButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 fireSubmit();
             }
         } );
         
-        Icon findIcon = TUResources.getIcon( "findButton.png" );
-        JButton findButton = new JButton( FIND_BUTTON_LABEL, findIcon );
+        JButton findButton = new JButton( TUStrings.FIND_BUTTON, TUImages.FIND_ICON );
         findButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 fireFind();
             }
         } );
         
-        Icon helpIcon = TUResources.getIcon( "helpButton.png" );
-        JButton helpButton = new JButton( HELP_BUTTON_LABEL, helpIcon );
+        JButton helpButton = new JButton( TUStrings.HELP_BUTTON, TUImages.HELP_ICON );
         helpButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 fireHelp();
