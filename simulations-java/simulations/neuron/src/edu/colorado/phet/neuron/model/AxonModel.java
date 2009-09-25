@@ -153,11 +153,49 @@ public class AxonModel {
     	else{
     		// Don't need to do nuthin'.
     	}
+    	
+    	getProportionOfAtomsInside(AtomType.SODIUM);
     }
     
     //----------------------------------------------------------------------------
     // Other Methods
     //----------------------------------------------------------------------------
+
+    /**
+     * Get the proportion of atoms that are inside the axon membrane.  A value
+     * of 1 indicates that all atoms are inside, 0 means that none are inside.
+     */
+    public double getProportionOfAtomsInside(AtomType atomType){
+
+    	IntegerWrapper numberInside = new IntegerWrapper();
+    	IntegerWrapper numberOutside = new IntegerWrapper();
+    	getAtomCounts(atomType, numberInside, numberOutside);
+    	
+    	double proportionInside;
+    	if (numberInside.getValue() + numberOutside.getValue() == 0){
+    		proportionInside = 0;
+    	}
+    	else {
+    		proportionInside = (double)numberInside.getValue() / 
+    			(double)(numberInside.getValue() + numberOutside.getValue());
+    	}
+    	
+    	return proportionInside;
+    }
+    
+    /**
+     * Set the proportion of atoms inside the axon membrane.  A value of 0
+     * indicates that all atoms of this type should be outside, a value of 1
+     * indicates that the should all be inside, and value between...well, you
+     * get the idea.
+     */
+    public void setConcentrationRatio(AtomType atomType, double targetProportion){
+    	
+//    	double currentProportion = getConcentrationRatio(atomType);
+    	
+    	
+    	
+    }
     
     private void handleClockTicked(ClockEvent clockEvent){
     	
@@ -317,6 +355,28 @@ public class AxonModel {
     	}
     }
     
+    private void getAtomCounts(AtomType atomType, IntegerWrapper numInside, IntegerWrapper numOutside){
+
+    	numInside.setValue(0);
+    	numOutside.setValue(0);
+    	
+    	for (AbstractMembraneChannel channel : channels){
+    		// All atoms in channels are considered to be inside the axon.
+    		numInside.setValue( numInside.getValue() + channel.getOwnedAtomsRef().size());
+    	}
+    	
+    	for (Atom atom : atoms){
+    		if (atom.getType() == atomType){
+    			if (isAtomInside(atom)){
+    				numInside.setValue(numInside.getValue() + 1);
+    			}
+    			else{
+    				numOutside.setValue(numOutside.getValue() + 1);
+    			}
+    		}
+    	}
+    }
+    
     /**
      * Place an atom at a random location inside the axon membrane.
      */
@@ -346,20 +406,19 @@ public class AxonModel {
      * @return
      */
     private boolean isAtomInside(Atom atom){
-    	
+
     	boolean inside = false;
     	
-    	if (atoms.contains(atom)){
-    		inside = true;
-    	}
-    	else{
-    		for (AbstractMembraneChannel channel : channels){
-    			if (channel.getOwnedAtoms().contains(atom)){
-    				inside = true;
-    				break;
-    			}
-    		}
-    	}
+		for (AbstractMembraneChannel channel : channels){
+			if (channel.getOwnedAtoms().contains(atom)){
+				inside = true;
+				break;
+			}
+		}
+		
+		if (!inside){
+			inside = atom.getPositionReference().distance(new Point2D.Double(0, 0)) < crossSectionOuterRadius;
+		}
     	
     	return inside;
     }
@@ -392,5 +451,17 @@ public class AxonModel {
     public static class Adapter implements Listener{
 		public void channelAdded(AbstractMembraneChannel channel) {}
 		public void concentrationRatioChanged(AtomType atomType) {}
+    }
+    
+    public static class IntegerWrapper{
+    	int value = 0;
+
+		public int getValue() {
+			return value;
+		}
+
+		public void setValue(int value) {
+			this.value = value;
+		}
     }
 }
