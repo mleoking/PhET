@@ -43,7 +43,7 @@ class BasicForcesAndMotionModule(frame: JFrame,
 class BasicForcesAndMotionCanvas(model: MotionSeriesModel, coordinateSystemModel: AdjustableCoordinateModel, freeBodyDiagramModel: FreeBodyDiagramModel,
                                  vectorViewModel: VectorViewModel, frame: JFrame, showObjectSelectionNode: Boolean, showAppliedForceSlider: Boolean,
                                  rampAngleDraggable: Boolean, modelViewport: Rectangle2D,stageContainerArea:StageContainerArea)
-        extends RampCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel,
+        extends MotionSeriesCanvasDecorator(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel,
           frame, showObjectSelectionNode, showAppliedForceSlider, rampAngleDraggable, modelViewport,stageContainerArea) {
   override def addHeightAndAngleIndicators() = {}
 }

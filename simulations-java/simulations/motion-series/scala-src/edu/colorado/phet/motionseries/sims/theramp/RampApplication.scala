@@ -1,10 +1,10 @@
 package edu.colorado.phet.motionseries.sims.theramp
 
 import edu.colorado.phet.motionseries.charts.bargraphs.{WorkEnergyChartModel, WorkEnergyChart}
+import graphics.{RampCanvas, MotionSeriesCanvasDecorator}
 import java.awt.geom.Rectangle2D
 import edu.colorado.phet.common.phetcommon.application.{Module, PhetApplicationConfig}
 import edu.colorado.phet.common.piccolophet.{PiccoloPhetApplication}
-import edu.colorado.phet.motionseries.graphics.RampCanvas
 import java.awt.event.{ActionEvent, ActionListener}
 import java.awt.{Color}
 import javax.swing._

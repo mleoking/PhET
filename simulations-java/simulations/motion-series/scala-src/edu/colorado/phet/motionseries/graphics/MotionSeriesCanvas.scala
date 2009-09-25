@@ -165,7 +165,7 @@ class ClearHeatButton(model: MotionSeriesModel) extends GradientButtonNode("cont
   })
 }
 
-class RampCanvas(model: MotionSeriesModel,
+abstract class MotionSeriesCanvasDecorator(model: MotionSeriesModel,
                  coordinateSystemModel: AdjustableCoordinateModel,
                  freeBodyDiagramModel: FreeBodyDiagramModel,
                  vectorViewModel: VectorViewModel,
@@ -191,10 +191,15 @@ class RampCanvas(model: MotionSeriesModel,
   }
 
   override def containerBounds = stageContainerArea.getBounds(getWidth, getHeight)
-  
-  def addHeightAndAngleIndicators() = {
+}
+
+class RampCanvas(model: MotionSeriesModel, coordinateSystemModel: AdjustableCoordinateModel, freeBodyDiagramModel: FreeBodyDiagramModel,
+                                 vectorViewModel: VectorViewModel, frame: JFrame, showObjectSelectionNode: Boolean, showAppliedForceSlider: Boolean,
+                                 rampAngleDraggable: Boolean, modelViewport: Rectangle2D,stageContainerArea:StageContainerArea)
+        extends MotionSeriesCanvasDecorator(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel,
+          frame, showObjectSelectionNode, showAppliedForceSlider, rampAngleDraggable, modelViewport,stageContainerArea) {
+    def addHeightAndAngleIndicators() = {
     playAreaNode.addChild(new RampHeightIndicator(model.rampSegments(1), transform))
     playAreaNode.addChild(new RampAngleIndicator(model.rampSegments(1), transform))
   }
-
 }
