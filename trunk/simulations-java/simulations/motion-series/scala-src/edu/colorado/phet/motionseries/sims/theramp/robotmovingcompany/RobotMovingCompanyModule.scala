@@ -38,7 +38,7 @@ class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock)
     if (!audioClip.isEmpty) MotionSeriesResources.getAudioClip(audioClip.get).play()
   })
 
-  val canvas = new RobotMovingCompanyCanvas(motionSeriesModel, coordinateSystemModel, fbdModel, vectorViewModel, frame, gameModel)
+  val canvas = new RobotMovingCompanyCanvas(motionSeriesModel, coordinateSystemModel, fbdModel, vectorViewModel, frame, gameModel,MotionSeriesDefaults.forceMotionFrictionArea)
 
   setSimulationPanel(canvas)
   setLogoPanelVisible(false)

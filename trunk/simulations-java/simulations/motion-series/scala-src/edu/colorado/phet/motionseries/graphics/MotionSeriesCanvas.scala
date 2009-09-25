@@ -21,7 +21,9 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
                                   freeBodyDiagramModel: FreeBodyDiagramModel,
                                   vectorViewModel: VectorViewModel,
                                   frame: JFrame,
-                                  modelViewport: Rectangle2D) extends MyCanvas(800, modelViewport) { //max y should be about 10 in default case
+                                  modelViewport: Rectangle2D,
+                                  val stageContainerArea: StageContainerArea)
+        extends MyCanvas(800, modelViewport) { //max y should be about 10 in default case
   setBackground(MotionSeriesDefaults.SKY_GRADIENT_BOTTOM)
 
   val playAreaNode = new PNode
@@ -37,17 +39,18 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
 
   def useVectorNodeInPlayArea = true
 
-  def createEarthNode: PNode
+  def createEarthNode:AbstractEarthNode= new EarthNode(transform)
 
   val earthNode = createEarthNode
   playAreaNode.addChild(earthNode)
 
-  def createLeftSegmentNode: HasPaint
 
   val leftSegmentNode = createLeftSegmentNode
   playAreaNode.addChild(leftSegmentNode)
 
-  def createRightSegmentNode: HasPaint
+    def createLeftSegmentNode = new RampSegmentNode(model.rampSegments(0), transform, model)
+
+  def createRightSegmentNode : HasPaint      = new RotatableSegmentNode(model.rampSegments(1), transform, model)
 
   val rightSegmentNode = createRightSegmentNode
   playAreaNode.addChild(rightSegmentNode)
@@ -55,7 +58,22 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
   def addHeightAndAngleIndicators()
   addHeightAndAngleIndicators()
 
-  def addWallsAndDecorations()
+  def addWallsAndDecorations() = {
+    playAreaNode.addChild(new BeadNode(model.leftWall, transform, "wall.jpg".literal) with CloseButton {
+      def model = MotionSeriesCanvas.this.model
+    })
+    playAreaNode.addChild(new BeadNode(model.rightWall, transform, "wall.jpg".literal) with CloseButton {
+      def model = MotionSeriesCanvas.this.model
+    })
+
+    class SpringNode(bead: Bead) extends BeadNode(bead, transform, "spring.png".literal) {
+      defineInvokeAndPass(model.addListenerByName) {
+        setVisible(model.wallsBounce())
+      }
+    }
+    playAreaNode.addChild(new SpringNode(model.leftWallRightEdge))
+    playAreaNode.addChild(new SpringNode(model.rightWallLeftEdge))
+  }  
   addWallsAndDecorations()
 
   //todo: why is cabinet hard coded here?
@@ -139,7 +157,7 @@ class ClearHeatButton(model: MotionSeriesModel) extends GradientButtonNode("cont
     setVisible(model.bead.getRampThermalEnergy > 2000)
   }
   updateVisibility()
-  model.addListener(updateVisibility)//todo: perhaps this line is unnecessary
+  model.addListener(updateVisibility) //todo: perhaps this line is unnecessary
   model.bead.addListener(updateVisibility)
 
   addActionListener(new ActionListener() {
@@ -157,7 +175,7 @@ class RampCanvas(model: MotionSeriesModel,
                  rampAngleDraggable: Boolean,
                  modelViewport: Rectangle2D,
                  stageContainerArea:StageContainerArea)
-        extends MotionSeriesCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame, modelViewport) {
+        extends MotionSeriesCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame, modelViewport,stageContainerArea) {
   if (showAppliedForceSlider) {
     val appliedForceSliderNode = new AppliedForceSliderNode(model.bead, () => model.setPaused(false))
     appliedForceSliderNode.setOffset(stage.width / 2 - appliedForceSliderNode.getFullBounds.getWidth / 2, transform.modelToView(0, -1).getY)
@@ -172,37 +190,11 @@ class RampCanvas(model: MotionSeriesModel,
     addStageNode(objectSelectionNode)
   }
 
-  override def containerBounds = stageContainerArea.getBounds(getWidth,getHeight)
-
-  override def addWallsAndDecorations() = {
-    playAreaNode.addChild(new BeadNode(model.leftWall, transform, "wall.jpg".literal) with CloseButton {
-      def model = RampCanvas.this.model
-    })
-    playAreaNode.addChild(new BeadNode(model.rightWall, transform, "wall.jpg".literal) with CloseButton {
-      def model = RampCanvas.this.model
-    })
-
-    class SpringNode(bead:Bead) extends BeadNode(bead,transform, "spring.png".literal){
-      defineInvokeAndPass(model.addListenerByName){
-        setVisible(model.wallsBounce())
-      }
-    }
-    playAreaNode.addChild(new SpringNode(model.leftWallRightEdge))
-    playAreaNode.addChild(new SpringNode(model.rightWallLeftEdge))
-  }
-
-  def createLeftSegmentNode = new RampSegmentNode(model.rampSegments(0), transform, model)
-
-  def createRightSegmentNode =
-    if (rampAngleDraggable)
-      new RotatableSegmentNode(model.rampSegments(1), transform, model)
-    else
-      new RampSegmentNode(model.rampSegments(1), transform, model)
-
+  override def containerBounds = stageContainerArea.getBounds(getWidth, getHeight)
+  
   def addHeightAndAngleIndicators() = {
     playAreaNode.addChild(new RampHeightIndicator(model.rampSegments(1), transform))
     playAreaNode.addChild(new RampAngleIndicator(model.rampSegments(1), transform))
   }
 
-  def createEarthNode = new EarthNode(transform)
 }

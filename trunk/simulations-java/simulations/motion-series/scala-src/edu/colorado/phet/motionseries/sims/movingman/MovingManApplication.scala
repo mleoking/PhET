@@ -42,9 +42,11 @@ class BasicMovingManModule(frame: JFrame,
 class MovingManCanvas(model: MotionSeriesModel, coordinateSystemModel: AdjustableCoordinateModel, freeBodyDiagramModel: FreeBodyDiagramModel,
                       vectorViewModel: VectorViewModel, frame: JFrame, showObjectSelectionNode: Boolean, showAppliedForceSlider: Boolean,
                       rampAngleDraggable: Boolean, rampLayoutArea: Rectangle2D,stageContainerArea:StageContainerArea)
-        extends RampCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel,
-          frame, showObjectSelectionNode, showAppliedForceSlider, rampAngleDraggable, rampLayoutArea,stageContainerArea) {
+        extends MotionSeriesCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel,
+          frame, rampLayoutArea,stageContainerArea) {
   override def addHeightAndAngleIndicators() = {}
+
+  override def createRightSegmentNode  = new RampSegmentNode(model.rampSegments(1), transform, model)
 
   override def createBeadNode(b: Bead, t: ModelViewTransform2D, s: String, listener: () => Unit) = new PositionDragBeadNode(b, t, "moving-man/moving-man-standing.gif", "moving-man/moving-man-left.gif", listener, this)
 
