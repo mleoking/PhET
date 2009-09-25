@@ -12,6 +12,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.neuron.NeuronConstants;
 import edu.colorado.phet.neuron.model.AbstractMembraneChannel;
 import edu.colorado.phet.neuron.model.Atom;
+import edu.colorado.phet.neuron.model.AtomType;
 import edu.colorado.phet.neuron.model.AxonModel;
 import edu.umd.cs.piccolo.PNode;
 
@@ -68,7 +69,7 @@ public class NeuronCanvas extends PhetPCanvas {
         		true);
 
         // Register for events from the model.
-        this.model.addListener(new AxonModel.Listener() {
+        this.model.addListener(new AxonModel.Adapter() {
 			public void channelAdded(AbstractMembraneChannel channel) {
 				addChannelNode(channel);
 			}
