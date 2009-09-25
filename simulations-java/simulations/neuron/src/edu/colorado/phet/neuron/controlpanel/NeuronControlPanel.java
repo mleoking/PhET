@@ -18,9 +18,12 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.neuron.NeuronResources;
 import edu.colorado.phet.neuron.model.AxonModel;
 import edu.colorado.phet.neuron.model.MembraneChannelTypes;
+import edu.colorado.phet.neuron.model.PotassiumIon;
 import edu.colorado.phet.neuron.model.PotassiumLeakageChannel;
+import edu.colorado.phet.neuron.model.SodiumIon;
 import edu.colorado.phet.neuron.model.SodiumLeakageChannel;
 import edu.colorado.phet.neuron.module.MembraneDiffusionModule;
+import edu.colorado.phet.neuron.view.AtomNode;
 import edu.colorado.phet.neuron.view.MembraneChannelNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -45,6 +48,8 @@ public class NeuronControlPanel extends ControlPanel {
 	private AxonModel axonModel;
 	private LeakChannelSlider sodiumLeakChannelControl;
 	private LeakChannelSlider potassiumLeakChannelControl;
+	private ConcentrationSlider sodiumConcentrationControl;
+	private ConcentrationSlider potassiumConcentrationControl;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -96,6 +101,14 @@ public class NeuronControlPanel extends ControlPanel {
 		});
         addControlFullWidth(potassiumLeakChannelControl);
         
+        sodiumConcentrationControl = new ConcentrationSlider("Sodium Concentration", new AtomNode(new SodiumIon(), null, 
+        		new ModelViewTransform2D()));
+        addControlFullWidth(sodiumConcentrationControl);
+        
+        potassiumConcentrationControl = new ConcentrationSlider("Potassium Concentration", 
+        		new AtomNode(new PotassiumIon(), null, new ModelViewTransform2D()));
+        addControlFullWidth(potassiumConcentrationControl);
+        
         // Layout
         {
             addResetAllButton( module );
@@ -139,6 +152,28 @@ public class NeuronControlPanel extends ControlPanel {
             setMinorTicksVisible(false);
             setBorder( BorderFactory.createEtchedBorder() );
             setSnapToTicks(true);
+            
+            // Set the icon and the text alignment in a way that works well
+            // for this particular control.
+            JLabel _valueLabel = getValueLabel();
+            _valueLabel.setIcon( new ImageIcon(icon.toImage(40, 40, new Color(0,0,0,0))) );
+            _valueLabel.setVerticalTextPosition( JLabel.CENTER );
+            _valueLabel.setHorizontalTextPosition( JLabel.LEFT );
+
+		}
+    }
+
+    private static class ConcentrationSlider extends LinearValueControl{
+    	
+        public ConcentrationSlider(String title, PNode icon) {
+            super( 0, 100, title, "0", "");
+            setUpDownArrowDelta( 1 );
+            setTextFieldVisible(false);
+            setTickPattern( "0" );
+            setMajorTickSpacing( 25 );
+            setMinorTicksVisible(false);
+            setBorder( BorderFactory.createEtchedBorder() );
+            setSnapToTicks(false);
             
             // Set the icon and the text alignment in a way that works well
             // for this particular control.
