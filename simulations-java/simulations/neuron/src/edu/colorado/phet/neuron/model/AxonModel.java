@@ -192,6 +192,12 @@ public class AxonModel {
 		}
 	}
 	
+	private void notifyConcentrationGradientChanged(AtomType atomType){
+		for (Listener listener : listeners){
+			listener.concentrationRatioChanged(atomType);
+		}
+	}
+	
     private void updateAtomVelocity(Atom atom){
     	
     	// Convert the position to polar coordinates.
@@ -336,6 +342,28 @@ public class AxonModel {
     //----------------------------------------------------------------------------
     
     public interface Listener{
+    	/**
+    	 * Notification that a channel was added.  Note that is is
+    	 * assumed that the listener will register with the channel itself
+    	 * in order to get notified of its removal, which is why there is no
+    	 * "channelRemoved" notification.
+    	 * 
+    	 * @param channel - Channel that was added.
+    	 */
     	public void channelAdded(AbstractMembraneChannel channel);
+    	
+    	/**
+    	 * Notification that the concentration gradient for the given atom
+    	 * type had changed.
+    	 * 
+    	 * @param atomType - Atom for which the concentration gradient has
+    	 * changed.
+    	 */
+    	public void concentrationRatioChanged(AtomType atomType);
+    }
+    
+    public static class Adapter implements Listener{
+		public void channelAdded(AbstractMembraneChannel channel) {}
+		public void concentrationRatioChanged(AtomType atomType) {}
     }
 }
