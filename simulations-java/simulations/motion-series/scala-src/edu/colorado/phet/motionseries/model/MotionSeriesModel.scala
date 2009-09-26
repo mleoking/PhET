@@ -181,7 +181,9 @@ case class RecordedState(rampState: RampState,
                          walls: Boolean,
                          motionStrategyMemento: MotionStrategyMemento)
 
-class MotionSeriesModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngle: Double)
+class MotionSeriesModel(defaultBeadPosition: Double,
+		pausedOnReset: Boolean,
+		initialAngle: Double)
         extends RecordModel[RecordedState] with ObjectModel with RampSurfaceModel {
   private var _walls = true
   private var _frictionless = MotionSeriesDefaults.FRICTIONLESS_DEFAULT

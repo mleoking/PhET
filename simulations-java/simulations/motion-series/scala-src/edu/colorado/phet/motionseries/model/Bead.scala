@@ -54,6 +54,9 @@ class Bead(private var _state: BeadState,
         extends Observable {
   def wallsExist = _wallsExist
 
+  //This method allows bead subclasses to avoid thermal energy by overriding this to return 0.0
+  def getThermalEnergy(x:Double) = x
+
   val id = Bead.nextIndex()
   val crashListeners = new ArrayBuffer[() => Unit]
   private var _gravity = -9.8
