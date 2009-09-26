@@ -50,12 +50,13 @@ class Bead(private var _state: BeadState,
            val wallsBounce: () => Boolean,
            __surfaceFrictionStrategy: SurfaceFrictionStrategy,
            _wallsExist: => Boolean,
-           val wallRange: () => Range)
+           val wallRange: () => Range,
+           thermalEnergyStrategy: Double=>Double)
         extends Observable {
   def wallsExist = _wallsExist
 
   //This method allows bead subclasses to avoid thermal energy by overriding this to return 0.0
-  def getThermalEnergy(x:Double) = x
+  def getThermalEnergy(x:Double) = thermalEnergyStrategy(x)
 
   val id = Bead.nextIndex()
   val crashListeners = new ArrayBuffer[() => Unit]
