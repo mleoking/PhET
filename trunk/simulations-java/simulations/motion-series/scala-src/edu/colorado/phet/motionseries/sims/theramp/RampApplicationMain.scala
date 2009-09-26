@@ -7,11 +7,11 @@ import edu.colorado.phet.motionseries.Predef._
 object RampApplicationMain {
   def main(args: Array[String]) = new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "the-ramp".literal, classOf[RampApplication])
 }
-
-object RampWorkEnergyApplicationMain {
-  def main(args: Array[String]) = new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "the-ramp".literal, classOf[RampWorkEnergyApplication])
-}
-
-object RobotMovingCompanyApplicationMain {
-  def main(args: Array[String]) = new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "robot-moving-company".literal, classOf[RobotMovingCompanyApplication])
-}
+//
+//object RampWorkEnergyApplicationMain {
+//  def main(args: Array[String]) = new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "the-ramp".literal, classOf[RampWorkEnergyApplication])
+//}
+//
+//object RobotMovingCompanyApplicationMain {
+//  def main(args: Array[String]) = new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "robot-moving-company".literal, classOf[RobotMovingCompanyApplication])
+//}
