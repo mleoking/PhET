@@ -27,6 +27,12 @@ class BasicMovingManModule(frame: JFrame,
                            showFrictionControl: Boolean,
                            rampLayoutArea: Rectangle2D,stageContainerArea:StageContainerArea)
         extends MotionSeriesModule(frame, clock, name, defaultBeadPosition, pausedOnReset, initialAngle) {
+	
+	override def createMotionSeriesModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngle: Double) = 
+		new MotionSeriesModel(defaultBeadPosition, pausedOnReset, initialAngle){
+			override def thermalEnergyStrategy(x:Double) = 0.0
+		}
+	
   val canvas = new MovingManCanvas(motionSeriesModel, coordinateSystemModel, fbdModel, vectorViewModel, frame, showObjectSelectionNode, showAppliedForceSlider, initialAngle != 0.0, rampLayoutArea,stageContainerArea)
   setSimulationPanel(canvas)
   //  val controlPanel = new RampControlPanel(motionSeriesModel, wordModel, fbdModel, coordinateSystemModel, vectorViewModel,

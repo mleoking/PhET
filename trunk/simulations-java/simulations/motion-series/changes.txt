@@ -1,3 +1,5 @@
+Removed heat from moving man model
+Removed pusher from moving man
 Made it so text boxes are not editable for x,v,a in Forces and Motion
 Removed sliders from x,v,a graphs in Forces and Motion
 # 1.03.42 (35247) Sep 24, 2009
