@@ -368,6 +368,7 @@ class Grounded(bead: Bead) extends MotionStrategy(bead) {
       println("failed to conserve energy, delta=".literal + delta + ", applied energy = " + appliedEnergy)
     }
 
-    stateAfterFixingPosition
+    val stateAfterPatchingUpThermalEnergy = stateAfterFixingPosition.setThermalEnergy(bead.getThermalEnergy(stateAfterFixingPosition.thermalEnergy))
+    stateAfterPatchingUpThermalEnergy
   }
 }

@@ -6,8 +6,13 @@ import edu.colorado.phet.scalacommon.ScalaClock
 import edu.colorado.phet.motionseries.model._
 
 //TODO: improve inheritance/composition scheme for different applications/modules/canvases/models
-class MotionSeriesModule(frame: JFrame, clock: ScalaClock, name: String, defaultBeadPosition: Double, pausedOnReset: Boolean,
-                         initialAngle: Double) extends Module(name, clock) {
+class MotionSeriesModule(frame: JFrame, 
+		clock: ScalaClock, 
+		name: String, 
+		defaultBeadPosition: Double, 
+		pausedOnReset: Boolean,
+        initialAngle: Double)
+        extends Module(name, clock) {
   def createMotionSeriesModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngle: Double) = new MotionSeriesModel(defaultBeadPosition, pausedOnReset, initialAngle)
 
   val motionSeriesModel = createMotionSeriesModel(defaultBeadPosition, pausedOnReset, initialAngle)
