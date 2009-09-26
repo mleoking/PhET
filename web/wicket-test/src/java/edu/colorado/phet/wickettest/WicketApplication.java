@@ -108,6 +108,7 @@ public class WicketApplication extends WebApplication {
 
         mount( new HybridUrlCodingStrategy( "/error", ErrorPage.class ) );
         mount( new HybridUrlCodingStrategy( "/error/404", NotFoundPage.class ) );
+        mount( new HybridUrlCodingStrategy( "/activities", BlankPage.class ) );
 
     }
 
