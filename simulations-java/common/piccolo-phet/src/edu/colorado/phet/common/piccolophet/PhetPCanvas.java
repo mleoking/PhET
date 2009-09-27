@@ -89,7 +89,7 @@ public class PhetPCanvas extends PSwingCanvas implements Updatable {
      * 
      * @param worldTransformStrategy
      */
-    public PhetPCanvas( TransformStrategy worldTransformStrategy ) {
+    public PhetPCanvas( PhetPCanvas.TransformStrategy worldTransformStrategy ) {
         
         // things look lousy while interacting & animating unless we set these
         setAnimatingRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
