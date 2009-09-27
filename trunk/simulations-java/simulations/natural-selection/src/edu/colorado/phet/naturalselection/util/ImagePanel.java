@@ -7,9 +7,9 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.*;
 
+import edu.colorado.phet.naturalselection.NaturalSelectionApplication;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionResources;
-import edu.colorado.phet.naturalselection.NaturalSelectionApplication;
 
 /**
  * Creates a panel that contains the desired image

@@ -13,7 +13,7 @@ import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
 import edu.colorado.phet.naturalselection.control.NaturalSelectionControlPanel;
 import edu.colorado.phet.naturalselection.dialog.BunniesTakeOverDialog;
 import edu.colorado.phet.naturalselection.dialog.GameOverDialog;
-import edu.colorado.phet.naturalselection.dialog.GenerationChartDialog;
+import edu.colorado.phet.naturalselection.dialog.PedigreeChartDialog;
 import edu.colorado.phet.naturalselection.model.Bunny;
 import edu.colorado.phet.naturalselection.model.NaturalSelectionClock;
 import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
@@ -30,7 +30,7 @@ public class NaturalSelectionModule extends PiccoloModule {
     private NaturalSelectionModel model;
     private NaturalSelectionCanvas canvas;
     private NaturalSelectionControlPanel controlPanel;
-    private GenerationChartDialog generationChartDialog;
+    private PedigreeChartDialog pedigreeChartDialog;
     private GameOverDialog gameOverDialog;
     private BunniesTakeOverDialog bunniesTakeOverDialog;
 
@@ -67,8 +67,8 @@ public class NaturalSelectionModule extends PiccoloModule {
         controlPanel.reset();
         canvas.reset();
         model.reset();
-        if ( generationChartDialog != null ) {
-            generationChartDialog.generationChartPanel.reset();
+        if ( pedigreeChartDialog != null ) {
+            pedigreeChartDialog.pedigreeChartPanel.reset();
         }
         gameOverDialog = null;
     }
@@ -89,22 +89,22 @@ public class NaturalSelectionModule extends PiccoloModule {
      * Shows the generation chart dialog
      */
     public void showGenerationChart() {
-        if ( generationChartDialog == null ) {
-            //generationChartDialog = new GenerationChartDialog( parentFrame, model );
-            generationChartDialog = new GenerationChartDialog( null, model );
-            //SwingUtils.centerDialogInParent( generationChartDialog );
-            generationChartDialog.addWindowListener( new WindowAdapter() {
+        if ( pedigreeChartDialog == null ) {
+            //pedigreeChartDialog = new PedigreeChartDialog( parentFrame, model );
+            pedigreeChartDialog = new PedigreeChartDialog( null, model );
+            //SwingUtils.centerDialogInParent( pedigreeChartDialog );
+            pedigreeChartDialog.addWindowListener( new WindowAdapter() {
                 // called when the close button in the dialog's window dressing is clicked
                 public void windowClosing( WindowEvent e ) {
-                    generationChartDialog.dispose();
+                    pedigreeChartDialog.dispose();
                 }
 
                 // called by JDialog.dispose
                 public void windowClosed( WindowEvent e ) {
-                    generationChartDialog = null;
+                    pedigreeChartDialog = null;
                 }
             } );
-            generationChartDialog.setVisible( true );
+            pedigreeChartDialog.setVisible( true );
         }
     }
 
@@ -158,7 +158,7 @@ public class NaturalSelectionModule extends PiccoloModule {
         return controlPanel;
     }
 
-    public GenerationChartDialog getMyGenerationChartDialog() {
-        return generationChartDialog;
+    public PedigreeChartDialog getMyGenerationChartDialog() {
+        return pedigreeChartDialog;
     }
 }

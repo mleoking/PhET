@@ -3,12 +3,13 @@
 package edu.colorado.phet.naturalselection.view.sprites;
 
 import edu.colorado.phet.common.phetcommon.math.Point3D;
+import edu.colorado.phet.naturalselection.NaturalSelectionApplication;
 import edu.colorado.phet.naturalselection.model.Allele;
 import edu.colorado.phet.naturalselection.model.Bunny;
 import edu.colorado.phet.naturalselection.model.Landscape;
+import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
 import edu.colorado.phet.naturalselection.view.DisplayBunnyNode;
 import edu.colorado.phet.naturalselection.view.LandscapeNode;
-import edu.colorado.phet.naturalselection.NaturalSelectionApplication;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -30,13 +31,14 @@ public class BunnyNode extends NaturalSelectionSprite implements Bunny.Listener 
     /**
      * Constructor
      *
+     * @param model          The model
      * @param colorPhenotype The color
      * @param teethPhenotype The teeth
      * @param tailPhenotype  The tail
      * @param landscapeNode  The 3-D coordinates handler for this bunnynode
      * @param position       The initial bunny position
      */
-    public BunnyNode( Allele colorPhenotype, Allele teethPhenotype, Allele tailPhenotype, LandscapeNode landscapeNode, Point3D position ) {
+    public BunnyNode( final NaturalSelectionModel model, Allele colorPhenotype, Allele teethPhenotype, Allele tailPhenotype, LandscapeNode landscapeNode, Point3D position ) {
         super( landscapeNode, position );
 
         this.landscapeNode = landscapeNode;
@@ -48,6 +50,7 @@ public class BunnyNode extends NaturalSelectionSprite implements Bunny.Listener 
         setBunnyOffset();
 
         rescale();
+
     }
 
     public void setPosition( Point3D position ) {
@@ -99,4 +102,5 @@ public class BunnyNode extends NaturalSelectionSprite implements Bunny.Listener 
     private void setBunnyOffset() {
         displayHolder.setOffset( -displayBunnyNode.getBunnyWidth() / 2, -displayBunnyNode.getBunnyHeight() );
     }
+
 }

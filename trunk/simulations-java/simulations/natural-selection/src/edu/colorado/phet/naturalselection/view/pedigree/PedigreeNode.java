@@ -1,183 +1,228 @@
-/* Copyright 2009, University of Colorado */
-
 package edu.colorado.phet.naturalselection.view.pedigree;
 
-import java.awt.geom.Point2D;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.awt.*;
 
-import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
+import edu.colorado.phet.naturalselection.model.Bunny;
 import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
+import edu.colorado.phet.naturalselection.view.GenerationBunnyNode;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
 
-/**
- * Shows generations of bunnies in the classical hereditary format with a "family tree".
- *
- * @author Jonathan Olson
- */
-public class PedigreeNode extends PNode implements NaturalSelectionModel.Listener {
+public class PedigreeNode extends PNode {
 
-    // model reference
+    private PBoundedNode child;
+
     private NaturalSelectionModel model;
 
-    // GenerationNode in order of display
-    private LinkedList<GenerationNode> generations;
+    private static final double BUNNY_WIDTH = 60.0;
 
-    // vertical space between generations
-    private static final double GENERATION_VERTICAL_SPACER = 15.0;
+    private static final int MAX_LEVEL = 4;
 
-    // initial offset at the top
-    private static final double INITIAL_Y_OFFSET = 0;
+    private static final double LINE_PAD_HORIZ = 2.0;
+    private static final double LINE_PAD_VERT = 2.0;
 
-    // incremented offset for positioning generations
-    private double yoffset = INITIAL_Y_OFFSET;
-
-    public List<Listener> listeners;
-
-    /**
-     * Constructor
-     *
-     * @param model The natural selection model
-     */
     public PedigreeNode( NaturalSelectionModel model ) {
         this.model = model;
-
-        listeners = new LinkedList<Listener>();
-
-        generations = new LinkedList<GenerationNode>();
-
-        int minGeneration = 0;
-        int maxGeneration = model.getGeneration();
-        if ( maxGeneration - minGeneration > NaturalSelectionConstants.getSettings().getBunniesDieWhenTheyAreThisOld() ) {
-            minGeneration = maxGeneration - NaturalSelectionConstants.getSettings().getBunniesDieWhenTheyAreThisOld();
-        }
-
-        // add only the latest generations if we have at least 2 dead generations
-
-        for ( int i = minGeneration; i <= maxGeneration; i++ ) {
-            addGeneration( i );
-        }
-
-        model.addListener( this );
     }
 
     public void reset() {
-        Iterator<GenerationNode> iter = generations.iterator();
-
-        while ( iter.hasNext() ) {
-            removeChild( iter.next() );
-        }
-
-        generations = new LinkedList<GenerationNode>();
-
-        yoffset = INITIAL_Y_OFFSET;
-
-        addGeneration( 0 );
-    }
-
-    /**
-     * Add a generation onto the bottom
-     *
-     * @param genNumber The generation number to fetch and display
-     */
-    private void addGeneration( int genNumber ) {
-        // create a GenerationNode display node
-        GenerationNode gen = new GenerationNode( model, this, genNumber );
-
-        // position it at the y offset
-        gen.setOffset( 0, yoffset );
-
-        // add its height + the spacer to the y offset
-        yoffset += gen.getGenerationHeight() + GENERATION_VERTICAL_SPACER;
-
-        // visually add it
-        addChild( gen );
-
-        // if there is a generation above, draw the lines on it to show the genetic relationships
-        if ( generations.size() != 0 ) {
-            ( generations.getLast() ).drawChildLines( gen );
-        }
-
-        // add this to the end of the generations list
-        generations.add( gen );
-
-        notifyGenerationAdded();
-    }
-
-    /**
-     * Gets rid of the oldest generation (visually), and moves the rest up vertically
-     */
-    public void popGeneration() {
-        PNode oldGen = generations.get( 0 );
-
-        generations.remove( 0 );
-
-        removeChild( oldGen );
-
-        // TODO: run cleanup on all of oldGen's child nodes (for memory purposes)
-
-        // the space to move the newer generations up
-        double space = ( generations.get( 0 ) ).getOffset().getY();
-
-        //System.out.println( "Space: " + space );
-
-        yoffset -= space;
-
-        Iterator<GenerationNode> iter = generations.iterator();
-
-        // move all of the newer generations up
-        while ( iter.hasNext() ) {
-            PNode gen = iter.next();
-            Point2D offset = gen.getOffset();
-            gen.setOffset( offset.getX(), offset.getY() - space );
+        if ( child != null ) {
+            removeChild( child );
+            child = null;
         }
     }
 
-    //----------------------------------------------------------------------------
-    // Event handlers
-    //----------------------------------------------------------------------------
+    public void displayBunny( Bunny bunny ) {
+        System.out.println( "displayBunny (in PedigreeNode)" );
+        reset();
+        /*
+        GenerationBunnyNode theBunny = new GenerationBunnyNode( bunny );
+        addChild( theBunny );
 
-    public void onEvent( NaturalSelectionModel.Event event ) {
-        if ( event.getType() == NaturalSelectionModel.Event.TYPE_NEW_GENERATION ) {
-            //int generation = event.getModel().getGeneration();
-            int generation = event.getNewGeneration();
-            if ( generation == 0 ) {
-                // we need to reset this again, since the model has changed!
-                reset();
-                return;
-            }
+        double bunnyWidth = theBunny.getBunnyWidth();
 
-            if ( generation > NaturalSelectionConstants.getSettings().getBunniesDieWhenTheyAreThisOld() ) {
-                popGeneration();
-            }
-            addGeneration( generation );
+        double bunnyScale = BUNNY_WIDTH / bunnyWidth;
+        double bunnyHeight = theBunny.getBunnyHeight();
+        PPath path = PPath.createRectangle( 0, 0, (float) theBunny.getBunnyWidth(), (float) theBunny.getBunnyHeight() );
+        theBunny.scale( bunnyScale );
+        theBunny.setOffset( -BUNNY_WIDTH / 2, 0 );
+        path.setStroke( new BasicStroke( 10.0f ) );
+        path.setPaint( new Color( 0, 0, 0, 0 ) );
+        path.setStrokePaint( Color.RED );
+        theBunny.addChild( path );
+        */
+
+        child = getBlock( bunny, 0, getBunnyMaxLevel( bunny ) );
+        addChild( child );
+    }
+
+    private static double desiredBunnyWidth( int level ) {
+        if ( level == 0 ) {
+            return 60.0;
         }
-        if ( event.getType() == NaturalSelectionModel.Event.TYPE_NEW_BUNNY ) {
-            if ( event.getNewBunny() == model.getRootMother() ) {
-                reset();
-            }
+        else if ( level == 1 ) {
+            return 50.0;
+        }
+        else if ( level == 2 ) {
+            return 40.0;
+        }
+        else if ( level == 3 ) {
+            return 30.0;
+        }
+        else if ( level == 4 ) {
+            return 20.0;
+        }
+
+        return 20.0;
+    }
+
+    private static double getVPad( int level ) {
+        return 10;
+    }
+
+    private static double getHPad( int level ) {
+        if ( level == 0 ) {
+            return 40.0;
+        }
+        else if ( level == 1 ) {
+            return 30.0;
+        }
+        else if ( level == 2 ) {
+            return 20.0;
+        }
+        else if ( level == 3 ) {
+            return 15.0;
+        }
+        else if ( level == 4 ) {
+            return 10.0;
+        }
+
+        return 10;
+    }
+
+    private static double getBunnyScale( GenerationBunnyNode node, int level ) {
+        return desiredBunnyWidth( level ) / node.getBunnyWidth();
+    }
+
+    private static PPath line( double x1, double y1, double x2, double y2 ) {
+        PPath ret = PPath.createLine( (float) x1, (float) y1, (float) x2, (float) y2 );
+        ret.setStroke( new BasicStroke( 1.0f ) );
+        ret.setPaint( new Color( 0, 0, 0, 0 ) );
+        ret.setStrokePaint( Color.BLACK );
+        return ret;
+    }
+
+    private static PBoundedNode getBlock( Bunny bunny, int level, int maxLevel ) {
+        PBoundedNode ret = new PBoundedNode();
+
+        GenerationBunnyNode bunnyNode = new GenerationBunnyNode( bunny );
+        double bunnyScale = getBunnyScale( bunnyNode, level );
+        double bunnyWidth = bunnyScale * bunnyNode.getBunnyWidth();
+        double bunnyHeight = bunnyScale * bunnyNode.getBunnyHeight();
+        bunnyNode.scale( bunnyScale );
+        ret.addChild( bunnyNode );
+
+        ret.setBunnyWidth( bunnyWidth );
+        ret.setBunnyHeight( bunnyHeight );
+
+        if ( level == maxLevel ) {
+            bunnyNode.setOffset( -bunnyWidth / 2, 0 );
+            ret.setBoundWidth( bunnyWidth );
+            ret.setBoundHeight( bunnyHeight );
+        }
+        else {
+            PBoundedNode fatherNode = getBlock( bunny.getFather(), level + 1, maxLevel );
+            PBoundedNode motherNode = getBlock( bunny.getMother(), level + 1, maxLevel );
+            double fatherWidth = fatherNode.getBoundWidth();
+            double fatherHeight = fatherNode.getBoundHeight();
+            double motherWidth = motherNode.getBoundWidth();
+            double motherHeight = motherNode.getBoundHeight();
+            double fatherOffset = -getHPad( maxLevel ) / 2 - fatherWidth / 2;
+            fatherNode.setOffset( fatherOffset, 0 );
+            double motherOffset = getHPad( maxLevel ) / 2 + motherWidth / 2;
+            motherNode.setOffset( motherOffset, 0 );
+            ret.setBoundWidth( fatherWidth + motherWidth + getHPad( maxLevel ) );
+            double maxChildHeight = fatherHeight > motherHeight ? fatherHeight : motherHeight;
+            double maxChildBunnyHeight = fatherNode.getBunnyHeight() > motherNode.getBunnyHeight() ? fatherNode.getBunnyHeight() : motherNode.getBunnyHeight();
+            bunnyNode.setOffset( -bunnyWidth / 2, maxChildHeight + getVPad( level ) );
+            ret.setBoundHeight( maxChildHeight + getVPad( level ) + bunnyHeight );
+            ret.addChild( fatherNode );
+            ret.addChild( motherNode );
+            double crossHeight = maxChildHeight - maxChildBunnyHeight / 2;
+            ret.addChild( line( fatherOffset + fatherNode.getBunnyWidth() / 2 + LINE_PAD_HORIZ, crossHeight, motherOffset - motherNode.getBunnyWidth() / 2 - LINE_PAD_HORIZ, crossHeight ) );
+            ret.addChild( line( 0, crossHeight, 0, maxChildHeight + getVPad( level ) - LINE_PAD_VERT ) );
+        }
+
+        /*
+        PPath path = PPath.createRectangle( -(float) ret.getBoundWidth() / 2, 0, (float) ret.getBoundWidth(), (float) ret.getBoundHeight() );
+        path.setStroke( new BasicStroke( 2.0f ) );
+        path.setPaint( new Color( 0, 0, 0, 0 ) );
+        path.setStrokePaint( Color.BLUE );
+        ret.addChild( path );
+        */
+
+        return ret;
+    }
+
+    private static int getBunnyMaxLevel( Bunny bunny ) {
+        return getBunnyMaxLevel( bunny, 0 );
+    }
+
+    private static int getBunnyMaxLevel( Bunny bunny, int depth ) {
+        if ( depth == MAX_LEVEL ) {
+            return depth;
+        }
+
+        Bunny father = bunny.getFather();
+        Bunny mother = bunny.getMother();
+
+        if ( father == null || mother == null ) {
+            return depth;
+        }
+
+        int fatherLevel = getBunnyMaxLevel( father, depth + 1 );
+        int motherLevel = getBunnyMaxLevel( mother, depth + 1 );
+
+        // return min
+        return fatherLevel > motherLevel ? motherLevel : fatherLevel;
+    }
+
+    private static class PBoundedNode extends PNode {
+        private double boundWidth;
+        private double boundHeight;
+        private double bunnyWidth;
+        private double bunnyHeight;
+
+        public double getBoundWidth() {
+            return boundWidth;
+        }
+
+        public void setBoundWidth( double boundWidth ) {
+            this.boundWidth = boundWidth;
+        }
+
+        public double getBoundHeight() {
+            return boundHeight;
+        }
+
+        public void setBoundHeight( double boundHeight ) {
+            this.boundHeight = boundHeight;
+        }
+
+        public double getBunnyWidth() {
+            return bunnyWidth;
+        }
+
+        public void setBunnyWidth( double bunnyWidth ) {
+            this.bunnyWidth = bunnyWidth;
+        }
+
+        public double getBunnyHeight() {
+            return bunnyHeight;
+        }
+
+        public void setBunnyHeight( double bunnyHeight ) {
+            this.bunnyHeight = bunnyHeight;
         }
     }
-
-
-    public void notifyGenerationAdded() {
-        for ( Listener listener : listeners ) {
-            listener.onGenerationAdded();
-        }
-    }
-
-
-    public void addListener( Listener listener ) {
-        listeners.add( listener );
-    }
-
-    public void removeListener( Listener listener ) {
-        listeners.remove( listener );
-    }
-
-    public static interface Listener {
-        public void onGenerationAdded();
-    }
-
 }

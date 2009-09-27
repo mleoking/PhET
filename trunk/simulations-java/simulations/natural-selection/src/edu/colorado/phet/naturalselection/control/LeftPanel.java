@@ -6,10 +6,10 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.naturalselection.NaturalSelectionApplication;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionResources;
 import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
-import edu.colorado.phet.naturalselection.NaturalSelectionApplication;
 import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
 import edu.colorado.phet.naturalselection.persistence.NaturalSelectionConfig;
 

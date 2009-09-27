@@ -68,20 +68,20 @@ public class GenerationNode extends PNode {
      * Height of bunnies if there are any
      */
     private double cachedGenerationHeight = 0;
-    private PedigreeNode pedigreeNode;
+    private OldPedigreeNode oldPedigreeNode;
 
     private NaturalSelectionModel model;
 
     /**
      * Constructor
      *
-     * @param model        The model
-     * @param pedigreeNode The "parent" pedigree node
-     * @param generation   The generation number to fetch and display
+     * @param model           The model
+     * @param oldPedigreeNode The "parent" pedigree node
+     * @param generation      The generation number to fetch and display
      */
-    public GenerationNode( NaturalSelectionModel model, PedigreeNode pedigreeNode, int generation ) {
+    public GenerationNode( NaturalSelectionModel model, OldPedigreeNode oldPedigreeNode, int generation ) {
         this.model = model;
-        this.pedigreeNode = pedigreeNode;
+        this.oldPedigreeNode = oldPedigreeNode;
         this.generation = generation;
 
         // get all bunnies of this generation
