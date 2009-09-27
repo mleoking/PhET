@@ -1,3 +1,5 @@
+# 0.01.31 (35284) Sep 27, 2009
+9/27/09 Added pedigree charts
 # 0.01.30 (33499) Jul 21, 2009
 7/21/09 Added high-contrast modifications for windows
 # 0.01.29 (33374) Jul 16, 2009
