@@ -13,6 +13,9 @@ import edu.colorado.phet.scalacommon.ScalaClock
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 import edu.colorado.phet.motionseries.sims.theramp.StageContainerArea
 import edu.colorado.phet.motionseries.{MotionSeriesModule, MotionSeriesDefaults}
+import edu.colorado.phet.motionseries.swing.ScalaValueControl
+import edu.umd.cs.piccolox.pswing.PSwing
+import edu.umd.cs.piccolo.util.PDebug
 
 class BasicMovingManModule(frame: JFrame,
                            clock: ScalaClock,
@@ -65,7 +68,13 @@ class MovingManCanvas(model: MotionSeriesModel, coordinateSystemModel: Adjustabl
 
 class IntroModule(frame: JFrame, clock: ScalaClock)
         extends BasicMovingManModule(frame, clock, "moving-man.module.intro.title".translate, false, false, false, false,
-          -6, false, 0.0, true, MotionSeriesDefaults.movingManIntroViewport,MotionSeriesDefaults.fullScreenArea)
+          -6, false, 0.0, true, MotionSeriesDefaults.movingManIntroViewport,MotionSeriesDefaults.fullScreenArea){
+	
+	//TODO: Setter needs to use the dynamical-model-aware setter for position, so it is not overwritten
+	val control = new ScalaValueControl(-10,10,"position","0.0","m",()=>{motionSeriesModel.bead.position},x => motionSeriesModel.bead.setPosition(x),motionSeriesModel.addListener)
+	canvas.addScreenNode(new PSwing(control))
+	println("adding screen child")
+}
 
 class GraphingModule(frame: JFrame, clock: ScalaClock)
         extends BasicMovingManModule(frame, clock, "moving-man.module.graphing.title".translate, false, false, true, false,
