@@ -1,16 +1,16 @@
 package edu.colorado.phet.naturalselection.util;
 
-import java.awt.image.RGBImageFilter;
-import java.awt.image.BufferedImage;
-import java.awt.image.ImageProducer;
-import java.awt.image.FilteredImageSource;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.awt.image.FilteredImageSource;
+import java.awt.image.ImageProducer;
+import java.awt.image.RGBImageFilter;
 import java.util.HashMap;
 
 import javax.swing.*;
 
-import edu.umd.cs.piccolo.nodes.PImage;
 import edu.colorado.phet.naturalselection.NaturalSelectionResources;
+import edu.umd.cs.piccolo.nodes.PImage;
 
 public abstract class HighContrastImageFilter extends RGBImageFilter {
 

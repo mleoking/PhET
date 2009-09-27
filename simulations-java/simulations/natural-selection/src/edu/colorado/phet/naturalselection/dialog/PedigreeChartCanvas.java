@@ -6,19 +6,20 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionApplication;
+import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
+import edu.colorado.phet.naturalselection.model.Bunny;
 import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
 import edu.colorado.phet.naturalselection.view.pedigree.PedigreeNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * The piccolo canvas where the generation charts are drawn in. Allows changing between the charts
+ * The piccolo canvas where the pedigree charts are drawn in. Allows changing between the charts
  *
  * @author Jonathan Olson
  */
-public class GenerationChartCanvas extends PhetPCanvas {
+public class PedigreeChartCanvas extends PhetPCanvas {
 
     private NaturalSelectionModel model;
     public PedigreeNode pedigreeNode;
@@ -34,7 +35,7 @@ public class GenerationChartCanvas extends PhetPCanvas {
      *
      * @param model The natural selection model
      */
-    public GenerationChartCanvas( NaturalSelectionModel model ) {
+    public PedigreeChartCanvas( NaturalSelectionModel model ) {
         super.setWorldTransformStrategy( new ConstantTransformStrategy( new AffineTransform() ) );
 
         setPreferredSize( NaturalSelectionDefaults.GENERATION_CHART_SIZE );
@@ -45,8 +46,6 @@ public class GenerationChartCanvas extends PhetPCanvas {
 
         rootNode = new PNode();
         addWorldChild( rootNode );
-
-        // add both of the charts
 
         pedigreeNode = new PedigreeNode( model );
 
@@ -74,4 +73,7 @@ public class GenerationChartCanvas extends PhetPCanvas {
         pedigreeNode.reset();
     }
 
+    public void displayBunny( Bunny bunny ) {
+        pedigreeNode.displayBunny( bunny );
+    }
 }

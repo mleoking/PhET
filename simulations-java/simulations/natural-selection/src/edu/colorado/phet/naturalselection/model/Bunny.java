@@ -589,6 +589,13 @@ public class Bunny {
         notifyChangePosition();
     }
 
+    public Bunny getFather() {
+        return father;
+    }
+
+    public Bunny getMother() {
+        return mother;
+    }
 
     /**
      * Cause a bunny to mutate for all mutatable genes

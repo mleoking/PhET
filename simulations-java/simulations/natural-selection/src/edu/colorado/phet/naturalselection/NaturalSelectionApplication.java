@@ -2,10 +2,7 @@
 
 package edu.colorado.phet.naturalselection;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Frame;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.util.Enumeration;
 
 import javax.swing.*;
@@ -56,6 +53,7 @@ public class NaturalSelectionApplication extends PiccoloPhetApplication {
     /*
     * Initializes the modules.
     */
+
     private void initModules() {
 
         Frame parentFrame = getPhetFrame();

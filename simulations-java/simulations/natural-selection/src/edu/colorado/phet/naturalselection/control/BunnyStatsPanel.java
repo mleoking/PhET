@@ -4,8 +4,8 @@ import java.awt.*;
 
 import javax.swing.*;
 
-import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionApplication;
+import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
 
 public class BunnyStatsPanel extends JPanel {

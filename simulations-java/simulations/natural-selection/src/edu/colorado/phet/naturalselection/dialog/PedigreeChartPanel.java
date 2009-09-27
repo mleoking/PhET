@@ -8,24 +8,24 @@ import java.awt.event.ComponentListener;
 
 import javax.swing.*;
 
+import edu.colorado.phet.naturalselection.model.Bunny;
 import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
-import edu.colorado.phet.naturalselection.view.pedigree.PedigreeNode;
 
-public class GenerationChartPanel extends JPanel {
+public class PedigreeChartPanel extends JPanel {
 
     private static final int M = 100;
 
-    public GenerationChartCanvas generationCanvas;
+    public PedigreeChartCanvas pedigreeCanvas;
     public JScrollBar bar;
 
     private NaturalSelectionModel model;
 
-    public GenerationChartPanel( NaturalSelectionModel model ) {
+    public PedigreeChartPanel( NaturalSelectionModel model ) {
         super( new GridBagLayout() );
 
         this.model = model;
 
-        generationCanvas = new GenerationChartCanvas( model );
+        pedigreeCanvas = new PedigreeChartCanvas( model );
         bar = new JScrollBar( JScrollBar.HORIZONTAL );
         bar.setMaximum( M );
         bar.setMinimum( -M );
@@ -37,7 +37,7 @@ public class GenerationChartPanel extends JPanel {
         c.fill = GridBagConstraints.BOTH;
         c.weightx = 1.0;
         c.weighty = 1.0;
-        add( generationCanvas, c );
+        add( pedigreeCanvas, c );
         c.gridy = 1;
         c.weightx = 0;
         c.weighty = 0;
@@ -50,16 +50,8 @@ public class GenerationChartPanel extends JPanel {
             }
         } );
 
-        generationCanvas.pedigreeNode.addListener( new PedigreeNode.Listener() {
-            public void onGenerationAdded() {
-                checkSize();
-            }
-        } );
-
-        generationCanvas.addComponentListener( new ComponentListener() {
+        pedigreeCanvas.addComponentListener( new ComponentListener() {
             public void componentResized( ComponentEvent componentEvent ) {
-                //System.out.println( "Resized to: " + generationCanvas.getSize() );
-                //generationCanvas.setCenterPoint( 0 );
                 checkSize();
             }
 
@@ -78,44 +70,38 @@ public class GenerationChartPanel extends JPanel {
 
         bar.addAdjustmentListener( new AdjustmentListener() {
             public void adjustmentValueChanged( AdjustmentEvent adjustmentEvent ) {
-                /*
-                double bounds = generationCanvas.getRoot().computeFullBounds( null ).width;
-                double size = NaturalSelectionDefaults.GENERATION_CHART_SIZE.getWidth();
-                if ( bounds > size ) {
-                    generationCanvas.setCenterPoint( ( (double) bar.getValue() ) * ( bounds - size ) / ( 2.0 * M ) );
-                }
-                else {
-                    generationCanvas.setCenterPoint( 0 );
-                }
-                */
                 checkSize();
             }
         } );
     }
 
     public void checkSize() {
-        double bounds = generationCanvas.getRoot().computeFullBounds( null ).width;
-        double size = generationCanvas.getSize().getWidth();
+        double bounds = pedigreeCanvas.getRoot().computeFullBounds( null ).width;
+        double size = pedigreeCanvas.getSize().getWidth();
 
         if ( size >= bounds ) {
             bar.setVisible( false );
-            generationCanvas.setCenterPoint( 0 );
+            pedigreeCanvas.setCenterPoint( 0 );
         }
         else {
             if ( bar.isVisible() ) {
-                generationCanvas.setCenterPoint( ( (double) bar.getValue() ) * ( bounds - size ) / ( 2.0 * M ) );
+                pedigreeCanvas.setCenterPoint( ( (double) bar.getValue() ) * ( bounds - size ) / ( 2.0 * M ) );
             }
             else {
                 bar.setVisible( true );
                 bar.setValue( 0 );
-                generationCanvas.setCenterPoint( ( (double) bar.getValue() ) * ( bounds - size ) / ( 2.0 * M ) );
+                pedigreeCanvas.setCenterPoint( ( (double) bar.getValue() ) * ( bounds - size ) / ( 2.0 * M ) );
             }
         }
 
-        generationCanvas.layoutNodes();
+        pedigreeCanvas.layoutNodes();
     }
 
     public void reset() {
-        generationCanvas.reset();
+        pedigreeCanvas.reset();
+    }
+
+    public void displayBunny( Bunny bunny ) {
+        pedigreeCanvas.displayBunny( bunny );
     }
 }

@@ -5,14 +5,14 @@ package edu.colorado.phet.naturalselection.view;
 import java.awt.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
+import edu.colorado.phet.naturalselection.NaturalSelectionApplication;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionResources;
-import edu.colorado.phet.naturalselection.NaturalSelectionApplication;
-import edu.colorado.phet.naturalselection.util.HighContrastImageFilter;
 import edu.colorado.phet.naturalselection.model.Allele;
 import edu.colorado.phet.naturalselection.model.ColorGene;
 import edu.colorado.phet.naturalselection.model.TailGene;
 import edu.colorado.phet.naturalselection.model.TeethGene;
+import edu.colorado.phet.naturalselection.util.HighContrastImageFilter;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -110,6 +110,7 @@ public class DisplayBunnyNode extends PNode {
         path.moveTo( getBunnyWidth(), 0 );
         path.lineTo( 0, getBunnyHeight() );
         deadX.setPathTo( path.getGeneralPath() );
+        deadX.scale( 0.5 );
     }
 
     //----------------------------------------------------------------------------
