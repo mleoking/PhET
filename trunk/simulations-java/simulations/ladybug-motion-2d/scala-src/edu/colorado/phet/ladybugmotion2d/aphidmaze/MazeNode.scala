@@ -2,7 +2,6 @@ package edu.colorado.phet.ladybugmotion2d.aphidmaze
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
-import edu.colorado.phet.ladybugmotion2d.aphidmaze.{AphidMazeModel}
 import java.awt.geom.{AffineTransform, Line2D, Rectangle2D, Point2D}
 import java.awt.{BasicStroke, Point, Color, Cursor}
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils
