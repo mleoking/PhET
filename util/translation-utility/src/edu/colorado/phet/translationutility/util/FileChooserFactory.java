@@ -15,36 +15,58 @@ import javax.swing.filechooser.FileFilter;
 public class FileChooserFactory {
 
     /**
-     * Create a JAR file chooser (for files with a .jar suffix).
-     * 
-     * @param currentDirectory
-     * @return JarFileChooser
+     * Creates a JAR file chooser.
      */
-    public static JarFileChooser createJarFileChooser( File currentDirectory ) {
-        return new JarFileChooser( currentDirectory );
+    public static JFileChooser createJarFileChooser() {
+        return new FilteredFileChooser( ".jar", "JAR files" );
     }
     
-    private static class JarFileFilter extends FileFilter {
-        public boolean accept( File f ) {
-            return f.isDirectory() || f.getName().endsWith( ".jar" );
-        }
-        public String getDescription() {
-            return "JAR files";
-        }
+    /**
+     * Creates a Properties file chooser.
+     */
+    public static JFileChooser createPropertiesFileChooser() {
+        return new FilteredFileChooser( ".properties", "Java string files" );
+    }
+    
+    /**
+     * Creates an XML file chooser.
+     */
+    public static JFileChooser createXMLFileChooser() {
+        return new FilteredFileChooser( ".xml", "Flash string files" );
     }
 
-    public static class JarFileChooser extends FilteredFileChooser {
-        private JarFileChooser( File currentDirectory ) {
-            super( currentDirectory, new JarFileFilter() );
+    /*
+     * File chooser that filters on one type of file.
+     */
+    private static class FilteredFileChooser extends JFileChooser {
+
+        protected FilteredFileChooser( String suffix, String description ) {
+            setAcceptAllFileFilterUsed( false );
+            FileFilter fileFilter = new SingleFileFilter( suffix, description );
+            addChoosableFileFilter( fileFilter );
+            setFileFilter( fileFilter );
         }
     }
     
-    private static class FilteredFileChooser extends JFileChooser {
-        protected FilteredFileChooser( File currentDirectory, FileFilter fileFilter ) {
-            super( currentDirectory );
-            setAcceptAllFileFilterUsed( false );
-            addChoosableFileFilter( fileFilter );
-            setFileFilter( fileFilter );
+    /*
+     * Generic filter for one type of file.
+     */
+    private static class SingleFileFilter extends FileFilter {
+
+        private final String suffix;
+        private final String description;
+
+        public SingleFileFilter( String suffix, String description ) {
+            this.suffix = suffix;
+            this.description = description;
+        }
+
+        public boolean accept( File f ) {
+            return f.isDirectory() || f.getName().endsWith( suffix );
+        }
+
+        public String getDescription() {
+            return description;
         }
     }
 }

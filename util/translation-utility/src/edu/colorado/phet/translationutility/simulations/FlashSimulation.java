@@ -8,10 +8,13 @@ import java.util.Locale;
 import java.util.Properties;
 import java.util.jar.*;
 
+import javax.swing.JFileChooser;
+
 import edu.colorado.phet.common.phetcommon.view.util.StringUtil;
 import edu.colorado.phet.flashlauncher.FlashLauncher;
 import edu.colorado.phet.translationutility.util.Command;
 import edu.colorado.phet.translationutility.util.DocumentAdapter;
+import edu.colorado.phet.translationutility.util.FileChooserFactory;
 import edu.colorado.phet.translationutility.util.TULogger;
 import edu.colorado.phet.translationutility.util.Command.CommandException;
 import edu.colorado.phet.translationutility.util.DocumentIO.DocumentIOException;
@@ -63,7 +66,7 @@ public class FlashSimulation extends AbstractSimulation {
     }
 
     public Properties loadStrings( File file ) throws SimulationException {
-        Properties properties = null;
+        Properties properties = new Properties();
         try {
             properties = DocumentAdapter.readProperties( new FileInputStream( file ) );
         }
@@ -334,5 +337,9 @@ public class FlashSimulation extends AbstractSimulation {
             s += " " + country;
         }
         return s;
+    }
+    
+    public JFileChooser getStringFileChooser() {
+        return FileChooserFactory.createXMLFileChooser();
     }
 }

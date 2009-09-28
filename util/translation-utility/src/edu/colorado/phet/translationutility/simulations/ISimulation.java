@@ -6,6 +6,8 @@ import java.io.File;
 import java.util.Locale;
 import java.util.Properties;
 
+import javax.swing.JFileChooser;
+
 /**
  * ISimulation is the interface implemented by all types of simulations.
  *
@@ -84,4 +86,9 @@ public interface ISimulation {
      * @return
      */
     public String getStringFileSuffix();
+    
+    /**
+     * Gets a file chooser that is appropriate for the simulations string files.
+     */
+    public JFileChooser getStringFileChooser();
 }

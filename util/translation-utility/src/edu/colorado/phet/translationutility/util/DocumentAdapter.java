@@ -38,21 +38,18 @@ public class DocumentAdapter {
      * The XML document is in the format required for Flash simulations.
      * 
      * @param properties
-     * @return Properties, null if the Document didn't contain any relevant elements
+     * @return Properties
      * @throws PropertiesFlashAdapterException
      */
     private static final Properties documentToProperties( Document document ) {
-        Properties properties = null;
+        Properties properties = new Properties();
         NodeList elements = document.getElementsByTagName( STRING_ELEMENT );
         int numberOfNodes = elements.getLength();
-        if ( numberOfNodes > 0 ) {
-            properties = new Properties();
-            for ( int i = 0; i < numberOfNodes; i++ ) {
-                Element element = (Element) elements.item( i );
-                String key = element.getAttribute( KEY_ATTRIBUTE );
-                String value = element.getAttribute( VALUE_ATTRIBUTE );
-                properties.setProperty( key, value );
-            }
+        for ( int i = 0; i < numberOfNodes; i++ ) {
+            Element element = (Element) elements.item( i );
+            String key = element.getAttribute( KEY_ATTRIBUTE );
+            String value = element.getAttribute( VALUE_ATTRIBUTE );
+            properties.setProperty( key, value );
         }
         return properties;
     }
@@ -102,7 +99,7 @@ public class DocumentAdapter {
      * Reads a Properties object from an input stream.
      * 
      * @param fileName
-     * @return Properties, null if the file wasn't read or didn't contain any <string> elements.
+     * @return Properties
      * @throws DocumentIOException
      */
     public static final Properties readProperties( InputStream inputStream ) throws DocumentIOException {
