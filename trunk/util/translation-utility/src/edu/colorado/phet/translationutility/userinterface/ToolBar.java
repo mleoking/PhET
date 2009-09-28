@@ -3,7 +3,6 @@
 package edu.colorado.phet.translationutility.userinterface;
 
 import java.awt.Dimension;
-import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
