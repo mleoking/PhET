@@ -1,4 +1,3 @@
-Correlated horizontal axes of x,v,a charts
 # 1.25.01 (35290) Sep 27, 2009
 9/27/09 Set chart to take up all vertical space by default (in common motion library), see #1782
 # 1.25.00 (34665) Aug 31, 2009
