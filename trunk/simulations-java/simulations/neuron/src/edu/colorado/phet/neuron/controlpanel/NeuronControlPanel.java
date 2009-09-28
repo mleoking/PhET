@@ -10,8 +10,11 @@ import java.awt.geom.Rectangle2D;
 import java.util.Hashtable;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -120,6 +123,7 @@ public class NeuronControlPanel extends ControlPanel {
         		AtomType.POTASSIUM);
         addControlFullWidth(potassiumConcentrationControl);
         
+        addControlFullWidth(createVerticalSpacingPanel(30));
         addResetAllButton( module );
         
         updateChannelControlSliders();
@@ -154,6 +158,13 @@ public class NeuronControlPanel extends ControlPanel {
     	if (potassiumConcentrationControl.getValue() != axonModel.getProportionOfAtomsInside(AtomType.POTASSIUM)){
     		potassiumConcentrationControl.setValue( axonModel.getProportionOfAtomsInside(AtomType.POTASSIUM));
     	}
+    }
+    
+    private JPanel createVerticalSpacingPanel(int space){
+        JPanel spacePanel = new JPanel();
+        spacePanel.setLayout( new BoxLayout( spacePanel, BoxLayout.Y_AXIS ) );
+        spacePanel.add( Box.createVerticalStrut( space ) );
+        return spacePanel;
     }
     
     //----------------------------------------------------------------------------
