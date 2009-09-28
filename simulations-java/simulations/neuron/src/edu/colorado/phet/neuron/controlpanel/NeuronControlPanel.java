@@ -3,9 +3,11 @@
 package edu.colorado.phet.neuron.controlpanel;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Frame;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
+import java.util.Hashtable;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -16,6 +18,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.neuron.NeuronResources;
 import edu.colorado.phet.neuron.model.AbstractLeakChannel;
 import edu.colorado.phet.neuron.model.AbstractMembraneChannel;
@@ -29,6 +32,7 @@ import edu.colorado.phet.neuron.model.SodiumLeakageChannel;
 import edu.colorado.phet.neuron.module.MembraneDiffusionModule;
 import edu.colorado.phet.neuron.view.AtomNode;
 import edu.colorado.phet.neuron.view.MembraneChannelNode;
+import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -204,15 +208,25 @@ public class NeuronControlPanel extends ControlPanel {
 
     private static class ConcentrationSlider extends LinearValueControl{
     	
-        public ConcentrationSlider(String title, final AxonModel axonModel, final AtomType atomType) {
+        private static final Font LABEL_FONT = new PhetFont(12);
+
+		public ConcentrationSlider(String title, final AxonModel axonModel, final AtomType atomType) {
             super( 0, 1, title, "0", "");
             setUpDownArrowDelta( 0.01 );
             setTextFieldVisible(false);
             setTickPattern( "0.00" );
-            setMajorTickSpacing( 0.25 );
             setMinorTicksVisible(false);
             setBorder( BorderFactory.createEtchedBorder() );
             setSnapToTicks(false);
+            
+            Hashtable<Double, JLabel> gravityControlLabelTable = new Hashtable<Double, JLabel>();
+            JLabel leftLabel = new JLabel("Outside");
+            leftLabel.setFont( LABEL_FONT );
+            gravityControlLabelTable.put( new Double( 0 ), leftLabel );
+            JLabel rightLabel = new JLabel("Inside");
+            rightLabel.setFont( LABEL_FONT );
+            gravityControlLabelTable.put( new Double( 1 ), rightLabel );
+            setTickLabels( gravityControlLabelTable );
 
             // Set up the variables that will differ based on the atom type.
             AtomNode atomNode;
