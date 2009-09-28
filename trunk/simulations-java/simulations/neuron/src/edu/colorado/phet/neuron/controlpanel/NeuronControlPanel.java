@@ -81,9 +81,17 @@ public class NeuronControlPanel extends ControlPanel {
         
         // Listen to the model for changes that affect this control panel.
         model.addListener(new AxonModel.Adapter(){
+        	@Override
     		public void channelAdded(AbstractMembraneChannel channel) {
     			updateChannelControlSliders();
     		}
+        	
+        	@Override
+			public void channelRemoved(AbstractMembraneChannel channel) {
+        		updateChannelControlSliders();
+			}
+
+			@Override
     		public void concentrationRatioChanged(AtomType atomType) {
     			updateConcentrationControlSliders();
     		}

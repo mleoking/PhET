@@ -70,8 +70,11 @@ public class MembraneDiffusionModule extends PiccoloModule {
      */
     public void reset() {
 
-        // reset the clock
+        // Reset the clock
         NeuronClock clock = model.getClock();
         clock.resetSimulationTime();
+        
+        // Reset the model.
+        model.reset();
     }    
 }

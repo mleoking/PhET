@@ -167,6 +167,19 @@ public class AxonModel {
     //----------------------------------------------------------------------------
     // Other Methods
     //----------------------------------------------------------------------------
+    
+    public void reset(){
+    	// Remove all channels.
+    	ArrayList<AbstractMembraneChannel> tempChannelList = new ArrayList<AbstractMembraneChannel>(channels);
+    	for ( AbstractMembraneChannel channel : tempChannelList){
+    		removeChannel(channel.getChannelType());
+    	}
+    	
+    	// Move the atoms to the appropriate initial locations by setting the
+    	// target proportions.
+    	setConcentration(AtomType.SODIUM, 0.5);
+    	setConcentration(AtomType.POTASSIUM, 0.5);
+    }
 
     /**
      * Get the proportion of atoms that are inside the axon membrane.  A value
@@ -278,6 +291,12 @@ public class AxonModel {
 	private void notifyChannelAdded(AbstractMembraneChannel channel){
 		for (Listener listener : listeners){
 			listener.channelAdded(channel);
+		}
+	}
+	
+	private void notifyChannelRemoved(AbstractMembraneChannel channel){
+		for (Listener listener : listeners){
+			listener.channelRemoved(channel);
 		}
 	}
 	
@@ -403,6 +422,7 @@ public class AxonModel {
     		channelToRemove.forceReleaseAllAtoms(atoms);
     		channels.remove(channelToRemove);
     		channelToRemove.remove();
+    		notifyChannelRemoved(channelToRemove);
     	}
     }
     
@@ -541,14 +561,18 @@ public class AxonModel {
     
     public interface Listener{
     	/**
-    	 * Notification that a channel was added.  Note that is is
-    	 * assumed that the listener will register with the channel itself
-    	 * in order to get notified of its removal, which is why there is no
-    	 * "channelRemoved" notification.
+    	 * Notification that a channel was added.
     	 * 
     	 * @param channel - Channel that was added.
     	 */
     	public void channelAdded(AbstractMembraneChannel channel);
+    	
+    	/**
+    	 * Notification that a channel was removed.
+    	 * 
+    	 * @param channel - Channel that was removed.
+    	 */
+    	public void channelRemoved(AbstractMembraneChannel channel);
     	
     	/**
     	 * Notification that the concentration gradient for the given atom
@@ -562,6 +586,7 @@ public class AxonModel {
     
     public static class Adapter implements Listener{
 		public void channelAdded(AbstractMembraneChannel channel) {}
+		public void channelRemoved(AbstractMembraneChannel channel) {}
 		public void concentrationRatioChanged(AtomType atomType) {}
     }
 }
