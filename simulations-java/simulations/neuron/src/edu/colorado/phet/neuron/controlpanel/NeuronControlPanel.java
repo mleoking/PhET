@@ -58,8 +58,8 @@ public class NeuronControlPanel extends ControlPanel {
 	private AxonModel axonModel;
 	private LeakChannelSlider sodiumLeakChannelControl;
 	private LeakChannelSlider potassiumLeakChannelControl;
-	private ConcentrationSlider2 sodiumConcentrationControl;
-	private ConcentrationSlider2 potassiumConcentrationControl;
+	private ConcentrationSlider sodiumConcentrationControl;
+	private ConcentrationSlider potassiumConcentrationControl;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -101,11 +101,11 @@ public class NeuronControlPanel extends ControlPanel {
         addControlFullWidth(potassiumLeakChannelControl);
         
         // Add the control for sodium concentration.
-        sodiumConcentrationControl = new ConcentrationSlider2("Sodium Concentration", axonModel, AtomType.SODIUM);
+        sodiumConcentrationControl = new ConcentrationSlider("Sodium Concentration", axonModel, AtomType.SODIUM);
         addControlFullWidth(sodiumConcentrationControl);
         
         // Add the control for potassium concentration.
-        potassiumConcentrationControl = new ConcentrationSlider2("Potassium Concentration", axonModel, 
+        potassiumConcentrationControl = new ConcentrationSlider("Potassium Concentration", axonModel, 
         		AtomType.POTASSIUM);
         addControlFullWidth(potassiumConcentrationControl);
         
@@ -204,28 +204,7 @@ public class NeuronControlPanel extends ControlPanel {
 
     private static class ConcentrationSlider extends LinearValueControl{
     	
-        public ConcentrationSlider(String title, PNode icon) {
-            super( 0, 1, title, "0", "");
-            setUpDownArrowDelta( 0.01 );
-            setTextFieldVisible(false);
-            setTickPattern( "0.00" );
-            setMajorTickSpacing( 0.25 );
-            setMinorTicksVisible(false);
-            setBorder( BorderFactory.createEtchedBorder() );
-            setSnapToTicks(false);
-            
-            // Set the icon and the text alignment in a way that works well
-            // for this particular control.
-            JLabel _valueLabel = getValueLabel();
-            _valueLabel.setIcon( new ImageIcon(icon.toImage(20, 20, new Color(0,0,0,0))) );
-            _valueLabel.setVerticalTextPosition( JLabel.CENTER );
-            _valueLabel.setHorizontalTextPosition( JLabel.LEFT );
-		}
-    }
-    
-    private static class ConcentrationSlider2 extends LinearValueControl{
-    	
-        public ConcentrationSlider2(String title, final AxonModel axonModel, final AtomType atomType) {
+        public ConcentrationSlider(String title, final AxonModel axonModel, final AtomType atomType) {
             super( 0, 1, title, "0", "");
             setUpDownArrowDelta( 0.01 );
             setTextFieldVisible(false);
