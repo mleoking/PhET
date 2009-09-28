@@ -17,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.neuron.NeuronResources;
+import edu.colorado.phet.neuron.model.AbstractLeakChannel;
 import edu.colorado.phet.neuron.model.AbstractMembraneChannel;
 import edu.colorado.phet.neuron.model.AtomType;
 import edu.colorado.phet.neuron.model.AxonModel;
@@ -90,36 +91,15 @@ public class NeuronControlPanel extends ControlPanel {
         setMinimumWidth( minimumWidth );
         
         // TODO: Internationalize.
-        SodiumLeakageChannel sodiumLeakageChannel = new SodiumLeakageChannel();
-        sodiumLeakageChannel.setDimensions( OVERALL_SIZE_OF_LEAK_CHANNEL_ICON, CHANNEL_SIZE_OF_LEAK_CHANNEL_ICON );
-        sodiumLeakageChannel.setRotationalAngle(-Math.PI / 2);
-        sodiumLeakChannelControl = new LeakChannelSlider("Sodium Leak Channels", 
-        		new MembraneChannelNode(sodiumLeakageChannel, MVT));
-        sodiumLeakChannelControl.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				int value = (int)Math.round(sodiumLeakChannelControl.getValue());
-				if ( value != axonModel.getNumMembraneChannels(MembraneChannelTypes.SODIUM_LEAKAGE_CHANNEL) ){
-					axonModel.setNumMembraneChannels(MembraneChannelTypes.SODIUM_LEAKAGE_CHANNEL, value);
-				}
-			}
-		});
+        // Add the control for the number of sodium leakage channels.
+        sodiumLeakChannelControl = new LeakChannelSlider("Sodium Leak Channels", axonModel, AtomType.SODIUM); 
         addControlFullWidth(sodiumLeakChannelControl);
         
-        PotassiumLeakageChannel potassiumLeakChannel = new PotassiumLeakageChannel();
-        potassiumLeakChannel.setDimensions( OVERALL_SIZE_OF_LEAK_CHANNEL_ICON, CHANNEL_SIZE_OF_LEAK_CHANNEL_ICON );
-        potassiumLeakChannel.setRotationalAngle(-Math.PI / 2);
-        potassiumLeakChannelControl = new LeakChannelSlider("Potassium Leak Channels", 
-        		new MembraneChannelNode(potassiumLeakChannel, MVT));
-        potassiumLeakChannelControl.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				int value = (int)Math.round(potassiumLeakChannelControl.getValue());
-				if ( value != axonModel.getNumMembraneChannels(MembraneChannelTypes.POTASSIUM_LEAKAGE_CHANNEL) ){
-					axonModel.setNumMembraneChannels(MembraneChannelTypes.POTASSIUM_LEAKAGE_CHANNEL, value);
-				}
-			}
-		});
+        // Add the control for the number of potassium leakage channels.
+        potassiumLeakChannelControl = new LeakChannelSlider("Potassium Leak Channels", axonModel, AtomType.POTASSIUM); 
         addControlFullWidth(potassiumLeakChannelControl);
         
+        // Add the control for sodium concentration.
         sodiumConcentrationControl = new ConcentrationSlider("Sodium Concentration", 
         		new AtomNode(new SodiumIon(), MVT));
         addControlFullWidth(sodiumConcentrationControl);
@@ -132,6 +112,7 @@ public class NeuronControlPanel extends ControlPanel {
 			}
 		});
         
+        // Add the control for potassium concentration.
         potassiumConcentrationControl = new ConcentrationSlider("Potassium Concentration", 
         		new AtomNode(new PotassiumIon(), MVT));
         addControlFullWidth(potassiumConcentrationControl);
@@ -144,10 +125,7 @@ public class NeuronControlPanel extends ControlPanel {
 			}
 		});
         
-        // Layout
-        {
-            addResetAllButton( module );
-        }
+        addResetAllButton( module );
         
         updateChannelControlSliders();
         updateConcentrationControlSliders();
@@ -189,7 +167,7 @@ public class NeuronControlPanel extends ControlPanel {
     
     private static class LeakChannelSlider extends LinearValueControl{
     	
-        public LeakChannelSlider(String title, PNode icon) {
+        public LeakChannelSlider(String title, final AxonModel axonModel, AtomType atomType) {
             super( 0, 5, title, "0", "");
             setUpDownArrowDelta( 1 );
             setTextFieldVisible(false);
@@ -199,13 +177,44 @@ public class NeuronControlPanel extends ControlPanel {
             setBorder( BorderFactory.createEtchedBorder() );
             setSnapToTicks(true);
             
-            // Set the icon and the text alignment in a way that works well
-            // for this particular control.
+            // Set up the variable that will differ based on the type.
+            AbstractLeakChannel leakChannel;
+            final MembraneChannelTypes channelType;
+            switch (atomType){
+            case SODIUM:
+            	leakChannel = new SodiumLeakageChannel();
+            	channelType = MembraneChannelTypes.SODIUM_LEAKAGE_CHANNEL;
+            	break;
+            case POTASSIUM:
+            	leakChannel = new PotassiumLeakageChannel();
+            	channelType = MembraneChannelTypes.POTASSIUM_LEAKAGE_CHANNEL;
+            	break;
+            	
+            default:
+            	System.err.println(getClass().getName() + " - Error: Unknown leak channel type.");
+            	assert false;
+            	leakChannel = new SodiumLeakageChannel();  // Just in case.
+            	channelType = MembraneChannelTypes.SODIUM_LEAKAGE_CHANNEL; // Just in case.
+            }
+            leakChannel.setDimensions(OVERALL_SIZE_OF_LEAK_CHANNEL_ICON, CHANNEL_SIZE_OF_LEAK_CHANNEL_ICON);
+            leakChannel.setRotationalAngle(-Math.PI / 2);
+            
+            // Create and set the icon image.
+            PNode iconNode = new MembraneChannelNode(leakChannel, MVT);
             JLabel _valueLabel = getValueLabel();
-            _valueLabel.setIcon( new ImageIcon(icon.toImage(40, 40, new Color(0,0,0,0))) );
+            _valueLabel.setIcon( new ImageIcon(iconNode.toImage(40, 40, new Color(0,0,0,0))) );
             _valueLabel.setVerticalTextPosition( JLabel.CENTER );
             _valueLabel.setHorizontalTextPosition( JLabel.LEFT );
 
+            // Register a listener to handle changes.
+            addChangeListener(new ChangeListener() {
+    			public void stateChanged(ChangeEvent e) {
+    				int value = (int)Math.round(getValue());
+    				if ( value != axonModel.getNumMembraneChannels(channelType) ){
+    					axonModel.setNumMembraneChannels(channelType, value);
+    				}
+    			}
+    		});
 		}
     }
 
