@@ -117,6 +117,14 @@ public class NeuronControlPanel extends ControlPanel {
         potassiumConcentrationControl = new ConcentrationSlider("Potassium Concentration", 
         		new AtomNode(new PotassiumIon(), null, new ModelViewTransform2D()));
         addControlFullWidth(potassiumConcentrationControl);
+        potassiumConcentrationControl.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				double value = potassiumConcentrationControl.getValue();
+				if ( value != axonModel.getProportionOfAtomsInside(AtomType.POTASSIUM) ){
+					axonModel.setConcentrationRatio(AtomType.POTASSIUM, value);
+				}
+			}
+		});
         
         // Layout
         {
