@@ -16,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.neuron.NeuronResources;
+import edu.colorado.phet.neuron.model.AbstractMembraneChannel;
 import edu.colorado.phet.neuron.model.AtomType;
 import edu.colorado.phet.neuron.model.AxonModel;
 import edu.colorado.phet.neuron.model.MembraneChannelTypes;
@@ -66,6 +67,16 @@ public class NeuronControlPanel extends ControlPanel {
         super();
         
         this.axonModel = model;
+        
+        // Listen to the model for changes that affect this control panel.
+        model.addListener(new AxonModel.Adapter(){
+    		public void channelAdded(AbstractMembraneChannel channel) {
+    			updateChannelControlSliders();
+    		}
+    		public void concentrationRatioChanged(AtomType atomType) {
+    			updateConcentrationControlSliders();
+    		}
+        });
         
         // Set the control panel's minimum width.
         int minimumWidth = NeuronResources.getInt( "int.minControlPanelWidth", 215 );
@@ -131,14 +142,15 @@ public class NeuronControlPanel extends ControlPanel {
             addResetAllButton( module );
         }
         
-        updateSliders();
+        updateChannelControlSliders();
+        updateConcentrationControlSliders();
     }
     
     //----------------------------------------------------------------------------
     // Methods
     //----------------------------------------------------------------------------
     
-    private void updateSliders(){
+    private void updateChannelControlSliders(){
     	
     	if (sodiumLeakChannelControl.getValue() != 
     		axonModel.getNumMembraneChannels(MembraneChannelTypes.SODIUM_LEAKAGE_CHANNEL)){
@@ -151,6 +163,16 @@ public class NeuronControlPanel extends ControlPanel {
     		
     		potassiumLeakChannelControl.setValue(
     				axonModel.getNumMembraneChannels(MembraneChannelTypes.POTASSIUM_LEAKAGE_CHANNEL));
+    	}
+    }
+    
+    private void updateConcentrationControlSliders(){
+    	
+    	if (sodiumConcentrationControl.getValue() != axonModel.getProportionOfAtomsInside(AtomType.SODIUM)){
+    		sodiumConcentrationControl.setValue( axonModel.getProportionOfAtomsInside(AtomType.SODIUM));
+    	}
+    	if (potassiumConcentrationControl.getValue() != axonModel.getProportionOfAtomsInside(AtomType.POTASSIUM)){
+    		potassiumConcentrationControl.setValue( axonModel.getProportionOfAtomsInside(AtomType.POTASSIUM));
     	}
     }
     
