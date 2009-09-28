@@ -12,7 +12,6 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.neuron.NeuronConstants;
 import edu.colorado.phet.neuron.model.AbstractMembraneChannel;
 import edu.colorado.phet.neuron.model.Atom;
-import edu.colorado.phet.neuron.model.AtomType;
 import edu.colorado.phet.neuron.model.AxonModel;
 import edu.umd.cs.piccolo.PNode;
 

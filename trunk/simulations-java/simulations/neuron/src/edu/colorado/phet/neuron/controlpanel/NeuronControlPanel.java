@@ -32,7 +32,6 @@ import edu.colorado.phet.neuron.model.SodiumLeakageChannel;
 import edu.colorado.phet.neuron.module.MembraneDiffusionModule;
 import edu.colorado.phet.neuron.view.AtomNode;
 import edu.colorado.phet.neuron.view.MembraneChannelNode;
-import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
