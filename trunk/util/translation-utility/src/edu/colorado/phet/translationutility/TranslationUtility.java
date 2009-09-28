@@ -2,12 +2,16 @@
 
 package edu.colorado.phet.translationutility;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.Locale;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
+import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.StringUtil;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.translationutility.simulations.ISimulation;
@@ -64,9 +68,27 @@ public class TranslationUtility extends JFrame {
             jarDirName = ".";
         }
         
-        // open the primary user interface
-        JFrame mainFrame = new MainFrame( simulation, SOURCE_LOCALE, targetLocale, jarDirName );
-        mainFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        // primary user interface
+        final MainFrame mainFrame = new MainFrame( simulation, SOURCE_LOCALE, targetLocale, jarDirName );
+        mainFrame.setDefaultCloseOperation( JFrame.DO_NOTHING_ON_CLOSE );
+
+        // confirm exit if there are unsaved changes
+        mainFrame.addWindowListener( new WindowAdapter() {
+            public void windowClosing( WindowEvent event ) {
+                System.out.println( "windowClosing unsaveChanges=" + mainFrame.hasUnsavedChanges() );//XXX
+                if ( mainFrame.hasUnsavedChanges() ) {
+                    String message = HTMLUtils.toHTMLString( TUStrings.UNSAVED_CHANGES_MESSAGE + "<br><br>" + TUStrings.CONFIRM_EXIT );
+                    int response = JOptionPane.showConfirmDialog( mainFrame, message, TUStrings.CONFIRM_TITLE, JOptionPane.YES_NO_OPTION );
+                    if ( response == JOptionPane.YES_OPTION ) {
+                        mainFrame.dispose();
+                    }
+                }
+                else {
+                    mainFrame.dispose();
+                }
+            }
+        } );
+
         mainFrame.setVisible( true );
     }
 

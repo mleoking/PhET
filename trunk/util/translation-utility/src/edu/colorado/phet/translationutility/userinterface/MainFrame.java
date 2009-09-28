@@ -1,4 +1,4 @@
-/* Copyright 2007-2008, University of Colorado */
+/* Copyright 2007-2009, University of Colorado */
 
 package edu.colorado.phet.translationutility.userinterface;
 
@@ -57,15 +57,15 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
     public MainFrame( ISimulation simulation, Locale sourceLocale, Locale targetLocale, String jarDirName ) {
         super( TUResources.getTitle() );
         
-        _simulation = simulation;
-        _targetLocale = targetLocale;
+        this._simulation = simulation;
+        this._targetLocale = targetLocale;
         _submitDirName = jarDirName;  // save submitted files to the same dir as the sim JAR
         
         _saveLoadDirectory = new File( jarDirName ); // start save/load file chooser in same dir as the sim JAR
         _findDialog = null;
         _previousFindText = null;
         
-        setJMenuBar( new MenuBar() );
+        setJMenuBar( new MenuBar( this ) );
         
         // Tool Bar
         ToolBar toolBar = new ToolBar();
@@ -126,6 +126,14 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
         // center on the screen
         SwingUtils.centerWindowOnScreen( this );
     }
+    
+    public boolean hasUnsavedChanges() {
+        return _translationPanel.hasUnsavedChanges();
+    }
+    
+    public void markAllSaved() {
+        _translationPanel.markAllSaved();
+    }
 
     //----------------------------------------------------------------------------
     // ToolBarListener implementation
@@ -139,8 +147,8 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
         
         // if there are validation errors, warn the user, and confirm that they want to continue with Test
         if ( _translationPanel.validateTargets() == false ) {
-            String message = HTMLUtils.toHTMLString( TUStrings.ERROR_VALIDATION + "<br><br>" + "Do you want to continue with this test?" );
-            int response = JOptionPane.showConfirmDialog( this, message, "Error", JOptionPane.YES_NO_OPTION );
+            String message = HTMLUtils.toHTMLString( TUStrings.ERROR_VALIDATION + "<br><br>" + TUStrings.CONFIRM_TEST );
+            int response = JOptionPane.showConfirmDialog( this, message, TUStrings.ERROR_TITLE, JOptionPane.YES_NO_OPTION );
             if ( response != JOptionPane.OK_OPTION ) {
                 return;
             }
@@ -163,8 +171,8 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
         
         // if there are validation errors, warn the user, and confirm that they want to continue with Save
         if ( _translationPanel.validateTargets() == false ) {
-            String message = HTMLUtils.toHTMLString( TUStrings.ERROR_VALIDATION + "<br><br>" + "Do you want to continue with this Save?" );
-            int response = JOptionPane.showConfirmDialog( this, message, "Error", JOptionPane.YES_NO_OPTION );
+            String message = HTMLUtils.toHTMLString( TUStrings.ERROR_VALIDATION + "<br><br>" + TUStrings.CONFIRM_SAVE );
+            int response = JOptionPane.showConfirmDialog( this, message, TUStrings.ERROR_TITLE, JOptionPane.YES_NO_OPTION );
             if ( response != JOptionPane.OK_OPTION ) {
                 return;
             }
@@ -191,6 +199,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
                 }
                 try {
                     _simulation.saveStrings( properties, outFile );
+                    markAllSaved();
                 }
                 catch ( SimulationException e ) {
                     ExceptionHandler.handleNonFatalException( e );
@@ -199,8 +208,9 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
             else {
                 // file suffix is inappropriate, tell the user and try again
                 TULogger.log( "Save attempted with bogus filename: " + outFile.getAbsolutePath() );
-                String message = "<html>You are saving a string file.<br>The file name must end with " + _simulation.getStringFileSuffix() + "</html>";
-                JOptionPane.showMessageDialog( this, message, "Error", JOptionPane.ERROR_MESSAGE );
+                Object[] args = { _simulation.getStringFileSuffix() };
+                String message = MessageFormat.format( TUStrings.ERROR_SAVE_SUFFIX, args );
+                JOptionPane.showMessageDialog( this, message, TUStrings.ERROR_TITLE, JOptionPane.ERROR_MESSAGE );
                 handleSave();
             }
         }
@@ -212,6 +222,17 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
      * The contents of that properties file are loaded into the target text fields.
      */
     public void handleLoad() {
+        
+        // check for unsaved changes
+        if ( hasUnsavedChanges() ) {
+            String message = HTMLUtils.toHTMLString( TUStrings.UNSAVED_CHANGES_MESSAGE + "<br><br>" + TUStrings.CONFIRM_LOAD );
+            int response = JOptionPane.showConfirmDialog( this, message, TUStrings.CONFIRM_TITLE, JOptionPane.YES_NO_OPTION );
+            if ( response != JOptionPane.YES_OPTION ) {
+                return;
+            }
+        }
+        
+        // load
         JFileChooser chooser = _simulation.getStringFileChooser();
         chooser.setCurrentDirectory( _saveLoadDirectory );
         int option = chooser.showOpenDialog( this );
@@ -237,7 +258,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
         
         // if there are validation errors, warn the user, and prevent them from sending to PhET
         if ( _translationPanel.validateTargets() == false ) {
-            String message = HTMLUtils.toHTMLString( TUStrings.ERROR_VALIDATION + "<br><br>" + "You cannot send to PhET until errors are corrected." );
+            String message = HTMLUtils.toHTMLString( TUStrings.ERROR_VALIDATION + "<br><br>" + TUStrings.CANNOT_SEND_ERRORS_MESSAGE );
             JOptionPane.showMessageDialog( this, message, "Error", JOptionPane.ERROR_MESSAGE );
             return;
         }
@@ -274,6 +295,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
         submitText.setFont( new JLabel().getFont() );
         
         JOptionPane.showMessageDialog( this, submitText, TUStrings.SUBMIT_TITLE, JOptionPane.INFORMATION_MESSAGE );
+        markAllSaved();
     }
     
     /**

@@ -54,6 +54,12 @@ public class TUStrings {
     public static final String EXIT_MENU_ITEM = TUResources.getString( "menu.item.exit" );
     public static final char EXIT_MENU_ITEM_MNEMONIC = TUResources.getChar( "menu.item.exit.mnemonic", 'x' );
     
+    // confirm
+    public static final String CONFIRM_EXIT = TUResources.getString( "confirm.exit" );
+    public static final String CONFIRM_LOAD = TUResources.getString( "confirm.load" );
+    public static final String CONFIRM_SAVE = TUResources.getString( "confirm.save" );
+    public static final String CONFIRM_TEST = TUResources.getString( "confirm.test" );
+    
     // messages
     public static final String CONFIRM_OVERWRITE_MESSAGE = TUResources.getString( "message.confirmOverwrite" );
     public static final String SUBMIT_MESSAGE = TUResources.getString( "message.submit" );
@@ -66,11 +72,14 @@ public class TUStrings {
     public static final String VALIDATION_MESSAGE = TUResources.getString( "message.validation" );
     public static final String VALIDATION_HTML = TUResources.getString( "message.validation.html" );
     public static final String VALIDATION_MESSAGE_FORMAT = TUResources.getString( "message.validation.messageFormat" );
+    public static final String UNSAVED_CHANGES_MESSAGE = TUResources.getString( "message.unsavedChanges" );
+    public static final String CANNOT_SEND_ERRORS_MESSAGE = TUResources.getString( "message.cannotSendErrors" );
     
     // error messages
     public static final String ERROR_NO_SUCH_JAR = TUResources.getString( "error.noSuchJar" );
     public static final String ERROR_NOT_CUSTOM_LOCALE = TUResources.getString( "error.notACustomLocale" );
     public static final String ERROR_VALIDATION = TUResources.getString( "error.validation" );
+    public static final String ERROR_SAVE_SUFFIX = TUResources.getString( "error.saveSuffix" );
     
     // tooltips
     public static final String TOOLTIP_TEST = TUResources.getString( "tooltip.test" );
