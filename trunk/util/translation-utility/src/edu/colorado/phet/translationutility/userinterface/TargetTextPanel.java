@@ -40,7 +40,7 @@ public class TargetTextPanel extends JPanel {
         super();
 
         // target text area
-        textArea = new TargetTextArea( key, sourceValue, value );
+        textArea = new TargetTextArea( key, value );
         textArea.setBackground( OK_COLOR );
         textArea.addFocusListener( new FocusAdapter() {
 

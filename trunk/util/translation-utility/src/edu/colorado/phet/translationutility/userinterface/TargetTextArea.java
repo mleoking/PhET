@@ -31,7 +31,7 @@ public class TargetTextArea extends TUTextArea {
         }
     };
     
-    public TargetTextArea( String key, String sourceValue, String value ) {
+    public TargetTextArea( String key, String value ) {
         super( value );
         
         this.key = key;
