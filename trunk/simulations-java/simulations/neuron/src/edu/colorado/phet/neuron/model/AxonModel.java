@@ -11,6 +11,7 @@ import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.neuron.NeuronConstants;
 import edu.colorado.phet.neuron.model.AxonModel.ConcentrationTracker.AtomPosition;
 
 /**
@@ -150,14 +151,24 @@ public class AxonModel {
     	return numChannels;
     }
 
-    public void setNumMembraneChannels(MembraneChannelTypes channelType, int numChannels){
-    	if (numChannels < getNumMembraneChannels(channelType)){
-    		// Need to remove a channel.
-    		removeChannel(channelType);
+    public void setNumMembraneChannels(MembraneChannelTypes channelType, int desiredNumChannesl){
+    	if (desiredNumChannesl > NeuronConstants.MAX_CHANNELS_PER_TYPE){
+    		System.err.println(getClass().getName() + "- Warning: Attempt to set too many channels.");
+    		assert false;
+    		return;
     	}
-    	else if (numChannels > getNumMembraneChannels(channelType)){
-    		// Need to add a channel.
-    		addChannel(channelType);
+    	
+    	if (desiredNumChannesl < getNumMembraneChannels(channelType)){
+    		// Need to remove one or more channels.
+    		while (desiredNumChannesl < getNumMembraneChannels(channelType)){
+    			removeChannel(channelType);
+    		}
+    	}
+    	else if (desiredNumChannesl > getNumMembraneChannels(channelType)){
+    		// Need to add one or more channels.
+    		while (desiredNumChannesl > getNumMembraneChannels(channelType)){
+    			addChannel(channelType);
+    		}
     	}
     	else{
     		// Don't need to do nuthin'.
@@ -365,6 +376,12 @@ public class AxonModel {
     private void addChannel(MembraneChannelTypes channelType){
     	AbstractMembraneChannel membraneChannel = null;
     	
+    	if (getNumMembraneChannels(channelType) > NeuronConstants.MAX_CHANNELS_PER_TYPE){
+    		System.err.println(getClass().getName() + " - Warning: Ignoring attempt to add more than max allowed channels.");
+    		assert false;
+    		return;
+    	}
+    	
     	switch (channelType){
     	case SODIUM_LEAKAGE_CHANNEL:
     		membraneChannel = new SodiumLeakageChannel();
@@ -375,22 +392,22 @@ public class AxonModel {
     		break;
     	}
     	
-    	// Find a position that is not too close to an existing channel.
-    	double minInterChannelDistance = 10; // Nanometers, arbitrarily chosen to look okay.
+    	// Find a position for the new channel.
+    	double angleOffset = channelType == MembraneChannelTypes.SODIUM_LEAKAGE_CHANNEL ? 0 : 
+    		Math.PI * NeuronConstants.MAX_CHANNELS_PER_TYPE; 
     	double angle = 0;
+    	double radius = axonMembrane.getCrossSectionDiameter() / 2;
     	Point2D newLocation = new Point2D.Double();
-    	double radius = axonMembrane.getCrossSectionDiameter() / 2; 
-    	boolean openLocationFound = false;
-    	while (!openLocationFound){
-    		angle = RAND.nextDouble() * Math.PI * 2;
-    		// Convert to cartesian.
+    	boolean foundOpenSpot = false;
+    	for (int i = 0; i < NeuronConstants.MAX_CHANNELS_PER_TYPE && !foundOpenSpot; i++){
+    		angle = i * 2 * Math.PI / NeuronConstants.MAX_CHANNELS_PER_TYPE + angleOffset;
     		newLocation = new Point2D.Double(radius * Math.cos(angle), radius * Math.sin(angle));
-    		openLocationFound = true;
-    		for (AbstractMembraneChannel channel : channels ){
-    			if (channel.getCenterLocation().distance(newLocation) < minInterChannelDistance){
-    				// Too close.
-    				openLocationFound = false;
-    				System.out.println("Location rejected.");
+    		// Make sure this position isn't already taken.
+    		foundOpenSpot = true;
+    		for (AbstractMembraneChannel channel : channels){
+    			if (channel.getCenterLocation().distance(newLocation) < 1){
+    				foundOpenSpot = false;
+    				break;
     			}
     		}
     	}
@@ -398,7 +415,8 @@ public class AxonModel {
     	// Position the channel on the membrane.
     	membraneChannel.setRotationalAngle(angle);
     	membraneChannel.setCenterLocation(newLocation);
-    	
+
+    	// Add the channel and let everyone know it exists.
     	channels.add(membraneChannel);
     	notifyChannelAdded(membraneChannel);
     }
