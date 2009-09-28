@@ -103,11 +103,13 @@ public abstract class AbstractMembraneChannel {
 		return new ArrayList<Atom>(ownedAtoms);
 	}
 	
-	public void forceReleaseAllAtoms(ArrayList<Atom> freeAtoms){
-		for (Atom atom : ownedAtoms){
-			freeAtoms.add(atom);
+	public ArrayList<Atom> forceReleaseAllAtoms(final ArrayList<Atom> freeAtoms){
+		ArrayList<Atom> releasedAtoms = null;
+		if (ownedAtoms.size() > 0){
+			releasedAtoms = new ArrayList<Atom>(ownedAtoms);
 		}
 		ownedAtoms.clear();
+		return releasedAtoms;
 	}
 	
 	public Dimension2D getChannelSize(){
