@@ -37,6 +37,8 @@ public class AxonModel {
 	// atom on each tick, etc.
 	private static final int ATOM_UPDATE_INCREMENT = 4;
 	
+	private static final Point2D CENTER_POS = new Point2D.Double(0, 0);
+	
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
@@ -236,8 +238,32 @@ public class AxonModel {
     	
     	for (AbstractMembraneChannel channel : channels){
     		channel.stepInTime(clockEvent.getSimulationTimeChange());
-    		channel.checkTakeControlAtoms(atoms);
-    		channel.checkReleaseControlAtoms(atoms);
+    		ArrayList<Atom> atomsTakenByChannel = channel.checkTakeControlAtoms(atoms);
+    		if (atomsTakenByChannel != null){
+    			for (Atom atom : atomsTakenByChannel){
+    				atoms.remove(atom);
+    				if (atom.getPositionReference().distance(CENTER_POS) > crossSectionOuterRadius){
+    					// This atom was outside and, now that it has been
+    					// captured by a channel, is considered to be inside.
+    					concentrationTracker.updateAtomCount(atom.getType(), AtomPosition.OUTSIDE_MEMBRANE, -1);
+    					concentrationTracker.updateAtomCount(atom.getType(), AtomPosition.INSIDE_MEMBRANE, 1);
+    					notifyConcentrationGradientChanged(atom.getType());
+    				}
+    			}
+    		}
+    		ArrayList<Atom> atomsReleasedByChannel = channel.checkReleaseControlAtoms(atoms);
+    		if (atomsReleasedByChannel != null){
+    			for (Atom atom : atomsReleasedByChannel){
+    				atoms.add(atom);
+    				if (atom.getPositionReference().distance(CENTER_POS) > crossSectionOuterRadius){
+    					// This atom was inside a channel and was released
+    					// outside the membrane.
+    					concentrationTracker.updateAtomCount(atom.getType(), AtomPosition.OUTSIDE_MEMBRANE, 1);
+    					concentrationTracker.updateAtomCount(atom.getType(), AtomPosition.INSIDE_MEMBRANE, -1);
+    					notifyConcentrationGradientChanged(atom.getType());
+    				}
+    			}
+    		}
     	}
     }
     
@@ -442,7 +468,7 @@ public class AxonModel {
 		}
 		
 		if (!inside){
-			inside = atom.getPositionReference().distance(new Point2D.Double(0, 0)) < crossSectionOuterRadius;
+			inside = atom.getPositionReference().distance(CENTER_POS) < crossSectionOuterRadius;
 		}
     	
     	return inside;

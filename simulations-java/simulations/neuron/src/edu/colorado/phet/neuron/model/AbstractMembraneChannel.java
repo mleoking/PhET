@@ -64,8 +64,9 @@ public abstract class AbstractMembraneChannel {
 	 * 
 	 * @param freeAtoms - List of atoms that can be potentially taken.  Any
 	 * atoms that are taken are removed from the list.
+	 * @return List of atoms for which this channel is taking control.
 	 */
-	abstract public void checkTakeControlAtoms(ArrayList<Atom> freeAtoms);
+	abstract public ArrayList<Atom> checkTakeControlAtoms(final ArrayList<Atom> freeAtoms);
 
 	/**
 	 * Add any atoms that this channel no longer wants to control to the
@@ -75,8 +76,9 @@ public abstract class AbstractMembraneChannel {
 	 * are not controlled by this channel (nor probably any other).  Atoms
 	 * that this membrane no longer wants to control will be added to this
 	 * list.
+	 * @return List of atoms that this channel is releasing.
 	 */
-	abstract public void checkReleaseControlAtoms(ArrayList<Atom> freeAtoms);
+	abstract public ArrayList<Atom> checkReleaseControlAtoms(final ArrayList<Atom> freeAtoms);
 	
 	/**
 	 * Implements the time-dependent behavior of the gate.
