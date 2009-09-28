@@ -58,8 +58,8 @@ public class NeuronControlPanel extends ControlPanel {
 	private AxonModel axonModel;
 	private LeakChannelSlider sodiumLeakChannelControl;
 	private LeakChannelSlider potassiumLeakChannelControl;
-	private ConcentrationSlider sodiumConcentrationControl;
-	private ConcentrationSlider potassiumConcentrationControl;
+	private ConcentrationSlider2 sodiumConcentrationControl;
+	private ConcentrationSlider2 potassiumConcentrationControl;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -96,34 +96,18 @@ public class NeuronControlPanel extends ControlPanel {
         addControlFullWidth(sodiumLeakChannelControl);
         
         // Add the control for the number of potassium leakage channels.
-        potassiumLeakChannelControl = new LeakChannelSlider("Potassium Leak Channels", axonModel, AtomType.POTASSIUM); 
+        potassiumLeakChannelControl = new LeakChannelSlider("Potassium Leak Channels", axonModel, 
+        		AtomType.POTASSIUM); 
         addControlFullWidth(potassiumLeakChannelControl);
         
         // Add the control for sodium concentration.
-        sodiumConcentrationControl = new ConcentrationSlider("Sodium Concentration", 
-        		new AtomNode(new SodiumIon(), MVT));
+        sodiumConcentrationControl = new ConcentrationSlider2("Sodium Concentration", axonModel, AtomType.SODIUM);
         addControlFullWidth(sodiumConcentrationControl);
-        sodiumConcentrationControl.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				double value = sodiumConcentrationControl.getValue();
-				if ( value != axonModel.getProportionOfAtomsInside(AtomType.SODIUM) ){
-					axonModel.setConcentration(AtomType.SODIUM, value);
-				}
-			}
-		});
         
         // Add the control for potassium concentration.
-        potassiumConcentrationControl = new ConcentrationSlider("Potassium Concentration", 
-        		new AtomNode(new PotassiumIon(), MVT));
+        potassiumConcentrationControl = new ConcentrationSlider2("Potassium Concentration", axonModel, 
+        		AtomType.POTASSIUM);
         addControlFullWidth(potassiumConcentrationControl);
-        potassiumConcentrationControl.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				double value = potassiumConcentrationControl.getValue();
-				if ( value != axonModel.getProportionOfAtomsInside(AtomType.POTASSIUM) ){
-					axonModel.setConcentration(AtomType.POTASSIUM, value);
-				}
-			}
-		});
         
         addResetAllButton( module );
         
@@ -177,7 +161,7 @@ public class NeuronControlPanel extends ControlPanel {
             setBorder( BorderFactory.createEtchedBorder() );
             setSnapToTicks(true);
             
-            // Set up the variable that will differ based on the type.
+            // Set up the variables that will differ based on the type.
             AbstractLeakChannel leakChannel;
             final MembraneChannelTypes channelType;
             switch (atomType){
@@ -236,6 +220,52 @@ public class NeuronControlPanel extends ControlPanel {
             _valueLabel.setIcon( new ImageIcon(icon.toImage(20, 20, new Color(0,0,0,0))) );
             _valueLabel.setVerticalTextPosition( JLabel.CENTER );
             _valueLabel.setHorizontalTextPosition( JLabel.LEFT );
+		}
+    }
+    
+    private static class ConcentrationSlider2 extends LinearValueControl{
+    	
+        public ConcentrationSlider2(String title, final AxonModel axonModel, final AtomType atomType) {
+            super( 0, 1, title, "0", "");
+            setUpDownArrowDelta( 0.01 );
+            setTextFieldVisible(false);
+            setTickPattern( "0.00" );
+            setMajorTickSpacing( 0.25 );
+            setMinorTicksVisible(false);
+            setBorder( BorderFactory.createEtchedBorder() );
+            setSnapToTicks(false);
+
+            // Set up the variables that will differ based on the atom type.
+            AtomNode atomNode;
+            switch (atomType){
+            case SODIUM:
+            	atomNode = new AtomNode(new SodiumIon(), MVT);
+            	break;
+            case POTASSIUM:
+            	atomNode = new AtomNode(new PotassiumIon(), MVT);
+            	break;
+            	
+            default:
+            	System.err.println(getClass().getName() + " - Error: Unknown atom type.");
+            	assert false;
+            	atomNode = new AtomNode(new SodiumIon(), MVT);  // Just in case.
+            }
+            
+            // Create and add the icon.
+            JLabel _valueLabel = getValueLabel();
+            _valueLabel.setIcon( new ImageIcon(atomNode.toImage(20, 20, new Color(0,0,0,0))) );
+            _valueLabel.setVerticalTextPosition( JLabel.CENTER );
+            _valueLabel.setHorizontalTextPosition( JLabel.LEFT );
+            
+            // Set up the change listener for this control.
+            addChangeListener(new ChangeListener() {
+            	public void stateChanged(ChangeEvent e) {
+            		double value = getValue();
+            		if ( value != axonModel.getProportionOfAtomsInside(atomType) ){
+            			axonModel.setConcentration(atomType, value);
+            		}
+            	}
+            });
 		}
     }
 }
