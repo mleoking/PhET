@@ -8,7 +8,9 @@ import java.awt.event.ActionListener;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
+import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.translationutility.TUStrings;
 
 /**
@@ -18,7 +20,7 @@ import edu.colorado.phet.translationutility.TUStrings;
  */
 public class MenuBar extends JMenuBar {
 
-    public MenuBar() {
+    public MenuBar( final MainFrame frame ) {
         
         // File menu
         JMenu fileMenu = new JMenu( TUStrings.FILE_MENU );
@@ -30,6 +32,13 @@ public class MenuBar extends JMenuBar {
         fileMenu.add( exitMenuItem );
         exitMenuItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
+                if ( frame.hasUnsavedChanges() ) {
+                    String message = HTMLUtils.toHTMLString( TUStrings.UNSAVED_CHANGES_MESSAGE + "<br><br>" + TUStrings.CONFIRM_EXIT );
+                    int response = JOptionPane.showConfirmDialog( frame, message, TUStrings.CONFIRM_TITLE, JOptionPane.YES_NO_OPTION );
+                    if ( response != JOptionPane.YES_OPTION ) {
+                        return;
+                    }
+                }
                 System.exit( 0 );
             }
         } );

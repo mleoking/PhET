@@ -18,6 +18,7 @@ import javax.swing.KeyStroke;
 public class TargetTextArea extends TUTextArea {
     
     private final String key;
+    private String savedValue;
 
     public static final Action NEXT_FOCUS_ACTION = new AbstractAction( "Move Focus Forwards" ) {
         public void actionPerformed( ActionEvent evt ) {
@@ -35,6 +36,7 @@ public class TargetTextArea extends TUTextArea {
         super( value );
         
         this.key = key;
+        this.savedValue = value;
         
         setEditable( true );
         
@@ -47,5 +49,21 @@ public class TargetTextArea extends TUTextArea {
     
     public String getKey() {
         return key;
+    }
+    
+    public boolean isDirty() {
+        boolean dirty = false;
+        String value = getText();
+        if ( savedValue == null || savedValue.length() == 0 ) {
+            dirty = ( value != null && value.length() != 0 );
+        }
+        else {
+            dirty = !savedValue.equals( value );
+        }
+        return dirty;
+    }
+    
+    public void markSaved() {
+        savedValue = getText();
     }
 }

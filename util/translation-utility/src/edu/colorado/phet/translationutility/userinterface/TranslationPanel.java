@@ -189,6 +189,7 @@ public class TranslationPanel extends JPanel implements FindListener {
             String value = targetProperties.getProperty( key );
             textArea.setText( value );
         }
+        markAllSaved();
     }
     
     //----------------------------------------------------------------------------
@@ -369,6 +370,29 @@ public class TranslationPanel extends JPanel implements FindListener {
             JTextArea textArea = (JTextArea) _findTextAreas.get( index );
             textArea.requestFocus(); // not recommended according to Javadoc, but necessary here
             textArea.select( startIndex, startIndex + length );
+        }
+    }
+    
+    /**
+     * Are there unsaved changes?
+     */
+    public boolean hasUnsavedChanges() {
+        boolean hasUnSavedChanges = false;
+        for ( TargetTextPanel targetTextPanel : _targetTextPanels ) {
+            if ( targetTextPanel.getTextArea().isDirty() ) {
+                hasUnSavedChanges = true;
+                break;
+            }
+        }
+        return hasUnSavedChanges;
+    }
+    
+    /**
+     * Marks all target text areas as having been saved.
+     */
+    public void markAllSaved() {
+        for ( TargetTextPanel targetTextPanel : _targetTextPanels ) {
+            targetTextPanel.getTextArea().markSaved();
         }
     }
 }
