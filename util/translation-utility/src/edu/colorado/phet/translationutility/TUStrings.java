@@ -78,4 +78,5 @@ public class TUStrings {
     public static final String TOOLTIP_SAVE = TUResources.getString( "tooltip.save" );
     public static final String TOOLTIP_LOAD = TUResources.getString( "tooltip.load" );
     public static final String TOOLTIP_FIND = TUResources.getString( "tooltip.find" );
+    public static final String TOOLTIP_ERROR = TUResources.getString( "tooltip.error" );
 }

@@ -57,6 +57,7 @@ public class TargetTextPanel extends JPanel {
 
         // icon that provides access to error message
         errorIcon = new JLabel( TUImages.ERROR_ICON );
+        errorIcon.setToolTipText( TUStrings.TOOLTIP_ERROR );
         errorIcon.setCursor( new Cursor( Cursor.HAND_CURSOR ) );
         errorIcon.addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent event ) {
