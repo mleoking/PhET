@@ -5,6 +5,7 @@ package edu.colorado.phet.neuron.controlpanel;
 import java.awt.Color;
 import java.awt.Frame;
 import java.awt.geom.Dimension2D;
+import java.awt.geom.Rectangle2D;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -43,6 +44,12 @@ public class NeuronControlPanel extends ControlPanel {
 	
 	private static final Dimension2D OVERALL_SIZE_OF_LEAK_CHANNEL_ICON = new PDimension(38, 50);
 	private static final Dimension2D CHANNEL_SIZE_OF_LEAK_CHANNEL_ICON = new PDimension(15, 30);
+	
+	// The model-view transform below is used to make nodes that typically
+	// reside on the canvas be of an appropriate size for inclusion on the
+	// control panel.
+	private static final ModelViewTransform2D MVT = new ModelViewTransform2D(
+			new Rectangle2D.Double(-1.0, -1.0, 2.0, 2.0), new Rectangle2D.Double(-8, -8, 16, 16));
 
 	//----------------------------------------------------------------------------
     // Instance Data
@@ -87,7 +94,7 @@ public class NeuronControlPanel extends ControlPanel {
         sodiumLeakageChannel.setDimensions( OVERALL_SIZE_OF_LEAK_CHANNEL_ICON, CHANNEL_SIZE_OF_LEAK_CHANNEL_ICON );
         sodiumLeakageChannel.setRotationalAngle(-Math.PI / 2);
         sodiumLeakChannelControl = new LeakChannelSlider("Sodium Leak Channels", 
-        		new MembraneChannelNode(sodiumLeakageChannel, new ModelViewTransform2D()));
+        		new MembraneChannelNode(sodiumLeakageChannel, MVT));
         sodiumLeakChannelControl.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				int value = (int)Math.round(sodiumLeakChannelControl.getValue());
@@ -102,7 +109,7 @@ public class NeuronControlPanel extends ControlPanel {
         potassiumLeakChannel.setDimensions( OVERALL_SIZE_OF_LEAK_CHANNEL_ICON, CHANNEL_SIZE_OF_LEAK_CHANNEL_ICON );
         potassiumLeakChannel.setRotationalAngle(-Math.PI / 2);
         potassiumLeakChannelControl = new LeakChannelSlider("Potassium Leak Channels", 
-        		new MembraneChannelNode(potassiumLeakChannel, new ModelViewTransform2D()));
+        		new MembraneChannelNode(potassiumLeakChannel, MVT));
         potassiumLeakChannelControl.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				int value = (int)Math.round(potassiumLeakChannelControl.getValue());
@@ -113,8 +120,8 @@ public class NeuronControlPanel extends ControlPanel {
 		});
         addControlFullWidth(potassiumLeakChannelControl);
         
-        sodiumConcentrationControl = new ConcentrationSlider("Sodium Concentration", new AtomNode(new SodiumIon(), null, 
-        		new ModelViewTransform2D()));
+        sodiumConcentrationControl = new ConcentrationSlider("Sodium Concentration", 
+        		new AtomNode(new SodiumIon(), MVT));
         addControlFullWidth(sodiumConcentrationControl);
         sodiumConcentrationControl.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
@@ -126,7 +133,7 @@ public class NeuronControlPanel extends ControlPanel {
 		});
         
         potassiumConcentrationControl = new ConcentrationSlider("Potassium Concentration", 
-        		new AtomNode(new PotassiumIon(), null, new ModelViewTransform2D()));
+        		new AtomNode(new PotassiumIon(), MVT));
         addControlFullWidth(potassiumConcentrationControl);
         potassiumConcentrationControl.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
@@ -217,10 +224,9 @@ public class NeuronControlPanel extends ControlPanel {
             // Set the icon and the text alignment in a way that works well
             // for this particular control.
             JLabel _valueLabel = getValueLabel();
-            _valueLabel.setIcon( new ImageIcon(icon.toImage(40, 40, new Color(0,0,0,0))) );
+            _valueLabel.setIcon( new ImageIcon(icon.toImage(20, 20, new Color(0,0,0,0))) );
             _valueLabel.setVerticalTextPosition( JLabel.CENTER );
             _valueLabel.setHorizontalTextPosition( JLabel.LEFT );
-
 		}
     }
 }
