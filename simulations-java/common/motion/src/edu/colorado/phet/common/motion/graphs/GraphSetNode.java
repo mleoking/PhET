@@ -114,7 +114,7 @@ public class GraphSetNode extends PNode {
     //put a minimum on the vertical height of the graph.  Tall graphs were overwhelming.
     //overrideable
     protected double getMaxAvailableHeight(double availableHeight){
-        return availableHeight/2;
+        return availableHeight;
     }
 
     private int numMaximized() {

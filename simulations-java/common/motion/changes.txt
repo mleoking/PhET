@@ -1,3 +1,4 @@
+9-27-2009: Set chart to take up all vertical space by default, see #1782
 9-22-2009: Made series clear specific to parent series, instead of clearing all series
 9-21-2009: Update to Java 1.5
 9-11-2009: Added ability to increase padding between series controls and slider, didn't change default behavior
