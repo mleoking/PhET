@@ -1,3 +1,5 @@
+# 1.25.01 (35290) Sep 27, 2009
+9/27/09 Set chart to take up all vertical space by default (in common motion library), see #1782
 # 1.25.00 (34665) Aug 31, 2009
 # 1.24.04 (34493) Aug 26, 2009
 > Improved physics for acceleration spikes during sudden changes in velocity
