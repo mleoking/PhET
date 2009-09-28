@@ -24,5 +24,11 @@ public class NeuronStrings {
     public static final String POSITIVE_ION_SYMBOL = getString( "PositiveIonSymbol" );
     public static final String NEGATIVE_ION_SYMBOL = getString( "NegativeIonSymbol" );
     
+    public static final String SODIUM_LEAK_CHANNELS = getString( "SodiumLeakChannels" );
+    public static final String POTASSIUM_LEAK_CHANNELS = getString( "PotassiumLeakChannels" );
+    public static final String POTASSIUM_CONCENTRATION = getString( "PotassiumConcentration" );
+    public static final String SODIUM_CONCENTRATION = getString( "SodiumConcentration" );
+    public static final String OUTSIDE = getString( "Outside" );
+    public static final String INSIDE = getString( "Inside" );
     
 }

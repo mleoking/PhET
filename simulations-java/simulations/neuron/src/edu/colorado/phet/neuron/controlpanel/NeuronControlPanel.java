@@ -22,7 +22,9 @@ import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.neuron.NeuronConstants;
 import edu.colorado.phet.neuron.NeuronResources;
+import edu.colorado.phet.neuron.NeuronStrings;
 import edu.colorado.phet.neuron.model.AbstractLeakChannel;
 import edu.colorado.phet.neuron.model.AbstractMembraneChannel;
 import edu.colorado.phet.neuron.model.AtomType;
@@ -104,22 +106,23 @@ public class NeuronControlPanel extends ControlPanel {
         int minimumWidth = NeuronResources.getInt( "int.minControlPanelWidth", 215 );
         setMinimumWidth( minimumWidth );
         
-        // TODO: Internationalize.
         // Add the control for the number of sodium leakage channels.
-        sodiumLeakChannelControl = new LeakChannelSlider("Sodium Leak Channels", axonModel, AtomType.SODIUM); 
+        sodiumLeakChannelControl = new LeakChannelSlider(NeuronStrings.SODIUM_LEAK_CHANNELS, axonModel,
+        		AtomType.SODIUM); 
         addControlFullWidth(sodiumLeakChannelControl);
         
         // Add the control for the number of potassium leakage channels.
-        potassiumLeakChannelControl = new LeakChannelSlider("Potassium Leak Channels", axonModel, 
+        potassiumLeakChannelControl = new LeakChannelSlider(NeuronStrings.POTASSIUM_LEAK_CHANNELS, axonModel, 
         		AtomType.POTASSIUM); 
         addControlFullWidth(potassiumLeakChannelControl);
         
         // Add the control for sodium concentration.
-        sodiumConcentrationControl = new ConcentrationSlider("Sodium Concentration", axonModel, AtomType.SODIUM);
+        sodiumConcentrationControl = new ConcentrationSlider(NeuronStrings.SODIUM_CONCENTRATION, axonModel,
+        		AtomType.SODIUM);
         addControlFullWidth(sodiumConcentrationControl);
         
         // Add the control for potassium concentration.
-        potassiumConcentrationControl = new ConcentrationSlider("Potassium Concentration", axonModel, 
+        potassiumConcentrationControl = new ConcentrationSlider(NeuronStrings.POTASSIUM_CONCENTRATION, axonModel, 
         		AtomType.POTASSIUM);
         addControlFullWidth(potassiumConcentrationControl);
         
@@ -174,7 +177,7 @@ public class NeuronControlPanel extends ControlPanel {
     private static class LeakChannelSlider extends LinearValueControl{
     	
         public LeakChannelSlider(String title, final AxonModel axonModel, AtomType atomType) {
-            super( 0, 5, title, "0", "");
+            super( 0, NeuronConstants.MAX_CHANNELS_PER_TYPE, title, "0", "");
             setUpDownArrowDelta( 1 );
             setTextFieldVisible(false);
             setTickPattern( "0" );
@@ -238,10 +241,10 @@ public class NeuronControlPanel extends ControlPanel {
             setSnapToTicks(false);
             
             Hashtable<Double, JLabel> gravityControlLabelTable = new Hashtable<Double, JLabel>();
-            JLabel leftLabel = new JLabel("Outside");
+            JLabel leftLabel = new JLabel(NeuronStrings.OUTSIDE);
             leftLabel.setFont( LABEL_FONT );
             gravityControlLabelTable.put( new Double( 0 ), leftLabel );
-            JLabel rightLabel = new JLabel("Inside");
+            JLabel rightLabel = new JLabel(NeuronStrings.INSIDE);
             rightLabel.setFont( LABEL_FONT );
             gravityControlLabelTable.put( new Double( 1 ), rightLabel );
             setTickLabels( gravityControlLabelTable );
