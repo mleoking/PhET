@@ -171,7 +171,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
         }
         
         File defaultFile = new File( _saveLoadDirectory, _simulation.getStringFileName( _targetLocale ) );
-        JFileChooser chooser = new JFileChooser();
+        JFileChooser chooser = _simulation.getStringFileChooser();
         chooser.setSelectedFile( defaultFile );
         int option = chooser.showSaveDialog( this );
         _saveLoadDirectory = chooser.getCurrentDirectory();
@@ -212,12 +212,13 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
      * The contents of that properties file are loaded into the target text fields.
      */
     public void handleLoad() {
-        JFileChooser chooser = new JFileChooser( _saveLoadDirectory );
+        JFileChooser chooser = _simulation.getStringFileChooser();
+        chooser.setCurrentDirectory( _saveLoadDirectory );
         int option = chooser.showOpenDialog( this );
         _saveLoadDirectory = chooser.getCurrentDirectory();
         if ( option == JFileChooser.APPROVE_OPTION ) {
             File inFile = chooser.getSelectedFile();
-            Properties properties = null;
+            Properties properties = new Properties();
             try {
                 properties = _simulation.loadStrings( inFile );
             }

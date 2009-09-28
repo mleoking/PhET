@@ -7,11 +7,14 @@ import java.util.Locale;
 import java.util.Properties;
 import java.util.jar.*;
 
+import javax.swing.JFileChooser;
+
 import edu.colorado.phet.common.phetcommon.application.JARLauncher;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.common.phetcommon.view.util.StringUtil;
 import edu.colorado.phet.translationutility.TUConstants;
 import edu.colorado.phet.translationutility.util.Command;
+import edu.colorado.phet.translationutility.util.FileChooserFactory;
 import edu.colorado.phet.translationutility.util.PropertiesIO;
 import edu.colorado.phet.translationutility.util.TULogger;
 import edu.colorado.phet.translationutility.util.Command.CommandException;
@@ -311,5 +314,9 @@ public class JavaSimulation extends AbstractSimulation {
             properties.load( inStream );
         }
         return properties;
+    }
+    
+    public JFileChooser getStringFileChooser() {
+        return FileChooserFactory.createPropertiesFileChooser();
     }
 }
