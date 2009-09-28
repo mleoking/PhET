@@ -437,7 +437,16 @@ public class AxonModel {
     	}
     	
     	if (channelToRemove != null){
-    		channelToRemove.forceReleaseAllAtoms(atoms);
+    		ArrayList<Atom> releasedAtoms = channelToRemove.forceReleaseAllAtoms(atoms);
+    		// Since atoms in a channel are considered to be inside the
+    		// membrane, force any atom that was in the channel when it was
+    		// removed to go safely into the interior.
+    		if (releasedAtoms != null){
+    			for (Atom atom : releasedAtoms){
+    				positionAtomInsideMembrane(atom);
+    			}
+    		}
+    		// Remove the channel and send any notifications.
     		channels.remove(channelToRemove);
     		channelToRemove.remove();
     		notifyChannelRemoved(channelToRemove);
