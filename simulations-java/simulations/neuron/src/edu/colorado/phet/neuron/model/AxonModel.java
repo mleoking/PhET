@@ -406,28 +406,6 @@ public class AxonModel {
     	}
     }
     
-    private void getAtomCounts(AtomType atomType, IntegerWrapper numInside, IntegerWrapper numOutside){
-
-    	numInside.setValue(0);
-    	numOutside.setValue(0);
-    	
-    	for (AbstractMembraneChannel channel : channels){
-    		// All atoms in channels are considered to be inside the axon.
-    		numInside.setValue( numInside.getValue() + channel.getOwnedAtomsRef().size());
-    	}
-    	
-    	for (Atom atom : atoms){
-    		if (atom.getType() == atomType){
-    			if (isAtomInside(atom)){
-    				numInside.setValue(numInside.getValue() + 1);
-    			}
-    			else{
-    				numOutside.setValue(numOutside.getValue() + 1);
-    			}
-    		}
-    	}
-    }
-    
     /**
      * Place an atom at a random location inside the axon membrane.
      */
@@ -574,17 +552,5 @@ public class AxonModel {
     public static class Adapter implements Listener{
 		public void channelAdded(AbstractMembraneChannel channel) {}
 		public void concentrationRatioChanged(AtomType atomType) {}
-    }
-    
-    public static class IntegerWrapper{
-    	private int value = 0;
-
-		public int getValue() {
-			return value;
-		}
-
-		public void setValue(int value) {
-			this.value = value;
-		}
     }
 }
