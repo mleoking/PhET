@@ -6,10 +6,12 @@ import java.awt.Shape;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.neuron.model.AxonModel.ConcentrationTracker.AtomPosition;
 
 /**
  * This class represents the main class for modeling the axon.  It acts as the
@@ -47,6 +49,7 @@ public class AxonModel {
     private final double crossSectionOuterRadius;
     private int atomUpdateOffset = 0;
     private ArrayList<Listener> listeners = new ArrayList<Listener>();
+    private ConcentrationTracker concentrationTracker = new ConcentrationTracker();
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -67,14 +70,16 @@ public class AxonModel {
         });
         
         // Add the atoms.
-        // TODO: This is probably not correct, and we will need to have some
-        // initial concentration grandient.  Assume 50% for now.
+        // TODO: This is probably not correct, but for now assume that
+        // the concentration of Na and K is equal and that both are equally
+        // distributed inside and outside of the membrane.
         int i = TOTAL_INITIAL_ATOMS;
         Atom newAtom;
         while (true){
         	newAtom = new PotassiumIon();
         	positionAtomInsideMembrane(newAtom);
         	atoms.add(newAtom);
+        	concentrationTracker.updateAtomCount(AtomType.POTASSIUM, AtomPosition.INSIDE_MEMBRANE, 1);
         	i--;
         	if (i == 0){
         		break;
@@ -82,6 +87,7 @@ public class AxonModel {
         	newAtom = new SodiumIon();
         	positionAtomInsideMembrane(newAtom);
         	atoms.add(newAtom);
+        	concentrationTracker.updateAtomCount(AtomType.SODIUM, AtomPosition.INSIDE_MEMBRANE, 1);
         	i--;
         	if (i == 0){
         		break;
@@ -89,6 +95,7 @@ public class AxonModel {
         	newAtom = new PotassiumIon();
         	positionAtomOutsideMembrane(newAtom);
         	atoms.add(newAtom);
+        	concentrationTracker.updateAtomCount(AtomType.POTASSIUM, AtomPosition.OUTSIDE_MEMBRANE, 1);
         	i--;
         	if (i == 0){
         		break;
@@ -96,6 +103,7 @@ public class AxonModel {
         	newAtom = new SodiumIon();
         	positionAtomOutsideMembrane(newAtom);
         	atoms.add(newAtom);
+        	concentrationTracker.updateAtomCount(AtomType.SODIUM, AtomPosition.OUTSIDE_MEMBRANE, 1);
         	i--;
         	if (i == 0){
         		break;
@@ -163,21 +171,7 @@ public class AxonModel {
      * of 1 indicates that all atoms are inside, 0 means that none are inside.
      */
     public double getProportionOfAtomsInside(AtomType atomType){
-
-    	IntegerWrapper numberInside = new IntegerWrapper();
-    	IntegerWrapper numberOutside = new IntegerWrapper();
-    	getAtomCounts(atomType, numberInside, numberOutside);
-    	
-    	double proportionInside;
-    	if (numberInside.getValue() + numberOutside.getValue() == 0){
-    		proportionInside = 0;
-    	}
-    	else {
-    		proportionInside = (double)numberInside.getValue() / 
-    			(double)(numberInside.getValue() + numberOutside.getValue());
-    	}
-    	
-    	return proportionInside;
+    	return concentrationTracker.getProportion(atomType, AtomPosition.INSIDE_MEMBRANE);
     }
     
     /**
@@ -194,40 +188,32 @@ public class AxonModel {
     		return; 
     	}
 
-    	IntegerWrapper numInside = new IntegerWrapper();
-    	IntegerWrapper numOutside = new IntegerWrapper();
+    	int targetNumInside = (int)Math.round(targetProportion * (double)(concentrationTracker.getTotalNumAtoms(atomType)));
     	
-    	getAtomCounts(atomType, numInside, numOutside);
-    	
-    	int insideCount = numInside.getValue();
-    	int outsideCount = numOutside.getValue();
-    	
-    	int targetNumInside = (int)Math.round(targetProportion * (double)(insideCount + outsideCount));
-    	
-    	if (targetNumInside > insideCount){
+    	if (targetNumInside > concentrationTracker.getNumAtomsInPosition(atomType, AtomPosition.INSIDE_MEMBRANE)){
     		// Move some atoms from outside to inside.
     		for (Atom atom : atoms){
     			if (atom.getType() == atomType && !isAtomInside(atom)){
     				// Move this guy in.
     				positionAtomInsideMembrane(atom);
-    				insideCount++;
-    				outsideCount--;
-    				if (insideCount == targetNumInside){
+    				concentrationTracker.updateAtomCount(atomType, AtomPosition.INSIDE_MEMBRANE, 1);
+    				concentrationTracker.updateAtomCount(atomType, AtomPosition.OUTSIDE_MEMBRANE, -1);
+    				if (concentrationTracker.getNumAtomsInPosition(atomType, AtomPosition.INSIDE_MEMBRANE) == targetNumInside){
     					break;
     				}
     			}
     		}
     		notifyConcentrationGradientChanged(atomType);
     	}
-    	else if (targetNumInside < insideCount){
+    	else if (targetNumInside < concentrationTracker.getNumAtomsInPosition(atomType, AtomPosition.INSIDE_MEMBRANE)){
     		// Move some atoms from inside to outside.
     		for (Atom atom : atoms){
     			if (atom.getType() == atomType && isAtomInside(atom)){
     				// Move this guy out.
     				positionAtomOutsideMembrane(atom);
-    				insideCount--;
-    				outsideCount++;
-    				if (insideCount == targetNumInside){
+    				concentrationTracker.updateAtomCount(atomType, AtomPosition.INSIDE_MEMBRANE, -1);
+    				concentrationTracker.updateAtomCount(atomType, AtomPosition.OUTSIDE_MEMBRANE, 1);
+    				if (concentrationTracker.getNumAtomsInPosition(atomType, AtomPosition.INSIDE_MEMBRANE) == targetNumInside){
     					break;
     				}
     			}
@@ -465,6 +451,78 @@ public class AxonModel {
     //----------------------------------------------------------------------------
     // Inner Classes and Interfaces
     //----------------------------------------------------------------------------
+    
+    /**
+     * This is a "convenience class" that is used to track the relative
+     * concentration of the different atom types.  This was created so that
+     * the concentration doesn't need to be completely recalculated at every
+     * time step, which would be computationally expensive.
+     */
+    public static class ConcentrationTracker {
+
+    	enum AtomPosition {INSIDE_MEMBRANE, OUTSIDE_MEMBRANE};
+    	
+    	HashMap<AtomType, Integer> mapAtomTypeToNumOutside = new HashMap<AtomType, Integer>();
+    	HashMap<AtomType, Integer> mapAtomTypeToNumInside = new HashMap<AtomType, Integer>();
+    	
+    	public void updateAtomCount(AtomType atomType, AtomPosition position, int delta){
+    		HashMap<AtomType, Integer> map = position == AtomPosition.INSIDE_MEMBRANE ? mapAtomTypeToNumInside :
+    			mapAtomTypeToNumOutside;
+    		Integer currentCount = map.get(atomType);
+    		if (currentCount == null){
+    			currentCount = new Integer(0);
+    		}
+    		Integer newCount = new Integer(currentCount.intValue() + delta);
+    		if (newCount.intValue() < 0){
+    			System.err.println(getClass().getName()+ "- Error: Negative count for atoms in a position.");
+    			assert false;
+    			newCount = new Integer(0);
+    		}
+    		map.put(atomType, newCount);
+    	}
+    	
+    	public void resetAtomCount(AtomType atomType, AtomPosition position){
+    		HashMap<AtomType, Integer> map = position == AtomPosition.INSIDE_MEMBRANE ? mapAtomTypeToNumInside :
+    			mapAtomTypeToNumOutside;
+    		map.put(atomType, new Integer(0));
+    	}
+    	
+    	public int getNumAtomsInPosition(AtomType atomType, AtomPosition position){
+    		HashMap<AtomType, Integer> map = position == AtomPosition.INSIDE_MEMBRANE ? mapAtomTypeToNumInside :
+    			mapAtomTypeToNumOutside;
+    		Integer currentCount = map.get(atomType);
+    		if (currentCount == null){
+    			currentCount = new Integer(0);
+    		}
+    		return currentCount.intValue();
+    	}
+    	
+    	public int getTotalNumAtoms(AtomType atomType){
+    		return (getNumAtomsInPosition(atomType, AtomPosition.INSIDE_MEMBRANE) + 
+    				getNumAtomsInPosition(atomType, AtomPosition.OUTSIDE_MEMBRANE));
+    	}
+    	
+    	public double getProportion(AtomType atomType, AtomPosition position){
+    		Integer insideCount = mapAtomTypeToNumInside.get(atomType);
+    		if (insideCount == null){
+    			insideCount = new Integer(0);
+    		}
+    		Integer outsideCount = mapAtomTypeToNumOutside.get(atomType);
+    		if (outsideCount == null){
+    			outsideCount = new Integer(0);
+    		}
+
+    		if (insideCount.intValue() == outsideCount.intValue() && insideCount.intValue() == 0){
+    			return 0;
+    		}
+    		else if (position == AtomPosition.INSIDE_MEMBRANE){
+    			return insideCount.doubleValue() / (insideCount.doubleValue() + outsideCount.doubleValue());
+    		}
+    		else {
+    			return outsideCount.doubleValue() / (insideCount.doubleValue() + outsideCount.doubleValue());
+    		}
+    	}
+    }
     
     public interface Listener{
     	/**
