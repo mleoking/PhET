@@ -11,7 +11,6 @@ import java.util.Random;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 
-
 /**
  * This class represents the main class for modeling the axon.  It acts as the
  * central location where the interaction between the membrane, the atoms
@@ -153,8 +152,6 @@ public class AxonModel {
     	else{
     		// Don't need to do nuthin'.
     	}
-    	
-    	getProportionOfAtomsInside(AtomType.SODIUM);
     }
     
     //----------------------------------------------------------------------------
@@ -191,10 +188,52 @@ public class AxonModel {
      */
     public void setConcentrationRatio(AtomType atomType, double targetProportion){
     	
-//    	double currentProportion = getConcentrationRatio(atomType);
+    	if (targetProportion > 1 || targetProportion < 0){
+    		System.err.println(getClass().getName() + " - Error: Invalid target proportion value = " + targetProportion);
+    		assert false;
+    		return; 
+    	}
+
+    	IntegerWrapper numInside = new IntegerWrapper();
+    	IntegerWrapper numOutside = new IntegerWrapper();
     	
+    	getAtomCounts(atomType, numInside, numOutside);
     	
+    	int insideCount = numInside.getValue();
+    	int outsideCount = numOutside.getValue();
     	
+    	int targetNumInside = (int)Math.round(targetProportion * (double)(insideCount + outsideCount));
+    	
+    	if (targetNumInside > insideCount){
+    		// Move some atoms from outside to inside.
+    		for (Atom atom : atoms){
+    			if (atom.getType() == atomType && !isAtomInside(atom)){
+    				// Move this guy in.
+    				positionAtomInsideMembrane(atom);
+    				insideCount++;
+    				outsideCount--;
+    				if (insideCount == targetNumInside){
+    					break;
+    				}
+    			}
+    		}
+    		notifyConcentrationGradientChanged(atomType);
+    	}
+    	else if (targetNumInside < insideCount){
+    		// Move some atoms from inside to outside.
+    		for (Atom atom : atoms){
+    			if (atom.getType() == atomType && isAtomInside(atom)){
+    				// Move this guy out.
+    				positionAtomOutsideMembrane(atom);
+    				insideCount--;
+    				outsideCount++;
+    				if (insideCount == targetNumInside){
+    					break;
+    				}
+    			}
+    		}
+    		notifyConcentrationGradientChanged(atomType);
+    	}
     }
     
     private void handleClockTicked(ClockEvent clockEvent){
@@ -454,7 +493,7 @@ public class AxonModel {
     }
     
     public static class IntegerWrapper{
-    	int value = 0;
+    	private int value = 0;
 
 		public int getValue() {
 			return value;
