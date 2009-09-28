@@ -186,7 +186,7 @@ public class AxonModel {
      * indicates that the should all be inside, and value between...well, you
      * get the idea.
      */
-    public void setConcentrationRatio(AtomType atomType, double targetProportion){
+    public void setConcentration(AtomType atomType, double targetProportion){
     	
     	if (targetProportion > 1 || targetProportion < 0){
     		System.err.println(getClass().getName() + " - Error: Invalid target proportion value = " + targetProportion);

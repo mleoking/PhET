@@ -120,7 +120,7 @@ public class NeuronControlPanel extends ControlPanel {
 			public void stateChanged(ChangeEvent e) {
 				double value = sodiumConcentrationControl.getValue();
 				if ( value != axonModel.getProportionOfAtomsInside(AtomType.SODIUM) ){
-					axonModel.setConcentrationRatio(AtomType.SODIUM, value);
+					axonModel.setConcentration(AtomType.SODIUM, value);
 				}
 			}
 		});
@@ -132,7 +132,7 @@ public class NeuronControlPanel extends ControlPanel {
 			public void stateChanged(ChangeEvent e) {
 				double value = potassiumConcentrationControl.getValue();
 				if ( value != axonModel.getProportionOfAtomsInside(AtomType.POTASSIUM) ){
-					axonModel.setConcentrationRatio(AtomType.POTASSIUM, value);
+					axonModel.setConcentration(AtomType.POTASSIUM, value);
 				}
 			}
 		});
