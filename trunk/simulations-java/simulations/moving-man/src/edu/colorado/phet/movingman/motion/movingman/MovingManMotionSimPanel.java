@@ -14,7 +14,6 @@ import edu.colorado.phet.common.motion.model.ITemporalVariable;
 import edu.colorado.phet.common.motion.model.TimeData;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.PDebugKeyHandler;
-import edu.colorado.phet.common.piccolophet.nodes.ZoomControlNode;
 import edu.colorado.phet.movingman.MMUtil;
 import edu.colorado.phet.movingman.MovingManResources;
 import edu.colorado.phet.movingman.motion.AbstractMotionSimPanel;
@@ -82,39 +81,6 @@ public class MovingManMotionSimPanel extends AbstractMotionSimPanel {
         final MovingManGraph xGraph = getXGraph( motionModel );
         final MovingManGraph vGraph = getVGraph( motionModel );
         final MovingManGraph aGraph = getAGraph( motionModel );
-        xGraph.addHorizontalZoomListener(new ZoomControlNode.ZoomListener() {
-            public void zoomedOut() {
-                vGraph.setDomain(xGraph.getDomain());
-                aGraph.setDomain(xGraph.getDomain());
-            }
-
-            public void zoomedIn() {
-                vGraph.setDomain(xGraph.getDomain());
-                aGraph.setDomain(xGraph.getDomain());
-            }
-        });
-        vGraph.addHorizontalZoomListener(new ZoomControlNode.ZoomListener() {
-            public void zoomedOut() {
-                xGraph.setDomain(vGraph.getDomain());
-                aGraph.setDomain(vGraph.getDomain());
-            }
-
-            public void zoomedIn() {
-                xGraph.setDomain(vGraph.getDomain());
-                aGraph.setDomain(vGraph.getDomain());
-            }
-        });
-        aGraph.addHorizontalZoomListener(new ZoomControlNode.ZoomListener() {
-            public void zoomedOut() {
-                xGraph.setDomain(aGraph.getDomain());
-                vGraph.setDomain(aGraph.getDomain());
-            }
-
-            public void zoomedIn() {
-                xGraph.setDomain(aGraph.getDomain());
-                vGraph.setDomain(aGraph.getDomain());
-            }
-        });
 
         xGraph.getJFreeChartNode().addInputEventListener( new PBasicInputEventHandler() {
             public void mouseDragged( PInputEvent event ) {
