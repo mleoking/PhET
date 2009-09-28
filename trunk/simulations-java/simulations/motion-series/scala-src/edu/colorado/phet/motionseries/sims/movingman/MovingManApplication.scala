@@ -70,10 +70,18 @@ class IntroModule(frame: JFrame, clock: ScalaClock)
         extends BasicMovingManModule(frame, clock, "moving-man.module.intro.title".translate, false, false, false, false,
           -6, false, 0.0, true, MotionSeriesDefaults.movingManIntroViewport,MotionSeriesDefaults.fullScreenArea){
 	
-	//TODO: Setter needs to use the dynamical-model-aware setter for position, so it is not overwritten
-	val control = new ScalaValueControl(-10,10,"position","0.0","m",()=>{motionSeriesModel.bead.position},x => motionSeriesModel.bead.setPosition(x),motionSeriesModel.addListener)
-	canvas.addScreenNode(new PSwing(control))
-	println("adding screen child")
+	val positionControl = new ScalaValueControl(-10,10,"position","0.0","m",()=>motionSeriesModel.bead.desiredPosition,
+			x => motionSeriesModel.bead.setDesiredPosition(x),motionSeriesModel.addListener)
+	canvas.addScreenNode(new PSwing(positionControl))
+	
+	val velocityControl = new ScalaValueControl(-20,20,"velocity","0.0","m/s",()=>motionSeriesModel.bead.velocity,
+			v => motionSeriesModel.bead.setVelocity(v),motionSeriesModel.addListener)
+	canvas.addScreenNode(new PSwing(velocityControl))
+	
+	val accelerationControl = new ScalaValueControl(-20,20,"acceleration","0.0","m/s/s",()=>motionSeriesModel.bead.acceleration,
+			a => motionSeriesModel.bead.parallelAppliedForce = a ,motionSeriesModel.addListener)//todo: assumes mass = 1.0
+	canvas.addScreenNode(new PSwing(accelerationControl))
+	
 }
 
 class GraphingModule(frame: JFrame, clock: ScalaClock)
