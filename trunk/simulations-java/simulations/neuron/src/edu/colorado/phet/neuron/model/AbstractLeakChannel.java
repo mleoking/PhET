@@ -45,26 +45,31 @@ public abstract class AbstractLeakChannel extends AbstractMembraneChannel {
 	//----------------------------------------------------------------------------
 	
 	@Override
-	public void checkReleaseControlAtoms(ArrayList<Atom> freeAtoms) {
+	public ArrayList<Atom> checkReleaseControlAtoms(ArrayList<Atom> freeAtoms) {
 		Atom atom = null;
+		ArrayList<Atom> releasedAtoms = null;
 		for (int i = 0; i < getOwnedAtomsRef().size(); i++){
 			atom = getOwnedAtomsRef().get(i);
 			if (atom.getPositionReference().distance(getCenterLocation()) > CAPTURE_DISTANCE * 1.25){
 				// Atom is far enough away that it can be released.
 				getOwnedAtomsRef().remove(atom);
-				freeAtoms.add(atom);
+				releasedAtoms = new ArrayList<Atom>();
+				releasedAtoms.add(atom);
 				recentlyReleaseAtoms.add(new AtomCountdownPair(atom, ATOM_RECAPTURE_COUNTER));
 				break;
 			}
 		}
+		
+		return releasedAtoms;
 	}
 
 	@Override
-	public void checkTakeControlAtoms(ArrayList<Atom> freeAtoms) {
+	public ArrayList<Atom> checkTakeControlAtoms(ArrayList<Atom> freeAtoms) {
 		
 		ArrayList<Atom> ownedAtoms = getOwnedAtomsRef();
+		ArrayList<Atom> atomsToTake = null;
 		
-		// Only move one atom at a time.
+		// Only move one atom can be in the channel at a time.
 		if (ownedAtoms.size() == 0){
 			Atom atom = null;
 			for (int i = 0; i < freeAtoms.size(); i++){
@@ -75,10 +80,14 @@ public abstract class AbstractLeakChannel extends AbstractMembraneChannel {
 					 !recentlyCaptured(atom)){
 					// Capture this guy.
 					captureAtom(atom, freeAtoms, ownedAtoms);
+					atomsToTake = new ArrayList<Atom>();
+					atomsToTake.add(atom);
 					break;
 				}
 			}
 		}
+		
+		return atomsToTake;
 	}
 
 	@Override
@@ -120,7 +129,6 @@ public abstract class AbstractLeakChannel extends AbstractMembraneChannel {
 	private void captureAtom(Atom atom, ArrayList<Atom> freeAtoms, ArrayList<Atom> ownedAtoms){
 		
 		// Transfer the atom to the list of atoms "owned" by this channel.
-		freeAtoms.remove(atom);
 		ownedAtoms.add(atom);
 		
 		// Move the atom so that it is exactly at the entrance of the channel.
