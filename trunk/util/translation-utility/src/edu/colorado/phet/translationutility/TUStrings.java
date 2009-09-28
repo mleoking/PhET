@@ -71,4 +71,11 @@ public class TUStrings {
     public static final String ERROR_NO_SUCH_JAR = TUResources.getString( "error.noSuchJar" );
     public static final String ERROR_NOT_CUSTOM_LOCALE = TUResources.getString( "error.notACustomLocale" );
     public static final String ERROR_VALIDATION = TUResources.getString( "error.validation" );
+    
+    // tooltips
+    public static final String TOOLTIP_TEST = TUResources.getString( "tooltip.test" );
+    public static final String TOOLTIP_SUBMIT = TUResources.getString( "tooltip.submit" );
+    public static final String TOOLTIP_SAVE = TUResources.getString( "tooltip.save" );
+    public static final String TOOLTIP_LOAD = TUResources.getString( "tooltip.load" );
+    public static final String TOOLTIP_FIND = TUResources.getString( "tooltip.find" );
 }

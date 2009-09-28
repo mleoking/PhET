@@ -28,9 +28,9 @@ public class ToolBar extends JPanel {
      */
     public static interface ToolBarListener extends EventListener {
         public void handleTest();
+        public void handleSubmit();
         public void handleSave();
         public void handleLoad();
-        public void handleSubmit();
         public void handleFind();
         public void handleHelp();
     }
@@ -45,13 +45,23 @@ public class ToolBar extends JPanel {
         _listenerList = new EventListenerList();
         
         JButton testButton = new JButton( TUStrings.TEST_BUTTON, TUImages.TEST_ICON );
+        testButton.setToolTipText( TUStrings.TOOLTIP_TEST );
         testButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 fireTest();
             }
         } );
         
+        JButton submitButton = new JButton( TUStrings.SUBMIT_BUTTON, TUImages.SUBMIT_ICON );
+        submitButton.setToolTipText( TUStrings.TOOLTIP_SUBMIT );
+        submitButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent event ) {
+                fireSubmit();
+            }
+        } );
+        
         JButton saveButton = new JButton( TUStrings.SAVE_BUTTON, TUImages.SAVE_ICON );
+        saveButton.setToolTipText( TUStrings.TOOLTIP_SAVE );
         saveButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 fireSave();
@@ -59,20 +69,15 @@ public class ToolBar extends JPanel {
         } );
        
         JButton loadButton = new JButton( TUStrings.LOAD_BUTTON, TUImages.LOAD_ICON );
+        loadButton.setToolTipText( TUStrings.TOOLTIP_LOAD );
         loadButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 fireLoad();
             }
         } );
         
-        JButton submitButton = new JButton( TUStrings.SUBMIT_BUTTON, TUImages.SUBMIT_ICON );
-        submitButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent event ) {
-                fireSubmit();
-            }
-        } );
-        
         JButton findButton = new JButton( TUStrings.FIND_BUTTON, TUImages.FIND_ICON );
+        findButton.setToolTipText( TUStrings.TOOLTIP_FIND );
         findButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 fireFind();
@@ -86,12 +91,12 @@ public class ToolBar extends JPanel {
             }
         } );
         
-        JPanel buttonPanel = new JPanel( new GridLayout( 1, 9 ) );
+        JPanel buttonPanel = new JPanel( new GridLayout( 1, 8 ) );
         buttonPanel.add( testButton );
+        buttonPanel.add( submitButton );
         buttonPanel.add( saveButton );
         buttonPanel.add( loadButton );
-        buttonPanel.add( submitButton );
-        buttonPanel.add( Box.createHorizontalStrut( 20 ) );
+        buttonPanel.add( Box.createHorizontalStrut( 10 ) );
         buttonPanel.add( findButton );
         buttonPanel.add( helpButton );
 
