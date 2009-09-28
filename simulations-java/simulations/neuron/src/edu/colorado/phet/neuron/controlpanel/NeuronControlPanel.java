@@ -16,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.neuron.NeuronResources;
+import edu.colorado.phet.neuron.model.AtomType;
 import edu.colorado.phet.neuron.model.AxonModel;
 import edu.colorado.phet.neuron.model.MembraneChannelTypes;
 import edu.colorado.phet.neuron.model.PotassiumIon;
@@ -104,6 +105,14 @@ public class NeuronControlPanel extends ControlPanel {
         sodiumConcentrationControl = new ConcentrationSlider("Sodium Concentration", new AtomNode(new SodiumIon(), null, 
         		new ModelViewTransform2D()));
         addControlFullWidth(sodiumConcentrationControl);
+        sodiumConcentrationControl.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				double value = sodiumConcentrationControl.getValue();
+				if ( value != axonModel.getProportionOfAtomsInside(AtomType.SODIUM) ){
+					axonModel.setConcentrationRatio(AtomType.SODIUM, value);
+				}
+			}
+		});
         
         potassiumConcentrationControl = new ConcentrationSlider("Potassium Concentration", 
         		new AtomNode(new PotassiumIon(), null, new ModelViewTransform2D()));
@@ -166,11 +175,11 @@ public class NeuronControlPanel extends ControlPanel {
     private static class ConcentrationSlider extends LinearValueControl{
     	
         public ConcentrationSlider(String title, PNode icon) {
-            super( 0, 100, title, "0", "");
-            setUpDownArrowDelta( 1 );
+            super( 0, 1, title, "0", "");
+            setUpDownArrowDelta( 0.01 );
             setTextFieldVisible(false);
-            setTickPattern( "0" );
-            setMajorTickSpacing( 25 );
+            setTickPattern( "0.00" );
+            setMajorTickSpacing( 0.25 );
             setMinorTicksVisible(false);
             setBorder( BorderFactory.createEtchedBorder() );
             setSnapToTicks(false);
