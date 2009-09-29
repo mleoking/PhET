@@ -289,7 +289,7 @@ public class PhetResources {
      * @return the formatted string with values filled in
      */
     public String format(String key, String... values) {
-        return MessageFormat.format(getLocalizedString(key), values);
+        return MessageFormat.format(getLocalizedString(key), (Object[])values);
     }
 
     public char getLocalizedChar( String key, char defaultValue ) {
