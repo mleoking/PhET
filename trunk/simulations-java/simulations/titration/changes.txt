@@ -1,3 +1,4 @@
+9/29/09 JO's changes to root-finding algorithms
 # 0.00.02 (34724) Sep 2, 2009
 9/2/09 Kmax=1000, requested by Kathy to see how model behaves
 # 0.00.01 (34495) Aug 26, 2009
