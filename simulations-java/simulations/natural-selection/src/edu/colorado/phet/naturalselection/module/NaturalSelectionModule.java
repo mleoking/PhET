@@ -85,29 +85,6 @@ public class NaturalSelectionModule extends PiccoloModule {
         canvas.load( config );
     }
 
-    /**
-     * Shows the generation chart dialog
-     */
-    public void showGenerationChart() {
-        if ( pedigreeChartDialog == null ) {
-            //pedigreeChartDialog = new PedigreeChartDialog( parentFrame, model );
-            pedigreeChartDialog = new PedigreeChartDialog( null, model );
-            //SwingUtils.centerDialogInParent( pedigreeChartDialog );
-            pedigreeChartDialog.addWindowListener( new WindowAdapter() {
-                // called when the close button in the dialog's window dressing is clicked
-                public void windowClosing( WindowEvent e ) {
-                    pedigreeChartDialog.dispose();
-                }
-
-                // called by JDialog.dispose
-                public void windowClosed( WindowEvent e ) {
-                    pedigreeChartDialog = null;
-                }
-            } );
-            pedigreeChartDialog.setVisible( true );
-        }
-    }
-
     public void showGameOver() {
         if ( gameOverDialog == null ) {
             gameOverDialog = new GameOverDialog( parentFrame, this );

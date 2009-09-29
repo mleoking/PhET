@@ -242,7 +242,10 @@ public class LandscapeNode extends PNode implements NaturalSelectionModel.Listen
             } );
             pedigreeChartDialog.setVisible( true );
         }
-        pedigreeChartDialog.displayBunny( bunny );
+
+        if ( bunny != null ) {
+            pedigreeChartDialog.displayBunny( bunny );
+        }
     }
 
     /**

@@ -2,11 +2,14 @@ package edu.colorado.phet.naturalselection.view.pedigree;
 
 import java.awt.*;
 
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
 import edu.colorado.phet.naturalselection.model.Bunny;
 import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
 import edu.colorado.phet.naturalselection.view.GenerationBunnyNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.nodes.PText;
 
 public class PedigreeNode extends PNode {
 
@@ -23,6 +26,14 @@ public class PedigreeNode extends PNode {
 
     public PedigreeNode( NaturalSelectionModel model ) {
         this.model = model;
+
+        child = new PBoundedNode();
+        PText bunnyText = new PText( NaturalSelectionStrings.PEDIGREE_START_MESSAGE );
+        bunnyText.setFont( new PhetFont( 24 ) );
+        child.addChild( bunnyText );
+        addChild( child );
+        System.out.println( "P: " + bunnyText.getHeight() );
+        child.setOffset( -bunnyText.getWidth() / 2, 100 );
     }
 
     public void reset() {
@@ -35,22 +46,6 @@ public class PedigreeNode extends PNode {
     public void displayBunny( Bunny bunny ) {
         System.out.println( "displayBunny (in PedigreeNode)" );
         reset();
-        /*
-        GenerationBunnyNode theBunny = new GenerationBunnyNode( bunny );
-        addChild( theBunny );
-
-        double bunnyWidth = theBunny.getBunnyWidth();
-
-        double bunnyScale = BUNNY_WIDTH / bunnyWidth;
-        double bunnyHeight = theBunny.getBunnyHeight();
-        PPath path = PPath.createRectangle( 0, 0, (float) theBunny.getBunnyWidth(), (float) theBunny.getBunnyHeight() );
-        theBunny.scale( bunnyScale );
-        theBunny.setOffset( -BUNNY_WIDTH / 2, 0 );
-        path.setStroke( new BasicStroke( 10.0f ) );
-        path.setPaint( new Color( 0, 0, 0, 0 ) );
-        path.setStrokePaint( Color.RED );
-        theBunny.addChild( path );
-        */
 
         child = getBlock( bunny, 0, getBunnyMaxLevel( bunny ) );
         addChild( child );

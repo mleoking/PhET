@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.control.NaturalSelectionControlPanel;
 import edu.colorado.phet.naturalselection.model.*;
+import edu.colorado.phet.naturalselection.view.LandscapeNode;
 import edu.colorado.phet.naturalselection.view.NaturalSelectionCanvas;
 
 /**
@@ -76,7 +77,8 @@ public class NaturalSelectionController {
 
         controlPanel.showGenerationChartButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent actionEvent ) {
-                module.showGenerationChart();
+                //module.showGenerationChart();
+                LandscapeNode.showPedigree( model, null );
             }
         } );
 
@@ -159,7 +161,8 @@ public class NaturalSelectionController {
 
         controlPanel.showGenerationChartButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent actionEvent ) {
-                module.showGenerationChart();
+                //module.showGenerationChart();
+                //LandscapeNode.
             }
         } );
     }
