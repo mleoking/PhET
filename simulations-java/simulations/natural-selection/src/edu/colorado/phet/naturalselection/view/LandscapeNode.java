@@ -188,7 +188,9 @@ public class LandscapeNode extends PNode implements NaturalSelectionModel.Listen
         onSelectionFactorChange( NaturalSelectionDefaults.DEFAULT_SELECTION_FACTOR );
         bunnies.clear();
         wolves.clear();
-        pedigreeChartDialog.reset();
+        if ( pedigreeChartDialog != null ) {
+            pedigreeChartDialog.reset();
+        }
     }
 
     /**
