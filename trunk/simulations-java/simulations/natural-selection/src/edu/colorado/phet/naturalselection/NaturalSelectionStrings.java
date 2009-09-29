@@ -61,4 +61,6 @@ public class NaturalSelectionStrings {
     public static final String GAME_OVER_BUNNIES_TAKEN_OVER = NaturalSelectionResources.getString( "natural-selection.endGame.bunniesTakenOver" );
     public static final String GAME_OVER_PLAY_AGAIN = NaturalSelectionResources.getString( "natural-selection.endGame.playAgain" );
     public static final String GAME_OVER_ALL_BUNNIES_DIED = NaturalSelectionResources.getString( "natural-selection.endGame.allBunniesDied" );
+
+    public static final String PEDIGREE_START_MESSAGE = NaturalSelectionResources.getString( "natural-selection.pedigree.startMessage" );
 }
