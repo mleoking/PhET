@@ -1,3 +1,4 @@
+# 1.26.00 (35331) Sep 29, 2009
 # 1.25.02 (35322) Sep 28, 2009
 > Correlated the horizontal axes of x,v,a charts
 # 1.25.01 (35290) Sep 27, 2009
