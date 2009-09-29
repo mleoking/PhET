@@ -84,6 +84,9 @@ public class BunnyNode extends NaturalSelectionSprite implements Bunny.Listener 
                     setFlipped( !event.getBunny().isMovingRight() );
                 }
                 break;
+            case Bunny.Event.TYPE_SELECTION_CHANGE:
+                displayBunnyNode.setSelected( event.getBunny().isSelected() );
+                break;
         }
     }
 

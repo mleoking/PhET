@@ -86,6 +86,8 @@ public class Bunny {
 
     private boolean movingRight;
 
+    private boolean selected = false;
+
     private int hunger = random.nextInt( NaturalSelectionConstants.getSettings().getBunnyMaxHunger() );
 
     private Point3D hopDirection;
@@ -701,6 +703,25 @@ public class Bunny {
         this.hopDirection = hopDirection;
     }
 
+    // selection code
+
+    private static Bunny selectedBunny = null;
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected( boolean selected ) {
+        if ( selected && selectedBunny != null ) {
+            selectedBunny.setSelected( false );
+        }
+        this.selected = selected;
+        if ( selected ) {
+            selectedBunny = this;
+        }
+        notifySelectionChange();
+    }
+
     //----------------------------------------------------------------------------
     // Event handlers
     //----------------------------------------------------------------------------
@@ -792,6 +813,11 @@ public class Bunny {
         notifyListenersOfEvent( event );
     }
 
+    private void notifySelectionChange() {
+        //System.out.println( "Bunny " + getId() + " selected now: " + isSelected() );
+        notifyListenersOfEvent( new Event( this, Event.TYPE_SELECTION_CHANGE ) );
+    }
+
     private void notifyListenersOfEvent( Event event ) {
         Iterator<Listener> iter = listeners.iterator();
         while ( iter.hasNext() ) {
@@ -827,6 +853,7 @@ public class Bunny {
         public static final int TYPE_REPRODUCED = 2;
         public static final int TYPE_AGE_CHANGED = 3;
         public static final int TYPE_POSITION_CHANGED = 4;
+        public static final int TYPE_SELECTION_CHANGE = 5;
 
         public final int type;
         public final Bunny bunny;

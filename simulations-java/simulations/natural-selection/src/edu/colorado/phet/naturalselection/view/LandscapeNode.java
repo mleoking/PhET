@@ -219,6 +219,7 @@ public class LandscapeNode extends PNode implements NaturalSelectionModel.Listen
             @Override
             public void mouseClicked( PInputEvent event ) {
                 //super.mouseClicked( event );
+                bunny.setSelected( true );
                 showPedigree( model, bunny );
             }
         } );

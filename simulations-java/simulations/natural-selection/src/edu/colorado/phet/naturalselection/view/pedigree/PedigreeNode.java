@@ -111,6 +111,7 @@ public class PedigreeNode extends PNode {
         PBoundedNode ret = new PBoundedNode();
 
         GenerationBunnyNode bunnyNode = new GenerationBunnyNode( bunny );
+        bunnyNode.setSelected( bunny.isSelected() );
         double bunnyScale = getBunnyScale( bunnyNode, level );
         double bunnyWidth = bunnyScale * bunnyNode.getBunnyWidth();
         double bunnyHeight = bunnyScale * bunnyNode.getBunnyHeight();
