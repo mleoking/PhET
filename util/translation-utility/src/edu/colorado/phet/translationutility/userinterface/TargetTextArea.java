@@ -2,6 +2,8 @@ package edu.colorado.phet.translationutility.userinterface;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -45,6 +47,13 @@ public class TargetTextArea extends TUTextArea {
         getInputMap( JComponent.WHEN_FOCUSED ).put( KeyStroke.getKeyStroke( "shift TAB" ), PREVIOUS_FOCUS_ACTION.getValue( Action.NAME ) );
         getActionMap().put( NEXT_FOCUS_ACTION.getValue( Action.NAME ), NEXT_FOCUS_ACTION );
         getActionMap().put( PREVIOUS_FOCUS_ACTION.getValue( Action.NAME ), PREVIOUS_FOCUS_ACTION );
+        
+        // ensure that the text field is visible when doing tab traversal
+        addFocusListener( new FocusAdapter() {
+            public void focusGained( FocusEvent e ) {
+                TargetTextArea.this.scrollRectToVisible( TargetTextArea.this.getBounds() );
+            }
+        });
     }
     
     public String getKey() {
