@@ -38,5 +38,6 @@ public class TUImages {
     public static final Icon PREVIOUS_ICON = TUResources.getIcon( "previousArrow.png" );
     
     // Misc
-    public static final Icon ERROR_ICON = TUResources.getIcon( "errorIcon.png" );
+    public static final Icon ERROR_BUTTON = TUResources.getIcon( "errorButton.png" );
+    public static final Icon PREVIEW_BUTTON = TUResources.getIcon( "previewButton.png" );
 }

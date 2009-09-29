@@ -89,7 +89,7 @@ public class TestValidation extends JFrame {
                 }
             } );
             
-            errorDetailsButton = new JLabel( TUImages.ERROR_ICON );
+            errorDetailsButton = new JLabel( TUImages.ERROR_BUTTON );
             errorDetailsButton.setCursor( new Cursor( Cursor.HAND_CURSOR ) );
             errorDetailsButton.addMouseListener( new MouseAdapter() {
                 public void mousePressed( MouseEvent event ) {
