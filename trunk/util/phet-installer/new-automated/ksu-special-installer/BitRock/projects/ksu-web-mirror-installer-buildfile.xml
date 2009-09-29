@@ -58,6 +58,15 @@
                         <distributionDirectory>
                             <origin>../../temp/website/phetsims.colorado.edu/sims</origin>
                         </distributionDirectory>
+                        <distributionDirectory>
+                            <origin>../../temp/website/phetsims.colorado.edu/installer</origin>
+                        </distributionDirectory>
+                        <distributionDirectory>
+                            <origin>../../temp/website/phetsims.colorado.edu/publications</origin>
+                        </distributionDirectory>
+                        <distributionDirectory>
+                            <origin>../../temp/website/phetsims.colorado.edu/activities</origin>
+                        </distributionDirectory>
                     </distributionFileList>
 
                     <actionList>
