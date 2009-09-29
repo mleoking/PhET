@@ -29,8 +29,9 @@ public class DisplayBunnyNode extends PNode {
     private PImage image;
     private PImage mutatedImage;
 
-    // red X
+    // add ons
     private PPath deadX;
+    private PPath selectedBorder;
 
     // alleles
     private Allele color;
@@ -39,6 +40,9 @@ public class DisplayBunnyNode extends PNode {
 
     // whether dead or alive
     private boolean dead = false;
+
+    // whether it is selected in the pedigree chart
+    private boolean selected = false;
 
     // whether we are flipped visually left-to-right
     private boolean flipped = false;
@@ -90,9 +94,15 @@ public class DisplayBunnyNode extends PNode {
 
         initDeadX();
 
+        initSelectedBorder();
+
         addChild( deadX );
 
+        addChild( selectedBorder );
+
         setDead( false );
+
+        setSelected( false );
     }
 
     /**
@@ -111,6 +121,15 @@ public class DisplayBunnyNode extends PNode {
         path.lineTo( 0, getBunnyHeight() );
         deadX.setPathTo( path.getGeneralPath() );
         deadX.scale( 0.5 );
+    }
+
+    private void initSelectedBorder() {
+        float padding = 7f;
+        selectedBorder = PPath.createRectangle( -padding, -padding, (float) getBunnyWidth() + 2 * padding, (float) getBunnyHeight() + 2 * padding );
+        selectedBorder.setStroke( new BasicStroke( 7 ) );
+        selectedBorder.setStrokePaint( Color.BLUE );
+        // invisible middle
+        selectedBorder.setPaint( new Color( 0, 0, 0, 0 ) );
     }
 
     //----------------------------------------------------------------------------
@@ -145,6 +164,12 @@ public class DisplayBunnyNode extends PNode {
         this.dead = dead;
 
         deadX.setVisible( dead );
+    }
+
+    public void setSelected( boolean selected ) {
+        this.selected = selected;
+
+        selectedBorder.setVisible( selected );
     }
 
 
