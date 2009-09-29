@@ -2,11 +2,11 @@
 
 package edu.colorado.phet.translationutility.userinterface;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.text.MessageFormat;
 import java.util.Locale;
@@ -86,8 +86,9 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
             targetProperties = new Properties();
         }
         _translationPanel = new TranslationPanel( this, _simulation.getProjectName(), sourceLocale, sourceProperties, targetLocale, targetProperties );
-        JScrollPane scrollPane = new JScrollPane( _translationPanel );
-        
+        final JScrollPane scrollPane = new JScrollPane( _translationPanel );
+        fixScrollPane();
+
         // Layout
         JPanel panel = new JPanel();
         panel.setBorder( new EmptyBorder( 0, 10, 10, 10 ) );
@@ -118,13 +119,33 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
         //WORKAROUND: increase the width so we don't get a horizontal scrollbar
         setBounds( getBounds().x, getBounds().y, getBounds().width + 30, getBounds().height );
         
-        // make sure we didn't exceed the screenwidth
+        // make sure we didn't exceed the screen width
         if ( getBounds().getWidth() > screenSize.getWidth() ) {
             setBounds( getBounds().x, getBounds().y, screenSize.width, getBounds().height );
         }
         
         // center on the screen
         SwingUtils.centerWindowOnScreen( this );
+    }
+    
+    /*
+     *  WORKAROUND for #1795.
+     *  Uses a listener to make the top of the translation panel is visible in the scrollpane.
+     *  Then deletes the listener.
+     */
+    private void fixScrollPane() {
+        PropertyChangeListener listener = new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent e ) {
+                if ( "focusOwner".equals( e.getPropertyName() ) ) {
+                    Component focusedComponent = getFocusOwner();
+                    if ( focusedComponent != null ) {
+                        _translationPanel.scrollRectToVisible( focusedComponent.getBounds() );
+                        KeyboardFocusManager.getCurrentKeyboardFocusManager().removePropertyChangeListener( this );
+                    }
+                }
+            }
+        };
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().addPropertyChangeListener( listener );
     }
     
     public boolean hasUnsavedChanges() {
