@@ -1,6 +1,6 @@
 package edu.colorado.phet.titration.test;
 
-import java.util.Date;
+import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Complex;
 
@@ -11,7 +11,27 @@ import edu.colorado.phet.common.phetcommon.math.Complex;
  * @author Jonathan Olson
  */
 public class RootTest {
+    // roots below this absolute value are so close to zero that they shouldn't be factored out normally
+    private static final double EPSILON = 0.0000000001;
+
     public static void main( String[] args ) {
+
+        System.out.println( "Durand-Kerner optimized" );
+        testRootFinder( new DurandKernerOptimized(), 30, 0.0001 );
+
+        System.out.println();
+
+        System.out.println( "Durand-Kerner" );
+        testRootFinder( new DurandKerner(), 30, 0.0001 );
+
+        System.out.println();
+
+        System.out.println( "Laguerre" );
+        testRootFinder( new Laguerre(), 30, 0.0001 );
+
+        System.out.println();
+
+        /*
         // roots at 5, i, -i
         Complex[] p1 = new Complex[]{new Complex( 1, 0 ), new Complex( -5, 0 ), new Complex( 1, 0 ), new Complex( -5, 0 )};
 
@@ -20,46 +40,28 @@ public class RootTest {
 
         // mathematica says: {{x->2.74722},{x->-0.481112-0.506256 i},{x->-0.481112+0.506256 i},{x->0.457504-0.559537 i},{x->0.457504+0.559537 i}}
         Complex[] p3 = new Complex[]{new Complex( 10, 0 ), new Complex( -27, 0 ), new Complex( 0, 0 ), new Complex( -3, 0 ), new Complex( 1, 0 ), new Complex( -7, 0 )};
-        
+
         // Laguerre returns NaN for some roots
         // mathematica says:
-        //  -0.788172 +- 0.554086 i
-        //  0.266144 +- 0.896483 i
-        //  0.91802
-        Complex[] p4 = new Complex[]{new Complex( 33.79999999999998,0 ), new Complex( 4.259999999999997, 0),  new Complex( 0.1759999999996617, 0 ), new Complex( -0.007400000000033827, 0 ), new Complex( -0.006620000000003383, 0 ), new Complex( -3.3799999999999987E-16, 0 )};
+        // 0.144464
+        // 0.092303
+        // (almost 0)
+        // -0.0369374 +- 0.115429 i
+        Complex[] p4 = new Complex[]{
+                new Complex( 33.79999999999998, 0 ),
+                new Complex( 4.259999999999997, 0 ),
+                new Complex( 0.1759999999996617, 0 ),
+                new Complex( -0.007400000000033827, 0 ),
+                new Complex( -0.006620000000003383, 0 ),
+                new Complex( -3.3799999999999987E-16, 0 )
+        };
 
-        System.out.println( "Laguerre roots of p1: " + complexArrayToString( findRootsLaguerre( p1, 30 ) ) );
-        System.out.println( "Durand-Kerner roots of p1: " + complexArrayToString( findRootsDurandKerner( p1, 30 ) ) );
-
-        System.out.println( "Laguerre roots of p2: " + complexArrayToString( findRootsLaguerre( p2, 30 ) ) );
-        System.out.println( "Durand-Kerner roots of p2: " + complexArrayToString( findRootsDurandKerner( p2, 30 ) ) );
-
-        System.out.println( "Laguerre roots of p3: " + complexArrayToString( findRootsLaguerre( p3, 30 ) ) );
-        System.out.println( "Durand-Kerner roots of p3: " + complexArrayToString( findRootsDurandKerner( p3, 30 ) ) );
-        
-        System.out.println( "Laguerre roots of p4: " + complexArrayToString( findRootsLaguerre( p4, 300 ) ) );
-        System.out.println( "Durand-Kerner roots of p4: " + complexArrayToString( findRootsDurandKerner( p4, 300 ) ) );
-
-        Date a = new Date();
-        for ( int i = 0; i < 100000; i++ ) {
-            findRootsLaguerre( p3, 30 );
-        }
-        Date b = new Date();
-        for ( int i = 0; i < 100000; i++ ) {
-            findRootsDurandKerner( p3, 30 );
-        }
-        Date c = new Date();
-        for ( int i = 0; i < 100000; i++ ) {
-            findRootsOptimizedDurandKerner( p3, 30, 0.00001 );
-        }
-        Date d = new Date();
-
-        // without thresholding, neither has a huge advantage with 30 iterations
-
-        System.out.println( "Laguerre: " + ( b.getTime() - a.getTime() ) );
-        System.out.println( "Durnand-Kerner: " + ( c.getTime() - b.getTime() ) );
-        System.out.println( "Optimized Durnand-Kerner: " + ( d.getTime() - c.getTime() ) );
-
+        Complex[] p5 = new Complex[]{
+                new Complex( 1, 0 ),
+                new Complex( 1.5, 0 ),
+                new Complex( 0, 0 )
+        };
+        */
     }
 
     /**
@@ -77,17 +79,22 @@ public class RootTest {
     public static Complex[] findRootsDurandKerner( Complex[] polynomial, int iterations ) {
         Complex[] guess = new Complex[polynomial.length - 1];
 
+        // get a normalized copy of the polynomial
+        Complex[] normalizedPolynomial = polynomial.clone();
+        normalizePoly( normalizedPolynomial );
+
         // spread out the initial guesses
-        Complex initializer = new Complex( 0.4, 0.9 );
+        Complex v = new Complex( 0.4, 0.9 );
+        Complex initializer = v;
         for ( int i = 0; i < guess.length; i++ ) {
             guess[i] = initializer;
-            initializer = initializer.getMultiply( initializer );
+            initializer = initializer.getMultiply( v );
         }
 
         for ( int i = 0; i < iterations; i++ ) {
             Complex[] next = new Complex[guess.length];
             for ( int k = 0; k < guess.length; k++ ) {
-                Complex value = evaluate( polynomial, guess[k] );
+                Complex value = evaluate( normalizedPolynomial, guess[k] );
                 for ( int l = 0; l < guess.length; l++ ) {
                     if ( l == k ) { continue;}
 
@@ -107,6 +114,10 @@ public class RootTest {
     public static Complex[] findRootsOptimizedDurandKerner( Complex[] polynomial, int iterations, double threshold ) {
         Complex[] guess = new Complex[polynomial.length - 1];
 
+        // get a normalized copy of the polynomial
+        Complex[] normalizedPolynomial = polynomial.clone();
+        normalizePoly( normalizedPolynomial );
+
         // spread out the initial guesses
         Complex initializer = new Complex( 0.4, 0.9 );
         for ( int i = 0; i < guess.length; i++ ) {
@@ -118,7 +129,7 @@ public class RootTest {
             Complex[] next = new Complex[guess.length];
             boolean belowThreshold = true;
             for ( int k = 0; k < guess.length; k++ ) {
-                Complex value = evaluate( polynomial, guess[k] );
+                Complex value = evaluate( normalizedPolynomial, guess[k] );
                 if ( value.getAbs() > threshold ) {
                     belowThreshold = false;
                 }
@@ -132,12 +143,14 @@ public class RootTest {
                 }
                 next[k] = guess[k].getSubtract( value );
             }
+
             guess = next;
 
             // already did the computation of the next guess, so use that (even though we were below the threshold before)
-            if( belowThreshold ) {
+            if ( belowThreshold ) {
                 break;
             }
+
         }
 
         return guess;
@@ -183,6 +196,16 @@ public class RootTest {
         return roots;
     }
 
+    private static String format( double num ) {
+        java.text.DecimalFormat format = new java.text.DecimalFormat( "###.###" );
+        if ( Double.isNaN( num ) ) {
+            return "NaN";
+        }
+        else {
+            return format.format( num );
+        }
+    }
+
     /**
      * Turn an array of Complex numbers into a string
      *
@@ -192,7 +215,8 @@ public class RootTest {
     public static String complexArrayToString( Complex[] poly ) {
         String out = "{ ";
         for ( int i = 0; i < poly.length; i++ ) {
-            out += String.valueOf( poly[i] ) + " ";
+            //out += String.valueOf( poly[i] ) + " ";
+            out += "(" + format( poly[i].getReal() ) + ", " + format( poly[i].getImaginary() ) + ") ";
         }
         out += "}";
         return out;
@@ -275,6 +299,13 @@ public class RootTest {
         normalizePoly( poly );
         Complex[] ret = new Complex[poly.length - 1];
 
+        if ( root.getAbs() < EPSILON ) {
+            for ( int i = 1; i < ret.length; i++ ) {
+                ret[i - 1] = poly[i];
+            }
+            return ret;
+        }
+
         ret[0] = poly[0]; // should be a 1
         for ( int i = 1; i < ret.length; i++ ) {
             ret[i] = ret[i - 1].getMultiply( root ).getAdd( poly[i] );
@@ -333,6 +364,90 @@ public class RootTest {
         }
 
         return x;
+    }
+
+    public static abstract class RootFinder {
+        public abstract Complex[] findRoots( Complex[] poly, int iterations, double threshold );
+
+        public Complex[] findRoots( Complex[] poly ) {
+            return findRoots( poly, 30, 0.00001 );
+        }
+    }
+
+    public static class DurandKernerOptimized extends RootFinder {
+        public Complex[] findRoots( Complex[] poly, int iterations, double threshold ) {
+            return findRootsOptimizedDurandKerner( poly, iterations, threshold );
+        }
+    }
+
+    public static class DurandKerner extends RootFinder {
+        public Complex[] findRoots( Complex[] poly, int iterations, double threshold ) {
+            return findRootsDurandKerner( poly, iterations );
+        }
+    }
+
+    public static class Laguerre extends RootFinder {
+        public Complex[] findRoots( Complex[] poly, int iterations, double threshold ) {
+            return findRootsLaguerre( poly, iterations );
+        }
+    }
+
+    private static boolean testRoots( Complex[] polynomial, Complex[] roots, double threshold ) {
+        // get a normalized copy of the polynomial
+        Complex[] normalizedPolynomial = polynomial.clone();
+        normalizePoly( normalizedPolynomial );
+
+        boolean success = true;
+
+        for ( Complex root : roots ) {
+            if ( Double.isNaN( root.getReal() ) || Double.isNaN( root.getImaginary() ) ) {
+                success = false;
+            }
+            Complex value = evaluate( normalizedPolynomial, root );
+            if ( value.getAbs() > threshold ) {
+                success = false;
+            }
+        }
+
+        return success;
+    }
+
+    private static Random random = new Random( System.currentTimeMillis() );
+
+    private static Complex[] getRandomPolynomial() {
+        int num = 1 + random.nextInt( 6 );
+        Complex[] ret = new Complex[num];
+        for ( int i = 0; i < num; i++ ) {
+            ret[i] = new Complex( 1000 * random.nextGaussian(), 0 );
+        }
+        return ret;
+    }
+
+    public static boolean testRootFinder( RootFinder finder, int iterations, double threshold ) {
+        int trials = 1000000;
+        int failures = 0;
+        int other = 0;
+        Long a = System.currentTimeMillis();
+        for ( int i = 0; i < trials; i++ ) {
+            Complex[] poly = getRandomPolynomial();
+            Complex[] roots = finder.findRoots( poly, iterations, threshold );
+            if ( !testRoots( poly, roots, threshold ) ) {
+                failures++;
+            }
+        }
+        Long b = System.currentTimeMillis();
+        Complex[] sampleRoots = new Complex[]{new Complex( 10, 0 ), new Complex( -27, 0 ), new Complex( 0, 0 ), new Complex( -3, 0 ), new Complex( 1, 0 ), new Complex( -7, 0 )};
+        for ( int i = 0; i < trials; i++ ) {
+            Complex[] poly = getRandomPolynomial();
+            if ( !testRoots( poly, sampleRoots, threshold ) ) {
+                other++;
+            }
+        }
+        Long c = System.currentTimeMillis();
+        System.out.println( "Convergence failures: " + failures + " in " + trials + " trials (" + ( ( 100.0 * failures ) / trials ) + "%)" );
+        Long time = ( b - a ) - ( c - b );
+        System.out.println( "Total estimated ms: " + time + " (" + ( ( (double) time ) / ( (double) trials ) ) + "ms per polynomial)" );
+        return failures == 0;
     }
 
 }
