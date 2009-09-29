@@ -28,6 +28,10 @@
         return constant("${constantPrefix}_".PHP_OS);
     }
 
+    function CREATE_FILTER_ITEM($controlChar, $hostName, $path){
+        return '"'.$controlChar.$hostName."/".$path.'"';
+    }
+
     // *****************************************************************************
     // Locale-specific configuration.
     define("LOCALE_STRING",     "ar");
@@ -35,19 +39,20 @@
     // *****************************************************************************
     // PhET Website Configuration
     define("PHET_VERSION",                      "1.0");
-    define("PHET_ROOT_URL",                     "http://phetsims.colorado.edu/");
+    define("PHET_HOSTNAME",                     "phetsims.colorado.edu");
+    define("PHET_ROOT_URL",                     "http://".PHET_HOSTNAME."/");
     define("PHET_TRANSLATED_WEBSITE_URL",       PHET_ROOT_URL.LOCALE_STRING."/");
     define("PHET_SIMS_SUBDIR",                  "sims/");
     // Definition of the filter, which specifies what to include/exclude from
     // the rip.  This one defines a filter that is used when doing a rip that
     // is meant to capture the entire web site.
-    // TODO: Make the URL into a variable and figure out how to incorporate into the filter definitions.
-    define("PHET_RIPPER_FILTER",                '"-*wickettest*" "+phetsims.colorado.edu/sims/*/*.jnlp" "+phetsims.colorado.edu/sims/*/*_all.jar" "+phetsims.colorado.edu/sims/*/*.jpg" "+phetsims.colorado.edu/sims/*/*.html" "+phetsims.colorado.edu/sims/*/*.swf" "+phetsims.colorado.edu/sims/*/*.png" "+phetsims.colorado.edu/activities/*" "+phetsims.colorado.edu/publications/*" "+phetsims.colorado.edu/installer/*"');
+    define("PHET_RIPPER_FILTER",                '"-*wickettest*"'.' '.CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/*/*.jnlp').' '.CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/*/*_all.jar').' '.CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/*/*.jpg').' '.CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/*/*.html').' '.CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/*/*.swf').' '.CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/*/*.png').' '.CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'activities/*').' '.CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'publications/*').' '.CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'installer/*'));
     // Filter definition for a "lite" rip, meaning one that rips less than
     // the full web site.  This is generally swapped in for the full rip
     // filters when doing testing that requires a lot of iterations, since 
     // this will generally be much quicker than a full rip.
-    define("PHET_LITE_RIPPER_FILTER",                '"-*/get-phet/*" "-*/workshops/*" "-*wickettest*" "+phetsims.colorado.edu/sims/faraday/*.jnlp" "+phetsims.colorado.edu/sims/faraday/*_all.jar" "+phetsims.colorado.edu/sims/faraday/*.jpg" "+phetsims.colorado.edu/sims/arithmetic/*.html" "+phetsims.colorado.edu/sims/arithmetic/*.swf" "+phetsims.colorado.edu/sims/arithmetic/*.jpg" "+phetsims.colorado.edu/sims/arithmetic/*.properties" "+phetsims.colorado.edu/sims/arithmetic/*.png" "+phetsims.colorado.edu/sims/arithmetic/*.xml"');
+    define("PHET_LITE_RIPPER_FILTER",            '"-*/get-phet/*" "-*/workshops/*" "-*wickettest*"'.' '.CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/faraday/*.jnlp').' '.CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/farady/*_all.jar').' '.CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/faraday/*.jpg').' '.CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/arithmetic/*.html').' '.CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/arithmetic/*.swf').' '.CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/arithmetic/*.png'));
+
     define("PHET_WEBSITE_ROOT_PARTIAL_PATTERN", '[^"]+colorado\.edu');
     define("PHET_WEBSITE_ROOT_PATTERN",         '/'.PHET_WEBSITE_ROOT_PARTIAL_PATTERN.'/');
 
@@ -66,9 +71,9 @@
     // Website Ripper Configuration
 
     define("RIPPED_WEBSITE_ROOT", file_cleanup_local_filename(TEMP_DIR."website/"));
-    define("RIPPED_WEBSITE_SIMS_PARENT_DIR",  file_cleanup_local_filename(RIPPED_WEBSITE_ROOT."phetsims.colorado.edu/"));
-    define("RIPPED_WEBSITE_INSTALLER_DIR",  file_cleanup_local_filename(RIPPED_WEBSITE_ROOT."phetsims.colorado.edu/installer/"));
-    define("RIPPED_TRANSLATED_WEBSITE_ROOT",  file_cleanup_local_filename(RIPPED_WEBSITE_ROOT."phetsims.colorado.edu/".LOCALE_STRING."/"));
+    define("RIPPED_WEBSITE_SIMS_PARENT_DIR",  file_cleanup_local_filename(RIPPED_WEBSITE_ROOT.PHET_HOSTNAME.'/'));
+    define("RIPPED_WEBSITE_INSTALLER_DIR",  file_cleanup_local_filename(RIPPED_WEBSITE_ROOT.PHET_HOSTNAME.'/installer/'));
+    define("RIPPED_TRANSLATED_WEBSITE_ROOT",  file_cleanup_local_filename(RIPPED_WEBSITE_ROOT.PHET_HOSTNAME.'/'.LOCALE_STRING.'/'));
 
     // The ripper executable itself:
 
@@ -128,6 +133,11 @@
     define("BITROCK_DIST_DIR",          file_cleanup_local_filename(BITROCK_KSU_DIR."output/"));
 
     define("BITROCK_DIST_PREFIX",       BITROCK_PRODUCT_SHORTNAME."-Installer_");
+
+    // File name of the KSU web mirror installer.  Decided to avoid using all
+    // the little bits and pieces of names and just put the whole thing here.
+    // Hopefully, this is easier to maintain.
+    define("BITROCK_WEB_MIRROR_INSTALLER_NAME",  "PhET-Installer-ksu_linux.bin");
 
     define("BITROCK_DISTNAME_WINNT",      BITROCK_DIST_PREFIX.BITROCK_PLATFORM_WINDOWS.BITROCK_PLATFORM_EXEC_SUFFIX_WINDOWS);
     define("BITROCK_DISTNAME_Linux",      BITROCK_DIST_PREFIX.BITROCK_PLATFORM_LINUX.BITROCK_PLATFORM_EXEC_SUFFIX_LINUX);
