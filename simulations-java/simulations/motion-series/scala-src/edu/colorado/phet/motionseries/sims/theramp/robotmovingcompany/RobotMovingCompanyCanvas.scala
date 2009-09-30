@@ -5,9 +5,9 @@ import edu.colorado.phet.common.phetcommon.view.util.{BufferedImageUtils, PhetFo
 import edu.colorado.phet.common.piccolophet.nodes.layout.SwingLayoutNode
 import edu.colorado.phet.common.piccolophet.PhetPCanvas
 import java.awt._
+import event.{KeyEvent, KeyAdapter}
 import geom.{Line2D, RoundRectangle2D}
 import javax.swing.event.{ChangeEvent, ChangeListener}
-import javax.swing.{JButton, JOptionPane, JFrame}
 import edu.colorado.phet.scalacommon.ScalaClock
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
@@ -23,10 +23,12 @@ import edu.colorado.phet.motionseries.MotionSeriesResources._
 import edu.colorado.phet.motionseries.MotionSeriesResources
 import edu.colorado.phet.motionseries.swing._
 import edu.colorado.phet.motionseries.sims.theramp.StageContainerArea
+import javax.swing.{SwingUtilities, JButton, JOptionPane, JFrame}
+import scalacommon.util.Observable
 
 class RobotMovingCompanyCanvas(model: MotionSeriesModel, coordinateSystemModel: AdjustableCoordinateModel, freeBodyDiagramModel: FreeBodyDiagramModel,
-                               vectorViewModel: VectorViewModel, frame: JFrame, gameModel: RobotMovingCompanyGameModel,stageContainerArea:StageContainerArea)
-        extends RampCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame, false,true,true,MotionSeriesDefaults.defaultViewport,stageContainerArea) {
+                               vectorViewModel: VectorViewModel, frame: JFrame, gameModel: RobotMovingCompanyGameModel, stageContainerArea: StageContainerArea)
+        extends RampCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame, false, true, true, MotionSeriesDefaults.defaultViewport, stageContainerArea) {
   beadNode.setVisible(false)
   playAreaVectorNode.setVisible(false)
   pusherNode.setVisible(false)
@@ -112,6 +114,46 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel, coordinateSystemModel: 
 
   override def useVectorNodeInPlayArea = false
 
+  val NONE = "none"
+  val RIGHT = "right"
+  val LEFT = "left"
+
+  object userInputModel extends Observable {
+    private var _pressed: Any = NONE
+
+    def pressed = _pressed
+
+    def pressed_=(p: Any) = {
+      _pressed = p
+      notifyListeners()
+    }
+  }
+
+  userInputModel.addListener(() => {
+    println("pressed: " + userInputModel.pressed)
+  })
+
+  addKeyListener(new KeyAdapter {
+    override def keyPressed(e: KeyEvent) = {
+      e.getKeyCode match {
+        case KeyEvent.VK_LEFT => userInputModel.pressed = LEFT
+        case KeyEvent.VK_RIGHT => userInputModel.pressed = RIGHT
+        case _ => userInputModel.pressed = NONE
+      }
+    }
+
+    override def keyReleased(e: KeyEvent) = {
+      e.getKeyCode match {
+        case KeyEvent.VK_LEFT => userInputModel.pressed = NONE
+        case KeyEvent.VK_RIGHT => userInputModel.pressed = NONE
+        case _ => userInputModel.pressed = NONE
+      }
+    }
+  })
+  SwingUtilities.invokeLater(new Runnable{
+    def run = requestFocus()
+  })
+
   def init(bead: Bead, a: MotionSeriesObject) = {
     val lastBead = _currentBead
     _currentBead = bead
@@ -132,10 +174,10 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel, coordinateSystemModel: 
     fbdNode.clearVectors()
     windowFBDNode.clearVectors()
 
-    def removeTheListener(listener:()=>Unit){
+    def removeTheListener(listener: () => Unit) {
       if (lastBead == null) gameModel.removeListener(listener) else lastBead.removeListener(listener)
     }
-//    def removeListenerFunction():Unit = if (lastBead == null) gameModel.removeListener _ else lastBead.removeListener _
+    //    def removeListenerFunction():Unit = if (lastBead == null) gameModel.removeListener _ else lastBead.removeListener _
     def setter(x: Double) = if (gameModel.robotEnergy > 0) bead.parallelAppliedForce = x else {}
     appliedForceControl.setModel(() => bead.parallelAppliedForce, setter, removeTheListener, bead.addListener)
 

@@ -8,6 +8,7 @@ import edu.colorado.phet.motionseries.{MotionSeriesResources, MotionSeriesDefaul
 
 class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock)
         extends MotionSeriesModule(frame, clock, "module.robotMovingCompany".translate, 5, false, MotionSeriesDefaults.defaultRampAngle) {
+
   override def reset() = {
     super.reset()
     motionSeriesModel.frictionless = false
@@ -23,7 +24,6 @@ class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock)
       override def updateSegmentLengths() = setSegmentLengths(rampLength, rampLength)
       frictionless = false
     }
-
   }
 
   val gameModel = new RobotMovingCompanyGameModel(motionSeriesModel, clock)

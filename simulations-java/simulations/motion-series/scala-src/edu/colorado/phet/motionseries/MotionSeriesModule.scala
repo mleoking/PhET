@@ -6,14 +6,15 @@ import edu.colorado.phet.scalacommon.ScalaClock
 import edu.colorado.phet.motionseries.model._
 
 //TODO: improve inheritance/composition scheme for different applications/modules/canvases/models
-class MotionSeriesModule(frame: JFrame, 
-		clock: ScalaClock, 
-		name: String, 
-		defaultBeadPosition: Double, 
-		pausedOnReset: Boolean,
-        initialAngle: Double)
+class MotionSeriesModule(frame: JFrame,
+                         clock: ScalaClock,
+                         name: String,
+                         defaultBeadPosition: Double,
+                         pausedOnReset: Boolean,
+                         initialAngle: Double)
         extends Module(name, clock) {
-  def createMotionSeriesModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngle: Double) = new MotionSeriesModel(defaultBeadPosition, pausedOnReset, initialAngle)
+  def createMotionSeriesModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngle: Double) =
+    new MotionSeriesModel(defaultBeadPosition, pausedOnReset, initialAngle)
 
   val motionSeriesModel = createMotionSeriesModel(defaultBeadPosition, pausedOnReset, initialAngle)
   val wordModel = new WordModel
@@ -29,7 +30,7 @@ class MotionSeriesModule(frame: JFrame,
 
     val startTime = System.currentTimeMillis
     motionSeriesModel.update(dt)
-    RepaintManager.currentManager(getSimulationPanel).paintDirtyRegions()//todo: this still shows clipping of incorrect regions, maybe we need to repaint the entire area
+    RepaintManager.currentManager(getSimulationPanel).paintDirtyRegions() //todo: this still shows clipping of incorrect regions, maybe we need to repaint the entire area
     val modelTime = System.currentTimeMillis - startTime
 
     val elapsed = paintAndInputTime + modelTime
