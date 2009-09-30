@@ -68,6 +68,10 @@ public class NeuronConstants {
     // Generic transparent color
     public static final Color COLOR_TRANSPARENT = new Color( 0f, 0f, 0f, 0f );
     
+    // Colors to use when representing various atoms.
+    public static final Color SODIUM_COLOR = new Color( 240, 0, 0);
+    public static final Color POTASSIUM_COLOR = new Color(0, 240, 0);
+    
     //----------------------------------------------------------------------------
     // Images
     //----------------------------------------------------------------------------

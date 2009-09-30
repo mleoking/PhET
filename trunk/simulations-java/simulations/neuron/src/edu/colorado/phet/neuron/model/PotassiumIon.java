@@ -2,6 +2,7 @@ package edu.colorado.phet.neuron.model;
 
 import java.awt.Color;
 
+import edu.colorado.phet.neuron.NeuronConstants;
 import edu.colorado.phet.neuron.NeuronStrings;
 
 public class PotassiumIon extends Atom {
@@ -18,7 +19,7 @@ public class PotassiumIon extends Atom {
 
 	@Override
 	public Color getRepresentationColor() {
-		return new Color(0, 240, 0);
+		return NeuronConstants.POTASSIUM_COLOR;
 	}
 	
 	@Override

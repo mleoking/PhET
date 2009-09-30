@@ -5,6 +5,7 @@ package edu.colorado.phet.neuron.model;
 import java.awt.Color;
 
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
+import edu.colorado.phet.neuron.NeuronConstants;
 
 public class SodiumLeakageChannel extends AbstractLeakChannel {
 
@@ -32,12 +33,12 @@ public class SodiumLeakageChannel extends AbstractLeakChannel {
 	
 	@Override
 	public Color getChannelColor() {
-		return ColorUtils.darkerColor(Color.red, 0.2);
+		return ColorUtils.darkerColor(NeuronConstants.SODIUM_COLOR, 0.2);
 	}
 
 	@Override
 	public Color getEdgeColor() {
-		return Color.red;
+		return NeuronConstants.SODIUM_COLOR;
 	}
 
 	@Override
