@@ -1,8 +1,6 @@
 package edu.colorado.phet.titration.prototype;
 
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.GridBagConstraints;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -23,20 +21,20 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 
 
 public class TPControlPanel extends JPanel {
-    
+
     private static final String VOLUME_UNITS = "mL";
     private static final String CONCENTRATION_FORMAT = "0.000";
     private static final String CONCENTRATION_UNITS = "M";
     private static final String K_FORMAT = "0.0E0";
     private static final String K_UNITS = "";
-    
+
     private static final double X_MIN = TPConstants.TITRANT_VOLUME_RANGE.getMin();
     private static final double X_MAX = TPConstants.TITRANT_VOLUME_RANGE.getMax();
     private static final double X_DELTA = TPConstants.TITRANT_VOLUME_DELTA;
-    
+
     private static final String TITRANT_STRONG_BASE = "strong base";
     private static final String TITRANT_STRONG_ACID = "strong acid";
-    
+
     private static final String SOLUTION_STRONG_BASE = "strong base";
     private static final String SOLUTION_WEAK_BASE = "weak base";
     private static final String SOLUTION_STRONG_ACID = "strong acid";
@@ -44,33 +42,34 @@ public class TPControlPanel extends JPanel {
     private static final String SOLUTION_DIPROTIC_ACID = "diprotic acid";
     private static final String SOLUTION_TRIPROTIC_ACID = "triprotic acid";
     private static final Object[] SOLUTION_CHOICES = {
-        SOLUTION_STRONG_BASE,
-        SOLUTION_WEAK_BASE, 
-        SOLUTION_STRONG_ACID,
-        SOLUTION_WEAK_ACID,
-        SOLUTION_DIPROTIC_ACID,
-        SOLUTION_TRIPROTIC_ACID
+            SOLUTION_STRONG_BASE,
+            SOLUTION_WEAK_BASE,
+            SOLUTION_STRONG_ACID,
+            SOLUTION_WEAK_ACID,
+            SOLUTION_DIPROTIC_ACID,
+            SOLUTION_TRIPROTIC_ACID
     };
-    
+
     private static class ConcentrationControl extends LogarithmicValueControl {
         public ConcentrationControl( String label ) {
             super( TPConstants.CONCENTRATION_RANGE.getMin(), TPConstants.CONCENTRATION_RANGE.getMax(), label, CONCENTRATION_FORMAT, CONCENTRATION_UNITS, new HorizontalLayoutStrategy() );
             setValue( TPConstants.CONCENTRATION_RANGE.getDefault() );
         }
     }
-    
+
     private static class KControl extends LogarithmicValueControl {
-        
+
         private ArrayList<ChangeListener> listeners;
-        
+
         public KControl( String label ) {
             super( TPConstants.K_RANGE.getMin(), TPConstants.K_RANGE.getMax(), label, K_FORMAT, K_UNITS, new HorizontalLayoutStrategy() );
             setValue( TPConstants.K_RANGE.getDefault() );
             listeners = new ArrayList<ChangeListener>();
         }
-        
+
         /**
          * Changes the control's value without notifying listeners.
+         *
          * @param value
          */
         public void setValueNoNotify( double value ) {
@@ -83,72 +82,72 @@ public class TPControlPanel extends JPanel {
                 super.addChangeListener( listener );
             }
         }
-        
+
         @Override
         public void addChangeListener( ChangeListener listener ) {
             super.addChangeListener( listener );
             listeners.add( listener );
         }
     }
-    
+
     private final TPChart chart;
-    
+
     // controls for solution and titrant
     private final JComboBox solutionComboBox;
     private final JLabel titrantLabel;
     private final ConcentrationControl caControl, cbControl;
     private final KControl k1Control, k2Control, k3Control;
-    
+
     // controls for polynomial roots
     private final JRadioButton laguerreRadioButton, durandKernerRadioButton;
     private final JCheckBox optimizedCheckBox;
     private final LinearValueControl iterationsControl;
     private final LogarithmicValueControl thresholdControl;
-    
+
     public TPControlPanel( TPChart chart ) {
         super();
         setBorder( new LineBorder( Color.BLACK, 1 ) );
-        
+
         this.chart = chart;
-        
+
         // solution
         JLabel solutionLabel = new JLabel( "solution:" );
         solutionLabel.setBorder( new EmptyBorder( 0, 5, 0, 0 ) );
         solutionComboBox = new JComboBox( SOLUTION_CHOICES );
-        solutionComboBox.addItemListener(  new ItemListener() {
+        solutionComboBox.addItemListener( new ItemListener() {
             public void itemStateChanged( ItemEvent e ) {
                 if ( e.getStateChange() == ItemEvent.SELECTED ) {
                     update( e.getSource() );
                 }
             }
-        });
+        } );
         JLabel solutionVolumeLabel = new JLabel( "(" + TPConstants.SOLUTION_VOLUME + " " + VOLUME_UNITS + ")" );
         JPanel solutionPanel = new JPanel();
         solutionPanel.setLayout( new BoxLayout( solutionPanel, BoxLayout.X_AXIS ) );
         solutionPanel.add( solutionLabel );
         solutionPanel.add( solutionComboBox );
         solutionPanel.add( solutionVolumeLabel );
-        
+
         // titrant
         titrantLabel = new JLabel( "?" );
         titrantLabel.setBorder( new EmptyBorder( 0, 5, 0, 0 ) );
-        
+
         // solution concentration 
         caControl = new ConcentrationControl( "Ca = " );
         caControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 update( e.getSource() );
             }
-        });
-        
+        } );
+
         // titrant concentration
         cbControl = new ConcentrationControl( "Cb = " );
         cbControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 update( e.getSource() );
             }
-        });
-        
+        } );
+
         // K1 disassociation constant
         k1Control = new KControl( "K1 = " );
         k1Control.addChangeListener( new ChangeListener() {
@@ -156,7 +155,7 @@ public class TPControlPanel extends JPanel {
                 update( e.getSource() );
             }
         } );
-        
+
         // K2 disassociation constant
         k2Control = new KControl( "K2 = " );
         k2Control.addChangeListener( new ChangeListener() {
@@ -164,7 +163,7 @@ public class TPControlPanel extends JPanel {
                 update( e.getSource() );
             }
         } );
-        
+
         // K3 disassociation constant
         k3Control = new KControl( "K3 = " );
         k3Control.addChangeListener( new ChangeListener() {
@@ -172,7 +171,7 @@ public class TPControlPanel extends JPanel {
                 update( e.getSource() );
             }
         } );
-        
+
         // polynomial roots controls
         JPanel rootsPanel = new JPanel();
         rootsPanel.setBorder( new TitledBorder( "polynomial roots" ) );
@@ -182,11 +181,11 @@ public class TPControlPanel extends JPanel {
                 public void actionPerformed( ActionEvent e ) {
                     TPModel.ROOTS_DURRAND_KERNER = false;
                     optimizedCheckBox.setEnabled( false );
-                    thresholdControl.setEnabled( true );
+                    thresholdControl.setEnabled( optimizedCheckBox.isEnabled() && optimizedCheckBox.isSelected() );
                     update( e.getSource() );
                 }
             } );
-            
+
             durandKernerRadioButton = new JRadioButton( "Durand-Kerner" );
             durandKernerRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -196,13 +195,13 @@ public class TPControlPanel extends JPanel {
                     update( e.getSource() );
                 }
             } );
-            
+
             ButtonGroup group = new ButtonGroup();
             group.add( laguerreRadioButton );
             group.add( durandKernerRadioButton );
             laguerreRadioButton.setSelected( !TPModel.ROOTS_DURRAND_KERNER );
             durandKernerRadioButton.setSelected( TPModel.ROOTS_DURRAND_KERNER );
-            
+
             iterationsControl = new LinearValueControl( TPConstants.ROOTS_ITERATIONS_RANGE.getMin(), TPConstants.ROOTS_ITERATIONS_RANGE.getMax(), "iterations:", "###0", "", new HorizontalLayoutStrategy() );
             iterationsControl.setValue( TPModel.ROOTS_ITERATIONS );
             iterationsControl.addChangeListener( new ChangeListener() {
@@ -211,7 +210,7 @@ public class TPControlPanel extends JPanel {
                     update( e.getSource() );
                 }
             } );
-            
+
             optimizedCheckBox = new JCheckBox( "optimized" );
             optimizedCheckBox.setSelected( TPModel.ROOTS_OPTIMIZED );
             optimizedCheckBox.setEnabled( durandKernerRadioButton.isSelected() );
@@ -222,7 +221,7 @@ public class TPControlPanel extends JPanel {
                     update( e.getSource() );
                 }
             } );
-            
+
             thresholdControl = new LogarithmicValueControl( TPConstants.ROOTS_THRESHOLD_RANGE.getMin(), TPConstants.ROOTS_THRESHOLD_RANGE.getMax(), "threshold:", "0.0E0", "", new HorizontalLayoutStrategy() );
             thresholdControl.setValue( TPModel.ROOTS_THRESHOLD );
             thresholdControl.setEnabled( optimizedCheckBox.isEnabled() && optimizedCheckBox.isSelected() );
@@ -232,13 +231,13 @@ public class TPControlPanel extends JPanel {
                     update( e.getSource() );
                 }
             } );
-            
+
             // layout
             EasyGridBagLayout layout = new EasyGridBagLayout( rootsPanel );
             rootsPanel.setLayout( layout );
             int row = 0;
             int column = 0;
-            layout.addComponent( new JLabel( "method:"), row, column++ );
+            layout.addComponent( new JLabel( "method:" ), row, column++ );
             layout.addComponent( laguerreRadioButton, row, column++ );
             layout.addComponent( durandKernerRadioButton, row++, column++ );
             column = 0;
@@ -246,7 +245,7 @@ public class TPControlPanel extends JPanel {
             layout.addComponent( optimizedCheckBox, row++, column, 3, 1 );
             layout.addComponent( thresholdControl, row++, column, 3, 1 );
         }
-        
+
         // layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         layout.setAnchor( GridBagConstraints.WEST );
@@ -264,29 +263,29 @@ public class TPControlPanel extends JPanel {
         layout.addComponent( k3Control, row++, column );
         layout.addFilledComponent( new JSeparator(), row++, column, GridBagConstraints.HORIZONTAL );
         layout.addComponent( rootsPanel, row++, column );
-        
+
         update( k1Control );
     }
-    
+
     private void update( Object control ) {
-        
+
         setCursor( new Cursor( Cursor.WAIT_CURSOR ) );
-        
+
         if ( control instanceof KControl ) {
-            adjustKControls( (KControl)control );
+            adjustKControls( (KControl) control );
         }
-        
+
         Object choice = solutionComboBox.getSelectedItem();
-       
+
         if ( choice == SOLUTION_STRONG_BASE ) {
             updateStrongBase();
-         }
+        }
         else if ( choice == SOLUTION_WEAK_BASE ) {
-           updateWeakBase();
+            updateWeakBase();
         }
         else if ( choice == SOLUTION_STRONG_ACID ) {
             updateStrongAcid();
-         }
+        }
         else if ( choice == SOLUTION_WEAK_ACID ) {
             updateWeakAcid();
         }
@@ -296,13 +295,13 @@ public class TPControlPanel extends JPanel {
         else if ( choice == SOLUTION_TRIPROTIC_ACID ) {
             updateTriproticAcid();
         }
-        
+
         setCursor( new Cursor( Cursor.DEFAULT_CURSOR ) );
     }
-    
+
     private void updateStrongBase() {
         // controls
-        titrantLabel.setText(  "titrant: " + TITRANT_STRONG_ACID );
+        titrantLabel.setText( "titrant: " + TITRANT_STRONG_ACID );
         k1Control.setEnabled( false );
         k1Control.getValueLabel().setText( "N/A" );
         k2Control.setEnabled( false );
@@ -317,13 +316,13 @@ public class TPControlPanel extends JPanel {
             double Va = x;
             double Vb = TPConstants.SOLUTION_VOLUME;
             double y = TPModel.strongBase( Ca, Cb, Va, Vb );
-            chart.addPoint( x, y);
+            chart.addPoint( x, y );
         }
     }
-    
+
     private void updateWeakBase() {
         // controls
-        titrantLabel.setText(  "titrant: " + TITRANT_STRONG_ACID );
+        titrantLabel.setText( "titrant: " + TITRANT_STRONG_ACID );
         k1Control.setEnabled( true );
         k1Control.getValueLabel().setText( "Kb = " );
         k2Control.setEnabled( false );
@@ -342,10 +341,10 @@ public class TPControlPanel extends JPanel {
             chart.addPoint( x, y );
         }
     }
-    
+
     private void updateStrongAcid() {
         // controls
-        titrantLabel.setText(  "titrant: " + TITRANT_STRONG_BASE );
+        titrantLabel.setText( "titrant: " + TITRANT_STRONG_BASE );
         k1Control.setEnabled( false );
         k1Control.getValueLabel().setText( "N/A" );
         k2Control.setEnabled( false );
@@ -363,10 +362,10 @@ public class TPControlPanel extends JPanel {
             chart.addPoint( x, y );
         }
     }
-    
+
     private void updateWeakAcid() {
         // controls
-        titrantLabel.setText(  "titrant: " + TITRANT_STRONG_BASE );
+        titrantLabel.setText( "titrant: " + TITRANT_STRONG_BASE );
         k1Control.setEnabled( true );
         k1Control.getValueLabel().setText( "Ka = " );
         k2Control.setEnabled( false );
@@ -385,10 +384,10 @@ public class TPControlPanel extends JPanel {
             chart.addPoint( x, y );
         }
     }
-    
+
     private void updateDiproticAcid() {
         // controls
-        titrantLabel.setText(  "titrant: " + TITRANT_STRONG_BASE );
+        titrantLabel.setText( "titrant: " + TITRANT_STRONG_BASE );
         k1Control.setEnabled( true );
         k1Control.getValueLabel().setText( "<html>Ka<sub>1</sub> = </html>" );
         k2Control.setEnabled( true );
@@ -408,10 +407,10 @@ public class TPControlPanel extends JPanel {
             chart.addPoint( x, y );
         }
     }
-    
+
     private void updateTriproticAcid() {
         // controls
-        titrantLabel.setText(  "titrant: " + TITRANT_STRONG_BASE );
+        titrantLabel.setText( "titrant: " + TITRANT_STRONG_BASE );
         k1Control.setEnabled( true );
         k1Control.getValueLabel().setText( "<html>Ka<sub>1</sub> = </html>" );
         k2Control.setEnabled( true );
@@ -432,14 +431,14 @@ public class TPControlPanel extends JPanel {
             chart.addPoint( x, y );
         }
     }
-    
+
     /*
-     * Each slider can be dragged throughout its full range.
-     * If the condition K3 <= K2 <= K1 is violated, then the
-     * sliders that are not being dragged are adjusted.
-     */
+    * Each slider can be dragged throughout its full range.
+    * If the condition K3 <= K2 <= K1 is violated, then the
+    * sliders that are not being dragged are adjusted.
+    */
     private void adjustKControls( KControl controlChanged ) {
-        if ( controlChanged == k1Control ){
+        if ( controlChanged == k1Control ) {
             // adjust K2
             if ( k1Control.getValue() < k2Control.getValue() ) {
                 k2Control.setValueNoNotify( k1Control.getValue() );
@@ -461,9 +460,9 @@ public class TPControlPanel extends JPanel {
         }
         else if ( controlChanged == k3Control ) {
             // adjust K2
-            if ( k3Control.getValue() > k2Control.getValue()  ) {
+            if ( k3Control.getValue() > k2Control.getValue() ) {
                 k2Control.setValueNoNotify( k3Control.getValue() );
-               
+
             }
             // adjust K1
             if ( k2Control.getValue() > k1Control.getValue() ) {

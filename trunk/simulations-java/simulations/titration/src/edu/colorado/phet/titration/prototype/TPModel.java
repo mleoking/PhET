@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.titration.prototype;
 
 import java.util.ArrayList;
@@ -13,18 +12,19 @@ import edu.colorado.phet.titration.test.RootTest;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class TPModel {
-    
+
     public static boolean ROOTS_DURRAND_KERNER = false;
     public static boolean ROOTS_OPTIMIZED = false;
     public static int ROOTS_ITERATIONS = TPConstants.ROOTS_ITERATIONS_RANGE.getDefault();
     public static double ROOTS_THRESHOLD = TPConstants.ROOTS_THRESHOLD_RANGE.getDefault();
-    
+
     private static final double Kw = TPConstants.Kw;
 
-    private TPModel() {}
+    private TPModel() {
+    }
 
     /**
-     * Strong base titrated with a strong acid.   
+     * Strong base titrated with a strong acid.
      * Octave implementation is in file strongbase.m
      */
     public static final double strongBase( double Ca, double Cb, double Va, double Vb ) {
@@ -45,7 +45,7 @@ public class TPModel {
         double b = Ca * Va - Cb * Vb - ( Kw / Kb ) * ( Va + Vb );
         double c = Kw * ( Va + Vb ) + ( Ca * Va * Kw ) / Kb;
         double d = ( ( Kw * Kw ) / Kb ) * ( Va + Vb );
-        double[] coefficients = new double[] { a, b, c, d }; // high to low
+        double[] coefficients = new double[]{a, b, c, d}; // high to low
         double pH = pH( coefficients );
         return pH;
     }
@@ -72,7 +72,7 @@ public class TPModel {
         double b = Cb * Vb + Va * Ka + Vb * Ka;
         double c = Cb * Vb * Ka - Ca * Va * Ka - Va * Kw - Vb * Kw;
         double d = -Kw * Ka * ( Va + Vb );
-        double[] coefficients = new double[] { a, b, c, d }; // high to low
+        double[] coefficients = new double[]{a, b, c, d}; // high to low
         double pH = pH( coefficients );
         return pH;
     }
@@ -87,7 +87,7 @@ public class TPModel {
         double c = Cb * Vb * Ka1 - Ca * Va * Ka1 + Va * Ka1 * Ka2 + Vb * Ka1 * Ka2 - Va * Kw - Vb * Kw;
         double d = Cb * Vb * Ka1 * Ka2 - 2 * Ca * Va * Ka1 * Ka2 - Va * Ka1 * Kw - Vb * Ka1 * Kw;
         double e = -( Ka1 * Ka2 * Kw ) * ( Va + Vb );
-        double[] coefficients = new double[] { a, b, c, d, e }; // high to low
+        double[] coefficients = new double[]{a, b, c, d, e}; // high to low
         return pH( coefficients );
     }
 
@@ -102,7 +102,7 @@ public class TPModel {
         double d = -2 * Ca * Va * Ka1 * Ka2 + Cb * Vb * Ka1 * Ka2 + Va * Ka1 * Ka2 * Ka3 + Vb * Ka1 * Ka2 * Ka3 - Va * Ka1 * Kw - Vb * Ka1 * Kw;
         double e = -3 * Ca * Va * Ka1 * Ka2 * Ka3 + Cb * Vb * Ka1 * Ka2 * Ka3 - Va * Ka1 * Ka2 * Kw - Vb * Ka1 * Ka2 * Kw;
         double f = -Va * Ka1 * Ka2 * Ka3 * Kw - Vb * Ka1 * Ka2 * Ka3 * Kw;
-        double[] coefficients = new double[] { a, b, c, d, e, f }; // high to low
+        double[] coefficients = new double[]{a, b, c, d, e, f}; // high to low
         return pH( coefficients );
     }
 
@@ -134,7 +134,7 @@ public class TPModel {
         }
         return pH;
     }
-    
+
     private static Complex[] roots( double[] coefficients ) {
         Complex[] polynomial = new Complex[coefficients.length];
         for ( int i = 0; i < coefficients.length; i++ ) {
@@ -150,11 +150,11 @@ public class TPModel {
             }
         }
         else {
-            roots = RootTest.findRootsLaguerre( polynomial, ROOTS_ITERATIONS, ROOTS_THRESHOLD );
+            roots = RootTest.findRootsLaguerre( polynomial, ROOTS_ITERATIONS );
         }
         return roots;
     }
-    
+
     private static void debugPrintCoefficients( double[] coefficients ) {
         System.out.print( "coefficients:" );
         for ( int i = 0; i < coefficients.length; i++ ) {
@@ -162,7 +162,7 @@ public class TPModel {
         }
         System.out.println();
     }
-    
+
     private static void debugPrintRealRoots( Complex[] roots ) {
         System.out.print( "roots:" );
         for ( int i = 0; i < roots.length; i++ ) {
