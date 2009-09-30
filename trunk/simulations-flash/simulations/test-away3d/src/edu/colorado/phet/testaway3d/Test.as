@@ -5,6 +5,7 @@
 	import flash.display.Sprite;
     import flash.events.Event;
 	import flash.events.MouseEvent;
+	import flash.geom.ColorTransform;
 	import flash.geom.Rectangle;
 	import flash.text.TextField;
 	import flash.text.TextFormat;
@@ -22,6 +23,8 @@
 	import away3d.lights.*;
 	import away3d.materials.*;
 	import away3d.primitives.*;
+	
+	import edu.colorado.phet.testaway3d.WallBitmapData;
 
 	public class Test extends MovieClip {
 		
@@ -170,6 +173,10 @@
 			sp.addChild( tf );
 			var cubeMat : MovieMaterial = new MovieMaterial( sp );
 			cube.cubeMaterials.back = cubeMat;
+			var wallData : BitmapData = new WallBitmapData( 100, 100 );
+			wallData.colorTransform( new Rectangle( 0, 0, wallData.width, wallData.height ), new ColorTransform( 1.0, 0.5, 0.5 )  );
+			var redWallMaterial : BitmapMaterial = new BitmapMaterial( wallData );
+			cube.cubeMaterials.left = cube.cubeMaterials.right = cube.cubeMaterials.top = cube.cubeMaterials.bottom = cube.cubeMaterials.front = redWallMaterial;
 			cube.useHandCursor = true;
 			scene.addChild(cube);
 			
