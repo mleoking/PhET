@@ -9,6 +9,7 @@ import edu.colorado.phet.wickettest.util.HibernateUtils;
 import edu.colorado.phet.wickettest.util.StringUtils;
 
 public class LocaleTest {
+    /*
     public static void main( String[] args ) {
         new InitializeDatasource().init();
         Session session = HibernateUtils.getInstance().openSession();
@@ -19,4 +20,5 @@ public class LocaleTest {
         }
         session.close();
     }
+    */
 }
