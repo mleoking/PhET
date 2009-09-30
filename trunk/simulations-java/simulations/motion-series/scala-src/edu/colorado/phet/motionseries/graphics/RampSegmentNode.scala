@@ -44,7 +44,7 @@ class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2
     updateColor()
     updateDecorations()
   })
-  val icicleImageNode = new PImage(BufferedImageUtils.multiScaleToHeight(MotionSeriesResources.getImage("icicles.gif"),80))
+  val icicleImageNode = new PImage(BufferedImageUtils.multiScaleToHeight(MotionSeriesResources.getImage("icicles.gif"), 80))
 
   def updateBaseColor() = {
     baseColor = if (rampSurfaceModel.frictionless) iceColor else woodColor
@@ -59,7 +59,7 @@ class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2
     line.setPathTo(mytransform.createTransformedShape(new BasicStroke(0.4f).createStrokedShape(rampSegment.toLine2D)))
   }
   rampSegment.wetnessListeners += (() => updateColor())
-  rampSegment.addListener (()=>updateDecorations())
+  rampSegment.addListener(() => updateDecorations())
   updateBaseColor()
   updateColor()
   updateDecorations()
@@ -77,11 +77,12 @@ class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2
     paintColor = new Color(r2, g2, b2)
   }
 
-  val iceX = java.lang.Math.random*0.8
+  val iceX = java.lang.Math.random * 0.8
+
   def updateDecorations() = {
     if (getChildrenReference.contains(icicleImageNode)) {
       val delta = (rampSegment.endPoint - rampSegment.startPoint).normalize
-      val alpha = iceX * rampSegment.length 
+      val alpha = iceX * rampSegment.length
       val pt = rampSegment.startPoint + delta * alpha
       icicleImageNode.setOffset(mytransform.modelToView(pt))
       icicleImageNode.setRotation(-rampSegment.angle)

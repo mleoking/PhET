@@ -8,7 +8,6 @@ import edu.colorado.phet.motionseries.{MotionSeriesResources, MotionSeriesDefaul
 
 class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock)
         extends MotionSeriesModule(frame, clock, "module.robotMovingCompany".translate, 5, false, MotionSeriesDefaults.defaultRampAngle) {
-
   override def reset() = {
     super.reset()
     motionSeriesModel.frictionless = false
@@ -38,7 +37,7 @@ class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock)
     if (!audioClip.isEmpty) MotionSeriesResources.getAudioClip(audioClip.get).play()
   })
 
-  val canvas = new RobotMovingCompanyCanvas(motionSeriesModel, coordinateSystemModel, fbdModel, vectorViewModel, frame, gameModel,MotionSeriesDefaults.forceMotionFrictionArea)
+  val canvas = new RobotMovingCompanyCanvas(motionSeriesModel, coordinateSystemModel, fbdModel, vectorViewModel, frame, gameModel, MotionSeriesDefaults.forceMotionFrictionArea)
 
   setSimulationPanel(canvas)
   setLogoPanelVisible(false)

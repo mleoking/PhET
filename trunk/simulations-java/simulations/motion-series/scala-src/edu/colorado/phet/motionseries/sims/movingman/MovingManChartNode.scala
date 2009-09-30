@@ -7,7 +7,7 @@ import edu.colorado.phet.motionseries.charts.{Graph, MotionSeriesChartNode}
 class MovingManChartNode(canvas: MotionSeriesCanvas, model: MotionSeriesModel) extends MotionSeriesChartNode(canvas, model) {
   init(Graph("position", positionGraph(true), false) ::
           Graph("velocity", velocityGraph(true), false) ::
-          Graph("acceleration", accelerationGraph( true), true) :: Nil)
+          Graph("acceleration", accelerationGraph(true), true) :: Nil)
 }
 
 class MovingManEnergyChartNode(canvas: MotionSeriesCanvas, model: MotionSeriesModel) extends MotionSeriesChartNode(canvas, model) {

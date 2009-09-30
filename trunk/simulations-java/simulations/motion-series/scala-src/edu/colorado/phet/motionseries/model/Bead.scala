@@ -51,12 +51,12 @@ class Bead(private var _state: BeadState,
            __surfaceFrictionStrategy: SurfaceFrictionStrategy,
            _wallsExist: => Boolean,
            val wallRange: () => Range,
-           thermalEnergyStrategy: Double=>Double)
+           thermalEnergyStrategy: Double => Double)
         extends Observable {
   def wallsExist = _wallsExist
 
   //This method allows bead subclasses to avoid thermal energy by overriding this to return 0.0
-  def getThermalEnergy(x:Double) = thermalEnergyStrategy(x)
+  def getThermalEnergy(x: Double) = thermalEnergyStrategy(x)
 
   val id = Bead.nextIndex()
   val crashListeners = new ArrayBuffer[() => Unit]
@@ -90,8 +90,8 @@ class Bead(private var _state: BeadState,
   val appliedForceVector = new BeadVector(MotionSeriesDefaults.appliedForceColor, "Applied Force".literal, "force.abbrev.applied".translate, false, () => appliedForce, (a, b) => b)
   val frictionForceVector = new BeadVector(MotionSeriesDefaults.frictionForceColor, "Friction Force".literal, "force.abbrev.friction".translate, true, () => frictionForce, (a, b) => b)
   val wallForceVector = new BeadVector(MotionSeriesDefaults.wallForceColor, "Wall Force".literal, "force.abbrev.wall".translate, false, () => wallForce, (a, b) => b)
-  val velocityVector = new BeadVector(MotionSeriesDefaults.velocityColor,"Velocity".literal,"velocity",false,()=>getRampUnitVector * velocity,(a, b) => b)//todo: translate
-  val accelerationVector = new BeadVector(MotionSeriesDefaults.accelerationColor,"Acceleration".literal,"acceleration",false,()=>getRampUnitVector * acceleration,(a, b) => b)//todo: translate
+  val velocityVector = new BeadVector(MotionSeriesDefaults.velocityColor, "Velocity".literal, "velocity", false, () => getRampUnitVector * velocity, (a, b) => b) //todo: translate
+  val accelerationVector = new BeadVector(MotionSeriesDefaults.accelerationColor, "Acceleration".literal, "acceleration", false, () => getRampUnitVector * acceleration, (a, b) => b) //todo: translate
   //chain listeners
   normalForceVector.addListenerByName(frictionForceVector.notifyListeners())
   //todo: add normalForceVector notification when changing friction coefficients
@@ -252,9 +252,10 @@ class Bead(private var _state: BeadState,
   }
 
   private var _desiredPosition = 0.0
+
   def desiredPosition = _desiredPosition
   //so we can use a filter
-  def setDesiredPosition(position:Double) = {
+  def setDesiredPosition(position: Double) = {
     _desiredPosition = position
   }
 
@@ -363,8 +364,8 @@ class Bead(private var _state: BeadState,
 
   def averageVelocity = {
     val velocities = for (i <- 0 until java.lang.Math.min(10, stateHistory.length)) yield stateHistory(stateHistory.length - 1 - i).velocity
-    val sum = velocities.foldLeft( 0.0)(_ + _)
-//    println("velocities = "+velocities.toList)
+    val sum = velocities.foldLeft(0.0)(_ + _)
+    //    println("velocities = "+velocities.toList)
     sum / velocities.size
   }
 }

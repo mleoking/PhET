@@ -39,12 +39,12 @@ class WorkEnergyChart(workEnergyChartModel: WorkEnergyChartModel, model: MotionS
   val potentialEnergyVariable = new BarChartNode.Variable("energy.potential-energy".translate, 0.0, potentialEnergyColor)
   val thermalEnergyVariable = new BarChartNode.Variable("energy.thermal-energy".translate, 0.0, thermalEnergyColor)
 
-//  val appliedWorkVariable = new BarChartNode.Variable("work.applied-work".translate, 0.0, appliedWorkColor)
-//  val frictionWorkVariable = new BarChartNode.Variable("work.friction-work".translate, 0.0, frictionWorkColor)
-//  val gravityWorkVariable = new BarChartNode.Variable("work.gravity-work".translate, 0.0, gravityWorkColor)
+  //  val appliedWorkVariable = new BarChartNode.Variable("work.applied-work".translate, 0.0, appliedWorkColor)
+  //  val frictionWorkVariable = new BarChartNode.Variable("work.friction-work".translate, 0.0, frictionWorkColor)
+  //  val gravityWorkVariable = new BarChartNode.Variable("work.gravity-work".translate, 0.0, gravityWorkColor)
 
   barChartNode.init(Array(totalEnergyVariable, kineticEnergyVariable, potentialEnergyVariable, thermalEnergyVariable
-//    ,appliedWorkVariable, frictionWorkVariable, gravityWorkVariable
+    //    ,appliedWorkVariable, frictionWorkVariable, gravityWorkVariable
     ))
   val canvas = new PhetPCanvas
   val clearButton = new PSwing(new MyJButton("controls.clear-heat".translate, () => model.clearHeat()))
@@ -80,9 +80,9 @@ class WorkEnergyChart(workEnergyChartModel: WorkEnergyChartModel, model: MotionS
     potentialEnergyVariable.setValue(bead.getPotentialEnergy)
     thermalEnergyVariable.setValue(bead.getThermalEnergy)
 
-//    appliedWorkVariable.setValue(bead.getAppliedWork)
-//    frictionWorkVariable.setValue(bead.getFrictiveWork)
-//    gravityWorkVariable.setValue(bead.getGravityWork)
+    //    appliedWorkVariable.setValue(bead.getAppliedWork)
+    //    frictionWorkVariable.setValue(bead.getFrictiveWork)
+    //    gravityWorkVariable.setValue(bead.getGravityWork)
     barChartNode.update()
   }
 }

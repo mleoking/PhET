@@ -16,9 +16,9 @@ class FBDDialog(frame: JFrame,
                 coordinateFrameModel: CoordinateFrameModel,
                 adjustable: Boolean,
                 adjustableCoordinateModel: AdjustableCoordinateModel,
-                fbdListener: Point2D => Unit) extends VectorDisplay{
-  def addVector(vector: Vector with PointOfOriginVector, offsetFBD: VectorValue, maxOffset: Int, offsetPlayArea: Double) :Unit =
-    addVector(vector,offsetFBD,maxOffset)
+                fbdListener: Point2D => Unit) extends VectorDisplay {
+  def addVector(vector: Vector with PointOfOriginVector, offsetFBD: VectorValue, maxOffset: Int, offsetPlayArea: Double): Unit =
+    addVector(vector, offsetFBD, maxOffset)
 
   val dialog = new JDialog(frame, "display.free-body-diagram".translate, false)
   dialog.setSize(600, 600)

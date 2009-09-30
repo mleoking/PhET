@@ -21,5 +21,6 @@ class MotionSeriesDefaultTemporalVariable(model: RecordModel[RecordedState]) ext
     else
       setValue(value)
   }
+
   def inTimeRange(time: Double) = time <= MotionSeriesDefaults.MAX_RECORD_TIME
 }

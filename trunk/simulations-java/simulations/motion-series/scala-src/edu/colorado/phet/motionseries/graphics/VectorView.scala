@@ -15,8 +15,8 @@ class VectorView(bead: Bead,
                              offsetFBD: VectorValue,
                              offsetPlayArea: Double,
                              selectedVectorVisible: () => Boolean,
-                             vectorDisplay:VectorDisplay) = {
-    addVector(bead, beadVector, offsetFBD, offsetPlayArea,vectorDisplay)
+                             vectorDisplay: VectorDisplay) = {
+    addVector(bead, beadVector, offsetFBD, offsetPlayArea, vectorDisplay)
 
     val parallelComponent = new ParallelComponent(beadVector, bead)
     val perpComponent = new PerpendicularComponent(beadVector, bead)
@@ -32,47 +32,48 @@ class VectorView(bead: Bead,
     vectorViewModel.addListener(update)
     update()
 
-    addVector(bead, xComponent, offsetFBD, offsetPlayArea,vectorDisplay)
-    addVector(bead, yComponent, offsetFBD, offsetPlayArea,vectorDisplay)
-    addVector(bead, parallelComponent, offsetFBD, offsetPlayArea,vectorDisplay)
-    addVector(bead, perpComponent, offsetFBD, offsetPlayArea,vectorDisplay)
+    addVector(bead, xComponent, offsetFBD, offsetPlayArea, vectorDisplay)
+    addVector(bead, yComponent, offsetFBD, offsetPlayArea, vectorDisplay)
+    addVector(bead, parallelComponent, offsetFBD, offsetPlayArea, vectorDisplay)
+    addVector(bead, perpComponent, offsetFBD, offsetPlayArea, vectorDisplay)
   }
 
   def addVector(bead: Bead, vector: Vector with PointOfOriginVector, offsetFBD: VectorValue,
                 offsetPlayArea: Double,
-                vectorDisplay:VectorDisplay) = {
-    vectorDisplay.addVector(vector,offsetFBD,MotionSeriesDefaults.FBD_LABEL_MAX_OFFSET,offsetPlayArea)
-//    fbdNode.addVector(vector, offsetFBD, MotionSeriesDefaults.FBD_LABEL_MAX_OFFSET)
-//    windowFBDNode.addVector(vector, offsetFBD, MotionSeriesDefaults.FBD_LABEL_MAX_OFFSET)
-    
+                vectorDisplay: VectorDisplay) = {
+    vectorDisplay.addVector(vector, offsetFBD, MotionSeriesDefaults.FBD_LABEL_MAX_OFFSET, offsetPlayArea)
+    //    fbdNode.addVector(vector, offsetFBD, MotionSeriesDefaults.FBD_LABEL_MAX_OFFSET)
+    //    windowFBDNode.addVector(vector, offsetFBD, MotionSeriesDefaults.FBD_LABEL_MAX_OFFSET)
+
     bead.removalListeners += (() => {
       vectorDisplay.removeVector(vector)
-//      fbdNode.removeVector(vector)
-//      windowFBDNode.removeVector(vector)
+      //      fbdNode.removeVector(vector)
+      //      windowFBDNode.removeVector(vector)
       //      vectorNode.removeVector(playAreaAdapter) //todo: don't use vectorNode for game module but remove it if non-game module
     })
   }
 
-  def addVectorAllComponents(bead: Bead, a: BeadVector,vectorDisplay:VectorDisplay): Unit =
-    addVectorAllComponents(bead, a, new ConstantVectorValue, 0, () => true,vectorDisplay)
+  def addVectorAllComponents(bead: Bead, a: BeadVector, vectorDisplay: VectorDisplay): Unit =
+    addVectorAllComponents(bead, a, new ConstantVectorValue, 0, () => true, vectorDisplay)
 
   def addAllVectors(bead: Bead, vectorDisplay: VectorDisplay) = {
-    addVectorAllComponents(bead, bead.appliedForceVector,vectorDisplay)
-    addVectorAllComponents(bead, bead.gravityForceVector,vectorDisplay)
-    addVectorAllComponents(bead, bead.normalForceVector,vectorDisplay)
-    addVectorAllComponents(bead, bead.frictionForceVector,vectorDisplay)
-    addVectorAllComponents(bead, bead.wallForceVector,vectorDisplay)
+    addVectorAllComponents(bead, bead.appliedForceVector, vectorDisplay)
+    addVectorAllComponents(bead, bead.gravityForceVector, vectorDisplay)
+    addVectorAllComponents(bead, bead.normalForceVector, vectorDisplay)
+    addVectorAllComponents(bead, bead.frictionForceVector, vectorDisplay)
+    addVectorAllComponents(bead, bead.wallForceVector, vectorDisplay)
     addVectorAllComponents(bead, bead.totalForceVector,
       new ConstantVectorValue(new Vector2D(0, fbdWidth / 4)), 2,
-      () => vectorViewModel.sumOfForcesVector,vectorDisplay) //no need to add a separate listener, since it is already contained in vectorviewmodel
+      () => vectorViewModel.sumOfForcesVector, vectorDisplay) //no need to add a separate listener, since it is already contained in vectorviewmodel
   }
   //  addAllVectors(bead)
 }
 
 trait VectorDisplay {
-  def addVector(vector:Vector with PointOfOriginVector,offsetFBD:VectorValue,maxOffset:Int,offsetPlayArea:Double):Unit
-  def removeVector(vector:Vector):Unit
-//  vectorDisplay.addVector(vector,offsetFBD,MotionSeriesDefaults.FBD_LABEL_MAX_OFFSET,offsetPlayArea)
+  def addVector(vector: Vector with PointOfOriginVector, offsetFBD: VectorValue, maxOffset: Int, offsetPlayArea: Double): Unit
+
+  def removeVector(vector: Vector): Unit
+  //  vectorDisplay.addVector(vector,offsetFBD,MotionSeriesDefaults.FBD_LABEL_MAX_OFFSET,offsetPlayArea)
 }
 
 trait PointOfOriginVector {
@@ -83,17 +84,17 @@ class PlayAreaVectorNode(transform: ModelViewTransform2D, bead: Bead, vectorView
   def addVector(a: Vector, offset: VectorValue): Unit = addChild(new BodyVectorNode(transform, a, offset, bead))
 
   def addVector(vector: Vector with PointOfOriginVector, offsetFBD: VectorValue, maxOffset: Int, offsetPlayArea: Double): Unit = {
-    addVector(new PlayAreaVector(vector,MotionSeriesDefaults.PLAY_AREA_FORCE_VECTOR_SCALE), new PlayAreaOffset(bead, vectorViewModel, offsetPlayArea, vector))
+    addVector(new PlayAreaVector(vector, MotionSeriesDefaults.PLAY_AREA_FORCE_VECTOR_SCALE), new PlayAreaOffset(bead, vectorViewModel, offsetPlayArea, vector))
   }
 
   def removeVector(vector: Vector) = null
 }
 
 //todo: make sure this adapter overrides other methods as well such as addListener
-class PlayAreaVector(vector: Vector,scale:Double)
+class PlayAreaVector(vector: Vector, scale: Double)
         extends Vector(vector.color, vector.name, vector.abbreviation, () => vector.getValue * scale, vector.painter) {
   //println("created play area vector: "+vector.name)
-  vector.addListener( notifyListeners )
+  vector.addListener(notifyListeners)
   override def visible = vector.visible
 
   override def visible_=(vis: Boolean) = vector.visible = vis
