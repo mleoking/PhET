@@ -182,7 +182,7 @@ public class TPControlPanel extends JPanel {
                 public void actionPerformed( ActionEvent e ) {
                     TPModel.ROOTS_DURRAND_KERNER = false;
                     optimizedCheckBox.setEnabled( false );
-                    thresholdControl.setEnabled( optimizedCheckBox.isEnabled() && optimizedCheckBox.isSelected() );
+                    thresholdControl.setEnabled( true );
                     update( e.getSource() );
                 }
             } );
