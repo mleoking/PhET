@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.neuron.controlpanel;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Frame;
@@ -22,6 +23,7 @@ import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.neuron.NeuronConstants;
 import edu.colorado.phet.neuron.NeuronResources;
 import edu.colorado.phet.neuron.NeuronStrings;
@@ -58,7 +60,7 @@ public class NeuronControlPanel extends ControlPanel {
 	// reside on the canvas be of an appropriate size for inclusion on the
 	// control panel.
 	private static final ModelViewTransform2D MVT = new ModelViewTransform2D(
-			new Rectangle2D.Double(-1.0, -1.0, 2.0, 2.0), new Rectangle2D.Double(-8, -8, 16, 16));
+			new Rectangle2D.Double(-1.0, -1.0, 2.0, 2.0), new Rectangle2D.Double(-10, -10, 20, 20));
 
 	//----------------------------------------------------------------------------
     // Instance Data
@@ -265,9 +267,19 @@ public class NeuronControlPanel extends ControlPanel {
             	atomNode = new AtomNode(new SodiumIon(), MVT);  // Just in case.
             }
             
+            // TODO: This is a workaround for a problem where the icon was
+            // being cut off on the edges - basically the stroke was being
+            // removed.  Figure out why this is needed and fix it.
+//            PNode atomNodeComposite = new PNode();
+//            double size = atomNode.getFullBoundsReference().width * 1.4;
+//            PhetPPath atomNodeBackground = new PhetPPath(new Rectangle2D.Double(-size / 2, -size / 2, size, size),
+//            		new Color(0,0,0,0), null, null);
+//            atomNodeComposite.addChild(atomNodeBackground);
+//            atomNodeComposite.addChild(atomNode);
+            
             // Create and add the icon.
             JLabel _valueLabel = getValueLabel();
-            _valueLabel.setIcon( new ImageIcon(atomNode.toImage(20, 20, new Color(0,0,0,0))) );
+            _valueLabel.setIcon( new ImageIcon(atomNode.toImage(25, 25, new Color(0,0,0,0))) );
             _valueLabel.setVerticalTextPosition( JLabel.CENTER );
             _valueLabel.setHorizontalTextPosition( JLabel.LEFT );
             
