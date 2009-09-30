@@ -6,7 +6,7 @@ import edu.colorado.phet.motionseries.MotionSeriesResources._
 import edu.colorado.phet.motionseries.charts.{Graph, MotionSeriesChartNode}
 
 class RampForceEnergyChartNode(canvas: MotionSeriesCanvas, model: MotionSeriesModel) extends MotionSeriesChartNode(canvas, model) {
-  init(Graph("forces.work-energy-title".translate, energyGraph, false) :: Nil)
+  init(Graph("forces.energy-title".translate, energyGraph, false) :: Nil)
 }
 
 class RampForceChartNode(canvas: MotionSeriesCanvas, model: MotionSeriesModel) extends MotionSeriesChartNode(canvas, model) {
