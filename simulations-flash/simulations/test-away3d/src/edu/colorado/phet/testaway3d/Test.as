@@ -155,31 +155,33 @@
 			scene.addChild( new Plane({ x: far / 2 + poolWidth / 2, y: -far / 2, width: far, height: far, rotationX: 90, material: new ShadingColorMaterial( 0xAA7733 ) }) );
 			scene.addChild( new Plane({ x: -far / 2 - poolWidth / 2, y: -far / 2, width: far, height: far, rotationX: 90, material: new ShadingColorMaterial( 0xAA7733 ) }) );
 			
+			var wallData : BitmapData = new WallBitmapData( 100, 100 );
+			wallData.colorTransform( new Rectangle( 0, 0, wallData.width, wallData.height ), new ColorTransform( 1.0, 0.5, 0.5 )  );
 			cube = new Cube({ x: 300, y: 160, z: 201, width: 200, height: 200, depth: 200, segmentsW: 10, segmentsH: 10, material: new ShadingColorMaterial( 0xFF0000, {ambient: 0xFF0000, specular:0xFFFFFF}) });
 			var sp : Sprite = new Sprite();
-			sp.graphics.beginFill( 0xAA0000 );
-			sp.graphics.drawRect( 0, 0, 100, 100 );
-			sp.graphics.endFill();
+			sp.addChild( new Bitmap( wallData ) );
 			var tf : TextField = new TextField();
 			tf.text = "50 kg";
-			tf.height = 100;
-			tf.width = 100;
+			tf.height = wallData.height;
+			tf.width = wallData.width;
 			var format : TextFormat = new TextFormat();
-			format.size = 30;
+			format.size = 45;
 			format.bold = true;
 			format.font = "Arial";
 			tf.multiline = true;
 			tf.setTextFormat( format );
 			sp.addChild( tf );
 			var cubeMat : MovieMaterial = new MovieMaterial( sp );
-			cube.cubeMaterials.back = cubeMat;
-			var wallData : BitmapData = new WallBitmapData( 100, 100 );
-			wallData.colorTransform( new Rectangle( 0, 0, wallData.width, wallData.height ), new ColorTransform( 1.0, 0.5, 0.5 )  );
+			var textMat : PhongMovieMaterial = new PhongMovieMaterial( sp );
+			
 			var redWallMaterial : BitmapMaterial = new BitmapMaterial( wallData );
 			cube.cubeMaterials.left = cube.cubeMaterials.right = cube.cubeMaterials.top = cube.cubeMaterials.bottom = cube.cubeMaterials.front = redWallMaterial;
 			cube.useHandCursor = true;
 			scene.addChild(cube);
-			
+			var frontMaterial : CompositeMaterial = new CompositeMaterial();
+			frontMaterial.addMaterial( redWallMaterial );
+			frontMaterial.addMaterial( textMat );
+			cube.cubeMaterials.back = cubeMat;
 			var light:DirectionalLight3D = new DirectionalLight3D({color:0xFFFFFF, ambient:0.2, diffuse:0.75, specular:0.1});
 			light.x = 10000;
 			light.z = -35000;
