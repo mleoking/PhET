@@ -69,35 +69,17 @@
 		public function initEngine():void {
 			scene = new Scene3D();
 			
-			//camera = new HoverCamera3D({focus:50, distance:1000, mintiltangle:0, maxtiltangle:90});
-			camera = new HoverCamera3D();
-			camera.focus = 50;
-			camera.distance = 1000;
-			camera.mintiltangle = 0;
-			camera.maxtiltangle = 90;
-			
+			camera = new HoverCamera3D({ focus: 90, distance: 2000, mintiltangle: 0, maxtitlangle: 90 });
 			camera.targetpanangle = camera.panangle = 180;
-			camera.targettiltangle = camera.tiltangle = 10;
-			
+			camera.targettiltangle = camera.tiltangle = 8;
 			camera.hover();
 			
 			//fogfilter = new FogFilter({material:new ColorMaterial(0x000000), minZ:500, maxZ:2000});
-			fogfilter = new FogFilter();
-			fogfilter.material = new ColorMaterial(0x000000);
-			fogfilter.minZ = 500;
-			fogfilter.maxZ = 20000;
 			
-			//renderer = new BasicRenderer( fogfilter );
-			//renderer = new BasicRenderer();
 			renderer = Renderer.INTERSECTING_OBJECTS;
 			
-			//view = new View3D({scene:scene, camera:camera, renderer:renderer});
-			view = new View3D();
-			view.scene = scene;
-			view.camera = camera;
-			view.renderer = renderer;
+			view = new View3D({scene:scene, camera:camera, renderer:renderer});
 			
-			view.addSourceURL("srcview/index.html");
 			addChild(view);
 		}
 		
@@ -155,6 +137,7 @@
 			scene.addChild( new Plane({ x: far / 2 + poolWidth / 2, y: -far / 2, width: far, height: far, rotationX: 90, material: new ShadingColorMaterial( 0xAA7733 ) }) );
 			scene.addChild( new Plane({ x: -far / 2 - poolWidth / 2, y: -far / 2, width: far, height: far, rotationX: 90, material: new ShadingColorMaterial( 0xAA7733 ) }) );
 			
+			// the cube
 			var wallData : BitmapData = new WallBitmapData( 100, 100 );
 			wallData.colorTransform( new Rectangle( 0, 0, wallData.width, wallData.height ), new ColorTransform( 1.0, 0.5, 0.5 )  );
 			cube = new Cube({ x: 300, y: 160, z: 201, width: 200, height: 200, depth: 200, segmentsW: 10, segmentsH: 10, material: new ShadingColorMaterial( 0xFF0000, {ambient: 0xFF0000, specular:0xFFFFFF}) });
