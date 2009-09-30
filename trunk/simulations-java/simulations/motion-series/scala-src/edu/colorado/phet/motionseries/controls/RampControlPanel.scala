@@ -77,14 +77,6 @@ class RampControlPanelBody(model: MotionSeriesModel,
     new MyRadioButton("controls.hide".translate, freeBodyDiagramModel.visible = false, !freeBodyDiagramModel.visible, freeBodyDiagramModel.addListener).peer
     ))
 
-  if (coordinateSystemFeaturesEnabled) {
-    add(new TitleLabel("coordinates.coordinate-system".translate))
-    add(boxLayout(
-      new MyRadioButton("coordinates.fixed".translate, coordinateSystemModel.fixed = true, coordinateSystemModel.fixed, coordinateSystemModel.addListener).peer,
-      new MyRadioButton("coordinates.adjustable".translate, coordinateSystemModel.adjustable = true, coordinateSystemModel.adjustable, coordinateSystemModel.addListener).peer
-      ))
-  }
-
   class IconPanel(component: JComponent, icon: Icon) extends JPanel {
     def this(component: JComponent, iconFilename: String) = this (component, new ImageIcon(MotionSeriesResources.getImage(iconFilename)))
     setLayout(new BorderLayout)
@@ -93,42 +85,43 @@ class RampControlPanelBody(model: MotionSeriesModel,
   }
 
   val vectorPanel = new SubControlPanel("vectors.title".translate) with IProguardKeepClass {
+    add(new MyRadioButton("vectors.centered".translate, vectorViewModel.centered = true, vectorViewModel.centered, vectorViewModel.addListener).peer)
+    add(new MyRadioButton("vectors.point-of-origin".translate, vectorViewModel.centered = false, !vectorViewModel.centered, vectorViewModel.addListener).peer)
+    add(Box.createRigidArea(new Dimension(10, 10)))
+    add(new MyCheckBox("vectors.force-vectors".translate, vectorViewModel.originalVectors_=, vectorViewModel.originalVectors, vectorViewModel.addListener).peer)
+
+    if (coordinateSystemFeaturesEnabled) {
+      addWithIcon("parallel_components_icon.gif".literal, new MyCheckBox("vectors.parallel-components".translate, vectorViewModel.parallelComponents_=, vectorViewModel.parallelComponents, vectorViewModel.addListener).peer)
+      addWithIcon("xy_components_icon.gif".literal, new MyCheckBox("vectors.x-y-components".translate, vectorViewModel.xyComponentsVisible = _, vectorViewModel.xyComponentsVisible, vectorViewModel.addListener).peer)
+    }
+    add(Box.createRigidArea(new Dimension(10, 10)))
+    addWithIcon(createSumForceIcon, new MyCheckBox("vectors.sum-of-forces".translate, vectorViewModel.sumOfForcesVector_=, vectorViewModel.sumOfForcesVector, vectorViewModel.addListener).peer)
+
     def addWithIcon(iconFilename: String, component: JComponent) = add(new IconPanel(component, iconFilename))
 
     def addWithIcon(image: BufferedImage, component: JComponent) = add(new IconPanel(component, new ImageIcon(image)))
-  }
-  vectorPanel.add(new MyRadioButton("vectors.centered".translate, vectorViewModel.centered = true, vectorViewModel.centered, vectorViewModel.addListener).peer)
-  vectorPanel.add(new MyRadioButton("vectors.point-of-origin".translate, vectorViewModel.centered = false, !vectorViewModel.centered, vectorViewModel.addListener).peer)
-  vectorPanel.add(Box.createRigidArea(new Dimension(10, 10)))
-  vectorPanel.add(new MyCheckBox("vectors.force-vectors".translate, vectorViewModel.originalVectors_=, vectorViewModel.originalVectors, vectorViewModel.addListener).peer)
-  if (coordinateSystemFeaturesEnabled) {
-    vectorPanel.addWithIcon("parallel_components_icon.gif".literal, new MyCheckBox("vectors.parallel-components".translate, vectorViewModel.parallelComponents_=, vectorViewModel.parallelComponents, vectorViewModel.addListener).peer)
-    vectorPanel.addWithIcon("xy_components_icon.gif".literal, new MyCheckBox("vectors.x-y-components".translate, vectorViewModel.xyComponentsVisible = _, vectorViewModel.xyComponentsVisible, vectorViewModel.addListener).peer)
-  }
-  vectorPanel.add(Box.createRigidArea(new Dimension(10, 10)))
-  vectorPanel.addWithIcon(createSumForceIcon, new MyCheckBox("vectors.sum-of-forces".translate, vectorViewModel.sumOfForcesVector_=, vectorViewModel.sumOfForcesVector, vectorViewModel.addListener).peer)
-  add(vectorPanel)
 
-  def createSumForceIcon = {
-    val rect = new Rectangle2D.Double(0, 0, 1, 1)
-    val vector = new Vector(MotionSeriesDefaults.totalForceColor, "total-force".literal, "force.abbrev.total".translate, () => new Vector2D(50, 0), (v: Vector2D, c: Color) => {c})
-    val vectorNode = new VectorNode(new ModelViewTransform2D(rect, rect), vector, new ConstantVectorValue(new Vector2D(50, 0)), 10)
-    val bufIm = BufferedImageUtils.toBufferedImage(vectorNode.toImage)
-    BufferedImageUtils.multiScaleToHeight(bufIm, 40)
+    def createSumForceIcon = {
+      val rect = new Rectangle2D.Double(0, 0, 1, 1)
+      val vector = new Vector(MotionSeriesDefaults.totalForceColor, "total-force".literal, "force.abbrev.total".translate, () => new Vector2D(50, 0), (v: Vector2D, c: Color) => {c})
+      val vectorNode = new VectorNode(new ModelViewTransform2D(rect, rect), vector, new ConstantVectorValue(new Vector2D(50, 0)), 10)
+      val bufIm = BufferedImageUtils.toBufferedImage(vectorNode.toImage)
+      BufferedImageUtils.multiScaleToHeight(bufIm, 40)
+    }
   }
 
   if (showFrictionControl) {
     val frictionPanel = new SubControlPanel("controls.friction".translate)
 
-    def getSegmentIcon(_frictionless:Boolean)={
-      val dummyModelBounds = new Rectangle2D.Double(0,0,10,10)
-      val dummyViewBounds= new Rectangle2D.Double(0,0,800,600)
-      val surfaceModel = new RampSurfaceModel{def frictionless = _frictionless}
+    def getSegmentIcon(_frictionless: Boolean) = {
+      val dummyModelBounds = new Rectangle2D.Double(0, 0, 10, 10)
+      val dummyViewBounds = new Rectangle2D.Double(0, 0, 800, 600)
+      val surfaceModel = new RampSurfaceModel {def frictionless = _frictionless}
 
       val segment = new RampSegment(new Point2D.Double(0, 0), new Point2D.Double(3, 0))
-      val node = new RampSegmentNode(segment,new ModelViewTransform2D(dummyModelBounds,dummyViewBounds,false),surfaceModel)
-      node.toImage(75,55,new Color(255,255,255,0))
-//      node.toImage
+      val node = new RampSegmentNode(segment, new ModelViewTransform2D(dummyModelBounds, dummyViewBounds, false), surfaceModel)
+      node.toImage(75, 55, new Color(255, 255, 255, 0))
+      //      node.toImage
     }
 
     def getIceIcon = getSegmentIcon(true)
@@ -137,14 +130,14 @@ class RampControlPanelBody(model: MotionSeriesModel,
 
     val onButton = new MyRadioButton("Ice (no friction)", model.frictionless = true, model.frictionless, model.addListener)
 
-    val onButtonPanel = new JPanel(){
+    val onButtonPanel = new JPanel() {
       add(onButton.peer)
       add(new JLabel(new ImageIcon(getIceIcon)))
     }
 
     val offButton = new MyRadioButton("Wood", model.frictionless = false, !model.frictionless, model.addListener)
 
-    val offButtonPanel = new JPanel(){
+    val offButtonPanel = new JPanel() {
       add(offButton.peer)
       add(new JLabel(new ImageIcon(getWoodIcon)))
     }
@@ -155,6 +148,15 @@ class RampControlPanelBody(model: MotionSeriesModel,
     frictionPanel.add(panel)
     add(frictionPanel)
   }
+
+  if (coordinateSystemFeaturesEnabled) {
+    add(new TitleLabel("coordinates.coordinate-system".translate))
+    add(boxLayout(
+      new MyRadioButton("coordinates.fixed".translate, coordinateSystemModel.fixed = true, coordinateSystemModel.fixed, coordinateSystemModel.addListener).peer,
+      new MyRadioButton("coordinates.adjustable".translate, coordinateSystemModel.adjustable = true, coordinateSystemModel.adjustable, coordinateSystemModel.addListener).peer
+      ))
+  }
+  add(vectorPanel)
 
   if (showBounceControl) {
     val bouncePanel = new SubControlPanel("walls.type".translate)
