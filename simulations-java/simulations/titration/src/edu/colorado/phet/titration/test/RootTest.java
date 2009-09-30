@@ -111,6 +111,8 @@ public class RootTest {
         return guess;
     }
 
+    private static Complex[] lastRoots = null;
+
     public static Complex[] findRootsOptimizedDurandKerner( Complex[] polynomial, int iterations, double threshold ) {
         Complex[] guess = new Complex[polynomial.length - 1];
 
@@ -118,12 +120,21 @@ public class RootTest {
         Complex[] normalizedPolynomial = polynomial.clone();
         normalizePoly( normalizedPolynomial );
 
-        // spread out the initial guesses
-        Complex initializer = new Complex( 0.4, 0.9 );
-        for ( int i = 0; i < guess.length; i++ ) {
-            guess[i] = initializer;
-            initializer = initializer.getMultiply( initializer );
+        if ( lastRoots == null || lastRoots.length != guess.length ) {
+            // spread out the initial guesses
+            Complex initializer = new Complex( 0.4, 0.9 );
+            for ( int i = 0; i < guess.length; i++ ) {
+                guess[i] = initializer;
+                initializer = initializer.getMultiply( initializer );
+            }
         }
+        else {
+            for ( int i = 0; i < guess.length; i++ ) {
+                guess[i] = lastRoots[i];
+            }
+        }
+
+        boolean early = false;
 
         for ( int i = 0; i < iterations; i++ ) {
             Complex[] next = new Complex[guess.length];
@@ -131,6 +142,9 @@ public class RootTest {
             for ( int k = 0; k < guess.length; k++ ) {
                 Complex value = evaluate( normalizedPolynomial, guess[k] );
                 if ( value.getAbs() > threshold ) {
+                    belowThreshold = false;
+                }
+                else if ( isNaN( value ) ) {
                     belowThreshold = false;
                 }
                 for ( int l = 0; l < guess.length; l++ ) {
@@ -148,9 +162,20 @@ public class RootTest {
 
             // already did the computation of the next guess, so use that (even though we were below the threshold before)
             if ( belowThreshold ) {
+                early = true;
                 break;
             }
 
+        }
+
+        if ( early ) {
+            lastRoots = guess.clone();
+        }
+        else {
+            if ( lastRoots != null ) {
+                lastRoots = null;
+                return findRootsOptimizedDurandKerner( polynomial, iterations, threshold );
+            }
         }
 
         return guess;
@@ -174,7 +199,7 @@ public class RootTest {
      * @param iterations The number of iterations to find each root
      * @return An array of the complex roots of the polynomial, in no particular order
      */
-    public static Complex[] findRootsLaguerre( Complex[] polynomial, int iterations ) {
+    public static Complex[] findRootsLaguerre( Complex[] polynomial, int iterations, double threshold ) {
         Complex[] roots = new Complex[polynomial.length - 1];
 
         boolean success = true;
@@ -185,7 +210,7 @@ public class RootTest {
         }
         for ( int i = 0; i < roots.length; i++ ) {
             if ( poly.length > 2 ) {
-                roots[i] = laguerreSingleRoot( poly, Complex.ZERO, iterations ); // for now, just use 0
+                roots[i] = laguerreSingleRoot( poly, Complex.ZERO, iterations, threshold ); // for now, just use 0
             }
             else if ( poly.length == 2 ) {
                 roots[i] = ( new Complex( -1, 0 ) ).getMultiply( poly[1] ).getDivide( poly[0] );
@@ -334,7 +359,7 @@ public class RootTest {
      * @param iterations Number of iterations to try
      * @return The root
      */
-    private static Complex laguerreSingleRoot( Complex[] poly, Complex x0, int iterations ) {
+    private static Complex laguerreSingleRoot( Complex[] poly, Complex x0, int iterations, double threshold ) {
         // order of the polynomial
         Complex n = new Complex( poly.length - 1, 0 );
 
@@ -345,7 +370,7 @@ public class RootTest {
         for ( int i = 0; i < iterations; i++ ) {
             Complex px = evaluate( poly, x );
 
-            if ( px.getAbs() == 0 ) {
+            if ( px.getAbs() <= threshold ) {
                 break;
             }
 
@@ -400,7 +425,7 @@ public class RootTest {
 
     public static class Laguerre extends RootFinder {
         public Complex[] findRoots( Complex[] poly, int iterations, double threshold ) {
-            return findRootsLaguerre( poly, iterations );
+            return findRootsLaguerre( poly, iterations, threshold );
         }
     }
 

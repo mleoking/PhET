@@ -150,7 +150,7 @@ public class TPModel {
             }
         }
         else {
-            roots = RootTest.findRootsLaguerre( polynomial, ROOTS_ITERATIONS );
+            roots = RootTest.findRootsLaguerre( polynomial, ROOTS_ITERATIONS, ROOTS_THRESHOLD );
         }
         return roots;
     }
