@@ -123,6 +123,37 @@
     }
 
     //-------------------------------------------------------------------------
+    // Function for inserting the distribution tag in all simulations, i.e.
+    // both Java and Flash sims.  The distribution tag is reported with the
+    // statistics that are sent by the sim to the statistics collection
+    // server.
+    //-------------------------------------------------------------------------
+    function installer_insert_distribution_tag($distribution_tag){
+        flushing_echo("--Entered installer_insert_distribution_tag");
+        flushing_echo("--Exited installer_insert_distribution_tag");
+    }
+
+    //-------------------------------------------------------------------------
+    // Insert the distribution tag into the flash sims, which means that it
+    // goes into all HTML files and into the JAR files that can be
+    // individually downloaded.  Note that the JAR files must be re-signed
+    // once they are changed.
+    //-------------------------------------------------------------------------
+    function installer_insert_distribution_tag_flash($distribution_tag){
+        flushing_echo("---Entered installer_insert_distribution_tag_flash");
+        flushing_echo("---Exited installer_insert_distribution_tag_flash");
+    }
+
+    //-------------------------------------------------------------------------
+    // Insert the distribution tag into the Java sims, which means that it
+    // must be put into the JAR files.
+    //-------------------------------------------------------------------------
+    function installer_insert_distribution_tag_java($distribution_tag){
+        flushing_echo("---Entered installer_insert_distribution_tag_java");
+        flushing_echo("---Exited installer_insert_distribution_tag_java");
+    }
+
+    //-------------------------------------------------------------------------
     // Function for determining if the given simulation is a flash sim.  This
     // is done by looking for the expected file types.
     //-------------------------------------------------------------------------
