@@ -79,7 +79,7 @@ class SponsorsPage extends SitePage {
                     <li><strong><a href="http://proguard.sourceforge.net"><img class="spons" src="{$this->prefix}images/proguard.gif" alt="Proguard Logo" />Proguard</a></strong><br />
                     <em>An open source tool for code shrinking</em></li>
 
-                    <li><strong><a href="http://www.jetbrains.com/idea/"><img class="spons" src="{$this->prefix}images/jetbrains.gif" alt="JetBrains Logo" />JetBrains</a></strong><br />
+                    <li><strong><a href="http://www.jetbrains.com/idea/"> <img class="spons" src="{$this->prefix}images/idea125x37_blue_custom.gif" alt="The best Java IDE" />JetBrains</a></strong><br />
                     <em>For providing for our Java development environment</em></li>
 
                     <li><strong><a href="http://www.ej-technologies.com/products/jprofiler/overview.html"><img class="bordered_spons" src="{$this->prefix}images/ej.gif" alt="ej technologies logo" />ej-technologies</a></strong><br />
