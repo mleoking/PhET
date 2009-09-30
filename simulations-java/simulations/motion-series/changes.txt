@@ -1,7 +1,8 @@
-Removed heat from moving man model
-Removed pusher from moving man
-Made it so text boxes are not editable for x,v,a in Forces and Motion
-Removed sliders from x,v,a graphs in Forces and Motion
+Improved defaults for mystery object
+moving-man: Removed heat from moving man model
+moving-man: Removed pusher from moving man
+forces-and-motion: Made it so text boxes are not editable for x,v,a in Forces and Motion
+forces-and-motion: Removed sliders from x,v,a graphs in Forces and Motion
 # 1.03.42 (35247) Sep 24, 2009
 # 1.03.42 (35245) Sep 24, 2009
 Fixed: Prevent the chart from drawing lines "back in time" when pressing record in the middle of a playback sequence
