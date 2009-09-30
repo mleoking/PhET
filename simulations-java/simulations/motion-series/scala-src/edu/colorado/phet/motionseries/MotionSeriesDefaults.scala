@@ -82,7 +82,7 @@ object MotionSeriesDefaults {
           new MotionSeriesObject("object.refrigerator".translate, 200, 0.2, 0.5, 2.75, "fridge.gif".literal, 650) ::
           new MotionSeriesObject("object.textbook".translate, 10, 0.2, 0.4, 1, "phetbook.gif".literal, 20) ::
           new MotionSeriesObject("object.piano".translate, 400, 0.3, 0.5, 3.5, "piano.png".literal, 1000) ::
-          new CustomTextMotionSeriesObject("object.mystery-object".translate, 123, 0.2, 0.2, 2, "mystery-box.png".literal, 600, "mystery-box.png".literal, false) ::
+          new CustomTextMotionSeriesObject("object.mystery-object".translate, 123, 0.2, 0.3, 2, "mystery-box.png".literal, 600, "mystery-box.png".literal, false) ::
           Nil
   val iconsPerRow = 4
 
