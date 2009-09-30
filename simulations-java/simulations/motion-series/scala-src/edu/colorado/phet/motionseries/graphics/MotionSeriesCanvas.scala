@@ -39,7 +39,7 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
 
   def useVectorNodeInPlayArea = true
 
-  def createEarthNode:AbstractEarthNode= new EarthNode(transform)
+  def createEarthNode: AbstractEarthNode = new EarthNode(transform)
 
   val earthNode = createEarthNode
   playAreaNode.addChild(earthNode)
@@ -48,9 +48,9 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
   val leftSegmentNode = createLeftSegmentNode
   playAreaNode.addChild(leftSegmentNode)
 
-    def createLeftSegmentNode = new RampSegmentNode(model.rampSegments(0), transform, model)
+  def createLeftSegmentNode = new RampSegmentNode(model.rampSegments(0), transform, model)
 
-  def createRightSegmentNode : HasPaint      = new RotatableSegmentNode(model.rampSegments(1), transform, model)
+  def createRightSegmentNode: HasPaint = new RotatableSegmentNode(model.rampSegments(1), transform, model)
 
   val rightSegmentNode = createRightSegmentNode
   playAreaNode.addChild(rightSegmentNode)
@@ -73,7 +73,7 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
     }
     playAreaNode.addChild(new SpringNode(model.leftWallRightEdge))
     playAreaNode.addChild(new SpringNode(model.rightWallLeftEdge))
-  }  
+  }
   addWallsAndDecorations()
 
   //todo: why is cabinet hard coded here?
@@ -163,17 +163,16 @@ class ClearHeatButton(model: MotionSeriesModel) extends GradientButtonNode("cont
 }
 
 abstract class MotionSeriesCanvasDecorator(model: MotionSeriesModel,
-                 coordinateSystemModel: AdjustableCoordinateModel,
-                 freeBodyDiagramModel: FreeBodyDiagramModel,
-                 vectorViewModel: VectorViewModel,
-                 frame: JFrame,
-                 showObjectSelectionNode: Boolean,
-                 showAppliedForceSlider: Boolean,
-                 rampAngleDraggable: Boolean,
-                 modelViewport: Rectangle2D,
-                 stageContainerArea:StageContainerArea)
-        extends MotionSeriesCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame, modelViewport,stageContainerArea) {
-
+                                           coordinateSystemModel: AdjustableCoordinateModel,
+                                           freeBodyDiagramModel: FreeBodyDiagramModel,
+                                           vectorViewModel: VectorViewModel,
+                                           frame: JFrame,
+                                           showObjectSelectionNode: Boolean,
+                                           showAppliedForceSlider: Boolean,
+                                           rampAngleDraggable: Boolean,
+                                           modelViewport: Rectangle2D,
+                                           stageContainerArea: StageContainerArea)
+        extends MotionSeriesCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame, modelViewport, stageContainerArea) {
   val pusherNode = new PusherNode(transform, model.bead, model.manBead)
   playAreaNode.addChild(pusherNode)
 
@@ -195,11 +194,11 @@ abstract class MotionSeriesCanvasDecorator(model: MotionSeriesModel,
 }
 
 class RampCanvas(model: MotionSeriesModel, coordinateSystemModel: AdjustableCoordinateModel, freeBodyDiagramModel: FreeBodyDiagramModel,
-                                 vectorViewModel: VectorViewModel, frame: JFrame, showObjectSelectionNode: Boolean, showAppliedForceSlider: Boolean,
-                                 rampAngleDraggable: Boolean, modelViewport: Rectangle2D,stageContainerArea:StageContainerArea)
+                 vectorViewModel: VectorViewModel, frame: JFrame, showObjectSelectionNode: Boolean, showAppliedForceSlider: Boolean,
+                 rampAngleDraggable: Boolean, modelViewport: Rectangle2D, stageContainerArea: StageContainerArea)
         extends MotionSeriesCanvasDecorator(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel,
-          frame, showObjectSelectionNode, showAppliedForceSlider, rampAngleDraggable, modelViewport,stageContainerArea) {
-    def addHeightAndAngleIndicators() = {
+          frame, showObjectSelectionNode, showAppliedForceSlider, rampAngleDraggable, modelViewport, stageContainerArea) {
+  def addHeightAndAngleIndicators() = {
     playAreaNode.addChild(new RampHeightIndicator(model.rampSegments(1), transform))
     playAreaNode.addChild(new RampAngleIndicator(model.rampSegments(1), transform))
   }

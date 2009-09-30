@@ -35,7 +35,7 @@ class SeriesSelectionControl(title: String, numRows: Int) extends VerticalLayout
     grid.add(component2)
   }
 
-  def addComponent(component:JComponent) {
+  def addComponent(component: JComponent) {
     nongrid.add(component)
   }
 

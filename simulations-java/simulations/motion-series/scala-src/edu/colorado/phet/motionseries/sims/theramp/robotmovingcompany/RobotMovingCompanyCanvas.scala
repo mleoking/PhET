@@ -120,26 +120,27 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
   override def useVectorNodeInPlayArea = false
 
   val F = 500.0
-  val NONE = ("none",0.0)
-  val RIGHT = ("right",F)
-  val LEFT = ("left",-F)
+  val NONE = ("none", 0.0)
+  val RIGHT = ("right", F)
+  val LEFT = ("left", -F)
 
   object userInputModel extends Observable {
-    private var _pressed: (String,Double) = NONE
+    private var _pressed: (String, Double) = NONE
 
     def pressed = _pressed
 
-    def pressed_=(p: (String,Double)) = {
+    def pressed_=(p: (String, Double)) = {
       _pressed = p
       notifyListeners()
     }
+
     def appliedForce = _pressed._2
   }
 
   userInputModel.addListener(() => {
     println("pressed: " + userInputModel.pressed)
-    gameModel.bead.parallelAppliedForce = if (gameModel.robotEnergy > 0 ) userInputModel.appliedForce else 0.0
-  })//todo: when robot energy hits zero, applied force should disappear
+    gameModel.bead.parallelAppliedForce = if (gameModel.robotEnergy > 0) userInputModel.appliedForce else 0.0
+  }) //todo: when robot energy hits zero, applied force should disappear
 
   addKeyListener(new KeyAdapter {
     override def keyPressed(e: KeyEvent) = {
@@ -158,7 +159,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
       }
     }
   })
-  SwingUtilities.invokeLater(new Runnable{
+  SwingUtilities.invokeLater(new Runnable {
     def run = requestFocus()
   })
 

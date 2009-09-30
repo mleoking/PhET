@@ -2,7 +2,6 @@ package edu.colorado.phet.motionseries.charts
 
 import edu.colorado.phet.motionseries.graphics.MotionSeriesCanvas
 import edu.colorado.phet.motionseries.model.MotionSeriesModel
-import edu.colorado.phet.common.motion.model.DefaultTemporalVariable
 import edu.colorado.phet.common.motion.graphs._
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
@@ -100,7 +99,7 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
     keGraph
   }
 
-  def accelerationGraph(editable:Boolean) = {
+  def accelerationGraph(editable: Boolean) = {
     val accelerationVariable = new MotionSeriesDefaultTemporalVariable(model) {
       override def setValue(accel: Double) = {
         model.bead.setAccelerationMode()
@@ -123,7 +122,7 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
     accelerationGraph
   }
 
-  def velocityGraph(editable:Boolean) = {
+  def velocityGraph(editable: Boolean) = {
     val velocityVariable = new MotionSeriesDefaultTemporalVariable(model) {
       override def setValue(v: Double) = {
         model.bead.setVelocityMode()
@@ -145,7 +144,7 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
     velocityGraph
   }
 
-  def positionGraph(editable:Boolean) = {
+  def positionGraph(editable: Boolean) = {
     val positionVariable = new MotionSeriesDefaultTemporalVariable(model) {
       override def setValue(x: Double) = {
         model.bead.setPositionMode()

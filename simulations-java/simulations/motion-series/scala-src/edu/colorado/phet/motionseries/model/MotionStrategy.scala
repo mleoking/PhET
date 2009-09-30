@@ -259,13 +259,13 @@ class Grounded(bead: Bead) extends MotionStrategy(bead) {
       bead.parallelAppliedForce = acceleration * bead.mass
     } else if (bead.mode == bead.positionMode) {
 
-//      println("position = " + bead.position + ", desired = " + bead.desiredPosition)
+      //      println("position = " + bead.position + ", desired = " + bead.desiredPosition)
       //      bead.setPosition((bead.desiredPosition + bead.position) / 2) //attempt at filtering
       val mixingFactor = 0.5
       //maybe a better assumption is constant velocity or constant acceleration ?
       val dst = bead.desiredPosition * mixingFactor + bead.position * (1 - mixingFactor)
       bead.setPosition(dst) //attempt at filtering
-      
+
       //todo: move closer to bead computation of acceleration derivatives
       val timeData = for (i <- 0 until java.lang.Math.min(15, bead.stateHistory.length))
       yield new TimeData(bead.stateHistory(bead.stateHistory.length - 1 - i).position, bead.stateHistory(bead.stateHistory.length - 1 - i).time)

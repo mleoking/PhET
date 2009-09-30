@@ -182,8 +182,8 @@ case class RecordedState(rampState: RampState,
                          motionStrategyMemento: MotionStrategyMemento)
 
 class MotionSeriesModel(defaultBeadPosition: Double,
-		pausedOnReset: Boolean,
-		initialAngle: Double)
+                        pausedOnReset: Boolean,
+                        initialAngle: Double)
         extends RecordModel[RecordedState] with ObjectModel with RampSurfaceModel {
   private var _walls = true
   private var _frictionless = MotionSeriesDefaults.FRICTIONLESS_DEFAULT
@@ -228,8 +228,8 @@ class MotionSeriesModel(defaultBeadPosition: Double,
     _selectedObject.height, _selectedObject.width, positionMapper,
     rampSegmentAccessor, rampChangeAdapter, surfaceFriction, wallsBounce, surfaceFrictionStrategy, walls, wallRange, thermalEnergyStrategy)
   updateDueToObjectChange()
-  
-  def thermalEnergyStrategy(x:Double) = x
+
+  def thermalEnergyStrategy(x: Double) = x
 
   val raindrops = new ArrayBuffer[Raindrop]
   val fireDogs = new ArrayBuffer[FireDog]
@@ -239,8 +239,8 @@ class MotionSeriesModel(defaultBeadPosition: Double,
   val maxDrops = 60
   val elapsedTimeHistory = new ArrayBuffer[Long]
 
-  def createBead(x: Double, width: Double, height: Double)= 
-	  new Bead(new BeadState(x, 0, 10, 0, 0, 0.0, 0.0, 0.0), height, width, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction, wallsBounce, surfaceFrictionStrategy, walls, wallRange,thermalEnergyStrategy)
+  def createBead(x: Double, width: Double, height: Double) =
+    new Bead(new BeadState(x, 0, 10, 0, 0, 0.0, 0.0, 0.0), height, width, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction, wallsBounce, surfaceFrictionStrategy, walls, wallRange, thermalEnergyStrategy)
 
   def createBead(x: Double, width: Double): Bead = createBead(x, width, 3)
 

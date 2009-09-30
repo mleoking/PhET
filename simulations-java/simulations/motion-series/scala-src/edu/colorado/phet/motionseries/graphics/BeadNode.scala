@@ -39,18 +39,18 @@ class PositionDragBeadNode(bead: Bead,
                            transform: ModelViewTransform2D,
                            imageName: String,
                            leftImageName: String,
-                           dragListener: () => Unit,canvas:MyCanvas) extends BeadNode(bead, transform, imageName) {
+                           dragListener: () => Unit, canvas: MyCanvas) extends BeadNode(bead, transform, imageName) {
   addInputEventListener(new CursorHandler)
   addInputEventListener(new PBasicInputEventHandler() {
     override def mouseDragged(event: PInputEvent) = {
-      bead.parallelAppliedForce = 0.0//todo: move this into setPositionMode()?
+      bead.parallelAppliedForce = 0.0 //todo: move this into setPositionMode()?
       bead.setPositionMode()
       val delta = event.getCanvasDelta
       //todo: make it so we can get this information (a) more easily and (b) without a reference to the canvas:MyCanvas
-      val screenDelta = canvas.canvasToStageDelta(delta.getWidth,delta.getHeight)
+      val screenDelta = canvas.canvasToStageDelta(delta.getWidth, delta.getHeight)
       val modelDelta = canvas.transform.viewToModelDifferential(screenDelta.getWidth(), screenDelta.getHeight())
-      bead.setDesiredPosition(bead.desiredPosition+modelDelta.x)
-//      bead.setPosition(bead.position + modelDelta.x)
+      bead.setDesiredPosition(bead.desiredPosition + modelDelta.x)
+      //      bead.setPosition(bead.position + modelDelta.x)
       dragListener()
     }
 
@@ -65,21 +65,22 @@ class PositionDragBeadNode(bead: Bead,
   update()
 
   override def update() = {
-    updateImage()//update image first in case superclass uses its size to do layout things
+    updateImage() //update image first in case superclass uses its size to do layout things
     super.update()
   }
 
   def updateImage() = {
-//    println("using bead.velocity = "+bead.velocity)
-    val image =  if (bead.velocity < -1E-8) MotionSeriesResources.getImage(leftImageName)
+    //    println("using bead.velocity = "+bead.velocity)
+    val image = if (bead.velocity < -1E-8) MotionSeriesResources.getImage(leftImageName)
     else if (bead.velocity > 1E-8) BufferedImageUtils.flipX(MotionSeriesResources.getImage(leftImageName))
     else MotionSeriesResources.getImage(imageName)
     imageNode.setImage(image)
   }
 }
 
-class BeadNode(bead: Bead, transform: ModelViewTransform2D, image:BufferedImage) extends PNode {
-  def this(bead:Bead,transform:ModelViewTransform2D, imageName: String) = this(bead,transform,MotionSeriesResources.getImage(imageName))
+class BeadNode(bead: Bead, transform: ModelViewTransform2D, image: BufferedImage) extends PNode {
+  def this(bead: Bead, transform: ModelViewTransform2D, imageName: String) = this (bead, transform, MotionSeriesResources.getImage(imageName))
+
   val imageNode = new PImage(image)
 
   def setImage(im: BufferedImage) = {
