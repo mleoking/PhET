@@ -177,6 +177,8 @@ public class RootTest {
     public static Complex[] findRootsLaguerre( Complex[] polynomial, int iterations ) {
         Complex[] roots = new Complex[polynomial.length - 1];
 
+        boolean success = true;
+
         Complex[] poly = new Complex[polynomial.length];
         for ( int i = 0; i < poly.length; i++ ) {
             poly[i] = polynomial[i];
@@ -191,9 +193,17 @@ public class RootTest {
             else {
                 throw new RuntimeException( "Can't find the root of a non-zero constant" );
             }
+            if ( isNaN( roots[i] ) ) {
+                success = false;
+            }
             poly = factorOutRoot( poly, roots[i] );
         }
+
         return roots;
+    }
+
+    private static boolean isNaN( Complex num ) {
+        return Double.isNaN( num.getReal() ) || Double.isNaN( num.getImaginary() );
     }
 
     private static String format( double num ) {
@@ -216,7 +226,12 @@ public class RootTest {
         String out = "{ ";
         for ( int i = 0; i < poly.length; i++ ) {
             //out += String.valueOf( poly[i] ) + " ";
-            out += "(" + format( poly[i].getReal() ) + ", " + format( poly[i].getImaginary() ) + ") ";
+            if ( poly[i] == null ) {
+                out += "(null) ";
+            }
+            else {
+                out += "(" + format( poly[i].getReal() ) + ", " + format( poly[i].getImaginary() ) + ") ";
+            }
         }
         out += "}";
         return out;
@@ -230,6 +245,7 @@ public class RootTest {
      * @return p(x)
      */
     private static Complex evaluate( Complex[] poly, Complex x ) {
+        //System.out.println( "Evaluating " + complexArrayToString( poly ) + " at " + x );
         Complex cur = new Complex( 0, 0 );
         for ( Complex coeff : poly ) {
             cur = cur.getMultiply( x );
@@ -299,13 +315,6 @@ public class RootTest {
         normalizePoly( poly );
         Complex[] ret = new Complex[poly.length - 1];
 
-        if ( root.getAbs() < EPSILON ) {
-            for ( int i = 1; i < ret.length; i++ ) {
-                ret[i - 1] = poly[i];
-            }
-            return ret;
-        }
-
         ret[0] = poly[0]; // should be a 1
         for ( int i = 1; i < ret.length; i++ ) {
             ret[i] = ret[i - 1].getMultiply( root ).getAdd( poly[i] );
@@ -345,14 +354,16 @@ public class RootTest {
 
             // h = g^2 - p''(x)/p(x)
             Complex h = g.getMultiply( g ).getSubtract( evaluate( d2, x ).getDivide( px ) );
-            //System.out.println( "h: " + h );
 
             // k = sqrt( (n - 1) * (n * h - g^2) )
             Complex k = sqrt( n.getSubtract( 1.0 ).getMultiply( n.getMultiply( h ).getSubtract( g.getMultiply( g ) ) ) );
 
             // a = n / (g +- k)
             Complex a;
-            if ( g.getAdd( k ).getAbs() > g.getSubtract( k ).getAbs() ) {
+            if ( Double.isInfinite( k.getReal() ) || Double.isInfinite( k.getImaginary() ) ) {
+                a = Complex.ZERO;
+            }
+            else if ( g.getAdd( k ).getAbs() > g.getSubtract( k ).getAbs() ) {
                 a = n.getDivide( g.getAdd( k ) );
             }
             else {
@@ -361,6 +372,7 @@ public class RootTest {
 
             // our new guess
             x = x.getSubtract( a );
+
         }
 
         return x;

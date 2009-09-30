@@ -7,9 +7,10 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-import org.postgresql.jdbc2.optional.PoolingDataSource;
+//import org.postgresql.jdbc2.optional.PoolingDataSource;
 
 public class InitializeDatasource {
+    /*
     public void init() {
         PoolingDataSource source = new PoolingDataSource();
         Properties props = new Properties();
@@ -34,4 +35,5 @@ public class InitializeDatasource {
             e.printStackTrace();
         }
     }
+    */
 }
