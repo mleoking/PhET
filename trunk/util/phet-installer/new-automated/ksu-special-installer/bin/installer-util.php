@@ -129,7 +129,11 @@
     // server.
     //-------------------------------------------------------------------------
     function installer_insert_distribution_tag($distribution_tag){
-        flushing_echo("--Entered installer_insert_distribution_tag");
+        flushing_echo("--Entered installer_insert_distribution_tag, tag value = ".$distribution_tag);
+
+        installer_insert_distribution_tag_flash($distribution_tag);
+        installer_insert_distribution_tag_java($distribution_tag);
+
         flushing_echo("--Exited installer_insert_distribution_tag");
     }
 
@@ -140,7 +144,26 @@
     // once they are changed.
     //-------------------------------------------------------------------------
     function installer_insert_distribution_tag_flash($distribution_tag){
+
         flushing_echo("---Entered installer_insert_distribution_tag_flash");
+
+        // Replace the distribution tag in all of the HTML files.
+        $html_file_names = glob( RIPPED_WEBSITE_SIMS_PARENT_DIR.PHET_SIMS_SUBDIR."*/*.html" );
+        foreach ( $html_file_names as $html_file_name ) {
+            $html_file_contents = file_get_contents( $html_file_name );
+            if ( strstr( $html_file_contents, '@@DISTRIBUTION_TAG@@' ) != false ){
+                // Insert the distribution tag.
+                $html_file_contents = preg_replace( '/@@DISTRIBUTION_TAG@@/', $distribution_tag, $html_file_contents );
+            }
+            else{
+                // This is unexpected, so issue a warning.
+                flushing_echo("Warning: No distribution tag marker found in file ".$html_file_name);
+            }
+            // Write the updated file back to the original location.
+            file_put_contents_anywhere( $html_file_name, $html_file_contents );
+        }
+        flushing_echo( "Processed ".sizeof ( $html_file_names )." HTML files for distribution tag insertion." );
+
         flushing_echo("---Exited installer_insert_distribution_tag_flash");
     }
 
