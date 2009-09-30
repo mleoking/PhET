@@ -82,8 +82,8 @@ class WorkEnergyModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(
 class RampApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
   def newClock = new ScalaClock(MotionSeriesDefaults.DELAY, MotionSeriesDefaults.DT_DEFAULT)
   addModule(new IntroRampModule(getPhetFrame, newClock))
-  addModule(new CoordinatesRampModule(getPhetFrame, newClock))
   addModule(new ForceGraphsModule(getPhetFrame, newClock))
+  addModule(new CoordinatesRampModule(getPhetFrame, newClock))
   addModule(new WorkEnergyModule(getPhetFrame, newClock))
   addModule(new RobotMovingCompanyModule(getPhetFrame, newClock))
 }
