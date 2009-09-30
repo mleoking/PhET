@@ -1,3 +1,4 @@
+Moved friction control above vector and coordinate frame contols in the control panel
 Improved defaults for mystery object
 moving-man: Removed heat from moving man model
 moving-man: Removed pusher from moving man
