@@ -26,8 +26,13 @@ import edu.colorado.phet.motionseries.sims.theramp.StageContainerArea
 import javax.swing.{SwingUtilities, JButton, JOptionPane, JFrame}
 import scalacommon.util.Observable
 
-class RobotMovingCompanyCanvas(model: MotionSeriesModel, coordinateSystemModel: AdjustableCoordinateModel, freeBodyDiagramModel: FreeBodyDiagramModel,
-                               vectorViewModel: VectorViewModel, frame: JFrame, gameModel: RobotMovingCompanyGameModel, stageContainerArea: StageContainerArea)
+class RobotMovingCompanyCanvas(model: MotionSeriesModel,
+                               coordinateSystemModel: AdjustableCoordinateModel,
+                               freeBodyDiagramModel: FreeBodyDiagramModel,
+                               vectorViewModel: VectorViewModel,
+                               frame: JFrame,
+                               gameModel: RobotMovingCompanyGameModel,
+                               stageContainerArea: StageContainerArea)
         extends RampCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame, false, true, true, MotionSeriesDefaults.defaultViewport, stageContainerArea) {
   beadNode.setVisible(false)
   playAreaVectorNode.setVisible(false)
@@ -114,24 +119,27 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel, coordinateSystemModel: 
 
   override def useVectorNodeInPlayArea = false
 
-  val NONE = "none"
-  val RIGHT = "right"
-  val LEFT = "left"
+  val F = 500.0
+  val NONE = ("none",0.0)
+  val RIGHT = ("right",F)
+  val LEFT = ("left",-F)
 
   object userInputModel extends Observable {
-    private var _pressed: Any = NONE
+    private var _pressed: (String,Double) = NONE
 
     def pressed = _pressed
 
-    def pressed_=(p: Any) = {
+    def pressed_=(p: (String,Double)) = {
       _pressed = p
       notifyListeners()
     }
+    def appliedForce = _pressed._2
   }
 
   userInputModel.addListener(() => {
     println("pressed: " + userInputModel.pressed)
-  })
+    gameModel.bead.parallelAppliedForce = if (gameModel.robotEnergy > 0 ) userInputModel.appliedForce else 0.0
+  })//todo: when robot energy hits zero, applied force should disappear
 
   addKeyListener(new KeyAdapter {
     override def keyPressed(e: KeyEvent) = {
