@@ -1,10 +1,14 @@
 package edu.colorado.phet.neuron.view;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Stroke;
 import java.awt.geom.Rectangle2D;
 import java.text.MessageFormat;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
 import edu.colorado.phet.neuron.model.Atom;
 import edu.umd.cs.piccolo.PNode;
@@ -15,6 +19,8 @@ import edu.umd.cs.piccolo.nodes.PText;
  * Class that represents atoms in the view.
  */
 public class AtomNode extends PNode {
+	
+	private static final Stroke ATOM_EDGE_STROKE = new BasicStroke(1);
 	
 	private Atom atom;
     private ModelViewTransform2D modelViewTransform;
@@ -74,16 +80,24 @@ public class AtomNode extends PNode {
 
     	switch (atom.getType()){
     	case SODIUM:
-    		representation = new SphericalNode( modelViewTransform.modelToViewDifferentialXDouble(atom.getDiameter()), 
+    		SphericalNode sphereRepresentation = new SphericalNode( modelViewTransform.modelToViewDifferentialXDouble(atom.getDiameter()), 
     				atom.getRepresentationColor(), true);
+    		sphereRepresentation.setStroke(ATOM_EDGE_STROKE);
+    		sphereRepresentation.setStrokePaint(Color.BLACK);
+    		representation = sphereRepresentation;
     		break;
+    		
     	case POTASSIUM:
     		double size = modelViewTransform.modelToViewDifferentialXDouble(atom.getDiameter());
     		size = size * 0.85; // Scale down a bit so it is close to fitting within the diameter.
-    		representation = new PPath( new Rectangle2D.Double(-size/2, -size/2, size, size));
-    		representation.setPaint(atom.getRepresentationColor());
-    		representation.rotate(Math.PI / 4);
+    		PPath diamondRepresentation = new PPath( new Rectangle2D.Double(-size/2, -size/2, size, size));
+    		diamondRepresentation.setPaint(atom.getRepresentationColor());
+    		diamondRepresentation.setStroke(ATOM_EDGE_STROKE);
+    		diamondRepresentation.setStrokePaint(Color.BLACK);
+    		diamondRepresentation.rotate(Math.PI / 4);
+    		representation = diamondRepresentation;
     		break;
+    		
     	default:
     		System.err.println(getClass().getName() + " - Warning: No specific shape for this atom type, defaulting to sphere.");
     		representation = new SphericalNode( modelViewTransform.modelToViewDifferentialXDouble(atom.getDiameter()), 
