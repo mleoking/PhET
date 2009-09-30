@@ -335,9 +335,10 @@
 
         chdir($cwd);
 
-        // Now move everything in the BitRock directory to the output directory
+        // Now move the resulting installer from the BitRock directory to the
+        // output directory.
         flushing_echo("Copying web mirror installer to ".OUTPUT_DIR);
-        file_dircopy(BITROCK_DIST_DIR, OUTPUT_DIR, true);
+        rename(BITROCK_DIST_DIR.BITROCK_WEB_MIRROR_INSTALLER_NAME, OUTPUT_DIR.BITROCK_WEB_MIRROR_INSTALLER_NAME);
 
         return true;
     }
