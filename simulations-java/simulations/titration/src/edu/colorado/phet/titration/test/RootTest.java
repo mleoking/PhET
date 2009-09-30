@@ -199,7 +199,7 @@ public class RootTest {
      * @param iterations The number of iterations to find each root
      * @return An array of the complex roots of the polynomial, in no particular order
      */
-    public static Complex[] findRootsLaguerre( Complex[] polynomial, int iterations, double threshold ) {
+    public static Complex[] findRootsLaguerre( Complex[] polynomial, int iterations ) {
         Complex[] roots = new Complex[polynomial.length - 1];
 
         boolean success = true;
@@ -210,7 +210,7 @@ public class RootTest {
         }
         for ( int i = 0; i < roots.length; i++ ) {
             if ( poly.length > 2 ) {
-                roots[i] = laguerreSingleRoot( poly, Complex.ZERO, iterations, threshold ); // for now, just use 0
+                roots[i] = laguerreSingleRoot( poly, Complex.ZERO, iterations ); // for now, just use 0
             }
             else if ( poly.length == 2 ) {
                 roots[i] = ( new Complex( -1, 0 ) ).getMultiply( poly[1] ).getDivide( poly[0] );
@@ -359,7 +359,7 @@ public class RootTest {
      * @param iterations Number of iterations to try
      * @return The root
      */
-    private static Complex laguerreSingleRoot( Complex[] poly, Complex x0, int iterations, double threshold ) {
+    private static Complex laguerreSingleRoot( Complex[] poly, Complex x0, int iterations ) {
         // order of the polynomial
         Complex n = new Complex( poly.length - 1, 0 );
 
@@ -370,7 +370,7 @@ public class RootTest {
         for ( int i = 0; i < iterations; i++ ) {
             Complex px = evaluate( poly, x );
 
-            if ( px.getAbs() <= threshold ) {
+            if ( px.getAbs() == 0 ) {
                 break;
             }
 
@@ -425,7 +425,7 @@ public class RootTest {
 
     public static class Laguerre extends RootFinder {
         public Complex[] findRoots( Complex[] poly, int iterations, double threshold ) {
-            return findRootsLaguerre( poly, iterations, threshold );
+            return findRootsLaguerre( poly, iterations );
         }
     }
 
