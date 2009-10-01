@@ -167,7 +167,7 @@ public class TargetTextPanel extends JPanel {
     }
     
     private static boolean isHTMLFragment( String s ) {
-        return s.contains( "<" ) && s.contains( ">" ); //XXX is this sufficient?
+        return s.contains( "<" ) && s.contains( ">" ); //TODO is this sufficient?
     }
     
     private void showErrorDetails( String message ) {
