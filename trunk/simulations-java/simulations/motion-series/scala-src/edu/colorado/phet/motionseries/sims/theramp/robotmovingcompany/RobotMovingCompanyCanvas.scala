@@ -24,7 +24,7 @@ import edu.colorado.phet.motionseries.MotionSeriesResources
 import edu.colorado.phet.motionseries.swing._
 import edu.colorado.phet.motionseries.sims.theramp.StageContainerArea
 import javax.swing.{SwingUtilities, JButton, JOptionPane, JFrame}
-import scalacommon.util.Observable
+import edu.colorado.phet.scalacommon.util.Observable
 
 class RobotMovingCompanyCanvas(model: MotionSeriesModel,
                                coordinateSystemModel: AdjustableCoordinateModel,

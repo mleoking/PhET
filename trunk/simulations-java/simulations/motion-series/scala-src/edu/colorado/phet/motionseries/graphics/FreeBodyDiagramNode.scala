@@ -23,6 +23,7 @@ import edu.umd.cs.piccolo.PNode
 import edu.colorado.phet.scalacommon.Predef._
 import java.lang.Math._
 import edu.colorado.phet.motionseries.MotionSeriesResources._
+import edu.colorado.phet.motionseries.MotionSeriesConfig
 
 class Vector(val color: Color,
              val name: String,

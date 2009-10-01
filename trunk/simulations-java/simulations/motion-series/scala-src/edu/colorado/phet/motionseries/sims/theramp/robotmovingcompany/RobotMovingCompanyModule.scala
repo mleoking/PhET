@@ -1,6 +1,6 @@
 package edu.colorado.phet.motionseries.sims.theramp.robotmovingcompany
 
-import common.phetcommon.view.PhetFrame
+import edu.colorado.phet.common.phetcommon.view.PhetFrame
 import javax.swing.JFrame
 import edu.colorado.phet.motionseries.model.MotionSeriesModel
 import edu.colorado.phet.scalacommon.ScalaClock
