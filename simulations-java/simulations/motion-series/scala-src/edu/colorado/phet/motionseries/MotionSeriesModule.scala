@@ -1,18 +1,46 @@
 package edu.colorado.phet.motionseries
 
+import common.phetcommon.view.util.SwingUtils
+import common.phetcommon.view.{VerticalLayoutPanel, PhetFrame}
 import edu.colorado.phet.common.phetcommon.application.Module
-import javax.swing.{JFrame, RepaintManager}
 import edu.colorado.phet.scalacommon.ScalaClock
 import edu.colorado.phet.motionseries.model._
+import java.awt.event.{ActionEvent, ActionListener}
+import javax.swing.{JDialog, JMenuItem, JFrame, RepaintManager}
+import swing.ScalaValueControl
+
+//todo: remove the need for this global, perhaps by overriding PhetFrame
+object global{
+  var inited = false
+}
+
+class MotionSeriesConfigDialog(phetFrame:PhetFrame) extends JDialog(phetFrame,false){
+  val layoutPanel = new VerticalLayoutPanel
+  layoutPanel.add(new ScalaValueControl(1,100,"tail width","0.0","px",
+    ()=>MotionSeriesConfig.VectorTailWidth.value, MotionSeriesConfig.VectorTailWidth.value_=,MotionSeriesConfig.VectorTailWidth.addListener))
+  layoutPanel.add(new ScalaValueControl(1,100,"head width","0.0","px",
+    ()=>MotionSeriesConfig.VectorHeadWidth.value, MotionSeriesConfig.VectorHeadWidth.value_=,MotionSeriesConfig.VectorHeadWidth.addListener))
+  setContentPane(layoutPanel)
+  pack()
+  SwingUtils.centerWindowOnScreen(this)
+}
 
 //TODO: improve inheritance/composition scheme for different applications/modules/canvases/models
-class MotionSeriesModule(frame: JFrame,
+class MotionSeriesModule(frame: PhetFrame,
                          clock: ScalaClock,
                          name: String,
                          defaultBeadPosition: Double,
                          pausedOnReset: Boolean,
                          initialAngle: Double)
         extends Module(name, clock) {
+  if (!global.inited){
+    val item= new JMenuItem("Configure Motion Series")
+    item.addActionListener(new ActionListener(){
+      def actionPerformed(e: ActionEvent) = new MotionSeriesConfigDialog(frame).setVisible(true)
+    })
+    frame.getDeveloperMenu.add(item)
+    global.inited=true
+  }
   def createMotionSeriesModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngle: Double) =
     new MotionSeriesModel(defaultBeadPosition, pausedOnReset, initialAngle)
 

@@ -1,5 +1,6 @@
 package edu.colorado.phet.motionseries.sims.theramp
 
+import common.phetcommon.view.PhetFrame
 import edu.colorado.phet.motionseries.graphics.{RampCanvas}
 import java.awt.geom.Rectangle2D
 import edu.colorado.phet.common.phetcommon.application.{PhetApplicationConfig}
@@ -19,7 +20,7 @@ trait StageContainerArea {
   def getBounds(w: Double, h: Double): Rectangle2D
 }
 
-class BasicRampModule(frame: JFrame,
+class BasicRampModule(frame: PhetFrame,
                       clock: ScalaClock,
                       name: String,
                       coordinateSystemFeaturesEnabled: Boolean,
@@ -42,15 +43,15 @@ class BasicRampModule(frame: JFrame,
 
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 
-class IntroRampModule(frame: JFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "module.introduction".translate, false, false, true, -6, false, MotionSeriesDefaults.defaultRampAngle, MotionSeriesDefaults.defaultViewport, MotionSeriesDefaults.fullScreenArea)
+class IntroRampModule(frame: PhetFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "module.introduction".translate, false, false, true, -6, false, MotionSeriesDefaults.defaultRampAngle, MotionSeriesDefaults.defaultViewport, MotionSeriesDefaults.fullScreenArea)
 
-class CoordinatesRampModule(frame: JFrame,
+class CoordinatesRampModule(frame: PhetFrame,
                             clock: ScalaClock)
         extends BasicRampModule(frame, clock, "module.coordinates".translate, true, false, true, -6, false, MotionSeriesDefaults.defaultRampAngle, MotionSeriesDefaults.defaultViewport, MotionSeriesDefaults.fullScreenArea) {
   coordinateSystemModel.adjustable = true
 }
 
-class GraphingModule(frame: JFrame,
+class GraphingModule(frame: PhetFrame,
                      clock: ScalaClock,
                      name: String,
                      showEnergyGraph: Boolean,
@@ -60,11 +61,11 @@ class GraphingModule(frame: JFrame,
   coordinateSystemModel.adjustable = false
 }
 
-class ForceGraphsModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(frame, clock, "module.force-graphs".translate, false, MotionSeriesDefaults.oneGraphViewport, MotionSeriesDefaults.oneGraphArea) {
+class ForceGraphsModule(frame: PhetFrame, clock: ScalaClock) extends GraphingModule(frame, clock, "module.force-graphs".translate, false, MotionSeriesDefaults.oneGraphViewport, MotionSeriesDefaults.oneGraphArea) {
   rampCanvas.addScreenNode(new RampForceChartNode(rampCanvas, motionSeriesModel))
 }
 
-class WorkEnergyModule(frame: JFrame, clock: ScalaClock) extends GraphingModule(frame, clock, "module.energy".translate, true, MotionSeriesDefaults.oneGraphViewport, MotionSeriesDefaults.oneGraphArea) {
+class WorkEnergyModule(frame: PhetFrame, clock: ScalaClock) extends GraphingModule(frame, clock, "module.energy".translate, true, MotionSeriesDefaults.oneGraphViewport, MotionSeriesDefaults.oneGraphArea) {
   rampCanvas.addScreenNode(new RampForceEnergyChartNode(rampCanvas, motionSeriesModel))
   val workEnergyChartModel = new WorkEnergyChartModel
   val workEnergyChartButton = new JButton("controls.show-energy-chart".translate)

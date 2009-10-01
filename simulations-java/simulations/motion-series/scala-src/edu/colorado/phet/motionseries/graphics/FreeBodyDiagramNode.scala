@@ -303,7 +303,14 @@ class BodyVectorNode(transform: ModelViewTransform2D, vector: Vector, offset: Ve
 
 //todo: could improve performance by passing isContainerVisible:()=>Boolean and addContainerVisibleListener:(()=>Unit)=>Unit
 class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val tailLocation: VectorValue, maxDistToLabel: Double) extends PNode {
-  val arrowNode = new ArrowNode(new Point2D.Double(0, 0), new Point2D.Double(0, 1), 20, 20, 10, 0.5, true)
+  val headWidth = MotionSeriesConfig.VectorHeadWidth.value
+  val arrowNode = new ArrowNode(new Point2D.Double(0, 0), new Point2D.Double(0, 1), headWidth, headWidth, MotionSeriesConfig.VectorTailWidth.value, 0.5, true)
+  MotionSeriesConfig.VectorTailWidth.addListener( ()=>{arrowNode.setTailWidth(MotionSeriesConfig.VectorTailWidth.value)})
+  MotionSeriesConfig.VectorHeadWidth.addListener( ()=>{
+    arrowNode.setHeadWidth(MotionSeriesConfig.VectorHeadWidth.value)
+    arrowNode.setHeadHeight(MotionSeriesConfig.VectorHeadWidth.value)
+  })
+
   arrowNode.setPaint(vector.getPaint)
   addChild(arrowNode)
   private val abbreviatonTextNode = {
