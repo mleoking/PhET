@@ -29,7 +29,7 @@ public class AxonModel {
 	
 	private static final Random RAND = new Random();
 	
-	private static final int TOTAL_INITIAL_ATOMS = 100;
+	private static final int TOTAL_INITIAL_ATOMS = 120;
 	
 	private static final double MAX_ATOM_VELOCITY = 500; // In nano meters per second.
 	
