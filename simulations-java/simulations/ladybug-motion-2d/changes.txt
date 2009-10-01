@@ -1,3 +1,4 @@
+# 1.00.00 (35397) Oct 1, 2009
 > Updated version to 1.00
 # 0.02.02 (35395) Sep 30, 2009
 Fixed bugs related to play/pause during record/playback
