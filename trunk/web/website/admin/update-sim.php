@@ -68,6 +68,9 @@ class UpdateSimulationPage extends SitePage {
 
         $simulation = array();
 
+        // Prepopulate with checkboxs being off, they will be turned on again if selected
+        $simulation['sim_crutch'] = 0;
+
         // Input names for strings requiring list processing
         $lists = array(
             'sim_keywords', 'sim_main_topics', 'sim_sample_goals',
