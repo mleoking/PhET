@@ -6,12 +6,14 @@ import java.util.Collection;
 import java.util.Locale;
 import java.util.Properties;
 
+import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.Jar;
 import org.apache.tools.ant.taskdefs.Manifest;
 
 import edu.colorado.phet.buildtools.*;
 import edu.colorado.phet.buildtools.java.JavaProject;
 import edu.colorado.phet.buildtools.util.FileUtils;
+import edu.colorado.phet.buildtools.util.PhetJarSigner;
 import edu.colorado.phet.common.phetcommon.application.JARLauncher;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
@@ -30,7 +32,7 @@ public class FlashSimulationProject extends PhetProject {
     public FlashSimulationProject( File parentDir, String name ) throws IOException {
         super( parentDir, name );
     }
-
+    
     public void updateProjectFiles() {
         super.updateProjectFiles();
         copySoftwareAgreement();
@@ -242,7 +244,8 @@ public class FlashSimulationProject extends PhetProject {
 
             Jar jar = new Jar();
             jar.setBasedir( getOfflineJARContentsDir() );
-            jar.setDestFile( new File( getDeployDir(), getName() + "_" + locale + ".jar" ) );
+            File destFile = new File( getDeployDir(), getName() + "_" + locale + ".jar" );
+            jar.setDestFile( destFile );
             Manifest manifest = new Manifest();
 
             Manifest.Attribute attribute = new Manifest.Attribute();
@@ -251,13 +254,24 @@ public class FlashSimulationProject extends PhetProject {
 
             manifest.addConfiguredAttribute( attribute );
             jar.addConfiguredManifest( manifest );
-
+            
             new MyAntTaskRunner().runTask( jar );
+            
+            signJAR( destFile );
         }
         catch( Exception e ) {
             e.printStackTrace();
         }
 
+    }
+    
+    private void signJAR( File outputJar ) {
+        PhetJarSigner signer = new PhetJarSigner( BuildLocalProperties.getInstance() );
+        // Sign the JAR.
+        if ( signer.signJar( outputJar ) != true ) {
+            // Signing failed.  Throw an exception in order to force the build process to stop.
+            throw new BuildException( "Signing of JAR file failed." );
+        }
     }
 
     private File getCreditsFile() {
