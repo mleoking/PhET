@@ -9,6 +9,9 @@ import edu.colorado.phet.motionseries.sims.theramp.StageContainerArea
 object MotionSeriesDefaults {
   def rampIndicatorFont = new PhetFont(13, true)
 
+  val dialogBackground = new Color(192, 192, 192, 245)
+  val dialogBorder = Color.darkGray
+
   val MAX_CHART_DISPLAY_TIME = 20.0
   val MAX_RECORD_TIME = 20.0
   val defaultRampAngle = 30.0.toRadians
