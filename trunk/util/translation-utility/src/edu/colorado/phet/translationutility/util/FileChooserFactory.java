@@ -18,21 +18,21 @@ public class FileChooserFactory {
      * Creates a JAR file chooser.
      */
     public static JFileChooser createJarFileChooser() {
-        return new FilteredFileChooser( ".jar", "JAR files" );
+        return new FilteredFileChooser( ".jar", "JAR files (.jar)" );
     }
     
     /**
      * Creates a Properties file chooser.
      */
     public static JFileChooser createPropertiesFileChooser() {
-        return new FilteredFileChooser( ".properties", "Java string files" );
+        return new FilteredFileChooser( ".properties", "Java string files (.properties)" );
     }
     
     /**
      * Creates an XML file chooser.
      */
     public static JFileChooser createXMLFileChooser() {
-        return new FilteredFileChooser( ".xml", "Flash string files" );
+        return new FilteredFileChooser( ".xml", "Flash string files (.xml)" );
     }
 
     /*
