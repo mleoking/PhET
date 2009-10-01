@@ -48,7 +48,7 @@ public class PhetJarSigner {
         }
 
         // Sign the JAR using the ant task
-        System.out.println( "Signing JAR..." );
+        System.out.println( "Signing JAR " + jarFile.getAbsolutePath() + "..." );
         JarsignerInfo jarsignerInfo = buildProperties.getJarsignerInfo();
         SignJar signer = new SignJar();
         signer.setKeystore( jarsignerInfo.getKeystore() );
