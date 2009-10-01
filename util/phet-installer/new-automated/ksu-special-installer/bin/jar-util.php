@@ -12,7 +12,8 @@
     require_once("global.php");
     require_once("file-util.php");
 
-    define('JARSIGNER', '/usr/local/java/bin/jarsigner'); // Full path to jarsigner util.
+    define('JAR', '/usr/bin/jar');             // Full path to jar util.
+    define('JARSIGNER', '/usr/bin/jarsigner'); // Full path to jarsigner util.
 
     //------------------------------------------------------------------------
     // Function to create a list of all JAR files located below the specified
@@ -48,6 +49,32 @@
         $result = system( $verify_command, $retval );
 
         if ( ( $retval == 0 ) && ( stristr( $result, "verified" ) ) ){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    //------------------------------------------------------------------------
+    // Function to extract the given file from the given jar.
+    //------------------------------------------------------------------------
+    function extract_file_from_jar( $path_to_jar_file, $path_to_file_in_jar, $dest_dir='.' ) {
+        // Change to the temporary directory.
+        $original_dir = getcwd();
+        chdir($dest_dir);
+
+        // Create and exectue the command.
+        $extract_command = JAR.' xvf '.$path_to_jar_file.' '.$path_to_file_in_jar;
+        print "Command = ".$extract_command."\n";
+        $result = system( $extract_command, $retval );
+        print "Result = ".$result."\n";
+
+        // Change back to the orignal directory.
+        chdir($original_dir);
+
+        // Return true if it appears to have worked.
+        if ( $retval == 0  ){
             return true;
         }
         else {
