@@ -83,6 +83,28 @@
     }
 
     //------------------------------------------------------------------------
+    // Function to add the given file from the given jar.  This will replace
+    // and existing version of the file.
+    //------------------------------------------------------------------------
+    function add_file_to_jar( $path_to_jar_file, $path_to_file_to_be_added ) {
+
+        // Create and exectue the command.
+        $add_command = JAR.' uf '.$path_to_jar_file.' '.$path_to_file_to_be_added;
+        print "Command = ".$add_command."\n";
+        $result = system( $add_command, $retval );
+        print "retval = ".$retval."\n";
+        print "Result = ".$result."\n";
+
+        // Return true if it appears to have worked.
+        if ( $retval == 0  ){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    //------------------------------------------------------------------------
     // Test harness - change this as needed when adding and verifying new
     // functions.
     //------------------------------------------------------------------------
