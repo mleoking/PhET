@@ -15,7 +15,7 @@ import edu.colorado.phet.scalacommon.math.Vector2D
  * and using the same model as Motion2D for interpolation.
  */
 class LadybugModel extends RecordModel[LadybugState] {
-  def stepRecord() = surelyUpdate(LadybugDefaults.defaultDT)
+  def stepRecord() = stepRecord(LadybugDefaults.defaultDT)
 
   val ladybug = new Ladybug
   private val ladybugMotionModel = new LadybugMotionModel(this)
@@ -156,11 +156,13 @@ class LadybugModel extends RecordModel[LadybugState] {
 
   def update(dt: Double) = {
     this.dt = dt
-    if (!isPaused) surelyUpdate(dt)
-    else if (isPlayback()) stepPlayback()
+    if (!isPaused){
+      if (isPlayback) stepPlayback()
+      else stepRecord(dt)
+    }
   }
 
-  def surelyUpdate(dt: Double) = {
+  def stepRecord(dt: Double) = {
     tickListeners.foreach(_())
     if (isRecord()) {
       setTime(getTime + dt)
