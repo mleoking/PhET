@@ -322,6 +322,10 @@ public class AxonModel {
     	// Convert the position to polar coordinates.
     	double r = Math.sqrt(atom.getX() * atom.getX() + atom.getY() * atom.getY());
     	double theta = Math.atan2(atom.getY(), atom.getX());
+    	
+    	// Determine the current angle of travel.
+    	double angleOfTravel = Math.atan2( atom.getPositionReference().y, atom.getPositionReference().x );
+    	
     	double angle;
     	double velocity;
 
@@ -344,7 +348,8 @@ public class AxonModel {
     			}
     		}
     		else{
-    			// It's near the center, so it should just do a random walk.
+    			// It's neither too close nor too far, so it should just do a
+    			// random walk.
    				angle = Math.PI * 2 * RAND.nextDouble();
     		}
     	}
@@ -394,7 +399,7 @@ public class AxonModel {
     	
     	// Find a position for the new channel.
     	double angleOffset = channelType == MembraneChannelTypes.SODIUM_LEAKAGE_CHANNEL ? 0 : 
-    		Math.PI * NeuronConstants.MAX_CHANNELS_PER_TYPE; 
+    		Math.PI / NeuronConstants.MAX_CHANNELS_PER_TYPE; 
     	double angle = 0;
     	double radius = axonMembrane.getCrossSectionDiameter() / 2;
     	Point2D newLocation = new Point2D.Double();
@@ -443,6 +448,7 @@ public class AxonModel {
     		// removed to go safely into the interior.
     		if (releasedAtoms != null){
     			for (Atom atom : releasedAtoms){
+    				atoms.add(atom);
     				positionAtomInsideMembrane(atom);
     			}
     		}
