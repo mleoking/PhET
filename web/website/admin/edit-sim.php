@@ -169,7 +169,7 @@ EOT;
         print "<p class=\"fieldtitle\">Please check this box of the simulation is <em>NOT</em> Standalone<br /></p>";
         print "<div class=\"fieldentry\">";
         print "<div class=\"fieldentry\">";
-        print $Web->buildCheckboxInput('sim_crutch', array(1 => $SimUtils->getGuidanceImageTag().$SimUtils->getGuidanceDescription()));
+        print $Web->buildCheckboxInput('sim_crutch', array(1 => $SimUtils->getGuidanceImageTag().$SimUtils->getGuidanceDescription()), $sim->getGuidanceRecommended());
         print "</div>";
         print "</div>";
 
