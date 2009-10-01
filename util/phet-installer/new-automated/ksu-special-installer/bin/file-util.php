@@ -356,4 +356,48 @@
         return(TRUE);
     }
 
+    //------------------------------------------------------------------------
+    // Remove the first occurance of a line that contains the specified
+    // pattern from the specified file.
+    //------------------------------------------------------------------------
+    function file_remove_line_matching_pattern($pattern, $file_name) {
+
+        // Check if the file exists
+        if(!file_exists($file_name)) {
+             return(FALSE);
+        }      
+
+        // Read file into an array.
+        $file_contents = file( $file_name );
+
+        // Search for the first occurance of the string.
+        $count = 1;
+        foreach ( $file_contents as $line ) {
+            print($count." :".$line);
+            if ( strstr( $line, $pattern ) != false ){
+                print"    ----> Found it on line ".$count."\n";
+                break;
+            }
+            $count++;
+        }
+
+        $line_removed = FALSE;
+
+        if ($count <= sizeof($file_contents)){
+            // Remove the line.
+            $line_to_delete = $count - 1;
+            unset($file_contents[$line_to_delete]);
+
+            // Reindex the array.
+            $file_contents = array_values($file_contents);
+
+            // Write out the file.
+            file_put_contents_anywhere($file_name, implode($file_contents));
+
+            $line_removed = TRUE;
+        }
+
+        return $line_removed;
+    }
+
 ?>
