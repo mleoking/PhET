@@ -76,8 +76,8 @@ class RecordModelControlPanel[T](model: RecordModel[T], simPanel: JComponent, cr
     model.setPaused(true)
   })
   model.addListenerByName(updateRewindEnabled)
-  updateRewindEnabled
-  def updateRewindEnabled = {
+  updateRewindEnabled()
+  def updateRewindEnabled() = {
     val enabled = model.isPlayback && model.getRecordingHistory.length > 0 && model.getTime != model.getMinRecordedTime
     rewind.setEnabled(enabled)
   }
@@ -127,22 +127,21 @@ class RecordModelControlPanel[T](model: RecordModel[T], simPanel: JComponent, cr
   addScreenChild(timeline)
 
   setPreferredSize(prefSizeM)
-  def updateSize = {
+  def updateSize() = {
     if (simPanel.getWidth > 0) {
       val pref = new Dimension(simPanel.getWidth(), prefSizeM.height)
       setPreferredSize(pref)
-      updateLayout
+      updateLayout()
     }
   }
   simPanel.addComponentListener(new ComponentAdapter() {
     override def componentResized(e: ComponentEvent) = {
       SwingUtilities.invokeLater(new Runnable() {
-        def run = {updateSize}
+        def run = updateSize()
       })
-
     }
   })
-  updateSize
+  updateSize()
   addComponentListener(new ComponentAdapter() {
     override def componentResized(e: ComponentEvent) = {myUpdateLayout()}
   })
