@@ -6,10 +6,12 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.plaf.basic.BasicHTML;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
@@ -31,16 +33,17 @@ public class TargetTextPanel extends JPanel {
 
     private final TargetTextArea textArea;
     private final JLabel errorIcon;
+    private final JLabel previewIcon;
     private final MessageFormatValidator messageFormatValidator;
     private final HTMLValidator htmlValidator;
     private boolean isValid;
     private String errorMessage;
 
-    public TargetTextPanel( String key, String sourceValue, String value ) {
+    public TargetTextPanel( String key, final String sourceValue, final Locale sourceLocale, String targetValue, final Locale targetLocale ) {
         super();
-
+        
         // target text area
-        textArea = new TargetTextArea( key, value );
+        textArea = new TargetTextArea( key, targetValue );
         textArea.setBackground( OK_COLOR );
         textArea.addFocusListener( new FocusAdapter() {
 
@@ -61,16 +64,32 @@ public class TargetTextPanel extends JPanel {
         errorIcon.setCursor( new Cursor( Cursor.HAND_CURSOR ) );
         errorIcon.addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent event ) {
-                JOptionPane.showMessageDialog( TargetTextPanel.this, errorMessage, "Details", JOptionPane.ERROR_MESSAGE );
+                showErrorDetails( errorMessage );
+            }
+        } );
+        
+        // icon that provides access to a preview
+        previewIcon = new JLabel( TUImages.PREVIEW_BUTTON );
+        previewIcon.setToolTipText( TUStrings.TOOLTIP_PREVIEW );
+        previewIcon.setCursor( new Cursor( Cursor.HAND_CURSOR ) );
+        previewIcon.addMouseListener( new MouseAdapter() {
+            public void mousePressed( MouseEvent event ) {
+                showPreview( sourceValue, sourceLocale, textArea.getText(), targetLocale );
             }
         } );
         
         // layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         setLayout( layout );
-        layout.addComponent( textArea, 0, 1 );
-        layout.addComponent( errorIcon, 0, 2 );
-        layout.setMinimumWidth( 2, errorIcon.getPreferredSize().width + 20 );
+        int row = 0;
+        int column = 0;
+        layout.addComponent( textArea, row, column++ );
+        layout.addComponent( errorIcon, row, column++ );
+        if ( isPreviewable( sourceValue ) ) {
+            layout.addComponent( previewIcon, row, column++ );
+        }
+        layout.setMinimumWidth( 1, errorIcon.getPreferredSize().width + 20 );
+        layout.setMinimumWidth( 2, previewIcon.getPreferredSize().width + 20 );
 
         messageFormatValidator = new MessageFormatValidator( sourceValue );
         htmlValidator = new HTMLValidator( sourceValue );
@@ -136,5 +155,26 @@ public class TargetTextPanel extends JPanel {
         }
 
         return HTMLUtils.toHTMLString( message );
+    }
+    
+    private static boolean isPreviewable( String sourceString ) {
+        return isHTML( sourceString ) || isHTMLFragment( sourceString );
+    }
+    
+    private static boolean isHTML( String s ) {
+        return BasicHTML.isHTMLString( s );
+    }
+    
+    private static boolean isHTMLFragment( String s ) {
+        return s.contains( "<" ) && s.contains( ">" ); //XXX is this sufficient?
+    }
+    
+    private void showErrorDetails( String message ) {
+        JOptionPane.showMessageDialog( null, message, TUStrings.ERROR_DETAILS_TITLE, JOptionPane.ERROR_MESSAGE );
+    }
+    
+    private void showPreview( String source, Locale sourceLocale, String target, Locale targetLocale ) {
+        JPanel panel = new PreviewPanel( source, sourceLocale, target, targetLocale );
+        JOptionPane.showMessageDialog( null, panel, TUStrings.PREVIEW_TITLE, JOptionPane.PLAIN_MESSAGE );
     }
 }

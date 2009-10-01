@@ -124,7 +124,7 @@ public class TranslationPanel extends JPanel implements FindListener {
             JTextArea sourceTextArea = new SourceTextArea( sourceValue );
             sourceTextArea.setFont( sourceFont );
 
-            TargetTextPanel targetTextPanel = new TargetTextPanel( key, sourceValue, targetValue );
+            TargetTextPanel targetTextPanel = new TargetTextPanel( key, sourceValue, sourceLocale, targetValue, targetLocale );
             targetTextPanel.setFont( targetFont );
             _targetTextPanels.add( targetTextPanel );
             targetTextAreas.add( targetTextPanel.getTextArea() );

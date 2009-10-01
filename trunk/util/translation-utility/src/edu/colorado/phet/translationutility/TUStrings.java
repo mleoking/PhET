@@ -47,6 +47,8 @@ public class TUStrings {
     public static final String FATAL_ERROR_TITLE = TUResources.getString( "title.fatalError" );
     public static final String UPDATE_DIALOG_TITLE = TUResources.getString( "title.update" );
     public static final String FIND_TITLE = TUResources.getString( "title.find" );
+    public static final String ERROR_DETAILS_TITLE = TUResources.getString( "title.errorDetails" );
+    public static final String PREVIEW_TITLE = TUResources.getString( "title.preview" );
     
     // menus and items
     public static final String FILE_MENU = TUResources.getString( "menu.file" );
@@ -74,6 +76,9 @@ public class TUStrings {
     public static final String VALIDATION_MESSAGE_FORMAT = TUResources.getString( "message.validation.messageFormat" );
     public static final String UNSAVED_CHANGES_MESSAGE = TUResources.getString( "message.unsavedChanges" );
     public static final String CANNOT_SEND_ERRORS_MESSAGE = TUResources.getString( "message.cannotSendErrors" );
+    public static final String LAYOUT_PROBLEM_MESSAGE = TUResources.getString( "message.layoutProblems" );
+    public static final String WIDTH_WARNING_MESSAGE = TUResources.getString( "message.widthWarning" );
+    public static final String HEIGHT_WARNING_MESSAGE = TUResources.getString( "message.heightWarning" );
     
     // error messages
     public static final String ERROR_NO_SUCH_JAR = TUResources.getString( "error.noSuchJar" );
@@ -88,4 +93,5 @@ public class TUStrings {
     public static final String TOOLTIP_LOAD = TUResources.getString( "tooltip.load" );
     public static final String TOOLTIP_FIND = TUResources.getString( "tooltip.find" );
     public static final String TOOLTIP_ERROR = TUResources.getString( "tooltip.error" );
+    public static final String TOOLTIP_PREVIEW = TUResources.getString( "tooltip.preview" );
 }
