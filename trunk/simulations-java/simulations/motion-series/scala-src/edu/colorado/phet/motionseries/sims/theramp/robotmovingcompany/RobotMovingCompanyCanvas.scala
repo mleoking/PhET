@@ -65,6 +65,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
   gameModel.itemFinishedListeners += ((scalaRampObject: MotionSeriesObject, result: Result) => {
     val summaryScreen = new SummaryScreenNode(gameModel, scalaRampObject, result, node => {
       removeStageNode(node)
+      requestFocus()
       if (gameModel.isLastObject(scalaRampObject))
         showGameSummary()
       else
