@@ -72,11 +72,14 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel, clock: ScalaCloc
     bead.crashListeners += (() => itemLostOffCliff(sel))
     val beadRef = _bead //use a reference for closures below
     bead.addListener(() => {
-      if (beadRef.position > 0 && abs(beadRef.velocity) < 1E-6 && !containsKey(sel) && abs(beadRef.parallelAppliedForce) < 50) {
-        if (beadRef.position >= house.minX && beadRef.position <= house.maxX)
-          itemMoved(sel)
-        else
-          itemLost(sel)
+      if (!containsKey(sel)){
+        val pushing = abs(beadRef.parallelAppliedForce) > 0 
+        val atRest = abs(beadRef.velocity) < 1E-6
+        val stoppedAtHouse = beadRef.position >= house.minX && beadRef.position <= house.maxX && atRest //okay to be pushing
+        val stoppedAndOutOfEnergy = beadRef.position > 0 && atRest && _robotEnergy == 0
+        val crashed = atRest && beadRef.position2D.y <0
+        if (stoppedAtHouse) itemMoved(sel)
+        else if (stoppedAndOutOfEnergy || crashed) itemLost(sel)
       }
     })
 

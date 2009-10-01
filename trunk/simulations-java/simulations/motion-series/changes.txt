@@ -1,3 +1,4 @@
+Improved game logic; game continues even when the object comes to rest, if robot has remaining energy
 Make sure play area gets focus after dismissing score dialog
 Make sure "ok" button gets focus on summary screens
 Fixed energy graph title, key was not found previously
