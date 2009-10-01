@@ -9,16 +9,11 @@ import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.RewindButton
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.StepButton
 import edu.colorado.phet.common.piccolophet.PhetPCanvas
 import scala.collection.mutable.ArrayBuffer
-import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources
-import edu.colorado.phet.common.phetcommon.resources.PhetResources
-import java.awt.event.{ActionEvent, ComponentAdapter, ComponentEvent, ActionListener}
+import java.awt.event.{ComponentAdapter, ComponentEvent}
 
 import javax.swing._
-import java.util.{Hashtable, Dictionary}
-import javax.swing._
-import edu.colorado.phet.scalacommon.util.Observable
 import edu.umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
-import edu.umd.cs.piccolo.nodes.{PImage, PText}
+import edu.umd.cs.piccolo.nodes.{PText}
 import edu.umd.cs.piccolo.PNode
 import edu.umd.cs.piccolo.util.PBounds
 import edu.umd.cs.piccolox.pswing.PSwing
@@ -26,7 +21,11 @@ import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloTimeContro
 import edu.colorado.phet.scalacommon.Predef._
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources._
 
-class RecordModelControlPanel[T](model: RecordModel[T], simPanel: JComponent, createRightControl: () => PNode, timelineColor: Color, maxTime: Double) extends PhetPCanvas {
+class RecordModelControlPanel[T](model: RecordModel[T],
+                                 simPanel: JComponent,
+                                 createRightControl: () => PNode,
+                                 timelineColor: Color,
+                                 maxTime: Double) extends PhetPCanvas {
   private class MyButtonNode(text: String, icon: Icon, action: () => Unit) extends PText(text) {
     addInputEventListener(new PBasicInputEventHandler() {
       override def mousePressed(event: PInputEvent) = {action()}
@@ -55,8 +54,6 @@ class RecordModelControlPanel[T](model: RecordModel[T], simPanel: JComponent, cr
   addScreenChild(backgroundNode)
 
   val modePanel = new ModePanel(model)
-
-
   val clearButton = new JButton(getString("Common.clear"))
 
   clearButton.addActionListener(() => { //todo : couldn't figure out how to remove ()=> with by name using implicits
@@ -64,7 +61,6 @@ class RecordModelControlPanel[T](model: RecordModel[T], simPanel: JComponent, cr
     model.setPaused(true)
     model.setRecord(true)
   })
-
 
   val rightmostControl = createRightControl()
   rightmostControl.setOffset(0, prefSizeM.getHeight / 2 - rightmostControl.getFullBounds.getHeight / 2)
@@ -84,10 +80,8 @@ class RecordModelControlPanel[T](model: RecordModel[T], simPanel: JComponent, cr
   rewind.addInputEventListener(new ToolTipHandler(getString("Common.rewind"), this))
   rewind.setOffset(0, 12)
 
-
   val clearButtonNode = new PSwing(clearButton)
   val modePanelNode = new PSwing(modePanel)
-
 
   val playPause = new PlayPauseButton(75)
   playPause.addListener(new PlayPauseButton.Listener() {
