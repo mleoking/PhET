@@ -1,3 +1,4 @@
+Fixed bugs related to play/pause during record/playback
 # 0.02.01 (35385) Sep 30, 2009
 9/30/09 Redeploy for testing
 Added the ability to step during recording, instead of only during playback
