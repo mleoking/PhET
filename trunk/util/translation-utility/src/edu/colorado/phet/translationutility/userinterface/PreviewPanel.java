@@ -3,6 +3,7 @@
 package edu.colorado.phet.translationutility.userinterface;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.text.MessageFormat;
 import java.util.Locale;
@@ -34,13 +35,14 @@ public class PreviewPanel extends JPanel {
     private static final double WIDTH_WARNING_THRESHOLD = 1.25;
     private static final double HEIGHT_WARNING_THRESHOLD = 1.25;
     
-    public PreviewPanel( String source, Locale sourceLocale, String target, Locale targetLocale ) {
+    public PreviewPanel( String source, Locale sourceLocale, Font sourceFont, String target, Locale targetLocale, Font targetFont ) {
         super();
         
         JLabel sourceTitle = new JLabel( PhetLocales.getInstance().getName( sourceLocale ) );
         JLabel translationTitle = new JLabel( PhetLocales.getInstance().getName( targetLocale ) );
         
         JLabel sourceLabel = new JLabel( HTMLUtils.toHTMLString( source ) );
+        sourceLabel.setFont( sourceFont );
         sourceLabel.setBorder( BORDER );
         
         // if there is no target, show that the source will be used
@@ -49,6 +51,7 @@ public class PreviewPanel extends JPanel {
             t = source;
         }
         JLabel targetLabel = new JLabel( HTMLUtils.toHTMLString( t ) );
+        targetLabel.setFont( targetFont );
         targetLabel.setBorder( BORDER );
         
         JLabel arrowLabel = new JLabel( "-->" );
