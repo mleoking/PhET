@@ -43,6 +43,7 @@
 		var startMouseX:Number;
 		var startMouseY:Number;
 		var startMiddle : Number3D;
+		var selectedObject : Cube;
 		
 		var poolWidth : Number = 1500;
 		var poolHeight : Number = 750;
@@ -140,33 +141,26 @@
 			scene.addChild( new Plane({ x: -far / 2 - poolWidth / 2, y: -far / 2, width: far, height: far, rotationX: 90, material: new ShadingColorMaterial( 0xAA7733 ) }) );
 			
 			// the cube
-			var wallData : BitmapData = new WallBitmapData( 100, 100 );
-			wallData.colorTransform( new Rectangle( 0, 0, wallData.width, wallData.height ), new ColorTransform( 1.0, 0.5, 0.5 )  );
-			cube = new Cube({ x: 300, y: 160, z: 201, width: 200, height: 200, depth: 200, segmentsW: 10, segmentsH: 10, material: new ShadingColorMaterial( 0xFF0000, {ambient: 0xFF0000, specular:0xFFFFFF}) });
-			var sp : Sprite = new Sprite();
-			sp.addChild( new Bitmap( wallData ) );
-			var tf : TextField = new TextField();
-			tf.text = "50 kg";
-			tf.height = wallData.height;
-			tf.width = wallData.width;
-			var format : TextFormat = new TextFormat();
-			format.size = 45;
-			format.bold = true;
-			format.font = "Arial";
-			tf.multiline = true;
-			tf.setTextFormat( format );
-			sp.addChild( tf );
-			var cubeMat : MovieMaterial = new MovieMaterial( sp );
-			var textMat : PhongMovieMaterial = new PhongMovieMaterial( sp );
+			cube = new Block( 50, 200, new ColorTransform( 1, 0, 0 ) );
+			cube.x = 450;
+			cube.y = 0;
+			scene.addChild( cube );
 			
-			var redWallMaterial : BitmapMaterial = new BitmapMaterial( wallData );
-			cube.cubeMaterials.left = cube.cubeMaterials.right = cube.cubeMaterials.top = cube.cubeMaterials.bottom = cube.cubeMaterials.front = redWallMaterial;
-			cube.useHandCursor = true;
-			scene.addChild(cube);
-			var frontMaterial : CompositeMaterial = new CompositeMaterial();
-			frontMaterial.addMaterial( redWallMaterial );
-			frontMaterial.addMaterial( textMat );
-			cube.cubeMaterials.back = cubeMat;
+			var block1 : Block = new Block( 10, 100, new ColorTransform( 0, 1, 0 ) );
+			block1.x = 150;
+			block1.y = 0;
+			scene.addChild( block1 );
+			
+			var block2 : Block = new Block( 100, 300, new ColorTransform( 0, 0, 1 ) );
+			block2.x = -150;
+			block2.y = 0;
+			scene.addChild( block2 );
+			
+			var block3 : Block = new Block( 50, 200, new ColorTransform( 1, 1, 1 ) );
+			block3.x = -450;
+			block3.y = 0;
+			scene.addChild( block3 );
+			
 			var light:DirectionalLight3D = new DirectionalLight3D({color:0xFFFFFF, ambient:0.2, diffuse:0.75, specular:0.1});
 			light.x = 10000;
 			light.z = -35000;
@@ -182,8 +176,6 @@
 		}
 		
 		public function initListeners():void {
-			scene.addEventListener(MouseEvent3D.MOUSE_UP, onSceneMouseUp);
-			
 			addEventListener(Event.ENTER_FRAME, onEnterFrame);
 			stage.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
 			stage.addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
@@ -192,27 +184,20 @@
 			onResize();
 		}
 		
-		public function medianPoint( m : Mesh ) : Number3D {
-			var num : Number = 0;
-			var kx : Number = 0;
-			var ky : Number = 0;
-			var kz : Number = 0;
-			for each( var v : Vertex in m.vertices ) {
-				num += 1.0;
-				kx += v.position.x;
-				ky += v.position.y;
-				kz += v.position.z;
-			}
-			return new Number3D( kx / num, ky / num, kz / num );
-		}
-		
 		public function medianFrontScreenPoint( m : Mesh ) : Number3D {
 			var num : Number = 0;
 			var kx : Number = 0;
 			var ky : Number = 0;
 			var kz : Number = 0;
-			for each( var v : Vertex in m.vertices ) {
-				if( v.z > 0 ) {
+			var front : Number = Infinity;
+			var v : Vertex;
+			for each( v in m.vertices ) {
+				if( v.z < front ) {
+					front = v.z;
+				}
+			}
+			for each( v in m.vertices ) {
+				if( v.z > front ) {
 					continue;
 				}
 				num += 1.0;
@@ -222,13 +207,6 @@
 				kz += sv.z;
 			}
 			return new Number3D( kx / num, ky / num, kz / num );
-		}
-		
-		public function onSceneMouseUp( e: MouseEvent3D ) : void {
-			//if (e.object is Mesh) {
-				//var mesh:Mesh = e.object as Mesh;
-				//mesh.material = new WireColorMaterial();
-			//}
 		}
 		
 		public function onEnterFrame(event:Event):void {			
@@ -241,9 +219,10 @@
 		public function onMouseDown( event:MouseEvent ) : void {
 			startMouseX = stage.mouseX - view.x;
 			startMouseY = stage.mouseY - view.y;
-			if( view.mouseObject == cube ) {
+			if( view.mouseObject == cube || view.mouseObject is Block ) {
 				move = true;
-				startMiddle = medianFrontScreenPoint( cube );
+				startMiddle = medianFrontScreenPoint( view.mouseObject as Block );
+				selectedObject = view.mouseObject as Block;
 			}
 			stage.addEventListener(Event.MOUSE_LEAVE, onStageMouseLeave);
 		}
@@ -263,8 +242,8 @@
 				var cubePlane : Plane3D = new Plane3D();
 				cubePlane.fromNormalAndPoint( new Number3D( 0, 0, -1 ), new Number3D( 0, 0, -100 ) );
 				var intersection : Vertex = cubePlane.getIntersectionLine( cameraVertex, rayVertex );
-				cube.x = intersection.x;
-				cube.y = intersection.y;
+				selectedObject.x = intersection.x;
+				selectedObject.y = intersection.y;
 				
 				marker.x = intersection.x;
 				marker.y = intersection.y;
