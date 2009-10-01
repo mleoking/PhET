@@ -39,7 +39,7 @@ public class ArrowNode extends PPath {
                       double headHeight, double headWidth, double tailWidth ) {
         super();
         arrow = new Arrow( tailLocation, tipLocation, headHeight, headWidth, tailWidth );
-        setPathTo( arrow.getShape() );
+        updateShape();
     }
 
     /**
@@ -58,7 +58,7 @@ public class ArrowNode extends PPath {
                       double fractionalHeadHeight, boolean scaleTailToo ) {
         super();
         arrow = new Arrow( tailLocation, tipLocation, headHeight, headWidth, tailWidth, fractionalHeadHeight, scaleTailToo );
-        setPathTo( arrow.getShape() );
+        updateShape();
     }
     
     /**
@@ -67,10 +67,29 @@ public class ArrowNode extends PPath {
      */
     public void setTipAndTailLocations(Point2D newTipLocation, Point2D newTailLocation){
         arrow.setTipAndTailLocations( newTipLocation, newTailLocation );
-        setPathTo( arrow.getShape() );
+        updateShape();
     }
 
     public Point2D getTipLocation(){
         return arrow.getTipLocation();
+    }
+
+    public void setTailWidth(double tailWidth) {
+        arrow.setTailWidth(tailWidth);
+        updateShape();
+    }
+
+    private void updateShape() {
+        setPathTo(arrow.getShape());
+    }
+
+    public void setHeadHeight(double headHeight){
+        arrow.setHeadHeight(headHeight);
+        updateShape();
+    }
+    
+    public void setHeadWidth(double headWidth){
+        arrow.setHeadWidth(headWidth);
+        updateShape();
     }
 }
