@@ -358,9 +358,10 @@
 
     //------------------------------------------------------------------------
     // Remove the first occurance of a line that contains the specified
-    // pattern from the specified file.
+    // pattern from the specified file.  NOTE: This only removes the 1st
+    // match, not all matches.
     //------------------------------------------------------------------------
-    function file_remove_line_matching_pattern($pattern, $file_name) {
+    function file_remove_line_matching_pattern($file_name, $pattern) {
 
         // Check if the file exists
         if(!file_exists($file_name)) {
@@ -398,6 +399,37 @@
         }
 
         return $line_removed;
+    }
+
+    //------------------------------------------------------------------------
+    // Append the given line to the specified file.
+    //------------------------------------------------------------------------
+    function file_append_line_to_file($file_name, $line) {
+
+        print("Here1\n");
+        print("File = ".$file_name."\n");
+        // Check if the file exists
+        if(!file_exists($file_name)) {
+             return(FALSE);
+        }      
+
+        print("Here2\n");
+        // Open the file for appending.
+        if (!($fp = fopen($file_name, 'a'))){
+            return(FALSE);
+        }
+
+        print("Here3\n");
+        // Append the line.
+        if (!fwrite($fp, $line)){
+            fclose($fp);
+            return FALSE;
+        }
+
+        print("Here4\n");
+        fclose($fp);
+
+        return TRUE;
     }
 
 ?>
