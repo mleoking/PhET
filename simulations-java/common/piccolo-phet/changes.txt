@@ -1,0 +1,1 @@
+10-1-2009: Cache image thumbnails in AbstractMediaButton and PlayPauseButton, see #1809
