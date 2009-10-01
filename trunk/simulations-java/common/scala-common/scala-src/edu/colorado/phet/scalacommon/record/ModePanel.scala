@@ -21,7 +21,12 @@ class ModePanel[T](model: RecordModel[T]) extends JPanel {
   }
   recordingButton.peer.setBackground(new Color(0, 0, 0, 0))
   val playbackButton = addComponent{
-    new MyRadioButton(getString("Common.playback"), {model.setRecord(false); model.setPlaybackIndexFloat(0.0); model.setPaused(true)}, model.isPlayback, model.addListener) {
+    def handlePressed() = {
+      model.setRecord(false)
+      model.setPlaybackIndexFloat(0.0)
+      model.setPaused(true)
+    }
+    new MyRadioButton(getString("Common.playback"), handlePressed(), model.isPlayback, model.addListener) {
       font = new PhetFont(15, true)
     }
   }

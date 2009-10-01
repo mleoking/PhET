@@ -20,6 +20,7 @@ import edu.umd.cs.piccolox.pswing.PSwing
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloTimeControlPanel.BackgroundNode
 import edu.colorado.phet.scalacommon.Predef._
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources._
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources
 
 class RecordModelControlPanel[T](model: RecordModel[T],
                                  simPanel: JComponent,
