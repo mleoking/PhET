@@ -1,6 +1,6 @@
 package edu.colorado.phet.motionseries.sims.movingman
 
-import common.phetcommon.view.PhetFrame
+import edu.colorado.phet.common.phetcommon.view.PhetFrame
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import edu.colorado.phet.motionseries.model._
 import java.awt.geom.Rectangle2D

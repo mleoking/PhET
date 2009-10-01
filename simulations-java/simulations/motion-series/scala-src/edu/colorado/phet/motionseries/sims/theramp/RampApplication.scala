@@ -1,6 +1,6 @@
 package edu.colorado.phet.motionseries.sims.theramp
 
-import common.phetcommon.view.PhetFrame
+import edu.colorado.phet.common.phetcommon.view.PhetFrame
 import edu.colorado.phet.motionseries.graphics.{RampCanvas}
 import java.awt.geom.Rectangle2D
 import edu.colorado.phet.common.phetcommon.application.{PhetApplicationConfig}

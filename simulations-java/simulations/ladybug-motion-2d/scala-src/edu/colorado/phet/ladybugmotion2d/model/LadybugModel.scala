@@ -1,6 +1,5 @@
 package edu.colorado.phet.ladybugmotion2d.model
 
-
 import _root_.java.awt.geom.{Point2D, Rectangle2D}
 import edu.colorado.phet.common.motion.model.TimeData
 import scala.collection.mutable.ArrayBuffer

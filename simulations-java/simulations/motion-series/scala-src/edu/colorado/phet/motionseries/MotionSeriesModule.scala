@@ -1,7 +1,7 @@
 package edu.colorado.phet.motionseries
 
-import common.phetcommon.view.util.SwingUtils
-import common.phetcommon.view.{VerticalLayoutPanel, PhetFrame}
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils
+import edu.colorado.phet.common.phetcommon.view.{VerticalLayoutPanel, PhetFrame}
 import edu.colorado.phet.common.phetcommon.application.Module
 import edu.colorado.phet.scalacommon.ScalaClock
 import edu.colorado.phet.motionseries.model._
