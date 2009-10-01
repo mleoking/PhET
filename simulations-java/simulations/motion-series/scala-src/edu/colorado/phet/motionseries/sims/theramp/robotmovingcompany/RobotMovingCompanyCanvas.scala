@@ -70,9 +70,9 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
       else
         gameModel.nextObject()
     }, if (gameModel.isLastObject(scalaRampObject)) "Show Summary" else "Ok")
-    summaryScreen.setOffset(stage.width / 2 - summaryScreen.getFullBounds.width / 2,
-      stage.height / 2 - summaryScreen.getFullBounds.height / 2)
+    summaryScreen.centerWithin(stage.width, stage.height)
     addStageNode(summaryScreen)
+    summaryScreen.requestFocus()
   })
 
   val pswingControlPanel = new PSwing(controlPanel)
@@ -286,9 +286,18 @@ class ScoreboardNode(transform: ModelViewTransform2D, gameModel: RobotMovingComp
   setOffset(transform.getViewBounds.getCenterX - getFullBounds.getWidth / 2, 0)
 }
 
-class SummaryScreenNode(gm: RobotMovingCompanyGameModel, scalaRampObject: MotionSeriesObject, result: Result, okPressed: SummaryScreenNode => Unit, okButtonText: String) extends PNode {
-  val background = new PhetPPath(new RoundRectangle2D.Double(0, 0, 400, 400, 20, 20), new Color(192, 192, 192, 245), new BasicStroke(2), Color.darkGray)
+class PlayAreaDialog extends PNode {
+  val background = new PhetPPath(new RoundRectangle2D.Double(0, 0, 400, 400, 20, 20), MotionSeriesDefaults.dialogBackground, new BasicStroke(2), MotionSeriesDefaults.dialogBorder)
   addChild(background)
+
+  def centerWithin(w: Double, h: Double) = setOffset(w / 2 - getFullBounds.width / 2, h / 2 - getFullBounds.height / 2)
+}
+
+class SummaryScreenNode(gameModel: RobotMovingCompanyGameModel,
+                        scalaRampObject: MotionSeriesObject,
+                        result: Result,
+                        okPressed: SummaryScreenNode => Unit,
+                        okButtonText: String) extends PlayAreaDialog {
   val text = result match {
     case Result(_, true, _, _) => "Crashed"
     case Result(true, false, _, _) => "Delivered Successfully"
@@ -327,6 +336,8 @@ class SummaryScreenNode(gm: RobotMovingCompanyGameModel, scalaRampObject: Motion
   addChild(layoutNode)
 
   addChild(donePSwing)
+
+  def requestFocus() = doneButton.requestFocus()
 }
 
 object TestSummaryScreen {

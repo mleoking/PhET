@@ -6,8 +6,10 @@ import edu.colorado.phet.scalacommon.ScalaClock
 import edu.colorado.phet.motionseries.Predef._
 import edu.colorado.phet.motionseries.{MotionSeriesResources, MotionSeriesDefaults, MotionSeriesModule}
 
-class RobotMovingCompanyModule(frame: JFrame, clock: ScalaClock)
+class RobotMovingCompanyModule(frame: JFrame,
+                               clock: ScalaClock)
         extends MotionSeriesModule(frame, clock, "module.robotMovingCompany".translate, 5, false, MotionSeriesDefaults.defaultRampAngle) {
+  
   override def reset() = {
     super.reset()
     motionSeriesModel.frictionless = false

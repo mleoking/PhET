@@ -1,3 +1,4 @@
+Make sure "ok" button gets focus on summary screens
 Fixed energy graph title, key was not found previously
 # 1.03.44 (35353) Sep 29, 2009
 the-ramp: Moved force graph tab in front of coordinate frame tab
