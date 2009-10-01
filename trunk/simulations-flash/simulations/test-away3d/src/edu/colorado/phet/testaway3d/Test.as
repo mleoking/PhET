@@ -56,6 +56,8 @@
 		
 		var invalid : Boolean = true;
 		
+		var marker : ObjectContainer3D;
+		
 		public function Test() {
 			init();
 		}
@@ -171,6 +173,12 @@
 			light.y = 50000;
 			scene.addChild(light);
 			
+			marker = new ObjectContainer3D();
+			marker.addChild( new Cube({ z: 50, width: 20, height: 20, depth: 100, segmentsW: 1, segmentsH: 10, material: new ShadingColorMaterial( 0x9999CC ) }) );
+			marker.addChild( new Cube({ z: 150, width: 20, height: 20, depth: 100, segmentsW: 1, segmentsH: 10, material: new ShadingColorMaterial( 0xCC9999 ) }) );
+			marker.addChild( new Cube({ z: -50, width: 5, height: 5, depth: 100, segmentsW: 1, segmentsH: 10, material: new ShadingColorMaterial( 0xFFFFFF ) }) );
+//			scene.addChild( marker );
+			
 		}
 		
 		public function initListeners():void {
@@ -198,16 +206,19 @@
 			return new Number3D( kx / num, ky / num, kz / num );
 		}
 		
-		public function medianScreenPoint( m : Mesh ) : Number3D {
+		public function medianFrontScreenPoint( m : Mesh ) : Number3D {
 			var num : Number = 0;
 			var kx : Number = 0;
 			var ky : Number = 0;
 			var kz : Number = 0;
 			for each( var v : Vertex in m.vertices ) {
+				if( v.z > 0 ) {
+					continue;
+				}
 				num += 1.0;
 				var sv : ScreenVertex = camera.screen( m, v );
-				kx += sv.x + view.x;
-				ky += sv.y + view.y;
+				kx += sv.x;
+				ky += sv.y;
 				kz += sv.z;
 			}
 			return new Number3D( kx / num, ky / num, kz / num );
@@ -228,27 +239,36 @@
 		}
 		
 		public function onMouseDown( event:MouseEvent ) : void {
-			startMouseX = stage.mouseX;
-			startMouseY = stage.mouseY;
+			startMouseX = stage.mouseX - view.x;
+			startMouseY = stage.mouseY - view.y;
 			if( view.mouseObject == cube ) {
 				move = true;
-				startMiddle = medianScreenPoint( cube );
+				startMiddle = medianFrontScreenPoint( cube );
 			}
 			stage.addEventListener(Event.MOUSE_LEAVE, onStageMouseLeave);
 		}
 		
 		public function onMouseMove( event : MouseEvent ) : void {
 			if( move ) {
-				var curCenter : Number3D = cube.position;
-				var projected : Number3D = camera.unproject( stage.mouseX - view.x, stage.mouseY - view.y );
+				var offsetX = startMiddle.x - startMouseX;
+				var offsetY = startMiddle.y - startMouseY;
+				var mX = stage.mouseX - view.x;
+				var mY = stage.mouseY - view.y;
+				var screenCubeCenterX = mX + offsetX;
+				var screenCubeCenterY = mY + offsetY;
+				var projected : Number3D = camera.unproject( screenCubeCenterX, screenCubeCenterY );
 				projected.add( projected, new Number3D( camera.x, camera.y, camera.z ) );
 				var cameraVertex : Vertex = new Vertex( camera.x, camera.y, camera.z );
 				var rayVertex : Vertex = new Vertex( projected.x, projected.y, projected.z );
 				var cubePlane : Plane3D = new Plane3D();
-				cubePlane.fromNormalAndPoint( new Number3D( 0, 0, 1 ), new Number3D( 0, 0, 0 ) );
+				cubePlane.fromNormalAndPoint( new Number3D( 0, 0, -1 ), new Number3D( 0, 0, -100 ) );
 				var intersection : Vertex = cubePlane.getIntersectionLine( cameraVertex, rayVertex );
 				cube.x = intersection.x;
 				cube.y = intersection.y;
+				
+				marker.x = intersection.x;
+				marker.y = intersection.y;
+				marker.z = intersection.z;
 				
 				updateWater();
 				invalid = true;
