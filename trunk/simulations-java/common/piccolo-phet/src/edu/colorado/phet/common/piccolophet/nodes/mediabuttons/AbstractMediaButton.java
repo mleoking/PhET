@@ -26,23 +26,23 @@ public class AbstractMediaButton extends PNode {
     private boolean enabled = true;
     private boolean mousePressed = false;
     private boolean mouseEntered = false;
-    
+
+    private final Image normalImage;
     private final Image disabledImage;
     private final Image mouseEnteredImage;
     private final Image armedImage;
     private CursorHandler cursorHandler;
 
     public AbstractMediaButton( int buttonHeight ) {
-        
         this.buttonHeight = buttonHeight;
-        BufferedImage image = getImage();
-        image = BufferedImageUtils.multiScaleToHeight( image, buttonHeight );
-        buttonImageNode = new PImage( image );
-        addChild( buttonImageNode );
 
-        disabledImage = new MyRescaleOp( 0.5, -100 ).filter( getImage(), null );
-        mouseEnteredImage = new MyRescaleOp( 1.2, 0 ).filter( getImage(), null );
-        armedImage = new MyRescaleOp( 0.9, 0 ).filter( getImage(), null );
+        normalImage = createImage();
+        disabledImage = new MyRescaleOp( 0.5, -100 ).filter( createImage(), null );
+        mouseEnteredImage = new MyRescaleOp( 1.2, 0 ).filter( createImage(), null );
+        armedImage = new MyRescaleOp( 0.9, 0 ).filter( createImage(), null );
+
+        buttonImageNode = new PImage( normalImage);
+        addChild( buttonImageNode );
         
         //TODO why are we not using CursorHandler here?
         addInputEventListener( new PBasicInputEventHandler() {
@@ -110,6 +110,7 @@ public class AbstractMediaButton extends PNode {
             o.enabledChanged();
         }
     }
+
     public static interface Listener{
         void enabledChanged();
     }
@@ -119,7 +120,7 @@ public class AbstractMediaButton extends PNode {
             buttonImageNode.setImage( disabledImage );
         }
         else if ( !mouseEntered ) {
-            buttonImageNode.setImage( getImage() );
+            buttonImageNode.setImage( normalImage );
         }
         else {
             if ( mousePressed ) {
@@ -145,7 +146,7 @@ public class AbstractMediaButton extends PNode {
         }
     }
 
-    protected BufferedImage getImage() {
+    protected BufferedImage createImage() {
         BufferedImage image = new PhetResources( "piccolo-phet" ).getImage( "button-template.png" );
         return BufferedImageUtils.multiScaleToHeight( image, buttonHeight );
     }
