@@ -1,4 +1,5 @@
-9-29-2009: Moving Man (1.26) - User interface improvements for charts 
+10-1-2009: Ladybug Motion 2D (1.00) - Updated version information
+9-29-2009: Moving Man (1.26) - User interface improvements for charts
 9-18-2009: Gravity Force Lab (1.00) - First publication of the Gravity Force Lab simulation
 9-15-2009: Nuclear Physics (3.16) - First publication of two new variations (i.e. "flavors"): Radioactive Dating Game and Beta Decay.
 8-13-2009: Reactions & Rates (1.04) - misc bug fixes, added "Clear container" button
