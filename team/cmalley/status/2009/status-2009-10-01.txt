@@ -1,0 +1,53 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: September 24 - October 1, 2009 (Thu-Wed)
+
+ACCOMPLISHMENTS:
+
+  Translation Utility:
+  - 1629, validate translations that contain HTML or MessageFormat markup
+  - 110, fix scrolling in main panel
+  - 1794, support horizontal scrolling, ellipsis in long key names
+  - 1793, statically initialize all strings
+  - 1795, make scroll pane start at top
+  - 1798, toolbar enhancements (tooltip, order, spacing)
+  - 1800, fix exception that occurs when loading an empty translation
+  - 1799, file filters for file choosers in Save/Load feature
+  - 97, check for unsaved changes
+  - 1627, HTML preview feature
+  
+  Limiting Reagents:
+  - design meeting
+  - more feedback on design document
+  
+  Titration:
+  - test fixed to Durand-Kerner
+  - feedback on remaining problems with polynomial root-finding implementations
+  
+  misc:
+  - weekly status meeting
+  - review JO's feasibility test of always3d on Mac
+  - 1417, discussed problems with per-project changelogs
+  - 1803, discussed problems with per-project version numbers
+  - 1796, resolve varargs warning with Sam
+  - resolve issue with Unfuddle SVN certificate
+  
+WHAT'S NEXT:
+
+  - Translation Utility enhancements related to KSU 
+  - finalize design for Limiting Reagents
+  - migrate features to common code, #1074
+  - resolve polynomial root-finding issues in Titration model
+  - test new translation deployment process for JO
+  - finish Glaciers (waiting for Wendy's feedback)
+  
+ISSUES:
+
+  - I have no sim work.
+  
+DATES UNAVAILABLE:
+
+   October 15-27
+  
+--
