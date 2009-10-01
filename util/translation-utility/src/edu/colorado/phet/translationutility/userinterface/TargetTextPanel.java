@@ -4,6 +4,7 @@ package edu.colorado.phet.translationutility.userinterface;
 
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Font;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -39,7 +40,7 @@ public class TargetTextPanel extends JPanel {
     private boolean isValid;
     private String errorMessage;
 
-    public TargetTextPanel( String key, final String sourceValue, final Locale sourceLocale, String targetValue, final Locale targetLocale ) {
+    public TargetTextPanel( String key, final String sourceValue, final Locale sourceLocale, final Font sourceFont, String targetValue, final Locale targetLocale, final Font targetFont ) {
         super();
         
         // target text area
@@ -74,7 +75,7 @@ public class TargetTextPanel extends JPanel {
         previewIcon.setCursor( new Cursor( Cursor.HAND_CURSOR ) );
         previewIcon.addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent event ) {
-                showPreview( sourceValue, sourceLocale, textArea.getText(), targetLocale );
+                showPreview( sourceValue, sourceLocale, sourceFont, textArea.getText(), targetLocale, targetFont );
             }
         } );
         
@@ -173,8 +174,8 @@ public class TargetTextPanel extends JPanel {
         JOptionPane.showMessageDialog( null, message, TUStrings.ERROR_DETAILS_TITLE, JOptionPane.ERROR_MESSAGE );
     }
     
-    private void showPreview( String source, Locale sourceLocale, String target, Locale targetLocale ) {
-        JPanel panel = new PreviewPanel( source, sourceLocale, target, targetLocale );
+    private void showPreview( String source, Locale sourceLocale, Font sourceFont, String target, Locale targetLocale, Font targetFont ) {
+        JPanel panel = new PreviewPanel( source, sourceLocale, sourceFont, target, targetLocale, targetFont );
         JOptionPane.showMessageDialog( null, panel, TUStrings.PREVIEW_TITLE, JOptionPane.PLAIN_MESSAGE );
     }
 }
