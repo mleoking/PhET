@@ -374,9 +374,7 @@
         // Search for the first occurance of the string.
         $count = 1;
         foreach ( $file_contents as $line ) {
-            print($count." :".$line);
             if ( strstr( $line, $pattern ) != false ){
-                print"    ----> Found it on line ".$count."\n";
                 break;
             }
             $count++;
@@ -406,27 +404,22 @@
     //------------------------------------------------------------------------
     function file_append_line_to_file($file_name, $line) {
 
-        print("Here1\n");
-        print("File = ".$file_name."\n");
         // Check if the file exists
         if(!file_exists($file_name)) {
              return(FALSE);
         }      
 
-        print("Here2\n");
         // Open the file for appending.
         if (!($fp = fopen($file_name, 'a'))){
             return(FALSE);
         }
 
-        print("Here3\n");
         // Append the line.
         if (!fwrite($fp, $line)){
             fclose($fp);
             return FALSE;
         }
 
-        print("Here4\n");
         fclose($fp);
 
         return TRUE;
