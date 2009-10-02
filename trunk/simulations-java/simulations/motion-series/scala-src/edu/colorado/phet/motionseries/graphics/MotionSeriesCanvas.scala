@@ -105,7 +105,7 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
   fbdNode.addListener(fbdListener)
   addStageNode(fbdNode)
   defineInvokeAndPass(freeBodyDiagramModel.addListenerByName) {
-    fbdNode.setVisible(freeBodyDiagramModel.visible && !freeBodyDiagramModel.windowed)
+    fbdNode.setVisible(freeBodyDiagramModel.visible && !freeBodyDiagramModel.windowed )
   }
 
   val windowFBDNode = new FBDDialog(frame, freeBodyDiagramModel, fbdWidth, model.coordinateFrameModel, adjustableCoordinateModel.adjustable, adjustableCoordinateModel, fbdListener)

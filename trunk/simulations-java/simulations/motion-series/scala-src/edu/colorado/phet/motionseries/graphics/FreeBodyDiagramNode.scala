@@ -126,10 +126,15 @@ class AxisNodeWithModel(transform: ModelViewTransform2D, label: String, val axis
 }
 
 class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel,
-                          private var _width: Double, private var _height: Double,
-                          val modelWidth: Double, val modelHeight: Double,
-                          coordinateFrameModel: CoordinateFrameModel, adjustableCoordinateModel: AdjustableCoordinateModel,
-                          toggleWindowedButton: Image, vectors: Vector*) extends PNode with VectorDisplay {
+                          private var _width: Double,
+                          private var _height: Double,
+                          val modelWidth: Double,
+                          val modelHeight: Double,
+                          coordinateFrameModel: CoordinateFrameModel,
+                          adjustableCoordinateModel: AdjustableCoordinateModel,
+                          toggleWindowedButton: Image,
+                          vectors: Vector*)
+        extends PNode with VectorDisplay {
   def addVector(vector: Vector with PointOfOriginVector, offsetFBD: VectorValue, maxOffset: Int, offsetPlayArea: Double): Unit =
     addVector(vector, offsetFBD, maxOffset)
 
@@ -152,27 +157,30 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel,
     closeButton.setChildrenPickable(freeBodyDiagramModel.closable)
   }
 
-  val windowedButton = new PImage(toggleWindowedButton)
-  windowedButton.addInputEventListener(new CursorHandler)
-  windowedButton.addInputEventListener(new PBasicInputEventHandler {
-    override def mousePressed(event: PInputEvent) = {
-      freeBodyDiagramModel.windowed = !freeBodyDiagramModel.windowed
-    }
-  })
+  val windowedButton = new PImage(toggleWindowedButton) {
+    addInputEventListener(new CursorHandler)
+    addInputEventListener(new PBasicInputEventHandler {
+      override def mousePressed(event: PInputEvent) = {
+        freeBodyDiagramModel.windowed = !freeBodyDiagramModel.windowed
+      }
+    })
+  }
 
-  val buttonPanel = new SwingLayoutNode()
-  buttonPanel.addChild(windowedButton)
-  buttonPanel.addChild(closeButton)
+  val buttonPanel = new SwingLayoutNode(){
+    if (! freeBodyDiagramModel.popupDialogOnly)
+      addChild(windowedButton)
+    addChild(closeButton)
+  }
   addChild(buttonPanel)
 
   private val listeners = new ArrayBuffer[Point2D => Unit]
 
   def addListener(listener: Point2D => Unit) = {listeners += listener}
 
-  override def setVisible(isVisible: Boolean) = {
-    super.setVisible(isVisible)
-    setPickable(isVisible)
-    setChildrenPickable(isVisible)
+  override def setVisible(visible: Boolean) = {
+    super.setVisible(visible)
+    setPickable(visible)
+    setChildrenPickable(visible)
   }
 
   background.addInputEventListener(new PBasicInputEventHandler {
@@ -306,8 +314,8 @@ class BodyVectorNode(transform: ModelViewTransform2D, vector: Vector, offset: Ve
 class VectorNode(val transform: ModelViewTransform2D, val vector: Vector, val tailLocation: VectorValue, maxDistToLabel: Double) extends PNode {
   val headWidth = MotionSeriesConfig.VectorHeadWidth.value
   val arrowNode = new ArrowNode(new Point2D.Double(0, 0), new Point2D.Double(0, 1), headWidth, headWidth, MotionSeriesConfig.VectorTailWidth.value, 0.5, true)
-  MotionSeriesConfig.VectorTailWidth.addListener( ()=>{arrowNode.setTailWidth(MotionSeriesConfig.VectorTailWidth.value)})
-  MotionSeriesConfig.VectorHeadWidth.addListener( ()=>{
+  MotionSeriesConfig.VectorTailWidth.addListener(() => {arrowNode.setTailWidth(MotionSeriesConfig.VectorTailWidth.value)})
+  MotionSeriesConfig.VectorHeadWidth.addListener(() => {
     arrowNode.setHeadWidth(MotionSeriesConfig.VectorHeadWidth.value)
     arrowNode.setHeadHeight(MotionSeriesConfig.VectorHeadWidth.value)
   })
@@ -354,7 +362,7 @@ object TestFBD extends Application {
   val frame = new JFrame
   val canvas = new PhetPCanvas
   val vector = new Vector(Color.blue, "Test Vector".literal, "Fv".literal, () => new Vector2D(5, 5), (a, b) => b)
-  canvas.addScreenChild(new FreeBodyDiagramNode(new FreeBodyDiagramModel, 200, 200, 20, 20, new CoordinateFrameModel(Nil), new AdjustableCoordinateModel,
+  canvas.addScreenChild(new FreeBodyDiagramNode(new FreeBodyDiagramModel(false), 200, 200, 20, 20, new CoordinateFrameModel(Nil), new AdjustableCoordinateModel,
     PhetCommonResources.getImage("buttons/maximizeButton.png".literal), vector))
   frame.setContentPane(canvas)
   frame.setSize(800, 600)

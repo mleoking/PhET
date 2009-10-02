@@ -30,8 +30,9 @@ class BasicRampModule(frame: PhetFrame,
                       pausedOnReset: Boolean,
                       initialAngle: Double,
                       rampLayoutArea: Rectangle2D,
-                      stageContainerArea: StageContainerArea)
-        extends MotionSeriesModule(frame, clock, name, defaultBeadPosition, pausedOnReset, initialAngle) {
+                      stageContainerArea: StageContainerArea,
+                      fbdPopupOnly:Boolean)
+        extends MotionSeriesModule(frame, clock, name, defaultBeadPosition, pausedOnReset, initialAngle,fbdPopupOnly) {
   val rampCanvas = new RampCanvas(motionSeriesModel, coordinateSystemModel, fbdModel, vectorViewModel, frame,
     !useObjectComboBox, showAppliedForceSlider, initialAngle != 0.0, rampLayoutArea, stageContainerArea)
   setSimulationPanel(rampCanvas)
@@ -43,11 +44,13 @@ class BasicRampModule(frame: PhetFrame,
 
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 
-class IntroRampModule(frame: PhetFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "module.introduction".translate, false, false, true, -6, false, MotionSeriesDefaults.defaultRampAngle, MotionSeriesDefaults.defaultViewport, MotionSeriesDefaults.fullScreenArea)
+class IntroRampModule(frame: PhetFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "module.introduction".translate, false, false, true, -6, false,
+  MotionSeriesDefaults.defaultRampAngle, MotionSeriesDefaults.defaultViewport, MotionSeriesDefaults.fullScreenArea,false)
 
 class CoordinatesRampModule(frame: PhetFrame,
                             clock: ScalaClock)
-        extends BasicRampModule(frame, clock, "module.coordinates".translate, true, false, true, -6, false, MotionSeriesDefaults.defaultRampAngle, MotionSeriesDefaults.defaultViewport, MotionSeriesDefaults.fullScreenArea) {
+        extends BasicRampModule(frame, clock, "module.coordinates".translate, true, false, true, -6, false,
+          MotionSeriesDefaults.defaultRampAngle, MotionSeriesDefaults.defaultViewport, MotionSeriesDefaults.fullScreenArea,false) {
   coordinateSystemModel.adjustable = true
 }
 
@@ -57,7 +60,7 @@ class GraphingModule(frame: PhetFrame,
                      showEnergyGraph: Boolean,
                      rampLayoutArea: Rectangle2D,
                      stageContainerArea: StageContainerArea)
-        extends BasicRampModule(frame, clock, name, false, true, false, -6, true, MotionSeriesDefaults.defaultRampAngle, rampLayoutArea, stageContainerArea) {
+        extends BasicRampModule(frame, clock, name, false, true, false, -6, true, MotionSeriesDefaults.defaultRampAngle, rampLayoutArea, stageContainerArea,true) {
   coordinateSystemModel.adjustable = false
 }
 

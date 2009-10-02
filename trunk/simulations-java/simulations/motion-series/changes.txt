@@ -1,3 +1,4 @@
+Fixed: FBD should open as a separate window in cases where it does not fit in the play area, for all graphing tabs in F&M + Ramp
 Moved play area down in non-charting F&M modules so the FBD can go above the surface area
 Performance improvements, using Color(0,0,0,0) on object selection icons was very expensive
 # 1.03.46 (35422) Oct 1, 2009

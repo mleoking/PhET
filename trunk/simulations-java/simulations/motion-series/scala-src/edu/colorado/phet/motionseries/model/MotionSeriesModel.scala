@@ -38,7 +38,7 @@ class WordModel extends Observable {
     notifyListeners()
   }
 }
-class FreeBodyDiagramModel extends Observable {
+class FreeBodyDiagramModel(val popupDialogOnly:Boolean) extends Observable {
   private var _windowed = false
   private var _visible = false
   private var _closable = true
@@ -59,7 +59,7 @@ class FreeBodyDiagramModel extends Observable {
 
   def visible = _visible
 
-  def windowed = _windowed
+  def windowed = _windowed || popupDialogOnly
 
   def visible_=(value: Boolean) = {
     _visible = value
