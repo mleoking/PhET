@@ -69,7 +69,7 @@ class ObjectSelectionNode(model: ObjectModel) extends PNode {
     object BLANK extends  Color(0,0,0,0)
     //to capture any input, not just directly on the image or text
     val backgroundNode = new PhetPPath(BLANK){
-      protected override def paint(paintContext: PPaintContext) = {
+      override def paint(paintContext: PPaintContext) = {
         if (getPaint eq BLANK){}    //using null fails to allow mouse inputs over null paint region, thus we use blank instead
         else super.paint(paintContext)
       }
