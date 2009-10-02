@@ -7,9 +7,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas
 import java.awt._
 import event.{KeyEvent, KeyAdapter}
 import geom.{Line2D, RoundRectangle2D}
-import javax.swing.event.{ChangeEvent, ChangeListener}
 import edu.colorado.phet.scalacommon.ScalaClock
-import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.umd.cs.piccolo.nodes.{PImage, PText}
 import edu.umd.cs.piccolo.PNode
@@ -21,7 +19,6 @@ import edu.umd.cs.piccolox.pswing.PSwing
 import edu.colorado.phet.scalacommon.Predef._
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 import edu.colorado.phet.motionseries.MotionSeriesResources
-import edu.colorado.phet.motionseries.swing._
 import edu.colorado.phet.motionseries.sims.theramp.StageContainerArea
 import javax.swing.{SwingUtilities, JButton, JOptionPane, JFrame}
 import edu.colorado.phet.scalacommon.util.Observable
@@ -33,29 +30,31 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
                                frame: JFrame,
                                gameModel: RobotMovingCompanyGameModel,
                                stageContainerArea: StageContainerArea)
-        extends RampCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame, false, true, true, MotionSeriesDefaults.rampIntroViewport, stageContainerArea) {
+        extends RampCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel,
+          frame, false, false, true, MotionSeriesDefaults.robotMovingCompanyRampViewport, stageContainerArea) {
   beadNode.setVisible(false)
   playAreaVectorNode.setVisible(false)
   pusherNode.setVisible(false)
 
-  val controlPanel = new VerticalLayoutPanel
-  controlPanel.setFillNone()
-  val robotGoButton = new ScalaButton("Let Go", () => {
-    gameModel.launched = true
-    model.bead.parallelAppliedForce = 0
-    model.setPaused(false)
-  })
-  gameModel.addListener(() => {robotGoButton.setEnabled(!gameModel.launched)})
 
-  val appliedForceControl = new AppliedForceSlider(() => 0, value => 0, gameModel.addListener, () => model.setPaused(false)) //todo: last param is a dummy
-  appliedForceControl.addChangeListener(new ChangeListener() {
-    def stateChanged(e: ChangeEvent) = {
-      gameModel.launched = true
-      model.setPaused(false)
-    }
-  })
-  controlPanel.add(appliedForceControl)
-  controlPanel.add(robotGoButton)
+  //  val controlPanel = new VerticalLayoutPanel
+  //  controlPanel.setFillNone()
+  //  val robotGoButton = new ScalaButton("Let Go", () => {
+  //    gameModel.launched = true
+  //    model.bead.parallelAppliedForce = 0
+  //    model.setPaused(false)
+  //  })
+  //  gameModel.addListener(() => {robotGoButton.setEnabled(!gameModel.launched)})
+
+  //  val appliedForceControl = new AppliedForceSlider(() => 0, value => 0, gameModel.addListener, () => model.setPaused(false)) //todo: last param is a dummy
+  //  appliedForceControl.addChangeListener(new ChangeListener() {
+  //    def stateChanged(e: ChangeEvent) = {
+  //      gameModel.launched = true
+  //      model.setPaused(false)
+  //    }
+  //  })
+  //  controlPanel.add(appliedForceControl)
+  //  controlPanel.add(robotGoButton)
 
   def showGameSummary() = {
     JOptionPane.showMessageDialog(RobotMovingCompanyCanvas.this, "That was the last object to move.  \nYour score is: " + gameModel.score + ".")
@@ -76,23 +75,23 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
     summaryScreen.requestFocus()
   })
 
-  val pswingControlPanel = new PSwing(controlPanel)
-  addStageNode(pswingControlPanel)
+  //  val pswingControlPanel = new PSwing(controlPanel)
+  //  addStageNode(pswingControlPanel)
 
-  pswingControlPanel.setOffset(0, transform.modelToView(0, -1).y)
+  //  pswingControlPanel.setOffset(0, transform.modelToView(0, -1).y)
 
-  override def updateFBDLocation() = {
-    if (fbdNode != null && pswingControlPanel != null)
-      fbdNode.setOffset(pswingControlPanel.getFullBounds.getMaxX + 10, pswingControlPanel.getFullBounds.getY)
-  }
-  updateFBDLocation()
+  //  override def updateFBDLocation() = {
+  //    if (fbdNode != null && pswingControlPanel != null)
+  //      fbdNode.setOffset(pswingControlPanel.getFullBounds.getMaxX + 10, pswingControlPanel.getFullBounds.getY)
+  //  }
+  //  updateFBDLocation()
 
-  freeBodyDiagramModel.visible = true
-  freeBodyDiagramModel.closable = false
+  freeBodyDiagramModel.visible = false
+  //  freeBodyDiagramModel.closable = false
 
-  val surfaceChooser = new SurfaceChooser(gameModel.surfaceModel)
-  surfaceChooser.setOffset(fbdNode.getFullBounds.getMaxX + 10, fbdNode.getFullBounds.getY)
-  addStageNode(surfaceChooser)
+  //  val surfaceChooser = new SurfaceChooser(gameModel.surfaceModel)
+  //  surfaceChooser.setOffset(fbdNode.getFullBounds.getMaxX + 10, fbdNode.getFullBounds.getY)
+  //  addStageNode(surfaceChooser)
 
   addStageNode(new BeadNode(gameModel.house, transform, MotionSeriesDefaults.house.imageFilename))
 
@@ -136,6 +135,10 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
     }
 
     def appliedForce = _pressed._2
+  }
+  userInputModel.addListenerByName {
+    gameModel.launched = true
+    model.setPaused(false)
   }
 
   userInputModel.addListener(() => {
@@ -189,7 +192,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
     }
     //    def removeListenerFunction():Unit = if (lastBead == null) gameModel.removeListener _ else lastBead.removeListener _
     def setter(x: Double) = if (gameModel.robotEnergy > 0) bead.parallelAppliedForce = x else {}
-    appliedForceControl.setModel(() => bead.parallelAppliedForce, setter, removeTheListener, bead.addListener)
+    //    appliedForceControl.setModel(() => bead.parallelAppliedForce, setter, removeTheListener, bead.addListener)
 
     //todo: why are these 2 lines necessary?
     vectorView.addAllVectors(bead, fbdNode)
@@ -239,15 +242,18 @@ class ItemReadout(text: String, gameModel: RobotMovingCompanyGameModel, counter:
 }
 
 class RobotEnergyMeter(transform: ModelViewTransform2D, gameModel: RobotMovingCompanyGameModel) extends PNode {
+  val barContainerNode = new PhetPPath(new BasicStroke(2), Color.gray)
   val barNode = new PhetPPath(Color.blue)
   addChild(barNode)
   val label = new PText("Robot Energy")
   label.setFont(new PhetFont(24, true))
   addChild(label)
+  addChild(barContainerNode)
+  def energyToBarShape(e: Double) = new RoundRectangle2D.Double(label.getFullBounds.getWidth + 10, 0, e / 10, 25, 10, 10)
+  barContainerNode.setPathTo(energyToBarShape(gameModel.DEFAULT_ROBOT_ENERGY))
 
   defineInvokeAndPass(gameModel.addListenerByName) {
-    barNode.setPathTo(new RoundRectangle2D.Double(0, 0, gameModel.robotEnergy / 10, 25, 10, 10))
-    label.setOffset(barNode.getFullBounds.getX, barNode.getFullBounds.getMaxY)
+    barNode.setPathTo(energyToBarShape(gameModel.robotEnergy))
   }
 }
 
@@ -287,8 +293,8 @@ class ScoreboardNode(transform: ModelViewTransform2D, gameModel: RobotMovingComp
   setOffset(transform.getViewBounds.getCenterX - getFullBounds.getWidth / 2, 0)
 }
 
-class PlayAreaDialog extends PNode {
-  val background = new PhetPPath(new RoundRectangle2D.Double(0, 0, 400, 400, 20, 20), MotionSeriesDefaults.dialogBackground, new BasicStroke(2), MotionSeriesDefaults.dialogBorder)
+class PlayAreaDialog(width: Double, height: Double) extends PNode {
+  val background = new PhetPPath(new RoundRectangle2D.Double(0, 0, width, height, 20, 20), MotionSeriesDefaults.dialogBackground, new BasicStroke(2), MotionSeriesDefaults.dialogBorder)
   addChild(background)
 
   def centerWithin(w: Double, h: Double) = setOffset(w / 2 - getFullBounds.width / 2, h / 2 - getFullBounds.height / 2)
@@ -298,7 +304,7 @@ class SummaryScreenNode(gameModel: RobotMovingCompanyGameModel,
                         scalaRampObject: MotionSeriesObject,
                         result: Result,
                         okPressed: SummaryScreenNode => Unit,
-                        okButtonText: String) extends PlayAreaDialog {
+                        okButtonText: String) extends PlayAreaDialog(400, 400) {
   val text = result match {
     case Result(_, true, _, _) => "Crashed"
     case Result(true, false, _, _) => "Delivered Successfully"
