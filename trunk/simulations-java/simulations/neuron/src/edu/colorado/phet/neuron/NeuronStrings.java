@@ -30,5 +30,7 @@ public class NeuronStrings {
     public static final String SODIUM_CONCENTRATION = getString( "SodiumConcentration" );
     public static final String OUTSIDE = getString( "Outside" );
     public static final String INSIDE = getString( "Inside" );
+    public static final String NONE = getString( "None" );
+    public static final String LOTS = getString( "Lots" );
     
 }

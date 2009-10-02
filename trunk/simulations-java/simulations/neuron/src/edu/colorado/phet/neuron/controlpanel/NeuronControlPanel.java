@@ -178,16 +178,28 @@ public class NeuronControlPanel extends ControlPanel {
     
     private static class LeakChannelSlider extends LinearValueControl{
     	
+        private static final Font LABEL_FONT = new PhetFont(12);
+
         public LeakChannelSlider(String title, final AxonModel axonModel, AtomType atomType) {
+        	
             super( 0, NeuronConstants.MAX_CHANNELS_PER_TYPE, title, "0", "");
             setUpDownArrowDelta( 1 );
             setTextFieldVisible(false);
-            setTickPattern( "0" );
-            setMajorTickSpacing( 1 );
             setMinorTicksVisible(false);
             setBorder( BorderFactory.createEtchedBorder() );
             setSnapToTicks(true);
-            
+
+            // Put in the labels for the left and right bottom portion of the
+            // slider.
+            Hashtable<Double, JLabel> leakChannelSliderLabelTable = new Hashtable<Double, JLabel>();
+            JLabel leftLabel = new JLabel(NeuronStrings.NONE);
+            leftLabel.setFont( LABEL_FONT );
+            leakChannelSliderLabelTable.put( new Double( 0 ), leftLabel );
+            JLabel rightLabel = new JLabel(NeuronStrings.LOTS);
+            rightLabel.setFont( LABEL_FONT );
+            leakChannelSliderLabelTable.put( new Double( NeuronConstants.MAX_CHANNELS_PER_TYPE ), rightLabel );
+            setTickLabels( leakChannelSliderLabelTable );
+
             // Set up the variables that will differ based on the type.
             AbstractLeakChannel leakChannel;
             final MembraneChannelTypes channelType;
@@ -237,19 +249,20 @@ public class NeuronControlPanel extends ControlPanel {
             super( 0, 1, title, "0", "");
             setUpDownArrowDelta( 0.01 );
             setTextFieldVisible(false);
-            setTickPattern( "0.00" );
             setMinorTicksVisible(false);
             setBorder( BorderFactory.createEtchedBorder() );
             setSnapToTicks(false);
             
-            Hashtable<Double, JLabel> gravityControlLabelTable = new Hashtable<Double, JLabel>();
+            // Put in the labels for the left and right bottom portion of the
+            // slider.
+            Hashtable<Double, JLabel> concentrationSliderLabelTable = new Hashtable<Double, JLabel>();
             JLabel leftLabel = new JLabel(NeuronStrings.OUTSIDE);
             leftLabel.setFont( LABEL_FONT );
-            gravityControlLabelTable.put( new Double( 0 ), leftLabel );
+            concentrationSliderLabelTable.put( new Double( 0 ), leftLabel );
             JLabel rightLabel = new JLabel(NeuronStrings.INSIDE);
             rightLabel.setFont( LABEL_FONT );
-            gravityControlLabelTable.put( new Double( 1 ), rightLabel );
-            setTickLabels( gravityControlLabelTable );
+            concentrationSliderLabelTable.put( new Double( 1 ), rightLabel );
+            setTickLabels( concentrationSliderLabelTable );
 
             // Set up the variables that will differ based on the atom type.
             AtomNode atomNode;

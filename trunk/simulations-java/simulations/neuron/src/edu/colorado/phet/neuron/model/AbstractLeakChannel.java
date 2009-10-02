@@ -9,7 +9,7 @@ public abstract class AbstractLeakChannel extends AbstractMembraneChannel {
     // Class Data
     //----------------------------------------------------------------------------
 	
-	private static final double CAPTURE_DISTANCE = 4.5; // In nanometers.
+	private static final double CAPTURE_DISTANCE = 5.0; // In nanometers.
 	
 	private static final int ATOM_MOTION_UPDATE_PERIOD = 4; // Controls frequency at which motion of atoms inside
 	                                                        // this channel is updated.  Lower numbers mean more
