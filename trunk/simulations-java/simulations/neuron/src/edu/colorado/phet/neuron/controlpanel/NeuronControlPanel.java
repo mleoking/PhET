@@ -185,7 +185,7 @@ public class NeuronControlPanel extends ControlPanel {
             setTextFieldVisible(false);
             setMinorTicksVisible(false);
             setBorder( BorderFactory.createEtchedBorder() );
-            setSnapToTicks(true);
+            setSnapToTicks(false);
 
             // Put in the labels for the left and right bottom portion of the
             // slider.
