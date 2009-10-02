@@ -1,3 +1,4 @@
+Changed default vector dimensions to tail=4 head=10
 # 1.03.45 (35403) Oct 1, 2009
 Added developer control for force arrow dimensions
 Improved game logic; game continues even when the object comes to rest, if robot has remaining energy
