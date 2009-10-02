@@ -8,7 +8,7 @@ import edu.colorado.phet.scalacommon.math.Vector2D
 import java.lang.Math._
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
 
-class RobotMovingCompanyGameModel(val model: MotionSeriesModel, clock: ScalaClock) extends Observable {
+class RobotMovingCompanyGameModel(val model: MotionSeriesModel, clock: ScalaClock,initAngle:Double) extends Observable {
   val DEFAULT_ROBOT_ENERGY = 3000.0
   private var _robotEnergy = DEFAULT_ROBOT_ENERGY
   val surfaceModel = new SurfaceModel
@@ -35,8 +35,8 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel, clock: ScalaCloc
   def resetAll() = {
     model.rampSegments(1).setAngle(0)
     model.walls = false
-    model.rampSegments(0).startPoint = new Vector2D(-10, 0).rotate(-(30.0).toRadians)
-    model.rampSegments(0).startPoint = new Vector2D(-10, 0).rotate(-(30.0).toRadians)
+    model.rampSegments(0).startPoint = new Vector2D(-10, 0).rotate(-initAngle)
+    model.rampSegments(0).startPoint = new Vector2D(-10, 0).rotate(-initAngle)
     _launched = false
     resultMap.clear()
     setObjectIndex(0)
