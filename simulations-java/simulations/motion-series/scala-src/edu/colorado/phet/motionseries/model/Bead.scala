@@ -31,15 +31,6 @@ case class BeadState(position: Double, velocity: Double, mass: Double, staticFri
 
 case class Range(min: Double, max: Double)
 
-object Bead {
-  private var index = 0
-
-  def nextIndex() = {
-    val nextInd = index
-    index = index + 1
-    nextInd
-  }
-}
 class Bead(private var _state: BeadState,
            private var _height: Double,
            private var _width: Double,
@@ -58,7 +49,6 @@ class Bead(private var _state: BeadState,
   //This method allows bead subclasses to avoid thermal energy by overriding this to return 0.0
   def getThermalEnergy(x: Double) = thermalEnergyStrategy(x)
 
-  val id = Bead.nextIndex()
   val crashListeners = new ArrayBuffer[() => Unit]
   private var _gravity = -9.8
 
