@@ -7,8 +7,7 @@ import edu.colorado.phet.motionseries.model.{MutableMotionSeriesObject, CustomTe
 import edu.colorado.phet.motionseries.sims.theramp.StageContainerArea
 
 object MotionSeriesDefaults {
-
-  val CLEAR_BUTTON_VISIBILITY_THRESHOLD_JOULES = 4000*1.5
+  val CLEAR_BUTTON_VISIBILITY_THRESHOLD_JOULES = 4000 * 1.5
 
   val FBD_DIALOG_WIDTH = 300
   val FBD_DIALOG_HEIGHT = FBD_DIALOG_WIDTH
@@ -34,12 +33,9 @@ object MotionSeriesDefaults {
   val forceEnergyGraphArea = new StageContainerArea() {
     def getBounds(w: Double, h: Double) = new Rectangle2D.Double(0, 0, w, h / 3)
   }
-  val forceMotionArea = new StageContainerArea() {
-    def getBounds(w: Double, h: Double) = new Rectangle2D.Double(0, 0, w, h)
-  }
-  val forceMotionFrictionArea = new StageContainerArea() {
-    def getBounds(w: Double, h: Double) = new Rectangle2D.Double(0, 0, w, h)
-  }
+  val forceMotionArea = fullScreenArea
+  val forceMotionFrictionArea = fullScreenArea
+  val robotMovingCompanyRampArea = fullScreenArea
 
   val VIEWPORT_X = -11
   val VIEWPORT_W_RAMP = 23
@@ -48,6 +44,7 @@ object MotionSeriesDefaults {
   val rampIntroViewport = new Rectangle2D.Double(VIEWPORT_X, -6, VIEWPORT_W_RAMP, 16)
   val oneGraphViewport = new Rectangle2D.Double(VIEWPORT_X, -1, VIEWPORT_W_RAMP, 8)
   val forceEnergyGraphViewport = new Rectangle2D.Double(VIEWPORT_X, -1, VIEWPORT_W_RAMP, 6)
+  val robotMovingCompanyRampViewport = new Rectangle2D.Double(VIEWPORT_X, -11, VIEWPORT_W_RAMP, 21)
 
   val forceMotionGraphViewport = new Rectangle2D.Double(VIEWPORT_X, -1, VIEWPORT_W_FORCES, 4)
   val forceMotionViewport = rampIntroViewport

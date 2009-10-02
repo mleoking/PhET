@@ -9,7 +9,7 @@ import java.lang.Math._
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
 
 class RobotMovingCompanyGameModel(val model: MotionSeriesModel, clock: ScalaClock) extends Observable {
-  private val DEFAULT_ROBOT_ENERGY = 3000.0
+  val DEFAULT_ROBOT_ENERGY = 3000.0
   private var _robotEnergy = DEFAULT_ROBOT_ENERGY
   val surfaceModel = new SurfaceModel
   val airborneFloor = -9.0
