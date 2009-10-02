@@ -1,3 +1,4 @@
+# 1.03.48 (35433) Oct 2, 2009
 Added a physics workaround to help reduce or resolve the flickering problem by enabling the "pressing" wall force a bit sooner
     Should resolve:  Force vectors flicker when pushing against the right-hand-side wall when parallel gravity component is nonzero
 Fixed: FBD should open as a separate window in cases where it does not fit in the play area, for all graphing tabs in F&M + Ramp
