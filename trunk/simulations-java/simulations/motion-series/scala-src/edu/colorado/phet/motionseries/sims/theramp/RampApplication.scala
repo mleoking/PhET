@@ -45,12 +45,12 @@ class BasicRampModule(frame: PhetFrame,
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 
 class IntroRampModule(frame: PhetFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "module.introduction".translate, false, false, true, -6, false,
-  MotionSeriesDefaults.defaultRampAngle, MotionSeriesDefaults.defaultViewport, MotionSeriesDefaults.fullScreenArea,false)
+  MotionSeriesDefaults.defaultRampAngle, MotionSeriesDefaults.rampIntroViewport, MotionSeriesDefaults.fullScreenArea,false)
 
 class CoordinatesRampModule(frame: PhetFrame,
                             clock: ScalaClock)
         extends BasicRampModule(frame, clock, "module.coordinates".translate, true, false, true, -6, false,
-          MotionSeriesDefaults.defaultRampAngle, MotionSeriesDefaults.defaultViewport, MotionSeriesDefaults.fullScreenArea,false) {
+          MotionSeriesDefaults.defaultRampAngle, MotionSeriesDefaults.rampIntroViewport, MotionSeriesDefaults.fullScreenArea,false) {
   coordinateSystemModel.adjustable = true
 }
 

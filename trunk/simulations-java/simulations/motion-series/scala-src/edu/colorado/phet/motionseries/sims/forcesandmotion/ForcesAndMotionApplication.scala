@@ -69,7 +69,7 @@ class GraphingModule(frame: PhetFrame, clock: ScalaClock)
   canvas.addScreenNode(new ForcesAndMotionChartNode(canvas, motionSeriesModel))
 }
 
-class RobotMovingCompany1DModule(frame: PhetFrame, clock: ScalaClock) extends ForcesAndMotionModule(frame, clock, "forces-and-motion.module.robot-moving-company.title".translate, false, false, false, false, -6, false, 0.0, true, true, MotionSeriesDefaults.defaultViewport, MotionSeriesDefaults.fullScreenArea,false)
+class RobotMovingCompany1DModule(frame: PhetFrame, clock: ScalaClock) extends ForcesAndMotionModule(frame, clock, "forces-and-motion.module.robot-moving-company.title".translate, false, false, false, false, -6, false, 0.0, true, true, MotionSeriesDefaults.rampIntroViewport, MotionSeriesDefaults.fullScreenArea,false)
 
 class ForcesAndMotionApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
   def newClock = new ScalaClock(MotionSeriesDefaults.DELAY, MotionSeriesDefaults.DT_DEFAULT)
