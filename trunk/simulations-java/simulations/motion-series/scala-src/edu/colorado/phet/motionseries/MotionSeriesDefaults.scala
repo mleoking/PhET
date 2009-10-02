@@ -7,6 +7,13 @@ import edu.colorado.phet.motionseries.model.{MutableMotionSeriesObject, CustomTe
 import edu.colorado.phet.motionseries.sims.theramp.StageContainerArea
 
 object MotionSeriesDefaults {
+
+  val FBD_DIALOG_WIDTH = 300
+  val FBD_DIALOG_HEIGHT = FBD_DIALOG_WIDTH
+  val FBD_DIALOG_NODE_WIDTH = FBD_DIALOG_WIDTH
+  val FBD_DIALOG_NODE_HEIGHT = FBD_DIALOG_NODE_WIDTH
+  val FBD_INSET = 10
+
   def rampIndicatorFont = new PhetFont(13, true)
 
   val dialogBackground = new Color(192, 192, 192, 245)
