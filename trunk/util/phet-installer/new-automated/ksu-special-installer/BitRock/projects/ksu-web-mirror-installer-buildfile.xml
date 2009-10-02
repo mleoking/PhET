@@ -64,9 +64,11 @@
                         <distributionDirectory>
                             <origin>../../temp/website/phetsims.colorado.edu/publications</origin>
                         </distributionDirectory>
+                        <!-- Commented out the activities until it exists on the web site.
                         <distributionDirectory>
                             <origin>../../temp/website/phetsims.colorado.edu/activities</origin>
                         </distributionDirectory>
+                        -->
                     </distributionFileList>
 
                     <actionList>
