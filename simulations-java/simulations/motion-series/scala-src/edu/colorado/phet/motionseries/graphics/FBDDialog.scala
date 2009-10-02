@@ -21,9 +21,9 @@ class FBDDialog(frame: JFrame,
     addVector(vector, offsetFBD, maxOffset)
 
   val dialog = new JDialog(frame, "display.free-body-diagram".translate, false)
-  dialog.setSize(600, 600)
+  dialog.setSize(MotionSeriesDefaults.FBD_DIALOG_WIDTH,MotionSeriesDefaults.FBD_DIALOG_HEIGHT)
 
-  val fbdNode = new FreeBodyDiagramNode(freeBodyDiagramModel, 600, 600, fbdWidth, fbdWidth, coordinateFrameModel, adjustableCoordinateModel, PhetCommonResources.getImage("buttons/minimizeButton.png".literal))
+  val fbdNode = new FreeBodyDiagramNode(freeBodyDiagramModel, MotionSeriesDefaults.FBD_DIALOG_NODE_WIDTH, MotionSeriesDefaults.FBD_DIALOG_NODE_HEIGHT, fbdWidth, fbdWidth, coordinateFrameModel, adjustableCoordinateModel, PhetCommonResources.getImage("buttons/minimizeButton.png".literal))
   fbdNode.addListener(fbdListener)
   val canvas = new PhetPCanvas
   canvas.addComponentListener(new ComponentAdapter {
@@ -33,7 +33,7 @@ class FBDDialog(frame: JFrame,
   def updateNodeSize() = {
     if (canvas.getWidth > 0 && canvas.getHeight > 0) {
       val w = Math.min(canvas.getWidth, canvas.getHeight)
-      val inset = 40
+      val inset = MotionSeriesDefaults.FBD_INSET
       fbdNode.setSize(w - inset * 2, w - inset * 2)
       fbdNode.setOffset(inset, inset)
     }
