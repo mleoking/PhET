@@ -236,7 +236,7 @@ class MotionSeriesModel(defaultBeadPosition: Double,
   val fireDogAddedListeners = new ArrayBuffer[FireDog => Unit]
   val raindropAddedListeners = new ArrayBuffer[Raindrop => Unit]
   private var totalThermalEnergyOnClear = 0.0
-  val maxDrops = 60
+  val maxDrops = (60 * 0.75).toInt
   val elapsedTimeHistory = new ArrayBuffer[Long]
 
   def createBead(x: Double, width: Double, height: Double) =

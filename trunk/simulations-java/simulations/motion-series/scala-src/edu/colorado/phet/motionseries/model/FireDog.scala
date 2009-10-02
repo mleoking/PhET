@@ -11,8 +11,8 @@ class FireDog(rampModel: MotionSeriesModel) {
   val width = 2
   val dogbead = rampModel.createBead(-15, height, width)
   private var raindropCount = 0
-  private val incomingSpeed = 0.5
-  private val outgoingSpeed = 1.0
+  private val incomingSpeed = 0.5 * 1.25
+  private val outgoingSpeed = 1.0 * 1.25
   private val random = new java.util.Random()
   private val stoppingDist = -5 + random.nextDouble * 5 - 2.5
 
