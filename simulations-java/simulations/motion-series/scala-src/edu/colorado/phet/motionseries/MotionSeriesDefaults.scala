@@ -13,7 +13,7 @@ object MotionSeriesDefaults {
   val dialogBorder = Color.darkGray
 
   val MAX_CHART_DISPLAY_TIME = 20.0
-  val MAX_RECORD_TIME = 20.0
+  val MAX_RECORD_TIME = MAX_CHART_DISPLAY_TIME
   val defaultRampAngle = 30.0.toRadians
 
   val fullScreenArea = new StageContainerArea() {

@@ -1,3 +1,4 @@
+Fixed a problem that prevented changing the applied force after time is up on charting modules 
 Doubled threshold for Cool Ramp button and ramp redness scale factor
 Made it so Fire Dog is 25% faster, with 25% less water drops
 Changed default vector dimensions to tail=4 head=10

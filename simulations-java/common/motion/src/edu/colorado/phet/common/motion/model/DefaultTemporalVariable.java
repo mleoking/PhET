@@ -48,6 +48,10 @@ public class DefaultTemporalVariable implements ITemporalVariable {
     }
 
     public void setValue( double value ) {
+        doSetValue(value);
+    }
+
+    public void doSetValue( double value ) {
         variable.setValue( value );
     }
 

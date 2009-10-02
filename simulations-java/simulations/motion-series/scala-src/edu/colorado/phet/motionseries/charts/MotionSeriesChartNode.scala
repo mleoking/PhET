@@ -14,7 +14,10 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
 
   def forceGraph(showGravitySeries: Boolean): MotionSeriesGraph = {
     val parallelAppliedForceVariable = new MotionSeriesDefaultTemporalVariable(model) {
-      override def setValue(value: Double) = model.bead.parallelAppliedForce = value
+      override def setValue(value: Double) = {
+        super.setValue(value)
+        model.bead.parallelAppliedForce = value
+      }
     }
     model.stepListeners += (() => parallelAppliedForceVariable.doAddValue(model.bead.appliedForce.dot(model.bead.getRampUnitVector), model.getTime))
 
@@ -102,6 +105,7 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
   def accelerationGraph(editable: Boolean) = {
     val accelerationVariable = new MotionSeriesDefaultTemporalVariable(model) {
       override def setValue(accel: Double) = {
+        super.setValue(accel)
         model.bead.setAccelerationMode()
         val desiredTotalForce = accel * model.bead.mass
         val currentTotalForceWithoutAppliedForce = model.bead.getParallelComponent(model.bead.totalForce - model.bead.appliedForce)
@@ -125,6 +129,7 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
   def velocityGraph(editable: Boolean) = {
     val velocityVariable = new MotionSeriesDefaultTemporalVariable(model) {
       override def setValue(v: Double) = {
+        super.setValue(v)
         model.bead.setVelocityMode()
         model.bead.setVelocity(v)
         //todo: switch into a mode where position is computed by integration and acceleration is computed by derivative
@@ -147,6 +152,7 @@ abstract class MotionSeriesChartNode(canvas: MotionSeriesCanvas, model: MotionSe
   def positionGraph(editable: Boolean) = {
     val positionVariable = new MotionSeriesDefaultTemporalVariable(model) {
       override def setValue(x: Double) = {
+        super.setValue(x)
         model.bead.setPositionMode()
         model.bead.setDesiredPosition(x)
       }
