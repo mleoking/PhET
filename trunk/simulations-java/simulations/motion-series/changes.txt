@@ -1,3 +1,4 @@
+# 1.03.46 (35422) Oct 1, 2009
 Fixed: Forces and motion ramp segment shouldn't be rotatable.
 Moved the custom crate to the second row
 Fixed a problem that prevented changing the applied force after time is up on charting modules
