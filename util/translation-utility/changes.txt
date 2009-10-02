@@ -1,6 +1,12 @@
+10/1/09 #1627, HTML preview feature
+9/29/09 #110,1794,1795, fix scrolling issues in main scroll pane
+9/29/09 #1799, file chooser filters for Save/Load feature
+9/28/09 #1798, toolbar enhancements (tooltips, order, spacing)
+9/28/09 #97, check for unsaved changes
 9/25/09 #1794, limit displayed key name length to 40 chars, show elipsis in middle for longer keys
 9/25/09 #110, prevent unwanted scrollpane autoscrolling by deleting listener in MainFrame
 9/25/09 #1629, validate MessageFormat and HTML translations, user-interface for accessing validation error details
+9/24/09 #1793, initialize all strings statically
 # 2.02.01 (35168) Sep 21, 2009
 9/21/09 publish dev version to verify changes
 9/17/09 convert usage of collections to Java 5
