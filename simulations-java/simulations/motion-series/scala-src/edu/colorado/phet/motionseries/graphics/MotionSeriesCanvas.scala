@@ -150,9 +150,7 @@ class ReturnObjectButton(model: MotionSeriesModel) extends GradientButtonNode("c
 }
 
 class ClearHeatButton(model: MotionSeriesModel) extends GradientButtonNode("controls.clear-heat".translate, Color.yellow) {
-  def updateVisibility() = {
-    setVisible(model.bead.getRampThermalEnergy > 2000)
-  }
+  def updateVisibility() = setVisible(model.bead.getRampThermalEnergy > 4000)
   updateVisibility()
   model.addListener(updateVisibility) //todo: perhaps this line is unnecessary
   model.bead.addListener(updateVisibility)
