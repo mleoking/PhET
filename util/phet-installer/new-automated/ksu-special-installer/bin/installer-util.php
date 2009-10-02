@@ -164,6 +164,38 @@
         }
         flushing_echo( "Processed ".sizeof ( $html_file_names )." HTML files for distribution tag insertion." );
 
+        // Insert the distribution tag in each of the JAR files associated
+        // with each flash sim project.
+        $sim_dir_contents = glob( RIPPED_WEBSITE_SIMS_PARENT_DIR.PHET_SIMS_SUBDIR."*" );
+        foreach ( $sim_dir_contents as $dir_or_file_name ) {
+            if (is_dir($dir_or_file_name) && installer_is_flash_sim($dir_or_file_name)){
+                // Extract the name of the sim project.
+                $sim_project_name_pos = strripos($dir_or_file_name, "/") + 1;
+                $sim_project_name = substr($dir_or_file_name, $sim_project_name_pos);
+                // For each JAR file in the project...
+                $flash_jar_file_names = glob( $dir_or_file_name."/*.jar" );
+                foreach ( $flash_jar_file_names as $flash_jar_file_name ) {
+                    flushing_echo( "Adding dist tag to Flash JAR file: ".$flash_jar_file_name );
+                    // Extract the properties file.
+                    $properties_file_name = $sim_project_name.'.properties';
+                    extract_file_from_jar( $flash_jar_file_name, $properties_file_name, TEMP_DIR );
+                    // Remove any existing tag.
+                    file_remove_line_matching_pattern(TEMP_DIR.$properties_file_name, 'distribution.tag');
+                    // Add the new distribution tag.
+                    file_append_line_to_file(TEMP_DIR.$properties_file_name, 'distribution.tag='.DISTRIBUTION_TAG);
+                    // Replace the properties file in the JAR with the updated version.
+                    $original_dir = getcwd();
+                    chdir(TEMP_DIR);
+                    add_file_to_jar($flash_jar_file_name, $properties_file_name);
+                    chdir($original_dir);
+                    // Delete the modified properties file, just to be neat.
+                    unlink(TEMP_DIR.$properties_file_name);
+                    // Sign the JAR.
+                    sign_jar( $flash_jar_file_name );
+                }
+            }
+        }
+
         flushing_echo("---Exited installer_insert_distribution_tag_flash");
     }
 
@@ -327,6 +359,7 @@
                 flushing_echo("Zipping Mac OS X distribution $distfile to $zipped_bundle_name");
 
                 file_native_zip($distfile, $zipped_bundle_name);
+                flushing_echo("Done");
 
                 // Remove application bundle:
                 file_remove_all($distfile);
@@ -411,5 +444,6 @@
             ),
             CDROM_FILE_DEST
         );
+        flushing_echo("Done");
     }
 ?>
