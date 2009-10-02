@@ -33,7 +33,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
                                frame: JFrame,
                                gameModel: RobotMovingCompanyGameModel,
                                stageContainerArea: StageContainerArea)
-        extends RampCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame, false, true, true, MotionSeriesDefaults.defaultViewport, stageContainerArea) {
+        extends RampCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame, false, true, true, MotionSeriesDefaults.rampIntroViewport, stageContainerArea) {
   beadNode.setVisible(false)
   playAreaVectorNode.setVisible(false)
   pusherNode.setVisible(false)
