@@ -12,6 +12,6 @@ class ObservableDouble(initialValue:Double) extends Observable{
 }
 
 object MotionSeriesConfig{
-  object VectorTailWidth extends ObservableDouble(5)
-  object VectorHeadWidth extends ObservableDouble(14)
+  object VectorTailWidth extends ObservableDouble(4)
+  object VectorHeadWidth extends ObservableDouble(10)
 }
