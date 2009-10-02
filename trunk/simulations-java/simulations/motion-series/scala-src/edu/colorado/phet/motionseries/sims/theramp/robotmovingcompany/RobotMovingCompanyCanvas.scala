@@ -142,7 +142,6 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
   }
 
   userInputModel.addListener(() => {
-    println("pressed: " + userInputModel.pressed)
     gameModel.bead.parallelAppliedForce = if (gameModel.robotEnergy > 0) userInputModel.appliedForce else 0.0
   }) //todo: when robot energy hits zero, applied force should disappear
 
