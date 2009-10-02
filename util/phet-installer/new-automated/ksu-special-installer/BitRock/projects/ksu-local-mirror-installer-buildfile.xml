@@ -71,9 +71,12 @@
                         <distributionDirectory>
                             <origin>../../temp/website/phetsims.colorado.edu/publications</origin>
                         </distributionDirectory>
+                        <!-- Commented out the activities until it exists on the web site.
+                             jblanco, 10/2/2009
                         <distributionDirectory>
                             <origin>../../temp/website/phetsims.colorado.edu/activities</origin>
                         </distributionDirectory>
+                        -->
                         <distributionFile>
                             <origin>../../../Installer-Resources/Install-Path/phet-icon.ico</origin>
                         </distributionFile>
