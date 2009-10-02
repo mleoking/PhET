@@ -1,3 +1,4 @@
+Performance improvements, using Color(0,0,0,0) on object selection icons was very expensive
 # 1.03.46 (35422) Oct 1, 2009
 Fixed: Forces and motion ramp segment shouldn't be rotatable.
 Moved the custom crate to the second row

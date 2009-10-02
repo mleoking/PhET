@@ -12,7 +12,6 @@ import javax.swing.{Timer}
 import edu.colorado.phet.scalacommon.util.Observable
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.colorado.phet.motionseries.MotionSeriesResources
-import edu.umd.cs.piccolo.util.{PBounds, PDimension}
 import edu.umd.cs.piccolox.nodes.PClip
 import edu.umd.cs.piccolox.pswing.PSwing
 import edu.umd.cs.piccolo.PNode
@@ -22,6 +21,7 @@ import edu.colorado.phet.scalacommon.Predef._
 import java.lang.Math._
 import edu.colorado.phet.motionseries.Predef._
 import edu.colorado.phet.motionseries.swing._
+import umd.cs.piccolo.util.{PPaintContext, PBounds, PDimension}
 
 trait ObjectModel {
   def selectedObject: MotionSeriesObject
@@ -66,8 +66,14 @@ class ObjectSelectionNode(model: ObjectModel) extends PNode {
     textNode.setOffset(imageNode.getFullBounds.getWidth + 3, 0)
     textNode.setFont(new PhetFont(18, true))
 
+    object BLANK extends  Color(0,0,0,0)
     //to capture any input, not just directly on the image or text
-    val backgroundNode = new PhetPPath(new BasicStroke(1f), new Color(0, 0, 0, 0))
+    val backgroundNode = new PhetPPath(BLANK){
+      protected override def paint(paintContext: PPaintContext) = {
+        if (getPaint eq BLANK){}    //using null fails to allow mouse inputs over null paint region, thus we use blank instead
+        else super.paint(paintContext)
+      }
+    }
 
     addChild(backgroundNode)
     addChild(imageNode)
@@ -90,7 +96,7 @@ class ObjectSelectionNode(model: ObjectModel) extends PNode {
     defineInvokeAndPass(model.addListenerByName) {
       update()
     }
-    def update() = backgroundNode.setPaint(if (model.selectedObject == o) new Color(0, 0, 255, 50) else new Color(0, 0, 0, 0))
+    def update() = backgroundNode.setPaint(if (model.selectedObject == o) new Color(160, 220, 255) else BLANK)
     addInputEventListener(new PBasicInputEventHandler {
       override def mousePressed(event: PInputEvent) = {
         model.selectedObject = o
@@ -156,7 +162,7 @@ class ObjectSelectionNode(model: ObjectModel) extends PNode {
       if (model.selectedObject == o) {
         backgroundNode.setPaint(customControlPanel.getBackground)
       } else {
-        backgroundNode.setPaint(new Color(0, 0, 0, 0))
+        backgroundNode.setPaint(BLANK)
       }
     }
     defineInvokeAndPass(model.addListenerByName) {
