@@ -1,7 +1,6 @@
 Set the clear heat button threshold to be 50% higher 
 Fixed: windowed FBD should default to 50% of what it is now
 forces-and-motion: Changed the layout so that the FBD doesn't overap the object's force label by default
-    Should resolve "However, it looks like the surface area in Ramps is a bit lower so that the FBD doesn't cover up as much of the area (in F&M, the FBD covers the tip of F_normal for the file cabinet, but it doesn't in Ramps). Looks like there is still a bit of space between force slider and objects in F&M that will let the surface be lower."
 # 1.03.48 (35433) Oct 2, 2009
 Added a physics workaround to help reduce or resolve the flickering problem by enabling the "pressing" wall force a bit sooner
     Should resolve:  Force vectors flicker when pushing against the right-hand-side wall when parallel gravity component is nonzero
