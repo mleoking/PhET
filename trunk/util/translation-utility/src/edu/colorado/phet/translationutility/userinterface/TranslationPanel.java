@@ -147,7 +147,7 @@ public class TranslationPanel extends JPanel implements FindListener {
     public boolean validateTargets() {
         boolean valid = true;
         for ( TargetTextPanel target : _targetTextPanels ) {
-            if ( !target.isValid() ) {
+            if ( !target.isValidValue() ) {
                 valid = false;
             }
         }

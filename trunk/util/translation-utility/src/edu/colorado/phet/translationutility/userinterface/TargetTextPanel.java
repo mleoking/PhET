@@ -37,7 +37,7 @@ public class TargetTextPanel extends JPanel {
     private final JLabel previewIcon;
     private final MessageFormatValidator messageFormatValidator;
     private final HTMLValidator htmlValidator;
-    private boolean isValid;
+    private boolean isValidValue;
     private String errorMessage;
 
     public TargetTextPanel( String key, final String sourceValue, final Locale sourceLocale, final Font sourceFont, String targetValue, final Locale targetLocale, final Font targetFont ) {
@@ -101,13 +101,13 @@ public class TargetTextPanel extends JPanel {
         return textArea;
     }
     
-    public boolean isValid() {
+    public boolean isValidValue() {
         validateValue();
-        return isValid;
+        return isValidValue;
     }
 
     private void clearError() {
-        isValid = true;
+        isValidValue = true;
         errorMessage = null;
         textArea.setBackground( OK_COLOR );
         errorIcon.setVisible( false );
@@ -118,7 +118,7 @@ public class TargetTextPanel extends JPanel {
      * Notifies interested listeners if there are validation errors.
      */
     public void validateValue() {
-
+        
         clearError();
 
         // validate
@@ -128,7 +128,7 @@ public class TargetTextPanel extends JPanel {
 
         // report errors
         if ( missingPlaceholders != null || missingTags != null ) {
-            isValid = false;
+            isValidValue = false;
             errorMessage = createErrorMessage( missingPlaceholders, missingTags );
             textArea.setBackground( INVALID_COLOR );
             errorIcon.setVisible( true );
