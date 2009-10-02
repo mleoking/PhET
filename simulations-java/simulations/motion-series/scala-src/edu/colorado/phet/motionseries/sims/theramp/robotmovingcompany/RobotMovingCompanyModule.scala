@@ -9,7 +9,7 @@ import edu.colorado.phet.motionseries.{MotionSeriesResources, MotionSeriesDefaul
 
 class RobotMovingCompanyModule(frame: PhetFrame,
                                clock: ScalaClock)
-        extends MotionSeriesModule(frame, clock, "module.robotMovingCompany".translate, 5, false, MotionSeriesDefaults.defaultRampAngle) {
+        extends MotionSeriesModule(frame, clock, "module.robotMovingCompany".translate, 5, false, MotionSeriesDefaults.defaultRampAngle,false) {
   
   override def reset() = {
     super.reset()

@@ -31,7 +31,8 @@ class MotionSeriesModule(frame: PhetFrame,
                          name: String,
                          defaultBeadPosition: Double,
                          pausedOnReset: Boolean,
-                         initialAngle: Double)
+                         initialAngle: Double,
+                         fbdPopupOnly:Boolean)
         extends Module(name, clock) {
   if (!global.inited){
     val item= new JMenuItem("Configure Motion Series")
@@ -46,7 +47,7 @@ class MotionSeriesModule(frame: PhetFrame,
 
   val motionSeriesModel = createMotionSeriesModel(defaultBeadPosition, pausedOnReset, initialAngle)
   val wordModel = new WordModel
-  val fbdModel = new FreeBodyDiagramModel
+  val fbdModel = new FreeBodyDiagramModel(fbdPopupOnly)
   val coordinateSystemModel = new AdjustableCoordinateModel
   val vectorViewModel = new VectorViewModel
   coordinateSystemModel.addListenerByName(if (coordinateSystemModel.fixed) motionSeriesModel.coordinateFrameModel.angle = 0)

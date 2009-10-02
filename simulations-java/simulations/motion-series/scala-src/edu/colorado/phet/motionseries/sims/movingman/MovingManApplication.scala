@@ -28,7 +28,7 @@ class BasicMovingManModule(frame: PhetFrame,
                            initialAngle: Double,
                            showFrictionControl: Boolean,
                            rampLayoutArea: Rectangle2D, stageContainerArea: StageContainerArea)
-        extends MotionSeriesModule(frame, clock, name, defaultBeadPosition, pausedOnReset, initialAngle) {
+        extends MotionSeriesModule(frame, clock, name, defaultBeadPosition, pausedOnReset, initialAngle,false) {
   override def createMotionSeriesModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngle: Double) =
     new MotionSeriesModel(defaultBeadPosition, pausedOnReset, initialAngle) {
       override def thermalEnergyStrategy(x: Double) = 0.0
