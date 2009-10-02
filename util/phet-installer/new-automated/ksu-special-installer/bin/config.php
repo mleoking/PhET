@@ -51,7 +51,7 @@
     // the full web site.  This is generally swapped in for the full rip
     // filters when doing testing that requires a lot of iterations, since 
     // this will generally be much quicker than a full rip.
-    define("PHET_LITE_RIPPER_FILTER",            '"-*/get-phet/*" "-*/workshops/*" "-*wickettest*"'.' '.CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/faraday/*.jnlp').' '.CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/farady/*_all.jar').' '.CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/faraday/*.jpg').' '.CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/arithmetic/*.html').' '.CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/arithmetic/*.swf').' '.CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/arithmetic/*.png').' '.CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/arithmetic/*_en.jar'));
+    define("PHET_LITE_RIPPER_FILTER",            '"-*/workshops/*" "-*wickettest*"'.' '.CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/faraday/*.jnlp').' '.CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/farady/*_all.jar').' '.CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/faraday/*.jpg').' '.CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/arithmetic/*.html').' '.CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/arithmetic/*.swf').' '.CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/arithmetic/*.png').' '.CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/arithmetic/*_en.jar').' '.CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'activities/*').' '.CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'publications/*').' '.CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'installer/*'));
 
     define("PHET_WEBSITE_ROOT_PARTIAL_PATTERN", '[^"]+colorado\.edu');
     define("PHET_WEBSITE_ROOT_PATTERN",         '/'.PHET_WEBSITE_ROOT_PARTIAL_PATTERN.'/');
@@ -172,4 +172,8 @@
     define("WINDOWS_INSTALLER_FILE_NAME", "PhET-Installer_windows.exe");
     define("OSX_INSTALLER_FILE_NAME", "PhET-Installer_osx.zip");
     define("CD_ROM_INSTALLER_FILE_NAME", "PhET-Installer_cdrom.zip");
+
+    // *****************************************************************************
+    // JAR file signing config information.
+    define("CONFIG_FILE", "signing-config.ini");
 ?>
