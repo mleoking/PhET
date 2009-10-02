@@ -324,17 +324,17 @@ public class AxonModel {
     	double theta = Math.atan2(atom.getY(), atom.getX());
     	
     	// Determine the current angle of travel.
-    	double angleOfTravel = Math.atan2( atom.getPositionReference().y, atom.getPositionReference().x );
+    	double previousAngleOfTravel = Math.atan2( atom.getPositionReference().y, atom.getPositionReference().x );
     	
-    	double angle;
+    	double angle = 0;
     	double velocity;
 
-    	// Generate the angle of travel for the atom.
+    	// Generate the new angle of travel for the atom.
     	if (r < axonMembrane.getCrossSectionDiameter() / 2){
     		// Atom is inside the membrane.
     		if (crossSectionInnerRadius - r <= atom.getDiameter()){
     			// This atom is near the membrane wall, so should be repelled.
-    	    	angle = theta + Math.PI;
+    	    	angle = theta + Math.PI + ((RAND.nextDouble() - 0.5) * Math.PI / 2);
     		}
     		else if (crossSectionInnerRadius - r <= crossSectionInnerRadius / 2){
     			// This is in the "zone of attraction" where it should tend to
@@ -350,14 +350,14 @@ public class AxonModel {
     		else{
     			// It's neither too close nor too far, so it should just do a
     			// random walk.
-   				angle = Math.PI * 2 * RAND.nextDouble();
+				angle = Math.PI * 2 * RAND.nextDouble();
     		}
     	}
     	else{
     		// Atom is outside the membrane.
     		if (r - crossSectionOuterRadius <= atom.getDiameter()){
     			// This atom is near the membrane wall, so should be repelled.
-    	    	angle = theta;
+				angle = Math.PI * RAND.nextDouble() - Math.PI / 2 + theta;
     		}
     		else{
     			// The following code creates a probabilistic bias that causes
@@ -399,13 +399,14 @@ public class AxonModel {
     	
     	// Find a position for the new channel.
     	double angleOffset = channelType == MembraneChannelTypes.SODIUM_LEAKAGE_CHANNEL ? 0 : 
-    		Math.PI / NeuronConstants.MAX_CHANNELS_PER_TYPE; 
+    		Math.PI / NeuronConstants.MAX_CHANNELS_PER_TYPE;
+    	/*
     	double angle = 0;
     	double radius = axonMembrane.getCrossSectionDiameter() / 2;
     	Point2D newLocation = new Point2D.Double();
     	boolean foundOpenSpot = false;
     	for (int i = 0; i < NeuronConstants.MAX_CHANNELS_PER_TYPE && !foundOpenSpot; i++){
-    		angle = i * 2 * Math.PI / NeuronConstants.MAX_CHANNELS_PER_TYPE + angleOffset;
+    		angle = i * 2 * Math.PI / NeuronConstants.MAX_CHANNELS_PER_TYPE + angleOffset + (i % 2) * Math.PI;
     		newLocation = new Point2D.Double(radius * Math.cos(angle), radius * Math.sin(angle));
     		// Make sure this position isn't already taken.
     		foundOpenSpot = true;
@@ -416,6 +417,12 @@ public class AxonModel {
     			}
     		}
     	}
+    	*/
+    	int numChannelsOfThisType = getNumMembraneChannels(channelType);
+    	double angle = (double)(numChannelsOfThisType % 2) * Math.PI + 
+    		(double)(numChannelsOfThisType / 2) * 2 * Math.PI / NeuronConstants.MAX_CHANNELS_PER_TYPE + angleOffset;
+    	double radius = axonMembrane.getCrossSectionDiameter() / 2;
+		Point2D newLocation = new Point2D.Double(radius * Math.cos(angle), radius * Math.sin(angle));
     	
     	// Position the channel on the membrane.
     	membraneChannel.setRotationalAngle(angle);
@@ -434,7 +441,10 @@ public class AxonModel {
     	}
     	
     	AbstractMembraneChannel channelToRemove = null;
-    	for (int i = 0; i < channels.size(); i++){
+    	// Work backwards through the array so that the most recently added
+    	// channel is removed first.  This just looks better visually and
+    	// makes the positioning of channels work better.
+    	for (int i = channels.size() - 1; i >= 0; i++){
     		if (channels.get(i).getChannelType() == channelType){
     			channelToRemove = channels.get(i);
     			break;
