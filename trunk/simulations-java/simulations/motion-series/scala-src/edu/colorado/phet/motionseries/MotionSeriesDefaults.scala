@@ -32,14 +32,18 @@ object MotionSeriesDefaults {
     def getBounds(w: Double, h: Double) = new Rectangle2D.Double(0, 0, w, h)
   }
 
-  val defaultViewport = new Rectangle2D.Double(-11, -6, 23, 16)
-  val oneGraphViewport = new Rectangle2D.Double(-11, -1, 23, 8)
-  val forceEnergyGraphViewport = new Rectangle2D.Double(-11, -1, 23, 6)
+  val VIEWPORT_X = -11
+  val VIEWPORT_W_RAMP = 23
+  val VIEWPORT_W_FORCES = 22
 
-  val forceMotionGraphViewport = new Rectangle2D.Double(-11, -1, 22, 4)
-  val forceMotionViewport = new Rectangle2D.Double(-11, -7, 22, 11)
-  val forceMotionFrictionViewport = new Rectangle2D.Double(-11, -8, 22, 12)
-  val movingManIntroViewport = new Rectangle2D.Double(-11, -5, 22, 12)
+  val defaultViewport = new Rectangle2D.Double(VIEWPORT_X, -6, VIEWPORT_W_RAMP, 16)
+  val oneGraphViewport = new Rectangle2D.Double(VIEWPORT_X, -1, VIEWPORT_W_RAMP, 8)
+  val forceEnergyGraphViewport = new Rectangle2D.Double(VIEWPORT_X, -1, VIEWPORT_W_RAMP, 6)
+
+  val forceMotionGraphViewport = new Rectangle2D.Double(VIEWPORT_X, -1, VIEWPORT_W_FORCES, 4)
+  val forceMotionViewport = new Rectangle2D.Double(VIEWPORT_X, -7, VIEWPORT_W_FORCES, 16)
+  val forceMotionFrictionViewport = new Rectangle2D.Double(VIEWPORT_X, -7, VIEWPORT_W_FORCES, 16)
+  val movingManIntroViewport = new Rectangle2D.Double(VIEWPORT_X, -5, VIEWPORT_W_FORCES, 12)
 
   //how far away the vector labels can be from the tip, in world coordinates
   val FBD_LABEL_MAX_OFFSET = 500
