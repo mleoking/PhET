@@ -1,3 +1,4 @@
+Fixed: Forces and motion ramp segment shouldn't be rotatable.
 Moved the custom crate to the second row
 Fixed a problem that prevented changing the applied force after time is up on charting modules
 Doubled threshold for Cool Ramp button and ramp redness scale factor

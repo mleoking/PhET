@@ -47,6 +47,7 @@ class ForcesAndMotionCanvas(model: MotionSeriesModel, coordinateSystemModel: Adj
         extends MotionSeriesCanvasDecorator(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel,
           frame, showObjectSelectionNode, showAppliedForceSlider, rampAngleDraggable, modelViewport, stageContainerArea) {
   override def addHeightAndAngleIndicators() = {}
+  override def createRightSegmentNode: HasPaint = new RampSegmentNode(model.rampSegments(1), transform, model)
 }
 
 class IntroModule(frame: PhetFrame, clock: ScalaClock) extends BasicForcesAndMotionModule(frame, clock, "forces-and-motion.module.intro.title".translate, false, true, false, true, -6, false, 0.0, true, true, MotionSeriesDefaults.forceMotionViewport, MotionSeriesDefaults.forceMotionArea)
