@@ -15,7 +15,8 @@ import umd.cs.piccolo.nodes.{PText, PImage}
 import umd.cs.piccolo.PNode
 
 class RobotMovingCompanyModule(frame: PhetFrame,
-                               clock: ScalaClock)
+                               clock: ScalaClock,
+                               initAngle: Double)
         extends MotionSeriesModule(frame, clock, "module.robotMovingCompany".translate, 5, false, MotionSeriesDefaults.defaultRampAngle, false) {
   override def reset() = {
     super.reset()
@@ -34,7 +35,7 @@ class RobotMovingCompanyModule(frame: PhetFrame,
     }
   }
 
-  val gameModel = new RobotMovingCompanyGameModel(motionSeriesModel, clock)
+  val gameModel = new RobotMovingCompanyGameModel(motionSeriesModel, clock,initAngle)
 
   gameModel.itemFinishedListeners += ((scalaRampObject, result) => {
     val audioClip = result match {
@@ -80,7 +81,7 @@ class RobotMovingCompanyModule(frame: PhetFrame,
   }
 }
 
-class IntroScreen extends PlayAreaDialog(400,500) {
+class IntroScreen extends PlayAreaDialog(400, 500) {
   val titleNode = new HTMLNode("<html>Robot<br>Moving<br>Company</html>", new PhetFont(52, true), Color.blue) //todo: translate
   titleNode.setOffset(getFullBounds.getWidth / 2 - titleNode.getFullBounds.getWidth / 2, 20)
   addChild(titleNode)

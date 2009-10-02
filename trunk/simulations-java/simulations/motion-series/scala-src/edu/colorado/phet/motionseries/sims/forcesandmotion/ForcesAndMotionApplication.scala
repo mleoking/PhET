@@ -16,6 +16,7 @@ import edu.colorado.phet.motionseries.controls.RampControlPanel
 import edu.colorado.phet.motionseries.MotionSeriesModule
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.colorado.phet.motionseries.sims.theramp.StageContainerArea
+import theramp.robotmovingcompany.RobotMovingCompanyModule
 
 class ForcesAndMotionModule(frame: PhetFrame,
                                  clock: ScalaClock,
@@ -76,7 +77,7 @@ class ForcesAndMotionApplication(config: PhetApplicationConfig) extends PiccoloP
   addModule(new IntroModule(getPhetFrame, newClock))
   addModule(new FrictionModule(getPhetFrame, newClock))
   addModule(new GraphingModule(getPhetFrame, newClock))
-  addModule(new RobotMovingCompany1DModule(getPhetFrame, newClock))
+  addModule(new RobotMovingCompanyModule(getPhetFrame, newClock,0.0))
 }
 
 object ForcesAndMotionApplicationMain {
