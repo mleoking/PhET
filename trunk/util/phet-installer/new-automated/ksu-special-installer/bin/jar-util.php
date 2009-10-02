@@ -57,6 +57,19 @@
     }
 
     //------------------------------------------------------------------------
+    // Function to sign the specified JAR file.
+    //------------------------------------------------------------------------
+    function sign_jar( $jar_path_and_name ) {
+        $config_params = parse_ini_file( CONFIG_FILE );
+        $keystore = $config_params[ 'keystore' ];
+        $storepass = $config_params[ 'storepass' ];
+        $alias = $config_params[ 'alias' ];
+        $command =  JARSIGNER." -keystore $keystore -storetype pkcs12 -storepass $storepass $jar_path_and_name $alias";
+        print $command."\n";
+        exec( $command );
+    }
+
+    //------------------------------------------------------------------------
     // Function to extract the given file from the given jar.
     //------------------------------------------------------------------------
     function extract_file_from_jar( $path_to_jar_file, $path_to_file_in_jar, $dest_dir='.' ) {
