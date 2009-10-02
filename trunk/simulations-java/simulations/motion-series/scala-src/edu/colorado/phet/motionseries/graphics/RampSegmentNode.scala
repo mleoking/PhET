@@ -69,7 +69,7 @@ class RampSegmentNode(rampSegment: RampSegment, mytransform: ModelViewTransform2
     val b = new LinearFunction(0, 1, baseColor.getBlue, wetColor.getBlue).evaluate(rampSegment.wetness).toInt
     val wetnessColor = new Color(r, g, b)
 
-    val scaleFactor = 10000.0
+    val scaleFactor = 10000.0 * 2
     val heatBetweenZeroAndOne = max(min(rampSegment.heat / scaleFactor, 1), 0)
     val r2 = new LinearFunction(0, 1, wetnessColor.getRed, hotColor.getRed).evaluate(heatBetweenZeroAndOne).toInt
     val g2 = new LinearFunction(0, 1, wetnessColor.getGreen, hotColor.getGreen).evaluate(heatBetweenZeroAndOne).toInt

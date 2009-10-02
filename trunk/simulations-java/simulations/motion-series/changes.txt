@@ -1,3 +1,4 @@
+Doubled threshold for Cool Ramp button and ramp redness scale factor
 Made it so Fire Dog is 25% faster, with 25% less water drops
 Changed default vector dimensions to tail=4 head=10
 # 1.03.45 (35403) Oct 1, 2009
