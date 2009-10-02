@@ -276,8 +276,8 @@
 			if ($curdir = opendir($srcdir)) {
 				while($file = readdir($curdir)) {
 					if($file != '.' && $file != '..') {
-						$srcfile = $srcdir.FILE_SEPARATOR.$file;
-						$dstfile = $dstdir.FILE_SEPARATOR.$file;
+						$srcfile = $srcdir.$file;
+						$dstfile = $dstdir.$file;
 						
 						if (is_file($srcfile)) {
 							if(is_file($dstfile)) {
