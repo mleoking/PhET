@@ -1,3 +1,4 @@
+Set the clear heat button threshold to be 50% higher 
 Fixed: windowed FBD should default to 50% of what it is now
 forces-and-motion: Changed the layout so that the FBD doesn't overap the object's force label by default
     Should resolve "However, it looks like the surface area in Ramps is a bit lower so that the FBD doesn't cover up as much of the area (in F&M, the FBD covers the tip of F_normal for the file cabinet, but it doesn't in Ramps). Looks like there is still a bit of space between force slider and objects in F&M that will let the surface be lower."
