@@ -8,6 +8,8 @@ import edu.colorado.phet.motionseries.sims.theramp.StageContainerArea
 
 object MotionSeriesDefaults {
 
+  val CLEAR_BUTTON_VISIBILITY_THRESHOLD_JOULES = 4000*1.5
+
   val FBD_DIALOG_WIDTH = 300
   val FBD_DIALOG_HEIGHT = FBD_DIALOG_WIDTH
   val FBD_DIALOG_NODE_WIDTH = FBD_DIALOG_WIDTH
