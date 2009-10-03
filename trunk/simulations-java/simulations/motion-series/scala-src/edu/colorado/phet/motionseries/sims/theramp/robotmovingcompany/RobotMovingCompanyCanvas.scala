@@ -6,7 +6,6 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.SwingLayoutNode
 import edu.colorado.phet.common.piccolophet.PhetPCanvas
 import java.awt._
 import event.{KeyEvent, KeyAdapter}
-import geom.{Line2D, RoundRectangle2D}
 import edu.colorado.phet.scalacommon.ScalaClock
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.umd.cs.piccolo.nodes.{PImage, PText}
@@ -20,6 +19,7 @@ import edu.colorado.phet.scalacommon.Predef._
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 import edu.colorado.phet.motionseries.MotionSeriesResources
 import edu.colorado.phet.motionseries.sims.theramp.StageContainerArea
+import geom.{Point2D, AffineTransform, Line2D, RoundRectangle2D}
 import javax.swing.{SwingUtilities, JButton, JOptionPane, JFrame}
 import edu.colorado.phet.scalacommon.util.Observable
 
@@ -93,7 +93,32 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
   //  surfaceChooser.setOffset(fbdNode.getFullBounds.getMaxX + 10, fbdNode.getFullBounds.getY)
   //  addStageNode(surfaceChooser)
 
-  addStageNode(new BeadNode(gameModel.house, transform, MotionSeriesDefaults.house.imageFilename))
+  val houseNode = new BeadNode(gameModel.house, transform, MotionSeriesDefaults.house.imageFilename)
+  addStageNode(houseNode)
+
+  //layer that shows what's behind the door.
+  val doorBackgroundNode = new BeadNode(gameModel.doorBackground, transform, MotionSeriesDefaults.doorBackground.imageFilename)
+  addStageNode(doorBackgroundNode)
+
+  val doorNode = new PNode() {
+    val bead = new BeadNode(gameModel.door, transform, MotionSeriesDefaults.door.imageFilename)
+    addChild(bead)
+    gameModel.distanceToTargetListeners += ((dist: Double, infront: Boolean) => {
+      val sx = if (infront) 0.4 else 1.0
+      val shx = if (infront) 0.15 else 0.0
+      val tx = AffineTransform.getScaleInstance(sx, 1.0)
+      setTransform(new AffineTransform)
+      val point2D = new Point2D.Double(getFullBounds.getX, getFullBounds.getY)
+
+      //see scale about point
+      getTransformReference(true).translate(point2D.getX, point2D.getY)
+      getTransformReference(true).scale(sx, 1.0)
+      getTransformReference(true).shear(0,shx)
+      getTransformReference(true).translate(-point2D.getX, -point2D.getY)
+    })
+  }
+  addStageNode(doorNode)
+
 
   val scoreboard = new ScoreboardNode(transform, gameModel)
   addStageNode(scoreboard)
@@ -222,8 +247,8 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
   override def createRightSegmentNode = new RampSegmentNode(model.rampSegments(1), transform, model)
 
   override def addHeightAndAngleIndicators() = {
-//    addStageNode(new RampHeightIndicator(new Reverse(model.rampSegments(0)).reverse, transform))
-//    addStageNode(new RampAngleIndicator(new Reverse(model.rampSegments(0)).reverse, transform))
+    //    addStageNode(new RampHeightIndicator(new Reverse(model.rampSegments(0)).reverse, transform))
+    //    addStageNode(new RampAngleIndicator(new Reverse(model.rampSegments(0)).reverse, transform))
   }
 
   override def createEarthNode = new EarthNodeWithCliff(transform, model.rampSegments(1).length, gameModel.airborneFloor)
