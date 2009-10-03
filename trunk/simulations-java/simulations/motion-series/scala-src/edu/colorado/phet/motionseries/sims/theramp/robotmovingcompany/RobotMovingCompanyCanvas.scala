@@ -144,7 +144,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
 
   override def useVectorNodeInPlayArea = false
 
-  val F = 500.0
+  val F = gameModel.appliedForceAmount
   val NONE = ("none", 0.0)
   val RIGHT = ("right", F)
   val LEFT = ("left", -F)
@@ -375,7 +375,7 @@ class SummaryScreenNode(gameModel: RobotMovingCompanyGameModel,
 
 object TestSummaryScreen {
   def main(args: Array[String]) {
-    val summaryScreenNode = new SummaryScreenNode(new RobotMovingCompanyGameModel(new MotionSeriesModel(5, true, MotionSeriesDefaults.defaultRampAngle), new ScalaClock(30, 30 / 1000.0), MotionSeriesDefaults.defaultRampAngle), MotionSeriesDefaults.objects(0), new Result(true, false, 64, 100), a => {
+    val summaryScreenNode = new SummaryScreenNode(new RobotMovingCompanyGameModel(new MotionSeriesModel(5, true, MotionSeriesDefaults.defaultRampAngle), new ScalaClock(30, 30 / 1000.0), MotionSeriesDefaults.defaultRampAngle,500.0), MotionSeriesDefaults.objects(0), new Result(true, false, 64, 100), a => {
       a.setVisible(false)
     }, "Ok".literal)
     val frame = new JFrame

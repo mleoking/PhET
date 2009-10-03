@@ -13,9 +13,11 @@ import java.awt.{BasicStroke, Rectangle, Color}
 import javax.swing.{SwingUtilities}
 import umd.cs.piccolo.nodes.{PText, PImage}
 import umd.cs.piccolo.PNode
+
 class RobotMovingCompanyModule(frame: PhetFrame,
                                clock: ScalaClock,
-                               initAngle: Double)
+                               initAngle: Double,
+                               appliedForce: Double)
         extends MotionSeriesModule(frame, clock, "module.robotMovingCompany".translate, 5, false, MotionSeriesDefaults.defaultRampAngle, false) {
   override def reset() = {
     super.reset()
@@ -34,7 +36,7 @@ class RobotMovingCompanyModule(frame: PhetFrame,
     }
   }
 
-  val gameModel = new RobotMovingCompanyGameModel(motionSeriesModel, clock, initAngle)
+  val gameModel = new RobotMovingCompanyGameModel(motionSeriesModel, clock, initAngle, appliedForce)
 
   gameModel.itemFinishedListeners += ((scalaRampObject, result) => {
     val audioClip = result match {
@@ -49,6 +51,7 @@ class RobotMovingCompanyModule(frame: PhetFrame,
   val canvas = new RobotMovingCompanyCanvas(motionSeriesModel, coordinateSystemModel, fbdModel, vectorViewModel, frame, gameModel, MotionSeriesDefaults.robotMovingCompanyRampArea)
 
   setSimulationPanel(canvas)
+  setClockControlPanel(null)
   setLogoPanelVisible(false)
 
   var inited = false
@@ -115,13 +118,13 @@ class IntroScreen extends PlayAreaDialog(400, 500) {
 
   val text = new PNode {
     val mottoBorder = new PText("Our Motto")
-    
+
     addChild(mottoBorder)
     val mottoBody = new PText("Apply Force\nDeliver Objects\nLeftover Energy = Points") {
       setFont(new PhetFont(25, true))
     }
     addChild(mottoBody)
-    mottoBody.setOffset(0,mottoBorder.getFullBounds.getHeight)
+    mottoBody.setOffset(0, mottoBorder.getFullBounds.getHeight)
   }
 
   val buttonCluster = new PNode {

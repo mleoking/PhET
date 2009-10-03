@@ -23,6 +23,8 @@ object MotionSeriesDefaults {
   val MAX_CHART_DISPLAY_TIME = 20.0
   val MAX_RECORD_TIME = MAX_CHART_DISPLAY_TIME
   val defaultRampAngle = 30.0.toRadians
+  val rampRobotForce = 500
+  val forcesAndMotionRobotForce = 1000
 
   val fullScreenArea = new StageContainerArea() {
     def getBounds(w: Double, h: Double) = new Rectangle2D.Double(0, 0, w, h)
