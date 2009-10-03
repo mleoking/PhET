@@ -1,3 +1,4 @@
+robot-moving-company: Fixed: Energy bar scale should be smaller depending on maximum energy
 robot-moving-company: Fixed: Shouldn't be able to apply force after getting points for an object
 robot-moving-company: Made object move to house on success
 robot-moving-company: Made it so you can't apply a force by dragging the object

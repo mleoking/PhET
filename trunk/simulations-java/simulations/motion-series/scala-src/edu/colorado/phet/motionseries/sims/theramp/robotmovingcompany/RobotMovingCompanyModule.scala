@@ -48,7 +48,8 @@ class RobotMovingCompanyModule(frame: PhetFrame,
     if (!audioClip.isEmpty) MotionSeriesResources.getAudioClip(audioClip.get).play()
   })
 
-  val canvas = new RobotMovingCompanyCanvas(motionSeriesModel, coordinateSystemModel, fbdModel, vectorViewModel, frame, gameModel, MotionSeriesDefaults.robotMovingCompanyRampArea)
+  val canvas = new RobotMovingCompanyCanvas(motionSeriesModel, coordinateSystemModel, fbdModel,
+    vectorViewModel, frame, gameModel, MotionSeriesDefaults.robotMovingCompanyRampArea,gameModel.energyScale)
 
   setSimulationPanel(canvas)
   setClockControlPanel(null)
