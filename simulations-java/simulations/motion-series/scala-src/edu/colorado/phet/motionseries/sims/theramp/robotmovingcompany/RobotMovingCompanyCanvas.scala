@@ -103,9 +103,10 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
   val doorNode = new PNode() {
     val bead = new BeadNode(gameModel.door, transform, MotionSeriesDefaults.door.imageFilename)
     addChild(bead)
-    gameModel.distanceToTargetListeners += ((dist: Double, infront: Boolean) => {
-      val sx = if (infront) 0.4 else 1.0
-      val shx = if (infront) 0.15 else 0.0
+
+    gameModel.doorListeners += (()=>{
+      val sx = new edu.colorado.phet.common.phetcommon.math.Function.LinearFunction(0,1,1.0,0.2).evaluate(gameModel.doorOpenAmount)
+      val shx = new edu.colorado.phet.common.phetcommon.math.Function.LinearFunction(0,1,0,0.15).evaluate(gameModel.doorOpenAmount)
       val tx = AffineTransform.getScaleInstance(sx, 1.0)
       setTransform(new AffineTransform)
       val point2D = new Point2D.Double(getFullBounds.getX, getFullBounds.getY)
@@ -118,7 +119,6 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
     })
   }
   addStageNode(doorNode)
-
 
   val scoreboard = new ScoreboardNode(transform, gameModel)
   addStageNode(scoreboard)

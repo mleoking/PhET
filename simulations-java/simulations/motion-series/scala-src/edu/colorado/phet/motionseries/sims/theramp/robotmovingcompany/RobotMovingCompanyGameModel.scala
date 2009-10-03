@@ -1,6 +1,7 @@
 package edu.colorado.phet.motionseries.sims.theramp.robotmovingcompany
 
 import collection.mutable.{HashMap, ArrayBuffer}
+import common.phetcommon.math.MathUtil
 import edu.colorado.phet.motionseries.model.{MotionSeriesObject, SurfaceModel, MotionSeriesModel, Bead}
 import edu.colorado.phet.scalacommon.ScalaClock
 import edu.colorado.phet.scalacommon.util.Observable
@@ -10,7 +11,7 @@ import edu.colorado.phet.motionseries.MotionSeriesDefaults
 
 class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
                                   clock: ScalaClock,
-                                  initAngle:Double) extends Observable {
+                                  initAngle: Double) extends Observable {
   val DEFAULT_ROBOT_ENERGY = 3000.0
   private var _robotEnergy = DEFAULT_ROBOT_ENERGY
   val surfaceModel = new SurfaceModel
@@ -29,12 +30,15 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
   val housePosition = 6
   val house = model.createBead(housePosition, MotionSeriesDefaults.house.width, MotionSeriesDefaults.house.height)
   val door = model.createBead(housePosition, MotionSeriesDefaults.door.width, MotionSeriesDefaults.door.height)
+  private var _doorOpenAmount = 0.0
+
+  def doorOpenAmount = _doorOpenAmount
+
+  val doorListeners = new ArrayBuffer[() => Unit]
   val doorBackground = model.createBead(housePosition, MotionSeriesDefaults.doorBackground.width, MotionSeriesDefaults.doorBackground.height)
   private var _bead: Bead = null
 
   clock.addClockListener(dt => if (!model.isPaused && _bead != null) _bead.stepInTime(dt))
-  val distanceToTargetListeners = new ArrayBuffer[(Double,Boolean)=>Unit]
-  
   resetAll()
 
   def resetAll() = {
@@ -76,18 +80,34 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
     bead.surfaceFrictionStrategy = surfaceModel
     bead.crashListeners += (() => itemLostOffCliff(sel))
     val beadRef = _bead //use a reference for closures below
+    def _inFrontOfHouse(b: Bead) = b.position >= house.minX && b.position <= house.maxX
+
+    model.stepListeners += (() => {
+      if (!containsKey(sel)) { //todo: this line is a workaround that makes sure the following logic only happesn if this object hasn't been scored already
+        //todo: it should be rewritten to remove listeners when an object is scored
+        val inFrontOfHouse = _inFrontOfHouse(beadRef)
+        if (inFrontOfHouse) {
+          _doorOpenAmount = _doorOpenAmount + 0.1
+        }
+        else {
+          _doorOpenAmount = _doorOpenAmount - 0.1
+        }
+        _doorOpenAmount = MathUtil.clamp(0, _doorOpenAmount, 1.0)
+        doorListeners.foreach(_())
+      }
+    })
+
     bead.addListener(() => {
-      if (!containsKey(sel)){
-        val pushing = abs(beadRef.parallelAppliedForce) > 0 
+      if (!containsKey(sel)) {
+        val pushing = abs(beadRef.parallelAppliedForce) > 0
         val atRest = abs(beadRef.velocity) < 1E-6
-        val inFrontOfHouse = beadRef.position >= house.minX && beadRef.position <= house.maxX
+        val inFrontOfHouse = _inFrontOfHouse(beadRef)
         val stoppedAtHouse = inFrontOfHouse && atRest //okay to be pushing
         val stoppedAndOutOfEnergy = beadRef.position > 0 && atRest && _robotEnergy == 0
-        val crashed = atRest && beadRef.position2D.y <0
+        val crashed = atRest && beadRef.position2D.y < 0
         if (stoppedAtHouse) itemMoved(sel)
         else if (stoppedAndOutOfEnergy || crashed) itemLost(sel)
-        distanceToTargetListeners.foreach(_(abs(house.position - beadRef.position),inFrontOfHouse))
-      }
+      } 
     })
 
     _bead.workListeners += (work => {
