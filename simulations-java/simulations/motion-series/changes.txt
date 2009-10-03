@@ -1,3 +1,4 @@
+robot-moving-company: Improve focus on activation
 robot-moving-company: Added support for 1d mode
 robot-moving-company: Added introduction screen
 robot-moving-company: Improved viewport and layout
