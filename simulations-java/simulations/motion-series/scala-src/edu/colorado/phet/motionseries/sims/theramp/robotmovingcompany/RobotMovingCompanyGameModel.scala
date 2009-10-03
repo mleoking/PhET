@@ -28,10 +28,13 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
   val objectList = MotionSeriesDefaults.objects
   val housePosition = 6
   val house = model.createBead(housePosition, MotionSeriesDefaults.house.width, MotionSeriesDefaults.house.height)
+  val door = model.createBead(housePosition, MotionSeriesDefaults.door.width, MotionSeriesDefaults.door.height)
+  val doorBackground = model.createBead(housePosition, MotionSeriesDefaults.doorBackground.width, MotionSeriesDefaults.doorBackground.height)
   private var _bead: Bead = null
 
   clock.addClockListener(dt => if (!model.isPaused && _bead != null) _bead.stepInTime(dt))
-
+  val distanceToTargetListeners = new ArrayBuffer[(Double,Boolean)=>Unit]
+  
   resetAll()
 
   def resetAll() = {
@@ -77,11 +80,13 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
       if (!containsKey(sel)){
         val pushing = abs(beadRef.parallelAppliedForce) > 0 
         val atRest = abs(beadRef.velocity) < 1E-6
-        val stoppedAtHouse = beadRef.position >= house.minX && beadRef.position <= house.maxX && atRest //okay to be pushing
+        val inFrontOfHouse = beadRef.position >= house.minX && beadRef.position <= house.maxX
+        val stoppedAtHouse = inFrontOfHouse && atRest //okay to be pushing
         val stoppedAndOutOfEnergy = beadRef.position > 0 && atRest && _robotEnergy == 0
         val crashed = atRest && beadRef.position2D.y <0
         if (stoppedAtHouse) itemMoved(sel)
         else if (stoppedAndOutOfEnergy || crashed) itemLost(sel)
+        distanceToTargetListeners.foreach(_(abs(house.position - beadRef.position),inFrontOfHouse))
       }
     })
 

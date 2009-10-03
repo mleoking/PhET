@@ -1,3 +1,4 @@
+robot-moving-company: Added door open/close
 robot-moving-company: Removed height and angle indicators
 robot-moving-company: Improve focus on activation
 robot-moving-company: Added support for 1d mode
