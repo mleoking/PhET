@@ -155,12 +155,15 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
 
   val deliverList = new ArrayBuffer[Bead]
 
+  private var _inputAllowed = true
+  def inputAllowed = _inputAllowed
+
   def itemDelivered(o: MotionSeriesObject, beadRef: Bead) = {
     if (!deliverList.contains(beadRef)) {
       deliverList += beadRef
       object listener extends Function0[Unit] {  //it's an object so we can refer to it as this below
         def apply() = {
-          //todo: input allowed = false
+          _inputAllowed = false
           beadRef.parallelAppliedForce = 0.0
           val x = beadRef.position
           val xf = house.position
@@ -169,7 +172,7 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
           if ( (beadRef.position - house.position).abs <= vel.abs) {
             model.stepListeners -= this
             itemFinished(o, Result(true, false, o.points, robotEnergy.toInt))
-            //todo: input allowed = true
+            _inputAllowed = true
           }
         }
       }
