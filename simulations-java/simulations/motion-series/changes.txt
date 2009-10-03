@@ -1,3 +1,4 @@
+robot-moving-company: Fixed: If object stops at x<0, with robot energy depleted, round should end
 robot-moving-company: Added door open/close animation
 robot-moving-company: Added door open/close
 robot-moving-company: Removed height and angle indicators
