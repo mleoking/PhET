@@ -11,8 +11,9 @@ import edu.colorado.phet.motionseries.MotionSeriesDefaults
 
 class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
                                   clock: ScalaClock,
-                                  initAngle: Double) extends Observable {
-  val DEFAULT_ROBOT_ENERGY = 3000.0
+                                  initAngle: Double,
+                                  val appliedForceAmount:Double) extends Observable {
+  val DEFAULT_ROBOT_ENERGY = appliedForceAmount * 6
   private var _robotEnergy = DEFAULT_ROBOT_ENERGY
   val surfaceModel = new SurfaceModel
   val airborneFloor = -9.0
@@ -156,12 +157,13 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
   val deliverList = new ArrayBuffer[Bead]
 
   private var _inputAllowed = true
+
   def inputAllowed = _inputAllowed
 
   def itemDelivered(o: MotionSeriesObject, beadRef: Bead) = {
     if (!deliverList.contains(beadRef)) {
       deliverList += beadRef
-      object listener extends Function0[Unit] {  //it's an object so we can refer to it as this below
+      object listener extends Function0[Unit] { //it's an object so we can refer to it as this below
         def apply() = {
           _inputAllowed = false
           beadRef.parallelAppliedForce = 0.0
@@ -169,7 +171,7 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
           val xf = house.position
           val vel = 0.2 * (if (xf - x > 0) 1 else -1)
           beadRef.setPosition(beadRef.position + vel)
-          if ( (beadRef.position - house.position).abs <= vel.abs) {
+          if ((beadRef.position - house.position).abs <= vel.abs) {
             model.stepListeners -= this
             itemFinished(o, Result(true, false, o.points, robotEnergy.toInt))
             _inputAllowed = true

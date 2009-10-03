@@ -77,7 +77,7 @@ class ForcesAndMotionApplication(config: PhetApplicationConfig) extends PiccoloP
   addModule(new IntroModule(getPhetFrame, newClock))
   addModule(new FrictionModule(getPhetFrame, newClock))
   addModule(new GraphingModule(getPhetFrame, newClock))
-  addModule(new RobotMovingCompanyModule(getPhetFrame, newClock,1E-8.toRadians))//todo: this 1E-8 workaround seems necessary to avoid problems, we should find out why
+  addModule(new RobotMovingCompanyModule(getPhetFrame, newClock,1E-8.toRadians,MotionSeriesDefaults.forcesAndMotionRobotForce))//todo: this 1E-8 workaround seems necessary to avoid problems, we should find out why
 }
 
 object ForcesAndMotionApplicationMain {
