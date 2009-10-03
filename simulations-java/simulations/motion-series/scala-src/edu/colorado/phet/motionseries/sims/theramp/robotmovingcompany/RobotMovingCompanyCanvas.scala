@@ -5,7 +5,7 @@ import edu.colorado.phet.common.phetcommon.view.util.{BufferedImageUtils, PhetFo
 import edu.colorado.phet.common.piccolophet.nodes.layout.SwingLayoutNode
 import edu.colorado.phet.common.piccolophet.PhetPCanvas
 import java.awt._
-import event.{KeyEvent, KeyAdapter}
+import java.awt.event.{KeyEvent, KeyAdapter}
 import edu.colorado.phet.scalacommon.ScalaClock
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.umd.cs.piccolo.nodes.{PImage, PText}
@@ -20,8 +20,8 @@ import edu.colorado.phet.motionseries.MotionSeriesResources._
 import edu.colorado.phet.motionseries.MotionSeriesResources
 import edu.colorado.phet.motionseries.sims.theramp.StageContainerArea
 import geom.{Point2D, AffineTransform, Line2D, RoundRectangle2D}
-import javax.swing.{SwingUtilities, JButton, JOptionPane, JFrame}
 import edu.colorado.phet.scalacommon.util.Observable
+import javax.swing._
 
 class RobotMovingCompanyCanvas(model: MotionSeriesModel,
                                coordinateSystemModel: AdjustableCoordinateModel,
@@ -196,13 +196,36 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
   SwingUtilities.invokeLater(new Runnable {
     def run = requestFocus()
   })
+  class ObjectIcon(a:MotionSeriesObject) extends PNode{
+    val nameLabel = new PText(a.name){
+      setFont(new PhetFont(24,true))
+    }
+    addChild(nameLabel)
+    val pImage = new PImage(BufferedImageUtils.multiScaleToHeight(MotionSeriesResources.getImage(a.imageFilename), 100))
+    addChild(pImage)
+    pImage.setOffset(0,nameLabel.getFullBounds.getHeight)
 
+    val textNode = new SwingLayoutNode(new GridLayout(3,1))
+    class ValueText(str:String) extends PText(str){
+      setFont( new PhetFont(18))
+    }
+    textNode.addChild(new ValueText("Mass = "+a.mass+" kg"))
+    textNode.addChild(new ValueText("Kinetic Friction = "+a.kineticFriction))
+    textNode.addChild(new ValueText("Points = "+a.points))
+    textNode.setOffset(0,pImage.getFullBounds.getMaxY)
+    addChild(textNode)
+  }
   def init(bead: Bead, a: MotionSeriesObject) = {
     val lastBead = _currentBead
     _currentBead = bead
 
     val beadNode = new BeadNode(bead, transform, a.imageFilename)
     addStageNode(beadNode)
+    val icon = new ObjectIcon(a)
+    val pt = transform.modelToView(-10, -1)
+//      fbdNode.setOffset(pt.x -fbdNode.getFullBounds.getWidth/2, pt.y)
+    icon.setOffset(pt)
+    addStageNode(icon)
 
     val roboBead = model.createBead(-10 - a.width / 2, 1)
 
@@ -212,6 +235,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
     bead.removalListeners += (() => {
       removeStageNode(beadNode)
       removeStageNode(pusherNode)
+      removeStageNode(icon)
     })
 
     fbdNode.clearVectors()
