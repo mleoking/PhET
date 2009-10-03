@@ -1,3 +1,5 @@
+robot-moving-company: Made it impossible to rotate the ramp in game mode using the mouse
+robot-moving-company: Bugfixes for game repeating
 # 1.03.49 (35470) Oct 3, 2009
 robot-moving-company: Show mass, friction, points of current object
 robot-moving-company: Added FBD
