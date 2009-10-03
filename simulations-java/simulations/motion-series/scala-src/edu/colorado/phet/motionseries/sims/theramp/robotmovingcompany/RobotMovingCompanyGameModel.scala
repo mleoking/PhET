@@ -14,6 +14,7 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
                                   initAngle: Double,
                                   val appliedForceAmount:Double) extends Observable {
   val DEFAULT_ROBOT_ENERGY = appliedForceAmount * 6
+  val energyScale = MotionSeriesDefaults.rampRobotForce / appliedForceAmount / 10.0
   private var _robotEnergy = DEFAULT_ROBOT_ENERGY
   val surfaceModel = new SurfaceModel
   val airborneFloor = -9.0

@@ -29,7 +29,8 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
                                vectorViewModel: VectorViewModel,
                                frame: JFrame,
                                gameModel: RobotMovingCompanyGameModel,
-                               stageContainerArea: StageContainerArea)
+                               stageContainerArea: StageContainerArea,
+                               energyScale:Double)
         extends RampCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel,
           frame, false, false, true, MotionSeriesDefaults.robotMovingCompanyRampViewport, stageContainerArea) {
   beadNode.setVisible(false)
@@ -123,7 +124,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
   val scoreboard = new ScoreboardNode(transform, gameModel)
   addStageNode(scoreboard)
 
-  val energyMeter = new RobotEnergyMeter(transform, gameModel)
+  val energyMeter = new RobotEnergyMeter(transform, gameModel,energyScale)
   energyMeter.setOffset(scoreboard.getFullBounds.getX + 5, scoreboard.getFullBounds.getMaxY + 5)
   addStageNode(energyMeter)
 
@@ -267,7 +268,7 @@ class ItemReadout(text: String, gameModel: RobotMovingCompanyGameModel, counter:
   update()
 }
 
-class RobotEnergyMeter(transform: ModelViewTransform2D, gameModel: RobotMovingCompanyGameModel) extends PNode {
+class RobotEnergyMeter(transform: ModelViewTransform2D, gameModel: RobotMovingCompanyGameModel, energyScale:Double) extends PNode {
   val barContainerNode = new PhetPPath(new BasicStroke(2), Color.gray)
   val barNode = new PhetPPath(Color.blue)
   addChild(barNode)
@@ -275,7 +276,7 @@ class RobotEnergyMeter(transform: ModelViewTransform2D, gameModel: RobotMovingCo
   label.setFont(new PhetFont(24, true))
   addChild(label)
   addChild(barContainerNode)
-  def energyToBarShape(e: Double) = new RoundRectangle2D.Double(label.getFullBounds.getWidth + 10, 0, e / 10, 25, 10, 10)
+  def energyToBarShape(e: Double) = new RoundRectangle2D.Double(label.getFullBounds.getWidth + 10, 0, e * energyScale, 25, 10, 10)
   barContainerNode.setPathTo(energyToBarShape(gameModel.DEFAULT_ROBOT_ENERGY))
 
   defineInvokeAndPass(gameModel.addListenerByName) {
