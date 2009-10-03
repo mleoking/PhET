@@ -86,12 +86,10 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
       if (!containsKey(sel)) { //todo: this line is a workaround that makes sure the following logic only happesn if this object hasn't been scored already
         //todo: it should be rewritten to remove listeners when an object is scored
         val inFrontOfHouse = _inFrontOfHouse(beadRef)
-        if (inFrontOfHouse) {
+        if (inFrontOfHouse)
           _doorOpenAmount = _doorOpenAmount + 0.1
-        }
-        else {
+        else
           _doorOpenAmount = _doorOpenAmount - 0.1
-        }
         _doorOpenAmount = MathUtil.clamp(0, _doorOpenAmount, 1.0)
         doorListeners.foreach(_())
       }
@@ -103,7 +101,7 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
         val atRest = abs(beadRef.velocity) < 1E-6
         val inFrontOfHouse = _inFrontOfHouse(beadRef)
         val stoppedAtHouse = inFrontOfHouse && atRest //okay to be pushing
-        val stoppedAndOutOfEnergy = beadRef.position > 0 && atRest && _robotEnergy == 0
+        val stoppedAndOutOfEnergy = atRest && _robotEnergy == 0
         val crashed = atRest && beadRef.position2D.y < 0
         if (stoppedAtHouse) itemMoved(sel)
         else if (stoppedAndOutOfEnergy || crashed) itemLost(sel)
