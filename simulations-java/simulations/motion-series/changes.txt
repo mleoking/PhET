@@ -1,3 +1,4 @@
+# 1.03.49 (35470) Oct 3, 2009
 robot-moving-company: Show mass, friction, points of current object
 robot-moving-company: Added FBD
 robot-moving-company: Fixed: More force or lighter objects for F&M Mode, some objects immobile
