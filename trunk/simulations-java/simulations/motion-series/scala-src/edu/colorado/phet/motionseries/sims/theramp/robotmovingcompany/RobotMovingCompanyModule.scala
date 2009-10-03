@@ -35,7 +35,7 @@ class RobotMovingCompanyModule(frame: PhetFrame,
     }
   }
 
-  val gameModel = new RobotMovingCompanyGameModel(motionSeriesModel, clock,initAngle)
+  val gameModel = new RobotMovingCompanyGameModel(motionSeriesModel, clock, initAngle)
 
   gameModel.itemFinishedListeners += ((scalaRampObject, result) => {
     val audioClip = result match {
@@ -52,32 +52,40 @@ class RobotMovingCompanyModule(frame: PhetFrame,
   setSimulationPanel(canvas)
   setLogoPanelVisible(false)
 
+  var inited = false
+
   override def activate = {
     super.activate()
-    SwingUtilities.invokeLater(new Runnable {
-      def run = {
-
-        var removed = false
-        //gray out everything else
-        val overlayNode = new PhetPPath(new Rectangle(canvas.getWidth, canvas.getHeight), new Color(100, 120, 100, 240))
-        canvas.addScreenNode(overlayNode)
-
-        MotionSeriesResources.getAudioClip("game/robot-moving-company-us8mon.wav".literal).play()
-        val intro = new IntroScreen()
-        intro.centerWithin(canvas.getWidth, canvas.getHeight)
-        canvas.addScreenNode(intro)
-
-        canvas.addKeyListener(new KeyAdapter {
-          override def keyPressed(e: KeyEvent) = {
-            if (!removed) {
-              canvas.removeScreenNode(intro)
-              canvas.removeScreenNode(overlayNode)
-              removed = true
-            }
-          }
-        })
-      }
+    SwingUtilities.invokeLater(new Runnable{
+      def run = canvas.requestFocus()
     })
+    if (!inited) {
+      inited = true
+      SwingUtilities.invokeLater(new Runnable {
+        def run = {
+
+          var removed = false
+          //gray out everything else
+          val overlayNode = new PhetPPath(new Rectangle(canvas.getWidth, canvas.getHeight), new Color(100, 120, 100, 240))
+          canvas.addScreenNode(overlayNode)
+
+          MotionSeriesResources.getAudioClip("game/robot-moving-company-us8mon.wav".literal).play()
+          val intro = new IntroScreen()
+          intro.centerWithin(canvas.getWidth, canvas.getHeight)
+          canvas.addScreenNode(intro)
+
+          canvas.addKeyListener(new KeyAdapter {
+            override def keyPressed(e: KeyEvent) = {
+              if (!removed) {
+                canvas.removeScreenNode(intro)
+                canvas.removeScreenNode(overlayNode)
+                removed = true
+              }
+            }
+          })
+        }
+      })
+    }
   }
 }
 
