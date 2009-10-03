@@ -172,11 +172,13 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
 
   addKeyListener(new KeyAdapter {
     override def keyPressed(e: KeyEvent) = {
+      if (gameModel.inputAllowed)
       e.getKeyCode match {
         case KeyEvent.VK_LEFT => userInputModel.pressed = LEFT
         case KeyEvent.VK_RIGHT => userInputModel.pressed = RIGHT
         case _ => userInputModel.pressed = NONE
       }
+      else NONE
     }
 
     override def keyReleased(e: KeyEvent) = {
