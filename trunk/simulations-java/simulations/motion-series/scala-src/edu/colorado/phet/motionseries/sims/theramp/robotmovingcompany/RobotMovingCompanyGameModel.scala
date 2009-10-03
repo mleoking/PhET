@@ -8,7 +8,9 @@ import edu.colorado.phet.scalacommon.math.Vector2D
 import java.lang.Math._
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
 
-class RobotMovingCompanyGameModel(val model: MotionSeriesModel, clock: ScalaClock,initAngle:Double) extends Observable {
+class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
+                                  clock: ScalaClock,
+                                  initAngle:Double) extends Observable {
   val DEFAULT_ROBOT_ENERGY = 3000.0
   private var _robotEnergy = DEFAULT_ROBOT_ENERGY
   val surfaceModel = new SurfaceModel
