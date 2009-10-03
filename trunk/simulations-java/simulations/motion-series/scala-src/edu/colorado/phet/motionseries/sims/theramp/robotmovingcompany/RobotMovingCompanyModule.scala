@@ -10,10 +10,9 @@ import edu.colorado.phet.motionseries.{MotionSeriesResources, MotionSeriesDefaul
 import java.awt.event.{KeyEvent, KeyAdapter}
 import java.awt.geom.Point2D
 import java.awt.{BasicStroke, Rectangle, Color}
-import javax.swing.SwingUtilities
+import javax.swing.{SwingUtilities}
 import umd.cs.piccolo.nodes.{PText, PImage}
 import umd.cs.piccolo.PNode
-
 class RobotMovingCompanyModule(frame: PhetFrame,
                                clock: ScalaClock,
                                initAngle: Double)
@@ -56,7 +55,7 @@ class RobotMovingCompanyModule(frame: PhetFrame,
 
   override def activate = {
     super.activate()
-    SwingUtilities.invokeLater(new Runnable{
+    SwingUtilities.invokeLater(new Runnable {
       def run = canvas.requestFocus()
     })
     if (!inited) {
@@ -114,8 +113,15 @@ class IntroScreen extends PlayAreaDialog(400, 500) {
   val leftKey = directionKeyNode(1 / 5.0, 0)
   val rightKey = directionKeyNode(-1 / 5.0, 0)
 
-  val text = new PText("Apply Force\nDeliver Objects\nLeftover Energy = Points") {
-    setFont(new PhetFont(25, true))
+  val text = new PNode {
+    val mottoBorder = new PText("Our Motto")
+    
+    addChild(mottoBorder)
+    val mottoBody = new PText("Apply Force\nDeliver Objects\nLeftover Energy = Points") {
+      setFont(new PhetFont(25, true))
+    }
+    addChild(mottoBody)
+    mottoBody.setOffset(0,mottoBorder.getFullBounds.getHeight)
   }
 
   val buttonCluster = new PNode {
@@ -130,7 +136,7 @@ class IntroScreen extends PlayAreaDialog(400, 500) {
   }
   addChild(labeledButtonCluster)
 
-  val pressToBegin = new PText("Apply a force to begin")
+  val pressToBegin = new PText("Press a force key to begin...")
   addChild(pressToBegin)
   pressToBegin.setOffset(background.getFullBounds.getWidth / 2 - pressToBegin.getFullBounds.getWidth / 2, background.getFullBounds.getHeight - pressToBegin.getFullBounds.getHeight - 10)
 
