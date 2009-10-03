@@ -222,8 +222,8 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
   override def createRightSegmentNode = new RampSegmentNode(model.rampSegments(1), transform, model)
 
   override def addHeightAndAngleIndicators() = {
-    addStageNode(new RampHeightIndicator(new Reverse(model.rampSegments(0)).reverse, transform))
-    addStageNode(new RampAngleIndicator(new Reverse(model.rampSegments(0)).reverse, transform))
+//    addStageNode(new RampHeightIndicator(new Reverse(model.rampSegments(0)).reverse, transform))
+//    addStageNode(new RampAngleIndicator(new Reverse(model.rampSegments(0)).reverse, transform))
   }
 
   override def createEarthNode = new EarthNodeWithCliff(transform, model.rampSegments(1).length, gameModel.airborneFloor)
@@ -348,7 +348,7 @@ class SummaryScreenNode(gameModel: RobotMovingCompanyGameModel,
 
 object TestSummaryScreen {
   def main(args: Array[String]) {
-    val summaryScreenNode = new SummaryScreenNode(new RobotMovingCompanyGameModel(new MotionSeriesModel(5, true, MotionSeriesDefaults.defaultRampAngle), new ScalaClock(30, 30 / 1000.0),MotionSeriesDefaults.defaultRampAngle), MotionSeriesDefaults.objects(0), new Result(true, false, 64, 100), a => {
+    val summaryScreenNode = new SummaryScreenNode(new RobotMovingCompanyGameModel(new MotionSeriesModel(5, true, MotionSeriesDefaults.defaultRampAngle), new ScalaClock(30, 30 / 1000.0), MotionSeriesDefaults.defaultRampAngle), MotionSeriesDefaults.objects(0), new Result(true, false, 64, 100), a => {
       a.setVisible(false)
     }, "Ok".literal)
     val frame = new JFrame
