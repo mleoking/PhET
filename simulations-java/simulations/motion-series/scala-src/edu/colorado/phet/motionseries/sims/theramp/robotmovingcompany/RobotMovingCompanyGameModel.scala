@@ -158,7 +158,7 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
   def itemDelivered(o: MotionSeriesObject, beadRef: Bead) = {
     if (!deliverList.contains(beadRef)) {
       deliverList += beadRef
-      object listener extends Function0[Unit] {
+      object listener extends Function0[Unit] {  //it's an object so we can refer to it as this below
         def apply() = {
           //todo: input allowed = false
           beadRef.parallelAppliedForce = 0.0
