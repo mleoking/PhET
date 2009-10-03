@@ -30,7 +30,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
                                frame: JFrame,
                                gameModel: RobotMovingCompanyGameModel,
                                stageContainerArea: StageContainerArea,
-                               energyScale:Double)
+                               energyScale: Double)
         extends RampCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel,
           frame, false, false, true, MotionSeriesDefaults.robotMovingCompanyRampViewport, stageContainerArea) {
   beadNode.setVisible(false)
@@ -81,14 +81,17 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
 
   //  pswingControlPanel.setOffset(0, transform.modelToView(0, -1).y)
 
-  //  override def updateFBDLocation() = {
-  //    if (fbdNode != null && pswingControlPanel != null)
-  //      fbdNode.setOffset(pswingControlPanel.getFullBounds.getMaxX + 10, pswingControlPanel.getFullBounds.getY)
-  //  }
-  //  updateFBDLocation()
+  override def updateFBDLocation() = {
+    if (fbdNode != null) {
+      val pt = transform.modelToView(0, -1)
+      fbdNode.setOffset(pt.x -fbdNode.getFullBounds.getWidth/2, pt.y)
+    }
+  }
+  updateFBDLocation()
 
-  freeBodyDiagramModel.visible = false
-  //  freeBodyDiagramModel.closable = false
+  vectorViewModel.sumOfForcesVector = true
+  freeBodyDiagramModel.visible = true
+  freeBodyDiagramModel.closable = false
 
   //  val surfaceChooser = new SurfaceChooser(gameModel.surfaceModel)
   //  surfaceChooser.setOffset(fbdNode.getFullBounds.getMaxX + 10, fbdNode.getFullBounds.getY)
@@ -105,9 +108,9 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
     val bead = new BeadNode(gameModel.door, transform, MotionSeriesDefaults.door.imageFilename)
     addChild(bead)
 
-    gameModel.doorListeners += (()=>{
-      val sx = new edu.colorado.phet.common.phetcommon.math.Function.LinearFunction(0,1,1.0,0.2).evaluate(gameModel.doorOpenAmount)
-      val shx = new edu.colorado.phet.common.phetcommon.math.Function.LinearFunction(0,1,0,0.15).evaluate(gameModel.doorOpenAmount)
+    gameModel.doorListeners += (() => {
+      val sx = new edu.colorado.phet.common.phetcommon.math.Function.LinearFunction(0, 1, 1.0, 0.2).evaluate(gameModel.doorOpenAmount)
+      val shx = new edu.colorado.phet.common.phetcommon.math.Function.LinearFunction(0, 1, 0, 0.15).evaluate(gameModel.doorOpenAmount)
       val tx = AffineTransform.getScaleInstance(sx, 1.0)
       setTransform(new AffineTransform)
       val point2D = new Point2D.Double(getFullBounds.getX, getFullBounds.getY)
@@ -115,7 +118,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
       //see scale about point
       getTransformReference(true).translate(point2D.getX, point2D.getY)
       getTransformReference(true).scale(sx, 1.0)
-      getTransformReference(true).shear(0,shx)
+      getTransformReference(true).shear(0, shx)
       getTransformReference(true).translate(-point2D.getX, -point2D.getY)
     })
   }
@@ -124,7 +127,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
   val scoreboard = new ScoreboardNode(transform, gameModel)
   addStageNode(scoreboard)
 
-  val energyMeter = new RobotEnergyMeter(transform, gameModel,energyScale)
+  val energyMeter = new RobotEnergyMeter(transform, gameModel, energyScale)
   energyMeter.setOffset(scoreboard.getFullBounds.getX + 5, scoreboard.getFullBounds.getMaxY + 5)
   addStageNode(energyMeter)
 
@@ -174,11 +177,11 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
   addKeyListener(new KeyAdapter {
     override def keyPressed(e: KeyEvent) = {
       if (gameModel.inputAllowed)
-      e.getKeyCode match {
-        case KeyEvent.VK_LEFT => userInputModel.pressed = LEFT
-        case KeyEvent.VK_RIGHT => userInputModel.pressed = RIGHT
-        case _ => userInputModel.pressed = NONE
-      }
+        e.getKeyCode match {
+          case KeyEvent.VK_LEFT => userInputModel.pressed = LEFT
+          case KeyEvent.VK_RIGHT => userInputModel.pressed = RIGHT
+          case _ => userInputModel.pressed = NONE
+        }
       else NONE
     }
 
@@ -268,7 +271,7 @@ class ItemReadout(text: String, gameModel: RobotMovingCompanyGameModel, counter:
   update()
 }
 
-class RobotEnergyMeter(transform: ModelViewTransform2D, gameModel: RobotMovingCompanyGameModel, energyScale:Double) extends PNode {
+class RobotEnergyMeter(transform: ModelViewTransform2D, gameModel: RobotMovingCompanyGameModel, energyScale: Double) extends PNode {
   val barContainerNode = new PhetPPath(new BasicStroke(2), Color.gray)
   val barNode = new PhetPPath(Color.blue)
   addChild(barNode)
@@ -376,7 +379,7 @@ class SummaryScreenNode(gameModel: RobotMovingCompanyGameModel,
 
 object TestSummaryScreen {
   def main(args: Array[String]) {
-    val summaryScreenNode = new SummaryScreenNode(new RobotMovingCompanyGameModel(new MotionSeriesModel(5, true, MotionSeriesDefaults.defaultRampAngle), new ScalaClock(30, 30 / 1000.0), MotionSeriesDefaults.defaultRampAngle,500.0), MotionSeriesDefaults.objects(0), new Result(true, false, 64, 100), a => {
+    val summaryScreenNode = new SummaryScreenNode(new RobotMovingCompanyGameModel(new MotionSeriesModel(5, true, MotionSeriesDefaults.defaultRampAngle), new ScalaClock(30, 30 / 1000.0), MotionSeriesDefaults.defaultRampAngle, 500.0), MotionSeriesDefaults.objects(0), new Result(true, false, 64, 100), a => {
       a.setVisible(false)
     }, "Ok".literal)
     val frame = new JFrame
