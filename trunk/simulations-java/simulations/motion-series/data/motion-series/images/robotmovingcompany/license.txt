@@ -8,3 +8,4 @@ truck_top.gif author=PhET notes=Noah P. on 4-27-2009
 truck_top_back.gif author=PhET notes=Noah P. on 4-27-2009
 truck_top_front.gif author=PhET notes=Noah P. on 4-27-2009
 truck_wheels.gif author=PhET notes=Noah P. on 4-27-2009
+empty-key.png source = Microsoft Clip Art
