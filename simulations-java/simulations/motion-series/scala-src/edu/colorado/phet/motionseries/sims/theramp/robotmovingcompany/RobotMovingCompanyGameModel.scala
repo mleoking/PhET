@@ -102,10 +102,10 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
         val inFrontOfHouse = _inFrontOfHouse(beadRef)
         val stoppedAtHouse = inFrontOfHouse && atRest //okay to be pushing
         val stoppedAndOutOfEnergy = atRest && _robotEnergy == 0
-        val crashed = atRest && beadRef.position2D.y < 0
-        if (stoppedAtHouse) itemMoved(sel)
+        val crashed = atRest && beadRef.position2D.y < 0 //todo: won't this be wrong if the object falls off slowly?  What about checking for Crashed strategy?
+        if (stoppedAtHouse) itemDelivered(sel, beadRef)
         else if (stoppedAndOutOfEnergy || crashed) itemLost(sel)
-      } 
+      }
     })
 
     _bead.workListeners += (work => {
@@ -153,7 +153,29 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
 
   def itemLost(o: MotionSeriesObject) = itemFinished(o, Result(false, false, o.points, robotEnergy.toInt))
 
-  def itemMoved(o: MotionSeriesObject) = itemFinished(o, Result(true, false, o.points, robotEnergy.toInt))
+  val deliverList = new ArrayBuffer[Bead]
+
+  def itemDelivered(o: MotionSeriesObject, beadRef: Bead) = {
+    if (!deliverList.contains(beadRef)) {
+      deliverList += beadRef
+      object listener extends Function0[Unit] {
+        def apply() = {
+          //todo: input allowed = false
+          beadRef.parallelAppliedForce = 0.0
+          val x = beadRef.position
+          val xf = house.position
+          val vel = 0.2 * (if (xf - x > 0) 1 else -1)
+          beadRef.setPosition(beadRef.position + vel)
+          if ( (beadRef.position - house.position).abs <= vel.abs) {
+            model.stepListeners -= this
+            itemFinished(o, Result(true, false, o.points, robotEnergy.toInt))
+            //todo: input allowed = true
+          }
+        }
+      }
+      model.stepListeners += listener
+    }
+  }
 
   def count(b: Boolean) = if (b) 1 else 0
 
