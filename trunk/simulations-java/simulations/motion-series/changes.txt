@@ -1,3 +1,4 @@
+robot-moving-company: Added FBD
 robot-moving-company: Fixed: More force or lighter objects for F&M Mode, some objects immobile
 robot-moving-company: Fixed: Energy bar scale should be smaller depending on maximum energy
 robot-moving-company: Fixed: Shouldn't be able to apply force after getting points for an object
