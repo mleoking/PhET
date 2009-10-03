@@ -12,7 +12,7 @@ import edu.colorado.phet.motionseries.MotionSeriesDefaults
 class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
                                   clock: ScalaClock,
                                   initAngle: Double,
-                                  val appliedForceAmount:Double) extends Observable {
+                                  val appliedForceAmount: Double) extends Observable {
   val DEFAULT_ROBOT_ENERGY = appliedForceAmount * 6
   val energyScale = MotionSeriesDefaults.rampRobotForce / appliedForceAmount / 10.0
   private var _robotEnergy = DEFAULT_ROBOT_ENERGY
@@ -97,18 +97,28 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
       }
     })
 
-    bead.addListener(() => {
-      if (!containsKey(sel)) {
-        val pushing = abs(beadRef.parallelAppliedForce) > 0
-        val atRest = abs(beadRef.velocity) < 1E-6
-        val inFrontOfHouse = _inFrontOfHouse(beadRef)
-        val stoppedAtHouse = inFrontOfHouse && atRest //okay to be pushing
-        val stoppedAndOutOfEnergy = atRest && _robotEnergy == 0
-        val crashed = atRest && beadRef.position2D.y < 0 //todo: won't this be wrong if the object falls off slowly?  What about checking for Crashed strategy?
-        if (stoppedAtHouse) itemDelivered(sel, beadRef)
-        else if (stoppedAndOutOfEnergy || crashed) itemLost(sel)
+    object listener extends Function0[Unit] {
+      def apply() = {
+        if (!containsKey(sel)) {
+          val pushing = abs(beadRef.parallelAppliedForce) > 0
+          val atRest = abs(beadRef.velocity) < 1E-6
+          val inFrontOfHouse = _inFrontOfHouse(beadRef)
+          val stoppedAtHouse = inFrontOfHouse && atRest //okay to be pushing
+          val stoppedAndOutOfEnergy = atRest && _robotEnergy == 0
+          val crashed = atRest && beadRef.position2D.y < 0 //todo: won't this be wrong if the object falls off slowly?  What about checking for Crashed strategy?
+          if (stoppedAtHouse) {
+            itemDelivered(sel, beadRef)
+            bead.removeListener(this)
+          }
+          else if (stoppedAndOutOfEnergy || crashed) {
+            itemLost(sel)
+            bead.removeListener(this)
+          }
+        }
       }
-    })
+    }
+
+    bead.addListener(listener)
 
     _bead.workListeners += (work => {
       _robotEnergy = _robotEnergy - abs(work)
@@ -142,8 +152,9 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
   def itemFinished(o: MotionSeriesObject, r: Result) = {
     resultMap += o -> r
     itemFinishedListeners.foreach(_(o, r))
-    if (resultMap.size == objectList.length)
+    if (resultMap.size == objectList.length) {
       gameFinishListeners.foreach(_())
+    }
     //    else //  automatically go to next object when you score or lose the object (instead of hitting next object button)
     //      nextObject()
     notifyListeners()

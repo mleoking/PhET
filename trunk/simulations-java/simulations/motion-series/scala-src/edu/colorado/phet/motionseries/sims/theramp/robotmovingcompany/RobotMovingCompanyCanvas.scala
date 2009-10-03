@@ -272,7 +272,8 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
 
   override def addWallsAndDecorations() = {}
 
-  override def createLeftSegmentNode = new ReverseRotatableSegmentNode(model.rampSegments(0), transform, model)
+//  override def createLeftSegmentNode = new ReverseRotatableSegmentNode(model.rampSegments(0), transform, model)
+  override def createLeftSegmentNode = new RampSegmentNode(model.rampSegments(0), transform, model)
 
   override def createRightSegmentNode = new RampSegmentNode(model.rampSegments(1), transform, model)
 
