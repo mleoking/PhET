@@ -1,3 +1,5 @@
+robot-moving-company: Made object move to house on success
+robot-moving-company: Made it so you can't apply a force by dragging the object
 robot-moving-company: Fixed: If object stops at x<0, with robot energy depleted, round should end
 robot-moving-company: Added door open/close animation
 robot-moving-company: Added door open/close
