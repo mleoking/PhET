@@ -28,18 +28,17 @@ class BasicMovingManModule(frame: PhetFrame,
                            pausedOnReset: Boolean,
                            initialAngle: Double,
                            showFrictionControl: Boolean,
-                           rampLayoutArea: Rectangle2D, stageContainerArea: StageContainerArea)
+                           modelViewport: Rectangle2D,
+                           stageContainerArea: StageContainerArea)
         extends MotionSeriesModule(frame, clock, name, defaultBeadPosition, pausedOnReset, initialAngle, false) {
   override def createMotionSeriesModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngle: Double) =
     new MotionSeriesModel(defaultBeadPosition, pausedOnReset, initialAngle) {
       override def thermalEnergyStrategy(x: Double) = 0.0
     }
 
-  val canvas = new MovingManCanvas(motionSeriesModel, coordinateSystemModel, fbdModel, vectorViewModel, frame, showObjectSelectionNode, showAppliedForceSlider, initialAngle != 0.0, rampLayoutArea, stageContainerArea)
+  val canvas = new MovingManCanvas(motionSeriesModel, coordinateSystemModel, fbdModel, vectorViewModel, frame,
+    showObjectSelectionNode, showAppliedForceSlider, initialAngle != 0.0, modelViewport, stageContainerArea)
   setSimulationPanel(canvas)
-  //  val controlPanel = new RampControlPanel(motionSeriesModel, wordModel, fbdModel, coordinateSystemModel, vectorViewModel,
-  //    resetRampModule, coordinateSystemFeaturesEnabled, false, motionSeriesModel, false, showFrictionControl)
-  //  setControlPanel(controlPanel)
   setClockControlPanel(new RecordModelControlPanel(motionSeriesModel, canvas, () => new PlaybackSpeedSlider(motionSeriesModel), Color.blue, 20))
   motionSeriesModel.selectedObject = MotionSeriesDefaults.movingMan
   vectorViewModel.xyComponentsVisible = false
@@ -55,9 +54,9 @@ class MovingManCanvas(model: MotionSeriesModel,
                       showObjectSelectionNode: Boolean,
                       showAppliedForceSlider: Boolean,
                       rampAngleDraggable: Boolean,
-                      rampLayoutArea: Rectangle2D,
+                      modelViewport: Rectangle2D,
                       stageContainerArea: StageContainerArea)
-        extends MotionSeriesCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame, rampLayoutArea, stageContainerArea) {
+        extends MotionSeriesCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame, modelViewport, stageContainerArea) {
   override def addHeightAndAngleIndicators() = {}
 
   override def createRightSegmentNode = new RampSegmentNode(model.rampSegments(1), transform, model)
@@ -77,22 +76,30 @@ class IntroModule(frame: PhetFrame,
           -6, false, 0.0, true, MotionSeriesDefaults.movingManIntroViewport, MotionSeriesDefaults.fullScreenArea) {
   val positionControl = new ScalaValueControl(-10, 10, "position", "0.0", "m", () => motionSeriesModel.bead.desiredPosition,
     x => motionSeriesModel.bead.setDesiredPosition(x), motionSeriesModel.addListener)
-  canvas.addScreenNode(new PSwing(positionControl))
+  val positionControlPSwing = new PSwing(positionControl)
+  canvas.addStageNode(positionControlPSwing)
 
   val velocityControl = new ScalaValueControl(-20, 20, "velocity", "0.0", "m/s", () => motionSeriesModel.bead.velocity,
     v => motionSeriesModel.bead.setVelocity(v), motionSeriesModel.addListener)
-  canvas.addScreenNode(new PSwing(velocityControl))
+  val velocityControlPSwing = new PSwing(velocityControl)
+  canvas.addStageNode(velocityControlPSwing)
 
   val accelerationControl = new ScalaValueControl(-20, 20, "acceleration", "0.0", "m/s/s", () => motionSeriesModel.bead.acceleration,
     a => motionSeriesModel.bead.parallelAppliedForce = a, motionSeriesModel.addListener) //todo: assumes mass = 1.0
-  canvas.addScreenNode(new PSwing(accelerationControl))
+  val accelerationControlPSwing = new PSwing(accelerationControl)
+  canvas.addStageNode(accelerationControlPSwing)
 
+  val origin = canvas.transform.modelToView(0, -1)
+  val padY = 3
+  positionControlPSwing.setOffset(origin.getX - positionControlPSwing.getFullBounds.getWidth / 2, origin.getY)
+  velocityControlPSwing.setOffset(origin.getX - velocityControlPSwing.getFullBounds.getWidth / 2, positionControlPSwing.getFullBounds.getMaxY + padY)
+  accelerationControlPSwing.setOffset(origin.getX - accelerationControlPSwing.getFullBounds.getWidth / 2, velocityControlPSwing.getFullBounds.getMaxY + padY)
 }
 
 class GraphingModule(frame: PhetFrame,
                      clock: ScalaClock)
         extends BasicMovingManModule(frame, clock, "moving-man.module.graphing.title".translate, false, false, true, false,
-          -6, false, 0.0, true, MotionSeriesDefaults.forceMotionViewport, MotionSeriesDefaults.fullScreenArea) {
+          -6, false, 0.0, true, MotionSeriesDefaults.forceMotionViewport, MotionSeriesDefaults.forceEnergyGraphArea) {
   coordinateSystemModel.adjustable = false
   canvas.addScreenNode(new MovingManChartNode(canvas, motionSeriesModel))
 }
