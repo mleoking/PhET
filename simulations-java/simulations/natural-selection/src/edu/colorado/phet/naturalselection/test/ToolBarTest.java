@@ -58,22 +58,24 @@ public class ToolBarTest extends JPanel {
 
         toolBar.add( panel );
 
-        add( toolBar );
-        //add( placeholder );
+        //add( toolBar );
+        add( placeholder );
     }
 
     public void setChildVisible() {
         removeAll();
         add( toolBar );
         repaint();
-        // TODO: relayout?
+        toolBar.invalidate();
+        validate();
     }
 
     public void setPlaceholderVisible() {
         removeAll();
         add( placeholder );
         repaint();
-        // TODO: relayout?
+        placeholder.invalidate();
+        validate();
     }
 
     private void onDock() {
@@ -176,7 +178,8 @@ public class ToolBarTest extends JPanel {
         container.add( radioPlaceholder );
         container.add( radioPedigree );
 
-        radioPedigree.setSelected( true );
+        //radioPedigree.setSelected( true );
+        radioPlaceholder.setSelected( true );
 
         frame.pack();
 
