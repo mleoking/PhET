@@ -51,7 +51,7 @@ object MotionSeriesDefaults {
   val forceMotionGraphViewport = new Rectangle2D.Double(VIEWPORT_X, -1, VIEWPORT_W_FORCES, 4)
   val forceMotionViewport = rampIntroViewport
   val forceMotionFrictionViewport = new Rectangle2D.Double(VIEWPORT_X, -7, VIEWPORT_W_FORCES, 16.5)
-  val movingManIntroViewport = new Rectangle2D.Double(VIEWPORT_X, -5, VIEWPORT_W_FORCES, 12)
+  val movingManIntroViewport = new Rectangle2D.Double(VIEWPORT_X, -1, VIEWPORT_W_FORCES, 5)
 
   //how far away the vector labels can be from the tip, in world coordinates
   val FBD_LABEL_MAX_OFFSET = 500

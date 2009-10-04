@@ -43,9 +43,16 @@ class ForcesAndMotionModule(frame: PhetFrame,
   setClockControlPanel(new RecordModelControlPanel(motionSeriesModel, canvas, () => new PlaybackSpeedSlider(motionSeriesModel), Color.blue, 20))
 }
 
-class ForcesAndMotionCanvas(model: MotionSeriesModel, coordinateSystemModel: AdjustableCoordinateModel, freeBodyDiagramModel: FreeBodyDiagramModel,
-                            vectorViewModel: VectorViewModel, frame: JFrame, showObjectSelectionNode: Boolean, showAppliedForceSlider: Boolean,
-                            rampAngleDraggable: Boolean, modelViewport: Rectangle2D, stageContainerArea: StageContainerArea)
+class ForcesAndMotionCanvas(model: MotionSeriesModel,
+                            coordinateSystemModel: AdjustableCoordinateModel,
+                            freeBodyDiagramModel: FreeBodyDiagramModel,
+                            vectorViewModel: VectorViewModel,
+                            frame: JFrame,
+                            showObjectSelectionNode: Boolean,
+                            showAppliedForceSlider: Boolean,
+                            rampAngleDraggable: Boolean,
+                            modelViewport: Rectangle2D,
+                            stageContainerArea: StageContainerArea)
         extends MotionSeriesCanvasDecorator(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel,
           frame, showObjectSelectionNode, showAppliedForceSlider, rampAngleDraggable, modelViewport, stageContainerArea) {
   override def addHeightAndAngleIndicators() = {}
