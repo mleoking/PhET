@@ -19,8 +19,8 @@ class MyValueControl(min: Double, max: Double, getter: () => Double, setter: Dou
 
 class FrictionPlayAreaControlPanel(bead: Bead) extends VerticalLayoutPanel {
   setFillHorizontal()
-  val staticFriction = new MyValueControl(0.0, 5.0, () => bead.staticFriction, bead.staticFriction = _, "Coefficient of static friction", "0.0".literal, "".literal, bead)
-  val kineticFriction = new MyValueControl(0.0, 5.0, () => bead.kineticFriction, bead.kineticFriction = _, "Coefficient of kinetic friction", "0.0".literal, "".literal, bead)
+  val staticFriction = new MyValueControl(0.0, 2.0, () => bead.staticFriction, bead.staticFriction = _, "Coefficient of static friction", "0.0".literal, "".literal, bead)
+  val kineticFriction = new MyValueControl(0.0, 2.0, () => bead.kineticFriction, bead.kineticFriction = _, "Coefficient of kinetic friction", "0.0".literal, "".literal, bead)
   val objectMass = new MyValueControl(0.0, 200, () => bead.mass, bead.mass = _, "Object Mass", "0.0".literal, "kg", bead)
   val gravity = new MyValueControl(0.1, sliderMaxGravity, () => bead.gravity.abs, x => bead.gravity = -x, "Gravity", "0.0".literal, "N/kg", bead)
   val sliderArray = Array[AbstractValueControl](staticFriction, kineticFriction, objectMass, gravity)
