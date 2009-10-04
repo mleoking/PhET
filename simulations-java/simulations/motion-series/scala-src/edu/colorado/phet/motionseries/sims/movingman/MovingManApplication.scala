@@ -58,6 +58,7 @@ class MovingManCanvas(model: MotionSeriesModel,
                       stageContainerArea: StageContainerArea)
         extends MotionSeriesCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame, modelViewport, stageContainerArea) {
   override def containerBounds = stageContainerArea.getBounds(getWidth, getHeight)
+
   override def addHeightAndAngleIndicators() = {}
 
   override def createRightSegmentNode = new RampSegmentNode(model.rampSegments(1), transform, model)
@@ -75,19 +76,22 @@ class IntroModule(frame: PhetFrame,
                   clock: ScalaClock)
         extends BasicMovingManModule(frame, clock, "moving-man.module.intro.title".translate, false, false, false, false,
           -6, false, 0.0, true, MotionSeriesDefaults.movingManIntroViewport, MotionSeriesDefaults.oneGraphArea) {
-  
   val positionControl = new ScalaValueControl(-10, 10, "position", "0.0", "m", () => motionSeriesModel.bead.desiredPosition,
-    x => motionSeriesModel.bead.setDesiredPosition(x), motionSeriesModel.addListener)
+    x => {
+      motionSeriesModel.setPaused(false)
+      motionSeriesModel.bead.setPositionMode()
+      motionSeriesModel.bead.setDesiredPosition(x)
+    }, motionSeriesModel.addListener)
   val positionControlPSwing = new PSwing(positionControl)
   canvas.addStageNode(positionControlPSwing)
 
   val velocityControl = new ScalaValueControl(-20, 20, "velocity", "0.0", "m/s", () => motionSeriesModel.bead.velocity,
-    v => motionSeriesModel.bead.setVelocity(v), motionSeriesModel.addListener)
+    v => {motionSeriesModel.bead.setVelocityMode();motionSeriesModel.bead.setVelocity(v)}, motionSeriesModel.addListener)
   val velocityControlPSwing = new PSwing(velocityControl)
   canvas.addStageNode(velocityControlPSwing)
 
   val accelerationControl = new ScalaValueControl(-20, 20, "acceleration", "0.0", "m/s/s", () => motionSeriesModel.bead.acceleration,
-    a => motionSeriesModel.bead.parallelAppliedForce = a, motionSeriesModel.addListener) //todo: assumes mass = 1.0
+    a => {motionSeriesModel.bead.setAccelerationMode(); motionSeriesModel.bead.parallelAppliedForce = a}, motionSeriesModel.addListener) //todo: assumes mass = 1.0
   val accelerationControlPSwing = new PSwing(accelerationControl)
   canvas.addStageNode(accelerationControlPSwing)
 
