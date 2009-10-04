@@ -86,4 +86,9 @@ class MotionSeriesModule(frame: PhetFrame,
   }
 
   def resetAll() = {}
+
+  override def deactivate() = {
+    fbdModel.windowed = false//to ensure that fbd dialog doesn't show for this module while user is on a different module
+    super.deactivate()
+  }
 }
