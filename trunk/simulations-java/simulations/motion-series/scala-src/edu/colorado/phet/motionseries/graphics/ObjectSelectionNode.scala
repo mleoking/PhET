@@ -7,7 +7,7 @@ import edu.colorado.phet.common.phetcommon.view.util.{BufferedImageUtils, PhetFo
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel
 import edu.colorado.phet.common.piccolophet.event.CursorHandler
 import edu.colorado.phet.common.piccolophet.nodes.{HTMLNode, ToolTipNode, PhetPPath}
-import java.awt.{BasicStroke, Color}
+import java.awt.{Color}
 import javax.swing.{Timer}
 import edu.colorado.phet.scalacommon.util.Observable
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
@@ -66,11 +66,11 @@ class ObjectSelectionNode(model: ObjectModel) extends PNode {
     textNode.setOffset(imageNode.getFullBounds.getWidth + 3, 0)
     textNode.setFont(new PhetFont(18, true))
 
-    object BLANK extends  Color(0,0,0,0)
+    object BLANK extends Color(0, 0, 0, 0)
     //to capture any input, not just directly on the image or text
-    val backgroundNode = new PhetPPath(BLANK){
+    val backgroundNode = new PhetPPath(BLANK) {
       override def paint(paintContext: PPaintContext) = {
-        if (getPaint eq BLANK){}    //using null fails to allow mouse inputs over null paint region, thus we use blank instead
+        if (getPaint eq BLANK) {} //using null fails to allow mouse inputs over null paint region, thus we use blank instead
         else super.paint(paintContext)
       }
     }

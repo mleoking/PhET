@@ -49,7 +49,7 @@ class RobotMovingCompanyModule(frame: PhetFrame,
   })
 
   val canvas = new RobotMovingCompanyCanvas(motionSeriesModel, coordinateSystemModel, fbdModel,
-    vectorViewModel, frame, gameModel, MotionSeriesDefaults.robotMovingCompanyRampArea,gameModel.energyScale)
+    vectorViewModel, frame, gameModel, MotionSeriesDefaults.robotMovingCompanyRampArea, gameModel.energyScale)
 
   setSimulationPanel(canvas)
   setClockControlPanel(null)

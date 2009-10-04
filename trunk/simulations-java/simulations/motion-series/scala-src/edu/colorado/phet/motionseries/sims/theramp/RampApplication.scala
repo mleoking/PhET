@@ -31,8 +31,8 @@ class BasicRampModule(frame: PhetFrame,
                       initialAngle: Double,
                       rampLayoutArea: Rectangle2D,
                       stageContainerArea: StageContainerArea,
-                      fbdPopupOnly:Boolean)
-        extends MotionSeriesModule(frame, clock, name, defaultBeadPosition, pausedOnReset, initialAngle,fbdPopupOnly) {
+                      fbdPopupOnly: Boolean)
+        extends MotionSeriesModule(frame, clock, name, defaultBeadPosition, pausedOnReset, initialAngle, fbdPopupOnly) {
   val rampCanvas = new RampCanvas(motionSeriesModel, coordinateSystemModel, fbdModel, vectorViewModel, frame,
     !useObjectComboBox, showAppliedForceSlider, initialAngle != 0.0, rampLayoutArea, stageContainerArea)
   setSimulationPanel(rampCanvas)
@@ -45,12 +45,12 @@ class BasicRampModule(frame: PhetFrame,
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 
 class IntroRampModule(frame: PhetFrame, clock: ScalaClock) extends BasicRampModule(frame, clock, "module.introduction".translate, false, false, true, -6, false,
-  MotionSeriesDefaults.defaultRampAngle, MotionSeriesDefaults.rampIntroViewport, MotionSeriesDefaults.fullScreenArea,false)
+  MotionSeriesDefaults.defaultRampAngle, MotionSeriesDefaults.rampIntroViewport, MotionSeriesDefaults.fullScreenArea, false)
 
 class CoordinatesRampModule(frame: PhetFrame,
                             clock: ScalaClock)
         extends BasicRampModule(frame, clock, "module.coordinates".translate, true, false, true, -6, false,
-          MotionSeriesDefaults.defaultRampAngle, MotionSeriesDefaults.rampIntroViewport, MotionSeriesDefaults.fullScreenArea,false) {
+          MotionSeriesDefaults.defaultRampAngle, MotionSeriesDefaults.rampIntroViewport, MotionSeriesDefaults.fullScreenArea, false) {
   coordinateSystemModel.adjustable = true
 }
 
@@ -60,7 +60,7 @@ class GraphingModule(frame: PhetFrame,
                      showEnergyGraph: Boolean,
                      rampLayoutArea: Rectangle2D,
                      stageContainerArea: StageContainerArea)
-        extends BasicRampModule(frame, clock, name, false, true, false, -6, true, MotionSeriesDefaults.defaultRampAngle, rampLayoutArea, stageContainerArea,true) {
+        extends BasicRampModule(frame, clock, name, false, true, false, -6, true, MotionSeriesDefaults.defaultRampAngle, rampLayoutArea, stageContainerArea, true) {
   coordinateSystemModel.adjustable = false
 }
 
@@ -87,7 +87,7 @@ class RampApplication(config: PhetApplicationConfig) extends PiccoloPhetApplicat
   addModule(new ForceGraphsModule(getPhetFrame, newClock))
   addModule(new CoordinatesRampModule(getPhetFrame, newClock))
   addModule(new WorkEnergyModule(getPhetFrame, newClock))
-  addModule(new RobotMovingCompanyModule(getPhetFrame, newClock,MotionSeriesDefaults.defaultRampAngle,MotionSeriesDefaults.rampRobotForce))
+  addModule(new RobotMovingCompanyModule(getPhetFrame, newClock, MotionSeriesDefaults.defaultRampAngle, MotionSeriesDefaults.rampRobotForce))
 }
 class RampWorkEnergyApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
   def newClock = new ScalaClock(MotionSeriesDefaults.DELAY, MotionSeriesDefaults.DT_DEFAULT)
@@ -95,5 +95,5 @@ class RampWorkEnergyApplication(config: PhetApplicationConfig) extends PiccoloPh
 }
 
 class RobotMovingCompanyApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
-  addModule(new RobotMovingCompanyModule(getPhetFrame, new ScalaClock(MotionSeriesDefaults.DELAY, MotionSeriesDefaults.DT_DEFAULT),MotionSeriesDefaults.defaultRampAngle,MotionSeriesDefaults.rampRobotForce))
+  addModule(new RobotMovingCompanyModule(getPhetFrame, new ScalaClock(MotionSeriesDefaults.DELAY, MotionSeriesDefaults.DT_DEFAULT), MotionSeriesDefaults.defaultRampAngle, MotionSeriesDefaults.rampRobotForce))
 }

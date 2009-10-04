@@ -16,6 +16,7 @@ import edu.colorado.phet.motionseries.sims.theramp.StageContainerArea
 import edu.colorado.phet.motionseries.{MotionSeriesModule, MotionSeriesDefaults}
 import edu.colorado.phet.motionseries.swing.ScalaValueControl
 import edu.umd.cs.piccolox.pswing.PSwing
+
 class BasicMovingManModule(frame: PhetFrame,
                            clock: ScalaClock,
                            name: String,
@@ -28,7 +29,7 @@ class BasicMovingManModule(frame: PhetFrame,
                            initialAngle: Double,
                            showFrictionControl: Boolean,
                            rampLayoutArea: Rectangle2D, stageContainerArea: StageContainerArea)
-        extends MotionSeriesModule(frame, clock, name, defaultBeadPosition, pausedOnReset, initialAngle,false) {
+        extends MotionSeriesModule(frame, clock, name, defaultBeadPosition, pausedOnReset, initialAngle, false) {
   override def createMotionSeriesModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngle: Double) =
     new MotionSeriesModel(defaultBeadPosition, pausedOnReset, initialAngle) {
       override def thermalEnergyStrategy(x: Double) = 0.0
@@ -64,7 +65,8 @@ class MovingManCanvas(model: MotionSeriesModel, coordinateSystemModel: Adjustabl
     new PlayAreaOffset(model.bead, vectorViewModel, 3, model.bead.accelerationVector))
 }
 
-class IntroModule(frame: PhetFrame, clock: ScalaClock)
+class IntroModule(frame: PhetFrame,
+                  clock: ScalaClock)
         extends BasicMovingManModule(frame, clock, "moving-man.module.intro.title".translate, false, false, false, false,
           -6, false, 0.0, true, MotionSeriesDefaults.movingManIntroViewport, MotionSeriesDefaults.fullScreenArea) {
   val positionControl = new ScalaValueControl(-10, 10, "position", "0.0", "m", () => motionSeriesModel.bead.desiredPosition,
@@ -81,14 +83,17 @@ class IntroModule(frame: PhetFrame, clock: ScalaClock)
 
 }
 
-class GraphingModule(frame: PhetFrame, clock: ScalaClock)
+class GraphingModule(frame: PhetFrame,
+                     clock: ScalaClock)
         extends BasicMovingManModule(frame, clock, "moving-man.module.graphing.title".translate, false, false, true, false,
           -6, false, 0.0, true, MotionSeriesDefaults.forceMotionViewport, MotionSeriesDefaults.fullScreenArea) {
   coordinateSystemModel.adjustable = false
   canvas.addScreenNode(new MovingManChartNode(canvas, motionSeriesModel))
 }
 
-class MovingManGameModule(frame: PhetFrame, clock: ScalaClock) extends BasicMovingManModule(frame, clock, "moving-man.module.game.title".translate, false, false, false, false, -6, false, 0.0, true, MotionSeriesDefaults.forceMotionViewport, MotionSeriesDefaults.fullScreenArea)
+class MovingManGameModule(frame: PhetFrame,
+                          clock: ScalaClock)
+        extends BasicMovingManModule(frame, clock, "moving-man.module.game.title".translate, false, false, false, false, -6, false, 0.0, true, MotionSeriesDefaults.forceMotionViewport, MotionSeriesDefaults.fullScreenArea)
 
 class MovingManApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
   def newClock = new ScalaClock(MotionSeriesDefaults.DELAY, MotionSeriesDefaults.DT_DEFAULT)
