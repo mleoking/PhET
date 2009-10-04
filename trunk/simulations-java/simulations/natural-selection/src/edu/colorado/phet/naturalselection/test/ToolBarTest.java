@@ -1,8 +1,12 @@
 package edu.colorado.phet.naturalselection.test;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.*;
 
@@ -16,6 +20,8 @@ public class ToolBarTest extends JPanel {
 
     private Component child;
     private Component placeholder;
+
+    private List<Listener> listeners = new LinkedList<Listener>();
 
     public ToolBarTest( String title, Component child, Component placeholder ) {
         super( new GridLayout( 1, 1 ) );
@@ -51,17 +57,53 @@ public class ToolBarTest extends JPanel {
         panel.add( child );
 
         toolBar.add( panel );
+
         add( toolBar );
+        //add( placeholder );
+    }
+
+    public void setChildVisible() {
+        removeAll();
+        add( toolBar );
+        repaint();
+        // TODO: relayout?
+    }
+
+    public void setPlaceholderVisible() {
+        removeAll();
+        add( placeholder );
+        repaint();
+        // TODO: relayout?
     }
 
     private void onDock() {
         System.out.println( "onDock()" );
         remove( placeholder );
+        for ( Listener listener : listeners ) {
+            listener.onDock();
+        }
     }
 
     private void onUndock() {
         System.out.println( "onUndock()" );
         add( placeholder );
+        for ( Listener listener : listeners ) {
+            listener.onUndock();
+        }
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public void removeListener( Listener listener ) {
+        listeners.remove( listener );
+    }
+
+    public static interface Listener {
+        public void onDock();
+
+        public void onUndock();
     }
 
     private static PhetPCanvas createExampleCanvas() {
@@ -92,7 +134,49 @@ public class ToolBarTest extends JPanel {
         JFrame frame = new JFrame( "Detachable Demo" );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
-        frame.add( new ToolBarTest( "Pedigree Chart", createExampleCanvas(), new JLabel( "Placeholder" ) ) );
+        JPanel container = new JPanel( new GridLayout( 1, 3 ) );
+        frame.setContentPane( container );
+
+        final ToolBarTest bar = new ToolBarTest( "Pedigree Chart", createExampleCanvas(), new JLabel( "Placeholder" ) );
+        final JRadioButton radioPlaceholder = new JRadioButton( "Placeholder" );
+        final JRadioButton radioPedigree = new JRadioButton( "Pedigree" );
+
+        ButtonGroup group = new ButtonGroup();
+        group.add( radioPlaceholder );
+        group.add( radioPedigree );
+
+        radioPlaceholder.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent actionEvent ) {
+                System.out.println( "Placeholder!" );
+                bar.setPlaceholderVisible();
+            }
+        } );
+
+        radioPedigree.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent actionEvent ) {
+                System.out.println( "Pedigree!" );
+                bar.setChildVisible();
+            }
+        } );
+
+        bar.addListener( new Listener() {
+            public void onDock() {
+                radioPlaceholder.setEnabled( true );
+                radioPedigree.setEnabled( true );
+                radioPedigree.setSelected( true );
+            }
+
+            public void onUndock() {
+                radioPlaceholder.setEnabled( false );
+                radioPedigree.setEnabled( false );
+            }
+        } );
+
+        container.add( bar );
+        container.add( radioPlaceholder );
+        container.add( radioPedigree );
+
+        radioPedigree.setSelected( true );
 
         frame.pack();
 
