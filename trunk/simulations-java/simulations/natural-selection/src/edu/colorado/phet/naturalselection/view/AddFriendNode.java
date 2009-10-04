@@ -32,4 +32,8 @@ public class AddFriendNode extends PNode {
         super.setVisible( visible );
         addFriendButton.setVisible( visible );
     }
+
+    public void updateLayout( int width, int height ) {
+        setOffset( 75, height - 2 * addFriendButton.getHeight() );
+    }
 }
