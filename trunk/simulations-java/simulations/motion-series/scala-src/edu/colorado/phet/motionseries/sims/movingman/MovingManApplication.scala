@@ -47,11 +47,17 @@ class BasicMovingManModule(frame: PhetFrame,
   vectorViewModel.parallelComponents = false
 }
 
-class MovingManCanvas(model: MotionSeriesModel, coordinateSystemModel: AdjustableCoordinateModel, freeBodyDiagramModel: FreeBodyDiagramModel,
-                      vectorViewModel: VectorViewModel, frame: JFrame, showObjectSelectionNode: Boolean, showAppliedForceSlider: Boolean,
-                      rampAngleDraggable: Boolean, rampLayoutArea: Rectangle2D, stageContainerArea: StageContainerArea)
-        extends MotionSeriesCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel,
-          frame, rampLayoutArea, stageContainerArea) {
+class MovingManCanvas(model: MotionSeriesModel,
+                      coordinateSystemModel: AdjustableCoordinateModel,
+                      freeBodyDiagramModel: FreeBodyDiagramModel,
+                      vectorViewModel: VectorViewModel,
+                      frame: JFrame,
+                      showObjectSelectionNode: Boolean,
+                      showAppliedForceSlider: Boolean,
+                      rampAngleDraggable: Boolean,
+                      rampLayoutArea: Rectangle2D,
+                      stageContainerArea: StageContainerArea)
+        extends MotionSeriesCanvas(model, coordinateSystemModel, freeBodyDiagramModel, vectorViewModel, frame, rampLayoutArea, stageContainerArea) {
   override def addHeightAndAngleIndicators() = {}
 
   override def createRightSegmentNode = new RampSegmentNode(model.rampSegments(1), transform, model)
