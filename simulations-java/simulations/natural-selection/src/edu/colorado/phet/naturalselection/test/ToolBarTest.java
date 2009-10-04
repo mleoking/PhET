@@ -10,22 +10,20 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 public class ToolBarTest extends JPanel {
-    protected JTextArea textArea;
-
-    boolean isDocked = false;
-    static private Object lastAncestor;
+    boolean docked = false;
+    private Object lastAncestor;
     private JToolBar toolBar;
 
-    static private Component placeholder = new JLabel( "Placeholder" );
-    private static LayoutManager layout = new GridLayout( 1, 1 );
-    private PhetPCanvas canvas = new PhetPCanvas( new Dimension( 100, 100 ) );
-    private static final Dimension CANVAS_SIZE = new Dimension( 200, 200 );
+    private Component child;
+    private Component placeholder;
 
-    public ToolBarTest() {
-        super( layout );
+    public ToolBarTest( String title, Component child, Component placeholder ) {
+        super( new GridLayout( 1, 1 ) );
 
-        //Create the toolbar.
-        toolBar = new JToolBar( "Pedigree Chart" );
+        this.child = child;
+        this.placeholder = placeholder;
+
+        toolBar = new JToolBar( title );
 
         toolBar.addPropertyChangeListener( new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
@@ -35,9 +33,9 @@ public class ToolBarTest extends JPanel {
                     }
                     if ( evt.getOldValue() == null ) {
                         if ( evt.getNewValue() != lastAncestor ) {
-                            isDocked = !isDocked;
-                            System.out.println( isDocked ? "Docked" : "Undocked" );
-                            if ( !isDocked ) {
+                            docked = !docked;
+                            System.out.println( docked ? "Docked" : "Undocked" );
+                            if ( !docked ) {
                                 onUndock();
                             }
                             else {
@@ -49,18 +47,25 @@ public class ToolBarTest extends JPanel {
             }
         } );
 
-        canvas.setPreferredSize( CANVAS_SIZE );
-
-        drawCanvas();
-
         JPanel panel = new JPanel( new GridLayout( 1, 1 ) );
-        panel.add( canvas );
+        panel.add( child );
 
         toolBar.add( panel );
         add( toolBar );
     }
 
-    private void drawCanvas() {
+    private void onDock() {
+        System.out.println( "onDock()" );
+        remove( placeholder );
+    }
+
+    private void onUndock() {
+        System.out.println( "onUndock()" );
+        add( placeholder );
+    }
+
+    private static PhetPCanvas createExampleCanvas() {
+        PhetPCanvas canvas = new PhetPCanvas( new Dimension( 100, 100 ) );
         PPath path;
 
         path = PPath.createRectangle( 0, 0, 50, 50 );
@@ -78,44 +83,26 @@ public class ToolBarTest extends JPanel {
         path = PPath.createRectangle( 50, 50, 50, 50 );
         path.setPaint( Color.BLACK );
         canvas.addWorldChild( path );
+        canvas.setPreferredSize( new Dimension( 200, 200 ) );
+
+        return canvas;
     }
 
-    private void onDock() {
-        System.out.println( "onDock()" );
-        remove( placeholder );
-    }
-
-    private void onUndock() {
-        System.out.println( "onUndock()" );
-        add( placeholder );
-    }
-
-    /**
-     * Create the GUI and show it.  For thread safety,
-     * this method should be invoked from the
-     * event dispatch thread.
-     */
-    private static void createAndShowGUI() {
-        //Create and set up the window.
-        JFrame frame = new JFrame( "ToolBarDemo" );
+    private static void init() {
+        JFrame frame = new JFrame( "Detachable Demo" );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
-        //Add content to the window.
-        frame.add( new ToolBarTest() );
+        frame.add( new ToolBarTest( "Pedigree Chart", createExampleCanvas(), new JLabel( "Placeholder" ) ) );
 
-        //Display the window.
         frame.pack();
+
         frame.setVisible( true );
     }
 
     public static void main( String[] args ) {
-        //Schedule a job for the event dispatch thread:
-        //creating and showing this application's GUI.
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
-                //Turn off metal's use of bold fonts
-                UIManager.put( "swing.boldMetal", Boolean.FALSE );
-                createAndShowGUI();
+                init();
             }
         } );
     }
