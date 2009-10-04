@@ -101,6 +101,8 @@ public class NaturalSelectionCanvas extends PhetPCanvas {
         landscapeNode.setSpriteTransform( backgroundNode.getBackgroundTransform( getWidth(), getHeight() ) );
         landscapeNode.updateLayout( getWidth(), getHeight() );
 
+        addFriendNode.updateLayout( getWidth() ,getHeight() );
+
         positionMutationPending();
     }
 
