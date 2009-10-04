@@ -70,7 +70,7 @@ object MotionSeriesDefaults {
   val worldWidth = (1024 * worldDefaultScale).toInt
   val worldHeight = (768 * worldDefaultScale).toInt
 
-  val MAX_APPLIED_FORCE = 500.0
+  val MAX_APPLIED_FORCE = 500.0 * 2
 
   val freeBodyDiagramWidth = 2000 // Full width (not distance from origin to edge) in Newtons
   val PLAY_AREA_FORCE_VECTOR_SCALE = 0.005 //scale factor when converting from Newtons to meters in the play area

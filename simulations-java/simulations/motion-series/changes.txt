@@ -1,3 +1,5 @@
+Changed max applied slider force from 500N to 1000 N
+forces-and-motion: Changed the range of friction coefficients from [0,5.0] to [0,2.0]
 Made FBD Dialog disappear on module switch to ensure that fbd dialog doesn't show for this module while user is on a different module
 robot-moving-company: Made it impossible to rotate the ramp in game mode using the mouse
 robot-moving-company: Bugfixes for game repeating
