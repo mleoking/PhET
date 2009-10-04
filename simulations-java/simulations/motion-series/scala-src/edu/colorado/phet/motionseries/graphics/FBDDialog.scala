@@ -21,7 +21,7 @@ class FBDDialog(frame: JFrame,
     addVector(vector, offsetFBD, maxOffset)
 
   val dialog = new JDialog(frame, "display.free-body-diagram".translate, false)
-  dialog.setSize(MotionSeriesDefaults.FBD_DIALOG_WIDTH,MotionSeriesDefaults.FBD_DIALOG_HEIGHT)
+  dialog.setSize(MotionSeriesDefaults.FBD_DIALOG_WIDTH, MotionSeriesDefaults.FBD_DIALOG_HEIGHT)
 
   val fbdNode = new FreeBodyDiagramNode(freeBodyDiagramModel, MotionSeriesDefaults.FBD_DIALOG_NODE_WIDTH, MotionSeriesDefaults.FBD_DIALOG_NODE_HEIGHT, fbdWidth, fbdWidth, coordinateFrameModel, adjustableCoordinateModel, PhetCommonResources.getImage("buttons/minimizeButton.png".literal))
   fbdNode.addListener(fbdListener)

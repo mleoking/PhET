@@ -6,20 +6,20 @@ import edu.colorado.phet.common.phetcommon.application.Module
 import edu.colorado.phet.scalacommon.ScalaClock
 import edu.colorado.phet.motionseries.model._
 import java.awt.event.{ActionEvent, ActionListener}
-import javax.swing.{JDialog, JMenuItem, JFrame, RepaintManager}
+import javax.swing.{JDialog, JMenuItem, RepaintManager}
 import swing.ScalaValueControl
 
 //todo: remove the need for this global, perhaps by overriding PhetFrame
-object global{
+object global {
   var inited = false
 }
 
-class MotionSeriesConfigDialog(phetFrame:PhetFrame) extends JDialog(phetFrame,false){
+class MotionSeriesConfigDialog(phetFrame: PhetFrame) extends JDialog(phetFrame, false) {
   val layoutPanel = new VerticalLayoutPanel
-  layoutPanel.add(new ScalaValueControl(1,100,"tail width","0.0","px",
-    ()=>MotionSeriesConfig.VectorTailWidth.value, MotionSeriesConfig.VectorTailWidth.value_=,MotionSeriesConfig.VectorTailWidth.addListener))
-  layoutPanel.add(new ScalaValueControl(1,100,"head width","0.0","px",
-    ()=>MotionSeriesConfig.VectorHeadWidth.value, MotionSeriesConfig.VectorHeadWidth.value_=,MotionSeriesConfig.VectorHeadWidth.addListener))
+  layoutPanel.add(new ScalaValueControl(1, 100, "tail width", "0.0", "px",
+    () => MotionSeriesConfig.VectorTailWidth.value, MotionSeriesConfig.VectorTailWidth.value_=, MotionSeriesConfig.VectorTailWidth.addListener))
+  layoutPanel.add(new ScalaValueControl(1, 100, "head width", "0.0", "px",
+    () => MotionSeriesConfig.VectorHeadWidth.value, MotionSeriesConfig.VectorHeadWidth.value_=, MotionSeriesConfig.VectorHeadWidth.addListener))
   setContentPane(layoutPanel)
   pack()
   SwingUtils.centerWindowOnScreen(this)
@@ -32,15 +32,15 @@ class MotionSeriesModule(frame: PhetFrame,
                          defaultBeadPosition: Double,
                          pausedOnReset: Boolean,
                          initialAngle: Double,
-                         fbdPopupOnly:Boolean)
+                         fbdPopupOnly: Boolean)
         extends Module(name, clock) {
-  if (!global.inited){
-    val item= new JMenuItem("Configure Motion Series")
-    item.addActionListener(new ActionListener(){
+  if (!global.inited) {
+    val item = new JMenuItem("Configure Motion Series")
+    item.addActionListener(new ActionListener() {
       def actionPerformed(e: ActionEvent) = new MotionSeriesConfigDialog(frame).setVisible(true)
     })
     frame.getDeveloperMenu.add(item)
-    global.inited=true
+    global.inited = true
   }
   def createMotionSeriesModel(defaultBeadPosition: Double, pausedOnReset: Boolean, initialAngle: Double) =
     new MotionSeriesModel(defaultBeadPosition, pausedOnReset, initialAngle)
@@ -88,7 +88,7 @@ class MotionSeriesModule(frame: PhetFrame,
   def resetAll() = {}
 
   override def deactivate() = {
-    fbdModel.windowed = false//to ensure that fbd dialog doesn't show for this module while user is on a different module
+    fbdModel.windowed = false //to ensure that fbd dialog doesn't show for this module while user is on a different module
     super.deactivate()
   }
 }

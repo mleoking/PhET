@@ -166,8 +166,8 @@ class FreeBodyDiagramNode(freeBodyDiagramModel: FreeBodyDiagramModel,
     })
   }
 
-  val buttonPanel = new SwingLayoutNode(){
-    if (! freeBodyDiagramModel.popupDialogOnly)
+  val buttonPanel = new SwingLayoutNode() {
+    if (!freeBodyDiagramModel.popupDialogOnly)
       addChild(windowedButton)
     addChild(closeButton)
   }

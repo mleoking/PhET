@@ -84,7 +84,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
   override def updateFBDLocation() = {
     if (fbdNode != null) {
       val pt = transform.modelToView(0, -1)
-      fbdNode.setOffset(pt.x -fbdNode.getFullBounds.getWidth/2, pt.y)
+      fbdNode.setOffset(pt.x - fbdNode.getFullBounds.getWidth / 2, pt.y)
     }
   }
   updateFBDLocation()
@@ -196,23 +196,23 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
   SwingUtilities.invokeLater(new Runnable {
     def run = requestFocus()
   })
-  class ObjectIcon(a:MotionSeriesObject) extends PNode{
-    val nameLabel = new PText(a.name){
-      setFont(new PhetFont(24,true))
+  class ObjectIcon(a: MotionSeriesObject) extends PNode {
+    val nameLabel = new PText(a.name) {
+      setFont(new PhetFont(24, true))
     }
     addChild(nameLabel)
     val pImage = new PImage(BufferedImageUtils.multiScaleToHeight(MotionSeriesResources.getImage(a.imageFilename), 100))
     addChild(pImage)
-    pImage.setOffset(0,nameLabel.getFullBounds.getHeight)
+    pImage.setOffset(0, nameLabel.getFullBounds.getHeight)
 
-    val textNode = new SwingLayoutNode(new GridLayout(3,1))
-    class ValueText(str:String) extends PText(str){
-      setFont( new PhetFont(18))
+    val textNode = new SwingLayoutNode(new GridLayout(3, 1))
+    class ValueText(str: String) extends PText(str) {
+      setFont(new PhetFont(18))
     }
-    textNode.addChild(new ValueText("Mass = "+a.mass+" kg"))
-    textNode.addChild(new ValueText("Kinetic Friction = "+a.kineticFriction))
-    textNode.addChild(new ValueText("Points = "+a.points))
-    textNode.setOffset(0,pImage.getFullBounds.getMaxY)
+    textNode.addChild(new ValueText("Mass = " + a.mass + " kg"))
+    textNode.addChild(new ValueText("Kinetic Friction = " + a.kineticFriction))
+    textNode.addChild(new ValueText("Points = " + a.points))
+    textNode.setOffset(0, pImage.getFullBounds.getMaxY)
     addChild(textNode)
   }
   def init(bead: Bead, a: MotionSeriesObject) = {
@@ -223,7 +223,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
     addStageNode(beadNode)
     val icon = new ObjectIcon(a)
     val pt = transform.modelToView(-10, -1)
-//      fbdNode.setOffset(pt.x -fbdNode.getFullBounds.getWidth/2, pt.y)
+    //      fbdNode.setOffset(pt.x -fbdNode.getFullBounds.getWidth/2, pt.y)
     icon.setOffset(pt)
     addStageNode(icon)
 
@@ -272,7 +272,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
 
   override def addWallsAndDecorations() = {}
 
-//  override def createLeftSegmentNode = new ReverseRotatableSegmentNode(model.rampSegments(0), transform, model)
+  //  override def createLeftSegmentNode = new ReverseRotatableSegmentNode(model.rampSegments(0), transform, model)
   override def createLeftSegmentNode = new RampSegmentNode(model.rampSegments(0), transform, model)
 
   override def createRightSegmentNode = new RampSegmentNode(model.rampSegments(1), transform, model)

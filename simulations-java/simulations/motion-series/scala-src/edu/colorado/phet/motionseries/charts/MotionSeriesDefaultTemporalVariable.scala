@@ -19,7 +19,7 @@ class MotionSeriesDefaultTemporalVariable(model: RecordModel[RecordedState]) ext
     if (inTimeRange(model.getTime))
       addValue(value, time)
     else
-      doSetValue(value)//todo: can't call setValue because that is used in overrides for mode changing
+      doSetValue(value) //todo: can't call setValue because that is used in overrides for mode changing
     //todo: the problem is caused by passing the DefaultTemporalVariable to a 3rd party ( the ControlGraph) which relies on being able to call setValue for mode changing
   }
 
