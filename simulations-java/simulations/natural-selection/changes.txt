@@ -1,3 +1,5 @@
+# 0.01.34 (35497) Oct 5, 2009
+10/5/09 Pedigree moved to control panel and made detachable
 # 0.01.33 (35337) Sep 29, 2009
 9/29/09 Testing natural selection deploy
 # 0.01.32 (35328) Sep 28, 2009
