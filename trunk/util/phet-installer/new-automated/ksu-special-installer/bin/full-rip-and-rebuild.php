@@ -66,6 +66,10 @@
         rename( OUTPUT_DIR.OSX_INSTALLER_FILE_NAME, RIPPED_WEBSITE_INSTALLER_DIR.OSX_INSTALLER_FILE_NAME );
         rename( OUTPUT_DIR.CD_ROM_INSTALLER_FILE_NAME, RIPPED_WEBSITE_INSTALLER_DIR.CD_ROM_INSTALLER_FILE_NAME );
 
+        // Remove the marker file, since we don't want it to be present in the
+        // web mirror.
+        installer_remove_marker_file();
+
         // Build the web mirror installer, meaning an installer that can be
         // used to set up a remotely hosted copy of the web site.
         installer_build_linux_web_mirror_installer();
