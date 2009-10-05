@@ -2,9 +2,8 @@
 
 package edu.colorado.phet.naturalselection.dialog;
 
-import java.awt.*;
-import java.awt.geom.Point2D;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.naturalselection.NaturalSelectionApplication;
@@ -76,5 +75,11 @@ public class PedigreeChartCanvas extends PhetPCanvas {
 
     public void displayBunny( Bunny bunny ) {
         pedigreeNode.displayBunny( bunny );
+    }
+
+    @Override
+    protected void updateLayout() {
+        //System.out.println( "Width: " + getSize().getWidth() );
+        //System.out.println( "Height: " + getSize().getHeight() );
     }
 }
