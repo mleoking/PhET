@@ -241,6 +241,7 @@
                     chdir($original_dir);
                     // Delete the modified properties file, just to be neat.
                     unlink(TEMP_DIR.$properties_file_name);
+                    rmdir(TEMP_DIR.$sim_project_name);
                     // Sign the JAR.
                     sign_jar( $flash_jar_file_name );
                 }
