@@ -9,7 +9,6 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 
 import edu.colorado.phet.common.phetcommon.view.LogoPanel;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
@@ -164,6 +163,8 @@ public class NaturalSelectionControlPanel extends JPanel {
         container.setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
         final JRadioButton radioStats = new JRadioButton( "Placeholder" );
         final JRadioButton radioPedigree = new JRadioButton( "Pedigree" );
+        radioStats.setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
+        radioPedigree.setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
 
         ButtonGroup group = new ButtonGroup();
         group.add( radioStats );
