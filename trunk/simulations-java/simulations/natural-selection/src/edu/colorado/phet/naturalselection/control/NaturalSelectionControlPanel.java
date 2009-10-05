@@ -3,17 +3,24 @@
 package edu.colorado.phet.naturalselection.control;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 
 import edu.colorado.phet.common.phetcommon.view.LogoPanel;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 import edu.colorado.phet.naturalselection.NaturalSelectionApplication;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
+import edu.colorado.phet.naturalselection.dialog.PedigreeChartCanvas;
 import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
 import edu.colorado.phet.naturalselection.module.NaturalSelectionModule;
 import edu.colorado.phet.naturalselection.persistence.NaturalSelectionConfig;
+import edu.colorado.phet.naturalselection.test.DetachOptionPanel;
 
 /**
  * Main control panel for Natural Selection
@@ -38,6 +45,9 @@ public class NaturalSelectionControlPanel extends JPanel {
     // private variables
     private NaturalSelectionModel model;
     private NaturalSelectionModule module;
+
+    private DetachOptionPanel detachPanel;
+    private PedigreeChartCanvas pedigreeChart;
 
 
     /**
@@ -64,28 +74,50 @@ public class NaturalSelectionControlPanel extends JPanel {
         LogoPanel logoPanel = new LogoPanel();
         logoPanel.setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
 
+        pedigreeChart = new PedigreeChartCanvas( model );
+        pedigreeChart.setBorder( new LineBorder( Color.GREEN ) );
+        pedigreeChart.addComponentListener( new ComponentListener() {
+            public void componentResized( ComponentEvent componentEvent ) {
+                pedigreeChart.setCenterPoint( 0 );
+            }
 
-        // keep track of the column for the gridbaglayout
-        int column = 0;
+            public void componentMoved( ComponentEvent componentEvent ) {
+
+            }
+
+            public void componentShown( ComponentEvent componentEvent ) {
+
+            }
+
+            public void componentHidden( ComponentEvent componentEvent ) {
+
+            }
+        } );
+        detachPanel = new DetachOptionPanel( "Pedigree Chart", pedigreeChart, bunnyStatsPanel );
+
+        detachPanel.setBorder( new LineBorder( Color.RED ) );
+        clockControlPanel.setBorder( new LineBorder( Color.BLUE ) );
 
         // the uglier layout code
         GridBagConstraints geneConstraints = new GridBagConstraints();
-        geneConstraints.gridx = column++;
+        geneConstraints.gridx = 0;
         geneConstraints.gridy = 0;
         geneConstraints.gridheight = 2;
         geneConstraints.anchor = GridBagConstraints.NORTHWEST;
         add( leftPanel, geneConstraints );
 
         GridBagConstraints statsConstraints = new GridBagConstraints();
-        statsConstraints.gridx = column++;
+        statsConstraints.gridx = 1;
         statsConstraints.gridy = 0;
+        statsConstraints.gridwidth = 2;
         statsConstraints.fill = GridBagConstraints.BOTH;
         statsConstraints.anchor = GridBagConstraints.NORTH;
         statsConstraints.weightx = 1.0;
-        add( bunnyStatsPanel, statsConstraints );
+        statsConstraints.weighty = 1.0;
+        add( detachPanel, statsConstraints );
 
         GridBagConstraints rightConstraints = new GridBagConstraints();
-        rightConstraints.gridx = column++;
+        rightConstraints.gridx = 3;
         rightConstraints.gridy = 0;
         rightConstraints.anchor = GridBagConstraints.NORTHEAST;
         rightConstraints.gridheight = 1;
@@ -93,10 +125,10 @@ public class NaturalSelectionControlPanel extends JPanel {
         add( rightPanel, rightConstraints );
 
         GridBagConstraints logoConstraints = new GridBagConstraints();
-        logoConstraints.gridx = column - 1;
+        logoConstraints.gridx = 3;
         logoConstraints.gridy = 1;
         logoConstraints.anchor = GridBagConstraints.SOUTHEAST;
-        logoConstraints.gridheight = 2;
+        logoConstraints.gridheight = 1;
         logoConstraints.insets = new Insets( 5, 5, 5, 5 );
         add( logoPanel, logoConstraints );
 
@@ -105,14 +137,68 @@ public class NaturalSelectionControlPanel extends JPanel {
         clockPanelConstraints.gridx = 1;
         clockPanelConstraints.gridy = 1;
         clockPanelConstraints.weightx = 1.0;
-        clockPanelConstraints.weighty = 1.0;
+        clockPanelConstraints.weighty = 0.0;
         clockPanelConstraints.anchor = GridBagConstraints.SOUTH;
         add( clockControlPanel, clockPanelConstraints );
+
+        GridBagConstraints switcherConstraints = new GridBagConstraints();
+        switcherConstraints.gridx = 2;
+        switcherConstraints.gridy = 1;
+        switcherConstraints.weightx = 0.0;
+        switcherConstraints.weighty = 0.0;
+        switcherConstraints.anchor = GridBagConstraints.SOUTH;
+        add( getSwitcherPanel(), switcherConstraints );
+        //add( new JLabel( "test" ), switcherConstraints );
 
         // color everything with the control panel's background color
         setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
         rightPanel.setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
         selectionPanel.setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
+    }
+
+    private JPanel getSwitcherPanel() {
+        JPanel container = new JPanel( new GridLayout( 2, 1 ) );
+        container.setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
+        final JRadioButton radioStats = new JRadioButton( "Placeholder" );
+        final JRadioButton radioPedigree = new JRadioButton( "Pedigree" );
+
+        ButtonGroup group = new ButtonGroup();
+        group.add( radioStats );
+        group.add( radioPedigree );
+
+        radioStats.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent actionEvent ) {
+                //System.out.println( "Placeholder!" );
+                detachPanel.setPlaceholderVisible();
+            }
+        } );
+
+        radioPedigree.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent actionEvent ) {
+                //System.out.println( "Pedigree!" );
+                detachPanel.setChildVisible();
+            }
+        } );
+
+        detachPanel.addListener( new DetachOptionPanel.Listener() {
+            public void onDock() {
+                radioStats.setEnabled( true );
+                radioPedigree.setEnabled( true );
+                radioPedigree.setSelected( true );
+            }
+
+            public void onUndock() {
+                radioStats.setEnabled( false );
+                radioPedigree.setEnabled( false );
+            }
+        } );
+
+        container.add( radioStats );
+        container.add( radioPedigree );
+
+        radioStats.setSelected( true );
+
+        return container;
     }
 
     public void selectDefaultSelectionFactor() {
@@ -136,8 +222,8 @@ public class NaturalSelectionControlPanel extends JPanel {
 
         rightPanel.add( Box.createRigidArea( new Dimension( 0, 5 ) ) );
 
-        showGenerationChartButton = new JButton( NaturalSelectionStrings.GENERATION_CHART );
-        rightPanel.add( showGenerationChartButton );
+        //showGenerationChartButton = new JButton( NaturalSelectionStrings.GENERATION_CHART );
+        //rightPanel.add( showGenerationChartButton );
 
 
     }
@@ -170,5 +256,9 @@ public class NaturalSelectionControlPanel extends JPanel {
 
     public void save( NaturalSelectionConfig config ) {
         leftPanel.save( config );
+    }
+
+    public PedigreeChartCanvas getPedigreeChart() {
+        return pedigreeChart;
     }
 }

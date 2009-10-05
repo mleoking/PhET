@@ -75,10 +75,16 @@ public class NaturalSelectionController {
             }
         } );
 
-        controlPanel.showGenerationChartButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent actionEvent ) {
-                //module.showGenerationChart();
-                LandscapeNode.showPedigree( model, null );
+//        controlPanel.showGenerationChartButton.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent actionEvent ) {
+//                //module.showGenerationChart();
+//                LandscapeNode.showPedigree( model, null );
+//            }
+//        } );
+
+        canvas.getLandscapeNode().addListener( new LandscapeNode.Listener() {
+            public void onBunnySelected( Bunny bunny ) {
+                controlPanel.getPedigreeChart().displayBunny( bunny );
             }
         } );
 
@@ -159,12 +165,12 @@ public class NaturalSelectionController {
             }
         } );
 
-        controlPanel.showGenerationChartButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent actionEvent ) {
-                //module.showGenerationChart();
-                //LandscapeNode.
-            }
-        } );
+//        controlPanel.showGenerationChartButton.addActionListener( new ActionListener() {
+//            public void actionPerformed( ActionEvent actionEvent ) {
+//                //module.showGenerationChart();
+//                //LandscapeNode.
+//            }
+//        } );
     }
 
 }

@@ -13,7 +13,7 @@ import javax.swing.*;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.nodes.PPath;
 
-public class ToolBarTest extends JPanel {
+public class DetachOptionPanel extends JPanel {
     boolean docked = false;
     private Object lastAncestor;
     private JToolBar toolBar;
@@ -23,7 +23,7 @@ public class ToolBarTest extends JPanel {
 
     private List<Listener> listeners = new LinkedList<Listener>();
 
-    public ToolBarTest( String title, Component child, Component placeholder ) {
+    public DetachOptionPanel( String title, Component child, Component placeholder ) {
         super( new GridLayout( 1, 1 ) );
 
         this.child = child;
@@ -40,7 +40,7 @@ public class ToolBarTest extends JPanel {
                     if ( evt.getOldValue() == null ) {
                         if ( evt.getNewValue() != lastAncestor ) {
                             docked = !docked;
-                            System.out.println( docked ? "Docked" : "Undocked" );
+                            //System.out.println( docked ? "Docked" : "Undocked" );
                             if ( !docked ) {
                                 onUndock();
                             }
@@ -139,7 +139,7 @@ public class ToolBarTest extends JPanel {
         JPanel container = new JPanel( new GridLayout( 1, 3 ) );
         frame.setContentPane( container );
 
-        final ToolBarTest bar = new ToolBarTest( "Pedigree Chart", createExampleCanvas(), new JLabel( "Placeholder" ) );
+        final DetachOptionPanel bar = new DetachOptionPanel( "Pedigree Chart", createExampleCanvas(), new JLabel( "Placeholder" ) );
         final JRadioButton radioPlaceholder = new JRadioButton( "Placeholder" );
         final JRadioButton radioPedigree = new JRadioButton( "Pedigree" );
 
