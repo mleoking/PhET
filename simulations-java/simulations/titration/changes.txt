@@ -1,3 +1,5 @@
+# 0.00.04 (35522) Oct 5, 2009
+10/5/09 demo improvements to Laguerre root-finding
 # 0.00.03 (35339) Sep 29, 2009
 9/29/09 JO's changes to root-finding algorithms
 # 0.00.02 (34724) Sep 2, 2009
