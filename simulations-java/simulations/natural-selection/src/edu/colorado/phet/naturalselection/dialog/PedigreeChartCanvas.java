@@ -28,7 +28,7 @@ public class PedigreeChartCanvas extends PhetPCanvas {
 
     private static final double TOP_PADDING = 5.0;
 
-    private static final double PEDIGREE_TOP_PADDING = 30.0;
+    private static final double PEDIGREE_TOP_PADDING = 5.0;
 
     /**
      * Constructor
