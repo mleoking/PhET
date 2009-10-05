@@ -261,7 +261,7 @@ public class InitializationDialog extends JDialog {
      */
     private void handleJarBrowse() {
         JFileChooser chooser = FileChooserFactory.createJarFileChooser();
-        chooser.setSelectedFile( _currentDirectory );
+        chooser.setCurrentDirectory( _currentDirectory );
         int option = chooser.showOpenDialog( this );
         _currentDirectory = chooser.getCurrentDirectory();
         if ( option == JFileChooser.APPROVE_OPTION ) {
