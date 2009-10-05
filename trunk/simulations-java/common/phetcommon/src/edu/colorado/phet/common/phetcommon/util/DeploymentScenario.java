@@ -17,13 +17,13 @@ import edu.colorado.phet.common.phetcommon.util.logging.USLogger;
 public class DeploymentScenario {
     
     // enumeration
-    public static final DeploymentScenario PHET_INSTALLATION = new DeploymentScenario( "phet-installation", false );
-    public static final DeploymentScenario STANDALONE_JAR = new DeploymentScenario( "standalone-jar", false );
-    public static final DeploymentScenario PHET_PRODUCTION_WEBSITE = new DeploymentScenario( "phet-production-website", true );
-    public static final DeploymentScenario PHET_DEVELOPMENT_WEBSITE = new DeploymentScenario( "phet-development-website", true );
-    public static final DeploymentScenario OTHER_WEBSITE = new DeploymentScenario( "other-website", true );
-    public static final DeploymentScenario DEVELOPER_IDE = new DeploymentScenario( "developer-ide", false );
-    public static final DeploymentScenario UNKNOWN = new DeploymentScenario( "unknown", false );
+    public static final DeploymentScenario PHET_INSTALLATION = new DeploymentScenario( "phet-installation", true, true, true );
+    public static final DeploymentScenario STANDALONE_JAR = new DeploymentScenario( "standalone-jar", true, true, true );
+    public static final DeploymentScenario PHET_PRODUCTION_WEBSITE = new DeploymentScenario( "phet-production-website", false, false, false );
+    public static final DeploymentScenario PHET_DEVELOPMENT_WEBSITE = new DeploymentScenario( "phet-development-website", false, false, false );
+    public static final DeploymentScenario OTHER_WEBSITE = new DeploymentScenario( "other-website", true, true, false );
+    public static final DeploymentScenario DEVELOPER_IDE = new DeploymentScenario( "developer-ide", true, true, false );
+    public static final DeploymentScenario UNKNOWN = new DeploymentScenario( "unknown", true, true, false );
     
     /*
      * There are fragments of the codebase attribute in JNLP files.
@@ -43,20 +43,37 @@ public class DeploymentScenario {
     private static DeploymentScenario instance = null;
     
     private final String name;
-    private final boolean online;
+    private final boolean statisticsEnabled;
+    private final boolean updatesEnabled;
+    private final boolean updatable;
     
     /* singleton */
-    private DeploymentScenario( String name, boolean online ) {
+    private DeploymentScenario( String name, boolean statisticsEnabled, boolean updatesEnabled, boolean updatable ) {
         this.name = name;
-        this.online = online;
+        this.statisticsEnabled = statisticsEnabled;
+        this.updatesEnabled = updatesEnabled;
+        this.updatable = updatable;
     }
     
-    public boolean isOnline() {
-        return online;
+    /**
+     * True if the scenario checks for updates.
+     */
+    public boolean isUpdatesEnabled() {
+        return updatesEnabled;
     }
     
-    public boolean isOffline() {
-        return !online;
+    /**
+     * True if the scenario is capable of having it's executable file updated in place.
+     */
+    public boolean isUpdatable() {
+        return updatable;
+    }
+    
+    /**
+     * True if the scenario sends statistics.
+     */
+    public boolean isStatisticsEnabled() {
+        return statisticsEnabled;
     }
     
     public String getName() {
@@ -95,7 +112,7 @@ public class DeploymentScenario {
         DeploymentScenario scenario = UNKNOWN;
 
         if ( PhetServiceManager.isJavaWebStart() ) {
-
+            
             if ( PhetInstallation.exists() ) {
                 scenario = DeploymentScenario.PHET_INSTALLATION;
             }
