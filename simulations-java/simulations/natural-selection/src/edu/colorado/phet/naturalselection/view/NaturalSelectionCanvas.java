@@ -101,7 +101,7 @@ public class NaturalSelectionCanvas extends PhetPCanvas {
         landscapeNode.setSpriteTransform( backgroundNode.getBackgroundTransform( getWidth(), getHeight() ) );
         landscapeNode.updateLayout( getWidth(), getHeight() );
 
-        addFriendNode.updateLayout( getWidth() ,getHeight() );
+        addFriendNode.updateLayout( getWidth(), getHeight() );
 
         positionMutationPending();
     }
@@ -133,5 +133,9 @@ public class NaturalSelectionCanvas extends PhetPCanvas {
 
     public void load( NaturalSelectionConfig config ) {
         addFriendNode.setVisible( !config.isFriendAdded() );
+    }
+
+    public LandscapeNode getLandscapeNode() {
+        return landscapeNode;
     }
 }

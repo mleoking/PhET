@@ -220,7 +220,8 @@ public class LandscapeNode extends PNode implements NaturalSelectionModel.Listen
             public void mouseClicked( PInputEvent event ) {
                 //super.mouseClicked( event );
                 bunny.setSelected( true );
-                showPedigree( model, bunny );
+                //showPedigree( model, bunny );
+                notifyBunnySelected( bunny );
             }
         } );
     }
@@ -367,5 +368,25 @@ public class LandscapeNode extends PNode implements NaturalSelectionModel.Listen
 
     public AffineTransform getSpriteTransform() {
         return backgroundTransform;
+    }
+
+    private void notifyBunnySelected( Bunny bunny ) {
+        for ( Listener listener : listeners ) {
+            listener.onBunnySelected( bunny );
+        }
+    }
+
+    private List<Listener> listeners = new LinkedList<Listener>();
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public void removeListener( Listener listener ) {
+        listeners.remove( listener );
+    }
+
+    public static interface Listener {
+        public void onBunnySelected( Bunny bunny );
     }
 }
