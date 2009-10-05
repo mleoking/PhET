@@ -9,7 +9,6 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import edu.colorado.phet.common.phetcommon.view.LogoPanel;
@@ -95,6 +94,8 @@ public class NaturalSelectionControlPanel extends JPanel {
             }
         } );
         detachPanel = new DetachOptionPanel( "Pedigree Chart", pedigreeChart, bunnyStatsPanel );
+        //detachPanel = new DetachOptionPanel( "Pedigree Chart", DetachOptionPanel.createExampleCanvas(), bunnyStatsPanel );
+
 
         detachPanel.setBorder( new LineBorder( Color.RED ) );
         pedigreeChart.setBorder( new LineBorder( Color.GREEN ) );

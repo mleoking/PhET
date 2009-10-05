@@ -54,13 +54,18 @@ public class DetachOptionPanel extends JPanel {
             }
         } );
 
-        JPanel panel = new JPanel( new GridLayout( 1, 1 ) );
+        //toolBar.setLayout( new GridBagLayout() );
+
+        final JPanel panel = new JPanel( new GridLayout( 1, 1 ) );
         panel.add( child );
+        toolBar.setBorder( new LineBorder( Color.WHITE ) );
 
         toolBar.add( panel );
 
         //add( toolBar );
         add( placeholder );
+
+
     }
 
     public void setChildVisible() {
@@ -109,7 +114,7 @@ public class DetachOptionPanel extends JPanel {
         public void onUndock();
     }
 
-    private static PhetPCanvas createExampleCanvas() {
+    public static PhetPCanvas createExampleCanvas() {
         PhetPCanvas canvas = new PhetPCanvas( new Dimension( 100, 100 ) );
         PPath path;
 
