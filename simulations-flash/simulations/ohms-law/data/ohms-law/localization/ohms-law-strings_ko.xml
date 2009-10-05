@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--ohms-law-strings_ko.xml created Wed Sep 30 15:17:06 KST 2009 using: ohms-law 2.00.00 (30671), translation-utility 2.02.00 (34911) 9월 10, 2009-->
+<SimStrings>
+<string key="currentEq" value="전류(I)="/>
+<string key="resistance" value="저항(R)"/>
+<string key="simTitle" value="옴의 법칙(물리마을)"/>
+<string key="sound" value="소리듣기"/>
+<string key="voltage" value="전압(V)"/>
+</SimStrings>
