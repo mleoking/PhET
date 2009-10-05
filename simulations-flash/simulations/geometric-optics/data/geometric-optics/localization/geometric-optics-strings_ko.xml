@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--geometric-optics-strings_ko.xml created Wed Sep 30 15:47:03 KST 2009 using: geometric-optics 2.03.00 (32366), translation-utility 2.02.00 (34911) 9월 10, 2009-->
+<SimStrings>
+<string key="draggableScreen" value="드래그 가능"/>
+<string key="draggableLens" value="드래그 가능"/>
+<string key="screen" value="스크린"/>
+<string key="draggableRuler" value="드래그 가능"/>
+<string key="simTitle" value="기하광학(물리마을)"/>
+<string key="showHelp" value="도움말 보기"/>
+<string key="moveMe" value="움직여 보세요!"/>
+<string key="showGuides" value="가이드 보기"/>
+<string key="diameter" value="지름(m)"/>
+<string key="ruler" value="자"/>
+<string key="focalPoint" value="초점"/>
+<string key="curvatureRadius" value="곡률반경(m)"/>
+<string key="changeObject" value="물체 변경"/>
+<string key="principalRays" value="주요 광선"/>
+<string key="marginalRays" value="가장자리 광선"/>
+<string key="virtualImage" value="허상"/>
+<string key="noRays" value="광선 없음"/>
+<string key="secondSource" value="2차 지점"/>
+<string key="hideHelp" value="도움말 숨김"/>
+<string key="refractiveIndex" value="굴절률"/>
+<string key="manyRays" value="많은 광선"/>
+</SimStrings>
