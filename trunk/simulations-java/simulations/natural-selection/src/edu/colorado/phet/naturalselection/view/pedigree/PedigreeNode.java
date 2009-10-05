@@ -33,7 +33,7 @@ public class PedigreeNode extends PNode {
         child.addChild( bunnyText );
         addChild( child );
         System.out.println( "P: " + bunnyText.getHeight() );
-        child.setOffset( -bunnyText.getWidth() / 2, 100 );
+        child.setOffset( -bunnyText.getWidth() / 2, 10 );
     }
 
     public void reset() {
