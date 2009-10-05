@@ -44,7 +44,7 @@ public class LeftPanel extends JPanel {
         setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
         labelPanel.setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
 
-        setBorder( new EmptyBorder( new Insets( 0, 10, 10, 0 ) ) );
+        setBorder( new EmptyBorder( new Insets( 0, 10, 10, 10 ) ) );
     }
 
     public void reset() {

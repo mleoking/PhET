@@ -2,8 +2,9 @@
 
 package edu.colorado.phet.naturalselection.dialog;
 
-import java.awt.geom.AffineTransform;
+import java.awt.*;
 import java.awt.geom.Point2D;
+import java.awt.geom.AffineTransform;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.naturalselection.NaturalSelectionApplication;
