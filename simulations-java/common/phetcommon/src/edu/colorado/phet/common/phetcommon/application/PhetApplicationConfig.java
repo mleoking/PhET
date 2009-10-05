@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.common.phetcommon.application;
 
-import java.util.Arrays;
 import java.util.Locale;
 
 import edu.colorado.phet.common.phetcommon.preferences.PhetPreferences;
@@ -174,7 +173,7 @@ public class PhetApplicationConfig implements ISimInfo {
      * @return
      */
     public boolean isUpdatesFeatureIncluded() {
-        return (!hasCommandLineArg( "-updates-off" )) && DeploymentScenario.getInstance().isOffline();
+        return (!hasCommandLineArg( "-updates-off" )) && DeploymentScenario.getInstance().isUpdatesEnabled();
     }
     
     /**
@@ -182,7 +181,7 @@ public class PhetApplicationConfig implements ISimInfo {
      * @return
      */
     public boolean isStatisticsFeatureIncluded() {
-        return (!hasCommandLineArg( "-statistics-off" )) && DeploymentScenario.getInstance().isOffline();
+        return (!hasCommandLineArg( "-statistics-off" )) && DeploymentScenario.getInstance().isStatisticsEnabled();
     }
 
     public boolean isUpdatesEnabled() {

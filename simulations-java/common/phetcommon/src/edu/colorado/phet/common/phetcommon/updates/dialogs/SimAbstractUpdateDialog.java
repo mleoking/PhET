@@ -144,11 +144,13 @@ public abstract class SimAbstractUpdateDialog extends PaintImmediateDialog {
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     dialog.dispose();
-                    if ( DeploymentScenario.getInstance().isOnline() ) {
-                        PhetServiceManager.showSimPage( simInfo.getProjectName(), simInfo.getFlavor() );
+                    if ( DeploymentScenario.getInstance().isUpdatable() ) {
+                        // update the sim by downloading the new version and replacing the executable
+                        new SimUpdater().updateSim( simInfo, newVersion );
                     }
                     else {
-                        new SimUpdater().updateSim( simInfo, newVersion );
+                        // open a web browser to the sim's page on the PhET site
+                        PhetServiceManager.showSimPage( simInfo.getProjectName(), simInfo.getFlavor() );
                     }
                 }
             } );
