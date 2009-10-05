@@ -228,7 +228,7 @@
                 foreach ( $flash_jar_file_names as $flash_jar_file_name ) {
                     flushing_echo( "Adding dist tag to Java JAR file: ".$flash_jar_file_name );
                     // Extract the properties file.
-                    $properties_file_name = $sim_project_name.'.properties';
+                    $properties_file_name = $sim_project_name.'/'.$sim_project_name.'.properties';
                     extract_file_from_jar( $flash_jar_file_name, $properties_file_name, TEMP_DIR );
                     // Remove any existing distribution tag.
                     file_remove_line_matching_pattern(TEMP_DIR.$properties_file_name, 'distribution.tag');
