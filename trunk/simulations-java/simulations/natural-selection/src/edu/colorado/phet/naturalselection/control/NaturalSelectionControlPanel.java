@@ -9,6 +9,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import edu.colorado.phet.common.phetcommon.view.LogoPanel;
@@ -75,7 +76,7 @@ public class NaturalSelectionControlPanel extends JPanel {
         logoPanel.setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
 
         pedigreeChart = new PedigreeChartCanvas( model );
-        pedigreeChart.setBorder( new LineBorder( Color.GREEN ) );
+
         pedigreeChart.addComponentListener( new ComponentListener() {
             public void componentResized( ComponentEvent componentEvent ) {
                 pedigreeChart.setCenterPoint( 0 );
@@ -96,6 +97,7 @@ public class NaturalSelectionControlPanel extends JPanel {
         detachPanel = new DetachOptionPanel( "Pedigree Chart", pedigreeChart, bunnyStatsPanel );
 
         detachPanel.setBorder( new LineBorder( Color.RED ) );
+        pedigreeChart.setBorder( new LineBorder( Color.GREEN ) );
         clockControlPanel.setBorder( new LineBorder( Color.BLUE ) );
 
         // the uglier layout code

@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -124,10 +125,12 @@ public class DetachOptionPanel extends JPanel {
         path.setPaint( Color.YELLOW );
         canvas.addWorldChild( path );
 
-        path = PPath.createRectangle( 50, 50, 50, 50 );
+        path = PPath.createRectangle( 50, 50, 100, 50 );
         path.setPaint( Color.BLACK );
         canvas.addWorldChild( path );
         canvas.setPreferredSize( new Dimension( 200, 200 ) );
+
+        canvas.setBorder( new LineBorder( Color.BLUE ) );
 
         return canvas;
     }
