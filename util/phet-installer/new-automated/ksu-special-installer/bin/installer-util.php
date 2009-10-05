@@ -57,6 +57,18 @@
     }
 
     //--------------------------------------------------------------------------
+    // Function for removing the marker file.
+    //--------------------------------------------------------------------------
+    function installer_remove_marker_file(){
+        $marker_file_name = RIPPED_WEBSITE_SIMS_PARENT_DIR.PHET_SIMS_SUBDIR.MARKER_FILE_NAME;
+        if (!file_exists($marker_file_name)){
+            flushing_echo("Warning: Marker file $marker_file_name does not exist, unable to delete it.");
+            return;
+        }
+        unlink( $marker_file_name );
+    }
+
+    //--------------------------------------------------------------------------
     // Insert the creation time of the installer into the marker file and into
     // the HTML files that launch the Flash simulations.  The marker file and
     // flash simulations must be modified at the same time so that the time
@@ -179,7 +191,7 @@
                     // Extract the properties file.
                     $properties_file_name = $sim_project_name.'.properties';
                     extract_file_from_jar( $flash_jar_file_name, $properties_file_name, TEMP_DIR );
-                    // Remove any existing tag.
+                    // Remove any existing distribution tag.
                     file_remove_line_matching_pattern(TEMP_DIR.$properties_file_name, 'distribution.tag');
                     // Add the new distribution tag.
                     file_append_line_to_file(TEMP_DIR.$properties_file_name, 'distribution.tag='.DISTRIBUTION_TAG);
@@ -205,6 +217,35 @@
     //-------------------------------------------------------------------------
     function installer_insert_distribution_tag_java($distribution_tag){
         flushing_echo("---Entered installer_insert_distribution_tag_java");
+        $sim_dir_contents = glob( RIPPED_WEBSITE_SIMS_PARENT_DIR.PHET_SIMS_SUBDIR."*" );
+        foreach ( $sim_dir_contents as $dir_or_file_name ) {
+            if (is_dir($dir_or_file_name) && installer_is_java_sim($dir_or_file_name)){
+                // Extract the name of the sim project.
+                $sim_project_name_pos = strripos($dir_or_file_name, "/") + 1;
+                $sim_project_name = substr($dir_or_file_name, $sim_project_name_pos);
+                // For each JAR file in the project...
+                $flash_jar_file_names = glob( $dir_or_file_name."/*.jar" );
+                foreach ( $flash_jar_file_names as $flash_jar_file_name ) {
+                    flushing_echo( "Adding dist tag to Java JAR file: ".$flash_jar_file_name );
+                    // Extract the properties file.
+                    $properties_file_name = $sim_project_name.'.properties';
+                    extract_file_from_jar( $flash_jar_file_name, $properties_file_name, TEMP_DIR );
+                    // Remove any existing distribution tag.
+                    file_remove_line_matching_pattern(TEMP_DIR.$properties_file_name, 'distribution.tag');
+                    // Add the new distribution tag.
+                    file_append_line_to_file(TEMP_DIR.$properties_file_name, 'distribution.tag='.DISTRIBUTION_TAG);
+                    // Replace the properties file in the JAR with the updated version.
+                    $original_dir = getcwd();
+                    chdir(TEMP_DIR);
+                    add_file_to_jar($flash_jar_file_name, $properties_file_name);
+                    chdir($original_dir);
+                    // Delete the modified properties file, just to be neat.
+                    unlink(TEMP_DIR.$properties_file_name);
+                    // Sign the JAR.
+                    sign_jar( $flash_jar_file_name );
+                }
+            }
+        }
         flushing_echo("---Exited installer_insert_distribution_tag_java");
     }
 
