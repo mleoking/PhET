@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--wave-on-a-string-strings_ko.xml created Wed Sep 30 15:04:58 KST 2009 using: wave-on-a-string 2.00.00 (30671), translation-utility 2.02.00 (34911) 9월 10, 2009-->
+<SimStrings>
+<string key="manual" value="임의로"/>
+<string key="resetTimer" value="초기화"/>
+<string key="damping" value="감쇄"/>
+<string key="simTitle" value="줄 파동(물리마을)"/>
+<string key="showHelp" value="도움말 보기"/>
+<string key="pulse" value="정지상태"/>
+<string key="amplitude" value="진폭"/>
+<string key="pausePlay" value="정지/작동"/>
+<string key="step" value="단계별"/>
+<string key="tension" value="장력"/>
+<string key="startTimer" value="시작/정지"/>
+<string key="pulseWidth" value="펄스폭"/>
+<string key="rulerHelp" value="드래그 가능"/>
+<string key="high" value="크다"/>
+<string key="wiggleWrench" value="렌치를 흔드세요!"/>
+<string key="timer" value="시계"/>
+<string key="oscillate" value="진동"/>
+<string key="rulers" value="자"/>
+<string key="frequency" value="진동수"/>
+<string key="wrenchHelp" value="드래그 가능"/>
+<string key="fixedEnd" value="고정단"/>
+<string key="refLineHelp" value="드래그 가능"/>
+<string key="hideHelp" value="도움말 감추기"/>
+<string key="timerHelp" value="드래그 가능"/>
+<string key="looseEnd" value="자유단"/>
+<string key="noEnd" value="개방"/>
+<string key="paused" value="정지"/>
+<string key="reset" value="초기화"/>
+<string key="pulse2" value="펄스"/>
+<string key="low" value="작다"/>
+</SimStrings>
