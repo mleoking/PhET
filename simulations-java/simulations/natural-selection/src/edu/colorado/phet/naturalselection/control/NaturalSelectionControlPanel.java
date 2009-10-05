@@ -94,12 +94,12 @@ public class NaturalSelectionControlPanel extends JPanel {
             }
         } );
         detachPanel = new DetachOptionPanel( "Pedigree Chart", pedigreeChart, bunnyStatsPanel );
-        //detachPanel = new DetachOptionPanel( "Pedigree Chart", DetachOptionPanel.createExampleCanvas(), bunnyStatsPanel );
+        //detachPanel = new DetachOptionPanel( "Pedigree Chart", DetachOptionPanel.createExampleCanvas(), new JLabel( "Placeholder" ) );
 
 
-        detachPanel.setBorder( new LineBorder( Color.RED ) );
-        pedigreeChart.setBorder( new LineBorder( Color.GREEN ) );
-        clockControlPanel.setBorder( new LineBorder( Color.BLUE ) );
+        //detachPanel.setBorder( new LineBorder( Color.RED ) );
+        //pedigreeChart.setBorder( new LineBorder( Color.GREEN ) );
+        //clockControlPanel.setBorder( new LineBorder( Color.BLUE ) );
 
         // the uglier layout code
         GridBagConstraints geneConstraints = new GridBagConstraints();

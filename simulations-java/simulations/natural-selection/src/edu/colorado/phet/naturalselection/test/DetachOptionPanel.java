@@ -3,6 +3,8 @@ package edu.colorado.phet.naturalselection.test;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.LinkedList;
@@ -54,17 +56,55 @@ public class DetachOptionPanel extends JPanel {
             }
         } );
 
-        //toolBar.setLayout( new GridBagLayout() );
+        //toolBar.setLayout( new BoxLayout( toolBar, BoxLayout.LINE_AXIS ) );
+        toolBar.setLayout( new GridBagLayout() );
 
         final JPanel panel = new JPanel( new GridLayout( 1, 1 ) );
         panel.add( child );
-        toolBar.setBorder( new LineBorder( Color.WHITE ) );
 
-        toolBar.add( panel );
+        GridBagConstraints statsConstraints = new GridBagConstraints();
+        statsConstraints.fill = GridBagConstraints.BOTH;
+        statsConstraints.weightx = 1.0;
+        statsConstraints.weighty = 1.0;
+        toolBar.add( panel, statsConstraints );
 
         //add( toolBar );
         add( placeholder );
 
+        toolBar.addComponentListener( new ComponentListener() {
+            public void componentResized( ComponentEvent componentEvent ) {
+                System.out.println( "toolBar: " + toolBar.getSize() );
+            }
+
+            public void componentMoved( ComponentEvent componentEvent ) {
+
+            }
+
+            public void componentShown( ComponentEvent componentEvent ) {
+
+            }
+
+            public void componentHidden( ComponentEvent componentEvent ) {
+
+            }
+        } );
+        panel.addComponentListener( new ComponentListener() {
+            public void componentResized( ComponentEvent componentEvent ) {
+                System.out.println( "panel: " + panel.getSize() );
+            }
+
+            public void componentMoved( ComponentEvent componentEvent ) {
+
+            }
+
+            public void componentShown( ComponentEvent componentEvent ) {
+
+            }
+
+            public void componentHidden( ComponentEvent componentEvent ) {
+
+            }
+        } );
 
     }
 
@@ -85,7 +125,7 @@ public class DetachOptionPanel extends JPanel {
     }
 
     private void onDock() {
-        System.out.println( "onDock()" );
+        //System.out.println( "onDock()" );
         remove( placeholder );
         for ( Listener listener : listeners ) {
             listener.onDock();
@@ -93,7 +133,7 @@ public class DetachOptionPanel extends JPanel {
     }
 
     private void onUndock() {
-        System.out.println( "onUndock()" );
+        //System.out.println( "onUndock()" );
         add( placeholder );
         for ( Listener listener : listeners ) {
             listener.onUndock();
@@ -182,9 +222,28 @@ public class DetachOptionPanel extends JPanel {
             }
         } );
 
+        /*
         container.add( bar );
         container.add( radioPlaceholder );
         container.add( radioPedigree );
+        */
+        container.setLayout( new GridBagLayout() );
+
+        GridBagConstraints statsConstraints = new GridBagConstraints();
+        statsConstraints.gridx = 1;
+        statsConstraints.gridy = 0;
+        statsConstraints.gridwidth = 2;
+        statsConstraints.fill = GridBagConstraints.BOTH;
+        statsConstraints.anchor = GridBagConstraints.NORTH;
+        statsConstraints.weightx = 1.0;
+        statsConstraints.weighty = 1.0;
+        container.add( bar, statsConstraints );
+        GridBagConstraints c = new GridBagConstraints();
+        c.gridx = 0;
+        c.gridy = 0;
+        container.add( radioPlaceholder, c );
+        c.gridx = 3;
+        container.add( radioPedigree, c );
 
         //radioPedigree.setSelected( true );
         radioPlaceholder.setSelected( true );
