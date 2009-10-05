@@ -1,3 +1,4 @@
+Fixed: FBD dialog doesn't disappear when switching from a tab that doesn't show the FBD in the play area
 # 1.03.50 (35475) Oct 4, 2009
 Changed max applied slider force from 500N to 1000 N
 forces-and-motion: Changed the range of friction coefficients from [0,5.0] to [0,2.0]
