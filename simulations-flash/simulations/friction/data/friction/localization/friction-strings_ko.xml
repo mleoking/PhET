@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--friction-strings_ko.xml created Wed Sep 30 15:58:20 KST 2009 using: friction 2.00.00 (30671), translation-utility 2.02.00 (34911) 9월 10, 2009-->
+<SimStrings>
+<string key="rubYellowAtoms" value="노란색 원자를 녹색 원자에 \n 문질러 보세요!"/>
+<string key="physics" value="물리"/>
+<string key="reset" value="초기화"/>
+<string key="simTitle" value="마찰력(물리마을)"/>
+<string key="chemistry" value="화학"/>
+</SimStrings>
