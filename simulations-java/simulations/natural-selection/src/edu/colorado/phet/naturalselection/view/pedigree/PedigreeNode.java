@@ -53,22 +53,22 @@ public class PedigreeNode extends PNode {
 
     private static double desiredBunnyWidth( int level ) {
         if ( level == 0 ) {
-            return 60.0;
-        }
-        else if ( level == 1 ) {
             return 50.0;
         }
-        else if ( level == 2 ) {
+        else if ( level == 1 ) {
             return 40.0;
         }
-        else if ( level == 3 ) {
+        else if ( level == 2 ) {
             return 30.0;
         }
+        else if ( level == 3 ) {
+            return 25.0;
+        }
         else if ( level == 4 ) {
-            return 20.0;
+            return 15.0;
         }
 
-        return 20.0;
+        return 15.0;
     }
 
     private static double getVPad( int level ) {
