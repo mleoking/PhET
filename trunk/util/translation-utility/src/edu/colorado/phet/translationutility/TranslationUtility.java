@@ -75,7 +75,6 @@ public class TranslationUtility extends JFrame {
         // confirm exit if there are unsaved changes
         mainFrame.addWindowListener( new WindowAdapter() {
             public void windowClosing( WindowEvent event ) {
-                System.out.println( "windowClosing unsaveChanges=" + mainFrame.hasUnsavedChanges() );//XXX
                 if ( mainFrame.hasUnsavedChanges() ) {
                     String message = HTMLUtils.toHTMLString( TUStrings.UNSAVED_CHANGES_MESSAGE + "<br><br>" + TUStrings.CONFIRM_EXIT );
                     int response = JOptionPane.showConfirmDialog( mainFrame, message, TUStrings.CONFIRM_TITLE, JOptionPane.YES_NO_OPTION );
