@@ -152,7 +152,7 @@ class CoordinateFrameModel(snapToAngles: List[() => Double]) extends Observable 
     var snapChoice = _angle
     for (a <- snapToAngles) {
       val snapToAngle = a()
-      if (abs(snapToAngle - _angle) < 10.0.toRadians) {
+      if ((snapToAngle - _angle).abs < 10.0.toRadians) {
         snapChoice = snapToAngle
       }
     }
