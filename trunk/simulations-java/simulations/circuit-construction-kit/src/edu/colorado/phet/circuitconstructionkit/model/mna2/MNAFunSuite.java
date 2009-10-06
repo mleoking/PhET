@@ -51,20 +51,6 @@ public class MNAFunSuite extends TestCase {
         assertTrue( circuit.solve().approxEquals( desiredSolution ) );
         assertTrue( approxEquals( circuit.solve().getCurrent( resistor ), 2 ) );//current through resistor should be 2.0 Amps, same magnitude as battery: positive because current flows from node 1 to 0
     }
-//
-    //todo: works in IDE but fails in build process with error
-//   found   : Double
-//
-// required: scala.reflect.Manifest[?]
-//
-//      circuit.solve.getCurrent(Battery(4, 1, 999))
-//                    ^
-//  test("should throw an exception when asking for current for unknown element") {
-//    val circuit = new Circuit(Battery(0, 1, 4.0) :: Nil, Resistor(1, 0, 2.0) :: Nil)
-//    intercept(classOf[RuntimeException]) {
-//      circuit.solve.getCurrent(Battery(4, 1, 999))
-//    }
-//  }
 
     public void test_disjoint_circuits_should_be_solved_independently() {
         MNA.Battery battery = new MNA.Battery( 0, 1, 4.0 );
@@ -83,7 +69,7 @@ public class MNAFunSuite extends TestCase {
         assertTrue( circuit.solve().approxEquals( desiredSolution ) );
     }
 
-    public void test_current_source_should_provide_current() {
+    public void test_current_source_should_provide_current() {//todo: currently fails
         MNA.Circuit circuit = new MNA.Circuit( new ArrayList<MNA.Battery>(), Arrays.asList( new MNA.Resistor( 1, 0, 4 ) ), Arrays.asList( new MNA.CurrentSource( 0, 1, 10.0 ) ) );
         HashMap<Integer, Double> voltageMap = new HashMap<Integer, Double>();
         voltageMap.put( 0, 0.0 );
@@ -196,6 +182,34 @@ public class MNAFunSuite extends TestCase {
         currentMap.put( battery, V / Req );
         MNA.Solution desiredSolution = new MNA.Solution( voltageMap, currentMap );
         assertTrue( circuit.solve().approxEquals( desiredSolution ) );
+    }
+
+    public void testAnalyticalSolution() {
+        double v0 = 9;
+        double r1 = 9;
+        double c = 1E-2;
+
+        double vt = 0;
+        double it = v0 / r1;
+
+        double dt = 1E-4;
+        System.out.println("i \t t \t v \t i");
+        for (int i = 0; i < 1000; i++) {
+
+            System.out.println(i+"\t"+i*dt+"\t"+vt+"\t"+it);
+
+            double rTot = dt / 2 / c + r1;
+            double vTot = v0 - vt - dt / 2 / c * it;
+            double iTot = vTot / rTot;
+
+            it = iTot;
+            vt = v0 - vTot - dt / 2 / c * it + dt / 2 / c * it;
+
+        }
+    }
+
+    public void testVRC991Eminus2(){
+        testVRCCircuit(9,9,1E-2);
     }
 
     public void testVRCCircuit( double v, double r, double c ) {
