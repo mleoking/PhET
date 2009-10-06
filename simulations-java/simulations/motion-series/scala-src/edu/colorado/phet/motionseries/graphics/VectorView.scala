@@ -53,10 +53,10 @@ class VectorView(bead: Bead,
     })
   }
 
-  def addVectorAllComponents(bead: Bead, a: BeadVector, vectorDisplay: VectorDisplay): Unit =
+  def addVectorAllComponents(bead: ForceBead, a: BeadVector, vectorDisplay: VectorDisplay): Unit =
     addVectorAllComponents(bead, a, new ConstantVectorValue, 0, () => true, vectorDisplay)
 
-  def addAllVectors(bead: Bead, vectorDisplay: VectorDisplay) = {
+  def addAllVectors(bead: ForceBead, vectorDisplay: VectorDisplay) = {
     addVectorAllComponents(bead, bead.appliedForceVector, vectorDisplay)
     addVectorAllComponents(bead, bead.gravityForceVector, vectorDisplay)
     addVectorAllComponents(bead, bead.normalForceVector, vectorDisplay)
@@ -80,7 +80,7 @@ trait PointOfOriginVector {
   def getPointOfOriginOffset(defaultCenter: Double): Double
 }
 
-class PlayAreaVectorNode(transform: ModelViewTransform2D, bead: Bead, vectorViewModel: VectorViewModel) extends PNode with VectorDisplay {
+class PlayAreaVectorNode(transform: ModelViewTransform2D, bead: ForceBead, vectorViewModel: VectorViewModel) extends PNode with VectorDisplay {
   def addVector(a: Vector, offset: VectorValue): Unit = addChild(new BodyVectorNode(transform, a, offset, bead))
 
   def addVector(vector: Vector with PointOfOriginVector, offsetFBD: VectorValue, maxOffset: Int, offsetPlayArea: Double): Unit = {
@@ -102,7 +102,7 @@ class PlayAreaVector(vector: Vector, scale: Double)
   override def getPaint = vector.getPaint
 }
 
-class PlayAreaOffset(bead: Bead, vectorViewModel: VectorViewModel, offsetPlayArea: Double, offset: PointOfOriginVector)
+class PlayAreaOffset(bead: ForceBead, vectorViewModel: VectorViewModel, offsetPlayArea: Double, offset: PointOfOriginVector)
         extends VectorValue {
   def addListener(listener: () => Unit) = {
     bead.addListener(listener)

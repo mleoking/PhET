@@ -2,12 +2,12 @@ package edu.colorado.phet.motionseries.graphics
 
 import java.awt.Dimension
 import java.awt.event.{MouseAdapter, MouseEvent}
-import edu.colorado.phet.motionseries.model.{Bead}
 import edu.umd.cs.piccolo.PNode
 import edu.umd.cs.piccolox.pswing.PSwing
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.colorado.phet.motionseries.swing.ScalaValueControl
+import model.{ForceBead, Bead}
 
 class AppliedForceSlider(getter: () => Double,
                          setter: Double => Unit,
@@ -29,7 +29,7 @@ class AppliedForceSlider(getter: () => Double,
   override def isValueInRange(value: Double) = true
 }
 
-class AppliedForceSliderNode(bead: Bead, mousePressHandler: () => Unit) extends PNode {
+class AppliedForceSliderNode(bead: ForceBead, mousePressHandler: () => Unit) extends PNode {
   val max = MotionSeriesDefaults.MAX_APPLIED_FORCE
   val control = new AppliedForceSlider(() => bead.parallelAppliedForce, value => bead.parallelAppliedForce = value, bead.addListener, mousePressHandler)
   control.setSize(new Dimension(control.getPreferredSize.width, (control.getPreferredSize.height * 1.45).toInt))

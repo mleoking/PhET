@@ -5,11 +5,11 @@ import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel
 import java.awt.image.BufferedImage
 import java.util.Hashtable
 import javax.swing._
-import edu.colorado.phet.motionseries.model.Bead
 import edu.colorado.phet.motionseries.MotionSeriesResources
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 import edu.colorado.phet.motionseries.MotionSeriesDefaults._
 import edu.colorado.phet.motionseries.swing._
+import model.{ForceBead, Bead}
 
 class MyValueControl(min: Double, max: Double, getter: () => Double, setter: Double => Unit, title: String, numberFormat: String, units: String, bead: Bead)
         extends ScalaValueControl(min, max, title, numberFormat, units, getter, setter, bead.addListener, new HorizontalLayoutStrategy) {
@@ -17,7 +17,7 @@ class MyValueControl(min: Double, max: Double, getter: () => Double, setter: Dou
   getSlider.setPaintLabels(false)
 }
 
-class FrictionPlayAreaControlPanel(bead: Bead) extends VerticalLayoutPanel {
+class FrictionPlayAreaControlPanel(bead: ForceBead) extends VerticalLayoutPanel {
   setFillHorizontal()
   val staticFriction = new MyValueControl(0.0, 2.0, () => bead.staticFriction, bead.staticFriction = _, "Coefficient of static friction", "0.0".literal, "".literal, bead)
   val kineticFriction = new MyValueControl(0.0, 2.0, () => bead.kineticFriction, bead.kineticFriction = _, "Coefficient of kinetic friction", "0.0".literal, "".literal, bead)

@@ -52,54 +52,24 @@ abstract class Bead(private var _state: BeadState,
                     val wallRange: () => Range,
                     thermalEnergyStrategy: Double => Double)
         extends Observable {
-  def wallsExist = _wallsExist
-
-  //This method allows bead subclasses to avoid thermal energy by overriding this to return 0.0
-  def getThermalEnergy(x: Double) = thermalEnergyStrategy(x)
-
-  val crashListeners = new ArrayBuffer[() => Unit]
   private var _gravity = -9.8
 
   def gravity = _gravity
 
   def gravity_=(value: Double) = {
     _gravity = value
-    normalForceVector.notifyListeners()
-    gravityForceVector.notifyListeners()
     notifyListeners()
   }
+
+  def wallsExist = _wallsExist
+
+  val crashListeners = new ArrayBuffer[() => Unit]
 
   def state = _state
 
   def state_=(s: BeadState) = {_state = s; notifyListeners()}
 
-  private var _parallelAppliedForce = 0.0
-  private var _motionStrategy: MotionStrategy = new Grounded(this)
-
-  def motionStrategy = _motionStrategy
-
-  def motionStrategy_=(s: MotionStrategy) = _motionStrategy = s
-
-  val gravityForceVector = new BeadVector(MotionSeriesDefaults.gravityForceColor, "Gravity Force".literal, "force.abbrev.gravity".translate, false, () => gravityForce, (a, b) => b)
-  val normalForceVector = new BeadVector(MotionSeriesDefaults.normalForceColor, "Normal Force".literal, "force.abbrev.normal".translate, true, () => normalForce, (a, b) => b)
-  val totalForceVector = new BeadVector(MotionSeriesDefaults.totalForceColor, "Sum of Forces".literal, "force.abbrev.total".translate, false, () => totalForce, (a, b) => b)
-  val appliedForceVector = new BeadVector(MotionSeriesDefaults.appliedForceColor, "Applied Force".literal, "force.abbrev.applied".translate, false, () => appliedForce, (a, b) => b)
-  val frictionForceVector = new BeadVector(MotionSeriesDefaults.frictionForceColor, "Friction Force".literal, "force.abbrev.friction".translate, true, () => frictionForce, (a, b) => b)
-  val wallForceVector = new BeadVector(MotionSeriesDefaults.wallForceColor, "Wall Force".literal, "force.abbrev.wall".translate, false, () => wallForce, (a, b) => b)
-  val velocityVector = new BeadVector(MotionSeriesDefaults.velocityColor, "Velocity".literal, "velocity", false, () => getRampUnitVector * velocity, (a, b) => b) //todo: translate
-  val accelerationVector = new BeadVector(MotionSeriesDefaults.accelerationColor, "Acceleration".literal, "acceleration", false, () => getRampUnitVector * acceleration, (a, b) => b) //todo: translate
-  //chain listeners
-  normalForceVector.addListenerByName(frictionForceVector.notifyListeners())
-  //todo: add normalForceVector notification when changing friction coefficients
-
-  appliedForceVector.addListenerByName(totalForceVector.notifyListeners())
-  gravityForceVector.addListenerByName(totalForceVector.notifyListeners())
-  normalForceVector.addListenerByName(totalForceVector.notifyListeners())
-  frictionForceVector.addListenerByName(totalForceVector.notifyListeners())
-
-  addListenerByName(appliedForceVector.notifyListeners()) //todo: just listen for changes to applied force parallel component
   model.addListenerByName(notifyListeners)
-  model.addListenerByName(frictionForceVector.notifyListeners())
 
   //notified when the bead is being removed
   val removalListeners = new ArrayBuffer[() => Unit]
@@ -112,18 +82,6 @@ abstract class Bead(private var _state: BeadState,
 
   def minX = position - _width / 2
 
-  def attach() = motionStrategy = new Grounded(this)
-
-  def totalForce = gravityForce + normalForce + appliedForce + frictionForce + wallForce
-
-  def wallForce = motionStrategy.wallForce
-
-  def frictionForce = motionStrategy.frictionForce
-
-  def normalForce = motionStrategy.normalForce
-
-  def gravityForce = new Vector2D(0, gravity * mass)
-
   def getVelocityVectorDirection: Double = getVelocityVectorDirection(velocity)
 
   def getVelocityVectorDirection(v: Double): Double = (positionMapper(position + v * 1E-6) - positionMapper(position - v * 1E-6)).getAngle
@@ -132,20 +90,7 @@ abstract class Bead(private var _state: BeadState,
 
   def getVelocityVectorUnitVector(v: Double): Vector2D = new Vector2D(getVelocityVectorDirection(v))
 
-  def parallelAppliedForce = _parallelAppliedForce
-
-  val parallelAppliedForceListeners = new ArrayBuffer[() => Unit]
-
-  def parallelAppliedForce_=(value: Double) = {
-    _parallelAppliedForce = value
-    parallelAppliedForceListeners.foreach(_())
-    appliedForceVector.notifyListeners()
-    notifyListeners()
-  }
-
-  def appliedForce = getRampUnitVector * _parallelAppliedForce
-
-  def position2D = motionStrategy.position2D
+  def position2D:Vector2D
 
   def getRampUnitVector = rampSegmentAccessor(position).getUnitVector
 
@@ -153,16 +98,6 @@ abstract class Bead(private var _state: BeadState,
 
   def width_=(w: Double) = {
     _width = w
-    notifyListeners()
-  }
-
-  private var _surfaceFrictionStrategy = __surfaceFrictionStrategy
-
-  def surfaceFrictionStrategy = _surfaceFrictionStrategy
-
-  def surfaceFrictionStrategy_=(x: SurfaceFrictionStrategy) = {
-    _surfaceFrictionStrategy = x
-    frictionForceVector.notifyListeners()
     notifyListeners()
   }
 
@@ -181,29 +116,6 @@ abstract class Bead(private var _state: BeadState,
   }
 
   def height = _height
-
-  def staticFriction = state.staticFriction
-
-  def kineticFriction = state.kineticFriction
-
-  def staticFriction_=(value: Double) {
-    state = state.setStaticFriction(value)
-    frictionForceVector.notifyListeners()
-    notifyListeners()
-
-    if (kineticFriction > staticFriction)
-      kineticFriction = staticFriction
-  }
-
-  def kineticFriction_=(value: Double) {
-    state = state.setKineticFriction(value)
-    frictionForceVector.notifyListeners()
-    notifyListeners()
-
-    //NP says to Increase static when you increase kinetic so that static >= kinetic.
-    if (staticFriction < kineticFriction)
-      staticFriction = kineticFriction
-  }
 
   //todo privatize
   object velocityMode
@@ -229,15 +141,12 @@ abstract class Bead(private var _state: BeadState,
   def setVelocity(velocity: Double) = {
     if (velocity != state.velocity) {
       state = state.setVelocity(velocity)
-      frictionForceVector.notifyListeners() //todo: maybe this could be omitted during batch updates for performance
       notifyListeners()
     }
   }
 
   def mass_=(mass: Double) = {
     state = state.setMass(mass)
-    gravityForceVector.notifyListeners()
-    normalForceVector.notifyListeners()
     notifyListeners()
   }
 
@@ -254,10 +163,6 @@ abstract class Bead(private var _state: BeadState,
   def setPosition(position: Double) = {
     if (position != state.position) {
       state = state.setPosition(position)
-      //todo: maybe this could be omitted during batch updates for performance
-      normalForceVector.notifyListeners() //since ramp segment or motion state might have changed; could improve performance on this by only sending notifications when we are sure the ramp segment has changed
-      frictionForceVector.notifyListeners() //todo: omit this call since it's probably covered by the normal force call above
-      wallForceVector.notifyListeners()
       notifyListeners()
     }
   }
@@ -308,11 +213,136 @@ abstract class Bead(private var _state: BeadState,
 
   def getKineticEnergy = 1.0 / 2.0 * mass * velocity * velocity
 
-  def getAngle = motionStrategy.getAngle
-
-  def forceToParallelAcceleration(f: Vector2D) = (f dot getRampUnitVector) / mass
+  def getAngle:Double
 
   def getParallelComponent(f: Vector2D) = f dot getRampUnitVector
+
+  val workListeners = new ArrayBuffer[Double => Unit]
+
+  private var _notificationsEnabled = true
+
+  def notificationsEnabled = _notificationsEnabled
+
+  def notificationsEnabled_=(b: Boolean) = _notificationsEnabled = b
+  //allow global disabling of notifications since they are very expensive and called many times during Grounded.stepInTime
+  override def notifyListeners() = {
+    if (notificationsEnabled) {
+      super.notifyListeners()
+    }
+  }
+
+  val stateHistory = new ArrayBuffer[BeadState] //todo: memory leak
+
+  def stepInTime(dt: Double) = {
+    stateHistory += state
+  }
+
+  def averageVelocity = {
+    val velocities = for (i <- 0 until java.lang.Math.min(10, stateHistory.length)) yield stateHistory(stateHistory.length - 1 - i).velocity
+    val sum = velocities.foldLeft(0.0)(_ + _)
+    //    println("velocities = "+velocities.toList)
+    sum / velocities.size
+  }
+}
+
+/**
+ * This adds Force functionality to the Bead model class, such as ability to get force components and to set applied force.
+ */
+class ForceBead(_state: BeadState,
+                _height: Double,
+                _width: Double,
+                positionMapper: Double => Vector2D,
+                rampSegmentAccessor: Double => RampSegment,
+                model: Observable,
+                surfaceFriction: () => Boolean,
+                wallsBounce: () => Boolean,
+                __surfaceFrictionStrategy: SurfaceFrictionStrategy,
+                _wallsExist: => Boolean,
+                wallRange: () => Range,
+                thermalEnergyStrategy: Double => Double)
+        extends Bead(_state, _height, _width, positionMapper, rampSegmentAccessor, model, surfaceFriction, wallsBounce, __surfaceFrictionStrategy, _wallsExist, wallRange, thermalEnergyStrategy) {
+  //This method allows bead subclasses to avoid thermal energy by overriding this to return 0.0
+  def getThermalEnergy(x: Double) = thermalEnergyStrategy(x)
+
+  private var _parallelAppliedForce = 0.0
+  val gravityForceVector = new BeadVector(MotionSeriesDefaults.gravityForceColor, "Gravity Force".literal, "force.abbrev.gravity".translate, false, () => gravityForce, (a, b) => b)
+  val normalForceVector = new BeadVector(MotionSeriesDefaults.normalForceColor, "Normal Force".literal, "force.abbrev.normal".translate, true, () => normalForce, (a, b) => b)
+  val totalForceVector = new BeadVector(MotionSeriesDefaults.totalForceColor, "Sum of Forces".literal, "force.abbrev.total".translate, false, () => totalForce, (a, b) => b)
+  val appliedForceVector = new BeadVector(MotionSeriesDefaults.appliedForceColor, "Applied Force".literal, "force.abbrev.applied".translate, false, () => appliedForce, (a, b) => b)
+  val frictionForceVector = new BeadVector(MotionSeriesDefaults.frictionForceColor, "Friction Force".literal, "force.abbrev.friction".translate, true, () => frictionForce, (a, b) => b)
+  val wallForceVector = new BeadVector(MotionSeriesDefaults.wallForceColor, "Wall Force".literal, "force.abbrev.wall".translate, false, () => wallForce, (a, b) => b)
+  val velocityVector = new BeadVector(MotionSeriesDefaults.velocityColor, "Velocity".literal, "velocity", false, () => getRampUnitVector * velocity, (a, b) => b) //todo: translate
+  val accelerationVector = new BeadVector(MotionSeriesDefaults.accelerationColor, "Acceleration".literal, "acceleration", false, () => getRampUnitVector * acceleration, (a, b) => b) //todo: translate
+  //chain listeners
+  normalForceVector.addListenerByName(frictionForceVector.notifyListeners())
+  //todo: add normalForceVector notification when changing friction coefficients
+
+  appliedForceVector.addListenerByName(totalForceVector.notifyListeners())
+  gravityForceVector.addListenerByName(totalForceVector.notifyListeners())
+  normalForceVector.addListenerByName(totalForceVector.notifyListeners())
+  frictionForceVector.addListenerByName(totalForceVector.notifyListeners())
+
+  addListenerByName(appliedForceVector.notifyListeners()) //todo: just listen for changes to applied force parallel component
+
+  model.addListenerByName(frictionForceVector.notifyListeners())
+
+  def totalForce = gravityForce + normalForce + appliedForce + frictionForce + wallForce
+
+  def wallForce = motionStrategy.wallForce
+
+  def frictionForce = motionStrategy.frictionForce
+
+  def normalForce = motionStrategy.normalForce
+
+  def gravityForce = new Vector2D(0, gravity * mass)
+
+  def parallelAppliedForce = _parallelAppliedForce
+
+  val parallelAppliedForceListeners = new ArrayBuffer[() => Unit]
+
+  def parallelAppliedForce_=(value: Double) = {
+    _parallelAppliedForce = value
+    parallelAppliedForceListeners.foreach(_())
+    appliedForceVector.notifyListeners()
+    notifyListeners()
+  }
+
+  def appliedForce = getRampUnitVector * _parallelAppliedForce
+
+  private var _surfaceFrictionStrategy = __surfaceFrictionStrategy
+
+  def surfaceFrictionStrategy = _surfaceFrictionStrategy
+
+  def surfaceFrictionStrategy_=(x: SurfaceFrictionStrategy) = {
+    _surfaceFrictionStrategy = x
+    frictionForceVector.notifyListeners()
+    notifyListeners()
+  }
+
+  def staticFriction = state.staticFriction
+
+  def kineticFriction = state.kineticFriction
+
+  def staticFriction_=(value: Double) {
+    state = state.setStaticFriction(value)
+    frictionForceVector.notifyListeners()
+    notifyListeners()
+
+    if (kineticFriction > staticFriction)
+      kineticFriction = staticFriction
+  }
+
+  def kineticFriction_=(value: Double) {
+    state = state.setKineticFriction(value)
+    frictionForceVector.notifyListeners()
+    notifyListeners()
+
+    //NP says to Increase static when you increase kinetic so that static >= kinetic.
+    if (staticFriction < kineticFriction)
+      staticFriction = kineticFriction
+  }
+
+  def forceToParallelAcceleration(f: Vector2D) = (f dot getRampUnitVector) / mass
 
   def netForceToParallelVelocity(f: Vector2D, dt: Double) = velocity + forceToParallelAcceleration(f) * dt
 
@@ -334,45 +364,45 @@ abstract class Bead(private var _state: BeadState,
       }
   }
 
-  val workListeners = new ArrayBuffer[Double => Unit]
-
-  private var _notificationsEnabled = true
-
-  def notificationsEnabled = _notificationsEnabled
-
-  def notificationsEnabled_=(b: Boolean) = _notificationsEnabled = b
-  //allow global disabling of notifications since they are very expensive and called many times during Grounded.stepInTime
-  override def notifyListeners() = {
-    if (notificationsEnabled) {
-      super.notifyListeners()
-    }
+  override def setVelocity(velocity: Double) = {
+    super.setVelocity(velocity)
+    frictionForceVector.notifyListeners() //todo: maybe this could be omitted during batch updates for performance
   }
 
-  val stateHistory = new ArrayBuffer[BeadState] //todo: memory leak
-  def stepInTime(dt: Double) = {
-    stateHistory += state
+  override def mass_=(mass: Double) = {
+    super.mass_=(mass)
+    gravityForceVector.notifyListeners()
+    normalForceVector.notifyListeners()
+  }
+
+  override def setPosition(position: Double) = {
+    super.setPosition(position)
+    //todo: maybe this could be omitted during batch updates for performance
+    normalForceVector.notifyListeners() //since ramp segment or motion state might have changed; could improve performance on this by only sending notifications when we are sure the ramp segment has changed
+    frictionForceVector.notifyListeners() //todo: omit this call since it's probably covered by the normal force call above
+    wallForceVector.notifyListeners()
+  }
+
+  override def gravity_=(value: Double) = {
+    super.gravity_=(value)
+    normalForceVector.notifyListeners()
+    gravityForceVector.notifyListeners()
+  }
+
+  private var _motionStrategy: MotionStrategy = new Grounded(this)
+
+  def motionStrategy = _motionStrategy
+
+  def motionStrategy_=(s: MotionStrategy) = _motionStrategy = s
+
+  def attach() = motionStrategy = new Grounded(this)
+
+  def position2D =  motionStrategy.position2D
+
+  def getAngle =  motionStrategy.getAngle
+
+  override def stepInTime(dt: Double) = {
+    super.stepInTime(dt)
     motionStrategy.stepInTime(dt)
   }
-
-  def averageVelocity = {
-    val velocities = for (i <- 0 until java.lang.Math.min(10, stateHistory.length)) yield stateHistory(stateHistory.length - 1 - i).velocity
-    val sum = velocities.foldLeft(0.0)(_ + _)
-    //    println("velocities = "+velocities.toList)
-    sum / velocities.size
-  }
-}
-
-class ForceBead(_state: BeadState,
-                _height: Double,
-                _width: Double,
-                positionMapper: Double => Vector2D,
-                rampSegmentAccessor: Double => RampSegment,
-                model: Observable,
-                surfaceFriction: () => Boolean,
-                wallsBounce: () => Boolean,
-                __surfaceFrictionStrategy: SurfaceFrictionStrategy,
-                _wallsExist: => Boolean,
-                wallRange: () => Range,
-                thermalEnergyStrategy: Double => Double)
-        extends Bead(_state, _height, _width, positionMapper, rampSegmentAccessor, model, surfaceFriction, wallsBounce, __surfaceFrictionStrategy, _wallsExist, wallRange, thermalEnergyStrategy) {
 }
