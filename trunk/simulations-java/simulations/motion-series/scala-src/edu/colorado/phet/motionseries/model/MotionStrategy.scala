@@ -1,7 +1,5 @@
 package edu.colorado.phet.motionseries.model
 
-import edu.colorado.phet.common.motion.model.TimeData
-import edu.colorado.phet.common.motion.MotionMath
 import edu.colorado.phet.common.phetcommon.math.MathUtil
 import edu.colorado.phet.scalacommon.math.Vector2D
 import java.lang.Math._
@@ -15,17 +13,17 @@ trait MotionStrategyMemento {
 abstract class MotionStrategy(val bead: ForceBead) {
   def stepInTime(dt: Double)
 
+  def position2D: Vector2D
+
+  def getAngle: Double
+
+  def getMemento: MotionStrategyMemento
+
   def wallForce = new Vector2D
 
   def frictionForce = new Vector2D
 
   def normalForce = new Vector2D
-
-  def position2D: Vector2D
-
-  def getAngle: Double
-
-  def getFactory: MotionStrategyMemento
 
   //accessors/adapters for subclass convenience
   //This class was originally designed to be an inner class of Bead, but IntelliJ debugger didn't support debug into inner classes at the time
@@ -91,7 +89,7 @@ class Crashed(_position2D: Vector2D, _angle: Double, bead: ForceBead) extends Mo
 
   def getAngle = _angle
 
-  def getFactory = {
+  def getMemento = {
     new MotionStrategyMemento {
       def getMotionStrategy(bead: ForceBead) = new Crashed(position2D, getAngle, bead)
     }
@@ -119,7 +117,7 @@ class Airborne(private var _position2D: Vector2D, private var _velocity2D: Vecto
 
   override def position2D = _position2D
 
-  def getFactory = new AirborneMemento(position2D, velocity2D, getAngle)
+  def getMemento = new AirborneMemento(position2D, velocity2D, getAngle)
 }
 
 class AirborneMemento(p: Vector2D, v: Vector2D, a: Double) extends MotionStrategyMemento {
@@ -129,7 +127,7 @@ class AirborneMemento(p: Vector2D, v: Vector2D, a: Double) extends MotionStrateg
 }
 
 class Grounded(bead: ForceBead) extends MotionStrategy(bead) {
-  def getFactory = {
+  def getMemento = {
     new MotionStrategyMemento {
       def getMotionStrategy(bead: ForceBead) = new Grounded(bead)
     }
