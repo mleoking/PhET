@@ -31,6 +31,14 @@ case class BeadState(position: Double, velocity: Double, mass: Double, staticFri
 
 case class Range(min: Double, max: Double)
 
+/**
+ * Ways to refactor this to modularize support for moving man:
+ *
+ * 1. Subclass: MovingManBead, provides overrides for functions like getAcceleration
+ * 2. Strategy pattern: PositionDriven, VelocityDriven, AccelerationDriven
+ *
+ * maybe need both.
+ */
 class Bead(private var _state: BeadState,
            private var _height: Double,
            private var _width: Double,
@@ -70,9 +78,7 @@ class Bead(private var _state: BeadState,
 
   def motionStrategy = _motionStrategy
 
-  def motionStrategy_=(s: MotionStrategy) = {
-    _motionStrategy = s
-  }
+  def motionStrategy_=(s: MotionStrategy) = _motionStrategy = s
 
   val gravityForceVector = new BeadVector(MotionSeriesDefaults.gravityForceColor, "Gravity Force".literal, "force.abbrev.gravity".translate, false, () => gravityForce, (a, b) => b)
   val normalForceVector = new BeadVector(MotionSeriesDefaults.normalForceColor, "Normal Force".literal, "force.abbrev.normal".translate, true, () => normalForce, (a, b) => b)
@@ -237,17 +243,13 @@ class Bead(private var _state: BeadState,
 
   def time = state.time
 
-  def setTime(t: Double) = {
-    state = state.setTime(t)
-  }
+  def setTime(t: Double) = state = state.setTime(t)
 
   private var _desiredPosition = 0.0
 
   def desiredPosition = _desiredPosition
   //so we can use a filter
-  def setDesiredPosition(position: Double) = {
-    _desiredPosition = position
-  }
+  def setDesiredPosition(position: Double) = _desiredPosition = position
 
   def setPosition(position: Double) = {
     if (position != state.position) {
