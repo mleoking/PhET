@@ -10,17 +10,6 @@ import scalacommon.util.Observable
 //to
 //MovingManBead extends Bead
 //ForceBead extends Bead
-
-/**
- *
-if (bead.mode == bead.velocityMode)        {
-//compute acceleration as derivative of velocity
-val acceleration = (bead.velocity - origState.velocity) / dt
-bead.parallelAppliedForce = acceleration * bead.mass
-} else if (bead.mode == bead.positionMode)        {
-
-}
- */
 class MovingManBead(_state: BeadState,
                     _height: Double,
                     _width: Double,
@@ -50,6 +39,7 @@ class MovingManBead(_state: BeadState,
 
   def setVelocityMode() = {
     _mode = velocityMode
+    motionStrategy = new VelocityMotionStrategy(this)
   }
 
   def setPositionMode() = {
@@ -99,6 +89,21 @@ class PositionMotionStrategy(bead: ForceBead) extends MotionStrategy(bead) {
     yield new TimeData(bead.stateHistory(bead.stateHistory.length - 1 - i).position, bead.stateHistory(bead.stateHistory.length - 1 - i).time)
     val vel = MotionMath.estimateDerivative(timeData.toArray)
     bead.setVelocity(vel)
+    bead.setTime(bead.time + dt)
+  }
+
+  def position2D = bead.positionMapper(bead.position)
+
+  def getAngle = 0.0
+}
+
+class VelocityMotionStrategy(bead: ForceBead) extends MotionStrategy(bead) {
+  def getMemento = new MotionStrategyMemento {
+    def getMotionStrategy(bead: ForceBead) = new VelocityMotionStrategy(bead)
+  }
+
+  def stepInTime(dt: Double) = {
+    bead.setPosition(bead.position + bead.velocity * dt)
     bead.setTime(bead.time + dt)
   }
 
