@@ -5,6 +5,7 @@ package edu.colorado.phet.translationutility;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.util.Date;
 import java.util.Locale;
 
 import javax.swing.JFrame;
@@ -38,6 +39,7 @@ public class TranslationUtility extends JFrame {
         
         TULogger.log( "Translation Utility: version " + TUResources.getVersion() );
         TULogger.log( "Translation Utility: " + TUResources.getOSVersion() + ", " + TUResources.getJavaVersion() );
+        TULogger.log( "Translation Utility: started " + new Date().toString() );
         
         // check for a more recent version on the server
         UpdateManager.checkForUpdate();
