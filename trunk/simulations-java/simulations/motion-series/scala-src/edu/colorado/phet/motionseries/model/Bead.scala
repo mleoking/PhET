@@ -39,18 +39,18 @@ case class Range(min: Double, max: Double)
  *
  * maybe need both.
  */
-class Bead(private var _state: BeadState,
-           private var _height: Double,
-           private var _width: Double,
-           val positionMapper: Double => Vector2D,
-           val rampSegmentAccessor: Double => RampSegment,
-           model: Observable,
-           val surfaceFriction: () => Boolean,
-           val wallsBounce: () => Boolean,
-           __surfaceFrictionStrategy: SurfaceFrictionStrategy,
-           _wallsExist: => Boolean,
-           val wallRange: () => Range,
-           thermalEnergyStrategy: Double => Double)
+abstract class Bead(private var _state: BeadState,
+                    private var _height: Double,
+                    private var _width: Double,
+                    val positionMapper: Double => Vector2D,
+                    val rampSegmentAccessor: Double => RampSegment,
+                    model: Observable,
+                    val surfaceFriction: () => Boolean,
+                    val wallsBounce: () => Boolean,
+                    __surfaceFrictionStrategy: SurfaceFrictionStrategy,
+                    _wallsExist: => Boolean,
+                    val wallRange: () => Range,
+                    thermalEnergyStrategy: Double => Double)
         extends Observable {
   def wallsExist = _wallsExist
 
@@ -360,4 +360,19 @@ class Bead(private var _state: BeadState,
     //    println("velocities = "+velocities.toList)
     sum / velocities.size
   }
+}
+
+class ForceBead(_state: BeadState,
+                _height: Double,
+                _width: Double,
+                positionMapper: Double => Vector2D,
+                rampSegmentAccessor: Double => RampSegment,
+                model: Observable,
+                surfaceFriction: () => Boolean,
+                wallsBounce: () => Boolean,
+                __surfaceFrictionStrategy: SurfaceFrictionStrategy,
+                _wallsExist: => Boolean,
+                wallRange: () => Range,
+                thermalEnergyStrategy: Double => Double)
+        extends Bead(_state, _height, _width, positionMapper, rampSegmentAccessor, model, surfaceFriction, wallsBounce, __surfaceFrictionStrategy, _wallsExist, wallRange, thermalEnergyStrategy) {
 }

@@ -214,7 +214,7 @@ class MotionSeriesModel(defaultBeadPosition: Double,
   val leftWallRightEdge = createBead(-10 + MotionSeriesDefaults.wall.width / 2, MotionSeriesDefaults.SPRING_WIDTH, MotionSeriesDefaults.SPRING_HEIGHT)
   val rightWallLeftEdge = createBead(10 - MotionSeriesDefaults.wall.width / 2, MotionSeriesDefaults.SPRING_WIDTH, MotionSeriesDefaults.SPRING_HEIGHT)
 
-  val manBead = createBead(defaultManPosition, 1)
+  val manBead = createBead(defaultManPosition, 1,3)
 
   val wallRange = () => {
     new Range(-rampSegments(0).length, rampSegments(1).length)
@@ -223,7 +223,7 @@ class MotionSeriesModel(defaultBeadPosition: Double,
     //todo: allow different values for different segments
     def getTotalFriction(objectFriction: Double) = new LinearFunction(0, 1, objectFriction, objectFriction * 0.75).evaluate(rampSegments(0).wetness)
   }
-  val bead = new Bead(new BeadState(defaultBeadPosition, 0,
+  val bead = new ForceBead(new BeadState(defaultBeadPosition, 0,
     _selectedObject.mass, _selectedObject.staticFriction, _selectedObject.kineticFriction, 0.0, 0.0, 0.0),
     _selectedObject.height, _selectedObject.width, positionMapper,
     rampSegmentAccessor, rampChangeAdapter, surfaceFriction, wallsBounce, surfaceFrictionStrategy, walls, wallRange, thermalEnergyStrategy)
@@ -240,7 +240,7 @@ class MotionSeriesModel(defaultBeadPosition: Double,
   val elapsedTimeHistory = new ArrayBuffer[Long]
 
   def createBead(x: Double, width: Double, height: Double) =
-    new Bead(new BeadState(x, 0, 10, 0, 0, 0.0, 0.0, 0.0), height, width, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction, wallsBounce, surfaceFrictionStrategy, walls, wallRange, thermalEnergyStrategy)
+    new ForceBead(new BeadState(x, 0, 10, 0, 0, 0.0, 0.0, 0.0), height, width, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction, wallsBounce, surfaceFrictionStrategy, walls, wallRange, thermalEnergyStrategy)
 
   def createBead(x: Double, width: Double): Bead = createBead(x, width, 3)
 
