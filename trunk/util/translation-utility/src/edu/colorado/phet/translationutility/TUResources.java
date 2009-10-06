@@ -12,6 +12,7 @@ import javax.swing.ImageIcon;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
+import edu.colorado.phet.common.phetcommon.util.JavaVersion;
 
 /**
  * This is a convenience wrapper around PhetResources and PhetApplicationConfig that provides 
@@ -63,8 +64,12 @@ public class TUResources {
         return System.getProperty( "os.name" ) + " " + System.getProperty( "os.version" );
     }
     
-    public static String getJavaVersion() {
-        return "Java " + System.getProperty( "java.version" );
+    public static String getJREVersion() {
+        return "JRE " + new JavaVersion.JREVersion().toString();
+    }
+    
+    public static String getJVMVersion() {
+        return "JVM " + new JavaVersion.JVMVersion().toString();
     }
     
     /**
