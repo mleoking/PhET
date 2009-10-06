@@ -32,8 +32,8 @@ public class PreviewPanel extends JPanel {
     
     private static final int MARGIN = 10;
     private static final Border BORDER = new CompoundBorder( new LineBorder( Color.BLACK, 1 ), new EmptyBorder( MARGIN, MARGIN, MARGIN, MARGIN ) );
-    private static final double WIDTH_WARNING_THRESHOLD = 1.25;
-    private static final double HEIGHT_WARNING_THRESHOLD = 1.25;
+    private static final double WIDTH_WARNING_THRESHOLD = 1.15;
+    private static final double HEIGHT_WARNING_THRESHOLD = 1.15;
     
     public PreviewPanel( String source, Locale sourceLocale, Font sourceFont, String target, Locale targetLocale, Font targetFont ) {
         super();
