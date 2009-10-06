@@ -15,11 +15,11 @@ trait MotionStrategyMemento {
 abstract class MotionStrategy(val bead: ForceBead) {
   def stepInTime(dt: Double)
 
-  def wallForce: Vector2D
+  def wallForce = new Vector2D
 
-  def frictionForce: Vector2D
+  def frictionForce = new Vector2D
 
-  def normalForce: Vector2D
+  def normalForce = new Vector2D
 
   def position2D: Vector2D
 
@@ -85,11 +85,7 @@ abstract class MotionStrategy(val bead: ForceBead) {
 class Crashed(_position2D: Vector2D, _angle: Double, bead: ForceBead) extends MotionStrategy(bead) {
   def stepInTime(dt: Double) = {}
 
-  def wallForce = new Vector2D
-
-  def frictionForce = new Vector2D
-
-  def normalForce = gravityForce * -1
+  override def normalForce = gravityForce * -1
 
   def position2D = _position2D
 
@@ -121,12 +117,6 @@ class Airborne(private var _position2D: Vector2D, private var _velocity2D: Vecto
     bead.notifyListeners() //to get the new normalforce
   }
 
-  override def wallForce = new Vector2D
-
-  override def frictionForce = new Vector2D
-
-  override def normalForce = new Vector2D
-
   override def position2D = _position2D
 
   def getFactory = new AirborneMemento(position2D, velocity2D, getAngle)
@@ -149,7 +139,7 @@ class Grounded(bead: ForceBead) extends MotionStrategy(bead) {
 
   def getAngle = rampSegmentAccessor(position).getUnitVector.getAngle
 
-  def normalForce = {
+  override def normalForce = {
     val magnitude = (gravityForce * -1) dot getRampUnitVector.rotate(PI / 2)
     val angle = getRampUnitVector.getAngle + PI / 2
     new Vector2D(angle) * magnitude
