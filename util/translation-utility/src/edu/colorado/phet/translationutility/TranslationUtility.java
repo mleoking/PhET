@@ -37,6 +37,7 @@ public class TranslationUtility extends JFrame {
     public static void start() {
         
         TULogger.log( "Translation Utility: version " + TUResources.getVersion() );
+        TULogger.log( "Translation Utility: " + TUResources.getOSVersion() + ", " + TUResources.getJavaVersion() );
         
         // check for a more recent version on the server
         UpdateManager.checkForUpdate();
