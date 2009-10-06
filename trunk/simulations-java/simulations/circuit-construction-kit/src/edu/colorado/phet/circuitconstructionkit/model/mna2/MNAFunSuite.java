@@ -192,11 +192,15 @@ public class MNAFunSuite extends TestCase {
         double vt = 0;
         double it = v0 / r1;
 
-        double dt = 1E-4;
-        System.out.println("i \t t \t v \t i");
-        for (int i = 0; i < 1000; i++) {
+        double dt = 1E-8;
+        System.out.println("i \t t \t vExact \t vPred");
+        for (int i = 0; i < 10000; i++) {
+            double t = i*dt;
+            double voltageDropAcrossResistor = -v0 * Math.exp(-t / r1 / c);
+            double predictedVoltageDropAcrossResistor = vt-v0;
 
-            System.out.println(i+"\t"+i*dt+"\t"+vt+"\t"+it);
+//            System.out.println(i + "\t" + t + "\t" + vt + "\t" + it + "\t" + voltageDropAcrossResistor+"\t"+predictedVoltageDropAcrossResistor);
+            System.out.println(i + "\t" + t +"\t"+ voltageDropAcrossResistor+"\t"+predictedVoltageDropAcrossResistor);
 
             double rTot = dt / 2 / c + r1;
             double vTot = v0 - vt - dt / 2 / c * it;
