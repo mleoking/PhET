@@ -85,8 +85,12 @@ class IntroModule(frame: PhetFrame,
   val positionControlPSwing = new PSwing(positionControl)
   canvas.addStageNode(positionControlPSwing)
 
+  //todo: need to distinguish between user-setting a value to velocity vs. velocity change originiating from the model
   val velocityControl = new ScalaValueControl(-20, 20, "velocity", "0.0", "m/s", () => motionSeriesModel.bead.velocity,
-    v => {motionSeriesModel.bead.setVelocityMode();motionSeriesModel.bead.setVelocity(v)}, motionSeriesModel.addListener)
+    v => {
+      motionSeriesModel.bead.setVelocityMode()
+      motionSeriesModel.bead.setVelocity(v)
+    }, motionSeriesModel.addListener)
   val velocityControlPSwing = new PSwing(velocityControl)
   canvas.addStageNode(velocityControlPSwing)
 
