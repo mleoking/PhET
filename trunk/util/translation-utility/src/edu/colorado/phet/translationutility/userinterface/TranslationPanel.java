@@ -189,6 +189,7 @@ public class TranslationPanel extends JPanel implements FindListener {
             String value = targetProperties.getProperty( key );
             textArea.setText( value );
         }
+        validateTargets();
         markAllSaved();
     }
     
