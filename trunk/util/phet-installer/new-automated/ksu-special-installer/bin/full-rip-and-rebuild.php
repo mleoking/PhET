@@ -72,7 +72,7 @@
 
         // Build the web mirror installer, meaning an installer that can be
         // used to set up a remotely hosted copy of the web site.
-        installer_build_linux_web_mirror_installer();
+        installer_build_windows_web_mirror_installer();
 
         // Output the time of completion.
         $end_time = exec("date");
