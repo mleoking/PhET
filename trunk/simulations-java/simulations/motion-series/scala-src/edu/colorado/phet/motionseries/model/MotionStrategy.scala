@@ -236,12 +236,6 @@ class Grounded(bead: ForceBead) extends MotionStrategy(bead) {
     bead.notificationsEnabled = false //make sure only to send notifications as a batch at the end; improves performance by 17%
     val origEnergy = getTotalEnergy
     val origState = state
-    if (bead.mode == bead.velocityMode) {
-      bead.parallelAppliedForce = 0.0
-    }
-    if (bead.mode == bead.positionMode) {
-      bead.setVelocity(0.0)
-    }
     val newState = getNewState(dt, origState, origEnergy)
 
     if (newState.position > bead.wallRange().max + width / 2 && !wallsExist) {
@@ -256,25 +250,6 @@ class Grounded(bead: ForceBead) extends MotionStrategy(bead) {
     bead.setVelocity(newState.velocity)
     bead.thermalEnergy = newState.thermalEnergy
     bead.setCrashEnergy(newState.crashEnergy)
-
-    if (bead.mode == bead.velocityMode) {
-      //compute acceleration as derivative of velocity
-      val acceleration = (bead.velocity - origState.velocity) / dt
-      bead.parallelAppliedForce = acceleration * bead.mass
-    } else if (bead.mode == bead.positionMode) {
-      //      println("position = " + bead.position + ", desired = " + bead.desiredPosition)
-      //      bead.setPosition((bead.desiredPosition + bead.position) / 2) //attempt at filtering
-      val mixingFactor = 0.5
-      //maybe a better assumption is constant velocity or constant acceleration ?
-      val dst = bead.desiredPosition * mixingFactor + bead.position * (1 - mixingFactor)
-      bead.setPosition(dst) //attempt at filtering
-
-      //todo: move closer to bead computation of acceleration derivatives
-      val timeData = for (i <- 0 until java.lang.Math.min(15, bead.stateHistory.length))
-      yield new TimeData(bead.stateHistory(bead.stateHistory.length - 1 - i).position, bead.stateHistory(bead.stateHistory.length - 1 - i).time)
-      val vel = MotionMath.estimateDerivative(timeData.toArray)
-      bead.setVelocity(vel)
-    }
 
     bead.notificationsEnabled = true
     bead.notifyListeners() //do as a batch, since it's a performance problem to do this several times in this method call

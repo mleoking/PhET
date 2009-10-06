@@ -115,27 +115,6 @@ abstract class Bead(private var _state: BeadState,
 
   def height = _height
 
-  //todo privatize
-  object velocityMode
-  object positionMode
-  object accelerationMode
-
-  private var _mode: AnyRef = accelerationMode
-
-  def mode = _mode
-
-  def setAccelerationMode() = {
-    _mode = accelerationMode
-  }
-
-  def setVelocityMode() = {
-    _mode = velocityMode
-  }
-
-  def setPositionMode() = {
-    _mode = positionMode
-  }
-
   def setVelocity(velocity: Double) = {
     if (velocity != state.velocity) {
       state = state.setVelocity(velocity)

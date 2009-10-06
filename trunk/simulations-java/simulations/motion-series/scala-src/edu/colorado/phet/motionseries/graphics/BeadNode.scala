@@ -13,8 +13,7 @@ import java.awt.image.BufferedImage
 import edu.colorado.phet.scalacommon.math.Vector2D
 import edu.colorado.phet.scalacommon.Predef._
 import edu.colorado.phet.motionseries.tests.MyCanvas
-import model.{ForceBead, Bead}
-
+import model.{MovingManBead, ForceBead, Bead}
 class ForceDragBeadNode(bead: ForceBead,
                         transform: ModelViewTransform2D,
                         imageName: String,
@@ -35,7 +34,7 @@ class ForceDragBeadNode(bead: ForceBead,
   })
 }
 
-class PositionDragBeadNode(bead: Bead,
+class PositionDragBeadNode(bead: MovingManBead,
                            transform: ModelViewTransform2D,
                            imageName: String,
                            leftImageName: String,
