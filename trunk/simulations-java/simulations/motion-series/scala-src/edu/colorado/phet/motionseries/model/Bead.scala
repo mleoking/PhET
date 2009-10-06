@@ -45,9 +45,7 @@ abstract class Bead(private var _state: BeadState,
                     val positionMapper: Double => Vector2D,
                     val rampSegmentAccessor: Double => RampSegment,
                     model: Observable,
-                    val surfaceFriction: () => Boolean,
                     val wallsBounce: () => Boolean,
-                    __surfaceFrictionStrategy: SurfaceFrictionStrategy,
                     _wallsExist: => Boolean,
                     val wallRange: () => Range,
                     thermalEnergyStrategy: Double => Double)
@@ -254,13 +252,13 @@ class ForceBead(_state: BeadState,
                 positionMapper: Double => Vector2D,
                 rampSegmentAccessor: Double => RampSegment,
                 model: Observable,
-                surfaceFriction: () => Boolean,
+                val surfaceFriction: () => Boolean,
                 wallsBounce: () => Boolean,
-                __surfaceFrictionStrategy: SurfaceFrictionStrategy,
+                val __surfaceFrictionStrategy: SurfaceFrictionStrategy,
                 _wallsExist: => Boolean,
                 wallRange: () => Range,
                 thermalEnergyStrategy: Double => Double)
-        extends Bead(_state, _height, _width, positionMapper, rampSegmentAccessor, model, surfaceFriction, wallsBounce, __surfaceFrictionStrategy, _wallsExist, wallRange, thermalEnergyStrategy) {
+        extends Bead(_state, _height, _width, positionMapper, rampSegmentAccessor, model, wallsBounce, _wallsExist, wallRange, thermalEnergyStrategy) {
   //This method allows bead subclasses to avoid thermal energy by overriding this to return 0.0
   def getThermalEnergy(x: Double) = thermalEnergyStrategy(x)
 
