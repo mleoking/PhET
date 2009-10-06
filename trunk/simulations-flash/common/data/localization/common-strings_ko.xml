@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--common-strings_ko.xml created Tue Aug 18 12:28:41 KST 2009 using: flash-common-strings 2.00.00 (30671), translation-utility 2.01.00 (31673) 5월 15, 2009-->
+<SimStrings>
+<string key="About..." value="설명..."/>
+<string key="SoftwareDevelopment" value="Software Development"/>
+<string key="Cancel" value="취소"/>
+<string key="StatisticsField-host_flash_accessibility" value="Using an accessible device?"/>
+<string key="Privacy" value="개인정보"/>
+<string key="Version" value="Version"/>
+<string key="NewVersionAvailable" value="New Version Available"/>
+<string key="SoftwareAgreement" value="Software Agreement"/>
+<string key="PhETInstallation" value="To download a new installer containing the latest simulation, please visit the &lt;a href='{0}'&gt;PhET Offline Website Installer page&lt;/a&gt;."/>
+<string key="StatisticsField-sim_version_timestamp" value="Simulation version (timestamp)"/>
+<string key="StatisticsField-sim_dev_version" value="Simulation version (dev)"/>
+<string key="AskLater" value="나중에 "/>
+<string key="AcceptContinue" value="동의 및 진행"/>
+<string key="BuildDate" value="Build Date"/>
+<string key="TellMore" value="Tell me more..."/>
+<string key="FlashVersion" value="Flash Version"/>
+<string key="PhetSoftwareAgreement" value="PhET 소프트웨어 동의서"/>
+<string key="NoUpdatesAvailable" value="No Updates Available"/>
+<string key="StatisticsField-message_type" value="Message type"/>
+<string key="InstallationDated" value="Your PhET Offline Website Installation is dated {0}."/>
+<string key="CheckUpdates" value="자동 업데이트 체크"/>
+<string key="UpToDate" value="Up To Date"/>
+<string key="StatisticsField-sim_major_version" value="Simulation version (major)"/>
+<string key="StatisticsField-user_total_sessions" value="Total number of times all simulations have been run"/>
+<string key="InstallationNewer" value="A newer version is available, dated {0}."/>
+<string key="StatisticsField-sim_sessions_since" value="Number of times this simulation has been run since last online"/>
+<string key="StatisticsField-sim_distribution_tag" value="Simulation version (distribution)"/>
+<string key="Yes!" value="Yes!"/>
+<string key="StatisticsField-host_flash_domain" value="Simulation domain"/>
+<string key="DesignTeam" value="Design Team"/>
+<string key="PhETPreferences" value="PhET Preferences"/>
+<string key="Preferences" value="환경설정..."/>
+<string key="AllowMessages" value="PhET에 정보 전송 동의"/>
+<string key="Updates" value="Updates"/>
+<string key="StatisticsField-sim_revision" value="Simulation version (revision)"/>
+<string key="StatisticsField-user_preference_file_creation_time" value="Preferences file creation time"/>
+<string key="Interviews" value="Interviews"/>
+<string key="StatisticsField-host_flash_time_offset" value="Timezone"/>
+<string key="MostCurrentVersion" value="You have the most current version ({0}) of {1}."/>
+<string key="StatisticsField-sim_deployment" value="Deployment type"/>
+<string key="PrivacyRequirement" value="&lt;a href='{0}'&gt;PhET&lt;/a&gt; 는 '최소한의 정보 수집 동의'를 통해서 자유롭게 사용할 수 있습니다. 이 정보는 PhET sims의 사용에 관한 것으로 사용자들의 업데이트 요구를 반영하는데 도움을 줄 것입니다. 전송되는 세부사항은 아래에서 확인할 수 있습니다."/>
+<string key="StatisticsField-sim_type" value="Simulation type"/>
+<string key="Close" value="닫기"/>
+<string key="StatisticsField-sim_dev" value="Is this a developer version?"/>
+<string key="InstallerAsk" value="Would you like to get the latest PhET Offline Website Installer?"/>
+<string key="PrivacyMessage2" value="By clicking &quot;Agree and Continue&quot;, you agree to PhET's Software Agreement, including our privacy policy, for this and every PhET simulation you run. (For details, &lt;a href='{0}'&gt;click here&lt;/a&gt;)."/>
+<string key="StatisticsField-sim_total_sessions" value="Total number of times this simulation has been run"/>
+<string key="PrivacyMessage1" value="In all PhET simulations, we collect a minimal amount of anonymous &lt;a href='{0}'&gt;information&lt;/a&gt; each time the simulation starts (e.g., simulation version, operating system). You can disable the sending of this information at any time via the Preferences button."/>
+<string key="StatisticsField-user_installation_timestamp" value="PhET installation timestamp"/>
+<string key="StatisticsField-sim_name" value="Simulation name"/>
+<string key="UpdateOptionsAvailable" value="Update options are available under &lt;i&gt;Preferences&lt;/i&gt;."/>
+<string key="PhetDevelopmentTeam" value="PhET Development Team"/>
+<string key="InstallerInfo2" value="If you choose to get the newest version, a web browser will open to the PhET website, where you can download the PhET Offline Website Installer."/>
+<string key="InstallerInfo1" value="Keeping your PhET Offline Website Installation up-to-date ensures that you have access to the newest PhET simulations and supplemental materials."/>
+<string key="StatisticsField-sim_minor_version" value="Simulation version (minor)"/>
+<string key="Credits" value="Credits"/>
+<string key="StatisticsField-host_flash_version" value="Flash Player version"/>
+<string key="TryNow" value="Try it now"/>
+<string key="PrivacySkip" value="Skip this version"/>
+<string key="CheckInstallationUpdates" value="PhET 설치파일 업데이트 체크..."/>
+<string key="StatisticsField-sim_locale_language" value="Language"/>
+<string key="Distribution" value="Distribution"/>
+<string key="LicenseLibraries" value="Used Library Licensing Information:"/>
+<string key="PrivacyDetails" value="개인정보 세부사항"/>
+<string key="NotUpdateSim" value="This simulation cannot be updated automatically."/>
+<string key="CurrentVersionIs" value="Your current version of {0} is {1}."/>
+<string key="StatisticsField-host_flash_os" value="Operating system and name"/>
+<string key="OK" value="적용"/>
+<string key="Error" value="Error"/>
+<string key="CheckSimUpdates" value="시뮬레이션 업데이트 체크..."/>
+<string key="StatisticsField-sim_project" value="Project name"/>
+<string key="NewerVersionIs" value="A newer version {0} is available."/>
+<string key="SentInformation" value="아래에 보여지는 정보는 시뮬레이션이 시작될 때, PhET에 전송됩니다."/>
+<string key="OSVersion" value="OS"/>
+<string key="Details" value="세부사항..."/>
+<string key="StatisticsField-message_version" value="Message version"/>
+<string key="LeadDesign" value="Lead Design"/>
+<string key="StatisticsField-host_locale_language" value="Host language"/>
+<string key="AboutSim" value="{0} 에 대해"/>
+<string key="VersionError2" value="Please try again later, or visit &lt;a href='{0}'&gt;http://phet.colorado.edu&lt;/a&gt;"/>
+<string key="VersionError1" value="An error was encountered while trying to obtain version information."/>
+<string key="StatisticsField-sim_locale_country" value="Country"/>
+</SimStrings>
