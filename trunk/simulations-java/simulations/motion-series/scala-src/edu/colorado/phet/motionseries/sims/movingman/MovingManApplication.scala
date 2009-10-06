@@ -9,6 +9,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication
 import edu.colorado.phet.motionseries.graphics._
 import java.awt.Color
 import edu.colorado.phet.scalacommon.record.{RecordModelControlPanel, PlaybackSpeedSlider}
+import javax.swing.event.{ChangeListener, ChangeEvent}
 import javax.swing.JFrame
 import edu.colorado.phet.scalacommon.ScalaClock
 import edu.colorado.phet.motionseries.MotionSeriesResources._
@@ -86,11 +87,20 @@ class IntroModule(frame: PhetFrame,
   canvas.addStageNode(positionControlPSwing)
 
   //todo: need to distinguish between user-setting a value to velocity vs. velocity change originiating from the model
+  //todo: could factor out focuscontrol, passes Double,Boolean for value,focus
   val velocityControl = new ScalaValueControl(-20, 20, "velocity", "0.0", "m/s", () => motionSeriesModel.bead.velocity,
     v => {
-      motionSeriesModel.bead.setVelocityMode()
-      motionSeriesModel.bead.setVelocity(v)
+      //      motionSeriesModel.bead.setVelocityMode()
+      //      motionSeriesModel.bead.setVelocity(v)
     }, motionSeriesModel.addListener)
+  velocityControl.addChangeListener(new ChangeListener {
+    def stateChanged(e: ChangeEvent) = {
+      if (velocityControl.getSlider.hasFocus) {
+        motionSeriesModel.bead.setVelocityMode()
+        motionSeriesModel.bead.setVelocity(velocityControl.getValue)
+      }
+    }
+  })
   val velocityControlPSwing = new PSwing(velocityControl)
   canvas.addStageNode(velocityControlPSwing)
 
