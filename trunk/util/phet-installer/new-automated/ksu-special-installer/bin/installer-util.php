@@ -418,11 +418,9 @@
         return true;
     }
     
-    function installer_build_linux_web_mirror_installer($macro_map = array()) {
+    function installer_build_windows_web_mirror_installer($macro_map = array()) {
 
-        global $g_bitrock_dists;
-
-        $build_prefix  = "PhET-web-mirror-linux";
+        $build_prefix  = "PhET-web-mirror-windows";
         $buildfile_ext = file_get_extension(BITROCK_WEB_MIRROR_BUILDFILE);
 
         $new_buildfile = BITROCK_BUILDFILE_DIR."${build_prefix}.${buildfile_ext}";
@@ -448,9 +446,9 @@
         // Change working directory to location of EXE:
         chdir($exe_dir);
 
-        $platform = BITROCK_PLATFORM_LINUX;
+        $platform = BITROCK_PLATFORM_WINDOWS;
 
-        $cmd_line = $exe_dir.BITROCK_EXE.BITROCK_PRE_ARGS.'"'."$new_buildfile".'" '.BITROCK_PLATFORM_LINUX;
+        $cmd_line = $exe_dir.BITROCK_EXE.BITROCK_PRE_ARGS.'"'."$new_buildfile".'" '.BITROCK_PLATFORM_WINDOWS;
 
         $cmd_line = file_with_local_separator($cmd_line);
 
@@ -459,7 +457,7 @@
         system($cmd_line, $return_var);
 
         if ($return_var != 0) {
-            flushing_echo("BitRock failed to build web mirror installer for ".BITROCK_PLATFORM_LINUX.".");
+            flushing_echo("BitRock failed to build web mirror installer for ".BITROCK_PLATFORM_WINDOWS.".");
         }
 
         chdir($cwd);
