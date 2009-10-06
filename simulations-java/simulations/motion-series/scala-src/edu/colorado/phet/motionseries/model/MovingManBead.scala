@@ -70,15 +70,18 @@ class MovingManBead(_state: BeadState,
   }
 }
 
+abstract class MovingManStrategy(bead: ForceBead) extends MotionStrategy(bead) {
+  def position2D = bead.positionMapper(bead.position)
 
-class PositionMotionStrategy(bead: ForceBead) extends MotionStrategy(bead) {
+  def getAngle = 0.0
+}
+
+class PositionMotionStrategy(bead: ForceBead) extends MovingManStrategy(bead) {
   def getMemento = new MotionStrategyMemento {
     def getMotionStrategy(bead: ForceBead) = new PositionMotionStrategy(bead)
   }
 
   def stepInTime(dt: Double) = {
-    //      println("position = " + bead.position + ", desired = " + bead.desiredPosition)
-    //      bead.setPosition((bead.desiredPosition + bead.position) / 2) //attempt at filtering
     val mixingFactor = 0.5
     //maybe a better assumption is constant velocity or constant acceleration ?
     val dst = bead.desiredPosition * mixingFactor + bead.position * (1 - mixingFactor)
@@ -91,13 +94,9 @@ class PositionMotionStrategy(bead: ForceBead) extends MotionStrategy(bead) {
     bead.setVelocity(vel)
     bead.setTime(bead.time + dt)
   }
-
-  def position2D = bead.positionMapper(bead.position)
-
-  def getAngle = 0.0
 }
 
-class VelocityMotionStrategy(bead: ForceBead) extends MotionStrategy(bead) {
+class VelocityMotionStrategy(bead: ForceBead) extends MovingManStrategy(bead) {
   def getMemento = new MotionStrategyMemento {
     def getMotionStrategy(bead: ForceBead) = new VelocityMotionStrategy(bead)
   }
@@ -106,8 +105,4 @@ class VelocityMotionStrategy(bead: ForceBead) extends MotionStrategy(bead) {
     bead.setPosition(bead.position + bead.velocity * dt)
     bead.setTime(bead.time + dt)
   }
-
-  def position2D = bead.positionMapper(bead.position)
-
-  def getAngle = 0.0
 }
