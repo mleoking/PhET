@@ -59,6 +59,14 @@ public class TUResources {
         return version.formatForAboutDialog() + " " + version.formatTimestamp();
     }
     
+    public static String getOSVersion() {
+        return System.getProperty( "os.name" ) + " " + System.getProperty( "os.version" );
+    }
+    
+    public static String getJavaVersion() {
+        return "Java " + System.getProperty( "java.version" );
+    }
+    
     /**
      * Gets the program's title, to be displayed in the title bar of dialogs and windows.
      * @return String
