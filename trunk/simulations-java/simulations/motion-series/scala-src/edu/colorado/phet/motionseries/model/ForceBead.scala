@@ -212,6 +212,17 @@ class MovingManBead(_state: BeadState,
 
   def setPositionMode() = {
     _mode = positionMode
+//    motionStrategy  = new MotionStrategy(this){
+//      def getFactory = null
+//
+//      override def wallForce = null
+//
+//      def stepInTime(dt: Double) = null
+//
+//      def position2D = null
+//
+//      def getAngle = 0.0
+//    }
   }
   override def acceleration = {
     if (mode == positionMode) {
