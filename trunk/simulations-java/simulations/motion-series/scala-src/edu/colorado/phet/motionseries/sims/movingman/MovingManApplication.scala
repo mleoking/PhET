@@ -63,7 +63,7 @@ class MovingManCanvas(model: MotionSeriesModel,
 
   override def createRightSegmentNode = new RampSegmentNode(model.rampSegments(1), transform, model)
 
-  override def createBeadNode(b: Bead, t: ModelViewTransform2D, s: String, listener: () => Unit) = new PositionDragBeadNode(b, t, "moving-man/moving-man-standing.gif", "moving-man/moving-man-left.gif", listener, this)
+  override def createBeadNode(b: ForceBead, t: ModelViewTransform2D, s: String, listener: () => Unit) = new PositionDragBeadNode(b, t, "moving-man/moving-man-standing.gif", "moving-man/moving-man-left.gif", listener, this)
 
   playAreaVectorNode.addVector(new PlayAreaVector(model.bead.velocityVector, MotionSeriesDefaults.PLAY_AREA_VELOCITY_VECTOR_SCALE),
     new PlayAreaOffset(model.bead, vectorViewModel, 0.5, model.bead.velocityVector))

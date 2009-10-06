@@ -9,10 +9,10 @@ import edu.colorado.phet.motionseries.Predef._
 
 //Used to save/restore motion strategies during record/playback
 trait MotionStrategyMemento {
-  def getMotionStrategy(bead: Bead): MotionStrategy
+  def getMotionStrategy(bead: ForceBead): MotionStrategy
 }
 
-abstract class MotionStrategy(val bead: Bead) {
+abstract class MotionStrategy(val bead: ForceBead) {
   def stepInTime(dt: Double)
 
   def wallForce: Vector2D
@@ -82,7 +82,7 @@ abstract class MotionStrategy(val bead: Bead) {
   def getVelocityVectorDirection = bead.getVelocityVectorDirection
 }
 
-class Crashed(_position2D: Vector2D, _angle: Double, bead: Bead) extends MotionStrategy(bead) {
+class Crashed(_position2D: Vector2D, _angle: Double, bead: ForceBead) extends MotionStrategy(bead) {
   def stepInTime(dt: Double) = {}
 
   def wallForce = new Vector2D
@@ -97,12 +97,12 @@ class Crashed(_position2D: Vector2D, _angle: Double, bead: Bead) extends MotionS
 
   def getFactory = {
     new MotionStrategyMemento {
-      def getMotionStrategy(bead: Bead) = new Crashed(position2D, getAngle, bead)
+      def getMotionStrategy(bead: ForceBead) = new Crashed(position2D, getAngle, bead)
     }
   }
 }
 
-class Airborne(private var _position2D: Vector2D, private var _velocity2D: Vector2D, _angle: Double, bead: Bead) extends MotionStrategy(bead: Bead) {
+class Airborne(private var _position2D: Vector2D, private var _velocity2D: Vector2D, _angle: Double, bead: ForceBead) extends MotionStrategy(bead: ForceBead) {
   override def toString = "position = " + position2D
 
   def getAngle = _angle
@@ -133,15 +133,15 @@ class Airborne(private var _position2D: Vector2D, private var _velocity2D: Vecto
 }
 
 class AirborneMemento(p: Vector2D, v: Vector2D, a: Double) extends MotionStrategyMemento {
-  def getMotionStrategy(bead: Bead) = new Airborne(p, v, a, bead)
+  def getMotionStrategy(bead: ForceBead) = new Airborne(p, v, a, bead)
 
   override def toString = "airborn motion strategy mode, p = " + p
 }
 
-class Grounded(bead: Bead) extends MotionStrategy(bead) {
+class Grounded(bead: ForceBead) extends MotionStrategy(bead) {
   def getFactory = {
     new MotionStrategyMemento {
-      def getMotionStrategy(bead: Bead) = new Grounded(bead)
+      def getMotionStrategy(bead: ForceBead) = new Grounded(bead)
     }
   }
 

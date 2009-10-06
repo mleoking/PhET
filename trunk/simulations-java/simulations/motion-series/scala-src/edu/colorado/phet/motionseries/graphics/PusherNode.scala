@@ -3,12 +3,12 @@ package edu.colorado.phet.motionseries.graphics
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils
-import edu.colorado.phet.motionseries.model.{Bead}
 import edu.colorado.phet.scalacommon.Predef._
 import java.lang.Math._
 import edu.colorado.phet.motionseries.MotionSeriesResources
+import model.{ForceBead, Bead}
 
-class PusherNode(transform: ModelViewTransform2D, targetBead: Bead, manBead: Bead)
+class PusherNode(transform: ModelViewTransform2D, targetBead: ForceBead, manBead: Bead)
         extends BeadNode(manBead, transform, "standing-man.png".literal) {
   defineInvokeAndPass(targetBead.addListenerByName) {
     if (targetBead.appliedForce.magnitude > 0) {
@@ -38,7 +38,7 @@ class PusherNode(transform: ModelViewTransform2D, targetBead: Bead, manBead: Bea
   setChildrenPickable(false)
 }
 
-class RobotPusherNode(transform: ModelViewTransform2D, targetBead: Bead, manBead: Bead)
+class RobotPusherNode(transform: ModelViewTransform2D, targetBead: ForceBead, manBead: Bead)
         extends BeadNode(manBead, transform, "robotmovingcompany/robot.gif".literal) {
   defineInvokeAndPass(targetBead.addListenerByName) {
     if (targetBead.appliedForce.magnitude > 0) {

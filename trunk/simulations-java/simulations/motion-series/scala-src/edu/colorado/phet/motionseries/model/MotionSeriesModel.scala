@@ -242,7 +242,7 @@ class MotionSeriesModel(defaultBeadPosition: Double,
   def createBead(x: Double, width: Double, height: Double) =
     new ForceBead(new BeadState(x, 0, 10, 0, 0, 0.0, 0.0, 0.0), height, width, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction, wallsBounce, surfaceFrictionStrategy, walls, wallRange, thermalEnergyStrategy)
 
-  def createBead(x: Double, width: Double): Bead = createBead(x, width, 3)
+  def createBead(x: Double, width: Double): ForceBead = createBead(x, width, 3)
 
   def stepRecord(): Unit = stepRecord(MotionSeriesDefaults.DT_DEFAULT)
 

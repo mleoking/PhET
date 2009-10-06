@@ -2,12 +2,12 @@ package edu.colorado.phet.motionseries.sims.theramp.robotmovingcompany
 
 import collection.mutable.{HashMap, ArrayBuffer}
 import common.phetcommon.math.MathUtil
-import edu.colorado.phet.motionseries.model.{MotionSeriesObject, SurfaceModel, MotionSeriesModel, Bead}
 import edu.colorado.phet.scalacommon.ScalaClock
 import edu.colorado.phet.scalacommon.util.Observable
 import edu.colorado.phet.scalacommon.math.Vector2D
 import java.lang.Math._
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
+import model._
 
 class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
                                   clock: ScalaClock,
@@ -24,7 +24,7 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
   private val resultMap = new HashMap[MotionSeriesObject, Result]
 
   //Event notifications
-  val beadCreatedListeners = new ArrayBuffer[(Bead, MotionSeriesObject) => Unit]
+  val beadCreatedListeners = new ArrayBuffer[(ForceBead, MotionSeriesObject) => Unit]
   val itemFinishedListeners = new ArrayBuffer[(MotionSeriesObject, Result) => Unit]
   val gameFinishListeners = new ArrayBuffer[() => Unit]
 
@@ -38,7 +38,7 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
 
   val doorListeners = new ArrayBuffer[() => Unit]
   val doorBackground = model.createBead(housePosition, MotionSeriesDefaults.doorBackground.width, MotionSeriesDefaults.doorBackground.height)
-  private var _bead: Bead = null
+  private var _bead: ForceBead = null
 
   clock.addClockListener(dt => if (!model.isPaused && _bead != null) _bead.stepInTime(dt))
   resetAll()
@@ -172,7 +172,7 @@ class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
 
   def inputAllowed = _inputAllowed
 
-  def itemDelivered(o: MotionSeriesObject, beadRef: Bead) = {
+  def itemDelivered(o: MotionSeriesObject, beadRef: ForceBead) = {
     if (!deliverList.contains(beadRef)) {
       deliverList += beadRef
       object listener extends Function0[Unit] { //it's an object so we can refer to it as this below

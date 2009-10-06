@@ -215,7 +215,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
     textNode.setOffset(0, pImage.getFullBounds.getMaxY)
     addChild(textNode)
   }
-  def init(bead: Bead, a: MotionSeriesObject) = {
+  def init(bead: ForceBead, a: MotionSeriesObject) = {
     val lastBead = _currentBead
     _currentBead = bead
 
