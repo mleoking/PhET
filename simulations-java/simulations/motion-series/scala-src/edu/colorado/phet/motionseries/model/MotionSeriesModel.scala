@@ -63,7 +63,7 @@ class MotionSeriesModel(defaultBeadPosition: Double,
     //todo: allow different values for different segments
     def getTotalFriction(objectFriction: Double) = new LinearFunction(0, 1, objectFriction, objectFriction * 0.75).evaluate(rampSegments(0).wetness)
   }
-  val bead:Bead = new ForceBead(new BeadState(defaultBeadPosition, 0,
+  val bead = new ForceBead(new BeadState(defaultBeadPosition, 0,
     _selectedObject.mass, _selectedObject.staticFriction, _selectedObject.kineticFriction, 0.0, 0.0, 0.0),
     _selectedObject.height, _selectedObject.width, positionMapper,
     rampSegmentAccessor, rampChangeAdapter, surfaceFriction, wallsBounce, surfaceFrictionStrategy, walls, wallRange, thermalEnergyStrategy)
