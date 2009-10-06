@@ -1,3 +1,5 @@
+forces-and-motion: Set minimum mass to 1.0kg
+Refactored model, isolating moving man functionality
 # 1.03.51 (35491) Oct 4, 2009
 Fixed: FBD dialog doesn't disappear when switching from a tab that doesn't show the FBD in the play area
 # 1.03.50 (35475) Oct 4, 2009
