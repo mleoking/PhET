@@ -28,7 +28,7 @@
         protected function initPapervision(vpWidth:Number, vpHeight:Number):void {
             // Here is where we initialise everything we need to
             // render a papervision scene.
-            viewport = new Viewport3D(vpWidth, vpHeight);
+            viewport = new Viewport3D(vpWidth, vpHeight, false, true);
             // The viewport is the object added to the flash scene.
             // You 'look at' the papervision scene through the viewport
             // window, which is placed on the flash stage.
@@ -39,9 +39,7 @@
             // -- Initialise the Scenes -- //
             default_scene = new Scene3D();
             // -- Initialise the Cameras -- //
-            default_camera = new Camera3D(); // The argument passed to the camera
-            // is the object that it should look at. I've passed the scene object
-            // so that the camera is always pointing at the centre of the scene.
+            default_camera = new Camera3D( 60, 10, 50000, false, true );
         }
        
         protected function init3d():void {
