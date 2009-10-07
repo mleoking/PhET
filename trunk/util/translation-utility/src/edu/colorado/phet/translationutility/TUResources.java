@@ -13,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
 import edu.colorado.phet.common.phetcommon.util.JavaVersion;
+import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 
 /**
  * This is a convenience wrapper around PhetResources and PhetApplicationConfig that provides 
@@ -103,5 +104,18 @@ public class TUResources {
      */
     public static String[] getPreferredFontNames( Locale locale ) {
         return PhetCommonResources.getPreferredFontNames( locale );
+    }
+    
+    /**
+     * Gets the tmp directory name.
+     * @return
+     */
+    public static final String getTmpdir() {
+        String tmpdir = System.getProperty( "java.io.tmpdir" );
+        // a fix to handle the crazy path that Mac OS 10.5 returns, see Unfuddle #1817
+        if ( PhetUtilities.isMacintosh() && tmpdir.contains( "+" ) ) {
+            tmpdir = "/tmp/";
+        }
+        return tmpdir;
     }
 }
