@@ -102,7 +102,9 @@ public class NeuronCanvas extends PhetPCanvas {
         	addChannelNode(channel);
         }
         
+        // Add the membrane potential chart.
         membranePotentialChart = new MembranePotentialChart("Membrane Potential", model, "ms", 0, 100);
+        membranePotentialChart.setVisible(false);
         chartLayer.addChild(membranePotentialChart);
         
         // Update the layout.
@@ -131,8 +133,12 @@ public class NeuronCanvas extends PhetPCanvas {
             double rightEdgeX = (INITIAL_INTERMEDIATE_COORD_WIDTH + worldSize.getWidth()) / 2;
             membranePotentialChart.setOffset(
             		rightEdgeX - membranePotentialChart.getFullBoundsReference().width - 5,
-            		worldSize.getHeight() - membranePotentialChart.getFullBoundsReference().height);
+            		worldSize.getHeight() - membranePotentialChart.getFullBoundsReference().height - 5);
         }
+    }
+    
+    public void setMembranePotentialChartVisible(boolean isVisible){
+    	membranePotentialChart.setVisible(isVisible);
     }
     
     private void addAtom(Atom atomToBeAdded){

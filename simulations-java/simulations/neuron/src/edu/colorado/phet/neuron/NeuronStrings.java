@@ -33,4 +33,5 @@ public class NeuronStrings {
     public static final String NONE = getString( "None" );
     public static final String LOTS = getString( "Lots" );
     
+    public static final String POTENTIAL_CHART = getString( "PotentialChart" );
 }
