@@ -3,6 +3,8 @@
 	import flash.geom.Rectangle;
 	import flash.utils.getTimer;
 	
+	import org.papervision3d.core.math.Number3D;
+	import org.papervision3d.core.math.Quaternion;
 	import org.papervision3d.core.culling.FrustumCuller;
 	import org.papervision3d.core.geom.renderables.Triangle3D;
 	import org.papervision3d.core.geom.renderables.Vertex3D;
@@ -534,5 +536,23 @@
 		protected var _prevOrthoProjection	: Boolean;
 		protected var _prevUseProjection		: Boolean;
 		protected var _focusFix				: Matrix3D;
+		
+		public function unprojectMatrix(screen:Number3D):Number3D {
+			if(useProjectionMatrix){
+				var s4:Quaternion = new Quaternion(screen.x, -screen.y, screen.z+focus);
+					var up4:Quaternion = Quaternion.createFromMatrix(this._projection);
+					up4 = Quaternion.multiply(s4, up4);
+					var up3:Number3D = new Number3D(up4.x/up4.w, up4.y/up4.w, up4.z/up4.w);
+					Matrix3D.multiplyVector3x3(transform, up3);
+					return up3;
+			} else {
+				return unproject(screen.x, screen.y);
+			}
+		}
+		 
+		public function getTrueScaleDistance():Number {
+			return focus*zoom-focus;
+		}
+
 	}
 }

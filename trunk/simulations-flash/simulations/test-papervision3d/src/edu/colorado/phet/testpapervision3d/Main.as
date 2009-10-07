@@ -12,13 +12,19 @@
 	import flash.geom.Rectangle;
 	import flash.text.TextField;
 	import flash.text.TextFormat;
+	import flash.utils.Dictionary;
 	
+	import org.papervision3d.core.*;
+	import org.papervision3d.core.geom.renderables.*;
+	import org.papervision3d.core.math.*;
 	import org.papervision3d.core.proto.*;
+	import org.papervision3d.events.*;
 	import org.papervision3d.lights.*;
 	import org.papervision3d.materials.*;
 	import org.papervision3d.materials.shaders.*;
 	import org.papervision3d.materials.shadematerials.*;
 	import org.papervision3d.materials.utils.*;
+	import org.papervision3d.objects.*;
 	import org.papervision3d.objects.primitives.*;
 	
 	import edu.colorado.phet.testpapervision3d.PaperBase;	
@@ -32,6 +38,9 @@
 		
 		protected var sceneWidth:Number;
         protected var sceneHeight:Number;
+		
+		private var dragging : Boolean = false;
+		private var dragObject : DisplayObject3D;
 		
 		public function Main() {
 			sceneWidth = stage.stageWidth
@@ -69,6 +78,12 @@
 			var flat_d : MaterialObject3D = new ShadedMaterial( texture, new FlatShader( light, 0xFFFFFF, 0x888888 ) );
 			var flat_e : MaterialObject3D = new ShadedMaterial( texture, new FlatShader( light, 0xFFFFFF, 0x888888 ) );
 			var flat_f : MaterialObject3D = new ShadedMaterial( texture, new FlatShader( light, 0xFFFFFF, 0x888888 ) );
+			flat_a.interactive = true;
+			flat_b.interactive = true;
+			flat_c.interactive = true;
+			flat_d.interactive = true;
+			flat_e.interactive = true;
+			flat_f.interactive = true;
 			var ml : MaterialsList = new MaterialsList();
 			ml.addMaterial( flat_a, 'front' );
 			ml.addMaterial( flat_b, 'back' );
@@ -78,6 +93,7 @@
 			ml.addMaterial( flat_f, 'bottom' );
 			
 			cube = new Cube( ml, 200, 200, 200, 4, 4, 4 );
+			cube.z = 101;
 			
 			init( sceneWidth, sceneHeight );
 		}
@@ -107,8 +123,10 @@
 			
 //			cube.pitch( -10 );
 
-			default_camera.y = 250;
-			default_camera.rotationX = 10;
+			default_camera.y = 500;
+			default_camera.z = -2000;
+			default_camera.zoom = 90;
+			default_camera.rotationX = 15;
 			
 			
 			var plane : Plane = new Plane( getInteriorMaterial(), poolWidth, poolHeight, 1, 1 );
@@ -179,9 +197,14 @@
 			plane.y = -far / 2;
 			default_scene.addChild( plane );
 			
-			// front of earth to the sides
-			//scene.addChild( new Plane({ x: far / 2 + poolWidth / 2, y: -far / 2, width: far, height: far, rotationX: 90, material: new ShadingColorMaterial( 0xAA7733 ) }) );
-			//scene.addChild( new Plane({ x: -far / 2 - poolWidth / 2, y: -far / 2, width: far, height: far, rotationX: 90, material: new ShadingColorMaterial( 0xAA7733 ) }) );
+			cube.addEventListener( InteractiveScene3DEvent.OBJECT_PRESS, onPress );
+			cube.addEventListener( InteractiveScene3DEvent.OBJECT_OVER, onOver );
+			cube.addEventListener( InteractiveScene3DEvent.OBJECT_OUT, onOut );
+			cube.addEventListener( InteractiveScene3DEvent.OBJECT_MOVE, onMove );
+			cube.addEventListener( InteractiveScene3DEvent.OBJECT_RELEASE, onRelease );
+			cube.addEventListener( InteractiveScene3DEvent.OBJECT_RELEASE_OUTSIDE, onRelease );
+			
+			stage.addEventListener( MouseEvent.MOUSE_MOVE, onMouseMove );
 			
 		}
 		
@@ -190,7 +213,45 @@
 			
 			//default_camera.pan( 1 );
 			
-			cube.yaw( 1 );
+			//cube.yaw( 1 );
 		}
+		
+		
+		private function onMouseMove( e : MouseEvent ) : void {
+			if( dragging ) {
+				var zDepth:Number = default_camera.getTrueScaleDistance();
+				var screen:Number3D = new Number3D(viewport.containerSprite.mouseX, viewport.containerSprite.mouseY, zDepth);
+				var ray:Number3D = default_camera.unprojectMatrix(screen);
+				var cameraPosition : Number3D = new Number3D( default_camera.x, default_camera.y, default_camera.z );
+				ray = Number3D.add( cameraPosition, ray);
+				var flatPlane : Plane3D = Plane3D.fromNormalAndPoint( new Number3D( 0, 0, 1 ), new Number3D( 0, 0, 0 ) );
+				var intersect : Number3D = flatPlane.getIntersectionLineNumbers( cameraPosition, ray );
+				
+				dragObject.x = intersect.x;
+				dragObject.y = intersect.y;
+			}
+		}
+		
+		private function onMove( e:InteractiveScene3DEvent ) : void {
+			//cube.yaw( -2 );
+		}
+		
+		private function onRelease( e : InteractiveScene3DEvent ) : void {
+			dragging = false;
+		}
+		
+		private function onOver ( e:InteractiveScene3DEvent ):void {
+            
+        }
+       
+        private function onOut ( e:InteractiveScene3DEvent ):void {
+            
+        }
+       
+        private function onPress( e:InteractiveScene3DEvent ):void {
+            //cube.yaw( 20 );
+			dragging = true;
+			dragObject = e.displayObject3D;
+        }
 	}
 }
