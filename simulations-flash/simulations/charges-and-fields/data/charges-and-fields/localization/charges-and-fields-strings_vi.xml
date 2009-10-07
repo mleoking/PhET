@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--charges-and-fields-strings_vi.xml created Wed Oct 07 19:40:09 ICT 2009 using: charges-and-fields 2.03.00 (30671), translation-utility 2.02.00 (34911) thg 9 9, 2009-->
+<SimStrings>
+<string key="directionOnly" value="Chỉ có hướng"/>
+<string key="grid" value="Lưới"/>
+<string key="clearAll" value="Xoá hết"/>
+<string key="simTitle" value="Điện tích và điện trường"/>
+<string key="distanceUnit" value="m"/>
+<string key="showNumbers" value="Hiển thị số"/>
+<string key="voltageUnit" value="V"/>
+<string key="oneMeter" value="1 m"/>
+<string key="showEField" value="Hiển thị điện trường"/>
+<string key="oneNanoC" value="1 nC"/>
+<string key="showHiRes" value="Độ phân giải cao"/>
+<string key="EFieldSensors" value="Bộ dò điện trường"/>
+<string key="eFieldUnit" value="V/m"/>
+<string key="clear" value="Xoá"/>
+<string key="plot" value="Vẽ"/>
+<string key="equipotential" value="Đẳng thế"/>
+<string key="angleUnit" value="Độ"/>
+<string key="showLoRes" value="Độ phân giải thấp"/>
+<string key="moreSpeedLessRes" value="Nhanh/hình thô"/>
+<string key="tapeMeasure" value="Thước đo"/>
+<string key="voltage" value="Hiệu thế"/>
+</SimStrings>
