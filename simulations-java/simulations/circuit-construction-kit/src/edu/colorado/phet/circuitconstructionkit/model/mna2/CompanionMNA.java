@@ -102,7 +102,7 @@ public class CompanionMNA {
                 }
 
                 double getVoltage( MNA.Solution solution ) {
-                    return voltage - dt / 2 / capacitance * ( current + getCurrent( solution ) );
+                    return voltage - dt / 2 / capacitance * current;
                 }
             };
         }
