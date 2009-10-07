@@ -18,6 +18,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
@@ -28,7 +29,6 @@ import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValu
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.neuron.NeuronConstants;
 import edu.colorado.phet.neuron.NeuronResources;
 import edu.colorado.phet.neuron.NeuronStrings;
@@ -44,6 +44,7 @@ import edu.colorado.phet.neuron.model.SodiumLeakageChannel;
 import edu.colorado.phet.neuron.module.MembraneDiffusionModule;
 import edu.colorado.phet.neuron.view.AtomNode;
 import edu.colorado.phet.neuron.view.MembraneChannelNode;
+import edu.colorado.phet.neuron.view.NeuronCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -71,6 +72,7 @@ public class NeuronControlPanel extends ControlPanel {
     // Instance Data
     //----------------------------------------------------------------------------
 	private AxonModel axonModel;
+	private NeuronCanvas neuronCanvas;
 	private LeakChannelSlider sodiumLeakChannelControl;
 	private LeakChannelSlider potassiumLeakChannelControl;
 	private ConcentrationSlider sodiumConcentrationControl;
@@ -86,10 +88,11 @@ public class NeuronControlPanel extends ControlPanel {
      * @param module
      * @param parentFrame parent frame, for creating dialogs
      */
-    public NeuronControlPanel( MembraneDiffusionModule module, Frame parentFrame, AxonModel model ) {
+    public NeuronControlPanel( MembraneDiffusionModule module, Frame parentFrame, AxonModel model, NeuronCanvas canvas ) {
         super();
         
         this.axonModel = model;
+        this.neuronCanvas = canvas;
         
         // Listen to the model for changes that affect this control panel.
         model.addListener(new AxonModel.Adapter(){
@@ -133,9 +136,23 @@ public class NeuronControlPanel extends ControlPanel {
         		AtomType.POTASSIUM);
         addControlFullWidth(potassiumConcentrationControl);
         
+        // Add the check box for hiding/showing the membrane potential chart.
+        addControlFullWidth(createVerticalSpacingPanel(30));
+        final JCheckBox chartControlCheckbox = new JCheckBox(NeuronStrings.POTENTIAL_CHART);
+        chartControlCheckbox.addChangeListener(new ChangeListener() {
+			
+			public void stateChanged(ChangeEvent e) {
+				neuronCanvas.setMembranePotentialChartVisible(chartControlCheckbox.isSelected());
+			}
+		});
+        chartControlCheckbox.setAlignmentX(CENTER_ALIGNMENT);
+        addControlFullWidth(chartControlCheckbox);
+        
+        // Add the reset all button.
         addControlFullWidth(createVerticalSpacingPanel(30));
         addResetAllButton( module );
         
+        // Update the states of the controls.
         updateChannelControlSliders();
         updateConcentrationControlSliders();
     }
