@@ -1,4 +1,4 @@
-/* Copyright 2007, University of Colorado */
+/* Copyright 2009, University of Colorado */
 
 package edu.colorado.phet.neuron.view;
 
@@ -47,6 +47,7 @@ public class NeuronCanvas extends PhetPCanvas {
     // Layers for the canvas.
     private PNode atomLayer;
     private PNode axonCrossSectionLayer;
+    private PNode chartLayer;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -81,6 +82,8 @@ public class NeuronCanvas extends PhetPCanvas {
         addWorldChild(axonCrossSectionLayer);
         atomLayer = new PNode();
         addWorldChild(atomLayer);
+        chartLayer = new PNode();
+        addWorldChild(chartLayer);
         
         // Add the axon cross section.
         AxonMembraneNode axonMembraneNode = new AxonMembraneNode(model.getAxonMembrane(), mvt);
@@ -95,6 +98,9 @@ public class NeuronCanvas extends PhetPCanvas {
         for (AbstractMembraneChannel channel : model.getMembraneChannels()){
         	addChannelNode(channel);
         }
+        
+        // Add the chart that will display the membrane potential.
+        chartLayer.addChild(new MembranePotentialChart("Membrane Potential", model, "ms", 0, 100));
     }
     
     //----------------------------------------------------------------------------
