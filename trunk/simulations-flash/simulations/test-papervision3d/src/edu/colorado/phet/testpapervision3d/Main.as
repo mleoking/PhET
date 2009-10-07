@@ -33,8 +33,6 @@
 	
 	public class Main extends PaperBase {
 		
-		public var cube : Cube;
-		
 		public var light : PointLight3D;
 		
 		protected var sceneWidth:Number;
@@ -45,14 +43,21 @@
 		
 		private var faceDepth = 100;
 		
+		var poolWidth : Number = 1500;
+		var poolHeight : Number = 750;
+		var poolDepth : Number = 500;
+		var waterHeight: Number = 550;
+		var volume : Number = poolWidth * poolDepth * waterHeight;
+		var far : Number = 5000;
+		
 		public function Main() {
 			sceneWidth = stage.stageWidth
             sceneHeight = stage.stageHeight;
 			
-			
-			var size : Number = 200;
-			var mass : Number = 50;
-			
+			init( sceneWidth, sceneHeight );
+		}
+		
+		public function createBlockTexture( size : Number, mass : Number ) : MaterialsList {
 			var sp : Sprite = new Sprite();
 			var wallData : BitmapData = new WallBitmapData( size, size );
 			sp.addChild( new Bitmap( wallData ) );
@@ -98,19 +103,8 @@
 			ml.addMaterial( flat_d, 'left' );
 			ml.addMaterial( flat_e, 'top' );
 			ml.addMaterial( flat_f, 'bottom' );
-			
-			cube = new Cube( ml, 200, 200, 200, 4, 4, 4 );
-			cube.z = 101 + faceDepth;
-			
-			init( sceneWidth, sceneHeight );
+			return ml;
 		}
-		
-		var poolWidth : Number = 1500;
-		var poolHeight : Number = 750;
-		var poolDepth : Number = 500;
-		var waterHeight: Number = 550;
-		var volume : Number = poolWidth * poolDepth * waterHeight;
-		var far : Number = 5000;
 		
 		public function getWaterMaterial( top : Boolean ) : MaterialObject3D {
 			var ret : FlatShadeMaterial;
@@ -148,7 +142,12 @@
 		}
 		
 		override protected function init3d() : void {
+			var cube : Cube;
+			cube = new Cube( createBlockTexture( 200, 50 ), 200, 200, 200, 4, 4, 4 );
+			cube.z = 101 + faceDepth;
+			cube.x = 150;
 			default_scene.addChild( cube );
+			makeObjectDraggable( cube );
 
 			default_camera.y = 500;
 			default_camera.z = -2000;
@@ -238,8 +237,6 @@
 			plane.y = -far / 2;
 			default_scene.addChild( plane );
 			
-			makeObjectDraggable( cube );
-			
 			stage.addEventListener( MouseEvent.MOUSE_MOVE, onMouseMove );
 			
 		}
@@ -257,7 +254,7 @@
 		override protected function processFrame() : void {
 			var curTime : int = getTimer();
 			var fps : int = 1000 / (curTime - time);
-			fpsText.text = String( fps ) + " fps (max 24)";
+			fpsText.text = String( fps ) + " fps (limit 24)";
 			if( fps > 20 ) {
 				fpsText.backgroundColor = 0x00FF00;
 			} else if( fps > 15 ) {
@@ -301,7 +298,6 @@
         }
        
         private function onPress( e:InteractiveScene3DEvent ):void {
-            //cube.yaw( 20 );
 			dragging = true;
 			dragObject = e.displayObject3D;
         }
