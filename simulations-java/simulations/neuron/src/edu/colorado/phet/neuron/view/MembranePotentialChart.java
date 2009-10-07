@@ -3,6 +3,7 @@
 package edu.colorado.phet.neuron.view;
 
 import java.awt.*;
+import java.awt.geom.Dimension2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -33,12 +34,11 @@ public class MembranePotentialChart extends PNode {
     private JFreeChart jFreeChart;
     private JFreeChartNode jFreeChartNode;
     private PPath path;
-    private boolean colorized = true;
     private int crossSectionY;
     private AxonModel axonModel;
 
-    public MembranePotentialChart( String title,
-    		AxonModel axonModel, String distanceUnits, double minX, double maxX ) {
+    public MembranePotentialChart( Dimension2D size, String title, AxonModel axonModel, String distanceUnits, double minX, double maxX ) {
+    	
         this.axonModel = axonModel;
         XYSeries series = new XYSeries( "0" );
         XYDataset dataset = new XYSeriesCollection( series );
@@ -47,7 +47,7 @@ public class MembranePotentialChart extends PNode {
         jFreeChart.getXYPlot().getRangeAxis().setTickLabelsVisible( false );
         jFreeChart.getXYPlot().getRangeAxis().setRange( -1.0, 1.0 );
         jFreeChartNode = new JFreeChartNode( jFreeChart, true );
-        jFreeChartNode.setBounds( 0, 0, 500, 185 );
+        jFreeChartNode.setBounds( 0, 0, size.getWidth(), size.getHeight() );
 
         setHorizontalLabel( MessageFormat.format( "Yadda yadda", new Object[]{distanceUnits} ) );
         setHorizontalRange( minX, maxX );

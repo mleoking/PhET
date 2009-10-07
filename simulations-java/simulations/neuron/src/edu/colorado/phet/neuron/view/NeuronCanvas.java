@@ -14,6 +14,7 @@ import edu.colorado.phet.neuron.model.AbstractMembraneChannel;
 import edu.colorado.phet.neuron.model.Atom;
 import edu.colorado.phet.neuron.model.AxonModel;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Canvas on which the neuron simulation is depicted.
@@ -33,6 +34,10 @@ public class NeuronCanvas extends PhetPCanvas {
     private static final int INITIAL_INTERMEDIATE_COORD_HEIGHT = 786;
     private static final Dimension INITIAL_INTERMEDIATE_DIMENSION = new Dimension( INITIAL_INTERMEDIATE_COORD_WIDTH,
     		INITIAL_INTERMEDIATE_COORD_HEIGHT );
+    
+    // Size of the potential chart.
+    private static final Dimension2D POTENTIAL_CHART_SIZE = new PDimension(INITIAL_INTERMEDIATE_COORD_WIDTH * 0.7,
+    		INITIAL_INTERMEDIATE_COORD_HEIGHT * 0.35);
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -103,7 +108,8 @@ public class NeuronCanvas extends PhetPCanvas {
         }
         
         // Add the membrane potential chart.
-        membranePotentialChart = new MembranePotentialChart("Membrane Potential", model, "ms", 0, 100);
+        membranePotentialChart = new MembranePotentialChart(POTENTIAL_CHART_SIZE, "Membrane Potential", model, "ms",
+        		0, 100);
         membranePotentialChart.setVisible(false);
         chartLayer.addChild(membranePotentialChart);
         
