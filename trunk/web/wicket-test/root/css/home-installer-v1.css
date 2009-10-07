@@ -1,0 +1,15 @@
+div.practices dl.get-phet-links {
+    display: none;
+}
+
+div.practices dl {
+    width: 247px;
+}
+
+div.rtl div.practices dl {
+    width: 247px;
+}
+
+div.practices dl.last {
+    width: 248px;
+}
