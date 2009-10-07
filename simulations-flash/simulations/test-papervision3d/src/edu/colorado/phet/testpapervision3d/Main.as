@@ -13,6 +13,7 @@
 	import flash.text.TextField;
 	import flash.text.TextFormat;
 	import flash.utils.Dictionary;
+	import flash.utils.getTimer;
 	
 	import org.papervision3d.core.*;
 	import org.papervision3d.core.geom.renderables.*;
@@ -136,6 +137,16 @@
 			return new FlatShadeMaterial( light, 0x98662B );
 		}
 		
+		private var fpsText : TextField = new TextField();
+		
+		override protected function init2d() : void {
+			addChild( fpsText );
+			fpsText.text = "X fps";
+			fpsText.textColor = 0x000000;
+			fpsText.background = true;
+			fpsText.height = fpsText.textHeight + 4;
+		}
+		
 		override protected function init3d() : void {
 			default_scene.addChild( cube );
 
@@ -241,8 +252,24 @@
 			object.addEventListener( InteractiveScene3DEvent.OBJECT_RELEASE_OUTSIDE, onRelease );
 		}
 		
+		private var time : int = 0;
+		
 		override protected function processFrame() : void {
-			
+			var curTime : int = getTimer();
+			var fps : int = 1000 / (curTime - time);
+			fpsText.text = String( fps ) + " fps (max 24)";
+			if( fps > 20 ) {
+				fpsText.backgroundColor = 0x00FF00;
+			} else if( fps > 15 ) {
+				fpsText.backgroundColor = 0x88FF00;
+			} else if( fps > 10 ) {
+				fpsText.backgroundColor = 0xFFFF00;
+			} else if( fps > 5 ) {
+				fpsText.backgroundColor = 0xFF8800;
+			} else {
+				fpsText.backgroundColor = 0xFF0000;
+			}
+			time = curTime;
 		}
 		
 		
