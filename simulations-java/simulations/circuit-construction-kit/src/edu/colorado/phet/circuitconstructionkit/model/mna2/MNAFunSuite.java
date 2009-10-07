@@ -195,18 +195,20 @@ public class MNAFunSuite extends TestCase {
                                                                          Arrays.asList( resistor ), Arrays.asList( new CompanionMNA.Capacitor( 2, 0, c, 0.0, 0.0 ) ), new ArrayList<CompanionMNA.Inductor>() );
 
         double dt = 1E-4;
-        CompanionMNA.FullCircuit dynamicCircuit = circuit.getInitializedCircuit();
+        circuit = circuit.getInitializedCircuit();
+//        System.out.println("dynamicCircuit. = " + dynamicCircuit.);
         System.out.println("voltage");
         System.out.println("");
         for ( int i = 0; i < 1000; i++ ) {//takes 0.3 sec on my machine
             double t = i * dt;
-            CompanionMNA.CompanionSolution solutionAtTPlusDT = dynamicCircuit.solve( dt );
-            double voltage = solutionAtTPlusDT.getVoltage( resistor );
+
+            CompanionMNA.CompanionSolution companionSolution = circuit.solve(dt);
+            double voltage = companionSolution.getVoltage( resistor );
             double desiredVoltageAtTPlusDT = -v * Math.exp( -( t + dt ) / r / c );
             double error = Math.abs( voltage - desiredVoltageAtTPlusDT );
-            System.out.println(voltage);
-//            assertTrue( error < 1E-6 ); //sample run indicates largest error is 1.5328E-7, is this acceptable?  See TestRCCircuit
-            dynamicCircuit = dynamicCircuit.stepInTime( dt );
+            System.out.println(-voltage);
+            assertTrue( error < 1E-6 ); //sample run indicates largest error is 1.5328E-7, is this acceptable?  See TestRCCircuit
+            circuit = circuit.stepInTime( dt );
         }
     }
 

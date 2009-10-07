@@ -90,19 +90,23 @@ public class CompanionMNA {
             //from building up on the capacitor; this means a negative voltage (or a backwards battery)
             int midNode = newNode.newNode();
             ArrayList<MNA.Battery> batteries = new ArrayList<MNA.Battery>();
-            batteries.add( new MNA.Battery( node0, midNode, voltage - dt * current / 2 / capacitance ) );
+            final double vEq = voltage - dt * current / 2 / capacitance;
+            final MNA.Battery myBatt1 = new MNA.Battery(node0, midNode, vEq);
+            batteries.add(myBatt1);
             ArrayList<MNA.Resistor> resistors = new ArrayList<MNA.Resistor>();
-            resistors.add( new MNA.Resistor( midNode, node1, dt / 2 / capacitance ) );
+            final double rEq = dt / 2 / capacitance;
+            final MNA.Resistor myRes1 = new MNA.Resistor(midNode, node1, rEq);
+            resistors.add(myRes1);
 
 //            System.out.println("capacitor companion: mid = " + midNode+", batteries="+batteries+", resistors="+resistors);
 
             return new CompanionModel( batteries, resistors, new ArrayList<MNA.CurrentSource>() ) {
                 double getCurrent( MNA.Solution solution ) {
-                    return solution.getCurrent( batteries.get( 0 ) );
+                    return solution.getCurrent( myBatt1 );
                 }
 
                 double getVoltage( MNA.Solution solution ) {
-                    return voltage - dt / 2 / capacitance * current;
+                    return vEq + solution.getVoltage(myRes1);
                 }
             };
         }
