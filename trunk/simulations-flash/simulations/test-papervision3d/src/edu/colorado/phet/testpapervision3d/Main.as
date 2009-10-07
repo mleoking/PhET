@@ -42,6 +42,8 @@
 		private var dragging : Boolean = false;
 		private var dragObject : DisplayObject3D;
 		
+		private var faceDepth = 100;
+		
 		public function Main() {
 			sceneWidth = stage.stageWidth
             sceneHeight = stage.stageHeight;
@@ -97,7 +99,7 @@
 			ml.addMaterial( flat_f, 'bottom' );
 			
 			cube = new Cube( ml, 200, 200, 200, 4, 4, 4 );
-			cube.z = 101;
+			cube.z = 101 + faceDepth;
 			
 			init( sceneWidth, sceneHeight );
 		}
@@ -109,9 +111,21 @@
 		var volume : Number = poolWidth * poolDepth * waterHeight;
 		var far : Number = 5000;
 		
+		public function getWaterMaterial( top : Boolean ) : MaterialObject3D {
+			var ret : FlatShadeMaterial;
+			if( top ) {
+				ret = new FlatShadeMaterial( light, 0x00AAFF, 0x00AAFF );
+				ret.fillAlpha = 0.3;
+			} else {
+				ret = new FlatShadeMaterial( light, 0x0088CC, 0x0088CC );
+				ret.fillAlpha = 0.25;
+			}
+			return ret;
+		}
+		
 		public function getInteriorMaterial() : MaterialObject3D {
 			//return new ColorMaterial( 0xAAAAAA );
-			return new FlatShadeMaterial( light, 0xFFFFFF, 0x555555 );
+			return new FlatShadeMaterial( light, 0xAAAAAA, 0x222222 );
 		}
 		
 		public function getGroundMaterial() : MaterialObject3D {
@@ -119,21 +133,33 @@
 		}
 		
 		public function getEarthMaterial() : MaterialObject3D {
-			return new FlatShadeMaterial( light, 0xAA7733, 0x000000 );
+			return new FlatShadeMaterial( light, 0x98662B );
 		}
 		
 		override protected function init3d() : void {
 			default_scene.addChild( cube );
-			
-//			cube.pitch( -10 );
 
 			default_camera.y = 500;
 			default_camera.z = -2000;
 			default_camera.zoom = 90;
 			default_camera.rotationX = 15;
 			
+			var plane : Plane;
 			
-			var plane : Plane = new Plane( getInteriorMaterial(), poolWidth, poolHeight, 1, 1 );
+			// top water
+			plane = new Plane( getWaterMaterial( true ), poolWidth - 0.01, poolDepth, 1, 1 );
+			plane.z = poolDepth / 2;
+			plane.y = -poolHeight + waterHeight;
+			plane.rotationX = 90;
+			default_scene.addChild( plane );
+			
+			// front water
+			plane = new Plane( getWaterMaterial( false ), poolWidth, waterHeight, 1, 1 );
+			plane.y = -poolHeight + waterHeight / 2;
+			default_scene.addChild( plane );
+			
+			// back of pool
+			plane = new Plane( getInteriorMaterial(), poolWidth, poolHeight, 1, 1 );
 			plane.y = -poolHeight / 2;
 			plane.z = poolDepth;
 			plane.rotationX = 0;
@@ -201,23 +227,22 @@
 			plane.y = -far / 2;
 			default_scene.addChild( plane );
 			
-			cube.addEventListener( InteractiveScene3DEvent.OBJECT_PRESS, onPress );
-			cube.addEventListener( InteractiveScene3DEvent.OBJECT_OVER, onOver );
-			cube.addEventListener( InteractiveScene3DEvent.OBJECT_OUT, onOut );
-			cube.addEventListener( InteractiveScene3DEvent.OBJECT_MOVE, onMove );
-			cube.addEventListener( InteractiveScene3DEvent.OBJECT_RELEASE, onRelease );
-			cube.addEventListener( InteractiveScene3DEvent.OBJECT_RELEASE_OUTSIDE, onRelease );
+			makeObjectDraggable( cube );
 			
 			stage.addEventListener( MouseEvent.MOUSE_MOVE, onMouseMove );
 			
 		}
 		
+		public function makeObjectDraggable( object : DisplayObject3D ) : void {
+			object.addEventListener( InteractiveScene3DEvent.OBJECT_PRESS, onPress );
+			object.addEventListener( InteractiveScene3DEvent.OBJECT_OVER, onOver );
+			object.addEventListener( InteractiveScene3DEvent.OBJECT_OUT, onOut );
+			object.addEventListener( InteractiveScene3DEvent.OBJECT_RELEASE, onRelease );
+			object.addEventListener( InteractiveScene3DEvent.OBJECT_RELEASE_OUTSIDE, onRelease );
+		}
+		
 		override protected function processFrame() : void {
-			//cone.yaw( 1 );
 			
-			//default_camera.pan( 1 );
-			
-			//cube.yaw( 1 );
 		}
 		
 		
@@ -228,7 +253,7 @@
 				var ray:Number3D = default_camera.unprojectMatrix(screen);
 				var cameraPosition : Number3D = new Number3D( default_camera.x, default_camera.y, default_camera.z );
 				ray = Number3D.add( cameraPosition, ray);
-				var flatPlane : Plane3D = Plane3D.fromNormalAndPoint( new Number3D( 0, 0, 1 ), new Number3D( 0, 0, 0 ) );
+				var flatPlane : Plane3D = Plane3D.fromNormalAndPoint( new Number3D( 0, 0, 1 ), new Number3D( 0, 0, -faceDepth ) );
 				var intersect : Number3D = flatPlane.getIntersectionLineNumbers( cameraPosition, ray );
 				
 				dragObject.x = intersect.x;
@@ -236,20 +261,16 @@
 			}
 		}
 		
-		private function onMove( e:InteractiveScene3DEvent ) : void {
-			//cube.yaw( -2 );
-		}
-		
 		private function onRelease( e : InteractiveScene3DEvent ) : void {
 			dragging = false;
 		}
 		
 		private function onOver ( e:InteractiveScene3DEvent ):void {
-            
+			viewport.buttonMode = true;
         }
        
         private function onOut ( e:InteractiveScene3DEvent ):void {
-            
+            viewport.buttonMode = false;
         }
        
         private function onPress( e:InteractiveScene3DEvent ):void {
