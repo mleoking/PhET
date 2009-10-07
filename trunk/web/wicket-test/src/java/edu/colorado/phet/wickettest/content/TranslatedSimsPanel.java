@@ -11,15 +11,13 @@ import org.apache.wicket.model.Model;
 import org.hibernate.Session;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
+import edu.colorado.phet.wickettest.components.InvisibleComponent;
 import edu.colorado.phet.wickettest.components.PhetLink;
 import edu.colorado.phet.wickettest.data.LocalizedSimulation;
 import edu.colorado.phet.wickettest.data.Simulation;
 import edu.colorado.phet.wickettest.panels.PhetPanel;
 import edu.colorado.phet.wickettest.translation.PhetLocalizer;
-import edu.colorado.phet.wickettest.util.HibernateTask;
-import edu.colorado.phet.wickettest.util.HibernateUtils;
-import edu.colorado.phet.wickettest.util.PageContext;
-import edu.colorado.phet.wickettest.util.StringUtils;
+import edu.colorado.phet.wickettest.util.*;
 import edu.colorado.phet.wickettest.util.links.AbstractLinker;
 import edu.colorado.phet.wickettest.util.links.RawLinkable;
 
@@ -125,7 +123,12 @@ public class TranslatedSimsPanel extends PhetPanel {
                         }
                         subItem.add( new Label( "title", otherTitle ) );
                         subItem.add( lsim.getRunLink( "run-now-link" ) );
-                        subItem.add( lsim.getDownloadLink( "download-link" ) );
+                        if ( !( (PhetRequestCycle) getRequestCycle() ).isKsuRipperRequest() || lsim.getLocaleString().equals( "en" ) || lsim.getLocaleString().equals( "ar" ) ) {
+                            subItem.add( lsim.getDownloadLink( "download-link" ) );
+                        }
+                        else {
+                            subItem.add( new InvisibleComponent( "download-link" ) );
+                        }
 
                         if ( subItem.getIndex() % 2 == 0 ) {
                             subItem.add( new AttributeAppender( "class", new Model( "highlight-background" ), " " ) );
