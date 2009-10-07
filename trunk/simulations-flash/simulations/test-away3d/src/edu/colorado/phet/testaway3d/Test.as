@@ -43,7 +43,7 @@
 		var startMouseX:Number;
 		var startMouseY:Number;
 		var startMiddle : Number3D;
-		var selectedObject : Cube;
+		var selectedObject : AbstractPrimitive;
 		
 		var poolWidth : Number = 1500;
 		var poolHeight : Number = 750;
@@ -140,6 +140,11 @@
 			scene.addChild( new Plane({ x: far / 2 + poolWidth / 2, y: -far / 2, width: far, height: far, rotationX: 90, material: new ShadingColorMaterial( 0xAA7733 ) }) );
 			scene.addChild( new Plane({ x: -far / 2 - poolWidth / 2, y: -far / 2, width: far, height: far, rotationX: 90, material: new ShadingColorMaterial( 0xAA7733 ) }) );
 			
+			scene.addChild( new Sphere({ x: -450, y: 300, z: 100, segmentsH: 5, segmentsW: 5, material: new PhongColorMaterial( 0x5500AA ) }) );
+			scene.addChild( new Sphere({ x: -150, y: 300, z: 100, segmentsH: 10, segmentsW: 10, material: new PhongColorMaterial( 0x00AA55 ) }) );
+			scene.addChild( new Sphere({ x: 150, y: 300, z: 100, segmentsH: 15, segmentsW: 15, material: new PhongColorMaterial( 0xAA5500 ) }) );
+			scene.addChild( new Sphere({ x: 450, y: 300, z: 100, segmentsH: 15, segmentsW: 15, material: new PhongColorMaterial( 0xAAAAAA ) }) );
+			
 			// the cube
 			cube = new Block( 50, 200, new ColorTransform( 1, 0, 0 ) );
 			cube.x = 450;
@@ -219,16 +224,17 @@
 		public function onMouseDown( event:MouseEvent ) : void {
 			startMouseX = stage.mouseX - view.x;
 			startMouseY = stage.mouseY - view.y;
-			if( view.mouseObject == cube || view.mouseObject is Block ) {
+			if( view.mouseObject == cube || view.mouseObject is Block || view.mouseObject is Sphere ) {
 				move = true;
-				startMiddle = medianFrontScreenPoint( view.mouseObject as Block );
-				selectedObject = view.mouseObject as Block;
+				startMiddle = medianFrontScreenPoint( view.mouseObject as AbstractPrimitive );
+				selectedObject = view.mouseObject as AbstractPrimitive;
 			}
 			stage.addEventListener(Event.MOUSE_LEAVE, onStageMouseLeave);
 		}
 		
 		public function onMouseMove( event : MouseEvent ) : void {
 			if( move ) {
+				//trace( "startMiddle: " + String(startMiddle) );
 				var offsetX = startMiddle.x - startMouseX;
 				var offsetY = startMiddle.y - startMouseY;
 				var mX = stage.mouseX - view.x;
