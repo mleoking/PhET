@@ -52,11 +52,19 @@
                     <name>programfiles</name>
                     <platforms>all</platforms>
                     <distributionFileList>
+                        <!-- Commented out the activities until it exists on the web site.
+                        <distributionDirectory>
+                            <origin>../../temp/website/phetsims.colorado.edu/activities</origin>
+                        </distributionDirectory>
+                        -->
                         <distributionDirectory>
                             <origin>../../temp/website/phetsims.colorado.edu/ar</origin>
                         </distributionDirectory>
                         <distributionDirectory>
-                            <origin>../../temp/website/phetsims.colorado.edu/sims</origin>
+                            <origin>../../temp/website/phetsims.colorado.edu/css</origin>
+                        </distributionDirectory>
+                        <distributionDirectory>
+                            <origin>../../temp/website/phetsims.colorado.edu/images</origin>
                         </distributionDirectory>
                         <distributionDirectory>
                             <origin>../../temp/website/phetsims.colorado.edu/installer</origin>
@@ -64,11 +72,15 @@
                         <distributionDirectory>
                             <origin>../../temp/website/phetsims.colorado.edu/publications</origin>
                         </distributionDirectory>
-                        <!-- Commented out the activities until it exists on the web site.
                         <distributionDirectory>
-                            <origin>../../temp/website/phetsims.colorado.edu/activities</origin>
+                            <origin>../../temp/website/phetsims.colorado.edu/sims</origin>
                         </distributionDirectory>
-                        -->
+                        <distributionDirectory>
+                            <origin>../../temp/website/phetsims.colorado.edu/workshops</origin>
+                        </distributionDirectory>
+                        <distributionDirectory>
+                            <origin>../../temp/website/phetsims.colorado.edu/publications</origin>
+                        </distributionDirectory>
                     </distributionFileList>
 
                     <actionList>

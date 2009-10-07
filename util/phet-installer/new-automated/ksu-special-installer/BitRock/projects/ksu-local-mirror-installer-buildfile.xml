@@ -62,21 +62,35 @@
                     <name>programfiles</name>
                     <platforms>all</platforms>
                     <distributionFileList>
+                        <!-- Commented out the activities until it exists on the web site.
+                        <distributionDirectory>
+                            <origin>../../temp/website/phetsims.colorado.edu/activities</origin>
+                        </distributionDirectory>
+                        -->
                         <distributionDirectory>
                             <origin>../../temp/website/phetsims.colorado.edu/ar</origin>
+                        </distributionDirectory>
+                        <distributionDirectory>
+                            <origin>../../temp/website/phetsims.colorado.edu/css</origin>
+                        </distributionDirectory>
+                        <distributionDirectory>
+                            <origin>../../temp/website/phetsims.colorado.edu/images</origin>
+                        </distributionDirectory>
+                        <distributionDirectory>
+                            <origin>../../temp/website/phetsims.colorado.edu/installer</origin>
+                        </distributionDirectory>
+                        <distributionDirectory>
+                            <origin>../../temp/website/phetsims.colorado.edu/publications</origin>
                         </distributionDirectory>
                         <distributionDirectory>
                             <origin>../../temp/website/phetsims.colorado.edu/sims</origin>
                         </distributionDirectory>
                         <distributionDirectory>
+                            <origin>../../temp/website/phetsims.colorado.edu/workshops</origin>
+                        </distributionDirectory>
+                        <distributionDirectory>
                             <origin>../../temp/website/phetsims.colorado.edu/publications</origin>
                         </distributionDirectory>
-                        <!-- Commented out the activities until it exists on the web site.
-                             jblanco, 10/2/2009
-                        <distributionDirectory>
-                            <origin>../../temp/website/phetsims.colorado.edu/activities</origin>
-                        </distributionDirectory>
-                        -->
                         <distributionFile>
                             <origin>../../../Installer-Resources/Install-Path/phet-icon.ico</origin>
                         </distributionFile>
