@@ -13,14 +13,14 @@ public class TestTheveninCapacitorRC {
         double i = vBattery / rResistor;
 
         double dt = 1E-4;
-        System.out.println("i \t t \t vResistorAnalytical \t vResistorPredicted \t error");
+        System.out.println("iteration \t t \t v(t) \t i(t) \t vResistorAnalytical \t vResistorPredicted \t error");
         for (int j = 0; j < 1000; j++) {
             double t = j * dt;
             double vResistorAnalytical = vBattery * Math.exp(-t / rResistor / c);
             double vResistorPredicted = vBattery - v;
 
             double error = Math.abs(vResistorAnalytical - vResistorPredicted);
-            System.out.println(j + "\t" + f.format(t) + "\t" + f.format(vResistorAnalytical) + "\t" + f.format(vResistorPredicted) + "\t" + f.format(error));
+            System.out.println(j + "\t" + f.format(t) + "\t" + f.format(v) + "\t" + f.format(i) + "\t" + f.format(vResistorAnalytical) + "\t" + f.format(vResistorPredicted) + "\t" + f.format(error));
 
             double vc = v + dt / 2 / c * i;
             double rc = dt / 2 / c;
