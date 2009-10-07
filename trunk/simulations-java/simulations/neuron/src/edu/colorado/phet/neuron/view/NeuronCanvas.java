@@ -49,6 +49,9 @@ public class NeuronCanvas extends PhetPCanvas {
     private PNode axonCrossSectionLayer;
     private PNode chartLayer;
     
+    // Chart for showing membrane potential.
+    private MembranePotentialChart membranePotentialChart;
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -99,8 +102,11 @@ public class NeuronCanvas extends PhetPCanvas {
         	addChannelNode(channel);
         }
         
-        // Add the chart that will display the membrane potential.
-        chartLayer.addChild(new MembranePotentialChart("Membrane Potential", model, "ms", 0, 100));
+        membranePotentialChart = new MembranePotentialChart("Membrane Potential", model, "ms", 0, 100);
+        chartLayer.addChild(membranePotentialChart);
+        
+        // Update the layout.
+        updateLayout();
     }
     
     //----------------------------------------------------------------------------
@@ -121,9 +127,11 @@ public class NeuronCanvas extends PhetPCanvas {
             // canvas hasn't been sized, blow off layout
             return;
         }
-        else if ( NeuronConstants.DEBUG_CANVAS_UPDATE_LAYOUT ) {
-            System.out.println( "getSize() = " + getSize() );
-            System.out.println( "ExampleCanvas.updateLayout worldSize=" + worldSize );
+        else {
+            double rightEdgeX = (INITIAL_INTERMEDIATE_COORD_WIDTH + worldSize.getWidth()) / 2;
+            membranePotentialChart.setOffset(
+            		rightEdgeX - membranePotentialChart.getFullBoundsReference().width - 5,
+            		worldSize.getHeight() - membranePotentialChart.getFullBoundsReference().height);
         }
     }
     
