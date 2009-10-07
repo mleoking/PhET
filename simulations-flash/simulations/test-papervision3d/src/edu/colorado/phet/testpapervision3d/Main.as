@@ -19,6 +19,7 @@
 			cone.scale = 3;			
 			cone.pitch( -10 );
 			default_scene.addChild( cone );
+			
 		}
 		
 		override protected function processFrame() : void {
