@@ -7,6 +7,7 @@
     import org.papervision3d.cameras.*; // Import all types of camera
     import org.papervision3d.scenes.Scene3D; // We'll need at least one scene
     import org.papervision3d.render.BasicRenderEngine; // And we need a renderer
+	import org.papervision3d.render.QuadrantRenderEngine; // And we need a renderer
    
     public class PaperBase extends Sprite { //Must be "extends Sprite"
        
@@ -33,7 +34,8 @@
             // window, which is placed on the flash stage.
             addChild(viewport); // Add the viewport to the stage.
             // Initialise the rendering engine.
-            renderer = new BasicRenderEngine();
+            //renderer = new BasicRenderEngine();
+			renderer = new QuadrantRenderEngine();
             // -- Initialise the Scenes -- //
             default_scene = new Scene3D();
             // -- Initialise the Cameras -- //
