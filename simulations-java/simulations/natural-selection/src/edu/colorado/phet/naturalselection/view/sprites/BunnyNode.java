@@ -3,6 +3,7 @@
 package edu.colorado.phet.naturalselection.view.sprites;
 
 import edu.colorado.phet.common.phetcommon.math.Point3D;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.naturalselection.NaturalSelectionApplication;
 import edu.colorado.phet.naturalselection.model.Allele;
 import edu.colorado.phet.naturalselection.model.Bunny;
@@ -50,6 +51,8 @@ public class BunnyNode extends NaturalSelectionSprite implements Bunny.Listener 
         setBunnyOffset();
 
         rescale();
+
+        addInputEventListener( new CursorHandler( CursorHandler.HAND ) );
 
     }
 

@@ -16,6 +16,7 @@ import edu.colorado.phet.naturalselection.NaturalSelectionApplication;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
 import edu.colorado.phet.naturalselection.dialog.PedigreeChartCanvas;
+import edu.colorado.phet.naturalselection.model.Bunny;
 import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
 import edu.colorado.phet.naturalselection.module.NaturalSelectionModule;
 import edu.colorado.phet.naturalselection.persistence.NaturalSelectionConfig;
@@ -174,6 +175,9 @@ public class NaturalSelectionControlPanel extends JPanel {
             public void actionPerformed( ActionEvent actionEvent ) {
                 //System.out.println( "Placeholder!" );
                 detachPanel.setPlaceholderVisible();
+                if ( Bunny.getSelectedBunny() != null ) {
+                    Bunny.getSelectedBunny().setSelected( false );
+                }
             }
         } );
 
@@ -181,6 +185,11 @@ public class NaturalSelectionControlPanel extends JPanel {
             public void actionPerformed( ActionEvent actionEvent ) {
                 //System.out.println( "Pedigree!" );
                 detachPanel.setChildVisible();
+                if ( pedigreeChart.getLastDisplayedBunny() != null ) {
+                    if ( Bunny.getSelectedBunny() == null && pedigreeChart.getLastDisplayedBunny() != null ) {
+                        pedigreeChart.getLastDisplayedBunny().setSelected( true );
+                    }
+                }
             }
         } );
 

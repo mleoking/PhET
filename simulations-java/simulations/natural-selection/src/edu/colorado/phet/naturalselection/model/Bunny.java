@@ -707,6 +707,10 @@ public class Bunny {
 
     private static Bunny selectedBunny = null;
 
+    public static Bunny getSelectedBunny() {
+        return selectedBunny;
+    }
+
     public boolean isSelected() {
         return selected;
     }

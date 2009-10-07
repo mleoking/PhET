@@ -73,8 +73,15 @@ public class PedigreeChartCanvas extends PhetPCanvas {
         pedigreeNode.reset();
     }
 
+    private Bunny lastDisplayedBunny = null;
+
     public void displayBunny( Bunny bunny ) {
         pedigreeNode.displayBunny( bunny );
+        lastDisplayedBunny = bunny;
+    }
+
+    public Bunny getLastDisplayedBunny() {
+        return lastDisplayedBunny;
     }
 
     @Override
