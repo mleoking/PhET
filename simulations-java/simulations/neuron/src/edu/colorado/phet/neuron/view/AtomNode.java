@@ -55,13 +55,42 @@ public class AtomNode extends PNode {
         tempRepresentation.rotate(Math.PI / 4);
         double minShapeDimension = Math.min(representation.getFullBoundsReference().width,
         		tempRepresentation.getFullBoundsReference().height);
-        double scale = minShapeDimension / maxLabelDimension;
+        double scale = ( minShapeDimension * 1.1 / maxLabelDimension ) * 0.9;
         label.setScale(scale);
         
         // Center the label both vertically and horizontally.  This assumes
         // that the sphere is centered at 0,0.
         label.setOffset(-label.getFullBoundsReference().width / 2, -label.getFullBoundsReference().height / 2);
 	}
+    
+    /**
+     * Turn on/off the use of a stroke to draw the outline of the atom.  This
+     * function was implemented as part of a workaround for an issue where the
+     * stroke was being cut off when this node was used on the control panel,
+     * resulting in an odd look.  If that problem is resolved (it seemed to be
+     * deep in the bowels of Piccolo), then it may be possible to remove this
+     * method.
+     * 
+     * @param strokeOn
+     */
+    public void setStrokeOn(boolean strokeOn){
+		if (representation instanceof SphericalNode){
+			if (strokeOn){
+				((SphericalNode)representation).setStroke(ATOM_EDGE_STROKE);
+			}
+			else{
+				((SphericalNode)representation).setStroke(null);
+			}
+		}
+		else if (representation instanceof PPath){
+			if (strokeOn){
+				((PPath)representation).setStroke(ATOM_EDGE_STROKE);
+			}
+			else{
+				((PPath)representation).setStroke(null);
+			}
+		}
+    }
 
     private void updateOffset() {
         setOffset( modelViewTransform.modelToView( atom.getPosition() ));

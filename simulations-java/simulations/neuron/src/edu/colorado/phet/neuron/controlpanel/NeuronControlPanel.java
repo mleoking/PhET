@@ -5,10 +5,15 @@ package edu.colorado.phet.neuron.controlpanel;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Frame;
+import java.awt.Image;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Hashtable;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -21,7 +26,9 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.neuron.NeuronConstants;
 import edu.colorado.phet.neuron.NeuronResources;
 import edu.colorado.phet.neuron.NeuronStrings;
@@ -284,13 +291,25 @@ public class NeuronControlPanel extends ControlPanel {
 //            PNode atomNodeComposite = new PNode();
 //            double size = atomNode.getFullBoundsReference().width * 1.4;
 //            PhetPPath atomNodeBackground = new PhetPPath(new Rectangle2D.Double(-size / 2, -size / 2, size, size),
-//            		new Color(0,0,0,0), null, null);
+//            		new Color(200,200,200,255));
 //            atomNodeComposite.addChild(atomNodeBackground);
 //            atomNodeComposite.addChild(atomNode);
             
+            atomNode.setStrokeOn(false);
+            
             // Create and add the icon.
             JLabel _valueLabel = getValueLabel();
-            _valueLabel.setIcon( new ImageIcon(atomNode.toImage(25, 25, new Color(0,0,0,0))) );
+            System.out.println(atomNode.getFullBoundsReference());
+            Image atomImage = atomNode.toImage(25, 25, new Color(0,0,0,0));
+            BufferedImage bufferedAtomImage = BufferedImageUtils.toBufferedImage(atomImage);
+            try {
+            	
+				ImageIO.write(bufferedAtomImage, "png", new File("c:/temp/atom-image-" + atomType.toString() + ".png"));
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+            _valueLabel.setIcon( new ImageIcon(atomImage) );
             _valueLabel.setVerticalTextPosition( JLabel.CENTER );
             _valueLabel.setHorizontalTextPosition( JLabel.LEFT );
             
