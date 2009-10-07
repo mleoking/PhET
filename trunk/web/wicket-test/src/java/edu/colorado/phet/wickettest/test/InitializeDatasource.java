@@ -1,12 +1,5 @@
 package edu.colorado.phet.wickettest.test;
 
-import java.io.IOException;
-import java.util.Properties;
-
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-
 //import org.postgresql.jdbc2.optional.PoolingDataSource;
 
 public class InitializeDatasource {

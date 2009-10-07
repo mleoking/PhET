@@ -1,13 +1,5 @@
 package edu.colorado.phet.wickettest.test;
 
-import java.util.Locale;
-
-import org.hibernate.Session;
-
-import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
-import edu.colorado.phet.wickettest.util.HibernateUtils;
-import edu.colorado.phet.wickettest.util.StringUtils;
-
 public class LocaleTest {
     /*
     public static void main( String[] args ) {

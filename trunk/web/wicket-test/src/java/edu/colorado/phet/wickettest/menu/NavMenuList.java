@@ -36,9 +36,12 @@ public class NavMenuList extends Panel {
                         }
                         if ( currentLocation.getBaseKey().equals( location.getKey() ) || currentLocation.getKey().equals( location.getKey() ) ) {
                             label.add( new AttributeAppender( "class", new Model( "selected" ), " " ) );
-                            break;
                         }
                     }
+                }
+
+                if ( location.isUnderLocationKey( "get-phet" ) ) {
+                    label.add( new AttributeAppender( "class", new Model( "get-phet-item" ), " " ) );
                 }
 
                 link.add( label );
