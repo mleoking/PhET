@@ -66,18 +66,22 @@
 			tf.setTextFormat( format );
 			sp.addChild( tf );
 			
+			var plainSprite = new Sprite();
+			plainSprite.addChild( new Bitmap( wallData ) );
+			
 			light = new PointLight3D();
 			light.x = 100000;
 			light.z = -350000;
 			light.y = 300000;
 			
-			var texture : MovieMaterial = new MovieMaterial( sp );
-			var flat_a : MaterialObject3D = new ShadedMaterial( texture, new FlatShader( light, 0xFFFFFF, 0x888888 ) );
-			var flat_b : MaterialObject3D = new ShadedMaterial( texture, new FlatShader( light, 0xFFFFFF, 0x888888 ) );
-			var flat_c : MaterialObject3D = new ShadedMaterial( texture, new FlatShader( light, 0xFFFFFF, 0x888888 ) );
-			var flat_d : MaterialObject3D = new ShadedMaterial( texture, new FlatShader( light, 0xFFFFFF, 0x888888 ) );
-			var flat_e : MaterialObject3D = new ShadedMaterial( texture, new FlatShader( light, 0xFFFFFF, 0x888888 ) );
-			var flat_f : MaterialObject3D = new ShadedMaterial( texture, new FlatShader( light, 0xFFFFFF, 0x888888 ) );
+			var frontTexture : MovieMaterial = new MovieMaterial( sp );
+			var plainTexture : MovieMaterial = new MovieMaterial( plainSprite );
+			var flat_a : MaterialObject3D = new ShadedMaterial( plainTexture, new FlatShader( light, 0xFFFFFF, 0x888888 ) );
+			var flat_b : MaterialObject3D = new ShadedMaterial( frontTexture, new FlatShader( light, 0xFFFFFF, 0x888888 ) );
+			var flat_c : MaterialObject3D = new ShadedMaterial( plainTexture, new FlatShader( light, 0xFFFFFF, 0x888888 ) );
+			var flat_d : MaterialObject3D = new ShadedMaterial( plainTexture, new FlatShader( light, 0xFFFFFF, 0x888888 ) );
+			var flat_e : MaterialObject3D = new ShadedMaterial( plainTexture, new FlatShader( light, 0xFFFFFF, 0x888888 ) );
+			var flat_f : MaterialObject3D = new ShadedMaterial( plainTexture, new FlatShader( light, 0xFFFFFF, 0x888888 ) );
 			flat_a.interactive = true;
 			flat_b.interactive = true;
 			flat_c.interactive = true;
