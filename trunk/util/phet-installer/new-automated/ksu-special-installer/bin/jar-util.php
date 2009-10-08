@@ -64,8 +64,9 @@
         $keystore = $config_params[ 'keystore' ];
         $storepass = $config_params[ 'storepass' ];
         $alias = $config_params[ 'alias' ];
-        $command =  JARSIGNER." -keystore $keystore -storetype pkcs12 -storepass $storepass $jar_path_and_name $alias";
-        print $command."\n";
+        $tsa = $config_params[ 'tsa' ];
+        $command =  JARSIGNER." -keystore $keystore -storetype pkcs12 -storepass $storepass -tsa $tsa $jar_path_and_name $alias";
+        print "Signing JAR ".$jar_path_and_name." with command: ".$command."\n";
         exec( $command );
     }
 
