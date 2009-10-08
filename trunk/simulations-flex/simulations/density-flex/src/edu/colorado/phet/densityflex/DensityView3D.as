@@ -16,10 +16,12 @@ import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.MouseEvent;
 import flash.geom.ColorTransform;
+import flash.text.TextField;
+import flash.utils.getTimer;
 
 import mx.core.UIComponent;
 
-public class FlexView3D extends UIComponent {
+public class DensityView3D extends UIComponent {
 
     //engine variables
     private var scene:Scene3D;
@@ -52,10 +54,14 @@ public class FlexView3D extends UIComponent {
 
     private var marker : ObjectContainer3D;
 
+    public var fpsText : TextField = new TextField();
+
+    public var backgroundSprite : Sprite;
+
     [Embed(source="density-flex/images/spheretex.png")]
     private var spheretex : Class;
 
-    public function FlexView3D() {
+    public function DensityView3D() {
         super();
     }
 
@@ -68,7 +74,19 @@ public class FlexView3D extends UIComponent {
         initObjects();
         initListeners();
 
+
+        fpsText.text = "X fps";
+        fpsText.textColor = 0x000000;
+        fpsText.background = true;
+        fpsText.height = fpsText.textHeight + 4;
+
+        backgroundSprite = new Sprite();
+        backgroundSprite.graphics.beginFill(0x000000);
+        backgroundSprite.graphics.drawRect(0, 0, 5000, 5000);
+        backgroundSprite.graphics.endFill();
+        addChild(backgroundSprite);
         addChild(view);
+        addChild(fpsText);
     }
 
     override protected function updateDisplayList( unscaledWidth:Number, unscaledHeight:Number ):void {
@@ -94,12 +112,7 @@ public class FlexView3D extends UIComponent {
 
         view = new View3D({scene:scene, camera:camera, renderer:renderer});
 
-        var sp : Sprite = new Sprite();
-        sp.graphics.beginFill(0x000000);
-        sp.graphics.drawRect(0, 0, 5000, 5000);
-        sp.graphics.endFill();
-        addChild(sp);
-        addChild(view);
+
     }
 
     public function updateWater() : void {
@@ -198,11 +211,11 @@ public class FlexView3D extends UIComponent {
 
     public function initListeners():void {
         addEventListener(Event.ENTER_FRAME, onEnterFrame);
-        view.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
-        view.addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
-        view.addEventListener(Event.RESIZE, onResize);
-        view.addEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
-        view.stage.addEventListener(Event.RESIZE, onResize);
+        stage.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
+        stage.addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
+        stage.addEventListener(Event.RESIZE, onResize);
+        stage.addEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
+        stage.addEventListener(Event.RESIZE, onResize);
         onResize();
     }
 
@@ -234,29 +247,49 @@ public class FlexView3D extends UIComponent {
     private var time : int = 0;
 
     public function onEnterFrame( event:Event ):void {
-        if ( invalid ) {
-            invalid = false;
-            view.render();
+        //if ( invalid ) {
+        //    invalid = false;
+        view.render();
+        //}
+
+        var curTime : int = getTimer();
+        var fps : int = 1000 / (curTime - time);
+        fpsText.text = String(fps) + " fps";
+        if ( fps > 20 ) {
+            fpsText.backgroundColor = 0x00FF00;
         }
+        else if ( fps > 15 ) {
+            fpsText.backgroundColor = 0x88FF00;
+        }
+        else if ( fps > 10 ) {
+                fpsText.backgroundColor = 0xFFFF00;
+            }
+            else if ( fps > 5 ) {
+                    fpsText.backgroundColor = 0xFF8800;
+                }
+                else {
+                    fpsText.backgroundColor = 0xFF0000;
+                }
+        time = curTime;
     }
 
     public function onMouseDown( event:MouseEvent ) : void {
-        startMouseX = view.stage.mouseX - view.x;
-        startMouseY = view.stage.mouseY - view.y;
+        startMouseX = stage.mouseX - view.x;
+        startMouseY = stage.mouseY - view.y;
         if ( view.mouseObject == cube || view.mouseObject is Block || view.mouseObject is Sphere || view.mouseObject is Cylinder ) {
             moving = true;
             startMiddle = medianFrontScreenPoint(view.mouseObject as AbstractPrimitive);
             selectedObject = view.mouseObject as AbstractPrimitive;
         }
-        view.stage.addEventListener(Event.MOUSE_LEAVE, onStageMouseLeave);
+        stage.addEventListener(Event.MOUSE_LEAVE, onStageMouseLeave);
     }
 
     public function onMouseMove( event : MouseEvent ) : void {
         if ( moving ) {
             var offsetX : Number = startMiddle.x - startMouseX;
             var offsetY : Number = startMiddle.y - startMouseY;
-            var mX : Number = view.stage.mouseX - view.x;
-            var mY : Number = view.stage.mouseY - view.y;
+            var mX : Number = stage.mouseX - view.x;
+            var mY : Number = stage.mouseY - view.y;
             var screenCubeCenterX : Number = mX + offsetX;
             var screenCubeCenterY : Number = mY + offsetY;
             var projected : Number3D = camera.unproject(screenCubeCenterX, screenCubeCenterY);
@@ -281,12 +314,12 @@ public class FlexView3D extends UIComponent {
 
     public function onMouseUp( event:MouseEvent ) : void {
         moving = false;
-        view.stage.removeEventListener(Event.MOUSE_LEAVE, onStageMouseLeave);
+        stage.removeEventListener(Event.MOUSE_LEAVE, onStageMouseLeave);
     }
 
     public function onStageMouseLeave( event:Event ) : void {
         moving = false;
-        view.stage.removeEventListener(Event.MOUSE_LEAVE, onStageMouseLeave);
+        stage.removeEventListener(Event.MOUSE_LEAVE, onStageMouseLeave);
     }
 
     public function onResize( event:Event = null ) : void {

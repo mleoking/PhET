@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:cmp="edu.colorado.phet.densityflex.*"
                 layout="absolute" width="800" height="600" applicationComplete="app.init()" backgroundColor="#000000">
-    <cmp:FlexView3D width="100%" height="100%" id="app"/>
+    <cmp:DensityView3D width="100%" height="100%" id="app"/>
 </mx:Application>
         <!--<?xml version="1.0"?>-->
         <!--<mx:Application-->

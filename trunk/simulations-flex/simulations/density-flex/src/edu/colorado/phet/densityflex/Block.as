@@ -26,6 +26,8 @@ public class Block extends Cube {
         this.width = size;
         this.height = size;
         this.depth = size;
+        this.segmentsH = 2;
+        this.segmentsW = 2;
         this.z = size / 2 + 101;
         this.useHandCursor = true;
         this.mass = initialMass;
@@ -71,7 +73,7 @@ public class Block extends Cube {
 
 
         var frontMaterial : MovieMaterial = new MovieMaterial(frontSprite);
-        var redWallMaterial : BitmapMaterial = new BitmapMaterial( coloredData );
+        var redWallMaterial : BitmapMaterial = new BitmapMaterial(coloredData);
 
         this.cubeMaterials.left = this.cubeMaterials.right = this.cubeMaterials.top = this.cubeMaterials.bottom = this.cubeMaterials.front = redWallMaterial;
 
