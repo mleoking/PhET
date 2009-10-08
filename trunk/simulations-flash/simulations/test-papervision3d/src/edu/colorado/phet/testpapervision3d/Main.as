@@ -119,7 +119,6 @@
 		}
 		
 		public function getInteriorMaterial() : MaterialObject3D {
-			//return new ColorMaterial( 0xAAAAAA );
 			return new FlatShadeMaterial( light, 0xAAAAAA, 0x222222 );
 		}
 		
@@ -143,9 +142,28 @@
 		
 		override protected function init3d() : void {
 			var cube : Cube;
+			
 			cube = new Cube( createBlockTexture( 200, 50 ), 200, 200, 200, 4, 4, 4 );
 			cube.z = 101 + faceDepth;
+			cube.x = 450;
+			default_scene.addChild( cube );
+			makeObjectDraggable( cube );
+			
+			cube = new Cube( createBlockTexture( 100, 10 ), 100, 100, 100, 4, 4, 4 );
+			cube.z = 101 + faceDepth;
 			cube.x = 150;
+			default_scene.addChild( cube );
+			makeObjectDraggable( cube );
+			
+			cube = new Cube( createBlockTexture( 300, 100 ), 300, 300, 300, 4, 4, 4 );
+			cube.z = 101 + faceDepth;
+			cube.x = -150;
+			default_scene.addChild( cube );
+			makeObjectDraggable( cube );
+			
+			cube = new Cube( createBlockTexture( 200, 50 ), 200, 200, 200, 4, 4, 4 );
+			cube.z = 101 + faceDepth;
+			cube.x = -450;
 			default_scene.addChild( cube );
 			makeObjectDraggable( cube );
 
@@ -236,6 +254,46 @@
 			plane.x = -far / 2 - poolWidth / 2;
 			plane.y = -far / 2;
 			default_scene.addChild( plane );
+			
+			// TEST SPHERES
+			var sphere : Sphere;
+			var mat : PhongMaterial;
+			
+			mat = new PhongMaterial( light, 0x5500AA, 0x110022, 30 );
+			mat.interactive = true;
+			sphere = new Sphere( mat, 100, 5, 5 );
+			sphere.x = -450;
+			sphere.y = 300;
+			sphere.z = 100;
+			default_scene.addChild( sphere );
+			makeObjectDraggable( sphere );
+			
+			mat = new PhongMaterial( light, 0x00AA55, 0x002211, 30 );
+			mat.interactive = true;
+			sphere = new Sphere( mat, 100, 10, 10 );
+			sphere.x = -150;
+			sphere.y = 300;
+			sphere.z = 100;
+			default_scene.addChild( sphere );
+			makeObjectDraggable( sphere );
+			
+			mat = new PhongMaterial( light, 0xAA5500, 0x221100, 30 );
+			mat.interactive = true;
+			sphere = new Sphere( mat, 100, 15, 15 );
+			sphere.x = 150;
+			sphere.y = 300;
+			sphere.z = 100;
+			default_scene.addChild( sphere );
+			makeObjectDraggable( sphere );
+			
+			mat = new PhongMaterial( light, 0xAAAAAA, 0x222222, 30 );
+			mat.interactive = true;
+			sphere = new Sphere( mat, 100, 15, 15 );
+			sphere.x = 450;
+			sphere.y = 300;
+			sphere.z = 100;
+			default_scene.addChild( sphere );
+			makeObjectDraggable( sphere );
 			
 			stage.addEventListener( MouseEvent.MOUSE_MOVE, onMouseMove );
 			

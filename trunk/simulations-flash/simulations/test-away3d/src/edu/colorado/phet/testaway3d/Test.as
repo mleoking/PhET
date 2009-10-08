@@ -3,12 +3,14 @@
 	import flash.display.BitmapData;
 	import flash.display.MovieClip;
 	import flash.display.Sprite;
+	import flash.display.StageQuality;
     import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.geom.ColorTransform;
 	import flash.geom.Rectangle;
 	import flash.text.TextField;
 	import flash.text.TextFormat;
+	import flash.utils.getTimer;
 	
 	import away3d.cameras.*;
 	import away3d.containers.*;
@@ -25,6 +27,7 @@
 	import away3d.primitives.*;
 	
 	import edu.colorado.phet.testaway3d.WallBitmapData;
+	import edu.colorado.phet.testaway3d.WeirdTexture;
 
 	public class Test extends MovieClip {
 		
@@ -63,10 +66,20 @@
 			init();
 		}
 		
+		public var fpsText : TextField = new TextField();
+		
 		public function init():void {
 			initEngine();
 			initObjects();
 			initListeners();
+			
+			addChild( fpsText );
+			fpsText.text = "X fps";
+			fpsText.textColor = 0x000000;
+			fpsText.background = true;
+			fpsText.height = fpsText.textHeight + 4;
+			
+			test = this;
 		}
 		
 		public function initEngine():void {
@@ -77,13 +90,32 @@
 			camera.targettiltangle = camera.tiltangle = 8;
 			camera.hover();
 			
-			//fogfilter = new FogFilter({material:new ColorMaterial(0x000000), minZ:500, maxZ:2000});
-			
+			//renderer = Renderer.BASIC;
+			//renderer = Renderer.CORRECT_Z_ORDER;
 			renderer = Renderer.INTERSECTING_OBJECTS;
+			//renderer = new QuadrantRenderer();
 			
 			view = new View3D({scene:scene, camera:camera, renderer:renderer});
 			
 			addChild(view);
+		}
+		
+		private static var test : Test;
+		private static var quality : Boolean = true;
+		
+		public static function toggleQuality() {
+			quality = !quality;
+			if( !quality ) {
+				test.renderer = Renderer.BASIC;
+				test.stage.quality = StageQuality.LOW;
+			} else {
+				test.renderer = Renderer.INTERSECTING_OBJECTS;
+				test.stage.quality = StageQuality.HIGH;
+			}
+			test.removeChild( test.view );
+			test.view = new View3D({scene: test.scene, camera: test.camera, renderer: test.renderer});
+			test.addChild( test.view );
+			test.onResize();
 		}
 		
 		public function updateWater() : void {
@@ -140,10 +172,8 @@
 			scene.addChild( new Plane({ x: far / 2 + poolWidth / 2, y: -far / 2, width: far, height: far, rotationX: 90, material: new ShadingColorMaterial( 0xAA7733 ) }) );
 			scene.addChild( new Plane({ x: -far / 2 - poolWidth / 2, y: -far / 2, width: far, height: far, rotationX: 90, material: new ShadingColorMaterial( 0xAA7733 ) }) );
 			
-			scene.addChild( new Sphere({ x: -450, y: 300, z: 100, segmentsH: 5, segmentsW: 5, material: new PhongColorMaterial( 0x5500AA ) }) );
-			scene.addChild( new Sphere({ x: -150, y: 300, z: 100, segmentsH: 10, segmentsW: 10, material: new PhongColorMaterial( 0x00AA55 ) }) );
-			scene.addChild( new Sphere({ x: 150, y: 300, z: 100, segmentsH: 15, segmentsW: 15, material: new PhongColorMaterial( 0xAA5500 ) }) );
-			scene.addChild( new Sphere({ x: 450, y: 300, z: 100, segmentsH: 15, segmentsW: 15, material: new PhongColorMaterial( 0xAAAAAA ) }) );
+			scene.addChild( new Sphere({ x: -450, y: 300, z: 201, radius: 100, segmentsH: 10, segmentsW: 10, material: new PhongBitmapMaterial( new WeirdTexture( 256, 256 ) ) }) );
+			scene.addChild( new Cylinder({ x: 450, y: 300, z: 151, rotationZ: 90, radius: 50, height: 750, segmentsH: 1, segmentsW: 25, material: new ShadingColorMaterial( 0xAA7755 ) }) );
 			
 			// the cube
 			cube = new Block( 50, 200, new ColorTransform( 1, 0, 0 ) );
@@ -214,17 +244,35 @@
 			return new Number3D( kx / num, ky / num, kz / num );
 		}
 		
+		private var time : int = 0;
+		
 		public function onEnterFrame(event:Event):void {			
-			if( invalid ) {
-				invalid = false;
+			//if( invalid ) {
+				//invalid = false;
 				view.render();
+			//}
+			
+			var curTime : int = getTimer();
+			var fps : int = 1000 / (curTime - time);
+			fpsText.text = String( fps ) + " fps (limit 24)";
+			if( fps > 20 ) {
+				fpsText.backgroundColor = 0x00FF00;
+			} else if( fps > 15 ) {
+				fpsText.backgroundColor = 0x88FF00;
+			} else if( fps > 10 ) {
+				fpsText.backgroundColor = 0xFFFF00;
+			} else if( fps > 5 ) {
+				fpsText.backgroundColor = 0xFF8800;
+			} else {
+				fpsText.backgroundColor = 0xFF0000;
 			}
+			time = curTime;
 		}
 		
 		public function onMouseDown( event:MouseEvent ) : void {
 			startMouseX = stage.mouseX - view.x;
 			startMouseY = stage.mouseY - view.y;
-			if( view.mouseObject == cube || view.mouseObject is Block || view.mouseObject is Sphere ) {
+			if( view.mouseObject == cube || view.mouseObject is Block || view.mouseObject is Sphere || view.mouseObject is Cylinder ) {
 				move = true;
 				startMiddle = medianFrontScreenPoint( view.mouseObject as AbstractPrimitive );
 				selectedObject = view.mouseObject as AbstractPrimitive;
