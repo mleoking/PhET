@@ -130,6 +130,8 @@ public class NaturalSelectionConstants {
 
     public static final String IMAGE_EARTH = "earth-v1.png";
 
+    public static final String IMAGE_DETACH_ICON = "tear-20.png";
+
 
     //----------------------------------------------------------------------------
     // Cursors
