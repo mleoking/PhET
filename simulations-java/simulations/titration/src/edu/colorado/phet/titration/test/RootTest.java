@@ -11,24 +11,19 @@ import edu.colorado.phet.common.phetcommon.math.Complex;
  * @author Jonathan Olson
  */
 public class RootTest {
-    // roots below this absolute value are so close to zero that they shouldn't be factored out normally
-    private static final double EPSILON = 0.0000000001;
 
     public static void main( String[] args ) {
-
-        System.out.println( "Durand-Kerner optimized" );
+        
+        System.out.println( "Durand-Kerner optimized..." );
         testRootFinder( new DurandKernerOptimized(), 30, 0.0001 );
-
         System.out.println();
 
-        System.out.println( "Durand-Kerner" );
+        System.out.println( "Durand-Kerner..." );
         testRootFinder( new DurandKerner(), 30, 0.0001 );
-
         System.out.println();
 
-        System.out.println( "Laguerre" );
+        System.out.println( "Laguerre..." );
         testRootFinder( new Laguerre(), 30, 0.0001 );
-
         System.out.println();
 
         /*
@@ -202,8 +197,6 @@ public class RootTest {
     public static Complex[] findRootsLaguerre( Complex[] polynomial, int iterations ) {
         Complex[] roots = new Complex[polynomial.length - 1];
 
-        boolean success = true;
-
         Complex[] poly = new Complex[polynomial.length];
         for ( int i = 0; i < poly.length; i++ ) {
             poly[i] = polynomial[i];
@@ -217,9 +210,6 @@ public class RootTest {
             }
             else {
                 throw new RuntimeException( "Can't find the root of a non-zero constant" );
-            }
-            if ( isNaN( roots[i] ) ) {
-                success = false;
             }
             poly = factorOutRoot( poly, roots[i] );
         }
