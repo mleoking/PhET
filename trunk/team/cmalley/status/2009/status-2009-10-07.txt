@@ -1,0 +1,49 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: October 1-7, 2009 (Thu-Wed)
+
+ACCOMPLISHMENTS:
+
+  Translation Utility:
+  - 1627, added HTML Preview feature
+  - 1810, fixed validation bug
+  - 1817, fixed Test feature for Flash sims on Mac OS 10.5
+  - 1629, validate after Load
+  - logging output enhancements
+  - documented test procedures for Marj
+  - published 2.02.02
+  - *ALL FIXES AND ENHANCEMENTS COMPLETED*
+  
+  common:
+  - 1812, added statistics and updates features to "other website" deployment scenario
+  
+  build process:
+  - 1811, sign Flash jars (with Sam)
+  
+  Titration:
+  - tested changes to Laguerre, published dev version
+  
+  misc:
+  - weekly status meeting
+  - reviewed current state of Eclipse Scala plugin with Sam
+  - reviewed and check in Korean common translations
+  - 1819, problem with Spanish translation of Moving Man
+  - 499, discussion about Search feature in PhET installation
+  
+WHAT'S NEXT:
+
+  - clean up polynomial root-finding code for Titration
+  - migrate features to common code, #1074
+  - test new translation deployment process
+  - finish Glaciers (waiting for Wendy's feedback)
+  
+ISSUES:
+
+  - I have had no sim work since 8/26/09.
+  
+DATES UNAVAILABLE:
+
+   October 15-27
+  
+--
