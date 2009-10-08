@@ -17,7 +17,6 @@ import flash.events.Event;
 import flash.events.MouseEvent;
 import flash.geom.ColorTransform;
 import flash.text.TextField;
-import flash.utils.getTimer;
 
 import mx.core.UIComponent;
 
@@ -86,7 +85,7 @@ public class DensityView3D extends UIComponent {
         backgroundSprite.graphics.endFill();
         addChild(backgroundSprite);
         addChild(view);
-        addChild(fpsText);
+        //addChild(fpsText);
     }
 
     override protected function updateDisplayList( unscaledWidth:Number, unscaledHeight:Number ):void {
@@ -247,30 +246,30 @@ public class DensityView3D extends UIComponent {
     private var time : int = 0;
 
     public function onEnterFrame( event:Event ):void {
-        //if ( invalid ) {
-        //    invalid = false;
-        view.render();
-        //}
+        if ( invalid ) {
+            invalid = false;
+            view.render();
+        }
 
-        var curTime : int = getTimer();
-        var fps : int = 1000 / (curTime - time);
-        fpsText.text = String(fps) + " fps";
-        if ( fps > 20 ) {
-            fpsText.backgroundColor = 0x00FF00;
-        }
-        else if ( fps > 15 ) {
-            fpsText.backgroundColor = 0x88FF00;
-        }
-        else if ( fps > 10 ) {
-                fpsText.backgroundColor = 0xFFFF00;
-            }
-            else if ( fps > 5 ) {
-                    fpsText.backgroundColor = 0xFF8800;
-                }
-                else {
-                    fpsText.backgroundColor = 0xFF0000;
-                }
-        time = curTime;
+        //        var curTime : int = getTimer();
+        //        var fps : int = 1000 / (curTime - time);
+        //        fpsText.text = String(fps) + " fps";
+        //        if ( fps > 20 ) {
+        //            fpsText.backgroundColor = 0x00FF00;
+        //        }
+        //        else if ( fps > 15 ) {
+        //            fpsText.backgroundColor = 0x88FF00;
+        //        }
+        //        else if ( fps > 10 ) {
+        //                fpsText.backgroundColor = 0xFFFF00;
+        //            }
+        //            else if ( fps > 5 ) {
+        //                    fpsText.backgroundColor = 0xFF8800;
+        //                }
+        //                else {
+        //                    fpsText.backgroundColor = 0xFF0000;
+        //                }
+        //        time = curTime;
     }
 
     public function onMouseDown( event:MouseEvent ) : void {
