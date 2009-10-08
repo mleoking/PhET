@@ -425,4 +425,40 @@
         return TRUE;
     }
 
+    //------------------------------------------------------------------------
+    // Append the contents of one file to another.  And yes, the name of the
+    // function is a little heavy on the usage of the word "file".
+    //------------------------------------------------------------------------
+    function file_append_file_to_file($dest_file_name, $source_file_name) {
+
+        // Check that both files exist.
+        if(!file_exists($dest_file_name) || !file_exists($source_file_name)) {
+             return(FALSE);
+        }      
+
+        // Open the source file for reading.
+        if (!($sfp = fopen($source_file_name, 'r'))){
+            return(FALSE);
+        }
+
+        // Read in the contents of the file.
+        $contents = fread($sfp, filesize($source_file_name));
+        fclose($sfp);
+
+        // Open the destination file for appending.
+        if (!($dfp = fopen($dest_file_name, 'a'))){
+            return(FALSE);
+        }
+
+        // Append the contents.
+        if (!fwrite($dfp, $contents)){
+            fclose($dfp);
+            return FALSE;
+        }
+
+        fclose($dfp);
+
+        return TRUE;
+    }
+
 ?>
