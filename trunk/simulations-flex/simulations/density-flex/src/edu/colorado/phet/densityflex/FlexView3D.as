@@ -12,6 +12,7 @@ import away3d.lights.*;
 import away3d.materials.*;
 import away3d.primitives.*;
 
+import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.MouseEvent;
 import flash.geom.ColorTransform;
@@ -51,6 +52,9 @@ public class FlexView3D extends UIComponent {
 
     private var marker : ObjectContainer3D;
 
+    [Embed(source="density-flex/images/spheretex.png")]
+    private var spheretex : Class;
+
     public function FlexView3D() {
         super();
     }
@@ -69,12 +73,6 @@ public class FlexView3D extends UIComponent {
 
     override protected function updateDisplayList( unscaledWidth:Number, unscaledHeight:Number ):void {
         super.updateDisplayList(unscaledWidth, unscaledHeight);
-        /*
-         if ( this.width / 2 != this.view.x )
-         view.x = this.width / 2;
-         if ( this.height / 2 != this.view.y )
-         view.y = this.height / 2;
-         */
         if ( view != null ) {
             view.x = unscaledWidth / 2;
             view.y = unscaledHeight / 2;
@@ -96,6 +94,11 @@ public class FlexView3D extends UIComponent {
 
         view = new View3D({scene:scene, camera:camera, renderer:renderer});
 
+        var sp : Sprite = new Sprite();
+        sp.graphics.beginFill(0x000000);
+        sp.graphics.drawRect(0, 0, 5000, 5000);
+        sp.graphics.endFill();
+        addChild(sp);
         addChild(view);
     }
 
@@ -155,7 +158,7 @@ public class FlexView3D extends UIComponent {
         scene.addChild(new Plane({ x: far / 2 + poolWidth / 2, y: -far / 2, width: far, height: far, rotationX: 90, material: new ShadingColorMaterial(0xAA7733) }));
         scene.addChild(new Plane({ x: -far / 2 - poolWidth / 2, y: -far / 2, width: far, height: far, rotationX: 90, material: new ShadingColorMaterial(0xAA7733) }));
 
-        //scene.addChild(new Sphere({ x: -450, y: 300, z: 201, radius: 100, segmentsH: 10, segmentsW: 10, material: new PhongBitmapMaterial(new WeirdTexture(256, 256)) }));
+        //scene.addChild(new Sphere({ x: -450, y: 300, z: 201, radius: 100, segmentsH: 10, segmentsW: 10, material: new PhongBitmapMaterial((new spheretex() as BitmapAsset).bitmapData) }));
         scene.addChild(new Cylinder({ x: 450, y: 300, z: 151, rotationZ: 90, radius: 50, height: 750, segmentsH: 1, segmentsW: 25, material: new ShadingColorMaterial(0xAA7755) }));
 
         // the cube
@@ -250,7 +253,6 @@ public class FlexView3D extends UIComponent {
 
     public function onMouseMove( event : MouseEvent ) : void {
         if ( moving ) {
-            //trace( "startMiddle: " + String(startMiddle) );
             var offsetX : Number = startMiddle.x - startMouseX;
             var offsetY : Number = startMiddle.y - startMouseY;
             var mX : Number = view.stage.mouseX - view.x;
