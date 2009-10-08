@@ -4,30 +4,36 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import edu.colorado.phet.common.phetcommon.math.Complex;
-import edu.colorado.phet.titration.test.RootTest;
 
 /*
- * * Titration prototype model, based on Kelly Lancaster's Octave code.
+ * Titration prototype model, based on Kelly Lancaster's Octave code
+ * and Jonathan Olson's polynomial root-finding implementation.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class TPModel {
 
-    public static boolean ROOTS_DURRAND_KERNER = false;
-    public static boolean ROOTS_OPTIMIZED = false;
-    public static int ROOTS_ITERATIONS = TPConstants.ROOTS_ITERATIONS_RANGE.getDefault();
-    public static double ROOTS_THRESHOLD = TPConstants.ROOTS_THRESHOLD_RANGE.getDefault();
-
     private static final double Kw = TPConstants.Kw;
 
-    private TPModel() {
+    private int rootsIterations;
+    
+    public TPModel( int rootsIterations ) {
+        this.rootsIterations = rootsIterations;
+    }
+    
+    public void setRootsIterations( int rootsIterations ) {
+        this.rootsIterations = rootsIterations;
+    }
+    
+    public int getRootsIterations() {
+        return rootsIterations;
     }
 
     /**
      * Strong base titrated with a strong acid.
      * Octave implementation is in file strongbase.m
      */
-    public static final double strongBase( double Ca, double Cb, double Va, double Vb ) {
+    public double strongBase( double Ca, double Cb, double Va, double Vb ) {
         double a = -( Va + Vb );
         double b = Ca * Va - Cb * Vb;
         double c = Kw * ( Va + Vb );
@@ -40,7 +46,7 @@ public class TPModel {
      * Weak base titrated with a strong acid.
      * Octave implementation is in file weakbase.m
      */
-    public static double weakBase( double Ca, double Cb, double Va, double Vb, double Kb ) {
+    public double weakBase( double Ca, double Cb, double Va, double Vb, double Kb ) {
         double a = -( Va + Vb );
         double b = Ca * Va - Cb * Vb - ( Kw / Kb ) * ( Va + Vb );
         double c = Kw * ( Va + Vb ) + ( Ca * Va * Kw ) / Kb;
@@ -54,7 +60,7 @@ public class TPModel {
      * Strong acid titrated with a strong base.
      * Octave implementation is in file strongacid.m
      */
-    public static final double strongAcid( double Ca, double Cb, double Va, double Vb ) {
+    public double strongAcid( double Ca, double Cb, double Va, double Vb ) {
         double a = Va + Vb;
         double b = Cb * Vb - Ca * Va;
         double c = -Kw * ( Va + Vb );
@@ -67,7 +73,7 @@ public class TPModel {
      * Weak acid titrated with a strong base.
      * Octave implementation is in file weakacid.m
      */
-    public static final double weakAcid( double Ca, double Cb, double Va, double Vb, double Ka ) {
+    public double weakAcid( double Ca, double Cb, double Va, double Vb, double Ka ) {
         double a = Va + Vb;
         double b = Cb * Vb + Va * Ka + Vb * Ka;
         double c = Cb * Vb * Ka - Ca * Va * Ka - Va * Kw - Vb * Kw;
@@ -81,7 +87,7 @@ public class TPModel {
      * Diprotic acid titrated with a strong base.
      * Octave implementation is in file diproticacid.m
      */
-    public static final double diproticAcid( double Ca, double Cb, double Va, double Vb, double Ka1, double Ka2 ) {
+    public double diproticAcid( double Ca, double Cb, double Va, double Vb, double Ka1, double Ka2 ) {
         double a = Va + Vb;
         double b = Cb * Vb + Va * Ka1 + Vb * Ka1;
         double c = Cb * Vb * Ka1 - Ca * Va * Ka1 + Va * Ka1 * Ka2 + Vb * Ka1 * Ka2 - Va * Kw - Vb * Kw;
@@ -95,7 +101,7 @@ public class TPModel {
      * Triprotic acid titrated with a strong base.
      * Octave implementation is in file triproticacid.m
      */
-    public static final double triproticAcid( double Ca, double Cb, double Va, double Vb, double Ka1, double Ka2, double Ka3 ) {
+    public double triproticAcid( double Ca, double Cb, double Va, double Vb, double Ka1, double Ka2, double Ka3 ) {
         double a = Va + Vb;
         double b = Cb * Vb + Va * Ka1 + Vb * Ka1;
         double c = -Ca * Va * Ka1 + Cb * Vb * Ka1 + Va * Ka1 * Ka2 + Vb * Ka1 * Ka2 - Va * Kw - Vb * Kw;
@@ -122,7 +128,7 @@ public class TPModel {
      * Given an array of coefficients (high to low) for an Nth order polynomial,
      * find the roots, sort them, and then calculate the pH based on the Nth root. 
      */
-    private static final double pH( double[] coefficients ) {
+    private double pH( double[] coefficients ) {
         Complex[] roots = roots( coefficients );
         Double[] rootsSorted = sortReal( roots );
         double H = rootsSorted[coefficients.length - 2];
@@ -135,23 +141,12 @@ public class TPModel {
         return pH;
     }
 
-    private static Complex[] roots( double[] coefficients ) {
+    private Complex[] roots( double[] coefficients ) {
         Complex[] polynomial = new Complex[coefficients.length];
         for ( int i = 0; i < coefficients.length; i++ ) {
             polynomial[i] = new Complex( coefficients[i], 0 );
         }
-        Complex[] roots = null;
-        if ( ROOTS_DURRAND_KERNER ) {
-            if ( ROOTS_OPTIMIZED ) {
-                roots = RootTest.findRootsOptimizedDurandKerner( polynomial, ROOTS_ITERATIONS, ROOTS_THRESHOLD );
-            }
-            else {
-                roots = RootTest.findRootsDurandKerner( polynomial, ROOTS_ITERATIONS );
-            }
-        }
-        else {
-            roots = RootTest.findRootsLaguerre( polynomial, ROOTS_ITERATIONS );
-        }
+        Complex[] roots = LaguerreRoots.findRoots( polynomial, rootsIterations );
         return roots;
     }
 

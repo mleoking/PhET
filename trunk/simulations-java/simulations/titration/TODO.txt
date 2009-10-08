@@ -1,5 +1,1 @@
 - make Kn > Kn-1 by a factor of 10 (currently Kn >= Kn-1)
-- for triprotic acid, pH=NaN at many volumes (displayed as discontinuities in curve)
-- Durand-Kerner isn't working
-- Laguerre was broken on 9/29/09, throws NullPointerException
-- need an optimized version of Laguerre

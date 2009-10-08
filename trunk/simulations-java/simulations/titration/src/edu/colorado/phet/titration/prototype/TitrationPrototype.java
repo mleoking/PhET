@@ -15,10 +15,12 @@ public class TitrationPrototype extends JFrame {
     
     public TitrationPrototype() {
         super( "Titration model prototype : " + TPConstants.VERSION );
+        
+        TPModel model = new TPModel( TPConstants.ROOTS_ITERATIONS_RANGE.getDefault() );
    
         TPChart chart = new TPChart();
         ChartPanel chartPanel = new ChartPanel( chart );
-        JPanel controlPanel = new TPControlPanel( chart );
+        JPanel controlPanel = new TPControlPanel( model, chart );
         
         // layout
         setLayout( new BorderLayout() );
