@@ -1,3 +1,5 @@
+# 2.02.03 (35607) Oct 8, 2009
+10/8/09 new icons for preview and error buttons
 # 2.02.02 (35572) Oct 7, 2009
 10/7/09 dev version to verify changes and new features
 10/1/09 #1627, HTML preview feature
