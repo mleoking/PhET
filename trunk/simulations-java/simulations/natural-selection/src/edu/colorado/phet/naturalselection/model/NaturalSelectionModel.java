@@ -550,7 +550,6 @@ public class NaturalSelectionModel extends ClockAdapter {
 
         Iterator<Bunny> iter = bunnies.iterator();
 
-        //double baseFraction = ( Math.sqrt( (double) getPopulation() ) - 3 ) / ( 4 );
         double baseFraction = ( Math.pow( (double) getPopulation() + bunnyOffset, bunnyExponent ) ) * scale;
 
         while ( iter.hasNext() ) {
@@ -594,8 +593,6 @@ public class NaturalSelectionModel extends ClockAdapter {
         }
 
         lastFrenziedGeneration = generation;
-
-        //System.out.println( "Starting frenzy" );
 
         frenzy = new Frenzy( this, NaturalSelectionConstants.getSettings().getFrenzyTicks() ); // TODO: work on time stuff!
 
