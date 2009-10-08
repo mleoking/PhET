@@ -34,8 +34,8 @@
             // window, which is placed on the flash stage.
             addChild(viewport); // Add the viewport to the stage.
             // Initialise the rendering engine.
-            //renderer = new BasicRenderEngine();
-			renderer = new QuadrantRenderEngine();
+            renderer = new BasicRenderEngine();
+			//renderer = new QuadrantRenderEngine();
             // -- Initialise the Scenes -- //
             default_scene = new Scene3D();
             // -- Initialise the Cameras -- //
