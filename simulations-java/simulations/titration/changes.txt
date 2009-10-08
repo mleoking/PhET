@@ -1,3 +1,6 @@
+10/8/09 simplify developer controls for Laguerre
+10/8/09 remove Durand-Kerner from prototype
+10/8/09 refactor Laguerre method into LaguerreRoots class
 # 0.00.04 (35522) Oct 5, 2009
 10/5/09 demo improvements to Laguerre root-finding
 # 0.00.03 (35339) Sep 29, 2009

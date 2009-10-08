@@ -1,8 +1,8 @@
 package edu.colorado.phet.titration.prototype;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.GridBagConstraints;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
@@ -90,6 +90,7 @@ public class TPControlPanel extends JPanel {
         }
     }
 
+    private final TPModel model;
     private final TPChart chart;
 
     // controls for solution and titrant
@@ -99,15 +100,13 @@ public class TPControlPanel extends JPanel {
     private final KControl k1Control, k2Control, k3Control;
 
     // controls for polynomial roots
-    private final JRadioButton laguerreRadioButton, durandKernerRadioButton;
-    private final JCheckBox optimizedCheckBox;
     private final LinearValueControl iterationsControl;
-    private final LogarithmicValueControl thresholdControl;
 
-    public TPControlPanel( TPChart chart ) {
+    public TPControlPanel( TPModel model, TPChart chart ) {
         super();
         setBorder( new LineBorder( Color.BLACK, 1 ) );
 
+        this.model = model;
         this.chart = chart;
 
         // solution
@@ -172,63 +171,15 @@ public class TPControlPanel extends JPanel {
             }
         } );
 
-        // polynomial roots controls
+        // developer controls
         JPanel rootsPanel = new JPanel();
-        rootsPanel.setBorder( new TitledBorder( "polynomial roots" ) );
+        rootsPanel.setBorder( new TitledBorder( "Developer controls" ) );
         {
-            laguerreRadioButton = new JRadioButton( "Laguerre" );
-            laguerreRadioButton.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    TPModel.ROOTS_DURRAND_KERNER = false;
-                    optimizedCheckBox.setEnabled( false );
-                    thresholdControl.setEnabled( optimizedCheckBox.isEnabled() && optimizedCheckBox.isSelected() );
-                    update( e.getSource() );
-                }
-            } );
-
-            durandKernerRadioButton = new JRadioButton( "Durand-Kerner" );
-            durandKernerRadioButton.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    TPModel.ROOTS_DURRAND_KERNER = true;
-                    optimizedCheckBox.setEnabled( true );
-                    thresholdControl.setEnabled( optimizedCheckBox.isEnabled() && optimizedCheckBox.isSelected() );
-                    update( e.getSource() );
-                }
-            } );
-
-            ButtonGroup group = new ButtonGroup();
-            group.add( laguerreRadioButton );
-            group.add( durandKernerRadioButton );
-            laguerreRadioButton.setSelected( !TPModel.ROOTS_DURRAND_KERNER );
-            durandKernerRadioButton.setSelected( TPModel.ROOTS_DURRAND_KERNER );
-
-            iterationsControl = new LinearValueControl( TPConstants.ROOTS_ITERATIONS_RANGE.getMin(), TPConstants.ROOTS_ITERATIONS_RANGE.getMax(), "iterations:", "###0", "", new HorizontalLayoutStrategy() );
-            iterationsControl.setValue( TPModel.ROOTS_ITERATIONS );
+            iterationsControl = new LinearValueControl( TPConstants.ROOTS_ITERATIONS_RANGE.getMin(), TPConstants.ROOTS_ITERATIONS_RANGE.getMax(), "Laguerre iterations:", "###0", "" );
+            iterationsControl.setValue( model.getRootsIterations() );
             iterationsControl.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
-                    TPModel.ROOTS_ITERATIONS = (int) iterationsControl.getValue();
-                    update( e.getSource() );
-                }
-            } );
-
-            optimizedCheckBox = new JCheckBox( "optimized" );
-            optimizedCheckBox.setSelected( TPModel.ROOTS_OPTIMIZED );
-            optimizedCheckBox.setEnabled( durandKernerRadioButton.isSelected() );
-            optimizedCheckBox.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    TPModel.ROOTS_OPTIMIZED = optimizedCheckBox.isSelected();
-                    thresholdControl.setEnabled( optimizedCheckBox.isEnabled() && optimizedCheckBox.isSelected() );
-                    update( e.getSource() );
-                }
-            } );
-
-            thresholdControl = new LogarithmicValueControl( TPConstants.ROOTS_THRESHOLD_RANGE.getMin(), TPConstants.ROOTS_THRESHOLD_RANGE.getMax(), "threshold:", "0.0E0", "", new HorizontalLayoutStrategy() );
-            thresholdControl.setValue( TPModel.ROOTS_THRESHOLD );
-            thresholdControl.setEnabled( optimizedCheckBox.isEnabled() && optimizedCheckBox.isSelected() );
-            thresholdControl.addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent e ) {
-                    TPModel.ROOTS_THRESHOLD = (int) thresholdControl.getValue();
-                    update( e.getSource() );
+                    handleIterationsChanged( e.getSource() );
                 }
             } );
 
@@ -237,13 +188,7 @@ public class TPControlPanel extends JPanel {
             rootsPanel.setLayout( layout );
             int row = 0;
             int column = 0;
-            layout.addComponent( new JLabel( "method:" ), row, column++ );
-            layout.addComponent( laguerreRadioButton, row, column++ );
-            layout.addComponent( durandKernerRadioButton, row++, column++ );
-            column = 0;
             layout.addComponent( iterationsControl, row++, column, 3, 1 );
-            layout.addComponent( optimizedCheckBox, row++, column, 3, 1 );
-            layout.addComponent( thresholdControl, row++, column, 3, 1 );
         }
 
         // layout
@@ -262,9 +207,14 @@ public class TPControlPanel extends JPanel {
         layout.addComponent( k2Control, row++, column );
         layout.addComponent( k3Control, row++, column );
         layout.addFilledComponent( new JSeparator(), row++, column, GridBagConstraints.HORIZONTAL );
-        layout.addComponent( rootsPanel, row++, column );
+        layout.addFilledComponent( rootsPanel, row++, column, GridBagConstraints.HORIZONTAL );
 
         update( k1Control );
+    }
+    
+    private void handleIterationsChanged( Object control ) {
+        model.setRootsIterations( (int) iterationsControl.getValue() );
+        update( control );
     }
 
     private void update( Object control ) {
@@ -315,7 +265,7 @@ public class TPControlPanel extends JPanel {
             double Cb = cbControl.getValue();
             double Va = x;
             double Vb = TPConstants.SOLUTION_VOLUME;
-            double y = TPModel.strongBase( Ca, Cb, Va, Vb );
+            double y = model.strongBase( Ca, Cb, Va, Vb );
             chart.addPoint( x, y );
         }
     }
@@ -337,7 +287,7 @@ public class TPControlPanel extends JPanel {
             double Va = x;
             double Vb = TPConstants.SOLUTION_VOLUME;
             double Ka = k1Control.getValue();
-            double y = TPModel.weakBase( Ca, Cb, Va, Vb, Ka );
+            double y = model.weakBase( Ca, Cb, Va, Vb, Ka );
             chart.addPoint( x, y );
         }
     }
@@ -358,7 +308,7 @@ public class TPControlPanel extends JPanel {
             double Cb = cbControl.getValue();
             double Va = TPConstants.SOLUTION_VOLUME;
             double Vb = x;
-            double y = TPModel.strongAcid( Ca, Cb, Va, Vb );
+            double y = model.strongAcid( Ca, Cb, Va, Vb );
             chart.addPoint( x, y );
         }
     }
@@ -380,7 +330,7 @@ public class TPControlPanel extends JPanel {
             double Va = TPConstants.SOLUTION_VOLUME;
             double Vb = x;
             double Ka = k1Control.getValue();
-            double y = TPModel.weakAcid( Ca, Cb, Va, Vb, Ka );
+            double y = model.weakAcid( Ca, Cb, Va, Vb, Ka );
             chart.addPoint( x, y );
         }
     }
@@ -403,7 +353,7 @@ public class TPControlPanel extends JPanel {
             double Vb = x;
             double Ka1 = k1Control.getValue();
             double Ka2 = k2Control.getValue();
-            double y = TPModel.diproticAcid( Ca, Cb, Va, Vb, Ka1, Ka2 );
+            double y = model.diproticAcid( Ca, Cb, Va, Vb, Ka1, Ka2 );
             chart.addPoint( x, y );
         }
     }
@@ -427,7 +377,7 @@ public class TPControlPanel extends JPanel {
             double Ka1 = k1Control.getValue();
             double Ka2 = k2Control.getValue();
             double Ka3 = k3Control.getValue();
-            double y = TPModel.triproticAcid( Ca, Cb, Va, Vb, Ka1, Ka2, Ka3 );
+            double y = model.triproticAcid( Ca, Cb, Va, Vb, Ka1, Ka2, Ka3 );
             chart.addPoint( x, y );
         }
     }
