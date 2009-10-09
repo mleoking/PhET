@@ -5,15 +5,15 @@ import java.awt.Color;
 import edu.colorado.phet.neuron.NeuronConstants;
 import edu.colorado.phet.neuron.NeuronStrings;
 
-public class PotassiumIon extends Atom {
+public class PotassiumIon extends Particle {
 
 	@Override
-	public AtomType getType() {
-		return AtomType.POTASSIUM;
+	public ParticleType getType() {
+		return ParticleType.POTASSIUM;
 	}
 
 	@Override
-	public String getChemicalSymbol() {
+	public String getLabelText() {
 		return NeuronStrings.POTASSIUM_CHEMICAL_SYMBOL;
 	}
 

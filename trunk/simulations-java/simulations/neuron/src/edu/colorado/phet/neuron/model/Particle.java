@@ -10,12 +10,12 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.neuron.NeuronStrings;
 
 /**
- * Abstract base class for an atom.  It is intended that this be subclassed
- * for each specific atom type used in the simulation.
+ * Abstract base class for a simulated particle.  It is intended that this be subclassed
+ * for each specific particle type used in the simulation.
  *
  * @author John Blanco
  */
-public abstract class Atom {
+public abstract class Particle {
     
     //------------------------------------------------------------------------
     // Class data
@@ -43,11 +43,11 @@ public abstract class Atom {
      * @param xPos - Initial X position of this particle.
      * @param yPos - Initial Y position of this particle.
      */
-    public Atom(double xPos, double yPos) {
+    public Particle(double xPos, double yPos) {
     	position = new Point2D.Double(xPos, yPos);
     }
     
-    public Atom(){
+    public Particle(){
     	this(0,0);
     }
     
@@ -55,7 +55,7 @@ public abstract class Atom {
     // Accessor methods
     //------------------------------------------------------------------------
     
-    public abstract AtomType getType(); 
+    public abstract ParticleType getType(); 
     
     public Point2D.Double getPosition() {
         return new Point2D.Double(position.getX(), position.getY());
@@ -83,10 +83,11 @@ public abstract class Atom {
     }
     
     /**
-     * Get the diameter of this atom in nano meters.
+     * Get the diameter of this particle in nano meters.  This obviously
+     * assumes a round particle.
      */
     public double getDiameter(){
-    	return 3;  // Default value, override if needed to support other atoms.
+    	return 3;  // Default value, override if needed to support other particles.
     }
     
     public Vector2D getVelocity() {
@@ -102,29 +103,30 @@ public abstract class Atom {
 	}
 
 	/**
-     * Chemical symbol for this atom, e.g. Pb or K.
+     * Text to use for labeling this particle.  Often this will be a chemical
+     * symbol, but this is not always the case.
      */
-    abstract public String getChemicalSymbol();
+    abstract public String getLabelText();
     
     /**
-     * Get the base color to be used when representing this atom.
+     * Get the base color to be used when representing this particle.
      */
     abstract public Color getRepresentationColor();
 
     /**
-     * Get the color to be used for the textual labels of this atom.
+     * Get the color to be used for the textual labels of this particle.
      */
     public Color getLabelColor(){
     	return Color.BLACK;
     }
     
     /**
-     * Ionic charge for this atom, in terms of electrons.
+     * Ionic charge for this particle, in terms of electrons.
      * 
-     * @return 0 for neutral atom, 1 for a 1-electron deficit, -1 for a one-
-     * electron surplus, etc.
+     * @return 0 for neutral particle, 1 for a 1-electron deficit, -1 for a
+     * one-electron surplus, etc.
      * 
-     * Note: At the time of this writing, there is no requirement for an atom
+     * Note: At the time of this writing, there is no requirement for a particle
      * to ever change its charge within the sim, so it is assumed that for our
      * purposes, this is essentially a permanent characteristic.  This is
      * obviously not true in nature, and will need to change if the
@@ -136,7 +138,7 @@ public abstract class Atom {
     }
     
     /**
-     * Get the string representation for this atom's charge.
+     * Get the string representation for this particle's charge.
      */
     public String getChargeString(){
     	

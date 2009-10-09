@@ -14,7 +14,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.neuron.NeuronConstants;
 import edu.colorado.phet.neuron.model.AbstractMembraneChannel;
-import edu.colorado.phet.neuron.model.Atom;
+import edu.colorado.phet.neuron.model.Particle;
 import edu.colorado.phet.neuron.model.AxonModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -104,7 +104,7 @@ public class NeuronCanvas extends PhetPCanvas {
         axonCrossSectionLayer.addChild(axonMembraneNode);
         
         // Add the atoms.
-        for (Atom atom : model.getAtoms()){
+        for (Particle atom : model.getAtoms()){
         	addAtom(atom);
         }
         
@@ -160,7 +160,7 @@ public class NeuronCanvas extends PhetPCanvas {
     	membranePotentialChart.setVisible(isVisible);
     }
     
-    private void addAtom(Atom atomToBeAdded){
+    private void addAtom(Particle atomToBeAdded){
     	atomLayer.addChild(new AtomNode(atomToBeAdded, mvt));
     }
     

@@ -9,7 +9,7 @@ import java.text.MessageFormat;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
-import edu.colorado.phet.neuron.model.Atom;
+import edu.colorado.phet.neuron.model.Particle;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -21,17 +21,17 @@ public class AtomNode extends PNode {
 	
 	private static final Stroke ATOM_EDGE_STROKE = new BasicStroke(1);
 	
-	private Atom atom;
+	private Particle atom;
     private ModelViewTransform2D modelViewTransform;
     private PNode representation;
     private PText label;
 
-    public AtomNode( Atom atom, ModelViewTransform2D modelViewTransform ) {
+    public AtomNode( Particle atom, ModelViewTransform2D modelViewTransform ) {
     	
 		this.atom = atom;
         this.modelViewTransform = modelViewTransform;
 
-        atom.addListener(new Atom.Listener() {
+        atom.addListener(new Particle.Listener() {
 			public void positionChanged() {
 				updateOffset();
 			}
@@ -43,7 +43,7 @@ public class AtomNode extends PNode {
         updateOffset();
         
         // Create the label.
-        String labelText = MessageFormat.format("{0}{1}", atom.getChemicalSymbol(), atom.getChargeString());
+        String labelText = MessageFormat.format("{0}{1}", atom.getLabelText(), atom.getChargeString());
         label = new PText(labelText);
         label.setFont(new PhetFont(12, true));
         label.setTextPaint(atom.getLabelColor());

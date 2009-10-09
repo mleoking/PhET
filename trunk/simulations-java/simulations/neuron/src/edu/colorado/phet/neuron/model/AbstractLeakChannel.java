@@ -28,14 +28,14 @@ public abstract class AbstractLeakChannel extends AbstractMembraneChannel {
 	
 	private MembraneChannelFlowDirection flowDirection = MembraneChannelFlowDirection.NONE;
 	private int atomMotionUpdateCounter = 0;
-	private final AtomType allowedAtom; // Atom that can move through this channel.
+	private final ParticleType allowedAtom; // Atom that can move through this channel.
 	private ArrayList<AtomCountdownPair> recentlyReleaseAtoms = new ArrayList<AtomCountdownPair>();
 	
 	//----------------------------------------------------------------------------
 	// Constructor
 	//----------------------------------------------------------------------------
 
-	public AbstractLeakChannel(double channelWidth, double channelHeight, AtomType allowedAtom) {
+	public AbstractLeakChannel(double channelWidth, double channelHeight, ParticleType allowedAtom) {
 		super(channelWidth, channelHeight);
 		this.allowedAtom = allowedAtom;
 	}
@@ -45,15 +45,15 @@ public abstract class AbstractLeakChannel extends AbstractMembraneChannel {
 	//----------------------------------------------------------------------------
 	
 	@Override
-	public ArrayList<Atom> checkReleaseControlAtoms(ArrayList<Atom> freeAtoms) {
-		Atom atom = null;
-		ArrayList<Atom> releasedAtoms = null;
+	public ArrayList<Particle> checkReleaseControlAtoms(ArrayList<Particle> freeAtoms) {
+		Particle atom = null;
+		ArrayList<Particle> releasedAtoms = null;
 		for (int i = 0; i < getOwnedAtomsRef().size(); i++){
 			atom = getOwnedAtomsRef().get(i);
 			if (atom.getPositionReference().distance(getCenterLocation()) > CAPTURE_DISTANCE * 1.25){
 				// Atom is far enough away that it can be released.
 				getOwnedAtomsRef().remove(atom);
-				releasedAtoms = new ArrayList<Atom>();
+				releasedAtoms = new ArrayList<Particle>();
 				releasedAtoms.add(atom);
 				recentlyReleaseAtoms.add(new AtomCountdownPair(atom, ATOM_RECAPTURE_COUNTER));
 				break;
@@ -64,14 +64,14 @@ public abstract class AbstractLeakChannel extends AbstractMembraneChannel {
 	}
 
 	@Override
-	public ArrayList<Atom> checkTakeControlAtoms(ArrayList<Atom> freeAtoms) {
+	public ArrayList<Particle> checkTakeControlAtoms(ArrayList<Particle> freeAtoms) {
 		
-		ArrayList<Atom> ownedAtoms = getOwnedAtomsRef();
-		ArrayList<Atom> atomsToTake = null;
+		ArrayList<Particle> ownedAtoms = getOwnedAtomsRef();
+		ArrayList<Particle> atomsToTake = null;
 		
 		// Only move one atom can be in the channel at a time.
 		if (ownedAtoms.size() == 0){
-			Atom atom = null;
+			Particle atom = null;
 			for (int i = 0; i < freeAtoms.size(); i++){
 				// See if this atom is in the right place to be captured.
 				atom = freeAtoms.get(i);
@@ -80,7 +80,7 @@ public abstract class AbstractLeakChannel extends AbstractMembraneChannel {
 					 !recentlyCaptured(atom)){
 					// Capture this guy.
 					captureAtom(atom, freeAtoms, ownedAtoms);
-					atomsToTake = new ArrayList<Atom>();
+					atomsToTake = new ArrayList<Particle>();
 					atomsToTake.add(atom);
 					break;
 				}
@@ -106,7 +106,7 @@ public abstract class AbstractLeakChannel extends AbstractMembraneChannel {
 				updateMotionOfAtoms();
 			}
 			
-			for (Atom atom : getOwnedAtomsRef()){
+			for (Particle atom : getOwnedAtomsRef()){
 				atom.stepInTime(dt);
 			}
 		}
@@ -126,7 +126,7 @@ public abstract class AbstractLeakChannel extends AbstractMembraneChannel {
 		recentlyReleaseAtoms.removeAll(atomsToRemoveFromList);
 	}
 	
-	private void captureAtom(Atom atom, ArrayList<Atom> freeAtoms, ArrayList<Atom> ownedAtoms){
+	private void captureAtom(Particle atom, ArrayList<Particle> freeAtoms, ArrayList<Particle> ownedAtoms){
 		
 		// Transfer the atom to the list of atoms "owned" by this channel.
 		ownedAtoms.add(atom);
@@ -166,7 +166,7 @@ public abstract class AbstractLeakChannel extends AbstractMembraneChannel {
 		}
 	}
 	
-	private boolean recentlyCaptured(Atom atom){
+	private boolean recentlyCaptured(Particle atom){
 		boolean recentlyCaptured = false;
 		for (AtomCountdownPair atomCountdownPair : recentlyReleaseAtoms){
 			if (atomCountdownPair.getAtom() == atom){
@@ -184,7 +184,7 @@ public abstract class AbstractLeakChannel extends AbstractMembraneChannel {
 			return;
 		}
 		
-		for (Atom atom : getOwnedAtomsRef()){
+		for (Particle atom : getOwnedAtomsRef()){
 			
 			// Decide on the direction of motion, which will tend towards the
 			// current flow direction, but has a probability to move the opposite
@@ -221,10 +221,10 @@ public abstract class AbstractLeakChannel extends AbstractMembraneChannel {
 	
 	private static class AtomCountdownPair{
 		
-		Atom atom = null;
+		Particle atom = null;
 		int count = 0;
 		
-		public AtomCountdownPair(Atom atom, int initialCount) {
+		public AtomCountdownPair(Particle atom, int initialCount) {
 			this.atom = atom;
 			this.count = initialCount;
 		}
@@ -239,7 +239,7 @@ public abstract class AbstractLeakChannel extends AbstractMembraneChannel {
 			return (count == 0);
 		}
 		
-		public Atom getAtom(){
+		public Particle getAtom(){
 			return atom;
 		}
 	}

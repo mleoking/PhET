@@ -34,7 +34,7 @@ import edu.colorado.phet.neuron.NeuronResources;
 import edu.colorado.phet.neuron.NeuronStrings;
 import edu.colorado.phet.neuron.model.AbstractLeakChannel;
 import edu.colorado.phet.neuron.model.AbstractMembraneChannel;
-import edu.colorado.phet.neuron.model.AtomType;
+import edu.colorado.phet.neuron.model.ParticleType;
 import edu.colorado.phet.neuron.model.AxonModel;
 import edu.colorado.phet.neuron.model.MembraneChannelTypes;
 import edu.colorado.phet.neuron.model.PotassiumIon;
@@ -107,7 +107,7 @@ public class NeuronControlPanel extends ControlPanel {
 			}
 
 			@Override
-    		public void concentrationRatioChanged(AtomType atomType) {
+    		public void concentrationRatioChanged(ParticleType atomType) {
     			updateConcentrationControlSliders();
     		}
         });
@@ -118,22 +118,22 @@ public class NeuronControlPanel extends ControlPanel {
         
         // Add the control for the number of sodium leakage channels.
         sodiumLeakChannelControl = new LeakChannelSlider(NeuronStrings.SODIUM_LEAK_CHANNELS, axonModel,
-        		AtomType.SODIUM); 
+        		ParticleType.SODIUM); 
         addControlFullWidth(sodiumLeakChannelControl);
         
         // Add the control for the number of potassium leakage channels.
         potassiumLeakChannelControl = new LeakChannelSlider(NeuronStrings.POTASSIUM_LEAK_CHANNELS, axonModel, 
-        		AtomType.POTASSIUM); 
+        		ParticleType.POTASSIUM); 
         addControlFullWidth(potassiumLeakChannelControl);
         
         // Add the control for sodium concentration.
         sodiumConcentrationControl = new ConcentrationSlider(NeuronStrings.SODIUM_CONCENTRATION, axonModel,
-        		AtomType.SODIUM);
+        		ParticleType.SODIUM);
         addControlFullWidth(sodiumConcentrationControl);
         
         // Add the control for potassium concentration.
         potassiumConcentrationControl = new ConcentrationSlider(NeuronStrings.POTASSIUM_CONCENTRATION, axonModel, 
-        		AtomType.POTASSIUM);
+        		ParticleType.POTASSIUM);
         addControlFullWidth(potassiumConcentrationControl);
         
         // Add the check box for hiding/showing the membrane potential chart.
@@ -179,11 +179,11 @@ public class NeuronControlPanel extends ControlPanel {
     
     private void updateConcentrationControlSliders(){
     	
-    	if (sodiumConcentrationControl.getValue() != axonModel.getProportionOfAtomsInside(AtomType.SODIUM)){
-    		sodiumConcentrationControl.setValue( axonModel.getProportionOfAtomsInside(AtomType.SODIUM));
+    	if (sodiumConcentrationControl.getValue() != axonModel.getProportionOfAtomsInside(ParticleType.SODIUM)){
+    		sodiumConcentrationControl.setValue( axonModel.getProportionOfAtomsInside(ParticleType.SODIUM));
     	}
-    	if (potassiumConcentrationControl.getValue() != axonModel.getProportionOfAtomsInside(AtomType.POTASSIUM)){
-    		potassiumConcentrationControl.setValue( axonModel.getProportionOfAtomsInside(AtomType.POTASSIUM));
+    	if (potassiumConcentrationControl.getValue() != axonModel.getProportionOfAtomsInside(ParticleType.POTASSIUM)){
+    		potassiumConcentrationControl.setValue( axonModel.getProportionOfAtomsInside(ParticleType.POTASSIUM));
     	}
     }
     
@@ -202,7 +202,7 @@ public class NeuronControlPanel extends ControlPanel {
     	
         private static final Font LABEL_FONT = new PhetFont(12);
 
-        public LeakChannelSlider(String title, final AxonModel axonModel, AtomType atomType) {
+        public LeakChannelSlider(String title, final AxonModel axonModel, ParticleType atomType) {
         	
             super( 0, NeuronConstants.MAX_CHANNELS_PER_TYPE, title, "0", "");
             setUpDownArrowDelta( 1 );
@@ -267,7 +267,7 @@ public class NeuronControlPanel extends ControlPanel {
     	
         private static final Font LABEL_FONT = new PhetFont(12);
 
-		public ConcentrationSlider(String title, final AxonModel axonModel, final AtomType atomType) {
+		public ConcentrationSlider(String title, final AxonModel axonModel, final ParticleType atomType) {
             super( 0, 1, title, "0", "");
             setUpDownArrowDelta( 0.01 );
             setTextFieldVisible(false);
