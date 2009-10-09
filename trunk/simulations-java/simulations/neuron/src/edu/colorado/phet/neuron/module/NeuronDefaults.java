@@ -2,19 +2,13 @@
 
 package edu.colorado.phet.neuron.module;
 
-import java.awt.Dimension;
-
 import edu.umd.cs.piccolo.util.PDimension;
 
 
 /**
  * GlobalDefaults contains default settings that are common to 2 or more modules.
- * 
- * NOTE! This class is package private, and values herein should only be referenced
- * by the "defaults" classes for each module.  Classes that are module-specific should
- * use the class that corresponds to their module.
  *
- * @author Chris Malley (cmalley@pixelzoom.com)
+ * @author John Blanco
  */
 public class NeuronDefaults {
     public static final double CROSS_SECTION_RADIUS = 20;//micrometers
