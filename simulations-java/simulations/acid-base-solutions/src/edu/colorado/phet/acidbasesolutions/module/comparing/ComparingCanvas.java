@@ -12,7 +12,7 @@ import edu.colorado.phet.acidbasesolutions.control.EquationScalingControl;
 import edu.colorado.phet.acidbasesolutions.control.SolutionControlsNode;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.module.ABSAbstractCanvas;
-import edu.colorado.phet.acidbasesolutions.util.PNodeUtils;
+import edu.colorado.phet.acidbasesolutions.util.PNodeLayoutUtils;
 import edu.colorado.phet.acidbasesolutions.view.beaker.BeakerNode;
 import edu.colorado.phet.acidbasesolutions.view.graph.ConcentrationGraphNode;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
@@ -173,14 +173,14 @@ public class ComparingCanvas extends ABSAbstractCanvas {
         double xOffset, yOffset;
         
         // solution controls in upper left
-        xOffset = -PNodeUtils.getOriginXOffset( solutionControlsNodeLeft );
-        yOffset = -PNodeUtils.getOriginYOffset( solutionControlsNodeLeft );
+        xOffset = -PNodeLayoutUtils.getOriginXOffset( solutionControlsNodeLeft );
+        yOffset = -PNodeLayoutUtils.getOriginYOffset( solutionControlsNodeLeft );
         solutionControlsNodeLeft.setOffset( xOffset, yOffset );
         
         // solution controls in upper right
         final double maxControlWidth = getMaxControlWidth();
-        xOffset = solutionControlsNodeLeft.getFullBoundsReference().getMaxX() + maxControlWidth + 20 - PNodeUtils.getOriginXOffset( solutionControlsNodeRight );
-        yOffset = -PNodeUtils.getOriginYOffset( solutionControlsNodeRight );
+        xOffset = solutionControlsNodeLeft.getFullBoundsReference().getMaxX() + maxControlWidth + 20 - PNodeLayoutUtils.getOriginXOffset( solutionControlsNodeRight );
+        yOffset = -PNodeLayoutUtils.getOriginYOffset( solutionControlsNodeRight );
         solutionControlsNodeRight.setOffset( xOffset, yOffset );
         
         // view controls, centered between solution controls
@@ -190,15 +190,15 @@ public class ComparingCanvas extends ABSAbstractCanvas {
         viewControlsNode.setOffset( xOffset, yOffset );
         
         // left beaker, centered below left solution controls
-        xOffset = solutionControlsNodeLeft.getFullBoundsReference().getMinX() - PNodeUtils.getOriginXOffset( beakerNodeLeft ) + 
+        xOffset = solutionControlsNodeLeft.getFullBoundsReference().getMinX() - PNodeLayoutUtils.getOriginXOffset( beakerNodeLeft ) + 
             (( solutionControlsNodeLeft.getFullBoundsReference().getWidth() - beakerNodeLeft.getFullBoundsReference().getWidth() ) / 2 );
-        yOffset = solutionControlsNodeLeft.getFullBoundsReference().getMaxY() - PNodeUtils.getOriginYOffset( beakerNodeLeft ) + 20;
+        yOffset = solutionControlsNodeLeft.getFullBoundsReference().getMaxY() - PNodeLayoutUtils.getOriginYOffset( beakerNodeLeft ) + 20;
         beakerNodeLeft.setOffset( xOffset, yOffset );
         
         // right beaker, centered below right solution controls
-        xOffset = solutionControlsNodeRight.getFullBoundsReference().getMinX() - PNodeUtils.getOriginXOffset( beakerNodeRight ) + 
+        xOffset = solutionControlsNodeRight.getFullBoundsReference().getMinX() - PNodeLayoutUtils.getOriginXOffset( beakerNodeRight ) + 
             (( solutionControlsNodeRight.getFullBoundsReference().getWidth() - beakerNodeRight.getFullBoundsReference().getWidth() ) / 2 );
-        yOffset = solutionControlsNodeRight.getFullBoundsReference().getMaxY() - PNodeUtils.getOriginYOffset( beakerNodeRight ) + 20;
+        yOffset = solutionControlsNodeRight.getFullBoundsReference().getMaxY() - PNodeLayoutUtils.getOriginYOffset( beakerNodeRight ) + 20;
         beakerNodeRight.setOffset( xOffset, yOffset );
         
         // Reset All button at bottom center
@@ -213,13 +213,13 @@ public class ComparingCanvas extends ABSAbstractCanvas {
         beakerControlsNode.setOffset( xOffset, yOffset );
         
         // left graph, left justified below left solution controls
-        xOffset = solutionControlsNodeLeft.getFullBoundsReference().getMinX() - PNodeUtils.getOriginXOffset( graphNodeLeft );
-        yOffset = solutionControlsNodeLeft.getFullBoundsReference().getMaxY() - PNodeUtils.getOriginYOffset( graphNodeLeft ) + 20;
+        xOffset = solutionControlsNodeLeft.getFullBoundsReference().getMinX() - PNodeLayoutUtils.getOriginXOffset( graphNodeLeft );
+        yOffset = solutionControlsNodeLeft.getFullBoundsReference().getMaxY() - PNodeLayoutUtils.getOriginYOffset( graphNodeLeft ) + 20;
         graphNodeLeft.setOffset( xOffset, yOffset );
         
         // right graph, left justified below right solution controls
-        xOffset = solutionControlsNodeRight.getFullBoundsReference().getMinX() - PNodeUtils.getOriginXOffset( graphNodeRight );
-        yOffset = solutionControlsNodeRight.getFullBoundsReference().getMaxY() - PNodeUtils.getOriginYOffset( graphNodeRight ) + 20;
+        xOffset = solutionControlsNodeRight.getFullBoundsReference().getMinX() - PNodeLayoutUtils.getOriginXOffset( graphNodeRight );
+        yOffset = solutionControlsNodeRight.getFullBoundsReference().getMaxY() - PNodeLayoutUtils.getOriginYOffset( graphNodeRight ) + 20;
         graphNodeRight.setOffset( xOffset, yOffset );
         
         // equation scaling controls below solution controls, centered on view controls
@@ -228,13 +228,13 @@ public class ComparingCanvas extends ABSAbstractCanvas {
         equationScalingControlWrapper.setOffset( xOffset, yOffset );
         
         // left equations, left justified below left solution controls
-        xOffset = solutionControlsNodeLeft.getFullBoundsReference().getMinX() - PNodeUtils.getOriginXOffset( equationsNodeLeft );
-        yOffset = equationScalingControlWrapper.getFullBoundsReference().getMaxY() - PNodeUtils.getOriginYOffset( equationsNodeLeft ) + 20;
+        xOffset = solutionControlsNodeLeft.getFullBoundsReference().getMinX() - PNodeLayoutUtils.getOriginXOffset( equationsNodeLeft );
+        yOffset = equationScalingControlWrapper.getFullBoundsReference().getMaxY() - PNodeLayoutUtils.getOriginYOffset( equationsNodeLeft ) + 20;
         equationsNodeLeft.setOffset( xOffset, yOffset );
         
         // right equations, left justified below right solution controls
-        xOffset = solutionControlsNodeRight.getFullBoundsReference().getMinX() - PNodeUtils.getOriginXOffset( equationsNodeRight );
-        yOffset = equationScalingControlWrapper.getFullBoundsReference().getMaxY() - PNodeUtils.getOriginYOffset( equationsNodeRight ) + 20;
+        xOffset = solutionControlsNodeRight.getFullBoundsReference().getMinX() - PNodeLayoutUtils.getOriginXOffset( equationsNodeRight );
+        yOffset = equationScalingControlWrapper.getFullBoundsReference().getMaxY() - PNodeLayoutUtils.getOriginYOffset( equationsNodeRight ) + 20;
         equationsNodeRight.setOffset( xOffset, yOffset );
         
         centerRootNode();

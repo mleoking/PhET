@@ -11,7 +11,7 @@ import java.text.NumberFormat;
 import edu.colorado.phet.acidbasesolutions.ABSColors;
 import edu.colorado.phet.acidbasesolutions.ABSImages;
 import edu.colorado.phet.acidbasesolutions.ABSSymbols;
-import edu.colorado.phet.acidbasesolutions.util.PNodeUtils;
+import edu.colorado.phet.acidbasesolutions.util.PNodeLayoutUtils;
 import edu.colorado.phet.acidbasesolutions.view.NegligibleValueNode;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
@@ -257,7 +257,7 @@ abstract class AbstractConcentrationGraphNode extends PComposite {
             // if the max width is exceeded, then rotate the label
             labelNode.setRotation( MOLECULE_LABEL_ROTATION_ANGLE );
         }
-        xOffset = iconNode.getFullBoundsReference().getCenterX() - ( labelNode.getFullBoundsReference().getWidth() / 2 ) - PNodeUtils.getOriginXOffset( labelNode );
+        xOffset = iconNode.getFullBoundsReference().getCenterX() - ( labelNode.getFullBoundsReference().getWidth() / 2 ) - PNodeLayoutUtils.getOriginXOffset( labelNode );
         yOffset = iconNode.getFullBoundsReference().getMaxY() + 5;
         labelNode.setOffset( xOffset, yOffset );
     }

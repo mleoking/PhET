@@ -15,7 +15,7 @@ import edu.colorado.phet.acidbasesolutions.control.MaximizeControlNode;
 import edu.colorado.phet.acidbasesolutions.control.SolutionControlsNode;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.module.ABSAbstractCanvas;
-import edu.colorado.phet.acidbasesolutions.util.PNodeUtils;
+import edu.colorado.phet.acidbasesolutions.util.PNodeLayoutUtils;
 import edu.colorado.phet.acidbasesolutions.view.beaker.BeakerNode;
 import edu.colorado.phet.acidbasesolutions.view.graph.ConcentrationGraphNode;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
@@ -196,13 +196,13 @@ public class SolutionsCanvas extends ABSAbstractCanvas {
         double xOffset, yOffset = 0;
         
         // solution controls in upper left
-        xOffset = -PNodeUtils.getOriginXOffset( solutionControlsNode );
-        yOffset = -PNodeUtils.getOriginYOffset( solutionControlsNode );
+        xOffset = -PNodeLayoutUtils.getOriginXOffset( solutionControlsNode );
+        yOffset = -PNodeLayoutUtils.getOriginYOffset( solutionControlsNode );
         solutionControlsNode.setOffset( xOffset, yOffset );
         
         // beaker below solution controls
-        xOffset = solutionControlsNode.getFullBoundsReference().getMinX() - PNodeUtils.getOriginXOffset( beakerNode );
-        yOffset = solutionControlsNode.getFullBoundsReference().getMaxY() - PNodeUtils.getOriginYOffset( beakerNode ) + 20;
+        xOffset = solutionControlsNode.getFullBoundsReference().getMinX() - PNodeLayoutUtils.getOriginXOffset( beakerNode );
+        yOffset = solutionControlsNode.getFullBoundsReference().getMaxY() - PNodeLayoutUtils.getOriginYOffset( beakerNode ) + 20;
         beakerNode.setOffset( xOffset, yOffset );
         
         // beaker controls attached to right edge of beaker
