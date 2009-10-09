@@ -94,7 +94,7 @@ public class AxonModel {
         	newAtom = new PotassiumIon();
         	positionAtomInsideMembrane(newAtom);
         	atoms.add(newAtom);
-        	concentrationTracker.updateAtomCount(ParticleType.POTASSIUM, AtomPosition.INSIDE_MEMBRANE, 1);
+        	concentrationTracker.updateAtomCount(ParticleType.POTASSIUM_ION, AtomPosition.INSIDE_MEMBRANE, 1);
         	i--;
         	if (i == 0){
         		break;
@@ -102,7 +102,7 @@ public class AxonModel {
         	newAtom = new SodiumIon();
         	positionAtomInsideMembrane(newAtom);
         	atoms.add(newAtom);
-        	concentrationTracker.updateAtomCount(ParticleType.SODIUM, AtomPosition.INSIDE_MEMBRANE, 1);
+        	concentrationTracker.updateAtomCount(ParticleType.SODIUM_ION, AtomPosition.INSIDE_MEMBRANE, 1);
         	i--;
         	if (i == 0){
         		break;
@@ -110,7 +110,7 @@ public class AxonModel {
         	newAtom = new PotassiumIon();
         	positionAtomOutsideMembrane(newAtom);
         	atoms.add(newAtom);
-        	concentrationTracker.updateAtomCount(ParticleType.POTASSIUM, AtomPosition.OUTSIDE_MEMBRANE, 1);
+        	concentrationTracker.updateAtomCount(ParticleType.POTASSIUM_ION, AtomPosition.OUTSIDE_MEMBRANE, 1);
         	i--;
         	if (i == 0){
         		break;
@@ -118,7 +118,7 @@ public class AxonModel {
         	newAtom = new SodiumIon();
         	positionAtomOutsideMembrane(newAtom);
         	atoms.add(newAtom);
-        	concentrationTracker.updateAtomCount(ParticleType.SODIUM, AtomPosition.OUTSIDE_MEMBRANE, 1);
+        	concentrationTracker.updateAtomCount(ParticleType.SODIUM_ION, AtomPosition.OUTSIDE_MEMBRANE, 1);
         	i--;
         	if (i == 0){
         		break;
@@ -200,8 +200,8 @@ public class AxonModel {
     	
     	// Move the atoms to the appropriate initial locations by setting the
     	// target proportions.
-    	setConcentration(ParticleType.SODIUM, 0.5);
-    	setConcentration(ParticleType.POTASSIUM, 0.5);
+    	setConcentration(ParticleType.SODIUM_ION, 0.5);
+    	setConcentration(ParticleType.POTASSIUM_ION, 0.5);
     }
 
     /**

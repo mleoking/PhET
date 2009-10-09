@@ -107,7 +107,7 @@ public class AtomNode extends PNode {
     	PNode representation;
 
     	switch (atom.getType()){
-    	case SODIUM:
+    	case SODIUM_ION:
     		SphericalNode sphereRepresentation = new SphericalNode( modelViewTransform.modelToViewDifferentialXDouble(atom.getDiameter()), 
     				atom.getRepresentationColor(), true);
     		sphereRepresentation.setStroke(ATOM_EDGE_STROKE);
@@ -115,7 +115,7 @@ public class AtomNode extends PNode {
     		representation = sphereRepresentation;
     		break;
     		
-    	case POTASSIUM:
+    	case POTASSIUM_ION:
     		double size = modelViewTransform.modelToViewDifferentialXDouble(atom.getDiameter());
     		size = size * 0.85; // Scale down a bit so it is close to fitting within the diameter.
     		PPath diamondRepresentation = new PPath( new Rectangle2D.Double(-size/2, -size/2, size, size));

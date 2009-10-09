@@ -118,22 +118,22 @@ public class NeuronControlPanel extends ControlPanel {
         
         // Add the control for the number of sodium leakage channels.
         sodiumLeakChannelControl = new LeakChannelSlider(NeuronStrings.SODIUM_LEAK_CHANNELS, axonModel,
-        		ParticleType.SODIUM); 
+        		ParticleType.SODIUM_ION); 
         addControlFullWidth(sodiumLeakChannelControl);
         
         // Add the control for the number of potassium leakage channels.
         potassiumLeakChannelControl = new LeakChannelSlider(NeuronStrings.POTASSIUM_LEAK_CHANNELS, axonModel, 
-        		ParticleType.POTASSIUM); 
+        		ParticleType.POTASSIUM_ION); 
         addControlFullWidth(potassiumLeakChannelControl);
         
         // Add the control for sodium concentration.
         sodiumConcentrationControl = new ConcentrationSlider(NeuronStrings.SODIUM_CONCENTRATION, axonModel,
-        		ParticleType.SODIUM);
+        		ParticleType.SODIUM_ION);
         addControlFullWidth(sodiumConcentrationControl);
         
         // Add the control for potassium concentration.
         potassiumConcentrationControl = new ConcentrationSlider(NeuronStrings.POTASSIUM_CONCENTRATION, axonModel, 
-        		ParticleType.POTASSIUM);
+        		ParticleType.POTASSIUM_ION);
         addControlFullWidth(potassiumConcentrationControl);
         
         // Add the check box for hiding/showing the membrane potential chart.
@@ -179,11 +179,11 @@ public class NeuronControlPanel extends ControlPanel {
     
     private void updateConcentrationControlSliders(){
     	
-    	if (sodiumConcentrationControl.getValue() != axonModel.getProportionOfAtomsInside(ParticleType.SODIUM)){
-    		sodiumConcentrationControl.setValue( axonModel.getProportionOfAtomsInside(ParticleType.SODIUM));
+    	if (sodiumConcentrationControl.getValue() != axonModel.getProportionOfAtomsInside(ParticleType.SODIUM_ION)){
+    		sodiumConcentrationControl.setValue( axonModel.getProportionOfAtomsInside(ParticleType.SODIUM_ION));
     	}
-    	if (potassiumConcentrationControl.getValue() != axonModel.getProportionOfAtomsInside(ParticleType.POTASSIUM)){
-    		potassiumConcentrationControl.setValue( axonModel.getProportionOfAtomsInside(ParticleType.POTASSIUM));
+    	if (potassiumConcentrationControl.getValue() != axonModel.getProportionOfAtomsInside(ParticleType.POTASSIUM_ION)){
+    		potassiumConcentrationControl.setValue( axonModel.getProportionOfAtomsInside(ParticleType.POTASSIUM_ION));
     	}
     }
     
@@ -226,11 +226,11 @@ public class NeuronControlPanel extends ControlPanel {
             AbstractLeakChannel leakChannel;
             final MembraneChannelTypes channelType;
             switch (atomType){
-            case SODIUM:
+            case SODIUM_ION:
             	leakChannel = new SodiumLeakageChannel();
             	channelType = MembraneChannelTypes.SODIUM_LEAKAGE_CHANNEL;
             	break;
-            case POTASSIUM:
+            case POTASSIUM_ION:
             	leakChannel = new PotassiumLeakageChannel();
             	channelType = MembraneChannelTypes.POTASSIUM_LEAKAGE_CHANNEL;
             	break;
@@ -289,10 +289,10 @@ public class NeuronControlPanel extends ControlPanel {
             // Set up the variables that will differ based on the atom type.
             AtomNode atomNode;
             switch (atomType){
-            case SODIUM:
+            case SODIUM_ION:
             	atomNode = new AtomNode(new SodiumIon(), MVT);
             	break;
-            case POTASSIUM:
+            case POTASSIUM_ION:
             	atomNode = new AtomNode(new PotassiumIon(), MVT);
             	break;
             	
