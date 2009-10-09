@@ -5,6 +5,7 @@ package edu.colorado.phet.neuron.model;
 import java.awt.Shape;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
@@ -38,6 +39,17 @@ public class AxonModel {
 	// atom on each tick, etc.
 	private static final int ATOM_UPDATE_INCREMENT = 4;
 	
+	// The following constants define the boundaries for the motion of the
+	// particles.  These boundaries are intended to be outside the view port,
+	// so that it is not apparent to the user that they exist.  We may at some
+	// point want to make these bounds dynamic and set by the view so that the
+	// user never encounters a situation where these can be seen.
+	private static final double MODEL_HEIGHT = 130; // In nanometers.
+	private static final double MODEL_WIDTH = 180; // In nanometers.
+	private static final Rectangle2D PARTICLE_BOUNDS = new Rectangle2D.Double(-MODEL_WIDTH / 2, -MODEL_HEIGHT / 2,
+			MODEL_WIDTH, MODEL_HEIGHT);
+	
+	// Center of the model.
 	private static final Point2D CENTER_POS = new Point2D.Double(0, 0);
 	
     //----------------------------------------------------------------------------
@@ -201,6 +213,14 @@ public class AxonModel {
     }
     
     /**
+     * 
+     * @return
+     */
+    public Rectangle2D getParticleMotionBounds(){
+    	return PARTICLE_BOUNDS;
+    }
+    
+    /**
      * Set the proportion of atoms inside the axon membrane.  A value of 0
      * indicates that all atoms of this type should be outside, a value of 1
      * indicates that the should all be inside, and value between...well, you
@@ -347,15 +367,15 @@ public class AxonModel {
     			// This atom is near the membrane wall, so should be repelled.
 				angle = Math.PI * RAND.nextDouble() - Math.PI / 2 + theta;
     		}
+    		else if (!PARTICLE_BOUNDS.contains(atom.getPositionReference())){
+    			// Particle is moving out of bounds, so move it back towards
+    			// the center.
+    	    	angle = theta + Math.PI + ((RAND.nextDouble() - 0.5) * Math.PI / 2);
+    	    	angle = theta + Math.PI;
+    		}
     		else{
-    			// The following code creates a probabilistic bias that causes
-    			// the atom to tend to move toward the membrane.
-    			if (RAND.nextBoolean()){
-    				angle = Math.PI * RAND.nextDouble() + Math.PI / 2 + theta;
-    			}
-    			else{
-    				angle = Math.PI * 2 * RAND.nextDouble();
-    			}
+    			// Particle should just do a random walk.
+				angle = Math.PI * 2 * RAND.nextDouble();
     		}
     	}
     	
