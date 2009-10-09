@@ -32,7 +32,9 @@ mkdir -p ${PROJECT_DIR}/data/${PROJECT_NAME}/localization
 mkdir -p ${PROJECT_DIR}/deploy
 mkdir -p ${PROJECT_DIR}/doc
 mkdir -p ${PROJECT_DIR}/screenshots
-mkdir -p ${PROJECT_DIR}/src
+
+# source dir, remove '-' chars from project name
+mkdir -p ${PROJECT_DIR}/src/edu/colorado/phet/`echo ${PROJECT_NAME} | sed 's/-//g'`
 
 # files
 touch ${PROJECT_DIR}/changes.txt
@@ -47,14 +49,26 @@ echo "project.depends.source=src" >> ${BUILD_PROPERTIES}
 echo "project.depends.lib=phetcommon" >> ${BUILD_PROPERTIES}
 echo "project.flavor.FLAVOR.mainclass=" >> ${BUILD_PROPERTIES}
 echo "project.flavor.FLAVOR.args=" >> ${BUILD_PROPERTIES}
-echo "Replace FLAVOR with a flavor name in `basename ${BUILD_PROPERTIES}`"
+
+# project properties
+PROJECT_PROPERTIES=${PROJECT_DIR}/data/${PROECT_NAME}/${PROJECT_NAME}.properties
+touch ${PROJECT_PROPERTIES}
+echo "version.major=0" >> ${PROJECT_PROPERTIES}
+echo "version.minor=00" >> ${PROJECT_PROPERTIES}
+echo "version.dev=00" >> ${PROJECT_PROPERTIES}
+echo "version.revision=0" >> ${PROJECT_PROPERTIES}
+echo "version.timestamp=0" >> ${PROJECT_PROPERTIES}
 
 # English strings skeleton
 STRINGS_FILE=${PROJECT_DIR}/data/${PROJECT_NAME}/localization/${PROJECT_NAME}-strings.properties
 touch ${STRINGS_FILE}
 echo "# English strings for ${PROJECT_NAME}" >> ${STRINGS_FILE}
 echo "FLAVOR.name=" >> ${STRINGS_FILE}
-echo "Replace FLAVOR with a flavor name in `basename ${STRINGS_FILE}`"
+
+# credits skeleton
+CREDITS=${PROJECT_DIR}/data/${PROECT_NAME}/credits.txt
+touch ${CREDITS}
+echo "phet-credits lead-design=X software-development=X design-team=X, X, X interviews=X, X, X" >> ${CREDITS}
 
 # done
 echo "Done. Project lives in ${PROJECT_DIR}"
