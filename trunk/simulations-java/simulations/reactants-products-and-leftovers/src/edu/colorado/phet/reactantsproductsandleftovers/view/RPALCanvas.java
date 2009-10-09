@@ -6,9 +6,8 @@ import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
-import edu.colorado.phet.reactantsproductsandleftovers.model.RPALModel;
-import edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop.SandwichShopDefaults;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PBounds;
 
 /**
  * Base class for all Piccolo canvases in this project.
@@ -16,56 +15,48 @@ import edu.umd.cs.piccolo.PNode;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class RPALCanvas extends PhetPCanvas {
+    
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    private static final double MIN_MARGIN = 10;
 
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
-    // Model
-    private RPALModel model;
-    
     // View 
-    private PNode _rootNode;
+    private PNode rootNode;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public RPALCanvas( RPALModel model ) {
-        super( SandwichShopDefaults.VIEW_SIZE );
-        
-        this.model = model;
+    public RPALCanvas() {
+        super( RPALConstants.CANVAS_RENDERING_SIZE );
         
         setBackground( RPALConstants.CANVAS_BACKGROUND );
         
         // Root of our scene graph
-        _rootNode = new PNode();
-        addWorldChild( _rootNode );
+        rootNode = new PNode();
+        addWorldChild( rootNode );
     }
-
-
-    //----------------------------------------------------------------------------
-    // Accessors
-    //----------------------------------------------------------------------------
     
     //----------------------------------------------------------------------------
-    // Canvas layout
+    // 
     //----------------------------------------------------------------------------
     
-    /*
-     * Updates the layout of stuff on the canvas.
-     */
-    protected void updateLayout() {
-
+    protected void addChild( PNode node ) {
+        rootNode.addChild( node );
+    }
+    
+    protected void centerRootNode() {
         Dimension2D worldSize = getWorldSize();
-        if ( worldSize.getWidth() <= 0 || worldSize.getHeight() <= 0 ) {
-            // canvas hasn't been sized, blow off layout
-            return;
-        }
-        else if ( RPALConstants.DEBUG_CANVAS_UPDATE_LAYOUT ) {
-            System.out.println( "ExampleCanvas.updateLayout worldSize=" + worldSize );//XXX
-        }
-        
-        //XXX lay out nodes
+        PBounds b = rootNode.getFullBoundsReference();
+        double xOffset = Math.max( MIN_MARGIN, ( worldSize.getWidth() -  b.getWidth() ) / 2 );
+        double yOffset = Math.max( MIN_MARGIN, ( worldSize.getHeight() -  b.getHeight() ) / 2 );
+        rootNode.setOffset( xOffset, yOffset );
     }
+    
 }

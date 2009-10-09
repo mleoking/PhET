@@ -21,7 +21,6 @@ import edu.colorado.phet.acidbasesolutions.control.PSwingButton;
 import edu.colorado.phet.acidbasesolutions.control.SolutionControlsNode;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.module.ABSAbstractCanvas;
-import edu.colorado.phet.acidbasesolutions.util.PNodeLayoutUtils;
 import edu.colorado.phet.acidbasesolutions.view.MatchingGameAnswerNode;
 import edu.colorado.phet.acidbasesolutions.view.MatchingGameQuestionNode;
 import edu.colorado.phet.acidbasesolutions.view.MatchingGameScoreNode;
@@ -32,6 +31,7 @@ import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
+import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolo.PNode;
 
 /**
