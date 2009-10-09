@@ -29,6 +29,11 @@ public class ProteinIon extends Particle {
 
 	@Override
 	public int getCharge() {
-		return 1;
+		return -1;
+	}
+
+	@Override
+	public double getDiameter() {
+		return 5;
 	}
 }
