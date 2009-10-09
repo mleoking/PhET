@@ -458,7 +458,7 @@ public class BuildScript {
     }
 
     private String getSimListHTML( PhetProject project ) {
-        //<li><a href="@jnlp-filename@">Launch @sim-name@</a></li>
+        //<li><a href="@jnlp-filename@">launch: @sim-name@</a></li>
         String s = "";
         for ( int i = 0; i < project.getSimulationNames().length; i++ ) {
             String launchFile = project.getSimulationNames()[i] + "_en." + project.getLaunchFileSuffix();
@@ -466,7 +466,7 @@ public class BuildScript {
                 launchFile = project.getSimulationNames()[i] + "." + project.getLaunchFileSuffix();
             }
             String simname = project.getSimulations()[i].getTitle();
-            s += "<li><a href=\"" + launchFile + "\">Launch " + simname + "</a></li>";
+            s += "<li><a href=\"" + launchFile + "\">launch: " + simname + "</a></li>";
             if ( i < project.getSimulationNames().length - 1 ) {
                 s += "\n";
             }
