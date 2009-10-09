@@ -166,7 +166,7 @@ public class PhetVersion {
             seconds = Long.parseLong( timestamp );
         }
         catch( NumberFormatException e ) {
-            System.err.println( "PhetVersion.getVersionTimestampString: timestamp is invalid, ignoring: " + timestamp );
+            System.err.println( "PhetVersion.getTimestampSeconds: timestamp is invalid, ignoring: " + timestamp );
             seconds = 0;
         }
         return seconds;
