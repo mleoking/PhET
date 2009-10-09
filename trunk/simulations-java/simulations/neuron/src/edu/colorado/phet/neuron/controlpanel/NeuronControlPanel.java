@@ -29,22 +29,22 @@ import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValu
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.neuron.NeuronConstants;
 import edu.colorado.phet.neuron.NeuronResources;
 import edu.colorado.phet.neuron.NeuronStrings;
 import edu.colorado.phet.neuron.model.AbstractLeakChannel;
 import edu.colorado.phet.neuron.model.AbstractMembraneChannel;
-import edu.colorado.phet.neuron.model.ParticleType;
 import edu.colorado.phet.neuron.model.AxonModel;
 import edu.colorado.phet.neuron.model.MembraneChannelTypes;
+import edu.colorado.phet.neuron.model.ParticleType;
 import edu.colorado.phet.neuron.model.PotassiumIon;
 import edu.colorado.phet.neuron.model.PotassiumLeakageChannel;
 import edu.colorado.phet.neuron.model.SodiumIon;
 import edu.colorado.phet.neuron.model.SodiumLeakageChannel;
-import edu.colorado.phet.neuron.module.MembraneDiffusionModule;
-import edu.colorado.phet.neuron.view.ParticleNode;
 import edu.colorado.phet.neuron.view.MembraneChannelNode;
 import edu.colorado.phet.neuron.view.NeuronCanvas;
+import edu.colorado.phet.neuron.view.ParticleNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -88,7 +88,7 @@ public class NeuronControlPanel extends ControlPanel {
      * @param module
      * @param parentFrame parent frame, for creating dialogs
      */
-    public NeuronControlPanel( MembraneDiffusionModule module, Frame parentFrame, AxonModel model, NeuronCanvas canvas ) {
+    public NeuronControlPanel( PiccoloModule module, Frame parentFrame, AxonModel model, NeuronCanvas canvas ) {
         super();
         
         this.axonModel = model;
