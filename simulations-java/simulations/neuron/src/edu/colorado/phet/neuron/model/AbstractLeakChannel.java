@@ -45,7 +45,7 @@ public abstract class AbstractLeakChannel extends AbstractMembraneChannel {
 	//----------------------------------------------------------------------------
 	
 	@Override
-	public ArrayList<Particle> checkReleaseControlAtoms(ArrayList<Particle> freeAtoms) {
+	public ArrayList<Particle> checkReleaseControlParticles(ArrayList<Particle> freeAtoms) {
 		Particle atom = null;
 		ArrayList<Particle> releasedAtoms = null;
 		for (int i = 0; i < getOwnedAtomsRef().size(); i++){
@@ -64,7 +64,7 @@ public abstract class AbstractLeakChannel extends AbstractMembraneChannel {
 	}
 
 	@Override
-	public ArrayList<Particle> checkTakeControlAtoms(ArrayList<Particle> freeAtoms) {
+	public ArrayList<Particle> checkTakeControlParticles(ArrayList<Particle> freeAtoms) {
 		
 		ArrayList<Particle> ownedAtoms = getOwnedAtomsRef();
 		ArrayList<Particle> atomsToTake = null;
@@ -179,7 +179,7 @@ public abstract class AbstractLeakChannel extends AbstractMembraneChannel {
 	
 	private void updateMotionOfAtoms(){
 		
-		if (getOwnedAtoms().size() == 0){
+		if (getOwnedParticles().size() == 0){
 			// No atoms to update, so bail now.
 			return;
 		}

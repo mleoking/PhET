@@ -66,7 +66,7 @@ public abstract class AbstractMembraneChannel {
 	 * atoms that are taken are removed from the list.
 	 * @return List of atoms for which this channel is taking control.
 	 */
-	abstract public ArrayList<Particle> checkTakeControlAtoms(final ArrayList<Particle> freeAtoms);
+	abstract public ArrayList<Particle> checkTakeControlParticles(final ArrayList<Particle> freeAtoms);
 
 	/**
 	 * Add any atoms that this channel no longer wants to control to the
@@ -78,7 +78,7 @@ public abstract class AbstractMembraneChannel {
 	 * list.
 	 * @return List of atoms that this channel is releasing.
 	 */
-	abstract public ArrayList<Particle> checkReleaseControlAtoms(final ArrayList<Particle> freeAtoms);
+	abstract public ArrayList<Particle> checkReleaseControlParticles(final ArrayList<Particle> freeAtoms);
 	
 	/**
 	 * Implements the time-dependent behavior of the gate.
@@ -99,11 +99,11 @@ public abstract class AbstractMembraneChannel {
 	 * 
 	 * @return a copy of the list of owned atoms.
 	 */
-	public ArrayList<Particle> getOwnedAtoms(){
+	public ArrayList<Particle> getOwnedParticles(){
 		return new ArrayList<Particle>(ownedAtoms);
 	}
 	
-	public ArrayList<Particle> forceReleaseAllAtoms(final ArrayList<Particle> freeAtoms){
+	public ArrayList<Particle> forceReleaseAllParticles(final ArrayList<Particle> freeAtoms){
 		ArrayList<Particle> releasedAtoms = null;
 		if (ownedAtoms.size() > 0){
 			releasedAtoms = new ArrayList<Particle>(ownedAtoms);
