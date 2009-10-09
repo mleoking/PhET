@@ -1,3 +1,5 @@
+# 2.05.01 (35656) Oct 9, 2009
+10/9/09 test a PBG change
 # 2.05.00 (34918) Sep 9, 2009
 9/9/09 test #1771, cleanup of build.properties files
 # 2.04.00 (34913) Sep 9, 2009
