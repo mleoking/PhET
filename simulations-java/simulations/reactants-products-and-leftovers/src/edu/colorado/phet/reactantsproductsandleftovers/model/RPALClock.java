@@ -3,7 +3,6 @@
 package edu.colorado.phet.reactantsproductsandleftovers.model;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
 
 /**
  * Clock for all simulations in this project.
@@ -19,6 +18,6 @@ public class RPALClock extends ConstantDtClock {
     //----------------------------------------------------------------------------
     
     public RPALClock() {
-        super( 1000 / RPALConstants.CLOCK_FRAME_RATE, RPALConstants.CLOCK_DT );
+        super( 1000 / 25, 1 );
     }
 }
