@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.neuron.module.MembraneDiffusionModule;
+import edu.colorado.phet.neuron.module.RestingPotentialModule;
 
 /**
  * NeuronApplication is the main application for this simulation.
@@ -23,6 +24,7 @@ public class NeuronApplication extends PiccoloPhetApplication {
     //----------------------------------------------------------------------------
 
     private MembraneDiffusionModule membraneDiffusionModule;
+    private RestingPotentialModule restingPotentialModule;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -53,6 +55,9 @@ public class NeuronApplication extends PiccoloPhetApplication {
 
         membraneDiffusionModule = getFirstModule(parentFrame);
         addModule( membraneDiffusionModule );
+
+        restingPotentialModule = new RestingPotentialModule(parentFrame);
+        addModule( restingPotentialModule );
     }
 
     protected MembraneDiffusionModule getFirstModule(Frame parentFrame) {

@@ -18,6 +18,7 @@ public class NeuronStrings {
     
     public static final String TITLE_MEMBRANE_DIFFUSION_MODULE = getString( "ModuleTitle.MembraneDiffusionModule" );
     public static final String TITLE_GATED_CHANNELS_MODULE = getString( "ModuleTitle.GatedChannels" );
+    public static final String TITLE_RESTING_POTENTIAL_MODULE = getString( "ModuleTitle.RestingPotential" );
 
     public static final String POTASSIUM_CHEMICAL_SYMBOL = getString( "PotassiumChemicalSymbol" );
     public static final String SODIUM_CHEMICAL_SYMBOL = getString( "SodiumChemicalSymbol" );

@@ -33,7 +33,7 @@ public class RestingPotentialModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     public RestingPotentialModule( Frame parentFrame ) {
-        super( NeuronStrings.TITLE_MEMBRANE_DIFFUSION_MODULE, new NeuronClock( NeuronDefaults.CLOCK_FRAME_RATE,
+        super( NeuronStrings.TITLE_RESTING_POTENTIAL_MODULE, new NeuronClock( NeuronDefaults.CLOCK_FRAME_RATE,
         		NeuronDefaults.CLOCK_DT ) );
 
         // Model
