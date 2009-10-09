@@ -24,7 +24,7 @@ public class ProteinIon extends Particle {
 
 	@Override
 	public Color getLabelColor() {
-		return Color.WHITE;
+		return Color.BLACK;
 	}
 
 	@Override
@@ -34,6 +34,6 @@ public class ProteinIon extends Particle {
 
 	@Override
 	public double getDiameter() {
-		return 5;
+		return 4;
 	}
 }
