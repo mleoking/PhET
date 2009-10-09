@@ -42,7 +42,7 @@ import edu.colorado.phet.neuron.model.PotassiumLeakageChannel;
 import edu.colorado.phet.neuron.model.SodiumIon;
 import edu.colorado.phet.neuron.model.SodiumLeakageChannel;
 import edu.colorado.phet.neuron.module.MembraneDiffusionModule;
-import edu.colorado.phet.neuron.view.AtomNode;
+import edu.colorado.phet.neuron.view.ParticleNode;
 import edu.colorado.phet.neuron.view.MembraneChannelNode;
 import edu.colorado.phet.neuron.view.NeuronCanvas;
 import edu.umd.cs.piccolo.PNode;
@@ -287,19 +287,19 @@ public class NeuronControlPanel extends ControlPanel {
             setTickLabels( concentrationSliderLabelTable );
 
             // Set up the variables that will differ based on the atom type.
-            AtomNode atomNode;
+            ParticleNode atomNode;
             switch (atomType){
             case SODIUM_ION:
-            	atomNode = new AtomNode(new SodiumIon(), MVT);
+            	atomNode = new ParticleNode(new SodiumIon(), MVT);
             	break;
             case POTASSIUM_ION:
-            	atomNode = new AtomNode(new PotassiumIon(), MVT);
+            	atomNode = new ParticleNode(new PotassiumIon(), MVT);
             	break;
             	
             default:
             	System.err.println(getClass().getName() + " - Error: Unknown atom type.");
             	assert false;
-            	atomNode = new AtomNode(new SodiumIon(), MVT);  // Just in case.
+            	atomNode = new ParticleNode(new SodiumIon(), MVT);  // Just in case.
             }
             
             // TODO: This is a workaround for a problem where the icon was
