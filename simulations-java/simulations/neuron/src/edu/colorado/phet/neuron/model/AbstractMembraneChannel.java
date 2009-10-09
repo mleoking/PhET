@@ -34,7 +34,7 @@ public abstract class AbstractMembraneChannel {
 	 * List of the atoms "owned" (meaning that their motion is controlled by)
 	 * this channel.
 	 */
-	private ArrayList<Atom> ownedAtoms = new ArrayList<Atom>();
+	private ArrayList<Particle> ownedAtoms = new ArrayList<Particle>();
 	
 	// Member variables that control the size and position of the channel.
 	private Point2D centerLocation = new Point2D.Double();
@@ -66,7 +66,7 @@ public abstract class AbstractMembraneChannel {
 	 * atoms that are taken are removed from the list.
 	 * @return List of atoms for which this channel is taking control.
 	 */
-	abstract public ArrayList<Atom> checkTakeControlAtoms(final ArrayList<Atom> freeAtoms);
+	abstract public ArrayList<Particle> checkTakeControlAtoms(final ArrayList<Particle> freeAtoms);
 
 	/**
 	 * Add any atoms that this channel no longer wants to control to the
@@ -78,7 +78,7 @@ public abstract class AbstractMembraneChannel {
 	 * list.
 	 * @return List of atoms that this channel is releasing.
 	 */
-	abstract public ArrayList<Atom> checkReleaseControlAtoms(final ArrayList<Atom> freeAtoms);
+	abstract public ArrayList<Particle> checkReleaseControlAtoms(final ArrayList<Particle> freeAtoms);
 	
 	/**
 	 * Implements the time-dependent behavior of the gate.
@@ -99,14 +99,14 @@ public abstract class AbstractMembraneChannel {
 	 * 
 	 * @return a copy of the list of owned atoms.
 	 */
-	public ArrayList<Atom> getOwnedAtoms(){
-		return new ArrayList<Atom>(ownedAtoms);
+	public ArrayList<Particle> getOwnedAtoms(){
+		return new ArrayList<Particle>(ownedAtoms);
 	}
 	
-	public ArrayList<Atom> forceReleaseAllAtoms(final ArrayList<Atom> freeAtoms){
-		ArrayList<Atom> releasedAtoms = null;
+	public ArrayList<Particle> forceReleaseAllAtoms(final ArrayList<Particle> freeAtoms){
+		ArrayList<Particle> releasedAtoms = null;
 		if (ownedAtoms.size() > 0){
-			releasedAtoms = new ArrayList<Atom>(ownedAtoms);
+			releasedAtoms = new ArrayList<Particle>(ownedAtoms);
 		}
 		ownedAtoms.clear();
 		return releasedAtoms;
@@ -162,7 +162,7 @@ public abstract class AbstractMembraneChannel {
 	 * Get a reference to the list of owned atoms.
 	 * @return
 	 */
-	protected ArrayList<Atom> getOwnedAtomsRef(){
+	protected ArrayList<Particle> getOwnedAtomsRef(){
 		return ownedAtoms;
 	}
 	

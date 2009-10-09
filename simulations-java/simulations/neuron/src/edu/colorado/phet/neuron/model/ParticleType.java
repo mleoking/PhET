@@ -5,7 +5,7 @@ package edu.colorado.phet.neuron.model;
  * 
  * @author John Blanco
  */
-public enum AtomType {
+public enum ParticleType {
 
 	SODIUM,
 	POTASSIUM

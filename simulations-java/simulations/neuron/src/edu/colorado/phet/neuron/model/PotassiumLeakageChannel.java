@@ -24,7 +24,7 @@ public class PotassiumLeakageChannel extends AbstractLeakChannel {
     // Constructor
     //----------------------------------------------------------------------------
 	public PotassiumLeakageChannel() {
-		super(CHANNEL_WIDTH, CHANNEL_HEIGHT, AtomType.POTASSIUM);
+		super(CHANNEL_WIDTH, CHANNEL_HEIGHT, ParticleType.POTASSIUM);
 	}
 
 	@Override

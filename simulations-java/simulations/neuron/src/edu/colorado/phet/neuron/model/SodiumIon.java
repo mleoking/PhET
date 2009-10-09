@@ -5,15 +5,15 @@ import java.awt.Color;
 import edu.colorado.phet.neuron.NeuronConstants;
 import edu.colorado.phet.neuron.NeuronStrings;
 
-public class SodiumIon extends Atom {
+public class SodiumIon extends Particle {
 	
 	@Override
-	public AtomType getType() {
-		return AtomType.SODIUM;
+	public ParticleType getType() {
+		return ParticleType.SODIUM;
 	}
 
 	@Override
-	public String getChemicalSymbol() {
+	public String getLabelText() {
 		return NeuronStrings.SODIUM_CHEMICAL_SYMBOL;
 	}
 

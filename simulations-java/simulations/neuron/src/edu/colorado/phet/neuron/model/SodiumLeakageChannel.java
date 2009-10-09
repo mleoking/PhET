@@ -24,7 +24,7 @@ public class SodiumLeakageChannel extends AbstractLeakChannel {
     // Constructor
     //----------------------------------------------------------------------------
 	public SodiumLeakageChannel() {
-		super(CHANNEL_WIDTH, CHANNEL_HEIGHT, AtomType.SODIUM);
+		super(CHANNEL_WIDTH, CHANNEL_HEIGHT, ParticleType.SODIUM);
 	}
 
     //----------------------------------------------------------------------------
