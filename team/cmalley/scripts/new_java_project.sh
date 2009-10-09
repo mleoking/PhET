@@ -23,6 +23,8 @@ if [ -e ${PROJECT_DIR} ] ; then
    echo "project directory already exists: ${PROJECT_DIR}";
    exit 1;
 fi
+# remove '-' from project name
+PACKAGE_NAME=edu.colorado.phet.`echo ${PROJECT_NAME} | sed 's/-//g'`
 
 # directories
 mkdir -p ${PROJECT_DIR}
@@ -33,8 +35,9 @@ mkdir -p ${PROJECT_DIR}/deploy
 mkdir -p ${PROJECT_DIR}/doc
 mkdir -p ${PROJECT_DIR}/screenshots
 
-# source dir, remove '-' chars from project name
-mkdir -p ${PROJECT_DIR}/src/edu/colorado/phet/`echo ${PROJECT_NAME} | sed 's/-//g'`
+# source dir, replace '.' with '/' in package name
+SRC_DIR=${PROJECT_DIR}/src/`echo ${PACKAGE_NAME} | sed 's/\./\//g'`
+mkdir -p ${SRC_DIR}
 
 # files
 touch ${PROJECT_DIR}/changes.txt
@@ -46,8 +49,8 @@ touch ${BUILD_PROPERTIES}
 echo "# build properties for ${PROJECT_NAME}" >> ${BUILD_PROPERTIES}
 echo "project.depends.data=data" >> ${BUILD_PROPERTIES}
 echo "project.depends.source=src" >> ${BUILD_PROPERTIES}
-echo "project.depends.lib=phetcommon" >> ${BUILD_PROPERTIES}
-echo "project.flavor.FLAVOR.mainclass=" >> ${BUILD_PROPERTIES}
+echo "project.depends.lib=phetcommon piccolo-phet" >> ${BUILD_PROPERTIES}
+echo "project.flavor.FLAVOR.mainclass=${PACKAGE_NAME}.X" >> ${BUILD_PROPERTIES}
 echo "project.flavor.FLAVOR.args=" >> ${BUILD_PROPERTIES}
 
 # project properties
