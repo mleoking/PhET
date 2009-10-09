@@ -7,17 +7,23 @@ import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
 import edu.colorado.phet.reactantsproductsandleftovers.model.SandwichShop;
 import edu.colorado.phet.reactantsproductsandleftovers.view.RPALCanvas;
 import edu.colorado.phet.reactantsproductsandleftovers.view.SandwichFormulaNode;
+import edu.colorado.phet.reactantsproductsandleftovers.view.TestSandwichModelNode;
 
 
 public class SandwichShopCanvas extends RPALCanvas {
     
     private final SandwichFormulaNode sandwichFormulaNode;
+    private final TestSandwichModelNode testNode;
 
     public SandwichShopCanvas( SandwichShop model ) {
         super();
         
         sandwichFormulaNode = new SandwichFormulaNode( model.getSandwichFormula() );
         addChild( sandwichFormulaNode );
+        
+        testNode = new TestSandwichModelNode( model );
+        testNode.scale( 2 );
+        addChild( testNode );
     }
 
     //----------------------------------------------------------------------------
@@ -39,6 +45,8 @@ public class SandwichShopCanvas extends RPALCanvas {
         }
 
         sandwichFormulaNode.setOffset( 0, 10 );
+        
+        testNode.setOffset( 0, sandwichFormulaNode.getFullBoundsReference().getMaxY() + 60 );
         
         centerRootNode();
     }

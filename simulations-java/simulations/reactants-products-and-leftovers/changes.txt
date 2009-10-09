@@ -1,3 +1,4 @@
+10/9/09 add test controls and display to verify model
 10/9/09 Sandwich formula view
 10/9/09 Sandwich Shop model
 10/9/09 project development started, set up skeleton in SVN

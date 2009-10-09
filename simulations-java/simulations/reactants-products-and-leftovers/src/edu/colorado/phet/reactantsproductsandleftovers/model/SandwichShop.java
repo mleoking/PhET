@@ -70,20 +70,10 @@ public class SandwichShop {
     
     //XXX need a more general design for determining the limiting reagent and number of products 
     public int getSandwiches() {
-        int sandwiches = 0;
-        if ( sandwichFormula.getBread() < sandwichFormula.getMeat() && sandwichFormula.getBread() < sandwichFormula.getCheese() ) {
-            // bread is the limiting reagent
-            sandwiches = bread / sandwichFormula.getBread();
-        }
-        else if ( sandwichFormula.getMeat() < sandwichFormula.getBread() && sandwichFormula.getMeat() < sandwichFormula.getCheese() ) {
-            // meat is the limiting reagent
-            sandwiches = meat / sandwichFormula.getMeat();
-        }
-        else {
-            // cheese is the limiting reagent
-            sandwiches = cheese / sandwichFormula.getCheese();
-        }
-        return sandwiches;
+        int breadForSandwiches = bread / sandwichFormula.getBread();
+        int meatForSandwiches = meat /sandwichFormula.getMeat();
+        int cheeseForSandwiches = cheese / sandwichFormula.getCheese();
+        return Math.min( breadForSandwiches, Math.min( meatForSandwiches, cheeseForSandwiches) );
     }
     
     public int getBreadLeftover() {
@@ -107,7 +97,6 @@ public class SandwichShop {
     }
     
     private void fireStateChanged() {
-        System.out.println( "SandwichShop.fireStateChanged" );//XXX
         ChangeEvent e = new ChangeEvent( this );
         for ( ChangeListener listener : listeners ) {
             listener.stateChanged( e );
