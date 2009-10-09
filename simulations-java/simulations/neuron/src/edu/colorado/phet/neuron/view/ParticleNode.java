@@ -3,6 +3,7 @@ package edu.colorado.phet.neuron.view;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Stroke;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 import java.text.MessageFormat;
 
@@ -105,6 +106,7 @@ public class ParticleNode extends PNode {
      */
     private PNode createRepresentation() {
     	PNode representation;
+    	double size;
 
     	switch (particle.getType()){
     	case SODIUM_ION:
@@ -116,14 +118,22 @@ public class ParticleNode extends PNode {
     		break;
     		
     	case POTASSIUM_ION:
-    		double size = modelViewTransform.modelToViewDifferentialXDouble(particle.getDiameter());
-    		size = size * 0.85; // Scale down a bit so it is close to fitting within the diameter.
+    		size = modelViewTransform.modelToViewDifferentialXDouble(particle.getDiameter()) * 0.85;
     		PPath diamondRepresentation = new PPath( new Rectangle2D.Double(-size/2, -size/2, size, size));
     		diamondRepresentation.setPaint(particle.getRepresentationColor());
     		diamondRepresentation.setStroke(PARTICLE_EDGE_STROKE);
     		diamondRepresentation.setStrokePaint(Color.BLACK);
     		diamondRepresentation.rotate(Math.PI / 4);
     		representation = diamondRepresentation;
+    		break;
+    		
+    	case PROTEIN_ION:
+    		size = modelViewTransform.modelToViewDifferentialXDouble(particle.getDiameter());
+    		PPath ovalRepresentation = new PPath( new Ellipse2D.Double(-size*0.75, -size/2, size*1.5, size));
+    		ovalRepresentation.setPaint(particle.getRepresentationColor());
+    		ovalRepresentation.setStroke(PARTICLE_EDGE_STROKE);
+    		ovalRepresentation.setStrokePaint(Color.BLACK);
+    		representation = ovalRepresentation;
     		break;
     		
     	default:
