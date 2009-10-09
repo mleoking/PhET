@@ -336,20 +336,8 @@ public class AxonModel {
     			// This atom is near the membrane wall, so should be repelled.
     	    	angle = theta + Math.PI + ((RAND.nextDouble() - 0.5) * Math.PI / 2);
     		}
-    		else if (crossSectionInnerRadius - r <= crossSectionInnerRadius / 2){
-    			// This is in the "zone of attraction" where it should tend to
-    			// move toward the membrane.  The following code creates a
-    			// probabilistic bias to make it tend to move that way.
-    			if (RAND.nextDouble() > 0.8){
-    				angle = Math.PI * RAND.nextDouble() - Math.PI / 2 + theta;
-    			}
-    			else{
-    				angle = Math.PI * 2 * RAND.nextDouble();
-    			}
-    		}
     		else{
-    			// It's neither too close nor too far, so it should just do a
-    			// random walk.
+    			// Particle should just do a random walk.
 				angle = Math.PI * 2 * RAND.nextDouble();
     		}
     	}
@@ -444,7 +432,7 @@ public class AxonModel {
     	// Work backwards through the array so that the most recently added
     	// channel is removed first.  This just looks better visually and
     	// makes the positioning of channels work better.
-    	for (int i = channels.size() - 1; i >= 0; i++){
+    	for (int i = channels.size() - 1; i >= 0; i--){
     		if (channels.get(i).getChannelType() == channelType){
     			channelToRemove = channels.get(i);
     			break;
