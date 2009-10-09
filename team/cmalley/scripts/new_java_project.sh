@@ -36,9 +36,28 @@ mkdir -p ${PROJECT_DIR}/src
 
 # files
 touch ${PROJECT_DIR}/changes.txt
-touch ${PROJECT_DIR}/${PROJECT_NAME}-build.properties
 touch ${PROJECT_DIR}/data/${PROJECT_NAME}/images/license.txt
-touch ${PROJECT_DIR}/data/${PROJECT_NAME}/localization/${PROJECT_NAME}-strings.properties
+
+# build properties skeleton
+BUILD_PROPERTIES=${PROJECT_DIR}/${PROJECT_NAME}-build.properties
+touch ${BUILD_PROPERTIES}
+echo "# build properties for ${PROJECT_NAME}" >> ${BUILD_PROPERTIES}
+echo "project.depends.data=data" >> ${BUILD_PROPERTIES}
+echo "project.depends.source=src" >> ${BUILD_PROPERTIES}
+echo "project.depends.lib=phetcommon" >> ${BUILD_PROPERTIES}
+echo "project.flavor.FLAVOR.mainclass=" >> ${BUILD_PROPERTIES}
+echo "project.flavor.FLAVOR.args=" >> ${BUILD_PROPERTIES}
+echo "Replace FLAVOR with a flavor name in `basename ${BUILD_PROPERTIES}`"
+
+# English strings skeleton
+STRINGS_FILE=${PROJECT_DIR}/data/${PROJECT_NAME}/localization/${PROJECT_NAME}-strings.properties
+touch ${STRINGS_FILE}
+echo "# English strings for ${PROJECT_NAME}" >> ${STRINGS_FILE}
+echo "FLAVOR.name=" >> ${STRINGS_FILE}
+echo "Replace FLAVOR with a flavor name in `basename ${STRINGS_FILE}`"
+
+# done
+echo "Done. Project lives in ${PROJECT_DIR}"
 
 #====================================================================================
 # end of file
