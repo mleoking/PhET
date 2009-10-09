@@ -179,11 +179,11 @@ public class NeuronControlPanel extends ControlPanel {
     
     private void updateConcentrationControlSliders(){
     	
-    	if (sodiumConcentrationControl.getValue() != axonModel.getProportionOfAtomsInside(ParticleType.SODIUM_ION)){
-    		sodiumConcentrationControl.setValue( axonModel.getProportionOfAtomsInside(ParticleType.SODIUM_ION));
+    	if (sodiumConcentrationControl.getValue() != axonModel.getProportionOfParticlesInside(ParticleType.SODIUM_ION)){
+    		sodiumConcentrationControl.setValue( axonModel.getProportionOfParticlesInside(ParticleType.SODIUM_ION));
     	}
-    	if (potassiumConcentrationControl.getValue() != axonModel.getProportionOfAtomsInside(ParticleType.POTASSIUM_ION)){
-    		potassiumConcentrationControl.setValue( axonModel.getProportionOfAtomsInside(ParticleType.POTASSIUM_ION));
+    	if (potassiumConcentrationControl.getValue() != axonModel.getProportionOfParticlesInside(ParticleType.POTASSIUM_ION)){
+    		potassiumConcentrationControl.setValue( axonModel.getProportionOfParticlesInside(ParticleType.POTASSIUM_ION));
     	}
     }
     
@@ -334,7 +334,7 @@ public class NeuronControlPanel extends ControlPanel {
             addChangeListener(new ChangeListener() {
             	public void stateChanged(ChangeEvent e) {
             		double value = getValue();
-            		if ( value != axonModel.getProportionOfAtomsInside(atomType) ){
+            		if ( value != axonModel.getProportionOfParticlesInside(atomType) ){
             			axonModel.setConcentration(atomType, value);
             		}
             	}

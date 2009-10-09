@@ -13,11 +13,11 @@ import java.util.Random;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.neuron.NeuronConstants;
-import edu.colorado.phet.neuron.model.AxonModel.ConcentrationTracker.AtomPosition;
+import edu.colorado.phet.neuron.model.AxonModel.ConcentrationTracker.ParticlePosition;
 
 /**
  * This class represents the main class for modeling the axon.  It acts as the
- * central location where the interaction between the membrane, the atoms
+ * central location where the interaction between the membrane, the particles
  * (i.e. ions), and the gates is all governed.
  *
  * @author John Blanco
@@ -30,14 +30,14 @@ public class AxonModel {
 	
 	private static final Random RAND = new Random();
 	
-	private static final int TOTAL_INITIAL_ATOMS = 120;
+	private static final int TOTAL_INITIAL_PARTICLES = 120;
 	
-	private static final double MAX_ATOM_VELOCITY = 500; // In nano meters per second.
+	private static final double MAX_PARTICLE_VELOCITY = 500; // In nano meters per second.
 	
-	// The following constant defines how frequently atom motion is updated.
-	// A value of 1 means every clock tick for every atom, 2 means every other
-	// atom on each tick, etc.
-	private static final int ATOM_UPDATE_INCREMENT = 4;
+	// The following constant defines how frequently particle motion is updated.
+	// A value of 1 means every clock tick for every particle, 2 means every other
+	// particle on each tick, etc.
+	private static final int PARTICLE_UPDATE_INCREMENT = 4;
 	
 	// The following constants define the boundaries for the motion of the
 	// particles.  These boundaries are intended to be outside the view port,
@@ -58,11 +58,11 @@ public class AxonModel {
     
     private final NeuronClock clock;
     private final AxonMembrane axonMembrane = new AxonMembrane();
-    private ArrayList<Particle> atoms = new ArrayList<Particle>();
+    private ArrayList<Particle> particles = new ArrayList<Particle>();
     private ArrayList<AbstractMembraneChannel> channels = new ArrayList<AbstractMembraneChannel>();
     private final double crossSectionInnerRadius;
     private final double crossSectionOuterRadius;
-    private int atomUpdateOffset = 0;
+    private int particleUpdateOffset = 0;
     private ArrayList<Listener> listeners = new ArrayList<Listener>();
     private ConcentrationTracker concentrationTracker = new ConcentrationTracker();
 
@@ -84,41 +84,41 @@ public class AxonModel {
 			}
         });
         
-        // Add the atoms.
+        // Add the particles.
         // TODO: This is probably not correct, but for now assume that
         // the concentration of Na and K is equal and that both are equally
         // distributed inside and outside of the membrane.
-        int i = TOTAL_INITIAL_ATOMS;
-        Particle newAtom;
+        int i = TOTAL_INITIAL_PARTICLES;
+        Particle newParticle;
         while (true){
-        	newAtom = new PotassiumIon();
-        	positionAtomInsideMembrane(newAtom);
-        	atoms.add(newAtom);
-        	concentrationTracker.updateAtomCount(ParticleType.POTASSIUM_ION, AtomPosition.INSIDE_MEMBRANE, 1);
+        	newParticle = new PotassiumIon();
+        	positionParticleInsideMembrane(newParticle);
+        	particles.add(newParticle);
+        	concentrationTracker.updateParticleCount(ParticleType.POTASSIUM_ION, ParticlePosition.INSIDE_MEMBRANE, 1);
         	i--;
         	if (i == 0){
         		break;
         	}
-        	newAtom = new SodiumIon();
-        	positionAtomInsideMembrane(newAtom);
-        	atoms.add(newAtom);
-        	concentrationTracker.updateAtomCount(ParticleType.SODIUM_ION, AtomPosition.INSIDE_MEMBRANE, 1);
+        	newParticle = new SodiumIon();
+        	positionParticleInsideMembrane(newParticle);
+        	particles.add(newParticle);
+        	concentrationTracker.updateParticleCount(ParticleType.SODIUM_ION, ParticlePosition.INSIDE_MEMBRANE, 1);
         	i--;
         	if (i == 0){
         		break;
         	}
-        	newAtom = new PotassiumIon();
-        	positionAtomOutsideMembrane(newAtom);
-        	atoms.add(newAtom);
-        	concentrationTracker.updateAtomCount(ParticleType.POTASSIUM_ION, AtomPosition.OUTSIDE_MEMBRANE, 1);
+        	newParticle = new PotassiumIon();
+        	positionParticleOutsideMembrane(newParticle);
+        	particles.add(newParticle);
+        	concentrationTracker.updateParticleCount(ParticleType.POTASSIUM_ION, ParticlePosition.OUTSIDE_MEMBRANE, 1);
         	i--;
         	if (i == 0){
         		break;
         	}
-        	newAtom = new SodiumIon();
-        	positionAtomOutsideMembrane(newAtom);
-        	atoms.add(newAtom);
-        	concentrationTracker.updateAtomCount(ParticleType.SODIUM_ION, AtomPosition.OUTSIDE_MEMBRANE, 1);
+        	newParticle = new SodiumIon();
+        	positionParticleOutsideMembrane(newParticle);
+        	particles.add(newParticle);
+        	concentrationTracker.updateParticleCount(ParticleType.SODIUM_ION, ParticlePosition.OUTSIDE_MEMBRANE, 1);
         	i--;
         	if (i == 0){
         		break;
@@ -134,8 +134,8 @@ public class AxonModel {
         return clock;
     }    
     
-    public ArrayList<Particle> getAtoms(){
-    	return atoms;
+    public ArrayList<Particle> getParticles(){
+    	return particles;
     }
     
     public AxonMembrane getAxonMembrane(){
@@ -198,18 +198,19 @@ public class AxonModel {
     		removeChannel(channel.getChannelType());
     	}
     	
-    	// Move the atoms to the appropriate initial locations by setting the
-    	// target proportions.
+    	// Move the particles to the appropriate initial locations by setting
+    	// the target proportions.
     	setConcentration(ParticleType.SODIUM_ION, 0.5);
     	setConcentration(ParticleType.POTASSIUM_ION, 0.5);
     }
 
     /**
-     * Get the proportion of atoms that are inside the axon membrane.  A value
-     * of 1 indicates that all atoms are inside, 0 means that none are inside.
+     * Get the proportion of particles of a given type that are inside the
+     * axon membrane.  A value of 1 indicates that all particles are inside, 0
+     * means that none are inside.
      */
-    public double getProportionOfAtomsInside(ParticleType atomType){
-    	return concentrationTracker.getProportion(atomType, AtomPosition.INSIDE_MEMBRANE);
+    public double getProportionOfParticlesInside(ParticleType particleType){
+    	return concentrationTracker.getProportion(particleType, ParticlePosition.INSIDE_MEMBRANE);
     }
     
     /**
@@ -221,12 +222,12 @@ public class AxonModel {
     }
     
     /**
-     * Set the proportion of atoms inside the axon membrane.  A value of 0
-     * indicates that all atoms of this type should be outside, a value of 1
+     * Set the proportion of particles inside the axon membrane.  A value of 0
+     * indicates that all particles of this type should be outside, a value of 1
      * indicates that the should all be inside, and value between...well, you
      * get the idea.
      */
-    public void setConcentration(ParticleType atomType, double targetProportion){
+    public void setConcentration(ParticleType particleType, double targetProportion){
     	
     	if (targetProportion > 1 || targetProportion < 0){
     		System.err.println(getClass().getName() + " - Error: Invalid target proportion value = " + targetProportion);
@@ -234,77 +235,79 @@ public class AxonModel {
     		return; 
     	}
 
-    	int targetNumInside = (int)Math.round(targetProportion * (double)(concentrationTracker.getTotalNumAtoms(atomType)));
+    	int targetNumInside = (int)Math.round(targetProportion * 
+    			(double)(concentrationTracker.getTotalNumParticles(particleType)));
     	
-    	if (targetNumInside > concentrationTracker.getNumAtomsInPosition(atomType, AtomPosition.INSIDE_MEMBRANE)){
-    		// Move some atoms from outside to inside.
-    		for (Particle atom : atoms){
-    			if (atom.getType() == atomType && !isAtomInside(atom)){
+    	if (targetNumInside > concentrationTracker.getNumParticlesInPosition(particleType, 
+    			ParticlePosition.INSIDE_MEMBRANE)){
+    		// Move some particles from outside to inside.
+    		for (Particle particle : particles){
+    			if (particle.getType() == particleType && !isParticleInside(particle)){
     				// Move this guy in.
-    				positionAtomInsideMembrane(atom);
-    				concentrationTracker.updateAtomCount(atomType, AtomPosition.INSIDE_MEMBRANE, 1);
-    				concentrationTracker.updateAtomCount(atomType, AtomPosition.OUTSIDE_MEMBRANE, -1);
-    				if (concentrationTracker.getNumAtomsInPosition(atomType, AtomPosition.INSIDE_MEMBRANE) == targetNumInside){
+    				positionParticleInsideMembrane(particle);
+    				concentrationTracker.updateParticleCount(particleType, ParticlePosition.INSIDE_MEMBRANE, 1);
+    				concentrationTracker.updateParticleCount(particleType, ParticlePosition.OUTSIDE_MEMBRANE, -1);
+    				if (concentrationTracker.getNumParticlesInPosition(particleType, ParticlePosition.INSIDE_MEMBRANE) == targetNumInside){
     					break;
     				}
     			}
     		}
-    		notifyConcentrationGradientChanged(atomType);
+    		notifyConcentrationGradientChanged(particleType);
     	}
-    	else if (targetNumInside < concentrationTracker.getNumAtomsInPosition(atomType, AtomPosition.INSIDE_MEMBRANE)){
-    		// Move some atoms from inside to outside.
-    		for (Particle atom : atoms){
-    			if (atom.getType() == atomType && isAtomInside(atom)){
+    	else if (targetNumInside < concentrationTracker.getNumParticlesInPosition(particleType, ParticlePosition.INSIDE_MEMBRANE)){
+    		// Move some particles from inside to outside.
+    		for (Particle particle : particles){
+    			if (particle.getType() == particleType && isParticleInside(particle)){
     				// Move this guy out.
-    				positionAtomOutsideMembrane(atom);
-    				concentrationTracker.updateAtomCount(atomType, AtomPosition.INSIDE_MEMBRANE, -1);
-    				concentrationTracker.updateAtomCount(atomType, AtomPosition.OUTSIDE_MEMBRANE, 1);
-    				if (concentrationTracker.getNumAtomsInPosition(atomType, AtomPosition.INSIDE_MEMBRANE) == targetNumInside){
+    				positionParticleOutsideMembrane(particle);
+    				concentrationTracker.updateParticleCount(particleType, ParticlePosition.INSIDE_MEMBRANE, -1);
+    				concentrationTracker.updateParticleCount(particleType, ParticlePosition.OUTSIDE_MEMBRANE, 1);
+    				if (concentrationTracker.getNumParticlesInPosition(particleType, ParticlePosition.INSIDE_MEMBRANE) == targetNumInside){
     					break;
     				}
     			}
     		}
-    		notifyConcentrationGradientChanged(atomType);
+    		notifyConcentrationGradientChanged(particleType);
     	}
     }
     
     private void handleClockTicked(ClockEvent clockEvent){
     	
-    	for (int i = atomUpdateOffset; i < atoms.size(); i += ATOM_UPDATE_INCREMENT){
-    		updateAtomVelocity(atoms.get(i));
+    	for (int i = particleUpdateOffset; i < particles.size(); i += PARTICLE_UPDATE_INCREMENT){
+    		updateParticleVelocity(particles.get(i));
     	}
     	
-    	atomUpdateOffset = (atomUpdateOffset + 1) % ATOM_UPDATE_INCREMENT;
+    	particleUpdateOffset = (particleUpdateOffset + 1) % PARTICLE_UPDATE_INCREMENT;
     	
-    	for (Particle atom : atoms){
-    		atom.stepInTime(clockEvent.getSimulationTimeChange());
+    	for (Particle particle : particles){
+    		particle.stepInTime(clockEvent.getSimulationTimeChange());
     	}
     	
     	for (AbstractMembraneChannel channel : channels){
     		channel.stepInTime(clockEvent.getSimulationTimeChange());
-    		ArrayList<Particle> atomsTakenByChannel = channel.checkTakeControlAtoms(atoms);
-    		if (atomsTakenByChannel != null){
-    			for (Particle atom : atomsTakenByChannel){
-    				atoms.remove(atom);
-    				if (atom.getPositionReference().distance(CENTER_POS) > crossSectionOuterRadius){
-    					// This atom was outside and, now that it has been
+    		ArrayList<Particle> particlesTakenByChannel = channel.checkTakeControlParticles(particles);
+    		if (particlesTakenByChannel != null){
+    			for (Particle particle : particlesTakenByChannel){
+    				particles.remove(particle);
+    				if (particle.getPositionReference().distance(CENTER_POS) > crossSectionOuterRadius){
+    					// This particle was outside and, now that it has been
     					// captured by a channel, is considered to be inside.
-    					concentrationTracker.updateAtomCount(atom.getType(), AtomPosition.OUTSIDE_MEMBRANE, -1);
-    					concentrationTracker.updateAtomCount(atom.getType(), AtomPosition.INSIDE_MEMBRANE, 1);
-    					notifyConcentrationGradientChanged(atom.getType());
+    					concentrationTracker.updateParticleCount(particle.getType(), ParticlePosition.OUTSIDE_MEMBRANE, -1);
+    					concentrationTracker.updateParticleCount(particle.getType(), ParticlePosition.INSIDE_MEMBRANE, 1);
+    					notifyConcentrationGradientChanged(particle.getType());
     				}
     			}
     		}
-    		ArrayList<Particle> atomsReleasedByChannel = channel.checkReleaseControlAtoms(atoms);
-    		if (atomsReleasedByChannel != null){
-    			for (Particle atom : atomsReleasedByChannel){
-    				atoms.add(atom);
-    				if (atom.getPositionReference().distance(CENTER_POS) > crossSectionOuterRadius){
-    					// This atom was inside a channel and was released
+    		ArrayList<Particle> particlesReleasedByChannel = channel.checkReleaseControlParticles(particles);
+    		if (particlesReleasedByChannel != null){
+    			for (Particle particle : particlesReleasedByChannel){
+    				particles.add(particle);
+    				if (particle.getPositionReference().distance(CENTER_POS) > crossSectionOuterRadius){
+    					// This particle was inside a channel and was released
     					// outside the membrane.
-    					concentrationTracker.updateAtomCount(atom.getType(), AtomPosition.OUTSIDE_MEMBRANE, 1);
-    					concentrationTracker.updateAtomCount(atom.getType(), AtomPosition.INSIDE_MEMBRANE, -1);
-    					notifyConcentrationGradientChanged(atom.getType());
+    					concentrationTracker.updateParticleCount(particle.getType(), ParticlePosition.OUTSIDE_MEMBRANE, 1);
+    					concentrationTracker.updateParticleCount(particle.getType(), ParticlePosition.INSIDE_MEMBRANE, -1);
+    					notifyConcentrationGradientChanged(particle.getType());
     				}
     			}
     		}
@@ -331,29 +334,29 @@ public class AxonModel {
 		}
 	}
 	
-	private void notifyConcentrationGradientChanged(ParticleType atomType){
+	private void notifyConcentrationGradientChanged(ParticleType particleType){
 		for (Listener listener : listeners){
-			listener.concentrationRatioChanged(atomType);
+			listener.concentrationRatioChanged(particleType);
 		}
 	}
 	
-    private void updateAtomVelocity(Particle atom){
+    private void updateParticleVelocity(Particle particle){
     	
     	// Convert the position to polar coordinates.
-    	double r = Math.sqrt(atom.getX() * atom.getX() + atom.getY() * atom.getY());
-    	double theta = Math.atan2(atom.getY(), atom.getX());
+    	double r = Math.sqrt(particle.getX() * particle.getX() + particle.getY() * particle.getY());
+    	double theta = Math.atan2(particle.getY(), particle.getX());
     	
     	// Determine the current angle of travel.
-    	double previousAngleOfTravel = Math.atan2( atom.getPositionReference().y, atom.getPositionReference().x );
+    	double previousAngleOfTravel = Math.atan2( particle.getPositionReference().y, particle.getPositionReference().x );
     	
     	double angle = 0;
     	double velocity;
 
-    	// Generate the new angle of travel for the atom.
+    	// Generate the new angle of travel for the particle.
     	if (r < axonMembrane.getCrossSectionDiameter() / 2){
-    		// Atom is inside the membrane.
-    		if (crossSectionInnerRadius - r <= atom.getDiameter()){
-    			// This atom is near the membrane wall, so should be repelled.
+    		// Particle is inside the membrane.
+    		if (crossSectionInnerRadius - r <= particle.getDiameter()){
+    			// This particle is near the membrane wall, so should be repelled.
     	    	angle = theta + Math.PI + ((RAND.nextDouble() - 0.5) * Math.PI / 2);
     		}
     		else{
@@ -362,12 +365,12 @@ public class AxonModel {
     		}
     	}
     	else{
-    		// Atom is outside the membrane.
-    		if (r - crossSectionOuterRadius <= atom.getDiameter()){
-    			// This atom is near the membrane wall, so should be repelled.
+    		// Particle is outside the membrane.
+    		if (r - crossSectionOuterRadius <= particle.getDiameter()){
+    			// This particle is near the membrane wall, so should be repelled.
 				angle = Math.PI * RAND.nextDouble() - Math.PI / 2 + theta;
     		}
-    		else if (!PARTICLE_BOUNDS.contains(atom.getPositionReference())){
+    		else if (!PARTICLE_BOUNDS.contains(particle.getPositionReference())){
     			// Particle is moving out of bounds, so move it back towards
     			// the center.
     	    	angle = theta + Math.PI + ((RAND.nextDouble() - 0.5) * Math.PI / 2);
@@ -380,10 +383,10 @@ public class AxonModel {
     	}
     	
     	// Generate the new overall velocity.
-		velocity = MAX_ATOM_VELOCITY * RAND.nextDouble();
+		velocity = MAX_PARTICLE_VELOCITY * RAND.nextDouble();
 		
-		// Set the atom's new velocity. 
-    	atom.setVelocity(velocity * Math.cos(angle), velocity * Math.sin(angle));
+		// Set the particle's new velocity. 
+    	particle.setVelocity(velocity * Math.cos(angle), velocity * Math.sin(angle));
     }
     
     private void addChannel(MembraneChannelTypes channelType){
@@ -460,14 +463,14 @@ public class AxonModel {
     	}
     	
     	if (channelToRemove != null){
-    		ArrayList<Particle> releasedAtoms = channelToRemove.forceReleaseAllAtoms(atoms);
-    		// Since atoms in a channel are considered to be inside the
-    		// membrane, force any atom that was in the channel when it was
+    		ArrayList<Particle> releasedParticle = channelToRemove.forceReleaseAllParticles(particles);
+    		// Since particles in a channel are considered to be inside the
+    		// membrane, force any particle that was in the channel when it was
     		// removed to go safely into the interior.
-    		if (releasedAtoms != null){
-    			for (Particle atom : releasedAtoms){
-    				atoms.add(atom);
-    				positionAtomInsideMembrane(atom);
+    		if (releasedParticle != null){
+    			for (Particle particle : releasedParticle){
+    				particles.add(particle);
+    				positionParticleInsideMembrane(particle);
     			}
     		}
     		// Remove the channel and send any notifications.
@@ -478,14 +481,14 @@ public class AxonModel {
     }
     
     /**
-     * Place an atom at a random location inside the axon membrane.
+     * Place a particle at a random location inside the axon membrane.
      */
-    private void positionAtomInsideMembrane(Particle atom){
+    private void positionParticleInsideMembrane(Particle particle){
     	// Choose any angle.
     	double angle = RAND.nextDouble() * Math.PI * 2;
     	
     	// Choose a distance.
-    	double distance = RAND.nextDouble() * crossSectionInnerRadius - atom.getDiameter();
+    	double distance = RAND.nextDouble() * crossSectionInnerRadius - particle.getDiameter();
     	
     	/*
     	 * TODO: The code below was used prior to 10/9/2009, which is when it
@@ -501,42 +504,42 @@ public class AxonModel {
     	}
     	double distance = multiplier * (crossSectionInnerRadius - atom.getDiameter());
     	*/
-    	atom.setPosition(distance * Math.cos(angle), distance * Math.sin(angle));
+    	particle.setPosition(distance * Math.cos(angle), distance * Math.sin(angle));
     }
 
     /**
-     * Place an atom at a random location outside the axon membrane.
+     * Place a particle at a random location outside the axon membrane.
      */
-    private void positionAtomOutsideMembrane(Particle atom){
+    private void positionParticleOutsideMembrane(Particle particle){
     	double maxDistance = Math.min(getParticleMotionBounds().getWidth() / 2,
     			getParticleMotionBounds().getHeight() / 2);
     	double distance = RAND.nextDouble() * (maxDistance - crossSectionOuterRadius) + crossSectionOuterRadius +
-    		atom.getDiameter();
+    		particle.getDiameter();
     	double angle = RAND.nextDouble() * Math.PI * 2;
-    	atom.setPosition(distance * Math.cos(angle), distance * Math.sin(angle));
+    	particle.setPosition(distance * Math.cos(angle), distance * Math.sin(angle));
     }
     
     /**
-     * Determine whether the given atom is considered to be inside or outside
-     * of the axon.  IMPORTANT NOTE - If an atom is in a channel, it is
+     * Determine whether the given particle is considered to be inside or outside
+     * of the axon.  IMPORTANT NOTE - If an particle is in a channel, it is
      * considered to be inside the membrane.
      * 
-     * @param atom
+     * @param particle
      * @return
      */
-    private boolean isAtomInside(Particle atom){
+    private boolean isParticleInside(Particle particle){
 
     	boolean inside = false;
     	
 		for (AbstractMembraneChannel channel : channels){
-			if (channel.getOwnedAtoms().contains(atom)){
+			if (channel.getOwnedParticles().contains(particle)){
 				inside = true;
 				break;
 			}
 		}
 		
 		if (!inside){
-			inside = atom.getPositionReference().distance(CENTER_POS) < crossSectionOuterRadius;
+			inside = particle.getPositionReference().distance(CENTER_POS) < crossSectionOuterRadius;
 		}
     	
     	return inside;
@@ -548,60 +551,60 @@ public class AxonModel {
     
     /**
      * This is a "convenience class" that is used to track the relative
-     * concentration of the different atom types.  This was created so that
+     * concentration of the different particle types.  This was created so that
      * the concentration doesn't need to be completely recalculated at every
      * time step, which would be computationally expensive.
      */
     public static class ConcentrationTracker {
 
-    	enum AtomPosition {INSIDE_MEMBRANE, OUTSIDE_MEMBRANE};
+    	enum ParticlePosition {INSIDE_MEMBRANE, OUTSIDE_MEMBRANE};
     	
-    	HashMap<ParticleType, Integer> mapAtomTypeToNumOutside = new HashMap<ParticleType, Integer>();
-    	HashMap<ParticleType, Integer> mapAtomTypeToNumInside = new HashMap<ParticleType, Integer>();
+    	HashMap<ParticleType, Integer> mapParticleTypeToNumOutside = new HashMap<ParticleType, Integer>();
+    	HashMap<ParticleType, Integer> mapParticleTypeToNumInside = new HashMap<ParticleType, Integer>();
     	
-    	public void updateAtomCount(ParticleType atomType, AtomPosition position, int delta){
-    		HashMap<ParticleType, Integer> map = position == AtomPosition.INSIDE_MEMBRANE ? mapAtomTypeToNumInside :
-    			mapAtomTypeToNumOutside;
-    		Integer currentCount = map.get(atomType);
+    	public void updateParticleCount(ParticleType particleType, ParticlePosition position, int delta){
+    		HashMap<ParticleType, Integer> map = position == ParticlePosition.INSIDE_MEMBRANE ? mapParticleTypeToNumInside :
+    			mapParticleTypeToNumOutside;
+    		Integer currentCount = map.get(particleType);
     		if (currentCount == null){
     			currentCount = new Integer(0);
     		}
     		Integer newCount = new Integer(currentCount.intValue() + delta);
     		if (newCount.intValue() < 0){
-    			System.err.println(getClass().getName()+ "- Error: Negative count for atoms in a position.");
+    			System.err.println(getClass().getName()+ "- Error: Negative count for particles in a position.");
     			assert false;
     			newCount = new Integer(0);
     		}
-    		map.put(atomType, newCount);
+    		map.put(particleType, newCount);
     	}
     	
-    	public void resetAtomCount(ParticleType atomType, AtomPosition position){
-    		HashMap<ParticleType, Integer> map = position == AtomPosition.INSIDE_MEMBRANE ? mapAtomTypeToNumInside :
-    			mapAtomTypeToNumOutside;
-    		map.put(atomType, new Integer(0));
+    	public void resetParticleCount(ParticleType particleType, ParticlePosition position){
+    		HashMap<ParticleType, Integer> map = position == ParticlePosition.INSIDE_MEMBRANE ? mapParticleTypeToNumInside :
+    			mapParticleTypeToNumOutside;
+    		map.put(particleType, new Integer(0));
     	}
     	
-    	public int getNumAtomsInPosition(ParticleType atomType, AtomPosition position){
-    		HashMap<ParticleType, Integer> map = position == AtomPosition.INSIDE_MEMBRANE ? mapAtomTypeToNumInside :
-    			mapAtomTypeToNumOutside;
-    		Integer currentCount = map.get(atomType);
+    	public int getNumParticlesInPosition(ParticleType particleType, ParticlePosition position){
+    		HashMap<ParticleType, Integer> map = position == ParticlePosition.INSIDE_MEMBRANE ? mapParticleTypeToNumInside :
+    			mapParticleTypeToNumOutside;
+    		Integer currentCount = map.get(particleType);
     		if (currentCount == null){
     			currentCount = new Integer(0);
     		}
     		return currentCount.intValue();
     	}
     	
-    	public int getTotalNumAtoms(ParticleType atomType){
-    		return (getNumAtomsInPosition(atomType, AtomPosition.INSIDE_MEMBRANE) + 
-    				getNumAtomsInPosition(atomType, AtomPosition.OUTSIDE_MEMBRANE));
+    	public int getTotalNumParticles(ParticleType particleType){
+    		return (getNumParticlesInPosition(particleType, ParticlePosition.INSIDE_MEMBRANE) + 
+    				getNumParticlesInPosition(particleType, ParticlePosition.OUTSIDE_MEMBRANE));
     	}
     	
-    	public double getProportion(ParticleType atomType, AtomPosition position){
-    		Integer insideCount = mapAtomTypeToNumInside.get(atomType);
+    	public double getProportion(ParticleType particleType, ParticlePosition position){
+    		Integer insideCount = mapParticleTypeToNumInside.get(particleType);
     		if (insideCount == null){
     			insideCount = new Integer(0);
     		}
-    		Integer outsideCount = mapAtomTypeToNumOutside.get(atomType);
+    		Integer outsideCount = mapParticleTypeToNumOutside.get(particleType);
     		if (outsideCount == null){
     			outsideCount = new Integer(0);
     		}
@@ -609,7 +612,7 @@ public class AxonModel {
     		if (insideCount.intValue() == outsideCount.intValue() && insideCount.intValue() == 0){
     			return 0;
     		}
-    		else if (position == AtomPosition.INSIDE_MEMBRANE){
+    		else if (position == ParticlePosition.INSIDE_MEMBRANE){
     			return insideCount.doubleValue() / (insideCount.doubleValue() + outsideCount.doubleValue());
     		}
     		else {
@@ -634,18 +637,18 @@ public class AxonModel {
     	public void channelRemoved(AbstractMembraneChannel channel);
     	
     	/**
-    	 * Notification that the concentration gradient for the given atom
+    	 * Notification that the concentration gradient for the given particle
     	 * type had changed.
     	 * 
-    	 * @param atomType - Atom for which the concentration gradient has
+    	 * @param particleType - Particle for which the concentration gradient has
     	 * changed.
     	 */
-    	public void concentrationRatioChanged(ParticleType atomType);
+    	public void concentrationRatioChanged(ParticleType particleType);
     }
     
     public static class Adapter implements Listener{
 		public void channelAdded(AbstractMembraneChannel channel) {}
 		public void channelRemoved(AbstractMembraneChannel channel) {}
-		public void concentrationRatioChanged(ParticleType atomType) {}
+		public void concentrationRatioChanged(ParticleType particleType) {}
     }
 }

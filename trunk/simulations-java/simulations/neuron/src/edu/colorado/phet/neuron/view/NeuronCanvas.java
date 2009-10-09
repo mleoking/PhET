@@ -104,7 +104,7 @@ public class NeuronCanvas extends PhetPCanvas {
         axonCrossSectionLayer.addChild(axonMembraneNode);
         
         // Add the atoms.
-        for (Particle atom : model.getAtoms()){
+        for (Particle atom : model.getParticles()){
         	addAtom(atom);
         }
         
