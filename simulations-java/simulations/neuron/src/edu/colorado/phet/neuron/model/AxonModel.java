@@ -484,8 +484,14 @@ public class AxonModel {
     	// Choose any angle.
     	double angle = RAND.nextDouble() * Math.PI * 2;
     	
-    	// Choose a distance that is more likely to be close to the outer
-    	// edge.
+    	// Choose a distance.
+    	double distance = RAND.nextDouble() * crossSectionInnerRadius - atom.getDiameter();
+    	
+    	/*
+    	 * TODO: The code below was used prior to 10/9/2009, which is when it
+    	 * was decided that the atoms should be evenly distributed within the
+    	 * membrane, not tending towards the outside.  Keep it until we're
+    	 * sure we don't need it, then blow it away.
     	double multiplier = 0;
     	if (RAND.nextDouble() < 0.8){
     		multiplier = 1 - (RAND.nextDouble() * 0.25);
@@ -494,6 +500,7 @@ public class AxonModel {
     		multiplier = RAND.nextDouble();
     	}
     	double distance = multiplier * (crossSectionInnerRadius - atom.getDiameter());
+    	*/
     	atom.setPosition(distance * Math.cos(angle), distance * Math.sin(angle));
     }
 
@@ -501,7 +508,8 @@ public class AxonModel {
      * Place an atom at a random location outside the axon membrane.
      */
     private void positionAtomOutsideMembrane(Atom atom){
-    	double maxDistance = crossSectionOuterRadius * 1.2; // Arbitrary multiplier, tweak as needed.
+    	double maxDistance = Math.min(getParticleMotionBounds().getWidth() / 2,
+    			getParticleMotionBounds().getHeight() / 2);
     	double distance = RAND.nextDouble() * (maxDistance - crossSectionOuterRadius) + crossSectionOuterRadius +
     		atom.getDiameter();
     	double angle = RAND.nextDouble() * Math.PI * 2;
