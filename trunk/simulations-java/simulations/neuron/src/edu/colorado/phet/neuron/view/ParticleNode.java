@@ -17,36 +17,36 @@ import edu.umd.cs.piccolo.nodes.PText;
 /**
  * Class that represents atoms in the view.
  */
-public class AtomNode extends PNode {
+public class ParticleNode extends PNode {
 	
-	private static final Stroke ATOM_EDGE_STROKE = new BasicStroke(1);
+	private static final Stroke PARTICLE_EDGE_STROKE = new BasicStroke(1);
 	
-	private Particle atom;
+	private Particle particle;
     private ModelViewTransform2D modelViewTransform;
     private PNode representation;
     private PText label;
 
-    public AtomNode( Particle atom, ModelViewTransform2D modelViewTransform ) {
+    public ParticleNode( Particle particle, ModelViewTransform2D modelViewTransform ) {
     	
-		this.atom = atom;
+		this.particle = particle;
         this.modelViewTransform = modelViewTransform;
 
-        atom.addListener(new Particle.Listener() {
+        particle.addListener(new Particle.Listener() {
 			public void positionChanged() {
 				updateOffset();
 			}
 		});
 
-        // Create the shape that represents this atom.
+        // Create the shape that represents this particle.
         representation = createRepresentation();
 		addChild( representation );
         updateOffset();
         
         // Create the label.
-        String labelText = MessageFormat.format("{0}{1}", atom.getLabelText(), atom.getChargeString());
+        String labelText = MessageFormat.format("{0}{1}", particle.getLabelText(), particle.getChargeString());
         label = new PText(labelText);
         label.setFont(new PhetFont(12, true));
-        label.setTextPaint(atom.getLabelColor());
+        label.setTextPaint(particle.getLabelColor());
         addChild(label);
         
         // Scale the label to fit within the sphere.
@@ -64,7 +64,7 @@ public class AtomNode extends PNode {
 	}
     
     /**
-     * Turn on/off the use of a stroke to draw the outline of the atom.  This
+     * Turn on/off the use of a stroke to draw the outline of the particle.  This
      * function was implemented as part of a workaround for an issue where the
      * stroke was being cut off when this node was used on the control panel,
      * resulting in an odd look.  If that problem is resolved (it seemed to be
@@ -76,7 +76,7 @@ public class AtomNode extends PNode {
     public void setStrokeOn(boolean strokeOn){
 		if (representation instanceof SphericalNode){
 			if (strokeOn){
-				((SphericalNode)representation).setStroke(ATOM_EDGE_STROKE);
+				((SphericalNode)representation).setStroke(PARTICLE_EDGE_STROKE);
 			}
 			else{
 				((SphericalNode)representation).setStroke(null);
@@ -84,7 +84,7 @@ public class AtomNode extends PNode {
 		}
 		else if (representation instanceof PPath){
 			if (strokeOn){
-				((PPath)representation).setStroke(ATOM_EDGE_STROKE);
+				((PPath)representation).setStroke(PARTICLE_EDGE_STROKE);
 			}
 			else{
 				((PPath)representation).setStroke(null);
@@ -93,43 +93,43 @@ public class AtomNode extends PNode {
     }
 
     private void updateOffset() {
-        setOffset( modelViewTransform.modelToView( atom.getPosition() ));
+        setOffset( modelViewTransform.modelToView( particle.getPosition() ));
     }
     
     /**
-     * Create the shape that will be used to represent this particular atom.
+     * Create the shape that will be used to represent this particular .
      * This was created when we realized that many textbooks use different
-     * shapes for different atoms, rather than always a sphere.
+     * shapes for different s, rather than always a sphere.
      * 
      * @return
      */
     private PNode createRepresentation() {
     	PNode representation;
 
-    	switch (atom.getType()){
+    	switch (particle.getType()){
     	case SODIUM_ION:
-    		SphericalNode sphereRepresentation = new SphericalNode( modelViewTransform.modelToViewDifferentialXDouble(atom.getDiameter()), 
-    				atom.getRepresentationColor(), true);
-    		sphereRepresentation.setStroke(ATOM_EDGE_STROKE);
+    		SphericalNode sphereRepresentation = new SphericalNode( modelViewTransform.modelToViewDifferentialXDouble(particle.getDiameter()), 
+    				particle.getRepresentationColor(), true);
+    		sphereRepresentation.setStroke(PARTICLE_EDGE_STROKE);
     		sphereRepresentation.setStrokePaint(Color.BLACK);
     		representation = sphereRepresentation;
     		break;
     		
     	case POTASSIUM_ION:
-    		double size = modelViewTransform.modelToViewDifferentialXDouble(atom.getDiameter());
+    		double size = modelViewTransform.modelToViewDifferentialXDouble(particle.getDiameter());
     		size = size * 0.85; // Scale down a bit so it is close to fitting within the diameter.
     		PPath diamondRepresentation = new PPath( new Rectangle2D.Double(-size/2, -size/2, size, size));
-    		diamondRepresentation.setPaint(atom.getRepresentationColor());
-    		diamondRepresentation.setStroke(ATOM_EDGE_STROKE);
+    		diamondRepresentation.setPaint(particle.getRepresentationColor());
+    		diamondRepresentation.setStroke(PARTICLE_EDGE_STROKE);
     		diamondRepresentation.setStrokePaint(Color.BLACK);
     		diamondRepresentation.rotate(Math.PI / 4);
     		representation = diamondRepresentation;
     		break;
     		
     	default:
-    		System.err.println(getClass().getName() + " - Warning: No specific shape for this atom type, defaulting to sphere.");
-    		representation = new SphericalNode( modelViewTransform.modelToViewDifferentialXDouble(atom.getDiameter()), 
-    				atom.getRepresentationColor(), true);
+    		System.err.println(getClass().getName() + " - Warning: No specific shape for this particle type, defaulting to sphere.");
+    		representation = new SphericalNode( modelViewTransform.modelToViewDifferentialXDouble(particle.getDiameter()), 
+    				particle.getRepresentationColor(), true);
     		break;
     	}
     	

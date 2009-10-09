@@ -161,7 +161,7 @@ public class NeuronCanvas extends PhetPCanvas {
     }
     
     private void addAtom(Particle atomToBeAdded){
-    	atomLayer.addChild(new AtomNode(atomToBeAdded, mvt));
+    	atomLayer.addChild(new ParticleNode(atomToBeAdded, mvt));
     }
     
     private void addChannelNode(AbstractMembraneChannel channelToBeAdded){
