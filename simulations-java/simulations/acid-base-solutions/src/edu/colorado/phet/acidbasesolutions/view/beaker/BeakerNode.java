@@ -3,8 +3,8 @@ package edu.colorado.phet.acidbasesolutions.view.beaker;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
-import edu.colorado.phet.acidbasesolutions.util.PNodeLayoutUtils;
 import edu.colorado.phet.acidbasesolutions.view.moleculecounts.MoleculeCountsNode;
+import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PClip;

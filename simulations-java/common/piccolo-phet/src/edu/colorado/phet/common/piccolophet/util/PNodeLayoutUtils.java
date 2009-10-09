@@ -1,11 +1,11 @@
-package edu.colorado.phet.acidbasesolutions.util;
+package edu.colorado.phet.common.piccolophet.util;
 
 import java.awt.geom.Point2D;
 
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * A collection of utilites that are useful for PNodes.
+ * A collection of utilites that are useful for laying out PNodes.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

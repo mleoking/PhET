@@ -6,12 +6,12 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.acidbasesolutions.control.EquationScalingControl;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.SolutionListener;
-import edu.colorado.phet.acidbasesolutions.util.PNodeLayoutUtils;
 import edu.colorado.phet.acidbasesolutions.view.equilibriumexpressions.AbstractEquilibriumExpressionNode;
 import edu.colorado.phet.acidbasesolutions.view.equilibriumexpressions.AcidEquilibriumExpressionNode;
 import edu.colorado.phet.acidbasesolutions.view.equilibriumexpressions.BaseEquilibriumExpressionNode;
 import edu.colorado.phet.acidbasesolutions.view.equilibriumexpressions.WaterEquilibriumExpressionNode;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 

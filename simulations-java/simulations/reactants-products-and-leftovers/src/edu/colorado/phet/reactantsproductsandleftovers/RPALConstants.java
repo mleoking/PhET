@@ -2,10 +2,7 @@
 
 package edu.colorado.phet.reactantsproductsandleftovers;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Stroke;
+import java.awt.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
@@ -34,6 +31,8 @@ public class RPALConstants {
     
     public static final String PROJECT_NAME = "reactants-products-and-leftovers";
 
+    public static final Dimension CANVAS_RENDERING_SIZE = new Dimension( 1024, 768 );
+    
     //----------------------------------------------------------------------------
     // Fonts
     //----------------------------------------------------------------------------
@@ -62,6 +61,14 @@ public class RPALConstants {
     // Color of the "play area"
     public static final Color CANVAS_BACKGROUND = Color.WHITE;
     
+    //----------------------------------------------------------------------------
+    //  Model
+    //----------------------------------------------------------------------------
+    
+    // Clock
+    public static final int CLOCK_FRAME_RATE = 25; // fps, frames per second (wall time)
+    public static final double CLOCK_DT = 1;
+
     //----------------------------------------------------------------------------
     // Images
     //----------------------------------------------------------------------------

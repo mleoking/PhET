@@ -8,7 +8,6 @@ import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.model.RPALClock;
 import edu.colorado.phet.reactantsproductsandleftovers.model.RPALModel;
-import edu.colorado.phet.reactantsproductsandleftovers.view.RPALCanvas;
 
 /**
  * The "Real Reaction" module.
@@ -22,21 +21,21 @@ public class RealReactionModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     private RPALModel model;
-    private RPALCanvas canvas;
+    private RealReactionCanvas canvas;
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
 
     public RealReactionModule( Frame parentFrame ) {
-        super( RPALStrings.TITLE_REAL_REACTION, new RPALClock( RealReactionDefaults.CLOCK_FRAME_RATE, RealReactionDefaults.CLOCK_DT ) );
+        super( RPALStrings.TITLE_REAL_REACTION, new RPALClock() );
 
         // Model
         RPALClock clock = (RPALClock) getClock();
         model = new RPALModel( clock );
 
         // Canvas
-        canvas = new RPALCanvas( model );
+        canvas = new RealReactionCanvas();
         setSimulationPanel( canvas );
 
         // this module has no control panel

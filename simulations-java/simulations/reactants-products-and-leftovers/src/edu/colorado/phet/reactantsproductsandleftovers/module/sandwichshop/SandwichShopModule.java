@@ -8,7 +8,6 @@ import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.model.RPALClock;
 import edu.colorado.phet.reactantsproductsandleftovers.model.RPALModel;
-import edu.colorado.phet.reactantsproductsandleftovers.view.RPALCanvas;
 
 /**
  * The "Sandwich Shop" module.
@@ -22,27 +21,27 @@ public class SandwichShopModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     private RPALModel model;
-    private RPALCanvas canvas;
+    private SandwichShopCanvas canvas;
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
 
     public SandwichShopModule( Frame parentFrame ) {
-        super( RPALStrings.TITLE_SANDWICH_SHOP, new RPALClock( SandwichShopDefaults.CLOCK_FRAME_RATE, SandwichShopDefaults.CLOCK_DT ) );
+        super( RPALStrings.TITLE_SANDWICH_SHOP, new RPALClock() );
 
         // Model
         RPALClock clock = (RPALClock) getClock();
         model = new RPALModel( clock );
 
         // Canvas
-        canvas = new RPALCanvas( model );
+        canvas = new SandwichShopCanvas();
         setSimulationPanel( canvas );
 
-        // this module has no control panel
+        // no control panel
         setControlPanel( null );
         
-        // this module has no clock controls
+        // no clock controls
         setClockControlPanel( null );
 
         // Help
