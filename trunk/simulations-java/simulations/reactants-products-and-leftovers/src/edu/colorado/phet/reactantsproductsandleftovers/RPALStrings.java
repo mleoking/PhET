@@ -27,6 +27,9 @@ public class RPALStrings {
     public static final String RADIO_BUTTON_MAKE_AMMONIA = RPALResources.getString( "radioButton.makeAmmonia" );
     public static final String RADIO_BUTTON_COMBUST_METHANE = RPALResources.getString( "radioButton.combustMethane" );
     
+    // messages 
+    public static final String MESSAGE_VALUE_OUT_OF_RANGE = RPALResources.getString( "message.valueOutOfRange" );
+    
     // titles
     public static final String TITLE_SANDWICH_SHOP = RPALResources.getString( "title.sandwichShop" );
     public static final String TITLE_REAL_REACTION = RPALResources.getString( "title.realReaction" );

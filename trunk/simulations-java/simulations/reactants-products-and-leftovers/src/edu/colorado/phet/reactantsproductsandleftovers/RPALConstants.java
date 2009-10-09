@@ -62,14 +62,6 @@ public class RPALConstants {
     public static final Color CANVAS_BACKGROUND = Color.WHITE;
     
     //----------------------------------------------------------------------------
-    //  Model
-    //----------------------------------------------------------------------------
-    
-    // Clock
-    public static final int CLOCK_FRAME_RATE = 25; // fps, frames per second (wall time)
-    public static final double CLOCK_DT = 1;
-
-    //----------------------------------------------------------------------------
     // Images
     //----------------------------------------------------------------------------
     

@@ -1,10 +1,16 @@
 package edu.colorado.phet.reactantsproductsandleftovers.view;
 
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.IntegerSpinnerNode;
+import edu.colorado.phet.reactantsproductsandleftovers.model.SandwichFormula;
 import edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop.SandwichShopDefaults;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
 
@@ -17,37 +23,51 @@ public class SandwichFormulaNode extends PhetPNode {
     
     private final IntegerSpinnerNode breadSpinnerNode, meatSpinnerNode, cheeseSpinnerNode;
 
-    public SandwichFormulaNode() {
+    public SandwichFormulaNode( final SandwichFormula sandwichFormula ) {
         super();
         
         PText titleNode = new PText( RPALStrings.LABEL_SANDWICH_FORMULA );
         titleNode.setFont( new PhetFont( 18 ) );
         titleNode.scale( SWING_SCALE );
 
-        breadSpinnerNode = new IntegerSpinnerNode( SandwichShopDefaults.BREAD_RANGE );
+        breadSpinnerNode = new IntegerSpinnerNode( SandwichShopDefaults.BREAD_RANGE, SandwichShopDefaults.SPINNER_COLUMNS );
         breadSpinnerNode.scale( SWING_SCALE );
-        meatSpinnerNode = new IntegerSpinnerNode( SandwichShopDefaults.MEAT_RANGE );
+        breadSpinnerNode.setValue( sandwichFormula.getBread() );
+        breadSpinnerNode.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                sandwichFormula.setBread( breadSpinnerNode.getValue() );
+            }
+        });
+        
+        meatSpinnerNode = new IntegerSpinnerNode( SandwichShopDefaults.MEAT_RANGE, SandwichShopDefaults.SPINNER_COLUMNS );
         meatSpinnerNode.scale( SWING_SCALE );
-        cheeseSpinnerNode = new IntegerSpinnerNode( SandwichShopDefaults.CHEESE_RANGE );
+        meatSpinnerNode.setValue( sandwichFormula.getMeat() );
+        meatSpinnerNode.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                sandwichFormula.setMeat( meatSpinnerNode.getValue() );
+            }
+        });
+        
+        cheeseSpinnerNode = new IntegerSpinnerNode( SandwichShopDefaults.CHEESE_RANGE, SandwichShopDefaults.SPINNER_COLUMNS );
         cheeseSpinnerNode.scale( SWING_SCALE );
+        cheeseSpinnerNode.setValue( sandwichFormula.getCheese() );
+        cheeseSpinnerNode.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                sandwichFormula.setCheese( cheeseSpinnerNode.getValue() );
+            }
+        });
         
         BreadNode breadNode = new BreadNode();
         MeatNode meatNode = new MeatNode();
         CheeseNode cheeseNode = new CheeseNode();
         SandwichNode sandwichNode = new SandwichNode();
         
-        //XXX redo all of these
-        PText plusNode1 = new PText( "+" );
-        plusNode1.setFont( new PhetFont() );
-        plusNode1.scale( SWING_SCALE );
-        PText plusNode2 = new PText( "+" );
-        plusNode2.setFont( new PhetFont() );
-        plusNode2.scale( SWING_SCALE );
-        PText arrowNode = new PText( "-->" );
-        arrowNode.setFont( new PhetFont() );
-        arrowNode.scale( SWING_SCALE );
-        PText productValueNode = new PText( "1" );
-        productValueNode.setFont( new PhetFont() );
+        PlusNode plusNode1 = new PlusNode();
+        PlusNode plusNode2 = new PlusNode();
+        
+        PNode arrowNode = new RPALArrowNode();
+        
+        PNode productValueNode = new ProductQuantityNode( 1 );
         productValueNode.scale( SWING_SCALE );
         
         addChild( titleNode );
@@ -101,7 +121,7 @@ public class SandwichFormulaNode extends PhetPNode {
         cheeseNode.setOffset( x, y );
         // arrow
         x = cheeseNode.getFullBoundsReference().getMaxX() + TERM_X_SPACING;
-        y = cheeseNode.getFullBoundsReference().getCenterY() - ( arrowNode.getFullBoundsReference().getHeight() / 2 );
+        y = cheeseNode.getFullBoundsReference().getCenterY() - ( arrowNode.getFullBoundsReference().getHeight() / 2 ) - PNodeLayoutUtils.getOriginYOffset( arrowNode );
         arrowNode.setOffset( x, y );
         // product value
         x = arrowNode.getFullBoundsReference().getMaxX() + TERM_X_SPACING;
@@ -109,7 +129,7 @@ public class SandwichFormulaNode extends PhetPNode {
         productValueNode.setOffset( x, y );
         // sandwich image
         x = productValueNode.getFullBoundsReference().getMaxX() + TERM_X_SPACING;
-        y = productValueNode.getFullBoundsReference().getCenterY() - ( sandwichNode.getFullBoundsReference().getHeight() / 2 );
+        y = productValueNode.getFullBoundsReference().getCenterY() - ( sandwichNode.getFullBoundsReference().getHeight() / 2 ) - PNodeLayoutUtils.getOriginYOffset( sandwichNode );
         sandwichNode.setOffset( x, y );
     }
 }

@@ -7,7 +7,7 @@ import java.awt.Frame;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.model.RPALClock;
-import edu.colorado.phet.reactantsproductsandleftovers.model.RPALModel;
+import edu.colorado.phet.reactantsproductsandleftovers.model.SandwichShop;
 
 /**
  * The "Sandwich Shop" module.
@@ -20,7 +20,7 @@ public class SandwichShopModule extends PiccoloModule {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private RPALModel model;
+    private SandwichShop model;
     private SandwichShopCanvas canvas;
 
     //----------------------------------------------------------------------------
@@ -28,14 +28,13 @@ public class SandwichShopModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     public SandwichShopModule( Frame parentFrame ) {
-        super( RPALStrings.TITLE_SANDWICH_SHOP, new RPALClock() );
+        super( RPALStrings.TITLE_SANDWICH_SHOP, new RPALClock(), true /* startsPaused */ );
 
         // Model
-        RPALClock clock = (RPALClock) getClock();
-        model = new RPALModel( clock );
+        model = new SandwichShop();
 
         // Canvas
-        canvas = new SandwichShopCanvas();
+        canvas = new SandwichShopCanvas( model );
         setSimulationPanel( canvas );
 
         // no control panel
@@ -61,9 +60,6 @@ public class SandwichShopModule extends PiccoloModule {
      * Resets the module.
      */
     public void reset() {
-
-        // reset the clock
-        RPALClock clock = model.getClock();
-        clock.resetSimulationTime();
+        //XXX
     }    
 }

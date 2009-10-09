@@ -17,8 +17,9 @@ public class SandwichShopDefaults {
     /* Not intended for instantiation */
     private SandwichShopDefaults() {}
     
-    private static final IntegerRange REACTANT_RANGE = new IntegerRange( 1, 4, 1 );
+    private static final IntegerRange REACTANT_RANGE = new IntegerRange( 0, 3, 1 );
     public static final IntegerRange BREAD_RANGE = REACTANT_RANGE;
     public static final IntegerRange MEAT_RANGE = REACTANT_RANGE;
     public static final IntegerRange CHEESE_RANGE = REACTANT_RANGE;
+    public static final int SPINNER_COLUMNS = 1;
 }
