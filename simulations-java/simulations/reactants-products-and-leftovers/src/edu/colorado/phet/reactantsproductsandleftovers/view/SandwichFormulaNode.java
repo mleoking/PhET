@@ -37,7 +37,6 @@ public class SandwichFormulaNode extends PhetPNode {
         breadSpinnerNode.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 sandwichFormula.setBread( breadSpinnerNode.getValue() );
-                updateSandwich();
             }
         });
         
@@ -47,7 +46,6 @@ public class SandwichFormulaNode extends PhetPNode {
         meatSpinnerNode.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 sandwichFormula.setMeat( meatSpinnerNode.getValue() );
-                updateSandwich();
             }
         });
         
@@ -57,14 +55,13 @@ public class SandwichFormulaNode extends PhetPNode {
         cheeseSpinnerNode.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 sandwichFormula.setCheese( cheeseSpinnerNode.getValue() );
-                updateSandwich();
             }
         });
         
         BreadNode breadNode = new BreadNode();
         MeatNode meatNode = new MeatNode();
         CheeseNode cheeseNode = new CheeseNode();
-        sandwichNode = new SandwichNode();
+        sandwichNode = new SandwichNode( sandwichFormula );
         
         PlusNode plusNode1 = new PlusNode();
         PlusNode plusNode2 = new PlusNode();
@@ -135,10 +132,5 @@ public class SandwichFormulaNode extends PhetPNode {
         x = productValueNode.getFullBoundsReference().getMaxX() + TERM_X_SPACING;
         y = productValueNode.getFullBoundsReference().getCenterY() - ( sandwichNode.getFullBoundsReference().getHeight() / 2 ) - PNodeLayoutUtils.getOriginYOffset( sandwichNode );
         sandwichNode.setOffset( x, y );
-    }
-    
-    private void updateSandwich() {
-        //XXX update the sandwichNode to reflect current formula
-        //XXX adjust offset of sandwichNode
     }
 }
