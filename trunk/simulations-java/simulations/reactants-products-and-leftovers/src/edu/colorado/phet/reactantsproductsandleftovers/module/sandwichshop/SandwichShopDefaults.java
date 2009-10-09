@@ -17,9 +17,15 @@ public class SandwichShopDefaults {
     /* Not intended for instantiation */
     private SandwichShopDefaults() {}
     
-    private static final IntegerRange REACTANT_RANGE = new IntegerRange( 0, 3, 1 );
-    public static final IntegerRange BREAD_RANGE = REACTANT_RANGE;
-    public static final IntegerRange MEAT_RANGE = REACTANT_RANGE;
-    public static final IntegerRange CHEESE_RANGE = REACTANT_RANGE;
-    public static final int SPINNER_COLUMNS = 1;
+    private static final IntegerRange FORMULA_REACTANT_RANGE = new IntegerRange( 0, 3, 1 );
+    public static final IntegerRange FORMULA_BREAD_RANGE = FORMULA_REACTANT_RANGE;
+    public static final IntegerRange FORMULA_MEAT_RANGE = FORMULA_REACTANT_RANGE;
+    public static final IntegerRange FORMULA_CHEESE_RANGE = FORMULA_REACTANT_RANGE;
+    public static final int FORMULA_SPINNER_COLUMNS = 1;
+    
+    private static final IntegerRange REACTION_REACTANT_RANGE = new IntegerRange( 0, 10, 1 );
+    public static final IntegerRange REACTION_BREAD_RANGE = REACTION_REACTANT_RANGE;
+    public static final IntegerRange REACTION_MEAT_RANGE = REACTION_REACTANT_RANGE;
+    public static final IntegerRange REACTION_CHEESE_RANGE = REACTION_REACTANT_RANGE;
+    public static final int REACTION_SPINNER_COLUMNS = 1;
 }
