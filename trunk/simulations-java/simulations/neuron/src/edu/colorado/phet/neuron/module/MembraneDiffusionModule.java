@@ -10,6 +10,8 @@ import edu.colorado.phet.neuron.NeuronStrings;
 import edu.colorado.phet.neuron.controlpanel.NeuronControlPanel;
 import edu.colorado.phet.neuron.model.NeuronClock;
 import edu.colorado.phet.neuron.model.AxonModel;
+import edu.colorado.phet.neuron.model.ParticlePosition;
+import edu.colorado.phet.neuron.model.ParticleType;
 import edu.colorado.phet.neuron.view.NeuronCanvas;
 
 /**
@@ -39,6 +41,12 @@ public class MembraneDiffusionModule extends PiccoloModule {
         // Model
         NeuronClock clock = (NeuronClock) getClock();
         model = new AxonModel( clock );
+        
+        // Initialize the model as needed for this module.
+        model.addParticles(ParticleType.SODIUM_ION, ParticlePosition.INSIDE_MEMBRANE, 50);
+        model.addParticles(ParticleType.SODIUM_ION, ParticlePosition.OUTSIDE_MEMBRANE, 50);
+        model.addParticles(ParticleType.POTASSIUM_ION, ParticlePosition.INSIDE_MEMBRANE, 50);
+        model.addParticles(ParticleType.POTASSIUM_ION, ParticlePosition.OUTSIDE_MEMBRANE, 50);
 
         // Canvas
         canvas = new NeuronCanvas( model );
