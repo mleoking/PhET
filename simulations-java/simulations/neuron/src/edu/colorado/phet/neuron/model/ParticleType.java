@@ -1,12 +1,13 @@
 package edu.colorado.phet.neuron.model;
 
 /**
- * Possible types of atoms used in this sim.
+ * Possible types of particles used in this sim.
  * 
  * @author John Blanco
  */
 public enum ParticleType {
 
-	SODIUM,
-	POTASSIUM
+	SODIUM_ION,
+	POTASSIUM_ION,
+	PROTEIN_ION
 }

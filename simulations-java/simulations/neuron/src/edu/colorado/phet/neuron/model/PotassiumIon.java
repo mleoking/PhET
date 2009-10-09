@@ -9,7 +9,7 @@ public class PotassiumIon extends Particle {
 
 	@Override
 	public ParticleType getType() {
-		return ParticleType.POTASSIUM;
+		return ParticleType.POTASSIUM_ION;
 	}
 
 	@Override
