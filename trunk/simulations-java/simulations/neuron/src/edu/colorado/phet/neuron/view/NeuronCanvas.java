@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.neuron.view;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.geom.Dimension2D;
@@ -9,6 +11,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.neuron.NeuronConstants;
 import edu.colorado.phet.neuron.model.AbstractMembraneChannel;
 import edu.colorado.phet.neuron.model.Atom;
@@ -38,6 +41,9 @@ public class NeuronCanvas extends PhetPCanvas {
     // Size of the potential chart.
     private static final Dimension2D POTENTIAL_CHART_SIZE = new PDimension(INITIAL_INTERMEDIATE_COORD_WIDTH * 0.7,
     		INITIAL_INTERMEDIATE_COORD_HEIGHT * 0.35);
+    
+    // For debug: Controls showing of particle motion bounds.
+    private static final boolean SHOW_PARTICLE_BOUNDS = true;
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -112,6 +118,13 @@ public class NeuronCanvas extends PhetPCanvas {
         		0, 100);
         membranePotentialChart.setVisible(false);
         chartLayer.addChild(membranePotentialChart);
+        
+        // Add the depiction of the particle motion bounds, if enabled.
+        if (SHOW_PARTICLE_BOUNDS){
+        	PhetPPath particleMotionBounds = new PhetPPath(mvt.createTransformedShape(model.getParticleMotionBounds()),
+        			new BasicStroke(3), Color.red);
+        	atomLayer.addChild(particleMotionBounds);
+        }
         
         // Update the layout.
         updateLayout();
