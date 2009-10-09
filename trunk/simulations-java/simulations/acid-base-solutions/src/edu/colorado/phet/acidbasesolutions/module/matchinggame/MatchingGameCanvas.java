@@ -21,7 +21,7 @@ import edu.colorado.phet.acidbasesolutions.control.PSwingButton;
 import edu.colorado.phet.acidbasesolutions.control.SolutionControlsNode;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.module.ABSAbstractCanvas;
-import edu.colorado.phet.acidbasesolutions.util.PNodeUtils;
+import edu.colorado.phet.acidbasesolutions.util.PNodeLayoutUtils;
 import edu.colorado.phet.acidbasesolutions.view.MatchingGameAnswerNode;
 import edu.colorado.phet.acidbasesolutions.view.MatchingGameQuestionNode;
 import edu.colorado.phet.acidbasesolutions.view.MatchingGameScoreNode;
@@ -635,8 +635,8 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
         questionsAndAnswersParent.setOffset( xOffset, yOffset );
 
         // left beaker
-        xOffset = -PNodeUtils.getOriginXOffset( beakerNodeLeft );
-        yOffset = solutionControlsNodeRight.getFullBoundsReference().getHeight() - PNodeUtils.getOriginYOffset( beakerNodeLeft ) + 20;
+        xOffset = -PNodeLayoutUtils.getOriginXOffset( beakerNodeLeft );
+        yOffset = solutionControlsNodeRight.getFullBoundsReference().getHeight() - PNodeLayoutUtils.getOriginYOffset( beakerNodeLeft ) + 20;
         beakerNodeLeft.setOffset( xOffset, yOffset );
 
         // view controls, between beakers
@@ -646,23 +646,23 @@ public class MatchingGameCanvas extends ABSAbstractCanvas {
         viewControlsNode.setOffset( xOffset, yOffset );
 
         // right beaker
-        xOffset = viewControlsNode.getFullBoundsReference().getMaxX() + 10 - PNodeUtils.getOriginXOffset( beakerNodeRight );
+        xOffset = viewControlsNode.getFullBoundsReference().getMaxX() + 10 - PNodeLayoutUtils.getOriginXOffset( beakerNodeRight );
         yOffset = beakerNodeLeft.getYOffset();
         beakerNodeRight.setOffset( xOffset, yOffset );
 
         // solution controls
-        xOffset = beakerNodeRight.getFullBoundsReference().getCenterX() - ( solutionControlsNodeRight.getFullBoundsReference().getWidth() / 2 ) - PNodeUtils.getOriginXOffset( solutionControlsNodeRight );
-        yOffset = -PNodeUtils.getOriginYOffset( solutionControlsNodeRight );
+        xOffset = beakerNodeRight.getFullBoundsReference().getCenterX() - ( solutionControlsNodeRight.getFullBoundsReference().getWidth() / 2 ) - PNodeLayoutUtils.getOriginXOffset( solutionControlsNodeRight );
+        yOffset = -PNodeLayoutUtils.getOriginYOffset( solutionControlsNodeRight );
         solutionControlsNodeRight.setOffset( xOffset, yOffset );
 
         // left graph
-        xOffset = beakerNodeLeft.getFullBoundsReference().getMinX() - PNodeUtils.getOriginXOffset( graphNodeLeft );
-        yOffset = beakerNodeLeft.getFullBoundsReference().getMinY() - PNodeUtils.getOriginYOffset( graphNodeLeft );
+        xOffset = beakerNodeLeft.getFullBoundsReference().getMinX() - PNodeLayoutUtils.getOriginXOffset( graphNodeLeft );
+        yOffset = beakerNodeLeft.getFullBoundsReference().getMinY() - PNodeLayoutUtils.getOriginYOffset( graphNodeLeft );
         graphNodeLeft.setOffset( xOffset, yOffset );
 
         // right graph, left justified below right solution controls
-        xOffset = beakerNodeRight.getFullBoundsReference().getMinX() - PNodeUtils.getOriginXOffset( graphNodeRight );
-        yOffset = beakerNodeRight.getFullBoundsReference().getMinY() - PNodeUtils.getOriginYOffset( graphNodeRight );
+        xOffset = beakerNodeRight.getFullBoundsReference().getMinX() - PNodeLayoutUtils.getOriginXOffset( graphNodeRight );
+        yOffset = beakerNodeRight.getFullBoundsReference().getMinY() - PNodeLayoutUtils.getOriginYOffset( graphNodeRight );
         graphNodeRight.setOffset( xOffset, yOffset );
 
         // Reset All button below view controls

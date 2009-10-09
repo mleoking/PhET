@@ -11,7 +11,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.acidbasesolutions.ABSImages;
-import edu.colorado.phet.acidbasesolutions.util.PNodeUtils;
+import edu.colorado.phet.acidbasesolutions.util.PNodeLayoutUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -97,8 +97,8 @@ public class MaximizeControlNode extends PhetPNode {
         xOffset = maximizedSize.getWidth() - tearOffNode.getFullBoundsReference().getWidth() - X_MARGIN;
         yOffset = buttonNode.getFullBoundsReference().getCenterY() - ( tearOffNode.getFullBoundsReference().getHeight() / 2 );
         tearOffNode.setOffset( xOffset, yOffset );
-        xOffset = X_MARGIN - PNodeUtils.getOriginXOffset( managedNode );
-        yOffset = buttonNode.getFullBoundsReference().getMaxY() - PNodeUtils.getOriginYOffset( managedNode ) + Y_MARGIN;
+        xOffset = X_MARGIN - PNodeLayoutUtils.getOriginXOffset( managedNode );
+        yOffset = buttonNode.getFullBoundsReference().getMaxY() - PNodeLayoutUtils.getOriginYOffset( managedNode ) + Y_MARGIN;
         managedNode.setOffset( xOffset, yOffset );
         
         // sizes

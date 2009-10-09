@@ -6,7 +6,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.acidbasesolutions.control.EquationScalingControl;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.SolutionListener;
-import edu.colorado.phet.acidbasesolutions.util.PNodeUtils;
+import edu.colorado.phet.acidbasesolutions.util.PNodeLayoutUtils;
 import edu.colorado.phet.acidbasesolutions.view.equilibriumexpressions.AbstractEquilibriumExpressionNode;
 import edu.colorado.phet.acidbasesolutions.view.equilibriumexpressions.AcidEquilibriumExpressionNode;
 import edu.colorado.phet.acidbasesolutions.view.equilibriumexpressions.BaseEquilibriumExpressionNode;
@@ -128,18 +128,18 @@ public class SolutionsEquilibriumExpressionsNode extends PhetPNode {
 
         // solute reaction equation
         if ( soluteNode != null ) {
-            xOffset = xOffset - PNodeUtils.getOriginXOffset( soluteNode ) + X_MARGIN;
-            yOffset = yOffset - PNodeUtils.getOriginYOffset( soluteNode ) + Y_SPACING;
+            xOffset = xOffset - PNodeLayoutUtils.getOriginXOffset( soluteNode ) + X_MARGIN;
+            yOffset = yOffset - PNodeLayoutUtils.getOriginYOffset( soluteNode ) + Y_SPACING;
             soluteNode.setOffset( xOffset, yOffset );
             xOffset = 0;
             yOffset = soluteNode.getFullBoundsReference().getMaxY();
         }
 
         // water reaction equation
-        xOffset = xOffset - PNodeUtils.getOriginXOffset( waterNode ) + X_MARGIN;
-        yOffset = yOffset - PNodeUtils.getOriginYOffset( waterNode ) + Y_SPACING;
+        xOffset = xOffset - PNodeLayoutUtils.getOriginXOffset( waterNode ) + X_MARGIN;
+        yOffset = yOffset - PNodeLayoutUtils.getOriginYOffset( waterNode ) + Y_SPACING;
         waterNode.setOffset( xOffset, yOffset );
-        yOffset = waterNode.getFullBoundsReference().getMaxY() - PNodeUtils.getOriginYOffset( waterNode ) + Y_SPACING;
+        yOffset = waterNode.getFullBoundsReference().getMaxY() - PNodeLayoutUtils.getOriginYOffset( waterNode ) + Y_SPACING;
 
         // restore scaling
         setScalingEnabled( scalingWasEnabled, false /* animated */ );

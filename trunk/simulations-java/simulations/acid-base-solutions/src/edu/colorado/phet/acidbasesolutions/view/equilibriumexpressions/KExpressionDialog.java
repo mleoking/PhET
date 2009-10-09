@@ -14,7 +14,7 @@ import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.control.EquationScalingControl;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution.SolutionListener;
-import edu.colorado.phet.acidbasesolutions.util.PNodeUtils;
+import edu.colorado.phet.acidbasesolutions.util.PNodeLayoutUtils;
 import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PCanvas;
@@ -160,7 +160,7 @@ public class KExpressionDialog extends PaintImmediateDialog {
             final boolean isScalingEnabled = node.isScalingEnabled();
             node.setScalingEnabled( false /* enabled */, false /* animated */ ); // do the layout with scaling off
             double xOffset = ( canvas.getWidth() - node.getFullBoundsReference().getWidth() ) / 2;
-            double yOffset = ( ( canvas.getHeight() - node.getFullBoundsReference().getHeight() ) / 2 ) - PNodeUtils.getOriginYOffset( node );
+            double yOffset = ( ( canvas.getHeight() - node.getFullBoundsReference().getHeight() ) / 2 ) - PNodeLayoutUtils.getOriginYOffset( node );
             node.setOffset( xOffset, yOffset );
             node.setScalingEnabled( isScalingEnabled, false /* animated */ ); // restore scaling
         }

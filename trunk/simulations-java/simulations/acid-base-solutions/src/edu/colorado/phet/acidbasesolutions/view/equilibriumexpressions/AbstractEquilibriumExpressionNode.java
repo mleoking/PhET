@@ -10,7 +10,7 @@ import edu.colorado.phet.acidbasesolutions.ABSColors;
 import edu.colorado.phet.acidbasesolutions.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.model.ConcentrationScaleModel;
-import edu.colorado.phet.acidbasesolutions.util.PNodeUtils;
+import edu.colorado.phet.acidbasesolutions.util.PNodeLayoutUtils;
 import edu.colorado.phet.acidbasesolutions.util.ScalingAnimator;
 import edu.colorado.phet.acidbasesolutions.view.SymbolNode;
 import edu.colorado.phet.common.phetcommon.util.TimesTenNumberFormat;
@@ -299,58 +299,58 @@ public abstract class AbstractEquilibriumExpressionNode extends PComposite {
         // offsets
         double xOffset, yOffset;
         // K
-        xOffset = PNodeUtils.getOriginXOffset( kNode );
-        yOffset = PNodeUtils.getOriginYOffset( kNode );
+        xOffset = PNodeLayoutUtils.getOriginXOffset( kNode );
+        yOffset = PNodeLayoutUtils.getOriginYOffset( kNode );
         kNode.setOffset( xOffset, yOffset );
         // left equals
-        xOffset = kNode.getFullBoundsReference().getMaxX() + X_SPACING - PNodeUtils.getOriginXOffset( leftEqualsNode );
-        yOffset = kNode.getFullBoundsReference().getCenterY() - ( leftEqualsNode.getFullBoundsReference().getHeight() / 2 ) - PNodeUtils.getOriginYOffset( leftEqualsNode );
+        xOffset = kNode.getFullBoundsReference().getMaxX() + X_SPACING - PNodeLayoutUtils.getOriginXOffset( leftEqualsNode );
+        yOffset = kNode.getFullBoundsReference().getCenterY() - ( leftEqualsNode.getFullBoundsReference().getHeight() / 2 ) - PNodeLayoutUtils.getOriginYOffset( leftEqualsNode );
         leftEqualsNode.setOffset( xOffset, yOffset );
         // terms
         if ( hasDenominator ) {
             // left numerator
-            xOffset = leftEqualsNode.getFullBoundsReference().getMaxX() + X_SPACING - PNodeUtils.getOriginXOffset( leftNumeratorNode );
-            yOffset = leftEqualsNode.getFullBoundsReference().getCenterY() - leftNumeratorNode.getFullBoundsReference().getHeight() - Y_SPACING - PNodeUtils.getOriginYOffset( leftNumeratorNode );
+            xOffset = leftEqualsNode.getFullBoundsReference().getMaxX() + X_SPACING - PNodeLayoutUtils.getOriginXOffset( leftNumeratorNode );
+            yOffset = leftEqualsNode.getFullBoundsReference().getCenterY() - leftNumeratorNode.getFullBoundsReference().getHeight() - Y_SPACING - PNodeLayoutUtils.getOriginYOffset( leftNumeratorNode );
             leftNumeratorNode.setOffset( xOffset, yOffset );
             // right numerator
-            xOffset = leftNumeratorNode.getFullBoundsReference().getMaxX() + X_SPACING - PNodeUtils.getOriginXOffset( rightNumeratorNode );
+            xOffset = leftNumeratorNode.getFullBoundsReference().getMaxX() + X_SPACING - PNodeLayoutUtils.getOriginXOffset( rightNumeratorNode );
             yOffset = leftNumeratorNode.getYOffset(); 
             rightNumeratorNode.setOffset( xOffset, yOffset );
             // divided line
             double length = rightNumeratorNode.getFullBoundsReference().getMaxX() - leftNumeratorNode.getFullBoundsReference().getX();
             dividedNode.setLength( length );
-            xOffset = leftNumeratorNode.getXOffset() - PNodeUtils.getOriginXOffset( dividedNode );
-            yOffset = leftEqualsNode.getFullBoundsReference().getCenterY() - ( dividedNode.getFullBoundsReference().getHeight() / 2 ) - PNodeUtils.getOriginYOffset( dividedNode );
+            xOffset = leftNumeratorNode.getXOffset() - PNodeLayoutUtils.getOriginXOffset( dividedNode );
+            yOffset = leftEqualsNode.getFullBoundsReference().getCenterY() - ( dividedNode.getFullBoundsReference().getHeight() / 2 ) - PNodeLayoutUtils.getOriginYOffset( dividedNode );
             dividedNode.setOffset( xOffset, yOffset );
             // denominator
-            xOffset = dividedNode.getFullBoundsReference().getCenterX() - ( denominatorNode.getFullBoundsReference().getWidth() / 2 ) - PNodeUtils.getOriginXOffset( denominatorNode );
-            yOffset = dividedNode.getFullBoundsReference().getMaxY() + Y_SPACING - PNodeUtils.getOriginYOffset( denominatorNode );
+            xOffset = dividedNode.getFullBoundsReference().getCenterX() - ( denominatorNode.getFullBoundsReference().getWidth() / 2 ) - PNodeLayoutUtils.getOriginXOffset( denominatorNode );
+            yOffset = dividedNode.getFullBoundsReference().getMaxY() + Y_SPACING - PNodeLayoutUtils.getOriginYOffset( denominatorNode );
             denominatorNode.setOffset( xOffset, yOffset );
         }
         else {
             // left numerator
-            xOffset = leftEqualsNode.getFullBoundsReference().getMaxX() + X_SPACING - PNodeUtils.getOriginXOffset( leftNumeratorNode );
-            yOffset = leftEqualsNode.getFullBoundsReference().getCenterY() - ( leftNumeratorNode.getFullBoundsReference().getHeight() / 2 ) - PNodeUtils.getOriginYOffset( leftNumeratorNode );
+            xOffset = leftEqualsNode.getFullBoundsReference().getMaxX() + X_SPACING - PNodeLayoutUtils.getOriginXOffset( leftNumeratorNode );
+            yOffset = leftEqualsNode.getFullBoundsReference().getCenterY() - ( leftNumeratorNode.getFullBoundsReference().getHeight() / 2 ) - PNodeLayoutUtils.getOriginYOffset( leftNumeratorNode );
             leftNumeratorNode.setOffset( xOffset, yOffset );
             // right numerator
-            xOffset = leftNumeratorNode.getFullBoundsReference().getMaxX() + X_SPACING - PNodeUtils.getOriginXOffset( rightNumeratorNode );
+            xOffset = leftNumeratorNode.getFullBoundsReference().getMaxX() + X_SPACING - PNodeLayoutUtils.getOriginXOffset( rightNumeratorNode );
             yOffset = leftNumeratorNode.getYOffset(); 
             rightNumeratorNode.setOffset( xOffset, yOffset );
         }
         // right equals
-        xOffset = rightNumeratorNode.getFullBoundsReference().getMaxX() + X_SPACING - PNodeUtils.getOriginXOffset( rightEqualsNode );
-        yOffset = leftEqualsNode.getYOffset() - PNodeUtils.getOriginYOffset( rightEqualsNode );
+        xOffset = rightNumeratorNode.getFullBoundsReference().getMaxX() + X_SPACING - PNodeLayoutUtils.getOriginXOffset( rightEqualsNode );
+        yOffset = leftEqualsNode.getYOffset() - PNodeLayoutUtils.getOriginYOffset( rightEqualsNode );
         rightEqualsNode.setOffset( xOffset, yOffset );
         // greater than
         greaterThanOneNode.setOffset( xOffset, yOffset );
         // value
         final double fudgeFactor = -4;
-        xOffset = rightEqualsNode.getFullBoundsReference().getMaxX() + X_SPACING - PNodeUtils.getOriginXOffset( valueNode );
-        yOffset = rightEqualsNode.getFullBoundsReference().getCenterY() - ( valueNode.getFullBoundsReference().getHeight() / 2 ) - PNodeUtils.getOriginYOffset( valueNode ) + fudgeFactor;
+        xOffset = rightEqualsNode.getFullBoundsReference().getMaxX() + X_SPACING - PNodeLayoutUtils.getOriginXOffset( valueNode );
+        yOffset = rightEqualsNode.getFullBoundsReference().getCenterY() - ( valueNode.getFullBoundsReference().getHeight() / 2 ) - PNodeLayoutUtils.getOriginYOffset( valueNode ) + fudgeFactor;
         valueNode.setOffset( xOffset, yOffset );
         // large value
-        xOffset = rightEqualsNode.getFullBoundsReference().getMaxX() + X_SPACING - PNodeUtils.getOriginXOffset( largeValueNode );
-        yOffset = rightEqualsNode.getFullBoundsReference().getCenterY() - ( largeValueNode.getFullBoundsReference().getHeight() / 2 ) - PNodeUtils.getOriginYOffset( largeValueNode );
+        xOffset = rightEqualsNode.getFullBoundsReference().getMaxX() + X_SPACING - PNodeLayoutUtils.getOriginXOffset( largeValueNode );
+        yOffset = rightEqualsNode.getFullBoundsReference().getCenterY() - ( largeValueNode.getFullBoundsReference().getHeight() / 2 ) - PNodeLayoutUtils.getOriginYOffset( largeValueNode );
         largeValueNode.setOffset( xOffset, yOffset );
         // restore scales
         if ( scalingEnabled ) {

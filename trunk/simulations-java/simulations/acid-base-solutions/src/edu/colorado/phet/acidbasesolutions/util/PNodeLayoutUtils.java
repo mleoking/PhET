@@ -9,10 +9,10 @@ import edu.umd.cs.piccolo.PNode;
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PNodeUtils {
+public class PNodeLayoutUtils {
     
     /* not intended for instantiation */
-    private PNodeUtils() {}
+    private PNodeLayoutUtils() {}
     
     /**
      * Determines how far a node's offset is from the origin of its bounding box.
