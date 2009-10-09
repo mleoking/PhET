@@ -13,7 +13,6 @@ import java.util.Random;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.neuron.NeuronConstants;
-import edu.colorado.phet.neuron.model.AxonModel.ConcentrationTracker.ParticlePosition;
 
 /**
  * This class represents the main class for modeling the axon.  It acts as the
@@ -88,6 +87,7 @@ public class AxonModel {
         // TODO: This is probably not correct, but for now assume that
         // the concentration of Na and K is equal and that both are equally
         // distributed inside and outside of the membrane.
+        /*
         int i = TOTAL_INITIAL_PARTICLES;
         Particle newParticle;
         while (true){
@@ -124,6 +124,7 @@ public class AxonModel {
         		break;
         	}
         }
+        */
     }
     
     //----------------------------------------------------------------------------
@@ -202,6 +203,41 @@ public class AxonModel {
     	// the target proportions.
     	setConcentration(ParticleType.SODIUM_ION, 0.5);
     	setConcentration(ParticleType.POTASSIUM_ION, 0.5);
+    }
+    
+    /**
+     * Add the specified particles to the model.
+     * 
+     * @param particleType
+     * @param position
+     */
+    public void addParticles(ParticleType particleType, ParticlePosition position, int numberToAdd){
+    	Particle newParticle = null;
+    	for (int i = 0; i < numberToAdd; i++){
+    		switch (particleType){
+    		case POTASSIUM_ION:
+            	newParticle = new PotassiumIon();
+            	break;
+    		case SODIUM_ION:
+            	newParticle = new SodiumIon();
+            	break;
+    		case PROTEIN_ION:
+            	newParticle = new ProteinIon();
+            	break;
+    		default:
+    			System.err.println("Error - Unrecognized particle type.");
+    			assert false;
+    		}
+    		
+    		if (position == ParticlePosition.INSIDE_MEMBRANE){
+    			positionParticleInsideMembrane(newParticle);
+    		}
+    		else{
+    			positionParticleOutsideMembrane(newParticle);
+    		}
+        	particles.add(newParticle);
+        	concentrationTracker.updateParticleCount(newParticle.getType(), position, 1);
+    	}
     }
 
     /**
@@ -557,8 +593,6 @@ public class AxonModel {
      */
     public static class ConcentrationTracker {
 
-    	enum ParticlePosition {INSIDE_MEMBRANE, OUTSIDE_MEMBRANE};
-    	
     	HashMap<ParticleType, Integer> mapParticleTypeToNumOutside = new HashMap<ParticleType, Integer>();
     	HashMap<ParticleType, Integer> mapParticleTypeToNumInside = new HashMap<ParticleType, Integer>();
     	
