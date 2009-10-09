@@ -178,6 +178,8 @@
 	<classpathentry kind="src" path="simulations-java/simulations/quantum-wave-interference/data"/>
 	<classpathentry kind="src" path="simulations-java/simulations/radio-waves/src"/>
 	<classpathentry kind="src" path="simulations-java/simulations/radio-waves/data"/>
+    <classpathentry kind="src" path="simulations-java/simulations/reactants-products-and-leftovers/src"/>
+	<classpathentry kind="src" path="simulations-java/simulations/reactants-products-and-leftovers/data"/>
 	<classpathentry kind="src" path="simulations-java/simulations/reactions-and-rates/src"/>
 	<classpathentry kind="src" path="simulations-java/simulations/reactions-and-rates/data"/>
 	<classpathentry kind="src" path="simulations-java/simulations/rotation/src"/>
