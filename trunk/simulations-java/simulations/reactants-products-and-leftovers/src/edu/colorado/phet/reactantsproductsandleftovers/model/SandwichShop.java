@@ -70,10 +70,10 @@ public class SandwichShop {
     
     //XXX need a more general design for determining the limiting reagent and number of products 
     public int getSandwiches() {
-        int breadForSandwiches = bread / sandwichFormula.getBread();
-        int meatForSandwiches = meat /sandwichFormula.getMeat();
-        int cheeseForSandwiches = cheese / sandwichFormula.getCheese();
-        return Math.min( breadForSandwiches, Math.min( meatForSandwiches, cheeseForSandwiches) );
+        int breadForSandwiches = ( sandwichFormula.getBread() == 0 ) ? 0 : ( bread / sandwichFormula.getBread() );
+        int meatForSandwiches = ( sandwichFormula.getMeat() == 0 ) ? 0 : ( meat / sandwichFormula.getMeat() );
+        int cheeseForSandwiches = ( sandwichFormula.getCheese() == 0 ) ? 0 : ( cheese / sandwichFormula.getCheese() );
+        return Math.min( breadForSandwiches, Math.min( meatForSandwiches, cheeseForSandwiches ) );
     }
     
     public int getBreadLeftover() {
