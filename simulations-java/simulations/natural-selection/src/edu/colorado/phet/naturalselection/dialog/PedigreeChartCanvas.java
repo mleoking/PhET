@@ -20,9 +20,7 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class PedigreeChartCanvas extends PhetPCanvas {
 
-    public PedigreeNode pedigreeNode;
-
-    private PNode rootNode;
+    private PedigreeNode pedigreeNode;
 
     private static final double PEDIGREE_TOP_PADDING = 5.0;
 
@@ -33,7 +31,7 @@ public class PedigreeChartCanvas extends PhetPCanvas {
 
         setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_GENERATION_CHART ) );
 
-        rootNode = new PNode();
+        PNode rootNode = new PNode();
         addWorldChild( rootNode );
 
         pedigreeNode = new PedigreeNode();
@@ -69,5 +67,9 @@ public class PedigreeChartCanvas extends PhetPCanvas {
     protected void updateLayout() {
         //System.out.println( "Width: " + getSize().getWidth() );
         //System.out.println( "Height: " + getSize().getHeight() );
+    }
+
+    public PedigreeNode getPedigreeNode() {
+        return pedigreeNode;
     }
 }

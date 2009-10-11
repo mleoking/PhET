@@ -14,6 +14,8 @@ import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
 /**
  * Panel that supports a resizable pedigree chart.
  * TODO: currently not used. remove if it will not be used!
+ *
+ * @author Jonathan Olson
  */
 public class PedigreeChartPanel extends JPanel {
 

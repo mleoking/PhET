@@ -1,11 +1,17 @@
 package edu.colorado.phet.naturalselection.model;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 
+/**
+ * The handler for wolf frenzies in the natural selection model
+ */
 public class Frenzy implements NaturalSelectionClock.Listener {
 
     private double startTime;
@@ -20,8 +26,6 @@ public class Frenzy implements NaturalSelectionClock.Listener {
 
     private List<Bunny> targets;
 
-    private static final Random random = new Random( System.currentTimeMillis() );
-
     public Frenzy( NaturalSelectionModel model, double duration ) {
         this.model = model;
         this.duration = duration;
@@ -34,6 +38,10 @@ public class Frenzy implements NaturalSelectionClock.Listener {
 
     }
 
+    /**
+     * Called after the model has initialized everything else for a frenzy. This creates the wolves, sets wolves up with
+     * targets, etc.
+     */
     public void init() {
         int wolfBase = NaturalSelectionConstants.getSettings().getWolfBase();
         int bunniesPerWolves = NaturalSelectionConstants.getSettings().getBunniesPerWolves();
@@ -63,7 +71,11 @@ public class Frenzy implements NaturalSelectionClock.Listener {
         }
     }
 
+    /**
+     * Figure out what bunnies the wolves should be hunting
+     */
     private void initializeTargets() {
+        // pull formula values from settings
         double bunnyOffset = NaturalSelectionConstants.getSettings().getWolfSelectionBunnyOffset();
         double bunnyExponent = NaturalSelectionConstants.getSettings().getWolfSelectionBunnyExponent();
         double scale = NaturalSelectionConstants.getSettings().getWolfSelectionScale();
@@ -121,6 +133,15 @@ public class Frenzy implements NaturalSelectionClock.Listener {
         return running;
     }
 
+    /**
+     * Get a new bunny as a target for a wolf. This should be called after a wolf kills its main target. Currently the
+     * "closest" bunny is found as the wolf's target.
+     * <p/>
+     * If there are no more bunnies that were decided to be killed in initializeTargets(), then this will return null
+     *
+     * @param wolf The wolf to find a target for
+     * @return A bunny to target, or null if there is no bunny to target
+     */
     public Bunny getNewWolfTarget( Wolf wolf ) {
         if ( targets.isEmpty() ) {
             return null;
@@ -140,10 +161,16 @@ public class Frenzy implements NaturalSelectionClock.Listener {
         return target;
     }
 
+    /**
+     * Called when time changes
+     *
+     * @param event The clock event
+     */
     public void onTick( ClockEvent event ) {
         notifyFrenzyTimeLeft();
 
         if ( startTime + duration <= event.getSimulationTime() ) {
+            // if the time is up on the frenzy, then end it
             endFrenzy();
         }
         else if ( targets.isEmpty() ) {
