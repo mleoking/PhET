@@ -52,19 +52,19 @@ public class NaturalSelectionController {
             }
         } );
 
-        controlPanel.getSelectionPanel().noneButton.addActionListener( new ActionListener() {
+        controlPanel.getSelectionPanel().getNoneButton().addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent actionEvent ) {
                 model.setSelectionFactor( NaturalSelectionModel.SELECTION_NONE );
             }
         } );
 
-        controlPanel.getSelectionPanel().foodButton.addActionListener( new ActionListener() {
+        controlPanel.getSelectionPanel().getFoodButton().addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent actionEvent ) {
                 model.setSelectionFactor( NaturalSelectionModel.SELECTION_FOOD );
             }
         } );
 
-        controlPanel.getSelectionPanel().wolvesButton.addActionListener( new ActionListener() {
+        controlPanel.getSelectionPanel().getWolvesButton().addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent actionEvent ) {
                 model.setSelectionFactor( NaturalSelectionModel.SELECTION_WOLVES );
             }
