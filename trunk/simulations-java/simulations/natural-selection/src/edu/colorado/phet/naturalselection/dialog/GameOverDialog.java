@@ -10,6 +10,9 @@ import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
 import edu.colorado.phet.naturalselection.module.NaturalSelectionModule;
 
+/**
+ * The dialog that is shown when all of the bunnies die. Includes a "play again" button that will reset the simulation
+ */
 public class GameOverDialog extends JDialog {
 
     public GameOverDialog( Frame frame, final NaturalSelectionModule module ) {

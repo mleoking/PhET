@@ -2,8 +2,6 @@
 
 package edu.colorado.phet.naturalselection.view;
 
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.util.LinkedList;
@@ -12,7 +10,6 @@ import java.util.ListIterator;
 
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
-import edu.colorado.phet.naturalselection.dialog.PedigreeChartDialog;
 import edu.colorado.phet.naturalselection.model.*;
 import edu.colorado.phet.naturalselection.view.sprites.*;
 import edu.umd.cs.piccolo.PNode;
@@ -188,9 +185,6 @@ public class LandscapeNode extends PNode implements NaturalSelectionModel.Listen
         onSelectionFactorChange( NaturalSelectionDefaults.DEFAULT_SELECTION_FACTOR );
         bunnies.clear();
         wolves.clear();
-        if ( pedigreeChartDialog != null ) {
-            pedigreeChartDialog.reset();
-        }
     }
 
     /**
@@ -224,30 +218,6 @@ public class LandscapeNode extends PNode implements NaturalSelectionModel.Listen
                 notifyBunnySelected( bunny );
             }
         } );
-    }
-
-    private static PedigreeChartDialog pedigreeChartDialog;
-
-    public static void showPedigree( NaturalSelectionModel model, Bunny bunny ) {
-        if ( pedigreeChartDialog == null ) {
-            pedigreeChartDialog = new PedigreeChartDialog( null, model );
-            pedigreeChartDialog.addWindowListener( new WindowAdapter() {
-                // called when the close button in the dialog's window dressing is clicked
-                public void windowClosing( WindowEvent e ) {
-                    pedigreeChartDialog.dispose();
-                }
-
-                // called by JDialog.dispose
-                public void windowClosed( WindowEvent e ) {
-                    pedigreeChartDialog = null;
-                }
-            } );
-            pedigreeChartDialog.setVisible( true );
-        }
-
-        if ( bunny != null ) {
-            pedigreeChartDialog.displayBunny( bunny );
-        }
     }
 
     /**
