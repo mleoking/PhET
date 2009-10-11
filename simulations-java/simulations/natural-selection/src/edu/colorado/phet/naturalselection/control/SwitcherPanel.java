@@ -6,6 +6,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.naturalselection.NaturalSelectionApplication;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
+import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
 import edu.colorado.phet.naturalselection.model.Bunny;
 
 /**
@@ -20,9 +21,8 @@ public class SwitcherPanel extends JPanel implements DetachOptionPanel.Listener 
     public SwitcherPanel() {
         super( new GridLayout( 2, 1 ) );
 
-        // TODO: (HIGH) internationalize
-        statisticsRadioButton = new JRadioButton( "Placeholder" );
-        pedigreeRadioButton = new JRadioButton( "Pedigree" );
+        statisticsRadioButton = new JRadioButton( NaturalSelectionStrings.STATS_POPULATION );
+        pedigreeRadioButton = new JRadioButton( NaturalSelectionStrings.PEDIGREE_CHART );
 
         statisticsRadioButton.setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
         pedigreeRadioButton.setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );

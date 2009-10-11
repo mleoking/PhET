@@ -30,7 +30,7 @@ public class NaturalSelectionStrings {
     public static final String WOLVES = NaturalSelectionResources.getString( "natural-selection.wolves" );
     public static final String FOOD = NaturalSelectionResources.getString( "natural-selection.food" );
     public static final String NONE = NaturalSelectionResources.getString( "natural-selection.none" );
-    public static final String GENERATION_CHART = NaturalSelectionResources.getString( "natural-selection.generationChart" );
+    public static final String PEDIGREE_CHART = NaturalSelectionResources.getString( "natural-selection.pedigreeChart" );
     public static final String RESET_ALL = NaturalSelectionResources.getString( "natural-selection.resetAll" );
     public static final String HEREDITY = NaturalSelectionResources.getString( "natural-selection.heredity" );
     public static final String ADD_A_FRIEND = NaturalSelectionResources.getString( "natural-selection.addAFriend" );
