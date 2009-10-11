@@ -1,5 +1,3 @@
-/* Copyright 2009, University of Colorado */
-
 package edu.colorado.phet.naturalselection.module;
 
 import java.awt.*;
@@ -83,6 +81,10 @@ public class NaturalSelectionModule extends PiccoloModule {
         canvas.load( config );
     }
 
+    //----------------------------------------------------------------------------
+    // Dialogs
+    //----------------------------------------------------------------------------
+
     public void showGameOver() {
         if ( gameOverDialog == null ) {
             gameOverDialog = new GameOverDialog( parentFrame, this );
@@ -120,6 +122,10 @@ public class NaturalSelectionModule extends PiccoloModule {
             bunniesTakeOverDialog.setVisible( true );
         }
     }
+
+    //----------------------------------------------------------------------------
+    // Getters
+    //----------------------------------------------------------------------------
 
     public NaturalSelectionModel getMyModel() {
         return model;
