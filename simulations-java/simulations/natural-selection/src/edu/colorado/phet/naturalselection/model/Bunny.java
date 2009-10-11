@@ -291,6 +291,9 @@ public class Bunny {
 
         alive = false;
 
+        // don't want to show the bunny selected if it is dead (and not in the play area)
+        setSelected( false );
+
         notifyDeath();
     }
 
