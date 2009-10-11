@@ -36,7 +36,7 @@ public abstract class Gene implements Bunny.Listener {
     private Allele dominantAllele;
 
     /**
-     * Whether or not this gene will mutate
+     * Whether or not this gene will mutate (during the next generation)
      */
     private boolean mutatable;
 
@@ -161,20 +161,23 @@ public abstract class Gene implements Bunny.Listener {
         }
     }
 
-
+    /**
+     * Whether or not this gene is set to mutate
+     *
+     * @return Whether this gene will mutate during the next generation
+     */
     public boolean getMutatable() {
         return mutatable;
     }
 
-    public void setMutatable( boolean maybe ) {
-        if ( maybe ) {
-            //System.out.println( "Gene " + getName() + " will now start mutating" );
-        }
-        else if ( mutatable ) {
-            //System.out.println( "Gene " + getName() + " will not mutate anymore" );
-        }
+    /**
+     * Set whether this gene will mutate for the next generation
+     *
+     * @param mutate Whether or not to mutate
+     */
+    public void setMutatable( boolean mutate ) {
         boolean old = mutatable;
-        mutatable = maybe;
+        mutatable = mutate;
         if ( old != mutatable ) {
             notifyChangeMutatable();
         }
@@ -237,7 +240,6 @@ public abstract class Gene implements Bunny.Listener {
     //----------------------------------------------------------------------------
 
     private void notifyChangeDistribution() {
-        //System.out.println( "\tGene distribution changed for " + getName() );
         Iterator<GeneListener> iter = listeners.iterator();
 
         while ( iter.hasNext() ) {
@@ -246,7 +248,6 @@ public abstract class Gene implements Bunny.Listener {
     }
 
     private void notifyChangeDominantAllele() {
-        //System.out.println( "Gene dominant allele changed for " + getName() );
         Iterator<GeneListener> iter = listeners.iterator();
 
         while ( iter.hasNext() ) {
