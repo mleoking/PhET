@@ -15,8 +15,6 @@ import edu.colorado.phet.naturalselection.model.*;
 import edu.colorado.phet.naturalselection.persistence.NaturalSelectionConfig;
 import edu.colorado.phet.naturalselection.util.ImagePanel;
 
-// TODO: cleanup if possible
-
 /**
  * A control panel that allows the user to change what traits are dominant and recessive. Genes that have not been
  * mutated yet are grayed out
@@ -25,24 +23,6 @@ import edu.colorado.phet.naturalselection.util.ImagePanel;
  */
 public class GenePanel extends JPanel {
 
-    // TODO: handle reset, possibly set up listening to gene changes
-
-    private static final int ROW_TITLE = 0;
-    private static final int ROW_FIELDS = 1;
-    private static final int ROW_COLOR_TOP = 2;
-    private static final int ROW_COLOR_BOTTOM = 3;
-    private static final int ROW_HIGH_SEPARATOR = 4;
-    private static final int ROW_TAIL_TOP = 5;
-    private static final int ROW_TAIL_BOTTOM = 6;
-    private static final int ROW_LOW_SEPARATOR = 7;
-    private static final int ROW_TEETH_TOP = 8;
-    private static final int ROW_TEETH_BOTTOM = 9;
-
-    private static final int COLUMN_FIRST = 0; // duplicate in case labels change
-    private static final int COLUMN_LABELS = 0;
-    private static final int COLUMN_SWATCHES = 1;
-    private static final int COLUMN_DOMINANT = 2;
-    private static final int COLUMN_RECESSIVE = 3;
 
     private JLabel colorLabel;
     private ImagePanel colorWhite;
@@ -71,6 +51,25 @@ public class GenePanel extends JPanel {
     private boolean colorEnabled;
     private boolean teethEnabled;
     private boolean tailEnabled;
+
+    private static final Insets GENE_LABEL_INSETS = new Insets( 0, 0, 0, 10 );
+
+    private static final int ROW_TITLE = 0;
+    private static final int ROW_FIELDS = 1;
+    private static final int ROW_COLOR_TOP = 2;
+    private static final int ROW_COLOR_BOTTOM = 3;
+    private static final int ROW_HIGH_SEPARATOR = 4;
+    private static final int ROW_TAIL_TOP = 5;
+    private static final int ROW_TAIL_BOTTOM = 6;
+    private static final int ROW_LOW_SEPARATOR = 7;
+    private static final int ROW_TEETH_TOP = 8;
+    private static final int ROW_TEETH_BOTTOM = 9;
+
+    private static final int COLUMN_FIRST = 0; // duplicate in case labels change
+    private static final int COLUMN_LABELS = 0;
+    private static final int COLUMN_SWATCHES = 1;
+    private static final int COLUMN_DOMINANT = 2;
+    private static final int COLUMN_RECESSIVE = 3;
 
     public GenePanel( NaturalSelectionModel model, MutationPanel mutationPanel ) {
 
@@ -126,21 +125,21 @@ public class GenePanel extends JPanel {
         c.gridy = ROW_COLOR_TOP;
         c.gridwidth = 1;
         c.gridheight = 2;
-        colorLabel.setBorder( new EmptyBorder( new Insets( 0, 0, 0, 10 ) ) );
+        colorLabel.setBorder( new EmptyBorder( GENE_LABEL_INSETS ) );
         add( colorLabel, c );
 
         c.gridx = COLUMN_LABELS;
         c.gridy = ROW_TAIL_TOP;
         c.gridwidth = 1;
         c.gridheight = 2;
-        tailLabel.setBorder( new EmptyBorder( new Insets( 0, 0, 0, 10 ) ) );
+        tailLabel.setBorder( new EmptyBorder( GENE_LABEL_INSETS ) );
         add( tailLabel, c );
 
         c.gridx = COLUMN_LABELS;
         c.gridy = ROW_TEETH_TOP;
         c.gridwidth = 1;
         c.gridheight = 2;
-        teethLabel.setBorder( new EmptyBorder( new Insets( 0, 0, 0, 10 ) ) );
+        teethLabel.setBorder( new EmptyBorder( GENE_LABEL_INSETS ) );
         add( teethLabel, c );
 
         c.gridx = COLUMN_DOMINANT;
@@ -157,172 +156,10 @@ public class GenePanel extends JPanel {
         c.gridheight = 1;
         add( new JLabel( NaturalSelectionStrings.GENE_PANEL_RECESSIVE ), c );
 
-        //----------------------------------------------------------------------------
-        // Fur Color
-        //----------------------------------------------------------------------------
-
-        c.gridx = COLUMN_SWATCHES;
-        c.gridy = ROW_COLOR_TOP;
-        c.gridwidth = 1;
-        c.gridheight = 1;
-
-        add( colorWhite, c );
-
-        c.gridx = COLUMN_SWATCHES;
-        c.gridy = ROW_COLOR_BOTTOM;
-        c.gridwidth = 1;
-        c.gridheight = 1;
-
-        add( colorBrown, c );
-
-        c.gridx = COLUMN_DOMINANT;
-        c.gridy = ROW_COLOR_TOP;
-        c.gridwidth = 1;
-        c.gridheight = 1;
-
-        add( colorPD, c );
-
-        c.gridx = COLUMN_RECESSIVE;
-        c.gridy = ROW_COLOR_TOP;
-        c.gridwidth = 1;
-        c.gridheight = 1;
-
-        add( colorPR, c );
-
-        c.gridx = COLUMN_DOMINANT;
-        c.gridy = ROW_COLOR_BOTTOM;
-        c.gridwidth = 1;
-        c.gridheight = 1;
-
-        add( colorSD, c );
-
-        c.gridx = COLUMN_RECESSIVE;
-        c.gridy = ROW_COLOR_BOTTOM;
-        c.gridwidth = 1;
-        c.gridheight = 1;
-
-        add( colorSR, c );
-
-        //----------------------------------------------------------------------------
-        // Separator
-        //----------------------------------------------------------------------------
-
-        c.gridx = COLUMN_FIRST;
-        c.gridy = ROW_HIGH_SEPARATOR;
-        c.gridwidth = 4;
-        c.gridheight = 1;
-        c.fill = GridBagConstraints.HORIZONTAL;
-
-        add( new JSeparator(), c );
-
-        c.fill = GridBagConstraints.NONE;
-
-        //----------------------------------------------------------------------------
-        // Tail
-        //----------------------------------------------------------------------------
-
-        c.gridx = COLUMN_SWATCHES;
-        c.gridy = ROW_TAIL_TOP;
-        c.gridwidth = 1;
-        c.gridheight = 1;
-
-        add( tailRegular, c );
-
-        c.gridx = COLUMN_SWATCHES;
-        c.gridy = ROW_TAIL_BOTTOM;
-        c.gridwidth = 1;
-        c.gridheight = 1;
-
-        add( tailBig, c );
-
-        c.gridx = COLUMN_DOMINANT;
-        c.gridy = ROW_TAIL_TOP;
-        c.gridwidth = 1;
-        c.gridheight = 1;
-
-        add( tailPD, c );
-
-        c.gridx = COLUMN_RECESSIVE;
-        c.gridy = ROW_TAIL_TOP;
-        c.gridwidth = 1;
-        c.gridheight = 1;
-
-        add( tailPR, c );
-
-        c.gridx = COLUMN_DOMINANT;
-        c.gridy = ROW_TAIL_BOTTOM;
-        c.gridwidth = 1;
-        c.gridheight = 1;
-
-        add( tailSD, c );
-
-        c.gridx = COLUMN_RECESSIVE;
-        c.gridy = ROW_TAIL_BOTTOM;
-        c.gridwidth = 1;
-        c.gridheight = 1;
-
-        add( tailSR, c );
-
-        //----------------------------------------------------------------------------
-        // Separator
-        //----------------------------------------------------------------------------
-
-        c.gridx = COLUMN_FIRST;
-        c.gridy = ROW_LOW_SEPARATOR;
-        c.gridwidth = 4;
-        c.gridheight = 1;
-        c.fill = GridBagConstraints.HORIZONTAL;
-
-        add( new JSeparator(), c );
-
-        c.fill = GridBagConstraints.NONE;
-
-        //----------------------------------------------------------------------------
-        // Teeth
-        //----------------------------------------------------------------------------
-
-        c.gridx = COLUMN_SWATCHES;
-        c.gridy = ROW_TEETH_TOP;
-        c.gridwidth = 1;
-        c.gridheight = 1;
-
-        add( teethRegular, c );
-
-        c.gridx = COLUMN_SWATCHES;
-        c.gridy = ROW_TEETH_BOTTOM;
-        c.gridwidth = 1;
-        c.gridheight = 1;
-
-        add( teethLong, c );
-
-        c.gridx = COLUMN_DOMINANT;
-        c.gridy = ROW_TEETH_TOP;
-        c.gridwidth = 1;
-        c.gridheight = 1;
-
-        add( teethPD, c );
-
-        c.gridx = COLUMN_RECESSIVE;
-        c.gridy = ROW_TEETH_TOP;
-        c.gridwidth = 1;
-        c.gridheight = 1;
-
-        add( teethPR, c );
-
-        c.gridx = COLUMN_DOMINANT;
-        c.gridy = ROW_TEETH_BOTTOM;
-        c.gridwidth = 1;
-        c.gridheight = 1;
-
-        add( teethSD, c );
-
-        c.gridx = COLUMN_RECESSIVE;
-        c.gridy = ROW_TEETH_BOTTOM;
-        c.gridwidth = 1;
-        c.gridheight = 1;
-
-        add( teethSR, c );
-
+        initGeneArea( ROW_COLOR_TOP, ROW_COLOR_BOTTOM, colorWhite, colorBrown, colorPD, colorPR, colorSD, colorSR );
+        initGeneArea( ROW_TAIL_TOP, ROW_TAIL_BOTTOM, tailRegular, tailBig, tailPD, tailPR, tailSD, tailSR );
+        initGeneArea( ROW_TEETH_TOP, ROW_TEETH_BOTTOM, teethRegular, teethLong, teethPD, teethPR, teethSD, teethSR );
+        initSeparators();
 
         mutationPanel.colorButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent actionEvent ) {
@@ -345,6 +182,52 @@ public class GenePanel extends JPanel {
 
         setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
 
+    }
+
+    private void initGeneArea( int rowTop, int rowBottom, ImagePanel primarySwatch, ImagePanel secondarySwatch,
+                               JRadioButton primaryDominant, JRadioButton primaryRecessive,
+                               JRadioButton secondaryDominant, JRadioButton secondaryRecessive ) {
+        GridBagConstraints c = new GridBagConstraints();
+
+        c.gridx = COLUMN_SWATCHES;
+        c.gridy = rowTop;
+        add( primarySwatch, c );
+
+        c.gridx = COLUMN_SWATCHES;
+        c.gridy = rowBottom;
+        add( secondarySwatch, c );
+
+        c.gridx = COLUMN_DOMINANT;
+        c.gridy = rowTop;
+        add( primaryDominant, c );
+
+        c.gridx = COLUMN_RECESSIVE;
+        c.gridy = rowTop;
+        add( primaryRecessive, c );
+
+        c.gridx = COLUMN_DOMINANT;
+        c.gridy = rowBottom;
+        add( secondaryDominant, c );
+
+        c.gridx = COLUMN_RECESSIVE;
+        c.gridy = rowBottom;
+        add( secondaryRecessive, c );
+    }
+
+    private void initSeparators() {
+        GridBagConstraints c = new GridBagConstraints();
+
+        c.gridwidth = 4;
+        c.gridheight = 1;
+        c.fill = GridBagConstraints.HORIZONTAL;
+
+        c.gridx = COLUMN_FIRST;
+        c.gridy = ROW_HIGH_SEPARATOR;
+        add( new JSeparator(), c );
+
+        c.gridx = COLUMN_FIRST;
+        c.gridy = ROW_LOW_SEPARATOR;
+        add( new JSeparator(), c );
     }
 
     public JRadioButton createButton( boolean selected ) {
