@@ -2,6 +2,11 @@ package edu.colorado.phet.naturalselection;
 
 import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
 
+/**
+ * Encapsulates settings that can be changed or tweaked in the developer menu.
+ *
+ * @author Jonathan Olson
+ */
 public class NaturalSelectionSettings {
 
     //----------------------------------------------------------------------------

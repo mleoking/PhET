@@ -17,6 +17,11 @@ import edu.colorado.phet.naturalselection.developer.DeveloperControlsMenuItem;
 import edu.colorado.phet.naturalselection.module.NaturalSelectionModule;
 import edu.colorado.phet.naturalselection.persistence.NaturalSelectionConfig;
 
+/**
+ * The main entry point for Natural Selection (mostly copied from the template)
+ *
+ * @author Jonathan Olson
+ */
 public class NaturalSelectionApplication extends PiccoloPhetApplication {
 
     //----------------------------------------------------------------------------
