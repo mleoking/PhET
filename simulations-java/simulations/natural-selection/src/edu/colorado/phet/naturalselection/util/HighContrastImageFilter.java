@@ -15,6 +15,8 @@ import edu.umd.cs.piccolo.nodes.PImage;
 /**
  * Modifications of images for high-contrast mode
  * TODO: refactor all of this!
+ *
+ * @author Jonathan Olson
  */
 public abstract class HighContrastImageFilter extends RGBImageFilter {
 

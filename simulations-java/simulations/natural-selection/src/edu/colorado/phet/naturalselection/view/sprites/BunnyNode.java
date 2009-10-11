@@ -1,5 +1,3 @@
-/* Copyright 2009, University of Colorado */
-
 package edu.colorado.phet.naturalselection.view.sprites;
 
 import edu.colorado.phet.common.phetcommon.math.Point3D;
@@ -25,6 +23,9 @@ public class BunnyNode extends NaturalSelectionSprite implements Bunny.Listener 
      */
     private DisplayBunnyNode displayBunnyNode;
 
+    /**
+     * Additional level inbetween sprite and bunny image, so that we can position the "visual" base of the bunny at (0,0)
+     */
     private PNode displayHolder;
 
     private boolean cachedFlip = false;

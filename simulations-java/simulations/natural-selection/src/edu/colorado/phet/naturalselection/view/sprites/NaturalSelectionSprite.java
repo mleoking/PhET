@@ -1,5 +1,3 @@
-/* Copyright 2009, University of Colorado */
-
 package edu.colorado.phet.naturalselection.view.sprites;
 
 import java.util.LinkedList;
@@ -18,6 +16,9 @@ public abstract class NaturalSelectionSprite extends PNode implements Comparable
 
     private Point3D position;
 
+    /**
+     * Reference to the parent landscape node
+     */
     protected LandscapeNode landscapeNode;
 
     private List<Listener> listeners;
@@ -77,9 +78,7 @@ public abstract class NaturalSelectionSprite extends PNode implements Comparable
     }
 
     public interface Listener {
-
         public void spriteMoved( NaturalSelectionSprite sprite, boolean zChanged );
-
     }
 
 }

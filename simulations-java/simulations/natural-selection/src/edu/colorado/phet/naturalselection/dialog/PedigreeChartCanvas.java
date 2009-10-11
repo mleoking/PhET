@@ -1,5 +1,3 @@
-/* Copyright 2009, University of Colorado */
-
 package edu.colorado.phet.naturalselection.dialog;
 
 import java.awt.geom.AffineTransform;
