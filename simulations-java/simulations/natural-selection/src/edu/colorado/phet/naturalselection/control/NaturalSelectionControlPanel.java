@@ -49,7 +49,7 @@ public class NaturalSelectionControlPanel extends JPanel {
         this.setLayout( layout );
 
         // build all of the panels
-        climatePanel = new ClimatePanel( model );
+        climatePanel = new ClimatePanel();
         selectionPanel = new SelectionPanel();
         PiccoloClockControlPanel clockControlPanel = new PiccoloClockControlPanel( module.getClock() );
         generationProgressPanel = new GenerationProgressPanel();

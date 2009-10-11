@@ -28,4 +28,8 @@ public class BunnyStatsPanel extends JPanel {
     public void reset() {
         bunnyStatsCanvas.reset();
     }
+
+    public BunnyStatsCanvas getBunnyStatsCanvas() {
+        return bunnyStatsCanvas;
+    }
 }
