@@ -20,8 +20,12 @@ import edu.umd.cs.piccolo.PNode;
 /**
  * This dialog is shown if more than the maximum number of bunnies goes over a certain threshold. It shows an image
  * of the world covered with bunnies, and says something like "Bunnies have taken over the world"
+ *
+ * @author Jonathan Olson
  */
 public class BunniesTakeOverDialog extends JDialog {
+    private static final Dimension CANVAS_DIMENSION = new Dimension( 480, 481 );
+
     public BunniesTakeOverDialog( Frame frame, final NaturalSelectionModule module ) {
         super( frame );
 
@@ -39,9 +43,9 @@ public class BunniesTakeOverDialog extends JDialog {
 
         PhetPCanvas canvas = new PhetPCanvas();
         canvas.setWorldTransformStrategy( new PhetPCanvas.ConstantTransformStrategy( new AffineTransform() ) );
-        canvas.setMinimumSize( new Dimension( 480, 481 ) );
-        canvas.setPreferredSize( new Dimension( 480, 481 ) );
-        canvas.setMaximumSize( new Dimension( 480, 481 ) );
+        canvas.setMinimumSize( CANVAS_DIMENSION );
+        canvas.setPreferredSize( CANVAS_DIMENSION );
+        canvas.setMaximumSize( CANVAS_DIMENSION );
         final PNode root = new PNode();
         canvas.addWorldChild( root );
         root.addChild( NaturalSelectionResources.getImageNode( NaturalSelectionConstants.IMAGE_EARTH ) );
