@@ -56,7 +56,7 @@ public class NaturalSelectionControlPanel extends JPanel {
         clockControlPanel.addBetweenTimeDisplayAndButtons( generationProgressPanel );
         createRightPanel();
         leftPanel = new LeftPanel();
-        bunnyStatsPanel = new BunnyStatsPanel( model );
+        bunnyStatsPanel = new BunnyStatsPanel();
         LogoPanel logoPanel = new LogoPanel();
         logoPanel.setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
         pedigreeChart = new PedigreeChartCanvas( model );
