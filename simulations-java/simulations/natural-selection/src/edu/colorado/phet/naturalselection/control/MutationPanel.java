@@ -23,7 +23,7 @@ public class MutationPanel extends JPanel {
     private JButton colorButton;
     private JButton tailButton;
     private JButton teethButton;
-    
+
     private ImagePanel colorMutationIndicator;
     private ImagePanel tailMutationIndicator;
     private ImagePanel teethMutationIndicator;
@@ -125,7 +125,7 @@ public class MutationPanel extends JPanel {
             }
         } );
 
-        ColorGene.getInstance().addListener( new GeneListener() {
+        GeneListener geneListener = new GeneListener() {
             public void onChangeDominantAllele( Gene gene, boolean primary ) {
 
             }
@@ -141,56 +141,15 @@ public class MutationPanel extends JPanel {
                     teethButton.setEnabled( true );
 
                     colorMutationIndicator.setVisible( false );
-                    tailMutationIndicator.setVisible( false ); // unneeded, TODO: refactor all of these to one listener
-                    teethMutationIndicator.setVisible( false ); // unneeded
-                }
-            }
-        } );
-
-        TailGene.getInstance().addListener( new GeneListener() {
-            public void onChangeDominantAllele( Gene gene, boolean primary ) {
-
-            }
-
-            public void onChangeDistribution( Gene gene, int primary, int secondary ) {
-
-            }
-
-            public void onChangeMutatable( Gene gene, boolean mutatable ) {
-                if ( !mutatable ) {
-                    colorButton.setEnabled( true );
-                    tailButton.setEnabled( true );
-                    teethButton.setEnabled( true );
-
-                    colorMutationIndicator.setVisible( false ); // unneeded
                     tailMutationIndicator.setVisible( false );
-                    teethMutationIndicator.setVisible( false ); // unneeded
-                }
-            }
-        } );
-
-        TeethGene.getInstance().addListener( new GeneListener() {
-            public void onChangeDominantAllele( Gene gene, boolean primary ) {
-
-            }
-
-            public void onChangeDistribution( Gene gene, int primary, int secondary ) {
-
-            }
-
-            public void onChangeMutatable( Gene gene, boolean mutatable ) {
-                if ( !mutatable ) {
-                    colorButton.setEnabled( true );
-                    tailButton.setEnabled( true );
-                    teethButton.setEnabled( true );
-
-                    colorMutationIndicator.setVisible( false ); // unneeded
-                    tailMutationIndicator.setVisible( false ); // unneeded
                     teethMutationIndicator.setVisible( false );
                 }
             }
-        } );
+        };
 
+        ColorGene.getInstance().addListener( geneListener );
+        TailGene.getInstance().addListener( geneListener );
+        TeethGene.getInstance().addListener( geneListener );
 
         setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
         colorMutationIndicator.setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
