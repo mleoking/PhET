@@ -3,8 +3,6 @@
 package edu.colorado.phet.naturalselection.control;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 
@@ -16,7 +14,6 @@ import edu.colorado.phet.naturalselection.NaturalSelectionApplication;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
 import edu.colorado.phet.naturalselection.dialog.PedigreeChartCanvas;
-import edu.colorado.phet.naturalselection.model.Bunny;
 import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
 import edu.colorado.phet.naturalselection.module.NaturalSelectionModule;
 import edu.colorado.phet.naturalselection.persistence.NaturalSelectionConfig;
@@ -30,8 +27,11 @@ public class NaturalSelectionControlPanel extends JPanel {
 
     // main panels
     private JPanel rightPanel;
-    public BunnyStatsPanel bunnyStatsPanel;
+    public BunnyStatsPanel bunnyStatsPanel; // TODO: privatize
     private LeftPanel leftPanel;
+    private DetachOptionPanel detachPanel;
+    private PedigreeChartCanvas pedigreeChart;
+    private SwitcherPanel switcherPanel;
 
     // subpanels
     public ClimatePanel climatePanel;
@@ -44,10 +44,6 @@ public class NaturalSelectionControlPanel extends JPanel {
     // private variables
     private NaturalSelectionModel model;
     private NaturalSelectionModule module;
-
-    private DetachOptionPanel detachPanel;
-    private PedigreeChartCanvas pedigreeChart;
-
 
     /**
      * Constructor
@@ -72,27 +68,9 @@ public class NaturalSelectionControlPanel extends JPanel {
         bunnyStatsPanel = new BunnyStatsPanel( this.model );
         LogoPanel logoPanel = new LogoPanel();
         logoPanel.setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
-
         pedigreeChart = new PedigreeChartCanvas( model );
-
-        pedigreeChart.addComponentListener( new ComponentListener() {
-            public void componentResized( ComponentEvent componentEvent ) {
-                pedigreeChart.setCenterPoint( 0 );
-            }
-
-            public void componentMoved( ComponentEvent componentEvent ) {
-
-            }
-
-            public void componentShown( ComponentEvent componentEvent ) {
-
-            }
-
-            public void componentHidden( ComponentEvent componentEvent ) {
-
-            }
-        } );
         detachPanel = new DetachOptionPanel( NaturalSelectionStrings.GENERATION_CHART, pedigreeChart, bunnyStatsPanel );
+        switcherPanel = new SwitcherPanel();
 
         // the uglier layout code
         GridBagConstraints geneConstraints = new GridBagConstraints();
@@ -143,74 +121,31 @@ public class NaturalSelectionControlPanel extends JPanel {
         switcherConstraints.weightx = 0.0;
         switcherConstraints.weighty = 0.0;
         switcherConstraints.anchor = GridBagConstraints.EAST;
-        add( getSwitcherPanel(), switcherConstraints );
+        add( switcherPanel, switcherConstraints );
 
         // color everything with the control panel's background color
         setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
         rightPanel.setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
         selectionPanel.setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
-    }
 
-    private JPanel getSwitcherPanel() {
-        JPanel container = new JPanel( new GridLayout( 2, 1 ) );
-        container.setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
-        final JRadioButton radioStats = new JRadioButton( "Placeholder" );
-        final JRadioButton radioPedigree = new JRadioButton( "Pedigree" );
-        radioStats.setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
-        radioPedigree.setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
+        // make sure that if the pedigree chart is resized, that it recenters itself
+        pedigreeChart.addComponentListener( new ComponentListener() {
+            public void componentResized( ComponentEvent componentEvent ) {
+                pedigreeChart.setCenterPoint( 0 );
+            }
 
-        ButtonGroup group = new ButtonGroup();
-        group.add( radioStats );
-        group.add( radioPedigree );
+            public void componentMoved( ComponentEvent componentEvent ) {
 
-        radioStats.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent actionEvent ) {
-                detachPanel.showStaticChild();
-                if ( Bunny.getSelectedBunny() != null ) {
-                    Bunny.getSelectedBunny().setSelected( false );
-                }
+            }
+
+            public void componentShown( ComponentEvent componentEvent ) {
+
+            }
+
+            public void componentHidden( ComponentEvent componentEvent ) {
+
             }
         } );
-
-        radioPedigree.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent actionEvent ) {
-                detachPanel.showDetachableChild();
-                if ( pedigreeChart.getLastDisplayedBunny() != null ) {
-                    if ( Bunny.getSelectedBunny() == null && pedigreeChart.getLastDisplayedBunny() != null ) {
-                        pedigreeChart.getLastDisplayedBunny().setSelected( true );
-                    }
-                }
-            }
-        } );
-
-        detachPanel.addListener( new DetachOptionPanel.Listener() {
-            public void onDock() {
-                radioStats.setEnabled( true );
-                radioPedigree.setEnabled( true );
-                radioPedigree.setSelected( true );
-            }
-
-            public void onUndock() {
-                radioStats.setEnabled( false );
-                radioPedigree.setEnabled( false );
-                radioStats.setSelected( true );
-            }
-
-            public void onClose() {
-                radioStats.setEnabled( true );
-                radioPedigree.setEnabled( true );
-                if ( Bunny.getSelectedBunny() != null ) {
-                    Bunny.getSelectedBunny().setSelected( false );
-                }
-            }
-        } );
-
-        container.add( radioStats );
-        container.add( radioPedigree );
-
-        radioStats.setSelected( true );
-
-        return container;
     }
 
     public void selectDefaultSelectionFactor() {
@@ -276,5 +211,13 @@ public class NaturalSelectionControlPanel extends JPanel {
 
     public GenePanel getGenePanel() {
         return leftPanel.getGenePanel();
+    }
+
+    public DetachOptionPanel getDetachPanel() {
+        return detachPanel;
+    }
+
+    public SwitcherPanel getSwitcherPanel() {
+        return switcherPanel;
     }
 }
