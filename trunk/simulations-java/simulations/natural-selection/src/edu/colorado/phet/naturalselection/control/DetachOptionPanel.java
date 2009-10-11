@@ -3,116 +3,149 @@ package edu.colorado.phet.naturalselection.control;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
+import edu.colorado.phet.naturalselection.NaturalSelectionResources;
+import edu.colorado.phet.naturalselection.module.NaturalSelectionModule;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 public class DetachOptionPanel extends JPanel {
-    boolean docked = false;
-    private Object lastAncestor;
-    private JToolBar toolBar;
-
-    private Component child;
+    private PhetPCanvas child;
     private Component placeholder;
 
     private List<Listener> listeners = new LinkedList<Listener>();
 
-    public DetachOptionPanel( String title, Component child, Component placeholder ) {
+    private JDialog dialog;
+    private JPanel dialogContentPane;
+    private PSwing buttonPanelPSwing;
+
+    private String title;
+    private JButton closeButton;
+    private JPanel buttonPanel;
+
+    public DetachOptionPanel( String title, PhetPCanvas child, Component placeholder ) {
         super( new GridLayout( 1, 1 ) );
 
         this.child = child;
         this.placeholder = placeholder;
+        this.title = title;
 
-        toolBar = new JToolBar( title );
+        buttonPanel = new JPanel( new FlowLayout( FlowLayout.CENTER, 1, 1 ) );
 
-        toolBar.addPropertyChangeListener( new PropertyChangeListener() {
-            public void propertyChange( PropertyChangeEvent evt ) {
-                if ( evt.getPropertyName().equals( "ancestor" ) ) {
-                    if ( evt.getNewValue() == null ) {
-                        lastAncestor = evt.getOldValue();
-                    }
-                    if ( evt.getOldValue() == null ) {
-                        if ( evt.getNewValue() != lastAncestor ) {
-                            docked = !docked;
-                            //System.out.println( docked ? "Docked" : "Undocked" );
-                            if ( !docked ) {
-                                onUndock();
-                            }
-                            else {
-                                onDock();
-                            }
-                        }
-                    }
+        BufferedImage detachIcon = NaturalSelectionResources.getImage( NaturalSelectionConstants.IMAGE_DETACH_ICON );
+        BufferedImage closeIcon = NaturalSelectionResources.getImage( NaturalSelectionConstants.IMAGE_CLOSE_ICON );
+
+        JButton detachButton = new JButton( new ImageIcon( BufferedImageUtils.rescaleYMaintainAspectRatio( detachIcon, 14 ) ) );
+        closeButton = new JButton( new ImageIcon( BufferedImageUtils.rescaleYMaintainAspectRatio( closeIcon, 14 ) ) );
+
+        Insets buttonInsets = new Insets( 2, 2, 2, 2 );
+        detachButton.setMargin( buttonInsets );
+        closeButton.setMargin( buttonInsets );
+
+        buttonPanel.add( detachButton );
+        buttonPanel.setBackground( NaturalSelectionConstants.COLOR_GENERATION_CHART );
+
+        detachButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                if ( dialog == null || !dialog.isVisible() ) {
+                    onUndock();
+                }
+                else {
+                    onDock();
                 }
             }
         } );
 
-        //toolBar.setLayout( new BoxLayout( toolBar, BoxLayout.LINE_AXIS ) );
-        toolBar.setLayout( new GridBagLayout() );
+        closeButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                onClose();
+            }
+        } );
 
-        final JPanel panel = new JPanel( new GridLayout( 1, 1 ) );
-        panel.add( child );
+        buttonPanelPSwing = new PSwing( buttonPanel );
 
-        GridBagConstraints statsConstraints = new GridBagConstraints();
-        statsConstraints.fill = GridBagConstraints.BOTH;
-        statsConstraints.weightx = 1.0;
-        statsConstraints.weighty = 1.0;
-        toolBar.add( panel, statsConstraints );
+        child.addScreenChild( buttonPanelPSwing );
 
-        //add( toolBar );
         add( placeholder );
 
-        toolBar.addComponentListener( new ComponentListener() {
-            public void componentResized( ComponentEvent componentEvent ) {
-                System.out.println( "toolBar: " + toolBar.getSize() );
-            }
+        updateButtonLocations();
+    }
 
-            public void componentMoved( ComponentEvent componentEvent ) {
+    private void updateButtonLocations() {
+        buttonPanelPSwing.setOffset( 3, 3 );
+    }
 
-            }
+    private void setWindowed() {
+        if ( dialog == null ) {
+            createDialog();
+        }
 
-            public void componentShown( ComponentEvent componentEvent ) {
+        buttonPanel.add( closeButton );
 
-            }
+        dialog.pack();
+        int w = dialog.getWidth();
+        Point togo = this.getLocationOnScreen();
+        togo.x -= w;
+        dialog.setLocation( togo );
+        dialogContentPane.add( child );
+        dialog.setVisible( true );
+        updateButtonLocations();
+    }
 
-            public void componentHidden( ComponentEvent componentEvent ) {
+    private void createDialog() {
+        NaturalSelectionModule module = NaturalSelectionModule.getModule();
+        if ( module != null ) {
+            framer = module.getParentFrame();
+        }
+        dialog = new JDialog( framer, title );
+        dialog.setResizable( false );
+        dialogContentPane = new JPanel( null );
 
+        Dimension preferredSize = new Dimension( child.getWidth(), child.getHeight() );
+        dialogContentPane.setSize( preferredSize );
+        dialogContentPane.setPreferredSize( preferredSize );
+        dialogContentPane.add( child );
+
+        dialog.setContentPane( dialogContentPane );
+        dialog.addWindowListener( new WindowAdapter() {
+            public void windowClosing( WindowEvent e ) {
+                onClose();
             }
         } );
-        panel.addComponentListener( new ComponentListener() {
-            public void componentResized( ComponentEvent componentEvent ) {
-                System.out.println( "panel: " + panel.getSize() );
-            }
+    }
 
-            public void componentMoved( ComponentEvent componentEvent ) {
+    private void closeDialog() {
+        buttonPanel.remove( closeButton );
 
-            }
+        dialog.setVisible( false );
+        updateButtonLocations();
+        Window w = SwingUtilities.getWindowAncestor( this );
+        if ( w instanceof JFrame ) {
+            JFrame frame = (JFrame) w;
 
-            public void componentShown( ComponentEvent componentEvent ) {
-
-            }
-
-            public void componentHidden( ComponentEvent componentEvent ) {
-
-            }
-        } );
+            frame.invalidate();
+            frame.validate();
+            frame.repaint();
+        }
 
     }
 
     public void setChildVisible() {
         removeAll();
-        add( toolBar );
+        add( child );
         repaint();
-        toolBar.invalidate();
+        child.invalidate();
         validate();
     }
 
@@ -125,18 +158,38 @@ public class DetachOptionPanel extends JPanel {
     }
 
     private void onDock() {
-        //System.out.println( "onDock()" );
+        closeDialog();
+
         remove( placeholder );
+        add( child );
+
+        child.invalidate();
+        repaint();
+        validate();
+
         for ( Listener listener : listeners ) {
             listener.onDock();
         }
     }
 
     private void onUndock() {
-        //System.out.println( "onUndock()" );
+        remove( child );
+        setWindowed();
         add( placeholder );
+
+        placeholder.invalidate();
+        repaint();
+        validate();
+
         for ( Listener listener : listeners ) {
             listener.onUndock();
+        }
+    }
+
+    private void onClose() {
+        closeDialog();
+        for ( Listener listener : listeners ) {
+            listener.onClose();
         }
     }
 
@@ -152,6 +205,8 @@ public class DetachOptionPanel extends JPanel {
         public void onDock();
 
         public void onUndock();
+
+        public void onClose();
     }
 
     public static PhetPCanvas createExampleCanvas() {
@@ -180,12 +235,16 @@ public class DetachOptionPanel extends JPanel {
         return canvas;
     }
 
+    private static Frame framer;
+
     private static void init() {
         JFrame frame = new JFrame( "Detachable Demo" );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
         JPanel container = new JPanel( new GridLayout( 1, 3 ) );
         frame.setContentPane( container );
+
+        framer = frame;
 
         final DetachOptionPanel bar = new DetachOptionPanel( "Pedigree Chart", createExampleCanvas(), new JLabel( "Placeholder" ) );
         final JRadioButton radioPlaceholder = new JRadioButton( "Placeholder" );
@@ -219,14 +278,15 @@ public class DetachOptionPanel extends JPanel {
             public void onUndock() {
                 radioPlaceholder.setEnabled( false );
                 radioPedigree.setEnabled( false );
+                radioPlaceholder.setSelected( true );
+            }
+
+            public void onClose() {
+                radioPlaceholder.setEnabled( true );
+                radioPedigree.setEnabled( true );
             }
         } );
 
-        /*
-        container.add( bar );
-        container.add( radioPlaceholder );
-        container.add( radioPedigree );
-        */
         container.setLayout( new GridBagLayout() );
 
         GridBagConstraints statsConstraints = new GridBagConstraints();

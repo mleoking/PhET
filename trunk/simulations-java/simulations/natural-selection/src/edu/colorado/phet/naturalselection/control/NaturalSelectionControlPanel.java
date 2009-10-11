@@ -20,7 +20,6 @@ import edu.colorado.phet.naturalselection.model.Bunny;
 import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
 import edu.colorado.phet.naturalselection.module.NaturalSelectionModule;
 import edu.colorado.phet.naturalselection.persistence.NaturalSelectionConfig;
-import edu.colorado.phet.naturalselection.control.DetachOptionPanel;
 
 /**
  * Main control panel for Natural Selection
@@ -203,6 +202,12 @@ public class NaturalSelectionControlPanel extends JPanel {
             public void onUndock() {
                 radioStats.setEnabled( false );
                 radioPedigree.setEnabled( false );
+                radioStats.setSelected( true );
+            }
+
+            public void onClose() {
+                radioStats.setEnabled( true );
+                radioPedigree.setEnabled( true );
             }
         } );
 
