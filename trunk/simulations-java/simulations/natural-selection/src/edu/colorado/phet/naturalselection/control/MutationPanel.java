@@ -13,10 +13,17 @@ import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
 import edu.colorado.phet.naturalselection.model.*;
 import edu.colorado.phet.naturalselection.util.ImagePanel;
 
+/**
+ * Panel with buttons that start mutations for a particular gene. When one mutation is selected, no more can be
+ * selected until the next generation
+ *
+ * @author Jonathan Olson
+ */
 public class MutationPanel extends JPanel {
-    public JButton colorButton;
-    public JButton tailButton;
-    public JButton teethButton;
+    private JButton colorButton;
+    private JButton tailButton;
+    private JButton teethButton;
+    
     private ImagePanel colorMutationIndicator;
     private ImagePanel tailMutationIndicator;
     private ImagePanel teethMutationIndicator;
@@ -202,4 +209,15 @@ public class MutationPanel extends JPanel {
         teethMutationIndicator.setVisible( false );
     }
 
+    public JButton getColorButton() {
+        return colorButton;
+    }
+
+    public JButton getTailButton() {
+        return tailButton;
+    }
+
+    public JButton getTeethButton() {
+        return teethButton;
+    }
 }
