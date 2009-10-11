@@ -7,7 +7,7 @@ import edu.umd.cs.piccolox.pswing.PSwing
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.colorado.phet.motionseries.swing.ScalaValueControl
-import model.{ForceBead, Bead}
+import model.{ForceBead}
 
 class AppliedForceSlider(getter: () => Double,
                          setter: Double => Unit,

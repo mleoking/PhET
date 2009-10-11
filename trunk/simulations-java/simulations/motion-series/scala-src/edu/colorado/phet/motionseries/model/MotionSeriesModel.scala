@@ -54,7 +54,7 @@ class MotionSeriesModel(defaultBeadPosition: Double,
   val leftWallRightEdge = createBead(-10 + MotionSeriesDefaults.wall.width / 2, MotionSeriesDefaults.SPRING_WIDTH, MotionSeriesDefaults.SPRING_HEIGHT)
   val rightWallLeftEdge = createBead(10 - MotionSeriesDefaults.wall.width / 2, MotionSeriesDefaults.SPRING_WIDTH, MotionSeriesDefaults.SPRING_HEIGHT)
 
-  val manBead = createBead(defaultManPosition, 1,3)
+  val manBead = createBead(defaultManPosition, 1, 3)
 
   val wallRange = () => {
     new Range(-rampSegments(0).length, rampSegments(1).length)
@@ -82,7 +82,7 @@ class MotionSeriesModel(defaultBeadPosition: Double,
   def createBead(x: Double, width: Double, height: Double) =
     new MovingManBead(new BeadState(x, 0, 10, 0, 0, 0.0, 0.0, 0.0), height, width, positionMapper, rampSegmentAccessor, rampChangeAdapter, surfaceFriction, wallsBounce, surfaceFrictionStrategy, walls, wallRange, thermalEnergyStrategy)
 
-  def createBead(x: Double, width: Double): MovingManBead= createBead(x, width, 3)
+  def createBead(x: Double, width: Double): MovingManBead = createBead(x, width, 3)
 
   def stepRecord(): Unit = stepRecord(MotionSeriesDefaults.DT_DEFAULT)
 

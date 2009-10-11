@@ -227,7 +227,7 @@ class RobotMovingCompanyCanvas(model: MotionSeriesModel,
     icon.setOffset(pt)
     addStageNode(icon)
 
-    val roboBead = model.createBead(-10 - a.width / 2, 1,3)
+    val roboBead = model.createBead(-10 - a.width / 2, 1, 3)
 
     val pusherNode = new RobotPusherNode(transform, bead, roboBead)
     addStageNode(pusherNode)
