@@ -22,8 +22,8 @@ import edu.colorado.phet.naturalselection.util.ImagePanel;
 public class ClimatePanel extends JPanel {
 
     // radio buttons
-    public JRadioButton equatorButton;
-    public JRadioButton arcticButton;
+    private JRadioButton equatorButton;
+    private JRadioButton arcticButton;
 
     private NaturalSelectionModel model;
 
@@ -107,5 +107,13 @@ public class ClimatePanel extends JPanel {
 
     public void load( NaturalSelectionConfig config ) {
         setClimate( config.getClimate() );
+    }
+
+    public JRadioButton getEquatorButton() {
+        return equatorButton;
+    }
+
+    public JRadioButton getArcticButton() {
+        return arcticButton;
     }
 }
