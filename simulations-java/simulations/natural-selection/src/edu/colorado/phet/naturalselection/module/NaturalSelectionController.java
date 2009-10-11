@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.control.NaturalSelectionControlPanel;
+import edu.colorado.phet.naturalselection.dialog.PedigreeChartCanvas;
 import edu.colorado.phet.naturalselection.model.*;
 import edu.colorado.phet.naturalselection.view.LandscapeNode;
 import edu.colorado.phet.naturalselection.view.NaturalSelectionCanvas;
@@ -179,6 +180,41 @@ public class NaturalSelectionController {
                 controlPanel.getGenePanel().setTeethEnabled( true );
             }
         } );
+
+        //----------------------------------------------------------------------------
+        // Interactions between the switcher and detachable panels
+        //----------------------------------------------------------------------------
+
+        // on switch from pedigree to statistics panel
+        controlPanel.getSwitcherPanel().getStatisticsRadioButton().addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent actionEvent ) {
+                controlPanel.getDetachPanel().showStaticChild();
+
+                // remove the selection from the current bunny if it is selected
+                if ( Bunny.getSelectedBunny() != null ) {
+                    Bunny.getSelectedBunny().setSelected( false );
+                }
+            }
+        } );
+
+        // on switch from statistics to pedigree chart
+        controlPanel.getSwitcherPanel().getPedigreeRadioButton().addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent actionEvent ) {
+                controlPanel.getDetachPanel().showDetachableChild();
+
+                // if necessary, cause the last selected bunny to be reselected
+                PedigreeChartCanvas pedigreeChart = controlPanel.getPedigreeChart();
+                Bunny lastBunny = pedigreeChart.getLastDisplayedBunny();
+                if ( lastBunny != null ) {
+                    if ( Bunny.getSelectedBunny() == null && lastBunny.isAlive() ) {
+                        pedigreeChart.getLastDisplayedBunny().setSelected( true );
+                    }
+                }
+            }
+        } );
+
+        // allow detach, reattach and closing events to be passed to the switcher panel
+        controlPanel.getDetachPanel().addListener( controlPanel.getSwitcherPanel() );
 
     }
 
