@@ -10,19 +10,29 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionResources;
 import edu.colorado.phet.naturalselection.module.NaturalSelectionModule;
-import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
+/**
+ * Holds two children, which can be switched between:
+ * <p/>
+ * One is a piccolo canvas with an overlaid "detach" button that will toggle the child from being displayed in this
+ * panel and a separate dialog.
+ * <p/>
+ * The other is an arbitrary swing component that is not detachable, and is displayed when the other child is detached.
+ * <p/>
+ * Somewhat adapted from the detaching mechanism in forces-1d (and uses the same buttons)
+ *
+ * @author Jonathan Olson
+ */
 public class DetachOptionPanel extends JPanel {
-    private PhetPCanvas child;
-    private Component placeholder;
+    private PhetPCanvas detachableChild;
+    private Component staticChild;
 
     private List<Listener> listeners = new LinkedList<Listener>();
 
@@ -34,12 +44,15 @@ public class DetachOptionPanel extends JPanel {
     private JButton closeButton;
     private JPanel buttonPanel;
 
-    public DetachOptionPanel( String title, PhetPCanvas child, Component placeholder ) {
+    public DetachOptionPanel( String title, PhetPCanvas detachableChild, Component staticChild ) {
+        // use up all available space
         super( new GridLayout( 1, 1 ) );
 
-        this.child = child;
-        this.placeholder = placeholder;
+        this.detachableChild = detachableChild;
+        this.staticChild = staticChild;
         this.title = title;
+
+        // initialize the button panel that will be overlaid on the detachable child
 
         buttonPanel = new JPanel( new FlowLayout( FlowLayout.CENTER, 1, 1 ) );
 
@@ -75,11 +88,31 @@ public class DetachOptionPanel extends JPanel {
 
         buttonPanelPSwing = new PSwing( buttonPanel );
 
-        child.addScreenChild( buttonPanelPSwing );
+        detachableChild.addScreenChild( buttonPanelPSwing );
 
-        add( placeholder );
+        add( staticChild );
+
+        /* NOTE: not adding the close button. It will only be added when the detachable child is in its own window, and
+           will be removed again when reattached or closed
+        */
 
         updateButtonLocations();
+    }
+
+    public void showDetachableChild() {
+        removeAll();
+        add( detachableChild );
+        repaint();
+        detachableChild.invalidate();
+        validate();
+    }
+
+    public void showStaticChild() {
+        removeAll();
+        add( staticChild );
+        repaint();
+        staticChild.invalidate();
+        validate();
     }
 
     private void updateButtonLocations() {
@@ -98,7 +131,7 @@ public class DetachOptionPanel extends JPanel {
         Point togo = this.getLocationOnScreen();
         togo.x -= w;
         dialog.setLocation( togo );
-        dialogContentPane.add( child );
+        dialogContentPane.add( detachableChild );
         dialog.setVisible( true );
         updateButtonLocations();
     }
@@ -109,10 +142,10 @@ public class DetachOptionPanel extends JPanel {
         dialog.setResizable( false );
         dialogContentPane = new JPanel( null );
 
-        Dimension preferredSize = new Dimension( child.getWidth(), child.getHeight() );
+        Dimension preferredSize = new Dimension( detachableChild.getWidth(), detachableChild.getHeight() );
         dialogContentPane.setSize( preferredSize );
         dialogContentPane.setPreferredSize( preferredSize );
-        dialogContentPane.add( child );
+        dialogContentPane.add( detachableChild );
 
         dialog.setContentPane( dialogContentPane );
         dialog.addWindowListener( new WindowAdapter() {
@@ -138,29 +171,16 @@ public class DetachOptionPanel extends JPanel {
 
     }
 
-    public void setChildVisible() {
-        removeAll();
-        add( child );
-        repaint();
-        child.invalidate();
-        validate();
-    }
-
-    public void setPlaceholderVisible() {
-        removeAll();
-        add( placeholder );
-        repaint();
-        placeholder.invalidate();
-        validate();
-    }
-
+    /**
+     * Called when the detachable child is docked back into the panel
+     */
     private void onDock() {
         closeDialog();
 
-        remove( placeholder );
-        add( child );
+        remove( staticChild );
+        add( detachableChild );
 
-        child.invalidate();
+        detachableChild.invalidate();
         repaint();
         validate();
 
@@ -169,12 +189,15 @@ public class DetachOptionPanel extends JPanel {
         }
     }
 
+    /**
+     * Called when the detachable child is detached
+     */
     private void onUndock() {
-        remove( child );
+        remove( detachableChild );
         setWindowed();
-        add( placeholder );
+        add( staticChild );
 
-        placeholder.invalidate();
+        staticChild.invalidate();
         repaint();
         validate();
 
@@ -183,6 +206,9 @@ public class DetachOptionPanel extends JPanel {
         }
     }
 
+    /**
+     * Called when the detached child is closed
+     */
     private void onClose() {
         closeDialog();
         for ( Listener listener : listeners ) {
@@ -199,38 +225,20 @@ public class DetachOptionPanel extends JPanel {
     }
 
     public static interface Listener {
+        /**
+         * Called when the detachable child is docked back into the panel
+         */
         public void onDock();
 
+        /**
+         * Called when the detachable child is detached
+         */
         public void onUndock();
 
+        /**
+         * Called when the detached child is closed
+         */
         public void onClose();
     }
-
-    public static PhetPCanvas createExampleCanvas() {
-        PhetPCanvas canvas = new PhetPCanvas( new Dimension( 100, 100 ) );
-        PPath path;
-
-        path = PPath.createRectangle( 0, 0, 50, 50 );
-        path.setPaint( Color.RED );
-        canvas.addWorldChild( path );
-
-        path = PPath.createRectangle( 50, 0, 50, 50 );
-        path.setPaint( Color.MAGENTA );
-        canvas.addWorldChild( path );
-
-        path = PPath.createRectangle( 0, 50, 50, 50 );
-        path.setPaint( Color.YELLOW );
-        canvas.addWorldChild( path );
-
-        path = PPath.createRectangle( 50, 50, 100, 50 );
-        path.setPaint( Color.BLACK );
-        canvas.addWorldChild( path );
-        canvas.setPreferredSize( new Dimension( 200, 200 ) );
-
-        canvas.setBorder( new LineBorder( Color.BLUE ) );
-
-        return canvas;
-    }
-
 
 }

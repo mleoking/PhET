@@ -33,6 +33,12 @@ import edu.colorado.phet.naturalselection.model.*;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
+/**
+ * Visual display of the bunny population statistics. Shows a separate line for the total population, and each variety
+ * of all of the possible traits
+ *
+ * @author Jonathan Olson
+ */
 public class BunnyStatsCanvas extends PhetPCanvas {
 
     private static final boolean CHART_ANTIALIAS = false;
