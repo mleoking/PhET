@@ -32,6 +32,7 @@ public class NaturalSelectionControlPanel extends JPanel {
     private SwitcherPanel switcherPanel;
     private ClimatePanel climatePanel;
     private SelectionPanel selectionPanel;
+    private GenerationProgressPanel generationProgressPanel;
 
     // buttons
     private JButton resetAllButton;
@@ -51,9 +52,10 @@ public class NaturalSelectionControlPanel extends JPanel {
         climatePanel = new ClimatePanel( model );
         selectionPanel = new SelectionPanel();
         PiccoloClockControlPanel clockControlPanel = new PiccoloClockControlPanel( module.getClock() );
-        clockControlPanel.addBetweenTimeDisplayAndButtons( new GenerationProgressPanel( model ) );
+        generationProgressPanel = new GenerationProgressPanel();
+        clockControlPanel.addBetweenTimeDisplayAndButtons( generationProgressPanel );
         createRightPanel();
-        leftPanel = new LeftPanel( model );
+        leftPanel = new LeftPanel();
         bunnyStatsPanel = new BunnyStatsPanel( model );
         LogoPanel logoPanel = new LogoPanel();
         logoPanel.setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
@@ -212,5 +214,9 @@ public class NaturalSelectionControlPanel extends JPanel {
 
     public JButton getResetAllButton() {
         return resetAllButton;
+    }
+
+    public GenerationProgressPanel getGenerationProgressPanel() {
+        return generationProgressPanel;
     }
 }

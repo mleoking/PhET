@@ -4,10 +4,7 @@ import java.awt.*;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
-import edu.colorado.phet.naturalselection.model.NaturalSelectionClock;
-import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
 
 /**
  * Displays the relative time until a new generation is born
@@ -18,7 +15,7 @@ public class GenerationProgressPanel extends JPanel {
 
     private JProgressBar generationProgressBar;
 
-    public GenerationProgressPanel( final NaturalSelectionModel model ) {
+    public GenerationProgressPanel() {
         super( new GridLayout( 2, 1 ) );
 
         setOpaque( false );
@@ -29,12 +26,10 @@ public class GenerationProgressPanel extends JPanel {
         generationProgressBar.setValue( 0 );
 
         add( generationProgressBar );
+    }
 
-        model.getClock().addTimeListener( new NaturalSelectionClock.Listener() {
-            public void onTick( ClockEvent event ) {
-                generationProgressBar.setValue( 100 - model.getGenerationProgressPercent() );
-            }
-        } );
+    public void setGenerationProgressPercent( int value ) {
+        generationProgressBar.setValue( 100 - value );
     }
 
 }

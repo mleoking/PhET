@@ -11,7 +11,10 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.naturalselection.NaturalSelectionApplication;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
-import edu.colorado.phet.naturalselection.model.*;
+import edu.colorado.phet.naturalselection.model.ColorGene;
+import edu.colorado.phet.naturalselection.model.Gene;
+import edu.colorado.phet.naturalselection.model.TailGene;
+import edu.colorado.phet.naturalselection.model.TeethGene;
 import edu.colorado.phet.naturalselection.persistence.NaturalSelectionConfig;
 import edu.colorado.phet.naturalselection.util.ImagePanel;
 
@@ -75,7 +78,7 @@ public class GenePanel extends JPanel {
     private static final int COLUMN_DOMINANT = 2;
     private static final int COLUMN_RECESSIVE = 3;
 
-    public GenePanel( NaturalSelectionModel model ) {
+    public GenePanel() {
 
         setLayout( new GridBagLayout() );
         GridBagConstraints c = new GridBagConstraints();
