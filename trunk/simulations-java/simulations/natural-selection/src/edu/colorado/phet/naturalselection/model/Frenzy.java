@@ -11,6 +11,8 @@ import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 
 /**
  * The handler for wolf frenzies in the natural selection model
+ *
+ * @author Jonathan Olson
  */
 public class Frenzy implements NaturalSelectionClock.Listener {
 
