@@ -706,9 +706,24 @@ public class Bunny {
     // selection code
 
     private static Bunny selectedBunny = null;
+    private static Bunny lastSelectedBunny = null;
 
     public static Bunny getSelectedBunny() {
         return selectedBunny;
+    }
+
+    public static void reselectBunny() {
+        if ( lastSelectedBunny != null ) {
+            lastSelectedBunny.setSelected( true );
+        }
+    }
+
+    public static void reset() {
+        if ( selectedBunny != null ) {
+            selectedBunny.setSelected( false );
+        }
+        selectedBunny = null;
+        lastSelectedBunny = null;
     }
 
     public boolean isSelected() {
@@ -722,6 +737,10 @@ public class Bunny {
         this.selected = selected;
         if ( selected ) {
             selectedBunny = this;
+            lastSelectedBunny = this;
+        }
+        else {
+            selectedBunny = null;
         }
         notifySelectionChange();
     }
@@ -818,7 +837,6 @@ public class Bunny {
     }
 
     private void notifySelectionChange() {
-        //System.out.println( "Bunny " + getId() + " selected now: " + isSelected() );
         notifyListenersOfEvent( new Event( this, Event.TYPE_SELECTION_CHANGE ) );
     }
 

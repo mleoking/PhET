@@ -72,7 +72,6 @@ public class BunnyNode extends NaturalSelectionSprite implements Bunny.Listener 
     public void setFlipped( boolean flipped ) {
         displayBunnyNode.setFlipped( flipped );
         cachedFlip = flipped;
-        //setBunnyOffset();
     }
 
     public void onEvent( Bunny.Event event ) {

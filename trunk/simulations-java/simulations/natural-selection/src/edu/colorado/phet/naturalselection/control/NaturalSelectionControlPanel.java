@@ -142,7 +142,7 @@ public class NaturalSelectionControlPanel extends JPanel {
         switcherConstraints.gridy = 1;
         switcherConstraints.weightx = 0.0;
         switcherConstraints.weighty = 0.0;
-        switcherConstraints.anchor = GridBagConstraints.SOUTH;
+        switcherConstraints.anchor = GridBagConstraints.EAST;
         add( getSwitcherPanel(), switcherConstraints );
 
         // color everything with the control panel's background color
@@ -165,7 +165,6 @@ public class NaturalSelectionControlPanel extends JPanel {
 
         radioStats.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent actionEvent ) {
-                //System.out.println( "Placeholder!" );
                 detachPanel.setPlaceholderVisible();
                 if ( Bunny.getSelectedBunny() != null ) {
                     Bunny.getSelectedBunny().setSelected( false );
@@ -175,7 +174,6 @@ public class NaturalSelectionControlPanel extends JPanel {
 
         radioPedigree.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent actionEvent ) {
-                //System.out.println( "Pedigree!" );
                 detachPanel.setChildVisible();
                 if ( pedigreeChart.getLastDisplayedBunny() != null ) {
                     if ( Bunny.getSelectedBunny() == null && pedigreeChart.getLastDisplayedBunny() != null ) {
@@ -201,6 +199,9 @@ public class NaturalSelectionControlPanel extends JPanel {
             public void onClose() {
                 radioStats.setEnabled( true );
                 radioPedigree.setEnabled( true );
+                if ( Bunny.getSelectedBunny() != null ) {
+                    Bunny.getSelectedBunny().setSelected( false );
+                }
             }
         } );
 
@@ -239,6 +240,7 @@ public class NaturalSelectionControlPanel extends JPanel {
         selectDefaultSelectionFactor();
         bunnyStatsPanel.reset();
         leftPanel.reset();
+        pedigreeChart.reset();
     }
 
     /**
