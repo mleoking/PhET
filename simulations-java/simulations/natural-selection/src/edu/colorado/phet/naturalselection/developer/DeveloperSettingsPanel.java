@@ -18,6 +18,8 @@ import edu.colorado.phet.naturalselection.module.NaturalSelectionModule;
 
 /**
  * Shows a number of natural-selection specific parameters that can be tuned to modify the behavior of the sim
+ *
+ * @author Jonathan Olson
  */
 public class DeveloperSettingsPanel extends VerticalLayoutPanel {
 
@@ -301,18 +303,16 @@ public class DeveloperSettingsPanel extends VerticalLayoutPanel {
         settings.add( setting );
     }
 
+    /**
+     * Abstract numerical setting that can be applied
+     */
     private abstract class Setting extends JPanel {
-        private String label;
-        private Number defaultValue;
         private SpinnerModel model;
 
         private JSpinner spinner;
 
-
         protected Setting( String label, SpinnerModel model ) {
-            this.label = label;
             this.model = model;
-            this.defaultValue = defaultValue;
 
             add( new JLabel( label ) );
 
@@ -321,9 +321,7 @@ public class DeveloperSettingsPanel extends VerticalLayoutPanel {
         }
 
         protected Setting( String label, SpinnerModel model, String toolTip ) {
-            this.label = label;
             this.model = model;
-            this.defaultValue = defaultValue;
 
             add( new JLabel( label ) );
 
