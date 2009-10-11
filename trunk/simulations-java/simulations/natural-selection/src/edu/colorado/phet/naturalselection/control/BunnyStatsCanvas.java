@@ -35,26 +35,32 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
- * Visual display of the bunny population statistics. Shows a separate line for the total population, and each variety
- * of all of the possible traits
+ * Visual display of the bunny population statistics. Shows a separate line for the total population, and each trait
+ * of all of the genes.
+ * <p/>
+ * Caches and simplifies datapoints as they are seen, and has two separate plots (one for drawing the data, and one for
+ * drawing the axes and everything else). Both of these are critical for performance.
  *
  * @author Jonathan Olson
  */
 public class BunnyStatsCanvas extends PhetPCanvas {
 
+    // visual settings
     private static final boolean CHART_ANTIALIAS = false;
     private static final boolean PLOT_ANTIALIAS = false;
 
     private JFreeChartNode chartNode;
     private XYPlotNode plotNode;
-
     private XYSeriesCollection mainDataset;
-    private XYSeriesCollection emptyDataset;
-
     private XYPlot emptyPlot;
     private XYPlot mainPlot;
 
+    /**
+     * What slice of time should be displayed on the stats panel.
+     */
     private static final int RANGE = 300;
+
+    // Indices for each different plotted value
     private static final int TOTAL_INDEX = 0;
     private static final int FUR_WHITE_INDEX = 1;
     private static final int FUR_BROWN_INDEX = 2;
@@ -67,32 +73,31 @@ public class BunnyStatsCanvas extends PhetPCanvas {
 
     private PSwing zoomHolder;
 
+    // zoom properties
     private final int[] zoomBounds = new int[]{5, 15, 30, 50, 75, 100, 150, 200, 250, 350, 500, 1000, 2000, 3000, 5000};
     private static final int DEFAULT_ZOOM_INDEX = 3;
     private int zoomIndex = DEFAULT_ZOOM_INDEX;
 
-    public static boolean allowUpdates = true;
-
-    private JFreeChart chart;
-
+    // cached value of the total bunny population
     private int cachedPopulation = 0;
 
+    private static final Dimension DEFAULT_STATS_SIZE = new Dimension( 300, 200 );
+
+    // used so that we don't update EVERY time when the population doesn't change
+    private int cycleCounter = 0;
+    private static final int CYCLE_LENGTH = 3;
 
     public BunnyStatsCanvas() {
-        super( new Dimension( 300, 200 ) );
-
-        setBorder( null );
+        super( DEFAULT_STATS_SIZE );
 
         PNode root = new PNode();
         addScreenChild( root );
 
         mainDataset = createDataset();
-        emptyDataset = createDataset();
-
-        emptyPlot = createPlot( emptyDataset );
+        emptyPlot = createPlot( createDataset() );
         mainPlot = createPlot( mainDataset );
 
-        chart = new JFreeChart( emptyPlot );
+        JFreeChart chart = new JFreeChart( emptyPlot );
         chart.setBackgroundPaint( NaturalSelectionConstants.COLOR_CONTROL_PANEL );
 
         if ( NaturalSelectionApplication.isHighContrast() ) {
@@ -121,13 +126,11 @@ public class BunnyStatsCanvas extends PhetPCanvas {
         JPanel zoomPanel = new JPanel( new FlowLayout() );
         zoomPanel.setOpaque( false );
 
-
         // zoom buttons
 
         JButton zoomInButton = new JButton( new ImageIcon( NaturalSelectionResources.getImage( NaturalSelectionConstants.IMAGE_ZOOM_IN ) ) );
         JButton zoomOutButton = new JButton( new ImageIcon( NaturalSelectionResources.getImage( NaturalSelectionConstants.IMAGE_ZOOM_OUT ) ) );
         zoomInButton.addActionListener( new ActionListener() {
-
             public void actionPerformed( ActionEvent actionEvent ) {
                 zoomIndex--;
                 updateZoom();
@@ -153,23 +156,28 @@ public class BunnyStatsCanvas extends PhetPCanvas {
         zoomPanel.add( zoomOutButton );
 
         zoomHolder = new PSwing( zoomPanel );
-
         root.addChild( zoomHolder );
 
         updateZoom();
-
         updateLayout();
+
+        setBorder( null );
     }
 
-    // used so that we don't update EVERY time when the population doesn't change
-    private int rot = 0;
-
+    /**
+     * Called when time changes
+     *
+     * @param population The current total population
+     */
     public void onTick( int population ) {
         if ( cachedPopulation != population ) {
             cachedPopulation = population;
+
+            // population changed, so we should update our plot immediately
             addDataPoint( population );
         }
-        else if ( rot++ % 3 == 0 ) {
+        else if ( cycleCounter++ % CYCLE_LENGTH == 0 ) {
+            // otherwise, only update the population every so often for performance
             addDataPoint( population );
         }
     }
@@ -187,9 +195,9 @@ public class BunnyStatsCanvas extends PhetPCanvas {
 
         zoomIndex = DEFAULT_ZOOM_INDEX;
 
+        // redraw and relayout everything
         updateZoom();
         updateLayout();
-
     }
 
     private XYSeriesCollection createDataset() {
@@ -253,6 +261,7 @@ public class BunnyStatsCanvas extends PhetPCanvas {
             plot.setRangeZeroBaselinePaint( Color.WHITE );
         }
         else {
+            // TODO: (low) consolidate colors somewhere for data? maybe they should be changable easily?
             renderer.setSeriesPaint( TOTAL_INDEX, Color.BLACK );
             renderer.setSeriesPaint( FUR_WHITE_INDEX, Color.RED );
             renderer.setSeriesPaint( FUR_BROWN_INDEX, Color.CYAN );
@@ -269,7 +278,7 @@ public class BunnyStatsCanvas extends PhetPCanvas {
     @Override
     protected void updateLayout() {
 
-        // chart
+        // resize the chart
         final double margin = 10;
         double x = margin;
         double y = margin;
@@ -296,6 +305,9 @@ public class BunnyStatsCanvas extends PhetPCanvas {
         zoomHolder.setOffset( plotBounds.getX(), plotBounds.getY() );
     }
 
+    /**
+     * Update both the main plot (data) and empty plot (for axes) with the new zoom limits
+     */
     private synchronized void updateZoom() {
         if ( zoomIndex < 0 ) {
             zoomIndex = 0;
@@ -307,38 +319,74 @@ public class BunnyStatsCanvas extends PhetPCanvas {
         emptyPlot.getRangeAxis().setRange( 0, zoomBounds[zoomIndex] );
     }
 
+    //----------------------------------------------------------------------------
+    // Caching and adding data points
+    //----------------------------------------------------------------------------
+
+    /**
+     * The latest time position where points are added
+     */
     private int pos = 0;
+
+    /**
+     * The lowest time position where points are displayed.
+     */
     private int low = 0;
 
+    /**
+     * Holds the latest values seen for each plot
+     */
     private int[] cachedPositions = new int[]{2, 2, 2, 2, 2, 2, 2};
+
+    /**
+     * Stores whether two datapoints have been seen indentically in a row. (If the third datapoint is also the same, we
+     * can remove the middle (second) datapoint for efficiency)
+     */
     private boolean[] cachedValid = new boolean[]{false, false, false, false, false, false, false};
 
+    /**
+     * Sets the data value at a particular index (IE for a particular line).
+     * This function uses an intelligent cache, so that the plotter simplifies repeated (constant) values in a row so
+     * that only the first and last values are kept.
+     *
+     * @param index Index (line) to add the datapoint to
+     * @param value Value (the population)
+     */
     private void setDataAtIndex( int index, int value ) {
         XYSeries series = mainDataset.getSeries( index );
 
         if ( cachedPositions[index] == value ) {
+            // next data point is the same as in our cache
+
             if ( cachedValid[index] == true ) {
+                // cache is valid, so we can delete the "middle" datapoint
+
                 series.setNotify( false );
                 series.remove( series.getItemCount() - 1 );
                 series.setNotify( true );
             }
             else {
+                // cache is not valid. mark it as valid now, since we have seen two datapoints with the same value in a row
                 cachedValid[index] = true;
             }
         }
         else {
+            // it's different. change the cache and invalidate it
             cachedValid[index] = false;
             cachedPositions[index] = value;
         }
 
+        // actually add the datapoint into the series
         series.add( pos, value, false );
     }
 
+    /**
+     * Adds a data point at the current time position
+     *
+     * @param totalPopulation The current total population
+     */
     private synchronized void addDataPoint( int totalPopulation ) {
-        if ( !allowUpdates ) {
-            return;
-        }
-
+        // add data to each line
         setDataAtIndex( TOTAL_INDEX, totalPopulation );
         setDataAtIndex( FUR_WHITE_INDEX, ColorGene.getInstance().getPrimaryPhenotypeCount() );
         setDataAtIndex( FUR_BROWN_INDEX, ColorGene.getInstance().getSecondaryPhenotypeCount() );
@@ -350,9 +398,8 @@ public class BunnyStatsCanvas extends PhetPCanvas {
         pos++;
 
         if ( pos >= RANGE + 1 ) {
-            // TODO: possibly remove old data points?
+            // TODO: (medium) possibly remove old data points? (may be a memory issue if this sim is left running for hours in a stable state
             low++;
-
         }
 
         // this will cause a redraw
