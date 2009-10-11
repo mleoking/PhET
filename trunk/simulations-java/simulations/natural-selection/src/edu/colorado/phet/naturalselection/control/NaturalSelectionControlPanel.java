@@ -69,7 +69,7 @@ public class NaturalSelectionControlPanel extends JPanel {
         LogoPanel logoPanel = new LogoPanel();
         logoPanel.setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
         pedigreeChart = new PedigreeChartCanvas( model );
-        detachPanel = new DetachOptionPanel( NaturalSelectionStrings.GENERATION_CHART, pedigreeChart, bunnyStatsPanel );
+        detachPanel = new DetachOptionPanel( NaturalSelectionStrings.PEDIGREE_CHART, pedigreeChart, bunnyStatsPanel );
         switcherPanel = new SwitcherPanel();
 
         // the uglier layout code
