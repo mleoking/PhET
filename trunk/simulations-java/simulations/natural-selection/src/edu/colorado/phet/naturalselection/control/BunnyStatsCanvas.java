@@ -162,21 +162,19 @@ public class BunnyStatsCanvas extends PhetPCanvas {
         updateZoom();
 
         updateLayout();
+    }
 
-        model.getClock().addTimeListener( new NaturalSelectionClock.Listener() {
-            int rot = 0;
+    // used so that we don't update EVERY time when the population doesn't change
+    private int rot = 0;
 
-            public void onTick( ClockEvent event ) {
-                if ( cachedPopulation != model.getPopulation() ) {
-                    cachedPopulation = model.getPopulation();
-                    addDataPoint();
-                }
-                else if ( rot++ % 3 == 0 ) {
-                    addDataPoint();
-                }
-            }
-        } );
-
+    public void onTick() {
+        if ( cachedPopulation != model.getPopulation() ) {
+            cachedPopulation = model.getPopulation();
+            addDataPoint();
+        }
+        else if ( rot++ % 3 == 0 ) {
+            addDataPoint();
+        }
     }
 
     public void reset() {

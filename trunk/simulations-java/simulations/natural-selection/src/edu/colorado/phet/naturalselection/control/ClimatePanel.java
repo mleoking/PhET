@@ -1,5 +1,3 @@
-/* Copyright 2009, University of Colorado */
-
 package edu.colorado.phet.naturalselection.control;
 
 import java.awt.*;
@@ -25,16 +23,7 @@ public class ClimatePanel extends JPanel {
     private JRadioButton equatorButton;
     private JRadioButton arcticButton;
 
-    private NaturalSelectionModel model;
-
-    /**
-     * Constructor
-     *
-     * @param model The Natural Selection model
-     */
-    public ClimatePanel( NaturalSelectionModel model ) {
-        this.model = model;
-
+    public ClimatePanel() {
         // ugly layout code to follow
 
         setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
