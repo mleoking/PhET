@@ -49,7 +49,7 @@ public class NaturalSelectionControlPanel extends JPanel {
 
         // build all of the panels
         climatePanel = new ClimatePanel( model );
-        selectionPanel = new SelectionPanel( model );
+        selectionPanel = new SelectionPanel();
         PiccoloClockControlPanel clockControlPanel = new PiccoloClockControlPanel( module.getClock() );
         clockControlPanel.addBetweenTimeDisplayAndButtons( new GenerationProgressPanel( model ) );
         createRightPanel();
@@ -62,6 +62,7 @@ public class NaturalSelectionControlPanel extends JPanel {
         switcherPanel = new SwitcherPanel();
 
         // the uglier layout code
+
         GridBagConstraints geneConstraints = new GridBagConstraints();
         geneConstraints.gridx = 0;
         geneConstraints.gridy = 0;
@@ -145,7 +146,7 @@ public class NaturalSelectionControlPanel extends JPanel {
      * Create the right-most panel that includes the climate panel (user can select the climate), the selection panel,
      * a button to show the generation chart, and the reset all button.
      */
-    public void createRightPanel() {
+    private void createRightPanel() {
         rightPanel = new JPanel();
         rightPanel.setLayout( new BoxLayout( rightPanel, BoxLayout.Y_AXIS ) );
         rightPanel.add( climatePanel );
@@ -165,19 +166,6 @@ public class NaturalSelectionControlPanel extends JPanel {
         bunnyStatsPanel.reset();
         leftPanel.reset();
         pedigreeChart.reset();
-    }
-
-    /**
-     * Test main() function, probably won't work anymore
-     *
-     * @param args
-     */
-    public static void main( String[] args ) {
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        frame.setContentPane( new NaturalSelectionControlPanel( null, null ) );
-        frame.pack();
-        frame.setVisible( true );
     }
 
     public void load( NaturalSelectionConfig config ) {

@@ -12,16 +12,16 @@ import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
 import edu.colorado.phet.naturalselection.persistence.NaturalSelectionConfig;
 import edu.colorado.phet.naturalselection.util.ImagePanel;
 
+/**
+ * Panel that allows the user to change the selection factor.
+ */
 public class SelectionPanel extends JPanel {
 
-    public JRadioButton wolvesButton;
-    public JRadioButton foodButton;
-    public JRadioButton noneButton;
+    private JRadioButton wolvesButton;
+    private JRadioButton foodButton;
+    private JRadioButton noneButton;
 
-    private NaturalSelectionModel model;
-
-    public SelectionPanel( NaturalSelectionModel model ) {
-        this.model = model;
+    public SelectionPanel() {
 
         setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
 
@@ -102,5 +102,17 @@ public class SelectionPanel extends JPanel {
 
     public void load( NaturalSelectionConfig config ) {
         setSelectionFactor( config.getSelectionFactor() );
+    }
+
+    public JRadioButton getWolvesButton() {
+        return wolvesButton;
+    }
+
+    public JRadioButton getFoodButton() {
+        return foodButton;
+    }
+
+    public JRadioButton getNoneButton() {
+        return noneButton;
     }
 }
