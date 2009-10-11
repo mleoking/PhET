@@ -14,6 +14,7 @@ import edu.colorado.phet.scalacommon.math.Vector2D
 import edu.colorado.phet.scalacommon.Predef._
 import edu.colorado.phet.motionseries.tests.MyCanvas
 import model.{MovingManBead, ForceBead, Bead}
+
 class ForceDragBeadNode(bead: ForceBead,
                         transform: ModelViewTransform2D,
                         imageName: String,
@@ -42,7 +43,7 @@ class PositionDragBeadNode(bead: MovingManBead,
   addInputEventListener(new CursorHandler)
   addInputEventListener(new PBasicInputEventHandler() {
     override def mouseDragged(event: PInputEvent) = {
-//      bead.parallelAppliedForce = 0.0 //todo: move this into setPositionMode()?
+      //      bead.parallelAppliedForce = 0.0 //todo: move this into setPositionMode()?
       bead.setPositionMode()
       val delta = event.getCanvasDelta
       //todo: make it so we can get this information (a) more easily and (b) without a reference to the canvas:MyCanvas
@@ -54,7 +55,7 @@ class PositionDragBeadNode(bead: MovingManBead,
     }
 
     override def mouseReleased(event: PInputEvent) = {
-//      bead.parallelAppliedForce = 0.0
+      //      bead.parallelAppliedForce = 0.0
     }
 
     override def mousePressed(event: PInputEvent) = {

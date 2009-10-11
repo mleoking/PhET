@@ -1,13 +1,8 @@
 package edu.colorado.phet.motionseries.model
 
 import collection.mutable.ArrayBuffer
-import edu.colorado.phet.common.motion.model.TimeData
-import edu.colorado.phet.common.motion.MotionMath
 import edu.colorado.phet.scalacommon.math.Vector2D
 import edu.colorado.phet.scalacommon.util.Observable
-import edu.colorado.phet.motionseries.MotionSeriesDefaults
-import edu.colorado.phet.motionseries.Predef._
-
 /**Immutable memento for recording*/
 case class BeadState(position: Double, velocity: Double, mass: Double, staticFriction: Double, kineticFriction: Double, thermalEnergy: Double, crashEnergy: Double, time: Double) {
   def translate(dx: Double) = setPosition(position + dx)
@@ -88,7 +83,7 @@ abstract class Bead(private var _state: BeadState,
 
   def getVelocityVectorUnitVector(v: Double): Vector2D = new Vector2D(getVelocityVectorDirection(v))
 
-  def position2D:Vector2D
+  def position2D: Vector2D
 
   def getRampUnitVector = rampSegmentAccessor(position).getUnitVector
 
@@ -190,7 +185,7 @@ abstract class Bead(private var _state: BeadState,
 
   def getKineticEnergy = 1.0 / 2.0 * mass * velocity * velocity
 
-  def getAngle:Double
+  def getAngle: Double
 
   def getParallelComponent(f: Vector2D) = f dot getRampUnitVector
 

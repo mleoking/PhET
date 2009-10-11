@@ -1,8 +1,6 @@
 package edu.colorado.phet.motionseries.model
 
 import collection.mutable.ArrayBuffer
-import common.motion.model.TimeData
-import common.motion.MotionMath
 import scalacommon.math.Vector2D
 import scalacommon.util.Observable
 import edu.colorado.phet.motionseries.Predef._
@@ -150,5 +148,6 @@ class ForceBead(_state: BeadState,
     super.stepInTime(dt)
     motionStrategy.stepInTime(dt)
   }
+
   def acceleration = forceToParallelAcceleration(totalForce)
 }
