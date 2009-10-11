@@ -1,5 +1,3 @@
-/* Copyright 2009, University of Colorado */
-
 package edu.colorado.phet.naturalselection.model;
 
 import java.util.*;
@@ -43,9 +41,11 @@ public class NaturalSelectionModel extends ClockAdapter {
      * WARNING: do NOT change the order of this list
      */
     private ArrayList<Bunny> bunnies;
-    // starting bunnies
+
+    // starting bunny
     private Bunny rootFather;
 
+    // bunny created when "add a friend" is clicked
     private Bunny rootMother;
 
     private List<Shrub> shrubs;
@@ -68,8 +68,15 @@ public class NaturalSelectionModel extends ClockAdapter {
      */
     private int generation = 0;
 
+    /**
+     * Whether all of the bunnies have died
+     */
     private boolean gameEnded = false;
 
+    /**
+     * When the last frenzy occurred. Storing this allows us to keep the user from causing multiple wolf frenzies
+     * within one generation
+     */
     private int lastFrenziedGeneration = -1;
 
     /**
@@ -87,8 +94,14 @@ public class NaturalSelectionModel extends ClockAdapter {
      */
     private int selectionFactor = SELECTION_NONE;
 
+    /**
+     * 3D landscape model
+     */
     private Landscape landscape;
 
+    /**
+     * Used for generating random numbers for the model
+     */
     private static final Random random = new Random( System.currentTimeMillis() );
 
     /**
@@ -116,6 +129,8 @@ public class NaturalSelectionModel extends ClockAdapter {
 
         this.clock.addClockListener( this );
 
+        // initialize shrubs and trees at specific pixel locations in the background (with specific scaling parameters)
+
         shrubs = new LinkedList<Shrub>();
         shrubs.add( new Shrub( this, 80, 330, 1 ) );
         shrubs.add( new Shrub( this, 750, 200, 0.8 ) );
@@ -135,7 +150,6 @@ public class NaturalSelectionModel extends ClockAdapter {
      * Reset the entire model
      */
     public void reset() {
-
         if ( isDuringFrenzy() ) {
             prematureEndFrenzy();
         }
@@ -143,25 +157,15 @@ public class NaturalSelectionModel extends ClockAdapter {
         Bunny.reset();
 
         climate = NaturalSelectionDefaults.DEFAULT_CLIMATE;
-
         selectionFactor = NaturalSelectionDefaults.DEFAULT_SELECTION_FACTOR;
-
         friendAdded = false;
-
         generation = 0;
-
         time = 0;
-
         gameEnded = false;
-
         lastFrenziedGeneration = -1;
-
         lastYearTick = 0;
-
         lastEventTick = NaturalSelectionConstants.getSettings().getSelectionTick();
-
         frenzy = null;
-
         bunnies = new ArrayList<Bunny>();
 
         ColorGene.getInstance().reset();
@@ -182,10 +186,14 @@ public class NaturalSelectionModel extends ClockAdapter {
         }
 
         notifyGenerationChange();
-
         initialize();
     }
 
+    /**
+     * Save the model to a configuration
+     *
+     * @param config A configuration
+     */
     public void save( NaturalSelectionConfig config ) {
         NaturalSelectionClock clock = getClock();
         config.setClockDt( clock.getDt() );
@@ -218,10 +226,13 @@ public class NaturalSelectionModel extends ClockAdapter {
         config.setColorRegularDominant( ColorGene.getInstance().getDominantAllele() == ColorGene.WHITE_ALLELE );
         config.setTeethRegularDominant( TeethGene.getInstance().getDominantAllele() == TeethGene.TEETH_SHORT_ALLELE );
         config.setTailRegularDominant( TailGene.getInstance().getDominantAllele() == TailGene.TAIL_SHORT_ALLELE );
-
-
     }
 
+    /**
+     * Load a configuration into the model
+     *
+     * @param config A configuration
+     */
     public void load( NaturalSelectionConfig config ) {
         clock.setDt( config.getClockDt() );
         clock.setPaused( config.isClockPaused() );
@@ -262,6 +273,12 @@ public class NaturalSelectionModel extends ClockAdapter {
         }
     }
 
+    /**
+     * Get the bunny with a particular ID. Each bunny has an ID.
+     *
+     * @param id A bunny ID
+     * @return The bunny
+     */
     public Bunny getBunnyById( int id ) {
         for ( Bunny bunny : bunnies ) {
             if ( bunny.bunnyId == id ) {
@@ -271,35 +288,41 @@ public class NaturalSelectionModel extends ClockAdapter {
         return null;
     }
 
-    public void addBunnyConfig( BunnyConfig config, NaturalSelectionConfig mainConfig ) {
+    /**
+     * Adds a particular bunny from a bunny configuration object
+     *
+     * @param bunnyConfig      The bunny configuration
+     * @param simulationConfig The simulation configuration
+     */
+    public void addBunnyConfig( BunnyConfig bunnyConfig, NaturalSelectionConfig simulationConfig ) {
 
-        if ( config.getId() == mainConfig.getRootFatherId() ) {
+        if ( bunnyConfig.getId() == simulationConfig.getRootFatherId() ) {
             // don't add root father, he is already added
             return;
         }
-        Bunny bunny = new Bunny( this, getBunnyById( config.getFatherId() ), getBunnyById( config.getMotherId() ), config.getGeneration() );
+        Bunny bunny = new Bunny( this, getBunnyById( bunnyConfig.getFatherId() ), getBunnyById( bunnyConfig.getMotherId() ), bunnyConfig.getGeneration() );
         bunny.notifyInit();
-        Bunny potentialMate = getBunnyById( config.getPotentialMateId() );
+        Bunny potentialMate = getBunnyById( bunnyConfig.getPotentialMateId() );
         if ( potentialMate != null ) {
             bunny.setPotentialMate( potentialMate );
             potentialMate.setPotentialMate( bunny );
         }
-        if ( mainConfig.getRootMotherId() == config.getId() ) {
+        if ( simulationConfig.getRootMotherId() == bunnyConfig.getId() ) {
             rootMother = bunny;
         }
 
-        if ( bunny.bunnyId != config.getId() ) {
+        if ( bunny.bunnyId != bunnyConfig.getId() ) {
             System.out.println( "WARNING: bunny IDs do not match!" );
         }
 
         // TODO: refactor bunny-specific parameters into the bunny code!
 
-        bunny.setMated( config.isMated() );
-        bunny.setMutated( config.isMutated() );
-        bunny.setAlive( config.isAlive() );
-        if ( config.isMated() ) {
+        bunny.setMated( bunnyConfig.isMated() );
+        bunny.setMutated( bunnyConfig.isMutated() );
+        bunny.setAlive( bunnyConfig.isAlive() );
+        if ( bunnyConfig.isMated() ) {
             ArrayList<Bunny> list = new ArrayList<Bunny>();
-            for ( int i : config.getChildrenIds() ) {
+            for ( int i : bunnyConfig.getChildrenIds() ) {
                 list.add( getBunnyById( i ) );
             }
             bunny.setChildren( list );
@@ -307,35 +330,35 @@ public class NaturalSelectionModel extends ClockAdapter {
         else {
             bunny.setChildren( new ArrayList<Bunny>() );
         }
-        bunny.setAge( config.getAge() );
-        bunny.setColorPhenotype( regularColor( config.isColorPhenotypeRegular() ) );
-        bunny.setTeethPhenotype( regularTeeth( config.isTeethPhenotypeRegular() ) );
-        bunny.setTailPhenotype( regularTail( config.isTailPhenotypeRegular() ) );
+        bunny.setAge( bunnyConfig.getAge() );
+        bunny.setColorPhenotype( regularColor( bunnyConfig.isColorPhenotypeRegular() ) );
+        bunny.setTeethPhenotype( regularTeeth( bunnyConfig.isTeethPhenotypeRegular() ) );
+        bunny.setTailPhenotype( regularTail( bunnyConfig.isTailPhenotypeRegular() ) );
 
         bunny.setColorGenotype( new Genotype(
                 ColorGene.getInstance(),
-                regularColor( config.isColorFatherGenotypeRegular() ),
-                regularColor( config.isColorMotherGenotypeRegular() )
+                regularColor( bunnyConfig.isColorFatherGenotypeRegular() ),
+                regularColor( bunnyConfig.isColorMotherGenotypeRegular() )
         ) );
 
         bunny.setTeethGenotype( new Genotype(
                 TeethGene.getInstance(),
-                regularTeeth( config.isTeethFatherGenotypeRegular() ),
-                regularTeeth( config.isTeethMotherGenotypeRegular() )
+                regularTeeth( bunnyConfig.isTeethFatherGenotypeRegular() ),
+                regularTeeth( bunnyConfig.isTeethMotherGenotypeRegular() )
         ) );
 
         bunny.setTailGenotype( new Genotype(
                 TailGene.getInstance(),
-                regularTail( config.isTailFatherGenotypeRegular() ),
-                regularTail( config.isTailMotherGenotypeRegular() )
+                regularTail( bunnyConfig.isTailFatherGenotypeRegular() ),
+                regularTail( bunnyConfig.isTailMotherGenotypeRegular() )
         ) );
 
-        bunny.setPosition( new Point3D.Double( config.getX(), config.getY(), config.getZ() ) );
+        bunny.setPosition( new Point3D.Double( bunnyConfig.getX(), bunnyConfig.getY(), bunnyConfig.getZ() ) );
 
-        bunny.setSinceHopTime( config.getSinceHopTime() );
-        bunny.setMovingRight( config.isMovingRight() );
-        bunny.setHunger( config.getHunger() );
-        bunny.setHopDirection( new Point3D.Double( config.getHopX(), config.getHopY(), config.getHopZ() ) );
+        bunny.setSinceHopTime( bunnyConfig.getSinceHopTime() );
+        bunny.setMovingRight( bunnyConfig.isMovingRight() );
+        bunny.setHunger( bunnyConfig.getHunger() );
+        bunny.setHopDirection( new Point3D.Double( bunnyConfig.getHopX(), bunnyConfig.getHopY(), bunnyConfig.getHopZ() ) );
 
         bunnies.add( bunny );
         notifyNewBunny( bunny );
@@ -358,6 +381,9 @@ public class NaturalSelectionModel extends ClockAdapter {
         notifyNewBunny( rootFather );
     }
 
+    /**
+     * Called when the user clicks "add friend"
+     */
     public void addFriend() {
         // reset time variables
         time = 0;
@@ -377,6 +403,7 @@ public class NaturalSelectionModel extends ClockAdapter {
      * Causes another generation to be born (and everything else that happens when a new generation occurs)
      */
     private void nextGeneration() {
+        // kill old bunnies
         ageBunnies();
 
         if ( !friendAdded ) {
@@ -387,31 +414,29 @@ public class NaturalSelectionModel extends ClockAdapter {
             else if ( prePop > NaturalSelectionConstants.getSettings().getMaxPopulation() ) {
                 bunniesTakeOver();
             }
-            else {
-                //System.out.println( "Nothing to do, friend has not been added" );
-            }
             return;
         }
 
+        // bunnies are born
         mateBunnies();
 
+        // notify everything else that a new generation exists
         generation++;
         notifyGenerationChange();
 
-        // make sure genes won't mutate anymore
+        // make sure genes won't mutate anymore (mutations only occur for the generation right after the user selects mutations
         ColorGene.getInstance().setMutatable( false );
         TailGene.getInstance().setMutatable( false );
         TeethGene.getInstance().setMutatable( false );
 
         int pop = getPopulation();
         if ( pop == 0 ) {
+            // all the bunnies died. end the game
             endGame();
         }
         else if ( pop > NaturalSelectionConstants.getSettings().getMaxPopulation() ) {
+            // too many bunnies. end the game
             bunniesTakeOver();
-        }
-        else {
-            //System.out.println( "Population: " + pop );
         }
     }
 
@@ -443,7 +468,12 @@ public class NaturalSelectionModel extends ClockAdapter {
         Collections.shuffle( aliveBunnies );
 
         List<Bunny> newBunnies = new LinkedList<Bunny>();
-        // we will, for now, ignore anything about bunnies!
+
+        /*
+            We will, for now, ignore anything about bunnies! (gender or ancestry doesn't matter with this model)
+            Ignore the implications of this!
+         */
+
         Bunny prev = null;
         for ( Bunny bunny : aliveBunnies ) {
             if ( prev == null ) {
@@ -457,7 +487,11 @@ public class NaturalSelectionModel extends ClockAdapter {
             }
             prev = null;
         }
+
+        // before notifying everyone of bunnies, we need to mutate some of them
         mutateSomeBunnies( newBunnies );
+
+        // notify everyone that new bunnies are on the scene
         for ( Bunny bunny : newBunnies ) {
             bunny.notifyInit();
             bunnies.add( bunny );
@@ -465,6 +499,11 @@ public class NaturalSelectionModel extends ClockAdapter {
         }
     }
 
+    /**
+     * Mutates some of the new bunnies
+     *
+     * @param newBunnies The new bunnies that were just born
+     */
     private void mutateSomeBunnies( List<Bunny> newBunnies ) {
         Gene gene = null;
         Allele allele = null;
@@ -582,7 +621,6 @@ public class NaturalSelectionModel extends ClockAdapter {
         if ( isDuringFrenzy() ) {
             // this is fine now, since frenzies start automatically when switched to wolves
             return;
-            //throw new RuntimeException( "Already frenzying" );
         }
 
         if ( getPopulation() == 0 ) {
@@ -615,7 +653,6 @@ public class NaturalSelectionModel extends ClockAdapter {
     }
 
     public void endFrenzy() {
-        //System.out.println( "Ending frenzy" );
         frenzy = null;
     }
 
@@ -638,8 +675,7 @@ public class NaturalSelectionModel extends ClockAdapter {
     public int getPopulation() {
         // TODO: easier way? maybe count a filtered ArrayList?
         int ret = 0;
-        for ( int i = 0; i < bunnies.size(); i++ ) {
-            Bunny bunny = bunnies.get( i );
+        for ( Bunny bunny : bunnies ) {
             if ( bunny.isAlive() ) {
                 ret++;
             }
@@ -708,12 +744,12 @@ public class NaturalSelectionModel extends ClockAdapter {
         return selectionFactor;
     }
 
-    public void setSelectionFactor( int _selectionFactor ) {
-        if ( selectionFactor == _selectionFactor ) {
+    public void setSelectionFactor( int newFactor ) {
+        if ( selectionFactor == newFactor ) {
             return;
         }
 
-        selectionFactor = _selectionFactor;
+        selectionFactor = newFactor;
 
         if ( selectionFactor == SELECTION_WOLVES ) {
             startFrenzy();

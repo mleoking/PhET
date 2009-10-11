@@ -1,5 +1,3 @@
-/* Copyright 2009, University of Colorado */
-
 package edu.colorado.phet.naturalselection.model;
 
 import java.util.LinkedList;
@@ -10,7 +8,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 
 /**
- * GlaciersClock is the clock for this simulation.
  * The simulation time change (dt) on each clock tick is constant,
  * regardless of when (in wall time) the ticks actually happen.
  *

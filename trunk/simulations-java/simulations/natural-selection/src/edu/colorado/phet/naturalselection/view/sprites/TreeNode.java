@@ -12,6 +12,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
  * Piccolo node to display a tree
+ * TODO: (med) make clicks pass through trees so bunnies can be selected
  *
  * @author Jonathan Olson
  */
