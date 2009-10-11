@@ -13,14 +13,17 @@ import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
 import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
 import edu.colorado.phet.naturalselection.persistence.NaturalSelectionConfig;
 
+/**
+ * Panel on the left side of the control panel that contains the mutation and gene panels
+ *
+ * @author Jonathan Olson
+ */
 public class LeftPanel extends JPanel {
     private MutationPanel mutationPanel;
     private GenePanel genePanel;
 
     public LeftPanel( NaturalSelectionModel model ) {
-
         setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
-
 
         JLabel label = new JLabel( NaturalSelectionStrings.MUTATION_PANEL_ADD_MUTATION,
                                    new ImageIcon( NaturalSelectionResources.getImage( NaturalSelectionConstants.IMAGE_MUTATION_PANEL_LARGE ) ),

@@ -9,6 +9,11 @@ import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
 import edu.colorado.phet.naturalselection.model.NaturalSelectionClock;
 import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
 
+/**
+ * Displays the relative time until a new generation is born
+ *
+ * @author Jonathan Olson
+ */
 public class GenerationProgressPanel extends JPanel {
 
     private JProgressBar generationProgressBar;
