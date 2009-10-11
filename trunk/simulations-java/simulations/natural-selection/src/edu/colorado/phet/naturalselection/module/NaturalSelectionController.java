@@ -1,5 +1,3 @@
-/* Copyright 2009, University of Colorado */
-
 package edu.colorado.phet.naturalselection.module;
 
 import java.awt.event.ActionEvent;
@@ -77,54 +75,30 @@ public class NaturalSelectionController {
             }
         } );
 
+        // when a bunny is selected, inform the pedigree chart to display that bunny
         canvas.getLandscapeNode().addListener( new LandscapeNode.Listener() {
             public void onBunnySelected( Bunny bunny ) {
                 controlPanel.getPedigreeChart().displayBunny( bunny );
             }
         } );
 
-        ColorGene.getInstance().addListener( new GeneListener() {
+        // notify the main canvas of mutatable change events, so we can display the "mutation pending" notification
+        GeneListener geneListener = new GeneListener() {
             public void onChangeDominantAllele( Gene gene, boolean primary ) {
-
             }
 
             public void onChangeDistribution( Gene gene, int primary, int secondary ) {
-
             }
 
             public void onChangeMutatable( Gene gene, boolean mutatable ) {
-                canvas.handleMutationChange( ColorGene.getInstance(), mutatable );
+                canvas.handleMutationChange( gene, mutatable );
             }
-        } );
+        };
+        ColorGene.getInstance().addListener( geneListener );
+        TailGene.getInstance().addListener( geneListener );
+        TeethGene.getInstance().addListener( geneListener );
 
-        TailGene.getInstance().addListener( new GeneListener() {
-            public void onChangeDominantAllele( Gene gene, boolean primary ) {
-
-            }
-
-            public void onChangeDistribution( Gene gene, int primary, int secondary ) {
-
-            }
-
-            public void onChangeMutatable( Gene gene, boolean mutatable ) {
-                canvas.handleMutationChange( TailGene.getInstance(), mutatable );
-            }
-        } );
-
-        TeethGene.getInstance().addListener( new GeneListener() {
-            public void onChangeDominantAllele( Gene gene, boolean primary ) {
-
-            }
-
-            public void onChangeDistribution( Gene gene, int primary, int secondary ) {
-
-            }
-
-            public void onChangeMutatable( Gene gene, boolean mutatable ) {
-                canvas.handleMutationChange( TeethGene.getInstance(), mutatable );
-            }
-        } );
-
+        // detect when all of the bunnies die, and show the game over dialog
         model.addListener( new NaturalSelectionModel.Listener() {
             public void onEvent( NaturalSelectionModel.Event event ) {
                 if ( event.getType() == NaturalSelectionModel.Event.TYPE_GAME_OVER ) {
@@ -133,6 +107,7 @@ public class NaturalSelectionController {
             }
         } );
 
+        // detect when too many bunnies are alive, and show the bunnies take over dialog
         model.addListener( new NaturalSelectionModel.Listener() {
             public void onEvent( NaturalSelectionModel.Event event ) {
                 if ( event.getType() == NaturalSelectionModel.Event.TYPE_BUNNIES_TAKE_OVER ) {
@@ -141,9 +116,9 @@ public class NaturalSelectionController {
             }
         } );
 
+        // a slightly roundabout way of checking the bunny population limits when ANY bunny is created or dies
         ColorGene.getInstance().addListener( new GeneListener() {
             public void onChangeDominantAllele( Gene gene, boolean primary ) {
-
             }
 
             public void onChangeDistribution( Gene gene, int primary, int secondary ) {
@@ -156,7 +131,6 @@ public class NaturalSelectionController {
             }
 
             public void onChangeMutatable( Gene gene, boolean mutatable ) {
-
             }
         } );
 
