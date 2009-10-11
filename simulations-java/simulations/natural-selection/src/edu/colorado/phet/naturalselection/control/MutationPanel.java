@@ -28,6 +28,9 @@ public class MutationPanel extends JPanel {
     private ImagePanel tailMutationIndicator;
     private ImagePanel teethMutationIndicator;
 
+    private static final Insets BUTTON_INSETS = new Insets( 2, 0, 2, 10 );
+    private static final Insets INDICATOR_INSETS = new Insets( 0, 0, 0, 0 );
+
     public MutationPanel( NaturalSelectionModel model ) {
         setLayout( new GridBagLayout() );
 
@@ -48,44 +51,10 @@ public class MutationPanel extends JPanel {
         teethButton = new JButton( NaturalSelectionStrings.GENE_TEETH_LONG, new ImageIcon( NaturalSelectionResources.getImage( NaturalSelectionConstants.IMAGE_BUNNY_TEETH_LONG ) ) );
         teethButton.setHorizontalTextPosition( SwingConstants.LEFT );
 
+        initButtons();
+        initIndicators();
+
         GridBagConstraints c = new GridBagConstraints();
-
-        c.gridx = 0;
-        c.gridy = 0;
-        c.fill = GridBagConstraints.BOTH;
-        c.insets = new Insets( 2, 0, 2, 10 );
-        add( colorButton, c );
-
-        c.gridx = 1;
-        c.gridy = 0;
-        c.fill = GridBagConstraints.NONE;
-        c.insets = new Insets( 0, 0, 0, 0 );
-        add( colorMutationIndicator, c );
-
-        c.gridx = 0;
-        c.gridy = 1;
-        c.fill = GridBagConstraints.BOTH;
-        c.insets = new Insets( 2, 0, 2, 10 );
-        add( tailButton, c );
-
-        c.gridx = 1;
-        c.gridy = 1;
-        c.fill = GridBagConstraints.NONE;
-        c.insets = new Insets( 0, 0, 0, 0 );
-        add( tailMutationIndicator, c );
-
-        c.gridx = 0;
-        c.gridy = 2;
-        c.fill = GridBagConstraints.BOTH;
-        c.insets = new Insets( 2, 0, 2, 10 );
-        add( teethButton, c );
-
-        c.gridx = 1;
-        c.gridy = 2;
-        c.fill = GridBagConstraints.NONE;
-        c.insets = new Insets( 0, 0, 0, 0 );
-        add( teethMutationIndicator, c );
-
         c.gridx = 1;
         c.gridy = 3;
         c.fill = GridBagConstraints.NONE;
@@ -96,10 +65,7 @@ public class MutationPanel extends JPanel {
             public void actionPerformed( ActionEvent actionEvent ) {
                 ColorGene.getInstance().setMutatable( true );
                 colorMutationIndicator.setVisible( true );
-
-                colorButton.setEnabled( false );
-                tailButton.setEnabled( false );
-                teethButton.setEnabled( false );
+                setButtonsEnabled( false );
             }
         } );
 
@@ -107,10 +73,7 @@ public class MutationPanel extends JPanel {
             public void actionPerformed( ActionEvent actionEvent ) {
                 TailGene.getInstance().setMutatable( true );
                 tailMutationIndicator.setVisible( true );
-
-                colorButton.setEnabled( false );
-                tailButton.setEnabled( false );
-                teethButton.setEnabled( false );
+                setButtonsEnabled( false );
             }
         } );
 
@@ -118,10 +81,7 @@ public class MutationPanel extends JPanel {
             public void actionPerformed( ActionEvent actionEvent ) {
                 TeethGene.getInstance().setMutatable( true );
                 teethMutationIndicator.setVisible( true );
-
-                colorButton.setEnabled( false );
-                tailButton.setEnabled( false );
-                teethButton.setEnabled( false );
+                setButtonsEnabled( false );
             }
         } );
 
@@ -136,9 +96,7 @@ public class MutationPanel extends JPanel {
 
             public void onChangeMutatable( Gene gene, boolean mutatable ) {
                 if ( !mutatable ) {
-                    colorButton.setEnabled( true );
-                    tailButton.setEnabled( true );
-                    teethButton.setEnabled( true );
+                    setButtonsEnabled( true );
 
                     colorMutationIndicator.setVisible( false );
                     tailMutationIndicator.setVisible( false );
@@ -156,6 +114,46 @@ public class MutationPanel extends JPanel {
         tailMutationIndicator.setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
         teethMutationIndicator.setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
 
+    }
+
+    private void setButtonsEnabled( boolean enabled ) {
+        colorButton.setEnabled( enabled );
+        tailButton.setEnabled( enabled );
+        teethButton.setEnabled( enabled );
+    }
+
+    private void initButtons() {
+        GridBagConstraints c = new GridBagConstraints();
+
+        c.gridx = 0;
+        c.fill = GridBagConstraints.BOTH;
+        c.insets = BUTTON_INSETS;
+
+        c.gridy = 0;
+        add( colorButton, c );
+
+        c.gridy = 1;
+        add( tailButton, c );
+
+        c.gridy = 2;
+        add( teethButton, c );
+    }
+
+    private void initIndicators() {
+        GridBagConstraints c = new GridBagConstraints();
+
+        c.gridx = 1;
+        c.fill = GridBagConstraints.NONE;
+        c.insets = INDICATOR_INSETS;
+
+        c.gridy = 0;
+        add( colorMutationIndicator, c );
+
+        c.gridy = 1;
+        add( tailMutationIndicator, c );
+
+        c.gridy = 2;
+        add( teethMutationIndicator, c );
     }
 
     public void reset() {
