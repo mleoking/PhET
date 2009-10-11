@@ -6,9 +6,11 @@ import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
 
 /**
  * Defaults for the simulation
+ *
+ * @author Jonathan Olson
  */
 public class NaturalSelectionDefaults {
-    /* Not intended for instantiation */
+
     private NaturalSelectionDefaults() {
     }
 
