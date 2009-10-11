@@ -20,6 +20,7 @@ public abstract class HighContrastImageFilter extends RGBImageFilter {
         }
         else {
             Image image = getImage( NaturalSelectionResources.getImage( name ) );
+
             // trick from PImage.java to make it into a BufferedImage. Otherwise, Piccolo will create many many copies in memory
             image = new ImageIcon( image ).getImage();
             System.out.println( "Adding to high-contrast cache: " + name );
