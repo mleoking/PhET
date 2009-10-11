@@ -269,4 +269,12 @@ public class NaturalSelectionControlPanel extends JPanel {
     public PedigreeChartCanvas getPedigreeChart() {
         return pedigreeChart;
     }
+
+    public MutationPanel getMutationPanel() {
+        return leftPanel.getMutationPanel();
+    }
+
+    public GenePanel getGenePanel() {
+        return leftPanel.getGenePanel();
+    }
 }

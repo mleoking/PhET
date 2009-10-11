@@ -75,7 +75,7 @@ public class GenePanel extends JPanel {
     private static final int COLUMN_DOMINANT = 2;
     private static final int COLUMN_RECESSIVE = 3;
 
-    public GenePanel( NaturalSelectionModel model, MutationPanel mutationPanel ) {
+    public GenePanel( NaturalSelectionModel model ) {
 
         setLayout( new GridBagLayout() );
         GridBagConstraints c = new GridBagConstraints();
@@ -118,27 +118,7 @@ public class GenePanel extends JPanel {
         initGeneArea( ROW_TEETH_TOP, ROW_TEETH_BOTTOM, teethLabel, teethRegular, teethLong, teethPD, teethPR, teethSD, teethSR );
         initSeparators();
 
-        mutationPanel.colorButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent actionEvent ) {
-                setColorEnabled( true );
-            }
-        } );
-
-        mutationPanel.tailButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent actionEvent ) {
-                setTailEnabled( true );
-            }
-        } );
-
-        mutationPanel.teethButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent actionEvent ) {
-                setTeethEnabled( true );
-            }
-        } );
-
-
         setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
-
     }
 
     private void initGeneArea( int rowTop, int rowBottom, JLabel label, ImagePanel primarySwatch, ImagePanel secondarySwatch,

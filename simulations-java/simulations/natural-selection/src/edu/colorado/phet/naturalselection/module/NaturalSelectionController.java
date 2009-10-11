@@ -158,6 +158,28 @@ public class NaturalSelectionController {
             }
         } );
 
+        //----------------------------------------------------------------------------
+        // When a mutation button is pressed, make sure to enable the corresponding part of the gene panel
+        //----------------------------------------------------------------------------
+
+        controlPanel.getMutationPanel().colorButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent actionEvent ) {
+                controlPanel.getGenePanel().setColorEnabled( true );
+            }
+        } );
+
+        controlPanel.getMutationPanel().tailButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent actionEvent ) {
+                controlPanel.getGenePanel().setTailEnabled( true );
+            }
+        } );
+
+        controlPanel.getMutationPanel().teethButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent actionEvent ) {
+                controlPanel.getGenePanel().setTeethEnabled( true );
+            }
+        } );
+
     }
 
 }
