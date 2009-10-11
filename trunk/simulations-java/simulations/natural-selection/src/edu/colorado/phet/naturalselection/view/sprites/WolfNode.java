@@ -11,9 +11,11 @@ import edu.umd.cs.piccolo.util.PAffineTransform;
 
 /**
  * Visual display of a wolf
+ *
+ * @author Jonathan Olson
  */
 public class WolfNode extends NaturalSelectionSprite implements Wolf.Listener {
-    private PNode wolfHolder;
+
     private PNode wolfGraphic;
     private boolean flipped = false;
     private boolean flippedInit = false;
@@ -22,7 +24,7 @@ public class WolfNode extends NaturalSelectionSprite implements Wolf.Listener {
     public WolfNode( LandscapeNode landscapeNode, Point3D position ) {
         super( landscapeNode, position );
 
-        wolfHolder = new PNode();
+        PNode wolfHolder = new PNode();
         wolfGraphic = new PNode();
         wolfImage = NaturalSelectionResources.getImageNode( NaturalSelectionConstants.IMAGE_WOLF );
 

@@ -49,6 +49,7 @@ public class LandscapeNode extends PNode implements NaturalSelectionModel.Listen
         this.model = model;
         this.landscape = landscape;
 
+        // initialize lists
         sprites = new LinkedList<NaturalSelectionSprite>();
         bunnies = new LinkedList<BunnyNode>();
         trees = new LinkedList<TreeNode>();
@@ -210,9 +211,7 @@ public class LandscapeNode extends PNode implements NaturalSelectionModel.Listen
         bunnyNode.addInputEventListener( new PBasicInputEventHandler() {
             @Override
             public void mouseClicked( PInputEvent event ) {
-                //super.mouseClicked( event );
                 bunny.setSelected( true );
-                //showPedigree( model, bunny );
                 notifyBunnySelected( bunny );
             }
         } );

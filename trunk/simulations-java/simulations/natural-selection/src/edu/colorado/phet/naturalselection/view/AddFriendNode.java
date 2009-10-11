@@ -12,6 +12,8 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * Displays the "Add Friend" button
+ *
+ * @author Jonathan Olson
  */
 public class AddFriendNode extends PNode {
 

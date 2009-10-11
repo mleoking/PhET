@@ -16,6 +16,11 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
+/**
+ * Displays a notification in the play area that a mutation is pending
+ *
+ * @author Jonathan Olson
+ */
 public class MutationPendingNode extends PNode {
     private PText label;
     private PImage geneImage;
@@ -48,7 +53,6 @@ public class MutationPendingNode extends PNode {
 
         layoutNode.translate( CONTAINER_PADDING, CONTAINER_PADDING );
 
-        // TODO: see if there's a nice way without downcasting
         PPath background = PPath.createRectangle( 0, 0, (float) getPlacementWidth(), (float) getPlacementHeight() );
 
         addChild( background );
