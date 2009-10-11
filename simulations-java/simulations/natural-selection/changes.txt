@@ -1,3 +1,5 @@
+# 0.01.36 (35660) Oct 10, 2009
+10/10/09 Improved panel detaching in control panel
 # 0.01.35 (35569) Oct 7, 2009
 10/7/09 Pedigree improvements
 # 0.01.34 (35497) Oct 5, 2009
