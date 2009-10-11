@@ -9,6 +9,11 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
+/**
+ * Displays a pedigree of a selected bunny (or text to click on a bunny if none are selected)
+ *
+ * @author Jonathan Olson
+ */
 public class PedigreeNode extends PNode {
 
     /**
@@ -68,6 +73,12 @@ public class PedigreeNode extends PNode {
         addChild( child );
     }
 
+    /**
+     * What width the bunny should be scaled to when it is at a particular level
+     *
+     * @param level The level
+     * @return Bunny width in pixels
+     */
     private static double desiredBunnyWidth( int level ) {
         if ( level == 0 ) {
             return 50.0;
@@ -88,10 +99,23 @@ public class PedigreeNode extends PNode {
         return 15.0;
     }
 
+    /**
+     * Get the vertical padding between bunnies of generation level, and those of generation level + 1
+     *
+     * @param level The level
+     * @return Vertical padding in pixels
+     */
     private static double getVPad( int level ) {
         return 10;
     }
 
+    /**
+     * Get the horizontal padding between bunnies inside of a generation level. This is mostly important just for the
+     * highest (oldest) level of bunnies
+     *
+     * @param level The level
+     * @return Horizontal padding in pixels
+     */
     private static double getHPad( int level ) {
         if ( level == 0 ) {
             return 40.0;
@@ -112,6 +136,13 @@ public class PedigreeNode extends PNode {
         return 10;
     }
 
+    /**
+     * How much a given bunny node needs to be scaled to be at its ideal width
+     *
+     * @param node  The bunny node
+     * @param level The level
+     * @return The necessary scaling factor
+     */
     private static double getBunnyScale( GenerationBunnyNode node, int level ) {
         return desiredBunnyWidth( level ) / node.getBunnyWidth();
     }
@@ -124,55 +155,122 @@ public class PedigreeNode extends PNode {
         return ret;
     }
 
+    /**
+     * Recursive function that returns a piccolo node (with extra dimension and location information) that contains the
+     * entire pedigree for the particular bunny (where level <= maxLevel).
+     *
+     * @param bunny    The bunny for the pedigree
+     * @param level    The level of the bunny
+     * @param maxLevel The maximum level to display ancestors of that bunny
+     * @return A bounded piccolo node with that bunny and its pedigree
+     */
     private static PBoundedNode getBlock( Bunny bunny, int level, int maxLevel ) {
         PBoundedNode ret = new PBoundedNode();
 
+        // get the piccolo node for our bunny
         GenerationBunnyNode bunnyNode = new GenerationBunnyNode( bunny );
         bunnyNode.setSelected( bunny.isSelected() );
+
+        // scale it, and get its final (pixel) size
         double bunnyScale = getBunnyScale( bunnyNode, level );
         double bunnyWidth = bunnyScale * bunnyNode.getBunnyWidth();
         double bunnyHeight = bunnyScale * bunnyNode.getBunnyHeight();
         bunnyNode.scale( bunnyScale );
+
         ret.addChild( bunnyNode );
 
+        // record this bunny size information in the node
         ret.setBunnyWidth( bunnyWidth );
         ret.setBunnyHeight( bunnyHeight );
 
         if ( level == maxLevel ) {
+            // this is a leaf. we will display no more bunnies below this
+
+            // center the bunny
             bunnyNode.setOffset( -bunnyWidth / 2, 0 );
+
+            // record the bounds for the entire node
             ret.setBoundWidth( bunnyWidth );
             ret.setBoundHeight( bunnyHeight );
         }
         else {
+            // we need to display the pedigree sub-blocks below this bunny
+
+            // get the two ancestor blocks
             PBoundedNode fatherNode = getBlock( bunny.getFather(), level + 1, maxLevel );
             PBoundedNode motherNode = getBlock( bunny.getMother(), level + 1, maxLevel );
+
+            // get their bounds
             double fatherWidth = fatherNode.getBoundWidth();
             double fatherHeight = fatherNode.getBoundHeight();
             double motherWidth = motherNode.getBoundWidth();
             double motherHeight = motherNode.getBoundHeight();
+
+            // position the sub-blocks (with padding inbetween)
             double fatherOffset = -getHPad( maxLevel ) / 2 - fatherWidth / 2;
             fatherNode.setOffset( fatherOffset, 0 );
             double motherOffset = getHPad( maxLevel ) / 2 + motherWidth / 2;
             motherNode.setOffset( motherOffset, 0 );
+
+            // record our block width inside the node
             ret.setBoundWidth( fatherWidth + motherWidth + getHPad( maxLevel ) );
+
+            // position our bunny depending on the maximum parent block height
             double maxChildHeight = fatherHeight > motherHeight ? fatherHeight : motherHeight;
             double maxChildBunnyHeight = fatherNode.getBunnyHeight() > motherNode.getBunnyHeight() ? fatherNode.getBunnyHeight() : motherNode.getBunnyHeight();
             bunnyNode.setOffset( -bunnyWidth / 2, maxChildHeight + getVPad( level ) );
+
+            // record our block height inside the node
             ret.setBoundHeight( maxChildHeight + getVPad( level ) + bunnyHeight );
+
+            // add the child sub-blocks
             ret.addChild( fatherNode );
             ret.addChild( motherNode );
+
+            // determine the height at which the parent bunnies centers in the sub-blocks are in our diagram
             double crossHeight = maxChildHeight - maxChildBunnyHeight / 2;
+
+            // draw the line for the pedigree between the two parent bunnies
             ret.addChild( line( fatherOffset + fatherNode.getBunnyWidth() / 2 + LINE_PAD_HORIZ, crossHeight, motherOffset - motherNode.getBunnyWidth() / 2 - LINE_PAD_HORIZ, crossHeight ) );
+
+            // draw the line down to our current bunny
             ret.addChild( line( 0, crossHeight, 0, maxChildHeight + getVPad( level ) - LINE_PAD_VERT ) );
         }
 
         return ret;
     }
 
+    /**
+     * Returns the largest depth at which all ancestors exist, or the maximum level, whichever is smaller.
+     * <p/>
+     * EX: (hopefully you have a monospaced viewer for this)
+     * | level 3        A - B  C - D
+     * |                  |      |
+     * | level 2          E ---- F G - H
+     * |                      |      |
+     * | level 1              I ---- J
+     * |                         |
+     * | level 0                 K
+     * <p/>
+     * Above is the actual (full) pedigree for bunny K, which goes up to level 3. However since G and H do not have
+     * parents in level 3, we can only display a full pedigree up to level 2. Thus this function should return level 2,
+     * since a FULL pedigree can be displayed up to that level.
+     *
+     * @param bunny The bunny we want the pedigree of
+     * @return The level
+     */
     private static int getBunnyMaxLevel( Bunny bunny ) {
         return getBunnyMaxLevel( bunny, 0 );
     }
 
+    /**
+     * Recursive function to find the minimum depth of a leaf under the maximum depth in a bunny's pedigree. Ideally,
+     * this should only be called by getBunnyMaxLevel( bunny )
+     *
+     * @param bunny The bunny
+     * @param depth The current bunny's depth
+     * @return The minimum depth of a leaf under this tree portion
+     */
     private static int getBunnyMaxLevel( Bunny bunny, int depth ) {
         if ( depth == MAX_LEVEL ) {
             return depth;
@@ -192,6 +290,10 @@ public class PedigreeNode extends PNode {
         return fatherLevel > motherLevel ? motherLevel : fatherLevel;
     }
 
+    /**
+     * Piccolo node extension that contains full dimensions, and the bunny width/height (and thus implicitly, posotion)
+     * of the youngest bunny in this containing block. This is necessary to display pedigree lines between bunnies.
+     */
     private static class PBoundedNode extends PNode {
         private double boundWidth;
         private double boundHeight;
