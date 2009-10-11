@@ -29,7 +29,7 @@ public class PedigreeChartPanel extends JPanel {
 
         this.model = model;
 
-        pedigreeCanvas = new PedigreeChartCanvas( model );
+        pedigreeCanvas = new PedigreeChartCanvas();
         bar = new JScrollBar( JScrollBar.HORIZONTAL );
         bar.setMaximum( M );
         bar.setMinimum( -M );

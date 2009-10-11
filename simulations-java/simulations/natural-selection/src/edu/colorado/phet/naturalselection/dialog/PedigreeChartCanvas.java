@@ -10,7 +10,6 @@ import edu.colorado.phet.naturalselection.NaturalSelectionApplication;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
 import edu.colorado.phet.naturalselection.model.Bunny;
-import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
 import edu.colorado.phet.naturalselection.view.PedigreeNode;
 import edu.umd.cs.piccolo.PNode;
 
@@ -21,31 +20,23 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class PedigreeChartCanvas extends PhetPCanvas {
 
-    private NaturalSelectionModel model;
     public PedigreeNode pedigreeNode;
 
     private PNode rootNode;
 
     private static final double PEDIGREE_TOP_PADDING = 5.0;
 
-    /**
-     * Constructor
-     *
-     * @param model The natural selection model
-     */
-    public PedigreeChartCanvas( NaturalSelectionModel model ) {
+    public PedigreeChartCanvas() {
         super.setWorldTransformStrategy( new ConstantTransformStrategy( new AffineTransform() ) );
 
         setPreferredSize( NaturalSelectionDefaults.GENERATION_CHART_SIZE );
-
-        this.model = model;
 
         setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_GENERATION_CHART ) );
 
         rootNode = new PNode();
         addWorldChild( rootNode );
 
-        pedigreeNode = new PedigreeNode( model );
+        pedigreeNode = new PedigreeNode();
 
         rootNode.addChild( pedigreeNode );
 
