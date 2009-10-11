@@ -13,37 +13,58 @@ import edu.umd.cs.piccolo.nodes.PText;
 
 public class PedigreeNode extends PNode {
 
+    /**
+     * Holds the pedigree when it is displayed
+     */
     private PBoundedNode child;
 
-    private NaturalSelectionModel model;
+    /**
+     * Holds the "click on a bunny" message when the pedigree is not displayed
+     */
+    private PBoundedNode textHolder;
 
-    private static final double BUNNY_WIDTH = 60.0;
-
+    /**
+     * Maximum ancestor level shown in the generation chart. The bunny selected is at level 0, its parents are level
+     * 1, so for example, MAX_LEVEL of 2 would show a bunny, its parents, and its grandparents
+     */
     private static final int MAX_LEVEL = 4;
 
+    // padding spaces between bunnies in the pedigree and the lines that connect them
     private static final double LINE_PAD_HORIZ = 2.0;
     private static final double LINE_PAD_VERT = 2.0;
 
-    public PedigreeNode( NaturalSelectionModel model ) {
-        this.model = model;
+    // whether a bunny is currently showing
+    private boolean showingBunny = false;
 
-        child = new PBoundedNode();
+    public PedigreeNode( NaturalSelectionModel model ) {
+        textHolder = new PBoundedNode();
         PText bunnyText = new PText( NaturalSelectionStrings.PEDIGREE_START_MESSAGE );
         bunnyText.setFont( new PhetFont( 24 ) );
-        child.addChild( bunnyText );
-        addChild( child );
-        child.setOffset( -bunnyText.getWidth() / 2, 10 );
+        textHolder.addChild( bunnyText );
+        textHolder.setOffset( -bunnyText.getWidth() / 2, 10 );
+
+        addChild( textHolder );
     }
 
     public void reset() {
-        if ( child != null ) {
+        removeChildren();
+        addChild( textHolder );
+    }
+
+    private void removeChildren() {
+        if ( showingBunny ) {
+            showingBunny = false;
             removeChild( child );
-            child = null;
+        }
+        else {
+            removeChild( textHolder );
         }
     }
 
     public void displayBunny( Bunny bunny ) {
-        reset();
+        removeChildren();
+
+        showingBunny = true;
 
         child = getBlock( bunny, 0, getBunnyMaxLevel( bunny ) );
         addChild( child );

@@ -140,6 +140,8 @@ public class NaturalSelectionModel extends ClockAdapter {
             prematureEndFrenzy();
         }
 
+        Bunny.reset();
+
         climate = NaturalSelectionDefaults.DEFAULT_CLIMATE;
 
         selectionFactor = NaturalSelectionDefaults.DEFAULT_SELECTION_FACTOR;

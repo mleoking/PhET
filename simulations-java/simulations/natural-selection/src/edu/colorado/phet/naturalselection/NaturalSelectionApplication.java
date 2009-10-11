@@ -178,7 +178,6 @@ public class NaturalSelectionApplication extends PiccoloPhetApplication {
 
     public static void main( final String[] args ) throws ClassNotFoundException {
         for ( String arg : args ) {
-            System.out.println( "arg: " + arg );
             if ( arg.equals( "-highcontrast" ) ) {
                 overrideHighContrast = true;
             }
