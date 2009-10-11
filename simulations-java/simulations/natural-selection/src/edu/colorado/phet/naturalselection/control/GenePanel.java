@@ -108,57 +108,10 @@ public class GenePanel extends JPanel {
         setTailEnabled( false );
         setTeethEnabled( false );
 
-        c.gridx = COLUMN_FIRST;
-        c.gridy = ROW_TITLE;
-        c.gridwidth = 4;
-        c.gridheight = 1;
-        JLabel label = new JLabel( NaturalSelectionStrings.GENE_PANEL_EDIT_GENES );
-        label.setBorder( new EmptyBorder( new Insets( 0, 0, 5, 0 ) ) );
-        label.setFont( new PhetFont( 18 ) );
-        add( label, c );
-
-        //----------------------------------------------------------------------------
-        // Labels
-        //----------------------------------------------------------------------------
-
-        c.gridx = COLUMN_LABELS;
-        c.gridy = ROW_COLOR_TOP;
-        c.gridwidth = 1;
-        c.gridheight = 2;
-        colorLabel.setBorder( new EmptyBorder( GENE_LABEL_INSETS ) );
-        add( colorLabel, c );
-
-        c.gridx = COLUMN_LABELS;
-        c.gridy = ROW_TAIL_TOP;
-        c.gridwidth = 1;
-        c.gridheight = 2;
-        tailLabel.setBorder( new EmptyBorder( GENE_LABEL_INSETS ) );
-        add( tailLabel, c );
-
-        c.gridx = COLUMN_LABELS;
-        c.gridy = ROW_TEETH_TOP;
-        c.gridwidth = 1;
-        c.gridheight = 2;
-        teethLabel.setBorder( new EmptyBorder( GENE_LABEL_INSETS ) );
-        add( teethLabel, c );
-
-        c.gridx = COLUMN_DOMINANT;
-        c.gridy = ROW_FIELDS;
-        c.gridwidth = 1;
-        c.gridheight = 1;
-        JLabel dominantLabel = new JLabel( NaturalSelectionStrings.GENE_PANEL_DOMINANT );
-        dominantLabel.setBorder( new EmptyBorder( new Insets( 0, 10, 0, 10 ) ) );
-        add( dominantLabel, c );
-
-        c.gridx = COLUMN_RECESSIVE;
-        c.gridy = ROW_FIELDS;
-        c.gridwidth = 1;
-        c.gridheight = 1;
-        add( new JLabel( NaturalSelectionStrings.GENE_PANEL_RECESSIVE ), c );
-
-        initGeneArea( ROW_COLOR_TOP, ROW_COLOR_BOTTOM, colorWhite, colorBrown, colorPD, colorPR, colorSD, colorSR );
-        initGeneArea( ROW_TAIL_TOP, ROW_TAIL_BOTTOM, tailRegular, tailBig, tailPD, tailPR, tailSD, tailSR );
-        initGeneArea( ROW_TEETH_TOP, ROW_TEETH_BOTTOM, teethRegular, teethLong, teethPD, teethPR, teethSD, teethSR );
+        initLabels();
+        initGeneArea( ROW_COLOR_TOP, ROW_COLOR_BOTTOM, colorLabel, colorWhite, colorBrown, colorPD, colorPR, colorSD, colorSR );
+        initGeneArea( ROW_TAIL_TOP, ROW_TAIL_BOTTOM, tailLabel, tailRegular, tailBig, tailPD, tailPR, tailSD, tailSR );
+        initGeneArea( ROW_TEETH_TOP, ROW_TEETH_BOTTOM, teethLabel, teethRegular, teethLong, teethPD, teethPR, teethSD, teethSR );
         initSeparators();
 
         mutationPanel.colorButton.addActionListener( new ActionListener() {
@@ -184,7 +137,7 @@ public class GenePanel extends JPanel {
 
     }
 
-    private void initGeneArea( int rowTop, int rowBottom, ImagePanel primarySwatch, ImagePanel secondarySwatch,
+    private void initGeneArea( int rowTop, int rowBottom, JLabel label, ImagePanel primarySwatch, ImagePanel secondarySwatch,
                                JRadioButton primaryDominant, JRadioButton primaryRecessive,
                                JRadioButton secondaryDominant, JRadioButton secondaryRecessive ) {
         GridBagConstraints c = new GridBagConstraints();
@@ -212,6 +165,12 @@ public class GenePanel extends JPanel {
         c.gridx = COLUMN_RECESSIVE;
         c.gridy = rowBottom;
         add( secondaryRecessive, c );
+
+        c.gridx = COLUMN_LABELS;
+        c.gridy = rowTop;
+        c.gridheight = 2;
+        label.setBorder( new EmptyBorder( GENE_LABEL_INSETS ) );
+        add( label, c );
     }
 
     private void initSeparators() {
@@ -228,6 +187,28 @@ public class GenePanel extends JPanel {
         c.gridx = COLUMN_FIRST;
         c.gridy = ROW_LOW_SEPARATOR;
         add( new JSeparator(), c );
+    }
+
+    private void initLabels() {
+        GridBagConstraints c = new GridBagConstraints();
+
+        c.gridx = COLUMN_DOMINANT;
+        c.gridy = ROW_FIELDS;
+        JLabel dominantLabel = new JLabel( NaturalSelectionStrings.GENE_PANEL_DOMINANT );
+        dominantLabel.setBorder( new EmptyBorder( new Insets( 0, 10, 0, 10 ) ) );
+        add( dominantLabel, c );
+
+        c.gridx = COLUMN_RECESSIVE;
+        c.gridy = ROW_FIELDS;
+        add( new JLabel( NaturalSelectionStrings.GENE_PANEL_RECESSIVE ), c );
+
+        c.gridx = COLUMN_FIRST;
+        c.gridy = ROW_TITLE;
+        c.gridwidth = 4;
+        JLabel label = new JLabel( NaturalSelectionStrings.GENE_PANEL_EDIT_GENES );
+        label.setBorder( new EmptyBorder( new Insets( 0, 0, 5, 0 ) ) );
+        label.setFont( new PhetFont( 18 ) );
+        add( label, c );
     }
 
     public JRadioButton createButton( boolean selected ) {
