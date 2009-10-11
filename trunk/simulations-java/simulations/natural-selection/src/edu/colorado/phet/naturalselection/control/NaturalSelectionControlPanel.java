@@ -1,5 +1,3 @@
-/* Copyright 2009, University of Colorado */
-
 package edu.colorado.phet.naturalselection.control;
 
 import java.awt.*;
@@ -27,23 +25,16 @@ public class NaturalSelectionControlPanel extends JPanel {
 
     // main panels
     private JPanel rightPanel;
-    public BunnyStatsPanel bunnyStatsPanel; // TODO: privatize
+    private BunnyStatsPanel bunnyStatsPanel;
     private LeftPanel leftPanel;
     private DetachOptionPanel detachPanel;
     private PedigreeChartCanvas pedigreeChart;
     private SwitcherPanel switcherPanel;
-
-    // subpanels
-    public ClimatePanel climatePanel;
-    public SelectionPanel selectionPanel;
+    private ClimatePanel climatePanel;
+    private SelectionPanel selectionPanel;
 
     // buttons
-    public JButton resetAllButton;
-    public JButton showGenerationChartButton;
-
-    // private variables
-    private NaturalSelectionModel model;
-    private NaturalSelectionModule module;
+    private JButton resetAllButton;
 
     /**
      * Constructor
@@ -52,20 +43,18 @@ public class NaturalSelectionControlPanel extends JPanel {
      * @param model  The corresponding model
      */
     public NaturalSelectionControlPanel( NaturalSelectionModule module, NaturalSelectionModel model ) {
-        this.model = model;
-        this.module = module;
 
         GridBagLayout layout = new GridBagLayout();
         this.setLayout( layout );
 
         // build all of the panels
-        climatePanel = new ClimatePanel( this.model );
-        selectionPanel = new SelectionPanel( this.model );
-        PiccoloClockControlPanel clockControlPanel = new PiccoloClockControlPanel( this.module.getClock() );
+        climatePanel = new ClimatePanel( model );
+        selectionPanel = new SelectionPanel( model );
+        PiccoloClockControlPanel clockControlPanel = new PiccoloClockControlPanel( module.getClock() );
         clockControlPanel.addBetweenTimeDisplayAndButtons( new GenerationProgressPanel( model ) );
         createRightPanel();
-        leftPanel = new LeftPanel( this.model );
-        bunnyStatsPanel = new BunnyStatsPanel( this.model );
+        leftPanel = new LeftPanel( model );
+        bunnyStatsPanel = new BunnyStatsPanel( model );
         LogoPanel logoPanel = new LogoPanel();
         logoPanel.setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
         pedigreeChart = new PedigreeChartCanvas( model );
@@ -219,5 +208,21 @@ public class NaturalSelectionControlPanel extends JPanel {
 
     public SwitcherPanel getSwitcherPanel() {
         return switcherPanel;
+    }
+
+    public BunnyStatsPanel getBunnyStatsPanel() {
+        return bunnyStatsPanel;
+    }
+
+    public ClimatePanel getClimatePanel() {
+        return climatePanel;
+    }
+
+    public SelectionPanel getSelectionPanel() {
+        return selectionPanel;
+    }
+
+    public JButton getResetAllButton() {
+        return resetAllButton;
     }
 }
