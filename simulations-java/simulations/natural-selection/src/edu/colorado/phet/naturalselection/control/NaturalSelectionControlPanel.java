@@ -20,7 +20,7 @@ import edu.colorado.phet.naturalselection.model.Bunny;
 import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
 import edu.colorado.phet.naturalselection.module.NaturalSelectionModule;
 import edu.colorado.phet.naturalselection.persistence.NaturalSelectionConfig;
-import edu.colorado.phet.naturalselection.test.DetachOptionPanel;
+import edu.colorado.phet.naturalselection.control.DetachOptionPanel;
 
 /**
  * Main control panel for Natural Selection
