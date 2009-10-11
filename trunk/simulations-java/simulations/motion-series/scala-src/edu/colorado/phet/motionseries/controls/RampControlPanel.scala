@@ -31,17 +31,12 @@ class RampControlPanel(model: MotionSeriesModel,
                        showAngleSlider: Boolean,
                        showFrictionControl: Boolean,
                        showBounceControl: Boolean)
-        extends JPanel(new BorderLayout) {
+        extends ControlPanel {
   val body = new RampControlPanelBody(model, wordModel, freeBodyDiagramModel, coordinateSystemModel, vectorViewModel, resetHandler,
     coordinateSystemFeaturesEnabled, useObjectComboBox, objectModel, showAngleSlider, showFrictionControl, showBounceControl)
 
-  val southControlPanel = new JPanel()
-  val resetButton = new ResetAllButton(this)
-  resetButton.addResettable(new Resettable {def reset = resetHandler()})
-  southControlPanel.add(resetButton)
-
-  add(body, BorderLayout.NORTH)
-  add(southControlPanel, BorderLayout.SOUTH)
+  addControl(body)
+  addResetAllButton(new Resettable {def reset = resetHandler()})
 
   def addToBody(component: JComponent) = body.add(component)
 }

@@ -1,3 +1,4 @@
+Switch to using standard ControlPanel parent class, this adds scroll bars
 forces-and-motion: Set minimum mass to 1.0kg
 Refactored model, isolating moving man functionality
 # 1.03.51 (35491) Oct 4, 2009
