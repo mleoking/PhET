@@ -1,10 +1,8 @@
-/* Copyright 2009, University of Colorado */
-
 package edu.colorado.phet.naturalselection;
 
 public class NaturalSelectionStrings {
 
-    /* not intended for instantiation */
+    // not intended for instantiation
     private NaturalSelectionStrings() {
     }
 

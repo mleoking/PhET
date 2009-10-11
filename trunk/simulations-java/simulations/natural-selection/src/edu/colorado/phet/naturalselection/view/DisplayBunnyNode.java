@@ -60,6 +60,8 @@ public class DisplayBunnyNode extends PNode {
         this.teeth = teeth;
         this.tail = tail;
 
+        // we form the image name programmatically, just 'cause. 
+
         String imageName = "bunny";
 
         if ( color == ColorGene.WHITE_ALLELE ) {
@@ -93,15 +95,12 @@ public class DisplayBunnyNode extends PNode {
         addChild( image );
 
         initDeadX();
-
-        initSelectedBorder();
-
         addChild( deadX );
 
+        initSelectedBorder();
         addChild( selectedBorder );
 
         setDead( false );
-
         setSelected( false );
     }
 
@@ -128,6 +127,7 @@ public class DisplayBunnyNode extends PNode {
         selectedBorder = PPath.createRectangle( -padding, -padding, (float) getBunnyWidth() + 2 * padding, (float) getBunnyHeight() + 2 * padding );
         selectedBorder.setStroke( new BasicStroke( 7 ) );
         selectedBorder.setStrokePaint( Color.BLUE );
+
         // invisible middle
         selectedBorder.setPaint( new Color( 0, 0, 0, 0 ) );
     }
@@ -137,6 +137,7 @@ public class DisplayBunnyNode extends PNode {
     //----------------------------------------------------------------------------
 
     public void setMutated() {
+        // TODO: (low) allow a bunny to be ... unmutated if necessary?
         mutatedImage = NaturalSelectionResources.getImageNode( NaturalSelectionConstants.IMAGE_MUTATION_BUNNY );
         mutatedImage.setOffset( getBunnyWidth() / 2, -getBunnyHeight() / 5 );
         mutatedImage.setScale( 1.3 );
@@ -172,6 +173,9 @@ public class DisplayBunnyNode extends PNode {
         selectedBorder.setVisible( selected );
     }
 
+    public boolean isSelected() {
+        return selected;
+    }
 
     public boolean isDead() {
         return dead;

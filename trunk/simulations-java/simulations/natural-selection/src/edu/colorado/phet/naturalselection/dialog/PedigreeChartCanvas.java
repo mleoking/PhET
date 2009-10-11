@@ -11,7 +11,7 @@ import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
 import edu.colorado.phet.naturalselection.model.Bunny;
 import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
-import edu.colorado.phet.naturalselection.view.pedigree.PedigreeNode;
+import edu.colorado.phet.naturalselection.view.PedigreeNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**
