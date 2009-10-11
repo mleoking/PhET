@@ -1,5 +1,3 @@
-/* Copyright 2009, University of Colorado */
-
 package edu.colorado.phet.naturalselection.developer;
 
 import java.awt.*;
@@ -19,12 +17,12 @@ import edu.colorado.phet.naturalselection.NaturalSelectionApplication;
  */
 public class DeveloperControlsMenuItem extends JCheckBoxMenuItem {
 
-    private NaturalSelectionApplication _app;
-    private JDialog _developerControlsDialog;
+    private NaturalSelectionApplication application;
+    private JDialog developerControlsDialog;
 
     public DeveloperControlsMenuItem( NaturalSelectionApplication app ) {
         super( "Developer controls..." );
-        _app = app;
+        application = app;
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 handleDeveloperControls();
@@ -33,12 +31,12 @@ public class DeveloperControlsMenuItem extends JCheckBoxMenuItem {
     }
 
     private void handleDeveloperControls() {
-        System.out.println( "DeveloperControlsMenuItem.handleDeveloperControls" );//XXX
+        System.out.println( "DeveloperControlsMenuItem.handleDeveloperControls" );
         if ( isSelected() ) {
             Frame owner = PhetApplication.getInstance().getPhetFrame();
-            _developerControlsDialog = new DeveloperControlsDialog( owner, _app );
-            _developerControlsDialog.setVisible( true );
-            _developerControlsDialog.addWindowListener( new WindowAdapter() {
+            developerControlsDialog = new DeveloperControlsDialog( owner, application );
+            developerControlsDialog.setVisible( true );
+            developerControlsDialog.addWindowListener( new WindowAdapter() {
 
                 public void windowClosed( WindowEvent e ) {
                     cleanup();
@@ -50,12 +48,12 @@ public class DeveloperControlsMenuItem extends JCheckBoxMenuItem {
 
                 private void cleanup() {
                     setSelected( false );
-                    _developerControlsDialog = null;
+                    developerControlsDialog = null;
                 }
             } );
         }
         else {
-            _developerControlsDialog.dispose();
+            developerControlsDialog.dispose();
         }
     }
 }

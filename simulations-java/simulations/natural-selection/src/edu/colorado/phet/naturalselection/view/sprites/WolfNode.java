@@ -9,6 +9,9 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PAffineTransform;
 
+/**
+ * Visual display of a wolf
+ */
 public class WolfNode extends NaturalSelectionSprite implements Wolf.Listener {
     private PNode wolfHolder;
     private PNode wolfGraphic;
@@ -38,7 +41,6 @@ public class WolfNode extends NaturalSelectionSprite implements Wolf.Listener {
     }
 
     public void setFlipped( boolean flipped ) {
-        // TODO: refactor flipped into NaturalSelectionSprite 
         if ( flipped != this.flipped || !flippedInit ) {
             flippedInit = true;
             if ( flipped ) {
@@ -66,7 +68,6 @@ public class WolfNode extends NaturalSelectionSprite implements Wolf.Listener {
 
     public void rescale() {
         // how much to scale the wolf by
-        //double scaleFactor = Landscape.NEARPLANE * 0.25 / getPosition().getZ();
         double scaleFactor = Wolf.wolfScale( getPosition() );
 
         setScale( scaleFactor );

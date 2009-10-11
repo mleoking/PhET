@@ -11,6 +11,10 @@ import javax.swing.*;
 import edu.colorado.phet.naturalselection.model.Bunny;
 import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
 
+/**
+ * Panel that supports a resizable pedigree chart.
+ * TODO: currently not used. remove if it will not be used!
+ */
 public class PedigreeChartPanel extends JPanel {
 
     private static final int M = 100;

@@ -15,7 +15,7 @@ import edu.colorado.phet.naturalselection.view.PedigreeNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * The piccolo canvas where the pedigree charts are drawn in. Allows changing between the charts
+ * The piccolo canvas where the pedigree chart is drawn in.
  *
  * @author Jonathan Olson
  */

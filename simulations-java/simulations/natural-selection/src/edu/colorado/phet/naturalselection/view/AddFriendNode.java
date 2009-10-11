@@ -10,6 +10,9 @@ import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
+/**
+ * Displays the "Add Friend" button
+ */
 public class AddFriendNode extends PNode {
 
     public JButton addFriendButton;

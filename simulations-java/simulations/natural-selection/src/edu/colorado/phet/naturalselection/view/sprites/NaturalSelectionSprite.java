@@ -23,7 +23,6 @@ public abstract class NaturalSelectionSprite extends PNode implements Comparable
     private List<Listener> listeners;
 
     public NaturalSelectionSprite( LandscapeNode landscapeNode, Point3D position ) {
-        //System.out.println( "Creating " + getClass().getName() + " at " + position );
         this.landscapeNode = landscapeNode;
         this.position = position;
         listeners = new LinkedList<Listener>();
@@ -38,7 +37,6 @@ public abstract class NaturalSelectionSprite extends PNode implements Comparable
     }
 
     public void setPosition( Point3D position ) {
-        //System.out.println( "Moving " + getClass().getSimpleName() + " to " + position );
         double old = this.position.getZ();
         this.position = position;
         notifyMoved( old != position.getZ() );

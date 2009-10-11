@@ -16,6 +16,9 @@ import edu.colorado.phet.naturalselection.NaturalSelectionSettings;
 import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
 import edu.colorado.phet.naturalselection.module.NaturalSelectionModule;
 
+/**
+ * Shows a number of natural-selection specific parameters that can be tuned to modify the behavior of the sim
+ */
 public class DeveloperSettingsPanel extends VerticalLayoutPanel {
 
     NaturalSelectionApplication app;

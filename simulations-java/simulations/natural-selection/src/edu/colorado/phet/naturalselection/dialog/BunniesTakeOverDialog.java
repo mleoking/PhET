@@ -17,6 +17,10 @@ import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
 import edu.colorado.phet.naturalselection.module.NaturalSelectionModule;
 import edu.umd.cs.piccolo.PNode;
 
+/**
+ * This dialog is shown if more than the maximum number of bunnies goes over a certain threshold. It shows an image
+ * of the world covered with bunnies, and says something like "Bunnies have taken over the world"
+ */
 public class BunniesTakeOverDialog extends JDialog {
     public BunniesTakeOverDialog( Frame frame, final NaturalSelectionModule module ) {
         super( frame );
