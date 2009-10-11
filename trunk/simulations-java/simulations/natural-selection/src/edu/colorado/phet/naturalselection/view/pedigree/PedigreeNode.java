@@ -32,7 +32,6 @@ public class PedigreeNode extends PNode {
         bunnyText.setFont( new PhetFont( 24 ) );
         child.addChild( bunnyText );
         addChild( child );
-        System.out.println( "P: " + bunnyText.getHeight() );
         child.setOffset( -bunnyText.getWidth() / 2, 10 );
     }
 
@@ -44,7 +43,6 @@ public class PedigreeNode extends PNode {
     }
 
     public void displayBunny( Bunny bunny ) {
-        System.out.println( "displayBunny (in PedigreeNode)" );
         reset();
 
         child = getBlock( bunny, 0, getBunnyMaxLevel( bunny ) );
@@ -148,14 +146,6 @@ public class PedigreeNode extends PNode {
             ret.addChild( line( fatherOffset + fatherNode.getBunnyWidth() / 2 + LINE_PAD_HORIZ, crossHeight, motherOffset - motherNode.getBunnyWidth() / 2 - LINE_PAD_HORIZ, crossHeight ) );
             ret.addChild( line( 0, crossHeight, 0, maxChildHeight + getVPad( level ) - LINE_PAD_VERT ) );
         }
-
-        /*
-        PPath path = PPath.createRectangle( -(float) ret.getBoundWidth() / 2, 0, (float) ret.getBoundWidth(), (float) ret.getBoundHeight() );
-        path.setStroke( new BasicStroke( 2.0f ) );
-        path.setPaint( new Color( 0, 0, 0, 0 ) );
-        path.setStrokePaint( Color.BLUE );
-        ret.addChild( path );
-        */
 
         return ret;
     }

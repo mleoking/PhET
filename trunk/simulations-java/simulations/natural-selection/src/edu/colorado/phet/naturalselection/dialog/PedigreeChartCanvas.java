@@ -26,8 +26,6 @@ public class PedigreeChartCanvas extends PhetPCanvas {
 
     private PNode rootNode;
 
-    private static final double TOP_PADDING = 5.0;
-
     private static final double PEDIGREE_TOP_PADDING = 5.0;
 
     /**
@@ -55,14 +53,6 @@ public class PedigreeChartCanvas extends PhetPCanvas {
 
         setCenterPoint( 0 );
 
-    }
-
-    public void layoutNodes() {
-        double bounds = this.getRoot().computeFullBounds( null ).width;
-
-        // TODO: remove getSize() ?
-        //title.translate( ( getSize().getWidth() - title.getWidth() ) / 2, TOP_PADDING );
-        //generationCount.translate( getSize().getWidth() - generationCount.getTextWidth() - 20, TOP_PADDING );
     }
 
     public void setCenterPoint( double x ) {
