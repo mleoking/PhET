@@ -39,13 +39,13 @@ public class NaturalSelectionController {
         // Control panel buttons
         //----------------------------------------------------------------------------
 
-        controlPanel.climatePanel.arcticButton.addActionListener( new ActionListener() {
+        controlPanel.climatePanel.getArcticButton().addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent actionEvent ) {
                 model.setClimate( NaturalSelectionModel.CLIMATE_ARCTIC );
             }
         } );
 
-        controlPanel.climatePanel.equatorButton.addActionListener( new ActionListener() {
+        controlPanel.climatePanel.getEquatorButton().addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent actionEvent ) {
                 model.setClimate( NaturalSelectionModel.CLIMATE_EQUATOR );
             }

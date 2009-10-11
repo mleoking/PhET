@@ -318,7 +318,7 @@ public class BunnyStatsCanvas extends PhetPCanvas {
     private int[] cachedPositions = new int[]{2, 2, 2, 2, 2, 2, 2};
     private boolean[] cachedValid = new boolean[]{false, false, false, false, false, false, false};
 
-    public void setDataAtIndex( int index, int value ) {
+    private void setDataAtIndex( int index, int value ) {
         XYSeries series = mainDataset.getSeries( index );
 
         if ( cachedPositions[index] == value ) {
@@ -339,7 +339,7 @@ public class BunnyStatsCanvas extends PhetPCanvas {
         series.add( pos, value, false );
     }
 
-    public synchronized void addDataPoint() {
+    private synchronized void addDataPoint() {
         if ( !allowUpdates ) {
             return;
         }
