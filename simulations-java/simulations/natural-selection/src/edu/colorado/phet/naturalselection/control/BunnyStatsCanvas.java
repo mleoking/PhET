@@ -23,13 +23,14 @@ import org.jfree.ui.RectangleInsets;
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
 import edu.colorado.phet.common.jfreechartphet.piccolo.XYPlotNode;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.naturalselection.NaturalSelectionApplication;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionResources;
 import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
-import edu.colorado.phet.naturalselection.model.*;
+import edu.colorado.phet.naturalselection.model.ColorGene;
+import edu.colorado.phet.naturalselection.model.TailGene;
+import edu.colorado.phet.naturalselection.model.TeethGene;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -70,8 +71,6 @@ public class BunnyStatsCanvas extends PhetPCanvas {
     private static final int DEFAULT_ZOOM_INDEX = 3;
     private int zoomIndex = DEFAULT_ZOOM_INDEX;
 
-    private NaturalSelectionModel model;
-
     public static boolean allowUpdates = true;
 
     private JFreeChart chart;
@@ -79,10 +78,8 @@ public class BunnyStatsCanvas extends PhetPCanvas {
     private int cachedPopulation = 0;
 
 
-    public BunnyStatsCanvas( final NaturalSelectionModel model ) {
+    public BunnyStatsCanvas() {
         super( new Dimension( 300, 200 ) );
-
-        this.model = model;
 
         setBorder( null );
 
@@ -167,13 +164,13 @@ public class BunnyStatsCanvas extends PhetPCanvas {
     // used so that we don't update EVERY time when the population doesn't change
     private int rot = 0;
 
-    public void onTick() {
-        if ( cachedPopulation != model.getPopulation() ) {
-            cachedPopulation = model.getPopulation();
-            addDataPoint();
+    public void onTick( int population ) {
+        if ( cachedPopulation != population ) {
+            cachedPopulation = population;
+            addDataPoint( population );
         }
         else if ( rot++ % 3 == 0 ) {
-            addDataPoint();
+            addDataPoint( population );
         }
     }
 
@@ -337,14 +334,12 @@ public class BunnyStatsCanvas extends PhetPCanvas {
         series.add( pos, value, false );
     }
 
-    private synchronized void addDataPoint() {
+    private synchronized void addDataPoint( int totalPopulation ) {
         if ( !allowUpdates ) {
             return;
         }
 
-        int total = model.getPopulation();
-
-        setDataAtIndex( TOTAL_INDEX, total );
+        setDataAtIndex( TOTAL_INDEX, totalPopulation );
         setDataAtIndex( FUR_WHITE_INDEX, ColorGene.getInstance().getPrimaryPhenotypeCount() );
         setDataAtIndex( FUR_BROWN_INDEX, ColorGene.getInstance().getSecondaryPhenotypeCount() );
         setDataAtIndex( TAIL_SHORT_INDEX, TailGene.getInstance().getPrimaryPhenotypeCount() );

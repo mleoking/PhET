@@ -6,7 +6,6 @@ import javax.swing.*;
 
 import edu.colorado.phet.naturalselection.NaturalSelectionApplication;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
-import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
 
 /**
  * Panel that holds the bunny population statistics. Will expand the plot to the maximum size available.
@@ -16,10 +15,10 @@ import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
 public class BunnyStatsPanel extends JPanel {
     private BunnyStatsCanvas bunnyStatsCanvas;
 
-    public BunnyStatsPanel( NaturalSelectionModel model ) {
+    public BunnyStatsPanel() {
         super( new GridLayout( 1, 1 ) );
 
-        bunnyStatsCanvas = new BunnyStatsCanvas( model );
+        bunnyStatsCanvas = new BunnyStatsCanvas();
         add( bunnyStatsCanvas );
 
         setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );

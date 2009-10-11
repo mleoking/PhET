@@ -228,7 +228,7 @@ public class NaturalSelectionController {
         // when time changes, inform the bunny statistics panel
         model.getClock().addTimeListener( new NaturalSelectionClock.Listener() {
             public void onTick( ClockEvent event ) {
-                controlPanel.getBunnyStatsPanel().getBunnyStatsCanvas().onTick();
+                controlPanel.getBunnyStatsPanel().getBunnyStatsCanvas().onTick( model.getPopulation() );
             }
         } );
 
