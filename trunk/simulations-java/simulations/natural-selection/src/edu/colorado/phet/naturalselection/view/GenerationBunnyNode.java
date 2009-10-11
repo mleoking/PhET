@@ -46,6 +46,9 @@ public class GenerationBunnyNode extends DisplayBunnyNode implements Bunny.Liste
     public void onEvent( Bunny.Event event ) {
         if ( event.type == Bunny.Event.TYPE_DIED ) {
             setDead( true );
+
+            // if a bunny dies, we shouldn't show a border around it in the pedigree
+            setSelected( false );
         }
     }
 }
