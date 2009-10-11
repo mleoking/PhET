@@ -13,7 +13,6 @@ import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
 import edu.colorado.phet.naturalselection.control.NaturalSelectionControlPanel;
 import edu.colorado.phet.naturalselection.dialog.BunniesTakeOverDialog;
 import edu.colorado.phet.naturalselection.dialog.GameOverDialog;
-import edu.colorado.phet.naturalselection.dialog.PedigreeChartDialog;
 import edu.colorado.phet.naturalselection.model.Bunny;
 import edu.colorado.phet.naturalselection.model.NaturalSelectionClock;
 import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
@@ -30,7 +29,6 @@ public class NaturalSelectionModule extends PiccoloModule {
     private NaturalSelectionModel model;
     private NaturalSelectionCanvas canvas;
     private NaturalSelectionControlPanel controlPanel;
-    private PedigreeChartDialog pedigreeChartDialog;
     private GameOverDialog gameOverDialog;
     private BunniesTakeOverDialog bunniesTakeOverDialog;
 
@@ -70,9 +68,6 @@ public class NaturalSelectionModule extends PiccoloModule {
         controlPanel.reset();
         canvas.reset();
         model.reset();
-        if ( pedigreeChartDialog != null ) {
-            pedigreeChartDialog.pedigreeChartPanel.reset();
-        }
         gameOverDialog = null;
     }
 
@@ -136,10 +131,6 @@ public class NaturalSelectionModule extends PiccoloModule {
 
     public NaturalSelectionControlPanel getMyControlPanel() {
         return controlPanel;
-    }
-
-    public PedigreeChartDialog getMyGenerationChartDialog() {
-        return pedigreeChartDialog;
     }
 
     public Frame getParentFrame() {
