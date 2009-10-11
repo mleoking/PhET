@@ -30,7 +30,8 @@ class RampControlPanel(model: MotionSeriesModel,
                        objectModel: ObjectModel,
                        showAngleSlider: Boolean,
                        showFrictionControl: Boolean,
-                       showBounceControl: Boolean) extends JPanel(new BorderLayout) {
+                       showBounceControl: Boolean)
+        extends JPanel(new BorderLayout) {
   val body = new RampControlPanelBody(model, wordModel, freeBodyDiagramModel, coordinateSystemModel, vectorViewModel, resetHandler,
     coordinateSystemFeaturesEnabled, useObjectComboBox, objectModel, showAngleSlider, showFrictionControl, showBounceControl)
 
