@@ -1,9 +1,12 @@
-/* Copyright 2009, University of Colorado */
-
 package edu.colorado.phet.naturalselection.persistence;
 
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 
+/**
+ * Holds configuration (save) information for the entire natural selection simulation
+ *
+ * @author Jonathan Olson
+ */
 public class NaturalSelectionConfig implements IProguardKeepClass {
 
     //----------------------------------------------------------------------------

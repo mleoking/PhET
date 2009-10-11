@@ -4,6 +4,8 @@ import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 
 /**
  * Holds the saved state of a bunny
+ *
+ * @author Jonathan Olson
  */
 public class BunnyConfig implements IProguardKeepClass {
 
@@ -268,6 +270,5 @@ public class BunnyConfig implements IProguardKeepClass {
     public void setHopZ( double hopZ ) {
         this.hopZ = hopZ;
     }
-
 
 }
