@@ -40,37 +40,37 @@ public class NaturalSelectionController {
         // Control panel buttons
         //----------------------------------------------------------------------------
 
-        controlPanel.climatePanel.getArcticButton().addActionListener( new ActionListener() {
+        controlPanel.getClimatePanel().getArcticButton().addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent actionEvent ) {
                 model.setClimate( NaturalSelectionModel.CLIMATE_ARCTIC );
             }
         } );
 
-        controlPanel.climatePanel.getEquatorButton().addActionListener( new ActionListener() {
+        controlPanel.getClimatePanel().getEquatorButton().addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent actionEvent ) {
                 model.setClimate( NaturalSelectionModel.CLIMATE_EQUATOR );
             }
         } );
 
-        controlPanel.selectionPanel.noneButton.addActionListener( new ActionListener() {
+        controlPanel.getSelectionPanel().noneButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent actionEvent ) {
                 model.setSelectionFactor( NaturalSelectionModel.SELECTION_NONE );
             }
         } );
 
-        controlPanel.selectionPanel.foodButton.addActionListener( new ActionListener() {
+        controlPanel.getSelectionPanel().foodButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent actionEvent ) {
                 model.setSelectionFactor( NaturalSelectionModel.SELECTION_FOOD );
             }
         } );
 
-        controlPanel.selectionPanel.wolvesButton.addActionListener( new ActionListener() {
+        controlPanel.getSelectionPanel().wolvesButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent actionEvent ) {
                 model.setSelectionFactor( NaturalSelectionModel.SELECTION_WOLVES );
             }
         } );
 
-        controlPanel.resetAllButton.addActionListener( new ActionListener() {
+        controlPanel.getResetAllButton().addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent actionEvent ) {
                 module.reset();
             }
