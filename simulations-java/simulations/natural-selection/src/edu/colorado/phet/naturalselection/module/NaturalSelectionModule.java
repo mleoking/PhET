@@ -36,9 +36,12 @@ public class NaturalSelectionModule extends PiccoloModule {
 
     private Frame parentFrame;
 
+    private static NaturalSelectionModule module;
+
     public NaturalSelectionModule( Frame parentFrame ) {
         super( NaturalSelectionStrings.TITLE_NATURAL_SELECTION_MODULE, new NaturalSelectionClock( NaturalSelectionConstants.getSettings().getClockFrameRate(), NaturalSelectionConstants.getSettings().getClockDT() ) );
 
+        module = this;
         this.parentFrame = parentFrame;
 
         // Model
@@ -137,5 +140,13 @@ public class NaturalSelectionModule extends PiccoloModule {
 
     public PedigreeChartDialog getMyGenerationChartDialog() {
         return pedigreeChartDialog;
+    }
+
+    public Frame getParentFrame() {
+        return parentFrame;
+    }
+
+    public static NaturalSelectionModule getModule() {
+        return module;
     }
 }
