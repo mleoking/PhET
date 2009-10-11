@@ -81,7 +81,6 @@ public class GenePanel extends JPanel {
     public GenePanel() {
 
         setLayout( new GridBagLayout() );
-        GridBagConstraints c = new GridBagConstraints();
 
         colorWhite = new ImagePanel( NaturalSelectionConstants.IMAGE_BUNNY_COLOR_WHITE );
         colorBrown = new ImagePanel( NaturalSelectionConstants.IMAGE_BUNNY_COLOR_BROWN );

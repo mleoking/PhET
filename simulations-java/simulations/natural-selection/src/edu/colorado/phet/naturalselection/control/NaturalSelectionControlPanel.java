@@ -40,7 +40,6 @@ public class NaturalSelectionControlPanel extends JPanel {
      * Constructor
      *
      * @param module The Natural Selection module
-     * @param model  The corresponding model
      */
     public NaturalSelectionControlPanel( NaturalSelectionModule module ) {
 
