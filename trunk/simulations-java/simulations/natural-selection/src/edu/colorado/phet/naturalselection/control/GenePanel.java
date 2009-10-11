@@ -23,7 +23,7 @@ import edu.colorado.phet.naturalselection.util.ImagePanel;
  */
 public class GenePanel extends JPanel {
 
-
+    // elements for the color gene
     private JLabel colorLabel;
     private ImagePanel colorWhite;
     private ImagePanel colorBrown;
@@ -32,6 +32,7 @@ public class GenePanel extends JPanel {
     private JRadioButton colorSD;
     private JRadioButton colorSR;
 
+    // elements for the tail gene
     private JLabel tailLabel;
     private ImagePanel tailRegular;
     private ImagePanel tailBig;
@@ -40,6 +41,7 @@ public class GenePanel extends JPanel {
     private JRadioButton tailSD;
     private JRadioButton tailSR;
 
+    // elements for the teeth gene
     private JLabel teethLabel;
     private ImagePanel teethRegular;
     private ImagePanel teethLong;
@@ -53,6 +55,8 @@ public class GenePanel extends JPanel {
     private boolean tailEnabled;
 
     private static final Insets GENE_LABEL_INSETS = new Insets( 0, 0, 0, 10 );
+
+    // row and column constants for layout
 
     private static final int ROW_TITLE = 0;
     private static final int ROW_FIELDS = 1;
@@ -211,7 +215,7 @@ public class GenePanel extends JPanel {
         add( label, c );
     }
 
-    public JRadioButton createButton( boolean selected ) {
+    private JRadioButton createButton( boolean selected ) {
         JRadioButton ret = new JRadioButton();
         ret.setIconTextGap( 0 );
         ret.setSelected( selected );
@@ -219,7 +223,19 @@ public class GenePanel extends JPanel {
         return ret;
     }
 
-    public void createFourGroup( final Gene gene, final JRadioButton primaryDominant, final JRadioButton primaryRecessive, final JRadioButton secondaryDominant, final JRadioButton secondaryRecessive ) {
+    /**
+     * Wires together radio buttons with a gene so that radio buttons are grouped, and send the correct events to the gene
+     *
+     * @param gene               The gene to control
+     * @param primaryDominant    Radio button for primary dominant
+     * @param primaryRecessive   Radio button for primary recessive
+     * @param secondaryDominant  Radio button for secondary dominant
+     * @param secondaryRecessive Radio button for secondary recessive
+     */
+    private void createFourGroup( final Gene gene,
+                                  final JRadioButton primaryDominant, final JRadioButton primaryRecessive,
+                                  final JRadioButton secondaryDominant, final JRadioButton secondaryRecessive ) {
+
         ButtonGroup primaryGroup = new ButtonGroup();
         ButtonGroup secondaryGroup = new ButtonGroup();
 
@@ -231,7 +247,7 @@ public class GenePanel extends JPanel {
 
         primaryDominant.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent actionEvent ) {
-                notifyChangeDominance( gene, true );
+                changeDominance( gene, true );
                 if ( !secondaryRecessive.isSelected() ) {
                     secondaryRecessive.setSelected( true );
                 }
@@ -248,7 +264,7 @@ public class GenePanel extends JPanel {
 
         secondaryDominant.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent actionEvent ) {
-                notifyChangeDominance( gene, false );
+                changeDominance( gene, false );
                 if ( !primaryRecessive.isSelected() ) {
                     primaryRecessive.setSelected( true );
                 }
@@ -262,7 +278,6 @@ public class GenePanel extends JPanel {
                 }
             }
         } );
-
     }
 
     public void setColorEnabled( boolean enabled ) {
@@ -298,8 +313,7 @@ public class GenePanel extends JPanel {
         teethSR.setEnabled( enabled );
     }
 
-    private void notifyChangeDominance( Gene gene, boolean primary ) {
-        // temporary hack, will refactor to permanent if listeners not necessary
+    private void changeDominance( Gene gene, boolean primary ) {
         if ( primary ) {
             gene.setDominantAllele( gene.getPrimaryAllele() );
         }
