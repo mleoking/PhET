@@ -5,7 +5,6 @@ import java.awt.*;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
 import edu.colorado.phet.naturalselection.model.Bunny;
-import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -35,7 +34,7 @@ public class PedigreeNode extends PNode {
     // whether a bunny is currently showing
     private boolean showingBunny = false;
 
-    public PedigreeNode( NaturalSelectionModel model ) {
+    public PedigreeNode() {
         textHolder = new PBoundedNode();
         PText bunnyText = new PText( NaturalSelectionStrings.PEDIGREE_START_MESSAGE );
         bunnyText.setFont( new PhetFont( 24 ) );

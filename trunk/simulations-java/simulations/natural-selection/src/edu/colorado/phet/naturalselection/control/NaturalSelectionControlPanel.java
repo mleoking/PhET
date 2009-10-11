@@ -12,7 +12,6 @@ import edu.colorado.phet.naturalselection.NaturalSelectionApplication;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
 import edu.colorado.phet.naturalselection.dialog.PedigreeChartCanvas;
-import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
 import edu.colorado.phet.naturalselection.module.NaturalSelectionModule;
 import edu.colorado.phet.naturalselection.persistence.NaturalSelectionConfig;
 
@@ -43,7 +42,7 @@ public class NaturalSelectionControlPanel extends JPanel {
      * @param module The Natural Selection module
      * @param model  The corresponding model
      */
-    public NaturalSelectionControlPanel( NaturalSelectionModule module, NaturalSelectionModel model ) {
+    public NaturalSelectionControlPanel( NaturalSelectionModule module ) {
 
         GridBagLayout layout = new GridBagLayout();
         this.setLayout( layout );
@@ -59,7 +58,7 @@ public class NaturalSelectionControlPanel extends JPanel {
         bunnyStatsPanel = new BunnyStatsPanel();
         LogoPanel logoPanel = new LogoPanel();
         logoPanel.setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
-        pedigreeChart = new PedigreeChartCanvas( model );
+        pedigreeChart = new PedigreeChartCanvas();
         detachPanel = new DetachOptionPanel( NaturalSelectionStrings.PEDIGREE_CHART, pedigreeChart, bunnyStatsPanel );
         switcherPanel = new SwitcherPanel();
 
