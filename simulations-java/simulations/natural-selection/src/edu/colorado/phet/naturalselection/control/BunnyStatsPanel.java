@@ -8,6 +8,11 @@ import edu.colorado.phet.naturalselection.NaturalSelectionApplication;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
 
+/**
+ * Panel that holds the bunny population statistics. Will expand the plot to the maximum size available.
+ *
+ * @author Jonathan Olson
+ */
 public class BunnyStatsPanel extends JPanel {
     private BunnyStatsCanvas bunnyStatsCanvas;
 

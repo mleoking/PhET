@@ -165,7 +165,7 @@ public class NaturalSelectionControlPanel extends JPanel {
 
         radioStats.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent actionEvent ) {
-                detachPanel.setPlaceholderVisible();
+                detachPanel.showStaticChild();
                 if ( Bunny.getSelectedBunny() != null ) {
                     Bunny.getSelectedBunny().setSelected( false );
                 }
@@ -174,7 +174,7 @@ public class NaturalSelectionControlPanel extends JPanel {
 
         radioPedigree.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent actionEvent ) {
-                detachPanel.setChildVisible();
+                detachPanel.showDetachableChild();
                 if ( pedigreeChart.getLastDisplayedBunny() != null ) {
                     if ( Bunny.getSelectedBunny() == null && pedigreeChart.getLastDisplayedBunny() != null ) {
                         pedigreeChart.getLastDisplayedBunny().setSelected( true );

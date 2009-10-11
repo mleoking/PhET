@@ -17,6 +17,12 @@ import edu.colorado.phet.naturalselection.util.ImagePanel;
 
 // TODO: cleanup if possible
 
+/**
+ * A control panel that allows the user to change what traits are dominant and recessive. Genes that have not been
+ * mutated yet are grayed out
+ *
+ * @author Jonathan Olson
+ */
 public class GenePanel extends JPanel {
 
     // TODO: handle reset, possibly set up listening to gene changes
