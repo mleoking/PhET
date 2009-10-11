@@ -12,6 +12,10 @@ import javax.swing.*;
 import edu.colorado.phet.naturalselection.NaturalSelectionResources;
 import edu.umd.cs.piccolo.nodes.PImage;
 
+/**
+ * Modifications of images for high-contrast mode
+ * TODO: refactor all of this!
+ */
 public abstract class HighContrastImageFilter extends RGBImageFilter {
 
     public Image getImage( String name ) {
@@ -83,7 +87,6 @@ public abstract class HighContrastImageFilter extends RGBImageFilter {
             int green = ( rgb & 0x0000ff00 ) >> 8;
             int blue = ( rgb & 0x000000ff );
 
-            //return compact( alpha, red * 4 / 3, green * 4 / 3, blue * 4 / 3 );
             if ( red >= 119 && red <= 203 && green >= 89 && green <= 152 && blue >= 15 && blue <= 45 ) {
                 return compact( alpha, 171, 129, 35 );
             }

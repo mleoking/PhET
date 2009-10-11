@@ -1,5 +1,10 @@
 package edu.colorado.phet.naturalselection;
 
+/**
+ * Holds all of the internationalizable strings for natural selection
+ *
+ * @author Jonathan Olson
+ */
 public class NaturalSelectionStrings {
 
     // not intended for instantiation

@@ -105,7 +105,7 @@ public class DisplayBunnyNode extends PNode {
     }
 
     /**
-     * Draw the red X
+     * Draw the red X that is displayed when a bunny is dead
      */
     private void initDeadX() {
         deadX = new PPath();

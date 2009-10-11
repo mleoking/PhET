@@ -2,6 +2,9 @@ package edu.colorado.phet.naturalselection.persistence;
 
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 
+/**
+ * Holds the saved state of a bunny
+ */
 public class BunnyConfig implements IProguardKeepClass {
 
     private int id;

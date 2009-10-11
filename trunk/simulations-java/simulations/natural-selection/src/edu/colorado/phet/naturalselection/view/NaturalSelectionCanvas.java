@@ -37,6 +37,9 @@ public class NaturalSelectionCanvas extends PhetPCanvas {
 
     private MutationPendingNode mutationPendingNode = null;
 
+    /**
+     * Holds the "Add Friend" button that is displayed at the start of the simulation
+     */
     private AddFriendNode addFriendNode;
 
     /**
@@ -53,7 +56,6 @@ public class NaturalSelectionCanvas extends PhetPCanvas {
         this.model = model;
 
         setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
-        //setBorder( null );
 
         rootNode = new PNode();
         addWorldChild( rootNode );
@@ -70,6 +72,9 @@ public class NaturalSelectionCanvas extends PhetPCanvas {
 
     }
 
+    /**
+     * Resets the play area
+     */
     public void reset() {
         landscapeNode.reset();
         backgroundNode.reset();
@@ -81,26 +86,20 @@ public class NaturalSelectionCanvas extends PhetPCanvas {
         mutationPendingNode = null;
     }
 
+    /**
+     * Called when we are resized. This updates all of the play area layout
+     */
     protected void updateLayout() {
-
-        // TODO: refactor this for the update
-
         Dimension2D worldSize = getWorldSize();
         if ( worldSize.getWidth() <= 0 || worldSize.getHeight() <= 0 ) {
             // canvas hasn't been sized, blow off layout
             return;
         }
-        else if ( NaturalSelectionConstants.DEBUG_CANVAS_UPDATE_LAYOUT ) {
-            //System.out.println( "NaturalSelectionCanvas.updateLayout worldSize=" + worldSize );//XXX
-        }
 
         // layout everything
-
         backgroundNode.updateLayout( getWidth(), getHeight() );
-
         landscapeNode.setSpriteTransform( backgroundNode.getBackgroundTransform( getWidth(), getHeight() ) );
         landscapeNode.updateLayout( getWidth(), getHeight() );
-
         addFriendNode.updateLayout( getWidth(), getHeight() );
 
         positionMutationPending();
