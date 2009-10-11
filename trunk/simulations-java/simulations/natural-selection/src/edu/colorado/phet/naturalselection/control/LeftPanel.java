@@ -38,7 +38,7 @@ public class LeftPanel extends JPanel {
         add( new JSeparator() );
         add( Box.createRigidArea( new Dimension( 0, 10 ) ) );
 
-        genePanel = new GenePanel( model, mutationPanel );
+        genePanel = new GenePanel( model );
         add( genePanel );
 
         setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
@@ -58,5 +58,13 @@ public class LeftPanel extends JPanel {
 
     public void save( NaturalSelectionConfig config ) {
         genePanel.save( config );
+    }
+
+    public MutationPanel getMutationPanel() {
+        return mutationPanel;
+    }
+
+    public GenePanel getGenePanel() {
+        return genePanel;
     }
 }
