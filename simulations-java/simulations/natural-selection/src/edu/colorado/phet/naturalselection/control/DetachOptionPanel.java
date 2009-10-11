@@ -105,10 +105,7 @@ public class DetachOptionPanel extends JPanel {
 
     private void createDialog() {
         NaturalSelectionModule module = NaturalSelectionModule.getModule();
-        if ( module != null ) {
-            framer = module.getParentFrame();
-        }
-        dialog = new JDialog( framer, title );
+        dialog = new JDialog( module.getParentFrame(), title );
         dialog.setResizable( false );
         dialogContentPane = new JPanel( null );
 
@@ -235,89 +232,5 @@ public class DetachOptionPanel extends JPanel {
         return canvas;
     }
 
-    private static Frame framer;
 
-    private static void init() {
-        JFrame frame = new JFrame( "Detachable Demo" );
-        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-
-        JPanel container = new JPanel( new GridLayout( 1, 3 ) );
-        frame.setContentPane( container );
-
-        framer = frame;
-
-        final DetachOptionPanel bar = new DetachOptionPanel( "Pedigree Chart", createExampleCanvas(), new JLabel( "Placeholder" ) );
-        final JRadioButton radioPlaceholder = new JRadioButton( "Placeholder" );
-        final JRadioButton radioPedigree = new JRadioButton( "Pedigree" );
-
-        ButtonGroup group = new ButtonGroup();
-        group.add( radioPlaceholder );
-        group.add( radioPedigree );
-
-        radioPlaceholder.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent actionEvent ) {
-                System.out.println( "Placeholder!" );
-                bar.setPlaceholderVisible();
-            }
-        } );
-
-        radioPedigree.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent actionEvent ) {
-                System.out.println( "Pedigree!" );
-                bar.setChildVisible();
-            }
-        } );
-
-        bar.addListener( new Listener() {
-            public void onDock() {
-                radioPlaceholder.setEnabled( true );
-                radioPedigree.setEnabled( true );
-                radioPedigree.setSelected( true );
-            }
-
-            public void onUndock() {
-                radioPlaceholder.setEnabled( false );
-                radioPedigree.setEnabled( false );
-                radioPlaceholder.setSelected( true );
-            }
-
-            public void onClose() {
-                radioPlaceholder.setEnabled( true );
-                radioPedigree.setEnabled( true );
-            }
-        } );
-
-        container.setLayout( new GridBagLayout() );
-
-        GridBagConstraints statsConstraints = new GridBagConstraints();
-        statsConstraints.gridx = 1;
-        statsConstraints.gridy = 0;
-        statsConstraints.gridwidth = 2;
-        statsConstraints.fill = GridBagConstraints.BOTH;
-        statsConstraints.anchor = GridBagConstraints.NORTH;
-        statsConstraints.weightx = 1.0;
-        statsConstraints.weighty = 1.0;
-        container.add( bar, statsConstraints );
-        GridBagConstraints c = new GridBagConstraints();
-        c.gridx = 0;
-        c.gridy = 0;
-        container.add( radioPlaceholder, c );
-        c.gridx = 3;
-        container.add( radioPedigree, c );
-
-        //radioPedigree.setSelected( true );
-        radioPlaceholder.setSelected( true );
-
-        frame.pack();
-
-        frame.setVisible( true );
-    }
-
-    public static void main( String[] args ) {
-        SwingUtilities.invokeLater( new Runnable() {
-            public void run() {
-                init();
-            }
-        } );
-    }
 }

@@ -28,6 +28,8 @@ public class NaturalSelectionApplication extends PiccoloPhetApplication {
     // PersistanceManager is used to save/load simulation configurations.
     private XMLPersistenceManager persistenceManager;
 
+    private static boolean overrideHighContrast = false;
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -86,6 +88,9 @@ public class NaturalSelectionApplication extends PiccoloPhetApplication {
     //----------------------------------------------------------------------------
 
     public static boolean isHighContrast() {
+        if ( overrideHighContrast ) {
+            return true;
+        }
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Boolean ret = (Boolean) toolkit.getDesktopProperty( "win.highContrast.on" );
         return ( ret != null && ret );
@@ -99,17 +104,6 @@ public class NaturalSelectionApplication extends PiccoloPhetApplication {
     }
 
     public static void setAccessibilityFontScale( final float scale ) {
-        // NOT WORKING YET
-        /*
-        java.util.Enumeration keys = UIManager.getDefaults().keys();
-        while ( keys.hasMoreElements() ) {
-            Object key = keys.nextElement();
-            Object value = UIManager.get( key );
-            if ( value instanceof javax.swing.plaf.FontUIResource ) {
-                UIManager.put( key, f );
-            }
-        }
-        */
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 UIDefaults defaults = UIManager.getDefaults();
@@ -183,11 +177,12 @@ public class NaturalSelectionApplication extends PiccoloPhetApplication {
     //----------------------------------------------------------------------------
 
     public static void main( final String[] args ) throws ClassNotFoundException {
-        /* 
-         * If you want to customize your application (look-&-feel, window size, etc) 
-         * create your own PhetApplicationConfig and use one of the other launchSim methods
-         */
-
+        for ( String arg : args ) {
+            System.out.println( "arg: " + arg );
+            if ( arg.equals( "-highcontrast" ) ) {
+                overrideHighContrast = true;
+            }
+        }
         new PhetApplicationLauncher().launchSim( args, NaturalSelectionConstants.PROJECT_NAME, NaturalSelectionApplication.class );
     }
 

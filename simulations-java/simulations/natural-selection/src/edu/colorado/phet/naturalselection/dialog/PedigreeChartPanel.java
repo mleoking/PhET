@@ -93,8 +93,6 @@ public class PedigreeChartPanel extends JPanel {
                 pedigreeCanvas.setCenterPoint( ( (double) bar.getValue() ) * ( bounds - size ) / ( 2.0 * M ) );
             }
         }
-
-        pedigreeCanvas.layoutNodes();
     }
 
     public void reset() {

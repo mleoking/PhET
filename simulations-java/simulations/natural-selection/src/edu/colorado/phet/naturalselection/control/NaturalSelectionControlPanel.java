@@ -92,13 +92,7 @@ public class NaturalSelectionControlPanel extends JPanel {
 
             }
         } );
-        detachPanel = new DetachOptionPanel( "Pedigree Chart", pedigreeChart, bunnyStatsPanel );
-        //detachPanel = new DetachOptionPanel( "Pedigree Chart", DetachOptionPanel.createExampleCanvas(), new JLabel( "Placeholder" ) );
-
-
-        //detachPanel.setBorder( new LineBorder( Color.RED ) );
-        //pedigreeChart.setBorder( new LineBorder( Color.GREEN ) );
-        //clockControlPanel.setBorder( new LineBorder( Color.BLUE ) );
+        detachPanel = new DetachOptionPanel( NaturalSelectionStrings.GENERATION_CHART, pedigreeChart, bunnyStatsPanel );
 
         // the uglier layout code
         GridBagConstraints geneConstraints = new GridBagConstraints();
@@ -150,7 +144,6 @@ public class NaturalSelectionControlPanel extends JPanel {
         switcherConstraints.weighty = 0.0;
         switcherConstraints.anchor = GridBagConstraints.SOUTH;
         add( getSwitcherPanel(), switcherConstraints );
-        //add( new JLabel( "test" ), switcherConstraints );
 
         // color everything with the control panel's background color
         setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
@@ -239,11 +232,6 @@ public class NaturalSelectionControlPanel extends JPanel {
         rightPanel.add( resetAllButton );
 
         rightPanel.add( Box.createRigidArea( new Dimension( 0, 5 ) ) );
-
-        //showGenerationChartButton = new JButton( NaturalSelectionStrings.GENERATION_CHART );
-        //rightPanel.add( showGenerationChartButton );
-
-
     }
 
     public void reset() {
