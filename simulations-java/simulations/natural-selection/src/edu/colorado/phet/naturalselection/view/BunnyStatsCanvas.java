@@ -1,4 +1,4 @@
-package edu.colorado.phet.naturalselection.control;
+package edu.colorado.phet.naturalselection.view;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
