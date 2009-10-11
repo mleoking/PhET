@@ -10,7 +10,6 @@ import edu.colorado.phet.naturalselection.NaturalSelectionApplication;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionResources;
 import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
-import edu.colorado.phet.naturalselection.model.NaturalSelectionModel;
 import edu.colorado.phet.naturalselection.persistence.NaturalSelectionConfig;
 
 /**
@@ -22,7 +21,7 @@ public class LeftPanel extends JPanel {
     private MutationPanel mutationPanel;
     private GenePanel genePanel;
 
-    public LeftPanel( NaturalSelectionModel model ) {
+    public LeftPanel() {
         setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
 
         JLabel label = new JLabel( NaturalSelectionStrings.MUTATION_PANEL_ADD_MUTATION,
@@ -34,14 +33,14 @@ public class LeftPanel extends JPanel {
 
         add( labelPanel );
 
-        mutationPanel = new MutationPanel( model );
+        mutationPanel = new MutationPanel();
         add( mutationPanel );
 
         add( Box.createRigidArea( new Dimension( 0, 10 ) ) );
         add( new JSeparator() );
         add( Box.createRigidArea( new Dimension( 0, 10 ) ) );
 
-        genePanel = new GenePanel( model );
+        genePanel = new GenePanel();
         add( genePanel );
 
         setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );

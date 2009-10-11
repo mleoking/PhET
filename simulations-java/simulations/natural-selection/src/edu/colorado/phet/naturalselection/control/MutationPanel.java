@@ -31,7 +31,7 @@ public class MutationPanel extends JPanel {
     private static final Insets BUTTON_INSETS = new Insets( 2, 0, 2, 10 );
     private static final Insets INDICATOR_INSETS = new Insets( 0, 0, 0, 0 );
 
-    public MutationPanel( NaturalSelectionModel model ) {
+    public MutationPanel() {
         setLayout( new GridBagLayout() );
 
         colorMutationIndicator = new ImagePanel( NaturalSelectionConstants.IMAGE_MUTATION_PANEL_SMALL );

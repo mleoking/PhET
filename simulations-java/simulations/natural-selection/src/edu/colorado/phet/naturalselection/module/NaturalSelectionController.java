@@ -5,6 +5,7 @@ package edu.colorado.phet.naturalselection.module;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.control.NaturalSelectionControlPanel;
 import edu.colorado.phet.naturalselection.dialog.PedigreeChartCanvas;
@@ -215,6 +216,14 @@ public class NaturalSelectionController {
 
         // allow detach, reattach and closing events to be passed to the switcher panel
         controlPanel.getDetachPanel().addListener( controlPanel.getSwitcherPanel() );
+
+
+        // attach generation progress to the progress bar
+        model.getClock().addTimeListener( new NaturalSelectionClock.Listener() {
+            public void onTick( ClockEvent event ) {
+                controlPanel.getGenerationProgressPanel().setGenerationProgressPercent( model.getGenerationProgressPercent() );
+            }
+        } );
 
     }
 
