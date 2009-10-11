@@ -2,6 +2,11 @@ package edu.colorado.phet.naturalselection.model;
 
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 
+/**
+ * Tree model
+ *
+ * @author Jonathan Olson
+ */
 public class Tree {
 
     private final double backgroundX;
@@ -10,6 +15,14 @@ public class Tree {
 
     private final Point3D position;
 
+    /**
+     * Creates a tree with a particular pixel position on the background and scale
+     *
+     * @param model       The model
+     * @param backgroundX Background x of shrub
+     * @param backgroundY Background y of shrub
+     * @param baseScale   Scale of tree (1 is regular size)
+     */
     public Tree( NaturalSelectionModel model, double backgroundX, double backgroundY, double baseScale ) {
         this.backgroundX = backgroundX;
         this.backgroundY = backgroundY;
@@ -18,6 +31,7 @@ public class Tree {
         position = model.getLandscape().landscapeToModel( backgroundX, backgroundY );
 
         if ( position.getZ() < Landscape.NEARPLANE || position.getZ() > Landscape.FARPLANE ) {
+            // don't cause an error, we can have trees that bunnies can't reach
             //new RuntimeException( "Tree z out of range: " + position.getZ() ).printStackTrace();
         }
     }
