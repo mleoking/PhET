@@ -11,6 +11,8 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Hashtable;
 
 import javax.imageio.ImageIO;
@@ -24,6 +26,7 @@ import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.model.Particle;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
@@ -115,6 +118,10 @@ public class NeuronControlPanel extends ControlPanel {
         // Set the control panel's minimum width.
         int minimumWidth = NeuronResources.getInt( "int.minControlPanelWidth", 215 );
         setMinimumWidth( minimumWidth );
+        
+        // Add the legend.
+        addControlFullWidth(new IonLegendPanel(
+        		new ArrayList<ParticleType>(Arrays.asList(ParticleType.SODIUM_ION, ParticleType.POTASSIUM_ION))));
         
         // Add the control for the number of sodium leakage channels.
         sodiumLeakChannelControl = new LeakChannelSlider(NeuronStrings.SODIUM_LEAK_CHANNELS, axonModel,
