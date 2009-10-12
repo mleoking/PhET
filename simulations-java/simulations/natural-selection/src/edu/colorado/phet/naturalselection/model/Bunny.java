@@ -176,13 +176,13 @@ public class Bunny {
         config.setMutated( mutated );
         config.setAlive( alive );
 
-        if ( mated && children.size() == 4 ) {
-            config.setChildrenIds( new int[]{
-                    children.get( 0 ).bunnyId,
-                    children.get( 1 ).bunnyId,
-                    children.get( 2 ).bunnyId,
-                    children.get( 3 ).bunnyId
-            } );
+        if ( mated ) {
+            int[] childIds = new int[children.size()];
+            int i = 0;
+            for ( Bunny child : children ) {
+                childIds[i++] = child.getId();
+            }
+            config.setChildrenIds( childIds );
         }
         else {
             config.setChildrenIds( new int[]{} );
