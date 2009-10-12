@@ -129,7 +129,10 @@ public class ParticleNode extends PNode {
     		
     	case PROTEIN_ION:
     		size = modelViewTransform.modelToViewDifferentialXDouble(particle.getDiameter());
-    		PPath ovalRepresentation = new PPath( new Ellipse2D.Double(-size*0.75, -size/2, size*1.5, size));
+    		double ovalWidth = size * 1.5;
+    		double ovalHeight = size * 0.8;
+    		PPath ovalRepresentation = 
+    			new PPath( new Ellipse2D.Double(-ovalWidth/2, -ovalHeight/2, ovalWidth, ovalHeight));
     		ovalRepresentation.setPaint(particle.getRepresentationColor());
     		ovalRepresentation.setStroke(PARTICLE_EDGE_STROKE);
     		ovalRepresentation.setStrokePaint(Color.BLACK);
