@@ -687,5 +687,9 @@ public class CompanionMNA {
                 return solution.getCurrent( e );
             }
         }
+
+        public double distance(CompanionSolution a) {
+            return solution.distance(a.solution);
+        }
     }
 }

@@ -121,6 +121,39 @@ public class MNA {
                    ", branchCurrents=" + branchCurrents +
                    '}';
         }
+//
+//        HashMap<Integer, Double> nodeVoltages = new HashMap<Integer, Double>();
+//        HashMap<Element, Double> branchCurrents = new HashMap<Element, Double>();
+public double distance(Solution s) {
+    double distanceVoltage = 0;
+    for (Integer key : nodeVoltages.keySet()) {
+        distanceVoltage = distanceVoltage + Math.abs(getNodeVoltage(key) - s.getNodeVoltage(key));
+    }
+    double averageVoltDist = distanceVoltage / nodeVoltages.size();
+    if (nodeVoltages.size()==0){
+        averageVoltDist =0.0;
+    }
+
+    return averageVoltDist + Math.abs(getAverageCurrentMags() - s.getAverageCurrentMags());
+//    double distanceCurrent =0 ;
+//    for (Element key : branchCurrents.keySet()){
+//        distanceCurrent = distanceCurrent + Math.abs(getCurrent(key) - s.getCurrent(key));
+//    }
+//    double avgCurDist = distanceCurrent / branchCurrents.size();
+//    if (branchCurrents.size() == 0){
+//        avgCurDist = 0.0;
+//    }
+//
+//    return (averageVoltDist + avgCurDist)/2;
+}
+
+        private double getAverageCurrentMags() {
+            double c = 0;
+            for (Double cval : branchCurrents.values()) {
+                c = c + Math.abs(cval);
+            }
+            return branchCurrents.size()>0?c/branchCurrents.size() : 0.0;
+        }
     }
 
     //Subclasses should have proper equals and hashcode for hashmapping

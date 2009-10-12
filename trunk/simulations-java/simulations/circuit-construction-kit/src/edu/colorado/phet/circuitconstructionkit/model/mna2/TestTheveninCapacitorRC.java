@@ -28,7 +28,7 @@ public class TestTheveninCapacitorRC {
 //        double dt = 0.03;
         System.out.println("iteration \t dt \t t \t v(t) \t i(t) \t vResistorAnalytical \t vResistorPredicted \t error");
 //        double[] dtArray =new double[]{1E-6,1E-6,1E-5,1E-4,1E-3,1E-2,1E-2,1E-2};
-        for (int j = 0; j < 10; j++) {
+        for (int j = 0; j < 10000; j++) {
 //            double dt = dtArray[j];
             double dt = getTimestep(vBattery, rResistor, c, state, 0.03);
 //            System.out.println("Chose dt = "+dt);
@@ -49,7 +49,7 @@ public class TestTheveninCapacitorRC {
         State b1 = newState(vBattery, rResistor, c, state, dt / 2);
         State b2 = newState(vBattery, rResistor, c, b1, dt / 2);
         double dist = a.distance(b2);
-        if (dist < 10) return dt;
+        if (dist < 1E-2) return dt;
         else return getTimestep(vBattery, rResistor, c, state, dt / 2);
     }
 
