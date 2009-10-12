@@ -4,7 +4,7 @@ import org.apache.wicket.behavior.HeaderContributor;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
 
-import edu.colorado.phet.website.WicketApplication;
+import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.components.LocalizedText;
 import edu.colorado.phet.website.components.PhetLink;
@@ -46,7 +46,7 @@ public class IndexPanel extends PhetPanel {
 
         add( SimulationDisplay.createLink( "below-simulations-link", context ) );
 
-        if ( context.getLocale().equals( WicketApplication.getDefaultLocale() ) ) {
+        if ( context.getLocale().equals( PhetWicketApplication.getDefaultLocale() ) ) {
             add( new BookmarkablePageLink( "test-translation", TranslationMainPage.class ) );
         }
         else {

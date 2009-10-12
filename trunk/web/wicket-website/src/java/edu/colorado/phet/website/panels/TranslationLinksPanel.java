@@ -11,7 +11,7 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.model.ResourceModel;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
-import edu.colorado.phet.website.WicketApplication;
+import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.components.LocalizedLabel;
 import edu.colorado.phet.website.components.PhetLink;
 import edu.colorado.phet.website.util.PageContext;
@@ -34,7 +34,7 @@ public class TranslationLinksPanel extends PhetPanel {
         }
         add( englishLink );
 
-        ListView listView = new ListView( "translation-links", ( (WicketApplication) getApplication() ).getTranslationLocaleStrings() ) {
+        ListView listView = new ListView( "translation-links", ( (PhetWicketApplication) getApplication() ).getTranslationLocaleStrings() ) {
             protected void populateItem( ListItem item ) {
                 String localeString = (String) item.getModel().getObject();
                 Locale locale = LocaleUtils.stringToLocale( localeString );

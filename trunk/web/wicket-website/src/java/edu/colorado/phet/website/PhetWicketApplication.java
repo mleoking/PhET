@@ -33,7 +33,7 @@ import edu.colorado.phet.website.util.PhetRequestCycle;
 import edu.colorado.phet.website.util.PhetUrlMapper;
 import edu.colorado.phet.website.util.PhetUrlStrategy;
 
-public class WicketApplication extends WebApplication {
+public class PhetWicketApplication extends WebApplication {
 
     private PhetUrlMapper mapper;
     private NavMenu menu;
@@ -98,7 +98,7 @@ public class WicketApplication extends WebApplication {
         // so that if a string is not found for a more specific locale (es_MX), it would try "es", then the default
         // properties file
         // NOTE: This may break in Wicket 1.4
-        getResourceSettings().addStringResourceLoader( new ClassStringResourceLoader( WicketApplication.class ) );
+        getResourceSettings().addStringResourceLoader( new ClassStringResourceLoader( PhetWicketApplication.class ) );
 
         // initialize the navigation menu
         menu = new NavMenu();

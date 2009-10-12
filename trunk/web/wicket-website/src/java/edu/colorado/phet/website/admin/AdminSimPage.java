@@ -20,7 +20,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
-import edu.colorado.phet.website.WicketApplication;
+import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.data.Keyword;
 import edu.colorado.phet.website.data.LocalizedSimulation;
@@ -280,7 +280,7 @@ public class AdminSimPage extends AdminPage {
             public KeywordDropDownChoice( String id, List<Keyword> allKeywords ) {
                 super( id, new Model(), allKeywords, new IChoiceRenderer() {
                     public Object getDisplayValue( Object object ) {
-                        return WicketApplication.get().getResourceSettings().getLocalizer().getString( ( (Keyword) object ).getKey(), AdminSimPage.this );
+                        return PhetWicketApplication.get().getResourceSettings().getLocalizer().getString( ( (Keyword) object ).getKey(), AdminSimPage.this );
                     }
 
                     public String getIdValue( Object object, int index ) {
@@ -497,7 +497,7 @@ public class AdminSimPage extends AdminPage {
                         lsim.setSimulation( (Simulation) session.load( Simulation.class, simulation.getId() ) );
                         session.save( lsim );
                         localizedSimulations.add( lsim );
-                        HibernateUtils.orderSimulations( localizedSimulations, WicketApplication.getDefaultLocale() );
+                        HibernateUtils.orderSimulations( localizedSimulations, PhetWicketApplication.getDefaultLocale() );
                     }
                     else {
                         LocalizedSimulation lsim = (LocalizedSimulation) matching.get( 0 );

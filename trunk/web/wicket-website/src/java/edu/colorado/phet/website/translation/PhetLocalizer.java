@@ -9,7 +9,7 @@ import org.apache.wicket.model.IModel;
 import org.hibernate.Session;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
-import edu.colorado.phet.website.WicketApplication;
+import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.data.Translation;
 import edu.colorado.phet.website.util.PhetRequestCycle;
 import edu.colorado.phet.website.util.StringUtils;
@@ -133,7 +133,7 @@ public class PhetLocalizer extends Localizer {
             return defaultValue;
         }
 
-        Locale defaultLocale = WicketApplication.getDefaultLocale();
+        Locale defaultLocale = PhetWicketApplication.getDefaultLocale();
         String defaultCacheKey = mapCacheKey( key, defaultLocale );
 
         // perform a cache lookup for the default value

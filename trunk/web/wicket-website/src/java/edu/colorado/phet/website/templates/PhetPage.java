@@ -12,7 +12,7 @@ import org.apache.wicket.markup.html.link.StatelessLink;
 import org.apache.wicket.model.IModel;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
-import edu.colorado.phet.website.WicketApplication;
+import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.authentication.PhetSession;
 import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.components.StaticImage;
@@ -162,7 +162,7 @@ public abstract class PhetPage extends WebPage {
     }
 
     public NavMenu getNavMenu() {
-        return ( (WicketApplication) getApplication() ).getMenu();
+        return ( (PhetWicketApplication) getApplication() ).getMenu();
     }
 
     private Long renderStart;
