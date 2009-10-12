@@ -185,7 +185,16 @@ public class PureJavaSolver extends CircuitSolver {
 
         }
         CompanionMNA.FullCircuit circ = new CompanionMNA.FullCircuit( batteries, resistors, capacitors, inductors );
-        CompanionMNA.CompanionSolution solution = circ.solve( dt );
+
+//        double dynamicDT = getDT(circ,dt);
+        double dynamicDT = dt;
+//        System.out.println("dynamicDT = " + dynamicDT);
+//        int numTimeSteps = (int) (dt/dynamicDT);
+//        System.out.println("numTimeSteps = " + numTimeSteps);
+        CompanionMNA.CompanionSolution solution = circ.solve(dynamicDT);
+//        for (int i = 0; i < numTimeSteps; i++) {
+//            solution = solution.fullCircuit.solve(dynamicDT);
+//        }
         for ( ResistiveBatteryAdapter batteryAdapter : batteries ) {
             batteryAdapter.applySolution( solution );
         }
@@ -203,5 +212,16 @@ public class PureJavaSolver extends CircuitSolver {
         }
         circuit.setSolution(solution);
         fireCircuitSolved();
+    }
+
+    private double getDT(CompanionMNA.FullCircuit circ, double dt) {
+        CompanionMNA.CompanionSolution a = circ.solve( dt );
+        CompanionMNA.CompanionSolution b1 = circ.solve( dt/2 );
+        CompanionMNA.CompanionSolution b2 = b1.fullCircuit.solve( dt/2 );
+
+        double distance = b2.distance(a);
+        System.out.println("dt = " + dt +" => "+distance);
+        if (distance<1E-2)return dt;
+        else return getDT(circ, dt/2);
     }
 }
