@@ -21,11 +21,20 @@ public class SandwichFormulaNode extends PhetPNode {
     private static final int Y_SPACING = 30;
     private static final double SWING_SCALE = 2.0; //XXX make this go away
     
+    private final SandwichFormula sandwichFormula;
     private final IntegerSpinnerNode breadSpinnerNode, meatSpinnerNode, cheeseSpinnerNode;
+    private final PText sandwichesCountNode;
     private final SandwichNode sandwichNode;
 
     public SandwichFormulaNode( final SandwichFormula sandwichFormula ) {
         super();
+        
+        this.sandwichFormula = sandwichFormula;
+        sandwichFormula.addChangeListener( new ChangeListener(){
+            public void stateChanged( ChangeEvent e ) {
+                update();
+            } 
+        });
         
         PText titleNode = new PText( RPALStrings.LABEL_SANDWICH_FORMULA );
         titleNode.setFont( new PhetFont( 18 ) );
@@ -33,7 +42,6 @@ public class SandwichFormulaNode extends PhetPNode {
 
         breadSpinnerNode = new IntegerSpinnerNode( SandwichShopDefaults.FORMULA_BREAD_RANGE );
         breadSpinnerNode.scale( SWING_SCALE );
-        breadSpinnerNode.setValue( sandwichFormula.getBread() );
         breadSpinnerNode.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 sandwichFormula.setBread( breadSpinnerNode.getValue() );
@@ -42,7 +50,6 @@ public class SandwichFormulaNode extends PhetPNode {
         
         meatSpinnerNode = new IntegerSpinnerNode( SandwichShopDefaults.FORMULA_MEAT_RANGE );
         meatSpinnerNode.scale( SWING_SCALE );
-        meatSpinnerNode.setValue( sandwichFormula.getMeat() );
         meatSpinnerNode.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 sandwichFormula.setMeat( meatSpinnerNode.getValue() );
@@ -51,7 +58,6 @@ public class SandwichFormulaNode extends PhetPNode {
         
         cheeseSpinnerNode = new IntegerSpinnerNode( SandwichShopDefaults.FORMULA_CHEESE_RANGE );
         cheeseSpinnerNode.scale( SWING_SCALE );
-        cheeseSpinnerNode.setValue( sandwichFormula.getCheese() );
         cheeseSpinnerNode.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 sandwichFormula.setCheese( cheeseSpinnerNode.getValue() );
@@ -68,7 +74,7 @@ public class SandwichFormulaNode extends PhetPNode {
         
         PNode arrowNode = new RPALArrowNode();
         
-        PText sandwichesCountNode = new PText( "1" );
+        sandwichesCountNode = new PText( "1" );
         sandwichesCountNode.setFont( new PhetFont() );
         sandwichesCountNode.scale( 2 ); //XXX
         addChild( sandwichesCountNode );
@@ -134,5 +140,12 @@ public class SandwichFormulaNode extends PhetPNode {
         x = sandwichesCountNode.getFullBoundsReference().getMaxX() + TERM_X_SPACING;
         y = sandwichesCountNode.getFullBoundsReference().getCenterY() - ( sandwichNode.getFullBoundsReference().getHeight() / 2 ) - PNodeLayoutUtils.getOriginYOffset( sandwichNode );
         sandwichNode.setOffset( x, y );
+    }
+    
+    private void update() {
+        breadSpinnerNode.setValue( sandwichFormula.getBread() );
+        meatSpinnerNode.setValue( sandwichFormula.getMeat() );
+        cheeseSpinnerNode.setValue( sandwichFormula.getCheese() );
+        sandwichesCountNode.setText( String.valueOf( sandwichFormula.getSandwiches() ) );
     }
 }

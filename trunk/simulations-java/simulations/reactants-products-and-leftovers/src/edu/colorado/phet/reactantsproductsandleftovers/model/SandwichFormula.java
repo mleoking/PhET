@@ -64,6 +64,10 @@ public class SandwichFormula {
         return cheese;
     }
     
+    public int getSandwiches() {
+        return ( bread == 0 && meat == 0 && cheese == 0 ) ? 0 : 1;
+    }
+    
     public void addChangeListener( ChangeListener listener ) {
         listeners.add( listener );
     }
