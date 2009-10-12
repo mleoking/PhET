@@ -24,7 +24,7 @@ public class SandwichFormula {
     
     public void setBread( int bread ) {
         if ( bread < 0 ) {
-            throw new IllegalArgumentException( "bread must be > 0" );
+            throw new IllegalArgumentException( "bread must be >= 0" );
         }
         if ( bread != this.bread ) {
             this.bread = bread;
@@ -38,7 +38,7 @@ public class SandwichFormula {
     
     public void setMeat( int meat ) {
         if ( meat < 0 ) {
-            throw new IllegalArgumentException( "meat must be > 0" );
+            throw new IllegalArgumentException( "meat must be >= 0" );
         }
         if ( meat != this.meat ) {
             this.meat = meat;
@@ -52,7 +52,7 @@ public class SandwichFormula {
     
     public void setCheese( int cheese ) {
         if ( cheese < 0 ) {
-            throw new IllegalArgumentException( "cheese must be > 0" );
+            throw new IllegalArgumentException( "cheese must be >= 0" );
         }
         if ( cheese != this.cheese ) {
             this.cheese = cheese;
@@ -74,7 +74,8 @@ public class SandwichFormula {
     
     private void fireStateChanged() {
         ChangeEvent e = new ChangeEvent( this );
-        for ( ChangeListener listener : listeners ) {
+        ArrayList<ChangeListener> listenersCopy = new ArrayList<ChangeListener>( listeners );
+        for ( ChangeListener listener : listenersCopy ) {
             listener.stateChanged( e );
         }
     }

@@ -3,14 +3,24 @@ package edu.colorado.phet.reactantsproductsandleftovers.module.realreaction;
 
 import java.awt.geom.Dimension2D;
 
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
 import edu.colorado.phet.reactantsproductsandleftovers.view.RPALCanvas;
+import edu.umd.cs.piccolo.nodes.PText;
 
 
 public class RealReactionCanvas extends RPALCanvas {
 
+    private final PText underConstructionNode;
+    
     public RealReactionCanvas() {
         super();
+        
+        //XXX
+        underConstructionNode = new PText( "Under Construction" );
+        underConstructionNode.setFont( new PhetFont() );
+        underConstructionNode.scale( 2 );
+        addChild( underConstructionNode );
     }
 
     //----------------------------------------------------------------------------

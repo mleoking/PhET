@@ -1,9 +1,13 @@
 package edu.colorado.phet.reactantsproductsandleftovers.view;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -20,6 +24,8 @@ public class LeftoversDisplayNode extends PhetPNode {
     
     public LeftoversDisplayNode( final SandwichShop model ) {
         super();
+        setPickable( false );
+        setChildrenPickable( false );
         
         this.model = model;
         model.addChangeListener( new ChangeListener() {
@@ -34,12 +40,14 @@ public class LeftoversDisplayNode extends PhetPNode {
         
         // layout
         JPanel panel = new JPanel();
+        panel.setBackground( new Color( 0, 0, 0, 0 ) ); // transparent
+        panel.setBorder( new CompoundBorder( new LineBorder( Color.BLACK, 1 ), new EmptyBorder( 5, 5, 5, 5 ) ) );
         EasyGridBagLayout layout = new EasyGridBagLayout( panel );
         layout.setAnchor( GridBagConstraints.EAST );
         panel.setLayout( layout );
         int row = 0;
         int col = 0;
-        layout.addComponent( new JLabel( "Leftovers" ), row, col++ );
+        layout.addComponent( new JLabel( "Leftovers" ), row, col++, 2, 1 );
         row++;
         col = 0;
         layout.addComponent( new JLabel( "bread:" ), row, col++ );
