@@ -8,7 +8,6 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.LogoPanel;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
-import edu.colorado.phet.naturalselection.NaturalSelectionApplication;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
 import edu.colorado.phet.naturalselection.dialog.PedigreeChartCanvas;
@@ -56,7 +55,7 @@ public class NaturalSelectionControlPanel extends JPanel {
         leftPanel = new LeftPanel();
         bunnyStatsPanel = new BunnyStatsPanel();
         LogoPanel logoPanel = new LogoPanel();
-        logoPanel.setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
+        logoPanel.setBackground( NaturalSelectionConstants.COLOR_ACCESSIBLE_CONTROL_PANEL );
         pedigreeChart = new PedigreeChartCanvas();
         detachPanel = new DetachOptionPanel( NaturalSelectionStrings.PEDIGREE_CHART, pedigreeChart, bunnyStatsPanel );
         switcherPanel = new SwitcherPanel();
@@ -114,9 +113,9 @@ public class NaturalSelectionControlPanel extends JPanel {
         add( switcherPanel, switcherConstraints );
 
         // color everything with the control panel's background color
-        setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
-        rightPanel.setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
-        selectionPanel.setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
+        setBackground( NaturalSelectionConstants.COLOR_ACCESSIBLE_CONTROL_PANEL );
+        rightPanel.setBackground( NaturalSelectionConstants.COLOR_ACCESSIBLE_CONTROL_PANEL );
+        selectionPanel.setBackground( NaturalSelectionConstants.COLOR_ACCESSIBLE_CONTROL_PANEL );
 
         // make sure that if the pedigree chart is resized, that it recenters itself
         pedigreeChart.addComponentListener( new ComponentListener() {

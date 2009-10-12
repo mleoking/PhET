@@ -66,9 +66,11 @@ public class NaturalSelectionConstants {
 
     // control panel background color
     public static final Color COLOR_CONTROL_PANEL = new Color( 0xC9E5C6 );
+    public static final Color COLOR_ACCESSIBLE_CONTROL_PANEL = NaturalSelectionApplication.accessibleColor( COLOR_CONTROL_PANEL );
 
     // pedigree chart background color
     public static final Color COLOR_GENERATION_CHART = new Color( 0xBBD5C7 );
+
 
     //----------------------------------------------------------------------------
     // Images

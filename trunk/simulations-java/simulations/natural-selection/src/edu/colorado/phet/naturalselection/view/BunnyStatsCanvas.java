@@ -111,7 +111,7 @@ public class BunnyStatsCanvas extends PhetPCanvas {
 
         chart.setAntiAlias( CHART_ANTIALIAS );
 
-        setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
+        setBackground( NaturalSelectionConstants.COLOR_ACCESSIBLE_CONTROL_PANEL );
 
         chartNode = new JFreeChartNode( chart );
         root.addChild( chartNode );
