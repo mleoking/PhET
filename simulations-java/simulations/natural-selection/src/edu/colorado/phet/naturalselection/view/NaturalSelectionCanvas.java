@@ -4,7 +4,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.naturalselection.NaturalSelectionApplication;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
 import edu.colorado.phet.naturalselection.model.Gene;
@@ -53,7 +52,7 @@ public class NaturalSelectionCanvas extends PhetPCanvas {
 
         this.model = model;
 
-        setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_CONTROL_PANEL ) );
+        setBackground( NaturalSelectionConstants.COLOR_ACCESSIBLE_CONTROL_PANEL );
 
         rootNode = new PNode();
         addWorldChild( rootNode );
@@ -67,7 +66,6 @@ public class NaturalSelectionCanvas extends PhetPCanvas {
         addFriendNode = new AddFriendNode( model );
         addFriendNode.setOffset( 75, 250 );
         rootNode.addChild( addFriendNode );
-
     }
 
     /**

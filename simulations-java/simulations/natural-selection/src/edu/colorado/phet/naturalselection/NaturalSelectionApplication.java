@@ -119,8 +119,7 @@ public class NaturalSelectionApplication extends PiccoloPhetApplication {
                         Font font = UIManager.getFont( key );
                         if ( font != null ) {
                             float size = font.getSize2D();
-                            UIManager.put( key, new FontUIResource( font.deriveFont( size *
-                                                                                     scale ) ) );
+                            UIManager.put( key, new FontUIResource( font.deriveFont( size * scale ) ) );
                         }
                     }
                 }
