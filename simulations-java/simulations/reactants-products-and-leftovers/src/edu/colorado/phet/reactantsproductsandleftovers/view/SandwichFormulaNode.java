@@ -31,7 +31,7 @@ public class SandwichFormulaNode extends PhetPNode {
         titleNode.setFont( new PhetFont( 18 ) );
         titleNode.scale( SWING_SCALE );
 
-        breadSpinnerNode = new IntegerSpinnerNode( SandwichShopDefaults.FORMULA_BREAD_RANGE, SandwichShopDefaults.FORMULA_SPINNER_COLUMNS );
+        breadSpinnerNode = new IntegerSpinnerNode( SandwichShopDefaults.FORMULA_BREAD_RANGE );
         breadSpinnerNode.scale( SWING_SCALE );
         breadSpinnerNode.setValue( sandwichFormula.getBread() );
         breadSpinnerNode.addChangeListener( new ChangeListener() {
@@ -40,7 +40,7 @@ public class SandwichFormulaNode extends PhetPNode {
             }
         });
         
-        meatSpinnerNode = new IntegerSpinnerNode( SandwichShopDefaults.FORMULA_MEAT_RANGE, SandwichShopDefaults.FORMULA_SPINNER_COLUMNS );
+        meatSpinnerNode = new IntegerSpinnerNode( SandwichShopDefaults.FORMULA_MEAT_RANGE );
         meatSpinnerNode.scale( SWING_SCALE );
         meatSpinnerNode.setValue( sandwichFormula.getMeat() );
         meatSpinnerNode.addChangeListener( new ChangeListener() {
@@ -49,7 +49,7 @@ public class SandwichFormulaNode extends PhetPNode {
             }
         });
         
-        cheeseSpinnerNode = new IntegerSpinnerNode( SandwichShopDefaults.FORMULA_CHEESE_RANGE, SandwichShopDefaults.FORMULA_SPINNER_COLUMNS );
+        cheeseSpinnerNode = new IntegerSpinnerNode( SandwichShopDefaults.FORMULA_CHEESE_RANGE );
         cheeseSpinnerNode.scale( SWING_SCALE );
         cheeseSpinnerNode.setValue( sandwichFormula.getCheese() );
         cheeseSpinnerNode.addChangeListener( new ChangeListener() {

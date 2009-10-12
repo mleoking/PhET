@@ -8,19 +8,23 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
+import edu.colorado.phet.reactantsproductsandleftovers.controls.BreadQuantityControlNode;
+import edu.colorado.phet.reactantsproductsandleftovers.controls.CheeseQuantityControlNode;
+import edu.colorado.phet.reactantsproductsandleftovers.controls.MeatQuantityControlNode;
 import edu.colorado.phet.reactantsproductsandleftovers.model.SandwichShop;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 
 
-public class BeforeBoxNode extends BoxNode {
+public class SandwichShopBeforeNode extends PhetPNode {
     
     private static final PDimension BOX_SIZE = new PDimension( 400, 300 );
     private static final double X_MARGIN = 10;
     private static final double Y_MARGIN = 10;
-    private static final double REACTANTS_SCALE = 0.5;
+    private static final double REACTANTS_SCALE = 0.5; //XXX
     
     private final SandwichShop model;
 
@@ -28,8 +32,8 @@ public class BeforeBoxNode extends BoxNode {
     private final ArrayList<MeatNode> meat;
     private final ArrayList<CheeseNode> cheese;
     
-    public BeforeBoxNode( SandwichShop model ) {
-        super( BOX_SIZE );
+    public SandwichShopBeforeNode( final SandwichShop model ) {
+        super();
         
         this.model = model;
         model.addChangeListener( new ChangeListener() {
@@ -50,11 +54,32 @@ public class BeforeBoxNode extends BoxNode {
         titleNode.setTextPaint( Color.BLACK );
         addChild( titleNode );
         
+        PNode controlsNode = new PNode();
+        controlsNode.scale(  2  ); //XXX
+        addChild( controlsNode );
+        BreadQuantityControlNode breadControlNode = new BreadQuantityControlNode( model );
+        MeatQuantityControlNode meatControlNode = new MeatQuantityControlNode( model );
+        CheeseQuantityControlNode cheeseControlNode = new CheeseQuantityControlNode( model );
+        controlsNode.addChild( breadControlNode );
+        controlsNode.addChild( meatControlNode );
+        controlsNode.addChild( cheeseControlNode );
+        double breadWidth = breadControlNode.getFullBoundsReference().getWidth();
+        double meatWidth = meatControlNode.getFullBoundsReference().getWidth();
+        double cheeseWidth = cheeseControlNode.getFullBoundsReference().getWidth();
+        double maxWidth = Math.max( breadWidth, Math.max( meatWidth, cheeseWidth ) );
+        double deltaX = maxWidth + 10;
+        breadControlNode.setOffset( 0, 0 );
+        meatControlNode.setOffset( deltaX, 0 );
+        cheeseControlNode.setOffset( 2 * deltaX, 0 );
+        
         // layout, origin at upper-left corner of box
         boxNode.setOffset( 0, 0 );
         double x = boxNode.getFullBoundsReference().getCenterX() - ( titleNode.getFullBoundsReference().getWidth() / 2 );
         double y = boxNode.getFullBoundsReference().getMinY() - titleNode.getFullBoundsReference().getHeight() - 10;
         titleNode.setOffset( x, y );
+        x = boxNode.getFullBoundsReference().getCenterX() - ( controlsNode.getFullBoundsReference().getWidth() / 2 );
+        y = boxNode.getFullBoundsReference().getMaxY() + 10;
+        controlsNode.setOffset( x, y );
         
         update();
     }

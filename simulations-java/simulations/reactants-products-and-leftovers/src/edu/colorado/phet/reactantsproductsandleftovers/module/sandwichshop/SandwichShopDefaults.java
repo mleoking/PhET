@@ -21,11 +21,9 @@ public class SandwichShopDefaults {
     public static final IntegerRange FORMULA_BREAD_RANGE = FORMULA_REACTANT_RANGE;
     public static final IntegerRange FORMULA_MEAT_RANGE = FORMULA_REACTANT_RANGE;
     public static final IntegerRange FORMULA_CHEESE_RANGE = FORMULA_REACTANT_RANGE;
-    public static final int FORMULA_SPINNER_COLUMNS = 1;
     
-    private static final IntegerRange REACTION_REACTANT_RANGE = new IntegerRange( 0, 10, 1 );
+    private static final IntegerRange REACTION_REACTANT_RANGE = new IntegerRange( 0, 10, 0 );
     public static final IntegerRange REACTION_BREAD_RANGE = REACTION_REACTANT_RANGE;
     public static final IntegerRange REACTION_MEAT_RANGE = REACTION_REACTANT_RANGE;
     public static final IntegerRange REACTION_CHEESE_RANGE = REACTION_REACTANT_RANGE;
-    public static final int REACTION_SPINNER_COLUMNS = 1;
 }

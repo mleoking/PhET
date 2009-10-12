@@ -34,7 +34,7 @@ public class IntegerSpinnerNode extends PNode {
     private final JSpinner spinner;
     private final JFormattedTextField textField;
     
-    public IntegerSpinnerNode( IntegerRange range, int columns ) {
+    public IntegerSpinnerNode( IntegerRange range ) {
         super();
         
         this.range = range;
@@ -53,7 +53,7 @@ public class IntegerSpinnerNode extends PNode {
         
         // text field, commits when Enter is pressed or focus is lost
         textField = editor.getTextField();
-        textField.setColumns( columns );
+        textField.setColumns( String.valueOf( range.getMax() ).length() );
         textField.addKeyListener( new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
                 if ( e.getKeyCode() == KeyEvent.VK_ENTER ) {
