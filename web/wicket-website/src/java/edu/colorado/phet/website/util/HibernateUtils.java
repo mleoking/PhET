@@ -6,7 +6,7 @@ import org.hibernate.*;
 import org.hibernate.cfg.Configuration;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
-import edu.colorado.phet.website.WicketApplication;
+import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.data.Category;
 import edu.colorado.phet.website.data.LocalizedSimulation;
 import edu.colorado.phet.website.data.Simulation;
@@ -202,7 +202,7 @@ public class HibernateUtils {
      */
     public static void orderSimulations( List<LocalizedSimulation> list, final Locale locale ) {
         final HashMap<String, String> map = new HashMap<String, String>();
-        final PhetLocalizer phetLocalizer = (PhetLocalizer) WicketApplication.get().getResourceSettings().getLocalizer();
+        final PhetLocalizer phetLocalizer = (PhetLocalizer) PhetWicketApplication.get().getResourceSettings().getLocalizer();
 
         for ( LocalizedSimulation sim : list ) {
             boolean correctLocale = locale.equals( sim.getLocale() );
@@ -309,7 +309,7 @@ public class HibernateUtils {
 
         for ( Object o : li ) {
             Translation translation = (Translation) o;
-            if ( translation.getLocale().equals( WicketApplication.getDefaultLocale() ) ) {
+            if ( translation.getLocale().equals( PhetWicketApplication.getDefaultLocale() ) ) {
                 continue;
             }
             ret.add( translation );
@@ -325,7 +325,7 @@ public class HibernateUtils {
             if ( lsim.getLocale().equals( locale ) ) {
                 return lsim;
             }
-            else if ( lsim.getLocale().equals( WicketApplication.getDefaultLocale() ) ) {
+            else if ( lsim.getLocale().equals( PhetWicketApplication.getDefaultLocale() ) ) {
                 defaultSim = lsim;
             }
         }

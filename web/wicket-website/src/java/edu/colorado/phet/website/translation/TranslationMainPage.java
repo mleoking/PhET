@@ -19,7 +19,7 @@ import org.hibernate.Transaction;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.common.phetcommon.util.PhetLocales;
-import edu.colorado.phet.website.WicketApplication;
+import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.content.IndexPage;
 import edu.colorado.phet.website.data.PhetUser;
@@ -34,7 +34,7 @@ public class TranslationMainPage extends TranslationPage {
     public TranslationMainPage( PageParameters parameters ) {
         super( parameters );
 
-        phetLocales = ( (WicketApplication) getApplication() ).getSupportedLocales();
+        phetLocales = ( (PhetWicketApplication) getApplication() ).getSupportedLocales();
 
         Form createTranslationForm = new CreateTranslationForm();
 
@@ -214,7 +214,7 @@ public class TranslationMainPage extends TranslationPage {
             item.add( visibleLabel );
 
 
-            if ( getUser().isTeamMember() && !( translation.isVisible() && translation.getLocale().equals( WicketApplication.getDefaultLocale() ) ) ) {
+            if ( getUser().isTeamMember() && !( translation.isVisible() && translation.getLocale().equals( PhetWicketApplication.getDefaultLocale() ) ) ) {
                 item.add( new Link( "visible-toggle" ) {
                     public void onClick() {
                         Session session = getHibernateSession();
@@ -236,10 +236,10 @@ public class TranslationMainPage extends TranslationPage {
                             tx.commit();
 
                             if ( translation.isVisible() ) {
-                                ( (WicketApplication) getApplication() ).addTranslation( tr );
+                                ( (PhetWicketApplication) getApplication() ).addTranslation( tr );
                             }
                             else {
-                                ( (WicketApplication) getApplication() ).removeTranslation( tr );
+                                ( (PhetWicketApplication) getApplication() ).removeTranslation( tr );
                             }
                         }
                         catch( RuntimeException e ) {
@@ -277,7 +277,7 @@ public class TranslationMainPage extends TranslationPage {
                 }
             } );
 
-            if ( getUser().isTeamMember() && !( translation.isVisible() && translation.getLocale().equals( WicketApplication.getDefaultLocale() ) ) ) {
+            if ( getUser().isTeamMember() && !( translation.isVisible() && translation.getLocale().equals( PhetWicketApplication.getDefaultLocale() ) ) ) {
                 item.add( new Link( "delete" ) {
                     public void onClick() {
                         Session session = TranslationMainPage.this.getHibernateSession();

@@ -9,7 +9,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
-import edu.colorado.phet.website.WicketApplication;
+import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.components.LocalizedLabel;
 import edu.colorado.phet.website.data.TranslatedString;
 import edu.colorado.phet.website.data.Translation;
@@ -28,7 +28,7 @@ public class StringUtils {
      * @return Translated String (probably not translated though!)
      */
     public static String getString( Session session, String key ) {
-        return getString( session, key, WicketApplication.getDefaultLocale() );
+        return getString( session, key, PhetWicketApplication.getDefaultLocale() );
     }
 
     /**
@@ -149,7 +149,7 @@ public class StringUtils {
             }
             TranslatedString englishString = (TranslatedString) session.createQuery(
                     "select ts from TranslatedString as ts where ts.translation.visible = true and ts.translation.locale = :locale and ts.key = :key" )
-                    .setLocale( "locale", WicketApplication.getDefaultLocale() ).setString( "key", key ).uniqueResult();
+                    .setLocale( "locale", PhetWicketApplication.getDefaultLocale() ).setString( "key", key ).uniqueResult();
             if ( string.getUpdatedAt().compareTo( englishString.getUpdatedAt() ) < 0 ) {
                 status = STRING_OUT_OF_DATE;
             }
@@ -170,7 +170,7 @@ public class StringUtils {
     }
 
     public static boolean setEnglishString( Session session, String key, String value ) {
-        return setString( session, key, value, WicketApplication.getDefaultLocale() );
+        return setString( session, key, value, PhetWicketApplication.getDefaultLocale() );
     }
 
     public static boolean setString( Session session, String key, String value, Locale locale ) {
@@ -205,7 +205,7 @@ public class StringUtils {
             }
 
             // if it's cached, change the cache entries so it doesn't fail
-            ( (PhetLocalizer) WicketApplication.get().getResourceSettings().getLocalizer() ).updateCachedString( translation, key, value );
+            ( (PhetLocalizer) PhetWicketApplication.get().getResourceSettings().getLocalizer() ).updateCachedString( translation, key, value );
 
             tx.commit();
         }
@@ -261,7 +261,7 @@ public class StringUtils {
             }
 
             // if it's cached, change the cache entries so it doesn't fail
-            ( (PhetLocalizer) WicketApplication.get().getResourceSettings().getLocalizer() ).updateCachedString( translation, key, value );
+            ( (PhetLocalizer) PhetWicketApplication.get().getResourceSettings().getLocalizer() ).updateCachedString( translation, key, value );
 
             tx.commit();
         }

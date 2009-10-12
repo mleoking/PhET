@@ -8,7 +8,7 @@ import org.apache.wicket.model.StringResourceModel;
 import org.hibernate.HibernateException;
 import org.hibernate.Transaction;
 
-import edu.colorado.phet.website.WicketApplication;
+import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.components.PhetLink;
 import edu.colorado.phet.website.data.Category;
@@ -138,7 +138,7 @@ public class SimulationDisplay extends PhetRegularPage {
 
                     break;
                 }
-                else if ( lsim.getLocale().equals( WicketApplication.getDefaultLocale() ) ) {
+                else if ( lsim.getLocale().equals( PhetWicketApplication.getDefaultLocale() ) ) {
                     englishSim = lsim;
                 }
             }

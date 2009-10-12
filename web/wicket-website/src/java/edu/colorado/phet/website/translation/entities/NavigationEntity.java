@@ -2,7 +2,7 @@ package edu.colorado.phet.website.translation.entities;
 
 import java.util.HashSet;
 
-import edu.colorado.phet.website.WicketApplication;
+import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.menu.NavLocation;
 import edu.colorado.phet.website.panels.PhetPanel;
 import edu.colorado.phet.website.panels.SideNavMenu;
@@ -54,11 +54,11 @@ public class NavigationEntity extends TranslationEntity {
         addPreview( new PhetPanelFactory() {
             public PhetPanel getNewPanel( String id, PageContext context, PhetRequestCycle requestCycle ) {
                 HashSet<NavLocation> locations = new HashSet<NavLocation>();
-                locations.add( ( (WicketApplication) requestCycle.getApplication() ).getMenu().getLocationByKey( "motion" ) );
-                locations.add( ( (WicketApplication) requestCycle.getApplication() ).getMenu().getLocationByKey( "tools" ) );
-                locations.add( ( (WicketApplication) requestCycle.getApplication() ).getMenu().getLocationByKey( "get-phet.full-install" ) );
-                locations.add( ( (WicketApplication) requestCycle.getApplication() ).getMenu().getLocationByKey( "troubleshooting.java" ) );
-                locations.add( ( (WicketApplication) requestCycle.getApplication() ).getMenu().getLocationByKey( "about.licensing" ) );
+                locations.add( ( (PhetWicketApplication) requestCycle.getApplication() ).getMenu().getLocationByKey( "motion" ) );
+                locations.add( ( (PhetWicketApplication) requestCycle.getApplication() ).getMenu().getLocationByKey( "tools" ) );
+                locations.add( ( (PhetWicketApplication) requestCycle.getApplication() ).getMenu().getLocationByKey( "get-phet.full-install" ) );
+                locations.add( ( (PhetWicketApplication) requestCycle.getApplication() ).getMenu().getLocationByKey( "troubleshooting.java" ) );
+                locations.add( ( (PhetWicketApplication) requestCycle.getApplication() ).getMenu().getLocationByKey( "about.licensing" ) );
                 return new SideNavMenu( id, context, locations );
             }
         }, "Navigation Menu" );

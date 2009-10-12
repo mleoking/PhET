@@ -7,7 +7,7 @@ import org.apache.wicket.request.target.coding.IRequestTargetUrlCodingStrategy;
 import org.apache.wicket.request.target.component.BookmarkablePageRequestTarget;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
-import edu.colorado.phet.website.WicketApplication;
+import edu.colorado.phet.website.PhetWicketApplication;
 
 public class PhetUrlStrategy implements IRequestTargetUrlCodingStrategy {
     private String prefix;
@@ -42,7 +42,7 @@ public class PhetUrlStrategy implements IRequestTargetUrlCodingStrategy {
         params.add( "localeString", prefix );
         params.add( "prefixString", "/" + prefix + "/" );
         if ( prefix.equals( "error" ) ) {
-            params.put( "locale", WicketApplication.getDefaultLocale() );
+            params.put( "locale", PhetWicketApplication.getDefaultLocale() );
         }
         else {
             params.put( "locale", LocaleUtils.stringToLocale( prefix ) );

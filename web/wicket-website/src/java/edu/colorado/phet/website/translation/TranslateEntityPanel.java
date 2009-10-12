@@ -23,7 +23,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import edu.colorado.phet.website.WicketApplication;
+import edu.colorado.phet.website.PhetWicketApplication;
 import edu.colorado.phet.website.authentication.PhetSession;
 import edu.colorado.phet.website.components.InvisibleComponent;
 import edu.colorado.phet.website.components.LocalizedLabel;
@@ -93,11 +93,11 @@ public class TranslateEntityPanel extends PhetPanel {
 
                 item.add( new Label( "translation-string-key", tString.getKey() ) );
 
-                if ( testLocale.equals( WicketApplication.getDefaultLocale() ) ) {
+                if ( testLocale.equals( PhetWicketApplication.getDefaultLocale() ) ) {
                     item.add( new InvisibleComponent( "translation-string-english" ) );
                 }
                 else {
-                    item.add( new LocalizedLabel( "translation-string-english", WicketApplication.getDefaultLocale(), new ResourceModel( tString.getKey() ) ) );
+                    item.add( new LocalizedLabel( "translation-string-english", PhetWicketApplication.getDefaultLocale(), new ResourceModel( tString.getKey() ) ) );
                 }
 
                 final AjaxEditableMultiLineLabel editableLabel = new AjaxEditableMultiLineLabel( "translation-string-value", model ) {
@@ -174,15 +174,8 @@ public class TranslateEntityPanel extends PhetPanel {
     public boolean isStringUpToDate( final String key ) {
         boolean success = HibernateUtils.wrapTransaction( getHibernateSession(), new HibernateTask() {
             public boolean run( Session session ) {
-                /*
-                Translation currentTranslation = (Translation) session.createQuery( "select t from Translation as t where t.id = :id" ).setInteger( "id", translationId ).uniqueResult();
-                if ( currentTranslation.isVisible() && currentTranslation.getLocale().equals( WicketApplication.getDefaultLocale() ) ) {
-                    // this is the English translation. Don't show a ton of orange, it is by definition up-to-date
-                    return true;
-                }
-                */
                 TranslatedString standard = (TranslatedString) session.createQuery( "select ts from TranslatedString as ts, Translation as t where ts.translation = t and t.visible = true and t.locale = :locale and ts.key = :key" )
-                        .setLocale( "locale", WicketApplication.getDefaultLocale() )
+                        .setLocale( "locale", PhetWicketApplication.getDefaultLocale() )
                         .setString( "key", key )
                         .uniqueResult();
                 TranslatedString current = (TranslatedString) session.createQuery( "select ts from TranslatedString as ts, Translation as t where ts.translation = t and t.id = :id and ts.key = :key" )
