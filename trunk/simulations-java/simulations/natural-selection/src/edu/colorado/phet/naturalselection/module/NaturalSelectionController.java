@@ -125,9 +125,6 @@ public class NaturalSelectionController {
                 if ( primary + secondary == 0 ) {
                     model.endGame();
                 }
-                else if ( primary + secondary > NaturalSelectionConstants.getSettings().getMaxPopulation() ) {
-                    model.bunniesTakeOver();
-                }
             }
 
             public void onChangeMutatable( Gene gene, boolean mutatable ) {
