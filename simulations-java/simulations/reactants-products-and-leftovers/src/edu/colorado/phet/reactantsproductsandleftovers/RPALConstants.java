@@ -59,7 +59,7 @@ public class RPALConstants {
     //----------------------------------------------------------------------------
     
     // Color of the "play area"
-    public static final Color CANVAS_BACKGROUND = Color.WHITE;
+    public static final Color CANVAS_BACKGROUND = new Color( 210, 210, 255 );
     
     //----------------------------------------------------------------------------
     // Images
