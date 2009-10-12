@@ -62,41 +62,9 @@
                     <name>programfiles</name>
                     <platforms>all</platforms>
                     <distributionFileList>
-                        <!-- Commented out the activities until it exists on the web site.
                         <distributionDirectory>
-                            <origin>../../temp/website/phetsims.colorado.edu/activities</origin>
+                            <origin>../../temp/website/phetsims.colorado.edu</origin>
                         </distributionDirectory>
-                        -->
-                        <distributionDirectory>
-                            <origin>../../temp/website/phetsims.colorado.edu/ar</origin>
-                        </distributionDirectory>
-                        <distributionDirectory>
-                            <origin>../../temp/website/phetsims.colorado.edu/css</origin>
-                        </distributionDirectory>
-                        <distributionDirectory>
-                            <origin>../../temp/website/phetsims.colorado.edu/images</origin>
-                        </distributionDirectory>
-                        <distributionDirectory>
-                            <origin>../../temp/website/phetsims.colorado.edu/installer</origin>
-                        </distributionDirectory>
-                        <distributionDirectory>
-                            <origin>../../temp/website/phetsims.colorado.edu/publications</origin>
-                        </distributionDirectory>
-                        <distributionDirectory>
-                            <origin>../../temp/website/phetsims.colorado.edu/sims</origin>
-                        </distributionDirectory>
-                        <distributionDirectory>
-                            <origin>../../temp/website/phetsims.colorado.edu/workshops</origin>
-                        </distributionDirectory>
-                        <distributionDirectory>
-                            <origin>../../temp/website/phetsims.colorado.edu/publications</origin>
-                        </distributionDirectory>
-                        <distributionFile>
-                            <origin>../../../Installer-Resources/Install-Path/phet-icon.ico</origin>
-                        </distributionFile>
-                        <distributionFile>
-                            <origin>../../../Installer-Resources/Install-Path/phet-logo-48x48.png</origin>
-                        </distributionFile>
                     </distributionFileList>
                     <shortcutList>
                         <shortcut>
