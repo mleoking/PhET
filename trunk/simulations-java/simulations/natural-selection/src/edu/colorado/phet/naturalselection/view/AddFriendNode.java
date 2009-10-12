@@ -19,9 +19,12 @@ public class AddFriendNode extends PNode {
 
     public JButton addFriendButton;
 
+    private boolean cachedVisible = true;
+    private final PSwing holder;
+
     public AddFriendNode( final NaturalSelectionModel model ) {
         addFriendButton = new JButton( NaturalSelectionStrings.ADD_A_FRIEND );
-        PSwing holder = new PSwing( addFriendButton );
+        holder = new PSwing( addFriendButton );
         addChild( holder );
 
         addFriendButton.addActionListener( new ActionListener() {
@@ -36,6 +39,15 @@ public class AddFriendNode extends PNode {
     public void setVisible( boolean visible ) {
         super.setVisible( visible );
         addFriendButton.setVisible( visible );
+        if ( visible != cachedVisible ) {
+            cachedVisible = visible;
+            if ( visible ) {
+                addChild( holder );
+            }
+            else {
+                removeChild( holder );
+            }
+        }
     }
 
     public void updateLayout( int width, int height ) {
