@@ -80,6 +80,11 @@ public class NaturalSelectionModel extends ClockAdapter {
     private int lastFrenziedGeneration = -1;
 
     /**
+     * When the last famine occurred.
+     */
+    private int lastFamineGeneration = -1;
+
+    /**
      * Whether the user has pressed "Add a friend" yet
      */
     private boolean friendAdded = false;
@@ -163,6 +168,7 @@ public class NaturalSelectionModel extends ClockAdapter {
         time = 0;
         gameEnded = false;
         lastFrenziedGeneration = -1;
+        lastFamineGeneration = -1;
         lastYearTick = 0;
         lastEventTick = NaturalSelectionConstants.getSettings().getSelectionTick();
         frenzy = null;
@@ -578,6 +584,13 @@ public class NaturalSelectionModel extends ClockAdapter {
      * Bunnies will run out of food if the selection factor is food
      */
     private void bunnyFamine() {
+        if ( lastFamineGeneration == generation ) {
+            // can't famine multiple times in a generation
+            return;
+        }
+        lastFamineGeneration = generation;
+
+        // load formula variables
         double bunnyOffset = NaturalSelectionConstants.getSettings().getFoodSelectionBunnyOffset();
         double bunnyExponent = NaturalSelectionConstants.getSettings().getFoodSelectionBunnyExponent();
         double scale = NaturalSelectionConstants.getSettings().getFoodSelectionScale();
