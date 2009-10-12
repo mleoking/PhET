@@ -1,4 +1,5 @@
-Made PBG launch from Swing Thread, resolves #1823
+10-12-2009: Close BufferedReaders after reading changes.txt file or version information, may help in #1701, see #1701
+10-12-2009: Made PBG launch from Swing Thread, resolves #1823
 # 00.56.00 (32935) Jul 1, 2009
 # 00.55.00 (32930) Jul 1, 2009
 7/1/09 Possible fix for JNLP in resource deployment
