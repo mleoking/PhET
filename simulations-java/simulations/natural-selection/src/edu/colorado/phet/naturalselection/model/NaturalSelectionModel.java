@@ -301,7 +301,6 @@ public class NaturalSelectionModel extends ClockAdapter {
             return;
         }
         Bunny bunny = new Bunny( this, getBunnyById( bunnyConfig.getFatherId() ), getBunnyById( bunnyConfig.getMotherId() ), bunnyConfig.getGeneration() );
-        bunny.notifyInit();
         Bunny potentialMate = getBunnyById( bunnyConfig.getPotentialMateId() );
         if ( potentialMate != null ) {
             bunny.setPotentialMate( potentialMate );
@@ -360,6 +359,7 @@ public class NaturalSelectionModel extends ClockAdapter {
         bunny.setHunger( bunnyConfig.getHunger() );
         bunny.setHopDirection( new Point3D.Double( bunnyConfig.getHopX(), bunnyConfig.getHopY(), bunnyConfig.getHopZ() ) );
 
+        bunny.notifyInit();
         bunnies.add( bunny );
         notifyNewBunny( bunny );
 
