@@ -682,6 +682,7 @@ public abstract class PhetProject {
                     s.append( "\n" );
                 }
             }
+            bufferedReader.close();
             return s.toString();
         }
         catch( FileNotFoundException e ) {
