@@ -298,6 +298,7 @@ public class NaturalSelectionModel extends ClockAdapter {
 
         if ( bunnyConfig.getId() == simulationConfig.getRootFatherId() ) {
             // don't add root father, he is already added
+            rootFather.setId( simulationConfig.getRootFatherId() );
             return;
         }
         Bunny bunny = new Bunny( this, getBunnyById( bunnyConfig.getFatherId() ), getBunnyById( bunnyConfig.getMotherId() ), bunnyConfig.getGeneration() );
@@ -314,20 +315,14 @@ public class NaturalSelectionModel extends ClockAdapter {
             System.out.println( "WARNING: bunny IDs do not match!" );
         }
 
-        // TODO: refactor bunny-specific parameters into the bunny code!
-
         bunny.setMated( bunnyConfig.isMated() );
         bunny.setMutated( bunnyConfig.isMutated() );
         bunny.setAlive( bunnyConfig.isAlive() );
-        if ( bunnyConfig.isMated() ) {
-            ArrayList<Bunny> list = new ArrayList<Bunny>();
-            for ( int i : bunnyConfig.getChildrenIds() ) {
-                list.add( getBunnyById( i ) );
-            }
-            bunny.setChildren( list );
+        if ( bunnyConfig.getFatherId() >= 0 ) {
+            getBunnyById( bunnyConfig.getFatherId() ).getChildren().add( bunny );
         }
-        else {
-            bunny.setChildren( new ArrayList<Bunny>() );
+        if ( bunnyConfig.getMotherId() >= 0 ) {
+            getBunnyById( bunnyConfig.getMotherId() ).getChildren().add( bunny );
         }
         bunny.setAge( bunnyConfig.getAge() );
         bunny.setColorPhenotype( regularColor( bunnyConfig.isColorPhenotypeRegular() ) );
