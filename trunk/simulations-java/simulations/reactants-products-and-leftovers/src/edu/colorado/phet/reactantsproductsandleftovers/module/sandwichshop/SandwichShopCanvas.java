@@ -6,7 +6,7 @@ import java.awt.geom.Dimension2D;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
 import edu.colorado.phet.reactantsproductsandleftovers.model.SandwichShop;
-import edu.colorado.phet.reactantsproductsandleftovers.view.BeforeBoxNode;
+import edu.colorado.phet.reactantsproductsandleftovers.view.SandwichShopBeforeNode;
 import edu.colorado.phet.reactantsproductsandleftovers.view.RPALCanvas;
 import edu.colorado.phet.reactantsproductsandleftovers.view.SandwichFormulaNode;
 import edu.colorado.phet.reactantsproductsandleftovers.view.TestSandwichModelNode;
@@ -14,18 +14,18 @@ import edu.colorado.phet.reactantsproductsandleftovers.view.TestSandwichModelNod
 
 public class SandwichShopCanvas extends RPALCanvas {
     
-    private final SandwichFormulaNode sandwichFormulaNode;
-    private final BeforeBoxNode beforeBoxNode;
+    private final SandwichFormulaNode formulaNode;
+    private final SandwichShopBeforeNode beforeNode;
     private final TestSandwichModelNode testNode;
 
     public SandwichShopCanvas( SandwichShop model ) {
         super();
         
-        sandwichFormulaNode = new SandwichFormulaNode( model.getSandwichFormula() );
-        addChild( sandwichFormulaNode );
+        formulaNode = new SandwichFormulaNode( model.getSandwichFormula() );
+        addChild( formulaNode );
         
-        beforeBoxNode = new BeforeBoxNode( model );
-        addChild( beforeBoxNode );
+        beforeNode = new SandwichShopBeforeNode( model );
+        addChild( beforeNode );
         
         testNode = new TestSandwichModelNode( model );
         testNode.scale( 2 );
@@ -50,10 +50,10 @@ public class SandwichShopCanvas extends RPALCanvas {
             System.out.println( "SandwichShopCanvas.updateLayout worldSize=" + worldSize );//XXX
         }
 
-        sandwichFormulaNode.setOffset( 0, 10 );
-        beforeBoxNode.setOffset( 0, sandwichFormulaNode.getFullBoundsReference().getMaxY() - PNodeLayoutUtils.getOriginYOffset( beforeBoxNode ) + 20 );
+        formulaNode.setOffset( 0, 10 );
+        beforeNode.setOffset( 0, formulaNode.getFullBoundsReference().getMaxY() - PNodeLayoutUtils.getOriginYOffset( beforeNode ) + 30 );
         
-        testNode.setOffset( 500, sandwichFormulaNode.getFullBoundsReference().getMaxY() + 60 );
+        testNode.setOffset( 500, formulaNode.getFullBoundsReference().getMaxY() + 60 );
         
         centerRootNode();
     }
