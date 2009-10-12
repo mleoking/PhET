@@ -1,6 +1,9 @@
 package edu.colorado.phet.reactantsproductsandleftovers.model;
 
+import jass.engine.In;
+
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -70,10 +73,22 @@ public class SandwichShop {
     
     //XXX need a more general design for determining the limiting reagent and number of products 
     public int getSandwiches() {
-        int breadForSandwiches = ( sandwichFormula.getBread() == 0 ) ? 0 : ( bread / sandwichFormula.getBread() );
-        int meatForSandwiches = ( sandwichFormula.getMeat() == 0 ) ? 0 : ( meat / sandwichFormula.getMeat() );
-        int cheeseForSandwiches = ( sandwichFormula.getCheese() == 0 ) ? 0 : ( cheese / sandwichFormula.getCheese() );
-        return Math.min( breadForSandwiches, Math.min( meatForSandwiches, cheeseForSandwiches ) );
+        int sandwiches = 0;
+        ArrayList<Integer> values = new ArrayList<Integer>();
+        if ( sandwichFormula.getBread() != 0 ) {
+            values.add( new Integer( bread / sandwichFormula.getBread() ) );
+        }
+        if ( sandwichFormula.getMeat() != 0 ) {
+            values.add( new Integer( meat / sandwichFormula.getMeat() ) );
+        }
+        if ( sandwichFormula.getCheese() != 0 ) {
+            values.add( new Integer( cheese / sandwichFormula.getCheese() ) );
+        }
+        if ( values.size() > 0 ) {
+            Collections.sort( values );
+            sandwiches = values.get( 0 );
+        }
+        return sandwiches;
     }
     
     public int getBreadLeftover() {
