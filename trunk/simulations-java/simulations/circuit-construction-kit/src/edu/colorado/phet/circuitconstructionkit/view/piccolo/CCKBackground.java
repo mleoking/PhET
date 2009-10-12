@@ -2,6 +2,7 @@ package edu.colorado.phet.circuitconstructionkit.view.piccolo;
 
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.*;
 
 import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
@@ -21,11 +22,12 @@ public class CCKBackground extends PNode {
     private CCKModel model;
     private CCKSimulationPanel cckSimulationPanel;
     private PPath path;
+    private Color color = CCKModule.BACKGROUND_COLOR;
 
     public CCKBackground( final CCKModel model, CCKSimulationPanel cckSimulationPanel ) {
         this.model = model;
         this.cckSimulationPanel = cckSimulationPanel;
-        path = new PhetPPath( CCKModule.BACKGROUND_COLOR );
+        path = new PhetPPath( color );
         addChild( path );
         cckSimulationPanel.addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
@@ -42,6 +44,15 @@ public class CCKBackground extends PNode {
                 model.clearSelection();
             }
         } );
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+        path.setPaint(color);
     }
 
     private void update() {

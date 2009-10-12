@@ -40,13 +40,15 @@ public class CCKSimulationPanel extends PhetPCanvas {
     private TimeScaleNode timeScaleNode;
     private PSwing grabBagPSwing;
     private RightClickHelpNode rightClickHelpNode;
+    private final CCKBackground backgroundNode;
 
     public CCKSimulationPanel( CCKModel model, final CCKModule module, IClock clock ) {
         super( new Dimension( 10, 10 ) );
         this.model = model;
         this.module = module;
 
-        addScreenChild( new CCKBackground( model, this ) );
+        backgroundNode = new CCKBackground(model, this);
+        addScreenChild(backgroundNode);
         setBackground( CCKModule.BACKGROUND_COLOR );
 
         branchNodeFactory = new BranchNodeFactory( model, this, module, true );
@@ -242,4 +244,11 @@ public class CCKSimulationPanel extends PhetPCanvas {
         return circuitNode.isElectronsVisible();
     }
 
+    public Color getCCKBackground() {
+        return backgroundNode.getColor();
+    }
+
+    public void setCCKBackground(Color color) {
+        backgroundNode.setColor(color);
+    }
 }
