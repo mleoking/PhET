@@ -1,3 +1,4 @@
+10/12/09 add "Before" box
 # 0.00.01 (35653) Oct 9, 2009
 10/9/09 crude version of Sandwich Shop for discussion
 10/9/09 add test controls and display to verify model
