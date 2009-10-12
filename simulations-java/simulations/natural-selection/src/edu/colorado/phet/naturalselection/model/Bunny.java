@@ -188,6 +188,9 @@ public class Bunny {
             config.setChildrenIds( new int[]{} );
         }
 
+        config.setFatherId( father != null ? father.getId() : -1 );
+        config.setMotherId( mother != null ? mother.getId() : -1 );
+
         config.setAge( age );
         config.setGeneration( generation );
 
@@ -423,6 +426,10 @@ public class Bunny {
 
     public int getId() {
         return bunnyId;
+    }
+
+    public void setId( int bunnyId ) {
+        this.bunnyId = bunnyId;
     }
 
     public NaturalSelectionModel getModel() {
@@ -757,6 +764,19 @@ public class Bunny {
             selectedBunny = null;
         }
         notifySelectionChange();
+    }
+
+    private static void debugBunnyHierarchy( Bunny bunny ) {
+        debugBunnyHierarchy( bunny, "" );
+    }
+
+    private static void debugBunnyHierarchy( Bunny bunny, String prefix ) {
+        if ( bunny == null ) {
+            return;
+        }
+        System.out.println( prefix + bunny.getId() );
+        debugBunnyHierarchy( bunny.getFather(), prefix + "  " );
+        debugBunnyHierarchy( bunny.getMother(), prefix + "  " );
     }
 
     //----------------------------------------------------------------------------
