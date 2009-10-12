@@ -180,11 +180,11 @@ public class CCKModule extends PiccoloModule {
     }
 
     public Color getMyBackground() {
-        return getSimulationPanel().getBackground();
+        return cckSimulationPanel.getCCKBackground();
     }
 
     public void setMyBackground( Color color ) {
-        getSimulationPanel().setBackground( color );
+        cckSimulationPanel.setCCKBackground( color );
     }
 
     public void setToolboxBackgroundColor( Color color ) {
