@@ -1,3 +1,6 @@
 # TODO list for reactants-products-and-leftovers
 
 - general algorithm for creating a sandwich image from sandwich formula in SandwichNode
+- general algorithm for calculating number of products
+- sliders+histogram for reactant quantities
+- histogram for product quantity
