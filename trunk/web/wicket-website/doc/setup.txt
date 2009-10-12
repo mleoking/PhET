@@ -12,20 +12,20 @@ phet-server and my development machines, and PostgreSQL is installed in /opt/Pos
 
 * PostgreSQL configuration
 
-I will use "wickettest" for now as the name of the database.
+I will use "website" for now as the name of the database.
 
 Create the database:
-/opt/PostgreSQL/8.4/bin/createdb --encoding=UTF-8 wickettest
+/opt/PostgreSQL/8.4/bin/createdb --encoding=UTF-8 website
 
 You can also create a specific user to access the database with, or use the default "postgres" user.
 
 To initialize the database with a dump file (ending in .sql, most likely wicket-website/postgresql-dump.sql):
-/opt/PostgreSQL/8.4/bin/psql -U <username> wickettest < /path/to/dump.sql
+/opt/PostgreSQL/8.4/bin/psql -U <username> website < /path/to/dump.sql
 
 * How to set up the JNDI datasource within Tomcat's $CATALINA_HOME$/conf/context.xml:
 
 Add the following inside the <context> element in context.xml, and replace the username, password, and any other
-settings for correct access to the database (like wickettest with the database name, localhost with the location of the
+settings for correct access to the database (like website with the database name, localhost with the location of the
 database).
 
     <Resource name="jdbc/phet"
@@ -35,7 +35,7 @@ database).
               username="XXXXX"
               password="YYYYY"
               driverClassName="org.postgresql.Driver"
-              url="jdbc:postgresql://localhost/wickettest"
+              url="jdbc:postgresql://localhost/website"
               maxActive="30"
               maxIdle="10"/>
 
