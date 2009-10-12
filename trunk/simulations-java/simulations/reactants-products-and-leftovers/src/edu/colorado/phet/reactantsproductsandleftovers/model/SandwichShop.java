@@ -1,7 +1,5 @@
 package edu.colorado.phet.reactantsproductsandleftovers.model;
 
-import jass.engine.In;
-
 import java.util.ArrayList;
 import java.util.Collections;
 
