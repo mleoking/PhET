@@ -1,2 +1,3 @@
+10-12-2009: Fixed a problem that caused stack overflow exception when showing Color Chooser dialog using this library
 9-30-2009 Added setters that were missing from ArrowNode, should be no change in existing behavior.
 9-29-2009 Cast to java.lang.Object[] for a non-varargs call and to suppress warning in PhetResources.format, see #1796

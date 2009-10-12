@@ -115,7 +115,7 @@ public class ColorChooserFactory {
      * Creates a color chooser dialog and makes it visible.
      */
     public static void showDialog( String title, Component parent, final Color initialColor, final Listener listener ) {
-        showDialog( title, parent, initialColor, listener );
+        showDialog( title, parent, initialColor, listener,false );
     }
 
     /**
