@@ -42,6 +42,8 @@ public class TreeNode extends NaturalSelectionSprite implements Rescalable {
         addChild( treeImage );
 
         rescale();
+
+        setPickable( false );
     }
 
     public void rescale() {

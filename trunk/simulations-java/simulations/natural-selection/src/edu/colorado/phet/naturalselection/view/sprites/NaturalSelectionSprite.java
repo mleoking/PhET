@@ -4,15 +4,15 @@ import java.util.LinkedList;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.Point3D;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.naturalselection.view.LandscapeNode;
-import edu.umd.cs.piccolo.PNode;
 
 /**
  * Abstract class for all piccolo nodes to be displayed in and around the bunnies
  *
  * @author Jonathan Olson
  */
-public abstract class NaturalSelectionSprite extends PNode implements Comparable {
+public abstract class NaturalSelectionSprite extends PhetPNode implements Comparable {
 
     private Point3D position;
 
