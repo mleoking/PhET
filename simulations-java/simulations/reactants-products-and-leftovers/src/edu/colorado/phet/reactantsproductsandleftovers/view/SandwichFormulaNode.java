@@ -68,8 +68,10 @@ public class SandwichFormulaNode extends PhetPNode {
         
         PNode arrowNode = new RPALArrowNode();
         
-        PNode productValueNode = new ProductQuantityNode( 1 );
-        productValueNode.scale( SWING_SCALE );
+        PText sandwichesCountNode = new PText( "1" );
+        sandwichesCountNode.setFont( new PhetFont() );
+        sandwichesCountNode.scale( 2 ); //XXX
+        addChild( sandwichesCountNode );
         
         addChild( titleNode );
         addChild( breadSpinnerNode );
@@ -81,7 +83,7 @@ public class SandwichFormulaNode extends PhetPNode {
         addChild( cheeseSpinnerNode );
         addChild( cheeseNode );
         addChild( arrowNode );
-        addChild( productValueNode );
+        addChild( sandwichesCountNode );
         addChild( sandwichNode );
         
         // title
@@ -126,11 +128,11 @@ public class SandwichFormulaNode extends PhetPNode {
         arrowNode.setOffset( x, y );
         // product value
         x = arrowNode.getFullBoundsReference().getMaxX() + TERM_X_SPACING;
-        y = arrowNode.getFullBoundsReference().getCenterY() - ( productValueNode.getFullBoundsReference().getHeight() / 2 );
-        productValueNode.setOffset( x, y );
+        y = arrowNode.getFullBoundsReference().getCenterY() - ( sandwichesCountNode.getFullBoundsReference().getHeight() / 2 );
+        sandwichesCountNode.setOffset( x, y );
         // sandwich image
-        x = productValueNode.getFullBoundsReference().getMaxX() + TERM_X_SPACING;
-        y = productValueNode.getFullBoundsReference().getCenterY() - ( sandwichNode.getFullBoundsReference().getHeight() / 2 ) - PNodeLayoutUtils.getOriginYOffset( sandwichNode );
+        x = sandwichesCountNode.getFullBoundsReference().getMaxX() + TERM_X_SPACING;
+        y = sandwichesCountNode.getFullBoundsReference().getCenterY() - ( sandwichNode.getFullBoundsReference().getHeight() / 2 ) - PNodeLayoutUtils.getOriginYOffset( sandwichNode );
         sandwichNode.setOffset( x, y );
     }
 }
