@@ -1,5 +1,9 @@
 # TODO list for reactants-products-and-leftovers
 
+- JSpinners messed up on Vista with Java 1.6.0_16
+- keep leftovers in same position in Before and After boxes
+- improve algorithm for putting images in Before and After boxes to minimize overlap
+- investigate showing leftover quantities below After box
 - general algorithm for creating a sandwich image from sandwich formula in SandwichNode
 - general algorithm for calculating number of products
 - sliders+histogram for reactant quantities
