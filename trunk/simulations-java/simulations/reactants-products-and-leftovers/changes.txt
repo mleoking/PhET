@@ -1,3 +1,5 @@
+# 0.00.02 (35741) Oct 12, 2009
+10/12/09 dev version for discussion
 10/12/09 finished brute-force implementation of "Sandwich Shop" without sliders
 10/12/09 add "After box" with developer display for leftovers
 10/12/09 add "Before" box
