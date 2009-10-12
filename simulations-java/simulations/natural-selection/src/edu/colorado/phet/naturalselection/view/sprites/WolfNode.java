@@ -36,6 +36,7 @@ public class WolfNode extends NaturalSelectionSprite implements Wolf.Listener {
 
         rescale();
 
+        setPickable( false );
     }
 
     public boolean isFlipped() {
