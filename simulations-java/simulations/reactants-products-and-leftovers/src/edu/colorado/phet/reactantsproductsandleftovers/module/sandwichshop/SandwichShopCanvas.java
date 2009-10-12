@@ -9,14 +9,14 @@ import edu.colorado.phet.reactantsproductsandleftovers.model.SandwichShop;
 import edu.colorado.phet.reactantsproductsandleftovers.view.SandwichShopBeforeNode;
 import edu.colorado.phet.reactantsproductsandleftovers.view.RPALCanvas;
 import edu.colorado.phet.reactantsproductsandleftovers.view.SandwichFormulaNode;
-import edu.colorado.phet.reactantsproductsandleftovers.view.TestSandwichModelNode;
+import edu.colorado.phet.reactantsproductsandleftovers.view.LeftoversDisplayNode;
 
 
 public class SandwichShopCanvas extends RPALCanvas {
     
     private final SandwichFormulaNode formulaNode;
     private final SandwichShopBeforeNode beforeNode;
-    private final TestSandwichModelNode testNode;
+    private final LeftoversDisplayNode leftoversNode;
 
     public SandwichShopCanvas( SandwichShop model ) {
         super();
@@ -27,9 +27,8 @@ public class SandwichShopCanvas extends RPALCanvas {
         beforeNode = new SandwichShopBeforeNode( model );
         addChild( beforeNode );
         
-        testNode = new TestSandwichModelNode( model );
-        testNode.scale( 2 );
-        addChild( testNode );
+        leftoversNode = new LeftoversDisplayNode( model );
+        addChild( leftoversNode );
     }
 
     //----------------------------------------------------------------------------
@@ -50,10 +49,15 @@ public class SandwichShopCanvas extends RPALCanvas {
             System.out.println( "SandwichShopCanvas.updateLayout worldSize=" + worldSize );//XXX
         }
 
-        formulaNode.setOffset( 0, 10 );
-        beforeNode.setOffset( 0, formulaNode.getFullBoundsReference().getMaxY() - PNodeLayoutUtils.getOriginYOffset( beforeNode ) + 30 );
-        
-        testNode.setOffset( 500, formulaNode.getFullBoundsReference().getMaxY() + 60 );
+        double x = 0;
+        double y = 0;
+        formulaNode.setOffset( x, y );
+        x = formulaNode.getFullBoundsReference().getMinX();
+        y = formulaNode.getFullBoundsReference().getMaxY() - PNodeLayoutUtils.getOriginYOffset( beforeNode ) + 30;
+        beforeNode.setOffset( x, y );
+        x = worldSize.getWidth() - leftoversNode.getFullBoundsReference().getWidth() - 30;
+        y = worldSize.getHeight() - leftoversNode.getFullBoundsReference().getHeight() - 30;
+        leftoversNode.setOffset( x, y );
         
         centerRootNode();
     }
