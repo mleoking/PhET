@@ -77,6 +77,7 @@ public class SVNLogReader {
                     return getSVNNumber(line);
                 }
             }
+            bufferedReader.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
