@@ -176,7 +176,7 @@ public class Bunny {
         config.setMutated( mutated );
         config.setAlive( alive );
 
-        if ( mated ) {
+        if ( mated && children.size() == 4 ) {
             config.setChildrenIds( new int[]{
                     children.get( 0 ).bunnyId,
                     children.get( 1 ).bunnyId,
@@ -709,30 +709,43 @@ public class Bunny {
     private static Bunny selectedBunny = null;
     private static Bunny lastSelectedBunny = null;
 
-    public static Bunny getSelectedBunny() {
-        return selectedBunny;
+    public synchronized static boolean isBunnySelected() {
+        return selectedBunny != null && selectedBunny.isSelected() == true;
     }
 
-    public static void reselectBunny() {
-        if ( lastSelectedBunny != null ) {
+    public synchronized static Bunny getSelectedBunny() {
+        if ( isBunnySelected() ) {
+            return selectedBunny;
+        }
+        else {
+            return null;
+        }
+    }
+
+    public synchronized static void reselectBunny() {
+        if ( !isBunnySelected() && lastSelectedBunny != null ) {
             lastSelectedBunny.setSelected( true );
         }
     }
 
-    public static void reset() {
-        if ( selectedBunny != null ) {
+    public synchronized static void reset() {
+        if ( isBunnySelected() ) {
             selectedBunny.setSelected( false );
         }
         selectedBunny = null;
         lastSelectedBunny = null;
     }
 
-    public boolean isSelected() {
+    public synchronized boolean isSelected() {
         return selected;
     }
 
-    public void setSelected( boolean selected ) {
-        if ( selected && selectedBunny != null ) {
+    public synchronized void setSelected( boolean selected ) {
+        if ( this.selected == selected ) {
+            // already either selected or not. return!
+            return;
+        }
+        if ( selected && isBunnySelected() ) {
             selectedBunny.setSelected( false );
         }
         this.selected = selected;
