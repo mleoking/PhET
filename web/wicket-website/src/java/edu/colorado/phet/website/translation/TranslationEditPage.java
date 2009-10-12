@@ -1,0 +1,98 @@
+package edu.colorado.phet.website.translation;
+
+import java.util.Locale;
+
+import org.apache.wicket.PageParameters;
+import org.apache.wicket.authorization.AuthorizationException;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
+import edu.colorado.phet.website.data.Translation;
+import edu.colorado.phet.website.panels.PanelHolder;
+import edu.colorado.phet.website.translation.entities.CommonEntity;
+
+public class TranslationEditPage extends TranslationPage {
+    private int translationId;
+    private PanelHolder panelHolder;
+    private TranslateEntityPanel subPanel;
+    private TranslationEntityListPanel entityListPanel;
+    private Locale testLocale;
+    private String selectedEntityName = null;
+
+    public TranslationEditPage( PageParameters parameters ) {
+        super( parameters );
+
+        testLocale = LocaleUtils.stringToLocale( parameters.getString( "translationLocale" ) );
+        translationId = parameters.getInt( "translationId" );
+
+        Session session = getHibernateSession();
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+
+            Translation translation = (Translation) session.load( Translation.class, translationId );
+
+            if ( !translation.isAuthorizedUser( getUser() ) ) {
+                throw new AuthorizationException( "You are not authorized to edit this translation" ) {
+                };
+            }
+
+            tx.commit();
+        }
+        catch( RuntimeException e ) {
+            if ( tx != null && tx.isActive() ) {
+                try {
+                    tx.rollback();
+                }
+                catch( HibernateException e1 ) {
+                    System.out.println( "ERROR: Error rolling back transaction" );
+                }
+                throw e;
+            }
+            throw e;
+        }
+
+        panelHolder = new PanelHolder( "translation-panel", getPageContext() );
+        add( panelHolder );
+        CommonEntity commonEntity = new CommonEntity();
+        selectedEntityName = commonEntity.getDisplayName();
+        subPanel = new TranslateEntityPanel( panelHolder.getWicketId(), getPageContext(), this, commonEntity, translationId, testLocale );
+        panelHolder.add( subPanel );
+
+        entityListPanel = new TranslationEntityListPanel( "entity-list-panel", getPageContext(), this );
+        add( entityListPanel );
+
+        add( new TranslationUserPanel( "user-panel", getPageContext(), translationId ) );
+
+    }
+
+    public int getTranslationId() {
+        return translationId;
+    }
+
+    public PanelHolder getPanelHolder() {
+        return panelHolder;
+    }
+
+    public TranslateEntityPanel getSubPanel() {
+        return subPanel;
+    }
+
+    public Locale getTestLocale() {
+        return testLocale;
+    }
+
+    public String getSelectedEntityName() {
+        return selectedEntityName;
+    }
+
+    public void setSelectedEntityName( String selectedEntityName ) {
+        this.selectedEntityName = selectedEntityName;
+    }
+
+    public TranslationEntityListPanel getEntityListPanel() {
+        return entityListPanel;
+    }
+}

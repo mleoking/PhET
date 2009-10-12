@@ -35,18 +35,18 @@
 
         <!-- Data mappings -->
 
-        <mapping resource="edu/colorado/phet/wickettest/data/Project.hbm.xml"/>
-        <mapping resource="edu/colorado/phet/wickettest/data/Simulation.hbm.xml"/>
-        <mapping resource="edu/colorado/phet/wickettest/data/LocalizedSimulation.hbm.xml"/>
+        <mapping resource="edu/colorado/phet/website/data/Project.hbm.xml"/>
+        <mapping resource="edu/colorado/phet/website/data/Simulation.hbm.xml"/>
+        <mapping resource="edu/colorado/phet/website/data/LocalizedSimulation.hbm.xml"/>
 
-        <mapping resource="edu/colorado/phet/wickettest/data/Category.hbm.xml"/>
+        <mapping resource="edu/colorado/phet/website/data/Category.hbm.xml"/>
 
-        <mapping resource="edu/colorado/phet/wickettest/data/Translation.hbm.xml"/>
-        <mapping resource="edu/colorado/phet/wickettest/data/TranslatedString.hbm.xml"/>
+        <mapping resource="edu/colorado/phet/website/data/Translation.hbm.xml"/>
+        <mapping resource="edu/colorado/phet/website/data/TranslatedString.hbm.xml"/>
 
-        <mapping resource="edu/colorado/phet/wickettest/data/Keyword.hbm.xml"/>
+        <mapping resource="edu/colorado/phet/website/data/Keyword.hbm.xml"/>
 
-        <mapping resource="edu/colorado/phet/wickettest/data/PhetUser.hbm.xml"/>
+        <mapping resource="edu/colorado/phet/website/data/PhetUser.hbm.xml"/>
 
     </session-factory>
 

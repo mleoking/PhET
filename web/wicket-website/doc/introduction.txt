@@ -22,7 +22,7 @@
     template-files/             Files that are NOT deployed to the website, but used in HTML previews
     postgresql-dump.sql         OUT OF DATE database dump, since before password hashes needed to be included in the DB
 
-* Source Code Organization (under src/java with package edu.colorado.phet.wickettest)
+* Source Code Organization (under src/java with package edu.colorado.phet.website)
 
     admin           Contains the administrative section of the website (panels and pages), that allow creating,
                     modifying, and viewing data dealing with users and simulations.
