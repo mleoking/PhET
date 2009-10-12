@@ -1,3 +1,5 @@
+# 0.01.37 (35709) Oct 11, 2009
+10/11/09 Significant number of improvements and fixes
 # 0.01.36 (35660) Oct 10, 2009
 10/10/09 Improved panel detaching in control panel
 # 0.01.35 (35569) Oct 7, 2009
