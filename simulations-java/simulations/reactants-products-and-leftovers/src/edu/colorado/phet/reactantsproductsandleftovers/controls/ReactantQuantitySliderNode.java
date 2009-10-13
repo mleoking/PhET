@@ -26,7 +26,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class QuantitySliderNode extends PNode {
+public class ReactantQuantitySliderNode extends PNode {
     
     //----------------------------------------------------------------------------
     // Class data
@@ -64,7 +64,7 @@ public class QuantitySliderNode extends PNode {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public QuantitySliderNode( IntegerRange range, PDimension trackSize, PDimension knobSize ) {
+    public ReactantQuantitySliderNode( IntegerRange range, PDimension trackSize, PDimension knobSize ) {
         super();
         
         this.range = new IntegerRange( range );
@@ -110,19 +110,19 @@ public class QuantitySliderNode extends PNode {
             protected void startDrag( PInputEvent event ) {
                 super.startDrag( event );
                 // note the offset between the mouse click and the knob's origin
-                Point2D pMouseLocal = event.getPositionRelativeTo( QuantitySliderNode.this );
-                Point2D pMouseGlobal = QuantitySliderNode.this.localToGlobal( pMouseLocal );
-                Point2D pKnobGlobal = QuantitySliderNode.this.localToGlobal( knobNode.getOffset() );
+                Point2D pMouseLocal = event.getPositionRelativeTo( ReactantQuantitySliderNode.this );
+                Point2D pMouseGlobal = ReactantQuantitySliderNode.this.localToGlobal( pMouseLocal );
+                Point2D pKnobGlobal = ReactantQuantitySliderNode.this.localToGlobal( knobNode.getOffset() );
                 _globalClickYOffset = pMouseGlobal.getY() - pKnobGlobal.getY();
             }
 
             protected void drag(PInputEvent event) {
                 
                 // determine the knob's new offset
-                Point2D pMouseLocal = event.getPositionRelativeTo( QuantitySliderNode.this );
-                Point2D pMouseGlobal = QuantitySliderNode.this.localToGlobal( pMouseLocal );
+                Point2D pMouseLocal = event.getPositionRelativeTo( ReactantQuantitySliderNode.this );
+                Point2D pMouseGlobal = ReactantQuantitySliderNode.this.localToGlobal( pMouseLocal );
                 Point2D pKnobGlobal = new Point2D.Double( pMouseGlobal.getX(), pMouseGlobal.getY() - _globalClickYOffset );
-                Point2D pKnobLocal = QuantitySliderNode.this.globalToLocal( pKnobGlobal );
+                Point2D pKnobLocal = ReactantQuantitySliderNode.this.globalToLocal( pKnobGlobal );
                 
                 // convert the offset to a pH value
                 double yOffset = pKnobLocal.getY();
