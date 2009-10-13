@@ -43,8 +43,9 @@ public class RestingPotentialModule extends PiccoloModule {
         model = new AxonModel( clock );
         
         // Initialize the model as needed for this module.
-        model.addParticles(ParticleType.PROTEIN_ION, ParticlePosition.INSIDE_MEMBRANE, 50);
-        model.addParticles(ParticleType.POTASSIUM_ION, ParticlePosition.INSIDE_MEMBRANE, 50);
+        model.addParticles(ParticleType.PROTEIN_ION, ParticlePosition.INSIDE_MEMBRANE, 100);
+        model.addParticles(ParticleType.POTASSIUM_ION, ParticlePosition.INSIDE_MEMBRANE, 80);
+        model.addParticles(ParticleType.POTASSIUM_ION, ParticlePosition.INSIDE_MEMBRANE, 20);
 
         // Canvas
         canvas = new NeuronCanvas( model );
