@@ -41,7 +41,6 @@ public class IntegerSpinnerNode extends PNode {
         listeners = new ArrayList<ChangeListener>();
 
         spinner = new JSpinner();
-        addChild( new PSwing( spinner ) );
         spinner.setFont( new PhetFont() );
         
         // number model
@@ -50,6 +49,9 @@ public class IntegerSpinnerNode extends PNode {
         // editor
         NumberEditor editor = new NumberEditor( spinner );
         spinner.setEditor( editor );
+        
+        // do this *after* making changes to the spinner or there will be problems, see #1824
+        addChild( new PSwing( spinner ) );
         
         // text field, commits when Enter is pressed or focus is lost
         textField = editor.getTextField();
