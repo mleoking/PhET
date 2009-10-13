@@ -767,7 +767,8 @@ public class NaturalSelectionModel extends ClockAdapter {
         }
 
         if ( selectionFactor == SELECTION_FOOD ) {
-            bunnyFamine();
+            // don't immediately start a bunny famine!
+            //bunnyFamine();
         }
 
         notifySelectionFactorChange();
