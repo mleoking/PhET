@@ -5,6 +5,6 @@
 - investigate showing leftover quantities below After box
 - general algorithm for creating a sandwich image from sandwich formula in SandwichNode
 - general algorithm for calculating number of products
-- sliders+histogram for reactant quantities
 - histogram for product quantity
 - highlight when mouseOver and dragging reactant quantity sliders
+- use rounding instead of trunc for snapping reactant quantity sliders
