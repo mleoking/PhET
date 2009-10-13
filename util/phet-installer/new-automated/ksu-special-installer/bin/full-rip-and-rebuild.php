@@ -74,7 +74,7 @@
         // button on the sim page) within the local installers.
         copy(CSS_DIR."home-v1.css", CSS_DIR."home-v1-backup.css");
         copy(CSS_DIR."navmenu-v1.css", CSS_DIR."navmenu-v1-backup.css");
-        copy(CSS_DIR."simulation-main-v1.css", CSS_DIR."simulation-main-backup.css");
+        copy(CSS_DIR."simulation-main-v1.css", CSS_DIR."simulation-main-v1-backup.css");
         file_append_line_to_file(CSS_DIR."home-v1.css", "\n");
         file_append_file_to_file(CSS_DIR."home-v1.css", CSS_APPEND_FILES_DIR."home-installer-v1.css");
         file_append_line_to_file(CSS_DIR."navmenu-v1.css", "\n");
