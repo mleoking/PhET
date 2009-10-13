@@ -63,7 +63,34 @@
                     <platforms>all</platforms>
                     <distributionFileList>
                         <distributionDirectory>
-                            <origin>../../temp/website/phetsims.colorado.edu</origin>
+                            <origin>../../temp/website/phetsims.colorado.edu/ar<origin>
+                        </distributionDirectory>
+                        <distributionDirectory>
+                            <origin>../../temp/website/phetsims.colorado.edu/css<origin>
+                        </distributionDirectory>
+                        <distributionDirectory>
+                            <origin>../../temp/website/phetsims.colorado.edu/en<origin>
+                        </distributionDirectory>
+                        <distributionDirectory>
+                            <origin>../../temp/website/phetsims.colorado.edu/images<origin>
+                        </distributionDirectory>
+                        <distributionDirectory>
+                            <origin>../../temp/website/phetsims.colorado.edu/publications<origin>
+                        </distributionDirectory>
+                        <distributionDirectory>
+                            <origin>../../temp/website/phetsims.colorado.edu/sims<origin>
+                        </distributionDirectory>
+                        <distributionDirectory>
+                            <origin>../../temp/website/phetsims.colorado.edu/workshops<origin>
+                        </distributionDirectory>
+                        <!-- Commented out until activies are present.
+                        <distributionDirectory>
+                            <origin>../../temp/website/phetsims.colorado.edu/activities<origin>
+                        </distributionDirectory>
+                        -->
+                        <!-- Get rid of this once activites really exist -->
+                        <distributionDirectory>
+                            <origin>../../temp/website/phetsims.colorado.edu/activities.html<origin>
                         </distributionDirectory>
                     </distributionFileList>
                     <shortcutList>
