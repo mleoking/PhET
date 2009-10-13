@@ -55,7 +55,7 @@ fi
 # if you need to increase or reduce the number of backups maintained.
 
 BACKUP_DIR_PATTERN=backup*
-EXCESS_BACKUP_DIRS=`ls -C1 -t -d $ROOT_DIR$BACKUP_DIR_PATTERN | awk 'NR>4'`
+EXCESS_BACKUP_DIRS=`ls -C1 -t -d $ROOT_DIR$BACKUP_DIR_PATTERN | awk 'NR>3'`
 for DIR in $EXCESS_BACKUP_DIRS
 do
    echo Removing old backup directory $DIR
