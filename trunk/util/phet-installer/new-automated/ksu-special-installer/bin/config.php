@@ -69,14 +69,8 @@
     // filters when doing testing that requires a lot of iterations, since 
     // this will generally be much quicker than a full rip.
     define("PHET_LITE_RIPPER_FILTER",            '"-*wickettest*"'.' '.
-        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/faraday/*.jnlp').' '.
-        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/faraday/*_all.jar').' '.
-        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/faraday/*.jpg').' '.
-        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/arithmetic/*.html').' '.
-        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/arithmetic/*.swf').' '.
-        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/arithmetic/*.png').' '.
-        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/arithmetic/*.jpg').' '.
-        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/arithmetic/*_en.jar').' '.
+        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/faraday/*').' '.
+        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/arithmetic/*').' '.
         CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'activities/*').' '.
         CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'publications/*').' '.
         CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'installer/*').' '.
