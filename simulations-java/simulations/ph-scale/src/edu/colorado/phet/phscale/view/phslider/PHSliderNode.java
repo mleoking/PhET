@@ -392,7 +392,7 @@ public class PHSliderNode extends PNode {
     }
     
     public void removeChangeListener( ChangeListener listener ) {
-        _listeners.add( listener );
+        _listeners.remove( listener );
     }
     
     private void notifyChanged() {
