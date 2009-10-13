@@ -39,11 +39,13 @@ public class IonLegendPanel extends JPanel {
     // Class Data
     //------------------------------------------------------------------------
 	
+	private static final Font LABEL_FONT = new PhetFont(14);
+	
 	// The model-view transform below is used to make nodes that usually
 	// reside on the canvas be of an appropriate size for inclusion on the
 	// control panel.
 	private static final ModelViewTransform2D MVT = new ModelViewTransform2D(
-			new Rectangle2D.Double(-1.0, -1.0, 2.0, 2.0), new Rectangle2D.Double(-7, -7, 14, 14));
+			new Rectangle2D.Double(-1.0, -1.0, 2.0, 2.0), new Rectangle2D.Double(-8, -8, 16, 16));
 
     
     //------------------------------------------------------------------------
@@ -109,6 +111,8 @@ public class IonLegendPanel extends JPanel {
         add(new JLabel(icon), constraints);
         constraints.ipadx = 0;
         constraints.gridx = 1;
-        add(new JLabel( label ), constraints);
+        JLabel textualLabel = new JLabel( label );
+        textualLabel.setFont(LABEL_FONT);
+        add(textualLabel, constraints);
     }
 }
