@@ -9,6 +9,7 @@ import java.text.MessageFormat;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
 import edu.colorado.phet.neuron.model.Particle;
 import edu.umd.cs.piccolo.PNode;
@@ -20,7 +21,8 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 public class ParticleNode extends PNode {
 	
-	private static final Stroke PARTICLE_EDGE_STROKE = new BasicStroke(1);
+	private static final float STROKE_WIDTH = 1;
+	private static final Stroke PARTICLE_EDGE_STROKE = new BasicStroke(STROKE_WIDTH);
 	
 	private Particle particle;
     private ModelViewTransform2D modelViewTransform;
@@ -68,35 +70,6 @@ public class ParticleNode extends PNode {
         label.setOffset(-label.getFullBoundsReference().width / 2, -label.getFullBoundsReference().height / 2);
 	}
     
-    /**
-     * Turn on/off the use of a stroke to draw the outline of the particle.  This
-     * function was implemented as part of a workaround for an issue where the
-     * stroke was being cut off when this node was used on the control panel,
-     * resulting in an odd look.  If that problem is resolved (it seemed to be
-     * deep in the bowels of Piccolo), then it may be possible to remove this
-     * method.
-     * 
-     * @param strokeOn
-     */
-    public void setStrokeOn(boolean strokeOn){
-		if (representation instanceof SphericalNode){
-			if (strokeOn){
-				((SphericalNode)representation).setStroke(PARTICLE_EDGE_STROKE);
-			}
-			else{
-				((SphericalNode)representation).setStroke(null);
-			}
-		}
-		else if (representation instanceof PPath){
-			if (strokeOn){
-				((PPath)representation).setStroke(PARTICLE_EDGE_STROKE);
-			}
-			else{
-				((PPath)representation).setStroke(null);
-			}
-		}
-    }
-
     private void updateOffset() {
         setOffset( modelViewTransform.modelToView( particle.getPosition() ));
     }
@@ -114,11 +87,30 @@ public class ParticleNode extends PNode {
 
     	switch (particle.getType()){
     	case SODIUM_ION:
+    		/* The following code is what the code SHOULD be, but it ends up
+    		 * getting the edges cut off because of, I think, some bug in
+    		 * piccolo where the 'toImage' call doesn't properly account for
+    		 * the stroke.  So, below this is a workaround.
     		SphericalNode sphereRepresentation = new SphericalNode( modelViewTransform.modelToViewDifferentialXDouble(particle.getDiameter()), 
-    				particle.getRepresentationColor(), true);
+    				particle.getRepresentationColor(), false);
     		sphereRepresentation.setStroke(PARTICLE_EDGE_STROKE);
     		sphereRepresentation.setStrokePaint(Color.BLACK);
     		representation = sphereRepresentation;
+    		 */
+    		// Workaround code - instead of having a stroke, have a larger
+    		// black image behind the main one.
+    		double diameter = modelViewTransform.modelToViewDifferentialXDouble(particle.getDiameter());
+    		PNode compositeCircleNode = new PNode();
+    		PhetPPath sphereRepresentation = new PhetPPath( 
+    				new Ellipse2D.Double(-diameter/2 + STROKE_WIDTH, -diameter/2 + STROKE_WIDTH, 
+    						diameter - STROKE_WIDTH * 2, diameter - STROKE_WIDTH * 2), 
+    				particle.getRepresentationColor());
+    				
+    		PhetPPath sphereBackground = new PhetPPath( 
+    				new Ellipse2D.Double(-diameter/2, -diameter/2, diameter, diameter), Color.BLACK);
+    		compositeCircleNode.addChild(sphereBackground);
+    		compositeCircleNode.addChild(sphereRepresentation);
+    		representation = compositeCircleNode;
     		break;
     		
     	case POTASSIUM_ION:
