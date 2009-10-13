@@ -20,6 +20,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -36,6 +37,7 @@ public class IntegerSpinnerNode extends PNode {
     
     public IntegerSpinnerNode( IntegerRange range ) {
         super();
+        addInputEventListener( new CursorHandler() );
         
         this.range = range;
         listeners = new ArrayList<ChangeListener>();
