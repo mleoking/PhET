@@ -46,13 +46,43 @@
     // Definition of the filter, which specifies what to include/exclude from
     // the rip.  This one defines a filter that is used when doing a rip that
     // is meant to capture the entire web site.
-    //define("PHET_RIPPER_FILTER",                '"-*wickettest*"'.' '.CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/*/*.jnlp').' '.CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/*/*_all.jar').' '.CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/*/*_ar.jar').' '.CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/*/*_en.jar').' '.CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/*/*.jpg').' '.CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/*/*.html').' '.CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/*/*.swf').' '.CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/*/*.png').' '.CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'activities/*').' '.CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'publications/*').' '.CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'installer/*').' '.CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/*/*_en.jar').' '.CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/*/*_ar.jar'));
+    /* TODO: Complicated filter commented out & replaced with one that is simpler, remove permanently when sure that
+       it isn't needed.
+    define("PHET_RIPPER_FILTER",                '"-*wickettest*"'.' '.
+        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/*/*.jnlp').' '.
+        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/*/*_all.jar').' '.
+        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/*/*_ar.jar').' '.
+        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/*/*_en.jar').' '.
+        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/*/*.jpg').' '.
+        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/*/*.html').' '.
+        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/*/*.swf').' '.
+        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/*/*.png').' '.
+        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'activities/*').' '.
+        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'publications/*').' '.
+        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'installer/*').' '.
+        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/*/*_en.jar').' '.
+        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/*/*_ar.jar'));
+    */
     define("PHET_RIPPER_FILTER",                '"-*wickettest*"' );
     // Filter definition for a "lite" rip, meaning one that rips less than
     // the full web site.  This is generally swapped in for the full rip
     // filters when doing testing that requires a lot of iterations, since 
     // this will generally be much quicker than a full rip.
-    define("PHET_LITE_RIPPER_FILTER",            '"-*wickettest*"'.' '.CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/faraday/*.jnlp').' '.CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/faraday/*_all.jar').' '.CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/faraday/*.jpg').' '.CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/arithmetic/*.html').' '.CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/arithmetic/*.swf').' '.CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/arithmetic/*.png').' '.CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/arithmetic/*.jpg').' '.CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/arithmetic/*_en.jar').' '.CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'activities/*').' '.CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'publications/*').' '.CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'installer/*').' '.CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'workshops/*').' '.CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'css/*').' '.CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'images/*'));
+    define("PHET_LITE_RIPPER_FILTER",            '"-*wickettest*"'.' '.
+        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/faraday/*.jnlp').' '.
+        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/faraday/*_all.jar').' '.
+        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/faraday/*.jpg').' '.
+        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/arithmetic/*.html').' '.
+        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/arithmetic/*.swf').' '.
+        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/arithmetic/*.png').' '.
+        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/arithmetic/*.jpg').' '.
+        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/arithmetic/*_en.jar').' '.
+        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'activities/*').' '.
+        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'publications/*').' '.
+        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'installer/*').' '.
+        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'workshops/*').' '.
+        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'css/*').' '.
+        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'images/*'));
 
     define("PHET_WEBSITE_ROOT_PARTIAL_PATTERN", '[^"]+colorado\.edu');
     define("PHET_WEBSITE_ROOT_PATTERN",         '/'.PHET_WEBSITE_ROOT_PARTIAL_PATTERN.'/');
