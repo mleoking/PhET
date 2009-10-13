@@ -51,7 +51,7 @@ public class ReactantQuantitySliderNode extends PNode {
     private final TrackNode trackNode;
     private final KnobNode knobNode;
     private final ArrayList<ChangeListener> listeners;
-    private double value;
+    private int value;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -115,7 +115,7 @@ public class ReactantQuantitySliderNode extends PNode {
                 // convert the offset to a value
                 double yOffset = pKnobLocal.getY();
                 double trackLength = trackNode.getFullBoundsReference().getHeight();
-                double value = range.getMin() + range.getLength() * ( trackLength - yOffset ) / trackLength;
+                int value = (int)( range.getMin() + range.getLength() * ( trackLength - yOffset ) / trackLength );
                 
                 if ( value < range.getMin() ) {
                     value = range.getMin();
@@ -137,9 +137,9 @@ public class ReactantQuantitySliderNode extends PNode {
     /**
      * Gets the value.
      * 
-     * @return double
+     * @return int
      */
-    public double getValue() {
+    public int getValue() {
         return value;
     }
     
@@ -148,17 +148,17 @@ public class ReactantQuantitySliderNode extends PNode {
      * 
      * @param value
      */
-    public void setValue( double value ) {
+    public void setValue( int value ) {
         if ( !range.contains( value ) ) {
             throw new IllegalArgumentException( "value is out of range: " + value );
         }
         if ( value != this.value ) {
             this.value = value;
             double xOffset = knobNode.getXOffset();
-            double yOffset = trackNode.getFullBoundsReference().getHeight() * ( ( range.getMax() - value ) / range.getLength() );
+            double yOffset = trackNode.getFullBoundsReference().getHeight() * ( ( range.getMax() - (double)value ) / range.getLength() );
             knobNode.setOffset( xOffset, yOffset );
             trackNode.setFillHeight( trackNode.getFullBoundsReference().getHeight() - knobNode.getYOffset() );
-            notifyChanged();
+            fireStateChanged();
         }
     }
     
@@ -306,10 +306,10 @@ public class ReactantQuantitySliderNode extends PNode {
     }
     
     public void removeChangeListener( ChangeListener listener ) {
-        listeners.add( listener );
+        listeners.remove( listener );
     }
     
-    private void notifyChanged() {
+    private void fireStateChanged() {
         ChangeEvent event = new ChangeEvent( this );
         for ( ChangeListener listener : listeners ) {
             listener.stateChanged( event );
