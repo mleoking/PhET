@@ -22,6 +22,8 @@ public class PedigreeChartCanvas extends PhetPCanvas {
 
     private static final double PEDIGREE_TOP_PADDING = 5.0;
 
+    private double lastCenterPoint = 0;
+
     public PedigreeChartCanvas() {
         super.setWorldTransformStrategy( new ConstantTransformStrategy( new AffineTransform() ) );
 
@@ -43,6 +45,7 @@ public class PedigreeChartCanvas extends PhetPCanvas {
     }
 
     public void setCenterPoint( double x ) {
+        lastCenterPoint = x;
         pedigreeNode.setOffset( new Point2D.Double( getWidth() / 2 - x, PEDIGREE_TOP_PADDING ) );
     }
 
@@ -63,6 +66,7 @@ public class PedigreeChartCanvas extends PhetPCanvas {
 
     @Override
     protected void updateLayout() {
+        setCenterPoint( lastCenterPoint );
         //System.out.println( "Width: " + getSize().getWidth() );
         //System.out.println( "Height: " + getSize().getHeight() );
     }

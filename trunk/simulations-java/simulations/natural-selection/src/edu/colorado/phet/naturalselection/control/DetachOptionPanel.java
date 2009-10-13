@@ -15,6 +15,7 @@ import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionResources;
+import edu.colorado.phet.naturalselection.dialog.PedigreeChartCanvas;
 import edu.colorado.phet.naturalselection.module.NaturalSelectionModule;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -127,22 +128,26 @@ public class DetachOptionPanel extends JPanel {
         buttonPanel.add( closeButton );
 
         dialog.pack();
-        int w = dialog.getWidth();
-        Point togo = this.getLocationOnScreen();
-        togo.x -= w;
-        dialog.setLocation( togo );
+        dialog.setLocation( this.getLocationOnScreen() );
         dialogContentPane.add( detachableChild );
         dialog.setVisible( true );
+        if ( detachableChild instanceof PedigreeChartCanvas ) {
+            SwingUtilities.invokeLater( new Runnable() {
+                public void run() {
+                    ( (PedigreeChartCanvas) detachableChild ).setCenterPoint( 0 );
+                }
+            } );
+        }
         updateButtonLocations();
     }
 
     private void createDialog() {
         NaturalSelectionModule module = NaturalSelectionModule.getModule();
         dialog = new JDialog( module.getParentFrame(), title );
-        dialog.setResizable( false );
-        dialogContentPane = new JPanel( null );
+        dialog.setResizable( true );
+        dialogContentPane = new JPanel( new GridLayout( 1, 1 ) );
 
-        Dimension preferredSize = new Dimension( detachableChild.getWidth(), detachableChild.getHeight() );
+        Dimension preferredSize = detachableChild.getPreferredSize();
         dialogContentPane.setSize( preferredSize );
         dialogContentPane.setPreferredSize( preferredSize );
         dialogContentPane.add( detachableChild );
@@ -181,8 +186,14 @@ public class DetachOptionPanel extends JPanel {
         add( detachableChild );
 
         detachableChild.invalidate();
-        repaint();
+
         validate();
+
+        if ( detachableChild instanceof PedigreeChartCanvas ) {
+            ( (PedigreeChartCanvas) detachableChild ).setCenterPoint( 0 );
+        }
+
+        repaint();
 
         for ( Listener listener : listeners ) {
             listener.onDock();
