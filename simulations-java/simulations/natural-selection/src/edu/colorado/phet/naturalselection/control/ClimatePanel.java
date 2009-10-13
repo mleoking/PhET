@@ -4,6 +4,7 @@ import java.awt.*;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
 import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
@@ -50,12 +51,14 @@ public class ClimatePanel extends JPanel {
         arcticPanel.add( arcticImage );
 
         JLabel label = new JLabel( NaturalSelectionStrings.ENVIRONMENT );
+        label.setFont( new PhetFont( 12, true ) );
 
         equatorPanel.setAlignmentX( Component.LEFT_ALIGNMENT );
         arcticPanel.setAlignmentX( Component.LEFT_ALIGNMENT );
         label.setAlignmentX( Component.LEFT_ALIGNMENT );
 
         add( label );
+        add( Box.createRigidArea( new Dimension( 5, 2 ) ) );
         add( equatorPanel );
         add( arcticPanel );
 

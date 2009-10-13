@@ -4,6 +4,7 @@ import java.awt.*;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
 import edu.colorado.phet.naturalselection.model.Bunny;
@@ -18,7 +19,7 @@ public class SwitcherPanel extends JPanel implements DetachOptionPanel.Listener 
     private JRadioButton pedigreeRadioButton;
 
     public SwitcherPanel() {
-        super( new GridLayout( 2, 1 ) );
+        setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
 
         statisticsRadioButton = new JRadioButton( NaturalSelectionStrings.STATS_POPULATION );
         pedigreeRadioButton = new JRadioButton( NaturalSelectionStrings.PEDIGREE_CHART );
@@ -30,6 +31,15 @@ public class SwitcherPanel extends JPanel implements DetachOptionPanel.Listener 
         group.add( statisticsRadioButton );
         group.add( pedigreeRadioButton );
 
+        JLabel label = new JLabel( NaturalSelectionStrings.CHART );
+        label.setFont( new PhetFont( 12, true ) );
+
+        label.setAlignmentX( Component.LEFT_ALIGNMENT );
+        statisticsRadioButton.setAlignmentX( Component.LEFT_ALIGNMENT );
+        pedigreeRadioButton.setAlignmentX( Component.LEFT_ALIGNMENT );
+
+        add( label );
+        add( Box.createRigidArea( new Dimension( 5, 2 ) ) );
         add( statisticsRadioButton );
         add( pedigreeRadioButton );
 
