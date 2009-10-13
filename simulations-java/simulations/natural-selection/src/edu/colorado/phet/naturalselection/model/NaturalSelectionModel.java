@@ -37,6 +37,11 @@ public class NaturalSelectionModel extends ClockAdapter {
     private Frenzy frenzy;
 
     /**
+     * Famine object
+     */
+    private Famine famine;
+
+    /**
      * A list of all of the (model) bunnies.
      * WARNING: do NOT change the order of this list
      */
@@ -157,6 +162,10 @@ public class NaturalSelectionModel extends ClockAdapter {
     public void reset() {
         if ( isDuringFrenzy() ) {
             prematureEndFrenzy();
+        }
+
+        if ( isDuringFamine() ) {
+            prematureEndFamine();
         }
 
         Bunny.reset();
@@ -583,46 +592,39 @@ public class NaturalSelectionModel extends ClockAdapter {
     /**
      * Bunnies will run out of food if the selection factor is food
      */
-    private void bunnyFamine() {
+    private void startFamine() {
         if ( lastFamineGeneration == generation ) {
             // can't famine multiple times in a generation
             return;
         }
         lastFamineGeneration = generation;
 
-        // load formula variables
-        double bunnyOffset = NaturalSelectionConstants.getSettings().getFoodSelectionBunnyOffset();
-        double bunnyExponent = NaturalSelectionConstants.getSettings().getFoodSelectionBunnyExponent();
-        double scale = NaturalSelectionConstants.getSettings().getFoodSelectionScale();
-        double blendScale = NaturalSelectionConstants.getSettings().getFoodSelectionBlendScale();
-        double maxKillFraction = NaturalSelectionConstants.getSettings().getMaxKillFraction();
-
-        Iterator<Bunny> iter = bunnies.iterator();
-
-        double baseFraction = ( Math.pow( (double) getPopulation() + bunnyOffset, bunnyExponent ) ) * scale;
-
-        while ( iter.hasNext() ) {
-            Bunny bunny = iter.next();
-
-            if ( !bunny.isAlive() ) {
-                continue;
-            }
-
-            double actualFraction = baseFraction;
-
-            if ( bunny.getTeethPhenotype() == TeethGene.TEETH_LONG_ALLELE ) {
-                actualFraction *= blendScale;
-            }
-
-            if ( actualFraction > maxKillFraction ) {
-                actualFraction = maxKillFraction;
-            }
-
-            if ( Math.random() < actualFraction ) {
-                bunny.die();
-            }
-
+        if ( isDuringFamine() || getPopulation() == 0 ) {
+            return;
         }
+
+        famine = new Famine( this, NaturalSelectionConstants.getSettings().getFamineTicks() );
+
+        notifyFamineStart( famine );
+
+        famine.init();
+    }
+
+    public void prematureEndFamine() {
+        if ( famine != null && famine.isRunning() ) {
+            famine.endFamine();
+        }
+
+        // sanity check, Famine should call this endFamine below.
+        famine = null;
+    }
+
+    public void endFamine() {
+        famine = null;
+    }
+
+    public boolean isDuringFamine() {
+        return famine != null;
     }
 
     public void startFrenzy() {
@@ -667,6 +669,7 @@ public class NaturalSelectionModel extends ClockAdapter {
     public boolean isDuringFrenzy() {
         return frenzy != null;
     }
+
 
     //----------------------------------------------------------------------------
     // Getters and setters
@@ -768,7 +771,7 @@ public class NaturalSelectionModel extends ClockAdapter {
 
         if ( selectionFactor == SELECTION_FOOD ) {
             // don't immediately start a bunny famine!
-            //bunnyFamine();
+            //startFamine();
         }
 
         notifySelectionFactorChange();
@@ -813,7 +816,7 @@ public class NaturalSelectionModel extends ClockAdapter {
 
         double ticksPerYear = NaturalSelectionConstants.getSettings().getTicksPerYear();
 
-        if ( !isDuringFrenzy() ) {
+        if ( !isDuringFrenzy() && !isDuringFamine() ) {
             time++;
 
             while ( time - lastYearTick > ticksPerYear ) {
@@ -829,14 +832,14 @@ public class NaturalSelectionModel extends ClockAdapter {
                 }
 
                 if ( selectionFactor == SELECTION_FOOD ) {
-                    bunnyFamine();
+                    startFamine();
                 }
             }
         }
 
         clock.notifyPhysicalListeners( event );
 
-        if ( !isDuringFrenzy() ) {
+        if ( !isDuringFrenzy() && !isDuringFamine() ) {
             clock.notifyTimeListeners( event );
         }
     }
@@ -873,6 +876,12 @@ public class NaturalSelectionModel extends ClockAdapter {
     private void notifyFrenzyStart( Frenzy frenzy ) {
         Event event = new Event( this, Event.TYPE_FRENZY_START );
         event.setFrenzy( frenzy );
+        notifyListenersOfEvent( event );
+    }
+
+    private void notifyFamineStart( Famine famine ) {
+        Event event = new Event( this, Event.TYPE_FAMINE_START );
+        event.setFamine( famine );
         notifyListenersOfEvent( event );
     }
 
@@ -921,6 +930,7 @@ public class NaturalSelectionModel extends ClockAdapter {
         public static final int TYPE_FRENZY_START = 4;
         public static final int TYPE_GAME_OVER = 5;
         public static final int TYPE_BUNNIES_TAKE_OVER = 6;
+        public static final int TYPE_FAMINE_START = 7;
 
         private NaturalSelectionModel model;
         private int type;
@@ -930,6 +940,7 @@ public class NaturalSelectionModel extends ClockAdapter {
         private int newClimate;
         private Bunny newBunny;
         private Frenzy frenzy;
+        private Famine famine;
 
         public Event( NaturalSelectionModel model, int type ) {
             this.model = model;
@@ -969,6 +980,10 @@ public class NaturalSelectionModel extends ClockAdapter {
             return frenzy;
         }
 
+        public Famine getFamine() {
+            return famine;
+        }
+
         //----------------------------------------------------------------------------
         // Setters
         //----------------------------------------------------------------------------
@@ -991,6 +1006,10 @@ public class NaturalSelectionModel extends ClockAdapter {
 
         private void setFrenzy( Frenzy frenzy ) {
             this.frenzy = frenzy;
+        }
+
+        private void setFamine( Famine famine ) {
+            this.famine = famine;
         }
     }
 
