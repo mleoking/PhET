@@ -8,6 +8,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
 
@@ -21,7 +22,7 @@ public class ReactantQuantityControlNode extends PhetPNode {
     private final IntegerTextFieldNode textFieldNode;
     private final ChangeListener sliderListener, textFieldListener;
 
-    public ReactantQuantityControlNode( IntegerRange range ) {
+    public ReactantQuantityControlNode( IntegerRange range, PNode imageNode, double imageScale ) {
         super();
         
         listeners = new ArrayList<ChangeListener>();
@@ -50,11 +51,25 @@ public class ReactantQuantityControlNode extends PhetPNode {
         
         addChild( sliderNode );
         addChild( textFieldNode );
+        addChild( imageNode );
+        imageNode.scale( imageScale );
         
+        // layout, origin at upper right of slider track
         sliderNode.setOffset( 0, 0 );
         double x = sliderNode.getFullBoundsReference().getMinX() - textFieldNode.getFullBoundsReference().getWidth() - 2;
-        double y = sliderNode.getFullBoundsReference().getMaxY() - textFieldNode.getFullBoundsReference().getHeight();
+        double y = SLIDER_TRACK_SIZE.getHeight() - textFieldNode.getFullBoundsReference().getHeight();
         textFieldNode.setOffset( x, y );
+        x = sliderNode.getFullBoundsReference().getCenterX() - ( imageNode.getFullBoundsReference().getWidth() / 2 );
+        y = sliderNode.getFullBoundsReference().getMaxY() + 15;
+        imageNode.setOffset( x, y );
+    }
+    
+    public void setValue( int value ) {
+        sliderNode.setValue( value );
+    }
+    
+    public int getValue() {
+        return sliderNode.getValue();
     }
     
     //----------------------------------------------------------------------------

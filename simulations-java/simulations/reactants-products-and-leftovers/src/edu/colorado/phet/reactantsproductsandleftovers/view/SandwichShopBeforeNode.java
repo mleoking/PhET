@@ -9,6 +9,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.BreadQuantityControlNode;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.CheeseQuantityControlNode;
@@ -61,7 +62,6 @@ public class SandwichShopBeforeNode extends PhetPNode {
         addChild( titleNode );
         
         PNode controlsNode = new PNode();
-        controlsNode.scale(  2  ); //XXX
         addChild( controlsNode );
         BreadQuantityControlNode breadControlNode = new BreadQuantityControlNode( model );
         MeatQuantityControlNode meatControlNode = new MeatQuantityControlNode( model );
@@ -73,7 +73,7 @@ public class SandwichShopBeforeNode extends PhetPNode {
         double meatWidth = meatControlNode.getFullBoundsReference().getWidth();
         double cheeseWidth = cheeseControlNode.getFullBoundsReference().getWidth();
         double maxWidth = Math.max( breadWidth, Math.max( meatWidth, cheeseWidth ) );
-        double deltaX = maxWidth + 10;
+        double deltaX = maxWidth + 20;
         breadControlNode.setOffset( 0, 0 );
         meatControlNode.setOffset( deltaX, 0 );
         cheeseControlNode.setOffset( 2 * deltaX, 0 );
@@ -83,8 +83,8 @@ public class SandwichShopBeforeNode extends PhetPNode {
         double x = boxNode.getFullBoundsReference().getCenterX() - ( titleNode.getFullBoundsReference().getWidth() / 2 );
         double y = boxNode.getFullBoundsReference().getMinY() - titleNode.getFullBoundsReference().getHeight() - 10;
         titleNode.setOffset( x, y );
-        x = boxNode.getFullBoundsReference().getCenterX() - ( controlsNode.getFullBoundsReference().getWidth() / 2 );
-        y = boxNode.getFullBoundsReference().getMaxY() + 10;
+        x = boxNode.getFullBoundsReference().getCenterX() - ( controlsNode.getFullBoundsReference().getWidth() / 2 ) - PNodeLayoutUtils.getOriginXOffset( controlsNode );
+        y = boxNode.getFullBoundsReference().getMaxY() - PNodeLayoutUtils.getOriginYOffset( controlsNode ) + 10;
         controlsNode.setOffset( x, y );
         
         update();

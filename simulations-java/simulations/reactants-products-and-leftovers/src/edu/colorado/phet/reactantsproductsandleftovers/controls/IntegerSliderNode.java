@@ -80,6 +80,7 @@ public class IntegerSliderNode extends PNode {
         initInteractivity();
         
         // initialize
+        value = range.getMax() + 1; // force an update
         setValue( range.getDefault() );
     }
     

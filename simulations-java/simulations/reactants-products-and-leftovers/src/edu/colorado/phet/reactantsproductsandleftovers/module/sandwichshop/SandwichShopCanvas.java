@@ -34,9 +34,9 @@ public class SandwichShopCanvas extends RPALCanvas {
         addChild( afterNode );
         
         //XXX
-       ReactantQuantityControlNode rqcn = new ReactantQuantityControlNode( new IntegerRange( 0, 10, 5 ) );
-       addChild( rqcn );
-       rqcn.setOffset( 50, 450 );
+//       ReactantQuantityControlNode rqcn = new ReactantQuantityControlNode( new IntegerRange( 0, 10, 5 ), new BreadNode(), 0.5 );
+//       addChild( rqcn );
+//       rqcn.setOffset( 50, 450 );
        
 //        ReactantQuantitySliderNode sliderNode = new ReactantQuantitySliderNode( new IntegerRange( 0, 10, 5 ), new PDimension( 15, 75 ), new PDimension( 30, 15 ) );
 //        addChild( sliderNode );

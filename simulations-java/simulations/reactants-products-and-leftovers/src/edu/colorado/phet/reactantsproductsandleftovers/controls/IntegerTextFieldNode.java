@@ -22,6 +22,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -37,6 +38,7 @@ public class IntegerTextFieldNode extends PhetPNode {
 
     public IntegerTextFieldNode( IntegerRange range ) {
         super();
+        addInputEventListener( new CursorHandler() );
         
         this.range = new IntegerRange( range );
         value = range.getDefault();
@@ -105,10 +107,10 @@ public class IntegerTextFieldNode extends PhetPNode {
     }
     
     private void revert( int revertValue ) {
-        Toolkit.getDefaultToolkit().beep();
-        showInvalidValueDialog();
         value = revertValue;
         textField.setText( String.valueOf( value ) );
+        Toolkit.getDefaultToolkit().beep();
+        showInvalidValueDialog();
         textField.selectAll();
     }
     

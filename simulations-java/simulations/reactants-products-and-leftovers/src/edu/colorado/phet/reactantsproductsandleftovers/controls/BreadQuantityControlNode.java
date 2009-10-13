@@ -8,7 +8,7 @@ import edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop.Sandw
 import edu.colorado.phet.reactantsproductsandleftovers.view.BreadNode;
 
 
-public class BreadQuantityControlNode extends QuantityControlNode {
+public class BreadQuantityControlNode extends ReactantQuantityControlNode {
     
     public BreadQuantityControlNode( final SandwichShop model ) {
         super( SandwichShopDefaults.REACTION_BREAD_RANGE, new BreadNode(), 0.5 /* XXX */ );
