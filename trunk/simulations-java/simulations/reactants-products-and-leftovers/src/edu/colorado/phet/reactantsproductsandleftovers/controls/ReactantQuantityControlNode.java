@@ -17,7 +17,7 @@ public class ReactantQuantityControlNode extends PhetPNode {
     private static final PDimension SLIDER_KNOB_SIZE = new PDimension( 30, 15 );
 
     private final ArrayList<ChangeListener> listeners;
-    private final ReactantQuantitySliderNode sliderNode;
+    private final IntegerSliderNode sliderNode;
     private final IntegerTextFieldNode textFieldNode;
     private final ChangeListener sliderListener, textFieldListener;
 
@@ -25,7 +25,7 @@ public class ReactantQuantityControlNode extends PhetPNode {
         super();
         
         listeners = new ArrayList<ChangeListener>();
-        sliderNode = new ReactantQuantitySliderNode(range, SLIDER_TRACK_SIZE, SLIDER_KNOB_SIZE );
+        sliderNode = new IntegerSliderNode(range, SLIDER_TRACK_SIZE, SLIDER_KNOB_SIZE );
         textFieldNode = new IntegerTextFieldNode( range );
         
         sliderListener = new ChangeListener() {

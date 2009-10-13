@@ -22,11 +22,12 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
- * A custom Piccolo slider.
+ * A custom Piccolo slider for integer values.
+ * Vertical orientation only, no support for tick marks.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ReactantQuantitySliderNode extends PNode {
+public class IntegerSliderNode extends PNode {
     
     //----------------------------------------------------------------------------
     // Class data
@@ -57,7 +58,7 @@ public class ReactantQuantitySliderNode extends PNode {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public ReactantQuantitySliderNode( IntegerRange range, PDimension trackSize, PDimension knobSize ) {
+    public IntegerSliderNode( IntegerRange range, PDimension trackSize, PDimension knobSize ) {
         super();
         
         this.range = new IntegerRange( range );
@@ -98,19 +99,19 @@ public class ReactantQuantitySliderNode extends PNode {
             protected void startDrag( PInputEvent event ) {
                 super.startDrag( event );
                 // note the offset between the mouse click and the knob's origin
-                Point2D pMouseLocal = event.getPositionRelativeTo( ReactantQuantitySliderNode.this );
-                Point2D pMouseGlobal = ReactantQuantitySliderNode.this.localToGlobal( pMouseLocal );
-                Point2D pKnobGlobal = ReactantQuantitySliderNode.this.localToGlobal( knobNode.getOffset() );
+                Point2D pMouseLocal = event.getPositionRelativeTo( IntegerSliderNode.this );
+                Point2D pMouseGlobal = IntegerSliderNode.this.localToGlobal( pMouseLocal );
+                Point2D pKnobGlobal = IntegerSliderNode.this.localToGlobal( knobNode.getOffset() );
                 _globalClickYOffset = pMouseGlobal.getY() - pKnobGlobal.getY();
             }
 
             protected void drag(PInputEvent event) {
                 
                 // determine the knob's new offset
-                Point2D pMouseLocal = event.getPositionRelativeTo( ReactantQuantitySliderNode.this );
-                Point2D pMouseGlobal = ReactantQuantitySliderNode.this.localToGlobal( pMouseLocal );
+                Point2D pMouseLocal = event.getPositionRelativeTo( IntegerSliderNode.this );
+                Point2D pMouseGlobal = IntegerSliderNode.this.localToGlobal( pMouseLocal );
                 Point2D pKnobGlobal = new Point2D.Double( pMouseGlobal.getX(), pMouseGlobal.getY() - _globalClickYOffset );
-                Point2D pKnobLocal = ReactantQuantitySliderNode.this.globalToLocal( pKnobGlobal );
+                Point2D pKnobLocal = IntegerSliderNode.this.globalToLocal( pKnobGlobal );
                 
                 // convert the offset to a value
                 double yOffset = pKnobLocal.getY();
