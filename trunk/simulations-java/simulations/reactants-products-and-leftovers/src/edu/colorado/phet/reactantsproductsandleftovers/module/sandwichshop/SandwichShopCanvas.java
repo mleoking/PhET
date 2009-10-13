@@ -9,7 +9,6 @@ import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.ReactantQuantitySliderNode;
 import edu.colorado.phet.reactantsproductsandleftovers.model.SandwichShop;
 import edu.colorado.phet.reactantsproductsandleftovers.view.*;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
 
@@ -36,7 +35,7 @@ public class SandwichShopCanvas extends RPALCanvas {
         addChild( afterNode );
         
         //XXX
-        PNode sliderNode = new ReactantQuantitySliderNode( new IntegerRange( 0, 10, 1 ), new PDimension( 15, 75 ), new PDimension( 30, 15 ) );
+        ReactantQuantitySliderNode sliderNode = new ReactantQuantitySliderNode( new IntegerRange( 0, 10, 5 ), new PDimension( 15, 75 ), new PDimension( 30, 15 ) );
         addChild( sliderNode );
         sliderNode.setOffset( 50, 450 );
     }
