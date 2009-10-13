@@ -43,7 +43,7 @@ public class NeuronCanvas extends PhetPCanvas {
     		INITIAL_INTERMEDIATE_COORD_HEIGHT * 0.35);
     
     // For debug: Controls showing of particle motion bounds.
-    private static final boolean SHOW_PARTICLE_BOUNDS = true;
+    private static final boolean SHOW_PARTICLE_BOUNDS = false;
 
     //----------------------------------------------------------------------------
     // Instance Data
