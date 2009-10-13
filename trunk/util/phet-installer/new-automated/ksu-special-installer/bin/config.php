@@ -46,23 +46,22 @@
     // Definition of the filter, which specifies what to include/exclude from
     // the rip.  This one defines a filter that is used when doing a rip that
     // is meant to capture the entire web site.
-    /* TODO: Complicated filter commented out & replaced with one that is simpler, remove permanently when sure that
-       it isn't needed.
-    define("PHET_RIPPER_FILTER",                '"-*wickettest*"'.' '.
-        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/*/*.jnlp').' '.
-        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/*/*_all.jar').' '.
-        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/*/*_ar.jar').' '.
-        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/*/*_en.jar').' '.
-        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/*/*.jpg').' '.
-        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/*/*.html').' '.
-        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/*/*.swf').' '.
-        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/*/*.png').' '.
-        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'activities/*').' '.
-        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'publications/*').' '.
-        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'installer/*').' '.
-        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/*/*_en.jar').' '.
-        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/*/*_ar.jar'));
-    */
+// TODO: Complicated filter commented out & replaced with one that is simpler, remove permanently when sure that
+// it isn't needed.
+//    define("PHET_RIPPER_FILTER",                '"-*wickettest*"'.' '.
+//        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/*/*.jnlp').' '.
+//        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/*/*_all.jar').' '.
+//        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/*/*_ar.jar').' '.
+//        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/*/*_en.jar').' '.
+//        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/*/*.jpg').' '.
+//        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/*/*.html').' '.
+//        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/*/*.swf').' '.
+//        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/*/*.png').' '.
+//        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'activities/*').' '.
+//        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'publications/*').' '.
+//        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'installer/*').' '.
+//        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/*/*_en.jar').' '.
+//        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/*/*_ar.jar'));
     define("PHET_RIPPER_FILTER",                '"-*wickettest*"' );
     // Filter definition for a "lite" rip, meaning one that rips less than
     // the full web site.  This is generally swapped in for the full rip
