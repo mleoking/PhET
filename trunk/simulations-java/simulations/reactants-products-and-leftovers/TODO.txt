@@ -8,4 +8,3 @@
 - sliders+histogram for reactant quantities
 - histogram for product quantity
 - highlight when mouseOver and dragging reactant quantity sliders
-- make reactant quantity slider snap to integer position, important since this is also a histogram

@@ -116,7 +116,7 @@ public class IntegerSliderNode extends PNode {
                 // convert the offset to a value
                 double yOffset = pKnobLocal.getY();
                 double trackLength = trackNode.getFullBoundsReference().getHeight();
-                int value = (int)( range.getMin() + range.getLength() * ( trackLength - yOffset ) / trackLength );
+                double value = range.getMin() + ( range.getLength() * ( trackLength - yOffset ) / trackLength );
                 
                 if ( value < range.getMin() ) {
                     value = range.getMin();
@@ -127,6 +127,11 @@ public class IntegerSliderNode extends PNode {
                 
                 // set the current value (this will move the knob)
                 setValue( value );
+            }
+            
+            protected void endDrag( PInputEvent event ) {
+                super.endDrag( event );
+                moveKnobTo( value );
             }
         } );
     }
@@ -150,17 +155,25 @@ public class IntegerSliderNode extends PNode {
      * @param value
      */
     public void setValue( int value ) {
+        setValue( (double) value );
+    }
+    
+    private void setValue( double value ) {
         if ( !range.contains( value ) ) {
             throw new IllegalArgumentException( "value is out of range: " + value );
         }
         if ( value != this.value ) {
-            this.value = value;
-            double xOffset = knobNode.getXOffset();
-            double yOffset = trackNode.getFullBoundsReference().getHeight() * ( ( range.getMax() - (double)value ) / range.getLength() );
-            knobNode.setOffset( xOffset, yOffset );
+            this.value = (int) value;
+            moveKnobTo( value );
             trackNode.setFillHeight( trackNode.getFullBoundsReference().getHeight() - knobNode.getYOffset() );
             fireStateChanged();
         }
+    }
+    
+    private void moveKnobTo( double value ) {
+        double xOffset = knobNode.getXOffset();
+        double yOffset = trackNode.getFullBoundsReference().getHeight() * ( ( range.getMax() - value ) / range.getLength() );
+        knobNode.setOffset( xOffset, yOffset );
     }
     
     /**
