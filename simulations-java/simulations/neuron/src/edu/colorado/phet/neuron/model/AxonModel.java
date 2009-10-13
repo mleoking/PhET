@@ -6,6 +6,7 @@ import java.awt.Shape;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
@@ -550,12 +551,20 @@ public class AxonModel {
      * Place a particle at a random location outside the axon membrane.
      */
     private void positionParticleOutsideMembrane(Particle particle){
-    	double maxDistance = Math.min(getParticleMotionBounds().getWidth() / 2,
-    			getParticleMotionBounds().getHeight() / 2);
-    	double distance = RAND.nextDouble() * (maxDistance - crossSectionOuterRadius) + crossSectionOuterRadius +
-    		particle.getDiameter();
-    	double angle = RAND.nextDouble() * Math.PI * 2;
-    	particle.setPosition(distance * Math.cos(angle), distance * Math.sin(angle));
+    	double maxDistance = CENTER_POS.distance(new Point2D.Double(getParticleMotionBounds().getMinX(), 
+    			getParticleMotionBounds().getMinY()));
+		double angle = RAND.nextDouble() * Math.PI * 2;
+		Point2D location = new Point2D.Double();
+    	while (true){
+    		double distance = RAND.nextDouble() * (maxDistance - crossSectionOuterRadius) + crossSectionOuterRadius +
+    			particle.getDiameter();
+    		location.setLocation(distance * Math.cos(angle), distance * Math.sin(angle));
+    		if (getParticleMotionBounds().contains(location)){
+    			// This works.
+    			break;
+    		}
+    	}
+    	particle.setPosition(location);
     }
     
     /**
