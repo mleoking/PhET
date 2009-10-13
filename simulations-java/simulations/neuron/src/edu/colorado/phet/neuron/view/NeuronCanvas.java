@@ -62,6 +62,7 @@ public class NeuronCanvas extends PhetPCanvas {
     
     // Chart for showing membrane potential.
     private MembranePotentialChart membranePotentialChart;
+    private MembraneVoltmeter voltmeter;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -118,6 +119,11 @@ public class NeuronCanvas extends PhetPCanvas {
         		0, 100);
         membranePotentialChart.setVisible(false);
         chartLayer.addChild(membranePotentialChart);
+        
+        // Add the voltmeter.
+        voltmeter = new MembraneVoltmeter();
+        chartLayer.addChild(voltmeter);
+        
         
         // Add the depiction of the particle motion bounds, if enabled.
         if (SHOW_PARTICLE_BOUNDS){
