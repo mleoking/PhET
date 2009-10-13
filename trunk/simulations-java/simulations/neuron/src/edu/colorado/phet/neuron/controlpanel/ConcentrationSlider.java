@@ -82,14 +82,14 @@ public class ConcentrationSlider extends LinearValueControl{
             // TODO: This is a workaround for a problem where the icon was
             // being cut off on the edges - basically the stroke was being
             // removed.  Figure out why this is needed and fix it.
+            // UPDATE: This actually doesn't work, but keep for a while for
+            // reference anyway.
 //            PNode atomNodeComposite = new PNode();
 //            double size = atomNode.getFullBoundsReference().width * 1.4;
 //            PhetPPath atomNodeBackground = new PhetPPath(new Rectangle2D.Double(-size / 2, -size / 2, size, size),
 //            		new Color(200,200,200,255));
 //            atomNodeComposite.addChild(atomNodeBackground);
 //            atomNodeComposite.addChild(atomNode);
-            
-            atomNode.setStrokeOn(false);
             
             // Create and add the icon.
             JLabel _valueLabel = getValueLabel();
