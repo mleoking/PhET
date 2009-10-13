@@ -48,7 +48,7 @@ public class SelectionPanel extends JPanel {
 
         noneButton = new JRadioButton( NaturalSelectionStrings.NONE );
 
-        JLabel label = new JLabel( NaturalSelectionStrings.ENVIRONMENT );
+        JLabel label = new JLabel( NaturalSelectionStrings.SELECTION_FACTOR );
 
         wolvesPanel.setAlignmentX( Component.LEFT_ALIGNMENT );
         foodPanel.setAlignmentX( Component.LEFT_ALIGNMENT );
