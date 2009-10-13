@@ -48,7 +48,11 @@ public class ParticleNode extends PNode {
         label = new PText(labelText);
         label.setFont(new PhetFont(12, true));
         label.setTextPaint(particle.getLabelColor());
-        addChild(label);
+        // TODO: On 10/12/2009, I (jblanco) talked with Noah P and we decided
+        // to try removing the labels, since they are small and hard to see
+        // already and we want to try to put more smaller particles in place.
+        // If this decision sticks, the label should be permanently removed.
+        //addChild(label);
         
         // Scale the label to fit within the sphere.
         double maxLabelDimension = Math.max(label.getFullBoundsReference().width, label.getFullBoundsReference().height);
