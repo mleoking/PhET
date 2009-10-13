@@ -1,3 +1,5 @@
+# 0.00.03 (35778) Oct 13, 2009
+10/13/09 #1824, workaround for problem with spinners in play area
 # 0.00.02 (35744) Oct 12, 2009
 10/12/09 dev version for discussion
 10/12/09 finished brute-force implementation of "Sandwich Shop" without sliders
