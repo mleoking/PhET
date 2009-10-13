@@ -4,7 +4,8 @@ package edu.colorado.phet.neuron.controlpanel;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.GridLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -64,10 +65,10 @@ public class IonLegendPanel extends JPanel {
         setBorder( titledBorder );
         
         // Set the layout.
-        setLayout( new GridLayout(0, 2) );
+        setLayout( new GridBagLayout() );
 
         // Add the images and labels for each specified particle.
-        
+        int row = 0;
         for (ParticleType particleType : particleTypes){
         	ParticleNode particleNode = null;
         	String labelText = null;
@@ -88,7 +89,8 @@ public class IonLegendPanel extends JPanel {
         		labelText = "Protein Ion (Pr-)";
         		break;
         	}
-        	addLegendItem( particleNode.toImage(), labelText );
+        	addLegendItem( particleNode.toImage(), labelText, row );
+        	row++;
         }
     }
     
@@ -96,9 +98,17 @@ public class IonLegendPanel extends JPanel {
      * This method adds simple legend items, i.e. those that only include an
      * image and a label, to the legend.
      */
-    private void addLegendItem( Image im, String label ) {
+    private void addLegendItem( Image im, String label, int row ) {
         ImageIcon icon = new ImageIcon(im);
-        add(new JLabel(icon));
-        add(new JLabel( label ));
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.anchor = GridBagConstraints.CENTER;
+        constraints.gridx = 0;
+        constraints.gridy = row;
+        constraints.ipadx = 30;
+        constraints.ipady = 10;
+        add(new JLabel(icon), constraints);
+        constraints.ipadx = 0;
+        constraints.gridx = 1;
+        add(new JLabel( label ), constraints);
     }
 }
