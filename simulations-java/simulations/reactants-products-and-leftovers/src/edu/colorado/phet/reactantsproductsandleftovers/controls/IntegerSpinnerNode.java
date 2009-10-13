@@ -125,9 +125,9 @@ public class IntegerSpinnerNode extends PNode {
         }
         catch ( ParseException pe ) {
             Toolkit.getDefaultToolkit().beep();
+            showInvalidValueDialog();
             textField.setValue( getValue() ); // revert, sync textfield to value
             textField.selectAll();
-            showInvalidValueDialog();
         }
     }
     

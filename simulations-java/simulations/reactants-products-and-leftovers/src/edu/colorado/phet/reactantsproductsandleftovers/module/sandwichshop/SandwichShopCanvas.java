@@ -6,10 +6,9 @@ import java.awt.geom.Dimension2D;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
-import edu.colorado.phet.reactantsproductsandleftovers.controls.ReactantQuantitySliderNode;
+import edu.colorado.phet.reactantsproductsandleftovers.controls.ReactantQuantityControlNode;
 import edu.colorado.phet.reactantsproductsandleftovers.model.SandwichShop;
 import edu.colorado.phet.reactantsproductsandleftovers.view.*;
-import edu.umd.cs.piccolo.util.PDimension;
 
 
 public class SandwichShopCanvas extends RPALCanvas {
@@ -35,9 +34,13 @@ public class SandwichShopCanvas extends RPALCanvas {
         addChild( afterNode );
         
         //XXX
-        ReactantQuantitySliderNode sliderNode = new ReactantQuantitySliderNode( new IntegerRange( 0, 10, 5 ), new PDimension( 15, 75 ), new PDimension( 30, 15 ) );
-        addChild( sliderNode );
-        sliderNode.setOffset( 50, 450 );
+       ReactantQuantityControlNode rqcn = new ReactantQuantityControlNode( new IntegerRange( 0, 10, 5 ) );
+       addChild( rqcn );
+       rqcn.setOffset( 50, 450 );
+       
+//        ReactantQuantitySliderNode sliderNode = new ReactantQuantitySliderNode( new IntegerRange( 0, 10, 5 ), new PDimension( 15, 75 ), new PDimension( 30, 15 ) );
+//        addChild( sliderNode );
+//        sliderNode.setOffset( 50, 450 );
     }
 
     //----------------------------------------------------------------------------
