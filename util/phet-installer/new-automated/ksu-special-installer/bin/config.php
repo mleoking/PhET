@@ -72,11 +72,12 @@
         CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/faraday/*').' '.
         CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/arithmetic/*').' '.
         CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'activities/*').' '.
-        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'publications/*').' '.
-        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'installer/*').' '.
-        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'workshops/*').' '.
         CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'css/*').' '.
-        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'images/*'));
+        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'en/*').' '.
+        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'images/*').' '.
+        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'installer/*').' '.
+        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'publications/*').' '.
+        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'workshops/*'));
 
     define("PHET_WEBSITE_ROOT_PARTIAL_PATTERN", '[^"]+colorado\.edu');
     define("PHET_WEBSITE_ROOT_PATTERN",         '/'.PHET_WEBSITE_ROOT_PARTIAL_PATTERN.'/');
