@@ -157,10 +157,9 @@
     // to the full ripper function.  Just don't forget to swap it back.
     //--------------------------------------------------------------------------
     function ripper_rip_website_subset() {
-        define("SUBSET_RIPPER_ARGS", '"'.PHET_TRANSLATED_WEBSITE_URL.'" -O "'.RIPPED_WEBSITE_ROOT.'" '.'"+*'.PHET_ROOT_URL.'sims*"'.' -E30 -v %q0 -%e0'); 
-        flushing_echo("Ripping subset of website with ".RIPPER_EXE." ".SUBSET_RIPPER_ARGS);
+        flushing_echo("Ripping subset of website with ".RIPPER_EXE." ".RIPPER_ARGS_SUBSET);
 
-        $result = exec(RIPPER_EXE." ".SUBSET_RIPPER_ARGS);
+        $result = exec(RIPPER_EXE." ".RIPPER_ARGS_SUBSET);
 
         flushing_echo($result);
     }
