@@ -87,7 +87,7 @@ public abstract class Particle {
      * assumes a round particle.
      */
     public double getDiameter(){
-    	return 3;  // Default value, override if needed to support other particles.
+    	return 2;  // Default value, override if needed to support other particles.
     }
     
     public Vector2D getVelocity() {

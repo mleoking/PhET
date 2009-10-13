@@ -34,6 +34,6 @@ public class ProteinIon extends Particle {
 
 	@Override
 	public double getDiameter() {
-		return 4;
+		return 3;
 	}
 }
