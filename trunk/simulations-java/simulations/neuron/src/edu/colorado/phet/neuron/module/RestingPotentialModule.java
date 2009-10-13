@@ -7,9 +7,9 @@ import java.awt.Frame;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 import edu.colorado.phet.neuron.NeuronStrings;
-import edu.colorado.phet.neuron.controlpanel.MembraneDiffusionControlPanel;
-import edu.colorado.phet.neuron.model.NeuronClock;
+import edu.colorado.phet.neuron.controlpanel.RestingPotentialControlPanel;
 import edu.colorado.phet.neuron.model.AxonModel;
+import edu.colorado.phet.neuron.model.NeuronClock;
 import edu.colorado.phet.neuron.model.ParticlePosition;
 import edu.colorado.phet.neuron.model.ParticleType;
 import edu.colorado.phet.neuron.view.NeuronCanvas;
@@ -27,7 +27,7 @@ public class RestingPotentialModule extends PiccoloModule {
 
     private AxonModel model;
     private NeuronCanvas canvas;
-    private MembraneDiffusionControlPanel controlPanel;
+    private RestingPotentialControlPanel controlPanel;
     private PiccoloClockControlPanel clockControlPanel;
 
     //----------------------------------------------------------------------------
@@ -51,7 +51,7 @@ public class RestingPotentialModule extends PiccoloModule {
         setSimulationPanel( canvas );
 
         // Control Panel
-        controlPanel = new MembraneDiffusionControlPanel( this, parentFrame, model, canvas );
+        controlPanel = new RestingPotentialControlPanel( this, parentFrame, model, canvas );
         setControlPanel( controlPanel );
         
         // Clock controls
