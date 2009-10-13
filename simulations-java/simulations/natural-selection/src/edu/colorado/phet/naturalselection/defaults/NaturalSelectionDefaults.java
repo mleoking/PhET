@@ -29,7 +29,7 @@ public class NaturalSelectionDefaults {
     public static final Dimension VIEW_SIZE = new Dimension( 1014, 366 ); // the size of the background images
     public static final int DEFAULT_CLIMATE = NaturalSelectionModel.CLIMATE_EQUATOR;
     public static final int DEFAULT_SELECTION_FACTOR = NaturalSelectionModel.SELECTION_NONE;
-    public static final Dimension GENERATION_CHART_SIZE = new Dimension( 400, 250 );
+    public static final Dimension GENERATION_CHART_SIZE = new Dimension( 600, 400 );
     public static final Dimension BUNNY_STATS_SIZE = new Dimension( 550, 350 );
     public static final int BUNNY_BETWEEN_HOP_TIME = 50;
     public static final int BUNNY_HOP_TIME = 10;
