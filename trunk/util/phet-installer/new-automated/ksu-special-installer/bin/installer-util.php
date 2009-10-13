@@ -120,7 +120,8 @@
         // Write the timestamp into an HTML file that can be used to determine
         // the version of the sim installed.
         $version_info_file_name = RIPPED_TRANSLATED_WEBSITE_ROOT.VERSION_INFO_FILE_NAME;
-        $version_info_html = "<html>\n<body>\n\n<p>Timestamp: ".$time."</p>\n<p>Date: ".$date."</p>\n\n</body>\n</html>";
+        $version_info_html = "<html>\n<body>\n\n<p>Timestamp: ".$time."</p>\n<p>Date: ".$date.
+            "</p>\n<p>Distribution: ".DISTRIBUTION_TAG."</p>\n\n</body>\n</html>";
         file_put_contents_anywhere( $version_info_file_name, $version_info_html );
         
         // Write the timestamp to a temporary file so that we can use it later
