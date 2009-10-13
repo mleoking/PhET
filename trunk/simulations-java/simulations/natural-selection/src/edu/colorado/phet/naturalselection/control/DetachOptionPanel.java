@@ -1,10 +1,7 @@
 package edu.colorado.phet.naturalselection.control;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 import java.util.List;
@@ -97,7 +94,29 @@ public class DetachOptionPanel extends JPanel {
            will be removed again when reattached or closed
         */
 
-        updateButtonLocations();
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                updateButtonLocations();
+            }
+        } );
+
+        addComponentListener( new ComponentListener() {
+            public void componentResized( ComponentEvent componentEvent ) {
+                updateButtonLocations();
+            }
+
+            public void componentMoved( ComponentEvent componentEvent ) {
+
+            }
+
+            public void componentShown( ComponentEvent componentEvent ) {
+
+            }
+
+            public void componentHidden( ComponentEvent componentEvent ) {
+
+            }
+        } );
     }
 
     public void showDetachableChild() {
@@ -106,6 +125,8 @@ public class DetachOptionPanel extends JPanel {
         repaint();
         detachableChild.invalidate();
         validate();
+
+        updateButtonLocations();
     }
 
     public void showStaticChild() {
@@ -114,10 +135,14 @@ public class DetachOptionPanel extends JPanel {
         repaint();
         staticChild.invalidate();
         validate();
+
+        updateButtonLocations();
     }
 
     private void updateButtonLocations() {
-        buttonPanelPSwing.setOffset( 3, 3 );
+        double childWidth = detachableChild.getWidth();
+        double buttonsWidth = buttonPanelPSwing.getWidth();
+        buttonPanelPSwing.setOffset( childWidth - buttonsWidth - 3, 3 );
     }
 
     private void setWindowed() {
@@ -139,6 +164,23 @@ public class DetachOptionPanel extends JPanel {
             } );
         }
         updateButtonLocations();
+        dialogContentPane.addComponentListener( new ComponentListener() {
+            public void componentResized( ComponentEvent componentEvent ) {
+                updateButtonLocations();
+            }
+
+            public void componentMoved( ComponentEvent componentEvent ) {
+
+            }
+
+            public void componentShown( ComponentEvent componentEvent ) {
+
+            }
+
+            public void componentHidden( ComponentEvent componentEvent ) {
+
+            }
+        } );
     }
 
     private void createDialog() {
@@ -147,7 +189,7 @@ public class DetachOptionPanel extends JPanel {
         dialog.setResizable( true );
         dialogContentPane = new JPanel( new GridLayout( 1, 1 ) );
 
-        Dimension preferredSize = detachableChild.getPreferredSize();
+        Dimension preferredSize = new Dimension( 600, 400 );
         dialogContentPane.setSize( preferredSize );
         dialogContentPane.setPreferredSize( preferredSize );
         dialogContentPane.add( detachableChild );
@@ -198,6 +240,8 @@ public class DetachOptionPanel extends JPanel {
         for ( Listener listener : listeners ) {
             listener.onDock();
         }
+
+        updateButtonLocations();
     }
 
     /**
@@ -215,6 +259,8 @@ public class DetachOptionPanel extends JPanel {
         for ( Listener listener : listeners ) {
             listener.onUndock();
         }
+
+        updateButtonLocations();
     }
 
     /**
@@ -225,6 +271,8 @@ public class DetachOptionPanel extends JPanel {
         for ( Listener listener : listeners ) {
             listener.onClose();
         }
+
+        updateButtonLocations();
     }
 
     public void addListener( Listener listener ) {

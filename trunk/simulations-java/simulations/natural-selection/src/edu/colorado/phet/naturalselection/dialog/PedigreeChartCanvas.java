@@ -6,7 +6,6 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.naturalselection.NaturalSelectionApplication;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
-import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
 import edu.colorado.phet.naturalselection.model.Bunny;
 import edu.colorado.phet.naturalselection.view.PedigreeNode;
 import edu.umd.cs.piccolo.PNode;
@@ -26,8 +25,6 @@ public class PedigreeChartCanvas extends PhetPCanvas {
 
     public PedigreeChartCanvas() {
         super.setWorldTransformStrategy( new ConstantTransformStrategy( new AffineTransform() ) );
-
-        setPreferredSize( NaturalSelectionDefaults.GENERATION_CHART_SIZE );
 
         setBackground( NaturalSelectionApplication.accessibleColor( NaturalSelectionConstants.COLOR_GENERATION_CHART ) );
 
