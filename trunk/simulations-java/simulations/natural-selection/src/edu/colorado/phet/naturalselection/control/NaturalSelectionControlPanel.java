@@ -46,6 +46,7 @@ public class NaturalSelectionControlPanel extends JPanel {
         this.setLayout( layout );
 
         // build all of the panels
+        switcherPanel = new SwitcherPanel();
         climatePanel = new ClimatePanel();
         selectionPanel = new SelectionPanel();
         PiccoloClockControlPanel clockControlPanel = new PiccoloClockControlPanel( module.getClock() );
@@ -58,7 +59,6 @@ public class NaturalSelectionControlPanel extends JPanel {
         logoPanel.setBackground( NaturalSelectionConstants.COLOR_ACCESSIBLE_CONTROL_PANEL );
         pedigreeChart = new PedigreeChartCanvas();
         detachPanel = new DetachOptionPanel( NaturalSelectionStrings.PEDIGREE_CHART, pedigreeChart, bunnyStatsPanel );
-        switcherPanel = new SwitcherPanel();
 
         // the uglier layout code
 
@@ -83,17 +83,9 @@ public class NaturalSelectionControlPanel extends JPanel {
         rightConstraints.gridx = 3;
         rightConstraints.gridy = 0;
         rightConstraints.anchor = GridBagConstraints.NORTHEAST;
-        rightConstraints.gridheight = 1;
+        rightConstraints.gridheight = 2;
         rightConstraints.insets = new Insets( 10, 10, 10, 10 );
         add( rightPanel, rightConstraints );
-
-        GridBagConstraints logoConstraints = new GridBagConstraints();
-        logoConstraints.gridx = 3;
-        logoConstraints.gridy = 1;
-        logoConstraints.anchor = GridBagConstraints.SOUTHEAST;
-        logoConstraints.gridheight = 1;
-        logoConstraints.insets = new Insets( 5, 5, 5, 5 );
-        add( logoPanel, logoConstraints );
 
         // space will be padded equally on each side of the clock
         GridBagConstraints clockPanelConstraints = new GridBagConstraints();
@@ -104,13 +96,13 @@ public class NaturalSelectionControlPanel extends JPanel {
         clockPanelConstraints.anchor = GridBagConstraints.SOUTH;
         add( clockControlPanel, clockPanelConstraints );
 
-        GridBagConstraints switcherConstraints = new GridBagConstraints();
-        switcherConstraints.gridx = 2;
-        switcherConstraints.gridy = 1;
-        switcherConstraints.weightx = 0.0;
-        switcherConstraints.weighty = 0.0;
-        switcherConstraints.anchor = GridBagConstraints.EAST;
-        add( switcherPanel, switcherConstraints );
+        GridBagConstraints logoConstraints = new GridBagConstraints();
+        logoConstraints.gridx = 2;
+        logoConstraints.gridy = 1;
+        logoConstraints.weightx = 0.0;
+        logoConstraints.weighty = 0.0;
+        logoConstraints.anchor = GridBagConstraints.EAST;
+        add( logoPanel, logoConstraints );
 
         // color everything with the control panel's background color
         setBackground( NaturalSelectionConstants.COLOR_ACCESSIBLE_CONTROL_PANEL );
@@ -148,9 +140,11 @@ public class NaturalSelectionControlPanel extends JPanel {
     private void createRightPanel() {
         rightPanel = new JPanel();
         rightPanel.setLayout( new BoxLayout( rightPanel, BoxLayout.Y_AXIS ) );
+        rightPanel.add( selectionPanel );
+        rightPanel.add( Box.createRigidArea( new Dimension( 0, 10 ) ) );
         rightPanel.add( climatePanel );
         rightPanel.add( Box.createRigidArea( new Dimension( 0, 10 ) ) );
-        rightPanel.add( selectionPanel );
+        rightPanel.add( switcherPanel );
         rightPanel.add( Box.createRigidArea( new Dimension( 0, 10 ) ) );
 
         resetAllButton = new JButton( NaturalSelectionStrings.RESET_ALL );

@@ -4,6 +4,7 @@ import java.awt.*;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.naturalselection.NaturalSelectionConstants;
 import edu.colorado.phet.naturalselection.NaturalSelectionStrings;
 import edu.colorado.phet.naturalselection.defaults.NaturalSelectionDefaults;
@@ -49,6 +50,7 @@ public class SelectionPanel extends JPanel {
         noneButton = new JRadioButton( NaturalSelectionStrings.NONE );
 
         JLabel label = new JLabel( NaturalSelectionStrings.SELECTION_FACTOR );
+        label.setFont( new PhetFont( 12, true ) );
 
         wolvesPanel.setAlignmentX( Component.LEFT_ALIGNMENT );
         foodPanel.setAlignmentX( Component.LEFT_ALIGNMENT );
@@ -56,6 +58,7 @@ public class SelectionPanel extends JPanel {
         noneButton.setAlignmentX( Component.LEFT_ALIGNMENT );
 
         add( label );
+        add( Box.createRigidArea( new Dimension( 5, 2 ) ) );
         add( wolvesPanel );
         add( foodPanel );
         add( noneButton );

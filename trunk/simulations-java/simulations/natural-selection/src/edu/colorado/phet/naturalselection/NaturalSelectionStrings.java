@@ -35,6 +35,7 @@ public class NaturalSelectionStrings {
     public static final String HEREDITY = NaturalSelectionResources.getString( "natural-selection.heredity" );
     public static final String ADD_A_FRIEND = NaturalSelectionResources.getString( "natural-selection.addAFriend" );
     public static final String MUTATION_COMING = NaturalSelectionResources.getString( "natural-selection.mutationComing" );
+    public static final String CHART = NaturalSelectionResources.getString( "natural-selection.chart" );
 
     public static final String GENE_COLOR_NAME = NaturalSelectionResources.getString( "natural-selection.gene.color.name" );
     public static final String GENE_COLOR_WHITE = NaturalSelectionResources.getString( "natural-selection.gene.color.white" );
