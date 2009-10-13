@@ -41,8 +41,8 @@
         ripper_remove_website_copy();
 
         // Rip the web site.
-        //ripper_rip_website();
-        ripper_rip_website_subset();
+        ripper_rip_website();
+        //ripper_rip_website_subset();
         ripper_download_sims();
 
         // Make sure permissions of the ripped website are correct.
@@ -67,16 +67,20 @@
         }
         system("wget -P ".CSS_APPEND_FILES_DIR." http://phetsims.colorado.edu/css/installer-append/home-installer-v1.css");
         system("wget -P ".CSS_APPEND_FILES_DIR." http://phetsims.colorado.edu/css/installer-append/navmenu-installer-v1.css");
+        system("wget -P ".CSS_APPEND_FILES_DIR." http://phetsims.colorado.edu/css/installer-append/simulation-main-v1.css");
 
         // Back up the CSS files that will be manipulated, then append some
         // commands that will make certain links disappear (e.g. the "Download"
         // button on the sim page) within the local installers.
         copy(CSS_DIR."home-v1.css", CSS_DIR."home-v1-backup.css");
         copy(CSS_DIR."navmenu-v1.css", CSS_DIR."navmenu-v1-backup.css");
+        copy(CSS_DIR."simulation-main-v1.css", CSS_DIR."simulation-main-backup.css");
         file_append_line_to_file(CSS_DIR."home-v1.css", "\n");
         file_append_file_to_file(CSS_DIR."home-v1.css", CSS_APPEND_FILES_DIR."home-installer-v1.css");
         file_append_line_to_file(CSS_DIR."navmenu-v1.css", "\n");
         file_append_file_to_file(CSS_DIR."navmenu-v1.css", CSS_APPEND_FILES_DIR."navmenu-installer-v1.css");
+        file_append_line_to_file(CSS_DIR."simulation-main-v1.css", "\n");
+        file_append_file_to_file(CSS_DIR."simulation-main-v1.css", CSS_APPEND_FILES_DIR."simulation-main-v1.css");
 
         // Build the full set of local mirror installers.
         installer_build_local_mirror_installers();
@@ -96,6 +100,7 @@
         // Restore the orignal CSS files.
         rename(CSS_DIR."home-v1-backup.css", CSS_DIR."home-v1.css");
         rename(CSS_DIR."navmenu-v1-backup.css", CSS_DIR."navmenu-v1.css");
+        rename(CSS_DIR."simulation-main-v1-backup.css", CSS_DIR."simulation-main-v1.css");
 
         // Build the web mirror installer, meaning an installer that can be
         // used to set up a remotely hosted copy of the web site.
