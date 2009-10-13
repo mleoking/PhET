@@ -33,22 +33,16 @@ public class ReactantQuantitySliderNode extends PNode {
     //----------------------------------------------------------------------------
     
     // Track
-    private static final float TRACK_STROKE_WIDTH = 1f;
-    private static final Stroke TRACK_STROKE = new BasicStroke( TRACK_STROKE_WIDTH );
+    private static final Stroke TRACK_STROKE = new BasicStroke( 1f );
     private static final Color TRACK_STROKE_COLOR = Color.BLACK;
-    private static final Color TRACK_FILL_COLOR = Color.WHITE;
+    private static final Color TRACK_BACKGROUND_COLOR = Color.WHITE;
+    private static final Color TRACK_FILL_COLOR = new Color( 165, 194, 228 ); // light blue
     
     // Knob
-    private static final int KNOB_STROKE_WIDTH = 1;
-    private static final Stroke KNOB_STROKE = new BasicStroke( KNOB_STROKE_WIDTH );
-    private static final Color KNOB_FILL_COLOR = new Color( 46, 107, 178 ); // blue
+    private static final Stroke KNOB_STROKE = new BasicStroke( 1f );
+    private static final Color KNOB_FILL_COLOR = new Color( 46, 107, 178 ); // dark blue
     private static final Color KNOB_STROKE_COLOR = Color.BLACK;
     
-    // Fill
-    private static final Stroke FILL_STROKE = TRACK_STROKE;
-    private static final Color FILL_STROKE_COLOR = TRACK_STROKE_COLOR;
-    private static final Color FILL_COLOR = new Color( 165, 194, 228 );
-
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -56,7 +50,6 @@ public class ReactantQuantitySliderNode extends PNode {
     private final IntegerRange range;
     private final TrackNode trackNode;
     private final KnobNode knobNode;
-    private final FillNode fillNode;
     private final ArrayList<ChangeListener> listeners;
     private double value;
     
@@ -69,24 +62,19 @@ public class ReactantQuantitySliderNode extends PNode {
         
         this.range = new IntegerRange( range );
         listeners = new ArrayList<ChangeListener>();
-            
+       
         trackNode = new TrackNode( trackSize );
         knobNode = new KnobNode( knobSize );
-        fillNode = new FillNode( trackSize );
         
         // Rendering order
         addChild( trackNode );
-        addChild( fillNode );
         addChild( knobNode );
         
         // Positions:
         // origin at the upper-left corner of the track
         trackNode.setOffset( 0, 0 );
-        // fill at same offset as track
-        fillNode.setOffset( trackNode.getOffset() );
         // knob overlaps the track
         knobNode.setOffset( trackNode.getFullBoundsReference().getCenterX() - ( knobNode.getFullBoundsReference().getWidth() / 2 ), 0 ); // y offset doesn't matter yet
-        // acid/base labels at top-left and bottom-left of track
         
         initInteractivity();
         
@@ -124,7 +112,7 @@ public class ReactantQuantitySliderNode extends PNode {
                 Point2D pKnobGlobal = new Point2D.Double( pMouseGlobal.getX(), pMouseGlobal.getY() - _globalClickYOffset );
                 Point2D pKnobLocal = ReactantQuantitySliderNode.this.globalToLocal( pKnobGlobal );
                 
-                // convert the offset to a pH value
+                // convert the offset to a value
                 double yOffset = pKnobLocal.getY();
                 double trackLength = trackNode.getFullBoundsReference().getHeight();
                 double value = range.getMin() + range.getLength() * ( trackLength - yOffset ) / trackLength;
@@ -169,7 +157,7 @@ public class ReactantQuantitySliderNode extends PNode {
             double xOffset = knobNode.getXOffset();
             double yOffset = trackNode.getFullBoundsReference().getHeight() * ( ( range.getMax() - value ) / range.getLength() );
             knobNode.setOffset( xOffset, yOffset );
-            fillNode.setFillHeight( trackNode.getFullBoundsReference().getHeight() - knobNode.getYOffset() );
+            trackNode.setFillHeight( trackNode.getFullBoundsReference().getHeight() - knobNode.getYOffset() );
             notifyChanged();
         }
     }
@@ -198,23 +186,87 @@ public class ReactantQuantitySliderNode extends PNode {
     //----------------------------------------------------------------------------
     
     /*
-     * The slider track, vertical orientation. 
-     * Origin is at the upper left corner.
+     * The slider track.
      */
     private static class TrackNode extends PNode {
+        
+        private final TrackFillNode fillNode;
+        
         public TrackNode( PDimension size ) {
             super();
             setPickable( false );
             setChildrenPickable( false );
             
+            // components
+            PNode backgroundNode = new TrackBackgroundNode( size );
+            fillNode = new TrackFillNode( size );
+            PNode strokeNode = new TrackStrokeNode( size );
+            
+            // rendering order
+            addChild( backgroundNode );
+            addChild( fillNode );
+            addChild( strokeNode );
+        }
+        
+        public void setFillHeight( double height ) {
+            fillNode.setFillHeight( height );
+        }
+    }
+    
+    /*
+     * Stroke that goes around the track.
+     * Origin is at the upper left corner.
+     */
+    private static class TrackStrokeNode extends PPath {
+        
+        public TrackStrokeNode( PDimension size ) {
+            super( new Rectangle2D.Double( 0, 0, size.getWidth(), size.getHeight() ) );
+            setStroke( TRACK_STROKE );
+            setStrokePaint( TRACK_STROKE_COLOR );
+            setPaint( null );
+        }
+    }
+    
+    /*
+     * The background part of the slider track. 
+     * Origin is at the upper left corner.
+     */
+    private static class TrackBackgroundNode extends PNode {
+        
+        public TrackBackgroundNode( PDimension size ) {
+            super();
             PPath pathNode = new PPath();
-            final double width = size.getWidth() - TRACK_STROKE_WIDTH;
-            final double height = size.getHeight() - TRACK_STROKE_WIDTH;
-            pathNode.setPathTo( new Rectangle2D.Double( 0, 0, width, height ) );
-            pathNode.setPaint( TRACK_FILL_COLOR );
-            pathNode.setStroke( TRACK_STROKE );
-            pathNode.setStrokePaint( TRACK_STROKE_COLOR );
+            pathNode.setPathTo( new Rectangle2D.Double( 0, 0, size.getWidth(), size.getHeight() ) );
+            pathNode.setPaint( TRACK_BACKGROUND_COLOR );
+            pathNode.setStroke( null );
             addChild( pathNode );
+        }
+    }
+    
+    /*
+     * The portion of the track below the knob, filled with a color.
+     */
+    private static class TrackFillNode extends PPath {
+
+        private final PDimension maxSize;
+        private final GeneralPath path;
+
+        public TrackFillNode( PDimension maxSize ) {
+            super();
+            this.maxSize = maxSize;
+            path = new GeneralPath();
+            setPaint( TRACK_FILL_COLOR );
+            setStroke( null );
+        }
+        
+        public void setFillHeight( double height ) {
+            path.reset();
+            path.moveTo( 0f, (float) maxSize.getHeight() );
+            path.lineTo( 0f, (float) ( maxSize.getHeight() - height ) );
+            path.lineTo( (float) maxSize.getWidth(), (float) ( maxSize.getHeight() - height ) );
+            path.lineTo( (float) maxSize.getWidth(), (float) maxSize.getHeight() );
+            path.closePath();
+            setPathTo( path );
         }
     }
     
@@ -223,6 +275,7 @@ public class ReactantQuantitySliderNode extends PNode {
      * Origin is at the knob's tip.
      */
     private static class KnobNode extends PNode {
+        
         public KnobNode( PDimension size ) {
 
             float w = (float) size.getWidth();
@@ -241,31 +294,6 @@ public class ReactantQuantitySliderNode extends PNode {
             pathNode.setStroke( KNOB_STROKE );
             pathNode.setStrokePaint( KNOB_STROKE_COLOR );
             addChild( pathNode );
-        }
-    }
-    
-    private static class FillNode extends PPath {
-
-        private final PDimension maxSize;
-        private final GeneralPath path;
-
-        public FillNode( PDimension maxSize ) {
-            super();
-            this.maxSize = maxSize;
-            path = new GeneralPath();
-            setPaint( FILL_COLOR );
-            setStroke( FILL_STROKE );
-            setStrokePaint( FILL_STROKE_COLOR );
-        }
-        
-        public void setFillHeight( double height ) {
-            path.reset();
-            path.moveTo( 0f, (float) maxSize.getHeight() );
-            path.lineTo( 0f, (float) ( maxSize.getHeight() - height ) );
-            path.lineTo( (float) maxSize.getWidth(), (float) ( maxSize.getHeight() - height ) );
-            path.lineTo( (float) maxSize.getWidth(), (float) maxSize.getHeight() );
-            path.closePath();
-            setPathTo( path );
         }
     }
     
