@@ -22,6 +22,7 @@ public class NaturalSelectionDefaults {
     public static double TICKS_PER_YEAR = 150.0;
     public static double SELECTION_TICK = TICKS_PER_YEAR / 4;
     public static final double FRENZY_TICKS = 15 * CLOCK_FRAME_RATE; // ie X seconds
+    public static final double FAMINE_TICKS = 3 * CLOCK_FRAME_RATE;
     public static final int BUNNIES_DIE_WHEN_THEY_ARE_THIS_OLD = 5;
     public static final boolean BUNNIES_BECOME_STERILE = false;
     public static final int BUNNIES_STERILE_WHEN_THIS_OLD = 2;

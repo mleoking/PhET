@@ -80,6 +80,14 @@ public class DeveloperSettingsPanel extends VerticalLayoutPanel {
             }
         } );
 
+        addSetting( new Setting( "famineTicks",
+                                 new SpinnerNumberModel( nsSettings.getFamineTicks(), 15 * 1, 15 * 50, 150 ),
+                                 "Maximum number of clock ticks per famine" ) {
+            public void apply() {
+                nsSettings.setFamineTicks( getDouble() );
+            }
+        } );
+
         addSetting( new Setting( "bunniesDieWhenThisOld",
                                  new SpinnerNumberModel( nsSettings.getBunniesDieWhenTheyAreThisOld(), 2, 12, 1 ),
                                  "As the title says, bunnies die when they get to this age." ) {

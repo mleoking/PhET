@@ -21,6 +21,7 @@ public class NaturalSelectionSettings {
     private double selectionTick = NaturalSelectionDefaults.SELECTION_TICK;
     private double maxKillFraction = NaturalSelectionDefaults.MAX_KILL_FRACTION;
     private double frenzyTicks = NaturalSelectionDefaults.FRENZY_TICKS;
+    private double famineTicks = NaturalSelectionDefaults.FAMINE_TICKS;
 
     private int bunniesDieWhenTheyAreThisOld = NaturalSelectionDefaults.BUNNIES_DIE_WHEN_THEY_ARE_THIS_OLD;
 
@@ -330,5 +331,13 @@ public class NaturalSelectionSettings {
 
     public void setMutatingBunnyPerBunnies( int mutatingBunnyPerBunnies ) {
         this.mutatingBunnyPerBunnies = mutatingBunnyPerBunnies;
+    }
+
+    public double getFamineTicks() {
+        return famineTicks;
+    }
+
+    public void setFamineTicks( double famineTicks ) {
+        this.famineTicks = famineTicks;
     }
 }
