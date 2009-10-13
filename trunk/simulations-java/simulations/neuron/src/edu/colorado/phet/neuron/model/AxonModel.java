@@ -523,8 +523,11 @@ public class AxonModel {
     	// Choose any angle.
     	double angle = RAND.nextDouble() * Math.PI * 2;
     	
-    	// Choose a distance.
-    	double distance = RAND.nextDouble() * crossSectionInnerRadius - particle.getDiameter();
+    	// Choose a distance.  This is calculated so that there is a higher
+    	// tendency to be towards the outside, otherwise things look too
+    	// concentrated in the middle.
+    	double skewedRand = -Math.pow(RAND.nextDouble() - 1, 2) + 1;
+    	double distance = skewedRand * crossSectionInnerRadius - particle.getDiameter();
     	
     	/*
     	 * TODO: The code below was used prior to 10/9/2009, which is when it
