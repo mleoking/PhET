@@ -1,3 +1,4 @@
+10/13/09 support for up/down arrows in reactant quantity text fields
 10/13/09 bar + value display for products and leftovers
 10/13/09 proper handling of out-of-range values in spinners and text fields
 10/13/09 textfield + custom slider for setting reactant quantities

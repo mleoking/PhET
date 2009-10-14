@@ -3,10 +3,7 @@ package edu.colorado.phet.reactantsproductsandleftovers.controls;
 
 import java.awt.Color;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
+import java.awt.event.*;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 
@@ -37,7 +34,7 @@ public class IntegerTextFieldNode extends PhetPNode {
     private final JTextField textField;
     private int value;
 
-    public IntegerTextFieldNode( IntegerRange range, PhetFont font ) {
+    public IntegerTextFieldNode( final IntegerRange range, PhetFont font ) {
         super();
         addInputEventListener( new CursorHandler() );
         
@@ -71,6 +68,20 @@ public class IntegerTextFieldNode extends PhetPNode {
                 commit();
             } 
         });
+        textField.addKeyListener( new KeyAdapter() {
+            public void keyPressed(KeyEvent e) {
+                if ( e.getKeyCode() == KeyEvent.VK_UP ) {
+                    if ( value < range.getMax() ) {
+                        setValue( value + 1 );
+                    }
+                }
+                else if ( e.getKeyCode() == KeyEvent.VK_DOWN ) {
+                    if ( value > range.getMin() ) {
+                        setValue( value - 1 );
+                    }
+                }
+            }
+        });
         
         addChild( new PSwing( textField ) );
     }
@@ -82,6 +93,7 @@ public class IntegerTextFieldNode extends PhetPNode {
         if ( value != this.value ) {
             this.value = value;
             textField.setText( String.valueOf( value ) );
+            fireStateChanged();
         }
     }
     
