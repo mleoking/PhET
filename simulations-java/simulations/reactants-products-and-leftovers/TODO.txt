@@ -1,10 +1,12 @@
 # TODO list for reactants-products-and-leftovers
 
-- store coefficients, quantities, range, image with reactant and product model elements
+- store coefficients, quantities, range, image, location with reactant and product model elements
 - generalize formula to take any number of reactants and products
+- generalize Before to assemble any number of controls
+- generalize After to assemble any number of displays
 - keep leftovers in same position in Before and After boxes
 - improve algorithm for putting images in Before and After boxes to minimize overlap
 - general algorithm for creating a sandwich image from sandwich formula in SandwichNode
 - general algorithm for calculating number of products
-- highlight when mouseOver and dragging reactant quantity sliders
+- highlight reactant quantity sliders on mouseOver and drag
 - use rounding instead of trunc for snapping reactant quantity sliders
