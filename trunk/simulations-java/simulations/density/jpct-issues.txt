@@ -1,1 +1,3 @@
 requires floats everywhere
+angle units are not documented
+Camera up vector seems to flip each time you set/get it.
