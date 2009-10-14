@@ -89,6 +89,7 @@
 	<classpathentry kind="lib" path="simulations-java/contrib/jmonkeyengine/lib/lwjgl/lwjgl.jar"/>
 	<classpathentry kind="lib" path="simulations-java/contrib/jmonkeyengine/lib/lwjgl/lwjgl_util.jar"/>
 	<classpathentry kind="lib" path="simulations-java/contrib/jmonkeyengine/lib/lwjgl/lwjgl_util_applet.jar"/>
+    <classpathentry kind="lib" path="simulations-java/contrib/jPCT/jpct.jar"/>
 	<classpathentry kind="lib" path="simulations-java/contrib/JSci/classes/jsci-core.jar"/>
 	<classpathentry kind="lib" path="simulations-java/contrib/junit/junit.jar"/>
 	<classpathentry kind="lib" path="simulations-java/contrib/nanoxml/nanoxml.jar"/>
