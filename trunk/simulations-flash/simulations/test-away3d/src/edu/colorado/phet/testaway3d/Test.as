@@ -91,8 +91,8 @@
 			camera.hover();
 			
 			//renderer = Renderer.BASIC;
-			//renderer = Renderer.CORRECT_Z_ORDER;
-			renderer = Renderer.INTERSECTING_OBJECTS;
+			renderer = Renderer.CORRECT_Z_ORDER;
+			//renderer = Renderer.INTERSECTING_OBJECTS;
 			//renderer = new QuadrantRenderer();
 			
 			view = new View3D({scene:scene, camera:camera, renderer:renderer});
@@ -247,6 +247,7 @@
 		private var time : int = 0;
 		
 		public function onEnterFrame(event:Event):void {			
+			test.stage.quality = StageQuality.LOW;
 			//if( invalid ) {
 				//invalid = false;
 				view.render();
@@ -254,7 +255,7 @@
 			
 			var curTime : int = getTimer();
 			var fps : int = 1000 / (curTime - time);
-			fpsText.text = String( fps ) + " fps (limit 24)";
+			fpsText.text = String( fps ) + " fps (limit 24) sort";
 			if( fps > 20 ) {
 				fpsText.backgroundColor = 0x00FF00;
 			} else if( fps > 15 ) {
