@@ -80,49 +80,6 @@ public class AxonModel {
 				handleClockTicked(clockEvent);
 			}
         });
-        
-        // Add the particles.
-        // TODO: This is probably not correct, but for now assume that
-        // the concentration of Na and K is equal and that both are equally
-        // distributed inside and outside of the membrane.
-        /*
-        int i = TOTAL_INITIAL_PARTICLES;
-        Particle newParticle;
-        while (true){
-        	newParticle = new PotassiumIon();
-        	positionParticleInsideMembrane(newParticle);
-        	particles.add(newParticle);
-        	concentrationTracker.updateParticleCount(ParticleType.POTASSIUM_ION, ParticlePosition.INSIDE_MEMBRANE, 1);
-        	i--;
-        	if (i == 0){
-        		break;
-        	}
-        	newParticle = new SodiumIon();
-        	positionParticleInsideMembrane(newParticle);
-        	particles.add(newParticle);
-        	concentrationTracker.updateParticleCount(ParticleType.SODIUM_ION, ParticlePosition.INSIDE_MEMBRANE, 1);
-        	i--;
-        	if (i == 0){
-        		break;
-        	}
-        	newParticle = new PotassiumIon();
-        	positionParticleOutsideMembrane(newParticle);
-        	particles.add(newParticle);
-        	concentrationTracker.updateParticleCount(ParticleType.POTASSIUM_ION, ParticlePosition.OUTSIDE_MEMBRANE, 1);
-        	i--;
-        	if (i == 0){
-        		break;
-        	}
-        	newParticle = new SodiumIon();
-        	positionParticleOutsideMembrane(newParticle);
-        	particles.add(newParticle);
-        	concentrationTracker.updateParticleCount(ParticleType.SODIUM_ION, ParticlePosition.OUTSIDE_MEMBRANE, 1);
-        	i--;
-        	if (i == 0){
-        		break;
-        	}
-        }
-        */
     }
     
     //----------------------------------------------------------------------------
@@ -201,6 +158,39 @@ public class AxonModel {
     	// the target proportions.
     	setConcentration(ParticleType.SODIUM_ION, 0.5);
     	setConcentration(ParticleType.POTASSIUM_ION, 0.5);
+    }
+    
+    /**
+     * Get the potential between the outside and the inside of the membrane in
+     * terms of quantized charge.
+     * 
+     * @return
+     */
+    public int getQuantizedMembranePotential(){
+    	
+    	int quantizedInsideCharge = 0;
+    	int quantizedOutsideCharge = 0;
+    	
+    	for (Particle particle : particles){
+    		if (isParticleInside(particle)){
+    			quantizedInsideCharge += particle.getCharge();
+    		}
+    		else{
+    			quantizedOutsideCharge += particle.getCharge();
+    		}
+    	}
+    	
+    	// Add in the charges from any particles that are in channels.  Note
+    	// that particles that are in channels are assumed to be inside the
+    	// membrane.
+    	for (AbstractMembraneChannel channel : channels){
+    		ArrayList<Particle> particlesInChannel = channel.getOwnedAtomsRef();
+        	for (Particle particle : particlesInChannel){
+       			quantizedInsideCharge += particle.getCharge();
+        	}
+    	}
+    	
+    	return quantizedInsideCharge - quantizedOutsideCharge;
     }
     
     /**
