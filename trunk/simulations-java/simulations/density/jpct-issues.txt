@@ -1,3 +1,15 @@
 requires floats everywhere
 angle units are not documented
 Camera up vector seems to flip each time you set/get it.
+
+I asked for permission to use proguard to shrink jpct.jar in this thread:
+http://www.jpct.net/forum2/index.php/topic,1201.0.html
+
+    Could I also have permission to use Proguard's shrinking feature on jpct.jar?  It's an essential part of our toolchain, and we need to minimize the size of our resulting jars.  I know others have reported some problems with using this (see above), but I didn't want to try without permission.
+
+    Thanks,
+    Sam Reid
+
+Received this response from EgonOlson, an administrator, on 10-14-2009 at 05:59:21 am:
+
+    The license allow you to obfuscate/repack the jar...so feel free to do so.
