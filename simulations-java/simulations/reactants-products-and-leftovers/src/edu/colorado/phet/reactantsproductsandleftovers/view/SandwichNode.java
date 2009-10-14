@@ -1,5 +1,7 @@
 package edu.colorado.phet.reactantsproductsandleftovers.view;
 
+import java.util.ArrayList;
+
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -29,41 +31,68 @@ public class SandwichNode extends PComposite {
         
         removeAllChildren();
         
+        // create nodes
+        ArrayList<BreadNode> breadNodes = new ArrayList<BreadNode>();
+        for ( int i = 0; i < sandwichFormula.getBread(); i++ ) {
+            breadNodes.add( new BreadNode() );
+        }
+        ArrayList<MeatNode> meatNodes = new ArrayList<MeatNode>();
+        for ( int i = 0; i < sandwichFormula.getMeat(); i++ ) {
+            meatNodes.add( new MeatNode() );
+        }
+        ArrayList<CheeseNode> cheeseNodes = new ArrayList<CheeseNode>();
+        for ( int i = 0; i < sandwichFormula.getCheese(); i++ ) {
+            cheeseNodes.add( new CheeseNode() );
+        }
+        
+        // save one piece of bread for the top
+        BreadNode topBreadNode = null;
+        if ( breadNodes.size() > 1 ) {
+            topBreadNode = breadNodes.remove( 0 );
+        }
+        
+        // stack ingredients, starting with bread, alternating ingredients
+        PNode previousNode = null;
+        int max = Math.max( breadNodes.size(), Math.max( meatNodes.size(), cheeseNodes.size() ) );
+        for ( int i = 0; i < max; i++ ) {
+            // bread
+            if ( breadNodes.size() > 0 ) {
+                PNode node = breadNodes.remove( 0 );
+                addChild( node );
+                stackNode( node, previousNode );
+                previousNode = node;
+            }
+            // meat
+            if ( meatNodes.size() > 0 ) {
+                PNode node = meatNodes.remove( 0 );
+                addChild( node );
+                stackNode( node, previousNode );
+                previousNode = node;
+            }
+            // cheese
+            if ( cheeseNodes.size() > 0 ) {
+                PNode node = cheeseNodes.remove( 0 );
+                addChild( node );
+                stackNode( node, previousNode );
+                previousNode = node;
+            }
+        }
+        
+        // top bread
+        if ( topBreadNode != null ) {
+            addChild( topBreadNode );
+            stackNode( topBreadNode, previousNode );
+        }
+        
+    }
+    
+    private void stackNode( PNode node, PNode previousNode ) {
         double x = 0;
         double y = 0;
-        PNode previousNode = null;
-        
-        for ( int i = 0; i < sandwichFormula.getBread(); i++ ) {
-            PNode node = new BreadNode();
-            addChild( node );
-            if ( previousNode != null ) {
-                x = previousNode.getFullBoundsReference().getCenterX() - ( node.getFullBoundsReference().getWidth() / 2 );
-            }
-            node.setOffset( x, y );
-            y -= Y_SPACING;
-            previousNode = node;
+        if ( previousNode != null ) {
+            x = previousNode.getFullBoundsReference().getCenterX() - ( node.getFullBoundsReference().getWidth() / 2 );
+            y = previousNode.getYOffset() - Y_SPACING;
         }
-        
-        for ( int i = 0; i < sandwichFormula.getMeat(); i++ ) {
-            PNode node = new MeatNode();
-            addChild( node );
-            if ( previousNode != null ) {
-                x = previousNode.getFullBoundsReference().getCenterX() - ( node.getFullBoundsReference().getWidth() / 2 );
-            }
-            node.setOffset( x, y );
-            y -= Y_SPACING;
-            previousNode = node;
-        }
-        
-        for ( int i = 0; i < sandwichFormula.getCheese(); i++ ) {
-            PNode node = new CheeseNode();
-            addChild( node );
-            if ( previousNode != null ) {
-                x = previousNode.getFullBoundsReference().getCenterX() - ( node.getFullBoundsReference().getWidth() / 2 );
-            }
-            node.setOffset( x, y );
-            y -= Y_SPACING;
-            previousNode = node;
-        }
+        node.setOffset( x, y );
     }
 }
