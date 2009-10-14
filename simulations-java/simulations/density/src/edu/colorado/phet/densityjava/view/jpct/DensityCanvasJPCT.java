@@ -117,10 +117,10 @@ public class DensityCanvasJPCT extends PhetPCanvas {
 
         //for use with camera steering, see below
         Vector3f location = new Vector3f(4.2810082f, 7.02f, 10.8f), direction = new Vector3f(0.0f, -0.19007912f, -0.9817688f), up = new Vector3f(0.0f, 0.975561f, -0.21972877f);
-        world.getCamera().setPosition(location.x, location.y, location.z + 10);
+        world.getCamera().setPosition(location.x, location.y, location.z );
 //        world.getCamera().lookAt(new SimpleVector(direction.x,direction.y,direction.z));
-        world.getCamera().setOrientation(new SimpleVector(direction.x, direction.y, direction.z), new SimpleVector(up.x, up.y, up.z));
-        world.getCamera().rotateCameraZ((float) Math.PI);
+        world.getCamera().setOrientation(new SimpleVector(direction.x, direction.y, direction.z), new SimpleVector(up.x, -up.y, up.z));
+//        world.getCamera().rotateCameraZ((float) Math.PI);
         requestFocus();
         addKeyListener(new KeyListener() {
             public void keyTyped(KeyEvent e) {
@@ -131,7 +131,12 @@ public class DensityCanvasJPCT extends PhetPCanvas {
                 SimpleVector d = getDelta(e);
                 if (e.isControlDown()) {
                     d.add(world.getCamera().getDirection());
-                    world.getCamera().setOrientation(d, world.getCamera().getUpVector());
+                    System.out.println("world.getCamera().getUpVector() = " + world.getCamera().getUpVector());
+                    SimpleVector newUP = new SimpleVector();
+                    newUP.add(world.getCamera().getUpVector());
+                    newUP.scalarMul(-1);
+                    world.getCamera().setOrientation(d, newUP);
+//                    world.getCamera().setOrientation(d, world.getCamera().getUpVector());
                 } else {
                     d.add(world.getCamera().getPosition());
                     world.getCamera().setPosition(d);
@@ -139,7 +144,7 @@ public class DensityCanvasJPCT extends PhetPCanvas {
             }
 
             private SimpleVector getDelta(KeyEvent e) {
-                float dx = (float) 0.3;
+                float dx = (float) ((float) 0.3/2.0);
                 if (e.getKeyCode() == KeyEvent.VK_LEFT) {
                     return new SimpleVector(dx, 0, 0);
                 } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
