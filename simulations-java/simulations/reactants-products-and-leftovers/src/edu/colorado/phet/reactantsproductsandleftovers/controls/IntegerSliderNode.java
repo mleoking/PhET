@@ -7,7 +7,6 @@ import java.awt.Color;
 import java.awt.Stroke;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import javax.swing.event.ChangeEvent;
@@ -33,12 +32,6 @@ public class IntegerSliderNode extends PNode {
     // Class data
     //----------------------------------------------------------------------------
     
-    // Track
-    private static final Stroke TRACK_STROKE = new BasicStroke( 1f );
-    private static final Color TRACK_STROKE_COLOR = Color.BLACK;
-    private static final Color TRACK_BACKGROUND_COLOR = Color.WHITE;
-    private static final Color TRACK_FILL_COLOR = new Color( 165, 194, 228 ); // light blue
-    
     // Knob
     private static final Stroke KNOB_STROKE = new BasicStroke( 1f );
     private static final Color KNOB_FILL_COLOR = new Color( 46, 107, 178 ); // dark blue
@@ -49,7 +42,7 @@ public class IntegerSliderNode extends PNode {
     //----------------------------------------------------------------------------
     
     private final IntegerRange range;
-    private final TrackNode trackNode;
+    private final IntegerHistogramBarNode trackNode;
     private final KnobNode knobNode;
     private final ArrayList<ChangeListener> listeners;
     private int value;
@@ -64,7 +57,7 @@ public class IntegerSliderNode extends PNode {
         this.range = new IntegerRange( range );
         listeners = new ArrayList<ChangeListener>();
        
-        trackNode = new TrackNode( trackSize );
+        trackNode = new IntegerHistogramBarNode( range, trackSize );
         knobNode = new KnobNode( knobSize );
         
         // Rendering order
@@ -155,18 +148,14 @@ public class IntegerSliderNode extends PNode {
      * 
      * @param value
      */
-    public void setValue( int value ) {
-        setValue( (double) value );
-    }
-    
-    private void setValue( double value ) {
+    public void setValue( double value ) {
         if ( !range.contains( value ) ) {
             throw new IllegalArgumentException( "value is out of range: " + value );
         }
         if ( value != this.value ) {
             this.value = (int) value;
             moveKnobTo( value );
-            trackNode.setFillHeight( trackNode.getFullBoundsReference().getHeight() - knobNode.getYOffset() );
+            trackNode.setValue( value );
             fireStateChanged();
         }
     }
@@ -177,113 +166,9 @@ public class IntegerSliderNode extends PNode {
         knobNode.setOffset( xOffset, yOffset );
     }
     
-    /**
-     * Enables and disables the slider.
-     * 
-     * @param enabled
-     */
-    public void setEnabled( boolean enabled ) {
-        knobNode.setVisible( enabled );
-    }
-
-    /**
-     * Is this slider enabled?
-     * It's enabled if the knob is visible.
-     * 
-     * @return
-     */
-    public boolean isEnabled() {
-        return knobNode.getVisible();
-    }
-    
     //----------------------------------------------------------------------------
     // Inner classes
     //----------------------------------------------------------------------------
-    
-    /*
-     * The slider track.
-     */
-    private static class TrackNode extends PNode {
-        
-        private final TrackFillNode fillNode;
-        
-        public TrackNode( PDimension size ) {
-            super();
-            setPickable( false );
-            setChildrenPickable( false );
-            
-            // components
-            PNode backgroundNode = new TrackBackgroundNode( size );
-            fillNode = new TrackFillNode( size );
-            PNode strokeNode = new TrackStrokeNode( size );
-            
-            // rendering order
-            addChild( backgroundNode );
-            addChild( fillNode );
-            addChild( strokeNode );
-        }
-        
-        public void setFillHeight( double height ) {
-            fillNode.setFillHeight( height );
-        }
-    }
-    
-    /*
-     * Stroke that goes around the track.
-     * Origin is at the upper left corner.
-     */
-    private static class TrackStrokeNode extends PPath {
-        
-        public TrackStrokeNode( PDimension size ) {
-            super( new Rectangle2D.Double( 0, 0, size.getWidth(), size.getHeight() ) );
-            setStroke( TRACK_STROKE );
-            setStrokePaint( TRACK_STROKE_COLOR );
-            setPaint( null );
-        }
-    }
-    
-    /*
-     * The background part of the slider track. 
-     * Origin is at the upper left corner.
-     */
-    private static class TrackBackgroundNode extends PNode {
-        
-        public TrackBackgroundNode( PDimension size ) {
-            super();
-            PPath pathNode = new PPath();
-            pathNode.setPathTo( new Rectangle2D.Double( 0, 0, size.getWidth(), size.getHeight() ) );
-            pathNode.setPaint( TRACK_BACKGROUND_COLOR );
-            pathNode.setStroke( null );
-            addChild( pathNode );
-        }
-    }
-    
-    /*
-     * The portion of the track below the knob, filled with a color.
-     */
-    private static class TrackFillNode extends PPath {
-
-        private final PDimension maxSize;
-        private final GeneralPath path;
-
-        public TrackFillNode( PDimension maxSize ) {
-            super();
-            this.maxSize = maxSize;
-            path = new GeneralPath();
-            setPaint( TRACK_FILL_COLOR );
-            setStroke( null );
-        }
-        
-        public void setFillHeight( double height ) {
-            path.reset();
-            path.moveTo( 0f, (float) maxSize.getHeight() );
-            path.lineTo( 0f, (float) ( maxSize.getHeight() - height ) );
-            path.lineTo( (float) maxSize.getWidth(), (float) ( maxSize.getHeight() - height ) );
-            path.lineTo( (float) maxSize.getWidth(), (float) maxSize.getHeight() );
-            path.closePath();
-            setPathTo( path );
-        }
-    }
     
     /*
      * The slider knob, points to the left.

@@ -7,6 +7,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -27,7 +28,7 @@ public class ReactantQuantityControlNode extends PhetPNode {
         
         listeners = new ArrayList<ChangeListener>();
         sliderNode = new IntegerSliderNode(range, SLIDER_TRACK_SIZE, SLIDER_KNOB_SIZE );
-        textFieldNode = new IntegerTextFieldNode( range );
+        textFieldNode = new IntegerTextFieldNode( range, new PhetFont( 22 ) );
         
         sliderListener = new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {

@@ -1,5 +1,7 @@
 # TODO list for reactants-products-and-leftovers
 
+- store coefficients, quantities, range, image with reactant and product model elements
+- generalize formula to take any number of reactants and products
 - keep leftovers in same position in Before and After boxes
 - improve algorithm for putting images in Before and After boxes to minimize overlap
 - investigate showing leftover quantities below After box

@@ -24,6 +24,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 public class SandwichShopBeforeNode extends PhetPNode {
     
     private static final PDimension BOX_SIZE = new PDimension( 400, 300 );
+    private static final double CONTROLS_X_SPACING = 30;
     private static final double X_MARGIN = 10;
     private static final double Y_MARGIN = 10;
     private static final double REACTANTS_SCALE = 0.5; //XXX
@@ -63,9 +64,9 @@ public class SandwichShopBeforeNode extends PhetPNode {
         
         PNode controlsNode = new PNode();
         addChild( controlsNode );
-        BreadQuantityControlNode breadControlNode = new BreadQuantityControlNode( model );
-        MeatQuantityControlNode meatControlNode = new MeatQuantityControlNode( model );
-        CheeseQuantityControlNode cheeseControlNode = new CheeseQuantityControlNode( model );
+        PNode breadControlNode = new BreadQuantityControlNode( model );
+        PNode meatControlNode = new MeatQuantityControlNode( model );
+        PNode cheeseControlNode = new CheeseQuantityControlNode( model );
         controlsNode.addChild( breadControlNode );
         controlsNode.addChild( meatControlNode );
         controlsNode.addChild( cheeseControlNode );
@@ -73,7 +74,7 @@ public class SandwichShopBeforeNode extends PhetPNode {
         double meatWidth = meatControlNode.getFullBoundsReference().getWidth();
         double cheeseWidth = cheeseControlNode.getFullBoundsReference().getWidth();
         double maxWidth = Math.max( breadWidth, Math.max( meatWidth, cheeseWidth ) );
-        double deltaX = maxWidth + 20;
+        double deltaX = maxWidth + CONTROLS_X_SPACING;
         breadControlNode.setOffset( 0, 0 );
         meatControlNode.setOffset( deltaX, 0 );
         cheeseControlNode.setOffset( 2 * deltaX, 0 );
