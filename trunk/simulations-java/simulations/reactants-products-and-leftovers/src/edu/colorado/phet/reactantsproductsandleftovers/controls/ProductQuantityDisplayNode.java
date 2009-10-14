@@ -16,6 +16,7 @@ public class ProductQuantityDisplayNode extends PComposite {
     
     private static final PDimension BAR_SIZE = new PDimension( 15, 75 );
     
+    private final IntegerRange range;
     private final IntegerHistogramBarNode barNode;
     private final PText valueNode;
     private final PNode imageNode;
@@ -23,8 +24,10 @@ public class ProductQuantityDisplayNode extends PComposite {
     public ProductQuantityDisplayNode( IntegerRange range, PNode imageNode, double imageScale ) {
         super();
         
+        this.range = range;
+        
         barNode = new IntegerHistogramBarNode( range, BAR_SIZE );
-        valueNode = new PText( String.valueOf( range.getMax() ) ); // use max for layout
+        valueNode = new PText(); 
         valueNode.setFont( new PhetFont( 22 ) );
         this.imageNode = imageNode;
         imageNode.scale( imageScale );
@@ -33,16 +36,13 @@ public class ProductQuantityDisplayNode extends PComposite {
         addChild( valueNode );
         addChild( imageNode );
         
-        double x = 0;
-        double y = 0;
-        barNode.setOffset( x, y );
-        x = barNode.getFullBoundsReference().getMinX() - valueNode.getFullBoundsReference().getWidth() - 2;
-        y = barNode.getFullBoundsReference().getMaxY() - valueNode.getFullBoundsReference().getHeight();
-        valueNode.setOffset( x, y );
-        x = barNode.getFullBoundsReference().getCenterX() - ( imageNode.getFullBoundsReference().getWidth() / 2 );
-        y = barNode.getFullBoundsReference().getMaxY() + 15;
-        imageNode.setOffset( x, y );
-        
+        valueNode.addPropertyChangeListener( new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent event ) {
+                if ( event.getPropertyName().equals( PROPERTY_FULL_BOUNDS ) ) {
+                    updateLayout();
+                }
+            }
+        });
         imageNode.addPropertyChangeListener( new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent event ) {
                 if ( event.getPropertyName().equals( PROPERTY_FULL_BOUNDS ) ) {
@@ -50,6 +50,8 @@ public class ProductQuantityDisplayNode extends PComposite {
                 }
             }
         });
+        
+        updateLayout();
         
         setValue( range.getDefault() );
     }
@@ -63,7 +65,7 @@ public class ProductQuantityDisplayNode extends PComposite {
         double x = 0;
         double y = 0;
         barNode.setOffset( x, y );
-        x = barNode.getFullBoundsReference().getMinX() - valueNode.getFullBoundsReference().getWidth() - 2;
+        x = barNode.getFullBoundsReference().getMinX() - valueNode.getFullBoundsReference().getWidth() - 6;
         y = barNode.getFullBoundsReference().getMaxY() - valueNode.getFullBoundsReference().getHeight();
         valueNode.setOffset( x, y );
         x = barNode.getFullBoundsReference().getCenterX() - ( imageNode.getFullBoundsReference().getWidth() / 2 );
