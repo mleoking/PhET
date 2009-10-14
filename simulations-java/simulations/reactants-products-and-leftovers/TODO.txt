@@ -8,5 +8,4 @@
 - improve algorithm for putting images in Before and After boxes to minimize overlap
 - general algorithm for creating a sandwich image from sandwich formula in SandwichNode
 - general algorithm for calculating number of products
-- highlight reactant quantity sliders on mouseOver and drag
 - use rounding instead of trunc for snapping reactant quantity sliders
