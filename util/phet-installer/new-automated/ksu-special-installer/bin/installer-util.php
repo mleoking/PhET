@@ -142,12 +142,9 @@
     // server.
     //-------------------------------------------------------------------------
     function installer_insert_distribution_tag($distribution_tag){
-        flushing_echo("--Entered installer_insert_distribution_tag, tag value = ".$distribution_tag);
 
         installer_insert_distribution_tag_flash($distribution_tag);
         installer_insert_distribution_tag_java($distribution_tag);
-
-        flushing_echo("--Exited installer_insert_distribution_tag");
     }
 
     //-------------------------------------------------------------------------
@@ -157,8 +154,6 @@
     // once they are changed.
     //-------------------------------------------------------------------------
     function installer_insert_distribution_tag_flash($distribution_tag){
-
-        flushing_echo("---Entered installer_insert_distribution_tag_flash");
 
         // Replace the distribution tag in all of the HTML files.
         $html_file_names = glob( RIPPED_WEBSITE_SIMS_PARENT_DIR.PHET_SIMS_SUBDIR."*/*.html" );
@@ -208,8 +203,6 @@
                 }
             }
         }
-
-        flushing_echo("---Exited installer_insert_distribution_tag_flash");
     }
 
     //-------------------------------------------------------------------------
@@ -217,7 +210,6 @@
     // must be put into the JAR files.
     //-------------------------------------------------------------------------
     function installer_insert_distribution_tag_java($distribution_tag){
-        flushing_echo("---Entered installer_insert_distribution_tag_java");
         $sim_dir_contents = glob( RIPPED_WEBSITE_SIMS_PARENT_DIR.PHET_SIMS_SUBDIR."*" );
         foreach ( $sim_dir_contents as $dir_or_file_name ) {
             if (is_dir($dir_or_file_name) && installer_is_java_sim($dir_or_file_name)){
@@ -248,7 +240,6 @@
                 }
             }
         }
-        flushing_echo("---Exited installer_insert_distribution_tag_java");
     }
 
     //-------------------------------------------------------------------------
