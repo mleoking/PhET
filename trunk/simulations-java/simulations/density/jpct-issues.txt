@@ -13,3 +13,7 @@ http://www.jpct.net/forum2/index.php/topic,1201.0.html
 Received this response from EgonOlson, an administrator, on 10-14-2009 at 05:59:21 am:
 
     The license allow you to obfuscate/repack the jar...so feel free to do so.
+
+Chris said on 10-14-2009
+It's somewhat disturbing that jPCT is using package name com.threed.jpct.
+The domain threed.com does not appear to be registered to them. 
