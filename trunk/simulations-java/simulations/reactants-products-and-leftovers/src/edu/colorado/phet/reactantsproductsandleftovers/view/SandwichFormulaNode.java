@@ -7,9 +7,11 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
+import edu.colorado.phet.reactantsproductsandleftovers.controls.BreadCoefficientSpinnerNode;
+import edu.colorado.phet.reactantsproductsandleftovers.controls.CheeseCoefficientSpinnerNode;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.IntegerSpinnerNode;
+import edu.colorado.phet.reactantsproductsandleftovers.controls.MeatCoefficientSpinnerNode;
 import edu.colorado.phet.reactantsproductsandleftovers.model.SandwichFormula;
-import edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop.SandwichShopDefaults;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -21,53 +23,38 @@ public class SandwichFormulaNode extends PhetPNode {
     private static final int Y_SPACING = 30;
     private static final double SWING_SCALE = 2.0; //XXX make this go away
     
-    private final SandwichFormula sandwichFormula;
+    private final SandwichFormula formula;
     private final IntegerSpinnerNode breadSpinnerNode, meatSpinnerNode, cheeseSpinnerNode;
     private final PText sandwichesCountNode;
     private final SandwichNode sandwichNode;
 
-    public SandwichFormulaNode( final SandwichFormula sandwichFormula ) {
+    public SandwichFormulaNode( final SandwichFormula formula ) {
         super();
         
-        this.sandwichFormula = sandwichFormula;
-        sandwichFormula.addChangeListener( new ChangeListener(){
+        this.formula = formula;
+        formula.addChangeListener( new ChangeListener(){
             public void stateChanged( ChangeEvent e ) {
                 update();
             } 
         });
         
         PText titleNode = new PText( RPALStrings.LABEL_SANDWICH_FORMULA );
-        titleNode.setFont( new PhetFont( 18 ) );
+        titleNode.setFont( new PhetFont( 14 ) );
         titleNode.scale( SWING_SCALE );
 
-        breadSpinnerNode = new IntegerSpinnerNode( SandwichShopDefaults.FORMULA_BREAD_RANGE );
+        breadSpinnerNode = new BreadCoefficientSpinnerNode( formula );
         breadSpinnerNode.scale( SWING_SCALE );
-        breadSpinnerNode.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                sandwichFormula.setBread( breadSpinnerNode.getValue() );
-            }
-        });
         
-        meatSpinnerNode = new IntegerSpinnerNode( SandwichShopDefaults.FORMULA_MEAT_RANGE );
+        meatSpinnerNode = new MeatCoefficientSpinnerNode( formula );
         meatSpinnerNode.scale( SWING_SCALE );
-        meatSpinnerNode.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                sandwichFormula.setMeat( meatSpinnerNode.getValue() );
-            }
-        });
         
-        cheeseSpinnerNode = new IntegerSpinnerNode( SandwichShopDefaults.FORMULA_CHEESE_RANGE );
+        cheeseSpinnerNode = new CheeseCoefficientSpinnerNode( formula );
         cheeseSpinnerNode.scale( SWING_SCALE );
-        cheeseSpinnerNode.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                sandwichFormula.setCheese( cheeseSpinnerNode.getValue() );
-            }
-        });
         
         BreadNode breadNode = new BreadNode();
         MeatNode meatNode = new MeatNode();
         CheeseNode cheeseNode = new CheeseNode();
-        sandwichNode = new SandwichNode( sandwichFormula );
+        sandwichNode = new SandwichNode( formula );
         
         PlusNode plusNode1 = new PlusNode();
         PlusNode plusNode2 = new PlusNode();
@@ -143,9 +130,9 @@ public class SandwichFormulaNode extends PhetPNode {
     }
     
     private void update() {
-        breadSpinnerNode.setValue( sandwichFormula.getBread() );
-        meatSpinnerNode.setValue( sandwichFormula.getMeat() );
-        cheeseSpinnerNode.setValue( sandwichFormula.getCheese() );
-        sandwichesCountNode.setText( String.valueOf( sandwichFormula.getSandwiches() ) );
+        breadSpinnerNode.setValue( formula.getBread() );
+        meatSpinnerNode.setValue( formula.getMeat() );
+        cheeseSpinnerNode.setValue( formula.getCheese() );
+        sandwichesCountNode.setText( String.valueOf( formula.getSandwiches() ) );
     }
 }

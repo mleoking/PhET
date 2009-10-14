@@ -57,7 +57,7 @@ public class SandwichShopBeforeNode extends PhetPNode {
         addChild( imagesParent );
         
         PText titleNode = new PText( RPALStrings.LABEL_BEFORE_SANDWICH );
-        titleNode.setFont( new PhetFont( 36 ) );
+        titleNode.setFont( new PhetFont( 30 ) );
         titleNode.setTextPaint( Color.BLACK );
         addChild( titleNode );
         
@@ -84,7 +84,7 @@ public class SandwichShopBeforeNode extends PhetPNode {
         double y = boxNode.getFullBoundsReference().getMinY() - titleNode.getFullBoundsReference().getHeight() - 10;
         titleNode.setOffset( x, y );
         x = boxNode.getFullBoundsReference().getCenterX() - ( controlsNode.getFullBoundsReference().getWidth() / 2 ) - PNodeLayoutUtils.getOriginXOffset( controlsNode );
-        y = boxNode.getFullBoundsReference().getMaxY() - PNodeLayoutUtils.getOriginYOffset( controlsNode ) + 10;
+        y = boxNode.getFullBoundsReference().getMaxY() - PNodeLayoutUtils.getOriginYOffset( controlsNode ) + 15;
         controlsNode.setOffset( x, y );
         
         update();

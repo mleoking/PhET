@@ -11,7 +11,7 @@ import edu.colorado.phet.reactantsproductsandleftovers.view.CheeseNode;
 public class CheeseQuantityControlNode extends ReactantQuantityControlNode {
     
     public CheeseQuantityControlNode( final SandwichShop model ) {
-        super( SandwichShopDefaults.REACTION_CHEESE_RANGE, new CheeseNode(), 0.5 /* XXX */ );
+        super( SandwichShopDefaults.CHEESE_QUANTITY_RANGE, new CheeseNode(), 0.5 /* XXX */ );
         setValue( model.getCheese() );
         addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {

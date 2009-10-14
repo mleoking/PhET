@@ -11,7 +11,7 @@ import edu.colorado.phet.reactantsproductsandleftovers.view.BreadNode;
 public class BreadQuantityControlNode extends ReactantQuantityControlNode {
     
     public BreadQuantityControlNode( final SandwichShop model ) {
-        super( SandwichShopDefaults.REACTION_BREAD_RANGE, new BreadNode(), 0.5 /* XXX */ );
+        super( SandwichShopDefaults.BREAD_QUANTITY_RANGE, new BreadNode(), 0.5 /* XXX */ );
         setValue( model.getBread() );
         addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
