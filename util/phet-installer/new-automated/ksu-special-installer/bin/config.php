@@ -68,15 +68,88 @@
     // filters when doing testing that requires a lot of iterations, since 
     // this will generally be much quicker than a full rip.
     define("PHET_LITE_RIPPER_FILTER",            '"-*wickettest*"'.' '.
-        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/faraday/*').' '.
-        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'sims/arithmetic/*').' '.
-        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'activities/*').' '.
-        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'css/*').' '.
-        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'en/*').' '.
-        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'images/*').' '.
-        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'installer/*').' '.
-        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'publications/*').' '.
-        CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'workshops/*'));
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/balloons/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/battery-resistor-circuit/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/battery-voltage/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/blackbody-spectrum/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/bound-states/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/build-tools/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/calculus-grapher/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/cavendish-experiment/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/charges-and-fields/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/charges-and-fields-scala/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/circuit-construction-kit/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/color-vision/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/conductivity/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/curve-fitting/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/discharge-lamps/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/eating-and-exercise/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/efield/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/electric-hockey/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/energy-skate-park/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/equation-grapher/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/estimation/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/faradays-law/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/flash-common-strings/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/force-law-lab/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/forces-1d/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/fourier/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/friction/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/geometric-optics/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/glaciers/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/greenhouse/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/hydrogen-atom/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/ideal-gas/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/java-common-strings/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/ladybug-motion-2d/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/lasers/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/lunar-lander/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/mass-spring-lab/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/maze-game/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/microwaves/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/motion-2d/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/moving-man/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/mri/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/mvc-example/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/my-solar-system/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/natural-selection/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/nuclear-physics/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/ohms-law/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/old-blackbody-spectrum/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/optical-quantum-control/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/optical-tweezers/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/pendulum-lab/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/phetgraphics-demo/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/photoelectric/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/ph-scale/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/plinko-probability/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/projectile-motion/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/quantum-tunneling/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/quantum-wave-interference/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/radio-waves/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/reactions-and-rates/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/resistance-in-a-wire/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/resources/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/rotation/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/rutherford-scattering/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/self-driven-particle-model/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/semiconductor/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/signal-circuit/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/sim-template/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/soluble-salts/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/sound/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/states-of-matter/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/stern-gerlach/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/temp.txt/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/test-flash-project/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/test-project/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/the-ramp/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/translations/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/translation-utility/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/travoltage/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/vector-addition/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/wave-interference/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/wave-on-a-string/*'));
 
     define("PHET_WEBSITE_ROOT_PARTIAL_PATTERN", '[^"]+colorado\.edu');
     define("PHET_WEBSITE_ROOT_PATTERN",         '/'.PHET_WEBSITE_ROOT_PARTIAL_PATTERN.'/');
@@ -121,7 +194,7 @@
 
     // Command-line args for a quicker, lighter, less complete rip of the web
     // site.  This exists primarily for testing purposes.
-    define("RIPPER_ARGS_SUBSET", '"'.PHET_TRANSLATED_WEBSITE_URL.'" -O "'.RIPPED_WEBSITE_ROOT.'" '.PHET_LITE_RIPPER_FILTER." -F ".RIPPER_USER_AGENT.' -j %q0 -%e0 -r10');
+    define("RIPPER_ARGS_SUBSET", '"'.PHET_ROOT_URL.'" -O "'.RIPPED_WEBSITE_ROOT.'" '.PHET_LITE_RIPPER_FILTER." -F ".RIPPER_USER_AGENT.' -j %q0 -%e0 -r10');
 
     // File used for preventing simultaneous builds.
     define("LOCK_FILE_STEM_NAME", "installer-builder");
