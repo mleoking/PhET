@@ -159,6 +159,8 @@ public class NeuronCanvas extends PhetPCanvas {
             membranePotentialChart.setOffset(
             		rightEdgeX - membranePotentialChart.getFullBoundsReference().width - 5,
             		worldSize.getHeight() - membranePotentialChart.getFullBoundsReference().height - 5);
+            voltmeter.setOffset(rightEdgeX - voltmeter.getFullBoundsReference().width - 5,
+            		worldSize.getHeight() - voltmeter.getFullBounds().height - 5);
         }
     }
     
