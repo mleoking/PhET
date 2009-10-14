@@ -1,3 +1,4 @@
+10/14/09 algorithm to create a convincing-looking sandwich image based on formula
 10/13/09 scale and import the molecule images that Kelly provided
 # 0.00.04 (35823) Oct 13, 2009
 10/13/09 demo sliders/historgrams below Before & After boxes
