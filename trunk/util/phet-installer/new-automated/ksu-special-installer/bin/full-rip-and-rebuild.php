@@ -80,7 +80,7 @@
         file_append_line_to_file(CSS_DIR."navmenu-v1.css", "\n");
         file_append_file_to_file(CSS_DIR."navmenu-v1.css", CSS_APPEND_FILES_DIR."navmenu-installer-v1.css");
         file_append_line_to_file(CSS_DIR."simulation-main-v1.css", "\n");
-        file_append_file_to_file(CSS_DIR."simulation-main-v1.css", CSS_APPEND_FILES_DIR."simulation-main-v1.css");
+        file_append_file_to_file(CSS_DIR."simulation-main-v1.css", CSS_APPEND_FILES_DIR."simulation-main-installer-v1.css");
 
         // Build the full set of local mirror installers.
         installer_build_local_mirror_installers();
