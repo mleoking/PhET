@@ -9,6 +9,8 @@ import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;
 
 import javax.swing.*;
+import javax.swing.plaf.metal.MetalLookAndFeel;
+import javax.swing.plaf.metal.DefaultMetalTheme;
 import javax.swing.border.TitledBorder;
 import javax.swing.border.EmptyBorder;
 
@@ -90,6 +92,12 @@ public class JXLayerTest extends JFrame {
         return ret;
     }
 
+    public static boolean isHighContrast() {
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        Boolean ret = (Boolean) toolkit.getDesktopProperty( "win.highContrast.on" );
+        return ( ret != null && ret );
+    }
+
     private static class HighContrastOp implements BufferedImageOp {
         public BufferedImage filter( BufferedImage a, BufferedImage b ) {
             if ( b == null ) {
@@ -102,10 +110,26 @@ public class JXLayerTest extends JFrame {
                     int red = ( rgb & 0x00ff0000 ) >> 16;
                     int green = ( rgb & 0x0000ff00 ) >> 8;
                     int blue = ( rgb & 0x000000ff );
-                    b.setRGB( x, y, compact( alpha, 255 - red, 255 - green, 255 - blue ) );
+                    b.setRGB( x, y, compact( alpha, 255 - colorMod( red ), 255 - colorMod( green ), 255 - colorMod( blue ) ) );
                 }
             }
             return b;
+        }
+
+        private int colorMod( int color ) {
+            double scale = 2.0;
+            double in = (double) color;
+            double max = 255;
+            double offset = ( scale - 1 ) * max / 2;
+            double out = in * scale - offset;
+            int ret = (int) out;
+            if ( ret < 0 ) {
+                ret = 0;
+            }
+            if ( ret > 255 ) {
+                ret = 255;
+            }
+            return ret;
         }
 
         private int compact( int alpha, int red, int green, int blue ) {
@@ -146,8 +170,15 @@ public class JXLayerTest extends JFrame {
 
     public static void main( String[] args ) {
         try {
-            System.out.println( "Setting UI to WindowsLookAndFeel" );
-            UIManager.setLookAndFeel( "com.sun.java.swing.plaf.windows.WindowsLookAndFeel" );
+            if ( !isHighContrast() ) {
+                System.out.println( "Setting UI to WindowsLookAndFeel" );
+                UIManager.setLookAndFeel( "com.sun.java.swing.plaf.windows.WindowsLookAndFeel" );
+            }
+            else {
+                MetalLookAndFeel.setCurrentTheme( new DefaultMetalTheme() );
+                UIManager.setLookAndFeel( new MetalLookAndFeel() );
+                MetalLookAndFeel.setCurrentTheme( new DefaultMetalTheme() );
+            }
         }
         catch( ClassNotFoundException e ) {
             e.printStackTrace();
