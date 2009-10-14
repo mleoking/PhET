@@ -24,7 +24,7 @@ import com.threed.jpct.*;
 
 public class DensityCanvasJPCT extends PhetPCanvas {
     private World world;
-    private Object3D box;
+//    private ModelViewTransform2D modelViewTransform2D;
 
     static class BlockNode extends PNode {
         private RectangularObject rectangularObject;
@@ -79,19 +79,17 @@ public class DensityCanvasJPCT extends PhetPCanvas {
         }
     }
 
-    public DensityCanvasJPCT( DensityModel model ) {
-        setWorldTransformStrategy( new CenteringBoxStrategy( this, new PDimension( 800, 800 ) ) );
-        ModelViewTransform2D modelViewTransform2D = new ModelViewTransform2D( new PBounds( -1, -1, 12, 12 ), new PBounds( 0, 0, 800, 800 ), true );
+    public void addBlock(final Block block){
+//        TextureManager.getInstance().addTexture("box", new Texture(64,64, Color.red));
 
-//        for (int i = 0; i < model.getBlockCount(); i++) {
-//            addWorldChild(new DraggableBlockNode(model.getBlock(i), modelViewTransform2D));
-//        }
-//        addWorldChild(new UndraggableBlockNode(model.getWater(), modelViewTransform2D));
-
-        world = new World();
-        TextureManager.getInstance().addTexture("box", new Texture(64,64, Color.red));
-
-        box = Primitives.getBox( 1f, 2f );
+        final Object3D box = Primitives.getBox((float) block.getWidth(), 1f );
+        block.addListener(new RectangularObject.Adapter(){
+            public void modelChanged() {
+                box.getTranslationMatrix().setIdentity();
+                box.getTranslationMatrix().translate((float )block.getCenterX(),(float )block.getCenterY(), (float) block.getCenterZ());
+            }
+        });
+        box.translate((float )block.getCenterX(),(float )block.getCenterY(), (float) block.getCenterZ());
         box.setTexture( "box" );
         box.setEnvmapped( Object3D.ENVMAP_ENABLED );
         box.setShadingMode( Object3D.SHADING_FAKED_FLAT );
@@ -99,15 +97,29 @@ public class DensityCanvasJPCT extends PhetPCanvas {
 
         world.addObject( box );
 
-        world.addLight( new SimpleVector( -20,-5,-25),Color.gray );
-
-        world.getCamera().setPosition( 5, -5,-2 );
         world.getCamera().lookAt( box.getTransformedCenter() );
+    }
+
+    public DensityCanvasJPCT( DensityModel model ) {
+        setWorldTransformStrategy( new CenteringBoxStrategy( this, new PDimension( 800, 800 ) ) );
+
+        world = new World();
+        TextureManager.getInstance().addTexture("box", new Texture(64,64, Color.red));
+
+        world.addLight( new SimpleVector( -10,-5,-10),Color.gray );
+        world.getCamera().setPosition( 10, 0,30 );
+
+        for (int i = 0; i < model.getBlockCount(); i++) {
+            addBlock(model.getBlock(i));
+        }
+//        addBlock(new DraggableBlockJPCT(model.getWater(), modelViewTransform2D));
+        world.getCamera().rotateCameraZ((float) Math.PI);
+
         setOpaque( false );
 
         Timer timer = new Timer( 30, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                box.rotateY( 0.01f );
+//                box.rotateY( 0.01f );
                 repaint();
             }
         } );
