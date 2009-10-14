@@ -6,6 +6,6 @@ import edu.colorado.phet.reactantsproductsandleftovers.RPALImages;
 public class CheeseNode extends ReactantNode {
 
     public CheeseNode() {
-        super( RPALImages.CHEESE_IMAGE );
+        super( RPALImages.CHEESE );
     }
 }

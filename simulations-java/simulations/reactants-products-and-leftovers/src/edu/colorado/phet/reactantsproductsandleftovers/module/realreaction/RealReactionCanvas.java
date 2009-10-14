@@ -5,7 +5,9 @@ import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
+import edu.colorado.phet.reactantsproductsandleftovers.RPALImages;
 import edu.colorado.phet.reactantsproductsandleftovers.view.RPALCanvas;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
 
 
@@ -21,6 +23,11 @@ public class RealReactionCanvas extends RPALCanvas {
         underConstructionNode.setFont( new PhetFont() );
         underConstructionNode.scale( 2 );
         addChild( underConstructionNode );
+        
+        //XXX
+        PImage moleculeImage = new PImage( RPALImages.H2O );
+        moleculeImage.setOffset( underConstructionNode.getFullBoundsReference().getCenterX() - ( moleculeImage.getFullBoundsReference().getWidth() / 2 ), 100 );
+        addChild( moleculeImage );
     }
 
     //----------------------------------------------------------------------------
