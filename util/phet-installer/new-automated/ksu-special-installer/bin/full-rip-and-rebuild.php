@@ -67,7 +67,7 @@
         }
         system("wget -P ".CSS_APPEND_FILES_DIR." http://phetsims.colorado.edu/css/installer-append/home-installer-v1.css");
         system("wget -P ".CSS_APPEND_FILES_DIR." http://phetsims.colorado.edu/css/installer-append/navmenu-installer-v1.css");
-        system("wget -P ".CSS_APPEND_FILES_DIR." http://phetsims.colorado.edu/css/installer-append/simulation-main-v1.css");
+        system("wget -P ".CSS_APPEND_FILES_DIR." http://phetsims.colorado.edu/css/installer-append/simulation-main-installer-v1.css");
 
         // Back up the CSS files that will be manipulated, then append some
         // commands that will make certain links disappear (e.g. the "Download"
