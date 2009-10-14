@@ -9,3 +9,4 @@
 - general algorithm for creating a sandwich image from sandwich formula in SandwichNode
 - general algorithm for calculating number of products
 - use rounding instead of trunc for snapping reactant quantity sliders
+- clean up node scaling, it's kind of haphazard
