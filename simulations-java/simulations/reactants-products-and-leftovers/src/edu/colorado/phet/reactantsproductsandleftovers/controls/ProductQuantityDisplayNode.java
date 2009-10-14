@@ -16,15 +16,12 @@ public class ProductQuantityDisplayNode extends PComposite {
     
     private static final PDimension BAR_SIZE = new PDimension( 15, 75 );
     
-    private final IntegerRange range;
     private final IntegerHistogramBarNode barNode;
     private final PText valueNode;
     private final PNode imageNode;
     
     public ProductQuantityDisplayNode( IntegerRange range, PNode imageNode, double imageScale ) {
         super();
-        
-        this.range = range;
         
         barNode = new IntegerHistogramBarNode( range, BAR_SIZE );
         valueNode = new PText(); 
