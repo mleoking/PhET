@@ -122,8 +122,8 @@ public class NeuronCanvas extends PhetPCanvas {
         
         // Add the voltmeter.
         voltmeter = new MembraneVoltmeter(model);
+        voltmeter.setVisible(false);
         chartLayer.addChild(voltmeter);
-        
         
         // Add the depiction of the particle motion bounds, if enabled.
         if (SHOW_PARTICLE_BOUNDS){
@@ -166,6 +166,10 @@ public class NeuronCanvas extends PhetPCanvas {
     
     public void setMembranePotentialChartVisible(boolean isVisible){
     	membranePotentialChart.setVisible(isVisible);
+    }
+    
+    public void setVoltmeterVisible(boolean isVisible){
+    	voltmeter.setVisible(isVisible);
     }
     
     private void addAtom(Particle atomToBeAdded){

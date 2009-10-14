@@ -94,13 +94,13 @@ public class RestingPotentialControlPanel extends ControlPanel {
         		ParticleType.POTASSIUM_ION);
         addControlFullWidth(potassiumConcentrationControl);
         
-        // Add the check box for hiding/showing the membrane potential chart.
+        // Add the check box for hiding/showing the voltmeter.
         addControlFullWidth(createVerticalSpacingPanel(30));
-        final JCheckBox chartControlCheckbox = new JCheckBox(NeuronStrings.POTENTIAL_CHART);
+        final JCheckBox chartControlCheckbox = new JCheckBox(NeuronStrings.SHOW_VOLTMETER);
         chartControlCheckbox.addChangeListener(new ChangeListener() {
 			
 			public void stateChanged(ChangeEvent e) {
-				neuronCanvas.setMembranePotentialChartVisible(chartControlCheckbox.isSelected());
+				neuronCanvas.setVoltmeterVisible(chartControlCheckbox.isSelected());
 			}
 		});
         chartControlCheckbox.setAlignmentX(CENTER_ALIGNMENT);
