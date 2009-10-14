@@ -121,7 +121,7 @@ public class NeuronCanvas extends PhetPCanvas {
         chartLayer.addChild(membranePotentialChart);
         
         // Add the voltmeter.
-        voltmeter = new MembraneVoltmeter();
+        voltmeter = new MembraneVoltmeter(model);
         chartLayer.addChild(voltmeter);
         
         
