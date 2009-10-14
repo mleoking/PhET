@@ -6,7 +6,6 @@ import java.awt.Shape;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
@@ -29,8 +28,6 @@ public class AxonModel {
     //----------------------------------------------------------------------------
 	
 	private static final Random RAND = new Random();
-	
-	private static final int TOTAL_INITIAL_PARTICLES = 120;
 	
 	private static final double MAX_PARTICLE_VELOCITY = 500; // In nano meters per second.
 	
