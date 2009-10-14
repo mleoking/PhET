@@ -23,4 +23,10 @@ public class SandwichShopDefaults {
     public static final IntegerRange BREAD_QUANTITY_RANGE = REACTANT_QUANTITY_RANGE;
     public static final IntegerRange MEAT_QUANTITY_RANGE = REACTANT_QUANTITY_RANGE;
     public static final IntegerRange CHEESE_QUANTITY_RANGE = REACTANT_QUANTITY_RANGE;
+    
+    private static final IntegerRange PRODUCT_QUANTITY_RANGE = REACTANT_QUANTITY_RANGE;
+    public static final IntegerRange BREAD_LEFTOVER_RANGE = PRODUCT_QUANTITY_RANGE;
+    public static final IntegerRange MEAT_LEFTOVER_RANGE = PRODUCT_QUANTITY_RANGE;
+    public static final IntegerRange CHEESE_LEFTOVER_RANGE = PRODUCT_QUANTITY_RANGE;
+    public static final IntegerRange SANDWICHES_QUANTITY_RANGE = PRODUCT_QUANTITY_RANGE;
 }

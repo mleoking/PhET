@@ -1,3 +1,4 @@
+10/13/09 bar + value display for products and leftovers
 10/13/09 proper handling of out-of-range values in spinners and text fields
 10/13/09 textfield + custom slider for setting reactant quantities
 # 0.00.03 (35778) Oct 13, 2009

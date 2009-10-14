@@ -20,6 +20,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -29,14 +30,14 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 public class IntegerTextFieldNode extends PhetPNode {
     
-    private static final Border BORDER = new CompoundBorder( new LineBorder( Color.BLACK, 1 ), new EmptyBorder( 5, 5, 5, 5 ) );
+    private static final Border BORDER = new CompoundBorder( new LineBorder( Color.BLACK, 1 ), new EmptyBorder( 2, 2, 2, 2 ) );
     
     private final ArrayList<ChangeListener> listeners;
     private final IntegerRange range;
     private final JTextField textField;
     private int value;
 
-    public IntegerTextFieldNode( IntegerRange range ) {
+    public IntegerTextFieldNode( IntegerRange range, PhetFont font ) {
         super();
         addInputEventListener( new CursorHandler() );
         
@@ -45,6 +46,7 @@ public class IntegerTextFieldNode extends PhetPNode {
         listeners = new ArrayList<ChangeListener>();
         
         textField = new JTextField( String.valueOf( value ) );
+        textField.setFont( font );
         textField.setBorder( BORDER );
         textField.setHorizontalAlignment( JTextField.RIGHT );
         textField.setColumns( String.valueOf( range.getMax() ).length() );
