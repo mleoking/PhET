@@ -4,11 +4,16 @@ package edu.colorado.phet.neuron.view;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.RoundRectangle2D;
 import java.text.DecimalFormat;
 
+import javax.swing.Timer;
+
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.neuron.model.AxonModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -26,10 +31,13 @@ public class MembraneVoltmeter extends PNode {
 	private static final Dimension2D READOUT_DIMENSIONS = new PDimension(METER_BODY_DIMENSIONS.getWidth() * 0.8, 40);
 	private static final Color METER_BODY_COLOR = Color.GRAY;
 	
+	private AxonModel axonModel;
 	private PPath meterBody;
 	private VoltageDisplayNode readout;
+	private Timer updateTimer;
 
-	public MembraneVoltmeter() {
+	public MembraneVoltmeter(AxonModel axonModel) {
+		this.axonModel = axonModel;
 		meterBody =	new PPath(new RoundRectangle2D.Double(0, 0, METER_BODY_DIMENSIONS.getWidth(),
 				METER_BODY_DIMENSIONS.getHeight(), METER_BODY_DIMENSIONS.getWidth()/5, METER_BODY_DIMENSIONS.getWidth()/5));
 		meterBody.setPaint(METER_BODY_COLOR);
@@ -37,6 +45,21 @@ public class MembraneVoltmeter extends PNode {
 		readout = new VoltageDisplayNode(READOUT_DIMENSIONS);
 		readout.setOffset(METER_BODY_DIMENSIONS.getWidth() / 2 - READOUT_DIMENSIONS.getWidth() / 2, 15);
 		addChild(readout);
+		updateVoltageDisplay();
+		
+		// Set up the update timer that will periodically update the reading.
+		updateTimer = new Timer(1000, new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				updateVoltageDisplay();
+			}
+		});
+		updateTimer.start();
+	}
+	
+	private void updateVoltageDisplay(){
+		int quantizedMembranePotential = axonModel.getQuantizedMembranePotential();
+		double membranePotentialMillivolts = quantizedMembranePotential * 2;
+		readout.setMillivoltsReading(membranePotentialMillivolts);
 	}
 	
 	/**
@@ -49,7 +72,7 @@ public class MembraneVoltmeter extends PNode {
         
     	private PPath _background;
     	private RoundRectangle2D _backgroundShape;
-    	private double _currentPercentage;
+    	private double _currentMillivolts;
     	private PText _voltageText;
         private DecimalFormat _percentageFormatterOneDecimal = new DecimalFormat( "##0.0" );
     	
@@ -63,12 +86,12 @@ public class MembraneVoltmeter extends PNode {
     		addChild(_voltageText);
     	}
     	
-    	public void setVoltageReading(double percentage){
+    	public void setMillivoltsReading(double millivolts){
 
-    		_currentPercentage = percentage;
+    		_currentMillivolts = millivolts;
     		
     		// TODO: i18n
-    		_voltageText.setText(_percentageFormatterOneDecimal.format(_currentPercentage) + " V");
+    		_voltageText.setText(_percentageFormatterOneDecimal.format(_currentMillivolts) + " mV");
     		
     		scaleAndCenterText();
     	}
