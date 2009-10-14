@@ -23,32 +23,14 @@ public class JXLayerTest extends JFrame {
 
         JPanel content = new JPanel( new GridLayout( 1, 2 ) );
 
-        JPanel regular = new JPanel();
-        final JPanel custom = new JPanel();
-
-        regular.setBorder( new TitledBorder( "Regular" ) );
-        custom.setBorder( new TitledBorder( "Custom colors" ) );
-
-        final JLabel regularLabel = new JLabel( "This is without color customization" );
-        regular.add( regularLabel );
-
-
-        final JLabel customLabel = new JLabel( "This is with color customization" );
-        custom.add( customLabel );
-        final JButton customButton = new JButton( "This button does nothing!" );
-        custom.add( customButton );
-
-
-        JXLayer<JComponent> layer = new JXLayer<JComponent>( custom );
+        JXLayer<JComponent> layer = new JXLayer<JComponent>( createPanel( "High-contrast", "With high-contrast filter" ) );
         BufferedLayerUI<JComponent> bufferedLayerUI = new BufferedLayerUI<JComponent>();
-        //BufferedImageOp grayScaleOp = new ColorConvertOp( ColorSpace.getInstance( ColorSpace.CS_GRAY ), null );
-        //BufferedImageOpEffect imageOpEffect = new BufferedImageOpEffect( grayScaleOp );
         BufferedImageOpEffect imageOpEffect = new BufferedImageOpEffect( new HighContrastOp() );
         bufferedLayerUI.setLayerEffects( imageOpEffect );
         layer.setUI( bufferedLayerUI );
 
 
-        content.add( regular );
+        content.add( createPanel( "Regular", "Without high-contrast filter" ) );
         content.add( layer );
 
         setContentPane( content );
@@ -56,6 +38,14 @@ public class JXLayerTest extends JFrame {
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
         setVisible( true );
+    }
+
+    private static JPanel createPanel( String title, String mess ) {
+        JPanel ret = new JPanel();
+        ret.setBorder( new TitledBorder( title ) );
+        ret.add( new JLabel( mess ) );
+        ret.add( new JButton( "This button does nothing" ) );
+        return ret;
     }
 
     private static class HighContrastOp implements BufferedImageOp {
@@ -94,15 +84,7 @@ public class JXLayerTest extends JFrame {
         }
 
         public BufferedImage createCompatibleDestImage( BufferedImage bufferedImage, ColorModel colorModel ) {
-            //int nComponents = colorModel.getColorSpace().getNumComponents();
             WritableRaster raster;
-//            raster = Raster.createInterleavedRaster(
-//                    DataBuffer.TYPE_BYTE,
-//                    bufferedImage.getWidth(),
-//                    bufferedImage.getHeight(),
-//                    nComponents,
-//                    new Point( bufferedImage.getMinX(), bufferedImage.getMinY() )
-//            );
             raster = colorModel.createCompatibleWritableRaster( bufferedImage.getWidth(), bufferedImage.getHeight() );
             BufferedImage image = new BufferedImage( colorModel, raster, bufferedImage.isAlphaPremultiplied(), null );
             return image;
