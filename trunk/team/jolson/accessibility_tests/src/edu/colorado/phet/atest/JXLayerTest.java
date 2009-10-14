@@ -10,10 +10,17 @@ import java.awt.image.WritableRaster;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
+import javax.swing.border.EmptyBorder;
 
 import org.jdesktop.jxlayer.JXLayer;
 import org.jdesktop.jxlayer.plaf.BufferedLayerUI;
 import org.jdesktop.jxlayer.plaf.effect.BufferedImageOpEffect;
+
+import edu.umd.cs.piccolo.PCanvas;
+import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolox.pswing.PSwing;
+import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 public class JXLayerTest extends JFrame {
 
@@ -45,6 +52,41 @@ public class JXLayerTest extends JFrame {
         ret.setBorder( new TitledBorder( title ) );
         ret.add( new JLabel( mess ) );
         ret.add( new JButton( "This button does nothing" ) );
+        JLabel label = new JLabel( "This label has color changes" );
+        label.setBackground( Color.RED );
+        label.setForeground( Color.GREEN );
+        label.setOpaque( true );
+        label.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
+        ret.add( label );
+        PCanvas canvas = new PSwingCanvas();
+
+        canvas.setPreferredSize( new Dimension( 100, 100 ) );
+        PPath path = PPath.createRectangle( 0, 0, 50, 50 );
+        path.setStroke( null );
+        path.setPaint( Color.BLACK );
+        canvas.getLayer().addChild( path );
+        path = PPath.createRectangle( 0, 50, 50, 50 );
+        path.setStroke( null );
+        path.setPaint( Color.RED );
+        canvas.getLayer().addChild( path );
+        path = PPath.createRectangle( 50, 0, 50, 50 );
+        path.setStroke( null );
+        path.setPaint( Color.BLUE );
+        canvas.getLayer().addChild( path );
+        path = PPath.createRectangle( 50, 50, 50, 50 );
+        path.setStroke( null );
+        path.setPaint( Color.WHITE );
+        canvas.getLayer().addChild( path );
+        PText text = new PText( "Piccolo" );
+        text.setPaint( Color.WHITE );
+        canvas.getLayer().addChild( text );
+        JButton pButton = new JButton( "Button" );
+        PSwing pswing = new PSwing( pButton );
+        pswing.setOffset( 50 - pButton.getWidth() / 2, 75 - pButton.getHeight() / 2 );
+        canvas.getLayer().addChild( pswing );
+        //pButton.setOpaque( true );
+        ret.add( canvas );
+
         return ret;
     }
 
