@@ -58,7 +58,7 @@ public class SandwichShopAfterNode extends PhetPNode {
         addChild( imagesParent );
         
         PText titleNode = new PText( RPALStrings.LABEL_AFTER_SANDWICH );
-        titleNode.setFont( new PhetFont( 36 ) );
+        titleNode.setFont( new PhetFont( 30 ) );
         titleNode.setTextPaint( Color.BLACK );
         addChild( titleNode );
         

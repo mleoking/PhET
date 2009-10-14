@@ -11,7 +11,7 @@ import edu.colorado.phet.reactantsproductsandleftovers.view.MeatNode;
 public class MeatQuantityControlNode extends ReactantQuantityControlNode {
     
     public MeatQuantityControlNode( final SandwichShop model ) {
-        super( SandwichShopDefaults.REACTION_MEAT_RANGE, new MeatNode(), 0.5 /* XXX */ );
+        super( SandwichShopDefaults.MEAT_QUANTITY_RANGE, new MeatNode(), 0.5 /* XXX */ );
         setValue( model.getMeat() );
         addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
