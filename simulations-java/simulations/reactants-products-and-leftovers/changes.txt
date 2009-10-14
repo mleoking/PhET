@@ -1,3 +1,4 @@
+# 0.00.05 (35877) Oct 14, 2009
 10/14/09 increase cheese image to 245x120 so that it's visible between slices of bread
 10/14/09 algorithm to create a convincing-looking sandwich image based on formula
 10/13/09 scale and import the molecule images that Kelly provided
