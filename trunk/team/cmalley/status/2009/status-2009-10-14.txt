@@ -1,0 +1,56 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: October 8-14, 2009 (Thu-Wed)
+
+ACCOMPLISHMENTS:
+
+  Reactants, Products and Leftovers
+  - started on this new sim
+  - implemented most of the "Sandwich Shop" tab
+  - model for determining products and leftovers based on formula and reactant quantities
+  - resolved issue with JSpinners and Piccolo, 1824
+  - created custom slider/histogram control for reactant quantities
+  - algorithm for generating a believable sandwich image based on formula
+  - refined images with Noah P.
+  - discussed many issues
+  - published 0.00.01 through 0.00.05
+
+  Titration:
+  - cleaned up polynomial root-finding code
+  - cleaned up prototype user interface
+  - published 0.00.05
+  - no further work anticipated until design is revised
+  
+  Translation Utility:
+  - waiting for Marj to test so I can release new version
+  
+  common:
+  - 1822, discussed support for low-res devices
+  - 1824, problem with JSpinners and Piccolo, identified a workaround (with Sam)
+  
+  build process:
+  - bash script for setting up the directories and files needed when you create a new sim
+  
+  misc:
+  - weekly status meeting
+  - 1705, tested performance of Always3D (Flash 3D library) on Mac G4 for Jonathan
+  - 1821, discussed Piccolo 1.3 update with Sam
+  - 1825, discussed issues related to temporary files on tigercat
+  
+WHAT'S NEXT:
+
+  - continue work on Reactants, Products and Leftovers
+  - migrate features to common code, #1074
+  - test new translation deployment process
+  - finish Glaciers (waiting for Wendy's feedback since 8/19/09)
+  
+ISSUES:
+
+  - The design for "Reactants, Products and Leftovers" is incomplete.
+  
+DATES UNAVAILABLE:
+
+   October 15-27
+  
+--
