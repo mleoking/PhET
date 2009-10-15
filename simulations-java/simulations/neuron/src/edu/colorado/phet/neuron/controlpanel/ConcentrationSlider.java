@@ -95,14 +95,6 @@ public class ConcentrationSlider extends LinearValueControl{
             JLabel _valueLabel = getValueLabel();
             System.out.println(atomNode.getFullBoundsReference());
             Image atomImage = atomNode.toImage(25, 25, new Color(0,0,0,0));
-            BufferedImage bufferedAtomImage = BufferedImageUtils.toBufferedImage(atomImage);
-            try {
-            	
-				ImageIO.write(bufferedAtomImage, "png", new File("c:/temp/atom-image-" + atomType.toString() + ".png"));
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
             _valueLabel.setIcon( new ImageIcon(atomImage) );
             _valueLabel.setVerticalTextPosition( JLabel.CENTER );
             _valueLabel.setHorizontalTextPosition( JLabel.LEFT );
