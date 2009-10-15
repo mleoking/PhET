@@ -49,6 +49,10 @@ public class AxonModel {
 	// Center of the model.
 	private static final Point2D CENTER_POS = new Point2D.Double(0, 0);
 	
+	// Constant that controls how often we calculate the membrane potential
+	// for internal use, i.e. particle motion calculations.
+	private static final int MEMBRANE_POTENTIAL_UPDATE_COUNT = 10;
+	
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
@@ -62,6 +66,8 @@ public class AxonModel {
     private int particleUpdateOffset = 0;
     private ArrayList<Listener> listeners = new ArrayList<Listener>();
     private ConcentrationTracker concentrationTracker = new ConcentrationTracker();
+    private int membranePotentialUpdateCounter = 0;
+    private int membranePotentialSnapshot;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -297,16 +303,26 @@ public class AxonModel {
     
     private void handleClockTicked(ClockEvent clockEvent){
     	
+    	// If it is time, update the value of the membrane potential that is
+    	// used for internal calculations.
+    	if (membranePotentialUpdateCounter++ >= MEMBRANE_POTENTIAL_UPDATE_COUNT){
+    		membranePotentialSnapshot = getQuantizedMembranePotential();
+    		membranePotentialUpdateCounter = 0;
+    	}
+    	
+    	// Update the velocity of the particles.  For efficiency and because
+    	// it looks better, not all particles are updated every time.
     	for (int i = particleUpdateOffset; i < particles.size(); i += PARTICLE_UPDATE_INCREMENT){
     		updateParticleVelocity(particles.get(i));
     	}
-    	
     	particleUpdateOffset = (particleUpdateOffset + 1) % PARTICLE_UPDATE_INCREMENT;
     	
+    	// Update the particle positions.
     	for (Particle particle : particles){
     		particle.stepInTime(clockEvent.getSimulationTimeChange());
     	}
-    	
+
+    	// Step the channels and see if they need to capture or release any particles.
     	for (AbstractMembraneChannel channel : channels){
     		channel.stepInTime(clockEvent.getSimulationTimeChange());
     		ArrayList<Particle> particlesTakenByChannel = channel.checkTakeControlParticles(particles);
@@ -401,8 +417,36 @@ public class AxonModel {
     	    	angle = theta + Math.PI;
     		}
     		else{
-    			// Particle should just do a random walk.
-				angle = Math.PI * 2 * RAND.nextDouble();
+    			// The particle should do a random walk with some tendency to
+    			// move toward or away from the membrane based on its current
+    			// potential.
+    			// NOTE: This algorithm was empirically determined, so tweak
+    			// as needed.
+    			double gradientThreshold;
+    			if (particle.getCharge() == 0 || membranePotentialSnapshot == 0){
+    				// No gradient should exist, so just do a random walk.
+    				angle = Math.PI * 2 * RAND.nextDouble();
+    			}
+    			else{
+    				gradientThreshold = 1 - Math.min((double)Math.abs(membranePotentialSnapshot) / 500, 1);
+    				double offsetAngle;
+    				if (Math.signum(particle.getCharge()) == Math.signum(membranePotentialSnapshot)){
+    					// Signs match, which should cause repulsion.
+    					offsetAngle = 0;
+    				}
+    				else{
+    					// Attraction, so offset angle is 0.
+    					offsetAngle = Math.PI;
+    				}
+    				if (RAND.nextDouble() > gradientThreshold){
+    					// Move in the gradient direction.
+    	    	    	angle = theta + ((RAND.nextDouble() - 0.5) * Math.PI / 2) + offsetAngle;
+    				}
+    				else{
+    					// Just do a random walk.
+    					angle = Math.PI * 2 * RAND.nextDouble();
+    				}
+    			}
     		}
     	}
     	
