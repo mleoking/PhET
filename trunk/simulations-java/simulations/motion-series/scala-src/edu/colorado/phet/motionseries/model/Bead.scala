@@ -205,7 +205,7 @@ abstract class Bead(private var _state: BeadState,
 
   val stateHistory = new ArrayBuffer[BeadState] //todo: memory leak
 
-  def stepInTime(dt: Double) = {
+  def stepInTime(dt: Double) {
     stateHistory += state
   }
 

@@ -145,7 +145,7 @@ class ForceBead(_state: BeadState,
 
   def getAngle = motionStrategy.getAngle
 
-  override def stepInTime(dt: Double) = {
+  override def stepInTime(dt: Double) {
     super.stepInTime(dt)
     motionStrategy.stepInTime(dt)
   }
