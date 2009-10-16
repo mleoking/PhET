@@ -403,12 +403,12 @@ public class BucketOfNucleiNode extends PNode {
         	
         	// Wrap the slider in a PSwing so that it can be used in the play area.
             // Scale it up a bit so it will have a larger knob.
-        	PSwing sliderNode = new PSwing(_slider);
-        	sliderNode.scale(1.5);
-        	sliderNode.setOffset(_bucketWidth / 2 - sliderNode.getFullBounds().width / 2,
-        			_bucketHeight / 2 - sliderNode.getFullBounds().height / 2);
+        	_sliderNode = new PSwing(_slider);
+        	_sliderNode.scale(1.5);
+        	_sliderNode.setOffset(_bucketWidth / 2 - _sliderNode.getFullBounds().width / 2,
+        			_bucketHeight / 2 - _sliderNode.getFullBounds().height / 2);
         	
-        	_frontOfBucketLayer.addChild(sliderNode);
+        	_frontOfBucketLayer.addChild(_sliderNode);
     	}
     	else{
     		_sliderNode.setVisible(enabled);
