@@ -56,6 +56,10 @@
         // Insert the distribution tag.
         installer_insert_distribution_tag( DISTRIBUTION_TAG );
 
+        // Move the individually translated jar files out of the sims directory
+        // so that they won't be included in the local mirror installers.
+        ripper_move_out_translated_jars();
+
         // TODO: This step obtains some additional files that are needed in
         // order to modify the CSS files in a particular way.  I am working
         // with JO to link these files somehow into the main web site so that
@@ -101,6 +105,9 @@
         rename(CSS_DIR."home-v1-backup.css", CSS_DIR."home-v1.css");
         rename(CSS_DIR."navmenu-v1-backup.css", CSS_DIR."navmenu-v1.css");
         rename(CSS_DIR."simulation-main-v1-backup.css", CSS_DIR."simulation-main-v1.css");
+
+        // Restore the individually translated jar files.
+        ripper_restore_translated_jars();
 
         // Build the web mirror installer, meaning an installer that can be
         // used to set up a remotely hosted copy of the web site.
