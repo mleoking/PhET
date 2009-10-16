@@ -6,7 +6,7 @@ import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils
 import edu.colorado.phet.scalacommon.Predef._
 import java.lang.Math._
 import edu.colorado.phet.motionseries.MotionSeriesResources
-import model.{ForceBead, Bead}
+import edu.colorado.phet.motionseries.model.{ForceBead, Bead}
 
 class PusherNode(transform: ModelViewTransform2D, targetBead: ForceBead, manBead: Bead)
         extends BeadNode(manBead, transform, "standing-man.png".literal) {
