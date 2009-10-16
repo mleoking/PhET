@@ -366,12 +366,10 @@
                 // Extract the name of the sim project.
                 $sim_project_name_pos = strripos($sim_dir, "/") + 1;
                 $sim_project_name = substr($sim_dir, $sim_project_name_pos);
-                print "--> Project: ".$sim_project_name."\n";
 
                 // Create the destination directory.
                 $destination_dir = TRANSLATED_JAR_TEMP_DIR.$sim_project_name.'/';
                 if (!file_exists($destination_dir)){
-                    print "--> Creating destination dir: ".$destination_dir."\n";
                     mkdir($destination_dir);
                 }
 
@@ -383,11 +381,69 @@
                         $short_file_name_pos = strripos($file_name, "/") + 1;
                         $short_file_name = substr($file_name, $short_file_name_pos);
                         // Perform the actual move operation.
-                        print "rename ".$file_name." to ".$destination_dir.$short_file_name."\n";
                         rename($file_name, $destination_dir.$short_file_name);
                     }
                 }
             }
+        }
+    }
+
+    //--------------------------------------------------------------------------
+    // Move the translated jar files from the temporary directory back to the
+    // appropriate directory in the copy of the web site.  Note that before
+    // calling this, the function that moves the files to the temporary
+    // directory should be called.  This function was created to address a
+    // need to exclude the translated jar files from the local mirrors.
+    //--------------------------------------------------------------------------
+    function ripper_restore_translated_jars() {
+
+        // Make sure the temporary directory exists.
+        if (!file_exists(TRANSLATED_JAR_TEMP_DIR)){
+            print "ERROR: Temporary directory for translated jar files does not exist, aborting.\n";
+            return;
+        }
+
+        // Make a list of all the backup directories.
+        $backup_dir_contents = glob( TRANSLATED_JAR_TEMP_DIR."*" );
+
+        // Loop through each directory moving all translated jar files back to
+        // where they belong.
+        foreach ( $backup_dir_contents as $backup_dir ) {
+            if (is_dir($backup_dir)){
+                // Extract the name of the sim project.
+                $sim_project_name_pos = strripos($backup_dir, "/") + 1;
+                $sim_project_name = substr($backup_dir, $sim_project_name_pos);
+
+                // Find the destination directory.
+                $destination_dir = RIPPED_WEBSITE_SIMS_PARENT_DIR.PHET_SIMS_SUBDIR.$sim_project_name.'/';
+                if (!file_exists($destination_dir)){
+                    print "ERROR: Destination directory for translated jar files can not be found, skipping, dir = ".
+                        $destination_dir."\n";
+                    continue;
+                }
+
+                // Get a list of the files to be moved.
+                $project_dir_contents = glob( $backup_dir.'/*.jar' );
+                // Move all of the files in this directory.
+                foreach ( $project_dir_contents as $file_name ) {
+                    // Get the name of the file by itself (w/o rest of path).
+                    $short_file_name_pos = strripos($file_name, "/") + 1;
+                    $short_file_name = substr($file_name, $short_file_name_pos);
+                    // Perform the actual move operation.
+                    rename($file_name, $destination_dir.$short_file_name);
+                }
+                // Delete this backup directory.
+                rmdir($backup_dir);
+            }
+        }
+
+        // Remove the temporary directory where the translated jars where
+        // stored.
+        if (count(glob(TRANSLATED_JAR_TEMP_DIR."*") == 0)){
+            rmdir(TRANSLATED_JAR_TEMP_DIR);
+        }
+        else{
+            print "ERROR: ".TRANSLATED_JAR_TEMP_DIR." is not empty, not deleting it.\n";
         }
     }
 
