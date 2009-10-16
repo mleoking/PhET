@@ -343,4 +343,52 @@
         installer_create_marker_file();
     }
 
+    //--------------------------------------------------------------------------
+    // Move the translated jar files out of the sims directory and into a
+    // temporary directory.  Note that there is a sister function to this one
+    // that moves them back.  This was created so that an installer can be
+    // created that does not include these (often fairly large) files.
+    //--------------------------------------------------------------------------
+    function ripper_move_out_translated_jars() {
+
+        // Create the directory where these files will reside (if it doesn't
+        // already exist.
+        if (!file_exists(TRANSLATED_JAR_TEMP_DIR)){
+            mkdir(TRANSLATED_JAR_TEMP_DIR);
+        }
+
+        // Make a list of all the simulation directories.
+        $sim_dir_contents = glob( RIPPED_WEBSITE_SIMS_PARENT_DIR.PHET_SIMS_SUBDIR."*" );
+
+        // Loop through each directory moving all translated jar files.
+        foreach ( $sim_dir_contents as $sim_dir ) {
+            if (is_dir($sim_dir)){
+                // Extract the name of the sim project.
+                $sim_project_name_pos = strripos($sim_dir, "/") + 1;
+                $sim_project_name = substr($sim_dir, $sim_project_name_pos);
+                print "--> Project: ".$sim_project_name."\n";
+
+                // Create the destination directory.
+                $destination_dir = TRANSLATED_JAR_TEMP_DIR.$sim_project_name.'/';
+                if (!file_exists($destination_dir)){
+                    print "--> Creating destination dir: ".$destination_dir."\n";
+                    mkdir($destination_dir);
+                }
+
+                // Get a list of the jar files for this project.
+                $project_dir_contents = glob( $sim_dir.'/*.jar' );
+                foreach ( $project_dir_contents as $file_name ) {
+                    if (!preg_match('/.*_all.jar/', $file_name)){  // Make sure we don't move the "all" jar.
+                        // Get the name of the file by itself (w/o rest of path).
+                        $short_file_name_pos = strripos($file_name, "/") + 1;
+                        $short_file_name = substr($file_name, $short_file_name_pos);
+                        // Perform the actual move operation.
+                        print "rename ".$file_name." to ".$destination_dir.$short_file_name."\n";
+                        rename($file_name, $destination_dir.$short_file_name);
+                    }
+                }
+            }
+        }
+    }
+
 ?>
