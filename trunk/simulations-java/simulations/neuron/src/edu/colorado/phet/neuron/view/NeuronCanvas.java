@@ -88,8 +88,6 @@ public class NeuronCanvas extends PhetPCanvas {
         this.model.addListener(new AxonModel.Adapter() {
 			public void channelAdded(AbstractMembraneChannel channel) {
 				addChannelNode(channel);
-				PCamera camera = getCamera();
-				camera.scaleView(2);
 			}
 		});
         
@@ -176,7 +174,9 @@ public class NeuronCanvas extends PhetPCanvas {
     }
     
     public void setCameraScale(double cameraScale){
-    	getCamera().setViewScale(cameraScale);
+    	double scaleFactor = cameraScale / getCameraScale();
+    	getCamera().scaleViewAboutPoint(scaleFactor, mvt.modelToViewXDouble(0),
+    			mvt.modelToViewYDouble(0));
     }
     
     public double getCameraScale(){
