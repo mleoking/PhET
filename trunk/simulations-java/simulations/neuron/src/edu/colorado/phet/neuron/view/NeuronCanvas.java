@@ -176,7 +176,7 @@ public class NeuronCanvas extends PhetPCanvas {
     public void setCameraScale(double cameraScale){
     	double scaleFactor = cameraScale / getCameraScale();
     	getCamera().scaleViewAboutPoint(scaleFactor, mvt.modelToViewXDouble(0),
-    			mvt.modelToViewYDouble(0));
+    			mvt.modelToViewYDouble(model.getAxonMembrane().getCrossSectionDiameter() / 2));
     }
     
     public double getCameraScale(){
