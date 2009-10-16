@@ -1,7 +1,7 @@
 package edu.colorado.phet.motionseries.sims.theramp.robotmovingcompany
 
-import common.phetcommon.view.util.PhetFont
-import common.piccolophet.nodes.{ArrowNode, HTMLNode, PhetPPath}
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont
+import edu.colorado.phet.common.piccolophet.nodes.{ArrowNode, HTMLNode, PhetPPath}
 import edu.colorado.phet.common.phetcommon.view.PhetFrame
 import edu.colorado.phet.motionseries.model.MotionSeriesModel
 import edu.colorado.phet.scalacommon.ScalaClock
@@ -11,8 +11,8 @@ import java.awt.event.{KeyEvent, KeyAdapter}
 import java.awt.geom.Point2D
 import java.awt.{BasicStroke, Rectangle, Color}
 import javax.swing.{SwingUtilities}
-import umd.cs.piccolo.nodes.{PText, PImage}
-import umd.cs.piccolo.PNode
+import edu.umd.cs.piccolo.nodes.{PText, PImage}
+import edu.umd.cs.piccolo.PNode
 
 class RobotMovingCompanyModule(frame: PhetFrame,
                                clock: ScalaClock,

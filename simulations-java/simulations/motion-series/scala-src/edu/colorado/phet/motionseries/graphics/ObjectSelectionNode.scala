@@ -21,7 +21,7 @@ import edu.colorado.phet.scalacommon.Predef._
 import java.lang.Math._
 import edu.colorado.phet.motionseries.Predef._
 import edu.colorado.phet.motionseries.swing._
-import umd.cs.piccolo.util.{PPaintContext, PBounds, PDimension}
+import edu.umd.cs.piccolo.util.{PPaintContext, PBounds, PDimension}
 
 trait ObjectModel {
   def selectedObject: MotionSeriesObject

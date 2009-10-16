@@ -1,9 +1,9 @@
 package edu.colorado.phet.motionseries.model
 
-import common.motion.model.TimeData
-import common.motion.MotionMath
-import scalacommon.math.Vector2D
-import scalacommon.util.Observable
+import edu.colorado.phet.common.motion.model.TimeData
+import edu.colorado.phet.common.motion.MotionMath
+import edu.colorado.phet.scalacommon.math.Vector2D
+import edu.colorado.phet.scalacommon.util.Observable
 
 //TODO: change from:
 //MovingManBead extends ForceBead extends Bead

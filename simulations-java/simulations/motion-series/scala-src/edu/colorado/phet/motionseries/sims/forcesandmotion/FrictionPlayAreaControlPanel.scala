@@ -9,7 +9,7 @@ import edu.colorado.phet.motionseries.MotionSeriesResources
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 import edu.colorado.phet.motionseries.MotionSeriesDefaults._
 import edu.colorado.phet.motionseries.swing._
-import model.{ForceBead, Bead}
+import edu.colorado.phet.motionseries.model.{ForceBead, Bead}
 
 class MyValueControl(min: Double, max: Double, getter: () => Double, setter: Double => Unit, title: String, numberFormat: String, units: String, bead: Bead)
         extends ScalaValueControl(min, max, title, numberFormat, units, getter, setter, bead.addListener, new HorizontalLayoutStrategy) {

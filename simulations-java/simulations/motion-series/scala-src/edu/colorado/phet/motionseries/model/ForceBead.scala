@@ -1,9 +1,10 @@
 package edu.colorado.phet.motionseries.model
 
 import collection.mutable.ArrayBuffer
-import scalacommon.math.Vector2D
-import scalacommon.util.Observable
+import edu.colorado.phet.scalacommon.math.Vector2D
+import edu.colorado.phet.scalacommon.util.Observable
 import edu.colorado.phet.motionseries.Predef._
+import edu.colorado.phet.motionseries._
 
 /**
  * This adds Force functionality to the Bead model class, such as ability to get force components and to set applied force.

@@ -1,6 +1,6 @@
 package edu.colorado.phet.motionseries.model
 
-import scalacommon.util.Observable
+import edu.colorado.phet.scalacommon.util.Observable
 
 class WordModel extends Observable {
   private var _physicsWords = true

@@ -1,13 +1,13 @@
 package edu.colorado.phet.motionseries.sims.theramp.robotmovingcompany
 
 import collection.mutable.{HashMap, ArrayBuffer}
-import common.phetcommon.math.MathUtil
+import edu.colorado.phet.common.phetcommon.math.MathUtil
 import edu.colorado.phet.scalacommon.ScalaClock
 import edu.colorado.phet.scalacommon.util.Observable
 import edu.colorado.phet.scalacommon.math.Vector2D
 import java.lang.Math._
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
-import model._
+import edu.colorado.phet.motionseries.model._
 
 class RobotMovingCompanyGameModel(val model: MotionSeriesModel,
                                   clock: ScalaClock,

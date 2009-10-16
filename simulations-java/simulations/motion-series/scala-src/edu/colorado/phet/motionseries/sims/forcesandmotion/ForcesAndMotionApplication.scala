@@ -16,7 +16,7 @@ import edu.colorado.phet.motionseries.controls.RampControlPanel
 import edu.colorado.phet.motionseries.MotionSeriesModule
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.colorado.phet.motionseries.sims.theramp.StageContainerArea
-import theramp.robotmovingcompany.RobotMovingCompanyModule
+import edu.colorado.phet.motionseries.sims.theramp.robotmovingcompany.RobotMovingCompanyModule
 
 class ForcesAndMotionModule(frame: PhetFrame,
                             clock: ScalaClock,
