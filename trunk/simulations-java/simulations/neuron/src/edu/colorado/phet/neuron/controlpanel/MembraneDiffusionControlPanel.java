@@ -2,18 +2,29 @@
 
 package edu.colorado.phet.neuron.controlpanel;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Frame;
+import java.awt.Image;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Hashtable;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.neuron.NeuronResources;
 import edu.colorado.phet.neuron.NeuronStrings;
@@ -21,7 +32,10 @@ import edu.colorado.phet.neuron.model.AbstractMembraneChannel;
 import edu.colorado.phet.neuron.model.AxonModel;
 import edu.colorado.phet.neuron.model.MembraneChannelTypes;
 import edu.colorado.phet.neuron.model.ParticleType;
+import edu.colorado.phet.neuron.model.PotassiumIon;
+import edu.colorado.phet.neuron.model.SodiumIon;
 import edu.colorado.phet.neuron.view.NeuronCanvas;
+import edu.colorado.phet.neuron.view.ParticleNode;
 
 /**
  * Control panel for the membrane diffusion module.
@@ -43,6 +57,7 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
 	private LeakChannelSlider potassiumLeakChannelControl;
 	private ConcentrationSlider sodiumConcentrationControl;
 	private ConcentrationSlider potassiumConcentrationControl;
+	private ZoomSlider zoomSlider;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -118,6 +133,10 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
         chartControlCheckbox.setAlignmentX(CENTER_ALIGNMENT);
         addControlFullWidth(chartControlCheckbox);
         
+        // Add the zoom slider.
+        zoomSlider = new ZoomSlider("Zoom Control", neuronCanvas);
+        addControlFullWidth(zoomSlider);
+        
         // Add the reset all button.
         addControlFullWidth(createVerticalSpacingPanel(30));
         addResetAllButton( module );
@@ -125,6 +144,7 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
         // Update the states of the controls.
         updateChannelControlSliders();
         updateConcentrationControlSliders();
+        updateZoomSlider();
     }
     
     //----------------------------------------------------------------------------
@@ -157,10 +177,54 @@ public class MembraneDiffusionControlPanel extends ControlPanel {
     	}
     }
     
+    private void updateZoomSlider(){
+    	
+    	if ( zoomSlider.getValue() != neuronCanvas.getCameraScale()){
+    		zoomSlider.setValue(neuronCanvas.getCameraScale());
+    	}
+    }
+    
     private JPanel createVerticalSpacingPanel(int space){
         JPanel spacePanel = new JPanel();
         spacePanel.setLayout( new BoxLayout( spacePanel, BoxLayout.Y_AXIS ) );
         spacePanel.add( Box.createVerticalStrut( space ) );
         return spacePanel;
+    }
+    
+    private static class ZoomSlider extends LinearValueControl{
+    	
+        private static final Font LABEL_FONT = new PhetFont(12);
+        private static final double MIN_VAL = 0.5;
+        private static final double MAX_VAL = 2.2;
+        
+		public ZoomSlider(String title, final NeuronCanvas neuronCanvas) {
+            super( MIN_VAL, MAX_VAL, title, "0", "");
+            setUpDownArrowDelta( 0.01 );
+            setTextFieldVisible(false);
+            setMinorTicksVisible(false);
+            setBorder( BorderFactory.createEtchedBorder() );
+            setSnapToTicks(false);
+            
+            // Put in the labels for the left and right bottom portion of the
+            // slider.
+            Hashtable<Double, JLabel> concentrationSliderLabelTable = new Hashtable<Double, JLabel>();
+            JLabel leftLabel = new JLabel("Far");
+            leftLabel.setFont( LABEL_FONT );
+            concentrationSliderLabelTable.put( new Double( MAX_VAL ), leftLabel );
+            JLabel rightLabel = new JLabel("Close");
+            rightLabel.setFont( LABEL_FONT );
+            concentrationSliderLabelTable.put( new Double( MAX_VAL ), rightLabel );
+            setTickLabels( concentrationSliderLabelTable );
+
+            // Set up the change listener for this control.
+            addChangeListener(new ChangeListener() {
+            	public void stateChanged(ChangeEvent e) {
+            		double value = getValue();
+            		if ( value != neuronCanvas.getCameraScale() ){
+            			neuronCanvas.setCameraScale(value);
+            		}
+            	}
+            });
+		}
     }
 }

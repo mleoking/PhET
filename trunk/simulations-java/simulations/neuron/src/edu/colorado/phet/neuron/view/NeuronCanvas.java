@@ -16,6 +16,7 @@ import edu.colorado.phet.neuron.NeuronConstants;
 import edu.colorado.phet.neuron.model.AbstractMembraneChannel;
 import edu.colorado.phet.neuron.model.Particle;
 import edu.colorado.phet.neuron.model.AxonModel;
+import edu.umd.cs.piccolo.PCamera;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -87,6 +88,8 @@ public class NeuronCanvas extends PhetPCanvas {
         this.model.addListener(new AxonModel.Adapter() {
 			public void channelAdded(AbstractMembraneChannel channel) {
 				addChannelNode(channel);
+				PCamera camera = getCamera();
+				camera.scaleView(2);
 			}
 		});
         
@@ -170,6 +173,14 @@ public class NeuronCanvas extends PhetPCanvas {
     
     public void setVoltmeterVisible(boolean isVisible){
     	voltmeter.setVisible(isVisible);
+    }
+    
+    public void setCameraScale(double cameraScale){
+    	getCamera().setViewScale(cameraScale);
+    }
+    
+    public double getCameraScale(){
+    	return getCamera().getViewScale();
     }
     
     private void addAtom(Particle atomToBeAdded){
