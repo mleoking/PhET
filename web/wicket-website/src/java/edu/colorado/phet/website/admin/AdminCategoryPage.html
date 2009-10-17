@@ -10,20 +10,20 @@
     </wicket:remove>
     <wicket:head>
         <style type="text/css">
-            table.adminx {
+            table.adminy {
                 border: 1px outset gray;
                 border-spacing: 2px;
                 border-collapse: collapse;
                 background-color: white;
             }
 
-            table.adminx th {
+            table.adminy th {
                 border: 1px dotted gray;
                 padding: 1px 1px 1px 1px;
                 background-color: white;
             }
 
-            table.adminx td {
+            table.adminy td {
                 border: 1px dotted gray;
                 padding: 1px 1px 1px 1px;
                 background-color: white;
@@ -35,14 +35,7 @@
 
 <wicket:extend>
     <div>
-        <h2>Editable Categories</h2>
-        <table class="adminx">
-            <tr wicket:id="categories">
-                <td>
-                    <a wicket:id="category-link"><span wicket:id="title">Category Title</span></a>
-                </td>
-            </tr>
-        </table>
+        <h2>Edit Category: <span wicket:id="category-title">Category Title</span></h2>
     </div>
 </wicket:extend>
 
