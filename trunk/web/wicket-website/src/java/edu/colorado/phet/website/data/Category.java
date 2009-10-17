@@ -73,6 +73,11 @@ public class Category implements Serializable {
         return category;
     }
 
+    public static Category getRootCategory( Session session ) {
+        // NOTE: must be in session transaction
+        return (Category) session.createQuery( "select c from Category as c where c.root = true" ).uniqueResult();
+    }
+
     public NavLocation getNavLocation( NavMenu menu ) {
         return menu.getLocationByKey( getName() );
     }
@@ -86,6 +91,15 @@ public class Category implements Serializable {
         }
         else {
             return getParent().getCategoryPath() + "/" + getName();
+        }
+    }
+
+    public int getDepth() {
+        if ( isRoot() ) {
+            return 0;
+        }
+        else {
+            return getParent().getDepth() + 1;
         }
     }
 
