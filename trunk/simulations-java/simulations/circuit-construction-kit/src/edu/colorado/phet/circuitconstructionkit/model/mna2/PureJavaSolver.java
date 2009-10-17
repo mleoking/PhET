@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import edu.colorado.phet.circuitconstructionkit.model.Circuit;
 import edu.colorado.phet.circuitconstructionkit.model.analysis.CircuitSolver;
 import edu.colorado.phet.circuitconstructionkit.model.components.*;
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 
 public class PureJavaSolver extends CircuitSolver {
     static interface Adapter {
@@ -109,9 +110,29 @@ public class PureJavaSolver extends CircuitSolver {
         public MNA.Element getElement() {
             return this;
         }
+            static boolean signsMatch(double x,double y){
+        return MathUtil.getSign(x) == MathUtil.getSign(y);
+    }
 
-        void applySolution( CompanionMNA.CompanionSolution sol ) {
-            AdapterUtil.applySolution( sol, this );
+        //This workaround is to help improve behavior for situations such as a battery connected directly to a capacitor
+        //See #1813 and TestTheveninCapacitorRC
+        void applySolution(CompanionMNA.CompanionSolution sol) {
+            double oldCurrent = b.getCurrent();
+            double newCurrent = sol.getCurrent(getElement());
+
+            double oldVoltage = b.getVoltageDrop();
+            double newVoltage = sol.getVoltage(getElement());
+
+            double avgCurrent = (oldCurrent + newCurrent) / 2.0;
+            double avgVoltage = (oldVoltage + newVoltage) / 2.0;
+
+            if (!signsMatch(oldCurrent, newCurrent) || !signsMatch(oldVoltage, newVoltage)) {
+                getComponent().setCurrent(avgCurrent);
+                getComponent().setVoltageDrop(avgVoltage);
+            } else {
+                getComponent().setCurrent(newCurrent);
+                getComponent().setVoltageDrop(newVoltage);
+            }
         }
     }
 
