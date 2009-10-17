@@ -19,9 +19,9 @@ public class FullInstallPanel extends PhetPanel {
                 "href=\"http://www.microsoft.com/windows/products/winfamily/ie/default.mspx\""
         } ) );
 
-        add( new LocalizedText( "size-win", "get-phet.full-install.downloadInMB", new Object[]{"91"} ) );
-        add( new LocalizedText( "size-mac", "get-phet.full-install.downloadInMB", new Object[]{"80"} ) );
-        add( new LocalizedText( "size-lnx", "get-phet.full-install.downloadInMB", new Object[]{"75"} ) );
+//        add( new LocalizedText( "size-win", "get-phet.full-install.downloadInMB", new Object[]{"91"} ) );
+//        add( new LocalizedText( "size-mac", "get-phet.full-install.downloadInMB", new Object[]{"80"} ) );
+//        add( new LocalizedText( "size-lnx", "get-phet.full-install.downloadInMB", new Object[]{"75"} ) );
 
         add( new LocalizedText( "contact-for-cd-link", "get-phet.full-install.contactForCD", new Object[]{
                 AboutContactPanel.getLinker().getHref( context )
