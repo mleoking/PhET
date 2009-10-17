@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.wicket.Component;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.behavior.AttributeAppender;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.Model;
@@ -42,13 +43,22 @@ public class AdminCategoriesPage extends AdminPage {
 
         add( new ListView( "categories", categories ) {
             protected void populateItem( ListItem item ) {
-                Category category = (Category) item.getModel().getObject();
+                final Category category = (Category) item.getModel().getObject();
+
                 Component titleComponent;
-                NavLocation navLocation = category.getNavLocation( getNavMenu() );
-                String key = navLocation.getLocalizationKey();
-                titleComponent = new LocalizedText( "title", key );
-                titleComponent.add( new AttributeAppender( "style", new Model( "padding-left: " + String.valueOf( category.getDepth() * 20 ) + "px;" ), "" ) );
-                item.add( titleComponent );
+                titleComponent = new LocalizedText( "title", category.getNavLocation( getNavMenu() ).getLocalizationKey() );
+                titleComponent.add( new AttributeAppender( "style", new Model( "margin-left: " + String.valueOf( category.getDepth() * 20 ) + "px;" ), "" ) );
+
+                Link categoryLink = new Link( "category-link" ) {
+                    public void onClick() {
+                        PageParameters params = new PageParameters();
+                        params.put( "categoryId", category.getId() );
+                        setResponsePage( AdminCategoryPage.class, params );
+                    }
+                };
+
+                categoryLink.add( titleComponent );
+                item.add( categoryLink );
             }
         } );
     }
