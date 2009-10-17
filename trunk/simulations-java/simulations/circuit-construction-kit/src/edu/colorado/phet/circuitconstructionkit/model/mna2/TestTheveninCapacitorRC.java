@@ -19,16 +19,17 @@ public class TestTheveninCapacitorRC {
         }
 
         public double distance(State state) {
-//            return (Math.abs(state.v - v) + Math.abs(state.i - i))/2;//todo: when comparing entire circuits, important to divide by number of components
-            return Math.abs(state.i - i);//todo: when comparing entire circuits, important to divide by number of components
+            return (Math.abs(state.v - v) + Math.abs(state.i - i))/2;//todo: when comparing entire circuits, important to divide by number of components
+//            return Math.abs(state.i - i);//todo: when comparing entire circuits, important to divide by number of components
         }
     }
 
     public static void main(String[] args) throws IOException {
         DecimalFormat f = new DecimalFormat("0.000000000000000000");
         double vBattery = 9;
+//        double rResistor = 100;
         double rResistor = 1E-6;
-        double c = 1E-1;
+        double c = 0.1;
 
         State state = new State(0, vBattery / rResistor);
 
@@ -41,7 +42,7 @@ public class TestTheveninCapacitorRC {
         bufferedWriter.write(headers + "\n");
         double t = 0;
         double BASE_DT = 0.03;
-        for (int j = 0; j < 5000; j++) {
+        for (int j = 0; j <1000; j++) {
 
             if (j > 2000) {
 //                System.out.println("");
@@ -70,22 +71,33 @@ public class TestTheveninCapacitorRC {
     }
 
     private static double getTimestep(double vBattery, double rResistor, double c, State state, double dt) {
-        State a = newState(vBattery, rResistor, c, state, dt);
-
-        State b1 = newState(vBattery, rResistor, c, state, dt / 2);
-        State b2 = newState(vBattery, rResistor, c, b1, dt / 2);
-        double dist = a.distance(b2);
-        if (dist < 0.01) return dt;
-        else return getTimestep(vBattery, rResistor, c, state, dt / 2);
+        return dt;
+//        State a = newState(vBattery, rResistor, c, state, dt);
+//
+//        State b1 = newState(vBattery, rResistor, c, state, dt / 2);
+//        State b2 = newState(vBattery, rResistor, c, b1, dt / 2);
+//        double dist = a.distance(b2);
+//        if (dist < 1E-6) return dt;
+//        else return getTimestep(vBattery, rResistor, c, state, dt / 2);
     }
 
+    static boolean signsMatch(double x,double y){
+        return MathUtil.getSign(x) == MathUtil.getSign(y);
+    }
     private static State newState(double vBattery, double rResistor, double c, State state, double dt) {
-        double vc = MathUtil.clamp(-9,state.v + dt / 2 / c * state.i,9);
+//        double vc = MathUtil.clamp(-9,state.v + dt / 2 / c * state.i,9);
+        double vc = state.v + dt / 2 / c * state.i;
         double rc = dt / 2 / c;
+//        System.out.println("vc = " + vc+", rc = "+rc);
         double newCurrent = (vBattery - vc) / (rc + rResistor);
         double newVoltage = vBattery - newCurrent * rResistor;//signs may be wrong here
+        double avgCurrent = (newCurrent + state.i)/2.0;
+        double avgVolts = (newVoltage + state.v) / 2.0;
 
-        return new State(newVoltage, newCurrent);
+        if (!signsMatch(newVoltage,state.v) || !signsMatch(newCurrent,state.i)){
+            return new State(avgVolts, avgCurrent);
+        }
+        else return new State(newVoltage, newCurrent);
     }
 
 //    private static double getTimestep(double v, double i) {
