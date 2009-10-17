@@ -1,3 +1,5 @@
+# 2.00.03 (35900) Oct 17, 2009
+10/17/09 Internationalization fixes
 # 2.00.02 (32390) Jun 9, 2009
 6/9/09 Testing IE accessibility fix
 # 2.00.01 (32309) Jun 4, 2009
