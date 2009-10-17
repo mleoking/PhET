@@ -1,11 +1,11 @@
 package edu.colorado.phet.circuitconstructionkit.model.mna2;
 
-import java.util.ArrayList;
-
 import edu.colorado.phet.circuitconstructionkit.model.Circuit;
 import edu.colorado.phet.circuitconstructionkit.model.analysis.CircuitSolver;
 import edu.colorado.phet.circuitconstructionkit.model.components.*;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+
+import java.util.ArrayList;
 
 public class PureJavaSolver extends CircuitSolver {
     static interface Adapter {
@@ -15,9 +15,9 @@ public class PureJavaSolver extends CircuitSolver {
     }
 
     public static class AdapterUtil {
-        public static void applySolution( CompanionMNA.CompanionSolution sol, Adapter adapter ) {
-            adapter.getComponent().setCurrent( sol.getCurrent( adapter.getElement() ) );
-            adapter.getComponent().setVoltageDrop( sol.getVoltage( adapter.getElement() ) );
+        public static void applySolution(CompanionMNA.CompanionSolution sol, Adapter adapter) {
+            adapter.getComponent().setCurrent(sol.getCurrent(adapter.getElement()));
+            adapter.getComponent().setVoltageDrop(sol.getVoltage(adapter.getElement()));
         }
 
     }
@@ -26,8 +26,8 @@ public class PureJavaSolver extends CircuitSolver {
         Circuit c;
         Battery b;
 
-        ResistiveBatteryAdapter( Circuit c, Battery b ) {
-            super( c.indexOf( b.getStartJunction() ), c.indexOf( b.getEndJunction() ), b.getVoltageDrop(), b.getResistance() );
+        ResistiveBatteryAdapter(Circuit c, Battery b) {
+            super(c.indexOf(b.getStartJunction()), c.indexOf(b.getEndJunction()), b.getVoltageDrop(), b.getResistance());
             this.c = c;
             this.b = b;
         }
@@ -41,8 +41,8 @@ public class PureJavaSolver extends CircuitSolver {
         }
 
         //don't set voltage on the battery; that actually changes its nominal voltage
-        void applySolution( CompanionMNA.CompanionSolution sol ) {
-            getComponent().setCurrent( sol.getCurrent( this ) );
+        void applySolution(CompanionMNA.CompanionSolution sol) {
+            getComponent().setCurrent(sol.getCurrent(this));
         }
     }
 
@@ -51,7 +51,7 @@ public class PureJavaSolver extends CircuitSolver {
         Circuit c;
         Branch b;
 
-        OpenAdapter( Circuit c, Branch b ) {
+        OpenAdapter(Circuit c, Branch b) {
             this.c = c;
             this.b = b;
         }
@@ -64,9 +64,9 @@ public class PureJavaSolver extends CircuitSolver {
             return null;
         }
 
-        void applySolution( CompanionMNA.CompanionSolution sol ) {
-            getComponent().setCurrent( 0.0 );
-            getComponent().setVoltageDrop( 0.0 );//todo: will this cause numerical problems?
+        void applySolution(CompanionMNA.CompanionSolution sol) {
+            getComponent().setCurrent(0.0);
+            getComponent().setVoltageDrop(0.0);//todo: will this cause numerical problems?
         }
     }
 
@@ -74,8 +74,8 @@ public class PureJavaSolver extends CircuitSolver {
         Circuit c;
         Branch b;
 
-        ResistorAdapter( Circuit c, Branch b ) {
-            super( c.indexOf( b.getStartJunction() ), c.indexOf( b.getEndJunction() ), b.getResistance() );
+        ResistorAdapter(Circuit c, Branch b) {
+            super(c.indexOf(b.getStartJunction()), c.indexOf(b.getEndJunction()), b.getResistance());
             this.c = c;
             this.b = b;
         }
@@ -88,8 +88,8 @@ public class PureJavaSolver extends CircuitSolver {
             return this;
         }
 
-        void applySolution( CompanionMNA.CompanionSolution sol ) {
-            AdapterUtil.applySolution( sol, this );
+        void applySolution(CompanionMNA.CompanionSolution sol) {
+            AdapterUtil.applySolution(sol, this);
         }
     }
 
@@ -97,8 +97,8 @@ public class PureJavaSolver extends CircuitSolver {
         Circuit c;
         Capacitor b;
 
-        CapacitorAdapter( Circuit c, Capacitor b ) {
-            super( c.indexOf( b.getStartJunction() ), c.indexOf( b.getEndJunction() ), b.getCapacitance(), b.getVoltageDrop(), b.getCurrent() );
+        CapacitorAdapter(Circuit c, Capacitor b) {
+            super(c.indexOf(b.getStartJunction()), c.indexOf(b.getEndJunction()), b.getCapacitance(), b.getVoltageDrop(), b.getCurrent());
             this.c = c;
             this.b = b;
         }
@@ -110,9 +110,10 @@ public class PureJavaSolver extends CircuitSolver {
         public MNA.Element getElement() {
             return this;
         }
-            static boolean signsMatch(double x,double y){
-        return MathUtil.getSign(x) == MathUtil.getSign(y);
-    }
+
+        static boolean signsMatch(double x, double y) {
+            return MathUtil.getSign(x) == MathUtil.getSign(y);
+        }
 
         //This workaround is to help improve behavior for situations such as a battery connected directly to a capacitor
         //See #1813 and TestTheveninCapacitorRC
@@ -140,8 +141,8 @@ public class PureJavaSolver extends CircuitSolver {
         Circuit c;
         Inductor b;
 
-        InductorAdapter( Circuit c, Inductor b ) {
-            super( c.indexOf( b.getStartJunction() ), c.indexOf( b.getEndJunction() ), b.getInductance(), b.getVoltageDrop(), b.getCurrent() );
+        InductorAdapter(Circuit c, Inductor b) {
+            super(c.indexOf(b.getStartJunction()), c.indexOf(b.getEndJunction()), b.getInductance(), b.getVoltageDrop(), b.getCurrent());
             this.c = c;
             this.b = b;
         }
@@ -154,58 +155,49 @@ public class PureJavaSolver extends CircuitSolver {
             return this;
         }
 
-        void applySolution( CompanionMNA.CompanionSolution sol ) {
-            AdapterUtil.applySolution( sol, this );
+        void applySolution(CompanionMNA.CompanionSolution sol) {
+            AdapterUtil.applySolution(sol, this);
         }
     }
 
-    public void apply( Circuit circuit, double dt ) {
+    public void apply(Circuit circuit, double dt) {
         ArrayList<ResistiveBatteryAdapter> batteries = new ArrayList<ResistiveBatteryAdapter>();
         ArrayList<ResistorAdapter> resistors = new ArrayList<ResistorAdapter>();
         ArrayList<OpenAdapter> openBranches = new ArrayList<OpenAdapter>();
         ArrayList<CapacitorAdapter> capacitors = new ArrayList<CapacitorAdapter>();
         ArrayList<InductorAdapter> inductors = new ArrayList<InductorAdapter>();
-        for ( int i = 0; i < circuit.numBranches(); i++ ) {
-            if ( circuit.getBranches()[i] instanceof Battery ) {
-                batteries.add( new ResistiveBatteryAdapter( circuit, (Battery) circuit.getBranches()[i] ) );
-            }
-            else if ( circuit.getBranches()[i] instanceof Resistor ) {
-                resistors.add( new ResistorAdapter( circuit, circuit.getBranches()[i] ) );
-            }
-            else if ( circuit.getBranches()[i] instanceof Wire ) {
-                resistors.add( new ResistorAdapter( circuit, circuit.getBranches()[i] ) );
-            }
-            else if ( circuit.getBranches()[i] instanceof Filament ) {
-                resistors.add( new ResistorAdapter( circuit, circuit.getBranches()[i] ) );
-            }
-            else if ( circuit.getBranches()[i] instanceof Switch ) {//todo: how to handle switch here.
+        for (int i = 0; i < circuit.numBranches(); i++) {
+            if (circuit.getBranches()[i] instanceof Battery) {
+                batteries.add(new ResistiveBatteryAdapter(circuit, (Battery) circuit.getBranches()[i]));
+            } else if (circuit.getBranches()[i] instanceof Resistor) {
+                resistors.add(new ResistorAdapter(circuit, circuit.getBranches()[i]));
+            } else if (circuit.getBranches()[i] instanceof Wire) {
+                resistors.add(new ResistorAdapter(circuit, circuit.getBranches()[i]));
+            } else if (circuit.getBranches()[i] instanceof Filament) {
+                resistors.add(new ResistorAdapter(circuit, circuit.getBranches()[i]));
+            } else if (circuit.getBranches()[i] instanceof Switch) {//todo: how to handle switch here.
                 //todo: perhaps if it is open; don't add it at all, and just make sure we make its current zero afterwards
                 //todo:
                 Switch sw = (Switch) circuit.getBranches()[i];
-                if ( sw.isClosed() ) {
-                    resistors.add( new ResistorAdapter( circuit, circuit.getBranches()[i] ) );
+                if (sw.isClosed()) {
+                    resistors.add(new ResistorAdapter(circuit, circuit.getBranches()[i]));
+                } else {
+                    openBranches.add(new OpenAdapter(circuit, circuit.getBranches()[i]));
                 }
-                else {
-                    openBranches.add( new OpenAdapter( circuit, circuit.getBranches()[i] ) );
-                }
-            }
-            else if ( circuit.getBranches()[i] instanceof Bulb ) {
-                resistors.add( new ResistorAdapter( circuit, circuit.getBranches()[i] ) );
-            }
-            else if ( circuit.getBranches()[i] instanceof SeriesAmmeter ) {
-                resistors.add( new ResistorAdapter( circuit, circuit.getBranches()[i] ) );
-            }
-            else if ( circuit.getBranches()[i] instanceof Capacitor ) {
-                capacitors.add( new CapacitorAdapter( circuit, (Capacitor) circuit.getBranches()[i] ) );
-            }
-            else if ( circuit.getBranches()[i] instanceof Inductor ) {
-                inductors.add( new InductorAdapter( circuit, (Inductor) circuit.getBranches()[i] ) );
-            }else{
-                new RuntimeException( "Type not found: "+circuit.getBranches()[i]).printStackTrace(  );
+            } else if (circuit.getBranches()[i] instanceof Bulb) {
+                resistors.add(new ResistorAdapter(circuit, circuit.getBranches()[i]));
+            } else if (circuit.getBranches()[i] instanceof SeriesAmmeter) {
+                resistors.add(new ResistorAdapter(circuit, circuit.getBranches()[i]));
+            } else if (circuit.getBranches()[i] instanceof Capacitor) {
+                capacitors.add(new CapacitorAdapter(circuit, (Capacitor) circuit.getBranches()[i]));
+            } else if (circuit.getBranches()[i] instanceof Inductor) {
+                inductors.add(new InductorAdapter(circuit, (Inductor) circuit.getBranches()[i]));
+            } else {
+                new RuntimeException("Type not found: " + circuit.getBranches()[i]).printStackTrace();
             }
 
         }
-        CompanionMNA.FullCircuit circ = new CompanionMNA.FullCircuit( batteries, resistors, capacitors, inductors );
+        CompanionMNA.FullCircuit circ = new CompanionMNA.FullCircuit(batteries, resistors, capacitors, inductors);
 
 //        double dynamicDT = getDT(circ,dt);
         double dynamicDT = dt;
@@ -216,33 +208,33 @@ public class PureJavaSolver extends CircuitSolver {
 //        for (int i = 0; i < numTimeSteps; i++) {
 //            solution = solution.fullCircuit.solve(dynamicDT);
 //        }
-        for ( ResistiveBatteryAdapter batteryAdapter : batteries ) {
-            batteryAdapter.applySolution( solution );
+        for (ResistiveBatteryAdapter batteryAdapter : batteries) {
+            batteryAdapter.applySolution(solution);
         }
-        for ( ResistorAdapter resistorAdapter : resistors ) {
-            resistorAdapter.applySolution( solution );
+        for (ResistorAdapter resistorAdapter : resistors) {
+            resistorAdapter.applySolution(solution);
         }
-        for ( CapacitorAdapter capacitorAdapter : capacitors ) {
-            capacitorAdapter.applySolution( solution );
+        for (CapacitorAdapter capacitorAdapter : capacitors) {
+            capacitorAdapter.applySolution(solution);
         }
-        for ( InductorAdapter inductorAdapter : inductors ) {
-            inductorAdapter.applySolution( solution );
+        for (InductorAdapter inductorAdapter : inductors) {
+            inductorAdapter.applySolution(solution);
         }
-        for ( OpenAdapter openAdapter : openBranches ) {
-            openAdapter.applySolution( solution );
+        for (OpenAdapter openAdapter : openBranches) {
+            openAdapter.applySolution(solution);
         }
         circuit.setSolution(solution);
         fireCircuitSolved();
     }
 
     private double getDT(CompanionMNA.FullCircuit circ, double dt) {
-        CompanionMNA.CompanionSolution a = circ.solve( dt );
-        CompanionMNA.CompanionSolution b1 = circ.solve( dt/2 );
-        CompanionMNA.CompanionSolution b2 = b1.fullCircuit.solve( dt/2 );
+        CompanionMNA.CompanionSolution a = circ.solve(dt);
+        CompanionMNA.CompanionSolution b1 = circ.solve(dt / 2);
+        CompanionMNA.CompanionSolution b2 = b1.fullCircuit.solve(dt / 2);
 
         double distance = b2.distance(a);
-        System.out.println("dt = " + dt +" => "+distance);
-        if (distance<1E-2)return dt;
-        else return getDT(circ, dt/2);
+        System.out.println("dt = " + dt + " => " + distance);
+        if (distance < 1E-2) return dt;
+        else return getDT(circ, dt / 2);
     }
 }
