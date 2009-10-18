@@ -40,14 +40,23 @@
             <tr>
                 <th>Project</th>
                 <th>Version</th>
+                <th/>
             </tr>
             <tr wicket:id="project-list">
                 <td>
                     <a wicket:id="project-link"><span wicket:id="project-name">Project Name</span></a>
                 </td>
                 <td wicket:id="project-version">Project Version</td>
+                <td><a wicket:id="remove-link">remove</a></td>
             </tr>
         </table>
+
+        <h2>Add a project</h2>
+
+        <form wicket:id="add-project-form">
+            <input wicket:id="name" type="text" value="" size="40"/>
+            <input type="submit" name="submit" value="Add Project"/>
+        </form>
     </div>
 </wicket:extend>
 
