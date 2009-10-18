@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:wicket="http://svn.apache.org/repos/asf/wicket/trunk/wicket/wicket-xhtml1-strict.dtd" xml:lang="en"
+      lang="en">
+<head>
+    <title>[PREVIEW] OrderList</title>
+    <wicket:remove>
+        <link rel="stylesheet" type="text/css" href="../../../../../../../root/css/preview.css"/>
+    </wicket:remove>
+    <wicket:head>
+        <style type="text/css">
+            table.admin {
+                border: 1px outset gray;
+                border-spacing: 2px;
+                border-collapse: collapse;
+                background-color: white;
+            }
+
+            table.admin th {
+                border: 1px dotted gray;
+                padding: 3px;
+                background-color: white;
+            }
+
+            table.admin td {
+                border: 1px dotted gray;
+                padding: 3px;
+                background-color: white;
+            }
+        </style>
+    </wicket:head>
+</head>
+<body>
+
+<wicket:panel>
+    <div wicket:message="dir:language.dir">
+        <form wicket:id="form">
+            <table class="admin">
+                <tr>
+                    <th wicket:id="header-component"></th>
+                    <th/>
+                    <th>Move up</th>
+                    <th>Move down</th>
+                </tr>
+                <tr wicket:id="items">
+                    <td wicket:id="item-component">Mechanics</td>
+                    <td><a href="#" wicket:id="remove">remove</a></td>
+                    <td><a href="#" wicket:id="move-up">up</a></td>
+                    <td><a href="#" wicket:id="move-down">down</a></td>
+                </tr>
+                <tr>
+                    <td>
+                        <select wicket:id="options">
+                            <option>This is an option</option>
+                            <option>Another option</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="submit" name="submit" value="add keyword"/>
+                    </td>
+                    <td/>
+                    <td/>
+                </tr>
+            </table>
+        </form>
+    </div>
+</wicket:panel>
+
+</body>
+</html>
+
